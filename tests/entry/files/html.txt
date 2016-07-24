@@ -1,0 +1,6 @@
+permalink: html
+menu: yes
+
+# About
+
+This is my about page.

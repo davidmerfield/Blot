@@ -1,0 +1,45 @@
+"'</fdsjfld&*(^&*^%$&&#^&#@!~>
+
+console.log('injection');
+function tests() {
+   var entry_one = {
+      "html": "one",
+      "title": " one",
+      "url": "one",
+      "revision": "1",
+      "created": "a",
+      "path": "bar"
+   };
+
+   var entry_two = {
+      "html": "two",
+      "title": "foo",
+      "url": "fourcats",
+      "revision": "2",
+      "created": "two",
+      "path": "bart"
+   };
+
+   var entry_three = {
+      "html": "two",
+      "title": "foo",
+      "url": "fouats",
+      "revision": "2",
+      "created": "two",
+      "path": "bars"
+   };
+
+   database.save_entry(entry_one, function(status) {
+      console.log(status);
+      database.save_entry(entry_two, function(status) {
+         console.log(status);
+         database.save_entry(entry_three, function(status) {
+            console.log(status);
+            database.retrieve_page(1, function(status, entries){
+               console.log(status);
+               console.log(entries);
+            });
+         });
+      });
+   });
+}

@@ -1,0 +1,41 @@
+{{> header}}
+
+<style>
+  body {margin: 0;padding: 0}
+  iframe {outline:1px solid #aaa;box-shadow:inset 0 0 10px rgba(0,0,0,0.3);border:none;width:48%;margin:1%;height: 10000px;float: left;}
+  .selected {background: black;color: white;}
+  .nav > * {display: inline-block;border: 1px solid blue;text-decoration: none;padding: 4px 2px;font-size: 10px}
+</style>
+
+<a style="float:left;margin-left:1%" href="/">Index</a>
+
+<a style="float:right;margin-left:1%" target="_blank" href="file:///Users/David/Projects/Blot/blogs/{{blog.id}}{{entry.path}}">Source</a>
+
+<p style="text-align:center;margin:1em 0 0" class="nav">
+  Before (Live Version):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{{#entry.previous}}
+<a href="/view/{{blog.handle}}{{entry.previous.url}}">← Previous</a>
+{{/entry.previous}}
+{{^entry.previous}}
+<span>← Previous</span>
+{{/entry.previous}}
+
+
+{{#entries}}
+  <a href="/view/{{blog.handle}}{{url}}" class="{{selected}}">{{id}}</a>
+{{/entries}}
+
+{{#entry.next}}
+<a href="/view/{{blog.handle}}{{entry.next.url}}">Next →</a>
+{{/entry.next}}
+{{^entry.next}}
+<span>Next →</span>
+{{/entry.next}}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After (Local version):
+</p>
+
+<iframe src="{{before}}"></iframe>
+<iframe src="{{after}}"></iframe>
+
+{{> footer}}
