@@ -1,0 +1,20 @@
+###### System cruft ######
+
+*.swp
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+########## Blot ##########
+
+config/secrets/
+config/flags.json
+
+*.rdb
+*.log
+www/*
+blogs/*
+tmp/*
+node_modules/*
