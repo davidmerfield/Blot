@@ -1,0 +1,7 @@
+{
+  "name": "Monotone",
+  "isPublic": true,
+  "locals": {
+    "page_size": 36
+  }
+}

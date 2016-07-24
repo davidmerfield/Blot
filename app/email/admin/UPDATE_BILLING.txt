@@ -1,0 +1,3 @@
+User changed billing info
+
+{{name}} with UID {{uid}} and handle {{handle}} and email {{email}} updated their billing information.

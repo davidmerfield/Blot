@@ -1,0 +1,64 @@
+Summary: What, why, how
+
+<h2>What is Blot?</h2>
+<p>A blogging platform which adds a folder to your Dropbox and publishes files you put inside.</p>
+
+<h2>Why does Blot exist?</h2>
+<p>I keep a folder full of notes, mostly text files, and wanted to turn them into a blog. This is a really obvious idea and others had built similar systems. However, the existing tools didn't suit me so I made my own.</p>
+
+<h2>Why does Blot cost money?</h2>
+<p>The annual fee covers the cost of hosting your blog, tending to the servers, fixing bugs and answering your questions. More importantly it aligns my incentives with your interests, not those of an advertiser or patron.</p>
+
+<h2>When did Blot start?</h2>
+<p>I started writing the code which became Blot in the summer of 2013. Blot launched a year later and has been profitable since. Many thanks to Blot's earliest customers for their suggestions and their patience. In particular thank you Frank, Julie, Josh, Chris, Johannes and Angie.</p>
+
+<h2>How long do you plan to run Blot?</h2>
+<p>Decades, at least.</p>
+
+<h2>What are the alternatives to Blot?</h2>
+
+Consider <strike>Dropplr</strike>,  <strike>Calepin</strike>, <a href="">Small Victories</a>, <strike>Postache.io</strike>, <a href="">Lilii</a>,  or  <strike>Scriptogram</strike>. None of them appear to generate revenue and they tend to shut down. Many lack features like auto-sync, support for other file types (like images). Many of these services had strict formatting requirements, e.g. declaring the post’s title and date at the top of the file. Here's the full list
+
+- https://www.kissr.com/
+- http://droppages.com/
+- http://900dpi.com/
+- https://www.sitebox.io/
+- http://skrivr.com/
+- https://www.harp.io/
+- https://www.synkee.com/
+- https://www.pancake.io/
+- http://www.site44.com/
+- http://cloudcannon.com/
+- http://postach.io/site (has since transitioned to evernote)
+- http://scriptogr.am/
+- http://brace.io/
+- http://calepin.co/
+- https://amb-1.com
+- http://fargo.io/
+- https://www.boxfolio.com/
+- http://markbox.io/
+- http://duet.to/
+- https://getkirby.com/docs/solutions/dropbox
+
+## Other ones
+
+- https://github.com/tejo/boxed
+- http://dropplets.com/
+- http://drophost.io/
+- http://www.site44.com/
+- https://www.kissr.com/
+- http://900dpi.com/
+- http://www.yoozon.com/
+- https://stacks4stacks.com/dropcms/
+
+<p>I'd definitely check out <a href="http://cargocollective.com/">Cargo</a>. If you'd like to run your blog on a server you control, consider using something like <a href="https://jekyllrb.com/">Jekyll</a>.</p>
+
+
+<h2>Is Blot open-source?
+</h2>
+<p>
+No but I plan to make Blot open-source as soon as I can. I need to choose a license and tidy a few things up. If Blot shuts down I promise to release Blot’s entire source code.
+</p>
+
+<h2>Can I host Blot on my own server?</h2>
+<p>Blot is designed to host many blogs so it'll probably be annoying to set up for personal use. Eventually I'd like to structure Blot such that it could be set up on a single server in a few minutes.</p>

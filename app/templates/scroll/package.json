@@ -1,0 +1,8 @@
+{
+  "name": "Scroll",
+  "isPublic": false,
+  "thumb": "",
+  "locals": {
+    "page_size": 12
+  }
+}

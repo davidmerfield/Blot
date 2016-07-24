@@ -1,0 +1,7 @@
+{
+  "name": "Grid",
+  "isPublic": true,
+  "locals": {
+    "page_size": 96
+  }
+}

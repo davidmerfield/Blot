@@ -1,0 +1,3 @@
+Blot threw an uncaught exception during a sync.
+
+Check the logs.

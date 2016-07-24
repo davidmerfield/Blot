@@ -1,0 +1,9 @@
+Blot just cancelled your subscription{{andDisabled}}
+
+Hi {{name}},
+
+Blot just cancelled your subscription{{andDisabled}}. You will not be charged in future.
+
+If you didn't make this change, please reply directly to this email and we'll sort it out.
+
+Best, David

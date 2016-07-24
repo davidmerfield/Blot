@@ -1,0 +1,3 @@
+A user's Dropbox has run out of space
+
+Check the logs but it seems like sync just got this error message. perhaps send them an email?

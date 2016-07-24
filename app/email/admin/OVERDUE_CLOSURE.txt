@@ -1,0 +1,3 @@
+A user blog has been closed because they didn't pay
+
+{{name}} with UID {{uid}} and handle {{handle}} has had their account closed for late payments. They were notified and asked to reconnect and pay up.

@@ -1,0 +1,7 @@
+{
+  "name": "Rosa",
+  "isPublic": true,
+  "locals": {
+    "page_size": 20
+  }
+}

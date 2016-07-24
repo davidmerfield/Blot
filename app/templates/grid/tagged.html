@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    <div class="container">
+    {{> header}}
+    <h1>{{tag}}</h1>
+    {{#entries}}
+      {{> item}}
+    {{/entries}}
+
+    {{> footer}}
+    </div>
+  </body>
+</html>

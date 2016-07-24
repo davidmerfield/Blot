@@ -1,0 +1,5 @@
+Blot can no longer access user's folder
+
+{{name}} with UID {{uid}} and handle {{handle}} either revoked our access to their Dropbox folder, or the Dropbox token expired. 
+
+They were notified and asked to log in to make things peachy again.

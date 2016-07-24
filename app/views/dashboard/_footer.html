@@ -1,0 +1,78 @@
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script src="/scripts/dashboard.js?{{cacheID}}"></script>
+<script src="/scripts/integrations.js?{{cacheID}}"></script>
+<script src="/scripts/design.js?{{cacheID}}"></script>
+<script src="/scripts/sortable.js?{{cacheID}}"></script>
+<script src="/scripts/settings.js?{{cacheID}}"></script>
+<script type="text/javascript">
+
+var newRedirect = window.location.hash.slice(1);
+
+if (newRedirect) {
+
+  var from = 'input[placeholder="from"]';
+  var to = 'input[placeholder="to"]';
+
+  var index = $('#redirects').children().length;
+
+  var newRow = $('#new_redirect')
+                  .clone()
+                  .attr('id','')
+                  .find(from)
+                    .attr('name', 'redirects.' + index +'.from')
+                    .val(newRedirect)
+                  .end()
+                  .find(to)
+                    .attr('name', 'redirects.' + index +'.to')
+                  .end()
+                  .show();
+
+  $('#redirects').append(newRow);
+
+  newRow.find(to).focus();
+}
+
+$('#start').click(function(e){
+
+  var el = $(this);
+
+  $('#stream').html('');
+
+  e.preventDefault();
+
+  el.addClass('working')
+    .html('Verifying');
+
+  $.post("?_csrf={{csrftoken}}", function(data){
+
+    el.removeClass('working')
+      .html('Start verification');
+
+  });
+});
+
+$('button:not(.small)').each(function(){
+  $(this).click(function(){
+  });
+});
+
+var source = new EventSource('/verify-status');
+    source.onmessage = function(e) {
+
+     var stream = document.getElementById('stream');
+     var message = e.data;
+
+    console.log(message);
+
+     var el = '<span class="message">' + message + '<br></span>';
+
+     var lastmessage = $('#stream .message:last-of-type');
+
+     if (lastmessage && lastmessage.text().charAt(0) === '✓') {
+      lastmessage.remove()
+     }
+
+     stream.innerHTML += el;
+
+    };
+</script>

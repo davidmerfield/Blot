@@ -1,0 +1,35 @@
+{{> sub_nav}}
+
+<form method='post' action='?_csrf={{csrftoken}}'>
+
+  {{> status}}
+
+  <fieldset style="max-width:100%">
+  {{#plugins}}
+
+    {{#clear}}
+    <div class="clear"></div>
+    {{/clear}}
+
+    <div class="plugin {{checked}}">
+      <label class="noMargin">
+        <input type='hidden' value='off' name='{{id}}'>
+        <input style="position:absolute;left: -1.5em;top:0.8em" type="checkbox" name="{{id}}" {{checked}}/>
+        <b style="cursor:pointer">{{title}}</b>
+      </label>
+      <div style="margin-top:-0.9em;line-height:1.5">
+          {{{description}}}
+        </div>
+      <div class="pluginOptions">
+        {{{formHTML}}}
+      </div>
+    </div>
+    {{/plugins}}
+
+    <div class="clear"></div>
+
+    <input class="button" type="submit" value="Save changes" style="margin:0 0 2em;"/>
+
+  </fieldset>
+
+</form>

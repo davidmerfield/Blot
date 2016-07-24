@@ -1,0 +1,7 @@
+{
+  "name": "Empty",
+  "isPublic": true,
+  "locals": {
+    "page_size": 12
+  }
+}

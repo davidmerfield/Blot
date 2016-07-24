@@ -1,0 +1,3 @@
+Sync server is down
+
+We recieved a webhook but couldn't make a call to the internal sync server. It seems to be down. Please go check on it.

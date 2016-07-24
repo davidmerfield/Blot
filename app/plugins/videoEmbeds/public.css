@@ -1,0 +1,35 @@
+/*
+
+VIDEO EMBEDS
+
+This plugin replaces bare text urls to
+videos with an embedded player. The CSS
+below ensures the wrapping which makes
+the player fully responsive renders correctly
+
+*/
+
+.videoContainer {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+}
+
+.videoContainer.fourthree {
+  padding-bottom: 70%;
+}
+
+.videoContainer.widescreen {
+  padding-bottom: 56.25%;
+}
+
+.videoContainer iframe,
+.videoContainer object,
+.videoContainer embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0!important
+}

@@ -1,0 +1,27 @@
+<div id="sidebar" class="side">
+
+  <h1>
+    <a class="link" href="/template/{{slug}}/settings">{{name}}</a>
+  </h1>
+
+
+  {{#sidebar}}
+
+    {{#is_title}}
+<!--     <h3>{{title}}</h3>
+ --><br />{{/is_title}}
+
+    {{^is_title}}
+    <a class="file {{active}}" href="{{url}}">
+      {{name}}{{#extension}}<span class="lightestText">.{{extension}}</span>
+      {{/extension}}
+    </a>
+    {{/is_title}}
+
+  {{/sidebar}}
+
+  <Br />
+
+  <a class="borderButton" style="margin-left:2rem" href="/template/{{slug}}/view"><span style="position:relative;top:-1px">&thinsp;+&thinsp;</span> Create view </a>
+
+</div>

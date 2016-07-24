@@ -1,0 +1,13 @@
+<label>
+  Your analytics provider:<br />
+  <select name="analytics.provider[select]" id="selectAnalytics">
+    <option {{provider.None}} value="None">None</option>
+    <option {{provider.Google}} value="Google">Google</option>
+    <option {{provider.Heap}} value="Heap">Heap</option>
+    <option {{provider.Clicky}} value="Clicky">Clicky</option>
+  </select>
+</label>
+<label id="trackingIdInput" style="{{^trackingID}}display:none{{/trackingID}}">
+  Tracking ID:
+  <input name="analytics.trackingID" value="{{trackingID}}" type="text" placeholder=""/>
+</label>

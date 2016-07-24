@@ -1,0 +1,26 @@
+{{> sub_nav}}
+
+<form method='post' action='?_csrf={{csrftoken}}'>
+
+  {{> status}}
+
+  <fieldset>
+
+    <label>
+      <span>Name:</span>
+      <input type="text" name="name" placeholder="e.g. {{blog.title}}"/>
+    </label>
+
+    <label>
+      Clone the
+      &nbsp;<select style="width:90px;display:inline-block" name="cloneFrom">
+      {{#templates}}
+        <option {{#isDefault}}selected{{/isDefault}} value="{{id}}">{{name}}</option>
+      {{/templates}}
+      </select>&nbsp; template.
+    </label>
+
+    <input type="submit" class="button" value="Create template">
+
+  </fieldset>
+</form>

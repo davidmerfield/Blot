@@ -1,0 +1,3 @@
+Sync is encountering rate limits on Dropbox's API
+
+Check the logs for more info. The error occurred syncing {{name}} with UID {{uid}} and handle {{handle}}.

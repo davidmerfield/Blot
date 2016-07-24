@@ -1,0 +1,3 @@
+User disabled account
+
+{{name}} with UID {{uid}} and handle {{handle}} and email {{email}} just disabled their account.

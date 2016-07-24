@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+  {{> head}}
+
+  <body>
+
+    <section class="wrapper">
+
+      {{> nav}}
+
+      {{> yield}}
+
+    </section>
+
+    {{> footer}}
+
+    <script src="/scripts/jquery.js?{{cacheID}}"></script>
+    <script src="/scripts/design.js?{{cacheID}}"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+/*
+
+TWEETS
+
+This plugin replaces bare text urls to
+twitter with an embedded tweet. The CSS
+below is used to style the raw blockquote
+while the embed loads. When the embed is
+ready the blockquote is hidden.
+
+*/
+
+blockquote.twitter-tweet {
+  display: block;
+  width: 500px;
+  padding: 0;
+  margin: 1em 0;
+  border-radius: 5px;
+  border: 1px solid #E1E8ED;
+  padding: 32px 16px 32px;
+  background: #fff;
+  color: #aaa;
+  font: normal 12px / 1.33 "Helvetica Neue", sans-serif;
+}
+
+blockquote.twitter-tweet p {
+  color: rgb(41, 47, 51);
+  font: inherit;
+  margin: 36px 0 12px;
+  font-size: 18px;
+}

@@ -1,0 +1,83 @@
+
+    <form id="payment-form">
+
+      <fieldset style="border-top:none">
+        <a class="logo">Blot</a>
+        <br /><br />
+        <h4 class="halfMargin">Your subscription payment is overdue</h4>
+        <p class="small">Your card will be charged {{user.pretty.price}} immediately and your Blot subscription will re-start. If you have any questions feel free to <a href="mailto:dmerfield@gmail.com">contact me</a>.</p>
+
+      <hr class="full">
+
+      <span class="payment-errors">{{error}}</span>
+      {{#success}}<span class="box green">{{success}}</span>{{/success}}
+
+      <label>
+        <span>Card number:</span>
+        <input type="text" size="20" data-stripe="number" name="number" class="lock"/>
+      </label>
+
+      <label class="cvc">
+        <span>CVC:</span>
+        <input type="text" size="4" data-stripe="cvc" name="cvc"/>
+      </label>
+
+      <label class="expiration">
+        <span class="title">Expiration date:</span>
+        <input class="month" name="exp-month" placeholder="MM" type="text" size="2" data-stripe="exp-month"/>
+        <span class="slash"> / </span>
+        <input class="year" name="exp-year" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      </label>
+
+      <div class="clear"></div>
+      <p class="small">Blot will take a minute to re-start your account. Please <b>don't close or reload the page</b> after submitting your payment.</p>
+      <input type="submit" class="button right" value="Submit payment">
+      <div class="clear"></div>
+      </fieldset>
+    </form>
+
+  <div class="clear"></div>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript" src="/scripts/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">
+  // This identifies your website in the createToken call below
+  Stripe.setPublishableKey('{{stripe_key}}');
+
+    $('#payment-form').submit(function(event) {
+
+      var $form = $(this);
+
+      function onError (message) {
+        $form.find('.payment-errors').text(message);
+        $form.find('.button').prop('disabled', false).removeClass('working');
+      }
+
+      // Disable the submit button to prevent repeated clicks
+      $form.find('.button').prop('disabled', true).addClass('working');
+
+      Stripe.card.createToken($form, function(status, response){
+
+        var $form = $('#payment-form');
+
+        if (response.error) {
+          // Show the errors on the form
+          onError(response.error.message);
+        } else {
+          // response contains id and card, which contains additional card details
+          var token = response.id;
+
+          $.post('/pay-subscription?_csrf={{csrftoken}}&invoiceID={{invoiceID}}&stripeToken=' + token, function(data) {
+
+            if (data !== 'SUCCESS') {
+              onError(data)
+            } else {
+              window.location.href = "{{protocol}}://{{host}}/";
+            }
+          });
+        }
+      });
+
+      // Prevent the form from submitting with the default action
+      return false;
+  });
+</script>

@@ -1,0 +1,3 @@
+A user is overdue paying for Blot
+
+{{name}} with UID {{uid}} and handle {{handle}} is overdue paying for Blot. They were notified and asked to reconnect.

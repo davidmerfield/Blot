@@ -1,0 +1,42 @@
+{{> sub_nav}}
+
+<form method='post' action='/update?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+
+<label>
+  What is your timezone?<br />
+  <select name="blog.timeZone" style="max-width:300px">
+    {{#timeZones}}
+      <option value="{{value}}" {{selected}}>{{time}} {{value}}</option>
+    {{/timeZones}}
+  </select>
+</label>
+
+<label>
+  How do you write your dates?<br />
+  <select name="blog.dateFormat">
+    {{#dateFormats}}
+      <option value="{{value}}" {{selected}}>{{date}}</option>
+    {{/dateFormats}}
+  </select>
+</label>
+
+<label>
+  How should the date appear on your blog?<br />
+  <select name="blog.dateDisplay">
+    {{#displayFormats}}
+      <option value="{{value}}" {{selected}}>{{date}}</option>
+    {{/displayFormats}}
+  </select>
+</label>
+
+
+<label>
+  <input type='hidden' value='off' name='blog.hideDates'>
+  <input type="checkbox" name="blog.hideDates" {{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for your posts
+</label>
+<br />
+
+
+<input class="button" type="submit" value="Save changes"/>
+
+</form>

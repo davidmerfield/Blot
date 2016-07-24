@@ -1,0 +1,3 @@
+Sync is encountering network errors
+
+Download the logs to see what is going on. The error occurred syncing {{name}} with uid {{uid}} and handle {{handle}}

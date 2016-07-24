@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+  {{> head}}
+
+  <body class="template-editor">
+
+    <style type="text/css">
+    @import url("/css/editor.css?{{cacheID}}");
+    </style>
+
+    {{#template}}
+
+    {{> sidebar}}
+
+    <form method="POST" class="form" action='?_csrf={{csrftoken}}'>
+
+      <div id="header">
+
+        <div class="left side">
+
+          <a class="borderButton secondary arrow-left small" href="/design" style="margin-left:1rem">Back to dashboard&puncsp;</a>
+
+        </div>
+
+
+
+        {{#view}}
+        <div id="tabs">
+
+          <a class="tab" href="/template/{{slug}}/view/{{view.name}}/editor">
+
+            {{^active.editor}}
+              <span class="link">{{name}}.{{extension}}</span>
+            {{/active.editor}}
+
+            {{#active.editor}}
+              {{name}}.<span class="lightestText">{{extension}}</span>
+            {{/active.editor}}
+          </a>
+
+          <a class="tab {{active.settings}}" href="/template/{{slug}}/view/{{view.name}}/settings" >
+
+            {{^active.settings}}<span class="link">{{/active.settings}}
+
+            Settings
+
+            {{^active.settings}}</span>{{/active.settings}}
+
+          </a>
+
+          <input id="save"  class="button disabled small" type="submit" value="Save">
+
+        </div>
+        {{/view}}
+
+
+        <span class="box green success" {{^success}}style="display:none"{{/success}}>{{success}}</span>
+
+
+          <span class="box orange error" {{^error}}style="display:none"{{/error}}>{{error}}</span>
+
+
+
+        <a class="borderButton right arrow small" href="{{preview}}" target="_blank">Preview this template</a>
+
+        <a class="borderButton secondary right small" href="/help" target="_blank">Help &amp; documentation</a>
+
+      </div>
+
+      <div class="main">
+
+      {{> yield}}
+
+      </div>
+
+    </form>
+
+
+    <script type="text/javascript">
+
+    // var $ = '';
+
+    var template = $('#variable-template')
+      .find('.value')
+        .val('')
+        .attr('name', '')
+        .end()
+      .find('.name')
+        .val('')
+        .end()
+      .children()
+      .first()
+
+
+    $('#variable-add').click(function(){
+
+      var newRow = template.clone().show();
+
+      $('#variable-list').append(newRow);
+
+    });
+
+    $("#variable-list").on("keyup", ".name", function() {
+
+      $(this)
+        .parent()
+        .parent()
+        .find('.value')
+        .attr('name', 'locals.' + $(this).val());
+
+    });
+
+    $("#variable-list").on("click", ".delete", function() {
+
+      $(this).parent().remove();
+
+    });
+    </script>
+
+
+
+    {{/template}}
+  </body>
+</html>

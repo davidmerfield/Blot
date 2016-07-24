@@ -1,0 +1,60 @@
+{{> sub_nav}}
+
+<form method='post' action='/update?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+
+  {{> status}}
+
+  <label>
+  Your blog's title:
+  <input type="text" name="blog.title" value="{{blog.title}}" />
+  <span class="error">{{errors.blog.title}}</span>
+  </label>
+
+  <label>
+  Username:
+  <input type="text" name="blog.handle" value="{{blog.handle}}" />
+  <span class="error">{{errors.blog.handle}}</span>
+  </label>
+
+
+  <label>Personal domain:
+  <div class="messageWrapper">
+    <input type="text" id="customDomain" name="blog.domain" value="{{blog.domain}}" placeholder="Your website's hostname"/>
+    <span id="inputMessage" class="inputMessage"></span>
+  </div>
+  <span class="error">{{errors.domain}}</span>
+  <span id="customHelper" class="lightText" style="display:none;position:absolute;right: -324px;width:300px;top:20px">
+    To host your blog on a personal domain, create a CNAME record for the 'www' subdomain which points to <span class="selectable">{{host}}</span> <a href="/help/setting-up-your-blog#using-a-personal-domain">Learn more</a>.</span>
+  </label>
+
+  <label style="margin-bottom:0">Photo:</label>
+
+  {{#blog.avatar}}
+  <section id="avatar">
+    <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+  </section>
+  {{/blog.avatar}}
+
+  <section class="imageUpload left" style="width:50%">
+    {{#blog.avatar}}
+      <span class="">Select a new photo</span>
+    {{/blog.avatar}}
+      <input type='file' id="avatarUpload" name='avatarUpload' />
+    {{#blog.avatar}}
+      <input id="uploadButton" disabled class="button small" type="submit" value="Upload photo"/>
+    {{/blog.avatar}}
+    {{^blog.avatar}}<br />{{/blog.avatar}}
+  </section>
+
+  <div class="clear"></div>
+
+  {{#blog.avatar}}
+  <label>
+    <input type='hidden' value='off' name='blog.roundAvatar'>
+    <input {{#blog.roundAvatar}}checked{{/blog.roundAvatar}} type="checkbox" name="blog.roundAvatar"/> Make my photo rounded
+  </label>
+  {{/blog.avatar}}
+
+  <br />
+  <input class="button" type="submit" value="Save changes"/>
+</form>

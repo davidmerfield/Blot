@@ -1,0 +1,203 @@
+Summary: Create posts, pages and drafts
+
+Blot adds a folder to your Dropbox and publishes files you put inside. Blot knows how to convert these files into blog posts:
+
+- Text files *.txt, .text, .md* are converted from [Markdown](/help/formatting-blog-posts).
+- Images *.png, .jpeg, .jpg, .gif*
+- Word documents *.docx*
+- Bookmarks *.webloc*
+- HTML *.html, .htm*
+
+There are a few useful exceptions – these files do not become blog posts:
+
+- [Drafts](#drafts) – Files in a folder named 'Drafts' are not published. Blot creates a preview which updates as you make changes to the draft file.
+- [Public files](#public-files) – Files inside a folder whose name starts with an underscore are publicly accessible and do not become blog posts.
+- [Pages](#pages) – Files in a folder named 'Pages'  appear on your blog's menu.
+
+
+
+
+
+
+## The folder
+
+Blot's folder is in ```Dropbox/Apps/Blot```. You can rename this folder if you like. It's up to you to organize the files inside. You can use subfolders to:
+
+- [Tag an entry](#tags) – Files inside a folder called ```[Apples]``` are tagged 'Apples'.
+- [Change an entry's date](#change-an-entry’s-date) – Blot looks for a date in the file's path.
+
+
+You can move around the files inside Blot's folder as you wish. To delete a post, delete its file. If you can’t find a deleted file, try using [Dropbox to recover](https://www.dropbox.com/en/help/296) it.
+
+
+
+
+
+
+## Pages
+
+Files in a folder called 'Pages' (or 'pages') become pages instead of blog posts. Blot adds a link to each page to [your blog's menu](/help/setting-up-your-blog#menu). You can create a page elsewhere in your blog's folder by adding this line to the top of its file:
+
+```
+Page: yes
+```
+
+ If you'd like to create a stand-alone page that isn't visible on your blog's menu, add this line as well:
+
+```
+Menu: no
+```
+
+
+
+
+
+## Drafts
+
+Files inside a folder called 'Drafts' (or 'drafts') are not published. Blot instead creates a preview file. To publish the post, move the file elsewhere in your blog's folder.
+
+
+
+
+
+
+## Public files
+
+Files and folders whose name starts with an underscore (e.g. '_photos') are publicly accessible and not converted into blog posts. This feature is useful for embedding [images inside posts](/help/formatting-blog-posts#9-can-i-put-images-in-my-folder-to-use-inside-a-post) or serving static files.
+
+Let's say your blog has this folder structure:
+
+```
+Blot
+ ├─ Posts
+ |    ├─ _apple.png
+ |    └─ fruit.html
+ └─ _Assets
+      └─ peach.png
+```
+
+These images all resolve correctly in ```fruit.html```:
+
+```
+<img src="_apple.png">
+<img src="/posts/_apple.png">
+<img src="../_assets/peach.png">
+```
+
+Notice that Blot resolves relative and absolute paths based on your folder structure. File paths are case-insenitive.
+
+
+
+
+
+
+
+## Metadata
+
+Blot generates the following metadata for each blog post:
+
+- [Date](#change-an-entry’s-date)
+- [Tags](#tags)
+- [Permalink](#permalinks)
+- [Thumbnail](#thumbnails)
+- [Page](#pages) and [Menu](#pages)
+
+You can override this metadata at the top of your file:
+
+---
+
+```
+Permalink: gravity
+Date: February 28th, 1973
+
+# Gravity's Rainbow
+
+A screaming comes across the sky.
+```
+
+---
+
+You can specify [custom metadata](/help/templates#metadata) and use it in your blog's [template](/help/templates). Metadata must start on the file's first line and be seperated from the rest of your blog post with a blank line.
+
+
+
+
+
+
+## Change an entry's date
+
+You can specify an entry's publish date in the [metadata](#metadata) at the top of a file:
+
+```
+Date: June 23rd 2012
+```
+
+Blot supports plenty of formats. The following dates are equivalent:
+
+```
+23/06/2012    23.6.12    23-6-2012    2012-6-23 00:00
+```
+
+You can use the file's path to specify an entry's date. The entries for the following files have a publish date of midnight on February 23rd, 2016:
+
+```
+/2016/2/23/post.txt    /2016/2.23.post.txt   2016_02_23_00:00_post.txt
+```
+
+If you order your dates differently please tell Blot on the [settings page](/settings).
+
+
+
+
+
+
+## Scheduled posts
+
+If you [change an entry's date](#change-an-entry’s-date) to some time in future, Blot will wait until then to publish it. If you want to cancel a scheduled post, just delete its file. Make sure your timezone is configured correctly on the [settings page](/settings).
+
+
+
+
+
+
+## Permalinks
+
+You can specify an entry's permalink in the [metadata](#metadata) at the top of a file. For example, to create a blog post at ```example.com/raspberry```, add this:
+
+```
+Permalink: raspberry
+```
+
+Permalinks can contain slashes and accents. If you're migrating to Blot from a different platform, consider [setting up redirects](/help/setting-up-your-blog#redirects) instead.
+
+
+
+
+
+
+## Tags
+
+You can specify tags in the [metadata](#metadata) at the top of a file:
+
+```
+Tags: Literature, Stendhal, Book reviews
+```
+
+Tags are case insensitive and comma-seperated. You can also use folders to tag posts. For example, files in a folder called ```[Literature]``` will become blog posts tagged 'Literature'. You can nest multiple tag folders:
+
+```
+Blot
+ └─ [Literature]
+      └─ [Book reviews]
+           └─ Lamiel.txt
+```
+
+
+
+
+
+## Thumbnails
+
+Blot attempts to generate a thumbnail for each blog post. By default, Blot will use the largest JPEG or PNG image in your blog post. You can override this and specify a path or URL to an image in the [metadata](#metadata) at the top of a file. If you use a path, make sure the image is inside Blot's folder.
+
+If your blog post has no image, then your blog post will not have a thumbnail. Learn how to use these [thumbnails in your template](/help/templates#thumbnails).

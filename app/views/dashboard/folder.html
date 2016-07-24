@@ -1,0 +1,122 @@
+<div class="sub nav">
+
+
+    {{#breadcrumbs}}
+
+      {{#last}}
+      <a href="{{url}}" class="selected" style="text-decoration:none;color:black">{{name}}</a>
+      {{/last}}
+
+      {{^last}}
+      <a href="{{url}}">{{name}}</a>
+
+      <svg style="margin:0 0.5em 0 -1em;transform:rotate(-90deg);"width="12" height="8" viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg>
+
+      {{/last}}
+
+    {{/breadcrumbs}}
+
+    {{^breadcrumbs.length}}
+    <span>Home</span>
+    {{/breadcrumbs.length}}
+
+
+    <a class="right" style="text-decoration:none;z-index:2;margin:0;color:#aaa" href="/verify">Something wrong?</a>
+
+</div>
+<br />
+
+    <section>
+
+
+      {{#user.cancel_at_period_end}}
+      <br />
+
+      <section class="box orange">
+        Your subscription will expire on <b>{{user.pretty.expiry}}</b>. <a class="link" href="/restart-subscription">Restart your subscription</a>.
+      </section>
+      {{/user.cancel_at_period_end}}
+
+      <div class="files">
+
+
+
+
+        {{#empty}}
+        <section class="box white{{#showSidebar}} twothirdWidth left{{/showSidebar}}">
+          <p>This folder is empty.</p>
+          <br />
+          <br />
+          <br />
+          <br />
+        </section>
+        {{/empty}}
+
+        {{#contents}}
+
+          {{#directory}}
+          <a href="{{url}}" style="text-decoration:none">
+            <span class="folder"></span>
+            <span class="link">{{name}}</span>
+            <span class="clear"></span>
+          </a>
+          {{/directory}}
+
+          {{#entry}}
+          <a href="{{blog.url}}{{url}}" target="_blank" style="text-decoration:none">
+            <span class="file"></span>
+            <span class="link">{{name}}</span>
+
+            {{#draft}} <span style="color:#aaa">is a draft</span>{{/draft}}
+
+            {{#scheduled}}
+            <span style="color:#aaa">will be published {{toNow}}</span>{{/scheduled}}
+            <span class="clear"></span>
+          </a>
+          {{/entry}}
+
+          {{#ignored}}
+          <span class="file"></span>
+          <span class="link">{{name}}</span> <span style="color:#aaa">is {{{ignored}}}</span>
+          <span class="clear"></span>
+          {{/ignored}}
+
+          {{^ignored}}{{^entry}}{{^directory}}
+          <span class="file"></span>
+          <span class="link">{{name}}</span> is none of the above
+          <span class="clear"></span>
+          {{/directory}}{{/entry}}{{/ignored}}
+
+          <br />
+        {{/contents}}
+
+        <br />
+      <div class="clear"></div>
+    </div>
+
+
+      <script type="text/javascript">
+      var source = new EventSource('/status');
+          source.onmessage = function(e) {
+
+           var remaining = parseInt(e.data);
+           var total = document.getElementById('total');
+           var syncing = document.getElementById('syncing');
+           var done = document.getElementById('done');
+
+           var message = remaining + ' file';
+
+           if (remaining === 0) {
+            done.style.display = 'block';
+            syncing.style.display = 'none';
+            return;
+           }
+
+           if (remaining !== 1) message+='s';
+
+           done.style.display = 'none';
+           syncing.style.display = 'block';
+           total.innerHTML = message;
+          };
+      </script>
+    </section>

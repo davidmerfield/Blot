@@ -1,0 +1,5 @@
+Blot is sending bad requests
+
+Something went wrong with the sycning module. Check blot logs. 
+
+The user info: {{name}} with UID {{uid}} and handle {{handle}}.

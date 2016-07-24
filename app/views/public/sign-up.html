@@ -1,0 +1,135 @@
+<html>
+  {{> head}}
+  <body>
+    <br />
+    <br />
+    <div class="nav">
+     <a id="logo" href="/">Blot</a>
+     <span>
+      <span style="color:black">Sign up</span>
+      <span style="width:1.5em;display:inline-block;text-align:center">→</span>
+      Connect to Dropbox
+    </span>
+    </div>
+    <br />
+    <form method="POST" action="?_csrf={{csrftoken}}">
+      <p style="width:130%">A subscription costs <span class='box yellow'>$20 per year</span>. You can cancel at any time. You must agree to the <a href="/terms">terms of use</a> and  <a href="/privacy">privacy policy</a>. </p>
+
+
+
+      <p id="error" class="box red" style="margin-bottom:0;width:120%;{{^error}}display:none{{/error}}">{{error}}</p>
+
+
+      <br />
+
+      <label>Email address:</label>
+      <input type="text" size="20" class="email" name="email"/>
+      <br />
+      <br />
+      <label>Card number: <span class="control-tool">
+        <span class="help-icon lock"></span>
+        <span class="tooltip">
+          Blot does not store your card details. Stripe handles payments.
+        </span>
+      </span></label>
+      <input type="text"size="20" data-stripe="number" name="number" />
+      <br />
+      <br />
+      <fieldset style="width:165px;display:inline-block">
+        <label>Expiration date:</label>
+        <input style="width:45%;border-right:none;text-align:center;border-radius:4px 0 0 4px" name="exp-month" maxlength="2" placeholder="MM" type="text" size="2" data-stripe="exp-month"/><input style="width:55%;text-align:center;border-radius:0 4px 4px 0" name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      </fieldset>
+      <fieldset style="width:90px;float:right">
+        <label>CVC:
+          <span class="control-tool">
+            <span class="help-icon">?</span>
+            <span class="tooltip">
+            It’s the 3- or 4-digit code on your card, seperate from the 16-digit card number.
+            </span>
+          </span>
+        </label>
+        <input type="text" size="4" data-stripe="cvc" name="cvc"/>
+      </fieldset>
+      <br />
+      <br />
+
+      <input type="hidden" class="stripeToken" name="stripeToken" />
+
+      <input type="submit" class="submit button" value="Submit payment"  />
+</p>
+    </form>
+    <br />
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript" src="/scripts/jquery.js?{{cacheID}}"></script>
+    <script type="text/javascript">
+      // This identifies your website in the createToken call below
+      Stripe.setPublishableKey('{{stripe_key}}');
+
+        $('form').submit(function(event) {
+
+          var $form = $(this);
+
+          // Disable the submit button
+          // to prevent repeated clicks
+          $form
+            .find('.submit')
+            .prop('disabled', true)
+            .addClass('working');
+
+          // Validate the email address
+          var email = $('.email').val(),
+              emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+              email = email.replace(' ', '');
+
+          if (email === '' || !emailRegex.test(email)) {
+
+            $form
+              .find('#error')
+              .text('Please enter a valid email.')
+              .show();
+
+            $form
+              .find('.submit')
+              .prop('disabled', false)
+              .removeClass('working');
+
+            return false;
+
+          } else {
+            $('.email').val(email)
+          }
+
+          Stripe.card.createToken($form, function(status, response){
+
+            if (response.error) {
+
+              $form
+                .find('#error')
+                .text(response.error.message);
+
+              $form
+                .find('.submit')
+                .prop('disabled', false)
+                .removeClass('working');
+
+            } else {
+
+              var token = response.id;
+
+              // response also contains card,
+              // which has additional card details
+
+              // Insert the token into the form so
+              // it gets submitted to the server
+              $form.find('.stripeToken').val(token);
+              $form.get(0).submit();
+            }
+
+          });
+
+          // Prevent the form from submitting with the default action
+          return false;
+      });
+    </script>
+  </body>
+</html>

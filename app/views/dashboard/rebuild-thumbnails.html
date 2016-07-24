@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    {{> header}}
+    <section class="wrapper">
+      <section class="full">
+        <Br />
+        <p class="halfMargin">Rebuild thumbnails</p>
+        <hr class="full">
+        <form method='post' action='?_csrf={{csrftoken}}'>
+          <input type="submit" class="button">
+        </form>
+        <Br />
+      </section>
+      <div class="clear"></div>
+      {{> footer}}
+    </section>
+  </body>
+</html>

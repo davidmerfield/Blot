@@ -1,0 +1,71 @@
+<p>This is a live log of requests to missing pages on your blog. Don't worry too much about weird paths. Some of these requests come from hackers scanning for vulnerabilities.
+
+  Go back to your blog's <a class="link" href="/redirects">redirect rules</a>.
+</p>
+
+          {{^list.length}}
+          <hr class="full" />
+          <br />
+          <p class="centered lightText">Nobody has requested a missing page on your blog!</p>
+          <br />
+
+          {{/list.length}}
+
+          {{#list}}
+            <section style="width:200%">
+              <hr class="full" />
+              <label style="max-width:50%;display:block;float:left">
+                <b>{{url}}</b>
+              </label>
+              <form style="display:block;float:right" method='post' action='?_csrf={{csrftoken}}'>
+                <input type="hidden" name="ignore" value="{{url}}">
+                &nbsp;&nbsp;&nbsp;<input class="link secondary" value="Ignore" type="submit">
+              </form>
+              <a href="/redirects#{{url}}" class="link" style="float:right">Redirect</a>
+              <label style="min-width:230px;display:block;float:right" class="small">
+               {{time}}
+              </label>
+              <Br /><Br />
+            </section>
+          {{/list}}
+          <Br />
+
+          {{#ignored.length}}
+
+          <p class="halfMargin">
+            <a href="#!" id="showIgnored">
+            <span id="toggle-show">View</span>
+            <span id="toggle-hide" style="display:none">Hide</span> ignored 404s</a></p>
+
+          <section style="display:none" id="ignored">
+
+          {{#ignored}}
+            <section>
+              <hr class="full" />
+              <label style="max-width:50%;display:block;float:left">
+                <b>{{url}}</b>
+              </label>
+              <form style="display:block;float:right" method='post' action='?_csrf={{csrftoken}}'>
+                <input type="hidden" name="unignore" value="{{url}}">
+                &nbsp;&nbsp;&nbsp;<input class="link" style="background:none;border:none;color:padding:0;margin:0" value="Unignore" type="submit">
+              </form>
+              <label style="min-width:300px;display:block;float:right" class="small">
+               {{time}}
+              </label>
+              <Br /><Br />
+            </section>
+          {{/ignored}}
+          </section>
+          {{/ignored.length}}
+          <script type="text/javascript">
+
+            $('#showIgnored').click(function(e){
+
+              $('#ignored').toggle();
+              $('#toggle-show').toggle();
+              $('#toggle-hide').toggle();
+
+              e.preventDefault()
+              return false;
+            });
+          </script>

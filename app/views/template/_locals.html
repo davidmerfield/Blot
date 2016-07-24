@@ -1,0 +1,16 @@
+<div id="variable-template" style="display:none;width:150%">
+  {{> local}}
+</div>
+
+<div id="variable-list" style="width:140%">
+
+{{#locals}}
+  {{> local}}
+{{/locals}}
+
+<input name="has_locals" type="hidden" value="true">
+
+</div>
+<div class="clear"></div>
+<a id="variable-add" class="button secondary">Add a variable</a>
+<div class="clear"></div>
