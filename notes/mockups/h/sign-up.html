@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <title>Blot</title>
+    <meta charset="utf-8">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" media="all" href="style.css" />
+  </head>
+  <body>
+    <br />
+    <br />
+    <div class="nav">
+     <span id="logo"><img src="logo.svg">Blot</span>
+     <span>
+      <span style="color:black">Sign up</span>
+      &nbsp;→&nbsp; Connect to Dropbox
+    </span>
+    </div>
+    <br />
+    <form method="POST" action="">
+      <p style="width:120%">A subscription costs <span class='box yellow'>$20 per year</span>. This fee is refundable for a week. You may cancel at any time. See the <a href="/terms" target="_blank">terms</a> and  <a href="/privacy" target="_blank">privacy policy</a>.</p>
+      <br />
+      <label>Email address:</label>
+      <input type="text" size="20" id="emailinput" class="email" name="email"/>
+      <br />
+      <br />
+      <label>Card number: <span class="control-tool">
+        <span class="help-icon">?</span>
+        <span class="tooltip">
+          Blot uses Stripe to securely process your payment. Blot does not store your card details.
+        </span>
+      </span></label>
+      <input type="text"size="20" data-stripe="number" name="number" />
+      <br />
+      <br />
+      <fieldset style="width:165px;display:inline-block">
+        <label>Expiration date:</label>
+        <input style="width:45%;border-right:none;text-align:center;border-radius:4px 0 0 4px" name="exp-month" maxlength="2" placeholder="MM" type="text" size="2" data-stripe="exp-month"/><input style="width:55%;text-align:center;border-radius:0 4px 4px 0" name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      </fieldset>
+      <fieldset style="width:90px;float:right">
+        <label>CVC:
+          <span class="control-tool">
+            <span class="help-icon">?</span>
+            <span class="tooltip">
+            It’s the 3- or 4-digit code on your card, seperate from the 16-digit card number.
+            </span>
+          </span>
+        </label>
+        <input type="text" size="4" data-stripe="cvc" name="cvc"/>
+      </fieldset>
+      <br />
+      <br />
+      <input type="submit" value="Submit payment"></p>
+    </form>
+    <br />
+  </body>
+</html>

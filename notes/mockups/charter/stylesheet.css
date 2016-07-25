@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'Charter';
+    src: url('charter_bold_italic-webfont.eot');
+    src: url('charter_bold_italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('charter_bold_italic-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Charter';
+    src: url('charter_bold-webfont.eot');
+    src: url('charter_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('charter_bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Charter';
+    src: url('charter_italic-webfont.eot');
+    src: url('charter_italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('charter_italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Charter';
+    src: url('charter_regular-webfont.eot');
+    src: url('charter_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('charter_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Charter';
+    text-rendering: optimizeLegibility;
+    max-width: 640px;
+    padding: 0em 2em 0 12em;
+    font-size: 20px;
+    line-height: 130%;
+    margin: 0 auto
+}
+
+h1 {margin-top: 0;font-family: 'Work Sans';font-weight: 800}
+h2 {text-transform: uppercase;font-weight: 300;letter-spacing: 0.05em;font-size: 14px;font-family: 'Work Sans'}
+
+a {
+    color: #000;
+    text-decoration: none;
+    text-shadow: .03em 0 #fff,-.03em 0 #fff,0 .03em #fff,0 -.03em #fff,.06em 0 #fff,-.06em 0 #fff,.09em 0 #fff,-.09em 0 #fff,.12em 0 #fff,-.12em 0 #fff,0 .03em #fff,0 -.03em #fff,0 .06em #fff,0 -.06em #fff,0 .08em #fff,0 -.08em #fff;
+    background-image: linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(red,red);
+    background-size: 0 0,0 0,.07em .07em;
+    background-repeat: no-repeat,no-repeat,repeat-x;
+    background-position: 0 90%,100% 90%,0 96%;
+}
+
+p:first-of-type {
+    font-size: 1.25em;line-height: 125%}
+
+    .nav {float: right;}
+    .nav a {
+        display: inline-block;
+        background: #000;
+        text-shadow: none;
+        font-size: 16px;
+        color: #fff;
+        padding: 0.33em 0.66em;
+        margin-left: 0.33em;font-family: 'Work Sans';font-weight: 700}

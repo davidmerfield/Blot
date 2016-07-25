@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="./site.css">
+    <link rel="shortcut icon" href="./favicon.ico">
+    <title>Blot - Help</title>
+    <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Cousine' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <br />
+      <section class="wrapper" style="max-width: 900px;">
+        <br />
+        <section class="thirty left">
+          <a href="/" class="logo pullLeft larger">          <svg id="icon-heart" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 8 8" xml:space="preserve">
+            <path d="M4,7.33C4.288,7.043,5.929,5.4,6.952,4.376C7.87,3.458,7.851,2.12,7.018,1.289c-0.837-0.83-2.187-0.827-3.017,0.009
+              C3.17,0.462,1.82,0.459,0.985,1.289C0.151,2.12,0.131,3.458,1.049,4.376C2.073,5.4,3.714,7.043,4,7.33z"/>
+            </svg> Blot</a>
+
+        </section>
+        <section class="fifty left">
+          <section class="nav">
+            <a href="/sign-up" class="">Sign up</a>
+            <a href="/auth" class="">Log In</a>
+          </section>
+          <a class="circled right" href="/contact"><span class="link">Contact</a>
+
+        </section>
+
+      <section class="clear"></section>
+
+      <br />
+      <section class="thirty left">
+        <a href="/help" class="link heading">Help</a>
+        <ul class="links">
+          <li><a class="selected" href="/help/publishing">Publishing </a></li>
+          <li><a class="" href="/help/setting-up-your-blog">Setting up your blog </a></li>
+          <li><a class="" href="/help/formatting">Formatting </a></li>
+          <li><a class="" href="/help/templates">Templates </a></li>
+          <li><a class="" href="/help/account-billing">Account &amp; billing </a></li>
+          <li><a class="" href="/help/about-the-site">About the site </a></li>
+        </ul>
+        <Br />
+        <Br />
+        <Br />
+
+      </section>
+
+      <section class="fifty left">
+        <div class="question" id="1-how-do-i-publish-a-post"><h2 id="how-do-i-publish-a-post?">How do I publish a post?<a class="permalink" href="#how-do-i-publish-a-post?"></a></h2><p>Move the file containing your blog post into Blot’s folder in your Dropbox. Blot will automatically publish it to your blog. Blot's folder is here – you can rename it if you wish.</p>
+        <p><span class="image_container" style="max-width:470px"><span class="image" style="padding-bottom:10.638297872340425%"><img src="https://d2fbk5uwlkue7.cloudfront.net/uploads/1431380928338_ZPZI1MOHDH4O.png" width="235" data-width="470" data-height="50"></span></span></p></div>
+
+<div class="question" id="4-what-file-types-can-i-use"><h2 id="what-file-types-can-i-use?">What type of files can I use?<a class="permalink" href="#what-file-types-can-i-use?"></a></h2><p>Blot can turn text files (.txt), markdown files (.md) and <span class="small-caps">HTML</span> files (.html) into blog posts. Blot will also convert image files (jpg, gif and png) into image posts automatically.</p></div>
+
+<div class="question" id="5-how-to-add-tags-to-an-entry"><h2 id="how-to-add-tags-to-an-entry?">Tags<a class="permalink" href="#how-to-add-tags-to-an-entry?"></a></h2><p>You can specify tags at the top of the entry’s file. The tags are case insensitive and can contain multiple words:</p><pre><code>Tags: literature, book reviews, Stendhal
+</code></pre></div>
+
+<div class="question" id="3-how-do-i-add-a-page-to-my-blog"><h2 id="how-do-i-add-a-page-to-my-blog?">Pages<a class="permalink" href="#how-do-i-add-a-page-to-my-blog?"></a></h2><p>Adding a page is similar to publishing an entry&thinsp;&mdash;&thinsp;just create a text file with the page’s content then add this line at the very top of the file: </p><pre><code>Page: yes
+</code></pre></div>
+
+<div class="question" id="6-how-do-i-change-an-entry’s-date"><h2 id="how-do-i-change-an-entry’s-date?">How do I change an entry’s date?<a class="permalink" href="#how-do-i-change-an-entry’s-date?"></a></h2>
+
+  <table>
+  <thead>
+  <tr>
+  <th>The tag</th>
+  <th>is replaced with</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td><code>{{name}}</code></td>
+  <td>Your name ()</td>
+  </tr>
+  <tr>
+  <td><code>{{handle}}</code></td>
+  <td>Your username ()</td>
+  </tr>
+  <tr>
+  <td><code>{{blogTitle}}</code></td>
+  <td>The title of your blog ()</td>
+  </tr>
+  <tr>
+  <td><code>{{avatar}}</code></td>
+  <td><span class="small-caps">URL</span> to your avatar image</td>
+  </tr>
+  <tr>
+  <td><code>{{roundAvatar}}</code></td>
+  <td><span class="hang-me">“</span>true” if your avatar is round,<span class="space-me"></span> <span class="hang-me">“</span>false” if not  </td>
+  </tr>
+  <tr>
+  <td><code>{{cacheID}}</code></td>
+  <td>a timestamp for when your blog’s assets were last updated</td>
+  </tr>
+  <tr>
+  <td><code>{{hideDates}}</code></td>
+  <td><span class="hang-me">“</span>true” if your blog should have no dates,<span class="space-me"></span> <span class="hang-me">“</span>false” if not</td>
+  </tr>
+  <tr>
+  <td><code>{{blogURL}}</code></td>
+  <td><span class="small-caps">URL</span> to your blog’s homepage</td>
+  </tr>
+  <tr>
+  <td><code>{{feedURL}}</code></td>
+  <td><span class="small-caps">URL</span> to your blog’s <span class="small-caps">RSS</span> feed</td>
+  </tr>
+  <tr>
+  <td><code>{{cssURL}}</code></td>
+  <td><span class="small-caps">URL</span> to your blog’s global <span class="small-caps">CSS</span> file</td>
+  </tr>
+  <tr>
+  <td><code>{{scriptURL}}</code></td>
+  <td><span class="small-caps">URL</span> to your blog’s global <span class="small-caps">JS</span> file</td>
+  </tr>
+  <tr>
+  <td><code>{{sitemapURL}}</code></td>
+  <td><span class="small-caps">URL</span> to your blog’s sitemap</td>
+  </tr>
+  </tbody>
+  </table>
+
+  <p>You can specify a post’s date the top of its file. Blot supports plenty of date formats. <code>23/06/2012</code>, <code>23.6.12</code> and <code>23-6-2012</code> all work just as well:</p><pre><code>Date: June 23rd 2012
+</code></pre></div>
+
+<div class="question" id="7-can-i-schedule-an-entry-to-be-published-later"><h2 id="can-i-schedule-an-entry-to-be-published-later?">Can I schedule an entry to be published later?<a class="permalink" href="#can-i-schedule-an-entry-to-be-published-later?"></a></h2><p>Yes, you can specify the date to publish the entry at the top of the file. Blot will wait until that date to publish it to your blog. If you want to cancel the post, just remove the file from your folder.</p><pre><code>Date: June, 13th 2020
+</code></pre></div>
+
+<div class="question" id="8-how-do-i-change-an-entry’s-permalink"><h2 id="how-do-i-change-an-entry’s-permalink?">How do I change an entry’s permalink?<a class="permalink" href="#how-do-i-change-an-entry’s-permalink?"></a></h2><p>You can specify a <span class="small-caps">URL</span> for blot to use at the top of the entry file.For example, to create a blog post with the <span class="small-caps">URL</span> <code>.blot.im/cabbage</code> put this at the top of your entry:</p><pre><code>Permalink: cabbage
+</code></pre></div>
+
+<div class="question" id="9-can-i-restore-a-deleted-entry"><h2 id="can-i-restore-a-deleted-entry?">Can I restore a deleted entry?<a class="permalink" href="#can-i-restore-a-deleted-entry?"></a></h2><p>Yes, just put the entry’s file back in Blot’s folder. Blot will automatically restore the entry, including its former <span class="small-caps">URL</span>. If you can’t find the file, check in Dropbox’s history.</p></div>
+
+<div class="question" id="10-can-i-create-folders-in-blot’s-folder"><h2 id="can-i-create-folders-in-blot’s-folder?">Can I create folders in Blot’s folder?<a class="permalink" href="#can-i-create-folders-in-blot’s-folder?"></a></h2><p>Yes, absolutely. Blot doesn’t mind how you organize files inside its folder. I have created subfolders for each year.</p></div>
+
+<div class="question" id="11-what-happens-if-my-blog-post-is-too-large"><h2 id="what-happens-if-my-blog-post-is-too-large?">What happens if my blog post is too large?<a class="permalink" href="#what-happens-if-my-blog-post-is-too-large?"></a></h2><p>Blot ignores text files larger than 300kb (~75,000 words) in size. If one of your entries is larger than this, please consider splitting it into multiple entries for the sake of your readers. Please <a href="/contact">contact me</a> if you need to lift this limit.</p></div>
+
+
+      </section>
+      <div class="clear"></div>
+     <footer>
+       <section class="">
+         <a href="/" class="logo"></a>
+         <a href="/">Home</a>
+         <a href="/auth">Log In</a>
+         <a href="/sign-up">Sign up</a>
+         <a href="/help">Support</a>
+         <a href="/terms">Terms of use</a>
+         <a href="/privacy">Privacy</a>
+         <!-- <a href="/updates">Updates</a> -->
+         <a href="/contact">Contact</a>
+       </section>
+       <div class="clear"></div>
+     </footer>
+     <script src="https://blot.im/1435908562387/scripts/analytics.js"></script>     <script src="/1435908562387/scripts/jquery.js"></script>
+     <script src="/1435908562387/scripts/lunr.js"></script>
+     <script src="/1435908562387/scripts/help.js"></script>
+    </section>
+  </body>
+</html>
+
