@@ -4,51 +4,36 @@
                          -----
 
 Wordpress exporter
-webgurl
-https://mail.google.com/mail/u/0/#inbox/14f6f68cf4bf1f27
-https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/14ff7f9669a8abc4
+-> webgurl
+-> https://mail.google.com/mail/u/0/#inbox/14f6f68cf4bf1f27
+-> https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/14ff7f9669a8abc4
 
 Finish scriptogram importer
-https://mail.google.com/mail/u/0/#search/tim%40revolution34.com/14f97a0ee66aa14d
+-> https://mail.google.com/mail/u/0/#search/tim%40revolution34.com/14f97a0ee66aa14d
 
 Build replacement script for start.js
+
 Add script to pipe files from some /public directory to some /www, minifying scripts + css, gzippping, and minifying images
 
-
-# Strategies for zero downtime deployment
-
-There's a daemon which runs all the time, kept alive with upstart
-
-Monit will call a script to 'reboot'
-
-  server will listen for kill event
-
-    server will send appropriate responses to dropbox webhooks
-
-    then call server.close
-
-    then it will try to start new server
-
-    then the second process calls close
-
-    then it starts again with new code
-
-Reboot will try to close an existing process if it can then
+Add daemon for zero-downtime node restart
 
 Test with instance reboot on live site
+
 Test monit with nginx going down
+
 Test monit with blot going down
 
 Set up autorecovery
 https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
 
-Work out way to improve redis persistence
---> hourly local redis rdb dumps
---> make easy script to roll back into these
+Add hourly local redis rdb dumps
+
+Add script to roll back into these
 
 If entries share publish date, sort them by blot creation date
 
 Log nginx errors properly...
+
 Add nicer error pages for nginx
 
 Add letsencrypt autorenew to cron job
@@ -57,9 +42,14 @@ Add free disk space and db dump size / mem usage to update email
 
 Fix 'is none of the above' for page: yes menu: no
 
-Reinstante blot.im/404s
+Fix link to hidden pages
+-> john pavlus
+-> posthumanist
 
-Fix posthumanist metadata bug which was ingnoring newline
+Reinstate blot.im/404s
+
+Fix metadata bug which was ingnoring newline
+-> posthumanist
 
 Move daily update generator to app folder and ensure that
 the app folder NEVER invokes a file in the scripts fodler

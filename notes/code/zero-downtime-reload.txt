@@ -1,0 +1,19 @@
+# Strategies for zero downtime deployment
+
+There's a daemon which runs all the time, kept alive with upstart
+
+Monit will call a script to 'reboot'
+
+  server will listen for kill event
+
+    server will send appropriate responses to dropbox webhooks
+
+    then call server.close
+
+    then it will try to start new server
+
+    then the second process calls close
+
+    then it starts again with new code
+
+Reboot will try to close an existing process if it can then
