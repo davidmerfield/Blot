@@ -1,0 +1,3 @@
+How to handle dates for users in different timezones?
+
+When parsing dates, parse the UTC timestamp as if post were written in the user's timezone.

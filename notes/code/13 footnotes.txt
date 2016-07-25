@@ -1,0 +1,23 @@
+I want to add footnotes to Blot.
+
+The markdown parser I currently use does not support footnotes
+
+https://github.com/jonschlinkert/remarkable/issues?utf8=%E2%9C%93&q=inside+html+block
+
+https://github.com/jonschlinkert/remarkable
+
+https://github.com/jonschlinkert/remarkable/issues/11
+
+
+
+
+https://github.com/markdown-it/markdown-it-footnote/blob/master/index.js
+
+https://github.com/markdown-it/markdown-it
+
+
+https://github.com/chjj/marked/issues?utf8=%E2%9C%93&q=footnote
+
+CURRENTLY USING:
+https://github.com/chjj/marked/pull/431
+
