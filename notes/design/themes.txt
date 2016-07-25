@@ -1,0 +1,31 @@
+
+# Themes
+
+Names:
+
+Empty
+
+Stream / Feed
+ - Feed
+ - Moss
+
+Index / essay
+ - Book
+ - Paper
+
+Photo / grid
+ - Grid
+ - Mint
+ - Glow
+
+
+Grid theme, great with photos
+
+Tumblr-style theme, great with photos, full post on index
+
+Link blog theme (Rosa), full post on index
+
+-- and the blank theme (no css)
+
+- devise minimum viable layout.css and include it on each theme
+
