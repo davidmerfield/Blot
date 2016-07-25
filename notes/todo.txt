@@ -1,0 +1,100 @@
+
+
+                         TO DO
+                         -----
+
+Wordpress exporter
+webgurl
+https://mail.google.com/mail/u/0/#inbox/14f6f68cf4bf1f27
+https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/14ff7f9669a8abc4
+
+Finish scriptogram importer
+https://mail.google.com/mail/u/0/#search/tim%40revolution34.com/14f97a0ee66aa14d
+
+Build replacement script for start.js
+Add script to pipe files from some /public directory to some /www, minifying scripts + css, gzippping, and minifying images
+
+
+# Strategies for zero downtime deployment
+
+There's a daemon which runs all the time, kept alive with upstart
+
+Monit will call a script to 'reboot'
+
+  server will listen for kill event
+
+    server will send appropriate responses to dropbox webhooks
+
+    then call server.close
+
+    then it will try to start new server
+
+    then the second process calls close
+
+    then it starts again with new code
+
+Reboot will try to close an existing process if it can then
+
+Test with instance reboot on live site
+Test monit with nginx going down
+Test monit with blot going down
+
+Set up autorecovery
+https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
+
+Work out way to improve redis persistence
+--> hourly local redis rdb dumps
+--> make easy script to roll back into these
+
+If entries share publish date, sort them by blot creation date
+
+Log nginx errors properly...
+Add nicer error pages for nginx
+
+Add letsencrypt autorenew to cron job
+
+Add free disk space and db dump size / mem usage to update email
+
+Fix 'is none of the above' for page: yes menu: no
+
+Reinstante blot.im/404s
+
+Fix posthumanist metadata bug which was ingnoring newline
+
+Move daily update generator to app folder and ensure that
+the app folder NEVER invokes a file in the scripts fodler
+it must always be the other way around...
+
+-------------------------
+
+Add support for monthly pricing at $3 a month
+
+Spend 3 days, make 3 themes
+
+Spend 1 day on documentation, esp. for plugins
+   that you can do 'Disqus: $ID' at entry level
+
+Spend 1 day writing 3 how-tos: link blog, magazine, website
+
+Spend 2 days writing and recording demo video, must make sense as audio only, video only.
+
+-------------------------
+
+Frank template bug
+https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#search/Make+some+changes+(probably+not+necessary)/1527fbcf999ba0c3
+
+Give chris some design tips and announce new themes
+https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e
+
+Frank image cache bug for dropshadow
+drexore /draft/view/Drafts/debugging.md
+
+Add page to set blog locals
+Ben G. (about byline)
+
+Add support for 'full Dropbox' feature
+Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
+Nick
+Jostein
+Alex https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038
+James https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65
