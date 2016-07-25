@@ -1,3 +1,34 @@
+
+People describe it like this:
+-----------------------------
+
+This looks like a really simple, elegant way to have a blog just by putting files in your Dropbox
+
+Wordpress watch out!
+
+If you're blog-lazy, but have dropbox, blot.im is an easy alternative. Drop pics and text into a folder, and you make blog.
+
+It's so wonderfully simple!
+
+Really clean and simple.
+
+Blot creates a folder in your Dropbox
+and publishes files you put inside.
+
+Just discovered http://blot.im  A hosted blog straight from your Dropbox. Clever idea. Simple and clean. Nice work
+
+In other news I bought this the other day and it is good. Using it is like Tumblr but slightly less convenient: http://blot.im
+
+Blot - Create your Blog in Dropbox
+
+this simple blogging platform seems perfect!
+
+perfect! And so quick - we love blot.im! :D
+
+holy shit. i am totally doing this. very easy blog system (based on dropbox + markdown = generates blog)
+
+OMG I'm already in love with this! blot.im
+
 # Pledge
 
 Need a blog? So did I.
