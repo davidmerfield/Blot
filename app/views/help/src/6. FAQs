@@ -53,12 +53,5 @@ Consider <strike>Dropplr</strike>,  <strike>Calepin</strike>, <a href="">Small V
 
 <p>I'd definitely check out <a href="http://cargocollective.com/">Cargo</a>. If you'd like to run your blog on a server you control, consider using something like <a href="https://jekyllrb.com/">Jekyll</a>.</p>
 
-
-<h2>Is Blot open-source?
-</h2>
-<p>
-No but I plan to make Blot open-source as soon as I can. I need to choose a license and tidy a few things up. If Blot shuts down I promise to release Blot’s entire source code.
-</p>
-
 <h2>Can I host Blot on my own server?</h2>
-<p>Blot is designed to host many blogs so it'll probably be annoying to set up for personal use. Eventually I'd like to structure Blot such that it could be set up on a single server in a few minutes.</p>
+<p>Yes, Blot is [open source and dedicated to the public domain](https://github.com/davidmerfield/Blot). However, Blot is designed to host many blogs so it is over-engineered for personal use. Eventually I'd like to structure Blot such that it could be set up on a single server in a few minutes with some of its features disabled.</p>
