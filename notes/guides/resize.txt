@@ -1,0 +1,14 @@
+Create new instance with larger disk
+  Set up nginx with letsencrypt
+  verify it works with staging domain (blot.is?)
+  Ensure it has keys and can transfer files from old instance with scp
+
+Switch to maintenance state on old instance
+Backup db
+Dump db and transfer it to new db
+Verify db is update to date
+
+Switch elastic IP from old db to new DB
+
+
+
