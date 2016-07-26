@@ -1,6 +1,9 @@
 LATER
 -----
 
+If entries share publish date, sort them by blot creation date
+
+
 nginx
   static file delivery for blot
   static file delivery for blogs

@@ -5,7 +5,11 @@
 
 Build replacement script for start.js
 
-Add script to pipe files from some /public directory to some /www, minifying scripts + css, gzippping, and minifying images
+Add build script to pipe source files from /public to /www
+  - minifying scripts
+  - minify css
+  - gzippping the above
+  - minifying images
 
 Add daemon for zero-downtime node restart
 
@@ -20,9 +24,7 @@ https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
 
 Add hourly local redis rdb dumps
 
-Add script to roll back into these
-
-If entries share publish date, sort them by blot creation date
+Add script to roll back into hourly local db dumps and remote backups
 
 Log nginx errors properly...
 
