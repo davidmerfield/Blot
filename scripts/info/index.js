@@ -15,17 +15,10 @@ var freeloaders = 0;
 var totalEntries = 0;
 
 var TAX_RATE = 0.4;
-var goal = 500000;
+var goal = 1000000;
 
-var monthlyCosts = {
-  AWS: 110.00
-};
-
-var annualCosts = {
-  domain: 29.00,
-  ssl: 9.00
-};
-
+var monthlyCosts = {AWS: 110.00};
+var annualCosts = {domain: 29.00};
 var leaderboard = [];
 
 eachBlog(function (user, blog, next) {
@@ -44,7 +37,9 @@ eachBlog(function (user, blog, next) {
       cancelledSubscribers++;
     } else if (user.subscription.status === 'active') {
 
-      subscribers += user.blogs.length;
+      // user.blogs.length
+
+      subscribers ++;
 
     } else {
       freeloaders++;
