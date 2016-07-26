@@ -8,6 +8,11 @@ function render ($, callback, options) {
 
   try {
 
+    // sometimes url parse returns null for
+    // some reason with an apparently valid domain
+    // not sure yet why but should fix this.
+    // in the meantime, I pass in the domain as well
+    // as the normalized domain
     ignore = [
       Url.parse(options.domain).host,
       Url.parse(options.baseURL).host,
