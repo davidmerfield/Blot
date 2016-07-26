@@ -10,7 +10,8 @@ function render ($, callback, options) {
 
     ignore = [
       Url.parse(options.domain).host,
-      Url.parse(options.baseURL).host
+      Url.parse(options.baseURL).host,
+      options.domain
     ];
 
   } catch(e) {
