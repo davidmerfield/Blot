@@ -3,14 +3,6 @@
                          TO DO
                          -----
 
-Wordpress exporter
--> webgurl
--> https://mail.google.com/mail/u/0/#inbox/14f6f68cf4bf1f27
--> https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/14ff7f9669a8abc4
-
-Finish scriptogram importer
--> https://mail.google.com/mail/u/0/#search/tim%40revolution34.com/14f97a0ee66aa14d
-
 Build replacement script for start.js
 
 Add script to pipe files from some /public directory to some /www, minifying scripts + css, gzippping, and minifying images
