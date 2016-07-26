@@ -10,11 +10,23 @@ function pathNormalizer (path) {
 
   if (!path) return '';
 
-  // Map '%20' to a space etc..
-  path = decodeURIComponent(path);
+  try {
+    // Map '%20' to a space etc..
+    path = decodeURIComponent(path);
+  } catch (e) {
+    console.log('Warning: could not call decodeURIComponent on the path "' + path + '"');
+    console.log(e);
+  }
+
+  try {
+    // Not sure exactly what this does
+    path = charNormalize(path);
+  } catch (e) {
+    console.log('Warning: could not call unorm.nfc on the path "' + path + '"');
+    console.log(e);
+  }
 
   // Not sure exactly what this does
-  path = charNormalize(path);
 
   path = path.trim().toLowerCase();
 
