@@ -1,0 +1,398 @@
+LATER
+-----
+
+nginx
+  static file delivery for blot
+  static file delivery for blogs
+  fail2ban
+  upgrade nginx and support http2
+
+
+Consider what to do for footnote links in a teaser
+ -> rewrite frag links to {{permalink}}#frag?
+
+Add plugin for inline popover footnotes
+ -> contact john pavlus
+
+make templates file based, load .html files into memory?
+
+  move _assets to .assets or .blot ?
+    image cache cannot look up images embedded in doc files
+    since they're outside the blot folder
+
+  put templates inside this folder
+
+Determine possible encoding issues
+http://isaac.blot.im/go-set%EF%BF%BDbal
+
+Blot couldn't parse a filename with greek in it
+
+
+configurable url schemes
+tell rodericus
+
+enable hyphenation again
+tell rodericus
+
+don't write previews for hidden posts (_)
+ - add 'hidden' property to entry?
+
+generate gif / svg thumbs if possible no...
+
+consider https://github.com/showdownjs/showdown
+
+allow users to determine size of thumbnails?
+
+Find cause of fontconfig error / warning
+
+Ensure sync script is run with lesser permissions
+
+Work on quick script to load DB from backups
+
+postgres
+
+users
+  owns blogs
+
+blogs
+  owns files
+  own templates
+
+templates
+
+files
+  e.g. html, path, etc...
+  own tags
+
+tags
+
+password protection for blogs
+https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231
+
+Rewrite Templates
+ - Add way to edit a color variable, select an option etc...
+ - theme should be a set of options for the color picker...
+ - Migrate these currently-global settings to template level:
+    date presentation
+    hide/show date
+    entries per page
+ - Store view name should include file extension...
+ - Expose errors in modules/template/update on design page.
+
+webhooks for aurynn
+https://mail.google.com/mail/u/0/#inbox/1554260da157b405
+
+merge upload and upoad/main
+
+make the sync / rebuild proceses run with unpriviledged
+user permissions to ensure shit isnt fucked with user input...
+
+Add support to keep track of subscriptions for paypal payments
+https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870
+https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152
+
+add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries).
+
+rethink entry.save and structureof entry to prevent
+multiple entries with one path.
+ -- seperate makeEntry into stuff which depends on plugins
+    and content of file
+ -- and stuff which depends on other properties of blog
+    (time zone etc..) and things which can be computed
+    quickly and easily. perhaps something like prepare entry
+    which uses entry ID to determine permalink
+
+can make entry NOT know entry.id?
+just file.path, file.metadata, file.content?
+
+Add option to *enable* hard line breaks
+
+investigate performance improvements to type() forEach
+
+Email
+ - Install time mover library
+ - add proper error handling to email
+ - make it easier to pass in variables
+
+Validator
+ - check each id has an entry and each entry has an id
+ - check menu is right (pages exist, non deleted etc...)
+ - generate fake entries for id clash
+ - why does it not print lines in production?
+ - must check each blog folder exists...
+
+Add neat interface to customize blog level variables
+
+simplify video plugin HTML OUTPUT
+
+consider making render middlware, which is
+initialized with a viewname, returns a middleware function which is passed req res next.
+
+  e.g. app.route('/').get(render('entries'));
+
+is passed
+consider restructuring the renderer to properly
+seperate it from req res, making it possible
+to render a page without running a server? is this
+
+
+move to tests/multiroute server.route(['/', '/bar']).get(loadPage, render('entries'));
+
+Move queues in entry/rename /remove to doEach
+
+fix image caption plugin to be semantic
+
+add support for 'caption file' e.g. img_4010.txt
+https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/15420abdb1d340a4
+Want the api to be simple
+Entry.src = [..paths..]?
+Each file (including album files)
+  makeEntry(blog, path, callback)
+  Entry.save(path, callback?)
+Album posts
+ album: true
+ if (album) updateAlbum(blog.id, entry.id) //
+  <div class="album">
+    <div class="album-item">
+    {{> html}}
+    </div>
+  </div>
+Can this be considered connected to image caption feature?
+How to handle albums inside albums?
+Can I accomplish this without introducing entry.type?
+Or should I introduce entry.type?
+
+Handle reset: true call to /delta
+  delete folderState
+  call sync()
+  calls verify()
+
+devise nice way to declare unit tests for a file
+which don't need to be run on server start
+but can be run programmatically
+
+Build a proper dependency tree for entries
+  - this could make multi-file entries a reality?
+  - could be as simple as doEach(dependents, rebuild)
+  - issue with public files and image cache:
+      say foo.txt embeds /public/bar.jpg and is image cached
+      make change to bar.jpg, foo.txt has cached old version etc...
+
+consider adding date localization with moment
+
+Add image optimize plugin
+https://github.com/lovell/sharp
+https://github.com/imagemin/imagemin
+
+Delete backups older than a year
+
+Add button to remove avatar from settings page
+https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac
+
+handle noscript on dashboard gracefully.
+
+incorporate typographic features from textile
+http://redcloth.org/textile/phrase-modifiers/
+
+expose
+  pagination.page_size
+  pagination.total_posts
+  pagination.total_pages
+
+add
+add {{#tagged:Book reports}}
+
+add {{#has:thumbnail}} where thumbnail is custom metadata
+
+add supoprt for dynamic partials to make collections possible
+
+add support for sets? or just use tags
+
+expose site.author --> make this clear during sign up
+
+add support for date_first_post -> date_last post
+
+add support for {{order by date}} {{order by author}} {{order by title}}
+
+??
+
+{{#allEntries order:date limit:10}}
+
+{{/allEntries}}
+
+move to line by line reading for as much as possible
+  http://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
+  https://nodejs.org/api/readline.html
+  https://www.npmjs.com/package/byline
+
+queue scheduled entries in redis
+  this makes each server less stateful
+
+renderLocals needs to inherit context
+so entries can refer to their own title etc...?
+
+Image galleries
+https://github.com/Jack000/Expose
+https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1542a151ea981d82
+
+Why does pandoc \mouse.com become .com ?
+
+
+
+
+# CONSIDER
+
+Add a cool bookmarklet which drafts a post a la
+https://www.youtube.com/watch?v=cu5uXXulnNk
+
+Move from preview files -> webloc / .url files ?
+
+Create webloc to live version for each entry? I LIKE
+
+Move to blot.is ?
+
+Merge www/blog/id and blogs/id folders into one, with a dotfile directory? create .assets inside this for doc posts?
+
+Move to hogan for main renderer?
+https://github.com/twitter/hogan.js
+
+
+Move to new api file ids for renames?
+https://mail.google.com/mail/u/0/#inbox/150def93b65dc4b1
+
+Use b2b for storage?
+https://mail.google.com/mail/u/0/#inbox/1512610df64568cf
+
+Use Kloudless to handle file sync with other services?
+https://kloudless.com/pricing/
+
+Use syncthing to manage files?
+http://docs.syncthing.net/index.html
+
+Move from 'archives' to 'archive'?
+
+Use atom instead of rss?
+https://en.wikipedia.org/wiki/Atom_(standard)
+
+Backups of blog folders in case Dropbox fails?
+
+Add support for configurable URL scheme?
+ttps://twitter.com/macintux/status/641392573089624064
+https://mail.google.com/mail/u/0/?zx=qugebog263kl#inbox/1503e0d22822424b
+
+Noindex blog search results pages
+
+Add link to iwantmyname to documentation
+https://mail.google.com/mail/u/0/#inbox/1535c437d47a141b
+
+Write a pandoc compatible markdown converter in javascript
+to resolve some of the performance issues with pandoc
+
+Re-enable CSP on blot site in a way that works in Safari
+
+Popular entry list
+
+Related entry list
+
+Expose list of rendering errors to callback
+
+Prevent uploads will still pipe large files on the server
+
+Add rewrite feature, e.g. rewrite /randomColor to /public/randomColor
+
+nashp mp3 feature?
+https://twitter.com/lllIIlIlIl/status/685553744575004672
+
+Menu needs concurrency
+https://twitter.com/davidmerfieId/status/633379764972093440
+
+Push archives feature
+https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be
+
+Tag manager, so that
+latex -> LaTeX in every post, no matter its case.
+
+extend cacher to save repsonse status too?
+--> this allows us to cache 404 pages...
+
+prevent hotlinking of static assets in assets.js
+.header('Access-Control-Allow-Origin', '*') // TO DO REMOVE ME TO PREVENT HOTLINKING
+
+banned permalinks are possible when page:yes
+
+Incorporate disk space monitor to alert for low space
+
+Archive logfiles with backups
+
+Generate list of external api dependencies and follow changes for each
+
+Add a status page, with basic uptime monitor...
+https://github.com/fzaninotto/uptime
+
+Set up soft re-directs for changed blog handles,
+which allow new users to claim them but until then
+redirect to new user's handle.
+
+Sort drafts by date updated
+
+Use a dom differ for drafts view
+http://www.diffhtml.org/#installing
+http://kof.github.io/diff-renderer/demo/playground.html
+https://github.com/kof/diff-renderer
+
+Make drafts preview file identical
+(construct iframe based on window.location.href) and use copyref
+
+Undo option for form changes
+
+Store metadata for each file (type, size, mtime)
+
+Add an explanation for the folder migrator...
+
+Seperate the settings for blog and user & billing
+
+Implement custom CSS for syntax highlight plugin
+
+Wrap each pre tag in .hljs so other themes work too
+
+Ensure Youtube plugin still functions if apis fails
+
+Prevent image zoom plugin from zooming emojies
+
+Embed
+
+ https://github.com/ritz078/embed.js
+
+ - Soundcloud plugin
+ - instagram
+ - gists
+ - images
+ - mp3s
+ - videos
+
+CJK auto spacing plugin
+https://github.com/hexojs/hexo-filter-auto-spacing
+
+Move from Dropbox UIDs to Blot UIDs
+
+Move to some SQL for storing each entry's input and output...
+
+Add passwords for accounts
+
+Create export to markdown mini-site which
+  http://exporter.blot.im/
+  https://github.com/hexojs/hexo-migrator-blogger
+  https://github.com/welksonramos/hexo-migrator-joomla
+  https://github.com/hexojs/hexo-migrator-rss
+  https://github.com/hexojs/hexo-migrator-wordpress
+  https://github.com/dreikanter/wp2md exporter/importer
+
+New plugin ideas
+https://github.com/getpelican/pelican-plugins
+
+Add native comments plug in
+
+Add email list plugin for readers?
+
+Move to support folder renames for local template editing
+- hide image zoomer
