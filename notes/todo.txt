@@ -34,10 +34,6 @@ Add free disk space and db dump size / mem usage to update email
 
 Fix 'is none of the above' for page: yes menu: no
 
-Fix link to hidden pages
--> john pavlus
--> posthumanist
-
 Reinstate blot.im/404s
 
 Fix metadata bug which was ingnoring newline
