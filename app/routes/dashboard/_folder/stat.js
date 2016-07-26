@@ -6,6 +6,7 @@ var joinpath = require('path').join;
 var moment = require('moment');
 var Entry = require('../../../models/entry');
 var IgnoredFiles = require('../../../models/ignoredFiles');
+var extname = require('path').extname;
 
 var REASONS = {
         'PREVIEW': 'a preview',
@@ -43,7 +44,7 @@ module.exports = function (blog, path, callback) {
 
         if (entry) {
 
-          if (entry.page && entry.menu === false) {
+          if (entry.page && entry.menu === false && ['.txt', '.md', '.html'].indexOf(extname(entry.path)) === -1) {
             entry.url = entry.path;
           }
 
