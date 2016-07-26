@@ -81,10 +81,13 @@
           <span class="clear"></span>
           {{/ignored}}
 
+          {{! is a public file}}
           {{^ignored}}{{^entry}}{{^directory}}
-          <span class="file"></span>
-          <span class="link">{{name}}</span> is none of the above
-          <span class="clear"></span>
+          <a href="{{blog.url}}{{path}}" target="_blank" style="text-decoration:none">
+            <span class="file"></span>
+            <span class="link">{{name}}</span>
+            <span class="clear"></span>
+          </a>
           {{/directory}}{{/entry}}{{/ignored}}
 
           <br />
