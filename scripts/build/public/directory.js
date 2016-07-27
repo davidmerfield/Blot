@@ -3,7 +3,7 @@ var fs = require('fs');
 var joinpath = require('path').join;
 var forEach = helper.forEach;
 var file = require('./file');
-var SYSTEM_FILES = ['.DS_Store'];
+var SYSTEM_FILES = ['.DS_Store', '.git'];
 var log = require('single-line-log').stdout;
 
 module.exports = function directory (source, output, callback) {
@@ -38,6 +38,7 @@ module.exports = function directory (source, output, callback) {
         file(source_path, output_path, next);
       });
     }, function(){
+      log(); // clear log line
       callback();
     });
   });
