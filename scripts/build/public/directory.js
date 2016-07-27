@@ -38,7 +38,6 @@ module.exports = function directory (source, output, callback) {
         file(source_path, output_path, next);
       });
     }, function(){
-      log(); // clear log line
       callback();
     });
   });
