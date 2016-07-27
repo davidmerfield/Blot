@@ -69,7 +69,6 @@ blog
 contact
 about
 official
-help
 login
 enter
 signin
