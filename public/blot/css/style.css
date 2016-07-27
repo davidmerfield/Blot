@@ -265,7 +265,7 @@ p > .box {
 }
 
 .gallery {padding: 0;width: 100%}
-.gallery li {list-style-type: none;width:49%;display: inline-block;}
+.gallery li {list-style-type: none;width:30%;display: inline-block;}
 
 table {border-collapse: collapse;}
 th {text-align: left;}
