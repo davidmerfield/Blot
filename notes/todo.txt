@@ -5,11 +5,11 @@
 
 Build replacement script for start.js
 
-Add build script to pipe source files from /public to /www
-  - minifying scripts
-  - minify css
-  - gzippping the above
-  - minifying images
+Build script should:
+   Check for files which exist in www which do not in public
+   Make sure all files are lowercased / normalized (e.g. template thumbs)
+
+Investigate why I'm getting better compression on osx for chrome.png
 
 Add daemon for zero-downtime node restart
 
