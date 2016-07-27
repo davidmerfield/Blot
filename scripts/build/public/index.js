@@ -2,6 +2,7 @@ var config = require('config');
 var helper = require('helper');
 var listen = require('./listen');
 var directory = require('./directory');
+var log = require('single-line-log').stdout;
 
 var source = helper.rootDir + '/public';
 var output = helper.rootDir + '/www';
@@ -13,8 +14,12 @@ directory(source, output, function(err){
 
   if (err) throw err;
 
+  log(); // clear log line
+
+  console.log();
+  console.log('Checking for warnings in', source);
   console.log('-------------------------------------------');
-  console.log('Build complete!');
+
 
   if (config.environment === 'development')
     listen(source, output);
