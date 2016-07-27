@@ -1,0 +1,3 @@
+[submodule "public/blot/Typeset"]
+	path = public/blot/Typeset
+	url = https://github.com/davidmerfield/Typeset.git
