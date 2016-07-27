@@ -41,7 +41,8 @@
     {{/blog.avatar}}
       <input type='file' id="avatarUpload" name='avatarUpload' />
     {{#blog.avatar}}
-      <input id="uploadButton" disabled class="button small" type="submit" value="Upload photo"/>
+      <input id="uploadButton" disabled class="button small" type="submit" value="Upload photo"/> &nbsp;
+      <button class="button small" name="blog.avatar" value="" type="submit">Remove existing photo</button>
     {{/blog.avatar}}
     {{^blog.avatar}}<br />{{/blog.avatar}}
   </section>
