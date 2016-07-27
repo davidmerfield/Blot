@@ -3,8 +3,8 @@ var helper = require('helper');
 var listen = require('./listen');
 var directory = require('./directory');
 
-var source = helper.rootDir + '/public/blot';
-var output = helper.rootDir + '/www/blot';
+var source = helper.rootDir + '/public';
+var output = helper.rootDir + '/www';
 
 console.log();
 console.log('Building files and folders from', source, 'to', output);
