@@ -4,7 +4,6 @@ module.exports = function(server){
   var capitalise = require('../../helper').capitalise;
   var config = require('../../../config');
 
-
   // Only serve the maintenance page
   // if we are doing maintenance
   if (config.maintenance) {
@@ -31,6 +30,20 @@ module.exports = function(server){
     });
 
     res.render('public/index');
+  });
+
+  server.get('/about', auth.check, function(req, res){
+
+    res.addLocals({
+      partials: {yield: 'public/about'},
+      title: 'About',
+      selected: {about: 'selected'}
+    });
+
+    if (req.blog)
+      res.render('dashboard/_wrapper');
+    else
+      res.render('public/_wrapper')
   });
 
   server.get('/privacy', auth.check, function(req, res){
