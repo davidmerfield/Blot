@@ -1,0 +1,4 @@
+
+## Does Blot support other services to sync folder syncing mechanisms, Github or BitTorrent Sync for example?
+
+But I’ll probably work on them in this order: Git, FTP, GitHub, Google Drive. Yes, when I can get around to it.

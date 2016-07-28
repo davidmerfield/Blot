@@ -1,0 +1,13 @@
+{{=[[ ]]=}}
+
+## Embedding entries in a template
+
+You can embed a blog post in your template using this syntax:
+
+```
+{​{> /pages/home.txt}​}
+```
+
+Please note: the path to the entry is case-insensitive but must be absolute with your blog’s folder as the root directory.
+
+[[={{ }}=]]

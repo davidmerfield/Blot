@@ -1,0 +1,37 @@
+## Lists
+
+Make a bulleted list by preceding list items with a single asterix (*) or a hyphen (-). You need a space between the asterix and the text.
+
+<div class="example">
+<div class="large">
+```
+- Round
+- Shell
+- Projectile
+```
+</div>
+<div>
+* Round
+* Shell
+* Projectile
+</div>
+<section class="clear"></section>
+</div>
+
+Create a numbered list by preceding list items with a number.
+
+<div class="example">
+<div class="large">
+```
+1. Eins
+2. Deux
+3. Tres
+```
+</div>
+<div>
+1. Eins
+2. Deux
+3. Tres
+</div>
+<section class="clear"></section>
+</div>

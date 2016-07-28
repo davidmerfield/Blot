@@ -1,0 +1,3 @@
+## Does Blot store my payment information?
+
+No, your payment information never touches Blot's servers. I use [Stripe](https://stripe.com/) to process subscription payments. Blot stores Stripe tokens which can be used to initiate subscription payments. Read more about [Stripe's security](https://stripe.com/help/security) on their website.

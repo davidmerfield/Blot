@@ -1,0 +1,5 @@
+
+
+## Redirects
+
+You can set up URL redirects on the [redirects page](/redirects). This is useful for migrating an existing blog to Blot. The [404](/404s) log page will help you work out what needs to be redirected. You can use Regular Expressions to match multiple routes.

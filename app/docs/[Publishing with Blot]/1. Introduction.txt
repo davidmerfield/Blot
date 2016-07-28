@@ -1,0 +1,12 @@
+Blot creates a folder in your Dropbox and publishes files you put inside. These files become blog posts automatically:
+
+<div class="files">
+- **Text**.txt, .md
+- **Images**.png, .jpg, .gif
+- **Word docs**.docx
+- **Bookmarks**.webloc
+- **HTML**.html
+</div>
+<div style="clear:both"></div>
+
+You can organize your blog's folder however you like.

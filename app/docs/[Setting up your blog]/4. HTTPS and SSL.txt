@@ -1,0 +1,11 @@
+
+
+## Serving your blog over SSL/HTTPS
+
+Plenty of people use [CloudFlare](http://cloudflare.com) to serve their blog on Blot over SSL at no additional cost. You will need your own domain.
+
+1. Add your domain to CloudFlare
+2. Point your domain on Cloudflare to Blot
+3. Enable CloudFlare's flexible SSL option.
+
+Please remember to transfer all of your other DNS records to Cloudflare. If you'd like to redirect all HTTP traffic to HTTPS, you can [configure that on Cloudflare](https://support.cloudflare.com/hc/en-us/articles/200170536-How-do-I-redirect-all-visitors-to-HTTPS-SSL-).

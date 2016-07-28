@@ -1,0 +1,30 @@
+
+## Layout
+
+I wrote a Markdown extension for Blot which provides basic layout shortcuts. The features are as follows:
+
+
+| The tag…        | should make its contents...  | by applying this CSS class…    |
+| --------------- |------------------------------|-----------------------------------------|
+| ```{<<}```      | extend into the left margin  | ```wide left```  |
+| ```{>>}```      | extend into the right margin | ```wide right``` |
+| ```{<>}```      | extend into both margins     | ```wide```       |
+| ```{>}```       | float right inside the page  | ```right inside```|
+| ```{<}```       | float left inside the page   | ```left inside```|
+| ```{|<}```      | hang in the right margin     | ```right margin```|
+| ```{>|}```      | hang in the left margin      | ```left margin```|
+| ```{||}```      | sit inside a 1/2 width column    | ```two column```|
+| ```{|||}```     | sit inside a 1/3 width column    | ```three column```|
+| ```{||||}```    | sit inside a 1/4 width column    | ```four column```|
+
+You can including multiple lines inside the same layout tag by indenting them:
+
+```
+{<<} ## Subtitle which extends into left margin
+     A paragraph which will also extend into the left margin.
+
+{>>} ## Subtitle which extends into right margin
+     A paragraph which will also extend into the right margin.
+```
+
+Your blog's template controls how the layout HTML is styled. Most Blot templates come with a variation on [layout.css](/css/layout.css) which provides the above features as described.

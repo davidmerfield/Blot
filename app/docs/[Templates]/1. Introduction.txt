@@ -1,0 +1,1 @@
+Creating a template, or modifying an existing template will require an understanding of HTML, CSS and basic templating using [Mustache](https://mustache.github.io/). Blot will be very familiar if you’ve worked with templates on other platforms.

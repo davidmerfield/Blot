@@ -1,0 +1,3 @@
+## Pages
+
+Files in a folder called 'Pages' are added to your blog's [menu](/help/setting-up-your-blog#menu) and do not become blog posts. You can create a page elsewhere in your blog's folder by adding ```Page: yes``` to the file's [metadata](#metadata). If you'd like to create a page that isn't on your blog's menu, add ```Menu: no``` as well.

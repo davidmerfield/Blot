@@ -1,0 +1,35 @@
+{{=[[ ]]=}}
+
+## Thumbnails
+
+ Blot generates four sizes of thumbnails:
+
+- **small** which has a width and height under 160px.
+- **medium** the default, which has a width under 640px.
+- **large** which has a width and height under 1060px.
+- **square** which has a width and height of 160px.
+
+Blot will not increase the size of smaller images. The JSON added to each entry looks something like this:
+
+```javascript
+{
+    ...
+    thumbnail: {
+        small: {url: "...", width: 160, height: 103},
+        medium: {url: "...", width: 640, height: 411},
+        large: {url: "...", width: 1060, height: 681},
+        square: {url: "...", width: 160, height: 160 }
+    },
+    ...
+}
+```
+
+You can use them in your template like this:
+
+```
+{{#thumbnail.medium}}
+    <img src="{{url}}" width="{{width}}" height="{{height}}">
+{{/thumbnail.medium}}
+```
+
+[[={{ }}=]]

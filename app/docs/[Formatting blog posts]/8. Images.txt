@@ -1,0 +1,39 @@
+
+
+## Images
+
+Here's what the markdown looks like, note the ‘!’ before the tag.
+
+```
+![alt text](http://example.com/image-url.jpg "Title")
+```
+
+Yes, first create a [public folder](/help/publishing-with-blot#public-files), e.g. '_images', put the image inside then embed the image like this:
+
+```
+![Image title](/_images/image.jpg)
+```
+
+
+Let's say your blog has this folder structure:
+
+```
+Blot
+ ├─ Posts
+ |    ├─ _apple.png
+ |    └─ fruit.txt
+ └─ _Assets
+      └─ peach.png
+```
+
+These images all resolve correctly in ```fruit.txt```:
+
+```
+![Apple](_apple.png)
+![Apple](/posts/_apple.png)
+![Peach](../_assets/peach.png)
+```
+
+Notice that Blot resolves relative and absolute paths based on your folder structure. File paths are case-insenitive.
+
+

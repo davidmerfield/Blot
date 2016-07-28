@@ -1,0 +1,13 @@
+
+
+## Links
+
+Create a text link by wrapping the linked text in brackets [ ], and then wrapping the link in parenthesis ( ). For example:
+
+<div class="example">
+<div>
+```[Wikipedia](https://wikipedia.org) ```</div>
+<div>[Wikipedia](https://wikipedia.org)</div>
+<section class="clear"></section>
+</div>
+

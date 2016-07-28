@@ -1,0 +1,18 @@
+
+
+
+
+## Permalinks
+
+You can specify an entry's permalink in the [metadata](#metadata) at the top of a file. For example, to create a blog post at ```example.com/raspberry```, add this:
+
+```
+Permalink: raspberry
+```
+
+Permalinks can contain slashes and accents. If you're migrating to Blot from a different platform, consider [setting up redirects](/help/setting-up-your-blog#redirects) instead.
+
+
+
+
+

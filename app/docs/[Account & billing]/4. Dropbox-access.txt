@@ -1,0 +1,6 @@
+
+
+## Can Blot access all the files in my Dropbox?
+
+No, Blot only has access to a single folder, the one which contains your blog posts.
+

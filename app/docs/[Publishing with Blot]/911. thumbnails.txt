@@ -1,0 +1,8 @@
+
+
+
+## Thumbnails
+
+Blot attempts to generate a thumbnail for each blog post. By default, Blot will use the largest JPEG or PNG image in your blog post. You can override this and specify a path or URL to an image in the [metadata](#metadata) at the top of a file. If you use a path, make sure the image is inside Blot's folder.
+
+If your blog post has no image, then your blog post will not have a thumbnail. Learn how to use these [thumbnails in your template](/help/templates#thumbnails).

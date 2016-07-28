@@ -1,0 +1,25 @@
+{{=[[ ]]=}}
+
+## Entry variables
+
+Note that some of the variables, like ```{{{html}}}``` have three  handlebars rather than two. This is because Mustache escapes variables by default, and three handlebars overrides this.
+
+| The tag…        | is replaced with…           |
+| ------------- |-------------|
+| ```{{id}}```      |  Number representing the entry's unique ID |
+| ```{{date}}```    |  Human readable publish date for the entry |
+| ```{{title}}```   |  Title of the entry |
+| ```{{{titleTag}}}```   |  HTML of the entry's title |
+| ```{{{html}}}```  |  HTML of the entry, including the title|
+| ```{{{body}}}```   |  HTML of the entry, excluding the title |
+| ```{{{teaser}}}```   |  HTML of the first few items in the entry, including title  |
+| ```{{{teaserBody}}}```   |  HTML of the first few items in the entry, excluding title  |
+| ```{{summary}}```   |  Text summary of the entry |
+| ```{{more}}``` |  Boolean indicating whether ```teaser``` differs from ```html```. This is useful for determining whether or not to show 'read more' links. |
+| ```{{tags}}```    |  List of tags for the entry |
+| ```{{url}}```     |  Relative URL to the entry |
+| ```{{menu}}```    |  "true" if the entry is a page, "false" if not |
+| ```{{created}}``` |  Timestamp |
+| ```{{updated}}``` |  Timestamp |
+
+[[={{ }}=]]
