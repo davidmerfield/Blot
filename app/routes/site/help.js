@@ -1,98 +1,50 @@
 module.exports = function(server){
 
-  var auth = require('../../authHandler'),
-      fs = require('fs'),
-      config = require('../../../config'),
-      _ = require('lodash'),
-      mustache = require('mustache'),
-      helper = require('../../helper'),
-      arrayify = helper.arrayify,
-      HELP = '/../../views/help/help.json',
-      HELP_FILE = __dirname + HELP;
+  var auth = require('../../authHandler');
 
-  var json,
-      slugIndex = {};
+  server.use('/help', auth.check);
 
-  function fetchJSON () {
+  server.get('/help', function(req, res){
 
-    var parse = JSON.parse;
-    var read = fs.readFileSync;
 
-    json = parse(read(HELP_FILE, 'utf-8'));
-
-    for (var i in json) {
-      var slug = json[i].slug;
-      slugIndex[slug] = i;
-    }
-  }
-
-  fetchJSON();
-
-  server.get('/help', auth.check, function(request, response){
-
-    if (config.environment === 'development')
-      fetchJSON();
-
-    var helpJSON = _.cloneDeep(json);
-    var sidebar = _.cloneDeep(helpJSON);
-
-    // We use set locals rather
-    // than add locals since
-    // we need to overwrite existing
-    // partials...
-    response.setLocals({
+    res.setLocals({
       title: 'Blot - Help',
       selected: {help: 'selected'},
       tab: {help: 'selected'},
-      sidebar: arrayify(sidebar),
-      sections: arrayify(helpJSON),
-      partials: {
-        yield: 'help/overview',
-      }
     });
 
-    if (request.blog)
-      response.render('dashboard/_wrapper');
-    else
-      response.render('help/wrapper');
+    res.addPartials({yield: 'help/overview'});
+
+    if (req.blog)
+      return res.render('dashboard/_wrapper');
+
+    res.render('help/wrapper');
   });
 
-  server.get('/help/:section', auth.check, function(request, response){
+  server.get('/help/:section', function(req, res){
 
-    if (config.environment === 'development')
-      fetchJSON();
+    res.addPartials({
+      yield: 'help/sections/' + req.params.section,
+      sidebar: 'help/sidebar'
+    });
 
-    var helpJSON = _.cloneDeep(json);
-
-    var sectionID = slugIndex[request.params.section];
-    var section = helpJSON[sectionID];
-
-    var sidebar = _.cloneDeep(helpJSON);
-        sidebar[sectionID].isCurrent = 'selected';
-
-    var locals = {
-      title: 'Blot - Help - ' + section.title,
+    res.setLocals({
+      sidebar: true,
+      title: 'Blot - Help - ' + req.params.section,
       selected: {help: 'selected'},
-      tab: {help: 'selected'},
-      section: section,
-      sidebar: arrayify(sidebar),
-      partials: {
-        yield: 'help/section'
-      }
-    };
+      tab: {help: 'selected'}
+    });
 
-    section.html = mustache.render(section.html, locals);
+    if (req.blog)
+      return res.render('dashboard/_wrapper');
 
-    // We use set locals rather
-    // than add locals since
-    // we need to overwrite existing
-    // partials...
-    response.setLocals(locals);
-
-    if (request.blog)
-      response.render('dashboard/_wrapper');
-    else
-      response.render('help/wrapper');
+    res.render('help/wrapper');
   });
 
+  server.use('/help', function(err, req, res, next){
+
+    console.log(req.url, err.message);
+
+    return res.redirect('/help');
+  });
 };
