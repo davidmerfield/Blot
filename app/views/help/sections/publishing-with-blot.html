@@ -1,0 +1,87 @@
+<h1 id="publishing-with-blot">Publishing with Blot</h1>
+<p>Blot adds a folder to your Dropbox and publishes files you put inside. Blot knows how to convert these files into blog posts:</p>
+<ul>
+<li>Text files <em>.txt,&nbsp;.text,&nbsp;.md</em> are converted from <a href="/help/formatting-blog-posts">Markdown</a>.</li>
+<li>Images <em>.png,&nbsp;.jpeg,&nbsp;.jpg,&nbsp;.gif</em></li>
+<li>Word documents <em>.docx</em></li>
+<li>Bookmarks <em>.webloc</em></li>
+<li><span class="small-caps">HTML</span> <em>.html,&nbsp;.htm</em></li>
+</ul>
+<p>There are a few useful exceptions&thinsp;&mdash;&thinsp;these files do not become blog posts:</p>
+<ul>
+<li><a href="#drafts">Drafts</a>&thinsp;&mdash;&thinsp;Files in a folder named<span class="push-single"></span> <span class="pull-single">‘</span>Drafts’ are not published. Blot creates a preview which updates as you make changes to the draft file.</li>
+<li><a href="#public-files">Public files</a>&thinsp;&mdash;&thinsp;Files inside a folder whose name starts with an underscore are publicly accessible and do not become blog posts.</li>
+<li><a href="#pages">Pages</a>&thinsp;&mdash;&thinsp;Files in a folder named<span class="push-single"></span> <span class="pull-single">‘</span>Pages’ appear on your blog’s menu.</li>
+</ul>
+<h2 id="the-folder">The folder</h2>
+<p>Blot’s folder is in <code>Dropbox/Apps/Blot</code>. You can rename this folder if you like. It’s up to you to organize the files inside. You can use subfolders to:</p>
+<ul>
+<li><a href="#tags">Tag an entry</a>&thinsp;&mdash;&thinsp;Files inside a folder called <code>[Apples]</code> are tagged<span class="push-single"></span> <span class="pull-single">‘</span>Apples’.</li>
+<li><a href="#change-an-entry’s-date">Change an entry’s date</a>&thinsp;&mdash;&thinsp;Blot looks for a date in the file’s path.</li>
+</ul>
+<p>You can move around the files inside Blot’s folder as you wish. To delete a post, delete its file. If you can’t find a deleted file, try using <a href="https://www.dropbox.com/en/help/296">Dropbox to recover</a> it.</p>
+<h2 id="pages">Pages</h2>
+<p>Files in a folder called<span class="push-single"></span> <span class="pull-single">‘</span>Pages’ (or<span class="push-single"></span> <span class="pull-single">‘</span>pages’) become pages instead of blog posts. Blot adds a link to each page to <a href="/help/setting-up-your-blog#menu">your blog’s menu</a>. You can create a page elsewhere in your blog’s folder by adding this line to the top of its file:</p>
+<pre><code>Page: yes</code></pre>
+<p>If you’d like to create a stand-alone page that isn’t visible on your blog’s menu, add this line as well:</p>
+<pre><code>Menu: no</code></pre>
+<h2 id="drafts">Drafts</h2>
+<p>Files inside a folder called<span class="push-single"></span> <span class="pull-single">‘</span>Drafts’ (or<span class="push-single"></span> <span class="pull-single">‘</span>drafts’) are not published. Blot instead creates a preview file. To publish the post, move the file elsewhere in your blog’s folder.</p>
+<h2 id="public-files">Public files</h2>
+<p>Files and folders whose name starts with an underscore (e.g.<span class="push-single"></span> <span class="pull-single">‘</span>_photos’) are publicly accessible and not converted into blog posts. This feature is useful for embedding <a href="/help/formatting-blog-posts#9-can-i-put-images-in-my-folder-to-use-inside-a-post">images inside posts</a> or serving static files.</p>
+<p>Let’s say your blog has this folder structure:</p>
+<pre><code>Blot
+ ├─ Posts
+ |    ├─ _apple.png
+ |    └─ fruit.html
+ └─ _Assets
+      └─ peach.png</code></pre>
+<p>These images all resolve correctly in <code>fruit.html</code>:</p>
+<pre><code>&lt;img src=&quot;_apple.png&quot;&gt;
+&lt;img src=&quot;/posts/_apple.png&quot;&gt;
+&lt;img src=&quot;../_assets/peach.png&quot;&gt;</code></pre>
+<p>Notice that Blot resolves relative and absolute paths based on your folder structure. File paths are case-insenitive.</p>
+<h2 id="metadata">Metadata</h2>
+<p>Blot generates the following metadata for each blog post:</p>
+<ul>
+<li><a href="#change-an-entry’s-date">Date</a></li>
+<li><a href="#tags">Tags</a></li>
+<li><a href="#permalinks">Permalink</a></li>
+<li><a href="#thumbnails">Thumbnail</a></li>
+<li><a href="#pages">Page</a> and <a href="#pages">Menu</a></li>
+</ul>
+<p>You can override this metadata at the top of your file:</p>
+<hr>
+<pre><code>Permalink: gravity
+Date: February 28th, 1973
+
+# Gravity&#39;s Rainbow
+
+A screaming comes across the sky.</code></pre>
+<hr>
+<p>You can specify <a href="/help/templates#metadata">custom metadata</a> and use it in your blog’s <a href="/help/templates">template</a>. Metadata must start on the file’s first line and be seperated from the rest of your blog post with a blank line.</p>
+<h2 id="change-an-entrys-date">Change an entry’s date</h2>
+<p>You can specify an entry’s publish date in the <a href="#metadata">metadata</a> at the top of a file:</p>
+<pre><code>Date: June 23rd 2012</code></pre>
+<p>Blot supports plenty of formats. The following dates are equivalent:</p>
+<pre><code>23/06/2012    23.6.12    23-6-2012    2012-6-23 00:00</code></pre>
+<p>You can use the file’s path to specify an entry’s date. The entries for the following files have a publish date of midnight on February 23rd, 2016:</p>
+<pre><code>/2016/2/23/post.txt    /2016/2.23.post.txt   2016_02_23_00:00_post.txt</code></pre>
+<p>If you order your dates differently please tell Blot on the <a href="/settings">settings page</a>.</p>
+<h2 id="scheduled-posts">Scheduled posts</h2>
+<p>If you <a href="#change-an-entry’s-date">change an entry’s date</a> to some time in future, Blot will wait until then to publish it. If you want to cancel a scheduled post, just delete its file. Make sure your timezone is configured correctly on the <a href="/settings">settings page</a>.</p>
+<h2 id="permalinks">Permalinks</h2>
+<p>You can specify an entry’s permalink in the <a href="#metadata">metadata</a> at the top of a file. For example, to create a blog post at <code>example.com/raspberry</code>, add this:</p>
+<pre><code>Permalink: raspberry</code></pre>
+<p>Permalinks can contain slashes and accents. If you’re migrating to Blot from a different platform, consider <a href="/help/setting-up-your-blog#redirects">setting up redirects</a> instead.</p>
+<h2 id="tags">Tags</h2>
+<p>You can specify tags in the <a href="#metadata">metadata</a> at the top of a file:</p>
+<pre><code>Tags: Literature, Stendhal, Book reviews</code></pre>
+<p>Tags are case insensitive and comma-seperated. You can also use folders to tag posts. For example, files in a folder called <code>[Literature]</code> will become blog posts tagged<span class="push-single"></span> <span class="pull-single">‘</span>Literature’. You can nest multiple tag folders:</p>
+<pre><code>Blot
+ └─ [Literature]
+      └─ [Book reviews]
+           └─ Lamiel.txt</code></pre>
+<h2 id="thumbnails">Thumbnails</h2>
+<p>Blot attempts to generate a thumbnail for each blog post. By default, Blot will use the largest <span class="small-caps">JPEG</span> or <span class="small-caps">PNG</span> image in your blog post. You can override this and specify a path or <span class="small-caps">URL</span> to an image in the <a href="#metadata">metadata</a> at the top of a file. If you use a path, make sure the image is inside Blot’s folder.</p>
+<p>If your blog post has no image, then your blog post will not have a thumbnail. Learn how to use these <a href="/help/templates#thumbnails">thumbnails in your template</a>.</p>
