@@ -1,11 +1,7 @@
-
 ## Using a personal domain
 
 Once you own a domain, add it to your account on [the settings page](/settings).
 
 If you’d like to use a subdomain e.g ```blog.example.com``` or ```www.example.com``` create a ```CNAME``` record for that subdomain which points to ```blot.im```.
 
-If you’d like to use an apex domain e.g. ```example.com``` then create an ```ALIAS``` record which points to ```blot.im```. 
-
-I recommend using the 'www' subdomain instead of an apex domain.
-
+If you’d like to use an apex domain e.g. ```example.com``` then create an ```ALIAS``` record which points to ```blot.im```. If you cannot create an ALIAS record, then use a CNAME record with the ```www.``` subdomain and redirect the apex domain.

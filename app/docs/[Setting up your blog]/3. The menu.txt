@@ -1,4 +1,0 @@
-
-## Menu
-
-Each blog comes with a menu. You can add links to it on the settings page.

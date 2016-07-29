@@ -1,3 +1,0 @@
-## Drafts
-
-Files inside a folder called 'Drafts' are not published. Blot instead creates a preview file which updates automatically as you make changes.

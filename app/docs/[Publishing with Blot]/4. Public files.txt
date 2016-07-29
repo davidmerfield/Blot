@@ -1,3 +1,0 @@
-## Public files
-
-Files and folders whose name starts with an underscore are not converted into blog posts. This feature is useful for embedding [images inside posts](/help/formatting-blog-posts#9-can-i-put-images-in-my-folder-to-use-inside-a-post) or serving static files.

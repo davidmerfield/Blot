@@ -1,0 +1,3 @@
+## Drafts
+
+Files inside a folder called 'Drafts' are not published. Blot creates a preview for that file instead.

@@ -1,0 +1,3 @@
+## Public files
+
+Files inside a folder whose name starts with an underscore (e.g. '_Media') are not converted into blog posts. This feature is great for embedding an [image in a blog post](/help/formatting-blog-posts#9-can-i-put-images-in-my-folder-to-use-inside-a-post) or serving [static files](#static-files). 

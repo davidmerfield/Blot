@@ -1,3 +1,0 @@
-## Migrating to Blot from other platforms
-
-I've written scripts which import blog posts from Tumblr, Squarespace, Jekyll and Wordpress. I’ve not yet connected them to a web-interface so please [contact me](/contact) and we’ll run them on your blog.
