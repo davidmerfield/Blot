@@ -16,11 +16,6 @@
   <span class="error">{{errors.blog.handle}}</span>
   </label>
 
-  <label>
-  Folder:
-  <input type="text" name="blog.folder" value="{{blog.folder}}" />
-  </label>
-
   <label>Personal domain:
   <div class="messageWrapper">
     <input type="text" id="customDomain" name="blog.domain" value="{{blog.domain}}" placeholder="Your website's hostname"/>
@@ -61,5 +56,12 @@
   {{/blog.avatar}}
 
   <br />
+
+  <!--
+  <label>
+  Folder:
+  <input type="text" name="blog.folder" value="{{blog.folder}}" />
+  </label>
+ -->
   <input class="button" type="submit" value="Save changes"/>
 </form>
