@@ -1,0 +1,78 @@
+
+
+# Revisiting templates
+
+
+I need to make sure Blot can render 100 pages / second.
+
+Based on current usage, that reflects double the avg. load for 10k blogs.
+
+the render module is currently a shitshow
+
+each template
+
+ENTRIES SHOULD NOT BE VIEWS
+  they should not be embeddable -> use albums for similar features
+
+LOCALS SHOULD NOT CONTAIN LOCALS
+  migrate page title and page description to hard coding in template
+
+EACH VIEW SHOULD HAVE A FULL LIST OF PARTIALS & LOCALS
+
+
+add 'default' template views which templates inherit but can override?
+
+add 'default' partials which templates inherit?
+
+  e.g. {{view.name}} - {{blog.title}}
+
+e.g. feed.rss, sitemap.xml, robots.txt
+
+
+* / template / default
+
+no template info stored in db
+
+everything stored on disk?
+
+---
+
+
+template = read(...) ;
+
+mustache.parse(template);
+
+... fetch partials and parse them too
+... extract locals from view and all partials
+... load locals
+
+mustache.render(template, view);
+
+---
+
+store full list of locals and paths to partials against each template path?
+
+
+--------------------------
+
+{{> header}}
+
+{{#entries}}
+
+  {{{html}}}
+
+{{/entries}}
+
+{{#pagination}}
+
+  {{#next}}
+    <a href="{{url}}">Next page</a>
+  {{/next}}
+
+  {{#previous}}
+    <a href="{{url}}">Previous page</a>
+  {{/previous}}
+
+{{/pagination}}
+
+{{> footer}}
