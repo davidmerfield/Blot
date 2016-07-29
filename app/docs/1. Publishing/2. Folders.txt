@@ -1,0 +1,5 @@
+You can organize your folder however you like. There are three folders which Blot treats differently:
+
+- **Pages**<br> Files in a folder called 'Pages' are added to your blog's menu and do not become blog posts.
+- **Drafts**<Br> Files inside a folder called 'Drafts' are not published. Blot creates a preview for that file instead.
+- **Public files** <br> Files inside a folder whose name starts with an underscore (e.g. '_Media') are not converted into blog posts. You can use this feature to embed an [image in a blog post](/help/formatting-blog-posts#9-can-i-put-images-in-my-folder-to-use-inside-a-post) or serve [static files](#static-files). 

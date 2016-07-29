@@ -12,7 +12,7 @@ Permalink: gravity
 A screaming comes across the sky.
 ```
 
-Metadata must start on the file's first line and be seperated from the rest of your blog post with a blank line.
+Metadata must start on the first line and be separated from the rest of the post with a blank line.
 
 You can specify [custom metadata](/help/templates#metadata) and access it in your blog's [template](/help/templates).
 

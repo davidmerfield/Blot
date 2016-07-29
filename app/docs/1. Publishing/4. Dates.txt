@@ -14,7 +14,5 @@ You can use the file's path to specify an entry's date. The entries for the foll
 /2016/2/23/post.txt    /2016/2.23.post.txt   2016_02_23_00:00_post.txt
 ```
 
-If you order your dates differently please tell Blot on the [settings page](/settings). If you [change an entry's date](#change-an-entry’s-date) to some time in future, Blot will wait until then to publish it. If you want to cancel a scheduled post, just delete its file. Make sure your timezone is configured correctly on the [settings page](/settings).
-
-
+If you order your dates differently please tell Blot on the [settings page](/settings). If you [change an entry's date](#change-an-entry’s-date) to some time in future, Blot will wait until then to publish it. 
 
