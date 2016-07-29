@@ -1,19 +1,9 @@
 <h1 id="setting-up-your-blog">Setting up your blog</h1>
 <h2 id="migrating-to-blot-from-other-platforms">Migrating to Blot from other platforms</h2>
-<p>I’ve written scripts which import blog posts from Tumblr, Squarespace, Jekyll and Wordpress. I’ve not yet connected them to a web-interface so please <a href="/contact">contact me</a> and we’ll run them on your blog.</p>
-<h2 id="menu">Menu</h2>
-<p>Each blog comes with a menu. You can add links to it on the settings page.</p>
+<p>I've written scripts to import blog posts from Tumblr, Wordpress, Jekyll and Squarespace. <a href="https://github.com/search?utf8=%E2%9C%93&amp;q=user%3Adavidmerfield+importer%09&amp;type=Repositories&amp;ref=searchresults">These scripts</a> are not yet connected to a web interface but if you <a href="/contact">contact me</a>, I can run them on your blog. The scripts generate a folder of Markdown files.</p>
 <h2 id="using-a-personal-domain">Using a personal domain</h2>
 <p>Once you own a domain, add it to your account on <a href="/settings">the settings page</a>.</p>
-<p>If you’d like to use a <strong>subdomain</strong> e.g blog.example.com or www.example.com create a <code>CNAME</code> record which points to <code>blot.im</code>.</p>
-<p>If you’d like to use an <strong>apex domain</strong> e.g. example.com then create an <code>ALIAS</code> record which points to <code>blot.im</code>. I highly recommend using www.your-domain.com instead of an apex domain.</p>
-<h2 id="serving-your-blog-over-sslhttps">Serving your blog over SSL/HTTPS</h2>
-<p>Plenty of people use <a href="http://cloudflare.com">CloudFlare</a> to serve their blog on Blot over <span class="small-caps">SSL</span> at no additional cost. You will need your own domain.</p>
-<ol type="1">
-<li>Add your domain to CloudFlare</li>
-<li>Point your domain on Cloudflare to Blot’s server (<code>54.191.179.131</code>)</li>
-<li>Enable CloudFlare’s flexible <span class="small-caps">SSL</span> option.</li>
-</ol>
-<p>Please remember to transfer all of your other <span class="small-caps">DNS</span> records to Cloudflare. If you’d like to redirect all <span class="small-caps">HTTP</span> traffic to <span class="small-caps">HTTPS</span>, you can <a href="https://support.cloudflare.com/hc/en-us/articles/200170536-How-do-I-redirect-all-visitors-to-HTTPS-SSL-">configure that on Cloudflare</a>.</p>
+<p>If you’d like to use a subdomain e.g <code>blog.example.com</code> or <code>www.example.com</code> create a <code>CNAME</code> record for that subdomain which points to <code>blot.im</code>.</p>
+<p>If you’d like to use an apex domain e.g. <code>example.com</code> then create an <code>ALIAS</code> record which points to <code>blot.im</code>. If you cannot create an ALIAS record, then use a CNAME record with the <code>www.</code> subdomain and redirect the apex domain.</p>
 <h2 id="redirects">Redirects</h2>
-<p>You can set up <span class="small-caps">URL</span> redirects on the <a href="/redirects">redirects page</a>. This is useful for migrating an existing blog to Blot. The <a href="/404s">404</a> log page will help you work out what needs to be redirected. You can use Regular Expressions to match multiple routes.</p>
+<p>You can set up URL redirects on the <a href="/redirects">redirects page</a>. This is useful for migrating an existing blog to Blot. The <a href="/404s">404</a> log page will help you work out what needs to be redirected. You can use Regular Expressions to match multiple routes.</p>

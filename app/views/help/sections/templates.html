@@ -1,13 +1,10 @@
-<style type="text/css">
-table {width: 100%}
-</style>
 <h1 id="templates">Templates</h1>
-<p>Creating a template, or modifying an existing template will require an understanding of <span class="small-caps">HTML</span>, <span class="small-caps">CSS</span> and basic templating using <a href="https://mustache.github.io/">Mustache</a>. Blot will be very familiar if you’ve worked with templates on other platforms.</p>
+<p>Creating a template, or modifying an existing template will require an understanding of HTML, CSS and basic templating using <a href="https://mustache.github.io/">Mustache</a>. Blot will be very familiar if you’ve worked with templates on other platforms.</p>
 <h2 id="modify-an-existing-template">Modify an existing template</h2>
 <p>To modify an existing template, create a new template on the <a href="/design#create-a-template">design page</a> and specify the template you wish to clone from. This will copy of the existing template that you can edit.</p>
+<p>{{=[[ ]]=}}</p>
 <h2 id="blog-variables">Blog variables</h2>
 <p>When you’re getting started I recommend cloning a template and looking through its source to familiarize yourself with how templates on Blot work.</p>
-<p>{{=[[ ]]=}}</p>
 <table>
 <thead>
 <tr class="header">
@@ -22,50 +19,52 @@ table {width: 100%}
 </tr>
 <tr class="even">
 <td><code>{{handle}}</code></td>
-<td>your blog’s username</td>
+<td>your blog's username</td>
 </tr>
 <tr class="odd">
 <td><code>{{title}}</code></td>
-<td>your blog’s title</td>
+<td>your blog's title</td>
 </tr>
 <tr class="even">
 <td><code>{{avatar}}</code></td>
-<td>the <span class="small-caps">URL</span> to your blog’s avatar</td>
+<td>the URL to your blog's avatar</td>
 </tr>
 <tr class="odd">
 <td><code>{{roundAvatar}}</code></td>
-<td><code>true</code> if you’ve indicated your avatar is round, <code>false</code> if not</td>
+<td><code>true</code> if you've indicated your avatar is round, <code>false</code> if not</td>
 </tr>
 <tr class="even">
 <td><code>{{cacheID}}</code></td>
-<td>a timestamp representing the last time your blog’s template was changed</td>
+<td>a timestamp representing the last time your blog's template was changed</td>
 </tr>
 <tr class="odd">
 <td><code>{{hideDates}}</code></td>
-<td><code>true</code> if you’ve chosen to hide the dates on your blog, <code>false</code> if not</td>
+<td><code>true</code> if you've chosen to hide the dates on your blog, <code>false</code> if not</td>
 </tr>
 <tr class="even">
 <td><code>{{blogURL}}</code></td>
-<td>the <span class="small-caps">URL</span> to your blog’s homepage</td>
+<td>the URL to your blog's homepage</td>
 </tr>
 <tr class="odd">
 <td><code>{{feedURL}}</code></td>
-<td>the <span class="small-caps">URL</span> to your blog’s <span class="small-caps">RSS</span> feed</td>
+<td>the URL to your blog's RSS feed</td>
 </tr>
 <tr class="even">
 <td><code>{{cssURL}}</code></td>
-<td>the <span class="small-caps">URL</span> to your blog’s <span class="small-caps">CSS</span> file</td>
+<td>the URL to your blog's CSS file</td>
 </tr>
 <tr class="odd">
 <td><code>{{scriptURL}}</code></td>
-<td>the <span class="small-caps">URL</span> to your blog’s <span class="small-caps">JS</span> file</td>
+<td>the URL to your blog's JS file</td>
 </tr>
 <tr class="even">
 <td><code>{{sitemapURL}}</code></td>
-<td>the <span class="small-caps">URL</span> to your blog’s sitemap</td>
+<td>the URL to your blog's sitemap</td>
 </tr>
 </tbody>
 </table>
+<p>[[={{ }}=]]</p>
+<p>{{=[[ ]]=}}</p>
 <h2 id="entry-variables">Entry variables</h2>
 <p>Note that some of the variables, like <code>{{{html}}}</code> have three handlebars rather than two. This is because Mustache escapes variables by default, and three handlebars overrides this.</p>
 <table>
@@ -78,7 +77,7 @@ table {width: 100%}
 <tbody>
 <tr class="odd">
 <td><code>{{id}}</code></td>
-<td>Number representing the entry’s unique <span class="small-caps">ID</span></td>
+<td>Number representing the entry's unique ID</td>
 </tr>
 <tr class="even">
 <td><code>{{date}}</code></td>
@@ -90,23 +89,23 @@ table {width: 100%}
 </tr>
 <tr class="even">
 <td><code>{{{titleTag}}}</code></td>
-<td><span class="small-caps">HTML</span> of the entry’s title</td>
+<td>HTML of the entry's title</td>
 </tr>
 <tr class="odd">
 <td><code>{{{html}}}</code></td>
-<td><span class="small-caps">HTML</span> of the entry, including the title</td>
+<td>HTML of the entry, including the title</td>
 </tr>
 <tr class="even">
 <td><code>{{{body}}}</code></td>
-<td><span class="small-caps">HTML</span> of the entry, excluding the title</td>
+<td>HTML of the entry, excluding the title</td>
 </tr>
 <tr class="odd">
 <td><code>{{{teaser}}}</code></td>
-<td><span class="small-caps">HTML</span> of the first few items in the entry, including title</td>
+<td>HTML of the first few items in the entry, including title</td>
 </tr>
 <tr class="even">
 <td><code>{{{teaserBody}}}</code></td>
-<td><span class="small-caps">HTML</span> of the first few items in the entry, excluding title</td>
+<td>HTML of the first few items in the entry, excluding title</td>
 </tr>
 <tr class="odd">
 <td><code>{{summary}}</code></td>
@@ -114,7 +113,7 @@ table {width: 100%}
 </tr>
 <tr class="even">
 <td><code>{{more}}</code></td>
-<td>Boolean indicating whether <code>teaser</code> differs from <code>html</code>. This is useful for determining whether or not to show<span class="push-single"></span> <span class="pull-single">‘</span>read more’ links.</td>
+<td>Boolean indicating whether <code>teaser</code> differs from <code>html</code>. This is useful for determining whether or not to show 'read more' links.</td>
 </tr>
 <tr class="odd">
 <td><code>{{tags}}</code></td>
@@ -122,11 +121,11 @@ table {width: 100%}
 </tr>
 <tr class="even">
 <td><code>{{url}}</code></td>
-<td>Relative <span class="small-caps">URL</span> to the entry</td>
+<td>Relative URL to the entry</td>
 </tr>
 <tr class="odd">
 <td><code>{{menu}}</code></td>
-<td><span class="pull-double">“</span>true” if the entry is a page,<span class="push-double"></span> <span class="pull-double">“</span>false” if not</td>
+<td>&quot;true&quot; if the entry is a page, &quot;false&quot; if not</td>
 </tr>
 <tr class="even">
 <td><code>{{created}}</code></td>
@@ -138,37 +137,10 @@ table {width: 100%}
 </tr>
 </tbody>
 </table>
-<h2 id="inspecting-the-view">Inspecting the view</h2>
-<p>If you append the query string&nbsp;?json=true to a <span class="small-caps">URL</span> on Blot, you can retrieve the view used to render its template. I’d suggest using a browser extension like to make more sense of it.</p>
-<h2 id="robots.txt">Robots.txt</h2>
-<p>You can control what search engines index by editing robots.txt. However, this view is overriden by Blot if you use a custom domain. Blot does this to prevent a duplicate content penalty.</p>
-<h2 id="embedding-entries-in-a-template">Embedding entries in a template</h2>
-<p>You can embed a blog post in your template using this syntax:</p>
-<pre><code>{​{&gt; /pages/home.txt}​}</code></pre>
-<p>Please note: the path to the entry is case-insensitive but must be absolute with your blog’s folder as the root directory.</p>
-<h2 id="thumbnails">Thumbnails</h2>
-<p>Blot generates four sizes of thumbnails:</p>
-<ul>
-<li><strong>small</strong> which has a width and height under 160px.</li>
-<li><strong>medium</strong> the default, which has a width under 640px.</li>
-<li><strong>large</strong> which has a width and height under 1060px.</li>
-<li><strong>square</strong> which has a width and height of 160px.</li>
-</ul>
-<p>Blot will not increase the size of smaller images. The <span class="small-caps">JSON</span> added to each entry looks something like this:</p>
-<pre><code class="hljs javascript">{
-    ...
-    thumbnail: {
-        small: {url: <span class="hljs-string">"..."</span>, width: <span class="hljs-number">160</span>, height: <span class="hljs-number">103</span>},
-        medium: {url: <span class="hljs-string">"..."</span>, width: <span class="hljs-number">640</span>, height: <span class="hljs-number">411</span>},
-        large: {url: <span class="hljs-string">"..."</span>, width: <span class="hljs-number">1060</span>, height: <span class="hljs-number">681</span>},
-        square: {url: <span class="hljs-string">"..."</span>, width: <span class="hljs-number">160</span>, height: <span class="hljs-number">160</span> }
-    },
-    ...
-}</code></pre>
-<p>You can use them in your template like this:</p>
-<pre><code>{{#thumbnail.medium}}
-    &lt;img src=&quot;{{url}}&quot; width=&quot;{{width}}&quot; height=&quot;{{height}}&quot;&gt;
-{{/thumbnail.medium}}</code></pre>
+<p>[[={{ }}=]]</p>
+<h2 id="debugging">Debugging</h2>
+<p>If you append the query string ?json=true to a URL on Blot, you can retrieve the view used to render its template. I’d suggest using a browser extension like to make more sense of it.</p>
+<p>{{=[[ ]]=}}</p>
 <h2 id="custom-metadata">Custom metadata</h2>
 <p>You can specify custom entry metadata:</p>
 <pre><code>Author: Eric Blair</code></pre>
@@ -183,3 +155,36 @@ table {width: 100%}
   Posted by the editor
 {{/metadata.author}}</code></pre>
 <p>[[={{ }}=]]</p>
+<p>{{=[[ ]]=}}</p>
+<h2 id="embedding-entries-in-a-template">Embedding entries in a template</h2>
+<p>You can embed a blog post in your template using this syntax:</p>
+<pre><code>{​{&gt; /pages/home.txt}​}</code></pre>
+<p>Please note: the path to the entry is case-insensitive but must be absolute with your blog’s folder as the root directory.</p>
+<p>[[={{ }}=]]</p>
+<p>{{=[[ ]]=}}</p>
+<h2 id="thumbnails">Thumbnails</h2>
+<p>Blot generates four sizes of thumbnails:</p>
+<ul>
+<li><strong>small</strong> which has a width and height under 160px.</li>
+<li><strong>medium</strong> the default, which has a width under 640px.</li>
+<li><strong>large</strong> which has a width and height under 1060px.</li>
+<li><strong>square</strong> which has a width and height of 160px.</li>
+</ul>
+<p>Blot will not increase the size of smaller images. The JSON added to each entry looks something like this:</p>
+<pre class="javascript"><code>{
+    ...
+    thumbnail: {
+        small: {url: &quot;...&quot;, width: 160, height: 103},
+        medium: {url: &quot;...&quot;, width: 640, height: 411},
+        large: {url: &quot;...&quot;, width: 1060, height: 681},
+        square: {url: &quot;...&quot;, width: 160, height: 160 }
+    },
+    ...
+}</code></pre>
+<p>You can use them in your template like this:</p>
+<pre><code>{{#thumbnail.medium}}
+    &lt;img src=&quot;{{url}}&quot; width=&quot;{{width}}&quot; height=&quot;{{height}}&quot;&gt;
+{{/thumbnail.medium}}</code></pre>
+<p>[[={{ }}=]]</p>
+<h2 id="robots.txt">Robots.txt</h2>
+<p>You can control what search engines index by editing robots.txt. However, this view is overriden by Blot if you use a custom domain. Blot does this to prevent a duplicate content penalty.</p>
