@@ -1,119 +1,92 @@
 var fs = require('fs');
-var helper = require('../../app/helper');
+var helper = require('helper');
 var makeSlug = helper.makeSlug;
-var titlify = helper.titlify;
-var helpDir = require('path').resolve(__dirname + '/../../app/views/help');
-var sourceDir = helpDir + '/src';
-var cheerio = require('cheerio');
-var extractMetadata = require('../../app/models/entry/build/metadata');
-var plugins = require('../../app/plugins');
+var forEach = helper.forEach;
+var rootDir = helper.rootDir;
+var joinpath = require('path').join;
+var basename = require('path').basename;
+var render = require('mustache').render;
 var convert = require('../../app/models/entry/build/file/markdown/convert');
-var OUTPUT = helpDir + '/help.json';
 
-if (require.main === module) {
+var source = rootDir + '/app/docs';
+var output = rootDir + '/app/views/help/sections';
 
-  build();
-  console.log('Watching help dir for changes.');
+var overview_source = rootDir + '/app/views/help/overview.src.html';
+var overview_output = rootDir + '/app/views/help/overview.html';
 
-  fs.watch(sourceDir, function(){
-    console.log('Change detected, rebuilding');
-    build();
+var sidebar_source = rootDir + '/app/views/help/sidebar.src.html';
+var sidebar_output = rootDir + '/app/views/help/sidebar.html';
+
+var sections = [];
+
+forEach(readdir(source), function(path, next){
+
+  // Remove leading number and period
+  var title = basename(path).slice(2).trim();
+  var slug = makeSlug(title);
+  var content = '# ' + title + '\n\n' + loadFiles(path);
+
+  convert(content, function(err, html){
+
+    var output_path = joinpath(output, slug + '.html');
+
+    write(output_path, html);
+
+    sections.push({html: html, title: title, slug: slug});
+
+    next();
   });
 
+}, function(){
+
+  var overview_template = fs.readFileSync(overview_source, 'utf-8');
+
+  overview_template = render(overview_template, {sections: sections});
+
+  fs.writeFileSync(overview_output, overview_template, 'utf-8');
+
+  var sidebar_template = fs.readFileSync(sidebar_source, 'utf-8');
+
+  sidebar_template = render(sidebar_template, {sections: sections});
+
+  fs.writeFileSync(sidebar_output, sidebar_template, 'utf-8');
+
+  process.exit();
+});
+
+
+
+function write (path, contents) {
+  return fs.writeFileSync(path, contents, 'utf-8');
 }
 
-function build (callback) {
-
-  callback = callback || function(){};
-
-  fs.readdir(sourceDir, function(Err, files){
-
-    var finalJSON = {};
-    var total = 0;
-
-    (function read (files) {
-
-      var fileName = files.shift();
-
-      // Ignore hidden files...
-      if (fileName.slice(0, 1) === '.') return read(files);
-
-      console.log('Processing: ' + fileName);
-      var path = sourceDir + '/' + fileName;
-
-      // Remove leading number and period
-      var title = titlify(fileName.slice(2));
-
-      var section = {
-        title: title,
-        slug: makeSlug(title),
-        html: '',
-        questions: []
-      };
-
-      fs.readFile(path, 'utf-8', function(err, contents){
-
-        var blog = {id: '0', plugins: plugins.defaultList};
-        var parsed = extractMetadata(contents);
-
-        var metadata = parsed.metadata;
-
-        contents = parsed.contents;
-
-        for (var i in metadata)
-          section[i] = metadata[i];
-
-        convert(contents, function(err, html){
-
-          plugins.convert(blog, path, html, function(err, html){
-
-            section.html = makeSection(html);
-
-            finalJSON[++total] = section;
-
-            if (!files.length) fs.writeFile(OUTPUT, JSON.stringify(finalJSON, null, ' '), function(){
-              return callback();
-            });
-
-            if (files.length) read(files);
-          });
-        });
-      });
-    }(files));
-  });
+function read (path) {
+  return fs.readFileSync(path, 'utf-8');
 }
 
-function makeSection (html) {
+function readdir (path) {
 
-  var links = [];
+  var contents = fs.readdirSync(path);
 
-  var $ = cheerio.load(html, {decodeEntities: false});
-
-  var id = 1;
-
-  $('h1, h2, h3').each(function(i, eq){
-
-    var text = $(this).text(),
-        slug = text.split(' ').join('-').toLowerCase();
-
-    links.push({
-      slug: slug,
-      isHeading: eq.name === 'h1' ? 'isHeading' : '',
-      title: text
-    });
-
-    $(this).attr('id', slug);
-    // $(this).append('<a class="permalink" href="#' + slug + '">8</a>');
-
-    // wrap each question in a node
-    if (eq.name === 'h2') {
-      var nextChildren = $(this).nextUntil('h1,h2');
-      $(this).before('<div class="question" id="' + id +'-' + slug.split('?').join('') + '">').prev().append(this).append(nextChildren);
-      id++;
-    }
+  contents = contents.filter(function(name){
+    return name[0] !== '.' && name[0] !== '-';
   });
 
-  return $.html();
+  contents = contents.map(function(name){
+    return joinpath(path, name);
+  });
+
+  return contents;
 }
 
-module.exports = build;
+function loadFiles (path) {
+
+  var res = '';
+
+  var contents = readdir(path);
+
+  for (var i = 0; i < contents.length;i++)
+    res += read(contents[i]) + '\n\n';
+
+  return res;
+}
