@@ -1,8 +1,4 @@
 var ensure = require('./ensure');
-var unorm = require('unorm');
-var charNormalize = unorm.nfc;
-
-// takes URL, adds leading slash, removes trailing slash;
 var Is = require('./is');
 
 function pathNormalizer (path) {
@@ -11,33 +7,15 @@ function pathNormalizer (path) {
 
   if (!path) return '';
 
-  try {
-    // Map '%20' to a space etc..
-    path = decodeURIComponent(path);
-  } catch (e) {
-    console.log('Warning: could not call decodeURIComponent on the path "' + path + '"');
-    console.log(e);
-  }
-
-  try {
-    // Not sure exactly what this does
-    path = charNormalize(path);
-  } catch (e) {
-    console.log('Warning: could not call unorm.nfc on the path "' + path + '"');
-    console.log(e);
-  }
-
-  // Not sure exactly what this does
-
   path = path.trim().toLowerCase();
 
   path = path.split('//').join('/');
 
   // Remove trailing slash
-  if (path.charAt(path.length -1) === '/') path = path.slice(0, -1);
+  if (path.slice(-1) === '/') path = path.slice(0, -1);
 
   // Add leading slash
-  if (path.charAt(0) !== '/') path = '/' + path;
+  if (path[0] !== '/') path = '/' + path;
 
   return path;
 }
