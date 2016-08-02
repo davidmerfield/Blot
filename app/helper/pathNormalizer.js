@@ -3,6 +3,7 @@ var unorm = require('unorm');
 var charNormalize = unorm.nfc;
 
 // takes URL, adds leading slash, removes trailing slash;
+var Is = require('./is');
 
 function pathNormalizer (path) {
 
@@ -41,20 +42,36 @@ function pathNormalizer (path) {
   return path;
 }
 
-(function tests(){
+var is = Is(pathNormalizer);
 
-  var assert = require('assert');
+// Sanity
+is('/', '/');
+is('/foo', '/foo');
+is('/foo/bar', '/foo/bar');
 
-  function is (path, expected) {
-    assert.deepEqual(pathNormalizer(path), expected);
-  }
+// Trim leading or trailing whitespace
+is(' / ', '/');
 
-  is('BaR', '/bar');
-  is('/foo/bar/', '/foo/bar');
-  is('foo/bar/', '/foo/bar');
-  is('//foo/bar/', '/foo/bar');
-  is('foo/bar/bam.txt', '/foo/bar/bam.txt');
-  is('FOO/ba r/b am .txt', '/foo/ba r/b am .txt');
-}());
+// Preserve internal whitespace
+is('/a b c', '/a b c');
+
+// Remove trailing slash
+is('/foo/', '/foo');
+
+// Add leading slash
+is('foo', '/foo');
+
+// Lowercase
+is('/BaR', '/bar');
+
+// Replace double slashes with single slashes
+is('//foo//bar//', '/foo/bar');
+
+// Preserve non alphanum characters
+is('/←→', '/←→');
+is('使/用/百/度/馈/', '/使/用/百/度/馈');
+
+// Preserve url encoding
+is('/%20a%20b', '/%20a%20b');
 
 module.exports = pathNormalizer;
