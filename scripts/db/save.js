@@ -22,7 +22,7 @@ var dir = dumps + '/' + dirname;
 var saved = dir + '/dump.rdb';
 
 var redis = require('redis').createClient();
-var current = fs.realpathSync(__dirname + '/../../dump.rdb');
+var current = fs.realpathSync(__dirname + '/../../db/dump.rdb');
 
 
 console.log('Saving database to disk...');
