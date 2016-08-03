@@ -12,7 +12,7 @@ module.exports = function drop (blogID, path, callback) {
     .and(path, 'string')
     .and(callback, 'function');
 
-  getByPath(blogID, path, function(existing){
+  get(blogID, path, function(entry){
 
     // There's nothing to delete
     if (!existing || !existing.id) return callback();

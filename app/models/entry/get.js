@@ -20,7 +20,7 @@ module.exports = function (blogID, entryIDs, callback) {
   }
 
   // We're only getting one entry now...
-  if (type(entryIDs, 'number')) {
+  if (type(entryIDs, 'string')) {
     single = true;
     entryIDs = [entryIDs];
   }

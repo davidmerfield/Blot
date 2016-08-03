@@ -1,5 +1,5 @@
 module.exports =  {
-      id: 'number',
+      id: 'string',
       url: 'string',
       permalink: 'string',
       title: 'string',

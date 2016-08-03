@@ -25,7 +25,7 @@ module.exports = function (blog, path, callback) {
 
     IgnoredFiles.getStatus(blogID, path, function(err, ignored){
 
-      Entry.getByPath(blogID, path, function(entry){
+      Entry.get(blogID, path, function(entry){
 
         if (ignored) ignored = REASONS[ignored] || 'was ignored';
 

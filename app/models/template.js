@@ -328,7 +328,7 @@ module.exports = (function () {
         // it is a path to an entry.
         if (partial.charAt(0) === '/') {
 
-          Entry.getByPath(blogID, partial, function(entry) {
+          Entry.get(blogID, partial, function(entry) {
 
             // Only allow access to entries which exist
             // and are public

@@ -86,7 +86,7 @@ function checkIfWeKnow (blogID, path, callback) {
 
   var know = 0;
 
-  Entry.getByPath(blogID, path, function(entry){
+  Entry.get(blogID, path, function(entry){
 
     var isEntry = entry && !entry.deleted;
     var isPublic = IsPublic(path);

@@ -10,6 +10,8 @@ module.exports = function(server){
 
     var dir = req.path.slice('/~'.length) || '/';
 
+    dir = decodeURIComponent(dir);
+
     read(req.blog, dir, function(err, contents, dir, stat){
 
       if (err && err.code === 'ENOTDIR')

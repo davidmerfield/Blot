@@ -39,7 +39,7 @@ module.exports = function getAll (blogID, callback) {
         tags.push({
           name: pretty[i],
           slug: allTags[i],
-          entries: ints(res[i])
+          entries: res[i]
         });
       }
 
@@ -47,7 +47,3 @@ module.exports = function getAll (blogID, callback) {
     });
   });
 };
-
-function ints (arr) {
-  return arr.map(function (i) {return parseInt(i);});
-}

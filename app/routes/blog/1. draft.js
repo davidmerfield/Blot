@@ -70,7 +70,7 @@ module.exports = function route (server) {
 
     // console.log('Draft: Rendering draft HTML for entry at: ' + filePath);
 
-    Entry.getByPath(blogID, filePath, function(entry){
+    Entry.get(blogID, filePath, function(entry){
 
       if (!entry) return next();
 

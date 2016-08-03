@@ -14,7 +14,7 @@ module.exports = (function() {
   function adjacentTo (blogID, entryID, callback) {
 
     ensure(blogID, 'string')
-      .and(entryID, 'number')
+      .and(entryID, 'string')
       .and(callback, 'function');
 
     var Entry = require('./entry');
@@ -33,9 +33,6 @@ module.exports = (function() {
       redis.zrange(listKey(blogID, 'entries'), lowerBound, rank + 1, function (error, entryIDs){
 
         if (error) throw error;
-
-        for (var i in entryIDs)
-          entryIDs[i] = parseInt(entryIDs[i]);
 
         Entry.get(blogID, entryIDs, function(entries){
 
@@ -191,10 +188,6 @@ module.exports = (function() {
 
       if (err) throw err;
 
-      // Revert type of entry IDs
-      for (var i = 0; i < ids.length;i++)
-        ids[i] = parseInt(ids[i]);
-
       return callback(null, ids);
     });
   }
@@ -214,10 +207,6 @@ module.exports = (function() {
     redis.zrevrange(key, start, end, function(error, entryIDs){
 
       if (error) throw error;
-
-      // Revert type of entry IDs
-      for (var i in entryIDs)
-        entryIDs[i] = parseInt(entryIDs[i]);
 
       if (!options.full && !options.skinny)
         return callback(entryIDs);

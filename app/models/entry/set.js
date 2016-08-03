@@ -23,18 +23,18 @@ var assignToLists = require('./_assign');
 // properties in the updates param and then overwrites those.
 // Also updates entry properties which affect data stored
 // elsewhere such as created date, permalink etc..
-module.exports = function set (blogID, entryID, updates, callback) {
+module.exports = function set (blogID, path, updates, callback) {
 
   ensure(blogID, 'string')
-    .and(entryID, 'number')
+    .and(path, 'string')
     .and(updates, model)
     .and(callback, 'function');
 
-  var entryKey = key.entry(blogID, entryID);
+  var entryKey = key.entry(blogID, path);
   var queue;
 
   // Get the entry stored against this ID
-  get(blogID, entryID, function(entry){
+  get(blogID, path, function(entry){
 
     // Create an empty object if new entry
     entry = entry || {};

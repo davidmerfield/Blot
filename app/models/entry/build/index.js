@@ -48,6 +48,7 @@ module.exports =  function (blog, path, callback) {
         entry = {
           html: html,
           path: path,
+          id: path.toLowerCase(),
           thumbnail: thumbnail,
           metadata: metadata,
           size: stat.size,

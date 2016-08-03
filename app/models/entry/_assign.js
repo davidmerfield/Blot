@@ -93,7 +93,7 @@ function addToList (blogID, entry, list, callback) {
       value = entry.id;
 
   ensure(score, 'number')
-    .and(value, 'number');
+    .and(value, 'string');
 
   redis.zadd(listKey(blogID, list), score, value, callback);
 }

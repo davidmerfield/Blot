@@ -22,9 +22,7 @@ module.exports = function get (blogID, tag, callback) {
 
     var prettyTag = res[0];
 
-    var entryIDs = res[1].map(function(i){
-      return parseInt(i);
-    });
+    var entryIDs = res[1];
 
     return callback(null, entryIDs, prettyTag);
   });
