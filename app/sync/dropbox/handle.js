@@ -8,7 +8,6 @@ var makeClient = User.makeClient;
 var Change = require('./change');
 
 var filter = require('./filter');
-var renames = require('./renames');
 var buildFromFolder = require('../../modules/template').update;
 
 // var debug = require('./debug');
@@ -31,24 +30,18 @@ module.exports = function (uid, changes, callback) {
 
       forEach(blogs, function(blogID, changes, nextBlog){
 
-        // intercept renamed files now.
-        renames(blogID, client, changes, function(err, changes){
+        Blog.get({id: blogID}, function(err, blog){
 
-          if (err) throw err;
+          forEach(changes, function(change, nextChange){
 
-          Blog.get({id: blogID}, function(err, blog){
+            Change(blog, client, change, function (err) {
 
-            forEach(changes, function(change, nextChange){
+              if (err) console.log(err);
 
-              Change(blog, client, change, function (err) {
-
-                if (err) console.log(err);
-
-                nextChange();
-              });
-            }, function(){
-              buildFromFolder(blogID, nextBlog);
+              nextChange();
             });
+          }, function(){
+            buildFromFolder(blogID, nextBlog);
           });
         });
       }, callback);
