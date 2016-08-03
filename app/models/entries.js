@@ -1,14 +1,10 @@
+var redis = require('./client');
+var helper = require('helper');
+var forEach = helper.forEach;
+var ensure = helper.ensure;
+var Entry = require('./entry');
+
 module.exports = (function() {
-
-  var redis = require('./client');
-  var helper = require('../helper');
-  var _ = require('lodash');
-  var ensure = helper.ensure;
-
-  var lists = ['entries', 'drafts', 'scheduled', 'pages', 'deleted'];
-
-
-
 
 
   function adjacentTo (blogID, entryID, callback) {
