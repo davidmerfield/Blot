@@ -1,25 +1,9 @@
 var cache = require('../cache');
-
-var hidden = require('./hidden');
-var ghosts = require('./ghosts');
-var paths = require('./paths');
-var menu = require('./menu');
-
 var Emit = require('./emit');
 
-if (require.main === module) {
-
-  var blogID = process.argv[2];
-
-  if (!blogID) throw 'Please pass the user\'s handle as an argument.';
-
-  verify(blogID, function(err){
-
-    if (err) throw err;
-
-    process.exit();
-  });
-}
+var menu = require('./menu');
+var ghosts = require('./ghosts');
+var hidden = require('./hidden');
 
 function verify (blogID, callback) {
 
@@ -33,29 +17,22 @@ function verify (blogID, callback) {
 
     emit('Checking each entry has a path');
 
-    paths(blogID, function(err){
+    // Then we check that each post, public file
+    // etc. has a corresponding local file.
+    ghosts(blogID, function(err){
 
       if (err) return callback(err);
 
-      emit('Checking for files which should not exist');
+      emit('Checking for files which should exist');
 
-      // Then we check that each post, public file
-      // etc. has a corresponding local file.
-      ghosts(blogID, function(err){
+      hidden(blogID, function(err){
 
         if (err) return callback(err);
 
-        emit('Checking for files which should exist');
+        emit('Complete!');
 
-        hidden(blogID, function(err){
-
-          if (err) return callback(err);
-
-          emit('Complete!');
-
-          // Then we're done!
-          cache.clear(blogID, callback);
-        });
+        // Then we're done!
+        cache.clear(blogID, callback);
       });
     });
   });
