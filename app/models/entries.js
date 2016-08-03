@@ -76,64 +76,7 @@ module.exports = (function() {
     if (options.skinny === undefined)
         options.skinny = true;
 
-    // By defauly we don't fetch deleted entries
-    if (options.deleted === true) {
-
-      return getRange(blogID, 0, -1, options, function(entries){
-
-        if (entries === undefined) entries = [];
-
-        getDeleted(blogID, function(err, deletedEntries){
-
-          if (deletedEntries === undefined) deletedEntries = [];
-
-          var allEntries = deletedEntries.concat(entries);
-
-          return callback(allEntries);
-        });
-      });
-    }
-
     return getRange(blogID, 0, -1, options, callback);
-  }
-
-  function getDeleted (blogID, callback) {
-
-    var Entry = require('./entry');
-
-    // This key refers to the total entries
-    redis.get(Entry.key.nextEntryID(blogID), function(err, totalEntries){
-
-      var entryIDs = [];
-      // var options = {skinny: true, only: ['size', 'path', 'id', 'draft', 'created', 'updated', 'deleted']};
-
-      getRange(blogID, 0, -1, {}, function(validEntries){
-
-        for (var i = 1; i <= totalEntries; i++)
-          if (validEntries.indexOf(i) === -1)
-            entryIDs.push(i);
-
-        // options,
-
-        Entry.get(blogID, entryIDs, function(entries){
-
-          var drafts = _.filter(entries, function(entry){
-            return entry.draft && !entry.deleted;
-          });
-
-          var deletedEntries = _.filter(entries, function(entry){
-            return entry.deleted;
-          });
-
-          if (entries.length !== entryIDs.length) {
-            console.log('Failed to fetch all requested entries :(');
-            console.log(deletedEntries.length + ' deleted posts found from ' + totalEntries + ' total posts, ' +  validEntries.length  + ' live entries, ' + entryIDs.length + ' requested to be checked, ' + entries.length + ' fetched successfully, ' + drafts.length + ' are live drafts');
-          }
-
-          callback(null, deletedEntries);
-        });
-      });
-    });
   }
 
   function get (blogID, options, callback) {
@@ -301,7 +244,6 @@ module.exports = (function() {
     getPage: getPage,
     getListIDs: getListIDs,
     getAll: getAll,
-    getDeleted: getDeleted,
     getAllIDs: getAllIDs,
     getTotal: getTotal,
     getRecent: getRecent,
