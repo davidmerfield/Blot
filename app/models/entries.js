@@ -13,8 +13,6 @@ module.exports = (function() {
       .and(entryID, 'string')
       .and(callback, 'function');
 
-    var Entry = require('./entry');
-
     // Get the index of the entry in the list of entries
     redis.zrank(listKey(blogID, 'entries'), entryID, function (error, rank) {
 
@@ -196,9 +194,8 @@ module.exports = (function() {
       .and(options, 'object')
       .and(callback, 'function');
 
-    var Entry = require('./entry'),
-        listName = options.list || 'entries',
-        key = listKey(blogID, listName);
+    var listName = options.list || 'entries';
+    var key = listKey(blogID, listName);
 
     redis.zrevrange(key, start, end, function(error, entryIDs){
 
