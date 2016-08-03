@@ -4,46 +4,65 @@ module.exports = function(server){
       normalize = require('../../helper').urlNormalizer,
       plugins = require('../../plugins');
 
+  var Entries = require('../../models/entries');
+
+
   server.use(function(request, response, next){
 
     var scheduled = !!request.query.scheduled;
     var blog = request.blog;
-    var url = request.url;
 
-    Entry.getByUrl(blog.id, url, function(entry){
+    // we use request.path as opposed to request.url
+    // because we don't care about the query string.
+    // perhaps entry.getByURL should be responsible
+    // for stripping the query string?
+    var url = request.path;
 
-      if (!entry) return next();
+    Entry.getByUrl(blog.id, request.path, function(entry){
 
-      // Eventually delete this...
-      if (!entry.url) {
-        console.log('MADE IT HERE WITHOUT URL');
-        console.log(url);
-        console.log(entry);
+      if (!entry || entry.deleted || entry.draft)
         return next();
-      }
 
-      // Ensure the user is always viewing
-      // the entry at its latest and greatest URL, likewise
-      // for search engines pass link juice!
-      if (normalize(entry.url) !== normalize(url)) {
-        return response.status(301).redirect(entry.url);
-      }
+      if (entry.scheduled && !scheduled)
+        return next();
 
-      plugins.load('entryHTML', blog.plugins, function(err, pluginHTML){
+      Entries.adjacentTo(blog.id, entry.id, function(nextEntry, previousEntry){
 
-        // Dont show plugin HTML on a page
-        if (entry.menu) pluginHTML = '';
+        entry.next = nextEntry;
+        entry.previous = previousEntry;
+        entry.adjacent = !!(nextEntry || previousEntry);
 
-        response.addPartials({
-          pluginHTML: pluginHTML
+        // Eventually delete this...
+        if (!entry.url) {
+          console.log('MADE IT HERE WITHOUT URL');
+          console.log(url);
+          console.log(entry);
+          return next();
+        }
+
+        // Ensure the user is always viewing
+        // the entry at its latest and greatest URL, likewise
+        // for search engines pass link juice!
+        if (normalize(entry.url) !== normalize(url)) {
+          return response.status(301).redirect(entry.url);
+        }
+
+        plugins.load('entryHTML', blog.plugins, function(err, pluginHTML){
+
+          // Dont show plugin HTML on a page
+          if (entry.menu) pluginHTML = '';
+
+          response.addPartials({
+            pluginHTML: pluginHTML
+          });
+
+          response.addLocals({
+            entry: entry
+          });
+
+          response.renderView('entry', next);
         });
-
-        response.addLocals({
-          entry: entry
-        });
-
-        response.renderView('entry', next);
       });
-    }, scheduled);
+    });
   });
 };
