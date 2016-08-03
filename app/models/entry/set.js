@@ -10,7 +10,7 @@ var redis = require('../client');
 var get = require('./get');
 var key = require('./key');
 
-var savePermalink = require('./_savePermalink');
+var setUrl = require('./_setUrl');
 
 // Queue items
 var updateSearchIndex = require('./_updateSearchIndex');
@@ -65,13 +65,14 @@ module.exports = function set (blogID, path, updates, callback) {
       entry.menu = entry.page = entry.draft = entry.scheduled = false;
     }
 
-    savePermalink(blogID, entry, function(err) {
+    setUrl(blogID, entry, function(err, url) {
 
-      if (err) {
-        entry.url = joinpath('/', entryID + '', entry.slug);
-      } else {
-        entry.url = entry.permalink;
-      }
+      // Should be pretty serious (i.e. issue with DB)
+      if (err) return callback(err);
+
+      // URL will be an empty string for
+      // drafts, scheduled entries and deleted entries
+      entry.url = url;
 
       // Ensures entry has all the
       // keys it should have and no more
