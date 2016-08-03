@@ -26,14 +26,16 @@ module.exports = function(server){
 
     return function handler (req,res,next) {
 
-      if (!req.url) return next();
+      if (!req.path) return next();
 
       // I checked and this doesnt seem to be
       // dangerous. Not 100% sure though.
       // It maps '%20' to ' ' etc... and also lower
       // We add a trailing slash to allow
       // sendFile to pick up index.html files
-      var path = normalize(req.url);
+      // we use req path to strip the query string
+      var path = normalize(decodeURIComponent(req.path));
+
 
       // Resolve the blog directory to check.
       var blogDir = root + '/' + req.blog.id;
@@ -72,7 +74,7 @@ module.exports = function(server){
 
     if (!request.url || !blogID) return next();
 
-    var path = request.url;
+    var path = normalize(decodeURIComponent(request.url));
 
     Metadata.readdir(blogID, path, function(err, files, dir){
 
