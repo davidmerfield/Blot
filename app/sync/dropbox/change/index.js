@@ -16,10 +16,6 @@ module.exports = function handle (blog, client, change, callback) {
 
     Remove(blog, change, client, callback);
 
-  } else if (change.wasRenamed) {
-
-    Rename(blog, change, client, callback);
-
   } else {
 
     Update(blog, change, client, callback);
