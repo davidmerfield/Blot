@@ -4,7 +4,6 @@ var logger = helper.logger;
 
 var getByPath = require('./getByPath');
 var set = require('./set');
-var catchRename = require('./_catchRename').forDeleted;
 
 module.exports = function drop (blogID, path, callback) {
 
@@ -14,18 +13,13 @@ module.exports = function drop (blogID, path, callback) {
 
   get(blogID, path, function(entry){
 
-    // There's nothing to delete
-    if (!existing || !existing.id) return callback();
+    if (!entry) {
+      logger(null, 'Blog: ' + blogID + ': No entry to delete', path);
+      return callback();
+    }
 
-    catchRename(blogID, existing, function(err, wasRenamed){
-
-      if (err) return callback(err);
-
-      if (wasRenamed) return callback();
-
-      logger(null, 'Blog: ' + blogID + ': Deleted entry', path);
-      set(blogID, existing.id, {deleted: true}, callback);
-    });
+    logger(null, 'Blog: ' + blogID + ': Deleting entry', path);
+    set(blogID, path, {deleted: true}, callback);
   });
 };
 
