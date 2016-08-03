@@ -3,6 +3,7 @@ var ensure = helper.ensure;
 var forEach = helper.forEach;
 
 var Entry = require('../models/entry');
+var Entries = require('../models/entries');
 var Blog = require('../models/blog');
 
 // If require main = module ...
@@ -49,7 +50,7 @@ function rebuild (blog, callback) {
   ensure(blog, 'object')
     .and(callback, 'function');
 
-  Entry.getAllIDs(blog.id, function(err, entryIDs){
+  Entries.getAllIDs(blog.id, function(err, entryIDs){
 
     forEach(entryIDs, function(entryID, next){
 

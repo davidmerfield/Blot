@@ -46,6 +46,20 @@ module.exports = (function() {
     });
   }
 
+  function getTotal (blogID, callback) {
+
+    var allKey = listKey(blogID, 'all');
+
+    redis.zcard(allKey, callback);
+  }
+
+  function getAllIDs (blogID, callback) {
+
+    var allKey = listKey(blogID, 'all');
+
+    redis.zrevrange(allKey, 0, -1, callback);
+  }
+
   function getAll (blogID, options, callback) {
 
     if (typeof options === 'function' && !callback) {
@@ -288,6 +302,8 @@ module.exports = (function() {
     getListIDs: getListIDs,
     getAll: getAll,
     getDeleted: getDeleted,
+    getAllIDs: getAllIDs,
+    getTotal: getTotal,
     getRecent: getRecent,
     lastUpdate: lastUpdate
   };

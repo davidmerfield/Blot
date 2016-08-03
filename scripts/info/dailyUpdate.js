@@ -4,7 +4,6 @@ var helper = require('../../app/helper');
 var forEach = helper.forEach;
 var arrayify = helper.arrayify;
 var Entries = require('../../app/models/entries');
-var Entry = require('../../app/models/entry');
 var Blog = require('../../app/models/blog');
 var Email = require('../../app/email');
 var analytics = require('../../app/analytics');
@@ -96,7 +95,7 @@ function main (callback) {
 
     handleSubscriptions(user, blog, function(){
 
-      Entry.getTotal(blog.id, function(err, total){
+      Entries.getTotal(blog.id, function(err, total){
 
         view.total_posts += total;
 

@@ -1,5 +1,4 @@
 var eachBlog = require('../each/blog');
-var Entry = require('../../app/models/entry');
 var Entries = require('../../app/models/entries');
 var moment = require('moment');
 
@@ -61,7 +60,7 @@ eachBlog(function (user, blog, next) {
   //   console.log(blog.handle + '.blot.im');
   // }
 
-  Entry.getTotal(blog.id, function(err, entries){
+  Entries.getTotal(blog.id, function(err, entries){
     totalEntries += entries;
     leaderboard.push({handle: blog.handle, total: entries});
 
