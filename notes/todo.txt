@@ -13,6 +13,7 @@ Before release
 
 I removed nextEntryID - what are the side effects?
 I removed getAllIDs from entry model - what are the side effects?
+I removed adjsut dates
 
 See if I can remove dependency loop between entry and entries
 
@@ -21,6 +22,9 @@ remove rename shit from dropbox/sync
 slugify: remove all / translate easy keyboard punctuation
 
 Build replacement script for start.js
+
+Add more info on what happens if you create a second blog to /create-blog
+  e.g. explain that blot creates a sub folder and will move the files
 
 Investigate why I'm getting better compression on osx for chrome.png
 
@@ -57,6 +61,9 @@ Fix metadata bug which was ingnoring newline
 Move daily update generator to app folder and ensure that
 the app folder NEVER invokes a file in the scripts fodler
 it must always be the other way around...
+
+Add folder section to settings page, with option to change
+THis is needed for users with multiple blogs in same dropbox
 
 -------------------------
 
