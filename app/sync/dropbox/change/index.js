@@ -2,7 +2,6 @@ var helper = require('../../../helper');
 var ensure = helper.ensure;
 
 var Remove = require('./remove');
-var Rename = require('./rename');
 var Update = require('./update');
 
 module.exports = function handle (blog, client, change, callback) {
