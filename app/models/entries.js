@@ -144,6 +144,27 @@ module.exports = (function() {
     });
   }
 
+  function each (blogID, dothis, callback) {
+
+    ensure(blogID, 'string')
+      .and(dothis, 'function')
+      .and(callback, 'function');
+
+    redis.zrevrange(listKey(blogID, 'all'), 0, -1, function(error, ids){
+
+      if (error) throw error;
+
+      Entry.get(blogID, ids, function(entries){
+
+        forEach(entries, function(entry, next){
+
+          dothis(entry, next);
+
+        }, callback);
+      });
+    });
+  }
+
   function getRange (blogID, start, end, options, callback) {
 
     ensure(blogID, 'string')
@@ -240,6 +261,7 @@ module.exports = (function() {
 
   return {
     get: get,
+    each: each,
     adjacentTo: adjacentTo,
     getPage: getPage,
     getListIDs: getListIDs,

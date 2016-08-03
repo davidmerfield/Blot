@@ -1,7 +1,8 @@
 var Entry = require('../models/entry');
-var eachEntry = require('./eachEntry');
+var Entries = require('../models/entries');
 var helper = require('../helper');
 var ensure = helper.ensure;
+var type = helper.type;
 var forEach = helper.forEach;
 var LocalPath = helper.localPath;
 var Emit = require('./emit');
@@ -67,9 +68,12 @@ function entries (blogID, callback) {
 
   var check = Check(blogID, 'entries');
 
-  eachEntry(blogID, function (entry, next) {
+  Entries.each(blogID, function (entry, next) {
 
-    ensure(entry, 'object');
+    if (!type(entry,'object')) {
+      console.log('ERROR: Entry not object for blog:', blogID);
+      return next();
+    }
 
     if (entry.deleted) return next();
 
