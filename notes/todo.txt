@@ -8,8 +8,6 @@ Before release
   rebuild every entry, the urls will change
   a lot of blot urls depend on the entry id, ensure they're all set manually
 
-remove rename shit from dropbox/sync
-
 slugify: remove all / translate easy keyboard punctuation
 
 Build replacement script for start.js
@@ -27,8 +25,7 @@ Test monit with nginx going down
 
 Test monit with blot going down
 
-Set up autorecovery
-https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
+Set up autorecovery https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
 
 Add hourly local redis rdb dumps
 
@@ -46,8 +43,7 @@ Fix 'is none of the above' for page: yes menu: no
 
 Reinstate blot.im/404s
 
-Fix metadata bug which was ingnoring newline
--> posthumanist
+Fix metadata bug which was ingnoring newline -> posthumanist
 
 Move daily update generator to app folder and ensure that
 the app folder NEVER invokes a file in the scripts fodler
@@ -56,9 +52,9 @@ it must always be the other way around...
 Add folder section to settings page, with option to change
 THis is needed for users with multiple blogs in same dropbox
 
-Automatic timezone detection is not working
+Automatic timezone detection is not working for new users
 
-hide dates is not working
+hide dates is not working for default theme
 
 -------------------------
 

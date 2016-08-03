@@ -2,9 +2,8 @@ var ensure = require('./ensure');
 var MAX_LENGTH = 100;
 var encodeAmpersands = require('./encodeAmpersands');
 
-// This must always return a string
-// but it can be empty...
-module.exports = function makeSlug (string) {
+// This must always return a string but it can be empty
+function makeSlug (string) {
 
   var words, components, trimmed = '';
 
@@ -24,11 +23,14 @@ module.exports = function makeSlug (string) {
   slug = slug.trim()
            .slice(0, MAX_LENGTH + 10)
            .toLowerCase()
+
+           // remove common punction, basically everything except & _ and - /
+
            .replace(/&amp;/g, 'and')
            .replace(/→/g, 'to')
            .replace(/←/g, 'from')
-           .replace(/[“”‘’:"',+?!=&\[\]\(\)]/g,'')
            .replace(/\./g,'-')
+           .replace(/[\“\”\‘\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g, '')
            .replace(/[^[:alnum:]0-9_-\s]/g, '') // remove invalid chars
            .replace(/\s+/g, '-') // collapse whitespace and replace by -
            .replace(/-+/g, '-'); // collapse dashes
@@ -48,17 +50,18 @@ module.exports = function makeSlug (string) {
 
   // Remove leading and trailing
   // slashes and dashes.
-  if (slug.slice(0, 1) === '/')
+  if (slug[0] === '/')
     slug = slug.slice(1);
 
   if (slug.slice(-1) === '/')
-    slug = slug.slice(0, -1);
+    slug = slug.slice(0,-1);
 
-  if (slug.slice(0, 1) === '-')
+  if (slug[0] === '-')
     slug = slug.slice(1);
 
   if (slug.slice(-1) === '-')
-    slug = slug.slice(0, -1);
+    slug = slug.slice(0,-1);
+
 
   components = slug.split('/');
 
@@ -67,34 +70,28 @@ module.exports = function makeSlug (string) {
 
   slug = components.join('/');
 
-  return slug = slug || string || '';
-};
+  slug = slug || '';
 
-var assert = require('assert');
-var makeSlug = module.exports;
-
-function is (input, expect) {
-
-  assert.deepEqual(makeSlug(input), expect);
-
+  return slug;
 }
 
+var Is = require('./is');
+var is = Is(makeSlug);
+
+is('!@#$%^*()=+[]{}\\|;:\'\",?><', '');
+is('foo!@#$%^*()=+[]{}\\|;:\'\",?><bar', 'foobar');
 
 is('', '');
 is('H', 'h');
 is('HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello', 'hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello');
-is('--f--f--', 'f-f');
 is('Hello', 'hello');
 is('Hello unicode: ', 'hello-unicode-%EF%A3%BF');
-is('/Hello/there', 'hello/there');
+is('/Hello/there/', 'hello/there');
 is('Hello/THIS/IS/SHIT', 'hello/this/is/shit');
 is('Hello This Is Me', 'hello-this-is-me');
 is('Hello?=l&=o', 'hello');
-is('-------sss------', 'sss');
 is('123', '123');
 is('1-2-3-4', '1-2-3-4');
-is('----', '----');
-is('+', '+');
 is('12 34', '12-34');
 is('f/ü/k', 'f/%C3%BC/k');
 is('微博', '%E5%BE%AE%E5%8D%9A');
@@ -106,3 +103,5 @@ is('Foo & bar', 'foo-and-bar');
 is('Foo &amp; bar', 'foo-and-bar');
 is('China ← NYC → China', 'china-from-nyc-to-china');
 is('Chin+a()[] ← NY!C → China', 'china-from-nyc-to-china');
+
+module.exports = makeSlug;
