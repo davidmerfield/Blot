@@ -5,13 +5,15 @@ var ensure = helper.ensure;
 var redis = require('../client');
 
 var model = require('./model');
+
+var ALL = 'all';
 var ENTRIES = 'entries';
 var DRAFTS = 'drafts';
 var SCHEDULED = 'scheduled';
 var PAGES = 'pages';
 var DELETED = 'deleted';
 
-var lists = ['entries', 'drafts', 'scheduled', 'pages', 'deleted'];
+var lists = ['all', 'entries', 'drafts', 'scheduled', 'pages', 'deleted'];
 
 module.exports = function (blogID, entry, callback) {
 
@@ -24,6 +26,8 @@ module.exports = function (blogID, entry, callback) {
 
   // Do nothing...
   function done () {}
+
+  add(ALL, done);
 
   if (entry.deleted) {
     add(DELETED, done);
