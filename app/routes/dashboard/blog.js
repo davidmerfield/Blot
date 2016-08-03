@@ -3,6 +3,7 @@ module.exports = function(server){
   var url = require('url'),
       auth = require('../../authHandler'),
       User = require('../../models/user'),
+      Entries = require('../../models/entries'),
       Entry = require('../../models/entry'),
       Blog = require('../../models/blog'),
       upload = require('../../upload'),
@@ -13,6 +14,8 @@ module.exports = function(server){
       fs = require('fs'),
       extend = helper.extend,
       multiparty = require('multiparty');
+
+      var DateStamp = require('../../models/entry/build/prepare/dateStamp');
 
   /// Post files
   server.post('/update', auth.enforce, function(request, response){
@@ -85,7 +88,24 @@ module.exports = function(server){
 
             if (changes.indexOf('timeZone') > -1 ||
                 changes.indexOf('dateDisplay') > -1) {
-              Entry.adjustDates(blogID);
+
+              Blog.get({id: blog.id}, function(err, blog){
+
+                Entries.each(blogID, function(entry, nextEntry){
+
+                  var dateStamp = DateStamp(blog, entry.path, entry.metadata);
+
+                  // This is fine!
+                  if (dateStamp === undefined) return nextEntry();
+
+                  Entry.set(blogID, entry.id, {
+                    dateStamp: dateStamp
+                  }, nextEntry);
+
+                }, function(){
+
+                });
+              });
             }
 
             var errors = {};
