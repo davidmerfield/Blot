@@ -15,7 +15,7 @@ var Preview = require('../../../modules/preview');
 var isDraft = require('../../../drafts').isDraft;
 
 var download = require('./download');
-
+var catchRename = require('./catchRename').forCreated;
 
 function isPublic (path) {
   return normalize(path).indexOf('/public/') === 0;
@@ -76,7 +76,26 @@ module.exports = function (blog, change, client, callback){
 
         if (err) return callback(err);
 
-        Entry.save(blog.id, entry, callback);
+        console.log('Blog: ' + blog.id + ': Checking entry for renames', entry.path);
+
+        // this checks the entry to see if a deleted entry
+        // matches it. If so, then use the deleted entry's url and created date.
+        catchRename(blog.id, entry, function(err, formerURL, formerCreated){
+
+          if (err) throw err;
+
+          if (formerURL !== undefined) {
+            entry.url = formerURL;
+            console.log('Blog: ' + blog.id + ': Adding url ' + entry.url + ' to ' + entry.path);
+          }
+
+          if (formerCreated !== undefined) {
+            entry.created = formerCreated;
+            console.log('Blog: ' + blog.id + ': Adding created' + entry.url + ' to ' + entry.path);
+          }
+
+          Entry.set(blog.id, entry.id, entry, callback);
+        });
       });
     });
   });

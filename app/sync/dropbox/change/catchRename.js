@@ -1,11 +1,11 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var forEach = helper.forEach;
 var equal = require('lodash').isEqual;
-var Entries = require('../entries');
-var get = require('./get');
-var set = require('./set');
-var rename = require('./rename');
+var Entries = require('../../../models/entries');
+var Entry = require('../../../models/entry');
+var get = Entry.get;
+var set = Entry.set;
 
 function forCreated (blogID, newEntry, callback) {
 
@@ -30,75 +30,52 @@ function forCreated (blogID, newEntry, callback) {
         return callback();
       }
 
-      log('Found a similar deleted entry!', similar.path, 'with a score of', score);
-
-      rename(blogID, similar.path, newEntry.path, function(err){
-
-        if (err) throw err;
-
-        log('Setting similar deleted entry to visible, with new entry\'s properties!', similar.id);
-
-        set(blogID, similar.id, newEntry, function(err) {
-
-          if (err) throw err;
-
-          callback(null, true);
-        });
-      });
+      log('Found a similar deleted entry:', similar.path, similar.url, similar.created, score);
+      return callback(null, similar.url, similar.created);
     });
   });
 }
 
-function forDeleted (blogID, deletedEntry, callback) {
+function forDeleted (blogID, path, callback) {
 
   ensure(blogID, 'string')
-    .and(deletedEntry, 'object')
+    .and(path, 'string')
     .and(callback, 'function');
 
   var log = new Log(blogID);
 
-  log('Checking entry to be deleted is not a rename of a recently created file!', deletedEntry.path);
+  get(blogID, path, function(deletedEntry){
 
-  // we only want to consider created entries with
-  // a BLOT created date after this entry's BLOT created date.
+    if (!deletedEntry) return callback();
 
-  getRecentlyCreated(blogID, deletedEntry, function(err, recentlyCreated){
+    log('Checking entry to be deleted is not a rename of a recently created file:', deletedEntry.path);
 
-    if (err) return callback(err);
-
-    findSimilar(deletedEntry, recentlyCreated, function (err, similar, score) {
+    // we only want to consider created entries with
+    // a BLOT created date after this entry's BLOT created date.
+    getRecentlyCreated(blogID, deletedEntry, function(err, recentlyCreated){
 
       if (err) return callback(err);
 
-      if (!similar) return callback();
-
-      log('Found a similar created entry!', similar.path, 'with a score of', score);
-
-      // size: 0, // this prevents the entry from being considered similar in future?
-      var hidden = {
-          deleted: true,
-          path: deletedEntry.path
-      };
-
-      log('Setting recently created similar entry to deleted!');
-
-      set(blogID, similar.id, hidden, function(err){
+      findSimilar(deletedEntry, recentlyCreated, function (err, similar, score) {
 
         if (err) return callback(err);
 
-        log('Renaming entry to be deleted to the recently created\'s path!');
+        if (!similar) return callback();
 
-        rename(blogID, deletedEntry.path, similar.path, function(err){
+        log('Found a recently created entry which is similar to entry to be deleted:', similar.path, score);
 
-          if (err) return callback(err);
+        var changes = {
+          url: deletedEntry.url,
+          created: deletedEntry.created
+        };
 
-          set(blogID, deletedEntry.id, {path: similar.path}, function (err) {
+        // we need to make sure the date stamp updates too?
+        // we need to rethink entry / build so that entries
+        // with metadata removed revert to original created?
+        if (similar.dateStamp === similar.created)
+          changes.dateStamp = changes.created;
 
-            if (err) return callback(err);
-
-            callback(null, true);
-          });
-        });
+        set(blogID, similar.id, changes, callback);
       });
     });
   });
@@ -236,7 +213,7 @@ function getRecentlyCreated (blogID, deletedEntry, callback) {
 
         // don't consider entries created before
         // the deleted entry. that's a different job
-        if (entry.id < deletedEntry.id) continue;
+        if (entry.created < deletedEntry.created) continue;
 
         if (entry.created > fiveMinutesAgo)
           candidates.push(entry);

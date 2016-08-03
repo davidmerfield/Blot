@@ -12,6 +12,8 @@ var Entry = require('../../../models/entry');
 var Ignored = require('../../../models/ignoredFiles');
 var Metadata = require('../../../models/metadata');
 
+var catchRename = require('./catchRename').forDeleted;
+
 var dropFile = helper.remove;
 var dropEntry = Entry.drop;
 var dropPreview = Preview.remove;
@@ -35,6 +37,7 @@ module.exports = function (blog, change, client, callback){
   var queue = [
     dropMetadata.bind(this, blog.id, path),
     dropIgnored.bind(this, blog.id, path),
+    catchRename.bind(this, blog.id, path),
     dropEntry.bind(this, blog.id, path),
     dropFile.bind(this, localPath)
   ];
