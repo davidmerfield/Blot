@@ -65,7 +65,7 @@ module.exports = function (uid, blog, callback) {
       if (err) throw err;
 
       // Create the first entry instantly
-      Entry.save(blog.id, welcomeEntry, function(){
+      Entry.set(blog.id, welcomeEntry.id, welcomeEntry, function(){
 
         console.log('Blog:', blog.id + ':', 'Writing ' + welcomePath + ' to user\'s folder');
 

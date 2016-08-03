@@ -1,7 +1,6 @@
 var helper = require('../../helper');
 var ensure = helper.ensure;
 var doEach = helper.doEach;
-var joinpath = require('path').join;
 
 var cache = require('../../cache');
 var model = require('./model');
@@ -42,6 +41,10 @@ module.exports = function set (blogID, path, updates, callback) {
     // Overwrite any updates to the entry
     for (var i in updates)
       entry[i] = updates[i];
+
+    // This is for new entries
+    if (entry.created === undefined)
+      entry.created = Date.now();
 
     if (entry.dateStamp === undefined)
       entry.dateStamp = entry.created;
@@ -95,10 +98,9 @@ module.exports = function set (blogID, path, updates, callback) {
         if (entry.draft)
           queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        doEach(queue, function(err){
+        queue.push(cache.clear.bind(this, blogID));
 
-          cache.clear(blogID, callback);
-        });
+        doEach(queue, callback);
       });
     });
   });

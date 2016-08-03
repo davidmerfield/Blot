@@ -98,7 +98,7 @@ function single (blog, entryID, callback) {
       ensure(entryID, 'number')
         .and(entry, 'object');
 
-      Entry.save(blog.id, entry, callback);
+      Entry.set(blog.id, entry.id, entry, callback);
     });
   });
 }
