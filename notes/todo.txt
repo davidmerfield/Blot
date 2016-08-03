@@ -3,6 +3,23 @@
                          TO DO
                          -----
 
+Move entry.id to entry.path
+  does the verify script work
+
+Before release
+  compute the url of every entry and save its path against its url
+  rebuild every entry, the urls will change
+  a lot of blot urls depend on the entry id, ensure they're all set manually
+
+I removed nextEntryID - what are the side effects?
+I removed getAllIDs from entry model - what are the side effects?
+
+See if I can remove dependency loop between entry and entries
+
+remove rename shit from dropbox/sync
+
+slugify: remove all / translate easy keyboard punctuation
+
 Build replacement script for start.js
 
 Investigate why I'm getting better compression on osx for chrome.png
