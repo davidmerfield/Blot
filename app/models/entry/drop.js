@@ -2,8 +2,8 @@ var helper = require('../../helper');
 var ensure = helper.ensure;
 var logger = helper.logger;
 
-var getByPath = require('./getByPath');
 var set = require('./set');
+var get = require('./get');
 
 module.exports = function drop (blogID, path, callback) {
 
