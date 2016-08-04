@@ -2,6 +2,7 @@ var helper = require('../../../helper');
 var callOnce = helper.callOnce;
 var ensure = helper.ensure;
 var time = helper.time;
+var normalize = helper.pathNormalizer;
 
 var Build = require('./single');
 var Prepare = require('./prepare');
@@ -48,7 +49,7 @@ module.exports =  function (blog, path, callback) {
         entry = {
           html: html,
           path: path,
-          id: path.toLowerCase(),
+          id: normalize(path),
           thumbnail: thumbnail,
           metadata: metadata,
           size: stat.size,
