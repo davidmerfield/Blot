@@ -4,16 +4,19 @@
                          -----
 
 
-3. ./scripts/production/empty
-4. sudo stop monit
-5. backup
+./scripts/production/empty...
+sudo stop monit
+backup
 1. remove untracked new script files
 1. nano flags.json -> maintenance true
 
 
 2. sudo stop blot && sudo start blot
 5. git pull origin master
-6. node fixurls.js
+
+node scripts/clean.js
+node scripts/fixurls.js
+
 8. nano flags.json -> maintenance false
 9. sudo stop blot && sudo start blot
 
