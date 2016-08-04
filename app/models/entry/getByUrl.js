@@ -10,12 +10,6 @@ module.exports = function getByUrl (blogID, entryUrl, callback) {
     .and(entryUrl, 'string')
     .and(callback, 'function');
 
-  // stripe trailing url and
-  // ensure leading slash
-  // so it's consistent with set
-  entryUrl = decodeURIComponent(entryUrl);
-  entryUrl = entryUrl.toLowerCase();
-
   redis.get(urlKey(blogID, entryUrl), function(error, entryID){
 
     if (error) throw error;

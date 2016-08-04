@@ -18,7 +18,10 @@ module.exports = function(server){
     // for stripping the query string?
     var url = request.path;
 
-    Entry.getByUrl(blog.id, request.path, function(entry){
+    url = decodeURIComponent(url);
+    url = url.toLowerCase();
+
+    Entry.getByUrl(blog.id, url, function(entry){
 
       if (!entry || entry.deleted || entry.draft)
         return next();
