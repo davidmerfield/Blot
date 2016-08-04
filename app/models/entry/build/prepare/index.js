@@ -149,10 +149,9 @@ function Prepare (entry) {
   // Add the permalink automatically if the metadata
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
-  entry.permalink = makeSlug(entry.metadata.permalink || entry.metadata.slug || entry.metadata.url || '') || entry.slug;
-  // Add leading slash, remove trailing slash
-  // & any double slashes
+  entry.permalink = makeSlug(entry.metadata.permalink || entry.metadata.slug || entry.metadata.url || '') || '';
   entry.permalink = normalize(entry.permalink);
+
   time.end('permalink');
 
   time('render');
