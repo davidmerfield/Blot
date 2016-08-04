@@ -1,8 +1,11 @@
 var helper = require('helper');
 var forEach = helper.forEach;
 var ensure = helper.ensure;
-
+var _ = require('lodash');
+var urlNormalizer = helper.urlNormalizer;
 var UID = helper.makeUid;
+var makeSlug = helper.makeSlug;
+var withoutExtension = helper.withoutExtension;
 var redis = require('../client');
 var Key = require('./key').url;
 var model = require('./model');
@@ -20,41 +23,105 @@ var banned = [
   ''
 ];
 
+var MIN_SUMMARY_SLUG_WORDS = 3;
+var MAX_SUMMARY_SLUG_WORDS = 10;
+
+var PERMALINK_PERMUTATIONS = 5;
+
+// The random permalinks are
+// this long. I figure 3 gives
+// us (26 * 2 + 10)^3 (= 238,328)
+// possible permalinks which is more
+// than enough for one blog, espcially
+// since the circumstances under
+// which Blot needs to generate
+// a random url are rare enough.
+// It also avoids the issue of rude
+// 4 letter words being generated.
+var UID_LENGTH = 3;
+
+// We generate this number
+// of random permalinks in
+// case all else fails.
+var UID_PERMUTATIONS = 500;
+
+// console.log(Candidates({
+//   permalink: '',
+//   slug: '',
+//   summary: '',
+//   url: '',
+//   name: 'a.jpg',
+//   path: '/a.jpg'
+// }));
+
 function Candidates (entry) {
 
   var candidates = [];
 
-  candidates.push(entry.permalink);
+  if (entry.permalink) {
 
+    // The user has specified a permalink in the
+    // entry's metadata. We should use this if we can.
+    candidates.push(entry.permalink);
+
+    // If the permalink is unavailable, try appending a number
+    // e.g. if 'apple', try 'apple-2', 'apple-3' ... 'apple-99'
+    for (var i = 2; i < PERMALINK_PERMUTATIONS; i++)
+      candidates.push(entry.permalink + '-' + i);
+
+  }
+
+  // This is generated from the entry's title
+  if (entry.slug) {
+    candidates.push(entry.slug);
+  }
+
+  if (entry.name)
+    candidates.push(makeSlug(withoutExtension(entry.name)));
+
+  if (entry.path)
+    candidates.push(makeSlug(withoutExtension(entry.path.split('/').join('-'))));
+
+  if (entry.summary) {
+
+    var words = entry.summary.split(' ');
+
+    for (var y = MIN_SUMMARY_SLUG_WORDS; y < words.length && y < MAX_SUMMARY_SLUG_WORDS; y++) {
+      candidates.push(makeSlug(words.slice(0, y).join('-')));
+    }
+  }
+
+  // If we make it path the permalink chosen by the
+  // user, it's possible that we fell through to the
+  // randomly generated (UID()...) permalinks below.
+  // If so, we should insert the entry's previous URL
+  // if it exists to ensure that the entry retains
+  // a randomly generated URL consistently.
   if (entry.url)
     candidates.push(entry.url);
 
-  // add the permalink postfixed with a random string
-  // one of these should be OK, unless it's nuts.
-  for (var i = 0; i < 50; i++)
-    candidates.push(entry.permalink + '-' + UID(3));
+  for (var j = 0; j < UID_PERMUTATIONS; j++)
+    candidates.push(UID(UID_LENGTH));
 
-  // Now ensure the candidates are valid urls
-  candidates = candidates.map(function(candidate){
-
-    candidate = candidate.trim();
-    candidate = candidate.toLowerCase();
-
-    if (candidate[0] !== '/') candidate = '/' + candidate;
-
-    if (candidate.slice(-1) === '/') candidate = candidate.slice(0, -1);
-
-    return candidate;
-  });
+  // Trim, lowercase, strip trailing /, add leading /
+  // ensure valid url pathname. Always returns a string
+  // can be empty if invalid or just '/'
+  candidates = candidates.map(urlNormalizer);
 
   candidates = candidates.filter(function(candidate){
 
     if (!candidate) return false;
 
+    // WE DONT EVER ADD ENTRY.PATH so images are always accessible
+    // It's possible that entry.name when normalized === entry.path
+    if (entry.path && candidate === entry.path) return false;
+
     if (banned.indexOf(candidate) > -1) return false;
 
     return true;
   });
+
+  candidates = _.uniq(candidates);
 
   return candidates;
 }
@@ -108,6 +175,9 @@ module.exports = function (blogID, entry, callback) {
   if (entry.draft || entry.deleted)
     return callback(null, '');
 
+  // does this cause a memory leak? we sometimes
+  // exist before calling all the next functions
+  // if we find a successful candidate.
   forEach(Candidates(entry), function(candidate, next){
 
     check(blogID, candidate, entry.id, function(err, taken){
@@ -128,7 +198,8 @@ module.exports = function (blogID, entry, callback) {
   }, function(){
 
     // if we exhaust the list of candidates, what should happen?
+    // just return an error for now... TODO in future, just keep
+    // generating UIDS... but whatever for now.
     callback(new Error('Could not find a permalink for ' + entry.id));
-
   });
 };
