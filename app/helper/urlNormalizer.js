@@ -26,23 +26,14 @@ function urlNormalizer (url) {
   return url.toLowerCase();
 }
 
+var is = require('./is')(urlNormalizer);
 
-(function tests(){
-
-  var assert = require('assert');
-
-  function is (url, expected) {
-    assert.deepEqual(urlNormalizer(url), expected);
-  }
-
-  is('/', '/');
-  is('//', '/');
-  is('/fo/', '/fo');
-  is('http://blot.im/foo/bar', '/foo/bar');
-  is('/foo/bar/', '/foo/bar');
-  is('foo/bar/', '/foo/bar');
-
-}());
-
+is('', '');
+is('/', '/');
+is('//', '/');
+is('/fo/', '/fo');
+is('http://blot.im/foo/bar', '/foo/bar');
+is('/foo/bar/', '/foo/bar');
+is('foo/bar/', '/foo/bar');
 
 module.exports = urlNormalizer;
