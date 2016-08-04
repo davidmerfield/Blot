@@ -8,14 +8,10 @@ Before release
   rebuild every entry, the urls will change
   a lot of blot urls depend on the entry id, ensure they're all set manually
 
-slugify: remove all / translate easy keyboard punctuation
-
 Build replacement script for start.js
 
 Add more info on what happens if you create a second blog to /create-blog
   e.g. explain that blot creates a sub folder and will move the files
-
-Investigate why I'm getting better compression on osx for chrome.png
 
 Add daemon for zero-downtime node restart
 
@@ -41,6 +37,8 @@ Add free disk space and db dump size / mem usage to update email
 
 Fix 'is none of the above' for page: yes menu: no
 
+Fix _ entries and tell john / folks who depend on the menu: yes, page: no side effect
+
 Reinstate blot.im/404s
 
 Fix metadata bug which was ingnoring newline -> posthumanist
@@ -52,7 +50,7 @@ it must always be the other way around...
 Add folder section to settings page, with option to change
 THis is needed for users with multiple blogs in same dropbox
 
-Automatic timezone detection is not working for new users
+Timezone detection is not working for new users
 
 hide dates is not working for default theme
 
