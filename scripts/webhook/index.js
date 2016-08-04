@@ -9,7 +9,7 @@ var webhook = 'python scripts/webhook/dropbox_hook.py notify http://localhost:80
 
 if (options.c) {
 
-  var interval = parseInt(options.c) || 5;
+  var interval = parseFloat(options.c) || 5;
 
   console.log('Calling webhook every ' + interval + ' seconds...');
 
@@ -34,7 +34,7 @@ if (options.c) {
 
 function swarm () {
 
-  var count = Math.round(Math.random()*5) + 2;
+  var count = Math.round(Math.random()*2) + 2;
 
   console.log("Herd of", count, 'webhooks');
 
