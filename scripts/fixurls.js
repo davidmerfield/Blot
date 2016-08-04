@@ -5,49 +5,123 @@ var helper = require('helper');
 var forEach = helper.forEach;
 var eachBlog = require('./each/blog');
 
-eachEntry(function(user, blog, entry, next){
+var options = require('minimist')(process.argv.slice(2));
 
-  redis.set(urlkey(blog.id, entry.url), entry.path.toLowerCase(), function(err){
+var cache = require('../app/cache');
+
+// THIS SCRIPT NEEDS TO BE RESUMABLE
+// this script probably fucks ip blog's menus
+// anything which depends on entry.id needsd checking
+
+// remove all the cache keys to reduce the time
+// needed to clean the blog keys.
+
+// does this upgrade urls to latest permalink design BUT preserve redirects for old ones?
+
+throw 'NOT READY';
+
+cache.flush(function(){
+
+  clean('*', function(){
+
+    eachBlog(function(user, blog, nextBlog){
+
+      entries(blog.id, function(){
+
+        nextBlog();
+      });
+
+    }, process.exit, options);
+
+  });
+});
+
+
+function clean (blogID, callback) {
+
+  console.log('Blog:', blogID, 'Cleaning');
+
+  var patterns = [
+    'blog:' + blogID + ':entries',
+    'blog:' + blogID + ':drafts',
+    'blog:' + blogID + ':path',
+    'blog:' + blogID + ':scheduled',
+    'blog:' + blogID + ':pages',
+    'blog:' + blogID + ':deleted',
+    'blog:' + blogID + ':public:*',
+    'blog:' + blogID + ':url:*',
+    'blog:' + blogID + ':tags:all',
+    'blog:' + blogID + ':next_entry_id',
+    'blog:' + blogID + ':tags:entries:*',
+    'blog:' + blogID + ':tags:entry:*',
+    'blog:' + blogID + ':search:*',
+    'blog:' + blogID + ':tags:name:*'
+  ];
+
+  var all_keys = [];
+
+  forEach.parallel(patterns, function(pattern, nextPattern){
+
+    redis.keys(pattern, function(err, keys){
+
+      if (err) throw err;
+
+      if (!keys.length) return nextPattern();
+
+      all_keys = all_keys.concat(keys);
+
+      nextPattern();
+    });
+
+  }, function(){
+
+    if (!all_keys.length) return callback();
+
+    redis.del(all_keys, function(err){
+
+      if (err) throw err;
+
+      callback();
+    });
+  });
+}
+
+function entries (blogID, callback) {
+
+  console.log('Blog:', blogID, 'Rebuilding');
+
+  redis.keys('blog:' + blogID + ':entry:*', function(err, keys){
 
     if (err) throw err;
 
-    Entry.set(blog.id, entry, next);
-  });
+    redis.mget(keys, function(err, entries){
 
-}, process.exit);
+      entries = entries.map(JSON.parse);
 
-function eachEntry (doThis, then) {
+      // we should check the entry is valid
+      // we should check there are not two entries with the same path
 
-  eachBlog(function(user, blog, nextBlog){
+      forEach(entries, function(entry, next){
 
-    var id = blog.id;
+        redis.set(urlkey(blogID, entry.url), entry.path.toLowerCase(), function(err){
 
-    var keys = [
-    'blog:' + id + ':entries',
-    'blog:' + id + ':drafts',
-    'blog:' + id + ':scheduled',
-    'blog:' + id + ':pages',
-    'blog:' + id + ':deleted',
-    'blog:' + id + ':public:*',
-    'blog:' + id + ':url:*',
-    'blog:' + id + ':tags:all',
-    'blog:' + id + ':next_entry_id',
-    'blog:' + id + ':tags:entries:*',
-    'blog:' + id + ':tags:entry:*',
-    'blog:' + id + ':search:*',
-    'blog:' + id + ':tags:name:*'
-    ];
+          if (err) throw err;
 
-    forEach(keys, function(key, next){
+          entry.id = entry.path.toLowerCase();
 
-      redis.keys(key, function(err, results){
+          Entry.set(blogID, entry.id, entry, next);
+        });
+      }, function(){
 
-        redis.mdel(results, next);
+        // then we should del those keys
+        // since they use the old entry ID
+        redis.del(keys, function(err){
 
+          if (err) throw err;
+
+          callback();
+        });
       });
-    }, nextBlog);
-
-  }, then);
-
-
+    });
+  });
 }
