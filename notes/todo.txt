@@ -4,10 +4,44 @@
                          -----
 
 
-Build replacement script for start.js
+Add letsencrypt autorenew to cron job
+
+Fix _ entries to true public files, tell john & other folks
+who depend on the menu: yes, page: no side effect
+
+Reinstate blot.im/404s
+
+Fix metadata bug which was ingnoring newline -> posthumanist
+
+Log nginx errors properly...
+
+Add nicer error pages for nginx
+
+Fix timezone detection for new users
+
+hide dates is not working for default theme
 
 Add more info on what happens if you create a second blog to /create-blog
   e.g. explain that blot creates a sub folder and will move the files
+
+Add free disk space and db dump size / mem usage to update email
+
+Move daily update generator to app folder and ensure that
+the app folder NEVER invokes a file in the scripts fodler
+it must always be the other way around...
+
+Add folder section to settings page, with option to change
+THis is needed for users with multiple blogs in same dropbox
+
+
+--------------------------
+
+
+Add custom partials to template editor
+
+Move all default templates to partials instead of re-rendered locals
+
+Migrate templates to disk-based system
 
 Add daemon for zero-downtime node restart
 
@@ -23,38 +57,19 @@ Add hourly local redis rdb dumps
 
 Add script to roll back into hourly local db dumps and remote backups
 
-Log nginx errors properly...
 
-Add nicer error pages for nginx
 
-Add letsencrypt autorenew to cron job
 
-Add free disk space and db dump size / mem usage to update email
 
-Fix 'is none of the above' for page: yes menu: no
 
-Fix _ entries and tell john / folks who depend on the menu: yes, page: no side effect
 
-Reinstate blot.im/404s
 
-Fix metadata bug which was ingnoring newline -> posthumanist
 
-Move daily update generator to app folder and ensure that
-the app folder NEVER invokes a file in the scripts fodler
-it must always be the other way around...
 
-Add folder section to settings page, with option to change
-THis is needed for users with multiple blogs in same dropbox
-
-Timezone detection is not working for new users
-
-hide dates is not working for default theme
-
--------------------------
-
-Add support for monthly pricing at $3 a month
+---------- AUGUST 20th -> Sept 1st ---------------
 
 Spend 3 days, make 3 themes
+https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e
 
 Spend 1 day on documentation, esp. for plugins
    that you can do 'Disqus: $ID' at entry level
@@ -63,19 +78,11 @@ Spend 1 day writing 3 how-tos: link blog, magazine, website
 
 Spend 2 days writing and recording demo video, must make sense as audio only, video only.
 
--------------------------
+Set pricing to $30 a year for new subscribers
 
-Frank template bug
-https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#search/Make+some+changes+(probably+not+necessary)/1527fbcf999ba0c3
 
-Give chris some design tips and announce new themes
-https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e
 
-Frank image cache bug for dropshadow
-drexore /draft/view/Drafts/debugging.md
-
-Add page to set blog locals
-Ben G. (about byline)
+------------ CUSTOMER BUGS & REQUESTS -------------
 
 Add support for 'full Dropbox' feature
 Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
@@ -83,3 +90,9 @@ Nick
 Jostein
 Alex https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038
 James https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65
+
+Frank template bug
+https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#search/Make+some+changes+(probably+not+necessary)/1527fbcf999ba0c3
+
+Frank image cache bug for dropshadow
+drexore /draft/view/Drafts/debugging.md
