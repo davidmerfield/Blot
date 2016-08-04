@@ -6,7 +6,6 @@ module.exports = function(server){
 
   var Entries = require('../../models/entries');
 
-
   server.use(function(request, response, next){
 
     var scheduled = !!request.query.scheduled;
@@ -17,6 +16,14 @@ module.exports = function(server){
     // perhaps entry.getByURL should be responsible
     // for stripping the query string?
     var url = request.path;
+
+    // remove trailing slash
+    if (url.slice(-1) === '/')
+      url = url.slice(0, -1);
+
+    // add leading slash
+    if (url[0] !== '/')
+      url = '/' + url;
 
     url = decodeURIComponent(url);
     url = url.toLowerCase();
