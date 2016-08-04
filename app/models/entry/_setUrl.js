@@ -108,6 +108,11 @@ function Candidates (entry) {
   // can be empty if invalid or just '/'
   candidates = candidates.map(urlNormalizer);
 
+  // We store the decoded version. Not sure if this is a good idea
+  // or not but it works for now. Shit gets encoded by default
+  // by pandoc I believe. Perhaps I could store both?
+  candidates = candidates.map(decodeURIComponent);
+
   candidates = candidates.filter(function(candidate){
 
     if (!candidate) return false;
