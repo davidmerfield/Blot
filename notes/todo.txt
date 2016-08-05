@@ -3,7 +3,16 @@
                          TO DO
                          -----
 
+Disable comments on drafts & template previews to prevent disqus from attaching
+itself to those URLs
+
+Migrate old entry IDs to disqus plugin
+
 Add letsencrypt autorenew to cron job
+
+Redirects seem to cause problems
+
+Reinstate blot.im/404s
 
 Public files / hidden pages
   Warn users that underscore will not work for hidden pages
@@ -11,8 +20,6 @@ Public files / hidden pages
   who depend on the menu: yes, page: no side effect
   tell rodrigo
   https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
-
-Reinstate blot.im/404s
 
 Fix metadata bug which was ingnoring newline -> posthumanist
 
