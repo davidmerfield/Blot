@@ -1,7 +1,6 @@
 var helper = require('../../app/helper');
-var forEach = helper.forEach;
 var ensure = helper.ensure;
-var Entry = require('../../app/models/entry');
+var Entries = require('../../app/models/entries');
 var eachBlog = require('./blog');
 
 module.exports = function (doThis, allDone, options) {
@@ -14,24 +13,11 @@ module.exports = function (doThis, allDone, options) {
 
   eachBlog(function (user, blog, nextBlog) {
 
-    Entry.getAllIDs(blog.id, function(err, entryIDs){
+    Entries.each(blog.id, function(entry, nextEntry){
 
-      console.log();
-      console.log();
-      console.log(blog.id + '.', user.name, '(' + blog.handle + ')', entryIDs.length, 'entries');
-      console.log('----------------------------------------------------');
+      doThis(user, blog, entry, nextEntry);
 
-      forEach(entryIDs, function(entryID, nextEntry){
+    }, nextBlog);
 
-        Entry.get(blog.id, entryID, function(entry){
-
-          if (entry === null || entry === undefined)
-            entry = entryID;
-
-          doThis(user, blog, entry, nextEntry);
-
-        });
-      }, nextBlog);
-    });
   }, allDone, options);
 };
