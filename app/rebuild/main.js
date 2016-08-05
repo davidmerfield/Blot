@@ -1,6 +1,5 @@
 var helper = require('../helper');
 var ensure = helper.ensure;
-var forEach = helper.forEach;
 
 var Entry = require('../models/entry');
 var Entries = require('../models/entries');
@@ -50,56 +49,47 @@ function rebuild (blog, callback) {
   ensure(blog, 'object')
     .and(callback, 'function');
 
-  Entries.getAllIDs(blog.id, function(err, entryIDs){
+  Entries.each(blog.id, function(entry, next){
 
-    forEach(entryIDs, function(entryID, next){
+    single(blog, entry, next);
 
-      single(blog, entryID, next);
-
-    }, callback);
-  });
+  }, callback);
 }
 
-function single (blog, entryID, callback) {
+function single (blog, entry, callback) {
 
   ensure(blog, 'object')
-    .and(entryID, 'number')
+    .and(entry, 'object')
     .and(callback, 'function');
 
-  Entry.get(blog.id, entryID, function(entry) {
+  if (!entry) {
+    console.warn('No entry exists with id', entry.id);
+    return callback();
+  }
 
-    if (!entry) {
-      console.warn('No entry exists with id', entryID);
+  // Otherwise this would
+  // make the entry visible...
+  if (entry.deleted) return callback();
+
+  var path = entry.path;
+
+  Entry.build(blog, path, function(err, entry){
+
+    if (err && err.code === 'ENOENT') {
+      console.warn('No local file exists for entry', path);
       return callback();
     }
 
-    // Otherwise this would
-    // make the entry visible...
-    if (entry.deleted) return callback();
+    // don't know
+    if (err) {
+      console.log('-----> REBUILD ERROR');
+      console.log(err);
+      if (err.stack) console.log(err.stack);
+      if (err.trace) console.log(err.trace);
+      return callback();
+    }
 
-    var path = entry.path;
-
-    Entry.build(blog, path, function(err, entry){
-
-      if (err && err.code === 'ENOENT') {
-        console.warn('No local file exists for entry', path);
-        return callback();
-      }
-
-      // don't know
-      if (err) {
-        console.log('-----> REBUILD ERROR');
-        console.log(err);
-        if (err.stack) console.log(err.stack);
-        if (err.trace) console.log(err.trace);
-        return callback();
-      }
-
-      ensure(entryID, 'number')
-        .and(entry, 'object');
-
-      Entry.set(blog.id, entry.id, entry, callback);
-    });
+    Entry.set(blog.id, entry.id, entry, callback);
   });
 }
 
