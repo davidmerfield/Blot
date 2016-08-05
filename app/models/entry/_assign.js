@@ -121,7 +121,7 @@ function addToMenu (blogID, entry, callback) {
         label: entry.title,
         url: entry.url,
         metadata: entry.metadata,
-        id: entry.id.toString() // this might collide with a timestamp
+        id: entry.id
       };
 
   Blog.get({id: blogID}, function(err, blog){
