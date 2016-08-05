@@ -75,7 +75,7 @@ function forDeleted (blogID, path, callback) {
         if (similar.dateStamp === similar.created)
           changes.dateStamp = changes.created;
 
-        set(blogID, similar.id, changes, callback);
+        set(blogID, similar.path, changes, callback);
       });
     });
   });

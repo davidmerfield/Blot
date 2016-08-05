@@ -94,7 +94,7 @@ module.exports = function (blog, change, client, callback){
             console.log('Blog: ' + blog.id + ': Adding created' + entry.url + ' to ' + entry.path);
           }
 
-          Entry.set(blog.id, entry.id, entry, callback);
+          Entry.set(blog.id, entry.path, entry, callback);
         });
       });
     });

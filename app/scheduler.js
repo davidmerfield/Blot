@@ -69,7 +69,7 @@ function cacheScheduler (callback) {
 
           // Saving empty updates will call the entry scheduler
           // and ensure the entry is rebuilt again in future
-          Entry.set(blogID, futureEntry.id, {}, nextEntry);
+          Entry.set(blogID, futureEntry.path, {}, nextEntry);
 
         }, function(){
           nextBlog();

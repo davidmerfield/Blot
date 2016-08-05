@@ -98,7 +98,7 @@ module.exports = function(server){
                   // This is fine!
                   if (dateStamp === undefined) return nextEntry();
 
-                  Entry.set(blogID, entry.id, {
+                  Entry.set(blogID, entry.path, {
                     dateStamp: dateStamp
                   }, nextEntry);
 
