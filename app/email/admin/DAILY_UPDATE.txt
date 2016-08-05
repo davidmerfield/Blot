@@ -1,11 +1,6 @@
 💌 {{total_new_posts}} new posts{{#renewals.length}}, {{renewals.length}} renewals{{/renewals.length}}
 
 
-Memory: {{memory.available}} ({{memory.used}} used)
-Disk space: {{disk_space.available}} ({{disk_space.used}} used)
-
-..........................................................
-
 {{#renewals.length}}
 
 **Upcoming renewals**
@@ -43,9 +38,17 @@ Disk space: {{disk_space.available}} ({{disk_space.used}} used)
 
 
 
-**Total posts:** {{total_posts}}
+
+
+**Memory:** {{memory.available}} ({{memory.used}} used)
+
+**Disk space:** {{disk_space.available}} ({{disk_space.used}} used)
+
+..........................................................
 
 **Total requests:** {{views}}
+
+**Total posts:** {{total_posts}}
 
 ..........................................................
 
@@ -54,4 +57,3 @@ Disk space: {{disk_space.available}} ({{disk_space.used}} used)
 **Total cancellations:** {{total_cancellations}}
 
 **Annual revenue:** {{total_revenue}}
-
