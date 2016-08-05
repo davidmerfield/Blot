@@ -49,7 +49,6 @@ module.exports =  function (blog, path, callback) {
         entry = {
           html: html,
           path: path,
-          id: normalize(path),
           thumbnail: thumbnail,
           metadata: metadata,
           size: stat.size,
