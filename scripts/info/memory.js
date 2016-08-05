@@ -1,4 +1,5 @@
 var exec = require('child_process').exec;
+var config = require('config');
 
 if (require.main === module) {
   check(function(usage, available){
@@ -10,6 +11,8 @@ if (require.main === module) {
 
 function check (cb) {
 
+  if (config.environment !== 'production') return cb();
+
   exec('free -m', function(err, stdout){
 
     // lol
@@ -17,6 +20,6 @@ function check (cb) {
     var usage = line[3];
     var available = line[2];
 
-    cb(usage, available);
+    cb(usage + 'mb', available + 'mb');
   });
 }

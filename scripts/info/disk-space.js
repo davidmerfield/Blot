@@ -1,4 +1,5 @@
 var exec = require('child_process').exec;
+var config = require('config');
 
 if (require.main === module) {
   check(function(usage, available){
@@ -9,6 +10,8 @@ if (require.main === module) {
 }
 
 function check (cb) {
+
+  if (config.environment !== 'production') return cb();
 
   exec('df -h', function(err, stdout){
 
