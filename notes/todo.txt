@@ -3,16 +3,28 @@
                          TO DO
                          -----
 
-Disable comments on drafts & template previews to prevent disqus from attaching
-itself to those URLs
 
-Migrate old entry IDs to disqus plugin
+
+DISQUS ISSUES
+
+  Disable comments on drafts & template previews to prevent disqus from attaching
+  itself to those URLs
+
+  Migrate old entry IDs to disqus plugin
+
+  Add UID to each entry for disqus, transfer this on rename...
+
+
+
+REDIRECTS
+
+  Redirects seem to cause problems
+
+  Reinstate blot.im/404s
+
+
 
 Add letsencrypt autorenew to cron job
-
-Redirects seem to cause problems
-
-Reinstate blot.im/404s
 
 Public files / hidden pages
   Warn users that underscore will not work for hidden pages
