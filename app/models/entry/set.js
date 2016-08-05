@@ -6,6 +6,8 @@ var cache = require('../../cache');
 var model = require('./model');
 var redis = require('../client');
 
+var guid = helper.guid;
+
 var get = require('./get');
 var key = require('./key');
 
@@ -41,6 +43,9 @@ module.exports = function set (blogID, path, updates, callback) {
     // Overwrite any updates to the entry
     for (var i in updates)
       entry[i] = updates[i];
+
+    if (entry.guid === undefined)
+      entry.guid = 'entry:' + guid();
 
     // This is for new entries
     if (entry.created === undefined)

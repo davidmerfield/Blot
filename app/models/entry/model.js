@@ -1,5 +1,6 @@
 module.exports =  {
       id: 'string',
+      guid: 'string',
       url: 'string',
       permalink: 'string',
       title: 'string',
