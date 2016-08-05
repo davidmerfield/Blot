@@ -3,17 +3,10 @@
                          TO DO
                          -----
 
+test scheduler still works
 
-
-DISQUS ISSUES
-
-  Disable comments on drafts & template previews to prevent disqus from attaching
-  itself to those URLs
-
-  Migrate old entry IDs to disqus plugin
-
-  Add UID to each entry for disqus, transfer this on rename...
-
+ensure disqus comments show,
+but not on menu entries, preview sub domains, sub domains with
 
 
 REDIRECTS
