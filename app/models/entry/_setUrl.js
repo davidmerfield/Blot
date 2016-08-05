@@ -109,9 +109,18 @@ function Candidates (entry) {
   candidates = candidates.map(urlNormalizer);
 
   // We store the decoded version. Not sure if this is a good idea
-  // or not but it works for now. Shit gets encoded by default
-  // by pandoc I believe. Perhaps I could store both?
-  candidates = candidates.map(decodeURIComponent);
+  // or not but it works for now. Pandoc *en*codes by default.
+  // Perhaps I could store both?
+  candidates = candidates.map(function(url){
+
+    try {
+      url = decodeURIComponent(url);
+    } catch (e) {
+      console.log('Error: Could not decodeURIComponent for:', url, e.message);
+    }
+
+    return url;
+  });
 
   candidates = candidates.filter(function(candidate){
 
