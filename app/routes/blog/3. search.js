@@ -17,7 +17,7 @@ module.exports = function(server){
         if (err) return next(err);
 
         for (var i in ids)
-          ids[i] = parseFloat(ids[i]);
+          ids[i] = ids[i];
 
         Entry.get(blogID, ids, then);
       });
