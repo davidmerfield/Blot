@@ -59,8 +59,10 @@ module.exports = function(server){
 
         plugins.load('entryHTML', blog.plugins, function(err, pluginHTML){
 
-          // Dont show plugin HTML on a page
-          if (entry.menu) pluginHTML = '';
+          // Dont show plugin HTML on a page or a draft
+          if (entry.menu || entry.draft) {
+            pluginHTML = '';
+          }
 
           response.addPartials({
             pluginHTML: pluginHTML
