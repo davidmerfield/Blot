@@ -9,6 +9,8 @@ Public files / hidden pages
   Warn users that underscore will not work for hidden pages
   Fix _ entries to true public files, tell john & other folks
   who depend on the menu: yes, page: no side effect
+  tell rodrigo
+  https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
 
 Reinstate blot.im/404s
 
@@ -55,14 +57,7 @@ Add script to roll back into hourly local db dumps and remote backups
 
 
 
-
-
-
-
-
-
-
----------- AUGUST 20th -> Sept 1st ---------------
+--------------------------
 
 Spend 3 days, make 3 themes
 https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e
@@ -78,7 +73,7 @@ Set pricing to $30 a year for new subscribers
 
 
 
------------- CUSTOMER BUGS & REQUESTS -------------
+--------------------------
 
 Fix create-blog rodericus
 
