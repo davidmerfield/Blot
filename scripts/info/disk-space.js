@@ -23,3 +23,5 @@ function check (cb) {
     cb(usage, available);
   });
 }
+
+module.exports = check;

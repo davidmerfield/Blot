@@ -23,3 +23,5 @@ function check (cb) {
     cb(usage + 'mb', available + 'mb');
   });
 }
+
+module.exports = check;

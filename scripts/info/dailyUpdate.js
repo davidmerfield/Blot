@@ -8,142 +8,153 @@ var Blog = require('../../app/models/blog');
 var Email = require('../../app/email');
 var analytics = require('../../app/analytics');
 
+var diskspace = require('./disk-space');
+var memory = require('./memory');
+
 if (require.main === module) {
   main(process.exit);
 }
 
 function main (callback) {
 
-  var now = Date.now();
+  memory(function(usedMem, availableMem){
 
-  var day = 1000*60*60*24;
+    diskspace(function(usedDisk, availableDisk){
 
-  var yesterday = now - day;
+      var now = Date.now();
 
-  var next_month = now + (day * 30);
+      var day = 1000*60*60*24;
 
-  var view = {
-    total_posts: 0,
-    total_new_posts: 0,
-    total_subscriptions: 0,
-    total_cancellations: 0,
-    new_posts: {},
-    renewals: {}
-  };
+      var yesterday = now - day;
 
-  function handleSubscriptions (user,blog,next) {
+      var next_month = now + (day * 30);
 
-    if (user.subscription && user.subscription.status &&
-       (user.subscription.cancel_at_period_end || user.subscription.status !== 'active')) {
-      view.total_cancellations++;
-      return next();
-    }
+      var view = {
+        memory: {used: usedMem, available: availableMem},
+        disk_space: {used: usedDisk, available: availableDisk},
+        total_posts: 0,
+        total_new_posts: 0,
+        total_subscriptions: 0,
+        total_cancellations: 0,
+        new_posts: {},
+        renewals: {}
+      };
 
-    if (user.subscription && user.subscription.status && !user.subscription.cancel_at_period_end) {
+      function handleSubscriptions (user,blog,next) {
 
-      view.total_subscriptions++;
+        if (user.subscription && user.subscription.status &&
+           (user.subscription.cancel_at_period_end || user.subscription.status !== 'active')) {
+          view.total_cancellations++;
+          return next();
+        }
 
-      var next_payment = user.subscription.current_period_end * 1000;
+        if (user.subscription && user.subscription.status && !user.subscription.cancel_at_period_end) {
 
-      if (next_payment > now && next_payment < next_month) {
+          view.total_subscriptions++;
 
-        var blogs = [];
+          var next_payment = user.subscription.current_period_end * 1000;
 
-        forEach(user.blogs,function(blogID, nextBlog){
+          if (next_payment > now && next_payment < next_month) {
 
-          Blog.get({id: blogID}, function(err, blog){
+            var blogs = [];
 
-            blog.link = 'http://' + blog.handle + '.blot.im';
+            forEach(user.blogs,function(blogID, nextBlog){
 
-            blogs.push(blog);
-            nextBlog();
-          });
+              Blog.get({id: blogID}, function(err, blog){
 
-        }, function(){
+                blog.link = 'http://' + blog.handle + '.blot.im';
 
-          // For the trailing comma in a list
-          blogs[blogs.length - 1].last = true;
+                blogs.push(blog);
+                nextBlog();
+              });
 
-          view.renewals[user.uid] = {
-            name: user.name,
-            email: user.email,
-            fee: user.subscription.quantity * user.subscription.plan.amount / 100,
-            blogs: blogs,
-            next_payment: next_payment,
-            from_now: moment(next_payment).fromNow(),
-            time: moment(next_payment).format("ddd D MMM YYYY [at] h:mm:ss a")
-          };
+            }, function(){
 
+              // For the trailing comma in a list
+              blogs[blogs.length - 1].last = true;
+
+              view.renewals[user.uid] = {
+                name: user.name,
+                email: user.email,
+                fee: user.subscription.quantity * user.subscription.plan.amount / 100,
+                blogs: blogs,
+                next_payment: next_payment,
+                from_now: moment(next_payment).fromNow(),
+                time: moment(next_payment).format("ddd D MMM YYYY [at] h:mm:ss a")
+              };
+
+              next();
+
+            });
+
+          } else {
+            next();
+          }
+
+        } else {
           next();
+        }
 
-        });
-
-      } else {
-        next();
       }
 
-    } else {
-      next();
-    }
+      eachBlog(function (user, blog, next) {
 
-  }
+        if (require.main === module)
+          console.log('checking', blog.id, blog.handle);
 
-  eachBlog(function (user, blog, next) {
+        handleSubscriptions(user, blog, function(){
 
-    if (require.main === module)
-      console.log('checking', blog.id, blog.handle);
+          Entries.getTotal(blog.id, function(err, total){
 
-    handleSubscriptions(user, blog, function(){
+            view.total_posts += total;
 
-      Entries.getTotal(blog.id, function(err, total){
+            Entries.getRecent(blog.id, function(entries){
 
-        view.total_posts += total;
+              forEach(entries, function(entry, nextEntry){
 
-        Entries.getRecent(blog.id, function(entries){
+                if (entry.created > yesterday) {
+                  view.total_new_posts++;
+                  view.new_posts[blog.id] = view.new_posts[blog.id] || {
+                    blog: blog,
+                    entries: [],
+                    total: total,
+                    link: blog.domain ? 'http://' + blog.domain : 'http://' + blog.handle + '.blot.im'
+                  };
+                  view.new_posts[blog.id].entries.push(entry);
+                }
 
-          forEach(entries, function(entry, nextEntry){
+                nextEntry();
 
-            if (entry.created > yesterday) {
-              view.total_new_posts++;
-              view.new_posts[blog.id] = view.new_posts[blog.id] || {
-                blog: blog,
-                entries: [],
-                total: total,
-                link: blog.domain ? 'http://' + blog.domain : 'http://' + blog.handle + '.blot.im'
-              };
-              view.new_posts[blog.id].entries.push(entry);
-            }
+              }, next);
+            });
+          });
+        });
 
-            nextEntry();
+      }, function(){
 
-          }, next);
+        analytics.yesterday(function(err, views){
+
+          if (err || !views) views = 0;
+
+          views = numberWithCommas(parseInt(views));
+          view.views = views;
+
+          view.total_revenue = '$' + numberWithCommas(view.total_subscriptions * 20) + '.00';
+          view.new_posts = arrayify(view.new_posts);
+          view.renewals = arrayify(view.renewals);
+
+          view.renewals.sort(function(a, b){
+            return a.next_payment - b.next_payment;
+          });
+
+          view.total_posts = numberWithCommas(view.total_posts);
+
+          Email.DAILY_UPDATE('', view, callback);
         });
       });
-    });
 
-  }, function(){
-
-    analytics.yesterday(function(err, views){
-
-      if (err || !views) views = 0;
-
-      views = numberWithCommas(parseInt(views));
-      view.views = views;
-
-      view.total_revenue = '$' + numberWithCommas(view.total_subscriptions * 20) + '.00';
-      view.new_posts = arrayify(view.new_posts);
-      view.renewals = arrayify(view.renewals);
-
-      view.renewals.sort(function(a, b){
-        return a.next_payment - b.next_payment;
-      });
-
-      view.total_posts = numberWithCommas(view.total_posts);
-
-      Email.DAILY_UPDATE('', view, callback);
     });
   });
-
 }
 
 function numberWithCommas(x) {

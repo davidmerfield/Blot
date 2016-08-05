@@ -1,5 +1,11 @@
 💌 {{total_new_posts}} new posts{{#renewals.length}}, {{renewals.length}} renewals{{/renewals.length}}
 
+
+Memory: {{memory.available}} ({{memory.used}} used)
+Disk space: {{disk_space.available}} ({{disk_space.used}} used)
+
+..........................................................
+
 {{#renewals.length}}
 
 **Upcoming renewals**

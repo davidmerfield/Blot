@@ -3,7 +3,6 @@
                          TO DO
                          -----
 
-
 Add letsencrypt autorenew to cron job
 
 Warn users that underscore will not work for hidden pages
@@ -22,11 +21,6 @@ Add nicer error pages for nginx
 Fix timezone detection for new users
 
 hide dates is not working for default theme
-
-Add more info on what happens if you create a second blog to /create-blog
-  e.g. explain that blot creates a sub folder and will move the files
-
-Add free disk space and db dump size / mem usage to update email
 
 Move daily update generator to app folder and ensure that
 the app folder NEVER invokes a file in the scripts fodler
@@ -85,6 +79,8 @@ Set pricing to $30 a year for new subscribers
 
 
 ------------ CUSTOMER BUGS & REQUESTS -------------
+
+Fix create-blog rodericus
 
 Add support for 'full Dropbox' feature
 Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
