@@ -63,7 +63,7 @@ function single (blog, entry, callback) {
     .and(callback, 'function');
 
   if (!entry) {
-    console.warn('No entry exists with id', entry.id);
+    console.warn('No entry exists with path', entry.path);
     return callback();
   }
 
@@ -89,7 +89,7 @@ function single (blog, entry, callback) {
       return callback();
     }
 
-    Entry.set(blog.id, entry.id, entry, callback);
+    Entry.set(blog.id, entry.path, entry, callback);
   });
 }
 
