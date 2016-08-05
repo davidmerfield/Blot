@@ -6,7 +6,7 @@ var has_hidden = {};
 
 var images = '.jpg .jpeg .gif .png'.split(' ');
 
-eachEntry(function (user, blog, entry, next) {
+eachEntry(function(user, blog, entry, next) {
 
   var hidden = false;
 
@@ -19,10 +19,8 @@ eachEntry(function (user, blog, entry, next) {
   });
 
   if (hidden) {
-
     has_hidden[blog.handle] = has_hidden[blog.handle] || [];
     has_hidden[blog.handle].push(entry.path);
-
   }
 
   next();
