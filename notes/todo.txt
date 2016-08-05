@@ -5,10 +5,10 @@
 
 Add letsencrypt autorenew to cron job
 
-Warn users that underscore will not work for hidden pages
-
-Fix _ entries to true public files, tell john & other folks
-who depend on the menu: yes, page: no side effect
+Public files / hidden pages
+  Warn users that underscore will not work for hidden pages
+  Fix _ entries to true public files, tell john & other folks
+  who depend on the menu: yes, page: no side effect
 
 Reinstate blot.im/404s
 
