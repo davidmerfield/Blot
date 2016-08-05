@@ -205,6 +205,6 @@ module.exports = function (blogID, entry, callback) {
     // if we exhaust the list of candidates, what should happen?
     // just return an error for now... TODO in future, just keep
     // generating UIDS... but whatever for now.
-    callback(new Error('Could not find a permalink for ' + entry.id));
+    callback(new Error('Could not find a permalink for ' + entry.path));
   });
 };
