@@ -14,8 +14,8 @@ function check (cb) {
 
     // lol
     var line = stdout.split('\n')[1].replace(/\s+/g,' ').split(' ');
-    var usage = line[2];
-    var available = disk[3];
+    var usage = line[3];
+    var available = line[2];
 
     cb(usage, available);
   });
