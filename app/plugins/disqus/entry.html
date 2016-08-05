@@ -5,7 +5,7 @@
     var disqus_identifier = '{{entry.metadata.disqus}}';
     {{/entry.metadata.disqus}}
     {{^entry.metadata.disqus}}
-    var disqus_identifier = '{{entry.id}}';
+    var disqus_identifier = '{{entry.guid}}';
     {{/entry.metadata.disqus}}
     var disqus_title = '{{entry.title}}';
 
