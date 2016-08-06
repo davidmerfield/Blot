@@ -1,6 +1,6 @@
 module.exports =  {
       id: 'string',
-      guid: 'string',
+      guid: 'string', // used to identify an entry across different paths / urls, needed to make disqus comments work, for instance.
       url: 'string',
       permalink: 'string',
       title: 'string',
