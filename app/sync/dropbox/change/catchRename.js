@@ -30,8 +30,14 @@ function forCreated (blogID, newEntry, callback) {
         return callback();
       }
 
-      log('Found a similar deleted entry:', similar.path, similar.url, similar.created, score);
-      return callback(null, similar.url, similar.created);
+      var changes = {
+        url: similar.url,
+        created: similar.created,
+        guid: similar.guid
+      };
+
+      log('Found a similar deleted entry:', score, changes.url, changes.created, changes.guid);
+      return callback(null, changes);
     });
   });
 }
@@ -66,6 +72,7 @@ function forDeleted (blogID, path, callback) {
 
         var changes = {
           url: deletedEntry.url,
+          guid: deletedEntry.guid,
           created: deletedEntry.created
         };
 

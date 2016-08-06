@@ -80,19 +80,13 @@ module.exports = function (blog, change, client, callback){
 
         // this checks the entry to see if a deleted entry
         // matches it. If so, then use the deleted entry's url and created date.
-        catchRename(blog.id, entry, function(err, formerURL, formerCreated){
+        catchRename(blog.id, entry, function(err, changes){
 
           if (err) throw err;
 
-          if (formerURL !== undefined) {
-            entry.url = formerURL;
-            console.log('Blog: ' + blog.id + ': Adding url ' + entry.url + ' to ' + entry.path);
-          }
-
-          if (formerCreated !== undefined) {
-            entry.created = formerCreated;
-            console.log('Blog: ' + blog.id + ': Adding created' + entry.url + ' to ' + entry.path);
-          }
+          if (changes)
+            for (var key in changes)
+              entry[key] = changes[key];
 
           Entry.set(blog.id, entry.path, entry, callback);
         });
