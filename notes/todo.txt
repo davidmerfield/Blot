@@ -36,6 +36,8 @@ Fix timezone detection for new users
 
 hide dates is not working for default theme
 
+removing date metadata does not reset to entry.created (and it should)
+
 Move daily update generator to app folder and ensure that
 the app folder NEVER invokes a file in the scripts fodler
 it must always be the other way around...
