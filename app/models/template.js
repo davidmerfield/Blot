@@ -49,14 +49,21 @@ module.exports = (function () {
       .and(name, 'string')
       .and(callback, 'function');
 
+    // Name is user input, it needs to be trimmed
+    name = name.slice(0,100);
+
+    // The slug cannot contain a slash, or it messes
+    // up the routing middleware.
+    var slug = helper.makeSlug(name.split('/').join('-'));
+
     // Each template has an ID which is namespaced under its owner
-    var id = makeID(owner, name);
+    var id = makeID(owner, slug);
 
     // Defaults
     metadata.id = id;
     metadata.name = name;
     metadata.owner = owner;
-    metadata.slug = helper.makeSlug(name);
+    metadata.slug = slug;
     metadata.locals = metadata.locals || {};
     metadata.description = metadata.description || '';
     metadata.thumb = metadata.thumb || '';
