@@ -25,8 +25,17 @@ forEach(ids, function (line, next) {
   var entryID = line.split(' ')[1].trim();
   var path = line.split(' ').slice(2).join(' ').trim();
 
-  validate(blogID);
-  validate(entryID);
+  try {
+    validate(blogID);
+    validate(entryID);
+  } catch (e){
+
+    console.log('----------');
+    console.log(line);
+    console.log(e);
+
+    return next();
+  }
 
   console.log(blogID, entryID, path);
 
