@@ -45,7 +45,7 @@ module.exports = function set (blogID, path, updates, callback) {
       entry[i] = updates[i];
 
     if (entry.guid === undefined)
-      entry.guid = 'entry:' + guid();
+      entry.guid = 'entry_' + guid();
 
     // This is for new entries
     if (entry.created === undefined)
