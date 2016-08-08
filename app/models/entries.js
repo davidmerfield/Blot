@@ -6,7 +6,7 @@ var Entry = require('./entry');
 
 module.exports = (function() {
 
-  var lists = ['all', 'entries', 'drafts', 'scheduled', 'pages', 'deleted'];
+  var lists = ['all', 'created', 'entries', 'drafts', 'scheduled', 'pages', 'deleted'];
 
   function adjacentTo (blogID, entryID, callback) {
 
