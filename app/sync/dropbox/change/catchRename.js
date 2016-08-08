@@ -7,6 +7,8 @@ var Entry = require('../../../models/entry');
 var get = Entry.get;
 var set = Entry.set;
 
+var RENAME_PERIOD = 1000 * 60; // 1 minute
+
 function forCreated (blogID, newEntry, callback) {
 
   ensure(blogID, 'string')
@@ -15,10 +17,10 @@ function forCreated (blogID, newEntry, callback) {
 
   var log = new Log(blogID);
 
-  log('Checking new entry is not a rename of a deleted file!', newEntry.path);
+  log(newEntry.path, ':: Checking recently deleted entries to ensure this is not a rename');
 
   // One minute ago
-  var after = Date.now() - (1000 * 60);
+  var after = Date.now() - RENAME_PERIOD;
 
   Entries.getDeleted(blogID, after, function(err, deleted){
 
@@ -29,7 +31,7 @@ function forCreated (blogID, newEntry, callback) {
       if (err) return callback(err);
 
       if (!similar) {
-        log('No recently deleted entry matched this new entry', newEntry.path);
+        log(newEntry.path, ':: No recently deleted entry matched this entry');
         return callback();
       }
 
@@ -39,7 +41,7 @@ function forCreated (blogID, newEntry, callback) {
         guid: similar.guid
       };
 
-      log('Found a similar deleted entry:', score, changes.url, changes.created, changes.guid);
+      log(newEntry.path, ':: Found a recently deleted entry which is similar to this entry:', similar.path, similar.guid, new Date(similar.created), '(' + score + ')');
       return callback(null, changes);
     });
   });
@@ -57,10 +59,9 @@ function forDeleted (blogID, path, callback) {
 
     if (!deletedEntry) return callback();
 
-    log('Checking entry to be deleted is not a rename of a recently created file:', deletedEntry.path);
+    log(deletedEntry.path, ':: Checking entry to be deleted is not a rename of a recently created file');
 
-    // One minute ago
-    var after = Date.now() - (1000 * 60);
+    var after = Date.now() - RENAME_PERIOD;
 
     if (deletedEntry.created > after && deletedEntry.created < Date.now())
       after = deletedEntry.created;
@@ -73,9 +74,12 @@ function forDeleted (blogID, path, callback) {
 
         if (err) return callback(err);
 
-        if (!similar) return callback();
+        if (!similar) {
+          log(deletedEntry.path, ':: No recently created entry matched this entry');
+          return callback();
+        }
 
-        log('Found a recently created entry which is similar to entry to be deleted:', similar.path, score);
+        log(deletedEntry.path, ':: Found a recently created entry which is similar to the entry to be deleted:', similar.path, similar.guid, new Date(similar.created), '(' + score + ')');
 
         var changes = {
           url: deletedEntry.url,
