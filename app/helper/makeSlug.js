@@ -26,6 +26,7 @@ function makeSlug (string) {
 
            // remove common punction, basically everything except & _ and - /
 
+           .replace(/\%/g, '-percent')
            .replace(/&amp;/g, 'and')
            .replace(/→/g, 'to')
            .replace(/←/g, 'from')
@@ -78,12 +79,13 @@ function makeSlug (string) {
 var Is = require('./is');
 var is = Is(makeSlug);
 
-is('!@#$%^*()=+[]{}\\|;:\'\",?><', '');
-is('foo!@#$%^*()=+[]{}\\|;:\'\",?><bar', 'foobar');
+is('!@#$^*()=+[]{}\\|;:\'\",?><', '');
+is('foo!@#$^*()=+[]{}\\|;:\'\",?><bar', 'foobar');
 
 is('', '');
 is('H', 'h');
 is('HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello', 'hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello');
+is('100% luck 15% skill', '100-percent-luck-15-percent-skill');
 is('Hello', 'hello');
 is('Hello unicode: ', 'hello-unicode-%EF%A3%BF');
 is('/Hello/there/', 'hello/there');
