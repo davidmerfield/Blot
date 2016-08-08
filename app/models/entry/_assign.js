@@ -1,5 +1,5 @@
 var Blog = require('../blog');
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 
 var redis = require('../client');
@@ -12,8 +12,9 @@ var DRAFTS = 'drafts';
 var SCHEDULED = 'scheduled';
 var PAGES = 'pages';
 var DELETED = 'deleted';
+var CREATED = 'created';
 
-var lists = ['all', 'entries', 'drafts', 'scheduled', 'pages', 'deleted'];
+var lists = ['all', 'created', 'entries', 'drafts', 'scheduled', 'pages', 'deleted'];
 
 module.exports = function (blogID, entry, callback) {
 
@@ -21,95 +22,102 @@ module.exports = function (blogID, entry, callback) {
     .and(entry, model)
     .and(callback, 'function');
 
-  var add = addToList.bind(this, blogID, entry);
-  var drop = dropFromList.bind(this, blogID, entry);
+  var multi = redis.multi();
 
-  // Do nothing...
-  function done () {}
+  function add (list, score) {
 
-  add(ALL, done);
+    // By default, are sorted by date stamp
+    // which is the entry's publish date
+    if (score === undefined)
+      score = entry.dateStamp;
 
-  if (entry.deleted) {
-    add(DELETED, done);
-  } else {
-    drop(DELETED, done);
+    var key = listKey(blogID, list);
+
+    // Currently this is a normalized
+    // version of the entry's path.
+    var value = entry.id;
+
+    ensure(list, 'string')
+      .and(score, 'number')
+      .and(value, 'string');
+
+    // Blot uses redis' sorted sets to
+    // create lists of entries.
+    multi.zadd(key, score, value);
   }
 
-  // Register this entry as a draft,
-  // otherwise ensure it's not on the list
-  if (entry.draft) {
-    add(DRAFTS, done);
+  function drop (list) {
+
+    var key = listKey(blogID, list);
+    var value = entry.id;
+
+    ensure(list, 'string')
+      .and(value, 'string');
+
+    multi.zrem(key, value);
+  }
+
+  // There is a list of every entry that Blot knows
+  // about for this blog. This includes deleted entries etc...
+  add(ALL, entry.created);
+
+  // There is a list of every deleted entry, again sorted
+  // by creation date for catching file renames.
+  // Perhaps it should be entry.updated?
+  // There is also a list of every entry sorted by creation
+  // date for catching renames.
+  if (entry.deleted) {
+    add(DELETED, Date.now());
+    drop(CREATED);
   } else {
-    drop(DRAFTS, done);
+    drop(DELETED);
+    add(CREATED, entry.created);
+  }
+
+  // Only show entry on list of blog posts
+  // if it is neither on the menu/page, scheduled
+  // for future publication, deleted or a draft.
+  var visible = !(entry.menu ||
+                  entry.scheduled ||
+                  entry.page ||
+                  entry.deleted ||
+                  entry.draft);
+
+  if (visible) {
+    add(ENTRIES);
+  } else {
+    drop(ENTRIES);
   }
 
   if (entry.page) {
-    add(PAGES, done);
+    add(PAGES);
   } else {
-    drop(PAGES, done);
+    drop(PAGES);
   }
 
-  // Register this entry as a scheduled post,
-  // otherwise ensure it's not on the list
+  if (entry.draft) {
+    add(DRAFTS);
+  } else {
+    drop(DRAFTS);
+  }
+
   if (entry.scheduled) {
-    add(SCHEDULED, done);
+    add(SCHEDULED);
   } else {
-    drop(SCHEDULED, done);
+    drop(SCHEDULED);
   }
 
-  // Otherwise add the entry to the list of
-  // recent entries and ensure it's not on the menu
-  if (entry.menu || entry.scheduled ||
-      entry.page || entry.deleted ||
-      entry.draft) {
-    drop(ENTRIES, done);
-  } else {
-    add(ENTRIES, done);
-  }
+  multi.exec(function(err){
 
-  // If the entry is flagged as on the menu
-  // then remove it from the list of entries
-  // and add it to the list of menu links
-  if (entry.menu) {
-    addToMenu(blogID, entry, then);
-  } else {
-    dropFromMenu(blogID, entry, then);
-  }
+    if (err) return callback(err);
 
-  // This is only called by entry.menu
-  // since we can't have multiple conccurent
-  // changes to it...
-  function then () {
-    return callback();
-  }
+    if (entry.menu) {
+      addToMenu(blogID, entry, callback);
+    } else {
+      dropFromMenu(blogID, entry, callback);
+    }
+  });
 };
-
-
-function addToList (blogID, entry, list, callback) {
-
-  ensure(blogID, 'string')
-    .and(entry, 'object')
-    .and(list, 'string');
-
-  // Recent entries are arranged by timestamp
-  // and have the entries ID stored against it
-  var score = parseFloat(entry.dateStamp),
-      value = entry.id;
-
-  ensure(score, 'number')
-    .and(value, 'string');
-
-  redis.zadd(listKey(blogID, list), score, value, callback);
-}
-
-function dropFromList (blogID, entry, list, callback) {
-
-  ensure(blogID, 'string')
-    .and(entry, 'object')
-    .and(list, 'string');
-
-  redis.zrem(listKey(blogID, list), entry.id, callback);
-}
 
 function addToMenu (blogID, entry, callback) {
 
