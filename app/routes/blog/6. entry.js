@@ -59,8 +59,10 @@ module.exports = function(server){
 
         plugins.load('entryHTML', blog.plugins, function(err, pluginHTML){
 
-          // Dont show plugin HTML on a page or a draft
-          if (entry.menu || entry.draft) {
+          // Dont show plugin HTML on a page or a draft.
+          // Don't show plugin HTML on a preview subdomain.
+          // This is to prevent Disqus getting stuck on one URL.
+          if (entry.menu || entry.draft || request.previewSubdomain) {
             pluginHTML = '';
           }
 
