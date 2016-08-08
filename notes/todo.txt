@@ -3,19 +3,17 @@
                          TO DO
                          -----
 
-test scheduler still works
+Create list of entries sorted by genesis date
 
-ensure disqus comments show,
-but not on menu entries, preview sub domains, sub domains with
+Limit scope of rename catcher to last minute/s (?)
 
+Test scheduler still works
 
 REDIRECTS
 
   Redirects seem to cause problems
 
   Reinstate blot.im/404s
-
-
 
 Add letsencrypt autorenew to cron job
 
