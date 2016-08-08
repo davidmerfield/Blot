@@ -17,11 +17,14 @@ function forCreated (blogID, newEntry, callback) {
 
   log('Checking new entry is not a rename of a deleted file!', newEntry.path);
 
-  getRecentlyDeleted(blogID, function(err, recentlyDeleted){
+  // One minute ago
+  var after = Date.now() - (1000 * 60);
+
+  Entries.getDeleted(blogID, after, function(err, deleted){
 
     if (err) return callback(err);
 
-    findSimilar(newEntry, recentlyDeleted, function (err, similar, score) {
+    findSimilar(newEntry, deleted, function (err, similar, score) {
 
       if (err) return callback(err);
 
@@ -56,9 +59,13 @@ function forDeleted (blogID, path, callback) {
 
     log('Checking entry to be deleted is not a rename of a recently created file:', deletedEntry.path);
 
-    // we only want to consider created entries with
-    // a BLOT created date after this entry's BLOT created date.
-    getRecentlyCreated(blogID, deletedEntry, function(err, recentlyCreated){
+    // One minute ago
+    var after = Date.now() - (1000 * 60);
+
+    if (deletedEntry.created > after && deletedEntry.created < Date.now())
+      after = deletedEntry.created;
+
+    Entries.getCreated(blogID, after, function(err, recentlyCreated){
 
       if (err) return callback(err);
 
@@ -192,58 +199,6 @@ function findSimilar (entry, entries, callback) {
   }, function(){
 
     callback(null, similar, bestScore);
-  });
-}
-
-function getRecentlyCreated (blogID, deletedEntry, callback) {
-
-  ensure(blogID, 'string')
-    .and(deletedEntry, 'object')
-    .and(callback, 'function');
-
-  // Would be nice to have a list of entries sorted by created
-  // date, not publish date. We don't have that sadly yet. So instead
-  // we fetch the 100 most recent entries by publish date, then
-  // see if their created date was greater than 5 minutes ago.
-  Entries.getListIDs(blogID, 'entries', {first: 100}, function(err, ids){
-
-    if (err) throw err;
-
-    get(blogID, ids, function (entries) {
-
-      var candidates = [];
-      var fiveMinutesAgo = Date.now() - (1000 * 60 * 5);
-
-      for (var i = 0;i < entries.length; i++) {
-
-        var entry = entries[i];
-
-        // don't consider entries created before
-        // the deleted entry. that's a different job
-        if (entry.created < deletedEntry.created) continue;
-
-        if (entry.created > fiveMinutesAgo)
-          candidates.push(entry);
-      }
-
-      return callback(null, entries);
-    });
-  });
-}
-
-function getRecentlyDeleted (blogID, callback) {
-
-  ensure(blogID, 'string')
-    .and(callback, 'function');
-
-  Entries.getListIDs(blogID, 'deleted', {first: 50}, function(err, ids){
-
-    if (err) throw err;
-
-    get(blogID, ids, function (entries) {
-
-      return callback(null, entries);
-    });
   });
 }
 
