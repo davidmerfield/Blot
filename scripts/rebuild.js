@@ -1,4 +1,4 @@
-var eachEntry = require('./each/entry');
+var Entries = require('../app/models/entries');
 var Entry = require('../app/models/entry');
 var helper = require('../app/helper');
 var forEach = helper.forEach;
@@ -14,36 +14,46 @@ forEach(identifiers, function(id, next){
 
   get(id, function(user, blog){
 
-    only.push(blog.id);
+    only.push(blog);
 
     next();
   });
 
 }, function(){
 
-  var options = {o: only};
+  forEach(only, function(blog, nextBlog){
 
-  eachEntry(function(user, blog, entry, next){
+    console.log();
+    console.log('BLOG:', blog.id, blog.handle);
+    console.log('----------------------------');
 
-    if (entry.deleted) return next();
+    Entries.each(blog.id, function(entry, next){
 
-    Entry.build(blog, entry.path, function(err, newEntry){
+      if (entry.deleted) return next();
 
-      if (err && err.code === 'ENOENT') {
-        console.warn('No local file exists for entry', entry.path);
-        return next();
-      }
+      Entry.build(blog, entry.path, function(err, newEntry){
 
-      // don't know
-      if (err) {
-        console.log('-----> REBUILD ERROR');
-        console.log(err);
-        if (err.stack) console.log(err.stack);
-        if (err.trace) console.log(err.trace);
-        return next();
-      }
+        if (err && err.code === 'ENOENT') {
+          console.warn(entry.path, 'has no local file on disk');
+          return next();
+        }
 
-      Entry.save(blog.id, newEntry, next);
-    });
-  }, process.exit, options);
+        // don't know
+        if (err) {
+          console.log('-----> REBUILD ERROR');
+          console.log(err);
+          if (err.stack) console.log(err.stack);
+          if (err.trace) console.log(err.trace);
+          return next();
+        }
+
+        Entry.set(blog.id, entry.path, newEntry, function(err){
+
+          if (err) throw err;
+
+          next();
+        });
+      });
+    }, nextBlog);
+  }, process.exit);
 });
