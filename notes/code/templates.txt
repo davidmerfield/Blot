@@ -2,6 +2,20 @@
 
 # Revisiting templates
 
+Templates should be copy/pastable between blogs
+
+Installation of custom template should be as easy as
+
+'Create folder Template:
+
+stick files inside? indicate selected template with leading *? How does blot know which template to use? Do user templates always exist in Blog folder?
+
+
+
+
+
+
+
 
 I need to make sure Blot can render 100 pages / second.
 
@@ -12,7 +26,7 @@ the render module is currently a shitshow
 each template
 
 ENTRIES SHOULD NOT BE VIEWS
-  they should not be embeddable -> use albums for similar features
+  they should not be embeddable -> use albums for similar features...
 
 LOCALS SHOULD NOT CONTAIN LOCALS
   migrate page title and page description to hard coding in template
