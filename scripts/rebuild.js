@@ -51,6 +51,7 @@ forEach(identifiers, function(id, next){
 
           if (err) throw err;
 
+          console.log(entry.path, 'was rebuilt');
           next();
         });
       });
