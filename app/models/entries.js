@@ -184,6 +184,25 @@ module.exports = (function() {
     });
   }
 
+  function getDeleted (blogID, after, callback) {
+
+    ensure(blogID, 'string')
+      .and(after, 'number')
+      .and(callback, 'function');
+
+    var key = listKey(blogID, 'deleted');
+
+    redis.ZRANGEBYSCORE(key, after, Date.now(), function(err, ids){
+
+      if (err) return callback(err);
+
+      Entry.get(blogID, ids, function (entries) {
+
+        callback(null, entries || []);
+      });
+    });
+  }
+
   function getRange (blogID, start, end, options, callback) {
 
     ensure(blogID, 'string')
@@ -290,6 +309,7 @@ module.exports = (function() {
     getRecent: getRecent,
     lastUpdate: lastUpdate,
     getCreated: getCreated,
+    getDeleted: getDeleted
   };
 
 }());
