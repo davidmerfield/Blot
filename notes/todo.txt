@@ -3,6 +3,9 @@
                          TO DO
                          -----
 
+Set up nginx sendfile for blot.im
+  and work on error pages
+
 Public files / hidden pages
   Warn users that underscore will not work for hidden pages
   Fix _ entries to true public files, tell john & other folks
@@ -14,17 +17,11 @@ Fix metadata bug which was ingnoring newline -> posthumanist
 
 Fix timezone detection for new users
 
-hide dates is not working for default theme
+hide dates not working for default theme
 
-removing date metadata does not reset to entry.created (and it should)
+Removing date metadata should update entry.created
 
-Move daily update generator to app folder and ensure that
-the app folder NEVER invokes a file in the scripts fodler
-it must always be the other way around...
-
-Add folder section to settings page, with option to change
-THis is needed for users with multiple blogs in same dropbox
-
+Add folder section to settings page? radio buttons? how to ensure this won't fuck up other blogs
 
 --------------------------
 

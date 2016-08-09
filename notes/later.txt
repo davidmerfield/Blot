@@ -1,6 +1,9 @@
 LATER
 -----
 
+Move daily update generator to app folder
+Move onetimeauth to scripts folder
+
 If entries share publish date, sort them by blot creation date
 
 Investigate why I'm getting better compression on osx for /images/template/chrome.png
