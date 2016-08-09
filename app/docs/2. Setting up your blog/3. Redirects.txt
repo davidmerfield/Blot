@@ -1,5 +1,9 @@
-
-
 ## Redirects
 
-You can set up URL redirects on the [redirects page](/redirects). This is useful for migrating an existing blog to Blot. The [404](/404s) log page will help you work out what needs to be redirected. You can use Regular Expressions to match multiple routes.
+You can set up [redirects](/redirects) for missing pages on your blog. The [404 log](/404s) will help you work out which pages need redirects.
+
+You can use RegEx to match multiple routes. For example, the following redirect rule will redirect URLs starting with ```/post``` to ```/blog```:
+
+```
+\/post\/(.*)  →  /blog/$1
+```
