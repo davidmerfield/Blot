@@ -8,6 +8,8 @@ LATER
 
 
 
+Add filtering by date to 404 log
+https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca
 
 Move daily update generator to app folder
 
