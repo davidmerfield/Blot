@@ -10,6 +10,21 @@ Installation of custom template should be as easy as
 
 stick files inside? indicate selected template with leading *? How does blot know which template to use? Do user templates always exist in Blog folder?
 
+move _assets to .assets or .blot ?
+  image cache cannot look up images embedded in doc files
+  since they're outside the blot folder
+
+put templates inside this folder
+
+Rewrite Templates
+ - Add way to edit a color variable, select an option etc...
+ - theme should be a set of options for the color picker...
+ - Migrate these currently-global settings to template level:
+    date presentation
+    hide/show date
+    entries per page
+ - Store view name should include file extension...
+ - Expose errors in modules/template/update on design page.
 
 
 
