@@ -42,19 +42,18 @@ module.exports = function(server){
         entry.previous = previousEntry;
         entry.adjacent = !!(nextEntry || previousEntry);
 
-        // Eventually delete this...
-        if (!entry.url) {
-          console.log('MADE IT HERE WITHOUT URL');
-          console.log(url);
-          console.log(entry);
-          return next();
-        }
-
         // Ensure the user is always viewing
-        // the entry at its latest and greatest URL, likewise
-        // for search engines pass link juice!
-        if (normalize(entry.url) !== normalize(url)) {
-          return response.status(301).redirect(entry.url);
+        // the entry at its latest and greatest URL
+        // 301 passes link juice for SEO?
+        if (entry.url && normalize(entry.url) !== normalize(url)) {
+
+          // Res.direct expects a URL, we shouldnt need
+          // to do this now but OK. I feel like we're decoding
+          // then recoding then decoding. I should just store
+          // valid URI and skip the decoding.
+          var redirect = encodeURI(entry.url);
+
+          return response.status(301).redirect(redirect);
         }
 
         plugins.load('entryHTML', blog.plugins, function(err, pluginHTML){
