@@ -1,39 +1,28 @@
+
+
+
+
 LATER
 -----
 
+
+
+
+
 Move daily update generator to app folder
+
 Move onetimeauth to scripts folder
 
-If entries share publish date, sort them by blot creation date
+If entries share publish date, sort them by blot creation date?
 
-Investigate why I'm getting better compression on osx for /images/template/chrome.png
+nginx fail2ban & http2
 
-nginx
-  static file delivery for blot
-  static file delivery for blogs
-  fail2ban
-  upgrade nginx and support http2
-
-
-Consider what to do for footnote links in a teaser
- -> rewrite frag links to {{permalink}}#frag?
+Consider what to do for footnote links in a teaser -> rewrite links to {{permalink}}#frag?
 
 Add plugin for inline popover footnotes
- -> contact john pavlus
 
-make templates file based, load .html files into memory?
-
-  move _assets to .assets or .blot ?
-    image cache cannot look up images embedded in doc files
-    since they're outside the blot folder
-
-  put templates inside this folder
-
-Determine possible encoding issues
+Possible encoding issues?
 http://isaac.blot.im/go-set%EF%BF%BDbal
-
-Blot couldn't parse a filename with greek in it
-
 
 configurable url schemes
 tell rodericus
@@ -41,52 +30,20 @@ tell rodericus
 enable hyphenation again
 tell rodericus
 
-don't write previews for hidden posts (_)
- - add 'hidden' property to entry?
-
-generate gif / svg thumbs if possible no...
+generate gif / svg thumbs if possible?
 
 consider https://github.com/showdownjs/showdown
 
 allow users to determine size of thumbnails?
 
-Find cause of fontconfig error / warning
-
-Ensure sync script is run with lesser permissions
+Find cause of fontconfig error / warning?
 
 Work on quick script to load DB from backups
-
-postgres
-
-users
-  owns blogs
-
-blogs
-  owns files
-  own templates
-
-templates
-
-files
-  e.g. html, path, etc...
-  own tags
-
-tags
 
 password protection for blogs
 https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231
 
-Rewrite Templates
- - Add way to edit a color variable, select an option etc...
- - theme should be a set of options for the color picker...
- - Migrate these currently-global settings to template level:
-    date presentation
-    hide/show date
-    entries per page
- - Store view name should include file extension...
- - Expose errors in modules/template/update on design page.
-
-webhooks for aurynn
+webhooks
 https://mail.google.com/mail/u/0/#inbox/1554260da157b405
 
 merge upload and upoad/main
@@ -100,17 +57,7 @@ https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152
 
 add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries).
 
-rethink entry.save and structureof entry to prevent
-multiple entries with one path.
- -- seperate makeEntry into stuff which depends on plugins
-    and content of file
- -- and stuff which depends on other properties of blog
-    (time zone etc..) and things which can be computed
-    quickly and easily. perhaps something like prepare entry
-    which uses entry ID to determine permalink
-
-can make entry NOT know entry.id?
-just file.path, file.metadata, file.content?
+Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
 
 Add option to *enable* hard line breaks
 
@@ -142,32 +89,13 @@ consider restructuring the renderer to properly
 seperate it from req res, making it possible
 to render a page without running a server? is this
 
-
 move to tests/multiroute server.route(['/', '/bar']).get(loadPage, render('entries'));
 
 Move queues in entry/rename /remove to doEach
 
 fix image caption plugin to be semantic
 
-add support for 'caption file' e.g. img_4010.txt
-https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/15420abdb1d340a4
-Want the api to be simple
-Entry.src = [..paths..]?
-Each file (including album files)
-  makeEntry(blog, path, callback)
-  Entry.save(path, callback?)
-Album posts
- album: true
- if (album) updateAlbum(blog.id, entry.id) //
-  <div class="album">
-    <div class="album-item">
-    {{> html}}
-    </div>
-  </div>
-Can this be considered connected to image caption feature?
-How to handle albums inside albums?
-Can I accomplish this without introducing entry.type?
-Or should I introduce entry.type?
+Image galleries && mult-file entries
 
 Handle reset: true call to /delta
   delete folderState
@@ -191,12 +119,12 @@ Add image optimize plugin
 https://github.com/lovell/sharp
 https://github.com/imagemin/imagemin
 
-Delete backups older than a year
+Delete backups older than a year automatically
 
 Add button to remove avatar from settings page
 https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac
 
-handle noscript on dashboard gracefully.
+handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 
 incorporate typographic features from textile
 http://redcloth.org/textile/phrase-modifiers/
@@ -209,11 +137,8 @@ expose
 add
 add {{#tagged:Book reports}}
 
-add {{#has:thumbnail}} where thumbnail is custom metadata
-
 add supoprt for dynamic partials to make collections possible
-
-add support for sets? or just use tags
+  e.g. {{> /{{tag}}.html}} ?
 
 expose site.author --> make this clear during sign up
 
@@ -238,16 +163,7 @@ queue scheduled entries in redis
 renderLocals needs to inherit context
 so entries can refer to their own title etc...?
 
-Image galleries
-https://github.com/Jack000/Expose
-https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1542a151ea981d82
-
 Why does pandoc \mouse.com become .com ?
-
-
-
-
-# CONSIDER
 
 Add a cool bookmarklet which drafts a post a la
 https://www.youtube.com/watch?v=cu5uXXulnNk
