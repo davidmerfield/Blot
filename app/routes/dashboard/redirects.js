@@ -8,6 +8,7 @@ module.exports = function(server){
   var bodyParser = require('body-parser');
   var getBody = bodyParser.urlencoded({extended:false});
   var formJSON = helper.formJSON;
+  var urlNormalizer = helper.urlNormalizer;
 
   server.get('/redirects', restrict, function(req, res){
 
@@ -27,10 +28,14 @@ module.exports = function(server){
     });
   });
 
-  function addLeadingSlash (str) {
+  function normalize (str) {
 
-    if (str[0] !== '\\' && str[0] !== '/')
-      str = '/' + str;
+    if (str[0] !== '\\' && str[0] !== '/') {
+
+      try {
+        str = urlNormalizer(str);
+      } catch (e) {}
+    }
 
     return str;
   }
@@ -52,8 +57,8 @@ module.exports = function(server){
     // or are regexes
     mappings = mappings.map(function(mapping){
 
-      mapping.from = addLeadingSlash(mapping.from);
-      mapping.to = addLeadingSlash(mapping.to);
+      mapping.from = normalize(mapping.from);
+      mapping.to = normalize(mapping.to);
 
       return mapping;
     });
