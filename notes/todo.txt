@@ -3,18 +3,6 @@
                          TO DO
                          -----
 
-Create list of entries sorted by genesis date
-
-Limit scope of rename catcher to last minute/s (?)
-
-Test scheduler still works
-
-REDIRECTS
-
-  Redirects seem to cause problems
-
-  Reinstate blot.im/404s
-
 Add letsencrypt autorenew to cron job
 
 Public files / hidden pages
