@@ -114,7 +114,7 @@ function Candidates (entry) {
   candidates = candidates.map(function(url){
 
     try {
-      url = decodeURIComponent(url);
+      url = decodeURI(url);
     } catch (e) {
       console.log('Error: Could not decodeURIComponent for:', url, e.message);
     }
