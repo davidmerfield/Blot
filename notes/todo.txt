@@ -8,8 +8,8 @@ Add letsencrypt autorenew to cron job
 Public files / hidden pages
   Warn users that underscore will not work for hidden pages
   Fix _ entries to true public files, tell john & other folks
-  who depend on the menu: yes, page: no side effect
-  tell rodrigo
+  Who depend on the menu: yes, page: no side effect
+  Tell rodrigo
   https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
 
 Fix metadata bug which was ingnoring newline -> posthumanist
@@ -54,7 +54,6 @@ Set up autorecovery https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazo
 Add hourly local redis rdb dumps
 
 Add script to roll back into hourly local db dumps and remote backups
-
 
 
 --------------------------
