@@ -3,8 +3,6 @@
                          TO DO
                          -----
 
-Add letsencrypt autorenew to cron job
-
 Public files / hidden pages
   Warn users that underscore will not work for hidden pages
   Fix _ entries to true public files, tell john & other folks
@@ -13,10 +11,6 @@ Public files / hidden pages
   https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
 
 Fix metadata bug which was ingnoring newline -> posthumanist
-
-Log nginx errors properly...
-
-Add nicer error pages for nginx
 
 Fix timezone detection for new users
 
