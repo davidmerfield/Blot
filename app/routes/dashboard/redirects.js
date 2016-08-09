@@ -27,18 +27,36 @@ module.exports = function(server){
     });
   });
 
-  server.post('/redirects', restrict, getBody, function(req, res){
+  function addLeadingSlash (str) {
 
-    console.log(req.body);
+    if (str[0] !== '\\' && str[0] !== '/')
+      str = '/' + str;
+
+    return str;
+  }
+
+  server.post('/redirects', restrict, getBody, function(req, res){
 
     var mappings = formJSON(req.body, {redirects: 'object'});
 
-
-    console.log(mappings);
-
     mappings = arrayify(mappings.redirects);
 
-    console.log(mappings);
+    // Because the page has an empty redirect
+    // to use as a template, we need to filter
+    // it first before checking...
+    mappings = mappings.filter(function(mapping){
+      return !!mapping.from && !!mapping.to;
+    });
+
+    // Ensure mappings have a leading slash
+    // or are regexes
+    mappings = mappings.map(function(mapping){
+
+      mapping.from = addLeadingSlash(mapping.from);
+      mapping.to = addLeadingSlash(mapping.to);
+
+      return mapping;
+    });
 
     Redirects.set(req.blog.id, mappings, function(err){
 
