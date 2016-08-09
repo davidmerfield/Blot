@@ -22,11 +22,11 @@
 
 
 <Br /><br />
-{{^ignored.length}}
+{{#has_ignored}}{{^ignored.length}}
 <p>
   <a href="?ignored=true">Show ignored 404s</a>
 </p>
-{{/ignored.length}}
+{{/ignored.length}}{{/has_ignored}}
 
 {{#ignored.length}}
 <p>

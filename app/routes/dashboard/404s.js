@@ -17,6 +17,8 @@ module.exports = function(server){
 
         if (err) return next(err);
 
+        var has_ignored;
+
         if (req.query.raw) {
 
           for (var i in list)
@@ -32,12 +34,19 @@ module.exports = function(server){
           sub_nav: 'dashboard/settings/_nav'
         });
 
-        if (!req.query.ignored) ignored = [];
+        if (ignored.length) {
+          has_ignored = true;
+        }
+
+        if (!req.query.ignored) {
+          ignored = [];
+        }
 
         res.addLocals({
           title: 'Blot - 404s',
           tab: {settings: 'selected', redirects: 'selected'},
           list: list,
+          has_ignored: has_ignored,
           ignored: ignored
         });
 
