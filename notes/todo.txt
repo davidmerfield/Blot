@@ -15,6 +15,9 @@ Public files / hidden pages
 
 Fix metadata bug which was ingnoring newline -> posthumanist
 
+Are 503 from dropbox handled properly for preview file writes?
+  Dropbox API error 503 from POST https://api-content.dropbox.com/1/files_put/auto/drafts/X.txt.preview.html :: {"error": "Failed to grab locks for X: lock held by connection Y. Please re-issue the request."}
+
 Fix timezone detection for new users
 
 hide dates not working for default theme
