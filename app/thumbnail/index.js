@@ -1,14 +1,16 @@
 var helper = require('../helper');
 var ensure = helper.ensure;
-
+var resolveSrc = helper.resolveSrc;
 var candidate = require('./candidate');
+var dirname = require('path').dirname;
 
 var Create = require('./create');
 var Transformer = require('../transformer');
 
-module.exports = function (blog, metadata, html, callback) {
+module.exports = function (blog, path, metadata, html, callback) {
 
   ensure(blog, 'object')
+    .and(path, 'string')
     .and(metadata, 'object')
     .and(html, 'string')
     .and(callback, 'function');
@@ -23,6 +25,11 @@ module.exports = function (blog, metadata, html, callback) {
   // Finish early, with an empty object
   // since that what make entry wants
   if (!src) return callback(null, {});
+
+  // we only need to resolve the thumbnail path
+  // for metadata, since images in the entry
+  // should have had their paths resolve already
+  if (metadata.thumbnail) src = resolveSrc(src, dirname(path));
 
   // Check to see if we have created thumbnails
   // for this src and this blog. If not, pass the

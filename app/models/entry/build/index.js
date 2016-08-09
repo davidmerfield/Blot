@@ -31,7 +31,7 @@ module.exports =  function (blog, path, callback) {
 
     if (err) return callback(err);
 
-    Thumbnail(blog, metadata, html, function(err, thumbnail){
+    Thumbnail(blog, path, metadata, html, function(err, thumbnail){
 
       // Could be lots of reasons (404?)
       if (err || !thumbnail) thumbnail = {};
