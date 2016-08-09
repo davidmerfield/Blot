@@ -63,13 +63,7 @@ function makeSlug (string) {
   if (slug.slice(-1) === '-')
     slug = slug.slice(0,-1);
 
-
-  components = slug.split('/');
-
-  for (var i = 0;i < components.length;i++)
-    components[i] = encodeURIComponent(components[i]);
-
-  slug = components.join('/');
+  slug = encodeURI(slug);
 
   slug = slug || '';
 
