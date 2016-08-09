@@ -27,7 +27,12 @@ module.exports = function(server){
           return res.send(list.join('\n'));
         }
 
-        res.addPartials({form: 'settings/404s.html'});
+        res.addPartials({
+          yield: 'dashboard/settings/404s',
+          sub_nav: 'dashboard/settings/_nav'
+        });
+
+        if (!req.query.ignored) ignored = [];
 
         res.addLocals({
           title: 'Blot - 404s',
@@ -36,7 +41,7 @@ module.exports = function(server){
           ignored: ignored
         });
 
-        res.render('settings/_wrapper');
+        res.render('dashboard/_wrapper');
       });
     })
 
