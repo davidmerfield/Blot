@@ -127,12 +127,6 @@ loadRoutes(blog, '/blog');
 // All together now
 var server = express();
 
-// Map localhost:8080 to localhost :( so vhost works locally
-var siteHost = config.host.slice(0, config.host.indexOf(':'));
-
-if (config.environment !== 'development')
-  siteHost = config.host;
-
 // Prevent IE users from executing
 // downloads in your site's context
 // Prevent some browsers from
@@ -159,7 +153,7 @@ server
 
   // since a lot will fall through
   // site should handle 404s.
-  .use(vhost(siteHost, site))
+  .use(vhost(config.host, site))
   .use(vhost('publicfonts.org', site))
 
   // It is important that this route returns

@@ -103,7 +103,7 @@ function authKey (token) {
 }
 
 function authURL (token, route) {
-  return config.protocol + config.host + '/' + (route || routeName) +'/' + token;
+  return 'https://' + config.host + '/' + (route || routeName) +'/' + token;
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ module.exports = function(server) {
   var Redirects = require('../../models/redirects');
   var store404 = require('../../models/404').set;
   var config = require('../../../config');
-  var CONTACT = ' Please <a href="' + config.protocol + config.host + '/contact">contact me</a> if you cannot fix this. I\'ll be able to help you.';
+  var CONTACT = ' Please <a href="https://' + config.host + '/contact">contact me</a> if you cannot fix this. I\'ll be able to help you.';
 
   // Redirects
   server.use(function(req, res, next){

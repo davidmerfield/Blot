@@ -54,7 +54,7 @@ var NO_MESSAGE = 'No messages found for';
 var NO_ADDRESS = 'No email passed, or uid passed for';
 
 var globals = {
-  site: config.protocol + config.host
+  site: 'https://' + config.host
 };
 
 var EMAIL_MODEL = {

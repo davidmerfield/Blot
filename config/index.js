@@ -27,7 +27,7 @@ if (production) {
 } else {
 
   environment = 'development';
-  host = "localhost:8080";
+  host = "blot.development";
   protocol = "http://";
   stripe_key = load('stripe.test.key');
   stripe_secret = load('stripe.test.secret');

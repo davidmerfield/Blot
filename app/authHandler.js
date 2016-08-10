@@ -16,13 +16,10 @@ function check (request, response, next) {
 
     var host = config.host;
 
-    if (config.environment === 'development') host = 'localhost';
-
     if (request.hostname !== host ||
        !request.session || !request.session.uid) {
 
       request.user = false;
-
 
       return next();
     }
@@ -180,8 +177,8 @@ function admin (request, response, next) {
 
 function requireSSL (request, response, next) {
 
-  if (!request.secure && config.environment !== 'development')
-    return response.redirect(config.protocol + config.host + request.url);
+  if (!request.secure)
+    return response.redirect('https://' + config.host + request.url);
 
   next();
 }

@@ -122,7 +122,7 @@ module.exports = function (req, res, next){
 
     // Store the original request's url so templates {{blogURL}}
     blog.locals.blogURL = req.protocol + '://' + req.originalHost;
-    blog.locals.siteURL = config.protocol + config.host;
+    blog.locals.siteURL = 'https://' + config.host;
 
     // Store the blog's info so routes can access it
     req.blog = blog;
