@@ -10,9 +10,6 @@ module.exports = function(err, req, res, next){
     if (req.params.view && !req.view)
       return next();
 
-    if (err.trace) console.log(err.trace);
-    if (err.stack) console.log(err.stack);
-
     if (err.message) {
       message = err.message;
     } else {
