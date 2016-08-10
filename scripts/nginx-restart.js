@@ -1,7 +1,10 @@
 var exec = require('child_process').exec;
 
 // if script is invoked directly
-if (require.main === module) main(process.exit);
+if (require.main === module) main(function(err){
+  if (err) console.log(err);
+  process.exit();
+});
 
 function main (callback) {
 
