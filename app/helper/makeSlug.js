@@ -51,10 +51,10 @@ function makeSlug (string) {
 
   // Remove leading and trailing
   // slashes and dashes.
-  if (slug[0] === '/')
+  if (slug[0] === '/' && slug.length > 1)
     slug = slug.slice(1);
 
-  if (slug.slice(-1) === '/')
+  if (slug.slice(-1) === '/' && slug.length > 1)
     slug = slug.slice(0,-1);
 
   if (slug[0] === '-')
@@ -77,6 +77,10 @@ is('!@#$^*()=+[]{}\\|;:\'\",?><', '');
 is('foo!@#$^*()=+[]{}\\|;:\'\",?><bar', 'foobar');
 
 is('', '');
+is('/', '/');
+is('/a/', 'a');
+is('/a', 'a');
+is('a/', 'a');
 is('H', 'h');
 is('HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello', 'hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello');
 is('100% luck 15% skill', '100-percent-luck-15-percent-skill');
