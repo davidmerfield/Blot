@@ -3,12 +3,11 @@
                          TO DO
                          -----
 
-Set up nginx sendfile for blot.im
+Set up nginx sendfile for blot.im & blogs
   and work on error pages
 
-Set up nginx sendfile for blogs
-
 Make templates file based
+   - cp www/blogs/* -> /blogs/{{id}}/assets
 
 Public files / hidden pages
   Warn users that underscore will not work for hidden pages
@@ -19,9 +18,11 @@ Public files / hidden pages
   don't write previews for hidden posts (_)
    - add 'hidden' property to entry?
 
+
+
 Fix metadata bug which was ingnoring newline -> posthumanist
 
-Are 503 from dropbox handled properly for preview file writes?
+Are 503 from dropbox handled properly for preview file writes? does this only happen when it's already being written?
   Dropbox API error 503 from POST https://api-content.dropbox.com/1/files_put/auto/drafts/X.txt.preview.html :: {"error": "Failed to grab locks for X: lock held by connection Y. Please re-issue the request."}
 
 Catch rename failed to find a match for scrapboox/patch_bunny_slippers.jpg -> /patch_bunny_slippers.png
