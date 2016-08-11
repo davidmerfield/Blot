@@ -15,24 +15,13 @@ Public files / hidden pages
   don't write previews for hidden posts (_)
    - add 'hidden' property to entry?
 
-Set up nginx sendfile for blot.im & blogs
- and work on error pages
-
-Hide dates not working for default theme
-
 Removing date metadata should update entry.created
-
-Add folder section to settings page? radio buttons?
-how to ensure this won't fuck up other blogs
 
 --------------------------
 
-
-Add custom partials to template editor
+Add custom partials to template editor...
 
 Move all default templates to partials instead of re-rendered locals
-
-Migrate templates to disk-based system
 
 Add daemon for zero-downtime node restart
 
@@ -42,12 +31,15 @@ Test monit with nginx going down
 
 Test monit with blot going down
 
-Set up autorecovery https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
+Set up autorecovery
+https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
 
 Add hourly local redis rdb dumps
 
 Add script to roll back into hourly local db dumps and remote backups
 
+Set up nginx sendfile for blot.im & blogs
+Improve nginx error pages
 
 --------------------------
 
@@ -62,8 +54,6 @@ Spend 1 day writing 3 how-tos: link blog, magazine, website
 Spend 2 days writing and recording demo video, must make sense as audio only, video only.
 
 Set pricing to $30 a year for new subscribers
-
-
 
 --------------------------
 

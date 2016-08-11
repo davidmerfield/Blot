@@ -5,7 +5,8 @@
 LATER
 -----
 
-
+Add folder section to settings page? radio buttons?
+how to ensure this won't fuck up other blogs
 
 Catch rename failed to find a match for scrapboox/patch_bunny_slippers.jpg -> /patch_bunny_slippers.png
 Can rename tolerate a minor file size change?

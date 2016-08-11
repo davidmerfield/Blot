@@ -10,7 +10,7 @@ module.exports = function (req, res) {
   var blog = req.blog;
 
   // res.locals.hide_date
-  var hideDate = blog.hideDate || false;
+  var hideDate = blog.hideDates || false;
   var dateDisplay = blog.dateDisplay;
 
   return function (entry) {
