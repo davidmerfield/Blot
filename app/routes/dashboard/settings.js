@@ -124,13 +124,11 @@ module.exports = function(server){
       if (s === 'Pacific/Chatham') return false;
       if (s === 'US/Pacific-New') return false;
       if (s === 'Asia/Tehran') return false;
-
       if (s === 'Asia/Katmandu' || s === 'Asia/Kathmandu') return false;
       if (s === 'Etc/GMT-14' || s === 'Pacific/Apia' || s === 'Pacific/Kiritimati') return false;
 
       if (s.indexOf('Etc/') === 0) return false;
       if (s.indexOf('Pacific/') === 0) return false;
-      if (s.indexOf('America/') === 0) return false;
       if (s.indexOf('Antarctica') !== -1) return false;
 
       return /\//.test(s);

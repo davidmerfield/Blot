@@ -18,8 +18,6 @@ Public files / hidden pages
 Set up nginx sendfile for blot.im & blogs
  and work on error pages
 
-Fix timezone detection for new users
-
 Hide dates not working for default theme
 
 Removing date metadata should update entry.created
