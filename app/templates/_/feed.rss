@@ -9,7 +9,7 @@
   <item>
     <title><![CDATA[ {{{title}}} ]]></title>
     <link>{{{blogURL}}}{{url}}</link>
-    <guid>{{{blogURL}}}/{{id}}</guid>
+    <guid>{{{blogURL}}}{{url}}</guid>
     {{! RSS feeds need a RFC 822 date}}
     <pubDate>{{#formatDate}}ddd, DD MMM YYYY HH:mm:ss ZZ{{/formatDate}}</pubDate>
     <dc:creator><![CDATA[ {{{name}}} ]]></dc:creator>
