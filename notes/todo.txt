@@ -3,19 +3,15 @@
                          TO DO
                          -----
 
-Make templates file based
+Make templates file / folder based without modifying renderer
    - cp www/blogs/* -> /blogs/{{id}}/assets
 
 Public files / hidden pages
   Warn users that underscore will not work for hidden pages
   Fix _ entries to true public files, tell john & other folks
   Who depend on the menu: yes, page: no side effect
-  Tell rodrigo
-  https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
-  don't write previews for hidden posts (_)
-   - add 'hidden' property to entry?
-
-Removing date metadata should update entry.created
+  Tell rodrigo https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
+  don't write previews for _ posts
 
 --------------------------
 

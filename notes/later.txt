@@ -5,6 +5,8 @@
 LATER
 -----
 
+Removing date metadata should reset datestamp to entry.created
+
 Add folder section to settings page? radio buttons?
 how to ensure this won't fuck up other blogs
 
