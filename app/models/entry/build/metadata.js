@@ -18,7 +18,8 @@ function Metadata (contents) {
 
     line = lines[i];
 
-    if (!line) continue;
+    // if we encounter an empty line, stop looking for metadata.
+    if (!line || !line.trim()) break;
 
     firstColon = line.indexOf(':');
     firstCharacter = line.trim().charAt(0);
