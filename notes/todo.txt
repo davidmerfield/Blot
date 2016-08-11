@@ -18,16 +18,14 @@ Public files / hidden pages
 Set up nginx sendfile for blot.im & blogs
  and work on error pages
 
-Are 503 from dropbox handled properly for preview file writes? does this only happen when it's already being written?
-  Dropbox API error 503 from POST https://api-content.dropbox.com/1/files_put/auto/drafts/X.txt.preview.html :: {"error": "Failed to grab locks for X: lock held by connection Y. Please re-issue the request."}
-
 Fix timezone detection for new users
 
 Hide dates not working for default theme
 
 Removing date metadata should update entry.created
 
-Add folder section to settings page? radio buttons? how to ensure this won't fuck up other blogs
+Add folder section to settings page? radio buttons?
+how to ensure this won't fuck up other blogs
 
 --------------------------
 
