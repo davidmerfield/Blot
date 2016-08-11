@@ -7,6 +7,8 @@ LATER
 
 
 
+Catch rename failed to find a match for scrapboox/patch_bunny_slippers.jpg -> /patch_bunny_slippers.png
+Can rename tolerate a minor file size change?
 
 Add filtering by date to 404 log
 https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca
