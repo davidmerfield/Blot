@@ -25,8 +25,6 @@ var cacheDuration = 'public, max-age=31536000';
 var JS = 'application/javascript';
 var STYLE = 'text/css';
 
-
-
 module.exports = function (req, res, _next) {
 
   res.renderView = render;
