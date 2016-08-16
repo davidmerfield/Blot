@@ -1,0 +1,20 @@
+<div class="header">
+
+  <h3><a href="/">
+  {{#avatar}}
+  <img class="avatar {{#roundAvatar}}rounded{{/roundAvatar}}" src="{{avatar}}" alt="{{name}}'s avatar"/>
+  {{/avatar}}
+  {{title}}
+  </a></h3>
+
+
+  {{#menu}}
+  <a href="{{url}}" title="{{label}}">{{label}}</a>
+  {{/menu}}
+
+  <h3>Recent entries</h3>
+  {{#recent_entries}}
+  <a href="{{url}}">{{title}}</a>
+  {{/recent_entries}}
+
+</div>
