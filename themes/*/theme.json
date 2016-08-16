@@ -1,64 +1,41 @@
 {
-  "isPublic": true,
-  "views": {
-    "archives": {
-      "url": "/archives",
-      "locals": {
-        "pageTitle": "Archives - {{{title}}}",
-        "pageDescription": "All the entries posted on {{{title}}}"
-      }
-    },
-    "tagged": {
-      "locals": {
-        "pageTitle": "Entries tagged {{{tag}}} from {{{title}}}",
-        "pageDescription": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
-      }
-    },
-    "entries": {
-      "locals": {
-        "pageTitle": "{{{title}}}",
-        "pageDescription": "The latest entries posted on {{{title}}}"
-      }
-    },
-    "error": {
-      "locals": {
-        "pageTitle": "{{{error.title}}} - {{{title}}}",
-        "pageDescription": "Error on {{{title}}}"
-      }
-    },
-    "entry": {
-      "locals": {
-        "pageTitle": "{{{entry.title}}} - {{{title}}}",
-        "pageDescription": "{{{entry.summary}}}"
-      }
-    },
-    "public": {
-      "locals": {
-        "pageTitle": "Index of {{{path}}}",
-        "pageDescription": "All the files and folders inside {{{path}}}"
-      }
-    },
-    "search": {
-      "locals": {
-        "pageTitle": "Search - {{{title}}}",
-        "pageDescription": "Seach all the entries posted on {{{title}}}"
-      }
-    },
-    "style": {
-      "url": "/style.css"
-    },
-    "script": {
-      "url": "/script.js"
-    },
-    "sitemap": {
-      "url": "/sitemap.xml"
-    },
-    "feed": {
-      "url": "/feed.rss",
-      "type": "application/xml"
-    },
-    "robots": {
-      "url": "/robots.txt"
+  "locals": {
+    "page_size": 6,
+  },
+  "archives.html": {
+    "partials": {
+      "title": "Archives - {{{title}}}",
+      "descriptions": "All the entries posted on {{{title}}}"
+    }
+  },
+  "entries.html": {
+    "partials": {
+      "title": "{{{title}}}",
+      "description": "The latest entries posted on {{{title}}}"
+    }
+  },
+  "entry.html": {
+    "partials": {
+      "title": "{{{entry.title}}} - {{{title}}}",
+      "description": "{{{entry.summary}}}"
+    }
+  },
+  "error.html": {
+    "partials": {
+      "title": "{{{error.title}}} - {{{title}}}",
+      "description": "Error on {{{title}}}"
+    }
+  },
+  "search.html": {
+    "partials": {
+      "title": "Search - {{{title}}}",
+      "description": "Seach all the entries posted on {{{title}}}"
+    }
+  },
+  "tagged.html": {
+    "partials": {
+      "title": "{{{tag}}} on {{{title}}}",
+      "description": "All of the entries tagged {{{tag}}} on {{{title}}}"
     }
   }
 }
