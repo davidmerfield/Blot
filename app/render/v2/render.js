@@ -26,8 +26,6 @@ function render (req, res) {
 
   return function (name, _next, callback) {
 
-    console.log('THIS RENDER!');
-
     var next = req.next;
     var blog = req.blog;
     var blogID = blog.id;
@@ -35,7 +33,7 @@ function render (req, res) {
 
     if (callback) callback = callOnce(callback);
 
-    templateID = 'default';
+    templateID = 'essay';
 
     loadTemplate(blogID, templateID, name, function(err, response){
 
@@ -78,7 +76,6 @@ function render (req, res) {
         } catch (e) {
           return next(ERROR.BAD_LOCALS());
         }
-
 
         if (callback) {
           return callback(null, output);
