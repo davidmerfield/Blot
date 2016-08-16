@@ -8,6 +8,50 @@ Installation of custom template should be as easy as
 
 'Create folder Template:
 
+Blot themes are derived from a folder of HTML fragments.
+
+If you want to just a tweak a thing or two with an existing template, it's not really neccessary to read all the nonsense below. Just create a clone of the template you'd like to modify, then open it in the template editor. It should be self-explanatory.
+
+Blot uses Mustache to render templates. Please read its documentation. It is important you understand the meaning of a template, a partial and a view.
+
+Blot themes are a collection of **templates** and **partials** which are rendered with a **view** containing variables from your blog.
+
+**Templates** represent the layout for a given page on your blog. **Partials** represent small fragments of a template that repeat across your site like a menu. The **view** is a collection of variables, structured as JSON, which is used to render your template.
+
+Blot generates the view for a template based on a few inputs:
+
+- The tags used in the template
+- Local variables specified in your theme's configuation file
+- Properties from your blog (e.g. title, profile picture)
+- Variables derived from the template's route
+
+## Templates
+
+Blot themes inherit a handful of templates by default:
+
+- feed.rss (for your blog's RSS feed)
+- robots.txt
+- sitemap.xml
+
+I assume you probably won't want to modify them, but you can override these templates yourself by creating the corresponding file in your theme's /templates directory.
+
+## Partials
+
+If a partial file is called 'footer.html', blot will make it available to views like this:
+
+```
+{{> footer}}
+```
+
+## Routing
+
+With the exception of entry.html and entries.html, you control the routes
+If a view file is called 'archives.html', by default Blot will mount it to /archives You can customize the route used for the view in theme.json.
+
+## Assets
+
+Files in the /assets folder are served. Files are minified where possible but they are not rendered as templates. This folder is useful for template-specific images, font-files and that kinds of thing.
+
 stick files inside? indicate selected template with leading *? How does blot know which template to use? Do user templates always exist in Blog folder?
 
 move _assets to .assets or .blot ?
