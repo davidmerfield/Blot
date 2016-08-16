@@ -50,6 +50,8 @@ if (dropbox_test_app && production === false) {
 
 module.exports = {
 
+  "flags": flags,
+
   "environment": environment,
   "host": host,
   "protocol": protocol,
