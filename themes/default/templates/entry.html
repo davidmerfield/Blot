@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    {{> header}}
+
+    {{#entry}}
+
+      {{{html}}}
+
+      Posted on <a href="{{url}}">{{date}}</a>.
+
+      {{#tags.length}} Filed under:
+        {{#tags}}
+         <a class="small tag" href="/tagged/{{slug}}">{{name}}</a>
+        {{/tags}}
+      {{/tags.length}}
+
+      <br />
+      {{> pluginHTML}}
+
+      {{#adjacent}}
+      <hr class="full" />
+      {{/adjacent}}
+
+      {{#previous}}
+      <a class="halfWidth left previousEntry" href="{{url}}">
+        <h5>Previous post</h5>
+        <span class="title">{{title}}</span>
+        <span class="summary">{{summary}}</span>
+      </a>
+      {{/previous}}
+
+      {{#next}}
+      <a class="left halfWidth nextEntry" href="{{url}}">
+        <h5>Next post</h5>
+        <span class="title">{{title}}</span>
+        <span class="summary">{{summary}}</span>
+      </a>
+      {{/next}}
+
+    {{/entry}}
+
+    {{> footer}}
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    {{> header}}
+
+    {{#entries}}
+    <div class="entry">
+
+      {{{html}}}
+
+      Posted on <a href="{{url}}">{{date}}</a>.
+
+      {{#tags.length}} Filed under:
+        {{#tags}}
+         <a class="small tag" href="/tagged/{{slug}}">{{name}}</a>
+        {{/tags}}
+      {{/tags.length}}
+
+    </div>
+    {{/entries}}
+
+    {{#pagination}}
+      <p>
+      {{#previous}}
+        <a href="/page/{{previous}}">&larr; Newer</a>
+      {{/previous}}
+      Page {{current}} of {{total}}
+      {{#next}}
+        <a href="/page/{{next}}">Older &rarr;</a>
+      {{/next}}
+      </p>
+    {{/pagination}}
+
+    {{> footer}}
+  </body>
+</html>
