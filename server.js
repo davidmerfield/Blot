@@ -10,7 +10,11 @@ var analytics = require('./app/analytics');
 var cache = require('./app/cache');
 var loadRoutes = require('./app/routes/load');
 var vhosts = require('./app/routes/vhosts');
+var responseTime = require('./app/routes/responseTime');
+
 var renderView = require('./app/render/middleware');
+var renderView2 = require('./app/render/v2/middleware');
+
 var scheduler = require('./app/scheduler');
 var add = require('./app/routes/add');
 var messenger = require('./app/routes/messenger');
@@ -117,12 +121,21 @@ blog
   .use(compression())
   .use(vhosts)
   .use(add())
-  .use(renderView)
   .use(cache.middleware());
+
+// Only time uncached responses
+if (config.flags.time_response)
+ blog.use(responseTime);
+
+// Load in the appropriate rendering engine
+if (config.flags.v2) {
+  blog.use(renderView2);
+} else {
+  blog.use(renderView);
+}
 
 // Load the routes!
 loadRoutes(blog, '/blog');
-
 
 // All together now
 var server = express();
@@ -144,7 +157,6 @@ server
   .use(helmet.frameguard('allow-from', config.host))
   .use(helmet.crossdomain())
   .use(analytics.middleware)
-
   // check to see if session exists
   // before using the dashbord so
   // avoid passing the error
