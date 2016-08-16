@@ -1,6 +1,34 @@
+I will need a script to write out existing templates in new format
 
 
 # Revisiting templates
+
+blogs/{{id}}/themes/{{default}}
+
+set blog.template to {{default}} ?
+
+create new Template "Foo bar" in blogs/{{id}}/themes/Foo bar
+
+editing will just save the files directly
+
+can rename the template -> copy folder, set blog.template to new folder, delete old folder.
+
+we could load a users template into memory instead? but what about static files? eh avoid this optimization for now.
+
+we only need to serve-static the non-css and js files in /assets?
+
+on enable local-editing
+
+ theme / theme.json etc...
+
+on enable local editing for multiple
+
+ theme / foo
+ theme / bar
+
+
+
+
 
 Templates should be copy/pastable between blogs
 
@@ -25,15 +53,21 @@ Blot generates the view for a template based on a few inputs:
 - Properties from your blog (e.g. title, profile picture)
 - Variables derived from the template's route
 
+## Configuration file
+
+You can use the configuration file to declare template-specific locals and partial templates. Blot's themes use this feature to customize the <title> and description tags of each template.
+
 ## Templates
 
-Blot themes inherit a handful of templates by default:
+Blot themes inherit a handful of templates and options by default:
 
 - feed.rss (for your blog's RSS feed)
 - robots.txt
 - sitemap.xml
 
 I assume you probably won't want to modify them, but you can override these templates yourself by creating the corresponding file in your theme's /templates directory.
+
+The template site.xml would be rendered at the url example.com/site.xml. The template foo.html would be rendered at the url example.com/foo. You can adjust the url for a given template. The exceptions are entries.html, entry.html and error.html. Error.html is used for all routes which return nothing. You can override this in your theme's configuration file.
 
 ## Partials
 
@@ -50,7 +84,18 @@ If a view file is called 'archives.html', by default Blot will mount it to /arch
 
 ## Assets
 
-Files in the /assets folder are served. Files are minified where possible but they are not rendered as templates. This folder is useful for template-specific images, font-files and that kinds of thing.
+Files in the /assets folder are served. JavaScript and CSS files are minified and rendered like templates. This means you can use variables from your blog or your template inside scripts and stylesheets:
+
+```
+body {
+  background: {{background_color}};
+}
+```
+
+Everything else is served as-is. This folder is useful for template-specific images, font-files and that kinds of thing.
+
+
+
 
 stick files inside? indicate selected template with leading *? How does blot know which template to use? Do user templates always exist in Blog folder?
 
