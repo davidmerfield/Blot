@@ -87,11 +87,11 @@ function loadJSON (path, callback) {
 
 function loadConfig (themeID, callback) {
 
-  loadJSON(themeDir(themeID) + '/package.json', function(err, theme_config){
+  loadJSON(themeDir(themeID) + '/theme.json', function(err, theme_config){
 
     if (err) return callback(err);
 
-    loadJSON(themeDir('*') + '/package.json', function(err, global_config){
+    loadJSON(themeDir('*') + '/theme.json', function(err, global_config){
 
       if (err) return callback(err);
 
@@ -103,7 +103,7 @@ function loadConfig (themeID, callback) {
   });
 }
 
-function load (themeID, names, partials, retrieve, callback) {
+function loadPartials (themeID, names, partials, retrieve, callback) {
 
   forEach(names, function(partialName, next){
 
@@ -121,7 +121,7 @@ function load (themeID, names, partials, retrieve, callback) {
 
       extend(retrieve).and(parsedPartial.retrieve);
 
-      load(themeID, parsedPartial.partials, partials, retrieve, next);
+      loadPartials(themeID, parsedPartial.partials, partials, retrieve, next);
     });
   }, function(){
 
@@ -133,6 +133,8 @@ function load (themeID, names, partials, retrieve, callback) {
 function loadTemplate (blogID, themeID, templateName, callback) {
 
   loadConfig(themeID, function(err, config){
+
+    if (err) return callback(err);
 
     // First we retrieve the template we will render
 
@@ -149,7 +151,6 @@ function loadTemplate (blogID, themeID, templateName, callback) {
 
         extend(locals)
           .and(config[templateName].locals || {});
-
       }
 
       // Now we parse the template to determine the
@@ -161,7 +162,7 @@ function loadTemplate (blogID, themeID, templateName, callback) {
 
       var partialNames = parsedTemplate.partials;
 
-      load(themeID, partialNames, partials, retrieve, function(err, partials, retrieve){
+      loadPartials(themeID, partialNames, partials, retrieve, function(err, partials, retrieve){
 
         callback(null, [locals, partials, retrieve, mimeType, template]);
       });
