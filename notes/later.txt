@@ -5,6 +5,11 @@
 LATER
 -----
 
+Add retrieve method to allow all entry lists to access {{#months}} sorting options
+just like the archives page.
+
+Find a better search library for blog text search
+
 Removing date metadata should reset datestamp to entry.created
 
 Add folder section to settings page? radio buttons?
