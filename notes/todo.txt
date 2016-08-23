@@ -3,8 +3,18 @@
                          TO DO
                          -----
 
-Make templates file / folder based without modifying renderer
-   - cp www/blogs/* -> /blogs/{{id}}/assets
+Improve script for deleting all user data from blot
+https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
+
+Add script to apply arbitrary transformations to files in user folder
+and use it to fix the metadata spacing for luke
+https://mail.google.com/mail/u/0/#inbox/15683d02aff76dc5
+
+Add custom partials to template editor...
+
+Move all default templates to partials instead of re-rendered locals
+
+Disable re-rendering for template locals
 
 Public files / hidden pages
   Warn users that underscore will not work for hidden pages
@@ -14,10 +24,6 @@ Public files / hidden pages
   don't write previews for _ posts
 
 --------------------------
-
-Add custom partials to template editor...
-
-Move all default templates to partials instead of re-rendered locals
 
 Add daemon for zero-downtime node restart
 
@@ -35,7 +41,10 @@ Add hourly local redis rdb dumps
 Add script to roll back into hourly local db dumps and remote backups
 
 Set up nginx sendfile for blot.im & blogs
+
 Improve nginx error pages
+
+Lease new instance for 12 months
 
 --------------------------
 
@@ -52,8 +61,6 @@ Spend 2 days writing and recording demo video, must make sense as audio only, vi
 Set pricing to $30 a year for new subscribers
 
 --------------------------
-
-Fix create-blog rodericus
 
 Add support for 'full Dropbox' feature
 Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
