@@ -56,6 +56,9 @@ module.exports = function(server){
         invoiceID: invoiceID
       });
 
+      // Remove navigation (it's blank otherwise)
+      response.setPartials({nav: ''});
+
       response.render('dashboard/_wrapper');
     });
   });
