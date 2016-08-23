@@ -57,7 +57,7 @@ module.exports = function(server){
       });
 
       // Remove navigation (it's blank otherwise)
-      response.setPartials({nav: ' '});
+      // response.setPartials({nav: ' '});
 
       response.render('dashboard/_wrapper');
     });
