@@ -1,9 +1,8 @@
-
-
-
-
 LATER
 -----
+
+Make templates file / folder based without modifying renderer
+   - cp www/blogs/* -> /blogs/{{id}}/assets
 
 Add retrieve method to allow all entry lists to access {{#months}} sorting options
 just like the archives page.
@@ -26,6 +25,10 @@ Move daily update generator to app folder
 Move onetimeauth to scripts folder
 
 If entries share publish date, sort them by blot creation date?
+
+remove sidebar from pay subscription page
+allow access to /contact for overdue users
+fix bad rendering of /contact for overdue users
 
 nginx fail2ban & http2
 

@@ -67,8 +67,8 @@ function check (request, response, next) {
         // Need to allow post requests
         if (user.isUnpaid || user.isPastDue) {
 
-          // to view pay page or contact page (if they have questions)
-          if (request.url === '/pay-subscription' || request.url === '/contact')
+          // to view pay page
+          if (request.url === '/pay-subscription')
             return next();
 
           // or to submit their new payment
