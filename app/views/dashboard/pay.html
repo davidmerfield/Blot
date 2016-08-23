@@ -17,16 +17,15 @@
         <input type="text" size="20" data-stripe="number" name="number" class="lock"/>
       </label>
 
-      <label class="cvc">
-        <span>CVC:</span>
-        <input type="text" size="4" data-stripe="cvc" name="cvc"/>
-      </label>
-
       <label class="expiration">
         <span class="title">Expiration date:</span><br>
         <input class="month" name="exp-month" placeholder="MM" type="text" size="2" data-stripe="exp-month"/>
-        <span class="slash"> / </span>
         <input class="year" name="exp-year" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      </label>
+
+      <label class="cvc">
+        <span>CVC:</span>
+        <input type="text" size="4" data-stripe="cvc" name="cvc"/>
       </label>
 
       <div class="clear"></div>
@@ -71,7 +70,7 @@
             if (data !== 'SUCCESS') {
               onError(data)
             } else {
-              window.location.href = "{{protocol}}://{{host}}/";
+              window.location.href = "{{protocol}}{{host}}/";
             }
           });
         }
