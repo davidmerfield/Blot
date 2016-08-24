@@ -3,6 +3,12 @@
                          TO DO
                          -----
 
+1. Improve the selection of templates
+
+2. Make templates easy to customize and create
+
+-------------------------
+
 Improve script for deleting all user data from blot
 https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
 
