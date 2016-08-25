@@ -16,10 +16,6 @@ Add script to apply arbitrary transformations to files in user folder
 and use it to fix the metadata spacing for luke
 https://mail.google.com/mail/u/0/#inbox/15683d02aff76dc5
 
-Add custom partials to template editor...
-
-Move all default templates to partials instead of re-rendered locals
-
 Disable re-rendering for template locals
 
 Public files / hidden pages

@@ -5,22 +5,46 @@
 3. Publish open source projects.
 - entire codebase?
 - express custom domains OS project
-4. Do the legwork to get high-profile designers, programmers, artists, academics, journalists and writers on Blot. Offer to migrate posts and template for free. 
+4. Do the legwork to get high-profile designers, programmers, artists, academics, journalists and writers on Blot. Offer to migrate posts and template for free.
+
+I need people who aren't publicly associated with another
+blogging platform & who probably use Dropbox.
 
 -------------
+orenchi beyond
+zuni café
+20th century café
+-------------
+Peter mendelsund
+Frank chimero
+Daniel gray
+Soleio
+Jessica Hische
+-------------
+Katie rose pipkin
+Rasmus Andersson
+Erik Bernhardsson
+TJ Holowaychuk
+Wilson Miner
+-------------
+Ana Luisa
+lilli waters
+Jefferson Cheng
+Lotta Nieminen
+-------------
+Mike Bostock
+Jeremy Ashkenas
+-------------
+Robin Sloan
+Maciej Ceglowski
+-------------
 
-http://andrewchen.co/
-http://danielgray.com/
-http://www.minimallyminimal.com/archive/
-http://blog.soff.es/
 http://readwrite.com/2011/11/23/how_to_use_calepin_the_easiest_blog_tool_in_the_wo
 https://twitter.com/calepinapp/followers
 https://twitter.com/scriptogram/followers
-https://ifttt.com/p/semilshah/shared
 http://www.californiossf.com/about.html
 http://www.zeldman.com/2015/07/10/give-me-file-hierarchies-or-give-me-chaos/
 https://louderthanten.com/articles/story/design-machines
-https://twitter.com/caitsbeautyblog
 http://www.swiss-miss.com/2012/01/scriptogr-am.html
 http://lifehacker.com/5874562/scriptogram-turns-your-dropbox-into-a-blog
 http://www.gizmag.com/scriptogram-dropbox-weblog-platform/21133/
