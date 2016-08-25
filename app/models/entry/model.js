@@ -25,8 +25,5 @@ module.exports =  {
       dateStamp: 'number', // UTC timestamp for resolved date
       created: 'number', // UTC timestamp for when the entry was added to Blot
       updated: 'number', // UTC timestamp for file mtime
-      render: 'boolean',
-      metadata: 'object',
-      retrieve: 'object',
-      partials: 'array'
+      metadata: 'object'
 };

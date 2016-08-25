@@ -87,12 +87,6 @@ function Prepare (entry) {
   entry.more = entry.teaser !== entry.html;
   time.end('teasers');
 
-  time('mustache-parse');
-  var parsedLocals = parse(entry.html);
-  entry.retrieve = parsedLocals.retrieve;
-  entry.partials = parsedLocals.partials;
-  time.end('mustache-parse');
-
   time('makeSlug');
   entry.slug = makeSlug(entry.metadata.title || entry.title);
   time.end('makeSlug');
@@ -153,10 +147,6 @@ function Prepare (entry) {
   entry.permalink = normalize(entry.permalink);
 
   time.end('permalink');
-
-  time('render');
-  entry.render = entry.html.indexOf('{{') > -1 && entry.metadata.render === undefined;
-  time.end('render');
 
   time('meta-overwrite');
 
