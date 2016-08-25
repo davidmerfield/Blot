@@ -34,7 +34,9 @@ module.exports = function (req, res, next) {
 
       res.addPartials({
         local: 'template/_local',
-        locals: 'template/_locals'
+        locals: 'template/_locals',
+        partial: 'template/_partial',
+        partials: 'template/_partials',
       });
 
       return next();

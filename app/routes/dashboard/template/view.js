@@ -128,8 +128,10 @@ function saveView (req, res, next) {
 
   // This allows users to delete all the
   // locals for a view.
-  if (req.body.has_locals)
+  if (req.body.has_locals) {
     view.locals = view.locals || {};
+    view.partials = view.partials || {};
+  }
 
   view.name = req.view.name;
 
@@ -206,6 +208,12 @@ function loadView (req, res, next) {
     if (err) return next(err);
 
     view.locals = arrayify(view.locals);
+
+    for (var i in view.partials)
+      if (view.partials[i] === null)
+        delete view.partials[i];
+
+    view.partials = arrayify(view.partials);
 
     view.extension = mime.extension(view.type || '');
     view.editorMode = editorMode(view);

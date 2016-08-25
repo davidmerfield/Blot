@@ -116,10 +116,44 @@
       $(this).parent().remove();
 
     });
+
+
+    var partialTemplate = $('#partial-template')
+      .find('.value')
+        .val('')
+        .attr('name', '')
+        .end()
+      .find('.name')
+        .val('')
+        .end()
+      .children()
+      .first()
+
+
+    $('#partial-add').click(function(){
+
+      var newRow = partialTemplate.clone().show();
+
+      $('#partial-list').append(newRow);
+
+    });
+
+    $("#partial-list").on("keyup", ".name", function() {
+
+      $(this)
+        .parent()
+        .parent()
+        .find('.value')
+        .attr('name', 'partials.' + $(this).val());
+
+    });
+
+    $("#partial-list").on("click", ".delete", function() {
+
+      $(this).parent().remove();
+
+    });
     </script>
-
-
-
     {{/template}}
   </body>
 </html>
