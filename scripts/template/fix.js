@@ -1,32 +1,81 @@
+var writeToFolder = require('../../app/modules/template').writeToFolder;
+var eachTemplate = require('../each/template');
+var _ = require('lodash');
+
 var eachView = require('../each/view');
 var Template = require('../../app/models/template');
+var helper = require('helper');
+var type = helper.type;
 
-var ONE_BRACKET = '<guid>{{blogURL}}/{{id}}</guid>';
-var OB_FIXED =    '<guid>{{blogURL}}{{url}}</guid>';
+var DESCRIPTION = '{{pageDescription}}';
+var FIXED_DESCRIPTION = '{{> description}}';
 
-var TWO_BRACKETS = '<guid>{{{blogURL}}}/{{id}}</guid>';
-var TB_FIXED     = '<guid>{{{blogURL}}}{{url}}</guid>';
+var TITLE = '{{pageTitle}}';
+var FIXED_TITLE = '{{> title}}';
+
+var changedTemplate = {};
 
 eachView(function(user, blog, template, view, next){
 
   if (!view || !view.content) return next();
 
-  if (view.content.indexOf(ONE_BRACKET) > -1) {
+  var _view = _.cloneDeep(view);
 
-    view.content = view.content.split(ONE_BRACKET).join(OB_FIXED);
-    console.log(template.id, view.name, 'was fixed');
+  view.partials = view.partials || {};
 
-  } else if (view.content.indexOf(TWO_BRACKETS) > -1) {
+  if (type(view.partials, 'array')) {
 
-    view.content = view.content.split(TWO_BRACKETS).join(TB_FIXED);
-    console.log(template.id, view.name, 'was fixed');
+    var partials = {};
 
-  } else {
+    for (var i = 0; i < view.partials.length;i++)
+      partials[view.partials[i]] = null;
 
-    // console.log(template.id, view.name, 'does not need to be fixed');
-    return next();
+    view.partials = partials;
   }
+
+  if (view.content.indexOf(DESCRIPTION) > -1) {
+    view.content = view.content.split('{' + DESCRIPTION + '}').join(DESCRIPTION);
+    view.content = view.content.split(DESCRIPTION).join(FIXED_DESCRIPTION);
+  }
+
+  if (view.content.indexOf(TITLE) > -1) {
+    view.content = view.content.split('{' + TITLE + '}').join(TITLE);
+    view.content = view.content.split(TITLE).join(FIXED_TITLE);
+  }
+
+  if (view.locals.pageDescription) {
+    view.partials.description = view.locals.pageDescription;
+    delete view.locals.pageDescription;
+  }
+
+  if (view.locals.pageTitle) {
+    view.partials.title = view.locals.pageTitle;
+    delete view.locals.pageTitle;
+  }
+
+  if (_.isEqual(_view, view)) return next();
+
+  changedTemplate[template.id] = true;
+
+  console.log('Changed', template.id);
 
   Template.setView(template.id, view, next);
 
-}, process.exit);
+}, function(){
+
+  eachTemplate(function(user, blog, template, next) {
+
+    if (!template.localEditing) return next();
+
+    if (!changedTemplate[template.id]) return next();
+
+    console.log('Would write local for this tmeplate');
+
+    writeToFolder(blog.id, template.id, function(err){
+
+      if (err) console.log(err);
+
+      next();
+    });
+  }, process.exit);
+});
