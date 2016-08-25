@@ -28,7 +28,7 @@ module.exports = (function () {
         name: 'string',
         content: 'string',
         type: 'string',
-        partials: 'array',
+        partials: 'object',
         locals: 'object',
         retrieve: 'object',
         url: 'string'
@@ -284,11 +284,26 @@ module.exports = (function () {
             view[i] = updates[i];
 
           view.locals = view.locals || {};
+          view.retrieve = view.retrieve || {};
+          view.partials = view.partials || {};
+
           view.url = helper.urlNormalizer(view.url || '');
 
           var parseResult = helper.parseTemplate(view.content);
 
-          view.partials = parseResult.partials || [];
+          // TO DO REMOVE THIS
+          if (type(view.partials, 'array')) {
+
+            var _partials = {};
+
+            for (var i = 0; i < view.partials.length;i++)
+              _partials[view.partials[i]] = null;
+
+            view.partials = _partials;
+          }
+
+          extend(view.partials).and(parseResult.partials);
+
           view.retrieve = parseResult.retrieve || [];
 
           view = serialize(view, viewModel);
@@ -308,15 +323,17 @@ module.exports = (function () {
 
     ensure(blogID, 'string')
       .and(templateID, 'string')
-      .and(partials, 'array')
+      .and(partials, 'object')
       .and(callback, 'function');
 
     var Entry = require('./entry');
     var allPartials = {};
     var retrieve = {};
 
-    // Partials is a list, containing
-    // the name of views OR entry paths
+    for (var i in partials)
+      if (partials[i])
+        allPartials[i] = partials[i];
+
     fetchList(partials, function(){
 
       return callback(null, allPartials, retrieve);
@@ -324,12 +341,13 @@ module.exports = (function () {
 
     function fetchList (partials, done) {
 
-      forEach(partials, function (partial, next){
+      forEach(partials, function (partial, value, next){
 
         // Don't fetch a partial if we've got it already.
         // Partials which returned nothing are set as
         // empty strings to prevent any infinities.
-        if (allPartials[partial] !== undefined) return next();
+        if (allPartials[partial] !== null && allPartials[partial] !== undefined)
+          return next();
 
         // If the partial's name starts with a slash,
         // it is a path to an entry.
@@ -337,24 +355,17 @@ module.exports = (function () {
 
           Entry.get(blogID, partial, function(entry) {
 
-            // Only allow access to entries which exist
-            // and are public
-            if (entry && entry.html && !entry.deleted &&
-               !entry.draft && !entry.scheduled) {
-              allPartials[partial] = entry.html;
-            } else {
-              // empty string and not undefined to
-              // prevent infinite fetches
-              allPartials[partial] = '';
-            }
+            // empty string and not undefined to
+            // prevent infinite fetches
+            allPartials[partial] = '';
 
-            // Fetch any 'sub partials' the entry
-            // might contain recursively...
-            if (entry && entry.partials.length) {
-              fetchList(entry.partials, next);
-            } else {
-              next();
-            }
+            if (!entry || !entry.html) return next();
+
+            // Only allow access to entries which exist and are public
+            if (!entry.deleted && !entry.draft && !entry.scheduled)
+              allPartials[partial] = entry.html;
+
+            next();
           });
         }
 
@@ -370,13 +381,9 @@ module.exports = (function () {
               for (var i in view.retrieve)
                 retrieve[i] = view.retrieve[i];
 
-            } else {
-              allPartials[partial] = '';
-            }
-
-            if (view && view.partials.length) {
               fetchList(view.partials, next);
             } else {
+              allPartials[partial] = '';
               next();
             }
           });
@@ -617,9 +624,11 @@ module.exports = (function () {
     var obj = _.cloneDeep(sourceObj);
 
     for (var i in obj) {
+
       if (model[i] === 'object' || model[i] === 'array') {
         obj[i] = JSON.stringify(obj[i]);
       }
+
     }
 
     return obj;
@@ -665,7 +674,7 @@ module.exports = (function () {
       // - content (string) of the template view
       // - retrieve (object) locals embedded in the view
       //                     which need to be fetched.
-      // - partials (array) list of partial names used in view
+      // - partials (object) partials in view
 
       getPartials(blogID, templateID, view.partials, function(err, allPartials, retrieveFromPartials) {
 

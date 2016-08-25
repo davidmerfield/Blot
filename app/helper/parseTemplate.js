@@ -23,7 +23,7 @@ var retrieveThese = _.filter(modules, function(name){
 function parseTemplate (template) {
 
   var retrieve = {};
-  var partials = [];
+  var partials = {};
   var parsed;
 
   try {
@@ -49,7 +49,9 @@ function parseTemplate (template) {
 
       // Is a partial
       if (token[0] === '>') {
-        partials.push(token[1]);
+
+        // this is dangerous but used to avoid fetching partials twice
+        partials[token[1]] = null;
       }
 
       // Is a variable, '#' starts iterative blocks
