@@ -3,6 +3,18 @@
                          TO DO
                          -----
 
+Fix default RSS feed validation
+  This is a validation of http://david.blot.im
+  https://validator.w3.org/feed/check.cgi?url=http%3A%2F%2Fnews.blot.im%2Ffeed.rss …
+  When the feed contains a post with a tweet it complains about the inserted script
+  There is an issue with the RSS feed code.
+  The following code (feed.xml)
+    <description><![CDATA[ {{{body}}} ]]></description>
+  results in an invalid feed
+    <description><![CDATA[ {{body}} ]]></description>
+
+-------------------------
+
 1. Improve the selection of templates
 
 2. Make templates easy to customize and create
