@@ -15,7 +15,7 @@ get(from, function(user){
   if (!newSubscriptionID) throw 'No Subscription id';
   if (!newCustomerID) throw 'No Customer id';
 
-  console.log('Subscription is ', user.subscription);
+  console.log('Previous subscription is ', user.subscription);
 
   stripe.customers.retrieveSubscription(newCustomerID, newSubscriptionID, function(err, subscription) {
 
@@ -23,9 +23,10 @@ get(from, function(user){
 
     if (!subscription) throw 'No subscription found from Stripe';
 
-    console.log(subscription);
+    console.log('------------------');
+    console.log('new subscription is:');
 
-    throw 'HERE';
+    console.log(subscription);
 
     User.set(user.uid, {subscription: subscription}, function(err){
 
