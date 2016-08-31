@@ -231,6 +231,7 @@ Re-enable CSP on blot site in a way that works in Safari
 Popular entry list
 
 Related entry list
+https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61
 
 Expose list of rendering errors to callback
 

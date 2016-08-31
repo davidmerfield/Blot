@@ -13,6 +13,9 @@ Fix default RSS feed validation
   results in an invalid feed
     <description><![CDATA[ {{body}} ]]></description>
 
+Fix updated date for sitemap
+https://mail.google.com/mail/u/0/#inbox/156b88cd1b9c704a
+
 -------------------------
 
 1. Improve the selection of templates
