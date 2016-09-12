@@ -1,6 +1,9 @@
 LATER
 -----
 
+FIx bug with case sensitivity for tag folders
+https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
+
 Make templates file / folder based without modifying renderer
    - cp www/blogs/* -> /blogs/{{id}}/assets
 

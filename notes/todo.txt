@@ -3,6 +3,9 @@
                          TO DO
                          -----
 
+Fix bad mimetype for static js files
+https://mail.google.com/mail/u/0/#inbox/156f72ed70db407f
+
 Fix default RSS feed validation
   This is a validation of http://david.blot.im
   https://validator.w3.org/feed/check.cgi?url=http%3A%2F%2Fnews.blot.im%2Ffeed.rss …
