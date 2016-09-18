@@ -45,7 +45,7 @@ module.exports = function (remotePath, localPath, callback, options) {
 
     if (err) throw err;
 
-    exec('rsync -v ' + progress + ' -e ssh ' + HOST + ':' + remotePath + ' ' + localDir, options, function(code, stdout, stderr){
+    exec('rsync -v ' + progress + ' -e ssh blot:' + remotePath + ' ' + localDir, options, function(code, stdout, stderr){
 
       if (code) return callback(code + stdout + stderr);
 
