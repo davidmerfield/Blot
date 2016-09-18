@@ -3,6 +3,9 @@
                          TO DO
                          -----
 
+Allow users to remove blogs from their account
+https://mail.google.com/mail/u/0/#inbox/157368656d231da2
+
 Fix bad mimetype for static js files
 https://mail.google.com/mail/u/0/#inbox/156f72ed70db407f
 
