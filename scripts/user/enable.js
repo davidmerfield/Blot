@@ -14,9 +14,11 @@ Blog.get({handle: handle}, function(err, blog){
 
   User.getBy({uid: uid}, function(err, user){
 
-    forEach(user.blogs, function(blog, nextBlog){
+    if (err || !user) throw err || 'No user';
 
-      Blog.set(blog.id, {isDisabled: false}, nextBlog);
+    forEach(user.blogs, function(blogID, nextBlog){
+
+      Blog.set(blogID, {isDisabled: false}, nextBlog);
 
     }, function(){
 
