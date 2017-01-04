@@ -3,6 +3,17 @@
                          TO DO
                          -----
 
+
+
+
+Document {{more}} tag
+https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
+
+Fix bug in cloning photos theeme due to relic view
+https://mail.google.com/mail/u/0/?zx=99cz8s1q1d2g#inbox/1587f8559494c9ca
+
+Remove limit on image size
+
 Allow users to remove blogs from their account
 https://mail.google.com/mail/u/0/#inbox/157368656d231da2
 
@@ -27,6 +38,8 @@ https://mail.google.com/mail/u/0/#inbox/156b88cd1b9c704a
 1. Improve the selection of templates
 
 2. Make templates easy to customize and create
+
+let aurynn know it's possible to set routes locally https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 
 -------------------------
 
