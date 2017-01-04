@@ -39,6 +39,10 @@ Robin Sloan
 Maciej Ceglowski
 -------------
 
+
+https://twitter.com/mijustin
+https://justinjackson.ca/
+
 http://readwrite.com/2011/11/23/how_to_use_calepin_the_easiest_blog_tool_in_the_wo
 https://twitter.com/calepinapp/followers
 https://twitter.com/scriptogram/followers
