@@ -4,7 +4,7 @@ var ensure = helper.ensure;
 var normalize = helper.pathNormalizer;
 var file = require('../../../models/entry/build/file');
 
-var MAX_FILE_SIZE = 5 * 1024 * 1024; // 10 mb
+var MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 mb
 
 var REASONS = {
   WRONG_TYPE: 'WRONG_TYPE',
