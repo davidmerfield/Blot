@@ -35,7 +35,7 @@ module.exports = function create (uid, info, callback) {
         title = capitalise(info.handle) + '\'s blog';
       } else {
         folder = '/';
-        title = user.name + '’s blog';
+        title = user.name + '\’s blog';
       }
 
       var blog = {
