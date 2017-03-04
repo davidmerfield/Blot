@@ -102,13 +102,17 @@ loadRoutes(site, '/dashboard');
 loadRoutes(site, '/site');
 
 var staticDir = __dirname + '/www/blot';
+var staticSettings = {};
 
-site
-  .use(express.static(staticDir, {maxAge: 86400000}));
+// Don't set max age header in development
+// so we can make changes quickly
+if (config.environment !== 'development')
+  staticSettings.maxAge = 86400000;
+
+// Serve static assets
+site.use(express.static(staticDir, staticSettings));
 
 require('./app/routes/error')(site);
-
-
 
 // This serves the content
 // of users' blogs
