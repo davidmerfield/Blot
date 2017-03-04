@@ -24,7 +24,7 @@ h1, h2, h3, h4, h5, p, ul, ol, code, blockquote {margin-bottom: 1em;font-weight:
 
 h1 {font-size: 32px;line-height: 1.333333;margin-top: 0}
 
-h2 {font-size: 20px;line-height: 1.3333;margin: 3em 0 1em}
+h2 {font-size: 24px;line-height: 1.3333;margin: 3em 0 1em}
 
 h3 {font-size: 1.2em;font-weight: 700;margin-bottom: 0.33em}
 
@@ -381,23 +381,16 @@ p.lock:before {
 }
 
 .sticky {width: 20em;margin: 11em 4em;position: fixed;}
+
 .wrapper {
-  margin: 8em auto;
-  max-width: 1060px;
-  padding-left: 16em;
+  margin:3em auto;
+  max-width: 600px;
 }
 
 .sidebar {
-  position: fixed;
-  margin-left: -15em;
-  width: 10em;
-  bottom: 4em;
-  top: 8em;
-  min-height: 20em
 }
 
 .nav a {
-  display: block;
   color: gray;
   line-height: 2.25;
   text-decoration: none;
@@ -405,18 +398,13 @@ p.lock:before {
 
 .nav a.selected {color: black}
 
-.nav.side .selected:before{
-  content: "•";
-  position: absolute;
-  left: -0.85em;
-  top:-0.1em;
-}
 
-.sub.nav {border-bottom: 1px solid rgba(0,0,0,0.1)}
-.sub.nav a {display: inline-block;margin-right: 1.5em;color: blue}
-.sub.nav a.selected {color: black}
 
-.footer {position:absolute;bottom:0;color: #ccc}
+.sub.nav {border-bottom: 1px solid rgba(0,0,0,0.1);font-size: 14px}
+.sub.nav a {display: inline-block;margin: 0 0.8em -1px 0;color: blue}
+.sub.nav a.selected {color: black;border-bottom: 1px solid black}
+
+.footer {color: #ccc}
 .footer a {color: inherit;display:inline-block;text-decoration: none;}
 
 
@@ -1006,10 +994,9 @@ img {
 span.folder,
 span.file {
   display:inline-block;
-  width: 1em;height: 1em;
+  width: 1.66666em;height: 1.6666em;float:left;margin-right:0.6666em;
   background: url('/images/folder.svg') no-repeat center center;
   background-size: contain;
-  margin-right: 0.12em;
   position: relative;
   top: 0.15em;
 }
@@ -1058,7 +1045,8 @@ text-align: center;
 line-height: 1em;
 }
 
-.files a {color: blue}
+.files a {color: blue;text-decoration:none;display:block;padding: 0.6666em 0;line-height: 2em}
+.files a:hover {background: #fafafa;border:none;}
 
 .opener {
   display: inline-block;

@@ -17,9 +17,9 @@ body {
 }
 
 a {
-  color: blue;
+  color: black;
   text-decoration: none;
-  border-bottom: 1px solid rgba(0,0,255,.4);
+  border-bottom: 1px solid rgba(0,0,0,.4);
 }
 
 .nav > a,
@@ -35,7 +35,6 @@ a {
   border-color: blue
 }
 
-.nav #logo {margin-left: -4.85em}
 
 .small {
   font-size: 16px;
@@ -56,7 +55,7 @@ h1 {
 
 h2 {
   font-size: inherit;
-  font-weight: bold;
+  font-weight: 500;
   margin-bottom: -1em;
   margin-top: 2em;
 }
