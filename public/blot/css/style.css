@@ -1,7 +1,6 @@
 body {
-  margin: 0 auto;
+  margin: 1em 5em 2em;
   max-width: 600px;
-  padding: 0 6em 0 6em;
   text-rendering: optimizelegibility;
   font: normal 18px / 1.5 -apple-system, BlinkMacSystemFont, "Roboto", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
