@@ -31,8 +31,7 @@ module.exports = function (blog, path, callback) {
 
         stat.path = path;
         stat.name = basename(path);
-
-        stat.updated = moment.utc(stat.mtime).from(moment.utc(), true);
+        stat.updated = moment.utc(stat.mtime).from(moment.utc());
 
         stat.size = humanFileSize(stat.size);
 
@@ -43,6 +42,9 @@ module.exports = function (blog, path, callback) {
         stat.ignored = ignored;
 
         if (entry) {
+
+          // Replace with human readable
+          entry.updated = stat.updated;
 
           if (entry.page && entry.menu === false && ['.txt', '.md', '.html'].indexOf(extname(entry.path)) === -1) {
             entry.url = entry.path;
@@ -61,7 +63,6 @@ module.exports = function (blog, path, callback) {
           }
 
         }
-
         return callback(null, stat);
       });
     });
