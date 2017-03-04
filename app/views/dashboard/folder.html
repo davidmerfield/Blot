@@ -1,5 +1,7 @@
+<style type="text/css">.sub.nav a:hover {border: none;}</style>
+
 {{#breadcrumbs.length}}
-<div class="sub nav" style="margin-bottom:1.4em;">
+<div class="sub nav" style="margin-bottom:1.3em;">
 
     {{#breadcrumbs}}
 
@@ -8,7 +10,7 @@
       {{/last}}
 
       {{^last}}
-      <a href="{{url}}" style="font-size:16px">{{name}}</a> <span style="margin:0 0.5em 0 -1.5em;color:gray">‣</span>
+      <a href="{{url}}" style="font-size:16px">{{name}}</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
       {{/last}}
 
     {{/breadcrumbs}}
@@ -53,23 +55,29 @@
           <a href="{{blog.url}}{{url}}" target="_blank">
             <span class="file" ></span>
             <span class="link" style="">{{name}}</span>
-            <span class="updated" style="color:gray;float:right">Updated a month ago</span>
+            <span class="updated" style="color:gray;float:right">Updated {{updated}}</span>
 
-            {{#draft}} <span style="color:#aaa">is a draft</span>{{/draft}}
+            {{#draft}}
+            <span style="color:#aaa">is a draft</span>
+            {{/draft}}
 
             {{#scheduled}}
-            <span style="color:#aaa">will be published {{toNow}}</span>{{/scheduled}}
+            <span style="color:#aaa">will be published {{toNow}}</span>
+            {{/scheduled}}
+
             <span class="clear"></span>
           </a>
           {{/entry}}
 
           {{#ignored}}
+          <a>
           <span class="file"></span>
-          <span class="link">{{name}}</span> <span style="color:#aaa">is {{{ignored}}}</span>
+          <span class="link" style="color:black">{{name}}</span> <span style="color:#aaa">is {{{ignored}}}</span>
+          <span class="updated" style="color:gray;float:right">Updated {{updated}}</span>
           <span class="clear"></span>
+          </a>
           {{/ignored}}
 
-          {{! is a public file}}
           {{^ignored}}{{^entry}}{{^directory}}
           <a href="{{blog.url}}{{path}}" target="_blank" style="text-decoration:none">
             <span class="file"></span>
@@ -77,6 +85,7 @@
             <span class="clear"></span>
           </a>
           {{/directory}}{{/entry}}{{/ignored}}
+
         {{/contents}}
 
         <br />
