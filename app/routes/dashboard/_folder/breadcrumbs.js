@@ -1,6 +1,6 @@
 module.exports = function (dir) {
 
-  var crumbs = [{name: 'Home', url: '/'}];
+  var crumbs = [{name: 'Blot', url: '/'}];
 
   var names = dir.split('/').filter(function(name){return !!name;});
 
