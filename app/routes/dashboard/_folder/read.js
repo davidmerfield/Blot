@@ -14,6 +14,7 @@ function dir (blog, dir, callback) {
 
   var blogID = blog.id;
   var files = [];
+  var folders = [];
 
   readdir(blogID, dir, function(err, contents, dir){
 
@@ -43,14 +44,18 @@ function dir (blog, dir, callback) {
         stat.name = item.name;
         stat.path = item.path;
 
-        files.push(stat);
+        if (stat.directory)
+          folders.push(stat);
+        else
+          files.push(stat);
+
         nextName();
       });
 
     }, function(){
 
 
-      callback(null, files, dir);
+      callback(null, folders.concat(files), dir);
     });
   });
 }
