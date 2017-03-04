@@ -1,8 +1,8 @@
-<div class="sidebar">
+<div class="sidebar" style="font-size:15px" style="background:#f2f2f2">
 
-  <div class="dropdown closed">
+  <div class="dropdown closed" style="float:right;margin-right:-11px;">
 
-    <a href="#!" class="opener">{{blog.title}}&nbsp;<svg width="10" height="8" style="top:-1px;position:relative" viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="black"></path></svg></a>
+    <a href="#!" class="opener" style="font-weight:600">{{blog.title}} <svg width="12" height="10" style="top:-1px;position:relative" viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="black"></path></svg></a>
 
     <div class="menu">
 
@@ -27,20 +27,21 @@
     </div>
   </div>
 
-  <Br /><br />
-
-  <div class="nav side">
-
-    <a class="{{tab.home}}" href="/">Folder</a>
-    <a class="{{tab.design}}" href="/design">Design</a>
-    <a class="{{tab.plugins}}" href="/plugins">Plugins</a>
+  <style type="text/css">
+    .foo{border: 1px solid #ddd;display:inline-block;margin: 0 auto}
+    .foo a {color:#444;text-decoration:none;display: block;float: left;border: none;border-right:1px solid #ddd;padding: 0.25em 1em;}
+    .foo a:last-of-type {border-right: none;}
+    .foo a.selected {background: #eee}
+    </style>
+  <div class="foo">
+<!--     <a id="logo" href="/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+ -->    <a class="{{tab.home}}" href="/">Your folder</a>
     <a class="{{tab.settings}}" href="/settings">Settings</a>
-<!--
- -->
+    <a class="{{tab.help}}" href="/help">Help</a>
+
   </div>
 
-  <div class="nav footer">
-    <a href="/help">Help &amp; Support</a><br />
-    <a href="/terms">Terms</a> &amp; <a href="/privacy">Privacy</a>
-  </div>
+  <br>
+  <br>
+  <br>
 </div>
