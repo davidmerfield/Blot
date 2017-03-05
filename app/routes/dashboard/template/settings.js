@@ -38,7 +38,7 @@ module.exports = function (server) {
 
       var blogID = req.blog.id;
       var name = req.params.template;
-      var designPage = '/design';
+      var designPage = '/settings/design';
 
       Template.drop(blogID, name, function(err) {
 

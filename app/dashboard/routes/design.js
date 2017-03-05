@@ -5,21 +5,21 @@ var load_templates = require('../middleware/load_templates');
 
 module.exports = function (server) {
 
-  server.use('/design', load_templates, function(req, res, next){
+  server.use('/settings/design', load_templates, function(req, res, next){
 
     res.locals.partials.sub_nav = 'dashboard/design/_nav';
 
     next();
   });
 
-  server.route('/design')
+  server.route('/settings/design')
 
     .get(function (req, res) {
 
       res.locals.title = 'Design';
       res.locals.active = ['design', 'select'];
 
-      res.wrapper('dashboard/design/index');
+      res.wrapper('dashboard/settings/design');
     })
 
     .post(function(req, res, next){
@@ -46,14 +46,14 @@ module.exports = function (server) {
       });
     });
 
-  server.route('/design/new')
+  server.route('/settings/design/new')
 
     .get(function(req, res){
 
       res.locals.title = 'New template';
       res.locals.active = ['design', 'new'];
 
-      res.wrapper('dashboard/design/new');
+      res.wrapper('dashboard/settings/new-design');
     })
 
     .post(function(req, res, next){
@@ -78,7 +78,7 @@ module.exports = function (server) {
         if (err) return next('Could not create template');
 
         res.message({success: 'Created your template called ' + name + '!', url: '/design'});
-        res.redirect('/design');
+        res.redirect('/settings/design');
       });
     })
 
