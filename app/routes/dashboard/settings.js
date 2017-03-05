@@ -5,21 +5,13 @@ module.exports = function(server){
 
   server.use('/settings', auth.enforce);
 
-  server.get('/settings/menu', function(req, res){
+  server.get('/settings', function(req, res){
 
-    res.addLocals({tab: {menu: 'selected', settings: 'selected'}});
-    res.addPartials({yield: 'dashboard/settings/menu', sub_nav: 'dashboard/settings/_nav'});
+    var blog = req.blog;
 
     for (var i in res.locals.blog.menu) {
       res.locals.blog.menu[i].index = i;
     }
-
-    res.render('dashboard/_wrapper');
-  });
-
-  server.get('/settings/date', function(req, res){
-
-    var blog = req.blog;
 
     var formats = [
       'D/M/YYYY',
@@ -74,27 +66,16 @@ module.exports = function(server){
     });
 
     res.addLocals({
+      title: 'Blot - Settings',
+      name: 'Settings',
       timeZones: timeZones,
-      tab: {settings: 'selected', date: 'selected'},
+      partials: {yield: 'dashboard/settings/general', sub_nav: 'dashboard/settings/_nav'},
+      tab: {settings: 'selected', profile: 'selected'},
       displayFormats: displayFormats,
       dateFormats: dateFormats
     });
 
-    res.addPartials({yield: 'dashboard/settings/date', sub_nav: 'dashboard/settings/_nav'});
-
     res.render('dashboard/_wrapper');
-  });
-
-  server.get('/settings',function(request, response) {
-
-    response.addLocals({
-      partials: {yield: 'dashboard/settings/general', sub_nav: 'dashboard/settings/_nav'},
-      title: 'Blot - Settings',
-      name: 'Settings',
-      tab: {settings: 'selected', blog: 'selected'},
-    });
-
-    response.render('dashboard/_wrapper');
   });
 
   server.get('/account', auth.enforce, function(request, response) {
