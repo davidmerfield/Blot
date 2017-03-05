@@ -10,7 +10,7 @@ module.exports = function(server){
   var restrict = require('../../authHandler').enforce;
   var parse = require('body-parser').urlencoded({extended:false});
 
-  server.route('/design/new')
+  server.route('/settings/design/new')
 
     .all(restrict)
 
@@ -19,12 +19,12 @@ module.exports = function(server){
       res.addLocals({
         title: 'Blot - New template',
         name: 'Design',
-        tab: {design: 'selected', create: 'selected'}
+        tab: {design: 'selected', settings: 'selected'}
       });
 
       res.addPartials({
-        sub_nav: 'dashboard/design/_nav',
-        yield: 'dashboard/design/new'
+        sub_nav: 'dashboard/settings/_nav',
+        yield: 'dashboard/settings/new-design'
       })
 
       res.render('dashboard/_wrapper');
@@ -57,13 +57,13 @@ module.exports = function(server){
           res.message({error: error.message || 'Could not create your template'});
           res.redirect(req.path);
         } else {
-          res.message({success: 'Created your template called ' + name + '!', url: '/design'});
-          res.redirect('/design');
+          res.message({success: 'Created your template called ' + name + '!', url: '/settings/design'});
+          res.redirect('/settings/design');
         }
       });
     });
 
-  server.route('/design')
+  server.route('/settings/design')
 
     .all(restrict)
 
@@ -72,12 +72,12 @@ module.exports = function(server){
       res.addLocals({
         title: 'Blot - Design',
         name: 'Design',
-        tab: {design: 'selected', select: 'selected'}
+        tab: {design: 'selected', settings: 'selected'}
       });
 
       res.addPartials({
-        yield: 'dashboard/design/index',
-        sub_nav: 'dashboard/design/_nav'
+        yield: 'dashboard/settings/design',
+        sub_nav: 'dashboard/settings/_nav'
       });
 
       res.render('dashboard/_wrapper');
