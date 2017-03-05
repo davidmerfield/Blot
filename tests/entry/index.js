@@ -12,7 +12,7 @@ var time = helper.time;
 
 var mustache = require('mustache');
 
-var path = '/files/chrome.webloc';
+var path = '/files/invalid.webloc';
 
 console.log("Initializing test file...");
 
