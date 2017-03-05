@@ -4,8 +4,10 @@
 
   {{> status}}
 
+  <fieldset>
+
   <label>
-  Your blog's title:
+  Title:
   <input type="text" name="blog.title" value="{{blog.title}}" />
   <span class="error">{{errors.blog.title}}</span>
   </label>
@@ -57,6 +59,73 @@
 
   <br />
 
+
+
+
+  <button id="addLink" class="button secondary right" >Add a link</button>
+
+  <p>Menu links:</p>
+
+  <section id="menu" class="fullRow sortable"  style="max-width:100%">
+
+  {{#blog.menu}}
+    <section id="link_{{id}}" class="{{#isPage}}isPage{{/isPage}}">
+      <span class="handle">&#9776;</span>
+      <input type="hidden" name="blog.menu.{{index}}.id" value="{{id}}"/ >
+      <label>
+        {{#isPage}}
+          <a target="_blank" href="{{blog.blogURL}}{{url}}">
+            <span class="link">{{label}}</span> page
+          </a>
+        {{/isPage}}
+        <input placeholder="Label" type="text" name="blog.menu.{{index}}.label" value="{{label}}"/>
+      </label>
+      <label>
+       <input type="text" name="blog.menu.{{index}}.url" value="{{url}}"/>
+      </label>
+      <button class="button small secondary removeLink" class="right">Delete</button>
+      <div class="clear"></div>
+    </section>
+  {{/blog.menu}}
+  </section>
+
+  <Br />
+
+
+  <label>
+    What is your timezone?<br />
+    <select name="blog.timeZone" style="max-width:300px">
+      {{#timeZones}}
+        <option value="{{value}}" {{selected}}>{{time}} {{value}}</option>
+      {{/timeZones}}
+    </select>
+  </label>
+
+  <label>
+    How do you write your dates?<br />
+    <select name="blog.dateFormat">
+      {{#dateFormats}}
+        <option value="{{value}}" {{selected}}>{{date}}</option>
+      {{/dateFormats}}
+    </select>
+  </label>
+
+  <label>
+    How should the date appear on your blog?<br />
+    <select name="blog.dateDisplay">
+      {{#displayFormats}}
+        <option value="{{value}}" {{selected}}>{{date}}</option>
+      {{/displayFormats}}
+    </select>
+  </label>
+
+
+  <label>
+    <input type='hidden' value='off' name='blog.hideDates'>
+    <input type="checkbox" name="blog.hideDates" {{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for your posts
+  </label>
+  <br />
+
   <!--
   <label>
   Folder:
@@ -64,4 +133,6 @@
   </label>
  -->
   <input class="button" type="submit" value="Save changes"/>
+  </fieldset>
+
 </form>
