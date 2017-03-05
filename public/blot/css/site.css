@@ -661,9 +661,9 @@ input#search {
   float: left;
 }
 
-.selectArea:nth-child(3n+1) {padding-right: 4em;}
-.selectArea:nth-child(3n+2) {padding-right: 2em;padding-left: 2em;}
-.selectArea:nth-child(3n)  {padding-left: 4em;}
+.selectArea:nth-child(3n+1) {padding-right: 3em;}
+.selectArea:nth-child(3n+2) {padding-right: 1.5em;padding-left: 1.5em;}
+.selectArea:nth-child(3n)  {padding-left: 3em;}
 
 .selectArea .container {
   padding: 2em 0 2em;
