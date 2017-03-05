@@ -15,7 +15,7 @@
 <hr>
 <form style="display:block;float:right;z-index:10;margin:0 1em" method='post' action='?_csrf={{csrftoken}}'>
   <button class="button small" name="ignore" value="{{url}}">Ignore</button>
-  <a href="/redirects#{{url}}">Redirect</a>
+  <a href="/settings/redirects#{{url}}">Redirect</a>
 </form>
 <p><a href="{{blog.url}}{{url}}" target="_blank"><code>{{url}}</code></a><br><span style="font-size:12px;color:#aaa">{{time}}</span></p>
 {{/list}}
@@ -38,7 +38,7 @@
 <hr>
 <form style="display:block;float:right;z-index:10;margin:0 1em" method='post' action='?_csrf={{csrftoken}}'>
   <button class="button small" name="unignore" value="{{url}}">Unignore</button>
-  <a href="/redirects#{{url}}">Redirect</a>
+  <a href="/settings/redirects#{{url}}">Redirect</a>
 </form>
 <p><a href="{{blog.url}}{{url}}"><code>{{url}}</code></a></p>
 {{/ignored}}

@@ -6,6 +6,6 @@
 <p>If you’d like to use a subdomain e.g <code>blog.example.com</code> or <code>www.example.com</code> create a <code>CNAME</code> record for that subdomain which points to <code>blot.im</code>.</p>
 <p>If you’d like to use an apex domain e.g. <code>example.com</code> then create an <code>ALIAS</code> record which points to <code>blot.im</code>. If you cannot create an ALIAS record, then use a CNAME record with the <code>www.</code> subdomain and redirect the apex domain.</p>
 <h2 id="redirects">Redirects</h2>
-<p>You can set up <a href="/redirects">redirects</a> for missing pages on your blog. The <a href="/404s">404 log</a> will help you work out which pages need redirects.</p>
+<p>You can set up <a href="/settings/redirects">redirects</a> for missing pages on your blog. The <a href="/settings/404s">404 log</a> will help you work out which pages need redirects.</p>
 <p>You can use RegEx to match multiple routes. For example, the following redirect rule will redirect URLs starting with <code>/post</code> to <code>/blog</code>:</p>
 <pre><code>\/post\/(.*)  →  /blog/$1</code></pre>

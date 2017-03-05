@@ -7,7 +7,7 @@ module.exports = function(server){
 
   server
 
-    .route('/404s')
+    .route('/settings/404s')
 
     .all(restrict)
 

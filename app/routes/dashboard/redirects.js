@@ -10,7 +10,7 @@ module.exports = function(server){
   var formJSON = helper.formJSON;
   var urlNormalizer = helper.urlNormalizer;
 
-  server.get('/redirects', restrict, function(req, res){
+  server.get('/settings/redirects', restrict, function(req, res){
 
     var blog = req.blog, blogID = blog.id;
 
@@ -40,7 +40,7 @@ module.exports = function(server){
     return str;
   }
 
-  server.post('/redirects', restrict, getBody, function(req, res){
+  server.post('/settings/redirects', restrict, getBody, function(req, res){
 
     var mappings = formJSON(req.body, {redirects: 'object'});
 
@@ -67,7 +67,7 @@ module.exports = function(server){
 
       if (err) console.log(err);
 
-      return res.redirect('/redirects');
+      return res.redirect('/settings/redirects');
     });
   });
 };
