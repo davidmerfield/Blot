@@ -12,8 +12,7 @@ var time = helper.time;
 
 var mustache = require('mustache');
 
-var path = '/input.txt';
-var image = '/image.jpg';
+var path = '/files/chrome.webloc';
 
 console.log("Initializing test file...");
 
@@ -21,41 +20,34 @@ Blog.get({id: '1'}, function(err, blog){
 
   if (!blog) throw 'No blog iwth id';
 
-  blog.plugins.emoticons.enabled = true
-
-  copyFile(__dirname + image, localPath(blog.id, image), function (err) {
+  copyFile(__dirname + path, localPath(blog.id, path), function (err) {
 
     if (err) throw err;
 
-    copyFile(__dirname + path, localPath(blog.id, path), function (err) {
+    console.log("Starting build...");
+    time("          TOTAL");
 
-      if (err) throw err;
+    Entry.build(blog, path, function(err, entry){
 
-      console.log("Starting build...");
-      time("          TOTAL");
+      if (err) console.log(err);
 
-      Entry.build(blog, path, function(err, entry){
+      time.end("          TOTAL");
 
-        if (err) console.log(err);
+      fs.writeFileSync(__dirname + '/output.json', JSON.stringify(entry, null, ' '), 'utf-8');
+      fs.writeFileSync(__dirname + '/output.html', wrapper(entry.html), 'utf-8');
 
-        time.end("          TOTAL");
+      console.log(line('HTML'));
+      console.log(entry.html);
 
-        fs.writeFileSync(__dirname + '/output.json', JSON.stringify(entry, null, ' '), 'utf-8');
-        fs.writeFileSync(__dirname + '/output.html', wrapper(entry.html), 'utf-8');
+      console.log(line('KEYS'));
+      console.log(tidy(entry));
 
-        console.log(line('HTML'));
-        console.log(entry.html);
+      console.log(line('FILES'));
+      console.log('HTML:', 'file://'+__dirname + '/output.html');
+      console.log('JSON:', 'file://'+__dirname + '/output.json');
 
-        console.log(line('KEYS'));
-        console.log(tidy(entry));
-
-        console.log(line('FILES'));
-        console.log('HTML:', 'file://'+__dirname + '/output.html');
-        console.log('JSON:', 'file://'+__dirname + '/output.json');
-
-        // console.log(line('RENDERED HTML'));
-        // console.log(render(entry.html));
-      });
+      // console.log(line('RENDERED HTML'));
+      // console.log(render(entry.html));
     });
   });
 });
