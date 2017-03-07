@@ -36,23 +36,30 @@ module.exports = function (user, secondBlog, callback) {
 
         var move = Move(client);
 
-        client.readdir('/', function(err, stat, contents){
+        // We create the folder for the existing blog
+        // just in case the first blog is empty.
+        client.mkdir(firstBlogFolder, function(err){
 
           if (err) return callback(err);
 
-          contents = contents._json.contents;
+          client.readdir('/', function(err, stat, contents){
 
-          forEach(contents, function(item, next){
+            if (err) return callback(err);
 
-            var from = item.path;
-            var to = joinpath(firstBlogFolder, from);
+            contents = contents._json.contents;
 
-            move(from, to, next);
+            forEach(contents, function(item, next){
 
-          }, function () {
+              var from = item.path;
+              var to = joinpath(firstBlogFolder, from);
 
-            console.log('Blog:', firstBlogID + ':', 'Folder migration to', firstBlogFolder, ' is complete!');
-            callback();
+              move(from, to, next);
+
+            }, function () {
+
+              console.log('Blog:', firstBlogID + ':', 'Folder migration to', firstBlogFolder, ' is complete!');
+              callback();
+            });
           });
         });
       });
