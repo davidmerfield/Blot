@@ -4,7 +4,8 @@
                          -----
 
 
-
+Bug when creating blog with the destination folder already existing.
+E.g. blog handle 'dev' with a subfolder called 'dev' already existing.
 
 Document {{more}} tag
 https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554

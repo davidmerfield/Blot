@@ -1,6 +1,8 @@
 LATER
 -----
 
+Giphy url support
+
 FIx bug with case sensitivity for tag folders
 https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
 
