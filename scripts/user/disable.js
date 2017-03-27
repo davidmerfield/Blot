@@ -14,9 +14,9 @@ Blog.get({handle: handle}, function(err, blog){
 
   User.getBy({uid: uid}, function(err, user){
 
-    forEach(user.blogs, function(blog, nextBlog){
+    forEach(user.blogs, function(blogID, nextBlog){
 
-      Blog.set(blog.id, {isDisabled: true}, nextBlog);
+      Blog.set(blogID, {isDisabled: true}, nextBlog);
 
     }, function(){
 
