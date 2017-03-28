@@ -7,6 +7,9 @@ get(process.argv[2], function (user, blog) {
 
   console.log(user.name, blog.handle);
 
+  // this also needs to delete files from s3
+  // this also needs to delete files on disk
+
   if (!user.isDisabled)
     throw 'This account is not disabled. Please disable it first';
 
