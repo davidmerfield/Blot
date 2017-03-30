@@ -1,6 +1,14 @@
 LATER
 -----
 
+add git repository support
+https://github.com/stackdot/NodeJS-Git-Server/issues/33
+https://github.com/netbeast/gitbox
+
+add ftp support
+https://www.npmjs.com/package/ftpd
+
+
 Giphy url support
 
 FIx bug with case sensitivity for tag folders
