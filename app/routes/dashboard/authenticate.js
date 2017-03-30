@@ -60,8 +60,8 @@ module.exports = function(server){
 
   server.get('/auth/callback', requireSSL, function (request, response) {
 
-    var code = request.query.code,
-        error = request.query.error;
+    var code = request.query.code;
+    var error = request.query.error;
 
     if (error) return response.redirect(connectError(error));
 
