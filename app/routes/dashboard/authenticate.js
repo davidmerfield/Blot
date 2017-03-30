@@ -118,7 +118,9 @@ module.exports = function(server){
           // to their Dropbox (and Blot) account UID
           Subscription.bind(subscription.customer, uid, function(){
 
-            User.create(client, email, subscription, function(error, status){
+            User.create(client, email, subscription, function(error){
+
+              if (error) return next(error);
 
               if (subscription.customer === 'false') {
                 logger('Created free user successfully with email ' + email);
@@ -139,7 +141,7 @@ module.exports = function(server){
 
           response.redirect(afterAuth || '/');
 
-          User.update(client, function(error, status){
+          User.update(client, function(error){
 
             if (error) logger(null, error);
           });
