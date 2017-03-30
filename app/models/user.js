@@ -252,6 +252,9 @@ module.exports = (function () {
         user.isDisabled = true;
     }
 
+    if (user.blogs.length > 1)
+      user.multipleBlogs = true;
+
     return user;
   }
 
