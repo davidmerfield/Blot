@@ -18,6 +18,10 @@ module.exports = function(server){
       res.render('dashboard/_wrapper');
     });
 
+    // The generation of this file should eventually
+    // run in a seperate process so it doesn't clog
+    // the server's main thread. But I anticipate low
+    // usage so it's probably fine for now...
     server.route('/account/export/account.json')
 
       .get(restrict, function(req, res, next){
