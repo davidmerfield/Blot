@@ -3,6 +3,7 @@
                          TO DO
                          -----
 
+
 Bug when creating blog with the destination folder already existing.
 E.g. blog handle 'dev' with a subfolder called 'dev' already existing.
 
@@ -12,6 +13,11 @@ https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 Fix bug in cloning photos theme due to relic view info in redis
 https://mail.google.com/mail/u/0/?zx=99cz8s1q1d2g#inbox/1587f8559494c9ca
 
+Fix nginx SSE bug by using new middleware module
+
+Fix bad mimetype for static js files
+https://mail.google.com/mail/u/0/#inbox/156f72ed70db407f
+
 Allow users to remove blogs from their account
 https://mail.google.com/mail/u/0/#inbox/157368656d231da2
 
@@ -19,19 +25,6 @@ Add button to delete all data from blot
 https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
 
 Add button to export all data from blot
-
-Fix bad mimetype for static js files
-https://mail.google.com/mail/u/0/#inbox/156f72ed70db407f
-
-Fix default RSS feed validation
-  This is a validation of http://david.blot.im
-  https://validator.w3.org/feed/check.cgi?url=http%3A%2F%2Fnews.blot.im%2Ffeed.rss …
-  When the feed contains a post with a tweet it complains about the inserted script
-  There is an issue with the RSS feed code.
-  The following code (feed.xml)
-    <description><![CDATA[ {{{body}}} ]]></description>
-  results in an invalid feed
-    <description><![CDATA[ {{body}} ]]></description>
 
 Fix updated date for sitemap
 https://mail.google.com/mail/u/0/#inbox/156b88cd1b9c704a
@@ -42,7 +35,8 @@ https://mail.google.com/mail/u/0/#inbox/156b88cd1b9c704a
 
 2. Make templates easy to customize and create
 
-let aurynn know it's possible to set routes locally https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
+let A know it's possible to set routes locally
+https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 
 -------------------------
 
