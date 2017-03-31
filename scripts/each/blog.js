@@ -18,7 +18,6 @@ module.exports = function (doThis, allDone, options) {
     if (err || !blogIDs) throw err || 'No';
 
     console.log();
-    console.log();
 
     if (options.s) {
 
@@ -77,11 +76,14 @@ module.exports = function (doThis, allDone, options) {
 
       Blog.get({id: blogID}, function(err, blog){
 
-        if (err || !blog) throw err || 'No';
+        if (err || !blog) {
+          console.log('There is no blog with ID', blogID);
+          return nextBlog();
+        }
 
         User.getBy({uid: blog.owner}, function(err, user){
 
-          if (err || !user) throw err || 'No';
+          if (err || !user) throw err || 'No user with uid ' + blog.owner;
 
           doThis(user, blog, nextBlog);
         });
