@@ -4,12 +4,6 @@
                          -----
 
 
-Fix bad mimetype for static js files
-https://mail.google.com/mail/u/0/#inbox/156f72ed70db407f
-
-Fix updated date for sitemap
-https://mail.google.com/mail/u/0/#inbox/156b88cd1b9c704a
-
 Add button to export all data from blot
 
 Allow users to remove blogs from their account
