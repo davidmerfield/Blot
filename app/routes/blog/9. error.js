@@ -38,6 +38,7 @@ module.exports = function(server) {
       status: 404
     }});
 
+    res.status(404);
     res.renderView('error', next);
 
     // We expose these to the user
@@ -76,7 +77,7 @@ module.exports = function(server) {
 
       if (err) return next(err);
 
-      res.status(status || 200);
+      res.status(status || 500);
       res.send(output);
     });
   });
