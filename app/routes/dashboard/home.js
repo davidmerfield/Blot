@@ -3,6 +3,9 @@ module.exports = function(server){
   var check = require('../../authHandler').check;
   var read = require('./_folder/read');
   var breadcrumbs = require('./_folder/breadcrumbs');
+  var fs = require('fs');
+  var helper = require('helper');
+  var localPath = helper.localPath;
 
   server.get(['/', '/~*'], check, function(req, res, next){
 
@@ -12,10 +15,20 @@ module.exports = function(server){
 
     dir = decodeURIComponent(dir);
 
-    read(req.blog, dir, function(err, contents, dir, stat){
+    read(req.blog, dir, function onRead (err, contents, correctCaseDir, stat){
 
       if (err && err.code === 'ENOTDIR')
         return next();
+
+      if (err && err.code === 'ENOENT' && dir === '/') {
+
+        return fs.mkdir(localPath(req.blog.id, '/'), function(err){
+
+          if (err) return next(err);
+
+          read(req.blog, dir, onRead);
+        });
+      }
 
       if (err && err.code === 'ENOENT')
         return next();
@@ -27,7 +40,7 @@ module.exports = function(server){
 
         selected: {home: 'selected'},
         tab: {home: 'selected'},
-        breadcrumbs: breadcrumbs(dir),
+        breadcrumbs: breadcrumbs(correctCaseDir),
 
         stat: stat,
         contents: contents
