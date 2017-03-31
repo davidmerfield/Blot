@@ -50,6 +50,13 @@ module.exports = function(server){
     req.socket.setTimeout(Number.MAX_VALUE);
 
     res.writeHead(200, {
+      // This header tells NGINX to NOT
+      // buffer the response. Otherwise
+      // the messages don't make it to the client.
+      // A similar problem to the one caused
+      // by the compression middleware a few lines down.
+      'X-Accel-Buffering': 'no',
+
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'

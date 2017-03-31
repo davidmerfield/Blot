@@ -4,8 +4,6 @@
                          -----
 
 
-Fix nginx SSE bug by using new middleware module
-
 Fix bad mimetype for static js files
 https://mail.google.com/mail/u/0/#inbox/156f72ed70db407f
 
