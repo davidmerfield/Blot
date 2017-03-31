@@ -1,10 +1,11 @@
 <h1 id="templates">Templates</h1>
-<p>Creating a template, or modifying an existing template will require an understanding of HTML, CSS and basic templating using <a href="https://mustache.github.io/">Mustache</a>. Blot will be very familiar if you’ve worked with templates on other platforms.</p>
+<p>Creating a template, or modifying an existing template will require an understanding of HTML, CSS and <a href="https://mustache.github.io/">Mustache</a>. Blot will be familiar to those who have worked with templates on other blogging platforms.</p>
+<p>The best way to learn how to use Blot's template is to clone an existing template and look at its source. Please don't hestitate to <a href="/contact">contact me</a> if you have any questions.</p>
 <h2 id="modify-an-existing-template">Modify an existing template</h2>
-<p>To modify an existing template, create a new template on the <a href="/settings/design#create-a-template">design page</a> and specify the template you wish to clone from. This will copy of the existing template that you can edit.</p>
+<p>To modify an existing template, create a new template on the <a href="/settings/design#create-a-template">design page</a> and specify the template you wish to clone.</p>
 <p>{{=[[ ]]=}}</p>
 <h2 id="blog-variables">Blog variables</h2>
-<p>When you’re getting started I recommend cloning a template and looking through its source to familiarize yourself with how templates on Blot work.</p>
+<p>Blot uses these variables to render <a href="https://mustache.github.io/">Mustache</a> templates.</p>
 <table>
 <thead>
 <tr class="header">
@@ -19,54 +20,54 @@
 </tr>
 <tr class="even">
 <td><code>{{handle}}</code></td>
-<td>your blog's username</td>
+<td>your blog’s username</td>
 </tr>
 <tr class="odd">
 <td><code>{{title}}</code></td>
-<td>your blog's title</td>
+<td>your blog’s title</td>
 </tr>
 <tr class="even">
 <td><code>{{avatar}}</code></td>
-<td>the URL to your blog's avatar</td>
+<td>the URL to your blog’s avatar</td>
 </tr>
 <tr class="odd">
-<td><code>{{roundAvatar}}</code></td>
-<td><code>true</code> if you've indicated your avatar is round, <code>false</code> if not</td>
+<td><code>{{blogURL}}</code></td>
+<td>the URL to your blog’s homepage</td>
+</tr>
+<tr class="even">
+<td><code>{{feedURL}}</code></td>
+<td>the URL to your blog’s RSS feed</td>
+</tr>
+<tr class="odd">
+<td><code>{{cssURL}}</code></td>
+<td>the URL to your blog’s CSS file</td>
+</tr>
+<tr class="even">
+<td><code>{{scriptURL}}</code></td>
+<td>the URL to your blog’s JS file</td>
+</tr>
+<tr class="odd">
+<td><code>{{sitemapURL}}</code></td>
+<td>the URL to your blog’s sitemap</td>
 </tr>
 <tr class="even">
 <td><code>{{cacheID}}</code></td>
-<td>a timestamp representing the last time your blog's template was changed</td>
+<td>a unix time stamp for the last change you made to your blog</td>
 </tr>
 <tr class="odd">
+<td><code>{{roundAvatar}}</code></td>
+<td><code>true</code> if you’ve indicated your avatar is round, <code>false</code> if not</td>
+</tr>
+<tr class="even">
 <td><code>{{hideDates}}</code></td>
-<td><code>true</code> if you've chosen to hide the dates on your blog, <code>false</code> if not</td>
-</tr>
-<tr class="even">
-<td><code>{{blogURL}}</code></td>
-<td>the URL to your blog's homepage</td>
-</tr>
-<tr class="odd">
-<td><code>{{feedURL}}</code></td>
-<td>the URL to your blog's RSS feed</td>
-</tr>
-<tr class="even">
-<td><code>{{cssURL}}</code></td>
-<td>the URL to your blog's CSS file</td>
-</tr>
-<tr class="odd">
-<td><code>{{scriptURL}}</code></td>
-<td>the URL to your blog's JS file</td>
-</tr>
-<tr class="even">
-<td><code>{{sitemapURL}}</code></td>
-<td>the URL to your blog's sitemap</td>
+<td><code>true</code> if you’ve chosen to hide the dates on your blog, <code>false</code> if not</td>
 </tr>
 </tbody>
 </table>
 <p>[[={{ }}=]]</p>
 <p>{{=[[ ]]=}}</p>
 <h2 id="entry-variables">Entry variables</h2>
-<p>Note that some of the variables, like <code>{{{html}}}</code> have three handlebars rather than two. This is because Mustache escapes variables by default, and three handlebars overrides this.</p>
+<p>Note that some of the variables, like <code>{{{html}}}</code> have three handlebars rather than two. <a href="https://mustache.github.io/">Mustache</a> escapes variables with two handlebars.</p>
 <table>
 <thead>
 <tr class="header">
@@ -101,11 +102,11 @@
 </tr>
 <tr class="odd">
 <td><code>{{{teaser}}}</code></td>
-<td>HTML of the first few items in the entry, including title</td>
+<td>HTML of the title and the first few items in the entry. You can specify the end of the teaser by inserting the special tag <code>{{more}}</code> into your blog post's file. Everything before <code>{{more}}</code> will be included in the teaser.</td>
 </tr>
 <tr class="even">
 <td><code>{{{teaserBody}}}</code></td>
-<td>HTML of the first few items in the entry, excluding title</td>
+<td><code>{{{teaser}}}</code> without the title.</td>
 </tr>
 <tr class="odd">
 <td><code>{{summary}}</code></td>

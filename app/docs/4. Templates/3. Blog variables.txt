@@ -2,22 +2,21 @@
 
 ## Blog variables
 
-When you’re getting started I recommend cloning a template and looking through its source to familiarize yourself with how templates on Blot work.
-
+Blot uses these variables to render [Mustache](https://mustache.github.io/) templates.
 
 | The tag…        | is replaced with…           |
 | ------------- |-------------|
 | ```{{name}}``` | your name |
-|  ```{{handle}}```  | your blog's username      |
-| ```{{title}}``` | your blog's title  |
-| ```{{avatar}}```    | the URL to your blog's avatar |
-| ```{{roundAvatar}}``` | ```true``` if you've indicated your avatar is round, ```false``` if not |
-| ```{{cacheID}}```   | a timestamp representing the last time your blog's template was changed |
-| ```{{hideDates}}``` | ```true``` if you've chosen to hide the dates on your blog, ```false``` if not  |
-| ```{{blogURL}}```   | the URL to your blog's homepage  |
-| ```{{feedURL}}```   | the URL to your blog's RSS feed   |
-| ```{{cssURL}}```   | the URL to your blog's CSS file  |
-| ```{{scriptURL}}``` | the URL to your blog's JS file  |
-| ```{{sitemapURL}}```| the URL to your blog's sitemap  |
+|  ```{{handle}}```  | your blog’s username      |
+| ```{{title}}``` | your blog’s title  |
+| ```{{avatar}}```    | the URL to your blog’s avatar |
+| ```{{blogURL}}```   | the URL to your blog’s homepage  |
+| ```{{feedURL}}```   | the URL to your blog’s RSS feed   |
+| ```{{cssURL}}```   | the URL to your blog’s CSS file  |
+| ```{{scriptURL}}``` | the URL to your blog’s JS file  |
+| ```{{sitemapURL}}```| the URL to your blog’s sitemap  |
+| ```{{cacheID}}```   | a unix time stamp for the last change you made to your blog |
+| ```{{roundAvatar}}``` | ```true``` if you’ve indicated your avatar is round, ```false``` if not |
+| ```{{hideDates}}``` | ```true``` if you’ve chosen to hide the dates on your blog, ```false``` if not  |
 
 [[={{ }}=]]

@@ -1,1 +1,3 @@
-Creating a template, or modifying an existing template will require an understanding of HTML, CSS and basic templating using [Mustache](https://mustache.github.io/). Blot will be very familiar if you’ve worked with templates on other platforms.
+Creating a template, or modifying an existing template will require an understanding of HTML, CSS and [Mustache](https://mustache.github.io/). Blot will be familiar to those who have worked with templates on other blogging platforms.
+
+The best way to learn how to use Blot's template is to clone an existing template and look at its source. Please don't hestitate to [contact me](/contact) if you have any questions.
