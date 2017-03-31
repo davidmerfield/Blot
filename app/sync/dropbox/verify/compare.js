@@ -27,6 +27,16 @@ module.exports = function (blog, client, callback) {
 
     fetchRemote(path, function(err, remoteContents){
 
+      // todo this script hangs for users who have deleted
+      // the blog folder inside their app folder
+      // without blot resetting their blog folder
+      // to an empty string...
+
+      // we need to make a folder here...
+      // IF it is the top level folder...
+      // does this also handle local folders which
+      // no longer exist on remote?
+
       // This folder does not exist
       // in the user's db folder.
       if (err && err.status === 404)
@@ -34,7 +44,6 @@ module.exports = function (blog, client, callback) {
 
       // What if the local path is a folder
       // and the remote is a file, or vice versa?
-
       if (err)
         return callback(err);
 
