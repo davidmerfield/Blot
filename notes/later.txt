@@ -8,6 +8,7 @@ https://github.com/netbeast/gitbox
 add ftp support
 https://www.npmjs.com/package/ftpd
 
+Remove limit on image size
 
 Giphy url support
 

@@ -3,20 +3,22 @@
                          TO DO
                          -----
 
-
 Bug when creating blog with the destination folder already existing.
 E.g. blog handle 'dev' with a subfolder called 'dev' already existing.
 
 Document {{more}} tag
 https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 
-Fix bug in cloning photos theeme due to relic view
+Fix bug in cloning photos theme due to relic view info in redis
 https://mail.google.com/mail/u/0/?zx=99cz8s1q1d2g#inbox/1587f8559494c9ca
-
-Remove limit on image size
 
 Allow users to remove blogs from their account
 https://mail.google.com/mail/u/0/#inbox/157368656d231da2
+
+Add button to delete all data from blot
+https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
+
+Add button to export all data from blot
 
 Fix bad mimetype for static js files
 https://mail.google.com/mail/u/0/#inbox/156f72ed70db407f
@@ -43,13 +45,6 @@ https://mail.google.com/mail/u/0/#inbox/156b88cd1b9c704a
 let aurynn know it's possible to set routes locally https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 
 -------------------------
-
-Improve script for deleting all user data from blot
-https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
-
-Add script to apply arbitrary transformations to files in user folder
-and use it to fix the metadata spacing for luke
-https://mail.google.com/mail/u/0/#inbox/15683d02aff76dc5
 
 Disable re-rendering for template locals
 
