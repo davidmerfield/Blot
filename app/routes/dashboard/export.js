@@ -1,60 +1,74 @@
+var Entries = require('../../models/entries');
+var Template = require('../../models/template');
+var helper = require('helper');
+var forEach = helper.forEach.parallel;
+var restrict = require('../../authHandler').enforce;
+
 module.exports = function(server){
 
-  var auth = require('../../authHandler'),
-      upload = require('../../upload'),
-      bodyParser = require('body-parser'),
-      helper = require('../../helper'),
-      tempDir = helper.tempDir();
+  server.route('/account/export')
 
-  var rm = helper.remove;
+    .get(restrict, function(req, res){
 
-  server.get('/export', auth.enforce, function (request, response) {
-
-    response.addLocals({
-      title: "Blot - Export",
-      name: 'Export',
-      tab: {settings: 'selected'}
-    });
-
-    response.render('export');
-  });
-
-  server.post('/export', auth.enforce, bodyParser.urlencoded({extended:false}), function(request, response, next){
-
-    var fields = request.body;
-    var blogID = request.blog.id;
-
-    var exporter =require('../../exporter/main');
-
-    // No form passed
-    if (!fields) return response.redirect('/export');
-
-    var exID = helper.makeUid(6);
-    var zipFile = tempDir + exID + '.zip';
-    var username = fields.tumblrUsername;
-
-    var options = {
-          url: username,
-          dir: tempDir + exID
-        };
-
-    var uploadOptions = {
-      blogID: blogID,
-      folder: '/exporter/tumblr'
-    };
-
-    exporter(options, function(err){
-
-      if (err) return next(err);
-
-      upload(zipFile, uploadOptions, function(err, finalUrl){
-
-        rm(zipFile);
-
-        if (err) return next(err);
-
-        if (finalUrl) response.status(200).send(finalUrl);
+      res.addLocals({
+        partials: {yield: 'dashboard/export'},
+        title: 'Export your data'
       });
+
+      res.render('dashboard/_wrapper');
     });
-  });
+
+    server.route('/account/export/account.json')
+
+      .get(restrict, function(req, res, next){
+
+        var blogs = {};
+
+        forEach(req.blogs, function(blog, nextBlog){
+
+          var templates = {};
+
+          Template.getTemplateList(blog.id, function(err, res){
+
+            if (err) return next(err);
+
+            forEach(res, function(template, nextTemplate){
+
+              // Don't include Global templates in this file...
+              if (template.owner === 'SITE') return nextTemplate();
+
+              Template.getAllViews(template.id, function(err, allviews){
+
+                if (err) return next(err);
+
+                template.views = allviews;
+                templates[template.name] = template;
+
+                nextTemplate();
+              });
+            }, function(){
+
+              Entries.getAll(blog.id, function(entries){
+
+                blog.entries = entries;
+                blog.templates = templates;
+
+                blogs[blog.handle] = blog;
+
+                nextBlog();
+              });
+            });
+          });
+        }, function(){
+
+          var result = {
+            user: req.user,
+            blogs: blogs
+          };
+
+          res.setHeader('Content-Type', 'application/json');
+          res.header('Content-disposition', 'attachment; filename=Account.json');
+          res.send(JSON.stringify(result, null, 2));
+        });
+      });
 };
