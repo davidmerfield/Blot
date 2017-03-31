@@ -1,5 +1,7 @@
 module.exports = function(server){
 
+  var saveCredentials = require('./change-dropbox/save-credentials.js');
+
   var Dropbox = require('dropbox'),
       events = require('events'),
       eventEmitter = new events.EventEmitter(),
@@ -17,14 +19,24 @@ module.exports = function(server){
   server.get('/auth', requireSSL, function (request, response) {
 
     // If the user is already authenticated then
-    // avoid repeating the auth process and
-    if (request.session.uid) {
+    // avoid repeating the auth process UNLESS
+    // the user has visited this endpoint because
+    // they want to log into a different Dropbox account
+    if (request.session.uid && !request.query.change_account) {
       var afterAuth = request.session.afterAuth;
       delete request.session.afterAuth;
       return response.redirect(afterAuth || '/');
     }
 
     var _session = {};
+
+    // We also use this route to switch
+    // the Dropbox account associated with a Blot
+    // account. We save this in the session because
+    // I couldn't be bothered to add a new callback
+    // url. The session is preserved in the next block.
+    if (request.query.change_account)
+      request.session.change_account = true;
 
     // Cache the current session so we can
     // link a newly authenticated user to
@@ -58,10 +70,14 @@ module.exports = function(server){
     });
   });
 
-  server.get('/auth/callback', requireSSL, function (request, response) {
+  server.get('/auth/callback', requireSSL, function (request, response, next) {
 
     var code = request.query.code;
     var error = request.query.error;
+
+    // I'll probably need to add a specific error handler
+    // here for folks who want to change Dropbox account
+    // if (error && request.session.change_account) return ...
 
     if (error) return response.redirect(connectError(error));
 
@@ -84,6 +100,11 @@ module.exports = function(server){
 
       if (error || !client.isAuthenticated())
         return response.redirect(connectError(error));
+
+      // Don't try and create a new user if the user
+      // actually wants to change Dropbox account...
+      if (request.session.change_account)
+        return saveCredentials(request, response, next, client);
 
       var uid = client.dropboxUid();
 
