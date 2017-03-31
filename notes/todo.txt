@@ -4,9 +4,6 @@
                          -----
 
 
-Fix bug in cloning photos theme due to relic view info in redis
-https://mail.google.com/mail/u/0/?zx=99cz8s1q1d2g#inbox/1587f8559494c9ca
-
 Fix nginx SSE bug by using new middleware module
 
 Fix bad mimetype for static js files
