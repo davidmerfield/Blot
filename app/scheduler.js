@@ -43,7 +43,7 @@ module.exports = function(){
   // At some point I should check this doesnt consume too
   // much memory
   console.log('Scheduled daily update email for 6:05am!');
-  schedule({hour: 13, minute: 5}, function(){
+  schedule({hour: 10, minute: 5}, function(){
 
     console.log('Generating daily update email...');
     dailyUpdate(function(){
