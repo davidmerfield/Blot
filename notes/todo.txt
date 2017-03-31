@@ -4,12 +4,6 @@
                          -----
 
 
-Bug when creating blog with the destination folder already existing.
-E.g. blog handle 'dev' with a subfolder called 'dev' already existing.
-
-Document {{more}} tag
-https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
-
 Fix bug in cloning photos theme due to relic view info in redis
 https://mail.google.com/mail/u/0/?zx=99cz8s1q1d2g#inbox/1587f8559494c9ca
 
@@ -18,16 +12,18 @@ Fix nginx SSE bug by using new middleware module
 Fix bad mimetype for static js files
 https://mail.google.com/mail/u/0/#inbox/156f72ed70db407f
 
-Allow users to remove blogs from their account
-https://mail.google.com/mail/u/0/#inbox/157368656d231da2
-
-Add button to delete all data from blot
-https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
+Fix updated date for sitemap
+https://mail.google.com/mail/u/0/#inbox/156b88cd1b9c704a
 
 Add button to export all data from blot
 
-Fix updated date for sitemap
-https://mail.google.com/mail/u/0/#inbox/156b88cd1b9c704a
+Allow users to remove blogs from their account
+https://mail.google.com/mail/u/0/#inbox/157368656d231da2
+  - add method to pause syncing and prevent future syncs
+    then use this method with the create blog migration too.
+
+Add button to delete all data from blot
+https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
 
 -------------------------
 
