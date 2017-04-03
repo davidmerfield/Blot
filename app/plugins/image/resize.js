@@ -18,6 +18,7 @@ module.exports = function(path, callback){
   var image = sharp(path);
 
   image.quality(100)
+       .rotate()
        .withoutEnlargement()
        .resize(2000, 1400)
        .max();
