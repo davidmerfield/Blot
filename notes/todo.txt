@@ -3,6 +3,7 @@
                          TO DO
                          -----
 
+Make the image optimizer less aggressive
 
 Allow users to remove blogs from their account
 https://mail.google.com/mail/u/0/#inbox/157368656d231da2
