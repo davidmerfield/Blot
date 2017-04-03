@@ -12,8 +12,8 @@ var thumbnail = require('../../app/thumbnail');
 var input = fs.readFileSync(__dirname + '/input.html', 'utf-8');
 
 var files = [
-  '/source.jpg',
-  '/source.png'
+  '/source-other.jpg'
+  // '/source.png'
 ];
 
 var blogID = '1';
@@ -36,7 +36,7 @@ forEach(files, function(path, next){
     console.log('Generating thumbnails for', input);
     console.time('Thumbnails finished in');
 
-    thumbnail(blog, {}, input, function(err, thumbnails){
+    thumbnail(blog, '/input.html', {}, input, function(err, thumbnails){
 
       console.timeEnd('Thumbnails finished in');
 
