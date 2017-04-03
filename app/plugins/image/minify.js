@@ -16,8 +16,8 @@ module.exports = function(path, callback) {
   // plugin are handled...
   imagemin([path], dirname(path), {
     plugins: [
-      pngquant({quality: 85, speed: 1}),
-      mozjpeg({quality: 85}),
+      pngquant({quality: 95, speed: 1}),
+      mozjpeg({quality: 95}),
       jpegrecompress()
     ]
   }).then(function(){
