@@ -75,5 +75,5 @@ module.exports = {
   render: render,
   category: 'images',
   title: 'Cache',
-  description: 'Retrieve, specify dimensions and optimize images on your blog.'
+  description: 'Retrieve, specify dimensions, auto-rotate and optimize images on your blog.'
 };
