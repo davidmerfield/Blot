@@ -18,6 +18,14 @@ https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
 
 2. Make templates easy to customize and create
 
+use hogan for precompiling and rendering templates
+https://github.com/twitter/hogan.js
+https://github.com/twitter/hogan.js/issues/19 - precompilation
+http://twitter.github.io/hogan.js/
+
+use this to render screenshots of a template
+https://github.com/brenden/node-webshot
+
 let A know it's possible to set routes locally
 https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 
