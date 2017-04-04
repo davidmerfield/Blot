@@ -13,7 +13,6 @@ var vhosts = require('./app/routes/vhosts');
 var responseTime = require('./app/routes/responseTime');
 
 var renderView = require('./app/render/middleware');
-var renderView2 = require('./app/render/v2/middleware');
 
 var scheduler = require('./app/scheduler');
 var add = require('./app/routes/add');
@@ -131,12 +130,8 @@ blog
 if (config.flags.time_response)
  blog.use(responseTime);
 
-// Load in the appropriate rendering engine
-if (config.flags.v2) {
-  blog.use(renderView2);
-} else {
-  blog.use(renderView);
-}
+// Load in the rendering engine
+blog.use(renderView);
 
 // Load the routes!
 loadRoutes(blog, '/blog');
