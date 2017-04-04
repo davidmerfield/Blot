@@ -1,5 +1,37 @@
-LATER
------
+
+
+                       LATER
+                       -----
+
+Add hourly local redis rdb dumps
+
+Add script to roll back into hourly local db dumps and remote backups
+
+Add daemon for zero-downtime node restart
+
+Set up autorecovery
+https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
+
+Test with instance reboot on live site
+
+Test monit with nginx going down
+
+Test monit with blot going down
+
+Add support for 'full Dropbox' feature
+Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
+Nick
+Jostein
+Alex https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038
+James https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65
+
+
+Frank image cache bug for dropshadow
+drexore /draft/view/Drafts/debugging.md
+
+Improve nginx error pages
+
+Lease new instance for 12 months
 
 add git repository support
 https://github.com/stackdot/NodeJS-Git-Server/issues/33
