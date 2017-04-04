@@ -4,26 +4,24 @@
 
   {{> status}}
 
-  <fieldset style="max-width:100%">
+  <fieldset style="max-width:80%">
+
   {{#plugins}}
-
-    {{#clear}}
-    <div class="clear"></div>
-    {{/clear}}
-
+    <style type="text/css">.plugin {width: 100%;padding:0;margin:0;}</style>
     <div class="plugin {{checked}}">
-      <label class="noMargin">
+
+      <label style="line-height:1.3">
         <input type='hidden' value='off' name='{{id}}'>
-        <input style="position:absolute;left: -1.5em;top:0.8em" type="checkbox" name="{{id}}" {{checked}}/>
-        <b style="cursor:pointer">{{title}}</b>
+        <input style="display:block;float:left;margin:0.2em 1em 0.2em 0" type="checkbox" name="{{id}}" {{checked}}/>
+        <div style="cursor:pointer">{{{description}}}</div>
       </label>
-      <div style="margin-top:-0.9em;line-height:1.5">
-          {{{description}}}
-        </div>
-      <div class="pluginOptions">
+
+      <div class="pluginOptions" style="padding-left:2em">
         {{{formHTML}}}
       </div>
+
     </div>
+    <hr>
     {{/plugins}}
 
     <div class="clear"></div>
