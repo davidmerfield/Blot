@@ -5,12 +5,12 @@ module.exports = function(server){
   var Dropbox = require('dropbox'),
       events = require('events'),
       eventEmitter = new events.EventEmitter(),
-      config = require('../../../config'),
+      config = require('config'),
       callbackUrl = 'https://' + config.host + '/auth/callback',
-      requireSSL = require('../../authHandler').requireSSL,
-      User = require('../../models/user'),
-      Subscription = require('../../models/subscription'),
-      logger = require('../../helper').logger;
+      requireSSL = require('authHandler').requireSSL,
+      User = require('user'),
+      Subscription = require('subscription'),
+      logger = require('helper').logger;
 
   var errorMessage = {
     NO_ACCOUNT: 'You need a Blot account to log in'
