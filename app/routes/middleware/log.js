@@ -1,4 +1,4 @@
-var helper = require('../helper');
+var helper = require('helper');
 var logger = helper.log({file: 'routing-errors'});
 
 var ERROR = 'Error';
