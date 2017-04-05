@@ -29,6 +29,6 @@ module.exports = {
   title: 'Emojis',
   isDefault: false,
   description: 'Convert emojis into images for readers without native support.',
-  category: 'Typography',
+  category: 'Images',
   prerender: prerender
 };

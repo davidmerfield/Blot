@@ -89,7 +89,7 @@ function render ($, callback) {
 
 module.exports = {
   render: render,
-  category: 'Typography',
+  category: 'external',
   title: 'Videos',
   description: 'Replace a Youtube or Vimeo URL with the video player.'
 };

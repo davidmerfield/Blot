@@ -105,7 +105,7 @@ function fetch (id, $el, callback) {
 
 module.exports = {
   render: render,
-  category: 'Typography',
+  category: 'external',
   title: 'Tweets',
   description: 'Replace a URL to a tweet with an embedded tweet.'
 };
