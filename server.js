@@ -13,6 +13,7 @@ var routes = require('./app/routes');
 var vhosts = require('./app/routes/middleware/vhosts');
 var responseTime = require('./app/routes/middleware/responseTime');
 var add = require('./app/routes/middleware/add');
+var errorHandler = require('./app/routes/middleware/error');
 
 var renderView = require('./app/render/middleware');
 var scheduler = require('./app/scheduler');
@@ -112,7 +113,7 @@ if (config.environment !== 'development')
 // Serve static assets
 site.use(express.static(staticDir, staticSettings));
 
-require('./app/routes/error')(site);
+errorHandler(site);
 
 // This serves the content
 // of users' blogs
