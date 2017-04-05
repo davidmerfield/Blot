@@ -1,9 +1,11 @@
-module.exports = function (server, dir) {
+var fs = require('fs');
+
+module.exports = function load (server, dir) {
 
   dir = dir + '/';
 
   // Load the other route files in this folder
-  require('fs').readdirSync(__dirname + dir).forEach(function(file) {
+  fs.readdirSync(__dirname + dir).forEach(function(file) {
 
     if (file === "index.js" ||
         file.slice(0,1) === '_' ||
@@ -19,5 +21,6 @@ module.exports = function (server, dir) {
     }
 
     require('.' + dir + name)(server);
+
   });
 };

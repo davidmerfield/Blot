@@ -8,7 +8,7 @@ var config = require('./config');
 
 var analytics = require('./app/analytics');
 var cache = require('./app/cache');
-var loadRoutes = require('./app/routes/load');
+var routes = require('./app/routes');
 
 var renderView = require('./app/render/middleware');
 var vhosts = require('./app/routes/middleware/vhosts');
@@ -97,8 +97,8 @@ site.use(add({
 site.use(session(sessionOptions));
 site.use(messenger); // after session!
 
-loadRoutes(site, '/dashboard');
-loadRoutes(site, '/site');
+routes(site, '/dashboard');
+routes(site, '/site');
 
 var staticDir = __dirname + '/www/blot';
 var staticSettings = {};
@@ -134,7 +134,7 @@ if (config.flags.time_response)
 blog.use(renderView);
 
 // Load the routes!
-loadRoutes(blog, '/blog');
+routes(blog, '/blog');
 
 // All together now
 var server = express();
