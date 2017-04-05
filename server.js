@@ -10,10 +10,11 @@ var analytics = require('./app/analytics');
 var cache = require('./app/cache');
 var routes = require('./app/routes');
 
-var renderView = require('./app/render/middleware');
 var vhosts = require('./app/routes/middleware/vhosts');
 var responseTime = require('./app/routes/middleware/responseTime');
+var add = require('./app/routes/middleware/add');
 
+var renderView = require('./app/render/middleware');
 var scheduler = require('./app/scheduler');
 var add = require('./app/routes/add');
 var messenger = require('./app/routes/messenger');

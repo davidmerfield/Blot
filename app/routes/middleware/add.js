@@ -1,4 +1,4 @@
-var helper = require('../helper');
+var helper = require('helper');
 var extend = helper.extend;
 var _ = require('lodash');
 
