@@ -13,12 +13,11 @@ var routes = require('./app/routes');
 var vhosts = require('./app/routes/middleware/vhosts');
 var responseTime = require('./app/routes/middleware/responseTime');
 var add = require('./app/routes/middleware/add');
+var messenger = require('./app/routes/middleware/messenger');
 var errorHandler = require('./app/routes/middleware/error');
 
 var renderView = require('./app/render/middleware');
 var scheduler = require('./app/scheduler');
-var add = require('./app/routes/add');
-var messenger = require('./app/routes/messenger');
 
 var express = require('express');
 var hogan = require('hogan-express');
