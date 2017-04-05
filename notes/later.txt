@@ -7,6 +7,10 @@ Add hourly local redis rdb dumps
 
 Add script to roll back into hourly local db dumps and remote backups
 
+Delete backups older than 6 months from s3 automatically
+
+Work on quick script to load DB from remote backups
+
 Add daemon for zero-downtime node restart
 
 Set up autorecovery
@@ -18,40 +22,48 @@ Test monit with nginx going down
 
 Test monit with blot going down
 
-Add support for 'full Dropbox' feature
-Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
-Nick
-Jostein
-Alex https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038
-James https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65
+Lease new instance for 12 months
 
+Remove limit on image size
+
+nginx fail2ban & http2
+
+FIx bug with case sensitivity for tag folders
+https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
 
 Frank image cache bug for dropshadow
 drexore /draft/view/Drafts/debugging.md
 
 Improve nginx error pages
 
-Lease new instance for 12 months
+make the source folder on the per-blog basis (not per account) so theoretically a blot user could have two different blot accounts.
 
-add git repository support
-https://github.com/stackdot/NodeJS-Git-Server/issues/33
-https://github.com/netbeast/gitbox
+  Add support for 'full Dropbox' feature
+  Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
+  Nick
+  Jostein
+  Alex https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038
+  James https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65
 
-add ftp support
-https://www.npmjs.com/package/ftpd
+  add git repository support
+  https://github.com/stackdot/NodeJS-Git-Server/issues/33
+  https://github.com/netbeast/gitbox
 
-Remove limit on image size
+  add ftp support
+  https://www.npmjs.com/package/ftpd
+
+  make the sync / rebuild proceses run with unpriviledged
+  user permissions to ensure shit isnt fucked with user input...
+
+support different payment methods
+
+  bitcoin
+
+  paypal
+  https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870
+  https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152
 
 Giphy url support
-
-FIx bug with case sensitivity for tag folders
-https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
-
-Make templates file / folder based without modifying renderer
-   - cp www/blogs/* -> /blogs/{{id}}/assets
-
-Add retrieve method to allow all entry lists to access {{#months}} sorting options
-just like the archives page.
 
 Find a better search library for blog text search
 
@@ -61,6 +73,7 @@ Add folder section to settings page? radio buttons?
 how to ensure this won't fuck up other blogs
 
 Catch rename failed to find a match for scrapboox/patch_bunny_slippers.jpg -> /patch_bunny_slippers.png
+
 Can rename tolerate a minor file size change?
 
 Add filtering by date to 404 log
@@ -75,8 +88,6 @@ If entries share publish date, sort them by blot creation date?
 remove sidebar from pay subscription page
 allow access to /contact for overdue users
 fix bad rendering of /contact for overdue users
-
-nginx fail2ban & http2
 
 Consider what to do for footnote links in a teaser -> rewrite links to {{permalink}}#frag?
 
@@ -95,26 +106,13 @@ generate gif / svg thumbs if possible?
 
 consider https://github.com/showdownjs/showdown
 
-allow users to determine size of thumbnails?
-
 Find cause of fontconfig error / warning?
-
-Work on quick script to load DB from backups
 
 password protection for blogs
 https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231
 
 webhooks
 https://mail.google.com/mail/u/0/#inbox/1554260da157b405
-
-merge upload and upoad/main
-
-make the sync / rebuild proceses run with unpriviledged
-user permissions to ensure shit isnt fucked with user input...
-
-Add support to keep track of subscriptions for paypal payments
-https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870
-https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152
 
 add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries).
 
@@ -140,23 +138,11 @@ Add neat interface to customize blog level variables
 
 simplify video plugin HTML OUTPUT
 
-consider making render middlware, which is
-initialized with a viewname, returns a middleware function which is passed req res next.
-
-  e.g. app.route('/').get(render('entries'));
-
-is passed
-consider restructuring the renderer to properly
-seperate it from req res, making it possible
-to render a page without running a server? is this
-
 move to tests/multiroute server.route(['/', '/bar']).get(loadPage, render('entries'));
 
 Move queues in entry/rename /remove to doEach
 
 fix image caption plugin to be semantic
-
-Image galleries && mult-file entries
 
 Handle reset: true call to /delta
   delete folderState
@@ -167,20 +153,8 @@ devise nice way to declare unit tests for a file
 which don't need to be run on server start
 but can be run programmatically
 
-Build a proper dependency tree for entries
-  - this could make multi-file entries a reality?
-  - could be as simple as doEach(dependents, rebuild)
-  - issue with public files and image cache:
-      say foo.txt embeds /public/bar.jpg and is image cached
-      make change to bar.jpg, foo.txt has cached old version etc...
+consider adding date format localization with moment
 
-consider adding date localization with moment
-
-Add image optimize plugin
-https://github.com/lovell/sharp
-https://github.com/imagemin/imagemin
-
-Delete backups older than a year automatically
 
 Add button to remove avatar from settings page
 https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac
@@ -239,7 +213,6 @@ Merge www/blog/id and blogs/id folders into one, with a dotfile directory? creat
 
 Move to hogan for main renderer?
 https://github.com/twitter/hogan.js
-
 
 Move to new api file ids for renames?
 https://mail.google.com/mail/u/0/#inbox/150def93b65dc4b1

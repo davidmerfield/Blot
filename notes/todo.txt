@@ -12,7 +12,7 @@ https://mail.google.com/mail/u/0/#inbox/157368656d231da2
 Make it easy to delete an account
 https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
 
-Make templates easy to customize and create
+Redesign template system to make it easy to customize and create them.
 
   Public files / hidden pages
     Warn users that underscore will not work for hidden pages
@@ -20,6 +20,9 @@ Make templates easy to customize and create
     Who depend on the menu: yes, page: no side effect
     Tell rodrigo https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
     don't write previews for _ posts
+
+  Make templates file / folder based without modifying renderer
+     - cp www/blogs/* -> /blogs/{{id}}/assets
 
   Disable re-rendering for template locals
 
@@ -36,6 +39,9 @@ Make templates easy to customize and create
   let A know it's possible to set routes locally
   https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 
+  Add retrieve method to allow all entry lists to access {{#months}} sorting options
+  just like the archives page.
+
   Frank template bug
   https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#search/Make+some+changes+(probably+not+necessary)/1527fbcf999ba0c3
 
@@ -50,6 +56,26 @@ Improve documentation
    3 how-tos: link blog, magazine, website
 
 Improve demo video
-  - must make sense as audio only, video only.
+  must make sense as audio only, video only.
 
 Increase price to $30 a year for NEW subscribers. This will not affect existing customers.
+
+Multi-file posts
+  Build a proper dependency tree for entries
+    - this could make multi-file entries a reality?
+    - could be as simple as doEach(dependents, rebuild)
+    - issue with public files and image cache:
+        say foo.txt embeds /public/bar.jpg and is image cached
+        make change to bar.jpg, foo.txt has cached old version etc...
+
+Basic video posts
+
+Basic audio posts
+
+Set up SSL for all blogs
+https://codeascraft.com/2017/01/31/how-etsy-manages-https-and-ssl-certificates-for-custom-domains-on-pattern/
+https://community.letsencrypt.org/t/dynamic-ssl-using-nginx/18372/4
+https://github.com/openresty/lua-nginx-module#ssl_certificate_by_lua_block
+https://github.com/Vestorly/nginx-dynamic-ssl
+
+Use NGINX to send all static files
