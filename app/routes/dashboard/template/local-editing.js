@@ -1,6 +1,6 @@
-var restrict = require('../../../authHandler').enforce;
+var restrict = require('authHandler').enforce;
 var parseBody = require('body-parser').urlencoded({extended:false});
-var Template = require("../../../models/template");
+var Template = require("template");
 var loadTemplate = require('./loadTemplate');
 
 module.exports = function (server) {
