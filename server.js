@@ -9,10 +9,10 @@ var config = require('./config');
 var analytics = require('./app/analytics');
 var cache = require('./app/cache');
 var loadRoutes = require('./app/routes/load');
-var vhosts = require('./app/routes/vhosts');
 var responseTime = require('./app/routes/responseTime');
 
 var renderView = require('./app/render/middleware');
+var vhosts = require('./app/routes/middleware/vhosts');
 
 var scheduler = require('./app/scheduler');
 var add = require('./app/routes/add');

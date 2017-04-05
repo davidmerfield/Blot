@@ -1,7 +1,7 @@
-var Blog = require('../models/blog'),
-    config = require('../../config'),
-    Template = require('../models/template'),
-    helper = require('../helper'),
+var Blog = require('blog'),
+    config = require('config'),
+    Template = require('template'),
+    helper = require('helper'),
     logger = helper.log({file: 'redirects'});
 
 var siteHost = config.host;
