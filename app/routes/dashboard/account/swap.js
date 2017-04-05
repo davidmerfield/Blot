@@ -1,7 +1,7 @@
 module.exports = function(server){
 
-  var auth = require('../../authHandler');
-  var User = require('../../models/user');
+  var auth = require('authHandler');
+  var User = require('user');
   var csrf = require('csurf');
 
   server.get('/swap', auth.enforce, csrf(), function(request, response, next){

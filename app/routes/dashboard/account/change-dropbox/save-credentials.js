@@ -1,8 +1,8 @@
 var helper = require('helper');
 var forEach = helper.forEach;
-var Blog = require('../../../models/blog');
-var User = require('../../../models/user');
-var redis = require('../../../models/client');
+var Blog = require('blog');
+var User = require('user');
+var redis = require('client');
 
 module.exports = function (req, res, next, client) {
 

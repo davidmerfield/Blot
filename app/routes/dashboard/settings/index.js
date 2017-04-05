@@ -1,9 +1,19 @@
 module.exports = function(server){
 
-  var auth = require('../../authHandler');
+  var auth = require('authHandler');
   var moment = require('moment'); require('moment-timezone');
 
+
   server.use('/settings', auth.enforce);
+
+  require('./404s')(server);
+  require('./apps')(server);
+  require('./blog')(server);
+  require('./design')(server);
+  require('./redirects')(server);
+  require('./status')(server);
+  require('./verify')(server);
+
 
   server.get('/settings', function(req, res){
 
@@ -76,15 +86,6 @@ module.exports = function(server){
     });
 
     res.render('dashboard/_wrapper');
-  });
-
-  server.get('/account', auth.enforce, function(request, response) {
-
-    response.addLocals({title: 'Blot - Account'});
-
-    response.addPartials({yield: 'dashboard/account'});
-
-    response.render('dashboard/_wrapper');
   });
 
   function fetchZones () {

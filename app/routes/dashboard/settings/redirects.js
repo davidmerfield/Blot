@@ -1,14 +1,14 @@
-module.exports = function(server){
+var helper = require('helper');
+var restrict = require('authHandler').enforce;
+var arrayify = helper.arrayify;
+var Redirects = require('../../../models/redirects');
+var _ = require('lodash');
+var bodyParser = require('body-parser');
+var getBody = bodyParser.urlencoded({extended:false});
+var formJSON = helper.formJSON;
+var urlNormalizer = helper.urlNormalizer;
 
-  var helper = require('../../helper');
-  var restrict = require('../../authHandler').enforce;
-  var arrayify = helper.arrayify;
-  var Redirects = require('../../models/redirects');
-  var _ = require('lodash');
-  var bodyParser = require('body-parser');
-  var getBody = bodyParser.urlencoded({extended:false});
-  var formJSON = helper.formJSON;
-  var urlNormalizer = helper.urlNormalizer;
+module.exports = function(server){
 
   server.get('/settings/redirects', restrict, function(req, res){
 

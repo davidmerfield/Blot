@@ -1,10 +1,10 @@
 module.exports = function(server){
 
-  var config = require('../../../config'),
-      email = require('../../email'),
-      auth = require('../../authHandler'),
+  var config = require('config'),
+      email = require('../../../email'),
+      auth = require('authHandler'),
       stripe = require('stripe')(config.stripe.secret),
-      User = require('../../models/user');
+      User = require('user');
 
   var bodyParser = require('body-parser');
 

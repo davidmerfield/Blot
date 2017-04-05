@@ -1,18 +1,18 @@
-var restrict = require('../../../authHandler').enforce;
+var restrict = require('authHandler').enforce;
 var parseBody = require('body-parser').urlencoded({extended:false});
-var Blog = require('../../../models/blog');
+var Blog = require('blog');
 // We pass an empty string to handle validator
 // since we don't know the ID of the blog yet
-var validate = require('../../../models/blog/validate/handle').bind(this, '');
+var validate = require('../../../../models/blog/validate/handle').bind(this, '');
 var calculate = require('./calculate');
 var charge = require('./charge');
 var firstPost = require('./firstPost');
 var migrateFolder = require('./migrateFolder');
-var helper = require('../../../helper');
+var helper = require('helper');
 var pretty = helper.prettyPrice;
 var badSubscription = require('./badSubscription');
-var config = require('../../../../config');
-var SyncLease = require('../../../sync/lease');
+var config = require('config');
+var SyncLease = require('../../../../sync/lease');
 var INACTIVE = 'You need an active subscription to create another blog. ' +
                'Please <a href="/logout?redirect=/sign-up">sign up</a> to start a subscription. ' +
                'Your blog will be preserved.';

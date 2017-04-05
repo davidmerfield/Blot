@@ -1,8 +1,8 @@
 module.exports = function(server){
 
-  var auth = require('../../authHandler'),
-      helper = require('../../helper'),
-      oneTimeAuth = require('../../oneTimeAuth'),
+  var auth = require('authHandler'),
+      helper = require('helper'),
+      oneTimeAuth = require('../../../oneTimeAuth'),
       logger = helper.logger;
 
   server.get('/try-blot/:token', auth.check, function (request, response, next) {

@@ -1,8 +1,8 @@
 module.exports = function(server){
 
-  var restrict = require('../../authHandler').enforce;
+  var restrict = require('authHandler').enforce;
   var parseBody = require('body-parser').urlencoded({extended:false});
-  var fourOhFour = require('../../models/404');
+  var fourOhFour = require('../../../models/404');
   var List = fourOhFour.list;
 
   server

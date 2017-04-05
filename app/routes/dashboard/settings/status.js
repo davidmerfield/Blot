@@ -1,7 +1,7 @@
-module.exports = function(server){
+var auth = require('authHandler');
+var redis = require('redis');
 
-  var auth = require('../../authHandler');
-  var redis = require('redis');
+module.exports = function(server){
 
   server.get('/status', auth.enforce, function(req, res){
 

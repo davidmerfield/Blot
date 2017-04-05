@@ -1,11 +1,10 @@
-var restrict = require('../../../authHandler').enforce;
+var restrict = require('authHandler').enforce;
 var helper = require('helper');
 var forEach = helper.forEach;
-var User = require('../../../models/user');
+var User = require('user');
 var config = require('config');
 var Dropbox = require('dropbox');
-var sync = require('../../../sync');
-var messenger = require('../../messenger');
+var sync = require('../../../../sync');
 
 var TRY_AGAIN = [
   0, 500, 504, // network error
@@ -67,7 +66,7 @@ module.exports = function(server){
 
     .all(restrict)
 
-    .get(messenger, function(req, res, next){
+    .get(function(req, res, next){
 
       if (!req.session.old_credentials)
         return res.redirect('/account/change-dropbox');
@@ -98,7 +97,7 @@ module.exports = function(server){
             title: 'Copy your files'
           });
 
-          res.render('dashboard/_wrapper');
+          res.render('dashboard/_account_wrapper');
 
           old_client.authenticate(function(err, old_client){
 

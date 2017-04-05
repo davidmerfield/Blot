@@ -1,6 +1,5 @@
-var restrict = require('../../../authHandler').enforce;
-var User = require('../../../models/user');
-var messenger = require('../../messenger');
+var restrict = require('authHandler').enforce;
+var User = require('user');
 
 module.exports = function(server){
 
@@ -11,7 +10,7 @@ module.exports = function(server){
 
     .all(restrict)
 
-    .get(messenger, function(req, res, next){
+    .get(function(req, res, next){
 
       // Todo store the db name & email so we don't have to
       // fetch this for every page load...
@@ -30,7 +29,7 @@ module.exports = function(server){
             dropbox_name: info.name
           });
 
-          res.render('dashboard/_wrapper');
+          res.render('dashboard/_account_wrapper');
         });
       });
     });

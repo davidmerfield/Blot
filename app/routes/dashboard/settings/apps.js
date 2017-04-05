@@ -1,19 +1,19 @@
+var rebuild = require('../../../rebuild');
+
+var helper = require('helper'),
+    capitalise = helper.capitalise,
+    deCamelize = helper.deCamelize,
+    auth = require('authHandler'),
+    Mustache = require('mustache'),
+    _ = require('lodash'),
+    Blog = require('blog'),
+    bodyParser = require('body-parser'),
+    type = helper.type,
+    pluginList = require('../../../plugins').list;
+
+var Transformer = require('../../../transformer');
+
 module.exports = function(server) {
-
-  var rebuild = require('../../rebuild');
-
-  var helper = require('../../helper'),
-      capitalise = helper.capitalise,
-      deCamelize = helper.deCamelize,
-      auth = require('../../authHandler'),
-      Mustache = require('mustache'),
-      _ = require('lodash'),
-      Blog = require('../../models/blog'),
-      bodyParser = require('body-parser'),
-      type = helper.type,
-      pluginList = require('../../plugins').list;
-
-  var Transformer = require('../../transformer');
 
   server.get('/apps',function(req, res){return res.redirect('/plugins');});
 

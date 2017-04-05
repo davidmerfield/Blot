@@ -1,13 +1,13 @@
 module.exports = function(server){
 
-  var config = require('../../../config');
-  var Template = require('../../models/template');
-  var Blog = require('../../models/blog');
+  var config = require('config');
+  var Template = require('template');
+  var Blog = require('blog');
 
-  var helper = require('../../helper');
+  var helper = require('helper');
   var arrayify = helper.arrayify;
 
-  var restrict = require('../../authHandler').enforce;
+  var restrict = require('authHandler').enforce;
   var parse = require('body-parser').urlencoded({extended:false});
 
   server.route('/settings/design/new')

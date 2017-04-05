@@ -1,12 +1,12 @@
 module.exports = function(server){
 
-  var config = require('../../../config'),
-      forEach = require('../../helper').forEach,
+  var config = require('config'),
+      forEach = require('helper').forEach,
       stripe = require('stripe')(config.stripe.secret),
-      auth = require('../../authHandler'),
-      email = require('../../email'),
-      Blog = require('../../models/blog'),
-      User = require('../../models/user'),
+      auth = require('authHandler'),
+      email = require('../../../email'),
+      Blog = require('blog'),
+      User = require('user'),
       bodyParser = require('body-parser');
 
   server.get('/cancel', auth.enforce, function (request, response){

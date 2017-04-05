@@ -1,6 +1,6 @@
 module.exports = function(server){
 
-  var auth = require('../../authHandler');
+  var auth = require('authHandler');
 
   // Customer created, now get access to a
   // folder in their Dropbox. This page tells

@@ -1,8 +1,8 @@
-var Entries = require('../../models/entries');
-var Template = require('../../models/template');
+var Entries = require('entries');
+var Template = require('template');
 var helper = require('helper');
 var forEach = helper.forEach.parallel;
-var restrict = require('../../authHandler').enforce;
+var restrict = require('authHandler').enforce;
 
 module.exports = function(server){
 

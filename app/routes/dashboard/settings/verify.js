@@ -1,10 +1,9 @@
+var verifyRoute = '/verify/domain-setup',
+    makeRequest = require('request'),
+    auth = require('authHandler'),
+    url = require('url');
+
 module.exports = function(server){
-
-
-  var verifyRoute = '/verify/domain-setup',
-      makeRequest = require('request'),
-      auth = require('../../authHandler'),
-      url = require('url');
 
   // Called on the site to call the individual
   // blog. We could make this call directly but
@@ -37,9 +36,9 @@ module.exports = function(server){
     });
   });
 
-  var Sync = require('../../sync');
-  var VerifyFolder = require('../../sync/dropbox/verify');
-  var VerifyBlog = require('../../verify');
+  var Sync = require('../../../sync');
+  var VerifyFolder = require('../../../sync/dropbox/verify');
+  var VerifyBlog = require('../../../verify');
   var redis = require('redis');
 
   server.get('/verify-status', auth.enforce, function(req, res){

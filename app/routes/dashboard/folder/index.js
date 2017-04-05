@@ -1,10 +1,10 @@
 module.exports = function(server){
 
-  var check = require('../../authHandler').check;
-  var read = require('./_folder/read');
-  var breadcrumbs = require('./_folder/breadcrumbs');
   var fs = require('fs');
   var helper = require('helper');
+  var check = require('authHandler').check;
+  var read = require('./read');
+  var breadcrumbs = require('./breadcrumbs');
   var localPath = helper.localPath;
 
   server.get(['/', '/~*'], check, function(req, res, next){

@@ -1,13 +1,13 @@
 module.exports = function(server){
 
   var url = require('url'),
-      auth = require('../../authHandler'),
-      User = require('../../models/user'),
-      Entries = require('../../models/entries'),
-      Entry = require('../../models/entry'),
-      Blog = require('../../models/blog'),
-      upload = require('../../upload'),
-      helper = require('../../helper'),
+      auth = require('authHandler'),
+      User = require('user'),
+      Entries = require('entries'),
+      Entry = require('entry'),
+      Blog = require('blog'),
+      upload = require('../../../upload'),
+      helper = require('helper'),
       tempDir = helper.tempDir(),
       formJSON = helper.formJSON,
       _ = require('lodash'),
@@ -15,7 +15,7 @@ module.exports = function(server){
       extend = helper.extend,
       multiparty = require('multiparty');
 
-      var DateStamp = require('../../models/entry/build/prepare/dateStamp');
+      var DateStamp = require('../../../models/entry/build/prepare/dateStamp');
 
   /// Post files
   server.post('/update', auth.enforce, function(request, response){

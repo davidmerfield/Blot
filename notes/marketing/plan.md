@@ -1,11 +1,10 @@
-1. Reach out to people using jekkyl
 2. Write entries on my blog with link back to Blot
-- write about the design process
-- write about using dropbox api with node
+  - write about the design process
+  - write about using dropbox api with node
 3. Publish open source projects.
-- entire codebase?
-- express custom domains OS project
+  - express custom domains OS project
 4. Do the legwork to get high-profile designers, programmers, artists, academics, journalists and writers on Blot. Offer to migrate posts and template for free.
+  offer to migrate this guy's blog https://twitter.com/thoughtwax
 
 I need people who aren't publicly associated with another
 blogging platform & who probably use Dropbox.

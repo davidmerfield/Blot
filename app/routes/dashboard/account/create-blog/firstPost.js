@@ -1,10 +1,10 @@
-var helper = require('../../../helper');
-var Entry = require('../../../models/entry');
+var helper = require('helper');
+var Entry = require('entry');
 var localWelcome = helper.rootDir + '/app/welcome.txt';
 var localPath = helper.localPath;
 var welcomePath = '/welcome.txt';
 var copyFile = helper.copyFile;
-var User = require('../../../models/user');
+var User = require('user');
 var ensure = helper.ensure;
 var fs = require('fs');
 

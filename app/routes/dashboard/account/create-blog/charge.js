@@ -1,10 +1,10 @@
-var helper = require('../../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var pretty = helper.prettyPrice;
 
-var config = require('../../../../config');
+var config = require('config');
 var stripe = require('stripe')(config.stripe.secret);
-var User = require('../../../models/user');
+var User = require('user');
 
 var calculate = require('./calculate');
 var badSubscription = require('./badSubscription');

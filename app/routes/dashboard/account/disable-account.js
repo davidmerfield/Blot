@@ -1,10 +1,10 @@
 module.exports = function(server){
 
-  var email = require('../../email'),
-      forEach = require('../../helper').forEach,
-      auth = require('../../authHandler'),
-      Blog = require('../../models/blog'),
-      User = require('../../models/user'),
+  var email = require('../../../email'),
+      forEach = require('helper').forEach,
+      auth = require('authHandler'),
+      Blog = require('blog'),
+      User = require('user'),
       bodyParser = require('body-parser');
 
   server.get('/disabled', auth.check, function(request, response){
