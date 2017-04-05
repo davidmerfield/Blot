@@ -10,133 +10,128 @@ var config = require('config'),
 
 function check (request, response, next) {
 
-  requireSSL(request, response, function(error){
+  var host = config.host;
+
+  if (request.hostname !== host ||
+     !request.session || !request.session.uid) {
+
+    request.user = false;
+
+    return next();
+  }
+
+  // Don't expose any features which modify the
+  // database when the
+  if (config.maintenance && request.url !== '/maintenance') {
+    return response.redirect('/maintenance');
+  }
+
+  var uid = request.session.uid;
+
+  User.getBy({uid: uid}, function(error, user){
 
     if (error) return next(error);
 
-    var host = config.host;
-
-    if (request.hostname !== host ||
-       !request.session || !request.session.uid) {
-
-      request.user = false;
-
+    if (!user) {
+      // we should delete the uid and destroy the session
+      // the user probably deleted their account
       return next();
     }
 
-    // Don't expose any features which modify the
-    // database when the
-    if (config.maintenance && request.url !== '/maintenance') {
-      return response.redirect('/maintenance');
-    }
+    var blogs = [];
 
-    var uid = request.session.uid;
+    forEach(user.blogs, function(blogID, nextBlog){
 
-    User.getBy({uid: uid}, function(error, user){
+      Blog.get({id: blogID}, function(err, blog){
+        blogs.push(blog);
+        nextBlog();
+      });
 
-      if (error) return next(error);
+    }, function(){
 
-      if (!user) {
-        // we should delete the uid and destroy the session
-        // the user probably deleted their account
+      request.user = user;
+
+      // Lets append the user and
+      // set the partials to 'logged in mode'
+      response.addLocals({user: user});
+
+      response.setPartials({
+        head: 'dashboard/_head',
+        footer: 'dashboard/_footer',
+        nav: 'dashboard/_nav',
+        status: 'dashboard/_status'
+      });
+
+      // Need to allow post requests
+      if (user.isUnpaid || user.isPastDue) {
+
+        // to view pay page
+        if (request.url === '/pay-subscription')
+          return next();
+
+        // or to submit their new payment
+        if (request.method === 'POST')
+          return next();
+
+        // otherwise make them pay muah ha ha.
+        return response.redirect('/pay-subscription');
+      }
+
+      if (!request.session.blogID) {
+
+        if (request.method === 'POST')
+          return next();
+
+        if (request.url === '/create-blog')
+          return next();
+
+        if (user.blogs.length === 0)
+          return response.redirect('/create-blog');
+
         return next();
       }
 
-      var blogs = [];
+      var blogID = request.session.blogID;
 
-      forEach(user.blogs, function(blogID, nextBlog){
+      Blog.get({id: blogID}, function(error, blog){
 
-        Blog.get({id: blogID}, function(err, blog){
-          blogs.push(blog);
-          nextBlog();
-        });
+        // The blog active in the users session
+        // no longer exists, redirect them to one
+        if (!blog) {
 
-      }, function(){
+          var candidates = user.blogs.slice();
+          var candidate;
 
-        request.user = user;
+          candidates = candidates.filter(function(id){
+            return id !== blogID;
+          });
 
-        // Lets append the user and
-        // set the partials to 'logged in mode'
-        response.addLocals({user: user});
-
-        response.setPartials({
-          head: 'dashboard/_head',
-          footer: 'dashboard/_footer',
-          nav: 'dashboard/_nav',
-          status: 'dashboard/_status'
-        });
-
-        // Need to allow post requests
-        if (user.isUnpaid || user.isPastDue) {
-
-          // to view pay page
-          if (request.url === '/pay-subscription')
-            return next();
-
-          // or to submit their new payment
-          if (request.method === 'POST')
-            return next();
-
-          // otherwise make them pay muah ha ha.
-          return response.redirect('/pay-subscription');
-        }
-
-        if (!request.session.blogID) {
-
-          if (request.method === 'POST')
-            return next();
-
-          if (request.url === '/create-blog')
-            return next();
-
-          if (user.blogs.length === 0)
-            return response.redirect('/create-blog');
-
-          return next();
-        }
-
-        var blogID = request.session.blogID;
-
-        Blog.get({id: blogID}, function(error, blog){
-
-          // The blog active in the users session
-          // no longer exists, redirect them to one
-          if (!blog) {
-
-            var candidates = user.blogs.slice();
-            var candidate;
-
-            candidates = candidates.filter(function(id){
-              return id !== blogID;
-            });
-
-            if (candidates.length > 0) {
-              candidate = candidates.pop();
-              User.set(uid, {lastSession: candidate}, function(){});
-              request.session.blogID = candidate;
-              return response.redirect('/');
-            }
+          if (candidates.length > 0) {
+            candidate = candidates.pop();
+            User.set(uid, {lastSession: candidate}, function(){});
+            request.session.blogID = candidate;
+            return response.redirect('/');
           }
+        }
 
-          if (error || !blog) return next(error);
+        if (error || !blog) return next(error);
 
-          blogs.forEach(function(_blog){
+        blogs.forEach(function(_blog){
 
-            if (_blog.id === blogID)
-              _blog.isCurrent = true;
+          if (_blog.id === blogID)
+            _blog.isCurrent = true;
 
-          });
-
-          request.blog = Blog.extend(blog);
-          request.blogs = blogs;
-
-          response.addLocals({
-            blog: blog,
-            blogs: blogs
-          });
-
-          next();
         });
+
+        request.blog = Blog.extend(blog);
+        request.blogs = blogs;
+
+        response.addLocals({
+          blog: blog,
+          blogs: blogs
+        });
+
+        next();
       });
     });
   });
@@ -196,18 +191,9 @@ function admin (request, response, next) {
   });
 }
 
-function requireSSL (request, response, next) {
-
-  if (!request.secure)
-    return response.redirect('https://' + config.host + request.url);
-
-  next();
-}
-
 module.exports = {
   check: check,
   enforce: enforce,
   admin: admin,
-  exclude: exclude,
-  requireSSL: requireSSL
+  exclude: exclude
 };

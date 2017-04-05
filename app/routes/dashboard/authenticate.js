@@ -7,7 +7,6 @@ module.exports = function(server){
       eventEmitter = new events.EventEmitter(),
       config = require('config'),
       callbackUrl = 'https://' + config.host + '/auth/callback',
-      requireSSL = require('authHandler').requireSSL,
       User = require('user'),
       Subscription = require('subscription'),
       logger = require('helper').logger;
@@ -16,7 +15,7 @@ module.exports = function(server){
     NO_ACCOUNT: 'You need a Blot account to log in'
   };
 
-  server.get('/auth', requireSSL, function (request, response) {
+  server.get('/auth', function (request, response) {
 
     // If the user is already authenticated then
     // avoid repeating the auth process UNLESS
@@ -70,7 +69,7 @@ module.exports = function(server){
     });
   });
 
-  server.get('/auth/callback', requireSSL, function (request, response, next) {
+  server.get('/auth/callback', function (request, response, next) {
 
     var code = request.query.code;
     var error = request.query.error;

@@ -15,6 +15,7 @@ var responseTime = require('./app/routes/middleware/responseTime');
 var add = require('./app/routes/middleware/add');
 var messenger = require('./app/routes/middleware/messenger');
 var errorHandler = require('./app/routes/middleware/error');
+var forceSSL = require('./app/routes/middleware/forceSSL');
 
 var renderView = require('./app/render/middleware');
 var scheduler = require('./app/scheduler');
@@ -45,6 +46,7 @@ var site = express();
 // be specified for each individual
 // app. Express considers each seperately.
 site
+  .use(forceSSL)
   .disable('x-powered-by')
   .use(compression())
   .set('trust proxy', 'loopback')
