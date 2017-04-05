@@ -2,11 +2,11 @@
 // then append the user's information to the request
 // so that other routes can make use of it easily
 
-var config = require('../config'),
-    forEach = require('./helper').forEach,
+var config = require('config'),
+    forEach = require('helper').forEach,
     csrf = require('csurf'),
-    Blog = require('./models/blog'),
-    User = require('./models/user');
+    Blog = require('blog'),
+    User = require('user');
 
 function check (request, response, next) {
 
@@ -37,6 +37,8 @@ function check (request, response, next) {
       if (error) return next(error);
 
       if (!user) {
+        // we should delete the uid and destroy the session
+        // the user probably deleted their account
         return next();
       }
 
@@ -96,6 +98,25 @@ function check (request, response, next) {
         var blogID = request.session.blogID;
 
         Blog.get({id: blogID}, function(error, blog){
+
+          // The blog active in the users session
+          // no longer exists, redirect them to one
+          if (!blog) {
+
+            var candidates = user.blogs.slice();
+            var candidate;
+
+            candidates = candidates.filter(function(id){
+              return id !== blogID;
+            });
+
+            if (candidates.length > 0) {
+              candidate = candidates.pop();
+              User.set(uid, {lastSession: candidate}, function(){});
+              request.session.blogID = candidate;
+              return response.redirect('/');
+            }
+          }
 
           if (error || !blog) return next(error);
 

@@ -1,6 +1,6 @@
 module.exports = function(server){
 
-  var saveCredentials = require('./change-dropbox/save-credentials.js');
+  var saveCredentials = require('./account/change-dropbox/save-credentials.js');
 
   var Dropbox = require('dropbox'),
       events = require('events'),
