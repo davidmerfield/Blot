@@ -1,6 +1,6 @@
 module.exports = function(server){
 
-  var auth = require('../../authHandler');
+  var auth = require('authHandler');
 
   server.use('/help', auth.check);
 

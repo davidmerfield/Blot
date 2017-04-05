@@ -1,8 +1,8 @@
 module.exports = function(server){
 
-  var auth = require('../../authHandler');
-  var capitalise = require('../../helper').capitalise;
-  var config = require('../../../config');
+  var auth = require('authHandler');
+  var capitalise = require('helper').capitalise;
+  var config = require('config');
 
   // Only serve the maintenance page
   // if we are doing maintenance

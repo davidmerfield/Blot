@@ -1,12 +1,12 @@
 module.exports = function(server){
 
   var bodyParser = require('body-parser');
-  var Subscription = require('../../models/subscription');
-  var config = require('../../../config');
+  var Subscription = require('subscription');
+  var config = require('config');
   var stripe = require('stripe')(config.stripe.secret);
   var parseBody = bodyParser.urlencoded({extended:false});
   var csrf = require('csurf');
-  var auth = require('../../authHandler');
+  var auth = require('authHandler');
 
   // Stripe Errors
   var BAD_CHARGE = 'We were unable to charge your card. Please fill out the form and try again, it should work.';
