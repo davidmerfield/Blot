@@ -21,7 +21,6 @@ module.exports = function route (server) {
       // A similar problem to the one caused
       // by the compression middleware a few lines down.
       'X-Accel-Buffering': 'no',
-
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
@@ -64,6 +63,11 @@ module.exports = function route (server) {
     var filePath = drafts.getPath(request.url, drafts.viewRoute);
 
     renderDraft(request, response, next, filePath, function(html){
+
+      // this is to override the header set by the middleware
+      // helmet.frameguard in server.js. It prevents Firefox
+      // from rendering the iframe in the preview file.
+      response.removeHeader('X-Frame-Options');
 
       // bodyHTML is passed after HTML
       response.send(html);
