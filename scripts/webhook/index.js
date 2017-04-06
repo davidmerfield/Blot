@@ -5,7 +5,7 @@ var config = require('../../config');
 var uid = '2302164';
 
 var options = require('minimist')(process.argv.slice(2));
-var webhook = 'python scripts/webhook/dropbox_hook.py notify http://blot.development/webhook --secret ' + config.dropbox.secret + ' --user ' + uid;
+var webhook = 'python scripts/webhook/dropbox_hook.py notify https://blot.development/webhook --secret ' + config.dropbox.secret + ' --user ' + uid;
 
 if (options.c) {
 

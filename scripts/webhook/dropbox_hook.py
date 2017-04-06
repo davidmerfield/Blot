@@ -61,6 +61,7 @@ def notify(url, secret, user):
     response = requests.post(
         url,
         data=body,
+        verify=False, # THIS IS SO WE CAN USE A SELF_SIGNED CERT IN DEV MODE, V DANGEROUS
         headers={
             'X-Dropbox-Signature': hmac.new(str(secret), body, sha256).hexdigest()
         })
