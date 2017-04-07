@@ -1,4 +1,4 @@
-var Template = require('../../models/template');
+var Template = require('template');
 
 module.exports = function (server) {
 

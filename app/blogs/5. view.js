@@ -1,6 +1,6 @@
 module.exports = function(server){
 
-  var Template = require('../../models/template');
+  var Template = require('template');
 
   server.use(function(request, response, next){
 

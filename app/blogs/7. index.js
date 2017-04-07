@@ -1,6 +1,6 @@
 module.exports = function (server) {
 
-  var Entries = require('../../models/entries');
+  var Entries = require('entries');
 
   server.get('/page/:page_number', renderPage);
   server.get('/', renderPage);

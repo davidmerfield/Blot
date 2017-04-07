@@ -1,9 +1,9 @@
 module.exports = function route (server) {
 
-  var Entry = require('../../models/entry');
-  var Entries = require('../../models/entries');
-  var plugins = require('../../plugins');
-  var drafts = require('../../drafts');
+  var Entry = require('entry');
+  var Entries = require('entries');
+  var plugins = require('../plugins');
+  var drafts = require('../drafts');
   var redis = require('redis');
 
   server.get(drafts.streamRoute, function(req, res, next){

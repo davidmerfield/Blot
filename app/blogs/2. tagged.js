@@ -1,7 +1,7 @@
 module.exports = function(server){
 
-  var Entry = require('../../models/entry');
-  var Tags = require('../../models/tags');
+  var Entry = require('entry');
+  var Tags = require('tags');
   var _ = require('lodash');
 
   server.get('/tagged/:tag*', function(request, response, next){

@@ -30,6 +30,7 @@ var compression = require('compression');
 var vhost = require('vhost');
 var helmet = require('helmet');
 
+var blogs = require('./app/blogs');
 
 // This app serves the dashboard
 // and marketing homepage.
@@ -178,13 +179,14 @@ server
     return next();
   })
 
-  .use(blog);
+  .use(blogs);
+
+
 
 // Create an HTTP service.
 server.listen(config.port);
 
-console.log('Server start complete!');
-console.log('Listening for requests on port ' + config.port);
+console.log('Server started! Now listening for requests on port ' + config.port);
 
 // Flush the cache for the homepage!
 cache.clear('0');

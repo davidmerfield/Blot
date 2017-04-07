@@ -1,6 +1,6 @@
 module.exports = function(server){
 
-  var Entry = require('../../models/entry');
+  var Entry = require('entry');
   var reds = require('reds');
   var transliterate = require('transliteration');
 

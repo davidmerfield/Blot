@@ -1,10 +1,10 @@
 module.exports = function(server){
 
-  var Entry = require('../../models/entry'),
-      normalize = require('../../helper').urlNormalizer,
-      plugins = require('../../plugins');
+  var Entry = require('entry'),
+      normalize = require('helper').urlNormalizer,
+      plugins = require('../plugins');
 
-  var Entries = require('../../models/entries');
+  var Entries = require('entries');
 
   server.use(function(request, response, next){
 

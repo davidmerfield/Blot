@@ -1,5 +1,5 @@
 var path = require('path'),
-    viewDir = path.resolve(__dirname + '/../../') + '/views/';
+    viewDir = path.resolve(__dirname + '/../') + '/views/';
 
 module.exports = function(server){
 

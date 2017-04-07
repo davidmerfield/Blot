@@ -1,18 +1,18 @@
 module.exports = function(server){
 
-  var config = require('../../../config');
+  var config = require('config');
   var express = require('express');
   var maxAge = config.environment !== 'development' ? 86400000 : 0;
 
   var basename = require('path').basename;
 
-  var helper = require('../../helper');
+  var helper = require('helper');
   var normalize = helper.pathNormalizer;
 
   var rootDir = helper.rootDir;
   var allDir = rootDir + '/www/blogs/*';
 
-  var Metadata = require('../../models/metadata');
+  var Metadata = require('../models/metadata');
 
   server.use(express.static(allDir, {maxAge: maxAge}));
 
