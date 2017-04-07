@@ -1,15 +1,15 @@
 blot.com
 
 blot.is
+blot.cm
 blot.my
-blot.site
+
 blot.website
 blot.host
+blot.pub
+blot.love
 
 b-l-o-t.com
-blot.cm
-blot.fm
-blot.jp
 blot.li
 blot.lu
 blot.lt
@@ -20,7 +20,6 @@ blot.tl
 blot.fm
 blot.gd
 blot.ht
-blot.love
-blot.pub
-blot.one
-blot.rocks
+
+blot.fm
+blot.jp
