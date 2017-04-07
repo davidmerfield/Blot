@@ -6,7 +6,7 @@ var helper = require('./helper');
 var forEach = helper.forEach;
 var schedule = require('node-schedule').scheduleJob;
 var Blog = require('./models/blog');
-var analytics = require('./analytics');
+var analytics = require('./middleware/analytics');
 var backup = require('./backup');
 var dailyUpdate = require('../scripts/info/dailyUpdate');
 

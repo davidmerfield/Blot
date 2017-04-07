@@ -6,7 +6,7 @@ var arrayify = helper.arrayify;
 var Entries = require('../../app/models/entries');
 var Blog = require('../../app/models/blog');
 var Email = require('../../app/email');
-var analytics = require('../../app/analytics');
+var analytics = require('../../app/middleware/analytics');
 
 var diskspace = require('./disk-space');
 var memory = require('./memory');

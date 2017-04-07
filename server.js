@@ -5,8 +5,7 @@ process.on('SIGINT', cleanExit); // catch ctrl-c
 process.on('SIGTERM', cleanExit); // catch kill
 
 var config = require('./config');
-
-var analytics = require('./app/analytics');
+var analytics = require('./app/middleware').analytics;
 var cache = require('./app/cache');
 var routes = require('./app/routes');
 
