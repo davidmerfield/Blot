@@ -250,10 +250,20 @@ module.exports = (function () {
 
       if (subscription.status === 'canceled')
         user.isDisabled = true;
+
+      if (user.isUnpaid || user.isPastDue)
+        user.needsToPay = true;
     }
 
-    if (user.blogs.length > 1)
+    if (user.blogs.length > 1) {
       user.multipleBlogs = true;
+      user.s = 's'; // used like this: you run blog{{s}} on blot...
+      user.are = 'are';
+    } else {
+      user.multipleBlogs = false;
+      user.s = '';
+      user.are = 'is';
+    }
 
     return user;
   }
