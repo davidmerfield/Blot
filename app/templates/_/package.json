@@ -41,7 +41,7 @@
     "search": {
       "partials": {
         "title": "Search - {{{title}}}",
-        "description": "Seach all the entries posted on {{{title}}}"
+        "description": "Search all the entries posted on {{{title}}}"
       }
     },
     "style": {
