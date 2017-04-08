@@ -1,10 +1,6 @@
-
-
-
-
 <label style="margin: 0">
-  <input type='hidden' value='false' name='typeset.punctuation'>
-  <input name="typeset.punctuation"  type="checkbox" {{#punctuation}}checked{{/punctuation}}/>
+  <input name='plugins.typeset.options.punctuation' type='hidden' value='off'>
+  <input name="plugins.typeset.options.punctuation" type="checkbox" {{#punctuation}}checked{{/punctuation}}/>
   Curly quotes &amp; elipses
 </label>
 
@@ -15,13 +11,13 @@
 </label> -->
 
 <label style="margin: 0">
-  <input type='hidden' value='false' name='typeset.hangingPunctuation'>
-  <input name="typeset.hangingPunctuation"  type="checkbox" {{#hangingPunctuation}}checked{{/hangingPunctuation}}/>
+  <input name='plugins.typeset.options.hangingPunctuation' type='hidden' value='off' >
+  <input name="plugins.typeset.options.hangingPunctuation"  type="checkbox" {{#hangingPunctuation}}checked{{/hangingPunctuation}}/>
   Hanging punctuation
 </label>
 
 <label style="margin: 0">
-  <input type='hidden' value='false' name='typeset.smallCaps'>
-  <input name="typeset.smallCaps"  type="checkbox" {{#smallCaps}}checked{{/smallCaps}}/>
+  <input name='plugins.typeset.options.smallCaps'  type='hidden' value='off'>
+  <input name="plugins.typeset.options.smallCaps"  type="checkbox" {{#smallCaps}}checked{{/smallCaps}}/>
   Enable small caps
 </label>
