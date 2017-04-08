@@ -1,0 +1,97 @@
+{{> sub_nav}}
+
+<form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+
+  <fieldset>
+
+    <label>
+      Title:
+      <input type="text" name="title" value="{{blog.title}}" />
+      <span class="error">{{errors.title}}</span>
+    </label>
+
+    <label>
+      Username:
+      <input type="text" name="handle" value="{{blog.handle}}" />
+      <span class="error">{{errors.handle}}</span>
+    </label>
+
+    <label>Personal domain:
+    <div class="messageWrapper">
+      <input type="text" id="customDomain" name="domain" value="{{blog.domain}}" placeholder="Your website's hostname"/>
+      <span id="inputMessage" class="inputMessage"></span>
+    </div>
+    <span class="error">{{errors.domain}}</span>
+    <span id="customHelper" class="lightText" style="display:none;position:absolute;right: -324px;width:300px;top:20px">
+      To host your blog on a personal domain, create a CNAME record for the 'www' subdomain which points to <span class="selectable">{{host}}</span> <a href="/help/setting-up-your-blog#using-a-personal-domain">Learn more</a>.</span>
+    </label>
+
+  <label style="margin-bottom:0">Photo:</label>
+
+  {{#blog.avatar}}
+  <section id="avatar">
+    <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+  </section>
+  {{/blog.avatar}}
+
+  <section class="imageUpload left" style="width:50%">
+    {{#blog.avatar}}
+      <span class="">Select a new photo</span>
+    {{/blog.avatar}}
+      <input type='file' id="avatarUpload" name='avatar' />
+    {{#blog.avatar}}
+      <input id="uploadButton" disabled class="button small" type="submit" value="Upload photo"/> &nbsp;
+      <button class="button small" name="avatar" value="" type="submit">Remove existing photo</button>
+    {{/blog.avatar}}
+    {{^blog.avatar}}<br />{{/blog.avatar}}
+  </section>
+
+  <div class="clear"></div>
+
+  {{#blog.avatar}}
+  <label>
+    <input type='hidden' value='off' name='roundAvatar'>
+    <input {{#blog.roundAvatar}}checked{{/blog.roundAvatar}} type="checkbox" name="blog.roundAvatar"/> Make my photo rounded
+  </label>
+  {{/blog.avatar}}
+
+  <br />
+  <input class="button" type="submit" value="Save changes"/>
+  <br />
+  <br />
+  <br />
+
+  <button id="addLink" class="button secondary right" >Add a link</button>
+
+  <p>Menu links:</p>
+
+  <section id="menu" class="fullRow sortable"  style="max-width:100%">
+
+  {{#blog.menu}}
+    <section id="link_{{id}}" class="{{#isPage}}isPage{{/isPage}}">
+      <span class="handle">&#9776;</span>
+      <input type="hidden" name="menu.{{index}}.id" value="{{id}}"/ >
+      <label>
+        {{#isPage}}
+          <a target="_blank" href="{{blog.blogURL}}{{url}}">
+            <span class="link">{{label}}</span> page
+          </a>
+        {{/isPage}}
+        <input placeholder="Label" type="text" name="menu.{{index}}.label" value="{{label}}"/>
+      </label>
+      <label>
+       <input type="text" name="menu.{{index}}.url" value="{{url}}"/>
+      </label>
+      <button class="button small secondary removeLink" class="right">Delete</button>
+      <div class="clear"></div>
+    </section>
+  {{/blog.menu}}
+  </section>
+
+  <br />
+  <br />
+
+  <input class="button" type="submit" value="Save changes"/>
+  </fieldset>
+
+</form>

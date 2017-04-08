@@ -1,0 +1,73 @@
+{{> sub_nav}}
+<style type="text/css">
+.plugin {width: 100%;padding:0;margin:0;float:none;}
+input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
+form label {cursor: pointer;line-height: 1.5;}
+</style>
+
+<form method='post' action='?_csrf={{csrftoken}}'>
+
+
+  {{#categories}}
+  <h2>{{name}}</h2>
+    {{#plugins}}
+    <div class="plugin {{checked}}">
+
+      <label>
+        <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
+        <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
+        {{{description}}}
+      </label>
+
+      <div class="pluginOptions" style="padding-left:2em">
+        {{{formHTML}}}
+      </div>
+    </div>
+    {{/plugins}}
+    <input class="button" type="submit" value="Save changes" style="margin:0 0 2em;"/>
+    <br>
+  {{/categories}}
+
+    <h2>Date and time</h2>
+
+
+    <label>
+      What is your timezone?<br />
+      <select name="timeZone" style="max-width:300px">
+        {{#timeZones}}
+          <option value="{{value}}" {{selected}}>{{time}} {{value}}</option>
+        {{/timeZones}}
+      </select>
+    </label>
+
+    <label>
+      How do you write your dates?<br />
+      <select name="dateFormat">
+        {{#dateFormats}}
+          <option value="{{value}}" {{selected}}>{{date}}</option>
+        {{/dateFormats}}
+      </select>
+    </label>
+
+    <label>
+      How should the date appear on your blog?<br />
+      <select name="dateDisplay">
+        {{#displayFormats}}
+          <option value="{{value}}" {{selected}}>{{date}}</option>
+        {{/displayFormats}}
+      </select>
+    </label>
+
+
+    <label>
+      <input type='hidden' value='off' name='hideDates'>
+      <input type="checkbox" name="hideDates" {{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for your posts
+    </label>
+    <br />
+
+    <input class="button" type="submit" value="Save changes" style="margin:0 0 2em;"/>
+
+
+</form>
+
+

@@ -1,0 +1,100 @@
+{{> sub_nav}}
+
+<div class="clear"></div>
+
+  <form method='post' action='?_csrf={{csrftoken}}'>
+
+    <p><a class="button" href="/theme/new">Create a new theme</a></p>
+
+      <input name="template" value="{{blog.template}}" type="hidden"/>
+
+      <div>
+        {{#templates}}
+
+        {{#isMine}}
+
+        <div class="selectArea">
+
+          <div class="container {{checked}}" style="padding-bottom:1em">
+
+
+        <p>{{name}}</p>
+          <p style="margin-top: 1em;">
+        {{^checked}}
+        <a class="selectTemplate button" href="#!" data-id="{{id}}" style="padding:0 0.666em">Install</a>
+        {{/checked}}
+
+        {{#checked}}
+        <a style="padding:0 0.666em" class="button checked">Install</a>
+        {{/checked}}
+
+         <a class="link" href="{{editURL}}/settings" style="margin-right:1em">Edit</a>
+
+         <a target="_blank" class="link" href="{{previewURL}}">Preview</a>
+
+
+        </p>
+        </div>
+
+        </div>
+
+
+        {{/isMine}}
+        {{/templates}}
+
+      </div>
+      <div class="clear"></div>
+
+      <div>
+
+      {{#templates}}
+
+
+
+
+      {{^isMine}}
+
+      <div class="selectArea">
+
+        <div class="container {{checked}}">
+
+
+          <a title="Preview the {{name}} theme on your blog" class="thumb" target="_blank">
+            <div class="chrome">{{name}}</div>
+            <img src="/images/templates/{{nameLower}}.jpg">
+          <div class="border"></div>
+          </a>
+
+
+          <div style="font-size:14px;line-height:1.5">
+<!--
+          <p >In the Betelgeuse Design, individual thumbnail images can be doubled in size, providing a way to create more variety in visual rhythm, and to emphasize specific.</p>
+
+          <p >Betelgeuse is designed to accommodate a wide variety of display devices.</p> -->
+          <p style="margin-top:1.5em">
+        {{^checked}}
+        <a class="selectTemplate button" href="#!" data-id="{{id}}" style="padding:0 0.666em">Install</a>
+        {{/checked}}
+
+        {{#checked}}
+        <a style="padding:0 0.666em" class="button checked">Install</a>
+        {{/checked}}
+
+        <a target="_blank" class="link" href="{{previewURL}}">Preview</a>
+
+        </p>
+
+      </div>
+
+
+
+
+
+        </div>
+      </div>
+      {{/isMine}}
+
+      {{/templates}}
+    </div>
+  </form>
+<div class="clear"></div>

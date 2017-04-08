@@ -1,0 +1,77 @@
+
+  <form method='post' action='?_csrf={{csrftoken}}'>
+
+        <fieldset>
+
+
+          <label>Name:
+            <input type="text" name="name" value="{{user.name}}" placeholder=""/>
+            <span class="error">{{errors.name}}</span>
+          </label>
+
+          <label>Email:
+            <input class="noMargin" type="text" name="email" value="{{user.email}}" placeholder=""/>
+            <span class="error">{{errors.email}}</span>
+          </label>
+
+          <br />
+
+          <input class="button" type="submit" value="Save changes"/>
+        </fieldset>
+
+        <br />
+        <br />
+        <br />
+
+        <h2>Your blogs</h2>
+        <hr>
+        <fieldset>
+        <p>You run {{user.pretty.amount}} blog{{user.s}} from Dropbox.</p>
+        <ul>
+        {{#blogs}}
+        {{/blogs}}
+        </ul>
+
+        <a class="button" href="/account/create-blog">Create another blog</a>
+        <br /><br />
+        <a href="/account/change-dropbox">Change Dropbox account</a>
+        <br /><br />
+        <a href="/account/export">Export your account data</a>
+        </p>
+
+        </fieldset>
+
+        <h2>Billing</h2>
+        <hr>
+
+        <fieldset>
+        {{#user.cancel_at_period_end}}
+
+        <p>Your subscription was cancelled and you won't be charged again.  Your account will expire on <br/> <b>{{user.pretty.expiry}}</b>.</p>
+
+        <p><a class="link" href="/account/restart-subscription">Restart my subscription</a></p>
+
+        <p><a class="link red" href="/account/disable-account">Disable my account</a></p>
+
+        {{/user.cancel_at_period_end}}
+
+        {{#user.isFreeForLife}}
+        <p>Since you were among the earliest to buy an account you can use Blot <b>for free</b> for as long as Blot exists!</p>
+
+        <p><a class="link red" href="/account/disable-account">Disable my account</a></p>
+        {{/user.isFreeForLife}}
+
+
+        {{#user.isSubscribed}}
+        <p>Your subscription will renew on <b>{{user.pretty.expiry}}</b>. Your bill will be <b>{{user.pretty.price}}</b> because you run {{user.pretty.amount}} blog{{user.s}}.</p>
+
+        <a class="link" href="/account/update-billing">Update my payment information</a>
+        <br /><br />
+        <a class="link red" href="/account/cancel">Cancel my subscription</a>
+
+        {{/user.isSubscribed}}
+      </fieldset>
+  </form>
+</div>
+
+

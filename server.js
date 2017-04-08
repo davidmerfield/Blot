@@ -12,10 +12,16 @@ var express = require('express');
 var compression = require('compression');
 var vhost = require('vhost');
 var helmet = require('helmet');
+var session = require('express-session');
+var redis = require('redis').createClient();
+var Store = require('connect-redis')(session);
 
+var dashboard = require('./app/dashboard');
 var site = require('./app/site');
 var blogs = require('./app/blogs');
 
+// All together now
+var server = express();
 
 
 // Session settings
@@ -57,6 +63,13 @@ server
   .use(helmet.frameguard('allow-from', config.host))
   .use(helmet.crossdomain())
   .use(analytics.middleware)
+  .use(vhost(config.host, session(sessionOptions)))
+  .use(vhost(config.host, function(req, res, next){
+
+    if (!req.session || !req.session.uid) return next();
+
+    dashboard(req, res, next);
+  }))
   .use(vhost(config.host, site))
   .use(vhost('publicfonts.org', site))
 

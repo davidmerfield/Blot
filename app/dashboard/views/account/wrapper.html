@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    <section class="wrapper">
+
+      {{#user.isDisabled}}
+      <a class="button" href="/account/logout">Back to the homepage</a>
+      {{/user.isDisabled}}
+
+      {{#blogs.length}}
+      {{^user.isDisabled}}
+      <a class="button" href="/">Back to the dashboard</a>
+      {{/user.isDisabled}}
+      {{/blogs.length}}
+
+      {{> message}}
+
+      <h2>Account</h2>
+      <hr>
+
+      {{> yield}}
+
+      {{^user.isDisabled}}
+      {{> footer}}
+      {{/user.isDisabled}}
+    </section>
+  </body>
+</html>

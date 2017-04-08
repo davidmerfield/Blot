@@ -1,0 +1,30 @@
+
+<form method="POST" action="?_csrf={{csrftoken}}">
+
+  <fieldset style="border-top:none">
+
+    <h4 class="halfMargin">{{title}}</h4>
+
+    {{#success}}<span class="box green">{{success}}</span>{{/success}}
+
+    <p class="small darkText">This will prevent you from logging in to Blot and will remove your blog posts.</p>
+
+    <p>Your next bill will decrease by $20 to {{bill}}.</p>
+
+    <input type="submit" class="button red" value="Close {{title}} permanently">
+  </fieldset>
+</form>
+<script type="text/javascript">
+
+var disableAccount = document.getElementById('disableAccount');
+var doDisable = document.getElementById('doDisable');
+disableAccount.onclick = function () {
+
+  if (disableAccount.checked) {
+    doDisable.disabled = false
+  } else {
+    doDisable.disabled = true;
+  }
+}
+
+</script>
