@@ -1,6 +1,6 @@
-module.exports = function(server) {
+module.exports = function (server) {
 
-  var log = require('./log');
+  var log = require('middleware').log;
 
   // 404s
   server.use(log.four04);
