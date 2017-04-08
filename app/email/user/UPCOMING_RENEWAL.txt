@@ -6,9 +6,9 @@ This is just a quick email to let you know that [Blot]({{site}}) will renew your
 
 Over the past year I've added [new themes and features](http://news.blot.im). I've written more about these on [my blog](http://news.blot.im).
 
-If your payment information has changed in the last year, please [update your billing information]({{site}}/update-billing) to avoid any problems renewing your subscription.
+If your payment information has changed in the last year, please [update your billing information]({{site}}/account/update-billing) to avoid any problems renewing your subscription.
 
-If you want to close your account, please [cancel]({{site}}/cancel) your subscription in the next seven days to avoid an unwanted charge.
+If you want to close your account, please [cancel]({{site}}/account/cancel) your subscription in the next seven days to avoid an unwanted charge.
 
 Please don’t hesitate to reply to this email if you have any questions.
 
