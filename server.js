@@ -1,4 +1,3 @@
-
 // This ensures the sync and rebuild child processes can be killed cleanly
 var cleanExit = function() { process.exit();};
 process.on('SIGINT', cleanExit); // catch ctrl-c
