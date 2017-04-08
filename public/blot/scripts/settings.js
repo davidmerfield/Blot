@@ -39,7 +39,7 @@ $(document).ready(function(){
   });
 
 
-  $('input[name="blog.roundAvatar"]').change(function(){
+  $('input[name="roundAvatar"]').change(function(){
 
     if ($(this)[0].checked) {
       $('#avatar img').addClass('rounded');
@@ -58,18 +58,18 @@ $(document).ready(function(){
 
       '<section id="link_' + linkID + '">' +
         '<span class="handle">&#9776;</span>' +
-        '<input type="hidden" name="blog.menu.'   + index + '.id" value="' + linkID + '"/>' +
+        '<input type="hidden" name="menu.'   + index + '.id" value="' + linkID + '"/>' +
         '<label>' +
-        '<input type="text" name="blog.menu.' + index + '.label" value="" placeholder="Label" />' +
+        '<input type="text" name="menu.' + index + '.label" value="" placeholder="Label" />' +
         '</label>' +
         '<label>' +
-        '<input type="text" name="blog.menu.' + index + '.url" value="http://" placeholder="URL"/>' +
+        '<input type="text" name="menu.' + index + '.url" value="http://" placeholder="URL"/>' +
         '</label>' +
         '<a class="button small secondary removeLink">Delete</a>' +
         '<span class="clear"></span>' +
       '</section>';
 
-    $('#menu').prepend(html);
+    $('#menu').append(html);
 
     $('[name="title_' + linkID + '"]').focus();
 
@@ -117,7 +117,7 @@ $(document).ready(function(){
           $(this).find('input').each(function(){
 
             var name = $(this).attr('name');
-            var newName = name.slice(0, 'blog.menu.'.length) + index + name.slice(name.lastIndexOf('.'));
+            var newName = name.slice(0, 'menu.'.length) + index + name.slice(name.lastIndexOf('.'));
 
             $(this).attr('name', newName);
 
