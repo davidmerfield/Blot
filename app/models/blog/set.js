@@ -29,6 +29,8 @@ module.exports = function (blogID, blog, callback) {
 
   validate(blogID, blog, function(errors, latest){
 
+    if (_.isEmpty(errors)) errors = null;
+
     get({id: blogID}, function(err, former){
 
       former = former || {};
@@ -62,8 +64,7 @@ module.exports = function (blogID, blog, callback) {
 
       var changesList = _.keys(changes);
 
-      if (!changesList.length)
-        return callback();
+      if (!changesList.length) return callback(errors, changesList);
 
       client.hmset(key.info(blogID), serial(latest), function(err){
 
@@ -73,8 +74,6 @@ module.exports = function (blogID, blog, callback) {
         if (changesList.length) {
           logger(null, 'Blog: ' + blogID + ': Set', changes);
         }
-
-        if (_.isEmpty(errors)) errors = null;
 
         cache.clear(blogID, function(){
 
