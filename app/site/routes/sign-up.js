@@ -5,8 +5,7 @@ module.exports = function(server){
   var config = require('config');
   var stripe = require('stripe')(config.stripe.secret);
   var parseBody = bodyParser.urlencoded({extended:false});
-  var csrf = require('csurf');
-  var auth = require('authHandler');
+  var excludeUser = require('middleware').excludeUser;
 
   // Stripe Errors
   var BAD_CHARGE = 'We were unable to charge your card. Please fill out the form and try again, it should work.';
@@ -28,15 +27,14 @@ module.exports = function(server){
 
     // Authenticated users should not
     // see this page. It is served over SSL
-    .all(auth.exclude)
+    .all(excludeUser)
 
-    .get(csrf(), function(req, res){
+    .get(function(req, res){
 
-      res.render('public/sign-up', {
+      res.render('sign-up', {
         title: TITLE,
         error: req.query.error,
-        stripe_key: config.stripe.key,
-        csrftoken: req.csrfToken()
+        stripe_key: config.stripe.key
       });
     })
 

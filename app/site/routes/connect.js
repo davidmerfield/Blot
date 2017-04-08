@@ -1,14 +1,11 @@
 module.exports = function(server){
 
-  var auth = require('authHandler');
+  var excludeUser = require('middleware').excludeUser;
 
   // Customer created, now get access to a
   // folder in their Dropbox. This page tells
   // them what's about to happen.
-  server.get('/connect', auth.check, function(request, response){
-
-    // Authenticated users should not see this page
-    if (request.user) return response.redirect('/');
+  server.get('/connect', excludeUser, function(request, response){
 
     var email = request.session.email,
         isNewUser = !!(email),

@@ -1,11 +1,10 @@
 module.exports = function(server){
 
-  var auth = require('authHandler'),
-      helper = require('helper'),
-      oneTimeAuth = require('../../../oneTimeAuth'),
+  var helper = require('helper'),
+      oneTimeAuth = require('../../oneTimeAuth'),
       logger = helper.logger;
 
-  server.get('/try-blot/:token', auth.check, function (request, response, next) {
+  server.get('/try-blot/:token', function (request, response, next) {
 
     if (request.user || !request.params || !request.params.token)
       return next();

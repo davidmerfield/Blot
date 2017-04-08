@@ -1,11 +1,9 @@
 module.exports = function(server){
 
-  var auth = require('authHandler');
-
-  server.use('/help', auth.check);
 
   server.get('/help', function(req, res){
 
+    console.log('HERE');
 
     res.setLocals({
       title: 'Blot - Help',
@@ -16,7 +14,7 @@ module.exports = function(server){
     res.addPartials({yield: 'help/overview'});
 
     if (req.blog)
-      return res.render('dashboard/_wrapper');
+      return res.render('help/wrapper');
 
     res.render('help/wrapper');
   });
@@ -36,7 +34,7 @@ module.exports = function(server){
     });
 
     if (req.blog)
-      return res.render('dashboard/_wrapper');
+      return res.render('help/wrapper');
 
     res.render('help/wrapper');
   });
