@@ -1,4 +1,3 @@
-var requireUser = require('middleware').requireUser;
 var parseBody = require('body-parser').urlencoded({extended:false});
 var Template = require("template");
 var loadTemplate = require('./loadTemplate');
@@ -7,7 +6,7 @@ module.exports = function (server) {
 
   server.route('/template/:template/local-editing')
 
-    .all(requireUser, loadTemplate)
+    .all(loadTemplate)
 
     .get(function(req, res){
 

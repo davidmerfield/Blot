@@ -1,5 +1,4 @@
 var helper = require('helper');
-var requireUser = require('middleware').requireUser;
 var arrayify = helper.arrayify;
 var Redirects = require('../../../models/redirects');
 var _ = require('lodash');
@@ -10,7 +9,7 @@ var urlNormalizer = helper.urlNormalizer;
 
 module.exports = function(server){
 
-  server.get('/settings/redirects', requireUser, function(req, res){
+  server.get('/settings/redirects', function(req, res){
 
     var blog = req.blog, blogID = blog.id;
 
@@ -40,7 +39,7 @@ module.exports = function(server){
     return str;
   }
 
-  server.post('/settings/redirects', requireUser, getBody, function(req, res){
+  server.post('/settings/redirects', getBody, function(req, res){
 
     var mappings = formJSON(req.body, {redirects: 'object'});
 

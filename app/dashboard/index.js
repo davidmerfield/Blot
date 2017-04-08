@@ -101,9 +101,8 @@ dashboard.use(function(req, res, next){
 dashboard.use(add());
 
 
-dashboard.use(middleware.messenger); // after session!
+dashboard.use(middleware.messenger);
 dashboard.use(middleware.loadUser);
-dashboard.use(middleware.requireUser);
 dashboard.use(middleware.loadBlog);
 
 dashboard.post(['/theme*', '/account*', '/settings*', '/preferences*'], bodyParser.urlencoded({extended: false}));

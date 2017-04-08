@@ -2,7 +2,6 @@ var Transformer = require('../../../transformer');
 
 server
   .route('/rebuild-thumbnails')
-  .all(requireUser)
   .get(function(req, res){
     res.render('dashboard/rebuild-thumbnails');
   })

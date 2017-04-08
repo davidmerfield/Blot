@@ -1,9 +1,8 @@
-var requireUser = require('middleware').requireUser;
 var redis = require('redis');
 
 module.exports = function(server){
 
-  server.get('/status', requireUser, function(req, res){
+  server.get('/status', function(req, res){
 
     var blogID = req.blog.id;
     var client = redis.createClient();

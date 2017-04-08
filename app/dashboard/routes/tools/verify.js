@@ -1,6 +1,5 @@
 var verifyRoute = '/verify/domain-setup',
     makeRequest = require('request'),
-    requireUser = require('middleware').requireUser,
     url = require('url');
 
 module.exports = function(server){
@@ -8,7 +7,7 @@ module.exports = function(server){
   // Called on the site to call the individual
   // blog. We could make this call directly but
   // to do so would violate our CSP. This is posssibly safer
-  server.get('/verify-domain/:domain', requireUser, function(request, response){
+  server.get('/verify-domain/:domain', function(request, response){
 
     var domain = request.params.domain;
         domain = domain.replace(' ', '');
@@ -41,7 +40,7 @@ module.exports = function(server){
   var VerifyBlog = require('../../../verify');
   var redis = require('redis');
 
-  server.get('/verify-status', requireUser, function(req, res, next){
+  server.get('/verify-status', function(req, res, next){
 
     if (!req.blog) return next();
 
@@ -84,7 +83,7 @@ module.exports = function(server){
     });
   });
 
-  server.post('/verify', requireUser, function(req, res, next){
+  server.post('/verify', function(req, res, next){
 
     var blog = req.blog;
 
@@ -106,7 +105,7 @@ module.exports = function(server){
     });
   });
 
-  server.get('/verify', requireUser, function(request, response){
+  server.get('/verify', function(request, response){
 
     response.addLocals({
       partials: {yield: 'dashboard/verify'},

@@ -1,4 +1,3 @@
-var requireUser = require('middleware').requireUser;
 var parseBody = require('body-parser').urlencoded({extended:false});
 var Template = require("template");
 var helper = require('helper');
@@ -18,7 +17,7 @@ module.exports = function (server) {
 
     // Ensure the viewer is logged in and
     // owns a template with that name.
-    .all(requireUser, loadTemplate, loadSidebar)
+    .all(loadTemplate, loadSidebar)
 
     .get(function(req, res){
 
