@@ -45,7 +45,7 @@ function formJSON (fields, model) {
     // Sometimes there are multiple values
     // for one field. Collapse them to one.
     if (type(fields[i]) === 'array') {
-      fields[i] = fields[i][0];
+      fields[i] = fields[i].pop();
       console.log('FormJSON: Multiple inputs with same name', i, fields[i]);
     }
 
@@ -122,10 +122,22 @@ function formJSON (fields, model) {
 
       if (type(model[i])  === 'array') {
 
-        // console.log(i);
-        // console.log(obj[i]);
-        // console.log(arrayify(obj[i]));
-        obj[i] = arrayify(obj[i]);
+        obj[i] = arrayify(obj[i], function(item){
+
+          // arrayidy adds cruft like the name property
+          // make sure we remove anything thats not in the
+          // model definition for this item
+          for (var x in item)
+            if (model[i][0][x] === undefined) {
+              delete item[x];
+            }
+
+          // this fixes a bug with nested objects in arrays
+          // and is neccessary for blog.menu
+          if (!Object.keys(item).length) return false;
+
+          return item;
+        });
       }
 
       if (type(model[i]) === 'object') {
