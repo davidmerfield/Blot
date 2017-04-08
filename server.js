@@ -71,7 +71,6 @@ server
     dashboard(req, res, next);
   }))
   .use(vhost(config.host, site))
-  .use(vhost('publicfonts.org', site))
 
   // It is important that this route returns
   // 200 so that the script which determines
