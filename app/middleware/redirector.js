@@ -2,12 +2,12 @@ var config = require('config');
 var type = require('helper').type;
 
 var INDEX = '/';
+var CONTACT = '/contact';
 var MAINTENANCE = '/maintenance';
 var PAY_SUBSCRIPTION = '/account/pay-subscription';
 var ENABLE = '/account/enable';
 var LOGOUT = '/account/logout';
 var DISABLED = '/account/disabled';
-
 
 module.exports = function (req, res, next) {
 
@@ -34,7 +34,7 @@ module.exports = function (req, res, next) {
   }
 
   // Don't expose any features which modify the database
-  if (config.maintenance && pathIsNot(MAINTENANCE)) {
+  if (config.maintenance && pathIsNot([MAINTENANCE, CONTACT])) {
     return res.redirect(MAINTENANCE);
   }
 
@@ -44,12 +44,12 @@ module.exports = function (req, res, next) {
   }
 
   // Only allow the user to pay
-  if (user.needsToPay && pathIsNot(PAY_SUBSCRIPTION)) {
+  if (user.needsToPay && pathIsNot([PAY_SUBSCRIPTION, CONTACT])) {
     return res.redirect(PAY_SUBSCRIPTION);
   }
 
   // Only let the user see these pages
-  if (user.isDisabled && pathIsNot([ENABLE, LOGOUT, DISABLED])) {
+  if (user.isDisabled && pathIsNot([ENABLE, LOGOUT, DISABLED, CONTACT])) {
     return res.redirect(DISABLED);
   }
 
