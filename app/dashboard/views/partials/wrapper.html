@@ -18,21 +18,21 @@ h2 {margin-top: 1em}
 .sub.nav a.selected {border-color:transparent; }
 </style>
 </style>
-    <section class="wrapper" style="max-width:780px">
+<section class="wrapper" style="max-width:780px">
 
-      {{^blog.folder}}
-        <p class="box red">Your blog folder was removed. Please create a new folder called '{{blog.handle}}'' inside Blot's folder and put your blog's files inside. You can find Blot's folder here: Dropbox / Apps / Blot</p>
-        <br>
-      {{/blog.folder}}
+{{^blog.folder}}
+  <p class="box red">Your blog folder was removed. Please create a new folder called '{{blog.handle}}'' inside Blot's folder and put your blog's files inside. You can find Blot's folder here: Dropbox / Apps / Blot</p>
+  <br>
+{{/blog.folder}}
 
-      {{> nav}}
+{{> nav}}
 
-      {{> message}}
+{{> message}}
 
-      {{> yield}}
+{{> yield}}
 
-      {{> footer}}
-    </section>
+{{> footer}}
+</section>
 
 
     <script src="/scripts/jquery.js?{{cacheID}}"></script>

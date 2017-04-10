@@ -18,9 +18,24 @@ function normalize (str) {
 
 module.exports = function (req, res, next) {
 
-  var mappings = formJSON(req.body, {redirects: 'object'});
+  var mappings = {};
 
-  mappings = arrayify(mappings.redirects);
+  if (req.body.redirects) {
+
+    mappings = req.body.redirects.split('\n');
+    mappings = mappings.map(function(line){
+      from = line.slice(0, line.indexOf(' '));
+      to = line.slice(line.indexOf(' '));
+      return {from: from, to: to}
+    });
+
+    delete req.body.redirects;
+
+  } else {
+    mappings = formJSON(req.body, {redirects: 'object'});
+    mappings = arrayify(mappings.redirects);
+  }
+
 
   // Because the page has an empty redirect
   // to use as a template, we need to filter

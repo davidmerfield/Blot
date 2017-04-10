@@ -73,6 +73,11 @@ $('button:not(.small)').each(function(){
   });
 });
 
+  $('#toggleTextarea').click(function () {
+    $('#stage').append($('#backstage').children().first());
+    $('#backstage').append($('#stage').children().first());
+  });
+
 var source = new EventSource('/verify-status');
     source.onmessage = function(e) {
 

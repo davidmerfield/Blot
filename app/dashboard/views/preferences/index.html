@@ -75,7 +75,10 @@ form label {cursor: pointer;line-height: 1.5;}
     </p>
 
     <a id="addRedirect" class="button secondary">Add a rule</a>
+    <a id="toggleTextarea" class="button secondary">Mass edit</a>
     <Br /><br />
+
+    <section id="stage">
 
     <section id="redirects" class="fullRow sortable" style="max-width:100%">
 
@@ -93,7 +96,7 @@ form label {cursor: pointer;line-height: 1.5;}
       </section>
     {{/redirects}}
     </section>
-
+  </section>
 
       <input class="button" type="submit" value="Save changes"/>
 
@@ -112,5 +115,10 @@ form label {cursor: pointer;line-height: 1.5;}
           </section>
 
 </form>
-
-
+<section id="backstage" style="display:none">
+<textarea name="redirects" style="line-height:1.333;font-size:16px;margin-bottom:1.5em;padding:0.1em;font-family:monospace">
+{{#redirects}}
+{{from}} {{to}}
+{{/redirects}}
+</textarea>
+</section>
