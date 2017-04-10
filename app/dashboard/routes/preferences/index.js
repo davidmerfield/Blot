@@ -4,17 +4,18 @@ var Blog = require('blog');
 var resaveEntries = require('./resaveEntries');
 var loadPlugins = require('./loadPlugins');
 var loadTimeZones = require('./loadTimeZones');
+var loadRedirects = require('./loadRedirects');
 
+var saveRedirects = require('./saveRedirects');
 var form = require('./form');
 
 module.exports = function(server) {
 
   require('./404s')(server);
-  require('./redirects')(server);
 
   server.route('/preferences')
 
-    .get(loadPlugins, loadTimeZones)
+    .get(loadPlugins, loadTimeZones, loadRedirects)
 
     .get(function(req, res){
       // console.log(req.blog.plugins);
@@ -22,7 +23,7 @@ module.exports = function(server) {
       res.renderDashboard('preferences');
     })
 
-    .post(form, function(req, res, next){
+    .post(saveRedirects, form, function(req, res, next){
 
       var blog = req.blog;
       var blogID = blog.id;
