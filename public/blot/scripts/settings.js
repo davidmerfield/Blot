@@ -117,7 +117,7 @@ $(document).ready(function(){
           $(this).find('input').each(function(){
 
             var name = $(this).attr('name');
-            var newName = name.slice(0, 'menu.'.length) + index + name.slice(name.lastIndexOf('.'));
+            var newName = name.slice(0, name.indexOf('.') + 1) + index + name.slice(name.lastIndexOf('.'));
 
             $(this).attr('name', newName);
 
