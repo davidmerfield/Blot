@@ -2,7 +2,7 @@ var config = require('config');
 var info = require('./info');
 var transfer = require('./transfer');
 var sync = require('../../../../sync');
-var Dropbox = require('Dropbox');
+var Dropbox = require('dropbox');
 
 module.exports = function(server){
 
