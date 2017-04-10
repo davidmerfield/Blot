@@ -46,9 +46,11 @@ function read (blog, path, callback) {
       text = layout(text);
       time.end('layout');
 
-      time('katex');
-      text = katex(text);
-      time.end('katex');
+      if (blog.plugins.katex.enabled) {
+        time('katex');
+        text = katex(text);
+        time.end('katex');
+      }
 
       convert(text, function(err, html){
 

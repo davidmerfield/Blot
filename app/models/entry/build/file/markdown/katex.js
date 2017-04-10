@@ -1,6 +1,8 @@
 var delimiter = '$$';
 var katex = require('katex');
 
+// eventually replace this and use pandoc instead.
+
 module.exports = function (text) {
 
   if (!text) return text;
