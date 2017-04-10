@@ -105,7 +105,7 @@ dashboard.use(middleware.messenger);
 dashboard.use(middleware.loadUser);
 dashboard.use(middleware.loadBlog);
 
-dashboard.post(['/theme*', '/account*', '/settings*', '/preferences*'], bodyParser.urlencoded({extended: false}));
+dashboard.post(['/theme*', '/404s', '/account*', '/settings*', '/preferences*'], bodyParser.urlencoded({extended: false}));
 
 require('./routes/account')(dashboard);
 require('./routes/editor')(dashboard);

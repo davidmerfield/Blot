@@ -3,9 +3,7 @@ module.exports = function(server){
   var fourOhFour = require('../../../models/404');
   var List = fourOhFour.list;
 
-  server
-
-    .route('/settings/404s')
+  server.route('/404s')
 
     .get(function(req, res, next){
 
@@ -40,8 +38,7 @@ module.exports = function(server){
         });
 
         res.title('404s');
-        res.tab('redirects');
-        res.renderSettings('404');
+        res.render('404s');
       });
     })
 
