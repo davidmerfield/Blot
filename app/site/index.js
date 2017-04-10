@@ -8,6 +8,23 @@ var config = require('config');
 var hogan = require('hogan-express');
 var compression = require('compression');
 
+var MAP = {
+  '/apps': '/plugins',
+  '/cancel': '/account/cancel',
+  '/update-billing': '/account/update-billing',
+  '/logout': '/account/logout',
+  '/create-blog': '/account/create-blog',
+  '/settings': '/preferences',
+  '/settings/404s': '/404s',
+  '/settings/design': '/theme',
+  '/settings/design/new': '/theme/new',
+  '/settings/redirects': '/preferences',
+  '/settings/typography': '/preferences',
+  '/settings/images': '/preferences',
+  '/settings/add-ons': '/preferences'
+};
+
+
 site
   .use(middleware.forceSSL)
   .use(compression())
@@ -99,14 +116,21 @@ require('../dashboard')._router.stack.forEach(function(middleware){
 
 });
 
+// Serve static assets
+site.use(express.static(staticDir, staticSettings));
+
+// Redirect old routes
+site.use(function(req, res, next){
+
+  if (!MAP[req.path]) return next();
+
+  res.redirect(MAP[req.path]);
+});
+
+// Redirect dashboard routes
 site.get(routes, function(req, res, next){
   res.redirect('/auth?redirect=' + req.url);
 });
-
-// console.log(routes);
-
-// Serve static assets
-site.use(express.static(staticDir, staticSettings));
 
 require('./routes/error')(site);
 
