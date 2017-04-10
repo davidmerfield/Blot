@@ -2,13 +2,6 @@
 
   <input type="hidden" name="timeZone" value="">
 
-  {{#error}}
-    <style type="text/css">
-    .box.orange a {border-bottom: 1px solid}
-    </style>
-    <section class="box orange">{{{error}}}</section>
-  {{/error}}
-
   {{^error}}
     {{^user.blogs.length}}
       <section class="box green">Success! Blot is connected to your Dropbox.</section>
