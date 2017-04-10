@@ -72,6 +72,11 @@ support different payment methods
 
 
 
+Re-do url redirector to use route-parser and properly
+support regular expressions
+
+  handle queries properly too
+  https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
 
 
 configurable url schemes
