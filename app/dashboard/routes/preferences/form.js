@@ -22,7 +22,5 @@ module.exports = function (req, res, next) {
     req.body.plugins.analytics.options.provider = provider;
   }
 
-  console.log('BEFORE', req.blog.plugins);
-  console.log('AFTER', req.body.plugins);
   return next();
 };
