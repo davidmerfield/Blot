@@ -36,7 +36,12 @@ drexore /draft/view/Drafts/debugging.md
 
 Improve nginx error pages
 
-make the source folder on the per-blog basis (not per account) so theoretically a blot user could have two different blot accounts.
+make the source folder on the per-blog basis (not per account) so theoretically a blot user could have two different dropbox accounts.
+
+  Add folder section to settings page? radio buttons?
+  how to ensure this won't fuck up other blogs
+
+  move to Dropbox sdk v2
 
   Add support for 'full Dropbox' feature
   Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
@@ -63,14 +68,20 @@ support different payment methods
   https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870
   https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152
 
+
+
+
+
+
+
+configurable url schemes
+tell rodericus
+
 Giphy url support
 
 Find a better search library for blog text search
 
 Removing date metadata should reset datestamp to entry.created
-
-Add folder section to settings page? radio buttons?
-how to ensure this won't fuck up other blogs
 
 Catch rename failed to find a match for scrapboox/patch_bunny_slippers.jpg -> /patch_bunny_slippers.png
 
@@ -85,10 +96,6 @@ Move onetimeauth to scripts folder
 
 If entries share publish date, sort them by blot creation date?
 
-remove sidebar from pay subscription page
-allow access to /contact for overdue users
-fix bad rendering of /contact for overdue users
-
 Consider what to do for footnote links in a teaser -> rewrite links to {{permalink}}#frag?
 
 Add plugin for inline popover footnotes
@@ -96,15 +103,12 @@ Add plugin for inline popover footnotes
 Possible encoding issues?
 http://isaac.blot.im/go-set%EF%BF%BDbal
 
-configurable url schemes
-tell rodericus
-
 enable hyphenation again
 tell rodericus
 
 generate gif / svg thumbs if possible?
 
-consider https://github.com/showdownjs/showdown
+consider https://github.com/showdownjs/showdown ?
 
 Find cause of fontconfig error / warning?
 
@@ -134,11 +138,9 @@ Validator
  - why does it not print lines in production?
  - must check each blog folder exists...
 
-Add neat interface to customize blog level variables
+Add neat interface to customize blog level variables?
 
-simplify video plugin HTML OUTPUT
-
-move to tests/multiroute server.route(['/', '/bar']).get(loadPage, render('entries'));
+simplify video plugin HTML OUTPUT?
 
 Move queues in entry/rename /remove to doEach
 
@@ -154,7 +156,6 @@ which don't need to be run on server start
 but can be run programmatically
 
 consider adding date format localization with moment
-
 
 Add button to remove avatar from settings page
 https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac
@@ -354,3 +355,5 @@ Add email list plugin for readers?
 
 Move to support folder renames for local template editing
 - hide image zoomer
+
+use pandoc for katex instead of seperate function
