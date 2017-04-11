@@ -1,5 +1,4 @@
 var helper = require('helper');
-var ensure = helper.ensure;
 var pretty = helper.prettyPrice;
 
 var config = require('config');
@@ -9,21 +8,24 @@ var User = require('user');
 var calculate = require('./calculate');
 var badSubscription = require('./badSubscription');
 
-module.exports = function (user, callback) {
+var BAD_CHARGE = 'Could not charge your card.';
+var BAD_SUBSCRIPTION = 'You need an active subscription to create another blog.';
+var ERR = 'Could not change your subscription.';
 
-  ensure(user, 'object')
-    .and(callback, 'function');
+module.exports = function (req, res, next) {
 
-  // This is their first blog, so no charge
-  if (!user.blogs.length) return callback();
+  var user = req.user;
+
+  // This is their first blog, so we've already
+  // charged them, don't do it twice.
+  if (req.session.newUser) return next();
 
   if (badSubscription(user.subscription)) {
 
     // Allow me to make free blogs...
-    if (user.uid === config.admin.uid)
-      return callback();
+    if (user.uid === config.admin.uid) return next();
 
-    return callback('You need an active subscription to create another blog.');
+    return next(new Error(BAD_SUBSCRIPTION));
   }
 
   var customerID = user.subscription.customer;
@@ -34,14 +36,17 @@ module.exports = function (user, callback) {
     prorate: false
   };
 
+  console.log('Setting subscription quantity to', changes.quantity);
+
   stripe.customers.updateSubscription(
     customerID,
     subscriptionID,
     changes,
     function (err, subscription) {
 
-      if (err || !subscription)
-        return callback(err || 'Could not change your subscription.');
+      if (err) return next(err);
+
+      if (!subscription) return next(new Error(ERR));
 
       console.log('User:', user.uid, 'Subscription changed to', changes.quantity, 'total blogs.');
 
@@ -56,11 +61,13 @@ module.exports = function (user, callback) {
 
       }, function (err, charge) {
 
-        if (err || !charge) return callback(err || 'Could not charge your card.');
+        if (err) return next(err);
+
+        if (!charge) return next(new Error(BAD_CHARGE));
 
         console.log('User:', user.uid, 'Charged successfully for', pretty(now), 'to create another blog.');
 
-        User.set(user.uid, {subscription: subscription}, callback);
+        User.set(user.uid, {subscription: subscription}, next);
       });
     }
   );

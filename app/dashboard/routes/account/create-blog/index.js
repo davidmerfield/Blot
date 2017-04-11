@@ -41,65 +41,58 @@ module.exports = function(server){
       res.renderAccount('create-blog');
     })
 
-    .post(function(req, res, next){
     .post(validate, charge, function(req, res, next){
 
       var user = req.user;
       var uid = user.uid;
 
+      var newBlog = {
+        handle: req.body.handle,
+        timeZone: req.body.timeZone
+      };
+
+      Blog.create(uid, newBlog, function(err, newBlog){
 
         if (err) return next(err);
 
-        var newBlog = {
-          handle: handle,
-          timeZone: req.body.timeZone
-        };
+        // Attempt to pause the syncing for this user
+        // by requesting a sync token and holding it until
+        // we have migrated the folder. Todo In future, I should
+        // add a foolproof way to wait until any existing
+        // syncs have finished and prevent any future syncs from
+        // happening before the folder migration has finished.
+        // This will be useful for the remove blog feature...
+        SyncLease.request(uid, function(){
 
-        charge(user, function(err){
+          migrateFolder(user, newBlog, function(err){
 
-          if (err) return next(err);
+            // We release the sync token before
+            // handling any folder migration errors
+            // to ensure the user's blog continues to sync
+            SyncLease.release(uid, function(){
 
-          Blog.create(uid, newBlog, function(err, newBlog){
+              if (err) return next(err);
 
-            if (err) return next(err);
+              firstPost(uid, newBlog, function(err){
 
-            // Attempt to pause the syncing for this user
-            // by requesting a sync token and holding it until
-            // we have migrated the folder. Todo In future, I should
-            // add a foolproof way to wait until any existing
-            // syncs have finished and prevent any future syncs from
-            // happening before the folder migration has finished.
-            // This will be useful for the remove blog feature...
-            SyncLease.request(uid, function(){
+                if (err) return next(err);
 
-              migrateFolder(user, newBlog, function(err){
-
-                // We release the sync token before
-                // handling any folder migration errors
-                // to ensure the user's blog continues to sync
-                SyncLease.release(uid, function(){
-
-                  if (err) return next(err);
                 if (req.session.freeUser) {
                   delete req.session.freeUser;
                   delete req.session.email;
                   delete req.session.subscription;
                 }
 
-                  firstPost(uid, newBlog, function(err){
                 if (req.session.newUser) {
                   delete req.session.newUser;
                   delete req.session.email;
                   delete req.session.subscription;
                 }
 
-                    if (err) return next(err);
+                // Switch to the new blog
+                req.session.blogID = newBlog.id;
 
-                    // Switch to the new blog
-                    req.session.blogID = newBlog.id;
-                    return res.redirect('/');
-                  });
-                });
+                return res.redirect('/');
               });
             });
           });
