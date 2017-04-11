@@ -1,1 +1,5 @@
-module.exports = function(){};
+module.exports = function(server){
+
+  require('./verify-domain')(server);
+
+};
