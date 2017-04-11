@@ -82,13 +82,14 @@ module.exports = function(server){
 
     if (!code) return response.redirect('/auth');
 
-    var subscription = request.session.subscription,
-        email = request.session.email,
-        sessionID = request.sessionID;
+    var subscription = request.session.subscription;
+    var email = request.session.email;
     var newUser = request.session.newUser;
+    var sessionID = request.sessionID;
 
     var afterAuth = request.session.afterAuth;
-        delete request.session.afterAuth;
+
+    delete request.session.afterAuth;
 
     // Tell auth driver to try and create an OAuth token
     eventEmitter.emit(backFromDropbox(sessionID), {code: code});
