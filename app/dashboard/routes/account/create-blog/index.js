@@ -1,7 +1,7 @@
 var Blog = require('blog');
 // We pass an empty string to handle validator
 // since we don't know the ID of the blog yet
-var validate = require('../../../../models/blog/validate/handle').bind(this, '');
+var validate = require('./validate');
 var calculate = require('./calculate');
 var charge = require('./charge');
 var firstPost = require('./firstPost');
@@ -42,11 +42,11 @@ module.exports = function(server){
     })
 
     .post(function(req, res, next){
+    .post(validate, charge, function(req, res, next){
 
       var user = req.user;
       var uid = user.uid;
 
-      validate(req.body.handle, function(err, handle){
 
         if (err) return next(err);
 
