@@ -1,30 +1,13 @@
-
 <form method="POST" action="?_csrf={{csrftoken}}">
 
-  <fieldset style="border-top:none">
+  <h2>{{title}}</h4>
 
-    <h4 class="halfMargin">{{title}}</h4>
+  {{#blogToClose}}
 
-    {{#success}}<span class="box green">{{success}}</span>{{/success}}
+  <p>This will permanently delete {{^domain}}<a href="http://{{handle}}.{{host}}">{{handle}}.{{host}}</a>{{/domain}}{{#domain}}<a href="{{blogURL}}">{{domain}}</a> ({{handle}}){{/domain}}, including its <b>themes, settings and any files</b> relating to it on Blot. <b>This cannot be undone</b>. Please consider <a href="/account/export">downloading this data</a> before you delete it. The blog's files will remain in your Dropbox.</p>
 
-    <p class="small darkText">This will prevent you from logging in to Blot and will remove your blog posts.</p>
+  <p>Your next bill on {{user.pretty.expiry}} will decrease to <b>{{next_bill}}</b>.</p>
 
-    <p>Your next bill will decrease by $20 to {{bill}}.</p>
-
-    <input type="submit" class="button red" value="Close {{title}} permanently">
-  </fieldset>
+  <input type="submit" class="button red" value="Close {{title}} permanently">
+  {{/blogToClose}}
 </form>
-<script type="text/javascript">
-
-var disableAccount = document.getElementById('disableAccount');
-var doDisable = document.getElementById('doDisable');
-disableAccount.onclick = function () {
-
-  if (disableAccount.checked) {
-    doDisable.disabled = false
-  } else {
-    doDisable.disabled = true;
-  }
-}
-
-</script>
