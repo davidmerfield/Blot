@@ -86,13 +86,6 @@ require('./routes/static')(site);
 require('./routes/try-blot')(site);
 require('./routes/webhook')(site);
 
-var staticDir = helper.rootDir + '/www/blot';
-var staticSettings = {};
-
-// Don't set max age header in development
-// so we can make changes quickly
-if (config.environment !== 'development')
-  staticSettings.maxAge = 86400000;
 
 var routes = [];
 
@@ -115,9 +108,6 @@ require('../dashboard')._router.stack.forEach(function(middleware){
     });
 
 });
-
-// Serve static assets
-site.use(express.static(staticDir, staticSettings));
 
 // Redirect old routes
 site.use(function(req, res, next){
