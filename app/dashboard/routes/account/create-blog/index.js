@@ -79,6 +79,11 @@ module.exports = function(server){
                 SyncLease.release(uid, function(){
 
                   if (err) return next(err);
+                if (req.session.freeUser) {
+                  delete req.session.freeUser;
+                  delete req.session.email;
+                  delete req.session.subscription;
+                }
 
                   firstPost(uid, newBlog, function(err){
 

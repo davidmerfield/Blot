@@ -20,18 +20,18 @@
 
       {{^error}}
         {{#isNewUser}}
-          {{^isFreeUser}}
+          {{^freeUser}}
       <p class="box yellow" style="width:120%">Success! I just sent a receipt for your subscription to {{email}}</p>
-          {{/isFreeUser}}
         {{/isNewUser}}
+          {{/freeUser}}
       {{/error}}
 
       {{^error}}
         {{#isNewUser}}
-          {{#isFreeUser}}
+          {{#freeUser}}
             <p class="box yellow" style="width:120%">Success! You're about to set up an account with the email address {{email}}</p>
-          {{/isFreeUser}}
         {{/isNewUser}}
+          {{/freeUser}}
       {{/error}}
 
       {{#error}}

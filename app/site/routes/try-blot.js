@@ -20,7 +20,7 @@ module.exports = function(server){
       // This ensures the subscription module doesn't freak out
       request.session.email = email;
       request.session.subscription = {customer: false};
-      request.session.isFreeUser = true;
+      request.session.freeUser = true;
 
       return response.redirect('/connect');
     });
