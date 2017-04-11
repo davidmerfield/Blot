@@ -2,11 +2,11 @@
 
   <input type="hidden" name="timeZone" value="">
 
-  {{^error}}
-    {{^user.blogs.length}}
+    {{^error}}
+    {{#newUser}}
       <section class="box green">Success! Blot is connected to your Dropbox.</section>
-    {{/user.blogs.length}}
-  {{/error}}
+    {{/newUser}}
+    {{/error}}
 
     {{#user.blogs.length}}
 
