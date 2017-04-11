@@ -2,12 +2,19 @@ var config = require('config');
 var type = require('helper').type;
 
 var INDEX = '/';
+var AUTH = '/auth';
 var CONTACT = '/contact';
+var TERMS = '/terms';
+var HELP = '/help';
+var PRIVACY = '/privacy';
 var MAINTENANCE = '/maintenance';
+var ACCOUNT = '/account';
 var PAY_SUBSCRIPTION = '/account/pay-subscription';
 var ENABLE = '/account/enable';
 var LOGOUT = '/account/logout';
 var DISABLED = '/account/disabled';
+
+var STATIC = [CONTACT, HELP, TERMS, PRIVACY];
 
 module.exports = function (req, res, next) {
 
@@ -33,8 +40,20 @@ module.exports = function (req, res, next) {
     return !pathIs(path);
   }
 
+  if (pathIs(STATIC)) return next();
+
+  // Only let the user see routes under account
+  // if they don't have a blog yet.
+  // Auth is not under the account route
+  // so add it. It probably should be though.
+  // We need the auth route to make the switch
+  // dropbox feature work for accounts without blogs.
+  if (!req.blog && pathIsNot([ACCOUNT, AUTH])) {
+    return res.redirect(ACCOUNT);
+  }
+
   // Don't expose any features which modify the database
-  if (config.maintenance && pathIsNot([MAINTENANCE, CONTACT])) {
+  if (config.maintenance && pathIsNot(MAINTENANCE)) {
     return res.redirect(MAINTENANCE);
   }
 
@@ -44,12 +63,12 @@ module.exports = function (req, res, next) {
   }
 
   // Only allow the user to pay
-  if (user.needsToPay && pathIsNot([PAY_SUBSCRIPTION, CONTACT])) {
+  if (user.needsToPay && pathIsNot(PAY_SUBSCRIPTION)) {
     return res.redirect(PAY_SUBSCRIPTION);
   }
 
   // Only let the user see these pages
-  if (user.isDisabled && pathIsNot([ENABLE, LOGOUT, DISABLED, CONTACT])) {
+  if (user.isDisabled && pathIsNot([ENABLE, LOGOUT, DISABLED])) {
     return res.redirect(DISABLED);
   }
 
