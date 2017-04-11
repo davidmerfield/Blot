@@ -2,7 +2,7 @@ var config = require('../../config');
 var helper = require('../helper');
 var ensure = helper.ensure;
 var type = helper.type;
-var Hash = helper.hash;
+var blogFolder = require('./blogFolder');
 var nameFrom = helper.nameFrom;
 var joinpath = require('path').join;
 var extend = helper.extend;
@@ -12,7 +12,7 @@ var extname = require('path').extname;
 var blogBucket = config.s3.buckets.blogs;
 
 // Don't pollute or overwrite production files
-var root = config.environment === 'development' ? '/_dev/' : '/';
+var root = require('./root');
 var BAD_PARAM = 'Please a path or url to upload';
 
 var config = require('../../config');
@@ -56,7 +56,7 @@ function upload (path, options, callback) {
   var prefix = '';
 
   if (options.blogID) {
-    prefix = Hash('blog:' + options.blogID).slice(0, 10);
+    prefix = blogFolder(options.blogID);
   }
 
   if (options.folder) {
