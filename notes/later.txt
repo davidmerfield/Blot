@@ -5,9 +5,11 @@
 
 Add hourly local redis rdb dumps
 
+Backup s3 buckets every day, delete those older than a month
+
 Add script to roll back into hourly local db dumps and remote backups
 
-Delete backups older than 6 months from s3 automatically
+Delete backups older than a month from s3 automatically
 
 Work on quick script to load DB from remote backups
 
