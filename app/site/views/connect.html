@@ -6,32 +6,32 @@
     <div class="nav">
       <span id="logo">Blot</span>
 
-      {{^isNewUser}}
+      {{^newUser}}
       <span style="color:black">Log in</span>
-      {{/isNewUser}}
+      {{/newUser}}
 
-      {{#isNewUser}}
+      {{#newUser}}
       <span>Sign up &nbsp;→&nbsp; <span style="color:black">Connect to Dropbox</span></span>
-      {{/isNewUser}}
+      {{/newUser}}
 
     </div>
     <br />
     <div style="width:300px">
 
       {{^error}}
-        {{#isNewUser}}
+        {{#newUser}}
           {{^freeUser}}
       <p class="box yellow" style="width:120%">Success! I just sent a receipt for your subscription to {{email}}</p>
-        {{/isNewUser}}
           {{/freeUser}}
+        {{/newUser}}
       {{/error}}
 
       {{^error}}
-        {{#isNewUser}}
+        {{#newUser}}
           {{#freeUser}}
             <p class="box yellow" style="width:120%">Success! You're about to set up an account with the email address {{email}}</p>
-        {{/isNewUser}}
           {{/freeUser}}
+        {{/newUser}}
       {{/error}}
 
       {{#error}}

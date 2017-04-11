@@ -75,6 +75,7 @@ module.exports = function(server){
           // Dropbox we know they have a blot account
           request.session.email = email;
           request.session.subscription = customer.subscription;
+          request.session.newUser = true;
 
           // Store the new customer's information
           Subscription.save(customer.subscription, function(error){

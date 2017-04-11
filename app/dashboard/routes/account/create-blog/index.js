@@ -86,6 +86,11 @@ module.exports = function(server){
                 }
 
                   firstPost(uid, newBlog, function(err){
+                if (req.session.newUser) {
+                  delete req.session.newUser;
+                  delete req.session.email;
+                  delete req.session.subscription;
+                }
 
                     if (err) return next(err);
 

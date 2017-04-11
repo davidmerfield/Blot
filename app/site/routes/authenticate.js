@@ -84,8 +84,8 @@ module.exports = function(server){
 
     var subscription = request.session.subscription,
         email = request.session.email,
-        isNewUser = !!(subscription && email),
         sessionID = request.sessionID;
+    var newUser = request.session.newUser;
 
     var afterAuth = request.session.afterAuth;
         delete request.session.afterAuth;
@@ -113,7 +113,7 @@ module.exports = function(server){
         if (err) throw err;
 
         // Catch users without a Blot account
-        if (!isNewUser && !existingUser) {
+        if (!newUser && !existingUser) {
           logger(uid, errorMessage.NO_ACCOUNT);
           return response.redirect(formError(errorMessage.NO_ACCOUNT));
         }
@@ -126,7 +126,7 @@ module.exports = function(server){
           request.session.blogID = existingUser.lastSession;
         }
 
-        if (isNewUser) {
+        if (newUser) {
 
           // Ensure the user's stripe subscription info is connected
           // to their Dropbox (and Blot) account UID

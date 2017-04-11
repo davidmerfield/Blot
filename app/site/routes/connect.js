@@ -5,20 +5,16 @@ module.exports = function(server){
   // Customer created, now get access to a
   // folder in their Dropbox. This page tells
   // them what's about to happen.
-  server.get('/connect', excludeUser, function(request, response){
+  server.get('/connect', excludeUser, function(req, res){
 
-    var email = request.session.email,
-        isNewUser = !!(email),
-        isFreeUser = !!(request.session.isFreeUser);
-
-    response.addLocals({
+    res.addLocals({
       title: 'Welcome to Blot!',
-      error: request.query.error,
-      email: email,
-      isNewUser: isNewUser,
-      isFreeUser: isFreeUser
+      error: req.query.error,
+      email: req.session.email,
+      newUser: req.session.newUser,
+      freeUser: req.session.freeUser
     });
 
-    response.render('connect');
+    res.render('connect');
   });
 };
