@@ -33,6 +33,7 @@ module.exports = function(server){
       res.addLocals({
         now: pretty(fee.now),
         later: pretty(fee.later),
+        newUser: req.session.newUser,
         individual: pretty(fee.individual)
       });
 
