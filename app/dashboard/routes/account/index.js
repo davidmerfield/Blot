@@ -5,7 +5,7 @@ module.exports = function (server) {
 
 
   require('./change-dropbox')(server);
-  // require('./close-blog')(server);
+  require('./close-blog')(server);
   require('./create-blog')(server);
   require('./cancel')(server);
   require('./disable-account')(server);
