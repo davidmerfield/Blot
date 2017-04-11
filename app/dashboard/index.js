@@ -100,10 +100,10 @@ dashboard.use(function(req, res, next){
 
 dashboard.use(add());
 
-
 dashboard.use(middleware.messenger);
 dashboard.use(middleware.loadUser);
 dashboard.use(middleware.loadBlog);
+dashboard.use(middleware.redirector);
 
 dashboard.post(['/theme*', '/404s', '/account*', '/preferences*'], bodyParser.urlencoded({extended: false}));
 
