@@ -1,3 +1,9 @@
+Make a simple app which interacts with the Blot folder somehow to demonstrate that its easy to make tools for publishing with Blot.
+
+-----------
+
+
+
 Hello there, I've just created an account and Blot has added a folder to my Dropbox. This is that folder. Blot looks for files inside this folder and turns them into blog posts.
 
 Here's a text file containing my first blog post on my desktop. To publish it to my blog, all I have to do is put it in Blot’s folder.
@@ -24,7 +30,7 @@ Blot will generate an archives page, RSS feed, sitemap, and a search engine for 
 
 Blot also makes it easy to preview a post before publishing it to my blog. All I have to do is add draft to the file’s name and Blot will create a preview for me. Here it is.
 
-*open file* 
+*open file*
 
 This is exactly how it will appear on my blog. When I’m happy, all I have to do is remove ‘draft’ from the file’s name and Blot will publish it. There it is, live on my blog!
 
