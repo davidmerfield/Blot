@@ -61,10 +61,6 @@ module.exports = function removeFolder (blogID, callback) {
       params.Delete.Objects.push({Key: content.Key});
     });
 
-    console.log('Would delete these:');
-    console.log(params.Delete.Objects);
-    return callback();
-
     s3.deleteObjects(params, function(err, status) {
 
       if (err) return callback(err);
