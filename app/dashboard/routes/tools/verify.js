@@ -72,13 +72,8 @@ module.exports = function(server){
 
   server.get('/verify', function(request, response){
 
-    response.addLocals({
-      partials: {yield: 'dashboard/verify'},
-      title: 'Blot - Verify',
-      tab: {home: 'selected'}
-    });
-
-    return response.render('dashboard/_wrapper');
+    response.title('Verify your blog');
+    return response.renderDashboard('tools/verify');
   });
 
 };
