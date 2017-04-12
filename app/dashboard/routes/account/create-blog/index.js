@@ -27,7 +27,8 @@ module.exports = function(server){
       var fee = calculate(subscription);
 
       if (user.blogs.length && badSubscription(subscription) && user.uid !== config.admin.uid) {
-        res.addLocals({error: INACTIVE});
+        res.message({error: INACTIVE, url: '/account'});
+        return res.redirect('/account');
       }
 
       res.addLocals({
