@@ -8,6 +8,7 @@ module.exports = function (server) {
   require('./close-blog')(server);
   require('./create-blog')(server);
   require('./cancel')(server);
+  require('./delete')(server);
   require('./disable-account')(server);
   require('./disabled')(server);
   require('./enable')(server);
