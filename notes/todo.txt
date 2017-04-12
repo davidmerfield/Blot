@@ -3,12 +3,6 @@
                          TO DO
                          -----
 
-Make it easy to delete a blog
-https://mail.google.com/mail/u/0/#inbox/157368656d231da2
-
-  - add method to pause syncing and prevent future syncs
-    then use this method with the create blog migration too.
-
 Make it easy to delete an account
 https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
 
