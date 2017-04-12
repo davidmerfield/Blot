@@ -4,6 +4,8 @@
   <body>
     <section class="wrapper">
 
+      <p>
+
       {{#user.isDisabled}}
       <a class="button" href="/account/logout">Back to the homepage</a>
       {{/user.isDisabled}}
@@ -13,6 +15,7 @@
       <a class="button" href="/">Back to the dashboard</a>
       {{/user.isDisabled}}
       {{/blogs.length}}
+    </p>
 
       {{> message}}
 
