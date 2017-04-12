@@ -315,9 +315,32 @@ module.exports = (function () {
     });
   }
 
+  function remove (uid, callback) {
+
+    ensure(uid, 'string');
+
+    getBy({uid: uid}, function(err, user){
+
+      if (err) throw err;
+
+      var keys = [
+        'user:' + uid + ':info',
+        'sync:lease:' + uid,
+        'sync:again:' + uid,
+      ];
+
+      if (user.subscription.customer) {
+        keys.push('customer:' + user.subscription.customer);
+      }
+
+      redis.del(keys, callback);
+    });
+  }
+
   return {
     set: set,
     getBy: getBy,
+    remove: remove,
     getCredentials: getCredentials,
     getAllUIDs: getAllUIDs,
     create: create,
