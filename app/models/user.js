@@ -255,7 +255,7 @@ module.exports = (function () {
         user.needsToPay = true;
     }
 
-    if (user.blogs.length > 1) {
+    if (user.blogs.length !== 1) {
       user.multipleBlogs = true;
       user.s = 's'; // used like this: you run blog{{s}} on blot...
       user.are = 'are';
