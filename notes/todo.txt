@@ -3,10 +3,28 @@
                          TO DO
                          -----
 
-Make it easy to delete an account
-https://mail.google.com/mail/u/0/#inbox/1569793ba06d9ac9
-
 Redesign template system to make it easy to customize and create them.
+
+  Make templates file / folder based without modifying renderer
+     - cp www/blogs/* -> /blogs/{{id}}/assets
+
+  Disable re-rendering for template locals
+
+  let A know it's possible to set routes locally
+  https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
+
+  use hogan for precompiling and rendering templates?
+  https://github.com/twitter/hogan.js
+  https://github.com/twitter/hogan.js/issues/19 - precompilation
+  http://twitter.github.io/hogan.js/
+
+  Add retrieve method to allow all entry lists to access {{#months}} sorting options
+  just like the archives page.
+
+  Frank template bug
+  https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#search/Make+some+changes+(probably+not+necessary)/1527fbcf999ba0c3
+
+  Set up nginx sendfile for blot.im & blogs
 
   Public files / hidden pages
     Warn users that underscore will not work for hidden pages
@@ -15,29 +33,6 @@ Redesign template system to make it easy to customize and create them.
     Tell rodrigo https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
     don't write previews for _ posts
 
-  Make templates file / folder based without modifying renderer
-     - cp www/blogs/* -> /blogs/{{id}}/assets
-
-  Disable re-rendering for template locals
-
-  Set up nginx sendfile for blot.im & blogs
-
-  use hogan for precompiling and rendering templates
-  https://github.com/twitter/hogan.js
-  https://github.com/twitter/hogan.js/issues/19 - precompilation
-  http://twitter.github.io/hogan.js/
-
-  use this to render screenshots of a template
-  https://github.com/brenden/node-webshot
-
-  let A know it's possible to set routes locally
-  https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
-
-  Add retrieve method to allow all entry lists to access {{#months}} sorting options
-  just like the archives page.
-
-  Frank template bug
-  https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#search/Make+some+changes+(probably+not+necessary)/1527fbcf999ba0c3
 
 Improve the selection of templates
 https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e

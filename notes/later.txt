@@ -7,6 +7,14 @@ Add hourly local redis rdb dumps
 
 Backup s3 buckets every day, delete those older than a month
 
+Improve account section
+  - rethink design
+  - ensure pages are inaccessible when they should be
+  - test delete blog / account properly
+  - send emails for account changes
+  - expose a button to permanet delete account page
+  - Fix issue with returning users whose subscriptions have expired https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1
+
 Add script to roll back into hourly local db dumps and remote backups
 
 Delete backups older than a month from s3 automatically
@@ -15,6 +23,9 @@ Delete backups older than a month from s3 automatically
   then use this method with the create/remove blog migration too.
 
 Work on quick script to load DB from remote backups
+
+use this to render screenshots of a template
+https://github.com/brenden/node-webshot
 
 Add daemon for zero-downtime node restart
 
