@@ -21,6 +21,7 @@ module.exports = function(server){
       request.session.email = email;
       request.session.subscription = {customer: false};
       request.session.freeUser = true;
+      request.session.newUser = true;
 
       return response.redirect('/connect');
     });
