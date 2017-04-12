@@ -11,6 +11,9 @@ Add script to roll back into hourly local db dumps and remote backups
 
 Delete backups older than a month from s3 automatically
 
+- add method to pause syncing and prevent future syncs
+  then use this method with the create/remove blog migration too.
+
 Work on quick script to load DB from remote backups
 
 Add daemon for zero-downtime node restart
