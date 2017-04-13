@@ -6,6 +6,11 @@ module.exports = function (req, res, next) {
 
   req.body = formJSON(req.body, Blog.scheme.TYPE);
 
+  // If the user has specified a custom permalink format
+  // then use it as the blog's permalink format.
+  if (!req.body.permalink.format && req.body.permalink.custom)
+    req.body.permalink.format = req.body.permalink.custom;
+
   // this bullshit below is because I haven't properly declared
   // the model for blog.plugins so formJSON needs a little help...
   for (var i in req.body.plugins) {
