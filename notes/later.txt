@@ -5,6 +5,8 @@
 
 Add hourly local redis rdb dumps
 
+Migrate from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
+
 Backup s3 buckets every day, delete those older than a month
 
 Improve account section
