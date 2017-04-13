@@ -12,7 +12,6 @@ var pathNormalizer = helper.pathNormalizer;
 var type = helper.type;
 var isDraft = require('../../../../drafts').isDraft;
 
-var parse = helper.parseTemplate;
 var makeSlug = helper.makeSlug;
 var ensure = helper.ensure;
 var Model = require('../../model');
