@@ -9,13 +9,13 @@ var render = require('mustache').render;
 var convert = require('../../app/models/entry/build/file/markdown/convert');
 
 var source = rootDir + '/app/docs';
-var output = rootDir + '/app/views/help/sections';
+var output = rootDir + '/app/site/views/help/sections';
 
-var overview_source = rootDir + '/app/views/help/overview.src.html';
-var overview_output = rootDir + '/app/views/help/overview.html';
+var overview_source = rootDir + '/app/site/views/help/overview.src.html';
+var overview_output = rootDir + '/app/site/views/help/overview.html';
 
-var sidebar_source = rootDir + '/app/views/help/sidebar.src.html';
-var sidebar_output = rootDir + '/app/views/help/sidebar.html';
+var sidebar_source = rootDir + '/app/site/views/help/sidebar.src.html';
+var sidebar_output = rootDir + '/app/site/views/help/sidebar.html';
 
 var sections = [];
 
