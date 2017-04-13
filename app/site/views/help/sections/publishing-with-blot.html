@@ -30,10 +30,43 @@ A screaming comes across the sky.</code></pre>
 <p>You can use the file's path to specify an entry's date. The entries for the following files have a publish date of midnight on February 23rd, 2016:</p>
 <pre><code>/2016/2/23/post.txt    /2016/2.23.post.txt   2016_02_23_00:00_post.txt</code></pre>
 <p>If you order your dates differently please tell Blot on the <a href="/settings">settings page</a>. If you <a href="#change-an-entry’s-date">change an entry's date</a> to some time in future, Blot will wait until then to publish it.</p>
+<p>{{=[[ ]]=}}</p>
 <h2 id="permalinks">Permalinks</h2>
-<p>You can specify an entry's permalink in the <a href="#metadata">metadata</a> at the top of a file. For example, to create a blog post with the permalink <code>example.com/raspberry</code>, add this:</p>
-<pre><code>Permalink: raspberry</code></pre>
-<p>Permalinks can contain slashes and accents. If you're migrating to Blot from a different platform, consider <a href="/help/setting-up-your-blog#redirects">setting up redirects</a> instead.</p>
+<p>You can specify an entry's permalink in the <a href="#metadata">metadata</a> at the top of a file. To create a blog post with the permalink <code>example.com/apple/pie</code>, add this:</p>
+<pre><code>Permalink: apple/pie</code></pre>
+<p>If you don't specify a permalink, Blot will generate one automatically. You can specify the format of this permalink in <a href="/preferences">your blog's preferences</a>. You can use any of the following properties of an entry in its permalink: <code>slug</code>, <code>name</code>, <code>size</code>, <code>more</code>, <code>path</code>, <code>menu</code>, <code>page</code>, <code>dateStamp</code>, <code>created</code>, <code>updated</code>, <code>metadata</code>. You can also use any of <a href="https://momentjs.com/docs/#/displaying/">Moment's date formatting tokens</a>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>The permalink format...</th>
+<th>will produce permalinks like...</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>{{slug}}</code></td>
+<td>/sample-post</td>
+</tr>
+<tr class="even">
+<td><code>blog/{{slug}}</code></td>
+<td>/blog/sample-post</td>
+</tr>
+<tr class="odd">
+<td><code>{{YYYY}}/{{slug}}</code></td>
+<td>/2017/sample-post</td>
+</tr>
+<tr class="even">
+<td><code>{{YYYY}}/{{MM}}/{{D}}/{{slug}}</code></td>
+<td>/2017/10/3/sample-post</td>
+</tr>
+<tr class="odd">
+<td><code>{{slug}}-{{MM}}-{{YYYY}}</code></td>
+<td>/sample-post-10-2017</td>
+</tr>
+</tbody>
+</table>
+<p>If you're migrating to Blot from a different platform, consider <a href="/help/setting-up-your-blog#redirects">setting up redirects</a> instead of overriding the default permalinks in each blog post.</p>
+<p>[[={{ }}=]]</p>
 <h2 id="tags">Tags</h2>
 <p>You can specify tags in the <a href="#metadata">metadata</a> at the top of a file:</p>
 <pre><code>Tags: Literature, Book reviews</code></pre>

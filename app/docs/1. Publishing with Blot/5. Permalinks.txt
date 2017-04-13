@@ -1,18 +1,23 @@
-
-
-
+{{=[[ ]]=}}
 
 ## Permalinks
 
-You can specify an entry's permalink in the [metadata](#metadata) at the top of a file. For example, to create a blog post with the permalink ```example.com/raspberry```, add this:
+You can specify an entry's permalink in the [metadata](#metadata) at the top of a file. To create a blog post with the permalink ```example.com/apple/pie```, add this:
 
 ```
-Permalink: raspberry
+Permalink: apple/pie
 ```
 
-Permalinks can contain slashes and accents. If you're migrating to Blot from a different platform, consider [setting up redirects](/help/setting-up-your-blog#redirects) instead.
+If you don't specify a permalink, Blot will generate one automatically. You can specify the format of this permalink in [your blog's preferences](/preferences). You can use any of the following properties of an entry in its permalink: ```slug```, ```name```, ```size```, ```more```, ```path```, ```menu```, ```page```, ```dateStamp```, ```created```, ```updated```, ```metadata```. You can also use any of [Moment's date formatting tokens](https://momentjs.com/docs/#/displaying/).
 
+| The permalink format... | will produce permalinks like... |
+| ------------- |-------------|
+| ```{{slug}}``` |  /sample-post |
+| ```blog/{{slug}}``` |  /blog/sample-post |
+| ```{{YYYY}}/{{slug}}``` |  /2017/sample-post |
+| ```{{YYYY}}/{{MM}}/{{D}}/{{slug}}``` |  /2017/10/3/sample-post |
+| ```{{slug}}-{{MM}}-{{YYYY}}``` |  /sample-post-10-2017 |
 
+If you're migrating to Blot from a different platform, consider [setting up redirects](/help/setting-up-your-blog#redirects) instead of overriding the default permalinks in each blog post.
 
-
-
+[[={{ }}=]]
