@@ -3,7 +3,6 @@ module.exports = function(server){
   var config = require('config');
   var express = require('express');
   var maxAge = config.environment !== 'development' ? 86400000 : 0;
-
   var basename = require('path').basename;
 
   var helper = require('helper');
@@ -18,7 +17,6 @@ module.exports = function(server){
 
   server.use(sendBlogFile(rootDir + '/blogs'));
   server.use(sendBlogFile(rootDir + '/www/blogs'));
-
 
   function sendBlogFile (root) {
 
@@ -35,7 +33,6 @@ module.exports = function(server){
       // sendFile to pick up index.html files
       // we use req path to strip the query string
       var path = normalize(decodeURIComponent(req.path));
-
 
       // Resolve the blog directory to check.
       var blogDir = root + '/' + req.blog.id;
