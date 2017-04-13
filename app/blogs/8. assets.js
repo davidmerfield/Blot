@@ -3,6 +3,8 @@ module.exports = function(server){
   var config = require('config');
   var express = require('express');
   var maxAge = config.environment !== 'development' ? 86400000 : 0;
+  var mime = require('mime-types');
+  var extname = require('path').extname;
   var basename = require('path').basename;
 
   var helper = require('helper');
@@ -37,26 +39,35 @@ module.exports = function(server){
       // Resolve the blog directory to check.
       var blogDir = root + '/' + req.blog.id;
 
+      res.contentType(mime.contentType(mime.lookup(path) || 'application/octet-stream'));
+
       res.sendFile(path, {root: blogDir}, function then (err){
 
         // We didn't find a matching file and that's OK!
         if (err && err.code === 'ENOENT')
           return next();
 
-        // This path refers to a directory
-        // which has no index file
+        // Attempt to send an index file inside a directory
         if (err && err.code === 'EISDIR' && path.slice(-1) !== '/') {
           path += '/';
+          res.contentType(mime.contentType('index.html'));
           return res.sendFile(path, {root: blogDir}, then);
         }
 
-        // which has no index file
-        if (err && (err.code === 'EISDIR' || err.code === 'ENOTDIR'))
+        // There is no index file in this directory...
+        // Remove the contentType header we set earlier and
+        // proceed to the next matching route...
+        if (err && (err.code === 'EISDIR' || err.code === 'ENOTDIR')) {
+          res.removeHeader('Content-Type');
           return next();
+        }
 
-        // Something else happened
-        // so we pass that on.
-        if (err) return next(err);
+        // Something else happened so we pass that on.
+        // after removing the header we set earlier
+        if (err) {
+          res.removeHeader('Content-Type');
+          return next(err);
+        }
 
         // A file was sent successfully!
         // Do nothing!
