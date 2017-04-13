@@ -67,7 +67,24 @@ form label {cursor: pointer;line-height: 1.5;}
 
     <input class="button" type="submit" value="Save changes" style="margin:0 0 2em;"/>
 
+    <style type="text/css">code {background: #eee}</style>
+    <h2>Permalinks</h2>
+    <p>If you make any changes, Blot will update your existing posts and redirect their old permalinks. Learn how to <a href="/help/publishing-with-blot#permalinks">create a custom permalink format</a> on the help page.</p>
+      {{#permalinkFormats}}
+      <label>
+      <input type="radio" name="permalink.format" value="{{value}}" {{checked}}>
+        {{name}}
 
+        {{#custom}} format: <input type="text" style="display:inline;line-height:2;width:40%;padding:0 0.25em;margin:-0.3em 0 0 0.66em" name="permalink.custom" value="{{blog.permalink.custom}}"/>
+      {{/custom}}
+      {{^custom}}  e.g. <code>{{blog.pretty.url}}{{example}}</code>
+      {{/custom}}
+      </label>
+      {{/permalinkFormats}}
+
+      <input class="button" type="submit" value="Save changes"/>
+      <br>
+      <br>
     <h2>Redirects</h2>
     <p>
 

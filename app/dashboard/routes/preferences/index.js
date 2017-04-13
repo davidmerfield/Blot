@@ -2,6 +2,8 @@ var rebuild = require('../../../rebuild');
 
 var Blog = require('blog');
 var resaveEntries = require('./resaveEntries');
+
+var loadPermalinkFormats = require('./loadPermalinkFormats');
 var loadPlugins = require('./loadPlugins');
 var loadTimeZones = require('./loadTimeZones');
 var loadRedirects = require('./loadRedirects');
@@ -15,7 +17,7 @@ module.exports = function(server) {
 
   server.route('/preferences')
 
-    .get(loadPlugins, loadTimeZones, loadRedirects)
+    .get(loadPlugins, loadTimeZones, loadRedirects, loadPermalinkFormats)
 
     .get(function(req, res){
       // console.log(req.blog.plugins);
@@ -43,7 +45,10 @@ module.exports = function(server) {
         if (changes && changes.length)
           res.message({success: 'Made changes successfully!'});
 
-        if (changes && changes.indexOf('plugins') > -1)
+        // We need to build all the blog's entries if the user
+        // has changed any of the plugins or their permalink
+        // format. This should be improved but we.
+        if (changes && (changes.indexOf('plugins') > -1 || changes.indexOf('permalink') > -1))
           rebuild(blog.id);
 
         res.redirect(req.path);
