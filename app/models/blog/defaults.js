@@ -17,6 +17,7 @@ module.exports = {
   ],
   domain: '',
   pageSize: 5,
+  permalink: {format: '{{slug}}', custom: ''},
   timeZone: 'UTC',
   dateFormat: 'M/D/YYYY',
   dateDisplay: 'MMMM D, YYYY',
