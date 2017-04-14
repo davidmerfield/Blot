@@ -3,7 +3,7 @@ var _ = require('lodash');
 // Type for each LINK
 var LINK = {id: 'string', metadata: 'object', label: 'string', url: 'string'};
 
-var PERMALINK = {format: 'string', custom: 'string'};
+var PERMALINK = {format: 'string', custom: 'string', isCustom: 'boolean'};
 
 // KEY           TYPE       WRITE   PUBLIC
 var DECLARATION = {
