@@ -15,6 +15,8 @@ module.exports = function(blogID, callback) {
       // This is fine!
       if (dateStamp !== undefined) changes.dateStamp = dateStamp;
 
+      // We now need to save every entry so that
+      // changes to permalink format take effect.
       Entry.set(blogID, entry.path, changes, nextEntry);
 
     }, callback);
