@@ -7,6 +7,7 @@ module.exports = function (req, res, next) {
     dateStamp: moment.utc(),
     slug: 'sample-post',
     id: 342,
+    path: '/posts/sample-post.txt',
     metadata: {}
   };
 
