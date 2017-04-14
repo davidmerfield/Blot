@@ -7,8 +7,10 @@ var UID = helper.makeUid;
 var makeSlug = helper.makeSlug;
 var withoutExtension = helper.withoutExtension;
 var redis = require('../client');
+var Permalink = require('./build/prepare/permalink');
 var Key = require('./key').url;
 var model = require('./model');
+var Blog = require('blog');
 var get = require('./get');
 
 //'/style.css', '/script.js', '/feed.rss', '/robots.txt', '/sitemap.xml'
@@ -54,21 +56,25 @@ var UID_PERMUTATIONS = 500;
 //   path: '/a.jpg'
 // }));
 
-function Candidates (entry) {
+function Candidates (blog, entry) {
 
   var candidates = [];
 
+  // Don't use the permalink format for pages
+  if (!entry.permalink && !entry.page) {
+    entry.permalink = Permalink(blog.timeZone, blog.permalink.format, entry);
+  }
+
+  // The user has specified a permalink in the
+  // entry's metadata. We should use this if we can.
   if (entry.permalink) {
 
-    // The user has specified a permalink in the
-    // entry's metadata. We should use this if we can.
     candidates.push(entry.permalink);
 
     // If the permalink is unavailable, try appending a number
     // e.g. if 'apple', try 'apple-2', 'apple-3' ... 'apple-99'
     for (var i = 2; i < PERMALINK_PERMUTATIONS; i++)
       candidates.push(entry.permalink + '-' + i);
-
   }
 
   // This is generated from the entry's title
@@ -189,31 +195,36 @@ module.exports = function (blogID, entry, callback) {
   if (entry.draft || entry.deleted)
     return callback(null, '');
 
-  // does this cause a memory leak? we sometimes
-  // exist before calling all the next functions
-  // if we find a successful candidate.
-  forEach(Candidates(entry), function(candidate, next){
+  Blog.get({id: blogID}, function(err, blog){
 
-    check(blogID, candidate, entry.id, function(err, taken){
+    if (err) return callback(err);
 
-      if (err) return callback(err);
+    // does This cause a memory leak? we sometimes
+    // exist before calling all the next functions
+    // if we find a successful candidate.
+    forEach(Candidates(blog, entry), function(candidate, next){
 
-      if (taken) return next();
-
-      var key = Key(blogID, candidate);
-
-      redis.set(key, entry.id, function(err){
+      check(blogID, candidate, entry.id, function(err, taken){
 
         if (err) return callback(err);
 
-        return callback(null, candidate);
-      });
-    });
-  }, function(){
+        if (taken) return next();
 
-    // if we exhaust the list of candidates, what should happen?
-    // just return an error for now... TODO in future, just keep
-    // generating UIDS... but whatever for now.
-    callback(new Error('Could not find a permalink for ' + entry.path));
+        var key = Key(blogID, candidate);
+
+        redis.set(key, entry.id, function(err){
+
+          if (err) return callback(err);
+
+          return callback(null, candidate);
+        });
+      });
+    }, function(){
+
+      // if we exhaust the list of candidates, what should happen?
+      // just return an error for now... TODO in future, just keep
+      // generating UIDS... but whatever for now.
+      callback(new Error('Could not find a permalink for ' + entry.path));
+    });
   });
 };
