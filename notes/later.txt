@@ -97,9 +97,6 @@ support regular expressions
   https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
 
 
-configurable url schemes
-tell rodericus
-
 Giphy url support
 
 Find a better search library for blog text search
@@ -256,10 +253,6 @@ Use atom instead of rss?
 https://en.wikipedia.org/wiki/Atom_(standard)
 
 Backups of blog folders in case Dropbox fails?
-
-Add support for configurable URL scheme?
-ttps://twitter.com/macintux/status/641392573089624064
-https://mail.google.com/mail/u/0/?zx=qugebog263kl#inbox/1503e0d22822424b
 
 Noindex blog search results pages
 
