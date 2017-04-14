@@ -35,21 +35,20 @@ module.exports = function(server) {
 
         if (err) return next(err);
 
-        if (changes.indexOf('timeZone') > -1 ||
-            changes.indexOf('dateDisplay') > -1) {
-          resaveEntries(blogID, function(){
-            //
-          });
-        }
-
         if (changes && changes.length)
           res.message({success: 'Made changes successfully!'});
 
+        if (changes.indexOf('timeZone') > -1 ||
+            changes.indexOf('dateDisplay') > -1 ||
+            changes.indexOf('permalink') > -1) {
+          resaveEntries(blogID, function(){});
+        }
         // We need to build all the blog's entries if the user
         // has changed any of the plugins or their permalink
         // format. This should be improved but we.
-        if (changes && (changes.indexOf('plugins') > -1 || changes.indexOf('permalink') > -1))
+        if (changes && (changes.indexOf('plugins') > -1)) {
           rebuild(blog.id);
+        }
 
         res.redirect(req.path);
       });
