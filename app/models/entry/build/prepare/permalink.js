@@ -35,6 +35,11 @@ module.exports = function (timeZone, format, entry) {
         view[i] = entry[i];
 
     view.stem = makeSlug(entry.path.slice(0, entry.path.lastIndexOf('.')));
+
+    // we don't want mustache to escape anything...
+    format = format.split('{{').join('{{{');
+    format = format.split('}}').join('}}}');
+
     permalink = mustache.render(format || DEFAULT, view);
 
   } catch (e) {
