@@ -61,7 +61,8 @@ function Candidates (blog, entry) {
   var candidates = [];
 
   // Don't use the permalink format for pages
-  if (!entry.permalink && !entry.page) {
+  // or posts with user specified permalinks.
+  if (!entry.metadata.permalink && !entry.metadata.slug && !entry.metadata.url && !entry.page) {
     entry.permalink = Permalink(blog.timeZone, blog.permalink.format, entry);
   }
 
