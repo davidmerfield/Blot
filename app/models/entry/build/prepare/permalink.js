@@ -8,8 +8,8 @@ var moment = require('moment');
 var MOMENT_TOKENS = ["M", "Mo", "MM", "MMM", "MMMM", "Q", "Qo", "D", "Do", "DD", "DDD", "DDDo", "DDDD", "d", "do", "dd", "ddd", "dddd", "e", "E", "w", "wo", "ww", "W", "Wo", "WW", "YY", "YYYY", "Y", "gg", "gggg", "GG", "GGGG", "A", "a", "H", "HH", "h", "hh", "k", "kk", "m", "mm", "s", "ss", "S", "SS", "SSS", "SSSS", "SSSSS", "SSSSSS", "SSSSSSS", "SSSSSSSS" , "SSSSSSSSS", "z", "zz", "Z", "ZZ", "X", "x"];
 var helper = require('helper');
 var normalize = helper.urlNormalizer;
-
-var allow = ['slug', 'name', 'size', 'more', 'path', 'menu', 'page', 'dateStamp', 'created', 'updated', 'metadata'];
+var makeSlug = helper.makeSlug;
+var allow = ['slug', 'name', 'size', 'more', 'menu', 'page', 'dateStamp', 'created', 'updated', 'metadata'];
 
 module.exports = function (timeZone, format, entry) {
 
@@ -34,6 +34,7 @@ module.exports = function (timeZone, format, entry) {
       if (allow.indexOf(i) > -1)
         view[i] = entry[i];
 
+    view.stem = makeSlug(entry.path.slice(0, entry.path.lastIndexOf('.')));
     permalink = mustache.render(format || DEFAULT, view);
 
   } catch (e) {
