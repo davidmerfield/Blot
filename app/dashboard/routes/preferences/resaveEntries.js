@@ -10,13 +10,12 @@ module.exports = function(blogID, callback) {
     Entries.each(blogID, function(entry, nextEntry){
 
       var dateStamp = DateStamp(blog, entry.path, entry.metadata);
+      var changes = {};
 
       // This is fine!
-      if (dateStamp === undefined) return nextEntry();
+      if (dateStamp !== undefined) changes.dateStamp = dateStamp;
 
-      Entry.set(blogID, entry.path, {
-        dateStamp: dateStamp
-      }, nextEntry);
+      Entry.set(blogID, entry.path, changes, nextEntry);
 
     }, callback);
   });
