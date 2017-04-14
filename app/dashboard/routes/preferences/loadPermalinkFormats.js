@@ -16,13 +16,15 @@ module.exports = function (req, res, next) {
     ['Custom', '']
   ];
 
-  var custom = true;
-
   formats = formats.map(function(arr){
 
-    var checked = arr[1] === req.blog.permalink.format ? 'checked' : '';
+    var checked = '';
 
-    if (checked) custom = false;
+    if (req.blog.permalink.isCustom && arr[0] === 'Custom') {
+      checked = 'checked';
+    } else if (!req.blog.permalink.isCustom && arr[1] === req.blog.permalink.format) {
+      checked = 'checked';
+    }
 
     return {
       name: arr[0],
@@ -32,10 +34,6 @@ module.exports = function (req, res, next) {
       example: permalink(req.blog.timeZone, arr[1], sample)
     };
   });
-
-  if (custom) {
-    formats[formats.length - 1].checked = 'checked';
-  }
 
   res.locals.permalinkFormats = formats;
 
