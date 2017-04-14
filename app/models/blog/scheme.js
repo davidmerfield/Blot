@@ -3,6 +3,8 @@ var _ = require('lodash');
 // Type for each LINK
 var LINK = {id: 'string', metadata: 'object', label: 'string', url: 'string'};
 
+var PERMALINK = {format: 'string', custom: 'string'};
+
 // KEY           TYPE       WRITE   PUBLIC
 var DECLARATION = {
   id:           ['string',  false,  false],
@@ -19,6 +21,7 @@ var DECLARATION = {
   menu:         [[LINK],    true,   true],
   domain:       ['string',  true,   true],
   pageSize:     ['number',  true,   false],
+  permalink:    [PERMALINK, true,   true],
   dateFormat:   ['string',  true,   true],
   dateDisplay:  ['string',  true,   true],
   timeZone:     ['string',  true,   true],
