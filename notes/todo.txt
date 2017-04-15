@@ -48,6 +48,12 @@ Improve demo video
   must make sense as audio only, video only.
 
 Multi-file posts
+  Add a syntax for entire folder?
+    e.g. (Image album)/...
+  Files with the same name but different
+  extension will also be combined
+    e.g. image.jpg and image.txt, easy captions!
+    e.g. image.jpg and image.webloc for easy source link?
   Build a proper dependency tree for entries
     - this could make multi-file entries a reality?
     - could be as simple as doEach(dependents, rebuild)
