@@ -3,6 +3,13 @@
                        LATER
                        -----
 
+Move DNS for blot.im and blotcdn.com to route 53 or something faster. It's on IWANTMYNAME right now!
+
+Work out why blotcdn is so slow for https://latency.apex.sh
+
+Consider using something like this with themes?
+http://barbajs.org/installation.html
+
 Add hourly local redis rdb dumps
 
 Migrate from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
@@ -303,6 +310,9 @@ Generate list of external api dependencies and follow changes for each
 
 Add a status page, with basic uptime monitor...
 https://github.com/fzaninotto/uptime
+https://status.stripe.com/
+https://status.github.com/
+https://status.basecamp.com/
 
 Set up soft re-directs for changed blog handles,
 which allow new users to claim them but until then
