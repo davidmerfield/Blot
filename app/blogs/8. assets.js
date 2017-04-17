@@ -18,6 +18,9 @@ module.exports = function(server){
   server.use(express.static(allDir, {maxAge: maxAge}));
 
   server.use(sendBlogFile(rootDir + '/blogs'));
+
+  // the files for Blot's MSWORD feature are placed
+  // here for some reason.
   server.use(sendBlogFile(rootDir + '/www/blogs'));
 
   function sendBlogFile (root) {
