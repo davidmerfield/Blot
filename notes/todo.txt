@@ -17,13 +17,15 @@ Redesign template system to make it easy to customize and create them.
   https://github.com/twitter/hogan.js/issues/19 - precompilation
   http://twitter.github.io/hogan.js/
 
+  make a detachable part of the renderer which could
+  be used with a datadump from the user to test
+  templates locally with almost zero latency?
+
   Add retrieve method to allow all entry lists to access {{#months}} sorting options
   just like the archives page.
 
   Frank template bug
   https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#search/Make+some+changes+(probably+not+necessary)/1527fbcf999ba0c3
-
-  Set up nginx sendfile for blot.im & blogs
 
   Public files / hidden pages
     Warn users that underscore will not work for hidden pages
@@ -32,6 +34,15 @@ Redesign template system to make it easy to customize and create them.
     Tell rodrigo https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
     don't write previews for _ posts
 
+Set up SSL for all blogs
+https://codeascraft.com/2017/01/31/how-etsy-manages-https-and-ssl-certificates-for-custom-domains-on-pattern/
+https://community.letsencrypt.org/t/dynamic-ssl-using-nginx/18372/4
+https://github.com/openresty/lua-nginx-module#ssl_certificate_by_lua_block
+https://github.com/Vestorly/nginx-dynamic-ssl
+
+Improve documentation
+  that you can do 'Disqus: $ID' at entry level
+  3 how-tos: link blog, magazine, website
 
 Improve the selection of templates
 https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e
@@ -39,37 +50,7 @@ Nash P.
 Chris S.
 John P.
 
-Improve documentation
-   that you can do 'Disqus: $ID' at entry level
-   3 how-tos: link blog, magazine, website
-
 Improve demo video
   must make sense as audio only, video only.
-
-Multi-file posts
-  Add a syntax for entire folder?
-    e.g. (Image album)/...
-  Files with the same name but different
-  extension will also be combined
-    e.g. image.jpg and image.txt, easy captions!
-    e.g. image.jpg and image.webloc for easy source link?
-  Build a proper dependency tree for entries
-    - this could make multi-file entries a reality?
-    - could be as simple as doEach(dependents, rebuild)
-    - issue with public files and image cache:
-        say foo.txt embeds /public/bar.jpg and is image cached
-        make change to bar.jpg, foo.txt has cached old version etc...
-
-Set up SSL for all blogs
-https://codeascraft.com/2017/01/31/how-etsy-manages-https-and-ssl-certificates-for-custom-domains-on-pattern/
-https://community.letsencrypt.org/t/dynamic-ssl-using-nginx/18372/4
-https://github.com/openresty/lua-nginx-module#ssl_certificate_by_lua_block
-https://github.com/Vestorly/nginx-dynamic-ssl
-
-Use NGINX to send all Blot's static files
-
-Basic video posts
-
-Basic audio posts
 
 Increase price to $30 a year for NEW subscribers. This will not affect existing customers.

@@ -7,6 +7,26 @@ Move DNS for blot.im and blotcdn.com to route 53 or something faster. It's on IW
 
 Work out why blotcdn is so slow for https://latency.apex.sh
 
+Use NGINX to send all Blot's static files
+
+Basic video posts
+
+Basic audio posts
+
+Multi-file posts
+  Add a syntax for entire folder?
+    e.g. (Image album)/...
+  Files with the same name but different
+  extension will also be combined
+    e.g. image.jpg and image.txt, easy captions!
+    e.g. image.jpg and image.webloc for easy source link?
+  Build a proper dependency tree for entries
+    - this could make multi-file entries a reality?
+    - could be as simple as doEach(dependents, rebuild)
+    - issue with public files and image cache:
+        say foo.txt embeds /public/bar.jpg and is image cached
+        make change to bar.jpg, foo.txt has cached old version etc...
+
 Consider using something like this with themes?
 http://barbajs.org/installation.html
 
@@ -307,12 +327,6 @@ Incorporate disk space monitor to alert for low space
 Archive logfiles with backups
 
 Generate list of external api dependencies and follow changes for each
-
-Add a status page, with basic uptime monitor...
-https://github.com/fzaninotto/uptime
-https://status.stripe.com/
-https://status.github.com/
-https://status.basecamp.com/
 
 Set up soft re-directs for changed blog handles,
 which allow new users to claim them but until then
