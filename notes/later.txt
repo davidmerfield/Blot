@@ -3,6 +3,8 @@
                        LATER
                        -----
 
+fix bug with cron job to renew letsencrypt ssl certs
+
 Move DNS for blot.im and blotcdn.com to route 53 or something faster. It's on IWANTMYNAME right now!
 
 Work out why blotcdn is so slow for https://latency.apex.sh
