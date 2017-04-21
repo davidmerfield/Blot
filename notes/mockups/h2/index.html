@@ -3,10 +3,22 @@
 <meta charset="utf-8">
 <title>Blot</title>
 <link rel="icon" href="favicon.png" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+
 <style type="text/css">
 
-body {margin: 2em 3em}
-.container {max-width: 500px}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Sans Serif', Icons /*!System*/;
+      font-style: normal;
+    font-weight: 400;
+    font-size: 3.2rem;
+    line-height: 1.2;
+    color: #111;
+    text-rendering: optimizeLegibility;
+}
+.container {max-width: 64rem;margin: 0 auto;padding: 1.5rem}
 
 
 #logo {
@@ -18,26 +30,32 @@ body {margin: 2em 3em}
   background-repeat: no-repeat;
   background-position: 0 center;
   padding-left: 1.3em;
+  font-size: 17px
 }
 
 p + h2 {margin-bottom: 0;margin-top: 2em}
-h2 + p {margin-top: 0}
+h2 + p {margin-top: 0.5em}
 
 ul {margin-top: -10px;padding-left: 20px}
 
+a {color: inherit;}
+a:hover {color: blue}
+
 p, h1, h2, h3, h4, h5, h6, li {
-  font-size: 14px;
-  line-height: 20px;
-  font-family: sans-serif;
+font-size:19px;
+  line-height: 1.42;
   color: rgba(34,34,34);
 }
 
+h1 {font-weight: 400;width: 66.666%;letter-spacing:0.02em;margin:3rem 0;font-size: 1.5rem}
+
+h2 {font-weight: 600;color: #000}
+
 hr {
       border-bottom-width: 0;
-    border-style: solid none none;
-    border-top-color: #ddd;
+    border-top: 1px solid #eee;
     border-top-width: 1px;
-    margin: 20px 0;
+    margin: 0;
 
 }
 
@@ -61,38 +79,74 @@ hr {
   50% {background-color:#E20000;}
   75% {background-color:#ff9600;}
 }
+
+.nav {font-size: 18px;float: right;margin: 0;padding: 0}
+.nav li {list-style-type: none;  display: inline-block;
+}
+.nav a {
+  text-decoration: none;
+  padding-bottom: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-right: 2rem
+}
+
+.box.yellow {
+    background-color: rgba(255,248,150,.76);
+    color: #272100;
+}
+
+h1>.box,p>.box {
+    display: inline-block;
+    padding: 0 .15em;
+    margin: 0 -.15em;
+}
+
+.box {
+    padding: .66em;
+    display: block;
+    margin: .33em 0 1em -.66em;
+    background-color: rgba(238, 238, 238, 0.7);
+}
+
 </style>
 </head>
 <body>
 
-<p class="nav">
-  <a id="logo" href="/">Blot</a>
-  <a href="/">Sign up</a>
-  <a href="/help">Help</a>
-  <a href="/">Log in</a>
-</p>
-
-<p class="">
-</p>
-<br><br><br><br><br>
 <div class="container">
 
-<p>Blot is a publishing platform which turns a folder into a website.</p>
+<a id="logo" href="/">Blot</a>
+<ul class="nav">
+  <li><a href="/">Sign up</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/help">Help &amp; Support</a></li>
+  <li><a href="/">Log in</a></li>
+</ul>
+</div>
+<hr>
+<div class="container">
+<h1>Welcome to Blot, a <span class="box yellow">low‐to‐no‐effort</span> publishing platform which <a href="">turns a folder</a> into a website.</h1>
+</div>
+<hr>
+<div class="container">
 
+
+      <iframe style="margin: 10px 0 0 0" width="760" height="460" src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white" frameborder="0" allowfullscreen=""></iframe>
+
+<p></p>
 <h2>Why does Blot exist?</h2>
-
-<p>So that you can use your favorite app to write and publish.
-
-</p>
+<p>Blot exists so that you can use your favorite tools to create and publish. <a href="">More about Blot</a>.</p>
 
 <h2>How does it work?</h2>
-<p>Blot adds a folder to your Dropbox account. Just drag-and-drop files into Blot’s folder to publish them. Images, text files, Markdown and more become posts automatically. There’s no publishing interface. Just files and folders.</p>
+<p>Blot adds a folder to your Dropbox account. Just drag‐and‐drop files into Blot’s folder to publish them. Images, text files, Markdown <a href="">and more</a> become posts automatically. There’s no publishing interface. Just files and folders.</p>
+
+
 
 <h2>How much does it cost?</h2>
-<p>Members pay <a href="/sign-up">$30 a year</a> to keep Blot fast and reliable. This covers the cost of hosting your site, fixing bugs and answering your questions.</p>
+<p>Members pay <a href="/sign-up">$30 a year</a> to keep Blot fast and reliable. This covers the cost of hosting your site, fixing bugs and answering your questions in a timely manner.</p>
 
 <h2>Who uses Blot?</h2>
-<p>Here’s a handful of the sites hosted by Blot:</p>
+<p>Here’s a handful of the sites hosted by Blot:<br>
 <ul>
   <li><a href="http://www.kristianhjelle.com/photos" target="_blank">kristianhjelle.com</a> <span class="new">New</span></li>
   <li><a href="http://chrbutler.com/" target="_blank">chrbutler.com</a></li>
@@ -109,16 +163,23 @@ hr {
   <li><a href="http://ergo.works/" target="_blank">ergo.works</a> </li>
   <li><a href="http://arjun.is/" target="_blank">arjun.is</a> </li>
 </ul>
+</p>
 
-<h2>Can I choose how my blog looks?</h2>
-<p>You can use one of Blot’s themes or design your own. Hosting is included and there are no ads.</p>
+<h2>Can I move my current site to Blot?</h2>
+<p>Yes, Blot comes with tools to import posts from Wordpress, Tumblr, Squarespace and other blogging platforms. Blot's themes share many similarities with other platforms. </p>
+
+<h2>Can I use my own design?</h2>
+<p>Yes, you can customize every line of HTML and CSS used on your blog. Read more about this on the <a href="">developer page</a>.</p>
 
 <h2>How long has Blot been running?</h2>
-<p>I started working on Blot in the summer of 2013. Blot launched a year later and has grown sustainably since. </p>
-</div>
+<p>Blot launched in the summer of 2014 and has grown sustainably since. </p>
 
 <h2>How long do you plan to run Blot?</h2>
 <p>Decades, at least.</p>
+
+<h2>Can I host Blot on my own server?</h2>
+<p>Yes, Blot is <a href="https://github.com/davidmerfield/Blot">open‐source</a> and dedicated to the public domain.</p>
+</div>
 
 
 
