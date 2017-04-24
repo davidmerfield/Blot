@@ -2,9 +2,7 @@
 <head>
 <meta charset="utf-8">
 <title>Blot</title>
-<link rel="icon" href="favicon.png" type="image/x-icon">
-<link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
-
+<link rel="icon" href="/favicon.png" type="image/x-icon">
 <style type="text/css">
 
 body {
@@ -13,7 +11,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Sans Serif', Icons /*!System*/;
       font-style: normal;
     font-weight: 400;
-    font-size: 3.2rem;
     line-height: 1.2;
     color: #111;
     text-rendering: optimizeLegibility;
@@ -30,7 +27,8 @@ body {
   background-repeat: no-repeat;
   background-position: 0 center;
   padding-left: 1.3em;
-  font-size: 17px
+  font-size: 18px;
+  letter-spacing: 0.01em;
 }
 
 p + h2 {margin-bottom: 0;margin-top: 2em}
@@ -42,19 +40,18 @@ a {color: inherit;}
 a:hover {color: blue}
 
 p, h1, h2, h3, h4, h5, h6, li {
-font-size:19px;
+font-size:16px;
   line-height: 1.42;
   color: rgba(34,34,34);
 }
 
-h1 {font-weight: 400;width: 66.666%;letter-spacing:0.02em;margin:3rem 0;font-size: 1.5rem}
+h1 {font-weight: 400;width: 66.666%;letter-spacing:0.03em;margin:3rem 0;font-size: 1.666rem;line-height: 1.5}
 
 h2 {font-weight: 600;color: #000}
 
 hr {
       border-bottom-width: 0;
     border-top: 1px solid #eee;
-    border-top-width: 1px;
     margin: 0;
 
 }
@@ -63,6 +60,10 @@ hr {
       color: #fff;
     background: #E20000;
     padding: 1px .2em 0;
+    position: absolute;
+    z-index: 1;
+    top:0px;right: -10px;
+    font-size: 1rem;
     animation: stolen alternate 1s infinite;
     -webkit-animation: stolen alternate 1s infinite;
 }
@@ -80,7 +81,7 @@ hr {
   75% {background-color:#ff9600;}
 }
 
-.nav {font-size: 18px;float: right;margin: 0;padding: 0}
+.nav {font-size: 18px;float: right;letter-spacing:0.01em;margin: 0;padding: 0}
 .nav li {list-style-type: none;  display: inline-block;
 }
 .nav a {
@@ -109,6 +110,59 @@ h1>.box,p>.box {
     background-color: rgba(238, 238, 238, 0.7);
 }
 
+.sites {margin: 0;padding: 0}
+
+.sites li {width: 14.5%;margin:0 2% 0 0;padding:0;position: relative;display: block;float: left;}
+.sites li:first-child {width: 30%;margin-right: 3%}
+
+.sites.themes li {width: 22%;margin-right: 3%;padding-bottom: 200px;margin-bottom: 1rem}
+.sites.themes li > a {padding-bottom: 0;height:auto;position: absolute;bottom: 0;left: 0;right: 0;max-height: 180px;overflow: hidden;}
+
+.sites li > a {
+      display: block;
+/*    -moz-box-shadow: 2px 2px 12px 1px rgba(0,0,0,.2);
+    -webkit-box-shadow: 2px 2px 12px 1px rgba(0,0,0,.2);
+    box-shadow: 2px 2px 12px 1px rgba(0,0,0,.2);
+*/    z-index: 1;
+    margin: 1em 0;
+    height: 0;
+    padding-bottom: 80%;
+    border-radius: 3px;
+    color: #717171;
+    font-size: 10px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 20px;
+    position: relative;
+}
+
+
+.sites li > a:before {
+      height: 20px;
+    background: url(/chrome.png) 0/100% no-repeat #dedede;
+    text-align: center;
+    font-size: 13px;
+    color: #000;
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    top: 0;left: 0;
+    letter-spacing: .02em;
+    content: ""
+}
+
+.sites li > a img {max-width: 100%;}
+
+.sites li > a:after {
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,.16);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: ""
+}
 </style>
 </head>
 <body>
@@ -125,63 +179,100 @@ h1>.box,p>.box {
 </div>
 <hr>
 <div class="container">
-<h1>Welcome to Blot, a <span class="box yellow">low‐to‐no‐effort</span> publishing platform which <a href="">turns a folder</a> into a website.</h1>
+
+<h1>Welcome to Blot, a <!-- <span class="">low‐to‐no‐effort</span> --> publishing platform which <a href="">turns a folder</a> into a website. It exists so that you can use your favorite tools to create and publish.</h1>
 </div>
 <hr>
+<div style="background:">
 <div class="container">
-
-
-      <iframe style="margin: 10px 0 0 0" width="760" height="460" src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white" frameborder="0" allowfullscreen=""></iframe>
-
-<p></p>
-<h2>Why does Blot exist?</h2>
-<p>Blot exists so that you can use your favorite tools to create and publish. <a href="">More about Blot</a>.</p>
+<br>
+<iframe style="float:right;margin-right: -20px" width="760" height="460" src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white" frameborder="0" allowfullscreen=""></iframe>
 
 <h2>How does it work?</h2>
-<p>Blot adds a folder to your Dropbox account. Just drag‐and‐drop files into Blot’s folder to publish them. Images, text files, Markdown <a href="">and more</a> become posts automatically. There’s no publishing interface. Just files and folders.</p>
+<p>Blot adds a folder to your Dropbox. Files you put inside are published automatically. Blot converts text, images, links, Markdown and more.</p>
 
-
+<h2>Why does Blot exist?</h2>
+<p>Since Blot's interface is just files and folders, you can use your favorite app to write. <a href="">More about Blot</a>.</p>
 
 <h2>How much does it cost?</h2>
-<p>Members pay <a href="/sign-up">$30 a year</a> to keep Blot fast and reliable. This covers the cost of hosting your site, fixing bugs and answering your questions in a timely manner.</p>
+<p>Members pay <a href="/sign-up">$30 a year</a> to keep Blot fast and reliable. This covers the cost of hosting your website, fixing bugs and answering your questions.</p>
+<br>
+<br>
 
-<h2>Who uses Blot?</h2>
-<p>Here’s a handful of the sites hosted by Blot:<br>
-<ul>
-  <li><a href="http://www.kristianhjelle.com/photos" target="_blank">kristianhjelle.com</a> <span class="new">New</span></li>
-  <li><a href="http://chrbutler.com/" target="_blank">chrbutler.com</a></li>
-  <li><a href="http://iiiiiiiii.in/" target="_blank">iiiiiiiii.in</a></li>
-  <li><a href="http://mrfris.by/" target="_blank">mrfris.by</a> </li>
-    <li><a href="http://blog.aurynn.com/" target="_blank">aurynn.com</a></li>
-      <li><a href="http://www.pavlusoffice.com/" target="_blank">pavlusoffice.com</a></li>
-  <li><a href="http://bureau.ambriganti.com/" target="_blank">bureau.ambriganti.com</a></li>
-  <li><a href="http://thingstoclick.com/" target="_blank">thingstoclick.com</a></li>
-  <li><a href="http://makebeings.net/" target="_blank">makebeings.net</a></li>
-  <li><a href="http://ryanmack.me/" target="_blank">ryanmack.me</a></li>
-  <li><a href="http://www.2080.co/" target="_blank">2080.co</a></li>
+</div>
+</div>
+<hr>
+
+<div class="container">
+<br>
+
+  <h2>Who uses Blot?</h2>
+  <p style="width:63%">Here’s a handful of the websites hosted by Blot. Some of them use one of <a href="">Blot's themes</a> and others have <a href="">built their own</a> from scratch.</p>
+<ul class="sites themes">
+  <li><a href="http://www.kristianhjelle.com/photos" target="_blank"> kristianhjelle.com <img src="/templates/grid.jpg"> </a><span class="new">New</span></li>
+  <li><a href="http://chrbutler.com/" target="_blank">chrbutler.com <img src="/templates/console.jpg"></a></li>
+  <li><a href="http://iiiiiiiii.in/" target="_blank">iiiiiiiii.in <img src="/templates/default.jpg"></a></li>
+  <li><a href="http://mrfris.by/" target="_blank">mrfris.by <img src="/templates/empty.jpg"></a> </li>
+    <li><a href="http://blog.aurynn.com/" target="_blank">aurynn.com <img src="/templates/essay.jpg"></a></li>
+<li><a href="http://www.pavlusoffice.com/" target="_blank">pavlusoffice.com <img src="/templates/mira.jpg"></a></li>
+  <li><a href="http://bureau.ambriganti.com/" target="_blank">ambriganti.com <img src="/templates/photo.jpg"></a></li>
+  <li><a href="http://thingstoclick.com/" target="_blank">thingstoclick.com <img src="/templates/rosa.jpg"></a></li>
+  <!-- <li><a href="http://makebeings.net/" target="_blank">makebeings.net</a></li>
+  <li><a href="http://ryanmack.me/" target="_blank">ryanmack.me</a></li> -->
+  <!--       <li><a href="http://www.2080.co/" target="_blank">2080.co</a></li>
   <li><a href="http://benoitvidal.com" target="_blank">benoitvidal.com</a></li>
   <li><a href="http://ergo.works/" target="_blank">ergo.works</a> </li>
-  <li><a href="http://arjun.is/" target="_blank">arjun.is</a> </li>
+  <li><a href="http://arjun.is/" target="_blank">arjun.is</a> </li> -->
 </ul>
-</p>
 
-<h2>Can I move my current site to Blot?</h2>
-<p>Yes, Blot comes with tools to import posts from Wordpress, Tumblr, Squarespace and other blogging platforms. Blot's themes share many similarities with other platforms. </p>
+<br style="clear:both;">
+<br>
+</div>
 
-<h2>Can I use my own design?</h2>
-<p>Yes, you can customize every line of HTML and CSS used on your blog. Read more about this on the <a href="">developer page</a>.</p>
+<hr>
 
+<div class="container">
+<br style="clear:both;">
+
+<div style="width:30%;margin-right: 3%;float:left">
+  <h2>Can I move my website to Blot?</h2>
+  <p>Yes, Blot comes with tools to import posts and pages from Wordpress, Tumblr, Squarespace and other platforms. Blot's themes share many similarities with other platforms. </p>
+</div>
+
+<div style="width:30%;margin-right: 3%;float:left">
 <h2>How long has Blot been running?</h2>
-<p>Blot launched in the summer of 2014 and has grown sustainably since. </p>
+<p>I began work on Blot in the summer of 2013. Blot launched a year later and has grown sustainably since. I plan to keep Blot running for decades, at least.</p>
+</div>
 
-<h2>How long do you plan to run Blot?</h2>
-<p>Decades, at least.</p>
+<div style="width:30%;margin-right: 3%;float:left">
+  <h2>Can I host Blot on my own server?</h2>
+  <p>Yes, Blot's <a href="https://github.com/davidmerfield/Blot">entire source code</a> is dedicated to the public domain.</p>
+</div>
+<br style="clear:both;">
 
-<h2>Can I host Blot on my own server?</h2>
-<p>Yes, Blot is <a href="https://github.com/davidmerfield/Blot">open‐source</a> and dedicated to the public domain.</p>
 </div>
 
 
+
+
+<hr>
+
+
+<div class="container">
+
+<ul class="sites">
+  <li><h2>Blot comes with four themes</h2>
+<p>You can use these themes to start a blog, magazine, portfolio or photography site in a handful of clicks.</p>
+</li>
+  <li><a href="http://www.kristianhjelle.com/photos" target="_blank">Blog</a></li>
+  <li><a href="http://chrbutler.com/" target="_blank">Magazine</a></li>
+  <li><a href="http://iiiiiiiii.in/" target="_blank">Portfolio</a></li>
+  <li><a href="http://mrfris.by/" target="_blank">Photos</a> </li>
+<!--   <li><a href="http://mrfris.by/" target="_blank">mrfris.by</a> </li>
+ --></ul>
+
+<br style="clear:both;">
+</div>
 
 </body>
 </html>
