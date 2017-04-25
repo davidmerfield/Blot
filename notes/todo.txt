@@ -2,6 +2,9 @@
                          TO DO
                          -----
 
+Fix bug which sometimes means new user's blogs are named "'s blog".
+  Seems like account info fetch from Dropbox fails?
+
 Redesign template system to make it easy to customize and create them.
 
   Make templates file / folder based without modifying renderer
