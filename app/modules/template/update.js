@@ -4,6 +4,7 @@ var forEach = helper.forEach;
 var blogDir = helper.blogDir;
 var fs = require('fs');
 var readFromFolder = require('./readFromFolder');
+var Blog = require('blog');
 
 module.exports = function (blogID, callback) {
 
@@ -35,6 +36,8 @@ module.exports = function (blogID, callback) {
 
         next();
       });
-    }, callback);
+    }, function(){
+      Blog.set(blogID, {cacheID: Date.now()}, callback);
+    });
   });
 };
