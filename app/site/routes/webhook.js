@@ -99,6 +99,8 @@ module.exports = function(server){
       if (config.maintenance)
         return res.status(503).send('Under maintenance');
 
+      console.log(new Date(), 'Webhook recieved.');
+
       var data = '';
       var users = [];
       var signature = req.headers[SIGNATURE];
@@ -113,6 +115,8 @@ module.exports = function(server){
 
       req.on('end', function() {
 
+        console.log(new Date(), 'Webhook parsed...');
+
         if (signature !== verification.digest('hex'))
           return res.send(403);
 
@@ -122,13 +126,21 @@ module.exports = function(server){
           return res.status(504).send('Bad delta');
         }
 
+        console.log(new Date(), '... Users parsed successfully!');
+
         // Tell dropbox it worked!
         res.send('OK');
 
         // Sync each of the UIDs!
         forEach(users, function(uid, next){
+
+          console.log(new Date(), '... starting sync for', uid);
+
           sync(uid.toString());
           next();
+        }, function(){
+
+          console.log(new Date(), '... started sync for each user!');
         });
       });
     });
