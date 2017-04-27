@@ -15,7 +15,7 @@ module.exports = function(server){
 
   server.post('/stripe-webhook', bodyParser.json(), function (request, response) {
 
-    if (!request.body) return;
+    if (!request.body)  return;
 
     if (config.maintenance) {
       console.log('Request to stripe webhook under maintenance');
@@ -83,6 +83,19 @@ module.exports = function(server){
   var SIGNATURE = 'x-dropbox-signature';
   var sha = crypto.createHmac.bind(this, 'SHA256');
   var sync = require('../../sync');
+
+  server.route('/newwebhook')
+
+    .get(function(req, res, next) {
+      if (!req.query || !req.query.challenge) return next();
+      console.log(new Date(), 'dummy webhook challenged!');
+      return res.send(req.query.challenge);
+    })
+
+    .post(function(req, res) {
+      console.log(new Date(), 'dummy webhook recieved!');
+      res.send('OK');
+    });
 
   server.route('/webhook')
 
