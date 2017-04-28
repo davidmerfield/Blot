@@ -68,6 +68,8 @@ module.exports = function(server){
         // Something else happened so we pass that on.
         // after removing the header we set earlier
         if (err) {
+          console.log('HEADERS SENT ERROR? URL IS', req.host, req.url);
+          console.log(err);
           res.removeHeader('Content-Type');
           return next(err);
         }
