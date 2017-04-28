@@ -22,7 +22,9 @@ module.exports = function (req, res, next) {
     req.user = user;
     res.addLocals({user: user});
 
-    Csurf()(req, res, function(){
+    Csurf()(req, res, function(err){
+
+      if (err) return next(err);
 
       // Load the CSRF protection since we're
       // inside the app,
