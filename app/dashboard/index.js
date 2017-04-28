@@ -115,4 +115,10 @@ require('./routes/tools')(dashboard);
 require('./routes/profile')(dashboard);
 require('./routes/theme')(dashboard);
 
+// need to handle dashboard errors better...
+dashboard.use(function(err, req, res, next) {
+  res.status(500);
+  res.send(':( Error');
+});
+
 module.exports = dashboard;
