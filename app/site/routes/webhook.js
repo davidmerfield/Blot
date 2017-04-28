@@ -84,19 +84,6 @@ module.exports = function(server){
   var sha = crypto.createHmac.bind(this, 'SHA256');
   var sync = require('../../sync');
 
-  server.route('/newwebhook')
-
-    .get(function(req, res, next) {
-      if (!req.query || !req.query.challenge) return next();
-      console.log(new Date(), 'dummy webhook challenged!');
-      return res.send(req.query.challenge);
-    })
-
-    .post(function(req, res) {
-      console.log(new Date(), 'dummy webhook recieved!');
-      res.send('OK');
-    });
-
   server.route('/webhook')
 
     .get(function(req, res, next) {
