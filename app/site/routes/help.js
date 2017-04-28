@@ -1,9 +1,6 @@
 module.exports = function(server){
 
-
   server.get('/help', function(req, res){
-
-    console.log('HERE');
 
     res.setLocals({
       title: 'Blot - Help',
