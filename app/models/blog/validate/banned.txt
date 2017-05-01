@@ -7,7 +7,6 @@ administrator
 autoconfig
 broadcasthost
 ftp
-david
 hostmaster
 imap
 info
@@ -64,6 +63,8 @@ scripts
 demo
 site
 blot
+david
+status
 home
 blog
 contact
