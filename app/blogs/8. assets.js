@@ -4,7 +4,6 @@ module.exports = function(server){
   var express = require('express');
   var maxAge = config.environment !== 'development' ? 86400000 : 0;
   var mime = require('mime-types');
-  var extname = require('path').extname;
   var basename = require('path').basename;
 
   var helper = require('helper');
