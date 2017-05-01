@@ -56,9 +56,20 @@ module.exports = function(server){
           return res.sendFile(path, {root: blogDir}, then);
         }
 
+        // headers were sent but there was an error.
+        // It's possible this is the 304 error bug that
+        // should be fixed in express version 5.0:
+        // https://github.com/expressjs/express/commit/3387916efcac19302188151a24927a0405a373e8
+        // I found this bug courtesy of this question:
+        // http://stackoverflow.com/questions/26049466
+        if (err && res.headersSent) {
+          console.log(new Date(), 'Error: res.sendFile with res.headersSent for:', req.host + req.url, 'res.statusCode:', res.statusCode, err);
+          return next(err);
+        }
+
         // There is no index file in this directory...
         // Remove the contentType header we set earlier and
-        // proceed to the next matching route...
+        // proceed to the next matching route without err.
         if (err && (err.code === 'EISDIR' || err.code === 'ENOTDIR')) {
           res.removeHeader('Content-Type');
           return next();
@@ -66,9 +77,7 @@ module.exports = function(server){
 
         // Something else happened so we pass that on.
         // after removing the header we set earlier
-        if (err) {
-          console.log('HEADERS SENT ERROR? URL IS', req.host, req.url);
-          console.log(err);
+        if (err && !res.headersSent) {
           res.removeHeader('Content-Type');
           return next(err);
         }
