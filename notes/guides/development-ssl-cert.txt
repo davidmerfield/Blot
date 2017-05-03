@@ -1,0 +1,22 @@
+You need to generate a self-signed certificate and key pair then tell your system to trust it. I then load the key.pem and cert.pem files into the webserver.
+
+Since Chrome 58, you need to declare a Subject Alternative Name. I don't really understand what that is or why it is neccessary but it is.
+
+Here are the commands to generate the certificate and tell Keychain to trust the certificate (cert.pem):
+
+openssl req \
+    -newkey rsa:2048 \
+    -x509 \
+    -nodes \
+    -keyout key.pem \
+    -new \
+    -out cert.pem \
+    -subj /CN=blot.development \
+    -reqexts SAN \
+    -extensions SAN \
+    -config <(cat /System/Library/OpenSSL/openssl.cnf \
+        <(printf '[SAN]\nsubjectAltName=DNS:blot.development')) \
+    -sha256 \
+    -days 3650
+
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain cert.pem
