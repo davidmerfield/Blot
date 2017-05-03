@@ -11,6 +11,31 @@ var normalize = helper.urlNormalizer;
 var makeSlug = helper.makeSlug;
 var allow = ['slug', 'name', 'size', 'more', 'menu', 'page', 'dateStamp', 'created', 'updated', 'metadata'];
 
+// found here:
+// https://gist.github.com/mathewbyrne/1280286
+function removeDiacritics (str) {
+
+  str = str || '';
+  str = decodeURIComponent(str); // wtf
+  str = str.replace(/^\s+|\s+$/g, '');
+  str = str.toLowerCase();
+
+  var from = "àáäâèéëêìíïîòóöôùúüûñç·_,:;";
+  var to   = "aaaaeeeeiiiioooouuuunc-----";
+
+  for (var i = 0, l = from.length; i<l; i++)
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+
+  str = str
+    .replace(/[^a-z0-9 -\/]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  str = encodeURIComponent(str);
+
+  return str;
+}
+
 module.exports = function (timeZone, format, entry) {
 
   // Add the permalink automatically if the metadata
@@ -35,6 +60,10 @@ module.exports = function (timeZone, format, entry) {
         view[i] = entry[i];
 
     view.stem = makeSlug(entry.path.slice(0, entry.path.lastIndexOf('.')));
+
+    // this needs a better name but make sure to update any
+    // existing custom formats for folks...
+    view['slug-without-diacritics'] = removeDiacritics(view.slug);
 
     // we don't want mustache to escape anything...
     format = format.split('{{').join('{{{');
