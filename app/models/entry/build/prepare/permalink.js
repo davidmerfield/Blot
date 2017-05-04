@@ -11,25 +11,18 @@ var normalize = helper.urlNormalizer;
 var makeSlug = helper.makeSlug;
 var allow = ['slug', 'name', 'size', 'more', 'menu', 'page', 'dateStamp', 'created', 'updated', 'metadata'];
 
-// found here:
-// https://gist.github.com/mathewbyrne/1280286
+// modified from here: https://gist.github.com/mathewbyrne/1280286
 function removeDiacritics (str) {
 
   str = str || '';
-  str = decodeURIComponent(str); // wtf
-  str = str.replace(/^\s+|\s+$/g, '');
+  str = decodeURIComponent(str); // lol we shouldnt do this
   str = str.toLowerCase();
 
-  var from = "àáäâèéëêìíïîòóöôùúüûñç·_,:;";
-  var to   = "aaaaeeeeiiiioooouuuunc-----";
+  var from = "àáâäæãåāçćčèéêëēėęîïíīįìłñńôöòóœøōõßśšûüùúūÿžźż";
+  var to   = "aaaaaaaaccceeeeeeeiiiiiilnnoooooooosssuuuuuyzzz";
 
   for (var i = 0, l = from.length; i<l; i++)
     str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-
-  str = str
-    .replace(/[^a-z0-9 -\/]/g, '') // remove invalid chars
-    .replace(/\s+/g, '-') // collapse whitespace and replace by -
-    .replace(/-+/g, '-'); // collapse dashes
 
   str = encodeURIComponent(str);
 
