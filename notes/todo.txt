@@ -3,7 +3,7 @@
                          -----
 
 Fix bug which sometimes means new user's blogs are named "'s blog".
-  Seems like account info fetch from Dropbox fails?
+  Seems like account info fetch from Dropbox sometimes fails?
 
 Redesign template system to make it easy to customize and create them.
 
@@ -57,3 +57,435 @@ Improve demo video
   must make sense as audio only, video only.
 
 Increase price to $30 a year for NEW subscribers. This will not affect existing customers.
+
+
+
+
+
+
+------------------------------------------------------------------------------------------
+
+
+
+
+
+
+FEATURES FOR THE USER
+---------------------
+
+* Improve nginx error pages
+
+* Add emails notifying user of any major account changes
+
+* Removing date metadata should reset entry.datestamp to entry.created
+
+- Basic video posts
+
+- Basic audio posts
+
+- Multi-file posts from:
+  1. A folder? /Posts/(Album)/...
+  2. Files with the same name but different extension (image.txt and image.jpg)
+  Would I need to build a dependency tree for posts?
+    - this could make multi-file entries a reality?
+    - could be as simple as doEach(dependents, rebuild)
+    - issue with public files and image cache:
+      say foo.txt embeds /public/bar.jpg and is image cached
+      make change to bar.jpg, foo.txt has cached old version etc...
+
+- Fix issue with returning users whose subscriptions have expired
+  https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1
+
+- Accept bitcoin subscription payments
+
+
+
+FEATURES BEHIND THE SCENES
+--------------------------
+
+* Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
+
+* Migrate code from require('../../../') to shortcuts in node_modules
+
+- Add method to pause syncing and prevent future syncs
+  then use this method with the create/remove blog migration too.
+
+- Use NGINX to send all Blot's static files
+
+- Add hourly local redis rdb dumps
+
+- Add script to roll back into hourly local db dumps and remote backups
+
+- nginx fail2ban & http2
+
+
+SERVER ADMIN
+------------
+
+fix bug with cron job to renew letsencrypt ssl certs
+
+Work out why blotcdn is so slow for https://latency.apex.sh
+
+Backup s3 buckets every day? delete those older than a month?
+
+Delete backups older than a month from s3 automatically
+
+Add daemon for zero-downtime node restart
+
+Set up autorecovery
+https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
+
+Test with instance reboot on live site
+
+Test monit with nginx going down
+
+Test monit with blot going down
+
+Lease new instance for 12 months
+
+
+IDEAS
+-----
+
+Consider using something like this with themes?
+http://barbajs.org/installation.html
+
+Consider storing blog files in s3 bucket instead of ebs?
+- bandwidth to-and-from is free, no? so we'd have to transfer everything when the blog was reloaded.
+- would reduce storage costs by 80% vs EBS
+- how would it affect performance?
+
+Consider accepting payments from paypal?
+https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870
+https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152
+
+Improve account section
+  - ensure pages are inaccessible when they should be
+  - Expose a button to permanently delete account page
+
+use this to render screenshots of a template?
+https://github.com/brenden/node-webshot
+
+Remove limit on image size
+
+FIx bug with case sensitivity for tag folders
+https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
+
+Frank image cache bug for dropshadow
+drexore /draft/view/Drafts/debugging.md
+
+Move to pretty IDs for everything
+  lowercase: acemnorsuvwxz
+  uppercase: 1234567890bdfhijkl
+
+make the source folder on the per-blog basis (not per account) so theoretically a blot user could have two different dropbox accounts.
+
+  Add folder section to settings page? radio buttons?
+  how to ensure this won't fuck up other blogs
+
+  move to Dropbox sdk v2
+
+  Add support for 'full Dropbox' feature
+  Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
+  Nick
+  Jostein
+  Alex https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038
+  James https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65
+
+  add git repository support
+  https://github.com/stackdot/NodeJS-Git-Server/issues/33
+  https://github.com/netbeast/gitbox
+
+  add ftp support
+  https://www.npmjs.com/package/ftpd
+
+  make the sync / rebuild proceses run with unpriviledged
+  user permissions to ensure shit isnt fucked with user input...
+
+
+
+
+
+
+Re-do url redirector to use route-parser and properly
+support regular expressions
+
+  handle queries properly too
+  https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
+
+
+Giphy url support
+
+Catch rename failed to find a match for scrapboox/patch_bunny_slippers.jpg -> /patch_bunny_slippers.png
+
+Can rename tolerate a minor file size change?
+
+Add filtering by date to 404 log
+https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca
+
+Move daily update generator to app folder
+
+Move onetimeauth to scripts folder
+
+If entries share publish date, sort them by blot creation date?
+
+Consider what to do for footnote links in a teaser -> rewrite links to {{permalink}}#frag?
+
+Add plugin for inline popover footnotes
+
+Possible encoding issues?
+http://isaac.blot.im/go-set%EF%BF%BDbal
+
+enable hyphenation again
+tell rodericus
+
+generate gif / svg thumbs if possible?
+
+consider https://github.com/showdownjs/showdown ?
+
+Find cause of fontconfig error / warning?
+
+password protection for blogs
+https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231
+
+webhooks
+https://mail.google.com/mail/u/0/#inbox/1554260da157b405
+
+add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries).
+
+Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
+
+Add option to *enable* hard line breaks
+
+investigate performance improvements to type() forEach
+
+Email
+ - Install time mover library
+ - add proper error handling to email
+ - make it easier to pass in variables
+
+Validator
+ - check each id has an entry and each entry has an id
+ - check menu is right (pages exist, non deleted etc...)
+ - generate fake entries for id clash
+ - why does it not print lines in production?
+ - must check each blog folder exists...
+
+Add neat interface to customize blog level variables?
+
+simplify video plugin HTML OUTPUT?
+
+Move queues in entry/rename /remove to doEach
+
+fix image caption plugin to be semantic
+
+Handle reset: true call to /delta
+  delete folderState
+  call sync()
+  calls verify()
+
+devise nice way to declare unit tests for a file
+which don't need to be run on server start
+but can be run programmatically
+
+consider adding date format localization with moment
+
+Add button to remove avatar from settings page
+https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac
+
+handle noscript on dashboard / signup gracefully (remove all dashboard js?)
+
+incorporate typographic features from textile
+http://redcloth.org/textile/phrase-modifiers/
+
+expose
+  pagination.page_size
+  pagination.total_posts
+  pagination.total_pages
+
+add
+add {{#tagged:Book reports}}
+
+add supoprt for dynamic partials to make collections possible
+  e.g. {{> /{{tag}}.html}} ?
+
+expose site.author --> make this clear during sign up
+
+add support for date_first_post -> date_last post
+
+add support for {{order by date}} {{order by author}} {{order by title}}
+
+??
+
+{{#allEntries order:date limit:10}}
+
+{{/allEntries}}
+
+move to line by line reading for as much as possible
+  http://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
+  https://nodejs.org/api/readline.html
+  https://www.npmjs.com/package/byline
+
+queue scheduled entries in redis
+  this makes each server less stateful
+
+renderLocals needs to inherit context
+so entries can refer to their own title etc...?
+
+Why does pandoc \mouse.com become .com ?
+
+Add a cool bookmarklet which drafts a post a la
+https://www.youtube.com/watch?v=cu5uXXulnNk
+
+Move from preview files -> webloc / .url files ?
+
+Create webloc to live version for each entry? I LIKE
+
+Move to blot.is ?
+
+Merge www/blog/id and blogs/id folders into one, with a dotfile directory? create .assets inside this for doc posts?
+
+Move to hogan for main renderer?
+https://github.com/twitter/hogan.js
+
+Move to new api file ids for renames?
+https://mail.google.com/mail/u/0/#inbox/150def93b65dc4b1
+
+Use b2b for storage?
+https://mail.google.com/mail/u/0/#inbox/1512610df64568cf
+
+Use Kloudless to handle file sync with other services?
+https://kloudless.com/pricing/
+
+Use syncthing to manage files?
+http://docs.syncthing.net/index.html
+
+Move from 'archives' to 'archive'?
+
+Use atom instead of rss?
+https://en.wikipedia.org/wiki/Atom_(standard)
+
+Backups of blog folders in case Dropbox fails?
+
+Noindex blog search results pages
+
+Add link to iwantmyname to documentation
+https://mail.google.com/mail/u/0/#inbox/1535c437d47a141b
+
+Write a pandoc compatible markdown converter in javascript
+to resolve some of the performance issues with pandoc
+
+Re-enable CSP on blot site in a way that works in Safari
+
+Popular entry list
+
+Related entry list
+https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61
+
+Expose list of rendering errors to callback
+
+Prevent uploads will still pipe large files on the server
+
+Add rewrite feature, e.g. rewrite /randomColor to /public/randomColor
+
+nashp mp3 feature?
+https://twitter.com/lllIIlIlIl/status/685553744575004672
+
+Menu needs concurrency
+https://twitter.com/davidmerfieId/status/633379764972093440
+
+Push archives feature
+https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be
+
+Tag manager, so that
+latex -> LaTeX in every post, no matter its case.
+
+extend cacher to save repsonse status too?
+--> this allows us to cache 404 pages...
+
+prevent hotlinking of static assets in assets.js
+.header('Access-Control-Allow-Origin', '*') // TO DO REMOVE ME TO PREVENT HOTLINKING
+
+banned permalinks are possible when page:yes
+
+Incorporate disk space monitor to alert for low space
+
+Archive logfiles with backups
+
+Generate list of external api dependencies and follow changes for each
+
+Set up soft re-directs for changed blog handles,
+which allow new users to claim them but until then
+redirect to new user's handle.
+
+Sort drafts by date updated
+
+Use a dom differ for drafts view
+http://www.diffhtml.org/#installing
+http://kof.github.io/diff-renderer/demo/playground.html
+https://github.com/kof/diff-renderer
+
+Make drafts preview file identical
+(construct iframe based on window.location.href) and use copyref
+
+Undo option for form changes
+
+Store metadata for each file (type, size, mtime)
+
+Add an explanation for the folder migrator...
+
+Seperate the settings for blog and user & billing
+
+Implement custom CSS for syntax highlight plugin
+
+Wrap each pre tag in .hljs so other themes work too
+
+Ensure Youtube plugin still functions if apis fails
+
+Prevent image zoom plugin from zooming emojies
+
+Embed
+
+ https://github.com/ritz078/embed.js
+
+ - Soundcloud plugin
+ - instagram
+ - gists
+ - images
+ - mp3s
+ - videos
+
+CJK auto spacing plugin
+https://github.com/hexojs/hexo-filter-auto-spacing
+
+Move from Dropbox UIDs to Blot UIDs
+
+Move to some SQL for storing each entry's input and output...
+
+Add passwords for accounts
+
+Create export to markdown mini-site which
+  http://exporter.blot.im/
+  https://github.com/hexojs/hexo-migrator-blogger
+  https://github.com/welksonramos/hexo-migrator-joomla
+  https://github.com/hexojs/hexo-migrator-rss
+  https://github.com/hexojs/hexo-migrator-wordpress
+  https://github.com/dreikanter/wp2md exporter/importer
+
+New plugin ideas
+https://github.com/getpelican/pelican-plugins
+
+Add native comments plug in
+
+Add email list plugin for readers?
+
+Move to support folder renames for local template editing
+- hide image zoomer
+
+use pandoc for katex instead of seperate function
+
+
+
+
+
+
