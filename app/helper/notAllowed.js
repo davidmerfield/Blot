@@ -34,17 +34,17 @@ function tests () {
   var assert = require('assert');
 
   var testList = {
-    '/Users/David/Projects/Blot/blogs/': true,
+    '/Users/David/Projects/blot/blogs/': true,
     '/Users/David/': true,
     '/Users/David/Projects/blot/blogs/foo': true,
     '/': true,
     '*': true,
 
-    '/Users/David/Projects/Blot/blogs/foo': false,
-    '/Users/David/Projects/Blot/blogs/foo/bar/baz.txt': false,
-    '/Users/David/Projects/Blot/blogs/foo.txt': false,
-    '/Users/David/Projects/Blot/tmp/foo': false,
-    '/Users/David/Projects/Blot/tests/foo': false
+    '/Users/David/Projects/blot/blogs/foo': false,
+    '/Users/David/Projects/blot/blogs/foo/bar/baz.txt': false,
+    '/Users/David/Projects/blot/blogs/foo.txt': false,
+    '/Users/David/Projects/blot/tmp/foo': false,
+    '/Users/David/Projects/blot/tests/foo': false
   };
 
   for (var i in testList) {
