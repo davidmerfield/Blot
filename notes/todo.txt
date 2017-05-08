@@ -105,7 +105,14 @@ FEATURES BEHIND THE SCENES
 
 * Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
-* Migrate code from require('../../../') to shortcuts in node_modules
+* Migrate code from require('../../../') to shortcuts in node_modules.
+
+* Ensure the routing in server.js is ordered to serve requests to blogs fastest, then the dashboard, then the marketing site.
+
+* Merge all the weird vhost lines into one glob.
+
+- Use a string-difference algorithm to improve rename recognition?
+  Something with a funny name like Jaro–Winkler distance.
 
 - Add method to pause syncing and prevent future syncs
   then use this method with the create/remove blog migration too.
