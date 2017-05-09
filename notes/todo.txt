@@ -184,6 +184,13 @@ drexore /draft/view/Drafts/debugging.md
 Move to pretty IDs for everything
   lowercase: acemnorsuvwxz
   uppercase: 1234567890bdfhijkl
+  https://jsfiddle.net/sg1z5had/
+
+  cool user subdomains
+  https://jsfiddle.net/ev2gLa87/
+
+  generating dope domain names
+  https://jsfiddle.net/91vwt7p0/
 
 make the source folder on the per-blog basis (not per account) so theoretically a blot user could have two different dropbox accounts.
 
