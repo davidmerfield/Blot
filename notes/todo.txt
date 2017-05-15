@@ -2,29 +2,24 @@
                          TO DO
                          -----
 
-Fix bug which sometimes means new user's blogs are named "'s blog".
-  Seems like account info fetch from Dropbox sometimes fails?
+Fix bug which sometimes means new user's blogs are named "'s blog". Seems like account info fetch from Dropbox sometimes fails?
 
 Redesign template system to make it easy to customize and create them.
 
-  Make templates file / folder based without modifying renderer
+  Make templates file / folder based
      - cp www/blogs/* -> /blogs/{{id}}/assets
 
   Disable re-rendering for template locals
-
-  let A know it's possible to set routes locally
-  https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 
   use hogan for precompiling and rendering templates?
   https://github.com/twitter/hogan.js
   https://github.com/twitter/hogan.js/issues/19 - precompilation
   http://twitter.github.io/hogan.js/
 
-  make a detachable part of the renderer which could
-  be used with a datadump from the user to test
-  templates locally with almost zero latency?
+  let A know it's possible to set routes locally
+  https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
 
-  Add retrieve method to allow all entry lists to access {{#months}} sorting options
+  Add retrieve method to allow all entry lists to access   {{#months}} sorting options
   just like the archives page.
 
   Frank template bug
@@ -37,11 +32,7 @@ Redesign template system to make it easy to customize and create them.
     Tell rodrigo https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
     don't write previews for _ posts
 
-Set up SSL for all blogs
-https://codeascraft.com/2017/01/31/how-etsy-manages-https-and-ssl-certificates-for-custom-domains-on-pattern/
-https://community.letsencrypt.org/t/dynamic-ssl-using-nginx/18372/4
-https://github.com/openresty/lua-nginx-module#ssl_certificate_by_lua_block
-https://github.com/Vestorly/nginx-dynamic-ssl
+Set up SSL for all blogs. See guides/ssl-vhosts for more info.
 
 Improve documentation
   that you can do 'Disqus: $ID' at entry level

@@ -1,0 +1,14 @@
+
+https://codeascraft.com/2017/01/31/how-etsy-manages-https-and-ssl-certificates-for-custom-domains-on-pattern/
+https://community.letsencrypt.org/t/dynamic-ssl-using-nginx/18372/4
+https://github.com/openresty/lua-nginx-module#ssl_certificate_by_lua_block
+https://github.com/Vestorly/nginx-dynamic-ssl
+
+
+My plan at the moment is to make use of openresty, which seems to be a lua+nginx mixture.
+
+Ideally, I'd do everything in node js + express.
+
+But this lua virtual host system seems cool. It will generate and process requests to whitelisted domains automatically for you.
+
+https://github.com/GUI/lua-resty-auto-ssl
