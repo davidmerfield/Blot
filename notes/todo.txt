@@ -228,6 +228,9 @@ Can rename tolerate a minor file size change?
 Add filtering by date to 404 log
 https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca
 
+Make the folder in Dropbox rename automatically when the
+user changes the username for one of their multiple blogs.
+
 Move daily update generator to app folder
 
 Move onetimeauth to scripts folder
