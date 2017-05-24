@@ -9,7 +9,7 @@ var extname = require('path').extname;
 var INVALID = 'Invalid webloc file';
 
 function is (path) {
-  return extname(path).toLowerCase() === '.webloc';
+  return extname(path).toLowerCase() === '.webloc' || extname(path).toLowerCase() === '.url';
 }
 
 function extract (localPath, callback) {
@@ -27,10 +27,41 @@ function extract (localPath, callback) {
 
       if (url) return callback(null, url);
 
-      return callback(new Error(INVALID));
+      extractFromURL(localPath, function(err, url){
+
+        if (url) return callback(null, url);
+
+        return callback(new Error(INVALID));
+      });
     });
   });
 }
+
+function extractFromURL (localPath, callback) {
+
+  var url;
+
+  fs.readFile(localPath, "utf-8", function (err, contents) {
+
+    if (err)
+      return callback(err);
+
+    if (contents.indexOf('[InternetShortcut]') === -1 || contents.indexOf('URL=') === -1)
+      return callback();
+
+    try {
+
+      url = contents.slice(contents.indexOf('URL=') + 'URL='.length).trim();
+
+    } catch (e) {
+
+      return callback(e);
+    }
+
+    return callback(null, url);
+  });
+}
+
 
 function extractFromXML (localPath, callback) {
 
