@@ -117,6 +117,7 @@ require('./routes/theme')(dashboard);
 
 // need to handle dashboard errors better...
 dashboard.use(function(err, req, res, next) {
+  console.log(err);
   res.status(500);
   res.send(':( Error');
 });
