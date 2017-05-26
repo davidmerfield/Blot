@@ -16,6 +16,6 @@ var blog = blot('/path/to/folder');
 blog.listen(8080);
 ```
 
-Your blog would be built each time the process started and stored in memory. All you'd need to install would be node.js. This is a long way off but I will get there eventually! At the moment, Blot depends on redis, pandoc and nginx.
+Your blog would be built each time the process started and stored in memory. All you'd need to install would be node.js. This is a long way off but I will get there eventually! At the moment, Blot depends on redis, pandoc and nginx and various non-JavaScript tools for file compression.
 
 Eventually I will sell Blot to self-hosters. It will be priced reasonably, with an option to pay for support. I like how Kirby does it.
