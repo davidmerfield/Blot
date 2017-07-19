@@ -2,6 +2,10 @@
                          TO DO
                          -----
 
+Allow dots in custom permalinks
+
+Local template editing did not clear cache
+
 Fix bug which sometimes means new user's blogs are named "'s blog". Seems like account info fetch from Dropbox sometimes fails?
 
 Redesign template system to make it easy to customize and create them.
@@ -51,13 +55,7 @@ Increase price to $30 a year for NEW subscribers. This will not affect existing 
 
 
 
-
-
-
 ------------------------------------------------------------------------------------------
-
-
-
 
 
 
@@ -145,6 +143,8 @@ Lease new instance for 12 months
 IDEAS
 -----
 
+Download the webpage for bookmark files and try to extract title + summary
+
 Consider using something like this with themes?
 http://barbajs.org/installation.html
 
@@ -218,6 +218,7 @@ support regular expressions
   handle queries properly too
   https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
 
+Allow users who are restarting an account with multiple blogs to disable some before restarting.
 
 Giphy url support
 
