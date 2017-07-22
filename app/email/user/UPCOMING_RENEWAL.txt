@@ -1,6 +1,5 @@
 Blot will renew your subscription next week
 
-Hi {{name}}!
 
 This is just a quick email to let you know that [Blot]({{site}}) will renew your subscription in a week’s time.
 

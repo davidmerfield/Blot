@@ -1,7 +1,5 @@
 Blot has closed your account
 
-Hi {{name}},
-
 You had cancelled your Blot subscription and your account is now closed.
 
 Feel free to reply to this email if you have any questions.
