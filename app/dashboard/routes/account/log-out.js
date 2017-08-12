@@ -1,8 +1,8 @@
 module.exports = function(server){
 
-  server.get('/account/logout', function(req, res){
+  server.get('/account/log-out', function(req, res){
 
-    var redirect = req.query.redirect || '/';
+    var redirect = (req.query && req.query.then) || '/';
 
     if (!req.session) return res.redirect(redirect);
 

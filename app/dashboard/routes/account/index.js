@@ -4,7 +4,8 @@ var User = require('user');
 module.exports = function (server) {
 
 
-  require('./change-dropbox')(server);
+  require('./change-password')(server);
+  require('./set-password')(server);
   require('./close-blog')(server);
   require('./create-blog')(server);
   require('./cancel')(server);
@@ -13,7 +14,7 @@ module.exports = function (server) {
   require('./disabled')(server);
   require('./enable')(server);
   require('./export')(server);
-  require('./logout')(server);
+  require('./log-out')(server);
   require('./pay-subscription')(server);
   require('./swap')(server);
   require('./update-billing')(server);
