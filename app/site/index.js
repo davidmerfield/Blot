@@ -12,7 +12,8 @@ var MAP = {
   '/apps': '/plugins',
   '/cancel': '/account/cancel',
   '/update-billing': '/account/update-billing',
-  '/logout': '/account/logout',
+  '/logout': '/account/log-out',
+  '/account/logout': '/account/log-out',
   '/create-blog': '/account/create-blog',
   '/settings': '/preferences',
   '/settings/404s': '/404s',
@@ -70,6 +71,15 @@ site
 if (config.environment !== 'development')
   site.enable('view cache');
 
+
+if (config.maintenance) {
+
+  site.use('/sign-up', function(req, res){
+
+    res.redirect('/maintenance');
+  });
+}
+
 // Define these individually don't
 // overwrite server.locals
 site.locals.protocol = config.protocol;
@@ -77,19 +87,28 @@ site.locals.host = config.host;
 site.locals.title = 'Blot';
 site.locals.cacheID = Date.now();
 
-require('./routes/authenticate')(site);
+site.use(['/sign-up*', '/log-in*', '/set-password*'], function(req, res, next){
+
+  if (!req.session || !req.session.uid) return next();
+
+  var redirect = req.query && req.query.then;
+
+  res.redirect(redirect || '/');
+});
+
 require('./routes/help')(site);
-require('./routes/oneTimeAuth')(site);
-require('./routes/connect')(site);
-require('./routes/sign-up')(site);
 require('./routes/static')(site);
-require('./routes/try-blot')(site);
 require('./routes/webhook')(site);
 
+site.use('/sign-up', require('./routes/sign-up'));
+site.use('/log-in', require('./routes/log-in'));
 
 var routes = [];
 
 // Determine dashboard apps for redirector
+// this should only be routes for get requests...
+// it causes an infinite loop for route spec which
+// matches /account* but not a specific route.
 require('../dashboard')._router.stack.forEach(function(middleware){
 
   // routes registered directly on the app
@@ -119,7 +138,8 @@ site.use(function(req, res, next){
 
 // Redirect dashboard routes
 site.get(routes, function(req, res, next){
-  res.redirect('/auth?redirect=' + req.url);
+  console.log('redirecting here.....', req.url);
+  res.redirect('/log-in?then=' + req.url);
 });
 
 require('./routes/error')(site);
