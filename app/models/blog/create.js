@@ -15,9 +15,9 @@ module.exports = function create (uid, info, callback) {
     .and(info, 'object')
     .and(callback, 'function');
 
-  User.getBy({uid: uid}, function(err, user){
+  User.getById(uid, function(err, user){
 
-    if (err) return callback(err);
+    if (err || !user) return callback(err || new Error('No user'));
 
     client.incr(key.totalBlogs, function(err, blogID){
 
@@ -30,12 +30,12 @@ module.exports = function create (uid, info, callback) {
       var title;
       var folder;
 
+      title = capitalise(info.handle) + '\'s blog';
+
       if (user.blogs.length > 0) {
         folder = '/' + info.handle;
-        title = capitalise(info.handle) + '\'s blog';
       } else {
         folder = '/';
-        title = user.name + '\’s blog';
       }
 
       var blog = {
@@ -44,7 +44,7 @@ module.exports = function create (uid, info, callback) {
         folder: folder,
         title: title,
         timeZone: info.timeZone || 'UTC',
-        dateFormat: info.dateFormat || user.countryCode === 'US' ? 'M/D/YYYY' : 'D/M/YYYY'
+        dateFormat: info.dateFormat || 'M/D/YYYY'
       };
 
       extend(blog)
