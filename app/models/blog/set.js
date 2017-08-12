@@ -43,6 +43,10 @@ module.exports = function (blogID, blog, callback) {
         client.set(key.handle(latest.handle), blogID);
       }
 
+      if (changes.credentials && latest.credentials && latest.credentials.uid) {
+        client.sadd(key.dropbox(latest.credentials.uid), blogID);
+      }
+
       if (changes.domain) {
         client.set(key.domain(latest.domain), blogID);
         client.del(key.domain(former.domain));
