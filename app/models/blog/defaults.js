@@ -6,6 +6,7 @@ module.exports = {
   isDisabled: false,
   avatar: '',
   roundAvatar: false,
+  folderState: '',
   cssURL: '',
   scriptURL: '',
   template: defaultTemplate,
