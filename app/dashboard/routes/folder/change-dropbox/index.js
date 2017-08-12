@@ -6,9 +6,11 @@ var Dropbox = require('dropbox');
 
 module.exports = function(server){
 
-  server.route('/account/change-dropbox')
+  server.route('/folder/change-dropbox')
 
     .get(function(req, res, next){
+
+      console.log('here!');
 
       // Load the user's Dropbox account info
       // In future we should be saving this in the db...
@@ -16,22 +18,19 @@ module.exports = function(server){
 
         if (err) return next(err);
 
-        res.addLocals({
-          dropbox_email: info.email,
-          dropbox_name: info.name
-        });
+        res.addLocals({dropbox_email: info.email});
 
         res.title('Change your Dropbox account');
-        res.renderAccount('change-dropbox');
+        res.renderDashboard('folder/change-dropbox');
       });
     });
 
-  server.route('/account/change-dropbox/copy-files')
+  server.route('/folder/change-dropbox/copy-files')
 
     .get(function(req, res, next){
 
       if (!req.session.old_credentials)
-        return res.redirect('/account/change-dropbox');
+        return res.redirect('/folder/change-dropbox');
 
       info(req, function(err, info, new_client){
 
@@ -46,13 +45,10 @@ module.exports = function(server){
         // or the session will not be saved...
         req.session.old_credentials = null;
 
-        res.addLocals({
-          dropbox_email: info.email,
-          dropbox_name: info.name
-        });
+        res.addLocals({dropbox_email: info.email});
 
         res.title('Copy your files');
-        res.renderAccount('copy-files');
+        res.renderDashboard('folder/copy-files');
 
         old_client.authenticate(function(err, old_client){
 
@@ -68,7 +64,7 @@ module.exports = function(server){
 
               if (err) console.log(err);
 
-              console.log('Successfully changed the Dropbox account of', req.user.name);
+              console.log('Successfully changed the Dropbox account of', req.user.email);
             });
           });
         });

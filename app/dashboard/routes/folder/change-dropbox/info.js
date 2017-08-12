@@ -1,10 +1,10 @@
-var User = require('user');
+var Blog = require('blog');
 
 module.exports = function (req, callback) {
 
   // Todo store the db name & email so we don't have to
   // fetch this for every page load...
-  User.makeClient(req.user.uid, function(err, client){
+  Blog.makeClient(req.blog.id, function(err, client){
 
     if (err) return callback(err);
 
