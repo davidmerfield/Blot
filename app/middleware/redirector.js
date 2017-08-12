@@ -9,9 +9,12 @@ var HELP = '/help';
 var PRIVACY = '/privacy';
 var MAINTENANCE = '/maintenance';
 var ACCOUNT = '/account';
+var CONNECT = '/folder/connect';
+var AUTHENTICATE = '/folder/authenticate';
+var AUTHENTICATED = '/folder/authenticated';
 var PAY_SUBSCRIPTION = '/account/pay-subscription';
 var ENABLE = '/account/enable';
-var LOGOUT = '/account/logout';
+var LOGOUT = '/account/log-out';
 var DISABLED = '/account/disabled';
 
 var STATIC = [CONTACT, HELP, TERMS, PRIVACY];
@@ -39,6 +42,10 @@ module.exports = function (req, res, next) {
   function pathIsNot (path) {
     return !pathIs(path);
   }
+
+  // Make sure the user connects a Dropbox account to their blog
+  if (pathIsNot([CONNECT, AUTHENTICATE, AUTHENTICATED, LOGOUT]) && req.blog && !req.blog.credentials)
+    return res.redirect(CONNECT);
 
   if (pathIs(STATIC)) return next();
 
