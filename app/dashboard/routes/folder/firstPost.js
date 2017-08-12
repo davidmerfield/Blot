@@ -4,19 +4,19 @@ var localWelcome = helper.rootDir + '/app/welcome.txt';
 var localPath = helper.localPath;
 var welcomePath = '/welcome.txt';
 var copyFile = helper.copyFile;
-var User = require('user');
+var Blog = require('blog');
 var ensure = helper.ensure;
 var fs = require('fs');
 
-function writeWelcome (uid, folder, callback) {
+function writeWelcome (blogID, folder, callback) {
 
   callback = callback || function(){};
 
-  ensure(uid, 'string')
+  ensure(blogID, 'string')
     .and(folder, 'string')
     .and(callback, 'function');
 
-  User.makeClient(uid, function(err, client){
+  Blog.makeClient(blogID, function(err, client){
 
     if (err) return console.log(err);
 

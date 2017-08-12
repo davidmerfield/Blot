@@ -6,6 +6,9 @@ var localPath = helper.localPath;
 
 module.exports = function(server){
 
+  require('./authenticate')(server);
+  require('./change-dropbox')(server);
+
   server.get(['/', '/~*'], function(req, res, next){
 
     var dir = req.path.slice('/~'.length) || '/';
