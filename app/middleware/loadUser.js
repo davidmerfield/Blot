@@ -1,5 +1,4 @@
 var User = require('user');
-var Csurf = require('csurf');
 
 module.exports = function (req, res, next) {
 
@@ -7,7 +6,7 @@ module.exports = function (req, res, next) {
 
   var uid = req.session.uid;
 
-  User.getBy({uid: uid}, function(err, user){
+  User.getById(uid, function(err, user){
 
     if (err) return next(err);
 
@@ -19,20 +18,9 @@ module.exports = function (req, res, next) {
 
     // Lets append the user and
     // set the partials to 'logged in mode'
-    req.user = user;
+    req.user = User.extend(user);
     res.addLocals({user: user});
 
-    Csurf()(req, res, function(err){
-
-      if (err) return next(err);
-
-      // Load the CSRF protection since we're
-      // inside the app,
-      res.addLocals({
-        csrftoken: req.csrfToken()
-      });
-
-      return next();
-    });
+    next();
   });
 };
