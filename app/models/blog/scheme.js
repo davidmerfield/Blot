@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 // Type for each LINK
 var LINK = {id: 'string', metadata: 'object', label: 'string', url: 'string'};
 
