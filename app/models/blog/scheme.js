@@ -12,6 +12,7 @@ var DECLARATION = {
   folder:       ['string',  true,   true],
   handle:       ['string',  true,   true],
   folderState:  ['string',  true,   false],
+  credentials:  ['object',  true,   false],
   title:        ['string',  true,   true],
   isDisabled:   ['boolean', true,   false],
   avatar:       ['string',  true,   true],
