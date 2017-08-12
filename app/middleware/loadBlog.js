@@ -24,6 +24,10 @@ module.exports = function (req, res, next) {
 
   }, function(){
 
+    if (!activeBlog && !req.session.blogID) {
+      activeBlog = blogs.slice().pop();
+    }
+
     // The blog active in the users session
     // no longer exists, redirect them to one
     if (!activeBlog && req.session.blogID) {
@@ -44,6 +48,8 @@ module.exports = function (req, res, next) {
         console.log('THERES NOTHING HERE');
       }
     }
+
+    if (!activeBlog) return next(new Error('No blog'));
 
     req.blog = Blog.extend(activeBlog);
     req.blogs = blogs;
