@@ -1,13 +1,11 @@
 
-  <form method='post' action='?_csrf={{csrftoken}}'>
+  <form method='post'>
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
         <fieldset>
 
-
-          <label>Name:
-            <input type="text" name="name" value="{{user.name}}" placeholder=""/>
-            <span class="error">{{errors.name}}</span>
-          </label>
+          <p><a href="/account/change-password">Change your password</a></p>
 
           <label>Email:
             <input class="noMargin" type="text" name="email" value="{{user.email}}" placeholder=""/>
@@ -34,9 +32,9 @@
         </ul>
 
         <a class="button" href="/account/create-blog">Create a{{#user.blogs.length}}nother{{/user.blogs.length}} blog</a>
-        <br /><br />
+<!--         <br /><br />
         <a href="/account/change-dropbox">Change Dropbox account</a>
-        <br /><br />
+ -->        <br /><br />
         <a href="/account/export">Export your account data</a>
         </p>
 
