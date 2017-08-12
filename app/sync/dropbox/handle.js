@@ -1,50 +1,34 @@
 var helper = require('../../helper');
 var forEach = helper.forEach;
 var ensure = helper.ensure;
-
-var User = require('../../models/user');
-var Blog = require('../../models/blog');
-var makeClient = User.makeClient;
 var Change = require('./change');
-
 var filter = require('./filter');
 var buildFromFolder = require('../../modules/template').update;
 
-// var debug = require('./debug');
+module.exports = function (blog, client, changes, callback) {
 
-module.exports = function (uid, changes, callback) {
-
-  ensure(uid, 'string')
+  ensure(blog, 'object')
     .and(changes, 'array')
     .and(callback, 'function');
 
-  makeClient(uid, function(err, client){
+  // For each changed file, filter them to determine
+  // which blog the file belongs to, if any.
+  filter(blog.folder, changes, function(err, changes){
 
     if (err) return callback(err);
 
-    // For each changed file, filter them to determine
-    // which blog the file belongs to, if any.
-    filter(uid, changes, function(err, blogs){
+    forEach(changes, function(change, nextChange){
 
-      if (err) return callback(err);
+      Change(blog, client, change, function (err) {
 
-      forEach(blogs, function(blogID, changes, nextBlog){
+        if (err) console.log(err);
 
-        Blog.get({id: blogID}, function(err, blog){
+        nextChange();
+      });
+    }, function(){
 
-          forEach(changes, function(change, nextChange){
+      buildFromFolder(blog.id, callback);
 
-            Change(blog, client, change, function (err) {
-
-              if (err) console.log(err);
-
-              nextChange();
-            });
-          }, function(){
-            buildFromFolder(blogID, nextBlog);
-          });
-        });
-      }, callback);
     });
   });
 };

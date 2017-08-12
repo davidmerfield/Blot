@@ -3,7 +3,6 @@ var ensure = helper.ensure;
 var cache = require('../../../cache');
 var Compare = require('./compare');
 
-var User = require('../../../models/user');
 var Blog = require('../../../models/blog');
 var Emit = require('./emit');
 
@@ -35,7 +34,7 @@ function verify (blogID, callback) {
     if (err || !blog)
       throw err || 'No blog ' + blogID;
 
-    User.makeClient(blog.owner, function(err, client){
+    Blog.makeClient(blogID, function(err, client){
 
       if (err || !client)
         throw err || 'No client';

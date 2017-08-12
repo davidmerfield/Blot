@@ -5,9 +5,11 @@ var start = require('./start');
 // seperate process.
 require('./check');
 
-process.on('message', function(uid) {
+process.on('message', function(blogID) {
 
-  start(uid, function(err){
+  console.log(blogID);
+
+  start(blogID, function(err){
 
     if (err) {
       console.log(err);

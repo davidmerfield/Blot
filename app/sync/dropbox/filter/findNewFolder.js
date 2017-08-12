@@ -1,4 +1,6 @@
-var User = require('../../../models/user');
+// This is not in use right now.
+// I should reintegrate some of this functionality in future
+
 var Blog = require('../../../models/blog');
 
 var getBlogFolders = require('./getBlogFolders');
@@ -49,7 +51,7 @@ module.exports = function (blogID, removedFolder, changes, callback){
     // user's root directory to determine if
     // there are other, previously ignored
     // folders we could use.
-    getClient(blogID, function(err, client){
+    Blog.makeClient(blogID, function(err, client){
 
       if (err) return callback(err);
 
@@ -111,13 +113,5 @@ function getExisting (blogID, removedFolder, callback) {
 
       return callback(null, response);
     });
-  });
-}
-
-function getClient (blogID, callback){
-
-  Blog.get({id: blogID}, function(err, blog){
-
-    User.makeClient(blog.owner, callback);
   });
 }

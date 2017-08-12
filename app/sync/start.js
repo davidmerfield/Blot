@@ -1,13 +1,10 @@
 var helper = require('../helper');
-var forEach = helper.forEach;
 var ensure = helper.ensure;
 var Log = helper.logg;
 
 var Lease = require('./lease');
-
 var cache = require('../cache');
-
-var User = require('../models/user');
+var Blog = require('blog');
 var sync = require('./dropbox');
 
 var ERROR = {
@@ -17,23 +14,23 @@ var ERROR = {
 
 // This function is called when all we know
 // is a UID and that we want Blot to sync it.
-function start (uid, callback) {
+function start (blogID, callback) {
 
-  ensure(uid, 'string')
+  ensure(blogID, 'string')
     .and(callback, 'function');
 
   var options = {};
 
-  User.getBy({uid: uid}, function(err, user){
+  Blog.get({id: blogID}, function(err, blog){
 
-    if (!user || !user.uid)
-      return callback(uid + ' ' + ERROR.NO_USER);
+    if (!blog || !blog.id)
+      return callback(blogID + ' ' + ERROR.NO_BLOG);
 
-    if (user.isDisabled)
-      return callback(uid + ' ' + ERROR.DISABLED);
+    if (blog.isDisabled)
+      return callback(blogID + ' ' + ERROR.DISABLED);
 
     // Tag all the logs for this sync process
-    var log = new Log({uid: uid, process: 'Sync'});
+    var log = new Log({uid: blogID, process: 'Sync'});
 
     // Allow debug passed in options
     if (options.debug) log.debug = log;
@@ -41,31 +38,27 @@ function start (uid, callback) {
     // Pass in option logging function
     options.log = options.log || log;
 
-    var title = user.name + '\'s folder';
+    var title = blog.title + '\'s folder';
     var label = 'Synced ' + title + ' in';
 
-    Lease.request(uid, function(err, available){
+    Lease.request(blogID, function(err, available){
 
       if (err) return callback(err);
 
       if (!available) return callback();
 
       console.log();
-      console.log('Syncing', title, '(' + user.uid + ')');
+      console.log('Syncing', title, '(' + blog.id + ')');
       console.time(label);
 
-      sync(uid, options, function(){
+      sync(blogID, options, function(){
 
         console.timeEnd(label);
 
-        forEach(user.blogs, function(blogID, nextBlog){
-
-          cache.clear(blogID, nextBlog);
-
-        }, function(){
+        cache.clear(blogID, function(){
 
           // console.log('Releasing lease for', title);
-          Lease.release(uid, function(err){
+          Lease.release(blogID, function(err){
 
             if (err) return callback(err);
 
@@ -73,14 +66,14 @@ function start (uid, callback) {
             // a lease during the sync. If so, that means
             // we recieved another webhook for this folder
             // and need to sync at least ONE. MORE. TIME.
-            Lease.again(uid, function(err, retry){
+            Lease.again(blogID, function(err, retry){
 
               if (err) return callback(err);
 
               if (!retry) return callback();
 
               console.log('We recieved a webhook for this user during last sync, sync again...', title);
-              return start(uid, callback);
+              return start(blogID, callback);
             });
           });
         });
