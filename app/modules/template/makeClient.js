@@ -1,5 +1,4 @@
-var Blog = require('../../models/blog');
-var User = require('../../models/user');
+var Blog = require('blog');
 
 module.exports = function(blogID, callback) {
 
@@ -7,7 +6,7 @@ module.exports = function(blogID, callback) {
 
     if (err || !blog) return callback(err || 'No blog');
 
-    User.makeClient(blog.owner, function(err, client){
+    Blog.makeClient(blogID, function(err, client){
 
       if (err || !client) return callback(err || 'No client');
 
