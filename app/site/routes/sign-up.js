@@ -1,99 +1,136 @@
-module.exports = function(server){
+// Error Messages
+var BAD_CHARGE = 'We were unable to charge your card. Please fill out the form and try again, it should work.';
+var NO_EMAIL = 'Please enter an email address';
+var IN_USE = 'That email address is already used by another Blot account.';
+var DECLINED = 'Your card was declined, please try again.';
+var NO_CUSTOMER = 'No Customer';
 
-  var bodyParser = require('body-parser');
-  var Subscription = require('subscription');
-  var config = require('config');
-  var stripe = require('stripe')(config.stripe.secret);
-  var parseBody = bodyParser.urlencoded({extended:false});
-  var excludeUser = require('middleware').excludeUser;
+var Express = require('express');
+var config = require('config');
+var stripe = require('stripe')(config.stripe.secret);
+var parse = require('body-parser').urlencoded({extended:false});
+var User = require('user');
 
-  // Stripe Errors
-  var BAD_CHARGE = 'We were unable to charge your card. Please fill out the form and try again, it should work.';
-  var NO_EMAIL = 'Please enter an email address';
-  var DECLINED = 'Your card was declined, please try again.';
-  var DECLINED_CODE = 'StripeCardError';
+var signup = Express.Router();
+var paymentForm = signup.route('/');
+var passwordForm = signup.route('/create-account');
 
-  var TITLE = 'Sign up for Blot and start your blog';
+paymentForm.get(function(req, res){
 
-  if (config.maintenance) {
+  if (req.session && req.session.email && req.session.subscription)
+    return res.redirect(req.baseUrl + passwordForm.path);
 
-    server.use('/sign-up', function(req, res, next){
+  res.locals.title = 'Sign up for Blot and start your blog';
+  res.locals.error = req.query.error;
+  res.locals.stripe_key = config.stripe.key;
 
-      res.redirect('/maintenance');
-    });
-  }
+  res.render('sign-up-payment');
+});
 
-  server.route('/sign-up')
+paymentForm.post(parse, function(req, res, next){
 
-    // Authenticated users should not
-    // see this page. It is served over SSL
-    .all(excludeUser)
+  // Card is a stripe token generated on the client
+  var card = req.body && req.body.stripeToken;
+  var email = req.body && req.body.email;
 
-    .get(function(req, res){
+  if (!email)
+    return next(new Error(NO_EMAIL));
 
-      res.render('sign-up', {
-        title: TITLE,
-        error: req.query.error,
-        stripe_key: config.stripe.key
-      });
-    })
+  if (!card)
+    return next(new Error(BAD_CHARGE));
 
-    // Take a stripe token generated
-    // on the client and creates a charge
-    .post(parseBody, function(request, response, next){
+  User.getByEmail(email, function(err, existingUser){
 
-      var stripeToken = request.body.stripeToken;
-      var email = request.body.email;
+    if (err) return next(err);
 
-      if (!stripeToken)
+    if (existingUser) return next(new Error(IN_USE));
+
+    var info = {
+      card: card,
+      email: email,
+      plan: 'yearly_20',
+      description: 'Blot subscription'
+    };
+
+    stripe.customers.create(info, function (err, customer) {
+
+      if (err && err.type === 'StripeCardError') {
+        return next(new Error(DECLINED));
+      }
+
+      if (err) {
         return next(new Error(BAD_CHARGE));
+      }
 
-      if (!email)
-        return next(new Error(NO_EMAIL));
+      if (!customer) {
+        return next(new Error(NO_CUSTOMER));
+      }
 
-      var info = {
-        card: stripeToken,
-        email: email,
-        plan: 'yearly_20',
-        description: 'Blot subscription for $20 a year'
-      };
+      // Store the user's email and charge ID
+      // so that when the user returns from
+      // Dropbox we know they have a blot account
+      req.session.email = email;
+      req.session.subscription = customer.subscription;
 
-      stripe.customers.create(info, function (error, customer) {
-
-        if (error && error.type === DECLINED_CODE) {
-          return next(new Error(DECLINED));
-        }
-
-        if (error) {
-          return next(new Error(BAD_CHARGE));
-        }
-
-        if (customer) {
-
-          // Store the user's email and charge ID
-          // so that when the user returns from
-          // Dropbox we know they have a blot account
-          request.session.email = email;
-          request.session.subscription = customer.subscription;
-          request.session.newUser = true;
-
-          // Store the new customer's information
-          Subscription.save(customer.subscription, function(error){
-
-            if (error) throw error;
-
-            console.log('Customer: ' + customer.subscription.customer + ' charged successfuly for ' + email);
-
-            response.redirect('/connect');
-          });
-        }
-      });
+      console.log('Customer: ' + customer.subscription.customer + ' charged successfuly for ' + email);
+      res.redirect(req.baseUrl + passwordForm.path);
     });
+  });
+});
 
-  // This is error handling middleware
-  // specific to the sign up page
-  server.use('/sign-up', function (error, req, res, next){
-    res.redirect('/sign-up?error=' + encodeURIComponent(error.message));
-  })
-};
+passwordForm.all(function(req, res, next) {
 
+  if (!req.session || !req.session.email || !req.session.subscription)
+    return res.redirect(req.baseUrl + paymentForm.path);
+
+  next();
+});
+
+passwordForm.get(function(req, res){
+
+  res.locals.email = req.session.email;
+  res.locals.subscription = !!req.session.subscription;
+  res.locals.error = req.query.error;
+  res.locals.change_email = req.query.change_email;
+
+  res.render('sign-up-password');
+});
+
+passwordForm.post(parse, function(req, res, next){
+
+  var subscription = req.session.subscription;
+  var email = req.body.email;
+  var password = req.body.password;
+
+  if (!email) return next(new Error('Please choose an email address'));
+
+  if (!password) return next(new Error('Please choose a password'));
+
+  User.hashPassword(password, function(err, passwordHash) {
+
+    if (err) return next(err);
+
+    User.create(email, passwordHash, subscription, function(err, user){
+
+      if (err) return next(err);
+
+      delete req.session.email;
+      delete req.session.subscription;
+
+      req.session.uid = user.uid;
+
+      res.redirect('/account/create-blog');
+    });
+  });
+});
+
+// This is error handling middleware
+// specific to the sign up page
+signup.use(function (err, req, res, next){
+
+  if (err && err.message) return res.redirect(req.baseUrl + req.path + '?error=' + encodeURIComponent(err.message));
+
+  next();
+});
+
+module.exports = signup;
