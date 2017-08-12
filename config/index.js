@@ -12,7 +12,7 @@ var dropbox_test_app = flags.dropbox_test_app === true;
 var cache = flags.cache === true;
 var debug = flags.debug === true;
 
-var environment, host, protocol, stripe_secret;
+var environment, host, protocol, stripe_key, stripe_secret, pandoc_path;
 var dropbox_secret, dropbox_key;
 
 if (production) {
