@@ -107,7 +107,6 @@ module.exports = {
     "domain": "blot.im",
     "from": "David Merfield <david@blot.im>"
   },
-  },
 
   "s3": {
     "buckets": {
