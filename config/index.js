@@ -97,6 +97,11 @@ module.exports = {
     "secret": load('youtube.secret')
   },
 
+  "aws": {
+    "key": load('aws.key'),
+    "secret": load('aws.secret'),
+  },
+
   "mailgun": {
     "key": load('mailgun.key'),
     "domain": "blot.im",
@@ -105,8 +110,6 @@ module.exports = {
   },
 
   "s3": {
-    "key": load('s3.key'),
-    "secret": load('s3.secret'),
     "buckets": {
       "dump": "blot-dump",
       "blogs": "blot-blogs",
