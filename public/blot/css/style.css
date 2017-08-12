@@ -15,11 +15,27 @@ body {
   padding-left: 1.3em;
 }
 
-a {
+input[type="submit"].link {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  letter-spacing: 0;
+}
+
+input[type="submit"].link:focus {
+  outline: none;
+}
+
+a, input[type="submit"].link {
   color: black;
   text-decoration: none;
   border-bottom: 1px solid rgba(0,0,0,.4);
 }
+
+
 
 .nav > a,
 .nav > span {
@@ -80,7 +96,8 @@ iframe {margin: 1em 0}
 
 form {width: 300px}
 
-input[type="text"] {font-size: inherit;
+
+input[type="text"], input[type="password"] {font-size: inherit;
   padding: .66em;
   width: 100%;
   border-radius: 4px;

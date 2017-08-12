@@ -138,13 +138,15 @@ input[type="file"] {
 }
 
 form label,
-form input[type="text"] {
+form input[type="text"],
+form input[type="password"] {
   width: 100%;
   display: block;
 }
 
 form input[type="text"],
 form input[type="number"],
+form input[type="password"],
 textarea {
   padding: 0 0.66em;
   width: 100%;
@@ -169,6 +171,8 @@ form input[type="number"] {max-width: 60px}
 
 input[type="text"]:hover,
 input[type="text"]:focus,
+form input[type="password"]:hover,
+form input[type="password"]:focus,
 textarea:hover,
 textarea:focus {
   outline: none;
@@ -177,6 +181,7 @@ textarea:focus {
 }
 
 form input[type="text"]:focus,
+form input[type="password"]:focus,
 textarea:focus {
   background: #fff
 }
