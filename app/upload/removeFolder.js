@@ -11,8 +11,8 @@ var MAX_KEYS = 500;
 
 // Load in my credentials...
 AWS.config.update({
-  accessKeyId: config.s3.key,
-  secretAccessKey: config.s3.secret
+  accessKeyId: config.aws.key,
+  secretAccessKey: config.aws.secret
 });
 
 module.exports = function removeFolder (blogID, callback) {

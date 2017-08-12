@@ -33,8 +33,8 @@ var CDN_HOST = config.cdn.host;
 
 // Load in my credentials...
 AWS.config.update({
-  accessKeyId: config.s3.key,
-  secretAccessKey: config.s3.secret
+  accessKeyId: config.aws.key,
+  secretAccessKey: config.aws.secret
 });
 
 function upload (path, options, callback) {
