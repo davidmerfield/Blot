@@ -100,7 +100,8 @@ module.exports = {
   "mailgun": {
     "key": load('mailgun.key'),
     "domain": "blot.im",
-    "from": "David Merfield <dmerfield@gmail.com>"
+    "from": "David Merfield <david@blot.im>"
+  },
   },
 
   "s3": {
