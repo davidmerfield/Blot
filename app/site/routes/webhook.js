@@ -5,10 +5,10 @@ module.exports = function(server){
       secret = config.dropbox.secret,
 
       stripe = require('stripe')(config.stripe.secret),
-      Subscription = require('../../models/subscription'),
       email = require('../../email'),
       User = require('../../models/user');
 
+  var Blog = require('blog');
   var bodyParser = require('body-parser');
   var helper = require('../../helper');
   var forEach = helper.forEach.parallel;
@@ -43,36 +43,33 @@ module.exports = function(server){
 
         console.log('Retrieved latest subscription from stripe successfully');
 
-        Subscription.get(customerID, function(uid){
+        User.getByCustomerId(customerID, function(err, user){
 
-          if (!uid) return console.log('No user with uid ' + uid + ' and customerID ' + customerID);
+          var uid = user.uid;
 
-          User.getBy({uid: uid}, function(err, user){
-
-            User.set(uid, {subscription: latestSubscription}, function(errors){
-              if (errors) throw errors;
-            });
-
-            if (latestSubscription.status === 'canceled') {
-
-              if (user.isDisabled) {
-                email.ALREADY_CANCELLED(uid);
-              }
-
-              if (!user.isDisabled) {
-                email.CLOSED(uid);
-              }
-            }
-
-            if (latestSubscription.status === 'past_due') {
-              email.OVERDUE(uid);
-            }
-
-            if (latestSubscription.status === 'unpaid') {
-              email.OVERDUE_CLOSURE(uid);
-            }
-
+          User.set(uid, {subscription: latestSubscription}, function(errors){
+            if (errors) throw errors;
           });
+
+          if (latestSubscription.status === 'canceled') {
+
+            if (user.isDisabled) {
+              email.ALREADY_CANCELLED(uid);
+            }
+
+            if (!user.isDisabled) {
+              email.CLOSED(uid);
+            }
+          }
+
+          if (latestSubscription.status === 'past_due') {
+            email.OVERDUE(uid);
+          }
+
+          if (latestSubscription.status === 'unpaid') {
+            email.OVERDUE_CLOSURE(uid);
+          }
+
         });
       });
     }
@@ -132,12 +129,22 @@ module.exports = function(server){
         res.send('OK');
 
         // Sync each of the UIDs!
-        forEach(users, function(uid, next){
+        forEach(users, function(uid, nextUser){
+
+          // cast uid to string
+          uid = uid + '';
 
           console.log(new Date(), '... starting sync for', uid);
 
-          sync(uid.toString());
-          next();
+          Blog.getByDropboxUid(uid, function(err, blogs){
+
+            forEach(blogs, function(blog, nextBlog){
+
+              sync(blog.id);
+              nextBlog();
+
+            }, nextUser);
+          });
         }, function(){
 
           console.log(new Date(), '... started sync for each user!');
