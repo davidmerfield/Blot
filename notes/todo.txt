@@ -2,6 +2,11 @@
                          TO DO
                          -----
 
+Help larry set up his themes
+https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4
+
+Mass deletion of files did not remove the blog posts until verify tool was run on blog
+
 Allow dots in custom permalinks
 
 Local template editing did not clear cache
