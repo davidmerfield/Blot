@@ -21,7 +21,7 @@ module.exports = function (handle, callback) {
 
       var uid = blog.owner;
 
-      User.getBy({uid: uid}, function(err, user){
+      User.getById(uid, function(err, user){
 
         if (err || !user) throw err || 'No user';
 

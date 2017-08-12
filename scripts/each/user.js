@@ -11,7 +11,7 @@ module.exports = function (doThis, allDone, options) {
     .and(allDone, 'function')
     .and(options, 'object');
 
-  User.getAllUIDs(function(uids){
+  User.getAllIds(function(uids){
 
     if (!uids) throw 'Nothing';
 
