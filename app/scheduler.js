@@ -84,7 +84,7 @@ function cacheScheduler (callback) {
 
 function scheduleWarningEmails(callback) {
 
-  User.getAllUIDs(function(uids){
+  User.getAllIds(function(err, uids){
 
     var total = uids.length;
     var numberScheduled = 0;
@@ -95,7 +95,18 @@ function scheduleWarningEmails(callback) {
 
       var uid = uids.pop();
 
-      User.getBy({uid: uid}, function(err, user) {
+
+      User.getById(uid, function(err, user) {
+
+        if (err) {
+          console.log('Scheduler error:', err);
+          return syncNextUser();
+        }
+
+        if (!user) {
+          console.log('No user with uid', uid);
+          return syncNextUser();
+        }
 
         if (user.subscription &&
             user.subscription.current_period_end &&
@@ -115,7 +126,7 @@ function scheduleWarningEmails(callback) {
             });
 
           } else {
-            console.log('Warning email already sent (hopefully) to', user.name);
+            console.log('Warning email already sent (hopefully) to', user.email);
           }
         }
 
