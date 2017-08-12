@@ -7,10 +7,12 @@ var extend = helper.extend;
 var assert = require('assert');
 var log = new helper.logg('Email');
 var Mustache = require('mustache');
-var Mailgun = require('mailgun-js');
 var Remarkable = require('remarkable');
 var md = new Remarkable();
 
+var SEND_IN_DEV_ENV = true;
+
+var Mailgun = require('mailgun-js');
 var mailgun = new Mailgun({
   apiKey: config.mailgun.key,
   domain: config.mailgun.domain
@@ -44,6 +46,7 @@ var MESSAGES = [
   'RATE_LIMIT',
   'RESTART',
   'REVOKED',
+  'SET_PASSWORD',
   'SYNC_DOWN',
   'SYNC_EXCEPTION',
   'UPCOMING_RENEWAL',
@@ -82,7 +85,7 @@ function init (method) {
 
     if (!uid) return then();
 
-    User.getBy({uid: uid}, function(err, user){
+    User.getById(uid, function(err, user){
 
       if (err || !user)
         return log(err || 'No user with uid ' + uid);
@@ -137,7 +140,7 @@ function send (locals, messageFile, to, callback) {
 
     ensure(email, EMAIL_MODEL);
 
-    if (config.environment === 'development') {
+    if (config.environment === 'development' && !SEND_IN_DEV_ENV) {
       console.log(email);
       console.log('Email not sent >>>>>>> In development mode');
       return callback();
