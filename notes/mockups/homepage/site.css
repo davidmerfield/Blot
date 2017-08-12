@@ -8,8 +8,8 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, ul, ol, li, form, input, se
    font: inherit;
    position: relative;
    vertical-align: baseline;
-   -moz-box-sizing: border-box;   
-   -webkit-box-sizing: border-box;   
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
    box-sizing: border-box;
 }
 
@@ -17,7 +17,7 @@ body {
   font: 300 1em / 1.33em "Maison Neue Book", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* Global styles */ 
+/* Global styles */
 
 b {font: bold 1em / 1.33em "Maison Neue Bold";}
 
@@ -72,7 +72,7 @@ footer .wrapper {border-top: 1px solid #D6D6D6;padding-top: 1em}
 footer a {color: #aaa;margin-right: 0.66em}
 footer:after {content: "";width: 100%;display: block;}
 
-/* Type */ 
+/* Type */
 
 img {max-width: 100%}
 
@@ -112,7 +112,7 @@ a {text-decoration: none;color: inherit}
 .button {
   border-radius: 3em;
   color: #0F89BD;
-  background: #D7EDF7; 
+  background: #D7EDF7;
   padding: 0.33em 0.66em;
   margin: 0 0.33em;
   letter-spacing: 0.02em
@@ -204,7 +204,7 @@ form .expiration input {text-align: center;}
 form .expiration .month {width: 46%;border-radius: 4px 0 0 4px}
 form .expiration .year {width: 54%;border-radius: 0 4px 4px 0;margin-left: -1px}
 
-input[type="text"], textarea {
+input[type="text"], input[type="password"],  textarea {
   padding: 0.66em;
   width: 100%;
   font-size: 1.156em;
@@ -222,15 +222,15 @@ input[type="text"], textarea {
   transition: all .07s ease-out 0;
 }
 
-input[type="text"]:hover, textarea:hover,
-input[type="text"]:focus, textarea:focus {
+input[type="text"]:hover, textarea:hover, input[type="password"]:hover,
+input[type="text"]:focus, textarea:focus, input[type="password"]:focus {
   border-color: rgb(41, 147, 234);
   outline: none;
   position: relative;
   z-index: 1;
 }
 
-input[type="text"]:focus, textarea:focus {
+input[type="text"]:focus, textarea:focus, input[type="password"]:focus {
   box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.075), 0 0 6px rgb(41, 147, 234);
 }
 
