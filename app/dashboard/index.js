@@ -6,6 +6,8 @@ var compression = require('compression');
 var config = require('config');
 var add = middleware.add;
 var bodyParser = require('body-parser');
+var csurf = require('csurf');
+var csrf = csurf();
 
 dashboard
   .use(middleware.forceSSL)
@@ -21,7 +23,6 @@ dashboard
   .set('view engine', 'html')
   .set('views', __dirname + '/views')
   .engine('html', hogan);
-
 
 // For when we want to cache templates
 if (config.environment !== 'development')
@@ -68,7 +69,7 @@ dashboard.use(function(req, res, next){
 
   };
 
-  res.renderDashboard = function(view) {
+  res.renderDashboard = function(view, wrapper) {
 
     delete res.locals.partials;
 
@@ -92,7 +93,7 @@ dashboard.use(function(req, res, next){
 
     res.addLocals({tab: tab});
 
-    res.render('partials/wrapper');
+    res.render(wrapper || 'partials/wrapper');
   }
 
   next();
@@ -100,12 +101,25 @@ dashboard.use(function(req, res, next){
 
 dashboard.use(add());
 
+
+
 dashboard.use(middleware.messenger);
 dashboard.use(middleware.loadUser);
 dashboard.use(middleware.loadBlog);
 dashboard.use(middleware.redirector);
 
 dashboard.post(['/theme*', '/404s', '/account*', '/preferences*'], bodyParser.urlencoded({extended: false}));
+
+dashboard.use(csrf, function(req, res, next){
+
+  // Load the CSRF protection since we're
+  // inside the app,
+  res.addLocals({
+    csrftoken: req.csrfToken()
+  });
+
+  next();
+});
 
 require('./routes/account')(dashboard);
 require('./routes/editor')(dashboard);
