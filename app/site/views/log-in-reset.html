@@ -1,0 +1,27 @@
+<html>
+  {{> head}}
+  <body>
+        <br />
+    <br />
+        <div class="nav">
+     <a id="logo" href="/">Blot</a>
+     <a href="" ><span>Log in</span></a>
+      <span style="margin: 0 0.5em 0 -1em">→</span>
+      <span style="color:black;">Password</span>
+    </span>
+    </div>
+    <br />
+
+
+    <form method="POST">
+
+      {{#error}}
+      <p style="width:120%" class="box red">{{error}}</p>
+      {{/error}}
+
+      <p style="width:120%" class="box yellow">I just sent a link to set your password to <b>{{email}}</b></p>
+
+      <p style="width:120%">Please don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+    </form>
+  </body>
+</html>

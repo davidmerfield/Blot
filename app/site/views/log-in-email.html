@@ -1,0 +1,49 @@
+<html>
+  {{> head}}
+  <body>
+        <br />
+    <br />
+    <div class="nav">
+     <a id="logo" href="/">Blot</a>
+     <span style="color: black">Log in</span>
+      <span style="margin: 0 0.5em 0 -1em">→</span>
+      <span >Password</span>
+    </span>
+    </div>
+    <br />
+
+
+    <form method="POST">
+
+      {{#error}}
+      <p style="width:120%" class="box red">
+
+      {{#BADTOKEN}}
+      That link had expired or had already been clicked. Please try again or <a href="/contact">contact me</a> if you're having trouble logging in.
+      {{/BADTOKEN}}
+
+      {{#BADEMAIL}}
+      This email address is not associated with a Blot account. Please <a href="/contact">contact me</a> if you have forgotten your account's email.
+      {{/BADEMAIL}}
+
+      {{#NOEMAIL}}
+      Please enter an email address. If you have forgotten your email address, please <a href="/contact">contact me</a>.
+      {{/NOEMAIL}}
+
+      </p>
+      {{/error}}
+
+      {{^error}}
+      <p style="width:120%;">Welcome! Enter your email address below or <a href="/contact">contact me</a> if you've forgotten it.</p>
+      {{/error}}
+
+      <br>
+      <label for="email">Your email address:</label>
+      <input type="text" id="email" name="email" value="{{email}}" autofocus />
+      <br>
+      <input type="submit" class="submit button" value="Log in" />
+
+
+    </form>
+  </body>
+</html>
