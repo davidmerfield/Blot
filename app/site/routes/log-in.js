@@ -1,6 +1,6 @@
 // Error codes & their corresponding message
 var NOTOKEN = 'Could not generate a token';
-
+var moment = require('moment');
 var format = require('url').format;
 var parse = require('body-parser').urlencoded({extended:false});
 var Express = require('express');
@@ -8,13 +8,24 @@ var User = require('user');
 var Email = require('email');
 var config = require('config');
 
-// stores state locally, don't use this in production
-// var brute = require('express-brute');
-// var store = new brute.MemoryStore();
-// var limiter = new brute(store);
+var client = require('client');
+var Brute = require('express-brute');
+var RedisStore = require('express-brute-redis');
+
+var store = new RedisStore({
+    client: client,
+    prefix: 'brute:'
+});
+
+var limiter = new Brute(store, {
+  freeRetries: 200,
+  failCallback: onLimit,
+});
 
 var login = Express.Router();
 var form = login.route('/');
+
+form.all(limiter.prevent);
 
 form.get(checkToken, function(req, res){
   res.render('log-in-email');
@@ -23,6 +34,10 @@ form.get(checkToken, function(req, res){
 form.post(parse, checkEmail, checkReset, checkPassword);
 
 form.all(errorHandler);
+
+function onLimit (req, res, next, until) {
+  res.status(429).send('Log in rate limit hit. Please wait ' + moment(until).toNow(true) + ' before retrying.');
+}
 
 function checkToken (req, res, next) {
 
