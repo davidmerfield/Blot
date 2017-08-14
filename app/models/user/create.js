@@ -20,8 +20,6 @@ module.exports = function create (email, passwordHash, subscription, callback) {
     isDisabled: false,
     blogs: [],
     lastSession: '',
-    folderState: '',
-    credentials: {},
     email: email,
     subscription: subscription,
     passwordHash: passwordHash
