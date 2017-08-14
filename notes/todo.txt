@@ -2,26 +2,56 @@
                          TO DO
                          -----
 
-1. npm install all modules
-2. update configuration secrets
-   - s3.key moved to aws.key
-   - s3.secret moved to aws.secret
-   - mailgun.key was removed
-   - removed mailgun from config.js
-3. remove all sync keys which map to ids that no longer exist
-4. remove all subscription and customer keys, they no longer exist
-5. enable rate limiter on log in page.
-6. Make sure production blot Dropbox app has new authentication callback URL to
-7. Sync now takes a blogID instead of a uid
-8. Verify stripe rebooks still work
-9. moved makeClient to blog
-10. moved credentials and folderstate from user to blog
-11. verify that blot handles a uid collision gracefully
-12. I need to get and set all existing users so that getAllIds works.
-13. i have removed the subscription model entirely, stuff is stored in sessions until user is created.
+
+1. enable rate limiter on log in page.
+2. create migration script:
+- remove all sync keys which map to ids that no longer exist
+- move credentials and folderstate from each user to their blogs
+- move users to new uid system
+- get and set all existing users so that getAllIds works
+
+
+- Sync now takes a blogID instead of a uid
+- moved makeClient to blog
+- moved credentials and folderstate from user to blog
+- verify that blot handles a uid collision gracefully
+- i have removed the subscription model entirely, stuff is stored in sessions until user is created.
 14. user.getBy is removed -> user.getById & user.getByEmail
 15. blog renderer should not access credentials
 16. blog renderer should not access user info
+
+
+PRE-SHOW
+--------
+
+1. update configuration secrets
+   - copy s3.key to aws.key
+   - copy s3.secret to aws.secret
+
+2. Make sure production blot Dropbox app has new authentication callback URL to
+
+
+SHOWTIME
+--------
+
+git pull origin master
+
+npm install
+
+node scripts/migration.js
+
+sudo stop blot && sudo start blot
+
+
+APRES-SHOW
+----------
+
+1. remove s3.key
+2. remove s3.secret
+3. remove old blot webhook url from dropbox app console
+4. Verify stripe rebooks still work
+
+
 
 
 -------
