@@ -52,7 +52,7 @@ module.exports = function(server){
 
     var blog = req.blog;
 
-    Sync(req.user.uid, function(err){
+    Sync(blog.id, function(err){
 
       if (err) return next(err);
 
