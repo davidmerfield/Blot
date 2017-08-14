@@ -117,11 +117,6 @@ function checkPassword (req, res, next) {
   var password = req.body && req.body.password;
   var then = (req.query && req.query.then) || '/';
 
-  if (!user.passwordHash) {
-    res.locals.hasPassword = true;
-    return res.render('log-in-reset');
-  }
-
   if (password === '') {
     return next(new LogInError('NOPASSWORD'));
   }
