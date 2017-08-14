@@ -16,6 +16,7 @@
     "dropbox": "^0.10.3",
     "express": "^4.6.1",
     "express-brute": "^1.0.1",
+    "express-brute-redis": "0.0.1",
     "express-session": "^1.6.5",
     "fs-extra": "^3.0.1",
     "gravatar": "^1.0.6",
