@@ -95,7 +95,6 @@ function scheduleWarningEmails(callback) {
 
       var uid = uids.pop();
 
-
       User.getById(uid, function(err, user) {
 
         if (err) {
