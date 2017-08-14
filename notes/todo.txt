@@ -3,24 +3,6 @@
                          -----
 
 
-1. enable rate limiter on log in page.
-2. create migration script:
-- remove all sync keys which map to ids that no longer exist
-- move credentials and folderstate from each user to their blogs
-- move users to new uid system
-- get and set all existing users so that getAllIds works
-
-
-- Sync now takes a blogID instead of a uid
-- moved makeClient to blog
-- moved credentials and folderstate from user to blog
-- verify that blot handles a uid collision gracefully
-- i have removed the subscription model entirely, stuff is stored in sessions until user is created.
-14. user.getBy is removed -> user.getById & user.getByEmail
-15. blog renderer should not access credentials
-16. blog renderer should not access user info
-
-
 PRE-SHOW
 --------
 
@@ -49,7 +31,7 @@ APRES-SHOW
 1. remove s3.key
 2. remove s3.secret
 3. remove old blot webhook url from dropbox app console
-4. Verify stripe rebooks still work
+4. Verify stripe webhooks still work
 
 
 
