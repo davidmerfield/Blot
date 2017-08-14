@@ -20,13 +20,20 @@ module.exports = function(blogID, callback){
 
     Blog.get({id: blogID}, function(err, blog){
 
+      if (err) return callback(err);
+
       // Ensure any changes are nested by blog folder...
       changes.forEach(function(change){
         change.path = joinPath(blog.folder, change.path);
         change.stat.path = change.path;
       });
 
-      handle(blog.owner, changes, callback);
+      Blog.makeClient(blogID, function(err, client){
+
+        if (err) return callback(err);
+
+        handle(blog, client, changes, callback);
+      });
     });
   });
 };
