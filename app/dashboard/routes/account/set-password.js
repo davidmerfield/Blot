@@ -48,8 +48,8 @@ module.exports = function(server){
           User.set(uid, {passwordHash: passwordHash}, function(err){
 
             if (err) return next(err);
-            res.message({success: 'Changed password successfully!', url: '/account'});
-            res.redirect('/account');
+            res.message({success: 'Your password is now set!', url: '/'});
+            res.redirect('/');
           });
         });
       });
