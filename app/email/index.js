@@ -10,8 +10,6 @@ var Mustache = require('mustache');
 var Remarkable = require('remarkable');
 var md = new Remarkable();
 
-var SEND_IN_DEV_ENV = true;
-
 var Mailgun = require('mailgun-js');
 var mailgun = new Mailgun({
   apiKey: config.mailgun.key,
@@ -140,7 +138,7 @@ function send (locals, messageFile, to, callback) {
 
     ensure(email, EMAIL_MODEL);
 
-    if (config.environment === 'development' && !SEND_IN_DEV_ENV) {
+    if (config.environment === 'development' && to !== FROM) {
       console.log(email);
       console.log('Email not sent >>>>>>> In development mode');
       return callback();
