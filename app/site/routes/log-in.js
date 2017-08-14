@@ -18,7 +18,7 @@ var store = new RedisStore({
 });
 
 var limiter = new Brute(store, {
-  freeRetries: 200,
+  freeRetries: 200, // max # of access to log in pages per day
   failCallback: onLimit,
 });
 
