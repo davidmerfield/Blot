@@ -58,14 +58,6 @@ module.exports = function(server){
 
             if (err) console.log(err);
 
-            // Now sync the user's folder
-            // to make sure it's in order
-            sync(req.user.uid, function(err){
-
-              if (err) console.log(err);
-
-              console.log('Successfully changed the Dropbox account of', req.user.email);
-            });
           });
         });
       });
