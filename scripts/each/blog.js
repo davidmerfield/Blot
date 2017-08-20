@@ -81,7 +81,7 @@ module.exports = function (doThis, allDone, options) {
           return nextBlog();
         }
 
-        User.getBy({uid: blog.owner}, function(err, user){
+        User.getById(blog.owner, function(err, user){
 
           if (err || !user) throw err || 'No user with uid ' + blog.owner;
 
