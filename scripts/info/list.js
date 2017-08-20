@@ -13,6 +13,8 @@ eachBlog(function(user, blog, next){
     // user requries SSL to visit blog
     uri: 'http://' + blog.domain + '/verify/domain-setup',
 
+    timeout: 1000,
+
     // The request module has a known bug
     // which leaks memory and event emitters
     // during redirects. We cap the maximum
@@ -23,6 +25,8 @@ eachBlog(function(user, blog, next){
   };
 
   request(options, function(err, res, body){
+
+    if (err) {console.log(err);return next();}
 
     if (body !== blog.handle) return next();
 
