@@ -3,15 +3,6 @@
                          -----
 
 
-PRE-SHOW
---------
-
-1. update configuration secrets
-   - copy s3.key to aws.key
-   - copy s3.secret to aws.secret
-
-2. Make sure production blot Dropbox app has new authentication callback URL to
-
 
 SHOWTIME
 --------
@@ -20,9 +11,11 @@ git pull origin master
 
 npm install
 
+sudo stop blot
+
 node scripts/migration.js
 
-sudo stop blot && sudo start blot
+sudo start blot
 
 
 APRES-SHOW
@@ -33,11 +26,10 @@ APRES-SHOW
 3. remove old blot webhook url from dropbox app console
 4. Verify stripe webhooks still work
 
-
-
-
 -------
 
+Fix bug with empty metadata, which causes all metadata to be ignored
+https://mail.google.com/mail/u/0/#inbox/15dfcde80078b2e4
 
 Help larry set up his themes
 https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4
