@@ -42,7 +42,7 @@ function onLimit (req, res, next, until) {
 function checkToken (req, res, next) {
 
   var token = req.query && req.query.token;
-  var then = (req.query && req.query.then) || '/';
+  var then = (req.query && decodeURIComponent(req.query.then)) || '/';
 
   if (!token) return next();
 
