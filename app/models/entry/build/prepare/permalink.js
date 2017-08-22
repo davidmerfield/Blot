@@ -56,6 +56,10 @@ module.exports = function (timeZone, format, entry) {
 
     // this needs a better name but make sure to update any
     // existing custom formats for folks...
+    view['name-without-extension'] = view.name.slice(0, view.name.lastIndexOf('.'));
+
+    // this needs a better name but make sure to update any
+    // existing custom formats for folks...
     view['slug-without-diacritics'] = removeDiacritics(view.slug);
 
     // we don't want mustache to escape anything...
