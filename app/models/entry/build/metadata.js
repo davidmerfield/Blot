@@ -1,5 +1,6 @@
 var helper = require('../../../helper');
 var ensure = helper.ensure;
+var assert = require('assert');
 
 function Metadata (contents) {
 
@@ -38,11 +39,10 @@ function Metadata (contents) {
       firstCharacter === '#' ||
 
       // this line is probably an HTML tag
-     (firstCharacter === '<' && line.slice(0,4) !== '<!--') ||
+     (firstCharacter === '<' && line.slice(0,4) !== '<!--')) {
 
-      // the colon in this line is not followed by a space
-      line.charAt(firstColon + 1) !== ' ') {
       break;
+
     }
 
     // The key is lowercased and trimmed
