@@ -99,4 +99,39 @@ function Metadata (contents) {
   };
 }
 
+function test (input, output) {
+  assert.deepEqual(Metadata(input.join('\n')).metadata, output);
+}
+
+// Empty metadata should still work
+test([
+'Page:yes',
+'Permalink:',
+'Date: 12/10/12',
+'',
+'# Hi'
+], {permalink: '', page: 'yes', date: '12/10/12'});
+
+test([
+'Author:me',
+'',
+'What about a colon in the next line: yes you.'
+], {author: 'me'});
+
+test([
+'only:metadata',
+'in:this',
+], {only: 'metadata', in:'this'});
+
+test([
+'# Since the title: is on the first line, no metada should be extracted',
+'Date: 1'
+], {});
+
+test([
+'Operation: Fast and Furious.',
+'Hello.',
+'Bar'
+], {operation: 'Fast and Furious.'});
+
 module.exports = Metadata;
