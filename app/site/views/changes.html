@@ -1,0 +1,41 @@
+<h1>Changes</h1>
+
+<p>The lists below are generated automatically from my notes and from Blot's version control. Please don't hesitate to <a href="/contact">contact me</a> with any questions or suggestions.</p>
+
+<div style="width: 1200px">
+
+<style type="text/css">
+
+body {-webkit-font-smoothing: antialiased;}
+
+.todo p:before,
+.commits p:before {
+  content:"";
+  font-size:0.66em;
+  margin:0.5em 1em -0.1em -2.3em;
+  width:1em;height:1em;border-radius:3em;
+  border:2px solid #000;
+  display: inline-block;
+}
+
+.commits p:before{background: #000 url('/images/check.png');border-color:#000;background-size: 1.4em;background-position: center center}
+</style>
+<div class="todo" style="width: 480px;float: left;">
+<h1>To do</h1>
+
+<div style="padding-left: 1.5em">
+{{{todo}}}
+</div>
+</div>
+<div class="commits" style="width: 480px;float: left;margin-left: 8em">
+<h1>Done</h1>
+
+{{#commits}}
+<p style="padding-left: 1.5em">{{message}} <br>
+<span  class="small" style="line-height: 27px">{{date}} <!-- by {{author}} <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">View and discuss changes</a> --></span>
+</p>
+{{/commits}}
+</div>
+
+<div class="clear"></div>
+</div>

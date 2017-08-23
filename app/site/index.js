@@ -98,6 +98,7 @@ site.use(['/sign-up*', '/log-in*', '/set-password*'], function(req, res, next){
 
 require('./routes/help')(site);
 require('./routes/static')(site);
+require('./routes/changes')(site);
 require('./routes/webhook')(site);
 
 site.use('/sign-up', require('./routes/sign-up'));
