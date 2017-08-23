@@ -6,16 +6,15 @@ module.exports = function(server){
   var CHANGES = 'git log -100';
   var fs = require('fs-extra');
   var marked = require('marked');
+  var helper = require('helper');
 
   server.get('/changes', function(req, res, next){
 
     fs.readFile(TODO, 'utf-8', function(err, todo){
 
-      exec(CHANGES, function(err, output){
+      exec(CHANGES, {cwd: helper.rootDir}, function(err, output){
 
         if (err) return next(err);
-
-        console.log(output);
 
         output = output.split('\n\n');
 
@@ -36,9 +35,7 @@ module.exports = function(server){
               message: message
             });
           }
-
         });
-
 
         res.addLocals({
           partials: {yield: 'changes'},
