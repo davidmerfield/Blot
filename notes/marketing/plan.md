@@ -1,3 +1,13 @@
+Blot turns a folder into a website.
+
+Blot creates a new folder inside your Dropbox. It publishes files you put inside. Images, text files, Markdown, Word Documents, bookmarks and more are published automatically.
+
+Use your favourite app to create. Just drag-and-drop files into Blot’s folder in your Dropbox when you're ready to publish them to the internet.
+
+There's no complicated CMS, publishing interface and nothing to install. Just files and folders inside your Dropbox.
+
+
+
 2. Write entries on my blog with link back to Blot
   - write about the design process
   - write about using dropbox api with node
