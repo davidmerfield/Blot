@@ -1,114 +1,56 @@
+Migrate to Dropbox API V2.
 
-                         TO DO
-                         -----
+Set up SSL for all blogs
 
-
-
-SHOWTIME
---------
-
-backup
-
-git pull origin master
-
-npm install
-
-sudo stop blot
-
-node scripts/migration.js
-
-sudo start blot
-
-
-APRES-SHOW
-----------
-
-1. remove s3.key
-2. remove s3.secret
-3. remove old blot webhook url from dropbox app console
-4. Verify stripe webhooks still work
-
--------
-
-Fix bug with empty metadata, which causes all metadata to be ignored
-https://mail.google.com/mail/u/0/#inbox/15dfcde80078b2e4
-
-Help larry set up his themes
-https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4
-
-Mass deletion of files did not remove the blog posts until verify tool was run on blog
-
-Allow dots in custom permalinks
-
-Local template editing did not clear cache
-
-Fix bug which sometimes means new user's blogs are named "'s blog". Seems like account info fetch from Dropbox sometimes fails?
+Re-do demo video to explain the sites I run using it:
+ - Blot's developer blog: a conventional blog, show using different text editors
+ - My visual scrapbook: shows tag folders, photo blog
+ - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
+ - My personal site: simple landing page, edit with a doc file?
 
 Redesign template system to make it easy to customize and create them.
 
-  Make templates file / folder based
-     - cp www/blogs/* -> /blogs/{{id}}/assets
+Make templates file / folder based
+cp www/blogs/* -> /blogs/{{id}}/assets
 
-  Disable re-rendering for template locals
+Disable re-rendering for template locals
 
-  use hogan for precompiling and rendering templates?
-  https://github.com/twitter/hogan.js
-  https://github.com/twitter/hogan.js/issues/19 - precompilation
-  http://twitter.github.io/hogan.js/
+Local template editing does not clear cache
 
-  let A know it's possible to set routes locally
-  https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554
+Use hogan for precompiling and rendering templates?
 
-  Add retrieve method to allow all entry lists to access   {{#months}} sorting options
-  just like the archives page.
+Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know it's possible to set routes locally
 
-  Frank template bug
-  https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#search/Make+some+changes+(probably+not+necessary)/1527fbcf999ba0c3
+Add retrieve method to allow all entry lists to access {{#months}} sorting options just like the archives page.
 
-  Public files / hidden pages
-    Warn users that underscore will not work for hidden pages
-    Fix _ entries to true public files, tell john & other folks
-    Who depend on the menu: yes, page: no side effect
-    Tell rodrigo https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
-    don't write previews for _ posts
+Fix strange template bug and tell [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)
 
-Set up SSL for all blogs. See guides/ssl-vhosts for more info.
+Public files / hidden pages
+  Warn users that underscore will not work for hidden pages
+  Fix _ entries to true public files, tell john & other folks
+  Who depend on the menu: yes, page: no side effect
+  Tell rodrigo https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
+  don't write previews for _ posts
 
-Improve documentation
-  that you can do 'Disqus: $ID' at entry level
-  3 how-tos: link blog, magazine, website
+Improve the selection of templates, tell [this guy](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), Nash P., Chris S. and John P.
 
-Improve the selection of templates
-https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e
-Nash P.
-Chris S.
-John P.
-
-Improve demo video
-  must make sense as audio only, video only.
+Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4
 
 Increase price to $30 a year for NEW subscribers. This will not affect existing customers.
 
+---
 
+Improve nginx error pages
 
-------------------------------------------------------------------------------------------
+Add emails notifying user of any major account changes
 
+Removing date metadata should reset entry.datestamp to entry.created
 
+Basic video posts
 
-FEATURES FOR THE USER
----------------------
+Basic audio posts
 
-* Improve nginx error pages
-
-* Add emails notifying user of any major account changes
-
-* Removing date metadata should reset entry.datestamp to entry.created
-
-- Basic video posts
-
-- Basic audio posts
-
-- Multi-file posts from:
+Multi-file posts from:
   1. A folder? /Posts/(Album)/...
   2. Files with the same name but different extension (image.txt and image.jpg)
   Would I need to build a dependency tree for posts?
@@ -118,10 +60,10 @@ FEATURES FOR THE USER
       say foo.txt embeds /public/bar.jpg and is image cached
       make change to bar.jpg, foo.txt has cached old version etc...
 
-- Fix issue with returning users whose subscriptions have expired
-  https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1
+Fix issue with returning users whose subscriptions have expired
+https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1
 
-- Accept bitcoin subscription payments
+Accept bitcoin subscription payments
 
 
 
@@ -253,6 +195,8 @@ support regular expressions
 
   handle queries properly too
   https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
+
+Mass deletion of files did not remove the blog posts until verify tool was run on blog
 
 Allow users who are restarting an account with multiple blogs to disable some before restarting.
 
@@ -527,10 +471,4 @@ Add email list plugin for readers?
 Move to support folder renames for local template editing
 - hide image zoomer
 
-use pandoc for katex instead of seperate function
-
-
-
-
-
-
+Use pandoc for katex instead of seperate function
