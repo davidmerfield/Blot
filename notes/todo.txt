@@ -10,8 +10,9 @@ Re-do demo video to explain the sites I run using it:
 
 Redesign template system to make it easy to customize and create them.
 
-Make templates file / folder based
-cp www/blogs/* -> /blogs/{{id}}/assets
+Make templates file or folder based
+
+Move www/blogs/* to /blogs/{{id}}/assets
 
 Disable re-rendering for template locals
 
@@ -25,20 +26,19 @@ Add retrieve method to allow all entry lists to access {{#months}} sorting optio
 
 Fix strange template bug and tell [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)
 
-Public files / hidden pages
-  Warn users that underscore will not work for hidden pages
-  Fix _ entries to true public files, tell john & other folks
-  Who depend on the menu: yes, page: no side effect
-  Tell rodrigo https://mail.google.com/mail/u/0/#inbox/1564a13991197f63
-  don't write previews for _ posts
+Warn users that underscore will not work for hidden pages
+
+Fix _ entries to true public files, tell john & other folks
+Who depend on the menu: yes, page: no side effect
+
+Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63)
+don't write previews for _ posts
 
 Improve the selection of templates, tell [this guy](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), Nash P., Chris S. and John P.
 
-Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4
+Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4)
 
 Increase price to $30 a year for NEW subscribers. This will not affect existing customers.
-
----
 
 Improve nginx error pages
 
@@ -65,38 +65,28 @@ https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1
 
 Accept bitcoin subscription payments
 
+Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
+Migrate code from require('../../../') to shortcuts in node_modules.
 
-FEATURES BEHIND THE SCENES
---------------------------
+Ensure the routing in server.js is ordered to serve requests to blogs fastest, then the dashboard, then the marketing site.
 
-* Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
+Merge all the weird vhost lines into one glob.
 
-* Migrate code from require('../../../') to shortcuts in node_modules.
+Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
 
-* Ensure the routing in server.js is ordered to serve requests to blogs fastest, then the dashboard, then the marketing site.
+Add method to pause syncing and prevent future syncs
+then use this method with the create/remove blog migration too.
 
-* Merge all the weird vhost lines into one glob.
+Use NGINX to send all Blot's static files
 
-- Use a string-difference algorithm to improve rename recognition?
-  Something with a funny name like Jaro–Winkler distance.
+Add hourly local redis rdb dumps
 
-- Add method to pause syncing and prevent future syncs
-  then use this method with the create/remove blog migration too.
+Add script to roll back into hourly local db dumps and remote backups
 
-- Use NGINX to send all Blot's static files
+Install nginx fail2ban & http2
 
-- Add hourly local redis rdb dumps
-
-- Add script to roll back into hourly local db dumps and remote backups
-
-- nginx fail2ban & http2
-
-
-SERVER ADMIN
-------------
-
-fix bug with cron job to renew letsencrypt ssl certs
+Fix bug with cron job to renew letsencrypt ssl certs
 
 Work out why blotcdn is so slow for https://latency.apex.sh
 
@@ -106,8 +96,7 @@ Delete backups older than a month from s3 automatically
 
 Add daemon for zero-downtime node restart
 
-Set up autorecovery
-https://aws.amazon.com/blogs/aws/new-auto-recovery-for-amazon-ec2/
+Set up AWS autorecovery
 
 Test with instance reboot on live site
 
@@ -117,9 +106,7 @@ Test monit with blot going down
 
 Lease new instance for 12 months
 
-
-IDEAS
------
+---
 
 Download the webpage for bookmark files and try to extract title + summary
 
@@ -150,18 +137,13 @@ https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
 Frank image cache bug for dropshadow
 drexore /draft/view/Drafts/debugging.md
 
-Move to pretty IDs for everything
-  lowercase: acemnorsuvwxz
-  uppercase: 1234567890bdfhijkl
-  https://jsfiddle.net/sg1z5had/
+Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
+- lowercase: acemnorsuvwxz ?
+- uppercase: 1234567890bdfhijkl ?
+- [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
+- [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
 
-  cool user subdomains
-  https://jsfiddle.net/ev2gLa87/
-
-  generating dope domain names
-  https://jsfiddle.net/91vwt7p0/
-
-make the source folder on the per-blog basis (not per account) so theoretically a blot user could have two different dropbox accounts.
+Make the source folder on the per-blog basis (not per account) so theoretically a blot user could have two different dropbox accounts.
 
   Add folder section to settings page? radio buttons?
   how to ensure this won't fuck up other blogs
@@ -184,11 +166,6 @@ make the source folder on the per-blog basis (not per account) so theoretically 
 
   make the sync / rebuild proceses run with unpriviledged
   user permissions to ensure shit isnt fucked with user input...
-
-
-
-
-
 
 Re-do url redirector to use route-parser and properly
 support regular expressions
@@ -297,8 +274,6 @@ add {{#tagged:Book reports}}
 
 add supoprt for dynamic partials to make collections possible
   e.g. {{> /{{tag}}.html}} ?
-
-expose site.author --> make this clear during sign up
 
 add support for date_first_post -> date_last post
 
