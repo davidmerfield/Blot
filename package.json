@@ -13,7 +13,7 @@
     "connect-redis": "^2.0.0",
     "csurf": "1.9.0",
     "datejs": "^1.0.0-rc3",
-    "dropbox": "^0.10.3",
+    "dropbox": "^2.5.7",
     "express": "^4.6.1",
     "express-brute": "^1.0.1",
     "express-brute-redis": "0.0.1",
