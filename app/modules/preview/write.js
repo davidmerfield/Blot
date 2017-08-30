@@ -17,21 +17,17 @@ module.exports = function (blogID, client, path) {
       return;
     }
 
-    client.writeFile(remotePath, contents, function then (err) {
+    client
+      .filesUpload({path: remotePath, contents: contents})
+      .then(function(){
 
-      // Happens when the user removes the parent directory for
-      // the draft. Don't bother writing again.
-      if (err && err.status === 404)
-        return;
 
-      // Happens when the user makes a series of overlapping updates
-      // to draft file, so Blot issues simultaneous requests to write
-      // the preview file. Not a big deal, since the preview file's
-      // contents don't change (just an iframe to Blot).
-      if (err && err.status === 503)
-        return;
+      })
+      .catch(function(err){
 
-      if (err) console.log(err);
-    });
+        console.log(err);
+
+      });
+
   });
 };

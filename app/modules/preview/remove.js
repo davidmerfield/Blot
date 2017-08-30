@@ -46,40 +46,46 @@ module.exports = function (client, _path, callback) {
     return callback();
   }
 
-  client.remove(path, function done (err){
+  client
+    .filesDelete({path: path})
+    .then(callback)
+    .catch(function onerr (err){
 
-    // the preview file didn't exist
-    // It's possible the user had already
-    if (err && err.status === 404) {
-      return callback(null);
-    }
+      // the preview file didn't exist
+      // It's possible the user had already
+      if (err && err.status === 404) {
+        return callback(null);
+      }
 
-    // This almost certainly occurs when
-    // we hit API limits. We back off,
-    // doubling the delay with each attempt.
-    if (canRetry(err) && attempts < MAX_ATTEMPTS) {
+      // This almost certainly occurs when
+      // we hit API limits. We back off,
+      // doubling the delay with each attempt.
+      if (canRetry(err) && attempts < MAX_ATTEMPTS) {
 
-      delay *= 2;
-      attempts++;
+        delay *= 2;
+        attempts++;
 
-      return setTimeout(function(){
+        return setTimeout(function(){
 
-        client.remove(path, done);
+          client
+            .filesDelete({path: path})
+            .then(callback)
+            .catch(onerr);
 
-      }, delay);
-    }
+        }, delay);
+      }
 
-    // We don't pass this error up the chain
-    // since it's not really that important.
-    // I figure the user can always remove the
-    // preview file themselves.
-    if (err) {
-      console.log('Error removing preview file', path);
-      console.log(err);
-    } else {
-      console.log('Removed preview file', path);
-    }
+      // We don't pass this error up the chain
+      // since it's not really that important.
+      // I figure the user can always remove the
+      // preview file themselves.
+      if (err) {
+        console.log('Error removing preview file', path);
+        console.log(err);
+      } else {
+        console.log('Removed preview file', path);
+      }
 
-    callback();
-  });
+      callback();
+    });
 };
