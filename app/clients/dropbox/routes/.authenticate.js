@@ -12,15 +12,6 @@ module.exports = function(server){
       config = require('config'),
       callbackUrl = 'https://' + config.host + '/folder/authenticated';
 
-  server.get('/folder/connect', function(req, res){
-
-    var error = req.query && req.query.error;
-
-    if (error) res.locals.error = decodeURIComponent(error);
-
-    res.renderDashboard('folder/connect', 'folder/wrapper');
-  });
-
   server.get('/folder/authenticate', function (request, response) {
 
     var _session = {};

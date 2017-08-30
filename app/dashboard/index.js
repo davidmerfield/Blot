@@ -8,6 +8,7 @@ var add = middleware.add;
 var bodyParser = require('body-parser');
 var csurf = require('csurf');
 var csrf = csurf();
+var Clients = require('clients');
 
 dashboard
   .use(middleware.forceSSL)
@@ -121,6 +122,8 @@ dashboard.use(csrf, function(req, res, next){
   next();
 });
 
+dashboard.use('/clients', Clients.routes);
+
 require('./routes/account')(dashboard);
 require('./routes/editor')(dashboard);
 require('./routes/folder')(dashboard);
@@ -132,6 +135,8 @@ require('./routes/theme')(dashboard);
 // need to handle dashboard errors better...
 dashboard.use(function(err, req, res, next) {
   console.log(err);
+  console.log(err.trace);
+  console.log(err.stack);
   res.status(500);
   res.send(':( Error');
 });

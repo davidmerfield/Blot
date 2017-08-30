@@ -6,8 +6,7 @@ var localPath = helper.localPath;
 
 module.exports = function(server){
 
-  require('./authenticate')(server);
-  require('./change-dropbox')(server);
+  require('./connect')(server);
 
   server.get(['/', '/~*'], function(req, res, next){
 
