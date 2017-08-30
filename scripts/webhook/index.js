@@ -2,10 +2,10 @@ require('../only_locally');
 require('shelljs/global');
 
 var config = require('../../config');
-var uid = '2302164';
+var account_id = 'dbid:AAAsD4hYhV-hwl7Ti2jbK24ExD2EakNgyow';
 
 var options = require('minimist')(process.argv.slice(2));
-var webhook = 'python scripts/webhook/dropbox_hook.py notify https://blot.development/webhook --secret ' + config.dropbox.secret + ' --user ' + uid;
+var webhook = 'python scripts/webhook/dropbox_hook.py notify https://blot.development/webhook --secret ' + config.dropbox.secret + ' --account ' + account_id;
 
 if (options.c) {
 
