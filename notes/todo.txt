@@ -3,6 +3,7 @@ Migrate to Dropbox API V2.
 - Migrate existing users from uid to account_id
 - Verify functioning OA2 access token for active blogs (open, used within last year)
 - Verify production web hook exists
+- Migrate existing blog dropbox keys to client keys
 
 Set up SSL for all blogs
 
