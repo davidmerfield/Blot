@@ -3,12 +3,9 @@ var ensure = helper.ensure;
 var time = helper.time;
 
 var mtime = require('./mtime');
-
 var callOnce = helper.callOnce;
-var mkdirp = helper.mkdirp;
-var dirname = require('path').dirname;
 
-var fs = require('fs');
+var fs = require('fs-extra');
 
 // Error codes from Dropbox's API
 var TRY_AGAIN = [
@@ -18,8 +15,6 @@ var TRY_AGAIN = [
 
 var INIT_DELAY = 2000;
 var MAX_ATTEMPTS = 10;
-
-var OPTIONS = {buffer: true};
 
 function download (client, from, to, _callback) {
 
@@ -39,8 +34,36 @@ function download (client, from, to, _callback) {
   var delay = INIT_DELAY;
   var attempts = 1;
 
+
   // This is called when the download has finished.
-  client.readFile(from, OPTIONS, function done (error, buffer, stat) {
+  client.filesDownload({path: from})
+    .then(success)
+    .catch(fail);
+
+  function success (res){
+
+    // the format of this stat differs
+    // from the info returns from dropbox
+    // for requests to /delta this is =
+    // to stat.client_mtime
+    var modified = res.client_modified;
+
+    // Ensure the directory into which
+    // we're downloading the file exists
+    fs.outputFile(to, res.fileBinary, function (err) {
+
+      if (err) return callback(err);
+
+      mtime(to, modified, function(err){
+
+        if (err) return callback(err);
+
+        callback(null);
+      });
+    });
+  }
+
+  function fail (error){
 
     // If error, determine whether or not to try again.
     if (shouldRetry(error) && attempts < MAX_ATTEMPTS) {
@@ -50,39 +73,16 @@ function download (client, from, to, _callback) {
 
       return setTimeout(function(){
 
-        client.readFile(from, OPTIONS, done);
+        client.filesDownload({path: from})
+          .then(success)
+          .catch(fail);
 
       }, delay);
     }
 
-    if (error || !buffer || !stat)
-      return callback(error || 'No buffer or stat object');
+    callback(error);
+  }
 
-    // the format of this stat differs
-    // from the info returns from dropbox
-    // for requests to /delta this is =
-    // to stat.client_mtime
-    var modified = stat._json.client_mtime;
-
-    // Ensure the directory into which
-    // we're downloading the file exists
-    mkdirp(dirname(to), function (err) {
-
-      if (err) return callback(err);
-
-      var ws = fs.createWriteStream(to);
-
-      ws.on('error', callback);
-
-      ws.on('finish', function(){
-        mtime(to, modified, callback);
-      });
-
-      ws.write(buffer);
-
-      ws.end();
-    });
-  });
 }
 
 function shouldRetry (error) {

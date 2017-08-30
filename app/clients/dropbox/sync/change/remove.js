@@ -24,11 +24,11 @@ module.exports = function (blog, change, client, callback){
 
   ensure(blog, 'object')
     .and(change, 'object')
-    .and(change.path, 'string')
+    .and(change.path_display, 'string')
     .and(client, 'object')
     .and(callback, 'function');
 
-  var path = change.path;
+  var path = change.path_display;
   var localPath = LocalPath(blog.id, path);
   var remotePath = RemotePath(blog.folder, path);
 

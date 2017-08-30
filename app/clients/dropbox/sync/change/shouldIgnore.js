@@ -21,28 +21,28 @@ function isTemplate (path) {
 }
 
 
-module.exports = function(file) {
+module.exports = function(change) {
 
-  ensure(file, 'object');
+  ensure(change, 'object');
 
-  if (file.stat && file.stat.is_dir)
+  var path = change.path_display;
+
+  if (change['.tag'] === 'folder')
     return false;
 
   // This must go up top
   // since we want to ignore
   // all large files, even for public
   // and templates.
-  if (tooLarge(file)) return REASONS.TOO_LARGE;
+  if (tooLarge(change)) return REASONS.TOO_LARGE;
 
   // Public and template files
   // have none of the restrictions below.
-  if (isPublic(file.path) ||
-      isTemplate(file.path) ||
-      file.wasRemoved) return false;
+  if (isPublic(path) || isTemplate(path)) return false;
 
-  if (isPreview(file.path)) return REASONS.PREVIEW;
+  if (isPreview(path)) return REASONS.PREVIEW;
 
-  if (isWrongType(file.path)) return REASONS.WRONG_TYPE;
+  if (isWrongType(path)) return REASONS.WRONG_TYPE;
 
   return false;
 };
@@ -58,8 +58,8 @@ function isWrongType (path) {
   return isWrong;
 }
 
-function tooLarge (file) {
-  return file && file.stat && file.stat.size && file.stat.size > MAX_FILE_SIZE;
+function tooLarge (change) {
+  return change.size && change.size > MAX_FILE_SIZE;
 }
 
 var assert = require('assert');

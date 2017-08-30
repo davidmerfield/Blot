@@ -29,11 +29,11 @@ module.exports = function (blog, change, client, callback){
 
   ensure(blog, 'object')
     .and(change, 'object')
-    .and(change.path, 'string')
+    .and(change.path_display, 'string')
     .and(client, 'object')
     .and(callback, 'function');
 
-  var path = change.path;
+  var path = change.path_display;
   var remotePath = RemotePath(blog.folder, path);
   var localPath = LocalPath(blog.id, path);
 
@@ -50,7 +50,7 @@ module.exports = function (blog, change, client, callback){
       return Ignore(blog, change, reasonToIgnore, client, callback);
     }
 
-    if (change.stat && change.stat.is_dir) {
+    if (change['.tag'] === 'folder') {
       return mkdirp(localPath, callback);
     }
 
@@ -63,8 +63,7 @@ module.exports = function (blog, change, client, callback){
 
     download(client, remotePath, localPath, function (error) {
 
-      if (error)
-        return callback(error);
+      if (error) return callback(error);
 
       // The file belongs to a template
       // rebuilding a template happens when the sync is over

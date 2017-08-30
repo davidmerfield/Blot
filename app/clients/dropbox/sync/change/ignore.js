@@ -18,9 +18,10 @@ module.exports = function (blog, change, reason, client, callback){
     .and(callback, 'function')
     .and(reason, 'string');
 
-  var path = change.path;
+  var path = change.path_display;
+  var modified = change.client_modified;
+
   var localPath = LocalPath(blog.id, path);
-  var modified = change.stat.client_mtime;
   var remotePath = RemotePath(blog.folder, path);
 
   ensure(path, 'string')
