@@ -8,8 +8,5 @@ module.exports = {
   domain: function(domain) {
     return 'domain:' + domain;
   },
-  dropbox: function(uid) {
-    return 'dropbox:' + uid;
-  },
   totalBlogs: 'total:blogs'
 };
