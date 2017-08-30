@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import argparse
 from hashlib import sha256
 import hmac
@@ -35,40 +33,41 @@ def verify(url, challenge):
     response = requests.get(url, params={ 'challenge': challenge })
     if response.status_code == 200:
         if response.text == challenge:
-            print 'Verification passed!'
+            print('Verification passed!')
         else:
             text = response.text
             if len(text) > 30:
                 text = '(truncated) "%s..."' % text[:30]
             else:
                 text = '"%s"' % text
-            print 'Invalid verification response. Expected "%s", but server responded with %s' % (challenge, text)
+            print('Invalid verification response. Expected "%s", but server responded with %s' % (challenge, text))
     else:
-        print 'Invalid verification response. Server responded with status code %d.' % response.status_code
+        print('Invalid verification response. Server responded with status code %d.' % response.status_code)
 
 @cli.command()
 @click.argument('url', metavar='URL', required=True)
 @click.option('--secret', '-s', help='Your app secret', metavar='APP_SECRET', required=True)
-@click.option('--user', '-u', help='The user IDs to send to the webhook URI (may be specified multiple times).', multiple=True, metavar='USER_ID', required=True, type=int)
-def notify(url, secret, user):
+@click.option('--account', '-a', help='The account IDs to send to the webhook URI (may be specified multiple times).', multiple=True, metavar='ACCOUNT_ID', required=True, type=str)
+def notify(url, secret, account):
     '''Send a notification request. Example usage:
 
-    dropbox_hook.py notify http://www.example.com --secret ABC123 --user 12345
+    dropbox_hook.py notify http://www.example.com --secret ABC123 --account 12345
     '''
 
-    body = json.dumps({ 'delta': { 'users': user } })
+    body = json.dumps({ 'list_folder': { 'accounts': account } })
 
     response = requests.post(
         url,
+        verify=False,
         data=body,
-        verify=False, # THIS IS SO WE CAN USE A SELF_SIGNED CERT IN DEV MODE, V DANGEROUS
         headers={
-            'X-Dropbox-Signature': hmac.new(str(secret), body, sha256).hexdigest()
+            'X-Dropbox-Signature': hmac.new(secret.encode(), body.encode(), sha256).hexdigest(),
+            'Content-type' : 'application/json'
         })
     if response.status_code == 200:
-        print 'Webhook invoked successfully.'
+        print('Webhook invoked successfully.')
     else:
-        print 'Invalid webhook response. Server responded with status code %d.' % response.status_code
+        print('Invalid webhook response. Server responded with status code %d.' % response.status_code)
         sys.exit(1)
 
 if __name__=='__main__':
