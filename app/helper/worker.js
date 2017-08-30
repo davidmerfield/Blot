@@ -22,12 +22,7 @@ module.exports = function (path, options) {
     // should also email me here...
     if (options.forever) {
 
-      new_worker.on('exit', function(err){
-
-        if (err) {
-          console.log(path, 'process exited with code', err);
-          if (err.stack) console.log(err.stack);
-        }
+      new_worker.on('exit', function(){
 
         worker = launch();
       });
