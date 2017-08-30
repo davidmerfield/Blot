@@ -1,24 +1,24 @@
 var helper = require('helper');
 var forEach = helper.forEach;
 var ensure = helper.ensure;
-var client = require('../client');
+var redis = require('client');
 var key = require('./key');
-var get = require('./get');
+var Blog = require('blog');
 
-module.exports = function (uid, callback) {
+module.exports = function (account_id, callback) {
 
-  ensure(uid, 'string')
+  ensure(account_id, 'string')
     .and(callback, 'function');
 
   var blogs = [];
 
-  client.SMEMBERS(key.dropbox(uid), function(err, members){
+  redis.SMEMBERS(key.dropbox(account_id), function(err, members){
 
     if (err) return callback(err);
 
     forEach(members, function(id, next){
 
-      get({id: id}, function(err, blog){
+      Blog.get({id: id}, function(err, blog){
 
         if (err) return callback(err);
 
