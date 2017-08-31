@@ -10,6 +10,8 @@ Re-do demo video to explain the sites I run using it:
 
 Redesign template system to make it easy to customize and create them.
 
+Add support for escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
+
 Make templates file or folder based
 
 Move www/blogs/* to /blogs/{{id}}/assets
