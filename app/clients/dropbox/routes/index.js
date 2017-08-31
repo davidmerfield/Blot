@@ -1,6 +1,17 @@
 var router = require('express').Router();
+var database = require('database');
 
-router.use('/authenticate', require('./authenticate'));
+router.use(function(req, res, next){
+
+  database.get(req.blog.id, function(err, account){
+
+    if (err) return next(err);
+
+    res.locals.account = req.account = account;
+
+    return next();
+  });
+});
 
 router.get('/', function (req, res) {
 
@@ -10,5 +21,8 @@ router.get('/', function (req, res) {
 
   res.dashboard('connect');
 });
+
+router.use('/authenticate', require('./authenticate'));
+router.use('/change-folder', require('./change_folder'));
 
 module.exports = router;
