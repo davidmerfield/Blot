@@ -7,8 +7,6 @@ require('./check');
 
 process.on('message', function(blogID) {
 
-  console.log(blogID);
-
   start(blogID, function(err){
 
     if (err) {

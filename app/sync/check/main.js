@@ -1,5 +1,5 @@
-var VerifyFolder = require('../dropbox/verify');
-var VerifyBlog = require('../../verify');
+var VerifyFolder = ''; // require('../dropbox/verify');
+var VerifyBlog = ''; // require('../../verify');
 var Lease = require('../lease');
 var Sync = require('../start');
 var helper = require('../../helper');

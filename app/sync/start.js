@@ -5,8 +5,8 @@ var Log = helper.logg;
 var Lease = require('./lease');
 var cache = require('../cache');
 var Blog = require('blog');
-var sync = require('./dropbox');
-
+// var sync = require('./dropbox');
+var  sync = '';
 var ERROR = {
   DISABLED: 'disabled their account, do not sync',
   NO_USER: 'does not have a Blot account'
@@ -51,16 +51,20 @@ function start (blogID, callback) {
       console.log('Syncing', title, '(' + blog.id + ')');
       console.time(label);
 
-      sync(blogID, options, function(){
+      sync(blogID, options, function(sync_err){
 
         console.timeEnd(label);
 
-        cache.clear(blogID, function(){
+        cache.clear(blogID, function(err){
+
+          if (err) return callback(err);
 
           // console.log('Releasing lease for', title);
           Lease.release(blogID, function(err){
 
             if (err) return callback(err);
+
+            if (sync_err) return callback(sync_err);
 
             // Check to see if someone else requested
             // a lease during the sync. If so, that means
