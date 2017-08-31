@@ -12,7 +12,7 @@ module.exports = function (account_id, callback) {
 
   var blogs = [];
 
-  redis.SMEMBERS(key.dropbox(account_id), function(err, members){
+  redis.SMEMBERS(key.blogs(account_id), function(err, members){
 
     if (err) return callback(err);
 
@@ -24,11 +24,14 @@ module.exports = function (account_id, callback) {
 
         if (!blog) return next();
 
+        if (blog.client !== 'dropbox') return next();
+
         blogs.push(blog);
 
         next();
       });
     }, function(){
+
       callback(null, blogs);
     });
   });
