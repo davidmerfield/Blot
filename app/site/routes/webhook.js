@@ -1,17 +1,10 @@
 module.exports = function(server){
 
-  var crypto = require('crypto'),
-      config = require('../../../config'),
-      secret = config.dropbox.secret,
-
-      stripe = require('stripe')(config.stripe.secret),
-      email = require('../../email'),
-      User = require('../../models/user');
-
-  var Blog = require('blog');
+  var config = require('../../../config');
+  var stripe = require('stripe')(config.stripe.secret);
+  var email = require('../../email');
+  var User = require('../../models/user');
   var bodyParser = require('body-parser');
-  var helper = require('../../helper');
-  var forEach = helper.forEach.parallel;
 
   server.post('/stripe-webhook', bodyParser.json(), function (request, response) {
 
@@ -78,70 +71,4 @@ module.exports = function(server){
 
     return response.sendStatus(200);
   });
-
-  var SIGNATURE = 'x-dropbox-signature';
-  var sha = crypto.createHmac.bind(this, 'SHA256');
-  var sync = require('../../sync');
-
-  server.route('/webhook')
-
-    .get(function(req, res, next) {
-
-      if (req.query && req.query.challenge)
-        return res.send(req.query.challenge);
-
-      return next();
-    })
-
-    .post(function(req, res) {
-
-      if (config.maintenance)
-        return res.status(503).send('Under maintenance');
-
-      var data = '';
-      var users = [];
-      var signature = req.headers[SIGNATURE];
-      var verification = sha(secret);
-
-      req.setEncoding('utf8');
-
-      req.on('data', function(chunk){
-        data += chunk;
-        verification.update(chunk);
-      });
-
-      req.on('end', function() {
-
-        if (signature !== verification.digest('hex'))
-          return res.send(403);
-
-        try {
-          users = JSON.parse(data).delta.users;
-        } catch (e) {
-          return res.status(504).send('Bad delta');
-        }
-
-        // Tell dropbox it worked!
-        res.send('OK');
-
-        // Sync each of the UIDs!
-        forEach(users, function(uid, nextUser){
-
-          // cast uid to string
-          uid = uid + '';
-
-          Blog.getByDropboxUid(uid, function(err, blogs){
-
-            forEach(blogs, function(blog, nextBlog){
-
-              sync(blog.id);
-              nextBlog();
-
-            }, nextUser);
-          });
-        }, function(){
-
-        });
-      });
-    });
 };
