@@ -1,19 +1,54 @@
-var routes = require('express').Router();
+var dashboard = require('express').Router();
+var site = require('express').Router();
+var Blog = require('blog');
+var list = require('./list');
 
-routes.get('/', function (req, res) {
-  res.send('wow!');
+function views (dir) {
+
+  return function (req, res, next){
+
+    res.dashboard = function(name) {
+      res.renderDashboard(dir + name + '.html');
+    };
+
+    next();
+  };
+}
+
+dashboard.use(views(__dirname + '/views/'));
+
+dashboard.get('/', function (req, res) {
+
+  res.locals.clients = list.slice().map(function(i){
+    if (i.name === req.blog.client)
+      i.checked = 'checked';
+    return i;
+  });
+
+  res.dashboard('index');
 });
 
-routes.use(function(req, res, next){
+dashboard.post('/', function(req, res, next){
 
-  res.dashboard = function(name) {
-    res.renderDashboard(__dirname + '/dropbox/views/' + name + '.html');
-  }
+  var client = req.body.client;
 
-  next();
-})
+  if (!client) return next(new Error('Please select a client'));
+
+  Blog.set(req.blog.id, {client: client}, function(err){
+
+    if (err) return next(err);
+
+    res.redirect('/clients/' + client);
+  });
+});
+
 var dropbox = require('./dropbox').routes;
 
-routes.use('/dropbox', dropbox);
+dashboard.use('/dropbox', views(__dirname + '/dropbox/views/'));
+dashboard.use('/dropbox', dropbox.dashboard);
+site.use('/dropbox', dropbox.site);
 
-module.exports = routes;
+module.exports = {
+  site: site,
+  dashboard: dashboard
+};
