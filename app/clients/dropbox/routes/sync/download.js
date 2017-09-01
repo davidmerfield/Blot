@@ -1,4 +1,4 @@
-var helper = require('../../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var time = helper.time;
 
@@ -22,7 +22,6 @@ function download (client, from, to, _callback) {
     .and(from, 'string')
     .and(to, 'string')
     .and(_callback, 'function');
-
 
   time('download');
 

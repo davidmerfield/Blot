@@ -1,1 +1,70 @@
-module.exports = {};
+var helper = require('helper');
+var forEach = helper.forEach;
+var Dropbox = require('dropbox');
+var delta = require('./delta');
+var localPath = helper.localPath;
+var Change = require('sync').change;
+var download = require('./download');
+var Sync = require('sync');
+var Blog = require('blog');
+var Database = require('database');
+
+module.exports = function main (blogID, callback) {
+
+  Blog.get({id: blogID}, function(err, blog){
+
+    if (err) return callback(err);
+
+    Database.get(blogID, function(err, account){
+
+      if (err) return callback(err);
+
+      Sync(blog.id, function (callback) {
+
+        delta(blogID, account, function(err, changes){
+
+          if (err) return callback(err);
+
+          forEach(changes, function(change, next){
+
+            var path = change.path_display;
+
+            if (account.root && account.root !== '/')
+              path = path.slice(account.root.length);
+
+            if (change['.tag'] === 'deleted') {
+              return Change.drop(blog.id, path, next);
+            }
+
+            if (change['.tag'] === 'folder') {
+              return Change.mkdir(blog.id, path, next);
+            }
+
+            if (change['.tag'] !== 'file') {
+              console.log('I do not know what to do with this file');
+              return next();
+            }
+
+            var destination = localPath(blog.id, path);
+            var client = new Dropbox({accessToken: account.token});
+
+            download(client, change.path_display, destination, function(err){
+
+              if (err) {
+                console.log(err);
+                return next();
+              }
+
+              Change.set(blog, path, function(err){
+
+                if (err) console.log(err);
+
+                next();
+              });
+            });
+          }, callback);
+        });
+      }, callback);
+    });
+  });
+};
