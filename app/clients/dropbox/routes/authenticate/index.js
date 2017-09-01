@@ -80,7 +80,7 @@ authenticate.get('/', function(req, res, next){
 
   if (!token) return next(new Error('No accessToken :('));
 
-  prepare_folder(blog.id, account_id, function(err, folder){
+  prepare_folder(blog.id, account_id, function(err, root){
 
     if (err) return next(err);
 

@@ -1,1 +1,5 @@
-module.exports = require('helper').dirToModule(__dirname, require);
+module.exports = {
+  dropbox: require('./dropbox'),
+  list: require('./list'),
+  routes: require('./routes')
+}
