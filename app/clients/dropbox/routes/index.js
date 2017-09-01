@@ -1,7 +1,7 @@
-var router = require('express').Router();
+var dashboard = require('express').Router();
 var database = require('database');
 
-router.use(function(req, res, next){
+dashboard.use(function(req, res, next){
 
   database.get(req.blog.id, function(err, account){
 
@@ -13,16 +13,23 @@ router.use(function(req, res, next){
   });
 });
 
-router.get('/', function (req, res) {
+dashboard.get('/', function (req, res) {
 
   var error = req.query && req.query.error;
 
   if (error) res.locals.error = decodeURIComponent(error);
 
-  res.dashboard('connect');
+  res.dashboard('index');
 });
 
-router.use('/authenticate', require('./authenticate'));
-router.use('/change-folder', require('./change_folder'));
+dashboard.use('/authenticate', require('./authenticate'));
+dashboard.use('/change-folder', require('./change_folder'));
 
-module.exports = router;
+var site = require('express').Router();
+
+site.use('/webhook', require('./webhook'));
+
+module.exports = {
+  site: site,
+  dashboard: dashboard
+};
