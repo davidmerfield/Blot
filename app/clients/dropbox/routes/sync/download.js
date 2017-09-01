@@ -49,7 +49,7 @@ function download (client, from, to, _callback) {
 
     // Ensure the directory into which
     // we're downloading the file exists
-    fs.outputFile(to, res.fileBinary, function (err) {
+    fs.outputFile(to, res.fileBinary, {encoding: 'binary'}, function (err) {
 
       if (err) return callback(err);
 
