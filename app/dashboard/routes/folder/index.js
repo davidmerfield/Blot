@@ -6,8 +6,6 @@ var localPath = helper.localPath;
 
 module.exports = function(server){
 
-  require('./connect')(server);
-
   server.get(['/', '/~*'], function(req, res, next){
 
     var dir = req.path.slice('/~'.length) || '/';
