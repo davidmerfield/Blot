@@ -19,6 +19,9 @@ dashboard.use(views(__dirname + '/views/'));
 
 dashboard.get('/', function (req, res) {
 
+  if (req.blog.client)
+    return res.redirect('/clients/' + req.blog.client);
+
   res.locals.clients = list.slice().map(function(i){
     if (i.name === req.blog.client)
       i.checked = 'checked';
