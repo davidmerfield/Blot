@@ -1,0 +1,36 @@
+<a class="button" href="/clients/dropbox">Back to Dropbox settings</a>
+
+<h2>Select Blot's folder</h2>
+
+
+  <form method='post'>
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+
+{{^folders.length}}
+
+  {{#move}}
+  <label>
+    Choose a folder for your existing blog:
+    <input type="text" name="folder_for_existing_blog" >
+  </label>
+  {{/move}}
+
+  <label>
+    Choose a folder for your new blog:
+    <input type="text" name="folder_for_new_blog" value="{{blog.title}}">
+  </label>
+
+{{/folders.length}}
+
+{{#folders}}
+
+<label style="margin: 0">
+<input type="radio" name="folder" value="{{path_display}}" {{checked}}> <span style="color:#888"></span>{{path_display}}</label>
+{{/folders}}
+
+<br>
+<input class="button" type="submit" name="" value="Select this folder">
+
+</form>
