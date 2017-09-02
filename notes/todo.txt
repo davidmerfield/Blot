@@ -2,7 +2,9 @@ Migrate to Dropbox API V2.
 - NPM install to latest version
 - Migrate existing users from uid to account_id
 - Verify functioning OA2 access token for active blogs (open, used within last year)
-- Verify production web hook exists
+- Verify production webhook exists for both full folder and app folder apps.
+- Add new secrets for Dropbox Full folder app
+- Move existing secrets for Dropbox app folder from dropbox.live.key to dropbox.app.live.key etc...
 - Migrate existing blog dropbox keys to client keys
 
 Set up SSL for all blogs
