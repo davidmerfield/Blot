@@ -1,7 +1,8 @@
 var helper = require('helper');
 var forEach = helper.forEach.parallel;
 var config = require('config');
-var secret = config.dropbox.secret;
+var app_secret = config.dropbox.app.secret;
+var full_secret = config.dropbox.full.secret;
 var crypto = require('crypto');
 var SIGNATURE = 'x-dropbox-signature';
 var sha = crypto.createHmac.bind(this, 'SHA256');
@@ -30,6 +31,11 @@ Webhook.post(function(req, res) {
   var data = '';
   var accounts = [];
   var signature = req.headers[SIGNATURE];
+  var secret = app_secret;
+
+  if (!!req.query.full)
+    secret = full_secret;
+
   var verification = sha(secret);
 
   req.setEncoding('utf8');
