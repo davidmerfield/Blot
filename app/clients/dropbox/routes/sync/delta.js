@@ -11,7 +11,7 @@ module.exports = function delta (blogID, account, callback, changes) {
     .and(callback, 'function');
 
   var client = new Dropbox({accessToken: account.token});
-  var path = account.root || '';
+  var path = account.folder || '';
 
   // Dropbox prefers empty string for root...
   if (path === '/') path = '';
@@ -37,12 +37,15 @@ module.exports = function delta (blogID, account, callback, changes) {
 
   function done (res){
 
+    console.log(res);
+
     if (!res.entries) return callback(new Error(NO_ENTRIES));
 
     if (!res.cursor) return callback(new Error(NO_CURSOR));
 
     changes = changes.concat(res.entries);
     account.cursor = res.cursor;
+    account.valid = Date.now();
 
     // If Dropbox says there are more changes
     // we get them before returning the callback.

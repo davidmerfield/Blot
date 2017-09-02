@@ -29,8 +29,8 @@ module.exports = function main (blogID, callback) {
 
             var path = change.path_display;
 
-            if (account.root && account.root !== '/')
-              path = path.slice(account.root.length);
+            if (account.folder && account.folder !== '/')
+              path = path.slice(account.folder.length);
 
             if (change['.tag'] === 'deleted') {
               return Change.drop(blog.id, path, next);
