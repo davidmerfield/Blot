@@ -1,115 +1,91 @@
-var Dropbox = require('dropbox');
 var config = require('config');
-var https = require('https');
+var Dropbox = require('dropbox');
 var database = require('database');
+var get_account = require('./get_account');
+var set_account = require('./set_account');
+var switch_account = require('./switch_account');
 var prepare_folder = require('./prepare_folder');
+var callback_uri = require('./callback_uri');
+
 var authenticate = require('express').Router();
 
-authenticate.use(function(req, res, next){
-  req.callback_uri = req.protocol + '://' + req.get('host') + req.baseUrl;
-  next();
-});
+// This route sends the user to Dropbox
+// to consent to Blot's connection.
+authenticate.get('/redirect', function (req, res) {
 
-authenticate.get('/redirect', function(req, res){
+  var callback, key, secret, authentication_url;
 
-  var consent_uri;
-  var client = new Dropbox({"clientId": config.dropbox.key, "secret": config.dropbox.secret});
+  if (req.query.full) {
+    console.log('redirecting to full');
+    key = config.dropbox.full.key;
+    secret = config.dropbox.full.secret;
+    callback = callback_uri(req) + '?full=true';
+  } else {
+    console.log('redirecting to app');
+    key = config.dropbox.app.key;
+    secret = config.dropbox.app.secret;
+    callback = callback_uri(req);
+  }
 
-  consent_uri = client.getAuthenticationUrl(req.callback_uri, null, 'code');
-  consent_uri = consent_uri.replace('response_type=token', 'response_type=code');
-
-  return res.redirect(consent_uri);
-});
-
-authenticate.use(function(req, res, next){
-
-  var option = {
-    code: req.query.code,
-    callback_uri: req.callback_uri,
-    clientId: config.dropbox.key,
-    secret: config.dropbox.secret
-  };
-
-  var request, raw, parsed;
-
-  var options = {
-    hostname: 'api.dropboxapi.com',
-    path: `/oauth2/token?code=${option.code}&grant_type=authorization_code&redirect_uri=${option.callback_uri}`,
-    method: 'POST',
-    headers: {
-      Authorization: 'Basic ' + new Buffer(option.clientId + ':' + option.secret).toString('base64')
-    }
-  };
-
-  request = https.request(options, function (data) {
-
-    raw = '';
-
-    data.on('data', function (chunk) {raw += chunk;});
-
-    data.on('end', function ()  {
-
-      try {
-
-        console.log(raw);
-
-        // if we need to access the user's dropbox
-        // UID or account id, we could do that here
-        // but for now we just care about the access token
-        parsed = JSON.parse(raw);
-        req.account_id = parsed.account_id;
-        req.token = parsed.access_token;
-
-      } catch (e) {
-
-        return next(e);
-      }
-
-      return next();
-    });
+  var client = new Dropbox({
+    "clientId": key,
+    "secret": secret
   });
 
-  request.end();
+  authentication_url = client.getAuthenticationUrl(callback, null, 'code');
+  authentication_url = authentication_url.replace('response_type=token', 'response_type=code');
+
+  res.redirect(authentication_url);
 });
 
-authenticate.get('/', function(req, res, next){
 
-  var token = req.token;
-  var account_id = req.account_id;
-  var blog = req.blog;
+// This route recieves the user back from
+// Dropbox when they have accepted or denied
+// the request to access their folder.
+authenticate.get('/', get_account, function (req, res, next){
 
-  if (!token) return next(new Error('No accessToken :('));
+  var existing_account = req.account;
+  var new_account = req.new_account;
+  var log = console.log.bind(this, 'Dropbox:', new_account.email, '(' + new_account.id + ')');
 
-  prepare_folder(blog.id, account_id, function(err, root){
+  var same_account = !!existing_account && existing_account.id === new_account.id;
+  var same_permissions = !!existing_account && existing_account.full === new_account.full;
 
-    if (err) return next(err);
+  var full_folder = new_account.full === true;
+  var app_folder = full_folder === false;
 
-    var client = new Dropbox({accessToken: token});
+  var changed_account = !!existing_account && existing_account.id !== new_account.id;
+  var reauthenticated = same_account && same_permissions;
 
-    client.usersGetAccount({account_id: account_id})
+  // Copy across existing folder info, save and sync
+  if (reauthenticated) {
+    new_account.folder = existing_account.folder;
+    log('re-authenticated');
+    return set_account(req, res, next);
+  }
 
-      .then(function(response){
+  // Offer user the choice to transfer existing files
+  // from the local folder, to the new dropbox folder.
+  if (changed_account) {
+    req.session.new_account = new_account;
+    log('is about to switch from', existing_account.email, '(' + existing_account.id + ')');
+    return res.redirect(req.baseUrl + '/switch-account');
+  }
 
-        var account = {
-          token: token,
-          cursor: '',
-          email: response.email,
-          id: account_id,
-          root: root
-        };
+  database.get_blogs_by_account_id(new_account.id, function(err, blogs){
 
-        database.set(blog.id, account, function(err){
+    // This is the first blog connected to this Dropbox account
+    if (app_folder && blogs.length === 0)  {
+      new_account.folder = '/';
+      log('connected with app folder access and no existing blogs in the folder.');
+      return set_account(req, res, next);
+    }
 
-          if (err) return next(err);
+    console.log('here. is app?', app_folder, 'existing blogs?', blogs.length);
 
-          res.redirect('/clients/dropbox');
-        });
-      })
-
-      .catch(function(err){
-
-        next(err)
-      });
+    // We will need to ask the user to select a new folder for this blog
+    req.session.new_account = new_account;
+    return res.redirect('/clients/dropbox/select-folder');
   });
 });
 
