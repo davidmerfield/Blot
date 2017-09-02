@@ -2,10 +2,10 @@ var helper = require('helper');
 var ensure = helper.ensure;
 var Log = helper.logg;
 var buildFromFolder = require('../modules/template').update;
-
+var Blog = require('blog');
 var Lease = require('./lease');
 var cache = require('../cache');
-var Blog = require('blog');
+
 var ERROR = {
   DISABLED: 'disabled their account, do not sync',
   NO_USER: 'does not have a Blot account'
@@ -66,7 +66,13 @@ function sync (blogID, main, callback) {
 
             if (err) return callback(err);
 
-            if (sync_err) return callback(sync_err);
+            if (sync_err) {
+              console.log('Sync error:');
+              console.log(sync_err);
+              if (sync_err.trace) console.log(sync_err.trace);
+              if (sync_err.stack) console.log(sync_err.stack);
+              return callback(sync_err);
+            }
 
             buildFromFolder(blog.id, function(err){
 
