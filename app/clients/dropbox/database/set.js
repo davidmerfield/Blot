@@ -2,28 +2,37 @@ var key = require('./key');
 var get = require('./get');
 var redis = require('redis');
 var ensure = require('helper').ensure;
+var model = require('./model');
 
-module.exports = function (blog_id, account, callback) {
+
+module.exports = function (blog_id, changes, callback) {
 
   ensure(blog_id, 'string')
-    .and(account, 'object')
+    .and(changes, 'object')
     .and(callback, 'function');
 
-  get(blog_id, function(err, existing_account){
+  var multi = redis.multi();
+
+  get(blog_id, function(err, account){
 
     if (err) return callback(err);
 
-    var multi = redis.multi();
-
-    if (account.id) {
-      multi.sadd(key.blogs(account.id), blog_id);
-    }
+    account = account || {};
 
     // The user's account has changed,
     // remove the old one and add the new one
-    if (existing_account && account.id && existing_account.id && existing_account.id !== account.id) {
-      multi.srem(key.blogs(existing_account.id), blog_id);
-    }
+    if (account.id && account.id !== changes.id)
+      multi.srem(key.blogs(account.id), blog_id);
+
+    for (var i in changes)
+      account[i] = changes[i];
+
+    if (!account.folder)
+      return callback(new Error('Please choose a folder for this account'));
+
+    if (changes.id) multi.sadd(key.blogs(changes.id), blog_id);
+
+    ensure(account, model, true);
 
     multi.hmset(key.account(blog_id), account);
     multi.exec(callback);
