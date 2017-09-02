@@ -1,5 +1,6 @@
 var dashboard = require('express').Router();
 var database = require('database');
+var moment = require('moment');
 
 dashboard.use(function(req, res, next){
 
@@ -8,6 +9,10 @@ dashboard.use(function(req, res, next){
     if (err) return next(err);
 
     res.locals.account = req.account = account;
+
+    if (account && account.valid !== 0) {
+      res.locals.account.last_active = moment.utc(account.valid).fromNow();
+    }
 
     return next();
   });
@@ -22,8 +27,9 @@ dashboard.get('/', function (req, res) {
   res.dashboard('index');
 });
 
+dashboard.use('/disconnect', require('./disconnect'));
 dashboard.use('/authenticate', require('./authenticate'));
-dashboard.use('/change-folder', require('./change_folder'));
+dashboard.use('/select-folder', require('./select_folder'));
 
 var site = require('express').Router();
 
