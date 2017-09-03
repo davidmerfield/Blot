@@ -59,7 +59,7 @@ authenticate.get('/', get_account, function (req, res, next){
 
   // Copy across existing folder info, save and sync
   if (reauthenticated) {
-    new_account.folder = existing_account.folder;
+    new_account.folder_id = existing_account.folder_id;
     log('re-authenticated');
     return set_account(req, res, next);
   }
@@ -72,13 +72,27 @@ authenticate.get('/', get_account, function (req, res, next){
     return res.redirect(req.baseUrl + '/switch-account');
   }
 
+  // My general strategy is to create a folder
+  // on behalf of the user somewhere in their
+  // Dropbox. This location depends on the permissions
+  // they have granted us. I will also offer a one
+  // click 'undo feature' which will remove the folder
+  // where possible and revoke Blot's access in the case
+  // of an accidental click or something like that.
   database.get_blogs_by_account_id(new_account.id, function(err, blogs){
 
     // This is the first blog connected to this Dropbox account
     if (app_folder && blogs.length === 0)  {
-      new_account.folder = '/';
       log('connected with app folder access and no existing blogs in the folder.');
       return set_account(req, res, next);
+    }
+
+    if (app_folder && blogs.length === 1 && other_blog_is_root) {
+      return create_sub_folders(req, res, next);
+    }
+
+    if (app_folder && blogs.length > 1) {
+      return create_app_folders(req, res, next);
     }
 
     console.log('here. is app?', app_folder, 'existing blogs?', blogs.length);
