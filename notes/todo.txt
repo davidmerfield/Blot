@@ -1,5 +1,6 @@
 Migrate to Dropbox API V2.
 - NPM install to latest version
+- update delete blog / user to also remove account info
 - Migrate existing users from uid to account_id
 - Verify functioning OA2 access token for active blogs (open, used within last year)
 - Verify production webhook exists for both full folder and app folder apps.
@@ -8,6 +9,8 @@ Migrate to Dropbox API V2.
 - Migrate existing blog dropbox keys to client keys
 
 Set up SSL for all blogs
+
+Fix strange windows notepad encoding bug and tell [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc)
 
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
