@@ -1,4 +1,3 @@
-<a class="button" href="/clients/dropbox">Back to Dropbox settings</a>
 
 <h2>Select Blot's folder</h2>
 
@@ -11,26 +10,36 @@
 {{^folders.length}}
 
   {{#move}}
+  <p>You currently have a site (<b>{{existing.title}}</b>) inside Blot's folder in your Dropbpx. Blot will move your site's files into a new sub folder and create another folder for {{blog.title}}. One for You can change this later. </p>
+
   <label>
-    Choose a folder for your existing blog:
-    <input type="text" name="folder_for_existing_blog" >
+    Name the new folder for <b>{{blog.title}}</b>:<br>
+    Dropbox/Apps/Blot/ <input style="width:300px;display: inline-block;" type="text" name="folder_for_existing_blog" value="{{blog.title}}">
   </label>
   {{/move}}
 
   <label>
-    Choose a folder for your new blog:
-    <input type="text" name="folder_for_new_blog" value="{{blog.title}}">
+    Name the new folder for <b>{{blog.title}}</b>:<br>
+    Dropbox/Apps/Blot/ <input style="width:300px;display: inline-block;" type="text" name="folder_for_existing_blog" value="{{blog.title}}">
   </label>
+
+<br>
+<input class="button" type="submit" name="" value="Create folder{{#move}}s{{/move}}">
+
+<a class="button" href="/clients/dropbox">Cancel</a>
 
 {{/folders.length}}
 
 {{#folders}}
 
 <label style="margin: 0">
-<input type="radio" name="folder" value="{{path_display}}" {{checked}}> <span style="color:#888"></span>{{path_display}}</label>
+<input type="radio" name="folder" value="{{id}}" {{checked}}> <span style="color:#888"></span>{{path_display}}</label>
 {{/folders}}
 
+{{#folders.length}}
+<input class="button" type="submit" name="" value="Select folder">
+{{/folders.length}}
+
 <br>
-<input class="button" type="submit" name="" value="Select this folder">
 
 </form>
