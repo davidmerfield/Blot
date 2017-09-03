@@ -27,9 +27,6 @@ module.exports = function (blog_id, changes, callback) {
     for (var i in changes)
       account[i] = changes[i];
 
-    if (!account.folder)
-      return callback(new Error('Please choose a folder for this account'));
-
     if (changes.id) multi.sadd(key.blogs(changes.id), blog_id);
 
     ensure(account, model, true);
