@@ -19,18 +19,18 @@ module.exports = function main (blogID, callback) {
 
       if (err) return callback(err);
 
-      Sync(blog.id, function (callback) {
+      Sync(blog.id, function(callback) {
 
-        delta(blogID, account, function(err, changes){
+        delta(blogID, account, function handle (err, changes, has_more){
 
           if (err) return callback(err);
 
           forEach(changes, function(change, next){
 
-            var path = change.path_display;
-
-            if (account.folder && account.folder !== '/')
-              path = path.slice(account.folder.length);
+            var path = change.path;
+            var local_path = localPath(blog.id, path);
+            var dropbox_path = change.path_display;
+            var client = new Dropbox({accessToken: account.token});
 
             if (change['.tag'] === 'deleted') {
               return Change.drop(blog.id, path, next);
@@ -45,10 +45,7 @@ module.exports = function main (blogID, callback) {
               return next();
             }
 
-            var destination = localPath(blog.id, path);
-            var client = new Dropbox({accessToken: account.token});
-
-            download(client, change.path_display, destination, function(err){
+            download(client, dropbox_path, local_path, function(err){
 
               if (err) {
                 console.log(err);
@@ -62,7 +59,16 @@ module.exports = function main (blogID, callback) {
                 next();
               });
             });
-          }, callback);
+          }, function(){
+
+             // If Dropbox says there are more changes
+             // we get them before returning the callback.
+             // This is important because a rename could
+             // be split across two pages of file events.
+             if (has_more) return delta(blogID, account, handle);
+
+             callback();
+          });
         });
       }, callback);
     });
