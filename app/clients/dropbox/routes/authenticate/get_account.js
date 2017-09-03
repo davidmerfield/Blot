@@ -81,9 +81,10 @@ module.exports = function extract_token (req, res, next){
             token: token,
             cursor: '',
             valid: Date.now(),
+            error: 0,
             email: response.email,
             full: full,
-            folder: ''
+            folder_id: ''
           };
 
           return next();
