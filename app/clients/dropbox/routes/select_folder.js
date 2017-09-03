@@ -24,7 +24,7 @@ function other_accounts (req, res, next) {
 
     forEach(blogs, function(blog, next_blog){
 
-      if (blog.id === req.blog.id) return next();
+      if (blog.id === req.blog.id) return next_blog();
 
       database.get(blog.id, function(err, account){
 
@@ -54,7 +54,7 @@ select_folder.get(other_accounts, function(req, res, next) {
 
     var client = new Dropbox({accessToken: account.token});
 
-    return client.filesListFolder({path: '', recursive: true})
+    client.filesListFolder({path: '', recursive: true})
       .then(function(response){
 
         var folders = response.entries.filter(function(i){
@@ -68,12 +68,13 @@ select_folder.get(other_accounts, function(req, res, next) {
         next(err);
       });
 
+    return;
   }
 
   if (req.other_accounts.length === 0)
     return res.redirect(req.baseUrl);
 
-  res.locals.move = req.other_accounts.length > 1;
+  res.locals.move = req.other_accounts.length === 1;
   res.dashboard('select_folder');
 });
 
@@ -86,8 +87,10 @@ select_folder.post(function(req, res, next){
   // you should not be able to choose the root directory
   // if there are more than one blog connected to this db account
 
-  account.folder = folder;
+  account.folder_id = folder;
   account.cursor = '';
+  account.error = 0;
+  account.valid = Date.now();
 
   database.set(req.blog.id, account, function(err){
 
