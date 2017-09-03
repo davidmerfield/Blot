@@ -14,6 +14,26 @@ dashboard.use(function(req, res, next){
       res.locals.account.last_active = moment.utc(account.valid).fromNow();
     }
 
+    if (account && account.error !== 0) {
+
+      console.log('HERE WITH ERROR', account.error, typeof account.error);
+
+      if (account.error === 409) {
+
+        console.log('yes!!!!');
+        res.locals.account.folder_missing = true;
+
+      } else if (account.error === 123) {
+
+        // foo
+
+      } else {
+
+        res.locals.account.generic_error = true;
+      }
+
+    }
+
     return next();
   });
 });
