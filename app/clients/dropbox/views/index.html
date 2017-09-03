@@ -39,9 +39,24 @@
   {{/valid}}
 
   {{^valid}}
-  <p>Blot cannot access <b>{{email}}</b>'s Dropbox account. Please reconnect to Dropbox<br><br></p>
 
-  <a href="/clients/dropbox/authenticate/redirect{{#full}}?full=true{{/full}}" class="button">Connect to Dropbox</a>
+    {{#folder_missing}}
+
+      <p>Your folder is missing</p>
+
+      {{#full}}
+      <a href="/clients/dropbox/select-folder" class="button">Select a folder</a>
+      {{/full}}
+
+      {{^full}}
+      <a href="/clients/dropbox/authenticate/redirect" class="button">Create a folder</a>
+      {{/full}}
+
+    {{/folder_missing}}
+
+    {{#generic_error}}
+
+    {{/generic_error}}
 
   {{/valid}}
 
