@@ -36,6 +36,15 @@ module.exports = function(server){
       if (entry.scheduled && !scheduled)
         return next();
 
+      // We check if the url is not the site's index page
+      // since it's possible to accidentally set an entry's
+      // permalink to this, then never be able to undo it
+      // otherwise. Thanks to Jack for discovering this fun bug.
+      // We really should check that this URL is not used by
+      // any of the template views but will do that in future.
+      if (normalize(entry.url) !== normalize(url) && url === '/')
+        return next();
+
       Entries.adjacentTo(blog.id, entry.id, function(nextEntry, previousEntry){
 
         entry.next = nextEntry;
@@ -45,13 +54,7 @@ module.exports = function(server){
         // Ensure the user is always viewing
         // the entry at its latest and greatest URL
         // 301 passes link juice for SEO?
-        // We check if the url is not the site's index page
-        // since it's possible to accidentally set an entry's
-        // permalink to this, then never be able to undo it
-        // otherwise. Thanks to Jack for discovering this fun bug.
-        // We really should check that this URL is not used by
-        // any of the template views but will do that in future.
-        if (entry.url && url !== '/' && normalize(entry.url) !== normalize(url)) {
+        if (entry.url && normalize(entry.url) !== normalize(url)) {
 
           // Res.direct expects a URL, we shouldnt need
           // to do this now but OK. I feel like we're decoding
