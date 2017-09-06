@@ -1,16 +1,16 @@
 
-<h2><a href="/clients">Clients</a> &rarr; <a href="/clients/dropbox">Dropbox</a> &rarr; Disconnect</h2>
-
+<h2>Disconnect from Dropbox</h2>
 
   <form method='post'>
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-  <p>Are you sure you want to disconnect Blot from <b>{{account.email}}</b>'s Dropbox account ?</p>
-  <p>Blot will not delete any files from your folder and your site will remain unchanged. Any changes you make to your Dropbox account will not affect your site.</p>
+  <p>Are you sure you want to disconnect <b>{{account.email}}</b>’s Dropbox from Blot?</p>
+  <p>Blot will not delete any files from your folder or your site. If you'd like to delete all your site's files, please remove them from your Dropbox folder before disconnecting your account.</p>
 
   <br>
 
   <input class="button" type="submit" value="Disconnect from Dropbox">
+  <a class="button" href="/clients/dropbox">Cancel</a>
 
 </form>

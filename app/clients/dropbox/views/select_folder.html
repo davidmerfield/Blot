@@ -8,32 +8,13 @@
 
 
 {{^folders.length}}
-
-  {{#move}}
-  <p>You currently have a site (<b>{{existing.title}}</b>) inside Blot's folder in your Dropbpx. Blot will move your site's files into a new sub folder and create another folder for {{blog.title}}. One for You can change this later. </p>
-
-  <label>
-    Name the new folder for <b>{{blog.title}}</b>:<br>
-    Dropbox/Apps/Blot/ <input style="width:300px;display: inline-block;" type="text" name="folder_for_existing_blog" value="{{blog.title}}">
-  </label>
-  {{/move}}
-
-  <label>
-    Name the new folder for <b>{{blog.title}}</b>:<br>
-    Dropbox/Apps/Blot/ <input style="width:300px;display: inline-block;" type="text" name="folder_for_existing_blog" value="{{blog.title}}">
-  </label>
-
-<br>
-<input class="button" type="submit" name="" value="Create folder{{#move}}s{{/move}}">
-
-<a class="button" href="/clients/dropbox">Cancel</a>
-
+  Your folder is empty.
 {{/folders.length}}
 
 {{#folders}}
 
 <label style="margin: 0">
-<input type="radio" name="folder" value="{{id}}" {{checked}}> <span style="color:#888"></span>{{path_display}}</label>
+<input type="radio" name="folder" value="{id: '{{id}}', path: '{{path_display}}}'" {{checked}}> <span style="color:#888"></span>{{path_display}}</label>
 {{/folders}}
 
 {{#folders.length}}
