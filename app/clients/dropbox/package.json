@@ -1,0 +1,8 @@
+{
+  "name": "Blot-Dropbox-Client",
+  "version": "0.0.0",
+  "dependencies": {
+    "dropbox": "^2.5.7"
+  },
+  "devDependencies": {}
+}
