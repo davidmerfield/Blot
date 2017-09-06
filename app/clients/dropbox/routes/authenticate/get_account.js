@@ -3,47 +3,64 @@ var https = require('https');
 var Dropbox = require('dropbox');
 var callback_uri = require('./callback_uri');
 
-module.exports = function extract_token (req, res, next){
+module.exports = function (req, res, next){
 
-  if (req.session.new_account) {
-    req.new_account = req.session.new_account;
-    delete req.session.new_account;
-    return next();
-  }
+  if (!req.query || !req.query.code)
+    return redirect('/clients');
 
-  var key, secret, token, id;
+  var code = req.query.code;
+  var key = config.dropbox.app.key;
+  var secret = config.dropbox.app.secret;
+  var redirect_uri = callback_uri(req);
+  var full_access = req.query.full_access === 'true';
 
-  console.log('FULL', req.query.full);
-
-  var full = !!req.query.full;
-
-  if (full) {
+  if (full_access) {
     key = config.dropbox.full.key;
     secret = config.dropbox.full.secret;
-  } else {
-    key = config.dropbox.app.key;
-    secret = config.dropbox.app.secret;
+    redirect_uri += '?full_access=true';
   }
-
-  var option = {
-    code: req.query.code,
-    callback_uri: callback_uri(req),
-    clientId: key,
-    secret: secret
-  };
-
-  if (full) option.callback_uri += '?full=true';
-
-  var request, raw, parsed;
 
   var options = {
     hostname: 'api.dropboxapi.com',
-    path: `/oauth2/token?code=${option.code}&grant_type=authorization_code&redirect_uri=${option.callback_uri}`,
+    path: '/oauth2/token?code=' + code + '&grant_type=authorization_code&redirect_uri=' + redirect_uri,
     method: 'POST',
     headers: {
-      Authorization: 'Basic ' + new Buffer(option.clientId + ':' + option.secret).toString('base64')
+      Authorization: 'Basic ' + new Buffer(key + ':' + secret).toString('base64')
     }
   };
+
+  make_request(options, function(err, account_id, access_token){
+
+    if (err) return next(err);
+
+    console.log(account_id, access_token);
+
+    get_email(access_token, function(err, email){
+
+      if (err) return next(err);
+
+      req.new_account = {
+        account_id: account_id,
+        access_token: access_token,
+        email: email,
+        error_code: 0,
+        last_sync: Date.now(),
+        full_access: full_access,
+        folder: '',
+        folder_id: '',
+        cursor: ''
+      };
+
+      next();
+    });
+  });
+};
+
+function make_request (options, callback) {
+
+  var request;
+  var raw;
+  var parsed = {};
 
   request = https.request(options, function (data) {
 
@@ -54,45 +71,31 @@ module.exports = function extract_token (req, res, next){
     data.on('end', function ()  {
 
       try {
-
-        // if we need to access the user's dropbox
-        // UID or account id, we could do that here
-        // but for now we just care about the access token
         parsed = JSON.parse(raw);
-        console.log(parsed);
-        id = parsed.account_id;
-        token = parsed.access_token;
-
       } catch (e) {
-
-        return next(e);
+        return callback(e);
       }
 
-      if (!token || !id) return next(new Error('Invalid Token'));
+      console.log(parsed);
 
-      var client = new Dropbox({accessToken: token});
-
-      client.usersGetAccount({account_id: id})
-
-        .then(function(response){
-
-          req.new_account = {
-            id: id,
-            token: token,
-            cursor: '',
-            valid: Date.now(),
-            error: 0,
-            email: response.email,
-            full: full,
-            folder_id: ''
-          };
-
-          return next();
-        })
-
-        .catch(next);
+      return callback(null, parsed.account_id, parsed.access_token);
     });
   });
 
   request.end();
-};
+}
+
+function get_email (access_token, callback) {
+
+  console.log(access_token, 'is access token');
+
+  var client = new Dropbox({accessToken: access_token});
+
+  client.usersGetCurrentAccount()
+
+    .then(function(response){
+      callback(null, response.email);
+    })
+
+    .catch(callback);
+}
