@@ -5,6 +5,7 @@ var updateSubscription = require('./updateSubscription');
 var updateUser = require('./updateUser');
 var emptyS3Folder = require('./emptyS3Folder');
 var emptyLocalFolder = require('./emptyLocalFolder');
+var clients = require('clients');
 
 module.exports = function(server){
 
@@ -32,6 +33,24 @@ module.exports = function(server){
     // which contains cached images/avatars. Also delete
     // the contents blog's folder on the server.
     .post(emptyS3Folder, emptyLocalFolder)
+
+    // Delete the credentials used to sync the blog's folder
+    .post(function (req, res, next) {
+
+      if (!req.blogToClose.client) return next();
+
+      var client = clients[req.blogToClose.client];
+
+      if (!client || !client.database || !client.database.drop)
+        return next(new Error('Client has no way to delete itself'));
+
+      client.database.drop(req.blogToClose.id, function(err){
+
+        if (err) return next(err);
+
+        next();
+      });
+    })
 
     // Finally delete the blog's info from the DB
     .post(function(req, res, next){
