@@ -33,7 +33,7 @@ Webhook.post(function(req, res) {
   var signature = req.headers[SIGNATURE];
   var secret = app_secret;
 
-  if (!!req.query.full)
+  if (!!req.query.full_access)
     secret = full_secret;
 
   var verification = sha(secret);
