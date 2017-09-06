@@ -1,0 +1,120 @@
+namespace properties
+    "This namespace contains helper entities for property and property/template endpoints."
+
+alias TemplateId = String(min_length=1,pattern="(/|ptid:).*")
+
+struct PropertyGroupTemplate
+    "Describes property templates that can be filled and associated with a file."
+
+    name String
+        "A display name for the property template. Property template names can
+        be up to 256 bytes."
+    description String
+        "Description for new property template. Property template descriptions
+        can be up to 1024 bytes."
+    fields List(PropertyFieldTemplate)
+        "This is a list of custom properties associated with a property template.
+        There can be up to 64 properties in a single property template."
+
+    example default
+        name = "Security"
+        description = "These properties describe how confidential this file is."
+        fields = [default]
+
+struct PropertyFieldTemplate
+    "Describe a single property field type which that can be part of a property template."
+
+    name String
+        "This is the name or key of a custom property in a property template.
+        File property names can be up to 256 bytes."
+    description String
+        "This is the description for a custom property in a property template.
+        File property description can be up to 1024 bytes."
+    type PropertyType
+        "This is the data type of the value of this property. This type
+        will be enforced upon property creation and modifications."
+
+    example default
+        name = "Security Policy"
+        description = "This is the security policy of the file or folder described.
+        Policies can be Confidential, Public or Internal."
+        type = default
+
+union ModifyPropertyTemplateError extends PropertyTemplateError
+    conflicting_property_names
+        "A property field name already exists in the template."
+    too_many_properties
+        "There are too many properties in the changed template.
+        The maximum number of properties per template is 32."
+    too_many_templates
+        "There are too many templates for the team."
+    template_attribute_too_large
+        "The template name, description or field names is too large."
+
+union PropertyTemplateError
+    template_not_found TemplateId
+        "Property template does not exist for given identifier."
+    restricted_content
+        "You do not have the permissions to modify this property template."
+
+struct PropertyGroup
+    "Collection of custom properties in filled property templates."
+
+    template_id TemplateId
+        "A unique identifier for a property template type."
+    fields List(PropertyField)
+        "This is a list of custom properties associated with a file.
+        There can be up to 32 properties for a template."
+
+    example default
+        template_id = "ptid:1a5n2i6d3OYEAAAAAAAAAYa"
+        fields = [default]
+
+struct PropertyField
+    name String
+        "This is the name or key of a custom property in a property template.
+        File property names can be up to 256 bytes."
+    value String
+        "Value of a custom property attached to a file. Values can be up to 1024
+        bytes."
+
+    example default
+        name = "Security Policy"
+        value = "Confidential"
+
+union PropertyType
+    "Data type of the given property added. This endpoint is in beta and
+     only properties of type strings is supported."
+
+    string
+        "The associated property will be of type string. Unicode is supported."
+
+    example default
+        string = null
+
+#
+# Shared struct used for /template/list and /template/get
+#
+
+struct GetPropertyTemplateArg
+    template_id TemplateId
+        "An identifier for property template added by route properties/template/add."
+
+    example default
+        template_id = "ptid:1a5n2i6d3OYEAAAAAAAAAYa"
+
+struct GetPropertyTemplateResult extends PropertyGroupTemplate
+    "The Property template for the specified template."
+
+    example default
+        name = "Security"
+        description = "These properties describe how confidential this file is."
+        fields = [default]
+
+struct ListPropertyTemplateIds
+    template_ids List(TemplateId)
+        "List of identifiers for templates added by route properties/template/add."
+
+    example default
+        template_ids = ["ptid:1a5n2i6d3OYEAAAAAAAAAYa"]
+

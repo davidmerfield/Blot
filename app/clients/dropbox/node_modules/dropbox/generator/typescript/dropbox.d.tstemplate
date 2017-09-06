@@ -1,0 +1,11 @@
+/// <reference path="./dropbox_types.d.ts" />
+declare module DropboxTypes {
+  class Dropbox extends DropboxBase {
+    /**
+     * The Dropbox SDK class.
+     */
+    constructor(options: DropboxOptions);
+
+/*ROUTES*/
+  }
+}

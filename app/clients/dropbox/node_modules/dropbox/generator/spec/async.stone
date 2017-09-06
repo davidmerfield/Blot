@@ -1,0 +1,96 @@
+namespace async
+
+#
+# Types for writing asynchronous API methods.
+#
+# There are two calls for each asynchronous method:
+#  1. A "Launch" method that (optionally) launches the asynchronous job
+#  2. A "Polling" method that polls for the status of the job that was launched by the first call.
+#
+# The following definitions are prefixed by "Launch" or "Poll", according to their intended use.
+
+
+alias AsyncJobId = String(min_length=1)
+
+
+#
+# Launch
+#
+
+union_closed LaunchResultBase
+    "Result returned by methods that launch an asynchronous job.
+
+    A method who may either launch an asynchronous job, or complete the request
+    synchronously, can use this union by extending it, and adding a 'complete' field
+    with the type of the synchronous response.
+
+    See :type:`LaunchEmptyResult` for an example."
+
+    async_job_id AsyncJobId
+        "This response indicates that the processing is asynchronous.
+        The string is an id that can be used to obtain the status of the asynchronous job."
+
+
+union_closed LaunchEmptyResult extends LaunchResultBase
+    "Result returned by methods that may either launch an asynchronous job or complete synchronously.
+    Upon synchronous completion of the job, no additional information is returned."
+
+    complete
+        "The job finished synchronously and successfully."
+
+    example complete
+        complete = null
+
+    example async_job_id
+        async_job_id = "34g93hh34h04y384084"
+
+#
+# Poll
+#
+
+struct PollArg
+    "Arguments for methods that poll the status of an asynchronous job."
+
+    async_job_id AsyncJobId
+        "Id of the asynchronous job.
+        This is the value of a response returned from the method that launched the job."
+
+    example default
+        async_job_id = "34g93hh34h04y384084"
+
+# TODO(kelkabany): Remove `error_msg` since others might want to return it
+# differently.
+union_closed PollResultBase
+    "Result returned by methods that poll for the status of an asynchronous job.
+    Unions that extend this union should add a 'complete' field with a type of
+    the information returned upon job completion.
+
+    See :type:`PollEmptyResult` for an example."
+
+    in_progress
+        "The asynchronous job is still in progress."
+
+
+union_closed PollEmptyResult extends PollResultBase
+    "Result returned by methods that poll for the status of an asynchronous job.
+    Upon completion of the job, no additional information is returned."
+
+    complete
+        "The asynchronous job has completed successfully."
+
+    example complete
+        complete = null
+
+    example in_progress
+        in_progress = null
+
+
+union PollError
+    "Error returned by methods for polling the status of asynchronous job."
+
+    invalid_async_job_id
+        "The job ID is invalid."
+    internal_error
+        "Something went wrong with the job on Dropbox's end. You'll need to
+        verify that the action you were taking succeeded, and if not, try
+        again. This should happen very rarely."

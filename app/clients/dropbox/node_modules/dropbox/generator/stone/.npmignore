@@ -1,0 +1,15 @@
+/.cache/
+/.eggs/
+/.idea/
+/.tox/
+/build/
+/dist/
+__pycache__/
+.DS_Store
+parser.out
+*.egg
+*.egg-info/
+*.pyc
+*.pyo
+*.swp
+*~

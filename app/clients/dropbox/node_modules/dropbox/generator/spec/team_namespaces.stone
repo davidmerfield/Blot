@@ -1,0 +1,99 @@
+namespace team
+
+import common
+import team_common
+
+#
+# Route namespaces/list
+#
+
+union NamespaceType
+    app_folder
+        "App sandbox folder."
+    shared_folder
+        "Shared folder."
+    team_folder
+        "Top-level team-owned folder."
+    team_member_folder
+        "Team member's home folder."
+
+struct NamespaceMetadata
+    "Properties of a namespace."
+
+    name String
+        "The name of this namespace."
+    namespace_id common.SharedFolderId
+        "The ID of this namespace."
+    namespace_type NamespaceType
+        "The type of this namespace."
+    team_member_id team_common.TeamMemberId?
+        "If this is a team member folder, the ID of the team member.
+        Otherwise, this field is not present."
+
+    example shared_folder
+        name = "Marketing"
+        namespace_id = "123456789"
+        namespace_type = shared_folder
+
+    example team_member_folder
+        name = "Franz Ferdinand"
+        namespace_id = "123456789"
+        namespace_type = team_member_folder
+        team_member_id = "dbmid:1234567"
+
+struct TeamNamespacesListResult
+    "Result for :route:`namespaces/list`."
+
+    namespaces List(NamespaceMetadata)
+        "List of all namespaces the team can access."
+    cursor String
+        "Pass the cursor into :route:`namespaces/list/continue` to obtain
+        additional namespaces. Note that duplicate namespaces may be returned."
+    has_more Boolean
+        "Is true if there are additional namespaces that have not been returned yet."
+
+    example default
+        namespaces = [shared_folder, team_member_folder]
+        cursor = "ZtkX9_EHj3x7PMkVuFIhwKYXEpwpLwyxp9vMKomUhllil9q7eWiAu"
+        has_more = false
+
+route namespaces/list(TeamNamespacesListArg, TeamNamespacesListResult, Void)
+    "Returns a list of all team-accessible namespaces. This list includes team folders,
+    shared folders containing team members, team members' home namespaces, and team members'
+    app folders. Home namespaces and app folders are always owned by this team or members of the
+    team, but shared folders may be owned by other users or other teams. Duplicates may occur in the
+    list."
+
+    attrs
+        owner = "sharing-platform"
+        auth = "team"
+
+struct TeamNamespacesListArg
+    limit UInt32(min_value=1, max_value=1000) = 1000
+        "The approximate maximum number of results to return per request. This limit may be exceeded."
+
+    example default
+        limit = 100
+
+#
+# Route namespaces/list/continue
+#
+
+route namespaces/list/continue(TeamNamespacesListContinueArg, TeamNamespacesListResult, TeamNamespacesListContinueError)
+    "Once a cursor has been retrieved from :route:`namespaces/list`, use this to paginate
+    through all team-accessible namespaces. Duplicates may occur in the list."
+
+    attrs
+        owner = "sharing-platform"
+        auth = "team"
+
+struct TeamNamespacesListContinueArg
+    cursor String
+        "Indicates from what point to get the next set of team-accessible namespaces."
+
+    example default
+        cursor = "ZtkX9_EHj3x7PMkVuFIhwKYXEpwpLwyxp9vMKomUhllil9q7eWiAu"
+
+union TeamNamespacesListContinueError
+    invalid_cursor
+        "The cursor is invalid."
