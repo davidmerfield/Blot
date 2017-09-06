@@ -100,6 +100,7 @@ function sync (blogID, main, callback) {
 };
 
 sync.change = require('./change');
+sync.reset = require('./reset');
 
 module.exports = sync;
 
