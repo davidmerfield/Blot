@@ -3,7 +3,6 @@ var helper = require('helper');
 var ensure = helper.ensure;
 var forEach = helper.forEach;
 var client = require('../client');
-
 var START_CURSOR = '0';
 var SCAN_SIZE = 1000;
 
@@ -48,7 +47,6 @@ module.exports = function (blogID, callback) {
         next();
       });
     }, function(){
-
       client.del(remove, callback);
     });
   });
