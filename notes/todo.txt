@@ -1,27 +1,25 @@
-Migrate to Dropbox API V2.
-- re-implement preview file writes & removes
-- reset blog state when a new dropbox account is connected
-  - empty local folder
-  - run entry.drop for every file in the folder (no need to remove preview files though)
-- update delete blog / user to also remove account info
-- Verify production webhook exists for both full folder and app folder apps.
-- Add new secrets for Dropbox Full folder app
-- Migrate existing blog dropbox keys to client keys
-- Move existing secrets for Dropbox app folder from dropbox.live.key to dropbox.app.live.key etc...
-- expose folder removed error on dashboard and provide way to fix
-- expose token revoked error on dashboard and provide way to fix
+Ensure write local and template files work with new dropbox interface
+
+Test the new code extensively
 
 Migrate script
-  - move existing users from uid to account_id
-  - for users with multiple blogs, get folder_id id of subfolders
-  - Verify functioning OA2 access token for active blogs (open, used within last year)
+- set all blogs' client property to 'dropbox'
+- set all blog's dropbox account full_acess to false
+- move existing users from uid to account_id
+- for users with multiple blogs, get folder_id id of subfolders
+- Verify functioning OA2 access token for active blogs (open, used within last year)
+
+Merge branch into main and push
 
 Release schedule
+- Verify production webhook exists for both full folder and app folder apps.
+- Add new secrets for Dropbox Full folder app and verify they line up with the ones in dev mode
 - git pull origin master
 - npm install to latest version of dropbox app
 - sudo stop blot
 - node migrate.js
 - sudo start blot
+- remove old dropbox secrets where neccessary
 
 Set up SSL for all blogs
 
