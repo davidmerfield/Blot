@@ -13,7 +13,6 @@ var cache = flags.cache === true;
 var debug = flags.debug === true;
 
 var environment, host, protocol, stripe_key, stripe_secret, pandoc_path;
-var dropbox_app_key, dropbox_app_secret, dropbox_full_key, dropbox_full_secret;
 
 if (production) {
 
@@ -35,22 +34,24 @@ if (production) {
 
 }
 
+var dropbox = {app:{}, full: {}};
+
 // We can only use the Dropbox test app in development
 if (dropbox_test_app && production === false) {
 
-  dropbox_app_key = load('dropbox.app.test.key');
-  dropbox_app_secret = load('dropbox.app.test.secret');
+  dropbox.app.key = load('dropbox.app.test.key');
+  dropbox.app.secret = load('dropbox.app.test.secret');
 
-  dropbox_full_key = load('dropbox.full.test.key');
-  dropbox_full_secret = load('dropbox.full.test.secret');
+  dropbox.full.key = load('dropbox.full.test.key');
+  dropbox.full.secret = load('dropbox.full.test.secret');
 
 } else {
 
-  dropbox_app_key = load('dropbox.app.live.key');
-  dropbox_app_secret = load('dropbox.app.live.secret');
+  dropbox.app.key = load('dropbox.app.live.key');
+  dropbox.app.secret = load('dropbox.app.live.secret');
 
-  dropbox_full_key = load('dropbox.full.live.key');
-  dropbox_full_secret = load('dropbox.full.live.secret');
+  dropbox.full.key = load('dropbox.full.live.key');
+  dropbox.full.secret = load('dropbox.full.live.secret');
 
 }
 
@@ -78,16 +79,7 @@ module.exports = {
     "email": "dmerfield@gmail.com"
   },
 
-  "dropbox": {
-    "full": {
-      "key": dropbox_full_key,
-      "secret": dropbox_full_secret
-    },
-    "app": {
-      "key": dropbox_app_key,
-      "secret": dropbox_app_secret
-    }
-  },
+  "dropbox": dropbox,
 
   "stripe": {
     "key": stripe_key,
