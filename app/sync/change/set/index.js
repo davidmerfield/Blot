@@ -8,6 +8,7 @@ var Metadata = require('../../../models/metadata');
 var Entry = require('../../../models/entry');
 var Preview = require('../../../modules/preview');
 var isDraft = require('../../../drafts').isDraft;
+var isPreview = require('../../../drafts').isPreview;
 
 var catchRename = require('./catchRename').forCreated;
 
@@ -46,10 +47,13 @@ module.exports = function (blog, path, callback){
     // This file is a draft, write a preview file
     // to the users Dropbox and continue down
     // We look up the remote path later in this module...
-    // if (isDraft(path)) Preview.write(blog.id, path);
+    if (isDraft(path)) Preview.write(blog.id, path);
 
     // The file belongs to a template
     if (isPublic(path) || isTemplate(path)) return callback();
+
+    // This is a preview file, don't create an entry
+    if (isPreview(path)) return callback();
 
     // Determine if this file should be ignored
     // the response from shouldIgnore is a string

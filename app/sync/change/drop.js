@@ -8,8 +8,8 @@ var Entry = require('entry');
 var Metadata = require('metadata');
 var Ignored = require('ignored');
 var Rename = require('./set/catchRename');
-
 var Preview = require('../../modules/preview');
+var isDraft = require('../../drafts').isDraft;
 
 module.exports = function (blogID, path, callback){
 
@@ -21,12 +21,13 @@ module.exports = function (blogID, path, callback){
   // can handle folders properly. And accepts a callback
   var queue = [
     Metadata.drop.bind(this, blogID, path),
-    // Preview.remove.bind(this, blogID, path),
     Ignored.drop.bind(this, blogID, path),
     Rename.forDeleted.bind(this, blogID, path),
     Entry.drop.bind(this, blogID, path),
     fs.remove.bind(this, LocalPath(blogID, path))
   ];
+
+  if (isDraft(path)) Preview.remove(blogID, path);
 
   forEach(queue, function(method, next){
 
