@@ -1,4 +1,4 @@
-var redis = require('client');
+var redis = require('redis');
 var ensure = require('helper').ensure;
 var key = require('./key');
 var model = require('./model');
