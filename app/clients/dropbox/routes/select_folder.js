@@ -16,7 +16,7 @@ function other_accounts (req, res, next) {
   if (!account)
     return next(new Error('You need an account'));
 
-  database.get_blogs_by_account_id(account.id, function(err, blogs){
+  database.get_blogs_by_account_id(account.account_id, function(err, blogs){
 
     if (err) return next(err);
 
@@ -48,11 +48,11 @@ select_folder.get(other_accounts, function(req, res, next) {
   var new_account = req.session && req.session.new_account;
   var account = new_account || req.account;
 
-  console.log('ACCOUNT', account.full, req.other_accounts.length);
+  console.log('ACCOUNT', account.full_access, req.other_accounts.length);
 
   if (account.full) {
 
-    var client = new Dropbox({accessToken: account.token});
+    var client = new Dropbox({accessToken: account.access_token});
 
     client.filesListFolder({path: '', recursive: true})
       .then(function(response){
@@ -80,17 +80,19 @@ select_folder.get(other_accounts, function(req, res, next) {
 
 select_folder.post(function(req, res, next){
 
-  var folder = req.body.folder;
   var new_account = req.session && req.session.new_account;
   var account = new_account || req.account;
+  var folder = req.body.folder;
+
+  folder = JSON.parse(folder);
 
   // you should not be able to choose the root directory
   // if there are more than one blog connected to this db account
 
-  account.folder_id = folder;
+  account.folder_id = folder.id;
+  account.folder = folder.path;
   account.cursor = '';
-  account.error = 0;
-  account.valid = Date.now();
+  account.error_code = 0;
 
   database.set(req.blog.id, account, function(err){
 
