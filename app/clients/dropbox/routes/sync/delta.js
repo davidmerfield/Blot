@@ -13,7 +13,7 @@ module.exports = function delta (blogID, account, callback) {
     .and(callback, 'function');
 
   var has_more, changes, latest_cursor;
-  var client = new Dropbox({accessToken: account.token});
+  var client = new Dropbox({accessToken: account.access_token});
   var cursor = account.cursor;
   var folder_id = account.folder_id;
   var folder = '';
@@ -71,8 +71,7 @@ module.exports = function delta (blogID, account, callback) {
     if (!latest_cursor) errors.push(new Error(NO_CURSOR));
 
     if (errors.length) {
-      account.valid = 0;
-      account.error = errors[0].status || 400;
+      account.error_code = errors[0].status || 400;
       console.log('here', account);
       return Database.set(blogID, account, function(err){
         callback(err || errors[0]);
@@ -80,8 +79,9 @@ module.exports = function delta (blogID, account, callback) {
     }
 
     account.cursor = latest_cursor;
-    account.valid = Date.now();
-    account.error = 0;
+    account.last_sync = Date.now();
+    account.folder = folder;
+    account.error_code = 0;
 
     changes = changes.map(function(c){
       c.path = folder ? c.path_display.slice(folder.length) : c.path_display;

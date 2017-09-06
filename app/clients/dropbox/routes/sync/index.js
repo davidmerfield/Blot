@@ -30,7 +30,7 @@ module.exports = function main (blogID, callback) {
             var path = change.path;
             var local_path = localPath(blog.id, path);
             var dropbox_path = change.path_display;
-            var client = new Dropbox({accessToken: account.token});
+            var client = new Dropbox({accessToken: account.access_token});
 
             if (change['.tag'] === 'deleted') {
               return Change.drop(blog.id, path, next);
