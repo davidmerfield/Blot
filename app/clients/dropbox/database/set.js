@@ -21,13 +21,14 @@ module.exports = function (blog_id, changes, callback) {
 
     // The user's account has changed,
     // remove the old one and add the new one
-    if (account.id && account.id !== changes.id)
-      multi.srem(key.blogs(account.id), blog_id);
+    if (account.account_id && changes.account_id && account.account_id !== changes.account_id)
+      multi.srem(key.blogs(account.account_id), blog_id);
 
     for (var i in changes)
       account[i] = changes[i];
 
-    if (changes.id) multi.sadd(key.blogs(changes.id), blog_id);
+    if (changes.account_id)
+      multi.sadd(key.blogs(changes.account_id), blog_id);
 
     ensure(account, model, true);
 
