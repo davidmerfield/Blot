@@ -17,6 +17,11 @@ function views (dir) {
 
 dashboard.use(views(__dirname + '/views/'));
 
+dashboard.use(function(req, res, next){
+  res.locals.tab = {folder: 'selected'};
+  next();
+});
+
 dashboard.get('/', function (req, res) {
 
   if (req.blog.client)
