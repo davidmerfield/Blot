@@ -52,40 +52,42 @@
 
   <p>Is something wrong? Please <!--<a href="">re‑syncing your folder</a> then --><a href="/contact">contact me</a> and we’ll sort it out.</p>
 
-  <hr style="margin: 2em 0">
-
-<p><span style="position: absolute;left: -1.8em;top:0.15em" class="icon success"></span> Your site is connected to <b>{{email}}</b>’s Dropbox. </p>
-
-  <p>
-    <a href="/clients/dropbox/authenticate/redirect" class="button">Use a different Dropbox account</a>
-
-  <a href="/clients/dropbox/disconnect" class="button">Disconnect this account</a>
-  </p>
-
-
-
-
   {{/error_code}}
 
   {{#error_code}}
+
+
+<p>
+<span style="position: absolute;left: -1.8em;top:0.15em" class="icon warning">!</span> Blot could not sync your site from <b>/Dropbox{{^full_access}}/Apps/Blot{{/full_access}}{{folder}}</b></p>
 
     {{#folder_missing}}
 
       <p>Your folder is missing</p>
 
-      {{#full}}
-      <a href="/clients/dropbox/select-folder" class="button">Select a folder</a>
-      {{/full}}
-
-      {{^full}}
-      <a href="/clients/dropbox/authenticate/redirect" class="button">Create a folder</a>
-      {{/full}}
+      <a href="/clients/dropbox/authenticate/redirect{{#full_access}}?full_access=true{{/full_access}}" class="button">Re-create your site's folder</a>
 
     {{/folder_missing}}
 
-    {{#generic_error}} {{/generic_error}}
+    {{#revoked}}
+
+      <p>Please reconnect to Dropbox to allow Blot to sync your folder.</p>
+
+      <a href="/clients/dropbox/authenticate/redirect{{#full_access}}?full_access=true{{/full_access}}" class="button">Re-connect to Dropbox</a>
+
+    {{/revoked}}
 
   {{/error_code}}
 
+
+  <hr style="margin: 2em 0">
+
+<p>{{^error_code}}<span style="position: absolute;left: -1.8em;top:0.15em" class="icon success"></span>{{/error_code}}
+{{#error_code}}<span style="position: absolute;left: -1.8em;top:0.15em" class="icon warning">!</span>{{/error_code}} Your site is connected to <b>{{email}}</b>’s Dropbox{{#error_code}} but is unable to sync{{/error_code}}. </p>
+
+  <p>
+    <a href="/clients/dropbox/different-dropbox" class="button">Use a different Dropbox account</a>
+
+  <a href="/clients/dropbox/disconnect" class="button">Disconnect this account</a>
+  </p>
 </div>
 {{/account}}
