@@ -24,15 +24,12 @@ module.exports = function delta (blogID, account, callback) {
   // to be the previous state of a user's folder
   // so we don't get everything every time...
   if (cursor) {
-    console.log('we have cursor!', cursor);
     methods.push(filesListFolderContinue.bind(this, client, cursor));
   } else {
-    console.log('we dont have cursor :( using folder_id:', folder_id);
     methods.push(filesListFolder.bind(this, client, folder_id));
   }
 
   if (folder_id) {
-    console.log('we have folder_id', folder_id);
     methods.push(filesGetMetadata.bind(this, client, folder_id));
   }
 
@@ -63,7 +60,6 @@ module.exports = function delta (blogID, account, callback) {
     // This means the folder was renamed, not removed.
     if (folder_moved) {
       account.cursor = '';
-      console.log('Folder moved, retrying!');
       return delta(blogID, account, callback);
     }
 
@@ -72,7 +68,6 @@ module.exports = function delta (blogID, account, callback) {
 
     if (errors.length) {
       account.error_code = errors[0].status || 400;
-      console.log('here', account);
       return Database.set(blogID, account, function(err){
         callback(err || errors[0]);
       });
