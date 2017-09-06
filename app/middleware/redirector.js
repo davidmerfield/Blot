@@ -42,7 +42,7 @@ module.exports = function (req, res, next) {
   }
 
   // Make sure the user connects a Dropbox account to their blog
-  if (pathIsNot([CLIENTS, LOGOUT]) && req.blog && !req.blog.client)
+  if (pathIsNot([CLIENTS, LOGOUT, ACCOUNT]) && req.blog && !req.blog.client)
     return res.redirect(CLIENTS);
 
   if (pathIs(STATIC)) return next();
