@@ -39,7 +39,6 @@ dashboard.get('/', function (req, res) {
 
 dashboard.use('/disconnect', require('./disconnect'));
 dashboard.use('/authenticate', require('./authenticate'));
-dashboard.use('/select-folder', require('./select_folder'));
 
 dashboard.use('/full-folder', function(req, res){
   res.dashboard('full_folder');
