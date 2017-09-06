@@ -8,28 +8,18 @@ dashboard.use(function(req, res, next){
 
     if (err) return next(err);
 
+    var last_sync = account && account.last_sync;
+    var error_code = account && account.error_code;
+
     res.locals.account = req.account = account;
 
-    if (account && account.last_sync) {
-      res.locals.account.last_sync = moment.utc(account.last_sync).fromNow();
+    if (last_sync) {
+      res.locals.account.last_sync = moment.utc(last_sync).fromNow();
     }
 
-    if (account && account.error_code) {
-
-      if (account.error_code === 409) {
-
-        console.log('yes!!!!');
-        res.locals.account.folder_missing = true;
-
-      } else if (account.error_code === 123) {
-
-        // foo
-
-      } else {
-
-        res.locals.account.generic_error = true;
-      }
-
+    if (error_code) {
+      res.locals.account.folder_missing = error_code === 409;
+      res.locals.account.revoked = error_code === 401;
     }
 
     return next();
@@ -50,8 +40,13 @@ dashboard.get('/', function (req, res) {
 dashboard.use('/disconnect', require('./disconnect'));
 dashboard.use('/authenticate', require('./authenticate'));
 dashboard.use('/select-folder', require('./select_folder'));
+
 dashboard.use('/full-folder', function(req, res){
   res.dashboard('full_folder');
+});
+
+dashboard.use('/different-dropbox', function (req, res) {
+  res.dashboard('different_dropbox');
 });
 
 var site = require('express').Router();
