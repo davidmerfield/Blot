@@ -8,6 +8,7 @@ module.exports = function dirToModule (dir, req) {
     // Private modules are prefixed with "_"
 
     if (file === "index.js" ||
+        file.indexOf('README') === 0 ||
         file.slice(0,1) === '_' ||
         file.charAt(0) === '.' ||
         (file.slice(-3) !== '.js' && file.indexOf('.') > -1))
