@@ -1,16 +1,27 @@
 Migrate to Dropbox API V2.
-- NPM install to latest version
+- re-implement preview file writes & removes
+- reset blog state when a new dropbox account is connected
+  - empty local folder
+  - run entry.drop for every file in the folder (no need to remove preview files though)
 - update delete blog / user to also remove account info
-- Migrate existing users from uid to account_id
-- Verify functioning OA2 access token for active blogs (open, used within last year)
 - Verify production webhook exists for both full folder and app folder apps.
 - Add new secrets for Dropbox Full folder app
-- Move existing secrets for Dropbox app folder from dropbox.live.key to dropbox.app.live.key etc...
 - Migrate existing blog dropbox keys to client keys
+- Move existing secrets for Dropbox app folder from dropbox.live.key to dropbox.app.live.key etc...
+
+Migrate script
+  - move existing users from uid to account_id
+  - for users with multiple blogs, get folder_id id of subfolders
+  - Verify functioning OA2 access token for active blogs (open, used within last year)
+
+Release schedule
+- git pull origin master
+- npm install to latest version of dropbox app
+- sudo stop blot
+- node migrate.js
+- sudo start blot
 
 Set up SSL for all blogs
-
-Fix strange windows notepad encoding bug and tell [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc)
 
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
@@ -24,6 +35,9 @@ Redesign template system to make it easy to customize and create them.
 - Warn users that underscore will not work for hidden pages
 - Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
+
+Re-implement folder verification feature
+- make use of the local content hash computation script to verify we have the correct version of a given file
 
 Improve the selection of templates, tell [this guy](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), Nash P., Chris S. and John P.
 
@@ -65,6 +79,8 @@ https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1
 
 Accept bitcoin subscription payments
 
+Fix strange windows notepad encoding bug and tell [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc)
+
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
 Migrate code from require('../../../') to shortcuts in node_modules.
@@ -81,6 +97,10 @@ Use a string-difference algorithm to improve rename recognition? Something with 
 
 Add method to pause syncing and prevent future syncs
 then use this method with the create/remove blog migration too.
+
+Use <select> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
+
+Add a permanent floating link to Blot's support page at the bottom right of the dashboard, like basecamp
 
 Use NGINX to send all Blot's static files
 
