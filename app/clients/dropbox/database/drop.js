@@ -12,8 +12,8 @@ module.exports = function (blog_id, callback) {
 
     var multi = redis.multi();
 
-    if (account && account.id)
-      multi.srem(key.blogs(account.id), blog_id);
+    if (account && account.account_id)
+      multi.srem(key.blogs(account.account_id), blog_id);
 
     multi.del(key.account(blog_id));
 
