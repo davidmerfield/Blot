@@ -23,6 +23,10 @@ Release schedule
 
 Set up SSL for all blogs
 
+Re-instate verify feature for folders
+
+Re-instate feature to check if a rogue sync took down the server and run sync on a seperate process
+
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Move www/blogs/* to /blogs/{{id}}/assets
