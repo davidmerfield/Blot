@@ -26,8 +26,6 @@ function writeToFolder (blogID, templateID, callback) {
       if (!views || !metadata)
         return callback(noTemplate(blogID, templateID));
 
-      console.log('here!');
-
       makeClient(blogID, function(err, client){
 
         console.log(err);
@@ -40,8 +38,6 @@ function writeToFolder (blogID, templateID, callback) {
 
           if (!view.name || !view.type || !view.content)
             return next();
-
-          console.log('here too', dir);
 
           write(blogID, client, dir, view, next);
 
