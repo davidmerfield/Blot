@@ -1,13 +1,11 @@
-Ensure write local and template files work with new dropbox interface
-
 Test the new code extensively
 
 Migrate script
 - set all blogs' client property to 'dropbox'
 - set all blog's dropbox account full_acess to false
+
 - move existing users from uid to account_id
 - for users with multiple blogs, get folder_id id of subfolders
-- Verify functioning OA2 access token for active blogs (open, used within last year)
 
 Merge branch into main and push
 
@@ -26,6 +24,8 @@ Set up SSL for all blogs
 Re-instate verify feature for folders
 
 Re-instate feature to check if a rogue sync took down the server and run sync on a seperate process
+
+Try to use the same app folder when you upgrade from app folder to full site folder
 
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based

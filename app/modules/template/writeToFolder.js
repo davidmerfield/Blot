@@ -4,8 +4,7 @@ var joinpath = require('path').join;
 var forEach = helper.forEach;
 var Template = require('../../models/template');
 var callOnce = helper.callOnce;
-
-var makeClient = require('./makeClient');
+var Blog = require('blog');
 
 function writeToFolder (blogID, templateID, callback) {
 
@@ -27,18 +26,24 @@ function writeToFolder (blogID, templateID, callback) {
       if (!views || !metadata)
         return callback(noTemplate(blogID, templateID));
 
-      makeClient(blogID, function(err, client, root){
+      console.log('here!');
+
+      makeClient(blogID, function(err, client){
+
+        console.log(err);
 
         if (err) return callback(err);
 
-        var dir = joinpath(root, 'Templates', metadata.slug);
+        var dir = joinpath('Templates', metadata.slug);
 
         forEach(views, function(name, view, next){
 
           if (!view.name || !view.type || !view.content)
             return next();
 
-          write(client, dir, view, next);
+          console.log('here too', dir);
+
+          write(blogID, client, dir, view, next);
 
         }, callback);
       });
@@ -46,20 +51,21 @@ function writeToFolder (blogID, templateID, callback) {
   });
 }
 
-// Error codes from Dropbox's API
-var TRY_AGAIN = [
-  0, 500, 504, // network error
-  429, 503     // rate limit error
-];
+function makeClient (blogID, callback) {
 
-var INIT_DELAY = 1000;
-var MAX_ATTEMPTS = 10;
+  var clients = require('clients');
 
-function shouldRetry (error) {
-  return error && error.status && TRY_AGAIN.indexOf(error.status) !== -1;
+  Blog.get({id: blogID}, function(err, blog){
+
+    if (!clients[blog.client]) return callback(new Error('No client for this blog'));
+
+    var client = clients[blog.client];
+
+    return callback(null, client);
+  });
 }
 
-function write (client, dir, view, callback) {
+function write (blogID, client, dir, view, callback) {
 
   ensure(client, 'object')
     .and(dir, 'string')
@@ -69,8 +75,7 @@ function write (client, dir, view, callback) {
   callback = callOnce(callback);
 
   // eventually I should just store
-  // the goddamn filename and avoid this
-  // bullSHIT
+  // the goddamn filename and avoid this bullSHIT
   var extension = '.html';
 
   if (view.type === 'text/css') extension = '.css';
@@ -82,28 +87,7 @@ function write (client, dir, view, callback) {
   var path = joinpath(dir, view.name + extension);
   var content = view.content;
 
-  var delay = INIT_DELAY;
-  var attempts = 1;
-
-  client.writeFile(path, content, function done (error){
-
-    // If error, determine whether or not to try again.
-    if (shouldRetry(error) && attempts < MAX_ATTEMPTS) {
-
-      attempts++;
-      delay *= 2;
-
-      setTimeout(function(){
-
-        client.writeFile(path, content, done);
-
-      }, delay);
-
-    } else {
-
-      callback();
-    }
-  });
+  client.write(blogID, path, content, callback);
 }
 
 function badPermission (blogID, templateID) {
