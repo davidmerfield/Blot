@@ -11,6 +11,8 @@ var ERROR = {
   NO_USER: 'does not have a Blot account'
 };
 
+require('./check');
+
 // This function is called when all we know
 // is a UID and that we want Blot to sync it.
 function sync (blogID, main, callback) {

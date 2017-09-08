@@ -1,7 +1,7 @@
-var VerifyFolder = ''; // require('../dropbox/verify');
-var VerifyBlog = ''; // require('../../verify');
+// var VerifyFolder = ''; // require('../dropbox/verify');
+// var VerifyBlog = ''; // require('../../verify');
 var Lease = require('../lease');
-var Sync = require('../start');
+// var Sync = require('../start');
 var helper = require('../../helper');
 var forEach = helper.forEach;
 
@@ -24,40 +24,41 @@ Lease.active(function(err, blogIDs){
 
       if (err) throw err;
 
-      // sync
-      Sync(blogID, function(err){
+      nextBlog();
+      // // sync
+      // Sync(blogID, function(err){
 
-        if (err) {
-          console.log(err);
-          if (err.stack) console.log(err.stack);
-          if (err.trace) console.log(err.trace);
-          return nextBlog();
-        }
+      //   if (err) {
+      //     console.log(err);
+      //     if (err.stack) console.log(err.stack);
+      //     if (err.trace) console.log(err.trace);
+      //     return nextBlog();
+      //   }
 
-        // ensure folder is in sync...
-        VerifyFolder(blogID, function(err){
+      //   // ensure folder is in sync...
+      //   VerifyFolder(blogID, function(err){
 
-          if (err) {
-            console.log(err);
-            if (err.stack) console.log(err.stack);
-            if (err.trace) console.log(err.trace);
-            return nextBlog();
-          }
+      //     if (err) {
+      //       console.log(err);
+      //       if (err.stack) console.log(err.stack);
+      //       if (err.trace) console.log(err.trace);
+      //       return nextBlog();
+      //     }
 
-          console.log('Verifying blog data of ', blogID ,'...');
+      //     console.log('Verifying blog data of ', blogID ,'...');
 
-          VerifyBlog(blogID, function(err){
+      //     VerifyBlog(blogID, function(err){
 
-            if (err) {
-              console.log(err);
-              if (err.stack) console.log(err.stack);
-              if (err.trace) console.log(err.trace);
-            }
+      //       if (err) {
+      //         console.log(err);
+      //         if (err.stack) console.log(err.stack);
+      //         if (err.trace) console.log(err.trace);
+      //       }
 
-            nextBlog();
-          });
-        });
-      });
+      //       nextBlog();
+      //     });
+      //   });
+      // });
     });
   }, function(){
 
