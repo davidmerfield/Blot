@@ -1,13 +1,10 @@
-Merge branch into main and push
-
 Release schedule
-- Verify production webhook exists for both full folder and app folder apps.
-- Add new secrets for Dropbox Full folder app and verify they line up with the ones in dev mode
 - git pull origin master
 - npm install to latest version of dropbox app
 - sudo stop blot && sudo start blot
 - node migrate.js
 - remove old dropbox secrets where neccessary
+- renable webhooks in dev dashboard
 
 Re-do demo video to explain the sites I run using it:
  - Blot's developer blog: a conventional blog, show using different text editors
