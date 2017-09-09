@@ -1,6 +1,0 @@
-permalink: markdown
-menu: yes
-
-# About
-
-This is my about page.

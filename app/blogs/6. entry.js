@@ -36,6 +36,15 @@ module.exports = function(server){
       if (entry.scheduled && !scheduled)
         return next();
 
+      // We check if the url is not the site's index page
+      // since it's possible to accidentally set an entry's
+      // permalink to this, then never be able to undo it
+      // otherwise. Thanks to Jack for discovering this fun bug.
+      // We really should check that this URL is not used by
+      // any of the template views but will do that in future.
+      if (normalize(entry.url) !== normalize(url) && url === '/')
+        return next();
+
       Entries.adjacentTo(blog.id, entry.id, function(nextEntry, previousEntry){
 
         entry.next = nextEntry;
