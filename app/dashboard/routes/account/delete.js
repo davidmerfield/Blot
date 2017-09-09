@@ -8,20 +8,23 @@ var User = require('user');
 var emptyS3Folder = require('../../../upload/removeFolder');
 var config = require('config');
 var stripe = require('stripe')(config.stripe.secret);
+var clients = require('clients');
 
 module.exports = function (server) {
 
-  server
-    .route('/account/delete')
+  function removeBlog (blogID, nextBlog){
 
-    .get(function(req, res){
-      res.title('Delete your account');
-      res.renderAccount('delete');
-    })
+    Blog.get({id: blogID}, function(err, blog){
 
-    .post(function(req, res, next){
+      if (err) console.log(err);
 
-      forEach.parallel(req.user.blogs, function(blogID, nextBlog){
+      var remove_client = blog.client ?
+         clients[blog.client].database.drop :
+         function (x,y) {y();};
+
+      remove_client(blogID, function(err){
+
+        if (err) console.log(err);
 
         Blog.remove(blogID, function(err){
 
@@ -43,23 +46,35 @@ module.exports = function (server) {
             });
           });
         });
-      }, function(){
+      });
+    });
+  }
 
-        var customerID = req.user.subscription.customer;
+  server
+    .route('/account/delete')
 
-        // remember to remove user info from stripe
-        // https://stripe.com/docs/api#delete_customer
-        stripe.customers.del(customerID, function(err){
+    .get(function(req, res){
+      res.title('Delete your account');
+      res.renderAccount('delete');
+    })
 
-          if (err) return next(err);
+    .post(function(req, res, next){
 
-          User.remove(req.user.uid, function(err){
+        forEach.parallel(req.user.blogs, removeBlog, function(){
+
+          var customerID = req.user.subscription.customer;
+
+          stripe.customers.del(customerID, function(err){
 
             if (err) return next(err);
 
-            res.redirect('/deleted');
+            User.remove(req.user.uid, function(err){
+
+              if (err) return next(err);
+
+              res.redirect('/deleted');
+            });
           });
         });
-      });
     });
 };

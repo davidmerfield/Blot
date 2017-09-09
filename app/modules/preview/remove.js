@@ -2,84 +2,24 @@ var drafts = require('../../drafts');
 var helper = require('../../helper');
 var previewPath = drafts.previewPath;
 var ensure = helper.ensure;
+var Blog = require('blog');
 
+module.exports = function (blogID, path, callback) {
 
-var INITIAL_DELAY = 2000;
-var MAX_ATTEMPTS = 10;
+  callback = callback || console.log;
 
-// Error codes from Dropbox's API
-var TRY_AGAIN = [
-  0, 500, 504, // network error
-  429, 503     // rate limit error
-];
-
-// Minor helper to determine
-// if an error code is retry-able
-function canRetry (err) {
-
-  return err &&
-         err.status !== null &&
-         err.status !== undefined &&
-         TRY_AGAIN.indexOf(err.status) !== -1;
-
-}
-
-module.exports = function (client, _path, callback) {
-
-  ensure(client, 'object')
-    .and(_path, 'string')
+  ensure(blogID, 'string')
+    .and(path, 'string')
     .and(callback, 'function');
 
-  var delay = INITIAL_DELAY, attempts = 1;
+  var clients = require('clients');
 
-  // Determine the path of the preview
-  // file for this item. It can be a folder!
+  Blog.get({id: blogID}, function(err, blog){
 
-  // This will sometimes
-  // be called for folders removed inside
-  // the user's draft folder. In this case,
-  // the preview file won't exist. No biggie.
-  var path = previewPath(_path);
+    if (err) return callback(err);
 
-  if (!path) {
-    console.log('Could not determine the path to a preview file for ', _path);
-    return callback();
-  }
+    var preview_path = previewPath(path);
 
-  client.remove(path, function done (err){
-
-    // the preview file didn't exist
-    // It's possible the user had already
-    if (err && err.status === 404) {
-      return callback(null);
-    }
-
-    // This almost certainly occurs when
-    // we hit API limits. We back off,
-    // doubling the delay with each attempt.
-    if (canRetry(err) && attempts < MAX_ATTEMPTS) {
-
-      delay *= 2;
-      attempts++;
-
-      return setTimeout(function(){
-
-        client.remove(path, done);
-
-      }, delay);
-    }
-
-    // We don't pass this error up the chain
-    // since it's not really that important.
-    // I figure the user can always remove the
-    // preview file themselves.
-    if (err) {
-      console.log('Error removing preview file', path);
-      console.log(err);
-    } else {
-      console.log('Removed preview file', path);
-    }
-
-    callback();
+    clients[blog.client].remove(blogID, preview_path, callback);
   });
 };

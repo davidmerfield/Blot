@@ -1,0 +1,20 @@
+namespace users_common
+    "This namespace contains common data types used within the users namespace"
+
+alias AccountId = String(min_length=40, max_length=40)
+
+union_closed AccountType
+    "What type of account this user has."
+
+    basic
+        "The basic account type."
+    pro
+        "The Dropbox Pro account type."
+    business
+        "The Dropbox Business account type."
+
+    example default
+        basic = null
+
+    example business
+        business = null

@@ -1,0 +1,558 @@
+namespace team
+
+import async
+import team_common
+
+#
+# Common types.
+#
+
+union_closed GroupAccessType
+    "Role of a user in group."
+
+    member
+        "User is a member of the group, but has no special permissions."
+    owner
+        "User can rename the group, and add/remove members."
+
+    example default
+        member = null
+
+union_closed GroupSelector
+    "Argument for selecting a single group, either by group_id or by external group ID."
+
+    group_id team_common.GroupId
+        "Group ID."
+    group_external_id team_common.GroupExternalId
+        "External ID of the group."
+
+    example default
+        group_id = "g:e2db7665347abcd600000000001a2b3c"
+
+union GroupSelectorError
+    "Error that can be raised when :type:`GroupSelector` is used."
+
+    group_not_found
+        "No matching group found. No groups match the specified group ID."
+
+union GroupSelectorWithTeamGroupError extends GroupSelectorError
+    "Error that can be raised when :type:`GroupSelector` is used and team groups are disallowed from
+    being used."
+
+    system_managed_group_disallowed
+        "This operation is not supported on system-managed groups."
+
+
+union_closed GroupsSelector
+    "Argument for selecting a list of groups, either by group_ids, or external group IDs."
+
+    group_ids List(team_common.GroupId)
+        "List of group IDs."
+    group_external_ids List(String)
+        "List of external IDs of groups."
+
+    example default
+        group_ids = ["g:e2db7665347abcd600000000001a2b3c", "g:111111147abcd6000000000222222c"]
+
+
+struct GroupMemberSelector
+    "Argument for selecting a group and a single user."
+
+    group GroupSelector
+        "Specify a group."
+    user UserSelectorArg
+        "Identity of a user that is a member of :field:`group`."
+
+    example default
+        group = default
+        user = default
+
+
+union GroupMemberSelectorError extends GroupSelectorWithTeamGroupError
+    "Error that can be raised when :type:`GroupMemberSelector` is used, and the user
+    is required to be a member of the specified group."
+
+    member_not_in_group
+        "The specified user is not a member of this group."
+
+
+struct GroupMembersSelector
+    "Argument for selecting a group and a list of users."
+
+    group GroupSelector
+        "Specify a group."
+    users UsersSelectorArg
+        "A list of users that are members of :field:`group`."
+
+
+union GroupMembersSelectorError extends GroupSelectorWithTeamGroupError
+    "Error that can be raised when :type:`GroupMembersSelector` is used, and the users
+    are required to be members of the specified group."
+
+    member_not_in_group
+        "At least one of the specified users is not a member of the group."
+
+
+struct IncludeMembersArg
+
+    return_members Boolean = true
+        "Whether to return the list of members in the group.
+         Note that the default value will cause all the group members
+         to be returned in the response. This may take a long time for large groups."
+
+####################
+# Group Info methods
+####################
+
+
+struct GroupMemberInfo
+    "Profile of group member, and role in group."
+
+    profile MemberProfile
+        "Profile of group member."
+    access_type GroupAccessType
+        "The role that the user has in the group."
+
+    example default
+        profile = default
+        access_type = default
+
+
+struct GroupFullInfo extends team_common.GroupSummary
+    "Full description of a group."
+
+    members List(GroupMemberInfo)?
+        "List of group members."
+    created UInt64
+        "The group creation time as a UTC timestamp in milliseconds since the Unix epoch."
+
+    example default
+        group_name = "project launch"
+        group_id = "g:e2db7665347abcd600000000001a2b3c"
+        member_count = 5
+        group_management_type = user_managed
+        members = [default]
+        created = 1447255518000
+
+#
+# route groups/list
+#
+
+struct GroupsListArg
+    limit UInt32(min_value=1, max_value=1000) = 1000
+        "Number of results to return per call."
+
+    example default
+        limit = 100
+
+
+struct GroupsListResult
+    groups List(team_common.GroupSummary)
+    cursor String
+        "Pass the cursor into :route:`groups/list/continue` to obtain the additional groups."
+    has_more Boolean
+        "Is true if there are additional groups that have not been returned
+        yet. An additional call to :route:`groups/list/continue` can retrieve them."
+
+    example default
+        groups = [default]
+        cursor = "ZtkX9_EHj3x7PMkVuFIhwKYXEpwpLwyxp9vMKomUhllil9q7eWiAu"
+        has_more = false
+
+route groups/list(GroupsListArg, GroupsListResult, Void)
+    "Lists groups on a team.
+
+    Permission : Team Information."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# route groups/list/continue
+#
+
+struct GroupsListContinueArg
+    cursor String
+        "Indicates from what point to get the next set of groups."
+
+    example default
+        cursor = "ZtkX9_EHj3x7PMkVuFIhwKYXEpwpLwyxp9vMKomUhllil9q7eWiAu"
+
+union GroupsListContinueError
+    invalid_cursor
+        "The cursor is invalid."
+
+route groups/list/continue(GroupsListContinueArg, GroupsListResult, GroupsListContinueError)
+    "Once a cursor has been retrieved from :route:`groups/list`, use this to paginate
+    through all groups.
+
+    Permission : Team Information."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# route groups/get_info
+#
+
+union_closed GroupsGetInfoItem
+    id_not_found String
+        "An ID that was provided as a parameter to :route:`groups/get_info`, and
+        did not match a corresponding group. The ID can be a group ID, or an external ID,
+        depending on how the method was called."
+    group_info GroupFullInfo
+        "Info about a group."
+
+    example default
+        group_info = default
+
+
+alias GroupsGetInfoResult = List(GroupsGetInfoItem)
+
+
+union GroupsGetInfoError
+    group_not_on_team
+        "The group is not on your team."
+
+route groups/get_info(GroupsSelector, GroupsGetInfoResult, GroupsGetInfoError)
+    "Retrieves information about one or more groups. Note that the optional field
+     :field:`GroupFullInfo.members` is not returned for system-managed groups.
+
+    Permission : Team Information."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+##########################
+# Group management methods
+##########################
+
+
+#
+# route groups/create
+#
+
+struct GroupCreateArg
+    group_name String
+        "Group name."
+    group_external_id team_common.GroupExternalId?
+        "The creator of a team can associate an arbitrary external ID to the group."
+    group_management_type team_common.GroupManagementType?
+        "Whether the team can be managed by selected users, or only by team admins."
+
+    example default
+        group_name = "Europe sales"
+        group_external_id = "group-134"
+
+union GroupCreateError
+    group_name_already_used
+        "The requested group name is already being used by another group."
+    group_name_invalid
+        "Group name is empty or has invalid characters."
+    external_id_already_in_use
+        "The requested external ID is already being used by another group."
+    system_managed_group_disallowed
+        "System-managed group cannot be manually created."
+
+
+route groups/create(GroupCreateArg, GroupFullInfo, GroupCreateError)
+    "Creates a new, empty group, with a requested name.
+
+    Permission : Team member management."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# route groups/delete  (async method)
+#
+
+union GroupDeleteError extends GroupSelectorWithTeamGroupError
+    group_already_deleted
+        "This group has already been deleted."
+
+
+route groups/delete(GroupSelector, async.LaunchEmptyResult, GroupDeleteError)
+    "Deletes a group.
+
+    The group is deleted immediately. However the revoking of group-owned resources
+    may take additional time.
+    Use the :route:`groups/job_status/get` to determine whether this process has completed.
+
+    Permission : Team member management."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# route groups/update
+#
+
+struct GroupUpdateArgs extends IncludeMembersArg
+    group GroupSelector
+        "Specify a group."
+    new_group_name String?
+        "Optional argument. Set group name to this if provided."
+    new_group_external_id team_common.GroupExternalId?
+        "Optional argument. New group external ID.
+        If the argument is None, the group's external_id won't be updated.
+        If the argument is empty string, the group's external id will be cleared."
+    new_group_management_type team_common.GroupManagementType?
+        "Set new group management type, if provided."
+
+    example default
+        group = default
+        new_group_name = "Europe west sales"
+        new_group_external_id = "sales-234"
+        new_group_management_type = company_managed
+
+union GroupUpdateError extends GroupSelectorWithTeamGroupError
+    group_name_already_used
+        "The requested group name is already being used by another group."
+    group_name_invalid
+        "Group name is empty or has invalid characters."
+    external_id_already_in_use
+        "The requested external ID is already being used by another group."
+
+route groups/update(GroupUpdateArgs, GroupFullInfo, GroupUpdateError)
+    "Updates a group's name and/or external ID.
+
+    Permission : Team member management."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# Structures common to groups/members/add and  groups/members/remove
+#
+
+struct GroupMembersChangeResult
+    "Result returned by :route:`groups/members/add` and :route:`groups/members/remove`."
+
+    group_info GroupFullInfo
+        "The group info after member change operation has been performed."
+    async_job_id async.AsyncJobId
+        "An ID that can be used to obtain the status of granting/revoking group-owned resources."
+
+    example default
+        group_info = default
+        async_job_id = "99988877733388"
+
+#
+# route groups/members/add  (async method)
+#
+
+struct MemberAccess
+    "Specify access type a member should have when joined to a group."
+
+    user UserSelectorArg
+        "Identity of a user."
+    access_type GroupAccessType
+        "Access type."
+
+    example default
+        user = default
+        access_type = default
+
+struct GroupMembersAddArg extends IncludeMembersArg
+    group GroupSelector
+        "Group to which users will be added."
+    members List(MemberAccess)
+        "List of users to be added to the group."
+
+    example default
+        group = default
+        members = [default]
+
+
+union GroupMembersAddError extends GroupSelectorWithTeamGroupError
+    duplicate_user
+        "You cannot add duplicate users. One or more of the members
+        you are trying to add is already a member of the group."
+    group_not_in_team
+        "Group is not in this team. You cannot add members to a
+        group that is outside of your team."
+    members_not_in_team List(String)
+        "These members are not part of your team. Currently, you cannot add members
+        to a group if they are not part of your team, though this
+        may change in a subsequent version. To add new members to your Dropbox
+        Business team, use the :route:`members/add` endpoint."
+    users_not_found List(String)
+        "These users were not found in Dropbox."
+    user_must_be_active_to_be_owner
+        "A suspended user cannot be added to a group as :field:`GroupAccessType.owner`."
+    user_cannot_be_manager_of_company_managed_group List(String)
+        "A company-managed group cannot be managed by a user."
+
+
+route groups/members/add(GroupMembersAddArg, GroupMembersChangeResult, GroupMembersAddError)
+    "Adds members to a group.
+
+    The members are added immediately. However the granting of group-owned resources
+    may take additional time.
+    Use the :route:`groups/job_status/get` to determine whether this process has completed.
+
+    Permission : Team member management."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# route groups/members/remove  (async method)
+#
+
+struct GroupMembersRemoveArg extends IncludeMembersArg
+    group GroupSelector
+        "Group from which users will be removed."
+    users List(UserSelectorArg)
+        "List of users to be removed from the group."
+
+    example default
+        group = default
+        users = [default]
+
+union GroupMembersRemoveError extends GroupMembersSelectorError
+    group_not_in_team
+        "Group is not in this team. You cannot remove members from a group
+        that is outside of your team."
+    members_not_in_team List(String)
+        "These members are not part of your team."
+    users_not_found List(String)
+        "These users were not found in Dropbox."
+
+route groups/members/remove(GroupMembersRemoveArg, GroupMembersChangeResult, GroupMembersRemoveError)
+    "Removes members from a group.
+
+    The members are removed immediately. However the revoking of group-owned resources
+    may take additional time.
+    Use the :route:`groups/job_status/get` to determine whether this process has completed.
+
+    This method permits removing the only owner of a group, even in cases where this is not
+    possible via the web client.
+
+    Permission : Team member management."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# route groups/members/set_access_type
+#
+
+
+struct GroupMembersSetAccessTypeArg extends GroupMemberSelector
+    access_type GroupAccessType
+        "New group access type the user will have."
+    return_members Boolean = true
+        "Whether to return the list of members in the group.
+         Note that the default value will cause all the group members
+         to be returned in the response. This may take a long time for large groups."
+
+    example default
+        group = default
+        user = default
+        access_type = default
+
+union GroupMemberSetAccessTypeError extends GroupMemberSelectorError
+    user_cannot_be_manager_of_company_managed_group
+        "A company managed group cannot be managed by a user."
+
+route groups/members/set_access_type(GroupMembersSetAccessTypeArg, GroupsGetInfoResult, GroupMemberSetAccessTypeError)
+    "Sets a member's access type in a group.
+
+    Permission : Team member management."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+
+#
+# route groups/members/list
+#
+
+struct GroupsMembersListArg
+    group GroupSelector
+        "The group whose members are to be listed."
+    limit UInt32(min_value=1, max_value=1000) = 1000
+        "Number of results to return per call."
+
+    example default
+        group = default
+        limit = 100
+
+struct GroupsMembersListResult
+    members List(GroupMemberInfo)
+    cursor String
+        "Pass the cursor into :route:`groups/members/list/continue` to obtain additional group members."
+    has_more Boolean
+        "Is true if there are additional group members that have not been returned
+        yet. An additional call to :route:`groups/members/list/continue` can retrieve them."
+
+    example default
+        members = []
+        cursor = "ZtkX9_EHj3x7PMkVuFIhwKYXEpwpLwyxp9vMKomUhllil9q7eWiAu"
+        has_more = false
+
+
+route groups/members/list(GroupsMembersListArg, GroupsMembersListResult, GroupSelectorError)
+    "Lists members of a group.
+
+    Permission : Team Information."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# route groups/members/list/continue
+#
+
+struct GroupsMembersListContinueArg
+    cursor String
+        "Indicates from what point to get the next set of groups."
+
+    example default
+        cursor = "ZtkX9_EHj3x7PMkVuFIhwKYXEpwpLwyxp9vMKomUhllil9q7eWiAu"
+
+union GroupsMembersListContinueError
+    invalid_cursor
+        "The cursor is invalid."
+
+route groups/members/list/continue(GroupsMembersListContinueArg, GroupsMembersListResult, GroupsMembersListContinueError)
+    "Once a cursor has been retrieved from :route:`groups/members/list`, use this to paginate
+    through all members of the group.
+
+    Permission : Team information."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"
+
+#
+# route groups/job_status/get
+#
+
+union GroupsPollError extends async.PollError
+    access_denied
+        "You are not allowed to poll this job."
+
+route groups/job_status/get(async.PollArg, async.PollEmptyResult, GroupsPollError)
+    "Once an async_job_id is returned from :route:`groups/delete`,
+    :route:`groups/members/add` , or :route:`groups/members/remove`
+    use this method to poll the status of granting/revoking
+    group members' access to group-owned resources.
+
+    Permission : Team member management."
+
+    attrs
+        auth = "team"
+        owner = "teams-and-groups"

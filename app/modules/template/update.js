@@ -37,7 +37,12 @@ module.exports = function (blogID, callback) {
         next();
       });
     }, function(){
-      Blog.set(blogID, {cacheID: Date.now()}, callback);
+      var cacheID = Date.now();
+      Blog.set(blogID, {
+        cssURL: Blog.url.css(cacheID),
+        scriptURL: Blog.url.js(cacheID),
+        cacheID: cacheID
+      }, callback);
     });
   });
 };

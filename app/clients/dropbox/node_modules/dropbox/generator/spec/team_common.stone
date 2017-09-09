@@ -1,0 +1,56 @@
+namespace team_common
+
+import common
+
+alias TeamMemberId = String
+alias MemberExternalId = String(max_length=64)
+alias GroupExternalId = String
+
+alias GroupId = String
+alias ResellerId = String
+
+struct GroupSummary
+    "Information about a group."
+
+    group_name String
+    group_id GroupId
+    group_external_id GroupExternalId?
+        "External ID of group. This is an arbitrary ID that an admin can attach to a group."
+    member_count UInt32?
+        "The number of members in the group."
+    group_management_type GroupManagementType
+        "Who is allowed to manage the group."
+
+    example default
+        group_name = "Test group"
+        group_id = "g:e2db7665347abcd600000000001a2b3c"
+        member_count = 10
+        group_management_type = user_managed
+
+
+union GroupManagementType
+    "The group type determines how a group is managed."
+
+    user_managed
+        "A group which is managed by selected users."
+    company_managed
+        "A group which is managed by team admins only."
+    system_managed
+        "A group which is managed automatically by Dropbox."
+
+
+union GroupType
+    "The group type determines how a group is created and managed."
+
+    team
+        "A group to which team members are automatically added. Applicable to
+        :link:`team folders https://www.dropbox.com/help/986` only."
+    user_managed
+        "A group is created and managed by a user."
+
+struct TimeRange
+    "Time range."
+    start_time common.DropboxTimestamp?
+        "Optional starting time (inclusive)."
+    end_time common.DropboxTimestamp?
+        "Optional ending time (exclusive)."

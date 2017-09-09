@@ -1,0 +1,27 @@
+var helper = require('helper');
+var forEach = helper.forEach;
+var ensure = helper.ensure;
+
+var addIgnore = require('ignored').add;
+var dropEntry = require('entry').drop;
+
+module.exports = function (blogID, path, reason, callback){
+
+  ensure(blogID, 'string')
+    .and(path, 'string')
+    .and(reason, 'string')
+    .and(callback, 'function');
+
+  // Remove this file from the user's blog
+  // and from the folder on the server.
+  var queue = [
+    addIgnore.bind(this, blogID, path, reason),
+    dropEntry.bind(this, blogID, path)
+  ];
+
+  forEach(queue, function(method, next){
+
+    method(next);
+
+  }, callback);
+};

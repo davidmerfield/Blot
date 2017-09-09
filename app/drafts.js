@@ -73,38 +73,31 @@ module.exports = (function () {
     });
   }
 
-  function previewFile (blogID, path, callback) {
+  function previewFile (handle, path, callback) {
 
-    ensure(blogID, 'string')
+    ensure(handle, 'string')
       .and(path, 'string')
       .and(callback, 'function');
 
-    Blog.get({id: blogID}, function(err, blog){
+    fs.readFile(draftContainer, 'utf-8', function(err, contents){
 
-      if (err || !blog)
-        return callback(err || 'No blog with id ' + blogID);
+      if (err || !contents)
+        return callback(err || 'No contents');
 
-      fs.readFile(draftContainer, 'utf-8', function(err, contents){
+      var draftURL = viewURL(handle, path);
 
-        if (err || !contents)
-          return callback(err || 'No contents');
+      var view = {
+        draftURL: draftURL,
+        title: basename(path).split('[draft]').join('').trim()
+      };
 
-        var draftURL = viewURL(blog.handle, path);
-        var remotePath = previewPath(joinpath(blog.folder, path));
+      try {
+        contents = render(contents, view);
+      } catch (e) {
+        return callback(e);
+      }
 
-        var view = {
-          draftURL: draftURL,
-          title: basename(path).split('[draft]').join('').trim()
-        };
-
-        try {
-          contents = render(contents, view);
-        } catch (e) {
-          return callback(e);
-        }
-
-        return callback(err, remotePath, contents);
-      });
+      return callback(err, contents);
     });
   }
 

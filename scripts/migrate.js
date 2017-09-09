@@ -1,112 +1,135 @@
-var User = require('../app/models/user');
 var Blog = require('../app/models/blog');
-var forEach = require('../app/helper').forEach;
-var client = require('redis').createClient();
-var all_uids = {};
+var eachBlog = require('./each/blog');
+var Dropbox = require('../app/clients/dropbox/node_modules/dropbox');
+var database = require('../app/clients/dropbox/database');
+var redis = require('../app/node_modules/client');
 
-// remove all sync locks (bad uids)
-client.keys('sync:*', function (err, synckeys) {
+eachBlog(function(user, blog, next){
 
-  if (err) throw err;
+  update_account(blog, function(err, account){
 
-  client.del(synckeys);
-});
+    if (err) {
+      console.log('x', blog.id, blog.handle, err.status || err.message || 'no message');
+    } else if (account) {
+      console.log('✔', blog.id, blog.handle, account.account_id, account.folder, account.folder_id);
+    }
 
-// remove all sessions (bad uids)
-client.keys('sess:*', function (err, sesskeys) {
+    if (account) {
+      blog.client = 'dropbox';
+    } else if (blog.credentials) {
+      blog.client = '';
+    }
 
-  if (err) throw err;
+    if (blog.client === undefined)
+      blog.client = '';
 
-  client.del(sesskeys);
-});
+    var should_remove = [
+      'folder',
+      'folderState',
+      'credentials',
+      'pageSize'
+    ];
 
-client.keys('user:*', function (err, userkeys) {
+    var multi = redis.multi();
 
-  if (err) throw err;
+    should_remove.forEach(function(key){
 
-  forEach(userkeys, function(old_key, next){
+      if (!blog[key]) return;
 
-    client.get(old_key, function(err, _user){
+      multi.hdel('blog:' + blog.id + ':info', key);
+      delete blog[key];
+      console.log('Deleting', key);
+    });
 
-      if (err) throw err;
+    multi.exec(function(err){
 
-      var user = JSON.parse(_user);
-      var old_uid = user.uid;
-      var new_uid;
+      if (err) return callback(err);
 
-      // console.log('OLD USER:');
-      // console.log(user);
+      Blog.set(blog.id, blog, function(err){
 
-      while (!new_uid || all_uids[new_uid] === undefined) {
-         new_uid = User.generateId();
-         all_uids[new_uid] = true;
-      }
+        if (err) return callback(err);
 
-      delete user.name;
-      delete user.countryCode;
-
-      if (user.folderState) {
-        var folderState = user.folderState;
-        delete user.folderState;
-      }
-
-      if (user.credentials) {
-        var credentials = user.credentials;
-        delete user.credentials;
-      }
-
-      user.uid = new_uid;
-      user.passwordHash = '';
-
-      var new_user_string = JSON.stringify(user);
-      var new_key = User.key.user(new_uid);
-
-      var multi = client.multi();
-
-      multi.sadd(User.key.uids, new_uid);
-      multi.srem(User.key.uids, old_uid);
-      multi.del(old_key);
-      multi.set(new_key, new_user_string);
-      multi.set(User.key.email(user.email), new_uid);
-
-      // some users might not have stripe subscriptions
-      if (user.subscription && user.subscription.customer)
-        multi.set(User.key.customer(user.subscription.customer), new_uid);
-
-      multi.exec(function(err) {
-
-        if (err) throw err;
-
-        User.getById(new_uid, function(err, saved_user){
-
-          if (err) throw err;
-
-          User.set(new_uid, saved_user, function(err){
-
-            if (err) throw err;
-
-            forEach(user.blogs, function(blogID, nextBlog){
-
-              var blog_changes = {owner: new_uid};
-
-              if (folderState) blog_changes.folderState = folderState;
-              if (credentials) blog_changes.credentials = credentials;
-
-              Blog.set(blogID, blog_changes, function(err){
-
-                if (err) throw err;
-
-                Blog.get({id: blogID}, function(err){
-
-                  if (err) throw err;
-
-                  nextBlog();
-                });
-              });
-            }, next);
-          });
-        });
+        next();
       });
     });
-  }, process.exit);
-});
+  });
+}, process.exit);
+
+function retrieve_account (credentials, callback) {
+
+  if (!credentials)
+    return callback(new Error('No credentials'));
+
+  try {
+    credentials = JSON.parse(credentials);
+  } catch (e) {
+    console.log(e);
+    return callback(e);
+  }
+
+  if (!credentials.token)
+    return callback(new Error('No credentials'));
+
+  var access_token = credentials.token;
+  var client = new Dropbox({accessToken: access_token});
+
+  client.usersGetCurrentAccount()
+    .then(function(res) {
+
+      var account_id = res.account_id;
+      var email = res.email;
+
+      if (!email || !account_id)
+        return callback(new Error('No email or account ID'));
+
+      callback(null, account_id, access_token, email);
+    })
+    .catch(callback);
+}
+
+function retrieve_folder (access_token, folder, callback) {
+
+  if (!folder || folder.trim().toLowerCase() === '/')
+    return callback(null, '', '');
+
+  var client = new Dropbox({accessToken: access_token});
+
+  client.filesGetMetadata({path: folder})
+    .then(function(res){
+      callback(null, res.path_display, res.id);
+    })
+    .catch(callback);
+
+}
+
+function update_account (blog, callback) {
+
+  retrieve_account(blog.credentials, function(err, account_id, access_token, email){
+
+    if (err) return callback(err);
+
+    retrieve_folder(access_token, blog.folder, function(err, folder, folder_id){
+
+      if (err) return callback(err);
+
+       var account = {
+          account_id: account_id,
+          email: email,
+          access_token: access_token,
+          error_code: 0,
+          last_sync: Date.now(),
+          full_access: false,
+          folder: folder,
+          folder_id: folder_id,
+          cursor: ''
+        };
+
+      database.set(blog.id, account, function(err){
+
+        if (err) return callback(err);
+
+        callback(null, account);
+      });
+    });
+  });
+}

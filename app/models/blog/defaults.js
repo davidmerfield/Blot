@@ -2,11 +2,11 @@ var defaultPlugins = require('../../plugins').defaultList;
 var defaultTemplate = require('../template').defaultTemplate;
 
 module.exports = {
+  client: '',
   title: 'Blog',
   isDisabled: false,
   avatar: '',
   roundAvatar: false,
-  folderState: '',
   cssURL: '',
   scriptURL: '',
   template: defaultTemplate,
@@ -17,7 +17,6 @@ module.exports = {
     {id: Date.now() + 4 + '', label: 'Feed', url: '/feed.rss'}
   ],
   domain: '',
-  pageSize: 5,
   permalink: {format: '{{slug}}', custom: '', isCustom: false},
   timeZone: 'UTC',
   dateFormat: 'M/D/YYYY',

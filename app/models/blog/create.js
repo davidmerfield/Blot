@@ -23,26 +23,17 @@ module.exports = function create (uid, info, callback) {
 
       if (err) throw err;
 
-      blogID += ''; // Cast to a string from int
+      // Cast to a string from int
+      blogID += '';
 
       var blogs = user.blogs || [];
-
-      var title;
-      var folder;
-
-      title = capitalise(info.handle) + '\'s blog';
-
-      if (user.blogs.length > 0) {
-        folder = '/' + info.handle;
-      } else {
-        folder = '/';
-      }
+      var title = capitalise(info.handle) + '\'s blog';
 
       var blog = {
         id: blogID,
         owner: uid,
-        folder: folder,
         title: title,
+        client: '',
         timeZone: info.timeZone || 'UTC',
         dateFormat: info.dateFormat || 'M/D/YYYY'
       };
@@ -59,7 +50,7 @@ module.exports = function create (uid, info, callback) {
 
         set(blogID, blog, function(err){
 
-          return callback(err, blog, folder);
+          return callback(err, blog);
         });
       });
     });

@@ -1,6 +1,13 @@
-Migrate to Dropbox API V2.
+Merge branch into main and push
 
-Set up SSL for all blogs
+Release schedule
+- Verify production webhook exists for both full folder and app folder apps.
+- Add new secrets for Dropbox Full folder app and verify they line up with the ones in dev mode
+- git pull origin master
+- npm install to latest version of dropbox app
+- sudo stop blot && sudo start blot
+- node migrate.js
+- remove old dropbox secrets where neccessary
 
 Re-do demo video to explain the sites I run using it:
  - Blot's developer blog: a conventional blog, show using different text editors
@@ -24,27 +31,48 @@ Use hogan for precompiling and rendering templates?
 
 Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know it's possible to set routes locally
 
-Add retrieve method to allow all entry lists to access {{#months}} sorting options just like the archives page.
+Set up SSL for all blogs
 
-Fix strange template bug and tell [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)
+Re-instate verify feature for folders
 
-Warn users that underscore will not work for hidden pages
+Re-instate feature to check if a rogue sync took down the server and run sync on a seperate process
 
-Fix _ entries to true public files, tell john & other folks
-Who depend on the menu: yes, page: no side effect
+Try to use the same app folder when you upgrade from app folder to full site folder
 
-Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63)
-don't write previews for _ posts
+Redesign template system to make it easy to customize and create them.
+- Make templates file or folder based
+- Move www/blogs/* to /blogs/{{id}}/assets
+- Disable re-rendering for template locals
+- Local template editing does not clear cache
+- Use hogan for precompiling and rendering templates?
+- Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know when it's possible to set routes locally
+- Add retrieve method to allow all entry lists to access {{#months}} sorting options just like the archives page.
+- Fix strange template bug and tell [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)
+- Warn users that underscore will not work for hidden pages
+- Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
+- Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
+
+Re-implement folder verification feature
+- make use of the local content hash computation script to verify we have the correct version of a given file
 
 Improve the selection of templates, tell [this guy](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), Nash P., Chris S. and John P.
 
 Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4)
 
+Re-do demo video to explain the sites I run using it:
+ - Blot's developer blog: a conventional blog, show using different text editors
+ - My visual scrapbook: shows tag folders, photo blog
+ - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
+ - My personal site: simple landing page, edit with a doc file?
+
+Fully document all of Blot's variables and lists.
+
 Increase price to $30 a year for NEW subscribers. This will not affect existing customers.
+
 
 Improve nginx error pages
 
-Add emails notifying user of any major account changes
+Add transactional emails notifying user of changes to their email or password.
 
 Removing date metadata should reset entry.datestamp to entry.created
 
@@ -67,9 +95,15 @@ https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1
 
 Accept bitcoin subscription payments
 
+Fix strange windows notepad encoding bug and tell [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc)
+
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
 Migrate code from require('../../../') to shortcuts in node_modules.
+
+Investigate how the date parser handles a space (or lack of space) between the date and the time
+  - 2017-08-27 18:16:59 works
+  - 2017-08-27-18:16:59 doesn't work
 
 Ensure the routing in server.js is ordered to serve requests to blogs fastest, then the dashboard, then the marketing site.
 
@@ -79,6 +113,10 @@ Use a string-difference algorithm to improve rename recognition? Something with 
 
 Add method to pause syncing and prevent future syncs
 then use this method with the create/remove blog migration too.
+
+Use <select> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
+
+Add a permanent floating link to Blot's support page at the bottom right of the dashboard, like basecamp
 
 Use NGINX to send all Blot's static files
 

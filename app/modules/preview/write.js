@@ -1,37 +1,30 @@
 var drafts = require('../../drafts');
 var helper = require('../../helper');
 var ensure = helper.ensure;
+var previewPath = drafts.previewPath;
+var Blog = require('blog');
 
-module.exports = function (blogID, client, path) {
+module.exports = function (blogID, path, callback) {
+
+  callback = callback || console.log;
 
   ensure(blogID, 'string')
-    .and(client, 'object')
-    .and(path, 'string');
+    .and(path, 'string')
+    .and(callback, 'function');
 
-  drafts.previewFile(blogID, path, function (err, remotePath, contents) {
+  var clients = require('clients');
 
-    if (err) {
-      console.log(err);
-      if (err.trace) console.log(err.trace);
-      if (err.stack) console.log(err.stack);
-      return;
-    }
+  Blog.get({id: blogID}, function(err, blog){
 
-    client.writeFile(remotePath, contents, function then (err) {
+    if (err) return callback(err);
 
-      // Happens when the user removes the parent directory for
-      // the draft. Don't bother writing again.
-      if (err && err.status === 404)
-        return;
+    var preview_path = previewPath(path);
 
-      // Happens when the user makes a series of overlapping updates
-      // to draft file, so Blot issues simultaneous requests to write
-      // the preview file. Not a big deal, since the preview file's
-      // contents don't change (just an iframe to Blot).
-      if (err && err.status === 503)
-        return;
+    drafts.previewFile(blog.handle, path, function (err, contents) {
 
-      if (err) console.log(err);
+      if (err) return callback(err);
+
+      clients[blog.client].write(blogID, preview_path, contents, callback);
     });
   });
 };

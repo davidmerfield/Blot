@@ -1,0 +1,549 @@
+namespace paper
+    "This namespace contains endpoints and data types for managing docs and folders in Dropbox Paper."
+
+import common
+import sharing
+
+alias PaperDocId = String
+    "Paper doc ID."
+
+struct RefPaperDoc
+    doc_id PaperDocId
+        "The Paper doc ID."
+
+    example default
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+
+union ListPaperDocsFilterBy
+    docs_accessed
+        "Fetches all Paper doc IDs that the user has ever accessed."
+    docs_created
+        "Fetches only the Paper doc IDs that the user has created."
+
+union ListPaperDocsSortBy
+    accessed
+        "Sorts the Paper docs by the time they were last accessed."
+    modified
+        "Sorts the Paper docs by the time they were last modified."
+    created
+        "Sorts the Paper docs by the creation time."
+
+union ListPaperDocsSortOrder
+    ascending
+        "Sorts the search result in ascending order."
+    descending
+        "Sorts the search result in descending order."
+
+struct ListPaperDocsArgs
+    filter_by ListPaperDocsFilterBy = docs_accessed
+        "Allows user to specify how the Paper docs should be filtered."
+    sort_by ListPaperDocsSortBy = accessed
+        "Allows user to specify how the Paper docs should be sorted."
+    sort_order ListPaperDocsSortOrder = ascending
+        "Allows user to specify the sort order of the result."
+    limit Int32(min_value=1, max_value=1000) = 1000
+        "Size limit per batch. The maximum number of docs that
+        can be retrieved per batch is 1000. Higher value results in invalid arguments error."
+    example default
+        filter_by = docs_created
+        sort_by = modified
+        sort_order = descending
+        limit = 100
+
+struct ListPaperDocsContinueArgs
+    cursor String
+        "The cursor obtained from :route:`docs/list` or :route:`docs/list/continue`.
+        Allows for pagination."
+    example default
+        cursor = "U60b6BxT43ySd5sAVQbbIvoteSnWLjUdLU7aR25hbt3ySd5sAVQbbIvoteSnWLjUd"
+
+struct Cursor
+    value String
+        "The actual cursor value."
+    expiration common.DropboxTimestamp?
+        "Expiration time of :field:`value`.
+
+        Some cursors might have expiration time assigned. This is a UTC value after which
+        the cursor is no longer valid and the API starts returning an error.
+        If cursor expires a new one needs to be obtained and pagination needs to be restarted.
+        Some cursors might be short-lived some cursors might be long-lived.
+
+        This really depends on the sorting type and order, e.g.:
+
+        1. on one hand, listing docs created by the user, sorted by the created time
+        ascending will have undefinite expiration because the results cannot change while
+        the iteration is happening. This cursor would be suitable for long term polling.
+
+        2. on the other hand, listing docs sorted by the last modified time will have
+        a very short expiration as docs do get modified very often and the modified time
+        can be changed while the iteration is happening thus altering the results.
+        "
+    example default
+        value = "zHZvTPBnXilGgm1AmDgVyZ10zf7qb0qznd5sAVQbbIvoteSnWLjUdLU7aR25hb"
+        expiration = "2016-08-07T14:56:15Z"
+
+struct ListPaperDocsResponse
+    doc_ids List(String)
+        "The list of Paper doc IDs that can be used to access the given Paper docs or
+        supplied to other API methods.
+        The list is sorted in the order specified by the initial call to :route:`docs/list`."
+    cursor Cursor
+        "Pass the cursor into :route:`docs/list/continue` to paginate through all files.
+        The cursor preserves all properties as specified in the original call
+        to :route:`docs/list`.
+        "
+    has_more Boolean
+        "Will be set to True if a subsequent call with the provided cursor
+        to :route:`docs/list/continue` returns immediately with some results. If set to False
+        please allow some delay before making another call to :route:`docs/list/continue`."
+
+    example default
+        doc_ids = ["zO1E7coc54sE8IuMdUoxz", "mm1AmDgVyZ10zf7qb0qzn", "dByYHZvTPBnXilGgyc5mm"]
+        cursor = default
+        has_more = true
+
+union ExportFormat
+    "The desired export format of the Paper doc."
+
+    html
+        "The HTML export format."
+    markdown
+        "The markdown export format."
+
+struct PaperDocExport extends RefPaperDoc
+    export_format ExportFormat
+
+    example default
+        export_format = markdown
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+
+struct PaperDocExportResult
+    owner String
+        "The Paper doc owner's email address."
+    title String
+        "The Paper doc title."
+    revision Int64
+        "The Paper doc revision. Simply an ever increasing number."
+    mime_type String
+        "MIME type of the export. This corresponds to :type:`ExportFormat` specified
+        in the request."
+
+    example default
+        owner = "james@example.com"
+        title = "Week one retention"
+        revision = 456736745
+        mime_type = "text/x-markdown"
+
+union_closed DocSubscriptionLevel
+    "The subscription level of a Paper doc."
+
+    default
+        "No change email messages unless you're the creator."
+    ignore
+        "Ignored: Not shown in pad lists or activity and no email message is sent."
+    every
+        "Subscribed: Shown in pad lists and activity and change email messages are sent."
+    no_email
+        "Unsubscribed: Shown in pad lists, but not in activity and no change email messages are sent."
+
+union_closed FolderSubscriptionLevel
+    "The subscription level of a Paper folder."
+
+    none
+        "Not shown in activity, no email messages."
+    activity_only
+        "Shown in activity, no email messages."
+    daily_emails
+        "Shown in activity, daily email messages."
+    weekly_emails
+        "Shown in activity, weekly email messages."
+
+union_closed FolderSharingPolicyType
+    "The sharing policy of a Paper folder.
+
+
+    Note: The sharing policy of subfolders is inherited from the root folder."
+    team
+        "Everyone in your team and anyone directly invited can access this folder."
+    invite_only
+        "Only people directly invited can access this folder."
+
+union_closed SharingTeamPolicyType
+    "The sharing policy type of the Paper doc."
+
+    people_with_link_can_edit
+        "Users who have a link to this doc can edit it."
+    people_with_link_can_view_and_comment
+        "Users who have a link to this doc can view and comment on it."
+    invite_only
+        "Users must be explicitly invited to this doc."
+
+union_closed SharingPublicPolicyType extends SharingTeamPolicyType
+    disabled
+        "Value used to indicate that doc sharing is enabled only within team."
+
+struct SharingPolicy
+    "Sharing policy of Paper doc."
+
+    public_sharing_policy SharingPublicPolicyType?
+        "This value applies to the non-team members."
+    team_sharing_policy SharingTeamPolicyType?
+        "This value applies to the team members only. The value is null for all personal accounts."
+
+    example default
+        public_sharing_policy = people_with_link_can_edit
+        team_sharing_policy = people_with_link_can_edit
+
+struct Folder
+    "Data structure representing a Paper folder."
+
+    id String
+        "Paper folder ID. This ID uniquely identifies the folder."
+    name String
+        "Paper folder name."
+
+    example default
+        name = "Design docs"
+        id = "e.gGYT6HSafpMej9bUv306oGm60vrHiCHgEFnzziioPGCvHf"
+
+struct FoldersContainingPaperDoc
+    "Metadata about Paper folders containing the specififed Paper doc."
+
+    folder_sharing_policy_type FolderSharingPolicyType?
+        "The sharing policy of the folder containing the Paper doc."
+
+    folders List(Folder)?
+        "The folder path. If present the first folder is the root folder."
+
+    example default
+        folder_sharing_policy_type = team
+        folders = [default]
+
+struct PaperDocSharingPolicy extends RefPaperDoc
+    sharing_policy SharingPolicy
+        "The default sharing policy to be set for the Paper doc."
+
+    example default
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+        sharing_policy = default
+
+struct RemovePaperDocUser extends RefPaperDoc
+    member sharing.MemberSelector
+        "User which should be removed from the Paper doc. Specify only email address or
+        Dropbox account ID."
+
+    example default
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+        member = default
+
+union PaperDocPermissionLevel
+    edit
+        "User will be granted edit permissions."
+    view_and_comment
+        "User will be granted view and comment permissions."
+
+struct AddMember
+    permission_level PaperDocPermissionLevel = edit
+        "Permission for the user."
+    member sharing.MemberSelector
+        "User which should be added to the Paper doc. Specify only email address or
+        Dropbox account ID."
+
+    example default
+        member = default
+        permission_level = view_and_comment
+
+union UserOnPaperDocFilter
+    visited
+        "all users who have visited the Paper doc."
+    shared
+        "All uses who are shared on the Paper doc. This includes all users who have visited
+        the Paper doc as well as those who have not."
+
+struct ListUsersOnPaperDocArgs extends RefPaperDoc
+    limit Int32(min_value=1, max_value=1000) = 1000
+        "Size limit per batch. The maximum number of users that can be retrieved per batch
+        is 1000. Higher value results in invalid arguments error."
+
+    filter_by UserOnPaperDocFilter = shared
+        "Specify this attribute if you want to obtain users that have already accessed
+        the Paper doc."
+
+    example default
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+        limit = 100
+        filter_by = shared
+
+struct ListUsersOnPaperDocContinueArgs extends RefPaperDoc
+    cursor String
+        "The cursor obtained from :route:`docs/users/list` or
+        :route:`docs/users/list/continue`. Allows for pagination."
+
+    example default
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+        cursor = "U60b6BxT43ySd5sAVQbbIvoteSnWLjUdLU7aR25hbt3ySd5sAVQbbIvoteSnWLjUd"
+
+struct InviteeInfoWithPermissionLevel
+    invitee sharing.InviteeInfo
+        "Email address invited to the Paper doc."
+
+    permission_level PaperDocPermissionLevel
+        "Permission level for the invitee."
+
+    example default
+        invitee = default
+        permission_level = edit
+
+
+struct UserInfoWithPermissionLevel
+    user sharing.UserInfo
+        "User shared on the Paper doc."
+
+    permission_level PaperDocPermissionLevel
+        "Permission level for the user."
+
+    example default
+        user = default
+        permission_level = view_and_comment
+
+struct ListUsersOnPaperDocResponse
+    invitees List(InviteeInfoWithPermissionLevel)
+        "List of email addresses with their respective permission levels
+        that are invited on the Paper doc."
+    users List(UserInfoWithPermissionLevel)
+        "List of users with their respective permission levels
+        that are invited on the Paper folder."
+    doc_owner sharing.UserInfo
+        "The Paper doc owner. This field is populated on every single response."
+    cursor Cursor
+        "Pass the cursor into :route:`docs/users/list/continue` to paginate
+        through all users.
+        The cursor preserves all properties as specified in the original call
+        to :route:`docs/users/list`.
+        "
+    has_more Boolean
+        "Will be set to True if a subsequent call with the provided cursor
+        to :route:`docs/users/list/continue` returns immediately with some results.
+        If set to False please allow some delay before making another call to
+        :route:`docs/users/list/continue`."
+
+    example default
+        users = [default]
+        invitees = [default]
+        doc_owner = default
+        cursor = default
+        has_more = false
+
+struct AddPaperDocUser extends RefPaperDoc
+    members List(AddMember, max_items = 20)
+        "User which should be added to the Paper doc. Specify only email address or
+        Dropbox account ID."
+    custom_message String?
+        "A personal message that will be emailed to each successfully added member."
+    quiet Boolean = false
+        "Clients should set this to true if no email message shall be sent to added users."
+
+    example default
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+        members = [default]
+        custom_message = "Welcome to Paper."
+
+union AddPaperDocUserResult
+    success
+        "User was successfully added to the Paper doc."
+    unknown_error
+        "Something unexpected happened when trying to add the user to the Paper doc."
+    sharing_outside_team_disabled
+        "The Paper doc can be shared only with team members."
+    daily_limit_reached
+        "The daily limit of how many users can be added to the Paper doc was reached."
+    user_is_owner
+        "Owner's permissions cannot be changed."
+    failed_user_data_retrieval
+        "User data could not be retrieved. Clients should retry."
+    permission_already_granted
+        "This user already has the correct permission to the Paper doc."
+
+struct AddPaperDocUserMemberResult
+    "Per-member result for :route:`docs/users/add`."
+    member sharing.MemberSelector
+        "One of specified input members."
+    result AddPaperDocUserResult
+        "The outcome of the action on this member."
+
+union PaperApiBaseError
+    insufficient_permissions
+        "Your account does not have permissions to perform this action."
+
+union PaperApiCursorError
+    expired_cursor
+        "The provided cursor is expired."
+    invalid_cursor
+        "The provided cursor is invalid."
+    wrong_user_in_cursor
+        "The provided cursor contains invalid user."
+    reset
+        "Indicates that the cursor has been invalidated. Call
+        the corresponding non-continue endpoint to obtain a new cursor."
+
+union DocLookupError extends PaperApiBaseError
+    doc_not_found
+        "The required doc was not found."
+
+union ListDocsCursorError
+    cursor_error PaperApiCursorError
+
+union ListUsersCursorError extends PaperApiBaseError
+    doc_not_found
+        "The required doc was not found."
+    cursor_error PaperApiCursorError
+
+struct ListUsersOnFolderResponse
+    invitees List(sharing.InviteeInfo)
+        "List of email addresses that are invited on the Paper folder."
+    users List(sharing.UserInfo)
+        "List of users that are invited on the Paper folder."
+    cursor Cursor
+        "Pass the cursor into :route:`docs/folder_users/list/continue` to paginate
+        through all users.
+        The cursor preserves all properties as specified in the original call
+        to :route:`docs/folder_users/list`.
+        "
+    has_more Boolean
+        "Will be set to True if a subsequent call with the provided cursor
+        to :route:`docs/folder_users/list/continue` returns immediately with some results.
+        If set to False please allow some delay before making another call to
+        :route:`docs/folder_users/list/continue`."
+
+    example default
+        users = [default]
+        invitees = [default]
+        cursor = default
+        has_more = false
+
+struct ListUsersOnFolderArgs extends RefPaperDoc
+    limit Int32(min_value=1, max_value=1000) = 1000
+        "Size limit per batch. The maximum number of users that can be retrieved per batch
+        is 1000. Higher value results in invalid arguments error."
+
+    example default
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+        limit = 100
+
+struct ListUsersOnFolderContinueArgs extends RefPaperDoc
+    cursor String
+        "The cursor obtained from :route:`docs/folder_users/list` or
+        :route:`docs/folder_users/list/continue`. Allows for pagination."
+
+    example default
+        doc_id = "uaSvRuxvnkFa12PTkBv5q"
+        cursor = "U60b6BxT43ySd5sAVQbbIvoteSnWLjUdLU7aR25hbt3ySd5sAVQbbIvoteSnWLjUd"
+
+route docs/folder_users/list (ListUsersOnFolderArgs, ListUsersOnFolderResponse, DocLookupError)
+    "Lists the users who are explicitly invited to the Paper folder in which the Paper doc
+    is contained. For private folders all users (including owner) shared on the folder
+    are listed and for team folders all non-team users shared on the folder are returned."
+    attrs
+        owner="paper-eng"
+
+route docs/folder_users/list/continue (ListUsersOnFolderContinueArgs, ListUsersOnFolderResponse, ListUsersCursorError)
+    "Once a cursor has been retrieved from :route:`docs/folder_users/list`, use this to
+    paginate through all users on the Paper folder."
+    attrs
+        owner="paper-eng"
+
+route docs/sharing_policy/get (RefPaperDoc, SharingPolicy, DocLookupError)
+    "Gets the default sharing policy for the given Paper doc."
+    attrs
+        owner="paper-eng"
+
+route docs/sharing_policy/set (PaperDocSharingPolicy, Void, DocLookupError)
+    "Sets the default sharing policy for the given Paper doc. The default 'team_sharing_policy'
+    can be changed only by teams, omit this field for personal accounts.
+
+
+    Note: 'public_sharing_policy' cannot be set to the value 'disabled' because this setting
+    can be changed only via the team admin console."
+    attrs
+        owner="paper-eng"
+
+route docs/archive (RefPaperDoc, Void, DocLookupError)
+    "Marks the given Paper doc as archived.
+
+    Note: This action can be performed or undone by anyone with edit permissions to the doc."
+    attrs
+        owner="paper-eng"
+
+route docs/permanently_delete (RefPaperDoc, Void, DocLookupError)
+    "Permanently deletes the given Paper doc. This operation is final as the doc
+    cannot be recovered.
+
+
+    Note: This action can be performed only by the doc owner."
+    attrs
+        owner="paper-eng"
+
+route docs/download (PaperDocExport, PaperDocExportResult, DocLookupError)
+    "Exports and downloads Paper doc either as HTML or markdown."
+    attrs
+        style="download"
+        owner="paper-eng"
+
+route docs/get_folder_info (RefPaperDoc, FoldersContainingPaperDoc, DocLookupError)
+    "Retrieves folder information for the given Paper doc. This includes:
+
+      - folder sharing policy; permissions for subfolders are set by the top-level folder.
+
+      - full 'filepath', i.e. the list of folders (both folderId and folderName) from
+        the root folder to the folder directly containing the Paper doc.
+
+
+    Note: If the Paper doc is not in any folder (aka unfiled) the response will be empty."
+    attrs
+        owner="paper-eng"
+
+route docs/users/add (AddPaperDocUser, List(AddPaperDocUserMemberResult), DocLookupError)
+    "Allows an owner or editor to add users to a Paper doc or change their permissions
+    using their email address or Dropbox account ID.
+
+
+    Note: The Doc owner's permissions cannot be changed."
+    attrs
+        owner="paper-eng"
+
+route docs/users/remove (RemovePaperDocUser, Void, DocLookupError)
+    "Allows an owner or editor to remove users from a Paper doc using their email address or
+    Dropbox account ID.
+
+
+    Note: Doc owner cannot be removed."
+    attrs
+        owner="paper-eng"
+
+route docs/users/list (ListUsersOnPaperDocArgs, ListUsersOnPaperDocResponse, DocLookupError)
+    "Lists all users who visited the Paper doc or users with explicit access. This call
+    excludes users who have been removed. The list is sorted by the date of the visit or
+    the share date.
+
+    The list will include both users, the explicitly shared ones as well as those
+    who came in using the Paper url link."
+    attrs
+        owner="paper-eng"
+
+route docs/users/list/continue (ListUsersOnPaperDocContinueArgs, ListUsersOnPaperDocResponse, ListUsersCursorError)
+    "Once a cursor has been retrieved from :route:`docs/users/list`, use this to
+    paginate through all users on the Paper doc."
+    attrs
+        owner="paper-eng"
+
+route docs/list (ListPaperDocsArgs, ListPaperDocsResponse, Void)
+    "Return the list of all Paper docs according to the argument specifications. To iterate
+    over through the full pagination, pass the cursor to :route:`docs/list/continue`."
+    attrs
+        owner="paper-eng"
+
+route docs/list/continue (ListPaperDocsContinueArgs, ListPaperDocsResponse, ListDocsCursorError)
+    "Once a cursor has been retrieved from :route:`docs/list`, use this to
+    paginate through all Paper doc."
+    attrs
+        owner="paper-eng"
