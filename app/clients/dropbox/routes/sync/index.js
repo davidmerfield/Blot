@@ -8,6 +8,7 @@ var download = require('./download');
 var Sync = require('sync');
 var Blog = require('blog');
 var Database = require('database');
+var dropbox_content_hash = require('dropbox_content_hash');
 
 module.exports = function main (blogID, callback) {
 
@@ -45,29 +46,40 @@ module.exports = function main (blogID, callback) {
               return next();
             }
 
-            download(client, dropbox_path, local_path, function(err){
+            dropbox_content_hash(local_path, function(err, existing_hash){
 
-              if (err) {
-                console.log(err);
+              if (existing_hash && existing_hash === change.content_hash) {
+                console.log('Blog:', blogID, change.path_display, "already has the same version stored locally. Do nothing.");
                 return next();
               }
 
-              Change.set(blog, path, function(err){
+              download(client, dropbox_path, local_path, function(err){
 
-                if (err) console.log(err);
+                if (err) {
+                  console.log(err);
+                  return next();
+                }
 
-                next();
+                Change.set(blog, path, function(err){
+
+                  if (err) console.log(err);
+
+                  next();
+                });
               });
             });
           }, function(){
 
-             // If Dropbox says there are more changes
-             // we get them before returning the callback.
-             // This is important because a rename could
-             // be split across two pages of file events.
-             if (has_more) return delta(blogID, account, handle);
+            // If Dropbox says there are more changes
+            // we get them before returning the callback.
+            // This is important because a rename could
+            // be split across two pages of file events.
+            if (has_more) {
+              console.log('Blog:', blogID, "has more changes to sync!");
+              return delta(blogID, account, handle);
+            }
 
-             callback();
+            callback();
           });
         });
       }, callback);
