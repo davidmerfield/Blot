@@ -1,11 +1,3 @@
-Release schedule
-- git pull origin master
-- npm install to latest version of dropbox app
-- sudo stop blot && sudo start blot
-- node migrate.js
-- remove old dropbox secrets where neccessary
-- renable webhooks in dev dashboard
-
 Set up SSL for all blogs
 
 Re-do demo video to explain the sites I run using it:
