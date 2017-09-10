@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 function load (name) {
-  return fs.readFileSync(__dirname + '/secrets/' + name, 'utf-8');
+  return fs.readFileSync(__dirname + '/secrets/' + name, 'utf-8').trim();
 }
 
 var flags = require('./flags');

@@ -20,9 +20,6 @@ module.exports = function (req, res, next){
     redirect_uri += '?full_access=true';
   }
 
-  key = key.trim();
-  secret = secret.trim();
-
   var options = {
     hostname: 'api.dropboxapi.com',
     path: '/oauth2/token?code=' + code + '&grant_type=authorization_code&redirect_uri=' + redirect_uri,
@@ -32,18 +29,9 @@ module.exports = function (req, res, next){
     }
   };
 
-  console.log('KEY IS', key);
-  console.log('SECRET IS', secret);
-  console.log('FULL IS', full_access);
-  console.log("redirect_uri is", redirect_uri);
-  console.log('code is', code);
-  console.log("optoins", options);
-
   make_request(options, function(err, account_id, access_token){
 
     if (err) return next(err);
-
-    console.log(account_id, access_token);
 
     get_email(access_token, function(err, email){
 
@@ -86,8 +74,6 @@ function make_request (options, callback) {
         return callback(e);
       }
 
-      console.log(parsed);
-
       return callback(null, parsed.account_id, parsed.access_token);
     });
   });
@@ -96,8 +82,6 @@ function make_request (options, callback) {
 }
 
 function get_email (access_token, callback) {
-
-  console.log(access_token, 'is access token');
 
   var client = new Dropbox({accessToken: access_token});
 
