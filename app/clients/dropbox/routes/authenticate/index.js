@@ -33,6 +33,7 @@ authenticate.get('/redirect', function (req, res) {
 
   authentication_url = client.getAuthenticationUrl(encodeURIComponent(callback), null, 'code');
   authentication_url = authentication_url.replace('response_type=token', 'response_type=code');
+  authentication_url = authentication_url.split('\n').join('');
 
   console.log(authentication_url);
   res.redirect(authentication_url);
