@@ -31,7 +31,7 @@ authenticate.get('/redirect', function (req, res) {
     "secret": secret
   });
 
-  authentication_url = client.getAuthenticationUrl(callback, null, 'code');
+  authentication_url = client.getAuthenticationUrl(encodeURIComponent(callback), null, 'code');
   authentication_url = authentication_url.replace('response_type=token', 'response_type=code');
 
   console.log(authentication_url);
