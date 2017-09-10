@@ -6,29 +6,15 @@ Release schedule
 - remove old dropbox secrets where neccessary
 - renable webhooks in dev dashboard
 
+Set up SSL for all blogs
+
 Re-do demo video to explain the sites I run using it:
  - Blot's developer blog: a conventional blog, show using different text editors
  - My visual scrapbook: shows tag folders, photo blog
  - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
  - My personal site: simple landing page, edit with a doc file?
 
-Redesign template system to make it easy to customize and create them.
-
-Add support for escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
-
-Make templates file or folder based
-
-Move www/blogs/* to /blogs/{{id}}/assets
-
-Disable re-rendering for template locals
-
-Local template editing does not clear cache
-
-Use hogan for precompiling and rendering templates?
-
-Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know it's possible to set routes locally
-
-Set up SSL for all blogs
+Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
 Re-instate verify feature for folders
 
