@@ -6,7 +6,7 @@ var callback_uri = require('./callback_uri');
 module.exports = function (req, res, next){
 
   if (!req.query || !req.query.code)
-    return redirect('/clients');
+    return res.redirect('/clients');
 
   var code = req.query.code;
   var key = config.dropbox.app.key;
@@ -20,6 +20,7 @@ module.exports = function (req, res, next){
     redirect_uri += '?full_access=true';
   }
 
+
   var options = {
     hostname: 'api.dropboxapi.com',
     path: '/oauth2/token?code=' + code + '&grant_type=authorization_code&redirect_uri=' + redirect_uri,
@@ -28,6 +29,13 @@ module.exports = function (req, res, next){
       Authorization: 'Basic ' + new Buffer(key + ':' + secret).toString('base64')
     }
   };
+
+  console.log('KEY IS', key);
+  console.log('SECRET IS', secret);
+  console.log('FULL IS', full_access);
+  console.log("redirect_uri is", redirect_uri);
+  console.log('code is', code);
+  console.log("optoins", options);
 
   make_request(options, function(err, account_id, access_token){
 
