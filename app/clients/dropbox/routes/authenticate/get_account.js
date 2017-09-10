@@ -20,6 +20,8 @@ module.exports = function (req, res, next){
     redirect_uri += '?full_access=true';
   }
 
+  key = key.trim();
+  secret = secret.trim();
 
   var options = {
     hostname: 'api.dropboxapi.com',
