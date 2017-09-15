@@ -1,18 +1,8 @@
-Set up SSL for all blogs
-
-Re-do demo video to explain the sites I run using it:
- - Blot's developer blog: a conventional blog, show using different text editors
- - My visual scrapbook: shows tag folders, photo blog
- - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
- - My personal site: simple landing page, edit with a doc file?
-
-Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
-
-Re-instate verify feature for folders
-
-Re-instate feature to check if a rogue sync took down the server and run sync on a seperate process
-
-Try to use the same app folder when you upgrade from app folder to full site folder
+Set up SSL for all sites hosted by Blot
+- Goal is to create a system for 10,000 sites, each of which is accessible on a blot subdomain and on their own custom domain.
+- Letsencrypt seems to be the way to go.
+- Test that redis-nginx-luaresty-letsencrypt combo on my personal sites.
+- Document the process
 
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
@@ -26,13 +16,7 @@ Redesign template system to make it easy to customize and create them.
 - Warn users that underscore will not work for hidden pages
 - Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
-
-Re-implement folder verification feature
-- make use of the local content hash computation script to verify we have the correct version of a given file
-
-Improve the selection of templates, tell [this guy](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), Nash P., Chris S. and John P.
-
-Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4)
+- Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries).
 
 Re-do demo video to explain the sites I run using it:
  - Blot's developer blog: a conventional blog, show using different text editors
@@ -40,35 +24,54 @@ Re-do demo video to explain the sites I run using it:
  - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
  - My personal site: simple landing page, edit with a doc file?
 
+Improve the selection of templates, tell [this guy](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), Nash P., Chris S. and John P.
+
 Fully document all of Blot's variables and lists.
 
-Increase price to $30 a year for NEW subscribers. This will not affect existing customers.
+Increase price to $30 a year for NEW subscribers. This will not affect existing subscribers who will continue to pay the subscription fee at the time they signed up.
 
+---
+
+Sync improvements
+- Re-implement folder verification feature and make use of the local content hash computation script to verify we have the correct version of a given file
+– Re-instate feature to check if a rogue sync took down the server and run sync on a seperate process
+- Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
+- Add method to pause syncing and prevent future syncs
+then use this method with the create/remove blog migration too.
+- Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
+
+Let these people know I added support for 'full Dropbox' permission
+- [Cosmo](https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615)
+- [Alex](https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038)
+- [James](https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65)
+- Nick C.
+- Jostein
+
+Try to use the same app folder when you upgrade from app folder to full site folder
+
+Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4)
+
+Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
 Improve nginx error pages
 
-Add transactional emails notifying user of changes to their email or password.
+Removing Date metadata from a post should reset its date to the file's creation date, instead of nothing changing.
 
-Removing date metadata should reset entry.datestamp to entry.created
+New post support
+- Refactor code so it's possible to register new file coverters easily.
+- Video posts (.mp4 for now?)
+- Basic audio posts (.mp3 for now?)
+- Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
-Basic video posts
+Multi-file posts from inside one folder? (Album)
 
-Basic audio posts
+Multi-file posts with the same name but different extension (image.txt and image.jpg)
 
-Multi-file posts from:
-  1. A folder? /Posts/(Album)/...
-  2. Files with the same name but different extension (image.txt and image.jpg)
-  Would I need to build a dependency tree for posts?
-    - this could make multi-file entries a reality?
-    - could be as simple as doEach(dependents, rebuild)
-    - issue with public files and image cache:
-      say foo.txt embeds /public/bar.jpg and is image cached
-      make change to bar.jpg, foo.txt has cached old version etc...
+Fix issue with returning users whose subscriptions have expired and [let this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1) know.
 
-Fix issue with returning users whose subscriptions have expired
-https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1
-
-Accept bitcoin subscription payments
+New payment methods
+- Bitcoin
+- PayPal, and let [these](https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152) [people](https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870) guy know.
 
 Fix strange windows notepad encoding bug and tell [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc)
 
@@ -76,20 +79,18 @@ Migrate code from require('mime') to require('mime-types') since it doesn't use 
 
 Migrate code from require('../../../') to shortcuts in node_modules.
 
+Remove the dirToModule code and hard link the require references.
+
 Investigate how the date parser handles a space (or lack of space) between the date and the time
   - 2017-08-27 18:16:59 works
   - 2017-08-27-18:16:59 doesn't work
 
-Ensure the routing in server.js is ordered to serve requests to blogs fastest, then the dashboard, then the marketing site.
+Refactor server.js
+- Ensure the routing serves requests to blogs fastest, then the dashboard, and finally the marketing site.
+- Merge all the weird vhost lines into one glob.
 
-Merge all the weird vhost lines into one glob.
 
-Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
-
-Add method to pause syncing and prevent future syncs
-then use this method with the create/remove blog migration too.
-
-Use <select> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
+Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
 
 Add a permanent floating link to Blot's support page at the bottom right of the dashboard, like basecamp
 
@@ -123,28 +124,13 @@ Lease new instance for 12 months
 
 ---
 
-Download the webpage for bookmark files and try to extract title + summary
-
-Consider using something like this with themes?
-http://barbajs.org/installation.html
-
-Consider storing blog files in s3 bucket instead of ebs?
-- bandwidth to-and-from is free, no? so we'd have to transfer everything when the blog was reloaded.
-- would reduce storage costs by 80% vs EBS
-- how would it affect performance?
-
-Consider accepting payments from paypal?
-https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870
-https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152
-
-Improve account section
-  - ensure pages are inaccessible when they should be
-  - Expose a button to permanently delete account page
-
-use this to render screenshots of a template?
-https://github.com/brenden/node-webshot
-
-Remove limit on image size
+New sync clients
+- Git
+  https://github.com/stackdot/NodeJS-Git-Server/issues/33
+  https://github.com/netbeast/gitbox
+- FTP
+  https://www.npmjs.com/package/ftpd
+- Make the sync / rebuild proceses run with unpriviledged user permissions to ensure shit isnt fucked with user input...
 
 FIx bug with case sensitivity for tag folders
 https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
@@ -158,37 +144,13 @@ Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 - [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
 - [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
 
-Make the source folder on the per-blog basis (not per account) so theoretically a blot user could have two different dropbox accounts.
-
-  Add folder section to settings page? radio buttons?
-  how to ensure this won't fuck up other blogs
-
-  move to Dropbox sdk v2
-
-  Add support for 'full Dropbox' feature
-  Cosmo https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615
-  Nick
-  Jostein
-  Alex https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038
-  James https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65
-
-  add git repository support
-  https://github.com/stackdot/NodeJS-Git-Server/issues/33
-  https://github.com/netbeast/gitbox
-
-  add ftp support
-  https://www.npmjs.com/package/ftpd
-
-  make the sync / rebuild proceses run with unpriviledged
-  user permissions to ensure shit isnt fucked with user input...
-
 Re-do url redirector to use route-parser and properly
 support regular expressions
 
   handle queries properly too
   https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
 
-Mass deletion of files did not remove the blog posts until verify tool was run on blog
+Mass deletion of files did not remove the blog posts until verify tool was run on blog.
 
 Allow users who are restarting an account with multiple blogs to disable some before restarting.
 
@@ -217,24 +179,17 @@ Add plugin for inline popover footnotes
 Possible encoding issues?
 http://isaac.blot.im/go-set%EF%BF%BDbal
 
-enable hyphenation again
-tell rodericus
+Enable hyphenation again then tell rodericus
 
 generate gif / svg thumbs if possible?
 
-consider https://github.com/showdownjs/showdown ?
-
 Find cause of fontconfig error / warning?
 
-password protection for blogs
-https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231
+Password protection for blogs
+- Tell [this chap](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231)
 
-webhooks
-https://mail.google.com/mail/u/0/#inbox/1554260da157b405
-
-add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries).
-
-Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
+Create an API for Blot
+- Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405)
 
 Add option to *enable* hard line breaks
 
@@ -260,45 +215,23 @@ Move queues in entry/rename /remove to doEach
 
 fix image caption plugin to be semantic
 
-Handle reset: true call to /delta
-  delete folderState
-  call sync()
-  calls verify()
-
-devise nice way to declare unit tests for a file
+Devise nice way to declare unit tests for a file
 which don't need to be run on server start
 but can be run programmatically
 
-consider adding date format localization with moment
+Consider adding date format localization with Moment
 
 Add button to remove avatar from settings page
 https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac
 
-handle noscript on dashboard / signup gracefully (remove all dashboard js?)
+Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 
-incorporate typographic features from textile
+Incorporate typographic features from textile
 http://redcloth.org/textile/phrase-modifiers/
-
-expose
-  pagination.page_size
-  pagination.total_posts
-  pagination.total_pages
-
-add
-add {{#tagged:Book reports}}
 
 add supoprt for dynamic partials to make collections possible
   e.g. {{> /{{tag}}.html}} ?
 
-add support for date_first_post -> date_last post
-
-add support for {{order by date}} {{order by author}} {{order by title}}
-
-??
-
-{{#allEntries order:date limit:10}}
-
-{{/allEntries}}
 
 move to line by line reading for as much as possible
   http://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
@@ -320,8 +253,6 @@ Move from preview files -> webloc / .url files ?
 
 Create webloc to live version for each entry? I LIKE
 
-Move to blot.is ?
-
 Merge www/blog/id and blogs/id folders into one, with a dotfile directory? create .assets inside this for doc posts?
 
 Move to hogan for main renderer?
@@ -330,19 +261,7 @@ https://github.com/twitter/hogan.js
 Move to new api file ids for renames?
 https://mail.google.com/mail/u/0/#inbox/150def93b65dc4b1
 
-Use b2b for storage?
-https://mail.google.com/mail/u/0/#inbox/1512610df64568cf
-
-Use Kloudless to handle file sync with other services?
-https://kloudless.com/pricing/
-
-Use syncthing to manage files?
-http://docs.syncthing.net/index.html
-
 Move from 'archives' to 'archive'?
-
-Use atom instead of rss?
-https://en.wikipedia.org/wiki/Atom_(standard)
 
 Backups of blog folders in case Dropbox fails?
 
@@ -366,9 +285,6 @@ Expose list of rendering errors to callback
 Prevent uploads will still pipe large files on the server
 
 Add rewrite feature, e.g. rewrite /randomColor to /public/randomColor
-
-nashp mp3 feature?
-https://twitter.com/lllIIlIlIl/status/685553744575004672
 
 Menu needs concurrency
 https://twitter.com/davidmerfieId/status/633379764972093440
@@ -397,13 +313,6 @@ Set up soft re-directs for changed blog handles,
 which allow new users to claim them but until then
 redirect to new user's handle.
 
-Sort drafts by date updated
-
-Use a dom differ for drafts view
-http://www.diffhtml.org/#installing
-http://kof.github.io/diff-renderer/demo/playground.html
-https://github.com/kof/diff-renderer
-
 Make drafts preview file identical
 (construct iframe based on window.location.href) and use copyref
 
@@ -423,21 +332,10 @@ Ensure Youtube plugin still functions if apis fails
 
 Prevent image zoom plugin from zooming emojies
 
-Embed
-
- https://github.com/ritz078/embed.js
-
- - Soundcloud plugin
- - instagram
- - gists
- - images
- - mp3s
- - videos
-
 CJK auto spacing plugin
 https://github.com/hexojs/hexo-filter-auto-spacing
 
-Move from Dropbox UIDs to Blot UIDs
+Embed plugin https://github.com/ritz078/embed.js
 
 Move to some SQL for storing each entry's input and output...
 
@@ -454,11 +352,17 @@ Create export to markdown mini-site which
 New plugin ideas
 https://github.com/getpelican/pelican-plugins
 
+Use pandoc for katex instead of seperate function
+
+Add transactional emails notifying user of changes to their email or password.
+
+Download the webpage for bookmark files and try to extract title + summary
+
+Consider storing blog files in s3 bucket instead of ebs?
+- Bandwidth to-and-from is free, no? So we'd have to transfer everything when the blog was reloaded.
+- Would reduce storage costs by 80% vs EBS
+- How would it affect performance? Would it improve security?
+
 Add native comments plug in
 
 Add email list plugin for readers?
-
-Move to support folder renames for local template editing
-- hide image zoomer
-
-Use pandoc for katex instead of seperate function
