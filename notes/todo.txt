@@ -3,6 +3,7 @@ Set up SSL for all sites hosted by Blot
 - Letsencrypt seems to be the way to go.
 - Test that redis-nginx-luaresty-letsencrypt combo on my personal sites.
 - Document the process
+- This will probably resolve the ssl cert renewal bug I've encountered. Possibly caused by permissions error for /var/www/blot/logs/renewal.log
 
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
