@@ -48,6 +48,10 @@ Let these people know I added support for 'full Dropbox' permission
 - Nick C.
 - Jostein
 
+Fix pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then [tell Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813)
+
+Fix bug with accents in image paths then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1)
+
 Try to use the same app folder when you upgrade from app folder to full site folder
 
 Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4)
@@ -90,6 +94,11 @@ Refactor server.js
 - Ensure the routing serves requests to blogs fastest, then the dashboard, and finally the marketing site.
 - Merge all the weird vhost lines into one glob.
 
+Offer to design the blot site for:
+https://mail.google.com/mail/u/1/#inbox/15f734998c533068
+
+Fix the katex latex rendering bugs described by Peter
+https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6
 
 Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
 
