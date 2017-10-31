@@ -25,14 +25,9 @@ module.exports = function (handle, callback) {
 
         if (err || !user) throw err || 'No user';
 
-        User.makeClient(uid, function(err, client){
+        ensure(user, 'object').and(blog, 'object');
 
-          if (err || !client) throw err || 'No client';
-
-          ensure(user, 'object').and(blog, 'object').and(client, 'object');
-
-          return callback(user, blog, client);
-        });
+        return callback(user, blog);
       });
     });
   });
