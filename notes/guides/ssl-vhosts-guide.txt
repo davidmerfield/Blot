@@ -12,3 +12,54 @@ Ideally, I'd do everything in node js + express.
 But this lua virtual host system seems cool. It will generate and process requests to whitelisted domains automatically for you.
 
 https://github.com/GUI/lua-resty-auto-ssl
+
+So I installed openresty. Nothing too complicated there:
+http://openresty.org/en/installation.html
+
+I needed to first upgrade openssl following these instructions:
+https://www.digitalocean.com/community/questions/how-to-get-already-installed-nginx-to-use-openssl-1-0-2-for-alpn
+
+Then configure openresty with build it with openssl
+
+./configure --with-openssl=/usr/local/openssl-1.0.2h/
+make
+sudo make install
+
+Perhaps instead I should use?
+https://github.com/Daplie/greenlock-express
+
+What are the performance implications?
+
+I needed to install luarocks like this:
+http://openresty.org/en/using-luarocks.html
+
+Verify that port 443 is open on the ec2 instance (it should be)
+
+Create the key used to start nginx
+openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
+-subj '/CN=sni-support-required-for-valid-ssl' \
+-keyout /etc/ssl/resty-auto-ssl-fallback.key \
+-out /etc/ssl/resty-auto-ssl-fallback.crt
+
+I will need to create a new user 'www-data' for nginx and chown /tmp/shell.sock
+https://github.com/GUI/lua-resty-auto-ssl/issues/80
+
+Does the current setup work with the vhost forwarding schrick?
+
+I will need to shut down whatever process keeps nginx alive when I switch from nginx to openresty.
+
+I will need to test the redis lookup for whether or not to attempt to issue a certificate.
+
+I will need to work out how to redirect http traffic to https
+
+Then it should all work.
+
+This is not a viable solution for blot.im subdomains given the LE rate limit of 20 certs per top level domain per week. I can ask for a rate limit increase here but the best strategy might be to increase the
+https://docs.google.com/forms/d/e/1FAIpQLSetFLqcyPrnnrom2Kw802ZjukDVex67dOM2g4O8jEbfWFs3dA/viewform
+
+It seems like there might be a bug with this library and upstart:
+https://github.com/GUI/lua-resty-auto-ssl/issues/54
+I might also need to remove expect fork.
+
+I should look into caching the results of allow_domain
+https://github.com/GUI/lua-resty-auto-ssl/issues/94
