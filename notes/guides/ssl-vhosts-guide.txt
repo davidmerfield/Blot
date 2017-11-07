@@ -5,6 +5,12 @@ https://github.com/openresty/lua-nginx-module#ssl_certificate_by_lua_block
 https://github.com/Vestorly/nginx-dynamic-ssl
 
 
+- I had to make sure that openssl was more recent than before building openresty
+https://www.digitalocean.com/community/questions/how-to-get-already-installed-nginx-to-use-openssl-1-0-2-for-alpn
+
+- This will probably resolve the ssl cert renewal bug I've encountered. Possibly caused by permissions error for /var/www/blot/logs/renewal.log
+
+
 My plan at the moment is to make use of openresty, which seems to be a lua+nginx mixture.
 
 Ideally, I'd do everything in node js + express.
@@ -20,6 +26,9 @@ I needed to first upgrade openssl following these instructions:
 https://www.digitalocean.com/community/questions/how-to-get-already-installed-nginx-to-use-openssl-1-0-2-for-alpn
 
 Then configure openresty with build it with openssl
+
+I needed to install pcre:
+yum install pcre-devel
 
 ./configure --with-openssl=/usr/local/openssl-1.0.2h/
 make
@@ -63,3 +72,12 @@ I might also need to remove expect fork.
 
 I should look into caching the results of allow_domain
 https://github.com/GUI/lua-resty-auto-ssl/issues/94
+
+Don't worry too much about the lua shared dictionary size:
+
+> If you exceed the available memory with too many domains, things will continue to work, but the certificate data will have to be fetched  from the slower storage, rather than the in-memory cache. So for optimal performance, you really want to ensure you have enough memory allocated to this setting to handle the number of domains you expect.
+per: https://github.com/GUI/lua-resty-auto-ssl/issues/10#issuecomment-236388743
+
+
+Keep an eye on this renewal / locking bug:
+https://github.com/18F/api.data.gov/issues/325
