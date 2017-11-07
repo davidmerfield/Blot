@@ -3,6 +3,7 @@ Set up SSL for all sites hosted by Blot
 - Letsencrypt seems to be the way to go.
 - Test that redis-nginx-luaresty-letsencrypt combo on my personal sites.
 - Document the process
+- Remove cron job to renew letsencrypt ssl certs
 
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
@@ -110,8 +111,6 @@ Add hourly local redis rdb dumps
 Add script to roll back into hourly local db dumps and remote backups
 
 Install nginx fail2ban & http2
-
-Fix bug with cron job to renew letsencrypt ssl certs
 
 Work out why blotcdn is so slow for https://latency.apex.sh
 
