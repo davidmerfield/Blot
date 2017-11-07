@@ -4,11 +4,6 @@ Set up SSL for all sites hosted by Blot
 - Test that redis-nginx-luaresty-letsencrypt combo on my personal sites.
 - Document the process
 
-- I had to make sure that openssl was more recent than before building openresty
-https://www.digitalocean.com/community/questions/how-to-get-already-installed-nginx-to-use-openssl-1-0-2-for-alpn
-
-- This will probably resolve the ssl cert renewal bug I've encountered. Possibly caused by permissions error for /var/www/blot/logs/renewal.log
-
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Move www/blogs/* to /blogs/{{id}}/assets
