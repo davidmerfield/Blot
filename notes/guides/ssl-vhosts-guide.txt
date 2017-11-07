@@ -47,8 +47,8 @@ Verify that port 443 is open on the ec2 instance (it should be)
 Create the key used to start nginx
 openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
 -subj '/CN=sni-support-required-for-valid-ssl' \
--keyout /etc/ssl/resty-auto-ssl-fallback.key \
--out /etc/ssl/resty-auto-ssl-fallback.crt
+-keyout /var/www/blot/config/nginx/auto-ssl-fallback.key \
+-out /var/www/blot/config/nginx/auto-ssl-fallback.crt
 
 I will need to create a new user 'www-data' for nginx and chown /tmp/shell.sock
 https://github.com/GUI/lua-resty-auto-ssl/issues/80
@@ -81,3 +81,24 @@ per: https://github.com/GUI/lua-resty-auto-ssl/issues/10#issuecomment-236388743
 
 Keep an eye on this renewal / locking bug:
 https://github.com/18F/api.data.gov/issues/325
+
+I just changed the path to the nginx daemon script in the upstart configuration to openresty's path
+
+then i reloaded the upstart configuration and monit configuration (not sure why monit was neccessary)
+
+then I sudo stop nginx && sudo start nginx
+
+I encountered an issue restarting the script:
+
+nginx: [error] invalid PID number "" in "/usr/local/openresty/nginx/logs/nginx.pid"
+
+openresty was not using the PID file specified in nginx.conf
+
+I could restart the entire service jsut fine, and it would reload the configuration ok, but not send the signal:
+
+sudo /usr/local/openresty/bin/openresty -s reload
+
+I fixed this issue by creating a symbolic link between the pid file that openresty seems to be incorrectly checking and the correct PID file:
+
+sudo ln -s /var/run/nginx.pid /usr/local/openresty/nginx/logs/nginx.pid
+
