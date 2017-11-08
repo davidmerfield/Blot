@@ -1,5 +1,3 @@
-Buy year lease for server and migrate across
-
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Move www/blogs/* to /blogs/{{id}}/assets

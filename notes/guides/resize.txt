@@ -1,14 +1,26 @@
-Create new instance with larger disk
+1. Go to Blot's running instance and create a new amazon machine image (Actions > Image > Create image)
+   This will be used to launch a new instance with the same disk?
+
+2. Create new instance with larger disk.
   Set up nginx with letsencrypt
   verify it works with staging domain (blot.is?)
   Ensure it has keys and can transfer files from old instance with scp
 
-Switch to maintenance state on old instance
-Backup db
-Dump db and transfer it to new db
-Verify db is update to date
+3. Switch to maintenance state on old instance
+nano config/flags.json
+sudo stop blot && sudo start blot
 
-Switch elastic IP from old db to new DB
+4. Backup db on Blot
+node scripts/backup.js
 
+5. On the new instance sync blog folders:
+rsync -avL --progress -e "ssh -i /var/www/blot/config/secrets/projects.pem" ec2-user@blot.im:/var/www/blot/blogs/* /var/www/blot/blogs
 
+6.On the new instance, sudo copy acros redis dump:
+sudo stop redis
+scp -i /var/www/blot/config/secrets/projects.pem ec2-user@blot.im:/var/www/blot/db/dump.rdb /var/www/blot/db/dump.rdb
+sudo start redis
 
+7. Verify it is up to date
+
+8. Switch elastic IP from old db to new DB
