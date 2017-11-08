@@ -1,3 +1,8 @@
+This is old info, I have since removed the cron tasks.
+
+----------
+
+
 Not 100% sure I used this but OK:
 
 /opt/letsencrypt/letsencrypt-auto certonly --webroot -w /var/www/Journal/www/blot/ -d example.com --config /etc/letsencrypt/config.ini --agree-tos

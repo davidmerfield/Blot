@@ -1,3 +1,11 @@
+- Goal is to create a system for 10,000 sites, each of which is accessible on a blot subdomain and on their own custom domain.
+- Letsencrypt seems to be the way to go.
+- Test that redis-nginx-luaresty-letsencrypt combo on my personal sites.
+- Document the process
+
+
+----------
+
 
 https://codeascraft.com/2017/01/31/how-etsy-manages-https-and-ssl-certificates-for-custom-domains-on-pattern/
 https://community.letsencrypt.org/t/dynamic-ssl-using-nginx/18372/4
