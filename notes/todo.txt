@@ -1,3 +1,5 @@
+Buy year lease for server and migrate across
+
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Move www/blogs/* to /blogs/{{id}}/assets
@@ -18,11 +20,19 @@ Re-do demo video to explain the sites I run using it:
  - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
  - My personal site: simple landing page, edit with a doc file?
 
-Improve the selection of templates, tell [this guy](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), Nash P., Chris S. and John P.
+Improve the selection of templates, tell:
+- [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
+- Nash P
+- Chris S
+- John P
 
-Fully document all of Blot's variables and lists.
+Improve public site and documentation
 
 Increase price to $30 a year for NEW subscribers. This will not affect existing subscribers who will continue to pay the subscription fee at the time they signed up.
+
+Incorporate
+
+Buy .com
 
 ---
 
