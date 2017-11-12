@@ -1,4 +1,3 @@
-
 # Better fluid images
 
 Fluid images are images of undeclared dimension which can adjust their size to fill the layout of the page. This means you can have an image which fills the user's viewport – no matter if the user is on a phone or a laptop.

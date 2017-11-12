@@ -24,3 +24,23 @@ sudo start redis
 7. Verify it is up to date
 
 8. Switch elastic IP from old db to new DB
+
+-----------------
+
+http://www.techknowjoe.com/article/upgrade-your-ec2-instance-minimal-downtime
+
+# Upgrade process for EC2
+
+1. create snapshot of disk of old instance
+2. associate this with new instance
+3. get new instance up and running and verified
+   - ensure ssh files are there as needed
+   - ensure permissions are set correctly
+   - ensure config.json is set correctly
+
+4. switch old instance to maintenance mode
+5. bgSAVE old instance
+6. copy old instance (now read only in maintenance) dump file to new instance disk
+6. reload new instance DB with new dump file
+7. switch elastic IP to new instance
+8. blot should now be running in NEW MODE

@@ -9,10 +9,10 @@ Entry URLs should have:
 - leading slashes
 - no trailing slashes
 
-3. check if ‘/assets/*’	
+3. check if ‘/assets/*’
 	-> assets route
 
-3. check if ‘/plugins/*’	
+3. check if ‘/plugins/*’
 	-> plugins route
 
 4. check if ‘/draft/*’
@@ -37,16 +37,16 @@ Entry URLs should have:
 
 	if view matches route exactly
 		-> render view
-	
+
 	if entry url matches route exactly
 		-> render entry
 
 	extract entry ID from URL (first term before slash)
 	and if entryID matches entry:
 		-> render entry
-	
+
 	404 page
-	
-	
-	
+
+
+
 

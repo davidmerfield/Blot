@@ -1,31 +1,7 @@
+I struggled initially with theme design because I was trying to design a themes for all blogs. I think the major things which complicate designs:
 
-# Themes
+Some sites have many posts (thousands) and are updated frequently. Some sites have few posts (ten) and are updated infrequently. The quantity of posts has a big effect on the design of the archive page in particular.
 
-Names:
+Some sites post mostly text, some mostly images, some a mix. This affects the design of the index page. For example, should you show a stream of posts in full on the index page? Or just a list of links to view the full post? Or perhaps a truncated preview of the post?
 
-Empty
-
-Stream / Feed
- - Feed
- - Moss
-
-Index / essay
- - Book
- - Paper
-
-Photo / grid
- - Grid
- - Mint
- - Glow
-
-
-Grid theme, great with photos
-
-Tumblr-style theme, great with photos, full post on index
-
-Link blog theme (Rosa), full post on index
-
--- and the blank theme (no css)
-
-- devise minimum viable layout.css and include it on each theme
-
+I would like to produce a few grid based themes for sites which post mostly photos. Some of cargo's grid ideas are worth exploring.

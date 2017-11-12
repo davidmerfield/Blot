@@ -1,4 +1,3 @@
-
 People describe it like this:
 -----------------------------
 
@@ -309,7 +308,7 @@ Blot is the simplest way to blog.
 
 <video>
 
-Blot creates a folder inside your Dropbox and automatically converts any text files inside to blog posts. 
+Blot creates a folder inside your Dropbox and automatically converts any text files inside to blog posts.
 
 Blot has no interface. Publishing is as simple as moving a text file into Blot's Dropbox folder.
 
@@ -319,7 +318,7 @@ Blot comes with a good looking theme by default. You can also write your own cus
 
 Blot charges $12 a year. This fee goes towards the costs of running and maintaining Blot. The signup fee helps discourage spammers and gives me more time to work on features. It also ensures Blot is a service you can depend to be around.
 
-Blot is open source. You can self-host the code which powers Blot for free. 
+Blot is open source. You can self-host the code which powers Blot for free.
 
 Additional features
 

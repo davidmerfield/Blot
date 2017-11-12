@@ -1,0 +1,5 @@
+At the moment I have moved Blot to an I3 instance which has 16GB of RAM, a 500GB SSD hardrive for temporary data.
+
+The 500GB harddrive is what Amazon calls an 'instance store'. It should not be depended on. When the instance reboots the data on it is lost, I believe.
+
+I think it might be a good idea to use it as a cache. I should also move my EBS data to a cheaper (non-ssd) drive. Then I can use the SSD drive that comes with the i3 instance.

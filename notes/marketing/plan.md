@@ -48,6 +48,8 @@ Robin Sloan
 Maciej Ceglowski
 -------------
 
+This guy finds obscure music from Iraq and Iran and Afganistan
+https://www.reddit.com/r/vintageobscura/comments/7bc289/the_lost_45s_78s_from_afghanistan/https://www.mixcloud.com/madsnimannjensen/the-lost-78s-45s-from-afghanistan/
 
 https://twitter.com/mijustin
 https://justinjackson.ca/
