@@ -1,5 +1,11 @@
 I recommend you wait until I write a setup guide before attempting to run Blot on your own server.
 
+The code is contained in /app. Start Blot like this:
+
+  node app
+
+Blot creates a subdirectory 'blogs' in this directory. Inside it will create a folder for each blog.
+
 My distant goal for the project would be for you, the self-hoster, to be able to do something like this:
 
   npm install blot -g
