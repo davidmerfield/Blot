@@ -19,9 +19,21 @@ module.exports = function (dashboard) {
     next();
   });
 
-  client_routes.get('/', function (req, res) {
+  client_routes.get('/', function (req, res, next) {
 
     if (req.blog.client) return res.redirect('/clients/' + req.blog.client);
+
+    if (list.length === 1) {
+
+      var client = list[0].name;
+
+      return Blog.set(req.blog.id, {client: client}, function(err){
+
+        if (err) return next(err);
+
+        res.redirect('/clients/' + client);
+      });
+    }
 
     res.locals.clients = list.slice();
     res.locals.clients[0].checked = 'checked';
