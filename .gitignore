@@ -1,4 +1,4 @@
-###### System cruft ######
+###### System ######
 
 *.swp
 .DS_Store
@@ -7,7 +7,7 @@
 .Spotlight-V100
 .Trashes
 
-########## Blot ##########
+####### Blot #######
 
 config/secrets/
 config/flags.json
