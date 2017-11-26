@@ -1,7 +1,7 @@
 set logfile /var/www/blot/logs/monit.log
 
 # the route which responds to this check is
-# located in server.js
+# located in app/index.js
 check process nodejs with pidfile "/var/run/blot.pid"
     start program = "/sbin/start blot"
     stop program  = "/sbin/stop blot"

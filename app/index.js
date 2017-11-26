@@ -3,10 +3,10 @@ var cleanExit = function() { process.exit();};
 process.on('SIGINT', cleanExit); // catch ctrl-c
 process.on('SIGTERM', cleanExit); // catch kill
 
-var config = require('./config');
-var analytics = require('./app/middleware').analytics;
-var cache = require('./app/cache');
-var scheduler = require('./app/scheduler');
+var config = require('config');
+var analytics = require('./middleware').analytics;
+var cache = require('./cache');
+var scheduler = require('./scheduler');
 var express = require('express');
 var compression = require('compression');
 var vhost = require('vhost');
@@ -15,13 +15,12 @@ var session = require('express-session');
 var redis = require('redis').createClient();
 var Store = require('connect-redis')(session);
 
-var dashboard = require('./app/dashboard');
-var site = require('./app/site');
-var blogs = require('./app/blogs');
+var dashboard = require('./dashboard');
+var site = require('./site');
+var blogs = require('./blogs');
 
 // All together now
 var server = express();
-
 
 // Session settings
 // It is important that session
@@ -43,7 +42,7 @@ var sessionOptions = {
   })
 };
 
-var staticDir = require('./app/helper').rootDir + '/www/blot';
+var staticDir = require('./helper').rootDir + '/www/blot';
 var staticSettings = {};
 
 // Don't set max age header in development
@@ -103,3 +102,7 @@ cache.clear('0');
 
 // Unleash the daemon for backups, syncs and emails
 scheduler();
+
+// Build template files and watch for changes
+// if (config.environment === 'development')
+//   require('../scripts/build');
