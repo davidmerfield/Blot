@@ -1,63 +1,21 @@
-var helper = require('../../app/helper');
-var forEach = helper.forEach.multi(5);
 var get = require('./get');
-var mkdirp = helper.mkdirp;
-
-var handle = process.argv[2],
-    p = require('path'),
-    downloadsDir = p.resolve(__dirname + '/../../tmp/downloads');
-
-var download = require('../../app/sync/dropbox/change/download');
-
 var fs = require('fs');
-
-// Ensure tmp dir exists
-if (!fs.existsSync(downloadsDir)) {
-    console.log('Made temporary file directory');
-    fs.mkdirSync(downloadsDir);
-}
-
-// console.log(downloadsDir);
+var handle = process.argv[2];
+var fetchdir = require('../remote/fetchdir');
+var outdir = require('path').resolve(__dirname + '/../../tmp/' + handle + '-' + Date.now());
 
 if (!handle) throw 'pass a handle';
 
+get(handle, function (user, blog){
 
-var blogDir = downloadsDir + '/' + handle + '-' + Date.now();
+  if (!user || !blog) throw 'no user or no blog';
 
-console.log('file://' + blogDir);
+  fs.mkdirSync(outdir);
 
-get(handle, function (user, blog, client){
+  fetchdir('/var/www/blot/blogs/' + blog.id, outdir, function(err){
 
-  fetch(blog.folder, function(){
-    console.log('All done!');
+    if (err) throw err;
+
+    console.log('file://' + outdir);
   });
-
-  function fetch (dir, done) {
-
-    mkdirp(blogDir + dir, function(err){
-
-      if (err) throw err;
-
-      client.readdir(dir, function(err, stat, foo){
-
-        if (err) console.log(err);
-
-        var contents = foo._json.contents;
-
-        // console.log(contents);
-
-        // console.log(contents);
-
-        forEach(contents, function(file, next){
-
-          if (file.is_dir)
-            return fetch(file.path, next);
-
-          console.log(file.path);
-
-          download(client, file.path, blogDir + file.path, next);
-        }, done);
-      });
-    });
-  }
 });

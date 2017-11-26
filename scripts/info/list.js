@@ -5,7 +5,10 @@ eachBlog(function(user, blog, next){
 
   if (user.isDisabled || blog.isDisabled) return next();
 
-  if (!blog.domain) return next();
+  if (!blog.domain) {
+    console.log('x http://'+ blog.handle +'.blot.im');
+    return next();
+  }
 
   var options = {
 
@@ -30,7 +33,7 @@ eachBlog(function(user, blog, next){
 
     if (body !== blog.handle) return next();
 
-    console.log('YES http://' + (blog.domain || blog.handle + '.blot.im'));
+    console.log('YES https://' + blog.domain + ' (' + blog.handle + ')');
 
     next();
   });

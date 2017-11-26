@@ -26,6 +26,7 @@ var watcher = require('watcher');
 build();
 
 if (config.environment === 'development') {
+  process.stdin.resume();
   console.log('Watching public directory for changes');
   watcher(TEMPLATEDIR, build);
 }
@@ -39,6 +40,7 @@ function build () {
 
       if (templateName.slice(0, 1) === '.') return nextTemplate();
       if (templateName === '_') return nextTemplate();
+      if (templateName === 'README.txt') return nextTemplate();
 
       loadFromFolder(TEMPLATEDIR + templateName + '/', templateName, owner, function(err){
 

@@ -51,7 +51,7 @@ forEach(readdir(source), function(path, next){
 
   fs.writeFileSync(sidebar_output, sidebar_template, 'utf-8');
 
-  process.exit();
+  console.log('Help built!');
 });
 
 
