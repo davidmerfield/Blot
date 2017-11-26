@@ -1,0 +1,7 @@
+{
+  "name": "Index",
+  "isPublic": true,
+  "locals": {
+    "page_size": 20
+  }
+}
