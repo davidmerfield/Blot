@@ -12,6 +12,8 @@ var cache = require('../cache');
 var extend = helper.extend;
 var callOnce = helper.callOnce;
 
+var CACHE = require('config').cache;
+
 // The http headers
 var CONTENT_TYPE = 'Content-Type';
 var CACHE_CONTROL = 'Cache-Control';
@@ -103,7 +105,7 @@ module.exports = function (req, res, _next) {
               return callback(null, output);
             }
 
-            if (viewType === STYLE || viewType === JS) {
+            if (CACHE && (viewType === STYLE || viewType === JS)) {
               res.header(CACHE_CONTROL, cacheDuration);
             }
 
