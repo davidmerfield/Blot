@@ -18,8 +18,9 @@ module.exports = function (blogID, entry, callback) {
 
   // This entry should not be visible in search results
   // Its possible it was added in the past, so we must
-  // remove it now.
-  if (entry.deleted || entry.draft || entry.scheduled)
+  // remove it now. Should we hide pages from the search results?
+  // Right now I am just hiding invisible pages.
+  if (entry.deleted || entry.draft || entry.scheduled || (entry.page && !entry.menu))
     return search.remove(id, callback);
 
   // we want to ensure that the
