@@ -1,8 +1,7 @@
-Clients are responsible for managing the source folder for a given site on Blot.
+What is a client?
+-----------------
 
-They may expose endpoints for authentication, periodic updates (like a sync webhook from Dropbox or a git hook).
-
-They must expose certain methods that Blot can interact with in the abstract:
+Clients are responsible for managing the source folder for a given site on Blot. They may expose endpoints for authentication, periodic updates (like a sync webhook from Dropbox or a git hook). They must expose certain methods that Blot can interact with in the abstract:
 
 Abstract clients are used for:
 - writing the welcome file for new blogs
@@ -10,9 +9,45 @@ Abstract clients are used for:
 - removing preview files for deleted / published drafts
 - reading and writing local template files
 
-Client.create(blogID, function(err, client){
 
-  client.write(blogID, '/foo.txt', 'bar', function(err){
 
-  });
-})
+How to register a new client
+----------------------------
+
+1. Create a new folder containing the code for the client in app/clients
+2. Add the new client to the exports object in ./index.js
+
+
+
+Client specification
+--------------------
+
+Clients must have the following properties and methods:
+
+- display_name: a string used on the dashboard e.g. 'Dropbox'
+- description: a string used on the dashboard, e.g. 'A service that makes all of a user’s files...',
+- disconnect: a function to dissassociate a site with a dropbox account
+- remove: a function to remove a file in the user's dropbox folder
+- write: a funciton to write a file to the user's dropbox folder
+
+and may have the following methods:
+
+- site_routes: an Express router which needs to be mounted to the site
+- dashboard_routes: an Express router which needs to be mounted to the dashboard
+
+
+
+Ideas
+-----
+
+Perhaps clients should emit events? Something like choidikar's events?
+
+watcher
+  .on('add', path => log(`File ${path} has been added`))
+  .on('change', path => log(`File ${path} has been changed`))
+  .on('unlink', path => log(`File ${path} has been removed`));
+
+It would be nice if everything was decoupled: it was the client's job to synchronize the folder, and Blot's job to watch the folder for changes and to turn them into a blog?
+
+Aparently there's a cost to
+What about the problem of downloading large files from Dropbox? Or slow writes?

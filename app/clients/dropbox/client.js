@@ -6,6 +6,10 @@ var ensure = helper.ensure;
 
 module.exports = {
 
+  disconnect: function(blogID, callback) {
+    database.drop(blogID, callback);
+  },
+
   write: function (blogID, path, contents, callback) {
 
     ensure(blogID, 'string')

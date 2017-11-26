@@ -2,6 +2,15 @@ var dashboard = require('express').Router();
 var database = require('database');
 var moment = require('moment');
 
+dashboard.use(function (req, res, next){
+
+  res.dashboard = function(name) {
+    res.renderDashboard(__dirname + '/../views/' + name + '.html');
+  };
+
+  next();
+});
+
 dashboard.use(function(req, res, next){
 
   database.get(req.blog.id, function(err, account){
