@@ -7,7 +7,6 @@ var add = middleware.add;
 var config = require('config');
 var hogan = require('hogan-express');
 var compression = require('compression');
-var Clients = require('clients');
 
 var MAP = {
   '/apps': '/plugins',
@@ -97,8 +96,7 @@ site.use(['/sign-up*', '/log-in*', '/set-password*'], function(req, res, next){
   res.redirect(redirect || '/');
 });
 
-site.use('/clients', Clients.routes.site);
-
+require('./routes/clients')(site);
 require('./routes/help')(site);
 require('./routes/static')(site);
 require('./routes/changes')(site);

@@ -41,15 +41,7 @@ module.exports = function(server){
 
       var client = clients[req.blogToClose.client];
 
-      if (!client || !client.database || !client.database.drop)
-        return next(new Error('Client has no way to delete itself'));
-
-      client.database.drop(req.blogToClose.id, function(err){
-
-        if (err) return next(err);
-
-        next();
-      });
+      client.disconnect(req.blogToClose.id, next);
     })
 
     // Finally delete the blog's info from the DB

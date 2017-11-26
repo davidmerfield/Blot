@@ -19,7 +19,7 @@ module.exports = function (server) {
       if (err) console.log(err);
 
       var remove_client = blog.client ?
-         clients[blog.client].database.drop :
+         clients[blog.client].disconnect :
          function (x,y) {y();};
 
       remove_client(blogID, function(err){

@@ -18,8 +18,11 @@ module.exports = function (blogID, path, callback) {
 
     if (err) return callback(err);
 
-    var preview_path = previewPath(path);
+    if (!blog.client) return callback();
 
-    clients[blog.client].remove(blogID, preview_path, callback);
+    var preview_path = previewPath(path);
+    var client = clients[blog.client];
+
+    client.remove(blogID, preview_path, callback);
   });
 };

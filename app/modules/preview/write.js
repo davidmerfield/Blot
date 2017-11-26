@@ -18,13 +18,17 @@ module.exports = function (blogID, path, callback) {
 
     if (err) return callback(err);
 
+    if (!blog.client) return callback();
+
     var preview_path = previewPath(path);
 
     drafts.previewFile(blog.handle, path, function (err, contents) {
 
       if (err) return callback(err);
 
-      clients[blog.client].write(blogID, preview_path, contents, callback);
+      var client = clients[blog.client];
+
+      client.write(blogID, preview_path, contents, callback);
     });
   });
 };

@@ -53,9 +53,9 @@ function makeClient (blogID, callback) {
 
   Blog.get({id: blogID}, function(err, blog){
 
-    if (!clients[blog.client]) return callback(new Error('No client for this blog'));
-
     var client = clients[blog.client];
+
+    if (!blog.client || !client) return callback(new Error('No client for this blog'));
 
     return callback(null, client);
   });

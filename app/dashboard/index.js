@@ -8,7 +8,6 @@ var add = middleware.add;
 var bodyParser = require('body-parser');
 var csurf = require('csurf');
 var csrf = csurf();
-var Clients = require('clients');
 
 dashboard
   .use(middleware.forceSSL)
@@ -122,8 +121,8 @@ dashboard.use(csrf, function(req, res, next){
   next();
 });
 
-dashboard.use('/clients', Clients.routes.dashboard);
 
+require('./routes/clients')(dashboard);
 require('./routes/account')(dashboard);
 require('./routes/editor')(dashboard);
 require('./routes/folder')(dashboard);
