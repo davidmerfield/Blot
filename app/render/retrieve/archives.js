@@ -36,8 +36,13 @@ module.exports = function (req, callback) {
         .entries.push(entry);
     }
 
-    for (var i in years)
+    for (var i in years) {
+
+      for (var j in years[i].months)
+        years[i].months[j].s = years[i].months[j].entries.length > 1 ? 's' : '';
+
       years[i].months = arrayify(years[i].months);
+    }
 
     years = arrayify(years).sort(function(a, b){
       return parseInt(b.year) - parseInt(a.year);
