@@ -225,13 +225,13 @@ iframe {width: 100%;}
 
 .left.margin {
   left: -29.3333%;
-  padding-right: 30px;
+  padding-right: 2em;
   text-align: right;
 }
 
 .right.margin {
   right: -29.3333%;
-  padding-left: 30px;
+  padding-left: 2em;
 }
 
 .wide {
