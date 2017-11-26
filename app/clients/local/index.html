@@ -1,0 +1,22 @@
+
+{{#error}}
+ <p class="box red" style="width:120%"> ... </p>
+{{/error}}
+
+
+<h2>Folder settings</h2>
+<hr>
+
+<p>Please select a folder on this computer to sync:</p><br />
+<form method="post">
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="text" name="path" value="{{path}}" placeholder="e.g. ~/Test"><br>
+<input type="submit" class="button" value="Save">
+</form>
+
+<hr>
+
+<form method="post" action="/clients/local/disconnect">
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" class="button" value="Disconnect">
+</form>

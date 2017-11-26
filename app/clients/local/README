@@ -1,0 +1,1 @@
+This is a client which turns a folder on the filesystem into a blog. It is not exposed to the general public. It might be useful to read through when writing your own client for blot.
