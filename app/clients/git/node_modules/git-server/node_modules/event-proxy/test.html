@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+  <button id="one">Functions</button>
+  <button id="two">Prototype</button>
+
+  <script src="./event-proxy.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>
+    ;(function() {
+      'use strict'
+
+      var $fns = $('#one')
+
+      function click() {
+        console.log('click: ', this, arguments)
+
+        if (this !== $fns) throw new Error('Invalid scope')
+        if (arguments.length !== 1) throw new Error('Invalid arguments')
+      }
+      function mouseEnter() {
+        console.log('mouseEnter: ', this, arguments)
+
+        if (this !== $fns) throw new Error('Invalid scope')
+        if (arguments.length !== 1) throw new Error('Invalid arguments')
+      }
+
+      var map = {
+        'click': click
+      , 'mouseenter': mouseEnter
+      }
+      proxy($fns, map, $fns)
+
+    }).call(this);
+
+
+    ;(function() {
+      'use strict'
+
+      var $protos = $('#two')
+        , handle
+        , map
+
+      function Handler() {
+        this.one = one
+      }
+      Handler.prototype.click = function($el, event) {
+        console.log('click: ', this, arguments)
+
+        if ($el !== $protos) throw new Error('Invalid element')
+        if (this !== handle) throw new Error('Invalid scope')
+        if (arguments.length !== 2) throw new Error('Invalid arguments')
+      }
+      Handler.prototype.mouseEnter = function($el, event) {
+        console.log('mouseEnter: ', this, arguments)
+
+        if ($el !== $protos) throw new Error('Invalid element')
+        if (this !== handle) throw new Error('Invalid scope')
+        if (arguments.length !== 2) throw new Error('Invalid arguments')
+      }
+
+      handle = new Handler()
+
+      map = {
+        'click': 'click'
+      , 'mouseenter': 'mouseEnter'
+      }
+      proxy(handle, map, $protos, $protos)
+
+    }).call(this);
+  </script>
+</body>
+</html>

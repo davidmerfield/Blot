@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "README.md", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#%23nodejs%20git%20server">#NodeJS Git Server</a>
+      </div>
+      <div class="heading h1">
+        <a href="#%23%23%20install%20git%20server">## Install Git Server</a>
+      </div>
+      <div class="heading h1">
+        <a href="#%23%23%20example%20usage">## Example Usage</a>
+      </div>
+      <div class="heading h5">
+        <a href="#event%20triggers%3A">Event Triggers:</a>
+      </div>
+      <div class="heading h1">
+        <a href="#%23%23%20https">## HTTPS</a>
+      </div>
+      <div class="heading h1">
+        <a href="#%23%23%20cli%20usage">## CLI Usage</a>
+      </div>
+      <div class="heading h1">
+        <a href="#%23%23%20todo%20items">## TODO Items</a>
+      </div>
+      <div class="heading h3">
+        <a href="#this%20is%20a%20work%20in%20progress%20-%20please%20feel%20free%20to%20contribute!">This is a work in progress - please feel free to contribute!</a>
+      </div>
+      <div class="heading h1">
+        <a href="#%23license">#License</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="docs markdown">
+<div class="pilwrap" id="%23nodejs%20git%20server">
+  <h1>
+    <a href="#%23nodejs%20git%20server" name="%23nodejs%20git%20server" class="pilcrow">&#182;</a>
+    #NodeJS Git Server
+  </h1>
+</div>
+
+
+<p><img src="https://raw.github.com/qrpike/NodeJS-Git-Server/master/header.png" alt="image" title="" /></p>
+
+<p>A multi-tenant git server using NodeJS.</p>
+
+<p>Read the <a href="http://qrpike.github.io/NodeJS-Git-Server/host.coffee.html">Documented Source Code Here</a></p>
+
+<p>Made to be able to support many git repo's and users with Read/Write customizable permissions.</p>
+
+
+<div class="pilwrap" id="%23%23%20install%20git%20server">
+  <h1>
+    <a href="#%23%23%20install%20git%20server" name="%23%23%20install%20git%20server" class="pilcrow">&#182;</a>
+    ## Install Git Server
+  </h1>
+</div>
+
+
+<p>To install the git server run:</p>
+
+
+<div class="highlight"><pre><code><span class="n">npm</span> <span class="n">install</span> <span class="n">git</span><span class="o">-</span><span class="n">server</span>
+</code></pre></div>
+
+
+
+
+<div class="pilwrap" id="%23%23%20example%20usage">
+  <h1>
+    <a href="#%23%23%20example%20usage" name="%23%23%20example%20usage" class="pilcrow">&#182;</a>
+    ## Example Usage
+  </h1>
+</div>
+
+
+<p>The GitServer is a very easy to get up and running git server. It uses the <a href="https://github.com/substack/pushover">Pushover</a> module for listening to git events, and its own layer to do the security for each repo &amp; user.</p>
+
+
+<div class="highlight"><pre><code><span class="nt">var</span> <span class="nt">GitServer</span> <span class="o">=</span> <span class="nt">require</span><span class="o">(</span><span class="s1">&#39;git-server&#39;</span><span class="o">);</span>
+<span class="nt">var</span> <span class="nt">newUser</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">username</span><span class="o">:</span><span class="s1">&#39;demo&#39;</span><span class="o">,</span>
+    <span class="n">password</span><span class="o">:</span><span class="s1">&#39;demo&#39;</span>
+<span class="p">}</span>
+<span class="nt">var</span> <span class="nt">newRepo</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">name</span><span class="o">:</span><span class="s1">&#39;myrepo&#39;</span><span class="o">,</span>
+    <span class="n">anonRead</span><span class="o">:</span><span class="n">false</span><span class="o">,</span>
+    <span class="n">users</span><span class="o">:</span> <span class="cp">[</span>
+        <span class="p">{</span> <span class="nb">user</span><span class="p">:</span><span class="nx">newUser</span><span class="p">,</span> <span class="nx">permissions</span><span class="p">:</span><span class="err">[</span><span class="s1">&#39;R&#39;</span><span class="p">,</span><span class="s1">&#39;W&#39;</span><span class="cp">]</span> <span class="p">}</span>
+    <span class="o">]</span>
+<span class="err">}</span>
+<span class="nt">_g</span> <span class="o">=</span> <span class="nt">new</span> <span class="nt">GitServer</span><span class="o">(</span><span class="cp">[</span> <span class="nx">newRepo</span> <span class="cp">]</span><span class="o">);</span>
+</code></pre></div>
+
+
+
+
+<div class="pilwrap" id="event%20triggers%3A">
+  <h5>
+    <a href="#event%20triggers%3A" name="event%20triggers%3A" class="pilcrow">&#182;</a>
+    Event Triggers:
+  </h5>
+</div>
+
+
+<p>If you want onSuccessful triggers, you can add them to each repo like so:</p>
+
+
+<div class="highlight"><pre><code><span class="kd">var</span> <span class="nx">newRepo</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;myrepo&#39;</span><span class="p">,</span>
+    <span class="nx">anonRead</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span>
+    <span class="nx">users</span><span class="o">:</span> <span class="cp">[</span>
+        <span class="p">{</span> <span class="nb">user</span><span class="p">:</span><span class="nx">newUser</span><span class="p">,</span> <span class="nx">permissions</span><span class="p">:</span><span class="err">[</span><span class="s1">&#39;R&#39;</span><span class="p">,</span><span class="s1">&#39;W&#39;</span><span class="cp">]</span> <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nx">onSuccessful</span> <span class="o">:</span> <span class="p">{</span>
+        <span class="nx">fetch</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">repo</span><span class="p">,</span> <span class="nx">method</span> <span class="p">){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Successful fetch/pull/clone on repo:&#39;</span><span class="p">,</span><span class="nx">repo</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nx">push</span>  <span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">repo</span><span class="p">,</span> <span class="nx">method</span> <span class="p">){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;PUSHed:&#39;</span><span class="p">,</span> <span class="nx">repo</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+            <span class="c1">// Possibly do some deploy scripts etc.</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+
+<p>When we start the git server, it will default to port 7000. We can test this using git on this (or another ) machine.</p>
+
+
+<div class="highlight"><pre><code><span class="n">git</span> <span class="n">clone</span> <span class="n">http</span><span class="o">:</span><span class="c1">//localhost:7000/myrepo.git</span>
+</code></pre></div>
+
+
+
+<p>Since this repo does <em>NOT</em> allow anonymous reading, it will prompt us for a user/pass</p>
+
+<p>To make this faster, we can use the basic auth structure:</p>
+
+
+<div class="highlight"><pre><code><span class="n">git</span> <span class="n">clone</span> <span class="n">http</span><span class="o">:</span><span class="c1">//demo:demo@localhost:7000/myrepo.git</span>
+</code></pre></div>
+
+
+
+<p>This should not prompt you for any user/pass. Also in the future when you push changes, or pull, it will not ask you for this info again. </p>
+
+
+<div class="pilwrap" id="%23%23%20https">
+  <h1>
+    <a href="#%23%23%20https" name="%23%23%20https" class="pilcrow">&#182;</a>
+    ## HTTPS
+  </h1>
+</div>
+
+
+<p>The ability to use HTTPS is now implemented for the module (not the cli <em>yet</em>). This is important so that your username &amp; password is encrypted when being sent over the wire. If you are not using username/password then you may want to disregard this section.</p>
+
+<p>To enable HTTPS, send the module the 'cert' param:</p>
+
+
+<div class="highlight"><pre><code><span class="n">var</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="err">&#39;</span><span class="n">fs</span><span class="err">&#39;</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">certs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">key</span>     <span class="o">:</span> <span class="n">fs</span><span class="p">.</span><span class="n">readFileSync</span><span class="p">(</span><span class="err">&#39;</span><span class="p">..</span><span class="o">/</span><span class="n">certs</span><span class="o">/</span><span class="n">privatekey</span><span class="p">.</span><span class="n">pem</span><span class="err">&#39;</span><span class="p">)</span>
+    <span class="n">cert</span>    <span class="o">:</span> <span class="n">fs</span><span class="p">.</span><span class="n">readFileSync</span><span class="p">(</span><span class="err">&#39;</span><span class="p">..</span><span class="o">/</span><span class="n">certs</span><span class="o">/</span><span class="n">certificate</span><span class="p">.</span><span class="n">pem</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="p">};</span>
+<span class="n">_g</span> <span class="o">=</span> <span class="n">new</span> <span class="n">GitServer</span><span class="p">([</span> <span class="n">newRepo</span> <span class="p">],</span> <span class="n">undefined</span><span class="p">,</span> <span class="n">undefined</span><span class="p">,</span> <span class="n">undefined</span><span class="p">,</span> <span class="n">certs</span><span class="p">);</span>
+</code></pre></div>
+
+
+
+<p>To create these certs you can run:</p>
+
+
+<div class="highlight"><pre><code><span class="n">openssl</span> <span class="n">genrsa</span> <span class="o">-</span><span class="n">out</span> <span class="n">privatekey</span><span class="p">.</span><span class="n">pem</span> <span class="mi">1024</span> 
+<span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">key</span> <span class="n">privatekey</span><span class="p">.</span><span class="n">pem</span> <span class="o">-</span><span class="n">out</span> <span class="n">certrequest</span><span class="p">.</span><span class="n">csr</span> 
+<span class="n">openssl</span> <span class="n">x509</span> <span class="o">-</span><span class="n">req</span> <span class="o">-</span><span class="n">in</span> <span class="n">certrequest</span><span class="p">.</span><span class="n">csr</span> <span class="o">-</span><span class="n">signkey</span> <span class="n">privatekey</span><span class="p">.</span><span class="n">pem</span> <span class="o">-</span><span class="n">out</span> <span class="n">certificate</span><span class="p">.</span><span class="n">pem</span>
+</code></pre></div>
+
+
+
+<p>Also, be aware that when using HTTPS for the git server, when you try to clone,etc. It will give you an SSL error because git (which uses CURL) cannot verify the SSL Cert. To correct this, install a actual, verified SSL Cert ( Free ones here: <a href="http://www.startssl.com/?app=1">StartCom</a> )</p>
+
+<p>If you want to keep using the self signed cert like we created above ^ just tell git to not verify the cert. ( Other ways to do it <a href="http://www.f15ijp.com/2012/08/git-ssl-certificate-problem-how-to-turn-off-ssl-validation-for-a-repo/">here</a> )</p>
+
+
+<div class="highlight"><pre><code><span class="n">export</span> <span class="n">GIT_SSL_NO_VERIFY</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+
+
+
+<p>And you are good to go!</p>
+
+
+<div class="pilwrap" id="%23%23%20cli%20usage">
+  <h1>
+    <a href="#%23%23%20cli%20usage" name="%23%23%20cli%20usage" class="pilcrow">&#182;</a>
+    ## CLI Usage
+  </h1>
+</div>
+
+
+<p>When you install this package globally using</p>
+
+
+<div class="highlight"><pre><code><span class="n">sudo</span> <span class="n">npm</span> <span class="n">install</span> <span class="o">-</span><span class="n">g</span> <span class="n">git</span><span class="o">-</span><span class="n">server</span>
+</code></pre></div>
+
+
+
+<p>You will now have a CLI interface you can run and interact with. </p>
+
+<p>Get started by typing <code>git-server</code> or <code>gitserver</code> into your terminal.</p>
+
+<p>You should see something similar to this:
+<img src="https://raw.github.com/qrpike/NodeJS-Git-Server/master/cli-screenshot.png" alt="image" title="" /></p>
+
+<p>With this interface you can type the following to see the available commands:</p>
+
+
+<div class="highlight"><pre><code><span class="n">git</span><span class="o">-</span><span class="n">server</span><span class="o">&gt;</span> <span class="n">help</span>
+</code></pre></div>
+
+
+
+<p>You will see a list of possible commands, just enter a command and the prompt will ask you for any additional details needed.</p>
+
+
+<div class="pilwrap" id="%23%23%20todo%20items">
+  <h1>
+    <a href="#%23%23%20todo%20items" name="%23%23%20todo%20items" class="pilcrow">&#182;</a>
+    ## TODO Items
+  </h1>
+</div>
+
+
+<ul>
+<li>Add HTTPS Support ( partially completed )</li>
+<li>Add onPush &amp; onFetch actions for repos</li>
+<li>Make YouTube demo of the app</li>
+</ul>
+
+
+<div class="pilwrap" id="this%20is%20a%20work%20in%20progress%20-%20please%20feel%20free%20to%20contribute!">
+  <h3>
+    <a href="#this%20is%20a%20work%20in%20progress%20-%20please%20feel%20free%20to%20contribute!" name="this%20is%20a%20work%20in%20progress%20-%20please%20feel%20free%20to%20contribute!" class="pilcrow">&#182;</a>
+    This is a work in progress - please feel free to contribute!
+  </h3>
+</div>
+
+
+<p>please contribute</p>
+
+
+<div class="pilwrap" id="%23license">
+  <h1>
+    <a href="#%23license" name="%23license" class="pilcrow">&#182;</a>
+    #License
+  </h1>
+</div>
+
+
+<p>(The MIT License)</p>
+
+<p>Copyright (c) 2010 <a href="https://twitter.com/QuintonPike">Quinton Pike</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></div>
+  </div>
+</body>
+</html>

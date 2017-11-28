@@ -1,0 +1,25 @@
+{
+  "node": true
+, "asi": true
+, "nonstandard": true
+, "es5": true
+, "expr": true
+, "strict": false
+, "loopfunc": true
+, "smarttabs": true
+, "maxlen": 90
+, "newcap": false
+, "undef": true
+, "unused": false
+, "onecase": true
+, "indent": 2
+, "laxcomma": true
+, "laxbreak": true
+, "white": false
+, "shadow": true
+, "validthis": true
+, "globals": {
+    "describe": false
+  , "it": false
+  }
+}

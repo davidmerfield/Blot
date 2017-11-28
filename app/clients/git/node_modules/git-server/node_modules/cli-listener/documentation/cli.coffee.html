@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>cli.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "cli.coffee", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>cli.coffee</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>This is the CLI interface for your NodeJS apps</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<p>Get required packages:</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="p">{</span><span class="nx">EventEmitter</span><span class="p">}</span>  <span class="o">=</span> <span class="nx">require</span> <span class="s">&#39;events&#39;</span>
+<span class="nv">modules =</span>
+  <span class="nv">readline  : </span><span class="nx">require</span> <span class="s">&#39;readline&#39;</span>
+  <span class="nv">async   : </span><span class="nx">require</span> <span class="s">&#39;async&#39;</span>
+
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>Class definition:</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="k">class</span> <span class="nx">CLI</span> <span class="k">extends</span> <span class="nx">EventEmitter</span>
+
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Constructor function for CLI Object:</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">interface</span>
+      <span class="dox_type">String</span>
+      <span>The string you want the prompt to say:</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">welcome</span>
+      <span class="dox_type">String</span>
+      <span>The welcome message to say to the user</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">triggers</span>
+      <span class="dox_type">Object</span>
+      <span>A object of <code>trigger:action()</code></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nv">constructor: </span><span class="nf">( @interface = &#39;my-app&#39;, @welcome = &#39;Welcome to CLI!&#39;, @triggers = {} )-&gt;</span>
+    <span class="nx">@clear</span><span class="p">()</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>Setup the CLI input</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="vi">@cli = </span><span class="nx">modules</span><span class="p">.</span><span class="nx">readline</span><span class="p">.</span><span class="nx">createInterface</span> <span class="nx">process</span><span class="p">.</span><span class="nx">stdin</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">,</span> <span class="kc">null</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>Welcome this awesome user:</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">@welcome</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>Set the prompt:</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">@cli</span><span class="p">.</span><span class="nx">setPrompt</span> <span class="s">&quot;</span><span class="si">#{</span><span class="nx">@interface</span><span class="si">}</span><span class="s">&gt; &quot;</span> 
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>setup event listeners</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">@listenForTriggers</span><span class="p">()</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+</div>
+<p>open the promt</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">@cli</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;line&#39;</span><span class="p">,</span> <span class="nx">@onLine</span>
+    <span class="nx">@resetInput</span><span class="p">()</span>
+  
+    <span class="vi">@question = </span><span class="nx">@cli</span><span class="p">.</span><span class="nx">question</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">@cli</span><span class="p">)</span>
+  
+  
+  
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Ask the Command line a question(s)</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">questions</span>
+      <span class="dox_type">Object</span>
+      <span>Object of questions and their text
+eg: { 'username':'What is the username?' }</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nv">ask: </span><span class="nf">( questions = {}, callback = null, tasks = {} )=&gt;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+</div>
+<p>Go through each question in the object:</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="k">for</span> <span class="nx">key</span><span class="p">,</span><span class="nx">value</span> <span class="k">of</span> <span class="nx">questions</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+</div>
+<p>Create a contextual closure</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="p">(</span> <span class="nf">(key,value,question)-&gt;</span>
+        <span class="nx">tasks</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nf">( cb )=&gt;</span>
+          <span class="nx">question</span> <span class="nx">value</span><span class="p">,</span> <span class="nf">(r)-&gt;</span><span class="nx">cb</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="nx">r</span><span class="p">)</span>
+      <span class="p">)(</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">@cli</span><span class="p">.</span><span class="nx">question</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">@cli</span><span class="p">)</span> <span class="p">)</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+</div>
+<p>Run the async.series on this list</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">modules</span><span class="p">.</span><span class="nx">async</span><span class="p">.</span><span class="nx">series</span> <span class="nx">tasks</span><span class="p">,</span> <span class="nx">callback</span>
+  
+  
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Add events to list for</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">triggers</span>
+      <span class="dox_type">Object</span>
+      <span>Triggers to add the listeners for</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nv">listenForTriggers: </span><span class="nf">( triggers = @triggers )=&gt;</span>
+    <span class="k">for</span> <span class="nx">trigger</span><span class="p">,</span><span class="nx">action</span> <span class="k">of</span> <span class="nx">triggers</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
+</div>
+<p>Add listener for each trigger, that results in action()</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="nx">@</span><span class="kc">on</span> <span class="nx">trigger</span><span class="p">,</span> <span class="nx">action</span>
+    <span class="nx">@</span><span class="kc">on</span> <span class="s">&#39;clear&#39;</span><span class="p">,</span> <span class="o">=&gt;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
+</div>
+<p>when we enter <code>clear</code> clear the pages content</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="nx">@clear</span><span class="p">()</span>
+      <span class="nx">@resetInput</span><span class="p">()</span>
+  
+  
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
+</div>
+<p>Reset the prompt:</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nv">resetInput: </span><span class="p">()</span><span class="o">=&gt;</span>
+    <span class="nx">@cli</span><span class="p">.</span><span class="nx">prompt</span><span class="p">()</span>
+  
+    
+  
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>When we hit ENTER on the keyboard</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">line</span>
+      <span class="dox_type">String</span>
+      <span>Content of the line we jsut entered:</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nv">onLine: </span><span class="nf">( line )=&gt;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
+</div>
+<p>Trim and spaces</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nv">line = </span><span class="nx">line</span><span class="p">.</span><span class="nx">trim</span><span class="p">()</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
+</div>
+<p>See if we have any listeners on this:</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="k">if</span> <span class="nx">@listeners</span><span class="p">(</span><span class="nx">line</span><span class="p">).</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
+</div>
+<p>if so call it</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="nx">@emit</span> <span class="nx">line</span><span class="p">,</span> <span class="nx">@resetInput</span>
+    <span class="k">else</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
+</div>
+<p>Otherwise just reset the prompt</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+      <span class="nx">@cli</span><span class="p">.</span><span class="nx">prompt</span><span class="p">()</span> 
+
+
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
+</div>
+<p>Clear the console:</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="nv">clear: </span><span class="p">()</span><span class="o">=&gt;</span>
+    <span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">write</span> <span class="s">&#39;\u001B[2J\u001B[0;0f&#39;</span>
+
+
+
+
+<span class="nv">module.exports = </span><span class="nx">CLI</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>
