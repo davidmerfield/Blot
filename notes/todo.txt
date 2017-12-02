@@ -22,6 +22,12 @@ Buy .com
 
 ---
 
+Fix bug when you have two blogs in the same app folder, then unlink one of them, then relink it.
+
+Fix bug when you try to restart a cancelled Blot subscription
+
+Fix strange redis bug when building the templates
+
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Move www/blogs/* to /blogs/{{id}}/assets
@@ -175,7 +181,7 @@ Add filtering by date to 404 log
 https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca
 
 Make the folder in Dropbox rename automatically when the
-user changes the username for one of their multiple blogs.
+user changes the username for one of their multiple blogs?
 
 Move daily update generator to app folder
 
