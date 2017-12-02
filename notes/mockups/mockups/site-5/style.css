@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css?family=Stint+Ultra+Expanded');
+
+
+@font-face {
+    font-family: 'IA Writer Duospace';
+    src: url('/fonts/iawriterduospace-bold-webfont.woff2') format('woff2'),
+         url('/fonts/iawriterduospace-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+
+
+@font-face {
+    font-family: 'IA Writer Duospace';
+    src: url('/fonts/iawriterduospace-bolditalic-webfont.woff2') format('woff2'),
+         url('/fonts/iawriterduospace-bolditalic-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'IA Writer Duospace';
+    src: url('/fonts/iawriterduospace-regular-webfont.woff2') format('woff2'),
+         url('/fonts/iawriterduospace-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'IA Writer Duospace';
+    src: url('/fonts/iawriterduospace-regularitalic-webfont.woff2') format('woff2'),
+         url('/fonts/iawriterduospace-regularitalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+.yellow {
+    background-color: #fff5c2;
+    color: #272100;
+    display: inline-block;
+    padding: 0 .3333em;
+    margin: 0 -.3333em;
+}
+
+.thumbnail {
+        display: block;
+        float: left;
+    text-decoration: none;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    border:none;
+    cursor: pointer;
+    width: 12%;
+    margin: 1%;
+}
+
+.site_header {
+    border-top: 1px solid rgba(0, 0, 0, .07);
+    border-left: 1px solid rgba(0, 0, 0, .07);
+    border-right: 1px solid rgba(0, 0, 0, .07);
+    border-radius: 0;
+    background: rgba(0,0,0,0.04);
+    border-bottom: none;
+    z-index: -1;
+    font-size: 0.3em;
+    vertical-align: top;
+    line-height: 0;
+    padding: 0.55em 0.6em;
+}
+
+.site_header > div {
+    display: inline-block;
+    height: .8em;
+    width: .8em;
+    /* background: rgba(0,0,0,.15); */
+    margin-right: .25em;
+    border-radius: 1em;
+    border: 1px solid rgba(0,0,0,.175);
+}
+
+.thumbnail img {
+    outline: 1px solid rgba(0,0,0,.1);
+        width: 100%;
+        margin: 1px;
+        box-sizing: border-box;
+    height: auto;
+}
+.thumbnail .title {
+    margin-top: 1.5rem;
+    margin-bottom: 0rem;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.85);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif, "Sans Serif", Icons /*!System*/;
+    font-style: normal;
+    line-height: 1.1;
+}
+
+hr {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid #c7c4bd;
+}
+
+.header {
+    width: 100%;
+    padding: 3rem;
+    margin: -3rem;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, .05);
+}
+
+body {
+    max-width: 1140px;
+    margin: 0 auto;
+    font-size: 1rem;
+    font-weight: 400;
+    background: #fff;
+    color:#000;
+/*    background: #f3f0e9;
+    color: #0d0c07;
+*/    font-family: 'IA Writer Duospace', monospace;
+    font-style: normal;
+    line-height: 1.6666;
+}
+
+a {        text-decoration:none;color:black;border-bottom: 1px solid #d22d33;
+}
+    .nav a {
+        padding: 4px 12px 6px;
+        border-radius: 4px;
+        margin: -4px -12px -6px;
+    }
+
+    a:hover {background: rgba(0,0,0,0.05);color:black;}
+
+    .help ul > a {border:none;}
+    .help ul {width: 47%;display: block;float: left;padding:0;margin: 0;margin-right: 3%}
+    .help ul:nth-child(2n) {margin-left: 3%;margin-right: 0}
+    .help ul li {margin: 0 0 0 1.33em;padding: 0;color:#a2a09b;list-style-type: circle;}
+
+    .nav a {border:none;}
+br {clear:both;}
+
+    h1 {font-size: 1.5em;font-weight: 600}
+    h2, b {font-weight: 600}
+
+    #logo {
+    border: none;
+    background-image: url('/logo.svg');
+    background-size: 1em;
+    color:#999;
+    background-repeat: no-repeat;
+    background-position: 6px center;
+    padding-left: 1.666em;
+    margin-left: -.333em;
+    }
+
+    h2 {font-weight: 400;font-style: italic;font-size:inherit;margin: 3em 0 -.8333em}
+
+    small {font-size:0.66em;}
+
+    .gallery {padding:0 0;margin:0;position: relative;}
+    .gallery li {list-style-type:none;float: left;line-height: inherit;}
+    .gallery a {width: 33%;font-size:1.333em;display: block;float: left;text-align: center;border:none;}
+
+    @keyframes stolen{25%{background-color:#ff9600}50%{background-color:#E20000}75%{background-color:#ff9600}}@-webkit-keyframes stolen{25%{background-color:#ff9600}50%{background-color:#E20000}75%{background-color:#ff9600}}
+    @keyframes stolen-color{25%{color:#ff9600;border-color:#ff9600;}50%{color:#E20000;border-color: #E20000}75%{color:#ff9600;border-color: #ff9600}}@-webkit-keyframes stolen{25%{color:#ff9600;border-color:#ff9600}50%{color:#E20000;border-color: #E20000}75%{color:#ff9600;border-color:#ff9600}}
+
+  .new {
+    color: #fff;
+    background: #E20000;
+    padding: 0 .2em 0;
+    font-size: 0.6em;
+    letter-spacing: 0.1em;
+    animation: stolen alternate 1s infinite;
+    -webkit-animation: stolen alternate 1s infinite;
+}
+
+
+a.button {
+        border: 1px solid #d22d33;    display: inline-block;
+    color: #d22d33;
+
+    line-height: 1.42857143;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  margin-left: 0.4em;
+  font-size: 0.6em;
+  letter-spacing: 0.05em
+}
+sub {
+  top: 0.4em;
+}
+
+
+.helper {position: absolute;left: -50%;bottom: 0.3rem;font-size: 1.3rem;line-height:1.3;text-align: left;width: 40%}
