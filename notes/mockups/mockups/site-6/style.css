@@ -118,7 +118,7 @@ hr {
 
 body {
     margin: 0 auto;
-    max-width: 800px;margin:0 auto;
+    max-width: 440px;margin:0 auto;
     padding: 2.5rem;
     font-size: 0.94rem;
     font-weight: 400;
@@ -136,7 +136,6 @@ a {        text-decoration:none;color:black;border-bottom: 1px solid #999;
     .nav a {
         padding: 4px 12px 6px;
         border-radius: 4px;
-        font-size:1.15em;
         margin: -4px -12px -6px;
     }
 
@@ -156,13 +155,14 @@ br {clear:both;}
     border: none;
     background-image: url('/logo.svg');
     background-size: 1em;
+    color:#999;
     background-repeat: no-repeat;
     background-position: 6px center;
     padding-left: 1.8em;
-    font-weight: bold;
     margin-left: -.5em;
     }
 
+    .nav {color:#aaa;border:none;}
     h2 {font-weight: 400;font-style: italic;font-size:inherit;margin: 3em 0 -.8333em}
 
     small {font-size:0.66em;}
