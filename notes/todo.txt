@@ -1,12 +1,10 @@
+Improve documentation
+
 Improve the selection of templates, tell:
 - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
 - Nash P
 - Chris S
 - John P
-
-Improve public site
-
-Improve documentation
 
 Re-do demo video to explain the sites I run using it:
  - Blot's developer blog: a conventional blog, show using different text editors
