@@ -1,12 +1,24 @@
 var eachBlog = require('../each/blog');
 var request = require('request');
 
+var custom_domain = {custom: []};
+var sub_domain = {custom: []};
+
 eachBlog(function(user, blog, next){
 
   if (user.isDisabled || blog.isDisabled) return next();
 
+  console.log('...', blog.handle);
+
   if (!blog.domain) {
-    console.log('x http://'+ blog.handle +'.blot.im');
+
+    if (blog.template.indexOf('SITE') !== -1) {
+      sub_domain[blog.template] = sub_domain[blog.template] || [];
+      sub_domain[blog.template].push(blog.handle);
+    } else {
+      sub_domain.custom.push(blog.handle);
+    }
+
     return next();
   }
 
@@ -33,9 +45,40 @@ eachBlog(function(user, blog, next){
 
     if (body !== blog.handle) return next();
 
-    console.log('YES https://' + blog.domain + ' (' + blog.handle + ')');
+    if (blog.template.indexOf('SITE') !== -1) {
+      blog.template = blog.template.slice('SITE:'.length);
+      custom_domain[blog.template] = custom_domain[blog.template] || [];
+      custom_domain[blog.template].push(blog.domain);
+    } else {
+      custom_domain.custom.push(blog.domain);
+    }
 
     next();
   });
 
-}, process.exit);
+}, function(){
+
+  console.log();
+  console.log();
+  console.log();
+  console.log('CUSTOM DOMAINS');
+  console.log('--------------');
+
+  for (var i in custom_domain) {
+
+    var list = custom_domain[i];
+
+    console.log(i);
+
+    list.forEach(function(d){
+      console.log('- https://' + d);
+    });
+
+    console.log();
+
+  }
+
+  // console.log('SUB DOMAINS');
+  // console.log('-----------');
+  // console.log(sub_domain);
+});
