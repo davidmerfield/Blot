@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Blot</title>
+    <link rel="stylesheet" media="all" href="/fonts/style.css" />
+    <link rel="stylesheet" media="all" href="/style.css" />
+  </head>
+  <body>
+
+  <br><br><br>
+  <a id=""class="nav" href="/" style="border: none;">Blot ›</a> Sign up
+  <br><br><br>
+
+
+  <form method="POST" action="?_csrf=">
+      <p style="width:130%">A subscription costs <span class='box yellow'>$30 per year</span>. You can cancel at any time. You must agree to the <a href="/terms">terms of use</a> and  <a href="/privacy">privacy policy</a>. </p>
+
+
+
+      <p id="error" class="box red" style="margin-bottom:0;width:120%;display:none"></p>
+
+
+      <br />
+
+      <label>Email address:</label>
+      <input type="text" size="20" class="email" name="email" autofocus/>
+      <br />
+      <br />
+      <label>Card number: <span class="control-tool">
+        <span class="help-icon lock"></span>
+        <span class="tooltip">
+          Blot does not store your card details. Stripe handles payments.
+        </span>
+      </span></label>
+      <input type="text"size="20" data-stripe="number" name="number" />
+      <br />
+      <br />
+      <fieldset style="width:165px;display:inline-block">
+        <label>Expiration date:</label>
+        <input style="width:45%;border-right:none;text-align:center;border-radius:4px 0 0 4px" name="exp-month" maxlength="2" placeholder="MM" type="text" size="2" data-stripe="exp-month"/><input style="width:55%;text-align:center;border-radius:0 4px 4px 0" name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      </fieldset>
+      <fieldset style="width:90px;float:right">
+        <label>CVC:
+          <span class="control-tool">
+            <span class="help-icon">?</span>
+            <span class="tooltip">
+            It’s the 3- or 4-digit code on your card, seperate from the 16-digit card number.
+            </span>
+          </span>
+        </label>
+        <input type="text" size="4" data-stripe="cvc" name="cvc"/>
+      </fieldset>
+      <br />
+      <br />
+
+      <input type="hidden" class="stripeToken" name="stripeToken" />
+
+      <input type="submit" class="submit button" value="Submit payment"  />
+</p>
+    </form>
+  <br><br><br>
+  <br><br><br>
+  <br><br><br>
+  <br><br>
+
+      <div class="nav" style="font-size: 11px;text-transform: uppercsase;">
+      <a href="/">Home</a>&nbsp;·
+      <a href="/contact">Contact</a>&nbsp;·
+      <a href="/about">About</a>&nbsp;·
+      <a href="/terms">Terms of use</a>&nbsp;·
+      <a href="/privacy">Privacy policy</a>&nbsp;·
+      <a href="/help">Help</a>
+      <hr>
+      Blot's source code is dedicted to the public domain and available to you. The type on this page is set in IA Duospace. Send me an email if you have any questions.
+
+      <!--
+
+      Never forget that everything written symbols can say has already passed by. They are like tracks left by animals. That is why the masters of meditation refuse to accept that writings are final. The aim is to reach true being by means of those tracks, those letters, those signs&puncsp;—&puncsp;but reality itself is not a sign, and it leaves no tracks. It doesn’t come to us by way of letters or words. We can go toward it, by following those words and letters back to what they came from. But so long as we are preoccupied with symbols, theories, and opinions, we fail to reach the principle.
+
+      But when we give up symbols and opinions, aren’t we left in the utter nothingness of being?"
+
+      Yes. -->
+      </div>
+      <br><br><br>
+  </body>
+</html>
+
