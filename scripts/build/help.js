@@ -24,7 +24,9 @@ forEach(readdir(source), function(path, next){
   // Remove leading number and period
   var title = basename(path).slice(2).trim();
   var slug = makeSlug(title);
-  var content = '# ' + title + '\n\n' + loadFiles(path);
+  var res = loadFiles(path);
+  var subsections = res[1];
+  var content = res[0];
 
   convert(content, function(err, html){
 
@@ -32,7 +34,7 @@ forEach(readdir(source), function(path, next){
 
     write(output_path, html);
 
-    sections.push({html: html, title: title, slug: slug});
+    sections.push({html: html, title: title, slug: slug, subsections: subsections});
 
     next();
   });
@@ -82,11 +84,21 @@ function readdir (path) {
 function loadFiles (path) {
 
   var res = '';
+  var subsections = [];
 
   var contents = readdir(path);
+
+  contents.forEach(function(p){
+    p = p.slice(p.lastIndexOf('/'));
+    console.log(p);
+    p = p.slice(p.indexOf('.') + 1, p.lastIndexOf('.'));
+    p = p.trim();
+
+    subsections.push({subsection: p});
+  });
 
   for (var i = 0; i < contents.length;i++)
     res += read(contents[i]) + '\n\n';
 
-  return res;
+  return [res, subsections];
 }
