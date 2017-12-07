@@ -3,21 +3,26 @@
 {{> head}}
 <body>
 
-{{> header}}
+  {{#subsection}}
+  <br><br><br>
+  <a class="nav" href="/">Blot</a> › <a class="nav" href="/help">Help</a> › {{title}}
+  <br><br><br>
+  {{/subsection}}
 
-<div style="font-size:16px;position:relative;">
+  {{^subsection}}
+  <br><br><br>
+  <a class="nav" href="/">Blot</a> › Help
+  <br><br><br>
+  {{/subsection}}
 
-{{#sidebar}}
-{{> sidebar}}
-{{/sidebar}}
+<span class="box yellow" style="display: block;text-align: center;">Please <a href="/contact">contact me</a> if you have any questions.</span>
 
-<div style="max-width:700px">
+<br>
+
+
 
 {{> yield}}
-</div>
 
-<div class="clear"></div>
-</div>
 {{> footer}}
-  </body>
+</body>
 </html>

@@ -20,7 +20,7 @@ paymentForm.get(function(req, res){
   if (req.session && req.session.email && req.session.subscription)
     return res.redirect(req.baseUrl + passwordForm.path);
 
-  res.locals.title = 'Sign up for Blot and start your blog';
+  res.locals.title = 'Sign up';
   res.locals.error = req.query.error;
   res.locals.stripe_key = config.stripe.key;
 
@@ -88,6 +88,7 @@ passwordForm.all(function(req, res, next) {
 
 passwordForm.get(function(req, res){
 
+  res.locals.title = 'Sign up';
   res.locals.email = req.session.email;
   res.locals.subscription = !!req.session.subscription;
   res.locals.error = req.query.error;

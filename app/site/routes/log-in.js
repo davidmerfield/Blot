@@ -25,6 +25,11 @@ var limiter = new Brute(store, {
 var login = Express.Router();
 var form = login.route('/');
 
+form.all(function(req, res, next){
+  res.locals.title = 'Log in';
+  next();
+});
+
 form.all(limiter.prevent);
 
 form.get(checkToken, function(req, res){

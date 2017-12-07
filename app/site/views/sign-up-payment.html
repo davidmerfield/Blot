@@ -1,17 +1,7 @@
 <html>
   {{> head}}
   <body>
-    <br />
-    <br />
-    <div class="nav">
-     <a id="logo" href="/">Blot</a>
-     <span>
-      <span style="color:black">Sign up</span>
-      <span style="width:1.5em;display:inline-block;text-align:center">→</span>
-      Connect to Dropbox
-    </span>
-    </div>
-    <br />
+    {{> header}}
     <form method="POST" action="?_csrf={{csrftoken}}">
       <p style="width:130%">A subscription costs <span class='box yellow'>$20 per year</span>. You can cancel at any time. You must agree to the <a href="/terms">terms of use</a> and  <a href="/privacy">privacy policy</a>. </p>
 

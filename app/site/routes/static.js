@@ -59,7 +59,7 @@ module.exports = function(server){
 
     res.addLocals({
       partials: {yield: 'contact'},
-      title: 'Contact me',
+      title: 'Contact',
       selected: {contact: 'selected'}
     });
 

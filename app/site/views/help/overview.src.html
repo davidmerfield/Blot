@@ -1,5 +1,14 @@
-<h1>Help</h1>
+<div class="help">
 
 {{#sections}}
-<a href="/help/{{slug}}">{{title}}</a><br /><br />
+
+<ul>
+<a href="/help/{{slug}}"><b>{{title}}</b></a><br />
+<hr>
+{{#subsections}}
+<li><a href="/help/{{slug}}#{{subsection}}">{{subsection}}</a></li>
+{{/subsections}}
+</ul>
+<br><br>
+
 {{/sections}}

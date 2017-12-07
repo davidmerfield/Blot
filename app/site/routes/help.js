@@ -3,7 +3,7 @@ module.exports = function(server){
   server.get('/help', function(req, res){
 
     res.setLocals({
-      title: 'Blot - Help',
+      title: 'Help',
       selected: {help: 'selected'},
       tab: {help: 'selected'},
     });
@@ -16,6 +16,14 @@ module.exports = function(server){
     res.render('help/wrapper');
   });
 
+  function capitalize (str) {
+    return str[0].toUpperCase() + str.slice(1);
+  }
+
+  function deslug (slug) {
+    return capitalize(slug.split('-').join(' '));
+  }
+
   server.get('/help/:section', function(req, res){
 
     res.addPartials({
@@ -24,8 +32,8 @@ module.exports = function(server){
     });
 
     res.setLocals({
-      sidebar: true,
-      title: 'Blot - Help - ' + req.params.section,
+      subsection: true,
+      title: deslug(req.params.section),
       selected: {help: 'selected'},
       tab: {help: 'selected'}
     });
