@@ -1,0 +1,15 @@
+Blot creates a folder in your Dropbox and publishes files you put inside. These files are converted into posts:
+
+- **Text** .txt, .md
+- **Images** .png, .jpg, .gif
+- **Word documents** .docx
+- **Bookmarks** .webloc
+- **HTML** .html
+
+All files in Blot's folder are public. This means, if you add a file called ```Apple.mp3``` to your folder, your readers will be able to view the file at ```{{example.com}}/Apple.mp3```.
+
+# 
+
+Sometimes you might not want an image to become a blog post but you want to embed 
+
+Blot will not Files inside a folder whose name starts with an underscore (e.g. '_Media') are not converted into blog posts. You can use this feature to embed an [image in a blog post](/help/formatting-blog-posts#9-can-i-put-images-in-my-folder-to-use-inside-a-post) or serve [static files](#static-files). 

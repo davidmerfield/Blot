@@ -8,7 +8,7 @@ var basename = require('path').basename;
 var render = require('mustache').render;
 var convert = require('../../app/models/entry/build/file/markdown/convert');
 
-var source = rootDir + '/app/docs';
+var source = rootDir + '/notes/documentation';
 var output = rootDir + '/app/site/views/help/sections';
 
 var overview_source = rootDir + '/app/site/views/help/overview.src.html';

@@ -1,4 +1,0 @@
-
-## Will my Dropbox bandwidth usage be affected by my blog?
-
-Dropbox's bandwidth cap won't affect your blog. Blog posts in your Dropbox are converted into HTML and stored on Blot's servers.

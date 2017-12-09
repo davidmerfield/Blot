@@ -1,8 +1,16 @@
-
-
 ## Dates
 
-You can specify an entry's publish date in the [metadata](#metadata) at the top of a file. Blot supports plenty of formats. The following dates are equivalent:
+You can specify a post's publish date in the [metadata](#metadata) at the top of a file like so:
+
+```
+Date: {{date}}
+
+# Treatise on Apples
+
+Hello this is my post...
+```
+
+Blot supports plenty of formats. The following dates are equivalent:
 
 ```
 23/06/2012    23.6.12    23-6-2012    2012-6-23 00:00
