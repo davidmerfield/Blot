@@ -1,0 +1,44 @@
+ID: date
+
+# Dates
+
+Blot shows the date that each post was published to your readers. You can [hide the dates](/templates) on your site if you prefer.
+
+The file’s creation date is considered its publish date.
+
+For example, if you create a new file at 9am on Wednesday June 10th, Blot will publish a post to your site with that date.
+
+There are two ways to **change the date** that Blot shows to your readers. You can specify a different date:
+- inside the file itself
+- in the file’s name or path
+
+You can **schedule a post** for publication by specifying a date in the future.
+
+## Specifying a date in the file
+
+You can change a post's publish date in the [metadata](#metadata) at the top of a file:
+
+```
+Date: {{date}}
+
+# Treatise on Apples
+
+Hello this is my post...
+```
+
+Blot tries to support plenty of ways that people write dates. Each of the following date formats is supported and will produce a blog post with the same publish date:
+
+```
+23/06/2012    23.6.12    23-6-2012    2012-6-23 00:00
+```
+
+If you write the numbers in your dates differently, please tell Blot on the [settings page](/settings). 
+
+## Specifying a date in a file’s name
+
+You can use the file's path to specify an entry's date. This is useful for changing the publish date of an image. The entries for the following files have a publish date of midnight on February 23rd, 2016:
+
+```
+/2016/2/23/post.txt    /2016/2.23.post.txt   2016_02_23_00:00_post.txt
+```
+

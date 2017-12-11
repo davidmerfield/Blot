@@ -1,8 +1,12 @@
-## Redirects
+ID: redirects
 
-You can set up [redirects](/settings/redirects) for missing pages on your blog. The [404 log](/settings/404s) will help you work out which pages need redirects.
+# Redirects
 
-You can use RegEx to match multiple routes. For example, the following redirect rule will redirect URLs starting with ```/post``` to ```/blog```:
+You can set up [redirects](/settings/redirects) for missing pages on your blog. Your site’s [404 log](/settings/404s) will help you work out which URLs need to be redirected.
+
+You can use Regular Expressions to match multiple routes. 
+
+For example, the following rule will redirect URLs starting with ```/post``` to ```/blog```:
 
 ```
 \/post\/(.*)  →  /blog/$1

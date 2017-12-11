@@ -1,4 +1,12 @@
-Blot creates a folder in your Dropbox and publishes files you put inside. These files are converted into posts:
+ID: introduction
+
+Blot is a handy way to run a blog. It’s suitable for static websites that are updated regularly. 
+
+Blot creates a folder inside your Dropbox and publishes files you put inside. It will watch this folder for any changes and publishes files you put inside.
+
+All **files in Blot's folder are public**. This means, if you add a file called ```archive.zip``` to your folder, your readers will be able to download the file at ```{{example.com}}/archive.zip```. This means that you can use Blot as a static file server.
+
+Blot tries to convert files inside its folder into blog posts. The following types of files are converted into posts:
 
 - **Text** .txt, .md
 - **Images** .png, .jpg, .gif
@@ -6,8 +14,13 @@ Blot creates a folder in your Dropbox and publishes files you put inside. These 
 - **Bookmarks** .webloc
 - **HTML** .html
 
-All files in Blot's folder are public. This means, if you add a file called ```Apple.mp3``` to your folder, your readers will be able to view the file at ```{{example.com}}/Apple.mp3```. 
+For example, if you wanted to embed an image ```apple.jpg``` inside a blog post. You would rename the file to ```_apple.jpg```
+Any other type of file inside Blot’s folder is not turned into a blog post. 
 
-Sometimes you might not want an image to become a blog post but you want to embed 
+## Ignoring files
 
+You can prevent Blot from turning a file into a blog post:
+
+- start the file’s name with an underscore (_) e.g. _apple.jpg
+- Put the file inside a folder whose name starts with an underscore
 Blot will not Files inside a folder whose name starts with an underscore (e.g. '_Media') are not converted into blog posts. You can use this feature to embed an [image in a blog post](/help/formatting-blog-posts#9-can-i-put-images-in-my-folder-to-use-inside-a-post) or serve [static files](#static-files). 

@@ -1,0 +1,11 @@
+ID: thumbnail
+
+# Thumbnails
+
+Blot tries to create a thumbnail from the largest image in a blog post. 
+
+You can specify a different thumbnail in the [metadata](#metadata) at the top of a file. You can use a URL or a path to a file inside Blot’s folder:
+
+```
+Thumbnail: /_Photos/Apple.jpg
+```

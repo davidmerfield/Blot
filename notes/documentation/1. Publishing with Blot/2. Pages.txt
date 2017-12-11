@@ -1,4 +1,0 @@
-You can organize your folder however you like. There are three folders which Blot treats differently:
-
-- **Pages**<br> Files in a folder called 'Pages' are added to your blog's menu and do not become blog posts.
-- **Drafts**<Br> Files inside a folder called 'Drafts' are not published. Blot creates a preview for that file instead.

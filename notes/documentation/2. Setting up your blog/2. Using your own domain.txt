@@ -1,7 +1,20 @@
-## Using a personal domain
+# Using your own domain
 
-Once you own a domain, add it to your account on [the settings page](/settings).
+Every site hosted by Blot comes with its own subdomain. You are free to use it as long as you host your site on Blot.
 
-If you’d like to use a subdomain e.g ```blog.example.com``` or ```www.example.com``` create a ```CNAME``` record for that subdomain which points to ```blot.im```.
+Once you own your own domain, you have to decide whether you would like to use the apex domain or a subdomain for your site.
 
-If you’d like to use an apex domain e.g. ```example.com``` then create an ```ALIAS``` record which points to ```blot.im```. If you cannot create an ALIAS record, then use a CNAME record with the ```www.``` subdomain and redirect the apex domain.
+For example, xxx.com is an apex domain, and www.xxx.com or blog.xxx.com are subdomains.
+
+## Using a subdomain
+
+Create a ```CNAME``` record for that subdomain which points to ```blot.im```.
+
+## Using an apex domain
+
+Create an ```ALIAS``` record which points to ```blot.im```. 
+
+If you cannot create an ALIAS record, then use the ```www.``` subdomain and redirect the apex domain.
+
+Once you have created the necessary DNS record, tell Blot which domain or subdomain you are using on [the settings page](/settings).
+

@@ -1,0 +1,21 @@
+ID: tags
+
+# Tags
+
+Tags are used to associate posts by subject. Many of Blot’s templates include pages to display posts matching a given tag.
+
+You can specify tags in the [metadata](@metadata) at the top of a file:
+
+```
+Tags: Littérature, Book reviews
+```
+
+Tags can contain whitespace,  and should be separated by a comma (,).
+
+Tags are case-insensitive. For example, the tags ```Proust```, ```PROUST``` and ```proust``` are equivalent. However, Blot displays the case of the most recently used tag on your blog so it’s worth capitalizing tags consistently.
+
+## Using files and folders to tag posts
+
+You can use folders to tag posts. For example, files in a folder called ```[Literature]``` will become blog posts tagged 'Literature'. You can nest tag folders:
+
+```[Littérature] / [Book reviews] / Lamiel.txt```

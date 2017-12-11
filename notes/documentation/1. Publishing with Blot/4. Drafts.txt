@@ -1,0 +1,9 @@
+# Drafts
+
+It is possible to check that a post looks just right before publishing it using the Drafts feature.
+
+Files inside a folder called 'Drafts' are not published. Blot creates a preview for that file instead.
+
+If you open this preview file in your web browser, you will see exactly how the post will appear on your site without actually publishing it.
+
+When you are ready to publish your post, just move the file outside the drafts folder. Blot will remove the preview file for you.

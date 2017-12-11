@@ -1,0 +1,3 @@
+# Pages
+
+Files in a folder called 'Pages' are added to your blog's menu and do not become blog posts.
