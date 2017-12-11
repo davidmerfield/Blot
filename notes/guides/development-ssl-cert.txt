@@ -20,3 +20,9 @@ openssl req \
     -days 3650
 
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain cert.pem
+
+I then needed to create a symbolic link between:
+
+ln -s /var/run/nginx.pid /usr/local/var/run/nginx.pid
+
+To reload NGINX successfully
