@@ -30,7 +30,7 @@ if (production) {
   protocol = "http://";
   stripe_key = load('stripe.test.key');
   stripe_secret = load('stripe.test.secret');
-  pandoc_path = '/Users/David/.cabal/bin/pandoc';
+  pandoc_path = '/usr/local/bin/pandoc';
 
 }
 
