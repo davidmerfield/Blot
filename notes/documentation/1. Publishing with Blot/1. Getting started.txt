@@ -6,9 +6,7 @@ Blot creates a folder in your Dropbox and publishes files you put inside. These 
 - **Bookmarks** .webloc
 - **HTML** .html
 
-All files in Blot's folder are public. This means, if you add a file called ```Apple.mp3``` to your folder, your readers will be able to view the file at ```{{example.com}}/Apple.mp3```.
-
-# 
+All files in Blot's folder are public. This means, if you add a file called ```Apple.mp3``` to your folder, your readers will be able to view the file at ```{{example.com}}/Apple.mp3```. 
 
 Sometimes you might not want an image to become a blog post but you want to embed 
 
