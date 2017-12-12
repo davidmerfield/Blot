@@ -1,0 +1,3 @@
+# Drafts
+
+Files inside a folder called 'Drafts' are not published to your site. Instead, Blot creates a preview for that file instead. Open the preview file in your web browser to see how the post will appear on your site. You can also create a draft using a file's [metadata](@metadata).

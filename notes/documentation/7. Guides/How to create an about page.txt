@@ -1,0 +1,1 @@
+For example, let's say you wanted to create a contact page for your site. First you'd create a folder called 'Pages', then you'd put a file inside containing the page's content, just like you would for a blog post.

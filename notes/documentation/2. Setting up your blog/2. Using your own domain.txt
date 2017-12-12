@@ -1,20 +1,23 @@
+ID: domain
+
 # Using your own domain
 
-Every site hosted by Blot comes with its own subdomain. You are free to use it as long as you host your site on Blot.
+Let's say you own the domain ```{{example.com}}``` and would like to use it.
 
-Once you own your own domain, you have to decide whether you would like to use the apex domain or a subdomain for your site.
+First, you must decide whether you would like to use the *apex domain* or a *subdomain*. For example, ```{{example.com}}``` is an *apex domain*, while ```www.{{example.com}}``` and ```blog.{{example.com}}``` are *subdomains*.
 
-For example, xxx.com is an apex domain, and www.xxx.com or blog.xxx.com are subdomains.
+I recommend using the ```www.{{example.com}}``` and redirecting the apex domain to the ```www``` subdomain.
 
-## Using a subdomain
+**Using a subdomain**
 
-Create a ```CNAME``` record for that subdomain which points to ```blot.im```.
+1. Create a ```CNAME``` DNS record for that subdomain which points to ```blot.im```.
 
-## Using an apex domain
+2. Tell Blot your full domain, including the subdomain, on [the dashboard](/profile).
 
-Create an ```ALIAS``` record which points to ```blot.im```. 
+**Using an apex domain**
 
-If you cannot create an ALIAS record, then use the ```www.``` subdomain and redirect the apex domain.
+1. Create an ```ALIAS``` DNS record which points to ```blot.im```. 
 
-Once you have created the necessary DNS record, tell Blot which domain or subdomain you are using on [the settings page](/settings).
+2. Tell Blot your domain on [the dashboard](/profile).
 
+If you cannot create an ALIAS record for your apex domain, use the ```www``` subdomain and redirect the apex domain.

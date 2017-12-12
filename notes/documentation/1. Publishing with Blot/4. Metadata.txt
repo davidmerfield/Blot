@@ -1,0 +1,19 @@
+ID: metadata
+Questions:
+
+# Metadata
+
+Blot generates a [publish date](@date), [permalink](@urls), [thumbnail](@thumbnail) and a list of [tags](@tags) for each blog post. However, you can specify this metadata yourself:
+
+```
+Date: February 28th, 1973
+Permalink: gravity
+
+# Gravity's Rainbow
+
+A screaming comes across the sky.
+```
+
+Metadata must start on the first line and be separated from the rest of the post by a blank line. 
+
+View the [full list of possible metadata](@full_metadata).

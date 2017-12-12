@@ -1,12 +1,7 @@
+# Can Blot access all the files in my Dropbox?
 
+No, by default Blot only has access to a single folder in your Dropbox. However, you can grant Blot [full access to your folder](/clients/dropbox). You should only do this if you want to move your site's folder elsewhere, or share it with other people who use Dropbox.
 
-## Can Blot access all the files in my Dropbox?
+# Does Blot use up my Dropbox bandwidth?
 
-No, Blot only has access to a single folder, the one which contains your blog posts.
-
-
-
-## Can Blot access all the files in my Dropbox?
-
-No, Blot only has access to a single folder, the one which contains your blog posts.
-
+No, [Dropbox's traffic limits](https://www.dropbox.com/help/security/banned-links) do not apply to Blot. Instead, Blot transfers the contents of your folder to Blot's server, before delivering it to your readers. 

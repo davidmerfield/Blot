@@ -1,9 +1,9 @@
 # Moving your site to Blot from elsewhere
 
 I've written scripts to generate a folder of Markdown files from sites hosted on:
-- Tumblr
-- Wordpress
-- Jekyll
-- Squarespace
+- [Tumblr](https://github.com/davidmerfield/Blot-importer-for-Tumblr)
+- [Wordpress](https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace)
+- [Jekyll](https://github.com/davidmerfield/Blot-importer-for-Jekyll)
+- [Squarespace](https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace)
 
-[These scripts](https://github.com/search?utf8=%E2%9C%93&q=user%3Adavidmerfield+importer%09&type=Repositories&ref=searchresults) are not yet connected to a web interface but if you [contact me](/contact), I can run them on your blog and send you the result.
+None of these scripts is yet connected to a web interface. If you [contact me](/contact), I can run them on your blog and send you the result.

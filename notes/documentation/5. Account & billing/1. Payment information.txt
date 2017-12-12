@@ -1,3 +1,7 @@
-## Does Blot store my payment information?
+Blot charges an annual fee. You'll be billed when you first create a site, and in yearly increments after.
 
-No, your payment information never touches Blot's servers. I use [Stripe](https://stripe.com/) to process subscription payments. Blot stores Stripe tokens which can be used to initiate subscription payments. Read more about [Stripe's security](https://stripe.com/help/security) on their website.
+You can host as many sites as you like from the same account (and the same Dropbox account).
+
+# Do you store my payment information?
+
+No, your payment information does not touch Blot's servers. Blot uses [Stripe](https://stripe.com/) to process subscription payments. You can read more about [Stripe's security](https://stripe.com/help/security) on their website.
