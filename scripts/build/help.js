@@ -16,45 +16,62 @@ var overview_output = rootDir + '/app/site/views/help/overview.html';
 
 var sidebar_source = rootDir + '/app/site/views/help/sidebar.src.html';
 var sidebar_output = rootDir + '/app/site/views/help/sidebar.html';
+var watcher = require('watcher');
+
+var metadata = require('../../app/models/entry/build/metadata');
 
 var sections = [];
 
-forEach(readdir(source), function(path, next){
+main(function(){
 
-  // Remove leading number and period
-  var title = basename(path).slice(2).trim();
-  var slug = makeSlug(title);
-  var res = loadFiles(path);
-  var subsections = res[1];
-  var content = res[0];
+  watcher(source, main);
+});
 
-  convert(content, function(err, html){
+function main (callback) {
 
-    var output_path = joinpath(output, slug + '.html');
+  forEach(readdir(source), function(path, next){
 
-    write(output_path, html);
+    // Remove leading number and period
+    var title = basename(path).slice(2).trim();
+    var slug = makeSlug(title);
+    var res = loadFiles(path);
+    var subsections = res[1];
+    var content = res[0];
 
-    sections.push({html: html, title: title, slug: slug, subsections: subsections});
+    content = '# ' + title + '\n\n' + content;
+    
+    convert(content, function(err, html){
 
-    next();
+      var output_path = joinpath(output, slug + '.html');
+
+      write(output_path, html);
+
+      sections.push({html: html, title: title, slug: slug, subsections: subsections});
+
+      next();
+    });
+
+  }, function(){
+
+    var overview_template = fs.readFileSync(overview_source, 'utf-8');
+
+    overview_template = render(overview_template, {sections: sections});
+
+    fs.writeFileSync(overview_output, overview_template, 'utf-8');
+
+    var sidebar_template = fs.readFileSync(sidebar_source, 'utf-8');
+
+    sidebar_template = render(sidebar_template, {sections: sections});
+
+    fs.writeFileSync(sidebar_output, sidebar_template, 'utf-8');
+
+    console.log(new Date() + ' Built help pages');
+
+    if (typeof callback === "function") callback();
   });
 
-}, function(){
+}
 
-  var overview_template = fs.readFileSync(overview_source, 'utf-8');
-
-  overview_template = render(overview_template, {sections: sections});
-
-  fs.writeFileSync(overview_output, overview_template, 'utf-8');
-
-  var sidebar_template = fs.readFileSync(sidebar_source, 'utf-8');
-
-  sidebar_template = render(sidebar_template, {sections: sections});
-
-  fs.writeFileSync(sidebar_output, sidebar_template, 'utf-8');
-
-  console.log('Help built!');
-});
 
 
 
@@ -89,16 +106,19 @@ function loadFiles (path) {
   var contents = readdir(path);
 
   contents.forEach(function(p){
+
     p = p.slice(p.lastIndexOf('/'));
-    console.log(p);
     p = p.slice(p.indexOf('.') + 1, p.lastIndexOf('.'));
     p = p.trim();
 
     subsections.push({subsection: p});
   });
 
-  for (var i = 0; i < contents.length;i++)
-    res += read(contents[i]) + '\n\n';
+  for (var i = 0; i < contents.length;i++) {
+    var content = read(contents[i]);
+    content = metadata(content).contents;
+    res += content + '\n\n';
+  }
 
   return [res, subsections];
 }
