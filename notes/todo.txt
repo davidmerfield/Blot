@@ -24,6 +24,10 @@ Buy .com
 
 ---
 
+Fix bug when you sign up with an email and use capital letters
+- lowercase all existing emails
+- prevent case sensitive emails from making it into the DB / Stripe
+
 Fix bug when you have two blogs in the same app folder, then unlink one of them, then relink it.
 
 Fix bug when you try to restart a cancelled Blot subscription
