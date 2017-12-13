@@ -3,26 +3,48 @@
 {{> head}}
 <body>
 
+  <style>
+  body {max-width: 800px;
+      font-size: 18px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.85);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif, "Sans Serif", Icons /*!System*/;
+      -webkit-font-smoothing: antialiased;
+        word-wrap: break-word;
+        letter-spacing: 0;
+          line-height: 1.333;}
+  h1:first-of-type {margin: 0;font-size: 1.3333em}
+  h1 {margin-top: 3em}
+  p code {font-family: inherit;padding: 0.25em;background: #eee;margin: -0.25em;font-size: 1em}
+  .sidebar {width:25%;float:left;margin-right: 8.333%;color:#777;margin-top: 2.7em}
+  .sidebar ul {margin:0;padding:0;list-style-type: none;}
+  .sidebar li {margin-left: 1em}
+  a {color:blue;border-bottom-color: blue}
+  .sidebar a {color:inherit;border:none;display: block;padding: 0.33333em 1.666666em;margin: -0.333em -1.6666em}
+  .main {width:66.6666%;float:right;}
+  </style>
+  
+  <br><br><br>
+  
+  <span class="box yellow" style="float:right">Please <a href="/contact">contact me</a> if you have any questions.</span>
+
   {{#subsection}}
-  <br><br><br>
   <a class="nav" href="/">Blot</a> › <a class="nav" href="/help">Help</a> › {{title}}
-  <br><br><br>
   {{/subsection}}
 
   {{^subsection}}
-  <br><br><br>
   <a class="nav" href="/">Blot</a> › Help
-  <br><br><br>
   {{/subsection}}
 
-<span class="box yellow" style="display: block;text-align: center;">Please <a href="/contact">contact me</a> if you have any questions.</span>
+  <br><br><br>
 
 <br>
 
+{{> sidebar}}
 
-
+<div class="main">
 {{> yield}}
-
+</div>
 {{> footer}}
 </body>
 </html>
