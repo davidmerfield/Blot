@@ -1,6 +1,6 @@
 ID: introduction
 
-Blot is a blogging platform. It creates a folder inside your Dropbox and publishes files you put inside. These files will become blog posts:
+Blot is a blogging platform. It creates a folder inside your Dropbox and publishes files you put inside. These files will become blog posts automatically:
 
 - **Text** .txt, .md
 - **Images** .png, .jpeg, .gif
@@ -8,13 +8,11 @@ Blot is a blogging platform. It creates a folder inside your Dropbox and publish
 - **Bookmarks** .webloc
 - **HTML** .html
 
-# Public files
+All the files in Blot's folder are public. For example, if you put ```/Orange.zip``` in your folder, your readers will be able to download it at ```{{example.com}}/Orange.zip```. 
 
-All files in Blot's folder are public. For example, if you put a file called ```/Orange.zip``` in your folder, your readers will be able to download the file at ```{{example.com}}/Orange.zip```. 
+# Ignored files
 
-# Ignore a file
-
-Blot will not turn a file into a blog post if its name starts with an underscore. This also applies to files inside a folder whose name starts with an underscore.
+Blot will not turn a file into a blog post if its name starts with an underscore, or if it's inside a folder whose name starts with an underscore. 
 
 For example, ```/Banana.jpg``` will become a blog post but ```/_Apple.jpg``` will not. You can use this feature to embed an [image in a blog post](@embed_image).
 

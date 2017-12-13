@@ -1,3 +1,3 @@
 # Canceling your subscription
 
-You can cancel your subscription on the [account page](/account). You can choose to disable your sites immediately, or wait until the end of your current subscription period.
+You can cancel your subscription on the [account page](/account). You can choose to disable your account immediately, or wait until the end of your current subscription period.

@@ -1,0 +1,35 @@
+ID: date
+
+# Dates
+
+You can specify a post's publish date in the [metadata](#metadata) at the top of a file:
+
+```
+Date: 23/06/2012
+
+# You and the Atomic Bomb
+
+Considering how likely we all are to be blown to pieces...
+```
+
+Blot tries to support plenty of ways that people write dates. Each of the following date formats is supported and will produce a blog post with the same publish date:
+
+```
+23/06/2012    23.6.12    23-6-2012    2012-6-23 00:00
+```
+
+You use the file's path to specify a publish date. These will all have a publish date of midnight on February 23rd, 2016:
+
+```
+/2016/2/23/post.txt    /2016/2.23.post.txt   2016_02_23_00:00_post.txt
+```
+
+If you specify a date in the future, Blot will wait until then to publish it.
+
+If you don’t specify a date, the file’s creation date is considered its publish date. 
+
+If you write the numbers in your dates differently, please tell Blot on the [settings page](/settings). 
+
+You can [hide the dates](/templates) on your site if you prefer.
+
+

@@ -3,11 +3,11 @@ Questions:
 
 # Metadata
 
-Blot generates a [publish date](@date), [permalink](@urls), [thumbnail](@thumbnail) and a list of [tags](@tags) for each blog post. However, you can specify this metadata yourself:
+Blot generates a [publish date](@date), [permalink](@urls), [thumbnail](@thumbnail) and a list of [tags](@tags) for each blog post automatically. You can override this metadata yourself:
 
 ```
 Date: February 28th, 1973
-Permalink: gravity
+Tags: Literature, Nazis
 
 # Gravity's Rainbow
 

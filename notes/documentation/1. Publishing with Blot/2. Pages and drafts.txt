@@ -1,0 +1,9 @@
+ID: pages
+
+# Pages
+
+Files in a folder called ```Pages``` are added to your [blog's menu](@menu) and do not become blog posts. You can also create a page using the file's [metadata](@metadata).
+
+# Drafts
+
+Files inside a folder called 'Drafts' are not published to your site. Instead, Blot creates a preview for that file. Open the preview file to see how the post will appear on your site. You can also create a draft using a file's [metadata](@metadata).

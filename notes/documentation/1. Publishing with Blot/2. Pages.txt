@@ -1,5 +1,0 @@
-ID: pages
-
-# Pages
-
-Files in a folder called ```Pages``` are added to your [blog's menu](@menu) and do not become blog posts. You can also create a page using the file's [metadata](@metadata).

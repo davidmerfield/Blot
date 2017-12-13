@@ -1,3 +1,3 @@
 # Does Blot support any alternatives to Dropbox?
 
-Not at the moment. However, I plan to eventually add support Git, FTP, GitHub, Google Drive etc. Please [contact me](/contact) if there's a service you'd like me to add.
+Not at the moment. However, I plan to eventually add support Git, FTP, GitHub and Google Drive. Please [contact me](/contact) if there's a service you'd like me to support.

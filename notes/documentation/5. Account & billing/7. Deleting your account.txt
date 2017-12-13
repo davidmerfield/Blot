@@ -1,3 +1,3 @@
 # Deleting your account
 
-You can [delete your account](/account/disable-account) on the dashboard. I try to remove all the data associated with your account and your sites from Blot. Please note, it is not possible to remove your data from Blot's historical database backups, which are stored for up to 6 months.
+You can [delete your account](/account/disable-account) on the dashboard. I try my best to delete all the data associated with your account.

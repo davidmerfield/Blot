@@ -1,6 +1,6 @@
 Blot charges an annual fee. You'll be billed when you first create a site, and in yearly increments after.
 
-You can host as many sites as you like from the same account (and the same Dropbox account).
+You can host as many sites as you like from the same account, (and the same Dropbox folder).
 
 # Do you store my payment information?
 
