@@ -32,8 +32,6 @@ Fix bug when you have two blogs in the same app folder, then unlink one of them,
 
 Fix bug when you try to restart a cancelled Blot subscription
 
-Fix strange redis bug when building the templates
-
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Move www/blogs/* to /blogs/{{id}}/assets
