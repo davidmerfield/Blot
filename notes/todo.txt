@@ -1,22 +1,23 @@
-Improve documentation
+Improve documentation:
 - Fix script which builds the pages
 - Make it all searchable, including questions
 - Create reference pages for metadata, variables
 - Create page with guides for how to do things
 
-Improve the selection of templates, tell:
+Improve the selection of templates then let these people know:
 - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
 - Nash P
 - Chris S
 - John P
 
-Re-do demo video to explain the sites I run using it:
- - Blot's developer blog: a conventional blog, show using different text editors
- - My visual scrapbook: shows tag folders, photo blog
- - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
- - My personal site: simple landing page, edit with a doc file?
+Record a new demo video:
+- Show sites I run using Blot
+- Blot's developer blog: a conventional blog, show using different text editors
+- My visual scrapbook: shows tag folders, photo blog
+- My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
+- My personal site: simple landing page, edit with a doc file?
 
-Increase price to $30 a year for NEW subscribers. This will not affect existing subscribers who will continue to pay the subscription fee at the time they signed up.
+Increase price to $30 a year for new subscribers. This will not affect existing subscribers.
 
 Incorporate
 
