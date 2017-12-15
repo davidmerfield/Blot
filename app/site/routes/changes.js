@@ -28,6 +28,10 @@ module.exports = function(server){
 
             message = message[0].toUpperCase() + message.slice(1);
 
+            // Ignore changes to TODO file and messages with URLS
+            if (message.split(' ').join('').toLowerCase().indexOf('todo') > -1) return;
+            if (message.split(' ').join('').toLowerCase().indexOf('://') > -1) return;
+
             commits.push({
               author: item.slice(item.indexOf('Author:') + 'Author:'.length, item.indexOf('<')).trim(),
               date: moment(new Date(item.slice(item.indexOf('Date:') + 'Date:'.length).trim())).fromNow(),
@@ -40,6 +44,7 @@ module.exports = function(server){
         res.addLocals({
           partials: {yield: 'changes'},
           title: 'Changes',
+          selected: {changes: 'selected'},
           todo: marked(todo),
           commits: commits
         });
