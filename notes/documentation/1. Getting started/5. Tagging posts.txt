@@ -10,7 +10,7 @@ You can specify tags in the [metadata](@metadata) at the top of a file:
 Tags: Littérature, Book reviews
 ```
 
-Tags can contain whitespace,  and should be separated by a comma (,).
+Tags can contain whitespace and should be separated by a comma.
 
 Tags are case-insensitive. For example, the tags ```Proust```, ```PROUST``` and ```proust``` are equivalent. However, Blot displays the case of the most recently used tag on your blog so it’s worth capitalizing tags consistently.
 
