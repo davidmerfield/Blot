@@ -1,8 +1,7 @@
 Improve documentation:
-- Fix script which builds the pages
-- Make it all searchable, including questions
-- Create reference pages for metadata, variables
-- Create page with guides for how to do things
+- Fix broken links in the documentation
+- Fully document all variables
+- Fix guides and resources page
 
 Improve the selection of templates then let these people know:
 - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
