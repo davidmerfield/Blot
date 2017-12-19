@@ -9,7 +9,7 @@ var MOMENT_TOKENS = ["M", "Mo", "MM", "MMM", "MMMM", "Q", "Qo", "D", "Do", "DD",
 var helper = require('helper');
 var normalize = helper.urlNormalizer;
 var makeSlug = helper.makeSlug;
-var allow = ['slug', 'name', 'size', 'more', 'menu', 'page', 'dateStamp', 'created', 'updated', 'metadata'];
+var allow = ['slug', 'name', 'size', 'path', 'more', 'menu', 'page', 'dateStamp', 'created', 'updated', 'metadata'];
 
 // modified from here: https://gist.github.com/mathewbyrne/1280286
 function removeDiacritics (str) {
