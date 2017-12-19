@@ -1,15 +1,11 @@
-<style type="text/css">
-
-  .sidebar {padding: 0}
-  .sidebar li {list-style-type: none;margin: 1em 0;font-size: 20px}
-  .sidebar a {color: black;border: none;}
-
-</style>
-
+<div class="sidebar">
+{{#sidebar}}
 <ul>
-<li><a href="/help/publishing-with-blot">Publishing with Blot</a></li>
-<li><a href="/help/setting-up-your-blog">Setting up your blog</a></li>
-<li><a href="/help/formatting-blog-posts">Formatting blog posts</a></li>
-<li><a href="/help/templates">Templates</a></li>
-<li><a href="/help/account-and-billing">Account &amp; billing</a></li>
+<a href="/help/{{slug}}" class="{{selected}}">{{title}}</a>
+{{#sub_sections}}
+<li><a href="{{{url}}}" class="{{sselected}}"><smaller>{{title}}</smaller></a></li>
+{{/sub_sections}}
 </ul>
+
+{{/sidebar}}
+</div>

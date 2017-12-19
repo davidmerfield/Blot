@@ -1,17 +1,27 @@
-<!-- <small style="font-size:0.9em">
-<a style="color:black" href="https://github.com/davidmerfield/Blot">Blot turns a folder into a blog</a>.
-<hr>
-<a href="/">Home</a>&nbsp;·
-<a href="/sign-up">Sign up</a>&nbsp;·
-<a href="/about">About</a>&nbsp;·
-<a href="/help">Help</a>&nbsp;·
-<a href="/contact">Contact</a>&nbsp;·
-<a href="/log-in">Log in</a>
-</small>
-<br><br><br>
- -->
+    <nav>
+      <a href="/" id="logo">Blot is a blogging platform</a>
+      <right>
+      <a href="/log-in">Log in</a>
+      <a href="/sign-up" class="butt">Sign up</a>
+      </right>
+    </nav>
 
-
-<br><br><br>
-<a class="nav" href="/" style="border: none;">Blot</a> <span style="color:#aaa">›</span> {{title}}
-<br><br><br>
+    <sidebar>
+      <a href="/" class="{{selected.home}}">Introduction</a>
+      <a href="/help" class="{{selected.help}}">Documentation</a>
+<!--       {{#selected.help}}<ul>
+        <li><a href="/help/getting-started">Getting started</a></li>
+        <li><a href="/help/configuring-your-site">Configuring your site</a></li>
+        <li><a href="/help/templates">Templates</a></li>
+      </ul>
+      {{/selected.help}} -->
+      <a href="/about" class="{{selected.about}}">Philosophy</a>
+      <a href="/changes" class="{{selected.changes}}">Updates</a>
+      <a href="/contact" class="{{selected.contact}}">Contact</a>
+      <footer>
+        <a href="/terms" class="{{selected.terms}}">Terms of use</a>
+        <a href="/privacy" class="{{selected.privacy}}">Privacy policy</a>
+<!--         <a href="/kleptography" class="{{selected.kleptography}}">Kleptography</a>
+ -->        <a class="right" id="icon" href="/kleptography"></a> 
+      </footer>
+    </sidebar>

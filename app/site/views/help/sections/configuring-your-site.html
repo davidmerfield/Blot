@@ -1,0 +1,57 @@
+<p>All of your site’s initial configuration is done on Blot’s <a href="/preferences">dashboard</a>. Ideally you shouldn’t need to visit it that much.</p>
+<h2 id="moving-your-existing-site-to-blot">Moving your existing site to Blot</h2>
+<p>I’ve written scripts to generate a folder of Markdown files from sites hosted on <a href="https://github.com/davidmerfield/Blot-importer-for-Tumblr">Tumblr</a>, <a href="https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace">Wordpress</a>, <a href="https://github.com/davidmerfield/Blot-importer-for-Jekyll">Jekyll</a> and <a href="https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace">Squarespace</a>. None of these scripts is connected to a web interface. If you <a href="/contact">contact me</a>, I’d be very happy to run them on your site and send you the result.</p>
+<h2 id="menu-and-profile">Menu and profile</h2>
+<p>You can change your site’s title, upload an avatar and edit the links on your site’s menu on <a href="/profile">the profile page</a>.</p>
+<h2 id="using-your-own-domain">Using your own domain</h2>
+<p>Let’s say you own the domain <code>example.com</code> and would like to point it to your site. First, you must decide whether you would like to use the <em>apex domain</em>, which is just <code>example.com</code>, or a <em>subdomain</em> like <code>www.example.com</code> or <code>blog.example.com</code>.</p>
+<ul>
+<li><p>How to use a subdomain</p>
+<ol type="1">
+<li><p>Go to your domain’s DNS page. This is usually where you bought the domain. Create a <code>CNAME</code> record which points to <code>blot.im</code> for the subdomain you’d like to use.</p></li>
+<li><p>Tell Blot your full domain, including the subdomain, on <a href="/profile">the dashboard</a>.</p></li>
+</ol></li>
+<li><p>How to use an apex domain</p>
+<ol type="1">
+<li><p>Go to your domain’s DNS page. Create an <code>ALIAS</code> record which points to <code>blot.im</code></p></li>
+<li><p>Tell Blot your domain on <a href="/profile">the dashboard</a>.</p></li>
+</ol></li>
+</ul>
+<p>If you cannot create an ALIAS record for your apex domain, use the <code>www</code> subdomain and redirect the apex domain.</p>
+<h2 id="redirects">Redirects</h2>
+<p>You can <a href="/settings/redirects">set up redirects</a> for missing or moved pages on your blog. Your site’s <a href="/settings/404s">404 log</a> will help you discover URLs which need redirects. You can use RegEx to match multiple routes. For example, this rule redirects URLs starting with <code>/post</code> to <code>/blog</code>:</p>
+<pre><code>\/post\/(.*)  →  /blog/$1</code></pre>
+<h2 id="default-permalinks">Default permalinks</h2>
+<p>Each post is assigned a permalink, or permanent URL. You can edit the general format of these permalinks on <a href="/preferences">the dashboard</a>. You can use any of <a href="@post-properties">the post’s properties</a> and any of <a href="@date-tokens">Blot’s date tokens</a>. Here are a few examples:</p>
+<p>{{=[[ ]]=}}</p>
+<table>
+<thead>
+<tr class="header">
+<th>The permalink format…</th>
+<th>will produce URLs like…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>{{slug}}</code></td>
+<td>example.com/title-of-the-post</td>
+</tr>
+<tr class="even">
+<td><code>blog/{{slug}}</code></td>
+<td>example.com/blog/title-of-the-post</td>
+</tr>
+<tr class="odd">
+<td><code>{{YYYY}}/{{slug}}</code></td>
+<td>example.com/2017/title-of-the-post</td>
+</tr>
+<tr class="even">
+<td><code>{{YYYY}}/{{MM}}/{{D}}/{{slug}}</code></td>
+<td>example.com/2017/10/3/title-of-the-post</td>
+</tr>
+<tr class="odd">
+<td><code>{{slug}}-{{MM}}-{{YYYY}}</code></td>
+<td>example.com/title-of-the-post-10-2017</td>
+</tr>
+</tbody>
+</table>
+<p>[[={{ }}=]]</p>

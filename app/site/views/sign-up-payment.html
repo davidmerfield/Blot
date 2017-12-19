@@ -1,18 +1,25 @@
 <html>
   {{> head}}
-  <body>
-    {{> header}}
-    <form method="POST" action="?_csrf={{csrftoken}}">
-      <p style="width:130%">A subscription costs <span class='box yellow'>$20 per year</span>. You can cancel at any time. You must agree to the <a href="/terms">terms of use</a> and  <a href="/privacy">privacy policy</a>. </p>
+  <body style="margin-top:1.5em">
 
+    <nav style="background:none;box-shadow:none">
+      <a href="/" id="logo">Blot is a blogging platform</a>
+    </nav>
 
+    Sign up <span style="color:#aaa">&nbsp;→&nbsp; Connect to Dropbox</span></b>
+    <br><br><br>
+
+      <p style="width:300px">A site costs <span class='yellow'>$20 per year</span>. You can cancel at any time. You must agree to the <a href="/terms">terms of use</a> and  <a href="/privacy">privacy policy</a>. </p>
+    <form method="POST" action="?_csrf={{csrftoken}}" style="width:270px">
+
+<br>
 
       <p id="error" class="box red" style="margin-bottom:0;width:120%;{{^error}}display:none{{/error}}">{{error}}</p>
 
 
       <br />
 
-      <label>Email address:</label>
+      <label>Your email address:</label>
       <input type="text" size="20" class="email" name="email" autofocus/>
       <br />
       <br />

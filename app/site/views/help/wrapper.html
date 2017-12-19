@@ -2,49 +2,41 @@
 <html>
 {{> head}}
 <body>
-
+  {{> header}}
   <style>
-  body {max-width: 800px;
-      font-size: 18px;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.85);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif, "Sans Serif", Icons /*!System*/;
-      -webkit-font-smoothing: antialiased;
-        word-wrap: break-word;
-        letter-spacing: 0;
-          line-height: 1.333;}
-  h1:first-of-type {margin: 0;font-size: 1.3333em}
-  h1 {margin-top: 3em}
-  p code {font-family: inherit;padding: 0.25em;background: #eee;margin: -0.25em;font-size: 1em}
-  .sidebar {width:25%;float:left;margin-right: 8.333%;color:#777;margin-top: 2.7em}
+  p code {font-family: inherit;padding: 0.25em;background: none;margin: -0.25em;font-size: 1em}
+  .sidebar {width:19em;overflow: visible;left:17em;position:fixed;color:#777;padding:0;top:6.5em;bottom: 0;overflow-y: scroll;padding-left: 1em}
   .sidebar ul {margin:0;padding:0;list-style-type: none;}
   .sidebar li {margin-left: 1em}
-  a {color:blue;border-bottom-color: blue}
-  .sidebar a {color:inherit;border:none;display: block;padding: 0.33333em 1.666666em;margin: -0.333em -1.6666em}
-  .main {width:66.6666%;float:right;}
+  .sidebar li:last-child {margin-bottom: 2.88em;display: block;}
+  strong {font-weight: 500}
+  p code {background: #f4f4f4;padding:0 3px;border-radius:4px;border: 1px solid #eee;box-sizing:border-box;display: inline-block;margin: -1px -3px}
+
+  .help ul {width: 66.666%;display: block;float: left;padding-right: 1.5em;box-sizing:border-box;margin-bottom: 3em;list-style-type: circle;}
+/*  .help ul:nth-child(2n){padding: 0 0 0 1.5em}
+  .help ul:nth-child(2n):after{content: "";width: 100%;clear: both;display: block;}
+*/
+  pre.file {    box-shadow: 0 0 10px rgba(0,0,0,.05),0 1px 5px rgba(0,0,0,.05);
+border: 1px solid #aaa;padding:1.5em 2em;position: relative;font-size: 13px}
+
+  .sidebar a {color:inherit;border:none;display: block;}
+  body{margin-left: 39em}
   </style>
-  
-  <br><br><br>
-  
-  <span class="box yellow" style="float:right">Please <a href="/contact">contact me</a> if you have any questions.</span>
-
-  {{#subsection}}
-  <a class="nav" href="/">Blot</a> › <a class="nav" href="/help">Help</a> › {{title}}
-  {{/subsection}}
-
-  {{^subsection}}
-  <a class="nav" href="/">Blot</a> › Help
-  {{/subsection}}
-
-  <br><br><br>
-
-<br>
 
 {{> sidebar}}
 
+{{#section}}
 <div class="main">
-{{> yield}}
+
+  <h1>{{title}}</h1>
+
+  {{#sub_sections}}
+    {{{html}}}
+  {{/sub_sections}}
+
 </div>
+{{/section}}
+
 {{> footer}}
 </body>
 </html>

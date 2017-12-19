@@ -1,0 +1,107 @@
+<p>Blot is a blogging platform. It creates a folder inside your Dropbox and publishes files you put inside.</p>
+<h2 id="posts">Posts</h2>
+<p>These files become blog posts automatically when you put them inside your site’s folder:</p>
+<ul>
+<li><strong>Text</strong> .txt, .md</li>
+<li><strong>Images</strong> .png, .jpeg, .gif</li>
+<li><strong>Word documents</strong> .docx</li>
+<li><strong>Bookmarks</strong> .webloc</li>
+<li><strong>HTML</strong> .html</li>
+</ul>
+<h2 id="public-files">Public files</h2>
+<p>All the files in your site’s folder are public, even the files which turn into blog posts. This means you can use Blot as a static file server. For example, if you put the file <code>abacus.zip</code> in your folder, your readers can download it: <code>www.your-website.com/abacus.zip</code>.</p>
+<h2 id="skipping-files-and-folders">Skipping files and folders</h2>
+<p>Blot will ignore files and folders whose name starts with an underscore. <code>Apple.jpg</code> will become a blog post but <code>_Cherry.jpg</code> will not. Use this feature to embed a photo in a seperate post.</p>
+<h2 id="pages">Pages</h2>
+<p>Files in a folder called ‘Pages’ are added to your <a href="@menu">blog’s menu</a> and do not become blog posts.</p>
+<h2 id="drafts">Drafts</h2>
+<p>Files inside a folder called ‘Drafts’ are not published to your site. Blot creates a preview which you can open in your browser.</p>
+<h2 id="formatting-blog-posts">Formatting blog posts</h2>
+<p>Blot supports Markdown. You can use markdown to create headings, lists and much more. It can also parse mathematical statements set in LaTeX and highlight code snippets.</p>
+<p><a class="butt">Open the full formatting guide →</a></p>
+<h2 id="dates">Dates</h2>
+<p>Blot uses the file’s creation date as its publish date by default. You can specify a different date in the file’s <a href="#metadata">metadata</a>:</p>
+<pre class="file"><code>Date: March 8th, 1937
+
+# North and South
+
+As you travel northward your eye, accustomed to...</code></pre>
+<p>Blot supports a variety of ways that people write dates. Each of the following formats produces a blog post with the same date:</p>
+<pre><code>12/06/2017    12.6.17    12-6-2017    2017-6-12 00:00</code></pre>
+<p>You can also use the file’s path to specify a publish date:</p>
+<pre><code>/2017/6.12.Awe.txt   /2017/6/12/Awe.txt   2017-06-12-00:00-Awe.txt</code></pre>
+<p>If you write the numbers in your dates in different order, please tell Blot on the <a href="/settings">settings page</a>. If you specify a date in the future, Blot will wait until then to publish it. And don’t forget, you can <a href="/templates">hide the dates</a> on your site if you prefer.</p>
+<h2 id="permalinks-and-urls">Permalinks and URLs</h2>
+<p>Blot generates a permalink for each post automatically. You can choose the general format of default permalinks on <a href="/preferences">the dashboard</a>. Or you can specify a permalink in the <a href="#metadata">metadata</a> at the top of a file:</p>
+<pre class="file"><code>Permalink: /nightingale
+
+I have heard the nightingale itself.</code></pre>
+<h2 id="tags">Tags</h2>
+<p>You can tag a post in the <a href="@metadata">metadata</a> at the top of a file:</p>
+<pre class="file"><code>Tags: Literature, Book notes
+
+# Breakfast at Tiffany&#39;s
+
+A great zircon in the diadem of American literature.</code></pre>
+<p>You can also use brackets in a folder’s name to tag posts. For example, all the files in a folder called ‘[Literature]’ will become blog posts tagged ‘Literature’. You can nest folders:</p>
+<pre><code>[Literature] / [Book notes] / Breakfast-at-Tiffany&#39;s.txt</code></pre>
+<p>Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently. Blot shows the most recent case when displaying a tag on your site.</p>
+<h2 id="metadata">Metadata</h2>
+<p>Blot generates a <a href="@date">date</a>, <a href="@urls">permalink</a>, <a href="@thumbnail">thumbnail</a> and a <a href="@summary">summary</a> for each blog post automatically. You can specify your own:</p>
+<pre class="file"><code>Date: February 28th, 1973
+Tags: Literature, Schwarzgerät
+
+# Gravity&#39;s Rainbow
+
+A screaming comes across the sky.</code></pre>
+<p>Metadata must start on the first line and be separated from the rest of the post by a blank line. Here’s the full list of Blot’s metadata:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Date</code></td>
+<td>Use one of the <a href="@dates">supported formats</a>. Defaults to the file’s creation date.</td>
+</tr>
+<tr class="even">
+<td><code>Title</code></td>
+<td>Defaults to the text of the first title in the file, or the file’s name.</td>
+</tr>
+<tr class="odd">
+<td><code>Tags</code></td>
+<td>Empty by default. Seperate your tags with a comma.</td>
+</tr>
+<tr class="even">
+<td><code>Permalink</code></td>
+<td>Defaults to a <a href="https://en.wikipedia.org/wiki/Semantic_URL#Slug">slugified</a> version of the title. You can <a href="@permalinks">change your site’s default permalinks</a> or specify one individually.</td>
+</tr>
+<tr class="odd">
+<td><code>Summary</code></td>
+<td>Defaults to the text of the first sentence in the file.</td>
+</tr>
+<tr class="even">
+<td><code>Teaser</code></td>
+<td>Like summary, but longer. Defaults to the first few paragraphs.</td>
+</tr>
+<tr class="odd">
+<td><code>Thumbnail</code></td>
+<td>Path or URL to an image. By default it’s the largest image in the post.</td>
+</tr>
+<tr class="even">
+<td><code>Page</code></td>
+<td>Defaults to ‘No’. Anything truthy (e.g. ‘Yes’) will turn the file into a page and add it to your blog’s menu.</td>
+</tr>
+<tr class="odd">
+<td><code>Menu</code></td>
+<td>Only relevant to pages. Defaults to ‘Yes’. Anything falsy (e.g. ‘No’) will hide the page from the menu.</td>
+</tr>
+<tr class="even">
+<td><code>Draft</code></td>
+<td>Defaults to ‘No’. Anything truthy (e.g. ‘yes’) will turn a post into a draft.</td>
+</tr>
+</tbody>
+</table>

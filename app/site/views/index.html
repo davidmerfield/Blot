@@ -1,55 +1,41 @@
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Blot</title>
-    <link rel="stylesheet" media="all" href="/fonts/style.css" />
-    <link rel="stylesheet" media="all" href="/css/style.css" />
-  </head>
+  
+  {{> head}}
+
   <body>
+
+    {{> header}}
+
+    <p>Why do we need another blogging platform? Because this one lets you use your favorite app to write your blog.</p>
+
+    <p>Blot turns a folder in your Dropbox into a website. Files you put inside are published automatically. Images, text files, Markdown, bookmarks, Word Documents™ (<a href="/help/getting-started">and more</a>) become blog posts.</p>
+
+    <p>There’s no interface. Just files and folders. The video below will show you how it all works:</p>
+
+
+    <br>
+    <iframe style="width:133.3333%;height:422px;margin-top:0.75em" src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white" frameborder="0" allowfullscreen=""></iframe>
     <br><br><br>
-    <a href="/" style="border:none">Blot turns a folder into a blog</a><br>
-    <div class="nav">
-    <a class="nav" href="/sign-up" class="button">Sign up</a>&nbsp;·
-    <a class="nav" href="/help">Help &amp; Support</a>&nbsp;·
-    <a class="nav" href="/log-in">Log in</a>
-    </div>
+    <p>Blot comes with seven templates. They are designed to be easy to customize. If you know a little HTML and CSS you can <a href="/help/templates">create your own template</a> from scratch.</p>
 
-      <br><br><br>
-<iframe id="embed" width="760" height="460" style="margin-left: -160px" src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white" frameborder="0" allowfullscreen=""></iframe>
-      <br><br><br><br>
-
-
-       Blot is a <span class="yellsow">blogging platform</span>. It turns a Dropbox folder into a blog. Any files you put inside are published <a href="" onclick="embed.src += '&autoplay=1';return false;">automatically</a>.
-       <br><br>
-        Images, text files, Markdown, bookmarks, Word Documents™ (<a href="/help/publishing-with-blot">and more</a>) become blog posts. There’s no interface. Just files.  You can use your favorite text editor to blog.
-        <br><br>
-
-        Members pay <a href="/sign-up">$20 per site</a>, per year. Hosting is included and there are no ads.
-
-        <br><br>
-
-        Here’s a few of the sites hosted by Blot:<br><Br>
-
+    <p>A site costs <a href="/sign-up">$20 per year</a>. Hosting is included and there are no ads. Here’s a handful of the sites hosted by Blot:</p>
+    <br>
        <ul class="gallery">
-
-          <a href="https://www.speechestoworms.blog" target="_blank">
-            speechestoworms.blog <span class="new">NEW</span>
-            <small>Custom</small>
-          </a>
           
-	  <a href="https://www.alexgibson.nyc/" target="_blank">
+    <a href="https://www.alexgibson.nyc/" target="_blank">
             alexgibson.nyc
             <small>Blot’s Default</small>
+            <span class="new">New</span>
           </a>
 
           <a href="https://www.failuretolerated.com/" target="_blank">
             failuretolerated.com
-            <small>Custom</small>
+            <small>a custom</small>
           </a>
 
           <a href="https://www.theliminal.co/" target="_blank">
             theliminal.co
-            <small>Custom</small>
+            <small>a custom</small>
           </a>
 
           <a href="https://tomascat.com/" target="_blank">
@@ -59,7 +45,7 @@
 
           <a href="http://kiefer.design/" target="_blank">
             kiefer.design
-            <small>Custom</small>
+            <small>a custom</small>
           </a>
 
           <a href="https://www.okaythree.com/" target="_blank">
@@ -69,17 +55,12 @@
 
           <a href="https://www.kristianhjelle.com" target="_blank">
             kristianhjelle.com
-            <small>Custom</small>
+            <small>a custom</small>
           </a>
 
           <a href="https://www.kitchinspirations.net/" target="_blank">
             kitchinspirations.net
             <small>Blot’s Blank</small>
-          </a>
-
-          <a href="https://www.tristan.fyi/" target="_blank">
-            tristan.fyi
-            <small>Blot’s Mira</small>
           </a>
 
           <a href="https://invariances.org/" target="_blank">
@@ -92,14 +73,9 @@
             <small>Blot’s Grid</small>
           </a>
 
-          <a href="https://chrbutler.com/" target="_blank">
-            chrbutler.com
-            <small>Custom</small>
-          </a>
-
           <a href="https://mrfris.by/" target="_blank">
             mrfris.by
-            <small>Custom</small>
+            <small>a custom</small>
           </a>
 
           <a href="https://bleachedsleet.com/" target="_blank">
@@ -109,12 +85,12 @@
 
           <a href="https://www.inthemargins.ca/" target="_blank">
             inthemargins.ca
-            <small>Custom</small>
+            <small>a custom</small>
           </a>
 
           <a href="https://www.pavlusoffice.com/" target="_blank">
             pavlusoffice.com
-            <small>Custom</small>
+            <small>a custom</small>
           </a>
 
           <a href="https://charleslehman.com/" target="_blank">
@@ -122,13 +98,12 @@
             <small>Blot’s Default</small>
           </a>
 
+          <a href="https://www.tristan.fyi/" target="_blank">
+            tristan.fyi
+            <small>Blot’s Mira</small>
+          </a>
+
+          <br>
         </ul>
-      <br>
-      <Br>
-Blot’s templates are designed to be <a href="/help/templates">customized</a>. You can also <a href="/help/templates">create a template</a> from scratch if you know a little HTML.
-        <br><br>
-        <a href="/sign-up">Sign up</a> and start your blog today. And do <a href="/contact">contact me</a> if you have any questions.
-        {{> footer}}
-    </div>
   </body>
 </html>

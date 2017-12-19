@@ -1,41 +1,54 @@
-<h1>Changes</h1>
 
-<p>The lists below are generated automatically from my notes and from Blot's version control. Please don't hesitate to <a href="/contact">contact me</a> with any questions or suggestions.</p>
+<h1>Updates</h1>
 
-<div style="width: 1200px">
+<p>Blot is actively maintained. The lists below give you a idea of what I'm working on. I sometimes post news on <a href="https://twitter.com/blot__">Twitter</a>. Please don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
 
+<div style="width: 140%">
+
+<br>
 <style type="text/css">
 
 body {-webkit-font-smoothing: antialiased;}
-
+.todo p, .commits p {position: relative;}
 .todo p:before,
 .commits p:before {
   content:"";
-  font-size:0.66em;
-  margin:0.5em 1em -0.1em -2.3em;
-  width:1em;height:1em;border-radius:3em;
-  border:2px solid #000;
-  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  left: -1.5em;
+  font-size:1em;
+  width:0.6em;height:0.6em;
+  border:1px solid #aaa;
+  line-height: 0.3;
+  text-indent: 0.1em;
 }
 
-.commits p:before{background: #000 url('/images/check.png');border-color:#000;background-size: 1.4em;background-position: center center}
-</style>
-<div class="todo" style="width: 480px;float: left;">
-<h1>To do</h1>
+.commits p:before{content:"✔";}
 
-<div style="padding-left: 1.5em">
+ul {list-style-type: circle;}
+</style>
+<div class="todo" style="width: 50%;float: left;box-sizing:border-box;padding-right:2.5em">
+<h1>To do</h1>
+<hr style="position:relative;top:-0.5em;margin-bottom:-2px">
+
+<div style="padding-left: 1.5em;width:100%;box-sizing:border-box;">
 {{{todo}}}
 </div>
-</div>
-<div class="commits" style="width: 480px;float: left;margin-left: 8em">
-<h1>Done</h1>
 
+</div>
+
+<div class="commits" style="width: 50%;padding-left:2.5em;box-sizing:border-box;float: right;">
+<h1>Done</h1>
+<hr style="position:relative;top:-0.5em;margin-bottom:-2px">
+
+
+<div style="padding-left: 1.5em;width:100%;box-sizing:border-box;">
 {{#commits}}
-<p style="padding-left: 1.5em">{{message}} <br>
-<span  class="small" style="line-height: 27px"><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">{{date}}</a></span>
-</p>
+<p>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" style="color:#aaa;border:none">{{date}}</a></p>
 {{/commits}}
 </div>
+</div>
 
-<div class="clear"></div>
+<br>
 </div>
