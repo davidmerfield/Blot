@@ -1,0 +1,4 @@
+
+Set up symlink if you install Blot elsewhere
+
+ln -s ~/projects/blot /var/www/blot
