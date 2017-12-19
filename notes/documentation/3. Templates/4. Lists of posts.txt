@@ -1,0 +1,15 @@
+{{=[[ ]]=}}
+
+## Lists
+
+You can uses these variables to render lists of posts
+
+| The tag…        | is replaced with…           |
+| ------------- |-------------|
+| ```{{#all_posts}}...{{/all_posts}}``` | Every post ever published |
+| ```{{#recent_posts}}...{{/recent_posts}}```  | 25 most recent posts on your site     |
+| ```{{#archives}}...{{/archives}}``` | your site’s title  |
+| ```{{#all_tags}}...{{/all_tags}}```    | the URL to your site’s avatar |
+
+
+[[={{ }}=]]

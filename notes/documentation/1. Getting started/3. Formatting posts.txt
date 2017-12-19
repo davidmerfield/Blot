@@ -1,5 +1,0 @@
-ID: pages
-
-# Formatting blog posts
-
-Blot supports Markdown. It can also parse Mathematical statements and code snippets. View the [full formatting reference](@formatting).

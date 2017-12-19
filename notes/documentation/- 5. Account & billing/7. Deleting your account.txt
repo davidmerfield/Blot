@@ -1,3 +1,0 @@
-# Deleting your account
-
-You can [delete your account](/account/disable-account) on the dashboard. I try my best to delete all the data associated with your account.

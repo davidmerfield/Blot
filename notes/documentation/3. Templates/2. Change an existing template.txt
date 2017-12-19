@@ -1,4 +1,0 @@
-
-## Modify an existing template
-
-To modify an existing template, create a new template on the [design page](/settings/design#create-a-template) and specify the template you wish to clone.

@@ -1,0 +1,5 @@
+## Formatting blog posts
+
+Blot supports Markdown. You can use markdown to create headings, lists and much more. It can also parse mathematical statements set in LaTeX and highlight code snippets.
+
+<a class="butt">Open the full formatting guide →</a>

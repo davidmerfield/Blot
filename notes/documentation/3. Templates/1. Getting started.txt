@@ -1,3 +1,11 @@
 Creating a template, or modifying an existing template will require an understanding of HTML, CSS and [Mustache](https://mustache.github.io/). Blot will be familiar to those who have worked with templates on other blogging platforms.
 
 The best way to learn how to use Blot's template is to clone an existing template and look at its source. Please don't hestitate to [contact me](/contact) if you have any questions.
+
+## Modify an existing template
+
+To modify an existing template, create a new template on the [design page](/settings/design#create-a-template) and specify the template you wish to clone.
+
+## Debugging
+
+If you append the query string ?json=true to a URL on Blot, you can retrieve the view used to render its template. I’d suggest using a browser extension like JSONView to make more sense of it.

@@ -1,0 +1,57 @@
+## Dates
+
+Blot uses the file’s creation date as its publish date by default. You can specify a different date in the file's [metadata](#metadata):
+
+```file
+Date: March 8th, 1937
+
+# North and South
+
+As you travel northward your eye, accustomed to...
+```
+
+Blot supports a variety of ways that people write dates. Each of the following formats produces a blog post with the same date:
+
+```
+12/06/2017    12.6.17    12-6-2017    2017-6-12 00:00
+```
+
+You can also use the file's path to specify a publish date:
+
+```
+/2017/6.12.Awe.txt   /2017/6/12/Awe.txt   2017-06-12-00:00-Awe.txt
+```
+
+If you write the numbers in your dates in different order, please tell Blot on the [settings page](/settings). If you specify a date in the future, Blot will wait until then to publish it. And don't forget, you can [hide the dates](/templates) on your site if you prefer.
+
+
+## Permalinks and URLs
+
+Blot generates a permalink for each post automatically. You can choose the general format of default permalinks on [the dashboard](/preferences). Or you can specify a permalink in the [metadata](#metadata) at the top of a file:
+
+```file
+Permalink: /nightingale
+
+I have heard the nightingale itself.
+```
+
+
+## Tags
+
+You can tag a post in the [metadata](@metadata) at the top of a file:
+
+```file
+Tags: Literature, Book notes
+
+# Breakfast at Tiffany's
+
+A great zircon in the diadem of American literature.
+```
+
+You can also use brackets in a folder's name to tag posts. For example, all the files in a folder called '[Literature]' will become blog posts tagged 'Literature'. You can nest folders:
+
+```
+[Literature] / [Book notes] / Breakfast-at-Tiffany's.txt
+```
+
+Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently. Blot shows the most recent case when displaying a tag on your site.

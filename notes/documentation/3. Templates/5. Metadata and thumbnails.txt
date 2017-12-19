@@ -1,5 +1,36 @@
 {{=[[ ]]=}}
 
+## Custom metadata
+
+You can specify custom entry metadata:
+
+```file
+Author: Eric Blair
+
+# Homage to Catalonia
+
+In the Lenin Barracks in Barcelona, the day before...
+```
+
+Use custom metadata in your template like this:
+
+
+```
+Posted by {{metadata.author}}
+```
+
+Metadata keys are case insensitive. I’d recommend using conditional blocks to prevent your layout breaking if you don’t consistently specify metadata:
+
+```
+{{#metadata.author}}
+  Posted by {{metadata.author}}
+{{/metadata.author}}
+
+{{^metadata.author}}
+  Posted by the editor
+{{/metadata.author}}
+```
+
 ## Thumbnails
 
  Blot generates four sizes of thumbnails:
@@ -31,5 +62,6 @@ You can use them in your template like this:
     <img src="{{url}}" width="{{width}}" height="{{height}}">
 {{/thumbnail.medium}}
 ```
+
 
 [[={{ }}=]]

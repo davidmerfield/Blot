@@ -1,5 +1,0 @@
-
-## Debugging
-
-If you append the query string ?json=true to a URL on Blot, you can retrieve the view used to render its template. I’d suggest using a browser extension like JSONView to make more sense of it.
-

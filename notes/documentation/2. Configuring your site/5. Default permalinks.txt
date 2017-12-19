@@ -1,0 +1,15 @@
+## Default permalinks
+
+Each post is assigned a permalink, or permanent URL. You can edit the general format of these permalinks on [the dashboard](/preferences). You can use any of [the post's properties](@post-properties) and any of [Blot's date tokens](@date-tokens). Here are a few examples:
+
+{{=[[ ]]=}}
+
+| The permalink format... | will produce URLs like... |
+| ------------- |-------------|
+| ```{{slug}}``` |  example.com/title-of-the-post |
+| ```blog/{{slug}}``` |  example.com/blog/title-of-the-post |
+| ```{{YYYY}}/{{slug}}``` |  example.com/2017/title-of-the-post |
+| ```{{YYYY}}/{{MM}}/{{D}}/{{slug}}``` |  example.com/2017/10/3/title-of-the-post |
+| ```{{slug}}-{{MM}}-{{YYYY}}``` | example.com/title-of-the-post-10-2017 |
+
+[[={{ }}=]]

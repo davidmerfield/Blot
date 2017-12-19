@@ -1,0 +1,21 @@
+Blot is a blogging platform. It creates a folder inside your Dropbox and publishes files you put inside. 
+
+## Posts
+
+These files become blog posts automatically when you put them inside your site's folder:
+
+- **Text** .txt, .md
+- **Images** .png, .jpeg, .gif
+- **Word documents** .docx
+- **Bookmarks** .webloc
+- **HTML** .html
+
+## Public files
+
+All the files in your site's folder are public, even the files which turn into blog posts. This means you can use Blot as a static file server. For example, if you put the file ```abacus.zip``` in your folder, your readers can download it: ```www.your-website.com/abacus.zip```. 
+
+## Skipping files and folders
+
+Blot will ignore files and folders whose name starts with an underscore. ```Apple.jpg``` will become a blog post but ```_Cherry.jpg``` will not. Use this feature to embed a photo in a seperate post.
+
+
