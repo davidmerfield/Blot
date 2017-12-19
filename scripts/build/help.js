@@ -20,14 +20,17 @@ var watcher = require('watcher');
 
 var metadata = require('../../app/models/entry/build/metadata');
 
-var sections = [];
 
 main(function(){
 
   watcher(source, main);
+  watcher(overview_source, main);
+  watcher(sidebar_source, main);
 });
 
 function main (callback) {
+
+  var sections = [];
 
   forEach(readdir(source), function(path, next){
 
@@ -38,13 +41,15 @@ function main (callback) {
     var subsections = res[1];
     var content = res[0];
 
-    content = '# ' + title + '\n\n' + content;
+    // content = '# ' + title + '\n\n' + content;
     
     convert(content, function(err, html){
 
       var output_path = joinpath(output, slug + '.html');
 
       write(output_path, html);
+
+      if (title === 'References and guides' || title === 'Account and billing') subsections = [];
 
       sections.push({html: html, title: title, slug: slug, subsections: subsections});
 
