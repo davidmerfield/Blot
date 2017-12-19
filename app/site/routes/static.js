@@ -55,6 +55,17 @@ module.exports = function(server){
     res.render('_wrapper');
   });
 
+  server.get('/kleptography', function(req, res){
+
+    res.addLocals({
+      partials: {yield: 'kleptography'},
+      title: 'Kleptography',
+      selected: {kleptography: 'selected'}
+    });
+
+    res.render('_wrapper')
+  });
+
   server.get('/contact', function(req, res){
 
     res.addLocals({
