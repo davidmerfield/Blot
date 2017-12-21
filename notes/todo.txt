@@ -31,67 +31,97 @@ Fix bug when you sign up with an email and use capital letters
 Fix bug when you have two blogs in the same app folder, then unlink one of them, then relink it.
 
 Fix bug when you try to restart a cancelled Blot subscription
+- [let this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1) know.
+
+Fix bug with catching dropbox file renames
+- False positives are really annoying. You'll publish a new post and it won't show up on your blog because it'll be buried in the archives. Renames need to be *right* next to each other in the dropbox delta queue.
+- Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
+- This has plagued nash for the last few months so let him know when it's better
+
+Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then [tell Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813)
+
+Fix bug with accents in image paths then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1)
+
+Fix bug with strange windows notepad encoding and tell [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc)
+
+Fix bug with how the date parser handles a space (or lack of space) between the date and the time
+  - 2017-08-27 18:16:59 works
+  - 2017-08-27-18:16:59 doesn't work
+
+Fix bug with katex latex rendering described by Peter
+https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6
+
+Fix bug with case sensitivity for tag folders
+https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
+
+---
+
+Public site improvements
+- Experiment with new layout ideas
+- Turn the gif on the contact page into a gradient that changes based on the time of day wherever I am.
+- Consolidate all the urls ('/changes' -> '/updates') and set up redirects
+- Log 404s on the public site to identify neccessary redirects
+- Personalize the documentation for logged in users
+- Make the site responsive and looks good on phones
+- Add a permanent floating link to Blot's support page at the bottom right of the dashboard, like basecamp
 
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
-- Move www/blogs/* to /blogs/{{id}}/assets
+- Move www/blogs/* to /blogs/{{id}}/assets ? Or maybe some obscure folder?
 - Disable re-rendering for template locals
 - Local template editing does not clear cache
-- Use hogan for precompiling and rendering templates?
+- Use Hogan for precompiling and rendering templates?
 - Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know when it's possible to set routes locally
-- Add retrieve method to allow all entry lists to access {{#months}} sorting options just like the archives page.
-- Fix strange template bug and tell [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)
+- Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
+- Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
 - Warn users that underscore will not work for hidden pages
 - Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
-- Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries).
+- Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
 Sync improvements
 - Re-implement folder verification feature and make use of the local content hash computation script to verify we have the correct version of a given file
 – Re-instate feature to check if a rogue sync took down the server and run sync on a seperate process
-- Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
 - Add method to pause syncing and prevent future syncs
 then use this method with the create/remove blog migration too.
 - Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
 
-Let these people know I added support for 'full Dropbox' permission
-- [Cosmo](https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615)
-- [Alex](https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038)
-- [James](https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65)
-- Nick C.
-- Jostein
+Full folder access improvements
+- Try to use the same app folder when you upgrade from app folder to full site folder
+- Let these people know I added support for 'full Dropbox' permission
+  - [Cosmo](https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615)
+  - [Alex](https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038)
+  - [James](https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65)
+  - Nick C.
+  - Jostein
 
-Fix pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then [tell Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813)
-
-Fix bug with accents in image paths then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1)
-
-Try to use the same app folder when you upgrade from app folder to full site folder
+---
 
 Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4)
+
+Offer to design the blot site for:
+https://mail.google.com/mail/u/1/#inbox/15f734998c533068
+
+---
 
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
 Improve nginx error pages
 
-Removing Date metadata from a post should reset its date to the file's creation date, instead of nothing changing.
+Removing Date metadata from a post should reset its date to the file's creation date
+- Currently nothing changes.
 
 New post support
-- Refactor code so it's possible to register new file coverters easily.
+- Refactor code so it's possible to register new file converters easily.
 - Video posts (.mp4 for now?)
 - Basic audio posts (.mp3 for now?)
 - Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
-
-Multi-file posts from inside one folder? (Album)
-
-Multi-file posts with the same name but different extension (image.txt and image.jpg)
-
-Fix issue with returning users whose subscriptions have expired and [let this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1) know.
+- Multi-file posts from inside one folder? (Album)
+- Multi-file posts with the same name but different extension (image.txt and image.jpg)
 
 New payment methods
-- Bitcoin
+- BTC, ETH etc..
 - PayPal, and let [these](https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152) [people](https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870) guy know.
-
-Fix strange windows notepad encoding bug and tell [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc)
 
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
@@ -99,23 +129,11 @@ Migrate code from require('../../../') to shortcuts in node_modules.
 
 Remove the dirToModule code and hard link the require references.
 
-Investigate how the date parser handles a space (or lack of space) between the date and the time
-  - 2017-08-27 18:16:59 works
-  - 2017-08-27-18:16:59 doesn't work
-
-Refactor server.js
+Refactor app/index.js
 - Ensure the routing serves requests to blogs fastest, then the dashboard, and finally the marketing site.
 - Merge all the weird vhost lines into one glob.
 
-Offer to design the blot site for:
-https://mail.google.com/mail/u/1/#inbox/15f734998c533068
-
-Fix the katex latex rendering bugs described by Peter
-https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6
-
 Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
-
-Add a permanent floating link to Blot's support page at the bottom right of the dashboard, like basecamp
 
 Use NGINX to send all Blot's static files
 
@@ -141,10 +159,6 @@ Test monit with nginx going down
 
 Test monit with blot going down
 
-Lease new instance for 12 months
-
----
-
 New sync clients
 - Git
   https://github.com/stackdot/NodeJS-Git-Server/issues/33
@@ -152,12 +166,6 @@ New sync clients
 - FTP
   https://www.npmjs.com/package/ftpd
 - Make the sync / rebuild proceses run with unpriviledged user permissions to ensure shit isnt fucked with user input...
-
-FIx bug with case sensitivity for tag folders
-https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
-
-Frank image cache bug for dropshadow
-drexore /draft/view/Drafts/debugging.md
 
 Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 - lowercase: acemnorsuvwxz ?
@@ -187,18 +195,13 @@ https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca
 Make the folder in Dropbox rename automatically when the
 user changes the username for one of their multiple blogs?
 
-Move daily update generator to app folder
-
-Move onetimeauth to scripts folder
+Move daily update generator from scripts to app folder?
 
 If entries share publish date, sort them by blot creation date?
 
 Consider what to do for footnote links in a teaser -> rewrite links to {{permalink}}#frag?
 
 Add plugin for inline popover footnotes
-
-Possible encoding issues?
-http://isaac.blot.im/go-set%EF%BF%BDbal
 
 Enable hyphenation again then tell rodericus
 
@@ -214,7 +217,7 @@ Create an API for Blot
 
 Add option to *enable* hard line breaks
 
-investigate performance improvements to type() forEach
+Investigate performance improvements to type() forEach
 
 Email
  - Install time mover library
@@ -253,7 +256,6 @@ http://redcloth.org/textile/phrase-modifiers/
 add supoprt for dynamic partials to make collections possible
   e.g. {{> /{{tag}}.html}} ?
 
-
 move to line by line reading for as much as possible
   http://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
   https://nodejs.org/api/readline.html
@@ -284,12 +286,7 @@ https://mail.google.com/mail/u/0/#inbox/150def93b65dc4b1
 
 Move from 'archives' to 'archive'?
 
-Backups of blog folders in case Dropbox fails?
-
 Noindex blog search results pages
-
-Add link to iwantmyname to documentation
-https://mail.google.com/mail/u/0/#inbox/1535c437d47a141b
 
 Write a pandoc compatible markdown converter in javascript
 to resolve some of the performance issues with pandoc
@@ -313,9 +310,6 @@ https://twitter.com/davidmerfieId/status/633379764972093440
 Push archives feature
 https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be
 
-Tag manager, so that
-latex -> LaTeX in every post, no matter its case.
-
 extend cacher to save repsonse status too?
 --> this allows us to cache 404 pages...
 
@@ -329,10 +323,6 @@ Incorporate disk space monitor to alert for low space
 Archive logfiles with backups
 
 Generate list of external api dependencies and follow changes for each
-
-Set up soft re-directs for changed blog handles,
-which allow new users to claim them but until then
-redirect to new user's handle.
 
 Make drafts preview file identical
 (construct iframe based on window.location.href) and use copyref
