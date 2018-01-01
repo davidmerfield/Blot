@@ -1,1 +1,1 @@
-module.exports = require('../../../../helper').dirToModule(__dirname, require);
+module.exports = require('helper').dirToModule(__dirname, require);
