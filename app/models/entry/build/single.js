@@ -9,6 +9,10 @@ var doc = file.doc;
 var readDoc = doc.read;
 var isDoc = doc.is;
 
+var odt = file.odt;
+var readODT = odt.read;
+var isODT = odt.is;
+
 var html = file.html;
 var readHTML = html.read;
 var isHTML = html.is;
@@ -52,6 +56,10 @@ module.exports = function(blog, path, callback){
   } else if (isDoc(path)) {
 
     Read = readDoc;
+
+  } else if (isODT(path)) {
+
+    Read = readODT;
 
   } else {
 
