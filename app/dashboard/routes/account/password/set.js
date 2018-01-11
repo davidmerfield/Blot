@@ -5,12 +5,12 @@ module.exports = function(server){
   server.route('/account/set-password')
 
     .get(function(req, res){
-
-      if (!req.query.token) return res.redirect('/account/change-password');
+      
+      if (!req.query.token) return res.redirect('/');
 
       res.title('Set your password');
       res.locals.token = req.query.token;
-      res.renderAccount('set-password');
+      return res.renderAccount('set-password');
     })
 
     .post(function(req, res, next){
