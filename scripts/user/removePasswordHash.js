@@ -1,13 +1,15 @@
 var User = require('../../app/models/user');
-var helper = require('../../app/helper');
-var forEach = helper.forEach;
+var get = require('../blog/get');
+var handle = process.argv[2];
 
-User.getAllIds(function(err, users){
+if (!handle) throw 'Please pass the user\'s handle as an argument.';
 
-  forEach(users, function(uid, next){
+get(handle, function(user){
 
-    User.set(uid, {passwordHash: ''}, next);
+  User.set(user.uid, {passwordHash: ''}, function(err){
 
-  }, process.exit);
+    if (err) throw err;
+
+    process.exit();
+  });
 });
-
