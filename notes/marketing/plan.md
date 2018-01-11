@@ -54,6 +54,7 @@ https://www.reddit.com/r/vintageobscura/comments/7bc289/the_lost_45s_78s_from_af
 https://twitter.com/mijustin
 https://justinjackson.ca/
 
+https://www.justinobeirne.com/
 http://readwrite.com/2011/11/23/how_to_use_calepin_the_easiest_blog_tool_in_the_wo
 https://twitter.com/calepinapp/followers
 https://twitter.com/scriptogram/followers
