@@ -1,6 +1,6 @@
 Improve documentation:
 - Fix broken links in the documentation
-- Fully document all variables
+- Fully document all variables as currently true
 - Fix guides and resources page
 
 Improve the selection of templates then let these people know:
@@ -129,6 +129,8 @@ Migrate code from require('../../../') to shortcuts in node_modules.
 
 Remove the dirToModule code and hard link the require references.
 
+Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
+
 Refactor app/index.js
 - Ensure the routing serves requests to blogs fastest, then the dashboard, and finally the marketing site.
 - Merge all the weird vhost lines into one glob.
@@ -163,6 +165,7 @@ New sync clients
 - Git
   https://github.com/stackdot/NodeJS-Git-Server/issues/33
   https://github.com/netbeast/gitbox
+  tell https://twitter.com/ohhhnine/status/951151349705691136
 - FTP
   https://www.npmjs.com/package/ftpd
 - Make the sync / rebuild proceses run with unpriviledged user permissions to ensure shit isnt fucked with user input...
