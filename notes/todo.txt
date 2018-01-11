@@ -24,6 +24,9 @@ Buy .com
 
 ---
 
+Fix broken password reset link
+- https://mail.google.com/mail/u/1/#inbox/160e0bdb9fcb7c59
+
 Fix bug when you sign up with an email and use capital letters
 - lowercase all existing emails
 - prevent case sensitive emails from making it into the DB / Stripe
