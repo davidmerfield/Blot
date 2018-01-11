@@ -5,7 +5,9 @@
 
         <fieldset>
 
+          {{#user.hasPassword}}
           <p><a href="/account/change-password">Change your password</a></p>
+          {{/user.hasPassword}}
 
           <label>Email:
             <input class="noMargin" type="text" name="email" value="{{user.email}}" placeholder=""/>

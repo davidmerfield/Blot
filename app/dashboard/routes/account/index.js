@@ -3,9 +3,8 @@ var User = require('user');
 
 module.exports = function (server) {
 
-
-  require('./change-password')(server);
-  require('./set-password')(server);
+  require('./password/change')(server);
+  require('./password/set')(server);
   require('./close-blog')(server);
   require('./create-blog')(server);
   require('./cancel')(server);
