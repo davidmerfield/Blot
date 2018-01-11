@@ -2,6 +2,9 @@ var helper = require('helper');
 
 module.exports = function extend (user) {
 
+  // True if the user has set a password, false otherwise
+  user.hasPassword = !!user.passwordHash;
+
   // Don't expose these to the
   // view renderer
   delete user.credentials;
