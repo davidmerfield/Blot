@@ -5,6 +5,10 @@ module.exports = function(server){
   server.route('/account/change-password')
 
     .get(function(req, res){
+      
+      if (!req.user.hasPassword)
+        return res.redirect('/account/set-password');
+
       res.title('Change your password');
       res.renderAccount('change-password');
     })
