@@ -1,16 +1,13 @@
 // Error codes & their corresponding message
-var NOTOKEN = 'Could not generate a token';
 var moment = require('moment');
-var format = require('url').format;
 var parse = require('body-parser').urlencoded({extended:false});
 var Express = require('express');
 var User = require('user');
-var Email = require('email');
-var config = require('config');
 
 var client = require('client');
 var Brute = require('express-brute');
 var RedisStore = require('express-brute-redis');
+var sendPasswordResetEmail = require('../../dashboard/routes/account/password/email');
 
 var store = new RedisStore({
     client: client,
@@ -44,29 +41,53 @@ function onLimit (req, res, next, until) {
   res.status(429).send('Log in rate limit hit. Please wait ' + moment(until).toNow(true) + ' before retrying.');
 }
 
+// The purpose of this function is to check to see if the
+// user has requested the log in page with a one-time access
+// token. If so, validate it, then redirect the user to the
+// appropriate page: the dashboard homepage or somewhere specified
+// in the query 'then'.
 function checkToken (req, res, next) {
 
-  var token = req.query && req.query.token;
-  var then = (req.query && decodeURIComponent(req.query.then)) || '/';
+  var token, then, redirect;
 
-  if (!token) return next();
+  // There is no token,  then proceed to the next middleware.
+  if (!req.query || !req.query.token) return next();
 
+  token = req.query.token;
+
+  // I had previously introduced a bug caused by the fact
+  // decodeURIComponent(undefined) === 'undefined'
+  // First check that there is 'then' query before attempting to decode
+  if (req.query.then) then = decodeURIComponent(req.query.then);
+
+  // First we make sure that the access token passed is valid.
   User.checkAccessToken(token, function(err, uid){
 
     if (err || !uid) return next(new LogInError('BADTOKEN'));
 
+    // Then we load the user associated with the access token.
+    // Tokens are stored against UIDs in the database.
     User.getById(uid, function(err, user){
 
       if (err || !user) return next(new LogInError('NOUSER'));
+
+      // Store the valid user'd ID in the session.
+      authenticate(req, user);
+
+      // If the user does not need to be redirected to another page
+      // send them to the dashboard's homepage. Users will be redirected 
+      // elsewhere when they attempt to visit private pages, or when they
+      // request a link to reset their password.
+      if (then !== '/account/set-password') return res.redirect('/');
 
       User.generateAccessToken(uid, function(err, token){
 
         if (err) return next(err);
 
-        if (then) then += '?token=' + token;
+        redirect = then + '?token=' + token;
 
-        authenticate(req, user);
-        res.redirect(then);
+        console.log('redirecting to', redirect)
+        res.redirect(redirect);
       });
     });
   });
@@ -96,7 +117,6 @@ function checkEmail (req, res, next) {
 
 function checkReset (req, res, next) {
 
-  var url;
   var user = req.user;
   var hasPassword = user.passwordHash !== '';
   var reset = req.body && req.body.reset !== undefined;
@@ -106,30 +126,16 @@ function checkReset (req, res, next) {
   // if they did not click the reset button
   if (!reset && hasPassword) return next();
 
-  User.generateAccessToken(user.uid, function(err, token){
+  sendPasswordResetEmail(user.uid, function(err){
 
-    if (err || !token) return next(err || new Error(NOTOKEN));
+    if (err) return next(err);
 
-    // The full one-time log-in link to be sent to the user
-    url = format({
-      protocol: 'https',
-      host: config.host,
-      pathname: req.baseUrl,
-      query: {
-        token: token,
-        then: '/account/set-password'
-      }
-    });
-
-    Email.SET_PASSWORD(user.uid, {url: url}, function(err){
-
-      if (err) return next(err);
-
-      res.locals.hasPassword = hasPassword;
-      res.render('log-in-reset');
-    });
+    res.locals.hasPassword = hasPassword;
+    res.render('log-in-reset');
   });
 }
+
+
 
 function checkPassword (req, res, next) {
 
@@ -180,7 +186,7 @@ function errorHandler (err, req, res, next){
 function LogInError (code, message) {
   this.name = "LogInError";
   this.message = message || "";
-  this.code = code || ""
+  this.code = code || "";
 }
 
 LogInError.prototype = new Error();
