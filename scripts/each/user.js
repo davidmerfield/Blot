@@ -11,9 +11,9 @@ module.exports = function (doThis, allDone, options) {
     .and(allDone, 'function')
     .and(options, 'object');
 
-  User.getAllIds(function(uids){
+  User.getAllIds(function(err, uids){
 
-    if (!uids) throw 'Nothing';
+    if (!uids) throw 'No UIDS found';
 
     if (options.s) {
 
@@ -29,7 +29,7 @@ module.exports = function (doThis, allDone, options) {
 
     forEach(uids, function(uid, nextUser){
 
-      User.getBy({uid: uid}, function(err, user){
+      User.getById(uid, function(err, user){
 
         if (err || !user) throw err || 'No user';
 

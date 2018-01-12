@@ -33,24 +33,28 @@ paymentForm.post(parse, function(req, res, next){
   var card = req.body && req.body.stripeToken;
   var email = req.body && req.body.email;
 
+  // Normalize the email here before storing it 
+  // in the browser's session
+  email = email.trim().toLowerCase();
+
   if (!email)
     return next(new Error(NO_EMAIL));
 
   if (!card)
     return next(new Error(BAD_CHARGE));
 
+  var info = {
+    card: card,
+    email: email,
+    plan: 'yearly_20',
+    description: 'Blot subscription'
+  };
+  
   User.getByEmail(email, function(err, existingUser){
 
     if (err) return next(err);
 
     if (existingUser) return next(new Error(IN_USE));
-
-    var info = {
-      card: card,
-      email: email,
-      plan: 'yearly_20',
-      description: 'Blot subscription'
-    };
 
     stripe.customers.create(info, function (err, customer) {
 

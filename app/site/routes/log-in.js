@@ -99,8 +99,6 @@ function checkEmail (req, res, next) {
 
   if (!email) return next(new LogInError('NOEMAIL'));
 
-  res.locals.email = email;
-
   User.getByEmail(email, function(err, user){
 
     if (err) return next(err);
@@ -110,6 +108,7 @@ function checkEmail (req, res, next) {
     if (!user) return next(new LogInError('BADEMAIL'));
 
     req.user = user;
+    res.locals.email = user.email;
 
     next();
   });

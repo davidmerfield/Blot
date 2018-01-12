@@ -7,7 +7,8 @@ module.exports = function (user, email, callback) {
     .and(email, 'string')
     .and(callback, 'function');
 
-  email = email.replace(' ', '');
+  // Normalize the email, case sensitivity confuses users
+  email = email.trim().toLowerCase().replace(' ', '');
 
   if (!email)
     return callback(new Error('Please enter an email'));
