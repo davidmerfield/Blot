@@ -22,7 +22,7 @@ You can also use the file's path to specify a publish date:
 /2017/6.12.Awe.txt   /2017/6/12/Awe.txt   2017-06-12-00:00-Awe.txt
 ```
 
-If you write the numbers in your dates in different order, please tell Blot on the [settings page](/settings). If you specify a date in the future, Blot will wait until then to publish it. And don't forget, you can [hide the dates](/templates) on your site if you prefer.
+If you write the numbers in your dates in different order, please tell Blot on the [settings page](/settings). If you specify a date in the future, Blot will wait until then to publish it. And if you prefer, you can [hide the dates](/templates) on your site.
 
 
 ## Permalinks and URLs
@@ -55,3 +55,27 @@ You can also use brackets in a folder's name to tag posts. For example, all the 
 ```
 
 Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently. Blot shows the most recent case when displaying a tag on your site.
+
+
+## Teasers
+
+Some of Blot's templates show a teaser for each post on the homepage, and include a link to the read full post. By default, Blot creates a teaser from the first few paragraphs in the post. You can specify the breakpoint in the file yourself:
+
+```file
+# Lycurgus
+
+He was of the opinion that even in death a statesman
+should benefit his state, that even the end of a 
+statesman's life should not be vain, but should be
+classed as an effective act of virtue. After all the
+wonderful things he had achieved, he felt that for...
+
+{{more}}
+
+Nor were his calculations misguided, because there was
+no state in Greece to match Sparta for lawfulness and
+fame for a very long time, since it adhered to...
+```
+
+Everything before ```{{more}}``` will be included in the teaser, and the rest will be shown on the post's page. You can also use ```<!-- more -->``` in an HTML file.
+

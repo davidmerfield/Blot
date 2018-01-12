@@ -1,6 +1,6 @@
 ## Metadata
 
-Blot generates a [date](@date), [permalink](@urls), [thumbnail](@thumbnail) and a [summary](@summary) for each blog post automatically. You can specify your own:
+Blot generates metadata for each post automatically, including a [publish date](@date), [permalink](@urls), [thumbnail](@thumbnail) and a [summary](@summary). You can override Blot's metadata with your own:
 
 ```file
 Date: February 28th, 1973
@@ -11,18 +11,17 @@ Tags: Literature, Schwarzgerät
 A screaming comes across the sky.
 ```
 
-Metadata must start on the first line and be separated from the rest of the post by a blank line. Here's the full list of Blot's metadata:
+Metadata must start on the file's first line and be separated from the rest of the post by a blank line. Here's the full reference for metadata Blot creates for each post on your site:
 
 | Key | Value |
 | ------------- |-------------|
-| ```Date``` |  Use one of the [supported formats](@dates). Defaults to the file's creation date. |
-| ```Title``` |  Defaults to the text of the first title in the file, or the file's name. |
-| ```Tags``` |  Empty by default. Seperate your tags with a comma. |
-| ```Permalink``` |  Defaults to a [slugified](https://en.wikipedia.org/wiki/Semantic_URL#Slug) version of the title. You can [change your site's default permalinks](@permalinks) or specify one individually. |
-| ```Summary``` |  Defaults to the text of the first sentence in the file. |
-| ```Teaser``` |  Like summary, but longer. Defaults to the first few paragraphs.  |
-| ```Thumbnail``` |  Path or URL to an image. By default it's the largest image in the post.  |
-| ```Page``` |  Defaults to 'No'.  Anything truthy (e.g. 'Yes')  will turn the file into a page and add it to your blog's menu. |
-| ```Menu``` |  Only relevant to pages. Defaults to 'Yes'. Anything falsy (e.g. 'No')  will hide the page from the menu. |
-| ```Draft``` |  Defaults to 'No'. Anything truthy (e.g. 'yes') will turn a post into a draft. |
-
+| ```Date``` |  Defaults to this file's creation date. Set the post's publish date using one of the [supported formats](@dates).  |
+| ```Title``` |  Defaults to the first title in this post or its file name. |
+| ```Tags``` |  Empty by default. Seperate [your tags](@tags) with a comma. |
+| ```Permalink``` |  Defaults to a URL-friendly version of the post's title. You can specify one here or [change your site's default permalinks](@permalinks) on the dashboard. |
+| ```Summary``` |  Defaults to the first sentence of the first paragraph in the file. |
+| ```Teaser``` |  Like summary but a little longer. Defaults to the first few paragraphs.  |
+| ```Thumbnail``` |  Generated from the largest image in the post. You can specify a path or URL to an image. |
+| ```Draft``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes') will turn the post into [a draft](@drafts). |
+| ```Page``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes')  will turn the post into [a page](@pages) and add it to [your blog's menu](@menu). |
+| ```Menu``` |  Defaults to 'Yes' if the file is a page. Anything falsy (e.g. 'No') will hide the page from your site's menu. |

@@ -19,35 +19,8 @@
 <h2 id="formatting-blog-posts">Formatting blog posts</h2>
 <p>Blot supports Markdown. You can use markdown to create headings, lists and much more. It can also parse mathematical statements set in LaTeX and highlight code snippets.</p>
 <p><a class="butt">Open the full formatting guide →</a></p>
-<h2 id="dates">Dates</h2>
-<p>Blot uses the file’s creation date as its publish date by default. You can specify a different date in the file’s <a href="#metadata">metadata</a>:</p>
-<pre class="file"><code>Date: March 8th, 1937
-
-# North and South
-
-As you travel northward your eye, accustomed to...</code></pre>
-<p>Blot supports a variety of ways that people write dates. Each of the following formats produces a blog post with the same date:</p>
-<pre><code>12/06/2017    12.6.17    12-6-2017    2017-6-12 00:00</code></pre>
-<p>You can also use the file’s path to specify a publish date:</p>
-<pre><code>/2017/6.12.Awe.txt   /2017/6/12/Awe.txt   2017-06-12-00:00-Awe.txt</code></pre>
-<p>If you write the numbers in your dates in different order, please tell Blot on the <a href="/settings">settings page</a>. If you specify a date in the future, Blot will wait until then to publish it. And don’t forget, you can <a href="/templates">hide the dates</a> on your site if you prefer.</p>
-<h2 id="permalinks-and-urls">Permalinks and URLs</h2>
-<p>Blot generates a permalink for each post automatically. You can choose the general format of default permalinks on <a href="/preferences">the dashboard</a>. Or you can specify a permalink in the <a href="#metadata">metadata</a> at the top of a file:</p>
-<pre class="file"><code>Permalink: /nightingale
-
-I have heard the nightingale itself.</code></pre>
-<h2 id="tags">Tags</h2>
-<p>You can tag a post in the <a href="@metadata">metadata</a> at the top of a file:</p>
-<pre class="file"><code>Tags: Literature, Book notes
-
-# Breakfast at Tiffany&#39;s
-
-A great zircon in the diadem of American literature.</code></pre>
-<p>You can also use brackets in a folder’s name to tag posts. For example, all the files in a folder called ‘[Literature]’ will become blog posts tagged ‘Literature’. You can nest folders:</p>
-<pre><code>[Literature] / [Book notes] / Breakfast-at-Tiffany&#39;s.txt</code></pre>
-<p>Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently. Blot shows the most recent case when displaying a tag on your site.</p>
 <h2 id="metadata">Metadata</h2>
-<p>Blot generates a <a href="@date">date</a>, <a href="@urls">permalink</a>, <a href="@thumbnail">thumbnail</a> and a <a href="@summary">summary</a> for each blog post automatically. You can specify your own:</p>
+<p>Blot generates a <a href="@date">date</a>, <a href="@urls">permalink</a>, <a href="@thumbnail">thumbnail</a> and a <a href="@summary">summary</a> for each blog post automatically. You can specify your own metadata:</p>
 <pre class="file"><code>Date: February 28th, 1973
 Tags: Literature, Schwarzgerät
 
@@ -105,3 +78,46 @@ A screaming comes across the sky.</code></pre>
 </tr>
 </tbody>
 </table>
+<h2 id="dates">Dates</h2>
+<p>Blot uses the file’s creation date as its publish date by default. You can specify a different date in the file’s <a href="#metadata">metadata</a>:</p>
+<pre class="file"><code>Date: March 8th, 1937
+
+# North and South
+
+As you travel northward your eye, accustomed to...</code></pre>
+<p>Blot supports a variety of ways that people write dates. Each of the following formats produces a blog post with the same date:</p>
+<pre><code>12/06/2017    12.6.17    12-6-2017    2017-6-12 00:00</code></pre>
+<p>You can also use the file’s path to specify a publish date:</p>
+<pre><code>/2017/6.12.Awe.txt   /2017/6/12/Awe.txt   2017-06-12-00:00-Awe.txt</code></pre>
+<p>If you write the numbers in your dates in different order, please tell Blot on the <a href="/settings">settings page</a>. If you specify a date in the future, Blot will wait until then to publish it. And don’t forget, you can <a href="/templates">hide the dates</a> on your site if you prefer.</p>
+<h2 id="permalinks-and-urls">Permalinks and URLs</h2>
+<p>Blot generates a permalink for each post automatically. You can choose the general format of default permalinks on <a href="/preferences">the dashboard</a>. Or you can specify a permalink in the <a href="#metadata">metadata</a> at the top of a file:</p>
+<pre class="file"><code>Permalink: /nightingale
+
+I have heard the nightingale itself.</code></pre>
+<h2 id="tags">Tags</h2>
+<p>You can tag a post in the <a href="@metadata">metadata</a> at the top of a file:</p>
+<pre class="file"><code>Tags: Literature, Book notes
+
+# Breakfast at Tiffany&#39;s
+
+A great zircon in the diadem of American literature.</code></pre>
+<p>You can also use brackets in a folder’s name to tag posts. For example, all the files in a folder called ‘[Literature]’ will become blog posts tagged ‘Literature’. You can nest folders:</p>
+<pre><code>[Literature] / [Book notes] / Breakfast-at-Tiffany&#39;s.txt</code></pre>
+<p>Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently. Blot shows the most recent case when displaying a tag on your site.</p>
+<h2 id="teasers">Teasers</h2>
+<p>Some of Blot’s templates show a teaser for each post on the homepage, and include a link to the read full post. By default, Blot creates a teaser from the first few paragraphs in the post. You can specify the breakpoint in the file yourself:</p>
+<pre class="file"><code># Lycurgus
+
+He was of the opinion that even in death a statesman
+should benefit his state, that even the end of a 
+statesman&#39;s life should not be vain, but should be
+classed as an effective act of virtue. After all the
+wonderful things he had achieved, he felt that for...
+
+{{more}}
+
+Nor were his calculations misguided, because there was
+no state in Greece to match Sparta for lawfulness and
+fame for a very long time, since it adhered to...</code></pre>
+<p>Everything before <code>{{more}}</code> will be included in the teaser, and the rest will be shown on the post’s page. You can also use <code>&lt;!-- more --&gt;</code> in HTML.</p>
