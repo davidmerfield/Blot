@@ -7,7 +7,6 @@ var stripe = require('stripe')(config.stripe.secret);
 var get = require('../blog/get');
 
 var User = require('../../app/models/user');
-var Subscription = require('../../app/models/subscription');
 
 get(from, function(user){
 
@@ -31,13 +30,8 @@ get(from, function(user){
     User.set(user.uid, {subscription: subscription}, function(err){
 
       if (err) throw err;
-
-      Subscription.bind(subscription.customer, user.uid, function(err){
-
-        if (err) throw err;
-
-        process.exit();
-      });
+      
+      process.exit();
     });
   });
 });
