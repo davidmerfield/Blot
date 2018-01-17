@@ -1,7 +1,8 @@
 Improve documentation:
-- Fix broken links in the documentation
-- Fully document all variables as currently true
+- Fix broken links in the documentation and make sections linkable
+- Add example folders for sites
 - Fix guides and resources page
+- Fully document all variables as currently true
 
 Improve the selection of templates then let these people know:
 - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
@@ -17,8 +18,6 @@ Record a new demo video:
 - My personal site: simple landing page, edit with a doc file?
 
 Increase price to $30 a year for new subscribers. This will not affect existing subscribers.
-
-Incorporate
 
 Buy .com
 
@@ -51,6 +50,8 @@ Fix bug with case sensitivity for tag folders
 https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
 
 ---
+
+Incorporate
 
 Public site improvements
 - Experiment with new layout ideas
