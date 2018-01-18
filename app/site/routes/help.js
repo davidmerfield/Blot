@@ -1,6 +1,8 @@
 module.exports = function(server){
 
   var help = require('../views/help/help.json');
+  var config = require('config');
+  var fs = require('fs');
 
   server.get('/help', function(req, res){
     console.log('redirecting',req.url,' to /help/' + help.sections[0].slug);
@@ -9,8 +11,13 @@ module.exports = function(server){
 
   server.get('/help/:section', function(req, res){
 
+    // Reload the view in development mode for each request.
+    if (config.environment === 'development') {
+      console.log('reloading help');
+      help = JSON.parse(fs.readFileSync(__dirname + '/../views/help/help.json'));
+    }
+
     var sidebar = help.sidebar.slice();
-    var title = 'Help';
     var section = help[req.params.section];
 
     sidebar = sidebar.map(function(section){
@@ -18,13 +25,11 @@ module.exports = function(server){
       if (section.slug === req.params.section) {
         section.selected = 'selected';
       } else {
-        section.selected = ''
+        section.selected = '';
       }
 
       return section;
     });
-
-    console.log('HERe!');
 
     res.addPartials({
       sidebar: 'help/sidebar'
@@ -38,7 +43,6 @@ module.exports = function(server){
       tab: {help: 'selected'}
     });
 
-    console.log('rendering', req.url);
     return res.render('help/wrapper');
   });
 };
