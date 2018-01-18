@@ -323,7 +323,7 @@ input.link {color: inherit;background: none;padding: inherit;margin:0;border:non
   body{margin-left: 255px;}
 }
 
-table{line-height: 2;width: 133.333%}
+table{line-height: inherit;width: 100%}
 th {font-weight: 500;text-align: left;border-bottom: 1px solid #ccc}
 td {border-bottom: 1px solid #eee}
 td:first-child {padding-right: 2.88em}
