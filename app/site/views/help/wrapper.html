@@ -19,11 +19,21 @@
   pre.file {    box-shadow: 0 0 10px rgba(0,0,0,.05),0 1px 5px rgba(0,0,0,.05);
 border: 1px solid #aaa;padding:1.5em 2em;position: relative;font-size: 13px}
 
+  pre.folder {box-shadow: 0 0 10px rgba(0,0,0,.05),0 1px 5px rgba(0,0,0,.05);
+border: 1px solid #aaa;padding:2.5em 2em 1.5em;position: relative;font-size: 13px}
+  
+  pre.folder, pre.folder code {font-family: inherit;}
+  
+  pre.folder:before {content: "Your site's folder";display: block;text-align: center;border-bottom: 1px solid rgba(0,0,0,0.05);position: absolute;background: url('/images/dots.jpg') no-repeat 0 0;background-size: 57px;
+  top:0;left: 0;right: 0}
+
+
   .sidebar a {color:inherit;border:none;display: block;}
   body{margin-left: 39em}
   .main > div {padding-top: 3.5em;margin-top: -3.5em}
   .main {padding-bottom: 10em}
   
+
   </style>
 
 {{> sidebar}}
@@ -33,9 +43,9 @@ border: 1px solid #aaa;padding:1.5em 2em;position: relative;font-size: 13px}
 
   <h1>{{title}}</h1>
 
-  {{#sub_sections}}
+  {{#subsections}}
     {{{html}}}
-  {{/sub_sections}}
+  {{/subsections}}
 
 </div>
 {{/section}}
