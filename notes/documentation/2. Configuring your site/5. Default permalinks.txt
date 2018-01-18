@@ -1,6 +1,6 @@
 ## Default permalinks
 
-Each post is assigned a permalink, or permanent URL. You can edit the general format of these permalinks on [the dashboard](/preferences). You can use any of [the post's properties](@post-properties) and any of [Blot's date tokens](@date-tokens). Here are a few examples:
+Each post is assigned a permalink, or permanent URL. You can edit the general format of these permalinks on [the dashboard](/preferences). You can use any of [the post's properties]({{metadata}}) and any of [Blot's date tokens]({/help/guides). Here are a few examples:
 
 {{=[[ ]]=}}
 

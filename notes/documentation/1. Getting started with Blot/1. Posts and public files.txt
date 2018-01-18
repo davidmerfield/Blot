@@ -8,12 +8,20 @@ All of these files become blog posts automatically when you put them inside your
 - **Images** .png, .jpeg, .gif
 - **Word documents** .docx
 - **Bookmarks** .webloc
-- **HTML** .html
+- **HTML** .html 
+
+```folder
+Essay.txt
+Photo.jpg
+Link.webloc
+Chart.html
+Document.docx
+```
 
 ## Public files
 
-Every file in your site's folder is public. This means you can use Blot as a static file server. For example, if you put the file ```lime.zip``` in your folder, your readers can download it: ```www.your-site.com/lime.zip```.
+Every file in your site's folder is public. This means you can use Blot as a static file server. For example, if you put the file ```archive.zip``` in your folder, your readers can download it: ```www.your-site.com/archive.zip```.
 
 ## Skipping files and folders
 
-Blot will ignore files and folders whose name starts with an underscore. ```apple.jpg``` will become a blog post but ```_cherry.jpg``` will not. You can use this feature to embed a photo in a seperate post.
+Blot will ignore files and folders whose name starts with an underscore. For example, ```apple.jpg``` will become a blog post but ```_cherry.jpg``` will not. You can use this feature to embed a photo in a seperate post.

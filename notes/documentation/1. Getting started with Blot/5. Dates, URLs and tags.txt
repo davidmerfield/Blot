@@ -38,7 +38,7 @@ I have heard the nightingale itself.
 
 ## Tags
 
-You can tag a post in the [metadata](@metadata) at the top of a file:
+You can tag a post in the [metadata]({{metadata}}) at the top of a file:
 
 ```file
 Tags: Literature, Book notes
@@ -61,6 +61,7 @@ Tags can contain whitespace. Although tags are case-insensitive, it’s worth ca
 
 Some of Blot's templates show a teaser for each post on the homepage, and include a link to the read full post. By default, Blot creates a teaser from the first few paragraphs in the post. You can specify the breakpoint in the file yourself:
 
+{{=[[ ]]=}}
 ```file
 # Lycurgus
 
@@ -78,4 +79,5 @@ fame for a very long time, since it adhered to...
 ```
 
 Everything before ```{{more}}``` will be included in the teaser, and the rest will be shown on the post's page. You can also use ```<!-- more -->``` in an HTML file.
+[[={{ }}=]]
 

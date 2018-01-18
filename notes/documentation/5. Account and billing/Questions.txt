@@ -1,14 +1,18 @@
-Blot charges an annual fee. You'll be billed when you first create a site, and in yearly increments after. You can host as many sites as you like from the same account, (and the same Dropbox folder).
+Blot charges an annual fee. You'll be billed when you first create a site, and in yearly increments after. 
 
 Your payment information does not touch Blot's servers. Blot uses [Stripe](https://stripe.com/) to process subscription payments. You can read more about [Stripe's security](https://stripe.com/help/security) on their website.
 
+## Can I host multiple sites on Blot?
 
-<h2>Does Blot support any alternatives to Dropbox?</h2>
-<p>Not at the moment. However, I plan to eventually add support Git, FTP, GitHub and Google Drive. Please <a href="/contact">contact me</a> if there's a service you'd like me to support.</p>
+Yes, you can host as many sites as you like on Blot, all from the same account. Your sites can all be associated with the same Dropbox folder. You can also host sites in different Dropbox folders from the same Blot account.
 
-<h2>Does Blot have a bandwidth or storage limit?</h2>
-<p>No, there’s no hard bandwidth or storage limit. However, if you use more than 1TB of bandwidth + storage combined per year, I will ask you to pay enough to meet the cost of hosting your site, or help you set up Blot on your own server.</p>
+## Does Blot support any alternatives to Dropbox?
 
+Not at the moment. However, I plan to eventually add support Git, FTP, GitHub and Google Drive. Please <a href="/contact">contact me</a> if there's a service you'd like me to support.
+
+## Does Blot have a bandwidth or storage limit?
+
+No, there’s no hard bandwidth or storage limit. However, if you use more than 1TB of bandwidth + storage combined per year, I will ask you to pay enough to meet the cost of hosting your site, or help you set up Blot on your own server.
 
 ## Can Blot access all the files in my Dropbox?
 

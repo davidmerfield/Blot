@@ -1,6 +1,6 @@
 ## Metadata
 
-Blot generates metadata for each post automatically, including a [publish date](@date), [permalink](@urls), [thumbnail](@thumbnail) and a [summary](@summary). You can override Blot's metadata with your own:
+Blot generates metadata for each post automatically, including a [publish date]({{{dates}}}), [permalink]({{{permalinks-and-urls}}}) and a [summary]({{{teasers}}}). You can override Blot's metadata with your own:
 
 ```file
 Date: February 28th, 1973
@@ -15,13 +15,13 @@ Metadata must start on the file's first line and be separated from the rest of t
 
 | Key | Value |
 | ------------- |-------------|
-| ```Date``` |  Defaults to this file's creation date. Set the post's publish date using one of the [supported formats](@dates).  |
+| ```Date``` |  Defaults to this file's creation date. Set the post's publish date using one of the [supported formats]({{dates}}).  |
 | ```Title``` |  Defaults to the first title in this post or its file name. |
-| ```Tags``` |  Empty by default. Seperate [your tags](@tags) with a comma. |
-| ```Permalink``` |  Defaults to a URL-friendly version of the post's title. You can specify one here or [change your site's default permalinks](@permalinks) on the dashboard. |
+| ```Tags``` |  Empty by default. Seperate [your tags]({{tags}}) with a comma. |
+| ```Permalink``` |  Defaults to a URL-friendly version of the post's title. You can specify one here or [change your site's default permalinks]({{permalinks-and-urls}}) on the dashboard. |
 | ```Summary``` |  Defaults to the first sentence of the first paragraph in the file. |
 | ```Teaser``` |  Like summary but a little longer. Defaults to the first few paragraphs.  |
 | ```Thumbnail``` |  Generated from the largest image in the post. You can specify a path or URL to an image. |
-| ```Draft``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes') will turn the post into [a draft](@drafts). |
-| ```Page``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes')  will turn the post into [a page](@pages) and add it to [your blog's menu](@menu). |
+| ```Draft``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes') will turn the post into [a draft]({{drafts}}). |
+| ```Page``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes')  will turn the post into [a page]({{pages}}) and add it to [your blog's menu]({{menu-and-profile}}). |
 | ```Menu``` |  Defaults to 'Yes' if the file is a page. Anything falsy (e.g. 'No') will hide the page from your site's menu. |

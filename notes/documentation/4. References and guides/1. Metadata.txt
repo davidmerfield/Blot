@@ -1,5 +1,5 @@
 
-You can create your own [metadata](@template_metadata) and access it in your blog's [template](@template).
+You can create your own [metadata](/help/templates) and access it in your blog's [template](/help/templates).
 
 Here is the full list of Blot's native metadata:
 
