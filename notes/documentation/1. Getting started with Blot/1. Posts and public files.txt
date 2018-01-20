@@ -1,6 +1,21 @@
 Blot is a blogging platform. It creates a folder inside your Dropbox and publishes files you put inside. Blot exists so that you can use your favorite text editor to write your blog.
 
+
 ## Posts
+
+
+```folder
+Archive.zip
+Bookmark.webloc
+Document.docx
+Drafts
+Markdown.md
+Pages
+Photo.jpg
+Text.txt
+Webpage.html
+```
+
 
 All of these files become blog posts automatically when you put them inside your site's folder:
 
@@ -9,14 +24,6 @@ All of these files become blog posts automatically when you put them inside your
 - **Word documents** .docx
 - **Bookmarks** .webloc
 - **HTML** .html 
-
-```folder
-Essay.txt
-Photo.jpg
-Link.webloc
-Chart.html
-Document.docx
-```
 
 ## Public files
 

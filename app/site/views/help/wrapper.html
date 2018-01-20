@@ -3,6 +3,8 @@
 {{> head}}
 <body>
   {{> header}}
+  <link href="/css/finder.css" type="text/css" rel="stylesheet" />
+
   <style>
   p code {font-family: inherit;padding: 0.25em;background: none;margin: -0.25em;font-size: 1em}
   .sidebar {width:19em;overflow: visible;left:17em;position:fixed;color:#777;padding:0;top:6.5em;bottom: 0;overflow-y: scroll;padding-left: 1em}
@@ -29,15 +31,16 @@ border: 1px solid #aaa;padding:2.5em 2em 1.5em;position: relative;font-size: 13p
 
 
   .sidebar a {color:inherit;border:none;display: block;}
-  body{margin-left: 39em}
+/*  body{margin-left: 39em}
   .main > div {padding-top: 3.5em;margin-top: -3.5em}
-  .main {padding-bottom: 10em}
+  .main {padding-bottom: 10em}*/
   
+  window, pre.file {float: right;margin-right: -15em;margin-left: 3em;margin-bottom: 3em}
 
   </style>
 
-{{> sidebar}}
-
+<!-- {{> sidebar}}
+ -->
 {{#section}}
 <div class="main">
 

@@ -1,5 +1,15 @@
 ## Pages
 
+
+```folder
+Pages
+  About.txt
+  Contact.txt
+  Resources.txt
+Drafts
+  Post.txt
+```
+
 Files inside a folder called 'Pages' are added to your [blog's menu]({{menu-and-profile}}) and do not become blog posts. 
 
 ## Drafts

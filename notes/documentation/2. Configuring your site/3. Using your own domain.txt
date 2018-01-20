@@ -4,7 +4,7 @@ Let's say you own the domain ```example.com``` and would like to point it to you
 
 * How to use a subdomain
 
-  1. Go to your domain's DNS page. This is usually where you bought the domain. Create a ```CNAME``` record  which points to ```blot.im``` for the subdomain you'd like to use.
+  1. Go to your domain's DNS page. This is usually where you bought the domain. Create a ```CNAME``` record  for the subdomain you'd like to use and set its value to ```blot.im```.
 
   2. Tell Blot your full domain, including the subdomain, on [the dashboard](/profile).
 
