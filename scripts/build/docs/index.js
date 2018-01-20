@@ -2,6 +2,7 @@ var fs = require('fs-extra');
 var cheerio = require('cheerio');
 var helper = require('helper');
 var slug = helper.makeSlug;
+var finder = require('finder');
 var forEach = helper.forEach;
 var rootDir = helper.rootDir;
 var _convert = require('marked');
@@ -76,7 +77,14 @@ function convert (html, callback) {
       .remove();
   });
 
-  return callback(null, $.html(), subsection_ids);
+  html = $.html();
+
+  finder(html, function(err, html){
+
+    if (err) return callback(err);
+
+    callback(null, html, subsection_ids);
+  });
 }
 
 function title_from_filename (str) {
