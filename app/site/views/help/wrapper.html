@@ -19,7 +19,7 @@
   .help ul:nth-child(2n):after{content: "";width: 100%;clear: both;display: block;}
 */
   pre.file {    box-shadow: 0 0 10px rgba(0,0,0,.05),0 1px 5px rgba(0,0,0,.05);
-border: 1px solid #aaa;padding:1.5em 2em;position: relative;font-size: 13px}
+border: 1px solid #aaa;padding:1.5em 2em;position: relative;font-size: 13px;min-width: 330px}
 
   pre.folder {box-shadow: 0 0 10px rgba(0,0,0,.05),0 1px 5px rgba(0,0,0,.05);
 border: 1px solid #aaa;padding:2.5em 2em 1.5em;position: relative;font-size: 13px}
@@ -35,8 +35,9 @@ border: 1px solid #aaa;padding:2.5em 2em 1.5em;position: relative;font-size: 13p
   .main > div {padding-top: 3.5em;margin-top: -3.5em}
   .main {padding-bottom: 10em}*/
   
-  window, pre.file {float: right;margin-right: -15em;margin-left: 3em;margin-bottom: 3em}
+  window, pre.file {float: right;margin-right: -110%;}
 
+  .main {padding-right: 100%;width: 400px}
   </style>
 
 <!-- {{> sidebar}}
