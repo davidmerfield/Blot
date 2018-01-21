@@ -1,17 +1,23 @@
-## Pages
-
+## Drafts
 
 ```folder
+Drafts
+  Anecdote.txt
+  Anecdote.txt.html
 Pages
   About.txt
   Contact.txt
   Resources.txt
-Drafts
-  Post.txt
+Posts
+Archive.zip
 ```
 
-Files inside a folder called 'Pages' are added to your [blog's menu]({{menu-and-profile}}) and do not become blog posts. 
-
-## Drafts
-
 Files inside a folder called 'Drafts' are not published to your site. Blot creates a preview which you can open in your browser. 
+
+## Pages
+
+Files inside a folder called 'Pages' are added to your [site's menu]({{menu-and-profile}}) instead of the list of posts. 
+
+## Public files
+
+Every file in your site's folder is public. This means you can [use Blot as a static file server](/guides/static-file). For example, if you put the file ```Archive.zip``` in your folder, your readers could download it: ```www.your-site.com/archive.zip```.

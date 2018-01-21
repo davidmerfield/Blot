@@ -1,0 +1,52 @@
+## Permalinks and URLs
+
+```file
+Tags: Literature, Book notes
+Permalink: /breakfast
+
+# Breakfast at Tiffany's
+
+A great zircon in the diadem...
+```
+
+Blot generates a permalink for each post automatically. You can choose the general format of default permalinks on [the dashboard](/preferences). Or you can specify a permalink in the [metadata](#metadata) at the top of a file:
+
+
+## Tags
+
+
+You can tag a post in the [metadata]({{metadata}}) at the top of a file. Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently. Blot shows the most recent case when displaying a tag on your site.
+
+You can also use brackets in a folder's name to tag posts. For example, all the files in a folder called '[Literature]' will become blog posts tagged 'Literature'. You can nest folders:
+
+```
+[Literature] / [Book notes] / Breakfast-at-Tiffany's.txt
+```
+
+
+
+## Teasers
+
+{{=[[ ]]=}}
+```file
+# Lycurgus
+
+He was of the opinion that even in
+death a statesman should benefit his
+state, that even the end of a statesman's
+life should not be vain...
+
+{{more}}
+
+Nor were his calculations misguided,
+because there was no state in Greece to
+match Sparta for lawfulness and fame...
+```
+
+Some of Blot's templates show a teaser for each post on the homepage, and include a link to the read full post. By default, Blot creates a teaser from the first few paragraphs in the post. You can specify the breakpoint in the file yourself:
+
+
+
+Everything before ```{{more}}``` will be included in the teaser, and the rest will be shown on the post's page. You can also use ```<!-- more -->``` in an HTML file.
+[[={{ }}=]]
+

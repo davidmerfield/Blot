@@ -3,19 +3,18 @@ Blot is a blogging platform. It creates a folder inside your Dropbox and publish
 
 ## Posts
 
-
 ```folder
-Archive.zip
-Bookmark.webloc
-Document.docx
 Drafts
-Markdown.md
 Pages
-Photo.jpg
-Text.txt
-Webpage.html
+Posts
+  Bookmark.webloc
+  Document.docx
+  Markdown.md
+  Photo.jpg
+  Text.txt
+  Webpage.html
+Archive.zip  
 ```
-
 
 All of these files become blog posts automatically when you put them inside your site's folder:
 
@@ -25,10 +24,11 @@ All of these files become blog posts automatically when you put them inside your
 - **Bookmarks** .webloc
 - **HTML** .html 
 
-## Public files
+Blot skips files and folders whose name starts with an underscore. You can use this feature to embed an image in a seperate post.
 
-Every file in your site's folder is public. This means you can use Blot as a static file server. For example, if you put the file ```archive.zip``` in your folder, your readers can download it: ```www.your-site.com/archive.zip```.
+## Formatting your posts
 
-## Skipping files and folders
+Blot supports [Markdown](https://daringfireball.net/projects/markdown/syntax), a markup language designed for plain text files. You can add headings, lists, mathematical statements set in LaTeX, syntax highlighting to code snippets and much more.
 
-Blot will ignore files and folders whose name starts with an underscore. For example, ```apple.jpg``` will become a blog post but ```_cherry.jpg``` will not. You can use this feature to embed a photo in a seperate post.
+<a class="butt" href="/guides">View the formatting guide →</a>
+<br><Br>
