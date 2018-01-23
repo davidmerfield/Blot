@@ -40,7 +40,7 @@
     "moment": "^2.14.1",
     "moment-timezone": "^0.4.1",
     "multiparty": "^4.1.1",
-    "mustache": "^1.0.0",
+    "mustache": "^2.3.0",
     "node-schedule": "^0.1.16",
     "probe-image-size": "^1.0.6",
     "recursive-readdir": "^2.2.1",
