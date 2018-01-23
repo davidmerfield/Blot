@@ -8,7 +8,7 @@
 <ul>
 <li><p>How to use a subdomain</p>
 <ol type="1">
-<li><p>Go to your domain’s DNS page. This is usually where you bought the domain. Create a <code>CNAME</code> record which points to <code>blot.im</code> for the subdomain you’d like to use.</p></li>
+<li><p>Go to your domain’s DNS page. This is usually where you bought the domain. Create a <code>CNAME</code> record for the subdomain you’d like to use and set its value to <code>blot.im</code>.</p></li>
 <li><p>Tell Blot your full domain, including the subdomain, on <a href="/profile">the dashboard</a>.</p></li>
 </ol></li>
 <li><p>How to use an apex domain</p>
@@ -22,7 +22,7 @@
 <p>You can <a href="/settings/redirects">set up redirects</a> for missing or moved pages on your blog. Your site’s <a href="/settings/404s">404 log</a> will help you discover URLs which need redirects. You can use RegEx to match multiple routes. For example, this rule redirects URLs starting with <code>/post</code> to <code>/blog</code>:</p>
 <pre><code>\/post\/(.*)  →  /blog/$1</code></pre>
 <h2 id="default-permalinks">Default permalinks</h2>
-<p>Each post is assigned a permalink, or permanent URL. You can edit the general format of these permalinks on <a href="/preferences">the dashboard</a>. You can use any of <a href="@post-properties">the post’s properties</a> and any of <a href="@date-tokens">Blot’s date tokens</a>. Here are a few examples:</p>
+<p>Each post is assigned a permalink, or permanent URL. You can edit the general format of these permalinks on <a href="/preferences">the dashboard</a>. You can use any of <a href="%7B%7Bmetadata%7D%7D">the post’s properties</a> and any of <a href="%7B/help/guides">Blot’s date tokens</a>. Here are a few examples:</p>
 <p>{{=[[ ]]=}}</p>
 <table>
 <thead>
