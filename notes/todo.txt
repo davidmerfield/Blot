@@ -23,6 +23,8 @@ Buy .com
 
 ---
 
+You could pull from different sources at the same time. And neatly places content from each directly into Blot's folder, the process should be designed to be resumeable, you should be able to reload the window. I think this will improve usage and retention.
+
 Fix bug when you have two blogs in the same app folder, then unlink one of them, then relink it.
 
 Fix bug when you try to restart a cancelled Blot subscription
@@ -52,6 +54,18 @@ https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
 ---
 
 Incorporate
+
+Write a unified import tool which scrapes content from:
+- Tumblr
+- Wordpress
+- Squarespace
+- Jekyll
+- Instagram
+- Twitter
+- Facebook
+- Medium
+- Ghost
+- Anything with an RSS feed?
 
 Public site improvements
 - Experiment with new layout ideas
@@ -100,6 +114,8 @@ Offer to design the blot site for:
 https://mail.google.com/mail/u/1/#inbox/15f734998c533068
 
 ---
+
+Add nice Mathjax support, maybe make it an option on the preferences page?
 
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
