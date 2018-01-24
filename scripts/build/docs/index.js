@@ -208,7 +208,8 @@ function main (callback) {
       section = JSON.parse(JSON.stringify(section));
 
       if (section.title.toLowerCase().indexOf('guides') > -1 || 
-          section.title.toLowerCase().indexOf('account') > -1)
+          section.title.toLowerCase().indexOf('account') > -1|| 
+          section.title.toLowerCase().indexOf('templates') > -1)
         section.subsections = [];
 
       sidebar.push(section);
