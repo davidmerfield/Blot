@@ -1,3 +1,0 @@
-## Menu and profile
-
-You can change your site's title, upload an avatar and edit the links on your site's menu on [the profile page](/profile).

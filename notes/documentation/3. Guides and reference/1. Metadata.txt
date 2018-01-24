@@ -9,7 +9,7 @@
 | ```Teaser``` |  Like summary but a little longer. Defaults to the first few paragraphs.  |
 | ```Thumbnail``` |  Generated from the largest image in the post. You can specify a path or URL to an image. |
 | ```Draft``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes') will turn the post into [a draft]({{drafts}}). |
-| ```Page``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes')  will turn the post into [a page]({{pages}}) and add it to [your blog's menu]({{menu-and-profile}}). |
+| ```Page``` |  Defaults to 'No'. Anything truthy (e.g. 'Yes')  will turn the post into [a page]({{pages}}) and add it to your blog's menu. |
 | ```Menu``` |  Defaults to 'Yes' if the file is a page. Anything falsy (e.g. 'No') will hide the page from your site's menu. |
 
 

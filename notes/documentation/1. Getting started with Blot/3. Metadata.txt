@@ -1,11 +1,6 @@
+## Public files
 
-## Formatting your posts
-
-Blot supports [Markdown](https://daringfireball.net/projects/markdown/syntax), a markup language designed for plain text files. You can add headings, lists, mathematical statements set in LaTeX, syntax highlighting to code snippets and much more.
-
-<a class="butt" href="/guides">View the formatting guide →</a>
-<br><Br>
-
+Every file in your site's folder is public. For example, if you put the file ```[] Archive.zip``` in your folder, your readers can download it at ```www.your-site.com/archive.zip```. This means y\ou can [use Blot as a static file server](/guides/static-file).. View the full [list of Blot's metadata](/guides).
 
 ## Metadata
 
@@ -22,4 +17,4 @@ Blot generates metadata for each post automatically, including a [publish date](
 
 Metadata must start on the file's first line and be separated from the rest of the post by a blank line. 
 
-<a class="butt" href="/guides">View the metadata reference →</a>
+You can also create [custom metadata]({{custom-metadata}}) and access it in your site's template.

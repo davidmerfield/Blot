@@ -1,0 +1,33 @@
+
+
+## Images
+
+Here's what the markdown looks like, note the ‘!’ before the tag.
+
+```
+![Alt text](http://example.com/image.jpg "Title")
+```
+
+Yes, first create a folder whose name starts with an underscore, e.g. '_images'. Blot will not turn any of the files inside into blog posts, but they will be public. Then put the image inside then embed the image like this:
+
+```
+![Image description](/_images/image.jpg)
+```
+
+Blot resolves relative paths based on the location of the source file, not its permalink. File paths are case-insenitive. For example, let's say your blog has this folder structure:
+
+```folder
+Posts
+  _apple.png
+ fruit.txt
+_Images
+  peach.png
+```
+
+These images all resolve correctly in ```fruit.txt```, no matter its resulting URL.
+
+```
+![Apple](_apple.png)
+![Apple](/posts/_apple.png)
+![Peach](../_images/peach.png)
+```

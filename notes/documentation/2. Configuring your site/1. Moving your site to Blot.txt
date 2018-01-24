@@ -1,5 +1,0 @@
-All of your site's initial configuration is done on Blot's <a href="/preferences">dashboard</a>. Ideally you shouldn't need to visit it that much.
-
-## Moving your existing site to Blot
-
-I've written scripts to generate a folder of Markdown files from sites hosted on [Tumblr](https://github.com/davidmerfield/Blot-importer-for-Tumblr), [Wordpress](https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace), [Jekyll](https://github.com/davidmerfield/Blot-importer-for-Jekyll) and [Squarespace](https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace). None of these scripts is connected to a web interface. If you [contact me](/contact), I'd be very happy to run them on your site and send you the result.

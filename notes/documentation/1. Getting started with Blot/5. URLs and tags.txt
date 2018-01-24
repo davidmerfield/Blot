@@ -13,7 +13,7 @@ Blot generates a permalink for each post automatically. You can choose the gener
 
 ## Tags
 
-You can tag a post in the [metadata]({{metadata}}) at the top of a file. Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently. Blot shows the most recent case when displaying a tag on your site.
+You can tag a post in the [metadata]({{metadata}}) at the top of a file. Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently because Blot uses the most recent case when displaying a tag on your site.
 
 You can also use brackets in a folder's name to tag posts. For example, all the files in a folder called '[Literature]' will become blog posts tagged 'Literature'. You can nest folders:
 

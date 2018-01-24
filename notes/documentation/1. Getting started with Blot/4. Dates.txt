@@ -14,5 +14,5 @@ You can also specify a publish date using the file's name, or its path, or a com
 2017-06-12-00:00-Awe.txt   /2017/6/12/Awe.txt   /2017/6.12.Awe.txt   
 ```
 
-If you write the numbers in your dates in different order, please tell Blot on the [settings page](/settings). If you specify a date in the future, Blot will wait until then to publish it. And if you prefer, you can [hide the dates](/templates) on your site.
+If you write the numbers in your dates in different order, please tell Blot on the [settings page](/settings). If you specify a date in the future, Blot will wait until then to publish it. And if you prefer, you can [hide the dates](/settings) on your site's dashboard.
 

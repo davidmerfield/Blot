@@ -16,4 +16,4 @@ Files inside a folder called 'Drafts' are not published to your site. Instead, B
 
 ## Pages
 
-Files inside a folder called 'Pages' are added to your [site's menu]({{menu-and-profile}}) instead of the list of blog posts. 
+Files inside a folder called 'Pages' are added to your site's menu instead of the list of blog posts. You can [hide a page from your site's menu](/guides) if you prefer.
