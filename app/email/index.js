@@ -138,7 +138,7 @@ function send (locals, messageFile, to, callback) {
 
     ensure(email, EMAIL_MODEL);
 
-    if (config.environment === 'development' && to !== 'dmerfield@gmail.com') {
+    if (config.environment === 'development' && to !== config.admin.email) {
       console.log(email);
       console.log('Email not sent >>>>>>> In development mode');
       return callback();

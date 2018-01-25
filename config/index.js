@@ -76,7 +76,7 @@ module.exports = {
 
   "admin": {
     "uid": "2302164",
-    "email": "dmerfield@gmail.com"
+    "email": "david@blot.im"
   },
 
   "dropbox": dropbox,
