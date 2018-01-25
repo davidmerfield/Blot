@@ -209,6 +209,7 @@ function main (callback) {
 
       if (section.title.toLowerCase().indexOf('guides') > -1 || 
           section.title.toLowerCase().indexOf('account') > -1|| 
+          section.title.toLowerCase().indexOf('reference') > -1|| 
           section.title.toLowerCase().indexOf('templates') > -1)
         section.subsections = [];
 
