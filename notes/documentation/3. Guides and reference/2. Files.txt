@@ -1,4 +1,0 @@
-/[Post] Review.txt | will become a post tagged 'Post'
-/[Review]/[Pear] Fruit.txt | Will become a post tagged 'Review', 'Apple' and 'Pear.
-/02.12.2017 Fruit.txt /2017/02/12 Fruit.txt | Will all become posts published on December 2nd, 2017 at midnight
-

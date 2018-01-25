@@ -13,6 +13,6 @@ Blot generates all metadata for each post automatically based on the file's cont
 
 Metadata must start on the file's first line and be separated from the rest of the post by at least one blank line. 
 
-You can also create your own [custom metadata]({{custom-metadata}}) and use it on your site's template. View the full [list of metadata](/guides). 
+You can also create your own [custom metadata]({{custom-metadata}}) and use it on your site's template. View the full [list of metadata](/help/guides-and-resources). 
 
 

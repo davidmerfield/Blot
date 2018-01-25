@@ -41,8 +41,16 @@ Note that some of the variables, like ```{{{html}}}``` have three  handlebars ra
 | ```{{created}}``` |  Timestamp |
 | ```{{updated}}``` |  Timestamp |
 
-## Help functions
+## Helper functions
 
-encodeURIComponent
+Blot exposes some general purpose functions as Mustache lambdas. Note that you can pass another variable from the view to these functions.
+
+| The text inside the tag…        | is replaced with…           |
+| ------------- |-------------|
+| ```{{#encodeURIComponent}}...{{/encodeURIComponent}}```      |  The same text, [encoded appropriately](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent) for a URI component |
+
+
+
+
 
 [[={{ }}=]]

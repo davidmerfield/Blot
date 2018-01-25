@@ -1,9 +1,0 @@
-
-## Headings
-
-```
-# Largest heading
-## Subheading
-### Section heading
-```
-

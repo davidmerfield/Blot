@@ -1,0 +1,203 @@
+Blot converts text files from [Markdown](http://daringfireball.net/projects/markdown/). You can use markdown to make text bold, italicized, create lists, links and more. You can mix Markdown and HTML in the same file.
+
+## Videos
+
+You can also paste the HTML for a video embed directly into a blog post. Blot also automatically converts plain URLs to Youtube and Vimeo videos into video embeds. To embed a youtube video in your blog post just paste its URL like this:
+
+```
+https://www.youtube.com/watch?v=nkJA6SYwa94
+```
+
+
+## Footnotes
+
+You can specify footnotes using this syntax:
+
+```
+A line with a footnote.[^1] Another line.[^2]
+
+[^1]: And the note goes here.
+[^2]: And the second goes here too.
+```
+
+
+## Layout
+
+I wrote a Markdown extension for Blot which provides basic layout shortcuts. The features are as follows:
+
+
+| The tag…        | should make its contents...  | by applying this CSS class…    |
+| --------------- |------------------------------|-----------------------------------------|
+| ```{<<}```      | extend into the left margin  | ```wide left```  |
+| ```{>>}```      | extend into the right margin | ```wide right``` |
+| ```{<>}```      | extend into both margins     | ```wide```       |
+| ```{>}```       | float right inside the page  | ```right inside```|
+| ```{<}```       | float left inside the page   | ```left inside```|
+| <code>{&#124;<}</code>      | hang in the right margin     | ```right margin```|
+| <code>{>&#124;}</code>    | hang in the left margin      | ```left margin```|
+| <code>{&#124;&#124;}</code>      | sit inside a 1/2 width column    | ```two column```|
+| <code>{&#124;&#124;&#124;}</code>     | sit inside a 1/3 width column    | ```three column```|
+| <code>{&#124;&#124;&#124;&#124;}</code>    | sit inside a 1/4 width column    | ```four column```|
+
+You can including multiple lines inside the same layout tag by indenting them:
+
+```
+{<<} ## Subtitle which extends into left margin
+     A paragraph which will also extend into the left margin.
+
+{>>} ## Subtitle which extends into right margin
+     A paragraph which will also extend into the right margin.
+```
+
+Your blog's template controls how the layout HTML is styled. Most Blot templates come with a variation on [layout.css](/css/layout.css) which provides the above features as described.
+
+## Bold and Italic
+
+To create italics, use a single asterix (*) on either side of the text:
+
+<div class="example">
+  <div>```*This text will be italic.*```</div>
+  <div>*This text will be italic.*</div>
+  <section class="clear"></section>
+</div>
+
+Surrounding text with two asterisks makes text bold:
+
+<div class="example">
+  <div>```**This text will be bold.**```</div>
+  <div>**This text will be bold.**</div>
+  <section class="clear"></section>
+</div>
+
+Both * or _ symbols work to make text bold or italic. This way you can combine bold and italic in the same sentence. For example:
+
+<div class="example">
+  <div>```**Everyone _must_ listen.**```</div>
+  <div>**Everyone _must_ listen.**</div>
+  <section class="clear"></section>
+</div>
+
+
+## Strikethrough
+
+Put a double tilde (~) on either side of the text you want to strikethrough:
+
+<div class="example">
+  <div>```~~Strike out mistakes~~```</div>
+  <div>~~Strike out mistakes~~</div>
+  <section class="clear"></section>
+</div>
+
+
+## Lists
+
+Make a bulleted list by preceding list items with a single asterix (*) or a hyphen (-). You need a space between the asterix and the text.
+
+<div class="example">
+<div class="large">
+```
+- Round
+- Shell
+- Projectile
+```
+</div>
+<div>
+* Round
+* Shell
+* Projectile
+</div>
+<section class="clear"></section>
+</div>
+
+Create a numbered list by preceding list items with a number.
+
+<div class="example">
+<div class="large">
+```
+1. Eins
+2. Deux
+3. Tres
+```
+</div>
+<div>
+1. Eins
+2. Deux
+3. Tres
+</div>
+<section class="clear"></section>
+</div>
+
+
+## Links
+
+Create a text link by wrapping the linked text in brackets [ ], and then wrapping the link in parenthesis ( ). For example:
+
+<div class="example">
+<div>
+```[Wikipedia](https://wikipedia.org) ```</div>
+<div>[Wikipedia](https://wikipedia.org)</div>
+<section class="clear"></section>
+</div>
+
+
+
+## Headings
+
+```
+# Largest heading
+## Subheading
+### Section heading
+```
+
+
+## Mathematics
+
+Blot will convert equations set in LaTeX. Check out this useful [guide](https://nrich.maths.org/discus/messages/24097/66497.html). To use this, wrap your LaTeX in two dollar signs (${{x}}$) like this:
+
+${{x}}$ f(x) = 2x^2 + 2/3 ${{x}}$<Br/>
+&nbsp;&nbsp;&nbsp; $$ f(x) = 2x^2 + 2/3 $$
+
+
+
+## Images
+
+Here's what the markdown looks like, note the ‘!’ before the tag.
+
+```
+![Alt text](http://example.com/image.jpg "Title")
+```
+
+Yes, first create a folder whose name starts with an underscore, e.g. '_images'. Blot will not turn any of the files inside into blog posts, but they will be public. Then put the image inside then embed the image like this:
+
+```
+![Image description](/_images/image.jpg)
+```
+
+Blot resolves relative paths based on the location of the source file, not its permalink. File paths are case-insenitive. For example, let's say your blog has this folder structure:
+
+```folder
+Posts
+  _apple.png
+ fruit.txt
+_Images
+  peach.png
+```
+
+These images all resolve correctly in ```fruit.txt```, no matter its resulting URL.
+
+```
+![Apple](_apple.png)
+![Apple](/posts/_apple.png)
+![Peach](../_images/peach.png)
+```
+## Code snippets
+
+Indent code with four spaces:
+
+    var foo = “bar”;
+
+You can also wrap ```code.snippets``` with three backticks ``` `{{x}}```. This is useful for inserting code snippets inside a paragraph.
+
+If you have enabled the syntax highlighting app, Blot will process the snippet using [highlight.js](https://highlightjs.org/). Every Blot template comes with its own syntax highlighting theme. If you are designing a custom blog template and want to use syntax highlighting, please [add a theme](https://highlightjs.org/static/demo/) to your blog’s CSS file.
+
+

@@ -1,1 +1,0 @@
-Blot converts text files from [Markdown](http://daringfireball.net/projects/markdown/). You can use markdown to make text bold, italicized, create lists, links and more. You can mix Markdown and HTML in the same file.

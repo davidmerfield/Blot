@@ -1,6 +1,0 @@
-## Mathematics
-
-Blot will convert equations set in LaTeX. Check out this useful [guide](https://nrich.maths.org/discus/messages/24097/66497.html). To use this, wrap your LaTeX in two dollar signs (${{x}}$) like this:
-
-${{x}}$ f(x) = 2x^2 + 2/3 ${{x}}$<Br/>
-&nbsp;&nbsp;&nbsp; $$ f(x) = 2x^2 + 2/3 $$

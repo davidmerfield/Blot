@@ -8,7 +8,7 @@ You can uses these variables to render lists of posts
 | ------------- |-------------|
 | ```{{#all_posts}}...{{/all_posts}}``` | Every post ever published |
 | ```{{#recent_posts}}...{{/recent_posts}}```  | 25 most recent posts on your site     |
-| ```{{#archives}}...{{/archives}}``` | your site’s title  |
+| ```{{#archives}}...{{/archives}}``` | A list of years, months and the posts published on them  |
 | ```{{#all_tags}}...{{/all_tags}}```    | the URL to your site’s avatar |
 
 

@@ -1,3 +1,5 @@
+This is the blurb for this page.
+
 ## Using your own domain
 
 Let's say you own the domain ```example.com``` and would like to point it to your site. First, you must decide whether you would like to use the *apex domain*, which is just ```example.com```, or a *subdomain* like ```www.example.com``` or ```blog.example.com```. 

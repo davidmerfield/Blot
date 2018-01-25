@@ -23,7 +23,7 @@ These files become blog posts when you put them somewhere in your site's folder:
 - **Bookmarks** .webloc
 - **HTML** .html 
 
-Blot skips files and folders whose name starts with an underscore. Use this feature to [embed an image in a blog post](/guides). 
+Blot skips files and folders whose name starts with an underscore. Use this feature to [embed an image in a blog post](/help/guides-and-resources). 
 
 
 ## Importing your posts from elsewhere
@@ -35,7 +35,7 @@ I've written scripts to generate a folder of files from sites hosted on [Tumblr]
 
 Blot supports [Markdown](https://daringfireball.net/projects/markdown/syntax), a markup language designed for plain text files. You can add headings, lists, mathematical statements set in LaTeX, syntax highlighting to code snippets and much more.
 
-<a class="butt" href="/guides">View the formatting guide →</a>
+<a class="butt" href="/help/guides-and-resources">View the formatting guide →</a>
 <br><Br>
 
 
