@@ -1,4 +1,4 @@
-## Drafts
+## Pages and drafts
 
 ```folder
 Drafts
@@ -7,13 +7,14 @@ Drafts
 Pages
   About.txt
   Contact.txt
-  Resources.txt
 Posts
-Archive.zip
 ```
+
+Files inside a folder called 'Pages' are added to your site's menu instead of the list of blog posts. You can [hide a page from your site's menu](/guides) if you prefer.
 
 Files inside a folder called 'Drafts' are not published to your site. Instead, Blot creates a preview file which you can open in your web browser.
 
-## Pages
+## Public files
 
-Files inside a folder called 'Pages' are added to your site's menu instead of the list of blog posts. You can [hide a page from your site's menu](/guides) if you prefer.
+Every file in your site's folder is public. For example, if you put ```[] Archive.zip``` in your folder, your readers can download it at ```www.your-site.com/archive.zip```. You can [use Blot as a static file server](/guides/static-file). Please note that paths and URLs on Blot are case-insensitive.
+

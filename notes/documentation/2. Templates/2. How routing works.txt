@@ -6,6 +6,8 @@ When an HTTP request from one of your readers arrives at your site, Blot follows
 
 2. Check your site's folder to see if there is a file which matches the path. Send the file as a response if it matches.
 
-3. Check your site's list of redirects to see if you have set one up for this path. If neither, serve an error page.
+3. Check your site's list of redirects to see if you have set one up for this path. 
+
+4. Serve your template's error page if you have one, or Blot's error page if not.
 
 You can [read the source code](https://github.com/davidmerfield/Blot/tree/master/app/blogs) which defines these steps for a more precise idea of how things work.

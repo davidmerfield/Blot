@@ -1,10 +1,10 @@
-Blot charges an annual fee. You'll be billed when you first create a site, and in yearly increments after. 
+Blot charges an annual fee. You'll be billed when you first create a site, and each year after, as long as you keep your account open. You can cancel your subscription at any time.
 
-Your payment information does not touch Blot's servers. Blot uses [Stripe](https://stripe.com/) to process subscription payments. You can read more about [Stripe's security](https://stripe.com/help/security) on their website.
+Your payment information does not touch Blot's servers. Blot uses [Stripe](https://stripe.com/) to process subscription payments. Read more about [Stripe's security](https://stripe.com/help/security) on their website.
 
 ## Can I host multiple sites on Blot?
 
-Yes, you can host as many sites as you like on Blot, all from the same account. Your sites can all be associated with the same Dropbox folder. You can also host sites in different Dropbox folders from the same Blot account.
+Yes, you can host as many sites as you like on Blot from the same account. Each site costs $20 a year. You can also create sites in different Dropbox accounts from the same Blot account.
 
 ## Does Blot support any alternatives to Dropbox?
 
