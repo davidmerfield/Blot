@@ -1,4 +1,4 @@
-This is the blurb for this page.
+Learn how to configure your site and access some of Blot's more advanced features.
 
 ## Using your own domain
 
