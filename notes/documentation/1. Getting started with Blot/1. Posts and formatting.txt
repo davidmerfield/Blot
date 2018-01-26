@@ -8,14 +8,14 @@ Pages
 Posts
   Bookmark.webloc
   Document.docx
-  Funny.gif
+  Image.jpg
   Markdown.md
-  Picture.jpg
+  Popcorn.gif
   Text.txt
   Webpage.html
 ```
 
-These files become blog posts when you put them somewhere in your site's folder:
+These files become blog posts when you put them somewhere in your site’s folder:
 
 - **Text** .txt, .md
 - **Images** .png, .jpeg, .gif
@@ -28,7 +28,7 @@ Blot skips files and folders whose name starts with an underscore. Use this feat
 
 ## Importing your posts from elsewhere
 
-I've written scripts to generate a folder of files from sites hosted on [Tumblr](https://github.com/davidmerfield/Blot-importer-for-Tumblr), [Wordpress](https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace), [Jekyll](https://github.com/davidmerfield/Blot-importer-for-Jekyll) and [Squarespace](https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace). If you [contact me](/contact), I can run them on your site and send you the result.
+I’ve written scripts to generate a folder of files from [Tumblr](https://github.com/davidmerfield/Blot-importer-for-Tumblr), [Wordpress](https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace), [Jekyll](https://github.com/davidmerfield/Blot-importer-for-Jekyll) and [Squarespace](https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace). If you [contact me](/contact), I will run them on your site and send you the result.
 
 
 ## Formatting your posts

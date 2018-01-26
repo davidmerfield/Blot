@@ -1,13 +1,12 @@
 ## Dates
 
 ```file
-Date: September 4th, 1992
-Tags: Philhellenism, Murder
+Date: February 26th, 1848
 
-Does such a thing as 'the fatal flaw,' that shadowy dark crack running down the middle of a life, exist outside literature?
+A spectre is haunting Europe — the spectre of communism. All the powers of old Europe have entered into a holy alliance to...
 ```
 
-Blot uses the file’s creation date as its publish date by default. You can specify a different date in the file's [metadata](#metadata).
+Blot uses the file’s creation date as its publish date by default. You can specify a different date in the file’s [metadata](#metadata).
 
 Blot supports a variety of ways that people write dates. The following formats produce a blog post with the same date:
 
@@ -17,14 +16,14 @@ September 18, 2017   09/18/2017
       
 ```
 
-You can also specify a publish date using the file's name, or its path, or a combination of both:
+You can also specify a publish date using the file’s name, or its path, or a combination of both:
 
 ```
 2017-07-18-00:00-Post.txt   2017/07/18/Post.txt 
 2017/7.18.Post.txt          2017/7.18/Post.txt
 ```
 
-If you write the numbers in your dates in different order, please tell Blot on the [settings page](/settings). If you specify a date in the future, Blot will wait until then to publish it. And if you prefer, you can [hide the dates](/settings) on your site's dashboard.
+If you write the numbers in your dates in different order, please tell Blot on the [settings page](/settings). If you specify a date in the future, Blot will wait until then to publish it. And if you prefer, you can [hide the dates](/settings) on your site’s dashboard.
 
 
 ## Tags
@@ -37,10 +36,10 @@ Lolita, light of my life, fire of my loins. My sin, my soul. Lo-lee-ta: the tip 
 
 You can tag a post in the [metadata]({{metadata}}) at the top of a file. Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently because Blot uses the most recent case when displaying a tag on your site.
 
-You can also use brackets in a folder's name to tag posts. For example, all the files in a folder called '[Fiction]' will become blog posts tagged 'Fiction'. You can nest folders:
+You can also use brackets in a folder’s name to tag posts. For example, all the files in a folder called ```[] [Fiction]``` will become blog posts tagged ‘Fiction’. You can nest folders:
 
 ```
-[Book notes] / [Fiction] / Williwaw.txt
+[Book notes]/[Fiction]/Williwaw.txt
 ```
 
 
@@ -52,11 +51,11 @@ Permalink: /rosetta
 In the reign of the new king who was Lord of the diadems, great in glory, the stabilizer of Egypt...
 ```
 
-Blot generates a permalink, or permanent URL, for each post automatically. By default, Blot uses a URL-friendly version of the post's title. You can specify a different permalink in the post's [metadata](#metadata).
+Blot generates a permalink, or permanent URL, for each post automatically. By default, Blot uses a URL-friendly version of the post’s title. You can specify a different permalink in the post’s [metadata](#metadata).
 
-You can also change the format of Blot's default permalinks on [the settings page](/preferences).
+You can also change the format of Blot’s default permalinks on [the settings page](/preferences).
 
-If you change a post's permalink, Blot will set up a redirect for you automatically to help prevent broken links.
+If you change a post’s permalink, Blot will set up a redirect for you automatically to help prevent broken links.
 
 
 
@@ -72,13 +71,11 @@ He was of the opinion that even in death a statesman should...
 
 {{more}}
 
-Nor were his calculations misguided, because there was no state in Greece to match Sparta...
+His calculations were misguided, because there was no state in...
 ```
 
-Some of Blot's templates show a teaser for each post on the homepage, and include a link to the read full post. By default, Blot creates a teaser from the first few paragraphs in the post. You can specify the breakpoint in the file yourself:
+Some of Blot’s templates show a teaser for each post on the homepage, and include a link to the read full post. Blot creates a teaser from the first few paragraphs in the post by default. 
 
-
-
-Everything before ```{{more}}``` will be included in the teaser, and the rest will be shown on the post's page. You can also use ```<!-- more -->``` in an HTML file.
+You can specify the breakpoint in the file yourself. Everything before ```{{more}}``` will be included in the teaser, and the rest will be shown on the full post.
 [[={{ }}=]]
 
