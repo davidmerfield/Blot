@@ -23,7 +23,8 @@ Buy .com
 
 ---
 
-You could pull from different sources at the same time. And neatly places content from each directly into Blot's folder, the process should be designed to be resumeable, you should be able to reload the window. I think this will improve usage and retention.
+Force SSL in a sensible way
+- Tell Luke
 
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
 - Then tell [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc)
@@ -69,6 +70,9 @@ Write a unified import tool which scrapes content from:
 - Medium
 - Ghost
 - Anything with an RSS feed?
+
+You could pull from different sources at the same time. And neatly places content from each directly into Blot's folder, the process should be designed to be resumeable, you should be able to reload the window. I think this will improve usage and retention.
+
 
 Public site improvements
 - Experiment with new layout ideas
