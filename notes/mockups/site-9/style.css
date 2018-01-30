@@ -8,19 +8,14 @@ body {
   background: #FFF;
   color:#000;
   text-rendering: optimizeLegibility;
-/*  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: none;
-*/}
+}
 
-a {text-decoration:none;color:black;border-bottom: 1px solid #ccc;}
-a:active {opacity: 0.8;color:black;border-color: black;animation:none;-webkit-animation:none;}
-a:hover {
-  color:red;
-  border-color: red;
 /*  animation: flash alternate 0.2s infinite;
   -webkit-animation: flash alternate 0.2s infinite;
-*/}
+*/
 
 @keyframes flash {
   25% {color:#f6ce00;border-color:#f6ce00;}
@@ -59,11 +54,10 @@ hr {
 }
 
 
-
+.tabs a {position: relative;top:-2px;}
 footer {}
 
-nav a, footer a {border:none;font-weight: 400;color: #8c8c8c}
-nav > a:first-child {color: #000;margin-right: 10%}
+nav a, footer a {border:none;font-weight: 400;color: #8c8c8c;text-decoration: none;}
 nav right {float:right;text-align:right;width: 20em}
 nav right a:last-of-type {margin-left: 0em;margin-right: 0}
 
@@ -105,7 +99,7 @@ sidebar ul {margin: 0;padding: 0 0 0 1.5em;list-style-type: none;}
   border-color: red;
 }
     .gallery a:before {content:"o o o";text-align:left;text-indent:0.6em;color:#999;font-size:11px;position: absolute;top:0;left: 0;right: 0;border-bottom: 1px solid #aaa;height: 1.75em}
-    .gallery a {width: calc(33% - 1.25em);display: block;float:left;margin-right:2em;border: 1px solid #aaa;border-radius:4px;font-size:20px;border:none;padding: 2.5em 0 1.75em;text-align: center;z-index:0;position:relative;box-sizing:border-box;border: 1px solid #aaa;}
+    .gallery a {width: calc(33% - 1.25em);color:inherit;text-decoration:none;display: block;float:left;margin-right:2em;border: 1px solid #aaa;border-radius:4px;font-size:20px;border:none;padding: 2.5em 0 1.75em;text-align: center;z-index:0;position:relative;box-sizing:border-box;border: 1px solid #aaa;}
     .gallery a:nth-child(3n) {margin: 0 0 2em 0}
     .gallery a:hover {z-index: 1;background: none}
     .gallery small {color: #bbb;margin-top:-0em;vertical-align: baseline;font-size: 14px;display: block;}
@@ -115,7 +109,7 @@ sidebar ul {margin: 0;padding: 0 0 0 1.5em;list-style-type: none;}
   .sidebar {overflow-y: scroll;}
   .sidebar ul {margin:0;padding:0;list-style-type: none;}
   .sidebar li {margin-left: 1em}
-  .sidebar a {color:#8c8c8c;border:none;}
+  .sidebar a {color:#8c8c8c;border:none;text-decoration: none;}
   .sidebar li:last-child {margin-bottom: 2.88em;display: block;}
 
   window {margin: -1.23em -150px 0 4em;max-width: 300px;min-width:300px;float: right;}
