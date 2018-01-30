@@ -31,16 +31,21 @@ If you write the numbers in your dates in different order, please tell Blot on t
 ```file
 Tags: Nabokov, Phaedra
 
-Lolita, light of my life, fire of my loins. My sin, my soul. Lo-lee-ta: the tip of the tongue taking a trip of three steps down the palate to tap, at three, on the teeth. Lo. Lee. Ta.
+Lolita, light of my life, fire of my loins. 
 ```
 
-You can tag a post in the [metadata]({{metadata}}) at the top of a file. Tags can contain whitespace. Although tags are case-insensitive, it’s worth capitalizing tags consistently because Blot uses the most recent case when displaying a tag on your site.
+You can tag a post in the [metadata]({{metadata}}) at the top of a file. Tags can contain whitespace. 
 
-You can also use brackets in a folder’s name to tag posts. For example, all the files in a folder called ```[] [Fiction]``` will become blog posts tagged ‘Fiction’. You can nest folders:
+```folder
+[Book notes]
+  [Fiction]
+    Lolita.txt
+  [Non fiction]
+```
 
-```
-[Book notes]/[Fiction]/Williwaw.txt
-```
+You can also use brackets in a folder’s name to tag posts inside. ```[] Lolita.txt``` will become a blog post tagged 'Book notes' and 'Fiction'. 
+
+Tags are case-insensitive. However, it’s worth capitalizing tags consistently because Blot uses the most recent case when displaying a tag on your site.
 
 
 ## Permalinks and URLs
