@@ -1,0 +1,35 @@
+.nav a {color: gray}
+a {text-decoration: none;color: black}
+a.selected {color: black;text-decoration: none;position: relative;}
+
+a.button {border-radius: 1em;background: #f1f1f1;border:1px solid transparent;color:#888;padding-top: 2px;padding-bottom: 2px}
+.button.primary {color: #111efa;background: #edefff}
+
+
+
+  .sidebar {width:19em;overflow: visible;position:fixed;color:#777;padding:0;top:13em;bottom: 0;overflow-y: scroll;padding-left: 1em;margin-left:-20em;}
+
+  .sidebar ul {margin:0;padding:0;list-style-type: none;}
+  .sidebar li {margin-left: 1em}
+  .sidebar li:last-child {margin-bottom: 2.88em;display: block;}
+
+  strong {font-weight: 500}
+
+
+  .help ul {width: 66.666%;display: block;float: left;padding-right: 1.5em;box-sizing:border-box;margin-bottom: 3em;list-style-type: circle;}
+
+  .sidebar a {color:inherit;border:none;display: block;}
+  
+  window {margin: -1.23em -150px 0 4em;max-width: 300px;min-width:300px;float: right;}
+
+  h2 {margin-top: 5em;margin-bottom: 0em;width: 129%}
+
+
+  pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  }
+  

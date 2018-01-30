@@ -1,0 +1,67 @@
+{
+  "name": "utils-merge",
+  "version": "1.0.1",
+  "description": "merge() utility function",
+  "keywords": [
+    "util"
+  ],
+  "author": {
+    "name": "Jared Hanson",
+    "email": "jaredhanson@gmail.com",
+    "url": "http://www.jaredhanson.net/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jaredhanson/utils-merge.git"
+  },
+  "bugs": {
+    "url": "http://github.com/jaredhanson/utils-merge/issues"
+  },
+  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "main": "./index",
+  "dependencies": {},
+  "devDependencies": {
+    "make-node": "0.3.x",
+    "mocha": "1.x.x",
+    "chai": "1.x.x"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+  },
+  "gitHead": "680a65305312a990751fd32b83bd2c12d67809d4",
+  "homepage": "https://github.com/jaredhanson/utils-merge#readme",
+  "_id": "utils-merge@1.0.1",
+  "_shasum": "9f95710f50a267947b2ccc124741c1028427e713",
+  "_from": "utils-merge@1.0.1",
+  "_npmVersion": "3.10.8",
+  "_nodeVersion": "6.9.1",
+  "_npmUser": {
+    "name": "jaredhanson",
+    "email": "jaredhanson@gmail.com"
+  },
+  "dist": {
+    "shasum": "9f95710f50a267947b2ccc124741c1028427e713",
+    "tarball": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "jaredhanson",
+      "email": "jaredhanson@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/utils-merge-1.0.1.tgz_1505866719585_0.7930543632246554"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
+}
