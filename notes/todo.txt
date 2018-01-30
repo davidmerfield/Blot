@@ -375,6 +375,9 @@ Move to some SQL for storing each entry's input and output...
 
 Add passwords for accounts
 
+Create script to export Blot sites to common formats
+- Tell Roberto
+
 Create export to markdown mini-site which
   http://exporter.blot.im/
   https://github.com/hexojs/hexo-migrator-blogger
