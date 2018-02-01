@@ -6,8 +6,11 @@ a.button {border-radius: 1em;background: #f1f1f1;border:1px solid transparent;co
 .button.primary {color: #111efa;background: #edefff}
 
 
+ol, ul, li {margin: 0;padding: 0}
+ol {list-style-type: upper-roman;}
+input {box-sizing: border-box;}
 
-  .sidebar {width:19em;overflow: visible;position:fixed;color:#777;padding:0;top:13em;bottom: 0;overflow-y: scroll;padding-left: 1em;margin-left:-20em;}
+  .sidebar {width:19em;overflow: visible;position:fixed;color:#777;top:13em;}
 
   .sidebar ul {margin:0;padding:0;list-style-type: none;}
   .sidebar li {margin-left: 1em}
