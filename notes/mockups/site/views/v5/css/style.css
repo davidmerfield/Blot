@@ -5,7 +5,7 @@ html, body {
 
 .wrapper {
   min-height: 100%;
-  margin-bottom: -100px;
+  margin-bottom: -50px;
 }
 .footer,
 .push {
@@ -99,13 +99,13 @@ input.year {border-radius: 0 4px 4px 0}
 }
 
 .tooltip {
-  width: 12em;
+  width: 13em;
   bottom: 1.75em;
-  padding: 1em;
+  padding: 1rem;
   font-size: 16px;
   position: absolute;
   color: black;
-  left: -6.5em;
+  left: -7em;
   border: 1px solid #c1c1c1;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -168,7 +168,7 @@ input.year {border-radius: 0 4px 4px 0}
   .sidebar a {color:inherit;border:none;display: block;text-decoration: none;}
   .sidebar a.selected {color: black}
 
-  window {margin: -1.23em -280px 0 4em;max-width: 280px;min-width:280px;float: right;}
+  window {margin: -1.23em -287px 0 5em;max-width: 280px;min-width:280px;float: right;}
 
   h2 {margin-top: 5em;margin-bottom: 0em;width: 129%}
 
