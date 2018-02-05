@@ -9,6 +9,7 @@ var pages = [
   ['help', 'Help'],
   ['privacy', 'Privacy'],
   ['terms', 'Terms'],
+  ['updates', 'Updates'],
   ['', 'Home']
 ];
 
