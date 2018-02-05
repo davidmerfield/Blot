@@ -1,15 +1,17 @@
-<div class="wrapper">
- 
-{{#menu}}
+ {{#menu}}
+<div class="nav fixed pv4" style='background:white'>
 
-  <div class="nav fixed w-100 mw8 pv4" style='background:white'>
+  <div class="mw8 center">
     <a href="/" class="db fl w-25 {{index}}">Blot</a>
-    <a href="/help"     class="db fl pr4 {{help}}">Documentation</a>        
-    <a href="/sign-up"  class="db fl pr4 pl4 {{sign-up}}">Sign up</a>
-    <a href="/log-in"   class="db fl pr4 pl4 {{log-in}}">Log in</a>
+    <a href="/sign-up"  class="db fl pr4 {{sign-up}}">Sign up</a>
+    <a href="/help"     class="db fl pr4 pl4 {{help}}">Documentation</a>        
     <a href="/contact"  class="db fl pr4 pl4 {{contact}}">Contact</a>            
+    <a href="/log-in"   class="db fl pr4 pl4 {{log-in}}">Log in</a>
   </div>
 
-<div class="pv5"></div>
 {{/menu}}
+</div>
 
+
+<div class="wrapper">
+<div class="pv5"></div>
