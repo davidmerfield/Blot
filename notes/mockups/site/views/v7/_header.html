@@ -1,0 +1,37 @@
+{{#menu}}
+<div class="nav fixed pv4" style='background:white'>
+  <div class="mw8 center">
+
+  <a href="/" class="db fl w-30 {{index}}">Blot is a blogging platform</a>
+
+  {{#sign-up}}
+    Sign up 
+    <span style="color:#aaa;display:inline-block;width:16px" class="pl2 tc">→</span>
+    <span style="color:#aaa;" class="pl2">Connect to Dropbox</span>
+  {{/sign-up}}
+
+  {{^sign-up}}
+    <a href="/sign-up" class="">Sign up</a>
+    <span style="color:#aaa;display:inline-block;width:16px" class="pl2 tc">·</span>
+    <a href="/log-in" class="pl2 {{log-in}}">Log in</a>
+
+    <div class="side fixed w-30 pv5 mt3">
+    <a href="/"  class="db {{index}}">Introduction</a>
+    <a href="/help"     class="db {{help}}">Documentation</a>        
+    <a href="/help"     class="db {{help}}">Philosophy</a>        
+    <a href="/updates"  class="db {{updates}}">Updates</a>        
+    <a href="/contact"  class="db {{contact}}">Contact</a>        
+  </div>
+  {{/sign-up}}
+
+ 
+  </div>
+
+{{/menu}}
+
+ 
+</div>
+
+
+<div class="wrapper">
+<div class="pv5"></div>
