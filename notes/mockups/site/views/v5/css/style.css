@@ -7,10 +7,27 @@ html, body {
   min-height: 100%;
   margin-bottom: -60px;
 }
+
 .footer,
 .push {
   height: 60px;
 }
+
+#demo:after {
+    content: "\2007";
+    background: #29beea;
+    width: 0.25em;
+    position: relative;
+    left: -1px;
+    display: inline-block;
+    -webkit-animation: blink 0.5s ease-in-out 0.25s infinite alternate;
+}
+
+@-webkit-keyframes blink {
+  0% {opacity:1}
+  100% {opacity:0}
+}
+
 
 a {
   color: black;
@@ -23,14 +40,23 @@ a {
 
 
 .nav.fixed {right: 0;left: 0}
-.nav {z-index:10;box-shadow: 0 0 100px #fff, 0 10px 10px #fff;}
+.nav {z-index:10;box-shadow: 0 0 100px #fff, 0 10px 10px #fff;background: #fff}
 .nav a {color: #aaa;text-decoration: none;border-bottom: none;}
 .nav a.selected {color: black;text-decoration: none;position: relative;}
 
-.nav a:hover{color: black;opacity: 1.0}
+.nav a:hover,
+.sidebar a:hover {color: black;opacity: 1.0}
 a:hover {border-color: black}
 
 
+@font-face {
+    font-family: 'IA Writer Duospace';
+    src: url('/fonts/iawriterduospace-regular-webfont.woff2') format('woff2'),
+         url('/fonts/iawriterduospace-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 body {
     -webkit-font-smoothing: antialiased;}
@@ -47,9 +73,6 @@ input {box-sizing: border-box;}
   left: 2rem;
   color: black;
 }
-
-.thumb {padding:3rem 0;background: #f1f1f1;display: block;}
-.thumb:hover {opacity: 0.9;}
 
 span.yellow {color: black;background: #fef694}
 div.red {color: black;background: #ffdddf;padding: 0.6rem;border: 1px solid #ffdddf;}
@@ -263,7 +286,10 @@ a svg {float: left;position: relative;top:5px;margin-right: 7px}
 
   .sidebar {color:#aaa;}
   .sidebar ul {margin:0;padding:0;list-style-type: none;}
-  .sidebar li {margin-left: 1em}
+  .sidebar a {position: relative;}
+  .sidebar a.selected:before {
+    content:  "→";
+    position: absolute;left: -1.333em;top:0px;}
   .sidebar li:last-child {margin-bottom: 2.88em;display: block;}
 
   strong {font-weight: 500}
@@ -288,15 +314,16 @@ a svg {float: left;position: relative;top:5px;margin-right: 7px}
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
   }
   
-
+strike a {border:none;}
 .gallery {padding:0 0;margin:0;position: relative;}
 
     .gallery > a:before {content:"o o o";text-align:left;text-indent:0.6em;color:#000;font-size:11px;position: absolute;top:0;left: 0;right: 0;border-bottom: 1px solid #000;height: 1.75em}
-    .gallery > a {width: calc(25% - 1.5rem);margin-bottom:2rem;display: block;float:left;margin-right:2rem;border: 1px solid #aaa;border-radius:4px;border:none;padding: 3.25em 0 2.5em;text-align: center;z-index:0;position:relative;box-sizing:border-box;border: 1px solid #000;}
+    .gallery > a {width: calc(25% - 1.5rem);margin-bottom:2rem;display: block;float:left;margin-right:2rem;border-radius:4px;padding: 3.25em 0 2.5em;text-align: center;z-index:0;position:relative;box-sizing:border-box;border: 1px solid #000;}
     .gallery > a:nth-child(4n) {margin-left: 0;margin-right: 0}
     .gallery > a:hover {z-index: 1;background: none}
  
-
+.gallery.dotted > a {border-style: dashed;}
+.gallery.dotted > a:before {border-bottom-style: dashed;}
 
 .new {
   color: #fff;
