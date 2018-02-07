@@ -5,11 +5,11 @@ html, body {
 
 .wrapper {
   min-height: 100%;
-  margin-bottom: -50px;
+  margin-bottom: -60px;
 }
 .footer,
 .push {
-  height: 50px;
+  height: 60px;
 }
 
 a {
@@ -43,14 +43,12 @@ input {box-sizing: border-box;}
 
 .play {
   position: absolute;
-  border-radius: 4px;
-  background: rgba(0,0,0,0.5);
-  border-bottom: 1px solid rgba(0,0,0,0.25);
-  padding: 1em;
-  color: white;
+  top: 2rem;
+  left: 2rem;
+  color: black;
 }
 
-.thumb {padding-bottom: 56.25%;background: #f1f1f1;display: block;}
+.thumb {padding:3rem 0;background: #f1f1f1;display: block;}
 .thumb:hover {opacity: 0.9;}
 
 span.yellow {color: black;background: #fef694}
@@ -89,10 +87,12 @@ input[type="submit"]:active {
 }
 
 
-input[type="submit"].loading {color: transparent;text-shadow:none;position: relative;}
+input[type="submit"]:disabled {text-shadow:none;box-shadow:none;position: relative;background: #aaa;border-color:#aaa;cursor: default}
+input[type="submit"]:disabled:hover {box-shadow: none;}
+
 input[type="submit"].loading:before {content:"";position:absolute;width: 12px;height: 12px;border-radius: 100%;background: #fff;}
 
-input[type="text"] {
+input[type="text"], textarea {
     border-radius: 4px;
     padding: 0.6rem;
     z-index: 1;
@@ -105,15 +105,23 @@ input[type="text"] {
     box-shadow: inset 0 1px 2px 0 rgba(0,0,0,.075);
 }
 
+input[type="text"]:hover, textarea:hover {
+    border: 1px solid rgba(0,0,0,.3);
+    border-top-color: rgba(0,0,0,.35);
+    border-bottom-color: rgba(0,0,0,.25);
+}
 
-
+textarea {min-height: 100px}
 input[type="text"]:hover,
-input[type="text"]:focus {
+input[type="text"]:focus,
+textarea:hover,
+textarea:focus {
   z-index: 10;
   background: #fff;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus,
+textarea:focus {
     outline: none !important;
     border: 1px solid #699ad2;
     box-shadow: inset 0 1px 2px 0 rgba(0,0,0,.075), 0 0 10px #bdcfe2;
@@ -168,6 +176,27 @@ input.year {border-radius: 0 4px 4px 0}
 .lock {
   background: #aaa no-repeat center center url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI0NC42NDZweCIgaGVpZ2h0PSI0OS4zMzNweCIgdmlld0JveD0iMzcuNjgyIDIyLjMwNiA0NC42NDYgNDkuMzMzIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDM3LjY4MiAyMi4zMDYgNDQuNjQ2IDQ5LjMzMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTcyLjM2LDQzLjI3OXYtNS45OTNjMC04LjM4OS02LjU5Mi0xNC45ODEtMTQuOTgxLTE0Ljk4MXMtMTQuOTgxLDYuNTkyLTE0Ljk4MSwxNC45ODF2NS45OTNoLTQuNzE1djIyLjU1NWgzOS4zOTNWNDMuMjc5SDcyLjM2eiBNNTcuMzc4LDU5LjIzOGMtMi41OTYsMC00LjcwMS0yLjEwNi00LjcwMS00LjcwMmMwLTIuNTk3LDIuMTA1LTQuNzAyLDQuNzAxLTQuNzAyYzIuNTk3LDAsNC43MDIsMi4xMDUsNC43MDIsNC43MDJDNjIuMDgsNTcuMTMyLDU5Ljk3Niw1OS4yMzgsNTcuMzc4LDU5LjIzOHogTTY2LjM2Niw0My4yNzlINDguMzl2LTUuOTkzYzAtNS4wOTMsMy44OTUtOC45ODksOC45ODktOC45ODljNS4wOTQsMCw4Ljk4NywzLjg5Niw4Ljk4Nyw4Ljk4OVY0My4yNzl6Ii8+PC9zdmc+);
   background-size: 11px;
+}
+
+.selected svg path,
+a:hover svg path {fill: black;}
+svg path {fill: #aaa;  transition-property: all;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-out;
+}
+
+a svg {float: left;position: relative;top:5px;margin-right: 7px}
+#icon {
+  border: none;
+  background-image: url('/images/logo.svg');
+  background-size: 0.96em;
+  width: 1.1em;
+  height: 1em;
+  position:relative;
+  top: 2px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: inline-block;
 }
 
 /*.help-icon:hover, .lock:hover {background-color: #000}
@@ -246,7 +275,7 @@ input.year {border-radius: 0 4px 4px 0}
   .sidebar a {color:inherit;border:none;display: block;text-decoration: none;}
   .sidebar a.selected {color: black}
 
-  window {margin: -1.23em -287px 0 5em;max-width: 280px;min-width:280px;float: right;}
+  window {margin: -1.23em -287px 0 5em;max-width:auto;min-width:auto;width:76%;float: right;}
 
   h2 {margin-top: 5em;margin-bottom: 0em;width: 129%}
 
@@ -262,19 +291,16 @@ input.year {border-radius: 0 4px 4px 0}
 
 .gallery {padding:0 0;margin:0;position: relative;}
 
-    .gallery a:before {content:"o o o";text-align:left;text-indent:0.6em;color:#999;font-size:11px;position: absolute;top:0;left: 0;right: 0;border-bottom: 1px solid #aaa;height: 1.75em}
-    .gallery a {width: calc(33% - 1.3333em);font-size:1.25rem;display: block;float:left;margin-right:2em;border: 1px solid #aaa;border-radius:4px;border:none;padding: 3.5em 0 2.75em;text-align: center;z-index:0;position:relative;box-sizing:border-box;border: 1px solid #aaa;}
-    .gallery a:nth-child(3n) {margin: 0 0 2em 0}
-    .gallery a:hover {z-index: 1;background: none}
-    .gallery small {color: #aaa;margin-top:-0em;vertical-align: baseline;display: block;font-size: 1rem;}
-    .gallery small:before {content: " uses ";}
-    .gallery small:after {content: " template";}
+    .gallery > a:before {content:"o o o";text-align:left;text-indent:0.6em;color:#000;font-size:11px;position: absolute;top:0;left: 0;right: 0;border-bottom: 1px solid #000;height: 1.75em}
+    .gallery > a {width: calc(25% - 1.5rem);margin-bottom:2rem;display: block;float:left;margin-right:2rem;border: 1px solid #aaa;border-radius:4px;border:none;padding: 3.25em 0 2.5em;text-align: center;z-index:0;position:relative;box-sizing:border-box;border: 1px solid #000;}
+    .gallery > a:nth-child(4n) {margin-left: 0;margin-right: 0}
+    .gallery > a:hover {z-index: 1;background: none}
  
 
 
 .new {
   color: #fff;
-  background: #E20000;
+  background: red;
   position: absolute;
   vertical-align: middle;
   text-align: center;
@@ -285,10 +311,20 @@ input.year {border-radius: 0 4px 4px 0}
   border-radius: 50%;
   top: -0.875em;
   right: -1.75em;
-  font-size: 0.55em;
-  animation: stolen alternate 1s infinite;
-  -webkit-animation: stolen alternate 1s infinite;
+  font-size: 11px;
 }
 
 @keyframes stolen{25%{background-color:#ff9600}50%{background-color:#E20000}75%{background-color:#ff9600}}@-webkit-keyframes stolen{25%{background-color:#ff9600}50%{background-color:#E20000}75%{background-color:#ff9600}}
 @keyframes stolen-color{25%{color:#ff9600;border-color:#ff9600;}50%{color:#E20000;border-color: #E20000}75%{color:#ff9600;border-color: #ff9600}}@-webkit-keyframes stolen{25%{color:#ff9600;border-color:#ff9600}50%{color:#E20000;border-color: #E20000}75%{color:#ff9600;border-color:#ff9600}}
+
+
+p icon {
+    width: 19px;
+    height: 19px;
+    display: block;
+    float: left;
+    position: relative;
+    margin-right: 6px;
+    margin-left: -3px;
+    top: 2px;
+}
