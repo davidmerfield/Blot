@@ -15,7 +15,7 @@ html, body {
 
 #demo:after {
     content: "\2007";
-    background: #29beea;
+    background: #00baff;
     width: 0.25em;
     position: relative;
     left: -1px;
@@ -40,7 +40,7 @@ a {
 
 
 .nav.fixed {right: 0;left: 0}
-.nav {z-index:10;box-shadow: 0 0 100px #fff, 0 10px 10px #fff;background: #fff}
+.nav {z-index:10;/*box-shadow: 0 0 100px #fff, 0 10px 10px #fff;*/background: #fff}
 .nav a {color: #aaa;text-decoration: none;border-bottom: none;}
 .nav a.selected {color: black;text-decoration: none;position: relative;}
 
@@ -58,8 +58,7 @@ a:hover {border-color: black}
 
 }
 
-body {
-    -webkit-font-smoothing: antialiased;}
+body {-webkit-font-smoothing: antialiased;}
 a.button {border-radius: 1em;background: #f1f1f1;border:1px solid transparent;color:#888;padding-top: 3px;padding-bottom: 3px}
 .button.primary {color: #111efa;background: #edefff}
 
@@ -74,6 +73,26 @@ input {box-sizing: border-box;}
   color: black;
 }
 
+
+.buts img {float: left;}
+.buts {
+  padding: 1rem 2rem 1rem 2.1rem;
+  background-color:#878787;color:white;border-radius:6px;position:absolute;bottom:7rem;right:0;
+    transition-property: background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+
+}
+
+#play:hover .buts {background-color: #00baff}
+
+
+#thumb window {opacity: 1.0;    transition-property: all;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-out;
+}
+/*#thumb:hover window {opacity: 0.5}
+*/
 span.yellow {color: black;background: #fef694}
 div.red {color: black;background: #ffdddf;padding: 0.6rem;border: 1px solid #ffdddf;}
 
@@ -284,12 +303,12 @@ a svg {float: left;position: relative;top:5px;margin-right: 7px}
 
 
 
-  .sidebar {color:#aaa;}
+  .sidebar {color: #aaa}
   .sidebar ul {margin:0;padding:0;list-style-type: none;}
   .sidebar a {position: relative;}
-  .sidebar a.selected:before {
-    content:  "→";
-    position: absolute;left: -1.333em;top:0px;}
+  .sidebar a:before {content:"";width: 5px;height: 5px;border-radius:12px;border: 1px solid #aaa;position: absolute;left: -1em;top:9px;}
+
+  .sidebar a.selected:before {border-color: black;background: black}
   .sidebar li:last-child {margin-bottom: 2.88em;display: block;}
 
   strong {font-weight: 500}
@@ -301,7 +320,7 @@ a svg {float: left;position: relative;top:5px;margin-right: 7px}
   .sidebar a {color:inherit;border:none;display: block;text-decoration: none;}
   .sidebar a.selected {color: black}
 
-  window {margin: -1.23em -287px 0 5em;max-width:auto;min-width:auto;width:76%;float: right;}
+  window {margin: -1.23em -287px 0 5em;max-width:auto;min-width:auto;width:76%;float: right;-webkit-font-smoothing: auto;}
 
   h2 {margin-top: 5em;margin-bottom: 0em;width: 129%}
 
@@ -355,3 +374,5 @@ p icon {
     margin-left: -3px;
     top: 2px;
 }
+
+iframe {display: block;}

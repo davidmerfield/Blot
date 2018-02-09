@@ -1,42 +1,44 @@
 {{> head}}
 {{> header}}
+</div>
+<div class="" style="background:#f1f1f1;height:620px">
+  <div id="thumb" class="mw8 center">
 
-<div id="thumb">
+  <a id="play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE" target="_blank" style="border:none;position:relative" class="mw8 center thumb pt5 pb5 mb3 db">
 
-  <a id="play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE" target="_blank" style="border:none" class="thumb pt5 pb5 mb3 db">
+    <div class="buts"><img src="/images/play.png" width="17"></div>
+    <window class="text focus" style="background:#fff;margin:3rem 0;margin-left:17.5%;width: 62%;max-width: 100%;float:none;height:380px">
 
-    <window style="margin:0;width:50%;float:none;margin-left:25%;">
+  <toolbar>
+    <dots>
+      <dot></dot>
+      <dot></dot>
+      <dot></dot>
+    </dots>
+  </toolbar>
 
-      <toolbar>
-        <dots>
-          <dot></dot>
-          <dot></dot>
-          <dot></dot>
-        </dots>
-        <icon class="textfile"></icon> Your post.txt
-      </toolbar>
 
-<pre class="text code" style="font-size:16px;line-height:1.6;background:#f7f7f7;padding:2rem 2rem 5rem;font-family:'IA Writer Duospace';color:#1a1a1a;margin:0;height:318px"><span class="element" id="demo">Blot is a blogging platform. 
+<pre style="font-size:16px;">Blot is a blogging platform. It creates a special folder in your Dropbox and publishes files you put inside automatically.
 
-It turns a folder into a website.
+Why does Blot exist? So you can use your favorite text editor to write your blog.</pre>
+  
+  <border class="left"></border>
+  <border class="right"></border>
+  <border class="top"></border>
+  <border class="bottom"></border>
 
-Why does Blot exist? So that you can use your favourite text editor to write your blog.</span>
-</pre>
-        
-      <border class="left"></border>
-      <border class="right"></border>
-      <border class="top"></border>
-      <border class="bottom"></border>
-
-      <corner class="top left"></corner>
-      <corner class="top right"></corner>
-      <corner class="bottom left"></corner>
-      <corner class="bottom right"></corner>
-    </window>
+  <corner class="top left"></corner>
+  <corner class="top right"></corner>
+  <corner class="bottom left"></corner>
+  <corner class="bottom right"></corner>
+</window>
   </a>
 </div>
-        
-<div class="w-25 fl"><div class="pr4 pt5 mt2">How it works</div></div>
+</div>
+
+<div class="center mw8">
+
+<div class="w-25 fl"><div class="pr4 pt5 mt2">How does Blot work?</div></div>
 
 <div class="w-75 fr">
   
@@ -82,9 +84,9 @@ Why does Blot exist? So that you can use your favourite text editor to write you
     <p class="mv3">
       <code><icon class="md"></icon> <b class="fw4">Text and Markdown</b> <!-- <small>.txt .md</small> --></code> <br>
       <code><icon class="txt"></icon> <b class="fw4">Word Documents</b>  <!-- <small>.docx</small> --></code> <br>
-      <code><icon class="webloc"></icon> <b class="fw4">Bookmarks</b> <!--  <small>.webloc</small> --></code> <br>
       <code><icon class="img"></icon> <b class="fw4">Images</b>  <!-- <small>.jpg .gif .png</small> --></code> <br>
       <code><icon class="html"></icon> <b class="fw4">HTML</b></code> <!-- <small>.html</small> --> <br>
+      <code><icon class="webloc"></icon> <b class="fw4">Bookmarks</b> <!--  <small>.webloc</small> --></code> <br>
   </p>
 <!--   <p class="mv5">
   <a href="/help" style="border:1px solid #aaa;border-radius:4px;padding:1rem">Read the documentation &nbsp;&rarr;</a></p>
@@ -101,7 +103,7 @@ Why does Blot exist? So that you can use your favourite text editor to write you
 
 <div class="mv4">
        
-      <div class="w-25 fl"><div class="pr4">A few sites hosted by Blot</div></div>
+      <div class="w-25 fl"><div class="pr4">Some sites hosted by Blot</div></div>
 
        <ul class="gallery db w-75 fr">
 
@@ -123,8 +125,8 @@ Why does Blot exist? So that you can use your favourite text editor to write you
             theliminal.co
           </a>
 
-          <a href="https://tomascat.com/" target="_blank">
-            tomascat.com
+          <a href="http://johnpavlus.com/" target="_blank">
+            johnpavlus.com
           </a>
 
           <a href="http://kiefer.design/" target="_blank">
@@ -247,7 +249,7 @@ Why does Blot exist? So that you can use your favourite text editor to write you
 
 
   <div class="mt4 pt3 fw6">How long has Blot been around?</div>
-  <div class="">I began work on Blot in the summer of 2013. Many thanks to Blot’s earliest customers for their help. In particular thank you Frank, Julie, Josh, Chris, Johannes and Angie.</div>
+  <div class="">I began work on Blot in the summer of 2013 and opened it to the public a year later. Many thanks to Blot’s earliest customers for their help and their patience. In particular thank you Frank, Julie, Josh, Chris, Johannes and Angie.</div>
 
   <div class="mt4 pt3 fw6">How long do you plan to run Blot?</div>
   <div class="">Decades, at least.</div>
@@ -324,7 +326,7 @@ demo();
 
 play.onclick = function (e) {
 
-  thumb.innerHTML = '<iframe width="100%" height="620" src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white&amp;autoplay=1" frameborder="0" allowfullscreen=""></iframe>';
+  thumb.innerHTML = '<iframe width="100%" height="620" src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;controls=0&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white&amp;autoplay=1" frameborder="0" allowfullscreen=""></iframe>';
 
   e.preventDefault();
   return false;
