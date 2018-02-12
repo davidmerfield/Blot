@@ -3,6 +3,7 @@ var moment = require('moment');
 var parse = require('body-parser').urlencoded({extended:false});
 var Express = require('express');
 var User = require('user');
+var middleware = require('middleware');
 
 var client = require('client');
 var Brute = require('express-brute');
@@ -15,15 +16,18 @@ var store = new RedisStore({
 });
 
 var limiter = new Brute(store, {
-  freeRetries: 200, // max # of access to log in pages per day
+  freeRetries: 1500, // max # of access to log in pages per day
   failCallback: onLimit,
 });
 
 var login = Express.Router();
 var form = login.route('/');
 
+form.all(middleware.excludeUser);
+
 form.all(function(req, res, next){
   res.locals.title = 'Log in';
+  res.locals.menu = {'log-in': 'selected'};
   next();
 });
 
@@ -86,7 +90,6 @@ function checkToken (req, res, next) {
 
         redirect = then + '?token=' + token;
 
-        console.log('redirecting to', redirect)
         res.redirect(redirect);
       });
     });

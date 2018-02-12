@@ -10,10 +10,22 @@ var config = require('config');
 var stripe = require('stripe')(config.stripe.secret);
 var parse = require('body-parser').urlencoded({extended:false});
 var User = require('user');
+var middleware = require('middleware');
 
 var signup = Express.Router();
 var paymentForm = signup.route('/');
 var passwordForm = signup.route('/create-account');
+
+paymentForm.all(middleware.excludeUser);
+passwordForm.all(middleware.excludeUser);
+
+if (config.maintenance) {
+
+  paymentForm.use('/sign-up', function(req, res){
+
+    res.redirect('/maintenance');
+  });
+}
 
 paymentForm.get(function(req, res){
 
@@ -21,6 +33,7 @@ paymentForm.get(function(req, res){
     return res.redirect(req.baseUrl + passwordForm.path);
 
   res.locals.title = 'Sign up';
+  res.locals.menu = {'sign-up': 'selected'};
   res.locals.error = req.query.error;
   res.locals.stripe_key = config.stripe.key;
 
@@ -46,7 +59,7 @@ paymentForm.post(parse, function(req, res, next){
   var info = {
     card: card,
     email: email,
-    plan: 'yearly_20',
+    plan: config.stripe.plan,
     description: 'Blot subscription'
   };
   
@@ -97,6 +110,7 @@ passwordForm.get(function(req, res){
   res.locals.subscription = !!req.session.subscription;
   res.locals.error = req.query.error;
   res.locals.change_email = req.query.change_email;
+  res.locals.menu = {'sign-up': 'selected'};
 
   res.render('sign-up-password');
 });

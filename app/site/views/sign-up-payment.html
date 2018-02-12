@@ -78,33 +78,29 @@
 
           if (email === '' || !emailRegex.test(email)) {
 
-            $form
-              .find('#error')
+            $('#error')
               .text('Please enter a valid email.')
               .show();
 
-            $form
-              .find('.submit')
+            $('.submit')
               .prop('disabled', false)
-              .removeClass('working');
 
+            console.log('should be here')
             return false;
 
           } else {
-            $('.email').val(email)
+            $('#email').val(email)
           }
 
           Stripe.card.createToken($form, function(status, response){
 
             if (response.error) {
 
-              $form
-                .find('#error')
+              $('#error')
                 .text(response.error.message)
                 .show();
 
-              $form
-                .find('.submit')
+              $('.submit')
                 .prop('disabled', false);
 
             } else {

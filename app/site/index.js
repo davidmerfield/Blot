@@ -1,149 +1,91 @@
-var helper = require('helper');
+var config = require('config');
 var express = require('express');
 var hogan = require('hogan-express');
-var site = express();
-var middleware = require('middleware');
-var add = middleware.add;
-var config = require('config');
-var hogan = require('hogan-express');
 var compression = require('compression');
+var middleware = require('middleware');
 
-var MAP = {
-  '/apps': '/plugins',
-  '/cancel': '/account/cancel',
-  '/update-billing': '/account/update-billing',
-  '/logout': '/account/log-out',
-  '/account/logout': '/account/log-out',
-  '/create-blog': '/account/create-blog',
-  '/settings': '/preferences',
-  '/settings/404s': '/404s',
-  '/settings/design': '/theme',
-  '/settings/design/new': '/theme/new',
-  '/settings/redirects': '/preferences',
-  '/settings/typography': '/preferences',
-  '/settings/images': '/preferences',
-  '/settings/add-ons': '/preferences'
-};
+var routes = require('./routes');
+var views = __dirname + '/views';
+var static = __dirname + '/static';
 
-
-site
-  .use(middleware.forceSSL)
-  .use(compression())
-
-  // The disable('x-powered-by')
-  // and use(compression()) must
-  // be specified for each individual
-  // app. Express considers each seperately.
-  .disable('x-powered-by')
-
-  .set('trust proxy', 'loopback')
-  .set('view engine', 'html')
-  .set('views', __dirname + '/views')
-  .engine('html', hogan)
-
-  .use(add())
-
-  // The default partials are for
-  // logged out users When we
-  // check authentication we swap
-  // these for the logged-in.
-  .use(function(req, res, next){
-
-    delete res.locals.partials;
-
-    res.locals.partials = {
-      head: '_head',
-      header: '_header',
-      footer: '_footer'
-    };
-
-    if (req.user) res.locals.partials.header = '_header_user';
-
-    next();
-  });
-
-
-// The order of this shit is important
-// I've disabled the cache on the main
-// site for now. In future, add .use(cache.middleware());
-
-// For when we want to cache templates
-if (config.environment !== 'development')
-  site.enable('view cache');
-
-
-if (config.maintenance) {
-
-  site.use('/sign-up', function(req, res){
-
-    res.redirect('/maintenance');
-  });
-}
+// The express application which serves
+// the public-facing website.
+var site = express();
 
 // Define these individually don't
 // overwrite server.locals
-site.locals.protocol = config.protocol;
-site.locals.host = config.host;
 site.locals.title = 'Blot';
+site.locals.host = config.host;
 site.locals.cacheID = Date.now();
+site.locals.protocol = config.protocol;
+site.locals.price = '$' + config.stripe.plan.slice(-2);
 
-site.use(['/sign-up*', '/log-in*', '/set-password*'], function(req, res, next){
+var views = __dirname + '/views/';
+var dashboard_views = require('helper').rootDir + '/app/dashboard/views/partials/'
+site.use(function (req, res, next) {
 
-  if (!req.session || !req.session.uid) return next();
+  if (!req.user) {
 
-  var redirect = req.query && req.query.then;
+    res.locals.partials = {
+      head: views + '_head',
+      header: views + '_header',
+      sidebar: views + '_sidebar',
+      footer: views + '_footer'
+    }
 
-  res.redirect(redirect || '/');
-});
+  } else {
 
-require('./routes/clients')(site);
-require('./routes/help')(site);
-require('./routes/static')(site);
-require('./routes/changes')(site);
-require('./routes/webhook')(site);
+    res.locals.partials.head = dashboard_views + 'head';
+    res.locals.partials.header = dashboard_views + 'header';
+    res.locals.partials.nav = dashboard_views + 'nav';
+    res.locals.partials.sidebar = views + '_sidebar';
+    res.locals.partials.footer = dashboard_views + 'footer';
 
-site.use('/sign-up', require('./routes/sign-up'));
-site.use('/log-in', require('./routes/log-in'));
-
-var routes = [];
-
-// Determine dashboard apps for redirector
-// this should only be routes for get requests...
-// it causes an infinite loop for route spec which
-// matches /account* but not a specific route.
-require('../dashboard')._router.stack.forEach(function(middleware){
-
-  // routes registered directly on the app
-  if (middleware.route) {
-
-    if (helper.type(middleware.route.path, 'array'))
-      return middleware.route.path.forEach(function(path){routes.push(path)});
-
-    return routes.push(middleware.route.path);
   }
 
-  // router middleware
-  if (middleware.name === 'router')
-    middleware.handle.stack.forEach(function(handler){
-      if (handler.route) routes.push(handler.route.path);
-    });
+  console.log(res.locals.partials);
 
+  next();
 });
 
-// Redirect old routes
-site.use(function(req, res, next){
+// Enable GZIP
+site.use(compression());
 
-  if (!MAP[req.path]) return next();
+// Ensure site is only ever loaded over HTTPS
+site.use(middleware.forceSSL);
 
-  res.redirect(MAP[req.path]);
-});
+// The disable('x-powered-by')
+// and use(compression()) must
+// be specified for each individual
+// app. Express considers each seperately.
+site.disable('x-powered-by');
 
-// Redirect dashboard routes
-site.get(routes, function(req, res, next){
-  console.log('redirecting here.....', req.url);
-  res.redirect('/log-in?then=' + req.url);
-});
+// Specify the template rendering config
+site.set('trust proxy', 'loopback');
+site.set('view engine', 'html');
+site.engine('html', hogan);
+site.set('views', views);
 
-require('./routes/error')(site);
+var maxAge = 0;
+
+// We want to cache templates in production
+if (config.environment !== 'development') {
+  maxAge = 86400000;
+  site.enable('view cache');
+}
+
+site.use(routes.simple);
+site.use('/log-in', routes.log_in);
+site.use('/clients', routes.clients);
+site.use('/sign-up', routes.sign_up);
+site.use('/updates', routes.updates);
+site.use('/help', routes.help);
+site.use('/stripe-webhook', routes.stripe_webhook);
+
+// Serve static files too
+site.use(express.static(static, {maxAge: maxAge}));
+
+site.use(routes.redirects);
+site.use(routes.error);
 
 module.exports = site;

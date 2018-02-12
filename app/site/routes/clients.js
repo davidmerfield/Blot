@@ -1,19 +1,23 @@
-var clients = require('clients');
+var Express = require('express');
+var Clients = require('clients');
+var clients = Express.Router();
 
 // Some of the clients, like Dropbox, require publicly exposed
 // routes. Dropbox uses one to recieve webhooks when it needs
 // to fetch changes to a user's folder. Mount them here:
+  
+// I should probably consolidate this under /webhooks along with the 
+// Stripe webhook in ./webhook.js but that's for another day...
 
-module.exports = function (site) {
+var Client;
 
-  var client;
+for (var i in Clients) {
 
-  for (var i in clients) {
+  Client = Clients[i];
 
-    client = clients[i];
+  if (!Client.site_routes) continue;
 
-    if (!client.site_routes) continue;
+  clients.use('/' + Client.name, Client.site_routes);
+}
 
-    site.use('/clients/' + client.name, client.site_routes);
-  }
-};
+module.exports = clients;

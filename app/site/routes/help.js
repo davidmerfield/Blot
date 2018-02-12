@@ -1,48 +1,39 @@
-module.exports = function(server){
+var express = require('express');
+var help = express.Router();
 
-  var help = require('../views/help/help.json');
-  var config = require('config');
-  var fs = require('fs');
+help.use(function(req, res, next){
+  res.locals.menu = {'help': 'selected'};
+  next();
+});
 
-  server.get('/help', function(req, res){
-    console.log('redirecting',req.url,' to /help/' + help.sections[0].slug);
-    return res.redirect('/help/' + help.sections[0].slug);
-  });
+help.get('/account', function(req, res){
+  res.locals.menu.account = 'selected';
+  res.render('help/account');
+});
 
-  server.get('/help/:section', function(req, res){
+help.get(['/guides', '/guides/:guide'], function(req, res){
 
-    // Reload the view in development mode for each request.
-    if (config.environment === 'development') {
-      console.log('reloading help');
-      help = JSON.parse(fs.readFileSync(__dirname + '/../views/help/help.json'));
-    }
+  // We wouldn't need to do this bullshit
+  // if the template rendering library had
+  // some sensible way to add an additional
+  // partial for a given request.
 
-    var sidebar = help.sidebar.slice();
-    var section = help[req.params.section];
+  // Shallow copy the global app partials, then
+  // append the specific content to populate
+  // the general layout for the guides pages
+  res.locals.partials.yield = 'help/guides/' + (req.params.guide || 'index');
+  res.locals.menu.guides = 'selected';
+  res.render('help/guides/wrapper');
+});
 
-    sidebar = sidebar.map(function(section){
+help.get('/templates', function(req, res){
+  res.locals.menu.templates = 'selected';
+  res.render('help/templates');
+});
 
-      if (section.slug === req.params.section) {
-        section.selected = 'selected';
-      } else {
-        section.selected = '';
-      }
+help.get('/', function(req, res){
+  res.locals.menu.started = 'selected';
+  res.render('help/getting-started');
+});
 
-      return section;
-    });
-
-    res.addPartials({
-      sidebar: 'help/sidebar'
-    });
-
-    res.setLocals({
-      section: section,
-      sidebar: sidebar,
-      title: section.title,
-      selected: {help: 'selected'},
-      tab: {help: 'selected'}
-    });
-
-    return res.render('help/wrapper');
-  });
-};
+module.exports = help;
