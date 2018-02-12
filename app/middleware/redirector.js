@@ -21,6 +21,9 @@ module.exports = function (req, res, next) {
 
   var user = req.user;
 
+  // Allows requests to static files...
+  if (req.path.indexOf('.') > -1) return next();
+
   function pathIs (path) {
 
     // We use indexOf instead of a simple comparison since
