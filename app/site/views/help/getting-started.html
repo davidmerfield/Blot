@@ -1,0 +1,232 @@
+{{> head}}
+{{> header}}
+{{> sidebar}}
+
+<div class="pt5 w-right-offset">
+
+  <window class="w-40 fr">
+
+    <toolbar><dots><dot></dot><dot></dot><dot></dot></dots>
+      <icon class="dropbox"></icon> Your site
+    </toolbar>
+
+    <sorter>Name <icon class="chevron"></icon></sorter>
+
+    <contents>
+      <item class=" "><icon class="folder  "></icon> Drafts</item>
+      <item class=" "><icon class="folder  "></icon> Pages</item>
+      <item class=" open"><icon class="folder  "></icon> Posts</item>
+      <item class="nested "><icon class=" file webloc"></icon> Bookmark.webloc</item>
+      <item class="nested "><icon class=" file docx"></icon> Document.docx</item>
+      <item class="nested "><icon class=" file img"></icon> Image.jpg</item>
+      <item class="nested "><icon class=" file md"></icon> Markdown.md</item>
+      <item class="nested "><icon class=" file img"></icon> Popcorn.gif</item>
+      <item class="nested "><icon class=" file txt"></icon> Text.txt</item>
+      <item class="nested "><icon class=" file html"></icon> Webpage.html</item>
+      <item>&#xA0;</item>
+      <item>&#xA0;</item>
+      <item>&#xA0;</item>
+    </contents>
+    
+    <border class="left"></border>
+    <border class="right"></border>
+    <border class="top"></border>
+    <border class="bottom"></border>
+
+    <corner class="top left"></corner>
+    <corner class="top right"></corner>
+    <corner class="bottom left"></corner>
+    <corner class="bottom right"></corner>
+  </window>
+
+  <div class="w-60 fl pr5">
+
+    <p class="mv0">Blot is a blogging platform. It creates a folder inside your Dropbox and publishes files you put inside. These files become blog posts:</p>
+    <br>
+    <p class="mv0">
+      <code><icon class="txt"></icon> <b class="fw4 f5">Text and Markdown</b></code>: .txt  .md<br>
+      <code><icon class="txt"></icon> <b class="fw4 f5">Word Documents</b></code>: .docx<br>
+      <code><icon class="img"></icon> <b class="fw4 f5">Images</b></code>: .png  .jpeg  .gif<br>
+      <code><icon class="webloc"></icon> <b class="fw4 f5">Bookmarks</b></code>: .webloc<br>
+      <code><icon class="html"></icon> <b class="fw4 f5">HTML</b></code>: .html<br>
+    </p>
+    <br>
+    <p class="mv0">Blot skips files and folders whose name starts with an underscore. Use this feature to <a href="/help/guides/images">embed an image in a blog post</a>.</p>
+
+    <div class="mt5 pt4 fw6">Importing your posts from elsewhere</div>
+    <p class="mv0">I&#x2019;ve written scripts to generate a folder of files from <a href="https://github.com/davidmerfield/Blot-importer-for-Tumblr">Tumblr</a>, <a href="https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace">Wordpress</a>, <a href="https://github.com/davidmerfield/Blot-importer-for-Jekyll">Jekyll</a> and <a href="https://github.com/davidmerfield/Blot-importer-for-Wordpress-and-Squarespace">Squarespace</a>. If you <a href="/contact">contact me</a>, I will run them on your site and send you the result.</p>
+
+    <div class="mt4 pt4 fw6">Formatting your posts</div>
+    <p class="mv0">Blot supports <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>, a markup language designed for plain text files. You can add headings, lists, mathematics set in LaTeX, syntax highlighting to code snippets and much more.</p><p><a class="butt" href="/help/guides/formatting">View the formatting guide &#x2192;</a></p>
+
+    <div class="mt4 pt4 fw6">Pages and drafts</div>
+  </div>
+  <div class="cf"></div>
+  <window class="w-40 fr">
+
+      <toolbar>
+        <dots>
+          <dot></dot>
+          <dot></dot>
+          <dot></dot>
+        </dots>
+        <icon class="dropbox"></icon> Your site
+      </toolbar>
+
+      <sorter>Name <icon class="chevron"></icon></sorter>
+
+      <contents>
+        <item class=" open"><icon class="folder  "></icon> Drafts</item>
+        <item class="nested "><icon class=" file txt"></icon> Anecdote.txt</item>
+        <item class="nested "><icon class=" file html"></icon> Anecdote.txt.html</item>
+        <item class=" open"><icon class="folder  "></icon> Pages</item>
+        <item class="nested "><icon class=" file txt"></icon> About.txt</item>
+        <item class="nested "><icon class=" file txt"></icon> Contact.txt</item>
+        <item class=" "><icon class="folder  "></icon> Posts</item>
+        <item>&#xA0;</item>
+        <item>&#xA0;</item>
+        <item>&#xA0;</item>
+      </contents>
+      
+      <border class="left"></border>
+      <border class="right"></border>
+      <border class="top"></border>
+      <border class="bottom"></border>
+
+      <corner class="top left"></corner>
+      <corner class="top right"></corner>
+      <corner class="bottom left"></corner>
+      <corner class="bottom right"></corner>
+    </window>
+  <div class="w-60 pr5 pl1">
+
+    <p class="mv0">Files inside a folder called &#x2018;Pages&#x2019; are added to your site&#x2019;s menu instead of the list of blog posts. You can <a href="/help/guides/hiding-a-page">hide a page from your site&#x2019;s menu</a> if you prefer.</p><p>Files inside a folder called &#x2018;Drafts&#x2019; are not published to your site. Instead, Blot creates a preview file which you can open in your web browser.</p>
+    
+    <div class="mt5 mb2 fw6">Public files</div>
+
+    <p>Every file in your site&#x2019;s folder is public. For example, if you put <code><icon class="zip"></icon> Archive.zip</code> in your folder, your readers can download it at <code>www.your-site.com/archive.zip</code>. You can <a href="/help/guides/static-server">use Blot as a static file server</a>. Please note that paths and URLs on Blot are case-insensitive.</p>
+
+  </div>
+  <style type="text/css">
+  window.right {width: 50%;float: right;margin-right: -10%}
+  window.right:after {width: 8rem;position: absolute;top:-2rem;bottom: -3rem;right: -2rem;content: ""; background:linear-gradient(to right, transparent, #fff 70%)}
+  window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
+  </style>
+
+
+
+      <window class="text right mt5">
+      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
+      <pre>Date: February 28th, 1973
+Tags: Literature, Schwarzger&#xE4;t
+
+# Gravity&#x2019;s rainbow
+
+A screaming comes across the sky.</pre>
+      <border class="left"></border><border class="right"></border>
+      <border class="top"></border><border class="bottom"></border>
+      <corner class="top left"></corner><corner class="top right"></corner>
+      <corner class="bottom left"></corner><corner class="bottom right"></corner>
+    </window>
+    <div class="mt5 mb2 fw6">Metadata</div>
+
+    <div class="w-60 pr5">
+
+
+
+    Blot generates metadata for each post automatically based on the file&#x2019;s contents, name and location. This metadata includes a <a href="#dates">publish date</a>, <a href="#permalinks">permalink</a> and a <a href="#teasers">summary</a>. You can override Blot&#x2019;s metadata with your own.</p><p>Metadata must start on the file&#x2019;s first line and be separated from the rest of the post by at least one blank line. </p><p>You can also create your own <a href="/help/templates">custom metadata</a> and use it on your site&#x2019;s template. View the full <a href="/help/guides/metadata">list of metadata</a>.
+
+  </div>
+
+
+      <window class="text right mt5">
+      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
+      <pre>Date: February 26th, 1848
+
+A spectre is haunting Europe &#x2014; the spectre of communism. All the powers of old Europe have entered into a holy alliance to...</pre>
+      <border class="left"></border><border class="right"></border>
+      <border class="top"></border><border class="bottom"></border>
+      <corner class="top left"></corner><corner class="top right"></corner>
+      <corner class="bottom left"></corner><corner class="bottom right"></corner>
+    </window>
+    <div class="mt5 mb2 fw6">Dates</div>
+
+    <div class="w-60 pr5">
+
+    <p>Blot uses the file&#x2019;s creation date as its publish date by default. You can specify a different date in the file&#x2019;s <a href="#metadata">metadata</a>.</p><p>Blot supports a variety of ways that people write dates. The following formats produce a blog post with the same date:</p>
+<pre><code>September 18, 2017   09/18/2017
+2017-09-18 00:00     9.18.2017
+</code></pre>
+
+    <p>You can also specify a publish date using the file&#x2019;s name, or its path, or a combination of both:</p><pre><code>2017-07-18-00:00-Post.txt   2017/07/18/Post.txt 
+2017/7.18.Post.txt          2017/7.18/Post.txt
+</code></pre>
+
+    <p>If you write the numbers in your dates in different order, please tell Blot on the <a href="/preferences">settings page</a>. If you specify a date in the future, Blot will wait until then to publish it. And if you prefer, you can <a href="/preferences">hide the dates</a> on your site&#x2019;s dashboard.</p>
+
+  </div>
+
+
+      <window class="text right mt5">
+      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
+      <pre>Tags: Nabokov, Phaedra
+
+Lolita, light of my life, fire of my loins.</pre>
+      <border class="left"></border><border class="right"></border>
+      <border class="top"></border><border class="bottom"></border>
+      <corner class="top left"></corner><corner class="top right"></corner>
+      <corner class="bottom left"></corner><corner class="bottom right"></corner>
+    </window>
+  <div class="mt5 mb2 fw6">Tags</div>
+
+  <div class="w-60 pr5">You can tag a post in the <a href="#metadata">metadata</a> at the top of a file. Tags can contain whitespace. </p>
+
+
+<p>You can also use brackets in a folder&#x2019;s name to tag posts inside. <code><icon class="txt"></icon> Lolita.txt</code> will become a blog post tagged &apos;Book notes&apos; and &apos;Fiction&apos;. </p><p>Tags are case-insensitive. However, it&#x2019;s worth capitalizing tags consistently because Blot uses the most recent case when displaying a tag on your site.</p>
+
+
+
+
+</div>
+      <window class="text right mt5">
+      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
+      <pre>Permalink: /rosetta
+
+In the reign of the new king who was Lord of the diadems, great in glory, the stabilizer of Egypt...</pre>
+      <border class="left"></border><border class="right"></border>
+      <border class="top"></border><border class="bottom"></border>
+      <corner class="top left"></corner><corner class="top right"></corner>
+      <corner class="bottom left"></corner><corner class="bottom right"></corner>
+    </window>
+
+<div id="permalinks-and-urls"><div class="mt5 mb2 fw6">Permalinks and URLs</div>
+  <div class="w-60 pr5">
+    <p>Blot generates a permalink, or permanent URL, for each post automatically. By default, Blot uses a URL-friendly version of the post&#x2019;s title. You can specify a different permalink in the post&#x2019;s <a href="#metadata">metadata</a>.</p><p>You can also change the format of Blot&#x2019;s default permalinks on <a href="/preferences">the settings page</a>.</p><p>If you change a post&#x2019;s permalink, Blot will set up a redirect for you automatically to help prevent broken links.</p><p></p></div>
+
+  </div>
+
+      <window class="text right mt5">
+      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
+      <pre># Lycurgus
+
+He was of the opinion that even in death a statesman should...
+
+{{more}}
+
+His calculations were misguided, because there was no state in...</pre>
+      <border class="left"></border><border class="right"></border>
+      <border class="top"></border><border class="bottom"></border>
+      <corner class="top left"></corner><corner class="top right"></corner>
+      <corner class="bottom left"></corner><corner class="bottom right"></corner>
+    </window>
+<div class="mt5 mb2 fw6">Teasers</div>
+    <div class="w-60 pr5">
+      Some of Blot&#x2019;s templates show a teaser for each post on the homepage, and include a link to the read full post. Blot creates a teaser from the first few paragraphs in the post by default. </p><p>You can specify the breakpoint in the file yourself. Everything before <code>{{more}}</code> will be included in the teaser, and the rest will be shown on the full post.
+</p></div>
+</div>
+<br><br><br>
+<br><br><br>
+<br><br><br>
+</div>
+<br><br><br>
+{{> footer}}

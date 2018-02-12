@@ -1,0 +1,237 @@
+<div class="measure">
+<div class="fw6">Formatting blog posts</div>
+<br>
+Blot converts text files from <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. You can use markdown to make text bold, italicized, create lists, links and more. You can mix Markdown and HTML in the same file.
+<br>
+<br>
+<br>
+<div class="fw6">Videos</div>
+You can also paste the HTML for a video embed directly into a blog post. Blot also automatically converts plain URLs to Youtube and Vimeo videos into video embeds. To embed a youtube video in your blog post just paste its URL like this:</p><pre><code>https://www.youtube.com/watch?v=nkJA6SYwa94</code></pre>
+<br>
+<br>
+<br>
+<div class="fw6">Footnotes</div>
+You can specify footnotes using this syntax:
+<pre><code>A line with a footnote.[^1] Another line.[^2]
+
+[^1]: And the note goes here.
+[^2]: And the second goes here too.
+</code></pre>
+<br>
+<br>
+<br>
+<div class="fw6">Layout</div>
+I wrote a Markdown extension for Blot which provides basic layout shortcuts. The features are as follows:
+</div><br>
+<table>
+<thead>
+<tr>
+<th>The tag&#x2026;</th>
+<th>should make its contents...</th>
+<th>by applying this CSS class&#x2026;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{&lt;&lt;}</code></td>
+<td>extend into the left margin</td>
+<td><code>wide left</code></td>
+</tr>
+<tr>
+<td><code>{&gt;&gt;}</code></td>
+<td>extend into the right margin</td>
+<td><code>wide right</code></td>
+</tr>
+<tr>
+<td><code>{&lt;&gt;}</code></td>
+<td>extend into both margins</td>
+<td><code>wide</code></td>
+</tr>
+<tr>
+<td><code>{&gt;}</code></td>
+<td>float right inside the page</td>
+<td><code>right inside</code></td>
+</tr>
+<tr>
+<td><code>{&lt;}</code></td>
+<td>float left inside the page</td>
+<td><code>left inside</code></td>
+</tr>
+<tr>
+<td><code>{|&lt;}</code></td>
+<td>hang in the right margin</td>
+<td><code>right margin</code></td>
+</tr>
+<tr>
+<td><code>{&gt;|}</code></td>
+<td>hang in the left margin</td>
+<td><code>left margin</code></td>
+</tr>
+<tr>
+<td><code>{||}</code></td>
+<td>sit inside a 1/2 width column</td>
+<td><code>two column</code></td>
+</tr>
+<tr>
+<td><code>{|||}</code></td>
+<td>sit inside a 1/3 width column</td>
+<td><code>three column</code></td>
+</tr>
+<tr>
+<td><code>{||||}</code></td>
+<td>sit inside a 1/4 width column</td>
+<td><code>four column</code></td>
+</tr>
+</tbody>
+</table>
+<br>
+You can including multiple lines inside the same layout tag by indenting them:
+
+<pre><code>{&lt;&lt;} ## Subtitle which extends into left margin
+     A paragraph which will also extend into the left margin.
+
+{&gt;&gt;} ## Subtitle which extends into right margin
+     A paragraph which will also extend into the right margin.
+</code></pre>
+
+<br>
+Your blog&apos;s template controls how the layout HTML is styled. Most Blot templates come with a variation on <a href="/css/layout.css">layout.css</a> which provides the above features as described.
+<br>
+<br>
+<br>
+<div class="fw6">Bold and Italic</div>
+To create italics, use a single asterix (*) on either side of the text:
+<div class="example">
+  <div class=" w-50 fl"><code>*This text will be italic.*</code></div>
+  <div class=" w-50 fl"><em>This text will be italic.</em></div>
+</div>
+<br>
+<br>
+
+Surrounding text with two asterisks makes text bold:
+<div class="example">
+  <div class=" w-50 fl"><code>**This text will be bold.**</code></div>
+  <div class=" w-50 fl"><strong>This text will be bold.</strong></div>
+</div>
+<br>
+<br>
+
+Both * or _ symbols work to make text bold or italic. This way you can combine bold and italic in the same sentence. For example:
+
+<div class="example">
+  <div class=" w-50 fl"><code>**Everyone _must_ listen.**</code></div>
+  <div class=" w-50 fl"><strong>Everyone <em>must</em> listen.</strong></div>
+</div>
+<br>
+<br>
+
+
+
+<div id="strikethrough"><h2>Strikethrough</h2><p>Put a double tilde (~) on either side of the text you want to strikethrough:</p><div class="example">
+  <div><code>~~Strike out mistakes~~</code></div>
+  <div><del>Strike out mistakes</del></div>
+  <section class="clear"></section>
+</div></div>
+
+
+
+
+
+
+
+<div id="lists"><h2>Lists</h2><p>Make a bulleted list by preceding list items with a single asterix (*) or a hyphen (-). You need a space between the asterix and the text.</p><div class="example">
+<div class="large">
+<code>- Round
+- Shell
+- Projectile</code>
+</div>
+<div>
+<em> Round
+</em> Shell
+* Projectile
+</div>
+<section class="clear"></section>
+</div><p>Create a numbered list by preceding list items with a number.</p><div class="example">
+<div class="large">
+<code>1. Eins
+2. Deux
+3. Tres</code>
+</div>
+<div>
+1. Eins
+2. Deux
+3. Tres
+</div>
+<section class="clear"></section>
+</div></div>
+
+
+
+
+<div id="links"><h2>Links</h2><p>Create a text link by wrapping the linked text in brackets [ ], and then wrapping the link in parenthesis ( ). For example:</p><div class="example">
+<div>
+<code>[Wikipedia](https://wikipedia.org)</code></div>
+<div><a href="https://wikipedia.org">Wikipedia</a></div>
+<section class="clear"></section>
+</div></div>
+
+
+
+
+<div id="headings"><h2>Headings</h2><pre><code># Largest heading
+## Subheading
+### Section heading
+</code></pre></div>
+
+<div id="mathematics"><h2>Mathematics</h2><p>Blot will convert equations set in LaTeX. Check out this useful <a href="https://nrich.maths.org/discus/messages/24097/66497.html">guide</a>. To use this, wrap your LaTeX in two dollar signs ($$) like this:</p><p>$$ f(x) = 2x^2 + 2/3 $$<br>
+&#xA0;&#xA0;&#xA0; $$ f(x) = 2x^2 + 2/3 $$</p></div>
+
+
+
+
+
+
+<div id="images"><h2>Images</h2><p>Here&apos;s what the markdown looks like, note the &#x2018;!&#x2019; before the tag.</p><pre><code>![Alt text](http://example.com/image.jpg &quot;Title&quot;)
+</code></pre><p>Yes, first create a folder whose name starts with an underscore, e.g. &apos;_images&apos;. Blot will not turn any of the files inside into blog posts, but they will be public. Then put the image inside then embed the image like this:</p><pre><code>![Image description](/_images/image.jpg)
+</code></pre><p>Blot resolves relative paths based on the location of the source file, not its permalink. File paths are case-insenitive. For example, let&apos;s say your blog has this folder structure:</p><window>
+
+  <toolbar>
+    <dots>
+      <dot></dot>
+      <dot></dot>
+      <dot></dot>
+    </dots>
+    <icon class="dropbox"></icon> Your site
+  </toolbar>
+
+  <sorter>Name <icon class="chevron"></icon></sorter>
+
+  <contents>
+    <item class=" open"><icon class="folder  "></icon> Posts</item>
+    <item class="nested "><icon class=" file img"></icon> _apple.png</item>
+    <item class="nested "><icon class=" file txt"></icon> fruit.txt</item>
+    <item class=" open"><icon class="folder  "></icon> _Images</item>
+    <item class="nested "><icon class=" file img"></icon> peach.png</item>
+    <item>&#xA0;</item>
+    <item>&#xA0;</item>
+    <item>&#xA0;</item>
+  </contents>
+  
+  <border class="left"></border>
+  <border class="right"></border>
+  <border class="top"></border>
+  <border class="bottom"></border>
+
+  <corner class="top left"></corner>
+  <corner class="top right"></corner>
+  <corner class="bottom left"></corner>
+  <corner class="bottom right"></corner>
+</window><p>These images all resolve correctly in <code>fruit.txt</code>, no matter its resulting URL.</p><pre><code>![Apple](_apple.png)
+![Apple](/posts/_apple.png)
+![Peach](../_images/peach.png)
+</code></pre></div>
+
+
+<div id="code-snippets"><h2>Code snippets</h2><p>Indent code with four spaces:</p><pre><code>var foo = &#x201C;bar&#x201D;;
+</code></pre><p>You can also wrap <code>code.snippets</code> with three backticks <code>`</code>. This is useful for inserting code snippets inside a paragraph.</p><p>If you have enabled the syntax highlighting app, Blot will process the snippet using <a href="https://highlightjs.org/">highlight.js</a>. Every Blot template comes with its own syntax highlighting theme. If you are designing a custom blog template and want to use syntax highlighting, please <a href="https://highlightjs.org/static/demo/">add a theme</a> to your blog&#x2019;s CSS file.</p></div>
+</div>

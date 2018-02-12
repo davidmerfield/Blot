@@ -1,27 +1,30 @@
-    <nav>
-      <a href="/" id="logo">Blot is a blogging platform</a>
-      <right>
-      <a href="/log-in">Log in</a>
-      <a href="/sign-up" class="butt">Sign up</a>
-      </right>
-    </nav>
+{{#menu}}
+<div class="nav fixed">
+  
+  <div class="center mw8 ph4">
 
-    <sidebar>
-      <a href="/" class="{{selected.home}}">Introduction</a>
-      <a href="/help" class="{{selected.help}}">Documentation</a>
-<!--       {{#selected.help}}<ul>
-        <li><a href="/help/getting-started">Getting started</a></li>
-        <li><a href="/help/configuring-your-site">Configuring your site</a></li>
-        <li><a href="/help/templates">Templates</a></li>
-      </ul>
-      {{/selected.help}} -->
-      <a href="/about" class="{{selected.about}}">Philosophy</a>
-      <a href="/changes" class="{{selected.changes}}">Updates</a>
-      <a href="/contact" class="{{selected.contact}}">Contact</a>
-      <footer>
-        <a href="/terms" class="{{selected.terms}}">Terms of use</a>
-        <a href="/privacy" class="{{selected.privacy}}">Privacy policy</a>
-<!--         <a href="/kleptography" class="{{selected.kleptography}}">Kleptography</a>
- -->        <a class="right" id="icon" href="/kleptography"></a> 
-      </footer>
-    </sidebar>
+    <a class="db fl pv4 w-left {{index}}" href="/">Blot is a blogging platform</a>
+
+    <div class="fl">
+    {{#sign-up}}
+    <a class="db fl pv4 {{index}}"><span style="color:black">Sign up</span><span style="color:#aaa">&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;Connect to Dropbox</span></a>
+    {{/sign-up}}
+
+    {{^sign-up}}
+    <a class="db fl pv4 pr5 {{help}}" href="/help">Documentation</a>        
+    <a class="db fl pv4 pr5 {{contact}}" href="/contact">Support</a>        
+    <a class="db fl pv4 pr5 {{log-in}}" href="/log-in">Log in</a>
+    <a class="db fl pv4 {{sign-up}}" href="/sign-up"><span class="s">Sign up</span></a>
+    {{/sign-up}}
+  </div>
+</div>
+
+  <!-- 
+  <div class="center" style="max-width:650px">
+  </div>
+ -->
+</div>
+{{/menu}}
+
+<div class="wrapper">
+<div class="center mw8 ph4"  style="padding-top:88px;">

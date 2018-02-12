@@ -1,114 +1,210 @@
-<html>
+{{> head}}
+{{> header}}
+</div>
+<div class="" style="background:#f1f1f1;">
+ 
+  <div class="mw8 ph4 center">
+    
+    <div id="thumb">
+
+      <a id="play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE" target="_blank" class="mw8 center thumb pv5 db">
+        
+        <div class="buts"><img src="/images/play.png" width="17"></div>
+
+        <div style="position:absolute;top:4rem;bottom:5rem;right:0;left:17rem;">
+
+          <window class="text focus">
+            <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
+            <pre style="font-size:16px;">Blot is a blogging platform.
+
+It turns a folder into a blog, automatically. Blot has no interface. Just files and folders.
+
+Why does Blot exist? So you can use your favorite text editor to write your blog.</pre>
+            <border class="left"></border><border class="right"></border>
+            <border class="top"></border><border class="bottom"></border>
+            <corner class="top left"></corner><corner class="top right"></corner>
+            <corner class="bottom left"></corner><corner class="bottom right"></corner>
+          </window>
+        </div>
+      </a>
+    </div> 
+  </div>
+</div>
+
+<div class="center mw8 ph4">
+
+  <div class="mv6"></div>
+
+  <div class="w-left fl tr">How does Blot work?</div>
+
+  <div class="w-right fl">
   
-  {{> head}}
+    <window class="fr w-50" style="width:45%">
 
-  <body>
+      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots>
+        <icon class="dropbox"></icon> Your blog
+      </toolbar>
 
-    {{> header}}
+      <sorter>Name <icon class="chevron"></icon></sorter>
 
-    <p>Blot is a blogging platform. It’s designed so that you can use your favorite app to write your blog.</p>
+      <contents>
+        <item class=" "><icon class="folder  "></icon> Drafts</item>
+        <item class=" "><icon class="folder  "></icon> Pages</item>
+        <item class=" open"><icon class="folder  "></icon> Posts</item>
+        <item class="nested "><icon class=" file webloc"></icon> Bookmark.webloc</item>
+        <item class="nested "><icon class=" file docx"></icon> Document.docx</item>
+        <item class="nested "><icon class=" file img"></icon> Image.jpg</item>
+        <item class="nested "><icon class=" file md"></icon> Markdown.md</item>
+        <item class="nested "><icon class=" file txt"></icon> Text.txt</item>
+        <item class="nested "><icon class=" file img"></icon> Funny.gif</item>
+        <item class="nested "><icon class=" file html"></icon> Webpage.html</item>
+        <item>&#xA0;</item>
+        <item>&#xA0;</item>
+        <item>&#xA0;</item>
+        <item>&#xA0;</item>
+      </contents>
+      
+      <border class="left"></border>
+      <border class="right"></border>
+      <border class="top"></border>
+      <border class="bottom"></border>
 
-    <p>Blot turns a folder in your Dropbox into a website. Files you put inside are published automatically. Images, text files, Markdown, bookmarks, Word Documents™ (<a href="/help/getting-started">and more</a>) become blog posts.</p>
+      <corner class="top left"></corner>
+      <corner class="top right"></corner>
+      <corner class="bottom left"></corner>
+      <corner class="bottom right"></corner>
+    </window>
 
-    <p>There’s no interface. Just files and folders. Watch this video to see how it works:</p>
-
-
+    <p class="mv0 w-60 pr5">Blot creates a folder in your Dropbox and publishes files you put inside. These files become blog posts automatically:</p>
     <br>
-    <iframe style="width:133.3333%;height:422px;margin-top:0.75em" src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white" frameborder="0" allowfullscreen=""></iframe>
-    <br><br><br>
-    <p>Blot comes with seven templates. They are designed to be easy to customize. If you know a little HTML and CSS you can <a href="/help/templates">create your own template</a> from scratch.</p>
-
-    <p>A site costs <a href="/sign-up">$20 per year</a>. Hosting is included and there are no ads. Here’s a handful of the sites hosted by Blot:</p>
+    <p class="mv0">
+      <code><icon class="md"></icon> <b class="fw4 f5">Text and Markdown</b> <!-- <small>.txt .md</small> --></code> <br>
+      <code><icon class="txt"></icon> <b class="fw4 f5">Word Documents</b>  <!-- <small>.docx</small> --></code> <br>
+      <code><icon class="img"></icon> <b class="fw4 f5">Images</b>  <!-- <small>.jpg .gif .png</small> --></code> <br>
+      <code><icon class="html"></icon> <b class="fw4 f5">HTML</b></code> <!-- <small>.html</small> --> <br>
+      <code><icon class="webloc"></icon> <b class="fw4 f5">Bookmarks</b> <!--  <small>.webloc</small> --></code> <br>
+    </p>
     <br>
-       <ul class="gallery">
+    <p class="mv0 w-50 pr5">Just drop the files into your blog’s folder and <a href="/help">Blot does the rest</a>.</p>
+  </div>
 
-    <a href="https://ylukem.com" target="_blank">
-            ylukem.com
-            <small>Blot’s Photo</small>
-            <span class="new">New</span>
-          </a>
+  <div class="cf"></div>
+  <div class="mv6"></div>
+     
+  <div class="w-left fl tr">Some sites hosted by Blot</div>
 
-    <a href="https://www.alexgibson.nyc/" target="_blank">
-            alexgibson.nyc
-            <small>Blot’s Default</small>
-          </a>
+  <ul class="gallery large db w-right fl">
+    <a href="https://hannautkin.com/" target="_blank">hannautkin.com<span class="new">New</span></a>
+    <a href="https://ylukem.com" target="_blank">ylukem.com</a>
+    <a href="https://www.alexgibson.nyc/" target="_blank">alexgibson.nyc</a>
+    <a href="https://www.theliminal.co/" target="_blank">theliminal.co</a>
+    <a href="http://johnpavlus.com/" target="_blank">johnpavlus.com</a>
+    <a href="http://kiefer.design/" target="_blank">kiefer.design</a>
+    <a href="https://www.2080.co/" target="_blank">2080.co</a>
+    <a href="https://www.kristianhjelle.com" target="_blank">kristianhjelle.com</a>
+    <a href="https://o9s.xyz/" target="_blank">o9s.xyz</a>
+    <a href="https://www.inthemargins.ca/" target="_blank">inthemargins.ca</a>
+    <a href="https://mrfris.by/" target="_blank">mrfris.by</a>
+  </ul>
 
-          <a href="https://www.failuretolerated.com/" target="_blank">
-            failuretolerated.com
-            <small>a custom</small>
-          </a>
+  <div class="cf"></div>
+  <div class="mv6"></div>
 
-          <a href="https://www.theliminal.co/" target="_blank">
-            theliminal.co
-            <small>a custom</small>
-          </a>
+  <div class="w-left fl tr">Templates</div>
 
-          <a href="https://tomascat.com/" target="_blank">
-            tomascat.com
-            <small>Blot’s Essay</small>
-          </a>
+  <div class="w-right fl">
+        
+    <div class="mv0 w-50 fl pr4">Blot comes with seven templates. They’re designed to work on both small and large screens. Here’s the selection:</div>
 
-          <a href="http://kiefer.design/" target="_blank">
-            kiefer.design
-            <small>a custom</small>
-          </a>
+    <div class="mv0 w-50 fl pl3">You can customize an existing template or <a href="/help">design a template</a> yourself if you know a little bit of HTML and CSS.</div>
 
-          <a href="https://www.okaythree.com/" target="_blank">
-            okaythree.com
-            <small>Blot’s Rosa</small>
-          </a>
+    <div class="cf pb4"></div>
 
-          <a href="https://www.kristianhjelle.com" target="_blank">
-            kristianhjelle.com
-            <small>a custom</small>
-          </a>
+    <ul class="gallery dotted db">      
+      <a href="https://o9s.xyz/" target="_blank">Index</a>
+      <a href="https://ylukem.com" target="_blank">Photo</a>
+      <a href="https://www.storystadium.com/" target="_blank">Grid</a>
+      <a href="https://www.alexgibson.nyc/" target="_blank">Default</a>
+      <a href="https://tomascat.com/" target="_blank">Essay</a>
+      <a href="https://invariances.org/" target="_blank">Console</a>
+      <a href="https://bleachedsleet.com/" target="_blank">Mono</a>
+    </ul>
 
-          <a href="https://www.kitchinspirations.net/" target="_blank">
-            kitchinspirations.net
-            <small>Blot’s Blank</small>
-          </a>
+  </div>
 
-          <a href="https://invariances.org/" target="_blank">
-            invariances.org
-            <small>Blot’s Console</small>
-          </a>
+  <div class="cf"></div>
+  <div class="mv6"></div>
 
-          <a href="https://www.storystadium.com" target="_blank">
-            storystadium.com
-            <small>Blot’s Grid</small>
-          </a>
+  <div class="w-left fl tr">About</div>
 
-          <a href="https://mrfris.by/" target="_blank">
-            mrfris.by
-            <small>a custom</small>
-          </a>
+  <div class="w-right fl">
 
-          <a href="https://bleachedsleet.com/" target="_blank">
-            bleachedsleet.com
-            <small>Blot’s Mono</small>
-          </a>
+    <div class="w-50 pr4 fl">
 
-          <a href="https://www.inthemargins.ca/" target="_blank">
-            inthemargins.ca
-            <small>a custom</small>
-          </a>
+      <div class="fw6">How much does Blot cost?</div>
+      <div class="">A blog costs <a href="/sign-up">{{price}} per year</a>. Hosting and support is included. There are no ads.</div>
 
-          <a href="https://www.pavlusoffice.com/" target="_blank">
-            pavlusoffice.com
-            <small>a custom</small>
-          </a>
+      <div class="mt4 pt3 fw6">Why does Blot cost money?</div>
+      <div class="">The fee pays for the servers which host your blog. It also covers the cost of providing support. Most importantly, it encourages me to make decisions about Blot in your best interests, as opposed to those of an investor or advertiser.</div>
 
-          <a href="https://charleslehman.com/" target="_blank">
-            charleslehman.com
-            <small>Blot’s Default</small>
-          </a>
+      <div class="mt4 pt3 fw6">How long has Blot been around?</div>
+      <div class="">I began work on Blot in the summer of 2013 and opened it to the public a year later. Many thanks to Blot’s earliest customers for their help and their patience. In particular thank you Frank, Julie, Josh, Chris, Johannes and Angie.</div>
 
-          <a href="https://www.tristan.fyi/" target="_blank">
-            tristan.fyi
-            <small>Blot’s Mira</small>
-          </a>
+      <div class="mt4 pt3 fw6">How long do you plan to run Blot?</div>
+      <div class="">Decades, at least.</div>
+    </div>
 
-          <br>
-        </ul>
-  </body>
-</html>
+    <div class="w-50 pl3 fl">
+
+      <div class=" fw6">Is Blot still maintained?</div>
+      <div class="">Yes, and there’s plenty to do. Take a look at <a href="/changes">what I’m working on</a>.</div>
+
+      <div class="mt4 pt3 fw6">Does Blot censor anything?</div>
+      <div class="">No, Blot does not censor anything that it can legally host.</div>
+
+      <div class="mt4 pt3 fw6">What are the alternatives to Blot?</div>
+      <style type="text/css">li {display:inline;}</style>
+      <ul>
+      <li><strike><a rel="nofollow" href="http://900dpi.com/">900dpi</a></strike></li>, 
+      <li><a rel="nofollow" href="https://amb-1.com">Amb-1</a></li>, 
+      <li><a rel="nofollow" href="https://asocialfolder.com/">asocialfolder</a></li>, 
+      <li><strike><a rel="nofollow" href="https://www.boxfolio.com/">Boxfolio</a></strike></li>, 
+      <li><strike><a rel="nofollow" href="http://brace.io/">Brace</a></strike></li>, 
+      <li><strike><a rel="nofollow" href="http://calepin.co/">Calepin</a></strike></li>, 
+      <li><a rel="nofollow" href="http://cloudcannon.com/">Cloud Cannon</a></li>, 
+      <li><a rel="nofollow" href="http://droppages.com/">Droppages</a></li>, 
+      <li><strike><a rel="nofollow" href="http://dropplets.com/">Dropplets</a></strike></li>, 
+      <li><a rel="nofollow" href="http://duet.to/">Duetto</a></li>, 
+      <li><strike><a rel="nofollow" href="http://fargo.io/">Fargo</a></strike></li>, 
+      <li><strike><a rel="nofollow" href="https://www.harp.io/">Harp</a></strike></li>, 
+      <li><a rel="nofollow" href="https://www.kissr.com/">Kissr</a></li>, 
+      <li><strike><a rel="nofollow" href="http://markbox.io/">Markbox</a></strike></li>, 
+      <li><strike><a rel="nofollow" href="https://www.pancake.io/">Pancake</a></strike></li>, 
+      <li><strike><a rel="nofollow" href="http://scriptogr.am/">Scriptogram</a></strike></li>, 
+      <li><a rel="nofollow" href="http://www.site44.com/">Site44</a></li>, 
+      <li><strike><a rel="nofollow" href="https://www.sitebox.io/">Sitebox</a></strike></li>, 
+      <li><strike><a rel="nofollow" href="http://skrivr.com/">Skrivr</a></strike></li>, 
+      <li><a rel="nofollow" href="https://www.smallvictori.es/">Small Victories</a></li>, 
+      <li><strike><a rel="nofollow" href="https://www.synkee.com/">Synkee</a></strike></li>
+      </ul>
+
+      <div class="mt4 pt3 fw6">Can I host Blot on my own server?</div>
+      <div class="mb3">Yes, <a href="https://github.com/davidmerfield/Blot">Blot’s source code</a> is dedicated to the public domain and available to you.</div>
+    </div>
+  </div>
+</div>
+<div class="cf mv6 pv6"></div>
+<div class="cf mv6 pv3"></div>
+
+<script type="text/javascript">
+
+play.onclick = function (e) {
+
+  thumb.innerHTML = '<iframe src="https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;controls=0&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white&amp;autoplay=1" frameborder="0" allowfullscreen=""></iframe>';
+
+  e.preventDefault();
+  return false;
+}
+
+</script>
+{{> footer}}

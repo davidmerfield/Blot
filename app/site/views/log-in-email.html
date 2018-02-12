@@ -1,48 +1,39 @@
-<html>
-  {{> head}}
-  <body>
+{{> head}}
+{{> header}}
 
-  <body style="margin-top:1.5em">
+<div class="w-right-offset pt4 mt4">
 
+  <div class="measure pr5 mb4">
+   
+    {{^error}}
+    Welcome back! Please enter your email address below. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble.
+    {{/error}}
 
-    <nav style="background:none;box-shadow:none">
-      <a href="/" id="logo">Blot is a blogging platform</a>
-    </nav>
+  {{#error}}
+  <div class="red" style="margin:-0.6rem;border:none">
 
-    Log in <span style="color:#aaa">&nbsp;→&nbsp; Dashboard</span></b>
-    <br><br><br>
-    <form method="POST">
+    {{#BADTOKEN}}
+    That link had expired or had already been clicked. Please try again or <a href="/contact">contact me</a> if you’re having trouble logging in.
+    {{/BADTOKEN}}
 
-      {{#error}}
-      <p style="width:120%" class="box red">
+    {{#BADEMAIL}}
+    This email address is not associated with a Blot account. Please <a href="/contact">contact me</a> if you have you don’t know your account’s email.
+    {{/BADEMAIL}}
 
-      {{#BADTOKEN}}
-      That link had expired or had already been clicked. Please try again or <a href="/contact">contact me</a> if you're having trouble logging in.
-      {{/BADTOKEN}}
+    {{#NOEMAIL}}
+    Please enter an email address. If you don’t know your account’s email address, please <a href="/contact">contact me</a>.
+    {{/NOEMAIL}}
 
-      {{#BADEMAIL}}
-      This email address is not associated with a Blot account. Please <a href="/contact">contact me</a> if you have forgotten your account's email.
-      {{/BADEMAIL}}
+  </div>
+  {{/error}}
+  </div>
 
-      {{#NOEMAIL}}
-      Please enter an email address. If you have forgotten your email address, please <a href="/contact">contact me</a>.
-      {{/NOEMAIL}}
+  <form style="max-width:18rem" method="POST" action="?_csrf={{csrf}}">
 
-      </p>
-      {{/error}}
+  <label class="pt3 db" for="email">Your email address</label>
+  <input class="w-100 mt1 mb3 br2 pa2 ba b--black-30" id="email" type="text" size="20" class="email" name="email" autofocus/>
 
-      {{^error}}
-      <p style="width:120%;">Welcome! Enter your email address below or <a href="/contact">contact me</a> if you can't remember it.</p>
-      {{/error}}
-
-      <br>
-      <label for="email">Your email address:</label>
-      <input type="text" id="email" name="email" value="{{email}}" autofocus />
-      <br>
-      <input type="submit" class="submit button" value="Log in" />
-
-
-    </form>
-      {{> footer}}
-  </body>
-</html>
+  <input type="submit" class="sans-serif submit button pv2 ph4 mt4" style="position:relative;top:-4px" value="Log in"  />
+  </form>
+</div>
+{{> footer}}

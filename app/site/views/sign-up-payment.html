@@ -1,64 +1,63 @@
-<html>
-  {{> head}}
-  <body style="margin-top:1.5em">
+{{> head}}
+{{> header}}
 
-    <nav style="background:none;box-shadow:none">
-      <a href="/" id="logo">Blot is a blogging platform</a>
-    </nav>
+<div class="w-right-offset mt4 pt4">
 
-    Sign up <span style="color:#aaa">&nbsp;→&nbsp; Connect to Dropbox</span></b>
-    <br><br><br>
+  <div class="mb4" style="max-width:416px">
+    A blog costs <span class="yellow">{{price}} per year</span>. You can cancel at any time. Hosting is included and there are no ads. You must agree to the <a href="/terms">terms of use</a> and  <a href="/privacy">privacy policy</a>.
+  </div>
 
-      <p style="width:380px">A site costs <span class='yellow'>$20 per year</span>. Hosting is included and there are no ads. You can cancel at any time. You must agree to the <a href="/terms">terms of use</a> and  <a href="/privacy">privacy policy</a>. </p>
-    <form method="POST" action="?_csrf={{csrftoken}}" style="width:270px">
+  <div class="red mv3 measure-narrow" id="error" style="display:none"></div>
 
-<br>
+  {{#error}}
+  <div class="red mv3 measure-narrow">{{error}}</div>    
+  {{/error}}
 
-      <p id="error" class="box red" style="margin-bottom:0;width:120%;{{^error}}display:none{{/error}}">{{error}}</p>
+  <form style="max-width:18rem" method="POST" action="?_csrf=">
 
+    <label class="db pt3 pb1" for="email">Your email address</label>
+    <input class="w-100 mb1 br2 pa2 ba b--black-30" type="text" size="20" id="email" class="email" name="email" autofocus/>
 
-      <br />
-
-      <label>Your email address:</label>
-      <input type="text" size="20" class="email" name="email" autofocus/>
-      <br />
-      <br />
-      <label>Card number: <span class="control-tool">
+    <label class="db pt3 pb1" for="number">Card number 
+      <span class="control-tool">
         <span class="help-icon lock"></span>
         <span class="tooltip">
-          Blot does not store your card details. Stripe handles payments.
+          Blot does not store your card details. Stripe processes your payment.
         </span>
-      </span></label>
-      <input type="text"size="20" data-stripe="number" name="number" />
-      <br />
-      <br />
-      <fieldset style="width:165px;display:inline-block">
-        <label>Expiration date:</label>
-        <input style="width:45%;border-right:none;text-align:center;border-radius:4px 0 0 4px" name="exp-month" maxlength="2" placeholder="MM" type="text" size="2" data-stripe="exp-month"/><input style="width:55%;text-align:center;border-radius:0 4px 4px 0" name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
-      </fieldset>
-      <fieldset style="width:90px;float:right">
-        <label>CVC:
-          <span class="control-tool">
-            <span class="help-icon">?</span>
-            <span class="tooltip">
-            It’s the 3- or 4-digit code on your card, seperate from the 16-digit card number.
+      </span>
+    </label>
+    <input class="w-100 mb1 br2 ba b--black-30" type="text"size="20" id="number" data-stripe="number" name="number" />
+
+    <div class="db pt3 mb3">
+      <div class="w-70 fl pr4 mb1">
+      <label for="month">Expiration date</label><br>
+      <input style="width:45%" id="month" class="month di tc mt1 fl pa2 ph3 ba b--black-30" name="exp-month" maxlength="2" placeholder="MM" type="text" size="2" data-stripe="exp-month"/>
+      <input style="width:55%" class="year di tc mt1 pa2 ph3 fl ba b--black-30" name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      </div>
+
+      <div class="w-30 fl mb1">
+      <label for="cvc">CVC
+            <span class="control-tool">
+              <span class="help-icon">?</span>
+              <span class="tooltip">
+              It’s the 3- or 4-digit code on your card, seperate from the 16-digit number.
+              </span>
             </span>
-          </span>
-        </label>
-        <input type="text" size="4" data-stripe="cvc" name="cvc"/>
-      </fieldset>
-      <br />
-      <br />
+      </label>
+      <input class="di w-100 tc mt1 br2 pa2 ba b--black-30" type="text" size="4" data-stripe="cvc" id="cvc" name="cvc"/>
+      </div>
+      <div class="cf"></div>
+    </div>
 
-      <input type="hidden" class="stripeToken" name="stripeToken" />
+    <input type="submit"  class="sans-serif submit button pv2 ph4 mt4" style="position:relative;top:-4px" value="Submit payment"  />
+    <input type="hidden" class="stripeToken" name="stripeToken" />
+  </form>
+</div>
 
-      <input type="submit" class="submit button" value="Submit payment"  />
-</p>
-    </form>
-    <br />
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script type="text/javascript" src="/scripts/jquery.js?{{cacheID}}"></script>
+    <script type="text/javascript" src="/js/jquery.js?{{cacheID}}"></script>
     <script type="text/javascript">
+
       // This identifies your website in the createToken call below
       Stripe.setPublishableKey('{{stripe_key}}');
 
@@ -70,13 +69,12 @@
           // to prevent repeated clicks
           $form
             .find('.submit')
-            .prop('disabled', true)
-            .addClass('working');
+            .prop('disabled', true);
 
           // Validate the email address
-          var email = $('.email').val(),
-              emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
-              email = email.replace(' ', '');
+          var email = $('#email').val() || '';
+          var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+          var email = email.replace(' ', '');
 
           if (email === '' || !emailRegex.test(email)) {
 
@@ -102,12 +100,12 @@
 
               $form
                 .find('#error')
-                .text(response.error.message);
+                .text(response.error.message)
+                .show();
 
               $form
                 .find('.submit')
-                .prop('disabled', false)
-                .removeClass('working');
+                .prop('disabled', false);
 
             } else {
 

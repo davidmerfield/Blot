@@ -1,25 +1,13 @@
+{{> head}}
+{{> header}}
 
-<html>
-  {{> head}}
-    <body style="margin-top:1.5em">
+<div class="w-right-offset pt4 mt4">
 
+  <div class="measure pr5 mb4">
+  I just sent a link to set your password to <b>{{email}}</b>
+  <br><Br>
+  Please <a href="/contact">contact me</a> if you have any questions.
+  </div
 
-    <nav style="background:none;box-shadow:none">
-      <a href="/" id="logo">Blot is a blogging platform</a>
-    </nav>
-
-    Log in <span style="color:#aaa">&nbsp;→&nbsp; Dashboard</span></b>
-    <br><br><br>
-
-    <form method="POST">
-
-      {{#error}}
-      <p style="width:120%" class="box red">{{error}}</p>
-      {{/error}}
-
-      <p style="width:120%" class="box yellow">I just sent a link to set your password to <b>{{email}}</b></p>
-
-      <p style="width:120%">Please don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
-    </form>
-  </body>
-</html>
+</div>
+{{> footer}}
