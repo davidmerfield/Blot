@@ -29,6 +29,9 @@ Force SSL in a sensible way
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
 - Then tell [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc)
 
+Fix bug which makes templates whose names contain a single prime (') un-deleteable
+- Then tell [Loren](https://mail.google.com/mail/u/1/#inbox/161769020483a3ed)
+
 Fix bug when you have two blogs in the same app folder, then unlink one of them, then relink it.
 
 Fix bug when you try to restart a cancelled Blot subscription
@@ -59,6 +62,9 @@ https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
 
 Incorporate
 
+Make it so users can embed an image in a post by copy-pasting the Dropbox share link
+- Tell [Logan](https://twitter.com/blot__/status/962762284782243842)
+
 Write a unified import tool which scrapes content from:
 - Tumblr
 - Wordpress
@@ -73,6 +79,9 @@ Write a unified import tool which scrapes content from:
 
 You could pull from different sources at the same time. And neatly places content from each directly into Blot's folder, the process should be designed to be resumeable, you should be able to reload the window. I think this will improve usage and retention.
 
+When a user pastes the whole tracking script into the preferences page on the dashboard,
+strip out everything except the ID which we need... perhaps create a page explaining what
+is happening before doing this.
 
 Public site improvements
 - Experiment with new layout ideas
