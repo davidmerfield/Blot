@@ -77,6 +77,7 @@ dashboard.use(function(req, res, next){
 
     res.addPartials({
       head: 'partials/head',
+      header: 'partials/header',
       footer: 'partials/footer',
       nav: 'partials/nav',
       message: 'partials/message',
@@ -100,8 +101,6 @@ dashboard.use(function(req, res, next){
 });
 
 dashboard.use(add());
-
-
 
 dashboard.use(middleware.messenger);
 dashboard.use(middleware.loadUser);
@@ -130,6 +129,8 @@ require('./routes/preferences')(dashboard);
 require('./routes/tools')(dashboard);
 require('./routes/profile')(dashboard);
 require('./routes/theme')(dashboard);
+
+dashboard.use(express.static(__dirname + '/views'));
 
 // need to handle dashboard errors better...
 dashboard.use(function(err, req, res, next) {
