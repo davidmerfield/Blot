@@ -83,7 +83,8 @@ module.exports = {
 
   "stripe": {
     "key": stripe_key,
-    "secret": stripe_secret
+    "secret": stripe_secret,
+    "plan": "yearly_20"
   },
 
   "pandoc_path": pandoc_path,
