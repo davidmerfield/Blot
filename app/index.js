@@ -52,14 +52,6 @@ var sessionOptions = {
   })
 };
 
-var staticDir = require('./helper').rootDir + '/www/blot';
-var staticSettings = {};
-
-// Don't set max age header in development
-// so we can make changes quickly
-if (config.environment !== 'development')
-  staticSettings.maxAge = 86400000;
-
 // Prevent IE users from executing
 // downloads in your site's context
 // Prevent some browsers from
@@ -78,7 +70,6 @@ server
   .use(helmet.crossdomain())
   .use(analytics.middleware)
   .use(vhost(config.host, session(sessionOptions)))
-  .use(vhost(config.host, express.static(staticDir, staticSettings)))
   .use(vhost(config.host, function(req, res, next){
 
     if (!req.session || !req.session.uid) return next();
