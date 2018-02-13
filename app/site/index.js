@@ -40,10 +40,7 @@ site.use(function (req, res, next) {
     res.locals.partials.nav = dashboard_views + 'nav';
     res.locals.partials.sidebar = views + '_sidebar';
     res.locals.partials.footer = dashboard_views + 'footer';
-
   }
-
-  console.log(res.locals.partials);
 
   next();
 });
