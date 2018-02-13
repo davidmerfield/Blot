@@ -1,0 +1,34 @@
+<div class="measure">
+  <h1>Creating a page</h1> 
+  
+  <p>The easiest way to create a page is to create a folder called <code class="folder">Pages</code> and put a file inside which contains the page's content, like <code class="file md">About.txt</code> for example:</p>
+</div>
+
+  <pre class="file"><code># About
+
+If this file is inside a folder called 'Pages', Blot will add it to your blog's menu instead of turning into a blog post.</code></pre>
+
+<div class="measure">
+
+<h2>Using metadata instead of a folder</h2> 
+<p>If you'd rather, you can use a post's metadata to create a page:</p>
+
+</div>
+
+<pre class="file"><code>Page: yes
+
+# About
+
+Because this file's metadata contains 'Page: yes', Blot will turn this file into a page even if it isn't inside a folder called 'Pages'.</code></pre><br>
+
+<div class="measure">
+<p>You can create a page that isn't on your blog's menu like this:</p>
+</div>
+
+  <pre class="file"><code>Page: yes
+Menu: no
+
+# About
+
+Because this file's metadata contains 'Menu: no', it will not appear on your blog's menu. This is a useful way to create a vaguely hidden page.
+  </code></pre>

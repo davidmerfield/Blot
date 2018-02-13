@@ -29,6 +29,82 @@ You can <a href="https://github.com/davidmerfield/Blot/tree/master/app/blogs">re
 
 {{=[[ ]]=}}
 <br><br><br><br>
+
+<div class="measure">
+<br><br><br><br>
+<div class="fw6">Custom metadata</div>
+You can specify custom entry metadata:
+<window>
+
+  <toolbar>
+    <dots>
+      <dot></dot>
+      <dot></dot>
+      <dot></dot>
+    </dots>
+    <icon class="textfile"></icon> Your post.txt
+  </toolbar>
+
+<pre class="text">
+Author: Eric Blair
+
+# Homage to Catalonia
+
+In the Lenin Barracks in Barcelona, the day before...
+
+</pre>
+  
+  <border class="left"></border>
+  <border class="right"></border>
+  <border class="top"></border>
+  <border class="bottom"></border>
+
+  <corner class="top left"></corner>
+  <corner class="top right"></corner>
+  <corner class="bottom left"></corner>
+  <corner class="bottom right"></corner>
+</window>
+
+Use custom metadata in your template like this:</p><pre><code>Posted by {{metadata.author}}
+</code></pre>
+
+<br><br>
+Metadata keys are case insensitive. I&#x2019;d recommend using conditional blocks to prevent your layout breaking if you don&#x2019;t consistently specify metadata:
+
+<pre><code>{{#metadata.author}}
+  Posted by {{metadata.author}}
+{{/metadata.author}}
+
+{{^metadata.author}}
+  Posted by the editor
+{{/metadata.author}}
+</code></pre>
+<br><br><br><br>
+<div class="fw6">Thumbnails</div>
+Blot generates four sizes of thumbnails:
+<ul>
+<li><strong>small</strong> which has a width and height under 160px.</li>
+<li><strong>medium</strong> the default, which has a width under 640px.</li>
+<li><strong>large</strong> which has a width and height under 1060px.</li>
+<li><strong>square</strong> which has a width and height of 160px.</li>
+</ul>
+Blot will not increase the size of smaller images. The JSON added to each entry looks something like this:
+<pre class="javascript"><code class="lang-javascript">{
+    ...
+    thumbnail: {
+        small: {url: &quot;...&quot;, width: 160, height: 103},
+        medium: {url: &quot;...&quot;, width: 640, height: 411},
+        large: {url: &quot;...&quot;, width: 1060, height: 681},
+        square: {url: &quot;...&quot;, width: 160, height: 160 }
+    },
+    ...
+}
+</code></pre><p>You can use them in your template like this:</p><pre><code>{{#thumbnail.medium}}
+    &lt;img src=&quot;{{url}}&quot; width=&quot;{{width}}&quot; height=&quot;{{height}}&quot;&gt;
+{{/thumbnail.medium}}
+</code></pre><p></p></div>
+
+
 <div class="fw6">Site variables</div>
 Blot uses these variables to render <a href="https://mustache.github.io/">Mustache</a> templates.
 <br><br>
@@ -217,80 +293,7 @@ You can uses these variables to render lists of posts
 </tr>
 </tbody>
 </table>
-<div class="measure">
-<br><br><br><br>
-<div class="fw6">Custom metadata</div>
-You can specify custom entry metadata:
-<window>
 
-  <toolbar>
-    <dots>
-      <dot></dot>
-      <dot></dot>
-      <dot></dot>
-    </dots>
-    <icon class="textfile"></icon> Your post.txt
-  </toolbar>
-
-<pre class="text">
-Author: Eric Blair
-
-# Homage to Catalonia
-
-In the Lenin Barracks in Barcelona, the day before...
-
-</pre>
-  
-  <border class="left"></border>
-  <border class="right"></border>
-  <border class="top"></border>
-  <border class="bottom"></border>
-
-  <corner class="top left"></corner>
-  <corner class="top right"></corner>
-  <corner class="bottom left"></corner>
-  <corner class="bottom right"></corner>
-</window>
-
-Use custom metadata in your template like this:</p><pre><code>Posted by {{metadata.author}}
-</code></pre>
-
-<br><br>
-Metadata keys are case insensitive. I&#x2019;d recommend using conditional blocks to prevent your layout breaking if you don&#x2019;t consistently specify metadata:
-
-<pre><code>{{#metadata.author}}
-  Posted by {{metadata.author}}
-{{/metadata.author}}
-
-{{^metadata.author}}
-  Posted by the editor
-{{/metadata.author}}
-</code></pre>
-<br><br><br><br>
-<div class="fw6">Thumbnails</div>
-Blot generates four sizes of thumbnails:
-<ul>
-<li><strong>small</strong> which has a width and height under 160px.</li>
-<li><strong>medium</strong> the default, which has a width under 640px.</li>
-<li><strong>large</strong> which has a width and height under 1060px.</li>
-<li><strong>square</strong> which has a width and height of 160px.</li>
-</ul>
-Blot will not increase the size of smaller images. The JSON added to each entry looks something like this:
-<pre class="javascript"><code class="lang-javascript">{
-    ...
-    thumbnail: {
-        small: {url: &quot;...&quot;, width: 160, height: 103},
-        medium: {url: &quot;...&quot;, width: 640, height: 411},
-        large: {url: &quot;...&quot;, width: 1060, height: 681},
-        square: {url: &quot;...&quot;, width: 160, height: 160 }
-    },
-    ...
-}
-</code></pre><p>You can use them in your template like this:</p><pre><code>{{#thumbnail.medium}}
-    &lt;img src=&quot;{{url}}&quot; width=&quot;{{width}}&quot; height=&quot;{{height}}&quot;&gt;
-{{/thumbnail.medium}}
-</code></pre><p></p></div>
-</div>
 
 </div>
 <br><br><br>
@@ -298,4 +301,5 @@ Blot will not increase the size of smaller images. The JSON added to each entry 
 <br><br><br>
 </div>
 <br><br><br>
+[[={{ }}=]]
 {{> footer}}

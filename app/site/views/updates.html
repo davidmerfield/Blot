@@ -22,23 +22,18 @@ body {-webkit-font-smoothing: antialiased;}
 
 ul {list-style-type: circle;}
 </style>
+
 <div class="w-right-offset mt2 fl pt4 mt4">
   <div class="measure">
-    <div class="mb4 fw6">Updates</div>
-    <div class="mb4">The lists below give you a idea of what I’m working on. I tend to announce significant updates on <a href="https://twitter.com/blot__">Blot’s Twitter account</a>. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions.</div>
+    <div class="mb5">The lists below give you a idea of what I’m working on. I tend to announce significant updates on <a href="https://twitter.com/blot__">Blot’s Twitter account</a>. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions.</div>
   </div>
 
-    
+</div>
   
-  <div class="w-two-thirds fl pr4">
-  
-    <div class="mv4 bb pb3 b--black-10">To do</div>
-
-    {{{todo}}}
-  </div>
 
 
-  <div class="w-third fl pl4">
+
+  <div class="w-left fl pr4">
 
     <div class="mv4 bb pb3 b--black-10">Done</div>
 
@@ -46,6 +41,13 @@ ul {list-style-type: circle;}
     <p>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" style="color:#aaa;border:none">{{date}}</a></p>
     {{/commits}}
 </div>
+
+  <div class="w-right fl pr4">
+  
+    <div class="mv4 bb pb3 b--black-10">To do</div>
+
+    {{{todo}}}
+  </div>
 </div>
 
 {{> footer}}
