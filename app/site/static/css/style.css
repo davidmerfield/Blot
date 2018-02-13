@@ -114,7 +114,7 @@ input {box-sizing: border-box;}
 
 }
 
-#play:hover .buts {background-color: #00baff}
+#play:hover .buts {background-color: #fc625d}
 
 #thumb {position:relative;padding-bottom:60.5%;height:0}
 
@@ -136,7 +136,11 @@ input {box-sizing: border-box;}
 }
 
 span.yellow {color: black;background: #fef694}
-div.red {color: black;background: #ffdddf;padding: 0.6rem;border: 1px solid #ffdddf;}
+div.red {color: #a54846;background: #feeded;padding: 0.6rem;border: 1px solid #feeded;}
+div.red a,
+div.red input.link {color: #a54846;border-bottom-color: #e4bcbc}
+div.red a:hover,
+div.red input.link:hover {border-bottom-color: #a54846}
 div.yellow {color: black;background: #fef694;padding: 0.6rem;}
 
 input[type="submit"] {
@@ -169,6 +173,7 @@ input[type="submit"].link:active
   outline: none;
   height: 1.5em;
   line-height: inherit;
+  text-shadow: none;
   border-bottom: 1px solid #aaa;
 }
 
@@ -278,14 +283,6 @@ input.year {border-radius: 0 4px 4px 0}
   background-size: 11px;
 }
 
-.selected svg path,
-a:hover svg path {fill: black;}
-svg path {fill: #aaa;  transition-property: all;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-out;
-}
-
-a svg {float: left;position: relative;top:5px;margin-right: 7px}
 #icon {
   border: none;
   background-image: url('/images/logo.svg');
@@ -424,7 +421,7 @@ strike a {border:none;}
 
 .new {
   color: #fff;
-  background: red;
+  background: #fc625d;
   position: absolute;
   vertical-align: middle;
   text-align: center;
