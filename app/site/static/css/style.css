@@ -18,6 +18,7 @@ html, body {
   height: 60px;
 }
 
+hr {width: 100%;border:none;background: #ddd;height: 1px;margin: 0}
 #demo:after {
     content: "\2007";
     background: #00baff;
@@ -439,15 +440,5 @@ strike a {border:none;}
 @keyframes stolen-color{25%{color:#ff9600;border-color:#ff9600;}50%{color:#E20000;border-color: #E20000}75%{color:#ff9600;border-color: #ff9600}}@-webkit-keyframes stolen{25%{color:#ff9600;border-color:#ff9600}50%{color:#E20000;border-color: #E20000}75%{color:#ff9600;border-color:#ff9600}}
 
 
-p icon {
-    width: 19px;
-    height: 19px;
-    display: block;
-    float: left;
-    position: relative;
-    margin-right: 6px;
-    margin-left: -3px;
-    top: 2px;
-}
 
 iframe {display: block;}
