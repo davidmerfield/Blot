@@ -1,0 +1,56 @@
+{{> head}}
+{{> header}}
+
+<div class="w-right-offset mt4 pt4">
+
+  <div class="mb4" style="max-width:416px">
+    A blog costs <span class="yellow">$30 per year</span>. You can cancel at any time. Hosting is included and there are no ads. You must agree to the <a href="/terms">terms of use</a> and  <a href="/privacy">privacy policy</a>.
+  </div>
+
+
+
+  <form style="max-width:18rem" method="POST" action="?_csrf=">
+
+<!--     <div class="red mv3">
+      Please enter a valid email address
+    </div>
+ -->
+    <label class="db pt3 pb1" for="email">Your email address</label>
+    <input class="w-100 mb1 br2 pa2 ba b--black-30" type="text" size="20" id="email" class="email" name="email" autofocus/>
+
+    <label class="db pt3 pb1" for="number">Card number 
+      <span class="control-tool">
+        <span class="help-icon lock"></span>
+        <span class="tooltip">
+          Blot does not store your card details. Stripe processes your payment.
+        </span>
+      </span>
+    </label>
+    <input class="w-100 mb1 br2 ba b--black-30" type="text"size="20" id="number" data-stripe="number" name="number" />
+
+    <div class="db pt3 mb3">
+      <div class="w-70 fl pr4 mb1">
+      <label for="month">Expiration date</label><br>
+      <input style="width:45%" id="month" class="month di tc mt1 fl pa2 ph3 ba b--black-30" name="exp-month" maxlength="2" placeholder="MM" type="text" size="2" data-stripe="exp-month"/>
+      <input style="width:55%" class="year di tc mt1 pa2 ph3 fl ba b--black-30" name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      </div>
+
+      <div class="w-30 fl mb1">
+      <label for="cvc">CVC
+            <span class="control-tool">
+              <span class="help-icon">?</span>
+              <span class="tooltip">
+              It’s the 3- or 4-digit code on your card, seperate from the 16-digit number.
+              </span>
+            </span>
+      </label>
+      <input class="di w-100 tc mt1 br2 pa2 ba b--black-30" type="text" size="4" data-stripe="cvc" id="cvc" name="cvc"/>
+      </div>
+      <div class="cf"></div>
+    </div>
+
+    <input type="submit"  class="sans-serif submit button pv2 ph4 mt4" style="position:relative;top:-4px" value="Submit payment"  />
+    <input type="hidden" class="stripeToken" name="stripeToken" />
+  </form>
+</div>
+<script type="text/javascript"> </script>
