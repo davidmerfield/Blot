@@ -44,6 +44,7 @@ router.get('/', function(req, res, next){
 
       res.locals.todo = marked(todo);
       res.locals.commits = commits;
+      res.locals.title = 'Updates';
       res.locals.menu = {'updates': 'selected'};
 
       res.render('updates');

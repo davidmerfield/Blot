@@ -20,7 +20,47 @@ body {-webkit-font-smoothing: antialiased;}
 
 .commits p:before{content:"✔";}
 
+p, ul {position: relative;margin: 0;padding-left:1.8rem}
+
+hr {margin: 3rem 0}
+
+p:before {
+  content: "";
+  width: 15px;height: 15px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0,0,0,0.1);
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+}
+
+
 ul {list-style-type: circle;}
+* + p {margin-top: 1.5rem}
+
+li {list-style-type: none;position: relative;}
+li:before {content: "-";position: absolute;left: -1rem}
+
+.check {position: absolute;left: 1px;top: 6px}
+.check:before,
+.check:after {content: "";
+    background-color: #000;
+    content: '';
+    height: 2px;
+    left: 2px;
+    position: absolute;
+    top: 6px;
+    transform: rotate(45deg);
+    transition: background-color 200ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    width: 4px;
+    }
+
+    .check:after {
+    left: 3px;
+    top: 5px;
+    transform: rotate(-45deg);
+    width: 9px;
+    }
 </style>
 
 <div class="w-right-offset mt2 fl pt4 mt4">
@@ -35,16 +75,16 @@ ul {list-style-type: circle;}
 
   <div class="w-left fl pr4">
 
-    <div class="mv4 bb pb3 b--black-10">Done</div>
+    <div class="mv3 bb pb3 b--black-10">Done</div>
 
     {{#commits}}
-    <p>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" style="color:#aaa;border:none">{{date}}</a></p>
+    <p class="done"><span class="check"></span>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" style="color:#aaa;border:none">{{date}}</a></p>
     {{/commits}}
 </div>
 
   <div class="w-right fl pr4">
   
-    <div class="mv4 bb pb3 b--black-10">To do</div>
+    <div class="mv3 bb pb3 b--black-10">To do</div>
 
     {{{todo}}}
   </div>
