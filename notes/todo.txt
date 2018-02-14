@@ -1,72 +1,79 @@
-Improve documentation:
-- Fix broken links in the documentation and make sections linkable
-- Add example folders for sites
-- Fix guides and resources page
-- Fully document all variables as currently true
+Improve the documentation
+- Fix broken links within the documentation and the dashboard
+- Ensure subsections are linkable
+- Organize guides under the relevant section
+- Add example folders for the sites I run
+- Document all the template variables, no matter how embarrassing
 
-Improve the selection of templates then let these people know:
-- [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
-- Nash P
-- Chris S
-- John P
+Improve the selection templates
+- Design for sites with specific kinds of posts
+- Add better customization options
+- Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
 
-Record a new demo video:
+Record a new demo video
 - Show sites I run using Blot
-- Blot's developer blog: a conventional blog, show using different text editors
+- Blot's developer blog, a conventional blog, show using different text editors
 - My visual scrapbook: shows tag folders, photo blog
 - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
 - My personal site: simple landing page, edit with a doc file?
 
-Increase price to $30 a year for new subscribers. This will not affect existing subscribers.
-
-Buy .com
+Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
 
-Force SSL in a sensible way
-- Tell Luke
-
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
-- Then tell [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc)
+- Let [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc) know
 
 Fix bug which makes templates whose names contain a single prime (') un-deleteable
-- Then tell [Loren](https://mail.google.com/mail/u/1/#inbox/161769020483a3ed)
+- Let [Loren](https://mail.google.com/mail/u/1/#inbox/161769020483a3ed) know
 
-Fix bug when you have two blogs in the same app folder, then unlink one of them, then relink it.
+Fix bug with KaTeX LaTeX rendering
+- Let [Peter](https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6) know
+
+Fix bug with case sensitivity for tag folders
+- Let [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) know 
 
 Fix bug when you try to restart a cancelled Blot subscription
-- [let this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1) know.
+- Let [Steve](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1) know
+
+Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player
+- Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
+
+Fix bug with strange windows notepad encoding 
+- Let [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc) know
+
+Fix bug with accents in image paths 
+- Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1) know
+
+Fix bug which occurs if you have two blogs in the same Dropbox App folder, then unlink one of them, then relink it.
 
 Fix bug with catching dropbox file renames
 - False positives are really annoying. You'll publish a new post and it won't show up on your blog because it'll be buried in the archives. Renames need to be *right* next to each other in the dropbox delta queue.
 - Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
-- This has plagued nash for the last few months so let him know when it's better
+- Let Nash know
 
-Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then [tell Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813)
+Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time 2017-08-27 18:16:59 works but 2017-08-27-18:16:59 doesn't work
 
-Fix bug with accents in image paths then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1)
-
-Fix bug with strange windows notepad encoding and tell [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc)
-
-Fix bug with how the date parser handles a space (or lack of space) between the date and the time
-  - 2017-08-27 18:16:59 works
-  - 2017-08-27-18:16:59 doesn't work
-
-Fix bug with katex latex rendering described by Peter
-https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6
-
-Fix bug with case sensitivity for tag folders
-https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae
 
 ---
 
+Buy the .com
+
 Incorporate
 
+Add support for other payment methods
+- Cash in an envelope. I should get a PO Box
+- Bitcoin and Ethereum
+- PayPal
+
+Force SSL in a sensible way
+- Let [Luke](https://mail.google.com/mail/u/1/#search/ylukem/16145b0a363f9a2c) know
+
 Start monthly newsletter with improvements, changes
-- Tell John P.
+- Let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
 
 Make it so users can embed an image in a post by copy-pasting the Dropbox share link
-- Tell [Logan](https://twitter.com/blot__/status/962762284782243842)
+- Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
 
 Write a unified import tool which scrapes content from:
 - Tumblr
@@ -127,7 +134,7 @@ Full folder access improvements
 
 ---
 
-Help [Larry set up his themes](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4)
+Help [Larry](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4) set up his themes
 
 Offer to design the blot site for:
 https://mail.google.com/mail/u/1/#inbox/15f734998c533068
@@ -151,9 +158,6 @@ New post support
 - Multi-file posts from inside one folder? (Album)
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
 
-New payment methods
-- BTC, ETH etc..
-- PayPal, and let [these](https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544a859e881a152) [people](https://mail.google.com/mail/u/0/?zx=s4822pgobzlz#inbox/1544b5f92e1e6870) guy know.
 
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
