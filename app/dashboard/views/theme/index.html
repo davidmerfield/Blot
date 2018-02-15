@@ -1,11 +1,20 @@
 {{> sub_nav}}
 
 <div class="clear"></div>
+  
 
   <form method='post' action='?_csrf={{csrftoken}}'>
 
-    <p><a class="button" href="/theme/new">Create a new theme</a></p>
 
+
+    {{^blog.template}}
+  <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:1em 0">Your blog does not use a template.</span>
+  {{/blog.template}}
+
+    <p class="w-third fl"><a class="button" href="/theme/new">Create a new theme</a></p>
+
+    <div class="clear"></div>
+    <Br>
       <input name="template" value="{{blog.template}}" type="hidden"/>
 
       <div>
@@ -97,4 +106,13 @@
       {{/templates}}
     </div>
   </form>
+  {{#blog.template}}
+  <div class="clear"></div>
+  <br><hr><br><br>
+  <form method='post' action='?_csrf={{csrftoken}}'>
+    <input name="template" value="" type="hidden"/>
+    <input type="submit" class="button" value="Disable your blog's template">
+  </form>
+{{/blog.template}}
+
 <div class="clear"></div>

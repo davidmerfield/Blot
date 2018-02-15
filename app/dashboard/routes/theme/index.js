@@ -20,6 +20,12 @@ module.exports = function(server){
     .post(function(req, res){
 
       var templateID = req.body.template;
+      var blogID = req.blog.id;
+
+      if (templateID === '') return Blog.set(blogID, {template: ''}, function (err) {
+        res.message({success: 'Disabled your template'});
+        res.redirect(req.path);
+      });
 
       // Blog selected a new template
       if (templateID && templateID === req.blog.template)
