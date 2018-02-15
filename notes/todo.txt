@@ -1,11 +1,11 @@
 Improve the documentation
-- Fix broken links within the documentation and the dashboard
+- Fix broken links within (and to) the documentation
 - Ensure subsections are linkable
 - Organize guides under the relevant section
 - Add example folders for the sites I run
 - Document all the template variables, no matter how embarrassing
 
-Improve the selection templates
+Improve the selection of templates
 - Design for sites with specific kinds of posts
 - Add better customization options
 - Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
