@@ -2,23 +2,7 @@
 {{> header}}
 <style type="text/css">
 
-body {-webkit-font-smoothing: antialiased;}
-.todo p, .commits p {position: relative;}
-.todo p:before,
-.commits p:before {
-  content:"";
-  position: absolute;
-  left: 0;
-  top: 0.4em;
-  left: -1.5em;
-  font-size:1em;
-  width:0.6em;height:0.6em;
-  border:1px solid #aaa;
-  line-height: 0.3;
-  text-indent: 0.1em;
-}
 
-.commits p:before{content:"✔";}
 
 p, ul {position: relative;margin: 0;padding-left:1.8rem}
 
@@ -28,7 +12,7 @@ p:before {
   content: "";
   width: 15px;height: 15px;
   box-sizing: border-box;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid #aaa;
   position: absolute;
   left: 0;
   top: 0.3rem;
@@ -39,7 +23,7 @@ ul {list-style-type: circle;}
 * + p {margin-top: 1.5rem}
 
 li {list-style-type: none;position: relative;}
-li:before {content: "-";position: absolute;left: -1rem}
+li:before {content: "–";position: absolute;left: -1.4rem;color: #aaa}
 
 .check {position: absolute;left: 1px;top: 6px}
 .check:before,
@@ -65,7 +49,7 @@ li:before {content: "-";position: absolute;left: -1rem}
 
 <div class="w-right-offset mt2 fl pt4 mt4">
   <div class="measure">
-    <div class="mb5">The lists below give you a idea of what I’m working on. I tend to announce significant updates on <a href="https://twitter.com/blot__">Blot’s Twitter account</a>. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions.</div>
+    <div class="mb5">The lists below give you a idea of what I’m working on. I tend to announce significant news on <a href="https://twitter.com/blot__">Blot’s Twitter account</a>. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions.</div>
   </div>
 
 </div>
@@ -75,7 +59,7 @@ li:before {content: "-";position: absolute;left: -1rem}
 
   <div class="w-left fl pr4">
 
-    <div class="mv3 bb pb3 b--black-10">Done</div>
+    <div class="mv3 bb pb3 b--black-20">Done</div>
 
     {{#commits}}
     <p class="done"><span class="check"></span>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" style="color:#aaa;border:none">{{date}}</a></p>
@@ -84,7 +68,7 @@ li:before {content: "-";position: absolute;left: -1rem}
 
   <div class="w-right fl pr4">
   
-    <div class="mv3 bb pb3 b--black-10">To do</div>
+    <div class="mv3 bb pb3 b--black-20">To do</div>
 
     {{{todo}}}
   </div>

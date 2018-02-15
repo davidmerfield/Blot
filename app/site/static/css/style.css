@@ -18,7 +18,7 @@ html, body {
   height: 60px;
 }
 
-hr {width: 100%;border:none;background: #ddd;height: 1px;margin: 0}
+hr {width: 100%;border:none;background: rgba(0,0,0,0.2);height: 1px;margin: 0}
 #demo:after {
     content: "\2007";
     background: #00baff;
