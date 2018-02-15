@@ -22,6 +22,7 @@ module.exports = {
   dateFormat: 'M/D/YYYY',
   dateDisplay: 'MMMM D, YYYY',
   hideDates: false,
+  forceSSL: false,
   plugins: defaultPlugins,
   cacheID: 0
 };
