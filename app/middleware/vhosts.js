@@ -46,9 +46,6 @@ module.exports = function (req, res, next){
 
     if (err || !blog || !blog.handle || blog.isDisabled || blog.isUnpaid) {
 
-      if (reqBlog.domain && blog.forceSSL && req.protocol !== 'https')
-        return res.redirect('https://' + blog.domain + req.url);
-
       // If the visit is to www.CUSTOM.com
       // then strip www. and try again
 
@@ -114,6 +111,8 @@ module.exports = function (req, res, next){
       return res.status(301).redirect(req.protocol + '://' + blog.handle + '.' + config.host + req.url);
     }
 
+    if (reqBlog.domain && blog.forceSSL && req.protocol !== 'https')
+      return res.redirect('https://' + blog.domain + req.url);
 
     // Load in pretty and shit...
     // this must follow preview
