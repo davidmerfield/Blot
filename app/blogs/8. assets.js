@@ -14,13 +14,14 @@ module.exports = function(server){
 
   var Metadata = require('../models/metadata');
 
-  server.use(express.static(allDir, {maxAge: maxAge}));
 
   server.use(sendBlogFile(rootDir + '/blogs'));
 
   // the files for Blot's MSWORD feature are placed
   // here for some reason.
   server.use(sendBlogFile(rootDir + '/www/blogs'));
+
+  server.use(express.static(allDir, {maxAge: maxAge}));
 
   function sendBlogFile (root) {
 
@@ -29,7 +30,7 @@ module.exports = function(server){
     return function handler (req,res,next) {
 
       if (!req.path) return next();
-
+            
       // I checked and this doesnt seem to be
       // dangerous. Not 100% sure though.
       // It maps '%20' to ' ' etc... and also lower
@@ -41,9 +42,17 @@ module.exports = function(server){
       // Resolve the blog directory to check.
       var blogDir = root + '/' + req.blog.id;
 
-      res.contentType(mime.contentType(mime.lookup(path) || 'application/octet-stream'));
+      // If we can't determine a mime type for a given path,
+      // assume it is HTML if we are responding to a request
+      // for a directory, or an octet stream otherwise...
+      var default_mime = path.indexOf('.') > -1 ? 'application/octet-stream' : 'text/html';
+
+      res.contentType(mime.contentType(mime.lookup(path) || default_mime));
 
       res.sendFile(path, {root: blogDir}, function then (err){
+
+        // A file was sent successfully! Do nothing!
+        if (!err) return res.end();
 
         // We didn't find a matching file and that's OK!
         if (err && err.code === 'ENOENT')
@@ -81,9 +90,6 @@ module.exports = function(server){
           res.removeHeader('Content-Type');
           return next(err);
         }
-
-        // A file was sent successfully!
-        // Do nothing!
       });
     };
   }
