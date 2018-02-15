@@ -8,6 +8,8 @@ module.exports = function (server) {
     // locals. Stuff like page-size is set here.
     // Also global colors etc...
 
+    if (!req.blog.template) return next();
+    
     Template.getMetadata(req.blog.template, function(err, metadata){
 
       if (err || !metadata) {

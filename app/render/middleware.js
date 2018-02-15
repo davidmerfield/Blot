@@ -40,6 +40,8 @@ module.exports = function (req, res, _next) {
     ensure(name, 'string')
         .and(next, 'function');
 
+    if (!req.template) return next();
+
     var blog = req.blog;
     var blogID = blog.id;
     var templateID = req.template.id;
