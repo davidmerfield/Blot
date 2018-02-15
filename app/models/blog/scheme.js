@@ -18,6 +18,7 @@ var DECLARATION = {
   template:     ['string',  true,   false],
   menu:         [[LINK],    true,   true],
   domain:       ['string',  true,   true],
+  forceSSL:     ['boolean', true,   false],
   permalink:    [PERMALINK, true,   true],
   dateFormat:   ['string',  true,   true],
   dateDisplay:  ['string',  true,   true],
