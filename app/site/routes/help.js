@@ -3,6 +3,9 @@ var help = express.Router();
 var finder = require('finder');
 var moment = require('moment');
 
+function deslug (str) {
+  return str[0].toUpperCase() + str.slice(1).split('-').join(' ');
+}
 
 help.use(function(req, res, next){
 
@@ -44,6 +47,7 @@ help.get(['/guides', '/guides/:guide'], function(req, res){
   res.locals.partials.yield = 'help/guides/' + (req.params.guide || 'index');
   res.locals.menu.guides = 'selected';
   res.locals.title = 'Guides and reference - ' + res.locals.title;
+  if (req.params.guide) res.locals.title = deslug(req.params.guide) + ' - ' + res.locals.title;
   res.special_render('help/guides/wrapper');
 });
 
