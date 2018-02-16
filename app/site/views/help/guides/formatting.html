@@ -1,47 +1,111 @@
 <div class="measure">
-<div class="fw6">Formatting blog posts</div>
-<br>
-Blot converts text files from <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. You can use markdown to make text bold, italicized, create lists, links and more. You can mix Markdown and HTML in the same file.
-<br>
-<br>
-<br>
-<div class="fw6">Videos</div></p>
+<h1>Formatting blog posts</h1>
+<p>Blot converts text files from <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. You can use Markdown to make text bold, italicized, create lists, links and more. You can mix Markdown and HTML in the same file.</p>
+</div>
 
-<window class="text mt4">
-      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
-      <pre style="padding:2.222rem;min-height:100px">Blot automatically converts plain URLs to Youtube and Vimeo videos into video embeds. To embed a youtube video in your blog post just paste its URL like this:
+
+
+
+
+<h2>Bold and italics</h2>
+<pre class="file"><code>Surrounding text with two asterisks makes text bold:
+
+**This text will be bold.**
+
+To create italics, use a single asterix (*) on either side of the text:
+
+*This text will be italic.*
+
+Both * or _ symbols work to make text bold or italic. This way you can combine bold and italic in the same sentence. For example:
+
+**Everyone _must_ listen.**</code></pre>
+
+
+<h2>Headings</h2>
+
+<pre class="file"><code>You can create headings using the octothorpe (#).
+
+# Largest heading
+## Subheading
+### Section heading
+</code></pre>
+
+
+<h2>Links</h2>
+<pre class="file"><code>Create a text link by wrapping the linked text in brackets [ ], and then wrapping the link in parenthesis ( ). For example:
+
+[Wikipedia](https://wikipedia.org)</code></pre>
+
+
+<h2>Images</h2>
+<p>Read the full <a href="/help/guides/images">guide to inserting an image into a post</a>.</p>
+<pre class="file"><code>Here's the basic Markdown to embed an image:
+
+![Image title](https://url.of/the/image.jpg)</code></pre>
+
+<h2>Lists</h2>
+<pre class="file"><code>Make a bulleted list by preceding list items with a single asterix (*) or a hyphen (-). You need a space between the asterix and the text.
+
+- Round
+- Shell
+- Projectile
+
+Create a numbered list by preceding list items with a number.
+
+1. Eins
+2. Deux
+3. Tres</code></pre>
+
+
+<h2>Footnotes</h2>
+<pre class="file"><code>You can specify footnotes using this syntax.[^1] Another line with a different footnote.[^2]
+
+[^1]: And the note goes here.
+[^2]: And the second goes here too.</code></pre>
+
+
+<h2>Mathematics</h2>
+<pre class="file"><code>Blot will convert equations set in LaTeX. Wrap your LaTeX in two dollar signs ($) like this:
+
+$$ f(x) = 2x^2 + 2/3 $$
+</code></pre>
+
+<h2>Strike out text</h2>
+<pre class="file"><code>
+Put a double tilde (~) on either side of the text you want to strikethrough:
+
+~~Strike out mistakes~~</code></pre>
+
+
+
+<h2>Videos</h2>
+<pre class="file"><code>Blot automatically converts plain URLs to Youtube and Vimeo videos into video embeds. To embed a youtube video in your blog post just paste its URL like this:
 
 https://www.youtube.com/watch?v=nkJA6SYwa94
 
-You can also paste the HTML for a video embed directly into a blog post if you prefer.</pre>
-      <border class="left"></border><border class="right"></border>
-      <border class="top"></border><border class="bottom"></border>
-      <corner class="top left"></corner><corner class="top right"></corner>
-      <corner class="bottom left"></corner><corner class="bottom right"></corner>
-    </window>
-<br>
-<br>
-<br>
-<div class="fw6">Footnotes</div>
-You can specify footnotes using this syntax:
+You can also paste the HTML for a video embed directly into a blog post if you prefer.</code></pre>
 
-<window class="text mt4">
-      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
-      <pre style="padding:2.222rem;min-height:100px">A line with a footnote.[^1] Another line.[^2]
 
-[^1]: And the note goes here.
-[^2]: And the second goes here too.</pre>
-      <border class="left"></border><border class="right"></border>
-      <border class="top"></border><border class="bottom"></border>
-      <corner class="top left"></corner><corner class="top right"></corner>
-      <corner class="bottom left"></corner><corner class="bottom right"></corner>
-    </window>
 
-<br>
-<br>
-<br>
-<div class="fw6">Layout</div>
-I wrote a Markdown extension for Blot which provides basic layout shortcuts. The features are as follows:
+
+<h2>Code</h2>
+<pre class="file"><code>Indent code with four spaces:
+
+    var foo = &#x201C;bar&#x201D;;
+
+You can also wrap code with three backticks (`). Enable syntax highlighting like this:
+
+```javascript
+var foo = "bar";
+```
+</code></pre>
+<div class="measure"><Br>
+<p>You can customize your code's syntax highlighting by modifying the highlight.js CSS file which comes with <a href="/help/templates">your blog's template.</a></p>
+</div>
+
+<h2>Layout</h2>
+<div class="measure">
+<p>I wrote a Markdown extension for Blot which provides basic layout shortcuts. Your blog&apos;s template controls how the layout HTML is ultimately styled. Most Blot templates come with a variation on <a href="/css/layout.css">layout.css</a> which provides the following features:</p>
 </div><br>
 <table>
 <thead>
@@ -105,153 +169,17 @@ I wrote a Markdown extension for Blot which provides basic layout shortcuts. The
 </tbody>
 </table>
 <br>
+<pre class="file"><code>
 You can including multiple lines inside the same layout tag by indenting them:
 
-<pre><code>{&lt;&lt;} ## Subtitle which extends into left margin
-     A paragraph which will also extend into the left margin.
+{&lt;&lt;} ## Title which extends into left margin
+     Line which also extends into the left margin.
 
-{&gt;&gt;} ## Subtitle which extends into right margin
-     A paragraph which will also extend into the right margin.
+{&gt;&gt;} ## Title which extends into right margin
+     Line which also extends into the right margin.
 </code></pre>
 
 <br>
-Your blog&apos;s template controls how the layout HTML is styled. Most Blot templates come with a variation on <a href="/css/layout.css">layout.css</a> which provides the above features as described.
 <br>
 <br>
 <br>
-<div class="fw6">Bold and Italic</div>
-To create italics, use a single asterix (*) on either side of the text:
-<div class="example">
-  <div class=" w-50 fl"><code>*This text will be italic.*</code></div>
-  <div class=" w-50 fl"><em>This text will be italic.</em></div>
-</div>
-<br>
-<br>
-
-Surrounding text with two asterisks makes text bold:
-<div class="example">
-  <div class=" w-50 fl"><code>**This text will be bold.**</code></div>
-  <div class=" w-50 fl"><strong>This text will be bold.</strong></div>
-</div>
-<br>
-<br>
-
-Both * or _ symbols work to make text bold or italic. This way you can combine bold and italic in the same sentence. For example:
-
-<div class="example">
-  <div class=" w-50 fl"><code>**Everyone _must_ listen.**</code></div>
-  <div class=" w-50 fl"><strong>Everyone <em>must</em> listen.</strong></div>
-</div>
-<br>
-<br>
-
-
-
-<div id="strikethrough"><h2>Strikethrough</h2><p>Put a double tilde (~) on either side of the text you want to strikethrough:</p><div class="example">
-  <div><code>~~Strike out mistakes~~</code></div>
-  <div><del>Strike out mistakes</del></div>
-  <section class="clear"></section>
-</div></div>
-
-
-
-
-
-
-
-<div id="lists"><h2>Lists</h2><p>Make a bulleted list by preceding list items with a single asterix (*) or a hyphen (-). You need a space between the asterix and the text.</p><div class="example">
-<div class="large">
-<code>- Round
-- Shell
-- Projectile</code>
-</div>
-<div>
-<em> Round
-</em> Shell
-* Projectile
-</div>
-<section class="clear"></section>
-</div><p>Create a numbered list by preceding list items with a number.</p><div class="example">
-<div class="large">
-<code>1. Eins
-2. Deux
-3. Tres</code>
-</div>
-<div>
-1. Eins
-2. Deux
-3. Tres
-</div>
-<section class="clear"></section>
-</div></div>
-
-
-
-
-<div id="links"><h2>Links</h2><p>Create a text link by wrapping the linked text in brackets [ ], and then wrapping the link in parenthesis ( ). For example:</p><div class="example">
-<div>
-<code>[Wikipedia](https://wikipedia.org)</code></div>
-<div><a href="https://wikipedia.org">Wikipedia</a></div>
-<section class="clear"></section>
-</div></div>
-
-
-
-
-<div id="headings"><h2>Headings</h2><pre><code># Largest heading
-## Subheading
-### Section heading
-</code></pre></div>
-
-<div id="mathematics"><h2>Mathematics</h2><p>Blot will convert equations set in LaTeX. Check out this useful <a href="https://nrich.maths.org/discus/messages/24097/66497.html">guide</a>. To use this, wrap your LaTeX in two dollar signs ($$) like this:</p><p>$$ f(x) = 2x^2 + 2/3 $$<br>
-&#xA0;&#xA0;&#xA0; $$ f(x) = 2x^2 + 2/3 $$</p></div>
-
-
-
-
-
-
-<div id="images"><h2>Images</h2><p>Here&apos;s what the markdown looks like, note the &#x2018;!&#x2019; before the tag.</p><pre><code>![Alt text](http://example.com/image.jpg &quot;Title&quot;)
-</code></pre><p>Yes, first create a folder whose name starts with an underscore, e.g. &apos;_images&apos;. Blot will not turn any of the files inside into blog posts, but they will be public. Then put the image inside then embed the image like this:</p><pre><code>![Image description](/_images/image.jpg)
-</code></pre><p>Blot resolves relative paths based on the location of the source file, not its permalink. File paths are case-insenitive. For example, let&apos;s say your blog has this folder structure:</p><window>
-
-  <toolbar>
-    <dots>
-      <dot></dot>
-      <dot></dot>
-      <dot></dot>
-    </dots>
-    <icon class="dropbox"></icon> Your site
-  </toolbar>
-
-  <sorter>Name <icon class="chevron"></icon></sorter>
-
-  <contents>
-    <item class=" open"><icon class="folder  "></icon> Posts</item>
-    <item class="nested "><icon class=" file img"></icon> _apple.png</item>
-    <item class="nested "><icon class=" file txt"></icon> fruit.txt</item>
-    <item class=" open"><icon class="folder  "></icon> _Images</item>
-    <item class="nested "><icon class=" file img"></icon> peach.png</item>
-    <item>&#xA0;</item>
-    <item>&#xA0;</item>
-    <item>&#xA0;</item>
-  </contents>
-  
-  <border class="left"></border>
-  <border class="right"></border>
-  <border class="top"></border>
-  <border class="bottom"></border>
-
-  <corner class="top left"></corner>
-  <corner class="top right"></corner>
-  <corner class="bottom left"></corner>
-  <corner class="bottom right"></corner>
-</window><p>These images all resolve correctly in <code>fruit.txt</code>, no matter its resulting URL.</p><pre><code>![Apple](_apple.png)
-![Apple](/posts/_apple.png)
-![Peach](../_images/peach.png)
-</code></pre></div>
-
-
-<div id="code-snippets"><h2>Code snippets</h2><p>Indent code with four spaces:</p><pre><code>var foo = &#x201C;bar&#x201D;;
-</code></pre><p>You can also wrap <code>code.snippets</code> with three backticks <code>`</code>. This is useful for inserting code snippets inside a paragraph.</p><p>If you have enabled the syntax highlighting app, Blot will process the snippet using <a href="https://highlightjs.org/">highlight.js</a>. Every Blot template comes with its own syntax highlighting theme. If you are designing a custom blog template and want to use syntax highlighting, please <a href="https://highlightjs.org/static/demo/">add a theme</a> to your blog&#x2019;s CSS file.</p></div>
-</div>

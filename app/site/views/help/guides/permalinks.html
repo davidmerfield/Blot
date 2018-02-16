@@ -1,34 +1,127 @@
-    <div id="permalink-formats">
+<h1>Permalink formats</h1>
 
+<div class="measure">
 
+<p>Each post is blog assigned a permalink, or permanent URL. You can edit the format of these permalinks on <a href="/preferences">the dashboard</a>. The permalink's format can include some of <a href="/help/templates">the blog post's properties</a>. Here are a few examples:</p>
 
-<div id="default-permalinks"><h2>Default permalinks</h2><p>Each post is assigned a permalink, or permanent URL. You can edit the general format of these permalinks on <a href="/preferences">the dashboard</a>. You can use any of <a href="&#x2F;help&#x2F;getting-started-with-blot#metadata">the post&apos;s properties</a> and any of <a href="/help/guides-and-resources">Blot&apos;s date tokens</a>. Here are a few examples:</p><p></p><table>
+</div>
+
+{{=[[ ]]=}}
+
+<table>
 <thead>
 <tr>
 <th>The permalink format...</th>
-<th>will produce URLs like...</th>
+<th>produces URLs like...</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>{{slug}}</code></td>
-<td>example.com/title-of-the-post</td>
+<td><span style="color:#aaa">www.example.com</span>/title-of-the-post</td>
 </tr>
 <tr>
 <td><code>blog/{{slug}}</code></td>
-<td>example.com/blog/title-of-the-post</td>
+<td><span style="color:#aaa">www.example.com</span>/blog/title-of-the-post</td>
 </tr>
 <tr>
 <td><code>{{YYYY}}/{{slug}}</code></td>
-<td>example.com/2017/title-of-the-post</td>
+<td><span style="color:#aaa">www.example.com</span>/2017/title-of-the-post</td>
 </tr>
 <tr>
 <td><code>{{YYYY}}/{{MM}}/{{D}}/{{slug}}</code></td>
-<td>example.com/2017/10/3/title-of-the-post</td>
+<td><span style="color:#aaa">www.example.com</span>/2017/10/3/title-of-the-post</td>
 </tr>
 <tr>
 <td><code>{{slug}}-{{MM}}-{{YYYY}}</code></td>
-<td>example.com/title-of-the-post-10-2017</td>
+<td><span style="color:#aaa">www.example.com</span>/title-of-the-post-10-2017</td>
 </tr>
 </tbody>
-</table><p></p></div>
+</table>
+<br>
+<div class="measure">
+<p>Here is the full list of blog post properties that you can use, in addition to the <a href="/help/guides/date-tokens">date tokens</a> for the post's publish date:</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{slug}}</code></td>
+<td>A URL-friendly version of the post's title</td>
+</tr>
+
+<tr>
+<td><code>{{slug-without-diacritics}}</code></td>
+<td><code>{{slug}}</code> without diacritical marks</td>
+</tr>
+
+
+<tr>
+<td><code>{{name}}</code></td>
+<td>The file's name, lowercased</td>
+</tr>
+
+<tr>
+<td><code>{{name-without-extension}}</code></td>
+<td><code>{{name}}</code> without the file extension</td>
+</tr>
+
+
+<tr>
+<td><code>{{path}}</code></td>
+<td>The file's path, lowercased</td>
+</tr>
+<tr>
+
+<tr>
+<td><code>{{metadata}}</code></td>
+<td>An object containing metadata specified in the file</td>
+</tr>
+
+<td><code>{{size}}</code></td>
+<td>The file's size in bytes</td>
+</tr>
+
+<tr>
+<td><code>{{dateStamp}}</code></td>
+<td>A unix datestamp for the post's publish date</td>
+</tr>
+
+<tr>
+<td><code>{{created}}</code></td>
+<td>A unix datestamp for the file's creation date</td>
+</tr>
+
+<tr>
+<td><code>{{updated}}</code></td>
+<td>A unix datestamp for the file's modified date</td>
+</tr>
+
+
+<tr>
+<td><code>{{more}}</code></td>
+<td>True if the post's teaser is shorter than the full post</td>
+</tr>
+
+<tr>
+<td><code>{{page}}</code></td>
+<td>True if the file is a page</td>
+</tr>
+
+<tr>
+<td><code>{{menu}}</code></td>
+<td>True if the file is a page and is on your blog's menu</td>
+</tr>
+
+
+</tbody>
+</table>
+
+</div>
+
+[[={{ }}=]]

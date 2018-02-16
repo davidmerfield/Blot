@@ -1,70 +1,28 @@
 <div class="measure">
+<h1>Embedding images in blog posts</h1>
 
-<h1>How to insert an image into a post</h1>
-<p>There are many ways to embed an image in a blog post on Blot. The best way in your particular case will depend on the type of file that you use to create the blog post.</p>
-<hr>
+<p>There are a few ways to insert an image into a blog post. The best way will depend on the location of the image and the type of file you'd like to use to create the blog post.</p>
 <h2>Using a Word Document</h2>
 <p>Just drag and drop the image into the Word Document.</p>
-<hr>
-<h2>Using a text file and Markdown</h2>
-<p>Here's the syntax to embed an image that's already on the internet. Please note the exclamation point!</p>
-      <window class="text mt4">
-      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
-      <pre style="padding:2.222rem;min-height:100px">
-![Image's title](http://url.of/the/image.jpg)</pre>
-      <border class="left"></border><border class="right"></border>
-      <border class="top"></border><border class="bottom"></border>
-      <corner class="top left"></corner><corner class="top right"></corner>
-      <corner class="bottom left"></corner><corner class="bottom right"></corner>
-    </window>
-<br><br>
+<h2>Using a text file</h2>
+<p>You can use <a href="/help/guides/formatting">Markdown</a> to embed an image. Please note that any image in your blog's folder becomes a blog post by default. You can tell Blot <a href="/help#ignoring-files">not to turn a particular image into a blog post</a> by starting its name with an underscore, or by putting it in a folder whose name begins with an underscore.
+</p>
+</div>
+<window class="text mt4">
+<toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
+<pre style="padding:2.222rem;min-height:100px">Here's the Markdown to embed an image:
 
-What if you want to use an image that's in your site's folder? First, you will need to make sure that your image's filename begins with an underscore, or that it's inside a folder whose name begins with an underscore. This is neccessary because Blot turns images inside your blog's folder into blog posts. So let's say your blog's folder looks like this:
-<br><Br>
-  <window class="w-80">
+![Image title](/path/to/the/_image.jpg)
 
-    <toolbar><dots><dot></dot><dot></dot><dot></dot></dots>
-      <icon class="dropbox"></icon> Your blog
-    </toolbar>
+Blot resolves relative and absolute paths. Your blog's folder is the root directory. Paths are case-insensitive. You can also embed an image that's already on the internet:
 
-    <sorter>Name <icon class="chevron"></icon></sorter>
-
-    <contents>
-      <item class=" open"><icon class="folder  "></icon> _Images</item>
-      <item class="nested "><icon class=" file img"></icon> First.jpg</item>
-      <item class=" open"><icon class="folder "></icon> Posts</item>
-      <item class="nested "><icon class=" file txt"></icon> Your post.txt</item>
-      <item class="nested "><icon class=" file img"></icon> _Second.jpg</item>
-      <item>&#xA0;</item>
-      <item>&#xA0;</item>
-      <item>&#xA0;</item>
-    </contents>
-    
-    <border class="left"></border>
-    <border class="right"></border>
-    <border class="top"></border>
-    <border class="bottom"></border>
-
-    <corner class="top left"></corner>
-    <corner class="top right"></corner>
-    <corner class="bottom left"></corner>
-    <corner class="bottom right"></corner>
-  </window>
-  <br><br>
-  <p class="mv0">Notice that <code><icon class="txt"></icon> <b class="fw4 f5">First.jpg</b></code> is inside <code><icon class="folder"></icon> <b class="fw4 f5">_Images</b></code>, whose name begins with an underscore and <code><icon class="txt"></icon> <b class="fw4 f5">_Second.jpg</b></code>'s name begins with an underscore. This ensures that Blot will not turn them into blog posts in their own right. You can then embed the various images in <code><icon class="txt"></icon> <b class="fw4 f5">Your post.txt</b></code> like this:</p>
-
-      <window class="text mt4">
-      <toolbar><dots><dot></dot><dot></dot><dot></dot></dots></toolbar>
-      <pre style="padding:2.222rem;">![First](../_images/_.jpg)
-![Second](/_images/second.jpg)
-
-![Apple](/_images/apple.jpg)
-![Peach](_peach.jpg)
+![Image title](https://url.of/the/image.jpg)
 </pre>
-      <border class="left"></border><border class="right"></border>
-      <border class="top"></border><border class="bottom"></border>
-      <corner class="top left"></corner><corner class="top right"></corner>
-      <corner class="bottom left"></corner><corner class="bottom right"></corner>
-    </window>
-
-      <br><br>Notice how paths are case-insensitive. Paths are resolved relative to the source file.
+<border class="left"></border><border class="right"></border>
+<border class="top"></border><border class="bottom"></border>
+<corner class="top left"></corner><corner class="top right"></corner>
+<corner class="bottom left"></corner><corner class="bottom right"></corner>
+</window>
+<br><br>
+<div class="measure">
+</div>

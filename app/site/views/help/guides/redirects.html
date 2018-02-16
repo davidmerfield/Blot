@@ -1,4 +1,9 @@
-<div id="redirects"><h2>Redirects</h2><p>You can <a href="/settings/redirects">set up redirects</a> for missing or moved pages on your blog. Your site&#x2019;s <a href="/settings/404s">404 log</a> will help you discover URLs which need redirects. You can use RegEx to match multiple routes. For example, this rule redirects URLs starting with <code>/post</code> to <code>/blog</code>:</p><pre><code>\/post\/(.*)  &#x2192;  /blog/$1
-</code></pre></div></div>
-    <div id="embed-an-image-in-a-blog-post"><p>How to embed an image in a blog post</p>
+<h1>Redirects</h1>
+<div class="measure">
+<p>You can <a href="/settings/redirects">set up redirects</a> for missing or moved pages on your blog. Your blog&#x2019;s <a href="/settings/404s">404 log</a> will help you discover URLs which need redirects. You can use RegEx to match multiple routes. For example, this rule redirects URLs starting with <code>/post</code> to <code>/blog</code>:</p>
+
+<pre><code>\/post\/(.*)  &#x2192;  /blog/$1
+</code></pre>
+
+<p>Redirects are evaluated last in the order of <a href="/help/templates#routing">Blot's routing</a>. So if there is a blog post or file which matches the URL of a redirect, the redirect will not be evaluated.</p>
 </div>
