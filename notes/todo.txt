@@ -52,55 +52,18 @@ Fix bug with catching dropbox file renames
 - Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
 - Let Nash know
 
-Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time 2017-08-27 18:16:59 works but 2017-08-27-18:16:59 doesn't work
+Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
 
+Help [Larry](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4) 
+
+Help [Svenja](https://mail.google.com/mail/u/1/#inbox/15f734998c533068) 
 
 ---
 
-Buy the .com
-
-Incorporate
-
-Add support for other payment methods
-- Cash in an envelope. I should get a PO Box
-- Bitcoin and Ethereum
-- PayPal
-
-Force SSL in a sensible way
-- Let [Luke](https://mail.google.com/mail/u/1/#search/ylukem/16145b0a363f9a2c) know
-
-Start monthly newsletter with improvements, changes
-- Let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
-
-Make it so users can embed an image in a post by copy-pasting the Dropbox share link
-- Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
-
-Write a unified import tool which scrapes content from:
-- Tumblr
-- Wordpress
-- Squarespace
-- Jekyll
-- Instagram
-- Twitter
-- Facebook
-- Medium
-- Ghost
-- Anything with an RSS feed?
-
-You could pull from different sources at the same time. And neatly places content from each directly into Blot's folder, the process should be designed to be resumeable, you should be able to reload the window. I think this will improve usage and retention.
-
-When a user pastes the whole tracking script into the preferences page on the dashboard,
-strip out everything except the ID which we need... perhaps create a page explaining what
-is happening before doing this.
-
 Public site improvements
-- Experiment with new layout ideas
-- Turn the gif on the contact page into a gradient that changes based on the time of day wherever I am.
-- Consolidate all the urls ('/changes' -> '/updates') and set up redirects
 - Log 404s on the public site to identify neccessary redirects
 - Personalize the documentation for logged in users
 - Make the site responsive and looks good on phones
-- Add a permanent floating link to Blot's support page at the bottom right of the dashboard, like basecamp
 
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
@@ -125,19 +88,31 @@ then use this method with the create/remove blog migration too.
 
 Full folder access improvements
 - Try to use the same app folder when you upgrade from app folder to full site folder
-- Let these people know I added support for 'full Dropbox' permission
-  - [Cosmo](https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615)
-  - [Alex](https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038)
-  - [James](https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65)
-  - Nick C.
-  - Jostein
+- Let [Cosmo](https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615), [Alex](https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038),  [James](https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65), Nick, Jostein know
 
----
+Buy the .com
 
-Help [Larry](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4) set up his themes
+Incorporate
 
-Offer to design the blot site for:
-https://mail.google.com/mail/u/1/#inbox/15f734998c533068
+Add support for other payment methods
+
+Start monthly newsletter with improvements, changes
+- Let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
+
+Support embedding an image in a post by copy-pasting the Dropbox share link
+- Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
+
+Write a unified import tool which scrapes content from any blog/website
+  http://exporter.blot.im/
+  https://github.com/hexojs/hexo-migrator-blogger
+  https://github.com/welksonramos/hexo-migrator-joomla
+  https://github.com/hexojs/hexo-migrator-rss
+  https://github.com/hexojs/hexo-migrator-wordpress
+  https://github.com/dreikanter/wp2md exporter/importer
+
+When a user pastes the whole tracking script into the preferences page on the dashboard,
+strip out everything except the ID which we need... perhaps create a page explaining what
+is happening before doing this.
 
 ---
 
@@ -335,7 +310,7 @@ Re-enable CSP on blot site in a way that works in Safari
 Popular entry list
 
 Related entry list
-https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61
+  - Let [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 
 Expose list of rendering errors to callback
 
@@ -344,18 +319,11 @@ Prevent uploads will still pipe large files on the server
 Add rewrite feature, e.g. rewrite /randomColor to /public/randomColor
 
 Menu needs concurrency
-https://twitter.com/davidmerfieId/status/633379764972093440
 
 Push archives feature
 https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be
 
-extend cacher to save repsonse status too?
---> this allows us to cache 404 pages...
-
-prevent hotlinking of static assets in assets.js
-.header('Access-Control-Allow-Origin', '*') // TO DO REMOVE ME TO PREVENT HOTLINKING
-
-banned permalinks are possible when page:yes
+Banned permalinks are possible when page:yes
 
 Incorporate disk space monitor to alert for low space
 
@@ -382,9 +350,6 @@ Ensure Youtube plugin still functions if apis fails
 
 Prevent image zoom plugin from zooming emojies
 
-CJK auto spacing plugin
-https://github.com/hexojs/hexo-filter-auto-spacing
-
 Embed plugin https://github.com/ritz078/embed.js
 
 Move to some SQL for storing each entry's input and output...
@@ -392,15 +357,7 @@ Move to some SQL for storing each entry's input and output...
 Add passwords for accounts
 
 Create script to export Blot sites to common formats
-- Tell Roberto
-
-Create export to markdown mini-site which
-  http://exporter.blot.im/
-  https://github.com/hexojs/hexo-migrator-blogger
-  https://github.com/welksonramos/hexo-migrator-joomla
-  https://github.com/hexojs/hexo-migrator-rss
-  https://github.com/hexojs/hexo-migrator-wordpress
-  https://github.com/dreikanter/wp2md exporter/importer
+- Let Roberto know
 
 New plugin ideas
 https://github.com/getpelican/pelican-plugins
@@ -411,11 +368,9 @@ Add transactional emails notifying user of changes to their email or password.
 
 Download the webpage for bookmark files and try to extract title + summary
 
-Consider storing blog files in s3 bucket instead of ebs?
-- Bandwidth to-and-from is free, no? So we'd have to transfer everything when the blog was reloaded.
-- Would reduce storage costs by 80% vs EBS
-- How would it affect performance? Would it improve security?
+---
 
-Add native comments plug in
+Create a comment system to replace Disqus
 
-Add email list plugin for readers?
+Create an email list system to replace Tiny Letter
+
