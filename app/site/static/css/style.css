@@ -82,7 +82,7 @@ ol.normal {padding-left: 1rem}
 ol.normal li {padding-left: 0.25rem}
 table, thead, tr {padding: 0;margin: 0}
 th {font-weight: normal;text-align: left;border-bottom: 1px solid #aaa}
-td {padding:0.5rem 2rem 0.5rem 0;border-bottom: 1px solid #eee;vertical-align: text-top}
+td, th {padding:0.5rem 2rem 0.5rem 0;border-bottom: 1px solid #eee;vertical-align: text-top}
 input {box-sizing: border-box;}
 
 .play {
