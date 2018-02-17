@@ -30,6 +30,9 @@ Fix bug which makes templates whose names contain a single prime (') un-deleteab
 Fix bug with KaTeX LaTeX rendering
 - Let [Peter](https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6) know
 
+Fix encoding bug with greek URLs
+- Let [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
+
 Fix bug with case sensitivity for tag folders
 - Let [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) know 
 
