@@ -2,248 +2,91 @@
 {{> header}}
 {{> sidebar}}
 
+{{=[[ ]]=}}
+
 <div class="pt5 w-right-offset">
 <div class="measure">
 
-Creating a template, or modifying an existing template will require an understanding of HTML, CSS and <a href="https://mustache.github.io/">Mustache</a>. Blot will be familiar to those who have worked with templates on other blogging platforms.
-<br><br>
-The best way to learn how to use Blot&apos;s template is to clone an existing template and look at its source. Please don&apos;t hestitate to <a href="/contact">contact me</a> if you have any questions.
-<br><br><br><br>
-<div class="fw6">Modify an existing template</div>
-To modify an existing template, create a new template on the <a href="/settings/design#create-a-template">design page</a> and specify the template you wish to clone.
-<br><br><br><br>
-<div class="fw6">Debugging</div>
-If you append the query string ?json=true to a URL on Blot, you can retrieve the view used to render its template. I&#x2019;d suggest using a browser extension like JSONView to make more sense of it.
-<br><br><br><br>
-<div class="fw6">Routing</div>
-When an HTTP request from one of your readers arrives at your site, Blot follows these steps to work out what to send in response. This process is known as <em>routing</em>.
-<br><br>
-<ol class="normal">
-  <li>Check your site&apos;s template to see if there is a route which matches the path. If there is, render the template and send the HTML as a response.</li>
-  <li>Check your site&apos;s folder to see if there is a file which matches the path. Send the file as a response if it matches.</li>
-  <li>Check your site&apos;s list of redirects to see if you have set one up for this path.</li>
-  <li>Serve your template&apos;s error page if you have one, or Blot&apos;s error page if not.</li>
-</ol>
-<br>
-You can <a href="https://github.com/davidmerfield/Blot/tree/master/app/blogs">read the source code</a> which defines these steps for a more precise idea of how things work.
+The best way to learn how to create a template is to read the <a href="https://github.com/davidmerfield/Blot/tree/master/app/templates/console">source code</a> for an existing template. Blot's templates will be familiar to those who have designed templates for other blogging platforms. You will need to know a little <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a>. </p>
 
-{{=[[ ]]=}}
-<br><br><br><br>
+<p>All of Blot's templates are <a href="https://github.com/davidmerfield/Blot/blob/master/LICENSE">dedicated to the public domain</a>, so you can use, modify and share them freely.</p>
 
+<h2>Creating a template</h2>
+<p>You can <a href="/design/new">create a new template</a> on the <a href"/design">design page</a> of your blog's dashboard. To edit an existing template, first create a new template and clone the template you wish to modify.</p>
+
+
+<h2>Editing a template</h2>
+<p>You can edit a template on <a href="/design">your blog's dashboard</a>, or sync the template's source files to your Dropbox and edit them locally.</p>
+
+
+
+<h2>Rendering</h2>
+<p>Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>. You should read <a href="https://mustache.github.io/mustache.5.html">Mustache's documentation</a>. The templates are used to render the blog posts which Blot generates from the files in your folder.</p>
+
+<p>For example, this template produces a list of links to all of the blog posts on your blog:</p>
+</div>
+
+<pre class="code html"><code>
+<html>
+<title>{{title}}</title>
+<body>
+{{#all_posts}}
+  <a href="{{url}}">{{title}}</a><br>
+{{/all_posts}}
+</body>
+</html>
+</code></pre>
+
+<div class="measure">
+<br><br>
+<p>Blot will render this template using data, specific and changing, called a view. This view takes the form of a JSON object. Blot generates the view based on the tags used in the template. In this case, the view will look something like this:</p>
+</div>
+<pre class="code javascript"><code>
+{
+  title: 'Your blog',
+  all_posts:[
+    {title: 'First blog post', url: '/first-blog-post'},
+    {title: 'Second blog post', url: '/second-blog-post'},
+    {title: 'Third blog post', url: '/third-blog-post'},    
+  ] 
+}
+</code></pre>
+<p>Notice how the value of {{title}} varies depending on the context in which it is used. If you don't understand this, go and read Mustache's documentation.</p>
+<div class="measure">
+
+<br><br>
+
+
+<div class="fw6">Viewing the view</div>
+If you append the query string ?json=true to any URL on Blot, you can retrieve the JSON data which comprises the view used to render its template. 
 <div class="measure">
 <br><br><br><br>
 <div class="fw6">Custom metadata</div>
 You can specify custom entry metadata:
-<window>
+</div>
 
-  <toolbar>
-    <dots>
-      <dot></dot>
-      <dot></dot>
-      <dot></dot>
-    </dots>
-    <icon class="textfile"></icon> Your post.txt
-  </toolbar>
-
-<pre class="text">
-Author: Eric Blair
+<pre class="file"><code>Author: Eric Blair
 
 # Homage to Catalonia
 
-In the Lenin Barracks in Barcelona, the day before...
+In the Lenin Barracks in Barcelona, the day before...</code></pre>
 
-</pre>
-  
-  <border class="left"></border>
-  <border class="right"></border>
-  <border class="top"></border>
-  <border class="bottom"></border>
+Metadata keys are case insensitive and can contain a single word. Use custom metadata in your template like this:</p>
 
-  <corner class="top left"></corner>
-  <corner class="top right"></corner>
-  <corner class="bottom left"></corner>
-  <corner class="bottom right"></corner>
-</window>
+<pre class="code html"><code>
+{{#entry}}
 
-Use custom metadata in your template like this:</p><pre><code>Posted by {{metadata.author}}
+  {{#metadata.author}}
+  <p>Posted by {{metadata.author}}</p>
+  {{/metadata.author}}
+
+  {{^metadata.author}}
+  <p>Posted by the editor</p>
+  {{/metadata.author}}
+
+{{/entry}}
 </code></pre>
 
-<br><br>
-Metadata keys are case insensitive. I&#x2019;d recommend using conditional blocks to prevent your layout breaking if you don&#x2019;t consistently specify metadata:
-
-<pre><code>{{#metadata.author}}
-  Posted by {{metadata.author}}
-{{/metadata.author}}
-
-{{^metadata.author}}
-  Posted by the editor
-{{/metadata.author}}
-</code></pre>
-<br><br><br><br>
-<div class="fw6">Thumbnails</div>
-Blot generates four sizes of thumbnails:
-<ul>
-<li><strong>small</strong> which has a width and height under 160px.</li>
-<li><strong>medium</strong> the default, which has a width under 640px.</li>
-<li><strong>large</strong> which has a width and height under 1060px.</li>
-<li><strong>square</strong> which has a width and height of 160px.</li>
-</ul>
-Blot will not increase the size of smaller images. The JSON added to each entry looks something like this:
-<pre class="javascript"><code class="lang-javascript">{
-    ...
-    thumbnail: {
-        small: {url: &quot;...&quot;, width: 160, height: 103},
-        medium: {url: &quot;...&quot;, width: 640, height: 411},
-        large: {url: &quot;...&quot;, width: 1060, height: 681},
-        square: {url: &quot;...&quot;, width: 160, height: 160 }
-    },
-    ...
-}
-</code></pre><p>You can use them in your template like this:</p><pre><code>{{#thumbnail.medium}}
-    &lt;img src=&quot;{{url}}&quot; width=&quot;{{width}}&quot; height=&quot;{{height}}&quot;&gt;
-{{/thumbnail.medium}}
-</code></pre><p></p></div>
-
-
-<div class="fw6">Site variables</div>
-Blot uses these variables to render <a href="https://mustache.github.io/">Mustache</a> templates.
-<br><br>
-</div>
-<table>
-<thead>
-<tr>
-<th>The tag&#x2026;</th>
-<th>is replaced with&#x2026;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{{title}}</code></td>
-<td>your site&#x2019;s title</td>
-</tr>
-<tr>
-<td><code>{{#menu}}...{{/menu}}</code></td>
-<td>a list containing the links on your site&#x2019;s menu</td>
-</tr>
-<tr>
-<td><code>{{avatar}}</code></td>
-<td>the URL to your site&#x2019;s avatar</td>
-</tr>
-<tr>
-<td><code>{{siteURL}}</code></td>
-<td>the URL to your site&#x2019;s homepage</td>
-</tr>
-<tr>
-<td><code>{{feedURL}}</code></td>
-<td>the URL to your site&#x2019;s RSS feed</td>
-</tr>
-<tr>
-<td><code>{{cssURL}}</code></td>
-<td>the URL to your site&#x2019;s CSS file</td>
-</tr>
-<tr>
-<td><code>{{scriptURL}}</code></td>
-<td>the URL to your site&#x2019;s JS file</td>
-</tr>
-<tr>
-<td><code>{{sitemapURL}}</code></td>
-<td>the URL to your site&#x2019;s sitemap</td>
-</tr>
-<tr>
-<td><code>{{cacheID}}</code></td>
-<td>a unix time stamp for the last change you made to your site</td>
-</tr>
-<tr>
-<td><code>{{timeZone}}</code></td>
-<td>your site&#x2019;s timezone</td>
-</tr>
-<tr>
-<td><code>{{roundAvatar}}</code></td>
-<td><code>true</code> if you&#x2019;ve indicated your avatar is round, <code>false</code> if not</td>
-</tr>
-<tr>
-<td><code>{{hideDates}}</code></td>
-<td><code>true</code> if you&#x2019;ve chosen to hide the dates on your site, <code>false</code> if not</td>
-</tr>
-</tbody>
-</table>
-<br><br><br><br>
-<div class="measure">
-<div class="fw6">Post variables</div>
-Note that some of the variables, like <code>{{{html}}}</code> have three  handlebars rather than two. <a href="https://mustache.github.io/">Mustache</a> escapes variables with two handlebars.
-<br><br>
-</div>
-<table>
-<thead>
-<tr>
-<th>The tag&#x2026;</th>
-<th>is replaced with&#x2026;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{{id}}</code></td>
-<td>Number representing the entry&apos;s unique ID</td>
-</tr>
-<tr>
-<td><code>{{date}}</code></td>
-<td>Human readable publish date for the entry</td>
-</tr>
-<tr>
-<td><code>{{title}}</code></td>
-<td>Title of the entry</td>
-</tr>
-<tr>
-<td><code>{{{titleTag}}}</code></td>
-<td>HTML of the entry&apos;s title</td>
-</tr>
-<tr>
-<td><code>{{{html}}}</code></td>
-<td>HTML of the entry, including the title</td>
-</tr>
-<tr>
-<td><code>{{{body}}}</code></td>
-<td>HTML of the entry, excluding the title</td>
-</tr>
-<tr>
-<td><code>{{{teaser}}}</code></td>
-<td>HTML of the title and the first few items in the entry. You can specify the end of the teaser by inserting the special tag <code>{{more}}</code> into your blog post&apos;s file. Everything before <code>{{more}}</code> will be included in the teaser.</td>
-</tr>
-<tr>
-<td><code>{{{teaserBody}}}</code></td>
-<td><code>{{{teaser}}}</code> without the title.</td>
-</tr>
-<tr>
-<td><code>{{summary}}</code></td>
-<td>Text summary of the entry</td>
-</tr>
-<tr>
-<td><code>{{more}}</code></td>
-<td>Boolean indicating whether <code>teaser</code> differs from <code>html</code>. This is useful for determining whether or not to show &apos;read more&apos; links.</td>
-</tr>
-<tr>
-<td><code>{{tags}}</code></td>
-<td>List of tags for the entry</td>
-</tr>
-<tr>
-<td><code>{{url}}</code></td>
-<td>Relative URL to the entry</td>
-</tr>
-<tr>
-<td><code>{{menu}}</code></td>
-<td>&quot;true&quot; if the entry is a page, &quot;false&quot; if not</td>
-</tr>
-<tr>
-<td><code>{{created}}</code></td>
-<td>Timestamp</td>
-</tr>
-<tr>
-<td><code>{{updated}}</code></td>
-<td>Timestamp</td>
-</tr>
-</tbody>
-</table>
-<br><br><br><br>
 <div class="measure">
 <div class="fw6">Helper functions</div>
 Blot exposes some general purpose functions as Mustache lambdas. Note that you can pass another variable from the view to these functions.
@@ -296,10 +139,25 @@ You can uses these variables to render lists of posts
 
 
 </div>
+
+<h2>Routing</h2>
+<p>When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response. This process is known as <em>routing</em>.</p>
+
+<ol class="normal">
+  <li>Check your site&apos;s template to see if there is a route which matches the path. If there is, <a href="#rendering">render the template</a> and send the HTML as a response.</li>
+  <li>Check your site&apos;s folder to see if there is a file which matches the path. <a href="/help/guides/static-server">Send the file</a> as a response if it matches.</li>
+  <li>Check your site&apos;s list of redirects to see if you have set one up for this path. Redirect the request if one exists.</li>
+  <li>Render your blog's error page if it exists, or use Blot&apos;s if it doesn't.</li>
+</ol>
+<br>
+You can <a href="https://github.com/davidmerfield/Blot/tree/master/app/blogs">read the source code</a> which defines these steps for a more precise idea of how things work.
+
+
+<br><br><br>
 <br><br><br>
 <br><br><br>
 <br><br><br>
 </div>
-<br><br><br>
+
 [[={{ }}=]]
 {{> footer}}

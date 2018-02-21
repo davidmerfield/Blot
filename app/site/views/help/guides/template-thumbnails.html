@@ -1,0 +1,23 @@
+<div class="fw6">Thumbnails</div>
+Blot generates four sizes of thumbnails:
+<ul>
+<li><strong>small</strong> which has a width and height under 160px.</li>
+<li><strong>medium</strong> the default, which has a width under 640px.</li>
+<li><strong>large</strong> which has a width and height under 1060px.</li>
+<li><strong>square</strong> which has a width and height of 160px.</li>
+</ul>
+Blot will not increase the size of smaller images. The JSON added to each entry looks something like this:
+<pre class="javascript"><code class="lang-javascript">{
+    ...
+    thumbnail: {
+        small: {url: &quot;...&quot;, width: 160, height: 103},
+        medium: {url: &quot;...&quot;, width: 640, height: 411},
+        large: {url: &quot;...&quot;, width: 1060, height: 681},
+        square: {url: &quot;...&quot;, width: 160, height: 160 }
+    },
+    ...
+}
+</code></pre><p>You can use them in your template like this:</p><pre><code>{{#thumbnail.medium}}
+    &lt;img src=&quot;{{url}}&quot; width=&quot;{{width}}&quot; height=&quot;{{height}}&quot;&gt;
+{{/thumbnail.medium}}
+</code></pre><p></p></div>
