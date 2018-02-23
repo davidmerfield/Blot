@@ -1,30 +1,24 @@
 {{> head}}
 {{> header}}
 {{> sidebar}}
-
+<style type="text/css">
+window.text, window.code {margin: 2rem 0 4rem}
+</style>
 {{=[[ ]]=}}
 
 <div class="pt5 w-right-offset">
-<div class="measure">
 
-The best way to learn how to create a template is to read the <a href="https://github.com/davidmerfield/Blot/tree/master/app/templates/console">source code</a> for an existing template. Blot's templates will be familiar to those who have designed templates for other blogging platforms. You will need to know a little <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a>. </p>
+<!-- The best way to learn how to create a template is to read the <a href="https://github.com/davidmerfield/Blot/tree/master/app/templates/console">source code</a> for an existing template.  -->
 
-<p>All of Blot's templates are <a href="https://github.com/davidmerfield/Blot/blob/master/LICENSE">dedicated to the public domain</a>, so you can use, modify and share them freely.</p>
+<p class="measure mt0">Blot's templates will be familiar to those who have designed templates for other blogging platforms. You will need to know a little <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a>. All of Blot's templates are <a href="https://github.com/davidmerfield/Blot/blob/master/LICENSE">dedicated to the public domain</a>, so you can use, modify and share them freely.</p>
 
-<h2>Creating a template</h2>
-<p>You can <a href="/design/new">create a new template</a> on the <a href"/design">design page</a> of your blog's dashboard. To edit an existing template, first create a new template and clone the template you wish to modify.</p>
-
-
-<h2>Editing a template</h2>
-<p>You can edit a template on <a href="/design">your blog's dashboard</a>, or sync the template's source files to your Dropbox and edit them locally.</p>
+<h2>Creating and editing templates</h2>
+<p class="measure">You can <a href="/design/new">create a new template</a> on the <a href"/design">design page</a> of your blog's dashboard. To edit an existing template, first create a new template and clone the template you wish to modify.</p>
+<p class="measure">You can make changes to a template using the editor on <a href="/design">your blog's dashboard</a>, or you can sync the template's source files to your Dropbox and edit them directly.</p>
 
 
-
-<h2>Rendering</h2>
-<p>Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>. You should read <a href="https://mustache.github.io/mustache.5.html">Mustache's documentation</a>. The templates are used to render the blog posts which Blot generates from the files in your folder.</p>
-
-<p>For example, this template produces a list of links to all of the blog posts on your blog:</p>
-</div>
+<h2>How are templates rendered?</h2>
+<p class="measure">Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>. <!-- You should read <a href="https://mustache.github.io/mustache.5.html">Mustache's documentation</a> carefully before designing your own template.  -->The templates are used to render the blog posts which Blot generates from the files in your folder. For example, this template produces a list of links to all of the blog posts on your blog:</p>
 
 <pre class="code html"><code>
 <html>
@@ -37,10 +31,8 @@ The best way to learn how to create a template is to read the <a href="https://g
 </html>
 </code></pre>
 
-<div class="measure">
-<br><br>
-<p>Blot will render this template using data, specific and changing, called a view. This view takes the form of a JSON object. Blot generates the view based on the tags used in the template. In this case, the view will look something like this:</p>
-</div>
+<p class="measure">Blot will render this template using data, specific and changing, called a view. This view takes the form of a JSON object. Blot generates the view based on the tags used in the template. In this case, the view will look something like this:</p>
+
 <pre class="code javascript"><code>
 {
   title: 'Your blog',
@@ -51,19 +43,14 @@ The best way to learn how to create a template is to read the <a href="https://g
   ] 
 }
 </code></pre>
-<p>Notice how the value of {{title}} varies depending on the context in which it is used. If you don't understand this, go and read Mustache's documentation.</p>
-<div class="measure">
 
-<br><br>
+<p class="measure">Notice how the value of {{title}} varies depending on the context in which it is used. If you don't understand this, go and read Mustache's documentation.</p>
 
+<h2>Viewing the view</h2>
+<p class="measure">If you append the query string ?json=true to any URL on Blot, you can retrieve the JSON data which comprises the view used to render its template. </p>
 
-<div class="fw6">Viewing the view</div>
-If you append the query string ?json=true to any URL on Blot, you can retrieve the JSON data which comprises the view used to render its template. 
-<div class="measure">
-<br><br><br><br>
-<div class="fw6">Custom metadata</div>
-You can specify custom entry metadata:
-</div>
+<h2>Custom metadata</h2>
+<p class="measure">You can specify custom entry metadata:</p>
 
 <pre class="file"><code>Author: Eric Blair
 
@@ -87,11 +74,9 @@ Metadata keys are case insensitive and can contain a single word. Use custom met
 {{/entry}}
 </code></pre>
 
-<div class="measure">
-<div class="fw6">Helper functions</div>
-Blot exposes some general purpose functions as Mustache lambdas. Note that you can pass another variable from the view to these functions.
-</div>
-<br><br>
+<h2>Helper functions</h2>
+<p class="measure">Blot exposes some general purpose functions as Mustache lambdas. Note that you can pass another variable from the view to these functions.</p>
+
 <table>
 <thead>
 <tr>

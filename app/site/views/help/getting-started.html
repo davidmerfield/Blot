@@ -1,14 +1,19 @@
 {{> head}}
 {{> header}}
 {{> sidebar}}
+<style type="text/css">
+window.text, window.folder {margin: 2rem 0 4rem}
+
+window.right {width: 50%;float: right;margin-right: -10%}
+window.right:after {width: 8rem;position: absolute;top:-2rem;bottom: -3rem;right: -2rem;content: ""; background:linear-gradient(to right, transparent, #fff 70%)}
+window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
+</style>
+
 <div class="pt5 w-right-offset">
 
-  <div class="measure">
-
-    <p class="mv0">Blot is a blogging platform. It creates a special folder in your Dropbox and publishes files you put inside automatically. There's no interface, just files and a folder. This means you can use your favorite text-editor to write your blog.</p>
-    <br><Br>
-    <div class="w-75">
-    <pre class="folder"><code>Drafts
+  <p class="mt0 measure">Blot is a blogging platform. It creates a special folder in your Dropbox and publishes files you put inside automatically. There’s no publishing interface, just files and a folder. This means you can use your favorite text‐editor to write your blog posts.</p>
+  <!-- <div class="w-60 center mt6 mb4">
+<pre class="folder"><code>Drafts
 Pages
 Posts
   Bookmark.webloc
@@ -16,81 +21,48 @@ Posts
   Image.jpg
   Markdown.md
   Text.txt
-  Webpage.html</code></pre></div>
+  Webpage.html</code></pre>
+</div> -->
+  <h2>Blog posts</h2>
 
-    <br><Br>
+  <div class="measure fl">
+  <p>Any of these file types become blog posts automatically when you put them in your folder:</p>
 
-  <p>When you put these files somewhere inside your blog’s folder they become blog posts automatically:</p>
-
-    <p class="mv0 pr5">
-      <code class="file md"><!-- <a href="/help/guides/text-files"> -->Text and Markdown</a></code>&nbsp; <span style="color:#aaa">.txt&nbsp; .md</span><br>
-      <code class="file txt"><!-- <a href="/help/guides/documents"> -->Word Documents</a></code>&nbsp; <span style="color:#aaa">.docx</span><br>
-      <code class="file img"><!-- <a href="/help/guides/images"> -->Images</a></code>&nbsp; <span style="color:#aaa">.png&nbsp; .jpeg&nbsp; .gif</span><br>
-      <code class="file webloc"><!-- <a href="/help/guides/bookmarks"> -->Bookmarks</a></code>&nbsp; <span style="color:#aaa">.webloc&nbsp; .url</span><br>
-      <code class="file html"><!-- <a href="/help/guides/html"> -->HTML</a></code>&nbsp; <span style="color:#aaa">.html</span><br><br>
-      You can organize your folder in a way that suits you.
-    </p>
-
+  <p>
+    <code class="file md"><!-- <a href="/help/guides/text-files"> -->Text and Markdown</a></code>&nbsp; <span style="color:#aaa">.txt&nbsp; .md</span><br>
+    <code class="file txt"><!-- <a href="/help/guides/documents"> -->Word Documents</a></code>&nbsp; <span style="color:#aaa">.docx</span><br>
+    <code class="file img"><!-- <a href="/help/guides/images"> -->Images</a></code>&nbsp; <span style="color:#aaa">.png&nbsp; .jpeg&nbsp; .gif</span><br>
+    <code class="file webloc"><!-- <a href="/help/guides/bookmarks"> -->Bookmarks</a></code>&nbsp; <span style="color:#aaa">.webloc&nbsp; .url</span><br>
+    <code class="file html"><!-- <a href="/help/guides/html"> -->HTML</a></code>&nbsp; <span style="color:#aaa">.html</span>
+  </p>
+  <p>You can add links, headings, images, code snippets and much more to your blog posts. <!--  using <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>, a markup language designed for text files. -->Read the <a href="/help/guides/formatting">formatting guide</a> to learn more.</p>
 </div>
+
   <div class="cf"></div>
-  <div class="measure">
-    <p class="mv0">
 
+    <h2 id="public-files">Every file is public</h2>
+    <p class="measure">All the files in your blog&#x2019;s folder are public. <!-- For example, if you put <code class="file zip">Pants.zip</code> in your folder, your readers can download it at <code class="file webloc">your.blog.com/pants.zip</code>.  -->You can use this feature to embed media and distribute files to your readers. Read more about using Blot to <a href="/help/guides/static-server">serve static files</a>.</p>
 
+    <h2>Pages and drafts</h2>
+    <p class="measure">Files in a folder called <code class="folder">Pages</code> are added to your blog&#x2019;s menu instead of the list of blog posts. Read <a href="/help/guides/creating-a-page">more about pages</a>.</p>
+    <p class="measure">Files in a folder called <code class="folder">Drafts</code> are not published. Instead, Blot creates a preview file. Open the preview file in your browser to see how the post will appear on your blog. </p>
 
-    <div class="mt4 pt4 fw6">Public files</div>
+    <h2>Ignoring files</h2>    
+    <p class="measure">Blot skips files and folders whose name starts with an underscore. Ignored files do not become blog posts but they are <a href="#public-files">public</a>.</p>
 
-        Every file in your blog&#x2019;s folder is public. For example, if you put <code class="file zip">Pants.zip</code> in your folder, your readers can download it at <code class="file webloc">your.blog.com/pants.zip</code>. You can use Blot to <a href="/help/guides/static-server">serve static files</a>. 
+    <h2>Metadata</h2>
+    <p class="measure">The metadata for each blog post is generated automatically from the file&#x2019;s contents, name and location. This metadata includes a permalink and publish date. You can override this metadata in the first few lines of a file:</p>
 
-    <div class="mt4 pt4 fw6">Ignoring files</div>
-
-    Blot skips files and folders whose name starts with an underscore. Ignored files do not become blog posts but they are <a href="/help/guides/static-server">public</a>.<Br>
-
-
-    <div class="mt4 pt4 fw6">Formatting blog posts</div>
-    Blot supports <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>, a markup language designed for text files. You can use Markdown to add links, headings, images, code snippets and much more. <a href="/help/guides/formatting">Read the formatting guide</a>.
-
-    <div class="mt4 pt4 fw6">Drafts</div>
-     Files in a folder called <code class="folder">Drafts</code> are not published. Instead, Blot creates a preview file. Open the preview file in your browser to see how the post will appear on your blog.</p>
-
-    <div class="mt4 pt4 fw6">Pages</div>
-    Files in a folder called <code class="folder">Pages</code> are added to your blog&#x2019;s menu instead of the list of blog posts. Read <a href="/help/guides/creating-a-page">more about creating pages</a>.
-
-
-    </p>
-
-
-  <div class="w-60 pr5 pl1">
-
-    
-
-
-  </div>
-  <style type="text/css">
-  window.right {width: 50%;float: right;margin-right: -10%}
-  window.right:after {width: 8rem;position: absolute;top:-2rem;bottom: -3rem;right: -2rem;content: ""; background:linear-gradient(to right, transparent, #fff 70%)}
-  window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
-  </style>
-
-
-
-
-    <div class="mt5 fw6" id="metadata">Metadata</div>
-    Blot automatically generates metadata for each blog post based on the file&#x2019;s contents, name and location. This metadata includes a <a href="#dates">date</a> and a <a href="#permalinks">permalink</a>. You can override metadata yourself:
-  </div>
-  <br>
 <pre class="file"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
 
-Metadata must start on the file&#x2019;s first line and must be separated from the rest of the post by at least one blank line.</code></pre><br><br>
-  <div class="measure">
-View <a href="/help/guides/metadata">all the metadata</a> generated for each blog post. You can also create your own <a href="/help/templates#custom-metadata">custom metadata</a> and use it in your template.
+Metadata must start on the file&#x2019;s first line and must be separated from the rest of the post by at least one blank line.</code></pre>
 
-    <div id="dates" class="mt5 mb2 fw6">Dates</div>
+    <p class="measure">View <a href="/help/guides/metadata">all the metadata</a> which you can specify at the start of a file. You can also <a href="/help/templates#custom-metadata">define your own metadata</a> for use in your blog's template.</p>
 
-    <p>Blot uses the file&#x2019;s creation date as its publish date by default. You can specify a different date in the file&#x2019;s <a href="#metadata">metadata</a> like this:</p>
+    <h2>Dates</h2>
+    <p class="measure">Blot uses the file&#x2019;s creation date as its publish date by default. You can specify a different date in the file&#x2019;s <a href="#metadata">metadata</a> like this:</p>
 
-  </div>
 <pre class="file"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 
 Blot supports a variety of date formats. The following all produce a post with the same date:
@@ -103,74 +75,53 @@ You can also use the file&#x2019;s name or its path:
 {{#date}}YYYY-MM-DD-00:00[-Post.txt]{{/date}}    {{#date}}YYYY/MM/DD/[Post.txt]{{/date}} 
 {{#date}}YYYY/M.D.[Post.txt]{{/date}}           {{#date}}YYYY/M.D/[Post.txt]{{/date}} 
 </code></pre>
-<br>
 
-  <div class="measure"><br>
-    You can schedule a blog post for future publication. If you specify a future publish date, Blot will wait until then to publish it.<br><Br>
-    If you prefer to write your dates in a different order, please update your <a href="/preferences">date preferences</a> on your blog’s dashboard.
+    <p class="measure">You can schedule a blog post for future publication. If you specify a future publish date, Blot will wait until then to publish it. If you prefer to write your dates in a different order, please update your <a href="/preferences">date preferences</a> on your blog’s dashboard.</p>
 
-
-
-
-
-
-  <div class="mt5 mb2 fw6" id="tags">Tags</div>
-  <p>You can group posts which cover similar subjects using tags. You can tag a post in the <a href="#metadata">metadata</a> at the top of a file:</p>
-    </div>
-
+    <h2>Tags</h2>
+    
+    <p class="measure">You can group posts which cover similar subjects using tags. You can tag a post in the <a href="#metadata">metadata</a> at the top of a file:</p>
+    
 <pre class="file"><code>Tags: Getting started, Documentation
 
-Tags are case-insensitive and can contain whitespace. Blot uses the most recent case when displaying a tag on your site.
+Tags are case-insensitive and may contain whitespace. Blot uses the most recent case when displaying a tag on your blog.
 
 </code></pre>
-<br><br>
-<div class="measure">
 
-You can use brackets in a file or folder&#x2019;s name to add additional tags to a blog post. For example, <code class="file md">Ada.txt</code> will have the tag &apos;Books&apos; and <code class="file md">Thief.txt</code> will have the tag &apos;Films&apos;:
-
-<br> <br>
-
+  <p class="measure">You can use brackets in a file or folder&#x2019;s name to add additional tags to a blog post. For example, <code class="file md">Ada.txt</code> will have the tag &apos;Books&apos; and <code class="file md">Thief.txt</code> will have the tag &apos;Films&apos;:</p>
+<div class="w-50">
 <pre class="folder"><code>
 [Books]
   Ada.txt
 [Films]
   Thief.txt
 </code></pre>
-
-<br><br>
-
-
-
 </div>
 
+  <h2>Permalinks and URLs</h2>
+  
+  <p class="measure">Blot generates a permalink for each post. By default, Blot uses a URL-friendly version of the post&#x2019;s title. You can <a href="/help/guides/permalinks">change the format</a> of you blog&#x2019;s permalinks on the dashboard or you can also specify an individual permalink in the file’s <a href="#metadata">metadata</a>:</p>
 
-
-<div id="permalinks"><div class="mt5 mb2 fw6">Permalinks and URLs</div>
-  <div class="measure">
-    <p>Blot generates a permalink, or permanent URL, for each post. By default, Blot uses a URL-friendly version of the post&#x2019;s title. You can  <a href="/help/guides/permalinks">change the format</a> of Blot&#x2019;s default permalinks on the dashboard. You can also specify a permalink individually:</p>
-  </div>
-      <pre class="file"><code>Permalink: /how-to-change-a-url
+<pre class="file"><code>Permalink: /how-to-change-a-url
 
 If you change a post&#x2019;s permalink, Blot will redirect requests from the old one automatically.</code></pre>
-  <br>
-  </div>
-  <div class="measure">
 
-    <div class="mt5 mb2 fw6" id="teasers">Teasers</div>
+
+    <h2>Teasers</h2>
+
     {{=[[ ]]=}}
 
-      Some of Blot&#x2019;s templates show a teaser for each post on the homepage, and include a link to the read full post. Blot creates a teaser from the first few paragraphs in the post by default.
-      You can specify the breakpoint using the <code>{{more}}</code> tag:
-      <br><br>
+    <p class="measure">Some of Blot&#x2019;s templates show a teaser for each post on the homepage, and include a link to the read full post. Blot creates a teaser from the first few paragraphs in the post by default.
+      You can specify the breakpoint using the <code>{{more}}</code> tag:</p>
 
-  </div>
+
       <pre class="file"><code>Everything above the ’more’ tag, including this line, will be in the post’s teaser.
 
 {{more}}
 
 Anything after the ’more’ tag, including this line, will not be in the post’s teaser.</code></pre>
 
-</p></div>
+</p>
 </div>
 <br><br><br>
 <br><br><br>

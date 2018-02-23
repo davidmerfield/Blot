@@ -2,7 +2,7 @@
 
 <div class="measure">
 <h1>Post properties</h1>
-<p>Below is the list of properties which Blot generates for every blog post. These properties are determined by the file from which the blog post is created.</p>
+<p>Below is the list of properties which Blot generates for every blog post. These properties are determined by the file’s contents, name and location.</p>
 
 <p>You can use any of these properties in your template as tags. Note that some of the variables, like <code>html</code> require three handlebars rather than two because of how Mustache handles escaping.</p>
 </div>
@@ -21,7 +21,7 @@
 </tr>
 <tr>
 <td><code>path</code></td>
-<td>The file's absolute path with the blog's folder as root, preserving the case where possible. For example:<br><code>"/Posts/2018/Post.txt"</code></td>
+<td>The absolute path to the file, with the blog's folder as root directory, preserving the case where possible. For example:<br><code>"/Posts/2018/Post.txt"</code></td>
 </tr>
 <tr>
 <td><code>title</code></td>
