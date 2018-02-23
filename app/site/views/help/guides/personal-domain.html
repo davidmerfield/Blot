@@ -1,11 +1,11 @@
 <h1>Using your own domain</h1>
 <div class="measure">
-  <p>Let&apos;s say you own the domain <code>example.com</code> and would like to use it for your blog. First, you must decide whether you would like to use the <em>apex domain</em>, which is just <code>example.com</code>, or a <em>subdomain</em> like <code>www.example.com</code> or <code>blog.example.com</code>.</p>
+  <p>Let&apos;s say you own the domain <code>example.com</code> and would like to use it for your blog. First, decide whether you would like to use a <a href="#subdomain">subdomain</a> like <code>www.example.com</code> or <code>blog.example.com</code>, or the <a href="#apex-domain">apex domain</a>, which is just <code>example.com</code>.</p>
 
-<h2>How to use the apex domain</h2>
+<h2 id="apex-domain">How to use an apex domain</h2>
 
 <ol>
-<li><p>Go to your domain&apos;s DNS page. Create an <code>ALIAS</code> record which points to <code>blot.im</code>.</p>
+<li><p>Go to your domain&apos;s DNS page. This is usually where you bought the domain. Create an <code>ALIAS</code> record which points to <code>blot.im</code>.</p>
 </li>
 <li><p>Tell Blot your domain on <a href="/profile">the dashboard</a>.</p>
 </li>
@@ -13,7 +13,7 @@
 
 <p>If you cannot create an <code>ALIAS</code> record, I recommend following the instructions below to use the <code>www</code> subdomain, then set up a redirect from the apex domain to the subdomain.</p>
 
-<h2>How to use a subdomain</h2>
+<h2 id="subdomain">How to use a subdomain</h2>
 <ol>
 <li><p>Go to your domain&apos;s DNS page. This is usually where you bought the domain. Create a <code>CNAME</code> record  for the subdomain you&apos;d like to use and set its value to <code>blot.im</code>.</p>
 </li>

@@ -9,7 +9,7 @@ window.right:after {width: 8rem;position: absolute;top:-2rem;bottom: -3rem;right
 window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
 </style>
 
-<div class="pt5 w-right-offset">
+<div class="pt4 mt4 w-right-offset">
 
   <p class="mt0 measure">Blot is a blogging platform. It creates a special folder in your Dropbox and publishes files you put inside automatically. There’s no publishing interface, just files and a folder. This means you can use your favorite text‐editor to write your blog posts.</p>
   <!-- <div class="w-60 center mt6 mb4">
@@ -40,18 +40,19 @@ Posts
 
   <div class="cf"></div>
 
-    <h2 id="public-files">Every file is public</h2>
-    <p class="measure">All the files in your blog&#x2019;s folder are public. <!-- For example, if you put <code class="file zip">Pants.zip</code> in your folder, your readers can download it at <code class="file webloc">your.blog.com/pants.zip</code>.  -->You can use this feature to embed media and distribute files to your readers. Read more about using Blot to <a href="/help/guides/static-server">serve static files</a>.</p>
-
     <h2>Pages and drafts</h2>
-    <p class="measure">Files in a folder called <code class="folder">Pages</code> are added to your blog&#x2019;s menu instead of the list of blog posts. Read <a href="/help/guides/creating-a-page">more about pages</a>.</p>
-    <p class="measure">Files in a folder called <code class="folder">Drafts</code> are not published. Instead, Blot creates a preview file. Open the preview file in your browser to see how the post will appear on your blog. </p>
+    <p class="measure">Files in a folder called <code class="folder">Pages</code> are added to your blog&#x2019;s menu instead of the list of blog posts.</p>
+    <p class="measure">Files in a folder called <code class="folder">Drafts</code> are not published. Instead, Blot creates a preview file which you can open in your browser to see how the post will appear on your blog. </p>
+
+
+    <h2 id="public-files">Every file is public</h2>
+    <p class="measure">The files in your blog&#x2019;s folder are public and can be accessed by your readers. <!-- For example, if you put <code class="file zip">Pants.zip</code> in your folder, your readers can download it at <code class="file webloc">your.blog.com/pants.zip</code>.  -->Use this feature to distribute files and embed media in your blog posts. Read more about <a href="/help/guides/static-server">serving static files</a>.</p>
 
     <h2>Ignoring files</h2>    
     <p class="measure">Blot skips files and folders whose name starts with an underscore. Ignored files do not become blog posts but they are <a href="#public-files">public</a>.</p>
 
     <h2>Metadata</h2>
-    <p class="measure">The metadata for each blog post is generated automatically from the file&#x2019;s contents, name and location. This metadata includes a permalink and publish date. You can override this metadata in the first few lines of a file:</p>
+    <p class="measure">The metadata for each blog post is generated automatically from the file&#x2019;s contents, name and location. This metadata includes a <a href="#permalinks">permalink</a> and <a href="#dates">publish date</a>. You can override this metadata in the first few lines of a file:</p>
 
 <pre class="file"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
@@ -98,13 +99,13 @@ Tags are case-insensitive and may contain whitespace. Blot uses the most recent 
 </code></pre>
 </div>
 
-  <h2>Permalinks and URLs</h2>
+  <h2 id="permalinks">Permalinks and URLs</h2>
   
-  <p class="measure">Blot generates a permalink for each post. By default, Blot uses a URL-friendly version of the post&#x2019;s title. You can <a href="/help/guides/permalinks">change the format</a> of you blog&#x2019;s permalinks on the dashboard or you can also specify an individual permalink in the file’s <a href="#metadata">metadata</a>:</p>
+  <p class="measure">Blot generates a permalink for each post. By default, Blot uses a URL-friendly version of the post&#x2019;s title. You can <a href="/help/guides/permalinks">change the format</a> of you blog&#x2019;s permalinks on the dashboard or you can also specify a permalink in the file’s <a href="#metadata">metadata</a>:</p>
 
 <pre class="file"><code>Permalink: /how-to-change-a-url
 
-If you change a post&#x2019;s permalink, Blot will redirect requests from the old one automatically.</code></pre>
+If you change a post&#x2019;s permalink, Blot will redirect requests to its former URL automatically.</code></pre>
 
 
     <h2>Teasers</h2>

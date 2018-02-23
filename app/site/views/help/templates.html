@@ -6,19 +6,38 @@ window.text, window.code {margin: 2rem 0 4rem}
 </style>
 {{=[[ ]]=}}
 
-<div class="pt5 w-right-offset">
+<div class="pt4 mt4 w-right-offset">
 
 <!-- The best way to learn how to create a template is to read the <a href="https://github.com/davidmerfield/Blot/tree/master/app/templates/console">source code</a> for an existing template.  -->
 
 <p class="measure mt0">Blot's templates will be familiar to those who have designed templates for other blogging platforms. You will need to know a little <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a>. All of Blot's templates are <a href="https://github.com/davidmerfield/Blot/blob/master/LICENSE">dedicated to the public domain</a>, so you can use, modify and share them freely.</p>
 
+<br>
+<p>
+Reference<Br>
+<a href="/help/guides/post-properties" class="w-30 fl mr4 bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Post properties &nbsp;→<br><span style="color:#aaa">View the reference for the properties of each blog post</span></a>
+<a href="/help/guides/blog-properties" class="w-30 fl mr4 bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Blog properties &nbsp;→<br><span style="color:#aaa">View the reference for the properties of your blog</span></a>
+<a href="/help/guides/lists-of-posts" class="w-30 fl bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Lists of posts &nbsp;→<br><span style="color:#aaa">View the reference for all a blog's posts properties</span></a>
+</p>
+
+<div class="cf"></div>
+<br>
+
 <h2>Creating and editing templates</h2>
-<p class="measure">You can <a href="/design/new">create a new template</a> on the <a href"/design">design page</a> of your blog's dashboard. To edit an existing template, first create a new template and clone the template you wish to modify.</p>
-<p class="measure">You can make changes to a template using the editor on <a href="/design">your blog's dashboard</a>, or you can sync the template's source files to your Dropbox and edit them directly.</p>
+<p class="measure">You can <a href="/design/new">create a new template</a> on the <a href"/design">design page</a> of your blog's dashboard. You can make changes to a template using the online editor, or you can sync the template's source files to your Dropbox and edit them locally.</p>
 
+<h2>Routing</h2>
+<p class="measure">When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
 
-<h2>How are templates rendered?</h2>
-<p class="measure">Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>. <!-- You should read <a href="https://mustache.github.io/mustache.5.html">Mustache's documentation</a> carefully before designing your own template.  -->The templates are used to render the blog posts which Blot generates from the files in your folder. For example, this template produces a list of links to all of the blog posts on your blog:</p>
+<ol class="normal measure">
+  <li>Check if there is a template whose route matches the request's path. <a href="#rendering">Render the template</a> if it matches.</li>
+  <li>Check if there is a file which matches the request's path in your site's folder to see. <a href="/help/guides/static-server">Send the file</a> as a response if it matches.</li>
+  <li>Check your site&apos;s list of redirects to see if you have set one up for this path. Redirect the request if one exists.</li>
+  <li>Render your blog's error page.</li>
+</ol>
+
+<h2 id="rendering">Rendering</h2>
+<p class="measure">Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>. <!-- You should read <a href="https://mustache.github.io/mustache.5.html">Mustache's documentation</a> carefully before designing your own template.  -->Consider this example template, which produces a list of all of the posts on your blog:</p>
 
 <pre class="code html"><code>
 <html>
@@ -31,112 +50,59 @@ window.text, window.code {margin: 2rem 0 4rem}
 </html>
 </code></pre>
 
-<p class="measure">Blot will render this template using data, specific and changing, called a view. This view takes the form of a JSON object. Blot generates the view based on the tags used in the template. In this case, the view will look something like this:</p>
+<p class="measure">Blot generates JSON containing the data for this template:</p>
 
-<pre class="code javascript"><code>
+<pre class="code json"><code>
 {
-  title: 'Your blog',
-  all_posts:[
-    {title: 'First blog post', url: '/first-blog-post'},
-    {title: 'Second blog post', url: '/second-blog-post'},
-    {title: 'Third blog post', url: '/third-blog-post'},    
-  ] 
+  "title": "Your blog's title",
+  "all_posts": [
+    {"title": "First post", "url": "/first-post"},
+    {"title": "Second post", "url": "/second-post"},
+    {"title": "Third post", "url": "/third-post"}
+  ]
 }
 </code></pre>
 
-<p class="measure">Notice how the value of {{title}} varies depending on the context in which it is used. If you don't understand this, go and read Mustache's documentation.</p>
+<p class="measure">Blot then renders the template to produce this HTML:</p>
 
-<h2>Viewing the view</h2>
-<p class="measure">If you append the query string ?json=true to any URL on Blot, you can retrieve the JSON data which comprises the view used to render its template. </p>
+<pre class="code html"><code>
+<html>
+<title>Your blog's title</title>
+<body>
+  <a href="/first-post">First post</a><br>
+  <a href="/second-post">Second post</a><br>
+  <a href="/third-post">Third post</a><br>
+</body>
+</html>
+</code></pre>
+
+<h2>Retrieving the JSON used to render a template</h2>
+
+<p class="measure">If you append the query string <code>?json=true</code> to the URL of any page on your blog, you can see the JSON used to render its template.</p>
 
 <h2>Custom metadata</h2>
-<p class="measure">You can specify custom entry metadata:</p>
+<p class="measure">You can create your own <a href="/help/guides/metadata">metadata</a>. There's no configuration neccessary. Just choose a property that isn't already <a href="/help/guides/metadata">used by Blot</a>, like <code>Author</code> for example:</p>
 
 <pre class="file"><code>Author: Eric Blair
 
-# Homage to Catalonia
+Metadata keys should be a single word. They are case insensitive</code></pre>
 
-In the Lenin Barracks in Barcelona, the day before...</code></pre>
-
-Metadata keys are case insensitive and can contain a single word. Use custom metadata in your template like this:</p>
-
-<pre class="code html"><code>
+<p>Once the property exists in a file, you can use it in your template:</p>
+<pre class="code html"><code><html>
+<title>{{title}}</title>
+<body>
 {{#entry}}
-
-  {{#metadata.author}}
   <p>Posted by {{metadata.author}}</p>
-  {{/metadata.author}}
-
-  {{^metadata.author}}
-  <p>Posted by the editor</p>
-  {{/metadata.author}}
-
+  ...
 {{/entry}}
+</body>
+</html>
 </code></pre>
 
-<h2>Helper functions</h2>
-<p class="measure">Blot exposes some general purpose functions as Mustache lambdas. Note that you can pass another variable from the view to these functions.</p>
 
-<table>
-<thead>
-<tr>
-<th>The text inside the tag&#x2026;</th>
-<th>is replaced with&#x2026;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{{#encodeURIComponent}}...{{/encodeURIComponent}}</code></td>
-<td>The same text, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent">encoded appropriately</a> for a URI component</td>
-</tr>
-</tbody>
-</table>
-<br><br><br><br>
-<div class="fw6">Lists</div>
-You can uses these variables to render lists of posts
-<br><br>
-<table>
-<thead>
-<tr>
-<th>The tag&#x2026;</th>
-<th>is replaced with&#x2026;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>{{#all_posts}}...{{/all_posts}}</code></td>
-<td>Every post ever published</td>
-</tr>
-<tr>
-<td><code>{{#recent_posts}}...{{/recent_posts}}</code></td>
-<td>25 most recent posts on your site</td>
-</tr>
-<tr>
-<td><code>{{#archives}}...{{/archives}}</code></td>
-<td>A list of years, months and the posts published on them</td>
-</tr>
-<tr>
-<td><code>{{#all_tags}}...{{/all_tags}}</code></td>
-<td>the URL to your site&#x2019;s avatar</td>
-</tr>
-</tbody>
-</table>
 
 
 </div>
-
-<h2>Routing</h2>
-<p>When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response. This process is known as <em>routing</em>.</p>
-
-<ol class="normal">
-  <li>Check your site&apos;s template to see if there is a route which matches the path. If there is, <a href="#rendering">render the template</a> and send the HTML as a response.</li>
-  <li>Check your site&apos;s folder to see if there is a file which matches the path. <a href="/help/guides/static-server">Send the file</a> as a response if it matches.</li>
-  <li>Check your site&apos;s list of redirects to see if you have set one up for this path. Redirect the request if one exists.</li>
-  <li>Render your blog's error page if it exists, or use Blot&apos;s if it doesn't.</li>
-</ol>
-<br>
-You can <a href="https://github.com/davidmerfield/Blot/tree/master/app/blogs">read the source code</a> which defines these steps for a more precise idea of how things work.
-
 
 <br><br><br>
 <br><br><br>
