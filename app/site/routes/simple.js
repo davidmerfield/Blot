@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 var pages = [
+  ['about', 'About'],
   ['contact', 'Contact'],
   ['privacy', 'Privacy'],
-  ['terms', 'Terms'],
-  ['', 'Blot']
-];
+  ['terms', 'Terms']
+  ];
 
 pages.forEach(function(page){
 
