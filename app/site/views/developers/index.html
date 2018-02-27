@@ -1,0 +1,118 @@
+{{> head}}
+
+{{> header}}
+
+{{=[[ ]]=}}
+
+<div class=" w-right-offset">
+
+<!-- The best way to learn how to create a template is to read the <a href="https://github.com/davidmerfield/Blot/tree/master/app/templates/console">source code</a> for an existing template.  -->
+
+<p class="measure mt0">Here you'll find helpful documentation on all the different ways you can interact with Vimeo programmatically.
+
+</p>
+
+<h2 class="measure">Developing your own template</h2>
+
+<p class="measure">You can <a href="/design/new">create a new template</a> on the <a href"/design">design page</a> of your blog's dashboard. You can make changes to a template using the online editor, or you can sync the template's source files to your Dropbox and edit them locally. Blot's templates are <a href="https://github.com/davidmerfield/Blot/blob/master/LICENSE">dedicated to the public domain</a> so you can use, modify and share them freely. </p>
+
+
+<p class="measure ">Blot's templates will be familiar to those who have designed templates for other blogging platforms. You will need to know a little <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a>.</p>
+
+<br>
+<p>
+References<Br>
+<a href="/guides/post-properties" class="w-30 fl mr4 bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Post properties &nbsp;→<br><span style="color:#aaa">View the reference for all the properties of each post</span></a>
+<a href="/guides/blog-properties" class="w-30 fl mr4 bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Blog properties &nbsp;→<br><span style="color:#aaa">View the reference for all the properties of your blog</span></a>
+<a href="/guides/lists-of-posts" class="w-30 fl bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Lists of posts &nbsp;→<br><span style="color:#aaa">View the reference for all the lists of posts</span></a>
+</p>
+
+<div class="cf"></div>
+<br>
+
+<h2 class="measure">Routing</h2>
+<p class="measure">When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
+
+<ol class="normal measure">
+  <li>Check if there is a template whose route matches the request's path. <a href="#rendering">Render the template</a> if it matches.</li>
+  <li>Check if there is a file which matches the request's path in your blog's folder. <a href="/guides/static-server">Send the file</a> as a response if it matches.</li>
+  <li>Check your site&apos;s list of <a href="/guides/redirects">redirects</a>.</li>
+  <li>Render your blog's error page.</li>
+</ol>
+
+<h2  class="measure" id="rendering">Rendering</h2>
+<p class="measure">Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>. <!-- You should read <a href="https://mustache.github.io/mustache.5.html">Mustache's documentation</a> carefully before designing your own template.  -->Consider this example template, which produces a list of all of the posts on your blog:</p>
+
+<pre class="code html"><code>
+<html>
+<title>{{title}}</title>
+<body>
+{{#all_posts}}
+  <a href="{{url}}">{{title}}</a><br>
+{{/all_posts}}
+</body>
+</html>
+</code></pre>
+
+<p class="measure">Blot generates JSON containing the data for this template:</p>
+
+<pre class="code json"><code>
+{
+  "title": "Your blog's title",
+  "all_posts": [
+    {"title": "First post", "url": "/first-post"},
+    {"title": "Second post", "url": "/second-post"},
+    {"title": "Third post", "url": "/third-post"}
+  ]
+}
+</code></pre>
+
+<p class="measure">Blot then renders the template to produce this HTML:</p>
+
+<pre class="code html"><code>
+<html>
+<title>Your blog's title</title>
+<body>
+  <a href="/first-post">First post</a><br>
+  <a href="/second-post">Second post</a><br>
+  <a href="/third-post">Third post</a><br>
+</body>
+</html>
+</code></pre>
+
+<h2 class="measure">Retrieving the JSON used to render a template</h2>
+
+<p class="measure">If you append the query string <code>?json=true</code> to the URL of any page on your blog, you can see the JSON used to render its template.</p>
+
+<h2>Custom metadata</h2>
+<p class="measure">You can create your own <a href="/guides/metadata">metadata</a>. There's no configuration neccessary. Just choose a property that isn't already <a href="/guides/metadata">used by Blot</a>, like <code>Author</code> for example:</p>
+
+<pre class="file"><code>Author: Eric Blair
+
+Metadata keys should be a single word. They are case insensitive</code></pre>
+
+<p>Once the property exists in a file, you can use it in your template:</p>
+<pre class="code html"><code><html>
+<title>{{title}}</title>
+<body>
+{{#entry}}
+  <p>Posted by {{metadata.author}}</p>
+  ...
+{{/entry}}
+</body>
+</html>
+</code></pre>
+
+
+
+
+</div>
+
+<br><br><br>
+<br><br><br>
+<br><br><br>
+<br><br><br>
+</div>
+
+[[={{ }}=]]
+{{> footer}}

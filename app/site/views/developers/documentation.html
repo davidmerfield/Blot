@@ -1,42 +1,46 @@
 {{> head}}
+
 {{> header}}
-{{> sidebar}}
-<style type="text/css">
-window.text, window.code {margin: 2rem 0 4rem}
-</style>
+
 {{=[[ ]]=}}
 
-<div class="pt4 mt4 w-right-offset">
+<div class=" w-right-offset">
 
 <!-- The best way to learn how to create a template is to read the <a href="https://github.com/davidmerfield/Blot/tree/master/app/templates/console">source code</a> for an existing template.  -->
 
-<p class="measure mt0">Blot's templates will be familiar to those who have designed templates for other blogging platforms. You will need to know a little <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a>. All of Blot's templates are <a href="https://github.com/davidmerfield/Blot/blob/master/LICENSE">dedicated to the public domain</a>, so you can use, modify and share them freely.</p>
+<p class="measure mt0">Here you'll find helpful documentation on all the different ways you can interact with Vimeo programmatically.
+
+</p>
+
+<h2 class="measure">Developing your own template</h2>
+
+<p class="measure">You can <a href="/design/new">create a new template</a> on the <a href"/design">design page</a> of your blog's dashboard. You can make changes to a template using the online editor, or you can sync the template's source files to your Dropbox and edit them locally. Blot's templates are <a href="https://github.com/davidmerfield/Blot/blob/master/LICENSE">dedicated to the public domain</a> so you can use, modify and share them freely. </p>
+
+
+<p class="measure ">Blot's templates will be familiar to those who have designed templates for other blogging platforms. You will need to know a little <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a>.</p>
 
 <br>
 <p>
-Reference<Br>
-<a href="/help/guides/post-properties" class="w-30 fl mr4 bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Post properties &nbsp;→<br><span style="color:#aaa">View the reference for the properties of each blog post</span></a>
-<a href="/help/guides/blog-properties" class="w-30 fl mr4 bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Blog properties &nbsp;→<br><span style="color:#aaa">View the reference for the properties of your blog</span></a>
-<a href="/help/guides/lists-of-posts" class="w-30 fl bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Lists of posts &nbsp;→<br><span style="color:#aaa">View the reference for all a blog's posts properties</span></a>
+References<Br>
+<a href="/guides/post-properties" class="w-30 fl mr4 bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Post properties &nbsp;→<br><span style="color:#aaa">View the reference for all the properties of each post</span></a>
+<a href="/guides/blog-properties" class="w-30 fl mr4 bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Blog properties &nbsp;→<br><span style="color:#aaa">View the reference for all the properties of your blog</span></a>
+<a href="/guides/lists-of-posts" class="w-30 fl bt" style="margin-top:0.75rem;border-bottom:none;padding-top:0.75rem">Lists of posts &nbsp;→<br><span style="color:#aaa">View the reference for all the lists of posts</span></a>
 </p>
 
 <div class="cf"></div>
 <br>
 
-<h2>Creating and editing templates</h2>
-<p class="measure">You can <a href="/design/new">create a new template</a> on the <a href"/design">design page</a> of your blog's dashboard. You can make changes to a template using the online editor, or you can sync the template's source files to your Dropbox and edit them locally.</p>
-
-<h2>Routing</h2>
+<h2 class="measure">Routing</h2>
 <p class="measure">When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
 
 <ol class="normal measure">
   <li>Check if there is a template whose route matches the request's path. <a href="#rendering">Render the template</a> if it matches.</li>
-  <li>Check if there is a file which matches the request's path in your site's folder to see. <a href="/help/guides/static-server">Send the file</a> as a response if it matches.</li>
-  <li>Check your site&apos;s list of redirects to see if you have set one up for this path. Redirect the request if one exists.</li>
+  <li>Check if there is a file which matches the request's path in your blog's folder. <a href="/guides/static-server">Send the file</a> as a response if it matches.</li>
+  <li>Check your site&apos;s list of <a href="/guides/redirects">redirects</a>.</li>
   <li>Render your blog's error page.</li>
 </ol>
 
-<h2 id="rendering">Rendering</h2>
+<h2  class="measure" id="rendering">Rendering</h2>
 <p class="measure">Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>. <!-- You should read <a href="https://mustache.github.io/mustache.5.html">Mustache's documentation</a> carefully before designing your own template.  -->Consider this example template, which produces a list of all of the posts on your blog:</p>
 
 <pre class="code html"><code>
@@ -76,12 +80,12 @@ Reference<Br>
 </html>
 </code></pre>
 
-<h2>Retrieving the JSON used to render a template</h2>
+<h2 class="measure">Retrieving the JSON used to render a template</h2>
 
 <p class="measure">If you append the query string <code>?json=true</code> to the URL of any page on your blog, you can see the JSON used to render its template.</p>
 
 <h2>Custom metadata</h2>
-<p class="measure">You can create your own <a href="/help/guides/metadata">metadata</a>. There's no configuration neccessary. Just choose a property that isn't already <a href="/help/guides/metadata">used by Blot</a>, like <code>Author</code> for example:</p>
+<p class="measure">You can create your own <a href="/guides/metadata">metadata</a>. There's no configuration neccessary. Just choose a property that isn't already <a href="/guides/metadata">used by Blot</a>, like <code>Author</code> for example:</p>
 
 <pre class="file"><code>Author: Eric Blair
 
