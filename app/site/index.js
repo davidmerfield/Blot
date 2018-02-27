@@ -76,7 +76,7 @@ site.use('/log-in', routes.log_in);
 site.use('/clients', routes.clients);
 site.use('/sign-up', routes.sign_up);
 site.use('/updates', routes.updates);
-site.use('/help', routes.help);
+site.use('/', routes.help);
 site.use('/stripe-webhook', routes.stripe_webhook);
 
 // Serve static files too
