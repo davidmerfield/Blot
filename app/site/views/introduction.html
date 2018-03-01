@@ -15,9 +15,9 @@ window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
 
 <div class="w-right-offset">
 
-  <p class="mt0 measure">Blot is a blogging platform. It creates a folder in your Dropbox and publishes files you put inside automatically. There’s no publishing interface, just files and a folder. This means you can use your favorite text‐editor to write your blog.</p>
-    <p class="measure mb0">Blot creates blog posts automatically from 
-      <nobr><icon class="md"></icon> Text and Markdown</nobr>, <nobr style="margin-left:-3px"><icon class="txt"></icon> Word Documents</nobr>, <nobr><icon class="img"></icon> Images</nobr>, <nobr><icon class="webloc"></icon> Bookmarks</nobr> and <nobr><icon class="html"></icon> HTML</nobr>. Drag‐and-drop the files into your folder and <a id="other_play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE">Blot does the rest</a>.</p>
+  <p class="mt0 measure">Blot is a blogging platform with no interface. It creates a special folder in your Dropbox and automatically publishes files you put inside. The whole point&hairsp;—&hairsp;the reason Blot exists&hairsp;—&hairsp;is so you can <a id="other_play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE">use your favorite tools</a> to create whatever you publish.</p>
+
+  <p class="measure mb0">Blot creates blog posts automatically from <nobr><icon class="md"></icon> Text and Markdown</nobr>, <nobr style="margin-left:-3px"><icon class="txt"></icon> Word Documents</nobr>, <nobr><icon class="img"></icon> Images</nobr>, <nobr><icon class="webloc"></icon> Bookmarks</nobr> and <nobr><icon class="html"></icon> HTML</nobr>. Drag‐and-drop the files into your folder and <a id="other_other_play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE">Blot does the rest</a>.</p>
 
   <div id="background" class="bg">
     <a id="closer" href="/foo" class="">
@@ -40,6 +40,8 @@ window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
 
       <a id="play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE" target="_blank" class="mw8 center thumb pv5 db">
         
+<!--         <span class="view">Watch</span>
+ -->        
         <div class="buts"><img src="/images/play.png" width="17"></div>
 
         <div class="measure" style="">
@@ -83,20 +85,21 @@ window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
 </div>
   
 
-  <p class="measure" style="margin-top:5rem">Blot comes with <a href="/configuring">seven templates</a>. They’re easy to customize, lightweight  and designed to fit both small and large screens. You can also <a href="/developers">develop your own template</a> from scratch. Here’s a handful of the websites hosted on Blot:</p>
+  <p class="measure" style="margin-top:5rem">Blot comes with <a href="/configuring">seven templates</a>. They’re easy to customize, lightweight  and designed to fit both small and large screens. You can also <a href="/developers">develop your own template</a> from scratch. </p>
+  <p class="measure">Here’s a handful of the websites hosted on Blot:</p>
   <br>
   <ul class="gallery large">
-    <a href="https://www.matthewbattles.org/" target="_blank">matthewbattles.org<span class="new">New</span></a>
-    <a href="https://hannautkin.com/" target="_blank">hannautkin.com</a>
-    <a href="https://juicenews.com/" target="_blank">juicenews.com</a>    
-    <a href="https://ylukem.com" target="_blank">ylukem.com</a>
-    <a href="https://www.alexgibson.nyc/" target="_blank">alexgibson.nyc</a>
-    <a href="https://www.theliminal.co/" target="_blank">theliminal.co</a>
-    <a href="http://johnpavlus.com/" target="_blank">johnpavlus.com</a>
-    <a href="http://kiefer.design/" target="_blank">kiefer.design</a>
-    <a href="https://www.2080.co/" target="_blank">2080.co</a>
-    <a href="https://www.kristianhjelle.com" target="_blank">kristianhjelle.com</a>
-    <a href="https://mrfris.by/" target="_blank">mrfris.by</a>
+    <a href="https://www.matthewbattles.org/" target="_blank">matthewbattles.org<span class="new">New</span><dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="https://hannautkin.com/" target="_blank">hannautkin.com<dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="https://juicenews.com/" target="_blank">juicenews.com<dots><dot></dot><dot></dot><dot></dot></dots></a>    
+    <a href="https://ylukem.com" target="_blank">ylukem.com<dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="https://www.alexgibson.nyc/" target="_blank">alexgibson.nyc<dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="https://www.theliminal.co/" target="_blank">theliminal.co<dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="http://johnpavlus.com/" target="_blank">johnpavlus.com<dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="http://kiefer.design/" target="_blank">kiefer.design<dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="https://www.2080.co/" target="_blank">2080.co<dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="https://www.kristianhjelle.com" target="_blank">kristianhjelle.com<dots><dot></dot><dot></dot><dot></dot></dots></a>
+    <a href="https://mrfris.by/" target="_blank">mrfris.by<dots><dot></dot><dot></dot><dot></dot></dots></a>
   </ul>
   <div class="cf"></div>
   <p style="margin-top:2.5rem;margin-bottom:5rem" class="measure">A blog costs <a href="/sign-up">{{price}} per year</a>. The annual fee pays for the servers which host your blog. It also covers the cost of providing support.  Most importantly, it encourages Blot to operate in your best interests, as opposed to those of an advertiser or investor.
@@ -125,7 +128,7 @@ closer.onclick = function(e) {
   return false;
 }
 
-play.onclick = other_play.onclick = function (e) {
+play.onclick = other_play.onclick = other_other_play.onclick = function (e) {
   background.classList.add('open');
   video.src = 'https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;controls=0&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white&amp;autoplay=1';
   e.preventDefault();
