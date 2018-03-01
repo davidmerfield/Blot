@@ -11,14 +11,14 @@ window.right:after {width: 8rem;position: absolute;top:-2rem;bottom: -3rem;right
 window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
 
 table nobr icon {margin-left: -3px}
-td{padding-right: 0}
-td:first-child {padding-right: 2rem}
+td{padding-right: 0;text-align: right;}
+td:first-child {padding-right: 0;text-align: left;}
 
 .spacer {margin-bottom: 10rem}
-.spacer.half {margin-bottom: 5rem}
+.spacer.half {margin-bottom: 7.5rem}
 
-.fr.pc {padding-left: 2rem}
-.fl.pc {padding-right: 2rem}
+.fr.pc {padding-left: 2.5rem}
+.fl.pc {padding-right: 2.5rem}
 </style>
 
 <div class=" w-right-offset">
@@ -51,19 +51,19 @@ Posts
         </tr>
         <tr>
         <td><code class="file txt">Word Documents</a></code></td>
-        <td><span style="color:#aaa">.docx</span></td>
-        </tr>
-        <tr>
-        <td><code class="file img" style="margin-left:-3px">Images</a></code></td>
-        <td><span style="color:#aaa">.png&nbsp; .jpg&nbsp; .gif</span></td>
+        <td><span style="color:#aaa">.docx &nbsp;.odt</span></td>
         </tr>
         <tr>
         <td><code class="file webloc">Bookmarks</a></code></td>
         <td><span style="color:#aaa">.webloc&nbsp; .url</span></td>
         </tr>
         <tr>
+        <td><code class="file img" style="margin-left:-3px">Images</a></code></td>
+        <td><span style="color:#aaa">.png&nbsp; .jpeg&nbsp; .gif</span></td>
+        </tr>
+        <tr>
         <td style="border:none"><code class="file html">HTML</a></code></td>
-        <td style="border:none"><span style="color:#aaa">.html</span></td>
+        <td style="border:none"><span style="color:#aaa">.html &nbsp; .htm</span></td>
         </tr>
       </tbody>
     </table>
@@ -84,7 +84,9 @@ Posts
   <div class="w-50 fr pc">
     <pre class="file"><code># Formatting
 
-Blot supports [Markdown]() so you can add formatting to your blog posts.</code>
+You can use *Markdown*, a lightweight markup language for plain text files.
+
+Use it for links, lists, headings, tables and more.</code>
     </pre>
   </div>
 
@@ -173,8 +175,8 @@ Posts
 <br><Br><Br><br><br>
 <p class="measure"> 
 <a href="/configuring" class="next db bt">
+  <span class="light db">Next section</span>
   Configuring your blog
-  <span class="light db">How to select a template and use your own domain</span>
 </a>
 </p>
 <br><br>
