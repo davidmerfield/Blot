@@ -4,6 +4,7 @@ var finder = require('finder');
 var moment = require('moment');
 var cheerio = require('cheerio');
 var katex = require('katex');
+var config = require('config');
 
 function deslug (str) {
   return str[0].toUpperCase() + str.slice(1).split('-').join(' ');
@@ -81,9 +82,15 @@ function middleware (req, res, next) {
 help.use(render_katex);
 help.use(finder.middleware);
 help.use(middleware);
+
+var css = finder.css();
+
 help.get('/css/finder.css', function(req, res, next){
+  
+  if (config.environment !== 'production') css = finder.css();
+
   res.contentType('text/css');
-  res.send(finder.css());
+  res.send(css);
 });
 
 help.use(function(req, res, next){
