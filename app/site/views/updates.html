@@ -10,7 +10,7 @@ p:before {
   content: "";
   width: 15px;height: 15px;
   box-sizing: border-box;
-  border: 1px solid #000;
+  border: 1px solid #111111;
   position: absolute;
   left: 0;
   top: 0.3rem;
@@ -21,12 +21,12 @@ ul {list-style-type: circle;}
 * + p {margin-top: 1.5rem}
 
 li {list-style-type: none;position: relative;}
-li:before {content: "–";position: absolute;left: -1.4rem;color: #000}
+li:before {content: "–";position: absolute;left: -1.4rem;color: #111111}
 
 .check {position: absolute;left: 1px;top: 6px}
 .check:before,
 .check:after {content: "";
-    background-color: #000;
+    background-color: #111111;
     content: '';
     height: 2px;
     left: 2px;
@@ -59,7 +59,7 @@ li:before {content: "–";position: absolute;left: -1.4rem;color: #000}
     <div class="mv3 bb pb3 b--black">Done</div>
 
     {{#commits}}
-    <p class="done"><span class="check"></span>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" style="color:#aaa;border:none">{{date}}</a></p>
+    <p class="done"><span class="check"></span>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" class="light" style="border:none">{{date}}</a></p>
     {{/commits}}
 </div>
 

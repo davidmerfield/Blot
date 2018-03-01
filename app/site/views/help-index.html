@@ -1,0 +1,187 @@
+{{> head}}
+{{> header}}
+{{> sidebar}}
+
+<style type="text/css">td{padding-right: 0;text-align: right;}
+td:first-child {padding-right: 0;text-align: left;}
+</style>
+<div class=" w-right-offset">
+
+  <h1>How to use Blot<!--   <p class="fr tr w-30 mt0"><a class="light bn" href="/configuring">Next &rarr;</a></p> -->
+</h1>
+
+  <p class=" measure">Blot is a blogging platform with no interface. It creates a special folder in your Dropbox and automatically publishes files you put inside. You can organize your blog’s folder however you like. </p>
+
+  <div class="spacer half"></div>
+  
+  <div class="w-50 fr pc">
+    <pre class="folder" title="Your blog"><code>Drafts
+Pages
+Posts
+  Bookmark.webloc
+  Document.docx
+  Image.jpg
+  Markdown.md
+  Text.txt
+  Webpage.html
+
+
+</code>
+    </pre>
+  </div>
+
+  <div class="w-50 fl pc">
+    <h2 class="mt0" >Blog posts</h2>    
+    <p class="mb0">These files become blog posts when you put them inside your blog’s folder:</p>
+    <table class="bt" style="margin-top:0.75rem">
+      <tbody>
+        <tr>
+        <td><code class="file md">Text and Markdown</a></code></td>
+        <td><span class="light">.txt&nbsp; .md</span></td>
+        </tr>
+        <tr>
+        <td><code class="file txt">Word Documents</a></code></td>
+        <td><span class="light">.docx &nbsp;.odt</span></td>
+        </tr>
+        <tr>
+        <td><code class="file webloc">Bookmarks</a></code></td>
+        <td><span class="light">.webloc&nbsp; .url</span></td>
+        </tr>
+        <tr>
+        <td><code class="file img" style="margin-left:-3px">Images</a></code></td>
+        <td><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></td>
+        </tr>
+        <tr>
+        <td style="border:none"><code class="file html">HTML</a></code></td>
+        <td style="border:none"><span class="light">.html &nbsp; .htm</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cf"></div>
+  </div>
+
+  <div class="spacer cf"></div>
+
+  <div class="w-50 fl pc">  
+    <h2 class="mt0" >Formatting your blog posts</h2>
+    <p class="measure mb0">Blot offers a variety of tools to add formatting to your blog posts. You can use <a href="/help/formatting">Markdown</a> to add links, headings, lists and much more. Blot renders mathematics set in <a class="bn" href="/help/formatting"><span class="katex">\LaTeX</span></a><span style="margin-left:-0.9rem"> and</span> provides syntax highlighting for code snippets.</p>
+
+    <a href="/help/formatting" class="next small db bt b--black-10">
+      Read the formatting guide
+    </a>
+  </div>
+
+  <div class="w-50 fr pc">
+    <pre class="text with-chrome narrow" title="Post"><code><b># Formatting</b>
+
+You can use <em>*Markdown*</em>, a lightweight markup language for plain text files.
+
+Use it for links, headings, lists and much more.
+
+</code>
+    </pre>
+  </div>
+
+  <div class="spacer cf"></div>
+
+  <div class="w-50 fr pc">
+    <pre class="folder" title="Your blog"><code>Drafts
+  Anecdote.txt
+  Anecdote.txt.html
+  Unpublished.txt
+  Unpublished.txt.html
+Pages
+  About.txt
+  Contact.txt
+  Home.txt
+Posts
+
+
+</code>
+    </pre>
+  </div>
+
+  <div class="w-50 fl pc"> 
+    <h2 class="mt0">Drafts</h2>
+    <p class="measure" style="margin-bottom:0.75rem">Files in a folder called ‘Drafts’ are not published. Instead, Blot creates a preview file which updates automatically.</p>
+    <br>
+    <h2 class="mt0">Pages</h2>
+    <p class="measure mb0">Files in a folder called ‘Pages’ become pages instead of blog posts. They are added to your blog’s menu.</p>
+  </div>
+
+  <div class="cf spacer"></div>
+
+  <div class="w-50 fl pc">
+    <h2 class="mt0" >Metadata</h2>
+    <p class="measure">Each blog post’s permalink and date is generated automatically from the file&#x2019;s contents and location. You can override this <a href="/help/metadata">metadata</a> at the start of a file.</p>
+    <a href="/help/dates" class="next small db bt b--black-10">
+      How to change a post’s date
+    </a>
+<!--     <a href="/help/url" class="next small db bt b--black-10">
+      Change a blog post’s URL
+    </a>
+ -->    <a href="/help/tags" class="next small db bt b--black-10">
+      How to add tags to a post
+    </a>
+    <a href="/help/metadata" class="next small db bt b--black-10">
+      View the metadata reference
+    </a>
+  </div>
+
+  <div class="w-50 fr pc">
+    <pre class="text with-chrome narrow" title="Post"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+Permalink: /metadata
+
+Metadata must start on the file&#x2019;s first line and must be separated from the rest of the post by at least one blank line. You must leave a space after the colon.
+
+</code>
+    </pre>
+  </div>
+  
+  <div class="cf spacer"></div>
+
+  <div class="w-50 fr pc">
+    <pre class="folder" title="Your blog"><code>_Public
+  Image.jpg
+  Movie.mpf
+  Archive.zip
+Posts
+  Bookmark.webloc
+  Document.docx
+  Image.jpg
+  Markdown.md
+  Text.txt
+  Webpage.html
+
+
+</code>
+    </pre>
+  </div>
+
+  <div class="w-50 fl pc"> 
+ <h2 class="mt0">Ignoring files</h2>
+<p class="measure" style="margin-bottom:0.75rem">Blot ignores files and folders whose name starts with an underscore. Ignored files are <a href="/help/static-server">public</a> but don’t become blog posts.</p>
+ <br>
+
+      <h2 class="mt0">Public files</h2>
+
+<p class="measure mb0">Every file in your blog’s folder is public. Use this feature to distribute files to your readers and embed media in blog posts.</p>
+    <a href="/help/static-server" class="next small db bt b--black-10">
+      Guide to serving files
+    </a>
+
+</div><div class="cf"></div>
+<br><Br><Br><br><br>
+<p class="measure"> 
+<a href="/configuring" class="next db bt">
+  <span class="light db">Next section</span>
+  Configuring your blog
+</a>
+</p>
+<br><br>
+<br><br><br>
+<br><br><br>
+</div>
+<br><br>
+
+{{> footer}}
