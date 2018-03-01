@@ -1,9 +1,14 @@
 Improve the documentation
 - Fix broken links within (and to) the documentation
-- Ensure subsections are linkable
-- Organize guides under the relevant section
-- Add example folders for the sites I run
-- Document all the template variables, no matter how embarrassing
+- Fix bug linking to subsections on page
+- Re-enable the docs on the dashboard
+- Add example guides to running the sites I run
+- Resolve the IA of subsections
+- Improve the formatting guide
+- Fix wide text editor window
+
+Improve the developer documentation
+- Make sure it's not broken
 
 Improve the selection of templates
 - Design for sites with specific kinds of posts
@@ -127,6 +132,11 @@ Improve nginx error pages
 
 Removing Date metadata from a post should reset its date to the file's creation date
 - Currently nothing changes.
+
+Add support for 'time' metadata property
+- Useful for posts with path-based-dates.
+- e.g. 'Time: 4:15pm'
+- Would append to any other date associated with the post.
 
 New post support
 - Refactor code so it's possible to register new file converters easily.
