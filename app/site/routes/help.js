@@ -144,6 +144,7 @@ help.use('/configuring', function(req, res, next){
 });
 
 help.get('/configuring', function(req, res){
+  res.locals.next = {title: 'Account and billing', url: '/account'};
   res.render('config-index');
 });
 
@@ -197,6 +198,7 @@ help.use('/help', function(req, res, next){
 help.get('/help', function(req, res){
   res.locals.menu.started = 'selected';
   res.locals.title = 'Getting started - ' + res.locals.title;  
+  res.locals.next = {title: 'Configuring your blog', url: '/configuring'};  
   res.render('help-index');
 });
 
@@ -211,6 +213,7 @@ help.get('/help/:section', function(req, res){
 help.get('/', function(req, res){
   res.locals.menu.introduction = 'selected';
   res.locals.title = 'Blot';  
+  res.locals.next = {title: 'How to use Blot', url: '/help'};
   res.render('index');
 });
 
