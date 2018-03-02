@@ -111,7 +111,6 @@ Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
 
 Write a unified import tool which scrapes content from any blog/website
-  http://exporter.blot.im/
   https://github.com/hexojs/hexo-migrator-blogger
   https://github.com/welksonramos/hexo-migrator-joomla
   https://github.com/hexojs/hexo-migrator-rss
