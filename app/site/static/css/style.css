@@ -551,7 +551,8 @@ html.dark {background: #111111}
 
 .light{color: #a09d9c}
 .next {border-bottom:none;padding:0.75rem 0 0}
-.next:hover:before {background: #111111;color: white}
+
+.next:hover:before, a:hover .next:before {background: #111111;color: white}
 
 .next.small {margin: 0.75rem 0}
 .next.small:before {border: none;margin-top: 0;color:#a09d9c;}
@@ -572,3 +573,6 @@ table nobr icon {margin-left: -3px}
 
 .fr.pc {padding-left: 3rem}
 .fl.pc {padding-right: 2rem}
+
+.darker, .footer_link {background: #fbf8f6}
+.footer_link:hover {background: #f3eeea}
