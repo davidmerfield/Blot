@@ -1,22 +1,12 @@
 {{> head}}
 {{> header}}
 {{> sidebar}}
-<style type="text/css">
-window.text, window.folder {margin: 2rem 0 4rem}
-
-window.right {width: 50%;float: right;margin-right: -10%}
-window.right:after {width: 8rem;position: absolute;top:-2rem;bottom: -3rem;right: -2rem;content: ""; background:linear-gradient(to right, transparent, #fff 70%)}
-window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
-#background {display: none;position: fixed;top: 80px;left: 0;right: 0;bottom: 0;z-index: 1}
-#background.open {display:block;}
-#closer {float: right;position: absolute;top: 0;left: 0;right: 0;bottom: 0}
-</style>
 
 <div class="w-right-offset">
 
   <p class="mt0 measure">Blot is a blogging platform with no interface. It creates a special folder in your Dropbox and automatically publishes files you put inside. The point of all this&hairsp;—&hairsp;the reason Blot exists&hairsp;—&hairsp;is so you can use your favorite tools to create whatever you publish.</p>
 
-  <p class="measure mb0">Blot automatically creates blog posts from <nobr><icon class="md"></icon> Text and Markdown</nobr>, <nobr style="margin-left:-3px"><icon class="txt"></icon> Word Documents</nobr>, <nobr><icon class="img"></icon> Images</nobr>, <nobr><icon class="webloc"></icon> Bookmarks</nobr> and <nobr><icon class="html"></icon> HTML</nobr>. Drag‐and-drop the files into your folder and <a id="other_play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE">Blot does the rest</a>.</p>
+  <p class="measure mb0">Blot automatically creates blog posts from&nbsp;<nobr><icon class="md"></icon>Text and Markdown</nobr>,&nbsp;<nobr style="margin-left:-3px"><icon class="txt"></icon>&nbsp;Word Documents</nobr>,&nbsp;<nobr><icon class="img"></icon>&nbsp;Images</nobr>,<nobr><icon class="webloc"></icon>&nbsp;Bookmarks</nobr>&nbsp;and&nbsp;<nobr><icon class="html"></icon>&nbsp;HTML</nobr>. Drag‐and-drop the files into your folder and <a id="other_play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE">Blot does the rest</a>.</p>
 
   <div id="background" class="bg">
     <a id="closer" href="/" class="">
@@ -105,22 +95,4 @@ window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
 </p>
 </div>
 </div>
-<script type="text/javascript">
-
-closer.onclick = function(e) {
-  background.classList.remove('open');
-  video.src = '';
-  e.preventDefault();
-  return false;
-}
-
-play.onclick = other_play.onclick = function (e) {
-  background.classList.add('open');
-  video.src = 'https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;controls=0&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white&amp;autoplay=1';
-  e.preventDefault();
-  return false;
-}
-
-</script>
-
 {{> footer}}

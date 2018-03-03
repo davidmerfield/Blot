@@ -52,75 +52,9 @@
     <input type="submit"  class="sans-serif submit button pv2 ph4 mt4" style="position:relative;top:-4px" value="Submit payment"  />
     <input type="hidden" class="stripeToken" name="stripeToken" />
   </form>
-</div>
-
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script type="text/javascript" src="/js/jquery.js?{{cacheID}}"></script>
-    <script type="text/javascript">
-
-      // This identifies your website in the createToken call below
-      Stripe.setPublishableKey('{{stripe_key}}');
-
-        $('form').submit(function(event) {
-
-          var $form = $(this);
-
-          // Disable the submit button
-          // to prevent repeated clicks
-          $form
-            .find('.submit')
-            .prop('disabled', true);
-
-          // Validate the email address
-          var email = $('#email').val() || '';
-          var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
-          var email = email.replace(' ', '');
-
-          if (email === '' || !emailRegex.test(email)) {
-
-            $('#error')
-              .text('Please enter a valid email.')
-              .show();
-
-            $('.submit')
-              .prop('disabled', false)
-
-            console.log('should be here')
-            return false;
-
-          } else {
-            $('#email').val(email)
-          }
-
-          Stripe.card.createToken($form, function(status, response){
-
-            if (response.error) {
-
-              $('#error')
-                .text(response.error.message)
-                .show();
-
-              $('.submit')
-                .prop('disabled', false);
-
-            } else {
-
-              var token = response.id;
-
-              // response also contains card,
-              // which has additional card details
-
-              // Insert the token into the form so
-              // it gets submitted to the server
-              $form.find('.stripeToken').val(token);
-              $form.get(0).submit();
-            }
-
-          });
-
-          // Prevent the form from submitting with the default action
-          return false;
-      });
-    </script>
-  </body>
-</html>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+// This identifies your website in the createToken call below
+if (typeof Stripe !== 'undefined') Stripe.setPublishableKey('{{stripe_key}}');
+</script>
+{{> footer}}

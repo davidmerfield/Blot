@@ -5,6 +5,7 @@
 </div>
 
 {{#menu}}
+{{^sign-up}}
 
 {{#next}}
 <a href="{{url}}" class="db bn footer_link" style="padding:5rem 0">
@@ -30,15 +31,9 @@
     </div>
   </div>
 </div>
+{{/sign-up}}
 {{/menu}}
-<!-- 
-The empty script tag below fixes this insane CSS animation bug for pages with forms...
-https://stackoverflow.com/questions/14389566/stop-css3-transition-from-firing-on-page-load
--->
-<script type="text/javascript"> </script>
-<script>
-  var scroll = new SmoothScroll('a[href*="#"]');
-</script>
 
+<script type="text/javascript" src="/blot.js?{{cacheID}}"></script>
 </body>
 </html>
