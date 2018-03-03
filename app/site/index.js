@@ -9,9 +9,20 @@ var views = __dirname + '/views';
 var static = __dirname + '/static';
 var middleware = require('middleware');
 var static_file_cache = require('static_file_cache');
+var fs = require('fs-extra');
 
 // Empty the cache!
-static_file_cache.flush(config.host);
+static_file_cache.flush(config.host, function(err){
+
+  if (err) throw err;
+
+  // Fill the cache with latest static files
+  fs.copy(__dirname + '/static', config.cache_directory + '/' + config.host, function(err){
+
+    if (err) throw err;
+
+  });
+});
 
 // The express application which serves
 // the public-facing website.
