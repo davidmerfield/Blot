@@ -8,6 +8,7 @@ module.exports = function(server){
 
     req.session.destroy(function() {
 
+      res.clearCookie("connect.sid");
       res.redirect(redirect);
     });
   });
