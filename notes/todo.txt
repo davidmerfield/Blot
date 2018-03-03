@@ -72,7 +72,9 @@ Public site improvements
 - Log 404s on the public site to identify neccessary redirects
 - Personalize the documentation for logged in users
 - Make the site responsive and looks good on phones
-
+- Consider using the fancy new stripe payment form?
+  https://stripe.com/docs/stripe-js/elements/quickstart
+  
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Move www/blogs/* to /blogs/{{id}}/assets ? Or maybe some obscure folder?
