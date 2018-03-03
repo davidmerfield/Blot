@@ -12,6 +12,7 @@
     "compression": "^1.0.11",
     "connect-redis": "^2.0.0",
     "csurf": "1.9.0",
+    "datauri": "^1.1.0",
     "datejs": "^1.0.0-rc3",
     "express": "^4.6.1",
     "express-brute": "^1.0.1",
