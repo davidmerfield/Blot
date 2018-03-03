@@ -1,23 +1,6 @@
-var log = require('middleware').log;
-var Express = require('express');
-var error_router = Express.Router();
+var config = require('config');
 
-// 404s
-error_router.use(log.four04);
-
-error_router.use(function(req, res) {
-  res.locals.menu = {};
-  res.locals.title = '404';
-  res.status(404);
-  res.render('error');
-});
-
-// Errors
-// We pass in four arguments to ensure this handles
-// errors, despite the fact that we don't use next...
-error_router.use(log.error);
-
-error_router.use(function(err, req, res, next) {
+function production (err, req, res, next) {
 
   // This reponse was partially finished
   // end it now and get over it...
@@ -38,6 +21,14 @@ error_router.use(function(err, req, res, next) {
   res.locals.title = title;
   res.status(500);
   res.render('error');
-});
+};
 
-module.exports = error_router;
+function dev (err, req, res, next) {
+  next(err);
+}
+
+if (config.environment === 'development') {
+  module.exports = dev;
+} else {
+  module.exports = production;
+}

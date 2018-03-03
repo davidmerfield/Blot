@@ -4,11 +4,6 @@ var finder = require('finder');
 var moment = require('moment');
 var cheerio = require('cheerio');
 var katex = require('katex');
-var config = require('config');
-
-function deslug (str) {
-  return str[0].toUpperCase() + str.slice(1).split('-').join(' ');
-}
 
 function render_katex (req, res, next) {
 
@@ -25,7 +20,6 @@ function render_katex (req, res, next) {
         throwOnError: false
       }));
 
-      $
     });
 
     html = $.html();
@@ -36,7 +30,9 @@ function render_katex (req, res, next) {
   next();  
 }
 
-function middleware (req, res, next) {
+
+
+function manipulate_html (req, res, next) {
 
   var send = res.send;
 
@@ -81,17 +77,7 @@ function middleware (req, res, next) {
 
 help.use(render_katex);
 help.use(finder.middleware);
-help.use(middleware);
-
-var css = finder.css();
-
-help.get('/css/finder.css', function(req, res, next){
-  
-  if (config.environment !== 'production') css = finder.css();
-
-  res.contentType('text/css');
-  res.send(css);
-});
+help.use(manipulate_html);
 
 help.use(function(req, res, next){
 
@@ -128,14 +114,6 @@ help.get('/account', function(req, res){
   res.locals.title = 'Account and billing - ' + res.locals.title;
   res.render('account');
 });
-
-// help.get(['/guides', '/guides/:guide'], function(req, res){
-//   res.locals.partials.yield = 'guides/' + (req.params.guide || 'index');
-//   res.locals.menu.guides = 'selected';
-//   res.locals.title = 'Guides and reference - ' + res.locals.title;
-//   if (req.params.guide) res.locals.title = deslug(req.params.guide) + ' - ' + res.locals.title;
-//   res.render('guides/wrapper');
-// });
 
 help.use('/configuring', function(req, res, next){
   res.locals.menu.configuring = 'selected';
@@ -202,12 +180,12 @@ help.get('/help', function(req, res){
   res.render('help-index');
 });
 
-help.get('/help/:section', function(req, res){
+help.get('/help/:section', function(req, res, next){
   res.locals.partials.yield = 'help-' + req.params.section;
   res.locals.title = 'How to use Blot - ' + res.locals.title;
   res.locals.section_title = 'How to use Blot';
   res.locals.section_url = '/help';
-  res.render('_wrapper');
+  res.render('_wrapper');    
 });
 
 help.get('/', function(req, res){
@@ -216,6 +194,5 @@ help.get('/', function(req, res){
   res.locals.next = {title: 'How to use Blot', url: '/help'};
   res.render('index');
 });
-
 
 module.exports = help;
