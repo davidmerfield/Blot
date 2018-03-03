@@ -22,6 +22,7 @@ if (production) {
   stripe_key = load('stripe.live.key');
   stripe_secret = load('stripe.live.secret');
   pandoc_path = '/home/ec2-user/.local/bin/pandoc';
+  cache_directory = '/cache';
 
 } else {
 
@@ -31,6 +32,7 @@ if (production) {
   stripe_key = load('stripe.test.key');
   stripe_secret = load('stripe.test.secret');
   pandoc_path = '/usr/local/bin/pandoc';
+  cache_directory = '/var/www/blot/www';
 
 }
 
@@ -68,6 +70,7 @@ module.exports = {
   "cache": cache,
   "debug": debug,
 
+  "cache_directory": cache_directory,
   "ip": "54.191.179.131",
 
   "port": 8080,
