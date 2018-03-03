@@ -15,14 +15,6 @@ Colors
 
 */
 
-
-@font-face{
-  font-family:'Computer Modern Serif';
-  src: url('/fonts/cmunrm.eot') format('embedded-opentype'),
-       url('/fonts/cmunrm.woff') format('woff'), 
-       url('/fonts/cmunrm.ttf')  format('truetype'); 
-}
-
 html {background: #fdfaf8}
 
 html, body {
@@ -74,6 +66,9 @@ a {
 .sidebar a:hover {color: #111111;opacity: 1.0}
 a:hover {border-color: #111111}
 
+body {-webkit-font-smoothing: antialiased;color: #111111}
+
+
 
 @font-face {
     font-family: 'IA Writer Duospace';
@@ -83,10 +78,6 @@ a:hover {border-color: #111111}
     font-style: normal;
 
 }
-
-body {-webkit-font-smoothing: antialiased;color: #111111}
-
-
 code {font-family: 'IA Writer Duospace';font-size: 0.9rem;    -webkit-font-smoothing: auto;
 }
 ol, ul, li {margin: 0;padding: 0}
@@ -576,3 +567,8 @@ table nobr icon {margin-left: -3px}
 
 .darker, .footer_link {background: #fbf8f6}
 .footer_link:hover {background: #f3eeea}
+
+
+#background {display: none;position: fixed;top: 80px;left: 0;right: 0;bottom: 0;z-index: 1}
+#background.open {display:block;}
+#closer {float: right;position: absolute;top: 0;left: 0;right: 0;bottom: 0}
