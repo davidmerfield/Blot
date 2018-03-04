@@ -148,6 +148,8 @@ input {box-sizing: border-box;}
 
 #thumb window.text {margin:0;background:#fffefc;position:absolute;width:100%;top:0;bottom:0;max-width: 100%;float:none;}
 
+window {-webkit-font-smoothing: auto;}
+
 #thumb iframe {
     position: absolute;
     top:0;
@@ -174,6 +176,7 @@ input[type="submit"] {
     cursor: pointer;
 border-radius: 3px;
     font-size: 1rem;
+    transition: all 0.2s ease-out;
     font-weight: 500;
     background: #2f2e2d;
     color: #fffefc;
@@ -212,8 +215,56 @@ input[type="submit"]:active {
 }
 
 
-input[type="submit"]:disabled {text-shadow:none;box-shadow:none;position: relative;background: #a09d9c;border-color:#a09d9c;cursor: default}
+input[type="submit"]:disabled {text-shadow:none;box-shadow:none;position: relative;color:#a09d9c;background: #a09d9c;border-color:#a09d9c;cursor: default}
 input[type="submit"]:disabled:hover {box-shadow: none;}
+
+
+input[type="submit"] + dots {
+  display: block;
+  position: relative;
+  top: -2.25rem;
+  color: #fffefc;
+  font-weight: 500;
+  opacity: 0;
+  z-index: -1;
+  width: 185px;
+  text-align: center;
+}
+
+input[type="submit"]:disabled + dots {
+  opacity: 1;
+  z-index: 1;
+}
+
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+input[type="submit"] + dots dot {
+  display: inline-block;
+  animation: pulse 0.3333s cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 0.55rem;
+  background: #fffefc;
+  margin: 0 0.75rem 0 0;
+}
+
+
+input[type="submit"] + dots dot:nth-child(2) {
+  animation-delay: 0.1111s;
+}
+
+input[type="submit"] + dots dot:nth-child(3) {
+  animation-delay: 0.2222s;
+}
 
 input[type="text"], textarea {
     border-radius: 4px;
@@ -268,9 +319,11 @@ input.year {border-radius: 0 4px 4px 0}
 
 .control-tool {
   display: inline-block;
-  margin: 0 0 -2px 4px;
   position: relative;
-  top: -1px;
+  vertical-align: bottom;
+  margin-bottom: -4px;
+  top: -3px;
+  margin-left: 4px
 }
 
 .control-tool:hover .tooltip{
@@ -279,8 +332,12 @@ input.year {border-radius: 0 4px 4px 0}
   opacity: 1;
 }
 
-.help-icon {
-  position: relative;
+.lock {
+  background: no-repeat center center url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI0NC42NDZweCIgaGVpZ2h0PSI0OS4zMzNweCIgdmlld0JveD0iMzcuNjgyIDIyLjMwNiA0NC42NDYgNDkuMzMzIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDM3LjY4MiAyMi4zMDYgNDQuNjQ2IDQ5LjMzMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTcyLjM2LDQzLjI3OXYtNS45OTNjMC04LjM4OS02LjU5Mi0xNC45ODEtMTQuOTgxLTE0Ljk4MXMtMTQuOTgxLDYuNTkyLTE0Ljk4MSwxNC45ODF2NS45OTNoLTQuNzE1djIyLjU1NWgzOS4zOTNWNDMuMjc5SDcyLjM2eiBNNTcuMzc4LDU5LjIzOGMtMi41OTYsMC00LjcwMS0yLjEwNi00LjcwMS00LjcwMmMwLTIuNTk3LDIuMTA1LTQuNzAyLDQuNzAxLTQuNzAyYzIuNTk3LDAsNC43MDIsMi4xMDUsNC43MDIsNC43MDJDNjIuMDgsNTcuMTMyLDU5Ljk3Niw1OS4yMzgsNTcuMzc4LDU5LjIzOHogTTY2LjM2Niw0My4yNzlINDguMzl2LTUuOTkzYzAtNS4wOTMsMy44OTUtOC45ODksOC45ODktOC45ODljNS4wOTQsMCw4Ljk4NywzLjg5Niw4Ljk4Nyw4Ljk4OVY0My4yNzl6Ii8+PC9zdmc+);
+  background-size: 11px;
+}
+
+.help-icon, .lock {
   display: inline-block;
   border-radius: 50%;
   color: white;
@@ -291,16 +348,11 @@ input.year {border-radius: 0 4px 4px 0}
   min-width: 20px;
   height: 20px;
   float: right;
-  top: 4px;
   font-size: 14px;
   text-indent: 0.075rem;
   line-height: 1.4;
 }
 
-.lock {
-  background: #b9b6af no-repeat center center url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI0NC42NDZweCIgaGVpZ2h0PSI0OS4zMzNweCIgdmlld0JveD0iMzcuNjgyIDIyLjMwNiA0NC42NDYgNDkuMzMzIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDM3LjY4MiAyMi4zMDYgNDQuNjQ2IDQ5LjMzMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTcyLjM2LDQzLjI3OXYtNS45OTNjMC04LjM4OS02LjU5Mi0xNC45ODEtMTQuOTgxLTE0Ljk4MXMtMTQuOTgxLDYuNTkyLTE0Ljk4MSwxNC45ODF2NS45OTNoLTQuNzE1djIyLjU1NWgzOS4zOTNWNDMuMjc5SDcyLjM2eiBNNTcuMzc4LDU5LjIzOGMtMi41OTYsMC00LjcwMS0yLjEwNi00LjcwMS00LjcwMmMwLTIuNTk3LDIuMTA1LTQuNzAyLDQuNzAxLTQuNzAyYzIuNTk3LDAsNC43MDIsMi4xMDUsNC43MDIsNC43MDJDNjIuMDgsNTcuMTMyLDU5Ljk3Niw1OS4yMzgsNTcuMzc4LDU5LjIzOHogTTY2LjM2Niw0My4yNzlINDguMzl2LTUuOTkzYzAtNS4wOTMsMy44OTUtOC45ODksOC45ODktOC45ODljNS4wOTQsMCw4Ljk4NywzLjg5Niw4Ljk4Nyw4Ljk4OVY0My4yNzl6Ii8+PC9zdmc+);
-  background-size: 11px;
-}
 
 #icon {
   border: none;
@@ -508,8 +560,6 @@ h1, h2 {font-size: 1.2rem;font-weight:400;line-height: 1.5;font-size: 1rem;borde
 p {margin: 1.5rem 0}
 h1 {margin-top: 0;}
 h2 {margin-top: 4.5rem;width: 100%}
-    window.text {margin: 1.5rem 0 1.5rem 0}
-    window.text pre {padding: 2rem 4rem;}
     h1 {margin-top: 0;
     font-size: 1rem;
     font-weight: 400;
@@ -550,13 +600,6 @@ html.dark {background: #111111}
 .next.small:hover:before {color: #000;background: none}
 
 
-window.text, window.folder {margin: 0 0 0}
-window.text pre {padding: 1rem;font-size: 14px}
-window.text pre code {font-size: 14px}
-window.right {width: 50%;float: right;margin-right: -10%}
-window.right:after {width: 8rem;position: absolute;top:-2rem;bottom: -3rem;right: -2rem;content: ""; background:linear-gradient(to right, transparent, #fff 70%)}
-window.right pre {padding-left: 2.5rem;font-size: 14px;padding-right: 0}
-
 table nobr icon {margin-left: -3px}
 
 .spacer {margin-bottom: 10rem}
@@ -572,3 +615,6 @@ table nobr icon {margin-left: -3px}
 #background {display: none;position: fixed;top: 80px;left: 0;right: 0;bottom: 0;z-index: 1}
 #background.open {display:block;}
 #closer {float: right;position: absolute;top: 0;left: 0;right: 0;bottom: 0}
+
+.section {margin-top: -10rem;
+    padding-top: 10rem;z-index: 0}
