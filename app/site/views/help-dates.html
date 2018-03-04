@@ -1,19 +1,30 @@
 <h1>Dates</h1>
 
-<p class="measure">Blot uses the file&#x2019;s creation date as its publish date by default. You can specify a different date in the file&#x2019;s <a href="#metadata">metadata</a>. If you prefer to write your dates in a different order, please update your <a href="/preferences">date preferences</a> on your blog’s dashboard.</p>
-<Br>
+<p class="measure">The publish date is the file’s creation date by default. You can specify a different  date in the file’s <a href="#metadata">metadata</a> or in its <a href="#path">path</a>. Blot will schedule a blog post for future publication if you specify a date that’s in the future. You can adjust your blog’s <a href="/preferences">time zone</a> and other date‐related settings on the dashboard.</p>
+<h2 id="metadata">Using metadata</h2>
+<p class="measure">The publish date is one of the properties of a blog post you can modify in the <a href="/help/metadata">metadata</a> at the start of a file. Here’s an example blog post with a modified publish date:</p>
+
 <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 
-You can schedule a blog post for publication if you specify a date that's in the future. Blot will wait until then to publish it.
+Blot supports a variety of date formats. The following all produce a blog post with the same date:
 
-Blot supports a variety of date formats. The following all produce a post with the same date:
-
-{{#date}}MM/DD/YYYY{{/date}}    {{#date}}MMMM D, YYYY{{/date}}
+{{#date}}MM/DD/YYYY{{/date}}   {{#date}}MMMM D, YYYY{{/date}}
 {{#date}}M.D.YYYY{{/date}}     {{#date}}YYYY-MM-DD 00:00{{/date}}
 
-You can also use the file&#x2019;s name or its path:
-
-{{#date}}YYYY-MM-DD-00:00[-Post.txt]{{/date}}    {{#date}}YYYY/MM/DD/[Post.txt]{{/date}} 
-{{#date}}YYYY/M.D.[Post.txt]{{/date}}           {{#date}}YYYY/M.D/[Post.txt]{{/date}} 
- 
 </code></pre>
+<h2 id="path">Using the path</h2>
+<p class="measure">You can specify a date in a file’s name or its path. For example, in this blog's folder, all four posts share the same publish date:</p>
+<pre class="folder measure" title="Your blog"><code>2016
+2017
+{{#date}}YYYY{{/date}}
+  {{#date}}M{{/date}} 
+    {{#date}}D.[Post.txt]{{/date}}
+  {{#date}}M-D.[Post.txt]{{/date}}
+  {{#date}}M-D{{/date}}
+    Post.txt
+{{#date}}YYYY-MM-DD-00:00[-Post.txt]{{/date}}
+
+
+</code></pre>
+<br>
+<p class="measure">The structure of the folder above is contrived but it illustrates a few ways to both keep your folder organized while specifying the date of your blog posts. </p>
