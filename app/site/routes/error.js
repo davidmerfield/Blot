@@ -18,10 +18,13 @@ function production (err, req, res, next) {
     status = 404;
   }
 
+
   // For some reason i can't render a template here
   // I should fix this in future.
   res.status(status);
   res.send('Error: ' + status);
+  
+  if (config.environment === 'development') console.log(err);
 };
 
 function dev (err, req, res, next) {
