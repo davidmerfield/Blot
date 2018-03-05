@@ -63,7 +63,9 @@ a {
 .nav a.selected {color: #111111;text-decoration: none;position: relative;}
 
 .nav a:hover,
-.sidebar a:hover {color: #111111;opacity: 1.0}
+.sidebar a:hover,
+a.light:hover {color: #111111;opacity: 1.0}
+
 a:hover {border-color: #111111}
 
 body {-webkit-font-smoothing: antialiased;color: #111111}
@@ -618,3 +620,6 @@ table nobr icon {margin-left: -3px}
 
 .section {margin-top: -10rem;
     padding-top: 10rem;z-index: 0}
+
+.ml-4 {margin-left: -2rem}
+.mr-4 {margin-right: -2rem}
