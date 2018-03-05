@@ -1,16 +1,22 @@
+<h1>Teasers</h1>
+{{=[[ ]]=}}
 
-    <h2>Teasers</h2>
+<p class="measure">Some of Blot&#x2019;s <a href="/configuring">templates</a> show a teaser for each post on  the index page, and include a link to the read full post. By default, Blot creates this teaser from the first few paragraphs in the blog post. You can change the post's teaser using <a href="#metadata">metadata</a> or by inserting the <a href="#breakpoint">breakpoint</a> into the file yourself.
 
-    {{=[[ ]]=}}
+<h2 id="metadata">Using metadata</h2>
+<p class="measure">You can use metadata.</p>
+<pre class="text with-chrome"><code>Teaser: This sentence is used as the teaser.
 
-    <p class="measure">Some of Blot&#x2019;s templates show a teaser for each post on the homepage, and include a link to the read full post. Blot creates a teaser from the first few paragraphs in the post by default.
-      You can specify the breakpoint using the <code>{{more}}</code> tag:</p>
+Everything else in the blog post will not affect the content of the teaser.
 
+</code></pre>  
 
-      <pre class="file"><code>Everything above the ’more’ tag, including this line, will be in the post’s teaser.
+<h2 id="breakpoint">Using a breakpoint</h2>
+<p class="measure">You can specify the breakpoint using the <code>{{more}}</code> tag:</p>
+<pre class="text with-chrome"><code>Everything above the ’more’ tag, including this line, will be in the post’s teaser.
 
 {{more}}
 
 Anything after the ’more’ tag, including this line, will not be in the post’s teaser.</code></pre>
 
-</p>[[={{ }}=]]
+[[={{ }}=]]
