@@ -4,6 +4,41 @@ var finder = require('finder');
 var moment = require('moment');
 var cheerio = require('cheerio');
 var katex = require('katex');
+var fs = require('fs-extra');
+var view_dir = __dirname + '/../views';
+
+
+// These are all the pages that fall under
+// the section 'How to use Blot'
+// [
+//  ['dates', 'Dates'],
+//  ['formatting', 'Formatting blog posts'],
+//  ['images', 'Adding images to blog posts'],
+//  ['metadata', 'Metadata'],
+//  ['static-server', 'Static server'],
+//  ['tags', 'Tags'],
+//  ['teasers', 'Teasers']
+// ]
+
+function load_views (dir, prefix) {
+
+  return fs.readdirSync(dir).filter(function(name){
+
+    return name.indexOf(prefix) === 0;
+
+  }).map(function(name){
+
+    var slug = name.slice(prefix.length, name.lastIndexOf('.'));
+    var content = fs.readFileSync(dir + '/' + name);
+    var $ = cheerio.load(content);
+    var title = $('h1').first().text();
+
+    return {title: title, slug: slug};
+  });
+}
+
+
+
 
 function render_katex (req, res, next) {
 
@@ -107,34 +142,11 @@ help.use(function(req, res, next){
   next();
 });
 
-help.use(finder.middleware);
-
 help.get('/account', function(req, res){
   res.locals.menu.account = 'selected';
   res.locals.title = 'Account and billing - ' + res.locals.title;
   res.render('account');
 });
-
-help.use('/configuring', function(req, res, next){
-  res.locals.menu.configuring = 'selected';
-  res.locals.title = 'Configuring your blog - ' + res.locals.title;
-  next();
-});
-
-help.get('/configuring', function(req, res){
-  res.locals.next = {title: 'Account and billing', url: '/account'};
-  res.render('config-index');
-});
-
-
-help.get('/configuring/:section', function(req, res){
-  res.locals.partials.yield = 'config-' + req.params.section;
-  res.locals.title = 'Configuring your blog - ' + res.locals.title;
-  res.locals.section_title = 'Configuring your blog';
-  res.locals.section_url = '/configuring';
-  res.render('_wrapper');
-});
-
 
 help.use('/developers', function(req, res, next){
   res.locals.menu.developers = 'selected';
@@ -167,26 +179,56 @@ help.get('/developers/support', function(req, res){
   res.render('dev-support');
 });
 
+
+// How to use Blot
+
 help.use('/help', function(req, res, next){
   res.locals.menu.started = 'selected';
-  res.locals.title = 'Getting started - ' + res.locals.title;  
+  res.locals.title = res.locals.section_title = 'How to use Blot';
+  res.locals.section_url = '/help';  
   next();
 });
 
 help.get('/help', function(req, res){
-  res.locals.menu.started = 'selected';
-  res.locals.title = 'Getting started - ' + res.locals.title;  
   res.locals.next = {title: 'Configuring your blog', url: '/configuring'};  
   res.render('help-index');
 });
 
-help.get('/help/:section', function(req, res, next){
-  res.locals.partials.yield = 'help-' + req.params.section;
-  res.locals.title = 'How to use Blot - ' + res.locals.title;
-  res.locals.section_title = 'How to use Blot';
-  res.locals.section_url = '/help';
-  res.render('_wrapper');    
+load_views(view_dir, 'help-').forEach(function(section){
+
+  help.get('/help/' + section.slug, function(req, res, next){
+    res.locals.partials.yield = 'help-' + section.slug;
+    res.locals.title = section.title + ' - ' + res.locals.section_title;
+    res.render('_wrapper');    
+  });
 });
+
+
+// Configuring yoru blog
+
+
+help.use('/configuring', function(req, res, next){
+  res.locals.menu.config = 'selected';
+  res.locals.title = res.locals.section_title = 'Configuring your blog';
+  res.locals.section_url = '/configuring';  
+  next();
+});
+
+help.get('/configuring', function(req, res){
+  res.locals.next = {title: 'Account and billing', url: '/account'};  
+  res.render('config-index');
+});
+
+load_views(view_dir, 'config-').forEach(function(section){
+
+  help.get('/configuring/' + section.slug, function(req, res, next){
+    res.locals.partials.yield = 'config-' + section.slug;
+    res.locals.title = section.title + ' - ' + res.locals.section_title;
+    res.render('_wrapper');    
+  });
+});
+
+
 
 help.get('/', function(req, res){
   res.locals.menu.introduction = 'selected';
