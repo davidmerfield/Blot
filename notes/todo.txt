@@ -1,11 +1,7 @@
 Improve the documentation
-- Fix broken links within (and to) the documentation
-- Fix bug linking to subsections on page
+- Improve the formatting guide
 - Re-enable the docs on the dashboard
 - Add example guides to running the sites I run
-- Resolve the IA of subsections
-- Improve the formatting guide
-- Fix wide text editor window
 
 Improve the developer documentation
 - Make sure it's not broken
@@ -379,6 +375,8 @@ https://github.com/getpelican/pelican-plugins
 Use pandoc for katex instead of seperate function
 
 Add transactional emails notifying user of changes to their email or password.
+
+Consider adding markdown support for [mermaid](https://mermaidjs.github.io/)?
 
 Download the webpage for bookmark files and try to extract title + summary
 
