@@ -1,9 +1,39 @@
 <h1>Redirects</h1>
-<div class="measure">
-<p>You can <a href="/preferences">set up redirects</a> for missing or moved pages on your blog. Your blog&#x2019;s <a href="/preferences">404 log</a> will help you discover URLs which need redirects. You can use RegEx to match multiple routes. For example, this rule redirects URLs starting with <code>/post</code> to <code>/blog</code>:</p>
 
-<pre><code>\/post\/(.*)  &#x2192;  /blog/$1
-</code></pre>
+<p class="measure">You can <a href="/preferences">set up redirects</a> for missing or moved pages on your blog. Your blog’s <a href="/preferences">404 log</a> will help you discover broken links. You can specify individual redirects or use RegEx to specify a general rule.</p>
 
-<p>Redirects are evaluated last in the order of <a href="/developers#routing">Blot's routing</a>. So if there is a blog post or file which matches the URL of a redirect, the redirect will not be evaluated.</p>
+<p class="measure">Redirects are evaluated last in the order of <a href="/developers#routing">Blot’s routing</a>. This means that Blot will not evaluate a redirect if it matches an existing blog post’s URL, or the path to a file in your folder. Here are a few example redirect rules:</p>
+
+<style type="text/css">td:nth-child(3) {padding-right: 0} td:nth-child(2), td:nth-child(1) {padding-right: 4.5rem}</style>
+<p class="measure"></p>
+<table class="w-100 bt">
+  <thead>
+    <td class="light">From</td>
+    <td class="light">To</td>
+    <td class="light">Explanation</td>
+  </thead>
+  <tr>
+    <td>
+      <code>/apples</code>
+    </td>
+    <td>
+      <code>/oranges</code>
+    </td>
+    <td>
+      Will redirect the URL <code>/apples</code> to the URL <code>/oranges</code>, assuming there is no blog post or file with the URL <code>/apples</code>.
+    </td>
+  </tr>
+    <tr>
+    <td>
+      <code>\/post\/(.*)</code>
+    </td>
+    <td>
+      <code>/blog/$1</code>
+    </td>
+    <td>
+      Will redirect URLs starting with <code>/post</code> to URLs starting with <code>/blog</code>.
+    </td>
+  </tr>
+
+
 </div>

@@ -2,390 +2,191 @@
 
 <div class="measure">
 
-<p>Each post is blog assigned a permalink, or permanent URL. You can edit the format of these permalinks on <a href="/preferences">the dashboard</a>. The permalink's format can include some of <a href="/developers">the blog post's properties</a>. Here are a few examples:</p>
-
+<p>Each post is blog assigned a permalink, or permanent URL. You can edit the format of these permalinks on <a href="/preferences">the dashboard</a>. If you change a permalink, its former URL redirects automatically.</p>
+<p>The permalink format includes some combination of the blog post’s properties. Here are a few popular formats:</p>
+<p>
 </div>
 
+<style type="text/css">
+h2 + table {margin-top: 0.75rem}
+td {padding-right: 0;}
+td:nth-child(1){width: 50%}</style>
 {{=[[ ]]=}}
 
-<table>
+<table class="bt w-100">
 <thead>
 <tr>
-<th>The permalink format...</th>
-<th>produces URLs like...</th>
+<th class="light">Format</th>
+<th class="light">Example URL</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>{{slug}}</code></td>
-<td><span class="light">www.example.com</span>/title-of-the-post</td>
+<td>/title-of-the-post</td>
 </tr>
 <tr>
 <td><code>blog/{{slug}}</code></td>
-<td><span class="light">www.example.com</span>/blog/title-of-the-post</td>
-</tr>
-<tr>
-<td><code>{{YYYY}}/{{slug}}</code></td>
-<td><span class="light">www.example.com</span>/2017/title-of-the-post</td>
+<td>/blog/title-of-the-post</td>
 </tr>
 <tr>
 <td><code>{{YYYY}}/{{MM}}/{{D}}/{{slug}}</code></td>
-<td><span class="light">www.example.com</span>/2017/10/3/title-of-the-post</td>
-</tr>
-<tr>
-<td><code>{{slug}}-{{MM}}-{{YYYY}}</code></td>
-<td><span class="light">www.example.com</span>/title-of-the-post-10-2017</td>
+<td>/2017/10/3/title-of-the-post</td>
 </tr>
 </tbody>
 </table>
 <br>
 <div class="measure">
-<p>Here is the full list of blog post properties that you can use for the post's publish date:</p>
 </div>
-<table>
+<h2>Reference</h2>
+<p class="measure">Below are all the properties of a blog post that you can use in your permalink format. You can include as many as you like.</p>
+
+<table class="bt w-100">
 <thead>
 <tr>
-<th>Property</th>
-<th>Value</th>
+<th class="light">Token</th>
+<th class="light">Value</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>{{slug}}</code></td>
-<td>A URL-friendly version of the post's title</td>
-</tr>
-
-<tr>
-<td><code>{{slug-without-diacritics}}</code></td>
-<td><code>{{slug}}</code> without diacritical marks</td>
-</tr>
-
 
 <tr>
 <td><code>{{name}}</code></td>
-<td>The file's name, lowercased</td>
+<td>The file’s name, lowercased.</td>
 </tr>
 
 <tr>
 <td><code>{{name-without-extension}}</code></td>
-<td><code>{{name}}</code> without the file extension</td>
+<td>The file’s name, without the file extension.</td>
 </tr>
 
 
 <tr>
 <td><code>{{path}}</code></td>
-<td>The file's path, lowercased</td>
+<td>The file’s path, lowercased.</td>
 </tr>
 <tr>
 
-<tr>
-<td><code>{{metadata}}</code></td>
-<td>An object containing metadata specified in the file</td>
-</tr>
 
+<tr>
 <td><code>{{size}}</code></td>
-<td>The file's size in bytes</td>
-</tr>
-
-<tr>
-<td><code>{{dateStamp}}</code></td>
-<td>A unix datestamp for the post's publish date</td>
+<td>The file’s size in bytes.</td>
 </tr>
 
 <tr>
 <td><code>{{created}}</code></td>
-<td>A unix datestamp for the file's creation date</td>
+<td>The file’s creation date, as a unix timestamp.</td>
 </tr>
 
 <tr>
 <td><code>{{updated}}</code></td>
-<td>A unix datestamp for the file's modified date</td>
+<td>The file’s modified date, as a unix datestamp.</td>
 </tr>
 
 
 <tr>
-<td><code>{{more}}</code></td>
-<td>True if the post's teaser is shorter than the full post</td>
+<td><code>{{slug}}</code></td>
+<td>A URL-friendly version of the post’s title.</td>
+</tr>
+
+<tr>
+<td><code>{{slug-without-diacritics}}</code></td>
+<td>A URL-friendly version of the post’s title without diacritical marks.</td>
+</tr>
+
+<tr>
+<td><code>{{metadata}}</code></td>
+<td>An object containing the metadata keys and values you specified at the start of the file.</td>
 </tr>
 
 <tr>
 <td><code>{{page}}</code></td>
-<td>True if the file is a page</td>
+<td>True if the file is a page, false otherwise.</td>
 </tr>
 
 <tr>
 <td><code>{{menu}}</code></td>
-<td>True if the file is a page and is on your blog's menu</td>
+<td>True if the file is on your blog’s menu, false otherwise.</td>
 </tr>
-
-
 </tbody>
 </table>
+<br>
+<p class="measure">Your permalink format can incorporate components of the blog post’s publish date. You can use all the available <a href="/developers">date tokens</a>. Here is limited selection of the most useful ones:</p>
 
-<table>
-  <tbody>
+<table class="w-100 bt">
+<thead>
+  <tr>
+<th class="light">Token</th>
+<th class="light">Value</th>
+</tr>
+</thead>
     <tr>
-      <th></th>
-      <th>Token</th>
-      <th>Output</th>
+      <td><code>{{YYYY}}</code></td>
+      <td>Year, e.g. 1970 ... 2030</td>
     </tr>
     <tr>
-      <td><b>Month</b></td>
-      <td>M</td>
-      <td>1 2 ... 11 12</td>
+      <td><code>{{M}}</code></td>
+      <td>Month of the year, e.g. 1 2 ... 11 12</td>
+    </tr>
+
+    <tr>
+      <td><code>{{MM}}</code></td>
+      <td>Month of the year with a leading zero</td>
     </tr>
     <tr>
-      <td></td>
-      <td>Mo</td>
-      <td>1st 2nd ... 11th 12th</td>
+      <td><code>{{MMMM}}</code></td>
+      <td>Month of the year, e.g. January ... December</td>
+    </tr>
+
+    <tr>
+      <td><code>{{D}}</code></td>
+      <td>Day of the month, e.g. 1 2 ... 30 31</td>
     </tr>
     <tr>
-      <td></td>
-      <td>MM</td>
-      <td>01 02 ... 11 12</td>
+      <td><code>{{DD}}</code></td>
+      <td>Day of the month with a leading zero</td>
+    </tr>
+
+    <tr>
+      <td><code>{{dddd}}</code></td>
+      <td>Day of the week, e.g. Sunday ... Saturday</td>
+    </tr>
+
+    <tr>
+      <td><code>{{H}}</code></td>
+      <td>Hour of the day, e.g. 0 1 ... 22 23</td>
     </tr>
     <tr>
-      <td></td>
-      <td>MMM</td>
-      <td>Jan Feb ... Nov Dec</td>
+      <td><code>{{HH}}</code></td>
+      <td>Hour of the day, e.g. 00 01 ... 22 23</td>
     </tr>
     <tr>
-      <td></td>
-      <td>MMMM</td>
-      <td>January February ... November December</td>
+      <td><code>{{h}}</code></td>
+      <td>Hour of the day, e.g. 1 2 ... 11 12</td>
     </tr>
     <tr>
-      <td><b>Quarter</b></td>
-      <td>Q</td>
-      <td>1 2 3 4</td>
+      <td><code>{{hh}}</code></td>
+      <td>Hour of the day, e.g. 01 02 ... 11 12</td>
     </tr>
     <tr>
-      <td></td>
-      <td>Qo</td>
-      <td>1st 2nd 3rd 4th</td>
+      <td><code>{{m}}</code></td>
+      <td>Minute of the hour, e.g. 0 1 ... 58 59</td>
     </tr>
     <tr>
-      <td><b>Day of Month</b></td>
-      <td>D</td>
-      <td>1 2 ... 30 31</td>
+      <td><code>{{mm}}</code></td>
+      <td>Minute of the hour, e.g. 00 01 ... 58 59</td>
     </tr>
     <tr>
-      <td></td>
-      <td>Do</td>
-      <td>1st 2nd ... 30th 31st</td>
+      <td><code>{{a}}</code></td>
+      <td>am or pm</td>
+    </tr>    
+    <tr>
+      <td><code>{{X}}</code></td>
+      <td>Unix timestamp</td>
     </tr>
     <tr>
-      <td></td>
-      <td>DD</td>
-      <td>01 02 ... 30 31</td>
-    </tr>
-    <tr>
-      <td><b>Day of Year</b></td>
-      <td>DDD</td>
-      <td>1 2 ... 364 365</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>DDDo</td>
-      <td>1st 2nd ... 364th 365th</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>DDDD</td>
-      <td>001 002 ... 364 365</td>
-    </tr>
-    <tr>
-      <td><b>Day of Week</b></td>
-      <td>d</td>
-      <td>0 1 ... 5 6</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>do</td>
-      <td>0th 1st ... 5th 6th</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>dd</td>
-      <td>Su Mo ... Fr Sa</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>ddd</td>
-      <td>Sun Mon ... Fri Sat</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>dddd</td>
-      <td>Sunday Monday ... Friday Saturday</td>
-    </tr>
-    <tr>
-      <td><b>Day of Week (Locale)</b></td>
-      <td>e</td>
-      <td>0 1 ... 5 6</td>
-    </tr>
-    <tr>
-      <td><b>Day of Week (ISO)</b></td>
-      <td>E</td>
-      <td>1 2 ... 6 7</td>
-    </tr>
-    <tr>
-      <td><b>Week of Year</b></td>
-      <td>w</td>
-      <td>1 2 ... 52 53</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>wo</td>
-      <td>1st 2nd ... 52nd 53rd</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>ww</td>
-      <td>01 02 ... 52 53</td>
-    </tr>
-    <tr>
-      <td><b>Week of Year (ISO)</b></td>
-      <td>W</td>
-      <td>1 2 ... 52 53</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Wo</td>
-      <td>1st 2nd ... 52nd 53rd</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>WW</td>
-      <td>01 02 ... 52 53</td>
-    </tr>
-    <tr>
-      <td><b>Year</b></td>
-      <td>YY</td>
-      <td>70 71 ... 29 30</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>YYYY</td>
-      <td>1970 1971 ... 2029 2030</td>
-    </tr>
-      <tr>
-      <td></td>
-      <td>Y</td>
-      <td>1970 1971 ... 9999 +10000 +10001
-        <br>
-        <b>Note:</b> This complies with the ISO 8601 standard for dates past the year 9999
-      </td>
-    </tr>
-    <tr>
-      <td><b>Week Year</b></td>
-      <td>gg</td>
-      <td>70 71 ... 29 30</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>gggg</td>
-      <td>1970 1971 ... 2029 2030</td>
-    </tr>
-    <tr>
-      <td><b>Week Year (ISO)</b></td>
-      <td>GG</td>
-      <td>70 71 ... 29 30</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>GGGG</td>
-      <td>1970 1971 ... 2029 2030</td>
-    </tr>
-    <tr>
-      <td><b>AM/PM</b></td>
-      <td>A</td>
-      <td>AM PM</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>a</td>
-      <td>am pm</td>
-    </tr>
-    <tr>
-      <td><b>Hour</b></td>
-      <td>H</td>
-      <td>0 1 ... 22 23</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>HH</td>
-      <td>00 01 ... 22 23</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>h</td>
-      <td>1 2 ... 11 12</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>hh</td>
-      <td>01 02 ... 11 12</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>k</td>
-      <td>1 2 ... 23 24</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>kk</td>
-      <td>01 02 ... 23 24</td>
-    </tr>
-    <tr>
-      <td><b>Minute</b></td>
-      <td>m</td>
-      <td>0 1 ... 58 59</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>mm</td>
-      <td>00 01 ... 58 59</td>
-    </tr>
-    <tr>
-      <td><b>Second</b></td>
-      <td>s</td>
-      <td>0 1 ... 58 59</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>ss</td>
-      <td>00 01 ... 58 59</td>
-    </tr>
-    <tr>
-      <td><b>Fractional Second</b></td>
-      <td>S</td>
-      <td>0 1 ... 8 9</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>SS</td>
-      <td>00 01 ... 98 99</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>SSS</td>
-      <td>000 001 ... 998 999</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>SSSS ... SSSSSSSSS</td>
-      <td>000[0..] 001[0..] ... 998[0..] 999[0..]</td>
-    </tr>
-    <tr>
-      <td><b>Unix Timestamp</b></td>
-      <td>X</td>
-      <td>1360013296</td>
-    </tr>
-    <tr>
-      <td><b>Unix Millisecond Timestamp</b></td>
-      <td>x</td>
-      <td>1360013296123</td>
+      <td><code>{{x}}</code></td>
+      <td>Unix millisecond timestamp</td>
     </tr>
   </tbody>
 </table>
