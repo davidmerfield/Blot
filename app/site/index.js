@@ -127,6 +127,7 @@ site.use(routes.simple);
 site.use('/blot.css', routes.css);
 site.use('/blot.js', routes.js);
 site.use('/updates', routes.updates);
+site.use('/formatting', routes.formatting);
 site.use('/', routes.help);
 
 // Serve static files too
