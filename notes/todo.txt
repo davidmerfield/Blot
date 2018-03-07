@@ -1,3 +1,6 @@
+Bug with cached redirect response
+from / to /writing, removed redirect, still redirected requests, flushed cache
+
 Improve the documentation
 - Improve the formatting guide
 - Re-enable the docs on the dashboard
