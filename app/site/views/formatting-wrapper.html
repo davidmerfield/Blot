@@ -18,6 +18,7 @@
 .spacer{margin-bottom: 6rem}
 .spacer.half {margin-bottom: 3rem}
 
+
 input[type="text"]{background: #f3eeea;border-radius: 0;border-color:#f3eeea;box-shadow:none;padding-left: 2rem}
 
 table pre {margin: 0;padding: 0;max-width: 30rem}
@@ -95,10 +96,11 @@ h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
 }
 
 :active, :focus {outline: none}
+
 </style>
 <div class="sidebar fixed nav">
-  <h1 class="light pt5 mh4 mb0" style="margin-bottom:0.75rem"><a  href="/help" class="light">Blot is a blogging platform</a></h1>
-  <div class="js-toc pb4 pl3"></div>
+  <h1 class="light pt5 mh4 mb0" style="margin-left:3rem;margin-right:3rem;margin-bottom:0.75rem"><a  href="/help" class="light">Blot is a blogging platform</a></h1>
+  <div class="js-toc pb4 pl4"></div>
 
 <script type="text/javascript">
 
@@ -128,7 +130,9 @@ links.forEach(function (node) {
 <div class="spacer cf"></div>
 {{> markdown}}
 <div class="spacer cf"></div>
+<div class="spacer cf"></div>
 {{> layout}}
+<div class="spacer cf"></div>
 <div class="spacer cf"></div>
 {{> tex}}
 </div>
