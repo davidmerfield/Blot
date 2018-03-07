@@ -1,0 +1,154 @@
+{{> head}}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.1.1/tocbot.css">
+
+<style type="text/css">
+.sidebar {
+    background: #fdfaf8;
+    box-shadow: inset -16px 0 16px #fbf8f6;
+    top:0;
+    bottom: 0;
+    width: 18rem
+  }
+
+.nav {height: auto;}
+.nav a {line-height: 1.5}
+  .main {margin-left: 18rem;background: #fffefc}
+
+.spacer{margin-bottom: 6rem}
+.spacer.half {margin-bottom: 3rem}
+
+input[type="text"]{background: #f3eeea;border-radius: 0;border-color:#f3eeea;box-shadow:none;padding-left: 2rem}
+
+table pre {margin: 0;padding: 0;max-width: 30rem}
+table ul, table ol, table p {margin: 0;padding: 0}
+td {vertical-align: top}
+
+table.md td {padding: 1.5rem 0}
+
+table.md td:nth-child(2),
+table.md td:nth-child(4) {width: 42%;padding: 1.5rem 3rem}
+
+table.md td:nth-child(3) {display: none;}
+
+table.md td:nth-child(2) {background: #fdfaf8;}
+
+table li {margin-left: 1.5rem}
+
+.browser {padding-right: 1rem;padding-left: 1rem}
+.browser p {font-size: 0.5rem;margin: 0 0 0.75rem}
+.browser h1 {border-bottom: none;margin: 0.75rem 0 0;padding-bottom: 0.25rem}
+
+
+.sub a {color: black}
+a.sub_section {color: #a7a7a7}
+a.selected {color: gold}
+
+.sub div {
+  transition-property: max-height;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  overflow: hidden;
+}
+
+.sub div:not(.open) {max-height: 1.5rem;}
+.sub div.open {max-height: 400px;}
+
+.js-toc ul, .js-toc ol {list-style-type: none;}
+
+
+a.toc-link {color: #a7a7a7}
+.toc-list {
+    margin: 0;
+    padding-left: 1rem;
+}
+.toc-list  .toc-list {margin-left: -1rem}
+
+a.is-active-link,
+a.node-name--H2,
+a.node-name--H1 {
+    font-weight: 400;
+    color: #111
+}
+
+.toc-link::before {display: none;}
+
+.sidebar li:last-child {margin: 0}
+
+a.node-name--H1 {margin-bottom: 3rem}
+a.node-name--H1.is-active-link:before {display: none;}
+
+a.is-active-link:before {
+  content: "";width: 0.25rem;height: 0.25rem;background: #000;border-radius: 100%;
+  position: absolute;
+  left: -0.8rem;
+  display: block;
+  top: 0.75rem;
+}
+
+h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
+    display: block;
+    content: " ";
+    height: 64px;
+    margin-top: -64px;
+    visibility: hidden;
+}
+
+:active, :focus {outline: none}
+</style>
+<div class="sidebar fixed nav">
+  <h1 class="light pt5 mh4 mb0" style="margin-bottom:0.75rem"><a  href="/help" class="light">Blot is a blogging platform</a></h1>
+  <div class="js-toc pb4 pl3"></div>
+
+<script type="text/javascript">
+
+var links = document.querySelectorAll('div a:not(.sub_section)');
+
+links.forEach(function (node) {
+  node.onclick = function(){
+    node.parentNode.classList.toggle('open');
+    // node.parentNode.parentNode
+  }
+});
+
+</script>
+
+</div>
+<div class="main">
+  <div class="mw8 center ph4 pt5">
+
+<div class="js-toc-content">
+
+    <div class="measure">
+    <h1 id="formatting">Formatting guide</h1>
+    <p class="measure">Blot offers a variety of standard tools to add formatting to your blog posts. You can use <a href="#markdown">Markdown</a> to add links, headings, lists and much more. Blot also renders <a href="#math">mathematics</a> set in <a class="bn" href="#math"><span class="katex">\(\TeX\)</span></a><span style="margin-left:-0rem"> and</span> provides syntax highlighting for code snippets.</p>
+    <p>The formatting described below is available for blog posts created from&nbsp;<code class="file txt">&nbsp;Text files,</code>&nbsp;<code class="file md">&nbsp;Markdown</code>&nbsp;and&nbsp;<code class="file txt">&nbsp;Word Documents</code>.
+    </div>
+
+<div class="spacer cf"></div>
+{{> markdown}}
+<div class="spacer cf"></div>
+{{> layout}}
+<div class="spacer cf"></div>
+{{> tex}}
+</div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.1.1/tocbot.min.js"></script>
+
+<script type="text/javascript">
+tocbot.init({
+  // Where to render the table of contents.
+  tocSelector: '.js-toc',
+  includeHtml: true,
+  // ignoreSelector: 'table h1',
+  // Where to grab the headings to build the table of contents.
+  contentSelector: '.js-toc-content',
+  // Which headings to grab inside of the contentSelector element.
+  headingSelector: 'h1, h2, h3',
+});
+</script>
+<br><br><br>
+<!-- {{> footer}} -->
