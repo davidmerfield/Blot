@@ -465,30 +465,44 @@ input.year {border-radius: 0 4px 4px 0}
   }
   
 strike a {border:none;}
+
 .gallery {padding:0 0;margin:0;position: relative;}
     
-    .gallery dots {position: absolute;top: 0.4rem;left: 0;right: 0;border-bottom: 1px solid #a09d9c;padding-left: 0.4rem}
+    .gallery dots,
+    .browser dots {position: absolute;top: 0.4rem;left: 0;right: 0;border-bottom: 1px solid #a09d9c;padding-left: 0.4rem}
 
-    .gallery dot {
+    .gallery dot,
+    .browser dot {
       display: block;float: left;margin-right: 5px;margin-bottom: .3rem;
       border-radius:100%;width:.25rem;height:.25rem;border: 1px solid #a09d9c;background: none;box-shadow: none;
     }
 
+    .gallery > a,
+    .browser {    color:#111111;
+      border-radius:4px;
+      display: block;      
+      position:relative;
+      padding: 20px 0 0;      
+      box-sizing:border-box;border: 1px solid #a09d9c;
+  }
+
     .gallery > a {
       width: calc(25% - 1.5rem);
-      margin-bottom:2rem;display: block;float:left;margin-right:2rem;border-radius:4px;
-      padding: 20px 0 0;
-    line-height: 96px;
-    color:#111111;
-    height: 125px;
-              text-align: center;z-index:0;position:relative;box-sizing:border-box;border: 1px solid #a09d9c;
+      margin-bottom:2rem;
+      float:left;margin-right:2rem;
+      line-height: 96px;
+      height: 125px;
+      text-align: center;z-index:0;
     }
 
-    .gallery > a, .gallery dot, .gallery dots {
+    .gallery > a, .gallery dot, .gallery dots,
+    .browser, .browser dot, .browser dots,
+     {
       border-color: rgba(0,0,0,0.3);
     }
 
-    .gallery dot {border-color: rgba(0,0,0,0.35)}
+    .gallery dot,
+    .browser dot {border-color: rgba(0,0,0,0.35)}
 
     .gallery > a:before,
     .new {
