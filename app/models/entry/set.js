@@ -2,7 +2,7 @@ var helper = require('../../helper');
 var ensure = helper.ensure;
 var doEach = helper.doEach;
 
-var cache = require('../../cache');
+var disk_cache = require('disk_cache');
 var model = require('./model');
 var redis = require('../client');
 
@@ -103,7 +103,7 @@ module.exports = function set (blogID, path, updates, callback) {
         if (entry.draft)
           queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        queue.push(cache.clear.bind(this, blogID));
+        queue.push(disk_cache.flushByBlogID.bind(this, blogID));
 
         doEach(queue, callback);
       });

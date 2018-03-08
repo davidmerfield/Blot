@@ -1,4 +1,4 @@
-var cache = require('../cache');
+var disk_cache = require('disk_cache');
 var Emit = require('./emit');
 
 var menu = require('./menu');
@@ -32,7 +32,7 @@ function verify (blogID, callback) {
         emit('Complete!');
 
         // Then we're done!
-        cache.clear(blogID, callback);
+        disk_cache.flushByBlogID(blogID, callback);
       });
     });
   });

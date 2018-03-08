@@ -8,7 +8,6 @@ var retrieve = require('./retrieve');
 
 var helper = require('../helper');
 var ensure = helper.ensure;
-var cache = require('../cache');
 var extend = helper.extend;
 var callOnce = helper.callOnce;
 
@@ -93,6 +92,7 @@ module.exports = function (req, res, _next) {
 
               if (callback) return callback(null, res.locals);
 
+              res.set('Cache-Control', 'no-cache');
               return res.json(res.locals);
             }
 
@@ -128,8 +128,6 @@ module.exports = function (req, res, _next) {
 
             res.header(CONTENT_TYPE, viewType);
             res.send(output);
-
-            cache.set(req, output, viewType);
           });
         });
       });

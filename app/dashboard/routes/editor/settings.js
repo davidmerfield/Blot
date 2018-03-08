@@ -4,7 +4,7 @@ var helper = require('helper');
 var formJSON = helper.formJSON;
 var model = Template.metadataModel;
 var save = Template.update;
-var cache = require('../../../cache');
+var disk_cache = require('disk_cache');
 
 var writeToFolder = require('../../../modules/template').writeToFolder;
 var loadTemplate = require('./loadTemplate');
@@ -77,7 +77,7 @@ module.exports = function (server) {
 
         if (metadata.localEditing) writeToFolder(req.blog.id, req.template.id, function(){});
 
-        cache.clear(req.blog.id);
+        disk_cache.flushByBlogID(req.blog.id);
 
         res.message({success: 'Changes to your template were made successfully!'});
         res.redirect(req.path);

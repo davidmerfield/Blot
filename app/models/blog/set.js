@@ -7,7 +7,7 @@ var logger = helper.logger;
 var TYPE = require('./scheme').TYPE;
 var validate = require('./validate');
 var get = require('./get');
-var cache = require('../../cache');
+var disk_cache = require('disk_cache');
 var serial = require('./serial');
 
 function Changes (latest, former) {
@@ -75,7 +75,7 @@ module.exports = function (blogID, blog, callback) {
           logger(null, 'Blog: ' + blogID + ': Set', changes);
         }
 
-        cache.clear(blogID, function(){
+        disk_cache.flushByBlogID(blogID, function(){
 
           callback(errors, changesList);
         });

@@ -15,7 +15,6 @@ fs.ensureDirSync(root + '/secrets');
 
 var config = require('config');
 var analytics = require('./middleware').analytics;
-var cache = require('./cache');
 var scheduler = require('./scheduler');
 var express = require('express');
 var compression = require('compression');
@@ -97,9 +96,6 @@ server
 server.listen(config.port);
 
 console.log('Server started! Now listening for requests on port ' + config.port);
-
-// Flush the cache for the homepage!
-cache.clear('0');
 
 // Unleash the daemon for backups, syncs and emails
 scheduler();

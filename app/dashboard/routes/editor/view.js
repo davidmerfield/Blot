@@ -4,7 +4,7 @@ var Template = require("template");
 var helper = require('helper');
 var getView = Template.getView;
 var mime = require('mime');
-var cache = require('../../../cache');
+var disk_cache = require('disk_cache');
 
 var loadTemplate = require('./loadTemplate');
 var loadSidebar = require('./loadSidebar');
@@ -148,7 +148,7 @@ function saveView (req, res, next) {
 
     Blog.set(req.blog.id, changes, function(err){
 
-      cache.clear(req.blog.id);
+      disk_cache.flushByBlogID(req.blog.id);
 
       res.message({success: 'Saved changes!'});
       return res.redirect(req.path);

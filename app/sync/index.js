@@ -4,7 +4,7 @@ var Log = helper.logg;
 var buildFromFolder = require('../modules/template').update;
 var Blog = require('blog');
 var Lease = require('./lease');
-var cache = require('../cache');
+var disk_cache = require('disk_cache');
 
 var ERROR = {
   DISABLED: 'disabled their account, do not sync',
@@ -59,7 +59,7 @@ function sync (blogID, main, callback) {
 
         console.timeEnd(label);
 
-        cache.clear(blogID, function(err){
+        disk_cache.flushByBlogID(blogID, function(err){
 
           if (err) return callback(err);
 
