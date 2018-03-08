@@ -1,11 +1,12 @@
 var client = require('../client');
 var helper = require('../../helper');
 var ensure = helper.ensure;
-var forEach = helper.forEach.parallel;
 var key = require('./key');
 var util = require('./util');
 var matches = util.matches;
-var drop = require('./drop');
+
+// var drop = require('./drop');
+// var forEach = helper.forEach.parallel;
 
 module.exports = function (blogID, mappings, callback) {
 
@@ -14,12 +15,23 @@ module.exports = function (blogID, mappings, callback) {
     .and(callback, 'function');
 
   var redirects = key.redirects(blogID);
+  var multi = client.multi();
 
-  client.del(redirects, function(err){
+  client.zrange(redirects, 0, -1, function(err, all_keys){
 
-    if (err) throw err;
+    if (err) return callback(err);
 
-    forEach(mappings, function(redirect, next, index){
+    all_keys = all_keys || [];
+
+    all_keys = all_keys.map(function(from){
+      return key.redirect(blogID, from);
+    });
+
+    all_keys.push(redirects);
+
+    multi.del(all_keys);
+
+    mappings.forEach(function(redirect, index){
 
       var from = redirect.from;
       var to = redirect.to;
@@ -37,9 +49,9 @@ module.exports = function (blogID, mappings, callback) {
       // If the 'to' rule matches a 'from' rule which
       // comes before it ('candidates') this would cause
       // a re-direct loop, so drop this rule.
-      if (!from || !to || matches(to, candidates)) {
-        return drop(blogID, from, next);
-      }
+      // drop(blogID, from, next);
+      if (!from || !to || matches(to, candidates))
+        return;
 
       ensure(from, 'string')
         .and(to, 'string')
@@ -47,17 +59,10 @@ module.exports = function (blogID, mappings, callback) {
         .and(fromKey, 'string')
         .and(redirects, 'string');
 
-      client.zadd(redirects, index, from, function(err){
+      multi.zadd(redirects, index, from);
+      multi.set(fromKey, to);
+    });
 
-        if (err) throw err;
-
-        client.set(fromKey, to, function(err){
-
-          if (err) throw err;
-
-          next();
-        });
-      });
-    }, callback);
+    multi.exec(callback);
   });
 };
