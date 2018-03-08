@@ -62,6 +62,8 @@ module.exports = function route (server) {
 
     var filePath = drafts.getPath(request.url, drafts.viewRoute);
 
+    response.set('Cache-Control', 'no-cache');
+
     renderDraft(request, response, next, filePath, function(html){
 
       // this is to override the header set by the middleware
