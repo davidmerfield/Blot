@@ -591,8 +591,10 @@ label {font-size: 12px;
 
 
 html.dark {background: #111111}
-.dark .wrapper {background: #111111;color:#fffefc;}
-.dark a {color: #fffefc;border-color: #fffefc}
+.dark .wrapper {background: #111111;color:#e2e1df;}
+.dark a {color: #e2e1df;border-color: #7e7e7d}
+.dark h2,
+.dark h1 {color:#e2e1df;border-bottom-color: #e2e1df}
 .dark .nav a {color: #a09d9c}
 .dark .nav a:hover {color: #fffefc}
 .dark .nav a.selected {color: #fffefc;}
