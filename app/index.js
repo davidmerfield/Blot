@@ -68,6 +68,10 @@ server
   .use(helmet.frameguard('allow-from', config.host))
   .use(helmet.crossdomain())
   .use(analytics.middleware)
+  .use(function(req, res, next) {
+    res.setHeader('Cache-Hit', 'false')
+    next();
+  })
   .use(vhost(config.host, session(sessionOptions)))
   .use(vhost(config.host, function(req, res, next){
 
