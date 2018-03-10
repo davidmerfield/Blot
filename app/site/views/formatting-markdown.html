@@ -44,7 +44,30 @@ Alternative subheading
 
 <p class="measure">Create a text link by wrapping the linked text in brackets [ ], and then wrapping the link in parenthesis ( ). For example:</p>
 
-<p><code>[Wikipedia](https://wikipedia.org)</code></p>
+<style type="text/css">
+.out {float: right;margin-right: -30rem}
+.in:before{
+      content: "→";
+    border-bottom: 1px solid #111;
+    position: absolute;
+    top: 0.75rem;
+    right: 0;
+    width: 100%;
+    z-index: 0;
+    text-align: right;
+    line-height: 0;
+    color: #111;
+    text-indent: 3rem;
+}
+
+.in {position: relative;}
+.in code {background: #fffefc;z-index: 1;
+    position: relative;padding-right: 0.75rem}
+
+</style>
+<p class="out"><a href="/">Wikipedia</a></p>
+
+<p class="in measure"><code data-input>[Wikipedia](https://wikipedia.org)</code></p>
 
 
 <h3 class="measure">Images</h3>

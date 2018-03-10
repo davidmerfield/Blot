@@ -6,8 +6,19 @@
 
 <div class=" w-right-offset">
 
-<h2 class="mt0 measure">Static files</h2>
-<p class="measure">Remember that your blog's folder behaves like a static file server. This makes it possible to share assets between your templates.</p>
+<p></p>
+
+<h2 class="measure">Routing</h2>
+
+<p class="measure">When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
+
+<ol class="normal measure">
+  <li>Check if there is a template whose route matches the request’s path. <a href="#rendering">Render the template</a> if it matches.</li>
+  <li>Check if there is a file which matches the request’s path in your blog’s folder. <a href="/help/public-files">Send the file</a> as a response if it matches.</li>
+  <li>Check your site&apos;s list of <a href="/configuring/redirects">redirects</a>.</li>
+  <li>Render your blog’s error page.</li>
+</ol>
+
 
 <h2  class="measure" id="rendering">Rendering</h2>
 <p class="measure">Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>. <!-- You should read <a href="https://mustache.github.io/mustache.5.html">Mustache's documentation</a> carefully before designing your own template.  -->Consider this example template, which produces a list of all of the posts on your blog:</p>
@@ -52,6 +63,11 @@
 <h2 class="measure">Retrieving the JSON used to render a template</h2>
 
 <p class="measure">If you append the query string <code>?json=true</code> to the URL of any page on your blog, you can see the JSON used to render its template.</p>
+
+
+<h2 class="measure">Using static files in your templates</h2>
+<p class="measure">Remember that your blog's folder behaves like a static file server. This makes it possible to share assets between your templates.</p>
+
 
 <h2>Custom metadata</h2>
 <p class="measure">You can create your own <a href="/guides/metadata">metadata</a>. There's no configuration neccessary. Just choose a property that isn't already <a href="/guides/metadata">used by Blot</a>, like <code>Author</code> for example:</p>
