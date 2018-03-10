@@ -1,10 +1,23 @@
-Improve the documentation
-- Improve the formatting guide
-- Re-enable the docs on the dashboard
-- Add example guides to running the sites I run
+Set correct mime type for webfont files. I think this was causing the issue for Jan.
 
-Improve the developer documentation
-- Make sure it's not broken
+Fix bug with cacher. Two concurrent requests pipe their response to the same file
+I need to check if a file has been opened there before writing.
+
+----
+
+Public site improvements
+- Work out how to set cache-control for css + js + font files with specific query string to infinite...
+  - Perhaps have /cache/permanent/blot.development and /cache/temporary/blot.development
+- Revisit the text on the about page
+- Homepage changes:
+  - Fix issue with play video link on homepage
+  - Redo the customer gallery with short bios, with permission
+- Improve the formatting guide
+  - Render the nav and KaTeX server-side
+- Developer documentation
+  - Make reference page searchable
+  - Add types and examples to items on reference page
+  - Work how to explain the archives property
 
 Improve the selection of templates
 - Design for sites with specific kinds of posts
@@ -39,6 +52,7 @@ Fix bug with case sensitivity for tag folders
 
 Fix bug when you try to restart a cancelled Blot subscription
 - Let [Steve](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1) know
+- Allow users who are restarting an account with multiple blogs to disable some before restarting.
 
 Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player
 - Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
@@ -121,11 +135,14 @@ is happening before doing this.
 
 ---
 
-Add nice Mathjax support, maybe make it an option on the preferences page?
+Add nice Mathjax support? Maybe make it a toggle? on the preferences page?
 
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
-Improve nginx error pages
+NGINX
+- Improve error pages
+- Recompile nginx with neccessary dependencies for auto-ssl instead of openresty
+- Install nginx fail2ban & http2
 
 Removing Date metadata from a post should reset its date to the file's creation date
 - Currently nothing changes.
@@ -135,54 +152,7 @@ Add support for 'time' metadata property
 - e.g. 'Time: 4:15pm'
 - Would append to any other date associated with the post.
 
-New post support
-- Refactor code so it's possible to register new file converters easily.
-- Video posts (.mp4 for now?)
-- Basic audio posts (.mp3 for now?)
-- Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
-- Multi-file posts from inside one folder? (Album)
-- Multi-file posts with the same name but different extension (image.txt and image.jpg)
-
-
-Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
-
-Migrate code from require('../../../') to shortcuts in node_modules.
-
-Remove the dirToModule code and hard link the require references.
-
-Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
-
-Refactor app/index.js
-- Ensure the routing serves requests to blogs fastest, then the dashboard, and finally the marketing site.
-- Merge all the weird vhost lines into one glob.
-
-Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
-
-Use NGINX to send all Blot's static files
-
-Add hourly local redis rdb dumps
-
-Add script to roll back into hourly local db dumps and remote backups
-
-Install nginx fail2ban & http2
-
-Work out why blotcdn is so slow for https://latency.apex.sh
-
-Backup s3 buckets every day? delete those older than a month?
-
-Delete backups older than a month from s3 automatically
-
-Add daemon for zero-downtime node restart
-
-Set up AWS autorecovery
-
-Test with instance reboot on live site
-
-Test monit with nginx going down
-
-Test monit with blot going down
-
-New sync clients
+New clients
 - Git
   https://github.com/stackdot/NodeJS-Git-Server/issues/33
   https://github.com/netbeast/gitbox
@@ -191,21 +161,50 @@ New sync clients
   https://www.npmjs.com/package/ftpd
 - Make the sync / rebuild proceses run with unpriviledged user permissions to ensure shit isnt fucked with user input...
 
+New post support
+- Video posts (.mp4)
+- Audio posts (.mp3 for now?)
+- Multi-file posts from inside one folder? 'Folder>'
+- Multi-file posts with the same name but different extension (image.txt and image.jpg)
+
+Download the webpage for bookmark files and try to extract title + summary
+
+Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
+
+Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
+
+Move off the CDN
+- Work out why blotcdn is so slow for https://latency.apex.sh
+- Backup s3 buckets every day? delete those older than a month?
+
+Migrate code from require('../../../') to shortcuts in node_modules
+
+Remove the dirToModule code and hard link the require references.
+
+Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
+
+Backups
+- Add hourly local redis rdb dumps
+- Add script to roll back into hourly local db dumps and remote backups
+- Delete backups older than a month from s3 automatically
+
+Add daemon for zero-downtime node restart
+
+Reliability
+- Set up AWS autorecovery
+- Test with instance reboot on live site
+- Test monit with nginx going down
+- Test monit with blot going down
+
 Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 - lowercase: acemnorsuvwxz ?
 - uppercase: 1234567890bdfhijkl ?
 - [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
 - [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
 
-Re-do url redirector to use route-parser and properly
-support regular expressions
+Re-do url redirector to use route-parser and properly support regular expressions
 
-  handle queries properly too
-  https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
-
-Mass deletion of files did not remove the blog posts until verify tool was run on blog.
-
-Allow users who are restarting an account with multiple blogs to disable some before restarting.
+Handle queries properly https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
 
 Giphy url support
 
@@ -255,17 +254,15 @@ Validator
  - why does it not print lines in production?
  - must check each blog folder exists...
 
+Move to some SQL for storing each entry's input and output...
+
 Add neat interface to customize blog level variables?
 
-simplify video plugin HTML OUTPUT?
-
-Move queues in entry/rename /remove to doEach
-
-fix image caption plugin to be semantic
+Fix image caption plugin to be semantic
 
 Devise nice way to declare unit tests for a file
 which don't need to be run on server start
-but can be run programmatically
+but can be run programmatically...
 
 Consider adding date format localization with Moment
 
@@ -277,24 +274,13 @@ Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 Incorporate typographic features from textile
 http://redcloth.org/textile/phrase-modifiers/
 
-add supoprt for dynamic partials to make collections possible
-  e.g. {{> /{{tag}}.html}} ?
-
-move to line by line reading for as much as possible
-  http://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
-  https://nodejs.org/api/readline.html
-  https://www.npmjs.com/package/byline
+add support for dynamic partials to make collections possible
+e.g. {{> /{tag}.html}} ?
 
 queue scheduled entries in redis
   this makes each server less stateful
 
-renderLocals needs to inherit context
-so entries can refer to their own title etc...?
-
-Why does pandoc \mouse.com become .com ?
-
-Add a cool bookmarklet which drafts a post a la
-https://www.youtube.com/watch?v=cu5uXXulnNk
+renderLocals needs to inherit context so entries can refer to their own title etc...?
 
 Move from preview files -> webloc / .url files ?
 
@@ -362,23 +348,7 @@ Prevent image zoom plugin from zooming emojies
 
 Embed plugin https://github.com/ritz078/embed.js
 
-Move to some SQL for storing each entry's input and output...
-
-Add passwords for accounts
-
-Create script to export Blot sites to common formats
-- Let Roberto know
-
-New plugin ideas
-https://github.com/getpelican/pelican-plugins
-
-Use pandoc for katex instead of seperate function
-
-Add transactional emails notifying user of changes to their email or password.
-
-Consider adding markdown support for [mermaid](https://mermaidjs.github.io/)?
-
-Download the webpage for bookmark files and try to extract title + summary
+Create script to export Blot sites to common formats and let Roberto know
 
 ---
 
@@ -386,3 +356,13 @@ Create a comment system to replace Disqus
 
 Create an email list system to replace Tiny Letter
 
+Add .lhs support and tell Roy
+
+Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
+
+Add a cool bookmarklet which drafts a post a la
+https://www.youtube.com/watch?v=cu5uXXulnNk
+
+Add transactional emails notifying user of changes to their email or password.
+
+Consider adding markdown support for [mermaid](https://mermaidjs.github.io/)?
