@@ -22,6 +22,7 @@ module.exports = function(server){
 
     if (!request.blog || !request.blog.handle) return next();
 
+    response.set('Cache-Control', 'no-cache');
     response.send(request.blog.handle);
   });
 };
