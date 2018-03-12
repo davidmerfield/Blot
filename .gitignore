@@ -14,7 +14,9 @@ config/flags.json
 
 *.rdb
 *.log
-www/*
+
 blogs/*
+cache/*
+static/*
 tmp/*
 node_modules/*
