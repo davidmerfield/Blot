@@ -91,6 +91,7 @@ module.exports = function (req, res, next){
 
       if (owner && template && template.name) {
         req.previewSubdomain = true;
+        res.set('Cache-Control','no-cache');
         blog.template = Template.makeID(owner, template.name);
 
         // don't use the deployed asset for preview subdomains
