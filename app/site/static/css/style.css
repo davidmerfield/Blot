@@ -51,7 +51,7 @@ a {
   color: #111111;
   border-bottom: 1px solid #bfbcba;
   text-decoration: none;
-  transition-property: all;
+  transition-property: color, border-color;
   transition-duration: 0.1s;
   transition-timing-function: ease-out;
 }
@@ -74,13 +74,13 @@ body {-webkit-font-smoothing: antialiased;color: #111111}
 
 @font-face {
     font-family: 'IA Writer Duospace';
-    src: url('/fonts/iawriterduospace-regular-webfont.woff2') format('woff2'),
-         url('/fonts/iawriterduospace-regular-webfont.woff') format('woff');
+    src: url('/fonts/iAWriterDuospace-Regular.woff2') format('woff2'),
+         url('/fonts/iAWriterDuospace-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
 }
-code {font-family: 'IA Writer Duospace';font-size: 0.9rem;    -webkit-font-smoothing: auto;
+code {font-family: 'IA Writer Duospace';font-size: 0.9rem;-webkit-font-smoothing: auto;
 }
 ol, ul, li {margin: 0;padding: 0}
 ol:not(.normal) {list-style-type: upper-roman;}
