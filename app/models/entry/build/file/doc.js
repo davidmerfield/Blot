@@ -8,7 +8,7 @@ var mkdirp = helper.mkdirp;
 var cheerio = require('cheerio');
 var Metadata = require('../metadata');
 var extend = helper.extend;
-var rootDir = helper.rootDir;
+var join = require('path').join;
 var config = require('config');
 var pandoc_path = config.pandoc_path;
 
@@ -31,8 +31,8 @@ function read (blog, path, callback) {
   var outDir = TempDir();
   var outPath = outDir + '/out.html';
 
-  var blogDir = rootDir + '/www/blogs/' + blog.id;
-  var assetDir = blogDir + '/_assets';
+  var blogDir = join(config.blog_static_files_dir, blog.id);
+  var assetDir = join(blogDir, '_assets');
 
   mkdirp(outDir, function(err){
 
