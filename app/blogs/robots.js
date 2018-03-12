@@ -10,7 +10,7 @@ module.exports = function(server){
 
     if (request.previewSubdomain || (request.blog.domain && request.originalHost !== request.blog.domain)) {
       response.header("Content-type", 'text/plain');
-      return response.sendFile(__dirname + '/robots_deny.txt');
+      return response.sendFile(__dirname + '/static/robots_deny.txt');
     }
 
     return next();

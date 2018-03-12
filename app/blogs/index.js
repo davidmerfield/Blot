@@ -1,10 +1,10 @@
 var renderView = require('../render/middleware');
-var helper = require('helper');
 var express = require('express');
 var middleware = require('middleware');
 var config = require('config');
 var compression = require('compression');
 var disk_cache = require('disk_cache');
+var Template = require('template');
 
 // This serves the content
 // of users' blogs
@@ -26,9 +26,43 @@ if (config.flags.time_response)
 // Load in the rendering engine
 blog.use(renderView);
 
-var routes = helper.dirToModule(__dirname, require);
+blog.use(function(req, res, next){
 
-for (var i in routes)
-  routes[i](blog);
+  // We care about template metadata for template
+  // locals. Stuff like page-size is set here.
+  // Also global colors etc...
+
+  if (!req.blog.template) return next();
+  
+  Template.getMetadata(req.blog.template, function(err, metadata){
+
+    if (err || !metadata) {
+
+      var error = new Error('This template does not exist.');
+          error.code = 'NO_TEMPLATE';
+
+      return next(error);
+    }
+
+    req.template = {
+      locals: metadata.locals,
+      id: req.blog.template
+    };
+
+    return next();
+  });
+});
+
+// The order of these routes is important
+require('./draft')(blog);
+require('./tagged')(blog);
+require('./search')(blog);
+require('./robots')(blog);
+require('./view')(blog);
+require('./entry')(blog);
+require('./entries')(blog);
+require('./assets')(blog);
+require('./public')(blog);
+require('./error')(blog);
 
 module.exports = blog;
