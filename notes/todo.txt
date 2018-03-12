@@ -1,7 +1,9 @@
-Set correct mime type for webfont files. I think this was causing the issue for Jan.
+Cache module
+- Work out how to prevent double save of response
+- Somehow lock the file to prevent two concurrent requests from caching twice?
+- Preserve protocol e.g. http:dev.blot.development 
+- Preserve query string too and don't cache files with queries
 
-Fix bug with cacher. Two concurrent requests pipe their response to the same file
-I need to check if a file has been opened there before writing.
 
 ----
 
