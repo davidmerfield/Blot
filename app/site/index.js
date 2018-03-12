@@ -28,7 +28,8 @@ site.locals.protocol = config.protocol;
 site.locals.price = '$' + config.stripe.plan.slice(-2);
 
 var views = __dirname + '/views/';
-var dashboard_views = require('helper').rootDir + '/app/dashboard/views/partials/'
+var dashboard_views = require('helper').rootDir + '/app/dashboard/views/partials/';
+
 site.use(function (req, res, next) {
 
   if (!req.user) {
@@ -38,7 +39,7 @@ site.use(function (req, res, next) {
       header: views + '_header',
       sidebar: views + '_sidebar',
       footer: views + '_footer'
-    }
+    };
 
   } else {
 
