@@ -12,7 +12,8 @@ var dropbox_test_app = flags.dropbox_test_app === true;
 var cache = flags.cache === true;
 var debug = flags.debug === true;
 
-var environment, host, protocol, stripe_key, stripe_secret, pandoc_path;
+var environment, host, protocol, stripe_key, stripe_secret;
+var pandoc_path, blog_static_files_dir, blog_folder_dir, cache_directory;
 
 if (production) {
 
@@ -23,6 +24,8 @@ if (production) {
   stripe_secret = load('stripe.live.secret');
   pandoc_path = '/home/ec2-user/.local/bin/pandoc';
   cache_directory = '/cache';
+  blog_static_files_dir = '/var/www/blot/static';
+  blog_folder_dir = '/var/www/blot/blogs';
 
 } else {
 
@@ -32,7 +35,9 @@ if (production) {
   stripe_key = load('stripe.test.key');
   stripe_secret = load('stripe.test.secret');
   pandoc_path = '/usr/local/bin/pandoc';
-  cache_directory = '/var/www/blot/www';
+  cache_directory = '/var/www/blot/cache';
+  blog_static_files_dir = '/var/www/blot/static';
+  blog_folder_dir = '/var/www/blot/blogs';
 
 }
 
@@ -70,7 +75,10 @@ module.exports = {
   "cache": cache,
   "debug": debug,
 
+  "blog_static_files_dir": blog_static_files_dir,
+  "blog_folder_dir": blog_folder_dir,
   "cache_directory": cache_directory,
+  
   "ip": "54.191.179.131",
 
   "port": 8080,
