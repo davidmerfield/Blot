@@ -1,12 +1,3 @@
-Cache module
-- Work out how to prevent double save of response
-- Somehow lock the file to prevent two concurrent requests from caching twice?
-- Preserve protocol e.g. http:dev.blot.development 
-- Preserve query string too and don't cache files with queries
-
-
-----
-
 Public site improvements
 - Work out how to set cache-control for css + js + font files with specific query string to infinite...
   - Perhaps have /cache/permanent/blot.development and /cache/temporary/blot.development
