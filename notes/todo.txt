@@ -1,9 +1,8 @@
+Document the disk_cache module
+
 Public site improvements
-- Work out how to set cache-control for css + js + font files with specific query string to infinite...
-  - Perhaps have /cache/permanent/blot.development and /cache/temporary/blot.development
 - Revisit the text on the about page
 - Homepage changes:
-  - Fix issue with play video link on homepage
   - Redo the customer gallery with short bios, with permission
 - Improve the formatting guide
   - Render the nav and KaTeX server-side
@@ -27,6 +26,8 @@ Record a new demo video
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
+
+Add 'opener=false' to target="_blank" links?
 
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
 - Let [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc) know
@@ -80,7 +81,6 @@ Public site improvements
   
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
-- Move www/blogs/* to /blogs/{{id}}/assets ? Or maybe some obscure folder?
 - Disable re-rendering for template locals
 - Local template editing does not clear cache
 - Use Hogan for precompiling and rendering templates?
@@ -279,8 +279,6 @@ Move from preview files -> webloc / .url files ?
 
 Create webloc to live version for each entry? I LIKE
 
-Merge www/blog/id and blogs/id folders into one, with a dotfile directory? create .assets inside this for doc posts?
-
 Move to hogan for main renderer?
 https://github.com/twitter/hogan.js
 
@@ -359,3 +357,6 @@ https://www.youtube.com/watch?v=cu5uXXulnNk
 Add transactional emails notifying user of changes to their email or password.
 
 Consider adding markdown support for [mermaid](https://mermaidjs.github.io/)?
+
+Consider allowing users to buy domains on Blot through 
+https://developer.dnsimple.com
