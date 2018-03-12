@@ -34,7 +34,7 @@ module.exports = function (req, res, next) {
 
   css = minimize.minify(css || '');
 
-  fs.writeFileSync(static_dir + '/' + 'blot.css', css, 'utf-8');
-
-  next();
+  res.set('Content-Type', 'text/css');
+  res.set('Cache-Control', 'max-age=31536000');  
+  res.send(css);
 };

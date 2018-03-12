@@ -17,7 +17,7 @@ module.exports = function (req, res, next) {
   
   js = uglify.minify(js, {fromString: true}).code;
 
-  fs.writeFileSync(static_dir + '/blot.js', js, 'utf-8');
-
-  next();
+  res.set('Content-Type', 'application/javascript');
+  res.set('Cache-Control', 'max-age=31536000');  
+  res.send(js);
 };
