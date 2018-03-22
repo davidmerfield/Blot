@@ -89,24 +89,20 @@ Posts
   
 
   <p class="measure" style="margin-top:5rem">Blot comes with <a href="/configuring">seven templates</a>. They’re easy to customize, lightweight  and designed to fit both small and large screens. You can also <a href="/developers">develop your own template</a> from scratch. </p>
-  <p class="measure">Here’s a handful of the websites hosted on Blot:</p>
-  <br>
-  <ul class="gallery large">
-    <a href="https://www.matthewbattles.org/" target="_blank">matthewbattles.org<span class="new">New</span><dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://hannautkin.com/" target="_blank">hannautkin.com<dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://juicenews.com/" target="_blank">juicenews.com<dots><dot></dot><dot></dot><dot></dot></dots></a>    
-    <a href="https://ylukem.com" target="_blank">ylukem.com<dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://www.alexgibson.nyc/" target="_blank">alexgibson.nyc<dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://www.theliminal.co/" target="_blank">theliminal.co<dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://john.pavlusoffice.com/" target="_blank">johnpavlus.com<dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://kiefer.design/" target="_blank">kiefer.design<dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://www.2080.co/" target="_blank">2080.co<dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://www.kristianhjelle.com" target="_blank">kristianhjelle.com<dots><dot></dot><dot></dot><dot></dot></dots></a>
-    <a href="https://mrfris.by/" target="_blank">mrfris.by<dots><dot></dot><dot></dot><dot></dot></dots></a>
+  <p class="measure mb0">A blog costs <a href="/sign-up">{{price}} per year</a>. The annual fee pays for the servers which host your blog. It also covers the cost of providing support. Here’s a handful of the websites hosted on Blot:</p>
+
+  <div class="sites" style="margin-top:5rem">
+  {{#sites}}
+  <div class="fl">
+  <a href="{{url}}" target="_blank" class="browser"><span class="tc db" style="line-height:103px">{{display_url}}</span>{{#first}}<span class="new">New</span>{{/first}}<dots><dot></dot><dot></dot><dot></dot></dots></a>
+  <p class="mb0">{{{description}}}</p>
+  </div>
+  {{#clear}}<div class="cf"></div>{{/clear}}
+  {{/sites}}
+</div>
+
   </ul>
   <div class="cf"></div>
-  <p style="margin-top:2.5rem;" class="measure mb0">A blog costs <a href="/sign-up">{{price}} per year</a>. The annual fee pays for the servers which host your blog. It also covers the cost of providing support.  Most importantly, it encourages Blot to operate in your best interests, as opposed to those of an advertiser or investor.
-</p>
 </div>
 </div>
 {{> footer}}

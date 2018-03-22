@@ -4,6 +4,7 @@ var load_views = require('load_views');
 var render_tex = require('render_tex');
 var render_dates = require('render_dates');
 var manipulate_html = require('manipulate_html');
+var sites = require('./sites');
 
 var help = express.Router();
 var VIEW_DIR = require('VIEW_DIR');
@@ -105,11 +106,20 @@ load_views(VIEW_DIR, 'config-').forEach(function(section){
   });
 });
 
+
 help.get('/', function(req, res){
-  res.locals.menu.introduction = 'selected';
-  res.locals.title = 'Blot';  
-  res.locals.next = {title: 'How to use Blot', url: '/help'};
-  res.render('index');
+  
+  sites(function(err, sites){
+
+    if (err) return next(err);
+
+    res.locals.menu.introduction = 'selected';
+    res.locals.title = 'Blot';  
+    res.locals.next = {title: 'How to use Blot', url: '/help'};
+    res.locals.sites = sites;
+    res.render('index');
+  });
+
 });
 
 module.exports = help;

@@ -1,19 +1,15 @@
-Document the disk_cache module
-
 Public site improvements
-- Revisit the text on the about page
-- Homepage changes:
-  - Redo the customer gallery with short bios, with permission
 - Improve the formatting guide
   - Render the nav and KaTeX server-side
 - Developer documentation
   - Make reference page searchable
   - Add types and examples to items on reference page
   - Work how to explain the archives property
+- Make it work on mobile
 
 Improve the selection of templates
+- Don't modify any code, just design templates
 - Design for sites with specific kinds of posts
-- Add better customization options
 - Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
 
 Record a new demo video
@@ -82,6 +78,7 @@ Public site improvements
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Disable re-rendering for template locals
+- Add better customization options
 - Local template editing does not clear cache
 - Use Hogan for precompiling and rendering templates?
 - Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know when it's possible to set routes locally

@@ -488,12 +488,13 @@ strike a {border:none;}
 
     .gallery > a {
       width: calc(25% - 1.5rem);
-      margin-bottom:2rem;
-      float:left;margin-right:2rem;
+      margin-right:2rem;
       line-height: 96px;
       height: 125px;
       text-align: center;z-index:0;
-    }
+      margin-bottom:2rem;
+      float:left;
+    }   
 
     .gallery > a, .gallery dot, .gallery dots,
     .browser, .browser dot, .browser dots,
@@ -501,10 +502,13 @@ strike a {border:none;}
       border-color: rgba(0,0,0,0.3);
     }
 
+    .browser:hover {border-color: #a09d9c}
+
     .gallery dot,
     .browser dot {border-color: rgba(0,0,0,0.35)}
 
     .gallery > a:before,
+    .sites div > a.browser:before,
     .new {
       color: #fffefc;
       border:2px solid #fffefc;
@@ -527,7 +531,8 @@ strike a {border:none;}
   background: #fc625d;
   letter-spacing: 0.05em;
 }
- .gallery > a:before {
+ .gallery > a:before,
+ .sites div > a.browser:before {
   opacity: 0;
       content: "↗";
       z-index: 2;
@@ -538,12 +543,14 @@ strike a {border:none;}
       text-indent: 0;
  }
 
- .gallery > a:hover:before {
+ .gallery > a:hover:before,
+ .sites a.browser:hover:before {
       opacity: 1.0;
     }
  
 
-.gallery.large > a {
+.gallery.large > a,
+    .sites div  {
   width: calc(33.33333333% - 1.6667rem);
   margin-right: 2.5rem;
   margin-bottom: 2.5rem;
@@ -551,7 +558,8 @@ strike a {border:none;}
   box-shadow: 0 0 16px #f3eeea;
 */}
 
-.gallery.large > a:nth-child(3n) {margin-left: 0;margin-right: 0}
+.gallery.large > a:nth-child(3n),
+.sites div:nth-child(4n-1) {margin-left: 0;margin-right: 0}
 
 .gallery.dotted > a:nth-child(4n) {margin-left: 0;margin-right: 0}
 
