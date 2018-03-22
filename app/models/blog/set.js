@@ -7,8 +7,8 @@ var logger = helper.logger;
 var TYPE = require('./scheme').TYPE;
 var validate = require('./validate');
 var get = require('./get');
-var disk_cache = require('disk_cache');
 var serial = require('./serial');
+var flushCache = require('./flushCache');
 
 function Changes (latest, former) {
 
@@ -68,14 +68,16 @@ module.exports = function (blogID, blog, callback) {
 
       client.hmset(key.info(blogID), serial(latest), function(err){
 
-        if (err) throw err;
+        if (err) return callback(err);
 
         // Invalidate the cache for the user's blog
         if (changesList.length) {
           logger(null, 'Blog: ' + blogID + ': Set', changes);
         }
 
-        disk_cache.flushByBlogID(blogID, function(){
+        flushCache(blogID, function(err){
+
+          if (err) return callback(err);
 
           callback(errors, changesList);
         });

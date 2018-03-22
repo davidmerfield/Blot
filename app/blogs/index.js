@@ -3,7 +3,7 @@ var express = require('express');
 var middleware = require('middleware');
 var config = require('config');
 var compression = require('compression');
-var disk_cache = require('disk_cache');
+var cache = require('express-disk-cache')(config.cache_directory);
 var Template = require('template');
 
 // This serves the content
@@ -17,7 +17,7 @@ blog
   .use(compression())
   .use(middleware.vhosts)
   .use(middleware.add())
-  .use(disk_cache.middleware);
+  .use(cache);
 
 // Only time uncached responses
 if (config.flags.time_response)

@@ -2,7 +2,6 @@ var helper = require('../../helper');
 var ensure = helper.ensure;
 var doEach = helper.doEach;
 
-var disk_cache = require('disk_cache');
 var model = require('./model');
 var redis = require('../client');
 
@@ -10,7 +9,7 @@ var guid = helper.guid;
 
 var get = require('./get');
 var key = require('./key');
-
+var flushCache = require('../blog/flushCache');
 var setUrl = require('./_setUrl');
 
 // Queue items
@@ -103,7 +102,7 @@ module.exports = function set (blogID, path, updates, callback) {
         if (entry.draft)
           queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        queue.push(disk_cache.flushByBlogID.bind(this, blogID));
+        queue.push(flushCache.bind(this, blogID));
 
         doEach(queue, callback);
       });

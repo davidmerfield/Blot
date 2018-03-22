@@ -1,6 +1,5 @@
-var disk_cache = require('disk_cache');
 var Emit = require('./emit');
-
+var Blog = require('blog');
 var menu = require('./menu');
 var ghosts = require('./ghosts');
 var hidden = require('./hidden');
@@ -32,7 +31,7 @@ function verify (blogID, callback) {
         emit('Complete!');
 
         // Then we're done!
-        disk_cache.flushByBlogID(blogID, callback);
+        Blog.flushCache(blogID, callback);
       });
     });
   });

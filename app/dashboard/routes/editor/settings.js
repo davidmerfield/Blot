@@ -4,12 +4,12 @@ var helper = require('helper');
 var formJSON = helper.formJSON;
 var model = Template.metadataModel;
 var save = Template.update;
-var disk_cache = require('disk_cache');
 
 var writeToFolder = require('../../../modules/template').writeToFolder;
 var loadTemplate = require('./loadTemplate');
 var loadSidebar = require('./loadSidebar');
 var error = require('./error');
+var Blog = require('blog');
 
 module.exports = function (server) {
 
@@ -77,10 +77,13 @@ module.exports = function (server) {
 
         if (metadata.localEditing) writeToFolder(req.blog.id, req.template.id, function(){});
 
-        disk_cache.flushByBlogID(req.blog.id);
+        Blog.flushCache(req.blog.id, function(err){
 
-        res.message({success: 'Changes to your template were made successfully!'});
-        res.redirect(req.path);
+          if (err) return next(err);
+
+          res.message({success: 'Changes to your template were made successfully!'});
+          res.redirect(req.path);
+        });
       });
     })
 

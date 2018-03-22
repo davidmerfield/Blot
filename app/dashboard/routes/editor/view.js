@@ -4,7 +4,6 @@ var Template = require("template");
 var helper = require('helper');
 var getView = Template.getView;
 var mime = require('mime');
-var disk_cache = require('disk_cache');
 
 var loadTemplate = require('./loadTemplate');
 var loadSidebar = require('./loadSidebar');
@@ -148,10 +147,15 @@ function saveView (req, res, next) {
 
     Blog.set(req.blog.id, changes, function(err){
 
-      disk_cache.flushByBlogID(req.blog.id);
+      if (err) return next(err);
 
-      res.message({success: 'Saved changes!'});
-      return res.redirect(req.path);
+      Blog.flushCache(req.blog.id, function(err){
+        
+        if (err) return next(err);
+      
+        res.message({success: 'Saved changes!'});
+        return res.redirect(req.path);
+      });
     });
   });
 }
@@ -184,10 +188,13 @@ function renameView (req, res, next) {
 
         redirect = redirect.split('/view/' + req.params.view +'/').join('/view/' + view.name + '/');
 
-        cache.clear(req.blog.id);
+        Blog.flushCache(req.blog.id, function(err){
 
-        res.message({success: 'Saved changes!', url: redirect});
-        res.redirect(redirect);
+          if (err) return next(err);
+
+          res.message({success: 'Saved changes!', url: redirect});
+          res.redirect(redirect);
+        });
       });
     });
   });
