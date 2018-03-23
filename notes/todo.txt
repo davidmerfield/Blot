@@ -23,6 +23,8 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
+Fix bug parsing ISO8601 date format and tell [Thomas H](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+
 Add 'opener=false' to target="_blank" links?
 
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
@@ -75,6 +77,11 @@ Public site improvements
 - Consider using the fancy new stripe payment form?
   https://stripe.com/docs/stripe-js/elements/quickstart
   
+Jekyll converter improvements through [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+- Map excerpt metadata to summary 
+- Map title metadata to # Title
+- Migrate assets to /_assets and fix links accordingly
+
 Redesign template system to make it easy to customize and create them.
 - Make templates file or folder based
 - Disable re-rendering for template locals
@@ -111,6 +118,7 @@ Start monthly newsletter with improvements, changes
 
 Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
+
 
 Write a unified import tool which scrapes content from any blog/website
   https://github.com/hexojs/hexo-migrator-blogger
@@ -337,6 +345,8 @@ Prevent image zoom plugin from zooming emojies
 Embed plugin https://github.com/ritz078/embed.js
 
 Create script to export Blot sites to common formats and let Roberto know
+
+Look into how Jekyll does data files and possibly support?
 
 ---
 
