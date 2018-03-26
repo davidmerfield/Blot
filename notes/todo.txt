@@ -1,31 +1,29 @@
-Public site improvements
-- Improve the formatting guide
+Finish the postache import script for Todd
+
+Port Lanyon theme to Blot, document the process
+
+Prevent the public site from breaking on smaller screens
+
+Formatting guide
   - Render the nav and KaTeX server-side
-- Developer documentation
+
+Developer documentation
   - Make reference page searchable
   - Add types and examples to items on reference page
   - Work how to explain the archives property
-- Make it work on mobile
 
 Improve the selection of templates
 - Don't modify any code, just design templates
 - Design for sites with specific kinds of posts
 - Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
 
-Record a new demo video
-- Show sites I run using Blot
-- Blot's developer blog, a conventional blog, show using different text editors
-- My visual scrapbook: shows tag folders, photo blog
-- My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
-- My personal site: simple landing page, edit with a doc file?
-
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
 
-Fix bug parsing ISO8601 date format and tell [Thomas H](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+Fix bug with layout.css on Rosa template and tell Tweeter
 
-Add 'opener=false' to target="_blank" links?
+Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
 - Let [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc) know
@@ -70,19 +68,39 @@ Help [Svenja](https://mail.google.com/mail/u/1/#inbox/15f734998c533068)
 
 ---
 
-Public site improvements
+Public site
 - Log 404s on the public site to identify neccessary redirects
 - Personalize the documentation for logged in users
-- Make the site responsive and looks good on phones
-- Consider using the fancy new stripe payment form?
-  https://stripe.com/docs/stripe-js/elements/quickstart
+- Add a resource page to the documentation with guides like this:
+  - https://twitter.com/chad_g_moore/status/975104556001583104?s=20
   
-Jekyll converter improvements through [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
-- Map excerpt metadata to summary 
-- Map title metadata to # Title
-- Migrate assets to /_assets and fix links accordingly
+Dashboard
+- Implement a flags page for toggling all the settings (including hidden ones) for a given blog
+- Route requests to new dashboard if toggle is on to allow thorough testing
+- When a user pastes the whole tracking script into the preferences page on the dashboard,
+strip out everything except the ID which we need... perhaps create a page explaining what
+is happening before doing this.
+- Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 
-Redesign template system to make it easy to customize and create them.
+Record a new demo video
+- Show sites I run using Blot
+- Blot's developer blog, a conventional blog, show using different text editors
+- My visual scrapbook: shows tag folders, photo blog
+- My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
+- My personal site: simple landing page, edit with a doc file?
+
+Write a unified import tool which scrapes content from any blog/website
+  Jekyll converter
+  - Map excerpt metadata to summary 
+  - Map title metadata to # Title
+  - Migrate assets to /_assets and fix links accordingly
+  https://github.com/hexojs/hexo-migrator-blogger
+  https://github.com/welksonramos/hexo-migrator-joomla
+  https://github.com/hexojs/hexo-migrator-rss
+  https://github.com/hexojs/hexo-migrator-wordpress
+  https://github.com/dreikanter/wp2md exporter/importer
+
+Template system
 - Make templates file or folder based
 - Disable re-rendering for template locals
 - Add better customization options
@@ -96,16 +114,29 @@ Redesign template system to make it easy to customize and create them.
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
-Sync improvements
+Clients
+- Git
+  https://github.com/stackdot/NodeJS-Git-Server/issues/33
+  https://github.com/netbeast/gitbox
+  tell https://twitter.com/ohhhnine/status/951151349705691136
+- SFTP
+  https://www.npmjs.com/package/ftpd
+
+Sync
 - Re-implement folder verification feature and make use of the local content hash computation script to verify we have the correct version of a given file
+- Make the sync / rebuild proceses run with unpriviledged user permissions to ensure shit isnt fucked with user input...
 – Re-instate feature to check if a rogue sync took down the server and run sync on a seperate process
 - Add method to pause syncing and prevent future syncs
 then use this method with the create/remove blog migration too.
 - Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
 
-Full folder access improvements
+Full folder access
 - Try to use the same app folder when you upgrade from app folder to full site folder
 - Let [Cosmo](https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615), [Alex](https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038),  [James](https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65), Nick, Jostein know
+
+Increase price for new customers to $40 a year. This will not affect existing customers.
+
+---
 
 Buy the .com
 
@@ -119,21 +150,9 @@ Start monthly newsletter with improvements, changes
 Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
 
-
-Write a unified import tool which scrapes content from any blog/website
-  https://github.com/hexojs/hexo-migrator-blogger
-  https://github.com/welksonramos/hexo-migrator-joomla
-  https://github.com/hexojs/hexo-migrator-rss
-  https://github.com/hexojs/hexo-migrator-wordpress
-  https://github.com/dreikanter/wp2md exporter/importer
-
-When a user pastes the whole tracking script into the preferences page on the dashboard,
-strip out everything except the ID which we need... perhaps create a page explaining what
-is happening before doing this.
+Increase price for new customers to $60 a year. This will not affect existing customers.
 
 ---
-
-Add nice Mathjax support? Maybe make it a toggle? on the preferences page?
 
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
@@ -150,14 +169,7 @@ Add support for 'time' metadata property
 - e.g. 'Time: 4:15pm'
 - Would append to any other date associated with the post.
 
-New clients
-- Git
-  https://github.com/stackdot/NodeJS-Git-Server/issues/33
-  https://github.com/netbeast/gitbox
-  tell https://twitter.com/ohhhnine/status/951151349705691136
-- FTP
-  https://www.npmjs.com/package/ftpd
-- Make the sync / rebuild proceses run with unpriviledged user permissions to ensure shit isnt fucked with user input...
+
 
 New post support
 - Video posts (.mp4)
@@ -216,19 +228,19 @@ https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca
 Make the folder in Dropbox rename automatically when the
 user changes the username for one of their multiple blogs?
 
-Move daily update generator from scripts to app folder?
+Move daily update generator from scripts to app folder
 
-If entries share publish date, sort them by blot creation date?
+If entries share publish date, sort them by blot creation date
 
-Consider what to do for footnote links in a teaser -> rewrite links to {{permalink}}#frag?
+Rewrite footnote links in a teaser from #frag to {{permalink}}#frag
 
 Add plugin for inline popover footnotes
 
 Enable hyphenation again then tell rodericus
 
-generate gif / svg thumbs if possible?
+Generate thumbnails for GIFs / SVG thum
 
-Find cause of fontconfig error / warning?
+Find cause of fontconfig error / warning
 
 Password protection for blogs
 - Tell [this chap](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231)
@@ -237,8 +249,6 @@ Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405)
 
 Add option to *enable* hard line breaks
-
-Investigate performance improvements to type() forEach
 
 Email
  - Install time mover library
@@ -249,12 +259,9 @@ Validator
  - check each id has an entry and each entry has an id
  - check menu is right (pages exist, non deleted etc...)
  - generate fake entries for id clash
- - why does it not print lines in production?
  - must check each blog folder exists...
 
 Move to some SQL for storing each entry's input and output...
-
-Add neat interface to customize blog level variables?
 
 Fix image caption plugin to be semantic
 
@@ -262,35 +269,14 @@ Devise nice way to declare unit tests for a file
 which don't need to be run on server start
 but can be run programmatically...
 
-Consider adding date format localization with Moment
-
 Add button to remove avatar from settings page
 https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac
-
-Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 
 Incorporate typographic features from textile
 http://redcloth.org/textile/phrase-modifiers/
 
-add support for dynamic partials to make collections possible
-e.g. {{> /{tag}.html}} ?
-
 queue scheduled entries in redis
   this makes each server less stateful
-
-renderLocals needs to inherit context so entries can refer to their own title etc...?
-
-Move from preview files -> webloc / .url files ?
-
-Create webloc to live version for each entry? I LIKE
-
-Move to hogan for main renderer?
-https://github.com/twitter/hogan.js
-
-Move to new api file ids for renames?
-https://mail.google.com/mail/u/0/#inbox/150def93b65dc4b1
-
-Move from 'archives' to 'archive'?
 
 Noindex blog search results pages
 
@@ -346,24 +332,4 @@ Embed plugin https://github.com/ritz078/embed.js
 
 Create script to export Blot sites to common formats and let Roberto know
 
-Look into how Jekyll does data files and possibly support?
-
----
-
-Create a comment system to replace Disqus
-
-Create an email list system to replace Tiny Letter
-
-Add .lhs support and tell Roy
-
-Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
-
-Add a cool bookmarklet which drafts a post a la
-https://www.youtube.com/watch?v=cu5uXXulnNk
-
 Add transactional emails notifying user of changes to their email or password.
-
-Consider adding markdown support for [mermaid](https://mermaidjs.github.io/)?
-
-Consider allowing users to buy domains on Blot through 
-https://developer.dnsimple.com

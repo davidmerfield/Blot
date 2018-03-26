@@ -1,0 +1,47 @@
+It could be nice to link to [@path/to/file.txt] and resolve the URL automatically?
+  - would need a dependency tree, if change were made to file.txt, the linker would
+    need to be updated too.
+  - would leave a trail, like regular permalinks, so file.txt could be moved without
+    breaking anything.
+
+Add 'opener=false' to target="_blank" links?
+
+Consider offering a broken link checker service?
+
+Add neat interface to customize blog level variables?
+
+add support for dynamic partials to make collections possible
+e.g. {{> /{tag}.html}} ?
+
+Move from preview files -> webloc / .url files ?
+
+Consider adding date format localization with Moment
+
+Create webloc to live version for each entry? I LIKE
+
+Move to new api file ids for Dropbox renames?
+https://mail.google.com/mail/u/0/#inbox/150def93b65dc4b1
+
+Move from 'archives' to 'archive'?
+
+Look into how Jekyll does data files and possibly support?
+
+Consider using the fancy new stripe payment form on the public site?
+https://stripe.com/docs/stripe-js/elements/quickstart
+
+
+Consider adding markdown support for [mermaid](https://mermaidjs.github.io/)?
+
+Create a comment system to replace Disqus
+
+Create an email list system to replace Tiny Letter
+
+Add .lhs support and tell Roy
+
+Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
+
+Add a cool bookmarklet which drafts a post a la
+https://www.youtube.com/watch?v=cu5uXXulnNk
+
+Consider allowing users to buy domains on Blot through 
+https://developer.dnsimple.com
