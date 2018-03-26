@@ -40,7 +40,9 @@ module.exports = function (req, res) {
       tags.push({
         name: tag,
         tag: tag,
-        slug: slug
+        slug: slug,
+        first: i === 0,
+        last: i === totalTags -1
       });
 
     }
