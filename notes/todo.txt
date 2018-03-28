@@ -21,6 +21,8 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
+Fix bug with template editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
+
 Fix bug with layout.css on Rosa template and tell Tweeter
 
 Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
