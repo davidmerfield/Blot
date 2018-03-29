@@ -137,7 +137,7 @@ p, div, section {position: relative;overflow: visible;}
   overflow: auto;
 }
 
-.margin h1, .margin h2 {margin-top:0}
+.margin h1, .margin h2, .margin h3 {margin-top:0}
 
 .margin p {font-style: italic;margin-top: 0;}
 

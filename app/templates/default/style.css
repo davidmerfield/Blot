@@ -79,6 +79,7 @@ div {
 .column img {margin-top: 6px}
 
 .margin p {font-style: italic;font-family: Georgia;font-size: 0.9em;margin-top: 0}
+.margin h1, .margin h2, .margin h3 {margin-top:0}
 
 .left.margin {
   left: -29.3333%;

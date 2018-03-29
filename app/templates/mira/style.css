@@ -164,6 +164,8 @@ img {max-width: 100%;height: auto;}
 .wide.left {margin: 0 0 0 -29.3333333%}
 .wide.right {margin: 0 -29.3333333% 0 0}
 
+.margin h1, .margin h2, .margin h3 {margin-top:0}
+
 .margin p,
 .margin blockquote {margin-top: 0;margin-left:0;margin-right:0;padding: 0;color: inherit;}
 

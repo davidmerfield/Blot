@@ -218,6 +218,8 @@ iframe {width: 100%;}
 .margin blockquote {margin: 3px 0;color:#232323;padding: 3px 6px;font-size: smaller;}
 .margin blockquote p {margin: 0}
 
+.margin h1, .margin h2, .margin h3 {margin-top:0}
+
 .margin img,
 .column img {margin-top: 6px}
 
