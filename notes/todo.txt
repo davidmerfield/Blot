@@ -1,11 +1,6 @@
-Finish the postache import script for Todd
-
-Port Lanyon theme to Blot, document the process
-
 Prevent the public site from breaking on smaller screens
 
-Formatting guide
-  - Render the nav and KaTeX server-side
+Formatting guide - Render the nav and KaTeX server-side
 
 Developer documentation
   - Make reference page searchable
