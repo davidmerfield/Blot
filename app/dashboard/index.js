@@ -107,7 +107,7 @@ dashboard.use(middleware.loadUser);
 dashboard.use(middleware.loadBlog);
 dashboard.use(middleware.redirector);
 
-dashboard.post(['/theme*', '/folder*', '/clients*', '/404s', '/account*', '/preferences*'], bodyParser.urlencoded({extended: false}));
+dashboard.post(['/theme*', '/folder*', '/clients*', '/flags', '/404s', '/account*', '/preferences*'], bodyParser.urlencoded({extended: false}));
 
 dashboard.use(csrf, function(req, res, next){
 
@@ -119,7 +119,6 @@ dashboard.use(csrf, function(req, res, next){
 
   next();
 });
-
 
 require('./routes/clients')(dashboard);
 require('./routes/account')(dashboard);

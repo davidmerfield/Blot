@@ -10,22 +10,28 @@ var DECLARATION = {
   handle:       ['string',  true,   true],
   client:       ['string',  true,   false],
   title:        ['string',  true,   true],
-  isDisabled:   ['boolean', true,   false],
   avatar:       ['string',  true,   true],
-  roundAvatar:  ['boolean', true,   true],
+  template:     ['string',  true,   false],
+  domain:       ['string',  true,   true],
+  timeZone:     ['string',  true,   true],
+  plugins:      ['object',  true,   true],
+  permalink:    [PERMALINK, true,   true],
+  menu:         [[LINK],    true,   true],
+
+  // these need to be removed, what the hell was I thinking?
   cssURL:       ['string',  false,  true],
   scriptURL:    ['string',  false,  true],
-  template:     ['string',  true,   false],
-  menu:         [[LINK],    true,   true],
-  domain:       ['string',  true,   true],
-  forceSSL:     ['boolean', true,   false],
-  permalink:    [PERMALINK, true,   true],
-  dateFormat:   ['string',  true,   true],
   dateDisplay:  ['string',  true,   true],
-  timeZone:     ['string',  true,   true],
   hideDates:    ['boolean', true,   true],
-  plugins:      ['object',  true,   true],
-  cacheID:      ['number',  false,  true]
+  cacheID:      ['number',  false,  true],
+  roundAvatar:  ['boolean', true,   true],
+  dateFormat:   ['string',  true,   true],
+
+  // Flags
+  forceSSL:     ['boolean', true,   false],
+  isDisabled:   ['boolean', true,   false],
+  new_dashboard: ['boolean', true,  false],
+  new_markdown_renderer: ['boolean', true,  false]
 };
 
 

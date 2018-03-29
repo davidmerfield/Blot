@@ -15,6 +15,8 @@ module.exports = function(server) {
 
   require('./404s')(server);
 
+  require('./flags')(server);
+
   server.route('/preferences')
 
     .get(loadPlugins, loadTimeZones, loadRedirects, loadPermalinkFormats)
