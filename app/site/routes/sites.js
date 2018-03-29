@@ -31,6 +31,7 @@ var sites = [
   ["john.pavlusoffice.com", "John Pavlus is a nonfiction writer and filmmaker based in Portland, Oregon. John"],
   ["www.theliminal.co", "The Liminal is a podcast about metaphysical speculation. Their website"],
 
+  ["iiiiiiiii.in", "Ishtaarth Dalmia writes about internet culture and economics from Bengaluru, India. Ishtaarth"],
   ["kiefer.design", "Kiefer Sutherland is a freelance designer and art director. Kiefer’s website"],
   ["www.failuretolerated.com", "Sean McCoy is a game designer from Dallas, Texas. Sean’s site"],
   ["mrfris.by", "Stuart Frisby is the Director of Design at Booking.com. Stuart’s site"],
