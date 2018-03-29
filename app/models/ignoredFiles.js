@@ -8,11 +8,15 @@ module.exports = (function () {
       REASONS = {
         'TOO_LARGE': {
           message: 'too large',
-          url: '/help/publishing#11-what-happens-if-my-blog-post-is-too-large'
+          url: '/help'
         },
         'WRONG_TYPE': {
           message: 'not a file Blot can process',
-          url: '/help/publishing#4-what-file-types-can-i-use'
+          url: '/help'
+        },
+        'PUBLIC_FILE': {
+          message: 'a public file',
+          url: '/help'
         }
       };
 

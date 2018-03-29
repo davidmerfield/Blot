@@ -11,6 +11,7 @@ var extname = require('path').extname;
 var REASONS = {
         'PREVIEW': 'a preview',
         'TOO_LARGE': 'too large',
+        'PUBLIC_FILE': 'a public file',        
         'WRONG_TYPE': 'not a file Blot can process'
       };
 module.exports = function (blog, path, callback) {
