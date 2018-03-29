@@ -3,7 +3,6 @@ console.log('BUILDING TEMPLATES');
 var config = require('../../config');
 var fs = require('fs');
 var helper = require('../../app/helper');
-var cache = require('../../app/cache');
 var _ = require('lodash');
 
 var path = require('path');
@@ -54,7 +53,6 @@ function build () {
 
     }, function(){
       console.log('ALL TEMPLATES BUILT');
-      cache.flush();
     });
   });
 
