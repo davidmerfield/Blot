@@ -6,7 +6,7 @@ var static_dir = __dirname + '/../static';
 var css_dir = static_dir + '/css';
 var images_dir = static_dir + '/images';
 var finder = require('finder');
-
+var config = require('config');
 module.exports = function (req, res, next) {
 
   var styles = fs.readdirSync(css_dir);
@@ -35,6 +35,6 @@ module.exports = function (req, res, next) {
   css = minimize.minify(css || '');
 
   res.set('Content-Type', 'text/css');
-  res.set('Cache-Control', 'max-age=31536000');  
+  if (config.cache) res.set('Cache-Control', 'max-age=31536000');  
   res.send(css);
 };
