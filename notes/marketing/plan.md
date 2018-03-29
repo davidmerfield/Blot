@@ -66,3 +66,7 @@ http://lifehacker.com/5874562/scriptogram-turns-your-dropbox-into-a-blog
 http://www.gizmag.com/scriptogram-dropbox-weblog-platform/21133/
 http://www.adweek.com/fishbowlny/quickly-start-your-own-dropbox-synced-blog-with-scriptogram/251170?red=kw
 http://www.addictivetips.com/windows-tips/scriptogr-am-uses-dropbox-to-create-markdown-document-based-web-log/
+
+Help [Larry](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4) 
+
+Help [Svenja](https://mail.google.com/mail/u/1/#inbox/15f734998c533068) 

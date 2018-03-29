@@ -1,5 +1,3 @@
-Prevent the public site from breaking on smaller screens
-
 Formatting guide - Render the nav and KaTeX server-side
 
 Developer documentation
@@ -16,9 +14,13 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
-Fix bug with template editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
+Fix bug which occurs if you have two blogs in the same Dropbox App folder, then unlink one of them, then relink it
 
-Fix bug with layout.css on Rosa template and tell Tweeter
+Fix bug with disqus plugin on preview subdomains
+
+Fix bug which occurs when Dropbox needs to reset the cursor of the folder
+
+Fix bug with template editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
 
 Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
@@ -39,7 +41,6 @@ Fix bug with case sensitivity for tag folders
 
 Fix bug when you try to restart a cancelled Blot subscription
 - Let [Steve](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1) know
-- Allow users who are restarting an account with multiple blogs to disable some before restarting.
 
 Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player
 - Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
@@ -50,18 +51,12 @@ Fix bug with strange windows notepad encoding
 Fix bug with accents in image paths 
 - Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1) know
 
-Fix bug which occurs if you have two blogs in the same Dropbox App folder, then unlink one of them, then relink it.
-
 Fix bug with catching dropbox file renames
 - False positives are really annoying. You'll publish a new post and it won't show up on your blog because it'll be buried in the archives. Renames need to be *right* next to each other in the dropbox delta queue.
 - Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
 - Let Nash know
 
 Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
-
-Help [Larry](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4) 
-
-Help [Svenja](https://mail.google.com/mail/u/1/#inbox/15f734998c533068) 
 
 ---
 
@@ -78,6 +73,7 @@ Dashboard
 strip out everything except the ID which we need... perhaps create a page explaining what
 is happening before doing this.
 - Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
+- Allow users who are restarting an account with multiple blogs to disable some before restarting.
 
 Record a new demo video
 - Show sites I run using Blot
