@@ -125,6 +125,10 @@ pre, code {font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu S
 
 /* LAYOUT */
 
+/* Ensure consistency in the layout.css for users with the image zoom plugin
+   and those without. What a nightmare! */
+p, div, section {position: relative;overflow: visible;} 
+
 .container {position: relative;}
 
 .margin {
@@ -132,6 +136,8 @@ pre, code {font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu S
   width: 33%;
   overflow: auto;
 }
+
+.margin h1, .margin h2 {margin-top:0}
 
 .margin p {font-style: italic;margin-top: 0;}
 
@@ -145,8 +151,8 @@ pre, code {font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu S
 
 .right.margin {
   position: absolute;
-  right: -15%;
-  width: 26%;
+  right: -40%;
+  width: 40%;
   padding-left: 20px;
 }
 
