@@ -710,10 +710,32 @@ table nobr icon {margin-left: -3px}
 
 @media screen and (max-width: 460px) {
 
+  .f5, h1, h2 {font-size: 0.95rem}
+
   /* Header */
   .nav .center div .ph4 {padding-left: .5rem;padding-right: .5rem}
   .nav .center div .ph4:first-child {padding-left: 2rem}
   .nav .center div .ph4.fr {padding-right: 0;float: left;}
+
+  /* Video thumbnail */ 
+  .thumb.pv5 {padding-top: 1.5rem;padding-bottom: 1.5rem}
+  .thumb .buts {left: 1.5rem;    padding: 1rem 1.5rem 1rem 1.6rem;}
+
+  /* Footer */
+  .nav > .pr4 {padding-right: .5rem}
+  .nav > .pl4 {padding-left: .5rem}
+}
+
+@media screen and (max-width: 400px) {
+
+  .f5, h1, h2 {font-size: 0.888rem}
+
+  .nav > .ph4,
+  .wrapper > .ph4,
+  .footer > .ph4 {padding-left: 1rem;padding-right: 1rem}
+
+  /* Header */
+  .nav .center div .ph4 {padding-left: 0;}
 
   /* Footer */
   .nav > .pr4 {padding-right: .5rem}
