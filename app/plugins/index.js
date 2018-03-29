@@ -1,5 +1,5 @@
-var config = require('../../config');
-var helper = require('../helper');
+var config = require('config');
+var helper = require('helper');
 var marked = require('marked');
 var cheerio = require('cheerio');
 var fs = require('fs');
@@ -48,26 +48,39 @@ function convert (blog, path, contents, callback) {
     baseURL: 'http://' + blog.handle + '.' + config.host
   };
 
-  forEach(prerenderers, function(plugin, next){
+  forEach(prerenderers, function (plugin, next){
 
-    var name = plugin.id;
+    var id, blogOptions, options, prerender, timeout;
+    
+    id = plugin.id;
 
-    if (!enabled[name]) return next();
+    // Only skip this plugin if it's optional
+    // and if the user has disabled it.
+    if (plugin.optional && !enabled[id]) {
+      return next();
+    }
 
-    var prerender = plugin.prerender;
-    var options = {};
+    // The options for this plugin are not 
+    // neccessarily associated with the blog,
+    // especially if it is a required plugin
+    blogOptions = blog.plugins[id] ? blog.plugins[id].options : {};
+    options = {};
+    prerender = plugin.prerender;
 
     extend(options)
-      .and(blog.plugins[name].options)
+      .and(blogOptions)
       .and(globalOptions);
 
-    var timeout = Timeout(name, next);
-
-    time(name);
+    // We wrap the callback passed to the function
+    // to ensure its called once. This allows us
+    // to set a timeout safely.
+    next = callOnce(next);
+    timeout = Timeout(id, next);
+    time(id);
 
     prerender(contents, function(err, result){
 
-      time.end(name);
+      time.end(id);
       clearTimeout(timeout);
 
       if (result && !err) contents = result;
@@ -78,35 +91,38 @@ function convert (blog, path, contents, callback) {
 
   }, function(){
 
-    // Not sure why we decode entities. Maybe it fucks
-    // with the typesetting plugin?
+    // Don't decode entities, preserve the original content
     var $ = cheerio.load(contents, {decodeEntities: false});
 
     forEach(plugins, function (plugin, next) {
 
-      var id = plugin.id;
+      var id, options, blogOptions, timeout;
 
-      if (!plugin.render || !enabled[id]) return next();
+      id = plugin.id;
+
+      if (!plugin.render) return next();
+
+      if (plugin.optional && !enabled[id]) {
+        return next();
+      } 
+
+      options = {};
+      blogOptions = blog.plugins[id] ? blog.plugins[id].options : {};
+
+      extend(options)
+        .and(blogOptions)
+        .and(globalOptions);
 
       // We wrap the callback passed to the function
       // to ensure its called once. This allows us
       // to set a timeout safely.
       next = callOnce(next);
-
-      var options = {};
-
-      extend(options)
-        .and(blog.plugins[id].options)
-        .and(globalOptions);
-
-      var timeout = Timeout(id, next);
-
+      timeout = Timeout(id, next);
       time(id);
 
       plugin.render($, function(){
 
         time.end(id);
-
         clearTimeout(timeout);
 
         next();

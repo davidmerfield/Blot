@@ -7,6 +7,8 @@ function prerender (html, callback, options) {
   // video links since the contents of the link don't match
   // the href property due to insertion of soft hyphens...
 
+  // Pandoc does a lot of this shit too
+  
   var disable = ['ligatures', 'hyphenate'];
 
   options.spaces = options.quotes = options.punctuation;

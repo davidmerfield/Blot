@@ -4,7 +4,7 @@ var resolve = require('helper').resolveSrc;
 function render ($, callback, options) {
 
   var folder = dirname(options.path);
-
+  
   // This matches css
   $('link[href]').each(function(){
     $(this).attr('href', resolve($(this).attr('href'), folder));
@@ -21,5 +21,5 @@ function render ($, callback, options) {
 module.exports = {
   render: render,
   first: true,
-  optional: false
+  optional: false // this plugin must run on all blogs
 };
