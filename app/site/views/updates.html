@@ -52,18 +52,19 @@ li:before {content: "–";position: absolute;left: -1.4rem;color: #111111}
 </div>
   
 
+  <div class="cf"></div>
 
-
-  <div class="w-left fl pr4">
+<div class="updates">
+  <div class="w-left fl pr4" >
 
     <div class="mv3 bb pb3 b--black">Done</div>
 
     {{#commits}}
-    <p class="done"><span class="check"></span>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" class="light" style="border:none">{{date}}</a></p>
+    <p class="done measure"><span class="check"></span>{{message}}<br><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}" class="light" style="border:none">{{date}}</a></p>
     {{/commits}}
 </div>
 
-  <div class="w-right fl pr4">
+  <div class="w-right-offset fl">
   
     <div class="mv3 bb pb3 b--black">To do</div>
 
@@ -71,6 +72,7 @@ li:before {content: "–";position: absolute;left: -1.4rem;color: #111111}
   </div>
 
   <div class="cf"></div>
+</div>
 <br><br>
 <br><br>
 <br><br>
