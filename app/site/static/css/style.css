@@ -31,7 +31,7 @@ html, body {
 
 .w-left {width: 18rem}
 .tr.w-left {padding-right:4.55rem}
-.w-right-offset {margin-left: 18rem}
+.w-right-offset {margin-left: 18rem;max-width: 100%}
 .w-right {width: 70%}
 
 .wrapper {
@@ -83,7 +83,7 @@ body {-webkit-font-smoothing: antialiased;color: #111111}
 code {font-family: 'IA Writer Duospace';font-size: 0.9rem;-webkit-font-smoothing: auto;
 }
 ol, ul, li {margin: 0;padding: 0}
-ol:not(.normal) {list-style-type: upper-roman;}
+ol:not(.normal) {list-style-type: upper-roman;margin-left: -1rem}
 ol.normal {padding-left: 1rem}
 ol.normal li {padding-left: 0.25rem}
 table, thead, tr {padding: 0;margin: 0;  border-collapse: collapse;}
@@ -139,7 +139,7 @@ input {box-sizing: border-box;}
 
 .bg {background:#f3eeea;}
 
-#thumb {position:relative;padding-bottom:60.5%;height:0}
+#thumb {position:relative;padding-bottom:60.5%;height:0;overflow: hidden;}
 
 #play {    border: none;
     position: absolute;
@@ -645,3 +645,77 @@ table nobr icon {margin-left: -3px}
 
 .ml-4 {margin-left: -2rem}
 .mr-4 {margin-right: -2rem}
+
+/* Updates columns */
+.updates {position:relative}
+.updates .w-left {position:absolute;}
+
+@media screen and (max-width: 1020px) {
+  .w-50.fr.pc, .w-50.fl.pc {width: 100%;float: none;padding:0;}
+
+  .w-50.fl.pc + .w-50.fr.pc {margin-top: 3rem}
+}
+
+/* Tighten the spacing in the nav */ 
+@media screen and (max-width: 870px) {
+
+  /* Header */
+  .nav .center div .ph4 {padding-left: 1.5rem;padding-right: 1.5rem}
+  .nav .center div .ph4:first-child {padding-left: 2rem}
+  .nav .center div .ph4.fr {padding-right: 2rem}
+
+  /* Footer */
+  .nav > .pr4 {padding-right: 1.5rem}
+  .nav > .pl4 {padding-left: 1.5rem}
+}
+
+
+/* Tighten the spacing in the nav */ 
+@media screen and (max-width: 810px) {
+
+  /* Header */
+  .nav .center div .ph4 {padding-left: 1rem;padding-right: 1rem}
+  .nav .center div .ph4:first-child {padding-left: 2rem}
+  .nav .center div .ph4.fr {padding-right: 2rem}
+
+  /* Footer */
+  .nav > .pr4 {padding-right: 1rem}
+  .nav > .pl4 {padding-left: 1rem}
+}
+
+/* New layout */
+@media screen and (max-width: 750px) {
+  
+  /* Fix the width of the folder in the video thumbnail */ 
+  .thumb window {min-width:278px;}
+  
+  /* Hide the sidebar. I should do better than this */ 
+  .sidebar {float: none;position: relative;display: none;}
+
+  /* Collapse the header onto two lines */
+  .nav .center a {line-height: 25px;padding-bottom: 15px}
+  .nav .center .fl.w-left {float: none;padding-top: 15px;padding-bottom: 0}
+
+  .w-right-offset {margin-left: 0}
+
+  /* Collapse the updates columns, one after the other */ 
+  .updates .w-left,
+  .updates .w-right-offset {width: 100%;display: block;float: none;position: relative;}
+
+  /* Tweak the list with hanging punctuation to make sure its on the viewport */ 
+  li.pl3 {padding-left: 0}
+  ol.mb3 {margin-left: 0}
+
+}
+
+@media screen and (max-width: 460px) {
+
+  /* Header */
+  .nav .center div .ph4 {padding-left: .5rem;padding-right: .5rem}
+  .nav .center div .ph4:first-child {padding-left: 2rem}
+  .nav .center div .ph4.fr {padding-right: 0;float: left;}
+
+  /* Footer */
+  .nav > .pr4 {padding-right: .5rem}
+  .nav > .pl4 {padding-left: .5rem}
+}
