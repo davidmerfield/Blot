@@ -20,14 +20,15 @@ var silent = {silent: true};
 if (require.main === module) {
 
   var options = require('minimist')(process.argv.slice(2));
+  var useLatest = !!options.l;
+  var label = options._[0];
 
-  main(options, process.exit);
+  main(label, useLatest, process.exit);
 }
 
-function main (options, callback) {
+function main (label, useLatest, callback) {
 
-  var useLatest = !!options.l;
-  var identifier = useLatest ? productionDumps.pop() : options._[0] || '';
+  var identifier = useLatest ? productionDumps.pop() : label || '';
 
   var isProduction = fs.existsSync(dumpPath(productionDir, identifier));
 

@@ -2,50 +2,62 @@ require('shelljs/global');
 require('../only_locally');
 
 var fs = require('fs');
+var redis = require('redis').createClient();
 var dumps = __dirname + '/dumps/user';
-var helper =  require('../../app/helper');
+var helper =  require('helper');
 var mkdirp = helper.mkdirp;
 
-var now = Date.now();
-var dirname = now;
-var identifier = now + '';
+if (require.main === module) {
 
-var options = require('minimist')(process.argv.slice(2));
-var custom = options._[0];
+  var options = require('minimist')(process.argv.slice(2));
 
-if (custom) {
-  dirname = custom;
-  identifier = custom;
+  main(options._[0], process.exit);
 }
 
-var dir = dumps + '/' + dirname;
-var saved = dir + '/dump.rdb';
-
-var redis = require('redis').createClient();
-var current = fs.realpathSync(__dirname + '/../../db/dump.rdb');
+function main (label, callback) {
 
 
-console.log('Saving database to disk...');
-redis.save(function(err, stat){
+  var now = Date.now();
+  var dirname = now;
+  var identifier = now + '';
 
-  if (err || !stat) throw err || 'No stat';
 
-  console.log('Moving database dump...');
+  if (label) {
+    dirname = label;
+    identifier = label;
+  }
 
-  mkdirp(dir, function(err){
+  var dir = dumps + '/' + dirname;
+  var saved = dir + '/dump.rdb';
 
-    if (err) throw err;
+  var current = fs.realpathSync(__dirname + '/../../db/dump.rdb');
 
-    exec('cp ' + current + ' ' + saved, function(code, stdout, stderr){
 
-      if (code) throw stderr;
+  console.log('Saving database to disk...');
+  redis.save(function(err, stat){
 
-      console.log('Done! Load this dump with this command:');
-      console.log();
-      console.log('node scripts/db/load ' + identifier);
-      console.log();
+    if (err || !stat) throw err || 'No stat';
 
-      process.exit();
+    console.log('Moving database dump...');
+
+    mkdirp(dir, function(err){
+
+      if (err) throw err;
+
+      exec('cp ' + current + ' ' + saved, function(code, stdout, stderr){
+
+        if (code) throw stderr;
+
+        console.log('Done! Load this dump with this command:');
+        console.log();
+        console.log('node scripts/db/load ' + identifier);
+        console.log();
+
+        callback();
+      });
     });
   });
-});
+}
+
+
+module.exports = main;

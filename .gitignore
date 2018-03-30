@@ -12,6 +12,8 @@
 config/secrets/
 config/flags.json
 
+scripts/folder/dumps
+
 *.rdb
 *.log
 
