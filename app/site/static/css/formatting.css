@@ -152,7 +152,12 @@ a.is-active-link:before {
   top: 0.75rem;
 }
 
-h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
+.formatting h1::before,
+.formatting h2::before,
+.formatting h3::before,
+.formatting h4::before,
+.formatting h5::before,
+.formatting h6::before {
     display: block;
     content: " ";
     height: 64px;
@@ -163,7 +168,7 @@ h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
 :active, :focus {outline: none}
 
 
-h2, h3, h4 {margin-bottom: 0rem}
+.formatting h2, .formatting h3, .formatting h4 {margin-bottom: 0rem}
 
 .katex      { font-size: 1em !important; }
 .katex-html { margin-top: 0.3em; margin-bottom: 0.3em; }
