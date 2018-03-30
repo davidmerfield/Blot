@@ -1,13 +1,5 @@
-Formatting guide - Render the nav and KaTeX server-side
-
-Developer documentation
-  - Make reference page searchable
-  - Add types and examples to items on reference page
-  - Work how to explain the archives property
-  - Port this jekyll theme to Blot and document process
-    https://github.com/mmarfil/neocactus/
-
 Improve the selection of templates
+- Build tool for loading trial content in and out quickly
 - Don't modify any code, just design templates
 - Design for sites with specific kinds of posts
 - Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
@@ -68,6 +60,14 @@ Public site
 - Add a resource page to the documentation with guides like this:
   - https://twitter.com/chad_g_moore/status/975104556001583104?s=20
 - Inline all CSS for performance
+- Render the formatting guide navigation on the server
+
+Developer documentation
+  - Make reference page searchable
+  - Add types and examples to items on reference page
+  - Work how to explain the archives property
+  - Port this jekyll theme to Blot and document process
+    https://github.com/mmarfil/neocactus/
 
 Dashboard
 - Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
@@ -78,6 +78,7 @@ strip out everything except the ID which we need... perhaps create a page explai
 is happening before doing this.
 - Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 - Allow users who are restarting an account with multiple blogs to disable some before restarting.
+- Take a look at Notion and Cargo for some neat ideas
 
 Record a new demo video
 - Show sites I run using Blot
