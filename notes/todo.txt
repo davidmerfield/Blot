@@ -4,6 +4,8 @@ Developer documentation
   - Make reference page searchable
   - Add types and examples to items on reference page
   - Work how to explain the archives property
+  - Port this jekyll theme to Blot and document process
+    https://github.com/mmarfil/neocactus/
 
 Improve the selection of templates
 - Don't modify any code, just design templates
@@ -65,8 +67,10 @@ Public site
 - Personalize the documentation for logged in users
 - Add a resource page to the documentation with guides like this:
   - https://twitter.com/chad_g_moore/status/975104556001583104?s=20
-  
+- Inline all CSS for performance
+
 Dashboard
+- Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
 - Implement a flags page for toggling all the settings (including hidden ones) for a given blog
 - Route requests to new dashboard if toggle is on to allow thorough testing
 - When a user pastes the whole tracking script into the preferences page on the dashboard,

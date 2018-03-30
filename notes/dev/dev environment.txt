@@ -8,5 +8,7 @@ I followed this guide to get a local self-signed SSL certificate for blot.develo
 
 Then create symlinks to cert.pem and key.pem 
 
+ln -s source target
+
 Ensure dhparams exists...
 
