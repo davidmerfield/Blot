@@ -10,8 +10,7 @@ var calculate_sidebar = require('calculate_sidebar');
 
 formatting.use(calculate_sidebar);
 formatting.use(finder.middleware);
-// formatting.use(manipulate_html);
-// formatting.use(render_tex);
+formatting.use(render_tex);
 formatting.use(render_dates);
 formatting.use(render_markdown);
 

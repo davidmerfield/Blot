@@ -1,170 +1,17 @@
-<h2>Math with <span><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mtext>TX</mtext><mspace width="-0.1667em"></mspace><mpadded voffset="-0.5ex"><mrow><mtext>E</mtext></mrow></mpadded><mspace width="-0.125em"></mspace></mrow></mrow><annotation encoding="application/x-tex">\TeX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height: 0.68333em;"></span><span class="strut bottom" style="height: 0.89883em; vertical-align: -0.2155em;"></span><span class="base"><span class="mord text"><span class="mord textrm">T</span><span class="mord rule" style="margin-right: -0.1667em;"></span><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.46783em;"><span class="" style="top: -2.7845em;"><span class="pstrut" style="height: 3em;"></span><span class="mord text"><span class="mord textrm">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2155em;"></span></span></span><span class="mord rule" style="margin-right: -0.125em;"></span><span class="mord textrm">X</span></span></span></span></span></span></h2>
+<h2>Math with \(\TeX\)</h2>
 
-<p>Typesetting with <span>\(\TeX\)</span>. This is a list of <span>\(\TeX\)</span> functions supported by Blot. It is sorted into logical groups.</p>
+<p>Typesetting with \(\TeX\). This is a list of \(\TeX\) functions supported by Blot. It is sorted into logical groups.</p>
 
 <div class="tex">
 <div class="measure">
 
-<pre class="file"><code>Blot will convert equations set in LaTeX. Wrap your LaTeX in two dollar signs ($) like this:
+<pre class="text"><code>Blot will convert equations set in LaTeX. Wrap your LaTeX in two dollar signs ($) like this:
 
 $$ f(x) = 2x^2 + 2/3 $$
 </code></pre>
 </div>
 <br><Br><br>
 
-<link rel="stylesheet" href="https://unpkg.com/katex@0.9.0-beta/dist/katex.min.css">
-<script src="https://unpkg.com/katex@0.9.0-beta/dist/katex.min.js"></script>
-<script src="https://unpkg.com/katex@0.9.0-beta/dist/contrib/auto-render.min.js"></script>
-
-<style type="text/css">
-* { margin:0; padding:0; }  /* reset */
-
-h2, h3, h4 {margin-bottom: 0rem}
-
-.katex      { font-size: 1em !important; }
-.katex-html { margin-top: 0.3em; margin-bottom: 0.3em; }
-
-.reduced    { font-size:60%; }
-
-table {
-  border-collapse: collapse;
-  width: auto;
-  width: 100%
-}
-
-.tex table td {
-  vertical-align: middle;
-}
-
-table td {
-  padding: 0.75rem 2.25rem 0.75rem 0;
-  text-align: left;
-  hyphens: none; }
-
-table td:last-child {padding-right: 0}
-
-table th {
-  font-size: 95%;
-  padding: 0.75rem 0 0.75rem 0;
-  line-height: 1.05;
-  border-bottom: 1px solid #ccc;
-}
-
-
-
-table.symbol td:nth-child(odd):not(.not-symbol) {
-  text-align: center;
-  padding-right: 1rem;
-  font-weight: normal;
-  font-style: normal;
-}
-
-table.big-operator td:nth-child(odd) {
-  font-family: KaTeX_Size1;
-}
-
-table.all-code,
-table.explain td:nth-child(odd),
-table.symbol td:nth-child(even) {
-  font-family: 'IA Writer Duospace', monospace;
-  -webkit-font-smoothing: auto;
-  padding-left: 0em;
-  font-size: 14px;
-}
-
-table.symbol td:nth-child(odd):not(.not-symbol),
-table.symbol td.symbol {
-  font-family: KaTeX_Main, KaTeX_AMS;
-  font-size: 110%;
-}
-
-table.explain th {text-align: left;}
-
-/*table.grid {margin-left: 0;}
-table.grid th, table.grid td { border: 1px solid #aaa; vertical-align: middle; }
-table.grid td:nth-child(1) {text-align: left; }
-*/
-table.units td:nth-child(1), th:nth-child(1),
-table.units td:nth-child(3), th:nth-child(3) {text-align: center; }
-
-table#math-tbl  td:nth-child(6) {border-right: solid 1px; }
-table#style-tbl td:nth-child(3) {
-  font-size: 1.1rem;
-  text-align: left;
-}
-table#delim td {height: 2.5em;}
-.tall tr {height: 1.75em;}
-.footer table { margin: auto; width: 75%;}
-.footer table td {text-align: center;}
-
-pre {  font-family: 'IA Writer Duospace', monospace;
-  -webkit-font-smoothing: auto;  
-  line-height: 1.5;
-  font-size: .9rem;
-}
-
-code {
-  font-family: 'IA Writer Duospace', monospace;
-  -webkit-font-smoothing: auto;  
-}
-.katex {  -webkit-font-smoothing: auto;  
-}
-
-#toc input[type=checkbox] {
-  /* hide native checkbox */
-  position: absolute;
-  opacity: 0;
-}
-
-#toc ul {
-  display: none;     /* by default hide all sub menus */
-}
-#toc label::after {
-   content: ' ▼';
-   font-size: 60%;
-}
-#toc input[type=checkbox]:checked + label + ul {
-  display: block;   /* show children when item is checked */
-}
-
-
-/* Table of Contents, mobile version */
-#mobile-nav {
-  display: none;     /* hidden on large screens */
-  position: fixed;
-}
-
-/* On small screens, switch from sidebar TOC to navicon and drop-down menu */
-@media screen and (max-width: 767px) {
-  #mobile-nav  { display: block; }
-  #sidebar     { display: none;}
-  .margin-note { position : absolute; top: -9999px; left: -9999px; color: black; display: block; }
-  .margin-indicator:focus .margin-note { position : inherit; }
-  .margin-note:hover                   { position : inherit; }
-  .margin-note:focus                   { position : inherit; }
-}
-
-#mobile-menu {
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-  display: block;
-  background:#fff;
-  border:1px solid #aaa;
-  padding-right: 3em;
-}
-
-#mobile-menu.menu-on { position : inherit; }
-
-#mobile-nav li {
-  list-style: none;
-  margin: 0;
-  padding: 0.2em;
-}
-
-#mobile-nav li a { width: 60px; }
-
-</style>
 
 
 
@@ -270,8 +117,8 @@ code {
 
   <table class="symbol">
     <tr>
-      <td>\(\text{\&apos;{a}}\)</td>
-      <td>\&apos;{a}</td>
+      <td>\(\text{\'{a}}\)</td>
+      <td>\'{a}</td>
       <td>\(\text{\~{a}}\)</td>
       <td>\~{a}</td>
       <td>\(\text{\.{a}}\)</td>
@@ -284,8 +131,8 @@ code {
       <td>\`{a}</td>
       <td>\(\text{\={a}}\)</td>
       <td>\={a}</td>
-      <td>\(\text{\&quot;{a}}\)</td>
-      <td>\&quot;{a}</td>
+      <td>\(\text{\"{a}}\)</td>
+      <td>\"{a}</td>
       <td>\(\text{\v{a}}\)</td>
       <td>\v{a}</td>
     </tr>
@@ -505,14 +352,21 @@ code {
 <p class="measure">There is also support for <code>{darray}</code> and <code>{dcases}</code>. Acceptable line separators include: <code>\\</code>, <code>\cr</code>, and <code>\\[<em>distance</em>]</code>. <em>Distance</em> can be written with any of the <a href="#units">units</a>. The <code>{array}</code> environment does not yet support <code>\hline</code>.</p>
 
 
+<!-- Filed a bug about this here:
+
+https://github.com/Khan/KaTeX/issues/1245
+
+\href doesn't seem to render properly on the server.
+
 <h3>HTML</h3>
 
   <table>
     <tr>
-      <td>\(\href{https://wikipedia.org}{Wikipedia}\)</td>
+      <td>\(\href{foo}{bar}\)</td>
       <td>\href{https://wikipedia.org}{Wikipedia}</td>
     </tr>
   </table>
+-->
 
 
 <h3>Letters</h3>
@@ -2806,9 +2660,15 @@ code {
     </tr>
     </tbody>
   </table>
-  
-<script>
-    renderMathInElement(document.body);    <!-- KaTeX -->
+
+</div>
+
+<!-- <link rel="stylesheet" href="https://unpkg.com/katex@0.9.0-beta/dist/katex.min.css">
+<script src="https://unpkg.com/katex@0.9.0-beta/dist/katex.min.js"></script>
+<script src="https://unpkg.com/katex@0.9.0-beta/dist/contrib/auto-render.min.js"></script>
+ -->  
+<!-- <script>
+    renderMathInElement(document.body);   
     document.getElementById("mobile-nav").addEventListener('click', toggleMobileMenu, false);
 
     function toggleMobileMenu() {
@@ -2816,5 +2676,4 @@ code {
         m.className = (m.className == 'menu-on' ? 'menu-off' : 'menu-on' );
         return true;
     }
-</script>
-</div>
+</script>-->
