@@ -1,5 +1,6 @@
 var fs = require('fs-extra');
 var helper = require('helper');
+var yesno = require('yesno');
 var join = require('path').join;
 var blog_dir = join(helper.rootDir, 'blogs');
 var save_db = require('../db/save');
@@ -20,16 +21,48 @@ if (require.main === module) {
 
 function main (label, callback) {
 
-  fs.copy(blog_dir, join(dumps, label), function(err) {
-
+  verify_overwrite(label, join(dumps, label), function(err){
+    
     if (err) return callback(err);
-      
-    save_db(label, function(err){
+  
+    fs.copy(blog_dir, join(dumps, label), function(err) {
 
       if (err) return callback(err);
+        
+      save_db(label, function(err){
 
-      callback();
+        if (err) return callback(err);
+
+        callback();
+      });
     });
+  });
+}
+function exists (path) {
+
+  var result = true;
+
+  try {
+    fs.statSync(path);
+  } catch (e) {
+    result = false;
+  }
+
+  return result;
+
+}
+
+function verify_overwrite (identifier, path, callback) {
+
+  if (!exists(path)) return callback();
+
+  yesno.ask("Overwrite existing folder ‘" + identifier + "’? y / n", false, function(yes){
+
+    if (yes) {
+      callback();
+    } else {
+      callback('Do not overwrite file');
+    }
   });
 }
 

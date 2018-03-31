@@ -4,15 +4,18 @@ var join = require('path').join;
 var blog_dir = join(helper.rootDir, 'blogs');
 var load_db = require('../db/load');
 var dumps = join(__dirname, 'dumps');
+var config = require('config');
 
 var BLOG_ID = "1";
 var DROPBOX_FOLDER_PATH = "/Users/David/Dropbox/Apps/Blot test";
 
 if (require.main === module) {
 
-  var options = require('minimist')(process.argv.slice(2));
+  var identifier = process.argv[2];
 
-  main(options._[0], function(err){
+  if (!identifier) return print_available();
+
+  main(identifier, function(err){
 
     if (err) throw err;
 
@@ -21,13 +24,14 @@ if (require.main === module) {
 }
 
 
+
 function main (label, callback) {
 
   fs.remove(blog_dir, function(err){
 
     if (err) return callback(err);
 
-    load_db(label, false, function(err){
+    load_db(label, function(err){
 
       if (err) return callback(err);
       
@@ -56,6 +60,32 @@ function main (label, callback) {
   });
 
 }
+
+function load_dir (dir) {
+
+  return fs.readdirSync(dir).filter(function(e){
+
+    return fs.statSync(dir + '/' + e).isDirectory();
+  });
+}
+
+function print_available () {
+
+  var all_dumps = load_dir(dumps);
+
+  console.log('Please choose one of the available folders:');
+
+  console.log();
+
+  
+  for (var i in all_dumps) {
+    console.log('',all_dumps[i]);
+  }
+    
+
+  console.log('');
+}
+
 
 // save the contents of the blogs folder to /dumps
 

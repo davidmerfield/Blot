@@ -2,6 +2,7 @@ require('shelljs/global');
 require('../only_locally');
 
 var fs = require('fs');
+var yesno = require('yesno');
 var redis = require('redis').createClient();
 var dumps = __dirname + '/dumps/user';
 var helper =  require('helper');
@@ -32,32 +33,63 @@ function main (label, callback) {
 
   var current = fs.realpathSync(__dirname + '/../../db/dump.rdb');
 
+  verify_overwrite(identifier, saved, function(err){
 
-  console.log('Saving database to disk...');
-  redis.save(function(err, stat){
+    if (err) throw err;
 
-    if (err || !stat) throw err || 'No stat';
+    console.log('Saving database to disk...');
+    redis.save(function(err, stat){
 
-    console.log('Moving database dump...');
+      if (err || !stat) throw err || 'No stat';
 
-    mkdirp(dir, function(err){
+      console.log('Moving database dump...');
 
-      if (err) throw err;
+      mkdirp(dir, function(err){
 
-      exec('cp ' + current + ' ' + saved, function(code, stdout, stderr){
+        if (err) throw err;
 
-        if (code) throw stderr;
+        exec('cp ' + current + ' ' + saved, function(code, stdout, stderr){
 
-        console.log('Done! Load this dump with this command:');
-        console.log();
-        console.log('node scripts/db/load ' + identifier);
-        console.log();
+          if (code) throw stderr;
 
-        callback();
+          console.log('Done! Load this dump with this command:');
+          console.log();
+          console.log('node scripts/db/load ' + identifier);
+          console.log();
+
+          callback();
+        });
       });
     });
   });
 }
 
+function verify_overwrite (identifier, path, callback) {
+
+  if (!exists(path)) return callback();
+
+  yesno.ask("Overwrite existing database "  + identifier + "? y / n", false, function(yes){
+
+    if (yes) {
+      callback();
+    } else {
+      callback('Do not overwrite file');
+    }
+  });
+}
+
+function exists (path) {
+
+  var result = true;
+
+  try {
+    fs.statSync(path);
+  } catch (e) {
+    result = false;
+  }
+
+  return result;
+
+}
 
 module.exports = main;

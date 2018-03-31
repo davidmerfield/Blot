@@ -2,55 +2,64 @@ require('shelljs/global');
 require('../only_locally');
 
 var moment = require('moment');
-
+var join = require('path').join;
 var Remote = require('../remote');
-
 var download = Remote.download;
 var execRemote = Remote.exec;
-
-var dumps = __dirname + '/dumps/production';
-
-var date = moment().format('YYYY-MM-D');
-var now = Math.round(Date.now() / 1000);
-var dir = now + '-' + date;
-
-var localPath = dumps + '/' + dir + '/dump.rdb';
-var remotePath = Remote.root + '/db/dump.rdb';
-
 var LASTSAVE = 'redis-cli lastsave';
 var BGSAVE = 'redis-cli bgsave';
+var REMOTE_DUMP_PATH = Remote.root + '/db/dump.rdb';
+var LOCAL_DUMPS_DIRECTORY = __dirname + '/dumps/production';
+var log = console.log.bind(this, "Fetching remote db:");
 
-console.log('Retrieving the last time db was saved to disk...');
-
-execRemote(LASTSAVE, function(err, lastsave){
-
+// If used from the command line
+if (require.main === module) main(function(err){
+  
   if (err) throw err;
 
-  console.log('Saving db to disk...');
+  process.exit();
+});
 
-  execRemote(BGSAVE, function(err){
+function main (callback) {
 
-    if (err) throw err;
+  var date = moment().format('YYYY-MM-D');
+  var now = Math.round(Date.now() / 1000);
+  var local_dump_path = join(LOCAL_DUMPS_DIRECTORY, now + '-' + date, 'dump.rdb');
 
-    console.log('... Checking if db was saved to disk...');
+  log('Retrieving the last time db was saved to disk...');
+  
+  execRemote(LASTSAVE, function(err, lastsave){
 
-    execRemote(LASTSAVE, function then (err, latestsave){
+    if (err) return callback(err);
+    
+    log('Saving db to disk');
 
-      if (err) throw err;
+    execRemote(BGSAVE, function(err){
 
-      // Bgsave is not yet finished...
-      if (latestsave === lastsave) {
-        console.log('... Checking if db was saved to disk...');
-        return execRemote(LASTSAVE, then);
-      }
+      if (err) return callback(err);
+      
+      execRemote(LASTSAVE, function then (err, latestsave){
 
-      console.log('Done! Downloading...');
-      download(remotePath, localPath, function(err){
+        if (err) return callback(err);
 
-        if (err) throw err;
+        // Bgsave is not yet finished...
+        if (latestsave === lastsave) {
+          log('... Checking if db was saved to disk...');
+          return execRemote(LASTSAVE, then);
+        }
 
-        process.exit();
+        log('Done! Downloading db');
+
+        download(REMOTE_DUMP_PATH, local_dump_path, function(err){
+
+          if (err) return callback(err);
+            
+          log('Download complete!');
+          callback();
+        });
       });
     });
   });
-});
+}
+
+module.exports = main;
