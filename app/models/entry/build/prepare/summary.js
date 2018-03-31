@@ -1,4 +1,4 @@
-var puncs = '?.!'.split('');
+var puncs = '?.!:,'.split('');
 var MAX_LENGTH = 150;
 var he = require('he');
 
@@ -38,9 +38,13 @@ function summary ($, title) {
     summary = summary.slice(title.length, title.length + MAX_LENGTH).trim()  || '';
   }
 
-  // Remove any trailing puntuation?
+  // Remove any trailing puntuation
   while(summary && summary.length && puncs.indexOf(summary.slice(-1)) > -1)
     summary = summary.slice(0, -1) || '';
+
+  // Remove any leading punctuation
+  while(summary && summary.length && puncs.indexOf(summary.charAt(0)) > -1)
+    summary = summary.slice(1) || '';
 
   summary = summary.trim();
 
