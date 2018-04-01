@@ -171,6 +171,23 @@ mustache.render(template, view);
 store full list of locals and paths to partials against each template path?
 
 
+---
+first_entry:
+  sort: date
+  order: descending
+  length: 1
+  offset: 0
+next_entries:
+  sort: date
+  order: descending
+  length: 4
+  offset: 1
+---
+
+{{#first}}
+
+{{/posts}}
+
 --------------------------
 
 {{> header}}
