@@ -27,7 +27,7 @@ module.exports = function create (uid, info, callback) {
       blogID += '';
 
       var blogs = user.blogs || [];
-      var title = capitalise(info.handle) + '\'s blog';
+      var title = capitalise(info.handle) + '\’s blog';
 
       var blog = {
         id: blogID,
