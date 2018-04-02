@@ -173,15 +173,20 @@ store full list of locals and paths to partials against each template path?
 
 ---
 first_entry:
-  sort: date
-  order: descending
+  source: posts
   length: 1
-  offset: 0
+
 next_entries:
-  sort: date
-  order: descending
+  source: posts
+  except: first_entry
   length: 4
-  offset: 1
+
+remaining_entries:
+  source:posts
+  except: 
+    - first_entry
+    - next_entries
+  length: 10
 ---
 
 {{#first}}
