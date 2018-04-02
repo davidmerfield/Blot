@@ -1,23 +1,12 @@
-var GitServer = require('git-server');
 
-var newUser = {
-  username:'demo',
-  password:'demo'
+// Initialze the local repos here if neccessary
+
+module.exports = {
+  display_name: 'Git',
+  description: 'Use a git repository',
+  remove: require('./client').remove,
+  write: require('./client').write,
+  disconnect: require('./client').disconnect,
+  dashboard_routes: require('./dashboard'),
+  site_routes: require('./site')
 };
-
-var newRepo = {
-  name:'myrepo',
-  anonRead:false,
-  users: [
-    { user:newUser, permissions:['R','W'] }
-  ]
-};
-
-server = new GitServer({repos: [ newRepo ], httpApi: true});
-
-var express = require('express');
-
-var app = express();
-
-app.use(server);
-app.listen(8989);

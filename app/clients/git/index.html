@@ -1,0 +1,45 @@
+
+{{#error}}
+ <p class="box red" style="width:120%"> ... </p>
+{{/error}}
+
+
+<h2>Git settings</h2>
+<hr>
+
+{{#exists}}
+
+<pre>
+git clone https://{{host}}/clients/git/end/{{blog.id}}.git
+</pre>
+
+<form method="post" action="/clients/git/test_write">
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" class="button" value="TEST WRITE">
+</form>
+
+<form method="post" action="/clients/git/test_remove">
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" class="button" value="TEST REMOVE">
+</form>
+
+<form method="post" action="/clients/git/disconnect">
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" class="button" value="Disconnect">
+</form>
+
+{{/exists}}
+
+
+
+{{^exists}}
+<form style="float:left" method="post" action="/clients/git/create">
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" class="button" value="Create repository">
+</form>
+
+<form style="float:left" method="post" action="/clients/git/disconnect">
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" class="button" value="Cancel">
+</form>
+{{/exists}}
