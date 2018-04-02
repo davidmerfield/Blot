@@ -8,9 +8,11 @@ var clients = {
 };
 
 // Demo local client
-// if (config.environment === 'development')
-//   clients.local = require('./local');
-
+if (config.environment === 'development') {
+  clients.local = require('./local');
+  clients.git = require('./git');
+}
+  
 // Verify that each client has the correct
 // signature before exposing them to Blot.
 for (var i in clients) {
