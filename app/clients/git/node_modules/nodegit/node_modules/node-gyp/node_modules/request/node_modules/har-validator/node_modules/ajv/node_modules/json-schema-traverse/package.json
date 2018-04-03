@@ -1,0 +1,72 @@
+{
+  "name": "json-schema-traverse",
+  "version": "0.3.1",
+  "description": "Traverse JSON Schema passing each schema object to callback",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint index.js spec",
+    "test-spec": "mocha spec -R spec",
+    "test": "npm run eslint && nyc npm run test-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epoberezkin/json-schema-traverse.git"
+  },
+  "keywords": [
+    "JSON-Schema",
+    "traverse",
+    "iterate"
+  ],
+  "author": {
+    "name": "Evgeny Poberezkin"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/epoberezkin/json-schema-traverse/issues"
+  },
+  "homepage": "https://github.com/epoberezkin/json-schema-traverse#readme",
+  "devDependencies": {
+    "coveralls": "^2.13.1",
+    "eslint": "^3.19.0",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.2",
+    "pre-commit": "^1.2.2"
+  },
+  "nyc": {
+    "exclude": [
+      "**/spec/**",
+      "node_modules"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
+  },
+  "gitHead": "f0a6627655525debea519dc8ebb4cf35f3c8e85f",
+  "_id": "json-schema-traverse@0.3.1",
+  "_shasum": "349a6d44c53a51de89b40805c5d5e59b417d3340",
+  "_from": "json-schema-traverse@>=0.3.0 <0.4.0",
+  "_npmVersion": "3.10.8",
+  "_nodeVersion": "6.9.1",
+  "_npmUser": {
+    "name": "esp",
+    "email": "e.poberezkin@me.com"
+  },
+  "maintainers": [
+    {
+      "name": "esp",
+      "email": "e.poberezkin@me.com"
+    }
+  ],
+  "dist": {
+    "shasum": "349a6d44c53a51de89b40805c5d5e59b417d3340",
+    "tarball": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-0.3.1.tgz"
+  },
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/json-schema-traverse-0.3.1.tgz_1498261856588_0.601617609616369"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-0.3.1.tgz",
+  "readme": "ERROR: No README data found!"
+}

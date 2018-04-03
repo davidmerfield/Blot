@@ -1,0 +1,77 @@
+{
+  "version": "5.0.3",
+  "name": "har-validator",
+  "description": "Extremely fast HTTP Archive (HAR) validator using JSON Schema",
+  "author": {
+    "name": "Ahmad Nassri",
+    "email": "ahmad@ahmadnassri.com",
+    "url": "https://www.ahmadnassri.com/"
+  },
+  "homepage": "https://github.com/ahmadnassri/har-validator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmadnassri/har-validator.git"
+  },
+  "license": "ISC",
+  "main": "lib/promise.js",
+  "keywords": [
+    "har",
+    "cli",
+    "ajv",
+    "http",
+    "archive",
+    "validate",
+    "validator"
+  ],
+  "engines": {
+    "node": ">=4"
+  },
+  "files": [
+    "lib"
+  ],
+  "bugs": {
+    "url": "https://github.com/ahmadnassri/har-validator/issues"
+  },
+  "scripts": {
+    "lint": "standard && echint",
+    "pretest": "npm run lint",
+    "test": "tap test",
+    "coverage": "tap test --reporter silent --coverage"
+  },
+  "devDependencies": {
+    "echint": "^4.0.1",
+    "standard": "^10.0.2",
+    "tap": "^10.3.2"
+  },
+  "dependencies": {
+    "ajv": "^5.1.0",
+    "har-schema": "^2.0.0"
+  },
+  "gitHead": "254112b780849ab773dcf0245db547154fe7e248",
+  "_id": "har-validator@5.0.3",
+  "_shasum": "ba402c266194f15956ef15e0fcf242993f6a7dfd",
+  "_from": "har-validator@>=5.0.3 <5.1.0",
+  "_npmVersion": "4.2.0",
+  "_nodeVersion": "7.10.0",
+  "_npmUser": {
+    "name": "ahmadnassri",
+    "email": "ahmad@ahmadnassri.com"
+  },
+  "dist": {
+    "shasum": "ba402c266194f15956ef15e0fcf242993f6a7dfd",
+    "tarball": "https://registry.npmjs.org/har-validator/-/har-validator-5.0.3.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "ahmadnassri",
+      "email": "ahmad@ahmadnassri.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/har-validator-5.0.3.tgz_1494776767065_0.45195462461560965"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/har-validator/-/har-validator-5.0.3.tgz",
+  "readme": "ERROR: No README data found!"
+}
