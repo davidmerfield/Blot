@@ -1,3 +1,5 @@
+Investigate bug with Logan's local template editing and respond on twitter
+
 Improve the selection of templates
 - Don't modify any code, just design templates
 - Design for sites with specific kinds of posts
@@ -171,6 +173,9 @@ NGINX
 - Improve error pages
 - Recompile nginx with neccessary dependencies for auto-ssl instead of openresty
 - Install nginx fail2ban & http2
+
+Support linking to another blog post by its *file path*
+- This would help with the importer to fix broken links
 
 Removing Date metadata from a post should reset its date to the file's creation date
 - Currently nothing changes.
