@@ -53,6 +53,9 @@ Fix bug with how the date parser. It doesn't handles a space (or lack of space) 
 
 ---
 
+Move to cool user subdomains
+ - Pretty to proper blog IDs instead of integers
+
 Public site
 - Log 404s on the public site to identify neccessary redirects
 - Personalize the documentation for logged in users
@@ -65,8 +68,8 @@ Developer documentation
   - Make reference page searchable
   - Add types and examples to items on reference page
   - Work how to explain the archives property
-  - Port this jekyll theme to Blot and document process
-    https://github.com/mmarfil/neocactus/
+  - Port the jekyll theme [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
+    then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
 
 Dashboard
 - Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
@@ -79,12 +82,15 @@ is happening before doing this.
 - Allow users who are restarting an account with multiple blogs to disable some before restarting.
 - Take a look at Notion and Cargo for some neat ideas
 
-Record a new demo video
-- Show sites I run using Blot
-- Blot's developer blog, a conventional blog, show using different text editors
-- My visual scrapbook: shows tag folders, photo blog
-- My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
-- My personal site: simple landing page, edit with a doc file?
+File codecs
+- Video posts (.mp4)
+- Audio posts (.mp3 for now?)
+- Multi-file posts from inside one folder? 'Folder>'
+- Multi-file posts with the same name but different extension (image.txt and image.jpg)
+- Markdown
+  Write a pandoc compatible markdown converter in javascript
+  to resolve some of the performance issues with pandoc
+  Perhaps just use https://github.com/markdown-it/markdown-it
 
 Write a unified import tool which scrapes content from any blog/website
   Jekyll converter
@@ -118,6 +124,14 @@ Clients
   tell https://twitter.com/ohhhnine/status/951151349705691136
 - SFTP
   https://www.npmjs.com/package/ftpd
+
+
+Record a new demo video
+- Show sites I run using Blot
+- Blot's developer blog, a conventional blog, show using different text editors
+- My visual scrapbook: shows tag folders, photo blog
+- My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
+- My personal site: simple landing page, edit with a doc file?
 
 Sync
 - Re-implement folder verification feature and make use of the local content hash computation script to verify we have the correct version of a given file
@@ -166,17 +180,20 @@ Add support for 'time' metadata property
 - e.g. 'Time: 4:15pm'
 - Would append to any other date associated with the post.
 
-
-
-New post support
-- Video posts (.mp4)
-- Audio posts (.mp3 for now?)
-- Multi-file posts from inside one folder? 'Folder>'
-- Multi-file posts with the same name but different extension (image.txt and image.jpg)
-
 Download the webpage for bookmark files and try to extract title + summary
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
+
+Add support for comments via webmentions
+
+Thumbnail generator
+- Generate thumbnails for GIFs / SVG thum
+- Prioritize faces
+- Aim to generate distinct thumbnails across the blog
+- Try to crop out ruined borders. E.g. when making a square crop of a rectangular image with a border, crop into the image as well to remove the border-on-three-sides effect
+- Extract color palette too for the image
+- Run quickly first time, then run in the background to pick the best thumbnail
+- Offer imgix style API for embedding thumbnails
 
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
@@ -235,7 +252,6 @@ Add plugin for inline popover footnotes
 
 Enable hyphenation again then tell rodericus
 
-Generate thumbnails for GIFs / SVG thum
 
 Find cause of fontconfig error / warning
 
@@ -276,9 +292,6 @@ queue scheduled entries in redis
   this makes each server less stateful
 
 Noindex blog search results pages
-
-Write a pandoc compatible markdown converter in javascript
-to resolve some of the performance issues with pandoc
 
 Re-enable CSP on blot site in a way that works in Safari
 
