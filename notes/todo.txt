@@ -13,6 +13,8 @@ Fix bug which occurs if you have two blogs in the same Dropbox App folder, then 
 
 Fix bug with disqus plugin on preview subdomains
 
+Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note)
+
 Fix bug which occurs when Dropbox needs to reset the cursor of the folder
 
 Fix bug with template editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
