@@ -192,6 +192,7 @@ Add a file dependency / dependents list to each entry then use this to rebuild d
 Add support for comments via webmentions
 
 Thumbnail generator
+- Improve transformer so it checks a file's MTIME against a stored value before rehashing the file
 - Generate thumbnails for GIFs / SVG thum
 - Prioritize faces
 - Aim to generate distinct thumbnails across the blog
