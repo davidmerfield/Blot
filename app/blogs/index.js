@@ -16,8 +16,11 @@ blog
   .disable('x-powered-by')
   .use(compression())
   .use(middleware.vhosts)
-  .use(middleware.add())
-  .use(cache);
+  .use(middleware.add());
+
+if (config.cache)
+  blog.use(cache);
+
 
 // Only time uncached responses
 if (config.flags.time_response)
