@@ -1,0 +1,19 @@
+{
+  "name": "jekyll-exporter",
+  "version": "0.1.2",
+  "description": "Export your Jekyll blog into Blot-friendly markdown.",
+  "homepage": "https://github.com/davidmerfield/jekyll-exporter",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:davidmerfield/jekyll-exporter.git"
+  },
+  "keywords": [
+    "Jekyll",
+    "markdown",
+    "export",
+    "blog"
+  ],
+  "author": "David Merfield <dmerfield@gmail.com>",
+  "dependencies": {},
+  "devDependencies": {}
+}

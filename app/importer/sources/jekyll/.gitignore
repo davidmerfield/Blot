@@ -1,0 +1,8 @@
+/in
+/out
+/node_modules
+/_posts
+
+*.log
+
+out.zip
