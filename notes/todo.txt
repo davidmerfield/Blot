@@ -1,5 +1,7 @@
 Investigate bug with Logan's local template editing and respond on twitter
 
+Investigate bug with Layout.css and tell posthumanist on twitter
+
 Improve the selection of templates
 - Don't modify any code, just design templates
 - Design for sites with specific kinds of posts
@@ -7,7 +9,9 @@ Improve the selection of templates
 
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
+
 ---
+
 
 Fix bug which occurs if you have two blogs in the same Dropbox App folder, then unlink one of them, then relink it
 
@@ -57,6 +61,30 @@ Fix bug with how the date parser. It doesn't handles a space (or lack of space) 
 
 ---
 
+New code directory structure
+- app
+  - blog
+    - models
+    - controllers
+    - render
+  - panel
+    - components
+      - email
+  - site
+- clients
+- converters
+- data 
+  - cache
+  - dump
+  - blogs
+    - $ID
+      - folder
+      - templates
+      - git
+  - templates
+  - tmp
+
+- scripts
 Move to cool user subdomains
  - Pretty to proper blog IDs instead of integers
 
