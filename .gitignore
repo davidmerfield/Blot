@@ -21,4 +21,10 @@ blogs/*
 cache/*
 static/*
 tmp/*
+
+# Eventually ignore all node_modules directories
 node_modules/*
+app/importer/**/node_modules
+
+data
+secrets
