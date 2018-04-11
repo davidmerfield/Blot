@@ -209,11 +209,16 @@ iframe {width: 100%;}
 .right {float: right;}
 .left {float: left;}
 
-.margin {
-  position: absolute;
+
+.margin, .inside {
   box-sizing: border-box;
   width: 29.3333%;
 }
+
+.margin {  position: absolute;}
+
+.left.inside {margin-right: 2em}
+.right.inside {margin-left: 2em}
 
 .margin blockquote {margin: 3px 0;color:#232323;padding: 3px 6px;font-size: smaller;}
 .margin blockquote p {margin: 0}
@@ -223,7 +228,7 @@ iframe {width: 100%;}
 .margin img,
 .column img {margin-top: 6px}
 
-.margin p {font-style: italic;margin-top: 0}
+.margin p, .inside p {font-style: italic;margin-top: 0}
 
 .left.margin {
   left: -29.3333%;
