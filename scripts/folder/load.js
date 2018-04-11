@@ -5,7 +5,7 @@ var blog_dir = join(helper.rootDir, 'blogs');
 var load_db = require('../db/load');
 var dumps = join(__dirname, 'dumps');
 var config = require('config');
-
+var access = require('../access');
 var BLOG_ID = "1";
 var DROPBOX_FOLDER_PATH = "/Users/David/Dropbox/Apps/Blot test";
 
@@ -19,7 +19,11 @@ if (require.main === module) {
 
     if (err) throw err;
 
-    process.exit();
+    access('dev', function(){
+
+      process.exit();
+
+    });
   });
 }
 
