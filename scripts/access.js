@@ -2,33 +2,51 @@ var Blog = require('../app/models/blog');
 var User = require('../app/models/user');
 var format = require('url').format;
 var config = require('../config');
-var handle = process.argv[2];
 
-Blog.get({handle: handle}, function(err, blog){
 
-  if (err) throw err;
+if (require.main === module) {
 
-  User.generateAccessToken(blog.owner, function(err, token){
+  var identifier = process.argv[2];
+
+  main(identifier, function(err){
+
+    if (err) throw err;
+    
+    process.exit();
+  });
+}
+
+function main (handle, callback) {
+
+  Blog.get({handle: handle}, function(err, blog){
 
     if (err) throw err;
 
-    // The full one-time log-in link to be sent to the user
-    var url = format({
-      protocol: 'https',
-      host: config.host,
-      pathname: '/log-in',
-      query: {
-        token: token
-      }
-    });
+    User.generateAccessToken(blog.owner, function(err, token){
 
-    console.log(blog.title, blog.domain, blog.handle);
-    console.log('-----------------------------------');
-    console.log('1.', format({
-      protocol: 'https',
-      host: config.host,
-      pathname: '/account/log-out'
-    }));
-    console.log('2.', url);
+      if (err) throw err;
+
+      // The full one-time log-in link to be sent to the user
+      var url = format({
+        protocol: 'https',
+        host: config.host,
+        pathname: '/log-in',
+        query: {
+          token: token
+        }
+      });
+
+      console.log(blog.title, blog.domain, blog.handle);
+      console.log('-----------------------------------');
+      console.log('1.', format({
+        protocol: 'https',
+        host: config.host,
+        pathname: '/account/log-out'
+      }));
+      console.log('2.', url);
+      callback();
+    });
   });
-});
+}
+
+module.exports = main;
