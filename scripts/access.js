@@ -37,13 +37,7 @@ function main (handle, callback) {
       });
 
       console.log(blog.title, blog.domain, blog.handle);
-      console.log('-----------------------------------');
-      console.log('1.', format({
-        protocol: 'https',
-        host: config.host,
-        pathname: '/account/log-out'
-      }));
-      console.log('2.', url);
+      console.log(url);
       callback();
     });
   });
