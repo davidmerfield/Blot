@@ -23,7 +23,16 @@ var limiter = new Brute(store, {
 var login = Express.Router();
 var form = login.route('/');
 
-form.all(middleware.excludeUser);
+form.all(function(req, res, next){
+
+  if (req.session && req.session.uid && !req.query.token) return res.redirect('/');
+
+  if (req.session) {
+
+  }
+  
+  return next();
+});
 
 form.all(function(req, res, next){
   res.locals.title = 'Log in';
