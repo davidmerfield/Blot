@@ -7,23 +7,6 @@ var determine_path = helper.determine_path;
 var insert_metadata = helper.insert_metadata;
 var join = require('path').join;
 
-function photo (post) {
-  var content = '';
-
-
-  post.photos.forEach(function(photo){
-
-    content += '<img src="' + photo.original_size.url + '" alt="'+ photo.caption + '">\n\n';
-  });
-
-
-  return content;
-}
-
-function text (post) {
-  var content = '<img src="">';
-  return post.body;
-}
 
 function main (blog, output_directory, callback) {
 
@@ -33,16 +16,55 @@ function main (blog, output_directory, callback) {
     var dateStamp, tags, draft, page, path, metadata;
     var content, title, html, url;
 
-    if (post.type === 'photo') {
-      content = photo(post);
-    } else if (post.type === 'text') {
-      content = text(post);
-    } else {
-      console.log(post);
-      throw '';
+    switch (post.type) {
+
+      case "link":
+        post.body = '<a href="' + post.url + '">' + post.url + "</a>\n\n";
+        post.body += post.description;
+        break;
+
+      case "photo":
+        post.body = '';
+
+
+        for (var i = post.photos.length - 1; i >= 0; i--) {
+          post.body += '<img src="' + post.photos[i].original_size.url + '">\n';
+        }
+
+        if (post.caption) {
+          post.body += post.caption;
+        }
+
+        break;
+
+      case "video":
+        post.body =  post.player[post.player.length - 1].embed_code;
+        post.format = 'html';
+        post.body += post.caption;
+        break;
+
+      case "audio":
+        post.body =  post.embed;
+        post.format = 'html';
+        post.title = post.track_name || post.summary;
+        break;
+
+      case "quote":
+        post.body =  '<blockquote>' + post.text + '</blockquote>\n' + post.source;
+        post.format = 'html';
+        post.body += post.caption;
+
+        break;
     }
 
-    title = post.title || post.source_title || post.photos[0].caption || post.id.toString();
+    content = post.body;
+
+    if (!content) {
+      content = '';
+      console.log(post);
+    }
+
+    title = post.title || post.source_title || post.id.toString();
 
     if (!title) {
       console.log(post.photos);
@@ -129,7 +151,11 @@ if (require.main === module) {
 
   var blog = fs.readJsonSync(source_file);
 
-  blog.posts = blog.posts.slice(0, 20);
+  blog.posts = blog.posts.slice(0,1000);
+  
+  // blog.posts = blog.posts.filter(function(post){
+  //   return post.type !== 'photo'
+  // });
 
   blog.posts = blog.posts.map(function(post){
     delete post.reblog;
@@ -150,6 +176,8 @@ if (require.main === module) {
     return post;
   });
 
+
+  fs.emptyDirSync(output_directory);
 
   main(blog, output_directory, function(err){
 
