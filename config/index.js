@@ -86,7 +86,7 @@ module.exports = {
   "redis": {"port": 6379},
 
   "admin": {
-    "uid": "2302164",
+    "uid": "user_FZRFM1D34R5",
     "email": "david@blot.im"
   },
 
