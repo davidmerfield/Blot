@@ -1,0 +1,25 @@
+<h2>Select a folder</h2>
+
+<form action="/clients/dropbox/select-folder" method="post">
+
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+{{#items}}
+
+  {{#folder}}
+    {{^in_use}}
+    <button class="button" type="submit" name="folder_id" value="{{id}}">{{name}}</button>
+    {{/in_use}}
+
+    {{#in_use}}
+      {{name}} - used by another blog<br>
+    {{/in_use}}
+  {{/folder}}
+
+  {{^folder}}
+    {{name}} - not a folder<br>
+  {{/folder}}
+
+{{/items}}
+
+</form>

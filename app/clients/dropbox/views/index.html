@@ -17,14 +17,33 @@
 
 {{^account}}
 
+{{#existing_accounts.length}}
+
+{{#existing_accounts}}
+<form action="/clients/dropbox/authenticate/existing-account?blog={{blog}}" method="post">
+<input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" class="button" value="Connect {{email}}'s Dropbox account"><br><Br>
+</form>
+{{/existing_accounts}}
+
+<a href="/clients/dropbox/authenticate/redirect" class="button">Connect another Dropbox account</a>
+{{/existing_accounts.length}}
+
+
+{{^existing_accounts.length}}
+
 <p>Blot will redirect you to Dropbox where you can grant Blot permission to access and sync your site’s folder. You can revoke Blot's access to your Dropbox at any point.</p><br />
 
-
-<form action="/clients/dropbox/disconnect" method="post">
 <a href="/clients/dropbox/authenticate/redirect" class="button">Connect to Dropbox</a>
+
+{{/existing_accounts.length}}
+
+<br><Br>
+<form action="/clients/dropbox/disconnect" method="post">
 <input type="hidden" name="_csrf" value="{{csrftoken}}">
 <input type="submit" class="button" value="Cancel">
 </form>
+
 {{/account}}
 
 
@@ -50,8 +69,6 @@
   <p>You can rename and move this folder anywhere inside your Dropbox. You gave Blot access to your entire Dropbox folder.</p>
   {{/full_access}}
 
-  <p>Is something wrong? Please <!--<a href="">re‑syncing your folder</a> then --><a href="/contact">contact me</a> and we’ll sort it out.</p>
-
   {{/error_code}}
 
   {{#error_code}}
@@ -62,9 +79,7 @@
 
     {{#folder_missing}}
 
-      <p>Your folder is missing</p>
-
-      <a href="/clients/dropbox/authenticate/redirect{{#full_access}}?full_access=true{{/full_access}}" class="button">Re-create your site's folder</a>
+      <a href="/clients/dropbox/select-folder" class="button">Select a folder</a>
 
     {{/folder_missing}}
 

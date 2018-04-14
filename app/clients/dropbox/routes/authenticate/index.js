@@ -2,6 +2,7 @@ var config = require('config');
 var Dropbox = require('dropbox');
 var database = require('database');
 var get_account = require('./get_account');
+var get_existing_account = require('./get_existing_account');
 var set_account = require('./set_account');
 var join = require('path').join;
 var helper = require('helper');
@@ -12,6 +13,8 @@ var authenticate = require('express').Router();
 
 // This route sends the user to Dropbox
 // to consent to Blot's connection.
+authenticate.post('/existing-account', get_existing_account, prepare_folder, set_account);
+
 authenticate.get('/redirect', function (req, res) {
 
   var callback, key, secret, authentication_url;
