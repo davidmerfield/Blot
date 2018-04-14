@@ -288,6 +288,7 @@ Add plugin for inline popover footnotes
 
 Enable hyphenation again then tell rodericus
 
+Investigate atompub support for Marsedit and tell Chet
 
 Find cause of fontconfig error / warning
 
