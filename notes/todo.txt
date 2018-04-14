@@ -270,6 +270,8 @@ Giphy url support
 
 Catch rename failed to find a match for scrapboox/patch_bunny_slippers.jpg -> /patch_bunny_slippers.png
 
+Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
+
 Can rename tolerate a minor file size change?
 
 Add filtering by date to 404 log
