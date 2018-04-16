@@ -31,7 +31,7 @@ if (require.main === module) {
 
 function main (label, callback) {
 
-  fs.remove(blog_dir, function(err){
+  fs.emptyDir(blog_dir, function(err){
 
     if (err) return callback(err);
 
