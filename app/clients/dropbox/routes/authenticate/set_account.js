@@ -6,13 +6,9 @@ module.exports = function (req, res, next) {
 
   var account = req.new_account;
 
-  console.log('HERE!', account);
-
   database.set(req.blog.id, account, function(err){
 
     if (err) return next(err);
-
-    console.log('SET!');
     
     res.locals.account = account;
     res.message({new_folder: true, url: '/clients/dropbox', migration: req.migration});

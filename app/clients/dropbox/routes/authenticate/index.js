@@ -141,9 +141,10 @@ function mkdir (client, path, callback) {
     .catch(callback);
 }
 
-function sites_in_app_folder (blog_id, account_id, callback) {
+function check_app_folder (blog_id, account_id, callback) {
 
-  var sites = [];
+  var no_blogs_in_app_folder = true;
+  var existing_blog_using_app_folder = null;
 
   database.get_blogs_by_account_id(account_id, function(err, blogs){
 
@@ -161,15 +162,26 @@ function sites_in_app_folder (blog_id, account_id, callback) {
 
         if (err) return callback(err);
 
-        // This site is not in the app folder
-        if (account.full_access) return next();
+        // If the Dropbox account for this other blog does not
+        // have full folder permission then it must neccessarily
+        // be inside the app folder. Now we can trip this flag:
+        if (!account.full_access) no_blogs_in_app_folder = false;
 
-        sites.push([blog, account]);
+        // If the Dropbox account for this other blog does not
+        // have full folder permission and its folder is an empty
+        // string (meaning it is the root of the app folder) then
+        // there is an existing blog using the entire app folder.
+        if (account.folder === '' && !account.full_access) existing_blog_using_app_folder = blog;
+
         next();
       });
     }, function(){
 
-      callback(null, sites);
+      callback(
+        null,
+        no_blogs_in_app_folder,
+        existing_blog_using_app_folder
+      );
     });
   });
 }
@@ -204,34 +216,29 @@ function prepare_folder (req, res, next){
   // is another site using this dropbox, but with full
   // permission. or another site using a subfolder
   // inside the app folder.
-  sites_in_app_folder(req.blog.id, new_account_id, function(err, sites){
+  check_app_folder(
+    req.blog.id,
+    new_account_id,
+    function(err, no_blogs_in_app_folder, other_blog_using_entire_app_folder){
 
     if (err) return next(err);
 
-    // There multiple sites inside this app folder
-    // and we assume that these sites each have their
-    // own sub folder inside the app folder, we can just
-    // create another folder for this site.
-    if (sites.length > 1) {
-      return create_folder(req, res, next);
-    }
+    // There are no other sites anywhere inside this Dropbox
+    // folder so let's just use the entire app folder.
+    if (no_blogs_in_app_folder) return next(); 
+    
+    // If there are no other blogs using the *entire* app folder, as opposed
+    // to a subfolder inside it, this means we can just create an additional
+    // sub folder in the app folder for this new site.
+    if (!other_blog_using_entire_app_folder) return create_folder(req, res, next);
 
     // Since the other site uses the app folde as root
     // we need to move its files into a sub folder, then
     // create a new folder for this site.
-    if (sites.length === 1) {
+    req.existing_blog = other_blog_using_entire_app_folder;
+    req.existing_account = other_blog_using_entire_app_folder;
 
-      var existing_site = sites[0];
-
-      req.existing_blog = existing_site[0];
-      req.existing_account = existing_site[1];
-
-      return migrate_files(req, res, next);
-    }
-
-    // There are no other sites anywhere inside this Dropbox
-    // folder so let's just use the entire app folder.
-    return next();
+    return migrate_files(req, res, next);    
   });
 }
 
