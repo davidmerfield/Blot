@@ -39,39 +39,42 @@ function sync (blogID, main, callback) {
     // Pass in option logging function
     options.log = options.log || log;
 
-    var title = blog.title + '\'s folder';
-    var label = 'Synced ' + title + ' in';
+    var title = blog.title + '’s folder';
+    var prefix = helper.makeUid(5) + ':' + blog.id;
+    var timer_label = prefix + ' Completed sync for ' + title + ' in';
+    var logger = console.log.bind(this, prefix);
 
-    console.log('Attempting to sync', blogID, title);
+    logger('Trying to acquire sync lock for', title);
 
     Lease.request(blogID, function(err, available){
 
       if (err) return callback(err);
 
-      if (!available) return callback();
+      if (!available) {
+        logger('Failed to acquire sync lock for', title);
+        return callback();
+      }
 
-      console.log();
-      console.log('Syncing', title, '(' + blog.id + ')');
-      console.time(label);
+      logger('Starting sync for', title);
+      console.time(timer_label);
 
       main(function(sync_err){
 
-        console.timeEnd(label);
+        console.timeEnd(timer_label);
 
         Blog.flushCache(blogID, function(err){
 
           if (err) return callback(err);
 
-          console.log('Releasing lease for', title);
           Lease.release(blogID, function(err){
 
             if (err) return callback(err);
 
             if (sync_err) {
-              console.log('Sync error:');
-              console.log(sync_err);
-              if (sync_err.trace) console.log(sync_err.trace);
-              if (sync_err.stack) console.log(sync_err.stack);
+              logger('Sync error:');
+              logger(sync_err);
+              if (sync_err.trace) logger(sync_err.trace);
+              if (sync_err.stack) logger(sync_err.stack);
               return callback(sync_err);
             }
 
@@ -89,7 +92,7 @@ function sync (blogID, main, callback) {
 
                 if (!retry) return callback();
 
-                console.log('We recieved a webhook for this user during last sync, sync again...', title);
+                logger('We recieved a webhook for this user during last sync, sync again...', title);
                 return sync(blogID, main, callback);
               });
             });
@@ -104,32 +107,3 @@ sync.change = require('./change');
 sync.reset = require('./reset');
 
 module.exports = sync;
-
-// // index.js
-// var helper = require('../helper');
-// var worker = helper.worker;
-// var script = __dirname + '/main';
-
-// module.exports = worker(script);
-
-// // main.js
-// var start = require('./start');
-
-// // determine users who still have leases / again set
-// // for each, sync then verify... but do this in a safe
-// // seperate process.
-// require('./check');
-
-// process.on('message', function(blogID) {
-
-//   start(blogID, function(err){
-
-//     if (err) {
-//       console.log(err);
-//       if (err.stack) console.log(err.stack);
-//       if (err.trace) console.log(err.trace);
-//     }
-//   });
-// });
-
-// console.log('Listening for sync messages...');
