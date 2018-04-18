@@ -1,7 +1,3 @@
-Investigate bug with Logan's local template editing and respond on twitter
-
-Investigate bug with Layout.css and tell posthumanist on twitter
-
 Improve the selection of templates
 - Don't modify any code, just design templates
 - Design for sites with specific kinds of posts
