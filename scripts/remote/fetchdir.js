@@ -1,6 +1,5 @@
 var helper =  require('../../app/helper');
-var mkdirp = helper.mkdirp;
-
+var fs = require('fs-extra');
 var localRoot = helper.rootDir;
 var remoteRoot = require('./root');
 
@@ -20,7 +19,7 @@ module.exports = function (remotedir, localdir, callback) {
   inside(localdir, localRoot);
   inside(remotedir, remoteRoot);
 
-  mkdirp(localdir, function(err){
+  fs.ensureDir(localdir, function(err){
 
     if (err) throw err;
 
