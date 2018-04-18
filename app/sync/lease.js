@@ -8,14 +8,14 @@ var DURATION = 60;
 
 var activeKey = 'sync:active';
 
-function leaseKey (uid) {
-  ensure(uid, 'string');
-  return 'sync:lease:' + uid;
+function leaseKey (blog_id) {
+  ensure(blog_id, 'string');
+  return 'sync:lease:' + blog_id;
 }
 
-function againKey (uid) {
-  ensure(uid, 'string');
-  return 'sync:again:' + uid;
+function againKey (blog_id) {
+  ensure(blog_id, 'string');
+  return 'sync:again:' + blog_id;
 }
 
 
@@ -23,34 +23,44 @@ function active (callback) {
   client.SMEMBERS(activeKey, callback);
 }
 
-function extend (uid, callback) {
-  client.EXPIRE(leaseKey(uid), DURATION, function(err, stat){
+function extend (blog_id, callback) {
+  client.EXPIRE(leaseKey(blog_id), DURATION, function(err, stat){
     callback(err, stat === 1);
   });
 }
 
-function again (uid, callback) {
-  client.DEL(againKey(uid), function(err, stat){
+function again (blog_id, callback) {
+  client.DEL(againKey(blog_id), function(err, stat){
     callback(err, stat === 1);
   });
 }
 
-function release (uid, callback) {
+function release (blog_id, callback) {
 
   var multi = client.multi();
 
-  multi.SREM(activeKey, uid);
-  multi.DEL(leaseKey(uid));
+  multi.SREM(activeKey, blog_id);
+  multi.DEL(leaseKey(blog_id));
   multi.exec(callback);
 }
 
-function request (uid, callback) {
+function reset (blog_id, callback) {
+
+  var multi = client.multi();
+
+  multi.SREM(activeKey, blog_id);
+  multi.DEL(againKey(blog_id));
+  multi.DEL(leaseKey(blog_id));
+  multi.exec(callback);
+}
+
+function request (blog_id, callback) {
 
   var multi = client.multi();
   var available;
 
-  multi.SETNX(leaseKey(uid), true);
-  multi.EXPIRE(leaseKey(uid), DURATION);
+  multi.SETNX(leaseKey(blog_id), true);
+  multi.EXPIRE(leaseKey(blog_id), DURATION);
   multi.exec(function(err, replies){
 
     if (err) return callback(err);
@@ -59,9 +69,9 @@ function request (uid, callback) {
     multi = client.multi();
 
     if (available) {
-      multi.SADD(activeKey, uid);
+      multi.SADD(activeKey, blog_id);
     } else {
-      multi.SET(againKey(uid), true);      
+      multi.SET(againKey(blog_id), true);      
     }
 
     multi.exec(function(err){
@@ -78,6 +88,7 @@ module.exports = {
   active: active,
   extend: extend,
   request: request,
+  reset: reset,
   release: release,
   DURATION: DURATION
 };
