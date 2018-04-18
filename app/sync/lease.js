@@ -6,90 +6,69 @@ var ensure = helper.ensure;
 // business. This is usually enough time.
 var DURATION = 60;
 
+var activeKey = 'sync:active';
+
 function leaseKey (uid) {
   ensure(uid, 'string');
   return 'sync:lease:' + uid;
 }
-
-var activeKey = 'sync:active';
 
 function againKey (uid) {
   ensure(uid, 'string');
   return 'sync:again:' + uid;
 }
 
+
 function active (callback) {
   client.SMEMBERS(activeKey, callback);
 }
 
 function extend (uid, callback) {
-
-  ensure(uid, 'string')
-    .and(callback, 'function');
-
   client.EXPIRE(leaseKey(uid), DURATION, function(err, stat){
+    callback(err, stat === 1);
+  });
+}
 
-    if (err) throw err;
-
-    return callback(null, stat === 1);
+function again (uid, callback) {
+  client.DEL(againKey(uid), function(err, stat){
+    callback(err, stat === 1);
   });
 }
 
 function release (uid, callback) {
 
-  ensure(uid, 'string')
-    .and(callback, 'function');
+  var multi = client.multi();
 
-  client.SREM(activeKey, uid, function (err){
-
-    if (err) throw err;
-
-    client.DEL(leaseKey(uid), function(err){
-
-      if (err) throw err;
-
-      return callback();
-    });
-  });
-}
-
-function again (uid, callback) {
-
-  ensure(uid, 'string')
-    .and(callback, 'function');
-
-  client.DEL(againKey(uid), function(err, stat){
-
-    if (err) throw err;
-
-    return callback(null, stat === 1);
-  });
+  multi.SREM(activeKey, uid);
+  multi.DEL(leaseKey(uid));
+  multi.exec(callback);
 }
 
 function request (uid, callback) {
 
-  ensure(uid, 'string')
-    .and(callback, 'function');
+  var multi = client.multi();
+  var available;
 
-  client.SETNX(leaseKey(uid), true, function(err, set){
+  multi.SETNX(leaseKey(uid), true);
+  multi.EXPIRE(leaseKey(uid), DURATION);
+  multi.exec(function(err, replies){
 
-    if (err) throw err;
+    if (err) return callback(err);
 
-    if (set === 0) {
-      client.set(againKey(uid), true);
-      return callback(null, false);
+    available = replies[0] === 1;
+    multi = client.multi();
+
+    if (available) {
+      multi.SADD(activeKey, uid);
+    } else {
+      multi.SET(againKey(uid), true);      
     }
 
-    client.EXPIRE(leaseKey(uid), DURATION, function(err){
+    multi.exec(function(err){
 
-      if (err) throw err;
-
-      client.SADD(activeKey, uid, function (err){
-
-        if (err) throw err;
-
-        return callback(null, true);
-      });
+      if (err) return callback(err);
+    
+      callback(null, available);
     });
   });
 }
