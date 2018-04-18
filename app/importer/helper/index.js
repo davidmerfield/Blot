@@ -9,6 +9,7 @@ module.exports = {
   output_file: require('./output_file'),
   prepare_directory: require('./prepare_directory'),
   replace_embeds: require('./replace_embeds'),
+  resolve_url: require('./resolve_url'),
   slugify: require('./slugify'),
   to_markdown: require('./to_markdown'),
   write: require('./write')
