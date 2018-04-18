@@ -71,6 +71,8 @@ function fetch_remote_blog_directory (blog_id, callback) {
   var local_dir = join(blog_dir, blog_id);
   var remote_dir = join(remote.root, 'blogs', blog_id);
 
+  console.log('Blog files:', local_dir);
+
   fs.emptyDirSync(local_dir);
   remote.fetchdir(remote_dir, local_dir, callback);
 }
