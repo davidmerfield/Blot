@@ -25,7 +25,7 @@ module.exports = function ($, output_directory, callback) {
   each_el($, 'item', function(el, next){
 
     var extract, created, updated, path_without_extension, content;
-    var title, dateStamp, tags, draft, page, html, post, path;
+    var title, dateStamp, tags, draft, page, post;
 
     extract = Extract($, el);
     title = extract('title');
@@ -39,28 +39,9 @@ module.exports = function ($, output_directory, callback) {
 
       content = article.content;
 
-      console.log(content);
-
       content = insert_video_embeds(content);
 
-      download_images(content, path_without_extension, function(err, content, has_images){
-
-        if (err) throw err;
-
-        if (has_images) {
-          path = path_without_extension + '/post.txt';
-        } else {
-          path = path_without_extension + '.txt';
-        }
-
-        try {
-          content = to_markdown(content);
-        } catch (e) {
-          
-        }
-
-        // Add the new post to the list of posts!
-        post = {
+      post = {
 
           draft: false,
           page: false,
@@ -70,7 +51,7 @@ module.exports = function ($, output_directory, callback) {
           name: '',
           permalink: '',
           summary: '',
-          path: path,
+          path: path_without_extension,
 
           title: title,
           
@@ -83,9 +64,14 @@ module.exports = function ($, output_directory, callback) {
           // Clean up the contents of the <content>
           // tag. Evernote has quite a lot of cruft.
           // Then convert into Markdown!
-          content: content
+          html: content
         };
 
+      download_images(post, function(err, post){
+
+        if (err) throw err;
+
+        post.content = to_markdown(post.html);
         post = insert_metadata(post);
 
         fs.outputFile(post.path, post.content, function(err){

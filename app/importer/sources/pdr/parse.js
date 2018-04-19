@@ -11,6 +11,7 @@ var to_markdown = helper.to_markdown;
 var for_each = helper.for_each;
 
 var extract_tags = require('./extract_tags');
+var find_thumbnail = require('./find_thumbnail');
 var insert_disclaimer = require('./insert_disclaimer');
 var tidy_figures = require('./tidy_figures');
 var fix_azon = require('./fix_azon');
@@ -59,52 +60,43 @@ function main (output_directory, blog, callback) {
 
     content = $.html();
 
-    download_images(content, path_without_extension, function(err, content, has_images){
+    post = {
+
+      draft: false,
+      page: false,
+
+      // We don't know any of these properties
+      // as far as I can tell.
+      name: '',
+      permalink: '',
+      summary: '',
+      path: path_without_extension,
+      html: content,
+      title: title,
+      
+      dateStamp: dateStamp,
+      created: created,
+      updated: updated,
+      tags: tags,
+      metadata: metadata,
+      
+      // Clean up the contents of the <content>
+      // tag. Evernote has quite a lot of cruft.
+      // Then convert into Markdown!
+      content: content
+    };
+
+    download_images(post, function(err, post){
 
       if (err) throw err;
 
-      if (has_images) {
-        path = path_without_extension + '/post.txt';
-      } else {
-        path = path_without_extension + '.txt';
-      }
+      $ = cheerio.load(post.html, {decodeEntities: false});
 
-      try {
-        content = to_markdown(content);
-      } catch (e) {
-        throw e;
-      }
-
-      // Add the new post to the list of posts!
-      post = {
-
-        draft: false,
-        page: false,
-
-        // We don't know any of these properties
-        // as far as I can tell.
-        name: '',
-        permalink: '',
-        summary: '',
-        path: path,
-
-        title: title,
-        
-        dateStamp: dateStamp,
-        created: created,
-        updated: updated,
-        tags: tags,
-        metadata: metadata,
-        
-        // Clean up the contents of the <content>
-        // tag. Evernote has quite a lot of cruft.
-        // Then convert into Markdown!
-        content: content
-      };
+      if (find_thumbnail($)) metadata.thumbnail = find_thumbnail($);
+    
+      post.content = to_markdown(post.html);
 
       post = insert_metadata(post);
-
-      // console.log(content);
 
       console.log('...', post.path);
       fs.outputFile(post.path, post.content, function(err){

@@ -80,24 +80,7 @@ function main (blog, output_directory, callback) {
     tags = post.tags;
     path_without_extension = join(output_directory, determine_path(title, page, draft, dateStamp));
 
-    download_images(content, path_without_extension, function(err, content, has_images){
-
-      if (err) throw err;
-
-      if (has_images) {
-        path = path_without_extension + '/post.txt';
-      } else {
-        path = path_without_extension + '.txt';
-      }
-
-      try {
-        content = to_markdown(content);
-      } catch (e) {
-        throw e;
-      }
-
-      // Add the new post to the list of posts!
-      post = {
+    post = {
 
         draft: false,
         page: false,
@@ -107,7 +90,7 @@ function main (blog, output_directory, callback) {
         name: '',
         permalink: '',
         summary: '',
-        path: path,
+        path: path_without_extension,
 
         title: title,
         
@@ -120,11 +103,20 @@ function main (blog, output_directory, callback) {
         // Clean up the contents of the <content>
         // tag. Evernote has quite a lot of cruft.
         // Then convert into Markdown!
-        content: content
+        html: content
       };
 
+    download_images(post, function(err, post){
+
+      if (err) throw err;
+
+      post.content = to_markdown(post.html);
       post = insert_metadata(post);
 
+      // Add the new post to the list of posts!
+      
+
+      
       // console.log(content);
 
       console.log('...', post.path);

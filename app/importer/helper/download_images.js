@@ -8,40 +8,72 @@ var each_el = require('./each_el');
 // as the file's name: 
 // http://www.bearcave.com/misl/misl_tech/wavelets/compression/shannon.html
 
-module.exports = function download_images (content, parent_folder, callback) {
+function download_thumbnail (thumbnail, path, callback) {
+
+  if (!thumbnail) return callback();
+
+  console.log('here', thumbnail, path);
+
+  var name = nameFrom(thumbnail);
+
+  download(thumbnail, {directory: path, filename: name}, function(err){
+
+    if (err) return callback(err);
+
+    return callback(null, name);
+  });
+}
+
+module.exports = function download_images (post, callback) {
 
   var changes = false;
-  var $ = cheerio.load(content, {decodeEntities: false});
+  var $ = cheerio.load(post.html, {decodeEntities: false});
 
-  each_el($, 'img', function(el, next){
+  download_thumbnail(post.metadata.thumbnail, post.path, function(err, thumbnail){
 
-    var src = $(el).attr('src');
+    if (!err && thumbnail) {
+      changes = true;
+      post.metadata.thumbnail = thumbnail;
+    }
 
-    if (!src || src.indexOf('data:') === 0)
-      return next();
+    each_el($, 'img', function(el, next){
 
-    var name = nameFrom(src);
-    if (name.charAt(0) !== '_') name = '_' + name;
+      var src = $(el).attr('src');
 
-    download(src, {directory: parent_folder, filename: name}, function(err){
-
-      if (err) {
-        console.log('Image error', src, err);
+      if (!src || src.indexOf('data:') === 0)
         return next();
+
+      var name = nameFrom(src);
+      if (name.charAt(0) !== '_') name = '_' + name;
+
+      download(src, {directory: post.path, filename: name}, function(err){
+
+        if (err) {
+          console.log('Image error', src, err);
+          return next();
+        }
+
+        changes = true;
+
+        $(el).attr('src', name);
+
+        if ($(el).parent().attr('href') === src)
+          $(el).parent().attr('href', name);
+
+        next();
+      });
+    }, function(){
+
+      if (changes) {
+        post.path = post.path + '/post.txt';
+      } else {
+        post.path = post.path + '.txt';
       }
 
-      changes = true;
+      post.html = $.html();
 
-      $(el).attr('src', name);
-
-      if ($(el).parent().attr('href') === src)
-        $(el).parent().attr('href', name);
-
-      next();
+      callback(null, post);
     });
-  }, function(){
-
-    callback(null, $.html(), changes);
   });
 };
 

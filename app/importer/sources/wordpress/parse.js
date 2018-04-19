@@ -22,7 +22,7 @@ module.exports = function ($, output_directory, callback) {
   each_el($, 'item', function(el, next){
 
     var content, status, post_type, page, draft, dateStamp, tags, title;
-    var path_without_extension, path, post, created, updated, metadata;
+    var path_without_extension, post, created, updated, metadata;
 
     var extract = new Extract($,el);
 
@@ -58,22 +58,7 @@ module.exports = function ($, output_directory, callback) {
 
     path_without_extension = join(output_directory, determine_path(title, page, draft, dateStamp));
 
-    download_images(content, path_without_extension, function(err, content, has_images){
-
-      if (err) throw err;
-
-      if (has_images) {
-        path = path_without_extension + '/post.txt';
-      } else {
-        path = path_without_extension + '.txt';
-      }
-
-      content = fix_missing_p_tags(content);
-
-      content = to_markdown(content);
-
-      // Add the new post to the list of posts!
-      post = {
+    post = {
 
         draft: draft,
         page: page,
@@ -83,7 +68,7 @@ module.exports = function ($, output_directory, callback) {
         name: '',
         permalink: '',
         summary: '',
-        path: path,
+        path: path_without_extension,
 
         title: title,
         
@@ -96,9 +81,15 @@ module.exports = function ($, output_directory, callback) {
         // Clean up the contents of the <content>
         // tag. Evernote has quite a lot of cruft.
         // Then convert into Markdown!
-        content: content
+        html: content
       };
 
+    download_images(post, function(err, post){
+
+      if (err) throw err;
+
+      post.html = fix_missing_p_tags(post.html);
+      post.content = to_markdown(post.html);
 
       insert_metadata(post);
 
