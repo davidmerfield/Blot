@@ -55,6 +55,10 @@ Fix bug with how the date parser. It doesn't handles a space (or lack of space) 
 
 ---
 
+Finish Ghost theme import for Kingi
+
+Add export to zip and import to zip feature for themes
+
 New code directory structure
 - app
   - blog
