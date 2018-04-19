@@ -17,8 +17,8 @@ module.exports = function (blog, output_directory, callback) {
 
   forEach(blog.posts, function(post, next){
 
-    var created, updated, metadata, path_without_extension;
-    var title, dateStamp, tags, draft, page, html, path;
+    var created, updated, metadata, path;
+    var title, dateStamp, tags, draft, page, html;
 
     title = post.title;
     
@@ -39,50 +39,44 @@ module.exports = function (blog, output_directory, callback) {
   
     html = post.html;
 
-    if (post.feature_image) html = '<img src="' + post.feature_image + '">\n\n';
+    if (post.feature_image) {
+      metadata.thumbnail = require('url').resolve('http://www.kingigilbert.com/', post.feature_image);
+    }
 
     html = resolve_url('http://www.kingigilbert.com/', html);
+    path = join(output_directory, determine_path(title, page, draft, dateStamp));
 
-    path_without_extension = join(output_directory, determine_path(title, page, draft, dateStamp));
+    // Add the new post to the list of posts!
+    post = {
 
-    download_images(html, path_without_extension, function(err, html, has_images){
+      draft: draft,
+      page: page,
 
-      if (err) return callback(err);
+      // We don't know any of these properties
+      // as far as I can tell.
+      name: '',
+      permalink: '',
+      summary: '',
+      path: path,
+
+      title: title,
       
-      if (has_images) {
-        path = path_without_extension + '/post.txt';
-      } else {
-        path = path_without_extension + '.txt';
-      }
+      dateStamp: dateStamp,
+      created: created,
+      updated: updated,
+      tags: tags,
+      metadata: metadata,
+      html: html
+    };
 
+    download_images(post, function(err, post){
+      
       if (err) return callback(err);
 
-      // Add the new post to the list of posts!
-      post = {
-
-        draft: draft,
-        page: page,
-
-        // We don't know any of these properties
-        // as far as I can tell.
-        name: '',
-        permalink: '',
-        summary: '',
-        path: path,
-
-        title: title,
-        
-        dateStamp: dateStamp,
-        created: created,
-        updated: updated,
-        tags: tags,
-        metadata: metadata,
-        
-        // Clean up the contents of the <content>
-        // tag. Evernote has quite a lot of cruft.
-        // Then convert into Markdown!
-        content: to_markdown(html)
-      };
+      // Clean up the contents of the <content>;
+      // tag. Evernote has quite a lot of cruft.
+      // Then convert into Markdown!
+      post.content = to_markdown(post.html);
 
       post = insert_metadata(post);
 
