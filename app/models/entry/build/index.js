@@ -3,6 +3,7 @@ var callOnce = helper.callOnce;
 var ensure = helper.ensure;
 var time = helper.time;
 var normalize = helper.pathNormalizer;
+var isDraft = require('../../../drafts').isDraft;
 
 var Build = require('./single');
 var Prepare = require('./prepare');
@@ -27,46 +28,52 @@ module.exports =  function (blog, path, callback) {
   // path might need to change
   // for image captions, album items...
 
-  Build(blog, path, function(err, html, metadata, stat){
+  isDraft(blog.id, path, function(err, is_draft){
 
     if (err) return callback(err);
 
-    Thumbnail(blog, path, metadata, html, function(err, thumbnail){
+    Build(blog, path, function(err, html, metadata, stat){
 
-      // Could be lots of reasons (404?)
-      if (err || !thumbnail) thumbnail = {};
+      if (err) return callback(err);
 
-      var entry;
+      Thumbnail(blog, path, metadata, html, function(err, thumbnail){
 
-      // Given the properties above
-      // that we've extracted from the
-      // local file, compute stuff like
-      // the teaser, isDraft etc..
-      try {
+        // Could be lots of reasons (404?)
+        if (err || !thumbnail) thumbnail = {};
 
-        time('PREPARE');
+        var entry;
 
-        entry = {
-          html: html,
-          path: path,
-          id: normalize(path),
-          thumbnail: thumbnail,
-          metadata: metadata,
-          size: stat.size,
-          dateStamp: DateStamp(blog, path, metadata),
-          updated: moment.utc(stat.mtime).valueOf()
-        };
+        // Given the properties above
+        // that we've extracted from the
+        // local file, compute stuff like
+        // the teaser, isDraft etc..
+        try {
 
-        if (entry.dateStamp === undefined)
-          delete entry.dateStamp;
+          time('PREPARE');
 
-        entry = Prepare(entry);
+          entry = {
+            html: html,
+            path: path,
+            id: normalize(path),
+            thumbnail: thumbnail,
+            draft: is_draft,
+            metadata: metadata,
+            size: stat.size,
+            dateStamp: DateStamp(blog, path, metadata),
+            updated: moment.utc(stat.mtime).valueOf()
+          };
 
-        time.end('PREPARE');
+          if (entry.dateStamp === undefined)
+            delete entry.dateStamp;
 
-      } catch (e) {return callback(e);}
+          entry = Prepare(entry);
 
-      return callback(null, entry);
+          time.end('PREPARE');
+
+        } catch (e) {return callback(e);}
+
+        return callback(null, entry);
+      });
     });
   });
 };

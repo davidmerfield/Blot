@@ -17,21 +17,26 @@ module.exports = function (blogID, path, callback){
     .and(path, 'string')
     .and(callback, 'function');
 
-  // Build a queue. This assumes each method
-  // can handle folders properly. And accepts a callback
-  var queue = [
-    Metadata.drop.bind(this, blogID, path),
-    Ignored.drop.bind(this, blogID, path),
-    Rename.forDeleted.bind(this, blogID, path),
-    Entry.drop.bind(this, blogID, path),
-    fs.remove.bind(this, LocalPath(blogID, path))
-  ];
+  // We don't know if this file used to be a draft based 
+  // on its metadata. We should probably look this up?
+  isDraft(blogID, path, function(err, is_draft){
 
-  if (isDraft(path)) Preview.remove(blogID, path);
+    // Build a queue. This assumes each method
+    // can handle folders properly. And accepts a callback
+    var queue = [
+      Metadata.drop.bind(this, blogID, path),
+      Ignored.drop.bind(this, blogID, path),
+      Rename.forDeleted.bind(this, blogID, path),
+      Entry.drop.bind(this, blogID, path),
+      fs.remove.bind(this, LocalPath(blogID, path))
+    ];
 
-  forEach(queue, function(method, next){
+    if (is_draft) Preview.remove(blogID, path);
 
-    method(next);
+    forEach(queue, function(method, next){
 
-  }, callback);
+      method(next);
+
+    }, callback);
+  });
 };

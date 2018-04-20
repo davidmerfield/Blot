@@ -10,7 +10,6 @@ var basename = require('path').basename;
 var normalize = helper.urlNormalizer;
 var pathNormalizer = helper.pathNormalizer;
 var type = helper.type;
-var isDraft = require('../../../../drafts').isDraft;
 
 var makeSlug = helper.makeSlug;
 var ensure = helper.ensure;
@@ -48,6 +47,7 @@ function Prepare (entry) {
     .and(entry.size, 'number')
     .and(entry.html, 'string')
     .and(entry.updated, 'number')
+    .and(entry.draft, 'boolean')
     .and(entry.metadata, 'object');
 
   time('name');
@@ -112,7 +112,10 @@ function Prepare (entry) {
 
   entry.deleted = false;
 
-  entry.draft = isDraft(entry.path);
+  // An entry is a draft if it has draft: yes in its metadata, or if it is inside
+  // a folder called drafts. 
+  if (truthy(entry.metadata.draft)) 
+    entry.draft = true;
 
   // An entry becomes a page if it:
   // begins with an underscore
