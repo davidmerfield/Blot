@@ -5,7 +5,6 @@ Improve the selection of templates
 
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
-
 ---
 
 
@@ -56,6 +55,7 @@ Fix bug with how the date parser. It doesn't handles a space (or lack of space) 
 ---
 
 Finish Ghost theme import for Kingi
+https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69
 
 Add export to zip and import to zip feature for themes
 
@@ -154,7 +154,8 @@ Clients
   tell https://twitter.com/ohhhnine/status/951151349705691136
 - SFTP
   https://www.npmjs.com/package/ftpd
-
+- Google Drive
+  Tell Cecil: https://twitter.com/Blot__/status/988162892594860032?s=20
 
 Record a new demo video
 - Show sites I run using Blot
