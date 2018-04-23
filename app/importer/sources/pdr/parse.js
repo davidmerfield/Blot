@@ -51,8 +51,8 @@ function main (output_directory, blog, callback) {
 
     $ = cheerio.load(content, {decodeEntities: false});
 
-    author = extract_author($);
-    metadata.author = author || 'Adam Green';
+    // author = extract_author($);
+    // metadata.author = author || 'Adam Green';
 
     tidy_figures($);
     tidy_footnotes($);

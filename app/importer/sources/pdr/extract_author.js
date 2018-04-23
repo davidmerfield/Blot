@@ -1,6 +1,6 @@
 module.exports = function ($) {
 
-  // console.log($.html());
+  console.log($.html());
 
   var candidates = [];
   var best_guess;
@@ -27,18 +27,19 @@ module.exports = function ($) {
   $('hr + p strong').last()
     .add($('hr + p span strong').last())
     .add($('p span strong').last())
+    .add($('p em'))
     .add($('p strong'))
     .each(function(i, el){
       candidates.push({text: $(el).text(), score: calculate_score(el)});
     });
 
-  // console.log(candidates);
+  console.log(candidates);
 
   best_guess = candidates.reduce(function(sum, value) {
     return (sum.score > value.score) ? sum : value;
   }, candidates[0]);
 
-  // console.log('BEST GUESS', best_guess.text);
+  console.log('BEST GUESS', best_guess.text);
 
   return best_guess.text;
 };
