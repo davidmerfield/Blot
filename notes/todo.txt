@@ -7,7 +7,6 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
-
 Fix bug with disqus plugin on preview subdomains
 
 Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note)
