@@ -26,7 +26,14 @@ if (require.main === module) {
 function main (callback) {
 
   var page_no = 1;
-  var articles = [];
+
+  // For some reason these show on the homepage but not the essay page
+  // so we hard code them here for now...
+  var articles = [
+    'http://publicdomainreview.org/2018/04/04/fallen-angels-birds-of-paradise-in-early-modern-europe/',
+    'http://publicdomainreview.org/2018/04/18/made-in-taiwan-how-a-frenchman-fooled-18th-century-london/'
+  ];
+  
   var base_url = 'http://publicdomainreview.org/essays/page/';
 
   console.log("Retrieving articles...");
@@ -57,7 +64,7 @@ function main (callback) {
 
     console.log("... Found", articles.length, 'articles...');
 
-    has_more = $('.link-last a').text().trim() === 'Next &raquo;';
+    has_more = $('.link-last a').text().trim() === 'Next »';
 
     if (has_more) return request(base_url + (++page_no) + '/', then);
 
