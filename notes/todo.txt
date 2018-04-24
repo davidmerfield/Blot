@@ -1,6 +1,11 @@
 Improve the selection of templates
 - Don't modify any code, just design templates
+- Release Magazine theme
+- Release Grid theme
+- Release Photo theme
+- Build script to archive a particular theme
 - Design for sites with specific kinds of posts
+- Draw simple abstract representations of each theme for the themes page to replace thumbnails
 - Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
 
 Increase price for new customers to $30 a year. This will not affect existing customers.
