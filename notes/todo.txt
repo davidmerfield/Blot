@@ -61,6 +61,9 @@ Fix bug with how the date parser. It doesn't handles a space (or lack of space) 
 Finish Ghost theme import for Kingi
 https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69
 
+Look into mirroring site across multiple domains and follow up with Thomas
+https://mail.google.com/mail/u/1/#inbox/1625012def221a8f
+
 Add export to zip and import to zip feature for themes
 
 New code directory structure
