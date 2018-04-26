@@ -11,6 +11,7 @@ var extend = helper.extend;
 var join = require('path').join;
 var config = require('config');
 var pandoc_path = config.pandoc_path;
+var hash = helper.hash;
 
 function is (path) {
   return ['.docx'].indexOf(extname(path).toLowerCase()) > -1;
@@ -32,7 +33,7 @@ function read (blog, path, callback) {
   var outPath = outDir + '/out.html';
 
   var blogDir = join(config.blog_static_files_dir, blog.id);
-  var assetDir = join(blogDir, '_assets');
+  var assetDir = join(blogDir, '_assets', hash(path));
 
   mkdirp(outDir, function(err){
 
