@@ -27,6 +27,29 @@ if (config.maintenance) {
   });
 }
 
+// For users who paid by PayPal I have a tool to skip the Stripe
+// form using an access token I generate myself
+paymentForm.get(function(req, res, next){
+
+  // Just a regular old request, carry on.
+  if (!req.query.already_paid) return next();
+
+  // First we make sure that the access token passed is valid.
+  User.checkAccessToken(req.query.already_paid, function(err, email){
+
+    if (err || !email) {
+      err = new Error('The link you just used is not valid, please ask David to send you another one.')
+      return next(err);
+    }
+
+    req.session.email = email;
+    req.session.subscription = {};
+    req.session.already_paid = true;
+
+    next();
+  });
+});
+
 paymentForm.get(function(req, res){
 
   if (req.session && req.session.email && req.session.subscription)
@@ -110,6 +133,7 @@ passwordForm.get(function(req, res){
   res.locals.subscription = !!req.session.subscription;
   res.locals.error = req.query.error;
   res.locals.change_email = req.query.change_email;
+  res.locals.already_paid = req.session.already_paid;  
   res.locals.menu = {'sign-up': 'selected'};
 
   res.render('sign-up-password');
