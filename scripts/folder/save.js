@@ -24,7 +24,9 @@ function main (label, callback) {
   verify_overwrite(label, join(dumps, label), function(err){
     
     if (err) return callback(err);
-  
+    
+    fs.emptyDirSync(join(dumps, label));
+    
     fs.copy(blog_dir, join(dumps, label), function(err) {
 
       if (err) return callback(err);
