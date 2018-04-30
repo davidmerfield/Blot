@@ -2,6 +2,7 @@
   "name": "Magazine",
   "isPublic": true,
   "views": {
+    "tags": {"url": "/tags"},
     "css-theme": {"url": "/css-theme.css"},
     "js-barbra": {"url": "/js-barba.js"},
     "js-jquery": {"url": "/js-jquery.js"},
