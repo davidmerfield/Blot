@@ -1,0 +1,37 @@
+{{> header}}
+
+<div class="flex pt4 mt2 pb2" style="align-items:baseline;flex-direction:row">
+  <h1 style="border-color:#f1f1f1;flex-grow:1" class="fw9 measure-wide black db mv2 pt0 pb3 lh-title f1 ">{{tag}}</h1>
+  <a class="fr pt4 black-50 no-underline mb4" href="/tags">All sections →</a>
+</div>
+
+{{#entries}}
+{{> entry_line}}
+{{/entries}}
+
+<!--<div class="dn clip-3 pl5 nl3 nr3 flex" style="flex-direction:row;align-items:baseline">
+{{#entries}}
+    	<a class="dim ph3 fl no-underline w-third db b--black-05 pb4 flex" style="flex-direction:column"href="{{url}}"> 
+        	<span class="db" style="outline: 1px solid rgba(0,0,0,.12);
+    outline-offset: -1px;">
+    {{#thumbnail.medium}}
+    <img style="width:100%;vertical-align:bottom" src="{{url}}">
+    {{/thumbnail.medium}}
+      </span>
+          <span class="fw9 black-80 db lh-title f4 pv3 tracked-tight" style="line-height:1.15">{{title}}</span>
+             
+	    <span class="db black-50 f6  lh-copy" style="flex-grow:1;flex-basis:2em;hyphens: auto;">{{summary}}...</span>
+              
+              <span class="mt4 db f6 " style="height:1.25em;overflow:hidden">
+      	<span date-from-now="{{dateStamp}}" class="dib black-50 mr2">{{#formatDate}}MMM M, YYYY{{/formatDate}}</span>  
+      	<span class="fw6 clip-2 black-80">{{#tags}}<span class="dib">{{^first}} & {{/first}}{{name}}</span>{{/tags}}</span>
+    </span> 
+              
+        <span class="bb   b--black-05 mv3 pt2"></span>
+	  </a>  </a>
+{{/entries}}
+</div><p class="mh5 mb3 fw5 ">More in {{tag}}</p>
+-->
+
+
+{{> footer}}

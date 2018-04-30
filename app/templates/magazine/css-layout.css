@@ -1,0 +1,65 @@
+/* LAYOUT */
+
+/* Ensure consistency in the layout.css for users with the image zoom plugin
+   and those without. What a nightmare! */
+
+.container {position: relative;}
+
+.margin {
+  box-sizing: border-box;
+  width: 33%;
+  overflow: auto;
+}
+
+
+
+
+.margin > :first-child,
+.inside > :first-child {margin-top:0}
+
+.margin h1, .margin h2, .margin h3 {margin-top:0}
+.margin p,
+.inside p {font-size:0.875rem;line-height:1.425}
+
+.margin p img {margin-top: 5px}
+
+.left.margin,
+.left.inside {
+  float: left;
+  padding-right: 2rem;
+  /* margin-top: 3rem; */
+  max-width: 35%;
+}
+
+.right.inside {
+  max-width:35%;
+  float:right;
+  padding-left:2rem;
+}
+
+.right.margin {
+  position: absolute;
+  right: -35.58%;
+  width: 35.58%;
+  padding-left: 3rem;
+}
+
+.wide {
+  width: 142%;
+  overflow: auto; /* collapse internal margins */
+}
+
+.wide.left, .wide.right {
+  width: 129.3333333%;
+  float: none;
+  margin: 0 -29.3333333% 0 0;
+}
+
+.column {box-sizing: border-box;float: left;}
+
+.column.two {width: 50%;padding-right: 11px;}
+
+.column.three {width: 33%;padding-right: 22px;}
+
+.column.two + .column.two {padding: 0 0 0 11px;}
+
