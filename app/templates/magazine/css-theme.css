@@ -124,8 +124,12 @@ border: none;}
   right:0;
   z-index:1;
   bottom:0;
-  background:linear-gradient(to right,transparent, {{sidebar_color}});}
-  
+  background: -webkit-gradient(linear,left top, right top,from(transparent),to(#fff));
+  background: -webkit-linear-gradient(left,transparent,#fff);
+  background: -o-linear-gradient(left,transparent,#fff);
+  background: linear-gradient(to right,transparent,#fff);
+}
+
   
 .no-border-5 a:nth-child(n+5) .bb {display:none}
 .no-border-4 a:nth-child(n+4) .bb {display:none}
