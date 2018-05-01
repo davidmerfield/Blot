@@ -124,10 +124,10 @@ border: none;}
   right:0;
   z-index:1;
   bottom:0;
-  background: -webkit-gradient(linear,left top, right top,from(transparent),to(#fff));
-  background: -webkit-linear-gradient(left,transparent,#fff);
-  background: -o-linear-gradient(left,transparent,#fff);
-  background: linear-gradient(to right,transparent,#fff);
+  background: -webkit-gradient(linear,left top, right top,from(rgba(0,0,0,0)),to(#fff));
+  background: -webkit-linear-gradient(left,rgba(0,0,0,0),#fff);
+  background: -o-linear-gradient(left,rgba(0,0,0,0),#fff);
+  background: linear-gradient(to right,rgba(0,0,0,0),#fff);
 }
 
   
