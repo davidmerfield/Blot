@@ -1,12 +1,19 @@
+Magazine theme
+- Fix nash's css bugs https://twitter.com/nashp/status/991394215849545735
+- Ensure disqus comments work
+- Ensure empty blog posts work
+- Ensure blog posts with one character work
+- Ensure titleless blog posts work
+
 Improve the selection of templates
 - Don't modify any code, just design templates
-- Release Magazine theme
-- Release Grid theme
-- Release Photo theme
 - Build script to archive a particular theme
-- Design for sites with specific kinds of posts
 - Draw simple abstract representations of each theme for the themes page to replace thumbnails
-- Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
+- Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new templates
+
+Grid theme
+- Find good source of material
+- Release the theme
 
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
@@ -14,7 +21,7 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 Fix bug with disqus plugin on preview subdomains
 
-Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note)
+Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note) this is seriously bad.
 
 Fix bug which occurs when Dropbox needs to reset the cursor of the folder
 
@@ -147,6 +154,7 @@ Template system
 - Local template editing does not clear cache
 - Use Hogan for precompiling and rendering templates?
 - Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know when it's possible to set routes locally
+- Let [Jason](https://mail.google.com/mail/u/1/#inbox/163186d43aaf52af) know when you can use tokens in routes
 - Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
 - Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
 - Warn users that underscore will not work for hidden pages
