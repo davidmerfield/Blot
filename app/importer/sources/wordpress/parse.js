@@ -1,15 +1,18 @@
-var each_el = require('each_el');
 var moment = require('moment');
-var _ = require('lodash');
-var to_markdown = require('to_markdown');
-var insert_metadata = require('insert_metadata');
-var Extract = require('extract');
-var download_images = require('download_images');
-var insert_video_embeds = require('insert_video_embeds');
-var determine_path = require('determine_path');
-var fix_missing_p_tags  = require('./fix_missing_p_tags');
 var join = require('path').join;
-var write = require('write');
+var helper = require('../../helper');
+
+var _ = require('lodash');
+var to_markdown = helper.to_markdown;
+var each_el = helper.each_el;
+var insert_metadata = helper.insert_metadata;
+var Extract = helper.extract;
+var download_images = helper.download_images;
+var insert_video_embeds = helper.insert_video_embeds;
+var determine_path = helper.determine_path;
+var fix_missing_p_tags  = require('./fix_missing_p_tags');
+var fix_markdown_bs = require('./fix_markdown_bs');
+var write = helper.write;
 
 module.exports = function ($, output_directory, callback) {
 
@@ -36,19 +39,17 @@ module.exports = function ($, output_directory, callback) {
     page = post_type === 'page';
     draft = status === 'draft' || status === 'private';
 
+    if (status === 'pending') return next();
+
     dateStamp = created = updated = moment(extract('pubDate')).valueOf();
     tags = _.uniq(extract('category', true));
     title = extract('title');
     
     if (!title)  {
-      console.log($.html(el));
-      throw '';
+      // console.log($.html(el));
+      // throw '';
     }
 
-    if (title.indexOf('2017') > -1) {
-      console.log($.html(el));
-      throw '';      
-    }
 
     content = extract('content:encoded');
     content = insert_video_embeds(content);
@@ -89,6 +90,8 @@ module.exports = function ($, output_directory, callback) {
       if (err) throw err;
 
       post.html = fix_missing_p_tags(post.html);
+      post.html = fix_markdown_bs(post.html);
+
       post.content = to_markdown(post.html);
 
       insert_metadata(post);
