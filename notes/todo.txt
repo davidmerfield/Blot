@@ -1,9 +1,17 @@
+Work out way to cache stylesheet properly
+
+/style.css?foo=bar&ext=.css
+
 Magazine theme
 - Fix nash's css bugs https://twitter.com/nashp/status/991394215849545735
 - Ensure disqus comments work
 - Ensure empty blog posts work
 - Ensure blog posts with one character work
+- Fix bug which prevents bigfoot.js from appearing as a regular view
+- Fix bug with Barba.js which is not working
+- Add fade in out transitions
 - Ensure titleless blog posts work
+- Improve the about page
 
 Improve the selection of templates
 - Don't modify any code, just design templates
