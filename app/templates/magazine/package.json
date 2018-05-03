@@ -6,6 +6,7 @@
     "css-theme": {"url": "/css-theme.css"},
     "js-barbra": {"url": "/js-barba.js"},
     "js-jquery": {"url": "/js-jquery.js"},
+    "js-bigfoot": {"url": "/js-bigfoot.js"},
     "js-medium-zoom": {"url": "/js-medium-zoom.js"},
     "js-smoothscroll": {"url": "/js-smoothscroll.js"}
   },

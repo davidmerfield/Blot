@@ -147,7 +147,9 @@ dates.forEach(function(el){
   el.innerHTML = new_str;
 });
 
-init();
+$(function() {
+  init();
+});
 
 function init () {
 
