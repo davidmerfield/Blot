@@ -52,6 +52,7 @@ function build () {
       });
 
     }, function(){
+      require('../cache/empty')();
       console.log('ALL TEMPLATES BUILT');
     });
   });
