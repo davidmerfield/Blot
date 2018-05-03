@@ -1,7 +1,5 @@
 Work out way to cache stylesheet properly
 
-/style.css?foo=bar&ext=.css
-
 Magazine theme
 - Fix nash's css bugs https://twitter.com/nashp/status/991394215849545735
 - Ensure disqus comments work
@@ -13,19 +11,22 @@ Magazine theme
 - Ensure titleless blog posts work
 - Improve the about page
 
+Grid theme
+- Find good source of material
+- Release the theme
+
 Improve the selection of templates
 - Don't modify any code, just design templates
 - Build script to archive a particular theme
 - Draw simple abstract representations of each theme for the themes page to replace thumbnails
 - Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new templates
 
-Grid theme
-- Find good source of material
-- Release the theme
-
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
+
+Fix bug with Word Document links and tell Rodericus 
+https://twitter.com/Rodericus/status/992082759798677505
 
 Fix bug with disqus plugin on preview subdomains
 
