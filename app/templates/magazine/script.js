@@ -153,9 +153,6 @@ $(function() {
 
 function init () {
 
-  // Bigfoot
-  $.bigfoot();
-
   // Smooth scroll
   var scroll = new SmoothScroll('a[href*="#"]');
 
