@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html>
-	{{> head}}
+	
+  {{> head}}
+
 	<body class="sans-serif bg-background f5 center collapse-menu" id="barba-wrapper">
-		<div id="top"></div>
+		
+    <div id="top"></div>
       	
 		<div id="open-nav-container" class="no-underline db cf bb b--black-10  nl3 nr3 ">
           {{#avatar}}
-          <a href="/" class="dib pa3 no-underline"><img class="fl w2" src="{{avatar}}"></a>
+          <a href="/" class="dib fl pa3 no-underline"><img class="fl w2" src="{{avatar}}"></a>
           {{/avatar}}
-            
-          <a href="/"  id="open-nav" class="dib no-underline pa3 fr"><span class="bg-background  br-100 b--black-50 black-50  ba  w2 h2 lh2 tc black db fr f3 fw3" style="transform:rotate(90deg)">| | |</span></a>
+          {{^avatar}}
+<a href="/" class="lh-copy fl no-underline pa3 dim dib f3 fw3 black-80" title="The homepage of {{title}}">
+        {{#avatar}}<img class="avatar v-btm" src="{{{avatar}}}">{{/avatar}}
+        {{^avatar}}{{title}}{{/avatar}}
+      </a>
+                {{/avatar}}
+                <!--  -->
+          <a href="/"  id="open-nav" class="dib no-underline pa3 fr" style="transform:rotate(90deg);"><span class="bg-background  br-100 b--black-50 black-50 ba w2 h2 lh2 tc black relative db fr f3 fw3" style="box-sizing:border-box"><span class="tc" style="">|||</span></span></a>
       </div>
       
 		<div class="nav fixed bg-sidebar br b--black-10 lh-copy pr5 " style="top:-10rem;bottom:-10rem;padding-top:10rem;padding-bottom:10rem;">

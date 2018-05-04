@@ -198,6 +198,9 @@ h1 em {font-style:normal}
 
 .nav {width:12rem}
 
+/* Month baseline fix on Archives page */
+h3.f6 {line-height:1.25;}
+
   @media (max-width:950px) {
     .entry-line .w-third,
     .featured-entry .w-two-thirds,
@@ -235,6 +238,8 @@ h1 em {font-style:normal}
     .featured-entry .lh-title {margin-top:1rem}
     .featured-entry a {padding-top:0}
    	
+    h3.f6 {font-size: 0.7rem;line-height: 1.8}
+
     .w-50.fl.pr4,
      .w-50.fr.pl2 {width:100%;padding-right:0;padding-left:0}
     

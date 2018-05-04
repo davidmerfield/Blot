@@ -1,5 +1,9 @@
 {{> header}}
 
+{{^pagination.previous}}{{^entries.length}}
+<p class="black-50 pt3">Nothing published yet.</p>
+{{/entries.length}}{{/pagination.previous}}
+
 {{#pagination.previous}}
 <div class="mt5 ">
   {{#pagination}}

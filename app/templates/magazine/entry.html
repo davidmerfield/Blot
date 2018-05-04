@@ -41,49 +41,63 @@
   <span class="db f6 bt b--black-10 black-50 pv3">Up next</span>
 
   
-{{#previous}}
+{{#entry}}
 
-<a href="{{{url}}}" class=" pb3 lh-title fl dim no-underline">
+{{#previous}}
+<a href="{{{url}}}" class="db pb3 lh-title  dim no-underline">
 <span class="db">
+  {{#previous.thumbnail.medium}}
   <span class="db" style="outline: 1px solid rgba(0,0,0,.12);
     outline-offset: -1px;max-height:14rem;overflow:hidden">
-    {{#thumbnail.medium}}
     <img style="width:100%" src="{{url}}">
-    {{/thumbnail.medium}}
    </span>
-</span>
-    <span class="mt3 fw6 black-80 db f5 pb2 tracked-tight" >{{title}}</span>
-  
+  </span>
+  {{/previous.thumbnail.medium}}
+  {{^previous.thumbnail.medium}}
+  <span class="db bt b--black-10"></span>
+  {{/previous.thumbnail.medium}}  
+  <span class="mt3 fw6 black-80 db f5 pb2 tracked-tight" >{{title}}</span>
+  {{^previous.thumbnail.medium}}
+  <span class="black-50 db f6" >{{summary}}</span>
+  {{/previous.thumbnail.medium}}  
 </a>
 {{/previous}}
- {{#next}}
-  
-<a href="{{{url}}}" class=" pb3 lh-title fl dim no-underline">
+
+{{#next}}
+<a href="{{{url}}}" class="db pb3 lh-title  dim no-underline">
 <span class="db">
+  {{#next.thumbnail.medium}}
   <span class="db" style="outline: 1px solid rgba(0,0,0,.12);
     outline-offset: -1px;max-height:14rem;overflow:hidden">
-    {{#thumbnail.medium}}
     <img style="width:100%" src="{{url}}">
-    {{/thumbnail.medium}}
    </span>
-</span>
-    <span class="mt3 fw6 black-80 db f5 pb2 tracked-tight" >{{title}}</span>
-  
+  </span>
+  {{/next.thumbnail.medium}}
+  {{^next.thumbnail.medium}}
+  <span class="db bt b--black-10"></span>
+  {{/next.thumbnail.medium}}  
+  <span class="mt3 fw6 black-80 db f5 pb2 tracked-tight" >{{title}}</span>
+  {{^next.thumbnail.medium}}
+  <span class="black-50 db f6" >{{summary}}</span>
+  {{/next.thumbnail.medium}}  
 </a>
 {{/next}}
 
+{{/entry}}
 </div>
   
   
 <div class="w-50 fr pl2 f6 clip-10 lh-title">
   <span class="db  bt b--black-10 black-50 pv3">Latest posts</span>
 {{#recent_entries}}
-  <a href="{{{url}}}" class="dim no-underline db pv2 bt b--black-10" style="position:relative">
+  <a href="{{{url}}}" class=" dim no-underline db pv2 bt b--black-10" style="position:relative">
     <span class="w-10 fr db" style="background: no-repeat url({{thumbnail.medium.url}}) 0 0 / cover">
       <span class=" db" style="height:0;padding-bottom:100%;overflow:hidden">
        </span>
     </span>
-    <span class="fl w-80 db black-80" style="height:2.5em;overflow:hidden;">{{title}}</span>
+    <span class="fl w-80 db black-80 flex" style="height:2.5em;display: flex;
+  flex-direction: column;
+  justify-content: center;overflow:hidden;"><span >{{title}}</span></span>
       
     <span class="cf"></span>
   </a>
