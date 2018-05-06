@@ -8,7 +8,11 @@ var each_el = require('./each_el');
 // as the file's name: 
 // http://www.bearcave.com/misl/misl_tech/wavelets/compression/shannon.html
 
-function download_thumbnail (thumbnail, path, callback) {
+function download_thumbnail (post, path, callback) {
+
+  if (!post || !post.metadata || !post.metadata.thumbnail) return callback();
+
+  var thumbnail = post.metadata.thumbnail;
 
   if (!thumbnail) return callback();
 
@@ -29,7 +33,7 @@ module.exports = function download_images (post, callback) {
   var changes = false;
   var $ = cheerio.load(post.html, {decodeEntities: false});
 
-  download_thumbnail(post.metadata.thumbnail, post.path, function(err, thumbnail){
+  download_thumbnail(post, post.path, function(err, thumbnail){
 
     if (!err && thumbnail) {
       changes = true;
