@@ -43,6 +43,15 @@ module.exports = function(locals, doThis) {
         continue;
       }
 
+      if (type(local, 'array') && !(local[0] instanceof Entry)) {
+
+        // Make modifications to this entry list
+        local = list(local);
+
+        continue;
+      }
+
+
       // This is an entry list, we could do shit to it too
       if (type(local, 'array') && local[0] instanceof Entry) {
 
