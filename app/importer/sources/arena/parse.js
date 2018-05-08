@@ -69,7 +69,7 @@ function main (output_directory, posts, callback) {
       // post = insert_metadata(post);
 
       console.log(++done + '/' + posts.length, '...', post.path);
-      
+
       write(post, function(err){
         
         if (err) return callback(err);
@@ -92,9 +92,6 @@ if (require.main === module) {
   if (!output_directory) throw new Error('Please pass output directory as second argument');
 
   var posts = fs.readJsonSync(input_file);
-
-  console.log('!!!!! generating trimmed version of site');
-  posts = posts.slice(0, 400);
 
   fs.emptyDir(output_directory, function(err){
 
