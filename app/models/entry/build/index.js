@@ -32,7 +32,7 @@ module.exports =  function (blog, path, callback) {
 
     if (err) return callback(err);
 
-    Build(blog, path, function(err, html, metadata, stat){
+    Build(blog, path, function(err, html, metadata, stat, dependencies){
 
       if (err) return callback(err);
 
@@ -59,6 +59,7 @@ module.exports =  function (blog, path, callback) {
             draft: is_draft,
             metadata: metadata,
             size: stat.size,
+            dependencies: dependencies,
             dateStamp: DateStamp(blog, path, metadata),
             updated: moment.utc(stat.mtime).valueOf()
           };

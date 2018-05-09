@@ -16,6 +16,7 @@ module.exports =  {
       path: 'string',
       size: 'number',
       tags: 'array',
+      dependencies: 'array',
       menu: 'boolean',
       page: 'boolean',
       deleted: 'boolean',
