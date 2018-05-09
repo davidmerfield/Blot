@@ -1,4 +1,5 @@
 var Metadata = require('./metadata');
+var Dependencies = require('./dependencies');
 var helper = require('../../../helper');
 var Plugins = require('../../../plugins').convert;
 var ensure = helper.ensure;
@@ -74,18 +75,32 @@ module.exports = function(blog, path, callback){
 
     if (err) return callback(err);
 
-    var parsed, metadata;
+    var parsed, metadata, dependencies;
 
     // Now we extract any metadata from the file
     // This modifies the 'contents' if it succeeds
     try {
       parsed = Metadata(contents);
+      metadata = parsed.metadata;
+      contents = parsed.contents;
     } catch (err) {
       return callback(err);
     }
 
-    metadata = parsed.metadata;
-    contents = parsed.contents;
+
+    // We have to compute the dependencies before 
+    // passing the contents to the plugins because
+    // the image cache plugin replaces local URLs with
+    // remove URLs and this will prevent the dependency
+    // module from determining which other files in the blog's
+    // folder this file depends on.
+    try {
+      parsed = Dependencies(contents, path);
+      dependencies = parsed.dependencies;
+      contents = parsed.contents;
+    } catch (err) {
+      return callback(err);
+    }
 
     time('PLUGINS');
 
@@ -99,7 +114,7 @@ module.exports = function(blog, path, callback){
 
       html = fixMustache(html);
 
-      return callback(null, html, metadata, stat);
+      return callback(null, html, metadata, stat, dependencies);
     });
   });
 };
