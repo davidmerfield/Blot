@@ -22,6 +22,12 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
+Fix bug with cache not busting for static rendered templates:
+1. put posts in blog
+2. sync, create view e.g. static.js which renders all_entries
+3. remove posts from blog
+4. reload page, static.js still shows the entries, which archives.html does not
+
 Fix bug with Word Document links and tell Rodericus 
 https://twitter.com/Rodericus/status/992082759798677505
 
