@@ -10,6 +10,7 @@ var Ignored = require('ignored');
 var Rename = require('./set/catchRename');
 var Preview = require('../../modules/preview');
 var isDraft = require('../../drafts').isDraft;
+var rebuildDependents = require('./rebuildDependents');
 
 module.exports = function (blogID, path, callback){
 
@@ -27,6 +28,7 @@ module.exports = function (blogID, path, callback){
       Metadata.drop.bind(this, blogID, path),
       Ignored.drop.bind(this, blogID, path),
       Rename.forDeleted.bind(this, blogID, path),
+      rebuildDependents.bind(this, blogID, path),
       Entry.drop.bind(this, blogID, path),
       fs.remove.bind(this, LocalPath(blogID, path))
     ];

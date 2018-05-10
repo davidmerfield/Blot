@@ -6,10 +6,12 @@ var Blog = require('blog');
 
 var dependentsKey = Entry.key.dependents;
 
-module.exports = function (blogID, path, callback) {
+// The purpose of this module is to rebuild any
+// entries already in the user's folder which depend
+// on the contents of this particular file which was
+// just changed or removed.
 
-  // for each dependency, rebuild?
-  // how do we prevent an infinite loop for mutually dependent files?
+module.exports = function (blogID, path, callback) {
 
   Blog.get({id: blogID}, function(err, blog){
 

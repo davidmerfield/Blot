@@ -2,7 +2,7 @@ var helper = require('../../../helper');
 var ensure = helper.ensure;
 
 var normalize = helper.pathNormalizer;
-var rebuildDependents = require('./rebuildDependents');
+var rebuildDependents = require('../rebuildDependents');
 
 var Ignore = require('./ignore');
 var Metadata = require('../../../models/metadata');
