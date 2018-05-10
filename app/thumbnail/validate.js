@@ -4,6 +4,17 @@ var FORMATS = config.FORMATS;
 var MIN_WIDTH = config.MIN_WIDTH;
 var MIN_HEIGHT = config.MIN_HEIGHT;
 
+// Sharp seems to cache files based on their 
+// path and not the contents of the file at 
+// a particular path. It was returning stale
+// versions of a file in the blog's folder. 
+// Perhaps it might be smarter to copy the file
+// to the temporary directory before operating on it?
+// It's also possible that this is a bug in Sharp's
+// caching that has been fixed in a more recent version
+// or that still needs to be fixed. I should investigate.
+sharp.cache(false);
+
 module.exports = function (path, callback) {
 
   var image = sharp(path);

@@ -12,6 +12,19 @@ var sharp = require('sharp');
 // https://github.com/lovell/sharp/issues/138
 // sharp.concurrency(2);
 
+// Sharp seems to cache files based on their 
+// path and not the contents of the file at 
+// a particular path. It was returning stale
+// versions of a file in the blog's folder. 
+// Perhaps it might be smarter to copy the file
+// to the temporary directory before operating on it?
+// It's also possible that this is a bug in Sharp's
+// caching that has been fixed in a more recent version
+// or that still needs to be fixed. I should investigate.
+sharp.cache(false);
+
+
+// Not sure why I commented this out? Shit
 // https://github.com/lovell/sharp/issues/349
 // https://github.com/lovell/sharp/issues/315
 // sharp.cache(false);
