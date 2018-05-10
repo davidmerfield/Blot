@@ -14,6 +14,7 @@
     "csurf": "1.9.0",
     "datauri": "^1.1.0",
     "datejs": "^1.0.0-rc3",
+    "debug": "^3.1.0",
     "express": "^4.6.1",
     "express-brute": "^1.0.1",
     "express-brute-redis": "0.0.1",

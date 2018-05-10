@@ -13,6 +13,7 @@ var flushCache = require('../blog/flushCache');
 var setUrl = require('./_setUrl');
 
 // Queue items
+var rebuildDependencyGraph = require('./_rebuildDependencyGraph');
 var updateSearchIndex = require('./_updateSearchIndex');
 var updateTagList = require('../tags').set;
 var addToSchedule = require('./_addToSchedule');
@@ -39,6 +40,8 @@ module.exports = function set (blogID, path, updates, callback) {
     // Create an empty object if new entry
     entry = entry || {};
 
+    var previous_dependencies = entry.dependencies ? entry.dependencies.slice() : [];
+
     // Overwrite any updates to the entry
     for (var i in updates)
       entry[i] = updates[i];
@@ -52,6 +55,10 @@ module.exports = function set (blogID, path, updates, callback) {
 
     if (entry.dateStamp === undefined)
       entry.dateStamp = entry.created;
+
+    // ToDO remove this and ensure all existing entries have been rebuilt
+    if (entry.dependencies === undefined)
+      entry.dependencies = [];
 
     entry.scheduled = entry.dateStamp > Date.now();
 
@@ -93,7 +100,8 @@ module.exports = function set (blogID, path, updates, callback) {
         queue = [
           updateSearchIndex.bind(this, blogID, entry),
           updateTagList.bind(this, blogID, entry),
-          assignToLists.bind(this, blogID, entry)
+          assignToLists.bind(this, blogID, entry),
+          rebuildDependencyGraph.bind(this, blogID, entry, previous_dependencies)
         ];
 
         if (entry.scheduled)
