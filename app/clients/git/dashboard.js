@@ -25,62 +25,62 @@ dashboard.use(function (req, res, next){
   next();
 });
 
+console.log('Git: When resuming work on client, uncomment these lines')
+// var em = require('git-emit')(__dirname + '/repos/1.git');
+// var commit_id;
 
-var em = require('git-emit')(__dirname + '/repos/1.git');
-var commit_id;
+// em.on('post-receive', function(u){
 
-em.on('post-receive', function(u){
+//   console.log('post-receive', u.lines[0]);
 
-  console.log('post-receive', u.lines[0]);
+//   commit_id = u.lines[0].split(' ')[1];
+// });
 
-  commit_id = u.lines[0].split(' ')[1];
-});
+// em.on('post-update', function () {
 
-em.on('post-update', function () {
+//   var blog_id = '1';
+//   var changes;
 
-  var blog_id = '1';
-  var changes;
+//   exec('git -C ' + blog_dir(blog_id) + ' pull', function(err){
 
-  exec('git -C ' + blog_dir(blog_id) + ' pull', function(err){
+//     if (err) console.log(err);
 
-    if (err) console.log(err);
+//     console.log('Blog folder is synchronized');
 
-    console.log('Blog folder is synchronized');
+//     exec('git -C ' + blog_dir(blog_id) + ' diff-tree --name-status --no-commit-id --pretty -r ' + commit_id, function(err, out){
 
-    exec('git -C ' + blog_dir(blog_id) + ' diff-tree --name-status --no-commit-id --pretty -r ' + commit_id, function(err, out){
+//       if (err) console.log(err);
 
-      if (err) console.log(err);
+//       changes = out.trim().split('\n');
 
-      changes = out.trim().split('\n');
+//       Blog.get({id: blog_id}, function(err, blog){
 
-      Blog.get({id: blog_id}, function(err, blog){
+//         Sync(blog_id, function(callback){
 
-        Sync(blog_id, function(callback){
+//           forEach(changes, function(line, next){
 
-          forEach(changes, function(line, next){
+//             // Other options are A and M
+//             var should_delete = line.slice(0,1).trim() === 'D';
+//             var path = line.slice(2).trim();
 
-            // Other options are A and M
-            var should_delete = line.slice(0,1).trim() === 'D';
-            var path = line.slice(2).trim();
-
-            if (should_delete) {
-              Change.drop(blog_id, path, callback);
-            } else {
-              Change.set(blog, path, next);
-            }
+//             if (should_delete) {
+//               Change.drop(blog_id, path, callback);
+//             } else {
+//               Change.set(blog, path, next);
+//             }
               
-            next();
+//             next();
 
-          }, callback);
+//           }, callback);
 
-        }, function(){
+//         }, function(){
 
-          console.log('Sync complete!');
-        });
-      });
-    });
-  });
-});
+//           console.log('Sync complete!');
+//         });
+//       });
+//     });
+//   });
+// });
 
 
 dashboard.get('/', function (req, res, next) {
