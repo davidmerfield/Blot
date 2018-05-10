@@ -1,6 +1,6 @@
 var debug = require('debug')('build:dependencies:is_path');
 
-// There don't seem to be many paths
+// There don't seem to be many rules for paths...
 
 function is_path (string) {
 

@@ -3,6 +3,7 @@ var cheerio = require('cheerio');
 var is_url = require('./is_url');
 var debug = require('debug')('build:dependencies');
 var is_path = require('./is_path');
+
 // The purpose of this module is to take the HTML for
 // a given blog post and work out if it references any
 // files in the user's folder. For example, this image
@@ -13,8 +14,6 @@ var is_path = require('./is_path');
 // the HTML passed to it.
 
 function dependencies (path, html) {
-
-  debug(path, html);
 
   // In future it would be nice NOT to reparse the HTML
   // Multiple times. The plugins features also do this.
