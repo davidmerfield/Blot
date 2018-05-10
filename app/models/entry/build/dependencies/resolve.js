@@ -1,69 +1,53 @@
-var resolve = require('path').resolve;
-var Url = require('url');
+var dirname = require('path').dirname;
+var resolve_path = require('path').resolve;
+var debug = require('debug')('build:dependencies:resolve');
 
-function main (src, folder) {
+function resolve (path, value) {
 
-  if (!src) return src;
+  if (!path || !value) return value;
 
-  // We only want to resolve paths
-  if (isURL(src)) return src;
+  if (typeof path !== 'string') {
+    return value;
+  }
+
+  if (typeof value !== 'string') {
+    return value;
+  }
+  
+  var folder = dirname(path);
+
+  if (!value) {
+    debug(path, value, 'is null');
+    return value;
+  }
 
   // ... and they must not be absolute
-  if (src[0] === '/') return src;
+  if (value[0] === '/') {
+    debug(path, value, 'is absolute');
+    return value;
+  }
 
-  if (!folder) return src;
+  if (!folder) {
+    debug(path, value, 'has no folder');
+    return value;
+  }
 
   // Add leading slash to folder if it doesn
   // exist. Otherwise path.resolve somehow
   // involves __dirname in the thing
-  if (folder[0] !== '/')
+  if (folder[0] !== '/') {
+    debug(path, value, 'adding leading slash to folder', folder);
     folder = '/' + folder;
-
+  }
+    
   try {
-    src = resolve(folder, src);
-  } catch (e){}
-
-  return src;
-}
-
-var is = require('./is')(main);
-
-// Empties
-is('', '', '');
-is('', '/foo', '');
-is('foo.jpg', '', 'foo.jpg');
-
-// Resolve relative paths
-is('foo.jpg', '/bar', '/bar/foo.jpg');
-is('../foo.jpg', '/bat', '/foo.jpg');
-is('./foo.jpg', 'bar/baz', '/bar/baz/foo.jpg');
-
-// Don't mess with absolute paths
-is('//bar.jpg', '/foo', '//bar.jpg');
-is('/bar.jpg', '/foo/bar', '/bar.jpg');
-
-// Preserve urls
-is('//foo.com/bar.jpg', '/bat', '//foo.com/bar.jpg');
-is('https://foo.com/bar.jpg', '/bat', 'https://foo.com/bar.jpg');
-is('http://foo.com/bar.jpg', '/bat', 'http://foo.com/bar.jpg');
-
-function isURL (src) {
-
-  var url;
-
-  // prepend protocol automatically for next part
-  if (src.indexOf('//') === 0) src = 'http:' + src;
-
-  try {
-    url = Url.parse(src);
-  } catch (e) {
-    return false;
+    value = resolve_path(folder, value);
+  } catch (e){
+    // leaves src as is
   }
 
-  if (!url || !url.href || !url.host || !url.protocol)
-    return false;
-
-  return true;
+  debug(path, value, 'resolved value');
+  return value;
 }
 
-module.exports = main;
+module.exports = resolve;

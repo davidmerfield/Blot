@@ -1,43 +1,51 @@
-var dirname = require('path').dirname;
 var resolve = require('./resolve');
 var cheerio = require('cheerio');
+var is_url = require('./is_url');
+var debug = require('debug')('build:dependencies');
+var is_path = require('./is_path');
+// The purpose of this module is to take the HTML for
+// a given blog post and work out if it references any
+// files in the user's folder. For example, this image
+// does: <img src="apple.png"> but this video doesn't:
+// <video><source src="//example.com/movie.mp4"></video>
+// Our goal is to first resolve all relative file paths
+// then determine the list of dependencies. This modifies
+// the HTML passed to it.
 
-function dependencies (contents, path) {
-  
-  var $ = cheerio.load(contents, {decodeEntities: false});
+function dependencies (path, html) {
 
-  // console.log('Entry:', path, ':: Begin input HTML ::::::::::::::::::::');
-  // console.log($.html());
-  // console.log('Entry:', path, ':: End input HTML ::::::::::::::::::::::');
-  
+  debug(path, html);
+
+  // In future it would be nice NOT to reparse the HTML
+  // Multiple times. The plugins features also do this.
+  var $ = cheerio.load(html, {decodeEntities: false});  
   var dependencies = [];
-  var folder = dirname(path);
-  var attribute, resolved_attribute, not_resolved;
+  var attribute, value, resolved_value;
 
-  // This matches css
-  $('link[href]').each(try_resolve('href'));
+  // This matches CSS files in the blog post
+  // This matches just about everything else,
+  // including images, videos, scripts.
+  $('link[href], [src]').each(function(){
 
-  // Images
-  $('[src]').each(try_resolve('src'));
+    if (!!$(this).attr('href')) attribute = 'href';
+    if (!!$(this).attr('src')) attribute = 'src';
 
-  function try_resolve (attribute_name) {
+    value = $(this).attr(attribute);
 
-    return function () {
+    if (is_url(value)) return;
+  
+    if (!is_path(value)) return;
 
-      attribute = $(this).attr(attribute_name);
-      resolved_attribute = resolve(attribute, folder);
-      not_resolved = attribute === resolved_attribute;
+    resolved_value = resolve(path, value);
+    
+    $(this).attr(attribute, resolved_value);
+    if (dependencies.indexOf(resolved_value) === -1) dependencies.push(resolved_value);
+  });
 
-      if (not_resolved) return;
 
-      $(this).attr(attribute_name, resolved_attribute);
-      dependencies.push(resolved_attribute);
-    };
-  }
-
-  // console.log('Entry:', path, ':: Calculated dependencies are', dependencies);
-
-  return {contents: $.html(), dependencies: dependencies};
+  return {html: $.html(), dependencies: dependencies};
 }
 
 module.exports = dependencies;
+
+require('./unit_tests');
