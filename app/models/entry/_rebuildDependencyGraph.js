@@ -2,6 +2,14 @@ var client = require('client');
 var dependentsKey = require('./key').dependents;
 var _ = require('lodash');
 
+// The purpose of this function is to store the 
+// fact that a given blog post is dependent on 
+// the contents of another file in the blog's folder.
+// For each dependency's path, we add this entry's path
+// to the set containing the dependency's dependents!
+// This means when the dependency changes (even if it is
+// not an entry) we can rebuild this entry.
+
 module.exports = function (blogID, entry, previous_dependencies, callback) {
 
   var removed_dependencies = []; 
