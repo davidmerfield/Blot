@@ -11,8 +11,6 @@ module.exports = function (blogID, path, callback) {
   // for each dependency, rebuild?
   // how do we prevent an infinite loop for mutually dependent files?
 
-  console.log('Blog:', blogID + ':', path, ':: Rebuilding the posts which depend on this post');
-
   Blog.get({id: blogID}, function(err, blog){
 
     client.SMEMBERS(dependentsKey(blogID, path), function(err, dependent_paths){
@@ -20,8 +18,6 @@ module.exports = function (blogID, path, callback) {
       if (err) return callback(err);
       
       forEach(dependent_paths, function(dependent_path, next){
-
-        console.log('Blog:', blogID + ':', path, ':: Rebuilding dependent post', dependent_path);
 
         Entry.build(blog, dependent_path, function(err, updated_dependent){
 

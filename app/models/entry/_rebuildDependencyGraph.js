@@ -4,10 +4,6 @@ var _ = require('lodash');
 
 module.exports = function (blogID, entry, previous, callback) {
 
-  console.log('Blog:', blogID + ':', entry.path, ':: Saving dependencies for this post');
-  console.log('Blog:', blogID + ':', entry.path, ':: Previous dependencies are:', previous);
-  console.log('Blog:', blogID + ':', entry.path, ':: Current dependencies are:', entry.dependencies);
-
   var removed_dependencies = []; 
   var new_depdendencies = [];
   var multi = client.multi();
@@ -28,12 +24,10 @@ module.exports = function (blogID, entry, previous, callback) {
   }
 
   removed_dependencies.forEach(function(path){
-    console.log('Blog:', blogID + ':', entry.path, ':: This post ISNT dependent on', path);
     multi.SREM(dependentsKey(blogID, path), entry.path);
   });
 
   new_depdendencies.forEach(function(path){
-    console.log('Blog:', blogID + ':', entry.path, ':: This post is NOW dependent on', path);
     multi.SADD(dependentsKey(blogID, path), entry.path);
   });
   

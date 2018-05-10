@@ -31,17 +31,33 @@ function dependencies (path, html) {
     if (!!$(this).attr('src')) attribute = 'src';
 
     value = $(this).attr(attribute);
-
-    if (is_url(value)) return;
+    
+    if (is_url(value)) {
+      debug(path, attribute, value, 'is a URL');
+      return;
+    }
   
-    if (!is_path(value)) return;
+    if (!is_path(value)) {
+      debug(path, attribute, value, 'is not a path');
+      return;
+    }
 
     resolved_value = resolve(path, value);
     
-    $(this).attr(attribute, resolved_value);
-    if (dependencies.indexOf(resolved_value) === -1) dependencies.push(resolved_value);
-  });
+    if (resolved_value === path) {
+      debug(path, attribute, value, 'is the same as its path');
+      return;
+    }
 
+    $(this).attr(attribute, resolved_value);
+
+    if (dependencies.indexOf(resolved_value) === -1) {
+      dependencies.push(resolved_value);
+      debug(path, attribute, resolved_value, 'was added to dependencies');
+    } else {
+      debug(path, attribute, resolved_value, 'is already on list');
+    }
+  });
 
   return {html: $.html(), dependencies: dependencies};
 }

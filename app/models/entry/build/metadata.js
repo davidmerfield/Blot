@@ -2,14 +2,14 @@ var helper = require('../../../helper');
 var ensure = helper.ensure;
 var assert = require('assert');
 
-function Metadata (contents) {
+function Metadata (html) {
 
-  ensure(contents, 'string');
+  ensure(html, 'string');
 
   var metadata = {};
 
   var linesToRemove = [];
-  var lines = contents.trim().split(/\n/);
+  var lines = html.trim().split(/\n/);
 
   // THIS SHOULD ALSO WORK FOR HTML:
   // i.e. <p>Page: yes</p>
@@ -91,10 +91,10 @@ function Metadata (contents) {
     }
   }
 
-  contents = lines.join('\n');
+  html = lines.join('\n');
 
   return {
-    contents: contents,
+    html: html,
     metadata: metadata
   };
 }

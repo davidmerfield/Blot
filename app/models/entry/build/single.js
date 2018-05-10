@@ -69,7 +69,7 @@ module.exports = function(blog, path, callback){
 
   time('READ');
 
-  Read(blog, path, function(err, contents, stat){
+  Read(blog, path, function(err, html, stat){
 
     time.end('READ');
 
@@ -80,13 +80,12 @@ module.exports = function(blog, path, callback){
     // Now we extract any metadata from the file
     // This modifies the 'contents' if it succeeds
     try {
-      parsed = Metadata(contents);
+      parsed = Metadata(html);
       metadata = parsed.metadata;
-      contents = parsed.contents;
+      html = parsed.html;
     } catch (err) {
       return callback(err);
     }
-
 
     // We have to compute the dependencies before 
     // passing the contents to the plugins because
@@ -95,9 +94,9 @@ module.exports = function(blog, path, callback){
     // module from determining which other files in the blog's
     // folder this file depends on.
     try {
-      parsed = Dependencies(contents, path);
+      parsed = Dependencies(path, html);
       dependencies = parsed.dependencies;
-      contents = parsed.contents;
+      html = parsed.html;
     } catch (err) {
       return callback(err);
     }
@@ -106,7 +105,7 @@ module.exports = function(blog, path, callback){
 
     // We pass the contents to the plugins for
     // this blog. The resulting HTML is now ready.
-    Plugins(blog, path, contents, function(err, html){
+    Plugins(blog, path, html, function(err, html){
 
       time.end('PLUGINS');
 

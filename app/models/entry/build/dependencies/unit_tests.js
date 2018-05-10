@@ -174,3 +174,13 @@ should_get_dependencies({
     dependencies: []
   }
 });
+
+// SHould not consider itself a dependency
+should_get_dependencies({
+  html: '<img src="/image.jpg">',
+  path: '/image.jpg',
+  result: {
+    html: '<img src="/image.jpg">',
+    dependencies: []
+  }
+});
