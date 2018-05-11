@@ -1,5 +1,6 @@
+var init = require('./init');
 
-// Initialze the local repos here if neccessary
+init();
 
 module.exports = {
   display_name: 'Git',

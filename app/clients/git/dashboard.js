@@ -1,6 +1,4 @@
 var exec = require('child_process').exec;
-var Change = require('sync').change;
-var Sync = require('sync');
 var pushover = require('pushover');
 var dashboard = require('express').Router();
 var fs = require('fs-extra');
@@ -8,9 +6,9 @@ var Blog = require('blog');
 var REPO_DIR = __dirname + '/repos';
 var repos = pushover(REPO_DIR, {autoCreate:true});
 var helper = require('helper');
-var forEach = helper.forEach;
 var Blog = require('blog');
 var client = require('./client');
+var start_listener = require('./start_listener');
 
 var blog_dir = function(blog_id) {
   return helper.localPath(blog_id, '/');
@@ -25,65 +23,9 @@ dashboard.use(function (req, res, next){
   next();
 });
 
-console.log('Git: When resuming work on client, uncomment these lines')
-// var em = require('git-emit')(__dirname + '/repos/1.git');
-// var commit_id;
-
-// em.on('post-receive', function(u){
-
-//   console.log('post-receive', u.lines[0]);
-
-//   commit_id = u.lines[0].split(' ')[1];
-// });
-
-// em.on('post-update', function () {
-
-//   var blog_id = '1';
-//   var changes;
-
-//   exec('git -C ' + blog_dir(blog_id) + ' pull', function(err){
-
-//     if (err) console.log(err);
-
-//     console.log('Blog folder is synchronized');
-
-//     exec('git -C ' + blog_dir(blog_id) + ' diff-tree --name-status --no-commit-id --pretty -r ' + commit_id, function(err, out){
-
-//       if (err) console.log(err);
-
-//       changes = out.trim().split('\n');
-
-//       Blog.get({id: blog_id}, function(err, blog){
-
-//         Sync(blog_id, function(callback){
-
-//           forEach(changes, function(line, next){
-
-//             // Other options are A and M
-//             var should_delete = line.slice(0,1).trim() === 'D';
-//             var path = line.slice(2).trim();
-
-//             if (should_delete) {
-//               Change.drop(blog_id, path, callback);
-//             } else {
-//               Change.set(blog, path, next);
-//             }
-              
-//             next();
-
-//           }, callback);
-
-//         }, function(){
-
-//           console.log('Sync complete!');
-//         });
-//       });
-//     });
-//   });
-// });
 
 
-dashboard.get('/', function (req, res, next) {
+dashboard.get('/', function (req, res) {
 
   if (!req.blog.client) return res.redirect('/clients');
 
@@ -94,7 +36,7 @@ dashboard.get('/', function (req, res, next) {
   });
 });
 
-dashboard.post('/test_remove', function(req, res, next){
+dashboard.post('/test_remove', function(req, res){
 
   client.remove('1', 'test.html', function(err){
 
@@ -104,7 +46,7 @@ dashboard.post('/test_remove', function(req, res, next){
   });
 });
 
-dashboard.post('/test_write', function(req, res, next){
+dashboard.post('/test_write', function(req, res){
 
   client.write('1', 'test.html', Date.now() + '', function(err){
 
@@ -127,6 +69,8 @@ dashboard.post('/create', function(req, res, next){
     repos.create(req.blog.id, function(err){
 
       if (err) return next(err);
+
+      start_listener(req.blog.id);
 
       exec('git clone ' + REPO_DIR + '/' + req.blog.id + '.git ' + blog_folder, function(err){
 
