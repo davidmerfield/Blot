@@ -25,6 +25,8 @@ module.exports = function start_listener (blog_id) {
     commit_id = u.lines[0].split(' ')[1];
   });
 
+  // This fails for the first commit to a repo
+  
   em.on('post-update', function () {
 
     var blog_id = '1';
@@ -61,7 +63,7 @@ module.exports = function start_listener (blog_id) {
               var path = line.slice(2).trim();
 
               debug(should_delete, path);
-              
+
               if (should_delete) {
                 debug('Calling drop with', blog_id, path);
                 Change.drop(blog_id, path, callback);
