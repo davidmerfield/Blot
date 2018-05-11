@@ -11,7 +11,7 @@ module.exports = function (text) {
 
   if (metadata !== '<!--') {
     metadata += '\n-->\n';
-    text = metadata + parsed.contents;
+    text = metadata + parsed.html;
   }
 
   return text;

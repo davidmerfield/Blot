@@ -1,3 +1,4 @@
+var debug = require('debug')('build:single');
 var Metadata = require('./metadata');
 var Dependencies = require('./dependencies');
 var helper = require('../../../helper');
@@ -40,26 +41,32 @@ module.exports = function(blog, path, callback){
 
   if (isImage(path)) {
 
+    debug(path, 'is image');
     Read = readImage;
 
   } else if (isMarkdown(path)) {
 
+    debug(path, 'is markdown');
     Read = readMarkdown;
 
   } else if (isHTML(path)) {
 
+    debug(path, 'is HTML');
     Read = readHTML;
 
   } else if (isWebloc(path)) {
 
+    debug(path, 'is webloc');
     Read = readWebloc;
 
   } else if (isDoc(path)) {
 
+    debug(path, 'is doc');
     Read = readDoc;
 
   } else if (isODT(path)) {
 
+    debug(path, 'is ODT');
     Read = readODT;
 
   } else {

@@ -88,7 +88,7 @@ function read (blog, path, callback) {
 
             var parsed = Metadata(text);
 
-            if (parsed.contents === text) return false;
+            if (parsed.html === text) return false;
 
             extend(metadata).and(parsed.metadata);
 
