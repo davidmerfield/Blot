@@ -4,13 +4,13 @@ var ensure = require('helper').ensure;
 
 // Register new clients here
 var clients = {
-  dropbox: require('./dropbox')
+  dropbox: require('./dropbox'),
+  git: require('./git')
 };
 
 // Demo local client
 if (config.environment === 'development') {
   clients.local = require('./local');
-  clients.git = require('./git');
 }
   
 // Verify that each client has the correct

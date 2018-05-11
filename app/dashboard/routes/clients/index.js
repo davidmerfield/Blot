@@ -36,6 +36,13 @@ module.exports = function (dashboard) {
     }
 
     res.locals.clients = list.slice();
+
+    // if (req.user.id !== 'user_5NU6PZX5RH0' && req.user.id !== 'user_FZRFM1D34R5') {
+    //   res.locals.clients = res.locals.clients.filter(function(client){
+    //     return client.name !== 'git';
+    //   });
+    // }
+
     res.locals.clients[0].checked = 'checked';
 
     res.renderDashboard('clients');
