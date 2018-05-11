@@ -54,11 +54,14 @@ module.exports = function start_listener (blog_id) {
 
             forEach(changes, function(line, next){
 
+              debug('line is:', line);
+
               // Other options are A and M
               var should_delete = line.slice(0,1).trim() === 'D';
               var path = line.slice(2).trim();
 
-
+              debug(should_delete, path);
+              
               if (should_delete) {
                 debug('Calling drop with', blog_id, path);
                 Change.drop(blog_id, path, callback);

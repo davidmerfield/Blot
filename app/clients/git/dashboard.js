@@ -87,7 +87,11 @@ dashboard.post('/create', function(req, res, next){
             // This is dangerous
             exec(git + 'commit -m "Initial commit"', function(err){
 
-              if (err) return next(err);
+              // Empty repo will throw err here...
+              if (err) {
+                console.log(err);
+                return res.redirect(req.baseUrl);
+              }
           
               // This is dangerous
               exec(git + 'push', function(err){
