@@ -18,6 +18,12 @@ function main (output_directory, posts, callback) {
     // We'll only use image posts for now, would be nice to remove this in future...
     if (!post.image) return next();
 
+    // Skip Gifs for now until the thumbnailer can make gif thumbnails
+    if (post.image.original.url.indexOf('.gif') > -1) return next();
+
+    // Fix strange bug
+    if (post.title && post.title.indexOf('$rootlang') > -1) return next();
+
     var created, updated, path_without_extension;
     var dateStamp, draft, page, metadata, summary;
     var content, title, html, url;
