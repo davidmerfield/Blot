@@ -1,5 +1,5 @@
 var fs = require('fs-extra');
-var REPO_DIR = __dirname + '/repos';
+var REPO_DIR = __dirname + '/data';
 var start_listener = require('./start_listener');
 
 function create_and_read (dir, callback) {
@@ -25,7 +25,7 @@ function init (callback) {
       if (blog_id[0] === '.') return;
 
       blog_id = blog_id.slice(0, blog_id.indexOf('.'));
-      
+
       start_listener(blog_id);
     });
   });

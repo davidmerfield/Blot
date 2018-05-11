@@ -13,7 +13,7 @@ function blog_dir (blog_id) {
 
 module.exports = function start_listener (blog_id) {
 
-  var em = git_emit(__dirname + '/repos/' + blog_id + '.git');
+  var em = git_emit(__dirname + '/data/' + blog_id + '.git');
   var commit_id;
 
   debug('Initialized', blog_id, 'git repo');
