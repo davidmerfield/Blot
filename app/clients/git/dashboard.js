@@ -29,7 +29,7 @@ dashboard.get('/', function (req, res) {
 
   if (!req.blog.client) return res.redirect('/clients');
 
-  repos.exists(req.blog.id + '.git', function(exists){
+  repos.exists(req.blog.handle + '.git', function(exists){
 
     res.locals.exists = exists;
     res.dashboard('index');
@@ -66,13 +66,13 @@ dashboard.post('/create', function(req, res, next){
 
     if (err) return next(err);
 
-    repos.create(req.blog.id, function(err){
+    repos.create(req.blog.handle, function(err){
 
       if (err) return next(err);
 
-      start_listener(req.blog.id);
+      start_listener(req.blog.handle);
 
-      exec('git clone ' + REPO_DIR + '/' + req.blog.id + '.git ' + blog_folder, function(err){
+      exec('git clone ' + REPO_DIR + '/' + req.blog.handle + '.git ' + blog_folder, function(err){
 
         if (err) return next(err);
 
@@ -115,7 +115,7 @@ dashboard.post('/disconnect', function(req, res, next){
     if (err) return next(err);
 
     // Remove the git repo in /repos
-    fs.remove(REPO_DIR + '/' + req.blog.id + '.git', function(err){
+    fs.remove(REPO_DIR + '/' + req.blog.handle + '.git', function(err){
 
       if (err) return next(err);
 

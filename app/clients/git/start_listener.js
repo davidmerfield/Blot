@@ -11,74 +11,81 @@ function blog_dir (blog_id) {
   return helper.localPath(blog_id, '/');
 }
 
-module.exports = function start_listener (blog_id) {
+module.exports = function start_listener (handle) {
 
-  var em = git_emit(__dirname + '/data/' + blog_id + '.git');
-  var commit_id;
+  Blog.get({handle: handle}, function(err, blog){
 
-  debug('Initialized', blog_id, 'git repo');
-  
-  em.on('post-receive', function(u){
+    if (err || !blog) return console.log('ERROR no blog', handle);
 
-    debug('post-receive', u.lines[0]);
+    var blog_id = blog.id;
+    
+    var em = git_emit(__dirname + '/data/' + blog.handle + '.git');
+    var commit_id;
 
-    commit_id = u.lines[0].split(' ')[1];
-  });
+    debug('Initialized', blog_id, 'git repo');
+    
+    em.on('post-receive', function(u){
 
-  // This fails for the first commit to a repo
-  
-  em.on('post-update', function () {
+      debug('post-receive', u.lines[0]);
 
-    var blog_id = '1';
-    var changes;
+      commit_id = u.lines[0].split(' ')[1];
+    });
 
-    exec('git -C ' + blog_dir(blog_id) + ' pull', function(err){
+    // This fails for the first commit to a repo
 
-      if (err) {
-        debug('error', err);
-        return;
-      }
+    em.on('post-update', function () {
 
-      debug('Blog folder is synchronized');
+      var blog_id = '1';
+      var changes;
 
-      exec('git -C ' + blog_dir(blog_id) + ' diff-tree --name-status --no-commit-id --pretty -r ' + commit_id, function(err, out){
+      exec('git -C ' + blog_dir(blog_id) + ' pull', function(err){
 
         if (err) {
           debug('error', err);
           return;
         }
 
-        changes = out.trim().split('\n');
+        debug('Blog folder is synchronized');
 
-        Blog.get({id: blog_id}, function(err, blog){
+        exec('git -C ' + blog_dir(blog_id) + ' diff-tree --name-status --no-commit-id --pretty -r ' + commit_id, function(err, out){
 
-          Sync(blog_id, function(callback){
+          if (err) {
+            debug('error', err);
+            return;
+          }
 
-            forEach(changes, function(line, next){
+          changes = out.trim().split('\n');
 
-              debug('line is:', line);
+          Blog.get({id: blog_id}, function(err, blog){
 
-              // Other options are A and M
-              var should_delete = line.slice(0,1).trim() === 'D';
-              var path = line.slice(2).trim();
+            Sync(blog_id, function(callback){
 
-              debug(should_delete, path);
+              forEach(changes, function(line, next){
 
-              if (should_delete) {
-                debug('Calling drop with', blog_id, path);
-                Change.drop(blog_id, path, callback);
-              } else {
-                debug('Calling set with', blog_id, path);
-                Change.set(blog, path, next);
-              }
-                
-              next();
+                debug('line is:', line);
 
-            }, callback);
+                // Other options are A and M
+                var should_delete = line.slice(0,1).trim() === 'D';
+                var path = line.slice(2).trim();
 
-          }, function(){
+                debug(should_delete, path);
 
-            debug('Sync complete!');
+                if (should_delete) {
+                  debug('Calling drop with', blog_id, path);
+                  Change.drop(blog_id, path, callback);
+                } else {
+                  debug('Calling set with', blog_id, path);
+                  Change.set(blog, path, next);
+                }
+                  
+                next();
+
+              }, callback);
+
+            }, function(){
+
+              debug('Sync complete!');
+            });
           });
         });
       });

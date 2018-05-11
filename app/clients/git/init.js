@@ -20,13 +20,13 @@ function init (callback) {
 
     if (err) return callback(err);
 
-    contents.forEach(function(blog_id){
+    contents.forEach(function(handle){
 
-      if (blog_id[0] === '.') return;
+      if (handle[0] === '.') return;
 
-      blog_id = blog_id.slice(0, blog_id.indexOf('.'));
+      handle = handle.slice(0, handle.indexOf('.'));
 
-      start_listener(blog_id);
+      start_listener(handle);
     });
   });
 }
