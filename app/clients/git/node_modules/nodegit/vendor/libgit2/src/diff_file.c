@@ -54,7 +54,8 @@ static int diff_file_content_init_common(
 		fc->src = GIT_ITERATOR_TYPE_TREE;
 
 	if (!fc->driver &&
-		git_diff_driver_lookup(&fc->driver, fc->repo, fc->file->path) < 0)
+		git_diff_driver_lookup(&fc->driver, fc->repo,
+		    NULL, fc->file->path) < 0)
 		return -1;
 
 	/* give driver a chance to modify options */
@@ -101,7 +102,8 @@ int git_diff_file_content__init_from_diff(
 	fc->file = use_old ? &delta->old_file : &delta->new_file;
 	fc->src  = use_old ? diff->old_src : diff->new_src;
 
-	if (git_diff_driver_lookup(&fc->driver, fc->repo, fc->file->path) < 0)
+	if (git_diff_driver_lookup(&fc->driver, fc->repo,
+		    &diff->attrsession, fc->file->path) < 0)
 		return -1;
 
 	switch (delta->status) {
@@ -139,7 +141,6 @@ int git_diff_file_content__init_from_src(
 	memset(fc, 0, sizeof(*fc));
 	fc->repo = repo;
 	fc->file = as_file;
-	fc->blob = src->blob;
 
 	if (!src->blob && !src->buf) {
 		fc->flags |= GIT_DIFF_FLAG__NO_DATA;
@@ -149,12 +150,15 @@ int git_diff_file_content__init_from_src(
 		fc->file->mode = GIT_FILEMODE_BLOB;
 
 		if (src->blob) {
+			git_blob_dup((git_blob **)&fc->blob, (git_blob *) src->blob);
 			fc->file->size = git_blob_rawsize(src->blob);
 			git_oid_cpy(&fc->file->id, git_blob_id(src->blob));
 			fc->file->id_abbrev = GIT_OID_HEXSZ;
 
 			fc->map.len  = (size_t)fc->file->size;
 			fc->map.data = (char *)git_blob_rawcontent(src->blob);
+
+			fc->flags |= GIT_DIFF_FLAG__FREE_BLOB;
 		} else {
 			fc->file->size = src->buflen;
 			git_odb_hash(&fc->file->id, src->buf, src->buflen, GIT_OBJ_BLOB);

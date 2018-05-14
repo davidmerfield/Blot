@@ -2,6 +2,9 @@
   "name": "blot-git-client",
   "version": "1.0.0",
   "dependencies": {
-    "git-server": "git+https://github.com/stackdot/NodeJS-Git-Server.git"
+    "git-emit": "0.0.0",
+    "git-server": "git+https://github.com/stackdot/NodeJS-Git-Server.git",
+    "nodegit": "^0.22.0",
+    "simple-git": "^1.92.0"
   }
 }

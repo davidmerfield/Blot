@@ -51,10 +51,6 @@ var _babelTraverse = require("babel-traverse");
 
 var _babelTraverse2 = _interopRequireDefault(_babelTraverse);
 
-var _sourceMap = require("source-map");
-
-var _sourceMap2 = _interopRequireDefault(_sourceMap);
-
 var _babelGenerator = require("babel-generator");
 
 var _babelGenerator2 = _interopRequireDefault(_babelGenerator);
@@ -88,6 +84,10 @@ var _path2 = _interopRequireDefault(_path);
 var _babelTypes = require("babel-types");
 
 var t = _interopRequireWildcard(_babelTypes);
+
+var _mergeMap = require("./merge-map");
+
+var _mergeMap2 = _interopRequireDefault(_mergeMap);
 
 var _resolve = require("../../helpers/resolve");
 
@@ -446,40 +446,8 @@ var File = function (_Store) {
   File.prototype.mergeSourceMap = function mergeSourceMap(map) {
     var inputMap = this.opts.inputSourceMap;
 
-    if (inputMap) {
-      var inputMapConsumer = new _sourceMap2.default.SourceMapConsumer(inputMap);
-      var outputMapConsumer = new _sourceMap2.default.SourceMapConsumer(map);
-
-      var mergedGenerator = new _sourceMap2.default.SourceMapGenerator({
-        file: inputMapConsumer.file,
-        sourceRoot: inputMapConsumer.sourceRoot
-      });
-
-      var source = outputMapConsumer.sources[0];
-
-      inputMapConsumer.eachMapping(function (mapping) {
-        var generatedPosition = outputMapConsumer.generatedPositionFor({
-          line: mapping.generatedLine,
-          column: mapping.generatedColumn,
-          source: source
-        });
-        if (generatedPosition.column != null) {
-          mergedGenerator.addMapping({
-            source: mapping.source,
-
-            original: mapping.source == null ? null : {
-              line: mapping.originalLine,
-              column: mapping.originalColumn
-            },
-
-            generated: generatedPosition
-          });
-        }
-      });
-
-      var mergedMap = mergedGenerator.toJSON();
-      inputMap.mappings = mergedMap.mappings;
-      return inputMap;
+    if (inputMap && map) {
+      return (0, _mergeMap2.default)(inputMap, map);
     } else {
       return map;
     }

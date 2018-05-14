@@ -9,8 +9,13 @@ var helper = require('helper');
 var Blog = require('blog');
 var client = require('./client');
 var start_listener = require('./start_listener');
+var Git = require('simple-git');
 
-var blog_dir = function(blog_id) {
+console.log('DANGEROUS EMPTY DIR DURING DEV');
+fs.emptyDirSync(REPO_DIR);
+fs.emptyDirSync(blog_dir('1'));
+
+function blog_dir (blog_id) {
   return helper.localPath(blog_id, '/');
 };
 
@@ -60,7 +65,7 @@ dashboard.post('/create', function(req, res, next){
 
   var blog_folder = blog_dir(req.blog.id);
   var tmp_folder = helper.tempDir() + '/git-' + helper.guid() + req.blog.id;
-  var git = 'git -C ' + blog_folder + ' ';
+  // var git = 'git -C ' + blog_folder + ' ';
 
   fs.copy(blog_folder, tmp_folder, function(err){
 
@@ -72,35 +77,26 @@ dashboard.post('/create', function(req, res, next){
 
       start_listener(req.blog.handle);
 
-      exec('git clone ' + REPO_DIR + '/' + req.blog.handle + '.git ' + blog_folder, function(err){
+      var git = Git(REPO_DIR + '/' + req.blog.handle + '.git');
 
-        if (err) return next(err);
+      git.clone(REPO_DIR + '/' + req.blog.handle + '.git', blog_folder, function(err){
+
+        if (err) throw err;
 
         fs.copy(tmp_folder, blog_folder, function(err){
 
           if (err) return next(err);
 
-          exec(git + 'add .', function(err){
-            
-            if (err) return next(err);
-            
-            // This is dangerous
-            exec(git + 'commit -m "Initial commit"', function(err){
+          git = Git(blog_folder);
 
-              // Empty repo will throw err here...
-              if (err) {
-                console.log(err);
-                return res.redirect(req.baseUrl);
-              }
-          
-              // This is dangerous
-              exec(git + 'push', function(err){
+          git
+          .add('.')
+          .commit('first commit')
+          .push(['origin', 'master'], function(err){
 
-                if (err) return next(err);
+            if (err) throw err;
 
-                res.redirect(req.baseUrl);
-              });
-            });
+            res.redirect(req.baseUrl);
           });
         });
       });

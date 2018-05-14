@@ -9,12 +9,16 @@
 
 #include "common.h"
 
-#include "git2/buffer.h"
-#include "buffer.h"
-#include "thread-utils.h"
+#ifndef GIT_WIN32
+# include <ctype.h>
+#endif
 
+#include "git2/buffer.h"
+
+#include "buffer.h"
 #include "common.h"
 #include "strnlen.h"
+#include "thread-utils.h"
 
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 #define bitsizeof(x) (CHAR_BIT * sizeof(x))
@@ -180,6 +184,7 @@ GIT_INLINE(void) git__free(void *ptr)
 
 extern int git__prefixcmp(const char *str, const char *prefix);
 extern int git__prefixcmp_icase(const char *str, const char *prefix);
+extern int git__prefixncmp(const char *str, size_t str_n, const char *prefix);
 extern int git__prefixncmp_icase(const char *str, size_t str_n, const char *prefix);
 extern int git__suffixcmp(const char *str, const char *suffix);
 
@@ -297,22 +302,22 @@ typedef struct {
 typedef void (*git_refcount_freeptr)(void *r);
 
 #define GIT_REFCOUNT_INC(r) { \
-	git_atomic_inc(&((git_refcount *)(r))->refcount);	\
+	git_atomic_inc(&(r)->rc.refcount);	\
 }
 
 #define GIT_REFCOUNT_DEC(_r, do_free) { \
-	git_refcount *r = (git_refcount *)(_r); \
+	git_refcount *r = &(_r)->rc; \
 	int val = git_atomic_dec(&r->refcount); \
 	if (val <= 0 && r->owner == NULL) { do_free(_r); } \
 }
 
 #define GIT_REFCOUNT_OWN(r, o) { \
-	((git_refcount *)(r))->owner = o; \
+	(r)->rc.owner = o; \
 }
 
-#define GIT_REFCOUNT_OWNER(r) (((git_refcount *)(r))->owner)
+#define GIT_REFCOUNT_OWNER(r) ((r)->rc.owner)
 
-#define GIT_REFCOUNT_VAL(r) git_atomic_get(&((git_refcount *)(r))->refcount)
+#define GIT_REFCOUNT_VAL(r) git_atomic_get((r)->rc.refcount)
 
 
 static signed char from_hex[] = {
@@ -538,4 +543,4 @@ GIT_INLINE(double) git__timer(void)
 
 extern int git__getenv(git_buf *out, const char *name);
 
-#endif /* INCLUDE_util_h__ */
+#endif

@@ -28,6 +28,13 @@ function versionFromMuslLdd (out) {
   return out.split(/[\r\n]+/)[1].trim().split(/\s/)[1];
 }
 
+function safeReaddirSync (path) {
+  try {
+    return readdirSync(path);
+  } catch (e) {}
+  return [];
+}
+
 var family = '';
 var version = '';
 var method = '';
@@ -52,23 +59,23 @@ if (platform === 'linux') {
       method = 'ldd';
     } else {
       // Try filesystem (family only)
-      try {
-        var lib = readdirSync('/lib');
-        var usrSbin = readdirSync('/usr/sbin');
-        if (lib.some(contains('-linux-gnu'))) {
-          family = GLIBC;
-          method = 'filesystem';
-        } else if (lib.some(contains('libc.musl-'))) {
-          family = MUSL;
-          method = 'filesystem';
-        } else if (lib.some(contains('ld-musl-'))) {
-          family = MUSL;
-          method = 'filesystem';
-        } else if (usrSbin.some(contains('glibc'))) {
+      var lib = safeReaddirSync('/lib');
+      if (lib.some(contains('-linux-gnu'))) {
+        family = GLIBC;
+        method = 'filesystem';
+      } else if (lib.some(contains('libc.musl-'))) {
+        family = MUSL;
+        method = 'filesystem';
+      } else if (lib.some(contains('ld-musl-'))) {
+        family = MUSL;
+        method = 'filesystem';
+      } else {
+        var usrSbin = safeReaddirSync('/usr/sbin');
+        if (usrSbin.some(contains('glibc'))) {
           family = GLIBC;
           method = 'filesystem';
         }
-      } catch (e) {}
+      }
     }
   }
 }

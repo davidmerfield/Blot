@@ -248,6 +248,11 @@ extern int git_futils_cp_r(
 extern int git_futils_open_ro(const char *path);
 
 /**
+ * Truncate a file, creating it if it doesn't exist.
+ */
+extern int git_futils_truncate(const char *path, int mode);
+
+/**
  * Get the filesize in bytes of a file
  */
 extern git_off_t git_futils_filesize(git_file fd);
@@ -382,4 +387,4 @@ extern int git_futils_fsync_dir(const char *path);
  */
 extern int git_futils_fsync_parent(const char *path);
 
-#endif /* INCLUDE_fileops_h__ */
+#endif

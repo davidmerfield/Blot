@@ -34,6 +34,7 @@ typedef enum {
 struct git_diff {
 	git_refcount     rc;
 	git_repository   *repo;
+	git_attr_session attrsession;
 	git_diff_origin_t type;
 	git_diff_options opts;
 	git_vector       deltas;    /* vector of git_diff_delta */
@@ -65,4 +66,3 @@ extern int git_diff__entry_cmp(const void *a, const void *b);
 extern int git_diff__entry_icmp(const void *a, const void *b);
 
 #endif
-
