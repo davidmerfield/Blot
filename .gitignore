@@ -25,6 +25,7 @@ tmp/*
 # Eventually ignore all node_modules directories
 node_modules/*
 app/importer/**/node_modules
+app/clients/**/node_modules
 
 data
 secrets
