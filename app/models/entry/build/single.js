@@ -101,8 +101,9 @@ module.exports = function(blog, path, callback){
     // module from determining which other files in the blog's
     // folder this file depends on.
     try {
-      parsed = Dependencies(path, html);
+      parsed = Dependencies(path, html, metadata);
       dependencies = parsed.dependencies;
+      metadata = parsed.metadata;
       html = parsed.html;
     } catch (err) {
       return callback(err);

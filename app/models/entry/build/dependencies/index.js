@@ -13,13 +13,58 @@ var is_path = require('./is_path');
 // then determine the list of dependencies. This modifies
 // the HTML passed to it.
 
-function dependencies (path, html) {
+function dependencies (path, html, metadata) {
 
   // In future it would be nice NOT to reparse the HTML
   // Multiple times. The plugins features also do this.
   var $ = cheerio.load(html, {decodeEntities: false});  
   var dependencies = [];
   var attribute, value, resolved_value;
+
+  // We have to be slightly stricter for 
+  Object.keys(metadata).forEach(function(attribute) {
+      
+    value = metadata[attribute];
+    resolved_value = resolve(path, value);
+
+    if (is_url(value)) {
+      debug(path, attribute, value, 'is a URL');
+      return;
+    }
+  
+    if (!is_path(value)) {
+      debug(path, attribute, value, 'is not a path');
+      return;
+    }
+
+    if (dependencies.indexOf(resolved_value) !== -1) {
+      debug(path, attribute, resolved_value, 'is already on the list');
+      return;
+    }
+
+    if (dependencies.indexOf(value) !== -1) {
+      debug(path, attribute, value, 'is already on the list');
+      return;      
+    }
+
+    // Try and resolve the thumbnail path
+    // Likewise if it's e.g. ./image.png
+    if (attribute === 'thumbnail' || value.indexOf('./') === 0) {
+      
+      dependencies.push(resolved_value);
+      metadata[attribute] = resolved_value;
+      debug(path, attribute, resolved_value, 'was added to dependencies');
+
+    // If the metadata value starts with a slash
+    // it's probably a dependency, e.g. /image.png
+    } else if (value[0] === '/') {
+
+      dependencies.push(value);
+      debug(path, attribute, value, 'was added to dependencies');
+
+    } 
+
+  });
 
   // This matches CSS files in the blog post
   // This matches just about everything else,
@@ -58,7 +103,7 @@ function dependencies (path, html) {
     }
   });
 
-  return {html: $.html(), dependencies: dependencies};
+  return {html: $.html(), dependencies: dependencies, metadata: metadata};
 }
 
 module.exports = dependencies;
