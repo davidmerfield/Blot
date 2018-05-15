@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "dependencies": {
     "git-emit": "0.0.0",
-    "git-server": "git+https://github.com/stackdot/NodeJS-Git-Server.git",
-    "nodegit": "^0.22.0",
-    "simple-git": "^1.92.0"
+    "http-auth": "^3.2.3",
+    "simple-git": "^1.92.0",
+    "uuid": "^3.2.1"
   }
 }

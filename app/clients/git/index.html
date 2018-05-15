@@ -12,17 +12,21 @@
 <pre>
 git clone https://{{host}}/clients/git/end/{{blog.handle}}.git
 </pre>
-<!--
-<form method="post" action="/clients/git/test_write">
+
+<p>When prompted for your username and password, use your blog's username and this token:</p>
+
+<p><b>Username</b> {{blog.handle}}</p>
+<p><b>Password</b> {{token}}</p>
+
+<form method="post" action="/clients/git/refresh_token">
 <input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="button" value="TEST WRITE">
+<input type="submit" class="button" value="Refresh token">
 </form>
 
-<form method="post" action="/clients/git/test_remove">
-<input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="button" value="TEST REMOVE">
-</form>
--->
+<p>If you need to reauthenticate, this might be useful:</p>
+
+<pre>git credential-osxkeychain erase host={{host}} protocol=https</pre>
+
 <form method="post" action="/clients/git/disconnect">
 <input type="hidden" name="_csrf" value="{{csrftoken}}">
 <input type="submit" class="button" value="Disconnect">

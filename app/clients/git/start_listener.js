@@ -1,4 +1,4 @@
-var exec = require('child_process').exec;
+var Git = require('simple-git');
 var Blog = require('blog');
 var helper = require('helper');
 var Change = require('sync').change;
@@ -19,76 +19,49 @@ module.exports = function start_listener (handle) {
 
     var blog_id = blog.id;
     
-    var em = git_emit(__dirname + '/data/' + blog.handle + '.git');
-    var commit_id;
+    var emitter = git_emit(__dirname + '/data/' + blog.handle + '.git');
+    var git = Git(blog_dir(blog.id));
 
     debug('Initialized', blog_id, 'git repo');
     
-    em.on('post-receive', function(u){
+    emitter.on('post-update', function () {
 
-      debug('post-receive', u.lines[0]);
+      debug('post-update called');
 
-      commit_id = u.lines[0].split(' ')[1];
-    });
-
-    // This fails for the first commit to a repo
-
-    em.on('post-update', function () {
-
-      var blog_id = '1';
-      var changes;
-
-      exec('git -C ' + blog_dir(blog_id) + ' pull', function(err){
+      git.pull(function(err, info){
 
         if (err) {
           debug('error', err);
           return;
         }
 
-        debug('Blog folder is synchronized');
+        debug('Blog folder is synchronized'); 
+        debug(info);
 
-        exec('git -C ' + blog_dir(blog_id) + ' diff-tree --name-status --no-commit-id --pretty -r ' + commit_id, function(err, out){
+        Sync(blog_id, function(callback){
+          
+          forEach(info.files, function(path, next){
 
-          if (err) {
-            debug('error', err);
-            return;
-          }
+            if (info.insertions[path] === 1) {
+              debug('Calling set with', blog_id, path);
+              return Change.set(blog, path, next);
+            }
 
-          changes = out.trim().split('\n');
+            if (info.deletions[path] === 1) {
+              debug('Calling drop with', blog_id, path);
+              return Change.drop(blog_id, path, next);
+            } 
 
-          Blog.get({id: blog_id}, function(err, blog){
+            debug('Warning', path, 'is a file but not in insertions or deletions');
+            next();
+            
+          }, callback);
 
-            Sync(blog_id, function(callback){
+        }, function(){
 
-              forEach(changes, function(line, next){
-
-                debug('line is:', line);
-
-                // Other options are A and M
-                var should_delete = line.slice(0,1).trim() === 'D';
-                var path = line.slice(2).trim();
-
-                debug(should_delete, path);
-
-                if (should_delete) {
-                  debug('Calling drop with', blog_id, path);
-                  Change.drop(blog_id, path, callback);
-                } else {
-                  debug('Calling set with', blog_id, path);
-                  Change.set(blog, path, next);
-                }
-                  
-                next();
-
-              }, callback);
-
-            }, function(){
-
-              debug('Sync complete!');
-            });
-          });
+          debug('Sync complete!');
         });
-      });
+      }); 
     });
   });
 };

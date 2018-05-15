@@ -1,62 +1,68 @@
-var exec = require('child_process').exec;
+var debug = require('debug')('client:git');
 var fs = require('fs-extra');
 var localPath = require('helper').localPath;
-var basename = require('path').basename;
+var Git = require('simple-git');
 
 module.exports = {
 
   write: function (blogID, path, contents, callback) {
 
-    var git = 'git -C ' + localPath(blogID, '') + ' ';
+    if (path[0] === '/') path = path.slice(1);
+
+    var git = Git(localPath(blogID, '/'));
+    var message = 'Updated ' + path;
+
+    debug('Blog:', blogID, 'Attempting to write', path);
 
     fs.outputFile(localPath(blogID, path), contents, function(err){
 
       if (err) return callback(err);
 
-      // This is dangerous
-      exec(git + 'add ' + path, function(err){
-        
-        if (err) return callback(err);
-        
-        // This is dangerous
-        exec(git + 'commit -m "Added ' + basename(path) + '"', function(err){
+      debug('Blog:', blogID, 'Attempting to add, commit and push', path);
 
-          if (err) return callback(err);
-      
-          // This is dangerous
-          exec(git + 'push', callback);
-        });
+      git.add(path).commit(message).push(function(err){
+
+        if (err) return callback(err);
+
+        debug('Blog:', blogID, 'Successfully wrote', path);
+
+        callback();
       });
     });
   },
 
   disconnect: function (blogID, callback) {
-   
+    
+    // remove tokens
+    
     callback();
   },
 
   remove: function (blogID, path, callback) {
 
-    var git = 'git -C ' + localPath(blogID, '') + ' ';
+    if (path[0] === '/') path = path.slice(1);
+
+    var git = Git(localPath(blogID, '/'));
+    var message = 'Removed ' + path;
+
+
+    debug('Blog:', blogID, 'Attempting to remove', path);
 
     fs.remove(localPath(blogID, path), function(err){
 
       if (err) return callback(err);
 
-      // This is dangerous
-      exec(git + 'add ' + path, function(err){
-        
-        if (err) return callback(err);
-        
-        // This is dangerous
-        exec(git + 'commit -m "Removed ' + basename(path) + '"', function(err){
+      debug('Blog:', blogID, 'Attempting to add, commit and push', path);
 
-          if (err) return callback(err);
-      
-          // This is dangerous
-          exec(git + 'push', callback);
-        });
+      git.add(path).commit(message).push(function(err){
+
+        if (err) return callback(err);
+
+        debug('Blog:', blogID, 'Successfully removed', path);
+
+        callback();
       });
-    });  }
+    });    
+  }
 
 };
