@@ -11,6 +11,12 @@ function blog_dir (blog_id) {
   return helper.localPath(blog_id, '/');
 }
 
+function add_leading_slash (path) {
+  if (path[0] === '/') return path;
+  if (!path.length) return '/';
+  return '/' + path;
+}
+
 module.exports = function start_listener (handle) {
 
   Blog.get({handle: handle}, function(err, blog){
@@ -44,12 +50,12 @@ module.exports = function start_listener (handle) {
 
             if (info.insertions[path] === 1) {
               debug('Calling set with', blog_id, path);
-              return Change.set(blog, path, next);
+              return Change.set(blog, add_leading_slash(path), next);
             }
 
             if (info.deletions[path] === 1) {
               debug('Calling drop with', blog_id, path);
-              return Change.drop(blog_id, path, next);
+              return Change.drop(blog_id, add_leading_slash(path), next);
             } 
 
             debug('Warning', path, 'is a file but not in insertions or deletions');
