@@ -4,6 +4,7 @@
   "dependencies": {
     "git-emit": "0.0.0",
     "http-auth": "^3.2.3",
+    "pushover": "^1.3.6",
     "simple-git": "^1.92.0",
     "uuid": "^3.2.1"
   }

@@ -48,13 +48,13 @@ module.exports = function start_listener (handle) {
           
           forEach(info.files, function(path, next){
 
-            if (info.insertions[path] === 1) {
-              debug('Calling set with', blog_id, path);
+            if (info.insertions[path]) {
+              debug('Calling set with', blog_id, add_leading_slash(path));
               return Change.set(blog, add_leading_slash(path), next);
             }
 
-            if (info.deletions[path] === 1) {
-              debug('Calling drop with', blog_id, path);
+            if (info.deletions[path]) {
+              debug('Calling drop with', blog_id, add_leading_slash(path));
               return Change.drop(blog_id, add_leading_slash(path), next);
             } 
 
