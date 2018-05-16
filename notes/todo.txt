@@ -175,10 +175,6 @@ Template system
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
 Clients
-- Git
-  https://github.com/stackdot/NodeJS-Git-Server/issues/33
-  https://github.com/netbeast/gitbox
-  tell https://twitter.com/ohhhnine/status/951151349705691136
 - SFTP
   https://www.npmjs.com/package/ftpd
 - Google Drive
