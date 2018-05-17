@@ -1,5 +1,5 @@
 var dashboard = require('express').Router();
-var database = require('database');
+var database = require('../database');
 var moment = require('moment');
 var forEach = require('helper').forEach;
 var Dropbox = require('dropbox');

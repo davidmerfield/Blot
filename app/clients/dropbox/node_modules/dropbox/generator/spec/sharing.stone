@@ -1,7 +1,0 @@
-namespace sharing
-    "This namespace contains endpoints and data types for creating and managing shared links and
-    shared folders."
-
-import common
-import files
-import users

@@ -1,6 +1,0 @@
-[MESSAGES CONTROL]
-disable=C,R,fixme,locally-disabled,protected-access,useless-else-on-loop
-enable=useless-suppression
-
-[REPORTS]
-reports=n

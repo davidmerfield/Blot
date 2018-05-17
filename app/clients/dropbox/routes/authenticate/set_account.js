@@ -1,4 +1,4 @@
-var database = require('database');
+var database = require('../../database');
 var reset = require('sync').reset;
 var sync = require('../sync');
 

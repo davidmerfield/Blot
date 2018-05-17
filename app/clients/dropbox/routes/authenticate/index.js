@@ -1,6 +1,6 @@
 var config = require('config');
 var Dropbox = require('dropbox');
-var database = require('database');
+var database = require('../../database');
 var get_account = require('./get_account');
 var get_existing_account = require('./get_existing_account');
 var set_account = require('./set_account');

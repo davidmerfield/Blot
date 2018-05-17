@@ -6,7 +6,7 @@ var full_secret = config.dropbox.full.secret;
 var crypto = require('crypto');
 var SIGNATURE = 'x-dropbox-signature';
 var sha = crypto.createHmac.bind(this, 'SHA256');
-var Database = require('database');
+var Database = require('../database');
 var sync = require('./sync');
 
 var Router = require('express').Router();

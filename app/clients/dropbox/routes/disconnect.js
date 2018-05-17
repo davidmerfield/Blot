@@ -1,5 +1,5 @@
 var Blog = require('blog');
-var database = require('database');
+var database = require('../database');
 var router = require('express').Router();
 var disconnect = router.route('/');
 

@@ -1,6 +1,6 @@
 var join = require('path').join;
 var Dropbox = require('dropbox');
-var database = require('database');
+var database = require('./database');
 var helper = require('helper');
 var ensure = helper.ensure;
 

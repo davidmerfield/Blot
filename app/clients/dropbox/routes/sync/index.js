@@ -7,8 +7,8 @@ var Change = require('sync').change;
 var download = require('./download');
 var Sync = require('sync');
 var Blog = require('blog');
-var Database = require('database');
-var dropbox_content_hash = require('dropbox_content_hash');
+var Database = require('../../database');
+var dropbox_content_hash = require('./dropbox_content_hash');
 
 module.exports = function main (blogID, callback) {
 

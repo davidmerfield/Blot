@@ -1,6 +1,6 @@
 var get = require('./get');
 var key = require('./key');
-var redis = require('redis');
+var redis = require('client');
 var ensure = require('helper').ensure;
 
 module.exports = function (blog_id, callback) {
