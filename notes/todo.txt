@@ -1,5 +1,3 @@
-Dropbox client DEPENDS ON CUSTOM SHIT IN THE NODE_MODULES FOLDER
-
 Fix bug with documentation when logged in. Tell tweeter.
 Add index to documentation and tell Kyle.
 
