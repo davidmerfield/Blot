@@ -9,7 +9,7 @@ Abstract clients are used for:
 - removing preview files for deleted / published drafts
 - reading and writing local template files
 
-
+Switching between clients should be seamless. The user's blog should not visibly change until they make a modification to their folder.
 
 How to register a new client
 ----------------------------
