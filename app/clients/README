@@ -1,7 +1,23 @@
-What is a client?
+Clients
+-------
+
+Clients are responsible for synchronizing the source folder for a blog. This synchronization occurs between the folder on the author's device and the folder on Blot's server.
+
+
+How to register a new client
+----------------------------
+
+1. Create a new folder containing the code for the client in app/clients.
+2. Add the new client to the exports object in app/index.js
+3. The server will show the client on the dashboard if it exposes the required methods and properties.
+
+
+What are clients?
 -----------------
 
-Clients are responsible for managing the source folder for a given site on Blot. They may expose endpoints for authentication, periodic updates (like a sync webhook from Dropbox or a git hook). They must expose certain methods that Blot can interact with in the abstract:
+Clients must be able to receive changes from the user's folder, and transmit changes to the user's folder.
+
+Clients may expose endpoints for authentication, periodic updates (like a sync webhook from Dropbox or a git hook). They must expose certain methods that Blot can interact with in the abstract:
 
 Abstract clients are used for:
 - writing the welcome file for new blogs
@@ -9,45 +25,38 @@ Abstract clients are used for:
 - removing preview files for deleted / published drafts
 - reading and writing local template files
 
-Switching between clients should be seamless. The user's blog should not visibly change until they make a modification to their folder.
-
-How to register a new client
-----------------------------
-
-1. Create a new folder containing the code for the client in app/clients
-2. Add the new client to the exports object in ./index.js
+Switching between clients should be seamless. Disconnecting and reconnecting should have no effect. The user's blog should not visibly change until they make a modification to their folder through whichever client is currently connected. 
 
 
-
-Client specification
+Specification
 --------------------
 
 Clients must have the following properties and methods:
 
 - display_name: a string used on the dashboard e.g. 'Dropbox'
 - description: a string used on the dashboard, e.g. 'A service that makes all of a user’s files...',
-- disconnect: a function to dissassociate a site with a dropbox account
+- disconnect: a function to disassociate a site with a dropbox account
 - remove: a function to remove a file in the user's dropbox folder
-- write: a funciton to write a file to the user's dropbox folder
+- write: a function to write a file to the user's dropbox folder
 
 and may have the following methods:
 
 - site_routes: an Express router which needs to be mounted to the site
 - dashboard_routes: an Express router which needs to be mounted to the dashboard
 
+More abstractly: clients must be stateless. They must be able to run without issue in parallel and the server must be able to restart without issue. Blot's sync module exposes a distributed locking function that a client can use to determine whether it is safe to interact with the blog's folder.
+
+Clients currently call Blot's sync methods, specifically Change.add and Change.drop, used when a file is created or updated, and when a file is removed.
 
 
 Ideas
 -----
 
-Perhaps clients should emit events? Something like choidikar's events?
+Perhaps clients should emit events? Something like Choidikar's events?
 
 watcher
   .on('add', path => log(`File ${path} has been added`))
   .on('change', path => log(`File ${path} has been changed`))
   .on('unlink', path => log(`File ${path} has been removed`));
 
-It would be nice if everything was decoupled: it was the client's job to synchronize the folder, and Blot's job to watch the folder for changes and to turn them into a blog?
-
-Aparently there's a cost to
-What about the problem of downloading large files from Dropbox? Or slow writes?
+It would be nice if everything was decoupled: it was the client's job to synchronize the folder, and Blot's job to watch the folder for changes and to turn them into a blog? Apparently there's a performance cost to this. It would be nice to know exactly what that cost was, though.
