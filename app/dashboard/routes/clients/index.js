@@ -12,6 +12,24 @@ for (var i in clients) {
   });
 }
 
+function check_this_client_is_selected (client_name){
+  
+  return function (req, res, next) {
+
+    var redirect;
+    
+    if (req.blog.client === client_name) return next();
+
+    redirect = '/clients';
+
+    if (req.blog.client) {
+      redirect += '/' + req.blog.client;
+    }
+
+    res.redirect(redirect);
+  };
+}
+
 module.exports = function (dashboard) {
 
   client_routes.use(function(req, res, next){
@@ -62,13 +80,14 @@ module.exports = function (dashboard) {
     });
   });
 
-  for (var i in clients) {
+  for (var client_name in clients) {
 
-    var client = clients[i];
+    var client = clients[client_name];
 
-    if (client.dashboard_routes)
-      client_routes.use('/' + client.name, client.dashboard_routes);
+    if (!client.dashboard_routes) continue;
 
+    client_routes.use('/' + client.name, check_this_client_is_selected(client_name));
+    client_routes.use('/' + client.name, client.dashboard_routes);
   }
 
   dashboard.use('/clients', client_routes);
