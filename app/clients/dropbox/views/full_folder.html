@@ -1,22 +1,20 @@
 
 <h2>Full access to your Dropbox folder</h2>
-
-  <form method='post'>
+<hr>
+  <form method='post' style="max-width:32em">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-  <p>Are you sure you want to give Blot permission to access all the files and folders in <b>{{account.email}}</b>’s Dropbox folder?</p>
-
-  <p>Giving Blot full access to your folder will allow you to:</p>
+  <p>If you give Blot full access to your Dropbox folder you will be able to:</p>
   <ul>
-  <li>Share your site's folder with other Dropbox users.</li>
-  <li>Use a different folder for your site</li>
+  <li>Share your blog’s folder with other people who use Dropbox</li>
+  <li>Move and rename your blog’s folder</li>
   </ul>
-  <p>Please note that while I do my best to keep your personal data secure (and as far as I know it is) security breaches do happen. If you do store, have stored, or plan to store sensitive data inside your Dropbox folder, please think carefully before allowing Blot access to your full folder. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions. I'm basically trying to scare you because while I wanted to add this feature, I don't really want the responsibility.</p>
+  <p>If you store sensitive data in your Dropbox folder, <b>please contemplate the consequences of a security breach</b>. Consider using a throwaway Dropbox account, then sharing your blog’s folder with your main account and those of your collaborators.</p>
 
-  <br>
+    <br>
 
-    <a href="/clients/dropbox/authenticate/redirect?full_access=true" class="button">Allow Blot to access your entire Dropbox folder</a>
+    <a href="/clients/dropbox/authenticate/redirect?full_access=true" class="button">Grant full access to your Dropbox folder</a>
   <a class="button" href="/clients/dropbox">Cancel</a>
 
 </form>
