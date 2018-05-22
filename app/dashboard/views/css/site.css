@@ -1013,6 +1013,8 @@ span.file {
   top: 0.15em;
 }
 
+.folder.green {background-image: url('/images/folder-green.svg');}
+
 span.file {background-image: url('/images/file.svg')}
 
 
