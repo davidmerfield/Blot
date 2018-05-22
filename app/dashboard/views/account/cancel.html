@@ -5,7 +5,7 @@
     <hr>
 
     <fieldset >
-      <p>If you cancel your subscription now, Blot will disable your blog <span id="blogEnd">on <b>{{user.pretty.expiry}}</b> when your current billing period ends</span>.</p>
+      <p>Your blog{{s}} will close <span id="blogEnd">on <b>{{user.pretty.expiry}}</b> when your current billing period ends</span>.</p>
 
       <span class="error">{{error}}</span>
 
@@ -14,7 +14,7 @@
     </label>
 
     <label id="alsoDisable" style="display:none">
-      <input type="checkbox" name="disableAccount" id="disableAccount" /> I also want to disable my blog immediately.
+      <input type="checkbox" name="disableAccount" id="disableAccount" /> I also want to disable my blog{{s}} immediately.
     </label>
 
     <input type="submit" id="submitButton" disabled class="button" value="Cancel my subscription">
@@ -46,11 +46,11 @@ cancelSubscription.onclick = function () {
   }
 }
 
-disableAccount.onclick = function () {
-
+disableAccount.onclick = function 
+() {
   if (disableAccount.checked) {
     submitButton.value = 'Cancel and disable my account';
-    blogEnd.innerHTML = '<b>IMMEDIATELY</b>, even before your current billing period ends';
+    blogEnd.innerHTML = '<b>IMMEDIATELY</b> even though you’ve paid to use Blot until <b>{{user.pretty.expiry}}</b>';
   } else {
     submitButton.value = 'Cancel my subscription';
     blogEnd.innerHTML = 'on <b>{{user.pretty.expiry}}</b> when your current billing period ends';
