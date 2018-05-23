@@ -1,7 +1,6 @@
-Fix bug with image caching and tell trampeur via twitter message
-Fix bug with missing blog post and [tell Thomas](https://mail.google.com/mail/u/1/#inbox/1638574b4423be87)
 Fix bug with documentation when logged in. Tell tweeter.
 Add index to documentation and tell Kyle.
+Fix bug with transformer to handle ESOCKETIMEDOUT error
 
 Magazine theme
 - Fix bug with Barba.js which is not working
@@ -36,6 +35,7 @@ https://twitter.com/Rodericus/status/992082759798677505
 Fix bug with disqus plugin on preview subdomains
 
 Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note) this is seriously bad.
+- Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
 
 Fix bug which occurs when Dropbox needs to reset the cursor of the folder
 
