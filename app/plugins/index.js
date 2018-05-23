@@ -11,8 +11,8 @@ var deCamelize = helper.deCamelize;
 var log = new helper.logg('PLUGIN');
 var time = helper.time;
 
-// Wait 10s to go to next plugin
-var TIMEOUT = 10000;
+// Wait 10 minutes to go to next plugin
+var TIMEOUT = 10 * 60 * 1000;
 
 // Will contain a dictionary
 // of every public plugin on

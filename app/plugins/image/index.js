@@ -1,55 +1,72 @@
 var Transformer = require('../../transformer');
-
-var each = require('../eachEl');
+var debug = require('debug')('entry:build:plugins:image');
+var eachEl = require('../eachEl');
 var config = require('../../../config');
-
 var Url = require('url');
 var optimize = require('./optimize');
-
 var CDN_HOST = config.cdn.host;
 
-if (!CDN_HOST) throw "Please specify config.cdn.host";
+if (!CDN_HOST) throw new Error("Please specify config.cdn.host");
 
 function render ($, callback, options) {
 
   var blogID = options.blogID;
   var cache = new Transformer(blogID, 'image-cache');
 
-  each($, 'img', function(el, next){
+  // Process 5 images concurrently
+  eachEl($, 'img', function(el, next){
 
     var src = $(el).attr('src');
 
-    if (isBlot(src)) return next();
+    debug(src, 'found image');
 
+    if (isBlot(src)) {
+      debug(src, 'is on Blot CDN');
+      return next();
+    }
+
+    debug(src, 'checking cache for this image');
     cache.lookup(src, function(path, done){
 
+      debug(src, 'cache miss, optimizing image now...');
       optimize(blogID, path, done);
 
     }, function(err, res){
 
       if (err) {
-        console.log('CACHE:', src, err.message);
+        debug(src, 'ERROR');
+        debug(err);
         return next();
       }
 
-      if (!res.width || !res.url || !res.height)
+      if (!res.width || !res.url || !res.height) {
+        debug(src, 'Result has no width, height or url property');
+        debug(res);
         return next();
+      }
 
       // This is a retina image so half its dimensions
       // we don't store these halved dimensions...
       if ($(el).attr('data-2x') || isRetina(res.url)) {
+        debug(src, 'retinafying the dimensions');
         res.width /= 2;
         res.height /= 2;
       }
+
+      debug(src, 'modifying parent element');
 
       $(el)
           .attr('width', res.width)
           .attr('height', res.height)
           .attr('src', res.url);
 
+      debug(src, 'complete!');
       next();
     });
-  }, callback);
+  }, function(){
+    debug('Invoking callback now!');
+    callback();
+  });
 }
 
 function isRetina (url) {
