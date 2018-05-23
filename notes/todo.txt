@@ -1,3 +1,5 @@
+Fix bug with image caching and tell trampeur via twitter message
+Fix bug with missing blog post and [tell Thomas](https://mail.google.com/mail/u/1/#inbox/1638574b4423be87)
 Fix bug with documentation when logged in. Tell tweeter.
 Add index to documentation and tell Kyle.
 
