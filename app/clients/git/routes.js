@@ -12,6 +12,7 @@ var debug = require('debug')('client:git:dashboard');
 var UID = helper.makeUid;
 var join = require('path').join;
 var database = require('./database');
+var client = require('./client');
 
 function blog_dir (blog_id) {
   return helper.localPath(blog_id, '/');
@@ -142,24 +143,12 @@ dashboard.post('/refresh_token', function(req, res, next){
 });
 
 dashboard.post('/disconnect', function(req, res, next){
-
-  Blog.set(req.blog.id, {client: ''}, function(err){
+  
+  client.disconnect(req.blog.id, function(err){
 
     if (err) return next(err);
 
-    // Remove the git repo in /repos
-    fs.remove(REPO_DIR + '/' + req.blog.handle + '.git', function(err){
-
-      if (err) return next(err);
-
-      // Remove the .git directory in the user's blog folder
-      fs.remove(blog_dir(req.blog.id) + '/.git', function(err){
-  
-        if (err) return next(err);
-
-        res.redirect('/clients');
-      });      
-    });
+    res.redirect('/clients');
   });
 });
 
