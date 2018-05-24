@@ -1,6 +1,23 @@
+NPM INSTALL BEFORE RELOADING SERVER SINCE LOCK HAS NPM DEPENDENCIES
+
+---
+
+Move thumbnails off blotcdn and into assets folder.
+- Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a) that this fixes micro.blog's protocolless image bug
+
 Fix bug with documentation when logged in. Tell tweeter.
 Add index to documentation and tell Kyle.
-Fix bug with transformer to handle ESOCKETIMEDOUT error
+Fix bug with transformer to handle ESOCKETIMEDOUT error...
+
+Investigate static site search offerings
+- It would be nice to have one whose index you could build on 
+  the server, and deliver statically, perhaps even chunked if it was huge
+- Would be nice to be able to patch updates to this index quickly without
+  rebuilding the whole thing
+
+Grid theme
+- Find good source of material
+- Release the theme
 
 Magazine theme
 - Fix bug with Barba.js which is not working
@@ -8,10 +25,6 @@ Magazine theme
 - Ensure titleless blog posts work
 - Improve the about page
 - Add grey bg to loading thumbnails
-
-Grid theme
-- Find good source of material
-- Release the theme
 
 Improve the selection of templates
 - Don't modify any code, just design templates
@@ -36,8 +49,6 @@ Fix bug with disqus plugin on preview subdomains
 
 Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note) this is seriously bad.
 - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
-
-Fix bug which occurs when Dropbox needs to reset the cursor of the folder
 
 Fix bug with template editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
 
@@ -300,9 +311,6 @@ Can rename tolerate a minor file size change?
 
 Add filtering by date to 404 log
 https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca
-
-Make the folder in Dropbox rename automatically when the
-user changes the username for one of their multiple blogs?
 
 Move daily update generator from scripts to app folder
 
