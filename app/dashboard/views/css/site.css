@@ -446,18 +446,23 @@ p.lock:before {
 }
 
 
-a.borderButton {
+a.borderButton,
+input.borderButton {
   border-radius: 3em;
   color: #007EE6;
+  border:none;
+  text-decoration: none;
   padding: 0.33em 0.66em;
   position: relative;
   line-height: 1.33em;
   background: rgba(0, 126, 230, 0.09);
 }
 
-a.borderButton + a.borderButton {margin-right: 1em}
+a.borderButton + a.borderButton,
+input.borderButton + input.borderButton {margin-right: 1em}
 
-a.borderButton.secondary {
+a.borderButton.secondary,
+input.borderButton.secondary {
   color: #4f5461;
   background: rgba(50, 67, 88, 0.07);
 }
