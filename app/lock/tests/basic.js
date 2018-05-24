@@ -2,7 +2,7 @@ module.exports = function (lock, debug, assert, BLOG_ID, callback) {
 
   debug('Requesting lock on', BLOG_ID);
   lock(BLOG_ID, function(err, release){
-
+      
     assert(err === null, 'Failed to acquire lock as expected');
 
     if (err) throw err;

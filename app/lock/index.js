@@ -1,4 +1,3 @@
-var debug = require('debug')('lock');
 var client = require('client');
 var Redlock = require('redlock');
 
@@ -36,13 +35,29 @@ function lock (blogID, options, callback) {
     options = {};
   }
 
+  if (!blogID) {
+    return callback(new TypeError('Pass the ID of a blog as the first argument'));
+  }
+
+  if (!callback) {
+    return callback(new TypeError('Pass a callback function'));
+  }
+  
   // the maximum amount of time you want the resource locked,
   // keeping in mind that you can extend the lock up until
   // the point when it expires
   ttl = options.ttl || DEFAULT_TTL;
   wait = options.wait || false;
-  resource = resource_key(blogID);
+  resource = Resource(blogID);
 
+  if (!Number.isInteger(ttl)) {
+    return callback(new TypeError('TTL must be an integer'));
+  }
+
+  if (typeof wait !== 'boolean') {
+    return callback(new TypeError('wait must be boolean'));
+  }
+  
   // Wait means that we will give so many retries to acquire a lock
   // before returning an error. This number of retries is about 10s
   // worth and is enough that we might expect a user watching a spinner
@@ -63,24 +78,30 @@ function lock (blogID, options, callback) {
       // Store the fact that a failed attempt was made
       // to acquire this resource. We use this information
       // when syncing a blog to determine whether to resync
-      return client.set(again_key(blogID), 1, function(){
+      client.set(Failed_Attempt(blogID), true, function(){
+
         callback(err, null);
       });
-    }
 
-    release = Release(blogID, active_lock);
+    // We acquired a lock on the resource!
+    } else {
 
-    callback(null, release);    
+      // This function is to be called when we are finished
+      // with the lock on the user's folder.
+      release = Release(blogID, active_lock);
+
+      callback(null, release);  
+    }  
   });
 
 }
 
 
-function again_key (blogID) {
-  return 'blog:' + blogID + ':lock:attempt';
+function Failed_Attempt (blogID) {
+  return 'blog:' + blogID + ':lock:failed_attempt';
 }
 
-function resource_key (blogID) {
+function Resource (blogID) {
   return 'blog:' + blogID + ':lock';
 }
 
@@ -90,17 +111,25 @@ function Release (blogID, active_lock) {
 
     if (!callback) callback = function(){};
 
+    var failed_attempt = false;
+
+    // We could do these next two things in parallel
+    // but it's a little bit of refactoring...
     active_lock.unlock(function(err) {
 
+      // we weren 't able to reach redis; your lock will eventually
+      // expire, but you probably want to log this error
       if (err) return callback(err);
 
-      client.del(again_key(blogID), function(err, stat){
+      client.del(Failed_Attempt(blogID), function(err, stat){
 
         if (err) return callback(err);
-      
-        // we weren 't able to reach redis; your lock will eventually
-        // expire, but you probably want to log this error
-        callback(null, !!stat);
+  
+        // If we managed to delete a key then there was 
+        // a failed attempt to acquire a lock        
+        failed_attempt = !!stat;
+
+        callback(null, failed_attempt);
       });
     });      
   };
