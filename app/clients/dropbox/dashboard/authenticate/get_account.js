@@ -5,9 +5,10 @@ var callback_uri = require('./callback_uri');
 
 module.exports = function (req, res, next){
 
-  if (!req.query || !req.query.code)
-    return res.redirect('/clients');
-
+  if (!req.query || !req.query.code) {
+    return next(new Error('No code from Dropbox'));
+  }
+    
   var code = req.query.code;
   var key = config.dropbox.app.key;
   var secret = config.dropbox.app.secret;

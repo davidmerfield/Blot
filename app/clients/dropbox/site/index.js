@@ -7,10 +7,11 @@ var crypto = require('crypto');
 var SIGNATURE = 'x-dropbox-signature';
 var sha = crypto.createHmac.bind(this, 'SHA256');
 var Database = require('../database');
-var sync = require('./sync');
+var main = require('./main');
 
-var Router = require('express').Router();
-var Webhook = Router.route('/');
+var Express = require('express');
+var site = Express.Router();
+var Webhook = site.route('/webhook');
 
 // This is called by Dropbox to verify
 // the webhook is valid.
@@ -62,11 +63,11 @@ Webhook.post(function(req, res) {
     // Sync each of the accounts!
     forEach(accounts, function(account_id, next_account){
 
-      Database.get_blogs_by_account_id(account_id, function(err, blogs){
+      Database.list_blogs(account_id, function(err, blogs){
 
         forEach(blogs, function(blog, next_blog){
 
-          sync(blog.id, function(){});
+          main(blog.id, function(){});
 
           next_blog();
 
@@ -80,4 +81,6 @@ Webhook.post(function(req, res) {
   });
 });
 
-module.exports = Router;
+
+module.exports = site;
+

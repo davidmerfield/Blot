@@ -1,7 +1,7 @@
 var NO_ENTRIES = 'Expected entries from Dropbox';
 var NO_CURSOR = 'Expected cursor from Dropbox';
 var Dropbox = require('dropbox');
-var Database = require('../../database');
+var Database = require('../database');
 var helper = require('helper');
 var ensure = helper.ensure;
 var forEach = helper.forEach;

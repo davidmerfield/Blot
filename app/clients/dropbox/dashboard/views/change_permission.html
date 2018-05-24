@@ -1,0 +1,56 @@
+{{#account}}
+
+{{^full_access}}
+<h2>Full access to your Dropbox folder</h2>
+<hr>
+
+  <form method='post' style="max-width:32em">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+  <p>If you give Blot full access to your Dropbox folder you will be able to:</p>
+  <ul>
+  <li>Share your blog’s folder with other people who use Dropbox</li>
+  <li>Move your blog’s folder outside <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 91 80" style="width:1.3em;margin:0 0.3em;position:relative;top:2px;enable-background:new 0 0 91 80;" xml:space="preserve">
+<path fill="#000" d="M41,13L31.8,1.1L31,0H0v80h91V13H41z M87,17v10H51.1l-7.2-10H87z M4,76V4h25l10,13h0l9.4,13.1
+  c0.4,0.5,1,0.8,1.6,0.8V31h37v45H4z"/>
+</svg> Dropbox <span style="margin-left:0.3em"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg></span> Apps</li>
+  </ul>
+  <p>If you store sensitive data in your Dropbox folder, please consider the consequences of a security breach.</p>
+
+    <br>
+
+    <a href="/clients/dropbox/authenticate/redirect?full_access=true" class="button">Grant full access to your Dropbox folder</a>
+  <a class="borderButton secondary" href="/clients/dropbox">Cancel</a>
+
+</form>
+
+{{/full_access}}
+
+
+{{#full_access}}
+<h2>Partial access to your Dropbox folder</h2>
+<hr>
+  <form method='post' style="max-width:32em">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+  <p>Blot has permission to access all of your Dropbox folder. Consider switching to partial access to your Dropbox folder if you don't need to change the location of your blog’s folder or share it with other people who use Dropbox.
+</p>
+
+  <p>If you switch from full to partial access, Blot will <b>move your blog's folder</b> into Dropbox's Apps folder.</p>
+
+
+
+    <br>
+
+    <a href="/clients/dropbox/authenticate/redirect" class="button">Grant partial access to your Dropbox folder</a>
+
+  <a class="button" href="/clients/dropbox">Cancel</a>
+
+</form>
+
+{{/full_access}}
+
+{{/account}}

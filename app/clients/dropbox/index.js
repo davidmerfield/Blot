@@ -1,4 +1,3 @@
-var routes = require('./routes');
 var client = require('./client');
 
 module.exports = {
@@ -7,6 +6,6 @@ module.exports = {
   disconnect: client.disconnect,
   remove: client.remove,
   write: client.write,
-  site_routes: routes.site,
-  dashboard_routes: routes.dashboard
+  site_routes: require('./site'),
+  dashboard_routes: require('./dashboard')
 };
