@@ -1,7 +1,3 @@
-NPM INSTALL BEFORE RELOADING SERVER SINCE LOCK HAS NPM DEPENDENCIES
-
----
-
 Move thumbnails off blotcdn and into assets folder.
 - Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a) that this fixes micro.blog's protocolless image bug
 
