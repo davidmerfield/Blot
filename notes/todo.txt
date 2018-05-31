@@ -1,3 +1,10 @@
+Tell git pusha t when new Dropbox client is live
+
+Respond to Ben on Twitter about CDN
+
+Fix bug with git client 
+- Tell [Dominik](https://twitter.com/sprsso_de/status/1002214398981824512)
+
 Move thumbnails off blotcdn and into assets folder.
 - Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a) that this fixes micro.blog's protocolless image bug
 
@@ -227,6 +234,12 @@ Support embedding an image in a post by copy-pasting the Dropbox share link
 Increase price for new customers to $60 a year. This will not affect existing customers.
 
 ---
+
+Support 2FA (Two factor authentication)
+- Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
+
+Consider supporting Open Graph
+- Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
 
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
