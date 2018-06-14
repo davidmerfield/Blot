@@ -180,7 +180,7 @@ p, div, section {position: relative;overflow: visible;}
 
 @media screen and (max-width: 933px) {
 
-  body {padding: 0 2em;margin: 2em auto}
+  body {padding: 0 2em;margin: 2em auto;width: auto;}
 
   .sidebar {position: relative;width: 100%;text-align: center;margin: 0 0 3em}
 
