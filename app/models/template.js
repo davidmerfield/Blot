@@ -233,6 +233,9 @@ module.exports = (function () {
 
   function setView (templateID, updates, callback) {
 
+    if (type(updates.partials) !== 'object') 
+      updates.partials = {};
+
     ensure(templateID, 'string')
       .and(updates, viewModel)
       .and(callback, 'function');
