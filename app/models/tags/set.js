@@ -39,7 +39,9 @@ module.exports = function (blogID, entry, callback) {
 
   // Remove the tags from a hiddden entry before saving, so it doesn't
   // show up in the tag search results page. Entry has already been set
-  if (shouldHide(entry)) prettyTags = [];
+  if (shouldHide(entry)) {
+    prettyTags = [];
+  }
 
   // First we make a slug from each tag name
   // so that 'A B C' is stored as the same tag
@@ -101,6 +103,8 @@ module.exports = function (blogID, entry, callback) {
   });
 };
 
+// we need a better way to determine if we should ignore the entry (i.e. if has an underscore in its path)
+
 function shouldHide (entry) {
-  return entry.deleted || entry.draft || entry.scheduled;
+  return entry.deleted || entry.draft || entry.scheduled || entry.path.split('/').filter(function(i){return i[0] === '_';}).length;
 }
