@@ -1,6 +1,5 @@
 var debug = require('debug')('client:git');
 var fs = require('fs-extra');
-var localPath = require('helper').localPath;
 var Git = require('simple-git');
 var helper = require('helper');
 var TEMP_DIR = helper.tempDir();
@@ -24,12 +23,13 @@ module.exports = {
 
     if (path[0] === '/') path = path.slice(1);
 
-    var git = Git(localPath(blogID, '/'));
+    var git = Git(blog_dir(blogID));
+
     var message = 'Updated ' + path;
 
     debug('Blog:', blogID, 'Attempting to write', path);
 
-    fs.outputFile(localPath(blogID, path), contents, function(err){
+    fs.outputFile(join(blog_dir(blogID), path), contents, function(err){
 
       if (err) return callback(err);
 
@@ -87,12 +87,12 @@ module.exports = {
 
     if (path[0] === '/') path = path.slice(1);
 
-    var git = Git(localPath(blogID, '/'));
+    var git = Git(blog_dir(blogID));
     var message = 'Removed ' + path;
     var temporary_path = join(TEMP_DIR, Date.now() + '-' + UID(12), basename(path));
 
     debug('Blog:', blogID, 'Attempting to remove', path);
-    fs.move(localPath(blogID, path), temporary_path, function(err){
+    fs.move(join(blog_dir(blogID), path), temporary_path, function(err){
 
       if (err) return callback(err);
 
@@ -109,7 +109,7 @@ module.exports = {
         }
 
         if (err) {
-          fs.move(temporary_path, localPath(blogID, path), function(){
+          fs.move(temporary_path, join(blog_dir(blogID), path), function(){
             callback(err);
           });
         }
