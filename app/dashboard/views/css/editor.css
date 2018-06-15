@@ -90,7 +90,7 @@ h1 {
   padding-bottom: 0;
 }
 
-#sidebar a.file {font-size: 18px;}
+#sidebar a.file {font-size: 18px;background: none;}
 
 #sidebar a.file:hover {background: rgba(50,67,88,.07)}
 #sidebar a.file.active {background: rgba(255,248,150,.76);}
