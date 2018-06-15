@@ -15,7 +15,7 @@ if (closer) closer.onclick = function(e) {
 
 if (play && other_play) other_play.onclick = play.onclick = function (e) {
   background.classList.add('open');
-  video.src = 'https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;controls=0&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white&amp;autoplay=1';
+  video.src = 'https://www.youtube.com/embed/_k2NQNj9-LE?rel=0&amp;wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;theme=light&amp;modestbranding=1&amp;color=white&amp;autoplay=1';
   e.preventDefault();
   return false;
 }
