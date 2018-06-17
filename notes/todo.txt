@@ -1,18 +1,28 @@
-Git with case-sensitivity seems to fail
+Fix ghost post bug
+- Tell [Piotr](https://twitter.com/pkazmierczak/status/1008028579152777217)
 
-Tell git pusha t when new Dropbox client is live
+Fix ignore file becoming post bug
+- Tell [Markus](https://mail.google.com/mail/u/1/#inbox/16404ca3430ae1c2)
 
-Respond to Ben on Twitter about CDN
-
-Fix bug with git client 
+Fix git client bugs
+- File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
+- Tell Taurean when new Dropbox client is live
+- Tell Alan K on twitter DMs that the case-sensitivity bug is fixed
 - Tell [Dominik](https://twitter.com/sprsso_de/status/1002214398981824512)
+- Git with case-sensitivity seems to fail
+- Tell [Markus](https://mail.google.com/mail/u/1/#inbox/1640ce89c570b1d6)
+- Tell [Alana](https://mail.google.com/mail/u/1/#inbox/1640f5acb77f0334)
 
-Move thumbnails off blotcdn and into assets folder.
+Fix issue with protocol-less image URLs. Move thumbnails off blotcdn and into assets folder.
 - Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a) that this fixes micro.blog's protocolless image bug
+- Tell [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) also about the bug
+- Tell [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358)
+
+---
 
 Fix bug with documentation when logged in. Tell tweeter.
+
 Add index to documentation and tell Kyle.
-Fix bug with transformer to handle ESOCKETIMEDOUT error...
 
 Investigate static site search offerings
 - It would be nice to have one whose index you could build on 
@@ -41,21 +51,11 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
-Fix bug with cache not busting for static rendered templates:
-1. put posts in blog
-2. sync, create view e.g. static.js which renders all_entries
-3. remove posts from blog
-4. reload page, static.js still shows the entries, which archives.html does not
-
-Fix bug with Word Document links and tell Rodericus 
-https://twitter.com/Rodericus/status/992082759798677505
-
-Fix bug with disqus plugin on preview subdomains
+Fix bug with Word Document links and
+- Tell [Rodericus](https://twitter.com/Rodericus/status/992082759798677505)
 
 Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note) this is seriously bad.
 - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
-
-Fix bug with template editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
 
 Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
@@ -91,7 +91,18 @@ Fix bug with catching dropbox file renames
 - Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
 - Let Nash know
 
+Fix bug with transformer to handle ESOCKETIMEDOUT error...
+
 Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
+
+Fix bug with template editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
+
+Fix bug with cache not busting for static rendered templates:
+1. put posts in blog
+2. sync, create view e.g. static.js which renders all_entries
+3. remove posts from blog
+4. reload page, static.js still shows the entries, which archives.html does not
+Fix bug with disqus plugin on preview subdomains
 
 ---
 
@@ -165,6 +176,7 @@ File codecs
   Write a pandoc compatible markdown converter in javascript
   to resolve some of the performance issues with pandoc
   Perhaps just use https://github.com/markdown-it/markdown-it
+  Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206)
 
 Write a unified import tool which scrapes content from any blog/website
   Jekyll converter
@@ -184,6 +196,7 @@ Template system
 - Local template editing does not clear cache
 - Use Hogan for precompiling and rendering templates?
 - Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know when it's possible to set routes locally
+- Let [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 - Let [Jason](https://mail.google.com/mail/u/1/#inbox/163186d43aaf52af) know when you can use tokens in routes
 - Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
 - Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
