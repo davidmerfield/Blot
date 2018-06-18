@@ -2,8 +2,13 @@ var database = require('./database');
 var helper = require('helper');
 var forEach = helper.forEach;
 var fs = require('fs-extra');
-var local_path = helper.localPath;
 var watch = require('./watch');
+var config = require('config');
+var join = require('path').join;
+
+function blog_dir (blog_id) {
+  return join(config.blog_folder_dir, blog_id);
+}
 
 // Initialze the local client
 database.get_all(function (err, res) {
@@ -12,11 +17,11 @@ database.get_all(function (err, res) {
 
     if (!blog_id || !path) return next();
 
-    fs.remove(local_path(blog_id, ''), function(err){
+    fs.remove(blog_dir(blog_id), function(err){
 
       if (err) throw err;
 
-      fs.symlink(path, local_path(blog_id, ''), function(err){
+      fs.symlink(path, blog_dir(blog_id), function(err){
 
         if (err) console.log(err);
 
