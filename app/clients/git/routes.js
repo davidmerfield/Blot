@@ -13,10 +13,12 @@ var UID = helper.makeUid;
 var join = require('path').join;
 var database = require('./database');
 var client = require('./client');
+var config = require('config');
 
 function blog_dir (blog_id) {
-  return helper.localPath(blog_id, '/');
+  return join(config.blog_folder_dir, blog_id);
 }
+
  
 dashboard.use(function (req, res, next){
 

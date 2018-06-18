@@ -6,10 +6,13 @@ var Sync = require('sync');
 var forEach = helper.forEach;
 var git_emit = require('git-emit');
 var debug = require('debug')('client:git:listener');
+var config = require('config');
+var join = require('path').join;
 
 function blog_dir (blog_id) {
-  return helper.localPath(blog_id, '/');
+  return join(config.blog_folder_dir, blog_id);
 }
+
 
 function add_leading_slash (path) {
   if (path[0] === '/') return path;
