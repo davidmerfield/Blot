@@ -1,4 +1,13 @@
+My current strategy is to turn Blot case-sensitive from change.set downward and remove the lowercasing feature from localPath. I need to thoroughly review where that module is used. At the dropbox client level, all files and folders will be stored lowercase. I will add an option to change.set to allow it to accept a display 'name' which will preserve case and store this for each entry. This name property will be used on the dashboard.
+
+Change.set and Change.drop downward
+
+Perhaps store all files and folders lowercase, with option to store case preserving path?
+
+Should I roll back the promise to make URLs case insensitive?
+
 Case-sensitivity issue
+- Since Dropbox is case-insensitive, files should be stored as the lowercase version with the option to preserve the case of the file.
 - Set up case-sensitive file system environment locally
 - Resolve case-sensitivity problems inside the Dropbox client?
 - Tell Alan K on twitter DMs that the case-sensitivity bug is fixed
@@ -6,32 +15,21 @@ Case-sensitivity issue
 - Tell [Markus](https://mail.google.com/mail/u/1/#inbox/1640ce89c570b1d6)
 - Tell [Alana](https://mail.google.com/mail/u/1/#inbox/1640f5acb77f0334)
 
+Fix git client bugs
+- File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
+- Tell Taurean when new Dropbox client is live
+
 Fix ghost post bug
 - Tell [Piotr](https://twitter.com/pkazmierczak/status/1008028579152777217)
 
 Fix ignore file becoming post bug
 - Tell [Markus](https://mail.google.com/mail/u/1/#inbox/16404ca3430ae1c2)
 
-Fix git client bugs
-- File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
-- Tell Taurean when new Dropbox client is live
-
-Fix issue with protocol-less image URLs. Move thumbnails off blotcdn and into assets folder.
-- Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a)
-- Tell [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) also about the bug
-- Tell [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358)
-
 ---
 
 Fix bug with documentation when logged in. Tell tweeter.
 
 Add index to documentation and tell Kyle.
-
-Investigate static site search offerings
-- It would be nice to have one whose index you could build on 
-  the server, and deliver statically, perhaps even chunked if it was huge
-- Would be nice to be able to patch updates to this index quickly without
-  rebuilding the whole thing
 
 Grid theme
 - Find good source of material
@@ -53,6 +51,11 @@ Improve the selection of templates
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
+
+Fix issue with protocol-less image URLs. Move thumbnails off blotcdn and into assets folder.
+- Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a)
+- Tell [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) also about the bug
+- Tell [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358)
 
 Fix bug with Word Document links and
 - Tell [Rodericus](https://twitter.com/Rodericus/status/992082759798677505)
@@ -158,6 +161,12 @@ Developer documentation
   - Work how to explain the archives property
   - Port the jekyll theme [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
     then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
+
+Investigate static site search offerings
+- It would be nice to have one whose index you could build on 
+  the server, and deliver statically, perhaps even chunked if it was huge
+- Would be nice to be able to patch updates to this index quickly without
+  rebuilding the whole thing
 
 Dashboard
 - Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
