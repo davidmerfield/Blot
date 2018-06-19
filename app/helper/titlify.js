@@ -15,6 +15,11 @@ function titlify (path) {
     name = basename(path);
   }
 
+  // Remove tags
+  if (name.indexOf('[') > -1 && name.indexOf(']') > -1) {
+    name = name.replace(/(\[.*?\])/gm, '');
+  }
+
   // Strip extension
   if (name.lastIndexOf('.') > -1) {
     nameWithoutExtension = name.slice(0, name.lastIndexOf('.'));
@@ -84,6 +89,11 @@ function tests () {
   is('2016/1/2 Bar.txt', 'Bar');
   is('2016-1/2 Bar.txt', 'Bar');
   is('/2016-1 2 Bar.txt', 'Bar');
+
+  // extract tags
+  is('[Foo] Apple.txt', 'Apple');
+  is('[Foo] Bar [Baz].txt', 'Bar');
+  is('[Foo]/[bar]/2016-1 2 Bar.txt', 'Bar');
 
   // Ignore bad date
   is('2-12-2000 Bar.txt', '2-12-2000 Bar');
