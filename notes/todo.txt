@@ -264,6 +264,7 @@ Increase price for new customers to $60 a year. This will not affect existing cu
 
 Support 2FA (Two factor authentication)
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
+- Tell [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)
 
 Consider supporting Open Graph
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
