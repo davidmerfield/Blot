@@ -17,16 +17,11 @@ module.exports = function (req, res, next) {
 
   if (!name) return res.redirect('/settings/design');
 
-  console.log('HERE', name);
-
   var templateID = Template.makeID(blogID, name);
-
-  console.log('HERE', templateID);
 
   // This should probably be Template.owns(blogID, templateid)
   Template.isOwner(blogID, templateID, function(err, isOwner){
 
-    console.log()
     // Check the blog owns the template
     if (err || !isOwner) return res.redirect('/settings/design');
 
