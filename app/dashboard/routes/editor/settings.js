@@ -36,7 +36,13 @@ module.exports = function (server) {
       if (!req.body.delete) return next();
 
       var blogID = req.blog.id;
-      var name = req.params.template;
+      // makeSlug is called twice (stupidly, accidentally)
+      // in the process to create a template. This double encodes
+      // certain characters like ø. It means that we need to run
+      // makeSlug twice when looking up a template by its slug.
+      // makeID calls makeSlug under the hood so we only need
+      // to call it once ourselves.
+      var name = helper.makeSlug(req.params.template);
       var designPage = '/theme';
 
       Template.drop(blogID, name, function(err) {
