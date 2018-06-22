@@ -4,7 +4,8 @@ var join = require("path").join;
 var blog_dir = join(helper.rootDir, "blogs");
 var git_data_dir = join(helper.rootDir, "app", "clients", "git", "data");
 var load_db = require("../db/load");
-var dumps = join(__dirname, "dumps");
+var dumps = join(__dirname, "data", "dumps");
+var gitClientData = join(__dirname, "data", "git");
 var config = require("config");
 var access = require("../access");
 var BLOG_ID = "1";
@@ -25,34 +26,23 @@ if (require.main === module) {
 }
 
 function main(label, callback) {
-  fs.emptyDir(blog_dir, function(err) {
+  load_db(label, function(err) {
     if (err) return callback(err);
 
-    load_db(label, function(err) {
-      if (err) return callback(err);
+    fs.emptyDirSync(blog_dir);
+    fs.ensureDirSync(join(dumps, label));
+    fs.copySync(join(dumps, label), blog_dir);
 
-      fs.copy(join(dumps, label), blog_dir, function(err) {
-        if (err) return callback(err);
+    fs.emptyDirSync(git_data_dir);
+    fs.ensureDirSync(join(gitClientData, label));
+    fs.copySync(join(gitClientData, label), git_data_dir);
 
-        fs.emptyDirSync(git_data_dir);
+    fs.ensureDirSync(join(blog_dir, BLOG_ID));
+    fs.emptyDirSync(config.cache_directory);
+    fs.emptyDirSync(DROPBOX_FOLDER_PATH);
+    fs.copySync(join(blog_dir, BLOG_ID), DROPBOX_FOLDER_PATH);
 
-        fs.emptyDir(config.cache_directory, function(err) {
-          if (err) return callback(err);
-
-          fs.emptyDir(DROPBOX_FOLDER_PATH, function(err) {
-            if (err) return callback(err);
-
-            fs.copy(join(blog_dir, BLOG_ID), DROPBOX_FOLDER_PATH, function(
-              err
-            ) {
-              if (err) return callback(err);
-
-              callback();
-            });
-          });
-        });
-      });
-    });
+    callback();
   });
 }
 
