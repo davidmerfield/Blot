@@ -30,6 +30,10 @@ function dir(blog, dir, callback) {
   fs.readdir(join(blog_folder_dir, blogID, dir), function(err, contents) {
     if (err) return callback(err);
 
+    contents = contents.filter(function(name) {
+      return name[0] !== ".";
+    });
+
     contents = contents.map(function(name) {
       return join(dir, name);
     });
