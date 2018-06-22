@@ -1,34 +1,34 @@
-var _ = require('lodash');
-var helper = require('../../../../helper');
+var _ = require("lodash");
+var helper = require("../../../../helper");
 var falsy = helper.falsy;
 var time = helper.time;
-var cheerio = require('cheerio');
+var cheerio = require("cheerio");
 
-var decode = require('he').decode;
+var decode = require("he").decode;
 
-var basename = require('path').basename;
+var basename = require("path").basename;
 var normalize = helper.urlNormalizer;
 var pathNormalizer = helper.pathNormalizer;
 var type = helper.type;
 
 var makeSlug = helper.makeSlug;
 var ensure = helper.ensure;
-var Model = require('../../model');
+var Model = require("../../model");
 
-var isHidden = require('./isHidden');
-var Summary = require('./summary');
-var Teaser = require('./teaser');
-var Title = require('./title');
-var Tags = require('./tags');
+var isHidden = require("./isHidden");
+var Summary = require("./summary");
+var Teaser = require("./teaser");
+var Title = require("./title");
+var Tags = require("./tags");
 
 var overwrite = [
-  'summary',
-  'title',
-  'titleTag',
-  'body',
-  'summary',
-  'teaser',
-  'teaserBody'
+  "summary",
+  "title",
+  "titleTag",
+  "body",
+  "summary",
+  "teaser",
+  "teaserBody"
 ];
 
 function canOverwrite(key) {
@@ -40,82 +40,79 @@ function canOverwrite(key) {
 // url: 'string', // this is handled by set
 // scheduled: scheduled, // this is handled by set
 
-function Prepare (entry) {
+function Prepare(entry) {
+  ensure(entry, "object")
+    .and(entry.path, "string")
+    .and(entry.size, "number")
+    .and(entry.html, "string")
+    .and(entry.updated, "number")
+    .and(entry.draft, "boolean")
+    .and(entry.metadata, "object");
 
-  ensure(entry, 'object')
-    .and(entry.path, 'string')
-    .and(entry.size, 'number')
-    .and(entry.html, 'string')
-    .and(entry.updated, 'number')
-    .and(entry.draft, 'boolean')
-    .and(entry.metadata, 'object');
-
-  time('name');
+  time("name");
   entry.name = basename(entry.path);
-  time.end('name');
+  time.end("name");
 
   // The best areas of for speed improvements lie
   // in the next four blocks!
 
-  time('cheerio');
+  time("cheerio");
   var $ = cheerio.load(entry.html, {
     decodeEntities: false,
     withDomLvl1: false // this may cause issues?
   });
-  time.end('cheerio');
+  time.end("cheerio");
 
   // store titleTag, teaser, remainder;
 
   // var body = teaser + remainder;
   // var html = titleTag + body;
 
-  time('title');
+  time("title");
   var parsedTitle = Title($, entry.name);
   entry.title = parsedTitle.title;
   entry.titleTag = parsedTitle.tag;
   entry.body = parsedTitle.body;
-  time.end('title');
+  time.end("title");
 
-  time('summary');
+  time("summary");
   entry.summary = Summary($, entry.title);
-  time.end('summary');
+  time.end("summary");
 
-  time('teasers');
+  time("teasers");
   entry.teaser = Teaser(entry.html) || entry.html;
   entry.teaserBody = Teaser(entry.body) || entry.body;
   entry.more = entry.teaser !== entry.html;
-  time.end('teasers');
+  time.end("teasers");
 
-  time('makeSlug');
+  time("makeSlug");
   entry.slug = makeSlug(entry.metadata.title || entry.title);
-  time.end('makeSlug');
+  time.end("makeSlug");
 
-  time('tags');
+  time("tags");
   var tags = [];
 
-  if (entry.metadata.tags)
-    tags = entry.metadata.tags.split(',');
+  if (entry.metadata.tags) tags = entry.metadata.tags.split(",");
 
   tags = Tags(entry.path, tags);
   tags = _(tags)
-            .map(function(tag){
-              return tag.trim();
-            })
-            .compact(tags)
-            .uniq()
-            .value();
+    .map(function(tag) {
+      return tag.trim();
+    })
+    .compact(tags)
+    .uniq()
+    .value();
 
   entry.tags = tags;
-  time.end('tags');
+  time.end("tags");
 
-  time('booleans');
+  time("booleans");
 
   entry.deleted = false;
 
   // An entry is a draft if it has draft: yes in its metadata, or if it is inside
-  // a folder called drafts. 
-  if (truthy(entry.metadata.draft)) 
-    entry.draft = true;
+  // a folder called drafts.
+  if (truthy(entry.metadata.draft)) entry.draft = true;
 
   // An entry becomes a page if it:
   // begins with an underscore
@@ -123,7 +120,6 @@ function Prepare (entry) {
   // or has 'Page: yes' in its metadata
   // or has 'Menu: X' in its metadata, page is implied
   entry.page =
-
     isHidden(entry.path) ||
     isPage(entry.path) ||
     truthy(entry.metadata.page) ||
@@ -134,47 +130,48 @@ function Prepare (entry) {
   // and it does not start with an underscore
   // and it does not have defined, falsy (e.g. 'no') menu metadata
   entry.menu =
-
     entry.page &&
     !isHidden(entry.path) &&
     (entry.metadata.menu === undefined || truthy(entry.metadata.menu));
 
-  time.end('booleans');
+  time.end("booleans");
 
-  time('permalink');
+  time("permalink");
   // Add the permalink automatically if the metadata
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
-  entry.permalink = entry.metadata.permalink || entry.metadata.slug || entry.metadata.url || '';
+  entry.permalink =
+    entry.metadata.permalink || entry.metadata.slug || entry.metadata.url || "";
   entry.permalink = normalize(entry.permalink);
 
-  time.end('permalink');
+  time.end("permalink");
 
-  time('meta-overwrite');
+  time("meta-overwrite");
 
   for (var key in entry.metadata)
     if (canOverwrite(key) && type(entry.metadata[key], Model[key]))
       entry[key] = entry.metadata[key];
 
-  time.end('meta-overwrite');
+  time.end("meta-overwrite");
 
-
-  time('decoding');
+  time("decoding");
   entry.title = decode(entry.title);
   entry.summary = decode(entry.summary);
-  for (var tag in entry.tags)
-    entry.tags[tag] = decode(entry.tags[tag]);
-  time.end('decoding');
+  for (var tag in entry.tags) entry.tags[tag] = decode(entry.tags[tag]);
+  time.end("decoding");
 
   return entry;
 }
 
-function truthy (str) {
+function truthy(str) {
   return !falsy(str);
 }
 
-function isPage (path) {
-  return pathNormalizer(path).indexOf('/page/') > -1 || pathNormalizer(path).indexOf('/pages/') > -1;
+function isPage(path) {
+  return (
+    pathNormalizer(path).indexOf("/page/") > -1 ||
+    pathNormalizer(path).indexOf("/pages/") > -1
+  );
 }
 
 module.exports = Prepare;

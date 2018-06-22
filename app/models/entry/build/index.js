@@ -1,24 +1,22 @@
-var helper = require('../../../helper');
+var helper = require("../../../helper");
 var callOnce = helper.callOnce;
 var ensure = helper.ensure;
 var time = helper.time;
-var normalize = helper.pathNormalizer;
-var isDraft = require('../../../drafts').isDraft;
+var isDraft = require("../../../drafts").isDraft;
 
-var Build = require('./single');
-var Prepare = require('./prepare');
-var Thumbnail = require('../../../thumbnail');
+var Build = require("./single");
+var Prepare = require("./prepare");
+var Thumbnail = require("../../../thumbnail");
 
-var DateStamp = require('./prepare/dateStamp');
+var DateStamp = require("./prepare/dateStamp");
 
-var moment = require('moment');
-             require('moment-timezone');
+var moment = require("moment");
+require("moment-timezone");
 
-module.exports =  function (blog, path, callback) {
-
-  ensure(blog, 'object')
-    .and(path, 'string')
-    .and(callback, 'function');
+module.exports = function(blog, path, callback) {
+  ensure(blog, "object")
+    .and(path, "string")
+    .and(callback, "function");
 
   callback = callOnce(callback);
 
@@ -28,16 +26,13 @@ module.exports =  function (blog, path, callback) {
   // path might need to change
   // for image captions, album items...
 
-  isDraft(blog.id, path, function(err, is_draft){
-
+  isDraft(blog.id, path, function(err, is_draft) {
     if (err) return callback(err);
 
-    Build(blog, path, function(err, html, metadata, stat, dependencies){
-
+    Build(blog, path, function(err, html, metadata, stat, dependencies) {
       if (err) return callback(err);
 
-      Thumbnail(blog, path, metadata, html, function(err, thumbnail){
-
+      Thumbnail(blog, path, metadata, html, function(err, thumbnail) {
         // Could be lots of reasons (404?)
         if (err || !thumbnail) thumbnail = {};
 
@@ -48,13 +43,12 @@ module.exports =  function (blog, path, callback) {
         // local file, compute stuff like
         // the teaser, isDraft etc..
         try {
-
-          time('PREPARE');
+          time("PREPARE");
 
           entry = {
             html: html,
             path: path,
-            id: normalize(path),
+            id: path,
             thumbnail: thumbnail,
             draft: is_draft,
             metadata: metadata,
@@ -64,24 +58,20 @@ module.exports =  function (blog, path, callback) {
             updated: moment.utc(stat.mtime).valueOf()
           };
 
-          if (entry.dateStamp === undefined)
-            delete entry.dateStamp;
+          if (entry.dateStamp === undefined) delete entry.dateStamp;
 
           entry = Prepare(entry);
 
-          time.end('PREPARE');
-
-        } catch (e) {return callback(e);}
+          time.end("PREPARE");
+        } catch (e) {
+          return callback(e);
+        }
 
         return callback(null, entry);
       });
     });
   });
 };
-
-
-
-
 
 // var album = require('./album');
 // var isAlbum = album.is;
