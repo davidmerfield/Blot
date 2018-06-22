@@ -30,17 +30,17 @@
 
 
 {{^isCurrent}}
-
-  <label id="verify-form" style="display:none">
-
-    This action CANNOT be undone. This will permanently delete the template <b>{{name}}</b>.<br /><br />
+  <p><b>Delete template</b></p>
 
     Please type in the name of the template to confirm:
 
     <input type="text" id="verify-name">
-  </label>
 
-  <input name="delete" type="submit" id="delete-button" class="button red" value="Delete this template">
+    This action CANNOT be undone. This will permanently delete the template <b>{{name}}</b>.<br /><br />
+
+  <input name="delete" type="hidden" id="delete" value="">
+
+  <input type="submit" class="button red disabled" value="Delete this template">
 
 
 
@@ -54,30 +54,39 @@
 
 <script type="text/javascript">
 
-  $('#delete-button').click(function(e){
+  
+  // This function and entity map is taken
+  // right from the mustache source code. It is 
+  // neccessary to compare template names which contain
+  // escapable characters, like '. We don't want to open
+  // ourselves up to an injection attach by doing something
+  // silly like {{name}}...
 
-    var name = $('#verify-name').val();
+  var entityMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+  };
 
-    if (name !== "{{name}}") {
-
-      $('#verify-form').show();
-      $('#delete-button').addClass('disabled');
-
-      e.preventDefault();
-      return false;
-    }
-
-    console.log('SUBMITTING');
-  });
+  function escapeHtml (string) {
+    return String(string).replace(/[&<>"'`=\/]/g, function fromEntityMap (s) {
+      return entityMap[s];
+    });
+  }
 
   $('#verify-name').keyup(function(){
 
-    var name = $('#verify-name').val();
-
-    if (name !== "{{name}}") {
-      $('#delete-button').removeClass('disabled');
-    } else {
-      $('#delete-button').addClass('disabled');
+    var currentName = escapeHtml($('#verify-name').val());
+    var expectedName = "{{name}}";
+    
+    if (currentName === expectedName) {
+      $('#delete').val('true');
+      $('.button.red').removeClass('disabled');
     }
 
   });

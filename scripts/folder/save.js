@@ -1,47 +1,38 @@
-var fs = require('fs-extra');
-var helper = require('helper');
-var yesno = require('yesno');
-var join = require('path').join;
-var blog_dir = join(helper.rootDir, 'blogs');
-var save_db = require('../db/save');
-var dumps = join(__dirname, 'dumps');
+var fs = require("fs-extra");
+var helper = require("helper");
+var yesno = require("yesno");
+var join = require("path").join;
+var blog_dir = join(helper.rootDir, "blogs");
+var git_data_dir = join(helper.rootDir, "app", "clients", "git", "data");
+var save_db = require("../db/save");
+var dumps = join(__dirname, "data", "dumps");
+var gitClientData = join(__dirname, "data", "git");
 
 if (require.main === module) {
+  var options = require("minimist")(process.argv.slice(2));
 
-  var options = require('minimist')(process.argv.slice(2));
-
-  main(options._[0], function(err){
-
+  main(options._[0], function(err) {
     if (err) throw err;
 
     process.exit();
   });
 }
 
-
-function main (label, callback) {
-
-  verify_overwrite(label, join(dumps, label), function(err){
-    
+function main(label, callback) {
+  verify_overwrite(label, join(dumps, label), function(err) {
     if (err) return callback(err);
-    
+
     fs.emptyDirSync(join(dumps, label));
-    
-    fs.copy(blog_dir, join(dumps, label), function(err) {
+    fs.emptyDirSync(join(gitClientData, label));
+    fs.ensureDirSync(git_data_dir);
+    fs.ensureDirSync(blog_dir);
+    fs.copySync(git_data_dir, join(gitClientData, label));
+    fs.copySync(blog_dir, join(dumps, label));
 
-      if (err) return callback(err);
-        
-      save_db(label, function(err){
-
-        if (err) return callback(err);
-
-        callback();
-      });
-    });
+    save_db(label, callback);
   });
 }
-function exists (path) {
-
+function exists(path) {
   var result = true;
 
   try {
@@ -51,24 +42,24 @@ function exists (path) {
   }
 
   return result;
-
 }
 
-function verify_overwrite (identifier, path, callback) {
-
+function verify_overwrite(identifier, path, callback) {
   if (!exists(path)) return callback();
 
-  yesno.ask("Overwrite existing folder ‘" + identifier + "’? y / n", false, function(yes){
-
-    if (yes) {
-      callback();
-    } else {
-      callback('Do not overwrite file');
+  yesno.ask(
+    "Overwrite existing folder ‘" + identifier + "’? y / n",
+    false,
+    function(yes) {
+      if (yes) {
+        callback();
+      } else {
+        callback("Do not overwrite file");
+      }
     }
-  });
+  );
 }
 
 // save the contents of the blogs folder to /dumps
 
 // save the state of the database
-

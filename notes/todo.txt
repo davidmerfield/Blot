@@ -1,29 +1,34 @@
-My current strategy is to turn Blot case-sensitive from change.set downward and remove the lowercasing feature from localPath. I need to thoroughly review where that module is used. At the dropbox client level, all files and folders will be stored lowercase. I will add an option to change.set to allow it to accept a display 'name' which will preserve case and store this for each entry. This name property will be used on the dashboard.
+Case sensitivity:
 
-Change.set and Change.drop downward
+  My current strategy is to turn Blot case-sensitive from change.set downward and remove the lowercasing feature from localPath. I need to thoroughly review where that module is used. At the dropbox client level, all files and folders will be stored lowercase. I will add an option to change.set to allow it to accept a display 'name' which will preserve case and store this for each entry. This name property will be used on the dashboard.
 
-Perhaps store all files and folders lowercase, with option to store case preserving path?
+  Does Dropbox send folders individually with correct name property on initial sync or subsequent calls to file list folder?
 
-Should I roll back the promise to make URLs case insensitive?
+  Change.set and Change.drop downward. It seems like the image post needs the relative path to the image.
 
-Case-sensitivity issue
-- Since Dropbox is case-insensitive, files should be stored as the lowercase version with the option to preserve the case of the file.
-- Set up case-sensitive file system environment locally
-- Resolve case-sensitivity problems inside the Dropbox client?
-- Tell Alan K on twitter DMs that the case-sensitivity bug is fixed
-- Tell [Dominik](https://twitter.com/sprsso_de/status/1002214398981824512)
-- Tell [Markus](https://mail.google.com/mail/u/1/#inbox/1640ce89c570b1d6)
-- Tell [Alana](https://mail.google.com/mail/u/1/#inbox/1640f5acb77f0334)
+  Perhaps store all files and folders lowercase, with option to store case preserving path?
 
-Fix git client bugs
-- File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
-- Tell Taurean when new Dropbox client is live
+  Should I roll back the promise to make URLs case insensitive?
 
-Fix ghost post bug
-- Tell [Piotr](https://twitter.com/pkazmierczak/status/1008028579152777217)
+  Since Dropbox is case-insensitive, files should be stored as the lowercase version with the option to preserve the case of the file.
+  
+  Set up case-sensitive file system environment locally
+  
+  Resolve case-sensitivity problems inside the Dropbox client?
+  
+  Tell Alan K on twitter DMs that the case-sensitivity bug is fixed
+  
+  Tell [Dominik](https://twitter.com/sprsso_de/status/1002214398981824512)
+  
+  Tell [Markus](https://mail.google.com/mail/u/1/#inbox/1640ce89c570b1d6)
+  
+  Tell [Alana](https://mail.google.com/mail/u/1/#inbox/1640f5acb77f0334)
 
-Fix ignore file becoming post bug
-- Tell [Markus](https://mail.google.com/mail/u/1/#inbox/16404ca3430ae1c2)
+Re-enable public file feature.
+
+Git client:
+  File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
+  Tell Taurean when new Dropbox client is live
 
 ---
 
@@ -67,9 +72,6 @@ Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/ma
 
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
 - Let [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc) know
-
-Fix bug which makes templates whose names contain a single prime (') un-deleteable
-- Let [Loren](https://mail.google.com/mail/u/1/#inbox/161769020483a3ed) know
 
 Fix bug with KaTeX LaTeX rendering
 - Let [Peter](https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6) know
@@ -190,6 +192,10 @@ File codecs
   Perhaps just use https://github.com/markdown-it/markdown-it
   Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206)
 
+Photo posts
+- Expose exif data to templates
+  - Tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
+  
 Write a unified import tool which scrapes content from any blog/website
   Jekyll converter
   - Map excerpt metadata to summary 
@@ -264,6 +270,7 @@ Increase price for new customers to $60 a year. This will not affect existing cu
 
 Support 2FA (Two factor authentication)
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
+- Tell [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)
 
 Consider supporting Open Graph
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)

@@ -175,6 +175,13 @@ function tests () {
     ''
   ]);
 
+  // Fallback to filename
+  is('', '[bar]file-name.txt', [
+    'file name',
+    '',
+    ''
+  ]);
+
   // H1 comes late in post
   is('<p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><h1>Y</h1><h2>X</h2>', 'file-name.txt', [
     'A',

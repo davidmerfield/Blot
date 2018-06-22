@@ -3,7 +3,7 @@
 
 // this also needs to do entry.next
 // entry.previous
-
+var debug = require('debug')('blot:render:load:entry');
 var helper = require('../../helper');
 var type = helper.type;
 var Entry = require('../../models/entry/instance');
@@ -34,36 +34,31 @@ module.exports = function(locals, doThis) {
 
       var local = obj[key];
 
+      // Partials never contain an entry
       if (key === 'partials' && !depth) {
         continue;
       }
 
+      // This is an entry, modify it now and proceed!
       if (local instanceof Entry) {
         modify(local);
-        continue;
       }
 
-      if (type(local, 'array') && !(local[0] instanceof Entry)) {
-
-        // Make modifications to this entry list
+      // This is a list (not neccessarily of entries) 
+      // so add the needed properties to it, e.g. 'first'.
+      if (type(local, 'array')) {
         local = list(local);
-
-        continue;
       }
 
-
-      // This is an entry list, we could do shit to it too
+      // This is a list of entries so modify each and proceed
+      // We assume that if the first item in the list is an
+      // entry then the rest is too. This could be dumb.
       if (type(local, 'array') && local[0] instanceof Entry) {
-
-        // Make modifications to this entry list
-        local = list(local);
-
         for (var entry in local)
           modify(local[entry]);
-
-        continue;
       }
 
+      // Proceed down the tree!
       if (type(local, 'object') || type(local, 'array')) {
         check(local, ++depth);
       }
