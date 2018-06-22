@@ -1,99 +1,87 @@
-var helper = require('../helper');
+var helper = require("../helper");
 var ensure = helper.ensure;
 var forEach = helper.forEach;
 var normalize = helper.pathNormalizer;
 var LocalPath = helper.localPath;
 
-var Emit = require('./emit');
+var Emit = require("./emit");
 
-var fs = require('fs');
-var Entry = require('../models/entry');
-var Ignored = require('../models/ignoredFiles');
-var Metadata = require('../models/metadata');
+var fs = require("fs");
+var Entry = require("../models/entry");
+var Ignored = require("../models/ignoredFiles");
+var joinPath = require("path").join;
+var makeStat = require("./makeStat");
 
-var joinPath = require('path').join;
-var makeStat = require('./makeStat');
-
-module.exports = function (blogID) {
-
-  ensure(blogID, 'string');
+module.exports = function(blogID) {
+  ensure(blogID, "string");
 
   var emit = new Emit(blogID);
   var changes = [];
 
-  return function check (dir, callback) {
-
-    ensure(dir, 'string')
-      .and(callback, 'function');
+  return function check(dir, callback) {
+    ensure(dir, "string").and(callback, "function");
 
     var localDir = LocalPath(blogID, dir);
 
-    fs.readdir(localDir, function(err, contents){
-
+    fs.readdir(localDir, function(err, contents) {
       if (err) return callback(err);
 
-      forEach(contents, function(fileName, next){
+      forEach(
+        contents,
+        function(fileName, next) {
+          if (fileName === ".DS_Store") return next();
 
-        if (fileName === '.DS_Store') return next();
+          var localPath = joinPath(localDir, fileName);
+          var path = joinPath(dir, fileName);
 
-        var localPath = joinPath(localDir, fileName);
-        var path = joinPath(dir, fileName);
+          fs.stat(localPath, function(err, stat) {
+            if (err) return callback(err);
 
-        fs.stat(localPath, function(err, stat){
+            if (stat.isDirectory()) return check(path, next);
 
-          if (err)
-            return callback(err);
+            checkIfWeKnow(blogID, path, function(err, weKnow) {
+              if (err) return callback(err);
 
-          if (stat.isDirectory())
-            return check(path, next);
+              if (weKnow) {
+                emit("✓ " + path);
+                return next();
+              }
 
-          checkIfWeKnow(blogID, path, function(err, weKnow){
+              emit("x Nothing exists for file " + path);
+              changes.push(makeStat(path, stat));
 
-            if (err)
-              return callback(err);
-
-            if (weKnow) {
-              emit('✓ ' + path);
               return next();
-            }
-
-            emit('x Nothing exists for file ' + path);
-            changes.push(makeStat(path, stat));
-
-            return next();
+            });
           });
-        });
-      }, function(){
-        emit('✓ ' + dir);
-        return callback(null, changes);
-      });
+        },
+        function() {
+          emit("✓ " + dir);
+          return callback(null, changes);
+        }
+      );
     });
   };
 };
 
-function IsPublic (path) {
-  return normalize(path).indexOf('/public/') === 0;
+function IsPublic(path) {
+  return normalize(path).indexOf("/public/") === 0;
 }
 
-function IsTemplate (path) {
-  return normalize(path).indexOf('/templates/') === 0;
+function IsTemplate(path) {
+  return normalize(path).indexOf("/templates/") === 0;
 }
 
-
-function checkIfWeKnow (blogID, path, callback) {
-
+function checkIfWeKnow(blogID, path, callback) {
   var emit = new Emit(blogID);
 
   var know = 0;
 
-  Entry.get(blogID, path, function(entry){
-
+  Entry.get(blogID, path, function(entry) {
     var isEntry = entry && !entry.deleted;
     var isPublic = IsPublic(path);
     var isTemplate = IsTemplate(path);
 
-    Ignored.isIt(blogID, path, function(err, isIgnored){
-
+    Ignored.isIt(blogID, path, function(err, isIgnored) {
       if (isEntry) know++;
 
       if (isIgnored) know++;
@@ -108,23 +96,21 @@ function checkIfWeKnow (blogID, path, callback) {
 
       // know > 1, there's a conflict
 
-      emit('x Dropping ' + path + ' from Ignored list, Entries list and Metadata list since it is on more than one of them');
+      emit(
+        "x Dropping " +
+          path +
+          " from Ignored list, Entries list since it is on more than one of them"
+      );
 
-      dropItem(blogID, path, function(){
-
+      dropItem(blogID, path, function() {
         return callback(null, false);
       });
     });
   });
 }
 
-function dropItem (blogID, path, callback) {
-
-  Ignored.drop(blogID, path, function(){
-
-    Metadata.drop(blogID, path, function(){
-
-      Entry.drop(blogID, path, callback);
-    });
+function dropItem(blogID, path, callback) {
+  Ignored.drop(blogID, path, function() {
+    Entry.drop(blogID, path, callback);
   });
 }
