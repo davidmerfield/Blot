@@ -21,14 +21,34 @@ function add_leading_slash(path) {
 
 module.exports = function start_listener(handle) {
   Blog.get({ handle: handle }, function(err, blog) {
-    if (err || !blog) return console.log("ERROR no blog", handle);
+    if (err || !blog) {
+      return console.log("ERROR no blog", handle);
+    }
 
     var blog_id = blog.id;
-
     var emitter = git_emit(__dirname + "/data/" + blog.handle + ".git");
     var git = Git(blog_dir(blog.id));
 
+    console.log("Blog:", blog_id, "(" + handle + ")", "Git: Initialized");
+
     debug("Initialized", blog_id, "git repo");
+
+    emitter.on("post-rewrite", function(info, info2, info3) {
+      console.log("Blog:", blog_id, "Git: post-rewrite", info);
+    });
+
+    emitter.on("post-receive", function(info, info2, info3) {
+      console.log("Blog:", blog_id, "Git: post-receive", info);
+    });
+
+    emitter.on("post-update", function(info, info2, info3) {
+      console.log("Blog:", blog_id, "Git: post-update", info);
+    });
+
+    emitter.on("update", function(update, info2, info3) {
+      update.accept();
+      console.log("Blog:", blog_id, "Git: update", update);
+    });
 
     emitter.on("post-update", function() {
       debug("post-update called");
@@ -41,6 +61,13 @@ module.exports = function start_listener(handle) {
 
         debug("Blog folder is synchronized");
         debug(info);
+        console.log(
+          "Blog:",
+          blog_id,
+          "(" + handle + ")",
+          "Git: post-receive",
+          info
+        );
 
         Sync(
           blog_id,
