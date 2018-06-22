@@ -1,30 +1,11 @@
 Case sensitivity:
-
-  My current strategy is to turn Blot case-sensitive from change.set downward and remove the lowercasing feature from localPath. I need to thoroughly review where that module is used. At the dropbox client level, all files and folders will be stored lowercase. I will add an option to change.set to allow it to accept a display 'name' which will preserve case and store this for each entry. This name property will be used on the dashboard.
-
-  Does Dropbox send folders individually with correct name property on initial sync or subsequent calls to file list folder?
-
-  Change.set and Change.drop downward. It seems like the image post needs the relative path to the image.
-
-  Perhaps store all files and folders lowercase, with option to store case preserving path?
-
-  Should I roll back the promise to make URLs case insensitive?
-
-  Since Dropbox is case-insensitive, files should be stored as the lowercase version with the option to preserve the case of the file.
-  
-  Set up case-sensitive file system environment locally
-  
-  Resolve case-sensitivity problems inside the Dropbox client?
-  
-  Tell Alan K on twitter DMs that the case-sensitivity bug is fixed
-  
-  Tell [Dominik](https://twitter.com/sprsso_de/status/1002214398981824512)
-  
-  Tell [Markus](https://mail.google.com/mail/u/1/#inbox/1640ce89c570b1d6)
-  
-  Tell [Alana](https://mail.google.com/mail/u/1/#inbox/1640f5acb77f0334)
-
-Re-enable public file feature.
+  Pass case-sensitive path to entry.build?
+  Or recursively build up case-preserved name from existing path to item?
+    - see issue when publishing [Photo]/[1]/[2][aBc]/Post.txt
+  Should we submit list of changes from Dropbox in this order?
+    Or should we just submit best guess of case-preserved path?
+    [/Foo, /Foo/Bar, /Foo/Bar/Baz.txt];
+    then when we build Baz.txt we can look up in the db to retrieve case-preserved Foo and Bar?
 
 Git client:
   Weird issue with slash in the file's name sent to metadata
