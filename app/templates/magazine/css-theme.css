@@ -179,6 +179,9 @@ h1 {font-weight:900;margin:0;padding:0;font-size:2.25rem;}
 
 /* Italic style sucks in font-weight: 900 */ 
 h1 em {font-style:normal}
+  
+  /*Prevent long words breaking the layout */
+  .lh-title {hyphens: auto;}
 
   /*Compress title size */ 
   .lh-title.f2, .lh-title.f1 {line-height:1}
