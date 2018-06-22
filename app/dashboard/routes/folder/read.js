@@ -1,60 +1,40 @@
-
-var Metadata = require('../../../models/metadata');
-var readdir = Metadata.readdir;
-
-var stat = require('./stat');
-var dirname = require('path').dirname;
-
-var helper = require('helper');
+var stat = require("./stat");
+var fs = require("fs-extra");
+var join = require("path").join;
+var helper = require("helper");
 var forEach = helper.forEach;
+var blog_folder_dir = require("config").blog_folder_dir;
+var stat = require("./stat");
 
-var stat = require('./stat');
-
-function dir (blog, dir, callback) {
-
+function dir(blog, dir, callback) {
   var blogID = blog.id;
   var files = [];
   var folders = [];
 
-  readdir(blogID, dir, function(err, contents, dir){
+  function load(path, callback) {
+    stat(blog, path, function(err, stat) {
+      if (err) {
+        return callback();
+      }
 
-    if (err && err.code === 'ENOTDIR') {
+      if (stat.directory) {
+        folders.push(stat);
+      } else {
+        files.push(stat);
+      }
 
-      return stat(blog, dir, function(err, stat){
+      callback();
+    });
+  }
 
-        if (err) return callback(err);
-
-        readdir(blogID, dirname(dir), function(err, contents, dir){
-
-          callback(err, [], dir, stat);
-        });
-      });
-    }
-
+  fs.readdir(join(blog_folder_dir, blogID, dir), function(err, contents) {
     if (err) return callback(err);
 
-    forEach(contents, function(item, nextName){
+    contents = contents.map(function(name) {
+      return join(dir, name);
+    });
 
-      stat(blog, item.path, function(err, stat){
-
-        if (err) console.log(err);
-
-        if (err) return nextName();
-
-        stat.name = item.name;
-        stat.path = item.path;
-
-        if (stat.directory)
-          folders.push(stat);
-        else
-          files.push(stat);
-
-        nextName();
-      });
-
-    }, function(){
-
-
+    forEach(contents, load, function() {
       callback(null, folders.concat(files), dir);
     });
   });

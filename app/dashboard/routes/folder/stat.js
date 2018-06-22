@@ -1,81 +1,89 @@
-var stat = require('fs').stat;
-var helper = require('helper');
+var stat = require("fs").stat;
+var helper = require("helper");
 var localPath = helper.localPath;
-var basename = require('path').basename;
-var joinpath = require('path').join;
-var moment = require('moment');
-var Entry = require('entry');
-var IgnoredFiles = require('../../../models/ignoredFiles');
-var extname = require('path').extname;
-
+var basename = require("path").basename;
+var dirname = require("path").dirname;
+var joinpath = require("path").join;
+var moment = require("moment");
+var Entry = require("entry");
+var IgnoredFiles = require("../../../models/ignoredFiles");
+var extname = require("path").extname;
+var Metadata = require("metadata");
 var REASONS = {
-        'PREVIEW': 'a preview',
-        'TOO_LARGE': 'too large',
-        'PUBLIC_FILE': 'a public file',        
-        'WRONG_TYPE': 'not a file Blot can process'
-      };
-module.exports = function (blog, path, callback) {
+  PREVIEW: "a preview",
+  TOO_LARGE: "too large",
+  PUBLIC_FILE: "a public file",
+  WRONG_TYPE: "not a file Blot can process"
+};
 
+module.exports = function(blog, path, callback) {
   var blogID = blog.id;
-
   var local = localPath(blogID, path);
 
-  stat(local, function(err, stat){
-
+  stat(local, function(err, stat) {
     if (err) return callback(err);
 
-    IgnoredFiles.getStatus(blogID, path, function(err, ignored){
+    Metadata.get(blogID, path, function(err, casePresevedName) {
+      if (err) return callback(err);
 
-      Entry.get(blogID, path, function(entry){
+      IgnoredFiles.getStatus(blogID, path, function(err, ignored) {
+        if (err) return callback(err);
 
-        if (ignored) ignored = REASONS[ignored] || 'was ignored';
+        Entry.get(blogID, path, function(entry) {
+          if (ignored) ignored = REASONS[ignored] || "was ignored";
 
-        stat.path = path;
-        stat.name = basename(path);
-        stat.updated = moment.utc(stat.mtime).from(moment.utc());
+          stat.path = path;
+          stat.name = casePresevedName || basename(path);
+          stat.updated = moment.utc(stat.mtime).from(moment.utc());
+          stat.size = humanFileSize(stat.size);
+          stat.directory = stat.isDirectory();
+          stat.file = stat.isFile();
+          stat.url = joinpath("/~", dirname(path), stat.name);
+          stat.entry = entry;
+          stat.ignored = ignored;
 
-        stat.size = humanFileSize(stat.size);
+          if (entry) {
+            // Replace with human readable
+            entry.updated = stat.updated;
+            // Replace with case-preserving
+            entry.name = stat.name;
 
-        stat.directory = stat.isDirectory();
-        stat.file = stat.isFile();
-        stat.url = joinpath('/~', path);
-        stat.entry = entry;
-        stat.ignored = ignored;
+            if (
+              entry.page &&
+              entry.menu === false &&
+              [".txt", ".md", ".html"].indexOf(extname(entry.path)) === -1
+            ) {
+              entry.url = entry.path;
+            }
 
-        if (entry) {
+            if (entry.draft) {
+              entry.url = "/draft/view" + entry.path;
+            }
 
-          // Replace with human readable
-          entry.updated = stat.updated;
-
-          if (entry.page && entry.menu === false && ['.txt', '.md', '.html'].indexOf(extname(entry.path)) === -1) {
-            entry.url = entry.path;
+            if (entry.scheduled) {
+              entry.url += "?scheduled=true";
+              entry.toNow = moment.utc(entry.dateStamp).fromNow();
+              entry.date = moment
+                .utc(entry.dateStamp)
+                .tz(blog.timeZone)
+                .format("MMMM Do YYYY, h:mma");
+            }
           }
-
-          if (entry.draft) {
-            entry.url = '/draft/view' + entry.path;
-          }
-
-          if (entry.scheduled) {
-            entry.url += "?scheduled=true";
-            entry.toNow = moment.utc(entry.dateStamp).fromNow();
-            entry.date = moment.utc(entry.dateStamp)
-                               .tz(blog.timeZone)
-                               .format('MMMM Do YYYY, h:mma');
-          }
-
-        }
-        return callback(null, stat);
+          return callback(null, stat);
+        });
       });
     });
   });
-
 };
 
 function humanFileSize(size) {
+  if (size === 0) return "0 kb";
 
-  if (size === 0) return '0 kb';
+  var i = Math.floor(Math.log(size) / Math.log(1024));
 
-  var i = Math.floor( Math.log(size) / Math.log(1024) );
-
-  return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['bytes', 'kB', 'MB', 'GB', 'TB'][i];
-};
+  return (
+    (size / Math.pow(1024, i)).toFixed(2) * 1 +
+    " " +
+    ["bytes", "kB", "MB", "GB", "TB"][i]
+  );
+}
