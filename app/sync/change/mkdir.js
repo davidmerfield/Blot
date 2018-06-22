@@ -1,25 +1,20 @@
-var fs = require('fs-extra');
-var Metadata = require('metadata');
-var helper = require('helper');
+var fs = require("fs-extra");
+var Metadata = require("metadata");
+var helper = require("helper");
 var localPath = helper.localPath;
-var ensure = helper.ensure;
+var async = require("async");
 
-module.exports = function (blogID, path, callback) {
+module.exports = function(blogID, path, options, callback) {
+  if (callback === undefined && typeof options === "function") {
+    callback = options;
+    options = {};
+  }
 
-  ensure(blogID, 'string')
-    .and(path, 'string')
-    .and(callback, 'function');
+  var queue = [fs.ensureDir.bind(this, localPath(blogID, path))];
 
-  Metadata.add(blogID, path, function(err){
+  if (options.name) {
+    queue.push(Metadata.add.bind(this, blogID, path, options.name));
+  }
 
-    if (err) return callback(err);
-
-    fs.ensureDir(localPath(blogID, path), function(err){
-
-      if (err) return callback(err);
-
-      callback();
-    });
-  });
+  async.parallel(queue, callback);
 };
-

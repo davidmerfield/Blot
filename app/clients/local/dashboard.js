@@ -2,8 +2,13 @@ var dashboard = require('express').Router();
 var database = require('./database');
 var fs = require('fs-extra');
 var Blog = require('blog');
-var local_path = require('helper').localPath;
 var watch = require('./watch');
+var config = require('config');
+var join = require('path').join;
+
+function blog_dir (blog_id) {
+  return join(config.blog_folder_dir, blog_id);
+}
 
 dashboard.use(function (req, res, next){
 
@@ -55,7 +60,7 @@ dashboard.post('/disconnect', function(req, res, next){
 
       if (err) return next(err);
 
-      fs.emptyDir(local_path(req.blog.id, ''), function(err){
+      fs.emptyDir(blog_dir(req.blog.id), function(err){
 
         if (err) return next(err);
 

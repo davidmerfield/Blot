@@ -7,9 +7,10 @@ var UID = helper.makeUid;
 var join = require('path').join;
 var basename = require('path').basename;
 var Blog = require('blog');
+var config = require('config');
 
 function blog_dir (blog_id) {
-  return helper.localPath(blog_id, '/');
+  return join(config.blog_folder_dir, blog_id);
 }
 
 var REPO_DIR = __dirname + '/data';
