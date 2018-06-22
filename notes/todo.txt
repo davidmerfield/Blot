@@ -27,6 +27,8 @@ Case sensitivity:
 Re-enable public file feature.
 
 Git client:
+  Weird issue with slash in the file's name sent to metadata
+  Moving a file fails
   File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
   Tell Taurean when new Dropbox client is live
 
