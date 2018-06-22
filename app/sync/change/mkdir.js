@@ -2,7 +2,7 @@ var fs = require("fs-extra");
 var Metadata = require("metadata");
 var helper = require("helper");
 var localPath = helper.localPath;
-var basename = require("path").basename;
+var async = require("async");
 
 module.exports = function(blogID, path, options, callback) {
   if (callback === undefined && typeof options === "function") {
@@ -10,15 +10,11 @@ module.exports = function(blogID, path, options, callback) {
     options = {};
   }
 
-  var name = options.name || basename(path);
+  var queue = [fs.ensureDir.bind(this, localPath(blogID, path))];
 
-  Metadata.add(blogID, path, name, function(err) {
-    if (err) return callback(err);
+  if (options.name) {
+    queue.push(Metadata.add.bind(this, blogID, path, options.name));
+  }
 
-    fs.ensureDir(localPath(blogID, path), function(err) {
-      if (err) return callback(err);
-
-      callback();
-    });
-  });
+  async.parallel(queue, callback);
 };

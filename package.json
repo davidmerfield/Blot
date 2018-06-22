@@ -4,6 +4,7 @@
   "description": "A blogging platform",
   "version": "0.0.0",
   "dependencies": {
+    "async": "^2.6.1",
     "aws-sdk": "^2.1.26",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.4.3",
