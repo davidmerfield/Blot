@@ -1,6 +1,5 @@
 var helper = require("../../../helper");
-var ensure = helper.ensure;
-
+var basename = require("path").basename;
 var normalize = helper.pathNormalizer;
 var rebuildDependents = require("../rebuildDependents");
 
@@ -42,10 +41,6 @@ module.exports = function(blog, path, options, callback) {
   }
 
   var name = options.name || basename(path);
-
-  if (options.name) {
-    casePreservingPath = path;
-  }
 
   Metadata.add(blog.id, path, name, function(err) {
     if (err) return callback(err);
