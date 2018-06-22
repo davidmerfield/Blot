@@ -1,75 +1,72 @@
-var Metadata = require('../models/metadata');
-var basename = require('path').basename;
-var helper = require('helper');
+var Metadata = require("metadata");
+var helper = require("helper");
 var normalize = helper.pathNormalizer;
-
-function encodeDirnames (path) {
-
-  var dirs = path
-          .split('/');
-
-  dirs.forEach(function(dir, i, dirs){
-    dirs[i] = encodeURIComponent(dir);
-  });
-
-  return dirs.join('/');
-}
-
-module.exports = function(server){
-
+var fs = require("fs-extra");
+var blog_folder_dir = require("config").blog_folder_dir;
+var join = require("path").join;
+var basename = require("path").basename;
 // Serve public files
-  server.get('/public*', function(request, response, next){
+module.exports = function(server) {
+  server.get("/public*", function(req, res, next) {
+    var blogID = req.blog.id;
 
-    var blogID = request.blog.id;
+    if (!req.url || !blogID) return next();
 
-    if (!request.url || !blogID) return next();
+    var path = decodeURIComponent(req.url);
 
-    var path = normalize(decodeURIComponent(request.url));
+    fs.readdir(join(blog_folder_dir, blogID, path), function(err, contents) {
+      if (err) return next();
 
-    Metadata.readdir(blogID, path, function(err, files, dir){
-
-      // We didn't find a matching file and that's OK!
-      if (err && err.code === 'ENOENT')
-        return next();
-
-      // We found a file, not a directory
-      // this should have been sent by an earlier route
-      if (err && err.code === 'ENOTDIR') {
-        return next();
-      }
-
-      files.forEach(function(f, i, files){
-        files[i].path = encodeDirnames(f.path);
+      contents = contents.map(function(name) {
+        return join(path, name);
       });
 
-      if (err) return next(err);
+      Metadata.get(blogID, contents, function(err, names) {
+        if (err) return next();
 
-      var dirname = basename(dir);
-
-      // This public URL maps to a dir
-      // so render the public view
-      var crumbs = dir.slice(0, dir.lastIndexOf('/'));
-
-      var breadcrumbs = [];
-
-      while (crumbs.length && crumbs !== '/') {
-
-        breadcrumbs.unshift({
-          name: crumbs.slice(crumbs.lastIndexOf('/') + 1),
-          path: crumbs
+        contents = contents.map(function(path, i) {
+          return {
+            name: names[i] || basename(path),
+            path: path
+          };
         });
 
-        crumbs = crumbs.slice(0, crumbs.lastIndexOf('/'));
-      }
+        // This public URL maps to a dir
+        // so render the public view
+        var crumbs = breadcrumbs(path);
 
-      response.addLocals({
-        path: path,
-        dirname: dirname,
-        breadcrumbs: breadcrumbs,
-        contents: files
+        res.addLocals({
+          path: path,
+          dirname: basename(path),
+          breadcrumbs: crumbs,
+          contents: contents
+        });
+
+        return res.renderView("public", next);
       });
-
-      return response.renderView('public', next);
     });
   });
 };
+
+function breadcrumbs(dir) {
+  if (dir === "/") return [];
+
+  var crumbs = [];
+
+  var names = dir.split("/").filter(function(name) {
+    return !!name;
+  });
+
+  names.forEach(function(name, i) {
+    crumbs.push({
+      path: "/" + names.slice(0, i + 1).join("/"),
+      name: name
+    });
+  });
+
+  crumbs.pop();
+
+  if (crumbs.length) crumbs[crumbs.length - 1].last = true;
+
+  return crumbs;
+}
