@@ -20,6 +20,7 @@ if (require.main === module) {
     if (err) throw err;
 
     access("dev", function() {
+      console.log(DROPBOX_FOLDER_PATH);
       process.exit();
     });
   });
