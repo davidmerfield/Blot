@@ -180,7 +180,20 @@ h1 {font-weight:900;margin:0;padding:0;font-size:2.25rem;}
 /* Italic style sucks in font-weight: 900 */ 
 h1 em {font-style:normal}
   
-  /*Prevent long words breaking the layout */
+  /*Prevent long words breaking the layout
+  
+  should this be?
+  
+  .hyphenate {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+ */
   .lh-title {hyphens: auto;}
 
   /*Compress title size */ 
