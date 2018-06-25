@@ -210,7 +210,10 @@ module.exports = (function() {
   }
 
   function setView(templateID, updates, callback) {
-    if (type(updates.partials) !== "object") updates.partials = {};
+    if (updates.partials !== undefined && type(updates.partials) !== "object") {
+      updates.partials = {};
+      console.log(templateID, updates, "Partials are wrong type");
+    }
 
     ensure(templateID, "string")
       .and(updates, viewModel)
