@@ -1,3 +1,6 @@
+Client.write does not propogate errors...
+  to demonstrate this, revoke dropbox token then try to enable local editing.
+  
 Case sensitivity:
   Pass case-sensitive path to entry.build?
   Or recursively build up case-preserved name from existing path to item?
@@ -50,6 +53,7 @@ Fix bug with Word Document links and
 
 Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note) this is seriously bad.
 - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
+- Tell [Johannes](https://twitter.com/johklab)
 
 Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
