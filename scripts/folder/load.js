@@ -6,6 +6,7 @@ var git_data_dir = join(helper.rootDir, "app", "clients", "git", "data");
 var load_db = require("../db/load");
 var dumps = join(__dirname, "data", "dumps");
 var gitClientData = join(__dirname, "data", "git");
+var dropboxContents = join(__dirname, "data", "dropbox");
 var config = require("config");
 var access = require("../access");
 var BLOG_ID = "1";
@@ -40,8 +41,20 @@ function main(label, callback) {
 
     fs.ensureDirSync(join(blog_dir, BLOG_ID));
     fs.emptyDirSync(config.cache_directory);
+    fs.ensureDirSync(DROPBOX_FOLDER_PATH);
     fs.emptyDirSync(DROPBOX_FOLDER_PATH);
-    fs.copySync(join(blog_dir, BLOG_ID), DROPBOX_FOLDER_PATH);
+
+    var dropbox_exists;
+
+    try {
+      dropbox_exists = fs.statSync(join(dropboxContents, label));
+    } catch (e) {}
+
+    if (dropbox_exists) {
+      fs.copySync(join(dropboxContents, label), DROPBOX_FOLDER_PATH);
+    } else {
+      fs.copySync(join(blog_dir, BLOG_ID), DROPBOX_FOLDER_PATH);
+    }
 
     callback();
   });
