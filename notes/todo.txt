@@ -1,6 +1,3 @@
-Client.write does not propogate errors...
-  to demonstrate this, revoke dropbox token then try to enable local editing.
-  
 Case sensitivity:
   Pass case-sensitive path to entry.build?
   Or recursively build up case-preserved name from existing path to item?
@@ -101,6 +98,9 @@ Fix bug with disqus plugin on preview subdomains
 
 ---
 
+Client.write does not propogate sync errors...
+  to demonstrate this, revoke dropbox token then try to enable local editing.
+  
 Finish Ghost theme import for Kingi
 https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69
 
