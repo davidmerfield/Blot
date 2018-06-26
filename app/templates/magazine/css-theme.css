@@ -194,7 +194,14 @@ h1 em {font-style:normal}
 }
 
  */
-  .lh-title {hyphens: auto;}
+  .lh-title {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
 
   /*Compress title size */ 
   .lh-title.f2, .lh-title.f1 {line-height:1}
