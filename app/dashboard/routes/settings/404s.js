@@ -1,26 +1,22 @@
-module.exports = function(server){
-
-  var fourOhFour = require('../../../models/404');
+module.exports = function(server) {
+  var fourOhFour = require("../../../models/404");
   var List = fourOhFour.list;
 
-  server.route('/404s')
+  server
+    .route("/404s")
 
-    .get(function(req, res, next){
-
-      List(req.blog.id, function(err, list, ignored){
-
+    .get(function(req, res, next) {
+      List(req.blog.id, function(err, list, ignored) {
         if (err) return next(err);
 
         var has_ignored;
 
         if (req.query.raw) {
+          for (var i in list) list[i] = list[i].url;
 
-          for (var i in list)
-            list[i] = list[i].url;
-
-          res.setHeader('Content-type', 'text/plain');
-          res.charset = 'UTF-8';
-          return res.send(list.join('\n'));
+          res.setHeader("Content-type", "text/plain");
+          res.charset = "UTF-8";
+          return res.send(list.join("\n"));
         }
 
         if (ignored.length) {
@@ -37,13 +33,12 @@ module.exports = function(server){
           ignored: ignored
         });
 
-        res.title('404s');
-        res.render('404s');
+        res.title("404s");
+        res.render("404s");
       });
     })
 
-    .post(function(req, res, next){
-
+    .post(function(req, res, next) {
       var blog = req.blog;
       var blogID = blog.id;
 
@@ -65,11 +60,9 @@ module.exports = function(server){
         url = unignore;
       }
 
-      if (!doThis || !url)
-        return res.redirect(req.route.path);
+      if (!doThis || !url) return res.redirect(req.route.path);
 
-      doThis(blogID, url, function(err){
-
+      doThis(blogID, url, function(err) {
         if (err) return next(err);
 
         return res.redirect(req.route.path);

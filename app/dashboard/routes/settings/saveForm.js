@@ -1,0 +1,57 @@
+var SUCCESS = "Made changes successfully!";
+var resaveEntries = require("./resaveEntries");
+var rebuild = require("../../../rebuild");
+var Blog = require("blog");
+var _ = require("lodash");
+var helper = require("helper");
+var extend = helper.extend;
+
+module.exports = function(req, res, next) {
+  var blog = req.blog;
+  var blogID = blog.id;
+  var updates = req.body || {};
+
+  updates.menu = updates.menu || [];
+
+  for (var i in updates.menu) {
+    for (var x in blog.menu) {
+      if (blog.menu[x].id === updates.menu[i].id) {
+        extend(updates.menu[i]).and(blog.menu[x]);
+      }
+    }
+  }
+
+  // Oterwhse the menu is deleted...
+  if (!updates.menu.length) {
+    delete updates.menu;
+  }
+
+  Blog.set(blogID, updates, function(errors, changes) {
+    if (errors) return next(errors);
+
+    // Add success message if we're going to the settings page
+    // and successful changes were made
+    if (changes && changes.length && _.isEmpty(errors)) {
+      res.message({ success: SUCCESS });
+    }
+
+    // We now need to save every entry so that
+    // changes to permalink format take effect.
+    if (
+      changes.indexOf("timeZone") > -1 ||
+      changes.indexOf("dateDisplay") > -1 ||
+      changes.indexOf("permalink") > -1
+    ) {
+      resaveEntries(blogID, function() {});
+    }
+
+    // We need to build all the blog's entries if the user
+    // has changed any of the plugins or their permalink
+    // format. This should be improved but we.
+    if (changes && changes.indexOf("plugins") > -1) {
+      rebuild(blog.id);
+    }
+
+    return res.redirect(req.path);
+  });
+};
