@@ -179,7 +179,7 @@ File codecs
   Write a pandoc compatible markdown converter in javascript
   to resolve some of the performance issues with pandoc
   Perhaps just use https://github.com/markdown-it/markdown-it
-  Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206)
+- Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206)
 
 Photo posts
 - Expose exif data to templates
