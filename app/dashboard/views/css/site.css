@@ -965,7 +965,7 @@ form .error,
 }
 
 .box.green {
-  background-color: rgba(24, 207, 33, 0.12);
+  background-color: rgb(229, 250, 230);
   border: 1px solid rgba(17, 190, 26, 0.3);
   margin-left: -0.66em;
   color: rgb(3, 61, 3);
