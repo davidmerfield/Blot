@@ -160,7 +160,7 @@ Investigate static site search offerings
 Dashboard
 - Dumb quotes are still smartified, even without typeset enabled.
 - Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
-- Consdier generating SSL cert for www subdomain of apex domain pointed to Blot, and redirect it to apex domain. Tell [Paul](https://mail.google.com/mail/u/1/#inbox/164423db2ef130b0)
+- Generate SSL cert for www subdomain of apex domain pointed to Blot, and redirect it to apex domain. Tell [Paul](https://mail.google.com/mail/u/1/#inbox/164423db2ef130b0)
 - Implement a flags page for toggling all the settings (including hidden ones) for a given blog
 - Route requests to new dashboard if toggle is on to allow thorough testing
 - When a user pastes the whole tracking script into the preferences page on the dashboard,
