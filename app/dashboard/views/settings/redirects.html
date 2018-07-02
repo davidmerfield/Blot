@@ -9,56 +9,5 @@ form label {cursor: pointer;line-height: 1.5;}
 
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
-<h2>Redirects</h2>
-    <p>
-
-      Specify redirect rules below. View <a href="/404s">your blog's 404 log</a> .
-    </p>
-
-    <a id="addRedirect" class="button secondary">Add a rule</a>
-    <a id="toggleTextarea" class="button secondary">Mass edit</a>
-    <Br /><br />
-
-    <section id="stage">
-
-    <section id="redirects" class="fullRow sortable" style="max-width:100%">
-
-    {{#redirects}}
-      <section>
-        <span class="handle" style="top:0.75em">&#9776;</span>
-        <label>
-          <input placeholder="from" type="text" name="redirects.{{index}}.from" value="{{from}}"/>
-        </label>
-        <label>
-         <input placeholder="to" type="text" name="redirects.{{index}}.to" value="{{to}}"/>
-        </label>
-        <a style="top:1.5em" class="button small secondary removeLink" class="right">Delete</a>
-        <span class="clear"></span>
-      </section>
-    {{/redirects}}
-    </section>
-  </section>
-
-      <input class="button" type="submit" value="Save changes"/>
-
-
-
-          <section id="new_redirect" style="display:none;background:rgba(255, 235, 0, 0.09)">
-            <span class="handle">&#9776;</span>
-            <label>
-              <input placeholder="from" type="text" name="redirects.{{index}}.from" value=""/>
-            </label>
-            <label>
-             <input placeholder="to" type="text" name="redirects.{{index}}.to" value=""/>
-            </label>
-            <a class="button small secondary removeLink" class="right">Delete</a>
-            <span class="clear"></span>
-          </section>
 </form>
-<section id="backstage" style="display:none">
-<textarea name="redirects" style="line-height:1.333;font-size:16px;margin-bottom:1.5em;padding:0.1em;font-family:monospace">
-{{#redirects}}
-{{from}} {{to}}
-{{/redirects}}
-</textarea>
-</section>
+

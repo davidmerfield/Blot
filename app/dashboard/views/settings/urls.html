@@ -1,0 +1,84 @@
+
+<div class="clear"></div>
+  <div class="sub nav" style="margin-bottom:1.3em;">
+
+
+
+      <a href="/settings" style="font-size:16px">Settings</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
+
+      <a href="/settings/domain" style="font-size:16px">Date and Time</a>
+
+</div>
+  <hr>
+<form method='post' action='/settings?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+
+    <style type="text/css">code {background: #eee}</style>
+    <p>If you make any changes, Blot will update your existing posts and redirect their old permalinks. Learn how to <a href="/configuring/permalinks">create a custom permalink format</a> on the help page.</p>
+      {{#permalinkFormats}}
+      <label>
+      <input type="radio" name="permalink.format" value="{{value}}" {{checked}}>
+        {{name}}
+
+        {{#custom}} format: <input type="text" style="display:inline;line-height:2;width:40%;padding:0 0.25em;margin:-0.3em 0 0 0.66em" name="permalink.custom" value="{{blog.permalink.custom}}"/>
+      {{/custom}}
+      {{^custom}}  e.g. <code>{{blog.pretty.url}}{{example}}</code>
+      {{/custom}}
+      </label>
+      {{/permalinkFormats}}
+
+
+<h2>Redirects</h2>
+    <p>
+
+      Specify redirect rules below. View <a href="/404s">your blog's 404 log</a> .
+    </p>
+
+    <a id="addRedirect" class="button secondary">Add a rule</a>
+    <a id="toggleTextarea" class="button secondary">Mass edit</a>
+    <Br /><br />
+
+    <section id="stage">
+
+    <section id="redirects" class="fullRow sortable" style="max-width:100%">
+
+    {{#redirects}}
+      <section>
+        <span class="handle" style="top:0.75em">&#9776;</span>
+        <label>
+          <input placeholder="from" type="text" name="redirects.{{index}}.from" value="{{from}}"/>
+        </label>
+        <label>
+         <input placeholder="to" type="text" name="redirects.{{index}}.to" value="{{to}}"/>
+        </label>
+        <a style="top:1.5em" class="button small secondary removeLink" class="right">Delete</a>
+        <span class="clear"></span>
+      </section>
+    {{/redirects}}
+    </section>
+  </section>
+
+      <input class="button" type="submit" value="Save changes"/>
+
+
+
+          <section id="new_redirect" style="display:none;background:rgba(255, 235, 0, 0.09)">
+            <span class="handle">&#9776;</span>
+            <label>
+              <input placeholder="from" type="text" name="redirects.{{index}}.from" value=""/>
+            </label>
+            <label>
+             <input placeholder="to" type="text" name="redirects.{{index}}.to" value=""/>
+            </label>
+            <a class="button small secondary removeLink" class="right">Delete</a>
+            <span class="clear"></span>
+          </section>
+    </form>
+
+
+<section id="backstage" style="display:none">
+<textarea name="redirects" style="line-height:1.333;font-size:16px;margin-bottom:1.5em;padding:0.1em;font-family:monospace">
+{{#redirects}}
+{{from}} {{to}}
+{{/redirects}}
+</textarea>
+</section>

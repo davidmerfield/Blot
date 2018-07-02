@@ -1,0 +1,48 @@
+
+<div class="clear"></div>
+  <div class="sub nav" style="margin-bottom:1.3em;">
+
+
+
+      <a href="/settings" style="font-size:16px">Settings</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
+
+      <a href="/settings/menu" style="font-size:16px">Menu</a>
+
+</div>
+  <hr>
+<form method='post' action='/settings?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+
+
+  <button id="addLink" style="z-index: 10;position: relative;" class="button secondary right" >Add a link</button>
+
+  <p>Links:</p>
+
+  <section id="menu" class="fullRow sortable"  style="max-width:100%">
+
+  {{#blog.menu}}
+    <section style="border:none" id="link_{{id}}" class="{{#isPage}}isPage{{/isPage}}">
+      <span class="handle">&#9776;</span>
+      <input type="hidden" name="menu.{{index}}.id" value="{{id}}"/ >
+      <label>
+        {{#isPage}}
+          <a target="_blank" href="{{blog.blogURL}}{{url}}">
+            <span class="link">{{label}}</span> page
+          </a>
+        {{/isPage}}
+        <input placeholder="Label" type="text" name="menu.{{index}}.label" value="{{label}}"/>
+      </label>
+      <label>
+       <input type="text" name="menu.{{index}}.url" value="{{url}}"/>
+      </label>
+      <button class="button small secondary removeLink" class="right">Delete</button>
+      <div class="clear"></div>
+    </section>
+  {{/blog.menu}}
+  </section>
+
+  <br />
+  <br />
+
+  <input class="button" type="submit" value="Save changes"/>
+  </fieldset>
+</form>

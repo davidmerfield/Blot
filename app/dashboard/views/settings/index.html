@@ -3,203 +3,126 @@
 .plugin {width: 100%;padding:0;margin:0;float:none;}
 input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
 form label {cursor: pointer;line-height: 1.5;}
+
+.linkTo {color: black;display: block;padding:1em 0;text-decoration: none;}
+.linkTo:hover {border:none;background: #eee}
 </style>
 
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
 
-  <fieldset>
 
-    <label>
-      Title:
-      <input type="text" name="title" value="{{blog.title}}" />
-      <span class="error">{{errors.title}}</span>
-    </label>
-    <hr>
+    <a class="linkTo" href="/settings/title">
+      <b style="width:25%;display:block;float:left;font-weight:500">Title</b>
+      <b style="color:gray;font-weight:500">{{blog.title}}</b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
 
-    <label>
-      Folder: <b>{{client.display_name}}</b> <a href="/clients">Edit</a>
-    </label>
+    <hr style="margin: 0">
+    
+    <a class="linkTo" href="/settings/domain">
+      <b style="width:25%;display:block;float:left;font-weight:500">Domain</b>
+      <b style="color:gray;font-weight:500">{{blog.url}}</b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
+    
 
-    <hr>
-    <label>
-      Theme: <b>{{template.name}}</b> <a href="/theme">Edit</a>
-    </label>
+    <hr style="margin: 0">
+    
+          <a class="linkTo" href="/clients">
+      <b style="width:25%;display:block;float:left;font-weight:500">Folder</b>
+      <b style="color:gray;font-weight:500">{{client.display_name}}</b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
+    
+    <hr style="margin: 0">
+    
+ <a class="linkTo" href="/theme">
+      <b style="width:25%;display:block;float:left;font-weight:500">Theme</b>
+      <b style="color:gray;font-weight:500">{{template.name}}</b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
 
-    <hr>
 
-    <label>
-      Username:
-      <input type="text" name="handle" value="{{blog.handle}}" />
-      <span class="error">{{errors.handle}}</span>
-    </label>
+    <hr style="margin: 0">
 
-    <label>Personal domain:
-    <div class="messageWrapper">
-      <input type="text" id="customDomain" name="domain" value="{{blog.domain}}" placeholder="Your website's hostname"/>
-      <span id="inputMessage" class="inputMessage"></span>
-    </div>
-    <span class="error">{{errors.domain}}</span>
-    <span id="customHelper" class="lightText" style="display:none;position:absolute;right: -324px;width:300px;top:20px">
-      To host your blog on a personal domain, create a CNAME record for the 'www' subdomain which points to <span class="selectable">{{host}}</span> <a href="/configuring/domain">Learn more</a>.</span>
-    </label>
+ <a class="linkTo" href="/settings/photo">
+      <b style="width:25%;display:block;float:left;font-weight:500">Avatar</b>
+      <b style="color:gray;font-weight:500">
 
-    {{#blog.domain}}
-    <label>
-      <input name='forceSSL' type='hidden' value='off' >
-      <input name='forceSSL' type="checkbox" {{#blog.forceSSL}}checked{{/blog.forceSSL}}/> Redirect HTTP traffic to HTTPS
-    </label>
+        {{^blog.avatar}}<em>You have not uploaded a photo</em>{{/blog.avatar}}
 
- 
-    {{/blog.domain}}
+        {{#blog.avatar}}
+          <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+        {{/blog.avatar}}
+      </b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
+  
+      <hr style="margin: 0">
 
-  <label style="margin-bottom:0">Photo:</label>
 
-  {{#blog.avatar}}
-  <section id="avatar">
-    <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-  </section>
-  {{/blog.avatar}}
 
-  <section class="imageUpload left" style="width:50%">
-    {{#blog.avatar}}
-      <span class="">Select a new photo</span>
-    {{/blog.avatar}}
-      <input type='file' id="avatarUpload" name='avatar' />
-    {{#blog.avatar}}
-      <input id="uploadButton" disabled class="button small" type="submit" value="Upload photo"/> &nbsp;
-      <button class="button small" name="avatar" value="" type="submit">Remove existing photo</button>
-    {{/blog.avatar}}
-    {{^blog.avatar}}<br />{{/blog.avatar}}
-  </section>
 
-  <div class="clear"></div>
+    <hr style="margin: 0">
+    
+ <a class="linkTo" href="/settings/menu">
+      <b style="width:25%;display:block;float:left;font-weight:500">Menu</b>
+      <b style="color:gray;font-weight:500">{{#blog.menu}} {{label}}, {{/blog.menu}}</b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
 
-  {{#blog.avatar}}
-  <label>
-    <input type='hidden' value='off' name='roundAvatar'>
-    <input {{#blog.roundAvatar}}checked{{/blog.roundAvatar}} type="checkbox" name="roundAvatar"/> Make my photo rounded
-  </label>
-  {{/blog.avatar}}
-
-  <br />
-  <input class="button" type="submit" value="Save changes"/>
-  <br />
-  <br />
-  <br />
-
-  <button id="addLink" style="z-index: 10;position: relative;" class="button secondary right" >Add a link</button>
-
-  <p>Menu links:</p>
-
-  <section id="menu" class="fullRow sortable"  style="max-width:100%">
-
-  {{#blog.menu}}
-    <section id="link_{{id}}" class="{{#isPage}}isPage{{/isPage}}">
-      <span class="handle">&#9776;</span>
-      <input type="hidden" name="menu.{{index}}.id" value="{{id}}"/ >
-      <label>
-        {{#isPage}}
-          <a target="_blank" href="{{blog.blogURL}}{{url}}">
-            <span class="link">{{label}}</span> page
-          </a>
-        {{/isPage}}
-        <input placeholder="Label" type="text" name="menu.{{index}}.label" value="{{label}}"/>
-      </label>
-      <label>
-       <input type="text" name="menu.{{index}}.url" value="{{url}}"/>
-      </label>
-      <button class="button small secondary removeLink" class="right">Delete</button>
-      <div class="clear"></div>
-    </section>
-  {{/blog.menu}}
-  </section>
-
-  <br />
-  <br />
-
-  <input class="button" type="submit" value="Save changes"/>
-  </fieldset>
-
+  
 
   {{#categories}}
-  <h2>{{name}}</h2>
+
+      <hr style="margin: 0">
+
+  <b style="width:25%;padding-top:1em;display:block;float:left;font-weight:500">{{name}}</b>
+  <div style="width:75%;float:left">
     {{#plugins}}
     <div class="plugin {{checked}}">
 
       <label>
+        <span style="width:10%;display:block;float:left">
         <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
         <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
-        {{{description}}}
+      </span>
+      <span style="width:90%;margin-top:-1em;margin-bottom:-0.5em;display:block;float:left">        {{{description}}}
+</span>
       </label>
 
-      <div class="pluginOptions" style="padding-left:2em">
+      <div class="pluginOptions" style="display:none;padding-left:2em">
         {{{formHTML}}}
       </div>
+      <hr style="clear:both;margin:0;margin-bottom:0em">
     </div>
     {{/plugins}}
-    <input class="button" type="submit" value="Save changes" style="margin:0 0 2em;"/>
+    <input type="submit" value="Save changes" class="button" style="margin:1em 0">
+  </div>
+<!--     <input class="button" type="submit" value="Save changes" style="margin:0 0 2em;"/>
     <br>
-  {{/categories}}
+ -->  {{/categories}}
 
-    <h2>Date and time</h2>
+ <hr>
+ <a class="linkTo" href="/settings/date">
+      <b style="width:25%;display:block;float:left;font-weight:500">Timezone</b>
+      <b style="color:gray;font-weight:500">
 
+          {{#timeZones}}{{#selected}} {{time}} {{value}}{{/selected}}{{/timeZones}}
 
-    <label>
-      What is your timezone?<br />
-      <select name="timeZone" style="max-width:300px">
-        {{#timeZones}}
-          <option value="{{value}}" {{selected}}>{{time}} {{value}}</option>
-        {{/timeZones}}
-      </select>
-    </label>
+      </b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
+    <hr style="margin:0">
+ <a class="linkTo" href="/settings/urls">
+      <b style="width:25%;display:block;float:left;font-weight:500">URLs</b>
+      <b style="color:gray;font-weight:500">
 
-    <label>
-      How do you write your dates?<br />
-      <select name="dateFormat">
-        {{#dateFormats}}
-          <option value="{{value}}" {{selected}}>{{date}}</option>
-        {{/dateFormats}}
-      </select>
-    </label>
+         /title-of-post
 
-    <label>
-      How should the date appear on your blog?<br />
-      <select name="dateDisplay">
-        {{#displayFormats}}
-          <option value="{{value}}" {{selected}}>{{date}}</option>
-        {{/displayFormats}}
-      </select>
-    </label>
+      </b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
 
-
-    <label>
-      <input type='hidden' value='off' name='hideDates'>
-      <input type="checkbox" name="hideDates" {{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for your posts
-    </label>
-    <br />
-
-    <input class="button" type="submit" value="Save changes" style="margin:0 0 2em;"/>
-
-    <style type="text/css">code {background: #eee}</style>
-    <h2>Permalinks</h2>
-    <p>If you make any changes, Blot will update your existing posts and redirect their old permalinks. Learn how to <a href="/configuring/permalinks">create a custom permalink format</a> on the help page.</p>
-      {{#permalinkFormats}}
-      <label>
-      <input type="radio" name="permalink.format" value="{{value}}" {{checked}}>
-        {{name}}
-
-        {{#custom}} format: <input type="text" style="display:inline;line-height:2;width:40%;padding:0 0.25em;margin:-0.3em 0 0 0.66em" name="permalink.custom" value="{{blog.permalink.custom}}"/>
-      {{/custom}}
-      {{^custom}}  e.g. <code>{{blog.pretty.url}}{{example}}</code>
-      {{/custom}}
-      </label>
-      {{/permalinkFormats}}
-
-      <input class="button" type="submit" value="Save changes"/>
-      <br>
-      <br>
-    
-
-      <a href="/settings/redirects">Redirects</a>
 </form>

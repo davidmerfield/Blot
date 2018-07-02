@@ -1,0 +1,45 @@
+
+<div class="clear"></div>
+  <div class="sub nav" style="margin-bottom:1.3em;">
+
+
+
+      <a href="/settings" style="font-size:16px">Settings</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
+
+      <a href="/settings/domain" style="font-size:16px">Domain</a>
+
+</div>
+  <hr>
+<form method='post' action='/settings?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+
+
+  <fieldset>
+    <label>
+      Blot username:
+      <input type="text" name="handle" value="{{blog.handle}}" />
+      <span class="error">{{errors.handle}}</span>
+    </label>
+
+    <label>Personal domain:
+    <div class="messageWrapper">
+      <input type="text" id="customDomain" name="domain" value="{{blog.domain}}" placeholder="Your website's hostname"/>
+      <span id="inputMessage" class="inputMessage"></span>
+    </div>
+    <span class="error">{{errors.domain}}</span>
+    <span id="customHelper" class="lightText" style="display:none;position:absolute;right: -324px;width:300px;top:20px">
+      To host your blog on a personal domain, create a CNAME record for the 'www' subdomain which points to <span class="selectable">{{host}}</span> <a href="/configuring/domain">Learn more</a>.</span>
+    </label>
+
+    {{#blog.domain}}
+    <label>
+      <input name='forceSSL' type='hidden' value='off' >
+      <input name='forceSSL' type="checkbox" {{#blog.forceSSL}}checked{{/blog.forceSSL}}/> Redirect HTTP traffic to HTTPS
+    </label>
+
+ 
+    {{/blog.domain}}
+
+      <br />
+  <input class="button" type="submit" value="Save changes"/>
+
+</form>
