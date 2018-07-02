@@ -12,10 +12,32 @@ var errorHandler = require("./errorHandler");
 
 module.exports = function(server) {
   require("./404s")(server);
-
   require("./flags")(server);
   require("./redirects")(server);
 
+  server.get("/settings/domain", function(req, res, next) {
+    res.renderDashboard("settings/domain");
+  });
+
+  server.get("/settings/title", function(req, res, next) {
+    res.renderDashboard("settings/title");
+  });
+
+  server.get("/settings/photo", function(req, res, next) {
+    res.renderDashboard("settings/photo");
+  });
+
+  server.get("/settings/menu", loadMenu, function(req, res, next) {
+    res.renderDashboard("settings/menu");
+  });
+
+  server.get("/settings/date", loadTimeZones, function(req, res, next) {
+    res.renderDashboard("settings/date");
+  });
+
+  server.get("/settings/urls", loadPermalinkFormats, function(req, res, next) {
+    res.renderDashboard("settings/urls");
+  });
   server
     .route("/settings")
 
