@@ -1,5 +1,9 @@
+Fix bug with double escaped embedded ampersands.
+  http://gavin.blot.im/this-code-doesnt-work
+  
 Case sensitivity:
   Pass case-sensitive path to entry.build?
+    Fix case-sensitive bug with weblocs and tell [Frank](https://mail.google.com/mail/u/1/#inbox/1645a74250006a08)
   Or recursively build up case-preserved name from existing path to item?
     - see issue when publishing [Photo]/[1]/[2][aBc]/Post.txt
   Should we submit list of changes from Dropbox in this order?
@@ -359,7 +363,8 @@ Investigate atompub support for Marsedit and tell Chet
 Find cause of fontconfig error / warning
 
 Password protection for blogs
-- Tell [this chap](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231)
+- Tell [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231)
+- Tell [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281)
 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405)
