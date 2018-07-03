@@ -15,29 +15,17 @@ module.exports = function(server) {
   require("./flags")(server);
   require("./redirects")(server);
 
-  server.get("/settings/domain", function(req, res, next) {
-    res.renderDashboard("settings/domain");
-  });
+  server.get("/settings/menu", loadMenu);
+  server.get("/settings/date", loadTimeZones);
+  server.get("/settings/urls", loadPermalinkFormats);
 
-  server.get("/settings/title", function(req, res, next) {
-    res.renderDashboard("settings/title");
+  server.get("/settings/:view", function(req, res, next) {
+    res.addPartials({subpage: 'settings/' + req.params.view});
+    res.locals.subpage_title = req.params.view[0].toUpperCase() + req.params.view.slice(1); 
+    res.locals.subpage_slug = req.params.view;
+    res.renderDashboard("settings/subpage");
   });
-
-  server.get("/settings/photo", function(req, res, next) {
-    res.renderDashboard("settings/photo");
-  });
-
-  server.get("/settings/menu", loadMenu, function(req, res, next) {
-    res.renderDashboard("settings/menu");
-  });
-
-  server.get("/settings/date", loadTimeZones, function(req, res, next) {
-    res.renderDashboard("settings/date");
-  });
-
-  server.get("/settings/urls", loadPermalinkFormats, function(req, res, next) {
-    res.renderDashboard("settings/urls");
-  });
+  
   server
     .route("/settings")
 
