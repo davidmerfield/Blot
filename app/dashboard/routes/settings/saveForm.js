@@ -9,8 +9,9 @@ var extend = helper.extend;
 module.exports = function(req, res, next) {
   var blog = req.blog;
   var blogID = blog.id;
-  var updates = req.body || {};
-
+  var updates = req.updates || {};
+  var redirect = req.body.redirect || req.path;
+  
   updates.menu = updates.menu || [];
 
   for (var i in updates.menu) {
@@ -32,7 +33,7 @@ module.exports = function(req, res, next) {
     // Add success message if we're going to the settings page
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
-      res.message({ success: SUCCESS });
+      res.message({ success: SUCCESS, url:  redirect});
     }
 
     // We now need to save every entry so that
@@ -52,6 +53,6 @@ module.exports = function(req, res, next) {
       rebuild(blog.id);
     }
 
-    return res.redirect(req.path);
+    return res.redirect(redirect);
   });
 };
