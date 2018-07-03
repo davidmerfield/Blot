@@ -91,5 +91,5 @@ module.exports = {
   render: render,
   category: 'external',
   title: 'Videos',
-  description: 'Replace a Youtube or Vimeo URL with the video player.'
+  description: 'Embed videos from video URLs'
 };

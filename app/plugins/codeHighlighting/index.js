@@ -48,5 +48,5 @@ module.exports = {
   category: 'Typography',
   title: 'Code',
   render: render,
-  description: 'Add syntax highlighting to code.'
+  description: 'Add syntax highlighting to code'
 };

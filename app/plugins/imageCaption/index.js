@@ -47,5 +47,5 @@ module.exports = {
   category: 'images',
   isDefault: false,
   title: 'Caption',
-  description: 'Create a caption from the alt text of each image.'
+  description: 'Create a caption from the image’s alt text'
 };

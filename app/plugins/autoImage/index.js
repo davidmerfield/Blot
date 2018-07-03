@@ -33,5 +33,5 @@ module.exports = {
   render: render,
   category: 'images',
   title: 'Images',
-  description: 'Replace a text URL to an image with the image itself.'
+  description: 'Embed images from image URLs'
 };

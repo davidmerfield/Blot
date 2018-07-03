@@ -107,5 +107,5 @@ module.exports = {
   render: render,
   category: 'external',
   title: 'Tweets',
-  description: 'Replace a URL to a tweet with an embedded tweet.'
+  description: 'Embed tweets from Twitter URLs'
 };

@@ -28,7 +28,7 @@ function prerender (html, callback) {
 module.exports = {
   title: 'Emojis',
   isDefault: false,
-  description: 'Convert emojis into images for readers without native support.',
+  description: 'Convert emojis into images',
   category: 'Images',
   prerender: prerender
 };
