@@ -1,17 +1,4 @@
 
-<div class="clear"></div>
-  <div class="sub nav" style="margin-bottom:1.3em;">
-
-
-
-      <a href="/settings" style="font-size:16px">Settings</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
-
-      <a href="/settings/domain" style="font-size:16px">Date and Time</a>
-
-</div>
-  <hr>
-<form method='post' action='/settings?_csrf={{csrftoken}}' enctype='multipart/form-data'>
-
     <label>
       What is your timezone?<br />
       <select name="timeZone" style="max-width:300px">
@@ -43,6 +30,3 @@
       <input type='hidden' value='off' name='hideDates'>
       <input type="checkbox" name="hideDates" {{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for your posts
     </label>
-    <br />
-    <input type="submit" class="button" value="Save changes">
-</form>
