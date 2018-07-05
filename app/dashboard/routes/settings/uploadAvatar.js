@@ -25,9 +25,10 @@ module.exports = function(req, res, next) {
         )
       );
 
-    req.body.avatar = url;
+    req.updates.avatar = url;
 
     fs.unlink(avatar.path, function(err) {
+
       if (err) console.log("Error removing avatar");
 
       next();

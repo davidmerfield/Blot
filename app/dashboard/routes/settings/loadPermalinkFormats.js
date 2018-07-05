@@ -5,15 +5,16 @@ module.exports = function (req, res, next) {
 
   var sample = {
     dateStamp: moment.utc(),
-    slug: 'sample-post',
+    slug: 'title-of-post',
     id: 342,
-    path: '/posts/sample-post.txt',
+    name: 'file-name-of-post.txt',
+    path: '/posts/file-name-of-post.txt',
     metadata: {}
   };
 
   var formats = [
-    ['Post name', '{{slug}}'],
-    ['Date and name', '{{YYYY}}/{{MM}}/{{D}}/{{slug}}'],
+    ['Title', '{{slug}}'],
+    ['Date and title', '{{YYYY}}/{{MM}}/{{D}}/{{slug}}'],
     ['Custom', '']
   ];
 
@@ -36,6 +37,7 @@ module.exports = function (req, res, next) {
     };
   });
 
+  formats[formats.length - 1].last = true;
   res.locals.permalinkFormats = formats;
 
   next();

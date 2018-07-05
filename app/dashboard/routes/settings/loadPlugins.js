@@ -69,6 +69,7 @@ module.exports = function (req, res, next) {
       categories = [];
 
   for (var x in _categories) {
+    _categories[x].plugins[_categories[x].plugins.length -1].last = true;
     if (_categories[x].slug === 'typography') {
       categories.unshift(_categories[x]);
     } else {
