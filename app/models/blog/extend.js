@@ -30,6 +30,8 @@ module.exports = function extend (blog) {
         blog.menu[i].isPage = true;
       }
     }
+
+    blog.menu[blog.menu.length - 1].last = true;
   }
 
   // pages are used by the sitemap.
