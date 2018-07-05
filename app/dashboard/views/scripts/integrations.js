@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
-  $('.plugin input[type=checkbox]').click(function(){
+  $('.plugin > label input[type=checkbox]').click(function(){
 
-    $(this).parent().parent().toggleClass('checked')
+    $(this).parent().parent().parent().toggleClass('checked')
   });
 
   if ($('#selectAnalytics').val() !== 'None') {

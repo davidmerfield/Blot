@@ -1,20 +1,19 @@
-
     <style type="text/css">code {background: #eee}</style>
-    <p>If you make any changes, Blot will update your existing posts and redirect their old permalinks. Learn how to <a href="/configuring/permalinks">create a custom permalink format</a> on the help page.</p>
-      {{#permalinkFormats}}
+<!--     <p>If you make any changes, Blot will update your existing posts and redirect their old permalinks. </p>
+ -->      {{#permalinkFormats}}
       <label>
-      <input type="radio" name="permalink.format" value="{{value}}" {{checked}}>
-        {{name}}
+      <input style="margin-right:0.5em" type="radio" name="permalink.format" value="{{value}}" {{checked}}>
+        <b>{{name}}</b> {{^custom}}<code style="width:60%;float:right">{{example}}</code>{{/custom}}
 
-        {{#custom}} format: <input type="text" style="display:inline;line-height:2;width:40%;padding:0 0.25em;margin:-0.3em 0 0 0.66em" name="permalink.custom" value="{{blog.permalink.custom}}"/>
-      {{/custom}}
-      {{^custom}}  e.g. <code>{{blog.pretty.url}}{{example}}</code>
+        {{#custom}}<input type="text" style="display:inline;float:right;line-height:2;width:60%;padding:0 0.25em;margin:-0.3em 0 0 0.66em" name="permalink.custom" value="{{blog.permalink.custom}}"/><p style="padding-left:1.5em"> Learn how to <a href="/configuring/permalinks">create a custom permalink format</a></p>
       {{/custom}}
       </label>
+      <hr style="margin:0;margin-left:1.5em">
       {{/permalinkFormats}}
 
-
-<h2>Redirects</h2>
+<br><br>
+<p>Redirects</p>
+<hr>
     <p>
 
       Specify redirect rules below. View <a href="/404s">your blog's 404 log</a> .

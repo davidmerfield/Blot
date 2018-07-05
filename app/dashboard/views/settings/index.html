@@ -53,10 +53,13 @@ form label {cursor: pointer;line-height: 1.5;}
         {{^blog.avatar}}<em>You have not uploaded a photo</em>{{/blog.avatar}}
 
         {{#blog.avatar}}
-          <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-        {{/blog.avatar}}
+  <section id="avatar">
+    <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+  </section>
+  {{/blog.avatar}}
       </b>
       <span style="color:gray;float:right">Edit</span>
+      <div style="clear:both"></div>
     </a>
   
       <hr style="margin: 0">
@@ -64,12 +67,16 @@ form label {cursor: pointer;line-height: 1.5;}
 
 
 
-    <hr style="margin: 0">
     
  <a class="linkTo" href="/settings/menu">
       <b style="width:25%;display:block;float:left;font-weight:500">Menu</b>
-      <b style="color:gray;font-weight:500">{{#blog.menu}} {{label}}, {{/blog.menu}}</b>
-      <span style="color:gray;float:right">Edit</span>
+            <span style="color:gray;float:right">Edit</span>
+
+      <b style="color:gray;font-weight:500;    max-width: 68%;
+    display: block;
+    height: 1.4em;
+    overflow: hidden;
+}">{{#blog.menu}} {{label}}{{^last}},{{/last}} {{/blog.menu}}</b>
     </a>
 
   
@@ -85,17 +92,19 @@ form label {cursor: pointer;line-height: 1.5;}
 
       <label>
         <span style="width:7.5%;display:block;float:left;position:relative;top:1px">
-        <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
-        <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
-      </span>
-      <span style="width:92.5%;margin-top:-1em;margin-bottom:-0.5em;display:block;float:left">        {{{description}}}
-</span>
+          <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
+          <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
+        </span>
+        <span style="width:92.5%;margin-top:-1em;margin-bottom:-0.5em;display:block;float:left">        {{{description}}}
+        </span>
       </label>
 
-      <div class="pluginOptions" style="display:none;padding-left:2em">
+      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
         {{{formHTML}}}
       </div>
+      {{^last}}
       <hr style="clear:both;margin:0;margin-bottom:0em">
+      {{/last}}
     </div>
     {{/plugins}}
     <input type="submit" value="Save changes" class="button" style="margin:1em 0">
@@ -119,7 +128,7 @@ form label {cursor: pointer;line-height: 1.5;}
       <b style="width:25%;display:block;float:left;font-weight:500">URLs</b>
       <b style="color:gray;font-weight:500">
 
-         /title-of-post
+         {{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
 
       </b>
       <span style="color:gray;float:right">Edit</span>

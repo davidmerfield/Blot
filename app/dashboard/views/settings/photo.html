@@ -1,25 +1,27 @@
-        {{#blog.avatar}}
-          <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-        {{/blog.avatar}}
-
-
-  <section class="imageUpload left" style="width:50%">
-    {{#blog.avatar}}
-      <span class="">Select a new photo</span>
-    {{/blog.avatar}}
-      <input type='file' id="avatarUpload" name='avatar' />
-    {{#blog.avatar}}
-      <input id="uploadButton" disabled class="button small" type="submit" value="Upload photo"/> &nbsp;
-      <button class="button small" name="avatar" value="" type="submit">Remove existing photo</button>
-    {{/blog.avatar}}
-    {{^blog.avatar}}<br />{{/blog.avatar}}
+{{#blog.avatar}}
+  <section id="avatar">
+    <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
   </section>
-
-  <div class="clear"></div>
-
-  {{#blog.avatar}}
-  <label>
-    <input type='hidden' value='off' name='roundAvatar'>
-    <input {{#blog.roundAvatar}}checked{{/blog.roundAvatar}} type="checkbox" name="roundAvatar"/> Make my photo rounded
-  </label>
   {{/blog.avatar}}
+
+
+<section class="imageUpload left" style="width:50%">
+{{#blog.avatar}}
+  <span class="">Select a new photo</span>
+{{/blog.avatar}}
+  <input type='file' id="avatarUpload" name='avatar' />
+{{#blog.avatar}}
+  <input id="uploadButton" disabled class="button small" type="submit" value="Upload photo"/> &nbsp;
+  <button class="button small" name="avatar" value="" type="submit">Remove existing photo</button>
+{{/blog.avatar}}
+{{^blog.avatar}}<br />{{/blog.avatar}}
+</section>
+
+<div class="clear"></div>
+
+{{#blog.avatar}}
+<label>
+<input type='hidden' value='off' name='roundAvatar'>
+<input {{#blog.roundAvatar}}checked{{/blog.roundAvatar}} type="checkbox" name="roundAvatar"/> Make my photo rounded
+</label>
+{{/blog.avatar}}
