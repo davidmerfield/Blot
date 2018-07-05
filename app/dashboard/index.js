@@ -66,9 +66,12 @@ dashboard.use(function(req, res, next) {
   };
 
   res.renderDashboard = function(view, wrapper) {
-    delete res.locals.partials;
 
-    res.locals.partials = {};
+    console.log(res.locals.partials);
+
+// /    delete res.locals.partials;
+
+    res.locals.partials = res.locals.partials || {};
 
     res.addPartials({
       head: "partials/head",
