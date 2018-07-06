@@ -39,7 +39,10 @@ form label {cursor: pointer;line-height: 1.5;}
     
  <a class="linkTo" href="/theme">
       <b style="width:25%;display:block;float:left;font-weight:500">Theme</b>
-      <b style="color:gray;font-weight:500">{{template.name}}</b>
+      <b style="color:gray;font-weight:500">{{#template.name}}
+        {{template.name}}
+        {{/template.name}}        {{^template.name}}<em>You are not using a theme</em>{{/template.name}}
+</b>
       <span style="color:gray;float:right">Edit</span>
     </a>
 

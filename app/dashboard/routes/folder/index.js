@@ -5,7 +5,9 @@ var join = require("path").join;
 var blog_folder_dir = require("config").blog_folder_dir;
 
 module.exports = function(server) {
+
   server.get(["/", "/~*"], function(req, res, next) {
+  
     var dir = req.path.slice("/~".length) || "/";
 
     dir = decodeURIComponent(dir);

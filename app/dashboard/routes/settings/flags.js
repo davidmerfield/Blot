@@ -25,7 +25,6 @@ module.exports = function(server) {
           flags.push({ name: i, checked: req.blog[i] ? "checked" : "" });
       }
 
-      console.log(flags);
 
       res.locals.flags = flags;
       res.title("Flags");

@@ -17,7 +17,6 @@ module.exports = function(req, res, next) {
     // This will almost certainly be an image too big
     // or a form field too large.
     if (err) {
-      console.log(err);
       return next(new Error(LARGE));
     }
 

@@ -67,9 +67,8 @@ dashboard.use(function(req, res, next) {
 
   res.renderDashboard = function(view, wrapper) {
 
-    console.log(res.locals.partials);
-
-// /    delete res.locals.partials;
+    // what are the consequences of not deleting these partials?
+    // delete res.locals.partials;
 
     res.locals.partials = res.locals.partials || {};
 

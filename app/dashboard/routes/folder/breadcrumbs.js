@@ -1,7 +1,7 @@
 module.exports = function breadcrumbs(dir) {
   if (dir === "/") return [];
 
-  var crumbs = [{ name: "Blot", url: "/" }];
+  var crumbs = [{ name: "Your folder", url: "/" }];
 
   var names = dir.split("/").filter(function(name) {
     return !!name;
