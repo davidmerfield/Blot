@@ -22,4 +22,12 @@ h2 {margin-top: 1em}
 
 {{> nav}}
 
-<section class="wrapper" style="max-width:480px;margin:1em auto">
+      {{#user.cancel_at_period_end}}
+      <br />
+
+      <section class="box orange">
+        Your subscription will expire on <b>{{user.pretty.expiry}}</b>. <a class="link" href="/account/restart-subscription">Restart your subscription</a>.
+      </section>
+      {{/user.cancel_at_period_end}}
+      
+<section class="wrapper" style="max-width:540px;margin:1em auto">
