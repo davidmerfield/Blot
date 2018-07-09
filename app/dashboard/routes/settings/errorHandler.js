@@ -2,7 +2,8 @@ var helper = require("helper");
 var type = helper.type;
 
 module.exports = function(err, req, res, next) {
-  var message = {};
+  var redirect = req.body.redirect || req.path;
+  var message = { url: redirect };
 
   // this should not be an object but I made
   // some bad decisions in the past. eventually
@@ -16,5 +17,5 @@ module.exports = function(err, req, res, next) {
   }
 
   res.message(message);
-  res.redirect(req.path);
+  res.redirect(redirect);
 };

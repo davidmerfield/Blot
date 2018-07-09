@@ -11,7 +11,7 @@ module.exports = function(req, res, next) {
   var blogID = blog.id;
   var updates = req.updates || {};
   var redirect = req.body.redirect || req.path;
-  
+
   updates.menu = updates.menu || [];
 
   for (var i in updates.menu) {
@@ -33,7 +33,7 @@ module.exports = function(req, res, next) {
     // Add success message if we're going to the settings page
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
-      res.message({ success: SUCCESS, url:  redirect});
+      res.message({ success: SUCCESS, url: redirect });
     }
 
     // We now need to save every entry so that
