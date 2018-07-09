@@ -40,7 +40,7 @@ module.exports = function(dashboard) {
     Blog.set(req.blog.id, { client: req.body.client }, function(err) {
       if (err) return next(err);
 
-      res.redirect("/clients/" + client);
+      res.redirect("/clients/" + req.body.client);
     });
   });
 
