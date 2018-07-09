@@ -1,4 +1,5 @@
 Reinstate Nash without resyncing his entire blog
+  - Can I just hot load in his old tokens?
 
 Seems to run out of memory caused by rendering something in nashps blog
 Seems to only happen on sync (could not reproduce when editing the template myself)
@@ -174,6 +175,8 @@ is happening before doing this.
 - Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 - Allow users who are restarting an account with multiple blogs to disable some before restarting.
 - Take a look at Notion and Cargo for some neat ideas
+- Disabling a blog should free up the domain and handle associated
+- Removing a domain from a blog does NOT delete the domain:example.com key from redis. meaning if a user sets a domain once, it's effectively theirs forever. This is a bug!
 
 File codecs
 - Video posts (.mp4)
