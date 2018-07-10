@@ -3,9 +3,15 @@
  <p class="box red" style="width:120%"> ... </p>
 {{/error}}
 
+<style type="text/css">.sub.nav a:hover {border:none;}</style>
+<div class="sub nav" style="margin-bottom:1.3em;">
+  <a href="/settings" style="font-size:16px">Settings</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
 
-<h2>Git settings</h2>
+
+  <a href="/clients/git" style="font-size:16px">Git</a>
+</div>  
 <hr>
+
 
 {{#exists}}
 
@@ -37,6 +43,11 @@ git clone https://{{host}}/clients/git/end/{{blog.handle}}.git
 
 
 {{^exists}}
+
+<p style="max-width:30em">Blot will create a Git repository for your blog. You can switch to a different client at any point.</p><br />
+
+
+
 <form style="float:left" method="post" action="/clients/git/create">
 <input type="hidden" name="_csrf" value="{{csrftoken}}">
 <input type="submit" class="button" value="Create repository">
@@ -44,6 +55,6 @@ git clone https://{{host}}/clients/git/end/{{blog.handle}}.git
 
 <form style="float:left" method="post" action="/clients/git/disconnect">
 <input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="button" value="Cancel">
+<input type="submit" class="borderButton secondary" style="margin-top:0.25em;margin-left:0.5em" value="Cancel">
 </form>
 {{/exists}}
