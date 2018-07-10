@@ -46,7 +46,7 @@ site.use(function (req, res, next) {
     res.locals.partials.head = dashboard_views + 'head';
     res.locals.partials.header = dashboard_views + 'header';
     res.locals.partials.nav = dashboard_views + 'nav';
-    res.locals.partials.sidebar = views + '_sidebar';
+    res.locals.partials.sidebar = dashboard_views + 'sidebar';
     res.locals.partials.footer = dashboard_views + 'footer';
   }
 
