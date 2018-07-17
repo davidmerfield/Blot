@@ -38,7 +38,7 @@ module.exports = function (req, res, next) {
   var categories = {};
 
   var change = {
-    External: 'External services'
+    External: 'Services'
   };
 
   plugins = helper.arrayify(plugins, function(plugin){
