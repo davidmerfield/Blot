@@ -1,0 +1,40 @@
+{{> breadcrumbs}}
+
+{{^contents.length}}
+    {{#root}}
+    <p style="margin:10em auto;text-align:center;width:20em">Your blog's folder is empty. Read the <a href="/help">guide to to publishing a blog post</a>.</p>
+    {{/root}}
+    {{^root}}
+    <p style="margin:10em auto;text-align:center;width:20em">This directory is empty.</p>
+    {{/root}}
+  {{/contents.length}}
+        
+        
+<div class="files">
+
+  
+  {{#contents}}
+
+    <a href="/~{{{path}}}">
+      
+      <span class="
+      {{#directory}}folder{{/directory}}
+      {{^directory}}file{{/directory}}
+      "></span>     
+      
+      <span class="link">{{name}}</span>
+      
+      {{#directory}}
+      <span style="float:right">
+      <svg width="18" height="15" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg>
+      </span>
+      {{/directory}}
+
+      <span class="clear"></span>
+    </a>
+
+    <hr style="margin:0">
+
+  {{/contents}}
+  <div class="clear"></div>
+</div>

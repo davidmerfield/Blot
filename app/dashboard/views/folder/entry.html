@@ -1,0 +1,22 @@
+{{#entry}}
+
+<div style="width:60%;float:right">
+      Title: {{title}}
+      <hr>
+      
+      Permalink: {{url}}
+      <hr>
+
+      Draft: {{#draft}}No{{/draft}}
+      <hr>
+
+      Date: {{#scheduled}}
+      <span style="color:#aaa">will be published {{toNow}}</span>
+      {{/scheduled}} {{^scheduled}}
+      {{date}}
+      {{/scheduled}}
+      <hr>
+      
+</div>
+      <span class="clear"></span>
+    {{/entry}}

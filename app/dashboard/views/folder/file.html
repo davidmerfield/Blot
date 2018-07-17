@@ -1,0 +1,19 @@
+{{> breadcrumbs}}
+
+{{#stat}}
+  <span class="file"></span> {{name}}    
+  <hr>
+
+  Link: <a href="{{blog.url}}{{path}}">Download file</a>
+  <hr> 
+  Post:     {{#ignored}}
+  {{name}} is {{{ignored}}}
+  {{/ignored}}
+
+  {{> entry}}
+  <hr>
+  Size: {{size}}
+  <hr>
+  Modified: {{updated}}
+  <hr>
+{{/stat}}
