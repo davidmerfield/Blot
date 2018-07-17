@@ -85,6 +85,10 @@ module.exports = {
 
     database.get(blogID, function(err, account){
 
+      if (err) return callback(err);
+
+      if (!account) return callback(new Error('No account'));
+      
       var client = new Dropbox({accessToken: account.access_token});
 
       client.filesUpload({

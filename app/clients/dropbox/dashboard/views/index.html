@@ -9,6 +9,14 @@ b{font-weight: 400}
 
 
   <a href="/clients/dropbox" style="font-size:16px">Dropbox</a>
+
+  {{^error_code}}{{#account}}
+<span style="font-size:1em;color:#03b334;float:right;margin-top:-0.15em;display:block">
+<span class="icon success" style="font-size:0.8em;position:relative;top:2px;margin:0 0.4em 0 0.35em"></span> Synced 
+{{last_sync}} 
+
+</span>
+{{/account}}{{/error_code}}
 </div>  
 <hr>
 
@@ -35,17 +43,9 @@ b{font-weight: 400}
 
 
 
-{{^error_code}}
-<span style="font-size:1em;color:#03b334;float:right;margin-top:-0.15em;display:block">
-<span class="icon success" style="font-size:0.8em;position:relative;top:2px;margin:0 0.4em 0 0.35em"></span> Synced 
-{{last_sync}} 
 
-</span>
-{{/error_code}}
 
 <p>
-
-  <b>Your blog’s folder</b><hr>
 
 
 
