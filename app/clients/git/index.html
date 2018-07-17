@@ -22,21 +22,18 @@ git clone https://{{host}}/clients/git/end/{{blog.handle}}.git
 <p>When prompted for your username and password, use your blog's username and this token:</p>
 
 <p><b>Username</b> {{blog.handle}}</p>
-<p><b>Password</b> {{token}}</p>
-
-<form method="post" action="/clients/git/refresh_token">
+<p><form method="post" style="float:right" action="/clients/git/refresh_token">
 <input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="button" value="Refresh token">
-</form>
+<input type="submit" class="borderButton secondary" value="Refresh token">
+</form><b>Password</b> {{token}} </p>
 
-<p>You should be using a tool to store your credentials so you don't have to type them in each time. If you need to reauthenticate, this might be useful:</p>
-
-<pre>git credential-osxkeychain erase host={{host}} protocol=https</pre>
+<hr>
 
 <form method="post" action="/clients/git/disconnect">
 <input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="button" value="Disconnect">
+<input type="submit" class="button" value="Disconnect from git">
 </form>
+
 
 {{/exists}}
 
