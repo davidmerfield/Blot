@@ -1,22 +1,42 @@
+
+
+
+<div style="width:75%;float:right">
+
+  {{#ignored}}
+    <em>This file was not turned into a blog post because it is <b style="font-weight:500">{{{ignored}}}</b>.</em>
+  {{/ignored}}
+
 {{#entry}}
 
-<div style="width:60%;float:right">
-      Title: {{title}}
-      <hr>
-      
-      Permalink: {{url}}
-      <hr>
+      <a class="" href="{{blog.url}}{{{url}}}">{{title}}</a>
 
-      Draft: {{#draft}}No{{/draft}}
       <hr>
+    
+      {{#draft}}
+        {{^scheduled}}
+        Draft that will be dated: <span style="float:right">{{date}}</span>
+        {{/scheduled}}
+        {{#scheduled}}
+        Draft that will be published {{toNow}}
+        {{/scheduled}} 
+      {{/draft}}
 
-      Date: {{#scheduled}}
-      <span style="color:#aaa">will be published {{toNow}}</span>
-      {{/scheduled}} {{^scheduled}}
-      {{date}}
-      {{/scheduled}}
-      <hr>
+      {{^draft}}
+
+        {{^scheduled}}
+        Published: <span style="float:right">{{date}}</span>
+        {{/scheduled}}
+        {{#scheduled}}
+        Scheduled for publication {{toNow}}
+        {{/scheduled}} 
+      {{/draft}}
+
       
+    
+      
+      
+      
+    {{/entry}}      
 </div>
       <span class="clear"></span>
-    {{/entry}}

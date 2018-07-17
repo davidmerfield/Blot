@@ -48,6 +48,12 @@ module.exports = function(blog, path, callback) {
             // Replace with case-preserving
             entry.name = stat.name;
 
+              entry.date = moment
+                .utc(entry.dateStamp)
+                .tz(blog.timeZone)
+                .format("MMMM Do YYYY, h:mma");
+
+
             if (
               entry.page &&
               entry.menu === false &&
@@ -63,10 +69,6 @@ module.exports = function(blog, path, callback) {
             if (entry.scheduled) {
               entry.url += "?scheduled=true";
               entry.toNow = moment.utc(entry.dateStamp).fromNow();
-              entry.date = moment
-                .utc(entry.dateStamp)
-                .tz(blog.timeZone)
-                .format("MMMM Do YYYY, h:mma");
             }
           }
           return callback(null, stat);

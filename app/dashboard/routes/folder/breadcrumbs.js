@@ -1,20 +1,28 @@
-module.exports = function breadcrumbs(dir) {
-  if (dir === "/") return [];
+module.exports = function breadcrumbs(req, res, next) {
+  var breadcrumbs = [];
+  var dir = req.dir;
 
-  var crumbs = [{ name: "Your folder", url: "/" }];
+  if (dir === "/") {
+    return next();
+  }
+
+  breadcrumbs.push({ name: "Your folder", url: "/" });
 
   var names = dir.split("/").filter(function(name) {
     return !!name;
   });
 
   names.forEach(function(name, i) {
-    crumbs.push({
+    breadcrumbs.push({
       url: "/~/" + names.slice(0, i + 1).join("/"),
       name: name
     });
   });
 
-  crumbs[crumbs.length - 1].last = true;
+  breadcrumbs[breadcrumbs.length - 1].last = true;
+  
+  res.addPartials({breadcrumbs: 'folder/breadcrumbs'});
+  res.locals.breadcrumbs = breadcrumbs;
 
-  return crumbs;
+  return next();
 };
