@@ -83,7 +83,7 @@ dashboard.use(function(req, res, next) {
 
     var tab = {};
 
-    if (view === "folder") {
+    if (view.indexOf("folder") > -1) {
       tab.folder = "selected";
     } else {
       tab.settings = "selected";
