@@ -1,7 +1,3 @@
-Fix folder view on dashboard
-
-Fix /account mapping to two different things
-
 Fix formatting view on dashboard
 Fix macos text editor window CSS bug on help pages
 Fix partial layout for account page

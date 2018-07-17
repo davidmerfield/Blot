@@ -20,7 +20,7 @@ help.use(function(req, res, next){
   next();
 });
 
-help.get('/account', function(req, res){
+help.get('/help/account', function(req, res){
   res.locals.menu.account = 'selected';
   res.locals.title = 'Account and billing - ' + res.locals.title;
   res.render('account');
