@@ -9,6 +9,8 @@ module.exports = function(server){
       if (!req.user.hasPassword)
         return res.redirect('/account/set-password');
 
+      res.locals.subpage_title = 'Change your password';
+      res.locals.subpage_slug = 'change-password';
       res.title('Change your password');
       res.renderAccount('change-password');
     })

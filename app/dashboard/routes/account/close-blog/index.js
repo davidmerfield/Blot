@@ -20,7 +20,7 @@ module.exports = function(server){
     .all(calculateSubscriptionChange)
 
     .get(function(req, res){
-      res.title('Close ' + req.blogToClose.title);
+      res.title('Delete ' + req.blogToClose.title);
       res.renderAccount('close-blog');
     })
 

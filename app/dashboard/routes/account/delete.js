@@ -1,48 +1,42 @@
-var helper = require('helper');
+var helper = require("helper");
 var forEach = helper.forEach;
 var localPath = helper.localPath;
-var notAllowed = helper.notAllowed;
-var rimraf = require('rimraf');
-var Blog = require('blog');
-var User = require('user');
-var emptyS3Folder = require('../../../upload/removeFolder');
-var config = require('config');
-var stripe = require('stripe')(config.stripe.secret);
-var clients = require('clients');
+var Blog = require("blog");
+var User = require("user");
+var emptyS3Folder = require("../../../upload/removeFolder");
+var config = require("config");
+var stripe = require("stripe")(config.stripe.secret);
+var clients = require("clients");
+var fs = require("fs-extra");
 
-module.exports = function (server) {
-
-  function removeBlog (blogID, nextBlog){
-
-    Blog.get({id: blogID}, function(err, blog){
-
+module.exports = function(server) {
+  function removeBlog(blogID, nextBlog) {
+    Blog.get({ id: blogID }, function(err, blog) {
       if (err) console.log(err);
 
-      var remove_client = blog.client ?
-         clients[blog.client].disconnect :
-         function (x,y) {y();};
+      var remove_client;
 
-      remove_client(blogID, function(err){
+      if (blog.client && clients[blog.client].disconnect) {
+        remove_client = clients[blog.client].disconnect;
+      } else {
+        remove_client = function(x, y) {
+          y();
+        };
+      }
 
+      remove_client(blogID, function(err) {
         if (err) console.log(err);
 
-        Blog.remove(blogID, function(err){
-
+        Blog.remove(blogID, function(err) {
           if (err) console.log(err);
 
-          emptyS3Folder(blogID, function(err){
-
+          fs.remove(localPath(blogID, "/"), function(err) {
             if (err) console.log(err);
 
-            var blogDir = localPath(blogID, '/*');
+            nextBlog();
 
-            if (notAllowed(blogDir)) return next();
-
-            rimraf(blogDir, function(err){
-
+            emptyS3Folder(blogID, function(err) {
               if (err) console.log(err);
-
-              nextBlog();
             });
           });
         });
@@ -51,30 +45,31 @@ module.exports = function (server) {
   }
 
   server
-    .route('/account/delete')
+    .route("/account/delete")
 
-    .get(function(req, res){
-      res.title('Delete your account');
-      res.renderAccount('delete');
+    .get(function(req, res) {
+      res.title("Delete your account");
+      res.renderAccount("delete");
     })
 
-    .post(function(req, res, next){
+    .post(function(req, res, next) {
+      forEach.parallel(req.user.blogs, removeBlog, next);
+    })
 
-        forEach.parallel(req.user.blogs, removeBlog, function(){
+    .post(function(req, res, next) {
+      var customerID = req.user.subscription.customer;
 
-          var customerID = req.user.subscription.customer;
+      if (!customerID) return next();
 
-          stripe.customers.del(customerID, function(err){
+      stripe.customers.del(customerID, function(err) {
+        if (err) return next(err);
+      });
+    })
 
-            if (err) return next(err);
-
-            User.remove(req.user.uid, function(err){
-
-              if (err) return next(err);
-
-              res.redirect('/deleted');
-            });
-          });
-        });
+    .post(function(req, res, next) {
+      User.remove(req.user.uid, function(err) {
+        if (err) return next(err);
+        res.redirect("/deleted");
+      });
     });
 };

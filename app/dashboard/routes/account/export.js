@@ -7,6 +7,8 @@ module.exports = function(server){
 
   server.get('/account/export', function(req, res){
     res.title('Export your data');
+    res.locals.subpage_title = 'Export your data';
+    res.locals.subpage_slug = 'export';
     res.renderAccount('export');
   });
 
@@ -18,7 +20,7 @@ module.exports = function(server){
 
     var blogs = {};
 
-    forEach(req.blogs, function(blog, nextBlog){
+    forEach(req.blogs || [], function(blog, nextBlog){
 
       var templates = {};
 

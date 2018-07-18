@@ -1,19 +1,14 @@
 
 <form id="payment-form" method="POST" action="?_csrf={{csrftoken}}&restart={{restart}}">
 
-  <h2>{{title}}</h2>
-  <hr>
 
-  <fieldset>
 
-    <p style="width:140%">Your card will not be charged until the start of your next billing period on <b>{{user.pretty.expiry}}</b>. Your bill then will be <b>{{user.pretty.price}}</b>.</p>
-
-    <hr>
 
     <span class="payment-errors">{{error}}</span>
 
     {{#success}}<span class="box green">{{success}}</span>{{/success}}
 
+    <fieldset style="width:66.666%">
     <label>
       <span>New card number:</span>
       <input type="text" size="20" data-stripe="number" name="number"/>
@@ -33,11 +28,11 @@
     <div class="clear"></div>
     <br />
     <br />
-
-    <input type="submit" class="button" value="{{title}}">
-    <a href="/account"  class="button">Cancel</a>
-
   </fieldset>
+
+    <input type="submit" class="button" value="Save payment information">
+    <a href="/account"  class="borderButton secondary">Cancel</a>
+
 </form>
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>

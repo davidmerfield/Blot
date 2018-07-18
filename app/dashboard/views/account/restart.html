@@ -1,0 +1,13 @@
+
+  <form method="POST" action="?_csrf={{csrftoken}}">
+
+      <p>If you restart your subscription, you will not be charged until the start of your next billing period on <b>{{user.pretty.expiry}}</b>.</p>
+
+      <span class="error">{{error}}</span>
+
+
+
+
+    <input type="submit" id="submitButton" class="button" value="Restart my subscription">
+    <a href="/account" class="borderButton secondary">Do not restart</a>
+  </form>

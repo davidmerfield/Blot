@@ -1,24 +1,6 @@
-<h2>Export your data</h2>
+<p>You can download the data stored by Blot about you and your blogs, including your settings, your templates and your blog posts.</p>
 
-{{#warning}}
-<p class="box orange">{{warning}}</p>
-{{/warning}}
-
-<p>Blot stores various data about you, your blog{{user.s}} and your blog posts. On this page you can download most of that data as a JSON file. This file will include:</p>
-
-<ul>
-<li>Your account settings</li>
-<li>Your blog settings</li>
-<li>Your templates</li>
-<li>Metadata for all of your blog posts</li>
-</ul>
-
-<p>This file will <b>not</b> include:</p>
-
-<ul>
-  <li>The files inside your blog’s folder. If you want to backup your blog posts, please make a copy of your blog’s folder directly.</li>
-  <li>The token used by Blot to access its folder in your Dropbox.</li>
-  <li>Your payment information, since it is not stored on Blot’s servers. <a href="https://stripe.com">Stripe</a> handles payments for Blot.</li>
-</ul>
-
+<p>This data <b>does not include the files in your blog{{#user.s}}s{{/user.s}}’{{^user.s}}s{{/user.s}} folder{{user.s}}</b>, your password or the tokens used to process payments and access Dropbox.</p>
+<br>
 <a href="/account/export/account.json" target="_blank" class="button">Download your data</a>
+<a href="/account" class="borderButton secondary">Cancel</a>

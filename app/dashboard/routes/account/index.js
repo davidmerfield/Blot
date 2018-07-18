@@ -12,11 +12,36 @@ module.exports = function (server) {
   require('./disable-account')(server);
   require('./disabled')(server);
   require('./enable')(server);
+  require('./restart')(server);
   require('./export')(server);
   require('./log-out')(server);
   require('./pay-subscription')(server);
   require('./swap')(server);
   require('./update-billing')(server);
+
+  server.route('/account/email')
+  .get(function(req, res){
+      res.title('Change your email');
+      res.renderAccount('email');
+  })
+  .post(function(req, res){
+
+      var updates = formJSON(req.body, User.model);
+
+      User.set(req.user.uid, updates, function(error, changes){
+
+        console.log(changes);
+        
+        if (error) {
+          res.message({error: error.message});
+          return res.redirect('/account/email')
+        } else if (changes && changes.length) {
+          res.message({success: 'Made changes successfully!', url: '/account'});
+        }
+        
+        res.redirect('/account');
+      });
+    });
 
   server.route('/account')
 
@@ -25,19 +50,5 @@ module.exports = function (server) {
       res.renderAccount('index');
     })
 
-    .post(function(req, res){
-
-      var updates = formJSON(req.body, User.model);
-
-      User.set(req.user.uid, updates, function(errors, changes){
-
-        if (errors)
-          res.message({errors: errors});
-
-        if (changes.length && !errors)
-          res.message({success: 'Made changes successfully!'});
-
-        res.redirect(req.path);
-      });
-    });
+    
 };

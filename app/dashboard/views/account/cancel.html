@@ -1,60 +1,10 @@
 
   <form method="POST" action="?_csrf={{csrftoken}}">
 
-    <h2>Cancel Blot subscription</h2>
-    <hr>
-
-    <fieldset >
-      <p>Your blog{{s}} will close <span id="blogEnd">on <b>{{user.pretty.expiry}}</b> when your current billing period ends</span>.</p>
+      <p>If you cancel your subscription, your blog{{s}} will close <span id="blogEnd">on <b>{{user.pretty.expiry}}</b> when your current billing period ends</span>.</p>
 
       <span class="error">{{error}}</span>
 
-    <label>
-      <input type="checkbox" name="cancelSubscription" id="cancelSubscription" /> I want to cancel my Blot subscription.
-    </label>
-
-    <label id="alsoDisable" style="display:none">
-      <input type="checkbox" name="disableAccount" id="disableAccount" /> I also want to disable my blog{{s}} immediately.
-    </label>
-
-    <input type="submit" id="submitButton" disabled class="button" value="Cancel my subscription">
+    <input type="submit" id="submitButton" class="button" value="Cancel my subscription">
     <a href="/account" class="borderButton secondary">Do not cancel</a>
-    </fieldset>
   </form>
-<script type="text/javascript">
-var blogEnd = document.getElementById('blogEnd');
-
-var alsoDisable = document.getElementById('alsoDisable');
-
-var disableAccount = document.getElementById('disableAccount');
-
-var cancelSubscription = document.getElementById('cancelSubscription');
-
-var submitButton = document.getElementById('submitButton');
-
-cancelSubscription.onclick = function () {
-
-  if (cancelSubscription.checked) {
-    submitButton.disabled = false;
-    alsoDisable.style.display = 'block';
-  } else {
-    alsoDisable.style.display = 'none';
-    disableAccount.checked = false;
-    submitButton.disabled = true;
-    submitButton.value = 'Cancel my subscription';
-    blogEnd.innerHTML = 'on <b>{{user.pretty.expiry}}</b> when your current billing period ends';
-  }
-}
-
-disableAccount.onclick = function 
-() {
-  if (disableAccount.checked) {
-    submitButton.value = 'Cancel and disable my account';
-    blogEnd.innerHTML = '<b>IMMEDIATELY</b> even though you’ve paid to use Blot until <b>{{user.pretty.expiry}}</b>';
-  } else {
-    submitButton.value = 'Cancel my subscription';
-    blogEnd.innerHTML = 'on <b>{{user.pretty.expiry}}</b> when your current billing period ends';
-  }
-
-}
-</script>

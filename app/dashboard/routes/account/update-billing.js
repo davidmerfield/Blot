@@ -5,10 +5,7 @@ module.exports = function(server){
   var stripe = require('stripe')(config.stripe.secret);
   var User = require('user');
 
-  server.route([
-    '/account/restart-subscription',
-    '/account/update-billing'
-    ])
+  server.route('/account/update-billing')
 
     .all(function(req, res, next){
 
@@ -21,11 +18,7 @@ module.exports = function(server){
 
     .get(function(req, res) {
 
-      var title = 'Update payment information';
-
-      if (req.path === '/account/restart-subscription') {
-        title =   'Restart your subscription';
-      }
+      var title = 'Edit payment information';
 
       // If user is new or doesn't have a handle,
       // let them choose one
@@ -55,7 +48,7 @@ module.exports = function(server){
       stripe.customers.updateSubscription(
         user.subscription.customer,
         user.subscription.id,
-        {card: stripeToken},
+        {card: stripeToken, quantity: user.subscription.quantity},
         onUpdate
       );
 
@@ -74,15 +67,8 @@ module.exports = function(server){
 
             if (errors) throw errors;
 
-            var success;
-
-            if (restart) {
-              email.RESTART(uid);
-              success = 'Your subscription was restarted successfully!';
-            } else {
               email.UPDATE_BILLING(uid);
               success = 'Your payment information was updated successfully!';
-            }
 
             response.message({success: success, url: '/account'});
             return response.redirect('/account');

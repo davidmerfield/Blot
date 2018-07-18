@@ -1,76 +1,109 @@
 
-  <form method='post'>
+<style type="text/css">
+.plugin {width: 100%;padding:0;margin:0;float:none;}
+input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
+form label {cursor: pointer;line-height: 1.5;}
+
+.linkTo {color: black;display: block;padding:1em 0;text-decoration: none;}
+a.linkTo:hover {border:none;background: rgba(0,0,0,0.025)}
+
+.linkTo div p:first-child {margin-top: 0}
+</style>
+
+<form method='post'>
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-        <fieldset>
+
+    <a class="linkTo" href="/account/email">
+      <b style="width:25%;display:block;float:left;font-weight:500">Email</b>
+      <b style="color:gray;font-weight:500">{{user.email}}</b>
+      <span style="color:gray;float:right;text-decoration:underline">Edit</span>
+    </a>
+
+    <hr style="margin: 0">
 
           {{#user.hasPassword}}
-          <p><a href="/account/change-password">Change your password</a></p>
-          {{/user.hasPassword}}
 
-          <label>Email:
-            <input class="noMargin" type="text" name="email" value="{{user.email}}" placeholder=""/>
-            <span class="error">{{errors.email}}</span>
-          </label>
+<a class="linkTo" href="/account/change-password">
+      <b style="width:25%;display:block;float:left;font-weight:500">Password</b>
+      <span style="color:blue;text-decoration:underline">Change your password</span>
+    </a>
 
-          <br />
+    <hr style="margin: 0">
+     {{/user.hasPassword}}
 
-          <input class="button" type="submit" value="Save changes"/>
-        </fieldset>
+    
 
-        <br />
-        <br />
-        <br />
+    <a class="linkTo" href="/account/export">
+      <b style="width:25%;display:block;float:left;font-weight:500">Export</b>
+      <span style="color:blue;text-decoration:underline">Download your data</span>
+    </a>
 
-        <h2>Your blogs</h2>
-        <hr>
-        <fieldset>
-        <p>You run {{user.blogs.length}} blog{{user.s}} from Dropbox.</p>
-        <ul>
-        {{#blogs}}
-          <li><a href="/account/swap?to={{id}}">{{title}}</a>  - <a href="/account/close-blog/{{handle}}">Close this blog</a></li>
-        {{/blogs}}
-        </ul>
+          <hr style="margin: 0">
 
-        <a class="button" href="/account/create-blog">Create a{{#user.blogs.length}}nother{{/user.blogs.length}} blog</a>
-        <br /><br />
-        <a href="/account/export">Export your account data</a>
-        </p>
+<div class="linkTo">
+      <b style="width:25%;display:block;float:left;font-weight:500">Billing</b>
+      <div style="width:75%;float:right">
 
-        </fieldset>
 
-        <h2>Billing</h2>
-        <hr>
 
-        <fieldset>
+
+
         {{#user.cancel_at_period_end}}
 
         <p>Your subscription was cancelled and you won’t be charged again.  Your account will expire on <br/> <b>{{user.pretty.expiry}}</b>.</p>
 
-        <p><a class="link" href="/account/restart-subscription">Restart your subscription</a></p>
-
-        <p><a class="link red" href="/account/disable-account">Disable your account</a></p>
+        <p><a class="link" href="/account/restart">Restart your subscription</a></p>
 
         {{/user.cancel_at_period_end}}
 
         {{#user.isFreeForLife}}
         <p>Since you were among the earliest to buy an account you can use Blot <b>for free</b> for as long as Blot exists!</p>
 
-        <p><a class="link red" href="/account/disable-account">Disable your account</a></p>
         {{/user.isFreeForLife}}
 
 
         {{#user.isSubscribed}}
-        <p>Your subscription will renew on <b>{{user.pretty.expiry}}</b>. Your bill will be <b>{{user.pretty.price}}</b> because you run {{user.pretty.amount}} blog{{user.s}}.</p>
+          {{#user.subscription.quantity}}
+        <p>Your subscription will renew on <b>{{user.pretty.expiry}}</b>. Your bill will be <b>{{user.pretty.price}}</b> because you run {{user.pretty.amount_in_words}} blog{{user.s}}:</p>
 
-        <a class="link" href="/account/update-billing">Update your payment information</a>
-        <br /><br />
-        <a class="link red" href="/account/cancel">Cancel your subscription</a>
+{{#blogs}}
+<p>
+          <a href="/account/swap?to={{id}}">{{title}}</a>  <a style="color:gray;float:right" href="/account/close-blog/{{handle}}">Delete this blog</a>
+        </p>
+          <hr style="margin-bottom:0">
 
-        {{/user.isSubscribed}}
-      </fieldset>
+        {{/blogs}}
+
+          {{/user.subscription.quantity}}
+          {{^user.subscription.quantity}}
+                  <p >Your next billing period begins on <b>{{user.pretty.expiry}}</b> but you will not be charged anything because you do not host any blogs on Blot.</p>
+
+          {{/user.subscription.quantity}}
+
+                
+
+
+        <p>
+          <a class="button" href="/account/create-blog">Create a new blog</a>
+          <hr> <a class="link" style="margin-top:0.75em;display:block" href="/account/update-billing">Edit your payment information</a>
+                    <hr> <a class="link" style="margin-top:0.75em;display:block" href="/account/cancel">Cancel your subscription</a>
+
+        </p>
+                {{/user.isSubscribed}}
+
+      
+      </div>
+      <hr>
+      <div style="width:75%;float:right">
+         <a class="link red" href="/account/delete">Delete your account</a>
+       </div>
+<br /><br />
+
+
   </form>
+  <br><Br><br>
 </div>
 
 

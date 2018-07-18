@@ -17,7 +17,9 @@ module.exports = function (req, res, next) {
   var user = req.user;
 
   // This is their first blog, so don't charge the user twice
-  if (user.blogs.length === 0) return next();
+  if (user.blogs.length === 0 && user.subscription.quantity === 1) {
+    return next();
+  }
 
   if (badSubscription(user.subscription)) {
 

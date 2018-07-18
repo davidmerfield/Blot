@@ -1,16 +1,14 @@
 <form method="POST" action="?_csrf={{csrftoken}}">
 
-  <h2>{{title}}</h4>
-
   {{#blogToClose}}
 
-  <p>This will permanently delete {{^domain}}<a href="http://{{handle}}.{{host}}">{{handle}}.{{host}}</a>{{/domain}}{{#domain}}<a href="{{blogURL}}">{{domain}}</a> ({{handle}}){{/domain}}, including its <b>themes, settings and any files</b> relating to it on Blot. <b>This cannot be undone</b>. Please consider <a href="/account/export">downloading this data</a> before you delete it. The blog's files will remain in your Dropbox.</p>
+  <p>If you delete <b>{{^domain}}<a href="http://{{handle}}.{{host}}">{{title}}</a>{{/domain}}{{#domain}}<a href="{{blogURL}}">{{title}}</a>{{/domain}}</b>, Blot will permanently remove its themes, settings and Blot's copy of its folder. <b>This cannot be undone</b>. Consider <a href="/account/export">exporting this data</a>. {{#next_bill}} Your next bill on {{user.pretty.expiry}} will decrease to <b>{{next_bill}}</b>. {{/next_bill}}
+</p>
 
-  {{#next_bill}}
-  <p>Your next bill on {{user.pretty.expiry}} will decrease to <b>{{next_bill}}</b>.</p>
-  {{/next_bill}}
 
-  <input type="submit" class="button red" value="Close {{title}} permanently">
+<br>
   
+  <input type="submit" class="button red" value="Delete {{title}}">
+  <a href="/account" class="borderButton secondary">Do not delete</a>
   {{/blogToClose}}
 </form>
