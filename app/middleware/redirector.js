@@ -5,7 +5,13 @@ var INDEX = '/';
 var AUTH = '/auth';
 var CONTACT = '/contact';
 var TERMS = '/terms';
+var DEVELOPERS = '/developers';
+var UPDATES = '/updates';
 var HELP = '/help';
+  // these routes should eventually be nested under help
+  // e.g. /help/formatting and /help/configuring...
+  var CONFIGURING = '/configuring';
+  var FORMATTING = '/formatting';
 var PRIVACY = '/privacy';
 var MAINTENANCE = '/maintenance';
 var ACCOUNT = '/account';
@@ -15,7 +21,7 @@ var ENABLE = '/account/enable';
 var LOGOUT = '/account/log-out';
 var DISABLED = '/account/disabled';
 
-var STATIC = [CONTACT, HELP, TERMS, PRIVACY];
+var STATIC = [CONTACT, HELP, CONFIGURING, FORMATTING, TERMS, PRIVACY, UPDATES, DEVELOPERS];
 
 module.exports = function (req, res, next) {
 
