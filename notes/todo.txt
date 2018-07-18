@@ -1,8 +1,5 @@
 Fix formatting view on dashboard
 Fix macos text editor window CSS bug on help pages
-Fix partial layout for account page
-Fix partial layout for create-new-blog page
-Fix help page breadcrumb style
 
 Add index to logged-in developer guide
 Add titles to title-less subpages for logged in users, e.g. contact, terms
