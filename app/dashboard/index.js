@@ -59,14 +59,16 @@ dashboard.use(function(req, res, next) {
       tabname = tabname.slice(0, tabname.indexOf("/"));
 
     tab[tabname] = "selected";
-
+    if (view !== "index") {
+      res.locals.subpage_title = res.locals.title;
+      res.locals.subpage_slug = view;
+    }
     res.addLocals({ tab: tab });
 
     res.render("account/wrapper");
   };
 
   res.renderDashboard = function(view, wrapper) {
-
     // what are the consequences of not deleting these partials?
     // delete res.locals.partials;
 
