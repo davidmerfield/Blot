@@ -607,6 +607,9 @@ p.lock:before {
 .button.red {
   background: red;
   border-color: red;
+      color: white;
+    font-weight: 500;
+
 }
 
 .button.small {
