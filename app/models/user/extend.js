@@ -1,4 +1,6 @@
 var helper = require('helper');
+var amountInWords = helper.amountInWords;
+
 
 module.exports = function extend (user) {
 
@@ -18,6 +20,7 @@ module.exports = function extend (user) {
 
     if (subscription.plan) {
       user.pretty.amount = subscription.quantity;
+      user.pretty.amount_in_words = amountInWords(subscription.quantity);
       user.pretty.expiry = helper.prettyDate(user.subscription.current_period_end * 1000);
       user.pretty.price = helper.prettyPrice(user.subscription.plan.amount * subscription.quantity);
     }
