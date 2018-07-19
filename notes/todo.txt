@@ -1,9 +1,6 @@
 Fix formatting view on dashboard
 Fix macos text editor window CSS bug on help pages
 
-Add index to logged-in developer guide
-Add titles to title-less subpages for logged in users, e.g. contact, terms
-
 Set up automated testing using Jasmine
 
 ---
@@ -32,6 +29,10 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
  - Folder saved under dominikgitbug
 
+Fix bug with title and partials in local editing
+  - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
+  - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
+  
 Fix git client bugs:
   Weird issue with slash in the file's name sent to metadata
   Moving a file fails
