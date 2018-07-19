@@ -73,10 +73,7 @@
     "devDependencies": {
         "jasmine": "^3.1.0",
         "minimist": "^1.2.0",
-        "ncp": "^2.0.0",
-        "node-watch": "^0.3.5",
         "shelljs": "^0.3.0",
-        "single-line-log": "^1.1.1",
-        "zombie": "^2.5.1"
+        "single-line-log": "^1.1.1"
     }
 }
