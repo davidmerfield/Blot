@@ -2,7 +2,7 @@ var Jasmine = require('jasmine');
 var jasmine = new Jasmine();
 var config = {
   "spec_dir": "tests",
-  "spec_files": ["*.js"],
+  "spec_files": ["**/*.js"],
   "helpers": [
   ],
   "stopSpecOnExpectationFailure": false,
