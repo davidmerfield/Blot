@@ -6,6 +6,8 @@ process.on('SIGTERM', cleanExit); // catch kill
 var root = require('helper').rootDir;
 var fs = require('fs-extra');
 
+console.log('BLOT_PRODUCTION', process.env.BLOT_PRODUCTION);
+
 // Create empty directories if they don't exist
 fs.ensureDirSync(root + '/blogs');
 fs.ensureDirSync(root + '/tmp');
