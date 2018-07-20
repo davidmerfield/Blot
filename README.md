@@ -1,4 +1,4 @@
-![](https://travis-ci.com/davidmerfield/Blot.svg?branch=master)
+[![Tests](https://travis-ci.com/davidmerfield/Blot.svg?branch=master)](https://travis-ci.com/davidmerfield/Blot)
 
 I recommend you wait until I write a setup guide before attempting to run Blot on your own server.
 
