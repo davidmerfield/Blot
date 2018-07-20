@@ -1,3 +1,8 @@
+1. make sure you make all the contents of scripts/production executable:
+
+chmod +x scripts/production/start_blot.sh
+
+
 Seems to be that setting up application environment is best done with a script in /etc/profile.d
 
 I did these:
