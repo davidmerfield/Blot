@@ -20,7 +20,18 @@ var environment_variable_dictionary = {
   'dropbox.full.live.secret': 'BLOT_DROPBOX_FULL_SECRET',
     
   'session.secret': 'BLOT_SESSION_SECRET',
-  'youtube.secret': 'BLOT_YOUTUBE_SECRET'
+  'youtube.secret': 'BLOT_YOUTUBE_SECRET',
+  'backup.secret': 'BLOT_BACKUP_SECRET',
+
+  'aws.key': 'BLOT_AWS_KEY',
+  'aws.secret': 'BLOT_AWS_SECRET',
+
+  'mailgun.key': 'BLOT_MAILGUN_KEY',
+
+  'twitter.key': 'BLOT_TWITTER_CONSUMER_KEY',
+  'twitter.secret': 'BLOT_TWITTER_CONSUMER_SECRET',
+  'twitter.token.key': 'BLOT_TWITTER_ACCESS_TOKEN_KEY',
+  'twitter.token.secret': 'BLOT_TWITTER_ACCESS_TOKEN_SECRET'
 };
 
 function load (name) {

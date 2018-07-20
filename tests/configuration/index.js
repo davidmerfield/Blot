@@ -1,4 +1,4 @@
-var client = require('../../app/models/client');
+// var client = require('../../app/models/client');
 
 describe("configuration", function() {
 
