@@ -1,3 +1,34 @@
 When you make an edit, run scripts/production/update_upstart
 
 then sudo stop blot && sudo start blot
+
+
+Installing an upstart service 
+------------------
+
+cp $SERVICE.conf /etc/init/$SERVICE.conf
+initctl reload-configuration
+
+then verify with:
+
+initctl list | grep -e '$SERVICE'
+
+
+Uninstalling upstart service
+--------------------
+
+stop $service
+rm /etc/init/$service.conf
+initctl reload-configuration
+
+then verify with:
+
+initctl list | grep -e '$SERVICE'
+
+
+Loading configuration
+---------------------
+
+I do not want to use something like [dotenv](https://github.com/motdotla/dotenv) because it seems like a mixing of concerns. I have tried using 
+
+My current strategy is to use a configuration script in init.d/blot.conf
