@@ -34,6 +34,14 @@ var environment_variable_dictionary = {
   'twitter.token.secret': 'BLOT_TWITTER_ACCESS_TOKEN_SECRET'
 };
 
+var logged = {};
+
+for (var i in environment_variable_dictionary) {
+  if (logged[environment_variable_dictionary[i]] === undefined)
+   console.log('export ' + environment_variable_dictionary[i] + '=');
+  logged[environment_variable_dictionary[i]] = true;
+}
+
 function load (name) {
   var real_value = fs.readFileSync(__dirname + '/secrets/' + name, 'utf-8').trim();
   var new_value = process.env[environment_variable_dictionary[name]];
