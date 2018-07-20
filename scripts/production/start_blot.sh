@@ -17,4 +17,5 @@ nvm use $BLOT_NODE_VERSION
 echo "[`date -u +%Y-%m-%dT%T.%3NZ`] Starting Blot server" >> $BLOT_LOG
 
 # Start the node application
-node $BLOT_MAIN >> $BLOT_LOG
+# "2>&1" redirects STERR to STDOUT so it is logged too
+node $BLOT_MAIN >> $BLOT_LOG 2>&1
