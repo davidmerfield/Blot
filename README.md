@@ -1,3 +1,5 @@
+![](https://travis-ci.com/davidmerfield/Blot.svg?branch=master)
+
 I recommend you wait until I write a setup guide before attempting to run Blot on your own server.
 
 The code is contained in /app. Start Blot like this:
