@@ -30,6 +30,9 @@ function load (name) {
   return real_value;
 }
 
+console.log('BLOT_PRODUCTION', process.env.BLOT_PRODUCTION);
+console.log('BLOT_CACHE', process.env.BLOT_CACHE);
+
 var flags = require('./flags');
 
 var production = flags.production === true;
