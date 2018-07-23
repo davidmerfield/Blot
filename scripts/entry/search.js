@@ -17,6 +17,9 @@ if (!handle || !query) {
 
 get(handle, function(user, blog) {
   Entries.each(blog.id, function(entry, nextEntry) {
+
+    if (entry.deleted) return nextEntry();
+    
     if (entry.path.toLowerCase().indexOf(query.trim().toLowerCase()) === 0) {
       console.log(entry.path);
     }
