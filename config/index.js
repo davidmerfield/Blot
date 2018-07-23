@@ -72,8 +72,8 @@ if (production) {
   stripe_secret = load('stripe.live.secret');
   pandoc_path = '/home/ec2-user/.local/bin/pandoc';
   cache_directory = '/cache';
-  blog_static_files_dir = '/var/www/blot/static';
-  blog_folder_dir = '/var/www/blot/blogs';
+  blog_static_files_dir = '/var/www/blot/data/static';
+  blog_folder_dir = '/var/www/blot/data/blogs';
 
 } else {
 
@@ -83,9 +83,9 @@ if (production) {
   stripe_key = load('stripe.test.key');
   stripe_secret = load('stripe.test.secret');
   pandoc_path = '/usr/local/bin/pandoc';
-  cache_directory = '/var/www/blot/cache';
-  blog_static_files_dir = '/var/www/blot/static';
-  blog_folder_dir = '/var/www/blot/blogs';
+  cache_directory = '/var/www/blot/data/cache';
+  blog_static_files_dir = '/var/www/blot/data/static';
+  blog_folder_dir = '/var/www/blot/data/blogs';
 
 }
 

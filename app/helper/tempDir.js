@@ -1,16 +1,8 @@
-var path = require('path'),
-    fs = require('fs'),
-    tempDir = fs.realpathSync(__dirname + '/../../tmp/') + '/';
+var path = require('path');
+var fs = require('fs-extra');
+var tempDir = __dirname + '/../../data/tmp/';
 
-// Ensure tmp dir exists
-fs.exists(tempDir, function(exists) {
-
-  if (!exists) {
-
-    console.log('Made temporary file directory');
-    fs.mkdir(tempDir, function(err, stat){});
-  }
-});
+fs.ensureDirSync(tempDir);
 
 function insideTempDir (checkPath, callback) {
 

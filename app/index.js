@@ -5,14 +5,6 @@ process.on('SIGTERM', cleanExit); // catch kill
 
 var root = require('helper').rootDir;
 var fs = require('fs-extra');
-
-// Create empty directories if they don't exist
-fs.ensureDirSync(root + '/blogs');
-fs.ensureDirSync(root + '/tmp');
-fs.ensureDirSync(root + '/logs');
-fs.ensureDirSync(root + '/db');
-fs.ensureDirSync(root + '/secrets');
-
 var config = require('config');
 var analytics = require('./middleware').analytics;
 var scheduler = require('./scheduler');
