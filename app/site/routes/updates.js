@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var moment = require('moment');
-var TODO = require('path').resolve(__dirname + '/../../../notes/todo.txt');
+var TODO = require('path').resolve(__dirname + '/../../../todo.txt');
 var exec = require('child_process').exec;
 var CHANGES = 'git log -100';
 var fs = require('fs-extra');
