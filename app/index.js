@@ -12,6 +12,7 @@ fs.ensureDirSync(root + '/tmp');
 fs.ensureDirSync(root + '/logs');
 fs.ensureDirSync(root + '/db');
 fs.ensureDirSync(root + '/secrets');
+fs.ensureDirSync(root + '/static');
 
 var config = require('config');
 var analytics = require('./middleware').analytics;
