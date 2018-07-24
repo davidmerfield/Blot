@@ -27,6 +27,10 @@ openssl req \
 
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain cert.pem
 
+Then move these files to the location expected in dev-ssl.conf:
+cp cert.pem /etc/blot/cert.pem
+cp key.pem /etc/blot/key.pem
+
 I then needed to create a symbolic link between:
 
 ln -s /var/run/nginx.pid /usr/local/var/run/nginx.pid

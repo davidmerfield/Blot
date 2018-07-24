@@ -16,8 +16,6 @@ chmod +x scripts/production/start_blot.sh
 
 ---
 
-
-
 ## Research
 
 Seems to be that setting up application environment is best done with a script in /etc/profile.d
