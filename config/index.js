@@ -29,13 +29,14 @@ var pandoc_path, blog_static_files_dir, blog_folder_dir, cache_directory;
 
 if (production) {
 
+  stripe_key = load('stripe.live.key');
+  stripe_secret = load('stripe.live.secret');
+
   console.log('IN PRODUCTION');
 
   environment = 'production';
   host = 'blot.im';
   protocol = "https://";
-  stripe_key = load('stripe.live.key');
-  stripe_secret = load('stripe.live.secret');
   pandoc_path = '/home/ec2-user/.local/bin/pandoc';
   cache_directory = '/cache';
   blog_static_files_dir = '/var/www/blot/static';
@@ -43,13 +44,14 @@ if (production) {
 
 } else {
 
+  stripe_key = load('stripe.test.key');
+  stripe_secret = load('stripe.test.secret');
+
   console.log('IN DEVELOPMENT');
 
   environment = 'development';
   host = "blot.development";
   protocol = "http://";
-  stripe_key = load('stripe.test.key');
-  stripe_secret = load('stripe.test.secret');
   pandoc_path = '/usr/local/bin/pandoc';
   cache_directory = '/var/www/blot/cache';
   blog_static_files_dir = '/var/www/blot/static';
@@ -159,3 +161,24 @@ module.exports = {
   }
 
 };
+
+var _ = require('lodash');
+
+function difference(object, base) {
+  function changes(object, base) {
+    return _.transform(object, function(result, value, key) {
+      if (!_.isEqual(value, base[key])) {
+        result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
+      }
+    });
+  }
+  return changes(object, base);
+}
+
+var diff = difference(module.exports, require('./index-new'));
+
+for (var i in diff) {
+  console.log('WARNING', module.exports[i], require('./index-new')[i], 'ARE DIFFERENT');
+}
+
+require('assert').deepEqual(module.exports, require('./index-new'));
