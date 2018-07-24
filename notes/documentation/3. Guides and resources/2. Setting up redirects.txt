@@ -1,7 +1,0 @@
-## Redirects
-
-You can [set up redirects](/settings/redirects) for missing or moved pages on your blog. Your site’s [404 log](/settings/404s) will help you discover URLs which need redirects. You can use RegEx to match multiple routes. For example, this rule redirects URLs starting with ```/post``` to ```/blog```:
-
-```
-\/post\/(.*)  →  /blog/$1
-```

@@ -12,14 +12,14 @@ Central to my philosophy in designing blot is this assumption:
 interfaces which attempt to guess your desired result and misjudge 2% of the time are superior to theoretically pure interfaces which do not. This entails using heuristics. For instance, this is the pseudo code for how Blot generates a title from a file:
 
 If one of the first 3 nodes of the entry is a heading:
-	Title is the text of the greatest, earliest heading.
+  Title is the text of the greatest, earliest heading.
 
 If there is a node with text in the entry:
-	Title is the first sentence of the first node with text.
+  Title is the first sentence of the first node with text.
 
 Else
-	Title is derived from the file's name. For instance
-	/word_doc.txt becomes 'Word doc' and /2015/why-hello-there.txt 	becomes 'Why hello there'
+  Title is derived from the file's name. For instance
+  /word_doc.txt becomes 'Word doc' and /2015/why-hello-there.txt  becomes 'Why hello there'
 
 This is complex requires some flexibility. But the benefit is that Blot will not complain if you do not specify a title for a blog post.
 
