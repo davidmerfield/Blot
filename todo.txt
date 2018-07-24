@@ -1,3 +1,5 @@
+Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
+
 Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
   - Issue with images
 

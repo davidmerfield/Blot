@@ -23,8 +23,8 @@ if (config.cache)
 
 
 // Only time uncached responses
-if (config.flags.time_response)
- blog.use(middleware.responseTime);
+// if (config.flags.time_response)
+//  blog.use(middleware.responseTime);
 
 // Load in the rendering engine
 blog.use(renderView);

@@ -17,6 +17,11 @@ export BLOT_START=$BLOT_DIRECTORY/scripts/production/start_blot.sh
 export BLOT_MAIN=$BLOT_DIRECTORY/app
 export BLOT_LOG=$BLOT_DIRECTORY/logs/app.log
 
+# Flags
+export BLOT_PRODUCTION=false
+export BLOT_MAINTENANCE=false
+export BLOT_CACHE=false
+export BLOT_DEBUG=false
 
 export BLOT_STRIPE_KEY=
 export BLOT_STRIPE_SECRET=

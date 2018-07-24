@@ -1,46 +1,5 @@
 var fs = require('fs');
-var environment_variable_dictionary = {
-  
-  'stripe.live.key': 'BLOT_STRIPE_KEY',
-  'stripe.test.key': 'BLOT_STRIPE_KEY',
-
-  'stripe.live.secret': 'BLOT_STRIPE_SECRET',
-  'stripe.test.secret': 'BLOT_STRIPE_SECRET',
-
-  'dropbox.app.test.key': 'BLOT_DROPBOX_APP_KEY',
-  'dropbox.app.live.key': 'BLOT_DROPBOX_APP_KEY',
-
-  'dropbox.app.test.secret': 'BLOT_DROPBOX_APP_SECRET',
-  'dropbox.app.live.secret': 'BLOT_DROPBOX_APP_SECRET',
-
-  'dropbox.full.test.key': 'BLOT_DROPBOX_FULL_KEY',
-  'dropbox.full.live.key': 'BLOT_DROPBOX_FULL_KEY',
-
-  'dropbox.full.test.secret': 'BLOT_DROPBOX_FULL_SECRET',
-  'dropbox.full.live.secret': 'BLOT_DROPBOX_FULL_SECRET',
-    
-  'session.secret': 'BLOT_SESSION_SECRET',
-  'youtube.secret': 'BLOT_YOUTUBE_SECRET',
-  'backup.secret': 'BLOT_BACKUP_SECRET',
-
-  'aws.key': 'BLOT_AWS_KEY',
-  'aws.secret': 'BLOT_AWS_SECRET',
-
-  'mailgun.key': 'BLOT_MAILGUN_KEY',
-
-  'twitter.key': 'BLOT_TWITTER_CONSUMER_KEY',
-  'twitter.secret': 'BLOT_TWITTER_CONSUMER_SECRET',
-  'twitter.token.key': 'BLOT_TWITTER_ACCESS_TOKEN_KEY',
-  'twitter.token.secret': 'BLOT_TWITTER_ACCESS_TOKEN_SECRET'
-};
-
-var logged = {};
-
-for (var i in environment_variable_dictionary) {
-  if (logged[environment_variable_dictionary[i]] === undefined)
-   console.log('export ' + environment_variable_dictionary[i] + '=');
-  logged[environment_variable_dictionary[i]] = true;
-}
+var environment_variable_dictionary = require('./variable_dictionary');
 
 function load (name) {
   var real_value = fs.readFileSync(__dirname + '/secrets/' + name, 'utf-8').trim();
@@ -49,21 +8,28 @@ function load (name) {
   return real_value;
 }
 
-console.log('BLOT_PRODUCTION', process.env.BLOT_PRODUCTION);
-console.log('BLOT_CACHE', process.env.BLOT_CACHE);
+function get_flag (key) {
+  var _flags = require('./flags');
+  var real_value = _flags[key];
+  // environment variables are strings!
+  var new_value = process.env[environment_variable_dictionary[key]] === "true";
+  if (new_value !== real_value) {
+    console.log("Warning", key, environment_variable_dictionary[key], 'is not equal', real_value, new_value, new_value === real_value, typeof new_value, typeof real_value);
+  }
+  return real_value;
+}
 
-var flags = require('./flags');
-
-var production = flags.production === true;
-var maintenance = flags.maintenance === true;
-var dropbox_test_app = flags.dropbox_test_app === true;
-var cache = flags.cache === true;
-var debug = flags.debug === true;
+var production = get_flag('production');
+var maintenance = get_flag('maintenance');
+var cache = get_flag('cache');
+var debug = get_flag('debug');
 
 var environment, host, protocol, stripe_key, stripe_secret;
 var pandoc_path, blog_static_files_dir, blog_folder_dir, cache_directory;
 
 if (production) {
+
+  console.log('IN PRODUCTION');
 
   environment = 'production';
   host = 'blot.im';
@@ -76,6 +42,8 @@ if (production) {
   blog_folder_dir = '/var/www/blot/blogs';
 
 } else {
+
+  console.log('IN DEVELOPMENT');
 
   environment = 'development';
   host = "blot.development";
@@ -92,7 +60,7 @@ if (production) {
 var dropbox = {app:{}, full: {}};
 
 // We can only use the Dropbox test app in development
-if (dropbox_test_app && production === false) {
+if (production === false) {
 
   dropbox.app.key = load('dropbox.app.test.key');
   dropbox.app.secret = load('dropbox.app.test.secret');
@@ -112,8 +80,6 @@ if (dropbox_test_app && production === false) {
 
 
 module.exports = {
-
-  "flags": flags,
 
   "environment": environment,
   "host": host,
