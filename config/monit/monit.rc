@@ -1,4 +1,4 @@
-set logfile /var/www/blot/logs/monit.log
+set logfile /var/www/blot/data/logs/monit.log
 
 # the route which responds to this check is
 # located in app/index.js

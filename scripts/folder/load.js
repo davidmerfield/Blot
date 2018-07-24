@@ -1,7 +1,7 @@
 var fs = require("fs-extra");
 var helper = require("helper");
 var join = require("path").join;
-var blog_dir = join(helper.rootDir, "blogs");
+var blog_dir = join(helper.rootDir, "data/blogs");
 var git_data_dir = join(helper.rootDir, "app", "clients", "git", "data");
 var load_db = require("../db/load");
 var dumps = join(__dirname, "data", "dumps");

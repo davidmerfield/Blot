@@ -5,7 +5,7 @@ var helper = require('./helper');
 var rm = helper.remove;
 var encrypt = helper.encrypter.encrypt;
 
-var DB_PATH = require('path').resolve(__dirname + '/../db/dump.rdb');
+var DB_PATH = require('path').resolve(__dirname + '/../data/db/dump.rdb');
 
 var tmp = helper.tempDir();
 var Moment = require('moment');

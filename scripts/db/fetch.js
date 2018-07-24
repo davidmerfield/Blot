@@ -9,7 +9,7 @@ var execRemote = Remote.exec;
 var LASTSAVE = 'redis-cli lastsave';
 var BGSAVE = 'redis-cli bgsave';
 var REMOTE_DUMP_PATH = Remote.root + '/db/dump.rdb';
-var LOCAL_DUMPS_DIRECTORY = __dirname + '/dumps/production';
+var LOCAL_DUMPS_DIRECTORY = __dirname + '/data/production';
 var log = console.log.bind(this, "Fetching remote db:");
 
 // If used from the command line

@@ -7,12 +7,12 @@ var join = require('path').join;
 
 var DISABLE_SAVE = 'redis-cli CONFIG SET appendonly no && redis-cli CONFIG SET save ""';
 var STOP_REDIS = 'redis-cli shutdown';
-var START_REDIS = 'redis-server ' + helper.rootDir + '/config/redis.conf';
+var START_REDIS = 'redis-server ' + helper.rootDir + '/config/redis/redis.conf';
 var NO_REDIS = 'Could not connect to Redis at 127.0.0.1:6379: Connection refused\n';
 
-var CURRENT_DUMP = helper.rootDir + '/db/dump.rdb';
-var PRODUCTION_DIR = __dirname + '/dumps/production';
-var USER_DIR = __dirname + '/dumps/user';
+var CURRENT_DUMP = helper.rootDir + '/data/db/dump.rdb';
+var PRODUCTION_DIR = __dirname + '/data/production';
+var USER_DIR = __dirname + '/data/user';
 
 if (require.main === module) {
 
