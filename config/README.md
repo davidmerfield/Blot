@@ -1,7 +1,24 @@
-1. make sure you make all the contents of scripts/production executable:
+# Set up
 
+Blot depends on a file like ./environment.sh located here:
+
+```
+/etc/blot/environment.sh
+```
+
+You must copy the template in this directory there and fill it out. The [upstart job](./upstart/blot.conf) for Blot depends on this.
+
+Then make sure you make all the contents of scripts/production executable:
+
+```shell
 chmod +x scripts/production/start_blot.sh
+```
 
+---
+
+
+
+## Research
 
 Seems to be that setting up application environment is best done with a script in /etc/profile.d
 
