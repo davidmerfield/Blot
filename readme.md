@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/davidmerfield/Blot.svg?branch=master)](https://travis-ci.com/davidmerfield/Blot)
+
 I recommend you wait until I write a setup guide before attempting to run Blot on your own server. My goal is for you, the self-hoster, to be able to do something like this:
 
   npm install blot -g
