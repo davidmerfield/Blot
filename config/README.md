@@ -14,6 +14,32 @@ Then make sure you make all the contents of scripts/production executable:
 chmod +x scripts/production/start_blot.sh
 ```
 
+
+
+
+## Production setup
+
+I made these changes to the AWS instance when I created it. I believe they were in the redis guide for getting good performance out of ec2 instances. But I'm not 100% sure...
+
+sysctl vm.overcommit_memory=1
+
+sudo bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+
+dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
+
+
+
+## Local setup
+
+Set up symlink if you install Blot elsewhere
+
+ln -s ~/projects/blot /var/www/blot
+
+Also link the caching directory:
+
+ln -s ~/projects/blot/www /cache
+
+
 ---
 
 ## Research
