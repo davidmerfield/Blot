@@ -12,15 +12,15 @@ Wrap the image in container whose dimensions are of the same ratio as the image 
 
 ```html
 <span class="fluid_outer" style="max-width: 700px">
-	<span class="fluid_inner" style="padding-bottom:33%">
-		<img class="fluid" src="/foo.jpg">
-	</span>
+  <span class="fluid_inner" style="padding-bottom:33%">
+    <img class="fluid" src="/foo.jpg">
+  </span>
 </span>
 ```
 
 ```css
 .fluid_outer {
-	display: block;
+  display: block;
 }
 
 .fluid_inner {

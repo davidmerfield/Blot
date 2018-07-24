@@ -23,3 +23,24 @@ or something like this:
 Your blog would be built each time the process started and stored in memory. All you'd need to install would be node.js. This is a long way off but I will get there eventually! At the moment, Blot depends on redis, pandoc and nginx and various non-JavaScript tools for file compression.
 
 Eventually I will sell Blot to self-hosters. It will be priced reasonably, with an option to pay for support. I like how Kirby does it.
+
+
+## Production setup
+
+I made these changes to the AWS instance when I created it. I believe they were in the redis guide for getting good performance out of ec2 instances. But I'm not 100% sure...
+
+sysctl vm.overcommit_memory=1
+
+sudo bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+
+dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
+
+## Local setup
+
+Set up symlink if you install Blot elsewhere
+
+ln -s ~/projects/blot /var/www/blot
+
+Also link the caching directory:
+
+ln -s ~/projects/blot/www /cache
