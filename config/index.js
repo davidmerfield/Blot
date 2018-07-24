@@ -178,7 +178,11 @@ function difference(object, base) {
 var diff = difference(module.exports, require('./index-new'));
 
 for (var i in diff) {
-  console.log('WARNING', module.exports[i], require('./index-new')[i], 'ARE DIFFERENT');
+  console.log('WARNING', i, "--", module.exports[i], require('./index-new')[i], 'ARE DIFFERENT');
 }
 
-require('assert').deepEqual(module.exports, require('./index-new'));
+try {
+  require('assert').deepEqual(module.exports, require('./index-new'));  
+} catch (e) {
+  console.log('WARNING CONFIG ARE NOT EQUAL');
+}
