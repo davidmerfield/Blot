@@ -2,9 +2,8 @@ language: node_js
 services:
   - redis-server
 node_js:
-  - "4.4.2"
+  - "4.5.0"
 before_install:
-  - npm i -g npm@2.15.0
   - cd app/clients/dropbox
   - npm install
   - cd ../
