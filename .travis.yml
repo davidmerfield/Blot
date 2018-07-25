@@ -5,6 +5,12 @@ node_js:
   - "4.4.2"
 before_install:
   - npm i -g npm@2.15.0
+  - cd app/clients/dropbox
+  - npm install
+  - cd ../
+  - cd git
+  - npm install
+  - cd ../../
 cache:
   directories:
     - node_modules
