@@ -1,4 +1,6 @@
-<style type="text/css">body{}
+<style type="text/css">
+
+body{}
 
 hr {border-color: #eee}
 .nav a:hover {border-bottom: 1px solid black;color: black}
@@ -43,3 +45,11 @@ h2 {margin-top: 1em}
 {{/blog}}
 
 <section class="wrapper" style="max-width:540px;margin:1em auto">
+
+{{#success}}
+<span class="box green success">{{{success}}}</span>
+{{/success}}
+
+{{#error}}
+<span class="box orange error">{{{error}}}</span>
+{{/error}}

@@ -42,7 +42,6 @@ module.exports = function (req, res, next) {
       res.addPartials({
         head: 'partials/head',
         footer: 'partials/footer',
-        message: 'partials/message',
         local: 'template/_local',
         locals: 'template/_locals',
         partial: 'template/_partial',

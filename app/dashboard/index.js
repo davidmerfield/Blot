@@ -48,7 +48,6 @@ dashboard.use(function(req, res, next) {
       head: "partials/head",
       footer: "partials/footer",
       nav: "partials/nav",
-      message: "partials/message",
       yield: "account/" + view
     });
 
@@ -79,7 +78,6 @@ dashboard.use(function(req, res, next) {
       header: "partials/header",
       footer: "partials/footer",
       nav: "partials/nav",
-      message: "partials/message",
       yield: view
     });
 

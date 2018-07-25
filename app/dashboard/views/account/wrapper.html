@@ -29,6 +29,16 @@
 </section>
 <hr>
 {{/blog}}
+
+
+{{#success}}
+<span class="box green success">{{{success}}}</span>
+{{/success}}
+
+{{#error}}
+<span class="box orange error">{{{error}}}</span>
+{{/error}}
+
 <section class="wrapper" style="max-width:540px;margin:1em auto">
 
 <div class="sub nav" style="margin-bottom:1.3em;">
@@ -42,7 +52,6 @@
 </div>
 <hr style="margin-bottom:0">
 
-    {{> message}}
       {{> yield}}
       <div class="clear"></div>
       <br><br><Br>
