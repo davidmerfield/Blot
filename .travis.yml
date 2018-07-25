@@ -10,7 +10,7 @@ before_install:
   - cd ../
   - cd git
   - npm install
-  - cd ../../
+  - cd ../../../
 cache:
   directories:
     - node_modules
