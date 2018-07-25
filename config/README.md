@@ -1,3 +1,7 @@
+Blot and the software it depends (Redis, NGINX) on are run and kept alive using a series of [upstart](https://en.wikipedia.org/wiki/Upstart) scripts which can be viewed in [/upstart](./upstart). Additionally, we use [Monit](https://en.wikipedia.org/wiki/Monit) to ensure that the two web servers (Blot and NGINX) are responding to requests appropriately. 
+
+We use NGINX as a reverse proxy. It sits in front of the Blot server and handles static file delivery and SSL. Perhaps in future we can remove it but until now it seems worthwhile, especially given the automated certificate system Blot uses called [lua-resty-auto-ssl](https://github.com/GUI/lua-resty-auto-ssl).
+
 # Set up
 
 Blot depends on a file like ./environment.sh located here:
@@ -13,8 +17,6 @@ Then make sure you make all the contents of scripts/production executable:
 ```shell
 chmod +x scripts/production/start_blot.sh
 ```
-
-
 
 
 ## Production setup
