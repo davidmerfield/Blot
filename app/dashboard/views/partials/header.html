@@ -1,32 +1,10 @@
-<style type="text/css">
+<div class="page">
 
-body{}
-
-hr {border-color: #eee}
-.nav a:hover {border-bottom: 1px solid black;color: black}
-
-h1 {margin-top: 1em}
-h2 {margin-top: 1em}
-
-.sub.nav {border: none;}
-.nav a {margin-right: 2em}
-.sub.nav a {font-size: 15px;margin-right: 2em;color: gray;line-height: }
-.sub.nav a.selected {border-color:transparent; }
-
-.w-right-offset {
-    width: inherit;
-    margin-left: 0
-}
-
-.sidebar.fixed {display: block;border: 1px solid #aaa;position: relative!important;}
-</style>
-
-      {{#user.cancel_at_period_end}}
-
-      <section class="box orange" style="border-radius:0;border-left:none;border-right:none;border-top:none;margin-top:0">
-        Your subscription will expire on <b>{{user.pretty.expiry}}</b>. <a class="link" href="/account/restart">Restart your subscription</a>.
-      </section>
-      {{/user.cancel_at_period_end}}
+{{#user.cancel_at_period_end}}
+<section class="box orange" style="border-radius:0;border-left:none;border-right:none;border-top:none;margin-top:0">
+  Your subscription will expire on <b>{{user.pretty.expiry}}</b>. <a class="link" href="/account/restart">Restart your subscription</a>.
+</section>
+{{/user.cancel_at_period_end}}
 
 {{! We can't just check for a blog because the context switch messes up the list of blogs in the dropdown menu for some reason. Is blog.blogs also a property? }}
 {{^blog.isDisabled}}
@@ -34,17 +12,17 @@ h2 {margin-top: 1em}
 {{/blog.isDisabled}}
 
 {{^blog}}
-<section class="wrapper" style="max-width:540px;margin:1em auto">
 
-<div class="sub nav" style="margin-bottom:1.3em;">
-  <a href="/account" style="font-size:16px">Account</a> 
+<div class="wrapper">
+  <div class="sub nav" style="margin-bottom:1.3em;">
+    <a href="/account" style="font-size:16px">Account</a> 
+  </div>
 </div>
-</section>
-<hr style="margin-bottom:0">
 
+<hr>
 {{/blog}}
 
-<section class="wrapper" style="max-width:540px;margin:1em auto">
+<div class="wrapper">
 
 {{#success}}
 <span class="box green success">{{{success}}}</span>
