@@ -1,3 +1,7 @@
+Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime.
+
+---
+
 Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
 
 Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
