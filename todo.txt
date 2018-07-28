@@ -1,4 +1,4 @@
-Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime.
+Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
 
 ---
 
@@ -47,7 +47,7 @@ Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/ma
 
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
 - Let [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc) know
-
+- Let [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) know
 Fix bug with KaTeX LaTeX rendering
 - Let [Peter](https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6) know
 
