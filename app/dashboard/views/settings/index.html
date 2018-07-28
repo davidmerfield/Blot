@@ -4,21 +4,25 @@
 input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
 form label {cursor: pointer;line-height: 1.5;}
 
-.linkTo {color: black;display: block;padding:1em 0;text-decoration: none;}
-.linkTo:hover {border:none;background: rgba(0,0,0,0.025)}
+
+
+.group .linkTo:first-child {border-radius: 4px 4px 0 0}
+.group .linkTo:last-child {border-radius: 0 0 4px 4px;border-bottom-width: 1px}
+
+.linkTo {border:1px solid #eee;border-bottom-width:0;color: black;display: block;padding:1em;text-decoration: none;}
+.linkTo:hover {background: rgba(0,0,0,0.025)}
 </style>
 
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
-
+  <br>
+  <div class="group">
 
     <a class="linkTo" href="/settings/title">
       <b style="width:25%;display:block;float:left;font-weight:500">Title</b>
       <b style="color:gray;font-weight:500">{{blog.title}}</b>
       <span style="color:gray;float:right">Edit</span>
     </a>
-
-    <hr style="margin: 0">
     
     <a class="linkTo" href="/settings/domain">
       <b style="width:25%;display:block;float:left;font-weight:500">Domain</b>
@@ -26,33 +30,30 @@ form label {cursor: pointer;line-height: 1.5;}
       <span style="color:gray;float:right">Edit</span>
     </a>
     
-
-    <hr style="margin: 0">
-    
-          <a class="linkTo" href="/clients">
+    <a class="linkTo" href="/clients">
       <b style="width:25%;display:block;float:left;font-weight:500">Folder</b>
       <b style="color:gray;font-weight:500">{{client.display_name}}</b>
       <span style="color:gray;float:right">Edit</span>
     </a>
     
-    <hr style="margin: 0">
+  </div>
+
+  <br><br>
+  
+  <div class="group">
     
- <a class="linkTo" href="/theme">
+    <a class="linkTo" href="/theme">
       <b style="width:25%;display:block;float:left;font-weight:500">Theme</b>
       <b style="color:gray;font-weight:500">{{#template.name}}
         {{template.name}}
         {{/template.name}}        {{^template.name}}<em>You are not using a theme</em>{{/template.name}}
-</b>
+      </b>
       <span style="color:gray;float:right">Edit</span>
     </a>
 
-
-    <hr style="margin: 0">
-
- <a class="linkTo" href="/settings/photo">
+    <a class="linkTo" href="/settings/photo">
       <b style="width:25%;display:block;float:left;font-weight:500">Avatar</b>
       <b style="color:gray;font-weight:500">
-
         {{^blog.avatar}}<em>You have not uploaded a photo</em>{{/blog.avatar}}
 
         {{#blog.avatar}}
@@ -64,14 +65,8 @@ form label {cursor: pointer;line-height: 1.5;}
       <span style="color:gray;float:right">Edit</span>
       <div style="clear:both"></div>
     </a>
-  
-      <hr style="margin: 0">
 
-
-
-
-    
- <a class="linkTo" href="/settings/menu">
+    <a class="linkTo" href="/settings/menu">
       <b style="width:25%;display:block;float:left;font-weight:500">Menu</b>
             <span style="color:gray;float:right">Edit</span>
 
@@ -79,10 +74,31 @@ form label {cursor: pointer;line-height: 1.5;}
     display: block;
     height: 1.4em;
     overflow: hidden;
-}">{{#blog.menu}} {{label}}{{^last}},{{/last}} {{/blog.menu}}</b>
+    }">{{#blog.menu}} {{label}}{{^last}},{{/last}} {{/blog.menu}}</b>
     </a>
 
-  
+    <a class="linkTo" href="/settings/date">
+      <b style="width:25%;display:block;float:left;font-weight:500">Timezone</b>
+      <b style="color:gray;font-weight:500">
+
+          {{#timeZones}}{{#selected}} {{time}} {{value}}{{/selected}}{{/timeZones}}
+
+      </b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
+
+    <a class="linkTo" href="/settings/urls">
+      <b style="width:25%;display:block;float:left;font-weight:500">URLs</b>
+      <b style="color:gray;font-weight:500">
+
+         {{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
+
+      </b>
+      <span style="color:gray;float:right">Edit</span>
+    </a>
+
+  </div>
+  <br><br>
 
   {{#categories}}
 
@@ -116,25 +132,5 @@ form label {cursor: pointer;line-height: 1.5;}
     <br>
  -->  {{/categories}}
 
- <hr>
- <a class="linkTo" href="/settings/date">
-      <b style="width:25%;display:block;float:left;font-weight:500">Timezone</b>
-      <b style="color:gray;font-weight:500">
-
-          {{#timeZones}}{{#selected}} {{time}} {{value}}{{/selected}}{{/timeZones}}
-
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-    <hr style="margin:0">
- <a class="linkTo" href="/settings/urls">
-      <b style="width:25%;display:block;float:left;font-weight:500">URLs</b>
-      <b style="color:gray;font-weight:500">
-
-         {{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
-
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
 
 </form>
