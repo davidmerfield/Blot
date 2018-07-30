@@ -684,9 +684,10 @@ p.lock:before {
 }
 
 .wrapper {
-  max-width:540px;
   margin:0 auto
 }
+
+.half {width: 50%;float: left;}
 
 .sidebar {
 }

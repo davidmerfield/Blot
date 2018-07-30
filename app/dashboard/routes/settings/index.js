@@ -31,8 +31,9 @@ module.exports = function(server) {
     res.renderDashboard("settings/subpage");
   });
 
+
   server
-    .route("/settings")
+    .route("/")
 
     .get(
       loadTemplate,
@@ -54,4 +55,13 @@ module.exports = function(server) {
     // I don't know how to handle uncaught errors
     // WIll that cause an infinite redirect?
     .all(errorHandler);
+  
+  server.get("/:view", function(req, res, next) {
+    res.addPartials({subpage: 'settings/' + req.params.view});
+    res.locals.subpage_title = req.params.view[0].toUpperCase() + req.params.view.slice(1); 
+    res.locals.subpage_slug = req.params.view;
+    res.renderDashboard("settings/subpage");      
+  });
+  
+
 };

@@ -15,16 +15,15 @@ form label {cursor: pointer;line-height: 1.5;}
 
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
-  <br>
   <div class="group">
 
-    <a class="linkTo" href="/settings/title">
+    <a class="linkTo" href="/title">
       <b style="width:25%;display:block;float:left;font-weight:500">Title</b>
       <b style="color:gray;font-weight:500">{{blog.title}}</b>
       <span style="color:gray;float:right">Edit</span>
     </a>
     
-    <a class="linkTo" href="/settings/domain">
+    <a class="linkTo" href="/domain">
       <b style="width:25%;display:block;float:left;font-weight:500">Domain</b>
       <b style="color:gray;font-weight:500">{{blog.url}}</b>
       <span style="color:gray;float:right">Edit</span>
@@ -44,6 +43,7 @@ form label {cursor: pointer;line-height: 1.5;}
 
     <a class="linkTo" href="/settings/photo">
       <b style="width:25%;display:block;float:left;font-weight:500">Photo</b>
+
       <b style="color:gray;font-weight:500">
         {{^blog.avatar}}<em>You have not uploaded a photo</em>{{/blog.avatar}}
 
@@ -57,7 +57,7 @@ form label {cursor: pointer;line-height: 1.5;}
       <div style="clear:both"></div>
     </a>
 
-    <a class="linkTo" href="/settings/menu">
+    <a class="linkTo" href="/menu">
       <b style="width:25%;display:block;float:left;font-weight:500">Menu</b>
             <span style="color:gray;float:right">Edit</span>
 
@@ -83,6 +83,7 @@ form label {cursor: pointer;line-height: 1.5;}
 
     <a class="linkTo" href="/settings/date">
       <b style="width:25%;display:block;float:left;font-weight:500">Date</b>
+
       <b style="color:gray;font-weight:500">
 
           {{#timeZones}}{{#selected}} {{time}} {{value}}{{/selected}}{{/timeZones}}
@@ -91,7 +92,7 @@ form label {cursor: pointer;line-height: 1.5;}
       <span style="color:gray;float:right">Edit</span>
     </a>
 
-    <a class="linkTo" href="/settings/urls">
+    <a class="linkTo" href="/urls">
       <b style="width:25%;display:block;float:left;font-weight:500">URLs</b>
       <b style="color:gray;font-weight:500">
 

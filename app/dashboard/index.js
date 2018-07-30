@@ -123,9 +123,9 @@ require("./routes/clients")(dashboard);
 require("./routes/account")(dashboard);
 require("./routes/editor")(dashboard);
 require("./routes/folder")(dashboard);
-require("./routes/settings")(dashboard);
-require("./routes/tools")(dashboard);
 require("./routes/theme")(dashboard);
+require("./routes/tools")(dashboard);
+require("./routes/settings")(dashboard);
 
 dashboard.use(express.static(__dirname + "/views"));
 
