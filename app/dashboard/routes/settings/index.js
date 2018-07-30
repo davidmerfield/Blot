@@ -56,7 +56,7 @@ module.exports = function(server) {
     // WIll that cause an infinite redirect?
     .all(errorHandler);
   
-  server.get("/:view", function(req, res, next) {
+  server.get("/settings/:view", function(req, res, next) {
     res.addPartials({subpage: 'settings/' + req.params.view});
     res.locals.subpage_title = req.params.view[0].toUpperCase() + req.params.view.slice(1); 
     res.locals.subpage_slug = req.params.view;

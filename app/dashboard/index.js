@@ -90,7 +90,6 @@ dashboard.use(function(req, res, next) {
     }
 
     res.addLocals({ tab: tab });
-
     res.render(wrapper || "partials/wrapper");
   };
 
@@ -105,7 +104,7 @@ dashboard.use(middleware.loadBlog);
 dashboard.use(middleware.redirector);
 
 dashboard.get("/", require('./routes/folder'));
-dashboard.use(['/settings*', '/title', '/domain', '/clients*', 'theme*'
+dashboard.use(['/settings*', '/title', '/domain', '/clients*', '/theme*'
   ],require('./routes/folder'));
 
 dashboard.get("/view", function(req, res){

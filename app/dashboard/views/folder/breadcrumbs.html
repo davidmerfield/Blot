@@ -4,18 +4,17 @@
     {{#breadcrumbs}}
 
       {{#last}}
-      <a href="{{url}}" style="color:inherit;text-decoration:none;font-size:16px">{{name}}</a>
+      <a href="{{url}}" style="color:inherit;text-decoration:none;">{{name}}</a>
       {{/last}}
 
       {{^last}}
-      <a href="{{url}}" style="color:inherit;text-decoration:none;font-size:16px">{{name}}</a> 
+      <a href="{{url}}" style="color:inherit;text-decoration:none;">{{name}}</a> 
 
       <span style=""><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
       {{/last}}
 
     {{/breadcrumbs}}
-    
-    <span style="float:right;background:green;border-radius:100%;width:1em;height:1em;display:block;font-size:9px;vertical-align:baseline"></span>
+
 
 <hr style="border-color:#aaa">
 {{/breadcrumbs.length}}

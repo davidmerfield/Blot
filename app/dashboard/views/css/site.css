@@ -161,7 +161,7 @@ ul {
 
 
 body {
-  font: 400 1em / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+  font: 400 14px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -471,8 +471,6 @@ form .error,
   margin: 0 18px 0 0;
   display: block;
   float: left;
-  padding-right: 18px;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #avatar img {
@@ -704,7 +702,6 @@ p.lock:before {
 
 .sub.nav {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: 14px;
 }
 .sub.nav a {
   display: inline-block;
@@ -1272,7 +1269,7 @@ p.sub {
 .dropdown .menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   background: #fff;
   width: 13em;
   z-index: 20;
@@ -1564,11 +1561,9 @@ body, html {height: 100%;margin: 0;color: #111;}
 .push, .footer {height: 52px}
 
 .footer {
-  background: #fafafa;
   font-size: 14px;
   color: #888;
   padding: 1em 2em;
-  border-top: 1px solid #eee
 }
 
 .footer a:hover {color: black;text-decoration: underline;}
