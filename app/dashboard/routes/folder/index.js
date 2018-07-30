@@ -2,20 +2,20 @@ var renderFile = require("./renderFile");
 var renderFolder = require("./renderFolder");
 var breadcrumbs = require("./breadcrumbs");
 var determinePath = require("./determinePath");
+var router = require("express").Router();
 
-module.exports = function(server) {
-
-  server.get("/view", function(req, res, next){
-    req.session.path = req.query.path;
+router
+  .use(function(req, res, next) {
+    console.log("loading folder on", req.originalUrl);
+    next();
+  })
+  .use(determinePath)
+  .use(breadcrumbs)
+  .use(renderFolder)
+  .use(renderFile)
+  .use(function(err, req, res, next) {
+    // suppress errors
     next();
   });
 
-  server
-    .use(determinePath)
-    .use(breadcrumbs)
-    .use(renderFolder)
-    .use(renderFile)
-    .use(function (err, req, res, next){
-      next();
-    })
-};
+module.exports = router;

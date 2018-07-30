@@ -9,13 +9,14 @@ form label {cursor: pointer;line-height: 1.5;}
 .group .linkTo:first-child {border-radius: 4px 4px 0 0}
 .group .linkTo:last-child {border-radius: 0 0 4px 4px;border-bottom-width: 1px}
 
-.linkTo {border:1px solid #eee;border-bottom-width:0;color: black;display: block;padding:1em;text-decoration: none;}
+.linkTo {border-bottom: 1px solid #eee;font-size:14px;color: black;display: block;padding:0.75em;text-decoration: none;}
 .linkTo:hover {background: rgba(0,0,0,0.025)}
 </style>
 
+<b>Settings</b>
+<hr style="border-color:#aaa">
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
-  <div class="group">
 
     <a class="linkTo" href="/title">
       <b style="width:25%;display:block;float:left;font-weight:500">Title</b>
@@ -25,13 +26,11 @@ form label {cursor: pointer;line-height: 1.5;}
     
     <a class="linkTo" href="/domain">
       <b style="width:25%;display:block;float:left;font-weight:500">Domain</b>
-      <b style="color:gray;font-weight:500">{{blog.url}}</b>
+      <b style="color:gray;font-weight:500">{{blog.url}}   
+</b>
       <span style="color:gray;float:right">Edit</span>
     </a>
   
-  </div>
-  <br><Br>
-  <div class="group">
     <a class="linkTo" href="/theme">
       <b style="width:25%;display:block;float:left;font-weight:500">Theme</b>
       <b style="color:gray;font-weight:500">{{#template.name}}
@@ -70,9 +69,7 @@ form label {cursor: pointer;line-height: 1.5;}
     {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}</b>
     </a>
 
-    </div>
-    <br><br>
-  <div class="group">
+
 
     <a class="linkTo" href="/clients">
       <b style="width:25%;display:block;float:left;font-weight:500">Folder</b>
@@ -128,7 +125,6 @@ form label {cursor: pointer;line-height: 1.5;}
       </b>
       <span style="color:gray;float:right">Edit</span>
     </a>
-  </div>
 
   
 

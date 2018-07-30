@@ -104,6 +104,15 @@ dashboard.use(middleware.loadUser);
 dashboard.use(middleware.loadBlog);
 dashboard.use(middleware.redirector);
 
+dashboard.get("/", require('./routes/folder'));
+dashboard.use(['/settings*', '/title', '/domain', '/clients*', 'theme*'
+  ],require('./routes/folder'));
+
+dashboard.get("/view", function(req, res){
+  req.session.path = decodeURIComponent(req.query.path) || "/";
+  return res.redirect(req.query.redirect || "/");
+});
+
 dashboard.post(
   ["/theme*", "/folder*", "/clients*", "/flags", "/404s", "/account*"],
   bodyParser.urlencoded({ extended: false })
@@ -122,7 +131,6 @@ dashboard.use(csrf, function(req, res, next) {
 require("./routes/clients")(dashboard);
 require("./routes/account")(dashboard);
 require("./routes/editor")(dashboard);
-require("./routes/folder")(dashboard);
 require("./routes/theme")(dashboard);
 require("./routes/tools")(dashboard);
 require("./routes/settings")(dashboard);
