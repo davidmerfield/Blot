@@ -1,4 +1,43 @@
 {{> head}}
 {{> header}}
+
+<div class="half" style="padding:2em">
 {{> yield}}
+</div>
+
+<div class="dropdown closed" style="float:right">
+
+    <a href="#!" class="opener" style="color:#555">Your account <svg width="12" height="10" style="top:0;position:relative" viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="black"></path></svg></a>
+
+    <div class="menu">
+
+
+      {{#blogs}}
+
+        {{^isCurrent}}
+
+        <a href="/account/swap?to={{id}}"><span style="color:black;">Switch to</span> {{title}}</a>
+
+        {{/isCurrent}}
+
+      {{/blogs}}
+
+      <a href="/account/create-blog">Create another blog</a>
+
+      <a href="/account">Account settings</a>
+
+      <a href="/account/log-out">Log out</a>
+
+    </div>
+  </div> 
+    <a href="{{blog.url}}" target="_blank" style="float:right;color:black;text-decoration:none;color:#555">&nbsp; Go to your blog &nbsp;&nbsp;&nbsp;</a>
+
+
+
+<div class="half" style="padding:2em;border:1px solid #eee;border-radius:4px">
+  <b>Your blog's folder</b>
+  <hr>
+{{> folder}}
+</div>
+
 {{> footer}}

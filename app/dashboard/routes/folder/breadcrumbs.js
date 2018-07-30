@@ -6,7 +6,7 @@ module.exports = function breadcrumbs(req, res, next) {
     return next();
   }
 
-  breadcrumbs.push({ name: "Your folder", url: "/" });
+  breadcrumbs.push({ name: "Your folder", url: "/view?path=/" });
 
   var names = dir.split("/").filter(function(name) {
     return !!name;
@@ -14,7 +14,7 @@ module.exports = function breadcrumbs(req, res, next) {
 
   names.forEach(function(name, i) {
     breadcrumbs.push({
-      url: "/~/" + names.slice(0, i + 1).join("/"),
+      url: "/view?path=" + names.slice(0, i + 1).join("/"),
       name: name
     });
   });
