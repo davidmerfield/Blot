@@ -8,6 +8,8 @@ module.exports = function(req, res, next) {
     if (res.locals.contents) return next();
     
     res.locals.stat = stat;
+    res.locals.breadcrumbs.pop();
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length -1].last = true;
     res.addPartials({
       folder: "folder/file",
       entry: "folder/entry",
