@@ -63,20 +63,21 @@ module.exports = function (req, res, next) {
     categories[name].plugins.push(plugin);
   });
 
-  categories = helper.arrayify(categories);
+  // categories = helper.arrayify(categories);
 
-  var _categories = categories.slice();
-      categories = [];
+  // var _categories = categories.slice();
+  //     categories = [];
 
-  for (var x in _categories) {
-    _categories[x].plugins[_categories[x].plugins.length -1].last = true;
-    if (_categories[x].slug === 'typography') {
-      categories.unshift(_categories[x]);
-    } else {
-      categories.push(_categories[x]);
-    }
-  }
+  // for (var x in _categories) {
+  //   _categories[x].plugins[_categories[x].plugins.length -1].last = true;
+  //   if (_categories[x].slug === 'typography') {
+  //     categories.unshift(_categories[x]);
+  //   } else {
+  //     categories.push(_categories[x]);
+  //   }
+  // }
 
+  console.log(categories);
   res.addLocals({categories: categories});
 
   return next();

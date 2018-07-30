@@ -4,28 +4,12 @@ var rebuild = require("../../../rebuild");
 var Blog = require("blog");
 var _ = require("lodash");
 var helper = require("helper");
-var extend = helper.extend;
 
 module.exports = function(req, res, next) {
   var blog = req.blog;
   var blogID = blog.id;
   var updates = req.updates || {};
   var redirect = req.body.redirect || req.path;
-
-  updates.menu = updates.menu || [];
-
-  for (var i in updates.menu) {
-    for (var x in blog.menu) {
-      if (blog.menu[x].id === updates.menu[i].id) {
-        extend(updates.menu[i]).and(blog.menu[x]);
-      }
-    }
-  }
-
-  // Oterwhse the menu is deleted...
-  if (!updates.menu.length) {
-    delete updates.menu;
-  }
 
   Blog.set(blogID, updates, function(errors, changes) {
     if (errors) return next(errors);
