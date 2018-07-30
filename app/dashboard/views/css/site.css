@@ -1511,6 +1511,7 @@ span.file {
 
 .files a {
   color: black;
+  font-size: 14px;
   text-decoration: none;
   display: block;
   padding: 0.6666em 0;
@@ -1566,17 +1567,16 @@ body, html {height: 100%;margin: 0;color: #111;}
   background: #fafafa;
   font-size: 14px;
   color: #888;
+  padding: 1em 2em;
   border-top: 1px solid #eee
 }
 
 .footer a:hover {color: black;text-decoration: underline;}
 
-.footer .wrapper {  display: flex;
-  flex-direction: row;
-}
+.footer .wrapper {}
 .footer a {
+  margin-right: 2em;
   color: inherit;
-  flex-grow: 1;
   display: inline-block;
   text-decoration: none;
 }
