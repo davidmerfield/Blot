@@ -498,11 +498,7 @@ form .error,
 }
 
 form .box.green.success {
-  margin: 0 0 0 26.5%;
-  z-index: 1;
   display: inline-block;
-  position: absolute;
-  top: -0.5em;
   font-size: 14px;
   background: rgba(226, 249, 227, 1);
   padding: 0.33em 0.66em;
@@ -962,14 +958,6 @@ form .error,
   color: rgb(3, 61, 3);
 }
 
-.success.green.box {
-  text-align: center;
-  margin: 0 25%;
-  display: inline-block;
-  position: relative;
-  left: 1em;
-  top: -1.6666em;
-}
 
 #searchContainer {
   padding: 2.2em 0;
@@ -1163,11 +1151,6 @@ fieldset.wide {
   padding-right: 18%;
 }
 
-.plugin {
-  width: 28%;
-  float: left;
-  margin: 0 3% 1em 1.5em;
-}
 .plugin:nth-child(4n) {
   margin-right: 0;
 }
