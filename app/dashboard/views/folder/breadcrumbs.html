@@ -1,20 +1,25 @@
 
+<div style="border:1px solid #ccc;border-radius:4px">
+<div style="background:#eee;padding:0.5em;border-radius:4px 4px 0 0">
 {{#breadcrumbs.length}}
 
     {{#breadcrumbs}}
 
       {{#last}}
-      <a href="{{url}}" style="color:inherit;text-decoration:none;">{{name}}</a>
+
+
+
+  <a href="{{url}}" style="text-decoration:none;color: rgb(109, 109, 109);font-weight:400">{{name}}</a>
+
       {{/last}}
 
       {{^last}}
-      <a href="{{url}}" style="color:inherit;text-decoration:none;">{{name}}</a> 
+      <a style="font-weight:400;color:rgb(153, 153, 153);text-decoration:none" href="{{url}}">{{name}}</a>
 
-      <span style=""><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
+  <span style="margin:0 0.1em 0 0.25em" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
       {{/last}}
 
     {{/breadcrumbs}}
 
-
-<hr style="border-color:#aaa">
+</div>
 {{/breadcrumbs.length}}

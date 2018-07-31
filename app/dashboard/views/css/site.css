@@ -1508,10 +1508,9 @@ span.file {
 
 .files a {
   color: black;
-  font-size: 14px;
   text-decoration: none;
   display: block;
-  padding: 0.6666em 0;
+  padding: 0.5em 0.5em;
   line-height: 2em;
 }
 .files a:hover {
