@@ -4,11 +4,8 @@ var breadcrumbs = require("./breadcrumbs");
 var determinePath = require("./determinePath");
 var router = require("express").Router();
 
+
 router
-  .use(function(req, res, next) {
-    console.log("loading folder on", req.originalUrl);
-    next();
-  })
   .use(determinePath)
   .use(breadcrumbs)
   .use(renderFolder)
@@ -17,5 +14,12 @@ router
     // suppress errors
     next();
   });
+
+router.post("/path", function(req, res) {
+  console.log(req.body);
+  req.session.path = req.body.path || "/";
+  return res.redirect(req.body.redirect || "/");
+});
+
 
 module.exports = router;

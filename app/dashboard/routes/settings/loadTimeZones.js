@@ -114,11 +114,9 @@ module.exports = function (req, res, next) {
     });
   });
 
-  res.addLocals({
-    timeZones: timeZones,
-    displayFormats: displayFormats,
-    dateFormats: dateFormats
-  });
+  res.locals.timeZones = timeZones;
+  res.locals.displayFormats = displayFormats;
+  res.locals.dateFormats = dateFormats;
 
   next();
 };

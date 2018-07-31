@@ -48,8 +48,8 @@ module.exports = function(server) {
     .route("/account/delete")
 
     .get(function(req, res) {
-      res.title("Delete your account");
-      res.renderAccount("delete");
+      res.locals.title = "Delete your account";
+      res.render("account/delete");
     })
 
     .post(function(req, res, next) {

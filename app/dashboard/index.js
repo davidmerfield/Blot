@@ -1,18 +1,42 @@
-var express = require("express");
-var dashboard = express();
+var compression = require("compression");
 var middleware = require("middleware");
-var hogan = require("hogan-express");
-var compression = require("compression")();
-var add = middleware.add;
 var bodyParser = require("body-parser");
-var csurf = require("csurf");
-var csrf = csurf();
+var hogan = require("hogan-express");
+var express = require("express");
+var debug = require('debug')('dashboard');
+
+var VIEW_DIRECTORY = __dirname + "/views";
+
+// This is the express application used by a
+// customer to control the settings and view
+// the state of the blog's folder
+var dashboard = express();
+
+// Send static files
+dashboard.use('/css', express.static(VIEW_DIRECTORY + "/css"));
+dashboard.use('/images', express.static(VIEW_DIRECTORY + "/images"));
+dashboard.use('/scripts', express.static(VIEW_DIRECTORY + "/scripts"));
+
+// Log response time in development mode
+dashboard.use(function(req, res, next){
+  
+  debug(req.originalUrl, 'recieved request');
+
+  var start = Date.now();
+
+  res.on('finish', function() {
+    var duration = Date.now() - start;
+    debug(req.originalUrl, 'response sent in', duration);
+  });
+
+  next();
+});
 
 // Logs the time spent rendering each page
 dashboard.use(middleware.responseTime);
 
 // Enable GZIP
-dashboard.use(compression);
+dashboard.use(compression());
 
 // Hide the header which says the app
 // is built with Express
@@ -23,110 +47,96 @@ dashboard.disable("x-powered-by");
 // as the client IP address unless trust proxy is configured.
 dashboard.set("trust proxy", "loopback");
 
-// Register the engine we will use to 
-// render the views. 
+// Register the engine we will use to
+// render the views.
 dashboard.set("view engine", "html");
-dashboard.set("views", __dirname + "/views");
+dashboard.set("views", VIEW_DIRECTORY);
 dashboard.engine("html", hogan);
 
 // For when we want to cache templates
 if (process.env.BLOT_ENVIRONMENT !== "development") {
   dashboard.enable("view cache");
-} 
+}
 
-dashboard.set("host", process.env.BLOT_HOST);
-dashboard.set("title", "Blot");
-dashboard.set("cacheID", Date.now());
+// Cache ID is used for the static assets
+// eventually remove this when you merge
+// the assets into a single file
+dashboard.locals.cacheID = Date.now();
 
-dashboard.use(function(req, res, next) {
+// Special function which wraps render
+// so there is a default layout and a partial
+// inserted into it
+dashboard.use(require("./render"));
 
-  res.title = function(title) {
-    res.locals.title = title;
-  };
+// Appends a one-time CSRF-checking token
+// for each GET request, and validates this token
+// for each POST request, using csurf. 
+dashboard.use(require('./csrf'));
 
-  res.renderAccount = function(view) {
-    delete res.locals.partials;
+// Used for passing success / error messages
+// around using the session property of each
+// request instead of a query string
+dashboard.use(middleware.messenger);
 
-    res.locals.partials = {};
-
-    res.addPartials({
-      head: "partials/head",
-      footer: "partials/footer",
-      nav: "partials/nav",
-      yield: "account/" + view
-    });
-
-    res.render("account/wrapper");
-  };
-
-  res.renderDashboard = function(view, wrapper) {
-    // what are the consequences of not deleting these partials?
-    // delete res.locals.partials;
-
-    res.locals.partials = res.locals.partials || {};
-
-    res.addPartials({
-      head: "partials/head",
-      header: "partials/header",
-      footer: "partials/footer",
-      nav: "partials/nav",
-      yield: view
-    });
-
-    res.render(wrapper || "partials/wrapper");
-  };
-
+dashboard.use(function(req, res, next){
+  debug(req.originalUrl, 'before load');
   next();
 });
 
-dashboard.use(add());
-
-dashboard.use(middleware.messenger);
+// Load properties as needed
+// these should not be invoked for requests to static files
 dashboard.use(middleware.loadUser);
 dashboard.use(middleware.loadBlog);
+
+// Performs some basic checks about the
+// state of the user's blog, user's subscription
+// and shuttles the user around as needed
 dashboard.use(middleware.redirector);
 
-dashboard.get("/", require('./routes/folder'));
-
-dashboard.use(['/settings*', '/title', '/domain', '/clients*', '/theme*'
-  ],require('./routes/folder'));
-
-dashboard.get("/view", function(req, res){
-  req.session.path = decodeURIComponent(req.query.path) || "/";
-  return res.redirect(req.query.redirect || "/");
+dashboard.use(function(req, res, next){
+  debug(req.originalUrl, 'after load');
+  next();
 });
 
+
+// Account page does not need to know about the state of the folder
+// for a particular blog
+require("./routes/account")(dashboard);
+
+
+
+
 dashboard.post(
-  ["/theme*", "/folder*", "/clients*", "/flags", "/404s", "/account*"],
+  ["/theme*", "/path", "/folder*", "/clients*", "/flags", "/404s", "/account*"],
   bodyParser.urlencoded({ extended: false })
 );
 
-dashboard.use(csrf, function(req, res, next) {
-  // Load the CSRF protection since we're
-  // inside the app,
-  res.addLocals({
-    csrftoken: req.csrfToken()
-  });
-
+dashboard.use(function(req, res, next){
+  debug(req.originalUrl, 'before folder');
   next();
 });
 
+// Load the files and folders inside a blog's folder
+dashboard.use(require("./routes/folder"));
+
+dashboard.use(function(req, res, next){
+  debug(req.originalUrl, 'after folder');
+  next();
+});
+
+dashboard.use(function(req, res, next){
+  debug(req.originalUrl, 'third middleware here');
+  next();
+});
+
+require("./routes/settings")(dashboard);
+
 require("./routes/clients")(dashboard);
-require("./routes/account")(dashboard);
 require("./routes/editor")(dashboard);
 require("./routes/theme")(dashboard);
 require("./routes/tools")(dashboard);
-require("./routes/settings")(dashboard);
-
-dashboard.use(express.static(__dirname + "/views"));
 
 // need to handle dashboard errors better...
-dashboard.use(function(err, req, res, next) {
-  console.log(err);
-  console.log(err.trace);
-  console.log(err.stack);
-  res.status(500);
-  res.send(":( Error");
-});
+dashboard.use(require('./routes/error'));
 
 module.exports = dashboard;

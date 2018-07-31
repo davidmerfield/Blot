@@ -22,12 +22,10 @@ module.exports = function(server){
 
       // If user is new or doesn't have a handle,
       // let them choose one
-      res.addLocals({
-        stripe_key: config.stripe.key
+      res.render('account/update-billing', {
+        stripe_key: config.stripe.key,
+        title: title
       });
-
-      res.title(title);
-      res.renderAccount('update-billing');
     })
 
     // Takes a stripe token generated

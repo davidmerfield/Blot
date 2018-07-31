@@ -18,11 +18,11 @@ module.exports = function(server){
     })
 
     .get(function(req, res){
-      res.title('Disable your account');
+      res.locals.title = 'Disable your account';
       res.locals.subpage_title = 'Disable your account';
       res.locals.subpage_slug = 'disable';
 
-      res.renderAccount('disable');
+      res.render('account/disable');
     })
 
     .post(function(req, res, next){

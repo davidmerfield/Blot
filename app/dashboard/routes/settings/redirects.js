@@ -23,9 +23,7 @@ module.exports = function(server) {
       Redirects.list(req.blog.id, function(err, redirects) {
         if (err) return next(err);
 
-        res.addLocals({ redirects: _.filter(redirects) });
-
-        res.renderDashboard("settings/redirects");
+        res.render("settings/redirects", { redirects: _.filter(redirects) });
       });
     })
 

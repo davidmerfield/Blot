@@ -8,9 +8,9 @@ module.exports = function(server){
       
       if (!req.query.token) return res.redirect('/');
 
-      res.title('Set your password');
+      res.locals.title = 'Set your password';
       res.locals.token = req.query.token;
-      return res.renderAccount('set-password');
+      return res.render('account/set-password');
     })
 
     .post(function(req, res, next){

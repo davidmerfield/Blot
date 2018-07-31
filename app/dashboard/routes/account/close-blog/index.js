@@ -20,8 +20,8 @@ module.exports = function(server){
     .all(calculateSubscriptionChange)
 
     .get(function(req, res){
-      res.title('Delete ' + req.blogToClose.title);
-      res.renderAccount('close-blog');
+      res.locals.title = 'Delete ' + req.blogToClose.title;
+      res.render('account/close-blog', {host: process.env.BLOT_HOST});
     })
 
     // Save any changes to the user's subscription

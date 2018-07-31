@@ -73,7 +73,7 @@ module.exports = function (req, res, next) {
       return 0;
     });
 
-    res.addLocals({templates: templates});
+    res.locals.templates = templates;
 
     next();
   });

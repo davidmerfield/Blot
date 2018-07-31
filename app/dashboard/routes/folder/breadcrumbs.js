@@ -13,13 +13,14 @@ module.exports = function breadcrumbs(req, res, next) {
   names.forEach(function(name, i) {
     breadcrumbs.push({
       url: "/view?redirect=" + redirect + "&path=" + names.slice(0, i + 1).join("/"),
-      name: name
+      name: name,
+      path: names.slice(0, i + 1).join("/")
     });
   });
 
   breadcrumbs[breadcrumbs.length - 1].last = true;
   
-  res.addPartials({breadcrumbs: 'folder/breadcrumbs'});
+  res.locals.partials.breadcrumbs = 'folder/breadcrumbs';
   res.locals.breadcrumbs = breadcrumbs;
 
   return next();

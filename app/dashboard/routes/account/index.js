@@ -21,8 +21,8 @@ module.exports = function (server) {
 
   server.route('/account/email')
   .get(function(req, res){
-      res.title('Change your email');
-      res.renderAccount('email');
+      res.locals.title = 'Change your email';
+      res.render('account/email');
   })
   .post(function(req, res){
 
@@ -46,8 +46,8 @@ module.exports = function (server) {
   server.route('/account')
 
     .get(function(req, res) {
-      res.title('Account');
-      res.renderAccount('index');
+      res.locals.title = 'Account';
+      res.render('account/index');
     })
 
     

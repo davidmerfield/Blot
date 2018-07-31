@@ -27,11 +27,11 @@ module.exports = function(server){
     })
 
     .get(function(req, res){
-      res.title(TITLE);
+      res.locals.title = TITLE;
       res.locals.subpage_title = TITLE;
       res.locals.subpage_slug = 'cancel';
 
-      res.renderAccount('cancel');
+      res.render('account/cancel');
      })
 
     .post(function(req, res){

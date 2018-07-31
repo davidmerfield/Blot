@@ -27,8 +27,8 @@ module.exports = function(server) {
 
 
       res.locals.flags = flags;
-      res.title("Flags");
-      res.renderDashboard("preferences/flags");
+      res.locals.title = "Flags";
+      res.render("preferences/flags");
     })
 
     .post(form, function(req, res, next) {

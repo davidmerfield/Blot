@@ -10,11 +10,9 @@ module.exports = function(req, res, next) {
     res.locals.stat = stat;
     res.locals.breadcrumbs.pop();
     res.locals.breadcrumbs[res.locals.breadcrumbs.length -1].last = true;
-    res.addPartials({
-      folder: "folder/file",
-      entry: "folder/entry",
-      stat: "folder/stat"
-    });
+    res.locals.partials.folder = "folder/file";
+    res.locals.partials.entry = "folder/entry";
+    res.locals.partials.stat = "folder/stat";
 
     next();
   });

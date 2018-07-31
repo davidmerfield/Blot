@@ -24,11 +24,11 @@ module.exports = function(server) {
   server.get("/settings/services", loadPlugins);
   
   server.get("/settings/:view", function(req, res, next) {
-    res.addPartials({ subpage: "settings/" + req.params.view });
+    res.locals.partials.subpage = "settings/" + req.params.view;
     res.locals.subpage_title =
       req.params.view[0].toUpperCase() + req.params.view.slice(1);
     res.locals.subpage_slug = req.params.view;
-    res.renderDashboard("settings/subpage");
+    res.render("settings/subpage", {host: process.env.BLOT_HOST});
   });
 
 
@@ -42,8 +42,7 @@ module.exports = function(server) {
       loadTimeZones,
       loadPermalinkFormats,
       function(req, res) {
-        res.title("Your profile");
-        res.renderDashboard("settings");
+        res.render("settings");
       }
     )
 
@@ -56,10 +55,10 @@ module.exports = function(server) {
     .all(errorHandler);
   
   server.get("/settings/:view", function(req, res, next) {
-    res.addPartials({subpage: 'settings/' + req.params.view});
+    res.locals.partials.subpage = 'settings/' + req.params.view;
     res.locals.subpage_title = req.params.view[0].toUpperCase() + req.params.view.slice(1); 
     res.locals.subpage_slug = req.params.view;
-    res.renderDashboard("settings/subpage");      
+    res.render("settings/subpage");      
   });
   
 

@@ -1256,7 +1256,7 @@ p.sub {
   display: block;
 }
 
-.dropdown .opener:hover {background: #f0f0f0}
+.dropdown .opener:hover {background: #434343}
 
 .dropdown {
   z-index: 10;
@@ -1282,14 +1282,15 @@ p.sub {
   display: block;
   padding: 0 1em;
   margin: 0;
-  font-size: 15px;
   width: 100%;
   line-height: 41px;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #666;
+  color: #ccc;
 }
 
 .dropdown .menu a:hover {
-  background: #fafafa;
+  background: #434343;
+  color: #ccc
 }
 .dropdown .menu a .avatar {
   position: absolute;
@@ -1298,13 +1299,6 @@ p.sub {
   margin-top: -11px;
 }
 
-.dropdown .menu a:first-child {
-  border-radius: 6px 6px 0 0;
-}
-.dropdown .menu a:last-child {
-  border-bottom: none;
-  border-radius: 0 0 6px 6px;
-}
 
 .homeLink {
   line-height: 24px;
@@ -1507,14 +1501,16 @@ span.file {
   line-height: 1em;
 }
 
-.files a {
+.files button {
   color: black;
+  width: 100%;
+  text-align: left;
   text-decoration: none;
   display: block;
   padding: 0.5em 1em;
   line-height: 2em;
 }
-.files a:hover {
+.files button:hover {
   background: #fafafa;
   border: none;
 }

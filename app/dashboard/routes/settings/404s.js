@@ -27,14 +27,12 @@ module.exports = function(server) {
           ignored = [];
         }
 
-        res.addLocals({
+        res.locals.title = "404s";
+        res.render("404s", {
           list: list,
           has_ignored: has_ignored,
           ignored: ignored
         });
-
-        res.title("404s");
-        res.render("404s");
       });
     })
 

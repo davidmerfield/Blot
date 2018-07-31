@@ -1,4 +1,8 @@
-{{> breadcrumbs}}
+<form method='post' action='/path?_csrf={{csrftoken}}'>
+
+  <input type="hidden" name="redirect" value="{{redirect}}">
+
+  {{> breadcrumbs}}
 
 {{^contents.length}}
     {{#root}}
@@ -15,7 +19,8 @@
   
   {{#contents}}
 
-    <a href="/view?path={{{path}}}">
+
+    <button type="submit" name="path" value="{{path}}">
       
       <span class="
       {{#directory}}folder{{/directory}}
@@ -31,10 +36,12 @@
       {{/directory}}
 
       <span class="clear"></span>
-    </a>
+    </button>
 
     <hr style="margin:0">
 
   {{/contents}}
   <div class="clear"></div>
 </div>
+
+</form>

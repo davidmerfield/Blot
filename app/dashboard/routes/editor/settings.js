@@ -21,10 +21,7 @@ module.exports = function (server) {
 
     .get(function(req, res){
 
-      res.setPartials({
-        yield: 'template/settings'
-      });
-
+      res.locals.partials.yield = 'template/settings';
       res.render('template');
     })
 

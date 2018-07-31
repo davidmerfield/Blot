@@ -19,7 +19,7 @@ module.exports = function (req, res, next) {
 
   if (req.session.message.url === req.path) {
 
-    res.addLocals(req.session.message);
+    res.locals.message = req.session.message;
 
     if (req.session.message.error) res.status(400);
 
