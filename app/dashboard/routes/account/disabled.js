@@ -10,8 +10,8 @@ module.exports = function (server) {
     })
 
     .get(function(req, res){
-      res.title('Your Blot account is disabled');
-      res.renderAccount('disabled');
+      res.locals.title = 'Your Blot account is disabled';
+      res.render('account/disabled');
     })
 
     .post(function(req, res){

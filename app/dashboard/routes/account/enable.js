@@ -15,8 +15,8 @@ module.exports = function(server){
     })
 
     .get(function(req, res){
-      res.title('Enable your account');
-      res.renderAccount('enable');
+      res.locals.title = 'Enable your account';
+      res.render('account/enable');
     })
 
     .post(function(req, res, next){

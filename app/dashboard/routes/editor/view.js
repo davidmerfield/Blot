@@ -31,7 +31,7 @@ module.exports = function (server) {
     .all(loadTemplate, loadSidebar)
 
     .get(function(req, res){
-      res.addPartials({yield: 'template/view-create'});
+      res.locals.partials.yield = 'template/view-create';
       res.render('template');
     })
 
@@ -60,16 +60,12 @@ module.exports = function (server) {
 
     .get(function(req, res){
 
-      res.setPartials({
-        yield: 'template/view-editor'
-      });
+      res.locals.partials.yield = 'template/view-editor';
 
-      res.addLocals({
+      res.render('template', {
         active:{editor: true},
         title: capitalise(res.locals.view.name + '.' + res.locals.view.extension) + ' - ' + req.template.name
       });
-
-      res.render('template');
     })
 
     .post(parseBody, saveView)
@@ -84,16 +80,13 @@ module.exports = function (server) {
 
     .get(function(req, res){
 
-      res.setPartials({
-        yield: 'template/view-settings'
-      });
+      res.locals.partials.yield = 'template/view-settings';
 
-      res.addLocals({
+
+      res.render('template', {
         active:{settings: true},
         title: capitalise(req.view.name + '.' + req.view.extension) + ' - Settings - ' + req.template.name
       });
-
-      res.render('template');
     })
 
     // Handle deletions...
@@ -225,7 +218,7 @@ function loadView (req, res, next) {
     view.editorMode = editorMode(view);
 
     req.view = view;
-    res.addLocals({view: view});
+    res.locals.view = view;
     next();
   });
 }

@@ -31,18 +31,13 @@ module.exports = function(server) {
         return res.redirect("/account");
       }
 
-      
-
-
-      res.addLocals({
+      res.render("account/create-blog", {
         now: pretty(fee.now),
+        title: "Create a blog",
         first_blog: first_blog,
         later: pretty(fee.later),
         individual: pretty(fee.individual)
       });
-
-      res.title("Create a blog");        
-      res.renderAccount("create-blog");
     })
 
     .post(validate, charge, function(req, res, next) {

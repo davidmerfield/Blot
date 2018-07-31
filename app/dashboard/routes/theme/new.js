@@ -11,8 +11,8 @@ module.exports = function (server) {
   server.route('/theme/new')
 
     .get(function(req, res) {
-      res.title(TITLE);
-      res.renderDashboard('theme/new');
+      res.locals.title = TITLE;
+      res.render('theme/new');
     })
 
     .post(function(req, res){

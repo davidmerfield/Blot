@@ -25,7 +25,7 @@ module.exports = function(dashboard) {
       return res.redirect("/clients/" + req.blog.client);
     }
 
-    res.renderDashboard("clients");
+    res.render("clients");
   });
 
   client_routes.post("/", function(req, res, next) {

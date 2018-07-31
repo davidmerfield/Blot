@@ -64,7 +64,7 @@ module.exports = function(req, res, next) {
 
     forEach(contents, load, function() {
       res.locals.contents = folders.concat(files);
-      res.addPartials({ folder: "folder/directory" });
+      res.locals.partials.folder = "folder/directory";
       next();
     });
   });

@@ -2,6 +2,11 @@ var helper = require("helper");
 var type = helper.type;
 
 module.exports = function(err, req, res, next) {
+
+  if (!req.body) {
+    return next(err);
+  }
+
   var redirect = req.body.redirect || req.path;
   var message = { url: redirect };
 

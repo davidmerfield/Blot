@@ -11,8 +11,8 @@ module.exports = function(server){
 
       res.locals.subpage_title = 'Change your password';
       res.locals.subpage_slug = 'change-password';
-      res.title('Change your password');
-      res.renderAccount('change-password');
+      res.locals.title = 'Change your password';
+      res.render('account/change-password');
     })
 
     .post(function(req, res, next){

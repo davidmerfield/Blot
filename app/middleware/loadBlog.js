@@ -56,10 +56,8 @@ module.exports = function (req, res, next) {
     req.blog = Blog.extend(activeBlog);
     req.blogs = blogs;
 
-    res.addLocals({
-      blog: activeBlog,
-      blogs: blogs
-    });
+    res.locals.blog = activeBlog;
+    res.locals.blogs = blogs;
 
     return next();
   });

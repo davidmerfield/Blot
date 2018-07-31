@@ -13,8 +13,8 @@ module.exports = function(server){
   server.route('/theme')
 
     .get(function(req, res) {
-      res.title('Theme');
-      res.renderDashboard('theme');
+      res.locals.title = 'Theme';
+      res.render('theme');
     })
 
     .post(function(req, res){
