@@ -1430,14 +1430,14 @@ img {
 span.folder,
 span.file {
   display: inline-block;
-  width: 1.66666em;
-  height: 1.6666em;
+  width: 1.3em;
+  height: 1.3em;
   float: left;
-  margin-right: 0.6666em;
+  margin-right: 0.5em;
   background: url("/images/folder.svg") no-repeat center center;
   background-size: contain;
   position: relative;
-  top: 0.15em;
+  top: 0.3em;
 }
 
 .folder.green {

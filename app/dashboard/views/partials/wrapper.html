@@ -1,14 +1,7 @@
 {{> head}}
 {{> header}}
 
-<div class="half" style="width:60%;padding:3em 6em;padding-right:3em">
-
-
-
-{{> yield}}
-</div>
-
-<div class="half" style="width:40%;padding:3em 6em;padding-left:3em">
+<div class="half" style="width:66.6666%;padding:1em 6em;padding-right:3em">
 
 <div class="dropdown closed" style="float:right">
 
@@ -35,13 +28,21 @@
 
     </div>
   </div> 
-  <a href="{{blog.url}}" style="color:black;background:#eee;border-radius:4px;display:block;width:66.666%;padding: 1em;text-decoration:none" target="_blank">Go to your blog ↗</a>
 
+{{> yield}}
 
-<br><br>
+</div>
+
+<div class="half" style="width:33.33333%;position:fixed;right:0;bottom:0;top:0; padding:1em 0;background:#f2f2f2">
+<!-- 
+
+  <a href="{{blog.url}}" style="color:white;background:blue;border-radius:4px;display:block;width:8em;height:8em;text-align:center;border-radius:100%;text-decoration:none;padding:2em 1.6em;" target="_blank">Go to your blog ↗</a>
+ -->
+
 
 
 {{> folder}}
 </div>
 
 {{> footer}}
+
