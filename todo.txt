@@ -116,6 +116,11 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
+Use this redis analysis tool to see if I can squeeze more out of REDIS
+https://github.com/snmaynard/redis-audit
+
+Add an EXPIRY to the log entries for a blog's 404 log
+
 Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389c18) about DataValet blocking
 
 Client.write does not propogate sync errors...
