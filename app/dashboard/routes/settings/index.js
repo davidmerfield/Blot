@@ -43,7 +43,6 @@ module.exports = function(server) {
       loadPermalinkFormats,
       function(req, res) {
         res.title("Your profile");
-        res.locals.tab = { settings: "selected" };
         res.renderDashboard("settings");
       }
     )

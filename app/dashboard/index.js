@@ -2,39 +2,44 @@ var express = require("express");
 var dashboard = express();
 var middleware = require("middleware");
 var hogan = require("hogan-express");
-var compression = require("compression");
-var config = require("config");
+var compression = require("compression")();
 var add = middleware.add;
 var bodyParser = require("body-parser");
 var csurf = require("csurf");
 var csrf = csurf();
 
-dashboard
-  .use(middleware.forceSSL)
-  .use(compression())
+// Logs the time spent rendering each page
+dashboard.use(middleware.responseTime);
 
-  // The disable('x-powered-by')
-  // and use(compression()) must
-  // be specified for each individual
-  // app. Express considers each seperately.
-  .disable("x-powered-by")
+// Enable GZIP
+dashboard.use(compression);
 
-  .set("trust proxy", "loopback")
-  .set("view engine", "html")
-  .set("views", __dirname + "/views")
-  .engine("html", hogan);
+// Hide the header which says the app
+// is built with Express
+dashboard.disable("x-powered-by");
+
+// Without trust proxy is not set, express
+//  will incorrectly register the proxy’s IP address
+// as the client IP address unless trust proxy is configured.
+dashboard.set("trust proxy", "loopback");
+
+// Register the engine we will use to 
+// render the views. 
+dashboard.set("view engine", "html");
+dashboard.set("views", __dirname + "/views");
+dashboard.engine("html", hogan);
 
 // For when we want to cache templates
-if (config.environment !== "development") dashboard.enable("view cache");
+if (process.env.BLOT_ENVIRONMENT !== "development") {
+  dashboard.enable("view cache");
+} 
 
-// Define these individually don't
-// overwrite server.locals
-dashboard.locals.protocol = config.protocol;
-dashboard.locals.host = config.host;
-dashboard.locals.title = "Blot";
-dashboard.locals.cacheID = Date.now();
+dashboard.set("host", process.env.BLOT_HOST);
+dashboard.set("title", "Blot");
+dashboard.set("cacheID", Date.now());
 
 dashboard.use(function(req, res, next) {
+
   res.title = function(title) {
     res.locals.title = title;
   };
@@ -50,19 +55,6 @@ dashboard.use(function(req, res, next) {
       nav: "partials/nav",
       yield: "account/" + view
     });
-
-    var tab = {};
-    var tabname = view;
-
-    if (tabname.indexOf("/") > -1)
-      tabname = tabname.slice(0, tabname.indexOf("/"));
-
-    tab[tabname] = "selected";
-    if (view !== "index") {
-      res.locals.subpage_title = res.locals.title;
-      res.locals.subpage_slug = view;
-    }
-    res.addLocals({ tab: tab });
 
     res.render("account/wrapper");
   };
@@ -81,15 +73,6 @@ dashboard.use(function(req, res, next) {
       yield: view
     });
 
-    var tab = {};
-
-    if (view.indexOf("folder") > -1) {
-      tab.folder = "selected";
-    } else {
-      tab.settings = "selected";
-    }
-
-    res.addLocals({ tab: tab });
     res.render(wrapper || "partials/wrapper");
   };
 
@@ -104,6 +87,7 @@ dashboard.use(middleware.loadBlog);
 dashboard.use(middleware.redirector);
 
 dashboard.get("/", require('./routes/folder'));
+
 dashboard.use(['/settings*', '/title', '/domain', '/clients*', '/theme*'
   ],require('./routes/folder'));
 
