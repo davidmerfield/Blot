@@ -2,45 +2,10 @@
 {{> header}}
 
 <div class="half" style="width:66.6666%;padding:1em 6em;padding-right:3em">
-
-<div class="dropdown closed" style="float:right">
-
-    <a href="#!" class="opener" style="color:rgb(153, 153, 153)">Your account <svg width="12" height="10" style="top:0;position:relative" viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></a>
-
-    <div class="menu">
-
-
-      {{#blogs}}
-
-        {{^isCurrent}}
-
-        <a href="/account/swap?to={{id}}"><span style="color:black;">Switch to</span> {{title}}</a>
-
-        {{/isCurrent}}
-
-      {{/blogs}}
-
-      <a href="/account/create-blog">Create another blog</a>
-
-      <a href="/account">Account settings</a>
-
-      <a href="/account/log-out">Log out</a>
-
-    </div>
-  </div> 
-
 {{> yield}}
-
 </div>
 
-<div class="half" style="width:33.33333%;position:fixed;right:0;bottom:0;top:0; padding:1em 0;background:#f2f2f2">
-<!-- 
-
-  <a href="{{blog.url}}" style="color:white;background:blue;border-radius:4px;display:block;width:8em;height:8em;text-align:center;border-radius:100%;text-decoration:none;padding:2em 1.6em;" target="_blank">Go to your blog ↗</a>
- -->
-
-
-
+<div class="half" style="width:33.33333%;position:fixed;right:0;bottom:0;top:41px; padding:1em 0;background:#f2f2f2">
 {{> folder}}
 </div>
 
