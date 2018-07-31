@@ -19,6 +19,11 @@ module.exports = function (server) {
   require('./swap')(server);
   require('./update-billing')(server);
 
+  server.use('/account', function(req, res, next){
+    res.locals.account = true;
+    next();
+  });
+
   server.route('/account/email')
   .get(function(req, res){
       res.locals.title = 'Change your email';
