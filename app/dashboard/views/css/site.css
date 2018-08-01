@@ -161,7 +161,7 @@ ul {
 
 
 body {
-  font: 400 14px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+  font: 400 15px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -1553,13 +1553,14 @@ h2 {margin-top: 1em}
 
 /* These three rules produce the sticky footer */ 
 body, html {height: 100%;margin: 0;color: #111;}
-.page {min-height: 100%;margin-bottom: -52px;}
-.push, .footer {height: 52px}
+.page {min-height: 100%;margin-bottom: -41px;}
+.push, .footer {height: 41px}
 
 .footer {
   font-size: 14px;
   color: #888;
-  padding: 1em 2em;
+  line-height:41px;background:#eee;
+  padding: 0 2em;
 }
 
 .footer a:hover {color: black;text-decoration: underline;}
