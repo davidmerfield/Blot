@@ -4,7 +4,7 @@
   <a href="/{{subpage_slug}}" style="text-decoration:none;color: rgb(109, 109, 109);font-weight:500">{{subpage_title}}</a>
 <hr style="border-color:rgb(238, 238, 238);margin-bottom:0">
 
-<form method='post' action='/?_csrf={{csrftoken}}' enctype='multipart/form-data'>
+<form method='post' action='/settings' enctype='multipart/form-data'>
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="redirect" value="/settings/{{subpage_slug}}">

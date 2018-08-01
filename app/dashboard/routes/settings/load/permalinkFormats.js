@@ -1,23 +1,29 @@
-var permalink = require('../../../models/entry/build/prepare/permalink');
+var permalink = require('../../../../models/entry/build/prepare/permalink');
 var moment = require('moment');
+var FORMATS = [
+    ['Title', '{{slug}}'],
+    ['Date and title', '{{YYYY}}/{{MM}}/{{D}}/{{slug}}'],
+    ['Custom', '']
+  ];
 
-module.exports = function (req, res, next) {
-
-  var sample = {
-    dateStamp: moment.utc(),
+var SAMPLE = function () {
+  return {
     slug: 'title-of-post',
     id: 342,
     name: 'file-name-of-post.txt',
     path: '/posts/file-name-of-post.txt',
     metadata: {}
   };
+};
 
-  var formats = [
-    ['Title', '{{slug}}'],
-    ['Date and title', '{{YYYY}}/{{MM}}/{{D}}/{{slug}}'],
-    ['Custom', '']
-  ];
+module.exports = function (req, res, next) {
 
+  var sample, formats;
+
+  sample = new SAMPLE();
+  sample.dateStamp = moment.utc();
+
+  formats = FORMATS.slice();
   formats = formats.map(function(arr){
 
     var checked = '';

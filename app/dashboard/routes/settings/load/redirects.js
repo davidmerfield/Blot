@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var Redirects = require('../../../models/redirects');
+var Redirects = require('../../../../models/redirects');
 
 module.exports = function (req, res, next) {
 
