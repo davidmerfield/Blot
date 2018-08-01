@@ -1,11 +1,52 @@
-<!DOCTYPE html>
-<html>
-  {{> head}}
-  <body>
+{{> head}}
 
-    {{> header}}
+<div class="page">
 
-{{#success}}
+<style type="text/css">
+.plugin {width: 100%;padding:0;margin:0;float:none;}
+input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
+form label {cursor: pointer;line-height: 1.5;}
+
+
+
+.group .linkTo:first-child {border-radius: 4px 4px 0 0}
+.group .linkTo:last-child {border-radius: 0 0 4px 4px;border-bottom-width: 1px}
+
+.linkTo {border-bottom: 1px solid #eee;color: black;display: block;padding:0.75em 0.5em;text-decoration: none;}
+.linkTo:hover {background: rgba(0,0,0,0.025)}
+.linkTo b:first-child {color: rgb(109, 109, 109);}
+.linkTo > span:last-of-type {color: #365899;}
+.linkTo:hover > span:last-of-type{text-decoration: underline;}
+
+.linkTo em {border:1px solid #bbb;padding: 0.1em 0.5em;margin: -0.2em;margin-right:0.5em;border-radius:5em;font-weight:400;display: inline-block;font-style: normal;}
+</style>
+
+
+<div style="line-height:41px;background:#eee">
+
+  <a href="/" style="width:12%;float:left;padding:0 0 0 1em;background:#3c3c3c;color:#ccc;text-decoration: none">&larr; Dashboard</a>
+
+  <a style="font-weight:400;padding-left:2em;float:right;color:rgb(153, 153, 153);display:block;width:88%;text-decoration:none;background:#eee" href="/account">
+
+    Account
+
+ {{#subpage_slug}}
+  <span style="margin:0 0.1em 0 0.25em" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
+  
+  <span style="text-decoration:none;color: rgb(109, 109, 109);font-weight:500">{{subpage_title}}</span>
+  {{/subpage_slug}}
+
+  </a>
+
+
+
+</div>
+
+<div class="half" style="width:66.6666%;padding:0 10em;padding-right:0">
+
+
+
+  {{#success}}
 <span class="box green success">{{{success}}}</span>
 {{/success}}
 
@@ -13,19 +54,6 @@
 <span class="box orange error">{{{error}}}</span>
 {{/error}}
 
-
-<div class="half" style="width:66.6666%;padding:1em 8em;padding-right:3em">
-
-
-<div class="sub nav" style="margin-bottom:1.3em;">
-  <a href="/account" style="font-size:16px">Account</a> 
-
-  {{#subpage_slug}}
-  <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
-
-  <a href="/account/{{subpage_slug}}" style="font-size:16px">{{subpage_title}}</a>
-  {{/subpage_slug}}
-</div>
 
 
       {{> yield}}

@@ -3,6 +3,11 @@ var User = require('user');
 
 module.exports = function (server) {
 
+  server.use('/account', function(req, res, next){
+    res.locals.account = true;
+    next();
+  });
+
   require('./password/change')(server);
   require('./password/set')(server);
   require('./close-blog')(server);
@@ -19,14 +24,12 @@ module.exports = function (server) {
   require('./swap')(server);
   require('./update-billing')(server);
 
-  server.use('/account', function(req, res, next){
-    res.locals.account = true;
-    next();
-  });
 
   server.route('/account/email')
   .get(function(req, res){
       res.locals.title = 'Change your email';
+      res.locals.subpage_title = 'Change your email';
+      res.locals.subpage_slug = 'email';
       res.render('account/email');
   })
   .post(function(req, res){
