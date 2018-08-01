@@ -18,7 +18,7 @@ index.get(
   load.permalinkFormats,
   debug("permalinks loaded"),
   function(req, res) {
-    res.render("settings");
+    res.render("settings", {title: 'Dashboard'});
   }
 );
 
