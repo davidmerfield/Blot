@@ -1,9 +1,8 @@
 <div class="page">
 
-<div style="background:#222;line-height:41px;">
+<div style="{{^account}}background:#222;{{/account}}line-height:41px;">
 
   <a href="/" style="width:10%;float:left;padding:0 1em;background:#3c3c3c;color:#ccc;text-decoration: none">Dashboard</a>
-
 
   <div class="dropdown closed" style="float:left;width:56.6666%">
 
@@ -14,13 +13,14 @@
       {{/account}}
 
       {{#account}}
-      Account and billing
+        {{#create}}{{title}}{{/create}}
+        {{^create}}Account and billing{{/create}}
       {{/account}}
     </a>
 
     <div class="menu">
 
-      <a href="/account/create-blog">Create another blog</a>
+        <a href="/account/create-blog">Create another blog</a>
 
       {{^account}}
 

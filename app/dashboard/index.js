@@ -3,7 +3,7 @@ var middleware = require("middleware");
 var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
-var debug = require('debug')('dashboard');
+var debug = require("./debug");
 
 var VIEW_DIRECTORY = __dirname + "/views";
 
@@ -13,27 +13,12 @@ var VIEW_DIRECTORY = __dirname + "/views";
 var dashboard = express();
 
 // Send static files
-dashboard.use('/css', express.static(VIEW_DIRECTORY + "/css"));
-dashboard.use('/images', express.static(VIEW_DIRECTORY + "/images"));
-dashboard.use('/scripts', express.static(VIEW_DIRECTORY + "/scripts"));
+dashboard.use("/css", express.static(VIEW_DIRECTORY + "/css"));
+dashboard.use("/images", express.static(VIEW_DIRECTORY + "/images"));
+dashboard.use("/scripts", express.static(VIEW_DIRECTORY + "/scripts"));
 
 // Log response time in development mode
-dashboard.use(function(req, res, next){
-  
-  debug(req.originalUrl, 'recieved request');
-
-  var start = Date.now();
-
-  res.on('finish', function() {
-    var duration = Date.now() - start;
-    debug(req.originalUrl, 'response sent in', duration);
-  });
-
-  next();
-});
-
-// Logs the time spent rendering each page
-dashboard.use(middleware.responseTime);
+dashboard.use(debug.init);
 
 // Enable GZIP
 dashboard.use(compression());
@@ -70,18 +55,15 @@ dashboard.use(require("./render"));
 
 // Appends a one-time CSRF-checking token
 // for each GET request, and validates this token
-// for each POST request, using csurf. 
-dashboard.use(require('./csrf'));
+// for each POST request, using csurf.
+dashboard.use(require("./csrf"));
 
 // Used for passing success / error messages
 // around using the session property of each
 // request instead of a query string
 dashboard.use(middleware.messenger);
 
-dashboard.use(function(req, res, next){
-  debug(req.originalUrl, 'before load');
-  next();
-});
+dashboard.use(debug("fetching user and blog info and checking redirects"));
 
 // Load properties as needed
 // these should not be invoked for requests to static files
@@ -93,43 +75,25 @@ dashboard.use(middleware.loadBlog);
 // and shuttles the user around as needed
 dashboard.use(middleware.redirector);
 
-dashboard.use(function(req, res, next){
-  debug(req.originalUrl, 'after load');
-  next();
-});
-
-
-// Account page does not need to know about the state of the folder
-// for a particular blog
-require("./routes/account")(dashboard);
-
-
-
+dashboard.use(debug("done fetching"));
 
 dashboard.post(
   ["/theme*", "/path", "/folder*", "/clients*", "/flags", "/404s", "/account*"],
   bodyParser.urlencoded({ extended: false })
 );
 
-dashboard.use(function(req, res, next){
-  debug(req.originalUrl, 'before folder');
-  next();
-});
+// Account page does not need to know about the state of the folder
+// for a particular blog
+require("./routes/account")(dashboard);
+
+dashboard.use(debug("before loading folder state"));
 
 // Load the files and folders inside a blog's folder
 dashboard.use(require("./routes/folder"));
 
-dashboard.use(function(req, res, next){
-  debug(req.originalUrl, 'after folder');
-  next();
-});
+dashboard.use(debug("after loading folder state"));
 
-dashboard.use(function(req, res, next){
-  debug(req.originalUrl, 'third middleware here');
-  next();
-});
-
-require("./routes/settings")(dashboard);
+dashboard.use(require("./routes/settings"));
 
 require("./routes/clients")(dashboard);
 require("./routes/editor")(dashboard);
@@ -137,6 +101,6 @@ require("./routes/theme")(dashboard);
 require("./routes/tools")(dashboard);
 
 // need to handle dashboard errors better...
-dashboard.use(require('./routes/error'));
+dashboard.use(require("./routes/error"));
 
 module.exports = dashboard;
