@@ -34,6 +34,7 @@ module.exports = function(server) {
       res.render("account/create-blog", {
         now: pretty(fee.now),
         title: "Create a blog",
+        create: true,
         first_blog: first_blog,
         later: pretty(fee.later),
         individual: pretty(fee.individual)

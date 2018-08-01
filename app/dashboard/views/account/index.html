@@ -1,46 +1,29 @@
-
-<style type="text/css">
-.plugin {width: 100%;padding:0;margin:0;float:none;}
-input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
-form label {cursor: pointer;line-height: 1.5;}
-
-.linkTo {color: black;display: block;padding:1em 0;text-decoration: none;}
-a.linkTo:hover {border:none;background: rgba(0,0,0,0.025)}
-
-.linkTo div p:first-child {margin-top: 0}
-</style>
-
 <form method='post'>
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-
     <a class="linkTo" href="/account/email">
       <b style="width:25%;display:block;float:left;font-weight:500">Email</b>
-      <b style="color:gray;font-weight:500">{{user.email}}</b>
-      <span style="color:gray;float:right;text-decoration:underline">Edit</span>
+      <b style="color:#000;font-weight:500">{{user.email}}</b>
+      <span style="float:right">Edit</span>
     </a>
 
-    <hr style="margin: 0">
+
+
 
           {{#user.hasPassword}}
 
 <a class="linkTo" href="/account/change-password">
       <b style="width:25%;display:block;float:left;font-weight:500">Password</b>
-      <span style="color:blue;text-decoration:underline">Change your password</span>
+      <span style="color:#365899;text-decoration:none">Change your password</span>
     </a>
 
-    <hr style="margin: 0">
      {{/user.hasPassword}}
 
     
 
-    <a class="linkTo" href="/account/export">
-      <b style="width:25%;display:block;float:left;font-weight:500">Export</b>
-      <span style="color:blue;text-decoration:underline">Download your data</span>
-    </a>
+    
 
-          <hr style="margin: 0">
 
 <div class="linkTo">
       <b style="width:25%;display:block;float:left;font-weight:500">Billing</b>
@@ -72,7 +55,6 @@ a.linkTo:hover {border:none;background: rgba(0,0,0,0.025)}
 <p>
           <a href="/account/swap?to={{id}}">{{title}}</a>  <a style="color:gray;float:right" href="/account/close-blog/{{handle}}">Delete this blog</a>
         </p>
-          <hr style="margin-bottom:0">
 
         {{/blogs}}
 
@@ -87,8 +69,8 @@ a.linkTo:hover {border:none;background: rgba(0,0,0,0.025)}
 
         <p>
           <a class="button" href="/account/create-blog">Create a new blog</a>
-          <hr> <a class="link" style="margin-top:0.75em;display:block" href="/account/update-billing">Edit your payment information</a>
-                    <hr> <a class="link" style="margin-top:0.75em;display:block" href="/account/cancel">Cancel your subscription</a>
+          <hr> <a class="link" style="margin-top:0.75em;display:block" href="/account/update-billing">Edit your payment information</a><br>
+                     <a class="link" style="margin-top:0.75em;" href="/account/cancel">Cancel your subscription</a> or <a href="/account/delete">delete your account</a>
 
         </p>
                 {{/user.isSubscribed}}
@@ -96,9 +78,12 @@ a.linkTo:hover {border:none;background: rgba(0,0,0,0.025)}
       
       </div>
       <hr>
-      <div style="width:75%;float:right">
-         <a class="link red" href="/account/delete">Delete your account</a>
-       </div>
+      <a class="linkTo" href="/account/export">
+      <b style="width:25%;display:block;float:left;font-weight:500">Export</b>
+      <span style="color:#365899;text-decoration:none">Download your data</span>
+    </a>
+
+
 <br /><br />
 
 
