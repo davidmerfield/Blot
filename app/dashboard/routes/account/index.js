@@ -28,7 +28,7 @@ module.exports = function (server) {
   server.route('/account/email')
   .get(function(req, res){
       res.locals.title = 'Change your email';
-      res.locals.subpage_title = 'Change your email';
+      res.locals.subpage_title = 'Email';
       res.locals.subpage_slug = 'email';
       res.render('account/email');
   })
