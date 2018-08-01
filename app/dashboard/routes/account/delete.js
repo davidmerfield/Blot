@@ -49,6 +49,8 @@ module.exports = function(server) {
 
     .get(function(req, res) {
       res.locals.title = "Delete your account";
+      res.locals.subpage_title = "Delete";
+      res.locals.subpage_slug = "delete";
       res.render("account/delete");
     })
 

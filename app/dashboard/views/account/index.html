@@ -1,45 +1,49 @@
+<a class="line" href="/account/email">
+  <span class="label">Email</span>
+  <span class="right">Edit</span>
+  <span class="center"><b>{{user.email}}</b></span>
+</a>
 
+{{#user.hasPassword}}
+<a class="line" href="/account/change-password">
+  <span class="label">Password</span>
+  <span class="center link">Change your password</span>
+</a>
+{{/user.hasPassword}}
 
-    <a class="linkTo" href="/account/email">
-      <b style="width:25%;display:block;float:left;font-weight:500">Email</b>
-      <b style="color:#000;font-weight:500">{{user.email}}</b>
-      <span style="float:right">Edit</span>
-    </a>
+<!-- <div class="line">
+  
+  <span class="label">Your blogs</span>
+        
+  <div class="center">
+    
+    {{#blogs}}
 
+    <a class="right link" href="/account/close-blog/{{handle}}">Delete </a>
 
+    <a href="/account/swap?to={{id}}" style="display:block;float:left;padding:0.75em 0">
+      <b>{{title}}</b> <span class="grey">{{pretty.url}}</span>
 
+      <span class="right" style="padding:0">Edit </span>
+    </a> 
+    <hr style="margin:0">
+    {{/blogs}}
 
-          {{#user.hasPassword}}
+  
+    <a href="/account/create-blog" class="link">Create another blog</a>
+  </div>
 
-<a class="linkTo" href="/account/change-password">
-      <b style="width:25%;display:block;float:left;font-weight:500">Password</b>
-      <span style="color:#365899;">Change your password</span>
-    </a>
-
-     {{/user.hasPassword}}
-
-    <a class="linkTo" href="/account/change-password">
-      <b style="width:25%;display:block;float:left;font-weight:500">Your sites</b>
-      
-{{#blogs}}
-<span>
-          <a href="/account/swap?to={{id}}" style="color:#365899;text-decoration:none">{{title}}</a>  <a style="color:#365899;float:right" href="/account/close-blog/{{handle}}">Delete site</a>
-        </span>
-
-        {{/blogs}}
-
-                  <a class="button" href="/account/create-blog">Create a new blog</a>
-       
-    </a>
-
+  <div class="clear"></div>      
+</div> -->
 
 
     
 
 
-<div class="linkTo">
-      <b style="width:25%;display:block;float:left;font-weight:500">Subscription</b>
-      <div style="width:75%;float:right">
+<div class="line">
+  <b class="label">Subscription</b>
+  
+  <div class="center">
 
 
 
@@ -61,7 +65,7 @@
 
         {{#user.isSubscribed}}
           {{#user.subscription.quantity}}
-        <p style="margin-top:0;color:gray">Your next bill on <b style="color:#000;font-weight:500">{{user.pretty.expiry}}</b> will be for <b style="color:#000;font-weight:500">{{user.pretty.price}}</b> because you host {{user.pretty.amount_in_words}} website{{user.s}} on Blot.</p>
+        <p style="padding:0.75em 2em 0.75em 0;margin:0;color:gray">Your next bill on <b style="color:#000;font-weight:500">{{user.pretty.expiry}}</b> will be for <b style="color:#000;font-weight:500">{{user.pretty.price}}</b> because you host {{user.pretty.amount_in_words}} blog{{user.s}} on Blot.</p>
 
 
           {{/user.subscription.quantity}}
@@ -70,14 +74,29 @@
 
           {{/user.subscription.quantity}}
 
-                
+    
+    {{#blogs}}
+    <hr style="margin:0">
 
+    <a class="right link" href="/account/close-blog/{{handle}}">Delete </a>
 
-        <p>
+    <a href="/account/swap?to={{id}}" style="display:block;float:left;padding:0.75em 0">
+      <b>{{title}}</b> <span class="grey">{{pretty.url}}</span>
+
+      <span class="right" style="padding:0">Edit </span>
+    </a> 
+    {{/blogs}}
+    <hr style="margin:0">
+
   
-                     <a class="link" style="margin-top:0.75em;text-decoration:none" href="/account/cancel">Cancel your subscription</a> 
 
-        </p>
+
+    <a href="/account/create-blog" style="width:33.3333%;float:left" class="link">Create another blog</a>
+
+                     <a class="link" href="/account/update-billing" style="width:33.333%;float:left">Edit your payment method</a>
+
+                     <a class="link right" style="width:33.3333%" href="/account/cancel">Cancel your subscription</a> 
+
                 {{/user.isSubscribed}}
 
       
@@ -85,19 +104,14 @@
       <div class="clear"></div>
 </div>
 
-      <a class="linkTo" href="/account/update-billing">
-      <b style="width:25%;display:block;float:left;font-weight:500">Payment</b>
-      <span style="color:#365899">Edit your payment method</span>
-    </a>
-      <a class="linkTo" href="/account/export">
-      <b style="width:25%;display:block;float:left;font-weight:500">Export</b>
-      <span style="color:#365899">Download your data</span>
-    </a>
+<a class="line" href="/account/export">
+  <span class="label">Export</span>
+  <span class="center link">Export the data stored by Blot</span>
+</a>
 
-
-<br /><br />
-<a href="/account/delete">delete your account</a>
-
-  <br><Br><br>
+<a class="line" href="/account/delete">
+  <span class="label">Delete</span>
+  <span class="center link">Delete your account</span>
+</a>
 
 

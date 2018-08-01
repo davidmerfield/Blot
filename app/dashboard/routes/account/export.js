@@ -7,7 +7,7 @@ module.exports = function(server){
 
   server.get('/account/export', function(req, res){
     res.locals.title = 'Export your data';
-    res.locals.subpage_title = 'Export your data';
+    res.locals.subpage_title = 'Export';
     res.locals.subpage_slug = 'export';
     res.render('account/export');
   });
