@@ -1,65 +1,57 @@
-var uploadAvatar = require("./uploadAvatar");
-var loadPermalinkFormats = require("./loadPermalinkFormats");
-var loadPlugins = require("./loadPlugins");
-var loadMenu = require("./loadMenu");
-var loadTimeZones = require("./loadTimeZones");
-var loadTemplate = require("./loadTemplate");
-var loadClient = require("./loadClient");
-var saveForm = require("./saveForm");
-var parseForm = require("./parseForm");
-var formatForm = require("./formatForm");
 var errorHandler = require("./errorHandler");
-var loadRedirects = require("./loadRedirects");
-var saveRedirects = require("./saveRedirects");
+var express = require("express");
+var settings = express.Router();
+var load = require("./load");
+var save = require("./save");
+var index = settings.route("/");
+var debug = require("../../debug");
 
-module.exports = function(server) {
-  require("./404s")(server);
-  require("./flags")(server);
+index.get(
+  load.template,
+  debug("template loaded"),
+  load.menu,
+  debug("menu loaded"),
+  load.client,
+  debug("client loaded"),
+  load.dates,
+  debug("dates loaded"),
+  load.permalinkFormats,
+  debug("permalinks loaded"),
+  function(req, res) {
+    res.render("settings");
+  }
+);
 
-  server.get("/settings/menu", loadMenu);
-  server.get("/settings/date", loadTimeZones);
-  server.get("/settings/urls", loadPermalinkFormats, loadRedirects);
-  server.get("/settings/typography", loadPlugins);
-  server.get("/settings/images", loadPlugins);
-  server.get("/settings/services", loadPlugins);
-  
-  server.get("/settings/:view", function(req, res, next) {
-    res.locals.partials.subpage = "settings/" + req.params.view;
-    res.locals.subpage_title =
-      req.params.view[0].toUpperCase() + req.params.view.slice(1);
-    res.locals.subpage_slug = req.params.view;
-    res.render("settings/subpage", {host: process.env.BLOT_HOST});
-  });
+settings.route("/settings").post(
+  save.parse,
+  debug("parsed form"),
+  save.redirects,
+  debug("saved redirects"),
+  save.format,
+  debug("formated form"),
+  save.avatar,
+  debug("saved avatar"),
+  save.finish
+);
 
+index.all(errorHandler);
 
-  server
-    .route("/")
+// require("./404s")(server);
 
-    .get(
-      loadTemplate,
-      loadMenu,
-      loadClient,
-      loadTimeZones,
-      loadPermalinkFormats,
-      function(req, res) {
-        res.render("settings");
-      }
-    )
+settings.get("/settings/menu").get(load.menu);
+settings.get("/settings/date", load.timezones, load.dates);
+settings.get("/settings/urls", load.permalinkFormats, load.redirects);
+settings.get("/settings/services", load.plugins);
 
-    // saving menu re-order does not work
-    // saving redirects does not work
-    .post(parseForm, saveRedirects, formatForm, uploadAvatar, saveForm)
+settings.get("/settings/:view", function(req, res) {
+  var uppercaseName = req.params.view;
 
-    // I don't know how to handle uncaught errors
-    // WIll that cause an infinite redirect?
-    .all(errorHandler);
-  
-  server.get("/settings/:view", function(req, res, next) {
-    res.locals.partials.subpage = 'settings/' + req.params.view;
-    res.locals.subpage_title = req.params.view[0].toUpperCase() + req.params.view.slice(1); 
-    res.locals.subpage_slug = req.params.view;
-    res.render("settings/subpage");      
-  });
-  
+  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
 
-};
+  res.locals.partials.subpage = "settings/" + req.params.view;
+  res.locals.subpage_title = uppercaseName;
+  res.locals.subpage_slug = req.params.view;
+  res.render("settings/subpage", { host: process.env.BLOT_HOST });
+});
+
+module.exports = settings;

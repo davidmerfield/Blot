@@ -1,6 +1,6 @@
 var SUCCESS = "Made changes successfully!";
 var resaveEntries = require("./resaveEntries");
-var rebuild = require("../../../rebuild");
+var rebuild = require("../../../../rebuild");
 var Blog = require("blog");
 var _ = require("lodash");
 var helper = require("helper");

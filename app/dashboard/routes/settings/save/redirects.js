@@ -1,5 +1,5 @@
 var helper = require("helper");
-var Redirects = require("../../../models/redirects");
+var Redirects = require("../../../../models/redirects");
 var urlNormalizer = helper.urlNormalizer;
 var formJSON = helper.formJSON;
 var arrayify = helper.arrayify;
