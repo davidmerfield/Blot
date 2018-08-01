@@ -9,7 +9,7 @@ module.exports = function(server){
       if (!req.user.hasPassword)
         return res.redirect('/account/set-password');
 
-      res.locals.subpage_title = 'Change your password';
+      res.locals.subpage_title = 'Password';
       res.locals.subpage_slug = 'change-password';
       res.locals.title = 'Change your password';
       res.render('account/change-password');

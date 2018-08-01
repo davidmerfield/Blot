@@ -21,6 +21,8 @@ module.exports = function(server){
 
     .get(function(req, res){
       res.locals.title = 'Delete ' + req.blogToClose.title;
+      res.locals.subpage_title = 'Delete blog';
+      res.locals.subpage_slug = 'close-blog';
       res.render('account/close-blog', {host: process.env.BLOT_HOST});
     })
 

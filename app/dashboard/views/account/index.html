@@ -1,6 +1,4 @@
-<form method='post'>
 
-  <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
     <a class="linkTo" href="/account/email">
       <b style="width:25%;display:block;float:left;font-weight:500">Email</b>
@@ -15,18 +13,32 @@
 
 <a class="linkTo" href="/account/change-password">
       <b style="width:25%;display:block;float:left;font-weight:500">Password</b>
-      <span style="color:#365899;text-decoration:none">Change your password</span>
+      <span style="color:#365899;">Change your password</span>
     </a>
 
      {{/user.hasPassword}}
 
-    
+    <a class="linkTo" href="/account/change-password">
+      <b style="width:25%;display:block;float:left;font-weight:500">Your sites</b>
+      
+{{#blogs}}
+<span>
+          <a href="/account/swap?to={{id}}" style="color:#365899;text-decoration:none">{{title}}</a>  <a style="color:#365899;float:right" href="/account/close-blog/{{handle}}">Delete site</a>
+        </span>
+
+        {{/blogs}}
+
+                  <a class="button" href="/account/create-blog">Create a new blog</a>
+       
+    </a>
+
+
 
     
 
 
 <div class="linkTo">
-      <b style="width:25%;display:block;float:left;font-weight:500">Billing</b>
+      <b style="width:25%;display:block;float:left;font-weight:500">Subscription</b>
       <div style="width:75%;float:right">
 
 
@@ -49,14 +61,8 @@
 
         {{#user.isSubscribed}}
           {{#user.subscription.quantity}}
-        <p>Your subscription will renew on <b>{{user.pretty.expiry}}</b>. Your bill will be <b>{{user.pretty.price}}</b> because you run {{user.pretty.amount_in_words}} blog{{user.s}}:</p>
+        <p style="margin-top:0;color:gray">Your next bill on <b style="color:#000;font-weight:500">{{user.pretty.expiry}}</b> will be for <b style="color:#000;font-weight:500">{{user.pretty.price}}</b> because you host {{user.pretty.amount_in_words}} website{{user.s}} on Blot.</p>
 
-{{#blogs}}
-<p>
-          <a href="/account/swap?to={{id}}">{{title}}</a>  <a style="color:gray;float:right" href="/account/close-blog/{{handle}}">Delete this blog</a>
-        </p>
-
-        {{/blogs}}
 
           {{/user.subscription.quantity}}
           {{^user.subscription.quantity}}
@@ -68,27 +74,30 @@
 
 
         <p>
-          <a class="button" href="/account/create-blog">Create a new blog</a>
-          <hr> <a class="link" style="margin-top:0.75em;display:block" href="/account/update-billing">Edit your payment information</a><br>
-                     <a class="link" style="margin-top:0.75em;" href="/account/cancel">Cancel your subscription</a> or <a href="/account/delete">delete your account</a>
+  
+                     <a class="link" style="margin-top:0.75em;text-decoration:none" href="/account/cancel">Cancel your subscription</a> 
 
         </p>
                 {{/user.isSubscribed}}
 
       
       </div>
-      <hr>
+      <div class="clear"></div>
+</div>
+
+      <a class="linkTo" href="/account/update-billing">
+      <b style="width:25%;display:block;float:left;font-weight:500">Payment</b>
+      <span style="color:#365899">Edit your payment method</span>
+    </a>
       <a class="linkTo" href="/account/export">
       <b style="width:25%;display:block;float:left;font-weight:500">Export</b>
-      <span style="color:#365899;text-decoration:none">Download your data</span>
+      <span style="color:#365899">Download your data</span>
     </a>
 
 
 <br /><br />
+<a href="/account/delete">delete your account</a>
 
-
-  </form>
   <br><Br><br>
-</div>
 
 

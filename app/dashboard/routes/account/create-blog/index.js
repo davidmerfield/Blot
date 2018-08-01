@@ -35,6 +35,8 @@ module.exports = function(server) {
         now: pretty(fee.now),
         title: "Create a blog",
         create: true,
+        subpage_slug: 'create-blog',
+        subpage_title: 'Create a blog',
         first_blog: first_blog,
         later: pretty(fee.later),
         individual: pretty(fee.individual)
