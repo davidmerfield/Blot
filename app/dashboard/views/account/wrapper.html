@@ -3,6 +3,49 @@
 <div class="page">
 
 <style type="text/css">
+
+
+.line,
+.line a {
+  text-decoration: none;
+}
+
+.line {
+  border-bottom: 1px solid #eee;
+  display: block;
+}  
+
+  a.line:hover,
+  div.line a.link:hover {background: rgba(0,0,0,0.025)}
+
+  a.line:hover .link, 
+  a.line:hover .right,
+  div.line a.link:hover {text-decoration: underline;}
+
+.link, 
+.right { color: #365899 }
+
+.right {
+  float:right;
+  padding: 0.75em 2em;
+}
+
+.label {
+  width:27%;display:block;float:left;font-weight:500;
+  color: rgb(109, 109, 109);
+  padding:0.75em 2em;
+  box-sizing: border-box;
+}
+
+.center, div.line a.link {padding-top: 0.75em;padding-bottom: 0.75em;display: block;}
+
+div.center {width:73%;float:right;padding:0;}
+.center b {color:#000;font-weight:500}
+
+
+
+
+
 .plugin {width: 100%;padding:0;margin:0;float:none;}
 input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
 form label {cursor: pointer;line-height: 1.5;}
@@ -11,6 +54,8 @@ form label {cursor: pointer;line-height: 1.5;}
 
 .group .linkTo:first-child {border-radius: 4px 4px 0 0}
 .group .linkTo:last-child {border-radius: 0 0 4px 4px;border-bottom-width: 1px}
+
+.grey {color: gray}
 
 .linkTo {border-bottom: 1px solid #eee;color: black;display: block;padding:0.75em 2em;text-decoration: none;}
 a.linkTo:hover {background: rgba(0,0,0,0.025)}

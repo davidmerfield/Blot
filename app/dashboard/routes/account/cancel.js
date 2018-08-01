@@ -28,7 +28,7 @@ module.exports = function(server){
 
     .get(function(req, res){
       res.locals.title = TITLE;
-      res.locals.subpage_title = TITLE;
+      res.locals.subpage_title = 'Cancel subscription';
       res.locals.subpage_slug = 'cancel';
 
       res.render('account/cancel');

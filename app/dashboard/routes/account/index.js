@@ -54,7 +54,7 @@ module.exports = function (server) {
   server.route('/account')
 
     .get(function(req, res) {
-      res.locals.title = 'Account';
+      res.locals.title = 'Your account';
       res.render('account/index');
     })
 

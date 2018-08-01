@@ -22,7 +22,7 @@ module.exports = function(server){
       // let them choose one
       res.render('account/update-billing', {
         stripe_key: config.stripe.key,
-        subpage_title: 'Edit payment information',
+        subpage_title: 'Edit payment method',
         subpage_slug: 'update-billing',
         title: 'Edit payment information'
       });
