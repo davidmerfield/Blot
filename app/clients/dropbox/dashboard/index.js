@@ -3,10 +3,13 @@ var middleware = require('./middleware');
 var dashboard = Express.Router();
 
 dashboard
-  .use(middleware.set_view_directory)
   .use(middleware.load_dropbox_account)
-  .get('/', middleware.render('index'))
-  .get('/change-permission', middleware.render('change_permission'))
+  .get('/', function (req, res) {
+    res.render(__dirname + '/views/index.html');
+  })
+  .get('/change-permission', function (req, res) {
+    res.render(__dirname + '/views/change_permission.html');
+  })
   .use('/select-folder', require('./select_folder'))
   .use('/authenticate', require('./authenticate'))
   .post('/disconnect', require('./disconnect'));
