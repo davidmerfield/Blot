@@ -1,12 +1,5 @@
-var formJSON = require("helper").formJSON;
-var User = require("user");
 var Express = require("express");
 var Account = new Express.Router();
-
-var Entries = require("entries");
-var Template = require("template");
-var helper = require("helper");
-var forEach = helper.forEach.parallel;
 
 Account.route("/").get(function(req, res) {
   res.render("account/index", {
@@ -16,32 +9,11 @@ Account.route("/").get(function(req, res) {
 
 Account.use("/password", require("./password"));
 Account.use("/export", require("./export"));
+Account.use("/email", require("./email"));
 Account.use("/subscription", require("./subscription"));
+Account.use("/switch-blog", require("./switch-blog"));
+Account.use("/create-blog", require('./create-blog'));
 
-Account.route("/email")
-
-  .get(function(req, res) {
-    res.render("account/email", {
-      title: "Change your email",
-      subpage_title: "Email",
-      subpage_slug: "email"
-    });
-  })
-
-  .post(function(req, res) {
-    var updates = formJSON(req.body, User.model);
-
-    User.set(req.user.uid, updates, function(error, changes) {
-      if (error) {
-        res.message({ error: error.message });
-        return res.redirect("/account/email");
-      } else if (changes && changes.length) {
-        res.message({ success: "Made changes successfully!", url: "/account" });
-      }
-
-      res.redirect("/account");
-    });
-  });
 
 Account.route("/log-out")
 
@@ -62,8 +34,11 @@ Account.route("/log-out")
     });
   });
 
+Account.use(function(err, req, res, next){
+  res.redirect(req.originalUrl, err);
+});
+
 // require("./close-blog")(server);
-// require("./create-blog")(server);
 // require("./cancel")(server);
 // require("./delete")(server);
 // require("./pay-subscription")(server);
