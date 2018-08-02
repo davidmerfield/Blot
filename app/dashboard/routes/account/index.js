@@ -1,62 +1,73 @@
-var formJSON = require('helper').formJSON;
-var User = require('user');
+var formJSON = require("helper").formJSON;
+var User = require("user");
+var Express = require("express");
+var Account = new Express.Router();
 
-module.exports = function (server) {
+var Entries = require("entries");
+var Template = require("template");
+var helper = require("helper");
+var forEach = helper.forEach.parallel;
 
-  server.use('/account', function(req, res, next){
-    res.locals.account = true;
-    next();
+Account.route("/").get(function(req, res) {
+  res.render("account/index", {
+    title: "Your account"
+  });
+});
+
+Account.use("/password", require("./password"));
+Account.use("/export", require("./export"));
+Account.use("/subscription", require("./subscription"));
+
+Account.route("/email")
+
+  .get(function(req, res) {
+    res.render("account/email", {
+      title: "Change your email",
+      subpage_title: "Email",
+      subpage_slug: "email"
+    });
+  })
+
+  .post(function(req, res) {
+    var updates = formJSON(req.body, User.model);
+
+    User.set(req.user.uid, updates, function(error, changes) {
+      if (error) {
+        res.message({ error: error.message });
+        return res.redirect("/account/email");
+      } else if (changes && changes.length) {
+        res.message({ success: "Made changes successfully!", url: "/account" });
+      }
+
+      res.redirect("/account");
+    });
   });
 
-  require('./password/change')(server);
-  require('./password/set')(server);
-  require('./close-blog')(server);
-  require('./create-blog')(server);
-  require('./cancel')(server);
-  require('./delete')(server);
-  require('./disable-account')(server);
-  require('./disabled')(server);
-  require('./enable')(server);
-  require('./restart')(server);
-  require('./export')(server);
-  require('./log-out')(server);
-  require('./pay-subscription')(server);
-  require('./swap')(server);
-  require('./update-billing')(server);
+Account.route("/log-out")
 
-
-  server.route('/account/email')
-  .get(function(req, res){
-      res.locals.title = 'Change your email';
-      res.locals.subpage_title = 'Email';
-      res.locals.subpage_slug = 'email';
-      res.render('account/email');
-  })
-  .post(function(req, res){
-
-      var updates = formJSON(req.body, User.model);
-
-      User.set(req.user.uid, updates, function(error, changes){
-
-        console.log(changes);
-        
-        if (error) {
-          res.message({error: error.message});
-          return res.redirect('/account/email')
-        } else if (changes && changes.length) {
-          res.message({success: 'Made changes successfully!', url: '/account'});
-        }
-        
-        res.redirect('/account');
-      });
+  .get(function(req, res) {
+    res.render("account/log-out", {
+      title: "Log out"
     });
+  })
 
-  server.route('/account')
+  .post(function(req, res) {
+    var redirect = (req.query && req.query.then) || "/";
 
-    .get(function(req, res) {
-      res.locals.title = 'Your account';
-      res.render('account/index');
-    })
+    if (!req.session) return res.redirect(redirect);
 
-    
-};
+    req.session.destroy(function() {
+      res.clearCookie("connect.sid");
+      res.redirect(redirect);
+    });
+  });
+
+// require("./close-blog")(server);
+// require("./create-blog")(server);
+// require("./cancel")(server);
+// require("./delete")(server);
+// require("./pay-subscription")(server);
+// require("./swap")(server);
+// require("./update-billing")(server);
+
+module.exports = Account;
