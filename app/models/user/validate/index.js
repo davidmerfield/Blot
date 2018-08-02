@@ -39,7 +39,7 @@ module.exports = function validate (user, updates, callback) {
 
       if (err) return callback(err);
 
-      if (value) {
+      if (value && user[name] !== value) {
         user[name] = value;
         changes.push(name);
       }

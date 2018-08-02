@@ -35,7 +35,7 @@ Account.route("/log-out")
   });
 
 Account.use(function(err, req, res, next){
-  res.redirect(req.originalUrl, err);
+  res.message(req.originalUrl, err);
 });
 
 // require("./close-blog")(server);
