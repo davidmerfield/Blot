@@ -53,15 +53,14 @@ dashboard.locals.cacheID = Date.now();
 // inserted into it
 dashboard.use(require("./render"));
 
+// Special function which wraps redirect
+// so I can pass messages between views cleanly
+dashboard.use(require("./message"));
+
 // Appends a one-time CSRF-checking token
 // for each GET request, and validates this token
 // for each POST request, using csurf.
 dashboard.use(require("./csrf"));
-
-// Used for passing success / error messages
-// around using the session property of each
-// request instead of a query string
-dashboard.use(middleware.messenger);
 
 dashboard.use(debug("fetching user and blog info and checking redirects"));
 
@@ -84,7 +83,7 @@ dashboard.post(
 
 // Account page does not need to know about the state of the folder
 // for a particular blog
-require("./routes/account")(dashboard);
+dashboard.use('/account', require("./routes/account"));
 
 dashboard.use(debug("before loading folder state"));
 
