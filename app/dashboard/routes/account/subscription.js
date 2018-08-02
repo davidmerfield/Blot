@@ -20,13 +20,7 @@ Subscription.route("/cancel")
 
   .post(cancelStripeSubscription, function(req, res) {
     email.CANCELLED(req.user.uid);
-
-    res.message({
-      success: "Your subscription has been cancelled",
-      url: "/account"
-    });
-
-    res.redirect("/account");
+    res.message("/account", "Your subscription has been cancelled");
   });
 
 Subscription.route("/restart")
@@ -43,13 +37,7 @@ Subscription.route("/restart")
 
   .post(restartStripeSubscription, function(req, res) {
     email.RESTART(req.user.uid);
-
-    res.message({
-      success: 'Restarted your subscription',
-      url: "/account"
-    });
-
-    res.redirect("/account");
+    res.message("/account", 'Restarted your subscription');
   });
 
 function requireCancelledSubscription(req, res, next) {

@@ -74,6 +74,7 @@ form, .inset {padding:0 2em}
 .back:hover {background: #f0f0f0;color: #808080}
 .back:active {background: #333;color: #c0c0c0}
 
+
 </style>
 
 
@@ -101,17 +102,22 @@ form, .inset {padding:0 2em}
 
 <div class="half" style="width:66.6666%;padding:0 0 0 12%;padding-right:0">
 
+  {{#message}}
 
-{{#message}}
-  {{#success}}
-<span class="box green success">{{{success}}}</span>
-{{/success}}
 
-{{#error}}
-<span class="box orange error">{{{error}}}</span>
-{{/error}}
-{{/message}}
+  <a href="" style="display:block;text-decoration:none;padding:0 2em;line-height:41px;
+    {{#error}}
 
+  background:yellow;color:orange
+  {{/error}}
+  {{^error}}
+  background:green;color:white
+  {{/error}}
+  ">
+   {{text}}</a>
+
+
+  {{/message}}
 
       {{> yield}}
       <div class="clear"></div>

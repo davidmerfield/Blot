@@ -1,33 +1,40 @@
 module.exports = function(req, res, next) {
-
-  var _redirect = res.redirect;
   
-  res.redirect = function(status, value, message) {
+  // Expose a valid message to the view
+  if (req.session.message) {
 
-    // Support passing of integer status code
-    if (typeof status === "string") {
-      value = status;
-      status = null;
+    if (req.session.message.url === req.path) {
+      res.locals.message = req.session.message;
     }
 
-    if (status) {
-      _redirect.call(this, status, value);
-    } else {
-      _redirect.call(this, value);
+    if (req.session.message.error) {
+      res.status(400);
     }
 
-    if (message) {
+    delete req.session.message;
+  }
 
-      if (typeof  message === "error") {
+  res.message = function(value, message) {
 
-      } 
+    if (message instanceof Error) {
 
-      if (typeof message === "string") {
+      req.session.message = {
+        text: message.message || 'Error',
+        error: true,
+        url: value
+      };
 
-      }
-      
+    } else if (typeof message === "string") {
+
+      req.session.message = {
+        text: message,
+        error: false,
+        url: value
+      };
+
     }
 
+    res.redirect(value);
   };
 
   next();

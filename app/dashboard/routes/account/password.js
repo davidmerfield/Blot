@@ -46,12 +46,9 @@ function save(req, res, next) {
     if (!passwordHash) return next(new Error("Could not hash password"));
 
     User.set(req.user.uid, { passwordHash: passwordHash }, function(err) {
+      
       if (err) return next(err);
-      res.message({
-        success: "Changed password successfully!",
-        url: "/account"
-      });
-      res.redirect("/account");
+      res.message("/account", "Saved your new password");
     });
   });
 }
