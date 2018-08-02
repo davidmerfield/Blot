@@ -102,7 +102,7 @@ form, .inset {padding:0 2em}
 <div class="half" style="width:66.6666%;padding:0 0 0 12%;padding-right:0">
 
 
-
+{{#message}}
   {{#success}}
 <span class="box green success">{{{success}}}</span>
 {{/success}}
@@ -110,7 +110,7 @@ form, .inset {padding:0 2em}
 {{#error}}
 <span class="box orange error">{{{error}}}</span>
 {{/error}}
-
+{{/message}}
 
 
       {{> yield}}
