@@ -47,11 +47,17 @@ Fix bug with Pandoc markdown which won't process file with broken footnote synta
 - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
 - Tell [Johannes](https://twitter.com/johklab)
 
+Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
+
 Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+
+Fix ghost posts on this site and tell [Eivind](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
 
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
 - Let [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc) know
 - Let [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) know
+- Let [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
+
 Fix bug with KaTeX LaTeX rendering
 - Let [Peter](https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6) know
 
