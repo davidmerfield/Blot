@@ -1278,7 +1278,10 @@ p.sub {
   margin: 0;
 }
 
-.dropdown .menu a {
+.dropdown .menu button {text-align: left;}
+
+.dropdown .menu a,
+.dropdown .menu button {
   display: block;
   padding: 0 1em;
   margin: 0;
@@ -1288,7 +1291,8 @@ p.sub {
   color: #ccc;
 }
 
-.dropdown .menu a:hover {
+.dropdown .menu a:hover,
+.dropdown .menu button:hover {
   background: #434343;
   color: #ccc
 }
