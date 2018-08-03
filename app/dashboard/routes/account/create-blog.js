@@ -38,9 +38,6 @@ CreateBlog.route("/")
     }
   )
 
-  // Handle errors..
-  .all(errorHandler);
-
 function calculateFee(req, res, next) {
   var subscription = req.user.subscription;
   var end = subscription.current_period_end;
@@ -151,6 +148,7 @@ function chargeForRemaining(req, res, next) {
       description: "Charge for the remaining billing period"
     },
     function(err, charge) {
+      
       if (err) return next(err);
 
       if (!charge) return next(new Error(BAD_CHARGE));
@@ -160,25 +158,4 @@ function chargeForRemaining(req, res, next) {
   );
 }
 
-function errorHandler(err, req, res, next) {
-  var message;
-
-  try {
-    console.log(err);
-
-    if (err.trace) console.log(err.trace);
-    if (err.stack) console.log(err.stack);
-
-    if (err.message) {
-      message = err.message;
-    } else {
-      message = err;
-    }
-
-    res.message({ error: message });
-    res.redirect(req.route.path);
-  } catch (e) {
-    return next(e);
-  }
-}
 module.exports = CreateBlog;

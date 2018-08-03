@@ -21,13 +21,13 @@ module.exports = function(blogID, handle, callback){
 
   handle = handle.toLowerCase().trim();
 
-  if (handle === '') return callback(NO_HANDLE);
+  if (handle === '') return callback(new Error(NO_HANDLE));
 
-  if (!ONLY_ALPA_NUM.test(handle)) return callback(BAD_CHARS);
+  if (!ONLY_ALPA_NUM.test(handle)) return callback(new Error(BAD_CHARS));
 
-  if (BANNED_NAMES.indexOf(handle) > -1) return callback(IN_USE);
+  if (BANNED_NAMES.indexOf(handle) > -1) return callback(new Error(IN_USE));
 
-  if (handle.length < 3) return callback(TOO_SHORT);
+  if (handle.length < 3) return callback(new Error(TOO_SHORT));
 
   get({handle:handle}, function(err, blog){
 
@@ -36,7 +36,7 @@ module.exports = function(blogID, handle, callback){
     // a new blog. If so, we don't know
     // the blog's ID yet.
     if (blog && blog.id && blogID !== blog.id && blog.handle === handle)
-      return callback(IN_USE);
+      return callback(new Error(IN_USE));
 
     return callback(null, handle);
   });

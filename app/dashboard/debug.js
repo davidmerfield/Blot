@@ -30,7 +30,6 @@ module.exports.init = function(req, res, next) {
   var start = Date.now();
 
   req.debug = Debug(prefix(req));
-  console.log();
   req.debug("request recieved");
 
   res.on("finish", function() {

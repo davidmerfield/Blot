@@ -45,60 +45,59 @@
   
   <div class="center">
 
-
-
-
-
-        {{#user.cancel_at_period_end}}
-
-        <p>Your subscription was cancelled and you won’t be charged again.  Your account will expire on <br/> <b>{{user.pretty.expiry}}</b>.</p>
-
-        <p><a class="link" href="/account/subscription/restart">Restart your subscription</a></p>
-
-        {{/user.cancel_at_period_end}}
-
-        {{#user.isFreeForLife}}
-        <p>Since you were among the earliest to buy an account you can use Blot <b>for free</b> for as long as Blot exists!</p>
-
-        {{/user.isFreeForLife}}
-
-
-        {{#user.isSubscribed}}
-          {{#user.subscription.quantity}}
-        <p style="padding:0.75em 2em 0.75em 0;margin:0;color:gray">Your next bill on <b style="color:#000;font-weight:500">{{user.pretty.expiry}}</b> will be for <b style="color:#000;font-weight:500">{{user.pretty.price}}</b> because you host {{user.pretty.amount_in_words}} blog{{user.s}}. You will recieve an email reminder one week before.</p>
-
-
-          {{/user.subscription.quantity}}
-          {{^user.subscription.quantity}}
-                  <p >Your next billing period begins on <b>{{user.pretty.expiry}}</b> but you will not be charged anything because you do not host any blogs on Blot.</p>
-
-          {{/user.subscription.quantity}}
-
+    <p style="padding:0.75em 2em 0.75em 0;margin:0;">
     
+    {{#user.isFreeForLife}}
+      You can use Blot <b>for free</b> for as long as Blot exists.
+    {{/user.isFreeForLife}}
+
+    {{#user.cancel_at_period_end}}
+      Your subscription has been cancelled and you won’t be charged again. On <b>{{user.pretty.expiry}}</b> your account will close and your blog{{user.s}} will shut down.
+    {{/user.cancel_at_period_end}}
+
+    {{#user.isSubscribed}}
+      
+      {{#user.subscription.quantity}}
+        Your next bill on <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b> because you host {{user.pretty.amount_in_words}} blog{{user.s}}. You will recieve an email reminder one week before.
+      {{/user.subscription.quantity}}
+
+      {{^user.subscription.quantity}}
+        Your next billing period begins on <b>{{user.pretty.expiry}}</b> but you will not be charged anything because you do not host any blogs on Blot.
+      {{/user.subscription.quantity}}
+
+    {{/user.isSubscribed}}
+
+    </p>
+
     {{#blogs}}
     <hr style="margin:0">
 
     <a class="right link" href="/account/close-blog/{{handle}}">Delete </a>
 
-    <a href="/account/swap?to={{id}}" style="display:block;float:left;padding:0.75em 0">
-      <b>{{title}}</b> <span class="grey">{{pretty.url}}</span>
-
-      <span class="right" style="padding:0">Edit </span>
+    <a href="/account/swap?to={{id}}" style="display:block;padding:0.75em 0">
+      &nbsp;&nbsp;&nbsp; <b>{{title}}</b>
+      <span style="float:right">Go to dashboard &nbsp;&rarr;</span>
     </a> 
     {{/blogs}}
+
+
+
+    {{#user.cancel_at_period_end}}
+    <hr style="margin:0">
+       <a class="link" style="width:100%;float:left" href="/account/subscription/restart">Restart your subscription</a> 
+     {{/user.cancel_at_period_end}}
+
+    {{#user.isSubscribed}}
     <hr style="margin:0">
 
-  
+    <!--     <a href="/account/create-blog" style="width:33.3333%;float:left" class="link">Create another blog</a>
+     -->
+       <a class="link" style="width:50%;float:left" href="/account/subscription/cancel">Cancel your subscription</a> 
+
+       <a class="link" href="/account/update-billing" style="width:50%;float:left">Edit your payment method</a>
 
 
-<!--     <a href="/account/create-blog" style="width:33.3333%;float:left" class="link">Create another blog</a>
- -->
-                     <a class="link" style="width:50%;float:left" href="/account/subscription/cancel">Cancel your subscription</a> 
-
-                     <a class="link" href="/account/update-billing" style="width:50%;float:left">Edit your payment method</a>
-
-
-                {{/user.isSubscribed}}
+      {{/user.isSubscribed}}
 
       
       </div>
