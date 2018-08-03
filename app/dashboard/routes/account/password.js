@@ -1,6 +1,7 @@
 var Express = require("express");
 var Password = new Express.Router();
 var User = require("user");
+var checkPassword = require('./util/checkPassword');
 
 Password.route("/change")
 
@@ -14,7 +15,7 @@ Password.route("/change")
     });
   })
 
-  .post(verifyCurrent, checkMatching, save);
+  .post(checkPassword, checkMatching, save);
 
 Password.route("/set")
 
@@ -53,20 +54,7 @@ function save(req, res, next) {
   });
 }
 
-function verifyCurrent(req, res, next) {
-  User.checkPassword(req.user.uid, req.body.currentPassword, function(
-    err,
-    match
-  ) {
-    if (err) return next(err);
 
-    if (!match) {
-      return next(new Error("Your existing password is incorrect."));
-    }
-
-    next();
-  });
-}
 
 function checkMatching(req, res, next) {
   if (!req.body.newPasswordA) {
