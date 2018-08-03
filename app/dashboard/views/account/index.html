@@ -72,12 +72,16 @@
     {{#blogs}}
     <hr style="margin:0">
 
-    <a class="right link" href="/account/close-blog/{{handle}}">Delete </a>
+    <a class="right link" style="display:flex" href="/account/delete/blog/{{handle}}">Delete </a>
 
-    <a href="/account/swap?to={{id}}" style="display:block;padding:0.75em 0">
-      &nbsp;&nbsp;&nbsp; <b>{{title}}</b>
-      <span style="float:right">Go to dashboard &nbsp;&rarr;</span>
-    </a> 
+    <form action="/account/switch-blog" style="display:flex;flex-grow:1;padding:0.75em 0">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+          <input type="hidden" name="to" value="{{id}}"> 
+      <button type="submit" style="width:100%;background:none;border:none;margin:0;padding:0">
+        <b style="display:flex;flex-grow:1;padding-left:1em">{{title}}</b>
+        <span style="display:flex;">Go to dashboard &nbsp;&rarr;</span>
+      </button>
+    </form> 
     {{/blogs}}
 
 
@@ -92,10 +96,12 @@
 
     <!--     <a href="/account/create-blog" style="width:33.3333%;float:left" class="link">Create another blog</a>
      -->
-       <a class="link" style="width:50%;float:left" href="/account/subscription/cancel">Cancel your subscription</a> 
+     <div style="display: flex;
+">
+       <a class="link" style="display:flex;flex-grow:1" href="/account/subscription/cancel">Cancel your subscription</a> 
 
-       <a class="link" href="/account/update-billing" style="width:50%;float:left">Edit your payment method</a>
-
+       <a class="link" href="/account/update-billing" style="display:flex;flex-grow:1">Edit your payment method</a>
+     </div>
 
       {{/user.isSubscribed}}
 
