@@ -10,6 +10,7 @@ Account.route("/").get(function(req, res) {
 Account.use("/password", require("./password"));
 Account.use("/export", require("./export"));
 Account.use("/email", require("./email"));
+Account.use("/delete", require("./delete"));
 Account.use("/subscription", require("./subscription"));
 Account.use("/switch-blog", require("./switch-blog"));
 Account.use("/create-blog", require('./create-blog'));
@@ -35,6 +36,7 @@ Account.route("/log-out")
   });
 
 Account.use(function(err, req, res, next){
+  console.log('here', req.originalUrl, typeof err, err instanceof Error, err.message);
   res.message(req.originalUrl, err);
 });
 

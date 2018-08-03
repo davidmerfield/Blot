@@ -1,6 +1,6 @@
 
-  <form method="POST" action="?_csrf={{csrftoken}}">
-
+  <form method="POST">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <p>If you restart your subscription, you will not be charged until the start of your next billing period on <b>{{user.pretty.expiry}}</b>.</p>
 
       <span class="error">{{error}}</span>

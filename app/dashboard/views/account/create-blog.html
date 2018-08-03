@@ -1,8 +1,6 @@
-<form method="post" action="?_csrf={{csrftoken}}">
-
+<form method="post">
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">
-
-    
 
     <p>Choose a username for your new blog:</h2>
     <label id="handle" class="extraMargin">
@@ -14,8 +12,8 @@
 
 
 
-<!--       <p>You can connect multiple blogs to the same Dropbox account, or you can use different Dropbox accounts if you prefer.</p>
- -->
+      <p>You can connect multiple blogs to the same Dropbox account, or you can use different Dropbox accounts if you prefer.</p>
+
       <p><b>Your card will be charged {{now}} today</b> and your next bill on {{user.pretty.expiry}} will increase by {{individual}}. Please <a href="/contact">contact me</a> if you have any questions.</p>
 
       <br>

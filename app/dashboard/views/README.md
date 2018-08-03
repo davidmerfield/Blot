@@ -1,3 +1,8 @@
+Nice features for future
+  - Draw all svg icons properly to match the font weight of system font
+  - Use this follow-highlight effect for nice tabs and hover states:
+    https://css-tricks.com/moving-highlight/
+
 - DASHBOARD
 : SHOW THE USER THE OUTPUT OF FOLDER CONTENT
 

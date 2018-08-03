@@ -71,16 +71,34 @@ a.head:hover {background: #e0e0e0;color: #7f7f7f;}
 form, .inset {padding:0 2em}
 
 .back {width:12%;float:left;padding:0 0 0 1em;background:#e6e6e6;color:#777777;text-decoration: none}
-.back:hover {background: #f0f0f0;color: #808080}
-.back:active {background: #333;color: #c0c0c0}
+a.back:hover {background: #f0f0f0;color: #808080}
+a.back:active {background: #ccc;color: #c0c0c0}
 
+.mess {
+  display:block;text-decoration:none;padding:0 2em;line-height:41px;
+}
+
+.mess.error {  background:yellow;color:orange
+}
+
+.mess.success {background:green;color:white}
+
+.mess .link {float: right;color: inherit;}
+.mess:hover .link {text-decoration: underline;}
 
 </style>
 
 
 <div style="line-height:41px;background:#fff">
 
-  <a href="/" class="back">&larr;&nbsp;&nbsp;&nbsp;Dashboard</a>
+  {{#user.blogs.length}}
+  <a href="/" class="back">
+      &larr;&nbsp;&nbsp;&nbsp;Dashboard
+    </a>
+    {{/user.blogs.length}}
+    {{^user.blogs.length}}
+    <div class="back">&nbsp;</div>
+    {{/user.blogs.length}}
 
   <a class="head" style="" href="/account">
 
@@ -105,16 +123,11 @@ form, .inset {padding:0 2em}
   {{#message}}
 
 
-  <a href="" style="display:block;text-decoration:none;padding:0 2em;line-height:41px;
-    {{#error}}
-
-  background:yellow;color:orange
-  {{/error}}
-  {{^error}}
-  background:green;color:white
-  {{/error}}
-  ">
-   {{text}}</a>
+  <a href="" class="mess {{#error}}error{{/error}} {{^error}}success
+  {{/error}}">
+   {{text}}
+   <span class="link">Dismiss</span>
+ </a>
 
 
   {{/message}}
