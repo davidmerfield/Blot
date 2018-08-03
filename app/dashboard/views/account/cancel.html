@@ -1,10 +1,11 @@
+<form method="POST" class="account">
 
-  <form method="POST" action="?_csrf={{csrftoken}}">
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-      <p>If you cancel your subscription, your blog{{s}} will close <span id="blogEnd">on <b>{{user.pretty.expiry}}</b> when your current billing period ends</span>.</p>
+  <p>If you <b>cancel your subscription</b>, your blog{{s}} will stop working and your account will close on {{user.pretty.expiry}} when your current billing period ends</span>.</p>
 
-      <span class="error">{{error}}</span>
-
-    <input type="submit" id="submitButton" class="button" value="Cancel my subscription">
-    <a href="/account" class="borderButton secondary">Do not cancel</a>
-  </form>
+  <div class="buttons">
+    <input type="submit" class="red" value="Cancel your subscription">
+    <a href="/account">Do not cancel</a>
+  </div>
+</form>

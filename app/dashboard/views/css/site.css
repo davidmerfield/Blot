@@ -1576,3 +1576,61 @@ body, html {height: 100%;margin: 0;color: #111;}
   display: inline-block;
   text-decoration: none;
 }
+
+
+.buttons {display: flex;width: 66.666%}
+  
+  .buttons > * {
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    background: grey;
+    line-height: 41px;
+    padding: 0 1em;
+    letter-spacing: 0.01em;
+    display:flex;
+    box-sizing: border-box;
+  }
+
+  .buttons > *:hover {cursor: pointer;}
+
+  .buttons > *:focus,
+  .buttons > *:active {outline: none;}
+
+  .buttons :first-child {
+    flex-grow:0.6666;
+    margin-right:2em;
+    color: white;
+    background: #005388
+  }
+
+  .buttons :first-child:hover{background: #075f96}
+  .buttons :first-child:active{background: #00446f}
+
+  .buttons .red {background: red;}
+
+    .buttons .red:hover {background: #ff2a2a}
+    .buttons .red:active {background: #c70000}
+
+
+  .buttons :last-child {
+    flex-grow:0.3333;
+    color: #777;
+    background: #e6e6e6
+  }
+
+
+form.account {
+  width:66.66%;
+}
+
+form.account > p:first-of-type,
+form.account > label:first-of-type,
+form.account > .buttons {
+  margin-top:41px
+}
+
+form.account > .buttons {
+  padding-right: 41px;
+  width: 100%
+}

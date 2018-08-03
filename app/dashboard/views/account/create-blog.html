@@ -1,4 +1,4 @@
-<form method="post">
+<form method="post" class="account"> 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">
 
@@ -16,12 +16,21 @@
 
       <p><b>Your card will be charged {{now}} today</b> and your next bill on {{user.pretty.expiry}} will increase by {{individual}}. Please <a href="/contact">contact me</a> if you have any questions.</p>
 
-      <br>
-    <input type="submit" class="button" value="Submit payment">
+   <div class="buttons">
+    <input type="submit" value="Submit payment">
+    <a href="/account">Cancel</a>
+  </div>
+
+
     {{/first_blog}}
 
     {{#first_blog}}
-    <input type="submit" class="button" value="Create blog">
+    
+  <div class="buttons">
+    <input type="submit" value="Create blog">
+    <a href="/account">Cancel</a>
+  </div>
+
     {{/first_blog}}
 
   </div>

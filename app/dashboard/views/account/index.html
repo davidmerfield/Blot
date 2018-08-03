@@ -38,7 +38,30 @@
 
 
     
+<div class="line">
+    <b class="label">Your blogs</b>
+  
+  <div class="center">
 
+    {{#blogs}}
+
+    <a class="right link" style="display:flex" href="/account/delete/blog/{{handle}}">Delete </a>
+
+    <form action="/account/switch-blog" style="display:flex;flex-grow:1;">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+          <input type="hidden" name="to" value="{{id}}"> 
+      <button type="submit" style="width:100%;display:flex;padding:0.75em 0;border:none;margin:0;">
+        <b style="display:flex;flex-grow:1;">{{title}}</b>
+        <span class="link" style=
+        "padding-right:1em">Edit</span>
+      </button>
+    </form> 
+    {{/blogs}}
+    <hr style="margin:0">
+       <a class="link" style="width:100%;float:left" href="/account/create-blog">Create another blog</a> 
+</div>
+    <div class="clear"></div>
+</div>
 
 <div class="line">
   <b class="label">Subscription</b>
@@ -58,7 +81,7 @@
     {{#user.isSubscribed}}
       
       {{#user.subscription.quantity}}
-        Your next bill on <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b> because you host {{user.pretty.amount_in_words}} blog{{user.s}}. You will recieve an email reminder one week before.
+        Your next bill on <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>. <!-- because you host {{user.pretty.amount_in_words}} blog{{user.s}}. --> You will recieve an email reminder one week before.
       {{/user.subscription.quantity}}
 
       {{^user.subscription.quantity}}
@@ -68,21 +91,6 @@
     {{/user.isSubscribed}}
 
     </p>
-
-    {{#blogs}}
-    <hr style="margin:0">
-
-    <a class="right link" style="display:flex" href="/account/delete/blog/{{handle}}">Delete </a>
-
-    <form action="/account/switch-blog" style="display:flex;flex-grow:1;padding:0.75em 0">
-      <input type="hidden" name="_csrf" value="{{csrftoken}}">
-          <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="width:100%;background:none;border:none;margin:0;padding:0">
-        <b style="display:flex;flex-grow:1;padding-left:1em">{{title}}</b>
-        <span style="display:flex;">Go to dashboard &nbsp;&rarr;</span>
-      </button>
-    </form> 
-    {{/blogs}}
 
 
 
@@ -100,12 +108,13 @@
 ">
        <a class="link" style="display:flex;flex-grow:1" href="/account/subscription/cancel">Cancel your subscription</a> 
 
-       <a class="link" href="/account/update-billing" style="display:flex;flex-grow:1">Edit your payment method</a>
+       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1">Edit your payment method</a>
      </div>
 
       {{/user.isSubscribed}}
 
       
+
       </div>
       <div class="clear"></div>
 </div>

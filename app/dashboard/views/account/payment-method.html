@@ -1,14 +1,7 @@
+<form method="POST" class="account" id="payment-form" >
 
-<form id="payment-form" method="POST" action="?_csrf={{csrftoken}}&restart={{restart}}">
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-
-
-
-    <span class="payment-errors">{{error}}</span>
-
-    {{#success}}<span class="box green">{{success}}</span>{{/success}}
-
-    <fieldset style="width:66.666%">
     <label>
       <span>New card number:</span>
       <input type="text" size="20" data-stripe="number" name="number"/>
@@ -26,12 +19,11 @@
     </label>
 
     <div class="clear"></div>
-    <br />
-    <br />
-  </fieldset>
-
-    <input type="submit" class="button" value="Save payment information">
-    <a href="/account"  class="borderButton secondary">Cancel</a>
+    
+  <div class="buttons">
+    <input type="submit" value="Save payment method">
+    <a href="/account">Do not cancel</a>
+  </div>
 
 </form>
 

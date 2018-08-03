@@ -16,7 +16,8 @@
 }  
 
   a.line:hover,
-  div.line a.link:hover {background: rgba(0,0,0,0.025)}
+  div.line a.link:hover,
+  .line form button:hover {background: rgba(0,0,0,0.025)}
 
   a.line:hover .link, 
   a.line:hover .right,
@@ -42,6 +43,10 @@
 div.center {width:73%;float:right;padding:0;}
 .center b {color:#000;font-weight:500}
 
+.line form {padding: 0}
+.line form button {background:none;}
+.line form button:hover .link {text-decoration: underline;}
+.line form button:focus {outline: none;}
 
 
 
@@ -78,10 +83,14 @@ a.back:active {background: #ccc;color: #c0c0c0}
   display:block;text-decoration:none;padding:0 2em;line-height:41px;
 }
 
-.mess.error {  background:yellow;color:orange
+.mess.error {      background: #ffe7c7;
+    color: #962500;
 }
 
-.mess.success {background:green;color:white}
+.mess.error:hover{background: #ffefda}
+
+.mess.success {    background: #61d4004f;
+    color: #095f00;}
 
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
