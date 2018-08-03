@@ -47,7 +47,7 @@ Fix bug with Pandoc markdown which won't process file with broken footnote synta
 - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
 - Tell [Johannes](https://twitter.com/johklab)
 
-Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
+Fix bug generating summary, or maybe even remove the dumb title exclusion from the summary and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
 
 Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
@@ -396,6 +396,7 @@ Investigate atompub support for Marsedit and tell Chet
 Find cause of fontconfig error / warning
 
 Password protection for blogs
+- Tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7)
 - Tell [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231)
 - Tell [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281)
 
