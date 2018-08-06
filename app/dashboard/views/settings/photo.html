@@ -1,9 +1,15 @@
-<br>
+<label>Your photo:</label>
+
 {{#blog.avatar}}
   <section id="avatar">
     <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
   </section>
-  {{/blog.avatar}}
+  <div class="clear"></div>
+  <label>
+<input type='hidden' value='off' name='roundAvatar'>
+<input {{#blog.roundAvatar}}checked{{/blog.roundAvatar}} type="checkbox" name="roundAvatar"/> Make my photo rounded
+</label>
+{{/blog.avatar}}
 
 
 <section class="imageUpload left" style="width:50%">
@@ -21,8 +27,5 @@
 <div class="clear"></div>
 
 {{#blog.avatar}}
-<label>
-<input type='hidden' value='off' name='roundAvatar'>
-<input {{#blog.roundAvatar}}checked{{/blog.roundAvatar}} type="checkbox" name="roundAvatar"/> Make my photo rounded
-</label>
+
 {{/blog.avatar}}

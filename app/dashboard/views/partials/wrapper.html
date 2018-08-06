@@ -4,17 +4,72 @@
 
   <div class="wrapper">
     
-    <div class="left-edge" >
-      {{#user.blogs.length}}
-      <a href="/" class="nav-bar darkest" style="width:160px;text-align:center;">Dashboard</a>
-      {{/user.blogs.length}}
+    <div class="left-edge" style="min-width:300px" >
+
+      <div class="dropdown closed">
+
+            <a href="#!" class="opener dark nav-bar" style="color:rgb(153, 153, 153)"> <svg width="12" height="10"  viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg> 
+
+              {{blog.pretty.url}}
+
+            </a>
+
+            <div class="menu">
+
+                <a href="/account/create-blog">Create another blog</a>
+
+              {{#blogs}}
+
+                {{^isCurrent}}
+
+                <form style="    display: inline-block;
+              width: 100%;" action="/account/switch-blog" method="POST"> 
+                  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+                  <input type="hidden" name="to" value="{{id}}"> 
+                  <button type="submit">{{title}}</button>
+                </form>
+
+                {{/isCurrent}}
+
+              {{/blogs}}
+
+              <a href="/account">Your account</a>
+
+              <form style="    display: inline-block;
+            width: 100%;" action="/account/log-out" method="POST"> 
+                <input type="hidden" name="_csrf" value="{{csrftoken}}">
+                <button type="submit">Log out</button>
+              </form>
+
+            </div>
+          </div>
+
+
     </div>
 
     <div class="yield">
         
-      <div class="top">
-      {{> header}}
+      <div class="top">     
 
+        <a href="/" class="nav-bar darkest">
+
+          Dashboard
+
+          {{#subpage_title}}
+
+                <svg width="11" height="9" style="transform:rotate(-90deg);margin-left:0.4em" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg>
+              <span style="text-decoration:none;color: rgb(109, 109, 109);font-weight:500">{{subpage_title}}</a>
+
+          {{/subpage_title}}
+        </a>
+
+           
+
+        {{#user.cancel_at_period_end}}
+        <section class="box orange" style="border-radius:0;border-left:none;border-right:none;border-top:none;margin-top:0">
+          Your subscription will expire on <b>{{user.pretty.expiry}}</b>. <a class="link" href="/account/restart">Restart your subscription</a>.
+        </section>
+        {{/user.cancel_at_period_end}}
 
         {{#message}}
           <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
@@ -22,6 +77,7 @@
            <span class="link">Dismiss</span>
           </a>
         {{/message}}
+
 
       {{> yield}}
       </div>

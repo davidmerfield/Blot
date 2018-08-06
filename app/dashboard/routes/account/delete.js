@@ -43,7 +43,7 @@ Delete.route("/blog/:handle")
   .post(checkPassword, function (req, res, next) {
     deleteBlog(req.blogToDelete.id, next);
   }, decreaseSubscription, function(req, res, next){
-    res.redirect('/account');
+    res.message('/account', 'Deleted ' + req.blogToDelete.title);
   });
 
 

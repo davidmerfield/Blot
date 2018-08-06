@@ -37,7 +37,7 @@ module.exports = function create (uid, info, callback) {
         title: title,
         client: '',
         timeZone: info.timeZone || 'UTC',
-        dateFormat: info.dateFormat || 'M/D/YYYY'
+        dateFormat: info.dateFormat || 'M/D/Y'
       };
 
       extend(blog)

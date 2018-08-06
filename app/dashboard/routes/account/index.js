@@ -28,7 +28,7 @@ Account.route("/log-out")
 
   .post(logout, function(req, res) {
     
-    var redirect = (req.query && req.query.then) || "/";
+    var redirect = (req.query && req.query.then) || "/logged-out";
     
     res.redirect(redirect);
   });
