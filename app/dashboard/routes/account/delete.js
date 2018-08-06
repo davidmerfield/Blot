@@ -3,10 +3,10 @@ var Delete = new Express.Router();
 var User = require("user");
 
 var checkPassword = require('./util/checkPassword');
+var logout = require('./util/logout');
 var async = require('async');
 
 var helper = require("helper");
-var forEach = helper.forEach;
 var localPath = helper.localPath;
 var Blog = require("blog");
 var pretty = require("helper").prettyPrice;
@@ -29,8 +29,7 @@ Delete.route("/blog/:handle")
 
   .get(function(req, res) {
     res.locals.title = "Delete " + req.blogToDelete.title;
-    res.locals.subpage_title = "Delete blog";
-    res.locals.subpage_slug = "close-blog";
+    res.locals.breadcrumb = "Delete blog";
     res.render("account/delete-blog", { host: process.env.BLOT_HOST });
   })
 
@@ -43,7 +42,9 @@ Delete.route("/blog/:handle")
   // Delete the credentials used to sync the blog's folder
   .post(checkPassword, function (req, res, next) {
     deleteBlog(req.blogToDelete.id, next);
-  }, decreaseSubscription);
+  }, decreaseSubscription, function(req, res, next){
+    res.redirect('/account');
+  });
 
 
 function loadBlogToDelete (req, res, next) {
@@ -54,8 +55,8 @@ function loadBlogToDelete (req, res, next) {
       return next(err);
     }
 
-    if (blog.owner !== req.user.uid) {
-      return next(new Error('You do not have permission to delete this blog'));
+    if (!blog || blog.owner !== req.user.uid) {
+      return next(new Error('There is no blog to delete'));
     }
 
     req.blogToDelete = blog;
@@ -79,12 +80,14 @@ Delete.route("/")
   .get(function(req, res) {
     res.render("account/delete", {
       title: "Delete your account",
-      subpage_title: "Delete",
-      subpage_slug: "delete"
+      breadcrumb: "Delete"
     });
   })
 
-  .post(checkPassword, deleteBlogs, deleteUser);
+  .post(checkPassword, deleteBlogs, deleteSubscription, deleteUser, logout, function(req, res){
+
+    res.redirect('/deleted');
+  });
 
 
 
@@ -116,41 +119,42 @@ function deleteBlog (blogID, callback) {
 
 function deleteBlogs (req, res, next) {
 
-    async.queue(deleteBlog(blog.id), function(err, res){
-      next();
+  async.series(req.user.blogs.map(function(blogID){
+    return deleteBlog.bind(this, blogID);
+  }), next);
+
+}
+
+function updateUser (blogID, callback) {
+
+  Blog.get({id: blogID}, function(err, blog){
+
+    if (err) return callback(err);
+
+    User.getById(blog.owner, function(err, user){
+      
+      if (err) return callback(err);
+    
+      var blogs = user.blogs.slice();
+
+      blogs = blogs.filter(function(otherBlogID) {
+        return otherBlogID !== blogID;
+      });
+
+      User.set(blog.owner, { blogs: blogs }, callback);
     });
-
-  }
-
-function deleteUser() {
-  async.queue([
-    removeStripeCustomer,
-    removeUser,
-  ], next);
-}
-
-function updateUser(blogID, callback) {
-  
-  var blogToClose = req.blogToClose;
-  var blogs = req.user.blogs.slice();
-
-  blogs = blogs.filter(function(blogID) {
-    return blogID !== blogToClose.id;
-  });
-
-  User.set(req.user.uid, { blogs: blogs }, function(err) {
-    if (err) return next(err);
-
-    req.session.blogID = blogs.pop() || "";
-    next();
   });
 }
 
+function deleteUser (req, res, next) {
 
+  User.remove(req.user.uid, next);
+}
 
 
 
 function decreaseSubscription(req, res, next) {
+
   var subscription = req.user.subscription;
   var quantity = req.user.blogs.length - 1;
 
@@ -158,8 +162,6 @@ function decreaseSubscription(req, res, next) {
   // so proceed to the next middleware
   if (!subscription || !subscription.status || subscription.status !== "active")
     return next();
-
-  console.log("Setting subscription quantity to", quantity);
 
   stripe.customers.updateSubscription(
     subscription.customer,
@@ -179,62 +181,13 @@ function decreaseSubscription(req, res, next) {
   );
 }
 
+function deleteSubscription (req, res, next) {
 
+  if (!req.user.subscription || !req.user.subscription.customer) {
+    return next();
+  }
 
-
-function removeUser(req, res, next) {
-  User.remove(req.user.uid, function(err) {
-    if (err) return next(err);
-    res.redirect("/deleted");
-  });
-}
-
-function removeStripeCustomer(req, res, next) {
-  var customerID = req.user.subscription.customer;
-
-  if (!customerID) return next();
-
-  stripe.customers.del(customerID, function(err) {
-    if (err) return next(err);
-  });
-}
-
-function removeBlogs(req, res, next) {
-  forEach.parallel(req.user.blogs, removeBlog, next);
-}
-
-function removeBlog(blogID, nextBlog) {
-  Blog.get({ id: blogID }, function(err, blog) {
-    if (err) console.log(err);
-
-    var remove_client;
-
-    if (blog.client && clients[blog.client].disconnect) {
-      remove_client = clients[blog.client].disconnect;
-    } else {
-      remove_client = function(x, y) {
-        y();
-      };
-    }
-
-    remove_client(blogID, function(err) {
-      if (err) console.log(err);
-
-      Blog.remove(blogID, function(err) {
-        if (err) console.log(err);
-
-        fs.remove(localPath(blogID, "/"), function(err) {
-          if (err) console.log(err);
-
-          nextBlog();
-
-          emptyS3Folder(blogID, function(err) {
-            if (err) console.log(err);
-          });
-        });
-      });
-    });
-  });
+  stripe.customers.del(req.user.subscription.customer, next);
 }
 
 module.exports = Delete;

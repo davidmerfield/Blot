@@ -23,8 +23,7 @@ CreateBlog.route("/")
   .get(function(req, res) {
     res.render("account/create-blog", {
       title: "Create a blog",
-      subpage_slug: "create-blog",
-      subpage_title: "Create a blog"
+      breadcrumb: "Create a blog"
     });
   })
 
@@ -39,6 +38,10 @@ CreateBlog.route("/")
   )
 
 function calculateFee(req, res, next) {
+
+  // We dont need to do this for free users
+  if (canSkip(req.user)) return next();
+
   var subscription = req.user.subscription;
   var end = subscription.current_period_end;
   var start = subscription.current_period_start;
@@ -67,7 +70,10 @@ function calculateFee(req, res, next) {
 }
 
 function validateSubscription(req, res, next) {
+
   var subscription = req.user.subscription;
+
+  if (canSkip(req.user)) return next();
 
   if (
     !subscription ||
@@ -111,7 +117,17 @@ function saveBlog(req, res, next) {
   );
 }
 
+function canSkip (user) {
+  return !user.subscription.status && user.blogs.length === 0;
+}
+
 function updateSubscription(req, res, next) {
+
+  // We dont need to do this for free users
+  if (canSkip(req.user)) {
+    return next();
+  }
+
   // This is their first blog, so don't charge the user twice
   if (req.user.blogs.length === 0 && req.user.subscription.quantity === 1) {
     return next();
@@ -135,6 +151,12 @@ function updateSubscription(req, res, next) {
 }
 
 function chargeForRemaining(req, res, next) {
+
+  // We dont need to do this for free users
+  if (!req.user.subscription.status) {
+    return next();
+  }
+
   // This is their first blog, so don't charge the user twice
   if (req.user.blogs.length === 0 && req.user.subscription.quantity === 1) {
     return next();

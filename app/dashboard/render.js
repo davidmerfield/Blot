@@ -11,6 +11,10 @@ module.exports = function(req, res, next) {
   
   res.render = function(view, locals, callback) {
 
+    if (view === "error") {
+      return _render.call(this, view, locals, callback);      
+    }
+
     if (view.indexOf("account/") > -1) {
       wrapper = __dirname + "/views/account/wrapper.html";
     } else {
@@ -18,9 +22,7 @@ module.exports = function(req, res, next) {
     }
 
     res.locals.partials.yield = view;
-
-    // console.log('calling render', wrapper, res.locals)
-    _render.call(this, wrapper, locals, callback);
+    _render.call(this, wrapper, locals, callback);      
   };
 
   next();

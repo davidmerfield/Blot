@@ -1,10 +1,10 @@
-<div class="inset">
+<form method="POST" class="account">
 
 {{#user.blogs.length}}
 
-<p style="margin:41px 0 1em;width:66.666%">You can <b>export the data</b> stored by Blot about you and your blogs, including your settings, your templates and your blog posts.</p>
+<p>You can <b>export the data</b> stored by Blot about you and your blogs, including your settings, your templates and your blog posts.</p>
 
-<p style="margin:1em 0 41px;width:66.666%">This data <b>does not include the files in your blog{{#user.s}}s{{/user.s}}’{{^user.s}}s{{/user.s}} folder{{user.s}}</b>, your password or the tokens used to process payments and access Dropbox.</p>
+<p>This data <b>does not include the files in your blog{{#user.s}}s{{/user.s}}’{{^user.s}}s{{/user.s}} folder{{user.s}}</b>, your password or the tokens used to process payments and access Dropbox.</p>
 {{/user.blogs.length}}
 
 {{^user.blogs.length}}
@@ -13,8 +13,7 @@
 
   <div class="buttons">
     <a href="/account/export/account.json" target="_blank">Download your data</a>
-<a href="/account">Cancel</a>
+    <a href="/account">Cancel</a>
   </div>
 
-
-</div>
+</form>
