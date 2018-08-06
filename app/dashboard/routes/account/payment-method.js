@@ -20,8 +20,7 @@ PaymentMethod.route("/")
     // let them choose one
     res.render("account/payment-method", {
       stripe_key: config.stripe.key,
-      subpage_title: "Edit payment method",
-      subpage_slug: "update-billing",
+      breadcrumb: "Edit payment method",
       title: "Edit payment information"
     });
   })

@@ -16,6 +16,11 @@
     <a href="/about">About</a>
     <a href="/contact">Contact</a>
     
+<form style="display:inline; float:right"action="/account/log-out" method="POST"> 
+        <input type="hidden" name="_csrf" value="{{csrftoken}}">
+        <button type="submit" style="background:none;border:none">Log out</button>
+      </form>
+
   </div>
 </div>
 

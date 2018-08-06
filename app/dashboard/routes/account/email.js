@@ -7,8 +7,7 @@ Email.route("/")
   .get(function(req, res) {
     res.render("account/email", {
       title: "Change your email",
-      subpage_title: "Email",
-      subpage_slug: "email"
+      breadcrumb: "Email"
     });
   })
 

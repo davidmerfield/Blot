@@ -17,7 +17,7 @@
   </label>  
 
   <div class="buttons">
-    <input type="submit" class="red" value="Delete {{title}}">
+    <button type="submit" class="red" onclick="this.form.submit();this.disabled=true">Delete {{title}}</button>
     <a href="/account">Do not delete</a>
   </div>
 

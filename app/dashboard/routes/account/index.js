@@ -1,5 +1,6 @@
 var Express = require("express");
 var Account = new Express.Router();
+var logout = require('./util/logout');
 
 Account.route("/").get(function(req, res) {
   res.render("account/index", {
@@ -25,27 +26,28 @@ Account.route("/log-out")
     });
   })
 
-  .post(function(req, res) {
+  .post(logout, function(req, res) {
+    
     var redirect = (req.query && req.query.then) || "/";
-
-    if (!req.session) return res.redirect(redirect);
-
-    req.session.destroy(function() {
-      res.clearCookie("connect.sid");
-      res.redirect(redirect);
-    });
+    
+    res.redirect(redirect);
   });
 
 Account.use(function(err, req, res, next){
-  console.log('here', req.originalUrl, typeof err, err instanceof Error, err.message);
-  res.message(req.originalUrl, err);
+
+  // console.log('here', req.method, req.header('referrer'), req.originalUrl, typeof err, err instanceof Error, err.message);
+  
+  if (req.method === 'GET') {
+    console.log(err.stack, err.trace);
+    res.status(500);
+    res.render('error', {error: err});
+  } else if (req.method === 'POST') {
+    res.message(req.originalUrl, err);
+  } else {
+    next(err);
+  }
 });
 
-// require("./close-blog")(server);
-// require("./cancel")(server);
-// require("./delete")(server);
 // require("./pay-subscription")(server);
-// require("./swap")(server);
-// require("./update-billing")(server);
 
 module.exports = Account;

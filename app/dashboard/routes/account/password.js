@@ -9,8 +9,7 @@ Password.route("/change")
 
   .get(function(req, res) {
     res.render("account/change-password", {
-      subpage_title: "Password",
-      subpage_slug: "change-password",
+      breadcrumb: "Password",
       title: "Change your password"
     });
   })

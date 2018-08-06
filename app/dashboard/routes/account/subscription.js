@@ -13,8 +13,7 @@ Subscription.route("/cancel")
   .get(function(req, res) {
     res.render("account/cancel", {
       title: "Cancel your subscription",
-      subpage_title: "Cancel subscription",
-      subpage_slug: "cancel"
+      breadcrumb: "Cancel subscription"
     });
   })
 
@@ -30,8 +29,7 @@ Subscription.route("/restart")
   .get(function(req, res) {
     res.render("account/restart", {
       title: "Restart your subscription",
-      subpage_title: "Restart",
-      subpage_slug: "restart"
+      breadcrumb: "Restart"
     });
   })
 

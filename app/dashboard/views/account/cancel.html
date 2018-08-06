@@ -5,7 +5,7 @@
   <p>If you <b>cancel your subscription</b>, your blog{{s}} will stop working and your account will close on {{user.pretty.expiry}} when your current billing period ends</span>.</p>
 
   <div class="buttons">
-    <input type="submit" class="red" value="Cancel your subscription">
+    <button type="submit" class="red" onclick="this.form.submit();this.disabled=true">Cancel your subscription</button>
     <a href="/account">Do not cancel</a>
   </div>
 </form>

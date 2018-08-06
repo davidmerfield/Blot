@@ -8,12 +8,12 @@
 
 
     <label >Enter your password:
-    <input autofocus type="password" name="currentPassword"/>
+    <input autofocus type="password" name="password"/>
   </label>
 
 
   <div class="buttons">
-    <input type="submit" class="red" value="Delete your account">
+    <button type="submit" class="red" onclick="this.form.submit();this.disabled=true">Delete your account</button>
     <a href="/account">Do not delete</a>
   </div>
 

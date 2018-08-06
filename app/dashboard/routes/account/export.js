@@ -10,8 +10,7 @@ Export.route("/")
   .get(function(req, res){
     res.render('account/export', {
       title: 'Export your data',
-      subpage_title: 'Export',
-      subpage_slug:'export'
+      breadcrumb: 'Export'
     });
   });
 

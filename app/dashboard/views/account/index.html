@@ -11,31 +11,6 @@
 </a>
 {{/user.hasPassword}}
 
-<!-- <div class="line">
-  
-  <span class="label">Your blogs</span>
-        
-  <div class="center">
-    
-    {{#blogs}}
-
-    <a class="right link" href="/account/close-blog/{{handle}}">Delete </a>
-
-    <a href="/account/swap?to={{id}}" style="display:block;float:left;padding:0.75em 0">
-      <b>{{title}}</b> <span class="grey">{{pretty.url}}</span>
-
-      <span class="right" style="padding:0">Edit </span>
-    </a> 
-    <hr style="margin:0">
-    {{/blogs}}
-
-  
-    <a href="/account/create-blog" class="link">Create another blog</a>
-  </div>
-
-  <div class="clear"></div>      
-</div> -->
-
 
     
 <div class="line">
@@ -52,13 +27,16 @@
           <input type="hidden" name="to" value="{{id}}"> 
       <button type="submit" style="width:100%;display:flex;padding:0.75em 0;border:none;margin:0;">
         <b style="display:flex;flex-grow:1;">{{title}}</b>
-        <span class="link" style=
-        "padding-right:1em">Edit</span>
+<!--         <span class="link" style=
+        "padding-right:1em">Open dashboard</span> -->
       </button>
     </form> 
+      <hr style="margin:0">
+
     {{/blogs}}
-    <hr style="margin:0">
-       <a class="link" style="width:100%;float:left" href="/account/create-blog">Create another blog</a> 
+    
+
+       <a class="link" style="width:100%;float:left" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
 </div>
     <div class="clear"></div>
 </div>
