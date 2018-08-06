@@ -34,19 +34,19 @@
   <a class="line" href="/theme">
     <span class="label">Theme</span>
     <span class="right">Edit</span>
-    <span class="center"><b>{{#template.name}}
+    <span class="center">{{#template.name}}
         {{template.name}}
-        {{/template.name}}        {{^template.name}}<em>You are not using a theme</em>{{/template.name}}</b></span>
+        {{/template.name}}        {{^template.name}}<i>You are not using a theme</i>{{/template.name}}</span>
   </a>
   
-  <a class="line" href="/settings/links">
+  <a class="line" href="/settings/links" style="min-height:91px">
     <span class="label">Links</span>
     <span class="right">Edit</span>
-    <span class="center"><b>
-    {{#blog.menu}} <em>{{label}}</em> {{/blog.menu}}
+    <span class="center">
+    {{#blog.menu}}<span style="border-radius:4em;padding:0.3333em 0.6666em;margin:0 0.5em 2em 0;display:inline-block;border: 1px solid #aaa;color:#8a8a8a">{{label}}</span>{{/blog.menu}}
 
-    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
-    </b></span>
+    {{^blog.menu.length}}<i>Your blog's menu is empty</i>{{/blog.menu.length}}
+    </span>
   </a>
   
  <a class="line" href="/clients">

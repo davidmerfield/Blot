@@ -393,14 +393,17 @@ form input[type="number"] {
 }
 
 input[type="text"]:hover,
-input[type="text"]:focus,
 form input[type="password"]:hover,
+textarea:hover {
+  border-color: #999
+}
+
+input[type="text"]:focus,
 form input[type="password"]:focus,
-textarea:hover,
 textarea:focus {
   outline: none;
   z-index: 1;
-  border: 1px solid blue;
+  border: 1px solid #005388;
 }
 
 form input[type="text"]:focus,
@@ -1524,9 +1527,16 @@ span.file {
   width: 10px;
   height: 8px;
   position: relative;
+  transform:rotate(0);
   top: 4px;
   margin: 0 0;
 }
+
+
+.closed .opener svg {
+  top:0;position:relative;transform:rotate(-90deg);
+}
+
 .w-right-offset {
   width: 125%;
   margin-left: 17rem;
@@ -1726,11 +1736,21 @@ form.account, .inset {padding:0 2em}
   .footer {text-align:right;border-top: 1px solid #eee;}
   .footer form {display: inline;}
   .footer a,
-  .footer button {display:inline-block;background:none;border:none;padding:0 1em;margin:0 0 1em;color: #aaa;text-decoration: none;line-height:41px;}
+  .footer button {display:inline-block;background:none;border:none;padding:0 1em;margin:0;color: #aaa;text-decoration: none;line-height:41px;}
   .footer :hover {background: #eee}
 
-.right-edge {flex-grow:1;flex-shrink:0;background: #e4e4e4}
-.nav-bar {line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;color:#6f6f6f;display:block;text-decoration:none;background:#f2f2f2;border-bottom:1px solid #eee;}
-.nav-bar:hover {background: rgba(0,0,0,0.025);color: #222;}
+.right-edge {flex-grow:1;flex-shrink:0;background: #f2f2f2}
 
+.nav-bar {background:#dddddd;color:#666;line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;display:block;text-decoration:none;}
+  
+  .nav-bar:hover {background: #e4e4e4;color: #747474;}
+  .nav-bar:active {background: #d4d4d4;color: #606060} 
+  
+  .nav-bar.darker {background: #d4d4d4;color: #606060}
+    .nav-bar.darker:hover {background: #ddd;color: #666}
+    .nav-bar.darker:active {background: #d4d4d4;color: #606060}
+  
+  .nav-bar.dark {background: #222;color:#ccc;}
+
+  .nav-bar.darkest {background: #000;color: #999}
 

@@ -30,7 +30,9 @@ Fix git client bugs:
 Fix bug with double escaped embedded ampersands.
   http://gavin.blot.im/this-code-doesnt-work
   Tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672)
-
+  http://rtimmons.blot.im/member-function-dispatch
+  Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4)
+  
 Fix case-sensitive bug with weblocs by passing case-sensitive path to entry.build and tell [Frank](https://mail.google.com/mail/u/1/#inbox/1645a74250006a08)
 
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
