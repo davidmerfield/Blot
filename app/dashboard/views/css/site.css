@@ -479,12 +479,10 @@ form .error,
 #avatar img {
   width: 88px;
   height: auto;
+  vertical-align: middle;
 }
 
-.imageUpload {
-  font-size: 0.7em;
-  line-height: 1em;
-}
+
 
 .imageUpload input[type="file"] {
   margin-top: 0;
@@ -1691,7 +1689,11 @@ form.account > .buttons {
 
 div.center {width:73%;float:right;padding:0;}
 .center b {color:#000;font-weight:500}
+.center {color: #666}
 
+.tablet {
+  border-radius:4em;padding:0.3333em 0.6666em;margin:0 0.5em 2em 0;display:inline-block;border: 1px solid #aaa;
+}
 .line form {padding: 0}
 .line form button {background:none;}
 .line form button:hover .link {text-decoration: underline;}

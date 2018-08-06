@@ -14,6 +14,7 @@ module.exports = function(server){
 
     .get(function(req, res) {
       res.locals.title = 'Theme';
+      res.locals.subpage_title = 'Theme';
       res.render('theme');
     })
 

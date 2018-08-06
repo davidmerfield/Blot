@@ -12,6 +12,7 @@ module.exports = function (server) {
 
     .get(function(req, res) {
       res.locals.title = TITLE;
+      res.locals.subpage_title = 'Create new theme';
       res.render('theme/new');
     })
 

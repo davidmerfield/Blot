@@ -6,7 +6,9 @@ var pages = [
   ['contact', 'Contact'],
   ['privacy', 'Privacy'],
   ['terms', 'Terms'],
-  ['deleted', 'Your account has been deleted']
+  ['deleted', 'Your account has been deleted'],
+  ['logged-out', 'You have been logged out']
+
   ];
 
 pages.forEach(function(page){

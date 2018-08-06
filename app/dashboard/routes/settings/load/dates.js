@@ -31,6 +31,7 @@ module.exports = function(req, res, next) {
     });
   });
 
+
   displays.forEach(function(display) {
     var now = moment
       .utc(Date.now())
@@ -43,6 +44,7 @@ module.exports = function(req, res, next) {
       date: now
     });
   });
+
   res.locals.displayFormats = displayFormats;
   res.locals.dateFormats = dateFormats;
   next();

@@ -27,8 +27,8 @@
         <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
       </section>
       {{/blog.avatar}}
+      <span class="clear"></span>
     </span>
-    <span class="clear"></span>
   </a>
     
   <a class="line" href="/theme">
@@ -43,7 +43,7 @@
     <span class="label">Links</span>
     <span class="right">Edit</span>
     <span class="center">
-    {{#blog.menu}}<span style="border-radius:4em;padding:0.3333em 0.6666em;margin:0 0.5em 2em 0;display:inline-block;border: 1px solid #aaa;color:#8a8a8a">{{label}}</span>{{/blog.menu}}
+    {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
 
     {{^blog.menu.length}}<i>Your blog's menu is empty</i>{{/blog.menu.length}}
     </span>
@@ -65,7 +65,7 @@
   <a class="line" href="/settings/date">
     <span class="label">Dates</span>
     <span class="right">Edit</span>
-    <span class="center">          {{#displayFormats}}{{#selected}} {{date}}{{/selected}}{{/displayFormats}}
+    <span class="center">{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}
 </span>
   </a>
   
@@ -73,7 +73,7 @@
   <a class="line" href="/settings/services">
     <span class="label">Services</span>
     <span class="right">Edit</span>
-    <span class="center">         Analytics, comments and other things
+    <span class="center">Configure analytics, comments and other services
 </span>
   </a>
 
