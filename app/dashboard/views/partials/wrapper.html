@@ -1,13 +1,51 @@
 {{> head}}
-{{> header}}
 
-<div class="half" style="width:66.6666%;padding:1em 8em;padding-right:3em">
-{{> yield}}
+<div class="page">
+
+  <div class="wrapper">
+    
+    <div class="left-edge" >
+      {{#user.blogs.length}}
+      <a href="/" class="nav-bar" style="width:160px;text-align:center;">Dashboard</a>
+      {{/user.blogs.length}}
+    </div>
+
+    <div class="yield">
+        
+      <div class="top">
+      {{> header}}
+
+
+        {{#message}}
+          <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
+           {{text}}
+           <span class="link">Dismiss</span>
+          </a>
+        {{/message}}
+        
+      {{> yield}}
+      </div>
+
+      {{> footer}}
+    </div>
+
+
+    <div class="right-edge">
+    
+    {{> folder}}
+
+    </div>
+
+  </div>
+
 </div>
-
-<div class="half" style="width:33.33333%;position:fixed;right:0;bottom:0;top:0; padding:0 0;background:#f2f2f2">
-{{> folder}}
-</div>
-
-{{> footer}}
-
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script src="/scripts/dashboard.js?{{cacheID}}"></script>
+<script src="/scripts/integrations.js?{{cacheID}}"></script>
+<script src="/scripts/design.js?{{cacheID}}"></script>
+<script src="/scripts/sortable.js?{{cacheID}}"></script>
+<script src="/scripts/settings.js?{{cacheID}}"></script>
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script src="/scripts/design.js?{{cacheID}}"></script>
+</body>
+</html>

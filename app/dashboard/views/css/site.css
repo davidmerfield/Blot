@@ -1557,26 +1557,7 @@ h2 {margin-top: 1em}
 
 /* These three rules produce the sticky footer */ 
 body, html {height: 100%;margin: 0;color: #111;}
-.page {min-height: 100%;margin-bottom: -41px;}
-.push, .footer {height: 41px}
-
-.footer {
-  font-size: 14px;
-  color: #888;
-  line-height:41px;background:#eee;
-  padding: 0 2em;
-}
-
-.footer a:hover {color: black;text-decoration: underline;}
-
-.footer .wrapper {}
-.footer a {
-  margin-right: 2em;
-  color: inherit;
-  display: inline-block;
-  text-decoration: none;
-}
-
+.page {min-height: 100%;}
 
 .buttons {display: flex;width: 66.666%}
   
@@ -1661,3 +1642,95 @@ form.account > .buttons {
   padding-right: 41px;
   width: 100%
 }
+
+
+.line,
+.line a {
+  text-decoration: none;
+}
+
+.line {
+  border-bottom: 1px solid #eee;
+  display: block;
+}  
+
+  a.line:hover,
+  div.line a.link:hover,
+  .line form button:hover {background: rgba(0,0,0,0.025)}
+
+  a.line:hover .link, 
+  a.line:hover .right,
+  div.line a.link:hover {text-decoration: underline;}
+
+.link, 
+.right { color: #365899 }
+
+.right {
+  float:right;
+  padding: 0.75em 2em;
+}
+
+.label {
+  width:27%;display:block;float:left;font-weight:500;
+  color: rgb(109, 109, 109);
+  padding:0.75em 2em;
+  box-sizing: border-box;
+}
+
+.center, div.line a.link {padding-top: 0.75em;padding-bottom: 0.75em;display: block;}
+
+div.center {width:73%;float:right;padding:0;}
+.center b {color:#000;font-weight:500}
+
+.line form {padding: 0}
+.line form button {background:none;}
+.line form button:hover .link {text-decoration: underline;}
+.line form button:focus {outline: none;}
+
+
+
+
+
+
+
+
+
+
+form.account, .inset {padding:0 2em}
+
+
+.mess {
+  display:block;text-decoration:none;padding:0 2em;line-height:41px;
+}
+
+.mess.error {      background: #ffe7c7;
+    color: #962500;
+}
+
+.mess.error:hover{background: #ffefda}
+
+.mess.success {    background: #61d4004f;
+    color: #095f00;}
+
+.mess .link {float: right;color: inherit;}
+.mess:hover .link {text-decoration: underline;}
+
+.page {flex-direction:column;display:flex}
+.wrapper {display: flex;display:flex;flex-grow:1;margin:0;}
+  
+.left-edge {flex-direction: column;flex-shrink:0;}
+.yield {flex-grow:1;max-width: 780px;min-width:530px;flex-basis:780px;display:flex;flex-direction:column}
+  
+  .top {flex-grow:1}  
+
+  .footer {text-align:right;border-top: 1px solid #eee;}
+  .footer form {display: inline;}
+  .footer a,
+  .footer button {display:inline-block;background:none;border:none;padding:0 1em;margin:0 0 1em;color: #aaa;text-decoration: none;line-height:41px;}
+  .footer :hover {background: #eee}
+
+.right-edge {flex-grow:1;flex-shrink:0;background: #e4e4e4}
+.nav-bar {line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;color:#6f6f6f;display:block;text-decoration:none;background:#f2f2f2;border-bottom:1px solid #eee;}
+.nav-bar:hover {background: rgba(0,0,0,0.025);color: #222;}
+
+

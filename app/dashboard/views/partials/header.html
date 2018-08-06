@@ -1,12 +1,9 @@
-<div class="page">
 
-<div style="background:#222;line-height:41px;">
+<div >
 
-  <a href="/" style="width:10%;float:left;padding:0 1em;background:#3c3c3c;color:#ccc;text-decoration: none">Dashboard</a>
+  <div class="dropdown closed">
 
-  <div class="dropdown closed" style="float:left;width:56.6666%">
-
-    <a href="#!" class="opener" style="color:rgb(153, 153, 153)"> <svg width="12" height="10" style="top:0;position:relative;transform:rotate(-90deg)" viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg> 
+    <a href="#!" class="opener nav-bar" style="color:rgb(153, 153, 153)"> <svg width="12" height="10" style="top:0;position:relative;transform:rotate(-90deg)" viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg> 
 
       {{blog.title}} &nbsp;|&nbsp; {{blog.pretty.url}}
 
@@ -56,19 +53,6 @@
 {{^blog.isDisabled}}
 {{> nav}}
 {{/blog.isDisabled}}
-
-{{^blog}}
-
-<div class="wrapper">
-  <div class="sub nav" style="margin-bottom:1.3em;">
-    <a href="/account" style="font-size:16px">Account</a> 
-  </div>
-</div>
-
-<hr>
-{{/blog}}
-
-<div class="wrapper">
 
 {{#success}}
 <span class="box green success">{{{success}}}</span>

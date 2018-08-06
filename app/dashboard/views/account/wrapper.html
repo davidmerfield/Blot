@@ -1,110 +1,5 @@
 {{> head}}
 
-
-<style type="text/css">
-
-
-.line,
-.line a {
-  text-decoration: none;
-}
-
-.line {
-  border-bottom: 1px solid #eee;
-  display: block;
-}  
-
-  a.line:hover,
-  div.line a.link:hover,
-  .line form button:hover {background: rgba(0,0,0,0.025)}
-
-  a.line:hover .link, 
-  a.line:hover .right,
-  div.line a.link:hover {text-decoration: underline;}
-
-.link, 
-.right { color: #365899 }
-
-.right {
-  float:right;
-  padding: 0.75em 2em;
-}
-
-.label {
-  width:27%;display:block;float:left;font-weight:500;
-  color: rgb(109, 109, 109);
-  padding:0.75em 2em;
-  box-sizing: border-box;
-}
-
-.center, div.line a.link {padding-top: 0.75em;padding-bottom: 0.75em;display: block;}
-
-div.center {width:73%;float:right;padding:0;}
-.center b {color:#000;font-weight:500}
-
-.line form {padding: 0}
-.line form button {background:none;}
-.line form button:hover .link {text-decoration: underline;}
-.line form button:focus {outline: none;}
-
-
-
-
-.plugin {width: 100%;padding:0;margin:0;float:none;}
-input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
-form label {cursor: pointer;line-height: 1.5;}
-
-
-
-.group .linkTo:first-child {border-radius: 4px 4px 0 0}
-.group .linkTo:last-child {border-radius: 0 0 4px 4px;border-bottom-width: 1px}
-
-.grey {color: gray}
-
-.linkTo {border-bottom: 1px solid #eee;color: black;display: block;padding:0.75em 2em;text-decoration: none;}
-a.linkTo:hover {background: rgba(0,0,0,0.025)}
-.linkTo b:first-child {color: rgb(109, 109, 109);}
-.linkTo > span:last-of-type {color: #365899;text-decoration: none;}
-.linkTo:hover > span:last-of-type{text-decoration: underline;}
-
-.linkTo em {border:1px solid #bbb;padding: 0.1em 0.5em;margin: -0.2em;margin-right:0.5em;border-radius:5em;font-weight:400;display: inline-block;font-style: normal;}
-
-
-form, .inset {padding:0 2em}
-
-
-.mess {
-  display:block;text-decoration:none;padding:0 2em;line-height:41px;
-}
-
-.mess.error {      background: #ffe7c7;
-    color: #962500;
-}
-
-.mess.error:hover{background: #ffefda}
-
-.mess.success {    background: #61d4004f;
-    color: #095f00;}
-
-.mess .link {float: right;color: inherit;}
-.mess:hover .link {text-decoration: underline;}
-
-.page {flex-direction:column;display:flex}
-.wrapper {display: flex;display:flex;flex-grow:1;margin:0;}
-  
-  .footer.wrapper {flex-grow:0;}
-
-.left-edge {flex-direction: column;flex-shrink:0;}
-.yield {flex-grow:1;max-width: 780px;min-width:530px;flex-basis:780px;}
-.right-edge {flex-grow:1;flex-shrink:0;background: #eee}
-.nav-bar {line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;color:#6f6f6f;display:block;text-decoration:none;background:#d0d0d0;}
-.nav-bar:hover {background: #e0e0e0;color: #7f7f7f;}
-
-.footer form {display:inline; float:right;padding: 0}
-.footer form button {background:none;border:none}
-.footer form button:hover {color: black;text-decoration: underline;}
-</style>
-
 <div class="page">
 
   <div class="wrapper">
@@ -117,40 +12,29 @@ form, .inset {padding:0 2em}
 
     <div class="yield">
       
-      <a class="nav-bar" href="/account">Your account
-         {{#breadcrumb}}
-        <span style="margin:0 0.1em 0 0.25em" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
-        <span style="color: rgb(109, 109, 109);font-weight:500">{{breadcrumb}}</span>
-          {{/breadcrumb}}
-        </a>
+      <div class="top">
 
-      {{#message}}
-        <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
-         {{text}}
-         <span class="link">Dismiss</span>
-        </a>
-      {{/message}}
+        <a class="nav-bar" href="/account">Your account
+           {{#breadcrumb}}
+          <span style="margin:0 0.1em 0 0.25em" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
+          <span style="color: rgb(109, 109, 109);font-weight:500">{{breadcrumb}}</span>
+            {{/breadcrumb}}
+          </a>
 
-      {{> yield}}
+        {{#message}}
+          <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
+           {{text}}
+           <span class="link">Dismiss</span>
+          </a>
+        {{/message}}
+
+        {{> yield}}
+      </div>
+      {{> footer}}
     </div>
     <div class="right-edge"></div>
   </div>
-  <div class="footer wrapper">
-    <div class="left-edge"></div>
-    <div class="center" style='text-align:right'>
-      <a href="/help">Help</a>
-      <a href="/terms">Terms of use</a>
-      <a href="/privacy">Privacy policy</a>
-      <a href="/updates">Updates</a>
-      <a href="/about">About</a>
-      <a href="/contact">Contact</a>
-      <form style=""action="/account/log-out" method="POST"> 
-        <input type="hidden" name="_csrf" value="{{csrftoken}}">
-        <button type="submit">Log out&nbsp;&nbsp;&nbsp;&rarr;</button>
-      </form>
-    </div>
-    <div class="right-edge"></div>
-  </div>
+  
 </div>
 </body>
 </html>
