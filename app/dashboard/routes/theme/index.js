@@ -23,8 +23,7 @@ module.exports = function(server){
       var blogID = req.blog.id;
 
       if (templateID === '') return Blog.set(blogID, {template: ''}, function (err) {
-        res.message({success: 'Disabled your template'});
-        res.redirect(req.path);
+        res.message('/', 'Disabled your template');
       });
 
       // Blog selected a new template
@@ -36,23 +35,19 @@ module.exports = function(server){
 
       Template.getMetadata(templateID, function(err, template){
 
-        if (err || !template) {
-          res.message({error: 'That template does not exist.'});
-          return res.redirect(req.path);
-        }
+        if (err || !template) return next(err || new Error("No template"));
 
         Blog.set(blogID, updates, function (errors, changed) {
 
           if (errors && errors.template) {
 
-            res.message({error: errors.template});
+            res.message(req.path, new Error(errors.template));
 
           } else if (changed.indexOf('template') > -1) {
 
-            res.message({success: 'Changed your template to ' + template.name});
+            res.message(req.path, 'Changed your template to ' + template.name);
           }
 
-          res.redirect(req.path);
         });
       });
     });
