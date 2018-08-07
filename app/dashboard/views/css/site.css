@@ -1692,7 +1692,10 @@ div.center {width:73%;float:right;padding:0;}
 .center {color: #666}
 
 .tablet {
-  border-radius:4em;padding:0.3333em 0.6666em;margin:0 0.5em 2em 0;display:inline-block;border: 1px solid #aaa;
+  border-radius:4em;
+  padding:0.1em 0.6666em;
+  margin:0 0.5em 0 0;display:inline-block;
+  background: #eee
 }
 .line form {padding: 0}
 .line form button {background:none;}

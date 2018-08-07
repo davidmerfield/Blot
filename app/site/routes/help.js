@@ -69,7 +69,8 @@ help.use('/help', function(req, res, next){
 
 help.get('/help', function(req, res){
   res.locals.next = {title: 'Configuring your blog', url: '/configuring'};  
-  res.render('help-index');
+  res.locals.partials.yield = __dirname + '/../views/help-index';
+  res.render('_static_wrapper');
 });
 
 load_views(VIEW_DIR, 'help-').forEach(function(section){

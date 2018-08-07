@@ -3,12 +3,12 @@
 button {background: none;border: none;padding: 0;margin: 0;line-height: inherit;}
 button:focus {outline: none;}
 </style>
-<div class="nav-bar dark">
+<div class="nav-bar">
 {{#breadcrumbs.length}}
 
     {{#breadcrumbs}}
 
-      <button type="submit" name="path" value="{{path}}" style="text-decoration:none;color:#ccc;font-weight:400">{{name}}</button>
+      <button type="submit" name="path" value="{{path}}" >{{name}}</button>
 
       {{^last}}
 
