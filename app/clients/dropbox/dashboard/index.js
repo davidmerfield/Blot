@@ -5,7 +5,7 @@ var dashboard = Express.Router();
 dashboard
   .use(middleware.load_dropbox_account)
   .get('/', function (req, res) {
-    res.render(__dirname + '/views/index.html');
+    res.render(__dirname + '/views/index.html', {title: 'Dropbox', subpage_title: 'Folder'});
   })
   .get('/change-permission', function (req, res) {
     res.render(__dirname + '/views/change_permission.html');

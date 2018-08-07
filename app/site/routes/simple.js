@@ -20,7 +20,8 @@ pages.forEach(function(page){
     res.locals.menu = {};
     res.locals.menu[slug] = 'selected';
     res.locals.title = title;
-    res.render(slug);
+    res.locals.partials.yield = __dirname + '/../views/' + slug;
+    res.render('_static_wrapper');
   });
 });
 

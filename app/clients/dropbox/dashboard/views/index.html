@@ -1,14 +1,4 @@
-<style type="text/css">
-b{font-weight: 400}
-</style>
-<div style="max-width:32em">
 
-<style type="text/css">.sub.nav a:hover {border:none;}</style>
-<div class="sub nav" style="margin-bottom:1.3em;">
-  <a href="/" style="font-size:16px">Settings</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
-
-
-  <a href="/clients/dropbox" style="font-size:16px">Folder</a>
 <!--
   {{^error_code}}{{#account}}
 <span style="font-size:1em;color:#03b334;float:right;margin-top:-0.15em;display:block">
@@ -17,19 +7,21 @@ b{font-weight: 400}
 
 </span>
 {{/account}}{{/error_code}}-->
-</div>  
-<hr>
 
 {{^account}}
-
+<div class="inset" style="padding-top:41px;width:66.666%">
+  <p>Connect to Dropbox</p>
   <p >Blot will request access to a single folder inside your <a href="https://www.dropbox.com/">Dropbox</a> folder. You can revoke Blot’s access to this folder at any point.</p><br />
 
-  <a href="/clients/dropbox/authenticate/redirect" class="button">Connect to Dropbox</a>
-  <form style="display:inline" action="/clients/dropbox/disconnect" method="post">
-  <input type="hidden" name="_csrf" value="{{csrftoken}}">
-  <input type="submit" class="borderButton secondary" value="Cancel">
-  </form>{{/account}}
-
+  <form  action="/clients/dropbox/disconnect" method="post">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <div class="buttons">
+      <a href="/clients/dropbox/authenticate/redirect">Connect to Dropbox</a>
+      <input type="submit" value="Cancel">
+</div>
+  </form>
+</div>
+{{/account}}
 {{#account}}
 
 
@@ -118,8 +110,6 @@ b{font-weight: 400}
 
   <br><br>
 
-</div>
 
 {{/account}}
 
-</div>

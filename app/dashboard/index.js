@@ -99,6 +99,13 @@ require("./routes/editor")(dashboard);
 require("./routes/theme")(dashboard);
 require("./routes/tools")(dashboard);
 
+dashboard.use((require('../site/routes/static')));
+
+dashboard.use(function(req, res, next){
+  res.status(404);
+  res.send('404 not found');
+});
+
 // need to handle dashboard errors better...
 dashboard.use(require("./routes/error"));
 

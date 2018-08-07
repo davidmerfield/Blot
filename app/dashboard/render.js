@@ -19,7 +19,19 @@ module.exports = function(req, res, next) {
       wrapper = __dirname + "/views/partials/wrapper.html";
     }
 
-    res.locals.partials.yield = view;
+    if (view === "_static_wrapper") {
+      wrapper = __dirname + "/views/partials/static_wrapper.html";
+
+      if (res.locals.partials.yield && res.locals.partials.yield.indexOf('help-') > -1) {
+        res.locals.partials.sidebar = __dirname + "/views/partials/sidebar";        
+      }
+
+      
+    } else {
+      res.locals.partials.yield = view;      
+    }
+
+
     _render.call(this, wrapper, locals, callback);      
   };
 
