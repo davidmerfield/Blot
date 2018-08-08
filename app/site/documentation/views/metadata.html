@@ -1,0 +1,76 @@
+<h1>Metadata</h1>
+
+<p class="measure">All the metadata for each blog post is generated automatically from the file’s contents and location. This metadata includes the blog post’s URL, title and publish date. </p>
+
+<p class="measure">You can override some or all of this metadata. Your metadata must begin on the file’s first line and must be separated from the rest of the post by at least one blank line. </p>
+
+{{#link}}<a href="/metadata/dates">Read how to Change a blog post's publish date</a>{{/link}}
+
+<a href="">Read how to Change a blog post's URL</a>
+
+<a href="">Read how to add tags to a blog post</a>
+
+<Br> 
+
+<pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+Permalink: /metadata
+
+You must leave a space after the colon between the metadata property (e.g. Date) and its value.
+
+</code></pre> 
+<style type="text/css">
+td {border-bottom-color:;padding: 0.75rem 3rem 0.75rem 0}
+td:nth-child(2n){padding-right: 0}
+table.bt {border-color:}
+</style>
+<br><br>
+<p class="measure">Below is the full list of metadata which you can override at the start of a file. The properties are case-insensitive.</p>
+<table class="bt">
+<tbody>
+<tr>
+<td>Title</td>
+<td>Defaults to the text of the first heading in the blog post or the file’s name. <!-- Specifying a title in the file’s metadata does not insert a heading into the blog post itself. --></td>
+</tr>
+<tr>
+<td>Date</td>
+<td>Defaults to the file’s creation date. Specify a different date in the file’s metadata with one of the <a href="/help/dates">supported formats</a>, or use the <a href="/help/dates">file’s path</a>.
+<!-- <br><a class="next small db bt b--black-10" style="margin-bottom:0" href="/help/dates">Read more about dates</a>
+ --></td>
+</tr>
+<tr>
+<td>Permalink</td>
+<td>Defaults to a URL-friendly version of the post’s title. Specify a different permalink in the file’s metadata, or adjust the <a href="/configuring/permalinks">default permalink format</a>.
+<!-- <br><a class="next small db bt b--black-10" style="margin-bottom:0" href="/help/dates">Read more about permalinks</a>
+ --></td>
+</tr>
+<tr>
+<td>Summary</td>
+<td>Defaults to the text of the first sentence of the first paragraph in the file.</td>
+</tr>
+<tr>
+<td>Teaser</td>
+<td>Defaults to the first few paragraphs of the blog post. You can specify a <a href="/help/teasers">teaser</a> in the file’s metadata or insert the <a href="/help/teasers">breakpoint</a> yourself.</td>
+</tr>
+<tr>
+<td>Tags</td>
+<td>You can tag a blog post <a href="/help/tags">in the file’s metadata</a> or using the <a href="/help/tags">file’s path</a>.</td>
+</tr>
+<tr>
+<td>Thumbnail</td>
+<td>Defaults to the largest image in the blog post. You can specify a URL, or a path to an image in your blog’s folder.</td>
+</tr>
+<tr>
+<td>Draft</td>
+<td>Determines whether a file becomes a draft. Can be ’Yes’ or ’No’. Defaults to ’No’ unless the file is inside a folder called ’Drafts’.</td>
+</tr>
+<tr>
+<td>Page</td>
+<td>Determines whether a file becomes a page or a blog post. Can be ’Yes’ or ’No’. Defaults to ’No’ unless the file is inside a folder called ’Pages’.</td>
+</tr>
+<tr>
+<td>Menu</td>
+<td>Determines whether a file appears on your blog’s menu. Can be ’Yes’ or ’No’. Defaults to ’Yes’ for pages and ’No’ for blog posts.</td>
+</tr>
+</tbody>
+</table>
+<p class="measure">You can also <a href="/developers">define your own metadata</a>. Blot uses this metadata to determine the <a href="/developers">properties of each post</a>. </p>

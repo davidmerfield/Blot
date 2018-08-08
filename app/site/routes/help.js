@@ -23,7 +23,8 @@ help.use(function(req, res, next){
 help.get('/help/account', function(req, res){
   res.locals.menu.account = 'selected';
   res.locals.title = 'Account and billing - ' + res.locals.title;
-  res.render('account');
+  res.locals.partials.yield = __dirname + '/../views/account';
+  res.render('_static_wrapper');    
 });
 
 help.use('/developers', function(req, res, next){
@@ -76,9 +77,9 @@ help.get('/help', function(req, res){
 load_views(VIEW_DIR, 'help-').forEach(function(section){
 
   help.get('/help/' + section.slug, function(req, res){
-    res.locals.partials.yield = 'help-' + section.slug;
     res.locals.title = section.title + ' - ' + res.locals.section_title;
-    res.render('_wrapper');    
+    res.locals.partials.yield = __dirname + '/../views/help-' + section.slug;
+    res.render('_static_wrapper');    
   });
 });
 
@@ -95,15 +96,16 @@ help.use('/configuring', function(req, res, next){
 
 help.get('/configuring', function(req, res){
   res.locals.next = {title: 'Account and billing', url: '/account'};  
-  res.render('config-index');
+  res.locals.partials.yield = __dirname + '/../views/config-index';
+  res.render('_static_wrapper');  
 });
 
 load_views(VIEW_DIR, 'config-').forEach(function(section){
 
   help.get('/configuring/' + section.slug, function(req, res){
-    res.locals.partials.yield = 'config-' + section.slug;
+    res.locals.partials.yield = __dirname + '/../views/config-' + section.slug;
     res.locals.title = section.title + ' - ' + res.locals.section_title;
-    res.render('_wrapper');    
+    res.render('_static_wrapper');    
   });
 });
 
