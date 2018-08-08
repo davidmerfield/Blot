@@ -48,11 +48,6 @@ if (process.env.BLOT_ENVIRONMENT !== "development") {
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
 
-// Special function which wraps render
-// so there is a default layout and a partial
-// inserted into it
-dashboard.use(require("./render"));
-
 // Special function which wraps redirect
 // so I can pass messages between views cleanly
 dashboard.use(require("./message"));
@@ -83,6 +78,21 @@ dashboard.post(
 
 // Account page does not need to know about the state of the folder
 // for a particular blog
+
+dashboard.use(function(req, res, next){
+  res.locals.partials = res.locals.partials || {};
+  res.locals.partials.head = __dirname + "/views/partials/head";
+  res.locals.partials.footer = __dirname + "/views/partials/footer";
+  next();
+});
+
+dashboard.use('/documentation', require("../site/documentation"));
+
+// Special function which wraps render
+// so there is a default layout and a partial
+// inserted into it
+dashboard.use(require("./render"));
+
 dashboard.use('/account', require("./routes/account"));
 
 dashboard.use(debug("before loading folder state"));
