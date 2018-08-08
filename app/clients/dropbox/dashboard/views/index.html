@@ -37,11 +37,14 @@
 
 
 
-<p>
 
 
 
 
+        <div class="line">
+            <span class="label">Client</span>
+            <span class="center">Dropbox</span>
+        </div>
 {{#error_code}}
 
 
@@ -66,46 +69,59 @@
 
 {{^error_code}}
 
-<span style="margin-top:0.5em;display:block">
+
+  <div class="line">
+    <span class="label">Location</span>
+    <span class="center"> <span style="margin-top:0em;display:inline-block;">
   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
    viewBox="0 0 91 80" style="width:1.3em;margin:0 0.3em;position:relative;top:2px;enable-background:new 0 0 91 80;" xml:space="preserve">
 <path fill="#000" d="M41,13L31.8,1.1L31,0H0v80h91V13H41z M87,17v10H51.1l-7.2-10H87z M4,76V4h25l10,13h0l9.4,13.1
   c0.4,0.5,1,0.8,1.6,0.8V31h37v45H4z"/>
 </svg> 
 
-   {{#dropboxBreadcrumbs}}
+ 
+</span> {{#dropboxBreadcrumbs}}
    <span style="color:#000">{{name}} {{^last}}<span style="margin-left:0.3em"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg>{{/last}}</span>
-   {{/dropboxBreadcrumbs}}
-</span>
-   <br>
+   {{/dropboxBreadcrumbs}}</span>
+  </div>
+
+
 
 
 {{/error_code}}
- </p>
 
 
 
        {{^full_access}}
-          <p style="margin-top:2em"><b>Permissions</b><hr>Blot has partial access to your Dropbox folder. <a href="/clients/dropbox/change-permission">Switch to full access</a></p>
+       <a class="line" href="/clients/dropbox/change-permission">
+            <span class="label">Permissions</span>
+            <span class="right">Edit</span>
+            <span class="center">Blot has <b>partial access</b> to your Dropbox folder.
+        </a>
       {{/full_access}}
 
       {{#full_access}}
-    <p style="margin-top:2em"><b>Permissions</b><br>Blot has full access to your Dropbox folder. <a  href="/clients/dropbox/change-permission">Switch to partial access</a></p>
-
+       <a class="line" href="/clients/dropbox/change-permission">
+            <span class="label">Permissions</span>
+            <span class="right">Edit</span>
+            <span class="center">Blot has <b>full access</b> to your Dropbox folder.
+        </a>
       {{/full_access}}
 
 
- 
-    <p style="margin-top:2em"><b>Account</b><hr> You have connected <strong>{{email}}</strong>’s Dropbox.</p>
-      <br>
-<form method='post' action="/clients/dropbox/disconnect">
+        <div class="line">
+            <span class="label">Account</span>
+            <span class="center">You have connected <strong>{{email}}</strong>’s Dropbox.</span>
+        </div>
+        <div class="line">
+            <span class="label">Disconnect</span>
+            <span class="center">You can switch to an alternative method to synchronize your folder.
+  <form method='post' action="/clients/dropbox/disconnect" style="margin-top:11px">
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input class="button" type="submit" value="Disconnect from Dropbox">
-  </form>
+  </form></span>
+</div>
 
-
-    </p>
-    <br>
 
 
   <br><br>
