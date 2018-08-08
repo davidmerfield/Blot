@@ -3,7 +3,6 @@ var Template = require('template');
 var TITLE = 'Create a new theme';
 var NO_NAME = 'Please choose a name for your new template.';
 var NO_CLONE = 'Please choose a template to clone.';
-var DEFAULT = 'Could not create your template';
 var SUCCESS = 'Created your template succesfully!';
 
 module.exports = function (server) {
@@ -16,19 +15,17 @@ module.exports = function (server) {
       res.render('theme/new');
     })
 
-    .post(function(req, res){
+    .post(function(req, res, next){
 
       var name = req.body.name;
       var cloneFrom = req.body.cloneFrom;
 
       if (!name) {
-        res.message({error: NO_NAME});
-        return res.redirect(req.path);
+        return next(new Error(NO_NAME));
       }
 
       if (!cloneFrom) {
-        res.message({error: NO_CLONE});
-        return res.redirect(req.path);
+        return next(new Error(NO_CLONE));
       }
 
       var template = {
@@ -40,12 +37,10 @@ module.exports = function (server) {
       Template.create(req.blog.id, name, template, function (error) {
 
         if (error) {
-          res.message({error: error.message || DEFAULT});
-          return res.redirect(req.path);
+          return next(error);
         }
 
-        res.message({success: SUCCESS, url: '/theme'});
-        res.redirect('/theme');
+        res.message('/theme', SUCCESS);
       });
     });
 };

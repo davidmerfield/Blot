@@ -30,6 +30,7 @@ help.get('/help/account', function(req, res){
 help.use('/developers', function(req, res, next){
   res.locals.menu.developers = 'selected';
   res.locals.menu.help = '';
+  res.locals.hide_sidebar = true;
   res.locals.dark = 'dark';
   next();
 });
@@ -99,7 +100,7 @@ help.use('/configuring', function(req, res, next){
 });
 
 help.get('/configuring', function(req, res){
-  res.locals.next = {title: 'Account and billing', url: '/account'};  
+  res.locals.next = {title: 'Account and billing', url: '/help/account'};  
   res.locals.partials.yield = __dirname + '/../views/config-index';
   res.render('_static_wrapper');  
 });
