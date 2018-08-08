@@ -20,6 +20,7 @@ module.exports = function(req, res, next) {
       if (
         res.locals.partials.yield &&
         (res.locals.partials.yield.indexOf("help") > -1 ||
+          res.locals.partials.yield.indexOf("dev") > -1 ||
           res.locals.partials.yield.indexOf("config") > -1 ||
           res.locals.partials.yield.indexOf("account") > -1)
       ) {

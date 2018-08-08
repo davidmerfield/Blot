@@ -37,25 +37,29 @@ help.use('/developers', function(req, res, next){
 help.get('/developers', function(req, res){
   res.locals.menu.index = 'selected';
   res.locals.title = 'Developers - ' + res.locals.title;
-  res.render('dev-index');
+  res.locals.partials.yield = __dirname + '/../views/dev-index';
+  res.render('_static_wrapper');    
 });
 
 help.get('/developers/documentation', function(req, res){
   res.locals.menu.documentation = 'selected';
   res.locals.title = 'Developers - Documentation ' + res.locals.title;
-  res.render('dev-documentation');
+  res.locals.partials.yield = __dirname + '/../views/dev-documentation';
+  res.render('_static_wrapper');    
 });
 
 help.get('/developers/reference', function(req, res){
   res.locals.menu.reference = 'selected';
   res.locals.title = 'Developers - Reference ' + res.locals.title;
-  res.render('dev-reference');
+  res.locals.partials.yield = __dirname + '/../views/dev-reference';
+  res.render('_static_wrapper');    
 });
 
 help.get('/developers/support', function(req, res){
   res.locals.menu.support = 'selected';
   res.locals.title = 'Developers - Support ' + res.locals.title;
-  res.render('dev-support');
+  res.locals.partials.yield = __dirname + '/../views/dev-support';
+  res.render('_static_wrapper');    
 });
 
 
