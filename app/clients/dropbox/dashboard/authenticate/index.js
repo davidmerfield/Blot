@@ -32,7 +32,7 @@ authenticate.use(function(req, res){
     req.on_complete();
   } 
 
-  res.redirect('/clients/dropbox');
+  res.message('/', 'Authentication to Dropbox successful!');
 });
 
 authenticate.use('/existing-account', function(err, req, res, next){

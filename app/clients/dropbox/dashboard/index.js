@@ -8,7 +8,7 @@ dashboard
     res.render(__dirname + '/views/index.html', {title: 'Dropbox', subpage_title: 'Folder'});
   })
   .get('/change-permission', function (req, res) {
-    res.render(__dirname + '/views/change_permission.html');
+    res.render(__dirname + '/views/change_permission.html', {title: 'Dropbox', subpage_title: 'Folder'});
   })
   .use('/select-folder', require('./select_folder'))
   .use('/authenticate', require('./authenticate'))
