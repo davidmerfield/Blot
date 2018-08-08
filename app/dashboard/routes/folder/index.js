@@ -16,7 +16,6 @@ router
   });
 
 router.post("/path", function(req, res) {
-  console.log(req.body);
   req.session.path = req.body.path || "/";
   return res.redirect(req.body.redirect || "/");
 });

@@ -17,6 +17,7 @@ pages.forEach(function(page){
   var title = page[1];
 
   router.get('/' + page[0], function(req, res){
+    res.locals.hide_sidebar = true;
     res.locals.menu = {};
     res.locals.menu[slug] = 'selected';
     res.locals.title = title;

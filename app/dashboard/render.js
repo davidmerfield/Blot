@@ -31,8 +31,6 @@ module.exports = function(req, res, next) {
       res.locals.partials.yield = view;
     }
 
-    console.log(wrapper, res.locals.partials);
-
     _render.call(this, wrapper, locals, callback);
   };
 

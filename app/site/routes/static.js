@@ -1,4 +1,4 @@
-var static = __dirname + '/static';
+var static = __dirname + '/../static';
 var Express = require('express');
 var Static = new Express.Router();
 

@@ -76,6 +76,11 @@ dashboard.post(
   bodyParser.urlencoded({ extended: false })
 );
 
+dashboard.post('/theme', function(req, res, next){
+  console.log('HERE');
+  next();
+});
+
 // Account page does not need to know about the state of the folder
 // for a particular blog
 

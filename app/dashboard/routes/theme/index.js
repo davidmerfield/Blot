@@ -20,8 +20,12 @@ module.exports = function(server){
 
     .post(function(req, res){
 
+      console.log('HERE tooooo...', templateID);
+
       var templateID = req.body.template;
       var blogID = req.blog.id;
+
+      console.log('HERE', templateID);
 
       if (templateID === '') return Blog.set(blogID, {template: ''}, function (err) {
         res.message('/', 'Disabled your template');
