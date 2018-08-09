@@ -45,8 +45,7 @@ module.exports = function (server) {
 
         var url = req.path + '/' + view.name + '/editor';
 
-        res.message({success: 'Created new view!', url: url});
-        res.redirect(url);
+        res.message(url, 'Created new view!');
       });
     })
 
@@ -146,8 +145,7 @@ function saveView (req, res, next) {
         
         if (err) return next(err);
       
-        res.message({success: 'Saved changes!'});
-        return res.redirect(req.path);
+        res.message(req.path, 'Saved changes!');
       });
     });
   });
@@ -185,8 +183,7 @@ function renameView (req, res, next) {
 
           if (err) return next(err);
 
-          res.message({success: 'Saved changes!', url: redirect});
-          res.redirect(redirect);
+          res.message(redirect, 'Saved changes!');
         });
       });
     });

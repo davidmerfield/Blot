@@ -16,8 +16,7 @@ module.exports = function(err, req, res, next){
       message = err;
     }
 
-    res.message({error: message});
-    res.redirect(req.path);
+    res.message(req.path, err);
 
   } catch (e) {
 
