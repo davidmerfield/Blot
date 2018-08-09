@@ -92,6 +92,7 @@ dashboard.use(function(req, res, next){
 });
 
 dashboard.use('/documentation', require("../site/documentation"));
+require("./routes/editor")(dashboard);
 
 // Special function which wraps render
 // so there is a default layout and a partial
@@ -110,7 +111,6 @@ dashboard.use(debug("after loading folder state"));
 dashboard.use(require("./routes/settings"));
 
 require("./routes/clients")(dashboard);
-require("./routes/editor")(dashboard);
 require("./routes/theme")(dashboard);
 require("./routes/tools")(dashboard);
 
