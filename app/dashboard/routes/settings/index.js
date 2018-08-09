@@ -22,6 +22,7 @@ index.get(
   }
 );
 
+
 settings.route("/settings").post(
   save.parse,
   debug("parsed form"),
@@ -38,7 +39,7 @@ index.all(errorHandler);
 
 // require("./404s")(server);
 
-settings.get("/settings/menu").get(load.menu);
+settings.get("/settings/links", load.menu);
 settings.get("/settings/date", load.timezones, load.dates);
 settings.get("/settings/urls", load.permalinkFormats, load.redirects);
 settings.get("/settings/services", load.plugins);
