@@ -1,18 +1,12 @@
-<form method='post' action='/path?_csrf={{csrftoken}}'>
+<form method='post' style="border-top:1px solid #eee" action='/path?_csrf={{csrftoken}}'>
 
   <input type="hidden" name="redirect" value="{{redirect}}">
 
   {{> breadcrumbs}}
 
 {{^contents.length}}
-    {{#root}}
-    <p style="margin:10em auto;text-align:center;width:20em;color:#555;padding:2em">Your blog's folder is empty. Read the <a href="/help" style="
-    color: black;
-">publishing guide</a>.</p>
-    {{/root}}
-    {{^root}}
-    <p style="margin:10em auto;text-align:center;width:20em">This directory is empty.</p>
-    {{/root}}
+
+    <p style="padding:0 1em;line-height:41px;border-bottom:1px solid #eee;margin:0">This folder is empty</p>
   {{/contents.length}}
         
         
@@ -29,7 +23,7 @@
       {{^directory}}file{{/directory}}
       "></span>     
       
-      <span class="link">{{name}}</span>
+      <span >{{name}}</span>
       
       {{#directory}}
       <span style="float:right">

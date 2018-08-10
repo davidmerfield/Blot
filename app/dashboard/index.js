@@ -106,6 +106,10 @@ dashboard.use(debug("before loading folder state"));
 // Load the files and folders inside a blog's folder
 dashboard.use(require("./routes/folder"));
 
+dashboard.get('/folder', function(req, res, next){
+  res.render('folder')
+});
+
 dashboard.use(debug("after loading folder state"));
 
 dashboard.use(require("./routes/settings"));

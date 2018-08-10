@@ -161,7 +161,7 @@ ul {
 
 
 body {
-  font: 400 15px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+  font: 400 14px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -471,7 +471,7 @@ form .error,
 }
 
 #avatar {
-  margin: 0 18px 0 0;
+  margin: 1em 0;
   display: block;
   float: left;
 }
@@ -1248,14 +1248,11 @@ p.sub {
 .dropdown .opener {
   z-index: 2;
   padding: 0 1em;
-  color: black;
   line-height: 41px;
-
   position: relative;
   display: block;
 }
 
-.dropdown .opener:hover {background: #434343}
 
 .dropdown {
   z-index: 10;
@@ -1272,7 +1269,7 @@ p.sub {
   top: 100%;
   left: 0;
   right: 0;
-  background: #222;
+  background: #f2f2f2;
   z-index: 20;
   margin: 0;
 }
@@ -1286,15 +1283,16 @@ p.sub {
   margin: 0;
   width: 100%;
   line-height: 41px;
-  border-bottom: 1px solid #666;
-  color: #ccc;
-}
+color: #909090;
+    border: 1px solid #e4e4e4;
+    margin-top: -1px;
+  }
 
 .dropdown .menu a:hover,
 .dropdown .menu button:hover {
-  background: #434343;
-  color: #ccc
+  background: #eee;
 }
+
 .dropdown .menu a .avatar {
   position: absolute;
   top: 50%;
@@ -1634,7 +1632,6 @@ body, html {height: 100%;margin: 0;color: #111;}
 
 
 form.account {
-  width:66.66%;
 }
 
 form.account > p:first-of-type,
@@ -1657,6 +1654,8 @@ form.account > .buttons {
 .line {
   border-bottom: 1px solid #eee;
   display: block;
+  line-height: 41px;
+  display: flex;
 }  
 
   a.line:hover,
@@ -1672,28 +1671,32 @@ form.account > .buttons {
 
 .right {
   float:right;
-  padding: 0.75em 2em;
+  padding: 0 1em;
+  flex-grow:0;
 }
 
 .label {
-  width:27%;display:block;float:left;font-weight:500;
-  color: rgb(109, 109, 109);
-  padding:0.75em 2em;
+  flex-basis:27%;
+  color: rgb(153, 153, 153);
+  padding:0 1em;
+  flex-grow:0;
   box-sizing: border-box;
 }
 
-.center, div.line a.link {padding-top: 0.75em;padding-bottom: 0.75em;display: block;}
+.center, div.line a.link {flex-basis: 63%;padding:0;flex-grow:1;}
 
-div.center {width:73%;float:right;padding:0;}
-.center b {color:#000;font-weight:500}
-.center {color: #666}
+div.center {}
+.center b {color:#111;font-weight:500}
+.center {color: #111}
 
 .tablet {
   border-radius:4em;
   padding:0.1em 0.6666em;
+  line-height:1.5;
   margin:0 0.5em 0 0;display:inline-block;
-  background: #eee
+  background: #f2f2f2
 }
+
 .line form {padding: 0}
 .line form button {background:none;}
 .line form button:hover .link {text-decoration: underline;}
@@ -1708,7 +1711,7 @@ div.center {width:73%;float:right;padding:0;}
 
 
 
-form.account, .inset {padding:0 2em}
+form.account, .inset {padding:0 1em}
 
 
 .mess {
@@ -1728,25 +1731,31 @@ form.account, .inset {padding:0 2em}
 .mess:hover .link {text-decoration: underline;}
 
 .page {flex-direction:column;display:flex}
-.wrapper {display: flex;display:flex;flex-grow:1;margin:0;}
+.wrapper {display: flex;display:flex;flex-grow:1;margin:0;min-width: 1000px}
   
-.left-edge {flex-direction: column;flex-shrink:0;}
-.yield {flex-grow:1;max-width: 780px;min-width:530px;flex-basis:780px;display:flex;flex-direction:column}
+.left-edge {flex-direction: column;flex-grow:1;flex-basis:25%;margin: 0 41px}
+
+
+.left-edge, .right-edge, .yield {margin-top: 41px}
+
+.right-edge {margin-left: 41px}
+
+.yield {flex-grow:1;display:flex;flex-basis:50%;flex-direction:column;}
   
   .top {flex-grow:1}  
 
-  .footer {text-align:right;border-top: 1px solid #eee;}
-  .footer form {display: inline;}
-  .footer a,
-  .footer button {display:inline-block;background:none;border:none;padding:0 1em;margin:0;color: #aaa;text-decoration: none;line-height:41px;}
+  .footer {text-align:right;border-top: 1px solid #eee;display: flex}
+  .footer a {flex-grow:1;display:flex;background:none;border:none;text-align:center;justify-content: center;color: #aaa;text-decoration: none;line-height:41px;}
   .footer :hover {background: #eee}
 
-.right-edge {flex-grow:1;flex-shrink:0;background: #f2f2f2}
+.right-edge {flex-grow:1;flex-basis:25%;}
 
-.nav-bar {background:#dddddd;color:#666;line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;display:block;text-decoration:none;}
+.nav-bar {color:#666; border:1px solid #eee;line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;display:block;text-decoration:none;}
   
-  .nav-bar:hover {background: #e4e4e4;color: #747474;}
-  .nav-bar:active {background: #d4d4d4;color: #606060} 
+
+
+  .nav-bar:hover {background: rgba(0,0,0,0.025)}
+  .nav-bar:active {background: rgba(0,0,0,0.05)} 
   
   .nav-bar.darker {background: #d4d4d4;color: #606060}
     .nav-bar.darker:hover {background: #ddd;color: #666}
