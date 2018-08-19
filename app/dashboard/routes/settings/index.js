@@ -41,8 +41,7 @@ index.all(errorHandler);
 
 settings.get("/settings/links", load.menu);
 settings.get("/settings/date", load.timezones, load.dates);
-settings.get("/settings/urls", load.permalinkFormats, load.redirects);
-settings.get("/settings/services", load.plugins);
+settings.get("/settings/services", load.plugins, load.permalinkFormats, load.redirects);
 
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;

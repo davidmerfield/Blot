@@ -1652,7 +1652,7 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 9px 0 9px
+  padding: 9px 1em 9px
 }  
 
   a.line:hover,
@@ -1729,13 +1729,13 @@ form.account, .inset {padding:0 0}
 .wrapper {display: flex;display:flex;flex-grow:1;margin:0;min-width: 1000px}
   
 .left-edge,
-.far-right {flex-direction: column;flex-grow:1;flex-basis:25%;}
+.far-right {flex-direction: column;flex-grow:1;flex-basis:20%;flex-shrink:1;}
 
 
 
-.yield, .right-edge {margin: 0 41px 0}
+.yield, .right-edge {margin: 0 0 0;flex-shrink:0;flex-grow:1;flex-basis:30%;max-width: 420px}
 
-.yield {flex-grow:1;display:flex;flex-basis:50%;flex-direction:column;}
+.yield {flex-grow:1;display:flex;flex-basis:40%;flex-direction:column;}
   
   .top {flex-grow:1}  
 
@@ -1743,7 +1743,7 @@ form.account, .inset {padding:0 0}
   .footer a {flex-grow:1;display:flex;background:none;border:none;text-align:center;justify-content: center;color: #aaa;text-decoration: none;line-height:41px;}
   .footer :hover {background: #eee}
 
-.right-edge {flex-grow:1;flex-basis:50%;}
+.right-edge {}
 
 
 .nav-bar {color:#666; border:1px solid #eee;line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;display:block;text-decoration:none;}
