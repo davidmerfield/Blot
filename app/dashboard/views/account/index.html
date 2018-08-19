@@ -1,7 +1,7 @@
 <a class="line" href="/account/email">
   <span class="label">Email</span>
-  <span class="right">Edit</span>
   <span class="center"><b>{{user.email}}</b></span>
+  <span class="right">Edit</span>
 </a>
 
 {{#user.hasPassword}}
@@ -14,7 +14,7 @@
 
     
 <div class="line">
-    <b class="label">Your blogs</b>
+    <span class="label">Your blogs</span>
   
   <div class="center">
 
@@ -25,7 +25,7 @@
     <form action="/account/switch-blog" style="display:flex;flex-grow:1;">
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
           <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="width:100%;display:flex;padding:0.75em 0;border:none;margin:0;">
+      <button type="submit" style="width:100%;padding:0;display:flex;border:none;margin:0;">
         <b style="display:flex;flex-grow:1;">{{title}}</b>
       </button>
     </form> 
@@ -36,15 +36,14 @@
 
        <a class="link" style="width:100%;float:left" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
 </div>
-    <div class="clear"></div>
 </div>
 
 <div class="line">
-  <b class="label">Subscription</b>
+  <span class="label">Subscription</span>
   
   <div class="center">
 
-    <p style="padding:0.75em 2em 0.75em 0;margin:0;">
+    <p style="padding:0.75em 2em 0.75em 0;margin:0;line-height:1.5">
     
     {{#user.isFreeForLife}}
       You can use Blot <b>for free</b> for as long as Blot exists.
@@ -82,9 +81,9 @@
      -->
      <div style="display: flex;
 ">
-       <a class="link" style="display:flex;flex-grow:1" href="/account/subscription/cancel">Cancel your subscription</a> 
+       <a class="link" style="display:flex;flex-grow:1" href="/account/subscription/cancel">Cancel subscription</a> 
 
-       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1">Edit your payment method</a>
+       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1">Edit payment method</a>
      </div>
 
       {{/user.isSubscribed}}
@@ -92,7 +91,6 @@
       
 
       </div>
-      <div class="clear"></div>
 </div>
 
 <a class="line" href="/account/export">

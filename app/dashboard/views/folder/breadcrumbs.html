@@ -3,20 +3,19 @@
 button {background: none;border: none;color:rgb(153, 153, 153);padding: 0;margin: 0;line-height: inherit;}
 button:focus {outline: none;}
 </style>
-<div style="    padding-left: 1em;
-    line-height: 41px;
-    border-bottom: 1px solid #eee;">
+<div style="    
+    line-height: 41px;">
 {{#breadcrumbs.length}}
 
     {{#breadcrumbs}}
 
-      <button type="submit" name="path" value="{{path}}" >{{name}}</button>
+      <button type="submit" style="color:#aaa;" name="path" value="{{path}}" >{{name}}</button>
 
       {{^last}}
                 <span style="margin:0 0.3em">/</span>
       {{/last}}
 
     {{/breadcrumbs}}
-
+    <hr style="margin:0">
 </div>
 {{/breadcrumbs.length}}

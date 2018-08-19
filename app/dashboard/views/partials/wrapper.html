@@ -2,18 +2,20 @@
 
 <div class="page">
 
+  <div class="wrapper">
+    <div class="left-edge"></div>
 
-
-  <div class="wrapper" >
-    
-    <div class="left-edge">
+    <div class="yield">
+        
+      <div class="top" style="">  
+        <br>
       <div class="dropdown closed">
 
-            <a href="#!" class="opener nav-bar" style="border:none;color:#636363;border-radius: 4px;
-    box-shadow: 0 0 0 1px rgba(43,45,80,.1), 0 2px 5px 0 rgba(43,45,80,.08), 0 1px 1.5px 0 rgba(0,0,0,.07), 0 1px 2px 0 rgba(0,0,0,.08);
-    opacity: .99;border:none"> <svg width="12" height="10"  viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg> 
+            <a href="#!" class="opener nav-bar" style="margin-left:-32px;font-weight:500;border:none;color:#111;
+    
+    opacity: .99;border:none;padding:0 0 0 12px;"> <svg style="margin-right:6px" width="12" height="10"  viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg>
 
-              {{#blog.avatar}}
+    {{#blog.avatar}}
               <img src="{{blog.avatar}}" style="vertical-align:text-bottom;margin:0em 0.4em;max-width:16px;max-height:16px">
               {{/blog.avatar}}
 
@@ -46,47 +48,36 @@
 
               <a href="/account/create-blog">Create another blog</a>
 
-              <a href="/account">Your account</a>
-
-              <form style="    display: inline-block;
-            width: 100%;" action="/account/log-out" method="POST"> 
-                <input type="hidden" name="_csrf" value="{{csrftoken}}">
-                <button type="submit">Log out</button>
-              </form>
-
             </div>
+
+
           </div>
-        </div>
-    <div class="yield" >
-        
-      <div class="top">  
 
- <!-- <a style="width:40%;float:right;margin-right:10%;color:#636363;border-radius: 0 4px 4px 0;
-    box-shadow: 0 0 0 1px rgba(43,45,80,.1), 0 2px 5px 0 rgba(43,45,80,.08), 0 1px 1.5px 0 rgba(0,0,0,.07), 0 1px 2px 0 rgba(0,0,0,.08);
-    opacity: .99;border:none" href="{{blog.url}}" target="_blank" class="nav-bar">{{blog.pretty.url}}</a>
- -->
-      
+<!-- 
+-->
+
 
         
+                  <a href="{{blog.url}}" class="line" target="_blank" style="margin-top:-16px;color:rgb(153, 153, 153);text-decoration:none"><span class="link">{{blog.pretty.url}}</span></a><br>
 
-        <div style="border-top:1px solid #f2f2f2;">
+        <div style="margin-top:50px">
+
+
+          <a   href="/" style="line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid #eee;">Settings 
+        {{#subpage_title}}
+
+                <span style="margin:0 0.3em">/</span>
+
+              <span style="text-decoration:none;color: rgb(109, 109, 109);font-weight:500">
+                {{subpage_title}}
+{{/subpage_title}}
+          </a>
       {{#message}}
           <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
            {{text}}
            <span class="link">Dismiss</span>
           </a>
         {{/message}}
-
-        {{#subpage_title}}
-          <a   href="/" style="padding-left:1em;line-height:41px;color:rgb(153, 153, 153);border-bottom:1px solid #eee;display:block;text-decoration:none">Settings 
-
-                <span style="margin:0 0.3em">/</span>
-
-              <span style="text-decoration:none;color: rgb(109, 109, 109);font-weight:500">
-                {{subpage_title}}</a>
-
-          </a>{{/subpage_title}}
-
            
 
         {{#user.cancel_at_period_end}}
@@ -102,9 +93,22 @@
     </div>
       {{> footer}}
     </div>
-      <div class="right-edge">
+      <div class="right-edge"><br>
+        <div style="float:left;margin-top:10px">
+        <a style="color:rgb(153, 153, 153);text-decoration:none" href="/account">Your account</a><br>
+        <a style="color:rgb(153, 153, 153);text-decoration:none" href="/help">Documentation</a><br>
+        <a style="color:rgb(153, 153, 153);text-decoration:none" href="/contact">Contact support</a><br>
+      </div>
+      <div class="clear"></div><br><br><br>
+<!-- 
+ <a style="color:#636363;display:block;border:none;padding:20px 82px" href="{{blog.url}}" target="_blank" class="nav-bar">Go to <span class="link">{{blog.pretty.url}}</span> &nbsp;<svg width="12" height="10" style="margin-right:29px;transform:rotate(-90deg)" viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg> </a>
+ -->
+
+
+             
         {{> folder}}
       </div>
+    <div class="far-right"></div>
 
 
 

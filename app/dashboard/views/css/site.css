@@ -1508,8 +1508,7 @@ span.file {
   text-align: left;
   text-decoration: none;
   display: block;
-  padding: 0.5em 1em;
-  line-height: 2em;
+  padding: 8px 0;
 }
 .files button:hover {
   background: #fafafa;
@@ -1652,17 +1651,15 @@ form.account > .buttons {
 }
 
 .line {
-  border-bottom: 1px solid #eee;
   display: block;
-  line-height: 41px;
-  display: flex;
+  padding: 9px 0 9px
 }  
 
   a.line:hover,
   div.line a.link:hover,
   .line form button:hover {background: rgba(0,0,0,0.025)}
 
-  a.line:hover .link, 
+  a:hover .link, 
   a.line:hover .right,
   div.line a.link:hover {text-decoration: underline;}
 
@@ -1670,20 +1667,18 @@ form.account > .buttons {
 .right { color: #365899 }
 
 .right {
-  float:right;
-  padding: 0 1em;
-  flex-grow:0;
+  float:none;
+  padding-left: 6px;
 }
+
+.right:before {content: "-";position: absolute;left: -4px;color:#eee;}
 
 .label {
-  flex-basis:27%;
   color: rgb(153, 153, 153);
-  padding:0 1em;
-  flex-grow:0;
-  box-sizing: border-box;
+  display: block;
 }
 
-.center, div.line a.link {flex-basis: 63%;padding:0;flex-grow:1;}
+.center, div.line a.link {}
 
 div.center {}
 .center b {color:#111;font-weight:500}
@@ -1711,7 +1706,7 @@ div.center {}
 
 
 
-form.account, .inset {padding:0 1em}
+form.account, .inset {padding:0 0}
 
 
 .mess {
@@ -1733,12 +1728,12 @@ form.account, .inset {padding:0 1em}
 .page {flex-direction:column;display:flex}
 .wrapper {display: flex;display:flex;flex-grow:1;margin:0;min-width: 1000px}
   
-.left-edge {flex-direction: column;flex-grow:1;flex-basis:25%;margin: 0 41px}
+.left-edge,
+.far-right {flex-direction: column;flex-grow:1;flex-basis:25%;}
 
 
-.left-edge, .right-edge, .yield {margin-top: 41px}
 
-.right-edge {margin-left: 41px}
+.yield, .right-edge {margin: 0 41px 0}
 
 .yield {flex-grow:1;display:flex;flex-basis:50%;flex-direction:column;}
   
@@ -1748,7 +1743,8 @@ form.account, .inset {padding:0 1em}
   .footer a {flex-grow:1;display:flex;background:none;border:none;text-align:center;justify-content: center;color: #aaa;text-decoration: none;line-height:41px;}
   .footer :hover {background: #eee}
 
-.right-edge {flex-grow:1;flex-basis:25%;}
+.right-edge {flex-grow:1;flex-basis:50%;}
+
 
 .nav-bar {color:#666; border:1px solid #eee;line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;display:block;text-decoration:none;}
   
