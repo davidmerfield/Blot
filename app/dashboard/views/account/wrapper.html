@@ -1,18 +1,21 @@
 {{> head}}
 
-<div class="page">
+<div class="page" style="background:#f1edea">
 
   <div class="wrapper">
     
-      {{#user.blogs.length}}
+    <div class="left-edge"></div>
+    <div class="yield">
+      
+      <div class="top">
+        <div class="head">
+{{#user.blogs.length}}
     <div class="left-edge" style="min-width:300px">
       <a href="/" class="nav-bar darker">&larr;&nbsp;&nbsp;&nbsp;Dashboard</a>
     </div>
       {{/user.blogs.length}}
-
-    <div class="yield">
-      
-      <div class="top">
+    </div>
+        <div style="background:#fffefc;min-height:527px">
 
         <a class="nav-bar" style="border:none;padding:0 1em;border-bottom:1px solid #eee" href="/account">Your account
            {{#breadcrumb}}
@@ -30,9 +33,11 @@
 
         {{> yield}}
       </div>
+      </div>
       {{> footer}}
     </div>
     <div class="right-edge"></div>
+    <div class="far-right"></div>
   </div>
   
 </div>
