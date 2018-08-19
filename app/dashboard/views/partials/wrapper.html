@@ -1,17 +1,17 @@
 {{> head}}
-
-<div class="page">
+<style type="text/css">.head {height:123px;padding-top:20px;}</style>
+<div class="page" style="background:#fbf8f6">
 
   <div class="wrapper">
     <div class="left-edge"></div>
 
     <div class="yield">
         
-      <div class="top" style="">  
-        <br>
+      <div class="top" style=""> 
+      <div class="head"> 
       <div class="dropdown closed">
 
-            <a href="#!" class="opener nav-bar" style="margin-left:-32px;font-weight:500;border:none;color:#111;
+            <a href="#!" class="opener nav-bar" style="font-weight:500;border:none;color:#111;
     
     opacity: .99;border:none;padding:0 0 0 12px;"> <svg style="margin-right:6px" width="12" height="10"  viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg>
 
@@ -52,18 +52,19 @@
 
 
           </div>
+        </div>
 
 <!-- 
 -->
 
 
         
-                  <a href="{{blog.url}}" class="line" target="_blank" style="margin-top:-16px;color:rgb(153, 153, 153);text-decoration:none"><span class="link">{{blog.pretty.url}}</span></a><br>
+<!--                   <a href="{{blog.url}}" class="line" target="_blank" style="margin-top:-16px;color:rgb(153, 153, 153);text-decoration:none"><span class="link">{{blog.pretty.url}}</span></a><br>
+ -->
+        <div style="background:#fffefc">
 
-        <div style="margin-top:50px">
 
-
-          <a   href="/" style="line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid #eee;">Settings 
+          <a   href="/" style="padding: 0 1em;line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid #eee;">Settings 
         {{#subpage_title}}
 
                 <span style="margin:0 0.3em">/</span>
@@ -85,35 +86,24 @@
           Your subscription will expire on <b>{{user.pretty.expiry}}</b>. <a class="link" href="/account/restart">Restart your subscription</a>.
         </section>
         {{/user.cancel_at_period_end}}
-
-        
-
       {{> yield}}
       </div>
     </div>
       {{> footer}}
     </div>
-      <div class="right-edge"><br>
-        <div style="float:left;margin-top:10px">
-        <a style="color:rgb(153, 153, 153);text-decoration:none" href="/account">Your account</a><br>
-        <a style="color:rgb(153, 153, 153);text-decoration:none" href="/help">Documentation</a><br>
-        <a style="color:rgb(153, 153, 153);text-decoration:none" href="/contact">Contact support</a><br>
+      <div class="right-edge">
+        <div class="head">
+        <div style="float:left;margin-top:8px">
+        <a style="color:rgb(153, 153, 153);text-decoration:none;padding-left:16px" href="/account">Your account</a><br>
+        <a style="color:rgb(153, 153, 153);text-decoration:none;padding-left:16px" href="/help">Documentation</a><br>
+        <a style="color:rgb(153, 153, 153);text-decoration:none;padding-left:16px" href="/contact">Contact support</a><br>
+        </div>
+        <div class="clear"></div>
       </div>
-      <div class="clear"></div><br><br><br>
-<!-- 
- <a style="color:#636363;display:block;border:none;padding:20px 82px" href="{{blog.url}}" target="_blank" class="nav-bar">Go to <span class="link">{{blog.pretty.url}}</span> &nbsp;<svg width="12" height="10" style="margin-right:29px;transform:rotate(-90deg)" viewBox="0 0 12 10" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg> </a>
- -->
-
-
-             
-        {{> folder}}
+      {{> folder}}
       </div>
     <div class="far-right"></div>
-
-
-
   </div>
-
 </div>
 <script src="/scripts/jquery.js?{{cacheID}}"></script>
 <script src="/scripts/dashboard.js?{{cacheID}}"></script>
