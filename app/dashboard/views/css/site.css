@@ -1631,6 +1631,7 @@ body, html {height: 100%;margin: 0;color: #111;}
 
 
 form.account {
+
 }
 
 form.account > p:first-of-type,
@@ -1652,7 +1653,7 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 9px 1em 9px
+  padding: 9px 20px 9px
 }  
 
   a.line:hover,
@@ -1706,7 +1707,7 @@ div.center {}
 
 
 
-form.account, .inset {padding:0 0}
+form.account, .inset {padding:0 41px 41px}
 
 
 .mess {
@@ -1761,3 +1762,4 @@ form.account, .inset {padding:0 0}
 
   .nav-bar.darkest {background: #000;color: #999}
 
+.head {height:123px;padding-top:20px;}

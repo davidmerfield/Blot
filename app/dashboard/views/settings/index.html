@@ -19,7 +19,7 @@
     <span class="center">
 
       {{^blog.avatar}}
-      <em>You have not chosen a photo</em>
+      <span class="link">Choose a photo</span>
       {{/blog.avatar}}
 
       {{#blog.avatar}}
@@ -29,7 +29,9 @@
       <span class="clear"></span>
       {{/blog.avatar}}
     </span>
+      {{#blog.avatar}}
     <span class="right">Edit</span>    
+      {{/blog.avatar}}
   </a>
   <a class="line" href="/theme">
     <span class="label">Theme</span>
