@@ -35,7 +35,7 @@ module.exports = function(req, res, next) {
     // Add success message if we're going to the settings page
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
-      return res.message('/', 'Saved changes to your ' + changes.join(','));
+      return res.message(redirect, 'Saved changes to your ' + changes.join(','));
     }
 
     return res.redirect(redirect);

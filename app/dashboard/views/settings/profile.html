@@ -1,0 +1,39 @@
+<label>
+  Your blog's title:
+  <input type="hidden" name="redirect" value="/settings/title">
+  <input type="text" name="title" value="{{blog.title}}">
+  <span class="error">{{errors.title}}</span>
+</label>
+
+<button id="addLink" style="z-index: 10;position: relative;" class="button secondary right" >Add a link</button>
+
+<!-- Neccessary to produce an empty menu -->
+<input type="hidden" name="hasMenu" value="true">
+
+<section id="menu" class="fullRow sortable"  style="max-width:100%">
+<hr>
+  
+{{^blog.menu.length}}
+<i>Your menu is empty</i>
+{{/blog.menu.length}}
+
+{{#blog.menu}}
+  <section style="border:none" id="link_{{id}}" class="{{#isPage}}isPage{{/isPage}}">
+    <span class="handle">&#9776;</span>
+    <input type="hidden" name="menu.{{index}}.id" value="{{id}}"/ >
+    <label>
+      {{#isPage}}
+        <a target="_blank" href="{{blog.blogURL}}{{url}}">
+          <span class="link">{{label}}</span> page
+        </a>
+      {{/isPage}}
+      <input placeholder="Label" type="text" name="menu.{{index}}.label" value="{{label}}"/>
+    </label>
+    <label>
+     <input type="text" name="menu.{{index}}.url" value="{{url}}"/>
+    </label>
+    <button class="button small secondary removeLink" class="right">Delete</button>
+    <div class="clear"></div>
+  </section>
+{{/blog.menu}}
+</section>
