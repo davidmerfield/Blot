@@ -23,15 +23,13 @@
       {{/blog.avatar}}
 
       {{#blog.avatar}}
-      <section id="avatar">
-        <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-      </section>
-      <span class="clear"></span>
+        <img style="max-width:82px;max-height:82px" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
       {{/blog.avatar}}
     </span>
       {{#blog.avatar}}
-    <span class="right">Edit</span>    
-      {{/blog.avatar}}
+    <span class="right" style="vertical-align:top">Edit</span>    
+            <span class="clear"></span>
+{{/blog.avatar}}
   </a>
   <a class="line" href="/theme">
     <span class="label">Theme</span>
