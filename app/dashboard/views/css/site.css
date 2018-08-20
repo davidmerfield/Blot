@@ -163,6 +163,7 @@ ul {
 body {
   font: 400 14px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background:#f1edea
 }
 
 
@@ -682,9 +683,6 @@ p.lock:before {
   position: fixed;
 }
 
-.wrapper {
-  margin:0 auto
-}
 
 .half {width: 50%;float: left;}
 
@@ -1653,7 +1651,8 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 9px 20px 9px
+  padding: 9px 20px 9px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
 }  
 
   a.line:hover,
@@ -1669,13 +1668,12 @@ form.account > .buttons {
 
 .right {
   float:none;
-  padding-left: 6px;
+  padding-left: 4px;
 }
 
-.right:before {content: "-";position: absolute;left: -4px;color:#eee;}
 
 .label {
-  color: rgb(153, 153, 153);
+  color: rgb(158, 154, 152);
   display: block;
 }
 
@@ -1689,8 +1687,8 @@ div.center {}
   border-radius:4em;
   padding:0.1em 0.6666em;
   line-height:1.5;
-  margin:0 0.5em 0 0;display:inline-block;
-  background: #f2f2f2
+  margin:0.3333em 1.2em 0.3333em -0.6666em;display:inline-block;
+  background: #f1edea
 }
 
 .line form {padding: 0}
@@ -1726,9 +1724,13 @@ form.account, .inset {padding:0 41px 41px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.page {flex-direction:column;display:flex}
-.wrapper {display: flex;display:flex;flex-grow:1;margin:0;min-width: 1000px}
-  
+.wrapper {max-width:840px;margin:0 auto;display: flex}  
+.left-side {width:50%;float:left}
+.right-side {float:right;width:50%}
+
+.side-dark {min-height:500px;background:#fbf8f6;flex-basis:50%;flex-grow:1;}
+.side-light {flex-basis:50%;flex-grow:1;background:#fffefc;}
+
 .left-edge,
 .far-right {flex-direction: column;flex-grow:1;flex-basis:20%;flex-shrink:1;}
 
