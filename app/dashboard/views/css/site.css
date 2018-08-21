@@ -316,8 +316,8 @@ form label.halfWidth {
 
 form .fullRow section {
   position: relative;
+  display: flex;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.5em 3.7em 0.5em 2.5em;
 }
 
 form .fullRow .button {
@@ -1466,8 +1466,6 @@ span.file {
 }
 
 .sortable > section {
-  padding: 1em 0 0 2.5em;
-  background: #fff;
 }
 
 .sortable > section.isPage .button {
@@ -1488,16 +1486,17 @@ span.file {
 }
 
 .handle {
-  cursor: ns-resize;
-  position: absolute;
-  font-size: 1.5em;
-  color: #888;
-  top: 1em;
-  left: 0;
-  width: 1em;
-  height: 1em;
-  text-align: center;
-  line-height: 1em;
+    cursor: ns-resize;
+    color: #888;
+    text-align: center;
+    line-height: 2.4;
+    padding: 0 6px;
+    border-radius: 4px 0 0 4px;
+    background: #f1edea;
+    box-shadow: inset 0px -1px 2px 0px rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-top-color: rgba(0, 0, 0, 0.25);
+    border-bottom-color: rgba(0, 0, 0, 0.15);
 }
 
 .files button {
@@ -1559,16 +1558,16 @@ h2 {margin-top: 1em}
 body, html {height: 100%;margin: 0;color: #111;}
 .page {min-height: 100%;}
 
-.buttons {display: flex;width: 66.666%}
+.buttons {display: flex;}
   
   .buttons > * {
     text-decoration: none;
     border: none;
     border-radius: 4px;
     background: grey;
+    padding: 0 20px;
     position: relative;
     line-height: 41px;
-    padding: 0 1em;
     letter-spacing: 0.01em;
     display:flex;
     box-sizing: border-box;
@@ -1639,7 +1638,6 @@ form.account > .buttons {
 }
 
 form.account > .buttons {
-  padding-right: 41px;
   width: 100%
 }
 
@@ -1651,13 +1649,17 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 9px 20px 9px;
+  padding: 6px 13px;
   border-bottom: 1px solid rgba(0,0,0,0.04);
 }  
 
   a.line:hover,
   div.line a.link:hover,
-  .line form button:hover {background: rgba(0,0,0,0.025)}
+  .line form button:hover {background: rgba(0,0,0,0.02)}
+
+  a.line:active,
+  div.line a.link:active,
+  .line form button:active {background: rgba(0,0,0,0.03)}
 
   a:hover .link, 
   a.line:hover .right,
@@ -1709,7 +1711,9 @@ form.account, .inset {padding:0 41px 41px}
 
 
 .mess {
-  display:block;text-decoration:none;padding:0 2em;line-height:41px;
+  display:block;text-decoration:none;    padding: 0 20px;
+    line-height: 41px;
+    margin: -1px 0;
 }
 
 .mess.error {      background: #ffe7c7;
@@ -1728,7 +1732,7 @@ form.account, .inset {padding:0 41px 41px}
 .left-side {width:50%;float:left}
 .right-side {float:right;width:50%}
 
-.side-dark {min-height:500px;background:#fbf8f6;flex-basis:50%;flex-grow:1;}
+.side-dark {min-height:500px;/*background:#fbf8f6;*/flex-basis:50%;flex-grow:1;}
 .side-light {flex-basis:50%;flex-grow:1;background:#fffefc;}
 
 .left-edge,

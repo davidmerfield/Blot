@@ -1,7 +1,4 @@
-<div class="inset" style="padding:41px 2em 0">
-
 <a class="button" href="/theme/new">Create a new theme</a>
-
 
   <form method='post' style="float:right">
     {{^blog.template}}
@@ -15,7 +12,6 @@
   </form>
 
 
-</div>
 <hr>
 
 {{#templates}}
@@ -25,7 +21,7 @@
   
   <div class="center">
 
-   <div class="right">
+   <div style="float:right">
    
 
 
@@ -42,12 +38,9 @@
     </form>
   </div>
   {{^isMine}}
-  <a title="Preview the {{name}} theme on your blog" target="_blank">
-      <img src="/images/templates/{{nameLower}}.jpg" style="max-width:100px" >
-    </a>
+  
     {{/isMine}}
   </div>
-  <div class="clear"></div>
 
 </div>
 

@@ -1,28 +1,42 @@
 {{> head}}
 
-<div class="page" style="background:#f1edea">
+
+
+{{#user.blogs.length}}
+    <br>
+  <div class="wrapper">
+    <div class="left-side">
+
+      <a href="/" class="nav-bar darker">&larr;&nbsp;&nbsp;&nbsp;Dashboard</a>
+                <br>
+          <br>
+
+    </div>
+    <div class="right-side">
+
+
+      <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/account">Your account</a>
+      <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/help">Documentation</a>
+      <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/contact">Contact support</a>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+{{/user.blogs.length}}
+  <br>
 
   <div class="wrapper">
-    
-    <div class="left-edge"></div>
-    <div class="yield">
-      
-      <div class="top">
-        <div class="head">
-{{#user.blogs.length}}
-    <div class="left-edge" style="min-width:300px">
-      <a href="/" class="nav-bar darker">&larr;&nbsp;&nbsp;&nbsp;Dashboard</a>
-    </div>
-      {{/user.blogs.length}}
-    </div>
-        <div style="background:#fffefc;min-height:527px">
 
-        <a class="nav-bar" style="border:none;padding:0 1em;border-bottom:1px solid #eee" href="/account">Your account
+    <div class="side-dark" style="max-width:50%">
+
+    
+        <a style="padding: 0 20px;line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid #eee;" href="/account">Your account
            {{#breadcrumb}}
           <span style="margin:0 0.1em 0 0.25em" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
           <span style="color: rgb(109, 109, 109);font-weight:500">{{breadcrumb}}</span>
             {{/breadcrumb}}
           </a>
+
 
         {{#message}}
           <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
@@ -33,13 +47,41 @@
 
         {{> yield}}
       </div>
-      </div>
-      {{> footer}}
-    </div>
-    <div class="right-edge"></div>
-    <div class="far-right"></div>
-  </div>
+      <div class="side-light">
+        <div class="line">
+    <span class="label">Your blogs</span>
   
+  <div class="center">
+
+      <hr style="margin:8px 0 0">
+    {{#blogs}}
+
+    <div style="display:flex">
+    <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <input type="hidden" name="to" value="{{id}}"> 
+      <button type="submit" style="width:100%;padding:8px 0;display:flex;border:none;margin:0;">
+        <span style="display:flex;flex-grow:1;">{{title}}</span>
+      </button>
+    </form> 
+        <a class="right link" style="display:flex;padding:8px 0" href="/account/delete/blog/{{handle}}">Delete </a>
+
+    </div>
+      <hr style="margin:0">
+
+    {{/blogs}}
+    <div class="clear"></div>
+
+       <a class="link" style="display:block;padding:8px 0;margin-bottom:-8px" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
 </div>
+</div>
+
+        <form action="/account/log-out" style="position:absolute;bottom:0;right:0" method="post">
+  <button type="submit" style="background:rgba(0,0,0,0.03)">Log out &rarr;</button>
+</form>
+</div>
+</div>
+
+
 </body>
 </html>
