@@ -3,7 +3,7 @@
 <div class="wrapper">
     
   <div class="left-side">
-    <br><Br><Br>
+    <br>
     <div class="dropdown closed">
 
       <a href="#!" class="opener nav-bar" style="font-weight:500;border:none;color:#111;opacity: .99;border:none;padding:0 0 0 20px;">
@@ -41,12 +41,12 @@
       <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/contact">Contact support</a>
   </div>
 </div>
-<br><Br><Br>
+<br><Br>
 <div class="wrapper">
 
   <div class="side-dark">
     
-    <a href="/" style="padding: 0 20px;line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid #eee;">
+<!--     <a href="/" style="padding: 0 20px;line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid #eee;">
 
       Settings 
 
@@ -55,7 +55,7 @@
       <span style="text-decoration:none;color: rgb(109, 109, 109);font-weight:500">
         {{subpage_title}}
       {{/subpage_title}}
-    </a>
+    </a> -->
     
     {{#message}}
     <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
@@ -66,7 +66,7 @@
          
     {{> yield}}
   </div>
-  <div class="side-light">
+  <div class="side-light" style="border-radius:4px;margin-bottom:20px">
     {{> folder}}
   </div>
 </div>

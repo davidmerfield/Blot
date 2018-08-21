@@ -1,11 +1,22 @@
 {{> sub_nav}}
 
+<style type="text/css">
+.group {background:#fbf8f6;border:1px solid rgba(0,0,0,0.09);margin:0 20px 0 0;border-radius:4px;margin-bottom: 24px}
+</style>
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
-  <a class="line" href="/settings/profile">
-    <span class="label">Profile</span>
-    <span class="center">{{blog.title}}</span>
-    <span class="right">Edit</span>
+  <div class="group">
+  <a class="line" href="/settings/title">
+    <span class="label">Title</span>
+    <span class="center">
+
+      
+
+      {{blog.title}}
+
+    </span>
+        <span class="right">Edit</span>
+
   </a>
 
   <a class="line" href="/settings/domain">
@@ -13,8 +24,20 @@
     <span class="center">{{blog.pretty.url}}</span>
     <span class="right">Edit</span>
   </a>
-    
-<!--   <a class="line" href="/settings/photo">
+  </div>
+
+  <div class="group">
+
+<a class="line" href="/theme">
+    <span class="label">Theme</span>
+    <span class="center">{{#template.name}}
+        {{template.name}}
+        {{/template.name}}        {{^template.name}}<i>You are not using a theme</i>{{/template.name}}</span>
+            <span class="right">Edit</span>
+
+  </a>
+
+  <a class="line" href="/settings/photo">
     <span class="label">Photo</span>
     <span class="center">
 
@@ -23,23 +46,17 @@
       {{/blog.avatar}}
 
       {{#blog.avatar}}
-        <img style="max-width:82px;max-height:82px;margin:4px 0;vertical-align:bottom" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+        <img style="max-width:40px;max-height:40px;margin:4px 8px 0 0;    vertical-align: middle;
+    display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+            <span class="link">Edit</span>    
+
       {{/blog.avatar}}
     </span>
       {{#blog.avatar}}
-    <span class="right" style="vertical-align:top">Edit</span>    
-            <span class="clear"></span>
 {{/blog.avatar}}
-  </a> -->
-  <a class="line" href="/theme">
-    <span class="label">Theme</span>
-    <span class="center">{{#template.name}}
-        {{template.name}}
-        {{/template.name}}        {{^template.name}}<i>You are not using a theme</i>{{/template.name}}</span>
-            <span class="right">Edit</span>
-
   </a>
-  <!-- 
+  
+  
   <a class="line" href="/settings/links">
     <span class="label">Links</span>
     <span class="center">
@@ -48,25 +65,22 @@
     {{^blog.menu.length}}<i>Your blog's menu is empty</i>{{/blog.menu.length}}
     </span>
     <span class="right" style="padding-left:0">Edit</span>
-  </a> -->
+  </a>
+  </div>
+
+
   
 
+
+  <div class="group">
+
    <a class="line" href="/clients">
-    <span class="label">Client</span>
+    <span class="label">Folder</span>
     <span class="center">{{client.display_name}}</span>
         <span class="right">Edit</span>
 
   </a>
-  
 
-
-  <a class="line" href="/settings/date">
-    <span class="label">Dates and URLs</span>
-    <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
-    <span class="right">Edit</span>
-  </a>
-  
-<!-- 
   <a class="line" href="/settings/date">
     <span class="label">Dates</span>
     <span class="center">{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}
@@ -75,7 +89,11 @@
 
   </a>
   
- -->
+  <a class="line" href="/settings/urls">
+    <span class="label">URLs</span>
+    <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
+    <span class="right">Edit</span>
+  </a>
   <a class="line" href="/settings/services">
     <span class="label">Services</span>
     <span class="link">Configure analytics and other services
@@ -83,5 +101,6 @@
 
   </a>
 
+</div>
 
 </form>

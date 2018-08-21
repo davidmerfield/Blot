@@ -1,42 +1,19 @@
 <a class="line" href="/account/email">
   <span class="label">Email</span>
-  <span class="center"><b>{{user.email}}</b></span>
+  <span class="center">{{user.email}}</span>
   <span class="right">Edit</span>
 </a>
 
 {{#user.hasPassword}}
 <a class="line" href="/account/password/change">
   <span class="label">Password</span>
-  <span class="center link">Change your password</span>
+  <span class="center"><span class="link">Change your password</span></span>
 </a>
 {{/user.hasPassword}}
 
 
     
-<div class="line">
-    <span class="label">Your blogs</span>
-  
-  <div class="center">
 
-    {{#blogs}}
-
-    <a class="right link" style="display:flex" href="/account/delete/blog/{{handle}}">Delete </a>
-
-    <form action="/account/switch-blog" style="display:flex;flex-grow:1;">
-      <input type="hidden" name="_csrf" value="{{csrftoken}}">
-          <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="width:100%;padding:0;display:flex;border:none;margin:0;">
-        <b style="display:flex;flex-grow:1;">{{title}}</b>
-      </button>
-    </form> 
-      <hr style="margin:0">
-
-    {{/blogs}}
-    
-
-       <a class="link" style="width:100%;float:left" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
-</div>
-</div>
 
 <div class="line">
   <span class="label">Subscription</span>
@@ -71,7 +48,7 @@
 
     {{#user.cancel_at_period_end}}
     <hr style="margin:0">
-       <a class="link" style="width:100%;float:left" href="/account/subscription/restart">Restart your subscription</a> 
+       <a class="link" style="display:flex;flex-grow:1;padding:8px 0;margin-bottom:-8px" href="/account/subscription/restart">Restart your subscription</a> 
      {{/user.cancel_at_period_end}}
 
     {{#user.isSubscribed}}
@@ -81,9 +58,9 @@
      -->
      <div style="display: flex;
 ">
-       <a class="link" style="display:flex;flex-grow:1" href="/account/subscription/cancel">Cancel subscription</a> 
+       <a class="link" style="display:flex;flex-grow:1;padding:8px 0;margin-bottom:-8px" href="/account/subscription/cancel">Cancel subscription</a> 
 
-       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1">Edit payment method</a>
+       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1;padding:8px 16px;margin-bottom:-8px">Edit payment method</a>
      </div>
 
       {{/user.isSubscribed}}
@@ -95,15 +72,12 @@
 
 <a class="line" href="/account/export">
   <span class="label">Export</span>
-  <span class="center link">Export the data stored by Blot</span>
+  <span class="center"><span class="link">Download the data stored by Blot</span></span>
 </a>
 
 <a class="line" href="/account/delete">
   <span class="label">Delete</span>
-  <span class="center link">Delete your account</span>
+  <span class="center"><span class="link">Permanently close your account</span></span>
 </a>
 
 
-<form class="line" action="/account/log-out" method="post">
-  <button type="submit">Log out</button>
-</form>
