@@ -95,7 +95,7 @@ $(document).ready(function(){
 
        $('#inputMessage').html('!').addClass('warning');
 
-       $('#customHelper').show();
+       $('#warning').show();
      }
    });
   }

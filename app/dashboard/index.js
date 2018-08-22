@@ -125,6 +125,8 @@ dashboard.use(function(req, res, next){
   res.send('404 not found');
 });
 
+dashboard.use(require('./routes/settings/errorHandler'));
+
 // need to handle dashboard errors better...
 dashboard.use(require("./routes/error"));
 

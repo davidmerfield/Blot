@@ -5,6 +5,11 @@ var Blog = require("blog");
 var _ = require("lodash");
 var helper = require("helper");
 
+var dictionary = {
+  forceSSL: 'Saved SSL redirect setting',
+  handle: 'Saved your new username'
+};
+
 module.exports = function(req, res, next) {
   var blog = req.blog;
   var blogID = blog.id;
@@ -12,6 +17,12 @@ module.exports = function(req, res, next) {
   var redirect = req.body.redirect || req.path;
 
   Blog.set(blogID, updates, function(errors, changes) {
+
+    if (errors)
+      for (var i in errors)
+        if (errors[i] instanceof Error)
+          return next(errors[i]);
+
     if (errors) return next(errors);
 
 
@@ -35,7 +46,7 @@ module.exports = function(req, res, next) {
     // Add success message if we're going to the settings page
     // and successful changes were made
     if (changes && changes.length && _.isEmpty(errors)) {
-      return res.message(redirect, 'Saved changes to your ' + changes.join(','));
+      return res.message(redirect, dictionary[changes[0]] || 'Saved changes to your ' + changes[0]);
     }
 
     return res.redirect(redirect);

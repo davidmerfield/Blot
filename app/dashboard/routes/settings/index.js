@@ -35,8 +35,6 @@ settings.route("/settings").post(
   save.finish
 );
 
-index.all(errorHandler);
-
 // require("./404s")(server);
 
 settings.get("/settings/links", load.menu);
@@ -53,5 +51,6 @@ settings.get("/settings/:view", function(req, res) {
   res.locals.subpage_slug = req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });
+
 
 module.exports = settings;
