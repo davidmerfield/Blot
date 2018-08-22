@@ -1,7 +1,6 @@
 {{> sub_nav}}
 
 <style type="text/css">
-.group {background:#fbf8f6;border:1px solid rgba(0,0,0,0.09);margin:0 20px 0 0;border-radius:4px;margin-bottom: 24px}
 </style>
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
@@ -89,12 +88,12 @@
 
   </a>
   
-  <a class="line" href="/settings/urls">
+  <a class="line" href="/settings/urls" >
     <span class="label">URLs</span>
     <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
     <span class="right">Edit</span>
   </a>
-  <a class="line" href="/settings/services">
+  <a class="line" href="/settings/services" style="border-bottom:none">
     <span class="label">Services</span>
     <span class="link">Configure analytics and other services
 </span>

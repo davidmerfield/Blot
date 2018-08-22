@@ -1,5 +1,5 @@
 {{> head}}
-<link rel="stylesheet" href="/css/finder.css?{{cacheID}}">
+<!-- <link rel="stylesheet" href="/css/finder.css?{{cacheID}}">
 <link rel="stylesheet" href="/css/formatting.css?{{cacheID}}">
 <link rel="stylesheet" href="/css/katex.css?{{cacheID}}">
 <link rel="stylesheet" href="/css/docs.css?{{cacheID}}">
@@ -9,7 +9,7 @@ window.folder {max-width: 400px}
 window.text {max-width: 700px}
 table {width: 100%}
 </style>
-
+ -->
 
   {{#user.blogs.length}}
     <br>
@@ -46,8 +46,9 @@ table {width: 100%}
             {{/breadcrumb}}
           </a>
           
-
+          <div style="padding:20px">
       {{> yield}}
+    </div>
     </div>
 
               {{> sidebar}}

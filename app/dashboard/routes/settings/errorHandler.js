@@ -2,25 +2,22 @@ var helper = require("helper");
 var type = helper.type;
 
 module.exports = function(err, req, res, next) {
-
   if (!req.body) {
     return next(err);
   }
 
   var redirect = req.body.redirect || req.path;
-  var message = { url: redirect };
+  var message = "Error";
 
   // this should not be an object but I made
   // some bad decisions in the past. eventually
   // fix blog.set...
-  if (type(err, "object")) {
-    message.errors = err;
-  } else if (err.message) {
-    message.error = err.message;
-  } else {
-    return next(err);
+  if (err.message) {
+    message = err.message;
   }
 
-  res.message(message);
-  res.redirect(redirect);
+  if (type(err, "object"))
+    for (var i in err) if (type(err[i], "string")) message = err[i];
+
+  res.message(redirect, new Error(message));
 };

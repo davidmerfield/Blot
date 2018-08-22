@@ -1649,7 +1649,7 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 6px 13px;
+  padding: 7px 20px;
   border-bottom: 1px solid rgba(0,0,0,0.04);
 }  
 
@@ -1711,8 +1711,7 @@ form.account, .inset {padding:0 41px 41px}
 
 
 .mess {
-  display:block;text-decoration:none;    padding: 0 20px;
-    line-height: 41px;
+  display:block;text-decoration:none;    padding: 10px 20px;
     margin: -1px 0;
 }
 
@@ -1732,7 +1731,7 @@ form.account, .inset {padding:0 41px 41px}
 .left-side {width:50%;float:left}
 .right-side {float:right;width:50%}
 
-.side-dark {min-height:500px;/*background:#fbf8f6;*/flex-basis:50%;flex-grow:1;}
+.side-dark {min-height:500px;background:#fbf8f6;flex-basis:50%;flex-grow:1;}
 .side-light {flex-basis:50%;flex-grow:1;background:#fffefc;}
 
 .left-edge,

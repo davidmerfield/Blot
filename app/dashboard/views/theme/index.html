@@ -1,31 +1,39 @@
-<a class="button" href="/theme/new">Create a new theme</a>
+<input type="hidden" name="redirect" value="/theme">  
 
-  <form method='post' style="float:right">
     {{^blog.template}}
-  <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your blog does not use a template.</span>
+<div class="line">
+      <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. Your</span>
+
+</div>
 {{/blog.template}}
+
+
+
+  
+
+    <a class="line" href="/theme/new">Create a new theme</a>
+
 {{#blog.template}}
-
+<form method='post'>
+<input type="hidden" name="redirect" value="/theme">  
     <input name="template" value="" type="hidden"/>
-    <input type="submit" class="button" value="Disable your blog's template">
-{{/blog.template}}
+    <button type="submit">Disable your theme</button>
   </form>
-
-
-<hr>
+{{/blog.template}}
 
 {{#templates}}
+
 <div class="line {{checked}}">
   
-  <div class="label">{{name}}</div>
+  {{name}}
   
-  <div class="center">
+    <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
 
-   <div style="float:right">
    
 
-
+  <div style="float:right">
     <a target="_blank" href="{{previewURL}}">Preview</a>
+
 
     {{#isMine}}
     <a href="{{editURL}}/settings">Edit</a>
@@ -34,17 +42,15 @@
     <form method='post' style="display:inline">
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden"  name="template" value="{{id}}" > 
-      <input {{#checked}}disabled{{/checked}} type="submit" class="button" value="Install">
+      <button {{#checked}}disabled{{/checked}} type="submit">Install</button>
     </form>
   </div>
-  {{^isMine}}
-  
-    {{/isMine}}
-  </div>
-
 </div>
+  <div class="clear"></div>
 
 {{/templates}}
+
+
 
 
   
