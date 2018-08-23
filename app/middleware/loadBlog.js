@@ -12,6 +12,8 @@ module.exports = function (req, res, next) {
   forEach(req.user.blogs, function(blogID, nextBlog){
 
     Blog.get({id: blogID}, function(err, blog){
+      
+      if (!blog) return nextBlog();
 
       if (req.session.blogID === blog.id) {
         blog.isCurrent = true;
