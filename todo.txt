@@ -247,6 +247,8 @@ Template system
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
+Make subscriptions work in such a way that deleting a blog then re-creating a blog will allow you to use it until the start of your next billing period without an additional charge. Perhaps store a user.subscription.paid_for integer? Seperate from the stripe subscription quantity?
+
 Internationalize i8n
 - Tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971)
 Clients
