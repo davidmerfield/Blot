@@ -266,7 +266,8 @@ Clients
   https://www.npmjs.com/package/ftpd
 - Google Drive
   Tell Cecil: https://twitter.com/Blot__/status/988162892594860032?s=20
-
+  Tell Jonathan: https://twitter.com/chin_jon/status/1032392398473650176
+  
 Record a new demo video
 - Show sites I run using Blot
 - Blot's developer blog, a conventional blog, show using different text editors
