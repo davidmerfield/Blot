@@ -47,10 +47,6 @@ process.on("message", function(message) {
         // Could be lots of reasons (404?)
         if (err || !thumbnail) thumbnail = {};
 
-        if (html.indexOf('status') > -1) {
-          throw new Error('SIMULATE STATUS RUNTIME ERROR');
-        }
-
         var entry;
 
         // Given the properties above
@@ -81,7 +77,17 @@ process.on("message", function(message) {
           return callback(e);
         }
 
-        return callback(null, entry);
+        // console.log('WARNING REMOVE THESE');
+        //   if (entry.html.indexOf('status') > -1) {
+        //     throw new Error('SIMULATE EXCEPTION');
+        //   } else if (blog.handle === 'dev') {
+        //     console.log('SIMULATE DELAY Waiting 10s.....');
+        //     return setTimeout(function(){
+        //       callback(null, entry);
+        //     },10000);
+        //   }
+
+        callback(null, entry);
       });
     });
   });
