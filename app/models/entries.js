@@ -3,10 +3,87 @@ var helper = require('helper');
 var forEach = helper.forEach;
 var ensure = helper.ensure;
 var Entry = require('./entry');
-
+var DateStamp = require("./entry/build/prepare/dateStamp");
+var Blog = require('./blog');
+  
 module.exports = (function() {
 
   var lists = ['all', 'created', 'entries', 'drafts', 'scheduled', 'pages', 'deleted'];
+
+  function resave (blogID, callback) {
+    Blog.get({ id: blogID }, function(err, blog) {
+
+      if (err || !blog) return callback(err || new Error('no blog'));
+
+      each(
+        blogID,
+        function(entry, nextEntry) {
+          var dateStamp = DateStamp(blog, entry.path, entry.metadata);
+          var changes = {};
+
+          // This is fine!
+          if (dateStamp !== undefined) changes.dateStamp = dateStamp;
+
+          // We now need to save every entry so that
+          // changes to permalink format take effect.
+          Entry.set(blogID, entry.path, changes, nextEntry);
+        },
+        callback
+      );
+    });
+  }
+
+
+  function rebuild (blogID, callback) {
+
+    Blog.get({id: blogID}, function(err, blog){
+
+      if (err || !blog) return callback(err || new Error('no blog'));
+
+      var identifier = blog.handle + '\'s blog';
+      var label = 'Rebuilt ' + identifier + ' in';
+
+      console.time(label);
+
+      each(blog.id, function(entry, next){
+
+        ensure(blog, 'object')
+          .and(entry, 'object')
+          .and(next, 'function');
+
+        if (!entry) {
+          console.warn('No entry exists with path', entry.path);
+          return next();
+        }
+
+        // Otherwise this would
+        // make the entry visible...
+        if (entry.deleted) return next();
+
+        var path = entry.path;
+
+        console.log('Rebuilding ' + identifier + ' (' + blogID + ')', path);
+        Entry.build(blog, path, function(err, entry){
+
+          if (err && err.code === 'ENOENT') {
+            console.warn('No local file exists for entry', path);
+            return next();
+          }
+
+          // don't know
+          if (err) {
+            console.log('-----> REBUILD ERROR');
+            console.log(err);
+            if (err.stack) console.log(err.stack);
+            if (err.trace) console.log(err.trace);
+            return next();
+          }
+
+          Entry.set(blog.id, entry.path, entry, next);
+        });
+      }, callback);
+    });
+  }
 
   function adjacentTo (blogID, entryID, callback) {
 
@@ -299,6 +376,8 @@ module.exports = (function() {
 
   return {
     get: get,
+    rebuild: rebuild,
+    resave: resave,
     each: each,
     adjacentTo: adjacentTo,
     getPage: getPage,

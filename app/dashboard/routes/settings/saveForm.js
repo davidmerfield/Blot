@@ -1,6 +1,6 @@
 var SUCCESS = "Made changes successfully!";
-var resaveEntries = require("./resaveEntries");
-var rebuild = require("../../../rebuild");
+var resaveEntries = require("entries").resave;
+var rebuild = require("entries").rebuild;
 var Blog = require("blog");
 var _ = require("lodash");
 var helper = require("helper");
@@ -34,7 +34,7 @@ module.exports = function(req, res, next) {
     // has changed any of the plugins or their permalink
     // format. This should be improved but we.
     if (changes && changes.indexOf("plugins") > -1) {
-      rebuild(blog.id);
+      rebuild(blog.id, function(){});
     }
 
     return res.redirect(redirect);

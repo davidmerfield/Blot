@@ -77,7 +77,6 @@ module.exports = function (req, res, next) {
   //   }
   // }
 
-  console.log(categories);
   res.addLocals({categories: categories});
 
   return next();

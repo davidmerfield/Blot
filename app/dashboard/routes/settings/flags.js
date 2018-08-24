@@ -1,7 +1,7 @@
-var rebuild = require("../../../rebuild");
+var rebuild = require("entries").rebuild;
 
 var Blog = require("blog");
-var resaveEntries = require("./resaveEntries");
+var resaveEntries = require("entries").resave;
 
 var form = require("./parseForm");
 

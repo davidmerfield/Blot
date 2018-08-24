@@ -1,3 +1,4 @@
+var debug = require('debug')('blot:models:entry:build:prepare:teaser');
 // Some of these characters are different, though they look the same...
 // Lines 5 - 24 should be removed, if I work out how to consolidate
 // escaped chars?
@@ -44,14 +45,21 @@ function removeNextSiblings (node, $) {
 
 function makeTeaser (html) {
 
+  debug('loading HTML');
+
   var $ = cheerio.load(html, {
     decodeEntities: false
   });
 
+  debug('loaded HTML');
+
+
   // Cache the html passed
   // so we can chech if
   // there is stuff after the teaser
+  debug('caching HTML');
   var _html = $.html();
+  debug('cached HTML');
 
   var root = $.root();
 
@@ -60,16 +68,21 @@ function makeTeaser (html) {
   // as opposed to a breakpoint inserterd by the user
   var foundABreakPoint;
 
+  debug('looking for breakpoints...');
   root.contents().each(function doLook (i, node){
 
     // WE NEED TO IGNORE CERTAIN NODES NOW
     // E.G. CODE, PRE, STYLE
-    if ($(this).parents().filter('code, head, pre, script, style').length)
-      return;
+    if ($(this).parents().filter('code, head, pre, script, style').length) {  
+      debug('should skip this tag');
+      return;      
+    }
 
     // This node is itself the breakpoint
     // or contains a breakPoint in its text content
     if (isBreakPoint(node) || containsBreakPoint(node)) {
+
+      debug('found a breakpoint!');
 
       // We care about the earliest breakpoint we find
       // and no more
@@ -109,6 +122,7 @@ function makeTeaser (html) {
 
     // We didn't find a breakpoint yet so recurse down each child...
     } else if ($(this).contents() && $(this).contents().length) {
+      debug('going deeper');      
       $(this).contents().each(doLook);
     }
   });
@@ -116,6 +130,8 @@ function makeTeaser (html) {
   // Since we didn't find a manual breakpoint
   // we need to do things automatically
   if (!foundABreakPoint) {
+
+    debug('did not find a breakpoint!');
 
     var MAXCHILDREN = 3;
     var index = 0;
