@@ -1,7 +1,18 @@
-<label style="margin-bottom:0">
-  Links:
-<button id="addLink" style="float:right">Add a link</button>
-</label>
+
+<style type="text/css">
+#menu section {padding: 8px 0;border:none}
+.lab[type="text"] {border-radius:0;margin-left:-1px}
+.val[type="text"] {border-radius:0 4px 4px 0;margin-left:-1px}
+#menu button {margin-left:12px;}
+.pageLink {display: none;}
+.isPage .pageLink {display: block;}
+
+</style>
+
+<div style="margin:20px 0 6px;padding-bottom:8px;border-bottom:1px solid rgba(0,0,0,0.03)">
+  <span>  Your menu links:</span>
+<a id="add" href="#!" style="float:right"><span class="link">Add a link</span></a>
+</div>
 
 <!-- Neccessary to produce an empty menu -->
 <input type="hidden" name="hasMenu" value="true">
@@ -13,20 +24,90 @@
 {{/blog.menu.length}}
 
 {{#blog.menu}}
-  <section style="padding: 8px 0;border:none" id="link_{{id}}" class="{{#isPage}}isPage{{/isPage}}">
-    <span class="handle" >&#9776;</span>
+  <section id="link_{{id}}" class="{{#isPage}}isPage{{/isPage}}">
+    <span class="handle">&#9776;</span>
     <input type="hidden" name="menu.{{index}}.id" value="{{id}}"/ >
-      {{#isPage}}
-        <a target="_blank" href="{{blog.blogURL}}{{url}}">
-          <span class="link">{{label}}</span> page
-        </a>
-      {{/isPage}}
-    <input placeholder="Label" type="text" name="menu.{{index}}.label" style="border-radius:0;margin-left:-1px" value="{{label}}"/>
-    <input type="text" name="menu.{{index}}.url" style="border-radius:0 4px 4px 0;margin-left:-1px"  value="{{url}}"/>
-    <button style="margin-left:12px;">Delete</button>
+    <a class="pageLink" target="_blank" href="{{blog.blogURL}}{{url}}">
+      <span class="link">{{label}}</span> page
+    </a>
+    <input class="lab" placeholder="Label" type="text" name="menu.{{index}}.label" value="{{label}}"/>
+    <input class="val" type="text" name="menu.{{index}}.url" value="{{url}}"/>
+    <a href="#!" class="removeLink">Delete</a>
   </section>
 {{/blog.menu}}
 </section>
 
+<section id="link_" style="display:none">
+  <span class="handle">&#9776;</span>
+  <input type="hidden" name="menu.{index}.id" value="{id}"/ >
+  <input class="lab" placeholder="Label" type="text" name="menu.{index}.label" value=""/>
+  <input class="val" type="text" name="menu.{index}.url" value=""/>
+  <a href="#!" class="removeLink">Delete</a>
+</section>
+
 <div class="clear"></div>
 <br>
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script src="/scripts/sortable.js?{{cacheID}}"></script>
+<script type="text/javascript">
+
+
+  Sortable.create($('.sortable')[0], {
+    handle: ".handle",
+    ghostClass: "sortable-ghost",
+    onUpdate: function (){
+
+      $('.sortable').find('section').each(function(){
+
+        var index = $(this).index();
+
+        $(this).find('input').each(function(){
+
+          var name = $(this).attr('name');
+          var newName = name.slice(0, name.indexOf('.') + 1) + index + name.slice(name.lastIndexOf('.'));
+
+          $(this).attr('name', newName);
+
+          console.log(name + ' > ' + newName);
+        });
+
+        console.log('');
+      });
+    }
+  });
+
+  $('#menu').on('click', '.removeLink', function(e){
+    $(this).parent().remove();
+    e.preventDefault();
+    return false;
+  });
+
+  $('#add').click(function(e){
+
+    var index = $('#menu section').length;
+    var linkID = new Date().getTime();
+    var newlink = $('#link_').clone().removeAttr('style');
+    
+    newlink
+      .attr('id', function(el, val){
+        return val + linkID;
+      })
+      .find('input[name*="{index}"]')
+        .attr('name', function(i, val){
+          return val.split('{index}').join(index)
+        })
+        .end()
+      .find('input[value*="{id}"]')
+        .attr('name', function(i, val){
+          return val.split('{id}').join(linkID)
+        })
+        .end();
+
+    newlink.appendTo("#menu");
+
+    $('[name="title_' + linkID + '"]').focus();
+
+    e.preventDefault();
+    return false;
+  });
+</script>

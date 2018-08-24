@@ -53,7 +53,12 @@ module.exports = function (req, res, next) {
 
     if (!activeBlog) return next(new Error('No blog'));
 
-    req.blog = Blog.extend(activeBlog);
+    try {
+      req.blog = Blog.extend(activeBlog);
+    } catch (e) {
+      return next(e);
+    }
+
     req.blogs = blogs;
 
     res.locals.blog = activeBlog;

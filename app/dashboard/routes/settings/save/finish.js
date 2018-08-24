@@ -7,7 +7,9 @@ var helper = require("helper");
 
 var dictionary = {
   forceSSL: 'Saved SSL redirect setting',
-  handle: 'Saved your new username'
+  roundAvatar: 'Saved photo settings',
+  avatar: 'Saved changes to your photo',
+  handle: 'Saved changes to your username'
 };
 
 module.exports = function(req, res, next) {
