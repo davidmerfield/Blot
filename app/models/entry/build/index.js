@@ -16,8 +16,24 @@ process.on("exit", function() {
 // run synchronously.
 module.exports = function(blog, path, callback) {
   var buildID = crypto.randomBytes(32).toString("hex");
-  var exitHandler = new ExitHandler(buildID, callback);
-  var messageHandler = new MessageHandler(buildID, exitHandler, callback);
+  
+  function exitHandler () {
+    callback(new Error("Failed to build " + buildID + " as worked is dead."));
+  }
+
+  function messageHandler (response) {
+    // Filter out other build messages
+    if (response.buildID !== buildID) return;
+
+    // Since the worker did not die during the build
+    // we can remove the listener. Otherwise a future
+    // death will trigger the callback!
+    worker.removeListener("exit", exitHandler);
+    worker.removeListener("message", messageHandler);
+
+    callback(response.err, response.entry);
+  }
+
   var message = { blog: blog, path: path, buildID: buildID };
 
   // Ensure we invoke the callback if the worker dies
@@ -34,26 +50,6 @@ module.exports = function(blog, path, callback) {
 
   worker.send(message);
 };
-
-function MessageHandler(buildID, exitHandler, callback) {
-  return function(response) {
-    // Filter out other build messages
-    if (response.buildID !== buildID) return;
-
-    // Since the worker did not die during the build
-    // we can remove the listener. Otherwise a future
-    // death will trigger the callback!
-    worker.removeListener("exit", exitHandler);
-
-    callback(response.err, response.entry);
-  };
-}
-
-function ExitHandler(buildID, callback) {
-  return function() {
-    callback(new Error("Failed to build " + buildID + " as worked is dead."));
-  };
-}
 
 // what happens if worker errors or shuts down?
 // can we have multiple workers?
