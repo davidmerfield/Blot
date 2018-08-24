@@ -1,3 +1,4 @@
+var debug = require('debug')('blot:models:entry:build:prepare');
 var _ = require("lodash");
 var helper = require("../../../../helper");
 var falsy = helper.falsy;
@@ -41,6 +42,7 @@ function canOverwrite(key) {
 // scheduled: scheduled, // this is handled by set
 
 function Prepare(entry) {
+  
   ensure(entry, "object")
     .and(entry.path, "string")
     .and(entry.size, "number")
@@ -49,47 +51,47 @@ function Prepare(entry) {
     .and(entry.draft, "boolean")
     .and(entry.metadata, "object");
 
-  time("name");
+  debug(entry.path, "Generating name");
   entry.name = basename(entry.path);
-  time.end("name");
+  debug(entry.path, "Generated  name");
 
   // The best areas of for speed improvements lie
   // in the next four blocks!
 
-  time("cheerio");
+  debug(entry.path, "Generating cheerio");
   var $ = cheerio.load(entry.html, {
     decodeEntities: false,
     withDomLvl1: false // this may cause issues?
   });
-  time.end("cheerio");
+  debug(entry.path, "Generated  cheerio");
 
   // store titleTag, teaser, remainder;
 
   // var body = teaser + remainder;
   // var html = titleTag + body;
 
-  time("title");
+  debug(entry.path, "Generating title");
   var parsedTitle = Title($, entry.name);
   entry.title = parsedTitle.title;
   entry.titleTag = parsedTitle.tag;
   entry.body = parsedTitle.body;
-  time.end("title");
+  debug(entry.path, "Generated  title");
 
-  time("summary");
+  debug(entry.path, "Generating summary");
   entry.summary = Summary($, entry.title);
-  time.end("summary");
+  debug(entry.path, "Generated  summary");
 
-  time("teasers");
+  debug(entry.path, "Generating teasers");
   entry.teaser = Teaser(entry.html) || entry.html;
   entry.teaserBody = Teaser(entry.body) || entry.body;
   entry.more = entry.teaser !== entry.html;
-  time.end("teasers");
+  debug(entry.path, "Generated  teasers");
 
-  time("makeSlug");
+  debug(entry.path, "Generating makeSlug");
   entry.slug = makeSlug(entry.metadata.title || entry.title);
-  time.end("makeSlug");
+  debug(entry.path, "Generated  makeSlug");
 
-  time("tags");
+  debug(entry.path, "Generating tags");
   var tags = [];
 
   if (entry.metadata.tags) tags = entry.metadata.tags.split(",");
@@ -104,9 +106,9 @@ function Prepare(entry) {
     .value();
 
   entry.tags = tags;
-  time.end("tags");
+  debug(entry.path, "Generated  tags");
 
-  time("booleans");
+  debug(entry.path, "Generating booleans");
 
   entry.deleted = false;
 
@@ -134,9 +136,9 @@ function Prepare(entry) {
     !isHidden(entry.path) &&
     (entry.metadata.menu === undefined || truthy(entry.metadata.menu));
 
-  time.end("booleans");
+  debug(entry.path, "Generated  booleans");
 
-  time("permalink");
+  debug(entry.path, "Generating permalink");
   // Add the permalink automatically if the metadata
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
@@ -144,21 +146,21 @@ function Prepare(entry) {
     entry.metadata.permalink || entry.metadata.slug || entry.metadata.url || "";
   entry.permalink = normalize(entry.permalink);
 
-  time.end("permalink");
+  debug(entry.path, "Generated  permalink");
 
-  time("meta-overwrite");
+  debug(entry.path, "Generating meta-overwrite");
 
   for (var key in entry.metadata)
     if (canOverwrite(key) && type(entry.metadata[key], Model[key]))
       entry[key] = entry.metadata[key];
 
-  time.end("meta-overwrite");
+  debug(entry.path, "Generated  meta-overwrite");
 
-  time("decoding");
+  debug(entry.path, "Generating decoding");
   entry.title = decode(entry.title);
   entry.summary = decode(entry.summary);
   for (var tag in entry.tags) entry.tags[tag] = decode(entry.tags[tag]);
-  time.end("decoding");
+  debug(entry.path, "Generated  decoding");
 
   return entry;
 }
