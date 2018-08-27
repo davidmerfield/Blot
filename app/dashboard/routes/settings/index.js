@@ -35,16 +35,28 @@ settings.route("/settings").post(
   save.finish
 );
 
-// require("./404s")(server);
+settings.route('/settings/404s')
+  .get(load.fourOhFour, function(req, res){
+    res.render("settings/404s", { title:'404s'});
+  })
+  .post(require("body-parser").urlencoded({ extended: false }), require('./save/404'));
+
+settings.get('/settings/urls', function(req, res, next){
+  res.locals.edit = !!req.query.edit;
+  next();
+});
 
 settings.get("/settings/links", load.menu);
 settings.get("/settings/date", load.timezones, load.dates);
-settings.get("/settings/services", load.plugins, load.permalinkFormats, load.redirects);
+settings.get("/settings/services", load.plugins);
+settings.get('/settings/urls', load.permalinkFormats, load.redirects);
 
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+
+  if (uppercaseName === 'Urls') uppercaseName = 'URLs';
 
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.locals.subpage_title = uppercaseName;

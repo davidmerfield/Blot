@@ -29,12 +29,12 @@
         <a href="/account/create-blog">Create another blog</a>
       </div>
     </div>
+                        <a href="{{blog.url}}" class="line" target="_blank" style="margin-left:20px;color:rgb(153, 153, 153);border:none;text-decoration:none"><span class="link">{{blog.pretty.url}} ↗</span></a><br>
+  
+
   </div>
   <div class="right-side">
-
     <br>
-  <!--                   <a href="{{blog.url}}" class="line" target="_blank" style="margin-top:-16px;color:rgb(153, 153, 153);text-decoration:none"><span class="link">{{blog.pretty.url}}</span></a><br>
-   -->
 
       <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/account">Your account</a>
       <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/help">Documentation</a>
@@ -75,7 +75,7 @@
 </div>
 <div class="clear"></div>
 
-<!-- <script src="/scripts/jquery.js?{{cacheID}}"></script>
+<!-- 
 <script src="/scripts/sortable.js?{{cacheID}}"></script>
  --><!-- <script src="/scripts/dashboard.js?{{cacheID}}"></script>
 <script src="/scripts/integrations.js?{{cacheID}}"></script>
@@ -83,5 +83,31 @@
 <script src="/scripts/settings.js?{{cacheID}}"></script>
 <script src="/scripts/jquery.js?{{cacheID}}"></script>
 <script src="/scripts/design.js?{{cacheID}}"></script>
- --></body>
+ -->
+ <script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">$('.dropdown .opener').click(function(e){
+
+$('input.button:not(.small)').each(function(){
+    $(this).click(function(){
+      $(this).addClass('working').val('Saving changes');
+    });
+  });
+
+  $('body').click(function () {
+    $('.dropdown').addClass('closed');
+  });
+
+
+  $('.dropdown').toggleClass('closed');
+
+  e.preventDefault();
+  return false;
+});
+
+$('.dropdown .closer').click(function(e){
+  $('.dropdown').addClass('closed');
+  e.preventDefault();
+  return false;
+});</script>
+</body>
 </html>

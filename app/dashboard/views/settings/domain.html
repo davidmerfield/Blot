@@ -28,5 +28,25 @@ border-radius:0;border:none;display:none;margin:0 -20px;padding: 8px 20px" id="w
     </label>
 
  
-    {{/blog.domain}}
+ <script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">
+
+  if ($('#customDomain').val()) {
+
+   $.get('/verify-domain/' + $('#customDomain').val(), function(data) {
+
+     if (data && data === 'true' || data === true) {
+
+       $('#inputMessage').html('').addClass('success');
+
+     } else {
+
+       $('#inputMessage').html('!').addClass('warning');
+
+       $('#warning').show();
+     }
+   });
+  }
+
+  </script>    {{/blog.domain}}
 

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-  {{> head}}
-  <body>
-    <section class="wrapper">
-
-      <a class="button" href="/preferences">Back to the dashboard</a>
-
-      <div style="max-width:660px">
-
-      <p>This is a log of requests to missing pages on your blog in the previous 30 days. Don't worry if some of these requests look unusual: bots may be responsible.</p>
+<div style="padding:20px">
+      <p style="margin-top:0"><b>404 log</b></p>
+      <p>Don't worry if some of these requests look unusual: bots may be responsible.</p>
 
       {{^list.length}}
       <hr>
@@ -18,12 +10,13 @@
       {{/list.length}}
 
       {{#list}}
-      <hr>
-      <form style="display:block;float:right;z-index:10;margin:0 1em" method='post' action='?_csrf={{csrftoken}}'>
-        <button class="button small" name="ignore" value="{{url}}">Ignore</button>
-        <a href="/preferences#{{url}}">Redirect</a>
+      <hr style="margin:4px 0">
+      <form style="display:block;float:right;z-index:10;" method='post' action='?_csrf={{csrftoken}}'>
+        <button class="link" name="ignore" value="{{url}}">Ignore</button>&nbsp;
+        <a class="link" href="/settings/urls#{{url}}" style="text-decoration:none">Redirect</a>
       </form>
-      <p><a href="{{blog.url}}{{url}}" target="_blank"><code>{{url}}</code></a><br><span style="font-size:12px;color:#aaa">{{time}}</span></p>
+      <p style="margin:0"><a class="link" href="{{blog.url}}{{url}}" target="_blank"><code>{{url}}</code></a>
+        <br><span style="font-size:12px;color:#aaa">{{time}}</span></p>
       {{/list}}
 
 
@@ -48,10 +41,5 @@
       </form>
       <p><a href="{{blog.url}}{{url}}"><code>{{url}}</code></a></p>
       {{/ignored}}
-      </div>
-
-      {{> footer}}
-    </section>
-  </body>
-</html>
-
+     
+     </div>

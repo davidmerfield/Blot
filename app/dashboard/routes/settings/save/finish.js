@@ -6,10 +6,15 @@ var _ = require("lodash");
 var helper = require("helper");
 
 var dictionary = {
+  permalink: 'Saved changes to your URL format',
   forceSSL: 'Saved SSL redirect setting',
   roundAvatar: 'Saved photo settings',
   avatar: 'Saved changes to your photo',
-  handle: 'Saved changes to your username'
+  handle: 'Saved changes to your username',
+  timeZone: 'Saved changes to your time zone',
+  dateFormat: 'Saved changes to your date settings',
+  dateDisplay: 'Saved changes to your date settings',
+  hideDates: 'Saved changes to your date settings'
 };
 
 module.exports = function(req, res, next) {
