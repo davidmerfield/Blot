@@ -161,7 +161,7 @@ ul {
 
 
 body {
-  font: 400 16px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+  font: 400 15px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -1655,8 +1655,7 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 10px 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
+  padding: 12px 20px;
 }  
 
   a.line:hover,

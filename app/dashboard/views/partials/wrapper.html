@@ -12,7 +12,7 @@ font-size: 15px;
 </style>
 
 
-
+<!-- 
 <div class="wrapper">
     
 <div class="right-side" style="flex-grow:1;text-align:right;padding:20px 20px">
@@ -26,11 +26,13 @@ font-size: 15px;
   </div>
 
 </div>
-
+ -->
+<br>
 <div class="wrapper">
 
 
-<div class="dropdown closed">
+<div style="padding-right:70px">
+<div class="dropdown closed" style="min-width:180px;border:1px solid rgba(0,0,0,0.3);border-radius:4px">
 
       <a href="#!" class="opener nav-bar" style="font-weight:500;border:none;color:#111;opacity: .99;border:none;padding:0 0 0 20px;">
         
@@ -53,9 +55,11 @@ font-size: 15px;
         </form>
         {{/isCurrent}}{{/blogs}}
         <a href="/account/create-blog">Create another blog</a>
-      </div>
+        <a href="/account">Your account</a>
+<!--         <a href="/account/create-blog">Log out</a>
+ -->      </div>
     </div>
-
+</div>
     <style type="text/css">
 
     .last {flex-grow:1}
@@ -70,9 +74,29 @@ font-size: 15px;
     
     .last, .crumb:hover {color: rgb(109, 109, 109);/*font-weight:500;*/}
 
+    .toggle {
+      background:none;display:inline-block;padding:10px 20px;color:blue;
+      border:1px solid blue;
+      color:rgb(153, 153, 153);text-decoration:none
+    }
+
+    .toggle.selected {
+      color:rgb(153, 153, 153);text-decoration:none;background:blue;display:inline-block;color:white
+    }
+
+    .toggle {border-radius: 4px 0 0 4px}
+    .toggle + .toggle {border-radius: 0 4px 4px 0}
 
     </style>
-    <div class="crumbs" >
+
+    <div style="flex-grow:1">  
+          <div>
+      <a href="/"  class="toggle {{selected.settings}}">Settings</a><a href="/folder"  class="toggle {{selected.folder}}">Your folder </a>
+
+    </div>
+    <br><br>
+          <div class="crumbs" style="display:none;border:1px solid">
+      
       {{#settings_breadcrumbs}}
       
       <a href="{{url}}" class="crumb {{#last}}last{{/last}}">{{label}}</a>
@@ -82,7 +106,6 @@ font-size: 15px;
       {{/last}}
 
       {{/settings_breadcrumbs}}
-      <br>
       <a href="{{url}}" class="crumb {{#last}}last{{/last}}">Your folder</a>
     </div>
     
@@ -93,25 +116,17 @@ font-size: 15px;
     </a>
     {{/message}}
         
-    <div style="flex-grow:1">  
     {{> yield}}
   </div>
-  <div>
-                            <a href="{{blog.url}}" class="line" target="_blank" style="margin-left:20px;color:rgb(153, 153, 153);border:none;text-decoration:none"><span class="link" style="background:blue;border-radius:4em;padding:0.5em 1em;color:white"><span style="opacity:0.8">Go to your blog</span> <!-- {{blog.pretty.url}} --></span></a>
+  <div style="min-width:300px">
+                            <a href="{{blog.url}}"  target="_blank" style="color:rgb(153, 153, 153);border:none;text-decoration:none"><span class="link" style="background:blue;display:block;border-radius:6px;padding:0.5em 1em;color:white"><span style="opacity:0.8">Go to {{blog.title}} <span style="float:right">&rarr;</span></span> <!-- {{blog.pretty.url}} --></span></a>
+                            <br>
+                           
                           </div>
 
 </div>
 <div class="clear"></div>
 
-<!-- 
-<script src="/scripts/sortable.js?{{cacheID}}"></script>
- --><!-- <script src="/scripts/dashboard.js?{{cacheID}}"></script>
-<script src="/scripts/integrations.js?{{cacheID}}"></script>
-<script src="/scripts/design.js?{{cacheID}}"></script>
-<script src="/scripts/settings.js?{{cacheID}}"></script>
-<script src="/scripts/jquery.js?{{cacheID}}"></script>
-<script src="/scripts/design.js?{{cacheID}}"></script>
- -->
  <script src="/scripts/jquery.js?{{cacheID}}"></script>
 <script type="text/javascript">$('.dropdown .opener').click(function(e){
 

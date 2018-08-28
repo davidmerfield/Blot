@@ -107,7 +107,7 @@ dashboard.use(debug("before loading folder state"));
 dashboard.use(require("./routes/folder"));
 
 dashboard.get('/folder', function(req, res, next){
-  res.render('folder')
+  res.render('folder',{selected: {folder: 'selected'}});
 });
 
 dashboard.use(debug("after loading folder state"));

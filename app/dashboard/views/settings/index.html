@@ -20,7 +20,7 @@
 
   <a class="line" href="/settings/domain">
     <span class="label">Domain</span>
-    <span class="center">{{blog.pretty.url}}</span>
+    <span class="center"><span style="color:green;position:absolute;left:-12px">&bull;</span>{{blog.pretty.url}}</span>
     <span class="right">Edit</span>
   </a>
   </div>
@@ -45,7 +45,7 @@
       {{/blog.avatar}}
 
       {{#blog.avatar}}
-        <img style="max-width:40px;max-height:40px;margin:4px 8px 0 0;    vertical-align: middle;
+        <img style="max-width:64px;max-height:64px;margin:4px 8px 0 0;    vertical-align: baseline;
     display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
             <span class="link">Edit</span>    
 

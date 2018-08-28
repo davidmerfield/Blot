@@ -29,6 +29,11 @@ function Breadcrumbs() {
   return list;
 }
 
+settings.use(function(req, res, next){
+  res.locals.selected = {settings: 'selected'};
+  next();
+});
+
 settings.get("/settings", function(req, res, next) {
   res.redirect("/");
 });
