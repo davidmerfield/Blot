@@ -21,6 +21,8 @@ Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25
 Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
  - Folder saved under dominikgitbug
 
+Fix [Rob's git client bugs](https://mail.google.com/mail/u/1/#inbox/1657f11a67266434)
+
 Fix bug with title and partials in local editing
   - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
   - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
