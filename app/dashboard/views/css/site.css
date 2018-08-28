@@ -161,9 +161,8 @@ ul {
 
 
 body {
-  font: 400 14px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+  font: 400 16px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background:#f1edea
 }
 
 
@@ -1656,7 +1655,7 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 7px 20px;
+  padding: 10px 20px;
   border-bottom: 1px solid rgba(0,0,0,0.04);
 }  
 
@@ -1694,10 +1693,10 @@ div.center {}
 
 .tablet {
   border-radius:4em;
-  padding:0.1em 0.6666em;
+  padding:0 9px;
   line-height:1.5;
-  margin:0.3333em 1.2em 0.3333em -0.6666em;display:inline-block;
-  background: #f1edea
+  border: 1px solid;
+  margin:5px 1.2em 5px -9px;display:inline-block;
 }
 
 .line form {padding: 0}
@@ -1734,12 +1733,12 @@ form.account, .inset {padding:0 41px 41px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.wrapper {max-width:840px;margin:0 auto;display: flex}  
+.wrapper {max-width:1060px;margin:0 auto;display: flex}  
 .left-side {width:50%;float:left}
 .right-side {float:right;width:50%}
 
-.side-dark {min-height:500px;background:#fbf8f6;flex-basis:50%;flex-grow:1;}
-.side-light {flex-basis:50%;flex-grow:1;background:#fffefc;}
+.side-dark {min-height:500px;flex-basis:50%;flex-grow:1;} 
+.side-light {flex-basis:50%;flex-grow:1;background:#fff;border: 1px solid rgba(0,0,0,0.3);margin: -1px}
 
 .left-edge,
 .far-right {flex-direction: column;flex-grow:1;flex-basis:20%;flex-shrink:1;}

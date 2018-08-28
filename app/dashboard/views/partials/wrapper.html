@@ -1,10 +1,36 @@
 {{> head}}
 
+<style type="text/css">
+.tiny-nav {color: rgb(158, 154, 152);
+text-decoration:none;
+padding:4px 10px;
+border-radius: 3px;
+font-size: 15px;
+}
+
+.tiny-nav:hover {background: rgba(0,0,0,0.03)}
+</style>
+
+
+
 <div class="wrapper">
     
-  <div class="left-side">
-    <br>
-    <div class="dropdown closed">
+<div class="right-side" style="flex-grow:1;text-align:right;padding:20px 20px">
+
+      <a class="tiny-nav"  href="/account">Your account</a>
+      <a class="tiny-nav"  href="/help">Documentation</a>
+      <a class="tiny-nav"  href="/contact">Contact</a>
+      <span style="border-right: 1px solid rgb(221, 221, 221); height: 14px; margin-left: 10px; margin-right: 10px;"></span>
+      <a class="tiny-nav"  href="/contact">Log out</a>
+      <hr>
+  </div>
+
+</div>
+
+<div class="wrapper">
+
+
+<div class="dropdown closed">
 
       <a href="#!" class="opener nav-bar" style="font-weight:500;border:none;color:#111;opacity: .99;border:none;padding:0 0 0 20px;">
         
@@ -29,26 +55,10 @@
         <a href="/account/create-blog">Create another blog</a>
       </div>
     </div>
-                        <a href="{{blog.url}}" class="line" target="_blank" style="margin-left:20px;color:rgb(153, 153, 153);border:none;text-decoration:none"><span class="link">Go to your blog</span></a><br>
-  
 
-  </div>
-  <div class="right-side">
-    <br>
-
-      <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/account">Your account</a>
-      <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/help">Documentation</a>
-      <a style="color:rgb(158, 154, 152);text-decoration:none;padding-left:20px" href="/contact">Contact support</a>
-  </div>
-</div>
-<br><Br>
-<div class="wrapper">
-
-  <div class="side-dark">
     <style type="text/css">
 
     .last {flex-grow:1}
-    .crumbs {display: flex}
 
 
     .crumb {padding: 0 20px;line-height:41px;color:rgb(153, 153, 153);text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid #eee;}
@@ -72,6 +82,8 @@
       {{/last}}
 
       {{/settings_breadcrumbs}}
+      <br>
+      <a href="{{url}}" class="crumb {{#last}}last{{/last}}">Your folder</a>
     </div>
     
     {{#message}}
@@ -80,12 +92,14 @@
      {{text}}
     </a>
     {{/message}}
-         
+        
+    <div style="flex-grow:1">  
     {{> yield}}
   </div>
-  <div class="side-light" >
-    {{> folder}}
-  </div>
+  <div>
+                            <a href="{{blog.url}}" class="line" target="_blank" style="margin-left:20px;color:rgb(153, 153, 153);border:none;text-decoration:none"><span class="link" style="background:blue;border-radius:4em;padding:0.5em 1em;color:white"><span style="opacity:0.8">Go to your blog</span> <!-- {{blog.pretty.url}} --></span></a>
+                          </div>
+
 </div>
 <div class="clear"></div>
 

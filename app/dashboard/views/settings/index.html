@@ -73,14 +73,7 @@
 
   <div class="group">
 
-   <a class="line" href="/clients">
-    <span class="label">Folder</span>
-    <span class="center">{{client.display_name}}</span>
-        <span class="right">Edit</span>
-
-  </a>
-
-  <a class="line" href="/settings/date">
+   <a class="line" href="/settings/date">
     <span class="label">Dates</span>
     <span class="center">{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}
 </span>
@@ -93,13 +86,22 @@
     <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
     <span class="right">Edit</span>
   </a>
-  <a class="line" href="/settings/services" style="border-bottom:none">
+
+  <a class="line" href="/settings/services">
     <span class="label">Services</span>
     <span class="link">Configure analytics and other services
 </span>
 
   </a>
 
+<a class="line" href="/clients"  style="border-bottom:none">
+    <span class="label">Client</span>
+    <span class="center">{{client.display_name}}</span>
+        <span class="right">Edit</span>
+
+  </a>
 </div>
+
+  
 
 </form>
