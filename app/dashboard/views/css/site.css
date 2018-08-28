@@ -1484,18 +1484,26 @@ span.file {
   background: #eee;
 }
 
-.handle {
-    cursor: ns-resize;
+.handle, .removeLink {
     color: #888;
     text-align: center;
     line-height: 2.4;
     padding: 0 6px;
-    border-radius: 4px 0 0 4px;
-    background: #f1edea;
+        display: inline-block;
+    min-width: 60px;
+/*    background: #f1edea;
     box-shadow: inset 0px -1px 2px 0px rgba(0, 0, 0, 0.075);
-    border: 1px solid rgba(0, 0, 0, 0.2);
+*/    border: 1px solid rgba(0, 0, 0, 0.2);
     border-top-color: rgba(0, 0, 0, 0.25);
     border-bottom-color: rgba(0, 0, 0, 0.15);
+}
+
+.handle {    cursor: ns-resize;
+    border-radius: 4px 0 0 4px;
+    min-width: 30px;
+}
+
+.removeLink {  line-height: 35px;  border-radius: 0 4px 4px 0;
 }
 
 .files button {
@@ -1767,3 +1775,33 @@ form.account, .inset {padding:0 41px 41px}
   .nav-bar.darkest {background: #000;color: #999}
 
 .head {height:123px;padding-top:20px;}
+
+
+#menu section,
+#redirects section {padding: 0 0;border:none;margin-bottom: 12px}
+
+.pageLink {    line-height: 35px;
+    height: 37px;text-decoration:none;overflow: hidden;
+border: 1px solid;margin-left: -1px;padding: 0 8px}
+
+.lab[type="text"], .val[type="text"], .handle, .removeLink, .pageLink {border-color:rgb(202, 202, 202);}
+
+.lab[type="text"]:hover,
+ .val[type="text"]:hover,
+ .handle:hover,
+ .removeLink:hover,
+ .pageLink:hover {
+  border-color: #000;
+  z-index: 1;
+  border-color:rgb(152, 152, 152)
+ }
+
+ .removeLink, .handle {border-radius: 0}
+
+.lab[type="text"] {border-radius:0;margin-left:-1px}
+.val[type="text"] {border-radius:0;margin-left:-1px;margin-right: -1px}
+#menu button,
+#redirects button {margin-left:12px;}
+
+.removeLink {    
+    text-decoration: none;font-size: 12px}

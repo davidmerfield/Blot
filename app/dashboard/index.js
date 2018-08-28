@@ -115,7 +115,6 @@ dashboard.use(debug("after loading folder state"));
 dashboard.use(require("./routes/settings"));
 
 require("./routes/clients")(dashboard);
-require("./routes/theme")(dashboard);
 require("./routes/tools")(dashboard);
 
 dashboard.use((require('../site/routes/static')));
