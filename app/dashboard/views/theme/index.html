@@ -1,126 +1,56 @@
-{{> sub_nav}}
-
-<div class="clear"></div>
-  <div class="sub nav" style="margin-bottom:1.3em;">
-
-
-
-      <a href="/settings" style="font-size:16px">Settings</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
-
-      <a href="/settings/theme" style="font-size:16px">Theme</a>
-
-</div>
-  <hr>
-  <form method='post' action='?_csrf={{csrftoken}}'>
-
-
+<input type="hidden" name="redirect" value="/theme">  
 
     {{^blog.template}}
-  <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:1em 0">Your blog does not use a template.</span>
-  {{/blog.template}}
+<div class="line">
+      <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. Your</span>
 
-    <p class="w-third fl"><a class="button" href="/theme/new">Create a new theme</a></p>
-
-    <div class="clear"></div>
-    <Br>
-      <input name="template" value="{{blog.template}}" type="hidden"/>
-
-      <div>
-        {{#templates}}
-
-        {{#isMine}}
-
-        <div class="selectArea">
-
-          <div class="container {{checked}}" style="padding-bottom:1em">
-
-
-        <p>{{name}}</p>
-          <p style="margin-top: 1em;">
-        {{^checked}}
-        <a class="selectTemplate button" href="#!" data-id="{{id}}" style="padding:0 0.666em">Install</a>
-        {{/checked}}
-
-        {{#checked}}
-        <a style="padding:0 0.666em" class="button checked">Install</a>
-        {{/checked}}
-
-         <a class="link" href="{{editURL}}/settings" style="margin-right:1em">Edit</a>
-
-         <a target="_blank" class="link" href="{{previewURL}}">Preview</a>
-
-
-        </p>
-        </div>
-
-        </div>
-
-
-        {{/isMine}}
-        {{/templates}}
-
-      </div>
-      <div class="clear"></div>
-
-      <div>
-
-      {{#templates}}
+</div>
+{{/blog.template}}
 
 
 
+  
 
-      {{^isMine}}
+    <a class="line" href="/settings/theme/new">Create a new theme</a>
 
-      <div class="selectArea">
-
-        <div class="container {{checked}}">
-
-
-          <a title="Preview the {{name}} theme on your blog" class="thumb" target="_blank">
-            <div class="chrome">{{name}}</div>
-            <img src="/images/templates/{{nameLower}}.jpg">
-          <div class="border"></div>
-          </a>
-
-
-          <div style="font-size:14px;line-height:1.5">
-<!--
-          <p >In the Betelgeuse Design, individual thumbnail images can be doubled in size, providing a way to create more variety in visual rhythm, and to emphasize specific.</p>
-
-          <p >Betelgeuse is designed to accommodate a wide variety of display devices.</p> -->
-          <p style="margin-top:1.5em">
-        {{^checked}}
-        <a class="selectTemplate button" href="#!" data-id="{{id}}" style="padding:0 0.666em">Install</a>
-        {{/checked}}
-
-        {{#checked}}
-        <a style="padding:0 0.666em" class="button checked">Install</a>
-        {{/checked}}
-
-        <a target="_blank" class="link" href="{{previewURL}}">Preview</a>
-
-        </p>
-
-      </div>
-
-
-
-
-
-        </div>
-      </div>
-      {{/isMine}}
-
-      {{/templates}}
-    </div>
-  </form>
-  {{#blog.template}}
-  <div class="clear"></div>
-  <br><hr><br><br>
-  <form method='post' action='?_csrf={{csrftoken}}'>
+{{#blog.template}}
+<form method='post'>
+<input type="hidden" name="redirect" value="/theme">  
     <input name="template" value="" type="hidden"/>
-    <input type="submit" class="button" value="Disable your blog's template">
+    <button type="submit">Disable your theme</button>
   </form>
 {{/blog.template}}
 
-<div class="clear"></div>
+{{#templates}}
+
+<div class="line {{checked}}">
+  
+  {{name}}
+  
+    <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
+
+   
+
+  <div style="float:right">
+    <a target="_blank" href="{{previewURL}}">Preview</a>
+
+
+    {{#isMine}}
+    <a href="{{editURL}}/settings">Edit</a>
+    {{/isMine}}
+
+    <form method='post' style="display:inline">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <input type="hidden"  name="template" value="{{id}}" > 
+      <button {{#checked}}disabled{{/checked}} type="submit">Install</button>
+    </form>
+  </div>
+</div>
+  <div class="clear"></div>
+
+{{/templates}}
+
+
+
+
+  

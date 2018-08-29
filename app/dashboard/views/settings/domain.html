@@ -1,25 +1,52 @@
-
+<style type="text/css">
+.tablet {margin: 0;}
+</style>
     <label>
-      Blot username:
-      <input type="text" name="handle" value="{{blog.handle}}" />
-      <span class="error">{{errors.handle}}</span>
+      Your username:<br>
+      <div style="display:flex">
+        <input type="text" name="handle" value="{{blog.handle}}" style="flex-grow:1;display:inline-block"/>
+        <span style="color:#888">&nbsp;.{{host}}</span>
+      </div>
     </label>
 
-    <label>Personal domain:
+    <label>Personal domain: 
     <div class="messageWrapper">
       <input type="text" id="customDomain" name="domain" value="{{blog.domain}}" placeholder="Your website's hostname"/>
       <span id="inputMessage" class="inputMessage"></span>
     </div>
     <span class="error">{{errors.domain}}</span>
-    <span id="customHelper" class="lightText" style="display:none;position:absolute;right: -324px;width:300px;top:20px">
-      To host your blog on a personal domain, create a CNAME record for the 'www' subdomain which points to <span class="selectable">{{host}}</span> <a href="/configuring/domain">Learn more</a>.</span>
     </label>
 
     {{#blog.domain}}
+    <p class="mess error" style="    box-sizing: content-box;
+border-radius:0;border:none;display:none;margin:0 -20px;padding: 8px 20px" id="warning">Please create a CNAME DNS record for the <b>www</b> subdomain which points to <b>{{host}}</b> or read the <a href="/configuring/domain">guide to using your own domain</a>.
+    </p>
+
     <label>
       <input name='forceSSL' type='hidden' value='off' >
       <input name='forceSSL' type="checkbox" {{#blog.forceSSL}}checked{{/blog.forceSSL}}/> Redirect HTTP traffic to HTTPS
     </label>
 
  
-    {{/blog.domain}}
+ <script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">
+
+  if ($('#customDomain').val()) {
+
+   $.get('/verify-domain/' + $('#customDomain').val(), function(data) {
+
+     if (data && data === 'true' || data === true) {
+
+       $('#inputMessage').html('').addClass('success');
+
+     } else {
+
+       $('#inputMessage').html('!').addClass('warning');
+
+       $('#warning').show();
+     }
+   });
+  }
+
+  </script>    {{/blog.domain}}
+

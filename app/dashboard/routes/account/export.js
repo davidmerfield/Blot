@@ -1,22 +1,22 @@
-var Entries = require('entries');
-var Template = require('template');
-var helper = require('helper');
+var Entries = require("entries");
+var Template = require("template");
+var helper = require("helper");
 var forEach = helper.forEach.parallel;
+var Express = require("express");
+var Export = new Express.Router();
 
-module.exports = function(server){
-
-  server.get('/account/export', function(req, res){
-    res.title('Export your data');
-    res.locals.subpage_title = 'Export your data';
-    res.locals.subpage_slug = 'export';
-    res.renderAccount('export');
+Export.route("/")
+  
+  .get(function(req, res){
+    res.render('account/export', {
+      title: 'Export your data',
+      breadcrumb: 'Export'
+    });
   });
 
-  // The generation of this file should eventually
-  // run in a seperate process so it doesn't clog
-  // the server's main thread. But I anticipate low
-  // usage so it's probably fine for now...
-  server.get('/account/export/account.json', function(req, res, next){
+Export.route("/account.json")  
+  
+  .get(function(req, res, next){
 
     var blogs = {};
 
@@ -65,6 +65,7 @@ module.exports = function(server){
       res.setHeader('Content-Type', 'application/json');
       res.header('Content-disposition', 'attachment; filename=Account.json');
       res.send(JSON.stringify(result, null, 2));
-    });
+    });    
   });
-};
+
+module.exports = Export;

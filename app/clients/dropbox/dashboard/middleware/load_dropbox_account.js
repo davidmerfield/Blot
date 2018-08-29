@@ -24,7 +24,7 @@ module.exports = function load_dropbox_account (req, res, next) {
       res.locals.account.revoked = error_code === 401;
     }
 
-    var breadcrumbs = [];
+    var dropboxBreadcrumbs = [];
     var folder;
       
     if (res.locals.account.full_access) {
@@ -37,12 +37,12 @@ module.exports = function load_dropbox_account (req, res, next) {
 
     }
 
-    breadcrumbs = folder.split('/').map(function(name){
+    dropboxBreadcrumbs = folder.split('/').map(function(name){
       return {name: name};
     });
 
-    breadcrumbs[breadcrumbs.length -1].last = true;
-    res.locals.breadcrumbs = breadcrumbs;
+    dropboxBreadcrumbs[dropboxBreadcrumbs.length -1].last = true;
+    res.locals.dropboxBreadcrumbs = dropboxBreadcrumbs;
 
     return next();
   });

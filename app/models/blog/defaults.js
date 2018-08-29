@@ -20,7 +20,7 @@ module.exports = {
   permalink: {format: '{{slug}}', custom: '', isCustom: false},
   timeZone: 'UTC',
   dateFormat: 'M/D/YYYY',
-  dateDisplay: 'MMMM D, YYYY',
+  dateDisplay: 'MMMM D, Y',
   hideDates: false,
   forceSSL: false,
   plugins: defaultPlugins,

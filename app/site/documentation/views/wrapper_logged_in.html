@@ -1,0 +1,47 @@
+{{> head}}
+  
+<link rel="stylesheet" type="text/css" href="{{{baseUrl}}}/css/docs.css">
+<link rel="stylesheet" type="text/css" href="{{{baseUrl}}}/css/finder.css">
+<link rel="stylesheet" type="text/css" href="{{{baseUrl}}}/css/katex.css">
+
+<div class="page">
+
+  <div class="wrapper">
+    
+    <div class="left-edge" style="min-width:300px">
+      <a href="/" class="nav-bar darker">&larr;&nbsp;&nbsp;&nbsp;Dashboard</a>
+      <div style="padding:0 2em">
+      {{> sidebar}}
+    </div>
+    </div>
+
+    <div class="yield">
+      
+      <div class="top">
+
+        <a class="nav-bar" href="/account">Documentation
+           {{#breadcrumb}}
+          <span style="margin:0 0.1em 0 0.25em" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
+          <span style="color: rgb(109, 109, 109);font-weight:500">{{breadcrumb}}</span>
+            {{/breadcrumb}}
+          </a>
+
+        {{#message}}
+          <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
+           {{text}}
+           <span class="link">Dismiss</span>
+          </a>
+        {{/message}}
+
+        <div style="padding:0 2em">
+        {{> yield}}
+      </div>
+      </div>
+      {{> footer}}
+    </div>
+    <div class="right-edge"></div>
+  </div>
+  
+</div>
+</body>
+</html>

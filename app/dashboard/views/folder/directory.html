@@ -1,13 +1,13 @@
-{{> breadcrumbs}}
+<form method='post'   action='/path?_csrf={{csrftoken}}'>
+
+  <input type="hidden" name="redirect" value="{{redirect}}">
+
+  {{> breadcrumbs}}
 
 {{^contents.length}}
-    {{#root}}
-    <p style="margin:10em auto;text-align:center;width:20em">Your blog's folder is empty. Read the <a href="/help">guide to to publishing a blog post</a>.</p>
-    {{/root}}
-    {{^root}}
-    <p style="margin:10em auto;text-align:center;width:20em">This directory is empty.</p>
-    {{/root}}
-  {{/contents.length}}
+
+<!--     <p style="padding:0 20px;line-height:41px;margin:0">Your folder is empty</p>
+ -->  {{/contents.length}}
         
         
 <div class="files">
@@ -15,26 +15,25 @@
   
   {{#contents}}
 
-    <a href="/~{{{path}}}">
+
+    <button style="padding:9px 1em" type="submit" name="path" value="{{path}}">
       
       <span class="
       {{#directory}}folder{{/directory}}
       {{^directory}}file{{/directory}}
       "></span>     
       
-      <span class="link">{{name}}</span>
+      <span >{{name}}</span>
       
-      {{#directory}}
-      <span style="float:right">
-      <svg width="18" height="15" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg>
-      </span>
-      {{/directory}}
-
       <span class="clear"></span>
-    </a>
+    </button>
 
-    <hr style="margin:0">
 
   {{/contents}}
   <div class="clear"></div>
 </div>
+
+</form>
+<!--   <div style="opacity:0.3;position:absolute;bottom:0px;left:0;right:0;padding:8px 20px;border-top:1px solid rgba(0,0,0,0.3)">
+    <span style="float:right;display:block">Updated 3 minutes ago</span>
+  </div> -->

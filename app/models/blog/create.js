@@ -6,6 +6,8 @@ var defaults = require('./defaults');
 var client = require('../client');
 var key = require('./key');
 var set = require('./set');
+var fs = require("fs-extra");
+var localPath = helper.localPath;
 
 module.exports = function create (uid, info, callback) {
 
@@ -21,7 +23,7 @@ module.exports = function create (uid, info, callback) {
 
     client.incr(key.totalBlogs, function(err, blogID){
 
-      if (err) throw err;
+      if (err) return callback(err);
 
       // Cast to a string from int
       blogID += '';
@@ -35,7 +37,7 @@ module.exports = function create (uid, info, callback) {
         title: title,
         client: '',
         timeZone: info.timeZone || 'UTC',
-        dateFormat: info.dateFormat || 'M/D/YYYY'
+        dateFormat: info.dateFormat || 'M/D/Y'
       };
 
       extend(blog)
@@ -46,11 +48,18 @@ module.exports = function create (uid, info, callback) {
 
       User.set(uid, {blogs: blogs, lastSession: blogID}, function(errors){
 
-        if (errors) throw errors;
+        if (err) return callback(err);
 
         set(blogID, blog, function(err){
 
-          return callback(err, blog);
+          if (err) return callback(err);
+
+          fs.emptyDir(localPath(blog.id, "/"), function(err) {
+            
+            if (err) return callback(err);
+
+            return callback(err, blog);
+          });
         });
       });
     });

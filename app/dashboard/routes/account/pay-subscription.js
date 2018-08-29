@@ -48,12 +48,10 @@ module.exports = function(server){
 
         // If user is new or doesn't have a handle,
         // let them choose one
-        response.addLocals({
+        response.render('account/pay-subscription', {
           stripe_key: config.stripe.key,
           invoiceID: invoiceID
         });
-
-        response.renderAccount('pay-subscription');
       });
     })
 

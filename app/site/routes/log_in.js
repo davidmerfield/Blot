@@ -3,12 +3,44 @@ var moment = require('moment');
 var parse = require('body-parser').urlencoded({extended:false});
 var Express = require('express');
 var User = require('user');
-var middleware = require('middleware');
 
 var client = require('client');
 var Brute = require('express-brute');
 var RedisStore = require('express-brute-redis');
-var sendPasswordResetEmail = require('../../dashboard/routes/account/password/email');
+
+var NOTOKEN = 'Could not generate a token';
+var format = require('url').format;
+var ensure = require('helper').ensure;
+var generateAccessToken = User.generateAccessToken;
+var Email = require('email');
+var config = require('config');
+
+function sendPasswordResetEmail (uid, callback) {
+
+  ensure(uid, 'string')
+    .and(callback, 'function');
+
+  var url;
+
+  generateAccessToken(uid, function(err, token){
+
+    if (err || !token) return callback(err || new Error(NOTOKEN));
+
+    // The full one-time log-in link to be sent to the user
+    url = format({
+      protocol: 'https',
+      host: config.host,
+      pathname: '/log-in',
+      query: {
+        token: token,
+        then: '/account/set-password'
+      }
+    });
+
+    Email.SET_PASSWORD(uid, {url: url}, callback);
+  });
+}
+
 
 var store = new RedisStore({
     client: client,

@@ -1,5 +1,32 @@
 
+<style type="text/css">
+  .plugin label,.plugin p  {margin: 0}
+  .plugin label {line-height: 1.5}
+  .plugin {padding: 6px 0;border-bottom: 1px solid rgba(0,0,0,0.03)}
+</style>
 {{#categories.Services}}
+    {{#plugins}}
+    <div class="plugin {{checked}}">
+
+      <label style="margin:0">
+        <span style="width:7.5%;display:block;float:left;position:relative;top:1px">
+          <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
+          <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
+        </span>
+        <span style="width:92.5%;display:block;float:left">        {{{description}}}
+        </span>
+        <span class="clear"></span>
+      </label>
+
+      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+        {{{formHTML}}}
+      </div>
+
+    </div>
+    {{/plugins}}
+{{/categories.Services}}
+
+{{#categories.Typography}}
     {{#plugins}}
     <div class="plugin {{checked}}">
 
@@ -8,18 +35,64 @@
           <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
           <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
         </span>
-        <span style="width:92.5%;margin-top:-1em;margin-bottom:-0.5em;display:block;float:left">        {{{description}}}
+        <span style="width:92.5%;display:block;float:left">        {{{description}}}
         </span>
+        <span class="clear"></span>
       </label>
 
       <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
         {{{formHTML}}}
       </div>
-      {{^last}}
-      <hr style="clear:both;margin:0;margin-bottom:0em">
-      {{/last}}
+
     </div>
     {{/plugins}}
-{{/categories.Services}}
+{{/categories.Typography}}
+
+
+{{#categories.Images}}
+    {{#plugins}}
+    <div class="plugin {{checked}}">
+
+      <label>
+        <span style="width:7.5%;display:block;float:left;position:relative;top:1px">
+          <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
+          <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
+        </span>
+        <span style="width:92.5%;display:block;float:left">        {{{description}}}
+        </span>
+        <span class="clear"></span>
+      </label>
+
+      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+        {{{formHTML}}}
+      </div>
+
+    </div>
+    {{/plugins}}
+{{/categories.Images}}
 
 <br class="clear">
+<br class="clear">
+
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">
+
+  $('.plugin > label input[type=checkbox]').click(function(){
+
+    $(this).parent().parent().parent().toggleClass('checked')
+  });
+
+  if ($('#selectAnalytics').val() !== 'None') {
+    $('#trackingIdInput').show();
+  } else {
+    $('#trackingIdInput').hide();
+  }
+
+  $('#selectAnalytics').change(function(){
+
+    if ($(this).val() !== 'None') {
+      $('#trackingIdInput').show();
+    } else {
+      $('#trackingIdInput').hide();
+    }
+  });</script>
