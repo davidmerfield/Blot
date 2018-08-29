@@ -2,7 +2,7 @@ module.exports = function breadcrumbs(req, res, next) {
   var breadcrumbs = [];
   var dir = req.dir;
 
-  breadcrumbs.push({ name: "Home", url: "/view?path=/" });
+  breadcrumbs.push({ name: "Your folder", url: "/view?path=/" });
 
   var names = dir.split("/").filter(function(name) {
     return !!name;
@@ -13,7 +13,7 @@ module.exports = function breadcrumbs(req, res, next) {
   names.forEach(function(name, i) {
     breadcrumbs.push({
       url: "/view?redirect=" + redirect + "&path=" + names.slice(0, i + 1).join("/"),
-      label: label,
+      label: name,
       path: names.slice(0, i + 1).join("/")
     });
   });
@@ -21,7 +21,7 @@ module.exports = function breadcrumbs(req, res, next) {
   breadcrumbs[breadcrumbs.length - 1].last = true;
   
   res.locals.partials.breadcrumbs = 'folder/breadcrumbs';
-  res.locals.breadcrumbs = breadcrumbs;
+  res.locals.folder.breadcrumbs = breadcrumbs;
 
   return next();
 };

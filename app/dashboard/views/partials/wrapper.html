@@ -37,7 +37,7 @@
   <STYLE TYPE="text/css">
   .row {background: #eae7e5;display: flex;width:300px;}
   .row a {padding: 10px 20px;color:rgb(153, 153, 153);text-decoration: none;}</STYLE>
-  <div class="right-side" style="display:flex;flex-direction:column">
+  <div class="side-bar" style="display:flex;flex-direction:column">
 
     <a href="{{blog.url}}" style="width:300px" class="external" target="_blank" >Visit your site <span class="square">&rarr;</span></a>
     
@@ -45,13 +45,15 @@
     <br><br>
  
    <div style="background:#eae7e5;flex-basis:500px;flex-grow:1;width:300px">
-    <div style="padding:10px 20px;color:rgb(153, 153, 153);border-bottom:1px solid rgba(0,0,0,0.08">Your folder</div>
     {{> folder}}
    </div>
    <br>
     <div class="row">
    <a   href="/help">Documentation</a>
    <a  href="/contact">Contact support</a>
+ </div>
+</div>
+ <div class="right-side">
  </div>
    <div>
 

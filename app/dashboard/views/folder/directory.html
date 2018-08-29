@@ -1,3 +1,4 @@
+{{#folder}}
 <form method='post' style=" "  action='/path?_csrf={{csrftoken}}'>
 
   <input type="hidden" name="redirect" value="{{redirect}}">
@@ -10,7 +11,7 @@
  -->  {{/contents.length}}
         
         
-<div class="files">
+<div class="files" style="opacity:0.5;font-size:14px">
 
   
   {{#contents}}
@@ -35,3 +36,5 @@
 
 </form>
 
+
+{{/folder}}

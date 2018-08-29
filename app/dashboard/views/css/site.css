@@ -1816,8 +1816,12 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
     }
 
     .wrapper {padding-top:41px}
-    .left-side, .right-side {flex-grow:1;flex-basis:100px}
-    .middle {flex-grow:0;flex-basis:600px;max-width:600px;min-height:600px;margin:0 60px;background: #fff}
+    .side-bar {
+      flex-grow:0;flex-basis:300px;max-width:300px;
+    }
+    .left-side {flex-grow:1;flex-basis:100px}
+    .right-side {flex-grow:0.5;flex-basis:100px}
+    .middle {flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin:0 60px;background: #fff}
 
 .external {
   color:rgb(153, 153, 153);border:none;text-decoration:none;

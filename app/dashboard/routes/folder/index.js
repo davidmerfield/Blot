@@ -11,6 +11,7 @@ router
   .use(renderFolder)
   .use(renderFile)
   .use(function(err, req, res, next) {
+    console.log(err);
     // suppress errors
     next();
   });

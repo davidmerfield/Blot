@@ -121,6 +121,9 @@ Magazine theme
 - Improve the about page
 - Add grey bg to loading thumbnails
 
+Portfolio theme
+- Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
+
 Improve the selection of templates
 - Don't modify any code, just design templates
 - Build script to archive a particular theme

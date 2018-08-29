@@ -7,6 +7,9 @@ var blog_folder_dir = require("config").blog_folder_dir;
 var stat = require("./stat");
 
 module.exports = function(req, res, next) {
+
+  console.log('INVOKED');
+
   var dir = req.dir;
   var localPath = join(blog_folder_dir, req.blog.id, dir);
   var files = [];
@@ -38,7 +41,7 @@ module.exports = function(req, res, next) {
         if (err) return next(err);
         fs.readdir(localPath, render);
       });
-    }
+    } 
 
     // If the user has the Dropbox client, case-preserved folder
     // is stored lowercase on disk. So we check that too.
@@ -47,7 +50,7 @@ module.exports = function(req, res, next) {
     }
 
     if (err && err.code === "ENOENT") {
-      return next();
+      return fs.readdir(join(blog_folder_dir, req.blog.id), render)
     }
 
     if (err) {
@@ -63,7 +66,7 @@ module.exports = function(req, res, next) {
     });
 
     forEach(contents, load, function() {
-      res.locals.contents = folders.concat(files);
+      res.locals.folder.contents = folders.concat(files);
       res.locals.partials.folder = "folder/directory";
       next();
     });
