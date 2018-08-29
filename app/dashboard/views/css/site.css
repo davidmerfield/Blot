@@ -163,6 +163,7 @@ ul {
 body {
   font: 400 15px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: rgb(251, 248, 246);
 }
 
 
@@ -1732,7 +1733,7 @@ form.account, .inset {padding:0 41px 41px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.wrapper {max-width:1060px;margin:0 auto;display: flex}  
+.wrapper {margin:0 auto;display: flex}  
 .left-side {width:50%;float:left}
 .right-side {float:right;width:50%}
 

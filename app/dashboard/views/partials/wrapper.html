@@ -27,14 +27,14 @@ font-size: 15px;
 
 </div>
  -->
-<br>
+ <br><br>
 <div class="wrapper">
 
 
-<div style="padding-right:70px">
-<div class="dropdown closed" style="min-width:180px;border:1px solid rgba(0,0,0,0.3);border-radius:4px">
+<div style="padding-right:100px;padding-left:150px">
+<div class="dropdown closed" style="min-width:180px;">
 
-      <a href="#!" class="opener nav-bar" style="font-weight:500;border:none;color:#111;opacity: .99;border:none;padding:0 0 0 20px;">
+      <a href="#!" class="opener nav-bar" style="font-weight:500;border:none;color:#111;float:right;opacity: .99;border:none;padding:0 0 0 20px;">
         
         {{#blog.avatar}}<img src="{{blog.avatar}}" style="vertical-align:text-bottom;margin:0em 8px 0 0;max-width:16px;max-height:16px">{{/blog.avatar}}
 
@@ -55,7 +55,6 @@ font-size: 15px;
         </form>
         {{/isCurrent}}{{/blogs}}
         <a href="/account/create-blog">Create another blog</a>
-        <a href="/account">Your account</a>
 <!--         <a href="/account/create-blog">Log out</a>
  -->      </div>
     </div>
@@ -75,26 +74,60 @@ font-size: 15px;
     .last, .crumb:hover {color: rgb(109, 109, 109);/*font-weight:500;*/}
 
     .toggle {
-      background:none;display:inline-block;padding:10px 20px;color:blue;
-      border:1px solid blue;
-      color:rgb(153, 153, 153);text-decoration:none
+      background:none;display:inline-block;padding:10px 20px;
+      color:rgb(153, 153, 153);text-decoration:none;
+      background: #eae7e5;width: 50%
     }
 
     .toggle.selected {
-      color:rgb(153, 153, 153);text-decoration:none;background:blue;display:inline-block;color:white
+      color:rgb(153, 153, 153);text-decoration:none;background:#fff;display:inline-block;color: #000;font-weight: 500
     }
 
-    .toggle {border-radius: 4px 0 0 4px}
-    .toggle + .toggle {border-radius: 0 4px 4px 0}
 
     </style>
 
     <div style="flex-grow:1">  
           <div>
-      <a href="/"  class="toggle {{selected.settings}}">Settings</a><a href="/folder"  class="toggle {{selected.folder}}">Your folder </a>
+      <a href="/folder"  class="toggle {{selected.folder}}">Your folder </a><a href="/"  class="toggle {{selected.settings}}"><!-- <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 18 18" style="enable-background:new 0 0 18 18; width: 18px; height: 18px; fill:#999;position:relative;top:3px;margin-right:4px" xml:space="preserve">
+    <path d="M17.8451023,8.1602325c0,0-0.3268166-0.1229076-1.2723179-0.2101312
+      c-1.1560898-0.1068759-1.5048418-0.5401812-1.8893862-1.0796242h-0.0077343
+      c-0.047883-0.1282158-0.0991774-0.2548146-0.1556377-0.3788471l0.0044651-0.0044651
+      c-0.1097593-0.6532097-0.1691742-1.2064333,0.5727711-2.0995169c0.606451-0.7300618,0.7511206-1.0482993,0.7511206-1.0482993
+      c-0.142314-0.3611639-0.4844933-0.7032726-0.4844933-0.7032726s-0.3422852-0.3422143-0.7032728-0.4843173
+      c0,0-0.3182373,0.1442828-1.0482988,0.7509801c-0.8930826,0.7418745-1.4463425,0.6822841-2.0995169,0.5727713l-0.0044994,0.0044296
+      c-0.1238918-0.0564263-0.2503147-0.1075087-0.3788128-0.1556382V3.3167784
+      c-0.5394773-0.3844023-0.9727478-0.7335424-1.0796585-1.889632C9.9624672,0.4821019,9.8397341,0.1548644,9.8397341,0.1548644
+      C9.4836321,0,8.9998779,0,8.9998779,0S8.5159121,0,8.1600924,0.1548648c0,0-0.1229782,0.3272728-0.2102017,1.272282
+      C7.8429794,2.5832362,7.4094639,2.9323764,6.8702669,3.3167789v0.0075233
+      C6.7420506,3.3724318,6.6153817,3.4234791,6.4914193,3.4797294L6.4871302,3.4755106
+      c-0.6531739,0.1099346-1.2064333,0.1692791-2.0995164-0.572525C3.6576221,2.2964993,3.3389626,2.1519353,3.3389626,2.1519353
+      C2.9777987,2.294425,2.636112,2.6360769,2.636112,2.6360769S2.2938623,2.9786074,2.1517594,3.339525
+      c0,0,0.1441069,0.3182728,0.7510152,1.0481236c0.7418041,0.8930473,0.6816514,1.4463067,0.5724902,2.0995169l0.0045002,0.0044651
+      C3.4232681,6.6156631,3.3722208,6.7422619,3.3240561,6.8704782H3.3165677
+      C2.9324114,7.4101319,2.5832362,7.843226,1.427217,7.9501019C0.4821022,8.0375013,0.1544779,8.160655,0.1544779,8.160655
+      C0,8.5168257,0,9.0000887,0,9.0000887S0,9.48423,0.1548648,9.8398743c0,0,0.3268509,0.1231527,1.2721416,0.210166
+      c1.1560541,0.1069107,1.5048078,0.5407085,1.8895615,1.0796585h0.0075235
+      c0.0481646,0.1284971,0.0991766,0.254921,0.1557086,0.3788481l-0.0044999,0.0044651
+      c0.1099696,0.6532793,0.1692791,1.2064342-0.5724902,2.0995169c-0.6065216,0.7300253-0.7512262,1.048686-0.7512262,1.048686
+      c0.1427007,0.3609877,0.484282,0.7028866,0.484282,0.7028866s0.3424954,0.3422842,0.7034836,0.4841413
+      c0,0,0.3180616-0.1439314,1.0481234-0.7508392c0.8930483-0.7418051,1.4465184-0.6816521,2.0994816-0.5726309l0.0045004-0.0044994
+      c0.1239624,0.056426,0.2506313,0.1072979,0.3788476,0.1556377v0.0077353
+      c0.5396185,0.3841915,0.9727125,0.7333317,1.0796237,1.8894205c0.0873647,0.9450455,0.2103419,1.2726688,0.2103419,1.2726688
+      c0.3563118,0.1544418,0.8396101,0.1544418,0.8396101,0.1544418s0.4841413,0,0.8398552-0.1548653
+      c0,0,0.123189-0.3268852,0.2100964-1.2722816c0.1069107-1.1560898,0.5406733-1.504878,1.0796585-1.8894215v-0.0077343
+      c0.1284971-0.0483398,0.254921-0.0991774,0.3788128-0.1556377l0.0044994,0.0044994
+      c0.6531744-0.1097593,1.206399-0.1691742,2.0995169,0.5726299c0.7300968,0.6065569,1.0487909,0.7512608,1.0487909,0.7512608
+      c0.3609533-0.1427355,0.7027807-0.4845285,0.7027807-0.4845285s0.3421783-0.3422842,0.4844933-0.7032719
+      c0,0-0.1442833-0.3183079-0.7511206-1.0482998c-0.7419453-0.8930473-0.6821432-1.4462366-0.5727711-2.0995159l-0.0044651-0.0044661
+      c0.056426-0.1239262,0.1077194-0.25035,0.1556377-0.3788471h0.0077343c0.3841915-0.5393372,0.7332964-0.9727478,1.8893871-1.0796585
+      c0.9450436-0.0873642,1.2727032-0.210166,1.2727032-0.210166C18,9.4838419,18,9.0000877,18,9.0000877
+      S17.9999676,8.5159473,17.8451023,8.1602325z M8.9998779,13.2092819c-2.3247304,0-4.2092295-1.8844633-4.2092295-4.2091932
+      S6.6751475,4.790895,8.9998779,4.790895c2.3246946,0,4.2091932,1.8844643,4.2091932,4.2091937
+      S11.3245726,13.2092819,8.9998779,13.2092819z"></path>
+    </svg> --> Settings</a>
 
     </div>
-    <br><br>
+
           <div class="crumbs" style="display:none;border:1px solid">
       
       {{#settings_breadcrumbs}}
@@ -118,10 +151,15 @@ font-size: 15px;
         
     {{> yield}}
   </div>
-  <div style="min-width:300px">
-                            <a href="{{blog.url}}"  target="_blank" style="color:rgb(153, 153, 153);border:none;text-decoration:none"><span class="link" style="background:blue;display:block;border-radius:6px;padding:0.5em 1em;color:white"><span style="opacity:0.8">Go to {{blog.title}} <span style="float:right">&rarr;</span></span> <!-- {{blog.pretty.url}} --></span></a>
+  <div style="min-width:300px;padding:0 150px 0 100px">
+                            <a href="{{blog.url}}"  target="_blank" style="color:rgb(153, 153, 153);border:none;text-decoration:none"><span class="link" style="background:#ddd;display:block;padding:0.5em 1em;"><span style="opacity:0.8">Visit your site <span style="float:right">&rarr;</span></span> <!-- {{blog.pretty.url}} --></span></a>
                             <br>
-                           
+                                   <a style="color:#aaa;line-height:28px;text-decoration:none" href="/account">Your account</a><br>
+
+                                   <a style="color:#aaa;line-height:28px;text-decoration:none" href="/account">Documentation</a><br>
+
+                                   <a style="color:#aaa;line-height:28px;text-decoration:none" href="/account">Contact support</a>
+
                           </div>
 
 </div>
