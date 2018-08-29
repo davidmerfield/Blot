@@ -38,14 +38,6 @@ settings.get("/settings", function(req, res, next) {
   res.redirect("/");
 });
 
-settings.use(function(req, res, next) {
-
-  res.locals.settings_breadcrumbs = new Breadcrumbs();
-  res.locals.settings_breadcrumbs.add("Settings", "/settings");
-
-  next();
-});
-
 var index = settings.route("/");
 
 index.get(
@@ -63,6 +55,15 @@ index.get(
     res.render("settings", { title: "Dashboard" });
   }
 );
+
+
+settings.use(function(req, res, next) {
+
+  res.locals.breadcrumbs = new Breadcrumbs();
+  res.locals.breadcrumbs.add("Settings", "/settings");
+
+  next();
+});
 
 settings
   .route("/settings")
@@ -91,14 +92,14 @@ settings.get("/settings/services", load.plugins);
 settings.get("/settings/urls", load.permalinkFormats);
 
 settings.use('/settings/urls/*', function(req, res, next){
-  res.locals.settings_breadcrumbs.add('URLs', 'urls');
+  res.locals.breadcrumbs.add('URLs', 'urls');
   next();
 });
 
 settings
   .route("/settings/urls/404s")
   .get(load.fourOhFour, function(req, res) {
-    res.locals.settings_breadcrumbs.add("404 log", "404s");
+    res.locals.breadcrumbs.add("404 log", "404s");
     res.render("settings/404s", { title: "404s" });
   })
   .post(
@@ -108,7 +109,7 @@ settings
 
 
 settings.get('/settings/urls/redirects',load.redirects, function(req, res){
-  res.locals.settings_breadcrumbs.add('Redirects', 'redirects');
+  res.locals.breadcrumbs.add('Redirects', 'redirects');
   res.locals.partials.subpage = "settings/redirects";  
   res.render("settings/subpage", { title: 'Redirects' });
 });
@@ -116,7 +117,7 @@ settings.get('/settings/urls/redirects',load.redirects, function(req, res){
 // Load the list of templates for this user
 
 settings.use("/settings/theme", load.theme, function(req, res, next) {
-  res.locals.settings_breadcrumbs.add("Theme", "theme");
+  res.locals.breadcrumbs.add("Theme", "theme");
   next();
 });
 
@@ -130,7 +131,7 @@ settings
 settings
   .route("/settings/theme/new")
   .get(function(req, res) {
-    res.locals.settings_breadcrumbs.add("Create new theme", "new");
+    res.locals.breadcrumbs.add("Create new theme", "new");
     res.render("theme/new", {title: 'Create new theme'});
   })
   .post(require('./save/newTheme'));
@@ -142,7 +143,7 @@ settings.get("/settings/:view", function(req, res) {
 
   if (uppercaseName === "Urls") uppercaseName = "URLs";
 
-  res.locals.settings_breadcrumbs.add(uppercaseName, req.params.view);
+  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });

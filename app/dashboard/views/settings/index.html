@@ -1,9 +1,5 @@
 {{> sub_nav}}
 
-<style type="text/css">
-.group {background: #fff}
-.line {border-bottom: 1px solid rgba(0,0,0,0.03)}
-</style>
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
   <div class="group">
@@ -22,7 +18,7 @@
 
   <a class="line" href="/settings/domain">
     <span class="label">Domain</span>
-    <span class="center"><span style="color:green;position:absolute;left:-12px">&bull;</span>{{blog.pretty.url}}</span>
+    <span class="center">{{blog.pretty.url}}</span>
     <span class="right">Edit</span>
   </a>
   </div>

@@ -12,6 +12,33 @@
 {{/user.hasPassword}}
 
 
+<div class="line">
+    <span class="label">Your blogs</span>
+  
+  <div class="center">
+
+      <hr style="margin:8px 0 0">
+    {{#blogs}}
+
+    <div style="display:flex">
+    <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <input type="hidden" name="to" value="{{id}}"> 
+      <button type="submit" style="width:100%;padding:8px 0;display:flex;border:none;margin:0;">
+        <span style="display:flex;flex-grow:1;">{{title}}</span>
+      </button>
+    </form> 
+        <a class="right link" style="display:flex;padding:8px 0" href="/account/delete/blog/{{handle}}">Delete </a>
+
+    </div>
+      <hr style="margin:0">
+
+    {{/blogs}}
+    <div class="clear"></div>
+
+       <a class="link" style="display:block;padding:8px 0;margin-bottom:-8px" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
+</div>
+</div>
     
 
 

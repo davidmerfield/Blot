@@ -13,7 +13,7 @@ module.exports = function breadcrumbs(req, res, next) {
   names.forEach(function(name, i) {
     breadcrumbs.push({
       url: "/view?redirect=" + redirect + "&path=" + names.slice(0, i + 1).join("/"),
-      name: name,
+      label: label,
       path: names.slice(0, i + 1).join("/")
     });
   });

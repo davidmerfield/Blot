@@ -163,7 +163,7 @@ ul {
 body {
   font: 400 15px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background: rgb(251, 248, 246);
+    background: rgb(245, 242, 241);
 }
 
 
@@ -1244,12 +1244,18 @@ p.sub {
 
 .dropdown .opener {
   z-index: 2;
-  padding: 0 1em;
+  padding: 0 20px;
   line-height: 41px;
   position: relative;
-  display: block;
+  display: inline-block;
+  font-weight:500;
+  border:none;color:#111;
+  border:none;
+    float: right;
+
 }
 
+.dropdown .opener:hover {background: #eae7e5}
 
 .dropdown {
   z-index: 10;
@@ -1265,10 +1271,15 @@ p.sub {
   position: absolute;
   top: 100%;
   left: 0;
+  min-width: 300px;
   right: 0;
-  background: #f2f2f2;
-  z-index: 20;
+    box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
+      z-index: 20;
+      background: #fff;
   margin: 0;
+    margin-left: 100px;
+  margin-top: 10px;
+
 }
 
 .dropdown .menu button {text-align: left;}
@@ -1565,7 +1576,7 @@ h2 {margin-top: 1em}
 body, html {height: 100%;margin: 0;color: #111;}
 .page {min-height: 100%;}
 
-.buttons {display: flex;}
+.buttons {display: flex;width: 80%}
   
   .buttons > * {
     text-decoration: none;
@@ -1734,44 +1745,6 @@ form.account, .inset {padding:0 41px 41px}
 .mess:hover .link {text-decoration: underline;}
 
 .wrapper {margin:0 auto;display: flex}  
-.left-side {width:50%;float:left}
-.right-side {float:right;width:50%}
-
-.side-dark {min-height:500px;flex-basis:50%;flex-grow:1;} 
-.side-light {flex-basis:50%;flex-grow:1;background:#fff;border: 1px solid rgba(0,0,0,0.3);margin: -1px}
-
-.left-edge,
-.far-right {flex-direction: column;flex-grow:1;flex-basis:20%;flex-shrink:1;}
-
-
-
-.yield, .right-edge {margin: 0 0 0;flex-shrink:0;flex-grow:1;flex-basis:30%;max-width: 420px}
-
-.yield {flex-grow:1;display:flex;flex-basis:40%;flex-direction:column;}
-  
-  .top {flex-grow:1}  
-
-  .footer {text-align:right;border-top: 1px solid #eee;display: flex}
-  .footer a {flex-grow:1;display:flex;background:none;border:none;text-align:center;justify-content: center;color: #aaa;text-decoration: none;line-height:41px;}
-  .footer :hover {background: #eee}
-
-.right-edge {}
-
-
-.nav-bar {color:#666; border:1px solid #eee;line-height:41px;padding: 0 2em;text-decoration: none;font-weight:400;display:block;text-decoration:none;}
-  
-
-
-  .nav-bar:hover {background: rgba(0,0,0,0.025)}
-  .nav-bar:active {background: rgba(0,0,0,0.05)} 
-  
-  .nav-bar.darker {background: #d4d4d4;color: #606060}
-    .nav-bar.darker:hover {background: #ddd;color: #666}
-    .nav-bar.darker:active {background: #d4d4d4;color: #606060}
-  
-  .nav-bar.dark {background: #222;color:#ccc;}
-
-  .nav-bar.darkest {background: #000;color: #999}
 
 .head {height:123px;padding-top:20px;}
 
@@ -1804,3 +1777,59 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
 .removeLink {    
     text-decoration: none;font-size: 12px}
+
+
+    .last {flex-grow:1}
+
+  .bubble {color:#aaa;text-decoration:none;
+    padding: 4px 20px;
+    display: block;
+  }
+  .bubble:hover {color:#444;/*background: rgba(0,0,0,0.03)*/}
+
+  .crumbs {display: flex}
+
+    .crumb {padding: 20px;text-decoration:none;color:rgb(153, 153, 153);border-bottom: 1px solid rgb(237, 237, 237);
+}}
+
+
+    .crumbs:hover .crumb:not(:hover) {
+      color:rgb(153, 153, 153);font-weight: 400;
+    }
+    
+    .last, .crumb:hover {color: rgb(109, 109, 109);/*font-weight:500;*/}
+
+    .toggle {
+      display:block;
+      float: left;
+      width: 50%;
+      padding:10px 20px;
+      color:rgb(153, 153, 153);
+      text-decoration:none;
+      background: #eae7e5;
+    }
+
+    .toggle.selected {
+      background:none;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .wrapper {padding-top:41px}
+    .left-side, .right-side {flex-grow:1;flex-basis:100px}
+    .middle {flex-grow:0;flex-basis:600px;max-width:600px;min-height:600px;margin:0 60px;background: #fff}
+
+.external {
+  color:rgb(153, 153, 153);border:none;text-decoration:none;
+  padding: 0 20px;
+  background:#eae7e5;display:inline-block;line-height: 42px;
+}
+.external.right {float: right;}
+.external .square {float:right;border-left:1px solid rgba(0,0,0,0.08);padding:0 0 0 20px;margin-left:20px}
+.external.right .square{float: left;border:none;border-right: 1px solid rgba(0,0,0,0.08);padding:0 20px 0 0;margin:0 20px 0 0}
+
+.toggle:not(.selected):hover, .external:hover {background: #e2e0de}
+.toggle:not(.selected):active, .external:active {background: #d8d5d3}
+
+.group {background: #fff}
+.line {border-bottom: 1px solid rgba(0,0,0,0.03)}

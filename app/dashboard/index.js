@@ -87,6 +87,7 @@ dashboard.post('/theme', function(req, res, next){
 dashboard.use(function(req, res, next){
   res.locals.partials = res.locals.partials || {};
   res.locals.partials.head = __dirname + "/views/partials/head";
+  res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
   res.locals.partials.footer = __dirname + "/views/partials/footer";
   next();
 });
