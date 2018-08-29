@@ -8,9 +8,6 @@
 
   <div class="middle">  
     
-    <a href="/folder" class="toggle {{selected.folder}}">Your folder</a>
-    <a href="/settings" class="toggle {{selected.settings}}">Settings</a>
-    
     <div class="clear"></div>
 
     <div class="crumbs">
@@ -37,15 +34,29 @@
         
     {{> yield}}
   </div>
-  <div class="right-side">
+  <STYLE TYPE="text/css">
+  .row {background: #eae7e5;display: flex;width:300px;}
+  .row a {padding: 10px 20px;color:rgb(153, 153, 153);text-decoration: none;}</STYLE>
+  <div class="right-side" style="display:flex;flex-direction:column">
 
-    <a href="{{blog.url}}" class="external" target="_blank" >Visit your site <span class="square">&rarr;</span></a>
+    <a href="{{blog.url}}" style="width:300px" class="external" target="_blank" >Visit your site <span class="square">&rarr;</span></a>
     
-    <br><br>
 
-   <a class="bubble" href="/account">Your account</a>
-   <a class="bubble"  href="/help">Documentation</a>
-   <a class="bubble" href="/contact">Contact support</a>
+    <br><br>
+ 
+   <div style="background:#eae7e5;flex-basis:500px;flex-grow:1;width:300px">
+    <div style="padding:10px 20px;color:rgb(153, 153, 153);border-bottom:1px solid rgba(0,0,0,0.08">Your folder</div>
+    {{> folder}}
+   </div>
+   <br>
+    <div class="row">
+   <a   href="/help">Documentation</a>
+   <a  href="/contact">Contact support</a>
+ </div>
+   <div>
+
+
+ </div>
 
   </div>
 </div>
