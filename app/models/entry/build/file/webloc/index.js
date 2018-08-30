@@ -1,3 +1,4 @@
+var debug = require("debug")("blot:models:entry:build");
 var fs = require('fs');
 var bplist = require('./bplist');
 var helper = require('helper');
@@ -106,10 +107,11 @@ function extractFromBPlist (localPath, callback) {
   });
 }
 
-function read (blog, path, callback) {
+function read (blog, path, options, callback) {
 
   ensure(blog, 'object')
     .and(path, 'string')
+    .and(options, 'object')
     .and(callback, 'function');
 
   var localPath = LocalPath(blog.id, path);
@@ -125,7 +127,7 @@ function read (blog, path, callback) {
 
       if (!url) return callback(new Error(INVALID));
 
-      contents = '<p><a href="' + url + '" class="bookmark">' + titlify(path) + '</a></p>';
+      contents = '<p><a href="' + url + '" class="bookmark">' + (titlify(options.name) || titlify(path)) + '</a></p>';
 
       callback(null, contents, stat);
     });
