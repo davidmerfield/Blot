@@ -6,27 +6,28 @@ Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
 
 ---
 
-Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
+Git client bugs:
 
-Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
-
-Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
+  Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
   - Issue with images
 
-Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
- - Folder saved under dominikgitbug
+  Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
+   - Folder saved under dominikgitbug
 
-Fix bug with title and partials in local editing
-  - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
-  - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
-  
-Fix git client bugs:
   Weird issue with slash in the file's name sent to metadata
   Moving a file fails
   File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
     - I think this was caused by nginx request size limit, which I have increased
   Tell Taurean when new Dropbox client is live
 
+Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
+
+Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
+
+Fix bug with title and partials in local editing
+  - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
+  - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
+  
 Fix bug with double escaped embedded ampersands.
   http://gavin.blot.im/this-code-doesnt-work
   Tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672)
