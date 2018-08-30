@@ -1,13 +1,45 @@
-{{#stat}}
-<div style="width:75%;float:right">
 
+{{#stat}}
+
+  <span class="line-item" style="margin-bottom:10px">
+    <a href="{{blog.url}}{{path}}" target="_blank" class="link">Download <span style="float:right">&rarr;</span></a>
+    <a href="{{blog.url}}{{path}}" class="link">Copy link to file <span style="float:right">&rarr;</span></a>
+    <a href="" class="link">Copy path <span style="float:right">&rarr;</span></a>
+
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Kind:</span>
+    <span class="val">Plain text document</span>
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Size:</span>
+    <span class="val">{{size}}</span>
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Where:</span>
+    <span class="val">{{path}}</span>
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Created:</span>
+    <span class="val">{{updated}}</span>
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Modified:</span>
+    <span class="val">{{updated}}</span>
+  </span>
+<!-- 
+  <span class="lab">Kind:</span>
+  <span class="val">Plain text document</span>
+  
   <span class="file"></span> <a class="" href="{{blog.url}}{{path}}">{{name}}</a> 
 
 
   <hr>
    <span style="float:right">{{size}}</span>
-  Modified {{updated}}
-</div>
-<span class="clear"></span>
-<br>
+  Modified {{updated}} -->
 {{/stat}}

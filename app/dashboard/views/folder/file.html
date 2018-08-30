@@ -1,17 +1,33 @@
-<form method='post' action='/path?_csrf={{csrftoken}}'>
+<style type="text/css">
+.line-item {display: flex}
+.line-item .lab {flex-basis:40%;text-align: right;margin-right: 10px}
+.line-item .val {flex-grow:1}
 
-{{> breadcrumbs}}
+.line-item .link {background:#f7f4f2;flex-grow:1;margin-left: 10px;padding: 4px 10px;text-align: center;}
+.line-item .link:first-child {margin-left: 0}
+.line-item .link span {display: none}
+</style>
 
-{{#stat}}
-  <b style="width:15%;display:block;float:left;font-weight:500">File:</b>
+<div style="padding:20px">
+
+{{#folder.stat}}
+
+  <span class="file" style="margin:-4px 12px 18px 0;float:left;font-size:2em"></span>
+
+  <span>
+    <b>{{name}}</b>
+    <span style="float:right">{{size}}</span>
+    <span style="display:block">Modified: {{updated}}</span>
+  </span>
+  <div class="clear"></div>
+  <hr>
+
+  {{> entry}}
+  
+  <hr>
 
   {{> stat}}
 
-  <hr>
+{{/folder.stat}}
 
-  <b style="width:15%;display:block;float:left;font-weight:500">Post:</b> 
-
-  {{> entry}}
-
-{{/stat}}
-</form>
+</div>

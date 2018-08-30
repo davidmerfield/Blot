@@ -1,17 +1,21 @@
+<style type="text/css">
+
+
+</style>
+
 <input type="hidden" name="redirect" value="/theme">  
 
-    {{^blog.template}}
-<div class="line">
-      <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. Your</span>
+<div style="display:flex;border-bottom:1px solid rgba(0,0,0,0.05)">
 
-</div>
-{{/blog.template}}
+    <a href="/settings/theme/new">Create a new theme</a>
 
+  {{^blog.template}}
+  <div class="line">
+        <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. Your</span>
 
+  </div>
+  {{/blog.template}}
 
-  
-
-    <a class="line" href="/settings/theme/new">Create a new theme</a>
 
 {{#blog.template}}
 <form method='post'>
@@ -20,6 +24,11 @@
     <button type="submit">Disable your theme</button>
   </form>
 {{/blog.template}}
+
+  
+
+</div>
+
 
 {{#templates}}
 
@@ -32,8 +41,8 @@
    
 
   <div style="float:right">
-    <a target="_blank" href="{{previewURL}}">Preview</a>
 
+    
 
     {{#isMine}}
     <a href="{{editURL}}/settings">Edit</a>
@@ -44,6 +53,9 @@
       <input type="hidden"  name="template" value="{{id}}" > 
       <button {{#checked}}disabled{{/checked}} type="submit">Install</button>
     </form>
+
+    <a target="_blank" href="{{previewURL}}">Preview</a>
+
   </div>
 </div>
   <div class="clear"></div>

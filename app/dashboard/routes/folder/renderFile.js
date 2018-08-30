@@ -8,10 +8,7 @@ module.exports = function(req, res, next) {
     if (res.locals.folder.contents) return next();
     
     res.locals.folder.stat = stat;
-    res.locals.partials.folder = "folder/file";
-    res.locals.partials.entry = "folder/entry";
-    res.locals.partials.stat = "folder/stat";
-
+    res.locals.folder.file = true;
     next();
   });
 };

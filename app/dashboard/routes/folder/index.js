@@ -6,6 +6,15 @@ var router = require("express").Router();
 
 
 router
+  .use(function(req, res, next){
+    res.locals.partials.entry = "folder/entry";
+    res.locals.partials.stat = "folder/stat";
+    res.locals.partials.breadcrumbs = 'folder/breadcrumbs';
+    res.locals.partials.file = "folder/file";
+    res.locals.partials.directory = "folder/directory";
+    res.locals.partials.folder = "folder/wrapper";
+    next();
+  })
   .use(determinePath)
   .use(breadcrumbs)
   .use(renderFolder)

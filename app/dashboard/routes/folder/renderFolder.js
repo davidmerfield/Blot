@@ -1,14 +1,11 @@
 var stat = require("./stat");
 var fs = require("fs-extra");
 var join = require("path").join;
-var helper = require("helper");
-var forEach = helper.forEach;
+var async = require('async');
 var blog_folder_dir = require("config").blog_folder_dir;
 var stat = require("./stat");
 
 module.exports = function(req, res, next) {
-
-  console.log('INVOKED');
 
   var dir = req.dir;
   var localPath = join(blog_folder_dir, req.blog.id, dir);
@@ -65,9 +62,9 @@ module.exports = function(req, res, next) {
       return join(dir, name);
     });
 
-    forEach(contents, load, function() {
+    async.eachLimit(contents, 10, load, function() {
       res.locals.folder.contents = folders.concat(files);
-      res.locals.partials.folder = "folder/directory";
+      res.locals.folder.directory = true;
       next();
     });
   });

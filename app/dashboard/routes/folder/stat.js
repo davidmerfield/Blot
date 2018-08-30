@@ -23,6 +23,8 @@ module.exports = function(blog, path, callback) {
   stat(local, function(err, stat) {
     if (err) return callback(err);
 
+    console.log('looking up', path);
+    
     Metadata.get(blogID, path, function(err, casePresevedName) {
       if (err) return callback(err);
 

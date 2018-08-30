@@ -1833,7 +1833,6 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
   color:rgb(153, 153, 153);border:none;text-decoration:none;
   padding: 0 20px;
   background:#f7f4f2;display:inline-block;line-height: 42px;
-  margin-bottom: 42px;
 }
 .external.right {float: right;}
 .external .square {float:right;/*border-left:1px solid rgba(0,0,0,0.08);*/padding:0 0 0 20px;margin-left:20px}
@@ -1844,3 +1843,8 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
 .group {}
 .line {border-bottom: 1px solid rgba(0,0,0,0.03)}
+
+
+.folder-box {margin:42px 0;font-size:14px;
+  border:1px solid rgba(0,0,0,0.08);
+  flex-basis:500px;flex-grow:1;}

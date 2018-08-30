@@ -1,23 +1,24 @@
-{{#folder}}
-<form method='post' style=" "  action='/path?_csrf={{csrftoken}}'>
+<STYLE TYPE="text/css">
+button.content-line {
+  padding:0 17px;
+  line-height: 36px;
+}
+
+button.content-line:hover {
+  background: #f7f4f2
+}
+button.content-line .folder,
+button.content-line .file {float: none}
+
+
+</STYLE>
+<form method='post' class="files" action='/path?_csrf={{csrftoken}}'>
 
   <input type="hidden" name="redirect" value="{{redirect}}">
 
-  {{> breadcrumbs}}
-
-{{^contents.length}}
-
-<!--     <p style="padding:0 20px;line-height:41px;margin:0">Your folder is empty</p>
- -->  {{/contents.length}}
-        
-        
-<div class="files" style="opacity:0.5;font-size:14px">
-
-  
   {{#contents}}
 
-
-    <button style="padding:9px 1em" type="submit" name="path" value="{{path}}">
+    <button class="content-line" type="submit" name="path" value="{{path}}">
       
       <span class="
       {{#directory}}folder{{/directory}}
@@ -29,12 +30,7 @@
       <span class="clear"></span>
     </button>
 
-
   {{/contents}}
   <div class="clear"></div>
-</div>
 
 </form>
-
-
-{{/folder}}

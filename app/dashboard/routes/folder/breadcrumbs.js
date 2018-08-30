@@ -1,27 +1,44 @@
+var Metadata = require("metadata");
+var async = require("async");
+
 module.exports = function breadcrumbs(req, res, next) {
   var breadcrumbs = [];
   var dir = req.dir;
 
-  breadcrumbs.push({ name: "Your folder", url: "/view?path=/" });
+  breadcrumbs.push({ label: "Your folder", first: true, url: "/view?path=/" });
 
   var names = dir.split("/").filter(function(name) {
     return !!name;
   });
 
-  var redirect = req.header('Referer') || "/";
-  
-  names.forEach(function(name, i) {
-    breadcrumbs.push({
-      url: "/view?redirect=" + redirect + "&path=" + names.slice(0, i + 1).join("/"),
-      label: name,
-      path: names.slice(0, i + 1).join("/")
-    });
-  });
+  var redirect = req.header("Referer") || "/";
 
-  breadcrumbs[breadcrumbs.length - 1].last = true;
-  
-  res.locals.partials.breadcrumbs = 'folder/breadcrumbs';
-  res.locals.folder.breadcrumbs = breadcrumbs;
+  async.eachOfLimit(
+    names,
+    10,
+    function(name, i, done) {
+      var path = '/' + names.slice(0, i + 1).join("/");
 
-  return next();
+      Metadata.get(req.blog.id, path, function(err, casePresevedName) {
+        
+        if (err) return next(err);
+
+      
+        breadcrumbs.push({
+          url: "/view?redirect=" + redirect + "&path=" + path,
+          label: casePresevedName || name,
+          path: path
+        });
+
+        done();
+      });
+    },
+    function() {
+      breadcrumbs[breadcrumbs.length - 1].last = true;
+
+      res.locals.folder.breadcrumbs = breadcrumbs;
+
+      return next();
+    }
+  );
 };
