@@ -14,7 +14,8 @@ process.on("exit", function() {
 // a source file. This is done with the aim of keeping the main web
 // server responsive, since some of the function inside the build process
 // run synchronously.
-module.exports = function(blog, path, options, callback) {
+module.exports = function(blog, path, callback) {
+
   var buildID = crypto.randomBytes(32).toString("hex");
   
   function exitHandler () {
@@ -34,7 +35,7 @@ module.exports = function(blog, path, options, callback) {
     callback(response.err, response.entry);
   }
 
-  var message = { blog: blog, path: path, options: options, buildID: buildID };
+  var message = { blog: blog, path: path, buildID: buildID };
 
   // Ensure we invoke the callback if the worker dies
   worker.on("exit", exitHandler);

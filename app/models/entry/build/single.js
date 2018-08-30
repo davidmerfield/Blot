@@ -31,7 +31,7 @@ var webloc = file.webloc;
 var readWebloc = webloc.read;
 var isWebloc = webloc.is;
 
-module.exports = function(blog, path, callback) {
+module.exports = function(blog, path, options, callback) {
   ensure(blog, "object")
     .and(path, "string")
     .and(callback, "function");
@@ -62,7 +62,7 @@ module.exports = function(blog, path, callback) {
 
   debug('Blog:', blog.id, path, "passing to converter");
 
-  Read(blog, path, function(err, html, stat) {
+  Read(blog, path, options, function(err, html, stat) {
     
     debug('Blog:', blog.id, path, "back from converter");
 

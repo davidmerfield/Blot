@@ -72,7 +72,7 @@ module.exports = function(blog, path, options, callback) {
     // a type that Blot can process properly.
     if (isWrongType(path)) return Ignore(blog.id, path, WRONG_TYPE, callback);
 
-    Entry.build(blog, path, options, function(err, entry) {
+    Entry.build(blog, path, function(err, entry) {
       if (err) return callback(err);
 
       // this checks the entry to see if a deleted entry

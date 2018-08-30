@@ -65,12 +65,12 @@ function Prepare(entry) {
   // var body = teaser + remainder;
   // var html = titleTag + body;
 
-  debug(entry.path, "Generating title");
+  debug(entry.path, "Generating title from", entry.name);
   var parsedTitle = Title($, entry.name);
   entry.title = parsedTitle.title;
   entry.titleTag = parsedTitle.tag;
   entry.body = parsedTitle.body;
-  debug(entry.path, "Generated  title");
+  debug(entry.path, "Generated  title", entry.title);
 
   debug(entry.path, "Generating summary");
   entry.summary = Summary($, entry.title);
