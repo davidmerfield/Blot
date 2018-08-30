@@ -1,5 +1,6 @@
 var debug = require("debug")("blot:models:entry:build");
 var helper = require("../../../helper");
+var basename = require("path").basename;
 var callOnce = helper.callOnce;
 var ensure = helper.ensure;
 var time = helper.time;
@@ -17,6 +18,7 @@ require("moment-timezone");
 process.on("message", function(message) {
   var blog = message.blog;
   var path = message.path;
+  var options = message.options;
   var callback = function(err, entry) {
     var response = { err: err, entry: entry, buildID: message.buildID };
     process.send(response);
@@ -34,6 +36,8 @@ process.on("message", function(message) {
   // path might need to change
   // for image captions, album items...
 
+  debug("Blog:", blog.id, path, " options", options);
+  
   debug("Blog:", blog.id, path, " checking if draft");
   isDraft(blog.id, path, function(err, is_draft) {
     if (err) return callback(err);
@@ -57,6 +61,7 @@ process.on("message", function(message) {
         try {
           entry = {
             html: html,
+            name: options.name || basename(path),
             path: path,
             id: path,
             thumbnail: thumbnail,

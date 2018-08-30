@@ -7,7 +7,6 @@ var cheerio = require("cheerio");
 
 var decode = require("he").decode;
 
-var basename = require("path").basename;
 var normalize = helper.urlNormalizer;
 var pathNormalizer = helper.pathNormalizer;
 var type = helper.type;
@@ -50,10 +49,6 @@ function Prepare(entry) {
     .and(entry.updated, "number")
     .and(entry.draft, "boolean")
     .and(entry.metadata, "object");
-
-  debug(entry.path, "Generating name");
-  entry.name = basename(entry.path);
-  debug(entry.path, "Generated  name");
 
   // The best areas of for speed improvements lie
   // in the next four blocks!
