@@ -163,7 +163,7 @@ ul {
 body {
   font: 400 15px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background: rgb(245, 242, 241);
+    background: #fdfaf8;
 }
 
 
@@ -1245,7 +1245,7 @@ p.sub {
 .dropdown .opener {
   z-index: 2;
   padding: 0 20px;
-  line-height: 41px;
+  line-height: 42px;
   position: relative;
   display: inline-block;
   font-weight:500;
@@ -1273,6 +1273,7 @@ p.sub {
   left: 0;
   min-width: 300px;
   right: 0;
+  border-radius: 4px;
     box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
       z-index: 20;
       background: #fff;
@@ -1291,10 +1292,15 @@ p.sub {
   margin: 0;
   width: 100%;
   line-height: 41px;
-color: #909090;
-    border: 1px solid #e4e4e4;
+  color: #909090;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     margin-top: -1px;
   }
+
+.dropdown .menu a.small {
+  border-bottom: none;
+  font-size: 14px
+}
 
 .dropdown .menu a:hover,
 .dropdown .menu button:hover {
@@ -1667,12 +1673,12 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 12px 20px;
+  padding: 11px 20px;
 }  
 
   a.line:hover,
   div.line a.link:hover,
-  .line form button:hover {background: rgba(0,0,0,0.02)}
+  .line form button:hover {background: #f7f4f2}
 
   a.line:active,
   div.line a.link:active,
@@ -1789,7 +1795,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
   .crumbs {display: flex}
 
-    .crumb {padding: 20px;text-decoration:none;color:rgb(153, 153, 153);border-bottom: 1px solid rgb(237, 237, 237);
+    .crumb {padding: 11px 20px;text-decoration:none;color:rgb(153, 153, 153);border-bottom: 1px solid rgb(237, 237, 237);
 }}
 
 
@@ -1817,23 +1823,24 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
     .wrapper {padding-top:41px}
     .side-bar {
-      flex-grow:0;flex-basis:300px;max-width:300px;
+      flex-grow:0;flex-basis:380px;max-width:380px;
     }
     .left-side {flex-grow:1;flex-basis:100px}
     .right-side {flex-grow:0.5;flex-basis:100px}
-    .middle {flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin:0 60px;background: #fff}
+    .middle {flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin:0 60px;}
 
 .external {
   color:rgb(153, 153, 153);border:none;text-decoration:none;
   padding: 0 20px;
-  background:#eae7e5;display:inline-block;line-height: 42px;
+  background:#f7f4f2;display:inline-block;line-height: 42px;
+  margin-bottom: 42px;
 }
 .external.right {float: right;}
-.external .square {float:right;border-left:1px solid rgba(0,0,0,0.08);padding:0 0 0 20px;margin-left:20px}
+.external .square {float:right;/*border-left:1px solid rgba(0,0,0,0.08);*/padding:0 0 0 20px;margin-left:20px}
 .external.right .square{float: left;border:none;border-right: 1px solid rgba(0,0,0,0.08);padding:0 20px 0 0;margin:0 20px 0 0}
 
 .toggle:not(.selected):hover, .external:hover {background: #e2e0de}
 .toggle:not(.selected):active, .external:active {background: #d8d5d3}
 
-.group {background: #fff}
+.group {}
 .line {border-bottom: 1px solid rgba(0,0,0,0.03)}

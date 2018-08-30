@@ -18,7 +18,7 @@
 
       {{^last}}
       <span style="    margin: 0 -1em 0 -0.5em;
-    line-height: 63px;" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
+    line-height: 3;" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
       {{/last}}
 
       {{/breadcrumbs}}
@@ -35,23 +35,23 @@
     {{> yield}}
   </div>
   <STYLE TYPE="text/css">
-  .row {background: #eae7e5;display: flex;width:300px;}
-  .row a {padding: 10px 20px;color:rgb(153, 153, 153);text-decoration: none;}</STYLE>
+  .row {display: flex;}
+
+  .row a {background:#f7f4f2;padding: 11px 20px;flex-grow:1;color:rgb(153, 153, 153);text-decoration: none;}</STYLE>
   <div class="side-bar" style="display:flex;flex-direction:column">
 
-    <a href="{{blog.url}}" style="width:300px" class="external" target="_blank" >Visit your site <span class="square">&rarr;</span></a>
-    
 
-    <br><br>
  
-   <div style="background:#eae7e5;flex-basis:500px;flex-grow:1;width:300px">
+    <a href="{{blog.url}}" class="external" target="_blank" >Visit your site <span class="square">&rarr;</span></a>
+     
+   <div style="margin-bottom:42px;background:#f7f4f2;flex-basis:500px;flex-grow:1;">
     {{> folder}}
-   </div>
-   <br>
-    <div class="row">
+   </div>  
+
+   <div class="row">
    <a   href="/help">Documentation</a>
    <a  href="/contact">Contact support</a>
- </div>
+ </div>  
 </div>
  <div class="right-side">
  </div>
