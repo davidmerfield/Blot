@@ -72,7 +72,7 @@ dashboard.use(middleware.redirector);
 dashboard.use(debug("done fetching"));
 
 dashboard.post(
-  ["/theme*", "/path", "/folder*", "/settings/client*", "/flags", "/404s", "/account*"],
+  ["/settings/theme*", "/path", "/folder*", "/settings/client*", "/flags", "/404s", "/account*"],
   bodyParser.urlencoded({ extended: false })
 );
 

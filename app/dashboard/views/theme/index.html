@@ -4,16 +4,32 @@
 .preview-cover {position: absolute;top:0;left: 0;right: 0;bottom: 0}
 
 .preview-button, .line form button {
+  margin: -12px 0;
+  padding: 11px 0;
+  color: #365899;
+  display: inline-block;
+}
+
+.preview-button {margin-right: -9px;margin-left: 11px}
+
+.preview-button .square, .line form button .square {
   padding: 4px 10px;
-  color: #365899
+  border-radius: 4px;
+  display: block;
+}
+
+.line form button:disabled .square,
+.line form button:disabled:hover .square {
+  background: rgba(0,0,0,0.08);
+  color: #999
 }
 
 .line.theme:hover {background: rgba(0,0,0,0.02)}
 .preview-button, .line form {float: right;}
 
-.preview-cover:hover + .preview-button,
-.preview-button:hover,
-.line form button:hover {background: rgba(0,0,0,0.05);}
+.preview-cover:hover + .preview-button .square,
+.preview-button:hover .square,
+.line form button:hover .square {background: #365899;color:white;}
 
 .butty {color:#365899;padding: 10px 20px;float: right;margin-right: -20px;margin-top: -10px}
 .butty:hover {background: rgba(0,0,0,.05)}
@@ -21,7 +37,20 @@
 
 <input type="hidden" name="redirect" value="/theme">  
 
-  {{#blog.template}}
+{{^blog.template}}
+<div class="line" style="border-bottom:none">
+      <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. </span>
+
+ <form method='post' style="display:inline">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <input type="hidden"  name="template" value="SITE:default" > 
+      <button type="submit"><span class="square">Enable your theme</span></button>
+  </form>
+</div>
+{{/blog.template}}
+
+
+{{#blog.template}}
 <div class="line">
 
 
@@ -33,20 +62,13 @@
     <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme.</p>
 
 
-  <Br><Br>
+  <Br>
 
   <span style="color:rgb(153, 153, 153)">Your themes</span>
 
 </div>
-{{/blog.template}}
 
 
- {{^blog.template}}
-  <div class="line" style="border-bottom:none">
-        <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. Your</span>
-
-  </div>
-  {{/blog.template}}
 
 
 {{#templates}}
@@ -58,32 +80,35 @@
  -->
    
 
-  <div style="float:right">
 
     
 
-    {{#isMine}}
-    <a href="{{editURL}}/settings">Edit</a>
-    {{/isMine}}
 
 
 
-
-  </div>
   <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
-  <a href="{{previewURL}}" class="preview-button" target="_blank" >Preview</a>  
-      <form method='post' style="display:inline">
+
+
+
+    <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>  
+  <form method='post' style="display:inline">
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden"  name="template" value="{{id}}" > 
-      <button {{#checked}}disabled{{/checked}} type="submit">Install</button>
-    </form>
+      <button {{#checked}}disabled{{/checked}} type="submit"><span class="square">Install</span></button>
+  </form>
+      {{#isMine}}
+        <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px" class="preview-button" ><span class="square">Edit</span></a>  
+    {{/isMine}}
+  <div class="clear"></div>
 </div>
   <div class="clear"></div>
 
 {{/templates}}
-
-<form method='post'>
+<br><div class="line">
+<form method='post' style="float:left">
   <input type="hidden" name="redirect" value="/settings/theme">  
   <input name="template" value="" type="hidden"/>
   <button type="submit">Disable your theme</button>
 </form>
+</div>
+{{/blog.template}}
