@@ -62,6 +62,13 @@ module.exports = function(server) {
       if (!customerID) return next();
 
       stripe.customers.del(customerID, function(err) {
+
+        // The user has been deleted on Stripe's dashboard
+        if (err && err.code === 'resource_missing') {
+          console.log('Warning Stripe user did not exist', customerID, err);
+          return next();
+        }
+
         if (err) return next(err);
       });
     })
