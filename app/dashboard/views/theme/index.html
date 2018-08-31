@@ -1,7 +1,6 @@
 <style type="text/css">
 
 .line {position: relative;}
-.line:hover {background: rgba(0,0,0,0.03)}
 .preview-cover {position: absolute;top:0;left: 0;right: 0;bottom: 0}
 
 .preview-button, .line form button {
@@ -9,44 +8,49 @@
   color: #365899
 }
 
+.line.theme:hover {background: rgba(0,0,0,0.02)}
 .preview-button, .line form {float: right;}
 
 .preview-cover:hover + .preview-button,
 .preview-button:hover,
 .line form button:hover {background: rgba(0,0,0,0.05);}
 
+.butty {color:#365899;padding: 10px 20px;float: right;margin-right: -20px;margin-top: -10px}
+.butty:hover {background: rgba(0,0,0,.05)}
 </style>
 
 <input type="hidden" name="redirect" value="/theme">  
 
-<div style="display:flex;border-bottom:1px solid rgba(0,0,0,0.05)">
+  {{#blog.template}}
+<div class="line">
 
-    <a href="/settings/theme/new">Create a new theme</a>
 
-  {{^blog.template}}
-  <div class="line">
+
+  <p>
+
+      <a class="butty" href="/settings/theme/new">Create new theme</a>
+
+    <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme.</p>
+
+
+  <Br><Br>
+
+  <span style="color:rgb(153, 153, 153)">Your themes</span>
+
+</div>
+{{/blog.template}}
+
+
+ {{^blog.template}}
+  <div class="line" style="border-bottom:none">
         <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. Your</span>
 
   </div>
   {{/blog.template}}
 
 
-{{#blog.template}}
-<form method='post'>
-<input type="hidden" name="redirect" value="/theme">  
-    <input name="template" value="" type="hidden"/>
-    <button type="submit">Disable your theme</button>
-  </form>
-{{/blog.template}}
-
-  
-
-</div>
-
-
 {{#templates}}
-
-<div class="line {{checked}}">
+<div class="line theme {{checked}}">
   
   {{name}}
   
@@ -78,7 +82,8 @@
 
 {{/templates}}
 
-
-
-
-  
+<form method='post'>
+  <input type="hidden" name="redirect" value="/settings/theme">  
+  <input name="template" value="" type="hidden"/>
+  <button type="submit">Disable your theme</button>
+</form>

@@ -20,13 +20,19 @@ module.exports = function (req, res, next) {
 
   var sample, formats;
 
+  req.debug('Permalink formats: creating sample post');
+
   sample = new SAMPLE();
   sample.dateStamp = moment.utc();
 
   formats = FORMATS.slice();
+
+  req.debug('Permalink formats: creating list');
+
   formats = formats.map(function(arr){
 
     var checked = '';
+    var example;
 
     if (req.blog.permalink.isCustom && arr[0] === 'Custom') {
       checked = 'checked';
@@ -34,17 +40,22 @@ module.exports = function (req, res, next) {
       checked = 'checked';
     }
 
+    req.debug('Permalink formats: Rendering', arr[1]);
+    example = permalink(req.blog.timeZone, arr[1], sample);
+    req.debug('Permalink formats: Rendered', arr[1]);
+
     return {
       name: arr[0],
       value: arr[1],
       checked: checked,
       custom: arr[0] === 'Custom' ? 'custom' : '',
-      example: permalink(req.blog.timeZone, arr[1], sample)
+      example: example
     };
   });
 
   formats[formats.length - 1].last = true;
   res.locals.permalinkFormats = formats;
 
+  req.debug('Permalink formats: finished generating list');
   next();
 };
