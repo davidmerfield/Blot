@@ -1727,7 +1727,7 @@ div.center {}
 
 
 
-form.account, .inset {padding:0 41px 41px}
+form.account, .inset {padding:20px}
 
 
 .mess {
@@ -1844,4 +1844,5 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
 .folder-box {margin:42px 0;font-size:14px;
   border:1px solid rgba(0,0,0,0.08);
+  padding-bottom:30px;
   flex-basis:500px;flex-grow:1;}

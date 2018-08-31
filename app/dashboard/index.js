@@ -72,7 +72,7 @@ dashboard.use(middleware.redirector);
 dashboard.use(debug("done fetching"));
 
 dashboard.post(
-  ["/theme*", "/path", "/folder*", "/clients*", "/flags", "/404s", "/account*"],
+  ["/theme*", "/path", "/folder*", "/settings/client*", "/flags", "/404s", "/account*"],
   bodyParser.urlencoded({ extended: false })
 );
 
@@ -111,12 +111,37 @@ dashboard.get('/folder', function(req, res, next){
   res.render('folder',{selected: {folder: 'selected'}});
 });
 
+function Breadcrumbs() {
+  var list = [];
+
+  list.add = function(label, slug) {
+    var base = "/";
+
+    if (list.length) base = list[list.length - 1].url;
+
+    list.push({ label: label, url: require("path").join(base, slug) });
+
+    for (var i = 0; i < list.length; i++) {
+      list[i].first = i === 0;
+      list[i].last = i === list.length - 1;
+      list[i].only = i === 0 && list.length === 1;
+    }
+  };
+
+  return list;
+}
+
+dashboard.use(function(req, res, next){
+  res.locals.breadcrumbs = new Breadcrumbs();
+  next();
+});
+
 dashboard.use(debug("after loading folder state"));
 
-dashboard.use(require("./routes/settings"));
 
-require("./routes/clients")(dashboard);
 require("./routes/tools")(dashboard);
+
+dashboard.use(require("./routes/settings"));
 
 dashboard.use((require('../site/routes/static')));
 

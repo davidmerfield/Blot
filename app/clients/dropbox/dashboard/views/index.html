@@ -1,50 +1,20 @@
-
-<!--
-  {{^error_code}}{{#account}}
-<span style="font-size:1em;color:#03b334;float:right;margin-top:-0.15em;display:block">
-<span class="icon success" style="font-size:0.8em;position:relative;top:2px;margin:0 0.4em 0 0.35em"></span> Synced 
-{{last_sync}} 
-
-</span>
-{{/account}}{{/error_code}}-->
-
 {{^account}}
-<div class="inset" style="padding-top:41px;width:66.666%">
-  <p>Connect to Dropbox</p>
-  <p >Blot will request access to a single folder inside your <a href="https://www.dropbox.com/">Dropbox</a> folder. You can revoke Blot’s access to this folder at any point.</p><br />
+<div class="inset">
+  <p style="margin:42px 0 20px">Blot will create a new folder for <b style="font-weight:500">{{blog.title}}</b> inside your Dropbox. You can revoke Blot’s access to this folder at any point. Blot will not be able to access any other part of your Dropbox.</p><br />
 
-  <form  action="/clients/dropbox/disconnect" method="post">
+  <form  action="{{{base}}}/disconnect" method="post">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <div class="buttons">
-      <a href="/clients/dropbox/authenticate/redirect">Connect to Dropbox</a>
+      <a href="{{{base}}}/authenticate/redirect">Connect to Dropbox</a>
       <input type="submit" value="Cancel">
 </div>
   </form>
 </div>
 {{/account}}
+
+
 {{#account}}
-
-
-<!-- 
-<span style="">Updated {{last_sync}} <span class="icon success" style="position:relative;top:4px;margin:0 0 0 0.3em"></span> 
-</span> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="line">
-            <span class="label">Client</span>
-            <span class="center">Dropbox</span>
-        </div>
+      
 {{#error_code}}
 
 
@@ -53,7 +23,7 @@
 
     Your blog’s folder has been removed. &nbsp;&nbsp;
 
-      <a href="/clients/dropbox/select-folder" style="" class="button">Choose a folder</a>
+      <a href="{{{base}}}/select-folder" style="" class="button">Choose a folder</a>
 
     {{/folder_missing}}
 
@@ -64,15 +34,20 @@
 
     {{/revoked}}
   </p>
-      <a href="/clients/dropbox/authenticate/redirect{{#full_access}}?full_access=true{{/full_access}}" class="button">Re-connect to Dropbox</a>
+      <a href="{{{base}}}/authenticate/redirect{{#full_access}}?full_access=true{{/full_access}}" class="button">Re-connect to Dropbox</a>
   {{/error_code}}
 
 {{^error_code}}
 
-
   <div class="line">
-    <span class="label">Location</span>
-    <span class="center"> <span style="margin-top:0em;display:inline-block;">
+    <p>The folder for <b>{{blog.title}}</b> is synchronized by <b>Dropbox</b>. If you would like to <a href="/settings/client">switch to another client</a>, you can do so without disruption. Blot will transfer the contents of your folder.</p>
+    <br>
+    <span style="color:rgb(109, 109, 109);">Dropbox</span>
+  </div>
+
+  <a href="{{{base}}}/change-folder" class="line">
+    <span class="label">Folder location</span>
+    <span class="center"> <span style="margin-top:0em;margin-left:-0.25em;display:inline-block;">
   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
    viewBox="0 0 91 80" style="width:1.3em;margin:0 0.3em;position:relative;top:2px;enable-background:new 0 0 91 80;" xml:space="preserve">
 <path fill="#000" d="M41,13L31.8,1.1L31,0H0v80h91V13H41z M87,17v10H51.1l-7.2-10H87z M4,76V4h25l10,13h0l9.4,13.1
@@ -83,7 +58,10 @@
 </span> {{#dropboxBreadcrumbs}}
    <span style="color:#000">{{name}} {{^last}}<span style="margin-left:0.3em"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg>{{/last}}</span>
    {{/dropboxBreadcrumbs}}</span>
-  </div>
+ </span>
+             <span class="right">Edit</span>
+
+  </a>
 
 
 
@@ -93,39 +71,35 @@
 
 
        {{^full_access}}
-       <a class="line" href="/clients/dropbox/change-permission">
+       <a class="line" href="{{{base}}}/change-permission">
             <span class="label">Permissions</span>
-            <span class="right">Edit</span>
-            <span class="center">Blot has <b>partial access</b> to your Dropbox folder.
+            <span class="center">App folder</span>
+            <span class="right">Grant full access</span>
         </a>
       {{/full_access}}
 
       {{#full_access}}
-       <a class="line" href="/clients/dropbox/change-permission">
+       <a class="line" href="{{{base}}}/change-permission">
             <span class="label">Permissions</span>
+            <span class="center">full access</b> to your Dropbox</span>
             <span class="right">Edit</span>
-            <span class="center">Blot has <b>full access</b> to your Dropbox folder.
         </a>
       {{/full_access}}
 
 
-        <div class="line">
-            <span class="label">Account</span>
-            <span class="center">You have connected <strong>{{email}}</strong>’s Dropbox.</span>
-        </div>
-        <div class="line">
+        <a class="line" href="{{{base}}}">
+            <span class="label">Dropbox account</span>
+            <span class="center">{{email}}</span>
+            <span class="right">Edit</span>
+
+        </a>
+
+      <a class="line" href="{{{base}}}/disconnect">
             <span class="label">Disconnect</span>
-            <span class="center">You can switch to an alternative method to synchronize your folder.
-  <form method='post' action="/clients/dropbox/disconnect" style="margin-top:11px">
-  <input type="hidden" name="_csrf" value="{{csrftoken}}">
-  <input class="button" type="submit" value="Disconnect from Dropbox">
-  </form></span>
-</div>
-
-
+            <span class="link">Revoke access to your Dropbox</span>
+        </a>
 
   <br><br>
 
 
 {{/account}}
-

@@ -9,6 +9,7 @@ for (var i in clients) {
     description: clients[i].description
   });
 }
+
 module.exports = function(req, res, next) {
   res.locals.clients = list.slice();
 

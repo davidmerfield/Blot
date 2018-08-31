@@ -2,6 +2,14 @@
 
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
+{{^client}}
+
+<a href="/settings/client" class="mess error">
+     <span class="link">Select a client</span>
+     Please select a client to sync your folder.
+  </a>
+{{/client}}
+
   <div class="group">
   <a class="line" href="/settings/title">
     <span class="label">Title</span>
@@ -92,12 +100,13 @@
 
   </a>
 
-<a class="line" href="/clients"  style="border-bottom:none">
+{{#client}}
+<a class="line" href="/settings/client/{{name}}">
     <span class="label">Client</span>
-    <span class="center">{{client.display_name}}</span>
-        <span class="right">Edit</span>
-
+    <span class="center">{{display_name}}</span>
+    <span class="right">Edit</span>
   </a>
+  {{/client}}
 </div>
 
   

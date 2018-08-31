@@ -5,43 +5,34 @@
 
 
 
-
-<div class="line">
-            <span class="label">Client</span>
-            <span class="center">Git</span>
-        </div>
-
-<div class="line">
-  <span class="label">Set up</span>
-  <div class="center">
-    <p>First clone the repository:</p>
-    <pre>git clone https://{{host}}/clients/git/end/{{blog.handle}}.git</pre>
-
-    <p>When prompted for your username and password, use your blog's username and this token:</p>
-
-    <b>Username</b>&nbsp;&nbsp;&nbsp; {{blog.handle}}
+ <div class="line">
+    <p>The folder for <b>{{blog.title}}</b> is synchronized by <b>Git</b>. If you would like to <a href="/settings/client">switch to another client</a>, you can do so without disruption. Blot will transfer the contents of your folder automatically.</p>
     <br>
-
-<form method="post" style="float:right" action="/clients/git/refresh_token">
-<input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="borderButton secondary" value="Refresh token">
-</form>
-
-    <b>Password</b> &nbsp;&nbsp;&nbsp; {{token}}
-    <br><br>
+    <span style="color:rgb(109, 109, 109);">Git</span>
   </div>
-<div class="clear"></div>
-</div>
+
+
+
 <div class="line">
+  
+    <p style="margin-top:0">First clone the repository:</p>
+    <pre style="font-size:13px">git clone https://{{host}}/clients/git/end/{{blog.handle}}.git</pre>
+
+    <p>When prompted for your username and password, use these:</p>
+<span class="label">Username</span>
+  <span>{{blog.handle}}</span>
+  <span class="label" style="margin-top:11px">Password</span>
+  <span>{{token}}</span>
+  <form method="post" style="float:right" action="{{{base}}}/refresh_token">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" value="Refresh token">
+</form>
+</div>
+<a class="line" href="{{{base}}}/disconnect">
   <span class="label">Disconnect</span>
-  <div class="center"><p>You can switch to an alternative method to synchronize your folder.</p>
-  <form method="post" action="/clients/git/disconnect">
-<input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="button" value="Disconnect from git">
-</form><br>
-</div>
+  <span class="link">Remove this repository</span>
+</a>
 <div class="clear"></div>
-</div>
 
 
 

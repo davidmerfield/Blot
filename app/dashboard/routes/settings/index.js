@@ -9,26 +9,6 @@ var Template = require("template");
 var Blog = require("blog");
 var load = require("./load");
 
-function Breadcrumbs() {
-  var list = [];
-
-  list.add = function(label, slug) {
-    var base = "/";
-
-    if (list.length) base = list[list.length - 1].url;
-
-    list.push({ label: label, url: require("path").join(base, slug) });
-
-    for (var i = 0; i < list.length; i++) {
-      list[i].first = i === 0;
-      list[i].last = i === list.length - 1;
-      list[i].only = i === 0 && list.length === 1;
-    }
-  };
-
-  return list;
-}
-
 settings.use(function(req, res, next){
   res.locals.selected = {settings: 'selected'};
   next();
@@ -59,7 +39,6 @@ index.get(
 
 settings.use(function(req, res, next) {
 
-  res.locals.breadcrumbs = new Breadcrumbs();
   res.locals.breadcrumbs.add("Settings", "/settings");
 
   next();
@@ -120,6 +99,8 @@ settings.use("/settings/theme", load.theme, function(req, res, next) {
   res.locals.breadcrumbs.add("Theme", "theme");
   next();
 });
+
+settings.use('/settings/client', require('./client'));
 
 settings
   .route("/settings/theme")
