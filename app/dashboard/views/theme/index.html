@@ -1,5 +1,19 @@
 <style type="text/css">
 
+.line {position: relative;}
+.line:hover {background: rgba(0,0,0,0.03)}
+.preview-cover {position: absolute;top:0;left: 0;right: 0;bottom: 0}
+
+.preview-button, .line form button {
+  padding: 4px 10px;
+  color: #365899
+}
+
+.preview-button, .line form {float: right;}
+
+.preview-cover:hover + .preview-button,
+.preview-button:hover,
+.line form button:hover {background: rgba(0,0,0,0.05);}
 
 </style>
 
@@ -36,8 +50,8 @@
   
   {{name}}
   
-    <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
-
+<!--     <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
+ -->
    
 
   <div style="float:right">
@@ -48,15 +62,17 @@
     <a href="{{editURL}}/settings">Edit</a>
     {{/isMine}}
 
-    <form method='post' style="display:inline">
+
+
+
+  </div>
+  <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
+  <a href="{{previewURL}}" class="preview-button" target="_blank" >Preview</a>  
+      <form method='post' style="display:inline">
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden"  name="template" value="{{id}}" > 
       <button {{#checked}}disabled{{/checked}} type="submit">Install</button>
     </form>
-
-    <a target="_blank" href="{{previewURL}}">Preview</a>
-
-  </div>
 </div>
   <div class="clear"></div>
 
