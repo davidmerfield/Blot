@@ -47,7 +47,6 @@ function main(handle, callback) {
             }
           });
 
-          console.log(blog.title, blog.domain, blog.handle);
           console.log(url);
           callback();
         });
