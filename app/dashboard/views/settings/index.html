@@ -17,7 +17,7 @@
 
       
 
-      {{blog.title}}
+      {{blog.title}}{{^blog.title}}<i>Untitled</i>{{/blog.title}}
 
     </span>
         <span class="right">Edit</span>
@@ -81,7 +81,9 @@
 
    <a class="line" href="/settings/date">
     <span class="label">Dates</span>
-    <span class="center">{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}
+    <span class="center">
+      {{^blog.hideDates}}{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}{{/blog.hideDates}}
+      {{#blog.hideDates}}<i>Dates are hidden</i>{{/blog.hideDates}}
 </span>
     <span class="right">Edit</span>
 

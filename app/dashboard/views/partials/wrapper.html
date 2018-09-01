@@ -1,6 +1,10 @@
 {{> head}}
 
+
+
 <div class="wrapper">
+
+  <div class="gap"></div>
 
   <div class="left-side">
   {{> dropdown}}
@@ -37,29 +41,24 @@
   <STYLE TYPE="text/css">
   .row {display: flex;}
 
-  .row a {border-bottom:1px solid rgba(0,0,0,0.05);padding: 11px 20px;flex-grow:1;color:rgb(153, 153, 153);text-decoration: none;}</STYLE>
+  .row a {padding: 11px 20px;flex-grow:1;color:rgb(200, 200, 200);text-decoration: none;}</STYLE>
   <div class="side-bar" style="display:flex;flex-direction:column">
 
 
  
-    <a href="{{blog.url}}" class="external" target="_blank" >Visit your site <span class="square">&rarr;</span></a>
+    <a href="{{blog.url}}" class="external" target="_blank" >Visit your website <span class="square">&rarr;</span></a>
      
     {{> folder}}
 
-   <div class="row">
+<div class="row" style="position:absolute;bottom:-60px">
    <a   href="/account">Your account</a>
    <a   href="/help">Documentation</a>
    <a  href="/contact">Contact</a>
- </div>  
+ </div>
+   
 </div>
- <div class="right-side">
- </div>
-   <div>
 
-
- </div>
-
-  </div>
+<div class="gap"></div>
 </div>
 <div class="clear"></div>
 

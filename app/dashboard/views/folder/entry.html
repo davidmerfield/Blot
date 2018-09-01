@@ -10,6 +10,13 @@
     <span class="lab">Draft:</span>
     <span class="val">{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</span>
   </span>
+
+  
+  <span class="line-item">
+    <span class="lab">Ignored:</span>
+    <span class="val">  {{#ignored}}This file was not turned into a blog post because it is <b style="font-weight:500">{{{ignored}}}</b>.{{/ignored}}{{^ignored}}No{{/ignored}}
+</span>
+  </span>
 <!-- 
   {{^scheduled}}
         Draft that will be dated: <span style="float:right">{{date}}</span>
@@ -36,11 +43,6 @@
     <span class="val">{{date}}</span>
   </span>
 
-  <span class="line-item">
-    <span class="lab">Ignored:</span>
-    <span class="val">  {{#ignored}}This file was not turned into a blog post because it is <b style="font-weight:500">{{{ignored}}}</b>.{{/ignored}}{{^ignored}}No{{/ignored}}
-</span>
-  </span>
 
   <span class="line-item">
     <span class="lab">Created:</span>

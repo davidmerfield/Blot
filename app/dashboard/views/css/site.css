@@ -1264,20 +1264,15 @@ p.sub {
 
 .dropdown.closed .closer,
 .dropdown.closed .menu {
-  display: none;
+  visibility: hidden;
 }
 
 .dropdown .menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  border-radius: 4px;
-    box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
-      z-index: 20;
-      background: #fff;
+        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.05) 0px 3px 6px, rgba(15, 15, 15, 0.1) 0px 9px 24px;
+    z-index: 20;
+    background: #fffcfa;
   margin: 0;
   margin-top: 10px;
-
 }
 
 .dropdown .menu button {text-align: left;}
@@ -1285,10 +1280,11 @@ p.sub {
 .dropdown .menu a,
 .dropdown .menu button {
   display: block;
-  padding: 0 1em;
-  margin: 0;
-  width: 100%;
-  line-height: 41px;
+    padding: 0 20px;
+    margin: 0;
+    width: 100%;
+    line-height: 48px;
+      margin: 0;
   color: #909090;
     border-bottom: 1px solid rgba(0,0,0,0.05);
     margin-top: -1px;
@@ -1747,7 +1743,7 @@ form.account, .inset {padding:20px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.wrapper {margin:0 auto;display: flex}  
+.wrapper {margin:0 auto;display: flex;padding-top: 60px}  
 
 .head {height:123px;padding-top:20px;}
 
@@ -1818,12 +1814,10 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
       font-weight: 500;
     }
 
-    .wrapper {padding-top:41px}
     .side-bar {
       flex-grow:0;flex-basis:380px;max-width:380px;
     }
-    .left-side {flex-grow:1;flex-basis:100px}
-    .right-side {flex-grow:0.5;flex-basis:100px}
+    .gap {flex-grow:1;flex-basis:100px;flex-shrink:1;}
     .middle {flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin:0 60px;}
 
 .external {
@@ -1842,7 +1836,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 .line {border-bottom: 1px solid rgba(0,0,0,0.03)}
 
 
-.folder-box {margin:42px 0;font-size:14px;
+.folder-box {margin:42px 0 0;
   border:1px solid rgba(0,0,0,0.08);
   padding-bottom:30px;
   flex-basis:500px;flex-grow:1;}
