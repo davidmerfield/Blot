@@ -116,6 +116,8 @@ Magazine theme
 - Improve the about page
 - Add grey bg to loading thumbnails
 
+Good source for theme content: http://cinebloc.blot.im/
+
 Improve the selection of templates
 - Don't modify any code, just design templates
 - Build script to archive a particular theme
@@ -209,6 +211,7 @@ is happening before doing this.
 
 File codecs
 - Video posts (.mp4)
+- OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
 - Audio posts (.mp3 for now?)
 - Multi-file posts from inside one folder? 'Folder>'
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
