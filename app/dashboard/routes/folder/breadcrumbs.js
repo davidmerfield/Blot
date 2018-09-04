@@ -5,7 +5,7 @@ module.exports = function breadcrumbs(req, res, next) {
   var breadcrumbs = [];
   var dir = req.dir;
 
-  breadcrumbs.push({ label: "Your folder", first: true, url: "/view?path=/" });
+  breadcrumbs.push({ label: "Folder", first: true, url: "/view?path=/" });
 
   var names = dir.split("/").filter(function(name) {
     return !!name;
