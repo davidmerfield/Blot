@@ -25,6 +25,9 @@ Git client:
   
 Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
 
+Fix blurry thumbnail bug and tell Stuart:
+https://twitter.com/stuartfrisby/status/1036605806148501504
+
 Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
 
 Fix bug with title and partials in local editing
