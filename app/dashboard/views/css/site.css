@@ -1821,7 +1821,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
     .middle {flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin:0 60px;}
 
 .external {
-  color:rgb(153, 153, 153);border:none;text-decoration:none;
+  color:#365899;border:none;text-decoration:none;
   padding: 0 20px;
   background:#f7f4f2;display:inline-block;line-height: 42px;
 }
