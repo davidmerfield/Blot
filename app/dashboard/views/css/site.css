@@ -29,7 +29,7 @@ a:hover {
 }
 b,
 strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 dfn {
   font-style: italic;
@@ -714,7 +714,6 @@ p.lock:before {
 
 
 .rounded {
-  background: rgba(255, 248, 150, 0.76);
   color: #272100;
   border-radius: 999999px;
   font-weight: 400;
@@ -1672,7 +1671,7 @@ form.account > .buttons {
   a.line:hover,
   div.line a.link:hover,
   .line form button:hover {background: #f7f4f2}
-
+  .folder-box:hover {background: #fbf8f5}
   a.line:active,
   div.line a.link:active,
   .line form button:active {background: rgba(0,0,0,0.03)}
@@ -1834,22 +1833,23 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
     .middle {min-width:400px;flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin: 0 20px}
 
 .external {
-  color:#365899;border:none;text-decoration:none;
+  color:#365899;/*border:1px solid;*/text-decoration:none;
   padding: 0 20px;
-  background:#f7f4f2;display:inline-block;line-height: 42px;
+  background:#f5f3f4;display:inline-block;line-height: 42px;
 }
 .external.right {float: right;}
 .external .square {float:right;/*border-left:1px solid rgba(0,0,0,0.08);*/padding:0 0 0 20px;margin-left:20px}
 .external.right .square{float: left;border:none;border-right: 1px solid rgba(0,0,0,0.08);padding:0 20px 0 0;margin:0 20px 0 0}
-
-.toggle:not(.selected):hover, .external:hover {background: #e2e0de}
-.toggle:not(.selected):active, .external:active {background: #d8d5d3}
+/*.external:hover .square {right: -2px}
+*/
+.toggle:not(.selected):hover, .external:hover {text-decoration: underline;}
+.toggle:not(.selected):active, .external:active {background: #e2e0de}
 
 .group {}
-.line {border-bottom: 1px solid rgba(0,0,0,0.03)}
+.line {border-bottom: 1px solid rgba(0,0,0,0.05)}
 
 
-.folder-box {margin:42px 0 0;
-  border:1px solid rgba(0,0,0,0.08);
+.folder-box {margin:22px 0 0;
+  border:1px solid rgba(0,0,0,0.05);
   padding-bottom:30px;
   flex-basis:500px;flex-grow:1;}

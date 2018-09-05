@@ -19,11 +19,17 @@ button.content-line .file {float: none}
   {{#contents}}
 
     <button class="content-line" type="submit" name="path" value="{{path}}">
-      
+        
+      {{#directory}}
       <span class="
       {{#directory}}folder{{/directory}}
       {{^directory}}file{{/directory}}
-      "></span>     
+      "></span>  
+      {{/directory}}
+
+      {{^directory}}
+      <img src="/images/file-empty.svg" style="vertical-align:text-bottom;margin-right:3px" width="16">
+      {{/directory}}
       
       <span >{{name}}</span>
       

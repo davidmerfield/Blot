@@ -26,8 +26,10 @@
         <button type="submit" style="color:#111;font-weight:500">
           <span class="photo-holder"> {{#avatar}}<img src="{{avatar}}">{{/avatar}}
             {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>
-         
+          
           {{title}}{{^title}}<i>Untitled</i>{{/title}}
+
+          {{#isCurrent}}<span style="color:green;float:right;font-size:20px">&bull;</span>{{/isCurrent}}
         </button>
       </form>
       {{/isCurrent}}{{/blogs}}

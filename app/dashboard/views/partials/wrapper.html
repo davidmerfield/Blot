@@ -6,14 +6,35 @@
 
   <div class="gap"></div>
 
-  <div class="left-side">
+  <div class="left-side" style="display:flex;flex-direction:column">
   {{> dropdown}}
+
+  <div style="flex-grow:1"></div>
+<!-- 
+<div  style="text-align:right;padding-top:80px;opacity:0.5;padding-bottom:12px;padding-right:40px">
+   <a style="color:#aaa;text-decoration:none"  href="/account">Your account</a><br>
+   <a style="color:#aaa;text-decoration:none"  href="/help">Documentation</a><br>
+   <a style="color:#aaa;text-decoration:none" href="/contact">Contact support</a>
+ </div> -->
   </div>
 
   <div class="gap-small"></div>
 
-  <div class="middle">  
+  <div class="middle" style="margin-top:-61px;">  
     
+    {{#message}}{{^error}}
+    <a href="" class="mess success" style="margin-bottom:19px">
+     <span class="link">Dismiss</span>
+     {{text}}
+    </a>
+    {{/error}}{{#error}}
+    <div class="clear" style="margin-bottom:60px"></div>
+    {{/error}}{{/message}}
+
+    {{^message}}
+    <div class="clear" style="margin-bottom:60px"></div>
+    {{/message}}
+
     <div class="clear"></div>
 
     <div class="crumbs">
@@ -31,13 +52,13 @@
       
     </div>
     
-    {{#message}}
-    <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
+    {{#message.error}}
+    <a href="" class="mess error" style="margin-bottom:19px">
      <span class="link">Dismiss</span>
-     {{text}}
+     {{message.text}}
     </a>
-    {{/message}}
-        
+    {{/message.error}}
+
     {{> yield}}
   </div>
   <STYLE TYPE="text/css">
@@ -54,11 +75,6 @@
      
     {{> folder}}
 
-<div class="row" style="position:absolute;bottom:-60px">
-   <a   href="/account">Your account</a>
-   <a   href="/help">Documentation</a>
-   <a  href="/contact">Contact</a>
- </div>
    
 </div>
 

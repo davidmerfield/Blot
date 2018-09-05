@@ -1,4 +1,5 @@
 
+
 {{#entry}}
 
   <span class="line-item">
@@ -6,17 +7,28 @@
     <span class="val">{{title}}</span>
   </span>
 
+  {{^draft}}{{^scheduled}}
+  <span class="line-item">
+    <span class="lab">URL:</span>
+    <span class="val"><a href="{{blog.url}}{{url}}">{{{url}}}</a></span>
+  </span>
+  {{/scheduled}}{{/draft}}
+
   <span class="line-item">
     <span class="lab">Draft:</span>
-    <span class="val">{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</span>
+    <span class="val">{{#draft}}Yes <a href="{{blog.url}}{{url}}">View preview</a>{{/draft}}{{^draft}}No{{/draft}}</span>
   </span>
 
-  
   <span class="line-item">
-    <span class="lab">Ignored:</span>
-    <span class="val">  {{#ignored}}This file was not turned into a blog post because it is <b style="font-weight:500">{{{ignored}}}</b>.{{/ignored}}{{^ignored}}No{{/ignored}}
-</span>
+    <span class="lab">Date:</span>
+    <span class="val">{{#scheduled}}Scheduled for future publication on <b>{{date}}</b> <a href="{{blog.url}}{{url}}">View preview</a>{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</span>
   </span>
+<!-- 
+  <span class="line-item">
+    <span class="lab">Why:</span>
+    <span class="val">{{name}} became a blog post because it a type of file Blot can process</span>
+  </span>
+ -->
 <!-- 
   {{^scheduled}}
         Draft that will be dated: <span style="float:right">{{date}}</span>
@@ -38,12 +50,9 @@
 
       -->
 
-  <span class="line-item">
-    <span class="lab">Date:</span>
-    <span class="val">{{date}}</span>
-  </span>
+  
 
-
+<!-- 
   <span class="line-item">
     <span class="lab">Created:</span>
     <span class="val">Plain text document</span>
@@ -52,7 +61,7 @@
   <span class="line-item">
     <span class="lab">Modified:</span>
     <span class="val">Plain text document</span>
-  </span>
+  </span> -->
 
 
 {{/entry}}

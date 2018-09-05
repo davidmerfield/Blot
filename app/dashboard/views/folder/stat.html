@@ -1,16 +1,9 @@
 
 {{#stat}}
 
-  <span class="line-item" style="margin-bottom:10px">
-    <a href="{{blog.url}}{{path}}" target="_blank" class="link">Download <span style="float:right">&rarr;</span></a>
-    <a href="{{blog.url}}{{path}}" class="link">Copy link to file <span style="float:right">&rarr;</span></a>
-    <a href="" class="link">Copy path <span style="float:right">&rarr;</span></a>
-
-  </span>
-
   <span class="line-item">
     <span class="lab">Kind:</span>
-    <span class="val">Plain text document</span>
+    <span class="val">{{kind}}</span>
   </span>
 
   <span class="line-item">
@@ -25,12 +18,12 @@
 
   <span class="line-item">
     <span class="lab">Created:</span>
-    <span class="val">{{updated}}</span>
+    <span class="val">{{created}}</span>
   </span>
 
   <span class="line-item">
     <span class="lab">Modified:</span>
-    <span class="val">{{updated}}</span>
+    <span class="val">{{modified}}</span>
   </span>
 <!-- 
   <span class="lab">Kind:</span>
@@ -42,4 +35,7 @@
   <hr>
    <span style="float:right">{{size}}</span>
   Modified {{updated}} -->
+
+
+
 {{/stat}}

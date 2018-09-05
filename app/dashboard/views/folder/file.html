@@ -1,10 +1,13 @@
 <style type="text/css">
-.line-item {display: flex}
+.line-item {display: flex;font-size: 14px}
 .line-item .lab {    flex-basis: 25%;
     text-align: right;
     margin-right: 10px;
+    color:#aaa;
     flex-shrink: 0;}
 .line-item .val {flex-grow:1}
+
+.line-item .lab b {color: #000;margin-bottom: 10px;display: block;}
 
 .line-item .link {background:#f7f4f2;flex-grow:1;margin-left: 10px;padding: 4px 10px;text-align: center;}
 .line-item .link:first-child {margin-left: 0}
@@ -23,14 +26,24 @@
     <span style="display:block">Modified: {{updated}}</span>
   </span>
   <div class="clear"></div>
+
+
   <hr>
+
+  <span class="line-item">
+    <span class="lab"><b>Post:</b></span>
+    {{^entry}}<span class="val">This file is not a blog post because it is <a href="/help">{{ignored}}</a>. You can however <a href="">embed this file or link to it</a>.</span>{{/entry}}
+  </span>  
 
   {{> entry}}
   
   <hr>
+  <span class="line-item">
+    <span class="lab"><b>File:</b></span>
+
+  </span>  
 
   {{> stat}}
 
 {{/folder.stat}}
-
 </div>

@@ -25,7 +25,7 @@
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden" name="to" value="{{id}}"> 
       <button type="submit" style="width:100%;padding:8px 0;display:flex;border:none;margin:0;">
-        <span style="display:flex;flex-grow:1;">{{title}}</span>
+        <span style="display:flex;flex-grow:1;">{{title}}{{^title}}<em>Untitled</em>{{/title}}</span>
       </button>
     </form> 
         <a class="right link" style="display:flex;padding:8px 0" href="/account/delete/blog/{{handle}}">Delete </a>
