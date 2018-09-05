@@ -1286,17 +1286,11 @@ p.sub {
       margin: 0;
   color: #909090;
     border-bottom: 1px solid rgba(0,0,0,0.05);
-    margin-top: -1px;
   }
 
 .dropdown .menu a.small {
   border-bottom: none;
   font-size: 14px
-}
-
-.dropdown .menu a:hover,
-.dropdown .menu button:hover {
-  background: #eee;
 }
 
 .dropdown .menu a .avatar {
@@ -1339,9 +1333,7 @@ p.sub {
   border-bottom: 1px solid transparent;
 }
 
-.menu a:hover {
-  color: #000;
-}
+
 
 .dropdown a {
   text-decoration: none;
@@ -1670,11 +1662,17 @@ form.account > .buttons {
 
   a.line:hover,
   div.line a.link:hover,
+  .dropdown .opener:hover,
+  .dropdown .menu button:hover,
+  .dropdown .menu a:hover,
   .line form button:hover {background: #f7f4f2}
-  .folder-box:hover {background: #fbf8f5}
+
   a.line:active,
   div.line a.link:active,
-  .line form button:active {background: rgba(0,0,0,0.03)}
+  .dropdown .opener:active,
+  .dropdown .menu button:active,
+  .dropdown .menu a:active,
+  .line form button:active {background: rgba(0,0,0,0.05)}
 
   a:hover .link, 
   a.line:hover .right,
@@ -1853,3 +1851,12 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
   border:1px solid rgba(0,0,0,0.05);
   padding-bottom:30px;
   flex-basis:500px;flex-grow:1;}
+
+  .row {display: flex;}
+
+  .row a {padding: 11px 20px;flex-grow:1;color:rgb(200, 200, 200);text-decoration: none;}
+  .opener {visibility: hidden;white-space: nowrap}
+.opener.show {visibility: visible}
+.photo-holder {vertical-align:text-bottom;margin:0em 8px 0 0;width:16px;height:16px;display: inline-block;line-height: 1;text-align: center;}
+.photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
+.photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9}

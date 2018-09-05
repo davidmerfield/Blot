@@ -14,15 +14,22 @@
   </span>
   {{/scheduled}}{{/draft}}
 
-  <span class="line-item">
-    <span class="lab">Draft:</span>
-    <span class="val">{{#draft}}Yes <a href="{{blog.url}}{{url}}">View preview</a>{{/draft}}{{^draft}}No{{/draft}}</span>
-  </span>
 
   <span class="line-item">
     <span class="lab">Date:</span>
-    <span class="val">{{#scheduled}}Scheduled for future publication on <b>{{date}}</b> <a href="{{blog.url}}{{url}}">View preview</a>{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</span>
+    <span class="val">{{#scheduled}}Scheduled for publication {{toNow}} on {{date}}{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</span>
   </span>
+
+  <span class="line-item">
+    <span class="lab">Draft:</span>
+    <span class="val">{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</span>
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Page:</span>
+    <span class="val">{{#page}}Yes {{/page}}{{^page}}No{{/page}}</span>
+  </span>
+
 <!-- 
   <span class="line-item">
     <span class="lab">Why:</span>

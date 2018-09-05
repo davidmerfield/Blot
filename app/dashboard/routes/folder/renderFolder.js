@@ -40,6 +40,7 @@ module.exports = function(req, res, next) {
       });
     } 
 
+
     // If the user has the Dropbox client, case-preserved folder
     // is stored lowercase on disk. So we check that too.
     if (err && err.code === "ENOENT" && dir.toLowerCase() !== dir) {
@@ -55,7 +56,11 @@ module.exports = function(req, res, next) {
     }
 
     contents = contents.filter(function(name) {
-      return name[0] !== ".";
+      // hide dotfiles
+      return name[0] !== "." &&
+
+      // hide preview files
+             name.slice(-'.preview.html'.length) !== '.preview.html';
     });
 
     contents = contents.map(function(name) {

@@ -1,22 +1,18 @@
-<style type="text/css">
-.opener {visibility: hidden;white-space: nowrap}
-.opener.show {visibility: visible}
-.photo-holder {vertical-align:text-bottom;margin:0em 8px 0 0;width:16px;height:16px;display: inline-block;line-height: 1;text-align: center;}
-.photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
-.photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9}
-</style>
+
 <div class="dropdown closed" >
     
     {{#blogs}}
     {{#isCurrent}}
     <a href="#!" class="opener nav-bar show" >
       
-      {{#avatar}}<span class="photo-holder"><img src="{{avatar}}"></span>{{/avatar}}&nbsp;{{title}}{{^title}}<i>Untitled</i>{{/title}}&nbsp;&thinsp;&nbsp;<img src="/images/dropdown.svg" width=8>
+      {{#avatar}}<span class="photo-holder"><img src="{{avatar}}"></span>{{/avatar}}&nbsp;{{title}}{{^title}}{{blog.pretty.url}}{{/title}}&nbsp;&thinsp;&nbsp;<img src="/images/dropdown.svg" width=8>
     </a>
     {{/isCurrent}}
     {{/blogs}}
     
     <div class="clear"></div>
+
+    <noscript>TODO: fix this for no JS users</noscript>
 
     <div class="menu">
       {{#blogs}}{{^isCurrent}}
@@ -27,7 +23,7 @@
           <span class="photo-holder"> {{#avatar}}<img src="{{avatar}}">{{/avatar}}
             {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>
           
-          {{title}}{{^title}}<i>Untitled</i>{{/title}}
+          {{title}}{{^title}}{{pretty.url}}{{/title}}
 
           {{#isCurrent}}<span style="color:green;float:right;font-size:20px">&bull;</span>{{/isCurrent}}
         </button>

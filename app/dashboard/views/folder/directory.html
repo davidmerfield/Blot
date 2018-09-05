@@ -1,6 +1,6 @@
 <STYLE TYPE="text/css">
 button.content-line {
-  padding:0 17px;
+  padding:0 20px;
   line-height: 36px;
 }
 
@@ -21,14 +21,16 @@ button.content-line .file {float: none}
     <button class="content-line" type="submit" name="path" value="{{path}}">
         
       {{#directory}}
-      <span class="
-      {{#directory}}folder{{/directory}}
-      {{^directory}}file{{/directory}}
-      "></span>  
+      <img src="/images/folder-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
       {{/directory}}
 
       {{^directory}}
-      <img src="/images/file-empty.svg" style="vertical-align:text-bottom;margin-right:3px" width="16">
+      {{#entry}}
+      <img src="/images/file-post.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      {{/entry}}
+      {{^entry}}
+      <img src="/images/file-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      {{/entry}}
       {{/directory}}
       
       <span >{{name}}</span>

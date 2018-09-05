@@ -18,7 +18,13 @@
 
 {{#folder.stat}}
 
-  <span class="file" style="margin:-4px 12px 18px 0;float:left;font-size:2em"></span>
+      {{#entry}}
+      <img src="/images/file-post.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      {{/entry}}
+      {{^entry}}
+      <img src="/images/file-empty.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      {{/entry}}
+
 
   <span>
     <b>{{name}}</b>
@@ -28,19 +34,29 @@
   <div class="clear"></div>
 
 
-  <hr>
 
   <span class="line-item">
-    <span class="lab"><b>Post:</b></span>
+    {{#entry}}<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{{url}}}" >Visit 
+
+      {{#draft}}
+        draft
+        {{/draft}}
+        {{#scheduled}}
+        preview of blog post
+        {{/scheduled}}
+
+      {{#page}}
+      page
+      {{/page}}
+      
+         <span class="square">&rarr;</span></a>{{/entry}}
     {{^entry}}<span class="val">This file is not a blog post because it is <a href="/help">{{ignored}}</a>. You can however <a href="">embed this file or link to it</a>.</span>{{/entry}}
   </span>  
 
   {{> entry}}
   
-  <hr>
   <span class="line-item">
-    <span class="lab"><b>File:</b></span>
-
+<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{path}}" >Download file <span class="square">&darr;</span></a>
   </span>  
 
   {{> stat}}
