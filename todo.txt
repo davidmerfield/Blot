@@ -132,6 +132,9 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
+Self-hosting documentation
+- Tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)
+
 Use this redis analysis tool to see if I can squeeze more out of REDIS
 https://github.com/snmaynard/redis-audit
 
