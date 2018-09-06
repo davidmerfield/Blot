@@ -11,34 +11,31 @@
 </a>
 {{/user.hasPassword}}
 
-
 <div class="line">
-    <span class="label">Your blogs</span>
-  
-  <div class="center">
-
-      <hr style="margin:8px 0 0">
+<span class="label" style="">Your blogs        <a class="link" style="display:block;float:right;" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
+</span>
+<hr style="margin:11px 0 0">
+<div class="clear"></div>
     {{#blogs}}
 
-    <div style="display:flex">
-    <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
-      <input type="hidden" name="_csrf" value="{{csrftoken}}">
-      <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="width:100%;padding:8px 0;display:flex;border:none;margin:0;">
-        <span style="display:flex;flex-grow:1;">{{title}}{{^title}}<em>Untitled</em>{{/title}}</span>
-      </button>
-    </form> 
-        <a class="right link" style="display:flex;padding:8px 0" href="/account/delete/blog/{{handle}}">Delete </a>
+    <div style="display:flex;border:none;padding:0;" class="line">
+
+      <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
+        <input type="hidden" name="_csrf" value="{{csrftoken}}">
+        <input type="hidden" name="to" value="{{id}}"> 
+        <button type="submit" style="width:100%;padding:11px 11px 11px 0;display:flex;border:none;margin:0;background:none">
+          <span style="display:flex;flex-grow:1;"><span class="photo-holder" style="margin-top:3px"> {{#avatar}}<img src="{{avatar}}">{{/avatar}}
+              {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>{{title}}{{^title}}{{pretty.url}}{{/title}}</span><span style="padding:0 20px" class="link">Open dashboard</span>
+        </button>
+      </form> 
+      <a class="right link" style="display:flex;background:none;padding:11px 0 11px 0" href="/account/delete/blog/{{handle}}">Delete </a>
 
     </div>
-      <hr style="margin:0">
 
     {{/blogs}}
     <div class="clear"></div>
+</div>
 
-       <a class="link" style="display:block;padding:8px 0;margin-bottom:-8px" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
-</div>
-</div>
     
 
 
@@ -47,7 +44,7 @@
   
   <div class="center">
 
-    <p style="padding:0.75em 2em 0.75em 0;margin:0;line-height:1.5">
+    <p style="padding:0.75em 2em 0 0;margin:0;line-height:1.5">
     
     {{#user.isFreeForLife}}
       You can use Blot <b>for free</b> for as long as Blot exists.
@@ -60,7 +57,7 @@
     {{#user.isSubscribed}}
       
       {{#user.subscription.quantity}}
-        Your next bill on <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>. <!-- because you host {{user.pretty.amount_in_words}} blog{{user.s}}. --> You will recieve an email reminder one week before.
+        Your next bill on <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>. You will recieve an email reminder one week before.
       {{/user.subscription.quantity}}
 
       {{^user.subscription.quantity}}
@@ -74,20 +71,18 @@
 
 
     {{#user.cancel_at_period_end}}
-    <hr style="margin:0">
-       <a class="link" style="display:flex;flex-grow:1;padding:8px 0;margin-bottom:-8px" href="/account/subscription/restart">Restart your subscription</a> 
+       <a class="link" style="display:flex;flex-grow:1;padding:11px 0;background:none;margin-bottom:-11px" href="/account/subscription/restart">Restart your subscription</a> 
      {{/user.cancel_at_period_end}}
 
     {{#user.isSubscribed}}
-    <hr style="margin:0">
 
     <!--     <a href="/account/create-blog" style="width:33.3333%;float:left" class="link">Create another blog</a>
      -->
      <div style="display: flex;
 ">
-       <a class="link" style="display:flex;flex-grow:1;padding:8px 0;margin-bottom:-8px" href="/account/subscription/cancel">Cancel subscription</a> 
+       <a class="link" style="display:flex;flex-grow:1;background:none;padding:11px 0;margin-bottom:-11px" href="/account/subscription/cancel">Cancel subscription</a> 
 
-       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1;padding:8px 16px;margin-bottom:-8px">Edit payment method</a>
+       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1;padding:11px 16px;background:none;margin-bottom:-11px">Edit payment method</a>
      </div>
 
       {{/user.isSubscribed}}

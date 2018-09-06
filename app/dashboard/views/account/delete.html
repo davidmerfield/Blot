@@ -4,10 +4,10 @@
 
   <p>If you <b>delete your account</b>, your subscription will be cancelled and you will not be charged again. </p>
 
-  <p>Your blog{{user.s}} will be <b>permanently removed</b> and the data associated with your account will be deleted. <!-- Consider <a href="/account/export">exporting this data</a> before deleting your account. --></p>
+  <p>{{#blogs.length}}Your blog{{user.s}} and t{{/blogs.length}}{{^blogs.length}}T{{/blogs.length}}he data associated with your account will be <b>permanently removed</b>. <!-- Consider <a href="/account/export">exporting this data</a> before deleting your account. --></p>
 
 
-    <label >Enter your password:
+    <label >Please enter your password:
     <input autofocus type="password" name="password"/>
   </label>
 
@@ -16,5 +16,8 @@
     <button type="submit" class="red" onclick="this.form.submit();this.disabled=true">Delete your account</button>
     <a href="/account">Do not delete</a>
   </div>
+
+  <br>
+<br>
 
 </form>

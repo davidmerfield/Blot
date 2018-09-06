@@ -29,7 +29,7 @@ Delete.route("/blog/:handle")
 
   .get(function(req, res) {
     res.locals.title = "Delete " + req.blogToDelete.title;
-    res.locals.breadcrumb = "Delete blog";
+    res.locals.breadcrumb = "Delete  " + req.blogToDelete.title;
     res.render("account/delete-blog", { host: process.env.BLOT_HOST });
   })
 

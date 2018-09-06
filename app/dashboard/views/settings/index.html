@@ -16,11 +16,15 @@
 
       
 
-      {{blog.title}}{{^blog.title}}<i>Untitled</i>{{/blog.title}}
+      {{blog.title}}
+      {{^blog.title}}<span class="link">Add a title</span>{{/blog.title}}
 
     </span>
-        <span class="right">Edit</span>
 
+    {{#blog.title}}
+        <span class="right">Edit</span>
+    {{/blog.title}}
+    
   </a>
 
   <a class="line" href="/settings/domain">

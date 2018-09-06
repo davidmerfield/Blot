@@ -31,6 +31,8 @@ module.exports = function (blogID, blog, callback) {
 
     if (_.isEmpty(errors)) errors = null;
 
+    if (errors) return callback(errors);
+    
     get({id: blogID}, function(err, former){
 
       former = former || {};

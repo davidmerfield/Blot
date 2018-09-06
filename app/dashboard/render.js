@@ -7,9 +7,15 @@ module.exports = function(req, res, next) {
       return _render.call(this, view, locals, callback);
     }
 
+    if (view.indexOf('create-blog') > -1) {
+      return _render.call(this, view, locals, callback);
+    }
+
     if (view.indexOf("account/") > -1) {
       wrapper = __dirname + "/views/account/wrapper.html";
-    } else {
+    } else if (req.query.setup) 
+      wrapper = __dirname + "/views/partials/wrapper-setup.html";
+    else {
       wrapper = __dirname + "/views/partials/wrapper.html";
     }
 

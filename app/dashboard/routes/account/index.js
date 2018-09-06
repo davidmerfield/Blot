@@ -1,6 +1,7 @@
 var Express = require("express");
 var Account = new Express.Router();
 var logout = require('./util/logout');
+var type = require('helper').type;
 
 Account.route("/").get(function(req, res) {
   res.render("account/index", {
@@ -42,7 +43,22 @@ Account.use(function(err, req, res, next){
     res.status(500);
     res.render('error', {error: err});
   } else if (req.method === 'POST') {
-    res.message(req.originalUrl, err);
+    
+    var redirect = req.body.redirect || req.baseUrl + req.path;
+    var message = "Error";
+
+    // this should not be an object but I made
+    // some bad decisions in the past. eventually
+    // fix blog.set...
+    if (err.message) {
+      message = err.message;
+    }
+
+    if (type(err, "object"))
+      for (var i in err) if (type(err[i], "string")) message = err[i];
+
+    res.message(redirect, new Error(message));
+
   } else {
     next(err);
   }

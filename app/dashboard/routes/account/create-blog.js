@@ -28,7 +28,6 @@ CreateBlog.route("/")
   })
 
   .post(
-    validateHandle,
     chargeForRemaining,
     updateSubscription,
     saveBlog,
@@ -86,28 +85,31 @@ function validateSubscription(req, res, next) {
   }
 }
 
-function validateHandle(req, res, next) {
-  // We pass an empty string to handle validator
-  // since we don't know the ID of the blog yet
-  handleValidator("", req.body.handle, function(err, handle) {
-    if (err) {
-      next(err);
-    } else {
-      req.body.handle = handle;
-      next();
-    }
-  });
+var chars = 'acemnorsuvwxz'.split('');
+var LEN = 8;
+var PREFIX = 'untitled';
+
+function uid () {
+  var res = '';
+  while (res.length < LEN) 
+    res += chars[Math.floor(Math.random()*chars.length)];
+  return PREFIX + '-' + res;
 }
 
 function saveBlog(req, res, next) {
   Blog.create(
     req.user.uid,
     {
-      handle: req.body.handle,
+      title: 'Untitled blog',
+      handle: 'untitled-' + uid(),
       timeZone: req.body.timeZone
     },
     function(err, blog) {
+
+      console.log(err);
+      
       if (err) return next(err);
+
 
       // Switch to the new blog
       req.session.blogID = blog.id;
