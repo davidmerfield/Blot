@@ -14,32 +14,16 @@
 
 
     {{#message}}{{^error}}
-    <a href="" class="mess success" style="margin-bottom:19px">
+    <a href="" class="mess success">
      <span class="link">Dismiss</span>
      {{text}}
     </a>
     {{/error}}{{#error}}
-    <div class="clear" style="margin-bottom:60px"></div>
-    {{/error}}{{/message}}
-
-    {{^message}}
-    <div class="clear" style="margin-bottom:60px"></div>
-    {{/message}}
-
-    <div class="clear"></div>
-
-    <div class="crumbs">
-
-      
-      
-    </div>
-    
-    {{#message.error}}
     <a href="" class="mess error" style="margin-bottom:19px">
      <span class="link">Dismiss</span>
      {{message.text}}
     </a>
-    {{/message.error}}
+    {{/error}}{{/message}}
 
     {{> yield}}
   </div>
