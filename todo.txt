@@ -135,6 +135,9 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 Self-hosting documentation
 - Tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)
 
+Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally?
+  - More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
+  
 Use this redis analysis tool to see if I can squeeze more out of REDIS
 https://github.com/snmaynard/redis-audit
 
