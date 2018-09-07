@@ -1,12 +1,4 @@
-Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
-
-Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
-
-Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
-
----
-
-Git client:
+Git client bugs:
 
   Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
   - Issue with images
@@ -108,6 +100,12 @@ Fix bug with disqus plugin on preview subdomains
 ---
 
 Set up automated testing using Jasmine
+
+Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
+
+Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
+
+Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
 
 Grid theme
 - Find good source of material
