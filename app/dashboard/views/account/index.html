@@ -12,7 +12,7 @@
 {{/user.hasPassword}}
 
 <div class="line">
-<span class="label" style="">Your blogs        <a class="link" style="display:block;float:right;" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
+<span class="label" style="">Your blogs       {{#blogs.length}} <a class="link" style="display:block;float:right;" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a>  {{/blogs.length}}
 </span>
 <hr style="margin:11px 0 0">
 <div class="clear"></div>
@@ -33,6 +33,9 @@
     </div>
 
     {{/blogs}}
+    {{^blogs.length}}
+     <a class="link" style="display:block;padding:11px 0;background:none;margin-bottom:-11px" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
+     {{/blogs.length}}
     <div class="clear"></div>
 </div>
 

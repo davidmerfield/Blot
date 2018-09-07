@@ -158,6 +158,9 @@ function decreaseSubscription(req, res, next) {
   var subscription = req.user.subscription;
   var quantity = req.user.blogs.length - 1;
 
+  // Quantity cannot go below 1
+  if (!quantity) quantity = 1;
+
   // The user does not have an active subscription
   // so proceed to the next middleware
   if (!subscription || !subscription.status || subscription.status !== "active")

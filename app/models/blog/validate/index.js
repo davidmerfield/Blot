@@ -4,6 +4,7 @@ var type = helper.type;
 var ensure = helper.ensure;
 var validator = dirToModule(__dirname, require);
 var MODEL = require('../scheme').TYPE;
+var _ = require('lodash');
 
 // validator models should not modifiy the state of
 // the database. they recieve a piece of information
@@ -30,7 +31,12 @@ module.exports = function(blogID, updates, callback) {
       validUpdates[i] = updates[i];
     }
 
-  if (!totalUpdates) return callback(errors, validUpdates);
+  if (!totalUpdates) {
+
+    if (_.isEmpty(errors)) errors = null;
+
+    return callback(errors, validUpdates);
+  }
 
   for (var key in updates)
     if (type(validator[key]) === 'function')
@@ -45,7 +51,10 @@ module.exports = function(blogID, updates, callback) {
       // validUpdate might be falsy (empty string, FALSE)
       if (validUpdate !== undefined) validUpdates[key] = validUpdate;
 
-      if (!--totalUpdates) callback(errors, validUpdates);
+      if (!--totalUpdates) {
+        if (_.isEmpty(errors)) errors = null;
+        callback(errors, validUpdates);
+      }
     };
   }
 };

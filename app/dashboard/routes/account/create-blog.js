@@ -1,6 +1,5 @@
 var Express = require("express");
 var CreateBlog = new Express.Router();
-
 var Blog = require("blog");
 var helper = require("helper");
 var pretty = helper.prettyPrice;
@@ -16,9 +15,47 @@ var User = require("user");
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
 
+CreateBlog.route("/pay")
+
+  .all(validateSubscription)
+
+  .all(function(req, res, next){
+
+    if (req.user.subscription.quantity <= req.user.blogs.length) {
+      return next();
+    } 
+
+    res.redirect(req.baseUrl);
+  })
+
+  .all(calculateFee)
+
+  .get(function (req, res) {
+    res.render("account/create-blog-pay", {
+      title: "Create a blog",
+      breadcrumb: "Create a blog"
+    });
+  })
+
+  .post(chargeForRemaining, updateSubscription, function(req, res){
+    res.message(req.baseUrl, 'Your payment was recieved and a receipt was sent to your email address');
+  });
+
 CreateBlog.route("/")
 
-  .all(validateSubscription, calculateFee)
+  .all(validateSubscription)
+
+  .all(function(req, res, next){
+
+    if (req.user.subscription && 
+        req.user.subscription.quantity !== null &&
+        req.user.subscription.quantity !== undefined && 
+        req.user.subscription.quantity > req.user.blogs.length) {
+      return next();
+    } 
+
+    res.redirect(req.baseUrl + '/pay');
+  })
 
   .get(function(req, res) {
     res.render("account/create-blog", {
@@ -28,8 +65,6 @@ CreateBlog.route("/")
   })
 
   .post(
-    chargeForRemaining,
-    updateSubscription,
     saveBlog,
     function(req, res) {
       res.redirect("/");
@@ -100,8 +135,8 @@ function saveBlog(req, res, next) {
   Blog.create(
     req.user.uid,
     {
-      title: 'Untitled blog',
-      handle: 'untitled-' + uid(),
+      title: req.body.title,
+      handle: req.body.title.toLowerCase().split('-').join(''),
       timeZone: req.body.timeZone
     },
     function(err, blog) {
@@ -109,7 +144,6 @@ function saveBlog(req, res, next) {
       console.log(err);
       
       if (err) return next(err);
-
 
       // Switch to the new blog
       req.session.blogID = blog.id;
