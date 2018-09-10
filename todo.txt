@@ -246,6 +246,8 @@ Write a unified import tool which scrapes content from any blog/website
   https://github.com/dreikanter/wp2md exporter/importer
 
 Template system
+- Install and test a few of these static site generators:
+https://news.ycombinator.com/item?id=17942395
 - Make templates file or folder based
 - Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32)
 - Disable re-rendering for template locals
@@ -314,6 +316,7 @@ Increase price for new customers to $60 a year. This will not affect existing cu
 Support 2FA (Two factor authentication)
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
 - Tell [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)
+- Tell [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a)
 
 Consider supporting Open Graph
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
