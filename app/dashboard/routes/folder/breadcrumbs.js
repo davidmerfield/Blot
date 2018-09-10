@@ -2,16 +2,15 @@ var Metadata = require("metadata");
 var async = require("async");
 
 module.exports = function breadcrumbs(req, res, next) {
+  
   var breadcrumbs = [];
   var dir = req.dir;
-
-  breadcrumbs.push({ label: "Folder", first: true, url: "/view?path=/" });
-
+  var redirect = req.header("Referer") || "/";
   var names = dir.split("/").filter(function(name) {
     return !!name;
   });
 
-  var redirect = req.header("Referer") || "/";
+  breadcrumbs.push({ label: "Folder", first: true, url: "/view?path=/" });
 
   async.eachOfLimit(
     names,

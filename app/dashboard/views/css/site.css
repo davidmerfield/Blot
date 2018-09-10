@@ -1860,3 +1860,34 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 .photo-holder {vertical-align:text-bottom;margin:0em 8px 0 0;width:16px;height:16px;display: inline-block;line-height: 1;text-align: center;}
 .photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
 .photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9}
+
+button {background: none;border: none;color:rgb(109, 109, 109);padding: 0;margin: 0;line-height: inherit;}
+
+button:hover{color: #111}
+button:focus {outline: none;}
+
+button.content-line {
+  padding:0 20px;
+  line-height: 36px;
+}
+
+button.content-line:hover {
+  background: #f7f4f2
+}
+button.content-line .folder,
+button.content-line .file {float: none}
+
+
+.line-item {display: flex;font-size: 14px}
+.line-item .lab {    flex-basis: 25%;
+    text-align: right;
+    margin-right: 10px;
+    color:#aaa;
+    flex-shrink: 0;}
+.line-item .val {flex-grow:1}
+
+.line-item .lab b {color: #000;margin-bottom: 10px;display: block;}
+
+.line-item .link {background:#f7f4f2;flex-grow:1;margin-left: 10px;padding: 4px 10px;text-align: center;}
+.line-item .link:first-child {margin-left: 0}
+.line-item .link span {display: none}

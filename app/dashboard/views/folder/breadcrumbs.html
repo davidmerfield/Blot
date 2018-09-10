@@ -2,21 +2,12 @@
 
   <input type="hidden" name="redirect" value="{{redirect}}">
 
-
-<style type="text/css">
-button {background: none;border: none;color:rgb(109, 109, 109);padding: 0;margin: 0;line-height: inherit;}
-
-button:hover{color: #111}
-button:focus {outline: none;}
-</style>
-
-
 <div style="    
     line-height: 41px;height:36px;overflow:hidden;padding:0 20px;">
 
 {{#folder.breadcrumbs.length}}
 
-<div style="min-width:100%;float:right;white-space:nowrap">
+<div class="crumbly" style="min-width:100%;float:right;white-space:nowrap">
 
  {{#folder.breadcrumbs}}
 
@@ -33,10 +24,6 @@ button:focus {outline: none;}
 <div style="position:absolute;top:0;left:0;bottom:0;width:20px;background: linear-gradient(to right, rgba(253, 250, 248,1) 33%,rgba(253, 250, 248,0) 100%); ">
 </div>
 
-
-   
-
-<!--     <span style="float:right;background:green;width:1em;height:1em;display:inline-block;border-radius:4em;font-size:9px;margin-top:15px"></span>
- --></div>
+</div>
 {{/folder.breadcrumbs.length}}
 </form>

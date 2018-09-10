@@ -1,7 +1,3 @@
-<style type="text/css">
-.tablet {margin: 0;}
-</style>
-
   <input type="hidden" name="redirect" value="/settings/domain">
   
     <label>
@@ -30,8 +26,8 @@ border-radius:0;border:none;display:none;margin:0 -20px;padding: 8px 20px" id="w
       <input name='forceSSL' type="checkbox" {{#blog.forceSSL}}checked{{/blog.forceSSL}}/> Redirect HTTP traffic to HTTPS
     </label>
 
- 
- <script src="/scripts/jquery.js?{{cacheID}}"></script>
+{{#footer}}
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
 <script type="text/javascript">
 
   if ($('#customDomain').val()) {
@@ -51,5 +47,6 @@ border-radius:0;border:none;display:none;margin:0 -20px;padding: 8px 20px" id="w
    });
   }
 
-  </script>    {{/blog.domain}}
-
+</script>
+{{/footer}}
+{{/blog.domain}}

@@ -26,7 +26,8 @@ router
   });
 
 router.post("/path", function(req, res) {
-  req.session.path = req.body.path || "/";
+  req.session[req.blog.id] = req.session[req.blog.id] || {};
+  req.session[req.blog.id].path = req.body.path || "/";
   return res.redirect(req.body.redirect || "/");
 });
 
