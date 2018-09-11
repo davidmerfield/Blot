@@ -1,36 +1,18 @@
-{{> head}}
-<div class="wrapper">
-  <div class="gap"></div>
-    <div style="flex-basis:485px;margin:80px;">
-      <a style="line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid rgba(0,0,0,.05)" href="/account/create-blog">Create new blog</a>
-
-      {{#message}}
-        <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
-         {{text}}
-         <span class="link">Dismiss</span>
-        </a>
-      {{/message}}
-
-    <form method="post"> 
-      <input type="hidden" name="_csrf" value="{{csrftoken}}">
-      <input type="hidden" name="timeZone" value="">  
-      <div style="width:80%">
-          <p>A blog costs <b>$20</b> per year. You can host as many as you like and you can cancel at any time. If you create a new blog today, you will be charged <b>{{now}}</b> to cover its cost until your next bill on <b>{{user.pretty.expiry}}</b>.</p>
-        <hr>
-        <div style="display:flex">
-          <span style="Color:rgb(153, 153, 153)">Amount due today:</span>
-          <b style="flex-grow:1;text-align:right">{{now}}</b>
-        </div>
-      </div>
-      <br><br>
-      <div class="buttons">
-        <button type="submit" onclick="this.form.submit();this.disabled=true">Submit payment</button>
-        <a href="/">Cancel</a>
-      </div>
-      <br><br>
-    </form>
+<form method="post"> 
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <input type="hidden" name="timeZone" value="">  
+  <div style="width:80%">
+      <p>A blog costs <b>$20</b> per year. You can host as many as you like and you can cancel at any time. If you create a new blog today, you will be charged <b>{{now}}</b> to cover its cost until your next bill on <b>{{user.pretty.expiry}}</b>.</p>
+    <hr>
+    <div style="display:flex">
+      <span style="Color:rgb(153, 153, 153)">Amount due today:</span>
+      <b style="flex-grow:1;text-align:right">{{now}}</b>
+    </div>
   </div>
-  <div class="gap"></div>
-</div>
-</body>
-</html>
+  <br><br>
+  <div class="buttons">
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Submit payment</button>
+    <a href="/">Cancel</a>
+  </div>
+  <br><br>
+</form>

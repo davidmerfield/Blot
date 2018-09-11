@@ -1,38 +1,18 @@
-{{> head}}
-<div class="wrapper">
-  <div class="gap"></div>
-    <div style="flex-basis:485px;margin:80px;">
-
-      <b>Set up your new blog</b><br>
-<span style="color:rgb(153, 153, 153)">You can adjust all of these settings later</span>
-<br><br><br><br>
-      <a style="line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;color:rgb(153, 153, 153);border-bottom:1px solid rgba(0,0,0,.05)" href="/account/create-blog"><span style="color:#111">Choose a title</span> <span style="margin:0 10px">&rarr;</span> Select your client</a>
-
-      <br>
-      {{#message}}
-        <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
-         {{text}}
-         <span class="link">Dismiss</span>
-        </a>
-      {{/message}}
-
-    <form method="post"> 
-      <input type="hidden" name="_csrf" value="{{csrftoken}}">
-      <input type="hidden" name="timeZone" value="">  
-      <label>Your blog's title:
-        <input type="text" autofocus name="title">
-      </label>
-      <br>
-      <div class="buttons">
-        <button type="submit" onclick="this.form.submit();this.disabled=true">Next</button>
-                <button type="submit" onclick="this.form.submit();this.disabled=true">Skip</button>
-
-      </div>
-      <br><br>
-    </form>
+<form method="post"> 
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <input type="hidden" name="timeZone" value="">  
+  <label>Your blog's title:
+    <input type="text" autofocus name="title">
+  </label>
+  <br>
+  <div class="buttons">
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Next</button>
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Skip</button>
   </div>
-  <div class="gap"></div>
-</div>
+  <br><br>
+</form>
+
+{{#footer}}
 
 <script src="/scripts/jquery.js?{{cacheID}}"></script>
 <script src="/scripts/tz_detect.js?{{cacheID}}"></script>
@@ -59,5 +39,4 @@ $('input[name="timeZone"]').val(timezone.name());
 }
 
 </script>
-</body>
-</html>
+{{/footer}}

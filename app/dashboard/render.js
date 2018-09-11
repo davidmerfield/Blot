@@ -3,11 +3,12 @@ module.exports = function(req, res, next) {
   var wrapper;
 
   res.render = function(view, locals, callback) {
+
     if (view === "error") {
       return _render.call(this, view, locals, callback);
     }
 
-    if (view.indexOf('create-blog') > -1) {
+    if (view.indexOf('create-blog') > -1 || view.indexOf('wrapper-setup') > -1) {
       return _render.call(this, view, locals, callback);
     }
 

@@ -40,6 +40,7 @@ index.get(
 settings.use(function(req, res, next) {
 
   res.locals.breadcrumbs.add("Settings", "/settings");
+  res.locals.setup = !!req.query.setup;
 
   next();
 });
@@ -62,6 +63,11 @@ settings
 
 settings.get("/settings/urls", function(req, res, next) {
   res.locals.edit = !!req.query.edit;
+  next();
+});
+
+settings.get("/settings/title", function(req, res, next){
+  res.locals.setup_title = true;
   next();
 });
 

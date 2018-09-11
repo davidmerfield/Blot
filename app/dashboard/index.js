@@ -97,15 +97,9 @@ dashboard.use(function(req, res, next){
   res.locals.links_for_footer = [];
 
   res.locals.footer = function () {
-
-    console.log('HERE first');
       
     return function (text, render) {
-
-      console.log('HERE second', text, render);
-
       res.locals.links_for_footer.push({html: text});
-      
       return '';
     }
   }

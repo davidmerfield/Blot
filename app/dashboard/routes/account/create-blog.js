@@ -31,8 +31,11 @@ CreateBlog.route("/pay")
   .all(calculateFee)
 
   .get(function (req, res) {
-    res.render("account/create-blog-pay", {
+
+    res.locals.partials.yield = "account/create-blog-pay";
+    res.render("partials/wrapper-setup", {
       title: "Create a blog",
+      not_paid: true,
       breadcrumb: "Create a blog"
     });
   })
@@ -58,8 +61,10 @@ CreateBlog.route("/")
   })
 
   .get(function(req, res) {
-    res.render("account/create-blog", {
+    res.locals.partials.yield = "account/create-blog";
+    res.render("partials/wrapper-setup", {
       title: "Create a blog",
+      not_created: true,
       breadcrumb: "Create a blog"
     });
   })
@@ -67,7 +72,7 @@ CreateBlog.route("/")
   .post(
     saveBlog,
     function(req, res) {
-      res.redirect("/");
+      res.redirect("/settings/client?setup=true");
     }
   )
 

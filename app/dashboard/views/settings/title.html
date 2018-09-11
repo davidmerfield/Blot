@@ -1,6 +1,11 @@
 <label>
   Your blog's title:
+  {{^setup}}
   <input type="hidden" name="redirect" value="/settings/title">
+  {{/setup}}
+  {{#setup}}
+  <input type="hidden" name="redirect" value="/settings/client?setup=true">
+  {{/setup}}
   <input type="text" autofocus name="title" value="{{blog.title}}">
   <span class="error">{{errors.title}}</span>
 </label>

@@ -17,10 +17,12 @@ client_routes
   .route("/")
 
   .get(load.clients, load.client, function(req, res) {
-    res.render("clients", { title: "Select a client" });
+    res.render("clients", { title: "Select a client", setup_client: true });
   })
 
   .post(function(req, res, next) {
+    var redirect;
+
     if (!req.body.client) {
       return next(new Error("Please select a client"));
     }
@@ -29,10 +31,16 @@ client_routes
       return next(new Error("Please select a client"));
     }
 
+    redirect = req.baseUrl + "/" + req.body.client;
+
+    if (req.body.setup) {
+      redirect += "?setup=true";
+    }
+
     Blog.set(req.blog.id, { client: req.body.client }, function(err) {
       if (err) return next(err);
 
-      res.redirect(req.baseUrl + "/" + req.body.client);
+      res.redirect(redirect);
     });
   });
 

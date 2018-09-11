@@ -1,5 +1,9 @@
 <form method='post' class="account">
 
+  {{#setup}}
+  <input type="hidden" name="setup" value="true">
+  {{/setup}}
+
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
   {{#client}}
@@ -21,7 +25,12 @@
   
 <div class="buttons">
   <input class="button" type="submit" name="" value="Select this client">
+  {{#setup}}
+  <a href="/">Skip</a>
+  {{/setup}}
+  {{^setup}}
   <a href="/">Cancel</a>
+  {{/setup}}
 </div>
 
 </form>
