@@ -1,13 +1,20 @@
-<label>
-  Your blog's title:
+<p style="width:475px;margin-top:0;margin-bottom:2rem">Please <!-- <span style="color: #111;
+    background: #fff0a8;
+"> -->choose a title<!-- </span> --> for your blog. Note that you can edit this later, at your leisure.</p>
+<label for="title">
+  
+  Title:
+</label>
+
   {{^setup}}
   <input type="hidden" name="redirect" value="/settings/title">
+  <input type="text" autofocus name="title" value="{{blog.title}}">
   {{/setup}}
+
   {{#setup}}
   <input type="hidden" name="redirect" value="/settings/client?setup=true">
+  <input type="text" autofocus name="title" value="{{^not_created}}{{blog.title}}{{/not_created}}">
   {{/setup}}
-  <input type="text" autofocus name="title" value="{{blog.title}}">
-  <span class="error">{{errors.title}}</span>
-</label>
+
 
 

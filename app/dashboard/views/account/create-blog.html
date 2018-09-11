@@ -1,15 +1,16 @@
 <form method="post"> 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
-  <label>Your blog's title:
-    <input type="text" autofocus name="title">
-  </label>
-  <br>
+  
+  {{> subpage}}
+
+    <br>
   <div class="buttons">
-    <button type="submit" onclick="this.form.submit();this.disabled=true">Next</button>
-    <button type="submit" onclick="this.form.submit();this.disabled=true">Skip</button>
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Save title</button>
+    <input type="submit" name="no_title" value="Skip"  />
   </div>
-  <br><br>
+  <br>
+
 </form>
 
 {{#footer}}

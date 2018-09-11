@@ -4,7 +4,6 @@ var Blog = require("blog");
 var helper = require("helper");
 var pretty = helper.prettyPrice;
 var config = require("config");
-var handleValidator = require("../../../models/blog/validate/handle");
 var helper = require("helper");
 var pretty = helper.prettyPrice;
 
@@ -40,9 +39,13 @@ CreateBlog.route("/pay")
     });
   })
 
-  .post(chargeForRemaining, updateSubscription, function(req, res){
-    res.message(req.baseUrl, 'Your payment was recieved and a receipt was sent to your email address');
-  });
+  .post(chargeForRemaining)
+  
+  .post(updateSubscription)
+
+  .post(function(req, res){
+    res.message(req.baseUrl, 'Your payment was received');
+    });
 
 CreateBlog.route("/")
 
@@ -61,10 +64,12 @@ CreateBlog.route("/")
   })
 
   .get(function(req, res) {
+    res.locals.partials.subpage = "settings/title";
     res.locals.partials.yield = "account/create-blog";
     res.render("partials/wrapper-setup", {
       title: "Create a blog",
       not_created: true,
+      setup: true,
       breadcrumb: "Create a blog"
     });
   })
@@ -136,19 +141,53 @@ function uid () {
   return PREFIX + '-' + res;
 }
 
-function saveBlog(req, res, next) {
+var chars = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
+function randomChars (len) {
+
+  var res = '';
+
+  while (res.length < len)
+    res += chars[Math.floor(Math.random() * chars.length)];
+
+  return res;
+}
+
+function handleFromTitle (title) {
+
+  var handle = '';
+
+  handle = title.toLowerCase().replace(/\W/g, '');
+
+  return handle;
+}
+
+function saveBlog (req, res, next) {
+
+  console.log(req.body);
+  
+  var title, handle;
+
+  if (req.body.no_title) {
+    title = 'Untitled blog';
+    handle = 'untitled' + randomChars(5);
+  } else if (req.body.title) {
+    title = req.body.title;
+    handle = handleFromTitle(title);
+  }
+
   Blog.create(
     req.user.uid,
     {
-      title: req.body.title,
-      handle: req.body.title.toLowerCase().split('-').join(''),
+      title: title,
+      handle: handle,
       timeZone: req.body.timeZone
     },
     function(err, blog) {
-
-      console.log(err);
       
-      if (err) return next(err);
+      if (err) {
+        return res.message('/account/create-blog', err.handle);
+      }
 
       // Switch to the new blog
       req.session.blogID = blog.id;

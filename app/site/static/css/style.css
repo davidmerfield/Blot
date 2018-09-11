@@ -174,7 +174,8 @@ input[type="submit"] {
     box-shadow: none;
     outline: none;
     border: none;
-    padding: 0.6rem 1.8rem;    
+    line-height: 42px;
+    padding: 0 1.8rem;    
     cursor: pointer;
 border-radius: 3px;
     font-size: 1rem;

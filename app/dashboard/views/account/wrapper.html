@@ -3,8 +3,10 @@
   <div class="wrapper" >
     <div class="gap"></div>
     <div style="flex-basis:200px;text-align:right">
+      {{#blogs.length}}
       <a href="/" style="background:none;border:none;line-height:41px;padding:0 20px;margin:0;color:rgb(153, 153, 153);text-decoration:none">&larr;&thinsp; Back to dashboard</a>
-    </div>
+          {{/blogs.length}}
+      </div>
     <div class="gap" style="flex-grow:1;"></div>
 
     <div style="flex-basis:500px;border:1px solid rgba(0,0,0,0.05)">

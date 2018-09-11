@@ -1,4 +1,4 @@
-<form method='post' class="account">
+<form method='post' {{^setup}}class="account"{{/setup}} {{#setup}}style="padding:20px 0"{{/setup}}>
 
   {{#setup}}
   <input type="hidden" name="setup" value="true">
@@ -14,7 +14,7 @@
 
   {{/client}}
 
-  <label>Select a {{#client}}different{{/client}} client to synchronize your blog's folder:</label>
+  <label>Select a {{#client}}different{{/client}} client to synchronize the folder for <b>{{blog.title}}</b>:</label>
 
 {{#clients}}
 

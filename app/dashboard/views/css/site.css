@@ -161,9 +161,10 @@ ul {
 
 
 body {
-  font: 400 15px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+  font: 400 16px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
     background: #fdfaf8;
+-webkit-font-smoothing: antialiased;
 }
 
 
@@ -337,9 +338,16 @@ form .fullRow label {
 
 form label {
   line-height: 2.5;
-  margin: 1em 0;
+  margin:  0;
   position: relative;
-}
+font-size: 12px;
+    line-height: 16px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #111;
+    margin-bottom: 4px;
+      padding-top: 1rem;
+    padding-bottom: .25rem;}
 
 form select {
   display: block;
@@ -1590,12 +1598,11 @@ body, html {height: 100%;margin: 0;color: #111;}
     flex-grow:0.6666;
     margin-right:2em;
     box-sizing: border-box;
-    color: white;
-    background: #005388
-  }
+    background: #2f2e2d;
+    color: #fffefc;  }
 
-  .buttons :first-child:hover{background: #075f96}
-  .buttons :first-child:active{background: #00446f}
+  .buttons :first-child:hover{background: #111}
+  .buttons :first-child:active{background: #000}
 
   .buttons .red {background: red;}
 
@@ -1690,6 +1697,7 @@ form.account > .buttons {
 .label {
   color: rgb(158, 154, 152);
   display: block;
+
 }
 
 .center, div.line a.link {}
