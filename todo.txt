@@ -302,6 +302,7 @@ Buy the .com
 Incorporate
 
 Add support for other payment methods
+  - Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
 
 Start monthly newsletter with improvements, changes
 - Let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
