@@ -1,109 +1,108 @@
+<a class="line" href="/account/email">
+  <span class="label">Email</span>
+  <span class="center">{{user.email}}</span>
+  <span class="right">Edit</span>
+</a>
 
-<style type="text/css">
-.plugin {width: 100%;padding:0;margin:0;float:none;}
-input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
-form label {cursor: pointer;line-height: 1.5;}
+{{#user.hasPassword}}
+<a class="line" href="/account/password/change">
+  <span class="label">Password</span>
+  <span class="center"><span class="link">Change your password</span></span>
+</a>
+{{/user.hasPassword}}
 
-.linkTo {color: black;display: block;padding:1em 0;text-decoration: none;}
-a.linkTo:hover {border:none;background: rgba(0,0,0,0.025)}
+<div class="line">
+<span class="label" style="">Your blogs       {{#blogs.length}} <a class="link" style="display:block;float:right;" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a>  {{/blogs.length}}
+</span>
+<hr style="margin:11px 0 0">
+<div class="clear"></div>
+    {{#blogs}}
 
-.linkTo div p:first-child {margin-top: 0}
-</style>
+    <div style="display:flex;border:none;padding:0;" class="line">
 
-<form method='post'>
+      <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
+        <input type="hidden" name="_csrf" value="{{csrftoken}}">
+        <input type="hidden" name="to" value="{{id}}"> 
+        <button type="submit" style="width:100%;padding:11px 11px 11px 0;display:flex;border:none;margin:0;background:none">
+          <span style="display:flex;flex-grow:1;"><span class="photo-holder" style="margin-top:3px"> {{#avatar}}<img src="{{avatar}}">{{/avatar}}
+              {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>{{title}}{{^title}}{{pretty.url}}{{/title}}</span><span style="padding:0 20px" class="link">Open dashboard</span>
+        </button>
+      </form> 
+      <a class="right link" style="display:flex;background:none;padding:11px 0 11px 0" href="/account/delete/blog/{{handle}}">Delete </a>
 
-  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    </div>
 
-
-    <a class="linkTo" href="/account/email">
-      <b style="width:25%;display:block;float:left;font-weight:500">Email</b>
-      <b style="color:gray;font-weight:500">{{user.email}}</b>
-      <span style="color:gray;float:right;text-decoration:underline">Edit</span>
-    </a>
-
-    <hr style="margin: 0">
-
-          {{#user.hasPassword}}
-
-<a class="linkTo" href="/account/change-password">
-      <b style="width:25%;display:block;float:left;font-weight:500">Password</b>
-      <span style="color:blue;text-decoration:underline">Change your password</span>
-    </a>
-
-    <hr style="margin: 0">
-     {{/user.hasPassword}}
+    {{/blogs}}
+    {{^blogs.length}}
+     <a class="link" style="display:block;padding:11px 0;background:none;margin-bottom:-11px" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
+     {{/blogs.length}}
+    <div class="clear"></div>
+</div>
 
     
 
-    <a class="linkTo" href="/account/export">
-      <b style="width:25%;display:block;float:left;font-weight:500">Export</b>
-      <span style="color:blue;text-decoration:underline">Download your data</span>
-    </a>
 
-          <hr style="margin: 0">
+<div class="line">
+  <span class="label">Subscription</span>
+  
+  <div class="center">
 
-<div class="linkTo">
-      <b style="width:25%;display:block;float:left;font-weight:500">Billing</b>
-      <div style="width:75%;float:right">
+    <p style="padding:0.75em 2em 0 0;margin:0;line-height:1.5">
+    
+    {{#user.isFreeForLife}}
+      You can use Blot <b>for free</b> for as long as Blot exists.
+    {{/user.isFreeForLife}}
 
+    {{#user.cancel_at_period_end}}
+      Your subscription has been cancelled and you won’t be charged again. On <b>{{user.pretty.expiry}}</b> your account will close and your blog{{user.s}} will shut down.
+    {{/user.cancel_at_period_end}}
 
+    {{#user.isSubscribed}}
+      
+      {{#user.subscription.quantity}}
+        Your next bill on <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>. You will recieve an email reminder one week before.
+      {{/user.subscription.quantity}}
 
+      {{^user.subscription.quantity}}
+        Your next billing period begins on <b>{{user.pretty.expiry}}</b> but you will not be charged anything because you do not host any blogs on Blot.
+      {{/user.subscription.quantity}}
 
+    {{/user.isSubscribed}}
 
-        {{#user.cancel_at_period_end}}
-
-        <p>Your subscription was cancelled and you won’t be charged again.  Your account will expire on <br/> <b>{{user.pretty.expiry}}</b>.</p>
-
-        <p><a class="link" href="/account/restart">Restart your subscription</a></p>
-
-        {{/user.cancel_at_period_end}}
-
-        {{#user.isFreeForLife}}
-        <p>Since you were among the earliest to buy an account you can use Blot <b>for free</b> for as long as Blot exists!</p>
-
-        {{/user.isFreeForLife}}
-
-
-        {{#user.isSubscribed}}
-          {{#user.subscription.quantity}}
-        <p>Your subscription will renew on <b>{{user.pretty.expiry}}</b>. Your bill will be <b>{{user.pretty.price}}</b> because you run {{user.pretty.amount_in_words}} blog{{user.s}}:</p>
-
-{{#blogs}}
-<p>
-          <a href="/account/swap?to={{id}}">{{title}}</a>  <a style="color:gray;float:right" href="/account/close-blog/{{handle}}">Delete this blog</a>
-        </p>
-          <hr style="margin-bottom:0">
-
-        {{/blogs}}
-
-          {{/user.subscription.quantity}}
-          {{^user.subscription.quantity}}
-                  <p >Your next billing period begins on <b>{{user.pretty.expiry}}</b> but you will not be charged anything because you do not host any blogs on Blot.</p>
-
-          {{/user.subscription.quantity}}
-
-                
+    </p>
 
 
-        <p>
-          <a class="button" href="/account/create-blog">Create a new blog</a>
-          <hr> <a class="link" style="margin-top:0.75em;display:block" href="/account/update-billing">Edit your payment information</a>
-                    <hr> <a class="link" style="margin-top:0.75em;display:block" href="/account/cancel">Cancel your subscription</a>
 
-        </p>
-                {{/user.isSubscribed}}
+    {{#user.cancel_at_period_end}}
+       <a class="link" style="display:flex;flex-grow:1;padding:11px 0;background:none;margin-bottom:-11px" href="/account/subscription/restart">Restart your subscription</a> 
+     {{/user.cancel_at_period_end}}
+
+    {{#user.isSubscribed}}
+
+    <!--     <a href="/account/create-blog" style="width:33.3333%;float:left" class="link">Create another blog</a>
+     -->
+     <div style="display: flex;
+">
+       <a class="link" style="display:flex;flex-grow:1;background:none;padding:11px 0;margin-bottom:-11px" href="/account/subscription/cancel">Cancel subscription</a> 
+
+       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1;padding:11px 16px;background:none;margin-bottom:-11px">Edit payment method</a>
+     </div>
+
+      {{/user.isSubscribed}}
 
       
+
       </div>
-      <hr>
-      <div style="width:75%;float:right">
-         <a class="link red" href="/account/delete">Delete your account</a>
-       </div>
-<br /><br />
-
-
-  </form>
-  <br><Br><br>
 </div>
+
+<a class="line" href="/account/export">
+  <span class="label">Export</span>
+  <span class="center"><span class="link">Download the data stored by Blot</span></span>
+</a>
+
+<a class="line" href="/account/delete">
+  <span class="label">Delete</span>
+  <span class="center"><span class="link">Permanently close your account</span></span>
+</a>
 
 

@@ -1,28 +1,43 @@
+var Metadata = require("metadata");
+var async = require("async");
+
 module.exports = function breadcrumbs(req, res, next) {
+  
   var breadcrumbs = [];
   var dir = req.dir;
-
-  if (dir === "/") {
-    return next();
-  }
-
-  breadcrumbs.push({ name: "Your folder", url: "/" });
-
+  var redirect = req.header("Referer") || "/";
   var names = dir.split("/").filter(function(name) {
     return !!name;
   });
 
-  names.forEach(function(name, i) {
-    breadcrumbs.push({
-      url: "/~/" + names.slice(0, i + 1).join("/"),
-      name: name
-    });
-  });
+  breadcrumbs.push({ label: "Folder", first: true, url: "/view?path=/" });
 
-  breadcrumbs[breadcrumbs.length - 1].last = true;
-  
-  res.addPartials({breadcrumbs: 'folder/breadcrumbs'});
-  res.locals.breadcrumbs = breadcrumbs;
+  async.eachOfLimit(
+    names,
+    10,
+    function(name, i, done) {
+      var path = '/' + names.slice(0, i + 1).join("/");
 
-  return next();
+      Metadata.get(req.blog.id, path, function(err, casePresevedName) {
+        
+        if (err) return next(err);
+
+      
+        breadcrumbs.push({
+          url: "/view?redirect=" + redirect + "&path=" + path,
+          label: casePresevedName || name,
+          path: path
+        });
+
+        done();
+      });
+    },
+    function() {
+      breadcrumbs[breadcrumbs.length - 1].last = true;
+
+      res.locals.folder.breadcrumbs = breadcrumbs;
+
+      return next();
+    }
+  );
 };

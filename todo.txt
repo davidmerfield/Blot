@@ -12,6 +12,11 @@ Git client bugs:
     - I think this was caused by nginx request size limit, which I have increased
   Tell Taurean when new Dropbox client is live
 
+Fix bug with blurry thumbnails on https://photos.asw.fyi/ and tell Adam
+  - https://photos.asw.fyi/cod-heads-at-borgarfj%C3%B6r%C3%B0ur-eystri
+  - https://photos.asw.fyi/road-to-skaft%C3%A1rhreppur
+  It seems like the medium version is the same image as the small version. Determine if issue is reproducible with source image. It might just be the cache. Is it possibly the hash of the generated file?
+
   Add explanation for how to mirror blot blog repo on Github or Gitlab:
   https://mail.google.com/mail/u/1/#inbox/1658e28be94479af
   
@@ -23,6 +28,8 @@ via DM: https://twitter.com/aswfyi
 
 Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
 
+Fix [Rob's git client bugs](https://mail.google.com/mail/u/1/#inbox/1657f11a67266434)
+
 Fix bug with title and partials in local editing
   - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
   - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
@@ -30,7 +37,9 @@ Fix bug with title and partials in local editing
 Fix bug with double escaped embedded ampersands.
   http://gavin.blot.im/this-code-doesnt-work
   Tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672)
-
+  http://rtimmons.blot.im/member-function-dispatch
+  Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4)
+  
 Fix case-sensitive bug with weblocs by passing case-sensitive path to entry.build and tell [Frank](https://mail.google.com/mail/u/1/#inbox/1645a74250006a08)
 
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
@@ -47,7 +56,7 @@ Fix bug with Pandoc markdown which won't process file with broken footnote synta
 - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
 - Tell [Johannes](https://twitter.com/johklab)
 
-Fix bug generating summary, or maybe even remove the dumb title exclusion from the summary and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
+Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
 
 Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
@@ -118,6 +127,8 @@ Magazine theme
 - Improve the about page
 - Add grey bg to loading thumbnails
 
+Portfolio theme
+- Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
 Good source for theme content: http://cinebloc.blot.im/
 
 Improve the selection of templates
@@ -129,6 +140,9 @@ Improve the selection of templates
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
+
+Implement LE wildcart SSL certificate support
+  - Tell [Johan](https://mail.google.com/mail/u/1/#inbox/165175a109b9e766)
 
 Self-hosting documentation
 - Tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)
@@ -273,7 +287,8 @@ Clients
   https://www.npmjs.com/package/ftpd
 - Google Drive
   Tell Cecil: https://twitter.com/Blot__/status/988162892594860032?s=20
-
+  Tell Jonathan: https://twitter.com/chin_jon/status/1032392398473650176
+  
 Record a new demo video
 - Show sites I run using Blot
 - Blot's developer blog, a conventional blog, show using different text editors
@@ -503,7 +518,10 @@ Prevent image zoom plugin from zooming emojies
 
 Embed plugin https://github.com/ritz078/embed.js
 
-Soundcloud embeds and tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23)
+Soundcloud embeds and tell 
+  [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23)
+  Nashp
+  [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12)
 
 Create script to export Blot sites to common formats and let Roberto know
 

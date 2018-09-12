@@ -3,55 +3,36 @@
  <p class="box red" style="width:120%"> ... </p>
 {{/error}}
 
-<style type="text/css">.sub.nav a:hover {border:none;}</style>
-<div class="sub nav" style="margin-bottom:1.3em;">
-  <a href="/settings" style="font-size:16px">Settings</a> <span style="margin:0 0.5em 0 -1.5em;color:gray"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="gray"></path></svg></span>
 
 
-  <a href="/clients/git" style="font-size:16px">Git</a>
-</div>  
-<hr>
+ <div class="line">
+    <p>The folder for <b>{{blog.title}}</b> is synchronized by <b>Git</b>. If you would like to <a href="/settings/client">switch to another client</a>, you can do so without disruption. Blot will transfer the contents of your folder automatically.</p>
+    <br>
+    <span style="color:rgb(109, 109, 109);">Git</span>
+  </div>
 
 
-{{#exists}}
 
-<pre>
-git clone https://{{host}}/clients/git/end/{{blog.handle}}.git
-</pre>
+<div class="line">
+  
+    <p style="margin-top:0">First clone the repository:</p>
+    <pre style="font-size:13px">git clone https://{{host}}/clients/git/end/{{blog.handle}}.git</pre>
 
-<p>When prompted for your username and password, use your blog's username and this token:</p>
-
-<p><b>Username</b> {{blog.handle}}</p>
-<p><form method="post" style="float:right" action="/clients/git/refresh_token">
-<input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="borderButton secondary" value="Refresh token">
-</form><b>Password</b> {{token}} </p>
-
-<hr>
-
-<form method="post" action="/clients/git/disconnect">
-<input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="button" value="Disconnect from git">
+    <p>When prompted for your username and password, use these:</p>
+<span class="label">Username</span>
+  <span>{{blog.handle}}</span>
+  <span class="label" style="margin-top:11px">Password</span>
+  <span>{{token}}</span>
+  <form method="post" style="float:right" action="{{{base}}}/refresh_token">
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+<input type="submit" value="Refresh token">
 </form>
-
-
-{{/exists}}
-
-
-
-{{^exists}}
-
-<p style="max-width:30em">Blot will create a Git repository for your blog. You can switch to a different client at any point.</p><br />
+</div>
+<a class="line" href="{{{base}}}/disconnect">
+  <span class="label">Disconnect</span>
+  <span class="link">Remove this repository</span>
+</a>
+<div class="clear"></div>
 
 
 
-<form style="float:left" method="post" action="/clients/git/create">
-<input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="button" value="Create repository">
-</form>
-
-<form style="float:left" method="post" action="/clients/git/disconnect">
-<input type="hidden" name="_csrf" value="{{csrftoken}}">
-<input type="submit" class="borderButton secondary" style="margin-top:0.25em;margin-left:0.5em" value="Cancel">
-</form>
-{{/exists}}

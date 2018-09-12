@@ -15,7 +15,6 @@ var HELP = '/help';
 var PRIVACY = '/privacy';
 var MAINTENANCE = '/maintenance';
 var ACCOUNT = '/account';
-var CLIENTS = '/clients';
 var PAY_SUBSCRIPTION = '/account/pay-subscription';
 var ENABLE = '/account/enable';
 var LOGOUT = '/account/log-out';
@@ -49,10 +48,6 @@ module.exports = function (req, res, next) {
   function pathIsNot (path) {
     return !pathIs(path);
   }
-
-  // Make sure the user connects a Dropbox account to their blog
-  if (pathIsNot([CLIENTS, LOGOUT, ACCOUNT]) && req.blog && !req.blog.client)
-    return res.redirect(CLIENTS);
 
   if (pathIs(STATIC)) return next();
 

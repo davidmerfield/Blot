@@ -15,6 +15,12 @@ module.exports = function (req, res, next) {
       
       if (!blog) return nextBlog();
 
+      try {
+        blog = Blog.extend(blog);
+      } catch (e) {
+        return next(e);
+      }
+
       if (req.session.blogID === blog.id) {
         blog.isCurrent = true;
         activeBlog = blog;
@@ -53,13 +59,11 @@ module.exports = function (req, res, next) {
 
     if (!activeBlog) return next(new Error('No blog'));
 
-    req.blog = Blog.extend(activeBlog);
+    req.blog = activeBlog;
     req.blogs = blogs;
 
-    res.addLocals({
-      blog: activeBlog,
-      blogs: blogs
-    });
+    res.locals.blog = activeBlog;
+    res.locals.blogs = blogs;
 
     return next();
   });

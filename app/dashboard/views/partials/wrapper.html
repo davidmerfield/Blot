@@ -1,4 +1,123 @@
 {{> head}}
-{{> header}}
-{{> yield}}
-{{> footer}}
+
+
+
+<div class="wrapper">
+
+  <div class="gap"></div>
+
+  <div class="left-side" style="display:flex;flex-direction:column">
+  {{> dropdown}}
+
+  <div style="flex-grow:1"></div>
+
+  </div>
+
+  <div class="gap-small"></div>
+
+  <div class="middle" style="margin-top:-61px;">  
+    
+    {{#message}}{{^error}}
+    <a href="" class="mess success" style="margin-bottom:19px">
+     <span class="link">Dismiss</span>
+     {{text}}
+    </a>
+    {{/error}}{{#error}}
+    <div class="clear" style="margin-bottom:60px"></div>
+    {{/error}}{{/message}}
+
+    {{^message}}
+    <div class="clear" style="margin-bottom:60px"></div>
+    {{/message}}
+
+    <div class="clear"></div>
+
+    <div class="crumbs">
+
+      {{#breadcrumbs}}
+      
+      <a href="{{url}}" class="crumb {{#last}}last{{/last}}">{{label}}</a>
+
+      {{^last}}
+      <span style="    margin: 0 -1em 0 -0.5em;
+    line-height: 3;" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
+      {{/last}}
+
+      {{/breadcrumbs}}
+      
+    </div>
+    
+    {{#message.error}}
+    <a href="" class="mess error" style="margin-bottom:19px">
+     <span class="link">Dismiss</span>
+     {{message.text}}
+    </a>
+    {{/message.error}}
+
+    {{> yield}}
+  </div>
+  
+  <div class="gap-small"></div>
+  
+  <div class="side-bar" style="display:flex;flex-direction:column">
+
+    <a href="{{blog.url}}" class="external" target="_blank" >Visit your blog <span class="square">&rarr;</span></a>
+     
+    {{> folder}}
+
+<div  style="padding-top:80px;position:absolute;width:100%;bottom:-42px;opacity:0.75;display:flex;">
+   <a style="color:#aaa;text-decoration:none"  href="/account">Your account</a>
+   <a style="color:#aaa;text-decoration:none;flex-grow:1;text-align:center;"  href="/help">Documentation</a>
+   <a style="color:#aaa;text-decoration:none" href="/contact">Contact support</a>
+ </div> 
+   
+</div>
+
+<div class="gap"></div>
+</div>
+<div class="clear"></div>
+
+{{#links_for_footer}}
+{{{html}}}
+{{/links_for_footer}}
+
+<script type="text/javascript">
+
+// $('input.button:not(.small)').each(function(){
+
+//     $(this).click(function(){
+//       $(this).addClass('working').val('Saving changes');
+//     });
+// });
+
+var opener = document.querySelector('.dropdown .opener');
+var closer = document.querySelector('.dropdown .closer');
+var dropdown = document.querySelector('.dropdown');
+
+opener.addEventListener('click', function(e){ //say this is an anchor
+  
+  function close (e) {
+
+    if (dropdown.className.split(' ').indexOf('closed') === -1)
+      dropdown.className += ' closed';
+
+    document.body.removeEventListener('click', close);
+  }
+
+  if (dropdown.className.split(' ').indexOf('closed') === -1) {
+    
+    dropdown.className += ' closed';
+    document.body.removeEventListener('click', close);
+
+  } else {
+  
+    dropdown.className = dropdown.className.split('closed').join('');
+    document.body.addEventListener('click', close);
+  }
+  
+  e.preventDefault();
+  e.stopPropagation();
+});
+</script>
+</body>
+</html>

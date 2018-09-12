@@ -1,135 +1,114 @@
 {{> sub_nav}}
-<style type="text/css">
-.plugin {width: 100%;padding:0;margin:0;float:none;}
-input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
-form label {cursor: pointer;line-height: 1.5;}
-
-
-
-.group .linkTo:first-child {border-radius: 4px 4px 0 0}
-.group .linkTo:last-child {border-radius: 0 0 4px 4px;border-bottom-width: 1px}
-
-.linkTo {border:1px solid #eee;border-bottom-width:0;color: black;display: block;padding:1em;text-decoration: none;}
-.linkTo:hover {background: rgba(0,0,0,0.025)}
-</style>
 
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
-  <br>
-  <div class="group">
+{{^client}}
 
-    <a class="linkTo" href="/settings/title">
-      <b style="width:25%;display:block;float:left;font-weight:500">Title</b>
-      <b style="color:gray;font-weight:500">{{blog.title}}</b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
+<a href="/settings/client" class="mess error">
+     <span class="link">Select a client</span>
+     Please select a client to sync your folder.
+  </a>
+{{/client}}
+
+  <a class="line" href="/settings/title">
+    <span class="label">Title</span>
+    <span class="center">
+
+      
+
+      {{blog.title}}
+      {{^blog.title}}<span class="link">Add a title</span>{{/blog.title}}
+
+    </span>
+
+    {{#blog.title}}
+        <span class="right">Edit</span>
+    {{/blog.title}}
     
-    <a class="linkTo" href="/settings/domain">
-      <b style="width:25%;display:block;float:left;font-weight:500">Domain</b>
-      <b style="color:gray;font-weight:500">{{blog.url}}</b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-  
-  </div>
-  <br><Br>
-  <div class="group">
-    <a class="linkTo" href="/theme">
-      <b style="width:25%;display:block;float:left;font-weight:500">Theme</b>
-      <b style="color:gray;font-weight:500">{{#template.name}}
+  </a>
+
+  <a class="line" href="/settings/domain">
+    <span class="label">Domain</span>
+    <span class="center">{{blog.pretty.url}}</span>
+    <span class="right">Edit</span>
+  </a>
+
+
+<a class="line" href="/settings/theme">
+    <span class="label">Theme</span>
+    <span class="center">{{#template.name}}
         {{template.name}}
-        {{/template.name}}        {{^template.name}}<em>You are not using a theme</em>{{/template.name}}
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
+        {{/template.name}}        {{^template.name}}<i>You are not using a theme</i>{{/template.name}}</span>
+            <span class="right">Edit</span>
 
-    <a class="linkTo" href="/settings/photo">
-      <b style="width:25%;display:block;float:left;font-weight:500">Photo</b>
-      <b style="color:gray;font-weight:500">
-        {{^blog.avatar}}<em>You have not uploaded a photo</em>{{/blog.avatar}}
+  </a>
 
-        {{#blog.avatar}}
-  <section id="avatar">
-    <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-  </section>
-  {{/blog.avatar}}
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-      <div style="clear:both"></div>
-    </a>
+  <a class="line" href="/settings/photo">
+    <span class="label">Photo</span>
+    <span class="center">
 
-    <a class="linkTo" href="/settings/menu">
-      <b style="width:25%;display:block;float:left;font-weight:500">Menu</b>
-            <span style="color:gray;float:right">Edit</span>
+      {{^blog.avatar}}
+      <span class="link">Choose a photo</span>
+      {{/blog.avatar}}
 
-      <b style="color:gray;font-weight:500;    max-width: 68%;
-    display: block;
-    height: 1.4em;
-    overflow: hidden;
-    }">{{#blog.menu}} {{label}}{{^last}},{{/last}} {{/blog.menu}}
+      {{#blog.avatar}}
+        <img style="max-width:64px;max-height:64px;margin:4px 8px 0 0;    vertical-align: baseline;
+    display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+            <span class="link">Edit</span>    
 
-    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}</b>
-    </a>
+      {{/blog.avatar}}
+    </span>
+      {{#blog.avatar}}
+{{/blog.avatar}}
+  </a>
+  
+  
+  <a class="line" href="/settings/menu">
+    <span class="label">Menu</span>
+    <span class="center">
+      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
 
-    </div>
-    <br><br>
-  <div class="group">
+    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
+    </span>
+    <span class="right" style="padding-left:0">Edit</span>
+  </a>
 
-    <a class="linkTo" href="/clients">
-      <b style="width:25%;display:block;float:left;font-weight:500">Folder</b>
-      <b style="color:gray;font-weight:500">{{client.display_name}}</b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-
-
-    <a class="linkTo" href="/settings/date">
-      <b style="width:25%;display:block;float:left;font-weight:500">Date</b>
-      <b style="color:gray;font-weight:500">
-
-          {{#timeZones}}{{#selected}} {{time}} {{value}}{{/selected}}{{/timeZones}}
-
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-
-    <a class="linkTo" href="/settings/urls">
-      <b style="width:25%;display:block;float:left;font-weight:500">URLs</b>
-      <b style="color:gray;font-weight:500">
-
-         {{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
-
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-
-    <a class="linkTo" href="/settings/typography">
-      <b style="width:25%;display:block;float:left;font-weight:500">Typography</b>
-      <b style="color:gray;font-weight:500">
-
-         TeX, Markdown, and substitutions
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-
-    <a class="linkTo" href="/settings/images">
-      <b style="width:25%;display:block;float:left;font-weight:500">Images</b>
-      <b style="color:gray;font-weight:500">
-
-         Configure how Blot processes images
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-
-    <a class="linkTo" href="/settings/services">
-      <b style="width:25%;display:block;float:left;font-weight:500">Services</b>
-      <b style="color:gray;font-weight:500">
-
-         Analytics, comments and other things
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-  </div>
 
   
 
+
+
+   <a class="line" href="/settings/date">
+    <span class="label">Dates</span>
+    <span class="center">
+      {{^blog.hideDates}}{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}{{/blog.hideDates}}
+      {{#blog.hideDates}}<i>Dates are hidden</i>{{/blog.hideDates}}
+</span>
+    <span class="right">Edit</span>
+
+  </a>
+  
+  <a class="line" href="/settings/urls" >
+    <span class="label">URLs</span>
+    <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
+    <span class="right">Edit</span>
+  </a>
+
+  <a class="line" href="/settings/services">
+    <span class="label">Services</span>
+    <span class="link">Configure analytics and other services
+</span>
+
+  </a>
+
+{{#client}}
+<a class="line" href="/settings/client/{{name}}">
+    <span class="label">Client</span>
+    <span class="center">{{display_name}}</span>
+    <span class="right">Edit</span>
+  </a>
+  {{/client}}
+
+  
 
 </form>

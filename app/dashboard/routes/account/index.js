@@ -1,54 +1,69 @@
-var formJSON = require('helper').formJSON;
-var User = require('user');
+var Express = require("express");
+var Account = new Express.Router();
+var logout = require('./util/logout');
+var type = require('helper').type;
 
-module.exports = function (server) {
+Account.route("/").get(function(req, res) {
+  res.render("account/index", {
+    title: "Your account"
+  });
+});
 
-  require('./password/change')(server);
-  require('./password/set')(server);
-  require('./close-blog')(server);
-  require('./create-blog')(server);
-  require('./cancel')(server);
-  require('./delete')(server);
-  require('./disable-account')(server);
-  require('./disabled')(server);
-  require('./enable')(server);
-  require('./restart')(server);
-  require('./export')(server);
-  require('./log-out')(server);
-  require('./pay-subscription')(server);
-  require('./swap')(server);
-  require('./update-billing')(server);
+Account.use("/password", require("./password"));
+Account.use("/export", require("./export"));
+Account.use("/email", require("./email"));
+Account.use("/delete", require("./delete"));
+Account.use("/subscription", require("./subscription"));
+Account.use("/switch-blog", require("./switch-blog"));
+Account.use("/create-blog", require('./create-blog'));
+Account.use("/payment-method", require('./payment-method'));
 
-  server.route('/account/email')
-  .get(function(req, res){
-      res.title('Change your email');
-      res.renderAccount('email');
-  })
-  .post(function(req, res){
 
-      var updates = formJSON(req.body, User.model);
+Account.route("/log-out")
 
-      User.set(req.user.uid, updates, function(error, changes){
-
-        console.log(changes);
-        
-        if (error) {
-          res.message({error: error.message});
-          return res.redirect('/account/email')
-        } else if (changes && changes.length) {
-          res.message({success: 'Made changes successfully!', url: '/account'});
-        }
-        
-        res.redirect('/account');
-      });
+  .get(function(req, res) {
+    res.render("account/log-out", {
+      title: "Log out"
     });
+  })
 
-  server.route('/account')
-
-    .get(function(req, res) {
-      res.title('Account');
-      res.renderAccount('index');
-    })
-
+  .post(logout, function(req, res) {
     
-};
+    var redirect = (req.query && req.query.then) || "/logged-out";
+    
+    res.redirect(redirect);
+  });
+
+Account.use(function(err, req, res, next){
+
+  // console.log('here', req.method, req.header('referrer'), req.originalUrl, typeof err, err instanceof Error, err.message);
+  
+  if (req.method === 'GET') {
+    console.log(err.stack, err.trace);
+    res.status(500);
+    res.render('error', {error: err});
+  } else if (req.method === 'POST') {
+    
+    var redirect = req.body.redirect || req.baseUrl + req.path;
+    var message = "Error";
+
+    // this should not be an object but I made
+    // some bad decisions in the past. eventually
+    // fix blog.set...
+    if (err.message) {
+      message = err.message;
+    }
+
+    if (type(err, "object"))
+      for (var i in err) if (type(err[i], "string")) message = err[i];
+
+    res.message(redirect, new Error(message));
+
+  } else {
+    next(err);
+  }
+});
+
+// require("./pay-subscription")(server);
+
+module.exports = Account;

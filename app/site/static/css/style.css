@@ -174,7 +174,8 @@ input[type="submit"] {
     box-shadow: none;
     outline: none;
     border: none;
-    padding: 0.6rem 1.8rem;    
+    line-height: 42px;
+    padding: 0 1.8rem;    
     cursor: pointer;
 border-radius: 3px;
     font-size: 1rem;
@@ -443,7 +444,7 @@ input.year {border-radius: 0 4px 4px 0}
   .sidebar a.selected:before {border-color: #111111;background: #111}
 */  .sidebar li:last-child {margin-bottom: 2.88em;display: block;}
 
-  strong {font-weight: 500}ler
+  strong {font-weight: 500}
 
 
 

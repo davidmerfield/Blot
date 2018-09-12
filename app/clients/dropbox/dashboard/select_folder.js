@@ -82,7 +82,7 @@ select_folder.route('/').get(function (req, res, next) {
 
       res.locals.items = contents;
 
-      res.dashboard('select_folder');
+    res.render(__dirname + '/views/select_folder.html');
     });
   });
 });

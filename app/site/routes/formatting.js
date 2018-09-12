@@ -17,10 +17,12 @@ formatting.use(render_markdown);
 formatting.get('/', function (req, res) {
   res.locals.menu = {'formatting': 'selected'};
   res.locals.title = 'Formatting guide for Blot';
-  res.locals.partials.markdown = 'formatting-markdown';
-  res.locals.partials.tex = 'formatting-tex';
-  res.locals.partials.layout = 'formatting-layout';
-  res.render('formatting-wrapper');
+  res.locals.partials.sidebar = __dirname + '/../views/formatting-sidebar';
+  res.locals.partials.markdown = __dirname + '/../views/formatting-markdown';
+  res.locals.partials.tex = __dirname + '/../views/formatting-tex';
+  res.locals.partials.layout = __dirname + '/../views/formatting-layout';
+  res.locals.partials.yield = __dirname + '/../views/formatting-wrapper'
+  res.render('_static_wrapper');
 });
 
 module.exports = formatting;

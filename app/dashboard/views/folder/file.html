@@ -1,14 +1,49 @@
-{{> breadcrumbs}}
+<div style="padding:20px">
 
-{{#stat}}
-  <b style="width:15%;display:block;float:left;font-weight:500">File:</b>
+{{#folder.stat}}
+
+      {{#entry}}
+      <img src="/images/file-post.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      {{/entry}}
+      {{^entry}}
+      <img src="/images/file-empty.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      {{/entry}}
+
+
+  <span>
+    <b>{{name}}</b>
+    <span style="float:right">{{size}}</span>
+    <span style="display:block">Modified: {{updated}}</span>
+  </span>
+  <div class="clear"></div>
+
+
+
+  <span class="line-item">
+    {{#entry}}<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{{url}}}" >Visit 
+
+      {{#draft}}
+        draft
+        {{/draft}}
+        {{#scheduled}}
+        preview of blog post
+        {{/scheduled}}
+
+      {{#page}}
+      page
+      {{/page}}
+      
+         <span class="square">&rarr;</span></a>{{/entry}}
+    {{^entry}}<span class="val">This file is not a blog post because it is <a href="/help">{{ignored}}</a>. You can however <a href="">embed this file or link to it</a>.</span>{{/entry}}
+  </span>  
+
+  {{> entry}}
+  
+  <span class="line-item">
+<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{path}}" >Download file <span class="square">&darr;</span></a>
+  </span>  
 
   {{> stat}}
 
-  <hr>
-
-  <b style="width:15%;display:block;float:left;font-weight:500">Post:</b> 
-
-  {{> entry}}
-
-{{/stat}}
+{{/folder.stat}}
+</div>

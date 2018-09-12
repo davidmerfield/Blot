@@ -1,57 +1,138 @@
-var uploadAvatar = require("./uploadAvatar");
-var loadPermalinkFormats = require("./loadPermalinkFormats");
-var loadPlugins = require("./loadPlugins");
-var loadMenu = require("./loadMenu");
-var loadTimeZones = require("./loadTimeZones");
-var loadTemplate = require("./loadTemplate");
-var loadClient = require("./loadClient");
-var saveForm = require("./saveForm");
-var parseForm = require("./parseForm");
-var formatForm = require("./formatForm");
 var errorHandler = require("./errorHandler");
-var loadRedirects = require("./loadRedirects");
-var saveRedirects = require("./saveRedirects");
+var express = require("express");
+var settings = express.Router();
+var load = require("./load");
+var save = require("./save");
+var debug = require("../../debug");
 
-module.exports = function(server) {
-  require("./404s")(server);
-  require("./flags")(server);
+var Template = require("template");
+var Blog = require("blog");
+var load = require("./load");
 
-  server.get("/settings/menu", loadMenu);
-  server.get("/settings/date", loadTimeZones);
-  server.get("/settings/urls", loadPermalinkFormats, loadRedirects);
-  server.get("/settings/typography", loadPlugins);
-  server.get("/settings/images", loadPlugins);
-  server.get("/settings/services", loadPlugins);
-  
-  server.get("/settings/:view", function(req, res, next) {
-    res.addPartials({ subpage: "settings/" + req.params.view });
-    res.locals.subpage_title =
-      req.params.view[0].toUpperCase() + req.params.view.slice(1);
-    res.locals.subpage_slug = req.params.view;
-    res.renderDashboard("settings/subpage");
-  });
+settings.use(function(req, res, next){
+  res.locals.selected = {settings: 'selected'};
+  next();
+});
 
-  server
-    .route("/settings")
+settings.get("/settings", function(req, res, next) {
+  res.redirect("/");
+});
 
-    .get(
-      loadTemplate,
-      loadMenu,
-      loadClient,
-      loadTimeZones,
-      loadPermalinkFormats,
-      function(req, res) {
-        res.title("Your profile");
-        res.locals.tab = { settings: "selected" };
-        res.renderDashboard("settings");
-      }
-    )
+var index = settings.route("/");
 
-    // saving menu re-order does not work
-    // saving redirects does not work
-    .post(parseForm, saveRedirects, formatForm, uploadAvatar, saveForm)
+index.get(
+  load.template,
+  debug("template loaded"),
+  load.menu,
+  debug("menu loaded"),
+  load.client,
+  debug("client loaded"),
+  load.dates,
+  debug("dates loaded"),
+  load.permalinkFormats,
+  debug("permalinks loaded"),
+  function(req, res) {
+    res.render("settings", { title: "Dashboard" });
+  }
+);
 
-    // I don't know how to handle uncaught errors
-    // WIll that cause an infinite redirect?
-    .all(errorHandler);
-};
+
+settings.use(function(req, res, next) {
+
+  res.locals.breadcrumbs.add("Settings", "/settings");
+  res.locals.setup = !!req.query.setup;
+
+  next();
+});
+
+settings
+  .route("/settings")
+  .post(
+    save.parse,
+    debug("parsed form"),
+    save.redirects,
+    debug("saved redirects"),
+    save.format,
+    debug("formated form"),
+    save.avatar,
+    debug("saved avatar"),
+    save.finish
+  );
+
+
+
+settings.get("/settings/urls", function(req, res, next) {
+  res.locals.edit = !!req.query.edit;
+  next();
+});
+
+settings.get("/settings/title", function(req, res, next){
+  res.locals.setup_title = true;
+  next();
+});
+
+settings.get("/settings/menu", load.menu);
+settings.get("/settings/date", load.timezones, load.dates);
+settings.get("/settings/services", load.plugins);
+settings.get("/settings/urls", load.permalinkFormats);
+
+settings.use('/settings/urls/*', function(req, res, next){
+  res.locals.breadcrumbs.add('URLs', 'urls');
+  next();
+});
+
+settings
+  .route("/settings/urls/404s")
+  .get(load.fourOhFour, function(req, res) {
+    res.locals.breadcrumbs.add("404 log", "404s");
+    res.render("settings/404s", { title: "404s" });
+  })
+  .post(
+    require("body-parser").urlencoded({ extended: false }),
+    require("./save/404")
+  );
+
+
+settings.get('/settings/urls/redirects',load.redirects, function(req, res){
+  res.locals.breadcrumbs.add('Redirects', 'redirects');
+  res.locals.partials.subpage = "settings/redirects";  
+  res.render("settings/subpage", { title: 'Redirects' });
+});
+
+// Load the list of templates for this user
+
+settings.use("/settings/theme", load.theme, function(req, res, next) {
+  res.locals.breadcrumbs.add("Theme", "theme");
+  next();
+});
+
+settings.use('/settings/client', require('./client'));
+
+settings
+  .route("/settings/theme")
+  .get(function(req, res) {
+    res.render("theme", {title: "Theme"});
+  })
+  .post(require('./save/theme'));
+
+settings
+  .route("/settings/theme/new")
+  .get(function(req, res) {
+    res.locals.breadcrumbs.add("Create new theme", "new");
+    res.render("theme/new", {title: 'Create new theme'});
+  })
+  .post(require('./save/newTheme'));
+
+settings.get("/settings/:view", function(req, res) {
+  var uppercaseName = req.params.view;
+
+  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+
+  if (uppercaseName === "Urls") uppercaseName = "URLs";
+
+  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  res.locals.partials.subpage = "settings/" + req.params.view;
+  res.render("settings/subpage", { host: process.env.BLOT_HOST });
+});
+
+module.exports = settings;
