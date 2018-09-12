@@ -1,14 +1,17 @@
 <form method="post"> 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
-  
-  {{> subpage}}
+  <p style="margin:0 0 2rem;max-width:475px">Please choose a title for your blog. Note that you can always edit this later on your blog's settings page.</p>
 
-    <br>
+    <div style="max-width:22rem">
+    {{> subpage}}
+
   <div class="buttons">
     <button type="submit" onclick="this.form.submit();this.disabled=true">Save title</button>
     <input type="submit" name="no_title" value="Skip"  />
   </div>
+      </div>
+
   <br>
 
 </form>

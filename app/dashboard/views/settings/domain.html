@@ -1,20 +1,23 @@
+<p>Every blog comes with a Blot subdomain included. You can always access your site at this subdomain.</p>
+
   <input type="hidden" name="redirect" value="/settings/domain">
   
-    <label>
-      Your username:<br>
-      <div style="display:flex">
-        <input type="text" name="handle" value="{{blog.handle}}" style="flex-grow:1;display:inline-block"/>
-        <span style="color:#888">&nbsp;.{{host}}</span>
-      </div>
+    <label for="handle">
+      Your username<br>
     </label>
+    <div style="display:flex">
+      <input type="text" name="handle" value="{{blog.handle}}" style="flex-grow:1;display:inline-block"/>
+      <span style="color:#888">&nbsp;.{{host}}</span>
+    </div>
 
-    <label>Personal domain: 
+    <label>Personal domain</label>
+
     <div class="messageWrapper">
       <input type="text" id="customDomain" name="domain" value="{{blog.domain}}" placeholder="Your website's hostname"/>
       <span id="inputMessage" class="inputMessage"></span>
     </div>
+
     <span class="error">{{errors.domain}}</span>
-    </label>
 
     {{#blog.domain}}
     <p class="mess error" style="    box-sizing: content-box;

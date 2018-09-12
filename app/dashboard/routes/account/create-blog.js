@@ -18,20 +18,21 @@ CreateBlog.route("/pay")
 
   .all(validateSubscription)
 
-  .all(function(req, res, next){
-
+  .all(function(req, res, next) {
+    // Only allow users who have blogs for all they've paid
+    // to see the pay page!
     if (req.user.subscription.quantity <= req.user.blogs.length) {
       return next();
-    } 
+    }
 
     res.redirect(req.baseUrl);
   })
 
   .all(calculateFee)
 
-  .get(function (req, res) {
-
+  .get(function(req, res) {
     res.locals.partials.yield = "account/create-blog-pay";
+
     res.render("partials/wrapper-setup", {
       title: "Create a blog",
       not_paid: true,
@@ -40,49 +41,52 @@ CreateBlog.route("/pay")
   })
 
   .post(chargeForRemaining)
-  
+
   .post(updateSubscription)
 
-  .post(function(req, res){
-    res.message(req.baseUrl, 'Your payment was received');
-    });
+  .post(function(req, res) {
+    res.message(req.baseUrl, "Your payment was received, thank you.");
+  });
 
 CreateBlog.route("/")
 
   .all(validateSubscription)
 
-  .all(function(req, res, next){
-
-    if (req.user.subscription && 
-        req.user.subscription.quantity !== null &&
-        req.user.subscription.quantity !== undefined && 
-        req.user.subscription.quantity > req.user.blogs.length) {
+  .all(function(req, res, next) {
+    if (
+      req.user.subscription &&
+      req.user.subscription.quantity !== null &&
+      req.user.subscription.quantity !== undefined &&
+      req.user.subscription.quantity > req.user.blogs.length
+    ) {
       return next();
-    } 
+    }
 
-    res.redirect(req.baseUrl + '/pay');
+    res.redirect(req.baseUrl + "/pay");
   })
 
   .get(function(req, res) {
     res.locals.partials.subpage = "settings/title";
     res.locals.partials.yield = "account/create-blog";
+    res.locals.blog = {};
     res.render("partials/wrapper-setup", {
       title: "Create a blog",
-      not_created: true,
-      setup: true,
+      first_blog: req.user.blogs.length === 0,
       breadcrumb: "Create a blog"
     });
   })
 
-  .post(
-    saveBlog,
-    function(req, res) {
-      res.redirect("/settings/client?setup=true");
-    }
-  )
+  .post(saveBlog)
+
+  .post(function(req, res) {
+    res.message("/settings/client?setup=true", "Saved your title");
+  })
+
+  .post(function(err, req, res, next) {
+    res.message(req.baseUrl + req.path, err);
+  });
 
 function calculateFee(req, res, next) {
-
   // We dont need to do this for free users
   if (canSkip(req.user)) return next();
 
@@ -114,7 +118,6 @@ function calculateFee(req, res, next) {
 }
 
 function validateSubscription(req, res, next) {
-
   var subscription = req.user.subscription;
 
   if (canSkip(req.user)) return next();
@@ -130,22 +133,21 @@ function validateSubscription(req, res, next) {
   }
 }
 
-var chars = 'acemnorsuvwxz'.split('');
+var chars = "acemnorsuvwxz".split("");
 var LEN = 8;
-var PREFIX = 'untitled';
+var PREFIX = "untitled";
 
-function uid () {
-  var res = '';
-  while (res.length < LEN) 
-    res += chars[Math.floor(Math.random()*chars.length)];
-  return PREFIX + '-' + res;
+function uid() {
+  var res = "";
+  while (res.length < LEN)
+    res += chars[Math.floor(Math.random() * chars.length)];
+  return PREFIX + "-" + res;
 }
 
-var chars = 'abcdefghijklmnopqrstuvwxyz'.split('');
+var chars = "abcdefghijklmnopqrstuvwxyz".split("");
 
-function randomChars (len) {
-
-  var res = '';
+function randomChars(len) {
+  var res = "";
 
   while (res.length < len)
     res += chars[Math.floor(Math.random() * chars.length)];
@@ -153,56 +155,64 @@ function randomChars (len) {
   return res;
 }
 
-function handleFromTitle (title) {
+function handleFromTitle(title) {
+  var handle = "";
 
-  var handle = '';
-
-  handle = title.toLowerCase().replace(/\W/g, '');
+  handle = title.toLowerCase().replace(/\W/g, "");
 
   return handle;
 }
 
-function saveBlog (req, res, next) {
-
+function saveBlog(req, res, next) {
   console.log(req.body);
-  
+
   var title, handle;
 
   if (req.body.no_title) {
-    title = 'Untitled blog';
-    handle = 'untitled' + randomChars(5);
-  } else if (req.body.title) {
+    title = "Untitled blog";
+    handle = "untitled" + randomChars(5);
+  } else if (!req.body.title) {
+    return next(new Error("Please enter a title"));
+  } else {
     title = req.body.title;
     handle = handleFromTitle(title);
   }
 
-  Blog.create(
-    req.user.uid,
-    {
-      title: title,
-      handle: handle,
-      timeZone: req.body.timeZone
-    },
-    function(err, blog) {
-      
-      if (err) {
-        return res.message('/account/create-blog', err.handle);
-      }
+  var newBlog = {
+    title: title,
+    handle: handle,
+    timeZone: req.body.timeZone
+  };
 
-      // Switch to the new blog
-      req.session.blogID = blog.id;
-
-      next();
+  Blog.create(req.user.uid, newBlog, function onCreate(err, blog) {
+    if (
+      err &&
+      err.handle &&
+      err.handle.message === "That username was already in use."
+    ) {
+      newBlog.handle += randomChars(5);
+      return Blog.create(req.user.uid, newBlog, onCreate);
     }
-  );
+
+    if (err && err.handle) {
+      return next(err.handle);
+    }
+
+    if (err) {
+      return next(err);
+    }
+
+    // Switch to the new blog
+    req.session.blogID = blog.id;
+    next();
+  });
 }
 
-function canSkip (user) {
+function canSkip(user) {
   return !user.subscription.status && user.blogs.length === 0;
 }
 
 function updateSubscription(req, res, next) {
-
   // We dont need to do this for free users
   if (canSkip(req.user)) {
     return next();
@@ -231,7 +241,6 @@ function updateSubscription(req, res, next) {
 }
 
 function chargeForRemaining(req, res, next) {
-
   // We dont need to do this for free users
   if (!req.user.subscription.status) {
     return next();
@@ -250,7 +259,6 @@ function chargeForRemaining(req, res, next) {
       description: "Charge for the remaining billing period"
     },
     function(err, charge) {
-      
       if (err) return next(err);
 
       if (!charge) return next(new Error(BAD_CHARGE));

@@ -107,7 +107,9 @@ dashboard.use(function(req, res, next){
   next();
 });
 
-dashboard.use('/documentation', require("../site/documentation"));
+
+// dashboard.use('/documentation', require("../site/documentation"));
+
 require("./routes/editor")(dashboard);
 
 // Special function which wraps render

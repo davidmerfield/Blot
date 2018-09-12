@@ -1,20 +1,5 @@
-<p style="width:475px;margin-top:0;margin-bottom:2rem">Please <!-- <span style="color: #111;
-    background: #fff0a8;
-"> -->choose a title<!-- </span> --> for your blog. Note that you can edit this later, at your leisure.</p>
-<label for="title">
-  
-  Title:
-</label>
-
-  {{^setup}}
-  <input type="hidden" name="redirect" value="/settings/title">
-  <input type="text" autofocus name="title" value="{{blog.title}}">
-  {{/setup}}
-
-  {{#setup}}
-  <input type="hidden" name="redirect" value="/settings/client?setup=true">
-  <input type="text" autofocus name="title" value="{{^not_created}}{{blog.title}}{{/not_created}}">
-  {{/setup}}
-
-
-
+<!-- <p>Your blog's title is used to identify your site, and features prominently in all of <a href="/settings/theme">Blot's themes</a>.</p>
+ -->
+<label for="title">Title</label>
+<input type="hidden" name="redirect" value="/settings/title">
+<input type="text" autofocus name="title" value="{{blog.title}}">

@@ -164,7 +164,6 @@ body {
   font: 400 16px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
     background: #fdfaf8;
--webkit-font-smoothing: antialiased;
 }
 
 
@@ -1574,7 +1573,7 @@ h2 {margin-top: 1em}
 body, html {height: 100%;margin: 0;color: #111;}
 .page {min-height: 100%;}
 
-.buttons {display: flex;width: 80%}
+.buttons {display: flex;width: 90%;margin-top: 2.5rem}
   
   .buttons > * {
     text-decoration: none;

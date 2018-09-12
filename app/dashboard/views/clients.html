@@ -14,12 +14,18 @@
 
   {{/client}}
 
-  <label>Select a {{#client}}different{{/client}} client to synchronize the folder for <b>{{blog.title}}</b>:</label>
+  <p style="margin:0 0 2rem;max-width:475px">Please choose a client for <b>{{blog.title}}</b>. The client synchronizes the files in your folder with Blot. Note that you can switch to a different client at any point.</p>
 
+  <label>Clients</label>
+
+<style type="text/css">
+.client-select {max-width:475px;margin-bottom: 0;padding: 10px 0;/*border-top:1px solid rgba(0,0,0,0.05);*/}
+.client-select:hover {background: rgba(0,0,0,0.03);cursor: pointer;}
+</style>
 {{#clients}}
 
-<label style="line-height: 1.5;margin-left:2em">
-<input type="radio" name="client" style="float:left;margin: 0.3em 0 0 -1.5em" value="{{name}}" {{checked}}> <b>{{display_name}}</b><br>{{description}}</label>
+<label class="client-select" style="line-height: 1.5;padding-left:2.5rem;text-transform:none;font-size:inherit;letter-spacing:inherit">
+<input type="radio" name="client" style="float:left;margin: 0.3em 0 0 -1.75rem" value="{{name}}" {{checked}}> <b>{{display_name}}</b><br>{{description}}</label>
 
 {{/clients}}
   

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/css/finder.css?{{cacheID}}">
 <link rel="stylesheet" href="/css/katex.css?{{cacheID}}">
 
-<!-- 
+
 <link rel="stylesheet" href="/css/formatting.css?{{cacheID}}">
 <link rel="stylesheet" href="/css/docs.css?{{cacheID}}">
 <style type="text/css">
@@ -10,45 +10,47 @@ window {margin: 41px 0 60px}
 window.folder {max-width: 400px}
 window.text {max-width: 700px}
 table {width: 100%}
+h1 {    font-size: 32px;
+}
+.middle {flex-basis:700px;max-width: 700px}
 </style>
- -->
 
-  <div class="wrapper">
-    <div class="left-side">
 
+<div class="wrapper">
+
+  <div class="gap"></div>
+
+  <div class="left-side" style="display:flex;flex-direction:column">
   {{#user.blogs.length}}
-          <a href="/" class="external right">Back to dashboard <span class="square">&larr;</span></a>
+          <a href="/" style="color:#aaa;text-decoration:none" >&larr; Back to dashboard</a>
             {{/user.blogs.length}}
+  {{^user.blogs.length}}
+    <a href="/" >&larr; Back to your account</a>
+            {{/user.blogs.length}}
+
     
                   {{> sidebar}}
 
+  </div>
+
+  <div class="gap-small"></div>
+
+  <div class="middle">  
+    <div style="display:flex;padding:0 40px 20px;width:500px">
+    <a href="/account" style="color:#aaa;text-decoration:none" >Your account</a>
+    <a href="/help" style="color:#aaa;text-decoration:none;flex-grow:1;text-align:center" >Documentation</a>
+    <a href="/contact" style="color:#aaa;text-decoration:none" >Contact support</a>
+  </div>
+    <div style="padding:0 40px">
+
+{{> yield}}
+
 
     </div>
+  </div>
+  <div class="gap"></div>
 
-    <div class="middle">
 
-                   <!--  <a class="nav-bar" href="{{self}}">{{title}}
-           {{#breadcrumb}}
-          <span style="margin:0 0.1em 0 0.25em" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
-          <span style="color: rgb(109, 109, 109);font-weight:500">{{breadcrumb}}</span>
-            {{/breadcrumb}}
-          </a>
-           -->
-          <div style="padding:0 40px">
-          {{> yield}}
-          </div>
-    </div>
-    <div class="right-side">
-
-    <a href="{{blog.url}}" class="external" style="visibility:hidden" target="_blank" >Visit your site <span class="square">&rarr;</span></a>
-    
-    <br><br>
-
-   <a class="bubble" href="/account">Your account</a>
-   <a class="bubble"  href="/help">Documentation</a>
-   <a class="bubble" href="/contact">Contact support</a>
-
-    </div>
   </div>
 </body>
 </html>

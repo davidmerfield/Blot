@@ -78,7 +78,7 @@ var html_minifier_options = {
   collapseWhitespace: true
 };
 
-site.use('/documentation', require('./documentation'));
+// site.use('/documentation', require('./documentation'));
 
 // Compress HTML
 site.use(function (req, res, next) {

@@ -1,17 +1,28 @@
+
 {{> head}}
+<STYLE TYPE="text/css">body {background:#fffefc}</STYLE>
+
 <div style="height:80px;    background: #fdfaf8;
     box-shadow: inset 0 -16px 16px #fbf8f6;"><div style="margin:0 auto;max-width: 64rem;padding:0 2rem">
 
   <span style="    color: #a09d9c;
     text-decoration: none;
     border-bottom: none;
-    line-height: 80px;display:block;float:left;width:30%;">Blot is a blogging platform</span>
+    line-height: 80px;display:block;float:left;width:30%;">
+
+    {{#first_blog}}
+    Blot is a blogging platform
+    {{/first_blog}}
+    {{^first_blog}}
+    Back to the dashboard
+    {{/first_blog}}
+  </span>
   <div><a style="    color: #a09d9c;
     text-decoration: none;
     border-bottom: none;
-    line-height: 80px;display:block;float:left"><span >Sign up</span><span style="color:#a7a7a7">&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#111">Create your blog</span></span></a><div class="cf"></div></div></div></div>
+    line-height: 80px;display:block;float:left"><span {{#not_paid}}style="color:#111"{{/not_paid}}>{{#first_blog}}Sign up{{/first_blog}}{{^first_blog}}Payment{{/first_blog}}</span><span style="color:#a7a7a7">&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#111;{{#not_paid}}color:#a09d9c{{/not_paid}}">Create your blog</span></span></a><div class="cf"></div></div></div></div>
 
-<div style="background:#fffefc">
+<div>
 
 
   <div class="middle" style="margin:0 auto;max-width: 64rem;padding:0 2rem;padding-top:80px">  
@@ -19,20 +30,20 @@
     <div style="margin-left:18rem">
 
     {{#message}}{{^error}}
-    <a href="" class="mess success">
+    <a href="" class="mess success" style="max-width:32rem;margin: 0 0 1rem -20px">
      <span class="link">Dismiss</span>
      {{text}}
     </a>
     {{/error}}{{#error}}
-    <a href="" class="mess error" style="margin-bottom:19px">
+    <a href="" class="mess error" style="max-width:32rem;margin: 0 0 1rem -20px">
      <span class="link">Dismiss</span>
      {{message.text}}
     </a>
     {{/error}}{{/message}}
 
-    <div style="max-width:18rem">
+    <div style="max-width:475px">
     {{> yield}}
-  </div>
+    </div>
   </div></div>
 
 </div>
