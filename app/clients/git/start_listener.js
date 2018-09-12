@@ -20,14 +20,24 @@ function add_leading_slash(path) {
 }
 
 module.exports = function start_listener(handle) {
+
   Blog.get({ handle: handle }, function(err, blog) {
+
     if (err || !blog) {
       return console.log("ERROR no blog", handle);
     }
 
     var blog_id = blog.id;
-    var emitter = git_emit(__dirname + "/data/" + blog.handle + ".git");
-    var git = Git(blog_dir(blog.id));
+    var emitter, git;
+
+    require('fs-extra').ensureDirSync(blog_dir(blog.id));
+
+    try {
+      emitter = git_emit(__dirname + "/data/" + blog.handle + ".git");
+      git = Git(blog_dir(blog.id));
+    } catch (e) {
+      return callback(e);
+    }
 
     console.log("Blog:", blog_id, "(" + handle + ")", "Git: Initialized");
 

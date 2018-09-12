@@ -1,3 +1,15 @@
+# Locally Stopping NGINX 
+
+sudo nginx -s stop 
+
+# Locally starting NGINX
+
+sudo nginx -c $BLOT_DIRECTORY/config/nginx/dev_server.conf
+
+
+-----
+
+
 - Goal is to create a system for 10,000 sites, each of which is accessible on a blot subdomain and on their own custom domain.
 - Letsencrypt seems to be the way to go.
 - Test that redis-nginx-luaresty-letsencrypt combo on my personal sites.

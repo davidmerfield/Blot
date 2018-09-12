@@ -1,11 +1,11 @@
-var debug = require('debug')('build:single');
-var Metadata = require('./metadata');
-var Dependencies = require('./dependencies');
-var helper = require('../../../helper');
-var Plugins = require('../../../plugins').convert;
+var debug = require("debug")("blot:models:entry:build:single");
+var Metadata = require("./metadata");
+var Dependencies = require("./dependencies");
+var helper = require("../../../helper");
+var Plugins = require("../../../plugins").convert;
 var ensure = helper.ensure;
 var time = helper.time;
-var file = require('./file');
+var file = require("./file");
 
 var doc = file.doc;
 var readDoc = doc.read;
@@ -31,54 +31,40 @@ var webloc = file.webloc;
 var readWebloc = webloc.read;
 var isWebloc = webloc.is;
 
-module.exports = function(blog, path, callback){
-
-  ensure(blog, 'object')
-    .and(path, 'string')
-    .and(callback, 'function');
+module.exports = function(blog, path, options, callback) {
+  ensure(blog, "object")
+    .and(path, "string")
+    .and(callback, "function");
 
   var Read;
 
   if (isImage(path)) {
-
-    debug(path, 'is image');
+    debug('Blog:', blog.id, path, "is image");
     Read = readImage;
-
   } else if (isMarkdown(path)) {
-
-    debug(path, 'is markdown');
+    debug('Blog:', blog.id, path, "is markdown");
     Read = readMarkdown;
-
   } else if (isHTML(path)) {
-
-    debug(path, 'is HTML');
+    debug('Blog:', blog.id, path, "is HTML");
     Read = readHTML;
-
   } else if (isWebloc(path)) {
-
-    debug(path, 'is webloc');
+    debug('Blog:', blog.id, path, "is webloc");
     Read = readWebloc;
-
   } else if (isDoc(path)) {
-
-    debug(path, 'is doc');
+    debug('Blog:', blog.id, path, "is doc");
     Read = readDoc;
-
   } else if (isODT(path)) {
-
-    debug(path, 'is ODT');
+    debug('Blog:', blog.id, path, "is ODT");
     Read = readODT;
-
   } else {
-
     return callback(cannotConvert(path));
   }
 
-  time('READ');
+  debug('Blog:', blog.id, path, "passing to converter");
 
-  Read(blog, path, function(err, html, stat){
-
-    time.end('READ');
+  Read(blog, path, options, function(err, html, stat) {
+    
+    debug('Blog:', blog.id, path, "back from converter");
 
     if (err) return callback(err);
 
@@ -94,7 +80,7 @@ module.exports = function(blog, path, callback){
       return callback(err);
     }
 
-    // We have to compute the dependencies before 
+    // We have to compute the dependencies before
     // passing the contents to the plugins because
     // the image cache plugin replaces local URLs with
     // remove URLs and this will prevent the dependency
@@ -109,13 +95,13 @@ module.exports = function(blog, path, callback){
       return callback(err);
     }
 
-    time('PLUGINS');
+    debug('Blog:', blog.id, path, "running through plugins");
 
     // We pass the contents to the plugins for
     // this blog. The resulting HTML is now ready.
-    Plugins(blog, path, html, function(err, html){
+    Plugins(blog, path, html, function(err, html) {
 
-      time.end('PLUGINS');
+      debug('Blog:', blog.id, path, "finished plugins");
 
       if (err) return callback(err);
 
@@ -126,14 +112,10 @@ module.exports = function(blog, path, callback){
   });
 };
 
-
-
-function fixMustache (str) {
-  return str.split('{{&gt;').join('{{>');
+function fixMustache(str) {
+  return str.split("{{&gt;").join("{{>");
 }
 
-
-
-function cannotConvert (path) {
-  return new Error('Cannot turn this path into an entry: ' + path);
+function cannotConvert(path) {
+  return new Error("Cannot turn this path into an entry: " + path);
 }

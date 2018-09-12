@@ -1,39 +1,25 @@
-<form method="post" action="?_csrf={{csrftoken}}">
+<form method="post"> 
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <input type="hidden" name="timeZone" value="">  
+  <p style="margin:0 0 2rem;max-width:475px">Please choose a title for your blog. Note that you can always edit this later on your blog's settings page.</p>
 
-  <input type="hidden" name="timeZone" value="">
+    <div style="max-width:22rem">
+    {{> subpage}}
 
-    
-
-    <p>Choose a username for your new blog:</h2>
-    <label id="handle" class="extraMargin">
-      <input autofocus type="text" name="handle" value="{{handle}}" placeholder=""/>
-      <span class="error">{{errors.handle}}</span>
-    </label>
-
-    {{^first_blog}}
-
-
-
-<!--       <p>You can connect multiple blogs to the same Dropbox account, or you can use different Dropbox accounts if you prefer.</p>
- -->
-      <p><b>Your card will be charged {{now}} today</b> and your next bill on {{user.pretty.expiry}} will increase by {{individual}}. Please <a href="/contact">contact me</a> if you have any questions.</p>
-
-      <br>
-    <input type="submit" class="button" value="Create blog and submit payment">
-    {{/first_blog}}
-
-    {{#first_blog}}
-    <input type="submit" class="button" value="Create blog">
-    {{/first_blog}}
-
+  <div class="buttons">
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Save title</button>
+    <input type="submit" name="no_title" value="Skip"  />
   </div>
-  </fieldset>
+      </div>
+
+  <br>
 
 </form>
 
+{{#footer}}
+
 <script src="/scripts/jquery.js?{{cacheID}}"></script>
 <script src="/scripts/tz_detect.js?{{cacheID}}"></script>
-
 <script type="text/javascript">
 
 $('form').submit(function(event) {
@@ -57,3 +43,4 @@ $('input[name="timeZone"]').val(timezone.name());
 }
 
 </script>
+{{/footer}}

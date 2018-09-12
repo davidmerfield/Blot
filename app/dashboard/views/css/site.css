@@ -1,4 +1,4 @@
-/* Normalise */
+:/* Normalise */
 
 body,
 fieldset {
@@ -29,7 +29,7 @@ a:hover {
 }
 b,
 strong {
-  font-weight: 700;
+  font-weight: 600;
 }
 dfn {
   font-style: italic;
@@ -60,11 +60,7 @@ img {
 svg:not(:root) {
   overflow: hidden;
 }
-hr {
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  height: 0;
-}
+
 pre,
 textarea {
   overflow: auto;
@@ -162,18 +158,15 @@ ul {
   box-sizing: border-box;
 }
 
+
+
 body {
-  font: 400 1em / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+  font: 400 16px / 150% -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fdfaf8;
 }
 
-html {
-  height: 100%;
-}
 
-body {
-  min-height: 100%;
-}
 
 .clear {
   clear: both;
@@ -242,10 +235,13 @@ h6 {
 }
 
 hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
   clear: both;
   margin: 0 auto;
   width: 100%;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #eee;
   border-bottom: none;
   margin: 1em 0 1em;
 }
@@ -320,8 +316,8 @@ form label.halfWidth {
 
 form .fullRow section {
   position: relative;
+  display: flex;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.5em 3.7em 0.5em 2.5em;
 }
 
 form .fullRow .button {
@@ -341,9 +337,16 @@ form .fullRow label {
 
 form label {
   line-height: 2.5;
-  margin: 1em 0;
+  margin:  0;
   position: relative;
-}
+font-size: 12px;
+    line-height: 16px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #111;
+    margin-bottom: 4px;
+      padding-top: 1rem;
+    padding-bottom: .25rem;}
 
 form select {
   display: block;
@@ -390,7 +393,6 @@ textarea {
 
 textarea {
   min-height: 6em;
-  width: 133%;
 }
 
 form input[type="number"] {
@@ -398,14 +400,17 @@ form input[type="number"] {
 }
 
 input[type="text"]:hover,
-input[type="text"]:focus,
 form input[type="password"]:hover,
+textarea:hover {
+  border-color: #999
+}
+
+input[type="text"]:focus,
 form input[type="password"]:focus,
-textarea:hover,
 textarea:focus {
   outline: none;
   z-index: 1;
-  border: 1px solid blue;
+  border: 1px solid #005388;
 }
 
 form input[type="text"]:focus,
@@ -473,22 +478,18 @@ form .error,
 }
 
 #avatar {
-  margin: 0 18px 0 0;
+  margin: 1em 0;
   display: block;
   float: left;
-  padding-right: 18px;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #avatar img {
   width: 88px;
   height: auto;
+  vertical-align: middle;
 }
 
-.imageUpload {
-  font-size: 0.7em;
-  line-height: 1em;
-}
+
 
 .imageUpload input[type="file"] {
   margin-top: 0;
@@ -503,11 +504,7 @@ form .error,
 }
 
 form .box.green.success {
-  margin: 0 0 0 26.5%;
-  z-index: 1;
   display: inline-block;
-  position: absolute;
-  top: -0.5em;
   font-size: 14px;
   background: rgba(226, 249, 227, 1);
   padding: 0.33em 0.66em;
@@ -692,10 +689,8 @@ p.lock:before {
   position: fixed;
 }
 
-.wrapper {
-  margin: 4em;
-  max-width: 600px;
-}
+
+.half {width: 50%;float: left;}
 
 .sidebar {
 }
@@ -712,7 +707,6 @@ p.lock:before {
 
 .sub.nav {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: 14px;
 }
 .sub.nav a {
   display: inline-block;
@@ -724,17 +718,9 @@ p.lock:before {
   border-bottom: 1px solid black;
 }
 
-.footer {
-  color: #ccc;
-}
-.footer a {
-  color: inherit;
-  display: inline-block;
-  text-decoration: none;
-}
+
 
 .rounded {
-  background: rgba(255, 248, 150, 0.76);
   color: #272100;
   border-radius: 999999px;
   font-weight: 400;
@@ -974,14 +960,6 @@ form .error,
   color: rgb(3, 61, 3);
 }
 
-.success.green.box {
-  text-align: center;
-  margin: 0 25%;
-  display: inline-block;
-  position: relative;
-  left: 1em;
-  top: -1.6666em;
-}
 
 #searchContainer {
   padding: 2.2em 0;
@@ -1175,11 +1153,6 @@ fieldset.wide {
   padding-right: 18%;
 }
 
-.plugin {
-  width: 28%;
-  float: left;
-  margin: 0 3% 1em 1.5em;
-}
 .plugin:nth-child(4n) {
   margin-right: 0;
 }
@@ -1215,8 +1188,6 @@ tr {
 th,
 td {
   box-sizing: border-box;
-  border: 1px solid #ddd;
-  padding: 5px 12px 6px;
 }
 
 p.large {
@@ -1279,11 +1250,19 @@ p.sub {
 
 .dropdown .opener {
   z-index: 2;
-  color: black;
-  line-height: 1.3;
+  padding: 0 20px;
+  line-height: 42px;
   position: relative;
-  top: 0.4em;
+  display: inline-block;
+  font-weight:500;
+  border:none;color:#111;
+  border:none;
+    float: right;
+
 }
+
+.dropdown .opener:hover {background: #eae7e5}
+
 .dropdown {
   z-index: 10;
   position: relative;
@@ -1291,33 +1270,36 @@ p.sub {
 
 .dropdown.closed .closer,
 .dropdown.closed .menu {
-  display: none;
+  visibility: hidden;
 }
 
 .dropdown .menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #fff;
-  width: 13em;
-  z-index: 20;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.3);
-  border-radius: 6px;
-  margin: 1em 0 0 -1.142857143em;
-}
-
-.dropdown .menu a {
-  display: block;
-  padding: 1em 1.142857143em;
+        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.05) 0px 3px 6px, rgba(15, 15, 15, 0.1) 0px 9px 24px;
+    z-index: 20;
+    background: #fffcfa;
   margin: 0;
-  font-size: 15px;
-  width: 100%;
-  border-bottom: 1px solid #e5e5e5;
+  margin-top: 10px;
 }
 
-.dropdown .menu a:hover {
-  background: #fafafa;
+.dropdown .menu button {text-align: left;}
+
+.dropdown .menu a,
+.dropdown .menu button {
+  display: block;
+    padding: 0 20px;
+    margin: 0;
+    width: 100%;
+    line-height: 48px;
+      margin: 0;
+  color: #909090;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+.dropdown .menu a.small {
+  border-bottom: none;
+  font-size: 14px
 }
+
 .dropdown .menu a .avatar {
   position: absolute;
   top: 50%;
@@ -1325,13 +1307,6 @@ p.sub {
   margin-top: -11px;
 }
 
-.dropdown .menu a:first-child {
-  border-radius: 6px 6px 0 0;
-}
-.dropdown .menu a:last-child {
-  border-bottom: none;
-  border-radius: 0 0 6px 6px;
-}
 
 .homeLink {
   line-height: 24px;
@@ -1365,9 +1340,7 @@ p.sub {
   border-bottom: 1px solid transparent;
 }
 
-.menu a:hover {
-  color: #000;
-}
+
 
 .dropdown a {
   text-decoration: none;
@@ -1458,14 +1431,14 @@ img {
 span.folder,
 span.file {
   display: inline-block;
-  width: 1.66666em;
-  height: 1.6666em;
+  width: 1.3em;
+  height: 1.3em;
   float: left;
-  margin-right: 0.6666em;
+  margin-right: 0.5em;
   background: url("/images/folder.svg") no-repeat center center;
   background-size: contain;
   position: relative;
-  top: 0.15em;
+  top: 0.3em;
 }
 
 .folder.green {
@@ -1500,8 +1473,6 @@ span.file {
 }
 
 .sortable > section {
-  padding: 1em 0 0 2.5em;
-  background: #fff;
 }
 
 .sortable > section.isPage .button {
@@ -1521,34 +1492,39 @@ span.file {
   background: #eee;
 }
 
-.handle {
-  cursor: ns-resize;
-  position: absolute;
-  font-size: 1.5em;
-  color: #888;
-  top: 1em;
-  left: 0;
-  width: 1em;
-  height: 1em;
-  text-align: center;
-  line-height: 1em;
+.handle, .removeLink {
+    color: #888;
+    text-align: center;
+    line-height: 2.4;
+    padding: 0 6px;
+        display: inline-block;
+    min-width: 60px;
+/*    background: #f1edea;
+    box-shadow: inset 0px -1px 2px 0px rgba(0, 0, 0, 0.075);
+*/    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-top-color: rgba(0, 0, 0, 0.25);
+    border-bottom-color: rgba(0, 0, 0, 0.15);
 }
 
-.files a {
-  color: blue;
+.handle {    cursor: ns-resize;
+    border-radius: 4px 0 0 4px;
+    min-width: 30px;
+}
+
+.removeLink {  line-height: 35px;  border-radius: 0 4px 4px 0;
+}
+
+.files button {
+  color: black;
+  width: 100%;
+  text-align: left;
   text-decoration: none;
   display: block;
-  padding: 0.6666em 0;
-  line-height: 2em;
+  padding: 8px 0;
 }
-.files a:hover {
+.files button:hover {
   background: #fafafa;
   border: none;
-}
-
-.opener {
-  display: inline-block;
-  padding-right: 10px;
 }
 
 .opener svg {
@@ -1556,9 +1532,16 @@ span.file {
   width: 10px;
   height: 8px;
   position: relative;
+  transform:rotate(0);
   top: 4px;
-  margin-right: -10px;
+  margin: 0 0;
 }
+
+
+.closed .opener svg {
+  top:0;position:relative;transform:rotate(-90deg);
+}
+
 .w-right-offset {
   width: 125%;
   margin-left: 17rem;
@@ -1567,3 +1550,351 @@ span.file {
   background: yellow;
   color: inherit;
 }
+
+
+
+.nav a:hover {border-bottom: 1px solid black;color: black}
+
+h1 {margin-top: 1em}
+h2 {margin-top: 1em}
+
+.sub.nav {border: none;}
+.nav a {margin-right: 2em}
+.sub.nav a {font-size: 15px;margin-right: 2em;color: gray;line-height: }
+.sub.nav a.selected {border-color:transparent; }
+
+.w-right-offset {
+    width: inherit;
+    margin-left: 0
+}
+
+
+/* These three rules produce the sticky footer */ 
+body, html {height: 100%;margin: 0;color: #111;}
+.page {min-height: 100%;}
+
+.buttons {display: flex;width: 90%;margin-top: 2.5rem}
+  
+  .buttons > * {
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    background: grey;
+    padding: 0 20px;
+    position: relative;
+    line-height: 41px;
+    letter-spacing: 0.01em;
+    display:flex;
+    box-sizing: border-box;
+  }
+
+  .buttons > *:hover {cursor: pointer;}
+
+  .buttons > *:focus,
+  .buttons > *:active {outline: none;}
+
+  .buttons :first-child {
+    flex-grow:0.6666;
+    margin-right:2em;
+    box-sizing: border-box;
+    background: #2f2e2d;
+    color: #fffefc;  }
+
+  .buttons :first-child:hover{background: #111}
+  .buttons :first-child:active{background: #000}
+
+  .buttons .red {background: red;}
+
+    .buttons .red:hover {background: #ff2a2a}
+    .buttons .red:active {background: #c70000}
+
+  .buttons :first-child:disabled {background: #f0f0f0;color: #bbb}
+
+
+@keyframes pulse {
+  0% {
+    opacity: 0.333;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+  .buttons :first-child:disabled:after {
+  content: "";
+  animation: pulse 0.2s cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0;
+  border-radius: 0.55rem;
+  background: #666;
+  position: absolute;
+  right: 2em;
+  top:17px;
+}
+
+  .buttons :last-child {
+    flex-grow:0.3333;
+    color: #777;
+    background: #e6e6e6
+  }
+
+
+form.account {
+
+}
+
+form.account > p:first-of-type,
+form.account > label:first-of-type,
+form.account > .buttons {
+  margin-top:41px
+}
+
+form.account > .buttons {
+  width: 100%
+}
+
+
+.line,
+.line a {
+  text-decoration: none;
+}
+
+.line {
+  display: block;
+  padding: 11px 20px;
+}  
+
+  a.line:hover,
+  div.line a.link:hover,
+  .dropdown .opener:hover,
+  .dropdown .menu button:hover,
+  .dropdown .menu a:hover,
+  .line form button:hover {background: #f7f4f2}
+
+  a.line:active,
+  div.line a.link:active,
+  .dropdown .opener:active,
+  .dropdown .menu button:active,
+  .dropdown .menu a:active,
+  .line form button:active {background: rgba(0,0,0,0.05)}
+
+  a:hover .link, 
+  a.line:hover .right,
+  div.line a.link:hover {text-decoration: underline;}
+
+.link, 
+.right { color: #365899 }
+
+.right {
+  float:none;
+  padding-left: 4px;
+}
+
+
+.label {
+  color: rgb(158, 154, 152);
+  display: block;
+
+}
+
+.center, div.line a.link {}
+
+div.center {}
+.center b {color:#111;font-weight:500}
+.center {color: #111}
+
+.tablet {
+  border-radius:4em;
+  padding:0 9px;
+  line-height:1.5;
+  border: 1px solid;
+  margin:5px 1.2em 5px -9px;display:inline-block;
+}
+
+.line form {padding: 0}
+.line form button {background:none;}
+.line form button:hover .link {text-decoration: underline;}
+.line form button:focus {outline: none;}
+
+
+
+
+
+
+
+
+
+
+form.account, .inset {padding:20px}
+
+
+.mess {
+  display:block;text-decoration:none;    padding: 10px 20px;
+    margin: -1px 0;
+}
+
+.mess.error {      background: #ffe7c7;
+    color: #962500;
+}
+
+.mess.error:hover{background: #ffefda}
+
+.mess.success {    background: #61d4004f;
+    color: #095f00;}
+
+.mess .link {float: right;color: inherit;}
+.mess:hover .link {text-decoration: underline;}
+
+.wrapper {margin:0 auto;display: flex;padding-top: 60px}  
+
+.head {height:123px;padding-top:20px;}
+
+
+#menu section,
+#redirects section {padding: 0 0;border:none;margin-bottom: 12px}
+
+.pageLink {    line-height: 35px;
+    height: 37px;text-decoration:none;overflow: hidden;
+border: 1px solid;margin-left: -1px;padding: 0 8px}
+
+.lab[type="text"], .val[type="text"], .handle, .removeLink, .pageLink {border-color:rgb(202, 202, 202);}
+
+.lab[type="text"]:hover,
+ .val[type="text"]:hover,
+ .handle:hover,
+ .removeLink:hover,
+ .pageLink:hover {
+  border-color: #000;
+  z-index: 1;
+  border-color:rgb(152, 152, 152)
+ }
+
+ .removeLink, .handle {border-radius: 0}
+
+.lab[type="text"] {border-radius:0;margin-left:-1px}
+.val[type="text"] {border-radius:0;margin-left:-1px;margin-right: -1px}
+#menu button,
+#redirects button {margin-left:12px;}
+
+.removeLink {    
+    text-decoration: none;font-size: 12px}
+
+
+    .last {flex-grow:1}
+
+  .bubble {color:#aaa;text-decoration:none;
+    padding: 4px 20px;
+    display: block;
+  }
+  .bubble:hover {color:#444;/*background: rgba(0,0,0,0.03)*/}
+
+  .crumbs {display: flex}
+
+    .crumb {padding: 11px 20px;text-decoration:none;color:rgb(153, 153, 153);border-bottom: 1px solid rgb(237, 237, 237);
+}}
+
+
+    .crumbs:hover .crumb:not(:hover) {
+      color:rgb(153, 153, 153);font-weight: 400;
+    }
+    
+    .last, .crumb:hover {color: rgb(109, 109, 109);/*font-weight:500;*/}
+
+    .toggle {
+      display:block;
+      float: left;
+      width: 50%;
+      padding:10px 20px;
+      color:rgb(153, 153, 153);
+      text-decoration:none;
+      background: #eae7e5;
+    }
+
+    .toggle.selected {
+      background:none;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .side-bar {
+      flex-grow:0;flex-basis:380px;
+      max-width:380px;
+      margin-right: 20px;
+      min-width: 200px;
+    }
+
+    .left-side {margin-left: 20px}
+
+    @media only screen and (max-width: 1000px) {
+    .left-side {position: absolute;top: 0;left: 0}
+    .dropdown .opener {float: none}
+    .line:first-child{border-top:1px solid rgba(0,0,0,0.03)}
+    }
+
+    .gap-small {flex-grow:1;flex-basis:0px;flex-shrink:1;max-width:40px;}
+    .gap {flex-grow:1;flex-basis:0px;flex-shrink:1;}
+    .middle {min-width:400px;flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin: 0 20px}
+
+.external {
+  color:#365899;/*border:1px solid;*/text-decoration:none;
+  padding: 0 20px;
+  background:#f5f3f4;display:inline-block;line-height: 42px;
+}
+.external.right {float: right;}
+.external .square {float:right;/*border-left:1px solid rgba(0,0,0,0.08);*/padding:0 0 0 20px;margin-left:20px}
+.external.right .square{float: left;border:none;border-right: 1px solid rgba(0,0,0,0.08);padding:0 20px 0 0;margin:0 20px 0 0}
+/*.external:hover .square {right: -2px}
+*/
+.toggle:not(.selected):hover, .external:hover {text-decoration: underline;}
+.toggle:not(.selected):active, .external:active {background: #e2e0de}
+
+.group {}
+.line {border-bottom: 1px solid rgba(0,0,0,0.05)}
+
+
+.folder-box {margin:22px 0 0;
+  border:1px solid rgba(0,0,0,0.05);
+  padding-bottom:30px;
+  flex-basis:500px;flex-grow:1;}
+
+  .row {display: flex;}
+
+  .row a {padding: 11px 20px;flex-grow:1;color:rgb(200, 200, 200);text-decoration: none;}
+  .opener {visibility: hidden;white-space: nowrap}
+.opener.show {visibility: visible}
+.photo-holder {vertical-align:text-bottom;margin:0em 8px 0 0;width:16px;height:16px;display: inline-block;line-height: 1;text-align: center;}
+.photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
+.photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9}
+
+button {background: none;border: none;color:rgb(109, 109, 109);padding: 0;margin: 0;line-height: inherit;}
+
+button:hover{color: #111}
+button:focus {outline: none;}
+
+button.content-line {
+  padding:0 20px;
+  line-height: 36px;
+}
+
+button.content-line:hover {
+  background: #f7f4f2
+}
+button.content-line .folder,
+button.content-line .file {float: none}
+
+
+.line-item {display: flex;font-size: 14px}
+.line-item .lab {    flex-basis: 25%;
+    text-align: right;
+    margin-right: 10px;
+    color:#aaa;
+    flex-shrink: 0;}
+.line-item .val {flex-grow:1}
+
+.line-item .lab b {color: #000;margin-bottom: 10px;display: block;}
+
+.line-item .link {background:#f7f4f2;flex-grow:1;margin-left: 10px;padding: 4px 10px;text-align: center;}
+.line-item .link:first-child {margin-left: 0}
+.line-item .link span {display: none}

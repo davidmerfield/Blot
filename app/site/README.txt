@@ -1,5 +1,12 @@
 When you add a new route, make sure you export it in index.js
 
+Basic problem is we have some pages which need to be seen when logged in and logged out:
+
+about
+contact
+documentation
+terms and privacy
+updates
 
 # References
 

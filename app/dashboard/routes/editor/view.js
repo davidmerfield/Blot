@@ -31,7 +31,7 @@ module.exports = function (server) {
     .all(loadTemplate, loadSidebar)
 
     .get(function(req, res){
-      res.addPartials({yield: 'template/view-create'});
+      res.locals.partials.yield = 'template/view-create';
       res.render('template');
     })
 
@@ -45,8 +45,7 @@ module.exports = function (server) {
 
         var url = req.path + '/' + view.name + '/editor';
 
-        res.message({success: 'Created new view!', url: url});
-        res.redirect(url);
+        res.message(url, 'Created new view!');
       });
     })
 
@@ -60,16 +59,12 @@ module.exports = function (server) {
 
     .get(function(req, res){
 
-      res.setPartials({
-        yield: 'template/view-editor'
-      });
+      res.locals.partials.yield = 'template/view-editor';
 
-      res.addLocals({
+      res.render('template', {
         active:{editor: true},
         title: capitalise(res.locals.view.name + '.' + res.locals.view.extension) + ' - ' + req.template.name
       });
-
-      res.render('template');
     })
 
     .post(parseBody, saveView)
@@ -84,16 +79,13 @@ module.exports = function (server) {
 
     .get(function(req, res){
 
-      res.setPartials({
-        yield: 'template/view-settings'
-      });
+      res.locals.partials.yield = 'template/view-settings';
 
-      res.addLocals({
+
+      res.render('template', {
         active:{settings: true},
         title: capitalise(req.view.name + '.' + req.view.extension) + ' - Settings - ' + req.template.name
       });
-
-      res.render('template');
     })
 
     // Handle deletions...
@@ -153,8 +145,7 @@ function saveView (req, res, next) {
         
         if (err) return next(err);
       
-        res.message({success: 'Saved changes!'});
-        return res.redirect(req.path);
+        res.message(req.path, 'Saved changes!');
       });
     });
   });
@@ -192,8 +183,7 @@ function renameView (req, res, next) {
 
           if (err) return next(err);
 
-          res.message({success: 'Saved changes!', url: redirect});
-          res.redirect(redirect);
+          res.message(redirect, 'Saved changes!');
         });
       });
     });
@@ -225,7 +215,7 @@ function loadView (req, res, next) {
     view.editorMode = editorMode(view);
 
     req.view = view;
-    res.addLocals({view: view});
+    res.locals.view = view;
     next();
   });
 }

@@ -1,26 +1,45 @@
-Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
+Git client bugs:
 
-Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
+  Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
   - Issue with images
 
-Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
- - Folder saved under dominikgitbug
+  Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
+   - Folder saved under dominikgitbug
 
-Fix bug with title and partials in local editing
-  - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
-  - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
-  
-Fix git client bugs:
   Weird issue with slash in the file's name sent to metadata
   Moving a file fails
   File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
     - I think this was caused by nginx request size limit, which I have increased
   Tell Taurean when new Dropbox client is live
 
+Fix bug with blurry thumbnails on https://photos.asw.fyi/ and tell Adam
+  - https://photos.asw.fyi/cod-heads-at-borgarfj%C3%B6r%C3%B0ur-eystri
+  - https://photos.asw.fyi/road-to-skaft%C3%A1rhreppur
+  It seems like the medium version is the same image as the small version. Determine if issue is reproducible with source image. It might just be the cache. Is it possibly the hash of the generated file?
+
+  Add explanation for how to mirror blot blog repo on Github or Gitlab:
+  https://mail.google.com/mail/u/1/#inbox/1658e28be94479af
+  
+Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
+
+Fix blurry thumbnail bug and tell Stuart:
+https://twitter.com/stuartfrisby/status/1036605806148501504
+via DM: https://twitter.com/aswfyi
+
+Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
+
+Fix [Rob's git client bugs](https://mail.google.com/mail/u/1/#inbox/1657f11a67266434)
+
+Fix bug with title and partials in local editing
+  - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
+  - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
+  
 Fix bug with double escaped embedded ampersands.
   http://gavin.blot.im/this-code-doesnt-work
   Tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672)
-
+  http://rtimmons.blot.im/member-function-dispatch
+  Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4)
+  
 Fix case-sensitive bug with weblocs by passing case-sensitive path to entry.build and tell [Frank](https://mail.google.com/mail/u/1/#inbox/1645a74250006a08)
 
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
@@ -37,10 +56,16 @@ Fix bug with Pandoc markdown which won't process file with broken footnote synta
 - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
 - Tell [Johannes](https://twitter.com/johklab)
 
+Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
+
 Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+
+Fix ghost posts on this site and tell [Eivind](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
 
 Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
 - Let [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc) know
+- Let [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) know
+- Let [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
 
 Fix bug with KaTeX LaTeX rendering
 - Let [Peter](https://mail.google.com/mail/u/1/#inbox/15ed8e20b6254ff6) know
@@ -85,6 +110,12 @@ Fix bug with disqus plugin on preview subdomains
 
 Set up automated testing using Jasmine
 
+Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
+
+Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
+
+Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
+
 Grid theme
 - Find good source of material
 - Release the theme
@@ -96,6 +127,10 @@ Magazine theme
 - Improve the about page
 - Add grey bg to loading thumbnails
 
+Portfolio theme
+- Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
+Good source for theme content: http://cinebloc.blot.im/
+
 Improve the selection of templates
 - Don't modify any code, just design templates
 - Build script to archive a particular theme
@@ -105,6 +140,20 @@ Improve the selection of templates
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
+
+Implement LE wildcart SSL certificate support
+  - Tell [Johan](https://mail.google.com/mail/u/1/#inbox/165175a109b9e766)
+
+Self-hosting documentation
+- Tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)
+
+Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally?
+  - More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
+  
+Use this redis analysis tool to see if I can squeeze more out of REDIS
+https://github.com/snmaynard/redis-audit
+
+Add an EXPIRY to the log entries for a blog's 404 log
 
 Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389c18) about DataValet blocking
 
@@ -184,6 +233,7 @@ is happening before doing this.
 
 File codecs
 - Video posts (.mp4)
+- OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
 - Audio posts (.mp3 for now?)
 - Multi-file posts from inside one folder? 'Folder>'
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
@@ -210,6 +260,8 @@ Write a unified import tool which scrapes content from any blog/website
   https://github.com/dreikanter/wp2md exporter/importer
 
 Template system
+- Install and test a few of these static site generators:
+https://news.ycombinator.com/item?id=17942395
 - Make templates file or folder based
 - Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32)
 - Disable re-rendering for template locals
@@ -226,6 +278,8 @@ Template system
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
+Make subscriptions work in such a way that deleting a blog then re-creating a blog will allow you to use it until the start of your next billing period without an additional charge. Perhaps store a user.subscription.paid_for integer? Seperate from the stripe subscription quantity?
+
 Internationalize i8n
 - Tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971)
 Clients
@@ -233,7 +287,8 @@ Clients
   https://www.npmjs.com/package/ftpd
 - Google Drive
   Tell Cecil: https://twitter.com/Blot__/status/988162892594860032?s=20
-
+  Tell Jonathan: https://twitter.com/chin_jon/status/1032392398473650176
+  
 Record a new demo video
 - Show sites I run using Blot
 - Blot's developer blog, a conventional blog, show using different text editors
@@ -262,6 +317,7 @@ Buy the .com
 Incorporate
 
 Add support for other payment methods
+  - Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
 
 Start monthly newsletter with improvements, changes
 - Let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
@@ -276,6 +332,7 @@ Increase price for new customers to $60 a year. This will not affect existing cu
 Support 2FA (Two factor authentication)
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
 - Tell [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)
+- Tell [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a)
 
 Consider supporting Open Graph
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
@@ -375,6 +432,7 @@ Investigate atompub support for Marsedit and tell Chet
 Find cause of fontconfig error / warning
 
 Password protection for blogs
+- Tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7)
 - Tell [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231)
 - Tell [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281)
 
@@ -460,7 +518,10 @@ Prevent image zoom plugin from zooming emojies
 
 Embed plugin https://github.com/ritz078/embed.js
 
-Soundcloud embeds and tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23)
+Soundcloud embeds and tell 
+  [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23)
+  Nashp
+  [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12)
 
 Create script to export Blot sites to common formats and let Roberto know
 

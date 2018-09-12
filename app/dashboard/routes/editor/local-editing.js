@@ -13,7 +13,7 @@ module.exports = function (server) {
       if (!req.template.localEditing)
         return res.redirect('/template/' + req.template.slug + '/settings');
 
-      res.addPartials({yield: 'template/local-editing'});
+      res.locals.partials.yield = 'template/local-editing';
       res.render('template');
     })
 
@@ -23,8 +23,7 @@ module.exports = function (server) {
 
         if (err) return next(err);
 
-        res.message({success: 'Disabled local editing', url: req.path});
-        res.redirect(req.path);
+        res.message(req.path, 'Disabled local editing');
       });
     });
 };

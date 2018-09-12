@@ -14,10 +14,11 @@ function is (path) {
   return ['.txt', '.text', '.md', '.markdown'].indexOf(extname(path).toLowerCase()) > -1;
 }
 
-function read (blog, path, callback) {
+function read (blog, path, options, callback) {
 
   ensure(blog, 'object')
     .and(path, 'string')
+    .and(options, 'object')
     .and(callback, 'function');
 
   var localPath = LocalPath(blog.id, path);

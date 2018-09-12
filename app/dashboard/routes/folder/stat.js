@@ -5,6 +5,8 @@ var basename = require("path").basename;
 var dirname = require("path").dirname;
 var joinpath = require("path").join;
 var moment = require("moment");
+             require("moment-timezone");
+
 var Entry = require("entry");
 var IgnoredFiles = require("../../../models/ignoredFiles");
 var extname = require("path").extname;
@@ -16,13 +18,15 @@ var REASONS = {
   WRONG_TYPE: "not a file Blot can process"
 };
 
+var kind = require('./kind');
+
 module.exports = function(blog, path, callback) {
   var blogID = blog.id;
   var local = localPath(blogID, path);
 
   stat(local, function(err, stat) {
     if (err) return callback(err);
-
+    
     Metadata.get(blogID, path, function(err, casePresevedName) {
       if (err) return callback(err);
 
@@ -32,8 +36,22 @@ module.exports = function(blog, path, callback) {
         Entry.get(blogID, path, function(entry) {
           if (ignored) ignored = REASONS[ignored] || "was ignored";
 
+          stat.kind = kind(path);
           stat.path = path;
           stat.name = casePresevedName || basename(path);
+          stat.created = moment.utc(stat.ctime).tz(blog.timeZone).calendar(null, {
+    sameDay: '[Today], h:mm A',
+    lastDay: '[Yesterday], h:mm A',
+    lastWeek: 'LL, h:mm A',
+    sameElse: 'LL, h:mm A'
+});
+          stat.modified = moment.utc(stat.mtime).tz(blog.timeZone).calendar(null, {
+    sameDay: '[Today], h:mm A',
+    lastDay: '[Yesterday], h:mm A',
+    lastWeek: 'LL, h:mm A',
+    sameElse: 'LL, h:mm A'
+});
+
           stat.updated = moment.utc(stat.mtime).from(moment.utc());
           stat.size = humanFileSize(stat.size);
           stat.directory = stat.isDirectory();

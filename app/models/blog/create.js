@@ -6,51 +6,64 @@ var defaults = require('./defaults');
 var client = require('../client');
 var key = require('./key');
 var set = require('./set');
+var fs = require("fs-extra");
+var localPath = helper.localPath;
+var User = require('../user');
+var validate = require('./validate');
 
 module.exports = function create (uid, info, callback) {
-
-  var User = require('../user');
 
   ensure(uid, 'string')
     .and(info, 'object')
     .and(callback, 'function');
 
-  User.getById(uid, function(err, user){
+  var blogs;
+  var blog = {
+    owner: uid,
+    title: info.title || capitalise((info.handle || 'untitled') + '\’s') + ' blog',
+    client: '',
+    timeZone: info.timeZone || 'UTC',
+    dateFormat: info.dateFormat || 'M/D/Y'
+  };
 
-    if (err || !user) return callback(err || new Error('No user'));
+  extend(blog)
+    .and(info)
+    .and(defaults);
 
-    client.incr(key.totalBlogs, function(err, blogID){
+  validate('', blog, function(errors){
 
-      if (err) throw err;
+    if (errors) return callback(errors);
 
-      // Cast to a string from int
-      blogID += '';
+    User.getById(uid, function(err, user){
 
-      var blogs = user.blogs || [];
-      var title = capitalise(info.handle) + '\’s blog';
+      if (err || !user) return callback(err || new Error('No user'));
 
-      var blog = {
-        id: blogID,
-        owner: uid,
-        title: title,
-        client: '',
-        timeZone: info.timeZone || 'UTC',
-        dateFormat: info.dateFormat || 'M/D/YYYY'
-      };
+      client.incr(key.totalBlogs, function(err, blogID){
 
-      extend(blog)
-        .and(info)
-        .and(defaults);
+        if (err) return callback(err);
 
-      blogs.push(blogID);
+        // Cast to a string from int
+        blogID += '';
+        blog.id = blogID;
+        
+        blogs = user.blogs || [];
+        blogs.push(blogID);
 
-      User.set(uid, {blogs: blogs, lastSession: blogID}, function(errors){
+        User.set(uid, {blogs: blogs, lastSession: blogID}, function(err){
 
-        if (errors) throw errors;
+          if (err) return callback(err);
 
-        set(blogID, blog, function(err){
+          set(blogID, blog, function(err){
 
-          return callback(err, blog);
+            if (err) return callback(err);
+
+            fs.emptyDir(localPath(blog.id, "/"), function(err) {
+              
+              if (err) return callback(err);
+
+              return callback(err, blog);
+            });
+          });
         });
       });
     });

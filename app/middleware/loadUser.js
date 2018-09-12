@@ -19,7 +19,7 @@ module.exports = function (req, res, next) {
     // Lets append the user and
     // set the partials to 'logged in mode'
     req.user = User.extend(user);
-    res.addLocals({user: user});
+    res.locals.user = user;
 
     next();
   });

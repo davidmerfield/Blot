@@ -6,6 +6,6 @@ module.exports = function (req, res, next) {
 
     if (err) return next(err);
 
-    res.redirect('/clients');
+    res.redirect('/settings/client');
   });
 };

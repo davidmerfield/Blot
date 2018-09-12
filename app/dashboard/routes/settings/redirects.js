@@ -18,14 +18,12 @@ function normalize(str) {
 
 module.exports = function(server) {
   server
-    .route("/settings/redirects")
+    .route("/redirects")
     .get(function(req, res, next) {
       Redirects.list(req.blog.id, function(err, redirects) {
         if (err) return next(err);
 
-        res.addLocals({ redirects: _.filter(redirects) });
-
-        res.renderDashboard("settings/redirects");
+        res.render("settings/redirects", { redirects: _.filter(redirects) });
       });
     })
 
@@ -65,7 +63,7 @@ module.exports = function(server) {
       Redirects.set(req.blog.id, mappings, function(err) {
         if (err) return next(err);
 
-        res.redirect("/settings/redirects");
+        res.redirect("/redirects");
       });
     });
 };

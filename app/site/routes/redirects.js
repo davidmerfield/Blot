@@ -57,6 +57,11 @@ dashboard._router.stack.forEach(function(middleware){
 // the user to the log in page or not... 
 dashboard_routes = dashboard_routes.map(function(route){
 
+  if (!route.slice) {
+    console.log(route);
+    return '/'
+  }
+
   route = route.slice(1);
   route = route.split('*').join('');
 

@@ -37,17 +37,13 @@ module.exports = function (req, res, next) {
 
       template.preview = ['http://preview.my', template.slug, req.blog.handle, config.host].join('.');
 
-      res.addLocals({template: template});
-
-      res.addPartials({
-        head: 'partials/head',
-        footer: 'partials/footer',
-        message: 'partials/message',
-        local: 'template/_local',
-        locals: 'template/_locals',
-        partial: 'template/_partial',
-        partials: 'template/_partials',
-      });
+      res.locals.template = template;
+      res.locals.partials.head = 'partials/head';
+      res.locals.partials.footer = 'partials/footer';
+      res.locals.partials.local = 'template/_local';
+      res.locals.partials.locals = 'template/_locals';
+      res.locals.partials.partial = 'template/_partial';
+      res.locals.partials.partials = 'template/_partials';
 
       return next();
     });

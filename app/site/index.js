@@ -6,7 +6,6 @@ var middleware = require('middleware');
 var html_minifier = require('html-minifier').minify;
 var routes = require('./routes');
 var views = __dirname + '/views';
-var static = __dirname + '/static';
 var middleware = require('middleware');
 var cache = require('express-disk-cache')(config.cache_directory);
 
@@ -79,6 +78,8 @@ var html_minifier_options = {
   collapseWhitespace: true
 };
 
+// site.use('/documentation', require('./documentation'));
+
 // Compress HTML
 site.use(function (req, res, next) {
 
@@ -113,15 +114,7 @@ site.use('/clients', routes.clients);
 // which NGINX then serves.
 if (config.cache) site.use(cache);
 
-site.use(routes.simple);
-site.use('/blot.' + site.locals.cacheID + '.css', routes.css);
-site.use('/blot.' + site.locals.cacheID + '.js', routes.js);
-site.use('/updates', routes.updates);
-site.use('/formatting', routes.formatting);
-site.use('/', routes.help);
-
-// Serve static files too
-site.use(express.static(static, {maxAge: 86400000}));
+site.use(require('./routes/static'));
 
 // Redirect
 site.use(routes.redirects);
