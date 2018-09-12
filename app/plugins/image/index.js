@@ -33,6 +33,8 @@ function render ($, callback, options) {
 
     }, function(err, res){
 
+      var width, height;
+
       if (err) {
         debug(src, 'ERROR');
         debug(err);
@@ -45,19 +47,29 @@ function render ($, callback, options) {
         return next();
       }
 
-      // This is a retina image so half its dimensions
-      // we don't store these halved dimensions...
-      if ($(el).attr('data-2x') || isRetina(res.url)) {
-        debug(src, 'retinafying the dimensions');
-        res.width /= 2;
-        res.height /= 2;
+
+      if ($(el).attr('width') || $(el).attr('height')) {
+        debug(src, 'El has width or height pre-specified dont modify');
+        debug(res);
+        return next();
       }
 
       debug(src, 'modifying parent element');
 
+      width = res.width;
+      height = res.height;
+ 
+      // This is a retina image so half its dimensions
+      // we don't store these halved dimensions...
+      if ($(el).attr('data-2x') || isRetina(res.url)) {
+        debug(src, 'retinafying the dimensions');
+        height /= 2;
+        width /= 2;
+      }
+
       $(el)
-          .attr('width', res.width)
-          .attr('height', res.height)
+          .attr('width', width)
+          .attr('height', height)
           .attr('src', res.url);
 
       debug(src, 'complete!');

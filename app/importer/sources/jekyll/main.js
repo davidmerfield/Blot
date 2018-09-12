@@ -1,9 +1,14 @@
-var fs = require('fs');
+var fs = require('fs-extra');
 var testDir = __dirname + '/in';
 var resultDir = __dirname + '/out';
+var moment = require('moment');
 
-
+fs.emptyDirSync(resultDir);
 fs.readdirSync(testDir).forEach(function(file){
+
+  // system files
+  if (file.charAt(0) === '.') 
+    return false;
 
   var parsed = {
     Tags: '',
@@ -11,11 +16,11 @@ fs.readdirSync(testDir).forEach(function(file){
     Permalink: ''
   };
 
-  // system files
-  if (file.charAt(0) === '.') return false;
 
   var date = file.split('-').slice(0, 3);
       date = date[1] + '/' + date[2] + '/' + date[0];
+
+  var name = file.split('-').slice(3).join('-');
 
   parsed.Date = date;
 
@@ -78,9 +83,13 @@ fs.readdirSync(testDir).forEach(function(file){
 
   if (meta) output = meta + '\n' + output;
 
-  output = output.split("{% include JB/setup %}").join('');
+  if (output.indexOf('{%') > -1) {
 
-  console.log(file);
-  console.log(resultDir + '/' + file.split('-').slice(3).join('-'));
-  fs.writeFileSync(resultDir + '/' + file, output, 'utf-8');
+    console.warn(new Error('Something in output ' + file));
+    console.warn(output);
+  }
+  
+  var path_to_file = resultDir + '/' + moment(parsed.Date).format('YYYY') + '/' + moment(parsed.Date).format('MM') + '/' + moment(parsed.Date).format('DD') + '-' + name;
+  console.log(path_to_file);
+  fs.outputFileSync(resultDir + '/' + file, output, 'utf-8');
 });

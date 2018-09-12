@@ -1,5 +1,7 @@
 var debug = require("debug")("blot:models:entry:build");
+var Metadata = require("metadata");
 var helper = require("../../../helper");
+var basename = require("path").basename;
 var callOnce = helper.callOnce;
 var ensure = helper.ensure;
 var time = helper.time;
@@ -17,6 +19,7 @@ require("moment-timezone");
 process.on("message", function(message) {
   var blog = message.blog;
   var path = message.path;
+  var options = {};
   var callback = function(err, entry) {
     var response = { err: err, entry: entry, buildID: message.buildID };
     process.send(response);
@@ -34,60 +37,69 @@ process.on("message", function(message) {
   // path might need to change
   // for image captions, album items...
 
-  debug("Blog:", blog.id, path, " checking if draft");
-  isDraft(blog.id, path, function(err, is_draft) {
+
+  Metadata.get(blog.id, path, function(err, name){
+
     if (err) return callback(err);
 
-    debug("Blog:", blog.id, path, " attempting to build html");
-    Build(blog, path, function(err, html, metadata, stat, dependencies) {
+    if (name) options.name = name;
+    
+    debug("Blog:", blog.id, path, " checking if draft");
+    isDraft(blog.id, path, function(err, is_draft) {
       if (err) return callback(err);
 
-      debug("Blog:", blog.id, path, " extracting thumbnail");
-      Thumbnail(blog, path, metadata, html, function(err, thumbnail) {
-        // Could be lots of reasons (404?)
-        if (err || !thumbnail) thumbnail = {};
+      debug("Blog:", blog.id, path, " attempting to build html");
+      Build(blog, path, options, function(err, html, metadata, stat, dependencies) {
+        if (err) return callback(err);
 
-        var entry;
+        debug("Blog:", blog.id, path, " extracting thumbnail");
+        Thumbnail(blog, path, metadata, html, function(err, thumbnail) {
+          // Could be lots of reasons (404?)
+          if (err || !thumbnail) thumbnail = {};
 
-        // Given the properties above
-        // that we've extracted from the
-        // local file, compute stuff like
-        // the teaser, isDraft etc..
+          var entry;
 
-        try {
-          entry = {
-            html: html,
-            path: path,
-            id: path,
-            thumbnail: thumbnail,
-            draft: is_draft,
-            metadata: metadata,
-            size: stat.size,
-            dependencies: dependencies,
-            dateStamp: DateStamp(blog, path, metadata),
-            updated: moment.utc(stat.mtime).valueOf()
-          };
+          // Given the properties above
+          // that we've extracted from the
+          // local file, compute stuff like
+          // the teaser, isDraft etc..
 
-          if (entry.dateStamp === undefined) delete entry.dateStamp;
+          try {
+            entry = {
+              html: html,
+              name: options.name || basename(path),
+              path: path,
+              id: path,
+              thumbnail: thumbnail,
+              draft: is_draft,
+              metadata: metadata,
+              size: stat.size,
+              dependencies: dependencies,
+              dateStamp: DateStamp(blog, path, metadata),
+              updated: moment.utc(stat.mtime).valueOf()
+            };
 
-          debug("Blog:", blog.id, path, " preparing additional properties");
-          entry = Prepare(entry);
-          debug("Blog:", blog.id, path, " additional properties computed.");
-        } catch (e) {
-          return callback(e);
-        }
+            if (entry.dateStamp === undefined) delete entry.dateStamp;
 
-        // console.log('WARNING REMOVE THESE');
-        //   if (entry.html.indexOf('status') > -1) {
-        //     throw new Error('SIMULATE EXCEPTION');
-        //   } else if (blog.handle === 'dev') {
-        //     console.log('SIMULATE DELAY Waiting 10s.....');
-        //     return setTimeout(function(){
-        //       callback(null, entry);
-        //     },10000);
-        //   }
+            debug("Blog:", blog.id, path, " preparing additional properties for", entry.name);
+            entry = Prepare(entry);
+            debug("Blog:", blog.id, path, " additional properties computed.");
+          } catch (e) {
+            return callback(e);
+          }
 
-        callback(null, entry);
+          // console.log('WARNING REMOVE THESE');
+          //   if (entry.html.indexOf('status') > -1) {
+          //     throw new Error('SIMULATE EXCEPTION');
+          //   } else if (blog.handle === 'dev') {
+          //     console.log('SIMULATE DELAY Waiting 10s.....');
+          //     return setTimeout(function(){
+          //       callback(null, entry);
+          //     },10000);
+          //   }
+
+          callback(null, entry);
+        });
       });
     });
   });

@@ -156,8 +156,21 @@ function init () {
   // Smooth scroll
   var scroll = new SmoothScroll('a[href*="#"]');
 
+  var images = $('.entry img').filter(function(el){
+    
+    if ($(this).parents('a').length) {
+      return false;
+    }
+
+    if ($(this).attr('width') && $(this).attr('width') > 380) {
+      return true;
+    }
+
+    return false;
+  });
+
   // Medium zoom
-  mediumZoom('.entry img');
+  mediumZoom(images);
 }
 
                                       

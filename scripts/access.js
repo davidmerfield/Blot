@@ -14,27 +14,46 @@ if (require.main === module) {
 }
 
 function main(handle, callback) {
-  Blog.get({ handle: handle }, function(err, blog) {
-    if (err || !blog) return callback(err || new Error("No blog " + handle));
 
-    User.generateAccessToken(blog.owner, function(err, token) {
-      if (err) throw err;
+  User.getById(handle, function(err, userID){
 
-      // The full one-time log-in link to be sent to the user
-      var url = format({
-        protocol: "https",
-        host: config.host,
-        pathname: "/log-in",
-        query: {
-          token: token
-        }
+    if (err) return callback(err);
+
+    User.getByEmail(handle, function(err, userEmail){
+
+      if (err) return callback(err);
+
+      Blog.get({ handle: handle }, function(err, blog) {
+
+        if (err) return callback(err);
+
+        var uid = (userEmail && userEmail.uid) ||
+                  (userID && userID.uid) ||
+                  (blog && blog.owner);
+
+        if (!uid) return callback(new Error('No user with identifier ' + handle));
+
+        User.generateAccessToken(uid, function(err, token) {
+          
+          if (err) throw err;
+
+          // The full one-time log-in link to be sent to the user
+          var url = format({
+            protocol: "https",
+            host: config.host,
+            pathname: "/log-in",
+            query: {
+              token: token
+            }
+          });
+
+          console.log(url);
+          callback();
+        });
       });
-
-      console.log(blog.title, blog.domain, blog.handle);
-      console.log(url);
-      callback();
     });
   });
+  
 }
 
 module.exports = main;

@@ -40,10 +40,14 @@ function build () {
       if (templateName.slice(0, 1) === '.') return nextTemplate();
       if (templateName === '_') return nextTemplate();
       if (templateName === 'README.txt') return nextTemplate();
+      if (templateName === 'README.md') return nextTemplate();
 
       loadFromFolder(TEMPLATEDIR + templateName + '/', templateName, owner, function(err){
 
-        if (err) throw err;
+        if (err) {
+          console.log(templateName)
+          throw err;
+        }
 
         console.log('--', templateName,'BUILT FROM FOLDER');
         nextTemplate();

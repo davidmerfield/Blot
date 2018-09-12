@@ -150,8 +150,12 @@ border: none;}
 .skip-1 a:nth-child(-n+1) {display:none}
 .skip-3 a:nth-child(-n+3) {display:none}
 
-  /* Fix bug in tachyon which sets width to 100% */
-  img {height:auto}
+  /* Fix bug in tachyon which sets width to 100% 
+    should consider doing img:not([width]):not([height])
+    to prevent overriding attribute values?
+  */
+  
+  img {height:auto;height: }
   
   .f7 {font-size:11px}
   /* Didn't know you could do this */ 

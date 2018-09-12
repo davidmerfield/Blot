@@ -16,12 +16,12 @@ process.on("exit", function() {
 // run synchronously.
 module.exports = function(blog, path, callback) {
   var buildID = crypto.randomBytes(32).toString("hex");
-  
-  function exitHandler () {
+
+  function exitHandler() {
     callback(new Error("Failed to build " + buildID + " as worked is dead."));
   }
 
-  function messageHandler (response) {
+  function messageHandler(response) {
     // Filter out other build messages
     if (response.buildID !== buildID) return;
 
@@ -53,14 +53,12 @@ module.exports = function(blog, path, callback) {
 
 // what happens if worker errors or shuts down?
 // can we have multiple workers?
-function Worker () {
-
+function Worker() {
   var child;
 
   child = cp.fork(__dirname + "/main.js");
 
   child.on("exit", function(code) {
-  
     if (code === 0) return;
 
     worker = new Worker();

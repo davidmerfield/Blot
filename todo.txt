@@ -1,25 +1,32 @@
-Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
+Git client bugs:
 
-Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
+  Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
+  - Issue with images
 
-Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
+  Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
+   - Folder saved under dominikgitbug
 
----
+  Weird issue with slash in the file's name sent to metadata
+  Moving a file fails
+  File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
+    - I think this was caused by nginx request size limit, which I have increased
+  Tell Taurean when new Dropbox client is live
 
 Fix bug with blurry thumbnails on https://photos.asw.fyi/ and tell Adam
   - https://photos.asw.fyi/cod-heads-at-borgarfj%C3%B6r%C3%B0ur-eystri
   - https://photos.asw.fyi/road-to-skaft%C3%A1rhreppur
   It seems like the medium version is the same image as the small version. Determine if issue is reproducible with source image. It might just be the cache. Is it possibly the hash of the generated file?
 
+  Add explanation for how to mirror blot blog repo on Github or Gitlab:
+  https://mail.google.com/mail/u/1/#inbox/1658e28be94479af
+  
 Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
 
+Fix blurry thumbnail bug and tell Stuart:
+https://twitter.com/stuartfrisby/status/1036605806148501504
+via DM: https://twitter.com/aswfyi
+
 Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
-
-Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
-  - Issue with images
-
-Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
- - Folder saved under dominikgitbug
 
 Fix [Rob's git client bugs](https://mail.google.com/mail/u/1/#inbox/1657f11a67266434)
 
@@ -27,13 +34,6 @@ Fix bug with title and partials in local editing
   - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
   - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
   
-Fix git client bugs:
-  Weird issue with slash in the file's name sent to metadata
-  Moving a file fails
-  File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
-    - I think this was caused by nginx request size limit, which I have increased
-  Tell Taurean when new Dropbox client is live
-
 Fix bug with double escaped embedded ampersands.
   http://gavin.blot.im/this-code-doesnt-work
   Tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672)
@@ -110,6 +110,12 @@ Fix bug with disqus plugin on preview subdomains
 
 Set up automated testing using Jasmine
 
+Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
+
+Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
+
+Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
+
 Grid theme
 - Find good source of material
 - Release the theme
@@ -123,6 +129,7 @@ Magazine theme
 
 Portfolio theme
 - Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
+Good source for theme content: http://cinebloc.blot.im/
 
 Improve the selection of templates
 - Don't modify any code, just design templates
@@ -137,6 +144,12 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 Implement LE wildcart SSL certificate support
   - Tell [Johan](https://mail.google.com/mail/u/1/#inbox/165175a109b9e766)
 
+Self-hosting documentation
+- Tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)
+
+Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally?
+  - More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
+  
 Use this redis analysis tool to see if I can squeeze more out of REDIS
 https://github.com/snmaynard/redis-audit
 
@@ -220,6 +233,7 @@ is happening before doing this.
 
 File codecs
 - Video posts (.mp4)
+- OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
 - Audio posts (.mp3 for now?)
 - Multi-file posts from inside one folder? 'Folder>'
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
@@ -246,6 +260,8 @@ Write a unified import tool which scrapes content from any blog/website
   https://github.com/dreikanter/wp2md exporter/importer
 
 Template system
+- Install and test a few of these static site generators:
+https://news.ycombinator.com/item?id=17942395
 - Make templates file or folder based
 - Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32)
 - Disable re-rendering for template locals
@@ -301,6 +317,7 @@ Buy the .com
 Incorporate
 
 Add support for other payment methods
+  - Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
 
 Start monthly newsletter with improvements, changes
 - Let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
@@ -315,6 +332,7 @@ Increase price for new customers to $60 a year. This will not affect existing cu
 Support 2FA (Two factor authentication)
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
 - Tell [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)
+- Tell [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a)
 
 Consider supporting Open Graph
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
