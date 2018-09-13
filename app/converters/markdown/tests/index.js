@@ -9,23 +9,32 @@ describe("markdown converter", function() {
   afterEach(global.removeBlog);
   afterEach(global.removeUser);
 
-  it("converts basic markdown", function(done){
+  function from (path) {
 
-    var path = '/basic-post.txt';
-    var blogDir = process.env.BLOT_DIRECTORY + '/blogs/' + global.blog.id;
-    var options = {};
+    return function (callback) {      
 
-    fs.copyFileSync(__dirname + path, blogDir + path);
+      var blogDir = process.env.BLOT_DIRECTORY + '/blogs/' + global.blog.id;
+      fs.copyFileSync(__dirname + path, blogDir + path);
+      var options = {};
 
-    markdown.read(global.blog, path, options, function(err, html, stat){
+      markdown.read(global.blog, path, options, function(err, html, stat){
 
-      expect(err).toBe(null);
-      expect(stat).toEqual(jasmine.any(Object));
-      expect(html).toEqual(fs.readFileSync(__dirname + '/basic-post.html', 'utf-8'));
+        expect(err).toBe(null);
+        expect(stat).toEqual(jasmine.any(Object));
 
-      console.log(html, stat);
+        fs.readFile(__dirname + path +'.html', 'utf-8', function(err, expected){
 
-      done();
-    });
-  });
+          expect(err).toBe(null);
+          expect(html).toEqual(expected);
+
+          callback();
+        });
+      });
+    };
+  }
+
+  it("converts basic markdown", from('/basic-post.txt'));
+  it("converts a list", from('/list.txt'));
+  it("parses metadata", from('/metadata.txt'));
+
 });
