@@ -98,8 +98,9 @@ function transform (input, to, options, callback) {
   var transform = input
         .clone()
         .withoutEnlargement()
-        .rotate() // try to auto rotate
-        .quality(100); // don't compress, we'll do that later
+        .rotate(); // try to auto rotate
+        // we need to reset quality
+        // .quality(100); // don't compress, we'll do that later
 
   transform.on('error', done);
 

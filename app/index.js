@@ -60,6 +60,10 @@ var sessionOptions = {
 // Create directive at /crossdomain.xml
 // which prevents flash from doing shit
 // Rendering middleware
+
+  
+console.log('WARNING RENABLE CROSS DOMAINS (helmet)');
+
 server
   .disable('x-powered-by')
   .use(compression())
@@ -67,7 +71,7 @@ server
   .use(helmet.ieNoOpen())
   .use(helmet.noSniff())
   .use(helmet.frameguard('allow-from', config.host))
-  .use(helmet.crossdomain())
+  // .use(helmet.crossdomain())
   .use(analytics.middleware)
   .use(function(req, res, next) {
     res.setHeader('Cache-Hit', 'false')

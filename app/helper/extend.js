@@ -1,6 +1,5 @@
 var type = require('./type');
 var ensure = require('./ensure');
-var _ = require('lodash');
 
 function extend (a) {
 
