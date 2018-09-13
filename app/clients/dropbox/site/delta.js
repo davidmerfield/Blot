@@ -4,7 +4,7 @@ var Dropbox = require("dropbox");
 var Database = require("../database");
 var helper = require("helper");
 var ensure = helper.ensure;
-var forEach = helper.forEach;
+var async = require('async');
 
 module.exports = function delta(blogID, account, callback) {
   ensure(blogID, "string")
@@ -32,7 +32,7 @@ module.exports = function delta(blogID, account, callback) {
     methods.push(filesGetMetadata.bind(this, client, folder_id));
   }
 
-  forEach.parallel(
+  async.each(
     methods,
     function(method, next) {
       method(function(err, res) {

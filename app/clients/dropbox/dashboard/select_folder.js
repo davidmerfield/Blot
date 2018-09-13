@@ -1,7 +1,6 @@
 var Express = require('express');
 var select_folder = Express.Router();
-var helper = require('helper');
-var forEach = helper.forEach;
+var async = require('async');
 var database = require('../database');
 var Dropbox = require('dropbox');
 
@@ -9,20 +8,18 @@ function get_accounts (blogIDs, callback) {
 
   var accounts = [];
 
-  forEach(blogIDs, function(blogID, nextBlog){
+  async.eachSeries(blogIDs, function(blogID, nextBlog){
 
     database.get(blogID, function(err, account){
       
-      if (err) return callback(err);
-
-      if (!account) return nextBlog();
+      if (err || !account) return nextBlog(err || new Error('No account'));
 
       accounts.push(account);
 
       nextBlog();
     });
-  }, function(){
-    callback(null, accounts);
+  }, function(err){
+    callback(err, accounts);
   });
 }
 
@@ -61,13 +58,13 @@ select_folder.route('/').get(function (req, res, next) {
       return item;
     });
 
-    forEach(req.user.blogs, function(blogID, nextBlog){
+    async.eachSeries(req.user.blogs, function(blogID, nextBlog){
 
       if (blogID === req.blog.id) return nextBlog();
 
       database.get(blogID, function(err, other_account){
         
-        if (err || !other_account) return nextBlog();
+        if (err || !other_account) return nextBlog(err || new Error('No other account'));
 
         contents.forEach(function(folder){
 

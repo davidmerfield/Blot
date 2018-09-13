@@ -1,9 +1,8 @@
 var helper = require('../helper');
 var callOnce = helper.callOnce;
 var ensure = helper.ensure;
-var forEach = helper.forEach.parallel;
 var basename = require('path').basename;
-
+var async = require('async');
 var fs = require('fs');
 var readStream = fs.createReadStream;
 
@@ -54,14 +53,14 @@ function main (path, destination, callback) {
   // this will remove all the files
   // we'll have created below...
   read.on('error', function(err){
-    forEach(created, fs.unlink, function(){
+    async.each(created, fs.unlink, function(){
       callback(err);
     });
   });
 
   read.pipe(input);
 
-  forEach(thumbnails, function(name, options, next){
+  async.eachOf(thumbnails, function(options, name, next){
 
     var to = destination + '/' + name + '-' + basename(path);
 

@@ -1,5 +1,4 @@
-var helper = require('../../helper');
-var forEach = helper.forEach;
+var async = require('async');
 var Tags = require('./index');
 var blogID = '10000';
 
@@ -36,7 +35,7 @@ var entries = makeEntries(2);
 
 console.time('All entries set!');
 
-forEach(entries, function(entry, next){
+async.eachSeries(entries, function(entry, next){
 
   Tags.set(blogID, entry, next);
 

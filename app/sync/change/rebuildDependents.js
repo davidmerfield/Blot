@@ -1,5 +1,4 @@
-var helper = require('helper');
-var forEach = helper.forEach;
+var async = require('async');
 var Entry = require('entry');
 var client = require('client');
 var Blog = require('blog');
@@ -19,7 +18,7 @@ module.exports = function (blogID, path, callback) {
 
       if (err) return callback(err);
       
-      forEach(dependent_paths, function(dependent_path, next){
+      async.eachSeries(dependent_paths, function(dependent_path, next){
 
         Entry.build(blog, dependent_path, function(err, updated_dependent){
 
