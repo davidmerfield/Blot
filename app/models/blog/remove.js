@@ -1,7 +1,7 @@
 var get = require('./get');
 var helper = require('helper');
 var ensure = helper.ensure;
-var forEach = helper.forEach;
+var async = require('async');
 var client = require('../client');
 var START_CURSOR = '0';
 var SCAN_SIZE = 1000;
@@ -27,7 +27,7 @@ module.exports = function (blogID, callback) {
 
     if (blog.domain) remove.push('domain:' + blog.domain);
 
-    forEach.parallel(patterns, function(pattern, next){
+    async.each(patterns, function(pattern, next){
 
       var args = [START_CURSOR, 'MATCH', pattern, 'COUNT', SCAN_SIZE];
 

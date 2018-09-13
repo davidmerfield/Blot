@@ -1,7 +1,7 @@
 var recursive = require("recursive-readdir");
 var helper = require('helper');
 var localPath = helper.localPath;
-var forEach = helper.forEach;
+var async = require('async');
 var fs = require('fs-extra');
 var change = require('../change');
 var ensure = require('helper').ensure;
@@ -14,7 +14,7 @@ module.exports = function (blogID, callback) {
 
   recursive(folder, function (err, contents) {
 
-    forEach(contents, function(path, next){
+    async.eachSeries(contents, function(path, next){
 
       path = path.slice(folder.length - 1);
 

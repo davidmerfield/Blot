@@ -1,6 +1,6 @@
 var helper = require('helper');
 var ensure = helper.ensure;
-var forEach = helper.forEach;
+var async = require('async');
 var equal = require('lodash').isEqual;
 var Entries = require('../../../models/entries');
 var Entry = require('../../../models/entry');
@@ -189,7 +189,7 @@ function findSimilar (entry, entries, callback) {
   var similar;
   var bestScore = 0;
 
-  forEach(entries, function(candidate, next){
+  async.eachSeries(entries, function(candidate, next){
 
     var score = calculateSimilarity(entry, candidate);
 

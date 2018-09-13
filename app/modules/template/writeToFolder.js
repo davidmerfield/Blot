@@ -1,7 +1,7 @@
 var helper = require('../../helper');
 var ensure = helper.ensure;
 var joinpath = require('path').join;
-var forEach = helper.forEach;
+var async = require('async');
 var Template = require('../../models/template');
 var callOnce = helper.callOnce;
 var Blog = require('blog');
@@ -34,7 +34,7 @@ function writeToFolder (blogID, templateID, callback) {
 
         var dir = joinpath('Templates', metadata.slug);
 
-        forEach(views, function(name, view, next){
+        async.eachOfSeries(views, function(name, view, next){
 
           if (!view.name || !view.type || !view.content)
             return next();

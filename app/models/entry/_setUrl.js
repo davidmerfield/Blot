@@ -1,5 +1,5 @@
 var helper = require('helper');
-var forEach = helper.forEach;
+var async = require('async');
 var ensure = helper.ensure;
 var _ = require('lodash');
 var urlNormalizer = helper.urlNormalizer;
@@ -203,7 +203,7 @@ module.exports = function (blogID, entry, callback) {
     // does This cause a memory leak? we sometimes
     // exist before calling all the next functions
     // if we find a successful candidate.
-    forEach(Candidates(blog, entry), function(candidate, next){
+    async.eachSeries(Candidates(blog, entry), function(candidate, next){
 
       check(blogID, candidate, entry.id, function(err, taken){
 
