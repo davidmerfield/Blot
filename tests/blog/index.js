@@ -7,7 +7,7 @@ describe("blog", function() {
 
   it("creates and deletes a blog", function(done){
 
-    Blog.create(global.test_uid, {}, function(err, blog){
+    Blog.create(global.user.uid, {}, function(err, blog){
       
       expect(err).toBe(null);
       expect(blog).toEqual(jasmine.any(Object));
