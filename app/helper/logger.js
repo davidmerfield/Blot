@@ -1,6 +1,5 @@
 var config = require('../../config');
-var _ = require('lodash'),
-    type = require('./type');
+var type = require('./type');
 
 function logger (uid, action, subject) {
 
@@ -9,7 +8,7 @@ function logger (uid, action, subject) {
   // {foo: 1, bar: 2, baz: 3} -> 'foo, bar, baz'
   // used to log updates made to a user
   if (type(subject) === 'object')
-    subject = _.keys(subject).join(', ');
+    subject = Object.keys(subject).join(', ');
 
   if (uid)
     message += 'User: ' + uid + ' ';

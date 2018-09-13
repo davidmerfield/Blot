@@ -6,6 +6,11 @@ var Twit = require('twit');
 var Twitter;
 var SCRIPT = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
 
+if (!process.env.BLOT_TWITTER_CONSUMER_KEY) {
+  console.log('Warning: Please get twitter credentials and pass them as environment variables');
+  return module.exports = {};
+}
+
 try {
 
   Twitter = new Twit({
