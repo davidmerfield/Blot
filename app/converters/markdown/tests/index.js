@@ -1,8 +1,7 @@
 describe("markdown converter", function() {
 
-  var Blog = require('blog');
-  var Entry = require('entry');
   var fs = require('fs-extra');
+  var markdown = require('../index');
 
   beforeEach(global.createUser);
   beforeEach(global.createBlog);
@@ -10,35 +9,23 @@ describe("markdown converter", function() {
   afterEach(global.removeBlog);
   afterEach(global.removeUser);
 
-  it("an entry", function(done){
+  it("converts basic markdown", function(done){
 
-    var path = '/post.txt';
+    var path = '/basic-post.txt';
+    var blogDir = process.env.BLOT_DIRECTORY + '/blogs/' + global.blog.id;
+    var options = {};
 
-    fs.copyFileSync(__dirname + path, process.env.BLOT_DIRECTORY + '/blogs/' + global.blog.id + path);
+    fs.copyFileSync(__dirname + path, blogDir + path);
 
-    Entry.build(global.blog, path, function(err, entry){
+    markdown.read(global.blog, path, options, function(err, html, stat){
 
       expect(err).toBe(null);
-      expect(entry).toEqual(jasmine.any(Object));
+      expect(stat).toEqual(jasmine.any(Object));
+      expect(html).toEqual(fs.readFileSync(__dirname + '/basic-post.html', 'utf-8'));
 
-      Entry.set(global.blog.id, path, entry, function(err){
+      console.log(html, stat);
 
-        expect(err).toBe(null);
-
-        Entry.get(global.blog.id, path, function(entry){
-
-          expect(err).toBe(null);
-          expect(entry).toEqual(jasmine.any(Object));
-
-          console.log(entry);
-          
-          Entry.drop(global.blog.id, path, function(err){
-
-            expect(err).toBe(null);
-            done();
-          });
-        });
-      });
+      done();
     });
   });
 });
