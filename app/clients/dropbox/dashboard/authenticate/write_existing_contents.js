@@ -49,7 +49,7 @@ function write_files (client, paths_to_write, callback) {
 
   debug('starting to write files...');
 
-  async.eachSeries(paths_to_write, function(remote, local, next){
+  async.eachOfSeries(paths_to_write, function(local, remote, next){
 
     debug('reading', local);
 
