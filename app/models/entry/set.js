@@ -112,7 +112,10 @@ module.exports = function set (blogID, path, updates, callback) {
 
         queue.push(flushCache.bind(this, blogID));
 
-        doEach(queue, callback);
+        doEach(queue, function(){
+
+          callback(null);
+        });
       });
     });
   });

@@ -25,11 +25,25 @@ describe("blog", function() {
         expect(err).toBe(null);
         expect(entry).toEqual(jasmine.any(Object));
 
-        console.log(entry);
-        
-        done();
+        Entry.set(global.blog_id, path, entry, function(err){
+
+          expect(err).toBe(null);
+
+          Entry.get(global.blog_id, path, function(entry){
+
+            expect(err).toBe(null);
+            expect(entry).toEqual(jasmine.any(Object));
+
+            console.log(entry);
+            
+            Entry.drop(global.blog_id, path, function(err){
+
+              expect(err).toBe(null);
+              done();
+            });
+          });
+        });
       });
     });
-    
   });
 });
