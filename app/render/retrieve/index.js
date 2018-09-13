@@ -1,9 +1,9 @@
 var _ = require('lodash');
 var helper = require('../../helper');
 var ensure = helper.ensure;
-var forEach = helper.forEach.parallel;
 var dirToModule = helper.dirToModule;
 var dictionary = dirToModule(__dirname, require);
+var async = require('async');
 
 module.exports = function (req, retrieve, callback) {
 
@@ -13,7 +13,7 @@ module.exports = function (req, retrieve, callback) {
 
   var locals = {};
 
-  forEach(_.keys(retrieve), function(localName, nextLocal){
+  async.each(_.keys(retrieve), function(localName, nextLocal){
 
     if (dictionary[localName] === undefined) {
       console.log('No retrieve method to look up', localName);

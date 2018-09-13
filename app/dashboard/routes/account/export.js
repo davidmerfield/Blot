@@ -1,7 +1,6 @@
 var Entries = require("entries");
 var Template = require("template");
-var helper = require("helper");
-var forEach = helper.forEach.parallel;
+var async = require('async');
 var Express = require("express");
 var Export = new Express.Router();
 
@@ -20,7 +19,7 @@ Export.route("/account.json")
 
     var blogs = {};
 
-    forEach(req.blogs || [], function(blog, nextBlog){
+    async.each(req.blogs || [], function(blog, nextBlog){
 
       var templates = {};
 
@@ -28,7 +27,7 @@ Export.route("/account.json")
 
         if (err) return next(err);
 
-        forEach(res, function(template, nextTemplate){
+        async.each(res, function(template, nextTemplate){
 
           // Don't include Global templates in this file...
           if (template.owner === 'SITE') return nextTemplate();

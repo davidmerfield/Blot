@@ -1,6 +1,5 @@
 var Lease = require('../lease');
-var helper = require('helper');
-var forEach = helper.forEach;
+var async = require('async');
 
 // Look up users who were syncing when this
 // process was last shutdown
@@ -11,7 +10,7 @@ Lease.active(function(err, blogIDs){
 
   blogIDs = blogIDs || [];
 
-  forEach(blogIDs, function(blogID, nextBlog){
+  async.eachSeries(blogIDs, function(blogID, nextBlog){
 
     console.log('Need to resync the folder of', blogID,'...');
 

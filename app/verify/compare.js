@@ -1,9 +1,8 @@
 var helper = require("../helper");
 var ensure = helper.ensure;
-var forEach = helper.forEach;
 var normalize = helper.pathNormalizer;
 var LocalPath = helper.localPath;
-
+var async = require('async');
 var Emit = require("./emit");
 
 var fs = require("fs");
@@ -26,7 +25,7 @@ module.exports = function(blogID) {
     fs.readdir(localDir, function(err, contents) {
       if (err) return callback(err);
 
-      forEach(
+      async.eachSeries(
         contents,
         function(fileName, next) {
           if (fileName === ".DS_Store") return next();

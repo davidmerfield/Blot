@@ -1,5 +1,5 @@
 var helper = require("helper");
-var forEach = helper.forEach;
+var async = require('async');
 var Dropbox = require("dropbox");
 var delta = require("./delta");
 var localPath = helper.localPath;
@@ -23,7 +23,7 @@ module.exports = function main(blogID, callback) {
           delta(blogID, account, function handle(err, changes, has_more) {
             if (err) return callback(err);
 
-            forEach(
+            async.eachSeries(
               changes,
               function(change, next) {
                 var path = change.path;

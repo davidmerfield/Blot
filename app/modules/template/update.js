@@ -1,10 +1,10 @@
 var helper = require('../../helper');
 var ensure = helper.ensure;
-var forEach = helper.forEach;
 var blogDir = helper.blogDir;
 var fs = require('fs');
 var readFromFolder = require('./readFromFolder');
 var Blog = require('blog');
+var async = require('async');
 
 module.exports = function (blogID, callback) {
 
@@ -19,7 +19,7 @@ module.exports = function (blogID, callback) {
 
     if (err || !templates) return callback(err || 'No templates');
 
-    forEach(templates, function(template, next){
+    async.eachSeries(templates, function(template, next){
 
       // Dotfile
       if (template.charAt(0) === '.') return next();

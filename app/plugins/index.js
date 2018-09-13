@@ -5,11 +5,11 @@ var cheerio = require('cheerio');
 var fs = require('fs');
 var ensure = helper.ensure;
 var callOnce = helper.callOnce;
-var forEach = helper.forEach;
 var extend = helper.extend;
 var deCamelize = helper.deCamelize;
 var log = new helper.logg('PLUGIN');
 var time = helper.time;
+var async = require('async');
 
 // Wait 10 minutes to go to next plugin
 var TIMEOUT = 10 * 60 * 1000;
@@ -48,7 +48,7 @@ function convert (blog, path, contents, callback) {
     baseURL: 'http://' + blog.handle + '.' + config.host
   };
 
-  forEach(prerenderers, function (plugin, next){
+  async.eachSeries(prerenderers, function (plugin, next){
 
     var id, blogOptions, options, prerender, timeout;
     
@@ -94,7 +94,7 @@ function convert (blog, path, contents, callback) {
     // Don't decode entities, preserve the original content
     var $ = cheerio.load(contents, {decodeEntities: false});
 
-    forEach(plugins, function (plugin, next) {
+    async.eachSeries(plugins, function (plugin, next) {
 
       var id, options, blogOptions, timeout;
 
