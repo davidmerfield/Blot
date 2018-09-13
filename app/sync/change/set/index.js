@@ -10,7 +10,7 @@ var isPreview = require("../../../drafts").isPreview;
 var async = require("async");
 var catchRename = require("./catchRename").forCreated;
 
-var file = require("../../../models/entry/build/file");
+var coverters = require("../../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 
@@ -28,7 +28,9 @@ function isTemplate(path) {
 function isWrongType(path) {
   var isWrong = true;
 
-  for (var i in file) if (file[i].is(path)) isWrong = false;
+  converters.forEach(function(converter){
+    if (converter.is(path)) isWrong = false;
+  });
 
   return isWrong;
 }
