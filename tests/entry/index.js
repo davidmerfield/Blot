@@ -16,31 +16,24 @@ describe("blog", function() {
 
     fs.copyFileSync(__dirname + path, process.env.BLOT_DIRECTORY + '/blogs/' + global.blog.id + path);
 
-    Blog.get({id: global.blog.id}, function(err, blog){
+    Entry.build(global.blog, path, function(err, entry){
 
       expect(err).toBe(null);
+      expect(entry).toEqual(jasmine.any(Object));
 
-      Entry.build(blog, path, function(err, entry){
-  
+      Entry.set(global.blog.id, path, entry, function(err){
+
         expect(err).toBe(null);
-        expect(entry).toEqual(jasmine.any(Object));
 
-        Entry.set(global.blog.id, path, entry, function(err){
+        Entry.get(global.blog.id, path, function(entry){
 
           expect(err).toBe(null);
+          expect(entry).toEqual(jasmine.any(Object));
 
-          Entry.get(global.blog.id, path, function(entry){
+          Entry.drop(global.blog.id, path, function(err){
 
             expect(err).toBe(null);
-            expect(entry).toEqual(jasmine.any(Object));
-
-            console.log(entry);
-
-            Entry.drop(global.blog.id, path, function(err){
-
-              expect(err).toBe(null);
-              done();
-            });
+            done();
           });
         });
       });
