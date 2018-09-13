@@ -1,4 +1,4 @@
-// var finder = require('finder');
+var finder = require('finder');
 var express = require('express');
 var load_views = require('load_views');
 var render_tex = require('render_tex');
@@ -11,8 +11,7 @@ var VIEW_DIR = require('VIEW_DIR');
 
 help.use(render_tex);
 help.use(render_dates);
-console.log('WARNING RE ENABLE FINDER MIDDLEWARE AFTER UPGRADING CHEERIO');
-// help.use(finder.middleware);
+help.use(finder.middleware);
 help.use(manipulate_html);
 
 help.use(function(req, res, next){
