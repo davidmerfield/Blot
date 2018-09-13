@@ -4,9 +4,9 @@ services:
 node_js:
   - "8.12.0"
 before_install:
+  - export BLOT_PANDOC_PATH=$(which pandoc)
   - cd app/clients/dropbox
   - npm install
-  - export BLOT_PANDOC_PATH=$(which pandoc)
   - cd ../
   - cd git
   - npm install
