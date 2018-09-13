@@ -1,14 +1,17 @@
-describe("configuration", function() {
+xdescribe("blog", function() {
 
-  it("loads without error", function(){
+  var Blog = require('../../app/models/blog');
 
-    expect(function() {
-      require('../../config');
-    }).not.toThrow();
+  it("creates a blog", function(){
+
+    Blog.create({}, function(err, blog){
+      expect(err).toBe(null);
+
+    });
 
   });
 
-  it("connects to redis", function(done){
+  it("deletes a blog", function(done){
 
     require('../../app/models/client').get('hey', function (err) {
       expect(err).toBe(null);
@@ -21,7 +24,7 @@ describe("configuration", function() {
     expect(function() {
 
       require('../../app');
-
+      
     }).not.toThrow();
 
   });
