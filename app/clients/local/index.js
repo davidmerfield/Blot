@@ -12,7 +12,7 @@ function blog_dir (blog_id) {
 // Initialze the local client
 database.get_all(function (err, res) {
 
-  async.eachOf(res || {}, function(blog_id, path, next){
+  async.eachOf(res || {}, function(path, blog_id, next){
 
     if (!blog_id || !path) return next();
 
