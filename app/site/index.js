@@ -92,7 +92,7 @@ site.use(function (req, res, next) {
     try {
       html = html_minifier(html, html_minifier_options);      
     } catch (e) {
-      console.log(e.slice(0,100));
+      console.log(e && e.slice && e.slice(0,100));
     }
 
     send.call(this, html);
