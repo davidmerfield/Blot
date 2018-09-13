@@ -3,7 +3,9 @@
   "repository": "https://github.com/davidmerfield/Blot",
   "description": "A blogging platform",
   "main": "app/index.js",
-  "engines" : { "node" : ">=8.11.3" },
+  "engines": {
+    "node": ">=8.12.0"
+  },
   "scripts": {
     "test": "node tests"
   },
