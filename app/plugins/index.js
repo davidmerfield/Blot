@@ -9,6 +9,7 @@ var extend = helper.extend;
 var deCamelize = helper.deCamelize;
 var log = new helper.logg('PLUGIN');
 var time = helper.time;
+var async = require('async');
 
 // Wait 10 minutes to go to next plugin
 var TIMEOUT = 10 * 60 * 1000;

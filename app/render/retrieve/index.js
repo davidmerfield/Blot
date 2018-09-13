@@ -3,6 +3,7 @@ var helper = require('../../helper');
 var ensure = helper.ensure;
 var dirToModule = helper.dirToModule;
 var dictionary = dirToModule(__dirname, require);
+var async = require('async');
 
 module.exports = function (req, retrieve, callback) {
 
