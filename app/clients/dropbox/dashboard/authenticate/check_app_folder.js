@@ -1,6 +1,5 @@
 var database = require('../../database');
-var helper = require('helper');
-var forEach = helper.forEach;
+var async = require('async');
 
 function check_app_folder (blog_id, account_id, callback) {
 
@@ -11,7 +10,7 @@ function check_app_folder (blog_id, account_id, callback) {
 
     if (err) return callback(err);
 
-    forEach.parallel(blogs, function(blog, next){
+    async.each(blogs, function(blog, next){
 
       // This blog was already connected to this
       // account. It's possible the user is reauthenticating
@@ -21,7 +20,7 @@ function check_app_folder (blog_id, account_id, callback) {
 
       database.get(blog.id, function(err, account){
 
-        if (err) return callback(err);
+        if (err) return next(err);
 
         // If the Dropbox account for this other blog does not
         // have full folder permission then it must neccessarily
@@ -36,10 +35,10 @@ function check_app_folder (blog_id, account_id, callback) {
 
         next();
       });
-    }, function(){
+    }, function(err){
 
       callback(
-        null,
+        err,
         no_blogs_in_app_folder,
         existing_blog_using_app_folder
       );

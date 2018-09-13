@@ -1,6 +1,6 @@
 var fs = require("fs-extra");
 var helper = require("helper");
-var forEach = helper.forEach; // Order is important, don't do parallel
+var async = require('async');
 var ensure = helper.ensure;
 var LocalPath = helper.localPath;
 
@@ -33,7 +33,7 @@ module.exports = function(blogID, path, callback) {
 
     if (is_draft) Preview.remove(blogID, path);
 
-    forEach(
+    async.eachSeries(
       queue,
       function(method, next) {
         method(next);

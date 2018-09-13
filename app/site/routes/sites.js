@@ -1,5 +1,4 @@
-var helper = require('helper');
-var forEach = helper.forEach;
+var async = require('async');
 var Blog = require('blog');
 var url_parser = require('url').parse;
 var dns = require('dns');
@@ -47,7 +46,7 @@ module.exports = function (callback) {
   // Only show the first 9 sites on the homepage
   sites = sites.slice(0, 9);
 
-  forEach(sites, function(site, next){
+  async.eachSeries(sites, function(site, next){
       
     var parsed_URL = url_parser('https://' + site[0]);
 

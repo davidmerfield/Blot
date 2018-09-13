@@ -1,9 +1,7 @@
 var database = require('../../database');
 var mkdir = require('./mkdir');
-var helper = require('helper');
-var forEach = helper.forEach;
 var Dropbox = require('dropbox');
-
+var async = require('async');
 
 function readdir (client, path, callback) {
 
@@ -48,7 +46,7 @@ module.exports = function migrate_files (req, res, next) {
 
     if (err) return next(err);
 
-    forEach(contents, function(i, next){
+    async.each(contents, function(i, next){
 
       remove(client, i.path_display, next);
 

@@ -6,7 +6,7 @@ var Entries = require("entries");
 var helper = require("helper");
 var ensure = helper.ensure;
 var type = helper.type;
-var forEach = helper.forEach;
+var async = require('async');
 var LocalPath = helper.localPath;
 
 var Emit = require("./emit");
@@ -17,9 +17,9 @@ function ignoredFiles(blogID, callback) {
   var check = Check(blogID, "ignored files");
 
   Ignored.get(blogID, function(err, files) {
-    forEach(
+    async.eachOfSeries(
       files,
-      function(path, reason, next) {
+      function(reason, path, next) {
         ensure(path, "string")
           .and(reason, "string")
           .and(next, "function");

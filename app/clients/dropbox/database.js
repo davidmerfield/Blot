@@ -2,7 +2,7 @@ var helper = require('helper');
 var redis = require('client');
 var Blog = require('blog');
 
-var forEach = helper.forEach;
+var async = require('async');
 var ensure = helper.ensure;
 var account_model, database;
 
@@ -113,11 +113,11 @@ function list_blogs (account_id, callback) {
 
     if (err) return callback(err);
 
-    forEach(members, function(id, next){
+    async.eachSeries(members, function(id, next){
 
       Blog.get({id: id}, function(err, blog){
 
-        if (err) return callback(err);
+        if (err) return next(err);
 
         if (!blog || blog.client !== 'dropbox') return next();
 
@@ -125,9 +125,9 @@ function list_blogs (account_id, callback) {
 
         next();
       });
-    }, function(){
+    }, function(err){
 
-      callback(null, blogs);
+      callback(err, blogs);
     });
   });
 }

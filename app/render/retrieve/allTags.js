@@ -1,7 +1,6 @@
 var Tags = require('../../models/tags');
 var Entry = require('../../models/entry');
-var helper = require('../../helper');
-var forEach = helper.forEach.parallel;
+var async = require('async');
 
 module.exports = function (req, callback) {
 
@@ -23,7 +22,7 @@ module.exports = function (req, callback) {
      return 0;
     });
 
-    forEach(tags, function(tag, next){
+    async.eachSeries(tags, function(tag, next){
 
       // so we can do {{tag}} since I like it.
       tag.tag = tag.name;

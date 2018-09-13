@@ -2,8 +2,7 @@ var Entries = require('./models/entries');
 var Entry = require('./models/entry');
 var User = require('./models/user');
 var email = require('./email');
-var helper = require('./helper');
-var forEach = helper.forEach;
+var async = require('async');
 var schedule = require('node-schedule').scheduleJob;
 var Blog = require('./models/blog');
 var analytics = require('./middleware/analytics');
@@ -59,11 +58,11 @@ function cacheScheduler (callback) {
 
   Blog.getAllIDs(function(err, blogIDs){
 
-    forEach(blogIDs, function(blogID, nextBlog){
+    async.each(blogIDs, function(blogID, nextBlog){
 
       Entries.get(blogID, {lists: ['scheduled']}, function(err, list){
 
-        forEach(list.scheduled, function(futureEntry, nextEntry){
+        async.each(list.scheduled, function(futureEntry, nextEntry){
 
           totalScheduled++;
 
