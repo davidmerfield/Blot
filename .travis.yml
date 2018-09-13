@@ -6,6 +6,7 @@ node_js:
 before_install:
   - cd app/clients/dropbox
   - npm install
+  - export BLOT_PANDOC_PATH=$(which pandoc)
   - cd ../
   - cd git
   - npm install
