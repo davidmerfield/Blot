@@ -1,31 +1,35 @@
-xdescribe("blog", function() {
+describe("blog", function() {
 
   var Blog = require('../../app/models/blog');
+  var test_uid;
 
-  it("creates a blog", function(){
+  beforeEach(function(done){
+  
+    var User = require('../../app/models/user');
 
-    Blog.create({}, function(err, blog){
-      expect(err).toBe(null);
-
+    User.create('XXXXX@gmail.com', 'XXXX', {}, function(err, user){
+      if (err) return done(err);
+      test_uid = user.uid;
+      done()
     });
-
   });
 
-  it("deletes a blog", function(done){
+  afterEach(function(done){
 
-    require('../../app/models/client').get('hey', function (err) {
+    var User = require('../../app/models/user');
+
+    User.remove(test_uid, done);
+  });
+
+  it("creates and deletes a blog", function(done){
+
+    Blog.create(test_uid, {}, function(err, blog){
+      
       expect(err).toBe(null);
+      expect(blog).toEqual(jasmine.any(Object));
       done();
     });
-  });
-
-  it("loads the main function", function(){
-
-    expect(function() {
-
-      require('../../app');
-      
-    }).not.toThrow();
 
   });
+
 });
