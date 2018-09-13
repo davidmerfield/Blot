@@ -9,7 +9,7 @@ module.exports = function($, tag, doThis, callback) {
   // Eventually I'd like to make this parallel
   // when forEach can handle paralell execution
   // for objects...
-  async.eachOfSeries($(tag), function(i, el, next){
+  async.eachOfSeries($(tag), function(el, i, next){
 
     // The cheerio object contains other
     // shit. We only want img tag elements

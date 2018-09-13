@@ -29,7 +29,7 @@ var PING_INTERVAL = 60 * 1000; // 1 minute
 // for each service and store the response
 setInterval(function(){
 
-  async.eachOfSeries(services, function(name, url, next){
+  async.eachOfSeries(services, function(url, name, next){
 
     var datestamp = Date.now();
     var duration, response;

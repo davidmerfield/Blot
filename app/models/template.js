@@ -315,7 +315,7 @@ module.exports = (function() {
     function fetchList(partials, done) {
       async.eachOfSeries(
         partials,
-        function(partial, value, next) {
+        function(value, partial, next) {
           // Don't fetch a partial if we've got it already.
           // Partials which returned nothing are set as
           // empty strings to prevent any infinities.

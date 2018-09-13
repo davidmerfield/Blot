@@ -34,7 +34,7 @@ function writeToFolder (blogID, templateID, callback) {
 
         var dir = joinpath('Templates', metadata.slug);
 
-        async.eachOfSeries(views, function(name, view, next){
+        async.eachOfSeries(views, function(view, name, next){
 
           if (!view.name || !view.type || !view.content)
             return next();
