@@ -1,6 +1,6 @@
 var redis = require('./client');
 var helper = require('helper');
-var forEach = helper.forEach;
+var async = require('async');
 var ensure = helper.ensure;
 var Entry = require('./entry');
 var DateStamp = require("./entry/build/prepare/dateStamp");
@@ -233,7 +233,7 @@ module.exports = (function() {
 
       Entry.get(blogID, ids, function(entries){
 
-        forEach(entries, function(entry, next){
+        async.eachSeries(entries, function(entry, next){
 
           dothis(entry, next);
 

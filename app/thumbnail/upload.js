@@ -1,8 +1,7 @@
 var helper = require('../helper');
 var ensure = helper.ensure;
-var forEach = helper.forEach.parallel;
+var async = require('async');
 var Upload = require('../upload');
-var UID = helper.makeUid;
 
 module.exports = function (blogID, thumbnails, callback) {
 
@@ -10,7 +9,7 @@ module.exports = function (blogID, thumbnails, callback) {
     .and(thumbnails, 'object')
     .and(callback, 'function');
 
-  forEach(thumbnails, function (name, info, next){
+  async.eachOf(thumbnails, function (info, name, next){
 
     var path = info.path;
     var options = {

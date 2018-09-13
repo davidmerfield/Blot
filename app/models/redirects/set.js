@@ -6,7 +6,6 @@ var util = require('./util');
 var matches = util.matches;
 
 // var drop = require('./drop');
-// var forEach = helper.forEach.parallel;
 
 module.exports = function (blogID, mappings, callback) {
 

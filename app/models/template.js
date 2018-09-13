@@ -1,11 +1,11 @@
 module.exports = (function() {
   var Mustache = require("mustache");
+  var async = require('async');
   var redis = require("./client"),
     helper = require("../helper"),
     ensure = helper.ensure,
     type = helper.type,
     extend = helper.extend,
-    forEach = helper.forEach,
     _ = require("lodash"),
     siteOwner = "SITE",
     defaultTemplate = makeID(siteOwner, "default"),
@@ -313,7 +313,7 @@ module.exports = (function() {
     });
 
     function fetchList(partials, done) {
-      forEach(
+      async.eachOfSeries(
         partials,
         function(partial, value, next) {
           // Don't fetch a partial if we've got it already.
@@ -447,7 +447,7 @@ module.exports = (function() {
         var templateIDs = publicTemplates.concat(blogTemplates);
         var response = [];
 
-        forEach(
+        async.eachSeries(
           templateIDs,
           function(id, next) {
             getMetadata(id, function(err, info) {

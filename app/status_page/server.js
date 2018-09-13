@@ -4,9 +4,7 @@ var fs = require('fs');
 var request = require('request');
 var moment = require('moment');
 var hogan = require('hogan.js');
-var helper = require('./helper');
-var forEach = helper.forEach;
-
+var async = require('async');
 var config = require('./config');
 var services = config.services;
 
@@ -31,7 +29,7 @@ var PING_INTERVAL = 60 * 1000; // 1 minute
 // for each service and store the response
 setInterval(function(){
 
-  forEach(services, function(name, url, next){
+  async.eachOfSeries(services, function(name, url, next){
 
     var datestamp = Date.now();
     var duration, response;
