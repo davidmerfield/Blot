@@ -48,15 +48,19 @@ function loadUnpaidInvoices(req, res, next) {
     if (err) return next(err);
 
     res.locals.unpaidInvoices = [];
+    res.locals.amountDue = 0;
 
     invoices.data.forEach(function(invoice) {
       if (invoice.paid) return;
+      res.locals.amountDue += invoice.amount_due;
       res.locals.unpaidInvoices.push(invoice);
     });
 
     if (!res.locals.unpaidInvoices.length) {
       return next(new Error("You have paid all of your invoices."));
     }
+
+    res.locals.amountDue = require('helper').prettyPrice(res.locals.amountDue);
 
     next();
   });
