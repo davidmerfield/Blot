@@ -9,6 +9,13 @@ describe("markdown converter", function() {
   afterEach(global.removeBlog);
   afterEach(global.removeUser);
 
+  require('child_process').exec('pandoc -v', function(err, res){
+    if (err) throw err;
+    console.log('-----------');
+    console.log('PANDOC VERSION:', res);
+    console.log('-----------');
+  });
+
   function from (path) {
 
     return function (callback) {      
