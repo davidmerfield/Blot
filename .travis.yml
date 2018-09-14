@@ -21,5 +21,5 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - pandoc-2.2.3.2
+      - pandoc=2.2.3.2
       - g++-4.8    
