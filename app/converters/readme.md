@@ -1,14 +1,30 @@
+# Converters
+
 The code in these folders is responsible for converting files of a given extension into HTML. This HTML is then used to produce a full blog post. 
 
-## Adding a new converter
+## Converter API
 
-1. Converter must expose two methods, ```read``` and ```is```. 
+Converter must expose two methods, ```read``` and ```is```. 
 
-```converter.read(blog <object>, path <string>, options <object>, callback<function>)``` which invokes callback with ```(err <null or Error>, html <string>, stat <fs.Stat object>)```.
+**converter.read**
 
-```converter.is(path <string>)``` which returns ```true``` if the converter can handle the file, ```false``` otherwise.
+Arguments:
+- blog <object>
+- path <string>
+- options <object>
+- callback <function>
+  is invoked with err <null or Error>, html <string>, stat <fs.Stat object>
 
-2. Then expose the new converter in [index.js](./index.js).
+**converter.is**
+
+Arguments:
+- path <string>
+
+Return value: ```true``` if the converter can handle the file, ```false``` otherwise.
+
+## Enabling a new converter
+
+Add the contents to this folder and expose the new converter in [index.js](./index.js).
 
 ## Why do converters need to know about the blog?
 
