@@ -16,6 +16,7 @@ Account.use("/delete", require("./delete"));
 Account.use("/subscription", require("./subscription"));
 Account.use("/switch-blog", require("./switch-blog"));
 Account.use("/create-blog", require('./create-blog'));
+Account.use("/pay-subscription", require('./pay-subscription'));
 Account.use("/payment-method", require('./payment-method'));
 
 
