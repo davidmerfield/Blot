@@ -40,9 +40,9 @@ describe("markdown converter", function() {
     };
   }
 
-  it("converts basic markdown", from('/basic-post.txt'));
+  xit("converts basic markdown", from('/basic-post.txt'));
   it("converts a list", from('/list.txt'));
   it("parses metadata", from('/metadata.txt'));
-  it("autolinks bare uris", from('/bare-uri.txt'));
+  xit("autolinks bare uris", from('/bare-uri.txt'));
 
 });
