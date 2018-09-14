@@ -6,7 +6,7 @@
 **Upcoming renewals**
 
 {{#renewals}}
-  ${{fee}} {{from_now}} ({{time}}) from [{{name}}](mailto:{{email}}) for {{#blogs}}[{{handle}}]({{link}}){{^last}} ,{{/last}}{{/blogs}}.
+  ${{fee}} {{from_now}} ({{time}}) from [{{name}}](mailto:{{email}}) for {{#blogs}}[{{handle}}]({{{link}}}){{^last}} ,{{/last}}{{/blogs}}.
 
 {{/renewals}}
 
@@ -21,10 +21,10 @@
 
 {{#new_posts}}
 
-[{{blog.handle}}]({{link}}) ({{total}} entries total)
+[{{blog.handle}}]({{{link}}}) ({{total}} entries total)
 
   {{#entries}}
-  - [{{title}}]({{link}}{{url}})
+  - [{{title}}]({{{link}}}{{url}})
 
   {{/entries}}
 

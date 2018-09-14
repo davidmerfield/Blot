@@ -1,10 +1,10 @@
 Blot will renew your subscription next week
 
-Your [Blot]({{site}}) subscription will renew in 7 days.
+Your [Blot]({{{site}}}) subscription will renew in 7 days.
 
-If your payment information has changed in the last year, please [update your billing information]({{site}}/account/update-billing). 
+If your payment information has changed in the last year, please [update your billing information]({{{site}}}/account/update-billing). 
 
-If you want to close your account, please [cancel your subscription]({{site}}/account/cancel).
+If you want to close your account, please [cancel your subscription]({{{site}}}/account/cancel).
 
 Please don’t hesitate to reply to this email if you have any questions.
 

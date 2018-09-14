@@ -2,7 +2,7 @@ Blot is having trouble syncing with your Dropbox
 
 Blot just tried and failed to sync your blog posts from Dropbox.
 
-Fixing this is simple – all you have to do is [log in to Blot]({{site}}/account/log-out?then=/log-in).
+Fixing this is simple – all you have to do is [log in to Blot]({{{site}}}/account/log-out?then=/log-in).
 
 When you've done that Blot will be able to sync your blog posts again! Feel free to reply to this email if you have any questions.
 

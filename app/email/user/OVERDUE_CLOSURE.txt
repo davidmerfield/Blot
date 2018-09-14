@@ -1,6 +1,6 @@
 Blot has closed your account because of an overdue payment
 
-Your Blot account has been closed because you failed to make your subscription payment. If you'd like to restart your subscription and re-open your account, please [log in]({{site}}/log-in) to Blot and pay your subscription fee.
+Your Blot account has been closed because you failed to make your subscription payment. If you'd like to restart your subscription and re-open your account, please [log in]({{{site}}}/log-in) to Blot and pay your subscription fee.
 
 Feel free to reply to this email if you have any questions.
 
