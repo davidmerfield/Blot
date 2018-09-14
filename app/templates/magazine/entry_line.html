@@ -1,4 +1,4 @@
-<a class="entry-line dim pb4 db lh-copy no-underline" href="{{url}}">
+<a class="entry-line dim pb4 db lh-copy no-underline w-100" href="{{url}}">
   
   <span class="bt mb4 db b--black-10"></span>
   
@@ -12,6 +12,8 @@
     </span>
 
   
+  {{#summary}}
+
   <span class="w-third db fr">
     <span class="ml3 db" style="max-height:10rem;overflow:hidden;outline: 1px solid rgba(0,0,0,.12); outline-offset: -1px;">
     {{#thumbnail.medium}}
@@ -25,6 +27,19 @@
       {{summary}}  
     </span>
   </span>
+  {{/summary}}
+
+  {{^summary}}
+
+  <span class="w-two-thirds db fr">
+    <span class="db" style="overflow:hidden;outline: 1px solid rgba(0,0,0,.12); outline-offset: -1px;">
+    {{#thumbnail.large}}
+    <img style="width:100%;vertical-align:bottom" src="{{url}}">
+    {{/thumbnail.large}}
+    </span>
+   </span>
+    
+  {{/summary}}
 
 
    
