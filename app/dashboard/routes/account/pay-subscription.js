@@ -1,43 +1,66 @@
-module.exports = function(server){
+var Express = require("express");
+var PaySubscription = new Express.Router();
+
 
   var config = require('config');
   var stripe = require('stripe')(config.stripe.secret);
   var User = require('user');
 
-  server.route('/account/pay-subscription')
+  function loadInvoices (customerID) {
+    
+    stripe.invoices.list({customer: customerID}, function (err, invoices) {
 
-    .get(function (request, response) {
+      var invoiceID, error;
+    
+      unpaid_invoices = [];
 
-      var user = request.user,
-          uid = user.uid;
+      if (invoices.data[0].paid) {
+      }
 
-      if (!user.isUnpaid && !user.isPastDue) return response.redirect('/');
+      next();
+    });
+  }
+
+  function updateSubscription () {
+    
+    stripe.customers.retrieveSubscription(
+      user.subscription.customer,
+      user.subscription.id,
+      function(err, subscription) {
+
+        if (err) throw err;
+
+        if (subscription) {
+          User.set(uid, {subscription: subscription}, function(errors){
+
+            if (errors) throw errors;
+
+            response.redirect('/');
+          });
+        }
+      }
+    );
+
+  }
+
+  PaySubscription.route('/')
+
+    .get(function (req, res) {
+
+      if (!user.isUnpaid && !user.isPastDue) {
+        return next(new Error('You have paid your dues'));
+      }
+
+      next();
+    })
+
+    .get(loadInvoices)
 
       var customerID = user.subscription.customer;
 
-      stripe.invoices.list({customer: customerID}, function onList (err, invoices) {
+      
 
-        var invoiceID, error;
-
-        if (invoices.data[0].paid) {
-
-          return stripe.customers.retrieveSubscription(
-            user.subscription.customer,
-            user.subscription.id,
-            function(err, subscription) {
-
-              if (err) throw err;
-
-              if (subscription) {
-                User.set(uid, {subscription: subscription}, function(errors){
-
-                  if (errors) throw errors;
-
-                  response.redirect('/');
-                });
-              }
-            }
-          );
+          return 
         }
 
         try {
