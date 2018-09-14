@@ -3,15 +3,15 @@
   <div class="wrapper" >
     <div class="gap"></div>
     <div style="flex-basis:200px;text-align:right">
-      {{#blogs.length}}
+      {{#blogs.length}}{{^user.needsToPay}}
       <a href="/" style="background:none;border:none;line-height:41px;padding:0 20px;margin:0;color:rgb(153, 153, 153);text-decoration:none">&larr;&thinsp; Back to dashboard</a>
-          {{/blogs.length}}
+          {{/user.needsToPay}}{{/blogs.length}}
       </div>
     <div class="gap" style="flex-grow:1;"></div>
 
     <div style="flex-basis:500px;border:1px solid rgba(0,0,0,0.05)">
 
-
+      {{^user.needsToPay}}
            
         <a style="padding: 0 20px;line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;border-bottom:1px solid rgba(0,0,0,.05)" href="/account">Your account
            {{#breadcrumb}}
@@ -19,6 +19,7 @@
           <span style="color: rgb(109, 109, 109);font-weight:500">{{breadcrumb}}</span>
             {{/breadcrumb}}
           </a>
+      {{/user.needsToPay}}
 
 
         {{#message}}

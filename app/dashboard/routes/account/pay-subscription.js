@@ -1,132 +1,110 @@
-module.exports = function(server){
+var config = require("config");
+var async = require("async");
+var stripe = require("stripe")(config.stripe.secret);
+var User = require("user");
+var Express = require("express");
+var PaySubscription = new Express.Router();
 
-  var config = require('config');
-  var stripe = require('stripe')(config.stripe.secret);
-  var User = require('user');
-
-  server.route('/account/pay-subscription')
-
-    .get(function (request, response) {
-
-      var user = request.user,
-          uid = user.uid;
-
-      if (!user.isUnpaid && !user.isPastDue) return response.redirect('/');
-
-      var customerID = user.subscription.customer;
-
-      stripe.invoices.list({customer: customerID}, function onList (err, invoices) {
-
-        var invoiceID, error;
-
-        if (invoices.data[0].paid) {
-
-          return stripe.customers.retrieveSubscription(
-            user.subscription.customer,
-            user.subscription.id,
-            function(err, subscription) {
-
-              if (err) throw err;
-
-              if (subscription) {
-                User.set(uid, {subscription: subscription}, function(errors){
-
-                  if (errors) throw errors;
-
-                  response.redirect('/');
-                });
-              }
-            }
-          );
-        }
-
-        try {
-          invoiceID = invoices.data[0].id;
-        } catch (e) {
-          error = 'Could not load your invoice, please refresh the page';
-        }
-
-        // If user is new or doesn't have a handle,
-        // let them choose one
-        response.render('account/pay-subscription', {
-          stripe_key: config.stripe.key,
-          invoiceID: invoiceID
-        });
-      });
-    })
-
-    // Takes a stripe token generated
-    // on the client and creates a charge
-    .post(function(request, response){
-
-      var user = request.user,
-          uid = user.uid;
-
-      if (!user.isUnpaid && !user.isPastDue) return response.send('Your account is in good standing');
-
-      var stripeToken = request.query.stripeToken,
-          invoiceID = request.query.invoiceID;
-
-      if (!stripeToken) {
-        console.log('No stripe token passed');
-        return response.send('We were unable to verify your new payment information. Please try again');
-      }
-
-      if (!invoiceID) {
-        console.log('No invoice ID passed');
-        return response.send('We were unable to load your unpaid invoice. Please refresh the page.');
-      }
-
-      var customerID = user.subscription.customer,
-          subscriptionID = user.subscription.id;
-
-      console.log('Settling invoice now.... ' + subscriptionID);
-      stripe.customers.update(customerID, {card: stripeToken}, function(err, customer) {
-
-        if (err) return response.send(err.message || 'Could not process your card, please try again.');
-        console.log('Updated payment info');
-
-        if (customer.subscription.status === 'active') {
-          console.log('Customer is already in good standing');
-          return onComplete();
-        }
-
-        stripe.invoices.pay(invoiceID, function(err, invoice) {
-
-          // Dangerous, stripe message might change
-          if (err && err.message !== 'Invoice is already paid') {
-            console.log(err);
-            console.log(invoice);
-            return response.send(err.message || 'Could not pay your invoice, please try again.');
-          }
-
-          onComplete();
-        });
-
-        function onComplete() {
-          response.send('SUCCESS');
-
-          user.subscription.status = 'active';
-          User.set(uid, {subscription: user.subscription}, function(errors){
-            if (errors) throw errors;
-          });
-
-          stripe.customers.retrieveSubscription(
-            user.subscription.customer,
-            user.subscription.id,
-            function(err, subscription) {
-
-              if (err) console.log(err);
-
-              if (subscription) {
-                console.log('Setting latest subscript from stripe');
-                User.set(uid, {subscription: subscription}, function(errors){
-                  if (errors) throw errors;
-                });
-              }
-            }
-          );
-        }
-      });
+PaySubscription.route("/")
+  .get(checkCustomer)
+  .get(loadUnpaidInvoices)
+  .get(function(req, res) {
+    res.render("account/pay-subscription", {
+      stripe_key: config.stripe.key,
+      title: 'Restart subscription'
     });
-};
+  })
+  .get(function(err, req, res, next){
+    updateSubscription(req, res, function(err){
+
+      if (err) return next(err);
+
+      res.message("/", "Your account is in good standing!");
+    });
+  })
+
+
+  .post(checkCustomer)
+  .post(updateCard)
+  .post(payInvoices)
+  .post(updateSubscription)
+  .post(function(req, res) {
+    res.message("/", "Payment recieved, thank you!");
+  });
+
+function checkCustomer(req, res, next) {
+  req.customer = req.user.subscription && req.user.subscription.customer;
+  req.subscription = req.user.subscription && req.user.subscription.id;
+
+  if (!req.customer) return next(new Error("You need to be a customer"));
+  if (!req.subscription)
+    return next(new Error("You need to have a subscription"));
+
+  next();
+}
+
+function loadUnpaidInvoices(req, res, next) {
+  stripe.invoices.list({ customer: req.customer }, function(err, invoices) {
+    if (err) return next(err);
+
+    res.locals.unpaidInvoices = [];
+
+    invoices.data.forEach(function(invoice) {
+      if (invoice.paid) return;
+      res.locals.unpaidInvoices.push(invoice);
+    });
+
+    if (!res.locals.unpaidInvoices.length) {
+      return next(new Error("You have paid all of your invoices."));
+    }
+
+    next();
+  });
+}
+
+function updateCard(req, res, next) {
+  var stripeToken = req.body.stripeToken;
+
+  if (!stripeToken) return next(new Error("No card token passed"));
+
+  stripe.customers.update(req.customer, { card: stripeToken }, function(
+    err,
+    customer
+  ) {
+    if (err) return next(err);
+
+    if (customer.subscription.status === "active") {
+      return next(new Error("You are in good standing, nothing to pay"));
+    }
+
+    next();
+  });
+}
+
+function payInvoices(req, res, next) {
+  async.each(req.body.unpaidInvoices, payInvoice, next);
+}
+
+function payInvoice(id, nextInvoice) {
+  stripe.invoices.pay(id, nextInvoice);
+}
+
+function updateSubscription(req, res, next) {
+  stripe.customers.retrieveSubscription(
+    req.user.subscription.customer,
+    req.user.subscription.id,
+    function(err, subscription) {
+      if (err) return next(err);
+
+      if (!subscription) return next(new Error("No subscription"));
+
+      User.set(req.user.uid, { subscription: subscription }, function(err) {
+        if (err) return next(err);
+
+        next();
+      });
+    }
+  );
+}
+
+module.exports = PaySubscription;
