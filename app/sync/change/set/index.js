@@ -10,7 +10,7 @@ var isPreview = require("../../../drafts").isPreview;
 var async = require("async");
 var catchRename = require("./catchRename").forCreated;
 
-var coverters = require("../../../converters");
+var converters = require("../../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 
