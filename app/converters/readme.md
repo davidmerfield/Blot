@@ -4,13 +4,11 @@ The code in these folders is responsible for converting files of a given extensi
 
 1. Converter must expose two methods, ```read``` and ```is```. 
 
-```
-converter.read(blog <object>, path <string>, options <object>, callback<function>) which invokes callback with (err <null or Error>, html <string>, stat <fs.Stat object>)
+```converter.read(blog <object>, path <string>, options <object>, callback<function>)``` which invokes callback with ```(err <null or Error>, html <string>, stat <fs.Stat object>)```.
 
-converter.is(path <string>) which returns <boolean>
-```
+```converter.is(path <string>)``` which returns ```true``` if the converter can handle the file, ```false``` otherwise.
 
-Then expose the new converter in [index.js](./index.js).
+2. Then expose the new converter in [index.js](./index.js).
 
 ## Why do converters need to know about the blog?
 
