@@ -19,7 +19,7 @@ PaySubscription.route("/")
 
       if (err) return next(err);
 
-      res.message("/", "Your account is in good stranding!");
+      res.message("/", "Your account is in good standing!");
     });
   })
 
@@ -58,7 +58,6 @@ function loadUnpaidInvoices(req, res, next) {
       return next(new Error("You have paid all of your invoices."));
     }
 
-    console.log(res.locals.unpaidInvoices);
     next();
   });
 }
