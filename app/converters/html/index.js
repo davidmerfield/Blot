@@ -1,5 +1,5 @@
 var fs = require('fs');
-var helper = require('../../../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var LocalPath = helper.localPath;
 var extname = require('path').extname;

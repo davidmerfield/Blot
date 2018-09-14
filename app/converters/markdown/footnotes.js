@@ -1,5 +1,5 @@
 var cheerio = require('cheerio');
-var helper = require('../../../../../helper');
+var helper = require('helper');
 var UID = helper.makeUid;
 
 module.exports = function (html) {

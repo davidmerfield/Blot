@@ -4,6 +4,7 @@ services:
 node_js:
   - "8.12.0"
 before_install:
+  - export BLOT_PANDOC_PATH=$(which pandoc)
   - cd app/clients/dropbox
   - npm install
   - cd ../
@@ -20,4 +21,5 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - pandoc
       - g++-4.8    
