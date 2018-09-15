@@ -1876,6 +1876,8 @@ button:focus {outline: none;}
 button.content-line {
   padding:0 20px;
   line-height: 36px;
+  height: 36px;
+  overflow: hidden;
 }
 
 button.content-line:hover {
