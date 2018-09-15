@@ -3,9 +3,17 @@
   
   <div class="center mw8 ph4">
 
+    {{#user}}
+    {{^developers}}
+    <a class="db fl w-left" href="/">&larr;&nbsp; Back to the dashboard</a>        
+    {{/developers}}
+    {{/user}}
+
+    {{^user}}
     {{^developers}}
     <a class="db fl w-left {{help}}" href="/">Blot is a blogging platform</a>        
     {{/developers}}
+    {{/user}}
 
     {{#developers}}
     <div class="fl w-left">
@@ -20,13 +28,31 @@
 
     <div >
 
+    {{^user}}
     {{#sign-up}}
     <a class="db fl {{index}}"><span style="color:#111">Sign up</span><span style="color:#a7a7a7">&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;Create your blog</span></a>
     {{/sign-up}}
+    {{/user}}
+
+    {{#user}}
+    {{#help}}
+    <a class="db fl {{help}}" href="/help">Documentation</a>        
+    {{/help}}
+    {{/user}}
+
+    {{#user}}
+    {{#contact}}
+    <a class="db fl {{contact}}" href="/contact">Contact support</a>        
+    {{/contact}}
+    {{/user}}
 
     {{#terms}}
     <a class="db fl {{terms}}" href="/terms">Terms of use</a>        
     {{/terms}}
+
+    {{#privacy}}
+    <a class="db fl {{privacy}}" href="/privacy">Privacy policy</a>        
+    {{/privacy}}
 
     {{#developers}}
     <a class="db fl pr5 {{index}}" href="/developers">Overview</a>        
@@ -35,10 +61,7 @@
     <a class="db fl pr5 {{support}}" href="/developers/support">Support</a>        
     {{/developers}}
 
-    {{#privacy}}
-    <a class="db fl {{privacy}}" href="/privacy">Privacy policy</a>        
-    {{/privacy}}
-
+    {{^user}}
     {{^sign-up}}
     {{^terms}}
     {{^privacy}}
@@ -52,6 +75,8 @@
     {{/privacy}}
     {{/terms}}
     {{/sign-up}}
+    {{/user}}
+
     <div class="cf"></div>
   </div>
 </div>

@@ -1,13 +1,13 @@
 var finder = require('finder');
 var express = require('express');
-var load_views = require('load_views');
-var render_tex = require('render_tex');
-var render_dates = require('render_dates');
-var manipulate_html = require('manipulate_html');
+var load_views = require('./util/load_views');
+var render_tex = require('./util/render_tex');
+var render_dates = require('./util/render_dates');
+var manipulate_html = require('./util/manipulate_html');
 var sites = require('./sites');
-
+var config = require('config');
 var help = express.Router();
-var VIEW_DIR = require('VIEW_DIR');
+var VIEW_DIR = require('./util/VIEW_DIR');
 
 help.use(render_tex);
 help.use(render_dates);
@@ -24,7 +24,7 @@ help.get('/help/account', function(req, res){
   res.locals.menu.account = 'selected';
   res.locals.title = 'Account and billing - ' + res.locals.title;
   res.locals.partials.yield = __dirname + '/../views/account';
-  res.render('_static_wrapper');    
+  res.render('_static_wrapper', {price: "$" + config.stripe.plan.slice(-2)});    
 });
 
 help.use('/developers', function(req, res, next){
@@ -125,7 +125,7 @@ help.get('/', function(req, res){
     res.locals.title = 'Blot';  
     res.locals.next = {title: 'How to use Blot', url: '/help'};
     res.locals.sites = sites;
-    res.render('index');
+    res.render('index', {price: "$" + config.stripe.plan.slice(-2)});
   });
 
 });

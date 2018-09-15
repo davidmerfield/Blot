@@ -64,6 +64,19 @@ dashboard.use('/stripe-webhook', require("./routes/stripe_webhook"));
 dashboard.use('/log-in', require("./routes/log_in"));
 dashboard.use('/sign-up', require("./routes/sign_up"));
 
+dashboard.get('/logged-out', function(req, res, next){
+  res.locals.partials = {};
+  res.locals.partials.yield = 'logged-out';
+  res.render('partials/wrapper-public');
+});
+
+dashboard.get('/deleted', function(req, res, next){
+  res.locals.partials = {};
+  res.locals.partials.yield = 'deleted';
+  res.render('partials/wrapper-public');
+});
+
+
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
 dashboard.use(function(req, res, next){
 
@@ -99,9 +112,9 @@ dashboard.post('/theme', function(req, res, next){
 
 dashboard.use(function(req, res, next){
   res.locals.partials = res.locals.partials || {};
-  res.locals.partials.head = __dirname + "/views/partials/head";
-  res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
-  res.locals.partials.footer = __dirname + "/views/partials/footer";
+  // res.locals.partials.head = __dirname + "/views/partials/head";
+  // res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
+  // res.locals.partials.footer = __dirname + "/views/partials/footer";
   next();
 });
 
@@ -173,16 +186,16 @@ require("./routes/tools")(dashboard);
 
 dashboard.use(require("./routes/settings"));
 
-dashboard.use((require('../site/routes/static')));
-
-dashboard.use(function(req, res, next){
-  res.status(404);
-  res.send('404 not found');
-});
 
 dashboard.use(require('./routes/settings/errorHandler'));
 
 // need to handle dashboard errors better...
 dashboard.use(require("./routes/error"));
+
+// Restore render function, remove this dumb bullshit eventually
+dashboard.use(function(req, res, next){
+  if (res._render) res.render = res._render;
+  next();
+});
 
 module.exports = dashboard;
