@@ -59,6 +59,19 @@ dashboard.use(require("./csrf"));
 
 dashboard.use(debug("fetching user and blog info and checking redirects"));
 
+dashboard.use('/clients', require("./routes/clients"));
+dashboard.use('/stripe-webhook', require("./routes/stripe_webhook"));
+dashboard.use('/log-in', require("./routes/log_in"));
+dashboard.use('/sign-up', require("./routes/sign_up"));
+
+/// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
+dashboard.use(function(req, res, next){
+
+  if (req.session && req.session.uid) return next();
+
+  return next(new Error('NOUSER'));
+});
+
 // Load properties as needed
 // these should not be invoked for requests to static files
 dashboard.use(middleware.loadUser);

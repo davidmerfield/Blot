@@ -78,8 +78,6 @@ var html_minifier_options = {
   collapseWhitespace: true
 };
 
-// site.use('/documentation', require('./documentation'));
-
 // Compress HTML
 site.use(function (req, res, next) {
 
@@ -100,13 +98,6 @@ site.use(function (req, res, next) {
 
   next();  
 });
-
-site.use('/log-in', routes.log_in);
-site.use('/sign-up', routes.sign_up);
-site.use('/stripe-webhook', routes.stripe_webhook);
-site.use('/clients', routes.clients);
-
-
 
 // Every route underneath will be cached
 // using the static file cacher. It writes

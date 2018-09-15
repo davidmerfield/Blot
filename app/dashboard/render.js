@@ -8,6 +8,18 @@ module.exports = function(req, res, next) {
       return _render.call(this, view, locals, callback);
     }
 
+    if (view.indexOf('sign-up') > -1 || view.indexOf('log-in') > -1) {
+
+      console.log('HERE');
+      
+      res.locals.partials.yield = view;
+
+      wrapper = __dirname + "/views/partials/wrapper-public.html";
+
+      return _render.call(this, wrapper, locals, callback);
+    }
+
+
     if (view.indexOf('create-blog') > -1 || view.indexOf('wrapper-setup') > -1) {
       return _render.call(this, view, locals, callback);
     }
