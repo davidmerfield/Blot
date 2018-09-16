@@ -2,7 +2,7 @@ var basename = require("path").basename;
 var mime = require("mime");
 var fs = require("fs");
 
-var helper = require("../../helper");
+var helper = require("helper");
 var ensure = helper.ensure;
 var async = require('async');
 var Template = require("../../models/template");

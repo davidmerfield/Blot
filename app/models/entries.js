@@ -4,14 +4,13 @@ var async = require('async');
 var ensure = helper.ensure;
 var Entry = require('./entry');
 var DateStamp = require("./entry/build/prepare/dateStamp");
-var Blog = require('./blog');
   
 module.exports = (function() {
 
   var lists = ['all', 'created', 'entries', 'drafts', 'scheduled', 'pages', 'deleted'];
 
   function resave (blogID, callback) {
-    Blog.get({ id: blogID }, function(err, blog) {
+    require('blog').get({ id: blogID }, function(err, blog) {
 
       if (err || !blog) return callback(err || new Error('no blog'));
 
@@ -36,7 +35,7 @@ module.exports = (function() {
 
   function rebuild (blogID, callback) {
 
-    Blog.get({id: blogID}, function(err, blog){
+    require('blog').get({id: blogID}, function(err, blog){
 
       if (err || !blog) return callback(err || new Error('no blog'));
 

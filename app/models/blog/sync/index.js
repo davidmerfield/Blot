@@ -1,8 +1,9 @@
 var helper = require('helper');
 var ensure = helper.ensure;
 var Log = helper.logg;
-var buildFromFolder = require('../modules/template').update;
-var Blog = require('blog');
+var buildFromFolder = require('../../../modules/template').update;
+var get = require('../get');
+var flushCache = require('../flushCache');
 var Lease = require('./lease');
 
 var ERROR = {
@@ -22,7 +23,7 @@ function sync (blogID, main, callback) {
 
   var options = {};
 
-  Blog.get({id: blogID}, function(err, blog){
+  get({id: blogID}, function(err, blog){
 
     if (!blog || !blog.id)
       return callback(blogID + ' ' + ERROR.NO_BLOG);
@@ -62,7 +63,7 @@ function sync (blogID, main, callback) {
 
         console.timeEnd(timer_label);
 
-        Blog.flushCache(blogID, function(err){
+        flushCache(blogID, function(err){
 
           if (err) return callback(err);
 

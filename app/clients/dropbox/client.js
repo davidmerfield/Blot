@@ -5,7 +5,6 @@ var helper = require('helper');
 var ensure = helper.ensure;
 var Blog = require('blog');
 var debug = require('debug')('clients:dropbox');
-var Sync = require('sync');
 
 module.exports = {
 
@@ -14,7 +13,7 @@ module.exports = {
     // check if this is the last blog using this oauth token
     // then revoke it as needed. 
 
-    Sync(blogID, function(callback){
+    Blog.sync(blogID, function(callback){
 
       // beware, this might be called twice...
 

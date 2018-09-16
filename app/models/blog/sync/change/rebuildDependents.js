@@ -1,7 +1,7 @@
 var async = require('async');
 var Entry = require('entry');
 var client = require('client');
-var Blog = require('blog');
+var get = require('../../get');
 
 var dependentsKey = Entry.key.dependents;
 
@@ -12,7 +12,7 @@ var dependentsKey = Entry.key.dependents;
 
 module.exports = function (blogID, path, callback) {
 
-  Blog.get({id: blogID}, function(err, blog){
+  get({id: blogID}, function(err, blog){
 
     client.SMEMBERS(dependentsKey(blogID, path), function(err, dependent_paths){
 

@@ -10,7 +10,6 @@ var redis = require('../client');
 var Permalink = require('./build/prepare/permalink');
 var Key = require('./key').url;
 var model = require('./model');
-var Blog = require('blog');
 var get = require('./get');
 
 //'/style.css', '/script.js', '/feed.rss', '/robots.txt', '/sitemap.xml'
@@ -196,7 +195,7 @@ module.exports = function (blogID, entry, callback) {
   if (entry.draft || entry.deleted)
     return callback(null, '');
 
-  Blog.get({id: blogID}, function(err, blog){
+  require('blog').get({id: blogID}, function(err, blog){
 
     if (err) return callback(err);
 

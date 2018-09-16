@@ -1,5 +1,5 @@
-var client = require('../models/client');
-var helper = require('../helper');
+var client = require('client');
+var helper = require('helper');
 var ensure = helper.ensure;
 
 // Each sync process has a minute to do its

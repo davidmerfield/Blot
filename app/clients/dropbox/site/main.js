@@ -3,9 +3,7 @@ var async = require('async');
 var Dropbox = require("dropbox");
 var delta = require("./delta");
 var localPath = helper.localPath;
-var Change = require("sync").change;
 var download = require("./download");
-var Sync = require("sync");
 var Blog = require("blog");
 var Database = require("../database");
 var dropbox_content_hash = require("./dropbox_content_hash");
@@ -17,7 +15,7 @@ module.exports = function main(blogID, callback) {
     Database.get(blogID, function(err, account) {
       if (err) return callback(err);
 
-      Sync(
+      Blog.sync(
         blog.id,
         function(callback) {
           delta(blogID, account, function handle(err, changes, has_more) {
@@ -32,11 +30,11 @@ module.exports = function main(blogID, callback) {
                 var client = new Dropbox({ accessToken: account.access_token });
 
                 if (change[".tag"] === "deleted") {
-                  return Change.drop(blog.id, path, next);
+                  return Blog.sync.change.drop(blog.id, path, next);
                 }
 
                 if (change[".tag"] === "folder") {
-                  return Change.mkdir(
+                  return Blog.sync.change.mkdir(
                     blog.id,
                     path,
                     { name: change.name },
@@ -66,7 +64,7 @@ module.exports = function main(blogID, callback) {
                       return next();
                     }
 
-                    Change.set(blog, path, { name: change.name }, function(
+                    Blog.sync.change.set(blog, path, { name: change.name }, function(
                       err
                     ) {
                       if (err) console.log(err);

@@ -1,7 +1,5 @@
 var Git = require("simple-git");
 var Blog = require("blog");
-var Change = require("sync").change;
-var Sync = require("sync");
 var git_emit = require("git-emit-node7");
 var async = require('async');
 var debug = require("debug")("client:git:listener");
@@ -78,7 +76,7 @@ module.exports = function start_listener(handle) {
           info
         );
 
-        Sync(
+        Blog.sync(
           blog_id,
           function(callback) {
             async.eachSeries(
@@ -86,12 +84,12 @@ module.exports = function start_listener(handle) {
               function(path, next) {
                 if (info.insertions[path]) {
                   debug("Calling set with", blog_id, add_leading_slash(path));
-                  return Change.set(blog, add_leading_slash(path), next);
+                  return Blog.sync.change.set(blog, add_leading_slash(path), next);
                 }
 
                 if (info.deletions[path]) {
                   debug("Calling drop with", blog_id, add_leading_slash(path));
-                  return Change.drop(blog_id, add_leading_slash(path), next);
+                  return Blog.sync.change.drop(blog_id, add_leading_slash(path), next);
                 }
 
                 debug(

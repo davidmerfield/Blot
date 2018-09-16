@@ -1,4 +1,4 @@
-var Sync = require('sync');
+var Blog = require('blog');
 var debug = require('debug')('clients:dropbox:lock_on_folder');
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
 
     debug('attempting to grab sync');
 
-    Sync(req.blog.id, function(callback){
+    Blog.sync(req.blog.id, function(callback){
 
       // beware, this might be called twice...
 

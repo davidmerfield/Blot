@@ -4,7 +4,6 @@ var joinpath = require('path').join;
 var async = require('async');
 var Template = require('../../models/template');
 var callOnce = helper.callOnce;
-var Blog = require('blog');
 
 function writeToFolder (blogID, templateID, callback) {
 
@@ -51,7 +50,7 @@ function makeClient (blogID, callback) {
 
   var clients = require('clients');
 
-  Blog.get({id: blogID}, function(err, blog){
+  require('blog').get({id: blogID}, function(err, blog){
 
     var client = clients[blog.client];
 

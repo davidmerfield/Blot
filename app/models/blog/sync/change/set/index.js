@@ -1,16 +1,16 @@
-var helper = require("../../../helper");
+var helper = require("helper");
 var normalize = helper.pathNormalizer;
 var rebuildDependents = require("../rebuildDependents");
 
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
-var Entry = require("../../../models/entry");
-var Preview = require("../../../modules/preview");
-var isPreview = require("../../../drafts").isPreview;
+var Entry = require("entry");
+var Preview = require("../../../../../modules/preview");
+var isPreview = require("../../../../../drafts").isPreview;
 var async = require("async");
 var catchRename = require("./catchRename").forCreated;
 
-var converters = require("../../../converters");
+var converters = require("../../../../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 

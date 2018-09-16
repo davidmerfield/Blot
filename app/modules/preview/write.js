@@ -2,7 +2,6 @@ var drafts = require('../../drafts');
 var helper = require('../../helper');
 var ensure = helper.ensure;
 var previewPath = drafts.previewPath;
-var Blog = require('blog');
 
 module.exports = function (blogID, path, callback) {
 
@@ -14,7 +13,7 @@ module.exports = function (blogID, path, callback) {
 
   var clients = require('clients');
 
-  Blog.get({id: blogID}, function(err, blog){
+  require('blog').get({id: blogID}, function(err, blog){
 
     if (err) return callback(err);
 

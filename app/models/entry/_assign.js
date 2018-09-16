@@ -1,4 +1,3 @@
-var Blog = require('../blog');
 var helper = require('helper');
 var ensure = helper.ensure;
 
@@ -132,7 +131,7 @@ function addToMenu (blogID, entry, callback) {
         id: entry.id
       };
 
-  Blog.get({id: blogID}, function(err, blog){
+  require('blog').get({id: blogID}, function(err, blog){
 
     var menu = blog.menu;
 
