@@ -1,6 +1,6 @@
 var request = require('request');
 var Url = require('url');
-var config = require('../../../config');
+var config = require('config');
 var cheerio = require('cheerio');
 
 var PLAYER_OPTIONS = 'rel=0&wmode=transparent&rel=0&autohide=1&showinfo=0';

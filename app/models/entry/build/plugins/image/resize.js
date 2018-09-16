@@ -1,5 +1,5 @@
 var sharp = require('sharp');
-var helper = require('../../helper');
+var helper = require('helper');
 var UID = helper.makeUid;
 var ensure = helper.ensure;
 var tempDir = helper.tempDir();

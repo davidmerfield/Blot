@@ -1,7 +1,7 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 
-var upload = require('../../upload');
+var upload = require('../../../../../upload');
 var resize = require('./resize');
 var minify = require('./minify');
 

@@ -1,4 +1,4 @@
-var config = require('../../../config');
+var config = require('config');
 var each = require('../eachEl');
 var Url = require('url');
 
