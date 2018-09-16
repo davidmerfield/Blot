@@ -1,0 +1,85 @@
+{
+  "name": "pify",
+  "version": "3.0.0",
+  "description": "Promisify a callback-style function",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sindresorhus/pify.git"
+  },
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "xo && ava && npm run optimization-test",
+    "optimization-test": "node --allow-natives-syntax optimization-test.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "promise",
+    "promises",
+    "promisify",
+    "all",
+    "denodify",
+    "denodeify",
+    "callback",
+    "cb",
+    "node",
+    "then",
+    "thenify",
+    "convert",
+    "transform",
+    "wrap",
+    "wrapper",
+    "bind",
+    "to",
+    "async",
+    "await",
+    "es2015",
+    "bluebird"
+  ],
+  "devDependencies": {
+    "ava": "*",
+    "pinkie-promise": "^2.0.0",
+    "v8-natives": "^1.0.0",
+    "xo": "*"
+  },
+  "gitHead": "e64328eb378e2ecd6bf8c0eb40aa3277680aaff4",
+  "bugs": {
+    "url": "https://github.com/sindresorhus/pify/issues"
+  },
+  "homepage": "https://github.com/sindresorhus/pify#readme",
+  "_id": "pify@3.0.0",
+  "_shasum": "e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176",
+  "_from": "pify@>=3.0.0 <4.0.0",
+  "_npmVersion": "2.15.11",
+  "_nodeVersion": "4.8.3",
+  "_npmUser": {
+    "name": "sindresorhus",
+    "email": "sindresorhus@gmail.com"
+  },
+  "dist": {
+    "shasum": "e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176",
+    "tarball": "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "sindresorhus",
+      "email": "sindresorhus@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/pify-3.0.0.tgz_1495952727749_0.4502641425933689"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz",
+  "readme": "ERROR: No README data found!"
+}

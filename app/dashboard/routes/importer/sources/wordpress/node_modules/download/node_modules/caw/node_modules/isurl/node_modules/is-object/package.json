@@ -1,0 +1,91 @@
+{
+  "name": "is-object",
+  "version": "1.0.1",
+  "description": "Checks whether a value is an object",
+  "keywords": [],
+  "author": {
+    "name": "Raynos",
+    "email": "raynos2@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ljharb/is-object.git"
+  },
+  "main": "index",
+  "homepage": "https://github.com/ljharb/is-object",
+  "contributors": [
+    {
+      "name": "Raynos"
+    },
+    {
+      "name": "Jordan Harband",
+      "url": "https://github.com/ljharb"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/ljharb/is-object/issues",
+    "email": "ljharb@gmail.com"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tape": "~2.14.0",
+    "covert": "~1.0.0",
+    "jscs": "~1.6.0"
+  },
+  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/ljharb/is-object/raw/master/LICENSE"
+    }
+  ],
+  "scripts": {
+    "test": "npm run lint && node test/index.js && npm run coverage-quiet",
+    "coverage": "covert test/index.js",
+    "coverage-quiet": "covert test/index.js --quiet",
+    "lint": "jscs *.js */*.js"
+  },
+  "testling": {
+    "files": "test/index.js",
+    "browsers": [
+      "ie/6..latest",
+      "firefox/3..6",
+      "firefox/16..latest",
+      "firefox/nightly",
+      "chrome/22..latest",
+      "chrome/canary",
+      "opera/10.0",
+      "opera/11..latest",
+      "opera/next",
+      "safari/4..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest"
+    ]
+  },
+  "gitHead": "391812229f7de8e4778e1ed5dee824206c2534b9",
+  "_id": "is-object@1.0.1",
+  "_shasum": "8952688c5ec2ffd6b03ecc85e769e02903083470",
+  "_from": "is-object@>=1.0.1 <2.0.0",
+  "_npmVersion": "1.4.23",
+  "_npmUser": {
+    "name": "ljharb",
+    "email": "ljharb@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "raynos",
+      "email": "raynos2@gmail.com"
+    },
+    {
+      "name": "ljharb",
+      "email": "ljharb@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "8952688c5ec2ffd6b03ecc85e769e02903083470",
+    "tarball": "https://registry.npmjs.org/is-object/-/is-object-1.0.1.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/is-object/-/is-object-1.0.1.tgz",
+  "readme": "ERROR: No README data found!"
+}
