@@ -1,4 +1,4 @@
-var Template = require('../models/template');
+var Template = require('../../models/template');
 
 var ERROR = require('./error');
 var loadView = require('./load');
@@ -6,7 +6,7 @@ var renderLocals = require('./locals');
 var finalRender = require('./main');
 var retrieve = require('./retrieve');
 
-var helper = require('../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var extend = helper.extend;
 var callOnce = helper.callOnce;

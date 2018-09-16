@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var dirToModule = helper.dirToModule;
 var dictionary = dirToModule(__dirname, require);

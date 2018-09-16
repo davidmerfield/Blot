@@ -1,4 +1,4 @@
-var renderView = require('../render/middleware');
+var renderView = require('./render/middleware');
 var express = require('express');
 var middleware = require('middleware');
 var config = require('config');

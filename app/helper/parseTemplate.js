@@ -9,7 +9,7 @@ var type = require('./type');
 // and store the relevant method and arguments
 // neccessary to retrieve those at run time...
 
-var modules = require('fs').readdirSync(__dirname + '/../render/retrieve');
+var modules = require('fs').readdirSync(__dirname + '/../blogs/render/retrieve');
 
 // Build a list of locals which blot will fetch
 // returns a list like this:

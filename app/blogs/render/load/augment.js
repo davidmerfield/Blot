@@ -1,5 +1,5 @@
-var helper = require("../../helper");
-var normalize = require("../../models/tags").normalize;
+var helper = require("helper");
+var normalize = require("../../../models/tags").normalize;
 var type = helper.type;
 
 var moment = require("moment");

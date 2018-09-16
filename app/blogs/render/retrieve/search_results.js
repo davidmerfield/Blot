@@ -1,4 +1,4 @@
-var Entry = require('../../models/entry');
+var Entry = require('../../../models/entry');
 var reds = require('reds');
 var transliterate = require('transliteration');
 

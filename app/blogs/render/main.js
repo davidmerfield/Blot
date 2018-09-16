@@ -1,5 +1,5 @@
 var Mustache = require('mustache');
-var helper = require('../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 
 var ERROR = require('./error');

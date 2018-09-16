@@ -1,7 +1,7 @@
 var render = require('./main');
-var type = require('../helper').type;
+var helper = require('helper');
+var type = helper.type;
 var TAG = '{{';
-var helper = require('../helper');
 var ensure = helper.ensure;
 
 // Recursively render all the locals in

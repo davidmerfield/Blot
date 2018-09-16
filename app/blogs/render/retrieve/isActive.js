@@ -1,4 +1,4 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var normalize = helper.urlNormalizer;
 
 module.exports = function (req, callback) {

@@ -1,4 +1,4 @@
-var Entries = require('../../models/entries');
+var Entries = require('../../../models/entries');
 
 module.exports = function (req, callback) {
 

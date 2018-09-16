@@ -1,5 +1,5 @@
-var Entry = require('../../models/entry');
-var Tags = require('../../models/tags');
+var Entry = require('../../../models/entry');
+var Tags = require('../../../models/tags');
 
 module.exports = function (req, callback) {
 

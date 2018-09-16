@@ -1,5 +1,5 @@
-var Entries = require('../../models/entries');
-var helper = require('../../helper');
+var Entries = require('../../../models/entries');
+var helper = require('helper');
 var arrayify = helper.arrayify;
 var moment = require('moment');
              require('moment-timezone');
