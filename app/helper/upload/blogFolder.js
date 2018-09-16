@@ -1,5 +1,4 @@
-var helper = require('helper');
-var Hash = helper.hash;
+var Hash = require('../hash');
 
 module.exports = function (blogID) {
 

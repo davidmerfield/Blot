@@ -1,4 +1,4 @@
-var Upload = require("../../../../upload");
+var Upload = require("helper").upload;
 var fs = require("fs-extra");
 
 module.exports = function(req, res, next) {

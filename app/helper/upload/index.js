@@ -1,25 +1,21 @@
-var config = require('../../config');
-var helper = require('../helper');
-var ensure = helper.ensure;
-var type = helper.type;
+var config = require('config');
+var fs = require('fs');
+var mime = require('mime');
 var blogFolder = require('./blogFolder');
-var nameFrom = helper.nameFrom;
 var joinpath = require('path').join;
-var extend = helper.extend;
 var zlib = require('zlib');
 var extname = require('path').extname;
+var ensure = require('../ensure');
+var nameFrom = require('../nameFrom');
+var extend = require('../extend');
+var type = require('../type');
+
 
 var blogBucket = config.s3.buckets.blogs;
 
 // Don't pollute or overwrite production files
 var root = require('./root');
 var BAD_PARAM = 'Please a path or url to upload';
-
-var config = require('../../config');
-var fs = require('fs');
-var mime = require('mime');
-var helper = require('../helper');
-var ensure = helper.ensure;
 
 var shouldGZIP = ['.css', '.js'];
 
@@ -130,5 +126,7 @@ function finalURL (bucket, path) {
 function canGZIP (path) {
   return shouldGZIP.indexOf(extname(path).toLowerCase()) > -1;
 }
+
+upload.removeFolder = require('./removeFolder');
 
 module.exports = upload;

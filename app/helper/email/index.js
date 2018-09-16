@@ -1,5 +1,4 @@
 var config = require('config');
-var User = require('../../models/user');
 var fs = require('fs');
 var ensure = require('../ensure');
 var extend = require('../extend');
@@ -83,7 +82,7 @@ function init (method) {
 
     if (!uid) return then();
 
-    User.getById(uid, function(err, user){
+    require('../../models/user').getById(uid, function(err, user){
 
       if (err || !user)
         return log(err || 'No user with uid ' + uid);

@@ -12,7 +12,7 @@ var Blog = require("blog");
 var pretty = require("helper").prettyPrice;
 
 var User = require("user");
-var removeFolder = require("../../../upload/removeFolder");
+var removeFolder = helper.upload.removeFolder;
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var clients = require("clients");

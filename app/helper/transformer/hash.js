@@ -1,6 +1,5 @@
-var helper = require('../helper');
-var ensure = helper.ensure;
-var callOnce = helper.callOnce;
+var ensure = require('../ensure');
+var callOnce = require('../callOnce');
 
 var fs = require('fs');
 var crypto = require('crypto');
