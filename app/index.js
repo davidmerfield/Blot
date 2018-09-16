@@ -26,7 +26,7 @@ var Store = require('connect-redis')(session);
 
 var dashboard = require('./dashboard');
 var site = require('./site');
-var blogs = require('./blogs');
+var blog = require('./blog');
 
 // All together now
 var server = express();
@@ -96,7 +96,8 @@ server
     return next();
   })
 
-  .use(blogs);
+  // Serve the blogs!
+  .use(blog);
 
 
 
