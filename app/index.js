@@ -11,7 +11,6 @@ fs.ensureDirSync(root + '/blogs');
 fs.ensureDirSync(root + '/tmp');
 fs.ensureDirSync(root + '/logs');
 fs.ensureDirSync(root + '/db');
-fs.ensureDirSync(root + '/secrets');
 fs.ensureDirSync(root + '/static');
 
 var config = require('config');
