@@ -206,6 +206,7 @@ function loadPlugins (dir) {
     // Ignore this file (index.js) and sys files
     if (name[0] === '.') return;
     if (name.slice(-3) === '.js') return;
+    if (name.slice(-4) === '.txt') return;
 
     var plugin = require('./' + name);
 

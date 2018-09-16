@@ -1,3 +1,60 @@
+# Sync strategy
+
+// handle renames without a load of tedious calls to Dropbox
+
+// need to resolve path to 'blog folder' as soon as possible
+// and handle changes to 'blog folder' if users has multiple blogs inside dropbox
+
+-> use information in local state? this seems smart...
+-> why not handle all rename logic locally?
+
+// focus on using Dropbox to keep a folder in sync
+
+what happens if a file moves while it is downloading?
+
+expose three commands
+
+set (add / update)
+move (also guessed from drops & sets)
+drop
+
+
+# Strategy to sync a folder to remote server
+
+Syncs appear as create or drops
+
+Given an array of changes.
+  
+filter changes and make them relative to a blog's folder
+-> move add them to individual blogs queue
+-> filter renames
+-> sort changes and put drops before creates & renames?
+
+push timestamped list of changes to redis queue per blog
+
+Save new folder state instantly.
+
+call queue.process (blogID)
+
+pop change from front of queue set, to active set, if fails, return it to front of queue.
+
+-> on server restart, return all active to queue, then call queues
+
+for drops, do the drop
+
+for creates, make a dropbox client and get the file to save it
+
+Immediately process drops. 
+
+Once all is done, run a validation of the folder? Probably not. Maybe do this once an hour, or once a day? Would need to wait for queue to empty for this to work.
+
+# Validate
+
+build local tree of folder, in memory? fine.
+build remote tree of folder -> client.delta('')
+
+compare trees, drop any ghost local entries 
+
 14. sync
 
 the problem

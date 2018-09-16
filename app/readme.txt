@@ -1,3 +1,71 @@
+# Architectures
+
+there will be bugs.
+
+what is most important is that readers can access blogs.
+
+what is secondarily most important is that writers can publish files.
+
+some files will causes the syncer to crash. this is expected. this must not prevent other users from syncing. and must not take down the process which serves files.
+
+I must work out how to do hot reloads to prevent downtime during deployments.
+
+I must add a feature to stick blot in a read-only state, and make this clear on the dashboard. this will make upgrading instances (taking db snapshots etc easier)
+
+currently I fork a new process when doing the sync. It adds 700ms to start up the new process, possibly more on remote.unacceptable.
+
+perhaps I should just use domains...
+
+I should be running a 'sync' server seperately which is up all the time and handles fetching changes and rebuilding blogs. passing a blog handle / or uid? will cause it to fetch any changes to the user's folder, store those new changes locally.
+
+'the main' server handles reader traffic.
+
+if some file causes the sync server to reboot, I must work out what file it was first and push this to an error list. this information must be exposed to me and to the user. this will hopefully prevent an infinite loop of failed syncs. perhaps a new fork for each make file?
+
+given input file I should pre-process as much as possible and run it through the asset pipeline...
+
+when a request comes in, I render the file, then dump the result in a static dir which eventually I'll use in combination with NGINX
+
+# Strategy for making Blot more modular
+
+## Clients
+  provide a method to write a file to a path
+  provide a method to remove a file to a path
+
+  expose some routes which express can mount to /clients/{{name}}
+  which configure the client for the blog. for git, this will
+  involve initiating a repository, adding the right hooks
+  and
+
+## Converters
+  map a file(s) to HTML
+    expose a method to check if can convert path
+    expose a method to convert path to HTML
+
+## Plugins
+  transform HTML based on blog preference
+
+---
+
+each blog has a sync property?
+
+how to deal with multiple blogs in same dropbox?
+
+Blot.add(blogID, path, callback);
+Blot.drop(blogID, path, callback);
+
+  blot handles renames behind the scenes
+
+Client.write(blogID, path, contents, callback);
+Client.remove(blogID, path, callback);
+
+clients should only need to keep the folder in
+
+  blogs/{{ID}}/folder/
+
+in sync with the user's blog folder and nothing more
+
+
 # Designing a blog
 
 Admittedly the hardest part about blogging is writing the blog post, not publishing it, but that shouldn’t stop us from trying to make publishing just a little bit easier.
