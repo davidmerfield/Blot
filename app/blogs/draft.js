@@ -2,7 +2,7 @@ module.exports = function route (server) {
 
   var Entry = require('entry');
   var Entries = require('entries');
-  var plugins = require('../plugins');
+  var plugins = require('../models/entry/build/plugins');
   var drafts = require('../drafts');
   var redis = require('redis');
 
