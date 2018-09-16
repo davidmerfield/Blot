@@ -1,4 +1,4 @@
-var Transformer = require('../../../../../transformer');
+var Transformer = require('helper').transformer;
 var debug = require('debug')('entry:build:plugins:image');
 var eachEl = require('../eachEl');
 var config = require('config');

@@ -1,8 +1,7 @@
 var Transformer = require('../index');
 var fs = require('fs');
-var helper = require('../../helper');
-var localPath = helper.localPath;
-var cp = helper.copyFile;
+var localPath = require('../../localPath');
+var cp = require('../../copyFile');
 
 // This function looks to see if there is any information
 // about the file stored. If not, then it invokes middleware

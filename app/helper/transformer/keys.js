@@ -1,6 +1,5 @@
-var helper = require('../helper');
-var ensure = helper.ensure;
-var hash = helper.hash;
+var ensure = require('../ensure');
+var hash = require('../hash');
 
 module.exports = function(blogID, name) {
 

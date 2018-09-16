@@ -3,7 +3,7 @@ var ensure = helper.ensure;
 var candidate = require('./candidate');
 
 var Create = require('./create');
-var Transformer = require('../../../../transformer');
+var Transformer = helper.transformer;
 
 module.exports = function (blog, path, metadata, html, callback) {
 

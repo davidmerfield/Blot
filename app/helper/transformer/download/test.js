@@ -1,6 +1,5 @@
 var download = require('./index');
-var helper = require('../../helper');
-var rm = helper.remove;
+var rm = require('../../remove');
 
 var urls = {
   'bad': 'foo',

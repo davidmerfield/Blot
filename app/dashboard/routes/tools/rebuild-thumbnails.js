@@ -1,4 +1,4 @@
-var Transformer = require('../../../transformer');
+var Transformer = require('helper').transformer;
 
 server
   .route('/rebuild-thumbnails')

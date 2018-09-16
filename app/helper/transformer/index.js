@@ -1,13 +1,11 @@
-var client = require('../models/client');
+var client = require('../../models/client');
 var isURL = require('./isURL');
 var Keys = require('./keys');
 var HashFile = require('./hash');
 var download = require('./download');
-
-var helper = require('../helper');
-var ensure = helper.ensure;
-var rm = helper.remove;
-var localPath = helper.localPath;
+var ensure = require('../ensure');
+var rm = require('../remove');
+var localPath = require('../localPath');
 
 // This module allows us to transform
 // a file to some arbritrary JSON object
