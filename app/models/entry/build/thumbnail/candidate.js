@@ -1,8 +1,8 @@
-var helper = require('../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var cheerio = require('cheerio');
 
-var config = require('./config');
+var config = require('config');
 var MAX_PIXELS = config.MAX_PIXELS;
 var MIN_HEIGHT = config.MIN_HEIGHT;
 var MIN_WIDTH = config.MIN_WIDTH;

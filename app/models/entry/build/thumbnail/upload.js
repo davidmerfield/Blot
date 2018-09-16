@@ -1,7 +1,7 @@
-var helper = require('../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var async = require('async');
-var Upload = require('../upload');
+var Upload = require('../../../../upload');
 
 module.exports = function (blogID, thumbnails, callback) {
 

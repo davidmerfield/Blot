@@ -1,9 +1,9 @@
-var helper = require('../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var candidate = require('./candidate');
 
 var Create = require('./create');
-var Transformer = require('../transformer');
+var Transformer = require('../../../../transformer');
 
 module.exports = function (blog, path, metadata, html, callback) {
 

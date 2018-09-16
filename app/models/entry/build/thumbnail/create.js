@@ -1,4 +1,4 @@
-var helper = require('../helper');
+var helper = require('helper');
 var tempDir = helper.tempDir();
 var UID = helper.makeUid;
 var mkdirp = helper.mkdirp;

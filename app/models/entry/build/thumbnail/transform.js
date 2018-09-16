@@ -1,4 +1,4 @@
-var helper = require('../helper');
+var helper = require('helper');
 var callOnce = helper.callOnce;
 var ensure = helper.ensure;
 var basename = require('path').basename;
