@@ -5,7 +5,7 @@ var forEach = helper.forEach;
 var arrayify = helper.arrayify;
 var Entries = require('../../app/models/entries');
 var Blog = require('../../app/models/blog');
-var Email = require('../../app/email');
+var Email = helper.email;
 var analytics = require('../../app/middleware/analytics');
 
 var diskspace = require('./disk-space');

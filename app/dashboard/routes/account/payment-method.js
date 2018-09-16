@@ -2,7 +2,7 @@ var Express = require("express");
 var PaymentMethod = new Express.Router();
 
 var config = require("config");
-var email = require("email");
+var email = require("helper").email;
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
 

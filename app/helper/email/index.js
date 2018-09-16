@@ -1,11 +1,11 @@
-var config = require('../../config');
-var User = require('../models/user');
+var config = require('config');
+var User = require('../../models/user');
 var fs = require('fs');
-var helper = require('../helper');
-var ensure = helper.ensure;
-var extend = helper.extend;
+var ensure = require('../ensure');
+var extend = require('../extend');
 var assert = require('assert');
-var log = new helper.logg('Email');
+var logg = require('../logg');
+var log = new logg('Email');
 var Mustache = require('mustache');
 var Remarkable = require('remarkable');
 var md = new Remarkable();
