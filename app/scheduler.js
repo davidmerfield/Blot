@@ -5,7 +5,6 @@ var email = require('helper').email;
 var async = require('async');
 var schedule = require('node-schedule').scheduleJob;
 var Blog = require('./models/blog');
-var analytics = require('./middleware/analytics');
 var backup = require('./backup');
 var dailyUpdate = require('../scripts/info/dailyUpdate');
 
@@ -34,8 +33,27 @@ module.exports = function(){
   schedule({hour: 13, minute: 0}, function(){
 
     console.log('Reseting the analytics counter...');
-    analytics.rotate(function(){
-      console.log('The analytics count was reset.');
+    
+    var todayKey = 'analytics:today';
+    var allKey = 'analytics:all';
+    var client = require('client');
+
+    client.get(todayKey, function (err, views) {
+
+      if (err) throw err;
+
+      client.lpush(allKey, views, function(err){
+
+        if (err) throw err;
+
+        // this will effectively reset it to zero
+        client.del(todayKey, function (err) {
+
+          if (err) throw err;
+          
+          console.log('Reset the analytics counter.');
+        });
+      });
     });
   });
 

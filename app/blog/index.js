@@ -1,6 +1,5 @@
 var renderView = require('./render/middleware');
 var express = require('express');
-var middleware = require('middleware');
 var config = require('config');
 var compression = require('compression');
 var cache = require('express-disk-cache')(config.cache_directory);
@@ -15,8 +14,8 @@ var blog = express();
 blog
   .disable('x-powered-by')
   .use(compression())
-  .use(middleware.vhosts)
-  .use(middleware.add());
+  .use(require('./vhosts'))
+  .use(require('./add')());
 
 if (config.cache)
   blog.use(cache);

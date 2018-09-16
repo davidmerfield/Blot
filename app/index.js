@@ -14,7 +14,6 @@ fs.ensureDirSync(root + '/db');
 fs.ensureDirSync(root + '/static');
 
 var config = require('config');
-var analytics = require('./middleware').analytics;
 var scheduler = require('./scheduler');
 var express = require('express');
 var compression = require('compression');
@@ -60,7 +59,9 @@ var sessionOptions = {
 // which prevents flash from doing shit
 // Rendering middleware
 
-  
+var todayKey = 'analytics:today';
+var client = require('client');
+
 console.log('WARNING RENABLE CROSS DOMAINS (helmet)');
 
 server
@@ -71,7 +72,16 @@ server
   .use(helmet.noSniff())
   .use(helmet.frameguard('allow-from', config.host))
   // .use(helmet.crossdomain())
-  .use(analytics.middleware)
+  .use(function (req, res, next) {
+
+    next();
+
+    return client.incr(todayKey, function (err) {
+
+      if (err) console.log(err);
+
+    });
+  })
   .use(function(req, res, next) {
     res.setHeader('Cache-Hit', 'false')
     next();

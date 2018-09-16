@@ -2,7 +2,7 @@ module.exports = function(server) {
 
   var helper = require('helper');
   var type = helper.type;
-  var log = require('middleware').log;
+  var log = require('./log');
   var Redirects = require('../models/redirects');
   var store404 = require('../models/404').set;
   var config = require('config');

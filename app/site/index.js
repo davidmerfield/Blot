@@ -2,11 +2,9 @@ var config = require('config');
 var express = require('express');
 var hogan = require('hogan-express');
 var compression = require('compression');
-var middleware = require('middleware');
 var html_minifier = require('html-minifier').minify;
 var routes = require('./routes');
 var views = __dirname + '/views';
-var middleware = require('middleware');
 var cache = require('express-disk-cache')(config.cache_directory);
 
 // Empty the cache!
@@ -54,9 +52,6 @@ site.use(function (req, res, next) {
 
 // Enable GZIP
 site.use(compression());
-
-// Ensure site is only ever loaded over HTTPS
-site.use(middleware.forceSSL);
 
 // The disable('x-powered-by')
 // and use(compression()) must

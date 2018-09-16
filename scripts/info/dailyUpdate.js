@@ -6,7 +6,6 @@ var arrayify = helper.arrayify;
 var Entries = require('../../app/models/entries');
 var Blog = require('../../app/models/blog');
 var Email = helper.email;
-var analytics = require('../../app/middleware/analytics');
 
 var diskspace = require('./disk-space');
 var memory = require('./memory');
@@ -14,6 +13,23 @@ var memory = require('./memory');
 if (require.main === module) {
   main(process.exit);
 }
+
+var client = require('../../app/models/client');
+var ensure = helper.ensure;
+var allKey = 'analytics:all';
+
+
+
+
+
+
+
+function yesterdayHits (callback) {
+
+  ensure(callback,'function');
+  client.LRANGE(allKey, 0, 0, callback);
+}
+
 
 function main (callback) {
 
@@ -132,7 +148,7 @@ function main (callback) {
 
       }, function(){
 
-        analytics.yesterday(function(err, views){
+        yesterdayHits(function(err, views){
 
           if (err || !views) views = 0;
 
