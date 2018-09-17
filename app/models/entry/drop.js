@@ -1,4 +1,4 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var logger = helper.logger;
 

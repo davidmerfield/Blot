@@ -1,6 +1,6 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
-var redis = require('../client');
+var redis = require('client');
 var get = require('./get');
 var urlKey = require('./key').url;
 

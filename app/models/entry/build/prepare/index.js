@@ -1,6 +1,6 @@
 var debug = require('debug')('blot:models:entry:build:prepare');
 var _ = require("lodash");
-var helper = require("../../../../helper");
+var helper = require('helper');
 var falsy = helper.falsy;
 var time = helper.time;
 var cheerio = require("cheerio");

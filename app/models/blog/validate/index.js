@@ -1,4 +1,4 @@
-var helper = require('../../../helper');
+var helper = require('helper');
 var dirToModule = helper.dirToModule;
 var type = helper.type;
 var ensure = helper.ensure;

@@ -1,7 +1,7 @@
 var helper = require('helper');
 var ensure = helper.ensure;
 var key = require('./key');
-var client = require('../client');
+var client = require('client');
 var validate = require('./validate');
 var generateId = require('./generateId');
 

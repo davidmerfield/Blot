@@ -1,6 +1,6 @@
 var getById = require('./getById');
 var ensure = require('helper').ensure;
-var client = require('../client');
+var client = require('client');
 var key = require('./key');
 
 module.exports = function remove (uid, callback) {

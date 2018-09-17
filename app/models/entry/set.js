@@ -1,9 +1,9 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var doEach = helper.doEach;
 
 var model = require('./model');
-var redis = require('../client');
+var redis = require('client');
 
 var guid = helper.guid;
 
