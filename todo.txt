@@ -1,3 +1,6 @@
+Fix failed thumbnails in Ben's post:
+http://trampeur.blot.im/from-kuchl-to-the-campsite-at-pfarrwerfen-2
+
 Git client bugs:
 
   Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
