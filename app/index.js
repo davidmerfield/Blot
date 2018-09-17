@@ -6,6 +6,11 @@ process.on('SIGTERM', cleanExit); // catch kill
 var root = require('helper').rootDir;
 var fs = require('fs-extra');
 
+fs.ensureDirSync(root + '/data/blogs');
+fs.ensureDirSync(root + '/data/logs');
+fs.ensureDirSync(root + '/data/db');
+fs.ensureDirSync(root + '/data/secrets');
+
 var config = require('config');
 var scheduler = require('./scheduler');
 var express = require('express');
