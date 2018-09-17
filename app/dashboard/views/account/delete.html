@@ -1,9 +1,23 @@
-<form method="POST" action="?_csrf={{csrftoken}}">
+<form class="account" method="POST">
 
-  <p>If you delete your account, your <b>subscription will be cancelled</b> and you will not be charged again. Blot will permanently remove your blog{{user.s}} and the data associated with your account. <b>This cannot be undone</b>. Consider <a href="/account/export">exporting this data</a> before deleting your account.</p>
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+  <p>If you <b>delete your account</b>, your subscription will be cancelled and you will not be charged again. </p>
+
+  <p>{{#blogs.length}}Your blog{{user.s}} and t{{/blogs.length}}{{^blogs.length}}T{{/blogs.length}}he data associated with your account will be <b>permanently removed</b>. <!-- Consider <a href="/account/export">exporting this data</a> before deleting your account. --></p>
+
+
+    <label >Please enter your password:
+    <input autofocus type="password" name="password"/>
+  </label>
+
+
+  <div class="buttons">
+    <button type="submit" class="red" onclick="this.form.submit();this.disabled=true">Delete your account</button>
+    <a href="/account">Do not delete</a>
+  </div>
 
   <br>
-  <input type="submit" class="button red" value="Delete your account">
-    <a href="/account" class="borderButton secondary">Do not delete</a>
+<br>
 
 </form>

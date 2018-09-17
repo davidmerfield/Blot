@@ -1,42 +1,74 @@
 
 
-
-<div style="width:75%;float:right">
-
-  {{#ignored}}
-    <em>This file was not turned into a blog post because it is <b style="font-weight:500">{{{ignored}}}</b>.</em>
-  {{/ignored}}
-
 {{#entry}}
 
-      <a class="" href="{{blog.url}}{{{url}}}">{{title}}</a>
+  <span class="line-item">
+    <span class="lab">Title:</span>
+    <span class="val">{{title}}</span>
+  </span>
 
-      <hr>
-    
-      {{#draft}}
-        {{^scheduled}}
+  {{^draft}}{{^scheduled}}
+  <span class="line-item">
+    <span class="lab">URL:</span>
+    <span class="val"><a href="{{blog.url}}{{url}}">{{{url}}}</a></span>
+  </span>
+  {{/scheduled}}{{/draft}}
+
+
+  <span class="line-item">
+    <span class="lab">Date:</span>
+    <span class="val">{{#scheduled}}Scheduled for publication {{toNow}} on {{date}}{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</span>
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Draft:</span>
+    <span class="val">{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</span>
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Page:</span>
+    <span class="val">{{#page}}Yes {{/page}}{{^page}}No{{/page}}</span>
+  </span>
+
+<!-- 
+  <span class="line-item">
+    <span class="lab">Why:</span>
+    <span class="val">{{name}} became a blog post because it a type of file Blot can process</span>
+  </span>
+ -->
+<!-- 
+  {{^scheduled}}
         Draft that will be dated: <span style="float:right">{{date}}</span>
         {{/scheduled}}
+
         {{#scheduled}}
         Draft that will be published {{toNow}}
-        {{/scheduled}} 
-      {{/draft}}
+      
+        {{/scheduled}}  
 
-      {{^draft}}
 
-        {{^scheduled}}
+{{^scheduled}}
         Published: <span style="float:right">{{date}}</span>
         {{/scheduled}}
+
         {{#scheduled}}
         Scheduled for publication {{toNow}}
         {{/scheduled}} 
-      {{/draft}}
 
-      
-    
-      
-      
-      
-    {{/entry}}      
-</div>
-      <span class="clear"></span>
+      -->
+
+  
+
+<!-- 
+  <span class="line-item">
+    <span class="lab">Created:</span>
+    <span class="val">Plain text document</span>
+  </span>
+
+  <span class="line-item">
+    <span class="lab">Modified:</span>
+    <span class="val">Plain text document</span>
+  </span> -->
+
+
+{{/entry}}

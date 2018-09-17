@@ -1,5 +1,5 @@
 var helper = require('helper');
-var forEach = helper.forEach;
+var async = require('async');
 var ensure = helper.ensure;
 
 var addIgnore = require('ignored').add;
@@ -19,7 +19,7 @@ module.exports = function (blogID, path, reason, callback){
     dropEntry.bind(this, blogID, path)
   ];
 
-  forEach(queue, function(method, next){
+  async.eachSeries(queue, function(method, next){
 
     method(next);
 

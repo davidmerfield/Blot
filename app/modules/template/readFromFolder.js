@@ -4,8 +4,7 @@ var fs = require("fs");
 
 var helper = require("../../helper");
 var ensure = helper.ensure;
-var forEach = helper.forEach;
-
+var async = require('async');
 var Template = require("../../models/template");
 var makeID = Template.makeID;
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
@@ -26,7 +25,7 @@ module.exports = function readFromFolder(blogID, dir, callback) {
     fs.readdir(dir, function(err, contents) {
       if (err) return callback(err);
 
-      forEach(
+      async.eachSeries(
         contents,
         function(name, next) {
           // Dotfile

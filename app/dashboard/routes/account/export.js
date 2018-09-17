@@ -1,26 +1,25 @@
-var Entries = require('entries');
-var Template = require('template');
-var helper = require('helper');
-var forEach = helper.forEach.parallel;
+var Entries = require("entries");
+var Template = require("template");
+var async = require('async');
+var Express = require("express");
+var Export = new Express.Router();
 
-module.exports = function(server){
-
-  server.get('/account/export', function(req, res){
-    res.title('Export your data');
-    res.locals.subpage_title = 'Export your data';
-    res.locals.subpage_slug = 'export';
-    res.renderAccount('export');
+Export.route("/")
+  
+  .get(function(req, res){
+    res.render('account/export', {
+      title: 'Export your data',
+      breadcrumb: 'Export'
+    });
   });
 
-  // The generation of this file should eventually
-  // run in a seperate process so it doesn't clog
-  // the server's main thread. But I anticipate low
-  // usage so it's probably fine for now...
-  server.get('/account/export/account.json', function(req, res, next){
+Export.route("/account.json")  
+  
+  .get(function(req, res, next){
 
     var blogs = {};
 
-    forEach(req.blogs || [], function(blog, nextBlog){
+    async.each(req.blogs || [], function(blog, nextBlog){
 
       var templates = {};
 
@@ -28,7 +27,7 @@ module.exports = function(server){
 
         if (err) return next(err);
 
-        forEach(res, function(template, nextTemplate){
+        async.each(res, function(template, nextTemplate){
 
           // Don't include Global templates in this file...
           if (template.owner === 'SITE') return nextTemplate();
@@ -65,6 +64,7 @@ module.exports = function(server){
       res.setHeader('Content-Type', 'application/json');
       res.header('Content-disposition', 'attachment; filename=Account.json');
       res.send(JSON.stringify(result, null, 2));
-    });
+    });    
   });
-};
+
+module.exports = Export;

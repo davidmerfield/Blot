@@ -1,10 +1,9 @@
 var fs = require('fs-extra');
-var helper = require('helper');
-var for_each = helper.forEach;
+var async = require('async');
 var join = require('path').join;
 var Dropbox = require('dropbox');
 var debug = require('debug')('clients:dropbox:write_existing_contents');
-var do_each = helper.doEach;
+var helper = require('helper');
 
 // Dropbox doesn't let you delete the root folder so you must first
 // list the contents inside the root folder then remove them individually
@@ -15,7 +14,7 @@ function empty_dropbox_folder (client, folder, callback) {
   client.filesListFolder({path: folder, include_deleted: false, recursive: false})
     .then(function(res){
 
-      for_each(res.entries, function(entry, next){
+      async.eachSeries(res.entries, function(entry, next){
 
         debug('deleting', entry.path_lower);
 
@@ -50,7 +49,7 @@ function write_files (client, paths_to_write, callback) {
 
   debug('starting to write files...');
 
-  for_each(paths_to_write, function(remote, local, next){
+  async.eachOfSeries(paths_to_write, function(local, remote, next){
 
     debug('reading', local);
 
@@ -103,7 +102,11 @@ function write_existing_contents (blogID, dropbox_folder, access_token, callback
     empty_dropbox_folder.bind(this, client, dropbox_folder)
   ];
 
-  do_each(jobs, function(){
+  async.eachSeries(jobs, function (job, nextJob){
+
+    job(nextJob);
+
+  }, function(){
 
     debug('back from delete');
 
@@ -126,7 +129,7 @@ function write_existing_contents (blogID, dropbox_folder, access_token, callback
 
     fs.readdir(local_path(folder_path), function(err, contents){
 
-      for_each(contents, function(item_name, next){
+      async.eachSeries(contents, function(item_name, next){
 
         debug('stating', local_path(join(folder_path, item_name)));
 
@@ -169,8 +172,9 @@ module.exports = function (req, res, next){
     ));
   }
 
-  do_each(jobs, function(){
+  async.eachSeries(jobs, function(job, nextJob){
 
-    next();
-  });
+    job(nextJob);
+  
+  }, next);
 };

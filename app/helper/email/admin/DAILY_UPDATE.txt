@@ -1,0 +1,59 @@
+💌 {{total_new_posts}} new posts{{#renewals.length}}, {{renewals.length}} renewals{{/renewals.length}}
+
+
+{{#renewals.length}}
+
+**Upcoming renewals**
+
+{{#renewals}}
+  ${{fee}} {{from_now}} ({{time}}) from [{{name}}](mailto:{{email}}) for {{#blogs}}[{{handle}}]({{{link}}}){{^last}} ,{{/last}}{{/blogs}}.
+
+{{/renewals}}
+
+..........................................................
+
+
+{{/renewals.length}}
+
+{{#new_posts.length}}
+
+**New posts**
+
+{{#new_posts}}
+
+[{{blog.handle}}]({{{link}}}) ({{total}} entries total)
+
+  {{#entries}}
+  - [{{title}}]({{{link}}}{{url}})
+
+  {{/entries}}
+
+
+{{/new_posts}}
+
+..........................................................
+
+{{/new_posts.length}}
+
+
+
+
+
+
+**Memory:** {{memory.available}} ({{memory.used}} used)
+
+**Disk space:** {{disk_space.available}} ({{disk_space.used}} used)
+
+..........................................................
+
+**Total requests:** {{views}}
+
+**Total posts:** {{total_posts}}
+
+..........................................................
+
+**Total subscriptions:** {{total_subscriptions}}
+
+**Total cancellations:** {{total_cancellations}}
+
+**Annual revenue:** {{total_revenue}}

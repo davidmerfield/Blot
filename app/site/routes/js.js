@@ -1,6 +1,6 @@
 var fs = require('fs-extra');
 var uglify = require('uglify-js');
-var static_dir = __dirname + '/../static';
+var static_dir = __dirname + '/../views';
 var js_dir = static_dir + '/js';
 
 module.exports = function (req, res, next) {

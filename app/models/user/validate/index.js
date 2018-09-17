@@ -1,6 +1,7 @@
 var helper = require('helper');
 var ensure = helper.ensure;
-var forEach = helper.forEach;
+var async = require('async');
+
 var MODEL = require('../model');
 
 var validators = {
@@ -21,12 +22,12 @@ module.exports = function validate (user, updates, callback) {
     return callback(err);
   }
 
-  forEach(updates, function(name, value, next){
+  async.eachOf(updates, function(value, name, next){
 
     try {
       ensure(value, MODEL[name]);
     } catch (e){
-      return callback(e);
+      return next(e);
     }
 
     if (!validators[name]) {
@@ -37,16 +38,18 @@ module.exports = function validate (user, updates, callback) {
 
     validators[name](user, value, function(err, value){
 
-      if (err) return callback(err);
+      if (err) return next(err);
 
-      if (value) {
+      if (value && user[name] !== value) {
         user[name] = value;
         changes.push(name);
       }
 
       next();
     });
-  }, function (){
+  }, function (err){
+
+    if (err) return callback(err);
 
     // Check user properties are correct type
     try {

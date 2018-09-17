@@ -1,7 +1,7 @@
 module.exports = (function () {
 
-  var redis = require('./client'),
-      helper = require('../helper'),
+  var redis = require('client'),
+      helper = require('helper'),
       crypto = require('crypto'),
       type = helper.type,
       ensure = helper.ensure;

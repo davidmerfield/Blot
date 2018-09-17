@@ -1,4 +1,4 @@
-var defaultPlugins = require('../../plugins').defaultList;
+var defaultPlugins = require('../entry/build/plugins').defaultList;
 var defaultTemplate = require('../template').defaultTemplate;
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
   permalink: {format: '{{slug}}', custom: '', isCustom: false},
   timeZone: 'UTC',
   dateFormat: 'M/D/YYYY',
-  dateDisplay: 'MMMM D, YYYY',
+  dateDisplay: 'MMMM D, Y',
   hideDates: false,
   forceSSL: false,
   plugins: defaultPlugins,

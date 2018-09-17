@@ -1,16 +1,24 @@
 module.exports = (function () {
 
-  var helper = {};
+  var helper = {
+    // upload: require('./upload'),
+    // transformer: require('./transformer'),
+    // email: require('./email')
+  };
 
   // Load the other route files in this folder
-  require('fs').readdirSync(__dirname).forEach(function(file) {
+  require('fs').readdirSync(__dirname).forEach(function(name) {
 
-    if (file === "index.js" || file.substr(file.lastIndexOf('.') + 1) !== 'js')
-      return;
+    if (name[0] === '.') return;
 
-    var name = file.substr(0, file.lastIndexOf('.'));
+    if (name === "index.js") return;
 
-    helper[name] = require('./' + name);
+    if (name.slice(-3) === '.js') {
+      name = name.substr(0, name.lastIndexOf('.'));
+      helper[name] = require('./' + name);
+    } else {
+      helper[name] = require('./' + name);
+    }
   });
 
   return helper;

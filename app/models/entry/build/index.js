@@ -1,101 +1,68 @@
-var helper = require("../../../helper");
-var callOnce = helper.callOnce;
-var ensure = helper.ensure;
-var time = helper.time;
-var isDraft = require("../../../drafts").isDraft;
+var debug = require("debug")("blot:models:entry:build");
+var cp = require("child_process");
+var worker = new Worker();
+var crypto = require("crypto");
 
-var Build = require("./single");
-var Prepare = require("./prepare");
-var Thumbnail = require("../../../thumbnail");
+// Make sure we remove the workers when the main
+// process is killed to avoid zombie processes
+process.on("exit", function() {
+  worker.kill();
+});
 
-var DateStamp = require("./prepare/dateStamp");
-
-var moment = require("moment");
-require("moment-timezone");
-
+// This purpose of this file is to insulate the main thread from the
+// risky and resource intensive process of building a blog post from
+// a source file. This is done with the aim of keeping the main web
+// server responsive, since some of the function inside the build process
+// run synchronously.
 module.exports = function(blog, path, callback) {
-  ensure(blog, "object")
-    .and(path, "string")
-    .and(callback, "function");
+  var buildID = crypto.randomBytes(32).toString("hex");
 
-  callback = callOnce(callback);
+  function exitHandler() {
+    callback(new Error("Failed to build " + buildID + " as worked is dead."));
+  }
 
-  // Eventually we'll use this moment
-  // to determine which builder the path
-  // needs, e.g. an image, album etc...
-  // path might need to change
-  // for image captions, album items...
+  function messageHandler(response) {
+    // Filter out other build messages
+    if (response.buildID !== buildID) return;
 
-  isDraft(blog.id, path, function(err, is_draft) {
-    if (err) return callback(err);
+    // Since the worker did not die during the build
+    // we can remove the listener. Otherwise a future
+    // death will trigger the callback!
+    worker.removeListener("exit", exitHandler);
+    worker.removeListener("message", messageHandler);
 
-    Build(blog, path, function(err, html, metadata, stat, dependencies) {
-      if (err) return callback(err);
+    callback(response.err, response.entry);
+  }
 
-      Thumbnail(blog, path, metadata, html, function(err, thumbnail) {
-        // Could be lots of reasons (404?)
-        if (err || !thumbnail) thumbnail = {};
+  var message = { blog: blog, path: path, buildID: buildID };
 
-        var entry;
+  // Ensure we invoke the callback if the worker dies
+  worker.on("exit", exitHandler);
+  worker.on("message", messageHandler);
 
-        // Given the properties above
-        // that we've extracted from the
-        // local file, compute stuff like
-        // the teaser, isDraft etc..
-        try {
-          time("PREPARE");
+  debug(
+    "Blog:",
+    blog.id,
+    path,
+    " sending to worker process with build id",
+    buildID
+  );
 
-          entry = {
-            html: html,
-            path: path,
-            id: path,
-            thumbnail: thumbnail,
-            draft: is_draft,
-            metadata: metadata,
-            size: stat.size,
-            dependencies: dependencies,
-            dateStamp: DateStamp(blog, path, metadata),
-            updated: moment.utc(stat.mtime).valueOf()
-          };
-
-          if (entry.dateStamp === undefined) delete entry.dateStamp;
-
-          entry = Prepare(entry);
-
-          time.end("PREPARE");
-        } catch (e) {
-          return callback(e);
-        }
-
-        return callback(null, entry);
-      });
-    });
-  });
+  worker.send(message);
 };
 
-// var album = require('./album');
-// var isAlbum = album.is;
-// var albumPath = album.path;
-// var buildAlbum = album.build;
+// what happens if worker errors or shuts down?
+// can we have multiple workers?
+function Worker() {
+  var child;
 
-// var image =  require('./image');
-// var isCaption = image.isCaption;
-// var imagePath = image.imagePath;
-// if (isCaption(path))
-//   path = imagePath(path);
+  child = cp.fork(__dirname + "/main.js");
 
-// For albums, we read the contents
-// of each file in the directory
-// then concatenate them. We must check
-// this first since some albums have
-// images inside them...
-// if (isAlbum(path)) {
+  child.on("exit", function(code) {
+    if (code === 0) return;
 
-//   Build = buildAlbum;
-//   path = albumPath(path);
+    worker = new Worker();
+  });
 
-// // For everything else...
-// } else {
-
-//   Build = buildSingle;
-// }
+  return child;
+}

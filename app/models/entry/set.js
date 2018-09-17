@@ -1,9 +1,9 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var doEach = helper.doEach;
 
 var model = require('./model');
-var redis = require('../client');
+var redis = require('client');
 
 var guid = helper.guid;
 
@@ -112,7 +112,10 @@ module.exports = function set (blogID, path, updates, callback) {
 
         queue.push(flushCache.bind(this, blogID));
 
-        doEach(queue, callback);
+        doEach(queue, function(){
+
+          callback(null);
+        });
       });
     });
   });

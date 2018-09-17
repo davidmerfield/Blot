@@ -5,8 +5,8 @@ process.on('SIGTERM', cleanExit); // catch kill
 
 var root = require('helper').rootDir;
 var fs = require('fs-extra');
+
 var config = require('config');
-var analytics = require('./middleware').analytics;
 var scheduler = require('./scheduler');
 var express = require('express');
 var compression = require('compression');
@@ -18,7 +18,7 @@ var Store = require('connect-redis')(session);
 
 var dashboard = require('./dashboard');
 var site = require('./site');
-var blogs = require('./blogs');
+var blog = require('./blog');
 
 // All together now
 var server = express();
@@ -51,6 +51,12 @@ var sessionOptions = {
 // Create directive at /crossdomain.xml
 // which prevents flash from doing shit
 // Rendering middleware
+
+var todayKey = 'analytics:today';
+var client = require('client');
+
+console.log('WARNING RENABLE CROSS DOMAINS (helmet)');
+
 server
   .disable('x-powered-by')
   .use(compression())
@@ -58,19 +64,23 @@ server
   .use(helmet.ieNoOpen())
   .use(helmet.noSniff())
   .use(helmet.frameguard('allow-from', config.host))
-  .use(helmet.crossdomain())
-  .use(analytics.middleware)
+  // .use(helmet.crossdomain())
+  .use(function (req, res, next) {
+
+    next();
+
+    return client.incr(todayKey, function (err) {
+
+      if (err) console.log(err);
+
+    });
+  })
   .use(function(req, res, next) {
     res.setHeader('Cache-Hit', 'false')
     next();
   })
   .use(vhost(config.host, session(sessionOptions)))
-  .use(vhost(config.host, function(req, res, next){
-
-    if (!req.session || !req.session.uid) return next();
-
-    dashboard(req, res, next);
-  }))
+  .use(vhost(config.host, dashboard))
   .use(vhost(config.host, site))
 
   // It is important that this route returns
@@ -84,7 +94,8 @@ server
     return next();
   })
 
-  .use(blogs);
+  // Serve the blogs!
+  .use(blog);
 
 
 

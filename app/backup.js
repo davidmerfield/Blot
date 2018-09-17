@@ -1,7 +1,7 @@
 var config = require("../config");
 var redis = require('redis').createClient();
-var upload = require('./upload');
 var helper = require('./helper');
+var upload = helper.upload;
 var rm = helper.remove;
 var encrypt = helper.encrypter.encrypt;
 

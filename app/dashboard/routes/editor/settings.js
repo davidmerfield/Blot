@@ -21,10 +21,7 @@ module.exports = function (server) {
 
     .get(function(req, res){
 
-      res.setPartials({
-        yield: 'template/settings'
-      });
-
+      res.locals.partials.yield = 'template/settings';
       res.render('template');
     })
 
@@ -43,14 +40,13 @@ module.exports = function (server) {
       // makeID calls makeSlug under the hood so we only need
       // to call it once ourselves.
       var name = helper.makeSlug(req.params.template);
-      var designPage = '/theme';
+      var designPage = '/settings/theme';
 
       Template.drop(blogID, name, function(err) {
 
         if (err) return next(err);
 
-        res.message({success: 'The template ' + name + ' was deleted', url: designPage});
-        res.redirect(designPage);
+        res.message(designPage, 'The template ' + name + ' was deleted');
       });
     })
 
@@ -87,8 +83,7 @@ module.exports = function (server) {
 
           if (err) return next(err);
 
-          res.message({success: 'Changes to your template were made successfully!'});
-          res.redirect(req.path);
+          res.message(req.path, 'Changes to your template were made successfully!');
         });
       });
     })

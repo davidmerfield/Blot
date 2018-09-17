@@ -1,8 +1,8 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var type = helper.type;
 
-var redis = require('../client');
+var redis = require('client');
 var entryKey = require('./key').entry;
 
 var Entry = require('./instance');

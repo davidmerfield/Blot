@@ -1,4 +1,4 @@
-var client = require('../client');
+var client = require('client');
 var key = require('./key');
 
 module.exports = function (token, callback) {

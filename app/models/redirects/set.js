@@ -1,12 +1,11 @@
-var client = require('../client');
-var helper = require('../../helper');
+var client = require('client');
+var helper = require('helper');
 var ensure = helper.ensure;
 var key = require('./key');
 var util = require('./util');
 var matches = util.matches;
 
 // var drop = require('./drop');
-// var forEach = helper.forEach.parallel;
 
 module.exports = function (blogID, mappings, callback) {
 

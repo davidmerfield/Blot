@@ -1,11 +1,10 @@
-{{> sub_nav}}
+<form method='post' style="padding:0 20px" >
 
-<form method='post' action='?_csrf={{csrftoken}}'>
-
-  <fieldset>
-
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <input type="hidden" name="redirect" value="/settings/theme">
+    
     <label>
-      <span>Name:</span>
+      <span>Name for your new theme:</span>
       <input type="text" name="name" placeholder="e.g. {{blog.title}}"/>
     </label>
 
@@ -18,7 +17,10 @@
       </select>&nbsp; theme.
     </label>
 
-    <input type="submit" class="button" value="Create theme">
-
-  </fieldset>
+  <br>
+  <div class="buttons">
+    <button type="submit"onclick="this.form.submit();this.disabled=true">Create theme</button>
+    <a href="/">Cancel</a>
+  </div>
 </form>
+

@@ -1,7 +1,7 @@
-var client = require('../client');
+var client = require('client');
 var key = require('./key');
 var _ = require('lodash');
-var helper = require('../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var logger = helper.logger;
 var TYPE = require('./scheme').TYPE;
@@ -29,8 +29,8 @@ module.exports = function (blogID, blog, callback) {
 
   validate(blogID, blog, function(errors, latest){
 
-    if (_.isEmpty(errors)) errors = null;
-
+    if (errors) return callback(errors);
+    
     get({id: blogID}, function(err, former){
 
       former = former || {};

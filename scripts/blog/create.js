@@ -1,27 +1,27 @@
 var Blog = require('blog');
+var User = require('user');
 var validate = require('../../app/models/blog/validate/handle');
-var get = require('./get');
-var existing_handle, new_handle, new_blog;
+var email, new_handle, new_blog;
 
-existing_handle = process.argv[2];
+email = process.argv[2];
 new_handle = process.argv[3];
 
-if (!existing_handle) throw 'Missing first argument: handle for an existing blog';
+if (!email) throw 'Missing email address of user';
 if (!new_handle) throw 'Missing second argument: a handle for new blog';
 
 validate('', new_handle, function(err, new_handle){
 
   if (err) throw err;
 
-  get(existing_handle, function(user, existing_blog){
+  User.getByEmail(email, function(err, user){
 
-    if (!user || !existing_blog) throw 'There is no existing blog matching the handle \'' + existing_handle + '\'';
+    if (err || !user) throw 'There is no user \'' + email + '\'';
 
     console.log('Creating blog', new_handle, 'for user', user.email, '(' + user.uid + ')');
 
-    new_blog = {handle: new_handle, timeZone: existing_blog.timeZone};
+    new_blog = {handle: new_handle};
 
-    Blog.create(user.uid, new_blog, function(err, new_blog){
+    Blog.create(user.uid, new_blog, function(err){
 
       if (err) throw err;
 

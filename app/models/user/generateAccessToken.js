@@ -1,5 +1,5 @@
 var crypto = require('crypto');
-var client = require('../client');
+var client = require('client');
 var key = require('./key');
 
 var LENGTH = 32; // characters long

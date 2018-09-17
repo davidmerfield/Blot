@@ -1,13 +1,16 @@
-<form method="post">
+<form class="account" method="post">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-  <label>Email:
-    <input class="noMargin" type="text" name="email" value="{{user.email}}" placeholder=""/>
+  <label>Your email address:
+    <input class="noMargin" type="text" name="email" value="{{user.email}}" autofocus placeholder=""/>
   </label>
 
-  <br />
+  <div class="buttons">
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Save email address</button>
+    <a href="/account">Cancel</a>
+  </div>
 
-  <input type="submit" class="submit button" value="Save changes" />
-  <a href="/account"  class="borderButton secondary">Cancel</a>
+  <br><br><br>
+  
 </form>

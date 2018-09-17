@@ -57,8 +57,8 @@ module.exports = function(req, res, next) {
       if (link.name === req.params.view) link.active = 'active';
     });
 
-    res.addPartials({sidebar: 'template/_sidebar'});
-    res.addLocals({sidebar: sidebar});
+    res.locals.partials.sidebar = 'template/_sidebar';
+    res.locals.sidebar = sidebar;
     next();
   });
 };

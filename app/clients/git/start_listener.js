@@ -1,10 +1,9 @@
 var Git = require("simple-git");
 var Blog = require("blog");
-var helper = require("helper");
 var Change = require("sync").change;
 var Sync = require("sync");
-var forEach = helper.forEach;
-var git_emit = require("git-emit");
+var git_emit = require("git-emit-node7");
+var async = require('async');
 var debug = require("debug")("client:git:listener");
 var config = require("config");
 var join = require("path").join;
@@ -20,32 +19,42 @@ function add_leading_slash(path) {
 }
 
 module.exports = function start_listener(handle) {
+
   Blog.get({ handle: handle }, function(err, blog) {
+
     if (err || !blog) {
       return console.log("ERROR no blog", handle);
     }
 
     var blog_id = blog.id;
-    var emitter = git_emit(__dirname + "/data/" + blog.handle + ".git");
-    var git = Git(blog_dir(blog.id));
+    var emitter, git;
+
+    require('fs-extra').ensureDirSync(blog_dir(blog.id));
+
+    try {
+      emitter = git_emit(__dirname + "/data/" + blog.handle + ".git");
+      git = Git(blog_dir(blog.id));
+    } catch (e) {
+      return console.log(e);
+    }
 
     console.log("Blog:", blog_id, "(" + handle + ")", "Git: Initialized");
 
     debug("Initialized", blog_id, "git repo");
 
-    emitter.on("post-rewrite", function(info, info2, info3) {
+    emitter.on("post-rewrite", function(info) {
       console.log("Blog:", blog_id, "Git: post-rewrite", info);
     });
 
-    emitter.on("post-receive", function(info, info2, info3) {
+    emitter.on("post-receive", function(info) {
       console.log("Blog:", blog_id, "Git: post-receive", info);
     });
 
-    emitter.on("post-update", function(info, info2, info3) {
+    emitter.on("post-update", function(info) {
       console.log("Blog:", blog_id, "Git: post-update", info);
     });
 
-    emitter.on("update", function(update, info2, info3) {
+    emitter.on("update", function(update) {
       update.accept();
       console.log("Blog:", blog_id, "Git: update", update);
     });
@@ -72,7 +81,7 @@ module.exports = function start_listener(handle) {
         Sync(
           blog_id,
           function(callback) {
-            forEach(
+            async.eachSeries(
               info.files,
               function(path, next) {
                 if (info.insertions[path]) {

@@ -1,0 +1,7 @@
+Blot was unable to charge your card
+
+Blot tried and failed to charge your card to renew your subscription. Please [log in]({{{site}}}/log-in) to Blot and pay your subscription fee.
+
+Feel free to reply to this email if you have any questions.
+
+Best, David

@@ -1,140 +1,114 @@
 {{> sub_nav}}
-<style type="text/css">
-.plugin {width: 100%;padding:0;margin:0;float:none;}
-input[type="checkbox"]{display:block;float:left;margin:0.2em 1em 0.2em 0}
-form label {cursor: pointer;line-height: 1.5;}
-
-.linkTo {color: black;display: block;padding:1em 0;text-decoration: none;}
-.linkTo:hover {border:none;background: rgba(0,0,0,0.025)}
-</style>
 
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
+{{^client}}
+
+<a href="/settings/client" class="mess error">
+     <span class="link">Select a client</span>
+     Please select a client to sync your folder.
+  </a>
+{{/client}}
+
+  <a class="line" href="/settings/title">
+    <span class="label">Title</span>
+    <span class="center">
+
+      
+
+      {{blog.title}}
+      {{^blog.title}}<span class="link">Add a title</span>{{/blog.title}}
+
+    </span>
+
+    {{#blog.title}}
+        <span class="right">Edit</span>
+    {{/blog.title}}
+    
+  </a>
+
+  <a class="line" href="/settings/domain">
+    <span class="label">Domain</span>
+    <span class="center">{{blog.pretty.url}}</span>
+    <span class="right">Edit</span>
+  </a>
 
 
-    <a class="linkTo" href="/settings/title">
-      <b style="width:25%;display:block;float:left;font-weight:500">Title</b>
-      <b style="color:gray;font-weight:500">{{blog.title}}</b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-
-    <hr style="margin: 0">
-    
-    <a class="linkTo" href="/settings/domain">
-      <b style="width:25%;display:block;float:left;font-weight:500">Domain</b>
-      <b style="color:gray;font-weight:500">{{blog.url}}</b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-    
-
-    <hr style="margin: 0">
-    
-          <a class="linkTo" href="/clients">
-      <b style="width:25%;display:block;float:left;font-weight:500">Folder</b>
-      <b style="color:gray;font-weight:500">{{client.display_name}}</b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-    
-    <hr style="margin: 0">
-    
- <a class="linkTo" href="/theme">
-      <b style="width:25%;display:block;float:left;font-weight:500">Theme</b>
-      <b style="color:gray;font-weight:500">{{#template.name}}
+<a class="line" href="/settings/theme">
+    <span class="label">Theme</span>
+    <span class="center">{{#template.name}}
         {{template.name}}
-        {{/template.name}}        {{^template.name}}<em>You are not using a theme</em>{{/template.name}}
-</b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
+        {{/template.name}}        {{^template.name}}<i>You are not using a theme</i>{{/template.name}}</span>
+            <span class="right">Edit</span>
 
+  </a>
 
-    <hr style="margin: 0">
+  <a class="line" href="/settings/photo">
+    <span class="label">Photo</span>
+    <span class="center">
 
- <a class="linkTo" href="/settings/photo">
-      <b style="width:25%;display:block;float:left;font-weight:500">Avatar</b>
-      <b style="color:gray;font-weight:500">
+      {{^blog.avatar}}
+      <span class="link">Choose a photo</span>
+      {{/blog.avatar}}
 
-        {{^blog.avatar}}<em>You have not uploaded a photo</em>{{/blog.avatar}}
+      {{#blog.avatar}}
+        <img style="max-width:64px;max-height:64px;margin:4px 8px 0 0;    vertical-align: baseline;
+    display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+            <span class="link">Edit</span>    
 
-        {{#blog.avatar}}
-  <section id="avatar">
-    <img src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-  </section>
-  {{/blog.avatar}}
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-      <div style="clear:both"></div>
-    </a>
+      {{/blog.avatar}}
+    </span>
+      {{#blog.avatar}}
+{{/blog.avatar}}
+  </a>
   
-      <hr style="margin: 0">
+  
+  <a class="line" href="/settings/menu">
+    <span class="label">Menu</span>
+    <span class="center">
+      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
 
+    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
+    </span>
+    <span class="right" style="padding-left:0">Edit</span>
+  </a>
 
-
-
-    
- <a class="linkTo" href="/settings/menu">
-      <b style="width:25%;display:block;float:left;font-weight:500">Menu</b>
-            <span style="color:gray;float:right">Edit</span>
-
-      <b style="color:gray;font-weight:500;    max-width: 68%;
-    display: block;
-    height: 1.4em;
-    overflow: hidden;
-}">{{#blog.menu}} {{label}}{{^last}},{{/last}} {{/blog.menu}}</b>
-    </a>
 
   
 
-  {{#categories}}
 
-      <hr style="margin: 0">
 
-  <b style="width:25%;padding-top:1em;display:block;float:left;font-weight:500">{{name}}</b>
-  <div style="width:75%;float:left">
-    {{#plugins}}
-    <div class="plugin {{checked}}">
+   <a class="line" href="/settings/date">
+    <span class="label">Dates</span>
+    <span class="center">
+      {{^blog.hideDates}}{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}{{/blog.hideDates}}
+      {{#blog.hideDates}}<i>Dates are hidden</i>{{/blog.hideDates}}
+</span>
+    <span class="right">Edit</span>
 
-      <label>
-        <span style="width:7.5%;display:block;float:left;position:relative;top:1px">
-          <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
-          <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
-        </span>
-        <span style="width:92.5%;margin-top:-1em;margin-bottom:-0.5em;display:block;float:left">        {{{description}}}
-        </span>
-      </label>
+  </a>
+  
+  <a class="line" href="/settings/urls" >
+    <span class="label">URLs</span>
+    <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
+    <span class="right">Edit</span>
+  </a>
 
-      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
-        {{{formHTML}}}
-      </div>
-      {{^last}}
-      <hr style="clear:both;margin:0;margin-bottom:0em">
-      {{/last}}
-    </div>
-    {{/plugins}}
-    <input type="submit" value="Save changes" class="button" style="margin:1em 0">
-  </div>
-<!--     <input class="button" type="submit" value="Save changes" style="margin:0 0 2em;"/>
-    <br>
- -->  {{/categories}}
+  <a class="line" href="/settings/services">
+    <span class="label">Services</span>
+    <span class="link">Configure analytics and other services
+</span>
 
- <hr>
- <a class="linkTo" href="/settings/date">
-      <b style="width:25%;display:block;float:left;font-weight:500">Timezone</b>
-      <b style="color:gray;font-weight:500">
+  </a>
 
-          {{#timeZones}}{{#selected}} {{time}} {{value}}{{/selected}}{{/timeZones}}
+{{#client}}
+<a class="line" href="/settings/client/{{name}}">
+    <span class="label">Client</span>
+    <span class="center">{{display_name}}</span>
+    <span class="right">Edit</span>
+  </a>
+  {{/client}}
 
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
-    <hr style="margin:0">
- <a class="linkTo" href="/settings/urls">
-      <b style="width:25%;display:block;float:left;font-weight:500">URLs</b>
-      <b style="color:gray;font-weight:500">
-
-         {{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
-
-      </b>
-      <span style="color:gray;float:right">Edit</span>
-    </a>
+  
 
 </form>

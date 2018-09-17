@@ -1,11 +1,15 @@
 module.exports = function determinePath(req, res, next) {
-  var dir = req.path.slice("/~".length) || "/";
+  
+  var dir;
 
-  dir = decodeURIComponent(dir);
+  req.session[req.blog.id] = req.session[req.blog.id] || {};
+  dir = req.session[req.blog.id].path || "/";
+  res.locals.folder = {};
 
-  if (dir === '/') res.locals.root = true;
+  if (dir === '/') res.locals.folder.root = true;
   
   req.dir = dir;
-
+  res.locals.folder.redirect = req.path;
+  
   next();
 };

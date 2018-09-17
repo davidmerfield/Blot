@@ -21,25 +21,29 @@ function blog_dir(blog_id) {
 
 dashboard.use(function(req, res, next) {
   res.dashboard = function(name) {
-    res.renderDashboard(__dirname + "/" + name + ".html");
+    res.render(__dirname + "/" + name + ".html", {title: 'Git', subpage_title: 'Folder'});
   };
+
+  res.locals.host = process.env.BLOT_HOST;
 
   next();
 });
 
-dashboard.get("/", function(req, res) {
+dashboard.get("/", function(req, res, next) {
   if (!req.blog.client) return res.redirect("/clients");
 
   repos.exists(req.blog.handle + ".git", function(exists) {
+
+    if (!exists) return create(req, res, next);
+    
     database.get_token(req.blog.id, function(err, token) {
       res.locals.token = token;
-      res.locals.exists = exists;
       res.dashboard("index");
     });
   });
 });
 
-dashboard.post("/create", function(req, res, next) {
+function create (req, res, next) {
   var blog_folder = blog_dir(req.blog.id);
   var tmp_folder = helper.tempDir() + "/git-" + helper.guid() + req.blog.id;
   var bare_repo_path = REPO_DIR + "/" + req.blog.handle + ".git";
@@ -128,7 +132,8 @@ dashboard.post("/create", function(req, res, next) {
       });
     });
   });
-});
+}
+
 
 dashboard.post("/refresh_token", function(req, res, next) {
   database.refresh_token(req.blog.id, function(err) {

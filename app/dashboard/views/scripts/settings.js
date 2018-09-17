@@ -77,32 +77,7 @@ $(document).ready(function(){
     return false;
   });
 
-  $('input.button:not(.small)').each(function(){
-    $(this).click(function(){
-      $(this).addClass('working').val('Saving changes');
-    });
-  });
-
-  if ($('#customDomain').val()) {
-
-   $.get('/verify-domain/' + $('#customDomain').val(), function(data) {
-
-     if (data && data === 'true' || data === true) {
-
-       $('#inputMessage').html('').addClass('success');
-
-     } else {
-
-       $('#inputMessage').html('!').addClass('warning');
-
-       $('#customHelper').show();
-     }
-   });
-  }
-
-  $('#avatarUpload').change(function(){
-    $('#uploadButton')[0].disabled = false;
-  });
+  
 
   if ($('.sortable')[0]) {
     Sortable.create($('.sortable')[0], {

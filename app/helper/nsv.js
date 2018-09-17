@@ -21,5 +21,5 @@ module.exports = function parse (path) {
     list.push(item);
   }
 
-  return _.unique(list);
+  return _.uniq(list);
 };

@@ -150,14 +150,35 @@ dates.forEach(function(el){
 $(function() {
   init();
 });
+  
+console.log('HERE');
 
 function init () {
+
+console.log('HERE TOO');
 
   // Smooth scroll
   var scroll = new SmoothScroll('a[href*="#"]');
 
+  var images = $('.entry img').filter(function(el){
+      
+    console.log($(this).parents('a').length);
+
+    if ($(this).parents('a').length) {
+      return false;
+    }
+
+    if ($(this).attr('width') && $(this).attr('width') > 380) {
+      return true;
+    }
+
+    return false;
+  }).toArray();
+
+  console.log('Images', images);
+
   // Medium zoom
-  mediumZoom('.entry img');
+  mediumZoom(images);
 }
 
                                       

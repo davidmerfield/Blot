@@ -1,5 +1,4 @@
-var helper = require('helper');
-var forEach = helper.forEach.parallel;
+var async = require('async');
 var config = require('config');
 var app_secret = config.dropbox.app.secret;
 var full_secret = config.dropbox.full.secret;
@@ -61,11 +60,13 @@ Webhook.post(function(req, res) {
     res.sendStatus(200);
 
     // Sync each of the accounts!
-    forEach(accounts, function(account_id, next_account){
+    async.eachSeries(accounts, function(account_id, next_account){
 
       Database.list_blogs(account_id, function(err, blogs){
 
-        forEach(blogs, function(blog, next_blog){
+        if (err) return next_account(err);
+        
+        async.eachSeries(blogs, function(blog, next_blog){
 
           main(blog.id, function(){});
 

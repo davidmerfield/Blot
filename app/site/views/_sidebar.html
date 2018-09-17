@@ -1,9 +1,12 @@
+{{^hide_sidebar}}
 {{#menu}}
 
 <div class="fl sidebar fixed">
+  {{^user}}
   <ul>
     <a href="/" class="{{introduction}}">Introduction</a>
   </ul>
+  {{/user}}
   <ul>
     <a href="/help" class="{{started}}">How to use Blot</a>
   </ul>
@@ -15,3 +18,5 @@
     <a href="/help/account" class="{{account}}">Account and billing</a>
   </ul>
 </div>{{/menu}}
+
+{{/hide_sidebar}}
