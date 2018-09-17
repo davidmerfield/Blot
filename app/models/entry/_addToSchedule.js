@@ -18,14 +18,14 @@ module.exports = function (blog, entry, callback) {
   if (!entry.scheduled) return callback();
 
   // Refresh will perform a re-save of the entry
-  var refresh = set.bind(this, blogID, entry.path, {}, function(){
-    console.log('Blog:', blogID + ':', 'Published entry as scheduled!', entry.path);
+  var refresh = set.bind(this, blog.id, entry.path, {}, function(){
+    console.log('Blog:', blog.id + ':', 'Published entry as scheduled!', entry.path);
   });
 
   // This key is to ensure one event per entry
   // this needs to be stored to a queue in redis
   // so we don't need to build this expensively on restart
-  var key = [blogID, entry.path, entry.dateStamp].join(':');
+  var key = [blog.id, entry.path, entry.dateStamp].join(':');
   var at = new Date(entry.dateStamp);
 
   if (scheduled[key] === undefined) {

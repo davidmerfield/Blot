@@ -32,7 +32,7 @@ module.exports = function main(blogID, callback) {
                 var client = new Dropbox({ accessToken: account.access_token });
 
                 if (change[".tag"] === "deleted") {
-                  return Change.drop(blog.id, path, next);
+                  return Change.drop(blog, path, next);
                 }
 
                 if (change[".tag"] === "folder") {

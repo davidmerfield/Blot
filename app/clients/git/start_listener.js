@@ -91,7 +91,7 @@ module.exports = function start_listener(handle) {
 
                 if (info.deletions[path]) {
                   debug("Calling drop with", blog_id, add_leading_slash(path));
-                  return Change.drop(blog_id, add_leading_slash(path), next);
+                  return Change.drop(blog, add_leading_slash(path), next);
                 }
 
                 debug(

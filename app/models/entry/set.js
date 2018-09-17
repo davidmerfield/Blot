@@ -1,7 +1,6 @@
 var helper = require('helper');
 var ensure = helper.ensure;
-var doEach = helper.doEach;
-
+var async = require('async');
 var model = require('./model');
 var redis = require('client');
 
@@ -35,7 +34,7 @@ module.exports = function set (blog, path, updates, callback) {
   var queue;
 
   // Get the entry stored against this ID
-  get(blog.id, path, function(entry){
+  get(blog, path, function(entry){
 
     // Create an empty object if new entry
     entry = entry || {};
@@ -98,24 +97,25 @@ module.exports = function set (blog, path, updates, callback) {
         if (err) return callback(err);
 
         queue = [
-          updateSearchIndex.bind(this, blog.id, entry),
-          updateTagList.bind(this, blog.id, entry),
-          assignToLists.bind(this, blog.id, entry),
-          rebuildDependencyGraph.bind(this, blog.id, entry, previous_dependencies)
+          updateSearchIndex.bind(this, blog, entry),
+          assignToLists.bind(this, blog, entry),
+          rebuildDependencyGraph.bind(this, blog, entry, previous_dependencies),
+          updateTagList.bind(this, blog.id, entry)
         ];
 
         if (entry.scheduled)
-          queue.push(addToSchedule.bind(this, blog.id, entry));
+          queue.push(addToSchedule.bind(this, blog, entry));
 
         if (entry.draft)
-          queue.push(notifyDrafts.bind(this, blog.id, entry));
+          queue.push(notifyDrafts.bind(this, blog, entry));
 
         queue.push(flushCache.bind(this, blog.id));
 
-        doEach(queue, function(){
+        async.eachSeries(queue, function(task, next){
 
-          callback(null);
-        });
+          task(next);
+
+        }, callback);
       });
     });
   });

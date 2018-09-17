@@ -25,12 +25,12 @@ describe("blog", function() {
 
         expect(err).toBe(null);
 
-        Entry.get(global.blog.id, path, function(entry){
+        Entry.get(global.blog, path, function(entry){
 
           expect(err).toBe(null);
           expect(entry).toEqual(jasmine.any(Object));
 
-          Entry.drop(global.blog.id, path, function(err){
+          Entry.drop(global.blog, path, function(err){
 
             expect(err).toBe(null);
             done();

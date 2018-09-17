@@ -1,6 +1,7 @@
 var async = require('async');
 var Entry = require('entry');
 var client = require('client');
+console.log(Entry);
 var dependentsKey = Entry.key.dependents;
 
 // The purpose of this module is to rebuild any

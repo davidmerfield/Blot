@@ -1,10 +1,10 @@
-var Entries = require('./models/entries');
-var Entry = require('./models/entry');
-var User = require('./models/user');
+var Entries = require('entries');
+var Entry = require('entry');
+var User = require('user');
 var email = require('helper').email;
 var async = require('async');
 var schedule = require('node-schedule').scheduleJob;
-var Blog = require('./models/blog');
+var Blog = require('blog');
 var backup = require('./backup');
 var dailyUpdate = require('../scripts/info/dailyUpdate');
 

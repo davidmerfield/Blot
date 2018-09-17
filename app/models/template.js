@@ -302,7 +302,7 @@ module.exports = (function() {
       .and(partials, "object")
       .and(callback, "function");
 
-    var Entry = require("./entry");
+    var Entry = require("entry");
     var allPartials = {};
     var retrieve = {};
 

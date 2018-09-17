@@ -12,26 +12,26 @@ var Preview = require("../../modules/preview");
 var isDraft = require("../../drafts").isDraft;
 var rebuildDependents = require("./rebuildDependents");
 
-module.exports = function(blogID, path, callback) {
-  ensure(blogID, "string")
+module.exports = function(blog, path, callback) {
+  ensure(blog, "object")
     .and(path, "string")
     .and(callback, "function");
 
   // We don't know if this file used to be a draft based
   // on its metadata. We should probably look this up?
-  isDraft(blogID, path, function(err, is_draft) {
+  isDraft(blog.id, path, function(err, is_draft) {
     // ORDER IS IMPORTANT
     // Rebuild must happen after we remove the file from disk
     var queue = [
-      fs.remove.bind(this, LocalPath(blogID, path)),
-      Metadata.drop.bind(this, blogID, path),
-      Ignored.drop.bind(this, blogID, path),
-      Rename.forDeleted.bind(this, blogID, path),
-      Entry.drop.bind(this, blogID, path),
-      rebuildDependents.bind(this, blogID, path)
+      fs.remove.bind(this, LocalPath(blog.id, path)),
+      Metadata.drop.bind(this, blog.id, path),
+      Ignored.drop.bind(this, blog.id, path),
+      Rename.forDeleted.bind(this, blog.id, path),
+      Entry.drop.bind(this, blog, path),
+      rebuildDependents.bind(this, blog.id, path)
     ];
 
-    if (is_draft) Preview.remove(blogID, path);
+    if (is_draft) Preview.remove(blog.id, path);
 
     async.eachSeries(
       queue,

@@ -7,9 +7,9 @@ var entryKey = require('./key').entry;
 
 var Entry = require('./instance');
 
-module.exports = function (blogID, entryIDs, callback) {
+module.exports = function (blog, entryIDs, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(callback, 'function');
 
   var single = false;
@@ -26,7 +26,7 @@ module.exports = function (blogID, entryIDs, callback) {
   }
 
   entryIDs = entryIDs.map(function(entryID){
-    return entryKey(blogID, entryID);
+    return entryKey(blog.id, entryID);
   });
 
   ensure(entryIDs, 'array');

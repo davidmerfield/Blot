@@ -31,7 +31,7 @@ module.exports = function (blog, entry, callback) {
     if (score === undefined)
       score = entry.dateStamp;
 
-    var key = listKey(blogID, list);
+    var key = listKey(blog.id, list);
 
     // Currently this is a normalized
     // version of the entry's path.
@@ -48,7 +48,7 @@ module.exports = function (blog, entry, callback) {
 
   function drop (list) {
 
-    var key = listKey(blogID, list);
+    var key = listKey(blog.id, list);
     var value = entry.id;
 
     ensure(list, 'string')
@@ -112,9 +112,9 @@ module.exports = function (blog, entry, callback) {
     if (err) return callback(err);
 
     if (entry.menu) {
-      addToMenu(blogID, entry, callback);
+      addToMenu(blog.id, entry, callback);
     } else {
-      dropFromMenu(blogID, entry, callback);
+      dropFromMenu(blog.id, entry, callback);
     }
   });
 };

@@ -4,7 +4,7 @@ var rebuildDependents = require("../rebuildDependents");
 
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
-var Entry = require("../../../models/entry");
+var Entry = require("entry");
 var Preview = require("../../../modules/preview");
 var isPreview = require("../../../drafts").isPreview;
 var async = require("async");

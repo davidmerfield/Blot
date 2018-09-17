@@ -4,7 +4,7 @@ var _ = require('lodash');
 var helper = require('helper');
 var ensure = helper.ensure;
 var normalize = require('./normalize');
-var model = require('../entry/model');
+var model = require('entry').model;
 
 // a normalized tag is lowercased, and can be part of a url
 
