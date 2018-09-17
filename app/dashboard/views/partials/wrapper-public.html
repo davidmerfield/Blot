@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html class="{{dark}}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/blot.{{cacheID}}.css">
+  </head>
+  <body class="sans-serif f5 lh-copy">
+{{#menu}}
+<div class="nav fixed">
+  
+  <div class="center mw8 ph4">
+
+    <a class="db fl w-left {{help}}" href="/">Blot is a blogging platform</a>        
+
+    <div >
+
+    {{#sign-up}}
+    <a class="db fl {{index}}"><span style="color:#111">Sign up</span><span style="color:#a7a7a7">&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;Create your blog</span></a>
+    {{/sign-up}}
+
+    {{^sign-up}}
+    <a class="db fl ph4 ml-4 {{sign-up}}" href="/sign-up">Sign up</a>
+    <a class="db fl ph4 {{about}}" href="/about">About</a>
+    <a class="db fl ph4 {{updates}}" href="/updates">Updates</a>
+    <a class="db fl ph4 {{contact}}" href="/contact">Contact</a>
+    <a class="db fr ph4 mr-4 {{log-in}}" href="/log-in">Log in</a>
+    {{/sign-up}}
+    <div class="cf"></div>
+  </div>
+</div>
+</div>
+{{/menu}}
+
+<div class="wrapper">
+<div class="center mw8 ph4"  style="padding-top:160px;">
+
+  {{> yield}}
+
+  <div class="cf"></div>
+  <div class="spacer cf half"></div>  
+  <div class="push"></div>
+</div>
+</div>
+
+{{#menu}}
+{{^sign-up}}
+
+<div class="footer {{#next}}darker{{/next}}">
+  <div class="center mw8 ph4">
+    <div class="nav fl w-right-offset" style="box-shadow:none;background:transparent">
+      <a href="/terms" class="pr4 {{terms}}">Terms of use</a>
+      <a href="/privacy" class="pr4 pl4 {{privacy}}">Privacy policy</a>
+      <a href="/contact" class="pr4 pl4 {{contact}}">Contact</a>
+      <a href="/developers" class="pl4  {{developers}}">Developers</a>    
+    </div>
+  </div>
+</div>
+{{/sign-up}}
+{{/menu}}
+
+<script type="text/javascript" src="/blot.{{cacheID}}.js"></script>
+</body>
+</html>

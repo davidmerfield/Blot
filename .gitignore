@@ -24,8 +24,8 @@ tmp/*
 
 # Eventually ignore all node_modules directories
 node_modules/*
-app/importer/**/node_modules
-app/lock/node_modules
+app/dashboard/routes/importer/**/node_modules
+app/models/blog/lock/node_modules
 app/clients/**/node_modules
 
 data

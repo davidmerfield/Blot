@@ -1,107 +1,51 @@
 var config = require('config');
-var express = require('express');
+var Express = require('express');
 var hogan = require('hogan-express');
 var compression = require('compression');
-var html_minifier = require('html-minifier').minify;
-var routes = require('./routes');
-var views = __dirname + '/views';
-var cache = require('express-disk-cache')(config.cache_directory);
+var Cache = require('express-disk-cache');
+var site = new Express();
+var cache = new Cache(config.cache_directory);
 
-// Empty the cache!
-cache.flush(config.host, function(err){
-  if (err) throw err;
-});
 
-// The express application which serves
-// the public-facing website.
-var site = express();
+// Enable GZIP
+// Hide the header Express adds
+// NGINX sits in front of this app
+site.use(compression());
+site.disable("x-powered-by");
+site.set("trust proxy", "loopback");
 
-// Define these individually don't
-// overwrite server.locals
-site.locals.title = 'Blot';
-site.locals.host = config.host;
-site.locals.cacheID = Date.now();
-site.locals.protocol = config.protocol;
-site.locals.price = '$' + config.stripe.plan.slice(-2);
+// Specify the template rendering config
+site.set("view engine", "html");
+site.engine("html", hogan);
+site.set("views", __dirname + "/views");
 
-var views = __dirname + '/views/';
-var dashboard_views = require('helper').rootDir + '/app/dashboard/views/partials/';
+site.use(function(req, res, next) {
+  
 
-site.use(function (req, res, next) {
-
-  if (!req.user) {
-
-    res.locals.partials = {
-      head: views + '_head',
-      header: views + '_header',
-      sidebar: views + '_sidebar',
-      footer: views + '_footer'
-    };
-
-  } else {
-
-    res.locals.partials.head = dashboard_views + 'head';
-    res.locals.partials.header = dashboard_views + 'header';
-    res.locals.partials.nav = dashboard_views + 'nav';
-    res.locals.partials.sidebar = dashboard_views + 'sidebar';
-    res.locals.partials.footer = dashboard_views + 'footer';
-  }
+  res.locals.partials = {
+    head: "_head",
+    header: "_header",
+    sidebar: "_sidebar",
+    footer: "_footer"
+  };
 
   next();
 });
 
-// Enable GZIP
-site.use(compression());
-
-// The disable('x-powered-by')
-// and use(compression()) must
-// be specified for each individual
-// app. Express considers each seperately.
-site.disable('x-powered-by');
-
-// Specify the template rendering config
-site.set('trust proxy', 'loopback');
-site.set('view engine', 'html');
-site.engine('html', hogan);
-site.set('views', views);
+// We don't want to clobber server.locals
+// so we define these individually
+site.locals.cacheID = Date.now();
+// site.locals.partials = {};
+// site.locals.partials.head = "_head";
+// site.locals.partials.header = "_header";
+// site.locals.partials.sidebar = "_sidebar";
+// site.locals.partials.footer = "_footer";
 
 // Cache template files in memory in production
-if (config.environment !== 'development') site.enable('view cache');
+if (config.environment !== "development") site.enable("view cache");
 
-var html_minifier_options = {
-  removeComments: true,
-  collapseWhitespace: true
-};
-
-// site.use('/documentation', require('./documentation'));
-
-// Compress HTML
-site.use(function (req, res, next) {
-
-  var send = res.send;
-
-  res.send = function (string) {
-
-    var html = string instanceof Buffer ? string.toString() : string;
-    
-    try {
-      html = html_minifier(html, html_minifier_options);      
-    } catch (e) {
-      console.log(e && e.slice && e.slice(0,100));
-    }
-
-    send.call(this, html);
-  };
-
-  next();  
-});
-
-site.use('/log-in', routes.log_in);
-site.use('/sign-up', routes.sign_up);
-site.use('/stripe-webhook', routes.stripe_webhook);
-site.use('/clients', routes.clients);
-
-
+// Compress HTML before caching it
+site.use(require("./routes/util/minify_html"));
 
 // Every route underneath will be cached
 // using the static file cacher. It writes
@@ -109,13 +53,95 @@ site.use('/clients', routes.clients);
 // which NGINX then serves.
 if (config.cache) site.use(cache);
 
-site.use(require('./routes/static'));
+site.use("/blot.*.css", require("./routes/css"));
+
+site.use("/blot.*.js", require("./routes/js"));
+
+// Serve static files too
+site.use('/fonts', Express.static(__dirname + "/views/fonts", { maxAge: 86400000 }));
+site.use('/css', Express.static(__dirname + "/views/css", { maxAge: 86400000 }));
+site.use('/js', Express.static(__dirname + "/views/js", { maxAge: 86400000 }));
+site.use('/images', Express.static(__dirname + "/views/images", { maxAge: 86400000 }));
+
+site.get("/about", function(req, res) {
+  res.locals.partials.yield = "about";
+  res.render("_static_wrapper", {
+    hide_sidebar: true,
+    menu: { about: "selected" },
+    title: "About"
+  });
+});
+
+site.get("/contact", function(req, res) {
+  res.locals.partials.yield = "contact";
+  res.render("_static_wrapper", {
+    hide_sidebar: true,
+    menu: { contact: "selected" },
+    title: "Contact"
+  });
+});
+
+site.get("/terms", function(req, res) {
+  res.locals.partials.yield = "terms";
+  res.render("_static_wrapper", {
+    hide_sidebar: true,
+    menu: { terms: "selected" },
+    title: "Terms"
+  });
+});
+
+site.get("/privacy", function(req, res) {
+  res.locals.partials.yield = "privacy";
+  res.render("_static_wrapper", {
+    hide_sidebar: true,
+    menu: { privacy: "selected" },
+    title: "Privacy"
+  });
+});
+
+site.use("/updates", require("./routes/updates"));
+site.use("/formatting", require("./routes/formatting"));
+site.use("/", require("./routes/help"));
 
 // Redirect
-site.use(routes.redirects);
+site.use(require("./routes/redirects"));
 
-// 404 and 5XX error handler
-site.use(routes.not_found);
-site.use(routes.error);
+// 404 handler
+site.use(function(req, res, next) {
+  res.locals.menu = {};
+  res.locals.title = "404";
+  res.status(404);
+  res.render("error", { site: config.protocol + config.host });
+});
+
+site.use(function(err, req, res, next) {
+  // This reponse was partially finished
+  // end it now and get over it...
+  if (res.headersSent) return res.end();
+
+  var status = 500;
+  var title = err.message || "Error";
+
+  if (err.code === "EBADCSRFTOKEN") {
+    title = "Permission denied";
+    status = 403;
+  }
+
+  if (err.code === "NOBLOG") {
+    status = 404;
+  }
+
+  // For some reason i can't render a template here
+  // I should fix this in future.
+  res.status(status);
+  res.send("Error: " + status);
+
+  if (config.environment === "development") console.log(err);
+});
+
+// Empty the cache!
+cache.flush(config.host, function(err) {
+  if (err) console.warn(err);
+});
 
 module.exports = site;
