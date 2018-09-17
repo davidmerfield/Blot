@@ -26,7 +26,7 @@ module.exports = (function() {
 
           // We now need to save every entry so that
           // changes to permalink format take effect.
-          Entry.set(blogID, entry.path, changes, nextEntry);
+          Entry.set(blog, entry.path, changes, nextEntry);
         },
         callback
       );
@@ -79,7 +79,7 @@ module.exports = (function() {
             return next();
           }
 
-          Entry.set(blog.id, entry.path, entry, next);
+          Entry.set(blog, entry.path, entry, next);
         });
       }, callback);
     });

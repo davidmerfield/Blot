@@ -21,7 +21,7 @@ describe("blog", function() {
       expect(err).toBe(null);
       expect(entry).toEqual(jasmine.any(Object));
 
-      Entry.set(global.blog.id, path, entry, function(err){
+      Entry.set(global.blog, path, entry, function(err){
 
         expect(err).toBe(null);
 

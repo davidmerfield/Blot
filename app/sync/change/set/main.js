@@ -106,7 +106,7 @@ process.on('message', function(message){
         // We look up the remote path later in this module...
         if (entry.draft) Preview.write(blog.id, path);
 
-        Entry.set(blog.id, entry.path, entry, callback);
+        Entry.set(blog, entry.path, entry, callback);
       });
     });
   });

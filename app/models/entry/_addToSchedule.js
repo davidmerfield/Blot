@@ -4,9 +4,9 @@ var helper = require('helper');
 var ensure = helper.ensure;
 var model = require('./model');
 
-module.exports = function (blogID, entry, callback) {
+module.exports = function (blog, entry, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(entry, model)
     .and(callback, 'function');
 

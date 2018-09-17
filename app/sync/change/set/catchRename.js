@@ -9,20 +9,20 @@ var set = Entry.set;
 
 var RENAME_PERIOD = 1000 * 60; // 1 minute
 
-function forCreated (blogID, newEntry, callback) {
+function forCreated (blog, newEntry, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(newEntry, 'object')
     .and(callback, 'function');
 
-  var log = new Log(blogID);
+  var log = new Log(blog.id);
 
   log(newEntry.path, ':: Checking recently deleted entries to ensure this is not a rename');
 
   // One minute ago
   var after = Date.now() - RENAME_PERIOD;
 
-  Entries.getDeleted(blogID, after, function(err, deleted){
+  Entries.getDeleted(blog.id, after, function(err, deleted){
 
     if (err) return callback(err);
 
@@ -47,15 +47,15 @@ function forCreated (blogID, newEntry, callback) {
   });
 }
 
-function forDeleted (blogID, path, callback) {
+function forDeleted (blog, path, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(path, 'string')
     .and(callback, 'function');
 
-  var log = new Log(blogID);
+  var log = new Log(blog.id);
 
-  get(blogID, path, function(deletedEntry){
+  get(blog.id, path, function(deletedEntry){
 
     if (!deletedEntry) return callback();
 
@@ -66,7 +66,7 @@ function forDeleted (blogID, path, callback) {
     if (deletedEntry.created > after && deletedEntry.created < Date.now())
       after = deletedEntry.created;
 
-    Entries.getCreated(blogID, after, function(err, recentlyCreated){
+    Entries.getCreated(blog.id, after, function(err, recentlyCreated){
 
       if (err) return callback(err);
 
@@ -93,7 +93,7 @@ function forDeleted (blogID, path, callback) {
         if (similar.dateStamp === similar.created)
           changes.dateStamp = changes.created;
 
-        set(blogID, similar.path, changes, callback);
+        set(blog, similar.path, changes, callback);
       });
     });
   });

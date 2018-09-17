@@ -16,9 +16,9 @@ var CREATED = 'created';
 
 var lists = ['all', 'created', 'entries', 'drafts', 'scheduled', 'pages', 'deleted'];
 
-module.exports = function (blogID, entry, callback) {
+module.exports = function (blog, entry, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(entry, model)
     .and(callback, 'function');
 

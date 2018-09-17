@@ -45,7 +45,7 @@ module.exports = function(blog, path, options, callback) {
 
   queue = {
     is_preview: isPreview.bind(this, blog.id, path),
-    dependents: rebuildDependents.bind(this, blog.id, path)
+    dependents: rebuildDependents.bind(this, blog, path)
   };
 
   // Store the case-preserved name against the
@@ -79,7 +79,7 @@ module.exports = function(blog, path, options, callback) {
 
       // this checks the entry to see if a deleted entry
       // matches it. If so, then use the deleted entry's url and created date.
-      catchRename(blog.id, entry, function(err, changes) {
+      catchRename(blog, entry, function(err, changes) {
         if (err) return callback(err);
 
         if (changes) for (var key in changes) entry[key] = changes[key];
@@ -89,7 +89,7 @@ module.exports = function(blog, path, options, callback) {
         // We look up the remote path later in this module...
         if (entry.draft) Preview.write(blog.id, path);
 
-        Entry.set(blog.id, entry.path, entry, callback);
+        Entry.set(blog, entry.path, entry, callback);
       });
     });
   });

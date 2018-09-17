@@ -5,21 +5,21 @@ var logger = helper.logger;
 var set = require('./set');
 var get = require('./get');
 
-module.exports = function drop (blogID, path, callback) {
+module.exports = function drop (blog, path, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(path, 'string')
     .and(callback, 'function');
 
-  get(blogID, path, function(entry){
+  get(blog.id, path, function(entry){
 
     if (!entry) {
-      logger(null, 'Blog: ' + blogID + ': No entry to delete', path);
+      logger(null, 'Blog: ' + blog.id + ': No entry to delete', path);
       return callback();
     }
 
-    logger(null, 'Blog: ' + blogID + ': Deleting entry', path);
-    set(blogID, path, {deleted: true}, callback);
+    logger(null, 'Blog: ' + blog.id + ': Deleting entry', path);
+    set(blog, path, {deleted: true}, callback);
   });
 };
 
