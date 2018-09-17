@@ -26,7 +26,7 @@ module.exports = function(blog, path, callback) {
       fs.remove.bind(this, LocalPath(blog.id, path)),
       Metadata.drop.bind(this, blog.id, path),
       Ignored.drop.bind(this, blog.id, path),
-      Rename.forDeleted.bind(this, blog.id, path),
+      Rename.forDeleted.bind(this, blog, path),
       Entry.drop.bind(this, blog, path),
       rebuildDependents.bind(this, blog.id, path)
     ];

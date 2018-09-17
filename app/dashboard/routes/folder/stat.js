@@ -33,7 +33,7 @@ module.exports = function(blog, path, callback) {
       IgnoredFiles.getStatus(blogID, path, function(err, ignored) {
         if (err) return callback(err);
 
-        Entry.get(blog, path, function(entry) {
+        Entry.get(blog.id, path, function(entry) {
           if (ignored) ignored = REASONS[ignored] || "was ignored";
 
           stat.kind = kind(path);

@@ -68,11 +68,11 @@ module.exports = function(blog, path, options, callback) {
     // with an underscore, or it's inside a folder
     // whose name begins with an underscore. It should
     // therefore not be a blog post.
-    if (isPublic(path)) return Ignore(blog.id, path, PUBLIC_FILE, callback);
+    if (isPublic(path)) return Ignore(blog, path, PUBLIC_FILE, callback);
 
     // This file cannot become a blog post because it is not
     // a type that Blot can process properly.
-    if (isWrongType(path)) return Ignore(blog.id, path, WRONG_TYPE, callback);
+    if (isWrongType(path)) return Ignore(blog, path, WRONG_TYPE, callback);
 
     Entry.build(blog, path, function(err, entry) {
       if (err) return callback(err);

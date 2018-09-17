@@ -5,9 +5,9 @@ var ensure = helper.ensure;
 var addIgnore = require('ignored').add;
 var dropEntry = require('entry').drop;
 
-module.exports = function (blogID, path, reason, callback){
+module.exports = function (blog, path, reason, callback){
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(path, 'string')
     .and(reason, 'string')
     .and(callback, 'function');
@@ -15,8 +15,8 @@ module.exports = function (blogID, path, reason, callback){
   // Remove this file from the user's blog
   // and from the folder on the server.
   var queue = [
-    addIgnore.bind(this, blogID, path, reason),
-    dropEntry.bind(this, blogID, path)
+    addIgnore.bind(this, blog.id, path, reason),
+    dropEntry.bind(this, blog, path)
   ];
 
   async.eachSeries(queue, function(method, next){
