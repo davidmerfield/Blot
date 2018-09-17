@@ -2,6 +2,7 @@ describe("markdown converter", function() {
 
   var fs = require('fs-extra');
   var markdown = require('../index');
+  var helper = require('helper');
 
   beforeEach(global.createUser);
   beforeEach(global.createBlog);
@@ -19,9 +20,7 @@ describe("markdown converter", function() {
   function from (path) {
 
     return function (callback) {      
-
-      var blogDir = process.env.BLOT_DIRECTORY + '/blogs/' + global.blog.id;
-      fs.copyFileSync(__dirname + path, blogDir + path);
+      fs.copyFileSync(__dirname + path, helper.localPath(global.blog.id, path));
       var options = {};
 
       markdown.read(global.blog, path, options, function(err, html, stat){

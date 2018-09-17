@@ -1,8 +1,8 @@
 describe("blog", function() {
 
-  var Blog = require('../../app/models/blog');
   var Entry = require('../../app/models/entry');
   var fs = require('fs-extra');
+  var helper = require('../../app/helper');
 
   beforeEach(require('../helpers/createUser'));
   beforeEach(require('../helpers/createBlog'));
@@ -14,7 +14,7 @@ describe("blog", function() {
 
     var path = '/post.txt';
 
-    fs.copyFileSync(__dirname + path, process.env.BLOT_DIRECTORY + '/blogs/' + global.blog.id + path);
+    fs.copyFileSync(__dirname + path, helper.localPath(global.blog.id, path));
 
     Entry.build(global.blog, path, function(err, entry){
 
