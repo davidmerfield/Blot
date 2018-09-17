@@ -1,12 +1,12 @@
 var express = require('express');
 var formatting = express.Router();
 
-var manipulate_html = require('manipulate_html');
+var manipulate_html = require('./util/manipulate_html');
 var finder = require('finder');
-var render_tex = require('render_tex');
-var render_dates = require('render_dates');
-var render_markdown = require('render_markdown');
-var calculate_sidebar = require('calculate_sidebar');
+var render_tex = require('./util/render_tex');
+var render_dates = require('./util/render_dates');
+var render_markdown = require('./util/render_markdown');
+var calculate_sidebar = require('./util/calculate_sidebar');
 
 formatting.use(calculate_sidebar);
 formatting.use(finder.middleware);

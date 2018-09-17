@@ -1,3 +1,228 @@
+When you add a new route, make sure you export it in index.js
+
+Basic problem is we have some pages which need to be seen when logged in and logged out:
+
+about
+contact
+documentation
+terms and privacy
+updates
+
+# References
+
+[Pinboard](http://pinboard.in) - Stole much of the copy from their terms page and privacy policy. Macej's design 'philosophy' was also influential. If I could only steal his sense of humour.
+
+[Kirby](http://getkirby.com) - Stole some of their marketing copy. Looking back, they're likely the subliminal inspiration for Blot's logo.
+
+[New York Times](http://nytimes.com) - Their type treatment of Georgia was ripped and used to design the default theme.
+
+[Cargo Collective](https://cargocollective.com/) - I think they do some really interesting, thoughtful work. Stolen from their selection of themes to help make Blot's.
+
+[Jekyll](http://jekyllrb.com) - A spiritual ancestor to Blot. A beautiful piece of software.
+
+[Stripe](http://stripe.com) - Stole from their excellent support & documentation section when writing Blot's documentation.
+
+[Subtraction](http://subtraction.com) - The original Blot template was massively influenced by Khoi Vinh's blog.
+
+[Second Crack](http://www.marco.org/secondcrack) The project which runs Marco Ament's blog, shares a lot of the design principles of Blot. I didn't see this until after opening Blot to the public and I wish I'd seen it sooner.
+
+# Demo script
+
+Make a simple app which interacts with the Blot folder somehow to demonstrate that its easy to make tools for publishing with Blot.
+
+-----------
+
+
+
+Hello there, I've just created an account and Blot has added a folder to my Dropbox. This is that folder. Blot looks for files inside this folder and turns them into blog posts.
+
+Here's a text file containing my first blog post on my desktop. To publish it to my blog, all I have to do is put it in Blot’s folder.
+
+*move file*
+
+Once Dropbox has synced the file, Blot will publish it to my blog. And there it is!
+
+If I want to edit the blog post, all I have to do is edit the file. Blot will update the post automatically.
+
+Blot can also publish images and it works the same way.
+
+*move file*
+
+Lots of people use Blot for scrapbooking – it’s very simple to use!
+
+Here’s a file which has more complicated formatting. It’s got Math equations set in LaTex, some code snippets, embedded images and videos. Blot can understand all this, so when I publish it to my blog it will display correctly. There we go!
+
+Blot also supports HTML with javascript and CSS so you can have total control over your blog posts. Here’s a file which makes use of that.
+
+*move file*
+
+Blot will generate an archives page, RSS feed, sitemap, and a search engine for each blog automatically. It’s got all the features you could want from a blogging platform.
+
+Blot also makes it easy to preview a post before publishing it to my blog. All I have to do is add draft to the file’s name and Blot will create a preview for me. Here it is.
+
+*open file*
+
+This is exactly how it will appear on my blog. When I’m happy, all I have to do is remove ‘draft’ from the file’s name and Blot will publish it. There it is, live on my blog!
+
+
+
+
+
+# Demo sources
+
+https://en.wikinews.org/wiki/Fernando_Torres_signs_contract_extension_with_Atl%C3%A9tico_Madrid?dpl_id=2793772
+https://projects.propublica.org/graphics/d4d-hospital-lookup
+https://www.propublica.org/archive/P60/
+https://www.good.is/features?page=5
+https://commons.wikimedia.org/wiki/Category:Botanical_illustrations
+https://commons.wikimedia.org/wiki/Category:Familiar_wild_flowers_figured_and_described
+http://threedscans.com/
+https://commons.wikimedia.org/wiki/Commons:Featured_pictures/Astronomyhttps://commons.wikimedia.org/wiki/Category:Minerals_on_black_background
+https://commons.wikimedia.org/wiki/Category:Extinct_plant_diagrams
+https://commons.wikimedia.org/wiki/The_North_American_Sylva
+https://commons.wikimedia.org/wiki/Category:Beta_vulgaris_-_botanical_illustrations
+https://commons.wikimedia.org/wiki/Category:Daucus_carota_-_botanical_illustrations
+https://commons.wikimedia.org/wiki/Category:The_Fruits_of_America
+https://commons.wikimedia.org/wiki/Category:USDA_Pomological_Watercolors
+https://commons.wikimedia.org/w/index.php?title=Category:USDA_Pomological_Watercolors&filefrom=Pomological+Watercolor+POM00000999.jpg%0APomological+Watercolor+POM00000999.jpg
+https://www.flickr.com/photos/nasacommons
+https://en.wikipedia.org/wiki/Wikipedia:Featured_pictures
+https://en.wikipedia.org/wiki/Wikipedia:Featured_pictures/People/Artists_and_writers
+https://en.wikipedia.org/wiki/Wikipedia:Featured_pictures/People/Military
+https://upload.wikimedia.org/wikipedia/commons/2/24/Brian_Shul_in_the_cockpit_of_the_SR-71_Blackbird.jpg
+https://commons.wikimedia.org/wiki/Commons:European_Science_Photo_Competition_2015/Image_categories
+https://en.wikipedia.org/wiki/Wikipedia:Wikiproject:Estonian_Science_Photo_Competition
+
+# Domains
+
+blot.com
+
+blot.im
+blot.is
+blot.my
+
+useblot.com
+tryblot.com
+blotcms.com
+blotplatform.com
+
+blot.website
+blot.host
+blot.pub
+blot.love
+
+b-l-o-t.com
+blot.cm
+blot.li
+blot.lu
+blot.lt
+blot.lv
+blot.nu
+blot.sh
+blot.tl
+blot.fm
+blot.gd
+blot.ht
+blot.fm
+blot.jp
+
+# Free speech
+
+Blot has been running for almost three years now and already there are hundreds of posts and articles published that disgust me. But I would never remove them. I think free-speech is a good principle. Of course letting people speak freely sometimes causes others pain. On balance, I believe the pain is less damaging than the censorship needed to prevent it.
+
+There's a webcomic on free-speech which irritates me whenever I come across it: ...
+
+From the start, Blot was designed with free-speech in mind.
+- no advertisers
+- no patrons
+
+I don't want to have the power to prevent people from reading dumb, hateful, mean and stupid things. 
+
+If I had a choice, I wouldn't remove anything from Blot. I believe in the marketplace of ideas. I have a low opinion of copyright but I am bound by the laws of the state of Washington in the USA. I will remove copyrighted material per the DMCA.
+
+At some point, Blot will be blocked in China, in Russia and various other states which implement internet filtering. Perhaps some bureacrat will ask me to block or remove some content from the site. It is inevitable. Thankfully, Blot is open-source software dedicated to the public domain. You can host it on your own server and (at least for a little while) beat the jackbooted arseholes who want to control your thoughts.
+
+The poet must not avert his eyes.
+
+
+# Plan
+
+Blot turns a folder into a website.
+
+Blot creates a new folder inside your Dropbox. It publishes files you put inside. Images, text files, Markdown, Word Documents, bookmarks and more are published automatically.
+
+Use your favourite app to create. Just drag-and-drop files into Blot’s folder in your Dropbox when you're ready to publish them to the internet.
+
+There's no complicated CMS, publishing interface and nothing to install. Just files and folders inside your Dropbox.
+
+
+
+2. Write entries on my blog with link back to Blot
+  - write about the design process
+  - write about using dropbox api with node
+3. Publish open source projects.
+  - express custom domains OS project
+4. Do the legwork to get high-profile designers, programmers, artists, academics, journalists and writers on Blot. Offer to migrate posts and template for free.
+  offer to migrate this guy's blog https://twitter.com/thoughtwax
+
+I need people who aren't publicly associated with another
+blogging platform & who probably use Dropbox.
+
+-------------
+orenchi beyond
+zuni café
+20th century café
+-------------
+Peter mendelsund
+Frank chimero
+Daniel gray
+Soleio
+Jessica Hische
+-------------
+Katie rose pipkin
+Rasmus Andersson
+Erik Bernhardsson
+TJ Holowaychuk
+Wilson Miner
+-------------
+Ana Luisa
+lilli waters
+Jefferson Cheng
+Lotta Nieminen
+-------------
+Mike Bostock
+Jeremy Ashkenas
+-------------
+Robin Sloan
+Maciej Ceglowski
+-------------
+
+This guy finds obscure music from Iraq and Iran and Afganistan
+https://www.reddit.com/r/vintageobscura/comments/7bc289/the_lost_45s_78s_from_afghanistan/https://www.mixcloud.com/madsnimannjensen/the-lost-78s-45s-from-afghanistan/
+
+https://twitter.com/mijustin
+https://justinjackson.ca/
+
+https://www.justinobeirne.com/
+http://readwrite.com/2011/11/23/how_to_use_calepin_the_easiest_blog_tool_in_the_wo
+https://twitter.com/calepinapp/followers
+https://twitter.com/scriptogram/followers
+http://www.californiossf.com/about.html
+http://www.zeldman.com/2015/07/10/give-me-file-hierarchies-or-give-me-chaos/
+https://louderthanten.com/articles/story/design-machines
+http://www.swiss-miss.com/2012/01/scriptogr-am.html
+http://lifehacker.com/5874562/scriptogram-turns-your-dropbox-into-a-blog
+http://www.gizmag.com/scriptogram-dropbox-weblog-platform/21133/
+http://www.adweek.com/fishbowlny/quickly-start-your-own-dropbox-synced-blog-with-scriptogram/251170?red=kw
+http://www.addictivetips.com/windows-tips/scriptogr-am-uses-dropbox-to-create-markdown-document-based-web-log/
+
+Help [Larry](https://mail.google.com/mail/u/0/?zx=2vje3rd5i2o6#inbox/15b6e305d54927b4) 
+
+Help [Svenja](https://mail.google.com/mail/u/1/#inbox/15f734998c533068) 
+
+
+# Sales copy
+
 People describe it like this:
 -----------------------------
 
@@ -329,3 +554,46 @@ Additional features
 - Is a financially sustainable project
 - No ads, anywhere, ever.
 - Great privacy policy and data protection
+
+# Social media
+
+# Rules for Social Media
+
+- Have as few social media accounts as possible
+- Respect the time of the people who follow you
+- Only post updates which pertain to Blot itself
+- It's fine not to tweet for months.
+- Never retweet praise, it's tacky.
+- Express as few opinions as neccessary
+- Proof-read all posts
+- Never use emoji
+- Never like user content
+- Never follow other users
+- Never pay for followers
+- Never pay for advertising
+
+# Description
+
+At its core, Blot is a static file server.
+
+If you put a file called apple.png inside Blot's folder, it will be accessible at your-domain.com/apple.png.
+
+This means you could use Blot as a relatively inexpensive host the output of a static blogging tool like Jekkyl or to host hand-crafted site.
+
+But that's fairly boring. What makes Blot more interesting is its templating system.
+
+The templating system sits above the static file server
+
+# Users
+
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [X] [X] [X] [X][X]
+
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
+[X] [X] [X] [X] [X]    [X] [X] [X] [X] [X]    [ ] [ ] [ ] [ ][ ]
