@@ -1,7 +1,7 @@
 module.exports = (function () {
 
-  var redis = require('./client'),
-      helper = require('../helper'),
+  var redis = require('client'),
+      helper = require('helper'),
       normalize = helper.pathNormalizer,
       ensure = helper.ensure,
 

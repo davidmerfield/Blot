@@ -2,7 +2,7 @@ var get = require('./get');
 var helper = require('helper');
 var ensure = helper.ensure;
 var async = require('async');
-var client = require('../client');
+var client = require('client');
 var START_CURSOR = '0';
 var SCAN_SIZE = 1000;
 

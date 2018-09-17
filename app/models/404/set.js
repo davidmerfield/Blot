@@ -1,5 +1,5 @@
-var client = require('../client');
-var helper = require('../../helper');
+var client = require('client');
+var helper = require('helper');
 var ensure = helper.ensure;
 var Key = require('./key');
 

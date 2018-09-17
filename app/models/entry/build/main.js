@@ -1,6 +1,6 @@
 var debug = require("debug")("blot:models:entry:build");
 var Metadata = require("metadata");
-var helper = require("../../../helper");
+var helper = require('helper');
 var basename = require("path").basename;
 var callOnce = helper.callOnce;
 var ensure = helper.ensure;

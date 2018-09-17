@@ -1,4 +1,4 @@
-var helper = require('../../helper');
+var helper = require('helper');
 var pathNormalize = helper.pathNormalizer;
 
 module.exports = {

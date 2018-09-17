@@ -1,8 +1,8 @@
 module.exports = (function() {
   var Mustache = require("mustache");
   var async = require('async');
-  var redis = require("./client"),
-    helper = require("../helper"),
+  var redis = require('client'),
+    helper = require('helper'),
     ensure = helper.ensure,
     type = helper.type,
     extend = helper.extend,

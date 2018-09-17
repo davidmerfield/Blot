@@ -1,4 +1,4 @@
-var helper = require('../../../helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var url = require('url');
 var HOST = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/;
