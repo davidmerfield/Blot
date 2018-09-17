@@ -1,20 +1,8 @@
-<<<<<<< HEAD
 var config = require('config');
-var express = require('express');
+var Express = require('express');
 var hogan = require('hogan-express');
 var compression = require('compression');
-var html_minifier = require('html-minifier').minify;
-var routes = require('./routes');
-var views = __dirname + '/views';
-var cache = require('express-disk-cache')(config.cache_directory);
-=======
-var config = require("config");
-var Express = require("express");
-var hogan = require("hogan-express");
-var compression = require("compression");
-var Cache = require("express-disk-cache");
->>>>>>> 94aa9bb0ae78ae62eed46eeb1fd92454cbc76abd
-
+var Cache = require('express-disk-cache');
 var site = new Express();
 var cache = new Cache(config.cache_directory);
 
