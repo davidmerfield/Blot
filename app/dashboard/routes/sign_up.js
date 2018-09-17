@@ -10,14 +10,24 @@ var config = require('config');
 var stripe = require('stripe')(config.stripe.secret);
 var parse = require('body-parser').urlencoded({extended:false});
 var User = require('user');
-var middleware = require('middleware');
 
 var signup = Express.Router();
 var paymentForm = signup.route('/');
 var passwordForm = signup.route('/create-account');
 
-paymentForm.all(middleware.excludeUser);
-passwordForm.all(middleware.excludeUser);
+paymentForm.all(function (req, res, next){
+
+  if (req.user) return res.redirect('/');
+
+  return next();
+});
+
+passwordForm.all(function (req, res, next){
+
+  if (req.user) return res.redirect('/');
+
+  return next();
+});
 
 if (config.maintenance) {
 

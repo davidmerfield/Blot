@@ -10,9 +10,10 @@ var RedisStore = require('express-brute-redis');
 
 var NOTOKEN = 'Could not generate a token';
 var format = require('url').format;
-var ensure = require('helper').ensure;
+var helper = require('helper');
+var ensure = helper.ensure;
 var generateAccessToken = User.generateAccessToken;
-var Email = require('email');
+var Email = helper.email;
 var config = require('config');
 
 function sendPasswordResetEmail (uid, callback) {

@@ -1,10 +1,11 @@
 var compression = require("compression");
-var middleware = require("middleware");
 var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
 var debug = require("./debug");
-
+var Blog = require('blog');
+var User = require('user');
+var async = require('async');
 var VIEW_DIRECTORY = __dirname + "/views";
 
 // This is the express application used by a
@@ -87,13 +88,102 @@ dashboard.use(function(req, res, next){
 
 // Load properties as needed
 // these should not be invoked for requests to static files
-dashboard.use(middleware.loadUser);
-dashboard.use(middleware.loadBlog);
+dashboard.use(function (req, res, next) {
+
+  if (!req.session || !req.session.uid) return next();
+
+  var uid = req.session.uid;
+
+  User.getById(uid, function(err, user){
+
+    if (err) return next(err);
+
+    if (!user) {
+      req.user = null;
+      req.session.uid = null;
+      return next();
+    }
+
+    // Lets append the user and
+    // set the partials to 'logged in mode'
+    req.user = User.extend(user);
+    res.locals.user = user;
+
+    next();
+  });
+});
+
+dashboard.use(function (req, res, next) {
+
+  if (!req.session || !req.user || !req.user.blogs.length) return next();
+
+  var blogs = [];
+  var activeBlog = null;
+
+  async.each(req.user.blogs, function(blogID, nextBlog){
+
+    Blog.get({id: blogID}, function(err, blog){
+      
+      if (!blog) return nextBlog();
+
+      try {
+        blog = Blog.extend(blog);
+      } catch (e) {
+        return next(e);
+      }
+
+      if (req.session.blogID === blog.id) {
+        blog.isCurrent = true;
+        activeBlog = blog;
+      }
+
+      blogs.push(blog);
+      nextBlog();
+    });
+
+  }, function(){
+
+    if (!activeBlog && !req.session.blogID) {
+      activeBlog = blogs.slice().pop();
+    }
+
+    // The blog active in the users session
+    // no longer exists, redirect them to one
+    if (!activeBlog && req.session.blogID) {
+
+      var candidates = blogs.slice();
+
+      candidates = candidates.filter(function(id){
+        return id !== req.session.blogID;
+      });
+
+      if (candidates.length > 0) {
+        activeBlog = candidates.pop();
+        req.session.blogID = activeBlog.id;
+        User.set(req.user.uid, {lastSession: activeBlog.id}, function(){});
+      } else {
+        req.session.blogID = null;
+        User.set(req.user.uid, {lastSession: ''}, function(){});
+        console.log('THERES NOTHING HERE');
+      }
+    }
+
+    if (!activeBlog) return next(new Error('No blog'));
+
+    req.blog = activeBlog;
+    req.blogs = blogs;
+
+    res.locals.blog = activeBlog;
+    res.locals.blogs = blogs;
+
+    return next();
+  });
+});
 
 // Performs some basic checks about the
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
-dashboard.use(middleware.redirector);
+dashboard.use(require('./redirector'));
 
 dashboard.use(debug("done fetching"));
 

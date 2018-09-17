@@ -1,9 +1,8 @@
-var config = require("config");
-var Express = require("express");
-var hogan = require("hogan-express");
-var compression = require("compression");
-var Cache = require("express-disk-cache");
-
+var config = require('config');
+var Express = require('express');
+var hogan = require('hogan-express');
+var compression = require('compression');
+var Cache = require('express-disk-cache');
 var site = new Express();
 var cache = new Cache(config.cache_directory);
 

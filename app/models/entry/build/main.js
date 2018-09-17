@@ -9,7 +9,7 @@ var isDraft = require("../../../drafts").isDraft;
 
 var Build = require("./single");
 var Prepare = require("./prepare");
-var Thumbnail = require("../../../thumbnail");
+var Thumbnail = require("./thumbnail");
 
 var DateStamp = require("./prepare/dateStamp");
 

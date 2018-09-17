@@ -2,6 +2,24 @@ Blot and the software it depends (Redis, NGINX) on are run and kept alive using 
 
 We use NGINX as a reverse proxy. It sits in front of the Blot server and handles static file delivery and SSL. Perhaps in future we can remove it but until now it seems worthwhile, especially given the automated certificate system Blot uses called [lua-resty-auto-ssl](https://github.com/GUI/lua-resty-auto-ssl).
 
+# Fuck ups
+
+I did this:
+
+git fetch origin
+git reset --hard origin/master
+
+Don't do this.
+
+it removed a load of files from my remote BRANCH
+
+thankfully not dump.rdb, or config.json
+
+but it did remove all my ssl certs
+
+and a few dirs
+
+
 # Set up
 
 Blot depends on a file like ./environment.sh located here:
@@ -40,6 +58,19 @@ ln -s ~/projects/blot /var/www/blot
 Also link the caching directory:
 
 ln -s ~/projects/blot/www /cache
+
+I then followed this guide for getting *.development working (it's hosted on Blot!)
+
+http://asciithoughts.com/posts/2014/02/23/setting-up-a-wildcard-dns-domain-on-mac-os-x/
+
+I followed this guide to get a local self-signed SSL certificate for blot.development :https://certsimple.com/blog/localhost-ssl-fix
+
+Then create symlinks to cert.pem and key.pem 
+
+ln -s source target
+
+Ensure dhparams exists...
+
 
 
 ---
@@ -129,3 +160,23 @@ sudo start blot
 
 forgot to create flags.json
 forgot to move dhparams to config/secrets
+
+# Strategies for zero downtime deployment
+
+There's a daemon which runs all the time, kept alive with upstart
+
+Monit will call a script to 'reboot'
+
+  server will listen for kill event
+
+    server will send appropriate responses to dropbox webhooks
+
+    then call server.close
+
+    then it will try to start new server
+
+    then the second process calls close
+
+    then it starts again with new code
+
+Reboot will try to close an existing process if it can then

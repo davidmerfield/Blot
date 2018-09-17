@@ -4,7 +4,7 @@ var User = require("user");
 var config = require("config");
 var User = require("user");
 var stripe = require("stripe")(config.stripe.secret);
-var email = require("email");
+var email = require("helper").email;
 
 Subscription.route("/cancel")
 

@@ -2,7 +2,7 @@ var parser = require('body-parser');
 var Express = require('express');
 var config = require('config');
 var stripe = require('stripe')(config.stripe.secret);
-var email = require('email');
+var email = require('helper').email;
 var User = require('user');
 
 var webhooks = Express.Router();
