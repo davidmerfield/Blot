@@ -8,7 +8,6 @@ var guid = helper.guid;
 
 var get = require('./get');
 var key = require('./key');
-var flushCache = require('../blog/flushCache');
 var setUrl = require('./_setUrl');
 
 // Queue items
@@ -108,8 +107,6 @@ module.exports = function set (blog, path, updates, callback) {
 
         if (entry.draft)
           queue.push(notifyDrafts.bind(this, blog, entry));
-
-        queue.push(flushCache.bind(this, blog.id));
 
         async.eachSeries(queue, function(task, next){
 
