@@ -1,3 +1,19 @@
+# Templates to create
+
+feed - general purpose
+photos - optimized for a photoblog
+archive - optimized for an archive of photos, links, quotes
+essays - optimized for longform essays
+code - optimized for a developer's blog
+portfolio - optimized for a portfolio of visual work
+magazine - optimized for a magazine
+
+# Adding a new template
+
+Create a new folder in this directory, name it whatever you want.
+
+# About
+
 I struggled initially with theme design because I was trying to design a themes for all blogs and all material. I think the major things which complicate designs. Some sites have many posts (thousands) and are updated frequently. Some sites have few posts (ten) and are updated infrequently. The quantity of posts has a big effect on the design of the archive page in particular.
 
 Some sites post mostly text, some mostly images, some a mix. This affects the design of the index page. For example, should you show a stream of posts in full on the index page? Or just a list of links to view the full post? Or perhaps a truncated preview of the post?
