@@ -69,8 +69,10 @@ paymentForm.get(function(req, res){
   res.locals.menu = {'sign-up': 'selected'};
   res.locals.error = req.query.error;
   res.locals.stripe_key = config.stripe.key;
-
-  res.render('sign-up-payment');
+  res.locals.price = '$' + config.stripe.plan.slice(-2);
+  res.locals.partials = {};
+  res.locals.partials.yield = 'sign-up-payment';
+  res.render('partials/wrapper-public');
 });
 
 paymentForm.post(parse, function(req, res, next){
@@ -146,7 +148,9 @@ passwordForm.get(function(req, res){
   res.locals.already_paid = req.session.already_paid;  
   res.locals.menu = {'sign-up': 'selected'};
 
-  res.render('sign-up-password');
+  res.locals.partials = {};
+  res.locals.partials.yield = 'sign-up-password';
+  res.render('partials/wrapper-public');
 });
 
 passwordForm.post(parse, function(req, res, next){

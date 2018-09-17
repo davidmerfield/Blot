@@ -76,7 +76,10 @@ form.all(function(req, res, next){
 form.all(limiter.prevent);
 
 form.get(checkToken, function(req, res){
-  res.render('log-in-email');
+
+  res.locals.partials = {};
+  res.locals.partials.yield = 'log-in-email';
+  res.render('partials/wrapper-public');
 });
 
 form.post(parse, checkEmail, checkReset, checkPassword);
@@ -175,7 +178,9 @@ function checkReset (req, res, next) {
     if (err) return next(err);
 
     res.locals.hasPassword = hasPassword;
-    res.render('log-in-reset');
+    res.locals.partials = {};
+    res.locals.partials.yield = 'log-in-reset';
+    res.render('partials/wrapper-public');
   });
 }
 
@@ -191,7 +196,11 @@ function checkPassword (req, res, next) {
     return next(new LogInError('NOPASSWORD'));
   }
 
-  if (password === undefined) return res.render('log-in-password');
+  if (password === undefined) {
+    res.locals.partials = {};
+    res.locals.partials.yield = 'log-in-password';
+    return res.render('partials/wrapper-public');
+  }
 
   User.checkPassword(user.uid, password, function(err, match){
 
@@ -221,10 +230,15 @@ function errorHandler (err, req, res, next){
   res.locals.email = req.body && req.body.email;
   res.status(403);
 
-  if (err.code === 'BADPASSWORD' || err.code === 'NOPASSWORD')
-    return res.render('log-in-password');
+  if (err.code === 'BADPASSWORD' || err.code === 'NOPASSWORD') {
+    res.locals.partials = {};
+    res.locals.partials.yield = 'log-in-password';
+    return res.render('partials/wrapper-public');
+  }
 
-  res.render('log-in-email');
+  res.locals.partials = {};
+  res.locals.partials.yield = 'log-in-email';
+  return res.render('partials/wrapper-public');
 }
 
 function LogInError (code, message) {

@@ -87,12 +87,7 @@ server
     next();
   })
   .use(vhost(config.host, session(sessionOptions)))
-  .use(vhost(config.host, function(req, res, next){
-
-    if (!req.session || !req.session.uid) return next();
-
-    dashboard(req, res, next);
-  }))
+  .use(vhost(config.host, dashboard))
   .use(vhost(config.host, site))
 
   // It is important that this route returns

@@ -5,18 +5,27 @@
 <div style="height:80px;    background: #fdfaf8;
     box-shadow: inset 0 -16px 16px #fbf8f6;"><div style="margin:0 auto;max-width: 64rem;padding:0 2rem">
 
+
+  {{#first_blog}}
   <span style="    color: #a09d9c;
     text-decoration: none;
     border-bottom: none;
     line-height: 80px;display:block;float:left;width:30%;">
 
-    {{#first_blog}}
     Blot is a blogging platform
-    {{/first_blog}}
-    {{^first_blog}}
-    Back to the dashboard
-    {{/first_blog}}
   </span>
+  {{/first_blog}}
+
+    {{^first_blog}}
+  <a href="/" style="    color: #a09d9c;
+    text-decoration: none;
+    border-bottom: none;
+    line-height: 80px;display:block;float:left;width:30%;">
+
+    &larr;&nbsp; Back to the dashboard
+  </a>
+    {{/first_blog}}
+
   <div><a style="    color: #a09d9c;
     text-decoration: none;
     border-bottom: none;

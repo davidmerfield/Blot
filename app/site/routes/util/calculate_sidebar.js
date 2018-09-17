@@ -1,6 +1,6 @@
 var cheerio = require('cheerio');
 var fs = require('fs-extra');
-var VIEW_DIR = require('VIEW_DIR');
+var VIEW_DIR = require('./VIEW_DIR');
 
 module.exports = function calculate_sidebar (req, res, next) {
 
