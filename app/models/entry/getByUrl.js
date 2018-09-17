@@ -4,19 +4,19 @@ var redis = require('client');
 var get = require('./get');
 var urlKey = require('./key').url;
 
-module.exports = function getByUrl (blog, entryUrl, callback) {
+module.exports = function getByUrl (blogID, entryUrl, callback) {
 
-  ensure(blog, 'object')
+  ensure(blogID, 'string')
     .and(entryUrl, 'string')
     .and(callback, 'function');
 
-  redis.get(urlKey(blog.id, entryUrl), function(error, entryID){
+  redis.get(urlKey(blogID, entryUrl), function(error, entryID){
 
     if (error) throw error;
 
     if (entryID === null || entryID === undefined)
       return callback();
 
-    get(blog.id, entryID, callback);
+    get(blogID, entryID, callback);
   });
 };

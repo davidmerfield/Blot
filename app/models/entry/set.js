@@ -34,7 +34,7 @@ module.exports = function set (blog, path, updates, callback) {
   var queue;
 
   // Get the entry stored against this ID
-  get(blog, path, function(entry){
+  get(blog.id, path, function(entry){
 
     // Create an empty object if new entry
     entry = entry || {};

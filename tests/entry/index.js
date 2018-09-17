@@ -25,7 +25,7 @@ describe("blog", function() {
 
         expect(err).toBe(null);
 
-        Entry.get(global.blog, path, function(entry){
+        Entry.get(global.blog.id, path, function(entry){
 
           expect(err).toBe(null);
           expect(entry).toEqual(jasmine.any(Object));

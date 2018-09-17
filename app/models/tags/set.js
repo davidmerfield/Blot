@@ -4,7 +4,6 @@ var _ = require('lodash');
 var helper = require('helper');
 var ensure = helper.ensure;
 var normalize = require('./normalize');
-var model = require('entry').model;
 
 // a normalized tag is lowercased, and can be part of a url
 
@@ -27,7 +26,7 @@ var model = require('entry').model;
 module.exports = function (blogID, entry, callback) {
 
   ensure(blogID, 'string')
-    .and(entry, model)
+    .and(entry, require('entry').model)
     .and(callback, 'function');
 
   // Clone the list of tags
