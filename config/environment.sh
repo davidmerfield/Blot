@@ -47,9 +47,6 @@ export BLOT_DROPBOX_APP_SECRET=
 export BLOT_DROPBOX_FULL_KEY=
 export BLOT_DROPBOX_FULL_SECRET=
 
-export BLOT_SESSION_SECRET=
-export BLOT_BACKUP_SECRET=
-
 # Youtube for fetching video player codes
 export BLOT_YOUTUBE_SECRET=
 
