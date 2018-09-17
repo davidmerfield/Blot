@@ -1,4 +1,3 @@
-var Blog = require('../blog');
 var helper = require('helper');
 var ensure = helper.ensure;
 
@@ -107,84 +106,13 @@ module.exports = function (blog, entry, callback) {
     drop(SCHEDULED);
   }
 
-  multi.exec(function(err){
-
-    if (err) return callback(err);
-
-    if (entry.menu) {
-      addToMenu(blog.id, entry, callback);
-    } else {
-      dropFromMenu(blog.id, entry, callback);
-    }
-  });
+  multi.exec(callback);
 };
 
-function addToMenu (blogID, entry, callback) {
-
-  ensure(blogID, 'string')
-    .and(entry, 'object')
-    .and(callback, 'function');
-
-  var newLink = {
-        label: entry.title,
-        url: entry.url,
-        metadata: entry.metadata,
-        id: entry.id
-      };
-
-  Blog.get({id: blogID}, function(err, blog){
-
-    var menu = blog.menu;
-
-    if (!menu || !menu.length) {
-      return Blog.set(blogID, {menu: [newLink]}, callback);
-    }
-
-    for (var i = 0;i < menu.length; i++) {
-
-      if (menu[i].id == entry.id || menu[i].url === entry.url) {
-        menu[i] = newLink;
-        return Blog.set(blogID, {menu: menu}, callback);
-      }
-    }
-
-    menu.push(newLink);
-    return Blog.set(blogID, {menu: menu}, callback);
-  });
-}
 
 
-// Removes the entry from the list of links in the header
-function dropFromMenu (blogID, entry, callback) {
 
-  ensure(blogID, 'string')
-    .and(entry, 'object')
-    .and(callback, 'function');
 
-  Blog.get({id: blogID}, function(err, blog){
-
-    var menu = blog.menu;
-
-    if (!menu || !menu.length)
-      return callback();
-
-    var i = menu.length;
-
-    while (i--) {
-      if (menu[i].id == entry.id) {
-        menu.splice(i, 1);
-      }
-    }
-
-    Blog.set(blogID, {menu: menu}, function(errors){
-
-      if (errors && errors.menu)
-        return callback(errors.menu);
-
-      return callback();
-    });
-  });
-}
 
 
 function listKey (blogID, list) {

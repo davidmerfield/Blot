@@ -78,7 +78,7 @@ module.exports = function set (blog, path, updates, callback) {
       entry.menu = entry.page = entry.draft = entry.scheduled = false;
     }
 
-    setUrl(blog.id, entry, function(err, url) {
+    setUrl(blog, entry, function(err, url) {
 
       // Should be pretty serious (i.e. issue with DB)
       if (err) return callback(err);
@@ -115,7 +115,11 @@ module.exports = function set (blog, path, updates, callback) {
 
           task(next);
 
-        }, callback);
+        }, function(err){
+          if (err) return callback(err);
+
+          callback(null, entry);
+        });
       });
     });
   });

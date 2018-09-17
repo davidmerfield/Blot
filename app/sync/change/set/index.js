@@ -4,6 +4,7 @@ var rebuildDependents = require("../rebuildDependents");
 
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
+var Blog = require("entry");
 var Entry = require("entry");
 var Preview = require("../../../modules/preview");
 var isPreview = require("../../../drafts").isPreview;
@@ -89,7 +90,14 @@ module.exports = function(blog, path, options, callback) {
         // We look up the remote path later in this module...
         if (entry.draft) Preview.write(blog.id, path);
 
-        Entry.set(blog, entry.path, entry, callback);
+        Entry.set(blog, entry.path, entry, function(err, entry){
+
+          if (err) return callback(err);
+
+          if (!entry.menu) return callback(err);
+
+          Blog.addToMenu(blog.id, entry, callback);
+        });
       });
     });
   });

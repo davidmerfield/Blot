@@ -10,7 +10,6 @@ var redis = require('client');
 var Permalink = require('./build/prepare/permalink');
 var Key = require('./key').url;
 var model = require('./model');
-var Blog = require('blog');
 var get = require('./get');
 
 //'/style.css', '/script.js', '/feed.rss', '/robots.txt', '/sitemap.xml'
@@ -187,45 +186,40 @@ function check (blogID, candidate, entryID, callback) {
 
 // this needs to return an error if something went wrong
 // and the finalized, stored url to the entry...
-module.exports = function (blogID, entry, callback) {
+module.exports = function (blog, entry, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(entry, model)
     .and(callback, 'function');
 
   if (entry.draft || entry.deleted)
     return callback(null, '');
 
-  Blog.get({id: blogID}, function(err, blog){
+  // does This cause a memory leak? we sometimes
+  // exist before calling all the next functions
+  // if we find a successful candidate.
+  async.eachSeries(Candidates(blog, entry), function(candidate, next){
 
-    if (err) return callback(err);
+    check(blog.id, candidate, entry.id, function(err, taken){
 
-    // does This cause a memory leak? we sometimes
-    // exist before calling all the next functions
-    // if we find a successful candidate.
-    async.eachSeries(Candidates(blog, entry), function(candidate, next){
+      if (err) return callback(err);
 
-      check(blogID, candidate, entry.id, function(err, taken){
+      if (taken) return next();
+
+      var key = Key(blog.id, candidate);
+
+      redis.set(key, entry.id, function(err){
 
         if (err) return callback(err);
 
-        if (taken) return next();
-
-        var key = Key(blogID, candidate);
-
-        redis.set(key, entry.id, function(err){
-
-          if (err) return callback(err);
-
-          return callback(null, candidate);
-        });
+        return callback(null, candidate);
       });
-    }, function(){
-
-      // if we exhaust the list of candidates, what should happen?
-      // just return an error for now... TODO in future, just keep
-      // generating UIDS... but whatever for now.
-      callback(new Error('Could not find a permalink for ' + entry.path));
     });
+  }, function(){
+
+    // if we exhaust the list of candidates, what should happen?
+    // just return an error for now... TODO in future, just keep
+    // generating UIDS... but whatever for now.
+    callback(new Error('Could not find a permalink for ' + entry.path));
   });
 };

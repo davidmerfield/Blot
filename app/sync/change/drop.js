@@ -23,6 +23,7 @@ module.exports = function(blog, path, callback) {
     // ORDER IS IMPORTANT
     // Rebuild must happen after we remove the file from disk
     var queue = [
+      Blog.dropFromMenu.bind(this, blog.id, path, callback),
       fs.remove.bind(this, LocalPath(blog.id, path)),
       Metadata.drop.bind(this, blog.id, path),
       Ignored.drop.bind(this, blog.id, path),
