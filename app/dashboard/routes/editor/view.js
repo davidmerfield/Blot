@@ -1,4 +1,4 @@
-var parseBody = require('body-parser').urlencoded({extended:false});
+var parseBody = require('body-parser').urlencoded({extended:false, limit: '2mb'});
 var Blog = require("blog");
 var Template = require("template");
 var helper = require('helper');
@@ -68,7 +68,7 @@ module.exports = function (server) {
     })
 
     .post(parseBody, saveView)
-
+    
     .all(error);
 
   server.route('/template/:template/view/:view/settings')
