@@ -1,7 +1,7 @@
 describe("thumbnail", function() {
   it("creates thumbnails", function(done) {
     require('fs-extra').ensureDirSync(__dirname + "/data");
-    require("../../app/thumbnail/transform")(
+    require("../../app/models/entry/build/thumbnail/transform")(
       __dirname + "/peach.jpg",
       __dirname + "/data",
       function(err, result) {
