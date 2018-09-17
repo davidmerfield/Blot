@@ -6,7 +6,7 @@
 var debug = require("debug")("blot:render:load:entry");
 var helper = require("helper");
 var type = helper.type;
-var Entry = require('entry').instance;
+var Entry = require("../../../models/entry/instance");
 var list = require("./list");
 
 // THIS FUNCTION LOOKS FOR ENTRIES IN A VIEW"S LOCAL NEED
