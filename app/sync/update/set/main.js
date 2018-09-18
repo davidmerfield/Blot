@@ -11,7 +11,7 @@ var isPreview = require("../../../drafts").isPreview;
 var async = require("async");
 var catchRename = require("./catchRename").forCreated;
 
-var file = require("../../../models/entry/build/file");
+// var file = require("../../../models/entry/build/file");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 
