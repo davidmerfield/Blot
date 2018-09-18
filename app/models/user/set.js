@@ -44,8 +44,6 @@ module.exports = function save (uid, updates, callback) {
 
         if (err) return callback(err);
 
-        // if (changes.length) console.log('User:', uid, 'Set', changes);
-
         callback(null, changes);
       });
     });

@@ -69,11 +69,6 @@ module.exports = function (blogID, blog, callback) {
 
         if (err) return callback(err);
 
-        // Invalidate the cache for the user's blog
-        if (changesList.length) {
-          // logger(null, 'Blog: ' + blogID + ': Set', changes);
-        }
-
         flushCache(blogID, function(err){
 
           if (err) return callback(err);
