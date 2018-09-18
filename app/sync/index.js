@@ -47,7 +47,7 @@ module.exports = function sync (blogID, options, callback) {
       
       if (err) return callback(err);
       
-      update = new Update(blogID);
+      update = new Update(blog);
 
       debug('Invoking callback with update');
 
