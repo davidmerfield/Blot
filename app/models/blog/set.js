@@ -3,7 +3,6 @@ var key = require('./key');
 var _ = require('lodash');
 var helper = require('helper');
 var ensure = helper.ensure;
-var logger = helper.logger;
 var TYPE = require('./scheme').TYPE;
 var validate = require('./validate');
 var get = require('./get');
@@ -72,7 +71,7 @@ module.exports = function (blogID, blog, callback) {
 
         // Invalidate the cache for the user's blog
         if (changesList.length) {
-          logger(null, 'Blog: ' + blogID + ': Set', changes);
+          // logger(null, 'Blog: ' + blogID + ': Set', changes);
         }
 
         flushCache(blogID, function(err){
