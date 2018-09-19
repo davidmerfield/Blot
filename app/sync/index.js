@@ -1,109 +1,79 @@
-var helper = require('helper');
-var ensure = helper.ensure;
-var Log = helper.logg;
 var buildFromFolder = require('../modules/template').update;
 var Blog = require('blog');
-var Lease = require('./lease');
+var lock = require('./lock');
+var Folder = require('./folder');
+var Debug = require('debug');
 
-var ERROR = {
-  DISABLED: 'disabled their account, do not sync',
-  NO_USER: 'does not have a Blot account'
-};
+/*
 
-require('./check');
+sync(global.blog.id, function(err, update, release){
 
-// This function is called when all we know
-// is a UID and that we want Blot to sync it.
-function sync (blogID, main, callback) {
+  expect(err).toBe(null);
+  
+  release(function(err, retry){
 
-  ensure(blogID, 'string')
-    .and(main, 'function')
-    .and(callback, 'function');
+    expect(err).toBe(null);
+    
+    ...
+  });
+});
 
-  var options = {};
+*/
+module.exports = function sync (blogID, options, callback) {
+
+  if (typeof callback === 'undefined' && typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+
+  var debug = Debug('blot:sync Blog ' + blogID);
+  var folder;
 
   Blog.get({id: blogID}, function(err, blog){
 
-    if (!blog || !blog.id)
-      return callback(blogID + ' ' + ERROR.NO_BLOG);
+    if (err) return callback(err);
 
-    if (blog.isDisabled)
-      return callback(blogID + ' ' + ERROR.DISABLED);
+    if (!blog || !blog.id) {
+      return callback(new Error('No blog with id: ' + blogID));
+    }
+      
+    if (blog.isDisabled) {
+      return callback(new Error('Blog is disabled, id: ' + blogID));
+    }
+      
+    debug('Trying to acquire sync lock');
 
-    // Tag all the logs for this sync process
-    var log = new Log({uid: blogID, process: 'Sync'});
-
-    // Allow debug passed in options
-    if (options.debug) log.debug = log;
-
-    // Pass in option logging function
-    options.log = options.log || log;
-
-    var title = blog.title + '’s folder';
-    var prefix = helper.makeUid(5) + ':' + blog.id;
-    var timer_label = prefix + ' Completed sync for ' + title + ' in';
-    var logger = console.log.bind(this, prefix);
-
-    logger('Trying to acquire sync lock for', title);
-
-    Lease.request(blogID, function(err, available){
-
+    lock(blogID, function(err, release){
+      
       if (err) return callback(err);
+      
+      folder = new Folder(blog);
 
-      if (!available) {
-        logger('Failed to acquire sync lock for', title);
-        return callback();
-      }
+      debug('Invoking callback with update');
 
-      logger('Starting sync for', title);
-      console.time(timer_label);
+      callback(err, folder, function (callback) {
 
-      main(function(sync_err){
+        debug('Complete invoked');
 
-        console.timeEnd(timer_label);
+        release(function(err, retry){
 
-        Blog.flushCache(blogID, function(err){
+          debug('Release callback invoked');
 
-          if (err) return callback(err);
-
-          Lease.release(blogID, function(err){
+          Blog.flushCache(blogID, function(err){
 
             if (err) return callback(err);
-
-            if (sync_err) {
-              logger('Sync error:');
-              logger(sync_err);
-              if (sync_err.trace) logger(sync_err.trace);
-              if (sync_err.stack) logger(sync_err.stack);
-              return callback(sync_err);
-            }
 
             buildFromFolder(blog.id, function(err){
 
               if (err) return callback(err);
 
-              // Check to see if someone else requested
-              // a lease during the sync. If so, that means
-              // we recieved another webhook for this folder
-              // and need to sync at least ONE. MORE. TIME.
-              Lease.again(blogID, function(err, retry){
+              debug('Invoking afterRelease with update');
 
-                if (err) return callback(err);
-
-                if (!retry) return callback();
-
-                logger('We recieved a webhook for this user during last sync, sync again...', title);
-                return sync(blogID, main, callback);
-              });
-            });
-          });
-        });
-      });
+              callback(null, retry);
+            });      
+          });  
+        });    
+      });      
     });
   });
-}
-
-sync.change = require('./change');
-sync.reset = require('./reset');
-
-module.exports = sync;
+};

@@ -1,10 +1,10 @@
-var Entries = require('./models/entries');
-var Entry = require('./models/entry');
-var User = require('./models/user');
+var Entries = require('entries');
+var Entry = require('entry');
+var User = require('user');
 var email = require('helper').email;
 var async = require('async');
 var schedule = require('node-schedule').scheduleJob;
-var Blog = require('./models/blog');
+var Blog = require('blog');
 var backup = require('./backup');
 var dailyUpdate = require('../scripts/info/dailyUpdate');
 
@@ -80,20 +80,29 @@ function cacheScheduler (callback) {
 
       Entries.get(blogID, {lists: ['scheduled']}, function(err, list){
 
-        async.each(list.scheduled, function(futureEntry, nextEntry){
+        if (!list.scheduled || !list.scheduled.length) return nextBlog();
 
-          totalScheduled++;
+        Blog.get({id: blogID}, function(err, blog){
 
-          // Saving empty updates will call the entry scheduler
-          // and ensure the entry is rebuilt again in future
-          Entry.set(blogID, futureEntry.path, {}, nextEntry);
+          if (err) return nextBlog(err);
 
-        }, function(){
-          nextBlog();
+          async.each(list.scheduled, function(futureEntry, nextEntry){
+
+            totalScheduled++;
+
+            // Saving empty updates will call the entry scheduler
+            // and ensure the entry is rebuilt again in future
+            Entry.set(blog, futureEntry.path, {}, nextEntry);
+
+          }, function(){
+            nextBlog();
+          });
         });
       });
-    }, function(){
+    }, function(err){
 
+      if (err) console.log(err);
+      
       callback('Scheduled ' + totalScheduled + ' posts to clear the cache.');
     });
   });

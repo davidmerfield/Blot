@@ -1,7 +1,6 @@
 var helper = require('helper');
 var ensure = helper.ensure;
-var doEach = helper.doEach;
-
+var async = require('async');
 var model = require('./model');
 var redis = require('client');
 
@@ -9,7 +8,6 @@ var guid = helper.guid;
 
 var get = require('./get');
 var key = require('./key');
-var flushCache = require('../blog/flushCache');
 var setUrl = require('./_setUrl');
 
 // Queue items
@@ -24,18 +22,18 @@ var assignToLists = require('./_assign');
 // properties in the updates param and then overwrites those.
 // Also updates entry properties which affect data stored
 // elsewhere such as created date, permalink etc..
-module.exports = function set (blogID, path, updates, callback) {
+module.exports = function set (blog, path, updates, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(path, 'string')
     .and(updates, model)
     .and(callback, 'function');
 
-  var entryKey = key.entry(blogID, path);
+  var entryKey = key.entry(blog.id, path);
   var queue;
 
   // Get the entry stored against this ID
-  get(blogID, path, function(entry){
+  get(blog.id, path, function(entry){
 
     // Create an empty object if new entry
     entry = entry || {};
@@ -79,7 +77,7 @@ module.exports = function set (blogID, path, updates, callback) {
       entry.menu = entry.page = entry.draft = entry.scheduled = false;
     }
 
-    setUrl(blogID, entry, function(err, url) {
+    setUrl(blog, entry, function(err, url) {
 
       // Should be pretty serious (i.e. issue with DB)
       if (err) return callback(err);
@@ -98,23 +96,26 @@ module.exports = function set (blogID, path, updates, callback) {
         if (err) return callback(err);
 
         queue = [
-          updateSearchIndex.bind(this, blogID, entry),
-          updateTagList.bind(this, blogID, entry),
-          assignToLists.bind(this, blogID, entry),
-          rebuildDependencyGraph.bind(this, blogID, entry, previous_dependencies)
+          updateSearchIndex.bind(this, blog, entry),
+          assignToLists.bind(this, blog, entry),
+          rebuildDependencyGraph.bind(this, blog, entry, previous_dependencies),
+          updateTagList.bind(this, blog.id, entry)
         ];
 
         if (entry.scheduled)
-          queue.push(addToSchedule.bind(this, blogID, entry));
+          queue.push(addToSchedule.bind(this, blog, entry));
 
         if (entry.draft)
-          queue.push(notifyDrafts.bind(this, blogID, entry));
+          queue.push(notifyDrafts.bind(this, blog, entry));
 
-        queue.push(flushCache.bind(this, blogID));
+        async.eachSeries(queue, function(task, next){
 
-        doEach(queue, function(){
+          task(next);
 
-          callback(null);
+        }, function(err){
+          if (err) return callback(err);
+
+          callback(null, entry);
         });
       });
     });

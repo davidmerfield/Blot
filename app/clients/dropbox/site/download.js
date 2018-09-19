@@ -4,7 +4,10 @@ var time = helper.time;
 
 var mtime = require('./mtime');
 var callOnce = helper.callOnce;
-
+var basename = require('path').basename;
+var join = require('path').join;
+var tmpDir = helper.tempDir();
+var makeUid = helper.makeUid;
 var fs = require('fs-extra');
 
 // Error codes from Dropbox's API
@@ -16,18 +19,22 @@ var TRY_AGAIN = [
 var INIT_DELAY = 2000;
 var MAX_ATTEMPTS = 10;
 
-function download (client, from, to, _callback) {
+
+function download (client, from, _callback) {
 
   ensure(client, 'object')
     .and(from, 'string')
-    .and(to, 'string')
     .and(_callback, 'function');
 
   time('download');
 
-  var callback = callOnce(function(){
+  var to = join(tmpDir, makeUid(10) + basename(from));
+
+  console.log('TO', to);
+
+  var callback = callOnce(function(err, to){
     time.end('download');
-    _callback();
+    _callback(err, to);
   });
 
   var delay = INIT_DELAY;
@@ -57,7 +64,8 @@ function download (client, from, to, _callback) {
 
         if (err) return callback(err);
 
-        callback(null);
+        console.log('calling back', to);
+        callback(null, to);
       });
     });
   }

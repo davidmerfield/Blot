@@ -59,6 +59,7 @@
     "probe-image-size": "^1.0.6",
     "recursive-readdir": "^2.2.1",
     "redis": "^0.11.0",
+    "redlock": "^3.1.2",
     "reds": "^0.2.5",
     "remarkable": "^1.6.0",
     "request": "^2.72.0",

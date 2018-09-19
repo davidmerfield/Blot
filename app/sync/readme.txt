@@ -1,4 +1,18 @@
+sync(blogID, function(err, folder, release){
+  
+  // works for any change? file remove, folder create etc...
+  folder.update('/foo.txt', function(err){
+
+  });
+
+
+  release(function(retry){
+
+  });
+});
+
 # Sync strategy
+
 
 // handle renames without a load of tedious calls to Dropbox
 

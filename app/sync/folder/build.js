@@ -1,17 +1,17 @@
-var debug = require('debug')('blot:sync:change:set');
-var helper = require("../../../helper");
+var helper = require("helper");
 var normalize = helper.pathNormalizer;
-var rebuildDependents = require("../rebuildDependents");
+var rebuildDependents = require("./util/rebuildDependents");
 
-var Ignore = require("./ignore");
+var Ignore = require("./util/ignore");
 var Metadata = require("metadata");
-var Entry = require("../../../models/entry");
-var Preview = require("../../../modules/preview");
-var isPreview = require("../../../drafts").isPreview;
+var Blog = require("entry");
+var Entry = require("entry");
+var Preview = require("../../modules/preview");
+var isPreview = require("../../drafts").isPreview;
 var async = require("async");
-var catchRename = require("./catchRename").forCreated;
+var catchRename = require("./util/catchRename").forCreated;
 
-var file = require("../../../models/entry/build/file");
+var converters = require("../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 
@@ -29,25 +29,15 @@ function isTemplate(path) {
 function isWrongType(path) {
   var isWrong = true;
 
-  for (var i in file) if (file[i].is(path)) isWrong = false;
+  converters.forEach(function(converter){
+    if (converter.is(path)) isWrong = false;
+  });
 
   return isWrong;
 }
 
-process.on('message', function(message){
-    
-  console.log('recieved message in main.js', message);
-
-  var blog = message.blog;
-  var path = message.path;
-  var options = message.options;
-  var callback = function(err){
-    var response = {err: err, identifier: message.identifier};
-    console.log('sending message from main.js', response);
-    process.send(response);
-  };
-
-  var queue, is_preview;
+module.exports = function(blog, path, options, callback) {
+  var queue;
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
@@ -56,7 +46,7 @@ process.on('message', function(message){
 
   queue = {
     is_preview: isPreview.bind(this, blog.id, path),
-    dependents: rebuildDependents.bind(this, blog.id, path)
+    dependents: rebuildDependents.bind(this, blog, path)
   };
 
   // Store the case-preserved name against the
@@ -79,24 +69,18 @@ process.on('message', function(message){
     // with an underscore, or it's inside a folder
     // whose name begins with an underscore. It should
     // therefore not be a blog post.
-    if (isPublic(path)) return Ignore(blog.id, path, PUBLIC_FILE, callback);
+    if (isPublic(path)) return Ignore(blog, path, PUBLIC_FILE, callback);
 
     // This file cannot become a blog post because it is not
     // a type that Blot can process properly.
-    if (isWrongType(path)) return Ignore(blog.id, path, WRONG_TYPE, callback);
-
-    debug('Blog:', blog.id, path, ' beginning to build');
+    if (isWrongType(path)) return Ignore(blog, path, WRONG_TYPE, callback);
 
     Entry.build(blog, path, function(err, entry) {
-  
-      debug('Blog:', blog.id, path, ' build complete');
-    
       if (err) return callback(err);
 
       // this checks the entry to see if a deleted entry
       // matches it. If so, then use the deleted entry's url and created date.
-      catchRename(blog.id, entry, function(err, changes) {
-
+      catchRename(blog, entry, function(err, changes) {
         if (err) return callback(err);
 
         if (changes) for (var key in changes) entry[key] = changes[key];
@@ -106,8 +90,15 @@ process.on('message', function(message){
         // We look up the remote path later in this module...
         if (entry.draft) Preview.write(blog.id, path);
 
-        Entry.set(blog.id, entry.path, entry, callback);
+        Entry.set(blog, entry.path, entry, function(err, entry){
+
+          if (err) return callback(err);
+
+          if (!entry.menu) return callback(err);
+
+          Blog.addToMenu(blog.id, entry, callback);
+        });
       });
     });
   });
-});
+};

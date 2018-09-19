@@ -5,14 +5,14 @@ var searchKey = require('./key').search;
 var transliterate = require('transliteration');
 var model = require('./model');
 
-module.exports = function (blogID, entry, callback) {
+module.exports = function (blog, entry, callback) {
 
-  ensure(blogID, 'string')
+  ensure(blog, 'object')
     .and(entry, model)
     .and(callback, 'function');
 
   // Update the blog's search index
-  var search = reds.createSearch(searchKey(blogID));
+  var search = reds.createSearch(searchKey(blog.id));
   var id = entry.id + '';
   var material = '';
 

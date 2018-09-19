@@ -1,5 +1,3 @@
-return;
-
 var client = require('client');
 var Redlock = require('redlock');
 
