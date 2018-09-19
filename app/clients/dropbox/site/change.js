@@ -16,6 +16,8 @@ module.exports = function(client, folder) {
       download(client, change.path_lower, function(err, tmp_path) {
         if (err) return callback(err);
 
+        console.log('TMO',tmp_path);
+
         // Change.name preserves case, change.path should be lowercase
         folder.add(tmp_path, change.path, { name: change.name }, callback);
       });

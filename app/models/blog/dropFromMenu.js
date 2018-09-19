@@ -4,10 +4,10 @@ var ensure = helper.ensure;
 var set = require('./set');
 
 // Removes the entry from the list of links in the header
-module.exports = function dropFromMenu (blogID, entry, callback) {
+module.exports = function dropFromMenu (blogID, path, callback) {
 
   ensure(blogID, 'string')
-    .and(entry, 'object')
+    .and(path, 'string')
     .and(callback, 'function');
 
   get({id: blogID}, function(err, blog){
@@ -20,7 +20,7 @@ module.exports = function dropFromMenu (blogID, entry, callback) {
     var i = menu.length;
 
     while (i--) {
-      if (menu[i].id == entry.id) {
+      if (menu[i].id == path) {
         menu.splice(i, 1);
       }
     }

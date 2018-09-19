@@ -1,7 +1,7 @@
 var buildFromFolder = require('../modules/template').update;
 var Blog = require('blog');
 var lock = require('./lock');
-var Update = require('./update');
+var Folder = require('./folder');
 var Debug = require('debug');
 
 /*
@@ -27,7 +27,7 @@ module.exports = function sync (blogID, options, callback) {
   }
 
   var debug = Debug('blot:sync Blog ' + blogID);
-  var update;
+  var folder;
 
   Blog.get({id: blogID}, function(err, blog){
 
@@ -47,11 +47,11 @@ module.exports = function sync (blogID, options, callback) {
       
       if (err) return callback(err);
       
-      update = new Update(blog);
+      folder = new Folder(blog);
 
       debug('Invoking callback with update');
 
-      callback(err, update, function (callback) {
+      callback(err, folder, function (callback) {
 
         debug('Complete invoked');
 
@@ -76,4 +76,4 @@ module.exports = function sync (blogID, options, callback) {
       });      
     });
   });
-}
+};

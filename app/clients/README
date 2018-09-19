@@ -3,6 +3,7 @@ Clients
 
 Clients are responsible for synchronizing the source folder for a blog. This synchronization occurs between the folder on the author's device and the folder on Blot's server.
 
+Should clients have 'individual source folders', which are then mediated by Blot to produce a singular source folder from which blog posts are generated? Or should clients interact with the same folder. As in should the client know about the true folder?
 
 How to register a new client
 ----------------------------

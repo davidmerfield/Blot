@@ -1,9 +1,8 @@
 var Git = require("simple-git");
 var Blog = require("blog");
-var Change = require("sync").change;
 var Sync = require("sync");
 var git_emit = require("git-emit-node7");
-var async = require('async');
+var async = require("async");
 var debug = require("debug")("client:git:listener");
 var config = require("config");
 var join = require("path").join;
@@ -19,9 +18,7 @@ function add_leading_slash(path) {
 }
 
 module.exports = function start_listener(handle) {
-
   Blog.get({ handle: handle }, function(err, blog) {
-
     if (err || !blog) {
       return console.log("ERROR no blog", handle);
     }
@@ -29,7 +26,7 @@ module.exports = function start_listener(handle) {
     var blog_id = blog.id;
     var emitter, git;
 
-    require('fs-extra').ensureDirSync(blog_dir(blog.id));
+    require("fs-extra").ensureDirSync(blog_dir(blog.id));
 
     try {
       emitter = git_emit(__dirname + "/data/" + blog.handle + ".git");
@@ -78,36 +75,15 @@ module.exports = function start_listener(handle) {
           info
         );
 
-        Sync(
-          blog_id,
-          function(callback) {
-            async.eachSeries(
-              info.files,
-              function(path, next) {
-                if (info.insertions[path]) {
-                  debug("Calling set with", blog_id, add_leading_slash(path));
-                  return Change.set(blog, add_leading_slash(path), next);
-                }
-
-                if (info.deletions[path]) {
-                  debug("Calling drop with", blog_id, add_leading_slash(path));
-                  return Change.drop(blog, add_leading_slash(path), next);
-                }
-
-                debug(
-                  "Warning",
-                  path,
-                  "is a file but not in insertions or deletions"
-                );
-                next();
-              },
-              callback
-            );
-          },
-          function() {
-            debug("Sync complete!");
-          }
-        );
+        Sync(blog_id, function(err, folder, release) {
+          async.eachSeries(
+            info.files,
+            function(path, next) {
+              folder.update(blog, add_leading_slash(path), next);
+            },
+            release
+          );
+        });
       });
     });
   });

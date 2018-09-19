@@ -1,17 +1,17 @@
-var helper = require("../../../helper");
+var helper = require("helper");
 var normalize = helper.pathNormalizer;
-var rebuildDependents = require("../rebuildDependents");
+var rebuildDependents = require("./util/rebuildDependents");
 
-var Ignore = require("./ignore");
+var Ignore = require("./util/ignore");
 var Metadata = require("metadata");
 var Blog = require("entry");
 var Entry = require("entry");
-var Preview = require("../../../modules/preview");
-var isPreview = require("../../../drafts").isPreview;
+var Preview = require("../../modules/preview");
+var isPreview = require("../../drafts").isPreview;
 var async = require("async");
-var catchRename = require("./catchRename").forCreated;
+var catchRename = require("./util/catchRename").forCreated;
 
-var converters = require("../../../converters");
+var converters = require("../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 
@@ -37,7 +37,7 @@ function isWrongType(path) {
 }
 
 module.exports = function(blog, path, options, callback) {
-  var queue, is_preview;
+  var queue;
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
