@@ -60,13 +60,15 @@ Webhook.post(function(req, res) {
     res.sendStatus(200);
 
     // Sync each of the accounts!
-    async.eachSeries(accounts, function(account_id, next_account){
+    // accounts can be synced in parallel
+    async.each(accounts, function(account_id, next_account){
 
       Database.list_blogs(account_id, function(err, blogs){
 
         if (err) return next_account(err);
         
-        async.eachSeries(blogs, function(blog, next_blog){
+        // blogs can be synced in parallel
+        async.each(blogs, function(blog, next_blog){
 
           main(blog.id, function(){});
 
