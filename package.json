@@ -33,7 +33,6 @@
     "helmet": "^3.13.0",
     "highlight.js": "^9.5.0",
     "hogan-express": "^0.5.2",
-    "html-entities": "^1.1.2",
     "html-minifier": "^3.5.20",
     "http-auth": "^3.2.3",
     "imagemin": "^5.2.1",
@@ -69,7 +68,6 @@
     "twit": "^1.1.20",
     "typeset": "^0.2.2",
     "uglify-js": "^2.4.16",
-    "unorm": "^1.4.1",
     "uuid": "^3.2.1",
     "vhost": "^3.0.2"
   },
