@@ -5,6 +5,6 @@ module.exports = {
   remove: require("./client").remove,
   write: require("./client").write,
   disconnect: require("./client").disconnect,
-  dashboard_routes: require("./routes").dashboard,
-  site_routes: require("./routes").site
+  dashboard_routes: require("./routes/private"),
+  site_routes: require("./routes/public")
 };
