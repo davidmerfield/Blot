@@ -44,10 +44,16 @@ dashboard.post("/disconnect", function(req, res, next) {
   disconnect(req.blog.id, next);
 });
 
-site.use("/end", authenticate);
+
+site.use("/end/:gitHandle.git", authenticate);
 
 // We need to pause then resume for some
 // strange reason. Read pushover's issue #30
+// For another strange reason, this doesn't work
+// when I try and mount it at the same path as
+// the authentication middleware, e.g:
+// site.use("/end/:gitHandle.git", function(req, res) {
+// I would feel more comfortable if I could.
 site.use("/end", function(req, res) {
   req.pause();
   repos.handle(req, res);

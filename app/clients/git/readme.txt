@@ -6,7 +6,7 @@ To do
 -----
 * This client needs to acquire a lock on the blog's folder before pulling from the bare repository in order to ensure that multiple servers can run in parallel.
 * This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
-
+* does this handle a push, a slow sync, then another push during the sync?
 
 How does it work?
 -----------------

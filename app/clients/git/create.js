@@ -13,17 +13,18 @@ function blog_dir(blog_id) {
 }
 
 
-module.exports = function create(req, res, next) {
-  var blog_folder = blog_dir(req.blog.id);
-  var tmp_folder = helper.tempDir() + "/git-" + helper.guid() + req.blog.id;
-  var bare_repo_path = __dirname + "/data/" + req.blog.handle + ".git";
+module.exports = function create(blog, callback) {
+
+  var blog_folder = blog_dir(blog.id);
+  var tmp_folder = helper.tempDir() + "/git-" + helper.guid() + blog.id;
+  var bare_repo_path = __dirname + "/data/" + blog.handle + ".git";
   var bare_git_repo;
   var git_repo_in_blog_folder;
   var placeholder_path = join(blog_folder, "placeholder-" + UID(16) + ".txt");
 
   fs.stat(blog_folder + "/.git", function(err, stat) {
     if (stat && !err) {
-      return next(
+      return callback(
         new Error(
           "There is already a git repository in your blogs folder, please remove it"
         )
@@ -31,75 +32,74 @@ module.exports = function create(req, res, next) {
     }
 
     if (err && err.code !== "ENOENT") {
-      return next(err);
+      return callback(err);
     }
 
-    database.refresh_token(req.blog.id, function(err) {
-      if (err) return next(err);
+    database.refresh_token(blog.id, function(err) {
+      if (err) return callback(err);
 
-      repos.create(req.blog.handle, function(err) {
-        if (err) return next(err);
+      repos.create(blog.handle, function(err) {
+        if (err) return callback(err);
 
-        bare_git_repo = Git(__dirname + "/data/" + req.blog.handle + ".git");
+        bare_git_repo = Git(__dirname + "/data/" + blog.handle + ".git");
         // start_listener(req.blog.handle);
 
         fs.copy(blog_folder, tmp_folder)
           .then(function() {
-            debug(req.blog.id, "Emptying blog folder");
+            debug(blog.id, "Emptying blog folder");
             return fs.emptyDir(blog_folder);
           })
           .then(function() {
-            debug(req.blog.id, "Cloning bare repository");
+            debug(blog.id, "Cloning bare repository");
             return bare_git_repo.clone(bare_repo_path, blog_folder);
           })
           .then(function() {
-            debug(req.blog.id, "Copying tmp folder");
+            debug(blog.id, "Copying tmp folder");
             return fs.copy(tmp_folder, blog_folder);
           })
           .then(function() {
             git_repo_in_blog_folder = Git(blog_folder);
-            debug(req.blog.id, "Removing tmp folder");
+            debug(blog.id, "Removing tmp folder");
             return fs.remove(tmp_folder);
           })
           .then(function() {
-            debug(req.blog.id, "Writing placeholder");
+            debug(blog.id, "Writing placeholder");
             return fs.outputFile(placeholder_path, "", "utf-8");
           })
           .then(function() {
-            debug(req.blog.id, "Adding placeholder to checked out repo");
+            debug(blog.id, "Adding placeholder to checked out repo");
             return git_repo_in_blog_folder.add("./*");
           })
           .then(function() {
-            debug(req.blog.id, "Commiting placeholder in checked out repo");
+            debug(blog.id, "Commiting placeholder in checked out repo");
             return git_repo_in_blog_folder.commit(["-m", "Initial commit"]);
           })
           .then(function() {
-            debug(req.blog.id, "Removing placeholder");
+            debug(blog.id, "Removing placeholder");
             return fs.remove(placeholder_path);
           })
           .then(function() {
-            debug(req.blog.id, "Adding removed placeholder to index");
+            debug(blog.id, "Adding removed placeholder to index");
             return git_repo_in_blog_folder.add("./*");
           })
           .then(function() {
-            debug(req.blog.id, "Commiting removed placeholder");
+            debug(blog.id, "Commiting removed placeholder");
             return git_repo_in_blog_folder.commit([
               "-m",
               "Removed placeholder file"
             ]);
           })
           .then(function() {
-            debug(req.blog.id, "Pushing initial commits");
+            debug(blog.id, "Pushing initial commits");
             return git_repo_in_blog_folder.push(["-u", "origin", "master"]);
           })
-          .then(function() {
-            debug(req.blog.id, "Redirecting to", req.baseUrl);
-            res.redirect(req.baseUrl);
+          .then(function(){
+            callback(null);
           })
           .catch(function(err) {
-            next(err);
+            callback(err);
           });
       });
     });
   });
-}
+};
