@@ -1,3 +1,24 @@
+Prune package.json:
+  Remove "aws-sdk" once thumbnails and image cache and avatar done locally.
+  Remove "clean-css" for alternatives below under 'To minify CSS'
+
+  Merge "mkdirp" and "recursive-readdir" and "rimraf" in place of "fs-extra"
+  Merge "body-parser" and "multiparty"?
+  Merge "datejs" and "moment"?
+  Merge "markdown-it" and "marked" and "remarkable"
+
+  Check if "compression" needed given what NGINX provides?
+
+  To minify HTML
+    https://github.com/kangax/html-minifier
+  To minify CSS
+    https://github.com/cssnano/cssnano
+    https://github.com/css/csso
+  To minify JavaScript
+    https://github.com/mishoo/UglifyJS2
+    https://developers.google.com/closure/compiler/
+
+
 Fix failed thumbnails in Ben's post:
 http://trampeur.blot.im/from-kuchl-to-the-campsite-at-pfarrwerfen-2
 

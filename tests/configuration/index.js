@@ -1,8 +1,7 @@
 describe("configuration", function() {
-    
   // The test to start the main server
-  // needs a little longer to run. 10s. 
-  var LONG_TIMEOUT = 10 * 1000; 
+  // needs a little longer to run. 10s.
+  var LONG_TIMEOUT = 10 * 1000;
 
   it("loads without error", function() {
     expect(function() {
@@ -28,7 +27,6 @@ describe("configuration", function() {
   it(
     "loads the main function",
     function(done) {
-
       var demo_app = require("child_process").fork(__dirname + "/../../app", {
         silent: true
       });
@@ -44,14 +42,13 @@ describe("configuration", function() {
       // App should not emit anything on standard error
       demo_app.stderr.on("data", function(data) {
         has_err = true;
-        demo_app.kill();        
+        demo_app.kill();
       });
 
       // Listen for listening message
       demo_app.stdout.on("data", function(data) {
-
         // The server managed to start, we can end the test...
-        if (data.toString().indexOf('listening') > -1) {
+        if (data.toString().indexOf("listening") > -1) {
           demo_app.kill();
         }
       });
