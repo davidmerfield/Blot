@@ -13,6 +13,12 @@ function blog_dir(blog_id) {
 }
 
 
+// What should create do?
+// - should return an error if there is already a git repo in the user's folder
+// - should preserve the existing contents of the user's folder
+// - should create a bare repository to serve as the source of truth
+// - should pull the bare repository into the user's folder
+// - should generate an 
 module.exports = function create(blog, callback) {
 
   var blog_folder = blog_dir(blog.id);
@@ -23,6 +29,7 @@ module.exports = function create(blog, callback) {
   var placeholder_path = join(blog_folder, "placeholder-" + UID(16) + ".txt");
 
   fs.stat(blog_folder + "/.git", function(err, stat) {
+    
     if (stat && !err) {
       return callback(
         new Error(
