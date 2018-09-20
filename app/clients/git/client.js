@@ -7,12 +7,7 @@ var UID = helper.makeUid;
 var join = require("path").join;
 var basename = require("path").basename;
 var Blog = require("blog");
-var config = require("config");
-
-function blog_dir(blog_id) {
-  return join(config.blog_folder_dir, blog_id);
-}
-
+var localPath = helper.localPath;
 var REPO_DIR = __dirname + "/data";
 
 module.exports = {
@@ -20,29 +15,23 @@ module.exports = {
   // contents can be anything supported by fs-extra.outputFile
   // which I believe includes buffers and utf8 strings.
   write: function(blogID, path, contents, callback) {
-    if (path[0] === "/") path = path.slice(1);
+    var git;
 
-    var git = Git(blog_dir(blogID));
-
-    var message = "Updated " + path;
-
-    debug("Blog:", blogID, "Attempting to write", path);
-
-    fs.outputFile(join(blog_dir(blogID), path), contents, function(err) {
+    fs.outputFile(localPath(blogID, path), contents, function(err) {
       if (err) return callback(err);
 
-      debug("Blog:", blogID, "Attempting to add, commit and push", path);
+      git = Git(localPath(blogID, "/"));
 
-      git
-        .add(path)
-        .commit(message)
-        .push(function(err) {
-          if (err) return callback(err);
+      if (path[0] === "/") path = path.slice(1);
 
-          debug("Blog:", blogID, "Successfully wrote", path);
+      git.add(path).commit("Updated " + path);
 
-          callback();
-        });
+      git.push(function(err) {
+        if (err) return callback(err);
+
+        debug("Blog:", blogID, "Successfully wrote", path);
+        callback();
+      });
     });
   },
 

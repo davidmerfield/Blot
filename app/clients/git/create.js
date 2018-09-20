@@ -1,51 +1,22 @@
-var pushover = require("pushover");
-var dashboard = require("express").Router();
-var fs = require("fs-extra");
-var REPO_DIR = __dirname + "/data";
-var repos = pushover(REPO_DIR, { autoCreate: true });
 var helper = require("helper");
+var fs = require("fs-extra");
 var Git = require("simple-git/promise");
 var debug = require("debug")("client:git:dashboard");
 var UID = helper.makeUid;
 var join = require("path").join;
-var database = require("./database");
-var client = require("./client");
 var config = require("config");
+var repos = require('./repos');
+var database = require('./database');
 
 function blog_dir(blog_id) {
   return join(config.blog_folder_dir, blog_id);
 }
 
-dashboard.use(function(req, res, next) {
-  res.dashboard = function(name) {
-    res.render(__dirname + "/views/" + name + ".html", {
-      title: "Git",
-      subpage_title: "Folder"
-    });
-  };
 
-  res.locals.host = process.env.BLOT_HOST;
-
-  next();
-});
-
-dashboard.get("/", function(req, res, next) {
-  if (!req.blog.client) return res.redirect("/clients");
-
-  repos.exists(req.blog.handle + ".git", function(exists) {
-    if (!exists) return create(req, res, next);
-
-    database.get_token(req.blog.id, function(err, token) {
-      res.locals.token = token;
-      res.dashboard("index");
-    });
-  });
-});
-
-function create(req, res, next) {
+module.exports = function create(req, res, next) {
   var blog_folder = blog_dir(req.blog.id);
   var tmp_folder = helper.tempDir() + "/git-" + helper.guid() + req.blog.id;
-  var bare_repo_path = REPO_DIR + "/" + req.blog.handle + ".git";
+  var bare_repo_path = __dirname + "/data/" + req.blog.handle + ".git";
   var bare_git_repo;
   var git_repo_in_blog_folder;
   var placeholder_path = join(blog_folder, "placeholder-" + UID(16) + ".txt");
@@ -69,7 +40,7 @@ function create(req, res, next) {
       repos.create(req.blog.handle, function(err) {
         if (err) return next(err);
 
-        bare_git_repo = Git(REPO_DIR + "/" + req.blog.handle + ".git");
+        bare_git_repo = Git(__dirname + "/data/" + req.blog.handle + ".git");
         // start_listener(req.blog.handle);
 
         fs.copy(blog_folder, tmp_folder)
@@ -132,21 +103,3 @@ function create(req, res, next) {
     });
   });
 }
-
-dashboard.post("/refresh_token", function(req, res, next) {
-  database.refresh_token(req.blog.id, function(err) {
-    if (err) return next(err);
-
-    res.redirect(req.baseUrl);
-  });
-});
-
-dashboard.post("/disconnect", function(req, res, next) {
-  client.disconnect(req.blog.id, function(err) {
-    if (err) return next(err);
-
-    res.redirect("/clients");
-  });
-});
-
-module.exports = dashboard;
