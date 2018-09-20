@@ -158,7 +158,6 @@ var sync = require("./sync");
 var Blog = require("blog");
 
 repos.on("push", function(push) {
-  
   push.accept();
 
   push.response.once("finish", function() {

@@ -7,8 +7,7 @@ var Blog = require("blog");
 var join = require("path").join;
 var config = require("config");
 
-
-module.exports = function sync (repo, callback) {
+module.exports = function sync(repo, callback) {
   var handle = repo.slice(0, ".git".length * -1);
 
   Blog.get({ handle: handle }, function(err, blog) {
@@ -63,7 +62,6 @@ module.exports = function sync (repo, callback) {
     });
   });
 };
-
 
 function blog_dir(blog_id) {
   return join(config.blog_folder_dir, blog_id);
