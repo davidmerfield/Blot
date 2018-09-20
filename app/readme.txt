@@ -6,7 +6,7 @@ what is most important is that readers can access blogs.
 
 what is secondarily most important is that writers can publish files.
 
-some files will causes the syncer to crash. this is expected. this must not prevent other users from syncing. and must not take down the process which serves files.
+some files will cause the syncer to crash. this is expected. this must not prevent other users from syncing. and must not take down the process which serves files.
 
 I must work out how to do hot reloads to prevent downtime during deployments.
 
