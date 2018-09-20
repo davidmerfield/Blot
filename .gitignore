@@ -22,11 +22,12 @@ cache/*
 static/*
 tmp/*
 
-# Eventually ignore all node_modules directories
-node_modules/*
-app/dashboard/routes/importer/**/node_modules
-app/models/blog/lock/node_modules
-app/clients/**/node_modules
+# Directories containing stuff that should
+# never be in version control
 
 data
 secrets
+
+# Eventually ignore all node_modules directories
+node_modules/*
+
