@@ -17,7 +17,7 @@ describe("configuration", function() {
     });
   });
 
-  fit(
+  it(
     "loads the main function",
     function(done) {
 
