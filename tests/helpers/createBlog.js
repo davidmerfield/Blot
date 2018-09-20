@@ -1,15 +1,11 @@
 var Blog = require('../../app/models/blog');
-
-var chars = 'abcdefghijklmnopqrstuvwxyz'.split('');
-
-function randomHandle () {
-  var res = '';
-  while(res.length < 16) res+= chars[Math.floor(Math.random() * chars.length)];
-  return res;
-}
+var randomString = require('./randomString');
 
 module.exports = function (done) {
-  Blog.create(global.user.uid, {handle: randomHandle()}, function(err, blog){
+  
+  var fakeHandle = randomString(16);
+
+  Blog.create(global.user.uid, {handle: fakeHandle}, function(err, blog){
     if (err) return done(err);
     global.blog = blog;
     done(err);
