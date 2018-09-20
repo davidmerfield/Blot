@@ -10,6 +10,14 @@ describe("configuration", function() {
     }).not.toThrow();
   });
 
+  it("has no unused depdendencies", function(done) {
+    require('./dependencies')(function(err, unused){
+      expect(err).toBe(null);
+      expect(unused).toEqual([]);
+      done();
+    });
+  }, LONG_TIMEOUT);
+
   it("connects to redis", function(done) {
     require("../../app/models/client").get("hey", function(err) {
       expect(err).toBe(null);
