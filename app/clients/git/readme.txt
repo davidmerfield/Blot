@@ -2,6 +2,16 @@
 
 This module uses a Git repository's working tree as the source folder for a blog on Blot.
 
+Dependencies 
+------------
+
+Move these into this module when I start using git submodules or npm submodules properly.
+
+    "http-auth": "^3.2.3",
+    "pushover": "^1.3.6",
+    "simple-git": "^1.92.0",
+    "uuid": "^3.2.1"
+
 To do
 -----
 * This client needs to acquire a lock on the blog's folder before pulling from the bare repository in order to ensure that multiple servers can run in parallel.

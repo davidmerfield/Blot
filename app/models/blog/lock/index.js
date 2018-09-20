@@ -1,7 +1,7 @@
 return;
 
-var client = require('client');
-var Redlock = require('redlock');
+// var client = require('client');
+// var Redlock = require('redlock');
 
 var DEFAULT_TTL = 10 * 1000; // 10s
 var DEFAULT_RETRIES = 50; // ~10s (50 retries * 200ms default interval) 
