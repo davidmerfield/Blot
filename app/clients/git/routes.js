@@ -5,8 +5,6 @@ var Blog = require("blog");
 var REPO_DIR = __dirname + "/data";
 var repos = pushover(REPO_DIR, { autoCreate: true });
 var helper = require("helper");
-var Blog = require("blog");
-var start_listener = require("./start_listener");
 var Git = require("simple-git/promise");
 var debug = require("debug")("client:git:dashboard");
 var UID = helper.makeUid;
@@ -21,7 +19,10 @@ function blog_dir(blog_id) {
 
 dashboard.use(function(req, res, next) {
   res.dashboard = function(name) {
-    res.render(__dirname + "/" + name + ".html", {title: 'Git', subpage_title: 'Folder'});
+    res.render(__dirname + "/views/" + name + ".html", {
+      title: "Git",
+      subpage_title: "Folder"
+    });
   };
 
   res.locals.host = process.env.BLOT_HOST;
@@ -33,9 +34,8 @@ dashboard.get("/", function(req, res, next) {
   if (!req.blog.client) return res.redirect("/clients");
 
   repos.exists(req.blog.handle + ".git", function(exists) {
-
     if (!exists) return create(req, res, next);
-    
+
     database.get_token(req.blog.id, function(err, token) {
       res.locals.token = token;
       res.dashboard("index");
@@ -43,7 +43,7 @@ dashboard.get("/", function(req, res, next) {
   });
 });
 
-function create (req, res, next) {
+function create(req, res, next) {
   var blog_folder = blog_dir(req.blog.id);
   var tmp_folder = helper.tempDir() + "/git-" + helper.guid() + req.blog.id;
   var bare_repo_path = REPO_DIR + "/" + req.blog.handle + ".git";
@@ -71,7 +71,7 @@ function create (req, res, next) {
         if (err) return next(err);
 
         bare_git_repo = Git(REPO_DIR + "/" + req.blog.handle + ".git");
-        start_listener(req.blog.handle);
+        // start_listener(req.blog.handle);
 
         fs.copy(blog_folder, tmp_folder)
           .then(function() {
@@ -134,7 +134,6 @@ function create (req, res, next) {
   });
 }
 
-
 dashboard.post("/refresh_token", function(req, res, next) {
   database.refresh_token(req.blog.id, function(err) {
     if (err) return next(err);
@@ -155,65 +154,42 @@ var pushover = require("pushover");
 var repos = pushover(__dirname + "/data", { autoCreate: true });
 var site = require("express").Router();
 var auth = require("http-auth");
+var sync = require("./sync");
+var Blog = require("blog");
 
 repos.on("push", function(push) {
+  
   push.accept();
-  console.log("Git: push recieved and accepted", push.repo, push.commit);
+
+  push.response.once("finish", function() {
+    sync(push.repo, function() {});
+  });
 });
 
-site.use(
-  "/end",
-  auth.connect(
-    auth.basic(
-      {
-        realm: "Git"
-      },
-      function(handle, token, callback) {
-        debug("Authenticating", handle, token);
+site.use("/end", auth.connect(auth.basic({ realm: "Git" }, check)));
 
-        console.log("Git: recieved request for", handle);
-
-        Blog.get({ handle: handle }, function(err, blog) {
-          if (err) {
-            debug(err);
-            return callback(false);
-          }
-
-          if (!blog) {
-            debug(err);
-            return callback(false);
-          }
-
-          console.log("Blog:", blog.id, " Git: Authenticating");
-
-          debug("Checking token", blog.id);
-
-          database.check_token(blog.id, token, function(err, valid) {
-            if (err) {
-              debug(err);
-              console.log("Blog:", blog.id, " Git: Fail!");
-              return callback(false);
-            }
-
-            debug("Token valid?", valid);
-            console.log("Blog:", blog.id, " Git: Success!");
-
-            // Custom authentication
-            // Use callback(error) if you want to throw async error.
-            callback(valid);
-          });
-        });
-      }
-    )
-  )
-);
-
+// We need to pause then resume for some
+// strange reason. Read pushover's issue #30
 site.use("/end", function(req, res) {
-  req.pause(); // see #30
-  console.log("Handling git event...");
+  req.pause();
   repos.handle(req, res);
-  console.log("Git event handled...");
   req.resume();
 });
 
 module.exports = { site: site, dashboard: dashboard };
+
+function check(handle, token, callback) {
+  debug("Authenticating", handle, token);
+
+  Blog.get({ handle: handle }, function(err, blog) {
+    if (err || !blog) {
+      debug("No blog with handle", handle);
+      return callback(false);
+    }
+
+    database.check_token(blog.id, token, function(err, valid) {
+      debug("Is token valid?", err === null && valid);
+      callback(err === null && valid);
+    });
+  });
+}
