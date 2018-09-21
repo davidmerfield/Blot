@@ -2,15 +2,18 @@ var fs = require("fs-extra");
 var helper = require("helper");
 var localPath = helper.localPath;
 var Git = require("simple-git");
-var debug = require("debug")("client:git");
+var debug = require("debug")("client:git:remove");
 
 // This should probably copy the file to a
 // temporary location so the removal can be
 // rolled back if we encounter an error
-module.exports = function remove(blogID, path, contents, callback) {
+module.exports = function remove(blogID, path, callback) {
   var git;
 
-  fs.remove(localPath(blogID, path), contents, function(err) {
+  debug("Blog:", blogID, "Removing", path);
+
+  fs.remove(localPath(blogID, path), function(err) {
+  
     if (err) return callback(err);
 
     git = Git(localPath(blogID, "/"));
@@ -26,7 +29,7 @@ module.exports = function remove(blogID, path, contents, callback) {
       if (err) return callback(err);
 
       debug("Blog:", blogID, "Successfully removed", path);
-      callback();
+      callback(null);
     });
   });
 };

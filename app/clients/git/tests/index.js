@@ -15,4 +15,6 @@ describe("git", function() {
   require("./authenticate");
   require("./create");
   require("./sync");
+  require("./write");
+  require("./remove");
 });

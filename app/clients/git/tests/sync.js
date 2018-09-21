@@ -1,55 +1,67 @@
 describe("sync", function() {
 
-  var create = require('../create');
-  var clone = require('./util/clone');
+  beforeEach(require('./util/setupUser'));
+
   var localPath = require('helper').localPath;
-  var Git = require("simple-git");
+  var pushAllChanges = require('./util/pushAllChanges');
+  var fs = require('fs-extra');
+
+  // Scenario: you push loads of files, Blot takes ages to sync
+  // you push one more file: does Blot sync it too?
+  it("re-pulls if it recieves a push during sync", function(done) {
+
+    var blogDir = localPath(global.blog.id,'/');
+    var usersGitDirectory = global.usersGitDirectory;
+    var path = '/Hello world.txt';
+    var content = 'Hello, World!';
+
+    for (var i = 0;i< 1000;i++)
+      fs.outputFileSync(usersGitDirectory + '/' + i + '.txt', i);
+
+    pushAllChanges(global.usersGitClient, function(err){
+
+      expect(err).toEqual(null);
+
+      fs.outputFileSync(usersGitDirectory + path, content);
+
+      pushAllChanges(global.usersGitClient, function(err){
+
+        expect(err).toEqual(null);
+
+        // We don't know when the git repo in the blog directory
+        // will have finished pulling.
+        setTimeout(function(){
+
+          // Verify files and folders are preserved in cloneable folder
+          expect(fs.readdirSync(blogDir)).toEqual(fs.readdirSync(usersGitDirectory));
+          done();
+
+        }, 1000);
+      });
+    });
+  });
 
   it("accepts a push", function(done) {
 
     var blogDir = localPath(global.blog.id,'/');
-    var fs = require('fs-extra');
-    var git;
+    var path = '/Hello world.txt';
+    var content = 'Hello, World!';
 
-    create(global.blog, function(err){
-      
+    fs.outputFileSync(global.usersGitDirectory + path, content);
+
+    pushAllChanges(global.usersGitClient, function(err){
+
       expect(err).toEqual(null);
 
-      // clonedDir is equivilent to the folder containing
-      // the repo on the user's computer.
-      clone(function(err, clonedDir){
+      // We don't know when the git repo in the blog directory
+      // will have finished pulling.
+      setTimeout(function(){
 
-        expect(err).toEqual(null);
+        // Verify files and folders are preserved in cloneable folder
+        expect(fs.readdirSync(blogDir)).toEqual(fs.readdirSync(global.usersGitDirectory));
+        done();
 
-        git = Git(clonedDir).silent(true);
-
-        fs.outputFileSync(clonedDir + '/Hello world.txt', 'Hello, World!');
-
-        git.add('.', function(err){
-
-          expect(err).toEqual(null);
-
-          git.commit('initial', function(err){
-
-            expect(err).toEqual(null);
-
-            git.push(function(err){
-
-              expect(err).toEqual(null);
-
-              // We don't know when the git repo in the blog directory
-              // will have finished pulling.
-              setTimeout(function(){
-
-                // Verify files and folders are preserved in cloneable folder
-                expect(fs.readdirSync(blogDir)).toEqual(fs.readdirSync(clonedDir));
-                done();
-
-              }, 1000);              
-            });
-          });
-        });
-      });
+      }, 1000);
     });
   });
 

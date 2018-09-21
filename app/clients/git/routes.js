@@ -2,11 +2,24 @@ var authenticate = require("./authenticate");
 var create = require("./create");
 var database = require("./database");
 var disconnect = require("./disconnect");
-var repos = require("./repos");
+var REPO_DIR = __dirname + "/data";
+var pushover = require("pushover");
+var sync = require("./sync");
+var repos = pushover(REPO_DIR, { autoCreate: true });
 var Express = require("express");
 
 var dashboard = Express.Router();
 var site = Express.Router();
+
+repos.on("push", function(push) {
+  push.accept();
+
+  push.response.once("finish", function() {
+    sync(push.request.user, function(err) {
+      if (err) console.warn(err);
+    });
+  });
+});
 
 dashboard.get("/", function(req, res, next) {
   repos.exists(req.blog.handle + ".git", function(exists) {
@@ -43,7 +56,6 @@ dashboard.post("/refresh_token", function(req, res, next) {
 dashboard.post("/disconnect", function(req, res, next) {
   disconnect(req.blog.id, next);
 });
-
 
 site.use("/end/:gitHandle.git", authenticate);
 

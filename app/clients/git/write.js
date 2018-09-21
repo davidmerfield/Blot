@@ -24,7 +24,7 @@ module.exports = function write(blogID, path, contents, callback) {
       if (err) return callback(err);
 
       debug("Blog:", blogID, "Successfully wrote", path);
-      callback();
+      callback(null);
     });
   });
 };
