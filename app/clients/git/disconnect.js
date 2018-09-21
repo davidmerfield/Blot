@@ -8,6 +8,7 @@ var debug = require("debug")("client:git");
 // Called when the user disconnects the client
 // This may occur when the
 module.exports = function disconnect(blogID, callback) {
+  
   var liveRepoDirectory = localPath(blogID, "/");
   var liveRepo = Git(liveRepoDirectory).silent(true);
 
@@ -32,13 +33,23 @@ module.exports = function disconnect(blogID, callback) {
         //   if (err) return callback(err);
 
         // });
-        liveRepo.removeRemote("origin", function(err) {
 
-          if (err && err.indexOf('No such remote: origin' > -1)) err = null;
+        fs.stat(liveRepoDirectory + '/.git', function(err){
 
-          if (err) return callback(new Error(err));
+          if (err && err.code === 'ENOENT') return callback(null);
 
-          callback(null);
+          if (err) return callback(err);
+
+          // only invoke this if liveRepo is a repo...
+          // otherwise it propagates up to blot repo!
+          liveRepo.removeRemote("origin", function(err) {
+
+            if (err && err.indexOf('No such remote: origin' > -1)) err = null;
+
+            if (err) return callback(new Error(err));
+
+            callback(null);
+          });
         });
       });
     });
