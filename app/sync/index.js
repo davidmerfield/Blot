@@ -7,7 +7,8 @@ var Lease = require('./lease');
 
 var ERROR = {
   DISABLED: 'disabled their account, do not sync',
-  NO_USER: 'does not have a Blot account'
+  NO_USER: 'does not have a Blot account',
+  NO_BLOG: 'does not match any blogs in the db'
 };
 
 require('./check');
@@ -52,7 +53,7 @@ function sync (blogID, main, callback) {
 
       if (!available) {
         logger('Failed to acquire sync lock for', title);
-        return callback();
+        return callback(null, true);
       }
 
       logger('Starting sync for', title);

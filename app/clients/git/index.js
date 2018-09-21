@@ -1,10 +1,13 @@
+// Remove this?
+require("fs-extra").ensureDirSync(__dirname + "/data");
+
 module.exports = {
   display_name: "Git",
   description: "Use a git repository",
 
-  remove: require("./client").remove,
-  write: require("./client").write,
-  disconnect: require("./client").disconnect,
+  remove: require("./remove"),
+  write: require("./write"),
+  disconnect: require("./disconnect"),
   dashboard_routes: require("./routes").dashboard,
   site_routes: require("./routes").site
 };

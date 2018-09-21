@@ -1,5 +1,7 @@
 var Blog = require('../../app/models/blog');
 
 module.exports = function(done){
-  Blog.remove(global.blog.id, done);
+  var id = global.blog.id;
+  delete global.blog;
+  Blog.remove(id, done);
 };

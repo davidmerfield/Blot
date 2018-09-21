@@ -17,6 +17,9 @@ module.exports = function(blogID, path, callback) {
     .and(path, "string")
     .and(callback, "function");
 
+  // Blot likes leading slashes
+  if (path[0] !== "/") path = "/" + path;
+
   // We don't know if this file used to be a draft based
   // on its metadata. We should probably look this up?
   isDraft(blogID, path, function(err, is_draft) {
