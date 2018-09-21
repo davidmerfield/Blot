@@ -4,7 +4,25 @@ describe("create", function() {
   var clone = require('./util/clone');
   var localPath = require('helper').localPath;
 
-  it("should fail when there is an existing repo in the blog's folder", function(done) {
+  // this prevents an existing bare repo from being clobbered
+  it("should fail when called twice", function(done) {
+
+    create(global.blog, function(err){
+      
+      expect(err).toEqual(null);
+      expect(err).not.toEqual(jasmine.any(Error));
+
+      create(global.blog, function(err){
+        
+        expect(err).not.toEqual(null);
+        expect(err).toEqual(jasmine.any(Error));
+
+        done();
+      });
+    });
+  });
+  
+  it("should fail when there is a repo with an origin in the blog's folder", function(done) {
 
     var Git = require("simple-git");
 

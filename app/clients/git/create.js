@@ -17,7 +17,7 @@ module.exports = function create(blog, callback) {
   var bareRepoDirectory = __dirname + "/data/" + blog.handle + ".git";
 
   var queue = [
-    fs.emptyDir.bind(this, bareRepoDirectory),
+    fs.mkdir.bind(this, bareRepoDirectory),
     database.refresh_token.bind(this, blog.id)
   ];
 
