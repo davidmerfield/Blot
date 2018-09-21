@@ -83,13 +83,9 @@ describe("sync", function() {
 
       expect(err).toEqual(null);
 
-      console.log('Waiting 2s...');
-        
-      // We don't know when the git repo in the blog directory
-      // will have finished pulling.
-      setTimeout(function(){
+      waitForSyncToFinish(function(err){
 
-        console.log('Waited 2s...');
+        expect(err).toEqual(null);
 
         checkPostExists(path, function(err){
 
@@ -99,7 +95,7 @@ describe("sync", function() {
           expect(fs.readdirSync(blogDir)).toEqual(fs.readdirSync(global.usersGitDirectory));
           done();
         });
-      }, 2000);
+      });
     });
   });
 

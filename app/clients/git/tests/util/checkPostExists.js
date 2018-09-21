@@ -14,21 +14,23 @@ module.exports = function(path, callback) {
         )
       );
 
+    var message = "No entry exists " + path;
+
     global.usersGitClient.log(function(err, log) {
-      console.log("User client last commit:", log.latest.hash);
+      message += "\nUser client last commit: " + log.latest.hash;
 
       global.bareGitClient.log(function(err, log) {
-        console.log("Bare client last commit:", log.latest.hash);
+        message += "\nBare client last commit: " + log.latest.hash;
 
         global.liveGitClient.log(function(err, log) {
-          console.log("Live client last commit:", log.latest.hash);
+          message += "\nLive client last commit: " + log.latest.hash;
 
-          console.log("Files:", fs.readdirSync(localPath(global.blog.id, "/")));
+          message += "\nFiles: " + fs.readdirSync(localPath(global.blog.id, "/"));
 
           Entries.getAllIDs(global.blog.id, function(err, entries) {
-            console.log("Entries:", entries);
+            message += "\nEntries: " + entries;
 
-            return callback(new Error("No entry exists " + path));
+            return callback(new Error(message));
           });
         });
       });

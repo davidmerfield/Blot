@@ -9,6 +9,7 @@ var repos = pushover(REPO_DIR, { autoCreate: true });
 var Express = require("express");
 var dashboard = Express.Router();
 var site = Express.Router();
+var debug = require('debug')('clients:git:routes');
 
 dashboard.get("/", function(req, res, next) {
   repos.exists(req.blog.handle + ".git", function(exists) {
@@ -53,10 +54,9 @@ repos.on('push', function (push) {
   push.response.on('finish', function(){
     sync(push.request.user, function(err) {
       if (err) {
-        console.log(err);
-        console.log(err.trace);
+        debug(err);
       } else {
-        console.log("Sync finished successfully!");
+        debug('Sync completed successfully!');
       }
     });
   });
