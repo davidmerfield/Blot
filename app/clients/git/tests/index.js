@@ -8,9 +8,10 @@ describe("git", function() {
   // Tear down
   afterEach(require("./util/cleanDataDirectory"));
   afterEach(require("./util/stopServer"));
-  afterEach(global.removeBlog);
   afterEach(global.removeUser);
-
+  afterEach(global.removeBlog);
+  afterEach(require("./util/disconnect"));
+  
   // Test suites
   require("./authenticate");
   require("./create");
