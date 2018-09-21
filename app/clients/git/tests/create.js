@@ -4,7 +4,7 @@ describe("create", function() {
   var clone = require('./util/clone');
   var localPath = require('helper').localPath;
 
-  xit("fails when there is an existing repo in the blog's folder", function(done) {
+  it("should fail when there is an existing repo in the blog's folder", function(done) {
 
     var Git = require("simple-git");
 
@@ -14,10 +14,17 @@ describe("create", function() {
 
       expect(err).toEqual(null);
 
-      create(global.blog, function(err){
-        
-        expect(err).not.toEqual(null);
-        done();
+      Git.addRemote('origin', 'http://git.com/foo.git', function(err){
+
+        expect(err).toEqual(null);
+
+        create(global.blog, function(err){
+          
+          expect(err).not.toEqual(null);
+          expect(err).toEqual(jasmine.any(Error));
+
+          done();
+        });
       });
     });
   });
