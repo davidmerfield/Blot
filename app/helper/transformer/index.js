@@ -22,6 +22,9 @@ var localPath = require('../localPath');
 // saving existing entries, since images don't need
 // to be reuploaded each time!
 
+// TODO:
+// Fix bug with transformer to handle ESOCKETIMEDOUT error...
+
 function Transformer (blogID, name) {
 
   ensure(blogID, 'string')
