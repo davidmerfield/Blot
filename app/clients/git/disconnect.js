@@ -4,7 +4,7 @@ var localPath = helper.localPath;
 var Blog = require("blog");
 var Git = require("simple-git");
 var debug = require("debug")("client:git:disconnect");
-var database = require("database");
+var database = require("./database");
 
 // Called when the user disconnects the client
 // This may occur when the
