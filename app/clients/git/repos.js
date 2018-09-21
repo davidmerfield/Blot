@@ -5,7 +5,7 @@ var repos = pushover(REPO_DIR, { autoCreate: true });
 
 repos.on("push", function(push) {
 
-  console.log('here push', push.user);
+  // console.log('here push', push.user);
 
   push.accept();
 

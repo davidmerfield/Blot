@@ -20,13 +20,13 @@ module.exports = function sync(repo, callback) {
 
       debug("Blog folder is synchronized");
       debug(info);
-      console.log(
-        "Blog:",
-        blog.id,
-        "(" + handle + ")",
-        "Git: post-receive",
-        info
-      );
+      // console.log(
+      //   "Blog:",
+      //   blog.id,
+      //   "(" + handle + ")",
+      //   "Git: post-receive",
+      //   info
+      // );
 
       Sync(
         blog.id,

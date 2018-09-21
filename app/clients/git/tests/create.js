@@ -4,7 +4,7 @@ describe("create", function() {
   var clone = require('./util/clone');
   var localPath = require('helper').localPath;
 
-  it("prevents creation when git repo exists in blog folder", function(done) {
+  it("fails when there is an existing repo in the blog's folder", function(done) {
 
     var Git = require("simple-git");
 
@@ -15,31 +15,13 @@ describe("create", function() {
       expect(err).toEqual(null);
 
       create(global.blog, function(err){
-      
-        expect(err).not.toEqual(null);
+        
+        expect(err instanceof Error).toEqual(true);
         done();
       });
     });
   });
   
-  it("generates and stores a token for the blog", function(done) {
-
-    var database = require('../database');
-
-    create(global.blog, function(err){
-
-      expect(err).toEqual(null);
-
-      database.get_token(global.blog.id, function(err, token){
-
-        expect(err).toEqual(null);
-        expect(token).toEqual(jasmine.any(String));
-
-        done();
-      });
-    });
-  });
-
   it("preserves existing files and folders", function(done) {
 
     var blogDir = localPath(global.blog.id,'/');
