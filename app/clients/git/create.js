@@ -22,6 +22,8 @@ module.exports = function create(blog, callback) {
   var bareRepo;
   var liveRepo;
 
+  fs.removeSync(tmpDirectory);
+  
   fs.move(blogDirectory, tmpDirectory, function(err) {
     if (err) return callback(err);
     fs.mkdir(blogDirectory, function(err) {
