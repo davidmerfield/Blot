@@ -1,3 +1,6 @@
+Add explanation for how to mirror blot blog repo on Github or Gitlab:
+  https://mail.google.com/mail/u/1/#inbox/1658e28be94479af
+  
 Prune package.json:
   Remove "aws-sdk" once thumbnails and image cache and avatar done locally.
   Remove "clean-css" for alternatives below under 'To minify CSS'
@@ -22,27 +25,12 @@ Prune package.json:
 Fix failed thumbnails in Ben's post:
 http://trampeur.blot.im/from-kuchl-to-the-campsite-at-pfarrwerfen-2
 
-Git client bugs:
-
-  Fix [Eivind's git client bugs](https://mail.google.com/mail/u/1/#inbox/164c77e25fd8ff15)
-  - Issue with images
-
-  Fix [Dominick's git client bugs](https://twitter.com/sluderndotcom/status/1015655379076833288)
-   - Folder saved under dominikgitbug
-
-  Weird issue with slash in the file's name sent to metadata
-  Moving a file fails
-  File size bug and tell [Dominik](https://twitter.com/sprsso_de/status/1005501789817323520)
-    - I think this was caused by nginx request size limit, which I have increased
-  Tell Taurean when new Dropbox client is live
 
 Fix bug with blurry thumbnails on https://photos.asw.fyi/ and tell Adam
   - https://photos.asw.fyi/cod-heads-at-borgarfj%C3%B6r%C3%B0ur-eystri
   - https://photos.asw.fyi/road-to-skaft%C3%A1rhreppur
   It seems like the medium version is the same image as the small version. Determine if issue is reproducible with source image. It might just be the cache. Is it possibly the hash of the generated file?
 
-  Add explanation for how to mirror blot blog repo on Github or Gitlab:
-  https://mail.google.com/mail/u/1/#inbox/1658e28be94479af
   
 Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
 
@@ -51,8 +39,6 @@ https://twitter.com/stuartfrisby/status/1036605806148501504
 via DM: https://twitter.com/aswfyi
 
 Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
-
-Fix [Rob's git client bugs](https://mail.google.com/mail/u/1/#inbox/1657f11a67266434)
 
 Fix bug with title and partials in local editing
   - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
@@ -64,17 +50,12 @@ Fix bug with double escaped embedded ampersands.
   http://rtimmons.blot.im/member-function-dispatch
   Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4)
   
-Fix case-sensitive bug with weblocs by passing case-sensitive path to entry.build and tell [Frank](https://mail.google.com/mail/u/1/#inbox/1645a74250006a08)
-
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
 
 Fix issue with protocol-less image URLs. Move thumbnails off blotcdn and into assets folder.
 - Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a)
 - Tell [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) also about the bug
 - Tell [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358)
-
-Fix bug with Word Document links and
-- Tell [Rodericus](https://twitter.com/Rodericus/status/992082759798677505)
 
 Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note) this is seriously bad.
 - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
@@ -99,9 +80,6 @@ Fix encoding bug with greek URLs
 
 Fix bug with case sensitivity for tag folders
 - Let [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) know 
-
-Fix bug when you try to restart a cancelled Blot subscription
-- Let [Steve](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b5d2dc1d9ae9e1) know
 
 Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player
 - Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
@@ -128,6 +106,7 @@ Fix bug with cache not busting for static rendered templates:
 2. sync, create view e.g. static.js which renders all_entries
 3. remove posts from blog
 4. reload page, static.js still shows the entries, which archives.html does not
+
 Fix bug with disqus plugin on preview subdomains
 
 ---
