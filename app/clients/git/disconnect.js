@@ -2,8 +2,8 @@ var fs = require("fs-extra");
 var helper = require("helper");
 var localPath = helper.localPath;
 var Blog = require("blog");
-var debug = require("debug")("client:git");
 var Git = require("simple-git");
+var debug = require("debug")("client:git");
 
 // Called when the user disconnects the client
 // This may occur when the
