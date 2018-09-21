@@ -16,7 +16,7 @@ describe("create", function() {
 
       create(global.blog, function(err){
         
-        expect(err instanceof Error).toEqual(true);
+        expect(err).not.toEqual(null);
         done();
       });
     });
@@ -33,7 +33,7 @@ describe("create", function() {
 
     create(global.blog, function(err){
       
-      if (err) return done(err);
+      expect(err).toEqual(null);
 
       // Verify files and folders are preserved on Blot's copy of blog folder
       expect(fs.readdirSync(blogDir)).toEqual(['.git', 'Sub Folder', 'first.txt', 'third']);
@@ -41,7 +41,7 @@ describe("create", function() {
 
       clone(function(err, clonedDir){
 
-        if (err) return done(err);
+        expect(err).toEqual(null);
 
         // Verify files and folders are preserved in cloneable folder
         expect(fs.readdirSync(clonedDir)).toEqual(['.git', 'Sub Folder', 'first.txt', 'third']);
