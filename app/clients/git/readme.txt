@@ -14,14 +14,11 @@ Move these into this module when I start using git submodules or npm submodules 
 
 To do
 -----
+* consolidate reference to location of bareRepoDirectory in tests and code so we can move this in future painlessly: basically look for '/data'
+* This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
 * what happens if user changes their handle? will pushing break?
   - i want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
-
-* tidy up console.log and debugging
-* consolidate reference to location of bareRepoDirectory in tests and code so we can move this in future painlessly: basically look for '/data'
-* Rate limit authentication route
-* This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
-* clean bare repos created during tests
+* Rate limit authentication route?
 
 How does it work?
 -----------------
