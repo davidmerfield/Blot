@@ -20,7 +20,7 @@ module.exports = function (done) {
       }
 
       global.usersGitDirectory = clonedDir;
-      done();
+      done(null);
     });
   });
 };

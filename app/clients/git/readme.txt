@@ -15,7 +15,7 @@ Move these into this module when I start using git submodules or npm submodules 
 To do
 -----
 * tidy up console.log and debugging
-* consolidate reference to location of bareRepoDirectory in tests and code so we can move this in future painlessly
+* consolidate reference to location of bareRepoDirectory in tests and code so we can move this in future painlessly: basically look for '/data'
 * Rate limit authentication route
 * This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
 * clean bare repos created during tests

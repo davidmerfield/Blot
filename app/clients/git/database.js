@@ -14,7 +14,7 @@ function token_key(blog_id) {
 }
 
 function refresh_token(blog_id, callback) {
-  var new_token = uuid().replace("-", "");
+  var new_token = uuid().replace(/-/g, '');
 
   debug("Blog:", blog_id, "Refreshing token");
 

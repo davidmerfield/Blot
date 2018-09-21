@@ -1,18 +1,30 @@
 describe("authenticate", function() {
-  beforeEach(require("./util/createRepo"));
-
   var Git = require("simple-git")(require("./util/dataDirectory")).silent(true);
   var repoUrl = require("./util/repoUrl");
+  var database = require("../database");
+  var setupUser = require("./util/setupUser");
 
-  it("allows a valid user to clone a valid repo", function(done) {
-    var url = repoUrl(global.blog.handle, global.gitToken, global.blog.handle);
-
-    Git.clone(url, function(err) {
+  it("prevents a previously valid user if they refresh their tokens", function(done) {
+    setupUser(function(err) {
       expect(err).toEqual(null);
-      done();
+
+      database.refresh_token(global.blog.id, function(err) {
+        expect(err).toEqual(null);
+
+        global.usersGitClient.commit("initial", function(err) {
+          expect(err).toEqual(null);
+
+          global.usersGitClient.push(function(err) {
+            expect(err).not.toEqual(null);
+            expect(err).toContain("401 Unauthorized");
+
+            done();
+          });
+        });
+      });
     });
   });
-  
+
   it("prevents valid user from accessing other repo", function(done) {
     var badRepo = "other_repo";
     var url = repoUrl(global.blog.handle, global.gitToken, badRepo);
