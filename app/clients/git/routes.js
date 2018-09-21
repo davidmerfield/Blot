@@ -7,7 +7,6 @@ var pushover = require("pushover");
 var sync = require("./sync");
 var repos = pushover(REPO_DIR, { autoCreate: true });
 var Express = require("express");
-var gitEmit = require("git-emit-node7");
 var dashboard = Express.Router();
 var site = Express.Router();
 
@@ -49,37 +48,10 @@ dashboard.post("/disconnect", function(req, res, next) {
 
 site.use("/end/:gitHandle.git", authenticate);
 
-site.use("/end/:gitHandle.git", function(req, res, next) {
-  var emitter;
-  var handle = req.params.gitHandle;
-  var bareRepoDir = __dirname + "/data/" + req.params.gitHandle + ".git";
-
-  if (req.path !== '/git-receive-pack'){
-    return next();
-  } 
-  
-  emitter = gitEmit(bareRepoDir, function(err) {
-    if (err) {
-      console.log("ERROR STARTING LISTENER", err);
-      // return next(err);
-    } else {
-      console.log("started emitter", req.path);
-    }
-
-    next();
-  });
-
-  emitter.on('error', function(err){
-    console.log('emitter error', err);
-  });
-
-  emitter.on("post-receive", function(e) {
-  
-    console.log('closing emitter');
-    emitter.close();
-    console.log('closed emitter');
-
-    sync(handle, function(err) {
+repos.on('push', function (push) {
+  push.accept();
+  push.response.on('finish', function(){
+    sync(push.request.user, function(err) {
       if (err) {
         console.log(err);
         console.log(err.trace);
