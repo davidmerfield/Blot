@@ -20,7 +20,7 @@ dashboard.get("/", function(req, res, next) {
 });
 
 dashboard.get("/", function(req, res) {
-  database.get_token(req.blog.id, function(err, token) {
+  database.getToken(req.blog.id, function(err, token) {
     res.render(__dirname + "/views/index.html", {
       title: "Git",
       token: token,
@@ -35,8 +35,8 @@ dashboard.get("/disconnect", function(req, res) {
   });
 });
 
-dashboard.post("/refresh_token", function(req, res, next) {
-  database.refresh_token(req.blog.id, function(err) {
+dashboard.post("/refresh-token", function(req, res, next) {
+  database.refreshToken(req.blog.id, function(err) {
     if (err) return next(err);
 
     res.redirect(req.baseUrl);

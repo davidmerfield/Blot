@@ -8,7 +8,7 @@ describe("authenticate", function() {
     setupUser(function(err) {
       expect(err).toEqual(null);
 
-      database.refresh_token(global.blog.id, function(err) {
+      database.refreshToken(global.blog.id, function(err) {
         expect(err).toEqual(null);
 
         global.usersGitClient.commit("initial", function(err) {

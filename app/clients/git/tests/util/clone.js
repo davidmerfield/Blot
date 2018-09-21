@@ -4,7 +4,7 @@ module.exports = function (done) {
   var repoUrl = require("./repoUrl");
   var database = require('../../database');
 
-  database.get_token(global.blog.id, function(err, token) {
+  database.getToken(global.blog.id, function(err, token) {
 
     if (err) return done(err);  
 

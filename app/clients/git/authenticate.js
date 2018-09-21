@@ -17,7 +17,7 @@ module.exports = auth.connect(
         return callback(false);
       }
 
-      database.check_token(blog.id, token, function(err, valid) {
+      database.checkToken(blog.id, token, function(err, valid) {
         callback(err === null && valid);
       });
     });

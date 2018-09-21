@@ -7,7 +7,7 @@ module.exports = function (done) {
 
     if (err) return done(err);
 
-    database.get_token(global.blog.id, function(err, token) {
+    database.getToken(global.blog.id, function(err, token) {
 
       if (err) return done(err);  
 
