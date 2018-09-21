@@ -31,7 +31,7 @@ dashboard.get("/", function(req, res, next) {
 
 dashboard.get("/", function(req, res) {
   database.get_token(req.blog.id, function(err, token) {
-    res.render(__dirname + "/views/" + name + ".html", {
+    res.render(__dirname + "/views/index.html", {
       title: "Git",
       token: token,
       host: process.env.BLOT_HOST
@@ -40,7 +40,7 @@ dashboard.get("/", function(req, res) {
 });
 
 dashboard.get("/disconnect", function(req, res) {
-  res.render(__dirname + "/views/" + disconnect + ".html", {
+  res.render(__dirname + "/views/disconnect.html", {
     title: "Git"
   });
 });
