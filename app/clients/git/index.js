@@ -1,3 +1,6 @@
+// Remove this?
+require('fs-extra').ensureDirSync(__dirname + '/data');
+
 module.exports = {
   display_name: "Git",
   description: "Use a git repository",
