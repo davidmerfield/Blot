@@ -2,7 +2,7 @@ var fs = require("fs-extra");
 var helper = require("helper");
 var localPath = helper.localPath;
 var Git = require("simple-git");
-var debug = require("debug")("client:git");
+var debug = require("debug")("client:git:write");
 
 // Used to write a file to the user's blog folder
 // contents can be anything supported by fs-extra.outputFile

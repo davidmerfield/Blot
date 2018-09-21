@@ -9,7 +9,7 @@ var repos = pushover(REPO_DIR, { autoCreate: true });
 var Express = require("express");
 var dashboard = Express.Router();
 var site = Express.Router();
-var debug = require('debug')('clients:git:routes');
+var debug = require("debug")("clients:git:routes");
 
 dashboard.get("/", function(req, res, next) {
   repos.exists(req.blog.handle + ".git", function(exists) {
@@ -49,14 +49,14 @@ dashboard.post("/disconnect", function(req, res, next) {
 
 site.use("/end/:gitHandle.git", authenticate);
 
-repos.on('push', function (push) {
+repos.on("push", function(push) {
   push.accept();
-  push.response.on('finish', function(){
+  push.response.on("finish", function() {
     sync(push.request.user, function(err) {
       if (err) {
         debug(err);
       } else {
-        debug('Sync completed successfully!');
+        debug("Sync completed successfully!");
       }
     });
   });

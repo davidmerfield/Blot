@@ -1,6 +1,6 @@
 var database = {};
 var client = require("client");
-var debug = require("debug")("client:git:dashboard");
+var debug = require("debug")("client:git:database");
 
 // I picked v4 from 5 possible versions
 // because it said random next to its name?
@@ -14,7 +14,7 @@ function token_key(blog_id) {
 }
 
 function refresh_token(blog_id, callback) {
-  var new_token = uuid().replace(/-/g, '');
+  var new_token = uuid().replace(/-/g, "");
 
   debug("Blog:", blog_id, "Refreshing token");
 
@@ -37,6 +37,12 @@ function check_token(blog_id, token, callback) {
   });
 }
 
+function flush(blog_id, callback) {
+  debug("Blog:", blog_id, "Getting token");
+
+  client.del(token_key(blog_id), callback);
+}
+
 function get_token(blog_id, callback) {
   debug("Blog:", blog_id, "Getting token");
 
@@ -45,6 +51,7 @@ function get_token(blog_id, callback) {
 
 database.check_token = check_token;
 database.get_token = get_token;
+database.flush = flush;
 database.refresh_token = refresh_token;
 
 module.exports = database;

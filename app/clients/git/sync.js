@@ -1,7 +1,7 @@
 var async = require("async");
 var Change = require("sync").change;
 var Sync = require("sync");
-var debug = require("debug")("client:git:listener");
+var debug = require("debug")("client:git:sync");
 var Git = require("simple-git");
 var Blog = require("blog");
 var localPath = require("helper").localPath;
@@ -18,27 +18,29 @@ function main(blog) {
     var git = Git(localPath(blog.id, "/")).silent(true);
 
     git.pull(function(err, info) {
-
       if (err) return callback(err);
 
       debug(info);
 
-      async.eachSeries(info.created, function(path, next){
-        
-        debug("Calling set with", blog.id, path);
-        Change.set(blog, path, next);
+      async.eachSeries(
+        info.created,
+        function(path, next) {
+          debug("Calling set with", blog.id, path);
+          Change.set(blog, path, next);
+        },
+        function(err) {
+          if (err) return callback(err);
 
-      }, function(err){
-
-        if (err) return callback(err);
-
-        async.eachSeries(info.deleted, function(path, next){
-
-          debug("Calling drop with", blog.id, path);
-          Change.drop(blog.id, path, next);
-
-        }, callback);
-      });
+          async.eachSeries(
+            info.deleted,
+            function(path, next) {
+              debug("Calling drop with", blog.id, path);
+              Change.drop(blog.id, path, next);
+            },
+            callback
+          );
+        }
+      );
     });
   };
 }

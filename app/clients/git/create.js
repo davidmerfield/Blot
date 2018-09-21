@@ -39,17 +39,19 @@ module.exports = function create(blog, callback) {
           if (err) return callback(new Error(err));
 
           liveRepo.add(".", function(err) {
-            liveRepo.commit("Initial commit", { "--allow-empty": true }, function(
-              err
-            ) {
-              if (err) return callback(new Error(err));
-
-              liveRepo.push(["-u", "origin", "master"], function(err) {
+            liveRepo.commit(
+              "Initial commit",
+              { "--allow-empty": true },
+              function(err) {
                 if (err) return callback(new Error(err));
 
-                callback(null);
-              });
-            });
+                liveRepo.push(["-u", "origin", "master"], function(err) {
+                  if (err) return callback(new Error(err));
+
+                  callback(null);
+                });
+              }
+            );
           });
         });
       });

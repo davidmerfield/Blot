@@ -13,7 +13,6 @@ module.exports = function remove(blogID, path, callback) {
   debug("Blog:", blogID, "Removing", path);
 
   fs.remove(localPath(blogID, path), function(err) {
-  
     if (err) return callback(err);
 
     git = Git(localPath(blogID, "/"));
