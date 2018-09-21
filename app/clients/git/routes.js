@@ -7,19 +7,9 @@ var pushover = require("pushover");
 var sync = require("./sync");
 var repos = pushover(REPO_DIR, { autoCreate: true });
 var Express = require("express");
-
+var gitEmit = require("git-emit-node7");
 var dashboard = Express.Router();
 var site = Express.Router();
-
-repos.on("push", function(push) {
-  push.accept();
-
-  push.response.once("finish", function() {
-    sync(push.request.user, function(err) {
-      if (err) console.warn(err);
-    });
-  });
-});
 
 dashboard.get("/", function(req, res, next) {
   repos.exists(req.blog.handle + ".git", function(exists) {
@@ -58,6 +48,47 @@ dashboard.post("/disconnect", function(req, res, next) {
 });
 
 site.use("/end/:gitHandle.git", authenticate);
+
+site.use("/end/:gitHandle.git", function(req, res, next) {
+  var emitter;
+  var handle = req.params.gitHandle;
+  var bareRepoDir = __dirname + "/data/" + req.params.gitHandle + ".git";
+
+  if (req.path !== '/git-receive-pack'){
+    return next();
+  } 
+  
+  emitter = gitEmit(bareRepoDir, function(err) {
+    if (err) {
+      console.log("ERROR STARTING LISTENER", err);
+      // return next(err);
+    } else {
+      console.log("started emitter", req.path);
+    }
+
+    next();
+  });
+
+  emitter.on('error', function(err){
+    console.log('emitter error', err);
+  });
+
+  emitter.on("post-receive", function(e) {
+  
+    console.log('closing emitter');
+    emitter.close();
+    console.log('closed emitter');
+
+    sync(handle, function(err) {
+      if (err) {
+        console.log(err);
+        console.log(err.trace);
+      } else {
+        console.log("Sync finished successfully!");
+      }
+    });
+  });
+});
 
 // We need to pause then resume for some
 // strange reason. Read pushover's issue #30

@@ -4,7 +4,7 @@ describe("create", function() {
   var clone = require('./util/clone');
   var localPath = require('helper').localPath;
 
-  it("fails when there is an existing repo in the blog's folder", function(done) {
+  xit("fails when there is an existing repo in the blog's folder", function(done) {
 
     var Git = require("simple-git");
 

@@ -15,14 +15,8 @@ module.exports = function create(blog, callback) {
 
   var liveRepoDirectory = localPath(blog.id, "/");
   var bareRepoDirectory = __dirname + "/data/" + blog.handle + ".git";
-  var tempRepoDirectory = __dirname + "/data/tmp/" + blog.handle;
-
-  var tempRepoGitDirectory = tempRepoDirectory + "/.git";
-  var liveRepoGitDirectory = liveRepoDirectory + "/.git";
 
   var queue = [
-    ensureBlogHasNoRepo.bind(this, liveRepoGitDirectory),
-    fs.emptyDir.bind(this, tempRepoDirectory),
     fs.emptyDir.bind(this, bareRepoDirectory),
     database.refresh_token.bind(this, blog.id)
   ];
@@ -36,49 +30,29 @@ module.exports = function create(blog, callback) {
     // Create bare repository in git data directory
     // which will serve as source of truth for repo.
     bareRepo.init(true, function(err) {
-      if (err) return callback(err);
+      if (err) return callback(new Error(err));
 
-      bareRepo.clone(bareRepoDirectory, tempRepoDirectory, function(err) {
-        if (err) return callback(err);
+      liveRepo.init(function(err) {
+        if (err) return callback(new Error(err));
 
-        // Install the checked out repo's git folder 
-        // in the live blog directory. This means we don't
-        // have to worry about copying the blog folder's files
-        // since there might be many.
-        fs.move(tempRepoGitDirectory, liveRepoGitDirectory, function(err) {
-          if (err) return callback(err);
+        liveRepo.add(".", function(err) {
+          liveRepo.commit("Initial commit", { "--allow-empty": true }, function(
+            err
+          ) {
+            if (err) return callback(new Error(err));
 
-          initialCommit(liveRepo, callback);
+            liveRepo.addRemote("origin", bareRepoDirectory, function(err) {
+              if (err) return callback(new Error(err));
+
+              liveRepo.push(["-u", "origin", "master"], function(err) {
+                if (err) return callback(new Error(err));
+
+                callback(null);
+              });
+            });
+          });
         });
       });
     });
   });
 };
-
-function initialCommit(repo, callback) {
-  repo.add("./*", function(err) {
-    if (err) return callback(null);
-
-    repo.commit(["-m", "Initial commit"], function(err) {
-      if (err) return callback(err);
-
-      repo.push(["-u", "origin", "master"], function(err) {
-        if (err) return callback(err);
-
-        callback(null);
-      });
-    });
-  });
-}
-
-function ensureBlogHasNoRepo(path, callback) {
-  // This should fail if user has git repo already in folder
-  // but it doesn't...
-  fs.stat(path, function(err) {
-    if (!err) return callback(new Error("Git exists"));
-
-    if (err.code !== "ENOENT") return callback(err);
-
-    callback(null);
-  });
-}
