@@ -1,8 +1,3 @@
-Fix bug which slows down sync process:
-  https://github.com/davidmerfield/Blot/issues/15
-  Tell tim https://mail.google.com/mail/u/1/#inbox/165ed82af17884ac
-  Tell john https://mail.google.com/mail/u/1/#inbox/165ee94ba5cc448b
-  
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
 
 Dropbox client bugs:
@@ -47,6 +42,8 @@ Markdown bugs:
   Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player
   - Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
 
+  Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67)
+    > I noticed another problem from WordPress import that is not unique to Blot, but also is a problem on GitHub. Namely, blockquotes in Markdown with multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly. I guess I need to strip these out with a script...
   Fix bug with strange windows notepad encoding 
   - Let [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc) know
 
@@ -257,15 +254,19 @@ Photo posts
   - Tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
   
 Write a unified import tool which scrapes content from any blog/website
-  Jekyll converter
+  Jekyll converter importer
+  - Map categories to tags and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67)
   - Map excerpt metadata to summary 
   - Map title metadata to # Title
   - Migrate assets to /_assets and fix links accordingly
+    - Resolve existing images and links to them in media folder correctly and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Move media folder to _media for compatability.
+
   https://github.com/hexojs/hexo-migrator-blogger
   https://github.com/welksonramos/hexo-migrator-joomla
   https://github.com/hexojs/hexo-migrator-rss
   https://github.com/hexojs/hexo-migrator-wordpress
   https://github.com/dreikanter/wp2md exporter/importer
+
 
 Template system
 - Install and test a few of these static site generators:
