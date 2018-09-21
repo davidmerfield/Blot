@@ -1,5 +1,7 @@
 Fix bug which slows down sync process:
   https://github.com/davidmerfield/Blot/issues/15
+  Tell tim https://mail.google.com/mail/u/1/#inbox/165ed82af17884ac
+  Tell john https://mail.google.com/mail/u/1/#inbox/165ee94ba5cc448b
   
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
 
