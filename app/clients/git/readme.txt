@@ -18,6 +18,7 @@ To do
 * consolidate reference to location of bareRepoDirectory in tests and code so we can move this in future painlessly
 * Rate limit authentication route
 * This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
+* clean bare repos created during tests
 
 How does it work?
 -----------------
