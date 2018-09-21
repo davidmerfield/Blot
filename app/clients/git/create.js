@@ -3,6 +3,7 @@ var fs = require("fs-extra");
 var Git = require("simple-git");
 var database = require("./database");
 var localPath = require("helper").localPath;
+var dataDir = require('./dataDir');
 
 // What should create do?
 // - should it return an error if there is already a git repo in the user's folder?
@@ -14,7 +15,7 @@ module.exports = function create(blog, callback) {
   var liveRepo;
 
   var liveRepoDirectory = localPath(blog.id, "/");
-  var bareRepoDirectory = __dirname + "/data/" + blog.handle + ".git";
+  var bareRepoDirectory = dataDir + "/" + blog.handle + ".git";
 
   var queue = [
     fs.mkdir.bind(this, bareRepoDirectory),

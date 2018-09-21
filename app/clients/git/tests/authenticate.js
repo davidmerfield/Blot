@@ -1,5 +1,5 @@
 describe("authenticate", function() {
-  var Git = require("simple-git")(require("./util/dataDirectory")).silent(true);
+  var Git = require("simple-git")(require("./util/testDataDirectory")).silent(true);
   var repoUrl = require("./util/repoUrl");
   var database = require("../database");
   var setupUser = require("./util/setupUser");

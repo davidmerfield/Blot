@@ -1,6 +1,6 @@
 module.exports = function (done) {
 
-  var Git = require("simple-git")(require("./dataDirectory")).silent(true);
+  var Git = require("simple-git")(require("./testDataDirectory")).silent(true);
   var repoUrl = require("./repoUrl");
   var database = require('../../database');
 
@@ -14,7 +14,7 @@ module.exports = function (done) {
       
       if (err) return done(new Error(err));
 
-      done(null, require("./dataDirectory") + '/' + global.blog.handle);
+      done(null, require("./testDataDirectory") + '/' + global.blog.handle);
     });
   });
 };

@@ -2,6 +2,8 @@ var createRepo = require('./createRepo');
 var clone = require('./clone');
 var Git = require("simple-git");
 var localPath = require('helper').localPath;
+var dataDir = require('../../dataDir');
+
 module.exports = function (done) {
   createRepo(function(err){
 
@@ -12,7 +14,7 @@ module.exports = function (done) {
       if (err) return done(err);
 
       try {
-        global.bareGitClient = Git(__dirname + '/../../data/' + global.blog.handle + '.git').silent(true);
+        global.bareGitClient = Git(dataDir + '/' + global.blog.handle + '.git').silent(true);
         global.liveGitClient = Git(localPath(global.blog.id, '/')).silent(true);
         global.usersGitClient = Git(clonedDir).silent(true);
       } catch (err) {

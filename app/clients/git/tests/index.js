@@ -3,10 +3,10 @@ describe("git", function() {
   beforeEach(global.createUser);
   beforeEach(global.createBlog);
   beforeEach(require("./util/startServer"));
-  beforeEach(require("./util/cleanDataDirectory"));
+  beforeEach(require("./util/cleanTestDataDirectory"));
 
   // Tear down
-  afterEach(require("./util/cleanDataDirectory"));
+  afterEach(require("./util/cleanTestDataDirectory"));
   afterEach(require("./util/stopServer"));
   afterEach(global.removeUser);
   afterEach(global.removeBlog);

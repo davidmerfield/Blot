@@ -5,6 +5,7 @@ var Blog = require("blog");
 var Git = require("simple-git");
 var debug = require("debug")("client:git:disconnect");
 var database = require("./database");
+var dataDir = require('./dataDir');
 
 // Called when the user disconnects the client
 // This may occur when the
@@ -26,7 +27,7 @@ module.exports = function disconnect(blogID, callback) {
         if (err) return callback(err);
 
         // Remove the bare git repo in /repos
-        fs.remove(__dirname + "/data/" + blog.handle + ".git", function(err) {
+        fs.remove(dataDir + "/" + blog.handle + ".git", function(err) {
           if (err) return callback(err);
 
           // Remove the .git directory in the user's blog folder?
