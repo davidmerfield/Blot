@@ -1,6 +1,7 @@
 describe("create", function() {
 
   var create = require('../create');
+  var disconnect = require('../disconnect');
   var clone = require('./util/clone');
   var localPath = require('helper').localPath;
 
@@ -21,6 +22,32 @@ describe("create", function() {
       });
     });
   });
+
+  // this prevents an existing bare repo from being clobbered
+  // this simulates a user connecting the git client, disconnecting
+  // then connecting again..
+  it("should not fail when disconnect is called inbetween", function(done) {
+
+    create(global.blog, function(err){
+      
+      expect(err).toEqual(null);
+      expect(err).not.toEqual(jasmine.any(Error));
+
+      disconnect(global.blog.id, function(err){
+
+        expect(err).toEqual(null);
+        expect(err).not.toEqual(jasmine.any(Error));
+
+        create(global.blog, function(err){
+          
+          expect(err).toEqual(null);
+          expect(err).not.toEqual(jasmine.any(Error));
+
+          done();
+        });
+      });      
+    });
+  });  
   
   it("should fail when there is a repo with an origin in the blog's folder", function(done) {
 

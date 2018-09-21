@@ -14,6 +14,7 @@ Move these into this module when I start using git submodules or npm submodules 
 
 To do
 -----
+* are all of simple-git's error strings turned into error objects?
 * consolidate reference to location of bareRepoDirectory in tests and code so we can move this in future painlessly: basically look for '/data'
 * This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
 * what happens if user changes their handle? will pushing break?

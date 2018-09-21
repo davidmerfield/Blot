@@ -3,15 +3,17 @@ var helper = require("helper");
 var localPath = helper.localPath;
 var Blog = require("blog");
 var debug = require("debug")("client:git");
+var Git = require("simple-git");
 
 // Called when the user disconnects the client
 // This may occur when the
-module.exports = function disconnect (blogID, callback) {
+module.exports = function disconnect(blogID, callback) {
+  var liveRepoDirectory = localPath(blogID, "/");
+  var liveRepo = Git(liveRepoDirectory).silent(true);
 
   // TODO, this shit should be handled at the next layer up
   // we shouldn't worry about setting blog.client to ""
   Blog.get({ id: blogID }, function(err, blog) {
-
     if (err || !blog) {
       return callback(err || new Error("No blog"));
     }
@@ -23,8 +25,6 @@ module.exports = function disconnect (blogID, callback) {
       fs.remove(__dirname + "/data/" + blog.handle + ".git", function(err) {
         if (err) return callback(err);
 
-        callback(null);
-
         // Remove the .git directory in the user's blog folder?
         // maybe don't do this... they might want it...
         // what if there was a repo in their folder beforehand?
@@ -32,6 +32,14 @@ module.exports = function disconnect (blogID, callback) {
         //   if (err) return callback(err);
 
         // });
+        liveRepo.removeRemote("origin", function(err) {
+
+          if (err && err.indexOf('No such remote: origin' > -1)) err = null;
+
+          if (err) return callback(new Error(err));
+
+          callback(null);
+        });
       });
     });
   });
