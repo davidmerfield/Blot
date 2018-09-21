@@ -43,6 +43,10 @@ module.exports = function(blog, path, options, callback) {
     options = {};
   }
 
+  // Blot likes leading slashes
+  if (path[0] !== "/") path = "/" + path;
+
+
   queue = {
     is_preview: isPreview.bind(this, blog.id, path),
     dependents: rebuildDependents.bind(this, blog.id, path)
