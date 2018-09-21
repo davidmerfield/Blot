@@ -20,15 +20,25 @@ module.exports = function remove(blogID, path, callback) {
     // Git does not like paths with leading slashes
     if (path[0] === "/") path = path.slice(1);
 
-    git.add(path).commit("Removed " + path);
+    // Could we queue these commands for better performance?
+    git.add(path, function(err){
 
-    // We push changes made to the bare repository in
-    // data/clients/git/{blogID}
-    git.push(function(err) {
-      if (err) return callback(err);
+      // simple-git returns errors as strings
+      if (err) return callback(new Error(err));
 
-      debug("Blog:", blogID, "Successfully removed", path);
-      callback(null);
+      git.commit("Removed " + path, function(err){
+
+        if (err) return callback(new Error(err));
+      
+        // We push changes made to the bare repository
+        git.push(function(err) {
+        
+          if (err) return callback(new Error(err));
+      
+          debug("Blog:", blogID, "Successfully removed", path);
+          callback(null);
+        });
+      });
     });
   });
 };

@@ -14,12 +14,19 @@ Move these into this module when I start using git submodules or npm submodules 
 
 To do
 -----
-* are all of simple-git's error strings turned into error objects?
 * consolidate reference to location of bareRepoDirectory in tests and code so we can move this in future painlessly: basically look for '/data'
 * This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
 * what happens if user changes their handle? will pushing break?
   - i want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
 * Rate limit authentication route?
+
+Pitfalls
+--------
+* are all of simple-git's error strings turned into error objects? ran into issues with tests and this
+* is authentication failing? are the pushes getting through?
+* are you passing arguments to simple-git correctly? silently ignoring flags tripped me up.
+* is a simple-git command propagating up to blot's git repo? this might cause strange behaviour.
+* is simple-git's PullSummary not containing the files it should?
 
 How does it work?
 -----------------

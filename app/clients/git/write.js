@@ -18,13 +18,25 @@ module.exports = function write(blogID, path, contents, callback) {
     // Git does not like paths with leading slashes
     if (path[0] === "/") path = path.slice(1);
 
-    git.add(path).commit("Updated " + path);
+    // Could we queue these commands for better performance?
+    git.add(path, function(err){
 
-    git.push(function(err) {
-      if (err) return callback(err);
+      // simple-git returns errors as strings
+      if (err) return callback(new Error(err));
 
-      debug("Blog:", blogID, "Successfully wrote", path);
-      callback(null);
+      git.commit("Updated " + path, function(err){
+
+        if (err) return callback(new Error(err));
+      
+        // We push changes made to the bare repository
+        git.push(function(err) {
+        
+          if (err) return callback(new Error(err));
+      
+          debug("Blog:", blogID, "Wrote", path);
+          callback(null);
+        });
+      });
     });
   });
 };

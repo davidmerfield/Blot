@@ -27,6 +27,8 @@ module.exports = function create(blog, callback) {
     bareRepo = Git(bareRepoDirectory).silent(true);
     liveRepo = Git(liveRepoDirectory).silent(true);
 
+    // Simple git returns stderr as a string
+    // so we produce a new error from it...
     liveRepo.init(function(err) {
       if (err) return callback(new Error(err));
 
