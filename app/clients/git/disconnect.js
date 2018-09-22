@@ -3,7 +3,7 @@ var helper = require("helper");
 var localPath = helper.localPath;
 var Blog = require("blog");
 var Git = require("simple-git");
-var debug = require("debug")("client:git:disconnect");
+var debug = require("debug")("clients:git:disconnect");
 var database = require("./database");
 var dataDir = require('./dataDir');
 
