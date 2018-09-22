@@ -71,6 +71,48 @@ describe("sync", function() {
     });
   });
 
+  // what about a case sensitivity change?
+  fit("handles renamed files", function(done) {
+
+    var blogDir = localPath(global.blog.id,'/');
+    var firstPath = '/Foo bar.txt';
+    var secondPath = '/baz Bat.txt';
+    var content = 'Hello, World!';
+
+    fs.outputFileSync(global.usersGitDirectory + firstPath, content);
+
+    pushAllChanges(global.usersGitClient, function(err){
+
+      expect(err).toEqual(null);
+
+      waitForSyncToFinish(function(err){
+
+        expect(err).toEqual(null);
+
+        fs.moveSync(global.usersGitDirectory + firstPath, global.usersGitDirectory + secondPath);
+
+        pushAllChanges(global.usersGitClient, function(err){
+
+          expect(err).toEqual(null);
+
+          waitForSyncToFinish(function(err){
+
+            expect(err).toEqual(null);
+
+            checkPostExists(secondPath, function(err){
+
+              expect(err).toEqual(null);
+
+              // Verify files and folders are preserved in cloneable folder
+              expect(fs.readdirSync(blogDir)).toEqual(fs.readdirSync(global.usersGitDirectory));
+            
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
   it("accepts a push", function(done) {
 
     var blogDir = localPath(global.blog.id,'/');
