@@ -272,6 +272,7 @@ Template system
 - Install and test a few of these static site generators:
 https://news.ycombinator.com/item?id=17942395
 - Make templates file or folder based
+- Consider making file-based template directory a git repo and using this to implement basic undo-redo functionality. 
 - Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32)
 - Disable re-rendering for template locals
 - Add better customization options
