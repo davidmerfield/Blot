@@ -61,7 +61,7 @@
     "request": "^2.72.0",
     "rimraf": "^2.2.8",
     "sharp": "^0.15.0",
-    "simple-git": "^1.100.0",
+    "simple-git": "github:davidmerfield/git-js#renames-in-pull-summary",
     "stripe": "^2.9.0",
     "transliteration": "^0.1.1",
     "twemoji": "^1.2.0",

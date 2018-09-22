@@ -72,11 +72,11 @@ describe("sync", function() {
   });
 
   // what about a case sensitivity change?
-  fit("handles renamed files", function(done) {
+  it("handles renamed files", function(done) {
 
     var blogDir = localPath(global.blog.id,'/');
-    var firstPath = '/Foo bar.txt';
-    var secondPath = '/baz Bat.txt';
+    var firstPath = '/Hello/you/fhjdskfhksdhfkj/fsdhfsjdkfhjkds/fsdhkjfsdhjk/fdshkfshjdkfjshdf/fdshjfhsdjk/fsdhjfksdjh/Foo bar.txt';
+    var secondPath = '/Hello/you/fhjdskfhksdhfkj/fsdhfsjdkfhjkds/fsdhkjfsdhjk/fdshkfshjdkfjshdf/fdshjfhsdjk/fsdhjfksdjh/baz Bat.txt';
     var content = 'Hello, World!';
 
     fs.outputFileSync(global.usersGitDirectory + firstPath, content);
