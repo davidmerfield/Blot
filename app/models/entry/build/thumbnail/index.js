@@ -1,37 +1,43 @@
-var helper = require('helper');
-var ensure = helper.ensure;
-var candidate = require('./candidate');
-
-var Create = require('./create');
+var helper = require("helper");
+var Candidates = require("./candidates");
+var async = require("async");
+var Create = require("./create");
 var Transformer = helper.transformer;
+var STORE_PREFIX = "thumbnails";
+var debug = require("debug")("entry:build:thumbnails");
 
-module.exports = function (blog, path, metadata, html, callback) {
+module.exports = function(blog, path, metadata, html, callback) {
+  var store, candidates, create;
 
-  ensure(blog, 'object')
-    .and(path, 'string')
-    .and(metadata, 'object')
-    .and(html, 'string')
-    .and(callback, 'function');
+  // Attempt to build a list of candidate image
+  // src and paths based on the content of the
+  // html generated from the blog post and the
+  // metadata extracted from the blog post.
+  try {
+    candidates = Candidates(metadata, html);
+  } catch (e) {
+    return callback(e);
+  }
 
-  var store = new Transformer(blog.id, 'thumbnails');
-  var create = new Create(blog.id);
+  store = new Transformer(blog.id, STORE_PREFIX);
+  create = Create.bind(this, blog.id);
 
-  // Extract the best candidate for a thumbnail from
-  // this entry's HTML. It optimizes for image size
-  var src = metadata.thumbnail || candidate(html);
+  async.eachSeries(candidates, function(candidate, next){
 
-  // Finish early, with an empty object
-  // since that what make entry wants
-  if (!src) return callback(null, {});
+    store.lookup(candidate, create, function(err, thumbnails) {
 
-  // Check to see if we have created thumbnails
-  // for this src and this blog. If not, pass the
-  // downloaded file to create before returning
-  // the resulting thumbnails
-  store.lookup(src, create, function(err, thumbnails){
+      // We don't care if a candidate produces an error
+      // we just keep going on down the list...
+      if (err) {
+        debug(err);
+      }
 
-    if (err) return callback(err, thumbnails || {});
+      // Little bit hacky to pass thumbnails
+      // as first argument. This stops async
+      next(thumbnails);
+    });
 
-    return callback(null, thumbnails || {});
+  }, function(thumbnails){
+    callback(null, thumbnails);
   });
 };
