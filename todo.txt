@@ -1,3 +1,5 @@
+Investigate strange bug with image cache which seems to modify an image in user's folder. Was evident using the git client because pull would not go through....
+
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
 
 Dropbox client bugs:
