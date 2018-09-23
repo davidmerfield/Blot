@@ -5,10 +5,12 @@ This code selects an image from a blog post and generates a series of thumbnails
 To do
 -----
 * Add tests for autorotation
+* Add test for image modification: does thumbnail also change?
 * Make sure image quality is preserved
 * Re-enable minify.js with imperceptible minification
 * Re-enable verify.js to ensure of minimum image dimensions for thumbnail and add test to this effect
 * Add tests for various corrupted and large files
+* Verify thumbnails are being cached properly by NGINX
 
 Future ideas
 -------------
