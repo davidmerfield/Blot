@@ -2,11 +2,13 @@ var Transformer = require('helper').transformer;
 var debug = require('debug')('entry:build:plugins:image');
 var eachEl = require('../eachEl');
 var config = require('config');
-var Url = require('url');
 var optimize = require('./optimize');
-var CDN_HOST = config.cdn.host;
+var uuid = require("uuid/v4");
+var join = require('path').join;
+var fs = require('fs-extra');
 
-if (!CDN_HOST) throw new Error("Please specify config.cdn.host");
+// e.g. /_image_cache/{uuid}.jpg will be final URL
+var cache_folder_name = '_image_cache';
 
 function render ($, callback, options) {
 
@@ -18,62 +20,68 @@ function render ($, callback, options) {
 
     var src = $(el).attr('src');
 
-    debug(src, 'found image');
+    debug(src, 'checking cache');
 
-    if (isBlot(src)) {
-      debug(src, 'is on Blot CDN');
-      return next();
-    }
-
-    debug(src, 'checking cache for this image');
-    cache.lookup(src, function(path, done){
-
-      debug(src, 'cache miss, optimizing image now...');
-      optimize(blogID, path, done);
-
-    }, function(err, res){
-
-      var width, height;
+    cache.lookup(src, optimize, function(err, info){
 
       if (err) {
-        debug(src, 'ERROR');
-        debug(err);
+        debug(src, 'Optimize failed with Error:', err);
         return next();
       }
 
-      if (!res.width || !res.url || !res.height) {
-        debug(src, 'Result has no width, height or url property');
-        debug(res);
-        return next();
-      }
+      var name = uuid() + '.' + info.format;
+      var finalPath = join(config.blog_static_files_dir, blogID, cache_folder_name, name);
+
+      debug('Moving', info.path, finalPath);
+      
+      fs.move(info.path, finalPath, function(err){
+
+        if (err) return next();
+
+        var width, height, src;
+
+        if (err) {
+          debug(src, 'ERROR');
+          debug(err);
+          return next();
+        }
+
+        src = '/' + cache_folder_name + '/' + name;
+
+        if (!info.width || !info.height) {
+          debug(src, 'Result has no width, height or url property');
+          debug(info);
+          return next();
+        }
 
 
-      if ($(el).attr('width') || $(el).attr('height')) {
-        debug(src, 'El has width or height pre-specified dont modify');
-        debug(res);
-        return next();
-      }
+        if ($(el).attr('width') || $(el).attr('height')) {
+          debug(src, 'El has width or height pre-specified dont modify');
+          debug(info);
+          return next();
+        }
 
-      debug(src, 'modifying parent element');
+        debug(src, 'modifying parent element');
 
-      width = res.width;
-      height = res.height;
- 
-      // This is a retina image so half its dimensions
-      // we don't store these halved dimensions...
-      if ($(el).attr('data-2x') || isRetina(res.url)) {
-        debug(src, 'retinafying the dimensions');
-        height /= 2;
-        width /= 2;
-      }
+        width = info.width;
+        height = info.height;
+   
+        // This is a retina image so half its dimensions
+        // we don't store these halved dimensions...
+        if ($(el).attr('data-2x') || isRetina(src)) {
+          debug(src, 'retinafying the dimensions');
+          height /= 2;
+          width /= 2;
+        }
 
-      $(el)
-          .attr('width', width)
-          .attr('height', height)
-          .attr('src', res.url);
+        $(el)
+            .attr('width', width)
+            .attr('height', height)
+            .attr('src', src);
 
-      debug(src, 'complete!');
-      next();
+        debug(src, 'complete!');
+        next();
+      });
     });
   }, function(){
     debug('Invoking callback now!');
@@ -85,20 +93,6 @@ function isRetina (url) {
   return url && url.toLowerCase && url.toLowerCase().indexOf('@2x') > -1;
 }
 
-function isBlot (url) {
-
-  var host;
-
-  try {
-    host = Url.parse(url).host;
-  } catch (e) {
-    return false;
-  }
-
-  if (!host) return false;
-
-  return host.slice(-CDN_HOST.length) === CDN_HOST;
-}
 
 module.exports = {
   render: render,
