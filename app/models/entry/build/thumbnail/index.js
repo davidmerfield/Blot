@@ -4,7 +4,7 @@ var async = require("async");
 var Create = require("./create");
 var Transformer = helper.transformer;
 var STORE_PREFIX = "thumbnails";
-var debug = require("debug")("entry:build:thumbnails");
+var debug = require("debug")("entry:build:thumbnail");
 
 module.exports = function(blog, path, metadata, html, callback) {
   var store, candidates, create;
@@ -19,6 +19,8 @@ module.exports = function(blog, path, metadata, html, callback) {
     return callback(e);
   }
 
+  debug(blog.id, path, candidates);
+
   store = new Transformer(blog.id, STORE_PREFIX);
   create = Create.bind(this, blog.id);
 
@@ -32,12 +34,17 @@ module.exports = function(blog, path, metadata, html, callback) {
         debug(err);
       }
 
+      debug(blog.id, candidate, err, thumbnails);
+
       // Little bit hacky to pass thumbnails
       // as first argument. This stops async
       next(thumbnails);
     });
 
   }, function(thumbnails){
+
+    debug(blog.id, "final thumbnails", thumbnails);
+
     callback(null, thumbnails);
   });
 };

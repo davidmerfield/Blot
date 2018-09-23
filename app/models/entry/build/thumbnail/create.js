@@ -1,58 +1,45 @@
-var helper = require('helper');
-var tempDir = helper.tempDir();
+var helper = require("helper");
 var UID = helper.makeUid;
-var fs = require('fs-extra');
+var fs = require("fs-extra");
 var callOnce = helper.callOnce;
-var transform = require('./transform');
-var minify = require('./minify');
-var validate = require('./validate');
-var join = require('path').join;
-var config = require('config');
+var transform = require("./transform");
+var join = require("path").join;
+var config = require("config");
 
 var TIMEOUT = 10 * 1000; // 10s
 
-function create (blogID, path, done){
+var minify = require("./minify");
+var validate = require("./validate");
 
+function create(blogID, path, done) {
   done = callOnce(done);
 
-  var timeout = setTimeout(function(){
-    done(new Error('Timeout'));
+  var timeout = setTimeout(function() {
+    done(new Error("Timeout"));
   }, TIMEOUT);
 
-  // validate(path, function(err){
+  var root = join(config.blog_static_files_dir, blogID);
+  var outputDirectory = "/" + join("_thumbnails", UID(10));
+  var fullPathToOutputDirectory = join(root, outputDirectory);
 
-  //   if (err) return done(err);
+  fs.ensureDir(fullPathToOutputDirectory, function(err) {
+    if (err) return done(err);
 
-    var root = join(config.blog_static_files_dir, blogID);
-    var outputDirectory = join('_thumbnails', UID(10));
-    var fullPathToOutputDirectory = join(root, outputDirectory);
+    transform(path, fullPathToOutputDirectory, function(err, thumbnails) {
+      if (err) return done(err);
 
-    fs.ensureDir(fullPathToOutputDirectory, function(err){
+      for (var i in thumbnails) {
+        thumbnails[i].path = outputDirectory + "/" + thumbnails[i].name;
+        thumbnails[i].url = thumbnails[i].path;
+      }
 
       if (err) return done(err);
 
-      // console.log('Generating thumbnails...');
+      clearTimeout(timeout);
 
-      transform(path, fullPathToOutputDirectory, function(err, thumbnails){
-
-        if (err) return done(err);
-
-        for (var i in thumbnails)
-          thumbnails[i].path = outputDirectory + '/' + thumbnails[i].name;
-        
-        // console.log('Minifying thumbnails...');
-
-        minify(fullPathToOutputDirectory, function(err){
-
-          if (err) return done(err);
-
-          clearTimeout(timeout);
-
-          done(null, thumbnails);
-        });
-      });
+      done(null, thumbnails);
     });
-  // });
+  });
 }
 
 module.exports = create;
