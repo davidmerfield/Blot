@@ -1,4 +1,5 @@
 describe("remove", function() {
+  
   beforeEach(require("./util/createRepo"));
 
   var write = require("../write");
@@ -6,6 +7,19 @@ describe("remove", function() {
   var clone = require("./util/clone");
   var Git = require("simple-git");
   var fs = require("fs-extra");
+  var localPath = require('helper').localPath;
+
+  it("should return an error if there is no git repo in blog folder", function(done){
+
+    fs.removeSync(localPath(global.blog.id, '.git'));
+
+    remove(global.blog.id, '/path', function(err){
+
+      expect(err.message).toContain('repo does not exist');
+
+      done();
+    });
+  });
 
   it("removes a file", function(done) {
     var git;

@@ -14,6 +14,7 @@ Move these into this module when I start using git submodules or npm submodules 
 
 To do
 -----
+* wrap all simple-git initialization in try {} catch {} to catch error when folder does not exist
 * Handle uncommitted local changes when pulling:
 UJHVX:1 From /Users/David/Projects/blot/app/clients/git/data/dev
    3c25407..cd759c4  master     -> origin/master

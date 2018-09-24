@@ -7,6 +7,26 @@ describe("sync", function() {
   var pushAllChanges = require('./util/pushAllChanges');
   var fs = require('fs-extra');
   var checkPostExists = require('./util/checkPostExists');
+  var sync = require('../sync');
+  
+  // Allow pulls to go through under buggy conditions
+  // it("should reset any uncommitted changes to blog folder", function(done){
+
+  //   // git reset --hard HEAD
+  //   // is this dangerous to blot repo? it won't wipe db, right?
+  // });
+
+  it("should return an error if there is no git repo in blog folder", function(done){
+
+    fs.removeSync(localPath(global.blog.id, '.git'));
+
+    sync(global.blog.handle, function(err){
+
+      expect(err.message).toContain('repo does not exist');
+
+      done();
+    });
+  });
 
   // Scenario: you push loads of files, Blot takes ages to sync
   // you push one more file: does Blot sync it too?
