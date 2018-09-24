@@ -9,6 +9,8 @@ describe("image", function() {
   var cheerio = require("cheerio");
   var fs = require("fs-extra");
   var localPath = require("helper").localPath;
+  var config = require('config');
+  var join = require('path').join;
 
   it("returns a different cached image when source image is modified", function(done) {
     var image = "/tests-image.png";
@@ -60,7 +62,18 @@ describe("image", function() {
     render(html, function(err, result) {
       expect(result).toContain(".png");
       expect(result).toContain("/_image_cache/");
-      done();
+
+      var cachedImagePath = result.slice(result.indexOf('"') + 1);
+
+      cachedImagePath = cachedImagePath.slice(0, cachedImagePath.indexOf('"'));
+
+      // Does the cached image exist on disk?
+      fs.stat(join(config.blog_static_files_dir, global.blog.id, cachedImagePath), function(err, stat){
+
+        expect(err).toEqual(null);
+        expect(stat.isFile()).toEqual(true);
+        done();        
+      });
     });
   });
 
