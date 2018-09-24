@@ -31,6 +31,7 @@ module.exports = function (result, callback) {
       // replace reference to HREF and SRC with new relative path
       // set result.assets to 'true' so we know which path to use
 
+      result.assets = true;
       result.content = result.content.split(src).join(filename);
 
       // console.log('Done!', fs.readdirSync(result.assetDirectory));
@@ -38,15 +39,12 @@ module.exports = function (result, callback) {
 
     }).catch(function(err){
 
-      errors.push([src ,err]);
+      result.warnings.push('Could not download:' + src + err.code);
 
       next();
     });
 
   }, function(){
-      
-    if(errors.length) console.warn('Warning: Could not download:', errors.map(function(i){return i[0]}));
-
     callback(null, result);
   });
 };

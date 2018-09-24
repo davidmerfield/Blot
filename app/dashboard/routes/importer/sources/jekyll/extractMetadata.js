@@ -32,14 +32,18 @@ module.exports = function (result, callback) {
     } else if (key === 'title') {
       result.title = value;
     } else if (key === 'layout') {
-      
+        
       if (value !== 'post') {
-        console.warn('Warning: This file is not a post, it has layout property:Warning: ', value);
+        result.warnings.push('Not a post, it has layout property:' + value);
       }
 
+    } else if (key  === 'published') {
+
+      if (value === false) result.draft = true;
+
     } else {
-      missingHandlers[key] = missingHandlers[key] || [];
-      missingHandlers[key].push(value);
+
+      result.warnings.push(key + ' (' + value + ') has no handler');
     }
 
     next();

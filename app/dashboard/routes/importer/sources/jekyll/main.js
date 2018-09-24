@@ -20,6 +20,7 @@ function main(sourceDirectory, outputDirectory, callback) {
   fs.emptyDirSync(outputDirectory);
 
   var names = fs.readdirSync(sourceDirectory + "/_posts");
+  var warnings = {};
 
   async.eachSeries(names, function(name, next) {
 
@@ -32,6 +33,7 @@ function main(sourceDirectory, outputDirectory, callback) {
       fs.readFile(path, "utf8", function(err, source) {
         var result = {
           name: name,
+          warnings: [],
           outputDirectory: outputDirectory,
           source: source
         };
@@ -43,8 +45,8 @@ function main(sourceDirectory, outputDirectory, callback) {
       loadFile,
       extractContent,
       extractDate,
-      determinePath,
       extractMetadata,
+      determinePath,
       downloadImages,
       handleIncludes
     ];
@@ -67,12 +69,30 @@ function main(sourceDirectory, outputDirectory, callback) {
         output.push('');
       }
 
-      output.push('#' + result.title);
+      output.push('# ' + result.title);
       output.push('');
 
       output.push(result.content);
 
       output = output.join('\n');
+
+      if (result.assets) {
+        result.path = result.pathWithAssets;
+      } else {
+        result.path = result.pathWithoutAssets;
+      }
+
+      if (result.warnings.length) {
+        warnings[name] = result.warnings;
+      }
+
+      // } console.warn('Missing handlers', result.missingHandlers);
+
+      // if I need to debug something, write the source file too
+      // fs.outputFileSync(result.path + '.source.md', result.source);
+      fs.outputFileSync(result.path, output);
+      
+      next();
 
       // date = result[0];
       // metadata = result[1];
@@ -94,8 +114,13 @@ function main(sourceDirectory, outputDirectory, callback) {
       // console.log(output);
       // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
       // console.log(result.date.format("YYYY-MM-DD"), name);
-      next();
     });
+  }, function (err){
+    
+    if (err) return callback(err);
+
+    console.log('Warnings:', warnings);
+    callback();
   });
 }
 
