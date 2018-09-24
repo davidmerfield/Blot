@@ -1,12 +1,7 @@
 var Transformer = require('helper').transformer;
 var debug = require('debug')('entry:build:plugins:image');
 var eachEl = require('../eachEl');
-var config = require('config');
-var Url = require('url');
 var optimize = require('./optimize');
-var CDN_HOST = config.cdn.host;
-
-if (!CDN_HOST) throw new Error("Please specify config.cdn.host");
 
 function render ($, callback, options) {
 
@@ -17,60 +12,40 @@ function render ($, callback, options) {
   eachEl($, 'img', function(el, next){
 
     var src = $(el).attr('src');
+    var width, height;
 
-    debug(src, 'found image');
+    debug(src, 'checking cache');
 
-    if (isBlot(src)) {
-      debug(src, 'is on Blot CDN');
-      return next();
-    }
-
-    debug(src, 'checking cache for this image');
-    cache.lookup(src, function(path, done){
-
-      debug(src, 'cache miss, optimizing image now...');
-      optimize(blogID, path, done);
-
-    }, function(err, res){
-
-      var width, height;
+    cache.lookup(src, optimize(blogID), function(err, info){
 
       if (err) {
-        debug(src, 'ERROR');
-        debug(err);
+        debug(src, 'Optimize failed with Error:', err);
         return next();
       }
 
-      if (!res.width || !res.url || !res.height) {
-        debug(src, 'Result has no width, height or url property');
-        debug(res);
-        return next();
-      }
+      // Replace the image's source with the new 
+      // source, which is a path to an image in the
+      // static assets folder for this blog.
+      $(el).attr('src', info.src);
 
-
+      // Now we will attempt to declare the width and 
+      // height of the image to speed up page loads...
       if ($(el).attr('width') || $(el).attr('height')) {
         debug(src, 'El has width or height pre-specified dont modify');
-        debug(res);
         return next();
       }
 
-      debug(src, 'modifying parent element');
-
-      width = res.width;
-      height = res.height;
- 
-      // This is a retina image so half its dimensions
-      // we don't store these halved dimensions...
-      if ($(el).attr('data-2x') || isRetina(res.url)) {
+      width = info.width;
+      height = info.height;
+   
+      // This is a retina image so halve its dimensions
+      if ($(el).attr('data-2x') || isRetina(src)) {
         debug(src, 'retinafying the dimensions');
         height /= 2;
         width /= 2;
       }
 
-      $(el)
-          .attr('width', width)
-          .attr('height', height)
-          .attr('src', res.url);
+      $(el).attr('width', width).attr('height', height);
 
       debug(src, 'complete!');
       next();
@@ -85,20 +60,6 @@ function isRetina (url) {
   return url && url.toLowerCase && url.toLowerCase().indexOf('@2x') > -1;
 }
 
-function isBlot (url) {
-
-  var host;
-
-  try {
-    host = Url.parse(url).host;
-  } catch (e) {
-    return false;
-  }
-
-  if (!host) return false;
-
-  return host.slice(-CDN_HOST.length) === CDN_HOST;
-}
 
 module.exports = {
   render: render,

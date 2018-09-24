@@ -1,9 +1,9 @@
 var sharp = require('sharp');
 var helper = require('helper');
-var UID = helper.makeUid;
 var ensure = helper.ensure;
 var tempDir = helper.tempDir();
-var fs = require('fs');
+var fs = require('fs-extra');
+var uuid = require("uuid/v4");
 
 // Sharp seems to cache files based on their 
 // path and not the contents of the file at 
@@ -24,28 +24,27 @@ module.exports = function(path, callback){
   // this path doesn't matter
   // since we'll remove it after the fact
   // to the initial path.
-  var output = tempDir + UID(40);
+  var output = tempDir + uuid();
 
   var image = sharp(path);
 
   image.quality(100)
        .rotate()
        .withoutEnlargement()
-       .resize(2000, 1400)
+       .resize(3000, 3000)
        .max();
-
 
   image.toFile(output, function(err, info){
 
     if (err || !info) return callback(err || 'No info');
 
     // Remove the unresized file
-    fs.unlink(path, function(err){
+    fs.remove(path, function(err){
 
       if (err) return callback(err);
 
       // Move the resized file
-      fs.rename(output, path, function(err){
+      fs.move(output, path, function(err){
 
         if (err) return callback(err);
 

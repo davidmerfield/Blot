@@ -1,56 +1,59 @@
-var helper = require('helper');
-var ensure = helper.ensure;
+var config = require('config');
+var uuid = require("uuid/v4");
+var join = require('path').join;
 var fs = require('fs-extra');
-var upload = helper.upload;
+// e.g. /_image_cache/{uuid}.jpg will be final URL
+var cache_folder_name = '_image_cache';
+var fs = require('fs-extra');
 var resize = require('./resize');
 var minify = require('./minify');
-var basename = require('path').basename;
+var extname = require('path').extname;
 var uuid = require('uuid/v4');
 var join = require('path').join;
+var debug = require('debug')('entry:build:plugins:image');
 
-module.exports = function (blogID, path, callback) {
+module.exports = function (blogID) {
 
-  ensure(blogID, 'string')
-    .and(path, 'string')
-    .and(callback, 'function');
+  return function (path, _callback) {
 
-  var tmpPath = join(helper.tempDir(),uuid(),basename(path));
+    var name = uuid() + extname(path);
+    var finalPath = join(config.blog_static_files_dir, blogID, cache_folder_name, name);
+    var src = '/' + cache_folder_name + '/' + name;
 
-  // We need to make a copy to avoid potentially modifying
-  // a file in the user's folder.
-  fs.copy(path, tmpPath, function(err){
+    // Wrap callback to clean up file if we encounter an error in this module
+    // When transformer creates and cleans up a tmp file for us, can remove this.
+    var callback = function (err, info) {
+      
+      if (!err) return _callback(null, info);
 
-    if (err) return callback(err);
+      fs.remove(finalPath, function(){
+      
+        _callback(err, info);
+      });
+    };
 
-    resize(tmpPath, function(err, info){
+    debug('Copying', path, 'to', finalPath);
+    fs.copy(path, finalPath, function(err){
 
       if (err) return callback(err);
-
-      minify(tmpPath, function(err){
+      
+      debug('Resizing', finalPath);
+      resize(finalPath, function(err, info){
 
         if (err) return callback(err);
 
-        var options = {
-          blogID: blogID,
-          folder: 'image-cache'
-        };
-
-        upload(tmpPath, options, function(err, url){
+        if (!info.width || !info.height) return callback(new Error('No width or height'));
+        
+        debug('Minifying', finalPath);
+        minify(finalPath, function(err){
 
           if (err) return callback(err);
 
-          fs.remove(tmpPath, function(err){
+          info.src = src;
 
-            if (err) return callback(err);
-            
-            callback(null, {
-              url: url,
-              width: info.width,
-              height: info.height
-            });
-          });
+          callback(null, info);
         });
       });
-    });
-  });  
+    });  
+  };
 };
