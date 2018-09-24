@@ -79,6 +79,14 @@ function main(blog) {
               var updated = [];
               var deleted = [];
 
+              // If you push an empty commit then res
+              // will be null, or perhaps a commit and 
+              // then a subsequent commit which reverts
+              // the previous commit.
+              if (res === null) {
+                return callback(null);
+              }
+
               res.split('\n').forEach(function(line){
 
                 if (line[0] === 'A' && line[1] === '\t') {
