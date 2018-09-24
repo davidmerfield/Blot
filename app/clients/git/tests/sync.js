@@ -8,6 +8,89 @@ describe("sync", function() {
   var checkPostExists = require("./util/checkPostExists");
   var sync = require("../sync");
 
+  // if two files are pushed, and one produces an error when calling
+  // set() the other should sync just fine.
+  xit("should sync good changes even if one produces a sync error", function(done) {});
+
+  // pretty basic
+  it("should sync an updated file", function(done) {
+    var path = "/Hello world.txt";
+    var content = "Hello, World!";
+    var contentChanged = "New, World!";
+
+    fs.outputFileSync(global.usersGitDirectory + path, content);
+
+    pushAllChanges(global.usersGitClient, function(err) {
+      expect(err).toEqual(null);
+
+      waitForSyncToFinish(function(err) {
+        expect(err).toEqual(null);
+
+        checkPostExists(path, { title: content }, function(err) {
+          expect(err).toEqual(null);
+
+          fs.outputFileSync(global.usersGitDirectory + path, contentChanged);
+
+          pushAllChanges(global.usersGitClient, function(err) {
+            expect(err).toEqual(null);
+
+            waitForSyncToFinish(function(err) {
+              expect(err).toEqual(null);
+
+              checkPostExists(path, { title: contentChanged }, function(err) {
+                expect(err).toEqual(null);
+                expect(
+                  fs.readFileSync(localPath(global.blog.id, path), "utf-8")
+                ).toEqual(contentChanged);
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
+  // commit -> commit -> push etc...
+  it("should process multiple unsynced commits properly", function(done) {
+    var firstPath = "/Hello world.txt";
+    var firstContent = "Hello, World!";
+
+    var secondPath = "/New world.txt";
+    var secondContent = "New, World!";
+
+    fs.outputFileSync(global.usersGitDirectory + firstPath, firstContent);
+
+    global.usersGitClient.add('.', function(err){
+
+      expect(err).toEqual(null);
+      
+      global.usersGitClient.commit("Added first path", function(err){
+
+        expect(err).toEqual(null);
+
+        fs.outputFileSync(global.usersGitDirectory + secondPath, secondContent);
+
+        pushAllChanges(global.usersGitClient, function(err) {
+          expect(err).toEqual(null);
+
+          waitForSyncToFinish(function(err) {
+            expect(err).toEqual(null);
+
+            checkPostExists(firstPath, function(err) {
+              expect(err).toEqual(null);
+
+              checkPostExists(secondPath, function(err) {
+                expect(err).toEqual(null);
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
   // Allow pulls to go through under buggy conditions
   it("should reset any uncommitted changes to blog folder", function(done) {
     var path = "/Hello world.txt";
@@ -34,7 +117,9 @@ describe("sync", function() {
 
             waitForSyncToFinish(function(err) {
               expect(err).toEqual(null);
-              expect(fs.readFileSync(localPath(global.blog.id, path), 'utf-8')).toEqual(contentGoodChange);
+              expect(
+                fs.readFileSync(localPath(global.blog.id, path), "utf-8")
+              ).toEqual(contentGoodChange);
               done();
             });
           });
