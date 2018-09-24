@@ -17,7 +17,12 @@ module.exports = function write(blogID, path, contents, callback) {
     fs.outputFile(localPath(blogID, path), contents, function(err) {
       if (err) return callback(err);
 
-      git = Git(localPath(blogID, "/"));
+      // Throws an error if directory does not exist
+      try {
+        git = Git(localPath(blogID, "/")).silent(true);        
+      } catch (err) {
+        return callback(err);
+      }
 
       // Git does not like paths with leading slashes
       if (path[0] === "/") path = path.slice(1);

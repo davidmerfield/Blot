@@ -20,7 +20,12 @@ module.exports = function remove(blogID, path, callback) {
     fs.remove(localPath(blogID, path), function(err) {
       if (err) return callback(err);
 
-      git = Git(localPath(blogID, "/"));
+      // Throws an error if directory does not exist
+      try {
+        git = Git(localPath(blogID, "/")).silent(true);        
+      } catch (err) {
+        return callback(err);
+      }
 
       // Git does not like paths with leading slashes
       if (path[0] === "/") path = path.slice(1);

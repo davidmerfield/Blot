@@ -23,7 +23,14 @@ function main(blog) {
 
       if (err) return callback(err);
 
-      var git = Git(localPath(blog.id, "/")).silent(true);
+      var git;
+
+      // Throws an error if directory does not exist
+      try {        
+        git = Git(localPath(blog.id, "/")).silent(true);
+      } catch (err) {
+        return callback(err);
+      }
 
       git.pull(function handlePull (err, info) {
 

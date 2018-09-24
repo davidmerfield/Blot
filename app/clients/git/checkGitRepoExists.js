@@ -8,7 +8,13 @@ module.exports = function (blogID, callback) {
   var git, blogFolder;
 
   blogFolder = localPath(blogID,'/');
-  git = Git(blogFolder);
+
+  // Throws an error if folder does not exist
+  try {
+    git = Git(blogFolder).silent(true);    
+  } catch (err) {
+    return callback(err);
+  }
 
   // We want to compare the path to the blog folder with the path
   // to the repository that simple-git is operating on. It is not
