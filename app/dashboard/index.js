@@ -7,6 +7,7 @@ var Blog = require('blog');
 var User = require('user');
 var async = require('async');
 var VIEW_DIRECTORY = __dirname + "/views";
+var config = require('config');
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -186,6 +187,14 @@ dashboard.use(function (req, res, next) {
 dashboard.use(require('./redirector'));
 
 dashboard.use(debug("done fetching"));
+
+// Send user's avatar
+dashboard.use("/_avatars/:avatar", function(req, res, next){
+  res.sendFile(config.blog_static_files_dir + '/' + req.blog.id + '/_avatars/' + req.params.avatar, function(err){
+    if (err) return next();
+    // sent successfully
+  });
+});
 
 dashboard.post(
   ["/settings/theme*", "/path", "/folder*", "/settings/client*", "/flags", "/404s", "/account*"],

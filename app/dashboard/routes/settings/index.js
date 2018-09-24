@@ -56,6 +56,8 @@ settings
     debug("formated form"),
     save.avatar,
     debug("saved avatar"),
+    save.removeTmpFiles,
+    debug("removed any tmp files"),
     save.finish
   );
 
