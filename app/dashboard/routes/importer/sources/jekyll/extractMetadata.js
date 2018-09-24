@@ -21,6 +21,14 @@ module.exports = function (result, callback) {
     delete frontmatter.categories;
   }
 
+  // This is a kerim specific bug that was driving me crazy, not sure how he did it
+  if (frontmatter["categories:"]) {
+    console.log(frontmatter);
+    frontmatter.tags = frontmatter.tags || [];
+    frontmatter.tags = frontmatter.tags.concat(frontmatter["categories:"]);
+    delete frontmatter["categories:"];
+  }
+
   async.eachOf(frontmatter, function(value, key, next){
 
     if (key === 'tags') {
