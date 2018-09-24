@@ -1,95 +1,102 @@
-var fs = require('fs-extra');
-var testDir = __dirname + '/in';
-var resultDir = __dirname + '/out';
-var moment = require('moment');
+var fs = require("fs-extra");
+var async = require("async");
+var determinePath = require('./determinePath');
+var extractDate = require('./extractDate');
+var extractContent = require('./extractContent');
+var extractMetadata = require('./extractMetadata');
+var downloadImages = require('./downloadImages');
+var handleIncludes = require('./handleIncludes');
 
-fs.emptyDirSync(resultDir);
-fs.readdirSync(testDir).forEach(function(file){
+if (require.main === module) {
+  main(process.argv[2], process.argv[3], function(err) {
+    if (err) throw err;
+    console.log("Built!");
+    process.exit();
+  });
+}
 
-  // system files
-  if (file.charAt(0) === '.') 
-    return false;
+function main(sourceDirectory, outputDirectory, callback) {
+  console.log("Extracting posts from", sourceDirectory, "to", outputDirectory);
+  fs.emptyDirSync(outputDirectory);
 
-  var parsed = {
-    Tags: '',
-    Date: '',
-    Permalink: ''
-  };
+  var names = fs.readdirSync(sourceDirectory + "/_posts");
 
+  async.eachSeries(names, function(name, next) {
 
-  var date = file.split('-').slice(0, 3);
-      date = date[1] + '/' + date[2] + '/' + date[0];
+    // System file
+    if (name[0] == ".") return next();
 
-  var name = file.split('-').slice(3).join('-');
+    function loadFile(callback) {
+      var path = sourceDirectory + "/_posts/" + name;
 
-  parsed.Date = date;
-
-  var Title = '';
-
-  var post = fs.readFileSync(testDir + '/' + file, 'utf-8');
-
-  post = post.trim().split('---');
-
-  if (post.length < 3) {
-    console.log(post);
-    console.log(post.length);
-    throw 'BAD metadata';
-  }
-
-  var metadata = post[1].trim().split('\n');
-
-  for (var i in metadata) {
-
-    var line = metadata[i];
-
-    var key = line.slice(0, line.indexOf(':')).trim().toLowerCase();
-    var value = line.slice(line.indexOf(':') + 1).trim();
-
-    if (key === 'categories' || key === 'tags' && value.slice(0, 1) === '[') value = value.slice(1);
-    if (key === 'categories' || key === 'tags' && value.slice(-1) === ']') value = value.slice(0, -1);
-
-    // console.log(key + ': ' + value);
-
-    if (key === 'tags' || key === 'categories') {
-      if (parsed.Tags === '') {
-        parsed.Tags = value;
-      } else {
-        parsed.Tags += ', ' + value;
-      }
+      fs.readFile(path, "utf8", function(err, source) {
+        var result = {
+          name: name,
+          outputDirectory: outputDirectory,
+          source: source
+        };
+        callback(err, result);
+      });
     }
 
-    if (key === 'title') Title = value;
+    var tasks = [
+      loadFile,
+      extractContent,
+      extractDate,
+      determinePath,
+      extractMetadata,
+      downloadImages,
+      handleIncludes
+    ];
 
-    if (key === 'link' && Title) Title = '[' + Title + '](' + value + ')';
+    async.waterfall(tasks, function(err, result) {
 
-    if (key === 'permalink') parsed.Permalink = value;
-  }
+      var output = [];
 
-  var output = post.slice(2).join('---').trim();
+      if (!result) {
+        console.log('No result for ', name);
+        return next();
+      }
 
-  // console.log(output);
+      if (result.metadata) {
 
-  if (Title) output = '# ' + Title + '\n\n' + output;
+        for (var i in result.metadata) {
+          output.push(i + ': ' + result.metadata[i]);
+        }
 
-  var meta = '';
+        output.push('');
+      }
 
-  // console.log(parsed);
+      output.push('#' + result.title);
+      output.push('');
 
-  for (var i in parsed) {
-    if (parsed[i]) meta += i + ': ' + parsed[i] + '\n';
-  }
+      output.push(result.content);
 
-  // console.log(meta);
+      output = output.join('\n');
 
-  if (meta) output = meta + '\n' + output;
+      // date = result[0];
+      // metadata = result[1];
 
-  if (output.indexOf('{%') > -1) {
+      // result = metadataString.join("\n") + "\n\n" + result;
 
-    console.warn(new Error('Something in output ' + file));
-    console.warn(output);
-  }
-  
-  var path_to_file = resultDir + '/' + moment(parsed.Date).format('YYYY') + '/' + moment(parsed.Date).format('MM') + '/' + moment(parsed.Date).format('DD') + '-' + name;
-  console.log(path_to_file);
-  fs.outputFileSync(resultDir + '/' + file, output, 'utf-8');
-});
+      // var content = sourceFile.split("---")[2];
+
+      // result += "\n" + content.trim();
+      // console.log(output);
+
+      // console.log(
+      //   "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  Input >"
+      // );
+      // console.log(result.source);
+      // console.log(
+      //   "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Output >"
+      // );
+      // console.log(output);
+      // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+      // console.log(result.date.format("YYYY-MM-DD"), name);
+      next();
+    });
+  });
+}
+
+module.exports = main;
