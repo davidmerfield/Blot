@@ -1,65 +1,45 @@
-var helper = require('helper');
-var tempDir = helper.tempDir();
+var helper = require("helper");
 var UID = helper.makeUid;
-var mkdirp = helper.mkdirp;
-var rm = helper.remove;
+var fs = require("fs-extra");
 var callOnce = helper.callOnce;
-var transform = require('./transform');
-var minify = require('./minify');
-var upload = require('./upload');
-var validate = require('./validate');
+var transform = require("./transform");
+var join = require("path").join;
+var config = require("config");
 
 var TIMEOUT = 10 * 1000; // 10s
 
-function create (blogID) {
+var minify = require("./minify");
+var validate = require("./validate");
 
-  return function (path, done){
+function create(blogID, path, done) {
+  done = callOnce(done);
 
-    var output = tempDir + UID(10);
+  var timeout = setTimeout(function() {
+    done(new Error("Timeout"));
+  }, TIMEOUT);
 
-    done = callOnce(done);
+  var root = join(config.blog_static_files_dir, blogID);
+  var outputDirectory = "/" + join("_thumbnails", UID(10));
+  var fullPathToOutputDirectory = join(root, outputDirectory);
 
-    var timeout = setTimeout(function(){
-      done(new Error('Timeout'));
-    }, TIMEOUT);
+  fs.ensureDir(fullPathToOutputDirectory, function(err) {
+    if (err) return done(err);
 
-    validate(path, function(err){
+    transform(path, fullPathToOutputDirectory, function(err, thumbnails) {
+      if (err) return done(err);
+
+      for (var i in thumbnails) {
+        thumbnails[i].path = outputDirectory + "/" + thumbnails[i].name;
+        thumbnails[i].url = thumbnails[i].path;
+      }
 
       if (err) return done(err);
 
-      mkdirp(output, function(err){
+      clearTimeout(timeout);
 
-        if (err) return done(err);
-
-        // console.log('Generating thumbnails...');
-
-        transform(path, output, function(err, thumbnails){
-
-          if (err) return done(err);
-
-          // console.log('Minifying thumbnails...');
-
-          minify(output, function(err){
-
-            if (err) return done(err);
-
-            // console.log('Uploading thumbnails...');
-
-            upload(blogID, thumbnails, function(err, thumbnails){
-
-              rm(output);
-
-              // console.log('Thumbnails ready!');
-
-              clearTimeout(timeout);
-
-              done(null, thumbnails);
-            });
-          });
-        });
-      });
+      done(null, thumbnails);
     });
-  };
+  });
 }
 
 module.exports = create;

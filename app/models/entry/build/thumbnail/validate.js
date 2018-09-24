@@ -1,5 +1,5 @@
 var sharp = require('sharp');
-var config = require('config');
+var config = require('./config');
 var FORMATS = config.FORMATS;
 var MIN_WIDTH = config.MIN_WIDTH;
 var MIN_HEIGHT = config.MIN_HEIGHT;
