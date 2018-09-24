@@ -45,14 +45,14 @@ module.exports = function (blogID) {
         if (!info.width || !info.height) return callback(new Error('No width or height'));
         
         debug('Minifying', finalPath);
-        minify(finalPath, function(err){
+        // minify(finalPath, function(err){
 
           if (err) return callback(err);
 
           info.src = src;
 
           callback(null, info);
-        });
+        // });
       });
     });  
   };
