@@ -14,7 +14,8 @@ Move these into this module when I start using git submodules or npm submodules 
 
 To do
 -----
-* client must keep sending new entries and deleted entries when it recieved an error from entry.build otherwise you get ghost posts...
+* Move to neat promise chain api when 2.0 comes out
+* Test that client must keep sending new entries and deleted entries when it recieved an error from entry.build otherwise you get ghost posts...
 * Thoroughly document:
   - write
   - read
