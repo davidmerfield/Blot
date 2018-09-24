@@ -3,9 +3,19 @@ var Entries = require("entries");
 var localPath = require("helper").localPath;
 var fs = require("fs-extra");
 
-module.exports = function(path, callback) {
+module.exports = function(path, expectedEntry, callback) {
+
+  if (typeof expectedEntry === 'function') {
+    callback = expectedEntry;
+    expectedEntry = {};
+  }
+
   Entry.get(global.blog.id, path, function(entry) {
-    if (entry && entry.path === path) return callback(null);
+
+    if (!entry) return debug(path, callback);
+
+    for (var i in expectedEntry)
+      expect(expectedEntry[i]).toEqual(entry[i]);
 
     if (entry && entry.path !== path)
       return callback(
@@ -14,7 +24,14 @@ module.exports = function(path, callback) {
         )
       );
 
-    var message = "No entry exists " + path;
+    return callback(null);
+
+  });
+};
+
+
+function debug (path, callback) {
+      var message = "No entry exists " + path;
 
     global.usersGitClient.log(function(err, log) {
       message += "\nUser client last commit: " + log.latest.hash;
@@ -35,5 +52,4 @@ module.exports = function(path, callback) {
         });
       });
     });
-  });
-};
+}

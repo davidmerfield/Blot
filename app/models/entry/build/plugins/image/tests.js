@@ -38,9 +38,11 @@ describe("image", function() {
     var html = '<img src="' + path + '">';
 
     fs.copySync(__dirname + path, localPath(global.blog.id, path));
-
+      
     render(html, function(err, firstResult) {
+      
       render(html, function(err, secondResult) {
+
         expect(firstResult).toContain("/_image_cache/");
         expect(secondResult).toContain("/_image_cache/");
         expect(firstResult).toEqual(secondResult);

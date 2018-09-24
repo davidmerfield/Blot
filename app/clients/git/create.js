@@ -25,8 +25,13 @@ module.exports = function create(blog, callback) {
   async.parallel(queue, function(err) {
     if (err) return callback(err);
 
-    bareRepo = Git(bareRepoDirectory).silent(true);
-    liveRepo = Git(liveRepoDirectory).silent(true);
+    // Throws an error if the directory does not exist
+    try {
+      bareRepo = Git(bareRepoDirectory).silent(true);
+      liveRepo = Git(liveRepoDirectory).silent(true);      
+    } catch (err) {
+      return callback(err);
+    }
 
     // Simple git returns stderr as a string
     // so we produce a new error from it...
