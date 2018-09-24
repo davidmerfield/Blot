@@ -59,7 +59,10 @@ function main(blog) {
           info.created,
           function(path, next) {
             debug("Calling set with", blog.id, path);
-            Change.set(blog, path, next);
+            Change.set(blog, path, function(err){
+              debug("Set returned error which we ignore", blog.id, path, err);
+              next();
+            });
           },
           function(err) {
             if (err) return callback(err);
@@ -68,7 +71,10 @@ function main(blog) {
               info.deleted,
               function(path, next) {
                 debug("Calling drop with", blog.id, path);
-                Change.drop(blog.id, path, next);
+                Change.drop(blog.id, path, function(err){
+                  debug("Drop returned error which we ignore", blog.id, path, err);
+                  next();
+                });
               },
               callback
             );
