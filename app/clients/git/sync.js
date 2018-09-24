@@ -6,6 +6,7 @@ var Git = require("simple-git");
 var Blog = require("blog");
 var localPath = require("helper").localPath;
 var checkGitRepoExists = require('./checkGitRepoExists');
+var UNCOMMITED_CHANGES = 'Please commit your changes or stash them before you merge.';
 
 module.exports = function sync(handle, callback) {
   Blog.get({ handle: handle }, function(err, blog) {
@@ -13,6 +14,7 @@ module.exports = function sync(handle, callback) {
     Sync(blog.id, main(blog), callback);
   });
 };
+
 
 function main(blog) {
   return function(callback) {
@@ -23,7 +25,25 @@ function main(blog) {
 
       var git = Git(localPath(blog.id, "/")).silent(true);
 
-      git.pull(function(err, info) {
+      git.pull(function handlePull (err, info) {
+
+        if (err && err.indexOf(UNCOMMITED_CHANGES) > -1) {
+
+          // From https://git-scm.com/docs/git-reset
+          // Resets the index and working tree. Any changes to tracked files in the
+          // working tree since <commit> are discarded.
+          // This should not mess with files in gitignore.
+          debug("Uncommitted changes error:", err);
+          debug("Calling git reset hard now:");
+          return git.reset('hard', function(err){
+
+            if (err) return callback(new Error(err));
+
+            debug("Reset succeeded, retrying pull...");
+            git.pull(handlePull);
+          });
+        }
+
         if (err) return callback(err);
 
         debug(info);
