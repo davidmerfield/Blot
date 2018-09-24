@@ -14,21 +14,16 @@ Move these into this module when I start using git submodules or npm submodules 
 
 To do
 -----
-* Handle uncommitted local changes when pulling:
-UJHVX:1 From /Users/David/Projects/blot/app/clients/git/data/dev
-   3c25407..cd759c4  master     -> origin/master
-error: Your local changes to the following files would be overwritten by merge:
-  colors.png
-  portrait.jpg
-Please commit your changes or stash them before you merge.
-Aborting
-  This was caused by a bug in my thumbnail generator which modified a file in the blog folder secretly. We need to make sure blog remains responsive to changes when this happens in future, though. Work out how to efficiently do it, maybe git stash or git reset. Write a test case which modifies the blog folder before a pull.
-
+* Thoroughly document:
+  - write
+  - read
+  - sync
+* Tidy up tests and reduce size and runtime
 * Add documentation and an explanation for how to mirror blot blog repo on Github or Gitlab:
   https://mail.google.com/mail/u/1/#inbox/1658e28be94479af
 * This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
 * what happens if user changes their handle? will pushing break?
-  - i want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
+  - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
 * Rate limit authentication route?
 
 Pitfalls

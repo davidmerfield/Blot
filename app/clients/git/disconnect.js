@@ -11,7 +11,14 @@ var dataDir = require('./dataDir');
 // This may occur when the
 module.exports = function disconnect(blogID, callback) {
   var liveRepoDirectory = localPath(blogID, "/");
-  var liveRepo = Git(liveRepoDirectory).silent(true);
+  var liveRepo;
+
+  // Throws an error if directory does not exist
+  try {
+    liveRepo = Git(liveRepoDirectory).silent(true);    
+  } catch (err) {
+    return callback(err);
+  }
 
   // TODO, this shit should be handled at the next layer up
   // we shouldn't worry about setting blog.client to ""

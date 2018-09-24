@@ -5,6 +5,20 @@ describe("write", function() {
   var clone = require("./util/clone");
   var Git = require("simple-git");
   var fs = require("fs-extra");
+  var localPath = require('helper').localPath;
+
+  it("should return an error if there is no git repo in blog folder", function(done){
+
+    fs.removeSync(localPath(global.blog.id, '.git'));
+
+    write(global.blog.id, '/path', '', function(err){
+
+      expect(err.message).toContain('repo does not exist');
+
+      done();
+    });
+  });
+
 
   it("writes a file", function(done) {
     var git;
