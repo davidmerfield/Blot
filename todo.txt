@@ -1,5 +1,3 @@
-Investigate strange bug with image cache which seems to modify an image in user's folder. Was evident using the git client because pull would not go through....
-
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
 
 Dropbox client bugs:
@@ -13,7 +11,7 @@ Dropbox client bugs:
 
 Thumbnail bugs:
   
-  Move thumbnails off blotcdn and into assets folder. This fixes issue with protocol-less image URLs. 
+  Since thumbnails and cached images no longer have protocol-less URLs, do they work with Micro.blog?
   - Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a)
   - Tell [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) also about the bug
   - Tell [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358)
@@ -257,11 +255,7 @@ Photo posts
   
 Write a unified import tool which scrapes content from any blog/website
   Jekyll converter importer
-  - Map categories to tags and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67)
   - Map excerpt metadata to summary 
-  - Map title metadata to # Title
-  - Migrate assets to /_assets and fix links accordingly
-    - Resolve existing images and links to them in media folder correctly and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Move media folder to _media for compatability.
 
   https://github.com/hexojs/hexo-migrator-blogger
   https://github.com/welksonramos/hexo-migrator-joomla
