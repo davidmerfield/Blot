@@ -3,16 +3,12 @@ var Change = require("sync").change;
 var Sync = require("sync");
 var debug = require("debug")("clients:git:sync");
 var Git = require("simple-git");
-var Blog = require("blog");
 var localPath = require("helper").localPath;
 var checkGitRepoExists = require('./checkGitRepoExists');
 var UNCOMMITED_CHANGES = 'Please commit your changes or stash them before you merge.';
 
-module.exports = function sync(handle, callback) {
-  Blog.get({ handle: handle }, function(err, blog) {
-    if (err) return callback(err);
-    Sync(blog.id, main(blog), callback);
-  });
+module.exports = function sync(blog, callback) {
+  Sync(blog.id, main(blog), callback);
 };
 
 

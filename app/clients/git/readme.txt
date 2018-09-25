@@ -38,6 +38,7 @@ Pitfalls
 * are you passing arguments to simple-git correctly? silently ignoring flags tripped me up.
 * is a simple-git command propagating up to blot's git repo? this might cause strange behaviour.
 * is simple-git's PullSummary not containing the files it should?
+* I ran into a race condition when some tests were failing on my test server, but not locally. Basically, my tests were checking to see if a sync had finished, before the sync had even started. 
 
 How does it work?
 -----------------

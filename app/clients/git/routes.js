@@ -51,8 +51,18 @@ site.use("/end/:gitHandle.git", authenticate);
 
 repos.on("push", function(push) {
   push.accept();
+
+  // This might cause an interesting race condition. It happened for me during
+  // testing. If we invoke Blog.Sync right now, it should be fine but previously
+  // I had an additional asynchronous database lookup to fetch the full blog. I
+  // believe this triggered issues in testing, because the test checked to see
+  // if a sync had finished that had not actually yet begun. Perhaps we should
+  // begin the sync on the "send" event instead of the "finish" event? That
+  // might give us a firmer guarantee that the order of events is correct. This
+  // seems to be purely a problem for automated use of the git client, humans
+  // are unlikely to fire off multiple pushes immediately after the other.
   push.response.on("finish", function() {
-    sync(push.request.user, function(err) {
+    sync(push.request.blog, function(err) {
       if (err) {
         debug(err);
       } else {
