@@ -1,7 +1,8 @@
 var Jasmine = require("jasmine");
 var jasmine = new Jasmine();
+var colors = require('colors');
 var seedrandom = require("seedrandom");
-
+var seed;
 var config = {
   spec_dir: "",
   spec_files: ["index.js", "**/tests/index.js", "**/tests.js"],
@@ -12,11 +13,11 @@ var config = {
 
 // Pass in a custom test glob for running only specific tests
 if (process.argv[2]) {
-  console.log("Running specs inside", process.argv[2]);
+  console.log("Running specs inside", colors.cyan(process.argv[2]));
   config.spec_dir = process.argv[2];
 } else {
   console.log(
-    'If you want to run tests from a subdirectory: "npm test {path_to_specs}"'
+    'If you want to run tests from a subdirectory:', colors.cyan('npm test {path_to_specs}')
   );
 }
 
@@ -29,13 +30,20 @@ if (process.argv[3]) {
   );
 }
 
-console.log('Seeding global Math.random with ' + seed);
-seedrandom(seed, {global: true});
+seedrandom(seed, { global: true });
 jasmine.seed(seed);
 jasmine.loadConfig(config);
 
-
-console.log(Math.random());
+jasmine.addReporter({
+  specStarted: function(result) {
+    console.log();
+    console.log(colors.dim(".. " + result.fullName));
+  },
+  specDone: function(result) {
+    console.log(colors.dim(". " + result.fullName));
+    console.log();
+  }
+});
 
 global.createBlog = require("./util/createBlog");
 global.removeBlog = require("./util/removeBlog");

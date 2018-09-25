@@ -1,38 +1,40 @@
 describe("git", function() {
-  var Blog = require("blog");
-  var User = require("user");
-
-  // Set test git client server to simulate its
+  
+  // Set up client server to simulate its
   // mounting on the dashboard
-  beforeEach(require("./util/startServer"));
+  beforeAll(require("./util/startServer"));
+  afterAll(require("./util/stopServer"));
 
   beforeEach(global.createUser);
+  afterEach(global.removeUser);
+
   beforeEach(global.createBlog);
+  afterEach(global.removeBlog);
+
+  it("runs", function(){
+    console.log('INSIDE SPEC with user', this.user.uid, 'and blog', this.blog.handle);
+  });
 
   // Test clients write here, it is cleaned after
-  beforeEach(require("./util/cleanTestDataDirectory"));
+  // beforeEach(require("./util/cleanTestDataDirectory"));
 
 
-  // it("works", function(done){
-  //   console.log(this);
-  //   done();
-  // });
+  it("works", function(done){
+    done();
+  });
 
   // Test suites
-  require("./authenticate");
-  require("./create");
-  require("./sync");
+  // require("./authenticate");
+  // require("./create");
+  // require("./sync");
   // require("./write");
   // require("./remove");
 
   // Tear down, which appears to happen in reverse order
-  afterEach(require("./util/stopServer"));
 
-  afterEach(require("./util/cleanTestDataDirectory"));
+  // afterEach(require("./util/cleanTestDataDirectory"));
 
-  afterEach(global.removeUser);
 
-  afterEach(global.removeBlog);
 
   // Do i need this?
   // afterEach(require("./util/disconnect"));
