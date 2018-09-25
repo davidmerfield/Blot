@@ -1,23 +1,18 @@
 xdescribe("sync", function() {
-  
-  beforeEach(require("./util/setupUser"));
-
-  var originalTimeout;
-
-  beforeEach(function() {
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  });
-
-  afterEach(function() {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-  });
+  // Sets up a clean test blog (this.blog) for each test,
+  // sets the blog's client to git (this.client), then creates
+  // a test server with the git client's routes exposed, then
+  // cleans everything up when each test has finished.
+  require("./util/setup")();
 
   var waitForSyncToFinish = require("./util/waitForSyncToFinish");
-  var localPath = require("helper").localPath;
   var pushAllChanges = require("./util/pushAllChanges");
-  var fs = require("fs-extra");
   var checkPostExists = require("./util/checkPostExists");
+  
+  // beforeEach(require("./util/setupUser"));
+
+  var localPath = require("helper").localPath;
+  var fs = require("fs-extra");
   var sync = require("../sync");
 
   // if two files are pushed, and one produces an error when calling

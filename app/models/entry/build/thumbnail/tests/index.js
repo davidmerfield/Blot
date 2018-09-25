@@ -1,23 +1,14 @@
-describe("thumbnail", function() {
-  // Set up tests
-  beforeEach(global.createUser);
-  beforeEach(global.createBlog);
-  beforeEach(require('./util/emptyTestDataDir'));
+// TODO add test to ensure case-sensitive lowercase paths
+// work because dev machine has case-insensitive file-system
+// but test server and production server do not.
 
-  // Tear down
-  afterEach(global.removeUser);
-  afterEach(global.removeBlog);
-  afterEach(require('./util/emptyTestDataDir'));
-    
+describe("thumbnail", function() {
+  
+  global.test.blog();
+  global.test.tmp();
+  
   var localPath = require('helper').localPath;
   var fs = require('fs-extra');
-
-  require('./candidates');
-  require('./create');
-
-  // TODO add test to ensure case-sensitive lowercase paths
-  // work because dev machine has case-insensitive file-system
-  // but test server and production server do not.
   
   it("creates thumbnails", function(done) {
     
@@ -27,9 +18,9 @@ describe("thumbnail", function() {
     var html = '<img src="' + imagePath + '">';
     var path = '/post.txt';
 
-    fs.copyFileSync(__dirname + '/images/' + imagePath, localPath(global.blog.id, imagePath));
+    fs.copyFileSync(__dirname + '/images/' + imagePath, localPath(this.blog.id, imagePath));
 
-    thumbnail(global.blog, path, metadata, html, function(err, result){
+    thumbnail(this.blog, path, metadata, html, function(err, result){
 
       expect(err).toBe(null);
       expect(result).toEqual(jasmine.any(Object));
@@ -46,7 +37,7 @@ describe("thumbnail", function() {
     var html = '<p>Hello, world!</p>';
     var path = '/post.txt';
 
-    thumbnail(global.blog, path, metadata, html, function(err, result){
+    thumbnail(this.blog, path, metadata, html, function(err, result){
 
       expect(err).toBe(null);
       expect(result).toBe(null);

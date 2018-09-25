@@ -5,8 +5,8 @@ var seedrandom = require("seedrandom");
 var seed;
 var config = {
   spec_dir: "",
-  spec_files: ["**/*.js"],
-  helpers: ["tests/helpers/**/*.js"],
+  spec_files: ["tests/**/*.js", "app/**/tests/*.js", "app/**/tests.js"],
+  helpers: [],
   stopSpecOnExpectationFailure: false,
   random: true
 };

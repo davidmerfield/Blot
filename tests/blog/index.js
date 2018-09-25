@@ -1,9 +1,8 @@
 describe("blog", function() {
 
   var Blog = require('../../app/models/blog');
-
-  beforeEach(require('../helpers/createUser'));
-  afterEach(require('../helpers/removeUser'));
+  
+  global.test.blog();
 
   it("creates and deletes a blog", function(done){
 
