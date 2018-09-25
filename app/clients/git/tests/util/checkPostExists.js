@@ -3,29 +3,18 @@ var Entries = require("entries");
 var localPath = require("helper").localPath;
 var fs = require("fs-extra");
 
-module.exports = function(path, expectedEntry, callback) {
+module.exports = function(expectedEntry, callback) {
 
-  if (typeof expectedEntry === 'function') {
-    callback = expectedEntry;
-    expectedEntry = {};
-  }
+  if (!expectedEntry.path) throw new Error('Pass a path as a property of the entry as first argument');
 
-  Entry.get(global.blog.id, path, function(entry) {
+  Entry.get(global.blog.id, expectedEntry.path, function(entry) {
 
-    if (!entry) return debug(path, callback);
+    if (!entry) return debug(expectedEntry.path, callback);
 
     for (var i in expectedEntry)
       expect(expectedEntry[i]).toEqual(entry[i]);
 
-    if (entry && entry.path !== path)
-      return callback(
-        new Error(
-          "Entry exists with path " + entry.path + " instead of " + path
-        )
-      );
-
     return callback(null);
-
   });
 };
 

@@ -10,10 +10,11 @@ describe("sync", function() {
 
   // if two files are pushed, and one produces an error when calling
   // set() the other should sync just fine.
-  xit("should sync good changes even if one produces a sync error", function(done) {});
+  // xit("should sync good changes even if one produces a sync error", function(done) {});
 
   // pretty basic
   it("should sync an updated file", function(done) {
+
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var contentChanged = "New, World!";
@@ -26,7 +27,7 @@ describe("sync", function() {
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists(path, { title: content }, function(err) {
+        checkPostExists({ path: path, title: content }, function(err) {
           expect(err).toEqual(null);
 
           fs.outputFileSync(global.usersGitDirectory + path, contentChanged);
@@ -37,7 +38,7 @@ describe("sync", function() {
             waitForSyncToFinish(function(err) {
               expect(err).toEqual(null);
 
-              checkPostExists(path, { title: contentChanged }, function(err) {
+              checkPostExists({ path: path, title: contentChanged }, function(err) {
                 expect(err).toEqual(null);
                 expect(
                   fs.readFileSync(localPath(global.blog.id, path), "utf-8")
@@ -77,10 +78,10 @@ describe("sync", function() {
           waitForSyncToFinish(function(err) {
             expect(err).toEqual(null);
 
-            checkPostExists(firstPath, function(err) {
+            checkPostExists({path: firstPath}, function(err) {
               expect(err).toEqual(null);
 
-              checkPostExists(secondPath, function(err) {
+              checkPostExists({path: secondPath}, function(err) {
                 expect(err).toEqual(null);
                 done();
               });
@@ -106,7 +107,7 @@ describe("sync", function() {
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists(path, function(err) {
+        checkPostExists({path: path}, function(err) {
           expect(err).toEqual(null);
 
           fs.outputFileSync(localPath(global.blog.id, path), contentBadChange);
@@ -189,7 +190,7 @@ describe("sync", function() {
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists(path, function(err) {
+        checkPostExists({path: path}, function(err) {
           expect(err).toEqual(null);
 
           // Verify files and folders are preserved in cloneable folder
@@ -230,7 +231,7 @@ describe("sync", function() {
           waitForSyncToFinish(function(err) {
             expect(err).toEqual(null);
 
-            checkPostExists(secondPath, function(err) {
+            checkPostExists({path: secondPath}, function(err) {
               expect(err).toEqual(null);
 
               // Verify files and folders are preserved in cloneable folder
@@ -258,7 +259,7 @@ describe("sync", function() {
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists(path, function(err) {
+        checkPostExists({path: path}, function(err) {
           expect(err).toEqual(null);
 
           // Verify files and folders are preserved in cloneable folder
