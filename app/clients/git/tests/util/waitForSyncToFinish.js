@@ -2,7 +2,6 @@ var Sync = require('sync');
 
 module.exports = function main (done) {
 
-  console.log('TEST: Attempting to aqcuire sync lock to see if an existing sync has finished...');
   Sync(global.blog.id, function(_cb){
     _cb(null);
   }, function(err, unavailable){

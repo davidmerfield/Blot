@@ -8,7 +8,6 @@ var checkGitRepoExists = require('./checkGitRepoExists');
 var UNCOMMITED_CHANGES = 'Please commit your changes or stash them before you merge.';
 
 module.exports = function sync(blog, callback) {
-  console.log('SYNC: invoked from route, attempting to aqcuire lock and sync');
   Sync(blog.id, main(blog), callback);
 };
 

@@ -23,7 +23,6 @@ module.exports = function (done) {
       }
 
       global.usersGitDirectory = clonedDir;
-      console.log('Blog: ' + global.blog.id + ' Created test repository successfully.');
       done(null);
     });
   });

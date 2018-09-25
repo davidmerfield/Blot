@@ -181,25 +181,16 @@ describe("sync", function() {
       "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
     var content = "Hello, World!";
 
-    console.log('1. Writing test file');
     fs.outputFileSync(global.usersGitDirectory + path, content);
 
-    console.log('2. Pushing test file');
     pushAllChanges(global.usersGitClient, function(err) {
       expect(err).toEqual(null);
-
-      console.log('3. Pushed test file');
-      console.log('4. Waiting for sync to finish');
 
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        console.log('5. Waited for sync to finish');
-        console.log('6. Checking post exists');
         checkPostExists({ path: path }, function(err) {
           expect(err).toEqual(null);
-
-         console.log('7. Checked post exists');
 
           // Verify files and folders are preserved in cloneable folder
           expect(fs.readdirSync(blogDir)).toEqual(
