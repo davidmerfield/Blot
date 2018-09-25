@@ -4,6 +4,11 @@ describe("configuration", function() {
   // needs a little longer to run. 20s should be plenty
   var LONG_TIMEOUT = 20 * 1000;
 
+  require('child_process').exec('git --version', function(err, result){
+    console.log('Git version:', result);
+  });
+
+  // TODO: check that g
   it("loads without error", function() {
     expect(function() {
       require("../../config");
