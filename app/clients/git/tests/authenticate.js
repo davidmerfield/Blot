@@ -1,5 +1,5 @@
 describe("authenticate", function() {
-  var Git = require("simple-git")(require("./util/testDataDirectory")).silent(true);
+  var Git = require("simple-git");
   var repoUrl = require("./util/repoUrl");
   var database = require("../database");
   var setupUser = require("./util/setupUser");
@@ -28,8 +28,9 @@ describe("authenticate", function() {
   it("prevents valid user from accessing other repo", function(done) {
     var badRepo = "other_repo";
     var url = repoUrl(global.blog.handle, global.gitToken, badRepo);
+    var git = Git(require("./util/testDataDirectory")).silent(true);
 
-    Git.clone(url, function(err) {
+    git.clone(url, function(err) {
       expect(err).toContain("401 Unauthorized");
       done();
     });
@@ -38,8 +39,9 @@ describe("authenticate", function() {
   it("prevents invalid user from accessing valid repo", function(done) {
     var badHandle = "other_repo";
     var url = repoUrl(badHandle, global.gitToken, global.blog.handle);
+    var git = Git(require("./util/testDataDirectory")).silent(true);
 
-    Git.clone(url, function(err) {
+    git.clone(url, function(err) {
       expect(err).toContain("401 Unauthorized");
       done();
     });

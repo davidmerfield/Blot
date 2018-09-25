@@ -1,4 +1,4 @@
-fdescribe("sync", function() {
+describe("sync", function() {
   beforeEach(require("./util/setupUser"));
 
   var originalTimeout;
@@ -24,7 +24,7 @@ fdescribe("sync", function() {
   // xit("should sync good changes even if one produces a sync error", function(done) {done()});
 
   // pretty basic
-  xit("should sync an updated file", function(done) {
+  it("should sync an updated file", function(done) {
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var contentChanged = "New, World!";
@@ -66,7 +66,7 @@ fdescribe("sync", function() {
   });
 
   // commit -> commit -> push etc...
-  xit("should process multiple unsynced commits properly", function(done) {
+  it("should process multiple unsynced commits properly", function(done) {
     var firstPath = "/Hello world.txt";
     var firstContent = "Hello, World!";
 
@@ -104,7 +104,7 @@ fdescribe("sync", function() {
   });
 
   // Allow pulls to go through under buggy conditions
-  xit("should reset any uncommitted changes to blog folder", function(done) {
+  it("should reset any uncommitted changes to blog folder", function(done) {
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var contentBadChange = "Bad, World!";
@@ -140,7 +140,7 @@ fdescribe("sync", function() {
     });
   });
 
-  xit("should return an error if there is no git repo in blog folder", function(done) {
+  it("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(localPath(global.blog.id, ".git"));
 
     sync(global.blog, function(err) {
@@ -155,9 +155,6 @@ fdescribe("sync", function() {
   it(
     "re-pulls if it recieves a push during sync",
     function(done) {
-      console.log();
-      console.log();
-      console.log('Beginning test:', "re-pulls if it recieves a push during sync");
 
       var blogDir = localPath(global.blog.id, "/");
       var usersGitDirectory = global.usersGitDirectory;
@@ -187,24 +184,23 @@ fdescribe("sync", function() {
         });
       });
     },
-    1000
+    30 * 1000 // 30s
   );
 
   // Git sometimes truncates path and I was running into this issue
   it(
     "handles deeply nested files",
     function(done) {
-      console.log();
-      console.log();
-      console.log('Beginning test:', "handles deeply nested files");
       var blogDir = localPath(global.blog.id, "/");
       var path =
         "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
       var content = "Hello, World!";
 
       fs.outputFileSync(global.usersGitDirectory + path, content);
-
+      
       pushAllChanges(global.usersGitClient, function(err) {
+
+
         expect(err).toEqual(null);
 
         waitForSyncToFinish(function(err) {
@@ -212,6 +208,7 @@ fdescribe("sync", function() {
 
           checkPostExists({ path: path }, function(err) {
             expect(err).toEqual(null);
+
 
             // Verify files and folders are preserved in cloneable folder
             expect(fs.readdirSync(blogDir)).toEqual(
@@ -270,7 +267,7 @@ fdescribe("sync", function() {
     });
   });
   
-  xit("accepts a push", function(done) {
+  it("accepts a push", function(done) {
     var blogDir = localPath(global.blog.id, "/");
     var path = "/Hello world.txt";
     var content = "Hello, World!";

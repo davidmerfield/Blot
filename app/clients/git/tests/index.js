@@ -1,7 +1,5 @@
 describe("git", function() {
 
-  // Test clients write here, it is cleaned after
-  beforeEach(require("./util/cleanTestDataDirectory"));
 
   // Set test git client server to simulate its
   // mounting on the dashboard
@@ -9,6 +7,9 @@ describe("git", function() {
 
   beforeEach(global.createUser);
   beforeEach(global.createBlog);
+
+  // Test clients write here, it is cleaned after
+  beforeEach(require("./util/cleanTestDataDirectory"));
 
   // Test suites
   require("./authenticate");
