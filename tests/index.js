@@ -13,7 +13,7 @@ var config = {
 
 // Pass in a custom test glob for running only specific tests
 if (process.argv[2]) {
-  console.log("Running specs inside", colors.cyan(process.argv[2]));
+  console.log("Running specs in", colors.cyan(process.argv[2]));
 
   // We have passed specific file to run
   if (process.argv[2].slice(-3) === '.js') {
@@ -53,13 +53,22 @@ jasmine.addReporter({
   }
 });
 
-global.testBlog = function () {
+global.test = {
 
-  beforeEach(require("./util/createUser"));
-  afterEach(require("./util/removeUser"));
+  blog: function () {
 
-  beforeEach(require("./util/createBlog"));
-  afterEach(require("./util/removeBlog"));
+    beforeEach(require("./util/createUser"));
+    afterEach(require("./util/removeUser"));
+
+    beforeEach(require("./util/createBlog"));
+    afterEach(require("./util/removeBlog"));
+  },
+
+  tmp: function () {    
+    beforeEach(require("./util/createTmpDir"));
+    afterEach(require("./util/removeTmpDir"));
+  }
 };
+
 
 jasmine.execute();
