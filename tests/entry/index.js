@@ -4,33 +4,30 @@ describe("blog", function() {
   var fs = require('fs-extra');
   var helper = require('../../app/helper');
 
-  beforeEach(require('../helpers/createUser'));
-  beforeEach(require('../helpers/createBlog'));
-
-  afterEach(require('../helpers/removeBlog'));
-  afterEach(require('../helpers/removeUser'));
+  global.test.blog();
 
   it("an entry", function(done){
 
     var path = '/post.txt';
+    var blog = this.blog;
+    
+    fs.copyFileSync(__dirname + path, helper.localPath(blog.id, path));
 
-    fs.copyFileSync(__dirname + path, helper.localPath(this.blog.id, path));
-
-    Entry.build(this.blog, path, function(err, entry){
+    Entry.build(blog, path, function(err, entry){
 
       expect(err).toBe(null);
       expect(entry).toEqual(jasmine.any(Object));
 
-      Entry.set(this.blog.id, path, entry, function(err){
+      Entry.set(blog.id, path, entry, function(err){
 
         expect(err).toBe(null);
 
-        Entry.get(this.blog.id, path, function(entry){
+        Entry.get(blog.id, path, function(entry){
 
           expect(err).toBe(null);
           expect(entry).toEqual(jasmine.any(Object));
 
-          Entry.drop(this.blog.id, path, function(err){
+          Entry.drop(blog.id, path, function(err){
 
             expect(err).toBe(null);
             done();
