@@ -1,4 +1,4 @@
-describe("sync", function() {
+fdescribe("sync", function() {
   beforeEach(require("./util/setupUser"));
 
   var originalTimeout;
@@ -24,7 +24,7 @@ describe("sync", function() {
   // xit("should sync good changes even if one produces a sync error", function(done) {done()});
 
   // pretty basic
-  it("should sync an updated file", function(done) {
+  xit("should sync an updated file", function(done) {
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var contentChanged = "New, World!";
@@ -66,7 +66,7 @@ describe("sync", function() {
   });
 
   // commit -> commit -> push etc...
-  it("should process multiple unsynced commits properly", function(done) {
+  xit("should process multiple unsynced commits properly", function(done) {
     var firstPath = "/Hello world.txt";
     var firstContent = "Hello, World!";
 
@@ -104,7 +104,7 @@ describe("sync", function() {
   });
 
   // Allow pulls to go through under buggy conditions
-  it("should reset any uncommitted changes to blog folder", function(done) {
+  xit("should reset any uncommitted changes to blog folder", function(done) {
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var contentBadChange = "Bad, World!";
@@ -140,7 +140,7 @@ describe("sync", function() {
     });
   });
 
-  it("should return an error if there is no git repo in blog folder", function(done) {
+  xit("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(localPath(global.blog.id, ".git"));
 
     sync(global.blog, function(err) {
@@ -152,9 +152,13 @@ describe("sync", function() {
 
   // Scenario: you push loads of files, Blot takes ages to sync
   // you push one more file: does Blot sync it too?
-  it(
+  xit(
     "re-pulls if it recieves a push during sync",
     function(done) {
+      console.log();
+      console.log();
+      console.log('Beginning test:', "re-pulls if it recieves a push during sync");
+
       var blogDir = localPath(global.blog.id, "/");
       var usersGitDirectory = global.usersGitDirectory;
       var path = "/Hello world.txt";
@@ -190,6 +194,9 @@ describe("sync", function() {
   it(
     "handles deeply nested files",
     function(done) {
+      console.log();
+      console.log();
+      console.log('Beginning test:', "handles deeply nested files");
       var blogDir = localPath(global.blog.id, "/");
       var path =
         "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
@@ -220,7 +227,7 @@ describe("sync", function() {
   ); // 10s for this test... not sure why it needs longer but hey
 
   // what about a case sensitivity change?
-  it("handles renamed files", function(done) {
+  xit("handles renamed files", function(done) {
     var blogDir = localPath(global.blog.id, "/");
     var firstPath =
       "/Hello/you/fhjdskfhksdhfkj/fsdhfsjdkfhjkds/fsdhkjfsdhjk/fdshkfshjdkfjshdf/fdshjfhsdjk/fsdhjfksdjh/Foo bar.txt";
@@ -262,7 +269,8 @@ describe("sync", function() {
       });
     });
   });
-  it("accepts a push", function(done) {
+  
+  xit("accepts a push", function(done) {
     var blogDir = localPath(global.blog.id, "/");
     var path = "/Hello world.txt";
     var content = "Hello, World!";
