@@ -1,12 +1,11 @@
 describe("sync", function() {
-  
   beforeEach(require("./util/setupUser"));
 
   var originalTimeout;
 
   beforeEach(function() {
-      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
   afterEach(function() {
@@ -22,13 +21,16 @@ describe("sync", function() {
 
   // if two files are pushed, and one produces an error when calling
   // set() the other should sync just fine.
-  // xit("should sync good changes even if one produces a sync error", function(done) {});
+  // xit("should sync good changes even if one produces a sync error", function(done) {done()});
 
   // pretty basic
   it("should sync an updated file", function(done) {
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var contentChanged = "New, World!";
+    var initialPost = { path: path, title: content };
+    var changedPost = { path: path, title: contentChanged };
+    var pathInBlogFolder = localPath(global.blog.id, path);
 
     fs.outputFileSync(global.usersGitDirectory + path, content);
 
@@ -38,7 +40,7 @@ describe("sync", function() {
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists({ path: path, title: content }, function(err) {
+        checkPostExists(initialPost, function(err) {
           expect(err).toEqual(null);
 
           fs.outputFileSync(global.usersGitDirectory + path, contentChanged);
@@ -49,13 +51,11 @@ describe("sync", function() {
             waitForSyncToFinish(function(err) {
               expect(err).toEqual(null);
 
-              checkPostExists({ path: path, title: contentChanged }, function(
-                err
-              ) {
+              checkPostExists(changedPost, function(err) {
                 expect(err).toEqual(null);
-                expect(
-                  fs.readFileSync(localPath(global.blog.id, path), "utf-8")
-                ).toEqual(contentChanged);
+                expect(fs.readFileSync(pathInBlogFolder, "utf-8")).toEqual(
+                  contentChanged
+                );
                 done();
               });
             });
@@ -144,7 +144,6 @@ describe("sync", function() {
     fs.removeSync(localPath(global.blog.id, ".git"));
 
     sync(global.blog, function(err) {
-
       expect(err.message).toContain("repo does not exist");
 
       done();
@@ -153,7 +152,7 @@ describe("sync", function() {
 
   // Scenario: you push loads of files, Blot takes ages to sync
   // you push one more file: does Blot sync it too?
-  it(
+  xit(
     "re-pulls if it recieves a push during sync",
     function(done) {
       var blogDir = localPath(global.blog.id, "/");
@@ -184,37 +183,41 @@ describe("sync", function() {
         });
       });
     },
-    30000
+    1000
   );
 
   // Git sometimes truncates path and I was running into this issue
-  it("handles deeply nested files", function(done) {
-    var blogDir = localPath(global.blog.id, "/");
-    var path =
-      "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
-    var content = "Hello, World!";
+  it(
+    "handles deeply nested files",
+    function(done) {
+      var blogDir = localPath(global.blog.id, "/");
+      var path =
+        "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
+      var content = "Hello, World!";
 
-    fs.outputFileSync(global.usersGitDirectory + path, content);
+      fs.outputFileSync(global.usersGitDirectory + path, content);
 
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
-
-      waitForSyncToFinish(function(err) {
+      pushAllChanges(global.usersGitClient, function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists({ path: path }, function(err) {
+        waitForSyncToFinish(function(err) {
           expect(err).toEqual(null);
 
-          // Verify files and folders are preserved in cloneable folder
-          expect(fs.readdirSync(blogDir)).toEqual(
-            fs.readdirSync(global.usersGitDirectory)
-          );
+          checkPostExists({ path: path }, function(err) {
+            expect(err).toEqual(null);
 
-          done();
+            // Verify files and folders are preserved in cloneable folder
+            expect(fs.readdirSync(blogDir)).toEqual(
+              fs.readdirSync(global.usersGitDirectory)
+            );
+
+            done();
+          });
         });
       });
-    });
-  }, 10 * 1000); // 10s for this test... not sure why it needs longer but hey
+    },
+    10 * 1000
+  ); // 10s for this test... not sure why it needs longer but hey
 
   // what about a case sensitivity change?
   it("handles renamed files", function(done) {
