@@ -1,12 +1,21 @@
-xdescribe("create", function() {
+describe("create", function() {
+
+  // Sets up a clean test blog (this.blog) for each test,
+  // sets the blog's client to git (this.client), then creates
+  // a test server with the git client's routes exposed, then
+  // cleans everything up when each test has finished.
+  require('./util/setup')({
+    setClientToGit: false
+  });
 
   var create = require('../create');
   var disconnect = require('../disconnect');
+  var Git = require('simple-git');
   var localPath = require('helper').localPath;
-  var clone = require('./util/clone');
-  
+  var setClientToGit = require('./util/setClientToGit');
+
   // this prevents an existing bare repo from being clobbered
-  it("should fail when called twice", function(done) {
+  it("should fail when the client has already been initialized", function(done) {
 
     var blog = this.blog;
 
@@ -15,10 +24,8 @@ xdescribe("create", function() {
       if (err) return done.fail(err);
 
       create(blog, function(err){
-        
-        expect(err).not.toEqual(null);
-        expect(err).toEqual(jasmine.any(Error));
-
+          
+        expect(err.code).toEqual('EEXIST');
         done();
       });
     });
@@ -27,21 +34,21 @@ xdescribe("create", function() {
   // this prevents an existing bare repo from being clobbered
   // this simulates a user connecting the git client, disconnecting
   // then connecting again..
-  it("should not fail when disconnect is called inbetween", function(done) {
+  it("should not fail when disconnect is called in between", function(done) {
 
     var blog = this.blog;
 
     create(blog, function(err){
       
-      if (err) return done.fail(err);      expect(err).not.toEqual(jasmine.any(Error));
+      if (err) return done.fail(err);
 
       disconnect(blog.id, function(err){
 
-        if (err) return done.fail(err);        expect(err).not.toEqual(jasmine.any(Error));
+        if (err) return done.fail(err);
 
         create(blog, function(err){
           
-          if (err) return done.fail(err);          expect(err).not.toEqual(jasmine.any(Error));
+          if (err) return done.fail(err);
 
           done();
         });
@@ -59,6 +66,7 @@ xdescribe("create", function() {
     Git.init(function(err){
 
       if (err) return done.fail(err);
+
       Git.addRemote('origin', 'http://git.com/foo.git', function(err){
 
         if (err) return done.fail(err);
@@ -78,21 +86,25 @@ xdescribe("create", function() {
     var blogDir = localPath(this.blog.id,'/');
     var fs = require('fs-extra');
     var blog = this.blog;
+    var tmp = this.tmp;
+    var clonedDir = this.tmp + '/' + this.blog.handle;
 
     fs.outputFileSync(blogDir + '/first.txt', 'Hello');
     fs.outputFileSync(blogDir + '/Sub Folder/second.txt', 'World');
     fs.outputFileSync(blogDir + '/third', '!');
 
-    create(blog, function(err){
-      
-      if (err) return done.fail(err);
-      // Verify files and folders are preserved on Blot's copy of blog folder
-      expect(fs.readdirSync(blogDir)).toEqual(['.git', 'Sub Folder', 'first.txt', 'third']);
-      expect(fs.readdirSync(blogDir + '/Sub Folder')).toEqual(['second.txt']);
+    setClientToGit(blog, this.server.port, function(err, repoUrl){
 
-      clone(blog, function(err, clonedDir){
+      if (err) return done.fail(err);
+
+      Git(tmp).silent(true).clone(repoUrl, function(err) {
 
         if (err) return done.fail(err);
+
+        // Verify files and folders are preserved in Blot's copy of blog folder
+        expect(fs.readdirSync(blogDir)).toEqual(['.git', 'Sub Folder', 'first.txt', 'third']);
+        expect(fs.readdirSync(blogDir + '/Sub Folder')).toEqual(['second.txt']);
+
         // Verify files and folders are preserved in cloneable folder
         expect(fs.readdirSync(clonedDir)).toEqual(['.git', 'Sub Folder', 'first.txt', 'third']);
         expect(fs.readdirSync(clonedDir + '/Sub Folder')).toEqual(['second.txt']);
@@ -101,5 +113,4 @@ xdescribe("create", function() {
       });
     });
   });
-
 });

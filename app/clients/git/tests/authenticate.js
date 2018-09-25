@@ -1,83 +1,76 @@
 describe("authenticate", function() {
+  
+  // Sets up a clean test blog (this.blog) for each test,
+  // sets the blog's client to git (this.client), then creates
+  // a test server with the git client's routes exposed, then
+  // cleans everything up when each test has finished.
+  require('./util/setup')();
 
-  // Sets up a temporary test blog and tmp dir
-  // which is cleaned up after each test runs
-  global.test.blog();
-  global.test.tmp();
-
-  // Set up client server to simulate its
-  // mounting on the dashboard
-  beforeAll(require("./util/startServer"));
-  afterAll(require("./util/stopServer"));
-
+  var fs = require("fs-extra");
   var Git = require("simple-git");
-  var repoUrl = require("./util/repoUrl");
-  var database = require("../database");
-  var createRepo = require('./util/createRepo');
-  var clone = require('./util/clone');
+  var url = require("url");
 
-  it("allows a user with good credentials to clone a repo", function(done){
-
-    console.log(this.user.uid, this.blog.handle);
-    done();
-  });
-
-  xit("prevents valid user from accessing other repo", function(done) {
-    var badRepo = "other_repo";
-    var blog = this.blog;
-    var token = this.gitToken;
-    var testDataDirectory = require("./util/testDataDirectory");
-    var url = repoUrl(blog.handle, token, badRepo);
-    var git = Git(testDataDirectory(blog.id)).silent(true);
-
-    git.clone(url, function(err) {
-      expect(err).toContain("401 Unauthorized");
-      done();
-    });
-  });
-
-  xit("prevents invalid user from accessing valid repo", function(done) {
-    var badHandle = "other_repo";
-    var blog = this.blog;
-    var token = this.gitToken;
-    var url = repoUrl(badHandle, token, blog.handle);
-    var testDataDirectory = require("./util/testDataDirectory");
-    var git = Git(testDataDirectory(blog.id)).silent(true);
-
-    git.clone(url, function(err) {
-      expect(err).toContain("401 Unauthorized");
-      done();
-    });
-  });
-
-  xit("prevents a previously valid user if they refresh their tokens", function(done) {
-    var blog = this.blog;
-
-    createRepo(blog, function(err){
+  it("allows a user with good credentials to clone a repo", function(done) {
+    var tmp = this.tmp;
+    var handle = this.blog.handle;
+    
+    Git(tmp).silent(true).clone(this.repoUrl, function(err) {
       if (err) return done.fail(err);
 
-      clone(blog, function(err, clonedDir){
+      // Verify that there actually is a new repo on the user's file system
+      expect(fs.readdirSync(tmp)).toEqual([handle]);
+      expect(fs.readdirSync(tmp + "/" + handle)).toEqual([".git"]);
+      done();
+    });
+  });
 
-        if (err) return done.fail(err);
+  it("prevents a user with good credentials from accessing someone else's repo", function(done) {
 
-        var git = Git(clonedDir).silent(true);
+    var repoUrl = this.repoUrl;
+    var tmp = this.tmp;
 
-        database.refreshToken(blog.id, function(err) {
-          if (err) return done.fail(err);
-          
-          git.commit("initial", function(err) {
-            if (err) return done.fail(err);
-            git.push(function(err) {
-              expect(err).not.toEqual(null);
-              expect(err).toContain("401 Unauthorized");
+    repoUrl = url.parse(repoUrl);
+    repoUrl.pathname = repoUrl.pathname.split(this.blog.handle).join('not_you');
+    repoUrl = url.format(repoUrl);
 
-              done();
-            });
-          });
-        });
+    Git(tmp).silent(true).clone(repoUrl, function(err) {
+      expect(err).toContain("401 Unauthorized");
+      expect(fs.readdirSync(tmp)).toEqual([]);
+      done();
+    });
+  });
+
+  it("prevents a user with invalid credentials from accessing someone else's repo", function(done) {
+
+    var tmp = this.tmp;
+    var repoUrl = this.repoUrl;
+
+    repoUrl = url.parse(repoUrl);
+    repoUrl.auth = 'not_you:not_your_password';
+    repoUrl = url.format(repoUrl);
+
+    Git(tmp).silent(true).clone(repoUrl, function(err) {
+      expect(err).toContain("401 Unauthorized");
+      expect(fs.readdirSync(tmp)).toEqual([]);
+      done();
+    });
+  });
+
+  it("prevents a user with an expired token from accessing their repo", function(done) {
+
+    var tmp = this.tmp;
+    var repoUrl = this.repoUrl;
+
+    // Now the repoUrl, which contains the token, should be invalid
+    require('../database').refreshToken(this.blog.id, function(err) {
+
+      if (err) return done.fail(err);
+
+      Git(tmp).silent(true).clone(repoUrl, function(err) {
+        expect(err).toContain("401 Unauthorized");
+        expect(fs.readdirSync(tmp)).toEqual([]);
+        done();
       });
     });
   });
-
-
 });
