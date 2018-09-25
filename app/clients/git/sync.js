@@ -11,6 +11,7 @@ var UNCOMMITED_CHANGES = 'Please commit your changes or stash them before you me
 module.exports = function sync(handle, callback) {
   Blog.get({ handle: handle }, function(err, blog) {
     if (err) return callback(err);
+    console.log('SYNC: invoked from route, attempting to aqcuire lock and sync');
     Sync(blog.id, main(blog), callback);
   });
 };
