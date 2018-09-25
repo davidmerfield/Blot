@@ -52,7 +52,7 @@ site.use("/end/:gitHandle.git", authenticate);
 repos.on("push", function(push) {
   push.accept();
   push.response.on("finish", function() {
-    sync(push.request.user, function(err) {
+    sync(push.request.blog, function(err) {
       if (err) {
         debug(err);
       } else {
