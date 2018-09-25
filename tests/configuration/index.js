@@ -1,7 +1,8 @@
 describe("configuration", function() {
   // The test to start the main server
-  // needs a little longer to run. 10s.
-  var LONG_TIMEOUT = 10 * 1000;
+  // and resolve unused dependencies both
+  // needs a little longer to run. 20s should be plenty
+  var LONG_TIMEOUT = 20 * 1000;
 
   it("loads without error", function() {
     expect(function() {
