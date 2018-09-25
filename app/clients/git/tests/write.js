@@ -3,7 +3,7 @@ describe("write", function() {
   // sets the blog's client to git (this.client), then creates
   // a test server with the git client's routes exposed, then
   // cleans everything up when each test has finished.
-  require("./util/setup")();
+  require("./setup")();
 
   var write = require("../write");
   var Git = require("simple-git");

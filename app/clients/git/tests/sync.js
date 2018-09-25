@@ -3,16 +3,95 @@ xdescribe("sync", function() {
   // sets the blog's client to git (this.client), then creates
   // a test server with the git client's routes exposed, then
   // cleans everything up when each test has finished.
-  require("./util/setup")();
+  require("./setup")();
 
-  var waitForSyncToFinish = require("./util/waitForSyncToFinish");
-  var pushAllChanges = require("./util/pushAllChanges");
-  var checkPostExists = require("./util/checkPostExists");
+  var waitForSyncToFinish = function main (done) {
+
+  Sync(this.blog.id, function(_cb){
+    _cb(null);
+  }, function(err, unavailable){
+
+    if (err) return done(err);
+
+    if (unavailable) {
+      setTimeout(function(){
+
+        main(done);
+
+      }, 1000);
+
+    } else {
+      done(null);
+    }
+  });
+};
+
+  var pushAllChanges = function(gitClient, callback) {
+  gitClient.add(".", function(err) {
+    if (err) return callback(new Error(err));
+
+    gitClient.commit("initial", function(err) {
+      if (err) return callback(new Error(err));
+
+      gitClient.push(function(err) {
+        if (err) return callback(new Error(err));
+
+        callback(null);
+      });
+    });
+  });
+};
+
+var Entry = require("entry");
+var Entries = require("entries");
+var Sync = require("sync");
+var localPath = require("helper").localPath;
+var fs = require("fs-extra");
+
+  var checkPostExists = function(expectedEntry, callback) {
+
+  var context = this;
+
+  if (!expectedEntry.path) throw new Error('Pass a path as a property of the entry as first argument');
+
+  Entry.get(context.blog.id, expectedEntry.path, function(entry) {
+
+    if (!entry) return debug(context, expectedEntry.path, callback);
+
+    for (var i in expectedEntry)
+      expect(expectedEntry[i]).toEqual(entry[i]);
+
+    return callback(null);
+  });
+};
+
+
+function debug (context, path, callback) {
+      var message = "No entry exists " + path;
+
+    context.usersGitClient.log(function(err, log) {
+      message += "\nUser client last commit: " + log.latest.hash;
+
+      context.bareGitClient.log(function(err, log) {
+        message += "\nBare client last commit: " + log.latest.hash;
+
+        context.liveGitClient.log(function(err, log) {
+          message += "\nLive client last commit: " + log.latest.hash;
+
+          message += "\nFiles: " + fs.readdirSync(localPath(this.blog.id, "/"));
+
+          Entries.getAllIDs(context.blog.id, function(err, entries) {
+            message += "\nEntries: " + entries;
+
+            return callback(new Error(message));
+          });
+        });
+      });
+    });
+}
   
   // beforeEach(require("./util/setupUser"));
 
-  var localPath = require("helper").localPath;
-  var fs = require("fs-extra");
   var sync = require("../sync");
 
   // if two files are pushed, and one produces an error when calling
