@@ -17,12 +17,12 @@ describe("image", function() {
 
     fs.copySync(__dirname + image, localPath(blog.id, image));
 
-    render(html, function(err, firstResult) {
+    render(blog, html, function(err, firstResult) {
       expect(err).toBe(null);
 
       fs.copySync(__dirname + modifiedImage, localPath(blog.id, image));
 
-      render(html, function(err, secondResult) {
+      render(blog, html, function(err, secondResult) {
         expect(err).toBe(null);
 
         expect(firstResult).toContain("/_image_cache/");
@@ -36,12 +36,12 @@ describe("image", function() {
   it("returns the same cached image when re-run", function(done) {
     var path = "/tests-image.png";
     var html = '<img src="' + path + '">';
-
+    var blog = this.blog;
     fs.copySync(__dirname + path, localPath(this.blog.id, path));
       
-    render(html, function(err, firstResult) {
+    render(blog, html, function(err, firstResult) {
       
-      render(html, function(err, secondResult) {
+      render(blog, html, function(err, secondResult) {
 
         expect(firstResult).toContain("/_image_cache/");
         expect(secondResult).toContain("/_image_cache/");
@@ -58,7 +58,7 @@ describe("image", function() {
 
     fs.copySync(__dirname + path, localPath(blog.id, path));
 
-    render(html, function(err, result) {
+    render(blog, html, function(err, result) {
       expect(result).toContain(".png");
       expect(result).toContain("/_image_cache/");
 
@@ -77,8 +77,8 @@ describe("image", function() {
   });
 
   // Wrapper around dumb API for this plugin
-  function render(html, callback) {
-    var options = { blogID: this.blog.id };
+  function render(blog, html, callback) {
+    var options = { blogID: blog.id };
     var $ = cheerio.load(html);
 
     image.render(

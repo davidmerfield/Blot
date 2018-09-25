@@ -21,7 +21,8 @@ if (process.argv[2]) {
 
   // We have passed directory of tests to run
   } else {
-    config.spec_dir = process.argv[2];    
+    config.spec_dir = process.argv[2];   
+    config.spec_files = ['**/tests/**/*.js', '**/tests.js']
   }
 } else {
   console.log(
