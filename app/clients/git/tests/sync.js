@@ -175,7 +175,7 @@ describe("sync", function() {
   );
 
   // Git sometimes truncates path and I was running into this issue
-  fit("handles deeply nested files", function(done) {
+  it("handles deeply nested files", function(done) {
     var blogDir = localPath(global.blog.id, "/");
     var path =
       "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
