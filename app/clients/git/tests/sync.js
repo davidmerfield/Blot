@@ -131,7 +131,8 @@ describe("sync", function() {
   it("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(localPath(global.blog.id, ".git"));
 
-    sync(global.blog.handle, function(err) {
+    sync(global.blog, function(err) {
+
       expect(err.message).toContain("repo does not exist");
 
       done();
