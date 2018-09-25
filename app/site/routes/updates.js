@@ -29,7 +29,8 @@ router.get('/', function(req, res, next){
 
           message = message[0].toUpperCase() + message.slice(1);
 
-          // Ignore changes to TODO file and messages with URLS
+          // Ignore changes to TODO file, pull request merges, and messages with URLS
+          if (message.indexOf('Merge pull request') === 0) return;
           if (message.split(' ').join('').toLowerCase().indexOf('todo') > -1) return;
           if (message.split(' ').join('').toLowerCase().indexOf('://') > -1) return;
 
