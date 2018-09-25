@@ -14,23 +14,23 @@ describe("blog", function() {
 
     var path = '/post.txt';
 
-    fs.copyFileSync(__dirname + path, helper.localPath(global.blog.id, path));
+    fs.copyFileSync(__dirname + path, helper.localPath(this.blog.id, path));
 
-    Entry.build(global.blog, path, function(err, entry){
+    Entry.build(this.blog, path, function(err, entry){
 
       expect(err).toBe(null);
       expect(entry).toEqual(jasmine.any(Object));
 
-      Entry.set(global.blog.id, path, entry, function(err){
+      Entry.set(this.blog.id, path, entry, function(err){
 
         expect(err).toBe(null);
 
-        Entry.get(global.blog.id, path, function(entry){
+        Entry.get(this.blog.id, path, function(entry){
 
           expect(err).toBe(null);
           expect(entry).toEqual(jasmine.any(Object));
 
-          Entry.drop(global.blog.id, path, function(err){
+          Entry.drop(this.blog.id, path, function(err){
 
             expect(err).toBe(null);
             done();

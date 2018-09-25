@@ -3,6 +3,7 @@ var randomString = require('./randomString');
 
 module.exports = function(done){
 
+  var _this = this;
   var fakePasswordHash = randomString(16);
   var fakeEmail = randomString(20) + '@example.com';
 
@@ -14,7 +15,7 @@ module.exports = function(done){
     }
     
   
-    global.user = user;
+    _this.user = user;
     done();
   });
 };

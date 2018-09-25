@@ -1,18 +1,17 @@
-module.exports = function (done) {
+module.exports = function (blog, callback) {
 
   var create = require("../../create");
   var database = require("../../database");
 
-  create(global.blog, function(err) {
+  create(blog, function(err) {
 
-    if (err) return done(err);
+    if (err) return callback(err);
 
-    database.getToken(global.blog.id, function(err, token) {
+    database.getToken(blog.id, function(err, token) {
 
-      if (err) return done(err);  
+      if (err) return callback(err);  
 
-      global.gitToken = token;
-      done();
+      callback(null, token);
     });
   });
 };

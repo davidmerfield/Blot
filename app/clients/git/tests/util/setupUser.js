@@ -6,23 +6,27 @@ var dataDir = require('../../dataDir');
 
 module.exports = function (done) {
 
-  createRepo(function(err){
+  var context = this;
+  var blog = this.blog;
+
+  createRepo(blog, function(err, token){
 
     if (err) return done(err);
       
-    clone(function(err, clonedDir){
+    clone(blog, function(err, clonedDir){
 
       if (err) return done(err);
 
       try {
-        global.bareGitClient = Git(dataDir + '/' + global.blog.handle + '.git').silent(true);
-        global.liveGitClient = Git(localPath(global.blog.id, '/')).silent(true);
-        global.usersGitClient = Git(clonedDir).silent(true);
+        context.bareGitClient = Git(dataDir + '/' + blog.handle + '.git').silent(true);
+        context.liveGitClient = Git(localPath(blog.id, '/')).silent(true);
+        context.usersGitClient = Git(clonedDir).silent(true);
       } catch (err) {
         return done(err);
       }
 
-      global.usersGitDirectory = clonedDir;
+      context.token = token;
+      context.usersGitDirectory = clonedDir;
       done(null);
     });
   });

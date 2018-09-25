@@ -1,5 +1,8 @@
-var testDataDirectory = __dirname + '/data/' + global.blog.id;
+module.exports = function (blogID){
+  
+  var testDataDirectory = __dirname + '/data/' + blogID;
 
-require('fs-extra').ensureDirSync(testDataDirectory);
-
-module.exports = testDataDirectory;
+  require('fs-extra').ensureDirSync(testDataDirectory);
+  
+  return testDataDirectory;
+};

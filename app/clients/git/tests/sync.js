@@ -1,4 +1,5 @@
 describe("sync", function() {
+  
   beforeEach(require("./util/setupUser"));
 
   var originalTimeout;
@@ -30,30 +31,24 @@ describe("sync", function() {
     var contentChanged = "New, World!";
     var initialPost = { path: path, title: content };
     var changedPost = { path: path, title: contentChanged };
-    var pathInBlogFolder = localPath(global.blog.id, path);
+    var pathInBlogFolder = localPath(this.blog.id, path);
 
-    fs.outputFileSync(global.usersGitDirectory + path, content);
+    fs.outputFileSync(this.usersGitDirectory + path, content);
 
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
-
+    pushAllChanges(this.usersGitClient, function(err) {
+      if (err) return done.fail(err);
       waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
-
+        if (err) return done.fail(err);
         checkPostExists(initialPost, function(err) {
-          expect(err).toEqual(null);
+          if (err) return done.fail(err);
+          fs.outputFileSync(this.usersGitDirectory + path, contentChanged);
 
-          fs.outputFileSync(global.usersGitDirectory + path, contentChanged);
-
-          pushAllChanges(global.usersGitClient, function(err) {
-            expect(err).toEqual(null);
-
+          pushAllChanges(this.usersGitClient, function(err) {
+            if (err) return done.fail(err);
             waitForSyncToFinish(function(err) {
-              expect(err).toEqual(null);
-
+              if (err) return done.fail(err);
               checkPostExists(changedPost, function(err) {
-                expect(err).toEqual(null);
-                expect(fs.readFileSync(pathInBlogFolder, "utf-8")).toEqual(
+                if (err) return done.fail(err);                expect(fs.readFileSync(pathInBlogFolder, "utf-8")).toEqual(
                   contentChanged
                 );
                 done();
@@ -63,7 +58,7 @@ describe("sync", function() {
         });
       });
     });
-  });
+  }, 100);
 
   // commit -> commit -> push etc...
   it("should process multiple unsynced commits properly", function(done) {
@@ -73,28 +68,25 @@ describe("sync", function() {
     var secondPath = "/New world.txt";
     var secondContent = "New, World!";
 
-    fs.outputFileSync(global.usersGitDirectory + firstPath, firstContent);
+    var usersGitDirectory = this.usersGitDirectory;
+    var usersGitClient = this.usersGitClient;
 
-    global.usersGitClient.add(".", function(err) {
-      expect(err).toEqual(null);
+    fs.outputFileSync(usersGitDirectory + firstPath, firstContent);
 
-      global.usersGitClient.commit("Added first path", function(err) {
-        expect(err).toEqual(null);
+    usersGitClient.add(".", function(err) {
+      if (err) return done.fail(err);
+      usersGitClient.commit("Added first path", function(err) {
+        if (err) return done.fail(err);
+        fs.outputFileSync(usersGitDirectory + secondPath, secondContent);
 
-        fs.outputFileSync(global.usersGitDirectory + secondPath, secondContent);
-
-        pushAllChanges(global.usersGitClient, function(err) {
-          expect(err).toEqual(null);
-
+        pushAllChanges(usersGitClient, function(err) {
+          if (err) return done.fail(err);
           waitForSyncToFinish(function(err) {
-            expect(err).toEqual(null);
-
+            if (err) return done.fail(err);
             checkPostExists({ path: firstPath }, function(err) {
-              expect(err).toEqual(null);
-
+              if (err) return done.fail(err);
               checkPostExists({ path: secondPath }, function(err) {
-                expect(err).toEqual(null);
-                done();
+                if (err) return done.fail(err);                done();
               });
             });
           });
@@ -110,27 +102,26 @@ describe("sync", function() {
     var contentBadChange = "Bad, World!";
     var contentGoodChange = "Good, World!";
 
-    fs.outputFileSync(global.usersGitDirectory + path, content);
+    var usersGitDirectory = this.usersGitDirectory;
+    var usersGitClient = this.usersGitClient;
+    var blog = this.blog;
 
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
+    fs.outputFileSync(usersGitDirectory + path, content);
 
+    pushAllChanges(usersGitClient, function(err) {
+      if (err) return done.fail(err);
       waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
-
+        if (err) return done.fail(err);
         checkPostExists({ path: path }, function(err) {
-          expect(err).toEqual(null);
+          if (err) return done.fail(err);
+          fs.outputFileSync(localPath(blog.id, path), contentBadChange);
+          fs.outputFileSync(usersGitDirectory + path, contentGoodChange);
 
-          fs.outputFileSync(localPath(global.blog.id, path), contentBadChange);
-          fs.outputFileSync(global.usersGitDirectory + path, contentGoodChange);
-
-          pushAllChanges(global.usersGitClient, function(err) {
-            expect(err).toEqual(null);
-
+          pushAllChanges(usersGitClient, function(err) {
+            if (err) return done.fail(err);
             waitForSyncToFinish(function(err) {
-              expect(err).toEqual(null);
-              expect(
-                fs.readFileSync(localPath(global.blog.id, path), "utf-8")
+              if (err) return done.fail(err);              expect(
+                fs.readFileSync(localPath(blog.id, path), "utf-8")
               ).toEqual(contentGoodChange);
               done();
             });
@@ -141,9 +132,9 @@ describe("sync", function() {
   });
 
   it("should return an error if there is no git repo in blog folder", function(done) {
-    fs.removeSync(localPath(global.blog.id, ".git"));
+    fs.removeSync(localPath(this.blog.id, ".git"));
 
-    sync(global.blog, function(err) {
+    sync(this.blog, function(err) {
       expect(err.message).toContain("repo does not exist");
 
       done();
@@ -156,25 +147,24 @@ describe("sync", function() {
     "re-pulls if it recieves a push during sync",
     function(done) {
 
-      var blogDir = localPath(global.blog.id, "/");
-      var usersGitDirectory = global.usersGitDirectory;
+      var blogDir = localPath(this.blog.id, "/");
+      var usersGitDirectory = this.usersGitDirectory;
+      var usersGitClient = this.usersGitClient;
+
       var path = "/Hello world.txt";
       var content = "Hello, World!";
 
       for (var i = 0; i < 100; i++)
         fs.outputFileSync(usersGitDirectory + "/" + i + ".txt", i);
 
-      pushAllChanges(global.usersGitClient, function(err) {
-        expect(err).toEqual(null);
-
+      pushAllChanges(usersGitClient, function(err) {
+        if (err) return done.fail(err);
         fs.outputFileSync(usersGitDirectory + path, content);
 
-        pushAllChanges(global.usersGitClient, function(err) {
-          expect(err).toEqual(null);
-
+        pushAllChanges(usersGitClient, function(err) {
+          if (err) return done.fail(err);
           waitForSyncToFinish(function(err) {
-            expect(err).toEqual(null);
-
+            if (err) return done.fail(err);
             // Verify files and folders are preserved in cloneable folder
             expect(fs.readdirSync(blogDir)).toEqual(
               fs.readdirSync(usersGitDirectory)
@@ -191,28 +181,27 @@ describe("sync", function() {
   it(
     "handles deeply nested files",
     function(done) {
-      var blogDir = localPath(global.blog.id, "/");
+      var blogDir = localPath(this.blog.id, "/");
       var path =
         "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
       var content = "Hello, World!";
 
-      fs.outputFileSync(global.usersGitDirectory + path, content);
+      fs.outputFileSync(this.usersGitDirectory + path, content);
       
-      pushAllChanges(global.usersGitClient, function(err) {
+      var usersGitDirectory = this.usersGitDirectory;
+
+      pushAllChanges(this.usersGitClient, function(err) {
 
 
-        expect(err).toEqual(null);
-
+        if (err) return done.fail(err);
         waitForSyncToFinish(function(err) {
-          expect(err).toEqual(null);
-
+          if (err) return done.fail(err);
           checkPostExists({ path: path }, function(err) {
-            expect(err).toEqual(null);
-
+            if (err) return done.fail(err);
 
             // Verify files and folders are preserved in cloneable folder
             expect(fs.readdirSync(blogDir)).toEqual(
-              fs.readdirSync(global.usersGitDirectory)
+              fs.readdirSync(usersGitDirectory)
             );
 
             done();
@@ -225,38 +214,35 @@ describe("sync", function() {
 
   // what about a case sensitivity change?
   xit("handles renamed files", function(done) {
-    var blogDir = localPath(global.blog.id, "/");
+    var blogDir = localPath(this.blog.id, "/");
     var firstPath =
       "/Hello/you/fhjdskfhksdhfkj/fsdhfsjdkfhjkds/fsdhkjfsdhjk/fdshkfshjdkfjshdf/fdshjfhsdjk/fsdhjfksdjh/Foo bar.txt";
     var secondPath =
       "/Hello/you/fhjdskfhksdhfkj/fsdhfsjdkfhjkds/fsdhkjfsdhjk/fdshkfshjdkfjshdf/fdshjfhsdjk/fsdhjfksdjh/baz Bat.txt";
     var content = "Hello, World!";
+    var usersGitDirectory = this.usersGitDirectory;
+    var usersGitClient = this.usersGitClient;
 
-    fs.outputFileSync(global.usersGitDirectory + firstPath, content);
+    fs.outputFileSync(this.usersGitDirectory + firstPath, content);
 
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
-
+    pushAllChanges(this.usersGitClient, function(err) {
+      if (err) return done.fail(err);
       waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
-
+        if (err) return done.fail(err);
         fs.moveSync(
-          global.usersGitDirectory + firstPath,
-          global.usersGitDirectory + secondPath
+          usersGitDirectory + firstPath,
+          usersGitDirectory + secondPath
         );
 
-        pushAllChanges(global.usersGitClient, function(err) {
-          expect(err).toEqual(null);
-
+        pushAllChanges(usersGitClient, function(err) {
+          if (err) return done.fail(err);
           waitForSyncToFinish(function(err) {
-            expect(err).toEqual(null);
-
+            if (err) return done.fail(err);
             checkPostExists({ path: secondPath }, function(err) {
-              expect(err).toEqual(null);
-
+              if (err) return done.fail(err);
               // Verify files and folders are preserved in cloneable folder
               expect(fs.readdirSync(blogDir)).toEqual(
-                fs.readdirSync(global.usersGitDirectory)
+                fs.readdirSync(usersGitDirectory)
               );
 
               done();
@@ -268,24 +254,22 @@ describe("sync", function() {
   });
   
   it("accepts a push", function(done) {
-    var blogDir = localPath(global.blog.id, "/");
+    var blogDir = localPath(this.blog.id, "/");
     var path = "/Hello world.txt";
     var content = "Hello, World!";
+    var usersGitDirectory = this.usersGitDirectory;
+    
+    fs.outputFileSync(this.usersGitDirectory + path, content);
 
-    fs.outputFileSync(global.usersGitDirectory + path, content);
-
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
-
+    pushAllChanges(this.usersGitClient, function(err) {
+      if (err) return done.fail(err);
       waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
-
+        if (err) return done.fail(err);
         checkPostExists({ path: path }, function(err) {
-          expect(err).toEqual(null);
-
+          if (err) return done.fail(err);
           // Verify files and folders are preserved in cloneable folder
           expect(fs.readdirSync(blogDir)).toEqual(
-            fs.readdirSync(global.usersGitDirectory)
+            fs.readdirSync(usersGitDirectory)
           );
           done();
         });

@@ -17,6 +17,7 @@ if (process.env.TEST) {
   console.log("Running tests from", config.spec_files);
 }
 
+
 jasmine.loadConfig(config);
 
 global.createUser = require("./helpers/createUser");

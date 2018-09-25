@@ -15,6 +15,5 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - git
       - pandoc
       - g++-4.8    

@@ -1,5 +1,5 @@
 describe("write", function() {
-  beforeEach(require("./util/createRepo"));
+  beforeEach(require("./util/setupUser"));
   var originalTimeout;
 
   beforeEach(function() {
@@ -19,9 +19,9 @@ describe("write", function() {
 
   it("should return an error if there is no git repo in blog folder", function(done){
 
-    fs.removeSync(localPath(global.blog.id, '.git'));
+    fs.removeSync(localPath(this.blog.id, '.git'));
 
-    write(global.blog.id, '/path', '', function(err){
+    write(this.blog.id, '/path', '', function(err){
 
       expect(err.message).toContain('repo does not exist');
 
@@ -36,17 +36,14 @@ describe("write", function() {
     var content = "Hello, world!";
 
     clone(function(err, clonedDir) {
-      expect(err).toEqual(null);
+      if (err) return done.fail(err);
+      write(this.blog.id, path, content, function() {
 
-      write(global.blog.id, path, content, function() {
-
-        expect(err).toEqual(null);
-
+        if (err) return done.fail(err);
         git = Git(clonedDir).silent(true);
 
         git.pull(function(err) {
-          expect(err).toEqual(null);
-          expect(fs.readFileSync(clonedDir + path, "utf-8")).toEqual(content);
+          if (err) return done.fail(err);          expect(fs.readFileSync(clonedDir + path, "utf-8")).toEqual(content);
 
           done();
         });

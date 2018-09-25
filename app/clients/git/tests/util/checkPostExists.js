@@ -5,11 +5,13 @@ var fs = require("fs-extra");
 
 module.exports = function(expectedEntry, callback) {
 
+  var context = this;
+
   if (!expectedEntry.path) throw new Error('Pass a path as a property of the entry as first argument');
 
-  Entry.get(global.blog.id, expectedEntry.path, function(entry) {
+  Entry.get(context.blog.id, expectedEntry.path, function(entry) {
 
-    if (!entry) return debug(expectedEntry.path, callback);
+    if (!entry) return debug(context, expectedEntry.path, callback);
 
     for (var i in expectedEntry)
       expect(expectedEntry[i]).toEqual(entry[i]);
@@ -19,21 +21,21 @@ module.exports = function(expectedEntry, callback) {
 };
 
 
-function debug (path, callback) {
+function debug (context, path, callback) {
       var message = "No entry exists " + path;
 
-    global.usersGitClient.log(function(err, log) {
+    context.usersGitClient.log(function(err, log) {
       message += "\nUser client last commit: " + log.latest.hash;
 
-      global.bareGitClient.log(function(err, log) {
+      context.bareGitClient.log(function(err, log) {
         message += "\nBare client last commit: " + log.latest.hash;
 
-        global.liveGitClient.log(function(err, log) {
+        context.liveGitClient.log(function(err, log) {
           message += "\nLive client last commit: " + log.latest.hash;
 
-          message += "\nFiles: " + fs.readdirSync(localPath(global.blog.id, "/"));
+          message += "\nFiles: " + fs.readdirSync(localPath(this.blog.id, "/"));
 
-          Entries.getAllIDs(global.blog.id, function(err, entries) {
+          Entries.getAllIDs(context.blog.id, function(err, entries) {
             message += "\nEntries: " + entries;
 
             return callback(new Error(message));

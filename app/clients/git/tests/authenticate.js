@@ -2,23 +2,32 @@ describe("authenticate", function() {
   var Git = require("simple-git");
   var repoUrl = require("./util/repoUrl");
   var database = require("../database");
-  var setupUser = require("./util/setupUser");
+  var createRepo = require('./util/createRepo');
+  var clone = require('./util/clone');
 
   it("prevents a previously valid user if they refresh their tokens", function(done) {
-    setupUser(function(err) {
-      expect(err).toEqual(null);
+    var blog = this.blog;
 
-      database.refreshToken(global.blog.id, function(err) {
-        expect(err).toEqual(null);
+    createRepo(blog, function(err){
+      if (err) return done.fail(err);
 
-        global.usersGitClient.commit("initial", function(err) {
-          expect(err).toEqual(null);
+      clone(blog, function(err, clonedDir){
 
-          global.usersGitClient.push(function(err) {
-            expect(err).not.toEqual(null);
-            expect(err).toContain("401 Unauthorized");
+        if (err) return done.fail(err);
 
-            done();
+        var git = Git(clonedDir).silent(true);
+
+        database.refreshToken(blog.id, function(err) {
+          if (err) return done.fail(err);
+          
+          git.commit("initial", function(err) {
+            if (err) return done.fail(err);
+            git.push(function(err) {
+              expect(err).not.toEqual(null);
+              expect(err).toContain("401 Unauthorized");
+
+              done();
+            });
           });
         });
       });
@@ -27,8 +36,11 @@ describe("authenticate", function() {
 
   it("prevents valid user from accessing other repo", function(done) {
     var badRepo = "other_repo";
-    var url = repoUrl(global.blog.handle, global.gitToken, badRepo);
-    var git = Git(require("./util/testDataDirectory")).silent(true);
+    var blog = this.blog;
+    var token = this.gitToken;
+    var testDataDirectory = require("./util/testDataDirectory");
+    var url = repoUrl(blog.handle, token, badRepo);
+    var git = Git(testDataDirectory(blog.id)).silent(true);
 
     git.clone(url, function(err) {
       expect(err).toContain("401 Unauthorized");
@@ -38,8 +50,11 @@ describe("authenticate", function() {
 
   it("prevents invalid user from accessing valid repo", function(done) {
     var badHandle = "other_repo";
-    var url = repoUrl(badHandle, global.gitToken, global.blog.handle);
-    var git = Git(require("./util/testDataDirectory")).silent(true);
+    var blog = this.blog;
+    var token = this.gitToken;
+    var url = repoUrl(badHandle, token, blog.handle);
+    var testDataDirectory = require("./util/testDataDirectory");
+    var git = Git(testDataDirectory(blog.id)).silent(true);
 
     git.clone(url, function(err) {
       expect(err).toContain("401 Unauthorized");

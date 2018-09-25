@@ -2,7 +2,7 @@ var Sync = require('sync');
 
 module.exports = function main (done) {
 
-  Sync(global.blog.id, function(_cb){
+  Sync(this.blog.id, function(_cb){
     _cb(null);
   }, function(err, unavailable){
 
