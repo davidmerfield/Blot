@@ -359,6 +359,12 @@ NGINX
 Support linking to another blog post by its *file path*
 - This would help with the importer to fix broken links
 
+Generative tree
+- Add a generative tree illustration to account page that is 'seeded' when you sign up and grows as you keep your account open. Slowly, day by day. Would still be growing in 1000 years should your account stay open that long.
+- Learn about old trees
+- Learn how to make a generative illustration and render it quickly on the server
+- I like this idea because it's sort of anti-Farmville (i.e. click-to-grow, engage-to-grow). The tree just grows. No badgering to post more to keep the tree alive, all you have to do is keep your account. When you delete your account you just see the tree, and a thank you. Obviously don't do anything tacky like cut the tree down or anything. That would be horrible.
+
 Removing Date metadata from a post should reset its date to the file's creation date
 - Currently nothing changes.
 

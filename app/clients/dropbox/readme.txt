@@ -13,7 +13,8 @@ Move this into this module when I start using git submodules or npm submodules p
 
 To do
 -----
-
+* Write test to simulate process dying and restarting mid-pull. Does the client recover? 
+* Write tests for a series of random dropbox client operations (pull, add, push, move, reset, delete) that can be seeded and reliably re-run in the case of failure.
 * Look into getAccessTokenFromCode on DBSDK repo to avoid the mess in get_account.js https://github.com/dropbox/dropbox-sdk-js/issues/64
 * Gracefuly retry wrapper around Dropbox
 * Can we write to a folder_id instead of a path? It would be nice to be able to move the blog's folder even when writing the initial files to it, for example...
