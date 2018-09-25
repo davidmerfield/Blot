@@ -74,7 +74,6 @@
   "devDependencies": {
     "jasmine": "^3.1.0",
     "minimist": "^1.2.0",
-    "shelljs": "^0.3.0",
-    "single-line-log": "^1.1.1"
+    "shelljs": "^0.3.0"
   }
 }
