@@ -15,6 +15,10 @@ describe("thumbnail", function() {
   require('./candidates');
   require('./create');
 
+  // TODO add test to ensure case-sensitive lowercase paths
+  // work because dev machine has case-insensitive file-system
+  // but test server and production server do not.
+  
   it("creates thumbnails", function(done) {
     
     var thumbnail = require("../index");

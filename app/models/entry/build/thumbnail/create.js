@@ -1,6 +1,6 @@
 var helper = require("helper");
-var UID = helper.makeUid;
 var fs = require("fs-extra");
+var uuid = require('uuid');
 var callOnce = helper.callOnce;
 var transform = require("./transform");
 var join = require("path").join;
@@ -19,7 +19,7 @@ function create(blogID, path, done) {
   }, TIMEOUT);
 
   var root = join(config.blog_static_files_dir, blogID);
-  var outputDirectory = "/" + join("_thumbnails", UID(10));
+  var outputDirectory = "/" + join("_thumbnails", uuid());
   var fullPathToOutputDirectory = join(root, outputDirectory);
 
   fs.ensureDir(fullPathToOutputDirectory, function(err) {
