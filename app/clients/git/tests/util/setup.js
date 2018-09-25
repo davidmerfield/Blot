@@ -1,4 +1,6 @@
 module.exports = function setup(options) {
+  options = options || {};
+
   var server = require("./server");
   var cleanup = require("./cleanup");
   var setClientToGit = require("./setClientToGit");
@@ -26,5 +28,17 @@ module.exports = function setup(options) {
         context.repoUrl = repoUrl;
         done();
       });
+    });
+
+  if (options.clone !== false)
+    beforeEach(function(done) {
+      var context = this;
+      require("simple-git")(this.tmp)
+        .silent(true)
+        .clone(this.repoUrl, function(err) {
+          if (err) return done(new Error(err));
+          context.repoDirectory = context.tmp + "/" + context.blog.handle;
+          done(null);
+        });
     });
 };

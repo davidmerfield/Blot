@@ -5,7 +5,8 @@ describe("create", function() {
   // a test server with the git client's routes exposed, then
   // cleans everything up when each test has finished.
   require('./util/setup')({
-    setClientToGit: false
+    setClientToGit: false,
+    clone: false
   });
 
   var create = require('../create');

@@ -1,52 +1,41 @@
-xdescribe("write", function() {
-  beforeEach(require("./util/setupUser"));
-  var originalTimeout;
-
-  beforeEach(function() {
-      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  });
-
-  afterEach(function() {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-  });
+describe("write", function() {
+  // Sets up a clean test blog (this.blog) for each test,
+  // sets the blog's client to git (this.client), then creates
+  // a test server with the git client's routes exposed, then
+  // cleans everything up when each test has finished.
+  require("./util/setup")();
 
   var write = require("../write");
-  var clone = require("./util/clone");
   var Git = require("simple-git");
   var fs = require("fs-extra");
-  var localPath = require('helper').localPath;
+  var localPath = require("helper").localPath;
 
-  it("should return an error if there is no git repo in blog folder", function(done){
+  it("should return an error if there is no git repo in blog folder", function(done) {
+    fs.removeSync(localPath(this.blog.id, ".git"));
 
-    fs.removeSync(localPath(this.blog.id, '.git'));
-
-    write(this.blog.id, '/path', '', function(err){
-
-      expect(err.message).toContain('repo does not exist');
+    write("123", "/path", "content", function(err) {
+      expect(err.message).toContain("repo does not exist");
 
       done();
     });
   });
 
-
   it("writes a file", function(done) {
-    var git;
+    var repoDirectory = this.repoDirectory;
+    var git = Git(repoDirectory).silent(true);
     var path = "/How/about That name.txt";
     var content = "Hello, world!";
+    var blogID = this.blog.id;
 
-    clone(function(err, clonedDir) {
+    write(blogID, path, content, function(err) {
+      
       if (err) return done.fail(err);
-      write(this.blog.id, path, content, function() {
 
+      git.pull(function(err) {
         if (err) return done.fail(err);
-        git = Git(clonedDir).silent(true);
 
-        git.pull(function(err) {
-          if (err) return done.fail(err);          expect(fs.readFileSync(clonedDir + path, "utf-8")).toEqual(content);
-
-          done();
-        });
+        expect(fs.readFileSync(repoDirectory + path, "utf-8")).toEqual(content);
+        done();
       });
     });
   });
