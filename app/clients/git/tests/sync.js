@@ -14,7 +14,6 @@ describe("sync", function() {
 
   // pretty basic
   it("should sync an updated file", function(done) {
-
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var contentChanged = "New, World!";
@@ -38,7 +37,9 @@ describe("sync", function() {
             waitForSyncToFinish(function(err) {
               expect(err).toEqual(null);
 
-              checkPostExists({ path: path, title: contentChanged }, function(err) {
+              checkPostExists({ path: path, title: contentChanged }, function(
+                err
+              ) {
                 expect(err).toEqual(null);
                 expect(
                   fs.readFileSync(localPath(global.blog.id, path), "utf-8")
@@ -62,12 +63,10 @@ describe("sync", function() {
 
     fs.outputFileSync(global.usersGitDirectory + firstPath, firstContent);
 
-    global.usersGitClient.add('.', function(err){
-
+    global.usersGitClient.add(".", function(err) {
       expect(err).toEqual(null);
-      
-      global.usersGitClient.commit("Added first path", function(err){
 
+      global.usersGitClient.commit("Added first path", function(err) {
         expect(err).toEqual(null);
 
         fs.outputFileSync(global.usersGitDirectory + secondPath, secondContent);
@@ -78,10 +77,10 @@ describe("sync", function() {
           waitForSyncToFinish(function(err) {
             expect(err).toEqual(null);
 
-            checkPostExists({path: firstPath}, function(err) {
+            checkPostExists({ path: firstPath }, function(err) {
               expect(err).toEqual(null);
 
-              checkPostExists({path: secondPath}, function(err) {
+              checkPostExists({ path: secondPath }, function(err) {
                 expect(err).toEqual(null);
                 done();
               });
@@ -107,7 +106,7 @@ describe("sync", function() {
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists({path: path}, function(err) {
+        checkPostExists({ path: path }, function(err) {
           expect(err).toEqual(null);
 
           fs.outputFileSync(localPath(global.blog.id, path), contentBadChange);
@@ -179,19 +178,28 @@ describe("sync", function() {
   fit("handles deeply nested files", function(done) {
     var blogDir = localPath(global.blog.id, "/");
     var path =
-      "/Hello/you/fhjdskfhksdhfkj/fsdhfsjdkfhjkds/fsdhkjfsdhjk/fdshkfshjdkfjshdf/fdshjfhsdjk/fsdhjfksdjh/world.txt";
+      "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
     var content = "Hello, World!";
 
+    console.log('1. Writing test file');
     fs.outputFileSync(global.usersGitDirectory + path, content);
 
+    console.log('2. Pushing test file');
     pushAllChanges(global.usersGitClient, function(err) {
       expect(err).toEqual(null);
+
+      console.log('3. Pushed test file');
+      console.log('4. Waiting for sync to finish');
 
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists({path: path}, function(err) {
+        console.log('5. Waited for sync to finish');
+        console.log('6. Checking post exists');
+        checkPostExists({ path: path }, function(err) {
           expect(err).toEqual(null);
+
+         console.log('7. Checked post exists');
 
           // Verify files and folders are preserved in cloneable folder
           expect(fs.readdirSync(blogDir)).toEqual(
@@ -231,7 +239,7 @@ describe("sync", function() {
           waitForSyncToFinish(function(err) {
             expect(err).toEqual(null);
 
-            checkPostExists({path: secondPath}, function(err) {
+            checkPostExists({ path: secondPath }, function(err) {
               expect(err).toEqual(null);
 
               // Verify files and folders are preserved in cloneable folder
@@ -259,7 +267,7 @@ describe("sync", function() {
       waitForSyncToFinish(function(err) {
         expect(err).toEqual(null);
 
-        checkPostExists({path: path}, function(err) {
+        checkPostExists({ path: path }, function(err) {
           expect(err).toEqual(null);
 
           // Verify files and folders are preserved in cloneable folder

@@ -5,6 +5,7 @@ var localPath = require('helper').localPath;
 var dataDir = require('../../dataDir');
 
 module.exports = function (done) {
+
   createRepo(function(err){
 
     if (err) return done(err);
@@ -22,6 +23,7 @@ module.exports = function (done) {
       }
 
       global.usersGitDirectory = clonedDir;
+      console.log('Blog: ' + global.blog.id + ' Created test repository successfully.');
       done(null);
     });
   });
