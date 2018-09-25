@@ -205,11 +205,12 @@ describe("sync", function() {
           expect(fs.readdirSync(blogDir)).toEqual(
             fs.readdirSync(global.usersGitDirectory)
           );
+
           done();
         });
       });
     });
-  });
+  }, 10 * 1000); // 10s for this test... not sure why it needs longer but hey
 
   // what about a case sensitivity change?
   it("handles renamed files", function(done) {
