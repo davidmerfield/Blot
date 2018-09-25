@@ -2,18 +2,17 @@ var Blog = require('../../app/models/blog');
 var randomString = require('./randomString');
 
 module.exports = function (done) {
-  
-  var fakeHandle = randomString(16);
-  var _this = this;
 
-  Blog.create(this.user.uid, {handle: fakeHandle}, function(err, blog){
+  var context = this;
+
+  Blog.create(context.user.uid, {handle: randomString(16)}, function(err, blog){
     
     if (err) {
       return done(err);
     }
 
-    _this.blog = blog;
-    
+    context.blog = blog;
+
     done(err);
   });
 };
