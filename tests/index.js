@@ -5,7 +5,7 @@ var seedrandom = require("seedrandom");
 var seed;
 var config = {
   spec_dir: "",
-  spec_files: ["index.js", "**/tests/index.js", "**/tests.js"],
+  spec_files: ["**/*.js"],
   helpers: ["tests/helpers/**/*.js"],
   stopSpecOnExpectationFailure: false,
   random: true
@@ -14,7 +14,15 @@ var config = {
 // Pass in a custom test glob for running only specific tests
 if (process.argv[2]) {
   console.log("Running specs inside", colors.cyan(process.argv[2]));
-  config.spec_dir = process.argv[2];
+
+  // We have passed specific file to run
+  if (process.argv[2].slice(-3) === '.js') {
+    config.spec_files = [process.argv[2]];
+
+  // We have passed directory of tests to run
+  } else {
+    config.spec_dir = process.argv[2];    
+  }
 } else {
   console.log(
     'If you want to run tests from a subdirectory:', colors.cyan('npm test {path_to_specs}')
@@ -45,10 +53,13 @@ jasmine.addReporter({
   }
 });
 
-global.createBlog = require("./util/createBlog");
-global.removeBlog = require("./util/removeBlog");
+global.testBlog = function () {
 
-global.createUser = require("./util/createUser");
-global.removeUser = require("./util/removeUser");
+  beforeEach(require("./util/createUser"));
+  afterEach(require("./util/removeUser"));
+
+  beforeEach(require("./util/createBlog"));
+  afterEach(require("./util/removeBlog"));
+};
 
 jasmine.execute();

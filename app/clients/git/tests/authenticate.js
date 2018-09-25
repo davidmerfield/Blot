@@ -1,4 +1,13 @@
 describe("authenticate", function() {
+
+  // Sets up a test blog before each test and deletes it after
+  global.testBlog();
+
+  // Set up client server to simulate its
+  // mounting on the dashboard
+  beforeAll(require("./util/startServer"));
+  afterAll(require("./util/stopServer"));
+
   var Git = require("simple-git");
   var repoUrl = require("./util/repoUrl");
   var database = require("../database");

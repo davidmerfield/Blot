@@ -1,4 +1,4 @@
-describe("sync", function() {
+xdescribe("sync", function() {
   
   beforeEach(require("./util/setupUser"));
 

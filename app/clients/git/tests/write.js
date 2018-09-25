@@ -1,4 +1,4 @@
-describe("write", function() {
+xdescribe("write", function() {
   beforeEach(require("./util/setupUser"));
   var originalTimeout;
 
