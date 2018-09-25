@@ -1,5 +1,15 @@
 describe("write", function() {
   beforeEach(require("./util/createRepo"));
+  var originalTimeout;
+
+  beforeEach(function() {
+      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
+  afterEach(function() {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+  });
 
   var write = require("../write");
   var clone = require("./util/clone");
