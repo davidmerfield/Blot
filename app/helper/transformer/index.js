@@ -6,6 +6,8 @@ var download = require('./download');
 var ensure = require('../ensure');
 var rm = require('../remove');
 var localPath = require('../localPath');
+var config = require('config');
+var join = require('path').join;
 
 // This module allows us to transform
 // a file to some arbritrary JSON object
@@ -42,7 +44,12 @@ function Transformer (blogID, name) {
 
     try {
       url = isURL(src);
-      path = localPath(blogID, src);
+
+      if (src.indexOf('/_image_cache/') === 0) {
+        path = join(config.blog_static_files_dir, blogID, src);
+      } else {
+        path = localPath(blogID, src);
+      }
 
       if (src.length > 300) path = false;
       if (src.indexOf('data:') === 0) path = false;
