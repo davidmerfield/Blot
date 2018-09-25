@@ -152,7 +152,7 @@ fdescribe("sync", function() {
 
   // Scenario: you push loads of files, Blot takes ages to sync
   // you push one more file: does Blot sync it too?
-  xit(
+  it(
     "re-pulls if it recieves a push during sync",
     function(done) {
       console.log();
