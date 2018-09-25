@@ -5,7 +5,7 @@ var config = {
   spec_files: ["tests/**/*.js", "app/**/tests/index.js", "app/**/tests.js"],
   helpers: [],
   stopSpecOnExpectationFailure: false,
-  random: true
+  random: false
 };
 
 // Pass in a custom test glob for running only specific tests
