@@ -4,7 +4,7 @@ var config = {
   spec_dir: "",
   spec_files: ["tests/**/*.js", "app/**/tests/index.js", "app/**/tests.js"],
   helpers: [],
-  stopSpecOnExpectationFailure: false,
+  stopSpecOnExpectationFailure: true,
   random: false
 };
 
