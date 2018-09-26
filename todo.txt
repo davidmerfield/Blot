@@ -1,5 +1,11 @@
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
 
+Images and Sharp bugs:
+- Write script to rebuild, reset thumbnails for a given blog
+  - rebuild tillman's thumbnails
+- Increase quality for sharp
+- Re-enable image minifier and fix bugs.
+
 Dropbox client bugs:
 
   Ghost posts
@@ -297,6 +303,8 @@ Clients
   
 Record a new demo video
 - Show sites I run using Blot
+- "Bring your own interface"
+  - show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
 - Blot's developer blog, a conventional blog, show using different text editors
 - My visual scrapbook: shows tag folders, photo blog
 - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
