@@ -11,8 +11,8 @@ function parseDate (dateString, userFormat) {
   ensure(dateString, 'string');
 
   if (userFormat === undefined || formatList[userFormat] === undefined) {
-    userFormat = 'M/D/YYYY';
     console.log(userFormat + ' userformat has not been passed. Please do this!');
+    userFormat = 'M/D/YYYY';
   }
 
   var userFormats = formatList[userFormat];
