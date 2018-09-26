@@ -2,6 +2,7 @@ var helper = require("helper");
 var localPath = helper.localPath;
 var Git = require("simple-git");
 var debug = require("debug")("clients:git:checkGitRepoExists");
+var fs = require('fs-extra');
 
 module.exports = function (blogID, callback) {
 
@@ -40,12 +41,16 @@ module.exports = function (blogID, callback) {
     if (blogFolder.slice(-1) === '/') blogFolder = blogFolder.slice(0, -1);
 
     debug('Comparing path to git repository and blog folder:');
-    debug('- Path to git:', pathToGitRepository);
-    debug('- Blog folder:', blogFolder);
-    debug('Match?', pathToGitRepository === blogFolder);
     
     if (pathToGitRepository !== blogFolder) {
-      return callback(new Error('Git repo does not exist in blog folder for ' + blogID));
+      
+      var message = ['Git repo does not exist in blog folder for ' + blogID,
+        '- Path to git: ' + pathToGitRepository,
+        '- Blog folder: ' + blogFolder + ' exists? ' + fs.existsSync(blogFolder),
+        'Match? ' + pathToGitRepository === blogFolder, 
+      ];
+
+      return callback(new Error(message.join('\n')));
     }
 
     callback(null);

@@ -1,20 +1,20 @@
 describe("blog", function() {
 
   var Blog = require('../../app/models/blog');
-
-  beforeEach(require('../helpers/createUser'));
-  afterEach(require('../helpers/removeUser'));
+  
+  global.test.blog();
 
   it("creates and deletes a blog", function(done){
 
-    Blog.create(global.user.uid, {}, function(err, blog){
-      
-      expect(err).toBe(null);
+    Blog.create(this.user.uid, {}, function(err, blog){
+  
+      if (err) return done.fail(err);
+
       expect(blog).toEqual(jasmine.any(Object));
 
       Blog.remove(blog.id, function(err){
       
-        expect(err).toBe(null);
+        if (err) return done.fail(err);
         done();
       });
     });
