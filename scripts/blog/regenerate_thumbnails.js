@@ -26,10 +26,10 @@ function main(blog, callback) {
   
     console.log('Blog ' + blog.id + ':', 'Flushing thumbnail data store');
     store.flush(function(err) {
-      if (err) throw err;
+      if (err) return callback(err);
 
       rebuildAllEntries(blog, function(err) {
-        if (err) throw err;
+      if (err) return callback(err);
 
         console.log('Blog ' + blog.id + ':', 'Removing old thumbnail files...');
 

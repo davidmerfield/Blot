@@ -12,7 +12,7 @@ if (require.main === module) {
 }
 
 function main(blog, callback) {
-  console.log('Blog ' + blog.id + ':', 'Rebuilding entries...')
+  console.log('Blog ' + blog.id + ':', 'Rebuilding entries...');
   Entries.each(
     blog.id,
     function(entry, next) {
