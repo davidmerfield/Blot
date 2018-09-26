@@ -5,13 +5,15 @@ describe("sync", function() {
   // cleans everything up when each test has finished.
   require("./setup")();
 
+  // These tests take a little longer than the default 5s timeout
+  global.test.timeout(30 * 1000); // 30s
+
   var CheckEntry = global.test.CheckEntry;
   var fs = require("fs-extra");
   var async = require("async");
   var sync = require("../sync");
   var basename = require("path").basename;
   var dirname = require("path").dirname;
-  var LONG_TIMEOUT = 30 * 1000; // 30s
 
   // I should also write a function to check that the repoDirectory
   // which simulate's the folder on the user's computer exactly matches
@@ -217,7 +219,7 @@ describe("sync", function() {
         done();
       });
     });
-  }, LONG_TIMEOUT);
+  });
 
   it("syncs the changes of multiple commits pushed at once", function(done) {
     var writeAndCommit = this.writeAndCommit;
@@ -274,7 +276,7 @@ describe("sync", function() {
         });
       });
     });
-  }, LONG_TIMEOUT);
+  });
 
   it("resets any uncommitted changes in the server's blog folder", function(done) {
     var writeAndPush = this.writeAndPush;
