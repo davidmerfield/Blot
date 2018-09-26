@@ -5,8 +5,7 @@ describe("sync", function() {
   // cleans everything up when each test has finished.
   require("./setup")();
 
-  // These tests take a little longer than the default 5s timeout
-  global.test.timeout(30 * 1000); // 30s
+  var LONG_TIMEOUT = 10;
 
   var CheckEntry = global.test.CheckEntry;
   var fs = require("fs-extra");
@@ -148,7 +147,7 @@ describe("sync", function() {
         done();
       });
     });
-  });
+  }, LONG_TIMEOUT);
 
   it("syncs updates to a file", function(done) {
     var checkEntry = this.checkEntry;
@@ -178,7 +177,7 @@ describe("sync", function() {
         });
       });
     });
-  });
+  }, LONG_TIMEOUT);
 
   it("syncs a renamed file", function(done) {
     var writeAndPush = this.writeAndPush;
@@ -201,7 +200,7 @@ describe("sync", function() {
         done();
       });
     });
-  });
+  }, LONG_TIMEOUT);
 
   it("syncs a removed file", function(done) {
     var writeAndPush = this.writeAndPush;
@@ -224,7 +223,7 @@ describe("sync", function() {
         done();
       });
     });
-  });
+  }, LONG_TIMEOUT);
 
   it("syncs the changes of multiple commits pushed at once", function(done) {
     var writeAndCommit = this.writeAndCommit;
@@ -257,7 +256,7 @@ describe("sync", function() {
         });
       }
     );
-  });
+  }, LONG_TIMEOUT);
 
   it("handles two pushes during a single sync", function(done) {
     var git = this.git;
@@ -281,7 +280,7 @@ describe("sync", function() {
         });
       });
     });
-  });
+  }, LONG_TIMEOUT);
 
   it("resets any uncommitted changes in the server's blog folder", function(done) {
     var writeAndPush = this.writeAndPush;
@@ -310,5 +309,5 @@ describe("sync", function() {
         done();
       });
     });
-  });
+  }, LONG_TIMEOUT);
 });

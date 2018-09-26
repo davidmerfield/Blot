@@ -58,21 +58,6 @@ jasmine.addReporter({
 global.test = {
   CheckEntry: require("./util/checkEntry"),
 
-  // Used to temporarily increase length of async
-  // timeout for a test suite
-  timeout: function(len) {
-    var originalTimeout;
-
-    beforeEach(function() {
-      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = len;
-    });
-
-    afterEach(function() {
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-    });
-  },
-
   compareDir: require("./util/compareDir"),
 
   fake: require("./util/fake"),
