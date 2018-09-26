@@ -18,7 +18,7 @@ var sites = [
   ["hannautkin.com", "Hanna Utkin is a filmmaker and producer from New York City. Hanna’s website"],
   ["sportsmanfc.com", "The Sportsman Flying Club is a pigeon‐racing club in Toft Hill, UK. Their website"],
   
-  ["tf2.blot.im", "Theo Francis is a reporter at The Wall Street Journal. Theo’s blog"],
+  ["asw.fyi", "Adam Wood is a writer based in Reykjavík. Adam’s website"],
   ["fagerheimen.no", "Fagerheimen Borettslag is an apartment building in Oslo, Norway. Its website"],
   ["www.rebeccatron.com", "Rebecca Kukshtel is an engineer at Betterment in New York City. Rebecca "],
 
@@ -26,10 +26,11 @@ var sites = [
   ["www.kristianhjelle.com", "Kristian Hjelle is a designer and partner at Bakken & Bæck. Kristian"],
   ["www.alexgibson.nyc", "Alexander Gibson is an artist from New York City. Alexander’s website"],
     
-  ["blog.aurynn.com", "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"],
+  ["tf2.blot.im", "Theo Francis is a reporter at The Wall Street Journal. Theo’s blog"],
   ["john.pavlusoffice.com", "John Pavlus is a nonfiction writer and filmmaker based in Portland, Oregon. John"],
   ["www.theliminal.co", "The Liminal is a podcast about metaphysical speculation. Their website"],
 
+  ["blog.aurynn.com", "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"],
   ["iiiiiiiii.in", "Ishtaarth Dalmia writes about internet culture and economics from Bengaluru, India. Ishtaarth"],
   ["kiefer.design", "Kiefer Sutherland is a freelance designer and art director. Kiefer’s website"],
   ["www.failuretolerated.com", "Sean McCoy is a game designer from Dallas, Texas. Sean’s site"],
@@ -44,7 +45,7 @@ module.exports = function (callback) {
   var result = [];
 
   // Only show the first 9 sites on the homepage
-  sites = sites.slice(0, 9);
+  sites = sites.slice(0, 12);
 
   async.eachSeries(sites, function(site, next){
       
