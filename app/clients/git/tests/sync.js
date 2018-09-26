@@ -8,16 +8,36 @@ describe("sync", function() {
   var CheckEntry = global.test.CheckEntry;
   var fs = require("fs-extra");
   var async = require("async");
+  var sync = require("../sync");
+  var basename = require('path').basename;
+  var dirname = require('path').dirname;
+  
+  // I should also write a function to check that the repoDirectory
+  // which simulate's the folder on the user's computer exactly matches
+  // the state of the blogDirectory on Blot's server
 
   beforeEach(function() {
     this.checkEntry = new CheckEntry(this.blog.id);
 
+    this.commitAndPush = new CommitAndPush(this.blog.id, this.git);
     this.writeAndCommit = new WriteAndCommit(this.git, this.repoDirectory);
     this.push = new Push(this.blog.id, this.git);
     this.writeAndPush = new WriteAndPush(
       this.blog.id,
       this.git,
       this.repoDirectory
+    );
+  });
+
+  // Checks if two directories are identical
+  afterEach(function(done) {
+    global.test.compareDir(
+      this.repoDirectory,
+      this.blogDirectory,
+      {
+        excludeFilter: ".git"
+      },
+      done
     );
   });
 
@@ -58,14 +78,30 @@ describe("sync", function() {
       fs.outputFile(output, content, function(err) {
         if (err) return callback(err);
 
-        git.add(repoDirectory + path, function(err) {
+        git.add(".", function(err) {
           if (err) return callback(new Error(err));
 
-          git.commit("Wrote" + path, function(err) {
+          git.commit(".", function(err) {
             if (err) return callback(new Error(err));
 
             callback();
           });
+        });
+      });
+    };
+  }
+
+  function CommitAndPush(blogID, git) {
+    var push = new Push(blogID, git);
+
+    return function(callback) {
+      git.add(".", function(err) {
+        if (err) return callback(new Error(err));
+
+        git.commit(".", function(err) {
+          if (err) return callback(new Error(err));
+
+          push(callback);
         });
       });
     };
@@ -132,6 +168,29 @@ describe("sync", function() {
     });
   });
 
+  it("syncs a renamed file", function(done) {
+    var writeAndPush = this.writeAndPush;
+    var commitAndPush = this.commitAndPush;
+
+    var path = this.fake.path();
+    var newPath = dirname(path) + '/new-' + basename(path);
+    var content = this.fake.file();
+
+    var repoDirectory = this.repoDirectory;
+
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
+
+      fs.moveSync(repoDirectory + path, repoDirectory + newPath);
+
+      commitAndPush(function(err) {
+        if (err) return done.fail(err);
+
+        done();
+      });
+    });
+  });
+
   it("syncs the changes of multiple commits pushed at once", function(done) {
     var writeAndCommit = this.writeAndCommit;
     var checkEntry = this.checkEntry;
@@ -163,5 +222,43 @@ describe("sync", function() {
         });
       }
     );
+  });
+
+  it("should return an error if there is no git repo in blog folder", function(done) {
+    fs.removeSync(this.blogDirectory + "/.git");
+
+    sync(this.blog, function(err) {
+      expect(err.message).toContain("repo does not exist");
+      done();
+    });
+  });
+
+  it("resets any invalid, uncommitted changes to blog folder", function(done) {
+    var writeAndPush = this.writeAndPush;
+
+    var path = "/Hello world.txt";
+    var content = "Hello, World!";
+    var contentBadChange = "Bad, World!";
+    var contentGoodChange = "Good, World!";
+
+    var blogDirectory = this.blogDirectory;
+
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
+
+      // This simulates an incorrect change to the blog's source folder
+      // made by potentially buggy Blot code. This was NOT done by the client.
+      fs.outputFileSync(blogDirectory + path, contentBadChange);
+
+      writeAndPush(path, contentGoodChange, function(err) {
+        if (err) return done.fail(err);
+
+        expect(fs.readFileSync(blogDirectory + path, "utf-8")).toEqual(
+          contentGoodChange
+        );
+
+        done();
+      });
+    });
   });
 });
