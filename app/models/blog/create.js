@@ -23,7 +23,7 @@ module.exports = function create (uid, info, callback) {
     title: info.title || capitalise((info.handle || 'untitled') + '\’s') + ' blog',
     client: '',
     timeZone: info.timeZone || 'UTC',
-    dateFormat: info.dateFormat || 'M/D/Y'
+    dateFormat: info.dateFormat || 'M/D/YYYY'
   };
 
   extend(blog)
