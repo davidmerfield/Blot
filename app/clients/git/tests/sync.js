@@ -1,275 +1,313 @@
 describe("sync", function() {
-  beforeEach(require("./util/setupUser"));
+  // Sets up a clean test blog (this.blog) for each test,
+  // sets the blog's client to git (this.client), then creates
+  // a test server with the git client's routes exposed, then
+  // cleans everything up when each test has finished.
+  require("./setup")();
 
-  var waitForSyncToFinish = require("./util/waitForSyncToFinish");
-  var localPath = require("helper").localPath;
-  var pushAllChanges = require("./util/pushAllChanges");
+  var LONG_TIMEOUT = 20 * 1000; // 20s
+
+  var CheckEntry = global.test.CheckEntry;
   var fs = require("fs-extra");
-  var checkPostExists = require("./util/checkPostExists");
+  var async = require("async");
   var sync = require("../sync");
+  var basename = require("path").basename;
+  var dirname = require("path").dirname;
 
-  // if two files are pushed, and one produces an error when calling
-  // set() the other should sync just fine.
-  // xit("should sync good changes even if one produces a sync error", function(done) {});
+  // I should also write a function to check that the repoDirectory
+  // which simulate's the folder on the user's computer exactly matches
+  // the state of the blogDirectory on Blot's server
 
-  // pretty basic
-  it("should sync an updated file", function(done) {
-    var path = "/Hello world.txt";
-    var content = "Hello, World!";
-    var contentChanged = "New, World!";
+  beforeEach(function() {
+    this.checkEntry = new CheckEntry(this.blog.id);
 
-    fs.outputFileSync(global.usersGitDirectory + path, content);
+    this.commitAndPush = new CommitAndPush(this.blog.id, this.git);
+    this.writeAndCommit = new WriteAndCommit(this.git, this.repoDirectory);
+    this.push = new Push(this.blog.id, this.git);
+    this.writeAndPush = new WriteAndPush(
+      this.blog.id,
+      this.git,
+      this.repoDirectory
+    );
+  });
 
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
+  // Checks if two directories are identical
+  afterEach(function(done) {
+    global.test.compareDir(
+      this.repoDirectory,
+      this.blogDirectory,
+      {
+        excludeFilter: ".git"
+      },
+      done
+    );
+  });
 
-      waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
+  function Push(blogID, git) {
+    return function(callback) {
+      git.push(function(err) {
+        if (err) return callback(new Error(err));
 
-        checkPostExists({ path: path, title: content }, function(err) {
-          expect(err).toEqual(null);
+        (function wait(blogID, callback) {
+          // This is blot's sync function, NOT
+          // the git client's sync function.
+          require("sync")(
+            blogID,
+            function(_cb) {
+              _cb(null);
+            },
+            function(err, unavailable) {
+              if (err) return callback(err);
 
-          fs.outputFileSync(global.usersGitDirectory + path, contentChanged);
+              if (unavailable) {
+                setTimeout(function() {
+                  wait(blogID, callback);
+                }, 1000);
+              } else {
+                callback(null);
+              }
+            }
+          );
+        })(blogID, callback);
+      });
+    };
+  }
 
-          pushAllChanges(global.usersGitClient, function(err) {
-            expect(err).toEqual(null);
+  function WriteAndCommit(git, repoDirectory) {
+    return function(path, content, callback) {
+      var output = repoDirectory + path;
 
-            waitForSyncToFinish(function(err) {
-              expect(err).toEqual(null);
+      fs.outputFile(output, content, function(err) {
+        if (err) return callback(err);
 
-              checkPostExists({ path: path, title: contentChanged }, function(
-                err
-              ) {
-                expect(err).toEqual(null);
-                expect(
-                  fs.readFileSync(localPath(global.blog.id, path), "utf-8")
-                ).toEqual(contentChanged);
-                done();
-              });
-            });
+        git.add(".", function(err) {
+          if (err) return callback(new Error(err));
+
+          git.commit(".", function(err) {
+            if (err) return callback(new Error(err));
+
+            callback();
+          });
+        });
+      });
+    };
+  }
+
+  function CommitAndPush(blogID, git) {
+    var push = new Push(blogID, git);
+
+    return function(callback) {
+      git.add(".", function(err) {
+        if (err) return callback(new Error(err));
+
+        git.commit(".", function(err) {
+          if (err) return callback(new Error(err));
+
+          push(callback);
+        });
+      });
+    };
+  }
+
+  // Write file to user's clone of the blog's git repo, then
+  // push changes to the server, wait for sync to finish.
+  function WriteAndPush(blogID, git, repoDirectory) {
+    var writeAndCommit = new WriteAndCommit(git, repoDirectory);
+    var push = new Push(blogID, git);
+
+    return function(path, content, callback) {
+      writeAndCommit(path, content, function(err) {
+        if (err) return callback(err);
+
+        push(callback);
+      });
+    };
+  }
+
+  it("should return an error if there is no git repo in blog folder", function(done) {
+    fs.removeSync(this.blogDirectory + "/.git");
+
+    sync(this.blog, function(err) {
+      expect(err.message).toContain("repo does not exist");
+      done();
+    });
+  });
+
+  it("syncs a file", function(done) {
+    var path = this.fake.path(".txt");
+    var content = this.fake.file();
+    var checkEntry = this.checkEntry;
+
+    this.writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
+
+      checkEntry({ path: path }, function(err) {
+        if (err) return done.fail(err);
+
+        done();
+      });
+    });
+  }, LONG_TIMEOUT);
+
+  it("syncs updates to a file", function(done) {
+    var checkEntry = this.checkEntry;
+    var writeAndPush = this.writeAndPush;
+
+    var path = this.fake.path(".txt");
+
+    var title = this.fake.lorem.sentence();
+    var content = this.fake.file({ title: title });
+
+    var changedTitle = this.fake.lorem.sentence();
+    var changedContent = this.fake.file({ title: changedTitle });
+
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
+
+      checkEntry({ path: path, title: title }, function(err) {
+        if (err) return done.fail(err);
+
+        writeAndPush(path, changedContent, function(err) {
+          if (err) return done.fail(err);
+
+          checkEntry({ path: path, title: changedTitle }, function(err) {
+            if (err) return done.fail(err);
+            done();
           });
         });
       });
     });
-  });
+  }, LONG_TIMEOUT);
 
-  // commit -> commit -> push etc...
-  it("should process multiple unsynced commits properly", function(done) {
-    var firstPath = "/Hello world.txt";
-    var firstContent = "Hello, World!";
+  it("syncs a renamed file", function(done) {
+    var writeAndPush = this.writeAndPush;
+    var commitAndPush = this.commitAndPush;
 
-    var secondPath = "/New world.txt";
-    var secondContent = "New, World!";
+    var path = this.fake.path();
+    var newPath = dirname(path) + "/new-" + basename(path);
+    var content = this.fake.file();
 
-    fs.outputFileSync(global.usersGitDirectory + firstPath, firstContent);
+    var repoDirectory = this.repoDirectory;
 
-    global.usersGitClient.add(".", function(err) {
-      expect(err).toEqual(null);
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
 
-      global.usersGitClient.commit("Added first path", function(err) {
-        expect(err).toEqual(null);
+      fs.moveSync(repoDirectory + path, repoDirectory + newPath);
 
-        fs.outputFileSync(global.usersGitDirectory + secondPath, secondContent);
+      commitAndPush(function(err) {
+        if (err) return done.fail(err);
 
-        pushAllChanges(global.usersGitClient, function(err) {
-          expect(err).toEqual(null);
+        done();
+      });
+    });
+  }, LONG_TIMEOUT);
 
-          waitForSyncToFinish(function(err) {
-            expect(err).toEqual(null);
+  it("syncs a removed file", function(done) {
+    var writeAndPush = this.writeAndPush;
+    var commitAndPush = this.commitAndPush;
+    var repoDirectory = this.repoDirectory;
 
-            checkPostExists({ path: firstPath }, function(err) {
-              expect(err).toEqual(null);
+    // compareDirectory has trouble with nested paths
+    // since git does not keep track of empty directories
+    var path = '/' + this.fake.lorem.word() + '.txt';
 
-              checkPostExists({ path: secondPath }, function(err) {
-                expect(err).toEqual(null);
-                done();
-              });
-            });
-          });
+    writeAndPush(path, this.fake.file(), function(err) {
+      if (err) return done.fail(err);
+
+      fs.removeSync(repoDirectory + path);
+
+      commitAndPush(function(err) {
+
+        if (err) return done.fail(err);
+
+        done();
+      });
+    });
+  }, LONG_TIMEOUT);
+
+  it("syncs the changes of multiple commits pushed at once", function(done) {
+    var writeAndCommit = this.writeAndCommit;
+    var checkEntry = this.checkEntry;
+    var push = this.push;
+
+    var files = {};
+
+    for (var i = 0; i < 3; i++)
+      files[this.fake.path(".txt")] = this.fake.file();
+
+    async.eachOf(
+      files,
+      function(content, path, next) {
+        writeAndCommit(path, content, next);
+      },
+      function(err) {
+        if (err) return done.fail(err);
+
+        push(function(err) {
+          if (err) return done.fail(err);
+
+          async.eachOf(
+            files,
+            function(content, path, next) {
+              checkEntry({ path: path }, next);
+            },
+            done
+          );
+        });
+      }
+    );
+  }, LONG_TIMEOUT);
+
+  it("handles two pushes during a single sync", function(done) {
+    var git = this.git;
+    var writeAndPush = this.writeAndPush;
+    var fake = this.fake;
+
+    for (var i = 0; i < 30; i++)
+      fs.outputFileSync(
+        this.repoDirectory + fake.path('.txt'),
+        fake.file()
+      );
+
+    git.add(".", function(err) {
+      if (err) return done(new Error(err));
+      git.commit("x", function(err) {
+        if (err) return done(new Error(err));
+        git.push(function(err) {
+          if (err) return done(new Error(err));
+
+          writeAndPush(fake.path(), fake.file(), done);
         });
       });
     });
-  });
+  }, LONG_TIMEOUT);
 
-  // Allow pulls to go through under buggy conditions
-  it("should reset any uncommitted changes to blog folder", function(done) {
+  it("resets any uncommitted changes in the server's blog folder", function(done) {
+    var writeAndPush = this.writeAndPush;
+
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var contentBadChange = "Bad, World!";
     var contentGoodChange = "Good, World!";
 
-    fs.outputFileSync(global.usersGitDirectory + path, content);
+    var blogDirectory = this.blogDirectory;
 
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
 
-      waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
+      // This simulates an incorrect change to the blog's source folder
+      // made by potentially buggy Blot code. This was NOT done by the client.
+      fs.outputFileSync(blogDirectory + path, contentBadChange);
 
-        checkPostExists({ path: path }, function(err) {
-          expect(err).toEqual(null);
+      writeAndPush(path, contentGoodChange, function(err) {
+        if (err) return done.fail(err);
 
-          fs.outputFileSync(localPath(global.blog.id, path), contentBadChange);
-          fs.outputFileSync(global.usersGitDirectory + path, contentGoodChange);
-
-          pushAllChanges(global.usersGitClient, function(err) {
-            expect(err).toEqual(null);
-
-            waitForSyncToFinish(function(err) {
-              expect(err).toEqual(null);
-              expect(
-                fs.readFileSync(localPath(global.blog.id, path), "utf-8")
-              ).toEqual(contentGoodChange);
-              done();
-            });
-          });
-        });
-      });
-    });
-  });
-
-  it("should return an error if there is no git repo in blog folder", function(done) {
-    fs.removeSync(localPath(global.blog.id, ".git"));
-
-    sync(global.blog, function(err) {
-
-      expect(err.message).toContain("repo does not exist");
-
-      done();
-    });
-  });
-
-  // Scenario: you push loads of files, Blot takes ages to sync
-  // you push one more file: does Blot sync it too?
-  it(
-    "re-pulls if it recieves a push during sync",
-    function(done) {
-      var blogDir = localPath(global.blog.id, "/");
-      var usersGitDirectory = global.usersGitDirectory;
-      var path = "/Hello world.txt";
-      var content = "Hello, World!";
-
-      for (var i = 0; i < 100; i++)
-        fs.outputFileSync(usersGitDirectory + "/" + i + ".txt", i);
-
-      pushAllChanges(global.usersGitClient, function(err) {
-        expect(err).toEqual(null);
-
-        fs.outputFileSync(usersGitDirectory + path, content);
-
-        pushAllChanges(global.usersGitClient, function(err) {
-          expect(err).toEqual(null);
-
-          waitForSyncToFinish(function(err) {
-            expect(err).toEqual(null);
-
-            // Verify files and folders are preserved in cloneable folder
-            expect(fs.readdirSync(blogDir)).toEqual(
-              fs.readdirSync(usersGitDirectory)
-            );
-            done();
-          });
-        });
-      });
-    },
-    30000
-  );
-
-  // Git sometimes truncates path and I was running into this issue
-  it("handles deeply nested files", function(done) {
-    var blogDir = localPath(global.blog.id, "/");
-    var path =
-      "/Git/truncates/paths/to/files/in/its/summaries/depending/on/the/width/of/the/shell.txt";
-    var content = "Hello, World!";
-
-    fs.outputFileSync(global.usersGitDirectory + path, content);
-
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
-
-      waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
-
-        checkPostExists({ path: path }, function(err) {
-          expect(err).toEqual(null);
-
-          // Verify files and folders are preserved in cloneable folder
-          expect(fs.readdirSync(blogDir)).toEqual(
-            fs.readdirSync(global.usersGitDirectory)
-          );
-
-          done();
-        });
-      });
-    });
-  }, 10 * 1000); // 10s for this test... not sure why it needs longer but hey
-
-  // what about a case sensitivity change?
-  it("handles renamed files", function(done) {
-    var blogDir = localPath(global.blog.id, "/");
-    var firstPath =
-      "/Hello/you/fhjdskfhksdhfkj/fsdhfsjdkfhjkds/fsdhkjfsdhjk/fdshkfshjdkfjshdf/fdshjfhsdjk/fsdhjfksdjh/Foo bar.txt";
-    var secondPath =
-      "/Hello/you/fhjdskfhksdhfkj/fsdhfsjdkfhjkds/fsdhkjfsdhjk/fdshkfshjdkfjshdf/fdshjfhsdjk/fsdhjfksdjh/baz Bat.txt";
-    var content = "Hello, World!";
-
-    fs.outputFileSync(global.usersGitDirectory + firstPath, content);
-
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
-
-      waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
-
-        fs.moveSync(
-          global.usersGitDirectory + firstPath,
-          global.usersGitDirectory + secondPath
+        expect(fs.readFileSync(blogDirectory + path, "utf-8")).toEqual(
+          contentGoodChange
         );
 
-        pushAllChanges(global.usersGitClient, function(err) {
-          expect(err).toEqual(null);
-
-          waitForSyncToFinish(function(err) {
-            expect(err).toEqual(null);
-
-            checkPostExists({ path: secondPath }, function(err) {
-              expect(err).toEqual(null);
-
-              // Verify files and folders are preserved in cloneable folder
-              expect(fs.readdirSync(blogDir)).toEqual(
-                fs.readdirSync(global.usersGitDirectory)
-              );
-
-              done();
-            });
-          });
-        });
+        done();
       });
     });
-  });
-  it("accepts a push", function(done) {
-    var blogDir = localPath(global.blog.id, "/");
-    var path = "/Hello world.txt";
-    var content = "Hello, World!";
-
-    fs.outputFileSync(global.usersGitDirectory + path, content);
-
-    pushAllChanges(global.usersGitClient, function(err) {
-      expect(err).toEqual(null);
-
-      waitForSyncToFinish(function(err) {
-        expect(err).toEqual(null);
-
-        checkPostExists({ path: path }, function(err) {
-          expect(err).toEqual(null);
-
-          // Verify files and folders are preserved in cloneable folder
-          expect(fs.readdirSync(blogDir)).toEqual(
-            fs.readdirSync(global.usersGitDirectory)
-          );
-          done();
-        });
-      });
-    });
-  });
+  }, LONG_TIMEOUT);
 });

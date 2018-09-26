@@ -1,4 +1,7 @@
 describe("create", function() {
+  
+  global.test.blog();
+  global.test.tmp();
 
   var create = require("../create");
 
@@ -9,7 +12,7 @@ describe("create", function() {
       
     var path = __dirname + '/images/portrait.jpg';
 
-    create(global.blog.id, path, function(err, thumbnails){
+    create(this.blog.id, path, function(err, thumbnails){
 
       expect(err).toBe(null);
       expect(thumbnails).toEqual(jasmine.any(Object));

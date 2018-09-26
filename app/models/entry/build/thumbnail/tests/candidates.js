@@ -1,4 +1,5 @@
 describe("candidates", function() {
+
   var candidates = require("../candidates");
 
   // metadata should be at top of queue

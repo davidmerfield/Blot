@@ -4,11 +4,7 @@ describe("markdown converter", function() {
   var markdown = require('../index');
   var helper = require('helper');
 
-  beforeEach(global.createUser);
-  beforeEach(global.createBlog);
-
-  afterEach(global.removeBlog);
-  afterEach(global.removeUser);
+  global.test.blog();
 
   // require('child_process').exec('pandoc -v', function(err, res){
   //   if (err) throw err;
@@ -20,10 +16,10 @@ describe("markdown converter", function() {
   function from (path) {
 
     return function (callback) {      
-      fs.copyFileSync(__dirname + path, helper.localPath(global.blog.id, path));
+      fs.copyFileSync(__dirname + path, helper.localPath(this.blog.id, path));
       var options = {};
 
-      markdown.read(global.blog, path, options, function(err, html, stat){
+      markdown.read(this.blog, path, options, function(err, html, stat){
 
         expect(err).toBe(null);
         expect(stat).toEqual(jasmine.any(Object));
