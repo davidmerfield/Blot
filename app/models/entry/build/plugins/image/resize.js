@@ -14,6 +14,7 @@ var uuid = require("uuid/v4");
 // It's also possible that this is a bug in Sharp's
 // caching that has been fixed in a more recent version
 // or that still needs to be fixed. I should investigate.
+sharp.cache(false);
 
 module.exports = function(path, callback){
 
@@ -28,7 +29,6 @@ module.exports = function(path, callback){
   
   try {
 
-  sharp.cache(false);
 
   image = sharp(path);
 

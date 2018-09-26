@@ -26,9 +26,8 @@ Thumbnail bugs:
   http://trampeur.blot.im/from-kuchl-to-the-campsite-at-pfarrwerfen-2
 
   Fix bug with blurry thumbnails on https://photos.asw.fyi/ and tell Adam
-  - https://photos.asw.fyi/cod-heads-at-borgarfj%C3%B6r%C3%B0ur-eystri
-  - https://photos.asw.fyi/road-to-skaft%C3%A1rhreppur
-  It seems like the medium version is the same image as the small version. Determine if issue is reproducible with source image. It might just be the cache. Is it possibly the hash of the generated file?
+
+  It seems like the medium version is the same image as the small version. Determine if issue is reproducible with source image? It might just be the cache. Is it possibly the hash of the generated file?
 
   Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
 
