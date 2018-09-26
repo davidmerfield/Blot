@@ -8,6 +8,7 @@ var rebuildAllEntries = require("./rebuild_all_entries");
 if (require.main === module) {
   get(process.argv[2], function(user, blog) {
     main(blog, function(err) {
+      console.log(err);
       if (err) throw err;
       process.exit();
     });
