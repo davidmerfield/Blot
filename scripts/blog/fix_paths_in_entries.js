@@ -6,8 +6,6 @@ var fs = require("fs");
 var dirname = require("path").dirname;
 var basename = require("path").basename;
 var async = require('async');
-var set = require('../../app/sync/change/set');
-var drop = require('../../app/sync/change/drop');
 
 if (require.main === module) {
   get(process.argv[2], function(user, blog) {
@@ -18,6 +16,9 @@ if (require.main === module) {
   });
 }
 
+// The purpose of this script was to resolve an issue with entries having
+// path properties that were not equal to the location of the file on disk
+// if the file system is case sensitive.
 function main(blog, callback) {
   console.log("Blog " + blog.id + ":", "Fixing bad case in entries...");
 
