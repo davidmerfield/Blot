@@ -8,6 +8,7 @@ var rebuildAllEntries = require("./rebuild_all_entries");
 if (require.main === module) {
   get(process.argv[2], function(user, blog) {
     main(blog, function(err) {
+      console.log(err);
       if (err) throw err;
       process.exit();
     });
@@ -15,23 +16,28 @@ if (require.main === module) {
 }
 
 function main(blog, callback) {
-  var store = new Transformer(blog.id, 'image-cache');
+  var store = new Transformer(blog.id, "image-cache");
 
   var thumbnailDirectory =
     config.blog_static_files_dir + "/" + blog.id + "/_image_cache";
 
-  console.log('Blog ' + blog.id + ':', 'Retrieving existing cached images files...');
+  console.log(
+    "Blog " + blog.id + ":",
+    "Retrieving existing cached images files..."
+  );
 
   fs.readdir(thumbnailDirectory, function(err, contents) {
-  
-    console.log('Blog ' + blog.id + ':', 'Flushing image cache data store');
+    console.log("Blog " + blog.id + ":", "Flushing image cache data store");
     store.flush(function(err) {
-      if (err) throw err;
+      if (err) return callback(err);
 
       rebuildAllEntries(blog, function(err) {
-        if (err) throw err;
+        if (err) return callback(err);
 
-        console.log('Blog ' + blog.id + ':', 'Removing old cached image files...');
+        console.log(
+          "Blog " + blog.id + ":",
+          "Removing old cached image files..."
+        );
 
         async.each(
           contents,
@@ -43,7 +49,10 @@ function main(blog, callback) {
           function(err) {
             if (err) return callback(err);
 
-            console.log('Blog ' + blog.id + ':', 'Recached all images and flushed old ones from disk!');
+            console.log(
+              "Blog " + blog.id + ":",
+              "Recached all images and flushed old ones from disk!"
+            );
             callback();
           }
         );
