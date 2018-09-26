@@ -16,9 +16,14 @@ function main(blog, callback) {
   Entries.each(
     blog.id,
     function(entry, next) {
-      console.log('-', entry.path);
+      console.log('-', entry.path);      
       Entry.build(blog, entry.path, function(err, entry){
-        if (err) return next(err);
+
+        if (err) {
+          console.log(err, 'deleted?', entry.deleted);
+          return next();
+        }
+
         Entry.set(blog.id, entry.path, entry, next);
       });
     },
