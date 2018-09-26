@@ -208,12 +208,17 @@ describe("sync", function() {
     var commitAndPush = this.commitAndPush;
     var repoDirectory = this.repoDirectory;
 
-    writeAndPush(this.fake.path(), this.fake.file(), function(err) {
+    // compareDirectory has trouble with nested paths
+    // since git does not keep track of empty directories
+    var path = '/' + this.fake.lorem.word() + '.txt';
+
+    writeAndPush(path, this.fake.file(), function(err) {
       if (err) return done.fail(err);
 
-      fs.emptyDirSync(repoDirectory);
+      fs.removeSync(repoDirectory + path);
 
       commitAndPush(function(err) {
+
         if (err) return done.fail(err);
 
         done();

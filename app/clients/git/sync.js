@@ -14,7 +14,7 @@ module.exports = function sync(blog, callback) {
 
 function main(blog) {
   return function(callback) {
-
+    debug('beginning sync');
     checkGitRepoExists(blog.id, function(err){
 
       if (err) return callback(err);
@@ -28,6 +28,7 @@ function main(blog) {
         return callback(err);
       }
 
+      debug('fetching latest commit hash');
       git.raw(['rev-parse', 'HEAD'], function(err, headBeforePull){
 
         if (err) return callback(new Error(err));
