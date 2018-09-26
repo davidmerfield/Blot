@@ -1,8 +1,6 @@
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
 
 Images and Sharp bugs:
-- Write script to rebuild, reset thumbnails for a given blog
-  - rebuild tillman's thumbnails
 - Increase quality for sharp
 - Re-enable image minifier and fix bugs.
 
@@ -25,15 +23,11 @@ Thumbnail bugs:
   Fix failed thumbnails in Ben's post:
   http://trampeur.blot.im/from-kuchl-to-the-campsite-at-pfarrwerfen-2
 
-  Fix bug with blurry thumbnails on https://photos.asw.fyi/ and tell Adam
-
-  It seems like the medium version is the same image as the small version. Determine if issue is reproducible with source image? It might just be the cache. Is it possibly the hash of the generated file?
+  Fix blurry thumbnail bug and tell Stuart:
+  https://twitter.com/stuartfrisby/status/1036605806148501504
 
   Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
 
-  Fix blurry thumbnail bug and tell Stuart:
-  https://twitter.com/stuartfrisby/status/1036605806148501504
-  via DM: https://twitter.com/aswfyi
 
 
 Markdown bugs:
