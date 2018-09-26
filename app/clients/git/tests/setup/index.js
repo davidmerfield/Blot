@@ -21,11 +21,6 @@ module.exports = function setup(options) {
     }
   };
 
-  // Expose methods for creating fake files, paths, etc.
-  beforeEach(function(){
-    this.fake = global.test.fake;
-  });
-
   global.test.blog();
 
   // Sets up a temporary tmp folder and cleans it up after
@@ -35,6 +30,11 @@ module.exports = function setup(options) {
   beforeEach(server.start);
   afterEach(server.close);
 
+  // Expose methods for creating fake files, paths, etc.
+  beforeEach(function(){
+    this.fake = global.test.fake;
+  });
+  
   // Clean a bare repo in app/clients/git/data if needed
   afterEach(function(done) {
     // Each test creates a new bare repo in app/clients/git/data

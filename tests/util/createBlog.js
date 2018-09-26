@@ -10,7 +10,7 @@ module.exports = function(done) {
     blog
   ) {
     if (err) {
-      return done(err);
+      return done(new Error(err.handle));
     }
 
     context.blogDirectory = localPath(blog.id, "/");

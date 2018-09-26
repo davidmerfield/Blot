@@ -9,9 +9,10 @@ describe("sync", function() {
   var fs = require("fs-extra");
   var async = require("async");
   var sync = require("../sync");
-  var basename = require('path').basename;
-  var dirname = require('path').dirname;
-  
+  var basename = require("path").basename;
+  var dirname = require("path").dirname;
+  var LONG_TIMEOUT = 30 * 1000; // 30s
+
   // I should also write a function to check that the repoDirectory
   // which simulate's the folder on the user's computer exactly matches
   // the state of the blogDirectory on Blot's server
@@ -122,6 +123,15 @@ describe("sync", function() {
     };
   }
 
+  it("should return an error if there is no git repo in blog folder", function(done) {
+    fs.removeSync(this.blogDirectory + "/.git");
+
+    sync(this.blog, function(err) {
+      expect(err.message).toContain("repo does not exist");
+      done();
+    });
+  });
+
   it("syncs a file", function(done) {
     var path = this.fake.path(".txt");
     var content = this.fake.file();
@@ -173,7 +183,7 @@ describe("sync", function() {
     var commitAndPush = this.commitAndPush;
 
     var path = this.fake.path();
-    var newPath = dirname(path) + '/new-' + basename(path);
+    var newPath = dirname(path) + "/new-" + basename(path);
     var content = this.fake.file();
 
     var repoDirectory = this.repoDirectory;
@@ -182,6 +192,24 @@ describe("sync", function() {
       if (err) return done.fail(err);
 
       fs.moveSync(repoDirectory + path, repoDirectory + newPath);
+
+      commitAndPush(function(err) {
+        if (err) return done.fail(err);
+
+        done();
+      });
+    });
+  });
+
+  it("syncs a removed file", function(done) {
+    var writeAndPush = this.writeAndPush;
+    var commitAndPush = this.commitAndPush;
+    var repoDirectory = this.repoDirectory;
+
+    writeAndPush(this.fake.path(), this.fake.file(), function(err) {
+      if (err) return done.fail(err);
+
+      fs.emptyDirSync(repoDirectory);
 
       commitAndPush(function(err) {
         if (err) return done.fail(err);
@@ -224,16 +252,31 @@ describe("sync", function() {
     );
   });
 
-  it("should return an error if there is no git repo in blog folder", function(done) {
-    fs.removeSync(this.blogDirectory + "/.git");
+  it("handles two pushes during a single sync", function(done) {
+    var git = this.git;
+    var writeAndPush = this.writeAndPush;
+    var fake = this.fake;
 
-    sync(this.blog, function(err) {
-      expect(err.message).toContain("repo does not exist");
-      done();
+    for (var i = 0; i < 30; i++)
+      fs.outputFileSync(
+        this.repoDirectory + fake.path('.txt'),
+        fake.file()
+      );
+
+    git.add(".", function(err) {
+      if (err) return done(new Error(err));
+      git.commit("x", function(err) {
+        if (err) return done(new Error(err));
+        git.push(function(err) {
+          if (err) return done(new Error(err));
+
+          writeAndPush(fake.path(), fake.file(), done);
+        });
+      });
     });
-  });
+  }, LONG_TIMEOUT);
 
-  it("resets any invalid, uncommitted changes to blog folder", function(done) {
+  it("resets any uncommitted changes in the server's blog folder", function(done) {
     var writeAndPush = this.writeAndPush;
 
     var path = "/Hello world.txt";
