@@ -13,7 +13,7 @@ describe("write", function() {
   it("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(localPath(this.blog.id, ".git"));
 
-    write("123", "/path", "content", function(err) {
+    write(this.blog.id, "/path", "content", function(err) {
       expect(err.message).toContain("does not exist");
 
       done();

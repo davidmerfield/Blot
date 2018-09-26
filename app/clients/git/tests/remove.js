@@ -14,7 +14,7 @@ describe("remove", function() {
   it("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(localPath(this.blog.id, ".git"));
 
-    remove("123", "/path", function(err) {
+    remove(this.blog.id, "/path", function(err) {
       expect(err.message).toContain("does not exist");
 
       done();
