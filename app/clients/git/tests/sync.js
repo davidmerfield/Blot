@@ -5,7 +5,7 @@ describe("sync", function() {
   // cleans everything up when each test has finished.
   require("./setup")();
 
-  var LONG_TIMEOUT = 10;
+  var LONG_TIMEOUT = 20 * 1000; // 20s
 
   var CheckEntry = global.test.CheckEntry;
   var fs = require("fs-extra");
