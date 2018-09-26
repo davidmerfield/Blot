@@ -15,12 +15,12 @@ function main(blog, callback) {
   console.log('Blog ' + blog.id + ':', 'Rebuilding entries...');
   Entries.each(
     blog.id,
-    function(entry, next) {
-      console.log('-', entry.path);      
-      Entry.build(blog, entry.path, function(err, entry){
+    function(_entry, next) {
+      console.log('-', _entry.path);      
+      Entry.build(blog, _entry.path, function(err, entry){
 
         if (err) {
-          console.log(err, 'deleted?', entry.deleted);
+          console.log(err, 'deleted?', _entry.deleted);
           return next();
         }
 
