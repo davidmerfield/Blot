@@ -52,6 +52,18 @@ Clients currently call Blot's sync methods, specifically Change.add and Change.d
 Ideas
 -----
 
+I would like to make clients much more modular than they are now. They should just emit events, and be instatiated with path to data directory, redis port, etc... They should expose express application that can be mounted by blot too.
+
+var gitClient = new GitClient({ ... });
+
+server.use('/clients/git', gitClient.routes);
+
+gitClient.on('message', function(message){
+  sync(message.blog.id, message.path...);
+});
+
+It would be nice if we could test these clients independently of blot.
+
 Perhaps clients should emit events? Something like Choidikar's events?
 
 watcher
