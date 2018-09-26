@@ -217,7 +217,7 @@ describe("sync", function() {
         done();
       });
     });
-  });
+  }, LONG_TIMEOUT);
 
   it("syncs the changes of multiple commits pushed at once", function(done) {
     var writeAndCommit = this.writeAndCommit;
