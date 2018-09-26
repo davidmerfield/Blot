@@ -13,7 +13,7 @@ describe("create", function() {
   var disconnect = require('../disconnect');
   var Git = require('simple-git');
   var localPath = require('helper').localPath;
-  var setClientToGit = require('./util/setClientToGit');
+  var setClientToGit = require('./setup/setClientToGit');
 
   // this prevents an existing bare repo from being clobbered
   it("should fail when the client has already been initialized", function(done) {

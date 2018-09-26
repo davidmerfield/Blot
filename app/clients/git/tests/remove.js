@@ -15,7 +15,7 @@ describe("remove", function() {
     fs.removeSync(localPath(this.blog.id, ".git"));
 
     remove("123", "/path", function(err) {
-      expect(err.message).toContain("repo does not exist");
+      expect(err.message).toContain("does not exist");
 
       done();
     });

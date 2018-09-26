@@ -1,33 +1,12 @@
 module.exports = function setup(options) {
   options = options || {};
-var url = require("url");
 
 var dataDir = require('../../dataDir');
 var disconnect = require('../../disconnect');
 var fs = require('fs-extra');
 var Express = require("express");
 
-function setClientToGit(blog, port, callback) {
-  var repoUrl;
-
-  require("../../create")(blog, function(err) {
-    if (err) return callback(err);
-
-    require("../../database").getToken(blog.id, function(err, token) {
-      if (err) return callback(err);
-
-      repoUrl = url.format({
-        auth: blog.handle + ":" + token,
-        protocol: "http",
-        hostname: "localhost",
-        port: port,
-        pathname: "/clients/git/end/" + blog.handle + ".git"
-      });
-
-      callback(null, repoUrl);
-    });
-  });
-}
+var setClientToGit = require('./setClientToGit');
 
 var server = {
   start: function(done) {
