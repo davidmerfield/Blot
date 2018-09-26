@@ -1,7 +1,10 @@
-// Ensure we can reproduce fake data
+// Docs
+// https://rawgit.com/Marak/faker.js/master/examples/browser/index.html
+
 var fake = require('faker');
 var join = require('path').join;
 
+// Ensure we can reproduce fake data
 fake.seed(Math.floor(Math.random() * 1000));
 
 fake.path = function path (ext) {

@@ -1,6 +1,9 @@
 var dircompare = require("dir-compare");
 var format = require("util").format;
 
+// Docs
+// https://github.com/gliviu/dir-compare
+
 module.exports = function(path1, path2, options, callback) {
 
   // Required
