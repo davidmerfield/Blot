@@ -1,6 +1,6 @@
 var Jasmine = require("jasmine");
 var jasmine = new Jasmine();
-var colors = require('colors');
+var colors = require("colors");
 var seedrandom = require("seedrandom");
 var seed;
 var config = {
@@ -16,17 +16,18 @@ if (process.argv[2]) {
   console.log("Running specs in", colors.cyan(process.argv[2]));
 
   // We have passed specific file to run
-  if (process.argv[2].slice(-3) === '.js') {
+  if (process.argv[2].slice(-3) === ".js") {
     config.spec_files = [process.argv[2]];
 
-  // We have passed directory of tests to run
+    // We have passed directory of tests to run
   } else {
-    config.spec_dir = process.argv[2];   
-    config.spec_files = ['**/tests/**/*.js', '**/tests.js']
+    config.spec_dir = process.argv[2];
+    config.spec_files = ["**/tests/**/*.js", "**/tests.js"];
   }
 } else {
   console.log(
-    'If you want to run tests from a subdirectory:', colors.cyan('npm test {path_to_specs}')
+    "If you want to run tests from a subdirectory:",
+    colors.cyan("npm test {path_to_specs}")
   );
 }
 
@@ -55,9 +56,11 @@ jasmine.addReporter({
 });
 
 global.test = {
+  CheckEntry: require("./util/checkEntry"),
+    
+  fake: require('./util/fake'),
 
-  blog: function () {
-
+  blog: function() {
     beforeEach(require("./util/createUser"));
     afterEach(require("./util/removeUser"));
 
@@ -65,11 +68,10 @@ global.test = {
     afterEach(require("./util/removeBlog"));
   },
 
-  tmp: function () {    
+  tmp: function() {
     beforeEach(require("./util/createTmpDir"));
     afterEach(require("./util/removeTmpDir"));
   }
 };
-
 
 jasmine.execute();
