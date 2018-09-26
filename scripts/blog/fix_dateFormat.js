@@ -9,8 +9,7 @@ eachBlog(function(user, blog, next){
 
   console.log('-', blog.handle, blog.id);
 
-  blog.dateFormat = 'M/D/YYYY';
-  Blog.set(blog.id, blog, next);
+  Blog.set(blog.id, {dateFormat: 'M/D/YYYY'}, next);
 
 }, function(err){
   if (err) throw err;
