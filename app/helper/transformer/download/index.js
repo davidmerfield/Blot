@@ -120,7 +120,9 @@ module.exports = function (url, headers, callback) {
     // download was stopped, there is no local file.
     // do nothing don't care if this errors
     try {
-      fs.unlink(path);
+      fs.unlink(path, function(err){
+        if (err) debug(err);
+      });
     } catch (e) {}
 
     path = null;
