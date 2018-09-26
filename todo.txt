@@ -110,11 +110,6 @@ Prune package.json:
     https://github.com/mishoo/UglifyJS2
     https://developers.google.com/closure/compiler/
 
-Cool sites for homepage?
-- http://timhayes.net/page/2
-- https://www.adoracheung.com/
-- https://photos.asw.fyi
-
 Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
 
 Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
