@@ -16,12 +16,17 @@ function main(blog, callback) {
   Entries.each(
     blog.id,
     function(_entry, next) {
-      console.log('-', _entry.path);      
       Entry.build(blog, _entry.path, function(err, entry){
 
-        if (err) {
-          console.log(err, 'deleted?', _entry.deleted);
+        if (err && err.code === 'ENOENT' && _entry.deleted) {
           return next();
+        }
+
+        if (err) {
+          console.log('-', _entry.path, err, _entry);
+          return next();
+        } else {
+          console.log('-', _entry.path);
         }
 
         Entry.set(blog.id, entry.path, entry, next);
