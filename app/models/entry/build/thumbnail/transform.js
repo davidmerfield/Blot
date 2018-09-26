@@ -44,7 +44,9 @@ function main(path, outputDirectory, callback) {
     thumbnails,
     function(options, name, next) {
       
-      var fileName = name + "-" + basename(path);
+      // We want to ensure that this will work on case-sensitive
+      // file systems so we lowercase it...
+      var fileName = name + "-" + basename(path).toLowerCase();
       var to = outputDirectory + '/' + fileName;
 
       transform(input, to, options, function(err, width, height) {

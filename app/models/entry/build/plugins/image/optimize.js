@@ -16,7 +16,9 @@ module.exports = function (blogID) {
 
   return function (path, _callback) {
 
-    var name = uuid() + extname(path);
+    // Extnames can sometimes be uppercase, we want to ensure that
+    // this will work on case-sensitive file systems so we lowercase it...
+    var name = uuid() + extname(path).toLowerCase();
     var finalPath = join(config.blog_static_files_dir, blogID, cache_folder_name, name);
     var src = '/' + cache_folder_name + '/' + name;
 
