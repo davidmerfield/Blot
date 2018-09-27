@@ -1,6 +1,3 @@
-<input type="hidden" name="redirect" value="/settings/urls">
-
-
 <style type="text/css">
 #redirects section {padding: 8px 0;border:none}
 .lab[type="text"] {border-radius:0;margin-left:-1px}
@@ -10,21 +7,37 @@
 .isPage .pageLink {display: block;}
 .removeLink {    line-height: 2.5;
     text-decoration: none;margin-left: 8px}
+    code {background: #eee}
+    .format:hover{background: rgba(0,0,0,.02)}
 </style>
-<p>URL format</p>
-        <style type="text/css">code {background: #eee}</style>
+<input type="hidden" name="redirect" value="/settings/urls">
+
+<p>Each post is assigned a URL according to the format below. You can override a post's URL in its <a href="/help/metadata">metadata</a>. If you change your URL format, Blot redirects the old URLs automatically.</p>
+
+      <a href="/settings/urls/redirects" style="color:rgb(109, 109, 109);line-height:40px;text-decoration:none;display:block;border-top:1px solid rgba(0,0,0,.05)">Edit your redirect rules <span style="float:right">&rarr;</span></a>
+
+
+<br>
+
+<label>URL format</label>
       {{#permalinkFormats}}
       <hr style="margin:0;">
-      <label style="margin:0;padding:4px 0">
-      <input style="margin-right:0.5em" type="radio" name="permalink.format" value="{{value}}" {{checked}}>
-        <b style="font-weight:500">{{name}}</b> {{^custom}}<code style="background:none;width:60%;float:right;margin:0">{{example}}</code>{{/custom}}
+      <label class="format" style="line-height:inherit;margin:0;text-transform:none;font-size:16px;letter-spacing:0;padding:9px 0 9px 10px">
+      <input style="margin:5px 10px 20px 0;float:left" type="radio" name="permalink.format" value="{{value}}" {{checked}}>
+        <b style="font-weight:500;display:block">{{name}}</b>
 
-        {{#custom}}<input type="text" style="display:inline;float:right;line-height:2;width:60%;padding:0 0.25em;margin:0.2em 0 0" name="permalink.custom" value="{{blog.permalink.custom}}"/>
+        {{#custom}}Read the <a href="/configuring/permalinks">guide to creating a custom URL format</a>.{{/custom}} 
 
+        {{^custom}}<code style="background:none;font-size:14px;color:rgb(153, 153, 153)">{{example}}</code>{{/custom}}
+
+        {{#custom}}
+        <div style="margin: 4px 20px 4px 24px">
+        <input type="text" style="margin:0" name="permalink.custom" value="{{blog.permalink.custom}}"/></div>
       {{/custom}}
+      <div class="clear"></div>
       </label>
       {{/permalinkFormats}}
-    <p>Read the guide to <a href="/configuring/permalinks">creating a custom URL format</a>. Note that if you change your URL settings, Blot will redirect the former URLs  for your existing posts automatically. You can also <a href="/settings/urls/redirects">configure your own redirect rules</a> based on missing items in your <a href="/settings/urls/404s">404 log</a>.</p>
+
 
 
 <br>
