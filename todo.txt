@@ -1,3 +1,6 @@
+Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug
+- File titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post
+
 Fix bug which slows down sync process:
   https://github.com/davidmerfield/Blot/issues/15
   Tell tim https://mail.google.com/mail/u/1/#inbox/165ed82af17884ac
@@ -6,20 +9,22 @@ Fix bug which slows down sync process:
 
 Re-rip Stuart's instagram page and help him set up proper converter
 
-Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
+---
 
-Images and Sharp bugs:
-- Increase quality for sharp
-- Re-enable image minifier and fix bugs.
+Dropbox client:
 
-Dropbox client bugs:
-
-  Ghost posts
+  Write tests to fix ghost posts
 
   Fix bug with catching dropbox file renames
   - False positives are really annoying. You'll publish a new post and it won't show up on your blog because it'll be buried in the archives. Renames need to be *right* next to each other in the dropbox delta queue.
   - Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
   - Let Nash know
+
+Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
+
+Images and Sharp bugs:
+- Increase quality for sharp
+- Re-enable image minifier and fix bugs.
 
 Thumbnail bugs:
   
@@ -34,7 +39,6 @@ Thumbnail bugs:
   Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
   - Make resolve work more impressively, attempt to resolve a path in a case insensitive manner.
     Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine...
-
 
 Markdown bugs:
 
@@ -81,33 +85,6 @@ Fix bug with accents in image paths
 - Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1) know
 
 ---
-
-Prune package.json:
-  Remove "aws-sdk" once thumbnails and image cache and avatar done locally.
-  Remove "clean-css" for alternatives below under 'To minify CSS'
-
-  Merge "mkdirp" and "recursive-readdir" and "rimraf" in place of "fs-extra"
-  Merge "body-parser" and "multiparty"?
-  Merge "markdown-it" and "marked" and "remarkable"
-
-  Check if "compression" needed given what NGINX provides?
-
-  To minify HTML
-    https://github.com/kangax/html-minifier
-  To minify CSS
-    https://github.com/cssnano/cssnano
-    https://github.com/css/csso
-  To minify JavaScript
-    https://github.com/mishoo/UglifyJS2
-    https://developers.google.com/closure/compiler/
-
-Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
-
-Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
-
-Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
-
-Increase price for new customers to $30 a year. This will not affect existing customers.
 
 Themes:
   
@@ -183,7 +160,18 @@ Themes:
   - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
   - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
+Increase price for new customers to $30 a year. This will not affect existing customers.
+
 ---
+  
+Record a new demo video
+- Show sites I run using Blot
+- "Bring your own interface"
+  - show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
+- Blot's developer blog, a conventional blog, show using different text editors
+- My visual scrapbook: shows tag folders, photo blog
+- My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
+- My personal site: simple landing page, edit with a doc file?
 
 Implement LE wildcart SSL certificate support
   - Tell [Johan](https://mail.google.com/mail/u/1/#inbox/165175a109b9e766)
@@ -193,7 +181,21 @@ Self-hosting documentation
 
 Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally?
   - More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
-  
+
+Prune package.json
+  To minify HTML
+    https://github.com/kangax/html-minifier
+  To minify CSS
+    https://github.com/cssnano/cssnano
+    https://github.com/css/csso
+  To minify JavaScript
+    https://github.com/mishoo/UglifyJS2
+    https://developers.google.com/closure/compiler/
+
+Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
+
+Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
+
 Use this redis analysis tool to see if I can squeeze more out of REDIS
 https://github.com/snmaynard/redis-audit
 
@@ -260,7 +262,7 @@ is happening before doing this.
 - Disabling a blog should free up the domain and handle associated
 - Removing a domain from a blog does NOT delete the domain:example.com key from redis. meaning if a user sets a domain once, it's effectively theirs forever. This is a bug!
 
-File codecs
+File converters / codecs
 - Video posts (.mp4)
 - OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
 - Audio posts (.mp3 for now?)
@@ -277,18 +279,14 @@ Photo posts
   - See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
   - Tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
   
-Write a unified import tool which scrapes content from any blog/website
+Write a importer tool which scrapes and imports content from any blog/website
   Jekyll converter importer
   - Map excerpt metadata to summary 
-
   https://github.com/hexojs/hexo-migrator-blogger
   https://github.com/welksonramos/hexo-migrator-joomla
   https://github.com/hexojs/hexo-migrator-rss
   https://github.com/hexojs/hexo-migrator-wordpress
   https://github.com/dreikanter/wp2md exporter/importer
-
-
-Make subscriptions work in such a way that deleting a blog then re-creating a blog will allow you to use it until the start of your next billing period without an additional charge. Perhaps store a user.subscription.paid_for integer? Seperate from the stripe subscription quantity?
 
 Internationalize i8n
 - Tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971)
@@ -298,15 +296,8 @@ Clients
 - Google Drive
   Tell Cecil: https://twitter.com/Blot__/status/988162892594860032?s=20
   Tell Jonathan: https://twitter.com/chin_jon/status/1032392398473650176
-  
-Record a new demo video
-- Show sites I run using Blot
-- "Bring your own interface"
-  - show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
-- Blot's developer blog, a conventional blog, show using different text editors
-- My visual scrapbook: shows tag folders, photo blog
-- My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
-- My personal site: simple landing page, edit with a doc file?
+
+Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
 
 Sync
 - Re-implement folder verification feature and make use of the local content hash computation script to verify we have the correct version of a given file
@@ -315,10 +306,6 @@ Sync
 - Add method to pause syncing and prevent future syncs
 then use this method with the create/remove blog migration too.
 - Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
-
-Full folder access
-- Try to use the same app folder when you upgrade from app folder to full site folder
-- Let [Cosmo](https://mail.google.com/mail/u/0/#inbox/14f9057ef0c0c615), [Alex](https://mail.google.com/mail/u/0/#inbox/14faefb52fc2a038),  [James](https://mail.google.com/mail/u/0/?zx=goas1mprsi6r#inbox/1501f399ea668b65), Nick, Jostein know
 
 Increase price for new customers to $40 a year. This will not affect existing customers.
 
