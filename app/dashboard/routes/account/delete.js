@@ -2,9 +2,9 @@ var Express = require("express");
 var Delete = new Express.Router();
 var User = require("user");
 
-var checkPassword = require('./util/checkPassword');
-var logout = require('./util/logout');
-var async = require('async');
+var checkPassword = require("./util/checkPassword");
+var logout = require("./util/logout");
+var async = require("async");
 
 var helper = require("helper");
 var localPath = helper.localPath;
@@ -17,7 +17,6 @@ var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var clients = require("clients");
 var fs = require("fs-extra");
-
 
 Delete.route("/blog/:handle")
 
@@ -40,23 +39,25 @@ Delete.route("/blog/:handle")
   // which contains cached images/avatars. Also delete
   // the contents blog's folder on the server.
   // Delete the credentials used to sync the blog's folder
-  .post(checkPassword, function (req, res, next) {
-    deleteBlog(req.blogToDelete.id, next);
-  }, decreaseSubscription, function(req, res, next){
-    res.message('/account', 'Deleted ' + req.blogToDelete.title);
-  });
+  .post(
+    checkPassword,
+    function(req, res, next) {
+      deleteBlog(req.blogToDelete.id, next);
+    },
+    decreaseSubscription,
+    function(req, res, next) {
+      res.message("/account", "Deleted " + req.blogToDelete.title);
+    }
+  );
 
-
-function loadBlogToDelete (req, res, next) {
-
+function loadBlogToDelete(req, res, next) {
   Blog.get({ handle: req.params.handle }, function(err, blog) {
-    
     if (err) {
       return next(err);
     }
 
     if (!blog || blog.owner !== req.user.uid) {
-      return next(new Error('There is no blog to delete'));
+      return next(new Error("There is no blog to delete"));
     }
 
     req.blogToDelete = blog;
@@ -66,12 +67,11 @@ function loadBlogToDelete (req, res, next) {
   });
 }
 
-function calculateSubscriptionChange (req, res, next) {
-
+function calculateSubscriptionChange(req, res, next) {
   if (req.user.subscription.plan && req.user.subscription.plan.amount) {
-    res.locals.reduction = pretty(req.user.subscription.plan.amount);  
+    res.locals.reduction = pretty(req.user.subscription.plan.amount);
   }
-  
+
   return next();
 }
 
@@ -84,57 +84,56 @@ Delete.route("/")
     });
   })
 
-  .post(checkPassword, deleteBlogs, deleteSubscription, deleteUser, logout, function(req, res){
+  .post(
+    checkPassword,
+    deleteBlogs,
+    deleteSubscription,
+    deleteUser,
+    logout,
+    function(req, res) {
+      res.redirect("/deleted");
+    }
+  );
 
-    res.redirect('/deleted');
-  });
-
-
-
-
-function deleteBlog (blogID, callback) {
-
-  Blog.get({id: blogID}, function(err, blog){
-
+function deleteBlog(blogID, callback) {
+  Blog.get({ id: blogID }, function(err, blog) {
     if (err) return callback(err);
 
     // All of these functions take the blogID as
     // first argument and callback as second.
     var queue = [
-      removeFolder, 
-      function(blogID, done){
+      removeFolder,
+      function(blogID, done) {
         fs.emptyDir(localPath(blogID, ""), done);
-      }, 
-      Blog.remove, 
+      },
+      Blog.remove,
       updateUser
     ];
 
     if (blog.client) {
       queue.push(clients[blog.client].disconnect);
     }
-      
+
     async.applyEach(queue, blog.id, callback);
   });
 }
 
-function deleteBlogs (req, res, next) {
-
-  async.series(req.user.blogs.map(function(blogID){
-    return deleteBlog.bind(this, blogID);
-  }), next);
-
+function deleteBlogs(req, res, next) {
+  async.series(
+    req.user.blogs.map(function(blogID) {
+      return deleteBlog.bind(this, blogID);
+    }),
+    next
+  );
 }
 
-function updateUser (blogID, callback) {
-
-  Blog.get({id: blogID}, function(err, blog){
-
+function updateUser(blogID, callback) {
+  Blog.get({ id: blogID }, function(err, blog) {
     if (err) return callback(err);
 
-    User.getById(blog.owner, function(err, user){
-      
+    User.getById(blog.owner, function(err, user) {
       if (err) return callback(err);
-    
+
       var blogs = user.blogs.slice();
 
       blogs = blogs.filter(function(otherBlogID) {
@@ -146,15 +145,11 @@ function updateUser (blogID, callback) {
   });
 }
 
-function deleteUser (req, res, next) {
-
+function deleteUser(req, res, next) {
   User.remove(req.user.uid, next);
 }
 
-
-
 function decreaseSubscription(req, res, next) {
-
   var subscription = req.user.subscription;
   var quantity = req.user.blogs.length - 1;
 
@@ -184,13 +179,29 @@ function decreaseSubscription(req, res, next) {
   );
 }
 
-function deleteSubscription (req, res, next) {
-
+function deleteSubscription(req, res, next) {
   if (!req.user.subscription || !req.user.subscription.customer) {
     return next();
   }
 
   stripe.customers.del(req.user.subscription.customer, next);
 }
+
+// We expose these methods for our scripts
+// Hopefully this does not clobber anything in
+// the exposed Express application?
+
+if (Delete.exports !== undefined)
+  throw new Error(
+    "Delete.exports is defined (typeof=" +
+      typeof Delete.exports +
+      ") Would clobber Delete.exports"
+  );
+
+Delete.exports = {
+  blogs: deleteBlogs,
+  user: deleteUser,
+  subscription: deleteSubscription
+};
 
 module.exports = Delete;
