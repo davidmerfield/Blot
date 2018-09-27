@@ -263,7 +263,7 @@ describe("sync", function() {
     var writeAndPush = this.writeAndPush;
     var fake = this.fake;
 
-    for (var i = 0; i < 30; i++)
+    for (var i = 0; i < 15; i++)
       fs.outputFileSync(
         this.repoDirectory + fake.path('.txt'),
         fake.file()
@@ -280,7 +280,7 @@ describe("sync", function() {
         });
       });
     });
-  }, LONG_TIMEOUT);
+  }, LONG_TIMEOUT * 2);
 
   it("resets any uncommitted changes in the server's blog folder", function(done) {
     var writeAndPush = this.writeAndPush;
