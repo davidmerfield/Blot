@@ -28,7 +28,7 @@
         {{#view}}
         <div id="tabs">
 
-          <a class="tab" href="/template/{{slug}}/view/{{view.name}}/editor">
+          <a class="tab" href="{{{baseUrl}}}/editor">
 
             {{^active.editor}}
               <span class="link">{{name}}.{{extension}}</span>
@@ -39,7 +39,7 @@
             {{/active.editor}}
           </a>
 
-          <a class="tab {{active.settings}}" href="/template/{{slug}}/view/{{view.name}}/settings" >
+          <a class="tab {{active.settings}}" href="{{{baseUrl}}}/settings" >
 
             {{^active.settings}}<span class="link">{{/active.settings}}
 

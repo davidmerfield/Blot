@@ -35,6 +35,7 @@ module.exports = function (req, res, next) {
 
       req.template = template;
 
+      template.baseUrl = "/template/" + encodeURIComponent(template.slug);
       template.preview = ['http://preview.my', template.slug, req.blog.handle, config.host].join('.');
 
       res.locals.template = template;

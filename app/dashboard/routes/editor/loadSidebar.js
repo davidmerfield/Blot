@@ -29,7 +29,7 @@ module.exports = function(req, res, next) {
       view.extension = mime.extension(view.type || '');
       view.editorMode = editorMode(view);
       view.fullName = view.name + '.' + view.extension;
-      view.url = base + '/' + view.name + '/editor';
+      view.url = base + '/' + encodeURIComponent(view.name) + '/editor';
 
       // Load the first view if none selected
       if (viewName === null) viewName = view.name;

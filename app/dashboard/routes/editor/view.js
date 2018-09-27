@@ -210,6 +210,10 @@ function loadView (req, res, next) {
         delete view.partials[i];
 
     view.partials = arrayify(view.partials);
+      
+    // We were running into a bug with view names that contained slashes. Encoding the 
+    // view names correctly means that Express's param detection works as it should.
+    view.baseUrl = "/template/" + encodeURIComponent(req.template.slug) + "/view/" + encodeURIComponent(view.name);
 
     view.extension = mime.extension(view.type || '');
     view.editorMode = editorMode(view);
