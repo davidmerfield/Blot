@@ -110,6 +110,14 @@ Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 Themes:
+  
+  How do we share info, like a link on a menu, or a header image across themes? Could there be a shared info repository that themes could access?
+
+  How do we transition from a global menu to one that the themes have control over? How do we share existing links between themes? How do we deal with the order of pages in a user's folder?
+
+  How do we transition from a global date display format to one that themes have control over?
+
+  Change url?json=true to debug=true?
 
   Add export to zip and import to zip feature for themes
 
@@ -224,6 +232,22 @@ Investigate static site search offerings
 Dashboard
 - Dumb quotes are still smartified, even without typeset enabled.
 - Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
+- Can we trim the homepage to get to this?
+                          
+  - Title                 ________________  
+  - Domain                | Your folder  |
+  - Theme                 |              |
+  - Photo                 |              |
+  - URLs                  |______________|
+  - Dates
+
+  Menu, Dates, Disqus, Analytics etc. would be customized per theme
+  Services page would be phased out, perhaps introducing metadata flags, e.g.
+     Typeset: no
+     Katex: no
+  Or global flags in something like config.json. Would be rare though.
+  Client would be a link at the bottom corner of the folder. Synced by Dropbox (edit)
+
 - Generate SSL cert for www subdomain of apex domain pointed to Blot, and redirect it to apex domain. Tell [Paul](https://mail.google.com/mail/u/1/#inbox/164423db2ef130b0)
 - Implement a flags page for toggling all the settings (including hidden ones) for a given blog
 - Route requests to new dashboard if toggle is on to allow thorough testing
