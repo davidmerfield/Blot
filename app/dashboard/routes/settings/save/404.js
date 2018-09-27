@@ -4,11 +4,7 @@ module.exports = function  (req, res, next) {
   var blog = req.blog;
   var blogID = blog.id;
 
-  console.log('HERE');
-
   if (!req.body) return next();
-
-  console.log('ALSO HERE');
 
   var ignore = req.body.ignore;
   var unignore = req.body.unignore;

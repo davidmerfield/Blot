@@ -95,7 +95,7 @@ settings
   );
 
 
-settings.get('/settings/urls/redirects',load.redirects, function(req, res){
+settings.get('/settings/urls/redirects', load.redirects, function(req, res){
   res.locals.breadcrumbs.add('Redirects', 'redirects');
   res.locals.partials.subpage = "settings/redirects";  
   res.render("settings/subpage", { title: 'Redirects' });
