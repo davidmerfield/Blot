@@ -57,7 +57,7 @@ module.exports = function (text, callback) {
     // we use our own highlighint library (hljs) later
     '--no-highlight',
 
-    // such a dump default feature... sorry john!
+    // such a dumb default feature... sorry john!
     '--email-obfuscation=none'
   ]);
 
