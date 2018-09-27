@@ -74,21 +74,6 @@ Metadata bugs:
   - Let [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) know
   - Let [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
 
-
-Template bugs:
-
-  Fix bug with template editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
-
-  Fix bug with title and partials in local editing
-    - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
-    - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
-
-  Fix bug with cache not busting for static rendered templates:
-  1. put posts in blog
-  2. sync, create view e.g. static.js which renders all_entries
-  3. remove posts from blog
-  4. reload page, static.js still shows the entries, which archives.html does not
-
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags.
 - Let [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) know 
 
@@ -122,29 +107,73 @@ Allow Blot to fallback to client.read if the file does not exist on the blot ser
 
 Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
 
-Grid theme
-- Find good source of material
-- Release the theme
-
-Magazine theme
-- Fix bug with Barba.js which is not working
-- Add fade in out transitions
-- Ensure titleless blog posts work
-- Improve the about page
-- Add grey bg to loading thumbnails
-
-Portfolio theme
-- Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
-Good source for theme content: http://cinebloc.blot.im/
-
-Improve the selection of templates
-- Don't modify any code, just design templates
-- Build script to archive a particular theme
-- Nice Jekyll theme: https://github.com/broccolini/swiss
-- Draw simple abstract representations of each theme for the themes page to replace thumbnails
-- Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new templates
-
 Increase price for new customers to $30 a year. This will not affect existing customers.
+
+Themes:
+
+  Add export to zip and import to zip feature for themes
+
+  Port the jekyll theme [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
+  then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
+
+  Finish Ghost theme import for Kingi
+  https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69
+
+  Bugs:
+
+    Fix bug with theme editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
+
+    Fix bug with title and partials in local editing
+      - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
+      - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
+
+    Fix bug with cache not busting for static rendered themes:
+    1. put posts in blog
+    2. sync, create view e.g. static.js which renders all_entries
+    3. remove posts from blog
+    4. reload page, static.js still shows the entries, which archives.html does not
+
+  Grid theme
+  - Find good source of material
+  - Release the theme
+
+  Magazine theme
+  - Fix bug with Barba.js which is not working
+  - Add fade in out transitions
+  - Ensure titleless blog posts work
+  - Improve the about page
+  - Add grey bg to loading thumbnails
+
+  Portfolio theme
+  - Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
+  Good source for theme content: http://cinebloc.blot.im/
+
+  Improve the selection of themes
+  - Don't modify any code, just design themes
+  - Build script to archive a particular theme
+  - Nice Jekyll theme: https://github.com/broccolini/swiss
+  - Draw simple abstract representations of each theme for the themes page to replace thumbnails
+  - Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
+
+  System
+  - Install and test a few of these static site generators:
+  https://news.ycombinator.com/item?id=17942395
+  - Make themes file or folder based
+  - Consider making file-based theme directory a git repo and using this to implement basic undo-redo functionality. 
+  - Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32)
+  - Disable re-rendering for theme locals
+  - Add better customization options
+  - Local theme editing does not clear cache
+  - Use Hogan for precompiling and rendering themes?
+  - Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know when it's possible to set routes locally
+  - Let [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
+  - Let [Jason](https://mail.google.com/mail/u/1/#inbox/163186d43aaf52af) know when you can use tokens in routes
+  - Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
+  - Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange theme bug
+  - Warn users that underscore will not work for hidden pages
+  - Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
+  - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
+  - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
 ---
 
@@ -167,38 +196,9 @@ Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389
 Client.write does not propogate sync errors...
   to demonstrate this, revoke dropbox token then try to enable local editing.
   
-Finish Ghost theme import for Kingi
-https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69
-
 Look into mirroring site across multiple domains and follow up with Thomas
 https://mail.google.com/mail/u/1/#inbox/1625012def221a8f
 
-Add export to zip and import to zip feature for themes
-
-New code directory structure
-- app
-  - blog
-    - models
-    - controllers
-    - render
-  - panel
-    - components
-      - email
-  - site
-- clients
-- converters
-- data 
-  - cache
-  - dump
-  - blogs
-    - $ID
-      - folder
-      - templates
-      - git
-  - templates
-  - tmp
-
-- scripts
 Move to cool user subdomains
  - Pretty to proper blog IDs instead of integers
 
@@ -214,8 +214,6 @@ Developer documentation
   - Make reference page searchable
   - Add types and examples to items on reference page
   - Work how to explain the archives property
-  - Port the jekyll theme [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
-    then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
 
 Investigate static site search offerings
 - It would be nice to have one whose index you could build on 
@@ -251,7 +249,7 @@ File codecs
 - Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206)
 
 Photo posts
-- Expose exif data to templates
+- Expose exif data?
   - See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd)
   - Tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
   
@@ -265,26 +263,6 @@ Write a unified import tool which scrapes content from any blog/website
   https://github.com/hexojs/hexo-migrator-wordpress
   https://github.com/dreikanter/wp2md exporter/importer
 
-
-Template system
-- Install and test a few of these static site generators:
-https://news.ycombinator.com/item?id=17942395
-- Make templates file or folder based
-- Consider making file-based template directory a git repo and using this to implement basic undo-redo functionality. 
-- Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32)
-- Disable re-rendering for template locals
-- Add better customization options
-- Local template editing does not clear cache
-- Use Hogan for precompiling and rendering templates?
-- Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know when it's possible to set routes locally
-- Let [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
-- Let [Jason](https://mail.google.com/mail/u/1/#inbox/163186d43aaf52af) know when you can use tokens in routes
-- Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
-- Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange template bug
-- Warn users that underscore will not work for hidden pages
-- Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
-- Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
-- Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
 Make subscriptions work in such a way that deleting a blog then re-creating a blog will allow you to use it until the start of your next billing period without an additional charge. Perhaps store a user.subscription.paid_for integer? Seperate from the stripe subscription quantity?
 
@@ -525,8 +503,6 @@ Add an explanation for the folder migrator...
 Seperate the settings for blog and user & billing
 
 Implement custom CSS for syntax highlight plugin
-
-Wrap each pre tag in .hljs so other themes work too
 
 Ensure Youtube plugin still functions if apis fails
 
