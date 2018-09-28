@@ -7,7 +7,9 @@ var set = require("./set");
 var mkdir = require("./mkdir");
 
 module.exports = function(blog) {
+
   return function(path, options, callback) {
+    
     if (callback === undefined && typeof options === "function") {
       callback = options;
       options = {};
@@ -15,7 +17,8 @@ module.exports = function(blog) {
 
     function onComplete (err) {
       // we never let this error escape
-      console.log('SYNC ERROR:', err);
+      if (err) console.log('SYNC ERROR:', err);
+
       callback(null, {error: err || null});
     }
 

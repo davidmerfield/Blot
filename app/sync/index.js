@@ -25,12 +25,12 @@ function sync(blogID, main, callback) {
 
           if (retry) return sync(blogID, main, callback);
 
-          Blog.flushCache(blogID, function(err) {
-            
+          buildFromFolder(blogID, function(err){
+
             if (err) return callback(err);
-
-            buildFromFolder(blogID, function(err){
-
+  
+            Blog.flushCache(blogID, function(err) {
+              
               if (err) return callback(err);
 
               callback(syncError);
