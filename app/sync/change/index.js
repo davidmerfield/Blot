@@ -1,1 +1,8 @@
-module.exports = require('helper').dirToModule(__dirname, require);
+module.exports = function() {
+  return {
+    set: require("./set"),
+    drop: require("./drop"),
+    mkdir: require('./mkdir'),
+    rebuildDependents: require('./rebuildDependents')
+  };
+};

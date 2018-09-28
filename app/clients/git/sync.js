@@ -1,5 +1,4 @@
 var async = require("async");
-var Change = require("sync").change;
 var Sync = require("sync");
 var debug = require("debug")("clients:git:sync");
 var Git = require("simple-git");
@@ -13,7 +12,7 @@ module.exports = function sync(blog, callback) {
 };
 
 function main(blog) {
-  return function(callback) {
+  return function(change, callback) {
     debug("beginning sync");
     checkGitRepoExists(blog.id, function(err) {
       if (err) return callback(err);
@@ -106,7 +105,7 @@ function main(blog) {
                   updated,
                   function(path, next) {
                     debug("Calling set with", blog.id, path);
-                    Change.set(blog, path, function(err) {
+                    change.set(path, function(err) {
                       debug(
                         "Set returned error which we ignore",
                         blog.id,
@@ -123,7 +122,7 @@ function main(blog) {
                       deleted,
                       function(path, next) {
                         debug("Calling drop with", blog.id, path);
-                        Change.drop(blog.id, path, function(err) {
+                        change.drop(path, function(err) {
                           debug(
                             "Drop returned error which we ignore",
                             blog.id,

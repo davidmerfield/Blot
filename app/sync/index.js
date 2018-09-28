@@ -4,6 +4,7 @@ var Log = helper.logg;
 var buildFromFolder = require('../modules/template').update;
 var Blog = require('blog');
 var Lease = require('./lease');
+var Change = require('./change');
 
 var ERROR = {
   DISABLED: 'disabled their account, do not sync',
@@ -59,7 +60,13 @@ function sync (blogID, main, callback) {
       logger('Starting sync for', title);
       console.time(timer_label);
 
-      main(function(sync_err){
+      var change = new Change();
+
+      change.set = change.set.bind(this, blog);
+      change.drop = change.drop.bind(this, blog.id);
+      change.mkdir = change.mkdir.bind(this, blog.id);
+      
+      main(change, function(sync_err){
 
         console.timeEnd(timer_label);
 

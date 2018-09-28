@@ -7,7 +7,7 @@ module.exports = {
 
     debug('attempting to grab sync');
 
-    Sync(req.blog.id, function(callback){
+    Sync(req.blog.id, function(change, callback){
 
       // beware, this might be called twice...
 
