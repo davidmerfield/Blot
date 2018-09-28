@@ -1,7 +1,6 @@
 var fs = require("fs-extra");
 var helper = require("helper");
 var localPath = helper.localPath;
-var async = require("async");
 
 var drop = require("./drop");
 var set = require("./set");
@@ -14,17 +13,23 @@ module.exports = function(blog) {
       options = {};
     }
 
+    function onComplete (err) {
+      // we never let this error escape
+      console.log('SYNC ERROR:', err);
+      callback(null, {error: err || null});
+    }
+
     fs.stat(localPath(blog.id, path), function(err, stat) {
       if (err && err.code === "ENOENT") {
-        drop(blog.id, path, options, callback);
+        drop(blog.id, path, options, onComplete);
       } else if (err || !stat) {
-        callback(err || new Error("No stat from " + path));
+        onComplete(err || new Error("No stat from " + path));
       } else if (stat.isDirectory()) {
-        mkdir(blog.id, path, options, callback);
+        mkdir(blog.id, path, options, onComplete);
       } else if (stat.isFile()) {
-        set(blog, path, options, callback);
+        set(blog, path, options, onComplete);
       } else {
-        callback(new Error("Not sure what to with stat", stat));
+        onComplete(new Error("Not sure what to with stat", stat));
       }
     });
   };

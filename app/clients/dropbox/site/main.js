@@ -30,15 +30,11 @@ module.exports = function main(blogID, callback) {
 
               if (change[".tag"] === "deleted") {
                 fs.remove(local_path, function(err) {
-                  update(path, options, function(err) {
-                    next();
-                  });
+                  update(path, options, next);
                 });
               } else if (change[".tag"] === "folder") {
                 fs.ensureDir(local_path, function(err) {
-                  update(path, options, function(err) {
-                    next();
-                  });
+                  update(path, options, next);
                 });
               } else if (change[".tag"] === "file") {
                 dropbox_content_hash(local_path, function(err, existing_hash) {
@@ -57,9 +53,7 @@ module.exports = function main(blogID, callback) {
                       console.log(err);
                       return next();
                     }
-                    update(path, options, function(err){
-                      next();
-                    });
+                    update(path, options, next);
                   });
                 });
               } else {

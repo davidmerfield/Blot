@@ -99,12 +99,7 @@ function main (blog) {
                 });
 
                 // Tell Blot something has changed at these paths!
-                async.eachSeries(modified, function(path, next){
-                  update(path, function(err){
-                    // we don't want an error to stop of processing files
-                    next();
-                  });
-                }, function(err){
+                async.eachSeries(modified, update, function(err){
                   // we don't want an error to stop us processing files
                   callback();
                 });
