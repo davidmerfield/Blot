@@ -56,11 +56,7 @@ function sync(blogID, main, callback) {
       logger("Starting sync for", title);
       console.time(timer_label);
 
-      var change = new Change();
-
-      change.set = change.set.bind(this, blog);
-      change.drop = change.drop.bind(this, blog.id);
-      change.mkdir = change.mkdir.bind(this, blog.id);
+      var change = new Change(blog);
 
       main(change, function(sync_err) {
         console.timeEnd(timer_label);

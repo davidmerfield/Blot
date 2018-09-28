@@ -75,8 +75,7 @@ function main(blog) {
               function(err, res) {
                 if (err) return callback(new Error(err));
 
-                var updated = [];
-                var deleted = [];
+                var modified = [];
 
                 // If you push an empty commit then res
                 // will be null, or perhaps a commit and
@@ -87,55 +86,20 @@ function main(blog) {
                 }
 
                 res.split("\n").forEach(function(line) {
-                  if (line[0] === "A" && line[1] === "\t") {
-                    updated.push(line.slice(2));
-                  } else if (line[0] === "M" && line[1] === "\t") {
-                    updated.push(line.slice(2));
-                  } else if (line[0] === "D" && line[1] === "\t") {
-                    deleted.push(line.slice(2));
+                  // A = added, M = modified, D = deleted
+                  // Blot only needs to know about changes...
+                  if (
+                    ["A", "M", "D"].indexOf(line[0]) > -1 &&
+                    line[1] === "\t"
+                  ) {
+                    modified.push(line.slice(2));
                   } else {
                     debug("Nothing found for line:", line);
                   }
                 });
 
-                debug("Deleted:", deleted);
-                debug("Updated:", updated);
-
-                async.eachSeries(
-                  updated,
-                  function(path, next) {
-                    debug("Calling set with", blog.id, path);
-                    change.set(path, function(err) {
-                      debug(
-                        "Set returned error which we ignore",
-                        blog.id,
-                        path,
-                        err
-                      );
-                      next();
-                    });
-                  },
-                  function(err) {
-                    if (err) return callback(err);
-
-                    async.eachSeries(
-                      deleted,
-                      function(path, next) {
-                        debug("Calling drop with", blog.id, path);
-                        change.drop(path, function(err) {
-                          debug(
-                            "Drop returned error which we ignore",
-                            blog.id,
-                            path,
-                            err
-                          );
-                          next();
-                        });
-                      },
-                      callback
-                    );
-                  }
-                );
+                // Tell Blot something has changed at these paths!
+                async.eachSeries(modified, change.update, callback);
               }
             );
           });
