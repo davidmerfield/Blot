@@ -16,11 +16,6 @@ module.exports = function(){
     console.log(stat);
   });
 
-  // Allow new syncs to go through
-  Sync.release.all(function(err){
-    console.log('Reset the sync leases for all blogs...');
-  });
-
   // Warn users about impending subscriptions
   scheduleWarningEmails(function(stat){
     console.log(stat);

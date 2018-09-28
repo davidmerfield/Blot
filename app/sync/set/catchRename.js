@@ -2,8 +2,8 @@ var helper = require('helper');
 var ensure = helper.ensure;
 var async = require('async');
 var equal = require('lodash').isEqual;
-var Entries = require('../../../models/entries');
-var Entry = require('../../../models/entry');
+var Entries = require('../../models/entries');
+var Entry = require('../../models/entry');
 var get = Entry.get;
 var set = Entry.set;
 

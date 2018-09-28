@@ -13,7 +13,7 @@ module.exports = function remove(blogID, path, callback) {
 
   debug("Blog:", blogID, "Removing", path);
 
-  checkGitRepoExists(blogID, function(err){
+  checkGitRepoExists(localPath(blogID, '/'), function(err){
 
     if (err) return callback(err);
 

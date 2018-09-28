@@ -62,7 +62,7 @@ repos.on("push", function(push) {
   // seems to be purely a problem for automated use of the git client, humans
   // are unlikely to fire off multiple pushes immediately after the other.
   push.response.on("finish", function() {
-    sync(push.request.blog, function(err) {
+    sync(push.request.blog.id, function(err) {
       if (err) {
         debug(err);
       } else {

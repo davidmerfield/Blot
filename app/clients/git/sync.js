@@ -6,14 +6,17 @@ var checkGitRepoExists = require("./checkGitRepoExists");
 var UNCOMMITED_CHANGES =
   "Please commit your changes or stash them before you merge.";
 
-module.exports = function sync(blog, callback) {
-  Sync(blog.id, main(blog), callback);
-};
+module.exports = function sync(blogID, callback) {
+  // Attempt to acquire a lock on the blog's folder
+  // to apply updates to it...
+  Sync(blogID, function(err, blogDirectory, update, release){
 
-function main (blog) {
-  return function(blogDirectory, update, callback) {
+    // Typically, this error means were unable to acquire a lock
+    // on the folder, perhaps another process is syncing it...
+    if (err) return callback(err);
+
     debug("beginning sync");
-    checkGitRepoExists(blog.id, function(err) {
+    checkGitRepoExists(blogDirectory, function(err) {
       if (err) return callback(err);
 
       var git;
@@ -98,15 +101,13 @@ function main (blog) {
                 });
 
                 // Tell Blot something has changed at these paths!
-                async.eachSeries(modified, update, function(err){
-                  // we don't want an error to stop us processing files
-                  callback(null);
-                });
+                async.eachSeries(modified, update, release(callback));
               }
             );
           });
         });
       });
     });
-  };
-}
+
+  });
+};

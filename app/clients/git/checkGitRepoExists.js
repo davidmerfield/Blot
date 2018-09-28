@@ -1,18 +1,14 @@
-var helper = require("helper");
-var localPath = helper.localPath;
 var Git = require("simple-git");
 var debug = require("debug")("clients:git:checkGitRepoExists");
 var fs = require('fs-extra');
 
-module.exports = function (blogID, callback) {
+module.exports = function (blogDirectory, callback) {
 
-  var git, blogFolder;
-
-  blogFolder = localPath(blogID,'/');
+  var git;
 
   // Throws an error if folder does not exist
   try {
-    git = Git(blogFolder).silent(true);    
+    git = Git(blogDirectory).silent(true);    
   } catch (err) {
     return callback(err);
   }
@@ -38,16 +34,16 @@ module.exports = function (blogID, callback) {
     // crazy reason. This means that we need to remove the trailing
     // slash for this to work properly. In future, you should be able
     // to remove this line when localPath works properly.
-    if (blogFolder.slice(-1) === '/') blogFolder = blogFolder.slice(0, -1);
+    if (blogDirectory.slice(-1) === '/') blogDirectory = blogDirectory.slice(0, -1);
 
     debug('Comparing path to git repository and blog folder:');
     
-    if (pathToGitRepository !== blogFolder) {
+    if (pathToGitRepository !== blogDirectory) {
       
-      var message = ['Git repo does not exist in blog folder for ' + blogID,
+      var message = ['Git repo does not exist in blog folder for ' + blogDirectory,
         '- Path to git: ' + pathToGitRepository,
-        '- Blog folder: ' + blogFolder + ' exists? ' + fs.existsSync(blogFolder),
-        'Match? ' + pathToGitRepository === blogFolder, 
+        '- Blog folder: ' + blogDirectory + ' exists? ' + fs.existsSync(blogDirectory),
+        'Match? ' + pathToGitRepository === blogDirectory, 
       ];
 
       return callback(new Error(message.join('\n')));

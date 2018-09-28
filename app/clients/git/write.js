@@ -11,7 +11,7 @@ var checkGitRepoExists = require('./checkGitRepoExists');
 module.exports = function write(blogID, path, contents, callback) {
   var git;
 
-  checkGitRepoExists(blogID, function(err){
+  checkGitRepoExists(localPath(blogID, '/'), function(err){
     if (err) return callback(err);
 
     fs.outputFile(localPath(blogID, path), contents, function(err) {
