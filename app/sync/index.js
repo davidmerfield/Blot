@@ -12,8 +12,6 @@ var ERROR = {
   NO_BLOG: 'does not match any blogs in the db'
 };
 
-require('./check');
-
 // This function is called when all we know
 // is a UID and that we want Blot to sync it.
 function sync (blogID, main, callback) {
@@ -110,5 +108,7 @@ function sync (blogID, main, callback) {
     });
   });
 }
+
+sync.release = require('./release');
 
 module.exports = sync;

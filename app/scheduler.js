@@ -7,12 +7,18 @@ var schedule = require('node-schedule').scheduleJob;
 var Blog = require('./models/blog');
 var backup = require('./backup');
 var dailyUpdate = require('../scripts/info/dailyUpdate');
+var Sync = require('sync');
 
 module.exports = function(){
 
   // Bash the cache for scheduled posts
   cacheScheduler(function(stat){
     console.log(stat);
+  });
+
+  // Allow new syncs to go through
+  Sync.release.all(function(err){
+    console.log('Reset the sync leases for all blogs...');
   });
 
   // Warn users about impending subscriptions
