@@ -6,7 +6,7 @@ var crypto = require('crypto');
 var SIGNATURE = 'x-dropbox-signature';
 var sha = crypto.createHmac.bind(this, 'SHA256');
 var Database = require('../database');
-var main = require('./main');
+var sync = require('./sync');
 
 var Express = require('express');
 var site = Express.Router();
@@ -68,13 +68,7 @@ Webhook.post(function(req, res) {
         if (err) return next_account(err);
         
         // blogs can be synced in parallel
-        async.each(blogs, function(blog, next_blog){
-
-          main(blog.id, function(){});
-
-          next_blog();
-
-        }, function(){});
+        async.each(blogs, sync, function(){});
       });
 
       next_account();
