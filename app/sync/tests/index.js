@@ -8,10 +8,7 @@ describe("sync", function() {
     sync(
       this.blog.id,
       function(change, done) {
-        expect(change).toEqual(jasmine.any(Object));
-        expect(change.set).toEqual(jasmine.any(Function));
-        expect(change.drop).toEqual(jasmine.any(Function));
-        expect(change.mkdir).toEqual(jasmine.any(Function));
+        expect(change).toEqual(jasmine.any(Function));
         expect(done).toEqual(jasmine.any(Function));
 
         done();
