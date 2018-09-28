@@ -111,6 +111,4 @@ function sync (blogID, main, callback) {
   });
 }
 
-sync.reset = require('./reset');
-
 module.exports = sync;
