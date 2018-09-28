@@ -9,11 +9,18 @@ var checkGitRepoExists = require('./checkGitRepoExists');
 // temporary location so the removal can be
 // rolled back if we encounter an error
 module.exports = function remove(blogID, path, callback) {
+
   var git;
+  var blogDirectory = localPath(blogID, '/');
 
   debug("Blog:", blogID, "Removing", path);
 
-  checkGitRepoExists(localPath(blogID, '/'), function(err){
+  // Right now local path returns a path with a trailing slash
+  // eventually I would like this function to just accept
+  // blogDirectory as a first argument...
+  if (blogDirectory.slice(-1) === '/') blogDirectory = blogDirectory.slice(0, -1);
+
+  checkGitRepoExists(blogDirectory, function(err){
 
     if (err) return callback(err);
 

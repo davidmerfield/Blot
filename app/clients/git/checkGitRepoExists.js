@@ -30,12 +30,6 @@ module.exports = function (blogDirectory, callback) {
     // Has a space at the start, in my testing at least
     pathToGitRepository = pathToGitRepository.trim();
 
-    // Right now localPath returns a path with a trailing slash for some 
-    // crazy reason. This means that we need to remove the trailing
-    // slash for this to work properly. In future, you should be able
-    // to remove this line when localPath works properly.
-    if (blogDirectory.slice(-1) === '/') blogDirectory = blogDirectory.slice(0, -1);
-
     debug('Comparing path to git repository and blog folder:');
     
     if (pathToGitRepository !== blogDirectory) {

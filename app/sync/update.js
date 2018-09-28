@@ -15,6 +15,10 @@ module.exports = function(blog) {
       options = {};
     }
 
+    // Blot likes leading slashes
+    if (path[0] !== "/") path = "/" + path;
+
+
     function onComplete (err) {
       // we never let this error escape
       if (err) console.log('SYNC ERROR:', err);

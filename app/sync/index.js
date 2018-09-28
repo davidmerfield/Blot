@@ -55,7 +55,7 @@ function cleanExit() {
 }
 
 function sync (blogID, options, callback) {
-  var ttl, wait, redlock, release, resource;
+  var ttl, wait, redlock, release, resource, blogDirectory, update;
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
@@ -106,7 +106,16 @@ function sync (blogID, options, callback) {
 
         activeLocks[blogID] = active_lock;
 
-        callback(null, localPath(blogID, "/"), new Update(blog), release);
+        blogDirectory = localPath(blogID, "/");
+        update = new Update(blog);
+
+        // Right now localPath returns a path with a trailing slash for some 
+        // crazy reason. This means that we need to remove the trailing
+        // slash for this to work properly. In future, you should be able
+        // to remove this line when localPath works properly.
+        if (blogDirectory.slice(-1) === '/') blogDirectory = blogDirectory.slice(0, -1);
+            
+        callback(null, blogDirectory, update, release);
       }
     });
   });
