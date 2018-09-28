@@ -1,11 +1,17 @@
-Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug
-- File titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post
+Sync:
+- Write tests for sync
+- Move to redlock for sync lease and release
 
-Fix bug which slows down sync process:
-  https://github.com/davidmerfield/Blot/issues/15
-  Tell tim https://mail.google.com/mail/u/1/#inbox/165ed82af17884ac
-  Tell john https://mail.google.com/mail/u/1/#inbox/165ee94ba5cc448b
-  Tell Kerim https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67
+Build:
+- Run multiple workers and fix this slowness issue:
+    https://github.com/davidmerfield/Blot/issues/15
+    Tell tim https://mail.google.com/mail/u/1/#inbox/165ed82af17884ac
+    Tell john https://mail.google.com/mail/u/1/#inbox/165ee94ba5cc448b
+    Tell Kerim https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67
+
+Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug
+- File titled "_på besøg hos gomorgen danmark.jpg" which cannot be embedded in a blog post
+- Write test which fails to ensure this doesn't happen again
 
 Re-rip Stuart's instagram page and help him set up proper converter
 
