@@ -27,10 +27,10 @@ function sync (blogID, main, callback) {
   Blog.get({id: blogID}, function(err, blog){
 
     if (!blog || !blog.id)
-      return callback(blogID + ' ' + ERROR.NO_BLOG);
+      return callback(new Error(blogID + ' ' + ERROR.NO_BLOG));
 
     if (blog.isDisabled)
-      return callback(blogID + ' ' + ERROR.DISABLED);
+      return callback(new Error(blogID + ' ' + ERROR.DISABLED));
 
     // Tag all the logs for this sync process
     var log = new Log({uid: blogID, process: 'Sync'});
@@ -111,7 +111,6 @@ function sync (blogID, main, callback) {
   });
 }
 
-sync.change = require('./change');
 sync.reset = require('./reset');
 
 module.exports = sync;
