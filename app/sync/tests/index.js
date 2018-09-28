@@ -7,7 +7,8 @@ describe("sync", function() {
   it("acquires a lease for a blog", function(done) {
     sync(
       this.blog.id,
-      function(update, done) {
+      function(blogDirectory, update, done) {
+        expect(blogDirectory).toEqual(jasmine.any(String));
         expect(update).toEqual(jasmine.any(Function));
         expect(done).toEqual(jasmine.any(Function));
 
@@ -29,7 +30,7 @@ describe("sync", function() {
     var invoked = false;
     sync(
       blog.id,
-      function(update, completed) {
+      function(blogDirectory, update, completed) {
         if (invoked) return completed();
 
         invoked = true;

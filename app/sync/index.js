@@ -3,6 +3,7 @@ var async = require("async");
 var Blog = require("blog");
 var Lease = require("./lease");
 var Update = require("./update");
+var localPath = require('helper').localPath;
 
 // This function is called when all we know
 // is a UID and that we want Blot to sync it.
@@ -17,7 +18,7 @@ function sync(blogID, main, callback) {
       
       if (err) return callback(err);
 
-      main(new Update(blog), function(syncError) {
+      main(localPath(blog.id, '/'), new Update(blog), function(syncError) {
 
         Lease.release(blogID, function(err, retry) {
       

@@ -2,7 +2,6 @@ var async = require("async");
 var Sync = require("sync");
 var debug = require("debug")("clients:git:sync");
 var Git = require("simple-git");
-var localPath = require("helper").localPath;
 var checkGitRepoExists = require("./checkGitRepoExists");
 var UNCOMMITED_CHANGES =
   "Please commit your changes or stash them before you merge.";
@@ -12,7 +11,7 @@ module.exports = function sync(blog, callback) {
 };
 
 function main (blog) {
-  return function(update, callback) {
+  return function(blogDirectory, update, callback) {
     debug("beginning sync");
     checkGitRepoExists(blog.id, function(err) {
       if (err) return callback(err);
@@ -21,7 +20,7 @@ function main (blog) {
 
       // Throws an error if directory does not exist
       try {
-        git = Git(localPath(blog.id, "/")).silent(true);
+        git = Git(blogDirectory).silent(true);
       } catch (err) {
         return callback(err);
       }

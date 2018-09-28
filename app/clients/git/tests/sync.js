@@ -53,7 +53,7 @@ describe("sync", function() {
           // the git client's sync function.
           require("sync")(
             blogID,
-            function(change, _cb) {
+            function(blogDirectory, change, _cb) {
               _cb(null);
             },
             function(err) {

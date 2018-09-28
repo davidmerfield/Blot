@@ -23,7 +23,7 @@ module.exports = function (blogID, path, callback) {
         Entry.build(blog, dependent_path, function(err, updated_dependent){
 
           if (err) {
-            console.log(err);
+            console.log('Error rebuilding dependents:', path, err);
             return next();
           }
 
