@@ -11,8 +11,8 @@ module.exports = function sync(blog, callback) {
   Sync(blog.id, main(blog), callback);
 };
 
-function main(blog) {
-  return function(change, callback) {
+function main (blog) {
+  return function(update, callback) {
     debug("beginning sync");
     checkGitRepoExists(blog.id, function(err) {
       if (err) return callback(err);
@@ -99,7 +99,15 @@ function main(blog) {
                 });
 
                 // Tell Blot something has changed at these paths!
-                async.eachSeries(modified, change.update, callback);
+                async.eachSeries(modified, function(path, next){
+                  update(path, function(err){
+                    // we don't want an error to stop of processing files
+                    next();
+                  });
+                }, function(err){
+                  // we don't want an error to stop us processing files
+                  callback();
+                });
               }
             );
           });

@@ -10,10 +10,10 @@ module.exports = function(blogID, path, options, callback) {
     options = {};
   }
 
-  var queue = [fs.ensureDir.bind(this, localPath(blogID, path))];
+  var queue = [Metadata.add.bind(this, blogID, path, options.name)];
 
   if (options.name) {
-    queue.push(Metadata.add.bind(this, blogID, path, options.name));
+    queue.push();
   }
 
   async.parallel(queue, callback);

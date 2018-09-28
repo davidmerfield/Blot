@@ -5,7 +5,7 @@ var buildFromFolder = require("../modules/template").update;
 var async = require("async");
 var Blog = require("blog");
 var Lease = require("./lease");
-var Change = require("./change");
+var Update = require("./update");
 
 var ERROR = {
   DISABLED: "disabled their account, do not sync",
@@ -40,7 +40,6 @@ function sync(blogID, main, callback) {
 
     var title = blog.title + "’s folder";
     var prefix = helper.makeUid(5) + ":" + blog.id;
-    var timer_label = prefix + " Completed sync for " + title + " in";
     var logger = console.log.bind(this, prefix);
 
     logger("Trying to acquire sync lock for", title);
@@ -54,12 +53,8 @@ function sync(blogID, main, callback) {
       }
 
       logger("Starting sync for", title);
-      console.time(timer_label);
 
-      var change = new Change(blog);
-
-      main(change, function(sync_err) {
-        console.timeEnd(timer_label);
+      main(new Update(blog), function(sync_err) {
 
         Blog.flushCache(blogID, function(err) {
           if (err) return callback(err);

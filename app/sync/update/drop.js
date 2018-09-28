@@ -12,9 +12,10 @@ var Preview = require("../../modules/preview");
 var isDraft = require("../../drafts").isDraft;
 var rebuildDependents = require("./rebuildDependents");
 
-module.exports = function(blogID, path, callback) {
+module.exports = function(blogID, path, options, callback) {
   ensure(blogID, "string")
     .and(path, "string")
+    .and(options, "object")
     .and(callback, "function");
 
   // Blot likes leading slashes
@@ -26,7 +27,6 @@ module.exports = function(blogID, path, callback) {
     // ORDER IS IMPORTANT
     // Rebuild must happen after we remove the file from disk
     var queue = [
-      fs.remove.bind(this, LocalPath(blogID, path)),
       Metadata.drop.bind(this, blogID, path),
       Ignored.drop.bind(this, blogID, path),
       Rename.forDeleted.bind(this, blogID, path),
