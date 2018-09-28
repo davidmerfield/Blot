@@ -56,10 +56,11 @@ describe("sync", function() {
             function(change, _cb) {
               _cb(null);
             },
-            function(err, unavailable) {
-              if (err) return callback(err);
+            function(err) {
 
-              if (unavailable) {
+              if (err && err.code !== 'ENOTAV') return callback(err);
+
+              if (err && err.code === 'ENOTAV') {
                 setTimeout(function() {
                   wait(blogID, callback);
                 }, 1000);

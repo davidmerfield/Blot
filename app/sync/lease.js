@@ -29,19 +29,19 @@ function extend (blog_id, callback) {
   });
 }
 
-function again (blog_id, callback) {
-  client.DEL(againKey(blog_id), function(err, stat){
-    callback(err, stat === 1);
-  });
-}
+
 
 function release (blog_id, callback) {
 
   var multi = client.multi();
 
+  multi.DEL(againKey(blog_id));
   multi.SREM(activeKey, blog_id);
   multi.DEL(leaseKey(blog_id));
-  multi.exec(callback);
+  multi.exec(function(err, res){
+    // should we sync again
+    callback(err, res[0] === 1);
+  });
 }
 
 function reset (blog_id, callback) {
@@ -71,20 +71,25 @@ function request (blog_id, callback) {
     if (available) {
       multi.SADD(activeKey, blog_id);
     } else {
-      multi.SET(againKey(blog_id), true);      
+      multi.SET(againKey(blog_id), true);   
     }
 
     multi.exec(function(err){
 
       if (err) return callback(err);
-    
-      callback(null, available);
+      
+      if (available) {
+        callback(null);
+      } else {
+        err = new Error('Sync lease was not available');
+        err.code = 'ENOTAV'; // ERROR NOT AVAILABLE?
+        callback(err);
+      }
     });
   });
 }
 
 module.exports = {
-  again: again,
   active: active,
   extend: extend,
   request: request,

@@ -7,16 +7,14 @@ describe("sync", function() {
   it("acquires a lease for a blog", function(done) {
     sync(
       this.blog.id,
-      function(change, done) {
-        expect(change).toEqual(jasmine.any(Function));
+      function(update, done) {
+        expect(update).toEqual(jasmine.any(Function));
         expect(done).toEqual(jasmine.any(Function));
 
         done();
       },
-      function(err, failedToAcquireLock) {
+      function(err) {
         if (err) return done.fail(err);
-
-        expect(failedToAcquireLock).not.toEqual(true);
 
         done();
       }
@@ -31,7 +29,7 @@ describe("sync", function() {
     var invoked = false;
     sync(
       blog.id,
-      function(change, completed) {
+      function(update, completed) {
         if (invoked) return completed();
 
         invoked = true;
@@ -40,19 +38,14 @@ describe("sync", function() {
           function() {
             done.fail(new Error("Allowed multiple concurrent syncs"));
           },
-          function(err, failedToAcquireLock) {
-            if (err) return done.fail(err);
-
-            expect(failedToAcquireLock).toEqual(true);
+          function(err) {
+            expect(err.message).toContain('not available');
             completed();
           }
         );
       },
-      function(err, failedToAcquireLock) {
+      function(err) {
         if (err) return done.fail(err);
-
-        expect(failedToAcquireLock).not.toEqual(true);
-
         done();
       }
     );

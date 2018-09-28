@@ -62,7 +62,7 @@ function main (blog) {
 
             if (headAfterPull === headBeforePull) {
               debug("Warning: No changes detected to bare repository");
-              return callback();
+              return callback(null);
             }
 
             git.raw(
@@ -101,7 +101,7 @@ function main (blog) {
                 // Tell Blot something has changed at these paths!
                 async.eachSeries(modified, update, function(err){
                   // we don't want an error to stop us processing files
-                  callback();
+                  callback(null);
                 });
               }
             );
