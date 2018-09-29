@@ -24,7 +24,7 @@
         <input type="hidden" name="_csrf" value="{{csrftoken}}">
         <input type="hidden" name="to" value="{{id}}"> 
         <button type="submit" style="width:100%;padding:11px 11px 11px 0;display:flex;border:none;margin:0;background:none">
-          <span style="display:flex;flex-grow:1;"><span class="photo-holder" style="margin-top:3px"> {{#avatar}}<img src="{{avatar}}">{{/avatar}}
+          <span style="display:flex;flex-grow:1;"><span class="photo-holder" style="margin-top:3px"> {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
               {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>{{title}}{{^title}}{{pretty.url}}{{/title}}</span><span style="padding:0 20px" class="link">Open dashboard</span>
         </button>
       </form> 
