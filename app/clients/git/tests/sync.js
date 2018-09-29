@@ -18,7 +18,6 @@ describe("sync", function() {
   // the state of the blogDirectory on Blot's server
 
   beforeEach(function() {
-
     this.commitAndPush = new CommitAndPush(this.blog.id, this.git);
     this.writeAndCommit = new WriteAndCommit(this.git, this.repoDirectory);
     this.push = new Push(this.blog.id, this.git);
@@ -51,14 +50,17 @@ describe("sync", function() {
 
         // This is blot's sync function, NOT
         // the git client's sync function.
-        require("sync")(
-          blogID,
-          { retryCount: -1, retryDelay: 2000, retryJitter: 2000 },
-          function(err, folder, done) {
-            if (err) return callback(err);
-            done(null, callback);
-          }
-        );
+        // This has a race condition...
+        setTimeout(function() {
+          require("sync")(
+            blogID,
+            { retryCount: -1, retryDelay: 1000 },
+            function(err, folder, done) {
+              if (err) return callback(err);
+              done(null, callback);
+            }
+          );
+        }, 1000);
       });
     };
   }
