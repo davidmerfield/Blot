@@ -27,7 +27,7 @@ var buildFromFolder = require("../modules/template").update;
 var Blog = require("blog");
 var Update = require("./update");
 var localPath = require("helper").localPath;
-var DEFAULT_TTL = 60 * 1000; // 1m
+var DEFAULT_TTL = 10 * 60 * 1000; // 10m
 var async = require("async");
 
 // If we don't do this, the blog will not be able
