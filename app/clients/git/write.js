@@ -11,7 +11,16 @@ var checkGitRepoExists = require('./checkGitRepoExists');
 module.exports = function write(blogID, path, contents, callback) {
   var git;
 
-  checkGitRepoExists(blogID, function(err){
+  var blogDirectory = localPath(blogID, '/');
+
+  debug("Blog:", blogID, "Writing", path);
+
+  // Right now local path returns a path with a trailing slash
+  // eventually I would like this function to just accept
+  // blogDirectory as a first argument...
+  if (blogDirectory.slice(-1) === '/') blogDirectory = blogDirectory.slice(0, -1);
+
+  checkGitRepoExists(blogDirectory, function(err){
     if (err) return callback(err);
 
     fs.outputFile(localPath(blogID, path), contents, function(err) {

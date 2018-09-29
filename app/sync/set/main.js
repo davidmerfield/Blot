@@ -1,16 +1,17 @@
-var helper = require("../../../helper");
+var debug = require('debug')('blot:sync:change:set');
+var helper = require("helper");
 var normalize = helper.pathNormalizer;
 var rebuildDependents = require("../rebuildDependents");
 
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
-var Entry = require("../../../models/entry");
-var Preview = require("../../../modules/preview");
-var isPreview = require("../../../drafts").isPreview;
+var Entry = require("entry");
+var Preview = require("../../modules/preview");
+var isPreview = require("../../drafts").isPreview;
 var async = require("async");
 var catchRename = require("./catchRename").forCreated;
 
-var converters = require("../../../converters");
+var file = require("../../models/entry/build/file");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 
@@ -28,24 +29,30 @@ function isTemplate(path) {
 function isWrongType(path) {
   var isWrong = true;
 
-  converters.forEach(function(converter){
-    if (converter.is(path)) isWrong = false;
-  });
+  for (var i in file) if (file[i].is(path)) isWrong = false;
 
   return isWrong;
 }
 
-module.exports = function(blog, path, options, callback) {
+process.on('message', function(message){
+    
+  console.log('recieved message in main.js', message);
+
+  var blog = message.blog;
+  var path = message.path;
+  var options = message.options;
+  var callback = function(err){
+    var response = {err: err, identifier: message.identifier};
+    console.log('sending message from main.js', response);
+    process.send(response);
+  };
+
   var queue, is_preview;
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
     options = {};
   }
-
-  // Blot likes leading slashes
-  if (path[0] !== "/") path = "/" + path;
-
 
   queue = {
     is_preview: isPreview.bind(this, blog.id, path),
@@ -78,12 +85,18 @@ module.exports = function(blog, path, options, callback) {
     // a type that Blot can process properly.
     if (isWrongType(path)) return Ignore(blog.id, path, WRONG_TYPE, callback);
 
+    debug('Blog:', blog.id, path, ' beginning to build');
+
     Entry.build(blog, path, function(err, entry) {
+  
+      debug('Blog:', blog.id, path, ' build complete');
+    
       if (err) return callback(err);
 
       // this checks the entry to see if a deleted entry
       // matches it. If so, then use the deleted entry's url and created date.
       catchRename(blog.id, entry, function(err, changes) {
+
         if (err) return callback(err);
 
         if (changes) for (var key in changes) entry[key] = changes[key];
@@ -97,4 +110,4 @@ module.exports = function(blog, path, options, callback) {
       });
     });
   });
-};
+});
