@@ -49,7 +49,36 @@ dashboard.post("/disconnect", function(req, res, next) {
 
 site.use("/end/:gitHandle.git", authenticate);
 
+// We keep a dictionary of synced blogs for testing 
+// purposes. There isn't an easy way to determine
+// after pushing whether or not Blot has completed the
+// sync of the blog's folder. This is because I can't
+// work out how to do something asynchronous after we've
+// accepted a push but before we've sent the response. 
+var activeSyncs = {};
+
+function started (blogID) {
+  if (activeSyncs[blogID] === undefined) activeSyncs[blogID] = 0;
+  activeSyncs[blogID]++;
+}
+
+function finished (blogID) {
+  activeSyncs[blogID]--;
+}
+
+function finishedAllSyncs(blogID) {
+  return activeSyncs[blogID] === 0;
+}
+
+// Used for testing purposes only to determine when a sync has finished
+// Redlock means we can't reliably determine this just by calling
+// Blot.sync();
+site.get("/syncs-finished/:blogID", function(req, res){
+  res.send(finishedAllSyncs(req.params.blogID));    
+});
+
 repos.on("push", function(push) {
+  
   push.accept();
 
   // This might cause an interesting race condition. It happened for me during
@@ -63,18 +92,13 @@ repos.on("push", function(push) {
   // are unlikely to fire off multiple pushes immediately after the other.
   push.response.on("finish", function() {
 
-    // Used for testing purposes
-
-    if (syncing[push.request.blog.id] === undefined) {
-      syncing[push.request.blog.id] = 0;
-    }
-
-    syncing[push.request.blog.id]++;
-
+    // Used for testing purposes only
+    started(push.request.blog.id);
+    
     sync(push.request.blog.id, function(err) {
 
-      // Used for testing purposes
-      syncing[push.request.blog.id]--;
+      // Used for testing purposes only
+      finished(push.request.blog.id);
 
       if (err) {
         debug(err);
@@ -84,21 +108,6 @@ repos.on("push", function(push) {
     });
   });
 });
-
-
-// Used for testing purposes
-var syncing = {};
-
-// Used for testing to determine end of sync
-site.get("/syncing/:blogID", function(req, res){
-
-  if (syncing[req.params.blogID] === 0) {
-    res.sendStatus(200);    
-  } else {
-    res.sendStatus(404);    
-  }
-});
-
 
 // We need to pause then resume for some
 // strange reason. Read pushover's issue #30

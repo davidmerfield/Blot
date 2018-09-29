@@ -53,15 +53,22 @@ describe("sync", function() {
           protocol: "http",
           hostname: "localhost",
           port: port,
-          pathname: "/clients/git/syncing/" + blogID
+          pathname: "/clients/git/syncs-finished/" + blogID
         });
 
-        http.get(url, function then (res) {
-          if (res.statusCode === 404) {
-            setTimeout(http.get.bind(this, url, then), 200);
-          } else {
-            callback(null);
-          }
+        http.get(url, function check (res){
+          var response = '';
+          res.setEncoding('utf8');
+          res.on('data', function(chunk){
+            response +=chunk;
+          });
+          res.on('end', function(){
+            if (response === 'true') {
+              callback(null);
+            } else {
+              http.get(url, check);
+            }
+          });
         });
       });
     };
