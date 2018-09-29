@@ -164,7 +164,6 @@ function handleFromTitle(title) {
 }
 
 function saveBlog(req, res, next) {
-  console.log(req.body);
 
   var title, handle;
 
