@@ -18,13 +18,14 @@ describe("sync", function() {
   // the state of the blogDirectory on Blot's server
 
   beforeEach(function() {
-    this.commitAndPush = new CommitAndPush(this.blog.id, this.git);
+    this.commitAndPush = new CommitAndPush(this.blog.id, this.git, this.server.port);
     this.writeAndCommit = new WriteAndCommit(this.git, this.repoDirectory);
-    this.push = new Push(this.blog.id, this.git);
+    this.push = new Push(this.blog.id, this.git, this.server.port);
     this.writeAndPush = new WriteAndPush(
       this.blog.id,
       this.git,
-      this.repoDirectory
+      this.repoDirectory,
+      this.server.port
     );
   });
 
@@ -40,27 +41,28 @@ describe("sync", function() {
     );
   });
 
-  function Push(blogID, git) {
+  function Push(blogID, git, port) {
     return function(callback) {
       git.push(function(err) {
         if (err) return callback(new Error(err));
 
         // how do we work out when the sync has finished?
         // in a serious way? without some some settimeout?
+        var http = require("http");
+        var url = require("url").format({
+          protocol: "http",
+          hostname: "localhost",
+          port: port,
+          pathname: "/clients/git/syncing/" + blogID
+        });
 
-        // This is blot's sync function, NOT
-        // the git client's sync function.
-        // This has a race condition...
-        setTimeout(function() {
-          require("sync")(
-            blogID,
-            { retryCount: -1, retryDelay: 1000 },
-            function(err, folder, done) {
-              if (err) return callback(err);
-              done(null, callback);
-            }
-          );
-        }, 1000);
+        http.get(url, function then (res) {
+          if (res.statusCode === 404) {
+            setTimeout(http.get.bind(this, url, then), 200);
+          } else {
+            callback(null);
+          }
+        });
       });
     };
   }
@@ -85,8 +87,8 @@ describe("sync", function() {
     };
   }
 
-  function CommitAndPush(blogID, git) {
-    var push = new Push(blogID, git);
+  function CommitAndPush(blogID, git, port) {
+    var push = new Push(blogID, git, port);
 
     return function(callback) {
       git.add(".", function(err) {
@@ -103,9 +105,9 @@ describe("sync", function() {
 
   // Write file to user's clone of the blog's git repo, then
   // push changes to the server, wait for sync to finish.
-  function WriteAndPush(blogID, git, repoDirectory) {
+  function WriteAndPush(blogID, git, repoDirectory, port) {
     var writeAndCommit = new WriteAndCommit(git, repoDirectory);
-    var push = new Push(blogID, git);
+    var push = new Push(blogID, git, port);
 
     return function(path, content, callback) {
       writeAndCommit(path, content, function(err) {

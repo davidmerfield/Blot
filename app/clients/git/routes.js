@@ -62,7 +62,20 @@ repos.on("push", function(push) {
   // seems to be purely a problem for automated use of the git client, humans
   // are unlikely to fire off multiple pushes immediately after the other.
   push.response.on("finish", function() {
+
+    // Used for testing purposes
+
+    if (syncing[push.request.blog.id] === undefined) {
+      syncing[push.request.blog.id] = 0;
+    }
+
+    syncing[push.request.blog.id]++;
+
     sync(push.request.blog.id, function(err) {
+
+      // Used for testing purposes
+      syncing[push.request.blog.id]--;
+
       if (err) {
         debug(err);
       } else {
@@ -71,6 +84,21 @@ repos.on("push", function(push) {
     });
   });
 });
+
+
+// Used for testing purposes
+var syncing = {};
+
+// Used for testing to determine end of sync
+site.get("/syncing/:blogID", function(req, res){
+
+  if (syncing[req.params.blogID] === 0) {
+    res.sendStatus(200);    
+  } else {
+    res.sendStatus(404);    
+  }
+});
+
 
 // We need to pause then resume for some
 // strange reason. Read pushover's issue #30
