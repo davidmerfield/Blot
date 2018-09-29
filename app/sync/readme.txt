@@ -1,4 +1,18 @@
-# Sync strategy
+Sync
+----
+
+The purpose of this module is to ensure that only one process makes changes to a blog's folder at a single time.
+
+
+To do
+-----
+
+* Expose extend option for long syncs...
+* Think about removing the onerous done(err, callback) argument requirements –> can we pass in a callback?
+* Test error handling more thoroughly
+* What happens to the lock if an exception is thrown mid sync?
+
+
 
 // handle renames without a load of tedious calls to Dropbox
 
