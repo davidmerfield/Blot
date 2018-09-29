@@ -7,7 +7,6 @@ describe("sync", function() {
 
   var LONG_TIMEOUT = 20 * 1000; // 20s
 
-  var CheckEntry = global.test.CheckEntry;
   var fs = require("fs-extra");
   var async = require("async");
   var sync = require("../sync");
@@ -19,7 +18,6 @@ describe("sync", function() {
   // the state of the blogDirectory on Blot's server
 
   beforeEach(function() {
-    this.checkEntry = new CheckEntry(this.blog.id);
 
     this.commitAndPush = new CommitAndPush(this.blog.id, this.git);
     this.writeAndCommit = new WriteAndCommit(this.git, this.repoDirectory);
@@ -48,12 +46,19 @@ describe("sync", function() {
       git.push(function(err) {
         if (err) return callback(new Error(err));
 
+        // how do we work out when the sync has finished?
+        // in a serious way? without some some settimeout?
+
         // This is blot's sync function, NOT
         // the git client's sync function.
-        require("sync")(blogID, {retryCount: -1, retryDelay:  2000, retryJitter:  2000}, function(err, folder, done) {
-          if (err) return callback(err);
-          done(null, callback);
-        });
+        require("sync")(
+          blogID,
+          { retryCount: -1, retryDelay: 2000, retryJitter: 2000 },
+          function(err, folder, done) {
+            if (err) return callback(err);
+            done(null, callback);
+          }
+        );
       });
     };
   }
@@ -123,16 +128,11 @@ describe("sync", function() {
     function(done) {
       var path = this.fake.path(".txt");
       var content = this.fake.file();
-      var checkEntry = this.checkEntry;
 
       this.writeAndPush(path, content, function(err) {
         if (err) return done.fail(err);
 
-        checkEntry({ path: path }, function(err) {
-          if (err) return done.fail(err);
-
-          done();
-        });
+        done();
       });
     },
     LONG_TIMEOUT
@@ -141,7 +141,6 @@ describe("sync", function() {
   it(
     "syncs updates to a file",
     function(done) {
-      var checkEntry = this.checkEntry;
       var writeAndPush = this.writeAndPush;
 
       var path = this.fake.path(".txt");
@@ -155,17 +154,10 @@ describe("sync", function() {
       writeAndPush(path, content, function(err) {
         if (err) return done.fail(err);
 
-        checkEntry({ path: path, title: title }, function(err) {
+        writeAndPush(path, changedContent, function(err) {
           if (err) return done.fail(err);
 
-          writeAndPush(path, changedContent, function(err) {
-            if (err) return done.fail(err);
-
-            checkEntry({ path: path, title: changedTitle }, function(err) {
-              if (err) return done.fail(err);
-              done();
-            });
-          });
+          done();
         });
       });
     },
@@ -229,7 +221,6 @@ describe("sync", function() {
     "syncs the changes of multiple commits pushed at once",
     function(done) {
       var writeAndCommit = this.writeAndCommit;
-      var checkEntry = this.checkEntry;
       var push = this.push;
 
       var files = {};
@@ -248,13 +239,7 @@ describe("sync", function() {
           push(function(err) {
             if (err) return done.fail(err);
 
-            async.eachOf(
-              files,
-              function(content, path, next) {
-                checkEntry({ path: path }, next);
-              },
-              done
-            );
+            done();
           });
         }
       );
