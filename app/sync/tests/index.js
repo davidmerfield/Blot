@@ -4,43 +4,33 @@ describe("sync", function() {
   // Set up a test blog before each test
   global.test.blog();
 
-  it("acquires a lease for a blog", function(done) {
-    sync(this.blog.id, function(err, blogDirectory, update, release) {
-      if (err) return done.fail(err);
+  it("acquires a lease for a blog", function(testDone) {
+    sync(this.blog.id, function(err, folder, done) {
+      if (err) return testDone.fail(err);
 
-      expect(blogDirectory).toEqual(jasmine.any(String));
-      expect(update).toEqual(jasmine.any(Function));
-      expect(release).toEqual(jasmine.any(Function));
+      expect(folder.path).toEqual(jasmine.any(String));
+      expect(folder.update).toEqual(jasmine.any(Function));
+      expect(done).toEqual(jasmine.any(Function));
 
-      release(function(err, retry) {
-        if (err) return done.fail(err);
-
-        expect(retry).toEqual(false);
-        done();
-      });
+      done(null, testDone);
     });
   });
 
-  it("will only allow one sync at once", function(done) {
+  it("will only allow one sync at once", function(testDone) {
     var blog = this.blog;
 
-    sync(blog.id, function(err, blogDirectory, update, release) {
-      if (err) return done.fail(err);
+    sync(blog.id, function(err, folder, done) {
+      if (err) return testDone.fail(err);
 
       sync(blog.id, function(err) {
         expect(err.message).toContain("lock the resource");
 
-        release(function(err, retry) {
-          if (err) return done.fail(err);
-
-          expect(retry).toEqual(true);
-          done();
-        });
+        done(null, testDone);
       });
     });
   });
 
-  it("will release locks when the process dies", function(done) {
+  it("will release a lock when the process dies", function(testDone) {
     var child = require("child_process").fork(__dirname + "/kill");
     var blog = this.blog;
 
@@ -49,7 +39,7 @@ describe("sync", function() {
     // Find out if the child managed to acquire a lock on this blog
     child.on("message", function(message) {
       if (message.error) {
-        done.fail(message.error);
+        testDone.fail(message.error);
       } else {
         child.kill();
       }
@@ -58,31 +48,26 @@ describe("sync", function() {
     // Did sync release the child's lock on the blog when the child
     // died (was killed)? We test this by trying to acquire a lock.
     child.on("close", function() {
-      sync(blog.id, function(err, blogDirectory, update, release) {
-        if (err) return done.fail(err);
-        release(done);
+      sync(blog.id, function(err, folder, done) {
+        if (err) return testDone.fail(err);
+        done(null, testDone);
       });
     });
   });
 
-  it("will allow you to sync, release and re-sync", function(done) {
+  it("will allow you to sync, release and re-sync", function(testDone) {
     var blog = this.blog;
 
-    sync(blog.id, function(err, blogDirectory, update, release) {
-      if (err) return done.fail(err);
+    sync(blog.id, function(err, folder, done) {
+      if (err) return testDone.fail(err);
 
-      release(function(err, retry) {
-        if (err) return done.fail(err);
-        expect(retry).toEqual(false);
+      done(null, function(err) {
+        if (err) return testDone.fail(err);
 
-        sync(blog.id, function(err, blogDirectory, update, release) {
-          if (err) return done.fail(err);
+        sync(blog.id, function(err, folder, done) {
+          if (err) return testDone.fail(err);
 
-          release(function(err, retry) {
-            if (err) return done.fail(err);
-            expect(retry).toEqual(false);
-            done();
-          });
+          done(null, testDone);
         });
       });
     });

@@ -2,6 +2,7 @@ var Jasmine = require("jasmine");
 var jasmine = new Jasmine();
 var colors = require("colors");
 var seedrandom = require("seedrandom");
+var async = require("async");
 var seed;
 var config = {
   spec_dir: "",
@@ -61,6 +62,41 @@ global.test = {
   compareDir: require("./util/compareDir"),
 
   fake: require("./util/fake"),
+
+  blogs: function(total) {
+    beforeEach(require("./util/createUser"));
+    afterEach(require("./util/removeUser"));
+
+    beforeEach(function(done) {
+      var context = this;
+      context.blogs = [];
+      async.times(
+        total,
+        function(blog, next) {
+          var result = { user: context.user };
+          require("./util/createBlog").call(result, function() {
+            context.blogs.push(result.blog);
+            next();
+          });
+        },
+        done
+      );
+    });
+
+    afterEach(function(done) {
+      var context = this;
+      async.each(
+        this.blogs,
+        function(blog, next) {
+          require("./util/removeBlog").call(
+            { user: context.user, blog: blog },
+            next
+          );
+        },
+        done
+      );
+    });
+  },
 
   blog: function() {
     beforeEach(require("./util/createUser"));

@@ -14,11 +14,15 @@ module.exports = function main (blog, callback) {
   Database.get(blog.id, function(err, account) {
     if (err) return callback(err);
 
-    Sync(blog.id, function(err, blogDirectory, update, release) {
+  // redlock options to ensure we acquire a lock eventually...
+    Sync(blog.id, {retryCount: -1, retryDelay:  200, retryJitter:  200}, function(err, folder, done) {
+
+      if (err) return callback(err);
+
       debug("Retrieving changes from Dropbox...");
 
       delta(blog.id, account, function handle(err, changes, more, account) {
-        if (err) return callback(err);
+        if (err) return done(err, callback);
 
         debug("Retrieved changes", changes);
 
@@ -38,12 +42,12 @@ module.exports = function main (blog, callback) {
 
         function remove(item, callback) {
           debug("Removing", item.path);
-          fs.remove(join(blogDirectory, item.path), callback);
+          fs.remove(join(folder.path, item.path), callback);
         }
 
         function mkdir(item, callback) {
           debug("Mkdiring", item.path);
-          fs.ensureDir(join(blogDirectory, item.path), callback);
+          fs.ensureDir(join(folder.path, item.path), callback);
         }
 
         // Item.path_lower is the full path to the item
@@ -55,7 +59,7 @@ module.exports = function main (blog, callback) {
           Download(
             client,
             item.path_lower,
-            join(blogDirectory, item.path),
+            join(folder.path, item.path),
             callback
           );
         }
@@ -71,23 +75,23 @@ module.exports = function main (blog, callback) {
             async.apply(async.eachLimit, files, 20, download)
           ],
           function(err) {
-            if (err) return callback(err);
+            if (err) return done(err, callback);
 
             async.each(
               changes,
               function(item, next) {
                 debug("Updating on Blot:", item.path);
-                update(item.path, { name: item.name }, next);
+                folder.update(item.path, { name: item.name }, next);
               },
               function(err) {
-                if (err) return callback(err);
+                if (err) return done(err, callback);
 
                 if (more) return delta(blog.id, account, handle);
 
                 debug("Storing latest greatest version of account...", account);
 
                 Database.set(blog.id, account, function(err) {
-                  if (err) return callback(err);
+                  if (err) return done(err, callback);
 
                   // We save the state before dealing with the changes
                   // to avoid an infinite loop if one of these changes
@@ -100,15 +104,7 @@ module.exports = function main (blog, callback) {
                   // be split across two pages of file events.
 
                   debug("Finished sync!");
-                  release(function(err, retry){
-
-                    // we recieved a webhook during sync
-                    if (retry) {
-                      return main(blog, callback);
-                    }
-
-                    callback();
-                  });
+                  done(null, callback);
                 });
               }
             );

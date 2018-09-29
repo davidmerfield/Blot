@@ -8,32 +8,32 @@ var UNCOMMITED_CHANGES =
 
 module.exports = function sync(blogID, callback) {
   // Attempt to acquire a lock on the blog's folder
-  // to apply updates to it...
-  Sync(blogID, function(err, blogDirectory, update, release){
-
+  // to apply updates to it... These options are
+  // redlock options to ensure we acquire a lock eventually...
+  Sync(blogID, {retryCount: -1, retryDelay:  200, retryJitter:  200}, function(err, folder, done) {
     // Typically, this error means were unable to acquire a lock
     // on the folder, perhaps another process is syncing it...
     if (err) return callback(err);
 
     debug("beginning sync");
-    checkGitRepoExists(blogDirectory, function(err) {
-      if (err) return callback(err);
+    checkGitRepoExists(folder.path, function(err) {
+      if (err) return done(err, callback);
 
       var git;
 
       // Throws an error if directory does not exist
       try {
-        git = Git(blogDirectory).silent(true);
+        git = Git(folder.path).silent(true);
       } catch (err) {
-        return callback(err);
+        return done(err, callback);
       }
 
       debug("fetching latest commit hash");
       git.raw(["rev-parse", "HEAD"], function(err, headBeforePull) {
-        if (err) return callback(new Error(err));
+        if (err) return done(new Error(err), callback);
 
         if (!headBeforePull)
-          return callback(new Error("No commit on repository"));
+          return done(new Error("No commit on repository"), callback);
 
         // Remove whitespace from stdout
         headBeforePull = headBeforePull.trim();
@@ -47,24 +47,24 @@ module.exports = function sync(blogID, callback) {
             debug("Uncommitted changes error:", err);
             debug("Calling git reset hard now:");
             return git.reset("hard", function(err) {
-              if (err) return callback(new Error(err));
+              if (err) return done(new Error(err), callback);
 
               debug("Reset succeeded, retrying pull...");
               git.pull(handlePull);
             });
           }
 
-          if (err) return callback(new Error(err));
+          if (err) return done(new Error(err), callback);
 
           git.raw(["rev-parse", "HEAD"], function(err, headAfterPull) {
-            if (err) return callback(new Error(err));
+            if (err) return done(new Error(err), callback);
 
             // Remove whitespace from stdout
             headAfterPull = headAfterPull.trim();
 
             if (headAfterPull === headBeforePull) {
               debug("Warning: No changes detected to bare repository");
-              return callback(null);
+              return done(null, callback);
             }
 
             git.raw(
@@ -75,7 +75,7 @@ module.exports = function sync(blogID, callback) {
                 headBeforePull + ".." + headAfterPull
               ],
               function(err, res) {
-                if (err) return callback(new Error(err));
+                if (err) return done(new Error(err), callback);
 
                 var modified = [];
 
@@ -84,7 +84,7 @@ module.exports = function sync(blogID, callback) {
                 // then a subsequent commit which reverts
                 // the previous commit.
                 if (res === null) {
-                  return callback(null);
+                  return done(null, callback);
                 }
 
                 res.split("\n").forEach(function(line) {
@@ -100,21 +100,21 @@ module.exports = function sync(blogID, callback) {
                   }
                 });
 
+                debug("Passing modifications to Blot:", modified);
+
                 // Tell Blot something has changed at these paths!
-                async.eachSeries(modified, update, release(function(err, retry){
+                async.eachSeries(modified, folder.update, function(err) {
+                  debug(
+                    "Processed all modifications! Release lock on folder..."
+                  );
 
-                  // Need to re-pull, probably recieved another push during this sync
-                  if (retry) return  sync(blogID, callback);
-
-                  // Sync complete
-                  callback();
-                }));
+                  done(null, callback);
+                });
               }
             );
           });
         });
       });
     });
-
   });
 };

@@ -51,21 +51,10 @@ describe("sync", function() {
         (function wait(blogID, callback) {
           // This is blot's sync function, NOT
           // the git client's sync function.
-          require("sync")(blogID, function(
-            err,
-            blogDirectory,
-            change,
-            release
-          ) {
-            if (err && err.message.indexOf('Exceeded') === -1) return callback(err);
+          require("sync")(blogID, function(err, folder, done) {
+            if (err) return wait(blogID, callback);
 
-            if (err && err.message.indexOf('Exceeded') > -1) {
-              setTimeout(function() {
-                wait(blogID, callback);
-              }, 1000);
-            } else {
-              release(callback);
-            }
+            done(null, callback);
           });
         })(blogID, callback);
       });
