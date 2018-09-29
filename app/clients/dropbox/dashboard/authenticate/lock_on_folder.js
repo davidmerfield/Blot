@@ -7,26 +7,19 @@ module.exports = {
 
     debug('attempting to grab sync');
 
-    Sync(req.blog.id, function(change, callback){
+    Sync(req.blog.id, function(err, folder, done){
 
-      // beware, this might be called twice...
+      if (err) return next(err);
 
       debug('main function invoked');
-      req.on_complete = callback;
+      req.on_complete = done;
       next();
-
-    }, function(){
-
-      debug('Sync released properly!');
-
     });
-
   },
 
   release: function (req, res, next) {
     
     debug('Calling sync on_complete!');
-    req.on_complete();
-    next();
+    req.on_complete(null, next);
   }
 };
