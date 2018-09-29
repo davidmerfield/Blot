@@ -62,21 +62,6 @@
 {{/blog.avatar}}
   </a>
   
-  
-  <a class="line" href="/settings/menu">
-    <span class="label">Menu</span>
-    <span class="center">
-      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
-
-    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
-    </span>
-    <span class="right" style="padding-left:0">Edit</span>
-  </a>
-
-
-  
-
-
 
    <a class="line" href="/settings/date">
     <span class="label">Dates</span>
@@ -94,20 +79,12 @@
     <span class="right">Edit</span>
   </a>
 
-  <a class="line" href="/settings/services">
-    <span class="label">Services</span>
-    <span class="link">Configure analytics and other services
-</span>
 
-  </a>
-
-{{#client}}
-<a class="line" href="/settings/client/{{name}}">
+<a class="line" href="/settings/client/{{name}}" style="border-bottom:none">
     <span class="label">Client</span>
-    <span class="center">{{display_name}}</span>
+    <span class="center">{{client.display_name}}</span>
     <span class="right">Edit</span>
   </a>
-  {{/client}}
 
   
 
