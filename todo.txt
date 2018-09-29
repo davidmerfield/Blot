@@ -185,6 +185,14 @@ Implement LE wildcart SSL certificate support
 Self-hosting documentation
 - Tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)
 
+Move to Linode
+- Preserve AWS elastic IP and proxy to Linode
+- Think about eventual multiple locations around the world from day 1
+- https://www.linode.com/pricing
+- Use this for storing all users' folders https://www.linode.com/blockstorage
+- https://www.linode.com/backups
+- https://www.linode.com/nodebalancers
+
 Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally?
   - More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
 
@@ -400,12 +408,6 @@ Backups
 - Delete backups older than a month from s3 automatically
 
 Add daemon for zero-downtime node restart
-
-Reliability
-- Set up AWS autorecovery
-- Test with instance reboot on live site
-- Test monit with nginx going down
-- Test monit with blot going down
 
 Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 - lowercase: acemnorsuvwxz ?
