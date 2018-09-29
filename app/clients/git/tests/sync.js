@@ -48,15 +48,12 @@ describe("sync", function() {
       git.push(function(err) {
         if (err) return callback(new Error(err));
 
-        (function wait(blogID, callback) {
-          // This is blot's sync function, NOT
-          // the git client's sync function.
-          require("sync")(blogID, function(err, folder, done) {
-            if (err) return wait(blogID, callback);
-
-            done(null, callback);
-          });
-        })(blogID, callback);
+        // This is blot's sync function, NOT
+        // the git client's sync function.
+        require("sync")(blogID, {retryCount: -1, retryDelay:  2000, retryJitter:  2000}, function(err, folder, done) {
+          if (err) return callback(err);
+          done(null, callback);
+        });
       });
     };
   }

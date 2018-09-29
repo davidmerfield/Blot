@@ -15,7 +15,7 @@ module.exports = function main (blog, callback) {
     if (err) return callback(err);
 
   // redlock options to ensure we acquire a lock eventually...
-    Sync(blog.id, {retryCount: -1, retryDelay:  200, retryJitter:  200}, function(err, folder, done) {
+    Sync(blog.id, {retryCount: -1, retryDelay:  10, retryJitter:  10}, function(err, folder, done) {
 
       if (err) return callback(err);
 
