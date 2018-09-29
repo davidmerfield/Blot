@@ -1,6 +1,6 @@
 var helper = require("helper");
 var normalize = helper.pathNormalizer;
-var rebuildDependents = require("../rebuildDependents");
+var rebuildDependents = require("./rebuildDependents");
 
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
