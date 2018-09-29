@@ -1,74 +1,62 @@
-/* 
-
-// This function lets you acquire a lock on a blog's folder
-// This prevents buggy behaviour when making changes.
-
-sync(blogID, [options], function(err, folder, done){
-    
-  // if err, you could not acquire lock on folder
-
-  folder.path = /var/blogs/blogID
-
-  folder.update(path, function(){
-  
-  });
-  
-  // call done to release lock on folder
-  done(err, callback);
-});
-
-It takes advantage of Blot's database and an implementation of
-the redlock algorithm by Mike Marcacci https://redis.io/topics/distlock
-*/
-
 var client = require("client");
 var Redlock = require("redlock");
 var buildFromFolder = require("../modules/template").update;
 var Blog = require("blog");
 var Update = require("./update");
 var localPath = require("helper").localPath;
-var DEFAULT_TTL = 10 * 60 * 1000; // 10m
 var async = require("async");
 
-// If we don't do this, the blog will not be able
-// to sync until the TTL above expires.
-process.on("SIGINT", unlock); // catch ctrl-c
-process.on("SIGTERM", unlock); // catch kill
+// By default, we give a sync process up to
+// 10 minutes to compete before we allow other
+// attempts to modify the folder to succeed.
+var DEFAULT_TTL = 10 * 60 * 1000;
 
 // Store reference to locks created by this process
+// If we don't do this, the blog will not be able
+// to sync until the TTL above expires.
 var locks = {};
 
-function unlock() {
+process.on("SIGINT", unlockAll); // catch ctrl-c
+process.on("SIGTERM", unlockAll); // catch kill
+process.on("uncaughtException", unlockAll); // catch runtime error
+
+function unlockAll(err) {
+  
+  var exitCode = 0;
+
+  console.log("Unlocking all locks...");
+  
   async.eachOf(
     locks,
     function(lock, blogID, next) {
-      console.log(blogID, "Releasing lock...");
+      console.log("Unlocking", blogID, "...");
       lock.unlock(next);
     },
     function() {
-      process.exit();
+
+    if (err) {
+      console.error(err);
+      exitCode = 1;
+    }
+
+
+      process.exit(exitCode);
     }
   );
 }
 
 function sync(blogID, options, callback) {
-  var redlock, resource;
+  var redlock, resource, ttl, folder;
 
   if (typeof options === "function" && typeof callback === "undefined") {
     callback = options;
     options = {};
   }
-
+  ttl = options.ttl || DEFAULT_TTL;
   options = options || {};
 
   resource = "blog:" + blogID + ":lock";
 
-  // Wait means that we will give so many retries to acquire a lock
-  // before returning an error. This number of retries is about 10s
-  // worth and is enough that we might expect a user watching a spinner
-  // to wait. This feature is used on the dashboard when modifying a client
-  // settings. We'll wait to acquire a lock in that context rather than
-  // immediately throwing an error, as we would during a folder sync.
   redlock = new Redlock([client], {
     // the expected clock drift; for more details
     // see http://redis.io/topics/distlock
@@ -87,22 +75,19 @@ function sync(blogID, options, callback) {
     retryJitter: options.driftFactor || 200 // time in ms
   });
 
-  var folder, done;
-
   Blog.get({ id: blogID }, function(err, blog) {
     // It would be nice to get an error from Blog.get instead of this...
     if (err || !blog || !blog.id || blog.isDisabled) {
       return callback(new Error("Cannot sync blog " + blogID));
     }
 
-    redlock.lock(resource, options.ttl || DEFAULT_TTL, function(err, active_lock) {
+    redlock.lock(resource, ttl, function(err, lock) {
       // We failed to acquire a lock on the resource
       if (err) return callback(err);
 
-      // We acquired a lock on the resource!
-      // This function is to be called when we are finished
-      // with the lock on the user's folder.
-      done = new Done(blogID, active_lock);
+      // Store list of locks created by this process
+      // so if it dies, we can unlock them all...
+      locks[blogID] = lock;
 
       folder = {
         path: localPath(blogID, "/"),
@@ -115,44 +100,37 @@ function sync(blogID, options, callback) {
       // to remove this line when localPath works properly.
       if (folder.path.slice(-1) === "/") folder.path = folder.path.slice(0, -1);
 
-      callback(null, folder, done);
-    });
-  });
-}
+      // We acquired a lock on the resource!
+      // This function is to be called when we are finished
+      // with the lock on the user's folder.
+      callback(null, folder, function(syncError, callback) {
+        if (typeof syncError === "function")
+          throw new Error("Pass an error or null as first argument to done");
 
-function Done(blogID, lock) {
-  // Store list of locks created by this process
-  // so if it dies, we can unlock them all...
-  locks[blogID] = lock;
+        if (typeof callback !== "function")
+          throw new Error("Pass a callback to done");
 
-  return function(syncError, callback) {
-    if (typeof syncError === "function")
-      throw new Error("Pass an error or null as first argument to done");
-
-    if (typeof callback !== "function")
-      throw new Error("Pass a callback to done");
-
-    // We could do these next two things in parallel
-    // but it's a little bit of refactoring...
-    lock.unlock(function(err) {
-      // We no longer need to unlock if the process dies...
-      delete locks[blogID];
-
-      // we weren 't able to reach redis; your lock will eventually
-      // expire, but you probably want to log this error
-      if (err) return callback(err);
-
-      buildFromFolder(blogID, function(err) {
-        if (err) return callback(err);
-
-        Blog.flushCache(blogID, function(err) {
+        // We could do these next two things in parallel
+        // but it's a little bit of refactoring...
+        lock.unlock(function(err) {
           if (err) return callback(err);
 
-          callback(syncError);
+          // We no longer need to unlock if the process dies...
+          delete locks[blogID];
+
+          buildFromFolder(blogID, function(err) {
+            if (err) return callback(err);
+
+            Blog.flushCache(blogID, function(err) {
+              if (err) return callback(err);
+
+              callback(syncError);
+            });
+          });
         });
       });
     });
-  };
+  });
 }
 
 module.exports = sync;
