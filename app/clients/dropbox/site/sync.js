@@ -8,110 +8,113 @@ var fs = require("fs-extra");
 var join = require("path").join;
 var debug = require("debug")("clients:dropbox:sync");
 
-module.exports = function main(blog, callback) {
+module.exports = function main (blog, callback) {
   debug("Beginning sync");
 
   Database.get(blog.id, function(err, account) {
     if (err) return callback(err);
 
-    Sync(
-      blog.id,
-      function(blogDirectory, update, callback) {
-        debug("Retrieving changes from Dropbox...");
+    Sync(blog.id, function(err, blogDirectory, update, release) {
+      debug("Retrieving changes from Dropbox...");
 
-        delta(blog.id, account, function handle(err, changes, more, account) {
-          if (err) return callback(err);
+      delta(blog.id, account, function handle(err, changes, more, account) {
+        if (err) return callback(err);
 
-          debug("Retrieved changes", changes);
+        debug("Retrieved changes", changes);
 
-          var client = new Dropbox({ accessToken: account.access_token });
+        var client = new Dropbox({ accessToken: account.access_token });
 
-          var deleted = changes.filter(function(item) {
-            return item[".tag"] === "deleted";
-          });
+        var deleted = changes.filter(function(item) {
+          return item[".tag"] === "deleted";
+        });
 
-          var folders = changes.filter(function(item) {
-            return item[".tag"] === "folder";
-          });
+        var folders = changes.filter(function(item) {
+          return item[".tag"] === "folder";
+        });
 
-          var files = changes.filter(function(item) {
-            return item[".tag"] === "file";
-          });
+        var files = changes.filter(function(item) {
+          return item[".tag"] === "file";
+        });
 
-          function remove(item, callback) {
-            debug('Removing', item.path);
-            fs.remove(join(blogDirectory, item.path), callback);
-          }
+        function remove(item, callback) {
+          debug("Removing", item.path);
+          fs.remove(join(blogDirectory, item.path), callback);
+        }
 
-          function mkdir(item, callback) {
-            debug('Mkdiring', item.path);
-            fs.ensureDir(join(blogDirectory, item.path), callback);
-          }
+        function mkdir(item, callback) {
+          debug("Mkdiring", item.path);
+          fs.ensureDir(join(blogDirectory, item.path), callback);
+        }
 
-          // Item.path_lower is the full path to the item
-          // in the user's Dropbox. Don't confuse it with the
-          // relative path to an item, since the root of the
-          // Dropbox folder might not be the root of the blog.
-          function download(item, callback) {
-            debug('Downloading', item.path);
-            Download(
-              client,
-              item.path_lower,
-              join(blogDirectory, item.path),
-              callback
-            );
-          }
+        // Item.path_lower is the full path to the item
+        // in the user's Dropbox. Don't confuse it with the
+        // relative path to an item, since the root of the
+        // Dropbox folder might not be the root of the blog.
+        function download(item, callback) {
+          debug("Downloading", item.path);
+          Download(
+            client,
+            item.path_lower,
+            join(blogDirectory, item.path),
+            callback
+          );
+        }
 
-          debug("Deleted:", deleted);
-          debug("Folders:", folders);
-          debug("Files:", files);
+        debug("Deleted:", deleted);
+        debug("Folders:", folders);
+        debug("Files:", files);
 
-          async.parallel(
-            [
-              async.apply(async.each, deleted, remove),
-              async.apply(async.each, folders, mkdir),
-              async.apply(async.eachLimit, files, 20, download)
-            ],
-            function(err) {
+        async.parallel(
+          [
+            async.apply(async.each, deleted, remove),
+            async.apply(async.each, folders, mkdir),
+            async.apply(async.eachLimit, files, 20, download)
+          ],
+          function(err) {
+            if (err) return callback(err);
 
-              if (err) return callback(err);
+            async.each(
+              changes,
+              function(item, next) {
+                debug("Updating on Blot:", item.path);
+                update(item.path, { name: item.name }, next);
+              },
+              function(err) {
+                if (err) return callback(err);
 
-              async.each(
-                changes,
-                function(item, next) {
-                  debug('Updating on Blot:', item.path);
-                  update(item.path, { name: item.name }, next);
-                },
-                function(err) {
+                if (more) return delta(blog.id, account, handle);
+
+                debug("Storing latest greatest version of account...", account);
+
+                Database.set(blog.id, account, function(err) {
                   if (err) return callback(err);
 
-                  if (more) return delta(blog.id, account, handle);
+                  // We save the state before dealing with the changes
+                  // to avoid an infinite loop if one of these changes
+                  // causes an exception. If sync enounters an exception
+                  // it will verify the folder at a later date
 
-                  debug('Storing latest greatest version of account...', account);
+                  // If Dropbox says there are more changes
+                  // we get them before returning the callback.
+                  // This is important because a rename could
+                  // be split across two pages of file events.
 
-                  Database.set(blog.id, account, function(err) {
-                    if (err) return callback(err);
+                  debug("Finished sync!");
+                  release(function(err, retry){
 
-                    // We save the state before dealing with the changes
-                    // to avoid an infinite loop if one of these changes
-                    // causes an exception. If sync enounters an exception
-                    // it will verify the folder at a later date
+                    // we recieved a webhook during sync
+                    if (retry) {
+                      return main(blog, callback);
+                    }
 
-                    // If Dropbox says there are more changes
-                    // we get them before returning the callback.
-                    // This is important because a rename could
-                    // be split across two pages of file events.
-
-                    debug('Finished sync!');
-                    callback(null);
+                    callback();
                   });
-                }
-              );
-            }
-          );
-        });
-      },
-      callback
-    );
+                });
+              }
+            );
+          }
+        );
+      });
+    });
   });
 };

@@ -101,7 +101,14 @@ module.exports = function sync(blogID, callback) {
                 });
 
                 // Tell Blot something has changed at these paths!
-                async.eachSeries(modified, update, release(callback));
+                async.eachSeries(modified, update, release(function(err, retry){
+
+                  // Need to re-pull, probably recieved another push during this sync
+                  if (retry) return  sync(blogID, callback);
+
+                  // Sync complete
+                  callback();
+                }));
               }
             );
           });
