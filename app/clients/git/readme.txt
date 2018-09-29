@@ -14,6 +14,7 @@ Move these into this module when I start using git submodules or npm submodules 
 
 To do
 -----
+* Extend sync lock during long syncs
 * Write test to simulate process dying and restarting mid-pull. Does the client recover? What happens if a pull fails midway? Does git recover?
 * Write tests for a series of random client operations (pull, add, push, move, reset, delete) that can be seeded and reliably re-run in the case of failure.
 * Move to neat promise chain api when 2.0 comes out

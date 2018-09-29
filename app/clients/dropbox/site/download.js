@@ -16,6 +16,18 @@ var TRY_AGAIN = [
 var INIT_DELAY = 2000;
 var MAX_ATTEMPTS = 10;
 
+                // var dropbox_content_hash = require("./dropbox_content_hash");
+                // dropbox_content_hash(local_path, function(err, existing_hash) {
+                //   if (existing_hash && existing_hash === change.content_hash) {
+                //     console.log(
+                //       "Blog:",
+                //       blog.id,
+                //       change.path_lower,
+                //       "already has the same version stored locally. Do nothing."
+                //     );
+                //     return next();
+                //   }
+
 function download (client, from, to, _callback) {
 
   ensure(client, 'object')

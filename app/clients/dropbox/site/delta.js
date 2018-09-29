@@ -71,25 +71,18 @@ module.exports = function delta(blogID, account, callback) {
         });
       }
 
-      account.cursor = latest_cursor;
-      account.last_sync = Date.now();
-      account.folder = folder;
-      account.error_code = 0;
-
+      // Map path relative to blog folder in Dropbox
       changes = changes.map(function(c) {
         c.path = folder ? c.path_lower.slice(folder.length) : c.path_lower;
         return c;
       });
 
-      Database.set(blogID, account, function(err) {
-        if (err) return callback(err);
+      account.cursor = latest_cursor;
+      account.last_sync = Date.now();
+      account.folder = folder;
+      account.error_code = 0;
 
-        // We save the state before dealing with the changes
-        // to avoid an infinite loop if one of these changes
-        // causes an exception. If sync enounters an exception
-        // it will verify the folder at a later date
-        callback(null, changes, has_more);
-      });
+      callback(null, changes, has_more, account);
     }
   );
 };

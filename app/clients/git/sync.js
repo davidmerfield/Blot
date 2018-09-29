@@ -1,38 +1,39 @@
 var async = require("async");
-var Change = require("sync").change;
 var Sync = require("sync");
 var debug = require("debug")("clients:git:sync");
 var Git = require("simple-git");
-var localPath = require("helper").localPath;
 var checkGitRepoExists = require("./checkGitRepoExists");
 var UNCOMMITED_CHANGES =
   "Please commit your changes or stash them before you merge.";
 
-module.exports = function sync(blog, callback) {
-  Sync(blog.id, main(blog), callback);
-};
+module.exports = function sync(blogID, callback) {
+  // Attempt to acquire a lock on the blog's folder
+  // to apply updates to it... These options are
+  // redlock options to ensure we acquire a lock eventually...
+  Sync(blogID, {retryCount: -1, retryDelay:  10, retryJitter:  10}, function(err, folder, done) {
+    // Typically, this error means were unable to acquire a lock
+    // on the folder, perhaps another process is syncing it...
+    if (err) return callback(err);
 
-function main(blog) {
-  return function(callback) {
     debug("beginning sync");
-    checkGitRepoExists(blog.id, function(err) {
-      if (err) return callback(err);
+    checkGitRepoExists(folder.path, function(err) {
+      if (err) return done(err, callback);
 
       var git;
 
       // Throws an error if directory does not exist
       try {
-        git = Git(localPath(blog.id, "/")).silent(true);
+        git = Git(folder.path).silent(true);
       } catch (err) {
-        return callback(err);
+        return done(err, callback);
       }
 
       debug("fetching latest commit hash");
       git.raw(["rev-parse", "HEAD"], function(err, headBeforePull) {
-        if (err) return callback(new Error(err));
+        if (err) return done(new Error(err), callback);
 
         if (!headBeforePull)
-          return callback(new Error("No commit on repository"));
+          return done(new Error("No commit on repository"), callback);
 
         // Remove whitespace from stdout
         headBeforePull = headBeforePull.trim();
@@ -46,24 +47,24 @@ function main(blog) {
             debug("Uncommitted changes error:", err);
             debug("Calling git reset hard now:");
             return git.reset("hard", function(err) {
-              if (err) return callback(new Error(err));
+              if (err) return done(new Error(err), callback);
 
               debug("Reset succeeded, retrying pull...");
               git.pull(handlePull);
             });
           }
 
-          if (err) return callback(new Error(err));
+          if (err) return done(new Error(err), callback);
 
           git.raw(["rev-parse", "HEAD"], function(err, headAfterPull) {
-            if (err) return callback(new Error(err));
+            if (err) return done(new Error(err), callback);
 
             // Remove whitespace from stdout
             headAfterPull = headAfterPull.trim();
 
             if (headAfterPull === headBeforePull) {
               debug("Warning: No changes detected to bare repository");
-              return callback();
+              return done(null, callback);
             }
 
             git.raw(
@@ -74,74 +75,46 @@ function main(blog) {
                 headBeforePull + ".." + headAfterPull
               ],
               function(err, res) {
-                if (err) return callback(new Error(err));
+                if (err) return done(new Error(err), callback);
 
-                var updated = [];
-                var deleted = [];
+                var modified = [];
 
                 // If you push an empty commit then res
                 // will be null, or perhaps a commit and
                 // then a subsequent commit which reverts
                 // the previous commit.
                 if (res === null) {
-                  return callback(null);
+                  return done(null, callback);
                 }
 
                 res.split("\n").forEach(function(line) {
-                  if (line[0] === "A" && line[1] === "\t") {
-                    updated.push(line.slice(2));
-                  } else if (line[0] === "M" && line[1] === "\t") {
-                    updated.push(line.slice(2));
-                  } else if (line[0] === "D" && line[1] === "\t") {
-                    deleted.push(line.slice(2));
+                  // A = added, M = modified, D = deleted
+                  // Blot only needs to know about changes...
+                  if (
+                    ["A", "M", "D"].indexOf(line[0]) > -1 &&
+                    line[1] === "\t"
+                  ) {
+                    modified.push(line.slice(2));
                   } else {
                     debug("Nothing found for line:", line);
                   }
                 });
 
-                debug("Deleted:", deleted);
-                debug("Updated:", updated);
+                debug("Passing modifications to Blot:", modified);
 
-                async.eachSeries(
-                  updated,
-                  function(path, next) {
-                    debug("Calling set with", blog.id, path);
-                    Change.set(blog, path, function(err) {
-                      debug(
-                        "Set returned error which we ignore",
-                        blog.id,
-                        path,
-                        err
-                      );
-                      next();
-                    });
-                  },
-                  function(err) {
-                    if (err) return callback(err);
+                // Tell Blot something has changed at these paths!
+                async.eachSeries(modified, folder.update, function(err) {
+                  debug(
+                    "Processed all modifications! Release lock on folder..."
+                  );
 
-                    async.eachSeries(
-                      deleted,
-                      function(path, next) {
-                        debug("Calling drop with", blog.id, path);
-                        Change.drop(blog.id, path, function(err) {
-                          debug(
-                            "Drop returned error which we ignore",
-                            blog.id,
-                            path,
-                            err
-                          );
-                          next();
-                        });
-                      },
-                      callback
-                    );
-                  }
-                );
+                  done(null, callback);
+                });
               }
             );
           });
         });
       });
     });
-  };
-}
+  });
+};
