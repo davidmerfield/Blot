@@ -8,7 +8,10 @@ process.on('message', function(message){
   
   sync(message, function(error){
 
-    throw new Error('Exception error simulation!');
-
+    // The purpose of this file is to simulate bad code
+    // invoked in the callback passed to sync. We
+    // want to ensure that all locks created by the process
+    // are unlocked before it dies.
+    throw new Error('uncaughtException simulation!');
   });
 });
