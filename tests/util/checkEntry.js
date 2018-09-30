@@ -36,7 +36,7 @@ module.exports = function CheckEntry(blogID) {
       if (message.length > 1) {
         return callback(new Error(message.join("\n")));
       } else {
-        return callback(null);
+        return callback(null, result);
       }
     });
   };

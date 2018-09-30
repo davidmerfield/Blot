@@ -4,6 +4,26 @@ Sync
 The purpose of this module is to ensure that only one process makes changes to a blog's folder at a single time.
 
 
+// This function lets you acquire a lock on a blog's folder
+// This prevents buggy behaviour when making changes.
+
+sync(blogID, [options], function(err, folder, done){
+    
+  // if err, you could not acquire lock on folder
+
+  folder.path = /var/blogs/blogID
+
+  folder.update(path, function(){
+  
+  });
+  
+  // call done to release lock on folder
+  done(err, callback);
+});
+
+It takes advantage of Blot's database and an implementation of
+the redlock algorithm by Mike Marcacci https://redis.io/topics/distlock
+
 To do
 -----
 
