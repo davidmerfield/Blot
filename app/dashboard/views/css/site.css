@@ -1835,7 +1835,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
     .gap-small {flex-grow:1;flex-basis:0px;flex-shrink:1;max-width:40px;}
     .gap {flex-grow:1;flex-basis:0px;flex-shrink:1;}
-    .middle {min-width:400px;flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin: 0}
+    .middle {min-width:400px;flex-grow:0;flex-basis:500px;max-width:500px;margin: 0}
 
 .external {
   color:#365899;/*border:1px solid;*/text-decoration:none;
