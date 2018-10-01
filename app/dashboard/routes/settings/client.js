@@ -14,11 +14,47 @@ client_routes.use(function(req, res, next) {
 
 client_routes
 
-  .route("/")
+  .route("/switch")
 
   .get(load.clients, load.client, function(req, res) {
-    res.render("clients", { title: "Select a client", setup_client: true });
+    res.render("clients-switch", {
+      title: "Switch to another client"
+    });
   })
+
+  .post(function(req, res, next) {
+    var redirect = req.baseUrl + "/" + req.body.client;
+
+    if (!req.body.client) {
+      return next(new Error("Please select a client"));
+    }
+
+    if (req.body.client === req.blog.client) return res.redirect(redirect);
+
+    clients[req.blog.client].disconnect(req.blog.id, function(err) {
+      if (err) return next(err);
+      Blog.set(req.blog.id, { client: req.body.client }, function(err) {
+        if (err) return next(err);
+
+        res.redirect(redirect);
+      });
+    });
+  });
+
+client_routes
+  .route("/")
+
+  .get(
+    load.clients,
+    load.client,
+    function(req, res, next) {
+      if (!req.blog.client) return next();
+      res.redirect(req.baseUrl + "/" + req.blog.client);
+    },
+    function(req, res) {
+      res.render("clients", { title: "Select a client", setup_client: true });
+    }
+  )
 
   .post(function(req, res, next) {
     var redirect;
@@ -44,42 +80,30 @@ client_routes
     });
   });
 
+client_routes.use("/:client", function(req, res, next) {
+  if (!req.blog.client) {
+    return res.redirect("/settings/client");
+  }
+
+  if (req.params.client !== req.blog.client) {
+    return res.redirect(req.baseUrl + "/" + req.blog.client);
+  }
+
+  res.locals.base = req.baseUrl;
+
+  next();
+});
+
 for (var client_name in clients) {
   var client = clients[client_name];
 
   if (!client.dashboard_routes) continue;
 
-  client_routes.use(
-    "/" + client.name,
-    check_this_client_is_selected(client_name),
-    addCrumb(client.display_name, client_name),
-    client.dashboard_routes
-  );
+  client_routes.use("/" + client.name, client.dashboard_routes);
 }
 
-function addCrumb(display_name, client_name) {
-  return function(req, res, next) {
-    res.locals.base = req.baseUrl;
-
-    // res.locals.breadcrumbs.add(display_name, client_name);
-    next();
-  };
-}
-
-function check_this_client_is_selected(client_name) {
-  return function(req, res, next) {
-    var redirect;
-
-    if (req.blog.client === client_name) return next();
-
-    redirect = req.baseUrl;
-
-    if (req.blog.client) {
-      redirect += "/" + req.blog.client;
-    }
-
-    res.redirect(redirect);
-  };
-}
+client_routes.use("/:client", function(req, res, next) {
+  res.redirect("/settings/client");
+});
 
 module.exports = client_routes;

@@ -1,18 +1,24 @@
 var Express = require('express');
 var middleware = require('./middleware');
 var dashboard = Express.Router();
-
+var client = require('../client');
 dashboard
   .use(middleware.load_dropbox_account)
   .get('/', function (req, res) {
     res.render(__dirname + '/views/index.html', {title: 'Dropbox', subpage_title: 'Folder'});
   })
-  .get('/change-permission', function (req, res) {
-    res.locals.breadcrumbs.add('Change permission', 'change-permission');
-    res.render(__dirname + '/views/change_permission.html', {title: 'Dropbox', subpage_title: 'Folder'});
+  .get('/permission', function (req, res) {
+    res.locals.breadcrumbs.add('Permission', 'change-permission');
+    res.render(__dirname + '/views/permission.html', {title: 'Dropbox', subpage_title: 'Folder'});
   })
   .use('/select-folder', require('./select_folder'))
   .use('/authenticate', require('./authenticate'))
-  .post('/disconnect', require('./disconnect'));
+  .get('/disconnect', function (req, res) {
+    res.render(__dirname + '/views/disconnect.html', {title: 'Disconnect from Dropbox'});
+  })
+  .post('/disconnect',  function(req, res, next){
+    client.disconnect(req.blog.id, next);
+  });
+
 
 module.exports = dashboard;

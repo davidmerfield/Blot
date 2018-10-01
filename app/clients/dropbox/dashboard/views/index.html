@@ -40,12 +40,14 @@
 {{^error_code}}
 
   <div class="line">
-    <p>The folder for <b>{{blog.title}}</b> is synchronized by <b>Dropbox</b>. If you would like to <a href="/settings/client">use another client</a>, you can switch without disruption. Blot will transfer the contents of your folder automatically.</p>
+    <p>The folder for <b>{{blog.title}}</b> is synchronized with <b>Dropbox</b>. If you would like to <a href="/settings/client/switch">use another client</a>, you can switch between clients seamlessly.</p>
     <br>
     <span style="color:rgb(109, 109, 109);">Dropbox</span>
   </div>
 
-  <a href="{{{base}}}/change-folder" class="line">
+<!-- href="{{{base}}}/change-folder"
+ -->
+  <div  class="line">
     <span class="label">Folder location</span>
     <span class="center"> <span style="margin-top:0em;margin-left:-0.25em;display:inline-block;">
   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -59,9 +61,9 @@
    <span style="color:#000">{{name}} {{^last}}<span style="margin-left:0.3em"><svg width="12" height="10" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#000"></path></svg>{{/last}}</span>
    {{/dropboxBreadcrumbs}}</span>
  </span>
-             <span class="right">Edit</span>
-
-  </a>
+<!--              <span class="right">Edit</span>
+ -->
+  </div>
 
 
 
@@ -71,28 +73,29 @@
 
 
        {{^full_access}}
-       <a class="line" href="{{{base}}}/change-permission">
-            <span class="label">Permissions</span>
+       <a class="line" href="{{{base}}}/permission">
+            <span class="label">Permission</span>
             <span class="center">App folder</span>
-            <span class="right">Grant full access</span>
+            <span class="right">Edit</span>
         </a>
       {{/full_access}}
 
       {{#full_access}}
-       <a class="line" href="{{{base}}}/change-permission">
-            <span class="label">Permissions</span>
-            <span class="center">full access</b> to your Dropbox</span>
+       <a class="line" href="{{{base}}}/permission">
+            <span class="label">Permission</span>
+            <span class="center">Full folder</span>
             <span class="right">Edit</span>
         </a>
       {{/full_access}}
 
-
-        <a class="line" href="{{{base}}}">
+<!-- 
+href="{{{base}}}" -->
+        <div class="line" >
             <span class="label">Account</span>
             <span class="center">{{email}}</span>
-            <span class="right">Edit</span>
-
-        </a>
+<!--             <span class="right">Edit</span>
+ -->
+        </div>
 
       <a class="line" href="{{{base}}}/disconnect">
             <span class="label">Disconnect</span>
