@@ -1,7 +1,7 @@
 var Express = require('express');
 var middleware = require('./middleware');
 var dashboard = Express.Router();
-
+var client = require('../client');
 dashboard
   .use(middleware.load_dropbox_account)
   .get('/', function (req, res) {
@@ -16,6 +16,9 @@ dashboard
   .get('/disconnect', function (req, res) {
     res.render(__dirname + '/views/disconnect.html', {title: 'Disconnect from Dropbox'});
   })
-  .post('/disconnect', require('./disconnect'));
+  .post('/disconnect',  function(req, res, next){
+    client.disconnect(req.blog.id, next);
+  });
+
 
 module.exports = dashboard;

@@ -13,7 +13,14 @@ for (var i in clients) {
 module.exports = function(req, res, next) {
   res.locals.clients = list.slice();
 
-  res.locals.clients[0].checked = "checked";
+  if (req.blog.client) {
+    res.locals.clients = res.locals.clients.map(function(client){
+      client.checked = client.name === req.blog.client ? "checked" : "";
+      return client;
+    });
+  } else {
+    res.locals.clients[0].checked = "checked";
+  }
 
   res.locals.clients = list;
 

@@ -44,6 +44,7 @@ dashboard.post("/refresh-token", function(req, res, next) {
 });
 
 dashboard.post("/disconnect", function(req, res, next) {
+  req.blog.client = "";
   disconnect(req.blog.id, next);
 });
 
