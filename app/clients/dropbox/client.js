@@ -15,7 +15,7 @@ module.exports = {
     Sync(blogID, function(err, folder, done) {
       // beware, this might be called twice...
       if (err) return callback(err);
-      
+
       debug("getting account info");
       database.get(blogID, function(err, account) {
         if (err) return done(err, callback);
@@ -31,7 +31,7 @@ module.exports = {
 
             if (!account) {
               debug("the user chose Dropbox but did not connect their account");
-              if (err) return done(null, callback);
+              return done(null, callback);
             }
 
             debug("listing blogs with this account", account.account_id);

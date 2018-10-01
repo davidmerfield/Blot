@@ -45,7 +45,9 @@
     <span style="color:rgb(109, 109, 109);">Dropbox</span>
   </div>
 
-  <a href="{{{base}}}/change-folder" class="line">
+<!-- href="{{{base}}}/change-folder"
+ -->
+  <div  class="line">
     <span class="label">Folder location</span>
     <span class="center"> <span style="margin-top:0em;margin-left:-0.25em;display:inline-block;">
   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -61,7 +63,7 @@
  </span>
 <!--              <span class="right">Edit</span>
  -->
-  </a>
+  </div>
 
 
 
@@ -71,28 +73,29 @@
 
 
        {{^full_access}}
-       <a class="line" href="{{{base}}}/change-permission">
-            <span class="label">Permissions</span>
+       <a class="line" href="{{{base}}}/permission">
+            <span class="label">Permission</span>
             <span class="center">App folder</span>
             <span class="right">Edit</span>
         </a>
       {{/full_access}}
 
       {{#full_access}}
-       <a class="line" href="{{{base}}}/change-permission">
-            <span class="label">Permissions</span>
-            <span class="center">full access</b> to your Dropbox</span>
+       <a class="line" href="{{{base}}}/permission">
+            <span class="label">Permission</span>
+            <span class="center">Full folder</span>
             <span class="right">Edit</span>
         </a>
       {{/full_access}}
 
-
-        <a class="line" href="{{{base}}}">
+<!-- 
+href="{{{base}}}" -->
+        <div class="line" >
             <span class="label">Account</span>
             <span class="center">{{email}}</span>
-            <span class="right">Edit</span>
-
-        </a>
+<!--             <span class="right">Edit</span>
+ -->
+        </div>
 
       <a class="line" href="{{{base}}}/disconnect">
             <span class="label">Disconnect</span>
