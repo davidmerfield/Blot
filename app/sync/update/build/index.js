@@ -1,10 +1,6 @@
 var debug = require("debug")("blot:models:entry:build");
 var Metadata = require("metadata");
-var helper = require('helper');
 var basename = require("path").basename;
-var callOnce = helper.callOnce;
-var ensure = helper.ensure;
-var time = helper.time;
 var isDraft = require("../../../drafts").isDraft;
 
 var Build = require("./single");
@@ -14,29 +10,8 @@ var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
 
 var moment = require("moment");
-require("moment-timezone");
 
-process.on("message", function(message) {
-  var blog = message.blog;
-  var path = message.path;
-  var options = {};
-  var callback = function(err, entry) {
-    var response = { err: err, entry: entry, buildID: message.buildID };
-    process.send(response);
-  };
-
-  ensure(blog, "object")
-    .and(path, "string")
-    .and(callback, "function");
-
-  callback = callOnce(callback);
-
-  // Eventually we'll use this moment
-  // to determine which builder the path
-  // needs, e.g. an image, album etc...
-  // path might need to change
-  // for image captions, album items...
-
+module.exports = function (blog, path, options, callback) {
 
   Metadata.get(blog.id, path, function(err, name){
 
@@ -103,7 +78,7 @@ process.on("message", function(message) {
       });
     });
   });
-});
+}
 
 // var album = require('./album');
 // var isAlbum = album.is;

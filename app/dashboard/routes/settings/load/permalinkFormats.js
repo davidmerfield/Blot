@@ -1,4 +1,4 @@
-var permalink = require('../../../../models/entry/build/prepare/permalink');
+var permalink = require('../../../../sync/update/build/prepare/permalink');
 var moment = require('moment');
 var FORMATS = [
     ['Title', '{{slug}}'],

@@ -9,6 +9,7 @@ var Preview = require("../../modules/preview");
 var isPreview = require("../../drafts").isPreview;
 var async = require("async");
 var catchRename = require("./catchRename").forCreated;
+var build = require('./build');
 
 var converters = require("../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
@@ -78,7 +79,7 @@ module.exports = function(blog, path, options, callback) {
     // a type that Blot can process properly.
     if (isWrongType(path)) return Ignore(blog.id, path, WRONG_TYPE, callback);
 
-    Entry.build(blog, path, function(err, entry) {
+    build(blog, path, options, function(err, entry) {
       if (err) return callback(err);
 
       // this checks the entry to see if a deleted entry

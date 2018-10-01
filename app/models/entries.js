@@ -3,7 +3,7 @@ var helper = require('helper');
 var async = require('async');
 var ensure = helper.ensure;
 var Entry = require('./entry');
-var DateStamp = require("./entry/build/prepare/dateStamp");
+var DateStamp = require("../sync/update/build/prepare/dateStamp");
 var Blog = require('./blog');
   
 module.exports = (function() {

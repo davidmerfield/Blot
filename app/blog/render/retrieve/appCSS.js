@@ -1,4 +1,4 @@
-var Plugins = require('../../../models/entry/build/plugins');
+var Plugins = require('../../../sync/update/build/plugins');
 
 module.exports = function (req, callback) {
   Plugins.load('css', req.blog.plugins, callback);
