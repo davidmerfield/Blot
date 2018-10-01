@@ -20,7 +20,9 @@ Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image pat
 - File titled "_på besøg hos gomorgen danmark.jpg" which cannot be embedded in a blog post
 - Write test which fails to ensure this doesn't happen again
 
-Re-rip Stuart's instagram page and help him set up proper converter
+[Re-rip Stuart's instagram page and help him set up proper converter](https://twitter.com/stuartfrisby/status/1045247673530552320)
+
+[Rip John's posts from Day One](https://mail.google.com/mail/u/1/#inbox/1663098ddda683b7)
 
 ---
 
