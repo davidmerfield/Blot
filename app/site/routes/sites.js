@@ -45,7 +45,7 @@ module.exports = function (callback) {
 
   var result = [];
 
-  // Only show the first 9 sites on the homepage
+  // Only show the first 12 sites on the homepage
   sites = sites.slice(0, 12);
 
   async.eachSeries(sites, function(site, next){
