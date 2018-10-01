@@ -13,6 +13,9 @@ dashboard
   })
   .use('/select-folder', require('./select_folder'))
   .use('/authenticate', require('./authenticate'))
+  .get('/disconnect', function (req, res) {
+    res.render(__dirname + '/views/disconnect.html', {title: 'Disconnect from Dropbox'});
+  })
   .post('/disconnect', require('./disconnect'));
 
 module.exports = dashboard;
