@@ -13,23 +13,24 @@ function capitalize (str) {
 // Add new sites at the start
 
 var sites = [
-
-  ["www.matthewbattles.org", "Matthew Battles directs <a href='https://metalabharvard.github.io/'>metaLAB</a> at Harvard. Matthew’s website"],
-  ["hannautkin.com", "Hanna Utkin is a filmmaker and producer from New York City. Hanna’s website"],
-  ["sportsmanfc.com", "The Sportsman Flying Club is a pigeon‐racing club in Toft Hill, UK. Their website"],
   
+  ["keywords.oxus.net", "Kerim Friedman teaches anthropology in Taiwan. Kerim"],
   ["asw.fyi", "Adam Wood is a writer based in Reykjavík. Adam’s website"],
+  ["hannautkin.com", "Hanna Utkin is a filmmaker and producer from New York City. Hanna"],
+  
+  ["www.rebeccatron.com", "Rebecca Kukshtel is an engineer based in New York City. Rebecca "],
+  ["www.matthewbattles.org", "Matthew Battles directs metaLAB at Harvard. Matthew’s website"],
   ["fagerheimen.no", "Fagerheimen Borettslag is an apartment building in Oslo, Norway. Its website"],
-  ["www.rebeccatron.com", "Rebecca Kukshtel is an engineer at Betterment in New York City. Rebecca "],
 
+  ["www.alexgibson.nyc", "Alexander Gibson is an artist from New York City. Alexander’s website"],
   ["www.jacobyyoung.com/about", "Jacoby Young works at Kapālama Elementary School in Hawaii. Jacoby"],
   ["www.kristianhjelle.com", "Kristian Hjelle is a designer and partner at Bakken & Bæck. Kristian"],
-  ["www.alexgibson.nyc", "Alexander Gibson is an artist from New York City. Alexander’s website"],
     
   ["tf2.blot.im", "Theo Francis is a reporter at The Wall Street Journal. Theo’s blog"],
-  ["john.pavlusoffice.com", "John Pavlus is a nonfiction writer and filmmaker based in Portland, Oregon. John"],
-  ["www.theliminal.co", "The Liminal is a podcast about metaphysical speculation. Their website"],
+  ["john.pavlusoffice.com", "John Pavlus is a writer and filmmaker based in Portland, Oregon. John"],
+  ["sportsmanfc.com", "The Sportsman Flying Club is a pigeon‐racing club in Toft Hill, UK. Their website"],
 
+  ["www.theliminal.co", "The Liminal is a podcast about metaphysical speculation. Their website"],
   ["blog.aurynn.com", "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"],
   ["iiiiiiiii.in", "Ishtaarth Dalmia writes about internet culture and economics from Bengaluru, India. Ishtaarth"],
   ["kiefer.design", "Kiefer Sutherland is a freelance designer and art director. Kiefer’s website"],
