@@ -1835,7 +1835,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
     .gap-small {flex-grow:1;flex-basis:0px;flex-shrink:1;max-width:40px;}
     .gap {flex-grow:1;flex-basis:0px;flex-shrink:1;}
-    .middle {min-width:400px;flex-grow:0;flex-basis:500px;max-width:500px;min-height:600px;margin: 0 20px}
+    .middle {min-width:400px;flex-grow:0;flex-basis:500px;max-width:500px;margin: 0}
 
 .external {
   color:#365899;/*border:1px solid;*/text-decoration:none;
@@ -1854,8 +1854,8 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 .line {border-bottom: 1px solid rgba(0,0,0,0.05)}
 
 
-.folder-box {margin:22px 0 0;
-  border:1px solid rgba(0,0,0,0.05);
+.folder-box {margin:0 0 0;
+  border-left:1px solid rgba(0,0,0,0.05);
   padding-bottom:30px;
   flex-basis:500px;flex-grow:1;}
 

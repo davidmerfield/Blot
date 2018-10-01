@@ -55,22 +55,20 @@
     {{/message.error}}
 
     {{> yield}}
-  </div>
-  
-  <div class="gap-small"></div>
-  
-  <div class="side-bar" style="display:flex;flex-direction:column">
 
-    <a href="{{blog.url}}" class="external" target="_blank" >Visit your blog <span class="square">&rarr;</span></a>
-     
-    {{> folder}}
 
-<div  style="padding-top:80px;position:absolute;width:100%;bottom:-42px;opacity:0.75;display:flex;">
-   <a style="color:#aaa;text-decoration:none"  href="/account">Your account</a>
-   <a style="color:#aaa;text-decoration:none;flex-grow:1;text-align:center;"  href="/help">Documentation</a>
-   <a style="color:#aaa;text-decoration:none" href="/contact">Contact support</a>
+<div  style="position:fixed;bottom:0;padding-bottom:40px;padding-right:100px;background:#fdfaf8">
+   <a style="color:#aaa;text-decoration:none;margin-left:20px;"  href="/account">Your account</a>
+   <a style="color:#aaa;text-decoration:none;margin-left:40px;flex-grow:1;text-align:center;"  href="/help">Documentation</a>
+   <a style="color:#aaa;text-decoration:none;margin-left:40px;" href="/contact">Contact support</a>
  </div> 
    
+  </div>
+    
+  <div class="middle" style="display:flex;flex-direction:column">
+  
+    {{> folder}}
+
 </div>
 
 <div class="gap"></div>

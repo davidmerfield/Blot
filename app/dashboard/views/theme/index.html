@@ -61,6 +61,26 @@
     <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme.</p>
 
 
+  
+  <a class="line" href="/settings/menu" style="margin:0 -20px">
+    <span class="label">Menu</span>
+    <span class="center">
+      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
+
+    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
+    </span>
+    <span class="right" style="padding-left:0">Edit</span>
+  </a>
+
+
+  <a class="line" href="/settings/services" style="margin:0 -20px">
+    <span class="label">Services</span>
+    <span class="link">Configure analytics and other services
+</span>
+
+  </a>
+  
+
   <Br>
 
   <span style="color:rgb(153, 153, 153)">Your themes      <a class="butty" href="/settings/theme/new">Create new theme</a>
@@ -112,3 +132,6 @@
 </form>
 </div>
 {{/blog.template}}
+
+
+

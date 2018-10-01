@@ -9,11 +9,15 @@ module.exports = function setup(options) {
   var setClientToGit = require("./setClientToGit");
 
   var server = {
-    start: function(done) {
-      var port = 2000 + Math.round(Math.random() * 10000);
+    start: function attempt (done) {
+      var port = 10000 + Math.round(Math.random() * 10000);
       this.server = Express()
         .use("/clients/git", require("../../routes").site)
-        .listen(port, done);
+        .listen(port, function(err){
+          if (err && err.code === 'EADDRINUSE') return attempt(done);
+          if (err) return done(err);
+          done();
+        });
       this.server.port = port;
     },
     close: function(done) {
