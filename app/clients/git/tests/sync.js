@@ -265,7 +265,7 @@ describe("sync", function() {
       var writeAndPush = this.writeAndPush;
       var fake = this.fake;
 
-      for (var i = 0; i < 15; i++)
+      for (var i = 0; i < 10; i++)
         fs.outputFileSync(this.repoDirectory + fake.path(".txt"), fake.file());
 
       git.add(".", function(err) {
@@ -280,7 +280,7 @@ describe("sync", function() {
         });
       });
     },
-    LONG_TIMEOUT * 2
+    LONG_TIMEOUT * 3
   );
 
   it(
