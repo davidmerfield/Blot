@@ -1,7 +1,7 @@
 var helper = require('helper');
 var redis = require('client');
 var Blog = require('blog');
-
+var debug = require('debug')('clients:dropbox:database');
 var async = require('async');
 var ensure = helper.ensure;
 var account_model, database;
@@ -109,20 +109,25 @@ function list_blogs (account_id, callback) {
 
   var blogs = [];
 
+  debug('Getting blogs conencted to Dropbox account', account_id);
+
   redis.SMEMBERS(blogs_key(account_id), function(err, members){
 
     if (err) return callback(err);
+
+    debug('Found these blog IDs', members);
 
     async.eachSeries(members, function(id, next){
 
       Blog.get({id: id}, function(err, blog){
 
-        if (err) return next(err);
+        if (err || !blog || blog.client !== 'dropbox') {
+          debug('Could not find a blog in the DB for', id);
+          return next();
+        }
 
-        if (!blog || blog.client !== 'dropbox') return next();
-
+        debug('Found a blog in the DB for', id);
         blogs.push(blog);
-
         next();
       });
     }, function(err){
@@ -136,25 +141,32 @@ function set (blog_id, changes, callback) {
 
   var multi = redis.multi();
 
+  debug('Setting dropbox account info for blog', blog_id);
+
   get(blog_id, function(err, account){
 
     if (err) return callback(err);
 
     account = account || {};
 
-    // The user's account has changed,
-    // remove the old one and add the new one
-    if (account.account_id && changes.account_id && account.account_id !== changes.account_id)
+    if (account.account_id && changes.account_id && account.account_id !== changes.account_id) {
+      debug('The user\'s account has changed, remove the old one and add the new one');
       multi.srem(blogs_key(account.account_id), blog_id);
-
+    }
+      
     for (var i in changes)
       account[i] = changes[i];
 
-    if (changes.account_id)
+    if (changes.account_id) {
+      debug('Adding blog id to the list of blogs for this Dropbox account');
       multi.sadd(blogs_key(changes.account_id), blog_id);
-
+    } else {
+      debug('Not adding blog id to the list of blogs for this Dropbox account');
+    }
+      
     ensure(account, account_model, true);
-
+  
+    debug('Saving this account');
     multi.hmset(account_key(blog_id), account);
     multi.exec(callback);
   });

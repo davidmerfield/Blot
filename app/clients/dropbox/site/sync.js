@@ -19,7 +19,7 @@ module.exports = function main (blog, callback) {
 
       if (err) return callback(err);
 
-      debug("Retrieving changes from Dropbox...");
+      debug("Retrieving changes from Dropbox...", account);
 
       delta(blog.id, account, function handle(err, changes, more, account) {
         if (err) return done(err, callback);

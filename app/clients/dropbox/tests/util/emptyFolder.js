@@ -7,17 +7,19 @@ module.exports = function(done) {
       recursive: true
     })
     .then(function(res) {
+        console.log('Removing', res.entries.length, 'items...');
       return Promise.all(
         res.entries.map(function(entry) {
           return client.filesDelete({ path: entry.path_lower });
         })
       );
     })
-    .then(function(res) {
+    .then(function() {
+      console.log('Emptied folder...');
       done();
     })
     .catch(function(err) {
-      console.log(err);
-      done(new Error(err.message));
+      console.log('Failed to empty folder:', err.error.error_summary, err.retry_after);
+      done(new Error('Could not empty folder'));
     });
 };

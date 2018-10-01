@@ -7,7 +7,7 @@ var SIGNATURE = 'x-dropbox-signature';
 var sha = crypto.createHmac.bind(this, 'SHA256');
 var Database = require('../database');
 var sync = require('./sync');
-
+var debug = require('debug')('clients:dropbox:routes');
 var Express = require('express');
 var site = Express.Router();
 var Webhook = site.route('/webhook');
@@ -63,10 +63,14 @@ Webhook.post(function(req, res) {
     // accounts can be synced in parallel
     async.each(accounts, function(account_id, next_account){
 
+      debug('Checking blogs for Dropbox account', account_id);
+      
       Database.list_blogs(account_id, function(err, blogs){
 
         if (err) return next_account(err);
-        
+          
+        debug('Syncing', blogs.length, 'blogs');
+
         // blogs can be synced in parallel
         async.each(blogs, sync, function(){});
       });
