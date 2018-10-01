@@ -15,6 +15,7 @@ module.exports = function setup(options) {
         .use("/clients/git", require("../../routes").site)
         .listen(port, function(err){
           if (err && err.code === 'EADDRINUSE') return attempt(done);
+          if (err && err.code === 'EACCESS') return attempt(done);
           if (err) return done(err);
           done();
         });
