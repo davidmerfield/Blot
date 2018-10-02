@@ -66,7 +66,7 @@ function Prepare(entry) {
   // var html = titleTag + body;
 
   debug(entry.path, "Generating title from", entry.name);
-  var parsedTitle = Title($, entry.name);
+  var parsedTitle = Title($, entry.path);
   entry.title = parsedTitle.title;
   entry.titleTag = parsedTitle.tag;
   entry.body = parsedTitle.body;
