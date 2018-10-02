@@ -27,7 +27,7 @@ describe("dropbox database", function() {
     beforeEach(function(done) {
       database.set(this.blog.id, fakeAccount(), done);
     });
-    
+
     it("a valid account", function(done) {
       database.drop(this.blog.id, done);
     });
@@ -35,8 +35,8 @@ describe("dropbox database", function() {
 
   function fakeAccount() {
     return {
-      account_id: process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID,
-      access_token: process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN,
+      account_id: 'XXXXX',
+      access_token: 'YYYYY',
       email: "",
       error_code: 0,
       last_sync: Date.now(),
