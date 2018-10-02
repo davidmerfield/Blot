@@ -1,6 +1,6 @@
 var http = require("http");
 var URL = require("url");
-var crypto = require('crypto');
+var crypto = require("crypto");
 
 module.exports = function(secret, baseUrl) {
   return {
@@ -14,8 +14,10 @@ module.exports = function(secret, baseUrl) {
       http.get(challengeUrl, function check(res) {
         var ack = "";
 
-        if (res.statusCode !== 200) 
-          return callback(new Error('Bad status code at challenge route: ' + res.statusCode));
+        if (res.statusCode !== 200)
+          return callback(
+            new Error("Bad status code at challenge route: " + res.statusCode)
+          );
 
         res.setEncoding("utf8");
         res.on("data", function(chunk) {
@@ -36,7 +38,7 @@ module.exports = function(secret, baseUrl) {
 
       signature.update(body);
       signature = signature.digest("hex");
-      
+
       var notifyUrl = URL.parse(baseUrl, { parseQueryString: true });
 
       var options = {
@@ -54,7 +56,7 @@ module.exports = function(secret, baseUrl) {
         if (res.statusCode === 200) {
           callback(null);
         } else {
-          callback(new Error('bad status ' + res.statusCode));
+          callback(new Error("bad status " + res.statusCode));
         }
       });
 

@@ -1,8 +1,7 @@
 describe("webhook", function() {
   var Webhook = require("./index");
-  var Express = require("express");
-  var server = require('../server');
-  
+  var server = require("../server");
+
   // Set up a clean server for each test
   beforeEach(server.start);
   afterEach(server.close);

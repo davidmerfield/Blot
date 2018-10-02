@@ -10,8 +10,8 @@
  *
  * Example:
  *
- *     const fs = require('fs');
- *     const dch = require('dropbox-content-hasher');
+ *     const fs = require("fs");
+ *     const dch = require("dropbox-content-hasher");
  *
  *     const hasher = dch.create();
  *     const f = fs.createReadStream('some-file');

@@ -35,40 +35,20 @@ authenticate.use(function(req, res) {
   res.message("/", "Authentication to Dropbox successful!");
 });
 
-authenticate.use("/existing-account", function(err, req, res, next) {
-  // Release sync lease
-  if (req.on_complete) {
-    req.on_complete();
-    debug("Calling sync on_complete in existing-error handler!");
-  }
-
-  // Token used to connect to Dropbox is no longer valid
-  if (err && err.status && err.status === 401) {
-    res.message({
-      error:
-        'That <a href="/">access token</a> is no longer valid. Please use another one',
-      url: "/clients/dropbox"
-    });
-    debug(req.baseUrl, req.url, req.path);
-    return res.redirect("/clients/dropbox");
-  }
-
-  next(err);
-});
-
+// Error handler
 authenticate.use(function(err, req, res, next) {
   if (req.on_complete) {
     debug("Calling sync on_complete in error handler!");
     req.on_complete();
   }
 
-  if (err && err.message) {
-    res.message({ error: err.message, url: "/clients/dropbox" });
+  if (err.message) {
+    res.message({ error: err.message, url: req.baseUrl });
     debug(req.baseUrl, req.url, req.path);
-    return res.redirect("/clients/dropbox");
+    return res.redirect(req.baseUrl);
   }
 
-  debug("error here");
+  debug("error here", err);
   next(err);
 });
 

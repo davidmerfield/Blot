@@ -1,13 +1,10 @@
-var createClient = require('../../util/createClient');
+var createClient = require("../../util/createClient");
 
 module.exports = function(done) {
-  
-var client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
+  var client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
 
-function checkBatchStatus(result) {
-  return client
-    .filesDeleteBatchCheck(result)
-    .then(function(res) {
+  function checkBatchStatus(result) {
+    return client.filesDeleteBatchCheck(result).then(function(res) {
       switch (res[".tag"]) {
         case "in_progress":
           return checkBatchStatus(result);
@@ -17,30 +14,29 @@ function checkBatchStatus(result) {
           return Promise.reject(new Error("Unknown response " + res));
       }
     });
-}
+  }
 
-function removeAllFiles(res) {
-  return client.filesDeleteBatch({
-    entries: res.entries.map(function(entry) {
-      return { path: entry.path_lower };
+  function removeAllFiles(res) {
+    return client.filesDeleteBatch({
+      entries: res.entries.map(function(entry) {
+        return { path: entry.path_lower };
+      })
+    });
+  }
+
+  client
+    .filesListFolder({ path: "" })
+    .then(removeAllFiles)
+    .then(checkBatchStatus)
+    .then(function(res) {
+      console.log("Removed all files!", res);
+      done();
     })
-  });
-}
-
-client
-  .filesListFolder({ path: "" })
-  .then(removeAllFiles)
-  .then(checkBatchStatus)
-  .then(function(res) {
-    console.log("Removed all files!", res);
-    done();
-  })
-  .catch(function(err) {
-    if (err instanceof Error) {
-      done(err);
-    } else {
-      done(new Error(err));
-    }
-  });
-
+    .catch(function(err) {
+      if (err instanceof Error) {
+        done(err);
+      } else {
+        done(new Error(err));
+      }
+    });
 };

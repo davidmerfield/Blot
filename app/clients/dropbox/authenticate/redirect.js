@@ -1,6 +1,6 @@
 var debug = require("debug")("clients:dropbox:authenticate");
 var config = require("config");
-var Dropbox = require("dropbox");
+var Dropbox = require("dropbox").Dropbox;
 var callback_uri = require("./callback_uri");
 
 module.exports = function(req, res) {

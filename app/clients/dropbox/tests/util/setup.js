@@ -3,8 +3,8 @@ module.exports = function setup(options) {
   var database = require("../../database");
   var Blog = require("blog");
   var server = require("./server");
-  var createClient = require('../../util/createClient');
-  
+  var createClient = require("../../util/createClient");
+
   global.test.blog();
 
   // Sets up a temporary tmp folder and cleans it up after

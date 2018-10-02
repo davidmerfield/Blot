@@ -27,7 +27,6 @@ dashboard
       subpage_title: "Folder"
     });
   })
-  .use("/select-folder", require("./util/select_folder"))
   .use("/authenticate", require("./authenticate"))
   .get("/disconnect", function(req, res) {
     res.render(__dirname + "/views/disconnect.html", {
