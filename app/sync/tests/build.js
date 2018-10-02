@@ -15,7 +15,7 @@ describe("build", function() {
   });
 
   it("hides date from title if its in the file name", function(testDone) {
-    var path = '/2018/06-04 Hello.jpg';
+    var path = "/2018/06-04 Hello.jpg";
     var content = this.fake.file();
     var checkEntry = this.checkEntry;
 
@@ -26,7 +26,28 @@ describe("build", function() {
       folder.update(path, function(err) {
         if (err) testDone.fail(err);
 
-        checkEntry({ path: path, title: 'Hello' }, function(err) {
+        checkEntry({ path: path, title: "Hello" }, function(err) {
+          if (err) testDone.fail(err);
+
+          done(null, testDone);
+        });
+      });
+    });
+  });
+
+  it("preserves case in name option for title", function(testDone) {
+    var path = "/[tag] hello.jpg";
+    var content = this.fake.file();
+    var checkEntry = this.checkEntry;
+
+    sync(this.blog.id, function(err, folder, done) {
+      if (err) testDone.fail(err);
+
+      fs.outputFileSync(folder.path + path, content, "utf-8");
+      folder.update(path, { name: "[Tag] Hello.jpg" }, function(err) {
+        if (err) testDone.fail(err);
+
+        checkEntry({ path: path, title: "Hello" }, function(err) {
           if (err) testDone.fail(err);
 
           done(null, testDone);
@@ -36,7 +57,7 @@ describe("build", function() {
   });
 
   it("hides tags from title if its in the file name", function(testDone) {
-    var path = '/[Tag] Hello.jpg';
+    var path = "/[Tag] Hello.jpg";
     var content = this.fake.file();
     var checkEntry = this.checkEntry;
 
@@ -47,7 +68,7 @@ describe("build", function() {
       folder.update(path, function(err) {
         if (err) testDone.fail(err);
 
-        checkEntry({ path: path, title: 'Hello' }, function(err) {
+        checkEntry({ path: path, title: "Hello" }, function(err) {
           if (err) testDone.fail(err);
 
           done(null, testDone);
