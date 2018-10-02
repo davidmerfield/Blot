@@ -89,7 +89,8 @@ function tests () {
   is('2016/1/2 Bar.txt', 'Bar');
   is('2016-1/2 Bar.txt', 'Bar');
   is('/2016-1 2 Bar.txt', 'Bar');
-
+  is('/2018-10-02-02-35 Hello.png', 'Hello');
+  
   // extract tags
   is('[Foo] Apple.txt', 'Apple');
   is('[Foo] Bar [Baz].txt', 'Bar');
