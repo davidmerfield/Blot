@@ -5,11 +5,8 @@ var debug = require("debug")("clients:dropbox");
 var Sync = require("sync");
 
 module.exports = function disconnect(blogID, callback) {
-  // check if this is the last blog using this oauth token
-  // then revoke it as needed.
 
   Sync(blogID, function(err, folder, done) {
-    // beware, this might be called twice...
     if (err) return callback(err);
 
     debug("getting account info");
@@ -34,13 +31,13 @@ module.exports = function disconnect(blogID, callback) {
           database.listBlogs(account.account_id, function(err, blogs) {
             if (err) return done(err, callback);
 
+            // check if this is the last blog using this oauth token
+            // then revoke it as needed.
             if (blogs.length) {
               if (err) return done(null, callback);
             }
 
             var client = createClient(account.access_token);
-
-            debug("revoking token");
 
             client
               .authTokenRevoke()
@@ -49,7 +46,7 @@ module.exports = function disconnect(blogID, callback) {
                 done(null, callback);
               })
               .catch(function(err) {
-                // you get an error revoking a revoked token, funnily enough
+                // you get an error revoking a revoked token
                 debug("token failed to revoke", err);
                 done(null, callback);
               });
