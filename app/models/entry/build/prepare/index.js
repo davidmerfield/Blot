@@ -65,8 +65,18 @@ function Prepare(entry) {
   // var body = teaser + remainder;
   // var html = titleTag + body;
 
+  // We sometimes fall back to generating a title from the path to the 
+  // file. We need to know the full path to determine if part of the
+  // file's name, from which the title may be generated, includes some
+  // part of the date, e.g. /2018/10-10 Hello.jpg. We want to make sure 
+  // the title is 'Hello' and not '10-10 Hello'. But we can't just use
+  // the plain path because some clients, like Dropbox, send the case
+  // sensitive name with the update. So we form a temporary variable,
+  // pathWithCaseSensitiveName to use to generate a title...
+  var pathWithCaseSensitiveName = require('path').dirname(entry.path) + '/' + entry.name;
+
   debug(entry.path, "Generating title from", entry.name);
-  var parsedTitle = Title($, entry.path);
+  var parsedTitle = Title($, pathWithCaseSensitiveName);
   entry.title = parsedTitle.title;
   entry.titleTag = parsedTitle.tag;
   entry.body = parsedTitle.body;
