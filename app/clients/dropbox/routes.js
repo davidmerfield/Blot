@@ -1,16 +1,35 @@
-var async = require('async');
-var config = require('config');
-var app_secret = config.dropbox.app.secret;
-var full_secret = config.dropbox.full.secret;
-var crypto = require('crypto');
-var SIGNATURE = 'x-dropbox-signature';
-var sha = crypto.createHmac.bind(this, 'SHA256');
-var Database = require('../database');
-var sync = require('./sync');
 var debug = require('debug')('clients:dropbox:routes');
 var Express = require('express');
+var config = require('config');
+var crypto = require('crypto');
+var async = require('async');
+
+var disconnect = require('./disconnect');
+var load_dropbox_account = require('./util/load_dropbox_account');
+var Database = require('./database');
+var sync = require('./util/sync');
+
+var dashboard = Express.Router();
 var site = Express.Router();
-var Webhook = site.route('/webhook');
+
+dashboard
+  .use(load_dropbox_account)
+  .get('/', function (req, res) {
+    res.render(__dirname + '/views/index.html', {title: 'Dropbox', subpage_title: 'Folder'});
+  })
+  .get('/permission', function (req, res) {
+    res.locals.breadcrumbs.add('Permission', 'change-permission');
+    res.render(__dirname + '/views/permission.html', {title: 'Dropbox', subpage_title: 'Folder'});
+  })
+  .use('/select-folder', require('./util/select_folder'))
+  .use('/authenticate', require('./authenticate'))
+  .get('/disconnect', function (req, res) {
+    res.render(__dirname + '/views/disconnect.html', {title: 'Disconnect from Dropbox'});
+  })
+  .post('/disconnect',  function(req, res, next){
+    disconnect(req.blog.id, next);
+  });
+
 
 // Used for testing purposes only to determine when a sync has finished
 // Redlock means we can't reliably determine this just by calling
@@ -22,7 +41,7 @@ site.get("/syncs-finished/:blogID", function(req, res){
 
 // This is called by Dropbox to verify
 // the webhook is valid.
-Webhook.get(function(req, res, next) {
+site.route('/webhook').get(function(req, res, next) {
 
   if (req.query && req.query.challenge)
     return res.send(req.query.challenge);
@@ -53,19 +72,22 @@ function finishedAllSyncs(blogID) {
 
 // This is called by Dropbox when changes
 // are made to the folder of a Blot user.
-Webhook.post(function(req, res) {
+site.route('/webhook').post(function(req, res) {
 
   if (config.maintenance) return res.sendStatus(503);
 
   var data = '';
   var accounts = [];
-  var signature = req.headers[SIGNATURE];
-  var secret = app_secret;
+  var signature = req.headers['x-dropbox-signature'];
+  var secret;
 
-  if (!!req.query.full_access)
-    secret = full_secret;
-
-  var verification = sha(secret);
+  if (!!req.query.full_access) {
+    secret = config.dropbox.full.secret;
+  } else {
+    secret = config.dropbox.app.secret;
+  }
+    
+  var verification = crypto.createHmac('SHA256', secret);
 
   req.setEncoding('utf8');
 
@@ -84,7 +106,7 @@ Webhook.post(function(req, res) {
     } catch (e) {
       return res.sendStatus(504);
     }
-
+    
     // Tell Dropbox we retrieved the list of accounts
     res.sendStatus(200);
 
@@ -122,5 +144,5 @@ Webhook.post(function(req, res) {
 });
 
 
-module.exports = site;
 
+module.exports = {dashboard: dashboard, site: site};

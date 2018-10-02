@@ -1,4 +1,4 @@
-var database = require('../../database');
+var database = require('../database');
 var async = require('async');
 
 function check_app_folder (blog_id, account_id, callback) {

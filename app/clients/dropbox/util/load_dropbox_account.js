@@ -1,5 +1,5 @@
 var join = require('path').join;
-var database = require('../../database');
+var database = require('../database');
 var moment = require('moment');
 
 module.exports = function load_dropbox_account (req, res, next) {

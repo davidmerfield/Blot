@@ -1,4 +1,4 @@
-var database = require('../../database');
+var database = require('../database');
 var mkdir = require('./mkdir');
 var Dropbox = require('dropbox');
 var async = require('async');
