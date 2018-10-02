@@ -35,7 +35,7 @@ describe("build", function() {
     });
   });
 
-  it("preserves case in name option for title", function(testDone) {
+  it("preserves case in title generated from file name passed as option", function(testDone) {
     var path = "/[tag] hello.jpg";
     var content = this.fake.file();
     var checkEntry = this.checkEntry;
