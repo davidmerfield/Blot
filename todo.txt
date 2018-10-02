@@ -184,6 +184,9 @@ Record a new demo video
 - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
 - My personal site: simple landing page, edit with a doc file?
 
+Generate screenshots as thumbnails for webloc posts
+- https://github.com/GoogleChrome/puppeteer
+
 Implement LE wildcart SSL certificate support
   - Tell [Johan](https://mail.google.com/mail/u/1/#inbox/165175a109b9e766)
 
