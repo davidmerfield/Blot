@@ -131,6 +131,7 @@ site.route('/webhook').post(function(req, res) {
         async.each(blogs, sync, function(err){
           blogs.forEach(function(blog){
             // Used for testing purposes only
+            console.log('Finished', blog.id);
             finished(blog.id);
           });
         });

@@ -12,17 +12,29 @@ describe("dropbox client", function() {
       var blogDirectory = this.blogDirectory;
       var fs = require("fs-extra");
       var afterSync = this.afterSync;
+      var otherContents;
+
+      console.log('Starting test...');
 
       client
         .filesUpload({ path: this.folder + path, contents: contents })
         .then(function() {
+            console.log('firing webhook...');
           webhook(function(err) {
             if (err) return done.fail(err);
 
-            afterSync(function(){
-              expect(fs.readFileSync(blogDirectory + path, "utf-8")).toEqual(
-                contents
-              );
+            console.log('Checking sync...');
+            afterSync(function(err) {
+              if (err) return done.fail(err);
+
+              try {
+                otherContents = fs.readFileSync(blogDirectory + path, "utf-8");
+              } catch (e) {
+                return done.fail(e);
+              }
+
+              expect(otherContents).toEqual(contents);
+              
               done();
             });
           });

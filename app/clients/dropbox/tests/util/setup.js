@@ -129,7 +129,7 @@ module.exports = function setup(options) {
 
   });
 
-  // beforeAll(require("./emptyFolder"));
+  afterAll(require("./emptyFolder"));
 
   // afterAll(require("./emptyFolder"));
 };
