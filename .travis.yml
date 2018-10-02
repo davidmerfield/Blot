@@ -10,7 +10,8 @@ node_js:
 before_install:
   - export BLOT_PANDOC_PATH=$(which pandoc)
 install:
-  - pip install -r app/clients/dropbox/tests/util/webhook/requirements.txt
+  - pip install click
+  - pip install requests
 cache:
   directories:
     - node_modules
