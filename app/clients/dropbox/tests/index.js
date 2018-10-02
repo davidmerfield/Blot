@@ -28,13 +28,13 @@ describe("dropbox client", function() {
               if (err) return done.fail(err);
 
               try {
-                otherContents = fs.readFileSync(blogDirectory + path, "utf-8");
+                otherContents = fs.readFileSync(blogDirectory + path.toLowerCase(), "utf-8");
               } catch (e) {
                 return done.fail(e);
               }
 
               expect(otherContents).toEqual(contents);
-              
+
               done();
             });
           });
