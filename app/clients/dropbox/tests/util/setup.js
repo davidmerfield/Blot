@@ -4,8 +4,8 @@ module.exports = function setup(options) {
   var fs = require("fs-extra");
   var Express = require("express");
   var database = require("../../database");
-  var Blog = require('blog');
-  
+  var Blog = require("blog");
+
   var server = {
     start: function attempt(done) {
       var port = 10000 + Math.round(Math.random() * 10000);
@@ -33,38 +33,40 @@ module.exports = function setup(options) {
   beforeEach(server.start);
   afterEach(server.close);
 
+  // Allows us to check if a blog has finished syncing...
+  beforeEach(function() {
+    var port = this.server.port;
+    var blogID = this.blog.id;
+
+    this.afterSync = function(callback) {
+      var http = require("http");
+      var url = require("url").format({
+        protocol: "http",
+        hostname: "localhost",
+        port: port,
+        pathname: "/clients/dropbox/syncs-finished/" + blogID
+      });
+
+      http.get(url, function check(res) {
+        var response = "";
+        res.setEncoding("utf8");
+        res.on("data", function(chunk) {
+          response += chunk;
+        });
+        res.on("end", function() {
+          if (response === "true") {
+            callback(null);
+          } else {
+            http.get(url, check);
+          }
+        });
+      });
+    };
+  });
+
   // Expose methods for creating fake files, paths, etc.
   beforeEach(function() {
     this.fake = global.test.fake;
-  });
-
-  // Create fake dropbox account
-  beforeEach(function(done) {
-    var email = this.fake.internet.email();
-    var blogID = this.blog.id;
-
-    Blog.set(blogID, { client: "dropbox" }, function(err) {
-      database.set(
-        blogID,
-        {
-          account_id: process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID,
-          access_token: process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN,
-          email: email,
-          error_code: 0,
-          last_sync: Date.now(),
-          full_access: false,
-          folder: "",
-          folder_id: "",
-          cursor: ""
-        },
-        done
-      );
-    });
-  });
-
-  // Remove fake account
-  afterEach(function(done) {
-    database.drop(this.blog.id, done);
   });
 
   // Expose methods for creating fake files, paths, etc.
@@ -78,9 +80,65 @@ module.exports = function setup(options) {
     this.client = this.appFolderClient;
   });
 
-  beforeEach(require("./emptyFolder"));
+  // Create a 'blog folder' for the tests to run against. Why
+  // not just use entire Dropbox folder? We hit 429 too many
+  // write operation errors for some dumb reason...
+  beforeEach(function(done) {
+    var client = this.client;
+    var context = this;
+    var folder = "/" + this.fake.random.word();
+
+    client
+      .filesCreateFolder({ path: folder })
+      .then(function(res) {
+        context.folder = res.path_lower;
+        context.folderID = res.id;
+        done();
+      })
+      .catch(function(err) {
+        console.log("ERRor!", err);
+        return done(new Error(err.error));
+      });
+  });
+
+  // Create fake dropbox account
+  beforeEach(function(done) {
+    var email = this.fake.internet.email();
+    var blogID = this.blog.id;
+    var folder = this.folder;
+    var folderID = this.folderID;
+
+    Blog.set(blogID, { client: "dropbox" }, function(err) {
+      if (err) return done(err);
+
+      database.set(
+        blogID,
+        {
+          account_id: process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID,
+          access_token: process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN,
+          email: email,
+          error_code: 0,
+          last_sync: Date.now(),
+          full_access: false,
+          folder: folder,
+          folder_id: folderID,
+          cursor: ""
+        },
+        done
+      );
+    });
+  });
+
+  // Remove fake account
+  afterEach(function(done) {
+    database.drop(this.blog.id, done);
+  });
 
   beforeEach(function() {
     this.webhook = require("./webhook")(this.server.port);
   });
+
+  // beforeAll(require("./emptyFolder"));
+
+  // afterAll(require("./emptyFolder"));
 };
