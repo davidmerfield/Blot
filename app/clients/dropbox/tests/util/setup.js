@@ -1,28 +1,9 @@
 module.exports = function setup(options) {
   options = options || {};
   var Dropbox = require("dropbox");
-  var fs = require("fs-extra");
-  var Express = require("express");
   var database = require("../../database");
   var Blog = require("blog");
-
-  var server = {
-    start: function attempt(done) {
-      var port = 10000 + Math.round(Math.random() * 10000);
-      this.server = Express()
-        .use("/clients/dropbox", require("../../index").site_routes)
-        .listen(port, function(err) {
-          if (err && err.code === "EADDRINUSE") return attempt(done);
-          if (err && err.code === "EACCESS") return attempt(done);
-          if (err) return done(err);
-          done();
-        });
-      this.server.port = port;
-    },
-    close: function(done) {
-      this.server.close(done);
-    }
-  };
+  var server = require('./server');
 
   global.test.blog();
 
@@ -135,7 +116,17 @@ module.exports = function setup(options) {
   });
 
   beforeEach(function() {
-    this.webhook = require("./webhook")(this.server.port);
+    var Webhook = require('./webhook');
+    var accountID = process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID;
+    var webhook = new Webhook(
+      process.env.BLOT_DROPBOX_APP_SECRET,
+      this.server.baseUrl + "/webhook"
+    );
+
+    this.webhook = function (callback) {
+      webhook.notify(accountID, callback);
+    };
+
   });
 
   // beforeAll(require("./emptyFolder"));
