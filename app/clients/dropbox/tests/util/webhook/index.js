@@ -1,36 +1,65 @@
-var exec = require("child_process").exec;
-var async = require("async");
+var http = require("http");
+var URL = require("url");
+var crypto = require('crypto');
 
-module.exports = function(port) {
-  return function(callback) {
-    var base = "http://localhost:" + port + "/clients/dropbox/webhook";
+module.exports = function(secret, baseUrl) {
+  return {
+    challenge: function(syn, callback) {
+      var challengeUrl;
 
-    var appFolderCommand =
-      "python " +
-      __dirname +
-      "/dropbox_hook.py notify " +
-      base +
-      " --secret " +
-      process.env.BLOT_DROPBOX_APP_SECRET +
-      " --account " +
-      process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID;
+      challengeUrl = URL.parse(baseUrl, { parseQueryString: true });
+      challengeUrl.query.challenge = syn || "Hello, World!";
+      challengeUrl = URL.format(challengeUrl);
 
-    var fullFolderCommand =
-      "python " +
-      __dirname +
-      "/dropbox_hook.py notify " +
-      base +
-      "?full=true" +
-      " --secret " +
-      process.env.BLOT_DROPBOX_FULL_SECRET +
-      " --account " +
-      process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID;
+      http.get(challengeUrl, function check(res) {
+        var ack = "";
 
-    exec(appFolderCommand, function(err, stdout, stderr) {
+        if (res.statusCode !== 200) 
+          return callback(new Error('Bad status code at challenge route: ' + res.statusCode));
 
-      if (err) return callback(new Error("Webhook failed"));
+        res.setEncoding("utf8");
+        res.on("data", function(chunk) {
+          ack += chunk;
+        });
+        res.on("end", function() {
+          if (ack === syn) {
+            callback(null);
+          } else {
+            callback(new Error("Challenge was not met"));
+          }
+        });
+      });
+    },
+    notify: function(accountID, callback) {
+      var body = JSON.stringify({ list_folder: { accounts: [accountID] } });
+      var signature = crypto.createHmac("SHA256", secret);
 
-      callback();
-    });
+      signature.update(body);
+      signature = signature.digest("hex");
+      
+      var notifyUrl = URL.parse(baseUrl, { parseQueryString: true });
+
+      var options = {
+        hostname: notifyUrl.hostname,
+        port: notifyUrl.port,
+        path: notifyUrl.path,
+        method: "POST",
+        headers: {
+          "X-Dropbox-Signature": signature,
+          "Content-type": "application/json"
+        }
+      };
+
+      var req = http.request(options, function(res) {
+        if (res.statusCode === 200) {
+          callback(null);
+        } else {
+          callback(new Error('bad status ' + res.statusCode));
+        }
+      });
+
+      req.write(body);
+      req.end();
+    }
   };
 };
