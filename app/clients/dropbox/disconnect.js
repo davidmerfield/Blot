@@ -31,7 +31,7 @@ module.exports = function disconnect  (blogID, callback) {
             }
 
             debug("listing blogs with this account", account.account_id);
-            database.list_blogs(account.account_id, function(err, blogs) {
+            database.listBlogs(account.account_id, function(err, blogs) {
               if (err) return done(err, callback);
 
               if (blogs.length) {

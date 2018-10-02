@@ -116,7 +116,7 @@ site.route('/webhook').post(function(req, res) {
 
       debug('Checking blogs for Dropbox account', account_id);
       
-      Database.list_blogs(account_id, function(err, blogs){
+      Database.listBlogs(account_id, function(err, blogs){
 
         if (err) return next_account(err);
           

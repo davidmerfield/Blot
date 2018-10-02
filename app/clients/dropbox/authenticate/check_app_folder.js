@@ -6,7 +6,7 @@ function check_app_folder (blog_id, account_id, callback) {
   var no_blogs_in_app_folder = true;
   var existing_blog_using_app_folder = null;
 
-  database.list_blogs(account_id, function(err, blogs){
+  database.listBlogs(account_id, function(err, blogs){
 
     if (err) return callback(err);
 
