@@ -1,7 +1,7 @@
 var fs = require('fs-extra');
 var async = require('async');
 var join = require('path').join;
-var Dropbox = require('dropbox');
+var createClient = require('../util/createClient');
 var debug = require('debug')('clients:dropbox:write_existing_contents');
 var helper = require('helper');
 
@@ -86,7 +86,7 @@ function write_existing_contents (blogID, dropbox_folder, access_token, callback
     
   debug('made it to write_existing_contents');
 
-  var client = new Dropbox({accessToken: access_token});
+  var client = createClient(access_token);
   var files_to_write = {};
 
   var dropbox_path = function (path) {

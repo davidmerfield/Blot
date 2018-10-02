@@ -1,10 +1,8 @@
-var Dropbox = require("dropbox");
+var createClient = require('../../util/createClient');
 
 module.exports = function(done) {
   
-var client = new Dropbox({
-  accessToken: process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN
-});
+var client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
 
 function checkBatchStatus(result) {
   return client

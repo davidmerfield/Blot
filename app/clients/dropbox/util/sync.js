@@ -1,5 +1,5 @@
 var async = require("async");
-var Dropbox = require("dropbox");
+var createClient = require("./createClient");
 var delta = require("./delta");
 var Download = require("./download");
 var Sync = require("sync");
@@ -8,15 +8,18 @@ var fs = require("fs-extra");
 var join = require("path").join;
 var debug = require("debug")("clients:dropbox:sync");
 
-module.exports = function main (blog, callback) {
+module.exports = function main(blog, callback) {
   debug("Beginning sync");
 
   Database.get(blog.id, function(err, account) {
     if (err) return callback(err);
 
-  // redlock options to ensure we acquire a lock eventually...
-    Sync(blog.id, {retryCount: -1, retryDelay:  10, retryJitter:  10}, function(err, folder, done) {
-
+    // redlock options to ensure we acquire a lock eventually...
+    Sync(blog.id, { retryCount: -1, retryDelay: 10, retryJitter: 10 }, function(
+      err,
+      folder,
+      done
+    ) {
       if (err) return callback(err);
 
       debug("Retrieving changes from Dropbox...", account);
@@ -26,7 +29,7 @@ module.exports = function main (blog, callback) {
 
         debug("Retrieved changes", changes);
 
-        var client = new Dropbox({ accessToken: account.access_token });
+        var client = createClient(account.access_token);
 
         var deleted = changes.filter(function(item) {
           return item[".tag"] === "deleted";

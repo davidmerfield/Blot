@@ -147,7 +147,7 @@ function set(blogID, changes, callback) {
     } else {
       debug("Not adding blog id to the list of blogs for this Dropbox account");
     }
-
+    
     ensure(account, Model, true);
 
     debug("Saving this account");

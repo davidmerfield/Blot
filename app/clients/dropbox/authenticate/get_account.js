@@ -1,6 +1,6 @@
 var config = require('config');
 var https = require('https');
-var Dropbox = require('dropbox');
+var createClient = require('../util/createClient');
 var callback_uri = require('./callback_uri');
 
 module.exports = function (req, res, next){
@@ -84,7 +84,7 @@ function make_request (options, callback) {
 
 function get_email (access_token, callback) {
 
-  var client = new Dropbox({accessToken: access_token});
+  var client = createClient(access_token);
 
   client.usersGetCurrentAccount()
 

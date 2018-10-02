@@ -1,10 +1,10 @@
 module.exports = function setup(options) {
   options = options || {};
-  var Dropbox = require("dropbox");
   var database = require("../../database");
   var Blog = require("blog");
-  var server = require('./server');
-
+  var server = require("./server");
+  var createClient = require('../../util/createClient');
+  
   global.test.blog();
 
   // Sets up a temporary tmp folder and cleans it up after
@@ -52,13 +52,7 @@ module.exports = function setup(options) {
 
   // Expose methods for creating fake files, paths, etc.
   beforeEach(function() {
-    this.appFolderClient = new Dropbox({
-      accessToken: process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN
-    });
-    this.fullFolderClient = new Dropbox({
-      accessToken: process.env.BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN
-    });
-    this.client = this.appFolderClient;
+    this.client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
   });
 
   // Create a 'blog folder' for the tests to run against. Why
@@ -69,21 +63,26 @@ module.exports = function setup(options) {
     var context = this;
     var folder = "/" + this.fake.random.word();
 
+    console.log("Creating folder...");
+
     client
       .filesCreateFolder({ path: folder })
       .then(function(res) {
+        console.log("Response creating folder...", res);
         context.folder = res.path_lower;
         context.folderID = res.id;
         done();
       })
       .catch(function(err) {
-        console.log("ERRor!", err);
+        console.log("Error creating folder...", err);
         return done(new Error(err.error));
       });
   });
 
   // Create fake dropbox account
   beforeEach(function(done) {
+    console.log("Creating account...");
+
     var email = this.fake.internet.email();
     var blogID = this.blog.id;
     var folder = this.folder;
@@ -92,6 +91,7 @@ module.exports = function setup(options) {
     Blog.set(blogID, { client: "dropbox" }, function(err) {
       if (err) return done(err);
 
+      console.log("HERE!", folder, folderID);
       database.set(
         blogID,
         {
@@ -116,17 +116,16 @@ module.exports = function setup(options) {
   });
 
   beforeEach(function() {
-    var Webhook = require('./webhook');
+    var Webhook = require("./webhook");
     var accountID = process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID;
     var webhook = new Webhook(
       process.env.BLOT_DROPBOX_APP_SECRET,
       this.server.baseUrl + "/webhook"
     );
 
-    this.webhook = function (callback) {
+    this.webhook = function(callback) {
       webhook.notify(accountID, callback);
     };
-
   });
 
   // beforeEach(require("./emptyFolder"));

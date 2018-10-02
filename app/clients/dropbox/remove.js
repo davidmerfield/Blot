@@ -1,5 +1,5 @@
 var join = require("path").join;
-var Dropbox = require("dropbox");
+var createClient = require("./util/createClient");
 var database = require("./database");
 var helper = require("helper");
 var ensure = helper.ensure;
@@ -10,10 +10,10 @@ module.exports = function remove(blogID, path, callback) {
     .and(path, "string")
     .and(callback, "function");
 
-  debug('Removing', path);
-  
+  debug("Removing", path);
+
   database.get(blogID, function(err, account) {
-    var client = new Dropbox({ accessToken: account.access_token });
+    var client = createClient(account.access_token);
 
     client
       .filesDelete({

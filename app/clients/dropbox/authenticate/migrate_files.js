@@ -1,6 +1,6 @@
 var database = require('../database');
 var mkdir = require('./mkdir');
-var Dropbox = require('dropbox');
+var createClient = require('../util/createClient');
 var async = require('async');
 
 function readdir (client, path, callback) {
@@ -40,7 +40,7 @@ module.exports = function migrate_files (req, res, next) {
   var new_site_folder = '/' + req.blog.title;
   var existing_blog = req.existing_blog;
   var existing_site_folder = '/' + existing_blog.title;
-  var client = new Dropbox({accessToken: new_account.access_token});
+  var client = createClient(new_account.access_token);
 
   readdir(client, '', function(err, contents){
 

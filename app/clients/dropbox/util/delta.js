@@ -1,10 +1,10 @@
 var NO_ENTRIES = "Expected entries from Dropbox";
 var NO_CURSOR = "Expected cursor from Dropbox";
-var Dropbox = require("dropbox");
 var Database = require("../database");
 var helper = require("helper");
 var ensure = helper.ensure;
 var async = require('async');
+var createClient = require('./createClient');
 
 module.exports = function delta(blogID, account, callback) {
   ensure(blogID, "string")
@@ -12,7 +12,7 @@ module.exports = function delta(blogID, account, callback) {
     .and(callback, "function");
 
   var has_more, changes, latest_cursor;
-  var client = new Dropbox({ accessToken: account.access_token });
+  var client = createClient(account.access_token);
   var cursor = account.cursor;
   var folder_id = account.folder_id;
   var folder = "";

@@ -1,7 +1,7 @@
 var join = require("path").join;
-var Dropbox = require("dropbox");
 var database = require("./database");
 var debug = require("debug")("clients:dropbox:write");
+var createClient = require('./util/createClient');
 
 module.exports = function write(blogID, path, contents, callback) {
   var pathInDropbox, client;
@@ -12,7 +12,7 @@ module.exports = function write(blogID, path, contents, callback) {
     if (err || !account) return callback(err || new Error("No account"));
 
     pathInDropbox = join(account.folder || "/", path);
-    client = new Dropbox({ accessToken: account.access_token });
+    client = createClient(account.access_token);
 
     client
       .filesUpload({
