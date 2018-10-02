@@ -1,11 +1,9 @@
-var join = require('path').join;
-var database = require('../database');
-var moment = require('moment');
+var join = require("path").join;
+var database = require("../database");
+var moment = require("moment");
 
-module.exports = function load_dropbox_account (req, res, next) {
-
-  database.get(req.blog.id, function(err, account){
-    
+module.exports = function load_dropbox_account(req, res, next) {
+  database.get(req.blog.id, function(err, account) {
     if (err) return next(err);
 
     if (!account) return next();
@@ -26,22 +24,18 @@ module.exports = function load_dropbox_account (req, res, next) {
 
     var dropboxBreadcrumbs = [];
     var folder;
-      
+
     if (res.locals.account.full_access) {
-
-      folder = join('Dropbox', res.locals.account.folder);
-
+      folder = join("Dropbox", res.locals.account.folder);
     } else {
-
-      folder = join('Dropbox', 'Apps', 'Blot', res.locals.account.folder);
-
+      folder = join("Dropbox", "Apps", "Blot", res.locals.account.folder);
     }
 
-    dropboxBreadcrumbs = folder.split('/').map(function(name){
-      return {name: name};
+    dropboxBreadcrumbs = folder.split("/").map(function(name) {
+      return { name: name };
     });
 
-    dropboxBreadcrumbs[dropboxBreadcrumbs.length -1].last = true;
+    dropboxBreadcrumbs[dropboxBreadcrumbs.length - 1].last = true;
     res.locals.dropboxBreadcrumbs = dropboxBreadcrumbs;
 
     return next();

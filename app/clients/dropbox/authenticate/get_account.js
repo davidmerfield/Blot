@@ -1,41 +1,43 @@
-var config = require('config');
-var https = require('https');
-var createClient = require('../util/createClient');
-var callback_uri = require('./callback_uri');
+var config = require("config");
+var https = require("https");
+var createClient = require("../util/createClient");
+var callback_uri = require("./callback_uri");
 
-module.exports = function (req, res, next){
-
+module.exports = function(req, res, next) {
   if (!req.query || !req.query.code) {
-    return next(new Error('No code from Dropbox'));
+    return next(new Error("No code from Dropbox"));
   }
-    
+
   var code = req.query.code;
   var key = config.dropbox.app.key;
   var secret = config.dropbox.app.secret;
   var redirect_uri = callback_uri(req);
-  var full_access = req.query.full_access === 'true';
+  var full_access = req.query.full_access === "true";
 
   if (full_access) {
     key = config.dropbox.full.key;
     secret = config.dropbox.full.secret;
-    redirect_uri += '?full_access=true';
+    redirect_uri += "?full_access=true";
   }
 
   var options = {
-    hostname: 'api.dropboxapi.com',
-    path: '/oauth2/token?code=' + code + '&grant_type=authorization_code&redirect_uri=' + redirect_uri,
-    method: 'POST',
+    hostname: "api.dropboxapi.com",
+    path:
+      "/oauth2/token?code=" +
+      code +
+      "&grant_type=authorization_code&redirect_uri=" +
+      redirect_uri,
+    method: "POST",
     headers: {
-      Authorization: 'Basic ' + new Buffer(key + ':' + secret).toString('base64')
+      Authorization:
+        "Basic " + new Buffer(key + ":" + secret).toString("base64")
     }
   };
 
-  make_request(options, function(err, account_id, access_token){
-
+  make_request(options, function(err, account_id, access_token) {
     if (err) return next(err);
 
-    get_email(access_token, function(err, email){
-
+    get_email(access_token, function(err, email) {
       if (err) return next(err);
 
       req.new_account = {
@@ -45,9 +47,9 @@ module.exports = function (req, res, next){
         error_code: 0,
         last_sync: Date.now(),
         full_access: full_access,
-        folder: '',
-        folder_id: '',
-        cursor: ''
+        folder: "",
+        folder_id: "",
+        cursor: ""
       };
 
       next();
@@ -55,20 +57,19 @@ module.exports = function (req, res, next){
   });
 };
 
-function make_request (options, callback) {
-
+function make_request(options, callback) {
   var request;
   var raw;
   var parsed = {};
 
-  request = https.request(options, function (data) {
+  request = https.request(options, function(data) {
+    raw = "";
 
-    raw = '';
+    data.on("data", function(chunk) {
+      raw += chunk;
+    });
 
-    data.on('data', function (chunk) {raw += chunk;});
-
-    data.on('end', function ()  {
-
+    data.on("end", function() {
       try {
         parsed = JSON.parse(raw);
       } catch (e) {
@@ -82,13 +83,13 @@ function make_request (options, callback) {
   request.end();
 }
 
-function get_email (access_token, callback) {
-
+function get_email(access_token, callback) {
   var client = createClient(access_token);
 
-  client.usersGetCurrentAccount()
+  client
+    .usersGetCurrentAccount()
 
-    .then(function(response){
+    .then(function(response) {
       callback(null, response.email);
     })
 

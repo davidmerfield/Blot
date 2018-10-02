@@ -1,20 +1,17 @@
-var Sync = require('sync');
-var debug = require('debug')('clients:dropbox:lock_on_folder');
+var Sync = require("sync");
+var debug = require("debug")("clients:dropbox:lock_on_folder");
 
 module.exports = {
+  acquire: function(req, res, next) {
+    debug("attempting to grab sync");
 
-  acquire: function (req, res, next) {
-
-    debug('attempting to grab sync');
-
-    Sync(req.blog.id, function(err, folder, done){
-
+    Sync(req.blog.id, function(err, folder, done) {
       if (err) return next(err);
 
-      debug('main function invoked');
-      
-      req.on_complete = function(){
-        done(null, function(){
+      debug("main function invoked");
+
+      req.on_complete = function() {
+        done(null, function() {
           // callback required...
         });
       };
@@ -23,9 +20,8 @@ module.exports = {
     });
   },
 
-  release: function (req, res, next) {
-    
-    debug('Calling sync on_complete!');
+  release: function(req, res, next) {
+    debug("Calling sync on_complete!");
     req.on_complete();
     next();
   }

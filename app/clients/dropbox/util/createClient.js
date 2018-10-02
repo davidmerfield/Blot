@@ -1,4 +1,4 @@
-// Look at all this bullshit. Unbelieveable. 
+// Look at all this bullshit. Unbelieveable.
 // Great job, folks at Dropbox. Proud of you.
 
 var fetch = require("isomorphic-fetch");

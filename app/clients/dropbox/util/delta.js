@@ -3,8 +3,8 @@ var NO_CURSOR = "Expected cursor from Dropbox";
 var Database = require("../database");
 var helper = require("helper");
 var ensure = helper.ensure;
-var async = require('async');
-var createClient = require('./createClient');
+var async = require("async");
+var createClient = require("./createClient");
 
 module.exports = function delta(blogID, account, callback) {
   ensure(blogID, "string")

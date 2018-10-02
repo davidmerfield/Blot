@@ -63,7 +63,7 @@ module.exports = function setup(options) {
     var context = this;
     var folder = "/" + this.fake.random.word();
 
-    console.log("Creating folder...");
+    console.log("Creating folder...", folder);
 
     client
       .filesCreateFolder({ path: folder })

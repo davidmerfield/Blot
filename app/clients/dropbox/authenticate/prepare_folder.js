@@ -1,9 +1,8 @@
-var check_app_folder = require('./check_app_folder');
-var migrate_files = require('./migrate_files');
-var create_folder = require('./create_folder');
+var check_app_folder = require("./check_app_folder");
+var migrate_files = require("./migrate_files");
+var create_folder = require("./create_folder");
 
-module.exports = function prepare_folder (req, res, next){
-
+module.exports = function prepare_folder(req, res, next) {
   var full_access = req.new_account.full_access;
   var new_account_id = req.new_account.account_id;
 
@@ -31,21 +30,22 @@ module.exports = function prepare_folder (req, res, next){
   // is another site using this dropbox, but with full
   // permission. or another site using a subfolder
   // inside the app folder.
-  check_app_folder(
-    req.blog.id,
-    new_account_id,
-    function(err, no_blogs_in_app_folder, other_blog_using_entire_app_folder){
-
+  check_app_folder(req.blog.id, new_account_id, function(
+    err,
+    no_blogs_in_app_folder,
+    other_blog_using_entire_app_folder
+  ) {
     if (err) return next(err);
 
     // There are no other sites anywhere inside this Dropbox
     // folder so let's just use the entire app folder.
-    if (no_blogs_in_app_folder) return next(); 
-    
+    if (no_blogs_in_app_folder) return next();
+
     // If there are no other blogs using the *entire* app folder, as opposed
     // to a subfolder inside it, this means we can just create an additional
     // sub folder in the app folder for this new site.
-    if (!other_blog_using_entire_app_folder) return create_folder(req, res, next);
+    if (!other_blog_using_entire_app_folder)
+      return create_folder(req, res, next);
 
     // Since the other site uses the app folde as root
     // we need to move its files into a sub folder, then
@@ -53,6 +53,6 @@ module.exports = function prepare_folder (req, res, next){
     req.existing_blog = other_blog_using_entire_app_folder;
     req.existing_account = other_blog_using_entire_app_folder;
 
-    return migrate_files(req, res, next);    
+    return migrate_files(req, res, next);
   });
 };
