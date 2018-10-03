@@ -85,21 +85,6 @@ module.exports = function delta(token, folderID) {
 
         console.log("ERROR", err);
         callback(err);
-
-        // var folder_missing = errors.length && errors[0].status === 409;
-        // var folder_moved = folder_missing && result.path_display;
-
-        // // We were still able to retrieve the metadata
-        // // for this folder but the cursor is invalid.
-        // // This means the folder was renamed, not removed.
-        // if (folder_moved) {
-        //   cursor = "";
-        //   return delta(token, cursor, folderID, callback);
-        // }
-
-        // if (errors.length) {
-        //   return callback(errors[0]);
-        // }
       });
   };
 };
