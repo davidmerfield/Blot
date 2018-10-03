@@ -1,37 +1,36 @@
-var helper = require('helper');
+var helper = require("helper");
 var ensure = helper.ensure;
-var async = require('async');
-var equal = require('lodash').isEqual;
-var Entries = require('../../models/entries');
-var Entry = require('../../models/entry');
+var async = require("async");
+var equal = require("lodash").isEqual;
+var Entries = require("../../models/entries");
+var Entry = require("../../models/entry");
 var get = Entry.get;
 var set = Entry.set;
+var debug = require("debug")("sync:renames");
 
 var RENAME_PERIOD = 1000 * 60; // 1 minute
 
-function forCreated (blogID, newEntry, callback) {
+function forCreated(blogID, newEntry, callback) {
+  ensure(blogID, "string")
+    .and(newEntry, "object")
+    .and(callback, "function");
 
-  ensure(blogID, 'string')
-    .and(newEntry, 'object')
-    .and(callback, 'function');
-
-  var log = new Log(blogID);
-
-  log(newEntry.path, ':: Checking recently deleted entries to ensure this is not a rename');
+  debug(
+    newEntry.path,
+    ":: Checking recently deleted entries to ensure this is not a rename"
+  );
 
   // One minute ago
   var after = Date.now() - RENAME_PERIOD;
 
-  Entries.getDeleted(blogID, after, function(err, deleted){
-
+  Entries.getDeleted(blogID, after, function(err, deleted) {
     if (err) return callback(err);
 
-    findSimilar(newEntry, deleted, function (err, similar, score) {
-
+    findSimilar(newEntry, deleted, function(err, similar, score) {
       if (err) return callback(err);
 
       if (!similar) {
-        log(newEntry.path, ':: No recently deleted entry matched this entry');
+        debug(newEntry.path, ":: No recently deleted entry matched this entry");
         return callback();
       }
 
@@ -41,45 +40,69 @@ function forCreated (blogID, newEntry, callback) {
         guid: similar.guid
       };
 
-      log(newEntry.path, ':: Found a recently deleted entry which is similar to this entry:', similar.path, similar.guid, new Date(similar.created), '(' + score + ')');
+      console.log(
+        "Blog:",
+        blogID,
+        "Rename caught:",
+        "\n- Old path:",
+        similar.path,
+        "\n- New path:",
+        newEntry.path
+      );
+
+      debug(
+        newEntry.path,
+        ":: Found a recently deleted entry which is similar to this entry:",
+        similar.path,
+        similar.guid,
+        new Date(similar.created),
+        "(" + score + ")"
+      );
       return callback(null, changes);
     });
   });
 }
 
-function forDeleted (blogID, path, callback) {
+function forDeleted(blogID, path, callback) {
+  ensure(blogID, "string")
+    .and(path, "string")
+    .and(callback, "function");
 
-  ensure(blogID, 'string')
-    .and(path, 'string')
-    .and(callback, 'function');
-
-  var log = new Log(blogID);
-
-  get(blogID, path, function(deletedEntry){
-
+  get(blogID, path, function(deletedEntry) {
     if (!deletedEntry) return callback();
 
-    log(deletedEntry.path, ':: Checking entry to be deleted is not a rename of a recently created file');
+    debug(
+      deletedEntry.path,
+      ":: Checking entry to be deleted is not a rename of a recently created file"
+    );
 
     var after = Date.now() - RENAME_PERIOD;
 
     if (deletedEntry.created > after && deletedEntry.created < Date.now())
       after = deletedEntry.created;
 
-    Entries.getCreated(blogID, after, function(err, recentlyCreated){
-
+    Entries.getCreated(blogID, after, function(err, recentlyCreated) {
       if (err) return callback(err);
 
-      findSimilar(deletedEntry, recentlyCreated, function (err, similar, score) {
-
+      findSimilar(deletedEntry, recentlyCreated, function(err, similar, score) {
         if (err) return callback(err);
 
         if (!similar) {
-          log(deletedEntry.path, ':: No recently created entry matched this entry');
+          debug(
+            deletedEntry.path,
+            ":: No recently created entry matched this entry"
+          );
           return callback();
         }
 
-        log(deletedEntry.path, ':: Found a recently created entry which is similar to the entry to be deleted:', similar.path, similar.guid, new Date(similar.created), '(' + score + ')');
+        debug(
+          deletedEntry.path,
+          ":: Found a recently created entry which is similar to the entry to be deleted:",
+          similar.path,
+          similar.guid,
+          new Date(similar.created),
+          "(" + score + ")"
+        );
 
         var changes = {
           url: deletedEntry.url,
@@ -93,16 +116,23 @@ function forDeleted (blogID, path, callback) {
         if (similar.dateStamp === similar.created)
           changes.dateStamp = changes.created;
 
+        console.log(
+          "Blog:",
+          blogID,
+          "Rename caught:",
+          "\n- Old path:",
+          similar.path,
+          "\n- New path:",
+          path
+        );
         set(blogID, similar.path, changes, callback);
       });
     });
   });
 }
 
-function calculateSimilarity (first, second) {
-
-  ensure(first, 'object')
-    .and(second, 'object');
+function calculateSimilarity(first, second) {
+  ensure(first, "object").and(second, "object");
 
   // It's possible that an entry to be deleted
   // will show up on the list of entries that were
@@ -110,8 +140,7 @@ function calculateSimilarity (first, second) {
   // if the IDs match.
 
   // console.log('Comparing', first.path, second.path);
-  if (first.id === second.id || first.path === second.path)
-    return false;
+  if (first.id === second.id || first.path === second.path) return false;
 
   var score = 0;
 
@@ -131,41 +160,36 @@ function calculateSimilarity (first, second) {
   // - metadata
 
   var check = [
-
     // weak (two different entries might have null for these)
-    'permalink',
-    'tags',
-    'dateStamp',
+    "permalink",
+    "tags",
+    "dateStamp",
 
     // strong
-    'title',
-    'titleTag',
-    'updated', // file mtime
-    'summary',
-    'teaser',
-    'slug',
-    'size'
+    "title",
+    "titleTag",
+    "updated", // file mtime
+    "summary",
+    "teaser",
+    "slug",
+    "size"
   ];
 
   for (var i = 0; i < check.length; i++) {
-
     var key = check[i];
 
     // Sometimes a created entry doesn't have a datestamp
     // don't freak out...
     if (first[key] === undefined && second[key] === undefined) {
       // console.log('>',key,'is missing from both entries');
-
-    // We only score if one entry has a truthy value.
-    // This allows us to avoid giving credit to two entries
-    // without permalinks, tags or datestamps...
+      // We only score if one entry has a truthy value.
+      // This allows us to avoid giving credit to two entries
+      // without permalinks, tags or datestamps...
     } else if (!first[key] && !second[key]) {
       // console.log('>',key,'are both falsy');
-
     } else if (equal(first[key], second[key])) {
       // console.log('>',key,'are both the same!');
       score++;
-
     } else {
       // console.log('>',key,'are different :(');
     }
@@ -180,34 +204,30 @@ function calculateSimilarity (first, second) {
   return score;
 }
 
-function findSimilar (entry, entries, callback) {
-
-  ensure(entry, 'object')
-    .and(entries, 'array')
-    .and(callback, 'function');
+function findSimilar(entry, entries, callback) {
+  ensure(entry, "object")
+    .and(entries, "array")
+    .and(callback, "function");
 
   var similar;
   var bestScore = 0;
 
-  async.eachSeries(entries, function(candidate, next){
+  async.eachSeries(
+    entries,
+    function(candidate, next) {
+      var score = calculateSimilarity(entry, candidate);
 
-    var score = calculateSimilarity(entry, candidate);
+      if (score > bestScore) {
+        similar = candidate;
+        bestScore = score;
+      }
 
-    if (score > bestScore) {
-      similar = candidate;
-      bestScore = score;
+      next();
+    },
+    function() {
+      callback(null, similar, bestScore);
     }
-
-    next();
-
-  }, function(){
-
-    callback(null, similar, bestScore);
-  });
-}
-
-function Log (blogID) {
-  return console.log.bind(this, 'Blog: ' + blogID + ':');
+  );
 }
 
 module.exports = {

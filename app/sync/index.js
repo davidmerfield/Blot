@@ -21,11 +21,10 @@ process.on("SIGTERM", unlockAll); // catch kill
 process.on("uncaughtException", unlockAll); // catch runtime error
 
 function unlockAll(err) {
-  
   var exitCode = 0;
 
   console.log("Unlocking all locks...");
-  
+
   async.eachOf(
     locks,
     function(lock, blogID, next) {
@@ -33,12 +32,10 @@ function unlockAll(err) {
       lock.unlock(next);
     },
     function() {
-
-    if (err) {
-      console.error(err);
-      exitCode = 1;
-    }
-
+      if (err) {
+        console.error(err);
+        exitCode = 1;
+      }
 
       process.exit(exitCode);
     }
@@ -64,15 +61,15 @@ function sync(blogID, options, callback) {
 
     // the max number of times Redlock will attempt
     // to lock a resource before erroring
-    retryCount: options.driftFactor || 10,
+    retryCount: options.retryCount || 10,
 
     // the time in ms between attempts
-    retryDelay: options.driftFactor || 200, // time in ms
+    retryDelay: options.retryDelay || 200, // time in ms
 
     // the max time in ms randomly added to retries
     // to improve performance under high contention
     // see https://www.awsarchitectureblog.com/2015/03/backoff.html
-    retryJitter: options.driftFactor || 200 // time in ms
+    retryJitter: options.retryJitter || 200 // time in ms
   });
 
   Blog.get({ id: blogID }, function(err, blog) {
