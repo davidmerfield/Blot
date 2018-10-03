@@ -83,7 +83,7 @@ body {-webkit-font-smoothing: antialiased;color: #111111}
 code {font-family: 'IA Writer Duospace';font-size: 0.9rem;-webkit-font-smoothing: auto;
 }
 ol, ul, li {margin: 0;padding: 0}
-ol:not(.normal) {list-style-type: upper-roman;margin-left: -1rem}
+ol:not(.normal) {list-style-type: upper-roman;}
 ol.normal {padding-left: 1rem}
 ol.normal li {padding-left: 0.25rem}
 table, thead, tr {padding: 0;margin: 0;  border-collapse: collapse;}

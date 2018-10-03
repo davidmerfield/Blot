@@ -5,10 +5,6 @@ Determine cause of ghost post bug:
     - Could it be catch renames?
     - Could it be rebuild dependents?
 
-Sync:
-- Write tests for sync
-- Move to redlock for sync lease and release
-
 Build:
 - Run multiple workers and fix this slowness issue:
     https://github.com/davidmerfield/Blot/issues/15
@@ -187,6 +183,9 @@ Record a new demo video
 - My visual scrapbook: shows tag folders, photo blog
 - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
 - My personal site: simple landing page, edit with a doc file?
+
+Generate screenshots as thumbnails for webloc posts
+- https://github.com/GoogleChrome/puppeteer
 
 Implement LE wildcart SSL certificate support
   - Tell [Johan](https://mail.google.com/mail/u/1/#inbox/165175a109b9e766)
