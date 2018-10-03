@@ -8,16 +8,19 @@ var fs = require("fs-extra");
 var join = require("path").join;
 var debug = require("debug")("clients:dropbox:sync");
 
-module.exports = function main (blog, callback) {
+module.exports = function main(blog, callback) {
   debug("Beginning sync");
 
-  Database.get(blog.id, function(err, account) {
+  // redlock options to ensure we acquire a lock eventually...
+  Sync(blog.id, { retryCount: -1, retryDelay: 10, retryJitter: 10 }, function(
+    err,
+    folder,
+    done
+  ) {
     if (err) return callback(err);
 
-  // redlock options to ensure we acquire a lock eventually...
-    Sync(blog.id, {retryCount: -1, retryDelay:  10, retryJitter:  10}, function(err, folder, done) {
-
-      if (err) return callback(err);
+    Database.get(blog.id, function(err, account) {
+      if (err) return done(err, callback);
 
       debug("Retrieving changes from Dropbox...");
 

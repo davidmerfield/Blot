@@ -8,7 +8,6 @@ var Entry = require("entry");
 var Preview = require("../../modules/preview");
 var isPreview = require("../../drafts").isPreview;
 var async = require("async");
-var catchRename = require("./catchRename").forCreated;
 var build = require('./build');
 
 var converters = require("../../converters");
@@ -29,7 +28,7 @@ function isTemplate(path) {
 function isWrongType(path) {
   var isWrong = true;
 
-  converters.forEach(function(converter){
+  converters.forEach(function(converter) {
     if (converter.is(path)) isWrong = false;
   });
 
@@ -37,7 +36,7 @@ function isWrongType(path) {
 }
 
 module.exports = function(blog, path, options, callback) {
-  var queue, is_preview;
+  var queue;
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
@@ -46,7 +45,6 @@ module.exports = function(blog, path, options, callback) {
 
   // Blot likes leading slashes
   if (path[0] !== "/") path = "/" + path;
-
 
   queue = {
     is_preview: isPreview.bind(this, blog.id, path),
@@ -82,20 +80,12 @@ module.exports = function(blog, path, options, callback) {
     build(blog, path, options, function(err, entry) {
       if (err) return callback(err);
 
-      // this checks the entry to see if a deleted entry
-      // matches it. If so, then use the deleted entry's url and created date.
-      catchRename(blog.id, entry, function(err, changes) {
-        if (err) return callback(err);
+      // This file is a draft, write a preview file
+      // to the users Dropbox and continue down
+      // We look up the remote path later in this module...
+      if (entry.draft) Preview.write(blog.id, path);
 
-        if (changes) for (var key in changes) entry[key] = changes[key];
-
-        // This file is a draft, write a preview file
-        // to the users Dropbox and continue down
-        // We look up the remote path later in this module...
-        if (entry.draft) Preview.write(blog.id, path);
-
-        Entry.set(blog.id, entry.path, entry, callback);
-      });
+      Entry.set(blog.id, entry.path, entry, callback);
     });
   });
 };

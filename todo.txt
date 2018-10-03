@@ -1,3 +1,6 @@
+Determine fix for this error when you sync more than 11 files
+(node:22701) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 exit listeners added. Use emitter.setMaxListeners() to increase limit
+
 Determine cause of ghost post bug:
 - Seems to only happen in production when renaming, or moving the parent folder for an image. 
   - Could it be a file path thing?
@@ -183,6 +186,9 @@ Record a new demo video
 - My visual scrapbook: shows tag folders, photo blog
 - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
 - My personal site: simple landing page, edit with a doc file?
+
+Generate screenshots as thumbnails for webloc posts
+- https://github.com/GoogleChrome/puppeteer
 
 Implement LE wildcart SSL certificate support
   - Tell [Johan](https://mail.google.com/mail/u/1/#inbox/165175a109b9e766)

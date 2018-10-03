@@ -7,7 +7,7 @@ var set = require("./set");
 var mkdir = require("./mkdir");
 
 module.exports = function(blog) {
-  return function(path, options, callback) {
+  function update (path, options, callback) {
     if (callback === undefined && typeof options === "function") {
       callback = options;
       options = {};
@@ -28,10 +28,19 @@ module.exports = function(blog) {
 
     fs.stat(localPath(blog.id, path), function(err, stat) {
       if (err && err.code === "ENOENT") {
+        // A file might be updated then deleted during a single sync
+        // so if we add it to one list we must remove it from the other
+        update.deleted.push(path);
+        update.modified = update.modified.filter(function(x){return x !== path;});
+
         drop(blog.id, path, options, done);
       } else if (stat && stat.isDirectory()) {
         mkdir(blog.id, path, options, done);
       } else if (stat && stat.isFile()) {
+        // A file might be updated then deleted during a single sync
+        // so if we add it to one list we must remove it from the other
+        update.deleted = update.deleted.filter(function(x){return x !== path;});
+        update.modified.push(path);
         set(blog, path, options, done);
       } else {
         done(
@@ -45,5 +54,10 @@ module.exports = function(blog) {
         );
       }
     });
-  };
+  }
+
+  update.deleted = [];
+  update.modified = [];
+  
+  return update;
 };
