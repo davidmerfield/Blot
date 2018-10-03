@@ -29,17 +29,19 @@ module.exports = function(blogID, update, callback) {
         function(rename, deletedPath, next) {
           var createdEntry = rename.createdEntry;
           var deletedEntry = rename.deletedEntry;
+          var updates = {
+            url: deletedEntry.url,
+            created: deletedEntry.created,
+            guid: deletedEntry.guid
+          };
 
-          Entry.set(
-            blogID,
-            createdEntry.path,
-            {
-              url: deletedEntry.url,
-              created: deletedEntry.created,
-              guid: deletedEntry.guid
-            },
-            next
-          );
+          // we need to make sure the date stamp updates too?
+          // we need to rethink entry / build so that entries
+          // with metadata removed revert to original created?
+          if (deletedEntry.dateStamp === deletedEntry.created)
+            updates.dateStamp = deletedEntry.dateStamp;
+
+          Entry.set(blogID, createdEntry.path, updates, next);
         },
         callback
       );
