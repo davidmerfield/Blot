@@ -34,5 +34,5 @@ describe("dropbox client", function() {
           });
       });
     });
-  });
+  }, 10*1000); // 10s
 });

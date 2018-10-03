@@ -63,25 +63,20 @@ module.exports = function setup(options) {
     var context = this;
     var folder = "/" + this.fake.random.word();
 
-    console.log("Creating folder...", folder);
-
     client
       .filesCreateFolder({ path: folder })
       .then(function(res) {
-        console.log("Response creating folder...", res);
         context.folder = res.path_lower;
         context.folderID = res.id;
         done();
       })
       .catch(function(err) {
-        console.log("Error creating folder...", err);
-        return done(new Error(err.error));
+        return done(new Error(err));
       });
   });
 
   // Create fake dropbox account
   beforeEach(function(done) {
-    console.log("Creating account...");
 
     var email = this.fake.internet.email();
     var blogID = this.blog.id;
@@ -91,7 +86,6 @@ module.exports = function setup(options) {
     Blog.set(blogID, { client: "dropbox" }, function(err) {
       if (err) return done(err);
 
-      console.log("HERE!", folder, folderID);
       database.set(
         blogID,
         {

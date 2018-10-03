@@ -7,7 +7,7 @@ var async = require("async");
 var disconnect = require("./disconnect");
 var load_dropbox_account = require("./util/load_dropbox_account");
 var Database = require("./database");
-var sync = require("./util/sync");
+var sync = require("./sync");
 
 var dashboard = Express.Router();
 var site = Express.Router();

@@ -1,12 +1,14 @@
-var async = require("async");
-var createClient = require("./createClient");
-var delta = require("./delta");
-var Download = require("./download");
-var Sync = require("sync");
-var Database = require("../database");
-var fs = require("fs-extra");
-var join = require("path").join;
 var debug = require("debug")("clients:dropbox:sync");
+var join = require("path").join;
+var fs = require("fs-extra");
+var async = require("async");
+var Sync = require("sync");
+
+var createClient = require("./util/createClient");
+var delta = require("./util/delta");
+var Download = require("./util/download");
+
+var Database = require("./database");
 
 module.exports = function main(blog, callback) {
   debug("Beginning sync");
