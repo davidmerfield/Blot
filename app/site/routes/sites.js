@@ -1,7 +1,7 @@
 var async = require("async");
 var Blog = require("blog");
 var url_parser = require("url").parse;
-var http = require("http");
+var https = require("https");
 
 var RESULT;
 
@@ -96,7 +96,7 @@ module.exports = function(callback) {
   // Only show the first 12 sites on the homepage
   sites = sites.slice(0, 12);
 
-  async.each(
+  async.eachSeries(
     sites,
     function(site, next) {
       var parsed_URL = url_parser("https://" + site[0]);
@@ -106,72 +106,78 @@ module.exports = function(callback) {
       var template;
       var is_subdomain = domain.indexOf("blot.im") !== -1;
       var url, display_url, protocol, by, custom_template, template_name;
+          var response = "";
 
-      http.get(
+      var get = https.get(
         require("url").format({
-          protocol: "http",
+          protocol: "https",
           hostname: domain,
           pathname: "/verify/domain-setup"
         }),
         function check(res) {
-          var response = "";
           res.setEncoding("utf8");
           res.on("data", function(chunk) {
             response += chunk;
           });
-          res.on("end", function() {
-            if (is_subdomain) {
-              by = { handle: domain.split(".blot.im").join("") };
-            } else {
-              by = { domain: domain };
-            }
-
-            Blog.get(by, function(err, blog) {
-              if (err || !blog) {
-                console.log(domain, "is not in the database");
-                return next();
-              }
-
-              if (!is_subdomain && response !== blog.handle) {
-                console.log(domain, "is not on blot it points to...");
-                return next();
-              }
-
-              template = blog.template;
-
-              protocol = domain.indexOf("blot.im") > -1 ? "http" : "https";
-
-              url = protocol + "://" + site[0];
-              display_url = domain.split("www.").join("");
-              custom_template = template.indexOf("SITE") === -1;
-              template_name = custom_template
-                ? "custom"
-                : capitalize(template.split("SITE:").join(""));
-
-              description += " uses ";
-              description += custom_template ? "a" : "the";
-              description +=
-                ' <a href="/configuring">' + template_name + "</a> template.";
-
-              // Redirect
-              if (display_url === "john.pavlusoffice.com")
-                display_url = "johnpavlus.com";
-
-              result.push({
-                url: url,
-                first: result.length === 0,
-                clear: (result.length + 1) % 3 === 0,
-                display_url: display_url,
-                description: description,
-                domain: domain,
-                template: template
-              });
-
-              next();
-            });
-          });
+          res.on("end", handle);
         }
       );
+
+      get.on("error", function(chunk) {
+        handle();
+      });
+
+      function handle() {
+        if (is_subdomain) {
+          by = { handle: domain.split(".blot.im").join("") };
+        } else {
+          by = { domain: domain };
+        }
+
+        Blog.get(by, function(err, blog) {
+          if (err || !blog) {
+            console.log(domain, "is not in the database");
+            return next();
+          }
+
+          if (!is_subdomain && response !== blog.handle) {
+            console.log(domain, "is not on blot it points to...");
+            return next();
+          }
+
+          template = blog.template;
+
+          protocol = domain.indexOf("blot.im") > -1 ? "http" : "https";
+
+          url = protocol + "://" + site[0];
+          display_url = domain.split("www.").join("");
+          custom_template = template.indexOf("SITE") === -1;
+          template_name = custom_template
+            ? "custom"
+            : capitalize(template.split("SITE:").join(""));
+
+          description += " uses ";
+          description += custom_template ? "a" : "the";
+          description +=
+            ' <a href="/configuring">' + template_name + "</a> template.";
+
+          // Redirect
+          if (display_url === "john.pavlusoffice.com")
+            display_url = "johnpavlus.com";
+
+          result.push({
+            url: url,
+            first: result.length === 0,
+            clear: (result.length + 1) % 3 === 0,
+            display_url: display_url,
+            description: description,
+            domain: domain,
+            template: template
+          });
+
+          next();
+        });
+      }
     },
     function() {
       RESULT = result;
