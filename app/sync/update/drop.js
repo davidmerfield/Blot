@@ -18,7 +18,7 @@ module.exports = function(blogID, path, options, callback) {
     var queue = [
       Metadata.drop.bind(this, blogID, path),
       Ignored.drop.bind(this, blogID, path),
-      Rename.forDeleted.bind(this, blogID, path),
+      // Rename.forDeleted.bind(this, blogID, path),
       Entry.drop.bind(this, blogID, path),
       rebuildDependents.bind(this, blogID, path)
     ];

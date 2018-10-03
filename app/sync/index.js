@@ -5,6 +5,7 @@ var Blog = require("blog");
 var Update = require("./update");
 var localPath = require("helper").localPath;
 var async = require("async");
+var renames = require("./renames");
 
 // By default, we give a sync process up to
 // 10 minutes to compete before we allow other
@@ -107,21 +108,26 @@ function sync(blogID, options, callback) {
         if (typeof callback !== "function")
           throw new Error("Pass a callback to done");
 
-        // We could do these next two things in parallel
-        // but it's a little bit of refactoring...
-        lock.unlock(function(err) {
+        renames(blogID, folder.update, function(err) {
           if (err) return callback(err);
 
-          // We no longer need to unlock if the process dies...
-          delete locks[blogID];
-
-          buildFromFolder(blogID, function(err) {
+          // We could do these next two things in parallel
+          // but it's a little bit of refactoring...
+          lock.unlock(function(err) {
             if (err) return callback(err);
 
-            Blog.flushCache(blogID, function(err) {
+            // We no longer need to unlock if the process dies...
+            delete locks[blogID];
+
+            // What is the appropriate order for this?
+            buildFromFolder(blogID, function(err) {
               if (err) return callback(err);
 
-              callback(syncError);
+              Blog.flushCache(blogID, function(err) {
+                if (err) return callback(err);
+
+                callback(syncError);
+              });
             });
           });
         });

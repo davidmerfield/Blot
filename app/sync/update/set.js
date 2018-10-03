@@ -83,10 +83,10 @@ module.exports = function(blog, path, options, callback) {
 
       // this checks the entry to see if a deleted entry
       // matches it. If so, then use the deleted entry's url and created date.
-      catchRename(blog.id, entry, function(err, changes) {
-        if (err) return callback(err);
+      // // catchRename(blog.id, entry, function(err, changes) {
+      // //   if (err) return callback(err);
 
-        if (changes) for (var key in changes) entry[key] = changes[key];
+      //   if (changes) for (var key in changes) entry[key] = changes[key];
 
         // This file is a draft, write a preview file
         // to the users Dropbox and continue down
@@ -94,7 +94,7 @@ module.exports = function(blog, path, options, callback) {
         if (entry.draft) Preview.write(blog.id, path);
 
         Entry.set(blog.id, entry.path, entry, callback);
-      });
+      // });
     });
   });
 };
