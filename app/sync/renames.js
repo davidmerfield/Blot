@@ -41,6 +41,16 @@ module.exports = function(blogID, update, callback) {
           if (deletedEntry.dateStamp === deletedEntry.created)
             updates.dateStamp = deletedEntry.dateStamp;
 
+          console.log(
+            "Blog:",
+            blogID,
+            "Entry rename detected:",
+            "\n (deleted)",
+            deletedEntry.path,
+            "\n (created)",
+            createdEntry.path
+          );
+
           Entry.set(blogID, createdEntry.path, updates, next);
         },
         callback
