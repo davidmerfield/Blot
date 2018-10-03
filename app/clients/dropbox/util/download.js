@@ -1,5 +1,5 @@
 var debug = require("debug")("clients:dropbox:download");
-var dropboxStream = require("./dropbox-stream");
+var dropboxStream = require("dropbox-stream");
 var fs = require("fs-extra");
 var retry = require("./retry");
 var addTimeout = require("./addTimeout");

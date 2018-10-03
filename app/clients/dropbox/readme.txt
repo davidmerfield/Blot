@@ -7,7 +7,9 @@ Dependencies
 ------------
 
     "dropbox": "^2.5.7",
-
+    "dropbox-stream"
+    "isomorphic-fetch"
+    
 Move this into this module when I start using git submodules or npm submodules properly.
 
 
