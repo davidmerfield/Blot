@@ -4,7 +4,6 @@ var fs = require("fs-extra");
 var async = require("async");
 var Sync = require("sync");
 
-var createClient = require("./util/createClient");
 var delta = require("./util/delta");
 var Download = require("./util/download");
 
@@ -39,6 +38,7 @@ module.exports = function main(blog, callback) {
         // This means making any new directories, downloading any new
         // or changed files, and removing any deleted items.
         apply(changes, folder.path, account.access_token, function(err) {
+
           if (err) return done(err, callback);
 
           // we have successfully applied this batch of changes
@@ -79,7 +79,6 @@ module.exports = function main(blog, callback) {
 };
 
 function apply(changes, blogFolder, token, callback) {
-  var client = createClient(token);
   debug("Retrieved changes", changes);
 
   var deleted = changes.filter(function(item) {
@@ -110,7 +109,7 @@ function apply(changes, blogFolder, token, callback) {
   // Dropbox folder might not be the root of the blog.
   function download(item, callback) {
     debug("Downloading", item.path);
-    Download(client, item.path_lower, join(blogFolder, item.path), callback);
+    Download(token, item.path_lower, join(blogFolder, item.path), callback);
   }
 
   debug("Deleted:", deleted);

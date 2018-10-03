@@ -1,0 +1,67 @@
+{
+  "name": "dropbox-stream",
+  "version": "2.0.0",
+  "description": "Upload & Download streams for Dropbox",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/velocityzen/dropbox-stream.git"
+  },
+  "keywords": [
+    "dropbox",
+    "api",
+    "stream",
+    "upload",
+    "download",
+    "large",
+    "file",
+    "big"
+  ],
+  "author": {
+    "name": "Alexey Novikov",
+    "email": "v@2dubs.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/velocityzen/dropbox-stream/issues"
+  },
+  "homepage": "https://github.com/velocityzen/dropbox-stream#readme",
+  "dependencies": {
+    "got": "^8.0.1"
+  },
+  "devDependencies": {
+    "ava": "^0.24.0",
+    "nyc": "^11.4.1"
+  },
+  "gitHead": "9f6cfcf215e587ed8f5bd6dd9cda20cff988f6c8",
+  "_id": "dropbox-stream@2.0.0",
+  "_npmVersion": "5.6.0",
+  "_nodeVersion": "9.3.0",
+  "_npmUser": {
+    "name": "velocityzen",
+    "email": "velocityzen@gmail.com"
+  },
+  "dist": {
+    "integrity": "sha512-50+Wcyf0g74+o+ZDGNJan5wfdDUlKEvRqthG2HA7QlWMBZfOEwSncg+/2QVGBIXpiLum6dujxjKN/gdYh3KulA==",
+    "shasum": "5f315769bbc1ae8d19296ea06b8586a5de620d92",
+    "tarball": "https://registry.npmjs.org/dropbox-stream/-/dropbox-stream-2.0.0.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "velocityzen",
+      "email": "velocityzen@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/dropbox-stream-2.0.0.tgz_1514403612398_0.5474724327214062"
+  },
+  "directories": {},
+  "_shasum": "5f315769bbc1ae8d19296ea06b8586a5de620d92",
+  "_resolved": "https://registry.npmjs.org/dropbox-stream/-/dropbox-stream-2.0.0.tgz",
+  "_from": "dropbox-stream@latest",
+  "readme": "ERROR: No README data found!"
+}
