@@ -101,9 +101,9 @@ function set(blogID, changes, callback) {
 }
 
 function drop(blogID, callback) {
-  get(blogID, function(err, account) {
-    var multi = redis.multi();
+  var multi = redis.multi();
 
+  get(blogID, function(err, account) {
     // Deregister this blog from the set containing
     // the blog IDs associated with a particular dropbox
     // account. If we SREM the last item from a set, redis also

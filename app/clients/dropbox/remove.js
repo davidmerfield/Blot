@@ -1,31 +1,35 @@
-var join = require("path").join;
+var debug = require("debug")("clients:dropbox:remove");
 var createClient = require("./util/createClient");
 var database = require("./database");
-var helper = require("helper");
-var ensure = helper.ensure;
-var debug = require("debug")("clients:dropbox:remove");
+var join = require("path").join;
+var fs = require('fs-extra');
+var localPath = require('helper').localPath;
 
+// This should only ever be called inside the function
+// returned from Sync for a given blog, since it modifies
+// the blog's folder.
 module.exports = function remove(blogID, path, callback) {
-  ensure(blogID, "string")
-    .and(path, "string")
-    .and(callback, "function");
+  var client, pathInDropbox;
 
-  debug("Removing", path);
+  debug("Blog:", blogID, "Removing", path);
 
   database.get(blogID, function(err, account) {
-    var client = createClient(account.access_token);
+    client = createClient(account.access_token);
+    pathInDropbox = join(account.folder || "/", path);
 
     client
       .filesDelete({
-        path: join(account.folder || "/", path)
+        path: pathInDropbox
       })
-      .then(function(res) {
-        if (!res) return callback(new Error("No response from Dropbox"));
+      .then(function(){
+        return fs.remove(localPath(blogID, path));
+      })
+      .then(function() {
         callback(null);
       })
       .catch(function(err) {
-        // The file does not exist
-        if (err.status === 409) return callback();
+        // The file did not exist, no big deal
+        if (err.status === 409) return callback(null);
 
         callback(err);
       });

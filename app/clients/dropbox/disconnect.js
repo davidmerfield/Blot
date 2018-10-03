@@ -6,6 +6,9 @@ var Sync = require("sync");
 
 module.exports = function disconnect(blogID, callback) {
 
+  // Make sure we don't create something unexpected
+  // by messing with a blog mid-sync. This might fail
+  // we need to surface a clear error message to the user.
   Sync(blogID, function(err, folder, done) {
     if (err) return callback(err);
 

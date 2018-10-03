@@ -2,6 +2,8 @@ var join = require("path").join;
 var database = require("./database");
 var debug = require("debug")("clients:dropbox:write");
 var createClient = require("./util/createClient");
+var fs = require('fs-extra');
+var localPath = require('helper').localPath;
 
 module.exports = function write(blogID, path, contents, callback) {
   var pathInDropbox, client;
@@ -21,9 +23,11 @@ module.exports = function write(blogID, path, contents, callback) {
         mode: { ".tag": "overwrite" },
         path: pathInDropbox
       })
-      .then(function(res) {
-        if (!res) return callback(new Error("No response from Dropbox"));
-        callback();
+      .then(function(){
+        return fs.outputFile(localPath(blogID, path), contents);
+      })
+      .then(function() {
+        callback(null);
       })
       .catch(function(err) {
         callback(err);
