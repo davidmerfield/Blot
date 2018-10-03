@@ -84,7 +84,7 @@ function set(blogID, changes, callback) {
 
     // Overwrite existing properties with any changes
     for (var i in changes) account[i] = changes[i];
-
+    
     // Verify that the type of new account state
     // matches the expected types declared in Model below.
     try {

@@ -4,10 +4,11 @@ var fs = require("fs-extra");
 var async = require("async");
 var Sync = require("sync");
 
-var delta = require("./util/delta");
 var Download = require("./util/download");
 
 var Database = require("./database");
+var Delta = require("./delta");
+
 var syncOptions = { retryCount: -1, retryDelay: 10, retryJitter: 10 };
 
 module.exports = function main(blog, callback) {
@@ -25,28 +26,46 @@ module.exports = function main(blog, callback) {
     Database.get(blog.id, function(err, account) {
       if (err) return done(err, callback);
 
+      var token = account.access_token;
+      var delta = new Delta(token, account.folder_id);
+
       // Delta retrieves changes to the folder on Dropbox for a given
       // blog. It returns a list of changes. It also adds a new property
       // to each change, relative_path. Use change.relative_path
       // as the 'Blot' path, this is the path of the change relative to the
       // blog folder in the user's Dropbox folder.
-      delta(blog.id, account, function handle(err, changes, more, account) {
-        if (err) return done(err, callback);
+      delta(account.cursor, function handle(err, result) {
+        if (err) {
+          return Database.set(blog.id, { error_code: err.code }, function(err) {
+            done(err, callback);
+          });
+        }
 
         // Now we attempt to apply the changes which occured in the
         // user's folder on Dropbox to the blog folder on Blot's server.
         // This means making any new directories, downloading any new
         // or changed files, and removing any deleted items.
-        apply(changes, folder.path, account.access_token, function(err) {
-
-          if (err) return done(err, callback);
-
+        apply(result.entries, folder.path, token, function(err) {
+          if (err) {
+            return Database.set(blog.id, { error_code: err.code }, function(
+              err
+            ) {
+              done(err, callback);
+            });
+          }
           // we have successfully applied this batch of changes
           // to the user's Dropbox folder. Now we save the new
           // cursor and folderID and folder path to the database.
           // This means that future webhooks will invoke calls to
           // delta which return changes made after this point in time.
+          account.error_code = 0;
+          account.last_sync = Date.now();
+          account.cursor = result.cursor;
+          // we store account folder for use on the dashboard
+          if (result.path_display) account.folder = result.path_display;
+
           debug("Storing latest cursor and folder information...", account);
+
           Database.set(blog.id, account, function(err) {
             if (err) return done(err, callback);
 
@@ -55,17 +74,17 @@ module.exports = function main(blog, callback) {
             // those lie beyond the scope of this client. Its responsibilty
             // is to ensure the blog folder on Blot's server is in sync.
             async.each(
-              changes,
+              result.entries,
               function(item, next) {
                 debug("Updating on Blot:", item.path);
-                folder.update(item.path, { name: item.name }, next);
+                folder.update(item.relative_path, { name: item.name }, next);
               },
               function() {
                 // If Dropbox says there are more changes
                 // we get them before returning the callback.
                 // This is important because a rename could
                 // be split across two pages of file events.
-                if (more) return delta(blog.id, account, handle);
+                if (result.has_more) return delta(result.cursor, handle);
 
                 debug("Finished sync!");
                 done(null, callback);
@@ -95,12 +114,12 @@ function apply(changes, blogFolder, token, callback) {
 
   function remove(item, callback) {
     debug("Removing", item.path);
-    fs.remove(join(blogFolder, item.path), callback);
+    fs.remove(join(blogFolder, item.relative_path), callback);
   }
 
   function mkdir(item, callback) {
     debug("Mkdiring", item.path);
-    fs.ensureDir(join(blogFolder, item.path), callback);
+    fs.ensureDir(join(blogFolder, item.relative_path), callback);
   }
 
   // Item.path_lower is the full path to the item
@@ -109,7 +128,12 @@ function apply(changes, blogFolder, token, callback) {
   // Dropbox folder might not be the root of the blog.
   function download(item, callback) {
     debug("Downloading", item.path);
-    Download(token, item.path_lower, join(blogFolder, item.path), callback);
+    Download(
+      token,
+      item.path_lower,
+      join(blogFolder, item.relative_path),
+      callback
+    );
   }
 
   debug("Deleted:", deleted);

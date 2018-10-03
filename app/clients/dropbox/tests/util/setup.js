@@ -4,6 +4,7 @@ module.exports = function setup(options) {
   var Blog = require("blog");
   var server = require("./server");
   var createClient = require("../../util/createClient");
+  var uuid = require("uuid/v4");
 
   global.test.blog();
 
@@ -61,42 +62,23 @@ module.exports = function setup(options) {
   beforeEach(function(done) {
     var client = this.client;
     var context = this;
-    var folder;
 
     if (options.root) {
-      context.folder = "/";
+      context.folder = "";
       context.folderID = "";
       return done();
     } else {
-      folder = "/" + this.fake.random.word();
+      context.folder = "/" + uuid();
     }
 
     client
-      .filesCreateFolder({ path: folder })
+      .filesCreateFolder({ path: context.folder })
       .then(function(res) {
-        console.log("Succeeded in first attempt to create folder...");
         context.folder = res.path_lower;
         context.folderID = res.id;
         done();
       })
       .catch(function(err) {
-        console.log(
-          "Failed in first attempt, was this invoked? attempting to delete folder..."
-        );
-        return client.filesDelete({ path: folder });
-      })
-      .then(function() {
-        console.log("Re-attempting to create folder...");
-        return client.filesCreateFolder({ path: folder });
-      })
-      .then(function(res) {
-        console.log("Succeeding in re-attempting to create folder...");
-        context.folder = res.path_lower;
-        context.folderID = res.id;
-        done();
-      })
-      .catch(function(err) {
-        console.log("Error setting up test folder");
         return done(new Error("Could not set up test folder"));
       });
   });
@@ -107,25 +89,24 @@ module.exports = function setup(options) {
     var blogID = this.blog.id;
     var folder = this.folder;
     var folderID = this.folderID;
+    var account = {
+      account_id: process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID,
+      access_token: process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN,
+      email: email,
+      error_code: 0,
+      last_sync: Date.now(),
+      full_access: false,
+      folder: folder,
+      folder_id: folderID,
+      cursor: ""
+    };
+
+    this.account = account;
 
     Blog.set(blogID, { client: "dropbox" }, function(err) {
       if (err) return done(err);
 
-      database.set(
-        blogID,
-        {
-          account_id: process.env.BLOT_DROPBOX_TEST_ACCOUNT_ID,
-          access_token: process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN,
-          email: email,
-          error_code: 0,
-          last_sync: Date.now(),
-          full_access: false,
-          folder: folder,
-          folder_id: folderID,
-          cursor: ""
-        },
-        done
-      );
+      database.set(blogID, account, done);
     });
   });
 

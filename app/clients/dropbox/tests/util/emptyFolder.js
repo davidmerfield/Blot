@@ -1,6 +1,6 @@
 var createClient = require("../../util/createClient");
 
-module.exports = function(done) {
+module.exports = function remove (done) {
   var client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
 
   function checkBatchStatus(result) {
@@ -29,8 +29,17 @@ module.exports = function(done) {
     .then(removeAllFiles)
     .then(checkBatchStatus)
     .then(function(res) {
-      console.log("Removed all files!", res);
-      done();
+      if (
+        res.entries.some(function(entry) {
+          return entry[".tag"] !== "success";
+        })
+      ) {
+        console.log("Failed to remove all files, retrying...", res.entries);
+        remove(done);
+      } else {
+        console.log('Emptied test folder');
+        done();
+      }
     })
     .catch(function(err) {
       if (err instanceof Error) {
