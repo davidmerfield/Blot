@@ -22,6 +22,72 @@ describe("update", function() {
     });
   });
 
+  it("detects a large number of renamed files", function(testDone) {
+    var items = [];
+    var ctx = this;
+
+    // Create 100 fake files
+    for (var i = 0; i < 10; i++)
+      items.push({
+        oldPath: this.fake.path(".txt"),
+        newPath: this.fake.path(".txt"),
+        content: this.fake.file()
+      });
+
+    sync(ctx.blog.id, function(err, folder, done) {
+      if (err) return testDone.fail(err);
+
+      // Write initial files
+      async.eachSeries(
+        items,
+        function(item, next) {
+          fs.outputFileSync(folder.path + item.oldPath, item.content, "utf-8");
+          folder.update(item.oldPath, next);
+        },
+        function(err) {
+          if (err) return testDone.fail(err);
+
+          done(null, function(err) {
+            if (err) return testDone.fail(err);
+
+            sync(ctx.blog.id, function(err, folder, done) {
+              if (err) return testDone.fail(err);
+
+              // Move files
+              async.eachSeries(
+                items,
+                function(item, next) {
+                  fs.moveSync(
+                    folder.path + item.oldPath,
+                    folder.path + item.newPath
+                  );
+                  folder.update(item.oldPath, function() {
+                    folder.update(item.newPath, next);
+                  });
+                },
+                function(err) {
+                  if (err) return testDone.fail(err);
+
+                  done(null, function(err) {
+                    if (err) return testDone.fail(err);
+
+                    async.each(
+                      items,
+                      function(item, next) {
+                        ctx.checkRename(item.oldPath, item.newPath, next);
+                      },
+                      testDone
+                    );
+                  });
+                }
+              );
+            });
+          });
+        }
+      );
+    });
+  });
+
   it("detects a renamed file", function(testDone) {
     var path = this.fake.path(".txt");
     var newPath = this.fake.path(".txt");
