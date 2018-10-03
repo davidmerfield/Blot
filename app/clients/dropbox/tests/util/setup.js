@@ -66,18 +66,33 @@ module.exports = function setup(options) {
     client
       .filesCreateFolder({ path: folder })
       .then(function(res) {
+        console.log("Succeeded in first attempt to create folder...");
         context.folder = res.path_lower;
         context.folderID = res.id;
         done();
       })
       .catch(function(err) {
-        return done(new Error(err));
+        console.log("Failed in first attempt, was this invoked? attempting to delete folder...");
+        return client.filesDelete({ path: folder });
+      })
+      .then(function() {
+        console.log("Re-attempting to create folder...");
+        return client.filesCreateFolder({ path: folder });
+      })
+      .then(function(res) {
+        console.log("Succeeding in re-attempting to create folder...");
+        context.folder = res.path_lower;
+        context.folderID = res.id;
+        done();
+      })
+      .catch(function(err) {
+        console.log("Error setting up test folder");
+        return done(new Error("Could not set up test folder"));
       });
   });
 
   // Create fake dropbox account
   beforeEach(function(done) {
-
     var email = this.fake.internet.email();
     var blogID = this.blog.id;
     var folder = this.folder;

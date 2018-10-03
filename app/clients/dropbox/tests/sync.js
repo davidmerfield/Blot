@@ -2,33 +2,54 @@ describe("dropbox client", function() {
   // Create test user and tmp directory
   require("./util/setup")();
 
-  var fs = require('fs-extra');
+  var fs = require("fs-extra");
   var write = require("../write");
+  var sync = require("../sync");
 
   it("syncs changes when the blog folder is moved", function(done) {
     var blogDirectory = this.blogDirectory;
+    var folder = this.folder;
+    var newFolder = '/' + this.fake.random.word() + ' ' + this.fake.random.word();
+    var client = this.client;
+    var blog = this.blog;
+
     var path = this.fake.path(".txt");
     var contents = this.fake.file();
-    var folder = this.folder;
-    var client = this.client;
+    var secondPath = this.fake.path(".txt");
+    var secondContents = this.fake.file();
 
-    write(this.blog.id, path, contents, function(err) {
+    console.log(folder, '>>>>', newFolder);
+
+    write(blog.id, path, contents, function(err) {
       if (err) return done.fail(err);
 
-      client
-        .filesDownload({ path: folder + path })
-        .then(function(res) {
-          // Check file exists in blog directory in Dropbox
-          expect(res.fileBinary.toString("utf-8")).toEqual(contents);
+      sync(blog, function(err) {
+        if (err) return done.fail(err);
 
-          // check file exists in blog directory on Blot
-          expect(fs.readFileSync(blogDirectory + path).toString('utf-8')).toEqual(contents);
+        client
+          .filesMove({
+            from_path: folder,
+            to_path: newFolder,
+            autorename: false
+          })
+          .then(function() {
+            write(blog.id, secondPath, secondContents, function(err) {
+              if (err) return done.fail(err);
 
-          done();
-        })
-        .catch(function(err) {
-          done.fail(err);
-        });
+              sync(blog, function(err) {
+                if (err) return done.fail(err);
+
+                expect(fs.readFileSync(blogDirectory + path).toString('utf-8')).toEqual(contents);
+                expect(fs.readFileSync(blogDirectory + secondPath).toString('utf-8')).toEqual(secondContents);
+
+                done();
+              });
+            });
+          })
+          .catch(function(err) {
+            done.fail(err);
+          });
+      });
     });
-  });
+  }, 10*1000);
 });

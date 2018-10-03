@@ -27,7 +27,7 @@ module.exports = function(token, source, destination, callback) {
       }
 
       ws.on("finish", function() {
-        fs.move(tmpLocation, destination, function(err) {
+        fs.move(tmpLocation, destination, {overwrite: true}, function(err) {
           if (err) return callback(err);
           debug("Moved", tmpLocation, 'to', destination);
           setMtime(destination, metadata.client_modified, callback);
