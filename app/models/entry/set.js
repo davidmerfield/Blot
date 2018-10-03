@@ -114,6 +114,11 @@ module.exports = function set (blogID, path, updates, callback) {
 
         doEach(queue, function(){
 
+          if (entry.deleted) {
+            console.log('Blog:',blogID, 'Entry:', path, 'deleted');
+          } else {
+            console.log('Blog:',blogID, 'Entry:', path, 'updated');
+          }
           callback(null);
         });
       });
