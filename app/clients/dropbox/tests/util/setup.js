@@ -61,7 +61,15 @@ module.exports = function setup(options) {
   beforeEach(function(done) {
     var client = this.client;
     var context = this;
-    var folder = "/" + this.fake.random.word();
+    var folder;
+
+    if (options.root) {
+      context.folder = "/";
+      context.folderID = "";
+      return done();
+    } else {
+      folder = "/" + this.fake.random.word();
+    }
 
     client
       .filesCreateFolder({ path: folder })
@@ -72,7 +80,9 @@ module.exports = function setup(options) {
         done();
       })
       .catch(function(err) {
-        console.log("Failed in first attempt, was this invoked? attempting to delete folder...");
+        console.log(
+          "Failed in first attempt, was this invoked? attempting to delete folder..."
+        );
         return client.filesDelete({ path: folder });
       })
       .then(function() {
@@ -137,7 +147,5 @@ module.exports = function setup(options) {
     };
   });
 
-  // beforeEach(require("./emptyFolder"));
-
-  // afterAll(require("./emptyFolder"));
+  if (options.root) beforeEach(require("./emptyFolder"));
 };
