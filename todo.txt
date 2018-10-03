@@ -1,3 +1,6 @@
+Determine fix for this error when you sync more than 11 files
+(node:22701) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 exit listeners added. Use emitter.setMaxListeners() to increase limit
+
 Determine cause of ghost post bug:
 - Seems to only happen in production when renaming, or moving the parent folder for an image. 
   - Could it be a file path thing?
