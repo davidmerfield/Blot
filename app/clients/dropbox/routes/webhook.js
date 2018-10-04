@@ -1,96 +1,22 @@
-var debug = require("debug")("clients:dropbox:routes");
 var Express = require("express");
+var sync = require("../sync");
+var Database = require("../database");
+var debug = require("debug")("clients:dropbox:routes");
+var async = require("async");
 var config = require("config");
 var crypto = require("crypto");
-var async = require("async");
-
-var disconnect = require("./disconnect");
-var Database = require("./database");
-var sync = require("./sync");
-var join = require("path").join;
-var moment = require("moment");
-
-var dashboard = Express.Router();
-var site = Express.Router();
-
-dashboard
-  .use(loadDropboxAccount)
-  .get("/", function(req, res) {
-    var view;
-
-    if (!req.account) return res.redirect(req.baseUrl + "/authenticate/setup");
-
-    res.render(__dirname + "/views/index.html", {
-      title: "Dropbox"
-    });
-  })
-  .get("/permission", function(req, res) {
-    res.locals.breadcrumbs.add("Permission", "change-permission");
-    res.render(__dirname + "/views/permission.html", {
-      title: "Dropbox",
-      subpage_title: "Folder"
-    });
-  })
-  .use("/authenticate", require("./authenticate"))
-  .get("/disconnect", function(req, res) {
-    res.render(__dirname + "/views/disconnect.html", {
-      title: "Disconnect from Dropbox"
-    });
-  })
-  .post("/disconnect", function(req, res, next) {
-    disconnect(req.blog.id, next);
-  });
-
-function loadDropboxAccount(req, res, next) {
-  Database.get(req.blog.id, function(err, account) {
-    if (err) return next(err);
-
-    if (!account) return next();
-
-    var last_sync = account.last_sync;
-    var error_code = account.error_code;
-
-    res.locals.account = req.account = account;
-
-    if (last_sync) {
-      res.locals.account.last_sync = moment.utc(last_sync).fromNow();
-    }
-
-    if (error_code) {
-      res.locals.account.folder_missing = error_code === 409;
-      res.locals.account.revoked = error_code === 401;
-    }
-
-    var dropboxBreadcrumbs = [];
-    var folder;
-
-    if (res.locals.account.full_access) {
-      folder = join("Dropbox", res.locals.account.folder);
-    } else {
-      folder = join("Dropbox", "Apps", "Blot", res.locals.account.folder);
-    }
-
-    dropboxBreadcrumbs = folder.split("/").map(function(name) {
-      return { name: name };
-    });
-
-    dropboxBreadcrumbs[dropboxBreadcrumbs.length - 1].last = true;
-    res.locals.dropboxBreadcrumbs = dropboxBreadcrumbs;
-
-    return next();
-  });
-}
+var Webhook = Express.Router();
 
 // Used for testing purposes only to determine when a sync has finished
 // Redlock means we can't reliably determine this just by calling
 // Blot.sync();
-site.get("/syncs-finished/:blogID", function(req, res) {
+Webhook.get("/syncs-finished/:blogID", function(req, res) {
   res.send(finishedAllSyncs(req.params.blogID));
 });
 
 // This is called by Dropbox to verify
 // the webhook is valid.
-site.route("/webhook").get(function(req, res, next) {
+Webhook.route("/").get(function(req, res, next) {
   if (req.query && req.query.challenge) return res.send(req.query.challenge);
 
   return next();
@@ -117,9 +43,9 @@ function finishedAllSyncs(blogID) {
   return activeSyncs[blogID] === 0;
 }
 
-// This is called by Dropbox when changes
-// are made to the folder of a Blot user.
-site.route("/webhook").post(function(req, res) {
+
+Webhook.route('/').post(function(req, res) {
+
   if (config.maintenance) return res.sendStatus(503);
 
   var data = "";
@@ -198,4 +124,4 @@ site.route("/webhook").post(function(req, res) {
   });
 });
 
-module.exports = { dashboard: dashboard, site: site };
+module.exports = Webhook;

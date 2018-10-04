@@ -1,5 +1,4 @@
 var createClient = require("../util/createClient");
-var database = require("../database");
 
 module.exports = function(req, res, next) {
   if (!req.token) return next(new Error("No access token"));
