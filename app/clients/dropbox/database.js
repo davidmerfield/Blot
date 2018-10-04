@@ -4,7 +4,7 @@ var redis = require("client");
 var Blog = require("blog");
 var async = require("async");
 var ensure = helper.ensure;
-var Model, database;
+var Model;
 
 function get(blogID, callback) {
   redis.hgetall(accountKey(blogID), function(err, account) {
@@ -81,7 +81,7 @@ function set(blogID, changes, callback) {
 
     // Overwrite existing properties with any changes
     for (var i in changes) account[i] = changes[i];
-    
+
     // Verify that the type of new account state
     // matches the expected types declared in Model below.
     try {
@@ -114,7 +114,7 @@ function drop(blogID, callback) {
   });
 }
 
-// Redis Hash which stores the Dropbox account info 
+// Redis Hash which stores the Dropbox account info
 function accountKey(blogID) {
   return "blog:" + blogID + ":dropbox:account";
 }
@@ -130,14 +130,14 @@ Model = {
   // when we recieve a webhook from Dropbox
   account_id: "string",
 
-  // Used to help the user identify which 
+  // Used to help the user identify which
   // Dropbox account is connected to which blog.
   email: "string",
 
   // Used to authenticate Dropbox API requests
   access_token: "string",
 
-  // HTTP status code of an error from the 
+  // HTTP status code of an error from the
   // Dropbox API. Will be 0 if sync succeeded
   error_code: "number",
 
@@ -149,9 +149,9 @@ Model = {
   // access to a folder in their Apps folder
   full_access: "boolean",
 
-  // Used to help the user identify which 
+  // Used to help the user identify which
   // Dropbox account is connected to which blog.
-  // We use to more dependable folder_id 
+  // We use to more dependable folder_id
   // in calls to /delta and for determining
   // which changes apply to this blog. Root
   // should be an empty string.
@@ -170,11 +170,9 @@ Model = {
   cursor: "string"
 };
 
-database = {
+module.exports = {
   set: set,
   drop: drop,
   get: get,
   listBlogs: listBlogs
 };
-
-module.exports = database;
