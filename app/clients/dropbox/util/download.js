@@ -6,6 +6,8 @@ var join = require("path").join;
 var uuid = require("uuid/v4");
 var async = require("async");
 
+// This is used by sync.js to retrieve files efficiently
+// from Dropbox after notification of a change through a webhook
 function download(token, source, destination, callback) {
   var tmpLocation = join(tmpDir, uuid());
 
