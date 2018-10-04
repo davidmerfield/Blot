@@ -81,7 +81,6 @@ module.exports = function delta(token, folderID) {
         callback(null, result);
       })
       .catch(function(err) {
-        
         // Professional programmers wrote this SDK
         if (
           err.error &&
@@ -97,9 +96,7 @@ module.exports = function delta(token, folderID) {
           err = new Error("Blog folder was removed");
           err.code = "ENOENT";
           err.status = 409;
-
         } else {
-          console.log("Delta error:", err);
           err = new Error("Failed to fetch delta from Dropbox");
           err.code = "EBADMSG"; // Not a data message
           err.status = 400;
@@ -109,16 +106,16 @@ module.exports = function delta(token, folderID) {
       });
   }
 
-  // try calling get 10 times with exponential backoff
-  // (i.e. intervals of 100, 200, 400, 800, 1600, ... milliseconds)
+  // try calling get 5 times with exponential backoff
+  // (i.e. intervals of 100, 200, 400, 800, 1600 milliseconds)
   return function(cursor, callback) {
     async.retry(
-      { 
+      {
         // Only retry if the folder has not been moved
-        errorFilter: function(err){
-          return err.status !== 409
+        errorFilter: function(err) {
+          return err.status !== 409;
         },
-        times: 10,
+        times: 5,
         interval: function(retryCount) {
           return 50 * Math.pow(2, retryCount);
         }

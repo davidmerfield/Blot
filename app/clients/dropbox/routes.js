@@ -16,9 +16,16 @@ var site = Express.Router();
 dashboard
   .use(loadDropboxAccount)
   .get("/", function(req, res) {
-    res.render(__dirname + "/views/index.html", {
-      title: "Dropbox",
-      subpage_title: "Folder"
+    var view;
+
+    if (req.account) {
+      view = __dirname + "/views/index.html";
+    } else {
+      view = __dirname + "/views/authenticate.html";
+    }
+
+    res.render(view, {
+      title: "Dropbox"
     });
   })
   .get("/permission", function(req, res) {
@@ -173,14 +180,13 @@ site.route("/webhook").post(function(req, res) {
             blogs,
             function(blog, next) {
               sync(blog, function(err) {
-                console.log("Blog", blog.id, "Sync error:", err);
+                if (err) console.log("Blog", blog.id, "Sync error:", err);
                 next();
               });
             },
-            function(err) {
+            function() {
               blogs.forEach(function(blog) {
-                // Used for testing purposes only
-                console.log("Finished", blog.id);
+                debug("Finish sync for", blog.id);
                 finished(blog.id);
               });
             }

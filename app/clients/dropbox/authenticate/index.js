@@ -1,15 +1,15 @@
-var debug = require("debug")("clients:dropbox:authenticate");
-var get_account = require("./get_account");
-var set_account = require("./set_account");
-var prepare_folder = require("./prepare_folder");
 var authenticate = require("express").Router();
-var write_existing_contents = require("./write_existing_contents");
-var lock_on_folder = require("./lock_on_folder");
-var redirect = require("./redirect");
+var debug = require("debug")("clients:dropbox:authenticate");
+var config = require("config");
+var Dropbox = require("dropbox").Dropbox;
+var database = require("../database");
 
-// This route sends the user to Dropbox
-// to consent to Blot's connection.
-authenticate.route("/redirect").get(redirect);
+var token = require("./token");
+var createFolder = require("./createFolder");
+var dropboxAccount = require("./dropboxAccount");
+var checkAppFolder = require("./checkAppFolder");
+var writeExistingContents = require("./writeExistingContents");
+var moveExistingFiles = require("./moveExistingFiles");
 
 // This route recieves the user back from
 // Dropbox when they have accepted or denied
@@ -17,39 +17,98 @@ authenticate.route("/redirect").get(redirect);
 authenticate
   .route("/")
   .get(
-    lock_on_folder.acquire,
-    get_account,
-    prepare_folder,
-    write_existing_contents,
-    set_account,
-    lock_on_folder.release
+    token,
+    dropboxAccount,
+    checkAppFolder,
+    askToMigrateIfNeeded,
+    createFolder,
+    writeExistingContents,
+    saveDropboxAccount
   );
 
-authenticate.use(function(req, res) {
-  // Release sync lease
-  if (req.on_complete) {
-    debug("Calling sync on_complete in non-error handler!");
-    req.on_complete();
+// This is called when the user has configured another
+// blog to the user their app folder, and wants to add
+// this blog to it. We move the existing files into
+// a subfolder in the app folder, then write any existing
+// files to the
+authenticate
+  .route("/migrate")
+  .all(checkUnsavedAccount)
+  .get(function(req, res) {
+    res.render(__dirname + "/../views/migrate.html", {
+      title: "Migrate Dropbox"
+    });
+  })
+  .post(
+    checkAppFolder,
+    moveExistingFiles,
+    createFolder,
+    writeExistingContents,
+    saveDropboxAccount
+  );
+
+// This route sends the user to Dropbox
+// to consent to Blot's connection.
+authenticate.route("/redirect").get(function(req, res) {
+  var callback, key, secret, authentication_url;
+
+  callback = req.protocol + "://" + req.get("host") + req.baseUrl;
+
+  if (req.query.full_access) {
+    key = config.dropbox.full.key;
+    secret = config.dropbox.full.secret;
+    callback += "?full_access=true";
+  } else {
+    key = config.dropbox.app.key;
+    secret = config.dropbox.app.secret;
   }
 
-  res.message("/", "Authentication to Dropbox successful!");
+  var client = new Dropbox({
+    clientId: key,
+    secret: secret
+  });
+
+  authentication_url = client.getAuthenticationUrl(callback, null, "code");
+  authentication_url = authentication_url.replace(
+    "response_type=token",
+    "response_type=code"
+  );
+
+  debug("Redirecting", req.blog.id, "authentication_url");
+
+  res.redirect(authentication_url);
 });
 
 // Error handler
 authenticate.use(function(err, req, res, next) {
-  if (req.on_complete) {
-    debug("Calling sync on_complete in error handler!");
-    req.on_complete();
-  }
 
   if (err.message) {
-    res.message({ error: err.message, url: req.baseUrl });
-    debug(req.baseUrl, req.url, req.path);
-    return res.redirect(req.baseUrl);
+    return res.message(req.baseUrl, err);
   }
 
-  debug("error here", err);
   next(err);
 });
 
+function checkUnsavedAccount(req, res, next) {
+  if (!req.session.unsavedAccount) return next(new Error("No account"));
+
+  req.unsavedAccount = req.session.unsavedAccount;
+  next();
+}
+
+function askToMigrateIfNeeded(req, res, next) {
+  if (req.otherBlogUsingEntireAppFolder) {
+    req.session.unsavedAccount = req.unsavedAccount;
+    res.redirect(req.baseUrl + "/migrate");
+  } else {
+    next();
+  }
+}
+function saveDropboxAccount(req, res, next) {
+  database.set(req.blog.id, req.unsavedAccount, function(err) {
+    if (err) return next(err);
+
+    res.message("/", "Set up Dropbox successfuly!");
+  });
+}
 module.exports = authenticate;
