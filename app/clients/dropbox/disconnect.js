@@ -4,6 +4,9 @@ var Blog = require("blog");
 var debug = require("debug")("clients:dropbox");
 var Sync = require("sync");
 
+// Dont write tests for this or you'll need to regenerate
+// an access token for Travis and it'll be annoying. Just
+// test it on the development server.
 module.exports = function disconnect(blogID, callback) {
 
   // Make sure we don't create something unexpected

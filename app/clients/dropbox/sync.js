@@ -28,6 +28,7 @@ module.exports = function main(blog, callback) {
 
       var token = account.access_token;
       var delta = new Delta(token, account.folder_id);
+      var apply = new Apply(token, folder.path);
 
       // Delta retrieves changes to the folder on Dropbox for a given
       // blog. It returns a list of changes. It also adds a new property
@@ -36,7 +37,7 @@ module.exports = function main(blog, callback) {
       // blog folder in the user's Dropbox folder.
       delta(account.cursor, function handle(err, result) {
         if (err) {
-          return Database.set(blog.id, { error_code: err.code }, function(err) {
+          return Database.set(blog.id, { error_code: err.status }, function(err) {
             done(err, callback);
           });
         }
@@ -45,9 +46,9 @@ module.exports = function main(blog, callback) {
         // user's folder on Dropbox to the blog folder on Blot's server.
         // This means making any new directories, downloading any new
         // or changed files, and removing any deleted items.
-        apply(result.entries, folder.path, token, function(err) {
+        apply(result.entries, function(err) {
           if (err) {
-            return Database.set(blog.id, { error_code: err.code }, function(
+            return Database.set(blog.id, { error_code: err.status }, function(
               err
             ) {
               done(err, callback);
@@ -77,6 +78,14 @@ module.exports = function main(blog, callback) {
               result.entries,
               function(item, next) {
                 debug("Updating on Blot:", item.path);
+
+                // The items's relative path is computed by delta, based on the
+                // current path to the blog's folder in the user's Dropbox. 
+                // The relative path is also lowercase. This is because Dropbox 
+                // is case-insensitive but the file system for Blot's server is not.
+                // We therefore pass the name of the file, which has its case preserved
+                // to update, so things like automatic title generation based on the
+                // file can be computed nicely.
                 folder.update(item.relative_path, { name: item.name }, next);
               },
               function() {
@@ -97,55 +106,57 @@ module.exports = function main(blog, callback) {
   });
 };
 
-function apply(changes, blogFolder, token, callback) {
-  debug("Retrieved changes", changes);
+function Apply(token, blogFolder) {
+  return function apply(changes, callback) {
+    debug("Retrieved changes", changes);
 
-  var deleted = changes.filter(function(item) {
-    return item[".tag"] === "deleted";
-  });
+    var deleted = changes.filter(function(item) {
+      return item[".tag"] === "deleted";
+    });
 
-  var folders = changes.filter(function(item) {
-    return item[".tag"] === "folder";
-  });
+    var folders = changes.filter(function(item) {
+      return item[".tag"] === "folder";
+    });
 
-  var files = changes.filter(function(item) {
-    return item[".tag"] === "file";
-  });
+    var files = changes.filter(function(item) {
+      return item[".tag"] === "file";
+    });
 
-  function remove(item, callback) {
-    debug("Removing", item.path);
-    fs.remove(join(blogFolder, item.relative_path), callback);
-  }
+    function remove(item, callback) {
+      debug("Removing", item.path);
+      fs.remove(join(blogFolder, item.relative_path), callback);
+    }
 
-  function mkdir(item, callback) {
-    debug("Mkdiring", item.path);
-    fs.ensureDir(join(blogFolder, item.relative_path), callback);
-  }
+    function mkdir(item, callback) {
+      debug("Mkdiring", item.path);
+      fs.ensureDir(join(blogFolder, item.relative_path), callback);
+    }
 
-  // Item.path_lower is the full path to the item
-  // in the user's Dropbox. Don't confuse it with the
-  // relative path to an item, since the root of the
-  // Dropbox folder might not be the root of the blog.
-  function download(item, callback) {
-    debug("Downloading", item.path);
-    Download(
-      token,
-      item.path_lower,
-      join(blogFolder, item.relative_path),
+    // Item.path_lower is the full path to the item
+    // in the user's Dropbox. Don't confuse it with the
+    // relative path to an item, since the root of the
+    // Dropbox folder might not be the root of the blog.
+    function download(item, callback) {
+      debug("Downloading", item.path);
+      Download(
+        token,
+        item.path_lower,
+        join(blogFolder, item.relative_path),
+        callback
+      );
+    }
+
+    debug("Deleted:", deleted);
+    debug("Folders:", folders);
+    debug("Files:", files);
+
+    async.parallel(
+      [
+        async.apply(async.each, deleted, remove),
+        async.apply(async.each, folders, mkdir),
+        async.apply(async.eachLimit, files, 20, download)
+      ],
       callback
     );
-  }
-
-  debug("Deleted:", deleted);
-  debug("Folders:", folders);
-  debug("Files:", files);
-
-  async.parallel(
-    [
-      async.apply(async.each, deleted, remove),
-      async.apply(async.each, folders, mkdir),
-      async.apply(async.eachLimit, files, 20, download)
-    ],
-    callback
-  );
+  };
 }

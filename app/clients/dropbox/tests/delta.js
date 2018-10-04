@@ -26,7 +26,6 @@ describe("dropbox client", function() {
 
     specs();
 
-    // This spec is only relevant to subfolders...
     it("retrieves changes after blog folder is renamed", function(done) {
       var addFile = this.addFile;
       var oldFolder = this.account.folder;
@@ -42,6 +41,48 @@ describe("dropbox client", function() {
         })
         .then(function() {
           addFile(done);
+        })
+        .catch(done.fail);
+    });
+
+    // This does not work right now, you'll need to go the dashboard and re-create
+    xit("retrieves changes after blog folder is removed then re-created", function(done) {
+      var ctx = this;
+
+      ctx.client
+        .filesDelete({
+          path: ctx.account.folder
+        })
+        .then(function() {
+          return ctx.client.filesCreateFolder({
+            path: ctx.account.folder,
+            autorename: false
+          });
+        })
+        .then(function() {
+          ctx.delta(function(err, res) {
+            console.log(err);
+            console.log(res);
+            done();
+          });
+        })
+        .catch(done.fail);
+    });
+
+    it("stores a tidy error when the folder is removed", function(done) {
+      var ctx = this;
+
+      ctx.client
+        .filesDelete({
+          path: ctx.account.folder
+        })
+        .then(function() {
+          ctx.delta(function(err, res) {
+            expect(err.code).toEqual("ENOENT");
+            expect(err.status).toEqual(409);
+            expect(res).toEqual(null);
+            done();
+          });
         })
         .catch(done.fail);
     });
@@ -91,7 +132,7 @@ function setupDelta(done) {
 
   context.delta = function(callback) {
     delta(context.account.cursor, function(err, res) {
-      if (err) return callback(err);
+      if (err) return callback(err, res);
       context.account.cursor = res.cursor;
       callback(null, res);
     });

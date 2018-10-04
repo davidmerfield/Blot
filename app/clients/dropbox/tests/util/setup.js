@@ -6,6 +6,9 @@ module.exports = function setup(options) {
   var createClient = require("../../util/createClient");
   var uuid = require("uuid/v4");
 
+  // Increase timeout
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
+
   global.test.blog();
 
   // Sets up a temporary tmp folder and cleans it up after

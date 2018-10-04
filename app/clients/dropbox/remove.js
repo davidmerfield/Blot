@@ -7,7 +7,11 @@ var localPath = require('helper').localPath;
 
 // This should only ever be called inside the function
 // returned from Sync for a given blog, since it modifies
-// the blog's folder.
+// the blog's folder. 
+
+// Also, this doesn't handle multiple concurrent
+// removes very well. We might want to add some sort of multi
+// feature, or think about implementing a queue of some sort.
 module.exports = function remove(blogID, path, callback) {
   var client, pathInDropbox;
 

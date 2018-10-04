@@ -1,4 +1,5 @@
 var createClient = require("./util/createClient");
+var async = require("async");
 
 // The goal of this function is to retrieve a list of changes made
 // to the blog folder inside a user's Dropbox folder. We filter out
@@ -10,7 +11,7 @@ var createClient = require("./util/createClient");
 // the blog's folder. The second request retrieve all changes to user's
 // Dropbox. We use the response from the first to return the desired result.
 module.exports = function delta(token, folderID) {
-  return function get(cursor, callback) {
+  function get(cursor, callback) {
     var client = createClient(token);
     var requests = [];
     var result = {};
@@ -26,13 +27,21 @@ module.exports = function delta(token, folderID) {
           // Dropbox likes root as empty string,
           // so if there is no folder ID this is fine
           path: folderID,
+          // We obviously want to know about removed files
           include_deleted: true,
+          // We want to know about changes anywhere in the folder
           recursive: true
         })
       );
     }
 
     if (folderID) {
+      // The reason we look up the metadata for the blog's folder
+      // is to make sure we can filter the list of all changes to the
+      // user's Dropbox folder to a list of only those changes made
+      // to this blog's folder in the user's Dropbox. The user might
+      // rename this blog's folder, and so we need to fetch its latest
+      // path, against which we filter any new changes.
       requests.push(client.filesGetMetadata({ path: folderID }));
     }
 
@@ -72,9 +81,9 @@ module.exports = function delta(token, folderID) {
         callback(null, result);
       })
       .catch(function(err) {
+        
         // Professional programmers wrote this SDK
         if (
-          err &&
           err.error &&
           err.error.error &&
           err.error.error[".tag"] === "reset"
@@ -83,8 +92,39 @@ module.exports = function delta(token, folderID) {
           return get(cursor, callback);
         }
 
-        console.log("ERROR", err);
-        callback(err);
+        // Format these terrible Dropbox errors
+        if (err.status === 409) {
+          err = new Error("Blog folder was removed");
+          err.code = "ENOENT";
+          err.status = 409;
+
+        } else {
+          console.log("Delta error:", err);
+          err = new Error("Failed to fetch delta from Dropbox");
+          err.code = "EBADMSG"; // Not a data message
+          err.status = 400;
+        }
+
+        callback(err, null);
       });
+  }
+
+  // try calling get 10 times with exponential backoff
+  // (i.e. intervals of 100, 200, 400, 800, 1600, ... milliseconds)
+  return function(cursor, callback) {
+    async.retry(
+      { 
+        // Only retry if the folder has not been moved
+        errorFilter: function(err){
+          return err.status !== 409
+        },
+        times: 10,
+        interval: function(retryCount) {
+          return 50 * Math.pow(2, retryCount);
+        }
+      },
+      async.apply(get, cursor),
+      callback
+    );
   };
 };
