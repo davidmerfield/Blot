@@ -4,7 +4,7 @@ describe("dropbox client", function() {
   // This typically only happens for 'App folders'
   describe("in root", function() {
     // Create test blog, clients & prepare Dropbox
-    require("./util/setup")({ root: true });
+    require("./setup")({ root: true });
 
     // We must repeat these setup lines in
     // the suite below for subfolders...
@@ -17,7 +17,7 @@ describe("dropbox client", function() {
 
   describe("in subfolder", function() {
     // Create test blog, clients & prepare Dropbox
-    require("./util/setup")();
+    require("./setup")();
 
     // Suite specific methods
     beforeEach(setupDelta);

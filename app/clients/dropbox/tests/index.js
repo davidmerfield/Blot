@@ -1,6 +1,6 @@
 describe("dropbox client", function() {
   // Create test user and tmp directory
-  require("./util/setup")();
+  require("./setup")();
 
   it(
     "syncs a removed file",

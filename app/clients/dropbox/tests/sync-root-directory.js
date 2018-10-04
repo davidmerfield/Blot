@@ -1,6 +1,6 @@
 describe("dropbox client", function() {
   // Create test user and tmp directory
-  require("./util/setup")({ root: true });
+  require("./setup")({ root: true });
 
   var fs = require("fs-extra");
   var write = require("../write");

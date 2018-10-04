@@ -1,7 +1,6 @@
 var debug = require("debug")("clients:dropbox:download");
 var dropboxStream = require("dropbox-stream");
 var fs = require("fs-extra");
-var setMtime = require("./setMtime");
 var tmpDir = require("helper").tempDir();
 var join = require("path").join;
 var uuid = require("uuid/v4");
@@ -46,6 +45,31 @@ function download(token, source, destination, callback) {
     })
     .on("error", callback)
     .pipe(ws);
+}
+
+function setMtime(path, modified, callback) {
+  var mtime;
+
+  try {
+    mtime = new Date(modified);
+  } catch (e) {
+    return callback(e);
+  }
+
+  if (
+    mtime === false ||
+    mtime === null ||
+    mtime === undefined ||
+    !(mtime instanceof Date)
+  ) {
+    return callback(new Error("Download: setMtime: Could not create date"));
+  }
+
+  fs.utimes(path, mtime, mtime, function(err) {
+    if (err) return callback(err);
+
+    return callback(null);
+  });
 }
 
 // try calling download 5 times with exponential backoff
