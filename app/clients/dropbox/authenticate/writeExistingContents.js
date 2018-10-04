@@ -11,6 +11,10 @@ module.exports = function(req, res, next) {
 
   debug("writing existing contents for", req.blog.title);
 
+  // check if req.account.folder === req.unsavedAccount.folder
+  // if so, just next? we want people to be able to re-cruise
+  // down this authentication route without freaking out...
+
   sync(req.blog.id, function(err, folder, done) {
     if (err) return next(err);
 

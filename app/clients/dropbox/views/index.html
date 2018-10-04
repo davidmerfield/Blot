@@ -2,25 +2,15 @@
       
 {{#error_code}}
 
+<a href="{{{base}}}/authenticate/redirect{{#full_access}}?full_access=true{{/full_access}}" class="mess error">
+  <b>Error</b><br><br>
 
-<span class="icon warning">!</span>&nbsp;&nbsp; 
-  {{#folder_missing}}
+Blot cannot sync the folder for <b>{{blog.title}}</b> with Dropbox. You can probably fix this by reconnecting. If you can't fix this, please contact support. <br><br>
 
-    Your blog’s folder has been removed. &nbsp;&nbsp;
+<span class="button">Re-connect to Dropbox</span>
+</a>
 
-      <a href="{{{base}}}/select-folder" style="" class="button">Choose a folder</a>
-
-    {{/folder_missing}}
-
-    {{#revoked}}
-
-      Please reconnect to Dropbox to allow Blot to sync your folder.
-
-
-    {{/revoked}}
-  </p>
-      <a href="{{{base}}}/authenticate/redirect{{#full_access}}?full_access=true{{/full_access}}" class="button">Re-connect to Dropbox</a>
-  {{/error_code}}
+{{/error_code}}
 
 {{^error_code}}
 

@@ -21,20 +21,7 @@ module.exports = function(req, res, next) {
         folder_id: "",
         cursor: ""
       };
-
-      // The user has an existing dropbox account stored
-      if (
-        !req.account ||
-        req.unsavedAccount.account_id !== req.account.account_id ||
-        req.unsavedAccount.full_access !== req.account.full_access
-      ) {
-        next();
-      } else {
-        database.set(req.blog.id, { access_token: req.token }, function(err) {
-          if (err) return next(err);
-          res.message("/", "Set up Dropbox successfuly!");
-        });
-      }
+      next();
     })
 
     .catch(next);

@@ -4,8 +4,6 @@ var https = require("https");
 // Dropbox makes this way harder than it needs to be
 module.exports = function(req, res, next) {
   var key, secret, url, redirect_uri, request, response;
-
-  console.log('BACK FROM DROPBOX', req.query);
   
   // Does this happen if the user denies permission?
   if (!req.query || !req.query.code) {
