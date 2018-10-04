@@ -24,7 +24,14 @@ authenticate
     createFolder,
     writeExistingContents,
     saveDropboxAccount
-  );
+  )
+  .get(function(err, req, res, next) {
+    res.message(req.baseUrl + "/setup", err);
+  });
+
+authenticate.route("/setup").get(function(req, res) {
+  res.render(__dirname + "/../views/authenticate.html", { title: "Dropbox" });
+});
 
 // This is called when the user has configured another
 // blog to the user their app folder, and wants to add
@@ -77,16 +84,6 @@ authenticate.route("/redirect").get(function(req, res) {
   debug("Redirecting", req.blog.id, "authentication_url");
 
   res.redirect(authentication_url);
-});
-
-// Error handler
-authenticate.use(function(err, req, res, next) {
-
-  if (err.message) {
-    return res.message(req.baseUrl, err);
-  }
-
-  next(err);
 });
 
 function checkUnsavedAccount(req, res, next) {

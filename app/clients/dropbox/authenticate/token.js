@@ -5,6 +5,8 @@ var https = require("https");
 module.exports = function(req, res, next) {
   var key, secret, url, redirect_uri, request, response;
 
+  console.log('BACK FROM DROPBOX', req.query);
+  
   // Does this happen if the user denies permission?
   if (!req.query || !req.query.code) {
     return next(new Error("No code from Dropbox"));

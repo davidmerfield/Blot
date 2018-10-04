@@ -75,6 +75,9 @@ function DetermineFolder(title, client, callback) {
 }
 
 function Move(client, entries, callback) {
+
+  if (!entries.length) return callback(null);
+  
   client
     .filesMoveBatch({
       entries: entries,

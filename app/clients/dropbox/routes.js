@@ -18,13 +18,9 @@ dashboard
   .get("/", function(req, res) {
     var view;
 
-    if (req.account) {
-      view = __dirname + "/views/index.html";
-    } else {
-      view = __dirname + "/views/authenticate.html";
-    }
+    if (!req.account) return res.redirect(req.baseUrl + "/authenticate/setup");
 
-    res.render(view, {
+    res.render(__dirname + "/views/index.html", {
       title: "Dropbox"
     });
   })
