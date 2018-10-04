@@ -2,17 +2,18 @@ var debug = require("debug")("clients:dropbox:remove");
 var createClient = require("./util/createClient");
 var database = require("./database");
 var join = require("path").join;
-var fs = require('fs-extra');
-var localPath = require('helper').localPath;
+var fs = require("fs-extra");
+var localPath = require("helper").localPath;
+var async = require("async");
 
 // This should only ever be called inside the function
 // returned from Sync for a given blog, since it modifies
-// the blog's folder. 
+// the blog's folder.
 
 // Also, this doesn't handle multiple concurrent
 // removes very well. We might want to add some sort of multi
 // feature, or think about implementing a queue of some sort.
-module.exports = function remove(blogID, path, callback) {
+function remove(blogID, path, callback) {
   var client, pathInDropbox;
 
   debug("Blog:", blogID, "Removing", path);
@@ -25,7 +26,7 @@ module.exports = function remove(blogID, path, callback) {
       .filesDelete({
         path: pathInDropbox
       })
-      .then(function(){
+      .then(function() {
         return fs.remove(localPath(blogID, path));
       })
       .then(function() {
@@ -38,4 +39,19 @@ module.exports = function remove(blogID, path, callback) {
         callback(err);
       });
   });
+}
+
+// try calling remove 5 times with exponential backoff
+// (i.e. intervals of 100, 200, 400, 800, 1600 milliseconds)
+module.exports = function(blogID, path, callback) {
+  async.retry(
+    {
+      times: 5,
+      interval: function(retryCount) {
+        return 50 * Math.pow(2, retryCount);
+      }
+    },
+    async.apply(remove, blogID, path),
+    callback
+  );
 };
