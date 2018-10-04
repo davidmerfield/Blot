@@ -1,28 +1,28 @@
 var sync = require("sync");
 var database = require("../database");
 var createClient = require("../util/createClient");
+var async = require("async");
 
 module.exports = function(req, res, next) {
   var otherBlog = req.otherBlogUsingEntireAppFolder;
+  var client, determineFolder, move;
 
   if (!otherBlog) return next(new Error("No blog to move"));
 
-  var client = createClient(req.unsavedAccount.access_token);
+  client = createClient(req.unsavedAccount.access_token);
+  determineFolder = async.apply(DetermineFolder, otherBlog.title, client);
 
   // Get a lock on the blog to ensure no other changes happen during migration
   // might want to add retries here...
   sync(otherBlog.id, function(err, folder, done) {
     if (err) return next(err);
 
-    determineFolder(otherBlog.title, client, function(
-      err,
-      entries,
-      folder,
-      folderID
-    ) {
+    async.retry(determineFolder, function(err, entries, folder, folderID) {
       if (err) return done(err, next);
 
-      move(client, entries, function(err) {
+      move = async.apply(Move, client, entries);
+
+      async.retry(move, function(err) {
         if (err) return done(err, next);
 
         database.set(
@@ -41,7 +41,7 @@ module.exports = function(req, res, next) {
   });
 };
 
-function determineFolder(title, client, callback) {
+function DetermineFolder(title, client, callback) {
   var folder = "/" + (title || "Untitled");
   var folderID;
   var entries;
@@ -74,7 +74,7 @@ function determineFolder(title, client, callback) {
     .catch(callback);
 }
 
-function move(client, entries, callback) {
+function Move(client, entries, callback) {
   client
     .filesMoveBatch({
       entries: entries,
