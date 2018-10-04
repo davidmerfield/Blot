@@ -41,6 +41,7 @@ function remove(blogID, path, callback) {
   });
 }
 
+// We wrap this function in a retrier before exporting. 
 // try calling remove 5 times with exponential backoff
 // (i.e. intervals of 100, 200, 400, 800, 1600 milliseconds)
 module.exports = function(blogID, path, callback) {
