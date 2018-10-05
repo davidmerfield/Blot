@@ -50,6 +50,8 @@ module.exports = function download_images (post, callback) {
       var name = nameFrom(src);
       if (name.charAt(0) !== '_') name = '_' + name;
 
+      if (!require('url').parse(src).hostname) return next();
+
       download(src, {directory: post.path, filename: name}, function(err){
 
         if (err) {

@@ -87,7 +87,7 @@ module.exports = function ($, output_directory, callback) {
 
     download_images(post, function(err, post){
 
-      if (err) throw err;
+      if (err) console.log(err);
 
       post.html = fix_missing_p_tags(post.html);
       post.html = fix_markdown_bs(post.html);
