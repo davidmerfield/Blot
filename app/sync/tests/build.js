@@ -15,7 +15,7 @@ describe("build", function() {
   });
 
 
-  fit("hides date with timestamp from title if its in the file name", function(testDone) {
+  it("hides date with timestamp from title if its in the file name", function(testDone) {
     var path = "/2018-10-02-02-35 Hello.png";
     var content = this.fake.file();
     var checkEntry = this.checkEntry;
