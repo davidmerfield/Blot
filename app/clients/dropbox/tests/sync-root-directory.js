@@ -18,11 +18,8 @@ describe("dropbox client", function() {
       write(blog.id, path, contents, function(err) {
         if (err) return done.fail(err);
 
-        console.log("Syncing...");
         sync(blog, function(err) {
           if (err) return done.fail(err);
-
-          console.log("Back from sync?");
 
           expect(
             fs.readFileSync(blogDirectory + path).toString("utf-8")
