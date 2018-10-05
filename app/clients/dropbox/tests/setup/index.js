@@ -29,7 +29,7 @@ module.exports = function setup(options) {
         protocol: "http",
         hostname: "localhost",
         port: port,
-        pathname: "/clients/dropbox/syncs-finished/" + blogID
+        pathname: "/clients/dropbox/webhook/syncs-finished/" + blogID
       });
 
       http.get(url, function check(res) {

@@ -78,7 +78,6 @@ describe("dropbox client", function() {
         })
         .then(function() {
           ctx.delta(function(err, res) {
-            expect(err.code).toEqual("ENOENT");
             expect(err.status).toEqual(409);
             expect(res).toEqual(null);
             done();

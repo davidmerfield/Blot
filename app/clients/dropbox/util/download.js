@@ -4,7 +4,7 @@ var fs = require("fs-extra");
 var tmpDir = require("helper").tempDir();
 var join = require("path").join;
 var uuid = require("uuid/v4");
-var async = require("async");
+var retry = require('./retry');
 
 // This is used by sync.js to retrieve files efficiently
 // from Dropbox after notification of a change through a webhook
@@ -74,17 +74,4 @@ function setMtime(path, modified, callback) {
   });
 }
 
-// try calling download 5 times with exponential backoff
-// (i.e. intervals of 100, 200, 400, 800, 1600 milliseconds)
-module.exports = function(token, source, destination, callback) {
-  async.retry(
-    {
-      times: 5,
-      interval: function(retryCount) {
-        return 50 * Math.pow(2, retryCount);
-      }
-    },
-    async.apply(download, token, source, destination),
-    callback
-  );
-};
+module.exports = retry(download);

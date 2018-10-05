@@ -4,7 +4,7 @@ var debug = require("debug")("clients:dropbox:write");
 var createClient = require("./util/createClient");
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
-var async = require("async");
+var retry = require("./util/retry");
 
 // This should only ever be called inside the function
 // returned from Sync for a given blog, since it modifies
@@ -24,7 +24,7 @@ function write(blogID, path, contents, callback) {
 
     pathInDropbox = join(account.folder || "/", path);
     client = createClient(account.access_token);
-
+    
     client
       .filesUpload({
         contents: contents,
@@ -44,18 +44,4 @@ function write(blogID, path, contents, callback) {
   });
 }
 
-// We wrap this function in a retrier before exporting. 
-// try calling write 5 times with exponential backoff
-// (i.e. intervals of 100, 200, 400, 800, 1600 milliseconds)
-module.exports = function(blogID, path, contents, callback) {
-  async.retry(
-    {
-      times: 5,
-      interval: function(retryCount) {
-        return 50 * Math.pow(2, retryCount);
-      }
-    },
-    async.apply(write, blogID, path, contents),
-    callback
-  );
-};
+module.exports = retry(write);
