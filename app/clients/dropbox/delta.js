@@ -77,7 +77,13 @@ module.exports = function delta(token, folderID) {
         callback(null, result);
       })
       .catch(function(err) {
+
+        var message, error;
+
         // Professional programmers wrote this SDK
+        // Anyway, reset typically means the folder
+        // has moved and we need to reset the cursor
+        // and sync from scratch.
         if (
           err.error &&
           err.error.error &&
@@ -87,15 +93,18 @@ module.exports = function delta(token, folderID) {
           return get(cursor, callback);
         }
 
+        // Determine the error message to pass back
+        // to sync. We might show this to the user.
         if (err.status === 409) {
-          err = new Error("Blog folder was removed");
-          err.code = "ENOENT";
-          err.status = 409;
+          message = "Your folder no longer exists";
         } else {
-          err = new Error("Failed to fetch delta from Dropbox");
+          message = "Failed to fetch changes from Dropbox";
         }
 
-        callback(err, null);
+        error = new Error(message);
+        error.status = err.status || 400;
+
+        callback(error, null);
       });
   }
 
