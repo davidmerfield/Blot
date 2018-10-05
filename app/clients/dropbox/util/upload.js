@@ -1,7 +1,7 @@
 var debug = require("debug")("clients:dropbox:upload");
 var dropboxStream = require("dropbox-stream");
 var fs = require("fs-extra");
-var retry = require('./retry');
+var retry = require("./retry");
 
 function upload(token, source, destination, callback) {
   var read, up;
@@ -25,6 +25,4 @@ function upload(token, source, destination, callback) {
   read.pipe(up);
 }
 
-// try calling download 5 times with exponential backoff
-// (i.e. intervals of 100, 200, 400, 800, 1600 milliseconds)
 module.exports = retry(upload);

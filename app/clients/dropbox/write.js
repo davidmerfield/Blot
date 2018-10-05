@@ -6,14 +6,8 @@ var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var retry = require("./util/retry");
 
-// This should only ever be called inside the function
-// returned from Sync for a given blog, since it modifies
-// the blog's folder.
-
-// Also, this doesn't handle multiple concurrent
-// writes very well. We might want to add some sort of multi
-// feature, or think about implementing a queue of some sort? Perhaps
-// just implement retry with jitter.
+// Write should only ever be called inside the function returned
+// from Sync for a given blog, since it modifies the blog folder.
 function write(blogID, path, contents, callback) {
   var pathInDropbox, client;
 

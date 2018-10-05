@@ -1,20 +1,20 @@
 var debug = require("debug")("clients:dropbox:sync");
+var Download = require("./util/download");
+var Database = require("./database");
 var join = require("path").join;
+var Delta = require("./delta");
 var fs = require("fs-extra");
 var async = require("async");
 var Sync = require("sync");
-
-var Download = require("./util/download");
-
-var Database = require("./database");
-var Delta = require("./delta");
 
 var syncOptions = { retryCount: -1, retryDelay: 10, retryJitter: 10 };
 
 module.exports = function main(blog, callback) {
   debug("Blog:", blog.id, "Attempting to acquire lock on the blog folder.");
 
-  // redlock options to ensure we acquire a lock eventually...
+  // Redlock options to ensure we acquire a lock eventually...
+  // pershaps we should keep track and only issue a second pending sync
+  // to prevent an infinite stack of webhooks.
   Sync(blog.id, syncOptions, function(err, folder, done) {
     if (err) return callback(err);
 
@@ -37,9 +37,13 @@ module.exports = function main(blog, callback) {
       // blog folder in the user's Dropbox folder.
       delta(account.cursor, function handle(err, result) {
         if (err) {
-          return Database.set(blog.id, { error_code: err.status || 400 }, function(err) {
-            done(err, callback);
-          });
+          return Database.set(
+            blog.id,
+            { error_code: err.status || 400 },
+            function(err) {
+              done(err, callback);
+            }
+          );
         }
 
         // Now we attempt to apply the changes which occured in the
@@ -48,11 +52,13 @@ module.exports = function main(blog, callback) {
         // or changed files, and removing any deleted items.
         apply(result.entries, function(err) {
           if (err) {
-            return Database.set(blog.id, { error_code: err.status || 400 }, function(
-              err
-            ) {
-              done(err, callback);
-            });
+            return Database.set(
+              blog.id,
+              { error_code: err.status || 400 },
+              function(err) {
+                done(err, callback);
+              }
+            );
           }
           // we have successfully applied this batch of changes
           // to the user's Dropbox folder. Now we save the new
@@ -80,8 +86,8 @@ module.exports = function main(blog, callback) {
                 debug("Updating on Blot:", item.relative_path);
 
                 // The items's relative path is computed by delta, based on the
-                // current path to the blog's folder in the user's Dropbox. 
-                // The relative path is also lowercase. This is because Dropbox 
+                // current path to the blog's folder in the user's Dropbox.
+                // The relative path is also lowercase. This is because Dropbox
                 // is case-insensitive but the file system for Blot's server is not.
                 // We therefore pass the name of the file, which has its case preserved
                 // to update, so things like automatic title generation based on the
