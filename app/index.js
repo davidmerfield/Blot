@@ -1,8 +1,3 @@
-// This ensures the sync and rebuild child processes can be killed cleanly
-var cleanExit = function() { process.exit();};
-process.on('SIGINT', cleanExit); // catch ctrl-c
-process.on('SIGTERM', cleanExit); // catch kill
-
 var root = require('helper').rootDir;
 var fs = require('fs-extra');
 
