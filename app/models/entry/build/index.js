@@ -1,11 +1,14 @@
 var debug = require("debug")("blot:models:entry:build");
 var cp = require("child_process");
-var worker = new Worker();
 var crypto = require("crypto");
+var exitHook = require("async-exit-hook");
+
+var worker = new Worker();
 
 // Make sure we remove the workers when the main
 // process is killed to avoid zombie processes
-process.on("exit", function() {
+exitHook(function() {
+  console.log("Master: shutting down worker process", worker.pid);
   worker.kill();
 });
 
@@ -56,11 +59,16 @@ module.exports = function(blog, path, callback) {
 function Worker() {
   var child;
 
+  console.log("Master: starting first worker process");
   child = cp.fork(__dirname + "/main.js");
 
   child.on("exit", function(code) {
-    if (code === 0) return;
+    if (code === 0) {
+      console.log("Master: no re-starting of worker process");
+      return;
+    }
 
+    console.log("Master: re-starting worker process");
     worker = new Worker();
   });
 

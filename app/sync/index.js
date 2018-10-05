@@ -6,6 +6,7 @@ var Update = require("./update");
 var localPath = require("helper").localPath;
 var async = require("async");
 var renames = require("./renames");
+var exitHook = require("async-exit-hook");
 
 // By default, we give a sync process up to
 // 10 minutes to compete before we allow other
@@ -17,13 +18,7 @@ var DEFAULT_TTL = 10 * 60 * 1000;
 // to sync until the TTL above expires.
 var locks = {};
 
-process.on("SIGINT", unlockAll); // catch ctrl-c
-process.on("SIGTERM", unlockAll); // catch kill
-process.on("uncaughtException", unlockAll); // catch runtime error
-
-function unlockAll(err) {
-  var exitCode = 0;
-
+exitHook(function(callback) {
   console.log("Unlocking all locks...");
 
   async.eachOf(
@@ -32,16 +27,9 @@ function unlockAll(err) {
       console.log("Unlocking", blogID, "...");
       lock.unlock(next);
     },
-    function() {
-      if (err) {
-        console.error(err);
-        exitCode = 1;
-      }
-
-      process.exit(exitCode);
-    }
+    callback
   );
-}
+});
 
 function sync(blogID, options, callback) {
   var redlock, resource, ttl, folder;
