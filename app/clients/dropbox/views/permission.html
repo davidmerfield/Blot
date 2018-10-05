@@ -27,10 +27,10 @@
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <div class="buttons">
     {{#full_access}}    
-    <a href="{{{base}}}/authenticate/redirect">Switch to an App folder</a>
+    <a href="{{{base}}}/redirect">Switch to an App folder</a>
     {{/full_access}}
     {{^full_access}}
-    <a href="{{{base}}}/authenticate/redirect?full_access=true">Grant full access to your Dropbox</a>
+    <a href="{{{base}}}/redirect?full_access=true">Grant full access to your Dropbox</a>
     {{/full_access}}
     <a href="{{{base}}}">Cancel</a>
   </div>

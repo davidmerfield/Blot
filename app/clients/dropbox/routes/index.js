@@ -1,6 +1,6 @@
 var Express = require("express");
 var disconnect = require("../disconnect");
-var views = __dirname + "/views/";
+var views = __dirname + "/../views/";
 var site, dashboard;
 
 // This is called by Dropbox when changes

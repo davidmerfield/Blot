@@ -4,13 +4,14 @@ var https = require("https");
 // Dropbox makes this way harder than it needs to be
 module.exports = function(req, res, next) {
   var key, secret, url, redirect_uri, request, response;
-  
+
   // Does this happen if the user denies permission?
   if (!req.query || !req.query.code) {
     return next(new Error("No code from Dropbox"));
   }
 
-  redirect_uri = req.protocol + "://" + req.get("host") + req.baseUrl;
+  redirect_uri =
+    req.protocol + "://" + req.get("host") + req.baseUrl + "/authenticate";
 
   // The user followed the authentication flow to
   // grant permission to their entire Dropbox or

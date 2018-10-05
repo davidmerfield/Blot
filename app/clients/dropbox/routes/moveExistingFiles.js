@@ -96,7 +96,6 @@ function Move(client, entries, callback) {
           case "complete":
             return Promise.resolve(res);
           default:
-            console.log("FAILUERE", res);
             return Promise.reject(new Error("Unknown response " + res));
         }
       });
