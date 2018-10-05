@@ -39,8 +39,10 @@ describe("configuration", function() {
 
       var has_err = false;
 
-      demo_app.on("exit", function(code) {
-        expect(code).toEqual(0);
+      demo_app.on("close", function(code) {
+        // 128 + 15
+        // https://github.com/sindresorhus/exit-hook/commit/b6c274f6dc7617b8c800d612ac343ecc0cdef867
+        expect(code).toEqual(143);
         expect(has_err).toEqual(false);
         done();
       });

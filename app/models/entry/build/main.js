@@ -1,20 +1,26 @@
 var debug = require("debug")("blot:models:entry:build");
 var Metadata = require("metadata");
-var helper = require('helper');
+var helper = require("helper");
 var basename = require("path").basename;
 var callOnce = helper.callOnce;
 var ensure = helper.ensure;
-var time = helper.time;
 var isDraft = require("../../../drafts").isDraft;
-
+var exitHook = require("async-exit-hook");
 var Build = require("./single");
 var Prepare = require("./prepare");
 var Thumbnail = require("./thumbnail");
-
 var DateStamp = require("./prepare/dateStamp");
 
 var moment = require("moment");
 require("moment-timezone");
+
+// For some reason, this child is sometimes not killed
+// UNLESS we have some sort of exit handler. Even though
+// this one does absolutely nothing as far as I can tell
+// it fixes the problem of ghost processes. I need to understand...
+exitHook(function() {
+  console.log("Worker: exiting build/main.js process", process.pid);
+});
 
 process.on("message", function(message) {
   var blog = message.blog;
@@ -30,26 +36,29 @@ process.on("message", function(message) {
     .and(callback, "function");
 
   callback = callOnce(callback);
-
+  
   // Eventually we'll use this moment
   // to determine which builder the path
   // needs, e.g. an image, album etc...
   // path might need to change
   // for image captions, album items...
-
-
-  Metadata.get(blog.id, path, function(err, name){
-
+  Metadata.get(blog.id, path, function(err, name) {
     if (err) return callback(err);
 
     if (name) options.name = name;
-    
+
     debug("Blog:", blog.id, path, " checking if draft");
     isDraft(blog.id, path, function(err, is_draft) {
       if (err) return callback(err);
 
       debug("Blog:", blog.id, path, " attempting to build html");
-      Build(blog, path, options, function(err, html, metadata, stat, dependencies) {
+      Build(blog, path, options, function(
+        err,
+        html,
+        metadata,
+        stat,
+        dependencies
+      ) {
         if (err) return callback(err);
 
         debug("Blog:", blog.id, path, " extracting thumbnail");
@@ -81,22 +90,18 @@ process.on("message", function(message) {
 
             if (entry.dateStamp === undefined) delete entry.dateStamp;
 
-            debug("Blog:", blog.id, path, " preparing additional properties for", entry.name);
+            debug(
+              "Blog:",
+              blog.id,
+              path,
+              " preparing additional properties for",
+              entry.name
+            );
             entry = Prepare(entry);
             debug("Blog:", blog.id, path, " additional properties computed.");
           } catch (e) {
             return callback(e);
           }
-
-          // console.log('WARNING REMOVE THESE');
-          //   if (entry.html.indexOf('status') > -1) {
-          //     throw new Error('SIMULATE EXCEPTION');
-          //   } else if (blog.handle === 'dev') {
-          //     console.log('SIMULATE DELAY Waiting 10s.....');
-          //     return setTimeout(function(){
-          //       callback(null, entry);
-          //     },10000);
-          //   }
 
           callback(null, entry);
         });
@@ -104,30 +109,3 @@ process.on("message", function(message) {
     });
   });
 });
-
-// var album = require('./album');
-// var isAlbum = album.is;
-// var albumPath = album.path;
-// var buildAlbum = album.build;
-
-// var image =  require('./image');
-// var isCaption = image.isCaption;
-// var imagePath = image.imagePath;
-// if (isCaption(path))
-//   path = imagePath(path);
-
-// For albums, we read the contents
-// of each file in the directory
-// then concatenate them. We must check
-// this first since some albums have
-// images inside them...
-// if (isAlbum(path)) {
-
-//   Build = buildAlbum;
-//   path = albumPath(path);
-
-// // For everything else...
-// } else {
-
-//   Build = buildSingle;
-// }
