@@ -30,7 +30,7 @@ describe("configuration", function() {
     });
   });
 
-  it(
+  fit(
     "loads the main function",
     function(done) {
       var demo_app = require("child_process").fork(__dirname + "/../../app", {
@@ -39,8 +39,8 @@ describe("configuration", function() {
 
       var has_err = false;
 
-      demo_app.on("exit", function(code) {
-        expect(code).toEqual(0);
+      demo_app.on("close", function(code) {
+        expect(code).toEqual(143);
         expect(has_err).toEqual(false);
         done();
       });
