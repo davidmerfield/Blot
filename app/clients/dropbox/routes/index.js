@@ -37,7 +37,8 @@ dashboard.get("/permission", function(req, res) {
 // This route recieves the user back from
 // Dropbox when they have accepted or denied
 // the request to access their folder.
-dashboard.route("/authenticate")
+dashboard
+  .route("/authenticate")
   .get(require("./token"))
   .get(require("./dropboxAccount"))
   .get(require("./checkAppFolder"))
@@ -58,12 +59,15 @@ dashboard.route("/authenticate")
 // this blog to it. We move the existing files into
 // a subfolder in the app folder, then write any existing
 // files to the
-dashboard.route("/migrate")
+dashboard
+  .route("/migrate")
   .all(require("./checkUnsavedAccount"))
+  .all(require("./checkAppFolder"))
   .get(function(req, res) {
-    res.render(views + "migrate");
+    res.render(views + "migrate", {
+      otherBlog: req.otherBlogUsingEntireAppFolder
+    });
   })
-  .post(require("./checkAppFolder"))
   .post(require("./moveExistingFiles"))
   .post(require("./createFolder"))
   .post(require("./writeExistingContents"))
@@ -71,7 +75,8 @@ dashboard.route("/migrate")
 
 // Will remove the Dropbox account from the client's database
 // and revoke the token if needed.
-dashboard.route("/disconnect")
+dashboard
+  .route("/disconnect")
   .get(function(req, res) {
     res.render(views + "disconnect");
   })
