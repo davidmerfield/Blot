@@ -69,7 +69,7 @@ describe("dropbox client", function() {
         .catch(done.fail);
     });
 
-    it("stores a tidy error when the folder is removed", function(done) {
+    it("returns a tidy error when the folder is removed", function(done) {
       var ctx = this;
 
       ctx.client
@@ -78,7 +78,7 @@ describe("dropbox client", function() {
         })
         .then(function() {
           ctx.delta(function(err, res) {
-            expect(err.status).toEqual(409);
+            expect(err).toEqual(jasmine.any(Error));
             expect(res).toEqual(null);
             done();
           });

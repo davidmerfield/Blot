@@ -77,7 +77,7 @@ module.exports = function main(blog, callback) {
             async.each(
               result.entries,
               function(item, next) {
-                debug("Updating on Blot:", item.path);
+                debug("Updating on Blot:", item.relative_path);
 
                 // The items's relative path is computed by delta, based on the
                 // current path to the blog's folder in the user's Dropbox. 
@@ -123,12 +123,12 @@ function Apply(token, blogFolder) {
     });
 
     function remove(item, callback) {
-      debug("Removing", item.path);
+      debug("Removing", item.relative_path);
       fs.remove(join(blogFolder, item.relative_path), callback);
     }
 
     function mkdir(item, callback) {
-      debug("Mkdiring", item.path);
+      debug("Mkdiring", item.relative_path);
       fs.ensureDir(join(blogFolder, item.relative_path), callback);
     }
 
