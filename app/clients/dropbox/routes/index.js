@@ -1,78 +1,77 @@
 var Express = require("express");
-var views = __dirname + "/views/";
 var disconnect = require("../disconnect");
+var views = __dirname + "/views/";
+var site, dashboard;
 
-// Middleware
-var token = require("./token");
-var createFolder = require("./createFolder");
-var dropboxAccount = require("./dropboxAccount");
-var checkAppFolder = require("./checkAppFolder");
-var writeExistingContents = require("./writeExistingContents");
-var moveExistingFiles = require("./moveExistingFiles");
-var loadDropboxAccount = require("./loadDropboxAccount");
-var askToMigrateIfNeeded = require("./askToMigrateIfNeeded");
-var checkUnsavedAccount = require("./checkUnsavedAccount");
-var saveDropboxAccount = require("./saveDropboxAccount");
-var redirect = require("./redirect");
+// This is called by Dropbox when changes
+// are made to the folder of a Blot user.
+site = Express.Router();
+site.use("/webhook", require("./webhook"));
 
-// Exports
-var Dashboard = Express.Router();
-var Site = Express.Router();
+dashboard = Express.Router();
+dashboard.use(require("./loadDropboxAccount"));
 
-Dashboard.use(loadDropboxAccount);
-
-Dashboard.route("/").get(function(req, res) {
-  if (!req.account) return res.redirect(req.baseUrl + "/authenticate/setup");
+// The settings page for a Dropbox account
+dashboard.get("/", function(req, res) {
+  // Ask to user to authenticate with Dropbox if they have not yet
+  if (!req.account) return res.redirect(req.baseUrl + "/setup");
 
   res.render(views + "index");
+});
+
+// Explains to the user what will happen when they authenticate
+// then provides them with a link to the dropbox redirect
+dashboard.get("/setup", function(req, res) {
+  res.render(views + "authenticate");
+});
+
+// Redirects the user to the OAuth page on Dropbox.com
+dashboard.get("/redirect", require("./redirect"));
+
+// Explains to the user what happens when they change the
+// permission they grant to Blot per access to their Dropbox
+dashboard.get("/permission", function(req, res) {
+  res.render(views + "permission");
 });
 
 // This route recieves the user back from
 // Dropbox when they have accepted or denied
 // the request to access their folder.
-Dashboard.route("/authenticate")
-  .get(
-    token,
-    dropboxAccount,
-    checkAppFolder,
-    askToMigrateIfNeeded,
-    createFolder,
-    writeExistingContents,
-    saveDropboxAccount
-  )
+dashboard.route("/authenticate")
+  .get(require("./token"))
+  .get(require("./dropboxAccount"))
+  .get(require("./checkAppFolder"))
+  .get(require("./askToMigrateIfNeeded"))
+  .get(require("./createFolder"))
+  .get(require("./writeExistingContents"))
+  .get(require("./saveDropboxAccount"))
+
+  // If we encounter some error during
+  // the authentication flow, send them
+  // back to the setup page where they started
   .get(function(err, req, res, next) {
     res.message(req.baseUrl + "/setup", err);
   });
-
-Dashboard.route("/redirect").get(redirect);
-
-Dashboard.route("/setup").get(function(req, res) {
-  res.render(views + "authenticate");
-});
 
 // This is called when the user has configured another
 // blog to the user their app folder, and wants to add
 // this blog to it. We move the existing files into
 // a subfolder in the app folder, then write any existing
 // files to the
-Dashboard.route("/migrate")
-  .all(checkUnsavedAccount)
+dashboard.route("/migrate")
+  .all(require("./checkUnsavedAccount"))
   .get(function(req, res) {
     res.render(views + "migrate");
   })
-  .post(
-    checkAppFolder,
-    moveExistingFiles,
-    createFolder,
-    writeExistingContents,
-    saveDropboxAccount
-  );
+  .post(require("./checkAppFolder"))
+  .post(require("./moveExistingFiles"))
+  .post(require("./createFolder"))
+  .post(require("./writeExistingContents"))
+  .post(require("./saveDropboxAccount"));
 
-Dashboard.route("/permission").get(function(req, res) {
-  res.render(views + "permission");
-});
-
-Dashboard.route("/disconnect")
+// Will remove the Dropbox account from the client's database
+// and revoke the token if needed.
+dashboard.route("/disconnect")
   .get(function(req, res) {
     res.render(views + "disconnect");
   })
@@ -80,8 +79,4 @@ Dashboard.route("/disconnect")
     disconnect(req.blog.id, next);
   });
 
-// This is called by Dropbox when changes
-// are made to the folder of a Blot user.
-Site.use("/webhook", require("./webhook"));
-
-module.exports = { dashboard: Dashboard, site: Site };
+module.exports = { dashboard: dashboard, site: site };
