@@ -1,194 +1,178 @@
-var helper = require('helper');
-var redis = require('client');
-var Blog = require('blog');
-
-var async = require('async');
+var debug = require("debug")("clients:dropbox:database");
+var helper = require("helper");
+var redis = require("client");
+var Blog = require("blog");
+var async = require("async");
 var ensure = helper.ensure;
-var account_model, database;
+var Model;
 
-// JSON which stores useful information
-// information about this particular blog & dropbox account
-// combination, e.g. root directory and access token.
-function account_key (blog_id) {
-  return 'blog:' + blog_id + ':dropbox:account';
-}
-
-// A set whoses members are the blog ids
-// connected to this dropbox account.
-function blogs_key (account_id) {
-  return 'clients:dropbox:' + account_id;
-}
-
-account_model = {
-
-  // We use the account ID to work out which
-  // sites need to be synced when we recieve
-  // a webhook from Dropbox.
-  account_id: 'string',
-
-  // We store the user's Dropbox account
-  // email address to help them identify
-  // which dropbox account they have connected.
-  email: 'string',
-
-  // This token is used to authenticate
-  // requests to Dropbox's API
-  access_token: 'string',
-
-  // If Blot encounters certains errors when
-  // calling Dropbox's API we store the value.
-  // Some errors which require user attention
-  // include missing folders or revoked access.
-  // This is an HTTP status code, e.g. 409
-  // and is reset to zero after a successful sync
-  error_code: 'number',
-
-  // Date stamp for the last successful
-  // sync of this site.
-  last_sync: 'number',
-
-  // True if Blot has full access to the user's
-  // Dropbox folder, false if we only have
-  // access to a folder in their Apps folder.
-  // This is used to determine to which oauth
-  // authentication route we send the user.
-  full_access: 'boolean',
-
-  // This is the folder we show to the
-  // user on the clients configuration
-  // page. This isn't dependable since
-  // the user can rename their site's
-  // folder. We update it with each sync
-  folder: 'string',
-
-  // This is a dropbox-generated ID for
-  // the user's site folder. If the user
-  // has given us app folder permission,
-  // and they only have one site, then it will
-  // be blank (effectively root). If the
-  // user has given us full folder permission
-  // and uses their entire Dropbox for blot,
-  // it will also be blank.
-  folder_id: 'string',
-
-  // This is a dropbox-generated cursor
-  // which we pass to the dropbox api
-  // to retrieve a list of changes to their
-  // site's folder. It will be an empty string
-  // before the user syncs their folder for
-  // the first time. It will be reset if the
-  // user removes their folder.
-  cursor: 'string'
-};
-
-function get (blog_id, callback) {
-
-  redis.hgetall(account_key(blog_id), function(err, account){
-
+function get(blogID, callback) {
+  redis.hgetall(accountKey(blogID), function(err, account) {
     if (err) return callback(err, null);
 
     if (!account) return callback(null, null);
 
-    // Restore the types of the
-    // account properties before calling back.
-    for (var i in account_model) {
+    // Restore the types of the properties
+    // of the account object before calling back.
+    for (var i in Model) {
+      if (Model[i] === "number") account[i] = parseInt(account[i]);
 
-      if (account_model[i] === 'number')
-        account[i] = parseInt(account[i]);
-
-      if (account_model[i] === 'boolean')
-        account[i] = account[i] === 'true';
-
+      if (Model[i] === "boolean") account[i] = account[i] === "true";
     }
 
     return callback(null, account);
   });
 }
 
-function list_blogs (account_id, callback) {
-
+function listBlogs(account_id, callback) {
   var blogs = [];
 
-  redis.SMEMBERS(blogs_key(account_id), function(err, members){
+  debug("Getting blogs conencted to Dropbox account", account_id);
 
+  redis.SMEMBERS(blogsKey(account_id), function(err, members) {
     if (err) return callback(err);
 
-    async.eachSeries(members, function(id, next){
+    debug("Found these blog IDs", members);
 
-      Blog.get({id: id}, function(err, blog){
-
-        if (err) return next(err);
-
-        if (!blog || blog.client !== 'dropbox') return next();
-
-        blogs.push(blog);
-
-        next();
-      });
-    }, function(err){
-
-      callback(err, blogs);
-    });
+    async.each(
+      members,
+      function(id, next) {
+        Blog.get({ id: id }, function(err, blog) {
+          if (blog && blog.client === "dropbox") {
+            blogs.push(blog);
+          } else {
+            debug(
+              id,
+              "does not match an extant blog using the Dropbox client."
+            );
+          }
+          next();
+        });
+      },
+      function(err) {
+        callback(err, blogs);
+      }
+    );
   });
 }
 
-function set (blog_id, changes, callback) {
-
+function set(blogID, changes, callback) {
   var multi = redis.multi();
 
-  get(blog_id, function(err, account){
+  debug("Setting dropbox account info for blog", blogID);
 
+  get(blogID, function(err, account) {
     if (err) return callback(err);
 
+    // When saving account for the first time,
+    // this will be null so we make a fresh object.
     account = account || {};
 
-    // The user's account has changed,
-    // remove the old one and add the new one
-    if (account.account_id && changes.account_id && account.account_id !== changes.account_id)
-      multi.srem(blogs_key(account.account_id), blog_id);
+    // We need to do this to prevent bugs if
+    // the user switches from one account ID
+    // to another Dropbox account.
+    if (
+      account.account_id &&
+      changes.account_id &&
+      account.account_id !== changes.account_id
+    ) {
+      multi.srem(blogsKey(account.account_id), blogID);
+    }
 
-    for (var i in changes)
-      account[i] = changes[i];
+    // Overwrite existing properties with any changes
+    for (var i in changes) account[i] = changes[i];
 
-    if (changes.account_id)
-      multi.sadd(blogs_key(changes.account_id), blog_id);
+    // Verify that the type of new account state
+    // matches the expected types declared in Model below.
+    try {
+      ensure(account, Model, true);
+    } catch (e) {
+      return callback(e);
+    }
 
-    ensure(account, account_model, true);
-
-    multi.hmset(account_key(blog_id), account);
+    debug("Saving this account");
+    multi.sadd(blogsKey(changes.account_id), blogID);
+    multi.hmset(accountKey(blogID), account);
     multi.exec(callback);
   });
 }
 
-function drop (blog_id, callback) {
+function drop(blogID, callback) {
+  var multi = redis.multi();
 
-  get(blog_id, function(err, account){
-
-    var multi = redis.multi();
-
-    // Deregister this blog from the set containing 
-    // the blog IDs associated with a particular dropbox
-    // account. If we SREM the last item from a set, redis also 
-    // deletes the set. So don't worry about an additional
-    // operation to delete this set.
+  get(blogID, function(err, account) {
+    // Deregister this blog from the set containing
+    // the blog IDs associated with a particular dropbox.
     if (account && account.account_id)
-      multi.srem(blogs_key(account.account_id), blog_id);
+      multi.srem(blogsKey(account.account_id), blogID);
 
     // Remove all the dangerous Dropbox account information
     // including the OAUTH token used to interact with
-    // Dropbox's API. As I understand it, this is all we 
-    // need to remove. We should also encourage the user
-    // to revoke the token on 
-    multi.del(account_key(blog_id));
+    // Dropbox's API.
+    multi.del(accountKey(blogID));
     multi.exec(callback);
   });
 }
 
-database = {
+// Redis Hash which stores the Dropbox account info
+function accountKey(blogID) {
+  return "blog:" + blogID + ":dropbox:account";
+}
+
+// Redis set whoses members are the blog IDs
+// connected to this dropbox account.
+function blogsKey(account_id) {
+  return "clients:dropbox:" + account_id;
+}
+
+Model = {
+  // Used to identify which blogs need to be updated
+  // when we recieve a webhook from Dropbox
+  account_id: "string",
+
+  // Used to help the user identify which
+  // Dropbox account is connected to which blog.
+  email: "string",
+
+  // Used to authenticate Dropbox API requests
+  access_token: "string",
+
+  // HTTP status code of an error from the
+  // Dropbox API. Will be 0 if sync succeeded
+  error_code: "number",
+
+  // Date stamp of the last successful sync
+  last_sync: "number",
+
+  // true if Blot has full access to the user's
+  // Dropbox folder, false if we only have
+  // access to a folder in their Apps folder
+  full_access: "boolean",
+
+  // Used to help the user identify which
+  // Dropbox account is connected to which blog.
+  // We use to more dependable folder_id
+  // in calls to /delta and for determining
+  // which changes apply to this blog. Root
+  // should be an empty string.
+  folder: "string",
+
+  // Generated by Dropbox and used to robustly
+  // identify a folder even after it has been
+  // renamed. Empty string if the user has set
+  // the root directory of their Dropbox.
+  folder_id: "string",
+
+  // Generated by Dropbox and used to fetch
+  // changes which occur after a certain point
+  // in time. When the user sets up Dropbox,
+  // this is an empty string.
+  cursor: "string"
+};
+
+module.exports = {
   set: set,
   drop: drop,
   get: get,
-  list_blogs: list_blogs
+  listBlogs: listBlogs
 };
-
-module.exports = database;
