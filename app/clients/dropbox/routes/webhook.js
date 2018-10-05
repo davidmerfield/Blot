@@ -8,18 +8,15 @@ var crypto = require("crypto");
 var Webhook = Express.Router();
 
 // Used for testing purposes only to determine when a sync has finished
-// Redlock means we can't reliably determine this just by calling
-// Blot.sync();
+// Redlock means we can't reliably determine this just by calling sync()
 Webhook.get("/syncs-finished/:blogID", function(req, res) {
   res.send(finishedAllSyncs(req.params.blogID));
 });
 
-// This is called by Dropbox to verify
-// the webhook is valid.
-Webhook.route("/").get(function(req, res, next) {
-  if (req.query && req.query.challenge) return res.send(req.query.challenge);
-
-  return next();
+// This is called by Dropbox to verify the webhook exists
+Webhook.get("/", function(req, res, next) {
+  if (!req.query || !req.query.challenge) return next();
+  res.send(req.query.challenge);
 });
 
 // We keep a dictionary of synced blogs for testing
@@ -43,9 +40,7 @@ function finishedAllSyncs(blogID) {
   return activeSyncs[blogID] === 0;
 }
 
-
-Webhook.route('/').post(function(req, res) {
-
+Webhook.route("/").post(function(req, res) {
   if (config.maintenance) return res.sendStatus(503);
 
   var data = "";
