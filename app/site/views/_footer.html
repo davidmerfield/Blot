@@ -4,22 +4,44 @@
 </div>
 </div>
 
-{{#menu}}
 {{^sign-up}}
 
 
-<div class="footer {{#next}}darker{{/next}}">
-  <div class="center mw8 ph4">
-    <div class="nav fl w-right-offset" style="box-shadow:none;background:transparent">
-      <a href="/terms" class="pr4 {{terms}}">Terms of use</a>
-      <a href="/privacy" class="pr4 pl4 {{privacy}}">Privacy policy</a>
-      <a href="/contact" class="pr4 pl4 {{contact}}">Contact</a>
-      <a href="/developers" class="pl4  {{developers}}">Developers</a>    
-    </div>
+
+
+
+<div style="max-width:800px;margin:0 auto">
+    <style type="text/css">b {font-weight: 500}</style>
+      <hr style="    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));border:none;height:2px;margin:20px 0">
+
+      <div style="display:flex" class="nav footer">
+        <a href="" style="display:flex;flex-basis:240px;margin-right:1em">
+          <img src="/static/logo.svg" style="margin-top:4px;margin-right:1em;align-self: flex-start;" width=32/>
+          <span>
+            <b style="display:block">Blot</b>
+            <small style="display:block;margin:4px 0 ;font-size:14px;color:#666">A blogging platform with no interface. Blot turns a folder into a blog automatically.
+          </span>
+        </a>
+        <ul>
+          <li><a href="/"><b>Documentation</b></a></li>
+          <li><a href="/">How to use Blot</a></li>
+          <li><a href="/">Configuring your blog</a></li>
+          <li><a href="/">Account and billing</a></li>
+        </ul>
+        <ul>
+          <li><a href="/about"><b>About</b></a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/changes">Changes<small>Updated 2 hours ago</small></a></li>
+          <li><a href="/changes">Terms of use</a></li>
+          <li><a href="/changes">Privacy policy</a></li>
+        </ul>
+        <div >
+          <a href="/sign-up" style="padding:3px 7px;background:#000;color:white;border-radius:4em;margin:10px;display:inline-block">Sign&nbsp;up</a><br>
+          <a href="/log-in" style="padding:3px 7px;background:#000;color:white;border-radius:4em;margin:10px;display:inline-block">Log&nbsp;in</a>
+        </div>
+      </div>
   </div>
-</div>
 {{/sign-up}}
-{{/menu}}
 
 <script type="text/javascript" src="/blot.{{cacheID}}.js"></script>
 </body>
