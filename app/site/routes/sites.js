@@ -93,9 +93,6 @@ module.exports = function(callback) {
 
   var result = [];
 
-  // Only show the first 12 sites on the homepage
-  sites = sites.slice(0, 12);
-
   async.eachSeries(
     sites,
     function(site, next) {
@@ -106,7 +103,7 @@ module.exports = function(callback) {
       var template;
       var is_subdomain = domain.indexOf("blot.im") !== -1;
       var url, display_url, protocol, by, custom_template, template_name;
-          var response = "";
+      var response = "";
 
       var get = https.get(
         require("url").format({
@@ -140,10 +137,10 @@ module.exports = function(callback) {
             return next();
           }
 
-          if (!is_subdomain && response !== blog.handle) {
-            console.log(domain, "is not on blot it points to...");
-            return next();
-          }
+          // if (!is_subdomain && response !== blog.handle) {
+          //   console.log(domain, "is not on blot it points to...");
+          //   return next();
+          // }
 
           template = blog.template;
 
@@ -181,6 +178,9 @@ module.exports = function(callback) {
     },
     function() {
       RESULT = result;
+      // Only show the first 9 sites on the homepage
+      result = result.slice(0, 9);
+
       callback(null, result);
     }
   );
