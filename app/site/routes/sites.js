@@ -177,11 +177,12 @@ module.exports = function(callback) {
       }
     },
     function() {
-      RESULT = result;
       // Only show the first 9 sites on the homepage
       result = result.slice(0, 9);
 
-      callback(null, result);
+      RESULT = result;
+
+      callback(null, RESULT);
     }
   );
 };

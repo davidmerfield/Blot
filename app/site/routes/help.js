@@ -121,7 +121,8 @@ help.get('/', function(req, res){
 
     if (err) return next(err);
 
-    res.locals.menu.introduction = 'selected';
+    res.locals.menu.help = '';
+    res.locals.menu.index = 'selected';
     res.locals.title = 'Blot';  
     res.locals.next = {title: 'How to use Blot', url: '/help'};
     res.locals.sites = sites;
