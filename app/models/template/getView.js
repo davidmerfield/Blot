@@ -1,7 +1,7 @@
 var redis = require("client");
 var key = require("./key");
 var model = require("./model");
-var deserialize = require('./deserialize');
+var deserialize = require("./deserialize");
 
 module.exports = function getView(name, viewName, callback) {
   redis.hgetall(key.view(name, viewName), function(err, view) {
