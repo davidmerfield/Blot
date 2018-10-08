@@ -1,0 +1,1 @@
+var Template = require('../index');
