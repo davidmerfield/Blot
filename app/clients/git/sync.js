@@ -38,7 +38,16 @@ module.exports = function sync(blogID, callback) {
         // Remove whitespace from stdout
         headBeforePull = headBeforePull.trim();
 
-        git.pull(function handlePull(err) {
+        // The reason we rebase:true is to allow the user to git push --force
+        // and reset or modify the history of the blog's repo. This might
+        // be neccessary if they add a repo from GitHub, say. From Git's manual:
+        // "The current branch is reset to <upstream>, or <newbase> if the
+        // --onto option was supplied. This has the exact same effect as git 
+        // reset --hard <upstream> (or <newbase>). ORIG_HEAD is set to point
+        // at the tip of the branch before the reset."
+        git.pull("origin", "master", { "--rebase": true }, function handlePull(
+          err
+        ) {
           if (err && err.indexOf(UNCOMMITED_CHANGES) > -1) {
             // From https://git-scm.com/docs/git-reset
             // Resets the index and working tree. Any changes to tracked files in the
