@@ -9,8 +9,7 @@ module.exports = function (req, res, next) {
 
   var blog = req.blog,
       blogID = blog.id,
-      currentTemplate = blog.template,
-      defaultTemplate = Template.defaultTemplate;
+      currentTemplate = blog.template;
 
   Template.getTemplateList(blogID, function(err, templates){
 
@@ -26,7 +25,7 @@ module.exports = function (req, res, next) {
       if (template.owner === blog.id)
         template.isMine = true;
 
-      if (template.id === defaultTemplate)
+      if (template.id === 'SITE:default')
         template.isDefault = true;
 
       if (template.id === currentTemplate)

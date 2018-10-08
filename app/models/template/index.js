@@ -16,8 +16,6 @@ var makeID = require("./makeID");
 var getAllViews = require('./getAllViews');
 var getMetadata = require('./getMetadata');
 
-var defaultTemplate = makeID(siteOwner, "default");
-
 // Associates a theme with a UID owner
 // and an existing theme to clone if possible
 function create(owner, name, metadata, callback) {
@@ -426,7 +424,6 @@ module.exports = {
   makeID: makeID,
   isOwner: isOwner,
   siteOwner: siteOwner,
-  defaultTemplate: defaultTemplate,
 
   viewModel: model.view,
   metadataModel: model.metadata
