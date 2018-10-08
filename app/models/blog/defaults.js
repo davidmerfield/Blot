@@ -1,5 +1,4 @@
 var defaultPlugins = require('../entry/build/plugins').defaultList;
-var defaultTemplate = require('../template').defaultTemplate;
 
 module.exports = {
   client: '',
@@ -9,7 +8,7 @@ module.exports = {
   roundAvatar: false,
   cssURL: '',
   scriptURL: '',
-  template: defaultTemplate,
+  template: 'SITE:default',
   menu: [
     {id: Date.now() + 1 + '', label: 'Home', url: '/'},
     {id: Date.now() + 2 + '', label: 'Archives', url: '/archives'},
