@@ -1,6 +1,6 @@
 var client = require("client");
 var Redlock = require("redlock");
-var buildFromFolder = require("../modules/template").update;
+var Template = require("template");
 var Blog = require("blog");
 var Update = require("./update");
 var localPath = require("helper").localPath;
@@ -108,7 +108,7 @@ function sync(blogID, options, callback) {
             delete locks[blogID];
 
             // What is the appropriate order for this?
-            buildFromFolder(blogID, function(err) {
+            Template.updateFromFolder(blogID, function(err) {
               if (err) return callback(err);
 
               Blog.flushCache(blogID, function(err) {

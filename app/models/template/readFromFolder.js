@@ -2,11 +2,12 @@ var basename = require("path").basename;
 var mime = require("mime");
 var fs = require("fs");
 
-var helper = require("../../helper");
+var helper = require("helper");
 var ensure = helper.ensure;
-var async = require('async');
-var Template = require("../../models/template");
-var makeID = Template.makeID;
+var async = require("async");
+var setView = require("./setView");
+var isOwner = require("./isOwner");
+var makeID = require("./makeID");
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
 var PACKAGE = "package.json";
 
@@ -17,7 +18,7 @@ module.exports = function readFromFolder(blogID, dir, callback) {
 
   var id = makeID(blogID, basename(dir));
 
-  Template.isOwner(blogID, id, function(err, isOwner) {
+  isOwner(blogID, id, function(err, isOwner) {
     if (err) return callback(err);
 
     if (!isOwner) return callback(badPermission(blogID, id));
@@ -56,7 +57,7 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                 content: content
               };
 
-              Template.setView(id, view, next);
+              setView(id, view, next);
             });
           });
         },

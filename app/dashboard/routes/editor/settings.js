@@ -5,7 +5,6 @@ var formJSON = helper.formJSON;
 var model = Template.metadataModel;
 var save = Template.update;
 
-var writeToFolder = require('../../../modules/template').writeToFolder;
 var loadTemplate = require('./loadTemplate');
 var loadSidebar = require('./loadSidebar');
 var error = require('./error');
@@ -77,7 +76,7 @@ module.exports = function (server) {
 
         if (err) return next(err);
 
-        if (metadata.localEditing) writeToFolder(req.blog.id, req.template.id, function(){});
+        if (metadata.localEditing) Template.writeToFolder(req.blog.id, req.template.id, function(){});
 
         Blog.flushCache(req.blog.id, function(err){
 

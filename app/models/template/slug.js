@@ -1,5 +1,4 @@
-var helper = require('../../helper');
-var ensure = helper.ensure;
+var helper = require('helper');
 var normalize = helper.pathNormalizer;
 
 var dir = '/templates';
