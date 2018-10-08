@@ -3,10 +3,7 @@ var helper = require('helper');
 var arrayify = helper.arrayify;
 var mime = require('mime');
 
-var getViews = Template.getAllViews;
-
 var arePartials = ['head', 'header', 'footer'];
-var areAssets = ['text/css', 'application/javascript'];
 var arePartials = ['head', 'header', 'footer'];
 
 module.exports = function(req, res, next) {
@@ -14,14 +11,12 @@ module.exports = function(req, res, next) {
   var templateID = req.template.id;
   var viewName = req.params.view;
 
-  getViews(templateID, function(err, views, template){
+  Template.getViews(templateID, function(err, views, template){
 
     if (err || !views || !template)
       return next(new Error('No template'));
 
-    var extras = [];
     var partials = [];
-    var assets = [];
     var base = '/template/' + template.slug + '/view';
 
     views = arrayify(views, function (view) {
