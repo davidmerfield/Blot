@@ -1,26 +1,28 @@
 {{> head}}
 
-<div class="mw8 center pt4" style="margin:0 auto">
+<div style="height:100vh;display:flex;flex-direction:column">
+<div class="mw8 center" >
     <style type="text/css">
     b {font-weight: 500}
+    .footer {height: auto;}
     .footer li {list-style-type:none;}
-    .footer a {border: none;}
+    .footer a {border: none;color: #86817d}
     .footer ul {margin: 0 20px;flex-grow:0.5;}
     </style>
-      <hr style="    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));border:none;height:2px;margin:20px 0">
 
-      <div style="display:flex" class=" footer">
-        <a href="" style="display:flex;flex-basis:240px;margin-right:5em">
+      <div style="display:flex" class=" b--black-10 footer pv5 ph3">
+        <a href="/" style="display:flex;flex-basis:240px;margin-right:5em">
           <img src="/images/logo-new.svg" style="margin-top:4px;margin-right:1em;align-self: flex-start;" width=32/>
           <span>
-            <b style="display:block">Blot</b>
-            <span style="color:#777">A blogging platform with no interface. Blot turns a folder into a blog.</span>
+            <b style="display:block;color:#111">Blot</b>
+            <span style="color:#111">A blogging platform with no interface. Blot turns a folder into a blog.</span>
           </span>
         </a>
+
         <ul>
           <li><a href="/help"><b>How to use Blot</b></a></li>
+          <li><a href="/help">Configuring your blog</a></li>
           <li><a href="/configuring">Templates</a></li>
-          <li><a href="/formatting">Formatting guide</a></li>
           <li><a href="/help/account">Account and billing</a></li>
         </ul>
         <ul>
@@ -32,33 +34,15 @@
           <a href="/sign-up" style="height:30px;line-height:30px;padding:0 12px;background:#000;color:white;border-radius:4em;margin:0;display:inline-block">Sign&nbsp;up for Blot</a><br>
           <a href="/log-in" style="height:30px;line-height:30px;padding:0 12px ;background:#000;color:white;border-radius:4em;margin:0 0 0 30px;display:inline-block">Log&nbsp;in</a>
       </div>
-  </div>
-  <div class="cf mb6"></div>
+        <div class="cf "></div>
 
-    
-  <div id="background" class="bg">
-    <a id="closer" href="/" class="">
-        <div class="mw8 center ph4 tr " style="line-height:80px"><span class=""><svg style="width:0.65rem;margin-right: 0.65rem" viewBox="0 0 50 50">
-  <path d="M50 5l-5-5-20 20L5 0 0 5l20 20L0 45l5 5 20-20 20 20 5-5-20-20z"/>
-</svg>Close</span></div>
-      </a>
-    <div class="mw8 center v-mid" style="margin-top:5rem">
-
-    <div class="ph4 ">
-    <div id="thumb">
-    <iframe id="video" class="" src="" frameborder="0" allowfullscreen=""></iframe>
-  </div>
-  </div>
-</div>
   </div>
 
-  <div style="margin-top:5rem;" class="bg mw7 center">
-    <div id="thumb" style="padding-bottom:55%">
+<div class="bg center" style="width:100%;flex-grow:1">
+    <div id="thumb" >
 
       <a id="play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE" target="_blank" class="mw8 center thumb pv5 db">
         
-<!--         <span class="view">Watch</span>
- -->        
         <div class="buts"><img src="/images/play.png" width="17"></div>
 
         <div class="measure-narrow center" style="">
@@ -82,19 +66,38 @@ Posts
       </a>
   </div>
 </div>
-<div class="measure mt5 center">
+    </div>
+    <div class="wrapper">
+<div class="center mw8 ph4"  style="padding-top:160px;">
 
-  <p class="mt0 measure">Blot is a blogging platform with no interface. It turns a folder into a blog. If you put files inside, Blot publishes them.</p>
-  <p class="measure">Why does Blot exist? So that you can blog with your favorite text-editor. Because Blot is file and folder-based, you can use your favourite creative tools.</p>
+  <div id="background" class="bg">
+    <a id="closer" href="/" class="">
+        <div class="mw8 center ph4 tr " style="line-height:80px"><span class=""><svg style="width:0.65rem;margin-right: 0.65rem" viewBox="0 0 50 50">
+  <path d="M50 5l-5-5-20 20L5 0 0 5l20 20L0 45l5 5 20-20 20 20 5-5-20-20z"/>
+</svg>Close</span></div>
+      </a>
+    <div class="mw8 center v-mid" style="margin-top:5rem">
+
+    <div class="ph4 ">
+    <div id="thumb">
+    <iframe id="video" class="" src="" frameborder="0" allowfullscreen=""></iframe>
+  </div>
+  </div>
 </div>
+  </div>
 
 
-  
 <div class="measure center">
-<h2>How to use Blot</h2>
-  <p class="measure mb0">Blot automatically creates blog posts from&nbsp;<nobr><icon class="md"></icon>Text and Markdown</nobr>,&nbsp;<nobr style="margin-left:-3px"><icon class="txt"></icon>&nbsp;Word Documents</nobr>,&nbsp;<nobr><icon class="img"></icon>&nbsp;Images</nobr>,&nbsp;<nobr><icon class="webloc"></icon>&nbsp;Bookmarks</nobr>&nbsp;and&nbsp;<nobr><icon class="html"></icon>&nbsp;HTML</nobr>. Just put the files inside your blog’s folder and <a id="other_play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE">Blot does the rest</a>.</p>
-  <a href="/formatting" class="next small db bt b--black-10">Read the documentation</a>
 
+  <p class="mt0 measure">Blot is a blogging platform with no interface. It turns a folder into a blog. If you put files inside, Blot publishes them. Why does Blot exist? So that you can blog with your favorite text-editor. Because Blot is file and folder-based, you can use your favourite creative tools.</p>
+
+  <p class="measure mb0">Blot automatically creates blog posts from<br>
+    &nbsp;<nobr><icon class="md"></icon>Text and Markdown</nobr>,<br>
+    &nbsp;<nobr style="margin-left:-3px"><icon class="txt"></icon>&nbsp;Word Documents</nobr>,<br>
+    &nbsp;<nobr><icon class="img"></icon>&nbsp;Images</nobr>,<br>
+    &nbsp;<nobr><icon class="webloc"></icon>&nbsp;Bookmarks</nobr>&nbsp;and&nbsp;<nobr><icon class="html"></icon>&nbsp;HTML</nobr>. Just put the files inside your blog’s folder and <a id="other_play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE">Blot does the rest</a>.</p>
+  <a href="/help" class="next small db bt b--black-10">Read more about how to use Blot</a>
+<!-- 
 <h2>Templates</h2>  
   <p class="measure">Blot comes with <a href="/configuring">seven templates</a>. They’re easy to customize, lightweight  and designed to fit both small and large screens. You can also <a href="/developers">develop your own template</a> from scratch. </p>
 
@@ -116,8 +119,8 @@ Posts
 <div class="cf"></div>
 <div class="measure center">
 
-<h2>Customers</h2>  
-  <p class="measure mb0">A blog costs <a href="/sign-up">{{price}} per year</a> and includes hosting and support. Here’s a handful of the people who host their website on Blot:</p>
+<h2>Customers</h2>   -->
+  <p class="measure mt6 mb0">A blog costs <a href="/sign-up">{{price}} per year</a> and includes hosting and support. Here’s a handful of the people who host their website on Blot:</p>
 </div>
 
   <div class="sites mw7 center" style="margin-top:5rem">

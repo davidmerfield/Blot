@@ -5,45 +5,40 @@
 </div>
 
 {{^sign-up}}
-
-
-
-
-
-<div class="mw8 center" style="margin:0 auto">
+<div class="mw8 center" >
     <style type="text/css">
     b {font-weight: 500}
+    .footer {height: auto;}
     .footer li {list-style-type:none;}
     .footer a {border: none;}
-    .footer ul {margin: 0 20px}
+    .footer ul {margin: 0 20px;flex-grow:0.5;}
     </style>
-      <hr style="    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));border:none;height:2px;margin:20px 0">
 
-      <div style="display:flex" class=" footer">
-        <a href="" style="display:flex;flex-basis:240px;margin-right:1em">
+      <div style="display:flex" class="bt b--black-10 footer mt5 pt3 mb5 ph3">
+        <a href="" style="display:flex;flex-basis:240px;margin-right:5em">
           <img src="/images/logo-new.svg" style="margin-top:4px;margin-right:1em;align-self: flex-start;" width=32/>
           <span>
             <b style="display:block">Blot</b>
-            <small style="display:block;margin:4px 0 ;font-size:14px;color:#666">A blogging platform with no interface. Blot turns a folder into a blog.
+            <span style="color:#777">A blogging platform with no interface. Blot turns a folder into a blog.</span>
           </span>
         </a>
         <ul>
-          <li><a href="/"><b>Documentation</b></a></li>
-          <li><a href="/">How to use Blot</a></li>
-          <li><a href="/">Configuring your blog</a></li>
-          <li><a href="/">Account and billing</a></li>
+          <li><a href="/help"><b>How to use Blot</b></a></li>
+          <li><a href="/configuring">Templates</a></li>
+          <li><a href="/formatting">Formatting guide</a></li>
+          <li><a href="/help/account">Account and billing</a></li>
         </ul>
         <ul>
-          <li><a href="/about"><b>About</b></a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/news">News<small>Updated 2 hours ago</small></a></li>
+          <li><a href="/contact"><b>Contact</b></a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/updates">Changes<!-- <small>Updated 2 hours ago</small> --></a></li>
           <li><a href="/terms">Terms of use</a></li>
         </ul>
-        <div >
-          <a href="/sign-up" style="padding:3px 7px;background:#000;color:white;border-radius:4em;margin:10px;display:inline-block">Sign&nbsp;up</a><br>
-          <a href="/log-in" style="padding:3px 7px;background:#000;color:white;border-radius:4em;margin:10px;display:inline-block">Log&nbsp;in</a>
-        </div>
+          <a href="/sign-up" style="height:30px;line-height:30px;padding:0 12px;background:#000;color:white;border-radius:4em;margin:0;display:inline-block">Sign&nbsp;up for Blot</a><br>
+          <a href="/log-in" style="height:30px;line-height:30px;padding:0 12px ;background:#000;color:white;border-radius:4em;margin:0 0 0 30px;display:inline-block">Log&nbsp;in</a>
       </div>
+        <div class="cf "></div>
+
   </div>
 {{/sign-up}}
 

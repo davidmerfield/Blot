@@ -12,79 +12,100 @@ function capitalize(str) {
 // Add new sites at the start
 
 var sites = [
-  ["keywords.oxus.net", "Kerim Friedman teaches anthropology in Taiwan. Kerim"],
-  ["asw.fyi", "Adam Wood is a writer based in Reykjavík. Adam’s website"],
+  [
+    "keywords.oxus.net",
+    "Kerim Friedman",
+    "teaches anthropology in Taiwan. Kerim"
+  ],
+  ["asw.fyi", "Adam Wood", "is a writer based in Reykjavík. Adam’s website"],
   [
     "hannautkin.com",
-    "Hanna Utkin is a filmmaker and producer from New York City. Hanna"
+    "Hanna Utkin",
+    "is a filmmaker and producer from New York City. Hanna"
   ],
 
   [
     "www.rebeccatron.com",
-    "Rebecca Kukshtel is an engineer based in New York City. Rebecca "
+    "Rebecca Kukshtel",
+    "is an engineer based in New York City. Rebecca "
   ],
   [
     "www.matthewbattles.org",
-    "Matthew Battles directs metaLAB at Harvard. Matthew’s website"
+    "Matthew Battles",
+    "directs metaLAB at Harvard. Matthew’s website"
   ],
   [
     "fagerheimen.no",
-    "Fagerheimen Borettslag is an apartment building in Oslo, Norway. Its website"
+    "Fagerheimen Borettslag",
+    "is an apartment building in Oslo, Norway. Its website"
   ],
 
   [
     "www.alexgibson.nyc",
-    "Alexander Gibson is an artist from New York City. Alexander’s website"
+    "Alexander Gibson",
+    "is an artist from New York City. Alexander’s website"
   ],
   [
     "www.jacobyyoung.com/about",
-    "Jacoby Young works at Kapālama Elementary School in Hawaii. Jacoby"
+    "Jacoby Young",
+    "works at Kapālama Elementary School in Hawaii. Jacoby"
   ],
   [
     "www.kristianhjelle.com",
-    "Kristian Hjelle is a designer and partner at Bakken & Bæck. Kristian"
+    "Kristian Hjelle",
+    "is a designer and partner at Bakken & Bæck. Kristian"
   ],
 
   [
     "tf2.blot.im",
-    "Theo Francis is a reporter at The Wall Street Journal. Theo’s blog"
+    "Theo Francis",
+    "is a reporter at The Wall Street Journal. Theo’s blog"
   ],
   [
     "john.pavlusoffice.com",
-    "John Pavlus is a writer and filmmaker based in Portland, Oregon. John"
+    "John Pavlus",
+    "is a writer and filmmaker based in Portland, Oregon. John"
   ],
   [
     "sportsmanfc.com",
-    "The Sportsman Flying Club is a pigeon‐racing club in Toft Hill, UK. Their website"
+    "The Sportsman Flying Club",
+    "is a pigeon‐racing club in Toft Hill, UK. Their website"
   ],
 
   [
     "www.theliminal.co",
-    "The Liminal is a podcast about metaphysical speculation. Their website"
+    "The Liminal",
+    "is a podcast about metaphysical speculation. Their website"
   ],
   [
     "blog.aurynn.com",
-    "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"
+    "Aurynn Shaw",
+    "is a writer and engineer from New Zealand. Aurynn’s site"
   ],
   [
     "iiiiiiiii.in",
-    "Ishtaarth Dalmia writes about internet culture and economics from Bengaluru, India. Ishtaarth"
+    "Ishtaarth Dalmia",
+    "writes about internet culture and economics from Bengaluru, India. Ishtaarth"
   ],
   [
     "kiefer.design",
-    "Kiefer Sutherland is a freelance designer and art director. Kiefer’s website"
+    "Kiefer Sutherland",
+    "is a freelance designer and art director. Kiefer’s website"
   ],
   [
     "www.failuretolerated.com",
-    "Sean McCoy is a game designer from Dallas, Texas. Sean’s site"
+    "Sean McCoy",
+    "is a game designer from Dallas, Texas. Sean’s site"
   ],
   [
     "mrfris.by",
-    "Stuart Frisby is the Director of Design at Booking.com. Stuart’s site"
+    "Stuart Frisby",
+    "is the Director of Design at Booking.com. Stuart’s site"
   ],
   [
     "www.querlin.com",
-    "Querlin Ricci is a designer in Atlanta. Querlin’s website"
+    "Querlin Ricci",
+    "is a designer in Atlanta. Querlin’s website"
   ]
 ];
 
@@ -99,7 +120,8 @@ module.exports = function(callback) {
       var parsed_URL = url_parser("https://" + site[0]);
 
       var domain = parsed_URL.host;
-      var description = site[1].trim();
+      var name = site[1].trim();
+      var description = site[2].trim();
       var template;
       var is_subdomain = domain.indexOf("blot.im") !== -1;
       var url, display_url, protocol, by, custom_template, template_name;
@@ -153,6 +175,7 @@ module.exports = function(callback) {
             ? "custom"
             : capitalize(template.split("SITE:").join(""));
 
+          description = "<b>" + name + "</b> " + description;
           description += " uses ";
           description += custom_template ? "a" : "the";
           description +=

@@ -139,7 +139,7 @@ input {box-sizing: border-box;}
 
 .bg {background:#f3eeea;}
 
-#thumb {position:relative;padding-bottom:60.5%;height:0;overflow: hidden;}
+#thumb {position:relative;height:480px;overflow: hidden;}
 
 #play {    border: none;
     position: absolute;

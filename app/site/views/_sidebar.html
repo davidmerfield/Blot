@@ -1,18 +1,35 @@
 {{^hide_sidebar}}
 {{#menu}}
 
+<style type="text/css">
+.sidebar ul ul {margin-left: 1em}
+</style>
 <div class="fl sidebar fixed">
-  {{^user}}
+  
   <ul>
-    <a href="/" class="{{introduction}}">Introduction</a>
+    <a href="/help" class="{{started}}">Publishing posts</a>
+    {{#started}}
+    <ul>
+      <li><a href="/help/dates">Dates</a></li>
+      <li><a href="/help/images">Images</a></li>
+      <li><a href="/help/metadata">Metadata</a></li>
+      <li><a href="/help/public-files">Public files</a></li>
+      <li><a href="/help/resources">Resources</a></li>
+      <li><a href="/help/tags">Tags</a></li>
+      <li><a href="/help/teaders">Teasers</a></li>
+    </ul>
+    {{/started}}
   </ul>
-  {{/user}}
-  <ul>
-    <a href="/help" class="{{started}}">How to use Blot</a>
-  </ul>
-  <!-- <ul><a href="/guides" class="{{guides}}">Guides and reference</a></ul> -->
   <ul>
     <a href="/configuring" class="{{config}}">Configuring your blog</a>
+    {{#config}}
+    <ul>
+      <li><a href="/configuring/domain">Domain</a></li>
+      <li><a href="/configuring/templates">Templates</a></li>
+      <li><a href="/configuring/permalinks">Permalinks</a></li>
+      <li><a href="/configuring/redirects">Redirects</a></li>
+    </ul>
+    {{/config}}
   </ul>
   <ul>
     <a href="/help/account" class="{{account}}">Account and billing</a>

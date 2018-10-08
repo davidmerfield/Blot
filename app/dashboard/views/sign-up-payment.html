@@ -13,11 +13,10 @@
   <div class="red mv3 measure-narrow">{{error}}</div>    
   {{/error}}
 
-  <form style="max-width:18rem" method="POST" action="?_csrf=">
+  <form style="max-width:17rem" method="POST" action="?_csrf=">
 
     <label class="db pt3 pb1" for="email">Your email address</label>
     <input class="w-100 mb2 br2 pa2 ba b--black-30" type="text" size="20" id="email" class="email" name="email" autofocus/>
-
     <label class="db pt3 pb1" for="number">Card number 
       <span class="control-tool">
         <span class="lock"></span>
@@ -28,7 +27,6 @@
     </label>
     <input class="w-100 mb2 br2 ba b--black-30"  type="text"size="20" id="number" data-stripe="number" name="number" />
 
-    <div>
 
       <div class="fl pr3" style="width:65%;">
         <label class="pt3 db pb1" for="month">Expiration date</label>
@@ -49,9 +47,8 @@
       </div>
 
       <div class="cf"></div>
-    </div>
 
-    <input type="submit" class="sans-serif submit button pv2 ph4 mt4" style="position:relative;top:-4px" value="Pay {{price}}"  />
+    <input type="submit" class="sans-serif submit button pv2 ph4 mt4" style="position:relative;top:-4px" value="Submit payment of {{price}}"  />
     <dots><dot></dot> Processing</dots>
     
     <input type="hidden" class="stripeToken" name="stripeToken" />

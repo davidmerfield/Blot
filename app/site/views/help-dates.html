@@ -1,24 +1,31 @@
+<style type="text/css">
+b {font-weight: 600}
+h1 {font-size: 32px;font-weight: 500;border:none;margin: 0;padding: 0}
+h2 {font-size: 20px;font-weight: 500;letter-spacing: 0;border:none;margin: 4rem 0 -1rem 0;padding: 0}
+</style>
 <div class=" w-right-offset">
 
 <h1>Dates</h1>
 
-<p class="measure">A blog post’s publish date is the same as the file’s creation date by default. You can specify a different  date in the file’s <a href="#metadata">metadata</a> or in its <a href="#path">path</a>. Blot will schedule a blog post for future publication if you specify a date in the future. <!-- You can adjust your blog’s <a href="/preferences">time zone</a> and other date‐related settings on the dashboard. --></p>
-<h2 id="metadata">Using metadata</h2>
-<p class="measure">The publish date is one of the properties of a blog post you can modify in the <a href="/help/metadata">metadata</a> at the start of a file. Here’s an example blog post with a modified publish date:</p>
+<p>A blog post’s publish date is the same as the file’s creation date by default. This usually is when you put the file inside your blog's folder.</p>
+
+<h2>Changing a post's date inside the file</h2>
+<p>The publish date is one of the properties of a blog post you can modify in the <a href="/help/metadata">metadata</a> at the start of a text-based file. Here’s an example blog post with a modified publish date:</p>
 <br>
+<div class="mw6">
 <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 
-Blot supports a variety of date formats. The following all produce a blog post with the same date:
+Blot supports a variety of date formats. The following formats are equivalent:
 
 {{#date}}MM/DD/YYYY{{/date}}   {{#date}}MMMM D, YYYY{{/date}}
 {{#date}}M.D.YYYY{{/date}}     {{#date}}YYYY-MM-DD 00-00{{/date}}
 
-
 </code></pre>
+</div>
 <div class="cf pv3"></div>
+<h2>Changing a post's date using your folder</h2>
 
-<h2 id="path">Using the file’s path</h2>
-<p class="measure">You can modify a post’s publish date using the file’s name or path. For example, all four of these posts share the same publish date:</p>
+<p>You can specify a post’s publish date in the name or path of the file. For example, all of these posts share the same publish date:</p>
     <table class="bt" style="margin-top:0.75rem">
       <tbody>
         <tr>
@@ -32,13 +39,6 @@ Blot supports a variety of date formats. The following all produce a blog post w
         <tr>
         <td>
           <code class="folder">&nbsp;{{#date}}YYYY{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-          <code class="folder">&nbsp;{{#date}}MM{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-          <code class="file md">&nbsp;{{#date}}DD-[Post.txt]{{/date}}</code>
-        </td>
-        </tr>        
-        <tr>
-        <td>
-          <code class="folder">&nbsp;{{#date}}YYYY{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
           <code class="file md">&nbsp;{{#date}}MM-DD-[Post.txt]{{/date}}</code>
         </td>
         </tr>         <tr>
@@ -47,6 +47,10 @@ Blot supports a variety of date formats. The following all produce a blog post w
 
       </tbody>
     </table>
-<p class="measure">You can use underscores, dashes and dots to seperate the components of the date. Please note that a date specified in the file’s <a href="#metadata">metadata</a> takes precedence over one specified by its path.</p>
+<p>You can use underscores, dashes and dots to seperate the components of the date. Please note that a date specified in the file’s <a href="#metadata">metadata</a> takes precedence over one specified by its path.</p>
+
+<h2>Scheduling posts for publication</h2>
+
+<p>Blot will schedule a blog post for future publication if you specify a date in the future. You can adjust your blog’s <a href="/preferences">time zone</a> and other date‐related settings on the dashboard.</p>
 
 </div>

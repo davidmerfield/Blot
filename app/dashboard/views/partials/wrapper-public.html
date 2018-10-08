@@ -12,7 +12,7 @@
   
   <div class="center mw8 ph4">
 
-    <a class="db fw5 fl {{help}}" href="/"><img src="/images/logo-new.svg" width=20> Blot</a>        
+    <a class="db fw5 fl {{index}}" href="/"><img src="/images/logo-new.svg" style="vertical-align:text-bottom;{{^index}}opacity:0.3333{{/index}}" width=22>&thinsp; Blot</a>             
 
     <div class="measure center">
 
@@ -21,12 +21,8 @@
     {{/sign-up}}
 
     {{^sign-up}}
-    <a class="db fl ph4 ml-4 {{sign-up}}" href="/sign-up">Sign up</a>
-    <a class="db fl ph4 {{about}}" href="/about">About</a>
-    <a class="db fl ph4 {{updates}}" href="/updates">Updates</a>
-    <a class="db fl ph4 {{contact}}" href="/contact">Contact</a>
-    <a class="db fr ph4 mr-4 {{log-in}}" href="/log-in">Log in</a>
-    {{/sign-up}}
+        <a class="db fl {{index}}"><span style="color:#111">Log in</span><span style="color:#a7a7a7">&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;Dashboard</span></a>
+ {{/sign-up}}
     <div class="cf"></div>
   </div>
 </div>
@@ -45,19 +41,6 @@
 </div>
 
 {{#menu}}
-{{^sign-up}}
-
-<div class="footer {{#next}}darker{{/next}}">
-  <div class="center mw8 ph4">
-    <div class="nav fl w-right-offset" style="box-shadow:none;background:transparent">
-      <a href="/terms" class="pr4 {{terms}}">Terms of use</a>
-      <a href="/privacy" class="pr4 pl4 {{privacy}}">Privacy policy</a>
-      <a href="/contact" class="pr4 pl4 {{contact}}">Contact</a>
-      <a href="/developers" class="pl4  {{developers}}">Developers</a>    
-    </div>
-  </div>
-</div>
-{{/sign-up}}
 {{/menu}}
 
 <script type="text/javascript" src="/blot.{{cacheID}}.js"></script>
