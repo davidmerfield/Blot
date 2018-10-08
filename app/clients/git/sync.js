@@ -3,8 +3,7 @@ var Sync = require("sync");
 var debug = require("debug")("clients:git:sync");
 var Git = require("simple-git");
 var checkGitRepoExists = require("./checkGitRepoExists");
-var UNCOMMITED_CHANGES =
-  "Please commit your changes or stash them before you merge.";
+var UNCOMMITED_CHANGES = "You have unstaged changes.";
 
 module.exports = function sync(blogID, callback) {
   // Attempt to acquire a lock on the blog's folder
