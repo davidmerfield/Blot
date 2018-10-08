@@ -317,16 +317,18 @@ describe("sync", function() {
     LONG_TIMEOUT
   );
 
-  it("respects a force push", function(done) {
+  fit("respects a force push", function(done) {
     var writeAndPush = this.writeAndPush;
     var writeAndCommit = this.writeAndCommit;
-    var git = this.git;
+    var blogDirectory = this.blogDirectory;
     var repoDirectory = this.repoDirectory;
     var repoUrl = this.repoUrl;
+    var git = this.git;
 
     var path = "/Hello world.txt";
     var content = "Hello, World!";
     var newContent = "Good, World!";
+    var badContent = "Bad, World!";
 
     writeAndPush(path, content, function(err) {
       if (err) return done.fail(err);
@@ -349,6 +351,13 @@ describe("sync", function() {
               expect(err).toContain(
                 "Updates were rejected because the remote contains work"
               );
+
+              // Spanner in the works! I was worried about this line
+              // in the git man pages for rebase: "It is possible that a merge failure
+              // will prevent this process from being completely automatic."
+              // So I want to throw in a bad change to the working tree of 
+              // the repo in the blog folder on Blot to see if Blot copes.
+              fs.outputFileSync(blogDirectory + path, badContent);
 
               git.push(
                 "origin",
