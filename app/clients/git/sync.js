@@ -9,7 +9,11 @@ module.exports = function sync(blogID, callback) {
   // Attempt to acquire a lock on the blog's folder
   // to apply updates to it... These options are
   // redlock options to ensure we acquire a lock eventually...
-  Sync(blogID, {retryCount: -1, retryDelay:  10, retryJitter:  10}, function(err, folder, done) {
+  Sync(blogID, { retryCount: -1, retryDelay: 10, retryJitter: 10 }, function(
+    err,
+    folder,
+    done
+  ) {
     // Typically, this error means were unable to acquire a lock
     // on the folder, perhaps another process is syncing it...
     if (err) return callback(err);
@@ -29,7 +33,10 @@ module.exports = function sync(blogID, callback) {
 
       debug("fetching latest commit hash");
       git.raw(["rev-parse", "HEAD"], function(err, headBeforePull) {
-        if (err) return done(new Error(err), callback);
+        if (err) {
+          debug(err);
+          return done(new Error(err), callback);
+        }
 
         if (!headBeforePull)
           return done(new Error("No commit on repository"), callback);
@@ -62,7 +69,10 @@ module.exports = function sync(blogID, callback) {
             });
           }
 
-          if (err) return done(new Error(err), callback);
+          if (err) {
+            debug(err);
+            return done(new Error(err), callback);
+          }
 
           git.raw(["rev-parse", "HEAD"], function(err, headAfterPull) {
             if (err) return done(new Error(err), callback);
