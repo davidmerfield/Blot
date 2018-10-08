@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
   // certain characters like ø. It means that we need to run
   // makeSlug twice when looking up a template by its slug.
   // makeID calls makeSlug under the hood so we only need
-  // to call it once ourselves.
+  // to call it once ourselves. Update: I was retarded.
   var name = helper.makeSlug(req.params.template);
 
   if (!name) return res.redirect('/settings/design');
