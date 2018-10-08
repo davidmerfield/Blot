@@ -2,8 +2,6 @@ var parseBody = require('body-parser').urlencoded({extended:false});
 var Template = require("template");
 var helper = require('helper');
 var formJSON = helper.formJSON;
-var model = Template.metadataModel;
-var save = Template.update;
 
 var loadTemplate = require('./loadTemplate');
 var loadSidebar = require('./loadSidebar');
@@ -51,7 +49,7 @@ module.exports = function (server) {
 
     .post(function(req, res, next){
 
-      var metadata = formJSON(req.body, model);
+      var metadata = formJSON(req.body, Template.model.metadata);
 
       remove(metadata, ['id', 'slug', 'owner', 'isPublic', 'cloneFrom', 'thumb']);
 
@@ -72,7 +70,7 @@ module.exports = function (server) {
         }
       }
 
-      save(req.blog.id, req.template.slug, metadata, function (err){
+      Template.update(req.blog.id, req.template.slug, metadata, function (err){
 
         if (err) return next(err);
 

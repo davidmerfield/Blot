@@ -1,12 +1,9 @@
-var errorHandler = require("./errorHandler");
 var express = require("express");
 var settings = express.Router();
 var load = require("./load");
 var save = require("./save");
 var debug = require("../../debug");
 
-var Template = require("template");
-var Blog = require("blog");
 var load = require("./load");
 
 settings.use(function(req, res, next){
@@ -14,7 +11,7 @@ settings.use(function(req, res, next){
   next();
 });
 
-settings.get("/settings", function(req, res, next) {
+settings.get("/settings", function(req, res) {
   res.redirect("/");
 });
 

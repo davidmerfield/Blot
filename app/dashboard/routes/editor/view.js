@@ -2,7 +2,6 @@ var parseBody = require('body-parser').urlencoded({extended:false, limit: '2mb'}
 var Blog = require("blog");
 var Template = require("template");
 var helper = require('helper');
-var getView = Template.getView;
 var mime = require('mime');
 
 var loadTemplate = require('./loadTemplate');
@@ -12,14 +11,9 @@ var extend = helper.extend;
 
 var error = require('./error');
 
-var get = Template.getView;
-var set = Template.setView;
-var drop = Template.dropView;
-
 var parseName = require('./parseName');
 var formJSON = helper.formJSON;
 var capitalise = helper.capitalise;
-var model = Template.viewModel;
 var arrayify = helper.arrayify;
 
 module.exports = function (server) {
@@ -37,7 +31,7 @@ module.exports = function (server) {
 
     .post(parseBody, parseName, function(req, res, next){
 
-      var view = formJSON(req.body, model);
+      var view = formJSON(req.body, Template.model.view);
 
       Template.setView(req.template.id, view, function(err){
 
@@ -114,7 +108,7 @@ function saveView (req, res, next) {
   if (wasRenamed(req))
     return renameView(req, res, next);
 
-  var view = formJSON(req.body, model);
+  var view = formJSON(req.body, Template.model.view);
 
   // This allows users to delete all the
   // locals for a view.
@@ -125,7 +119,7 @@ function saveView (req, res, next) {
 
   view.name = req.view.name;
 
-  set(req.template.id, view, function(err){
+  Template.setView(req.template.id, view, function(err){
 
     if (err) return next(err);
 
@@ -153,7 +147,7 @@ function saveView (req, res, next) {
 
 function renameView (req, res, next) {
 
-  var view = formJSON(req.body, model);
+  var view = formJSON(req.body, Template.model.view);
 
   view.locals = view.locals || {};
 
@@ -162,16 +156,16 @@ function renameView (req, res, next) {
   var newName = view.name;
   var oldName = req.params.view;
 
-  get(req.template.id, newName, function(err, existingView){
+  Template.getView(req.template.id, newName, function(err, existingView){
 
     if (existingView && !err)
       return next(new Error('A view called ' + newName + ' already exists'));
 
-    set(req.template.id, view, function(err){
+    Template.setView(req.template.id, view, function(err){
 
       if (err) return next(err);
 
-      drop(req.template.id, oldName, function(err){
+      Template.dropView(req.template.id, oldName, function(err){
 
         if (err) return next(err);
 
@@ -199,7 +193,7 @@ function loadView (req, res, next) {
   var templateID = req.template.id;
   var view = req.params.view;
 
-  getView(templateID, view, function(err, view){
+  Template.getView(templateID, view, function(err, view){
 
     if (err) return next(err);
 
