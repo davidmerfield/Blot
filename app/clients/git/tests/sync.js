@@ -18,7 +18,11 @@ describe("sync", function() {
   // the state of the blogDirectory on Blot's server
 
   beforeEach(function() {
-    this.commitAndPush = new CommitAndPush(this.blog.id, this.git, this.server.port);
+    this.commitAndPush = new CommitAndPush(
+      this.blog.id,
+      this.git,
+      this.server.port
+    );
     this.writeAndCommit = new WriteAndCommit(this.git, this.repoDirectory);
     this.push = new Push(this.blog.id, this.git, this.server.port);
     this.writeAndPush = new WriteAndPush(
@@ -56,14 +60,14 @@ describe("sync", function() {
           pathname: "/clients/git/syncs-finished/" + blogID
         });
 
-        http.get(url, function check (res){
-          var response = '';
-          res.setEncoding('utf8');
-          res.on('data', function(chunk){
-            response +=chunk;
+        http.get(url, function check(res) {
+          var response = "";
+          res.setEncoding("utf8");
+          res.on("data", function(chunk) {
+            response += chunk;
           });
-          res.on('end', function(){
-            if (response === 'true') {
+          res.on("end", function() {
+            if (response === "true") {
               callback(null);
             } else {
               http.get(url, check);
@@ -305,9 +309,6 @@ describe("sync", function() {
         writeAndPush(path, contentGoodChange, function(err) {
           if (err) return done.fail(err);
 
-          expect(fs.readFileSync(blogDirectory + path, "utf-8")).toEqual(
-            contentGoodChange
-          );
 
           done();
         });
@@ -315,4 +316,58 @@ describe("sync", function() {
     },
     LONG_TIMEOUT
   );
+
+  it("respects a force push", function(done) {
+    var writeAndPush = this.writeAndPush;
+    var writeAndCommit = this.writeAndCommit;
+    var git = this.git;
+    var repoDirectory = this.repoDirectory;
+    var repoUrl = this.repoUrl;
+
+    var path = "/Hello world.txt";
+    var content = "Hello, World!";
+    var newContent = "Good, World!";
+
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
+
+      // delete .git repo, then re-init, then add remote,
+      // then write and push. It should fail.
+      fs.removeSync(repoDirectory + "/.git");
+      git.init(repoDirectory, function(err) {
+        if (err) return done.fail(new Error(err));
+
+        git.addRemote("origin", repoUrl, function(err) {
+          if (err) return done.fail(new Error(err));
+
+          writeAndCommit(path, newContent, function(err) {
+            if (err) return done.fail(err);
+
+            git.push("origin", "master", { "--set-upstream": true }, function(
+              err
+            ) {
+              expect(err).toContain(
+                "Updates were rejected because the remote contains work"
+              );
+
+              git.push(
+                "origin",
+                "master",
+                { "--set-upstream": true, "--force": true },
+                function(err) {
+                  if (err) return done.fail(new Error(err));
+
+                  writeAndPush("/other-path.txt", "other file", function(err) {
+                    if (err) return done.fail(new Error(err));
+
+                    done();
+                  });
+                }
+              );
+            });
+          });
+        });
+      });
+    });
+  });
 });
