@@ -5,8 +5,6 @@ describe("sync", function() {
   // cleans everything up when each test has finished.
   require("./setup")();
 
-  var LONG_TIMEOUT = 20 * 1000; // 20s
-
   var fs = require("fs-extra");
   var async = require("async");
   var sync = require("../sync");
@@ -138,184 +136,155 @@ describe("sync", function() {
     });
   });
 
-  it(
-    "syncs a file",
-    function(done) {
-      var path = this.fake.path(".txt");
-      var content = this.fake.file();
+  it("syncs a file", function(done) {
+    var path = this.fake.path(".txt");
+    var content = this.fake.file();
 
-      this.writeAndPush(path, content, function(err) {
+    this.writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
+
+      done();
+    });
+  });
+
+  it("syncs updates to a file", function(done) {
+    var writeAndPush = this.writeAndPush;
+
+    var path = this.fake.path(".txt");
+
+    var title = this.fake.lorem.sentence();
+    var content = this.fake.file({ title: title });
+
+    var changedTitle = this.fake.lorem.sentence();
+    var changedContent = this.fake.file({ title: changedTitle });
+
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
+
+      writeAndPush(path, changedContent, function(err) {
         if (err) return done.fail(err);
 
         done();
       });
-    },
-    LONG_TIMEOUT
-  );
+    });
+  });
 
-  it(
-    "syncs updates to a file",
-    function(done) {
-      var writeAndPush = this.writeAndPush;
+  it("syncs a renamed file", function(done) {
+    var writeAndPush = this.writeAndPush;
+    var commitAndPush = this.commitAndPush;
 
-      var path = this.fake.path(".txt");
+    var path = this.fake.path();
+    var newPath = dirname(path) + "/new-" + basename(path);
+    var content = this.fake.file();
 
-      var title = this.fake.lorem.sentence();
-      var content = this.fake.file({ title: title });
+    var repoDirectory = this.repoDirectory;
 
-      var changedTitle = this.fake.lorem.sentence();
-      var changedContent = this.fake.file({ title: changedTitle });
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
 
-      writeAndPush(path, content, function(err) {
+      fs.moveSync(repoDirectory + path, repoDirectory + newPath);
+
+      commitAndPush(function(err) {
         if (err) return done.fail(err);
 
-        writeAndPush(path, changedContent, function(err) {
+        done();
+      });
+    });
+  });
+
+  it("syncs a removed file", function(done) {
+    var writeAndPush = this.writeAndPush;
+    var commitAndPush = this.commitAndPush;
+    var repoDirectory = this.repoDirectory;
+
+    // compareDirectory has trouble with nested paths
+    // since git does not keep track of empty directories
+    var path = "/" + this.fake.lorem.word() + ".txt";
+
+    writeAndPush(path, this.fake.file(), function(err) {
+      if (err) return done.fail(err);
+
+      fs.removeSync(repoDirectory + path);
+
+      commitAndPush(function(err) {
+        if (err) return done.fail(err);
+
+        done();
+      });
+    });
+  });
+
+  it("syncs the changes of multiple commits pushed at once", function(done) {
+    var writeAndCommit = this.writeAndCommit;
+    var push = this.push;
+
+    var files = {};
+
+    for (var i = 0; i < 3; i++)
+      files[this.fake.path(".txt")] = this.fake.file();
+
+    async.eachOf(
+      files,
+      function(content, path, next) {
+        writeAndCommit(path, content, next);
+      },
+      function(err) {
+        if (err) return done.fail(err);
+
+        push(function(err) {
           if (err) return done.fail(err);
 
           done();
         });
-      });
-    },
-    LONG_TIMEOUT
-  );
+      }
+    );
+  });
 
-  it(
-    "syncs a renamed file",
-    function(done) {
-      var writeAndPush = this.writeAndPush;
-      var commitAndPush = this.commitAndPush;
+  it("handles two pushes during a single sync", function(done) {
+    var git = this.git;
+    var writeAndPush = this.writeAndPush;
+    var fake = this.fake;
 
-      var path = this.fake.path();
-      var newPath = dirname(path) + "/new-" + basename(path);
-      var content = this.fake.file();
+    for (var i = 0; i < 10; i++)
+      fs.outputFileSync(this.repoDirectory + fake.path(".txt"), fake.file());
 
-      var repoDirectory = this.repoDirectory;
-
-      writeAndPush(path, content, function(err) {
-        if (err) return done.fail(err);
-
-        fs.moveSync(repoDirectory + path, repoDirectory + newPath);
-
-        commitAndPush(function(err) {
-          if (err) return done.fail(err);
-
-          done();
-        });
-      });
-    },
-    LONG_TIMEOUT
-  );
-
-  it(
-    "syncs a removed file",
-    function(done) {
-      var writeAndPush = this.writeAndPush;
-      var commitAndPush = this.commitAndPush;
-      var repoDirectory = this.repoDirectory;
-
-      // compareDirectory has trouble with nested paths
-      // since git does not keep track of empty directories
-      var path = "/" + this.fake.lorem.word() + ".txt";
-
-      writeAndPush(path, this.fake.file(), function(err) {
-        if (err) return done.fail(err);
-
-        fs.removeSync(repoDirectory + path);
-
-        commitAndPush(function(err) {
-          if (err) return done.fail(err);
-
-          done();
-        });
-      });
-    },
-    LONG_TIMEOUT
-  );
-
-  it(
-    "syncs the changes of multiple commits pushed at once",
-    function(done) {
-      var writeAndCommit = this.writeAndCommit;
-      var push = this.push;
-
-      var files = {};
-
-      for (var i = 0; i < 3; i++)
-        files[this.fake.path(".txt")] = this.fake.file();
-
-      async.eachOf(
-        files,
-        function(content, path, next) {
-          writeAndCommit(path, content, next);
-        },
-        function(err) {
-          if (err) return done.fail(err);
-
-          push(function(err) {
-            if (err) return done.fail(err);
-
-            done();
-          });
-        }
-      );
-    },
-    LONG_TIMEOUT
-  );
-
-  it(
-    "handles two pushes during a single sync",
-    function(done) {
-      var git = this.git;
-      var writeAndPush = this.writeAndPush;
-      var fake = this.fake;
-
-      for (var i = 0; i < 10; i++)
-        fs.outputFileSync(this.repoDirectory + fake.path(".txt"), fake.file());
-
-      git.add(".", function(err) {
+    git.add(".", function(err) {
+      if (err) return done(new Error(err));
+      git.commit("x", function(err) {
         if (err) return done(new Error(err));
-        git.commit("x", function(err) {
+        git.push(function(err) {
           if (err) return done(new Error(err));
-          git.push(function(err) {
-            if (err) return done(new Error(err));
 
-            writeAndPush(fake.path(), fake.file(), done);
-          });
+          writeAndPush(fake.path(), fake.file(), done);
         });
       });
-    },
-    LONG_TIMEOUT * 3
-  );
+    });
+  });
 
-  it(
-    "resets any uncommitted changes in the server's blog folder",
-    function(done) {
-      var writeAndPush = this.writeAndPush;
+  it("resets any uncommitted changes in the server's blog folder", function(done) {
+    var writeAndPush = this.writeAndPush;
 
-      var path = "/Hello world.txt";
-      var content = "Hello, World!";
-      var contentBadChange = "Bad, World!";
-      var contentGoodChange = "Good, World!";
+    var path = "/Hello world.txt";
+    var content = "Hello, World!";
+    var contentBadChange = "Bad, World!";
+    var contentGoodChange = "Good, World!";
 
-      var blogDirectory = this.blogDirectory;
+    var blogDirectory = this.blogDirectory;
 
-      writeAndPush(path, content, function(err) {
+    writeAndPush(path, content, function(err) {
+      if (err) return done.fail(err);
+
+      // This simulates an incorrect change to the blog's source folder
+      // made by potentially buggy Blot code. This was NOT done by the client.
+      fs.outputFileSync(blogDirectory + path, contentBadChange);
+
+      writeAndPush(path, contentGoodChange, function(err) {
         if (err) return done.fail(err);
 
-        // This simulates an incorrect change to the blog's source folder
-        // made by potentially buggy Blot code. This was NOT done by the client.
-        fs.outputFileSync(blogDirectory + path, contentBadChange);
-
-        writeAndPush(path, contentGoodChange, function(err) {
-          if (err) return done.fail(err);
-
-
-          done();
-        });
+        done();
       });
-    },
-    LONG_TIMEOUT
-  );
+    });
+  });
 
   it("respects a force push", function(done) {
     var writeAndPush = this.writeAndPush;
@@ -355,7 +324,7 @@ describe("sync", function() {
               // Spanner in the works! I was worried about this line
               // in the git man pages for rebase: "It is possible that a merge failure
               // will prevent this process from being completely automatic."
-              // So I want to throw in a bad change to the working tree of 
+              // So I want to throw in a bad change to the working tree of
               // the repo in the blog folder on Blot to see if Blot copes.
               fs.outputFileSync(blogDirectory + path, badContent);
 

@@ -31,6 +31,9 @@ module.exports = function setup(options) {
   // Sets up a temporary tmp folder and cleans it up after
   global.test.tmp();
 
+  // Increase timeout
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
+
   // Set up a clean server for each test
   beforeEach(server.start);
   afterEach(server.close);
