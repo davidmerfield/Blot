@@ -4,5 +4,4 @@ Blot has closed your account and disabled your blog.
 
 If you didn’t make this change, please reply directly to this email and we’ll sort it out.
 
-Sincerely,
-David
+Sincerely, David
