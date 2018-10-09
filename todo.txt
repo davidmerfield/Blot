@@ -1,44 +1,20 @@
-Determine fix for this error when you sync more than 11 files
-(node:22701) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 exit listeners added. Use emitter.setMaxListeners() to increase limit
+Run multiple sync workers and fix [the sync locking issue](https://github.com/davidmerfield/Blot/issues/15) then tell [Tim](https://mail.google.com/mail/u/1/#inbox/165ed82af17884ac), [John](https://mail.google.com/mail/u/1/#inbox/165ee94ba5cc448b) and [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67).
 
-Determine cause of ghost post bug:
-- Seems to only happen in production when renaming, or moving the parent folder for an image. 
-  - Could it be a file path thing?
-  - The dropbox client seems to keep track, but the post isn't removed
-    - Could it be catch renames?
-    - Could it be rebuild dependents?
+Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again.
 
-Build:
-- Run multiple workers and fix this slowness issue:
-    https://github.com/davidmerfield/Blot/issues/15
-    Tell tim https://mail.google.com/mail/u/1/#inbox/165ed82af17884ac
-    Tell john https://mail.google.com/mail/u/1/#inbox/165ee94ba5cc448b
-    Tell Kerim https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67
+Re-rip [Stuart](https://twitter.com/stuartfrisby/status/1045247673530552320)'s instagram page and help him set up proper converter
 
-Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug
-- File titled "_på besøg hos gomorgen danmark.jpg" which cannot be embedded in a blog post
-- Write test which fails to ensure this doesn't happen again
-
-[Re-rip Stuart's instagram page and help him set up proper converter](https://twitter.com/stuartfrisby/status/1045247673530552320)
-
-[Rip John's posts from Day One](https://mail.google.com/mail/u/1/#inbox/1663098ddda683b7)
+Rip [John](https://mail.google.com/mail/u/1/#inbox/1663098ddda683b7)'s posts from Day One
 
 ---
 
-Dropbox client:
-
-  Write tests to fix ghost posts
-
-  Fix bug with catching dropbox file renames
-  - False positives are really annoying. You'll publish a new post and it won't show up on your blog because it'll be buried in the archives. Renames need to be *right* next to each other in the dropbox delta queue.
-  - Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
-  - Let Nash know
+Determine fix for the MaxListenersExceededWarning error when you sync more than 11 files.
 
 Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
 
-Images and Sharp bugs:
-- Increase quality for sharp
-- Re-enable image minifier and fix bugs.
+Increase default quality for sharp's output images
+
+Re-enable image minifier and fix the bugs it creates
 
 Thumbnail bugs:
   
