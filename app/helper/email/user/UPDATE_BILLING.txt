@@ -1,6 +1,6 @@
 You updated your billing information on Blot
 
-You updated your billing information for your Blot subscription. 
+You updated the billing information for your Blot subscription. 
 
 Your card will **not** be charged anything until the start of your next billing period on {{pretty.expiry}}.
 
