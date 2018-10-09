@@ -63,6 +63,9 @@ module.exports = function sync(blogID, callback) {
             git.raw(["rev-parse", "HEAD"], function(err, headAfterPull) {
               if (err) return done(new Error(err), callback);
 
+              if (!headAfterPull)
+                return done(new Error("No commits on repository"), callback);
+
               // Remove whitespace from stdout
               headAfterPull = headAfterPull.trim();
 
