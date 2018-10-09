@@ -423,6 +423,7 @@ Backups
 Add daemon for zero-downtime node restart
 
 Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
+- https://jsfiddle.net/m1e9wc6q/
 - lowercase: acemnorsuvwxz ?
 - uppercase: 1234567890bdfhijkl ?
 - [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
