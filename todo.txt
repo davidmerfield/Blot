@@ -56,6 +56,8 @@ Thumbnail bugs:
 
 Markdown bugs:
 
+  Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
+  
   Fix bug with double escaped embedded ampersands.
   http://gavin.blot.im/this-code-doesnt-work
   Tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672)
