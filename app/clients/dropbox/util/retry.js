@@ -4,7 +4,7 @@ function retry(fn, options) {
   options = options || {};
 
   // Set our defaults
-  options.times = options.times || 5;
+  options.times = options.times || 6;
 
   // Exponential backoff
   options.interval = options.interval || exponential;
