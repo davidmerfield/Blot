@@ -34,10 +34,8 @@ module.exports = function remove (done) {
           return entry[".tag"] !== "success";
         })
       ) {
-        console.log("Failed to remove all files, retrying...", res.entries);
         remove(done);
       } else {
-        console.log('Emptied test folder');
         done();
       }
     })
