@@ -1,4 +1,4 @@
-describe("sync", function() {
+describe("git client sync", function() {
   // Sets up a clean test blog (this.blog) for each test,
   // sets the blog's client to git (this.client), then creates
   // a test server with the git client's routes exposed, then
@@ -136,7 +136,7 @@ describe("sync", function() {
     });
   });
 
-  it("syncs a file", function(done) {
+  it("handles a new file", function(done) {
     var path = this.fake.path(".txt");
     var content = this.fake.file();
 
@@ -147,7 +147,7 @@ describe("sync", function() {
     });
   });
 
-  it("syncs updates to a file", function(done) {
+  it("handles updates to a file", function(done) {
     var writeAndPush = this.writeAndPush;
 
     var path = this.fake.path(".txt");
@@ -169,7 +169,7 @@ describe("sync", function() {
     });
   });
 
-  it("syncs a renamed file", function(done) {
+  it("handles a renamed file", function(done) {
     var writeAndPush = this.writeAndPush;
     var commitAndPush = this.commitAndPush;
 
@@ -192,7 +192,7 @@ describe("sync", function() {
     });
   });
 
-  it("syncs a removed file", function(done) {
+  it("handles a removed file", function(done) {
     var writeAndPush = this.writeAndPush;
     var commitAndPush = this.commitAndPush;
     var repoDirectory = this.repoDirectory;
@@ -214,7 +214,7 @@ describe("sync", function() {
     });
   });
 
-  it("syncs the changes of multiple commits pushed at once", function(done) {
+  it("handles multiple commits pushed at once", function(done) {
     var writeAndCommit = this.writeAndCommit;
     var push = this.push;
 
@@ -286,7 +286,7 @@ describe("sync", function() {
     });
   });
 
-  it("respects a force push", function(done) {
+  it("handles a force push", function(done) {
     var writeAndPush = this.writeAndPush;
     var writeAndCommit = this.writeAndCommit;
     var blogDirectory = this.blogDirectory;
