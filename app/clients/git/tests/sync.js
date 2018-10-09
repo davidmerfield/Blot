@@ -16,19 +16,106 @@ describe("git client sync", function() {
   // the state of the blogDirectory on Blot's server
 
   beforeEach(function() {
-    this.commitAndPush = new CommitAndPush(
-      this.blog.id,
-      this.git,
-      this.server.port
-    );
-    this.writeAndCommit = new WriteAndCommit(this.git, this.repoDirectory);
-    this.push = new Push(this.blog.id, this.git, this.server.port);
-    this.writeAndPush = new WriteAndPush(
-      this.blog.id,
-      this.git,
-      this.repoDirectory,
-      this.server.port
-    );
+    var ctx = this;
+
+    ctx.areReposSynced = function(done) {
+      ctx.gitBare.raw(["rev-parse", "HEAD"], function(err, bareHead) {
+        ctx.gitBlot.raw(["rev-parse", "HEAD"], function(err, blotHead) {
+          ctx.git.raw(["rev-parse", "HEAD"], function(err, userHead) {
+            if (
+              userHead &&
+              bareHead &&
+              blotHead &&
+              userHead.trim() === bareHead.trim() &&
+              userHead.trim() == blotHead.trim()
+            )
+              return done(null);
+
+            var message = [
+              "State of git repos (HEAD):",
+              "- user's machine: " + (userHead && userHead.trim()),
+              "- bare data repo: " + (bareHead && bareHead.trim()),
+              "- blog directory: " + (blotHead && blotHead.trim())
+            ].join("\n");
+
+            done(new Error(message));
+          });
+        });
+      });
+    };
+
+    ctx.push = function(done) {
+      ctx.git.push(function(err) {
+        if (err) return done(new Error(err));
+
+        ctx.areReposSynced(function wait(err) {
+          if (err) return ctx.areReposSynced(wait);
+
+          // how do we work out when the sync has finished?
+          // in a serious way? without some some settimeout?
+          var http = require("http");
+          var url = require("url").format({
+            protocol: "http",
+            hostname: "localhost",
+            port: ctx.server.port,
+            pathname: "/clients/git/syncs-finished/" + ctx.blog.id
+          });
+
+          http.get(url, function check(res) {
+            var response = "";
+            res.setEncoding("utf8");
+            res.on("data", function(chunk) {
+              response += chunk;
+            });
+            res.on("end", function() {
+              if (response === "true") {
+                done(null);
+              } else {
+                http.get(url, check);
+              }
+            });
+          });
+        });
+      });
+    };
+
+    ctx.commitAndPush = function(callback) {
+      ctx.git.add(".", function(err) {
+        if (err) return callback(new Error(err));
+
+        ctx.git.commit(".", function(err) {
+          if (err) return callback(new Error(err));
+
+          ctx.push(callback);
+        });
+      });
+    };
+
+    ctx.writeAndCommit = function(path, content, callback) {
+      var output = ctx.repoDirectory + path;
+
+      fs.outputFile(output, content, function(err) {
+        if (err) return callback(err);
+
+        ctx.git.add(".", function(err) {
+          if (err) return callback(new Error(err));
+
+          ctx.git.commit(".", function(err) {
+            if (err) return callback(new Error(err));
+
+            callback();
+          });
+        });
+      });
+    };
+
+    ctx.writeAndPush = function(path, content, callback) {
+      ctx.writeAndCommit(path, content, function(err) {
+        if (err) return callback(err);
+
+        ctx.push(callback);
+      });
+    };
   });
 
   // Checks if two directories are identical
@@ -45,110 +132,18 @@ describe("git client sync", function() {
         if (!err) return done();
 
         var message = err.message;
+        ctx.areReposSynced(function(reposErr) {
+          if (reposErr && reposErr.message) {
+            message += "\n\n" + reposErr.message;
+          } else {
+            message += "\n\n All three git repos share the same head";
+          }
 
-        ctx.gitBare.raw(["rev-parse", "HEAD"], function(err, bareHead) {
-          ctx.gitBlot.raw(["rev-parse", "HEAD"], function(err, blotHead) {
-            ctx.git.raw(["rev-parse", "HEAD"], function(err, userHead) {
-              message +=
-                "\n\n" +
-                [
-                  "State of git repos (HEAD):",
-                  "- user's machine: " + (userHead && userHead.trim()),
-                  "- bare data repo: " + (bareHead && bareHead.trim()),
-                  "- blog directory: " + (blotHead && blotHead.trim())
-                ].join("\n");
-
-              done(new Error(message));
-            });
-          });
+          done(new Error(message));
         });
       }
     );
   });
-
-  function Push(blogID, git, port) {
-    return function(callback) {
-      git.push(function(err) {
-        if (err) return callback(new Error(err));
-
-        // how do we work out when the sync has finished?
-        // in a serious way? without some some settimeout?
-        var http = require("http");
-        var url = require("url").format({
-          protocol: "http",
-          hostname: "localhost",
-          port: port,
-          pathname: "/clients/git/syncs-finished/" + blogID
-        });
-
-        http.get(url, function check(res) {
-          var response = "";
-          res.setEncoding("utf8");
-          res.on("data", function(chunk) {
-            response += chunk;
-          });
-          res.on("end", function() {
-            if (response === "true") {
-              callback(null);
-            } else {
-              http.get(url, check);
-            }
-          });
-        });
-      });
-    };
-  }
-
-  function WriteAndCommit(git, repoDirectory) {
-    return function(path, content, callback) {
-      var output = repoDirectory + path;
-
-      fs.outputFile(output, content, function(err) {
-        if (err) return callback(err);
-
-        git.add(".", function(err) {
-          if (err) return callback(new Error(err));
-
-          git.commit(".", function(err) {
-            if (err) return callback(new Error(err));
-
-            callback();
-          });
-        });
-      });
-    };
-  }
-
-  function CommitAndPush(blogID, git, port) {
-    var push = new Push(blogID, git, port);
-
-    return function(callback) {
-      git.add(".", function(err) {
-        if (err) return callback(new Error(err));
-
-        git.commit(".", function(err) {
-          if (err) return callback(new Error(err));
-
-          push(callback);
-        });
-      });
-    };
-  }
-
-  // Write file to user's clone of the blog's git repo, then
-  // push changes to the server, wait for sync to finish.
-  function WriteAndPush(blogID, git, repoDirectory, port) {
-    var writeAndCommit = new WriteAndCommit(git, repoDirectory);
-    var push = new Push(blogID, git, port);
-
-    return function(path, content, callback) {
-      writeAndCommit(path, content, function(err) {
-        if (err) return callback(err);
-
-        push(callback);
-      });
-    };
-  }
 
   it("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(this.blogDirectory + "/.git");
