@@ -6,6 +6,8 @@ Re-rip [Stuart](https://twitter.com/stuartfrisby/status/1045247673530552320)'s i
 
 Rip [John](https://mail.google.com/mail/u/1/#inbox/1663098ddda683b7)'s posts from Day One
 
+Fix failed thumbnails in [Ben's post](http://trampeur.blot.im/from-kuchl-to-the-campsite-at-pfarrwerfen-2)
+  
 ---
 
 Determine fix for the MaxListenersExceededWarning error when you sync more than 11 files.
@@ -15,20 +17,15 @@ Fix bug with additional child processes if main process runs out of memory? Some
 Increase default quality for sharp's output images
 
 Re-enable image minifier and fix the bugs it creates
-
-Thumbnail bugs:
   
-  Since thumbnails and cached images no longer have protocol-less URLs, do they work with Micro.blog?
-  - Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a)
-  - Tell [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) also about the bug
-  - Tell [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358)
+Since thumbnails and cached images no longer have protocol-less URLs, do they work with Micro.blog?
+- Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a)
+- Tell [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) also about the bug
+- Tell [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358)
 
-  Fix failed thumbnails in Ben's post:
-  http://trampeur.blot.im/from-kuchl-to-the-campsite-at-pfarrwerfen-2
-
-  Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
-  - Make resolve work more impressively, attempt to resolve a path in a case insensitive manner.
-    Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine...
+Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
+- Make resolve work more impressively, attempt to resolve a path in a case insensitive manner.
+  Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine...
 
 Markdown bugs:
 
