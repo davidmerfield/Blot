@@ -4,7 +4,6 @@ services:
 node_js:
   - "8.12.0"
 before_install:
-  - export DEBUG=clients:git:sync
   - export BLOT_PANDOC_PATH=$(which pandoc)
 cache:
   directories:
