@@ -48,32 +48,27 @@ describe("git client sync", function() {
       ctx.git.push(function(err) {
         if (err) return done(new Error(err));
 
-        ctx.areReposSynced(function wait(err) {
-          if (err) return ctx.areReposSynced(wait);
+        // how do we work out when the sync has finished?
+        // in a serious way? without some some settimeout?
+        var http = require("http");
+        var url = require("url").format({
+          protocol: "http",
+          hostname: "localhost",
+          port: ctx.server.port,
+          pathname: "/clients/git/syncs-finished/" + ctx.blog.id
+        });
 
-          // how do we work out when the sync has finished?
-          // in a serious way? without some some settimeout?
-          var http = require("http");
-          var url = require("url").format({
-            protocol: "http",
-            hostname: "localhost",
-            port: ctx.server.port,
-            pathname: "/clients/git/syncs-finished/" + ctx.blog.id
+        http.get(url, function check(res) {
+          var response = "";
+          res.setEncoding("utf8");
+          res.on("data", function(chunk) {
+            response += chunk;
           });
-
-          http.get(url, function check(res) {
-            var response = "";
-            res.setEncoding("utf8");
-            res.on("data", function(chunk) {
-              response += chunk;
-            });
-            res.on("end", function() {
-              if (response === "true") {
-                done(null);
-              } else {
-                http.get(url, check);
-              }
-            });
+          res.on("end", function() {
+            if (response !== "true") {
+              return http.get(url, check);
+            }
+            ctx.areReposSynced(done);
           });
         });
       });
