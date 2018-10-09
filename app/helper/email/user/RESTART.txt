@@ -1,7 +1,8 @@
-Blot just restarted your subscription!
+You restarted your Blot subscription
 
-Blot just restarted your subscription. Your card will **not** be charged anything until the start of your next billing period on {{pretty.expiry}}.
+You restarted your Blot subscription. Your card will **not** be charged anything until the start of your next billing period on {{pretty.expiry}}.
 
-If you didn't make this change, please reply directly to this email and we'll sort it out.
+If you didn’t make this change, please reply directly to this email and we’ll sort it out.
 
-Best, David
+Thank you,
+David
