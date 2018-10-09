@@ -43,13 +43,11 @@ module.exports = function sync(blogID, callback) {
         // Remove whitespace from stdout
         headBeforePull = headBeforePull.trim();
 
-        // The reason we rebase:true is to allow the user to git push --force
-        // and reset or modify the history of the blog's repo. This might
-        // be neccessary if they add a repo from GitHub, say. From Git's manual:
-        // "The current branch is reset to <upstream>, or <newbase> if the
-        // --onto option was supplied. This has the exact same effect as git
-        // reset --hard <upstream> (or <newbase>). ORIG_HEAD is set to point
-        // at the tip of the branch before the reset."
+        // My goal is to update the working tree in the blog folder
+        // to the remote's version of the repo. There should never be
+        // unpushed or uncommitted changes here, hence the reset. I
+        // took these two commands (fetch and then reset) from this answer:
+        // https://stackoverflow.com/a/8888015
         git.fetch({ "--all": true }, function(err) {
           if (err) {
             debug(err);
