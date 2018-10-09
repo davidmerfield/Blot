@@ -33,13 +33,36 @@ describe("git client sync", function() {
 
   // Checks if two directories are identical
   afterEach(function(done) {
+    var ctx = this;
+
     global.test.compareDir(
       this.repoDirectory,
       this.blogDirectory,
       {
         excludeFilter: ".git"
       },
-      done
+      function(err) {
+        if (!err) return done();
+
+        var message = err.message;
+
+        ctx.gitBare.raw(["rev-parse", "HEAD"], function(err, bareHead) {
+          ctx.gitBlot.raw(["rev-parse", "HEAD"], function(err, blotHead) {
+            ctx.git.raw(["rev-parse", "HEAD"], function(err, userHead) {
+              message +=
+                "\n\n" +
+                [
+                  "State of git repos (HEAD):",
+                  "- user's machine: " + (userHead && userHead.trim()),
+                  "- bare data repo: " + (bareHead && bareHead.trim()),
+                  "- blog directory: " + (blotHead && blotHead.trim())
+                ].join("\n");
+
+              done(new Error(message));
+            });
+          });
+        });
+      }
     );
   });
 
@@ -149,7 +172,6 @@ describe("git client sync", function() {
 
   it("handles updates to a file", function(done) {
     var writeAndPush = this.writeAndPush;
-
     var path = this.fake.path(".txt");
 
     var title = this.fake.lorem.sentence();

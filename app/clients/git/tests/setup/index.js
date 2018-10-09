@@ -78,6 +78,8 @@ module.exports = function setup(options) {
         if (err) return done(new Error(err));
         context.repoDirectory = context.tmp + "/" + context.blog.handle;
         context.git = require("simple-git")(context.repoDirectory).silent(true);
+        context.gitBare = require("simple-git")(dataDir + "/" + context.blog.handle + ".git").silent(true);
+        context.gitBlot = require("simple-git")(context.blogDirectory).silent(true);
         done(null);
       });
     });
