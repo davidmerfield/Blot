@@ -4,33 +4,44 @@ var database = require("./database");
 var join = require("path").join;
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
-var retry = require('./util/retry');
+var retry = require("./util/retry");
 
 // Remove should only ever be called inside the function returned
 // from Sync for a given blog, since it modifies the blog folder.
+// This method is mildly complicated by the desire to ensure that
+// if we fail to remove the file from Dropbox, then we do not
+// remove the file from Blot's folder for this blog.
 function remove(blogID, path, callback) {
-  var client, pathInDropbox;
+  var client, pathOnDropbox, pathOnBlot;
 
   debug("Blog:", blogID, "Removing", path);
 
   database.get(blogID, function(err, account) {
     client = createClient(account.access_token);
-    pathInDropbox = join(account.folder || "/", path);
+    pathOnDropbox = join(account.folder || "/", path);
+    pathOnBlot = localPath(blogID, path);
 
     client
       .filesDelete({
-        path: pathInDropbox
+        path: pathOnDropbox
+      })
+      .catch(function(err) {
+        // This means that error is something other
+        // than the file not existing. HTTP 409 means
+        // 'CONFLICT' but typically this means that
+        // the file did not exist. Am I sure about this?
+        if (err.status !== 409) return callback(new Error(err));
+
+        // The file did not exist, no big deal
+        return Promise.resolve();
       })
       .then(function() {
-        return fs.remove(localPath(blogID, path));
+        return fs.remove(pathOnBlot);
       })
       .then(function() {
         callback(null);
       })
       .catch(function(err) {
-        // The file did not exist, no big deal
-        if (err.status === 409) return callback(null);
-
         callback(err);
       });
   });

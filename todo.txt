@@ -54,9 +54,9 @@ Thumbnail bugs:
   - Make resolve work more impressively, attempt to resolve a path in a case insensitive manner.
     Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine...
 
-Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
-
 Markdown bugs:
+
+  Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
   
   Fix bug with double escaped embedded ampersands.
   http://gavin.blot.im/this-code-doesnt-work
@@ -423,6 +423,7 @@ Backups
 Add daemon for zero-downtime node restart
 
 Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
+- https://jsfiddle.net/m1e9wc6q/
 - lowercase: acemnorsuvwxz ?
 - uppercase: 1234567890bdfhijkl ?
 - [cool user subdomains](https://jsfiddle.net/ev2gLa87/)

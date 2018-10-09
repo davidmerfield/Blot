@@ -1,4 +1,4 @@
-describe("authenticate", function() {
+describe("git client authenticate", function() {
   
   // Sets up a clean test blog (this.blog) for each test,
   // sets the blog's client to git (this.client), then creates

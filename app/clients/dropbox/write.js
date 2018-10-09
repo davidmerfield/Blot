@@ -9,16 +9,17 @@ var retry = require("./util/retry");
 // Write should only ever be called inside the function returned
 // from Sync for a given blog, since it modifies the blog folder.
 function write(blogID, path, contents, callback) {
-  var pathInDropbox, client;
+  var pathInDropbox, client, pathOnBlot;
 
-  debug("Writing to", path);
+  debug("Blog:", blogID, "Writing", path);
 
   database.get(blogID, function(err, account) {
     if (err || !account) return callback(err || new Error("No account"));
 
-    pathInDropbox = join(account.folder || "/", path);
     client = createClient(account.access_token);
-    
+    pathInDropbox = join(account.folder || "/", path);
+    pathOnBlot = localPath(blogID, path);
+
     client
       .filesUpload({
         contents: contents,
@@ -26,8 +27,11 @@ function write(blogID, path, contents, callback) {
         mode: { ".tag": "overwrite" },
         path: pathInDropbox
       })
+      .catch(function(err) {
+        callback(new Error(err));
+      })
       .then(function() {
-        return fs.outputFile(localPath(blogID, path), contents);
+        return fs.outputFile(pathOnBlot, contents);
       })
       .then(function() {
         callback(null);

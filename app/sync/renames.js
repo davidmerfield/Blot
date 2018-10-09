@@ -16,6 +16,22 @@ module.exports = function(blogID, update, callback) {
 
       createdEntries.forEach(function(createdEntry) {
         deletedEntries.forEach(function(deletedEntry) {
+          
+          // I need to handle this event properly, is it causing
+          // some of my tests to fail?
+          if (
+            createdEntry.size === deletedEntry.size &&
+            renames[createdEntry.path] !== undefined
+          ) {
+            console.warn(
+              "Warning: rename conflict for",
+              createdEntry.path,
+              "multiple candidates with size " + createdEntry.size + ":",
+              "\n-" + renames[createdEntry.path].deletedEntry.path,
+              "\n-" + deletedEntry.path
+            );
+          }
+
           if (createdEntry.size === deletedEntry.size)
             renames[createdEntry.path] = {
               createdEntry: createdEntry,
