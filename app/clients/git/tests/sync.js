@@ -286,7 +286,7 @@ describe("sync", function() {
     });
   });
 
-  fit("respects a force push", function(done) {
+  it("respects a force push", function(done) {
     var writeAndPush = this.writeAndPush;
     var writeAndCommit = this.writeAndCommit;
     var blogDirectory = this.blogDirectory;
