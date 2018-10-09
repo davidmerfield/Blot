@@ -9,7 +9,8 @@ describe("dropbox client", function() {
   it("syncs changes when the blog folder is moved", function(done) {
     var blogDirectory = this.blogDirectory;
     var folder = this.folder;
-    var newFolder = '/' + this.fake.random.word() + ' ' + this.fake.random.word();
+    var newFolder =
+      "/" + this.fake.random.word() + " " + this.fake.random.word();
     var client = this.client;
     var blog = this.blog;
 
@@ -17,8 +18,6 @@ describe("dropbox client", function() {
     var contents = this.fake.file();
     var secondPath = this.fake.path(".txt");
     var secondContents = this.fake.file();
-
-    console.log(folder, '>>>>', newFolder);
 
     write(blog.id, path, contents, function(err) {
       if (err) return done.fail(err);
@@ -39,8 +38,12 @@ describe("dropbox client", function() {
               sync(blog, function(err) {
                 if (err) return done.fail(err);
 
-                expect(fs.readFileSync(blogDirectory + path).toString('utf-8')).toEqual(contents);
-                expect(fs.readFileSync(blogDirectory + secondPath).toString('utf-8')).toEqual(secondContents);
+                expect(
+                  fs.readFileSync(blogDirectory + path).toString("utf-8")
+                ).toEqual(contents);
+                expect(
+                  fs.readFileSync(blogDirectory + secondPath).toString("utf-8")
+                ).toEqual(secondContents);
 
                 done();
               });
@@ -51,5 +54,5 @@ describe("dropbox client", function() {
           });
       });
     });
-  }, 10*1000);
+  });
 });
