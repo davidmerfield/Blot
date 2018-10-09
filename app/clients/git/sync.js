@@ -3,7 +3,6 @@ var Sync = require("sync");
 var debug = require("debug")("clients:git:sync");
 var Git = require("simple-git");
 var checkGitRepoExists = require("./checkGitRepoExists");
-var UNCOMMITED_CHANGES = "You have unstaged changes.";
 
 module.exports = function sync(blogID, callback) {
   // Attempt to acquire a lock on the blog's folder
@@ -48,88 +47,78 @@ module.exports = function sync(blogID, callback) {
         // and reset or modify the history of the blog's repo. This might
         // be neccessary if they add a repo from GitHub, say. From Git's manual:
         // "The current branch is reset to <upstream>, or <newbase> if the
-        // --onto option was supplied. This has the exact same effect as git 
+        // --onto option was supplied. This has the exact same effect as git
         // reset --hard <upstream> (or <newbase>). ORIG_HEAD is set to point
         // at the tip of the branch before the reset."
-        git.pull("origin", "master", { "--rebase": true }, function handlePull(
-          err
-        ) {
-          if (err && err.indexOf(UNCOMMITED_CHANGES) > -1) {
-            // From https://git-scm.com/docs/git-reset
-            // Resets the index and working tree. Any changes to tracked files in the
-            // working tree since <commit> are discarded.
-            // This should not mess with files in gitignore.
-            debug("Uncommitted changes error:", err);
-            debug("Calling git reset hard now:");
-            return git.reset("hard", function(err) {
-              if (err) return done(new Error(err), callback);
-
-              debug("Reset succeeded, retrying pull...");
-              git.pull(handlePull);
-            });
-          }
-
+        git.fetch({ "--all": true }, function(err) {
           if (err) {
             debug(err);
             return done(new Error(err), callback);
           }
 
-          git.raw(["rev-parse", "HEAD"], function(err, headAfterPull) {
-            if (err) return done(new Error(err), callback);
-
-            // Remove whitespace from stdout
-            headAfterPull = headAfterPull.trim();
-
-            if (headAfterPull === headBeforePull) {
-              debug("Warning: No changes detected to bare repository");
-              return done(null, callback);
+          git.raw(["reset", "--hard", "origin/master"], function(err) {
+            if (err) {
+              debug(err);
+              return done(new Error(err), callback);
             }
 
-            git.raw(
-              [
-                "diff",
-                "--name-status",
-                "--no-renames",
-                headBeforePull + ".." + headAfterPull
-              ],
-              function(err, res) {
-                if (err) return done(new Error(err), callback);
+            git.raw(["rev-parse", "HEAD"], function(err, headAfterPull) {
+              if (err) return done(new Error(err), callback);
 
-                var modified = [];
+              // Remove whitespace from stdout
+              headAfterPull = headAfterPull.trim();
 
-                // If you push an empty commit then res
-                // will be null, or perhaps a commit and
-                // then a subsequent commit which reverts
-                // the previous commit.
-                if (res === null) {
-                  return done(null, callback);
-                }
-
-                res.split("\n").forEach(function(line) {
-                  // A = added, M = modified, D = deleted
-                  // Blot only needs to know about changes...
-                  if (
-                    ["A", "M", "D"].indexOf(line[0]) > -1 &&
-                    line[1] === "\t"
-                  ) {
-                    modified.push(line.slice(2));
-                  } else {
-                    debug("Nothing found for line:", line);
-                  }
-                });
-
-                debug("Passing modifications to Blot:", modified);
-
-                // Tell Blot something has changed at these paths!
-                async.eachSeries(modified, folder.update, function(err) {
-                  debug(
-                    "Processed all modifications! Release lock on folder..."
-                  );
-
-                  done(null, callback);
-                });
+              if (headAfterPull === headBeforePull) {
+                debug("Warning: No changes detected to bare repository");
+                return done(null, callback);
               }
-            );
+
+              git.raw(
+                [
+                  "diff",
+                  "--name-status",
+                  "--no-renames",
+                  headBeforePull + ".." + headAfterPull
+                ],
+                function(err, res) {
+                  if (err) return done(new Error(err), callback);
+
+                  var modified = [];
+
+                  // If you push an empty commit then res
+                  // will be null, or perhaps a commit and
+                  // then a subsequent commit which reverts
+                  // the previous commit.
+                  if (res === null) {
+                    return done(null, callback);
+                  }
+
+                  res.split("\n").forEach(function(line) {
+                    // A = added, M = modified, D = deleted
+                    // Blot only needs to know about changes...
+                    if (
+                      ["A", "M", "D"].indexOf(line[0]) > -1 &&
+                      line[1] === "\t"
+                    ) {
+                      modified.push(line.slice(2));
+                    } else {
+                      debug("Nothing found for line:", line);
+                    }
+                  });
+
+                  debug("Passing modifications to Blot:", modified);
+
+                  // Tell Blot something has changed at these paths!
+                  async.eachSeries(modified, folder.update, function(err) {
+                    debug(
+                      "Processed all modifications! Release lock on folder..."
+                    );
+
+                    done(null, callback);
+                  });
+                }
+              );
+            });
           });
         });
       });
