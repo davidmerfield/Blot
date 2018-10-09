@@ -1,6 +1,7 @@
+var retry = require("../../util/retry");
 var createClient = require("../../util/createClient");
 
-module.exports = function remove (done) {
+function remove(done) {
   var client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);
 
   function checkBatchStatus(result) {
@@ -46,4 +47,6 @@ module.exports = function remove (done) {
         done(new Error(err));
       }
     });
-};
+}
+
+module.exports = retry(remove);
