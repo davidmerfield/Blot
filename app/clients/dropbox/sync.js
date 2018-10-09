@@ -146,7 +146,7 @@ function Apply(token, blogFolder) {
     // relative path to an item, since the root of the
     // Dropbox folder might not be the root of the blog.
     function download(item, callback) {
-      debug("Downloading", item.path);
+      debug("Downloading", item.relative_path);
       Download(
         token,
         item.path_lower,
