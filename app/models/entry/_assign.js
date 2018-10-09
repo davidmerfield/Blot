@@ -160,36 +160,36 @@ function dropFromMenu(blogID, entry, callback) {
     .and(entry, "object")
     .and(callback, "function");
 
-  debug = debug.bind(this, "Blog:", blogID, "Entry:", entry.path);
+  var debugEntry = debug.bind(this, "Blog:", blogID, "Entry:", entry.path);
 
-  debug("removing from menu");
+  debugEntry("removing from menu");
 
   Blog.get({ id: blogID }, function(err, blog) {
-    var menu = blog.menu;
-
-    if (!menu || !menu.length) {
-      debug("this blog does not have a menu");
+    if (!blog || !blog.menu || !blog.menu.length) {
+      debugEntry("this blog does not have a menu");
       return callback();
     }
 
-    var i = menu.length;
+    // clone the menu
+    var menu = blog.menu.slice();
 
-    while (i--) {
-      if (menu[i].id == entry.id) {
-        debug("found this item on the menu! removing it...");
-        menu.splice(i, 1);
-      }
+    menu = menu.filter(function(item) {
+      return item.id !== entry.id;
+    });
+
+    if (menu.length === blog.menu.length) {
+      debugEntry("Was removed from the menu!");
+    } else {
+      debugEntry("Warning! Did not find this on the menu");
     }
-
-    debug("saving menu");
 
     Blog.set(blogID, { menu: menu }, function(errors) {
       if (errors && errors.menu) {
-        debug("error saving menu:", errors);
+        debugEntry("error saving menu:", errors);
         return callback(errors.menu);
       }
 
-      debug("updated menu!");
+      debugEntry("updated menu!");
       return callback();
     });
   });
