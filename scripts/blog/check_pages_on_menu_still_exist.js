@@ -1,5 +1,6 @@
 var get = require("./get");
 var Entry = require("../../app/models/entry");
+var Blog = require("../../app/models/blog");
 var async = require("async");
 
 if (require.main === module) {
