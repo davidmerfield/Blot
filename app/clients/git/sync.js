@@ -107,6 +107,9 @@ module.exports = function sync(blogID, callback) {
                   debug("Passing modifications to Blot:", modified);
 
                   // Tell Blot something has changed at these paths!
+                  // We must do this in series until entry.set becomes
+                  // atomic. Right now, making changes to the blog's
+                  // menu cannot be done concurrently, hence eachSeries!
                   async.eachSeries(modified, folder.update, function(err) {
                     debug(
                       "Processed all modifications! Release lock on folder..."
