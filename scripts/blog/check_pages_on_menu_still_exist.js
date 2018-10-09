@@ -22,7 +22,7 @@ function main(blog, callback) {
     function(item, next) {
       Entry.get(blog.id, item.id, function(entry) {
         if (entry && entry.deleted) {
-          console.log("Need to delete", item);
+          console.log("Need to delete", item.id);
           next(null, false);
         } else {
           next(null, true);
@@ -30,12 +30,10 @@ function main(blog, callback) {
       });
     },
     function(err, results) {
-      console.log(
-        "Blog " + blog.id + ":",
-        "Checking pages on menu to ensure they still exist..."
-      );
-      console.log("NEW MENU SHOULD BE:", results);
-      callback(err);
+      if (err) return callback(err);
+
+      console.log("Blog " + blog.id + ":", "Checked pages on menu:", results);
+      Blog.set(blog.id, { menu: results }, callback);
     }
   );
 }
