@@ -1,0 +1,39 @@
+{{#account}}
+
+
+<div class="line" style="border-bottom: none">
+{{^full_access}}
+    <p>You have granted <b>App folder</b> access to Blot for <b>{{blog.title}}</b>. This means Blot can only access a single folder in your Dropbox. If you grant <b>full folder access</b> to Blot, you will be freed of two restrictions that Dropbox places on App folders:</p>
+  <ul>
+  <li>You will be able to move your blog’s folder.</li>
+  <li>You will be able to share your blog’s folder with other people who use Dropbox.</li> 
+  </ul>
+  <p>If you grant <b>full folder access</b> to Blot, I promise only to access the folder for <b>{{blog.title}}</b>. However, the tokens that Dropbox gives to Blot could be used to view or modify every file and folder in your Dropbox. Please consider the consequences of a hypothetical security breach carefully.</p>
+{{/full_access}}
+{{#full_access}}
+
+  <p>You have granted <b>full folder</b> access to Blot for <b>{{blog.title}}</b>. If you switch to <b>App folder</b> access, you will no longer be able to:</p>
+  <ul>
+  <li>Move <b>{{blog.title}}</b>'s folder </li>
+  <li>Share <b>{{blog.title}}</b>'s folder with other people who use Dropbox.</li> 
+  </ul>
+  <p>Please switch to <b>App folder</b> access if you do not need the two features. The tokens that Dropbox has given to Blot could be used to view or modify every file and folder in your Dropbox. Please consider the consequences of a hypothetical security breach carefully.</p>
+
+{{/full_access}}
+</div>
+
+<form method='post' class="account" style="padding-top:0;margin-top:0">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <div class="buttons">
+    {{#full_access}}    
+    <a href="{{{base}}}/redirect">Switch to an App folder</a>
+    {{/full_access}}
+    {{^full_access}}
+    <a href="{{{base}}}/redirect?full_access=true">Grant full access to your Dropbox</a>
+    {{/full_access}}
+    <a href="{{{base}}}">Cancel</a>
+  </div>
+</form>
+
+{{/account}}

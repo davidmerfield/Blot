@@ -47,6 +47,11 @@ export BLOT_DROPBOX_APP_SECRET=
 export BLOT_DROPBOX_FULL_KEY=
 export BLOT_DROPBOX_FULL_SECRET=
 
+# Dropbox credentials for testing purposes
+export BLOT_DROPBOX_TEST_ACCOUNT_ID=
+export BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN=
+export BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN=
+
 # Youtube for fetching video player codes
 export BLOT_YOUTUBE_SECRET=
 

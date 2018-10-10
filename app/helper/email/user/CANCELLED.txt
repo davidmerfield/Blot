@@ -1,7 +1,8 @@
-Blot just cancelled your subscription{{andDisabled}}
+You cancelled your Blot subscription
 
-Blot just cancelled your subscription{{andDisabled}}. You will not be charged in future.
+Your account will close automatically on {{pretty.expiry}}.
 
-If you didn't make this change, please reply directly to this email and we'll sort it out.
+If you didn’t make this change, please reply directly to this email and we’ll sort it out.
 
-Best, David
+Sincerely,
+David
