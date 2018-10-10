@@ -64,7 +64,7 @@ function main(blog, callback) {
       // anything now...
       if (_entry.deleted) return next();
 
-      resolvePath(_entry.path, function(err, path) {
+      resolvePath(blog.id, _entry.path, function(err, path) {
         if (path && path !== _entry.path) {
           edit.push({ entry: _entry, path: path });
         } else if (err) {
