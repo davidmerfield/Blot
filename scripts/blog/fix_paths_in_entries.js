@@ -86,9 +86,9 @@ function main(blog, callback) {
       async.eachSeries(
         edit,
         function(item, next) {
-          console.log("would call entry set!", item.entry.path, ">", item.path);
-          next();
-          // Entry.set(blog.id, item.entry.path, { path: item.path }, next);
+          // console.log("would call entry set!", item.entry.path, ">", item.path);
+          // next();
+          Entry.set(blog.id, item.entry.path, { path: item.path }, next);
         },
         function(err) {
           console.log("Blog " + blog.id + ":", "Fixed all entries!");
