@@ -9,6 +9,8 @@ module.exports = function (title, page, draft, dateStamp) {
   var slug = slugify(title);
   var name = name || slug;
 
+  name = name.split('/').join('-');
+
   if (page) {
     relative_path_without_extension = join('Pages', name);
   } else if (draft) {
