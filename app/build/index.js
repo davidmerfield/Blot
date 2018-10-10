@@ -7,7 +7,9 @@ var Prepare = require("./prepare");
 var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
 var moment = require("moment");
-var converters = require('./converters');
+var converters = require("./converters");
+
+var exitHook = require("async-exit-hook");
 
 process.on("message", function(message) {
   build(message.blog, message.path, message.options, function(err, entry) {
@@ -15,6 +17,11 @@ process.on("message", function(message) {
   });
 });
 
+console.log("Started build:", process.pid);
+
+exitHook(function() {
+  console.log("Shutting down build:", process.pid);
+});
 
 // This file cannot become a blog post because it is not
 // a type that Blot can process properly.
@@ -28,12 +35,10 @@ function isWrongType(path) {
   return isWrong;
 }
 
-
 function build(blog, path, options, callback) {
-
   if (isWrongType(path)) {
-    var err = new Error('Path is wrong type to convert');
-    err.code = 'WRONGTYPE';
+    var err = new Error("Path is wrong type to convert");
+    err.code = "WRONGTYPE";
     return callback(err);
   }
 

@@ -21,66 +21,52 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-// var child_process = require("child_process");
-// var numCPUs = require("os").cpus().length;
-// var uuid = require("uuid/v4");
-// var exitHook = require("async-exit-hook");
+var child_process = require("child_process");
+var numCPUs = require("os").cpus().length;
+var uuid = require("uuid/v4");
+var exitHook = require("async-exit-hook");
 
-// exitHook(function(callback) {
-//   killWorkers(callback);
-// });
+var workers = [];
+var worker;
+var jobs = {};
 
-// exitHook.uncaughtExceptionHandler(function(err, callback) {
-//   killWorkers(callback);
-// });
 
-// function killWorkers(callback) {
-//   console.log("Unlocking all locks...");
+exitHook(killWorkers);
 
-//   async.each(
-//     workers,
-//     function(worker, next) {
-//       console.log("Killing worker...");
-//       worker.kill();
-//       next();
-//     },
-//     function() {
-//       console.log("Killed all workers...");
-//       callback();
-//     }
-//   );
-// }
+function killWorkers() {
+  console.log("Unlocking all locks...");
+  workers.forEach(function(worker){
+    worker.kill();
+  });
+}
 
-// var workers = [];
-// var worker;
-// var jobs = {};
 
-// function triggerCallback(message) {
-//   jobs[message.id].callback(message.err, message.entry);
-// }
+function triggerCallback(message) {
+  jobs[message.id].callback(message.err, message.entry);
+}
 
-// for (var i = 0; i < numCPUs; i++) {
-//   worker = child_process.fork(__dirname + "/../../build");
-//   worker.on("message", triggerCallback);
-//   workers.push(worker);
-// }
+for (var i = 0; i < numCPUs; i++) {
+  worker = child_process.fork(__dirname + "/../../build");
+  worker.on("message", triggerCallback);
+  workers.push(worker);
+}
 
-// function build(blog, path, options, callback) {
-//   var worker = workers[Math.floor(Math.random() * workers.length)];
-//   var id = uuid();
+function build(blog, path, options, callback) {
+  var worker = workers[Math.floor(Math.random() * workers.length)];
+  var id = uuid();
 
-//   jobs[id] = {
-//     blog: blog,
-//     id: id,
-//     path: path,
-//     options: options,
-//     callback: callback
-//   };
+  jobs[id] = {
+    blog: blog,
+    id: id,
+    path: path,
+    options: options,
+    callback: callback
+  };
 
-//   worker.send({ blog: blog, path: path, id: id, options: options });
-// }
+  worker.send({ blog: blog, path: path, id: id, options: options });
+}
 
-var build = require('../../build');
+// var build = require('../../build');
 
 module.exports = function(blog, path, options, callback) {
   var queue;
