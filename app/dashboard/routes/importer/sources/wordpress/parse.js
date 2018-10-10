@@ -104,8 +104,8 @@ module.exports = function($, output_directory, callback) {
         if (err) console.log(err);
 
 
-        // post.html = fix_missing_p_tags(post.html);
-        // post.html = fix_markdown_bs(post.html);
+        post.html = fix_missing_p_tags(post.html);
+        post.html = fix_markdown_bs(post.html);
 
 
   if (post.html.indexOf("\\_") > -1) {
