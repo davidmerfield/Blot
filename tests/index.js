@@ -21,9 +21,6 @@ if (process.argv[2]) {
     config.spec_files = [process.argv[2]];
 
     // We have passed directory of tests to run
-  } else if (process.argv[2].indexOf('tests') > -1) { 
-    config.spec_dir = process.argv[2];
-    config.spec_files = ["**/*.js"];
   } else {
     config.spec_dir = process.argv[2];
     config.spec_files = ["**/tests/**/*.js", "**/tests.js"];

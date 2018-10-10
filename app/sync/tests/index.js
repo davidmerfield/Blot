@@ -56,7 +56,6 @@ describe("sync", function() {
     // Find out if the child managed to acquire a lock on this blog
     child.on("message", function(message) {
       if (message.error) {
-        console.log(message);
         testDone.fail(message.error);
       } else {
         child.kill();
