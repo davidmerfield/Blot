@@ -40,7 +40,7 @@ function resolvePath(blogID, path, callback) {
   console.log(candidates);
 
   async.detect(
-    ["file1", "file2", "file3"],
+    candidates,
     function(filePath, callback) {
       fs.access(localPath(blogID, filePath), function(err) {
         callback(null, !err);
@@ -86,7 +86,7 @@ function main(blog, callback) {
       async.eachSeries(
         edit,
         function(item, next) {
-          console.log("would call entry set!", item.entry.path, '>', item.path);
+          console.log("would call entry set!", item.entry.path, ">", item.path);
           next();
           // Entry.set(blog.id, item.entry.path, { path: item.path }, next);
         },
