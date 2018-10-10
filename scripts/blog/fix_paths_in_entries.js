@@ -30,12 +30,14 @@ function resolvePath(blogID, path, callback) {
   if (path.toLowerCase() !== path) {
     var dirs = path.split("/");
 
-    for (var i = dirs.length; i >= 0; i--) {
+    for (var i = dirs.length - 1; i >= 0; i--) {
       dirs[i] = dirs[i].toLowerCase();
       candidates.push(dirs.join("/"));
       candidates.push(dirs.join("/").trim());
     }
   }
+
+  console.log(candidates);
 
   async.detect(
     ["file1", "file2", "file3"],
