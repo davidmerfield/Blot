@@ -31,10 +31,6 @@ exitHook(function(callback) {
   );
 });
 
-// exitHook.uncaughtExceptionHandler(function(err, callback) {
-//   unlock(callback);
-// });
-
 function sync(blogID, options, callback) {
   var redlock, resource, ttl, folder;
 
