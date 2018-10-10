@@ -10,7 +10,7 @@ Increase default quality for sharp's output images
 
 Re-enable image minifier and fix the bugs it creates
   
-Work out elegant way to produce fully qualified SRCs and HREFs for blogs to help make RSS feeds work more effectively, then tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a), [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) and [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358) about the fix, which affects people who use micro.blog.
+Work out elegant way to produce fully qualified SRCs and HREFs for blogs to help make RSS feeds work more effectively, then tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a), [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec), [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928) and [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358) about the fix, which affects people who use micro.blog.
 
 Markdown bugs:
 
