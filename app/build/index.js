@@ -13,14 +13,14 @@ console.log("Master", process.pid, "is running");
 
 exitHook(function() {
   console.log("Shutting down master:", process.pid);
-  workers.forEach(function(item){
+  workers.forEach(function(item) {
     item.worker.kill();
   });
 });
 
-exitHook.uncaughtExceptionHandler(function(err){
+exitHook.uncaughtExceptionHandler(function(err) {
   console.error(err);
-  workers.forEach(function(item){
+  workers.forEach(function(item) {
     item.worker.kill();
   });
 });
@@ -32,16 +32,21 @@ function triggerCallback(id) {
 }
 
 function handleDeadWorker(id) {
-  return function(a, b, c) {
-    console.log(id, "worker exitted", a, b, c);
+  return function(code, signal) {
 
     // remove dead worker from list of workers
     workers = workers.filter(function(item) {
       return item.id !== id;
     });
-
-    // create new worker
-    workers.push(new worker());
+   
+    if (signal) {
+      console.log("worker was killed by signal: ", signal);
+    } else if (code !== 0) {
+      console.log("worker exited with error code:", code);
+      workers.push(new worker());
+    } else {
+      console.log("worker success!");
+    }
   };
 }
 
@@ -50,10 +55,10 @@ for (let i = 0; i < numCPUs; i++) {
   workers.push(new worker());
 }
 
-
 function worker() {
   var wrkr = child_process.fork(__dirname + "/main");
   var id = uuid();
+  console.log("creating worker", id);
   wrkr.on("message", triggerCallback(id));
   wrkr.on("exit", handleDeadWorker(id));
   return { worker: wrkr, id: id };
