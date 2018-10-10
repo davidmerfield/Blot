@@ -36,6 +36,9 @@ function isWrongType(path) {
 }
 
 function build(blog, path, options, callback) {
+
+  console.log("Build:", process.pid, 'processing', path);
+
   if (isWrongType(path)) {
     var err = new Error("Path is wrong type to convert");
     err.code = "WRONGTYPE";
