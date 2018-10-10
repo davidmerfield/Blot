@@ -21,52 +21,7 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-var child_process = require("child_process");
-var numCPUs = require("os").cpus().length;
-var uuid = require("uuid/v4");
-var exitHook = require("async-exit-hook");
-
-var workers = [];
-var worker;
-var jobs = {};
-
-
-exitHook(killWorkers);
-
-function killWorkers() {
-  console.log("Unlocking all locks...");
-  workers.forEach(function(worker){
-    worker.kill();
-  });
-}
-
-
-function triggerCallback(message) {
-  jobs[message.id].callback(message.err, message.entry);
-}
-
-for (var i = 0; i < numCPUs; i++) {
-  worker = child_process.fork(__dirname + "/../../build");
-  worker.on("message", triggerCallback);
-  workers.push(worker);
-}
-
-function build(blog, path, options, callback) {
-  var worker = workers[Math.floor(Math.random() * workers.length)];
-  var id = uuid();
-
-  jobs[id] = {
-    blog: blog,
-    id: id,
-    path: path,
-    options: options,
-    callback: callback
-  };
-
-  worker.send({ blog: blog, path: path, id: id, options: options });
-}
-
-// var build = require('../../build');
+var build = require('../../build');
 
 module.exports = function(blog, path, options, callback) {
   var queue;
