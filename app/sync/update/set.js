@@ -1,14 +1,13 @@
 var helper = require("helper");
 var normalize = helper.pathNormalizer;
 var rebuildDependents = require("./rebuildDependents");
-
+var uuid = require("uuid/v4");
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
 var Entry = require("entry");
 var Preview = require("../../modules/preview");
 var isPreview = require("../../drafts").isPreview;
 var async = require("async");
-var build = require('./build');
 
 var converters = require("../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
@@ -34,6 +33,41 @@ function isWrongType(path) {
 
   return isWrong;
 }
+
+var child_process = require("child_process");
+var numCPUs = require("os").cpus().length;
+
+function Build() {
+  var workers = [];
+  var worker;
+  var jobs = {};
+
+  function triggerCallback(message) {
+    jobs[message.id].callback(message.err, message.entry);
+  }
+  for (var i = 0; i < numCPUs; i++) {
+    worker = child_process.fork(__dirname + '/build');
+    worker.on("message", triggerCallback);
+    workers.push(worker);
+  }
+
+  return function build(blog, path, options, callback) {
+    var worker = workers[Math.floor(Math.random()*workers.length)];
+    var id = uuid();
+
+    jobs[id] = {
+      blog: blog,
+      id: id,
+      path: path,
+      options: options,
+      callback: callback
+    };
+
+    worker.send({ blog: blog, path: path, id: id, options: options });
+  };
+}
+
+var build = new Build();
 
 module.exports = function(blog, path, options, callback) {
   var queue;

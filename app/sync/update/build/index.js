@@ -6,13 +6,16 @@ var Build = require("./single");
 var Prepare = require("./prepare");
 var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
-
 var moment = require("moment");
 
-module.exports = function (blog, path, options, callback) {
+process.on("message", function(message) {
+  build(message.blog, message.path, message.options, function(err, entry) {
+    process.send({ err: err, entry: entry, id: message.id });
+  });
+});
 
-  Metadata.get(blog.id, path, function(err, name){
-
+function build(blog, path, options, callback) {
+  Metadata.get(blog.id, path, function(err, name) {
     if (err) return callback(err);
 
     if (name) options.name = name;
@@ -78,4 +81,6 @@ module.exports = function (blog, path, options, callback) {
       });
     });
   });
-};
+}
+
+module.exports = build;
