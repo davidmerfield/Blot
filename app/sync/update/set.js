@@ -1,15 +1,12 @@
 var helper = require("helper");
 var normalize = helper.pathNormalizer;
 var rebuildDependents = require("./rebuildDependents");
-var uuid = require("uuid/v4");
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
 var Entry = require("entry");
 var Preview = require("../../modules/preview");
 var isPreview = require("../../drafts").isPreview;
 var async = require("async");
-
-var converters = require("../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 
@@ -24,50 +21,66 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-function isWrongType(path) {
-  var isWrong = true;
+// var child_process = require("child_process");
+// var numCPUs = require("os").cpus().length;
+// var uuid = require("uuid/v4");
+// var exitHook = require("async-exit-hook");
 
-  converters.forEach(function(converter) {
-    if (converter.is(path)) isWrong = false;
-  });
+// exitHook(function(callback) {
+//   killWorkers(callback);
+// });
 
-  return isWrong;
-}
+// exitHook.uncaughtExceptionHandler(function(err, callback) {
+//   killWorkers(callback);
+// });
 
-var child_process = require("child_process");
-var numCPUs = require("os").cpus().length;
+// function killWorkers(callback) {
+//   console.log("Unlocking all locks...");
 
-function Build() {
-  var workers = [];
-  var worker;
-  var jobs = {};
+//   async.each(
+//     workers,
+//     function(worker, next) {
+//       console.log("Killing worker...");
+//       worker.kill();
+//       next();
+//     },
+//     function() {
+//       console.log("Killed all workers...");
+//       callback();
+//     }
+//   );
+// }
 
-  function triggerCallback(message) {
-    jobs[message.id].callback(message.err, message.entry);
-  }
-  for (var i = 0; i < numCPUs; i++) {
-    worker = child_process.fork(__dirname + '/build');
-    worker.on("message", triggerCallback);
-    workers.push(worker);
-  }
+// var workers = [];
+// var worker;
+// var jobs = {};
 
-  return function build(blog, path, options, callback) {
-    var worker = workers[Math.floor(Math.random()*workers.length)];
-    var id = uuid();
+// function triggerCallback(message) {
+//   jobs[message.id].callback(message.err, message.entry);
+// }
 
-    jobs[id] = {
-      blog: blog,
-      id: id,
-      path: path,
-      options: options,
-      callback: callback
-    };
+// for (var i = 0; i < numCPUs; i++) {
+//   worker = child_process.fork(__dirname + "/../../build");
+//   worker.on("message", triggerCallback);
+//   workers.push(worker);
+// }
 
-    worker.send({ blog: blog, path: path, id: id, options: options });
-  };
-}
+// function build(blog, path, options, callback) {
+//   var worker = workers[Math.floor(Math.random() * workers.length)];
+//   var id = uuid();
 
-var build = new Build();
+//   jobs[id] = {
+//     blog: blog,
+//     id: id,
+//     path: path,
+//     options: options,
+//     callback: callback
+//   };
+
+//   worker.send({ blog: blog, path: path, id: id, options: options });
+// }
+
+var build = require('../../build');
 
 module.exports = function(blog, path, options, callback) {
   var queue;
@@ -107,11 +120,10 @@ module.exports = function(blog, path, options, callback) {
     // therefore not be a blog post.
     if (isPublic(path)) return Ignore(blog.id, path, PUBLIC_FILE, callback);
 
-    // This file cannot become a blog post because it is not
-    // a type that Blot can process properly.
-    if (isWrongType(path)) return Ignore(blog.id, path, WRONG_TYPE, callback);
-
     build(blog, path, options, function(err, entry) {
+      if (err && err.code === "WRONGTYPE")
+        return Ignore(blog.id, path, WRONG_TYPE, callback);
+
       if (err) return callback(err);
 
       // This file is a draft, write a preview file

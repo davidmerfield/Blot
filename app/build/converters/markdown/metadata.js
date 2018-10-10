@@ -1,4 +1,4 @@
-var extractMetadata = require('../../sync/update/build/metadata');
+var extractMetadata = require('../../metadata');
 
 module.exports = function (text) {
 

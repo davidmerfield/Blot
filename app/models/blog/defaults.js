@@ -1,4 +1,4 @@
-var defaultPlugins = require('../../sync/update/build/plugins').defaultList;
+var defaultPlugins = require('../../build/plugins').defaultList;
 var defaultTemplate = require('../template').defaultTemplate;
 
 module.exports = {

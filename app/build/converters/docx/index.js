@@ -6,14 +6,15 @@ var extname = require('path').extname;
 var exec = require('child_process').exec;
 var mkdirp = helper.mkdirp;
 var cheerio = require('cheerio');
-var Metadata = require('../../sync/update/build/metadata');
+var Metadata = require('../../metadata');
 var extend = helper.extend;
 var join = require('path').join;
 var config = require('config');
 var pandoc_path = config.pandoc_path;
+var hash = helper.hash;
 
 function is (path) {
-  return ['.odt'].indexOf(extname(path).toLowerCase()) > -1;
+  return ['.docx'].indexOf(extname(path).toLowerCase()) > -1;
 }
 
 function TempDir() {
@@ -33,7 +34,7 @@ function read (blog, path, options, callback) {
   var outPath = outDir + '/out.html';
 
   var blogDir = join(config.blog_static_files_dir, blog.id);
-  var assetDir = join(blogDir, '_assets');
+  var assetDir = join(blogDir, '_assets', hash(path));
 
   mkdirp(outDir, function(err){
 
@@ -47,7 +48,7 @@ function read (blog, path, options, callback) {
         '"' + localPath + '"',
         '-o', '"' + outPath + '"',
         '--extract-media=' + assetDir,
-        '-f', 'odt+backtick_code_blocks',
+        '-f', 'docx+backtick_code_blocks',
         '-t', 'html5',
         '-s'
       ].join(' ');

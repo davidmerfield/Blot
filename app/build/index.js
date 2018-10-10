@@ -1,12 +1,13 @@
 var debug = require("debug")("blot:models:entry:build");
 var Metadata = require("metadata");
 var basename = require("path").basename;
-var isDraft = require("../../../drafts").isDraft;
+var isDraft = require("../drafts").isDraft;
 var Build = require("./single");
 var Prepare = require("./prepare");
 var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
 var moment = require("moment");
+var converters = require('./converters');
 
 process.on("message", function(message) {
   build(message.blog, message.path, message.options, function(err, entry) {
@@ -14,7 +15,28 @@ process.on("message", function(message) {
   });
 });
 
+
+// This file cannot become a blog post because it is not
+// a type that Blot can process properly.
+function isWrongType(path) {
+  var isWrong = true;
+
+  converters.forEach(function(converter) {
+    if (converter.is(path)) isWrong = false;
+  });
+
+  return isWrong;
+}
+
+
 function build(blog, path, options, callback) {
+
+  if (isWrongType(path)) {
+    var err = new Error('Path is wrong type to convert');
+    err.code = 'WRONGTYPE';
+    return callback(err);
+  }
+
   Metadata.get(blog.id, path, function(err, name) {
     if (err) return callback(err);
 

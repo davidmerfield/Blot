@@ -19,6 +19,14 @@ var DEFAULT_TTL = 10 * 60 * 1000;
 var locks = {};
 
 exitHook(function(callback) {
+  unlock(callback);
+});
+
+exitHook.uncaughtExceptionHandler(function(err, callback) {
+  unlock(callback);
+});
+
+function unlock(callback) {
   console.log("Unlocking all locks...");
 
   async.eachOf(
@@ -27,10 +35,12 @@ exitHook(function(callback) {
       console.log("Unlocking", blogID, "...");
       lock.unlock(next);
     },
-    callback
+    function(){
+      console.log('Unlocked all locks...');
+      callback();
+    }
   );
-});
-
+}
 function sync(blogID, options, callback) {
   var redlock, resource, ttl, folder;
 

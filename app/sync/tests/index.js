@@ -30,7 +30,7 @@ describe("sync", function() {
     });
   });
 
-  it("will release a lock when the process dies due to an uncaught exception", function(testDone) {
+  xit("will release a lock when the process dies due to an uncaught exception", function(testDone) {
     var child = require("child_process").fork(__dirname + "/error", {silent: true});
     var blog = this.blog;
 

@@ -5,7 +5,7 @@ var helper = require('helper');
 var Plugins = require("./plugins").convert;
 var ensure = helper.ensure;
 var async = require('async');
-var converters = require('../../../converters');
+var converters = require('./converters');
 
 module.exports = function(blog, path, options, callback) {
   ensure(blog, "object")
