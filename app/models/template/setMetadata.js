@@ -11,6 +11,7 @@ module.exports = function setMetadata(id, updates, callback) {
     .and(updates, "object")
     .and(callback, "function");
 
+
   getMetadata(id, function(err, metadata) {
     var changes;
 
@@ -20,6 +21,8 @@ module.exports = function setMetadata(id, updates, callback) {
       if (metadata[i] !== updates[i]) changes = true;
       metadata[i] = updates[i];
     }
+
+    ensure(metadata, model.metadata);
 
     metadata = serialize(metadata, model.metadata);
 
