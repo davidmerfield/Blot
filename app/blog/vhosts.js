@@ -2,11 +2,15 @@ var Blog = require("blog");
 var config = require("config");
 
 module.exports = function(req, res, next) {
-  var identifier, handle, previewTemplate;
+  var identifier, handle, previewTemplate, err;
   var host = req.get("host");
 
   // Not sure why this happens but it do
-  if (!host) return next(new Error("No blog"));
+  if (!host) {
+    err = new Error("No blog");
+    err.code = "ENOENT";
+    next(err);
+  }
 
   // Cache the original host for use in templates
   // this should be req.locals.originalHost
@@ -29,6 +33,7 @@ module.exports = function(req, res, next) {
 
     if (!blog || blog.isDisabled || blog.isUnpaid) {
       err = new Error("No blog");
+      err.code = "ENOENT";
       return next(err);
     }
 

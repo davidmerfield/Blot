@@ -53,7 +53,7 @@ module.exports = function(server) {
     if (res.headersSent) return res.end();
 
     // Blog does not exist...
-    if (err.code === "NOBLOG") {
+    if (err.code === "ENOENT") {
       res.status(404);
       res.send("There is no blog at this address." + CONTACT);
       return;
