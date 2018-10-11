@@ -1,1 +1,1 @@
-module.exports = require('./recentEntries');
+module.exports = require("./recentEntries");

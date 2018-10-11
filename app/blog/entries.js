@@ -1,12 +1,10 @@
-module.exports = function (server) {
+module.exports = function(server) {
+  var Entries = require("entries");
 
-  var Entries = require('entries');
+  server.get("/page/:page_number", renderPage);
+  server.get("/", renderPage);
 
-  server.get('/page/:page_number', renderPage);
-  server.get('/', renderPage);
-
-  function renderPage (req, res, next) {
-
+  function renderPage(req, res, next) {
     var blog = req.blog;
 
     var pageNo, pageSize;
@@ -22,17 +20,16 @@ module.exports = function (server) {
       // consider users whove customized the page size
       // but use a default template...
       pageSize = req.template.locals.page_size || req.blog.pageSize;
-      pageSize = parseInt(pageSize) || 5
+      pageSize = parseInt(pageSize) || 5;
     } catch (e) {
       pageSize = 5;
     }
 
-    Entries.getPage(blog.id, pageNo, pageSize, function(entries, pagination){
-
+    Entries.getPage(blog.id, pageNo, pageSize, function(entries, pagination) {
       var pageTitle = blog.title;
 
       if (pageNo > 1) {
-        pageTitle = 'Page ' + pageNo + ' of ' + pageTitle;
+        pageTitle = "Page " + pageNo + " of " + pageTitle;
       }
 
       pagination.current = pageNo;
@@ -43,7 +40,7 @@ module.exports = function (server) {
         pagination: pagination
       });
 
-      res.renderView('entries', next);
+      res.renderView("entries", next);
     });
   }
 };

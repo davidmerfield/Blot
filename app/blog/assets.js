@@ -8,7 +8,7 @@ module.exports = function(server){
   var helper = require('helper');
   var normalize = helper.pathNormalizer;
 
-  var global_static_dir = __dirname + '/static';
+  var glob;al_static_dir = __dirname + '/static';
   var blog_folder_dir = config.blog_folder_dir;
   var blog_static_files_dir = config.blog_static_files_dir;
 

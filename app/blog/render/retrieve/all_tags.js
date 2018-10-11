@@ -1,1 +1,1 @@
-module.exports = require('./allTags');
+module.exports = require("./allTags");
