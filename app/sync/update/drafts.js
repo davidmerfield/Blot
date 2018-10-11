@@ -1,31 +1,30 @@
-var fs = require('fs-extra');
-var Mustache = require('mustache');
+var config = require("config");
+var fs = require("fs-extra");
+var Mustache = require("mustache");
 var render = Mustache.render;
-
-var previewDir = __dirname + '/modules/preview';
 
 // The script tag inserted into the head of
 // every draft preview. This calls Blot's server to update shit
-var injectionPath = previewDir + '/injection.html';
-var draftContainer = previewDir + '/wrapper.html';
+var injectionPath = __dirname + "/preview/injection.html";
+var draftContainer = __dirname + "/preview/wrapper.html";
 
-var helper = require('./helper');
+var helper = require("helper");
 var ensure = helper.ensure;
 var local_path = helper.localPath;
 
-var routePrefix = '/draft';
-var viewPrefix = '/view';
-var streamPrefix = '/stream';
+var routePrefix = "/draft";
+var viewPrefix = "/view";
+var streamPrefix = "/stream";
 
-var extname = require('path').extname;
-var basename = require('path').basename;
+var extname = require("path").extname;
+var basename = require("path").basename;
 
-var PREVIEW_PREFIX =  '[preview]';
-var PREVIEW_APPENDIX = '.preview.html';
+var PREVIEW_PREFIX = "[preview]";
+var PREVIEW_APPENDIX = ".preview.html";
 var PREVIEW_META_TAG = '<meta data-blot-document="preview-container"/>';
 
-var DRAFT_PREFIX =  '[draft]';
-var DRAFT_DIRECTORY = '/drafts/';
+var DRAFT_PREFIX = "[draft]";
+var DRAFT_DIRECTORY = "/drafts/";
 
 // /drafts/foo.txt
 // /drafts/foo.preview.html
@@ -36,21 +35,19 @@ var DRAFT_DIRECTORY = '/drafts/';
 // /hello [draft].txt
 // /hello [draft].preview.html
 
-var cheerio = require('cheerio');
+var cheerio = require("cheerio");
 
-var streamRoute = routePrefix + streamPrefix + '/*';
-var viewRoute = routePrefix + viewPrefix + '/*';
+var streamRoute = routePrefix + streamPrefix + "/*";
+var viewRoute = routePrefix + viewPrefix + "/*";
 
-var config = require('../config');
-
-module.exports = (function () {
-
-  function viewURL (handle, filePath) {
-    return 'http://' + handle + '.' + config.host + viewRoute.slice(0, -2) + filePath;
+module.exports = (function() {
+  function viewURL(handle, filePath) {
+    return (
+      "http://" + handle + "." + config.host + viewRoute.slice(0, -2) + filePath
+    );
   }
 
-  function getPath (url, routeName) {
-
+  function getPath(url, routeName) {
     // matches the wildcard param, no trailing slash
     var filePath = url.slice(routeName.length - 2);
 
@@ -60,36 +57,37 @@ module.exports = (function () {
     return filePath;
   }
 
-  function injectScript (html, filePath, callback) {
+  function injectScript(html, filePath, callback) {
+    var $ = cheerio.load(html, { decodeEntities: false });
 
-    var $ = cheerio.load(html , {decodeEntities: false});
+    fs.readFile(injectionPath, "utf-8", function(err, scriptTag) {
+      scriptTag = Mustache.render(scriptTag, {
+        streamURL:
+          streamRoute.slice(0, -1) + encodeURIComponent(filePath.slice(1))
+      });
 
-    fs.readFile(injectionPath, 'utf-8', function (err, scriptTag){
+      $("head").append(scriptTag);
 
-      scriptTag = Mustache.render(scriptTag, {streamURL: streamRoute.slice(0, -1) + encodeURIComponent(filePath.slice(1))});
-
-      $('head').append(scriptTag);
-
-      return callback($.html(), $('body').html());
+      return callback($.html(), $("body").html());
     });
   }
 
-  function previewFile (handle, path, callback) {
+  function previewFile(handle, path, callback) {
+    ensure(handle, "string")
+      .and(path, "string")
+      .and(callback, "function");
 
-    ensure(handle, 'string')
-      .and(path, 'string')
-      .and(callback, 'function');
-
-    fs.readFile(draftContainer, 'utf-8', function(err, contents){
-
-      if (err || !contents)
-        return callback(err || 'No contents');
+    fs.readFile(draftContainer, "utf-8", function(err, contents) {
+      if (err || !contents) return callback(err || "No contents");
 
       var draftURL = viewURL(handle, path);
 
       var view = {
         draftURL: draftURL,
-        title: basename(path).split('[draft]').join('').trim()
+        title: basename(path)
+          .split("[draft]")
+          .join("")
+          .trim()
       };
 
       try {
@@ -102,26 +100,25 @@ module.exports = (function () {
     });
   }
 
-  function previewPath (filePath) {
-
-    ensure(filePath, 'string');
+  function previewPath(filePath) {
+    ensure(filePath, "string");
 
     if (filePath.toLowerCase().indexOf(DRAFT_DIRECTORY) > -1)
       return filePath + PREVIEW_APPENDIX;
 
     filePath = filePath.split(DRAFT_PREFIX).join(PREVIEW_PREFIX);
-    filePath += '.html';
+    filePath += ".html";
 
     return filePath;
   }
 
-  function isDraft (blog_id, path, callback) {
-
+  function isDraft(blog_id, path, callback) {
     var err = null;
     var is_draft = false;
-    var name = basename(path) || '';    
+    var name = basename(path) || "";
     var has_prefix = name.slice(0, DRAFT_PREFIX.length) === DRAFT_PREFIX;
-    var is_outside_draft_directory = path.toLowerCase().indexOf(DRAFT_DIRECTORY) === -1;
+    var is_outside_draft_directory =
+      path.toLowerCase().indexOf(DRAFT_DIRECTORY) === -1;
 
     if (has_prefix) {
       is_draft = true;
@@ -135,8 +132,7 @@ module.exports = (function () {
       return callback(err, is_draft);
     }
 
-    isPreview(blog_id, path, function(err, is_preview){
-
+    isPreview(blog_id, path, function(err, is_preview) {
       if (err) return callback(err);
 
       // if the file is inside a draft directory but not itself
@@ -152,44 +148,42 @@ module.exports = (function () {
     });
   }
 
-  function isPreview (blog_id, path, callback) {
-
+  function isPreview(blog_id, path, callback) {
     var err = null;
     var is_preview = false;
-    var name = basename(path) || '';
-    var extension = extname(path) || '';
+    var name = basename(path) || "";
+    var extension = extname(path) || "";
 
     // Preview files are always HTML
-    if (extension !== '.html') {
+    if (extension !== ".html") {
       is_preview = false;
-      // console.log(path, is_preview, 'is not a preview file because it is not HTML');      
+      // console.log(path, is_preview, 'is not a preview file because it is not HTML');
       return callback(err, is_preview);
     }
 
     // Legacy preview files end in .preview.html
     if (name.slice(-PREVIEW_APPENDIX.length) === PREVIEW_APPENDIX) {
       is_preview = true;
-      // console.log(path, is_preview, 'is a preview file because it has the preview appendix');      
+      // console.log(path, is_preview, 'is a preview file because it has the preview appendix');
       return callback(err, is_preview);
     }
 
     // Legacy preview files might start with [preview]
     if (name.slice(0, PREVIEW_PREFIX.length) === PREVIEW_PREFIX) {
       is_preview = true;
-      // console.log(path, is_preview, 'is a preview file because it has the preview prefix');      
+      // console.log(path, is_preview, 'is a preview file because it has the preview prefix');
       return callback(err, is_preview);
     }
-    
-    fs.readFile(local_path(blog_id, path), 'utf-8', function(err, contents){
 
+    fs.readFile(local_path(blog_id, path), "utf-8", function(err, contents) {
       if (err) return callback(err);
 
       if (contents.indexOf(PREVIEW_META_TAG) > -1) {
-        // console.log(path, is_preview, 'is a preview file because it contains the preview tag');      
+        // console.log(path, is_preview, 'is a preview file because it contains the preview tag');
         is_preview = true;
       }
 
-      // console.log(path, is_preview, 'is a preview file?');      
+      // console.log(path, is_preview, 'is a preview file?');
       callback(err, is_preview);
     });
   }
@@ -205,5 +199,4 @@ module.exports = (function () {
     streamRoute: streamRoute,
     viewRoute: viewRoute
   };
-
-}());
+})();
