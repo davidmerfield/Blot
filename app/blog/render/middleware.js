@@ -42,7 +42,7 @@ module.exports = function(req, res, _next) {
 
     if (callback) callback = callOnce(callback);
 
-    getView(templateID, viewName, function(err, view) {
+    Template.getView(templateID, name, function(err, view) {
       if (err || !view) return next(err);
 
       // View has:
@@ -52,7 +52,7 @@ module.exports = function(req, res, _next) {
       //                     which need to be fetched.
       // - partials (object) partials in view
 
-      getPartials(blogID, templateID, view.partials, function(
+      Template.getPartials(blogID, templateID, view.partials, function(
         err,
         allPartials,
         retrieveFromPartials
