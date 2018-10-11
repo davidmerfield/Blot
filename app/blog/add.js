@@ -1,23 +1,19 @@
-var helper = require('helper');
+var helper = require("helper");
 var extend = helper.extend;
-var _ = require('lodash');
+var _ = require("lodash");
 
-module.exports = function init (DEFAULT) {
-
-  return function (req, res, next) {
-
+module.exports = function init(DEFAULT) {
+  return function(req, res, next) {
     res.locals = res.locals || {};
     res.locals.partials = res.locals.partials || _.cloneDeep(DEFAULT) || {};
 
-    function addLocals (locals) {
-
+    function addLocals(locals) {
       extend(locals).and(_.cloneDeep(res.locals || {}));
 
       res.locals = locals;
     }
 
-    function addPartials (partials) {
-
+    function addPartials(partials) {
       extend(partials).and(_.cloneDeep(res.locals.partials || {}));
 
       res.locals.partials = partials;

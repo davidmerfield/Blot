@@ -1,24 +1,20 @@
-var Entries = require('../../../models/entries');
-var helper = require('helper');
+var Entries = require("entries");
+var helper = require("helper");
 var arrayify = helper.arrayify;
-var moment = require('moment');
-             require('moment-timezone');
+var moment = require("moment");
+require("moment-timezone");
 
-module.exports = function (req, callback) {
-
-  Entries.getAll(req.blog.id, function(allEntries){
-
+module.exports = function(req, callback) {
+  Entries.getAll(req.blog.id, function(allEntries) {
     var years = {};
 
     for (var x in allEntries) {
-
       var entry = allEntries[x];
 
-      var date = moment.utc(entry.dateStamp)
-                       .tz(req.blog.timeZone);
+      var date = moment.utc(entry.dateStamp).tz(req.blog.timeZone);
 
-      var year = date.format('YYYY');
-      var month = date.format('MMMM');
+      var year = date.format("YYYY");
+      var month = date.format("MMMM");
 
       // Init an empty data structure
       years[year] = years[year] || {
@@ -31,20 +27,17 @@ module.exports = function (req, callback) {
         entries: []
       };
 
-      years[year]
-        .months[month]
-        .entries.push(entry);
+      years[year].months[month].entries.push(entry);
     }
 
     for (var i in years) {
-
       for (var j in years[i].months)
-        years[i].months[j].s = years[i].months[j].entries.length > 1 ? 's' : '';
+        years[i].months[j].s = years[i].months[j].entries.length > 1 ? "s" : "";
 
       years[i].months = arrayify(years[i].months);
     }
 
-    years = arrayify(years).sort(function(a, b){
+    years = arrayify(years).sort(function(a, b) {
       return parseInt(b.year) - parseInt(a.year);
     });
 
