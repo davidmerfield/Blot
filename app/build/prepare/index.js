@@ -13,7 +13,7 @@ var type = helper.type;
 
 var makeSlug = helper.makeSlug;
 var ensure = helper.ensure;
-var Model = require("../../model");
+var Model = require("entry").model;
 
 var isHidden = require("./isHidden");
 var Summary = require("./summary");
