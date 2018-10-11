@@ -12,15 +12,6 @@ getMetadata:
   /Users/David/Projects/blot/app/dashboard/routes/settings/load/template.js
   /Users/David/Projects/blot/app/dashboard/routes/settings/save/theme.js
 
-getFullView
-  /Users/David/Projects/blot/app/blog/render/middleware.js
-
-makeID
-  /Users/David/Projects/blot/app/blog/vhosts.js
-
-siteOwner
-  /Users/David/Projects/blot/app/blog/vhosts.js
-
 isOwner 
   /Users/David/Projects/blot/app/dashboard/routes/editor/loadTemplate.js
 
@@ -51,33 +42,25 @@ updateFromFolder
 */
 
 module.exports = {
+
   create: require("./create"),
   update: require("./update"),
+  drop: require("./drop"),
   getMetadata: require("./getMetadata"),
-  setMetadata: require("./setMetadata"),
 
-  getFullView: require("./getFullView"),
   getView: require("./getView"),
   getViewByURL: require("./getViewByURL"),
   setView: require("./setView"),
   dropView: require("./dropView"),
+
   getPartials: require("./getPartials"),
   getAllViews: require("./getAllViews"),
   getTemplateList: require("./getTemplateList"),
 
-  drop: require("./drop"),
-
-  parse: require("./parse"),
-  readFromFolder: require("./readFromFolder"),
   writeToFolder: require("./writeToFolder"),
   updateFromFolder: require("./updateFromFolder"),
+
   slug: require("./slug"),
-
-  makeID: require("./makeID"),
   isOwner: require("./isOwner"),
-  siteOwner: "SITE",
-
-  model: require("./model"),
-  viewModel: require("./model").view,
-  metadataModel: require("./model").metadata
+  model: require("./model")
 };

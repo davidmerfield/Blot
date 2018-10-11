@@ -42,76 +42,107 @@ module.exports = function(req, res, _next) {
 
     if (callback) callback = callOnce(callback);
 
-    Template.getFullView(blogID, templateID, name, function(err, response) {
-      if (err || !response) return next(ERROR.NO_VIEW());
+    getView(templateID, viewName, function(err, view) {
+      if (err || !view) return next(err);
 
-      var viewLocals = response[0];
-      var viewPartials = response[1];
-      var missingLocals = response[2];
-      var viewType = response[3];
-      var view = response[4];
+      // View has:
 
-      extend(res.locals)
-        .and(viewLocals)
-        .and(req.template.locals)
-        .and(blog.locals);
+      // - content (string) of the template view
+      // - retrieve (object) locals embedded in the view
+      //                     which need to be fetched.
+      // - partials (object) partials in view
 
-      extend(res.locals.partials).and(viewPartials);
+      getPartials(blogID, templateID, view.partials, function(
+        err,
+        allPartials,
+        retrieveFromPartials
+      ) {
+        if (err) return next(err);
 
-      retrieve(req, missingLocals, function(err, foundLocals) {
-        extend(res.locals).and(foundLocals);
+        // allPartials (object) viewname : viewcontent
 
-        // LOAD ANY LOCALS OR PARTIALS
-        // WHICH ARE REFERENCED IN LOCALS
-        loadView(req, res, function(err, req, res) {
-          if (err) return next(ERROR.BAD_LOCALS());
+        // Now we've fetched the partials we need to
+        // append the missing locals in the partials...
+        extend(view.retrieve).and(retrieveFromPartials);
 
-          // VIEW IS ALMOST FINISHED
-          // ALL PARTRIAL
-          renderLocals(req, res, function(err, req, res) {
+        var response = [
+          view.locals,
+          allPartials,
+          view.retrieve,
+          view.type,
+          view.content
+        ];
+
+        if (err || !response) return next(ERROR.NO_VIEW());
+
+        var viewLocals = response[0];
+        var viewPartials = response[1];
+        var missingLocals = response[2];
+        var viewType = response[3];
+        var view = response[4];
+
+        extend(res.locals)
+          .and(viewLocals)
+          .and(req.template.locals)
+          .and(blog.locals);
+
+        extend(res.locals.partials).and(viewPartials);
+
+        retrieve(req, missingLocals, function(err, foundLocals) {
+          extend(res.locals).and(foundLocals);
+
+          // LOAD ANY LOCALS OR PARTIALS
+          // WHICH ARE REFERENCED IN LOCALS
+          loadView(req, res, function(err, req, res) {
             if (err) return next(ERROR.BAD_LOCALS());
 
-            var output;
+            // VIEW IS ALMOST FINISHED
+            // ALL PARTRIAL
+            renderLocals(req, res, function(err, req, res) {
+              if (err) return next(ERROR.BAD_LOCALS());
 
-            var locals = res.locals;
-            var partials = res.locals.partials;
+              var output;
 
-            if (req.query && req.query.json) {
-              if (callback) return callback(null, res.locals);
+              var locals = res.locals;
+              var partials = res.locals.partials;
 
-              res.set("Cache-Control", "no-cache");
-              return res.json(res.locals);
-            }
+              if (req.query && req.query.json) {
+                if (callback) return callback(null, res.locals);
 
-            try {
-              output = finalRender(view, locals, partials);
-            } catch (e) {
-              return next(ERROR.BAD_LOCALS());
-            }
+                res.set("Cache-Control", "no-cache");
+                return res.json(res.locals);
+              }
 
-            if (callback) {
-              return callback(null, output);
-            }
+              try {
+                output = finalRender(view, locals, partials);
+              } catch (e) {
+                return next(ERROR.BAD_LOCALS());
+              }
 
-            if (CACHE && (viewType === STYLE || viewType === JS)) {
-              res.header(CACHE_CONTROL, cacheDuration);
-            }
+              if (callback) {
+                return callback(null, output);
+              }
 
-            // I believe this minification
-            // bullshit locks up the server while it's
-            // doing it's thing. How can we do this in
-            // advance? If it throws an error, the user
-            // probably forgot an equals sign or some bs...
-            try {
-              if (viewType === STYLE && !req.preview)
-                output = minimize.minify(output || "");
+              if (CACHE && (viewType === STYLE || viewType === JS)) {
+                res.header(CACHE_CONTROL, cacheDuration);
+              }
 
-              if (viewType === JS && !req.preview)
-                output = UglifyJS.minify(output, { fromString: true }).code;
-            } catch (e) {}
+              // I believe this minification
+              // bullshit locks up the server while it's
+              // doing it's thing. How can we do this in
+              // advance? If it throws an error, the user
+              // probably forgot an equals sign or some bs...
+              try {
+                if (viewType === STYLE && !req.preview)
+                  output = minimize.minify(output || "");
 
-            res.header(CONTENT_TYPE, viewType);
-            res.send(output);
+                if (viewType === JS && !req.preview)
+                  output = UglifyJS.minify(output, { fromString: true }).code;
+              } catch (e) {}
+
+              res.header(CONTENT_TYPE, viewType);
+              res.send(output);
+            });
           });
         });
       });

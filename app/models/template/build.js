@@ -13,7 +13,7 @@ var TEMPLATEDIR = APPDIR + '/templates/';
 
 var mime = require('mime');
 var Template = require('../../app/models/template.js');
-var owner = Template.siteOwner;
+var owner = 'SITE';
 var extend = helper.extend;
 var forEach = helper.forEach;
 var defaultDir = TEMPLATEDIR + '_/';
