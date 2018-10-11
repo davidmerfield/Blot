@@ -15,7 +15,7 @@ module.exports = function (req, res, next) {
   // to call it once ourselves. Update: I was retarded.
   var name = helper.makeSlug(req.params.template);
 
-  if (!name) return res.redirect('/settings/design');
+  if (!name) return next(new Error('No name'));
 
   var templateID = Template.makeID(blogID, name);
 
@@ -23,7 +23,7 @@ module.exports = function (req, res, next) {
   Template.isOwner(blogID, templateID, function(err, isOwner){
 
     // Check the blog owns the template
-    if (err || !isOwner) return res.redirect('/settings/design');
+    if (err || !isOwner) return next(new Error('No permission to edit template'));
 
     Template.getMetadata(templateID, function(err, template){
 

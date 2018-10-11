@@ -5,7 +5,6 @@ var formJSON = helper.formJSON;
 
 var loadTemplate = require('./loadTemplate');
 var loadSidebar = require('./loadSidebar');
-var error = require('./error');
 var Blog = require('blog');
 
 module.exports = function (server) {
@@ -83,9 +82,8 @@ module.exports = function (server) {
           res.message(req.path, 'Changes to your template were made successfully!');
         });
       });
-    })
+    });
 
-    .all(error);
 
   function remove (obj, list) {
     for (var i in list)

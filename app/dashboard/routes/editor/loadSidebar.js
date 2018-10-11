@@ -10,8 +10,8 @@ module.exports = function(req, res, next) {
 
   var templateID = req.template.id;
   var viewName = req.params.view;
-
-  Template.getViews(templateID, function(err, views, template){
+  
+  Template.getAllViews(templateID, function(err, views, template){
 
     if (err || !views || !template)
       return next(new Error('No template'));

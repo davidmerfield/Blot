@@ -8,7 +8,7 @@ module.exports = function getPartials(blogID, templateID, partials, callback) {
     .and(partials, "object")
     .and(callback, "function");
 
-  var Entry = require("./entry");
+  var Entry = require("entry");
   var allPartials = {};
   var retrieve = {};
 

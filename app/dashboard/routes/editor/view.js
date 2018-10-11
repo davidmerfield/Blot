@@ -9,8 +9,6 @@ var loadSidebar = require('./loadSidebar');
 
 var extend = helper.extend;
 
-var error = require('./error');
-
 var parseName = require('./parseName');
 var formJSON = helper.formJSON;
 var capitalise = helper.capitalise;
@@ -43,7 +41,6 @@ module.exports = function (server) {
       });
     })
 
-    .all(error);
 
   server.route('/template/:template/view/:view/editor')
 
@@ -63,7 +60,6 @@ module.exports = function (server) {
 
     .post(parseBody, saveView)
     
-    .all(error);
 
   server.route('/template/:template/view/:view/settings')
 
@@ -99,7 +95,6 @@ module.exports = function (server) {
 
     .post(saveView)
 
-    .all(error);
 
 };
 
