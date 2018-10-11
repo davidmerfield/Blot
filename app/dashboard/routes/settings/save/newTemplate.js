@@ -27,6 +27,6 @@ module.exports = function(req, res, next) {
         return next(error);
       }
 
-      res.message("/settings/theme", SUCCESS);
+      res.message("/settings/template", SUCCESS);
     });
   };

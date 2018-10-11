@@ -213,14 +213,9 @@ dashboard.use("/_avatars/:avatar", function(req, res, next){
 });
 
 dashboard.post(
-  ["/settings/theme*", "/path", "/folder*", "/settings/client*", "/flags", "/404s", "/account*"],
+  ["/settings/template*", "/path", "/folder*", "/settings/client*", "/flags", "/404s", "/account*"],
   bodyParser.urlencoded({ extended: false })
 );
-
-dashboard.post('/theme', function(req, res, next){
-  console.log('HERE');
-  next();
-});
 
 // Account page does not need to know about the state of the folder
 // for a particular blog

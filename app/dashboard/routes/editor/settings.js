@@ -36,7 +36,7 @@ module.exports = function (server) {
       // makeID calls makeSlug under the hood so we only need
       // to call it once ourselves.
       var name = helper.makeSlug(req.params.template);
-      var designPage = '/settings/theme';
+      var designPage = '/settings/template';
 
       Template.drop(blogID, name, function(err) {
 

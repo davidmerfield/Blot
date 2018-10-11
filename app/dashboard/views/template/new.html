@@ -1,10 +1,10 @@
 <form method='post' style="padding:0 20px" >
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
-  <input type="hidden" name="redirect" value="/settings/theme">
+  <input type="hidden" name="redirect" value="/settings/template">
     
     <label>
-      <span>Name for your new theme:</span>
+      <span>Name for your new template:</span>
       <input type="text" name="name" placeholder="e.g. {{blog.title}}"/>
     </label>
 
@@ -14,12 +14,12 @@
       {{#templates}}
         <option {{#isDefault}}selected{{/isDefault}} value="{{id}}">{{name}}</option>
       {{/templates}}
-      </select>&nbsp; theme.
+      </select>&nbsp; template.
     </label>
 
   <br>
   <div class="buttons">
-    <button type="submit"onclick="this.form.submit();this.disabled=true">Create theme</button>
+    <button type="submit"onclick="this.form.submit();this.disabled=true">Create template</button>
     <a href="/">Cancel</a>
   </div>
 </form>

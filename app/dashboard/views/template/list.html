@@ -35,16 +35,16 @@
 .butty:hover {background: rgba(0,0,0,.05)}
 </style>
 
-<input type="hidden" name="redirect" value="/theme">  
+<input type="hidden" name="redirect" value="/settings/template">  
 
 {{^blog.template}}
 <div class="line" style="border-bottom:none">
-      <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. </span>
+      <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your template is disabled. </span>
 
  <form method='post' style="display:inline">
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden"  name="template" value="SITE:default" > 
-      <button type="submit"><span class="square">Enable your theme</span></button>
+      <button type="submit"><span class="square">Enable your template</span></button>
   </form>
 </div>
 {{/blog.template}}
@@ -58,7 +58,7 @@
   <p>
 
 
-    <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme.</p>
+    <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> template.</p>
 
 
   
@@ -83,7 +83,7 @@
 
   <Br>
 
-  <span style="color:rgb(153, 153, 153)">Your themes      <a class="butty" href="/settings/theme/new">Create new theme</a>
+  <span style="color:rgb(153, 153, 153)">Your templates      <a class="butty" href="/settings/template/new">Create new template</a>
 </span>
 
 </div>
@@ -126,9 +126,9 @@
 {{/templates}}
 <br><div class="line">
 <form method='post' style="float:left">
-  <input type="hidden" name="redirect" value="/settings/theme">  
+  <input type="hidden" name="redirect" value="/settings/template">  
   <input name="template" value="" type="hidden"/>
-  <button type="submit">Disable your theme</button>
+  <button type="submit">Disable your template</button>
 </form>
 </div>
 {{/blog.template}}

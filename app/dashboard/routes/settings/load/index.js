@@ -4,7 +4,7 @@ module.exports = {
   client: require("./client"),
   clients: require("./clients"),
   dates: require('./dates'),
-  theme: require('./theme'),
+  template: require('./template'),
   fourOhFour: require("./404"),
   redirects: require("./redirects"),
   timezones: require("./timezones"),

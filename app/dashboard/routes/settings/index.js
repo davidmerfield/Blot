@@ -100,27 +100,27 @@ settings.get('/settings/urls/redirects', load.redirects, function(req, res){
 
 // Load the list of templates for this user
 
-settings.use("/settings/theme", load.theme, function(req, res, next) {
-  res.locals.breadcrumbs.add("Theme", "theme");
+settings.use("/settings/template", load.template, function(req, res, next) {
+  res.locals.breadcrumbs.add("Template", "template");
   next();
 });
 
 settings.use('/settings/client', require('./client'));
 
 settings
-  .route("/settings/theme")
+  .route("/settings/template")
   .get(function(req, res) {
-    res.render("theme", {title: "Theme"});
+    res.render("template/list", {title: "Template"});
   })
-  .post(require('./save/theme'));
+  .post(require('./save/template'));
 
 settings
-  .route("/settings/theme/new")
+  .route("/settings/template/new")
   .get(function(req, res) {
-    res.locals.breadcrumbs.add("Create new theme", "new");
-    res.render("theme/new", {title: 'Create new theme'});
+    res.locals.breadcrumbs.add("Create new template", "new");
+    res.render("template/new", {title: 'Create new template'});
   })
-  .post(require('./save/newTheme'));
+  .post(require('./save/newTemplate'));
 
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;

@@ -2,7 +2,7 @@ var Turndown = require("turndown");
 var turndown = new Turndown();
 var pretty = require("pretty");
 
-// Themes like figures!
+// Templates like figures!
 turndown.keep(["figure"]);
 
 function by_class(name) {
