@@ -2,47 +2,48 @@
 
 Methods used and locations:
 
-getMetadata:
-  /Users/David/Projects/blot/app/blog/index.js
-
-getFullView
-  /Users/David/Projects/blot/app/blog/render/middleware.js
-
-siteOwner & makeID
-  /Users/David/Projects/blot/app/blog/vhosts.js
-
-getViewByURL
-  /Users/David/Projects/blot/app/blog/view.js
-
-getViews ?? should this be getAllViews?
-  /Users/David/Projects/blot/app/dashboard/routes/editor/loadSidebar.js
-
-getTemplateList && getAllViews
-  /Users/David/Projects/blot/app/dashboard/routes/account/export.js
-
-isOwner && getMetadata
-  /Users/David/Projects/blot/app/dashboard/routes/editor/loadTemplate.js
-
-update
-  /Users/David/Projects/blot/app/dashboard/routes/editor/local-editing.js
-
-update && drop && model.metadata
-  /Users/David/Projects/blot/app/dashboard/routes/editor/settings.js
-
-setView && model.view && dropView && getView
-  /Users/David/Projects/blot/app/dashboard/routes/editor/view.js
-
-getMetadata
-  /Users/David/Projects/blot/app/dashboard/routes/settings/load/template.js
-
-getTemplateList
-  /Users/David/Projects/blot/app/dashboard/routes/settings/load/theme.js
 
 create
   /Users/David/Projects/blot/app/dashboard/routes/settings/save/newTheme.js
 
-getMetadata
+getMetadata:
+  /Users/David/Projects/blot/app/blog/index.js
+  /Users/David/Projects/blot/app/dashboard/routes/editor/loadTemplate.js
+  /Users/David/Projects/blot/app/dashboard/routes/settings/load/template.js
   /Users/David/Projects/blot/app/dashboard/routes/settings/save/theme.js
+
+getFullView
+  /Users/David/Projects/blot/app/blog/render/middleware.js
+
+makeID
+  /Users/David/Projects/blot/app/blog/vhosts.js
+
+siteOwner
+  /Users/David/Projects/blot/app/blog/vhosts.js
+
+isOwner 
+  /Users/David/Projects/blot/app/dashboard/routes/editor/loadTemplate.js
+
+getViewByURL
+  /Users/David/Projects/blot/app/blog/view.js
+
+getAllViews
+  /Users/David/Projects/blot/app/dashboard/routes/editor/loadSidebar.js
+  /Users/David/Projects/blot/app/dashboard/routes/account/export.js
+
+getTemplateList 
+  /Users/David/Projects/blot/app/dashboard/routes/account/export.js
+  /Users/David/Projects/blot/app/dashboard/routes/settings/load/theme.js
+
+update
+  /Users/David/Projects/blot/app/dashboard/routes/editor/local-editing.js
+  /Users/David/Projects/blot/app/dashboard/routes/editor/settings.js
+
+drop && model.metadata
+  /Users/David/Projects/blot/app/dashboard/routes/editor/settings.js
+
+setView && model.view && dropView && getView
+  /Users/David/Projects/blot/app/dashboard/routes/editor/view.js
 
 updateFromFolder
   /Users/David/Projects/blot/app/sync/index.js
