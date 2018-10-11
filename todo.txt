@@ -4,8 +4,6 @@ Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image pat
 
 ---
 
-Determine a fix for the MaxListenersExceededWarning error when you sync more than 11 files. I know why this happens: child.fork and process.send
-
 Increase default quality for sharp's output images
 
 Re-enable image minifier and fix the bugs it creates
