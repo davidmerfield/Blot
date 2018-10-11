@@ -51,6 +51,8 @@ module.exports = function(req, res, _next) {
       // - retrieve (object) locals embedded in the view
       //                     which need to be fetched.
       // - partials (object) partials in view
+      console.log("HERE", templateID, name, view);
+      var _view = JSON.parse(JSON.stringify(view));
 
       Template.getPartials(blogID, templateID, view.partials, function(
         err,
@@ -58,6 +60,10 @@ module.exports = function(req, res, _next) {
         retrieveFromPartials
       ) {
         if (err) return next(err);
+
+        view = _view;
+
+        console.log("...", templateID, name, view, _view);
 
         // allPartials (object) viewname : viewcontent
 
