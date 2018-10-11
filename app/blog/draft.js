@@ -3,7 +3,7 @@ module.exports = function route (server) {
   var Entry = require('entry');
   var Entries = require('entries');
   var plugins = require('../build/plugins');
-  var drafts = require('../drafts');
+  var drafts = require('../sync/update/drafts');
   var redis = require('redis');
 
   server.get(drafts.streamRoute, function(req, res, next){
