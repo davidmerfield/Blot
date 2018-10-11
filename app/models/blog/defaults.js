@@ -1,4 +1,4 @@
-var defaultPlugins = require('../entry/build/plugins').defaultList;
+var defaultPlugins = require('../../build/plugins').defaultList;
 
 module.exports = {
   client: '',

@@ -1,58 +1,12 @@
-Determine fix for this error when you sync more than 11 files
-(node:22701) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 exit listeners added. Use emitter.setMaxListeners() to increase limit
-
-Determine cause of ghost post bug:
-- Seems to only happen in production when renaming, or moving the parent folder for an image. 
-  - Could it be a file path thing?
-  - The dropbox client seems to keep track, but the post isn't removed
-    - Could it be catch renames?
-    - Could it be rebuild dependents?
-
-Build:
-- Run multiple workers and fix this slowness issue:
-    https://github.com/davidmerfield/Blot/issues/15
-    Tell tim https://mail.google.com/mail/u/1/#inbox/165ed82af17884ac
-    Tell john https://mail.google.com/mail/u/1/#inbox/165ee94ba5cc448b
-    Tell Kerim https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67
-
-Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug
-- File titled "_på besøg hos gomorgen danmark.jpg" which cannot be embedded in a blog post
-- Write test which fails to ensure this doesn't happen again
-
-[Re-rip Stuart's instagram page and help him set up proper converter](https://twitter.com/stuartfrisby/status/1045247673530552320)
-
-[Rip John's posts from Day One](https://mail.google.com/mail/u/1/#inbox/1663098ddda683b7)
+Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
 
 ---
 
-Dropbox client:
+Increase default quality for sharp's output images
 
-  Write tests to fix ghost posts
-
-  Fix bug with catching dropbox file renames
-  - False positives are really annoying. You'll publish a new post and it won't show up on your blog because it'll be buried in the archives. Renames need to be *right* next to each other in the dropbox delta queue.
-  - Use a string-difference algorithm to improve rename recognition? Something with a funny name like Jaro–Winkler distance.
-  - Let Nash know
-
-Fix bug with additional child processes if main process runs out of memory? Something wasn't being killed during the nashp wav bug. There were duplicate node rebuild processes running (20+)
-
-Images and Sharp bugs:
-- Increase quality for sharp
-- Re-enable image minifier and fix bugs.
-
-Thumbnail bugs:
+Re-enable image minifier and fix the bugs it creates
   
-  Since thumbnails and cached images no longer have protocol-less URLs, do they work with Micro.blog?
-  - Tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a)
-  - Tell [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec) also about the bug
-  - Tell [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358)
-
-  Fix failed thumbnails in Ben's post:
-  http://trampeur.blot.im/from-kuchl-to-the-campsite-at-pfarrwerfen-2
-
-  Fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs.
-  - Make resolve work more impressively, attempt to resolve a path in a case insensitive manner.
-    Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine...
+Work out elegant way to produce fully qualified SRCs and HREFs for blogs to help make RSS feeds work more effectively, then tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a), [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec), [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928) and [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358) about the fix, which affects people who use micro.blog.
 
 Markdown bugs:
 
@@ -63,7 +17,9 @@ Markdown bugs:
   Tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672)
   http://rtimmons.blot.im/member-function-dispatch
   Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4)
-          
+  
+  Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
+
   Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player
   - Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
 
@@ -94,11 +50,7 @@ Metadata bugs:
   - Let [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) know
   - Let [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
 
-Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags.
-- Let [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) know 
-
-Fix bug with accents in image paths 
-- Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1) know
+Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae)
 
 ---
 
@@ -218,6 +170,8 @@ Prune package.json
   To minify JavaScript
     https://github.com/mishoo/UglifyJS2
     https://developers.google.com/closure/compiler/
+
+Perhaps just cluster the main process? How will I verify that there is not statefullness somewhere in the server? I also want the main 'server' running on different threads to the CPU intensive stuff like image processing. Will this fix the bug with additional child processes if main process runs out of memory? Something wasn't being killed during the Nash WAV bug of August, 2018. There were duplicate node rebuild processes running.
 
 Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
 

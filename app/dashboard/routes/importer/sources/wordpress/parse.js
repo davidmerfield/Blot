@@ -61,6 +61,10 @@ module.exports = function($, output_directory, callback) {
       }
 
       content = extract("content:encoded");
+
+
+
+
       content = insert_video_embeds(content);
       content = remove_caption(content);
 
@@ -99,8 +103,15 @@ module.exports = function($, output_directory, callback) {
       download_images(post, function(err, post) {
         if (err) console.log(err);
 
+
         post.html = fix_missing_p_tags(post.html);
         post.html = fix_markdown_bs(post.html);
+
+
+  if (post.html.indexOf("\\_") > -1) {
+    console.log('PRE MARKDOWN', post.html);
+    throw post.html;
+  }
 
         post.content = to_markdown(post.html);
 
