@@ -1,16 +1,17 @@
-module.exports = function(server){
-
+module.exports = function(server) {
   // Prevent robots from indexing
   // preview subdomains to ward off
   // accusations of farming content
 
   // do the same in case the user
   // has a custom domain as well.
-  server.get('/robots.txt', function(request, response, next){
-
-    if (request.previewSubdomain || (request.blog.domain && request.originalHost !== request.blog.domain)) {
-      response.header("Content-type", 'text/plain');
-      return response.sendFile(__dirname + '/static/robots_deny.txt');
+  server.get("/robots.txt", function(req, res, next) {
+    if (
+      req.preview ||
+      (req.blog.domain && req.originalHost !== req.blog.domain)
+    ) {
+      res.header("Content-type", "text/plain");
+      return res.sendFile(__dirname + "/static/robots_deny.txt");
     }
 
     return next();
@@ -18,11 +19,10 @@ module.exports = function(server){
 
   // Called on individual blogs to
   // get the handle associated with them...
-  server.get('/verify/domain-setup', function(request, response, next){
+  server.get("/verify/domain-setup", function(req, res, next) {
+    if (!req.blog || !req.blog.handle) return next();
 
-    if (!request.blog || !request.blog.handle) return next();
-
-    response.set('Cache-Control', 'no-cache');
-    response.send(request.blog.handle);
+    res.set("Cache-Control", "no-cache");
+    res.send(req.blog.handle);
   });
 };
