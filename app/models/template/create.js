@@ -1,5 +1,5 @@
 var helper = require("helper");
-var ensure = helper.ensure;
+var async = require("async");
 var extend = helper.extend;
 var key = require("./key");
 var redis = require("client");
