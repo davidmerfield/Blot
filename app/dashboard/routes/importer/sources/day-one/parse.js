@@ -2,6 +2,21 @@ var async = require("async");
 var moment = require("moment");
 var fs = require("fs-extra");
 
+/*
+
+TODO: BUG FIX FOR MULTIPLE IMAGES IN POST
+
+
+"when a Day ONE entry contains more than one image it seems that 
+
+1) only the first image is converted
+2) the old path is left in place for the other images
+3) but it also looks like those images are not part of the new folder either
+"
+
+*/
+
+
 module.exports = function(json, outputDirectory, callback) {
   async.eachSeries(
     json.entries,
