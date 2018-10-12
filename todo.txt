@@ -2,6 +2,8 @@ Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image pat
 
 ---
 
+Prevent 'ignored' files which begin with an underscore from generating preview.html files when inside the Drafts folder. Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67)
+
 Increase default quality for sharp's output images
 
 Re-enable image minifier and fix the bugs it creates
