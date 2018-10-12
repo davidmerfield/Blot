@@ -1,16 +1,22 @@
-var set = require("../../app/sync").change.set;
 var get = require("../blog/get");
+var Entry = require("../../app/models/entry");
+var build = require("../../app/build");
 
-var handle = process.argv[2];
-var path = process.argv[3];
-
-if (!handle) {
-  console.log("- pass a handle as the first argument");
+if (require.main === module) {
+  get(process.argv[2], function(user, blog) {
+    main(blog, process.argv[3], function(err) {
+      if (err) throw err;
+      process.exit();
+    });
+  });
 }
 
-if (!path) {
-  console.log("- pass a path in the blog's folder as a second argument");
-}
+function main(blog, path, callback) {
+  console.log("Blog " + blog.id + ":", "Rebuilding", path);
+  build(blog, path, {}, function(err, entry) {
+    if (err) {
+      return callback(err);
+    }
 
 if (!handle || !path) {
   return process.exit();
