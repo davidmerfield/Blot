@@ -1,6 +1,7 @@
 var get = require("./get");
 var Entries = require('../../app/models/entries');
 var Entry = require('../../app/models/entry');
+var build = require('../../app/build');
 
 if (require.main === module) {
   get(process.argv[2], function(user, blog) {
@@ -16,7 +17,7 @@ function main(blog, callback) {
   Entries.each(
     blog.id,
     function(_entry, next) {
-      Entry.build(blog, _entry.path, function(err, entry){
+      build(blog, _entry.path, function(err, entry){
 
         if (err && err.code === 'ENOENT' && _entry.deleted) {
           return next();

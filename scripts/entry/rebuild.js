@@ -18,22 +18,6 @@ function main(blog, path, callback) {
       return callback(err);
     }
 
-if (!handle || !path) {
-  return process.exit();
-}
-
-if (path[0] !== "/") path = "/" + path;
-
-if (path.slice(-1) === "/") path = path.slice(0, -1);
-
-get(handle, function(user, blog) {
-  var options = {};
-
-  console.log("Rebuilding", blog.handle, path);
-
-  set(blog, path, options, function(err) {
-    if (err) console.log(err);
-
-    process.exit();
+    Entry.set(blog.id, path, entry, callback);
   });
-});
+}
