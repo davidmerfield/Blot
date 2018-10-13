@@ -36,10 +36,20 @@
 
 <a class="line" href="/settings/template">
     <span class="label">Template</span>
-    <span class="center">{{#template.name}}
-        {{template.name}}
-        {{/template.name}}        {{^template.name}}<i>You are not using a template {{blog.template}}</i>{{/template.name}}</span>
+    <span class="center">
+
+      {{^template.name}}
+      <span class="link">Choose a template</span>
+      {{/template.name}}
+
+      {{#template.name}}
+      {{template.name}}
+      {{/template.name}}
+    </span>
+          {{#template.name}}
+
             <span class="right">Edit</span>
+      {{/template.name}}
 
   </a>
 

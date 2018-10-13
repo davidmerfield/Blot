@@ -6,8 +6,8 @@ var debug = require("../../debug");
 
 var load = require("./load");
 
-settings.use(function(req, res, next){
-  res.locals.selected = {settings: 'selected'};
+settings.use(function(req, res, next) {
+  res.locals.selected = { settings: "selected" };
   next();
 });
 
@@ -33,9 +33,7 @@ index.get(
   }
 );
 
-
 settings.use(function(req, res, next) {
-
   res.locals.breadcrumbs.add("Settings", "/settings");
   res.locals.setup = !!req.query.setup;
 
@@ -58,14 +56,12 @@ settings
     save.finish
   );
 
-
-
 settings.get("/settings/urls", function(req, res, next) {
   res.locals.edit = !!req.query.edit;
   next();
 });
 
-settings.get("/settings/title", function(req, res, next){
+settings.get("/settings/title", function(req, res, next) {
   res.locals.setup_title = true;
   next();
 });
@@ -75,8 +71,8 @@ settings.get("/settings/date", load.timezones, load.dates);
 settings.get("/settings/services", load.plugins);
 settings.get("/settings/urls", load.permalinkFormats);
 
-settings.use('/settings/urls/*', function(req, res, next){
-  res.locals.breadcrumbs.add('URLs', 'urls');
+settings.use("/settings/urls/*", function(req, res, next) {
+  res.locals.breadcrumbs.add("URLs", "urls");
   next();
 });
 
@@ -91,11 +87,10 @@ settings
     require("./save/404")
   );
 
-
-settings.get('/settings/urls/redirects', load.redirects, function(req, res){
-  res.locals.breadcrumbs.add('Redirects', 'redirects');
-  res.locals.partials.subpage = "settings/redirects";  
-  res.render("settings/subpage", { title: 'Redirects' });
+settings.get("/settings/urls/redirects", load.redirects, function(req, res) {
+  res.locals.breadcrumbs.add("Redirects", "redirects");
+  res.locals.partials.subpage = "settings/redirects";
+  res.render("settings/subpage", { title: "Redirects" });
 });
 
 // Load the list of templates for this user
@@ -105,22 +100,27 @@ settings.use("/settings/template", load.template, function(req, res, next) {
   next();
 });
 
-settings.use('/settings/client', require('./client'));
+settings.use("/settings/client", require("./client"));
 
 settings
   .route("/settings/template")
   .get(function(req, res) {
-    res.render("template/list", {title: "Template"});
+    res.render("template/list", { title: "Template" });
   })
-  .post(require('./save/template'));
+  .post(require("./save/template"));
 
 settings
   .route("/settings/template/new")
   .get(function(req, res) {
-    res.locals.breadcrumbs.add("Create new template", "new");
-    res.render("template/new", {title: 'Create new template'});
+    res.locals.breadcrumbs.add("New", "new");
+    res.render("template/new", { title: "Create new template" });
   })
-  .post(require('./save/newTemplate'));
+  .post(require("./save/newTemplate"));
+
+settings.route("/settings/template/disable").get(function(req, res) {
+  res.locals.breadcrumbs.add("Disable", "disable");
+  res.render("template/disable", { title: "Disable your template" });
+});
 
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;

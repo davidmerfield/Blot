@@ -1,6 +1,6 @@
 # Templates to create
 
-feed - general purpose
+log - general purpose
 photos - optimized for a photoblog
 archive - optimized for an archive of photos, links, quotes
 essays - optimized for longform essays
