@@ -1,29 +1,23 @@
-<p>Every blog comes with a Blot subdomain included. You can always access your site at this subdomain.</p>
+<a href="{{blog.url}}" style="width:100%;margin-left:-20px;" class="external" target="_blank" >Visit <b>{{blog.pretty.url}}</b> <span class="square">&rarr;</span></a>
+<br>
 
-<a href="{{blog.url}}" class="external" target="_blank" >Visit your blog <span class="square">&rarr;</span></a>
+<p>Your site comes with a Blot subdomain. You can also configure your site to use a domain you control. <a href="/configuring/domain">Read the guide</a>.</p>
 
   <input type="hidden" name="redirect" value="/settings/domain">
   
-    <label for="handle">
-      Your username<br>
-    </label>
-    <div style="display:flex">
-      <input type="text" name="handle" value="{{blog.handle}}" style="flex-grow:1;display:inline-block"/>
-      <span style="color:#888">&nbsp;.{{host}}</span>
-    </div>
 
-    <label>Personal domain</label>
 
+    <label>Your domain</label>
     <div class="messageWrapper">
       <input type="text" id="customDomain" name="domain" value="{{blog.domain}}" placeholder="Your website's hostname"/>
       <span id="inputMessage" class="inputMessage"></span>
     </div>
 
-    <span class="error">{{errors.domain}}</span>
+    <span class="error" >{{errors.domain}}</span>
 
     {{#blog.domain}}
     <p class="mess error" style="    box-sizing: content-box;
-border-radius:0;border:none;display:none;margin:0 -20px;padding: 8px 20px" id="warning">Please create a CNAME DNS record for the <b>www</b> subdomain which points to <b>{{host}}</b> or read the <a href="/configuring/domain">guide to using your own domain</a>.
+border-radius:0;border:none;display:none;margin:20px -20px 0;padding: 8px 20px" id="warning">Please create a CNAME DNS record for the <b>www</b> subdomain which points to <b>{{host}}</b> or read the <a href="/configuring/domain">guide to using your own domain</a>.
     </p>
 
     <label>
@@ -55,3 +49,11 @@ border-radius:0;border:none;display:none;margin:0 -20px;padding: 8px 20px" id="w
 </script>
 {{/footer}}
 {{/blog.domain}}
+
+    <label for="handle">
+      Blot subdomain<br>
+    </label>
+    <div style="display:flex">
+      <input type="text" name="handle" value="{{blog.handle}}" style="flex-grow:1;display:inline-block"/>
+      <span style="color:#888;line-height:42px">&nbsp;.{{host}}</span>
+    </div>
