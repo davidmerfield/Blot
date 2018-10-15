@@ -39,8 +39,6 @@ function resolvePath(blogID, path, callback) {
     }
   }
 
-  // console.log(candidates);
-
   async.detect(
     candidates,
     function(filePath, callback) {
@@ -48,7 +46,12 @@ function resolvePath(blogID, path, callback) {
         callback(null, !err);
       });
     },
-    callback
+    function(err, match) {
+      if (err || !match) {
+        return callback(err || new Error("ENOENT: " + path));
+      }
+      callback(null, match);
+    }
   );
 }
 // The purpose of this script was to resolve an issue with entries having
@@ -82,7 +85,7 @@ function main(blog, callback) {
       if (err) return callback(err);
 
       if (!missing.length && !edit.length) {
-        console.log('All entries are in order');
+        console.log("All entries are in order");
         return callback();
       }
 
@@ -110,7 +113,7 @@ function main(blog, callback) {
       );
 
       function log(i) {
-        return "\n- Path: " + i.path, "\n - Entry: " + domain + i.entry.url;
+        return "\n- Path: " + i.path + "\n- Entry: " + domain + i.entry.url;
       }
       yesno.ask(message.join("\n"), false, function(yes) {
         if (!yes) {
