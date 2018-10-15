@@ -17,7 +17,7 @@ module.exports = function(req, res, next) {
 
     var updates = { template: templateID };
 
-    Template.getMetadata(templateID, function(err, template) {
+    Template.get(templateID, function(err, template) {
       if (err || !template) return next(err || new Error("No template"));
 
       Blog.set(blogID, updates, function(errors, changed) {

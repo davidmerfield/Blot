@@ -24,7 +24,7 @@ module.exports = function(req, res, next) {
     if (err || !isOwner)
       return next(new Error("No permission to edit template"));
 
-    Template.getMetadata(templateID, function(err, template) {
+    Template.get(templateID, function(err, template) {
       if (
         template.localEditing &&
         req.path !== "/template/" + req.params.template + "/local-editing"

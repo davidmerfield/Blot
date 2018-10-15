@@ -33,7 +33,7 @@ blog.use(function(req, res, next) {
 
   if (!req.blog.template) return next();
 
-  Template.getMetadata(req.blog.template, function(err, metadata) {
+  Template.get(req.blog.template, function(err, metadata) {
     if (err || !metadata) {
       var error = new Error("This template does not exist.");
       error.code = "NO_TEMPLATE";
