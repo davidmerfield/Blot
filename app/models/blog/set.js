@@ -23,6 +23,7 @@ module.exports = function(blogID, blog, callback) {
   ensure(blogID, "string").and(callback, "function");
 
   var multi = client.multi();
+  var formerBackupDomain, backupDomain;
 
   validate(blogID, blog, function(errors, latest) {
     if (errors) return callback(errors);
