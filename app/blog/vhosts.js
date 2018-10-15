@@ -2,7 +2,7 @@ var Blog = require("blog");
 var config = require("config");
 
 module.exports = function(req, res, next) {
-  var identifier, handle, previewTemplate, err;
+  var identifier, handle, redirect, previewTemplate, err;
   var host = req.get("host");
 
   // Not sure why this happens but it do
@@ -37,17 +37,20 @@ module.exports = function(req, res, next) {
       return next(err);
     }
 
-    if (identifier.domain && blog.forceSSL && req.protocol !== "https")
-      return res.redirect("https://" + blog.domain + req.url);
+    // Probably a www -> apex redirect
+    if (identifier.domain && blog.domain !== identifier.domain)
+      redirect = req.protocol + "://" + blog.domain + req.url;
 
-    // This is an old handle, redirect it...
-    if (identifier.handle && blog.handle !== identifier.handle) {
-      return res
-        .status(301)
-        .redirect(
-          req.protocol + "://" + blog.handle + "." + config.host + req.url
-        );
-    }
+    // Redirect HTTP to HTTPS
+    if (identifier.domain && blog.forceSSL && req.protocol !== "https")
+      redirect = "https://" + blog.domain + req.url;
+
+    // Redirect old handle
+    if (identifier.handle && blog.handle !== identifier.handle)
+      redirect =
+        req.protocol + "://" + blog.handle + "." + config.host + req.url;
+
+    if (redirect) return res.status(301).redirect(redirect);
 
     previewTemplate = extractPreviewTemplate(host, blog.id);
 
