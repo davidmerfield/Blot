@@ -3,7 +3,7 @@ module.exports = {
   create: require("./create"),
   update: require("./update"),
   drop: require("./drop"),
-  getMetadata: require("./getMetadata"),
+  get: require("./get"),
 
   getView: require("./getView"),
   getViewByURL: require("./getViewByURL"),

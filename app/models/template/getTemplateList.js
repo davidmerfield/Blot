@@ -2,7 +2,7 @@ var helper = require("helper");
 var ensure = helper.ensure;
 var key = require("./key");
 var redis = require("client");
-var getMetadata = require("./getMetadata");
+var get = require("./get");
 var async = require("async");
 
 // The list of possible template choices
@@ -12,7 +12,7 @@ var async = require("async");
 module.exports = function getTemplateList(blogID, callback) {
   ensure(blogID, "string").and(callback, "function");
 
-  redis.smembers(key.publicTemplates(), function(err, publicTemplates) {
+  redis.smembers(key.publicTemplates, function(err, publicTemplates) {
     redis.smembers(key.blogTemplates(blogID), function(err, blogTemplates) {
       var templateIDs = publicTemplates.concat(blogTemplates);
       var response = [];
@@ -20,7 +20,7 @@ module.exports = function getTemplateList(blogID, callback) {
       async.eachSeries(
         templateIDs,
         function(id, next) {
-          getMetadata(id, function(err, info) {
+          get(id, function(err, info) {
             if (err) return next();
 
             if (info) response.push(info);

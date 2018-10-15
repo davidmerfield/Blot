@@ -15,9 +15,7 @@ module.exports = {
     return "template:" + name + ":all_views";
   },
 
-  publicTemplates: function() {
-    return "template:public_templates";
-  },
+  publicTemplates: "template:public_templates",
 
   blogTemplates: function(blogID) {
     return "template:owned_by:" + blogID;

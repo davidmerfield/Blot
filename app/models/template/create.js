@@ -1,19 +1,22 @@
 var helper = require("helper");
 var async = require("async");
 var extend = helper.extend;
+var ensure = helper.ensure;
 var key = require("./key");
-var redis = require("client");
+var client = require("client");
 var makeID = require("./makeID");
 var setView = require("./setView");
-var getMetadata = require("./getMetadata");
+var get = require("./get");
 var getAllViews = require("./getAllViews");
-var setMetadata = require("./setMetadata");
+var serialize = require("./serialize");
+var model = require("./model");
+var debug = require("debug")("template:create");
 
 // blogID represents the id of a blog who controls the template
 // or the string 'SITE' which represents a BLOT template not
 // not editable by any blog
 module.exports = function create(blogID, name, metadata, callback) {
-  var id, slug, multi;
+  var id, slug, multi, metadataString;
 
   // Name is user input, it needs to be trimmed
   name = name.trim().slice(0, 100);
@@ -24,73 +27,60 @@ module.exports = function create(blogID, name, metadata, callback) {
   // Each template has an ID which is namespaced under its blogID
   id = makeID(blogID, slug);
 
-  // Defaults
-  metadata.id = id;
-  metadata.name = name;
-  metadata.owner = blogID;
-  metadata.slug = slug;
-  metadata.locals = metadata.locals || {};
-  metadata.description = metadata.description || "";
-  metadata.thumb = metadata.thumb || "";
-  metadata.localEditing = false;
-
   // Don't overwrite an existing template
-  redis.exists(key.metadata(id), function(err, stat) {
-    if (err) throw err;
+  client.exists(key.metadata(id), function(err, stat) {
+    if (err) return callback(err);
 
-    if (stat) {
-      err = new Error("There is already a template called " + name);
-      return callback(err);
-    }
+    if (stat) return callback(new Error("Existing template " + name));
 
-    multi = redis.multi();
-
-    multi.sadd(key.blogTemplates(blogID), id);
-
-    if (metadata.isPublic) {
-      multi.sadd(key.publicTemplates(), id);
-    } else {
-      multi.srem(key.publicTemplates(), id);
-    }
-
-    multi.exec(function(err) {
+    get(metadata.cloneFrom, function(err, existingMetadata) {
       if (err) return callback(err);
 
-      setMetadata(id, metadata, function(err) {
+      // Copy across any metadata from the
+      // source of the clone, if its not set
+      if (existingMetadata) {
+        debug("Cloning data", metadata, existingMetadata);
+        extend(metadata).and(existingMetadata);
+      }
+
+      // Defaults
+      metadata.id = id;
+      metadata.name = name;
+      metadata.owner = blogID;
+      metadata.slug = slug;
+      metadata.locals = metadata.locals || {};
+      metadata.description = metadata.description || "";
+      metadata.thumb = metadata.thumb || "";
+      metadata.localEditing = false;
+
+      multi = client.multi();
+
+      multi.sadd(key.blogTemplates(blogID), id);
+
+      if (metadata.isPublic) {
+        multi.sadd(key.publicTemplates, id);
+      } else {
+        multi.srem(key.publicTemplates, id);
+      }
+
+      ensure(metadata, model.metadata);
+
+      multi.sadd(key.blogTemplates(metadata.owner), id);
+
+      metadataString = serialize(metadata, model.metadata);
+
+      multi.hmset(key.metadata(id), metadataString);
+      debug("Saving", metadata);
+      multi.exec(function(err) {
         if (err) return callback(err);
 
-        if (!metadata.cloneFrom) return callback(null);
-
         getAllViews(metadata.cloneFrom, function(err, allViews) {
-          if (err || !allViews) {
-            var message =
-              "No theme with that name exists to clone from " +
-              metadata.cloneFrom;
-            return callback(new Error(message));
-          }
+          if (err) return callback(err);
 
-          async.each(
-            allViews,
-            function(view, next) {
-              setView(name, view, next);
-            },
-            function(err) {
-              if (err) return callback(err);
-
-              getMetadata(metadata.cloneFrom, function(err, existingMetadata) {
-                if (err) {
-                  var message = "Could not clone from " + metadata.cloneFrom;
-                  return callback(new Error(message));
-                }
-
-                // Copy across any metadata from the
-                // source of the clone, if its not set
-                extend(metadata).and(existingMetadata);
-
-                return setMetadata(id, metadata, callback);
-              });
-            }
-          );
+          async.each(allViews, setView.bind(null, name), function(err) {
+            if (err) return callback(err);
+            callback(null, metadata);
+          });
         });
       });
     });

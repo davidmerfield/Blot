@@ -18,7 +18,7 @@ module.exports = function drop(owner, templateName, callback) {
     redis.srem(key.blogTemplates(owner), templateID, function(err) {
       if (err) throw err;
 
-      redis.srem(key.publicTemplates(), templateID, function(err) {
+      redis.srem(key.publicTemplates, templateID, function(err) {
         if (err) throw err;
 
         redis.del(key.metadata(templateID));
