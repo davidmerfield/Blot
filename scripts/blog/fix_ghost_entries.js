@@ -1,9 +1,11 @@
 var get = require("./get");
+var yesno = require("yesno");
 var Entries = require("../../app/models/entries");
 var Entry = require("../../app/models/entry");
 var localPath = require("../../app/helper").localPath;
 var fs = require("fs");
 var async = require("async");
+var host = require("../../config").host;
 
 if (require.main === module) {
   get(process.argv[2], function(user, blog) {
@@ -37,7 +39,7 @@ function resolvePath(blogID, path, callback) {
     }
   }
 
-  console.log(candidates);
+  // console.log(candidates);
 
   async.detect(
     candidates,
@@ -53,11 +55,12 @@ function resolvePath(blogID, path, callback) {
 // path properties that were not equal to the location of the file on disk
 // if the file system is case sensitive.
 function main(blog, callback) {
-  console.log("Blog " + blog.id + ":", "Fixing bad case in entries...");
-
-  var exists = [];
+  yesno.options.yes = [blog.handle];
   var missing = [];
   var edit = [];
+
+  var domain = "http://" + blog.handle + "." + host;
+  console.log("Blog", blog.id, "(" + domain + ") Fixing entries");
 
   Entries.each(
     blog.id,
@@ -70,31 +73,68 @@ function main(blog, callback) {
         if (path && path !== _entry.path) {
           edit.push({ entry: _entry, path: path });
         } else if (err) {
-          missing.push(_entry);
-        } else {
-          exists.push(_entry);
+          missing.push({ entry: _entry, path: _entry.path });
         }
-
         next();
       });
     },
     function(err) {
       if (err) return callback(err);
-      console.log(exists.length, " files exist on disk with same case");
-      console.log(missing.length, " files are missing from the disk", missing);
-      console.log(edit.length, "files exists on disk with a different case..");
-      async.eachSeries(
-        edit,
-        function(item, next) {
-          // console.log("would call entry set!", item.entry.path, ">", item.path);
-          // next();
-          Entry.set(blog.id, item.entry.path, { path: item.path }, next);
-        },
-        function(err) {
-          console.log("Blog " + blog.id + ":", "Fixed all entries!");
-          callback();
-        }
+
+      if (!missing.length && !edit.length) {
+        console.log('All entries are in order');
+        return callback();
+      }
+
+      var message = [blog.id, blog.title, blog.handle];
+
+      if (missing.length) {
+        message.push(
+          missing.length +
+            " files are missing from the disk for entries which are not deleted"
+        );
+        message = message.concat(missing.map(log));
+      }
+
+      if (edit.length) {
+        message.push(
+          edit.length + "files exists on disk with a different case.."
+        );
+        message = message.concat(edit.map(log));
+      }
+
+      message.push(
+        "Would you like to resolve these issues? Please type the blog handle (" +
+          blog.handle +
+          ") to confirm:"
       );
+
+      function log(i) {
+        return "\n- Path: " + i.path, "\n - Entry: " + domain + i.entry.url;
+      }
+      yesno.ask(message.join("\n"), false, function(yes) {
+        if (!yes) {
+          return callback(new Error("\nDid not apply changes"));
+        }
+
+        async.eachSeries(
+          edit,
+          function(item, next) {
+            Entry.set(blog.id, item.entry.path, { path: item.path }, next);
+          },
+          function(err) {
+            if (err) return callback(err);
+
+            async.eachSeries(
+              missing,
+              function(item, next) {
+                Entry.drop(blog.id, item.entry.path, next);
+              },
+              callback
+            );
+          }
+        );
+      });
     }
   );
 }
