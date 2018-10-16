@@ -63,7 +63,7 @@ describe("asset middleware", function() {
         next();
       });
 
-      require("../assets")(ctx.server);
+      ctx.server.use(require("../assets"));
       ctx.server = ctx.server.listen(port, function(err) {
         if (err && err.code === "EADDRINUSE") return attempt(done);
         if (err && err.code === "EACCESS") return attempt(done);
