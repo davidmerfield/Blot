@@ -10,7 +10,7 @@ module.exports = function(req, res, next) {
     blogID = blog.id,
     currentTemplate = blog.template;
 
-  Template.getTemplateList(blogID, function(err, templates) {
+  Template.list(blogID, function(err, templates) {
     var yourTemplates = [];
     var blotTemplates = [];
 

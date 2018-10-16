@@ -31,7 +31,7 @@ module.exports = function (server) {
 
       var view = formJSON(req.body, Template.model.view);
 
-      Template.setView(req.template.id, view, function(err){
+      Template.view.set(req.template.id, view, function(err){
 
         if (err) return next(err);
 
@@ -85,7 +85,7 @@ module.exports = function (server) {
 
       if (!req.body.delete) return next();
 
-      Template.dropView(req.template.id, req.view.name, function(err){
+      Template.view.drop(req.template.id, req.view.name, function(err){
 
         if (err) return next(err);
 
@@ -114,7 +114,7 @@ function saveView (req, res, next) {
 
   view.name = req.view.name;
 
-  Template.setView(req.template.id, view, function(err){
+  Template.view.set(req.template.id, view, function(err){
 
     if (err) return next(err);
 
@@ -151,16 +151,16 @@ function renameView (req, res, next) {
   var newName = view.name;
   var oldName = req.params.view;
 
-  Template.getView(req.template.id, newName, function(err, existingView){
+  Template.view.get(req.template.id, newName, function(err, existingView){
 
     if (existingView && !err)
       return next(new Error('A view called ' + newName + ' already exists'));
 
-    Template.setView(req.template.id, view, function(err){
+    Template.view.set(req.template.id, view, function(err){
 
       if (err) return next(err);
 
-      Template.dropView(req.template.id, oldName, function(err){
+      Template.view.drop(req.template.id, oldName, function(err){
 
         if (err) return next(err);
 
@@ -188,7 +188,7 @@ function loadView (req, res, next) {
   var templateID = req.template.id;
   var view = req.params.view;
 
-  Template.getView(templateID, view, function(err, view){
+  Template.view.get(templateID, view, function(err, view){
 
     if (err) return next(err);
 

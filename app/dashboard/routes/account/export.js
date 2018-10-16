@@ -23,7 +23,7 @@ Export.route("/account.json")
 
       var templates = {};
 
-      Template.getTemplateList(blog.id, function(err, res){
+      Template.list(blog.id, function(err, res){
 
         if (err) return next(err);
 
@@ -32,7 +32,7 @@ Export.route("/account.json")
           // Don't include Global templates in this file...
           if (template.owner === 'SITE') return nextTemplate();
 
-          Template.getAllViews(template.id, function(err, allviews){
+          Template.view.getAll(template.id, function(err, allviews){
 
             if (err) return next(err);
 

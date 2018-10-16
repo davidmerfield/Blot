@@ -6,7 +6,7 @@ module.exports = function(server) {
       templateID = blog.template,
       url = request.url;
 
-    Template.getViewByURL(templateID, url, function(err, viewName) {
+    Template.view.getByUrl(templateID, url, function(err, viewName) {
       if (err) return next(err);
 
       if (viewName) return response.renderView(viewName, next);
