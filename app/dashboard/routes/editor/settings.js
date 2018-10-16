@@ -69,7 +69,7 @@ module.exports = function (server) {
         }
       }
 
-      Template.update(req.blog.id, req.template.slug, metadata, function (err){
+      Template.update(req.template.id, metadata, function (err){
 
         if (err) return next(err);
 

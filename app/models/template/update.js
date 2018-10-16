@@ -1,50 +1,42 @@
+var debug = require("debug")("template:update");
 var helper = require("helper");
 var ensure = helper.ensure;
 var key = require("./key");
-var redis = require("client");
+var client = require("client");
 var makeID = require("./makeID");
+var model = require("./model");
+var serialize = require("./serialize");
+var deserialize = require("./deserialize");
 
-module.exports = function update(owner, name, metadata, callback) {
-  ensure(owner, "string")
-    .and(name, "string")
-    .and(metadata, "object")
-    .and(callback, "function");
+module.exports = function update(id, metadata, callback) {
+  var metadataString, template;
 
-  var id = makeID(owner, name);
+  debug("ID:", id,  "Metadata:", metadata);
 
-  if (metadata.isPublic) {
-    redis.sadd(key.publicTemplates, id);
-  } else {
-    redis.srem(key.publicTemplates, id);
+  try {
+    ensure(metadata, model.metadata);
+    metadataString = serialize(metadata, model.metadata);
+  } catch (err) {
+    return callback(err);
   }
 
-  var multi = client.multi();
+  client.exists(key.metadata(id), function(err, exists) {
+    if (err) return callback(err);
+    if (!exists) return callback(new Error(id + " not found, call create"));
+    client
+      .multi()
+      .hmset(key.metadata(id), metadataString)
+      .hgetall(key.metadata(id))
+      .exec(function(err, res) {
+        if (err) return callback(err);
 
-  get(id, function(err, metadata) {
-    var changes;
+        try {
+          template = deserialize(res[1], model.metadata);
+        } catch (err) {
+          return callback(err);
+        }
 
-    metadata = metadata || {};
-
-    for (var i in updates) {
-      if (metadata[i] !== updates[i]) changes = true;
-      metadata[i] = updates[i];
-    }
-
-    ensure(metadata, model.metadata);
-
-    metadata = serialize(metadata, model.metadata);
-
-    if (metadata.isPublic) {
-      multi.sadd(key.publicTemplates, id);
-    } else {
-      multi.srem(key.publicTemplates, id);
-    }
-
-    multi.sadd(key.blogTemplates(metadata.owner), id);
-    multi.hmset(key.metadata(id), metadata);
-
-    multi.exec(function(err) {
-      callback(err, changes);
-    });
+        callback(null, template);
+      });
   });
 };

@@ -19,7 +19,7 @@ module.exports = function (server) {
 
     .post(parseBody, function(req, res, next){
 
-      Template.update(req.blog.id, req.template.slug, {localEditing: false}, function (err){
+      Template.update(req.template.id, {localEditing: false}, function (err){
 
         if (err) return next(err);
 
