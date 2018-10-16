@@ -1,8 +1,8 @@
 var async = require("async");
-var build = require("../../build");
 var Entry = require("entry");
 var client = require("client");
 var Blog = require("blog");
+var build = require("../../build");
 
 var dependentsKey = Entry.key.dependents;
 
@@ -22,7 +22,7 @@ module.exports = function(blogID, path, callback) {
       async.eachSeries(
         dependent_paths,
         function(dependent_path, next) {
-          build(blog, dependent_path, function(err, updated_dependent) {
+          build(blog, dependent_path, options, function(err, updated_dependent) {
             if (err) {
               console.log("Error rebuilding dependents:", path, err);
               return next();
