@@ -27,7 +27,7 @@ module.exports = function(req, res, next) {
     }
   ];
 
-  // decodeURIComponent maps something like 
+  // decodeURIComponent maps something like
   // "/Hello%20World.txt" to "/Hello World.txt"
   // Express does not do this for us.
   paths = [
@@ -65,11 +65,11 @@ module.exports = function(req, res, next) {
 
   async.tryEach(candidates, function(err) {
 
-    // 
+    // Is this still neccessary?
     if (res.headersSent) return;
 
     // hide the error, keep on going
-    next();
+    if (err) return next();
   });
 };
 
