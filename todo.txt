@@ -2,7 +2,7 @@ Fix rename conflict in test:
   Warning: rename conflict for /seize/compress/Legacy/Lead/orchestrate/Beauty/clear-thinking.txt multiple candidates with size 543: 
   -/Organic/Liaison/Electronics/ivory/Computer/Chicken/Assistant/program/Analyst.txt 
   -/Managed/payment/cross-media.txt
-  
+
 Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
 
 Translate Benjamin's ghost theme and reply back to him on Twitter
@@ -40,11 +40,6 @@ Markdown bugs:
   - Let [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc) know
 
   Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
-
-  Fix bug with Pandoc markdown which won't process file with broken footnote syntax (e.g. missing note) this is seriously bad.
-  - Tell [Thomas](https://mail.google.com/mail/u/1/#sent/1638574b4423be87) when this is fixed
-  - Tell [Johannes](https://twitter.com/johklab)
-  - Tell [Johan](https://mail.google.com/mail/u/0/#inbox/1667e21444c6af57)
 
 Metadata bugs:
 
