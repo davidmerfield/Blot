@@ -64,6 +64,10 @@ module.exports = function(req, res, next) {
   });
 
   async.tryEach(candidates, function(err) {
+
+    // 
+    if (res.headersSent) return;
+
     // hide the error, keep on going
     next();
   });
