@@ -2,12 +2,6 @@ var Entries = require("entries");
 var async = require("async");
 var Entry = require("entry");
 
-function remove(list, path) {
-  return list.filter(function(item) {
-    return item.path !== path;
-  });
-}
-
 module.exports = function(blogID, update, callback) {
   var RENAME_PERIOD = 1000 * 60; // 1 minute
   var after = Date.now() - RENAME_PERIOD;
@@ -19,29 +13,38 @@ module.exports = function(blogID, update, callback) {
 
     Entries.getDeleted(blogID, after, function(err, deletedEntries) {
       if (err) return callback(err);
-      
-      var totalCreatedEntries = createdEntries.length;
-      var remainingDeletedEntries, createdEntry, deletedEntry;
 
-      for (var i = 0; i < totalCreatedEntries; i++) {
-        createdEntry = createdEntries[i];
-        remainingDeletedEntries = deletedEntries.length;
+      createdEntries.forEach(function(createdEntry) {
+        
+        var deletedEntriesOfSameSize;
+        var deletedEntriesOfSameTitle;
+        var deletedEntry;
 
-        for (var x = 0; x < remainingDeletedEntries; x++) {
-          deletedEntry = deletedEntries[x];
+        deletedEntriesOfSameSize = deletedEntries.filter(function(deletedEntry) {
+          return deletedEntry.size === createdEntry.size;
+        });
 
-          if (createdEntry.size !== deletedEntry.size) continue;
+        deletedEntriesOfSameTitle = deletedEntries.filter(function(deletedEntry) {
+          return deletedEntry.title === createdEntry.title;
+        });
 
-          renames[createdEntry.path] = {
-            createdEntry: createdEntry,
-            deletedEntry: deletedEntry
-          };
-
-          deletedEntries = remove(deletedEntries, deletedEntry.path);
-
-          break;
+        if (deletedEntriesOfSameSize.length === 1)  {
+          deletedEntry = deletedEntriesOfSameSize.pop();
+        } else if (deletedEntriesOfSameTitle.length === 1) {
+          deletedEntry = deletedEntriesOfSameTitle.pop();
+        } else {
+          return;
         }
-      }
+
+        deletedEntries = deletedEntries.filter(function(entry) {
+          return deletedEntry.path !== entry.path;
+        });
+
+        renames[createdEntry.path] = {
+          createdEntry: createdEntry,
+          deletedEntry: deletedEntry
+        };
+      });
 
       async.eachOfSeries(
         renames,
