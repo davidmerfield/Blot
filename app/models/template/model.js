@@ -1,5 +1,4 @@
 module.exports = {
-  metadata: {
     id: "string",
     name: "string",
     slug: "string",
@@ -10,14 +9,4 @@ module.exports = {
     localEditing: "boolean",
     thumb: "string",
     locals: "object"
-  },
-  view: {
-    name: "string",
-    content: "string",
-    type: "string",
-    partials: "object",
-    locals: "object",
-    retrieve: "object",
-    url: "string"
-  }
 };

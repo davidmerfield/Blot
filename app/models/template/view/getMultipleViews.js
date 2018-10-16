@@ -1,5 +1,5 @@
 var ensure = require("helper").ensure;
-var getView = require("./getView");
+var get = require("./get");
 
 module.exports = function getMultipleViews(templateName, viewNames, callback) {
   ensure(templateName, "string")
@@ -12,7 +12,7 @@ module.exports = function getMultipleViews(templateName, viewNames, callback) {
 
   if (!totalViews) onFinish();
 
-  for (var i in viewNames) getView(templateName, viewNames[i], onGet);
+  for (var i in viewNames) get(templateName, viewNames[i], onGet);
 
   function onGet(err, view) {
     error = err;

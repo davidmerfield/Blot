@@ -3,20 +3,14 @@ module.exports = {
   update: require("./update"),
   drop: require("./drop"),
   get: require("./get"),
+  list: require("./list"),
 
-  getView: require("./getView"),
-  getViewByURL: require("./getViewByURL"),
-  setView: require("./setView"),
-  dropView: require("./dropView"),
+  view: require('./view'),
 
-  getPartials: require("./getPartials"),
-  getAllViews: require("./getAllViews"),
-  getTemplateList: require("./getTemplateList"),
+  // writeToFolder: require("./writeToFolder"),
+  // updateFromFolder: require("./updateFromFolder"),
 
-  writeToFolder: require("./writeToFolder"),
-  updateFromFolder: require("./updateFromFolder"),
-
-  slug: require("./slug"),
+  slug: require("./util/slug"),
   isOwner: require("./isOwner"),
   model: require("./model")
 };

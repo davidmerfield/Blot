@@ -1,39 +1,32 @@
-var helper = require("helper");
-var ensure = helper.ensure;
 var key = require("./key");
-var redis = require("client");
-var makeID = require("./makeID");
-var getAllViews = require("./getAllViews");
+var client = require("client");
+var get = require("./get");
+var getAll = require("./view/getAll");
+var debug = require("debug")("template:delete");
 
-module.exports = function drop(owner, templateName, callback) {
-  var templateID = makeID(owner, templateName);
+module.exports = function drop(id, callback) {
+  var multi;
 
-  ensure(owner, "string")
-    .and(templateID, "string")
-    .and(callback, "function");
+  get(id, function(err, template) {
+    if (err || !template) return callback(err || new Error("No template"));
 
-  getAllViews(templateID, function(err, views) {
-    if (err || !views) return callback(err || "No views");
+    getAll(id, function(err, views) {
+      if (err || !views) return callback(err || new Error("No views"));
 
-    redis.srem(key.blogTemplates(owner), templateID, function(err) {
-      if (err) throw err;
+      multi = client.multi();
 
-      redis.srem(key.publicTemplates, templateID, function(err) {
-        if (err) throw err;
+      multi.srem(key.blogTemplates(template.owner), id);
+      multi.srem(key.publicTemplates, id);
+      multi.del(key.metadata(id));
+      multi.del(key.allViews(id));
 
-        redis.del(key.metadata(templateID));
-        redis.del(key.allViews(templateID));
+      for (var i in views) multi.del(key.view(id, views[i].name));
 
-        // console.log('DEL: ' + key.metadata(templateID));
-        // console.log('DEL: ' + key.allViews(templateID));
-        // console.log('DEL: ' + partialsKey(templateID));
+      multi.exec(function(err) {
+        if (err) return callback(err);
 
-        for (var i in views) {
-          // console.log('DEL: ' + key.view(templateID, views[i].name));
-          redis.del(key.view(templateID, views[i].name));
-        }
-
-        callback(null, "Deleted " + templateID);
+        debug("Deleted " + id);
+        callback(null);
       });
     });
   });

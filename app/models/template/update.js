@@ -3,10 +3,10 @@ var helper = require("helper");
 var ensure = helper.ensure;
 var key = require("./key");
 var client = require("client");
-var makeID = require("./makeID");
+var makeID = require("./util/makeID");
 var model = require("./model");
-var serialize = require("./serialize");
-var deserialize = require("./deserialize");
+var serialize = require("./util/serialize");
+var deserialize = require("./util/deserialize");
 
 module.exports = function update(id, metadata, callback) {
   var metadataString, template;
@@ -14,8 +14,8 @@ module.exports = function update(id, metadata, callback) {
   debug("ID:", id,  "Metadata:", metadata);
 
   try {
-    ensure(metadata, model.metadata);
-    metadataString = serialize(metadata, model.metadata);
+    ensure(metadata, model);
+    metadataString = serialize(metadata, model);
   } catch (err) {
     return callback(err);
   }
@@ -31,7 +31,7 @@ module.exports = function update(id, metadata, callback) {
         if (err) return callback(err);
 
         try {
-          template = deserialize(res[1], model.metadata);
+          template = deserialize(res[1], model);
         } catch (err) {
           return callback(err);
         }

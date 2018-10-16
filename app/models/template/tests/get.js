@@ -1,17 +1,7 @@
 describe("template", function() {
-  require("./setup")();
+  require("./setup")({ createTemplate: true });
 
   var get = require("../get");
-  var create = require("../create");
-
-  beforeEach(function(done) {
-    var ctx = this;
-    create(ctx.blog.id, ctx.fake.random.word(), {}, function(err, template) {
-      if (err) return done(err);
-      ctx.template = template;
-      done();
-    });
-  });
 
   it("gets a template", function(done) {
     get(this.template.id, function(err, template) {

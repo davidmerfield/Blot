@@ -8,7 +8,7 @@ var makeID = require("./makeID");
 var create = require("./create");
 var update = require("./update");
 var async = require("async");
-var setView = require("./setView");
+var set = require("./view").set;
 var isOwner = require("./isOwner");
 
 function build(owner, templateName, dir, callback) {
@@ -67,7 +67,7 @@ function build(owner, templateName, dir, callback) {
             view = newView;
           }
 
-          setView(templateID, view, next);
+          set(templateID, view, next);
         },
         function(err) {
           if (err) return callback(err);

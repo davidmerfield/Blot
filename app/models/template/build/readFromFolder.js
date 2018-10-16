@@ -5,7 +5,7 @@ var fs = require("fs");
 var helper = require("helper");
 var ensure = helper.ensure;
 var async = require("async");
-var setView = require("./setView");
+var set = require("./view").set;
 var isOwner = require("./isOwner");
 var makeID = require("./makeID");
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
@@ -57,7 +57,7 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                 content: content
               };
 
-              setView(id, view, next);
+              set(id, view, next);
             });
           });
         },

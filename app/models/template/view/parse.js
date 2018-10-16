@@ -2,7 +2,7 @@ var _ = require("lodash");
 var mustache = require("mustache");
 var type = require("helper").type;
 var modules = require("fs").readdirSync(
-  __dirname + "/../../blog/render/retrieve"
+  __dirname + "/../../../blog/render/retrieve"
 );
 
 // My goal is to look at a template

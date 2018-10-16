@@ -1,3 +1,4 @@
+var create = require("../../create");
 module.exports = function setup(options) {
   options = options || {};
 
@@ -8,4 +9,16 @@ module.exports = function setup(options) {
   beforeEach(function() {
     this.fake = global.test.fake;
   });
+
+  // Create a test template
+  if (options.createTemplate) {
+    beforeEach(function(done) {
+      var ctx = this;
+      create(ctx.blog.id, ctx.fake.random.word(), {}, function(err, template) {
+        if (err) return done(err);
+        ctx.template = template;
+        done();
+      });
+    });
+  }
 };

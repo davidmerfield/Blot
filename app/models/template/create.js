@@ -4,13 +4,13 @@ var extend = helper.extend;
 var ensure = helper.ensure;
 var key = require("./key");
 var client = require("client");
-var makeID = require("./makeID");
-var setView = require("./setView");
+var set = require("./view/set");
 var get = require("./get");
-var getAllViews = require("./getAllViews");
-var serialize = require("./serialize");
+var getAll = require("./view/getAll");
 var model = require("./model");
 var debug = require("debug")("template:create");
+var makeID = require("./util/makeID");
+var serialize = require("./util/serialize");
 
 // blogID represents the id of a blog who controls the template
 // or the string 'SITE' which represents a BLOT template not
@@ -71,21 +71,21 @@ module.exports = function create(blogID, name, metadata, callback) {
         multi.srem(key.publicTemplates, id);
       }
 
-      ensure(metadata, model.metadata, true);
+      ensure(metadata, model, true);
 
       multi.sadd(key.blogTemplates(metadata.owner), id);
 
-      metadataString = serialize(metadata, model.metadata);
+      metadataString = serialize(metadata, model);
 
       multi.hmset(key.metadata(id), metadataString);
       debug("Saving", metadata);
       multi.exec(function(err) {
         if (err) return callback(err);
 
-        getAllViews(metadata.cloneFrom, function(err, allViews) {
+        getAll(metadata.cloneFrom, function(err, allViews) {
           if (err) return callback(err);
 
-          async.each(allViews, setView.bind(null, name), function(err) {
+          async.each(allViews, set.bind(null, name), function(err) {
             if (err) return callback(err);
             callback(null, metadata);
           });

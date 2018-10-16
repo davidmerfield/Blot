@@ -1,5 +1,3 @@
-var helper = require("helper");
-var ensure = helper.ensure;
 var key = require("./key");
 var redis = require("client");
 var get = require("./get");
@@ -9,9 +7,7 @@ var async = require("async");
 // for a given blog. Accepts a UID and
 // returns an array of template metadata
 // objects. Does not contain any view info
-module.exports = function getTemplateList(blogID, callback) {
-  ensure(blogID, "string").and(callback, "function");
-
+module.exports = function list(blogID, callback) {
   redis.smembers(key.publicTemplates, function(err, publicTemplates) {
     redis.smembers(key.blogTemplates(blogID), function(err, blogTemplates) {
       var templateIDs = publicTemplates.concat(blogTemplates);
