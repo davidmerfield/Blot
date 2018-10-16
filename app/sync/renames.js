@@ -2,6 +2,12 @@ var Entries = require("entries");
 var async = require("async");
 var Entry = require("entry");
 
+function remove(list, path) {
+  return list.filter(function(item) {
+    return item.path !== path;
+  });
+}
+
 module.exports = function(blogID, update, callback) {
   var RENAME_PERIOD = 1000 * 60; // 1 minute
   var after = Date.now() - RENAME_PERIOD;
@@ -13,32 +19,29 @@ module.exports = function(blogID, update, callback) {
 
     Entries.getDeleted(blogID, after, function(err, deletedEntries) {
       if (err) return callback(err);
+      
+      var totalCreatedEntries = createdEntries.length;
+      var remainingDeletedEntries, createdEntry, deletedEntry;
 
-      createdEntries.forEach(function(createdEntry) {
-        deletedEntries.forEach(function(deletedEntry) {
-          
-          // I need to handle this event properly, is it causing
-          // some of my tests to fail?
-          if (
-            createdEntry.size === deletedEntry.size &&
-            renames[createdEntry.path] !== undefined
-          ) {
-            console.warn(
-              "Warning: rename conflict for",
-              createdEntry.path,
-              "multiple candidates with size " + createdEntry.size + ":",
-              "\n-" + renames[createdEntry.path].deletedEntry.path,
-              "\n-" + deletedEntry.path
-            );
-          }
+      for (var i = 0; i < totalCreatedEntries; i++) {
+        createdEntry = createdEntries[i];
+        remainingDeletedEntries = deletedEntries.length;
 
-          if (createdEntry.size === deletedEntry.size)
-            renames[createdEntry.path] = {
-              createdEntry: createdEntry,
-              deletedEntry: deletedEntry
-            };
-        });
-      });
+        for (var x = 0; x < remainingDeletedEntries; x++) {
+          deletedEntry = deletedEntries[x];
+
+          if (createdEntry.size !== deletedEntry.size) continue;
+
+          renames[createdEntry.path] = {
+            createdEntry: createdEntry,
+            deletedEntry: deletedEntry
+          };
+
+          deletedEntries = remove(deletedEntries, deletedEntry.path);
+
+          break;
+        }
+      }
 
       async.eachOfSeries(
         renames,
