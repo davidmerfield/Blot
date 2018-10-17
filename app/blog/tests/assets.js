@@ -41,6 +41,17 @@ describe("asset middleware", function() {
     });
   });
 
+  // This test ensures that the middleware will pass 
+  // the request on if it can't find a matching file.
+  it("returns a 404 correctly", function(done) {
+    this.get("/" + this.fake.random.uuid(), function(err, body, res) {
+      expect(err).toBeNull();
+      expect(body).toBeDefined();
+      expect(res.statusCode).toEqual(404);
+      done();
+    });
+  });
+
   global.test.blog();
 
   afterEach(function(done) {
@@ -86,7 +97,7 @@ describe("asset middleware", function() {
             contents += chunk;
           });
           resp.on("end", function() {
-            callback(null, contents);
+            callback(null, contents, resp);
           });
         })
         .on("error", callback);
