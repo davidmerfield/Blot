@@ -1,6 +1,6 @@
-var redis = require("client");
-var key = require('./key');
+var client = require("client");
+var key = require("./key");
 
-module.exports = function isOwner(owner, id, callback) {
-  redis.SISMEMBER(key.blogTemplates(owner), id, callback);
+module.exports = function isOwner(blogID, templateID, callback) {
+  client.SISMEMBER(key.blogTemplates(blogID), templateID, callback);
 };

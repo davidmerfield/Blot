@@ -1,13 +1,13 @@
-var redis = require("client");
+var client = require("client");
 var key = require("./key");
 var deserialize = require("./util/deserialize");
 var model = require("./model");
 var debug = require("debug")("template:get");
 
-module.exports = function get(id, callback) {
-  debug(id);
+module.exports = function get(templateID, callback) {
+  debug(templateID);
 
-  redis.hgetall(key.metadata(id), function(err, metadata) {
+  client.hgetall(key.metadata(templateID), function(err, metadata) {
     if (err) return callback(err);
 
     try {

@@ -1,12 +1,10 @@
 var helper = require("helper");
-var async = require("async");
 var extend = helper.extend;
 var ensure = helper.ensure;
 var key = require("./key");
 var client = require("client");
-var set = require("./view/set");
 var get = require("./get");
-var getAll = require("./view/getAll");
+var view = require("./view");
 var model = require("./model");
 var debug = require("debug")("template:create");
 var makeID = require("./util/makeID");
@@ -16,7 +14,7 @@ var serialize = require("./util/serialize");
 // or the string 'SITE' which represents a BLOT template not
 // not editable by any blog
 module.exports = function create(blogID, name, metadata, callback) {
-  var id, slug, multi, metadataString;
+  var templateID, slug, multi;
 
   try {
     // Name is user input, it needs to be trimmed
@@ -26,69 +24,71 @@ module.exports = function create(blogID, name, metadata, callback) {
     slug = helper.makeSlug(name.split("/").join("-"));
 
     // Each template has an ID which is namespaced under its blogID
-    id = makeID(blogID, slug);
+    templateID = makeID(blogID, slug);
   } catch (err) {
     return callback(err);
   }
-  // Don't overwrite an existing template
-  client.exists(key.metadata(id), function(err, stat) {
+
+  client.exists(key.metadata(templateID), function(err, stat) {
     if (err) return callback(err);
 
-    if (stat) return callback(new Error("Existing template " + name));
+    // Don't overwrite an existing template
+    if (stat) {
+      err = new Error(name + " already exists");
+      err.code = "EEXISTS";
+      return callback(err);
+    }
 
     get(metadata.cloneFrom, function(err, existingMetadata) {
       if (err) return callback(err);
 
-      if (!existingMetadata && metadata.cloneFrom !== undefined)
-        return callback(new Error(metadata.cloneFrom + " does not exist"));
+      // Return an error if the template the user would like to
+      // clone does not exist.
+      if (!existingMetadata && metadata.cloneFrom !== undefined) {
+        err = new Error(metadata.cloneFrom + " does not exist");
+        err.code = "ENOENT";
+        return callback(err);
+      }
 
-      // Copy across any metadata from the
-      // source of the clone, if its not set
+      // Copy across any metadata from the template to clone
       if (existingMetadata) {
         debug("Cloning data", metadata, existingMetadata);
         extend(metadata).and(existingMetadata);
       }
 
-      // Defaults
-      metadata.id = id;
-      metadata.name = name;
-      metadata.owner = blogID;
-      metadata.slug = slug;
-      metadata.locals = metadata.locals || {};
-      metadata.description = metadata.description || "";
-      metadata.thumb = metadata.thumb || "";
-      metadata.localEditing = false;
-      metadata.cloneFrom = metadata.cloneFrom || "";
-      metadata.isPublic = metadata.isPublic || false;
+      try {
+        // Defaults
+        metadata.id = templateID;
+        metadata.name = name;
+        metadata.owner = blogID;
+        metadata.slug = slug;
+        metadata.locals = metadata.locals || {};
+        metadata.description = metadata.description || "";
+        metadata.thumb = metadata.thumb || "";
+        metadata.localEditing = false;
+        metadata.cloneFrom = metadata.cloneFrom || "";
+        metadata.isPublic = metadata.isPublic || false;
 
-      multi = client.multi();
+        ensure(metadata, model, true);
 
-      multi.sadd(key.blogTemplates(blogID), id);
+        multi = client.multi();
+        multi.sadd(key.blogTemplates(blogID), templateID);
+        multi.sadd(key.blogTemplates(metadata.owner), templateID);
+        multi.hmset(key.metadata(templateID), serialize(metadata, model));
 
-      if (metadata.isPublic) {
-        multi.sadd(key.publicTemplates, id);
-      } else {
-        multi.srem(key.publicTemplates, id);
+        if (metadata.isPublic) multi.sadd(key.publicTemplates, templateID);
+      } catch (err) {
+        return callback(err);
       }
 
-      ensure(metadata, model, true);
-
-      multi.sadd(key.blogTemplates(metadata.owner), id);
-
-      metadataString = serialize(metadata, model);
-
-      multi.hmset(key.metadata(id), metadataString);
-      debug("Saving", metadata);
       multi.exec(function(err) {
         if (err) return callback(err);
 
-        getAll(metadata.cloneFrom, function(err, allViews) {
+        // Transfer any and all views from the template
+        // the user would like to clone, if relevant
+        view.copyAll(metadata.cloneFrom, templateID, function(err) {
           if (err) return callback(err);
-
-          async.each(allViews, set.bind(null, name), function(err) {
-            if (err) return callback(err);
-            callback(null, metadata);
-          });
+          callback(null, metadata);
         });
       });
     });

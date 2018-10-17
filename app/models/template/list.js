@@ -1,5 +1,5 @@
 var key = require("./key");
-var redis = require("client");
+var client = require("client");
 var get = require("./get");
 var async = require("async");
 
@@ -8,26 +8,16 @@ var async = require("async");
 // returns an array of template metadata
 // objects. Does not contain any view info
 module.exports = function list(blogID, callback) {
-  redis.smembers(key.publicTemplates, function(err, publicTemplates) {
-    redis.smembers(key.blogTemplates(blogID), function(err, blogTemplates) {
-      var templateIDs = publicTemplates.concat(blogTemplates);
-      var response = [];
+  var batch = client.batch();
 
-      async.eachSeries(
-        templateIDs,
-        function(id, next) {
-          get(id, function(err, info) {
-            if (err) return next();
+  batch.smembers(key.publicTemplates);
+  batch.smembers(key.blogTemplates(blogID));
 
-            if (info) response.push(info);
+  batch.exec(function(err, templateIDs) {
+    if (err) return callback(err);
 
-            next();
-          });
-        },
-        function() {
-          callback(err, response);
-        }
-      );
-    });
+    templateIDs = templateIDs[0].concat(templateIDs[1]);
+
+    async.map(templateIDs, get, callback);
   });
 };
