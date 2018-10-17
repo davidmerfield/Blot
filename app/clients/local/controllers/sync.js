@@ -1,14 +1,14 @@
 var fs = require("fs-extra");
 var Sync = require("sync");
 var localPath = require("helper").localPath;
-var model = require("./model");
+var Folder = require("../models/folder");
 var async = require("async");
 
 // Start listening for all blogs with this client
-model.list(function(err, blogIDs) {
+Folder.list(function(err, blogIDs) {
   if (err) throw err;
   blogIDs.forEach(function(blogID) {
-    model.get(blogID, function(err, folder) {
+    Folder.get(blogID, function(err, folder) {
       if (err) throw err;
       init(blogID, folder, function(err) {
         if (err) throw err;
