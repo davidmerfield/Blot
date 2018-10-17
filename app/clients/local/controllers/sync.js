@@ -35,7 +35,10 @@ function walk(dir) {
 }
 
 function init(blogID, userFolder, callback) {
-  fs.watch(userFolder, { recursive: true }, function(event, path) {
+  var watcher = fs.watch(userFolder, { recursive: true }, handler);
+  callback(null);
+
+  function handler(event, path) {
     if (!path) return;
 
     // Blot likes leading slashes
@@ -46,43 +49,46 @@ function init(blogID, userFolder, callback) {
     var pathInUserFolder = userFolder + path;
     var pathOnBlot = localPath(blogID, path);
 
-    Sync(blogID, syncOptions, function(err, folder, done) {
-      if (err) return console.log(err);
+    Folder.get(blogID, function(err, folder) {
+      // Check the folder is still connected to a client
+      if (!folder) return watcher.close();
 
-      fs.stat(pathInUserFolder, function(err, stat) {
-        try {
-          affectedPaths = affectedPaths.concat(
-            walk(pathOnBlot).map(function(path) {
-              return path.slice(folder.path.length);
-            })
-          );
-        } catch (e) {}
+      Sync(blogID, syncOptions, function(err, folder, done) {
+        if (err) return console.log(err);
 
-        try {
-          affectedPaths = affectedPaths.concat(
-            walk(pathInUserFolder).map(function(path) {
-              return path.slice(userFolder.length);
-            })
-          );
-        } catch (e) {}
+        fs.stat(pathInUserFolder, function(err, stat) {
+          try {
+            affectedPaths = affectedPaths.concat(
+              walk(pathOnBlot).map(function(path) {
+                return path.slice(folder.path.length);
+              })
+            );
+          } catch (e) {}
 
-        if (stat) {
-          fs.copySync(pathInUserFolder, pathOnBlot);
-        } else {
-          fs.removeSync(pathOnBlot);
-        }
+          try {
+            affectedPaths = affectedPaths.concat(
+              walk(pathInUserFolder).map(function(path) {
+                return path.slice(userFolder.length);
+              })
+            );
+          } catch (e) {}
 
-        async.each(affectedPaths, folder.update, function(err) {
-          if (err) console.log(err);
-          done(null, function(err) {
+          if (stat) {
+            fs.copySync(pathInUserFolder, pathOnBlot);
+          } else {
+            fs.removeSync(pathOnBlot);
+          }
+
+          async.each(affectedPaths, folder.update, function(err) {
             if (err) console.log(err);
+            done(null, function(err) {
+              if (err) console.log(err);
+            });
           });
         });
       });
     });
-  });
-
-  callback(null);
+  }
 }
 
 module.exports = init;
