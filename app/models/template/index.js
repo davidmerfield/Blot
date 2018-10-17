@@ -6,11 +6,12 @@ module.exports = {
   list: require("./list"),
 
   view: require('./view'),
+  slug: require("./util/slug"),
+  isOwner: require("./isOwner"),
+  model: require("./model"),
 
   // writeToFolder: require("./writeToFolder"),
   // updateFromFolder: require("./updateFromFolder"),
 
-  slug: require("./util/slug"),
-  isOwner: require("./isOwner"),
-  model: require("./model")
+
 };
