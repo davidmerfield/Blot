@@ -8,10 +8,7 @@ I recommend waiting until I write a guide before attempting to run Blot on your 
 Please don’t hesitate to contact me with any questions: support@blot.im
 
 
-
-
-
-The code
+Overview
 --------
 
 Here is an illustration of Blot's current structure:
@@ -38,18 +35,26 @@ Here is an illustration of Blot's current structure:
                                  +------------------------------+
 
 
-The Node.js server (Blot) itself is responsible for a small crew of child processes which handle things like image minification and document conversion. You can find the code for these parts in these folders:
-      
-    app 
-        the code for the node.js application which is Blot
+The Node.js server (Blot) itself is responsible for a small crew of child processes which handle things like image minification and document conversion. 
 
-    config
-        configation for the system utilities which keep redis, NGINX and the node.js processes up
-      
-    scripts
-        scripts which help the server administrator
 
-    tests
-        integration tests and test configuration for blot
+Inside this folder
+------------------
+
+  app 
+    the code for the node.js application which is Blot
+
+  config
+    configation for the system utilities which keep redis, NGINX and the node.js processes up
+
+  scripts
+    scripts which help the server administrator
+
+  tests
+    integration tests and test configuration for blot
      
+
+To do
+-----
+
 Eventually, I would like to remove NGINX and handle SSL termination and static file delivery from the Node.js server. I'd also like to remove as much data as possible from Redis and store it on disk.
