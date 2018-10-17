@@ -17,63 +17,8 @@ model.list(function(err, blogIDs) {
   });
 });
 
-function init(blogID, folder, callback) {
-  fs.watch(folder, { recursive: true }, function(event, path) {
-    if (!path) return;
-
-    // Blot likes leading slashes
-    path = "/" + path;
-
-    var syncOptions = { retryCount: -1, retryDelay: 10, retryJitter: 10 };
-    var stat;
-    var affectedPaths = [];
-    var pathInUserFolder = folder + path;
-    var pathOnBlot = localPath(blogID, path);
-
-    Sync(blogID, syncOptions, function(err, folder, done) {
-      if (err) return console.log(err);
-
-      try {
-        stat = fs.statSync(pathInUserFolder);
-      } catch (e) {
-        if (e.code === "ENOENT") {
-          try {
-            affectedPaths = walk(pathOnBlot).map(function(path) {
-              return path.slice(pathOnBlot.length);
-            });
-          } catch (e) {}
-
-          fs.removeSync(pathOnBlot);
-        }
-      }
-
-      if (stat && stat.isDirectory()) {
-        fs.ensureDirSync(pathOnBlot);
-      }
-
-      if (stat && stat.isFile()) {
-        fs.copySync(pathInUserFolder, pathOnBlot);
-      }
-
-      affectedPaths.push(path);
-
-      async.each(
-        affectedPaths,
-        function(path, next) {
-          folder.update(path, next);
-        },
-        function() {
-          done(null, function(err) {
-            if (err) console.log(err);
-          });
-        }
-      );
-    });
-  });
-
-  callback(null);
-}
-
+// I know I should use a proper library but this is just
+// for illustrative purposes.
 function walk(dir) {
   var results = [];
   var list = fs.readdirSync(dir);
@@ -87,6 +32,57 @@ function walk(dir) {
     }
   });
   return results;
+}
+
+function init(blogID, userFolder, callback) {
+  fs.watch(userFolder, { recursive: true }, function(event, path) {
+    if (!path) return;
+
+    // Blot likes leading slashes
+    path = "/" + path;
+
+    var syncOptions = { retryCount: -1, retryDelay: 10, retryJitter: 10 };
+    var affectedPaths = [path];
+    var pathInUserFolder = userFolder + path;
+    var pathOnBlot = localPath(blogID, path);
+
+    Sync(blogID, syncOptions, function(err, folder, done) {
+      if (err) return console.log(err);
+
+      fs.stat(pathInUserFolder, function(err, stat) {
+        try {
+          affectedPaths = affectedPaths.concat(
+            walk(pathOnBlot).map(function(path) {
+              return path.slice(folder.path.length);
+            })
+          );
+        } catch (e) {}
+
+        try {
+          affectedPaths = affectedPaths.concat(
+            walk(pathInUserFolder).map(function(path) {
+              return path.slice(userFolder.length);
+            })
+          );
+        } catch (e) {}
+
+        if (stat) {
+          fs.copySync(pathInUserFolder, pathOnBlot);
+        } else {
+          fs.removeSync(pathOnBlot);
+        }
+
+        async.each(affectedPaths, folder.update, function(err) {
+          if (err) console.log(err);
+          done(null, function(err) {
+            if (err) console.log(err);
+          });
+        });
+      });
+    });
+  });
+
+  callback(null);
 }
 
 module.exports = init;

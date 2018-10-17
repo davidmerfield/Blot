@@ -1,10 +1,11 @@
 var Express = require("express");
-var fs = require("fs-extra");
-// It's important this is a router and not an Express app
-var controller = Express.Router();
 var model = require("./model");
-var Blog = require("blog");
 var sync = require("./sync");
+var fs = require("fs-extra");
+
+// It's important this is an Express router
+// and not an Express app for reasons unknown
+var controller = Express.Router();
 
 // By the time this middleware is mounted, blot
 // has fetched the information about this user.
@@ -38,11 +39,7 @@ controller.post("/set", function(req, res, next) {
 });
 
 controller.post("/disconnect", function(req, res, next) {
-  model.unset(req.blog.id, function(err) {
-    if (err) return next(err);
-    // eventually clients should not need to do this
-    Blog.set(req.blog.id, { client: "" }, next);
-  });
+  require("./disconnect")(req.blog.id, next);
 });
 
 module.exports = controller;
