@@ -8,10 +8,10 @@ var clients = {
   git: require('./git')
 };
 
-// // Demo local client
-// if (config.environment === 'development') {
-//   clients.local = require('./local');
-// }
+// Demo local client
+if (config.environment === 'development') {
+  clients.local = require('./local');
+}
   
 // Verify that each client has the correct
 // signature before exposing them to Blot.
