@@ -15,13 +15,35 @@ module.exports = function(blogID, update, callback) {
       if (err) return callback(err);
 
       createdEntries.forEach(function(createdEntry) {
-        deletedEntries.forEach(function(deletedEntry) {
-          if (createdEntry.size === deletedEntry.size)
-            renames[createdEntry.path] = {
-              createdEntry: createdEntry,
-              deletedEntry: deletedEntry
-            };
+        
+        var deletedEntriesOfSameSize;
+        var deletedEntriesOfSameTitle;
+        var deletedEntry;
+
+        deletedEntriesOfSameSize = deletedEntries.filter(function(deletedEntry) {
+          return deletedEntry.size === createdEntry.size;
         });
+
+        deletedEntriesOfSameTitle = deletedEntries.filter(function(deletedEntry) {
+          return deletedEntry.title === createdEntry.title;
+        });
+
+        if (deletedEntriesOfSameSize.length === 1)  {
+          deletedEntry = deletedEntriesOfSameSize.pop();
+        } else if (deletedEntriesOfSameTitle.length === 1) {
+          deletedEntry = deletedEntriesOfSameTitle.pop();
+        } else {
+          return;
+        }
+
+        deletedEntries = deletedEntries.filter(function(entry) {
+          return deletedEntry.path !== entry.path;
+        });
+
+        renames[createdEntry.path] = {
+          createdEntry: createdEntry,
+          deletedEntry: deletedEntry
+        };
       });
 
       async.eachOfSeries(

@@ -1,1 +1,1 @@
-module.exports = require('./appCSS');
+module.exports = require("./appCSS");

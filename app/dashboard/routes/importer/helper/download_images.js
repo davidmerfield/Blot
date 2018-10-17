@@ -1,88 +1,94 @@
-var cheerio = require('cheerio');
-var basename = require('path').basename;
-var parse = require('url').parse;
-var download = require('download-file');
-var each_el = require('./each_el');
+var cheerio = require("cheerio");
+var basename = require("path").basename;
+var parse = require("url").parse;
+var download = require("download");
+var each_el = require("./each_el");
+var fs = require("fs-extra");
 
 // Consider using this algorithm to determine best part of alt tag or caption to use
-// as the file's name: 
+// as the file's name:
 // http://www.bearcave.com/misl/misl_tech/wavelets/compression/shannon.html
 
-function download_thumbnail (post, path, callback) {
-
+function download_thumbnail(post, path, callback) {
   if (!post || !post.metadata || !post.metadata.thumbnail) return callback();
 
   var thumbnail = post.metadata.thumbnail;
 
   if (!thumbnail) return callback();
 
-  console.log('here', thumbnail, path);
-
   var name = nameFrom(thumbnail);
 
-  download(thumbnail, {directory: path, filename: name}, function(err){
-
-    if (err) return callback(err);
-
-    return callback(null, name);
-  });
+  download(thumbnail)
+    .then(function(data) {
+      fs.outputFile(path + "/" + name, data, function(err) {
+        callback(err, name);
+      });
+    })
+    .catch(callback);
 }
 
-module.exports = function download_images (post, callback) {
-
+module.exports = function download_images(post, callback) {
   var changes = false;
-  var $ = cheerio.load(post.html, {decodeEntities: false});
+  var $ = cheerio.load(post.html, { decodeEntities: false });
 
-  download_thumbnail(post, post.path, function(err, thumbnail){
-
+  download_thumbnail(post, post.path, function(err, thumbnail) {
     if (!err && thumbnail) {
       changes = true;
       post.metadata.thumbnail = thumbnail;
     }
 
-    each_el($, 'img', function(el, next){
+    each_el(
+      $,
+      "img",
+      function(el, next) {
+        var src = $(el).attr("src");
 
-      var src = $(el).attr('src');
+        if (!src || src.indexOf("data:") === 0) return next();
 
-      if (!src || src.indexOf('data:') === 0)
-        return next();
+        var name = nameFrom(src);
+        if (name.charAt(0) !== "_") name = "_" + name;
 
-      var name = nameFrom(src);
-      if (name.charAt(0) !== '_') name = '_' + name;
+        if (!require("url").parse(src).hostname) return next();
 
-      if (!require('url').parse(src).hostname) return next();
+        download(src)
+          .then(function(data) {
+            fs.outputFile(post.path + "/" + name, data, function(err) {
+              changes = true;
 
-      download(src, {directory: post.path, filename: name}, function(err){
+              $(el).attr("src", name);
 
-        if (err) {
-          console.log('Image error', src, err);
-          return next();
+              if (
+                $(el)
+                  .parent()
+                  .attr("href") === src
+              )
+                $(el)
+                  .parent()
+                  .attr("href", name);
+
+              next();
+            });
+          })
+          .catch(function(err) {
+            console.log("Image error", src, err);
+            return next();
+          });
+      },
+      function() {
+        if (changes) {
+          post.path = post.path + "/post.txt";
+        } else {
+          post.path = post.path + ".txt";
         }
 
-        changes = true;
+        post.html = $.html();
 
-        $(el).attr('src', name);
-
-        if ($(el).parent().attr('href') === src)
-          $(el).parent().attr('href', name);
-
-        next();
-      });
-    }, function(){
-
-      if (changes) {
-        post.path = post.path + '/post.txt';
-      } else {
-        post.path = post.path + '.txt';
+        callback(null, post);
       }
-
-      post.html = $.html();
-
-      callback(null, post);
-    });
+    );
   });
 };
 
-function nameFrom (src) {
-  return '_' + basename(parse(src).pathname);
+function nameFrom(src) {
+  return "_" + basename(parse(src).pathname);
 }

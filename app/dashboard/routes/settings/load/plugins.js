@@ -1,6 +1,6 @@
 var Mustache = require('mustache');
 var _ = require('lodash');
-var pluginList = require('../../../../models/entry/build/plugins').list;
+var pluginList = require('../../../../build/plugins').list;
 var helper = require('helper');
 var capitalise = helper.capitalise;
 var deCamelize = helper.deCamelize;

@@ -4,10 +4,20 @@ function retry(fn, options) {
   options = options || {};
 
   // Set our defaults
-  options.times = options.times || 5;
+  options.times = options.times || 6;
 
   // Exponential backoff
+  // 100, 200, 400, 800, 1600, 3200
   options.interval = options.interval || exponential;
+
+  // 401 = token revoked
+  // 409 = folder no longer exists
+  // in these cases, do not retry, there is no point
+  options.errorFilter =
+    options.errorFilter ||
+    function(err) {
+      return [401, 409].indexOf(err.status) === -1;
+    };
 
   return function() {
     var args = Array.prototype.slice.call(arguments);

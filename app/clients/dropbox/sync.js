@@ -80,7 +80,10 @@ module.exports = function main(blog, callback) {
             // this synchronization. We don't care about errors because
             // those lie beyond the scope of this client. Its responsibilty
             // is to ensure the blog folder on Blot's server is in sync.
-            async.each(
+            // We must do this in series until entry.set becomes
+            // atomic. Right now, making changes to the blog's
+            // menu cannot be done concurrently, hence eachSeries!
+            async.eachSeries(
               result.entries,
               function(item, next) {
                 debug("Updating on Blot:", item.relative_path);
@@ -143,7 +146,7 @@ function Apply(token, blogFolder) {
     // relative path to an item, since the root of the
     // Dropbox folder might not be the root of the blog.
     function download(item, callback) {
-      debug("Downloading", item.path);
+      debug("Downloading", item.relative_path);
       Download(
         token,
         item.path_lower,

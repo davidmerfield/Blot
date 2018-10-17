@@ -10,6 +10,7 @@
   "author": "",
   "license": "CC0-1.0",
   "dependencies": {
+    "download": "^7.1.0",
     "download-file": "^0.1.5",
     "pretty": "^2.0.0",
     "turndown": "^5.0.1"

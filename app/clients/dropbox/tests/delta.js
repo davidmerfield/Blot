@@ -88,37 +88,25 @@ describe("dropbox client", function() {
   });
 
   function specs() {
-    it(
-      "retrieves list of changes",
-      function(done) {
-        this.delta(function(err, res) {
-          if (err) return done.fail(err);
+    it("retrieves list of changes", function(done) {
+      this.delta(function(err, res) {
+        if (err) return done.fail(err);
 
-          expect(res.entries).toEqual([]);
-          expect(res.has_more).toEqual(false);
-          expect(res.cursor).toEqual(jasmine.any(String));
+        expect(res.entries).toEqual([]);
+        expect(res.has_more).toEqual(false);
+        expect(res.cursor).toEqual(jasmine.any(String));
 
-          done();
-        });
-      },
-      30 * 1000
-    );
+        done();
+      });
+    });
 
-    it(
-      "detects a new file",
-      function(done) {
-        this.addFile(done);
-      },
-      30 * 1000
-    );
+    it("detects a new file", function(done) {
+      this.addFile(done);
+    });
 
-    it(
-      "detects a removed file",
-      function(done) {
-        this.removeFile(done);
-      },
-      30 * 1000
-    );
+    it("detects a removed file", function(done) {
+      this.removeFile(done);
+    });
   }
 });
 

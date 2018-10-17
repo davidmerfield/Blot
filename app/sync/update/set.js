@@ -1,15 +1,12 @@
 var helper = require("helper");
 var normalize = helper.pathNormalizer;
 var rebuildDependents = require("./rebuildDependents");
-
 var Ignore = require("./ignore");
 var Metadata = require("metadata");
 var Entry = require("entry");
-var Preview = require("../../modules/preview");
-var isPreview = require("../../drafts").isPreview;
+var Preview = require("./preview");
+var isPreview = require("./drafts").isPreview;
 var async = require("async");
-
-var converters = require("../../converters");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
 
@@ -24,15 +21,7 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-function isWrongType(path) {
-  var isWrong = true;
-
-  converters.forEach(function(converter) {
-    if (converter.is(path)) isWrong = false;
-  });
-
-  return isWrong;
-}
+var build = require('../../build');
 
 module.exports = function(blog, path, options, callback) {
   var queue;
@@ -72,11 +61,10 @@ module.exports = function(blog, path, options, callback) {
     // therefore not be a blog post.
     if (isPublic(path)) return Ignore(blog.id, path, PUBLIC_FILE, callback);
 
-    // This file cannot become a blog post because it is not
-    // a type that Blot can process properly.
-    if (isWrongType(path)) return Ignore(blog.id, path, WRONG_TYPE, callback);
+    build(blog, path, options, function(err, entry) {
+      if (err && err.code === "WRONGTYPE")
+        return Ignore(blog.id, path, WRONG_TYPE, callback);
 
-    Entry.build(blog, path, function(err, entry) {
       if (err) return callback(err);
 
       // This file is a draft, write a preview file

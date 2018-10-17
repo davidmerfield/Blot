@@ -77,7 +77,6 @@ module.exports = function delta(token, folderID) {
         callback(null, result);
       })
       .catch(function(err) {
-
         var message, error;
 
         // Professional programmers wrote this SDK
@@ -111,5 +110,7 @@ module.exports = function delta(token, folderID) {
   // We try to make this function more robust by retrying under
   // certain conditions, and adding a timeout to eachh attempt.
   // Only retry if the folder has not been moved
-  return retry(get, {timeout: 15 * 1000}); // Dropbox sometimes hangs...
+  return retry(get, {
+    timeout: 15 * 1000
+  }); // Dropbox sometimes hangs...
 };

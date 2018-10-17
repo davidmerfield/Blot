@@ -1,7 +1,7 @@
-var helper = require('helper');
+var helper = require("helper");
 var ensure = helper.ensure;
-var Augment = require('./augment');
-var eachEntry = require('./eachEntry');
+var Augment = require("./augment");
+var eachEntry = require("./eachEntry");
 
 // then we check each entry in the view
 
@@ -14,10 +14,9 @@ var eachEntry = require('./eachEntry');
 // then returning req and res
 
 module.exports = function(req, res, callback) {
-
-  ensure(req, 'object')
-    .and(res, 'object')
-    .and(callback, 'function');
+  ensure(req, "object")
+    .and(res, "object")
+    .and(callback, "function");
 
   var locals = res.locals;
 

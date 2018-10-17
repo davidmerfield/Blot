@@ -2,8 +2,8 @@ var async = require("async");
 var Entry = require("entry");
 var Metadata = require("metadata");
 var Ignored = require("ignored");
-var Preview = require("../../modules/preview");
-var isDraft = require("../../drafts").isDraft;
+var Preview = require("./preview");
+var isDraft = require("./drafts").isDraft;
 var rebuildDependents = require("./rebuildDependents");
 
 module.exports = function(blogID, path, options, callback) {

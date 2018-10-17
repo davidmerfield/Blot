@@ -3,11 +3,11 @@ module.exports = function setup(options) {
   var database = require("../../database");
   var Blog = require("blog");
   var server = require("./server");
+  var createFolder = require("./createFolder");
   var createClient = require("../../util/createClient");
-  var uuid = require("uuid/v4");
 
   // Increase timeout
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
 
   global.test.blog();
 
@@ -62,29 +62,7 @@ module.exports = function setup(options) {
   // Create a 'blog folder' for the tests to run against. Why
   // not just use entire Dropbox folder? We hit 429 too many
   // write operation errors for some dumb reason...
-  beforeEach(function(done) {
-    var client = this.client;
-    var context = this;
-
-    if (options.root) {
-      context.folder = "";
-      context.folderID = "";
-      return done();
-    } else {
-      context.folder = "/" + uuid();
-    }
-
-    client
-      .filesCreateFolder({ path: context.folder })
-      .then(function(res) {
-        context.folder = res.path_lower;
-        context.folderID = res.id;
-        done();
-      })
-      .catch(function(err) {
-        return done(new Error("Could not set up test folder"));
-      });
-  });
+  beforeEach(createFolder(options));
 
   // Create fake dropbox account
   beforeEach(function(done) {

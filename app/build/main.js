@@ -1,47 +1,58 @@
-var debug = require("debug")("blot:models:entry:build");
+var debug = require("debug")("blot:build:main");
 var Metadata = require("metadata");
-var helper = require("helper");
 var basename = require("path").basename;
-var callOnce = helper.callOnce;
-var ensure = helper.ensure;
-var isDraft = require("../../../drafts").isDraft;
-var exitHook = require("async-exit-hook");
+var isDraft = require("../sync/update/drafts").isDraft;
 var Build = require("./single");
 var Prepare = require("./prepare");
 var Thumbnail = require("./thumbnail");
 var DateStamp = require("./prepare/dateStamp");
-
 var moment = require("moment");
-require("moment-timezone");
+var converters = require("./converters");
+var exitHook = require("async-exit-hook");
 
-// For some reason, this child is sometimes not killed
-// UNLESS we have some sort of exit handler. Even though
-// this one does absolutely nothing as far as I can tell
-// it fixes the problem of ghost processes. I need to understand...
+// setTimeout(function(){
+//   throw new Error('EXCEPTION!');
+// }, Math.random() * 20 * 1000);
+
 exitHook(function() {
-  console.log("Worker: exiting build/main.js process", process.pid);
+  console.log("Shutting down worker:", process.pid);
 });
 
+console.log("Worker", process.pid, "started");
+
+// This file cannot become a blog post because it is not
+// a type that Blot can process properly.
+function isWrongType(path) {
+  var isWrong = true;
+
+  converters.forEach(function(converter) {
+    if (converter.is(path)) isWrong = false;
+  });
+
+  return isWrong;
+}
+
 process.on("message", function(message) {
-  var blog = message.blog;
-  var path = message.path;
-  var options = {};
-  var callback = function(err, entry) {
-    var response = { err: err, entry: entry, buildID: message.buildID };
-    process.send(response);
-  };
+  build(message.blog, message.path, message.options, function(err, entry) {
+    if (err) {
+      try {
+        err = JSON.stringify(err, Object.getOwnPropertyNames(err));
+      } catch (e) {}
+    }
+    debug(message.id, "Sending back", err, entry);
+    process.send({ err: err, entry: entry, id: message.id });
+  });
+});
 
-  ensure(blog, "object")
-    .and(path, "string")
-    .and(callback, "function");
+function build(blog, path, options, callback) {
+  console.log("Build:", process.pid, "processing", path);
 
-  callback = callOnce(callback);
-  
-  // Eventually we'll use this moment
-  // to determine which builder the path
-  // needs, e.g. an image, album etc...
-  // path might need to change
-  // for image captions, album items...
+  if (isWrongType(path)) {
+    var err = new Error("Path is wrong type to convert");
+    err.code = "WRONGTYPE";
+    return callback(err);
+  }
+
   Metadata.get(blog.id, path, function(err, name) {
     if (err) return callback(err);
 
@@ -108,4 +119,6 @@ process.on("message", function(message) {
       });
     });
   });
-});
+}
+
+module.exports = build;
