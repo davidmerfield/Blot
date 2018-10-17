@@ -1,4 +1,4 @@
-var debug = require("debug")("blot:models:entry:build");
+var debug = require("debug")("blot:build:main");
 var Metadata = require("metadata");
 var basename = require("path").basename;
 var isDraft = require("../sync/update/drafts").isDraft;
@@ -34,6 +34,12 @@ function isWrongType(path) {
 
 process.on("message", function(message) {
   build(message.blog, message.path, message.options, function(err, entry) {
+    if (err) {
+      try {
+        err = JSON.stringify(err, Object.getOwnPropertyNames(err));
+      } catch (e) {}
+    }
+    debug(message.id, "Sending back", err, entry);
     process.send({ err: err, entry: entry, id: message.id });
   });
 });

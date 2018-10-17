@@ -1,95 +1,88 @@
-var spawn = require('child_process').spawn;
-var indentation = require('./indentation');
-var footnotes = require('./footnotes');
-var helper = require('helper');
+var spawn = require("child_process").spawn;
+var indentation = require("./indentation");
+var footnotes = require("./footnotes");
+var helper = require("helper");
 var time = helper.time;
 var encodeAmpersands = helper.encodeAmpersands;
-var config = require('config');
+var config = require("config");
 var pandoc_path = config.pandoc_path;
 
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-module.exports = function (text, callback) {
-
+module.exports = function(text, callback) {
   var extensions =
-
     // replace url strings with a tags
-    '+autolink_bare_uris' +
-
+    "+autolink_bare_uris" +
     // This feature fucks with [@twitter]() links
     // perhaps make it an option in future?
-    '-citations' +
-
+    "-citations" +
     // Fucks up with using horizontal rules
     // without blank lines between them.
-    '-simple_tables' +
-    '-multiline_tables' +
-
+    "-simple_tables" +
+    "-multiline_tables" +
     // We already convert any math with katex
     // perhaps we should use pandoc to do this
     // instead of a seperate function?
-    '-tex_math_dollars' +
-
+    "-tex_math_dollars" +
     // This sometimes throws errors for some reason
-    '-yaml_metadata_block' +
-
+    "-yaml_metadata_block" +
     // Don't generate figures automatically
-    '-implicit_figures' +
-
+    "-implicit_figures" +
     // These require a blank line before shit
-    '+lists_without_preceding_blankline' +
-    '-blank_before_header' +
-    '-blank_before_blockquote';
+    "+lists_without_preceding_blankline" +
+    "-blank_before_header" +
+    "-blank_before_blockquote";
 
   var pandoc = spawn(pandoc_path, [
-
-    '-f', 'markdown' + extensions,
+    "-f",
+    "markdown" + extensions,
 
     // Not really sure what the difference is between
     // this and just HTML.
-    '-t', 'html5',
+    "-t",
+    "html5",
 
     // Don't declare widths for tables
     // https://github.com/jgm/pandoc/issues/2574
-    '--columns', '1000',
+    "--columns",
+    "1000",
 
     // we use our own highlighint library (hljs) later
-    '--no-highlight',
+    "--no-highlight",
 
     // such a dumb default feature... sorry john!
-    '--email-obfuscation=none'
+    "--email-obfuscation=none"
   ]);
 
-  var result = '';
-  var error = '';
+  var result = "";
+  var error = "";
 
-  pandoc.stdout.on('data', function (data) {
+  pandoc.stdout.on("data", function(data) {
     result += data;
   });
 
-  pandoc.stderr.on('data', function (data) {
+  pandoc.stderr.on("data", function(data) {
     error += data;
   });
 
-  pandoc.on('close', function (code) {
+  pandoc.on("close", function(code) {
+    time.end("pandoc");
 
-    time.end('pandoc');
+    var err = null;
 
-    var msg = '';
+    // This means something went wrong
+    if (code !== 0) {
+      err = "Pandoc exited with code " + code;
+      err += error;
+      err = new Error(err);
+    }
 
-    if (code !== 0)
-      msg += 'Pandoc exited with code ' + code + (error ? ': ' : '.');
+    if (err) return callback(err);
 
-    if (error)
-      msg += error;
-
-    if (msg)
-      return callback(new Error(msg));
-
-    time('footnotes');
+    time("footnotes");
     result = safely(footnotes, result);
-    time.end('footnotes');
+    time.end("footnotes");
 
     callback(null, result);
   });
@@ -101,9 +94,9 @@ module.exports = function (text, callback) {
   // This is an issue that's open in Pandoc's repo
   // https://github.com/jgm/pandoc/issues/2410
 
-  time('ampersands');
+  time("ampersands");
   text = safely(encodeAmpersands, text);
-  time.end('ampersands');
+  time.end("ampersands");
 
   // Pandoc is very strict and treats indents inside
   // HTML blocks as code blocks. This is correct but
@@ -125,20 +118,19 @@ module.exports = function (text, callback) {
   // for the contents of an HTML tag. This preserves
   // indentation in text! More discussion of this issue:
   // https://github.com/jgm/pandoc/issues/1841
-  time('indentation');
+  time("indentation");
   text = safely(indentation, text);
-  time.end('indentation');
+  time.end("indentation");
 
-  time('pandoc');
-  pandoc.stdin.end(text, 'utf8');
+  time("pandoc");
+  pandoc.stdin.end(text, "utf8");
 };
 
-function safely (method, input) {
-
+function safely(method, input) {
   try {
     input = method(input);
   } catch (e) {
-    console.log('Conversion Error:', e.message || e.code, 'caught safely');
+    console.log("Conversion Error:", e.message || e.code, "caught safely");
     if (e.stack) console.log(e.stack);
   }
 

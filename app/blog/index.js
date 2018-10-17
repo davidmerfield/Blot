@@ -58,7 +58,7 @@ require("./robots")(blog);
 require("./view")(blog);
 require("./entry")(blog);
 require("./entries")(blog);
-require("./assets")(blog);
+blog.use(require("./assets"));
 require("./public")(blog);
 require("./error")(blog);
 

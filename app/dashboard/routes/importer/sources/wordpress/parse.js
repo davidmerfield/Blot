@@ -53,18 +53,16 @@ module.exports = function($, output_directory, callback) {
 
       dateStamp = created = updated = moment(extract("pubDate")).valueOf();
       tags = _.uniq(extract("category", true));
-      title = extract("title");
+      title = extract("title").trim();
+      var slug;
 
-      if (!title) {
-        // console.log($.html(el));
-        // throw '';
+      if (!title.trim()) {
+        slug = require("path").parse(
+          require("path").basename(extract("wp:post_name") || extract("link"))
+        ).name;
       }
 
       content = extract("content:encoded");
-
-
-
-
       content = insert_video_embeds(content);
       content = remove_caption(content);
 
@@ -72,7 +70,7 @@ module.exports = function($, output_directory, callback) {
 
       path_without_extension = join(
         output_directory,
-        determine_path(title, page, draft, dateStamp)
+        determine_path(title, page, draft, dateStamp, slug)
       );
 
       post = {
@@ -103,15 +101,13 @@ module.exports = function($, output_directory, callback) {
       download_images(post, function(err, post) {
         if (err) console.log(err);
 
-
         post.html = fix_missing_p_tags(post.html);
         post.html = fix_markdown_bs(post.html);
 
-
-  if (post.html.indexOf("\\_") > -1) {
-    console.log('PRE MARKDOWN', post.html);
-    throw post.html;
-  }
+        if (post.html.indexOf("\\_") > -1) {
+          console.log("PRE MARKDOWN", post.html);
+          throw post.html;
+        }
 
         post.content = to_markdown(post.html);
 

@@ -7,7 +7,7 @@ module.exports = function setup(options) {
   var createClient = require("../../util/createClient");
 
   // Increase timeout
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
 
   global.test.blog();
 

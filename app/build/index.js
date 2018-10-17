@@ -2,6 +2,7 @@ var numCPUs = require("os").cpus().length;
 var uuid = require("uuid/v4");
 var exitHook = require("async-exit-hook");
 var child_process = require("child_process");
+var debug = require("debug")("blot:build");
 var workers = [];
 var jobs = {};
 
@@ -23,12 +24,29 @@ exitHook.uncaughtExceptionHandler(function(err) {
 
 function messageHandler(id) {
   return function(message) {
-    jobs[message.id].callback(message.err, message.entry);
+    debug("Handling message", id);
+    var err = null;
+
+    // Ressurrect error from string. You can remove
+    // this when we can pass something with type Error
+    // between child processes in future.
+    if (message.err) {
+      try {
+        message.err = JSON.parse(message.err);
+        err = new Error(message.err.message);
+        err.stack = message.err.stack;
+      } catch (e) {
+        err = e;
+      }
+    }
+
+    jobs[message.id].callback(err, message.entry);
   };
 }
 
 // remove dead worker from list of workers
 function removeWorker(id) {
+  debug("Removing worker", id);
   workers = workers.filter(function(item) {
     return item.id !== id;
   });
@@ -40,12 +58,13 @@ function removeWorker(id) {
 // The process could not be spawned, or
 // The process could not be killed, or
 // Sending a message to the child process failed.
-// The 'exit' event may or may not fire after an 
+// The 'exit' event may or may not fire after an
 // error has occurred. When listening to both the 'exit'
 // and 'error' events, it is important to guard against
 // accidentally invoking handler functions multiple times.
 function errorHandler(id) {
   return function(err) {
+    debug("Handling error", err);
     // removeWorker can be safely called multiple times
     removeWorker(id);
   };
@@ -72,7 +91,7 @@ function closeHandler(id) {
 }
 
 // Fork workers.
-for (let i = 0; i < numCPUs; i++) {
+for (var i = 0; i < numCPUs; i++) {
   workers.push(new worker());
 }
 
@@ -99,5 +118,6 @@ module.exports = function(blog, path, options, callback) {
     callback: callback
   };
 
+  debug("Sending job to worker", jobs[id]);
   worker.send({ blog: blog, path: path, id: id, options: options });
 };
