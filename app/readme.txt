@@ -1,3 +1,63 @@
+App
+---
+
+This directory contains all the code for the Node.js application which handles requested proxied by NGINX. It's basically a big Express.js application.
+
+
+Inside this folder
+------------------
+
+  blog
+    exposes an Express.js application for serving blogs, rendering pages
+
+  build
+    exposes methods to convert a file on disk into a blog post
+
+  clients
+    expose a list of clients, like 'Dropbox' or 'Git', which themselves expose methods to:
+    - write and remove files to and from a blog's folder
+    - synchronise a blog's folder
+
+  dashboard
+    exposes an Express.js application responsible for the dashboard, which where the user configures aspects of the blog.
+
+  helper
+    exposes a list of utility functions
+
+  models
+    wrapper around the database
+
+  site
+    exposes an Express.js application responsible for the documentation and public-facing site
+
+  status_page
+    exposes an Express.js application which keeps tabs on another site. Should not be running on the same server as the main Node.js application for obvious reasons.
+
+  sync
+    exposes methods which help the clients emit events, like a 
+
+  templates
+    contains all of Blot's included templates
+
+  index.js
+    composes all of the features in the above directories and exposes it!
+
+
+
+
+
+
+
+
+
+
+
+
+The rest of this is notes that need to be sorted:
+
+...
+
+
 # Architectures
 
 there will be bugs.

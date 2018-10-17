@@ -9,25 +9,16 @@
 
 ####### Blot #######
 
-config/secrets/
-config/flags.json
-
-scripts/folder/dumps
-
 *.rdb
 *.log
 
+data
+
+# Eventually merge into one 'data' folder
 blogs/*
 cache/*
 static/*
 tmp/*
 
-# Directories containing stuff that should
-# never be in version control
-
-data
-secrets
-
 # Eventually ignore all node_modules directories
 node_modules/*
-
