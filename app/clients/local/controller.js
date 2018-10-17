@@ -4,7 +4,7 @@ var fs = require("fs-extra");
 var controller = Express.Router();
 var model = require("./model");
 var Blog = require("blog");
-var init = require("./init");
+var sync = require("./sync");
 
 // By the time this middleware is mounted, blot
 // has fetched the information about this user.
@@ -31,7 +31,7 @@ controller.post("/set", function(req, res, next) {
     model.set(req.blog.id, folder, function(err) {
       if (err) return next(err);
 
-      init(req.blog.id, folder, function(err) {
+      sync(req.blog.id, folder, function(err) {
         if (err) return next(err);
 
         res.redirect(req.baseUrl);
