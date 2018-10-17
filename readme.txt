@@ -38,15 +38,13 @@ Here is an illustration of Blot's current structure:
                                  +------------------------------+
 
 
-The Node.js server (Blot) itself is responsible for a small crew of child processes which handle things like image minification and document conversion.
-
-You can find the code for these parts in these folders:
+The Node.js server (Blot) itself is responsible for a small crew of child processes which handle things like image minification and document conversion. You can find the code for these parts in these folders:
   
 /app 
     contains all the code for the node.js application which is Blot
 
 /config
-    contains all the configation which enables the node.js application to run on Blot's server. Things like m
+    contains all the configation for the system utilities which enables the node.js application to run on Blot's server. Something like upstart keeps the redis, NGINX and node.js running.
   
 /scripts
     contains a variety of scripts which help me in my role as server administrator
