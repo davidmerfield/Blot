@@ -1,92 +1,81 @@
 var helper = require("helper");
-var ensure = helper.ensure;
-var joinpath = require("path").join;
 var async = require("async");
-var isOwner = require("./isOwner");
-var getAllViews = require("./getAllViews");
-var callOnce = helper.callOnce;
+var view = require("./view");
 var Blog = require("blog");
+var get = require("./get");
+var fs = require("fs-extra");
+var localPath = helper.localPath;
 
-function writeToFolder(blogID, templateID, callback) {
-  ensure(blogID, "string")
-    .and(templateID, "string")
-    .and(callback, "function");
-
-  isOwner(blogID, templateID, function(err, owner) {
+module.exports = function write(blogID, templateID, callback) {
+  get(templateID, function(err, template) {
     if (err) return callback(err);
 
-    if (!owner) return callback(badPermission(blogID, templateID));
+    if (template.owner !== blogID) {
+      err = new Error("You do not have permission");
+      err.code = "EBADPERM";
+      return callback(err);
+    }
 
-    getAllViews(templateID, function(err, views, metadata) {
+    getWriteFile(blogID, template.slug, function(err, writeFile) {
       if (err) return callback(err);
 
-      if (!views || !metadata) return callback(noTemplate(blogID, templateID));
-
-      makeClient(blogID, function(err, client) {
-        console.log(err);
-
+      view.getAll(templateID, function(err, views) {
         if (err) return callback(err);
 
-        var dir = joinpath("Templates", metadata.slug);
-
-        async.eachOfSeries(
-          views,
-          function(view, name, next) {
-            if (!view.name || !view.type || !view.content) return next();
-
-            write(blogID, client, dir, view, next);
-          },
-          callback
-        );
+        async.eachOfSeries(views, writeFile, callback);
       });
     });
   });
-}
+};
 
-function makeClient(blogID, callback) {
+function getWriteFile(blogID, slug, callback) {
   var clients = require("clients");
+  var dir = "/Templates/" + slug;
+  var client;
 
   Blog.get({ id: blogID }, function(err, blog) {
-    var client = clients[blog.client];
+    if (err) return callback(err);
 
-    if (!blog.client || !client)
-      return callback(new Error("No client for this blog"));
+    if (!blog.client || !client) {
+      client = {};
+      client.write = function(blogID, path, content, callback) {
+        fs.outputFile(localPath(blogID, path), content, callback);
+      };
+    } else {
+      client = clients[blog.client];
+    }
 
-    return callback(null, client);
+    callback(null, function writeFile(view, name, callback) {
+      var extension;
+
+      // In future, store the damn extension. This is bullshit.
+      switch (view.type) {
+        case "text/css":
+          extension = ".css";
+          break;
+        case "application/xml":
+          if (view.name === "sitemap") {
+            extension = ".xml";
+          } else {
+            extension = ".rss";
+          }
+          break;
+        case "application/javascript":
+          extension = ".js";
+          break;
+        case "text/plain":
+          extension = ".txt";
+          break;
+        default:
+          extension = ".html";
+      }
+
+      client.write(
+        blogID,
+        dir + "/" + view.name + extension,
+        view.content,
+        callback
+      );
+    });
   });
 }
-
-function write(blogID, client, dir, view, callback) {
-  ensure(client, "object")
-    .and(dir, "string")
-    .and(view, "object")
-    .and(callback, "function");
-
-  callback = callOnce(callback);
-
-  // eventually I should just store
-  // the goddamn filename and avoid this bullSHIT
-  var extension = ".html";
-
-  if (view.type === "text/css") extension = ".css";
-  if (view.type === "application/xml") extension = ".rss";
-  if (view.type === "application/xml" && view.name === "sitemap")
-    extension = ".xml";
-  if (view.type === "application/javascript") extension = ".js";
-  if (view.type === "text/plain") extension = ".txt";
-
-  var path = joinpath(dir, view.name + extension);
-  var content = view.content;
-
-  client.write(blogID, path, content, callback);
-}
-
-function badPermission(blogID, templateID) {
-  return new Error("No permission for " + blogID + " to write " + templateID);
-}
-
-function noTemplate(blogID, templateID) {
-  return new Error("No template for " + blogID + " and " + templateID);
-}
-
-module.exports = writeToFolder;
