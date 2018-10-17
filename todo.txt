@@ -62,6 +62,8 @@ Metadata bugs:
 
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae)
 
+Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
+
 ---
 
 Themes:
