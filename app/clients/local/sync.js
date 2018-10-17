@@ -2,70 +2,91 @@ var fs = require("fs-extra");
 var Sync = require("sync");
 var localPath = require("helper").localPath;
 var model = require("./model");
+var async = require("async");
 
+// Start listening for all blogs with this client
 model.list(function(err, blogIDs) {
   if (err) throw err;
   blogIDs.forEach(function(blogID) {
     model.get(blogID, function(err, folder) {
       if (err) throw err;
       init(blogID, folder, function(err) {
-        console.log("Initialized", blogID);
+        if (err) throw err;
       });
     });
   });
 });
 
-function init(blogID, userFolder, callback) {
-  fs.watch(
-    require("os").homedir() + "/" + userFolder,
-    { recursive: true },
-    function(event, path) {
-      if (!path) return;
+function init(blogID, folder, callback) {
+  fs.watch(folder, { recursive: true }, function(event, path) {
+    if (!path) return;
 
-      var syncOptions = { retryCount: -1, retryDelay: 10, retryJitter: 10 };
+    // Blot likes leading slashes
+    path = "/" + path;
 
-      // Redlock options to ensure we acquire a lock eventually...
-      // pershaps we should keep track and only issue a second pending sync
-      // to prevent an infinite stack of webhooks.
-      Sync(blogID, syncOptions, function(err, folder, done) {
-        if (err) return console.log(err);
+    var syncOptions = { retryCount: -1, retryDelay: 10, retryJitter: 10 };
+    var stat;
+    var affectedPaths = [];
+    var pathInUserFolder = folder + path;
+    var pathOnBlot = localPath(blogID, path);
 
-        var stat;
-        path = "/" + path;
-        var pathInUserFolder =
-          require("os").homedir() + "/" + userFolder + path;
-        var pathOnBlot = localPath(blogID, path);
+    Sync(blogID, syncOptions, function(err, folder, done) {
+      if (err) return console.log(err);
 
-        try {
-          stat = fs.statSync(pathInUserFolder);
-        } catch (e) {
-          if (e.code === "ENOENT") {
-            // we should read the contents of the folder
-            // on blot and call update for each one
-            // after doing this.
-            fs.removeSync(pathOnBlot);
-          }
+      try {
+        stat = fs.statSync(pathInUserFolder);
+      } catch (e) {
+        if (e.code === "ENOENT") {
+          try {
+            affectedPaths = walk(pathOnBlot).map(function(path) {
+              return path.slice(pathOnBlot.length);
+            });
+          } catch (e) {}
+
+          fs.removeSync(pathOnBlot);
         }
+      }
 
-        if (stat && stat.isDirectory()) {
-          fs.mkdirSync(pathOnBlot);
-        }
+      if (stat && stat.isDirectory()) {
+        fs.ensureDirSync(pathOnBlot);
+      }
 
-        if (stat && stat.isFile()) {
-          fs.copySync(pathInUserFolder, pathOnBlot);
-        }
+      if (stat && stat.isFile()) {
+        fs.copySync(pathInUserFolder, pathOnBlot);
+      }
 
-        folder.update(path, {}, function(err) {
-          if (err) console.log(err);
+      affectedPaths.push(path);
+
+      async.each(
+        affectedPaths,
+        function(path, next) {
+          folder.update(path, next);
+        },
+        function() {
           done(null, function(err) {
             if (err) console.log(err);
           });
-        });
-      });
-    }
-  );
+        }
+      );
+    });
+  });
 
   callback(null);
+}
+
+function walk(dir) {
+  var results = [];
+  var list = fs.readdirSync(dir);
+  list.forEach(function(file) {
+    file = dir + "/" + file;
+    var stat = fs.statSync(file);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(walk(file));
+    } else {
+      results.push(file);
+    }
+  });
+  return results;
 }
 
 module.exports = init;

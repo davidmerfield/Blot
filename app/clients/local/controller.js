@@ -12,20 +12,17 @@ controller.get("/", function(req, res, next) {
   model.get(req.blog.id, function(err, folder) {
     if (err) return next(err);
 
-    res.render(__dirname + "/view.html", { folder: folder });
+    res.render(__dirname + "/view.html", { userFolder: folder });
   });
 });
 
 controller.post("/set", function(req, res, next) {
-  var folder = req.body.folder;
+  if (!req.body.name || !req.body.name.trim())
+    return next(new Error("Please pass a folder name"));
 
-  folder = folder.trim();
+  var folder = require("os").homedir() + "/" + req.body.name.trim();
 
-  if (!folder) return next(new Error("Please select a folder"));
-
-  folder = folder || "untitled";
-
-  fs.ensureDir(require("os").homedir() + "/" + folder, function(err) {
+  fs.ensureDir(folder, function(err) {
     if (err) return next(err);
 
     model.set(req.blog.id, folder, function(err) {

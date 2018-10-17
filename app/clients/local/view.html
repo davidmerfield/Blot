@@ -1,10 +1,13 @@
-
+{{#userFolder}}
+<p>Your folder: {{userFolder}}</p>
+{{/userFolder}}
+{{^userFolder}}
 <form method="POST" action="{{{base}}}/set">
 <label>Name of a folder inside your home directory:</label>
-<input name="folder" type="text" value="{{folder}}">
+<input name="name" type="text" value="">
 <input type="submit">
 </form>
-<hr>
+{{/userFolder}}
 <form method="POST" action="{{{base}}}/disconnect">
 <input type="submit" value="Disconnect">
 </form>

@@ -29,5 +29,11 @@ module.exports = {
   // site_routes: require("./routes").site
 
   // This is where the user is asked to select a folder
-  dashboard_routes: require("./controller")
+  dashboard_routes: require("./controller"),
+
+  // we expose a special method to make it easier
+  // for the test suit to interact with this client
+  // normal client do not have this method.
+  setup: require('./sync')
+
 };
