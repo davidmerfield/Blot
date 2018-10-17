@@ -41,15 +41,15 @@ Here is an illustration of Blot's current structure:
 The Node.js server (Blot) itself is responsible for a small crew of child processes which handle things like image minification and document conversion. You can find the code for these parts in these folders:
   
 /app 
-    contains all the code for the node.js application which is Blot
+    the code for the node.js application which is Blot
 
 /config
-    contains all the configation for the system utilities which enables the node.js application to run on Blot's server. Something like upstart keeps the redis, NGINX and node.js running.
+    configation for the system utilities which keep redis, NGINX and the node.js processes up
   
 /scripts
-    contains a variety of scripts which help me in my role as server administrator
+    scripts which help the server administrator
 
 /tests
-    contains the integration tests for blot. Unit tests are located next to the source code for the feature.
+    integration tests and test configuration for blot
  
 Eventually, I would like to remove NGINX and handle SSL termination and static file delivery from the Node.js server. I'd also like to remove as much data as possible from Redis and store it on disk.
