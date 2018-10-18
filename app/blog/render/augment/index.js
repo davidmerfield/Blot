@@ -1,29 +1,16 @@
-// could I create an entry class which would be easy to detect?
-// and an entry list class?
-
-// this also needs to do entry.next
-// entry.previous
-var debug = require("debug")("blot:render:load:entry");
 var helper = require("helper");
 var type = helper.type;
 var Entry = require("../../../models/entry/instance");
 var list = require("./list");
+var entry = require('./entry');
 
-// THIS FUNCTION LOOKS FOR ENTRIES IN A VIEW"S LOCAL NEED
-
-module.exports = function(locals, doThis) {
-  function modify(entry) {
-    doThis(entry);
-
-    // Also augment adjacent entries...
-    if (entry.next instanceof Entry) {
-      doThis(entry.next);
-    }
-
-    if (entry.previous instanceof Entry) {
-      doThis(entry.previous);
-    }
-  }
+// then we check each entry in the view
+// we determine a new list of partials
+// and locals to retrieve based on those entries
+// and retrieve them
+// merging them into the view
+// then returning req and res
+module.exports = function(blog, locals) {
 
   check(locals, 0);
 
@@ -38,9 +25,7 @@ module.exports = function(locals, doThis) {
 
       // This is an entry, modify it now and proceed!
       if (local instanceof Entry) {
-        modify(local);
-
-        // we don't need to go further down the tree
+        entry(blog)(local);
         continue;
       }
 
@@ -54,11 +39,7 @@ module.exports = function(locals, doThis) {
       // We assume that if the first item in the list is an
       // entry then the rest is too. This could be dumb.
       if (type(local, "array") && local[0] instanceof Entry) {
-        for (var entry in local) {
-          modify(local[entry]);
-        }
-
-        // we don't need to go further down the tree...
+        local.map(entry(blog));
         continue;
       }
 
@@ -68,4 +49,5 @@ module.exports = function(locals, doThis) {
       }
     }
   }
+  return locals;
 };

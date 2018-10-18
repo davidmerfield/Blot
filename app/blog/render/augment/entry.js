@@ -10,7 +10,7 @@ module.exports = function(blog) {
   var hideDate = blog.hideDates || false;
   var dateDisplay = blog.dateDisplay;
 
-  return function(entry) {
+  return function augment(entry) {
     entry.formatDate = FormatDate(entry.dateStamp, blog.timeZone);
 
     var tags = [];
@@ -69,6 +69,13 @@ module.exports = function(blog) {
         .format(dateDisplay);
     }
 
+    if (entry.next instanceof Entry) {
+      augment(entry.next);
+    }
+
+    if (entry.previous instanceof Entry) {
+      augment(entry.previous);
+    }
     return entry;
   };
 };

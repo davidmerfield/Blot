@@ -1,21 +1,8 @@
 var Mustache = require("mustache");
 var ERROR = require("./error");
-var loadView = require("./load");
-var getView = require("./getView");
-var CACHE = require("config").cache;
-
+var augment = require("./augment");
+var retrieve = require("./retrieve");
 var debug = require("debug")("blot:blog:render");
-
-// The http headers
-
-var UglifyJS = require("uglify-js");
-var CleanCSS = require("clean-css");
-var minimize = new CleanCSS();
-
-var cacheDuration = "public, max-age=31536000";
-var JS = "application/javascript";
-var STYLE = "text/css";
-var OVERFLOW = "Maximum call stack size exceeded";
 
 module.exports = function(req, res, next) {
   if (!req.template) return next();
@@ -28,7 +15,7 @@ module.exports = function(req, res, next) {
 
     debug("loading view");
 
-    getView(req, viewID, function(err, view) {
+    retrieve(req, viewID, function(err, view) {
       if (err) return next(err);
 
       debug("loaded view");
@@ -49,15 +36,14 @@ module.exports = function(req, res, next) {
         Object.assign(res.locals.partials, view.partials);
 
         debug("augmenting entries");
-        loadView(req.blog, res.locals);
+        augment(req.blog, res.locals);
         debug("augmented entries");
 
         debug("finally rendering");
         output = Mustache.render(view.content, res.locals, res.locals.partials);
         debug("rendered");
-
       } catch (e) {
-        if (e.message === OVERFLOW) {
+        if (e.message === "Maximum call stack size exceeded") {
           err = ERROR.INFINITE();
         } else if (e.message.indexOf("Unclosed tag") === 0) {
           err = ERROR.UNCLOSED();
