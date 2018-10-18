@@ -12,6 +12,7 @@ describe("template", function() {
     var test = this;
     require("blog").set(test.blog.id, { client: "local" }, function(err) {
       if (err) return done(err);
+      console.log("setting up test folder for", test.tmp);
       require("clients").local.setup(test.blog.id, test.tmp, done);
     });
   });
@@ -28,7 +29,13 @@ describe("template", function() {
 
       write(test.blog.id, test.template.id, function(err) {
         if (err) return done.fail(err);
-        expect(fs.readdirSync(test.tmp)).toEqual([]);
+        expect(fs.readdirSync(test.tmp)).toEqual(["Templates"]);
+        expect(fs.readdirSync(test.tmp + "/Templates")).toEqual([
+          test.template.name
+        ]);
+        expect(
+          fs.readdirSync(test.tmp + "/Templates/" + test.template.name)
+        ).toEqual([view.name + '.html']);
         done();
       });
     });
