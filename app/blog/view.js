@@ -6,12 +6,14 @@ module.exports = function(server) {
       templateID = blog.template,
       url = request.url;
 
+    console.log("getting view", url);
+
     Template.getViewByURL(templateID, url, function(err, viewName) {
       if (err) return next(err);
+      if (!viewName) return next();
 
-      if (viewName) return response.renderView(viewName, next);
-
-      return next();
+      console.log("rendering view", viewName);
+      response.renderView(viewName);
     });
   });
 };

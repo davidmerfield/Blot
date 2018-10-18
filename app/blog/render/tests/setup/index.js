@@ -16,7 +16,8 @@ module.exports = function() {
 
   beforeEach(function(done) {
     var ctx = this;
-    var templateID = this.fake.random.word().toLowerCase();
+    // it would be nice if one day template ids could be upper case and have spaces
+    var templateID = this.fake.random.word().toLowerCase().split(' ').join('');
     Template.create(this.blog.id, templateID, {}, function(err) {
       if (err) return done(err);
       Template.getMetadata(ctx.blog.id + ":" + templateID, function(
@@ -61,6 +62,7 @@ module.exports = function() {
       });
       ctx.port = port;
     };
+
   });
 
   beforeEach(function() {

@@ -4,7 +4,7 @@ module.exports = function(server) {
   server.get("/page/:page_number", renderPage);
   server.get("/", renderPage);
 
-  function renderPage(req, res, next) {
+  function renderPage(req, res) {
     var blog = req.blog;
 
     var pageNo, pageSize;
@@ -40,7 +40,7 @@ module.exports = function(server) {
         pagination: pagination
       });
 
-      res.renderView("entries", next);
+      res.renderView("entries");
     });
   }
 };

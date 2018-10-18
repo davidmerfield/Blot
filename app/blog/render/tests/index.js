@@ -6,6 +6,7 @@ describe("render", function() {
 
     ctx.setView({ name: "index", content: "{{blog.title}}" }, function(err) {
       if (err) return done.fail(err);
+
       ctx.server.get("/", function(req, res) {
         res.renderView("index");
       });

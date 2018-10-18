@@ -1,32 +1,13 @@
 var Template = require("template");
 var async = require("async");
+var Entry = require("entry");
 
- Template.view.get(templateID, name, { partials: true }, function(
-      err,
-      view
-    ) {
-      if (err || !view) return next(err);
+module.exports = function(blogID, templateID, viewID, callback) {
+  var get = new Get(blogID, templateID);
 
-
-async.eachOf(
-        view.partials,
-        function(i, partial, next) {
-          Entry.get(blogID, partial, function(entry) {
-            if (
-              !entry ||
-              !entry.html ||
-              entry.deleted ||
-              entry.draft ||
-              entry.scheduled
-            ) {
-              view.partials[partial] = "";
-            } else {
-              view.partials[partial] = entry.html;
-            }
-            next();
-          });
-        },
-        function(err) {
+  Template.getView(templateID, viewID, function(err, view) {
+    if (err) return callback(err);
+    if (!view) return callback(new Error("No view"));
 
     async.eachOf(
       view.partials,
@@ -39,22 +20,41 @@ async.eachOf(
           return next();
         }
 
-        get(templateID, partialID, function(err, partialView) {
+        get(partialID, function(err, partial) {
           if (err) return next(err);
 
-          if (!partialView) {
-            view.partials[viewID] = "";
+          if (!partial) {
+            view.partials[partialID] = "";
             return next();
           }
 
-          view.partials[viewID] = partialView.content;
-          for (var i in partialView.retrieve)
-            view.retrieve[i] = partialView.retrieve[i];
+          view.partials[partialID] = partial.content;
 
-          async.each(partialView.partials, fetch, next);
+          for (var i in partial.retrieve)
+            view.retrieve[i] = partial.retrieve[i];
+
+          async.eachOf(partial.partials, fetch, next);
         });
       },
       function(err) {
         callback(err, view);
       }
     );
+  });
+};
+
+function Get(blogID, templateID) {
+  return function(partialID, callback) {
+    Entry.get(blogID, partialID, function(entry) {
+      if (entry && !entry.deleted && entry.html) {
+        return callback(null, {
+          content: entry.html,
+          partials: {},
+          retrieve: {}
+        });
+      }
+
+      Template.getView(templateID, partialID, callback);
+    });
+  };
+}

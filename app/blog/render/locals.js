@@ -2,28 +2,15 @@ var render = require("./main");
 var helper = require("helper");
 var type = helper.type;
 var TAG = "{{";
-var ensure = helper.ensure;
 
-// Recursively render all the locals in
-// the view. This is to ensure that variables
-// inside stuff like pageTitle and entry.html
-// are replaced with the values they should.
-module.exports = function renderLocals(req, res, callback) {
-  ensure(res, "object")
-    .and(res.locals, "object")
-    .and(res.locals.partials, "object")
-    .and(callback, "function");
+// Recursively render all the locals in the view.
+// This was a really dumb idea. I would like to stop.
+// In order to do this, check the database for template
+// locals which contain the mustache tag and remove them.
+module.exports = function renderLocals(locals) {
+  var partials = locals.partials;
 
-  var locals = res.locals;
-  var partials = res.locals.partials;
-
-  try {
-    handle(res.locals);
-  } catch (e) {
-    return callback(null, req, res);
-  }
-
-  function handle(obj) {
+  (function handle(obj) {
     for (var i in obj) {
       // We want to skip partials now
       // Otherwise shit would break.
@@ -53,7 +40,7 @@ module.exports = function renderLocals(req, res, callback) {
         }
       }
     }
-  }
+  })(locals);
 
-  return callback(null, req, res);
+  return locals;
 };

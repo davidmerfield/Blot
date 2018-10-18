@@ -103,7 +103,8 @@ module.exports = function route(server) {
             entry: entry
           });
 
-          response.renderView("entry", next, function(err, output) {
+          response.renderView("entry", function(err, output) {
+            if (err) return next(err);
             drafts.injectScript(output, filePath, callback);
           });
         });
