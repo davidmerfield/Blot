@@ -19,10 +19,12 @@ describe("template", function() {
         if (err) return done.fail(err);
         expect(fs.readdirSync(test.blogDirectory)).toEqual(["Templates"]);
         expect(fs.readdirSync(test.blogDirectory + "/Templates")).toEqual([
-          test.template.name
+          test.template.slug
         ]);
         expect(
-          fs.readdirSync(test.blogDirectory + "/Templates/" + test.template.name)
+          fs.readdirSync(
+            test.blogDirectory + "/Templates/" + test.template.slug
+          )
         ).toEqual([view.name + ".html"]);
         done();
       });
