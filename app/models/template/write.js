@@ -5,8 +5,10 @@ var Blog = require("blog");
 var get = require("./get");
 var fs = require("fs-extra");
 var localPath = helper.localPath;
+var debug = require("debug")("template:write");
 
 module.exports = function write(blogID, templateID, callback) {
+  debug(blogID, templateID);
   get(templateID, function(err, template) {
     if (err) return callback(err);
 
@@ -22,6 +24,8 @@ module.exports = function write(blogID, templateID, callback) {
       view.getAll(templateID, function(err, views) {
         if (err) return callback(err);
 
+        debug(blogID, templateID, "writing all views...");
+
         async.eachOfSeries(views, writeFile, callback);
       });
     });
@@ -36,12 +40,14 @@ function getWriteFile(blogID, slug, callback) {
   Blog.get({ id: blogID }, function(err, blog) {
     if (err) return callback(err);
 
-    if (!blog.client || !client) {
+    if (!blog.client || !clients[blog.client]) {
+      debug(blogID, "no client, just writing to folder", blog.client);
       client = {};
       client.write = function(blogID, path, content, callback) {
         fs.outputFile(localPath(blogID, path), content, callback);
       };
     } else {
+      debug("using the client", blog.client);
       client = clients[blog.client];
     }
 
@@ -69,6 +75,8 @@ function getWriteFile(blogID, slug, callback) {
         default:
           extension = ".html";
       }
+
+      debug("writing", dir + "/" + view.name + extension, view.content);
 
       client.write(
         blogID,

@@ -16,10 +16,10 @@ describe("template", function() {
 
   it("returns an error if you try to create a template which already exists", function(done) {
     var name = this.fake.random.word();
-    var ctx = this;
+    var test = this;
     create(this.blog.id, name, {}, function(err) {
       if (err) return done.fail(err);
-      create(ctx.blog.id, name, {}, function(err) {
+      create(test.blog.id, name, {}, function(err) {
         expect(err instanceof Error).toEqual(true);
         done();
       });
@@ -27,8 +27,8 @@ describe("template", function() {
   });
 
   it("creates a template from an existing template", function(done) {
-    var ctx = this;
-    var blogID = ctx.blog.id;
+    var test = this;
+    var blogID = test.blog.id;
     var original = this.fake.random.word();
     var cloned = this.fake.random.word();
     var description = this.fake.random.word();

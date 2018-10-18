@@ -5,5 +5,5 @@ module.exports = {
   set: require("./set"),
   drop: require("./drop"),
   dropAll: require("./dropAll"),
-  getPartials: require("./getPartials")
+  // getPartials: require("./getPartials")
 };

@@ -5,24 +5,24 @@ describe("list", function() {
   var drop = require("../drop");
 
   it("lists all templates", function(done) {
-    var ctx = this;
-    list(ctx.blog.id, function(err, result) {
+    var test = this;
+    list(test.blog.id, function(err, result) {
       if (err) return done.fail(err);
       expect(result).toEqual(jasmine.any(Array));
-      expect(result).toContain(ctx.template);
+      expect(result).toContain(test.template);
       done();
     });
   });
 
   it("does not show a removed template", function(done) {
-    var ctx = this;
+    var test = this;
 
-    drop(ctx.template.id, function(err) {
+    drop(test.template.id, function(err) {
       if (err) return done.fail(err);
-      list(ctx.blog.id, function(err, result) {
+      list(test.blog.id, function(err, result) {
         if (err) return done.fail(err);
         expect(result).toEqual(jasmine.any(Array));
-        expect(result).not.toContain(ctx.template);
+        expect(result).not.toContain(test.template);
         done();
       });
     });

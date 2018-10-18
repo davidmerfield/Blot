@@ -13,10 +13,10 @@ module.exports = function setup(options) {
   // Create a test template
   if (options.createTemplate) {
     beforeEach(function(done) {
-      var ctx = this;
-      create(ctx.blog.id, ctx.fake.random.word(), {}, function(err, template) {
+      var test = this;
+      create(test.blog.id, test.fake.random.word(), {}, function(err, template) {
         if (err) return done(err);
-        ctx.template = template;
+        test.template = template;
         done();
       });
     });
