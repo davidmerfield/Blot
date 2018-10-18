@@ -5,7 +5,7 @@ describe("template", function() {
 
   require("./setup")({ createTemplate: true });
 
-  it("writes a template to a folder", function(done) {
+  it("reads a template from a folder", function(done) {
     var test = this;
     var view = {
       name: test.fake.random.word(),
