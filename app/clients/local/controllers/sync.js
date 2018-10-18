@@ -10,6 +10,7 @@ Folder.list(function(err, blogIDs) {
   blogIDs.forEach(function(blogID) {
     Folder.get(blogID, function(err, folder) {
       if (err) throw err;
+      if (!folder) return;
       init(blogID, folder, function(err) {
         if (err) throw err;
       });
