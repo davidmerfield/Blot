@@ -1,7 +1,6 @@
-var Template = require("template");
-
 var ERROR = require("./error");
 var loadView = require("./load");
+var getView = require("./getView");
 var renderLocals = require("./locals");
 var finalRender = require("./main");
 var retrieve = require("./retrieve");
@@ -30,20 +29,23 @@ module.exports = function(req, res, _next) {
 
   return _next();
 
-  function render(name, next, callback) {
-    // console.log(req.url, 'rendering', viewName);
-
-    ensure(name, "string").and(next, "function");
-
+  function render(viewID, next, callback) {
     if (!req.template) return next();
 
     var blog = req.blog;
-    var blogID = blog.id;
     var templateID = req.template.id;
 
     if (callback) callback = callOnce(callback);
 
-    Template.getFullView(blogID, templateID, name, function(err, response) {
+    getView(templateID, viewID, function(err, view) {
+      var response = [
+        view.locals,
+        allPartials,
+        view.retrieve,
+        view.type,
+        view.content
+      ];
+
       if (err || !response) return next(ERROR.NO_VIEW());
 
       var viewLocals = response[0];
@@ -94,6 +96,7 @@ module.exports = function(req, res, _next) {
               return callback(null, output);
             }
 
+>>>>>>> Stashed changes
             if (CACHE && (viewType === STYLE || viewType === JS)) {
               res.header(CACHE_CONTROL, cacheDuration);
             }
