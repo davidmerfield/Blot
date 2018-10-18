@@ -35,6 +35,14 @@ module.exports = function set(templateID, updates, callback) {
     }
   }
 
+  // name: "string",
+  // content: "string",
+  // type: "string",
+  // partials: "object",
+  // locals: "object",
+  // retrieve: "object",
+  // url: "string"
+
   var allViews = key.allViews(templateID);
   var viewKey = key.view(templateID, name);
 
@@ -54,6 +62,7 @@ module.exports = function set(templateID, updates, callback) {
       view = view || {};
 
       if (updates.url && updates.url !== view.url) {
+        updates.url = helper.urlNormalizer(updates.url || "");
         redis.del(key.url(templateID, view.url));
         redis.set(key.url(templateID, updates.url), name);
       }
@@ -64,9 +73,13 @@ module.exports = function set(templateID, updates, callback) {
       view.retrieve = view.retrieve || {};
       view.partials = view.partials || {};
 
-      view.url = helper.urlNormalizer(view.url || "");
+      var parseResult;
 
-      var parseResult = parse(view.content);
+      try {
+        parseResult = parse(view.content);
+      } catch (err) {
+        return callback(err);
+      }
 
       // TO DO REMOVE THIS
       if (type(view.partials, "array")) {
@@ -87,7 +100,7 @@ module.exports = function set(templateID, updates, callback) {
       redis.hmset(viewKey, view, function(err) {
         if (err) throw err;
 
-        callback();
+        callback(null);
       });
     });
   });

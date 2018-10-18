@@ -1,19 +1,11 @@
-var redis = require("client");
-var ensure = require("helper").ensure;
+var client = require("client");
 var key = require("./key");
 
-module.exports = function drop(templateID, viewName, callback) {
-  ensure(templateID, "string")
-    .and(viewName, "string")
-    .and(callback, "function");
+module.exports = function drop(templateID, viewID, callback) {
+  var multi = client.multi();
 
-  redis.del(key.view(templateID, viewName), function(err) {
-    if (err) throw err;
+  multi.del(key.view(templateID, viewID));
+  multi.srem(key.allViews(templateID), viewID);
 
-    redis.srem(key.allViews(templateID), viewName, function(err) {
-      if (err) throw err;
-
-      callback();
-    });
-  });
+  multi.exec(callback);
 };

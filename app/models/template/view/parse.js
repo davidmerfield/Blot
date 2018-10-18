@@ -28,11 +28,7 @@ function parse(template) {
   var partials = {};
   var parsed;
 
-  try {
-    parsed = mustache.parse(template);
-  } catch (e) {
-    return { partials: partials, retrieve: retrieve };
-  }
+  parsed = mustache.parse(template);
 
   process("", parsed);
 

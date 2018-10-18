@@ -9,7 +9,7 @@ var model = require("./model");
 var debug = require("debug")("template:create");
 var makeID = require("./util/makeID");
 var serialize = require("./util/serialize");
-
+var async = require("async");
 // blogID represents the id of a blog who controls the template
 // or the string 'SITE' which represents a BLOT template not
 // not editable by any blog
@@ -86,9 +86,12 @@ module.exports = function create(blogID, name, metadata, callback) {
 
         // Transfer any and all views from the template
         // the user would like to clone, if relevant
-        view.copyAll(metadata.cloneFrom, templateID, function(err) {
+        view.getAll(metadata.cloneFrom, function(err, views) {
           if (err) return callback(err);
-          callback(null, metadata);
+          async.each(views, view.set.bind(null, templateID), function(err) {
+            if (err) return callback(err);
+            callback(null, metadata);
+          });
         });
       });
     });
