@@ -1,11 +1,12 @@
 var Template = require("template");
 var async = require("async");
 var Entry = require("entry");
+var retrieve = require('./retrieve');
 
-module.exports = function(blogID, templateID, viewID, callback) {
-  var get = new Get(blogID, templateID);
+module.exports = function(req, viewID, callback) {
+  var get = new Get(req.blog.id, req.template.id);
 
-  Template.getView(templateID, viewID, function(err, view) {
+  Template.getView(req.template.id, viewID, function(err, view) {
     if (err) return callback(err);
     if (!view) return callback(new Error("No view"));
 
@@ -37,7 +38,12 @@ module.exports = function(blogID, templateID, viewID, callback) {
         });
       },
       function(err) {
-        callback(err, view);
+        if (err) return callback(err);
+
+        retrieve(req, view.retrieve, function(err) {
+          Object.assign(view.locals, view.retrieve);
+          callback(err, view);
+        });
       }
     );
   });

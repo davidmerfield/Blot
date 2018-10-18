@@ -22,11 +22,11 @@ if (config.cache) {
   blog.use(cache);
 }
 
+blog.use(debug("loading template from db"));
+blog.use(require("./loadTemplate"));
+
 // Load in the rendering engine
 blog.use(require("./render"));
-
-blog.use(debug("loading template from db"));
-blog.use(require('./loadTemplate'));
 
 // The order of these routes is important
 require("./draft")(blog);

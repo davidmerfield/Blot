@@ -1,4 +1,21 @@
+
+Move minification responsibilties to express disk cache
+
+        // I believe this minification
+        // bullshit locks up the server while it's
+        // doing it's thing. How can we do this in
+        // advance? If it throws an error, the user
+        // probably forgot an equals sign or some bs...
+        // if (view.type === STYLE && !req.preview)
+        //   output = minimize.minify(output || "");
+
+        // if (view.type === JS && !req.preview)
+        //   output = UglifyJS.minify(output, { fromString: true }).code;
+        
+
+
 # Routing
+
 
 URL routes to blog
 

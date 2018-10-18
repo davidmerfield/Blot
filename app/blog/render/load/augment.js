@@ -5,15 +5,13 @@ var type = helper.type;
 var moment = require("moment");
 require("moment-timezone");
 
-module.exports = function(req, res) {
-  var blog = req.blog;
-
+module.exports = function(blog) {
   // res.locals.hide_date
   var hideDate = blog.hideDates || false;
   var dateDisplay = blog.dateDisplay;
 
   return function(entry) {
-    entry.formatDate = FormatDate(entry.dateStamp, req.blog.timeZone);
+    entry.formatDate = FormatDate(entry.dateStamp, blog.timeZone);
 
     var tags = [];
     var tagged = {};
@@ -27,9 +25,7 @@ module.exports = function(req, res) {
       if (!type(tag, "string")) {
         console.log(
           "Error BAD TAG:",
-          req.blog.id,
-          req.originalHost,
-          req.url,
+          blog.id,
           "has format date?",
           type(entry.formatDate, "function")
         );
