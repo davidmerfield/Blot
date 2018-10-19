@@ -1,6 +1,5 @@
 var client = require("client");
 var Redlock = require("redlock");
-var Template = require("template");
 var Blog = require("blog");
 var Update = require("./update");
 var localPath = require("helper").localPath;
@@ -107,17 +106,10 @@ function sync(blogID, options, callback) {
             // We no longer need to unlock if the process dies...
             delete locks[blogID];
 
-            // What is the appropriate order for this?
-            Template.read.all(blogID, localPath(blogID, "/templates"), function(
-              err
-            ) {
+            Blog.flushCache(blogID, function(err) {
               if (err) return callback(err);
 
-              Blog.flushCache(blogID, function(err) {
-                if (err) return callback(err);
-
-                callback(syncError);
-              });
+              callback(syncError);
             });
           });
         });
