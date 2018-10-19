@@ -103,7 +103,7 @@ function saveView (req, res, next) {
   if (wasRenamed(req))
     return renameView(req, res, next);
 
-  var view = formJSON(req.body, Template.model.view);
+  var view = formJSON(req.body, Template.view.model);
 
   // This allows users to delete all the
   // locals for a view.
@@ -142,7 +142,7 @@ function saveView (req, res, next) {
 
 function renameView (req, res, next) {
 
-  var view = formJSON(req.body, Template.model.view);
+  var view = formJSON(req.body, Template.view.model);
 
   view.locals = view.locals || {};
 
