@@ -27,9 +27,6 @@ function write(blogID, path, contents, callback) {
         mode: { ".tag": "overwrite" },
         path: pathInDropbox
       })
-      .catch(function(err) {
-        callback(new Error(err));
-      })
       .then(function() {
         return fs.outputFile(pathOnBlot, contents);
       })
