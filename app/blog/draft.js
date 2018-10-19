@@ -1,7 +1,6 @@
 module.exports = function route(server) {
   var Entry = require("entry");
   var Entries = require("entries");
-  var plugins = require("../build/plugins");
   var drafts = require("../sync/update/drafts");
   var redis = require("redis");
 
@@ -88,24 +87,17 @@ module.exports = function route(server) {
         entry.previous = previousEntry;
         entry.adjacent = !!(nextEntry || previousEntry);
 
-        plugins.load("entryHTML", blog.plugins, function(err, pluginHTML) {
-          // Dont show dates on a page
-          if (blog.hideDates || entry.menu) delete entry.date;
+        // Dont show dates on a page
+        if (blog.hideDates || entry.menu) delete entry.date;
 
-          // Dont show plugin HTML on a page
-          if (entry.menu) pluginHTML = "";
+        response.addLocals({
+          pageTitle: entry.title + " - " + blog.title,
+          pageDescription: entry.summary,
+          entry: entry
+        });
 
-          response.addPartials({ pluginHTML: pluginHTML });
-
-          response.addLocals({
-            pageTitle: entry.title + " - " + blog.title,
-            pageDescription: entry.summary,
-            entry: entry
-          });
-
-          response.renderView("entry", next, function(err, output) {
-            drafts.injectScript(output, filePath, callback);
-          });
+        response.renderView("entry", next, function(err, output) {
+          drafts.injectScript(output, filePath, callback);
         });
       });
     });
