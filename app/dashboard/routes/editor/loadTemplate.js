@@ -19,6 +19,10 @@ module.exports = function(req, res, next) {
   }
 
   Template.get(templateID, function(err, template) {
+    if (err || !template) {
+      return next(err || new Error("No template"));
+    }
+
     if (
       template.localEditing &&
       req.path !== "/template/" + req.params.template + "/local-editing"
