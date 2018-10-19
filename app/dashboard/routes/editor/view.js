@@ -29,7 +29,7 @@ module.exports = function (server) {
 
     .post(parseBody, parseName, function(req, res, next){
 
-      var view = formJSON(req.body, Template.model.view);
+      var view = formJSON(req.body, Template.view.model);
 
       Template.view.set(req.template.id, view, function(err){
 
