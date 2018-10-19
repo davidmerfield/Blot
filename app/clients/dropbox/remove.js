@@ -30,7 +30,7 @@ function remove(blogID, path, callback) {
         // than the file not existing. HTTP 409 means
         // 'CONFLICT' but typically this means that
         // the file did not exist. Am I sure about this?
-        if (err.status !== 409) return callback(new Error(err));
+        if (err.status !== 409) throw new Error(err);
 
         // The file did not exist, no big deal
         return Promise.resolve();

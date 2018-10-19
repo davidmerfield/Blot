@@ -428,6 +428,7 @@ Password protection for blogs
 - Tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7)
 - Tell [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231)
 - Tell [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281)
+- Tell [Modomiro](https://twitter.com/modomiro/status/1053345173743329281)
 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405)
