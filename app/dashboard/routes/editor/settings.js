@@ -43,7 +43,7 @@ module.exports = function(server) {
     })
 
     .post(function(req, res, next) {
-      var metadata = formJSON(req.body, Template.model.metadata);
+      var metadata = formJSON(req.body, Template.model);
 
       remove(metadata, [
         "id",
@@ -74,8 +74,18 @@ module.exports = function(server) {
       Template.update(req.template.id, metadata, function(err) {
         if (err) return next(err);
 
-        if (metadata.localEditing)
-          Template.writeToFolder(req.blog.id, req.template.id, function() {});
+        if (metadata.localEditing) {
+          Template.write(req.blog.id, req.template.id, function(err) {
+            if (err)
+              console.log(
+                "Blog:",
+                blog.id,
+                req.template.id,
+                "Error writing to folder:",
+                err
+              );
+          });
+        }
 
         Blog.flushCache(req.blog.id, function(err) {
           if (err) return next(err);
