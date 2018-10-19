@@ -5,13 +5,11 @@ module.exports = {
   get: require("./get"),
   list: require("./list"),
 
-  view: require('./view'),
+  view: require("./view"),
   slug: require("./util/slug"),
   isOwner: require("./isOwner"),
   model: require("./model"),
 
-  // writeToFolder: require("./writeToFolder"),
-  // updateFromFolder: require("./updateFromFolder"),
-
-
+  read: require("./read"),
+  write: require("./write")
 };

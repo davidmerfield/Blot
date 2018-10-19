@@ -143,10 +143,11 @@ function nameFrom(str) {
 // and also to build templates the user is editing locally
 // inside /Templates
 function all(owner, dir, callback) {
+  debug(owner, dir, "reading all");
   fs.readdir(dir, function(err, contents) {
     if (err) return callback(err);
 
-    async.each(
+    async.filter(
       contents,
       function(item, next) {
         fs.stat(dir + "/" + item, function(err, stat) {
@@ -159,6 +160,7 @@ function all(owner, dir, callback) {
         async.map(
           contents,
           function(item, next) {
+            debug(owner, dir + "/" + item, "building template");
             read(owner, dir + "/" + item, next);
           },
           callback

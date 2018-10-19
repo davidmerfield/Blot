@@ -108,7 +108,9 @@ function sync(blogID, options, callback) {
             delete locks[blogID];
 
             // What is the appropriate order for this?
-            Template.updateFromFolder(blogID, function(err) {
+            Template.read.all(blogID, localPath(blogID, "/templates"), function(
+              err
+            ) {
               if (err) return callback(err);
 
               Blog.flushCache(blogID, function(err) {
