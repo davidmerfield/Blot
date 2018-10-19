@@ -68,7 +68,7 @@ module.exports = (function() {
           var path = entry.path;
 
           console.log("Rebuilding " + identifier + " (" + blogID + ")", path);
-          build(blog, path, function(err, entry) {
+          build(blog, path, {}, function(err, entry) {
             if (err && err.code === "ENOENT") {
               console.warn("No local file exists for entry", path);
               return next();
