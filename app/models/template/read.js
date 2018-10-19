@@ -1,21 +1,17 @@
+var debug = require("debug")("template:read");
 var basename = require("path").basename;
-var helper = require("helper");
 var fs = require("fs-extra");
 var async = require("async");
 var mime = require("mime");
 var async = require("async");
 var mime = require("mime");
-var _ = require("lodash");
+var helper = require("helper");
 var ensure = helper.ensure;
-var blogDir = helper.blogDir;
-var extend = helper.extend;
-
-var Blog = require("blog");
 
 var set = require("./view").set;
-var isOwner = require("./isOwner");
 var makeID = require("./util/makeID");
 var create = require("./create");
+var get = require("./get");
 var update = require("./update");
 
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
@@ -23,37 +19,79 @@ var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
 function read(blogID, folder, callback) {
   // Create a new template if it doesn't exist, otherwise
   // update an existing template with the contents of package.json
-  prepareTemplate(blogID, folder, function(err, templateID, views) {
+  debug(blogID, folder);
+  parsePackageJson(blogID, folder, function(err, metadata, viewsInPackage) {
     if (err) return callback(err);
 
-    fs.readdir(folder, function(err, contents) {
+    debug(blogID, folder, "parsed metadata", metadata);
+
+    saveTemplate(blogID, folder, metadata, function(err, template) {
       if (err) return callback(err);
 
-      // We remove system files and large files
-      async.filter(contents, validViewFiles(folder), function(err, views) {
-        // We read the contents of each file as save it
-        async.each(views, saveView(templateID, folder), callback);
+      debug(blogID, folder, "saved template", template);
+      fs.readdir(folder, function(err, contents) {
+        if (err) return callback(err);
+
+        debug(blogID, folder, "read contents", contents);
+        // We remove system files and large files
+        async.filter(contents, validViewFiles(folder), function(err, views) {
+          // Merge any view properties declared in
+          // package.json. This is typically where
+          // you will specify the route for a view.
+          for (var viewID in views)
+            if (viewsInPackage[viewID] !== undefined)
+              Object.assign(views[viewID], viewsInPackage[viewID]);
+
+          debug(blogID, folder, "saving views", views);
+
+          // We read the contents of each file as save it
+          async.each(views, saveView(template.id, folder), function(err) {
+            callback(err, template);
+          });
+        });
       });
     });
   });
 }
 
-function prepareTemplate(blogID, folder, callback) {
+function parsePackageJson(blogID, folder, callback) {
+  var views = {};
 
+  fs.readJson(folder + "/package.json", function(err, metadata) {
+    if (err && err.code !== "ENOENT") return callback(err);
+
+    // If the template folder lacks a package.json file
+    metadata = metadata || {};
+
+    // Views are not part of the template model, but they
+    // are in the package.json file. Extract them before ensure
+    if (metadata.views) views = JSON.parse(JSON.stringify(metadata.views));
+
+    // Remove all properties which do not match this spec
+    ensure(metadata, {
+      name: "string",
+      slug: "string",
+      description: "string",
+      thumb: "string",
+      locals: "object"
+    });
+
+    callback(null, metadata, views);
+  });
+}
+
+function saveTemplate(blogID, folder, metadata, callback) {
   var templateID = makeID(blogID, basename(folder));
 
-  get(templateID, function(err, template){
+  get(templateID, function(err, template) {
+    if (err) return callback(err);
 
-    fs.readJson(folder + '/package.json', function(err, ){
-
-      name: "string",
-      description: "string",
-      locals: "object"
-
-      template.create()
-      Object.assign(template,)
-
-    });
+    if (template) {
+      template = Object.assign(template, metadata);
+      update(templateID, template, callback);
+    } else {
+      create(blogID, basename(folder), metadata, callback);
+    }
   });
 }
 
@@ -61,6 +99,7 @@ function saveView(templateID, folder) {
   return function(viewID, next) {
     fs.readFile(folder + "/" + viewID, "utf-8", function(err, content) {
       if (err) return next();
+      debug(templateID, folder, "saving view", viewID);
       set(
         templateID,
         {
@@ -76,18 +115,19 @@ function saveView(templateID, folder) {
 function validViewFiles(dir) {
   return function(item, next) {
     // Dotfile
-    if (item[0] === ".") return next();
+    if (item[0] === ".") return next(null, false);
 
     // Package.json
-    if (item === "package.json") return next();
+    if (item === "package.json") return next(null, false);
 
     fs.stat(dir + "/" + item, function(err, stat) {
-      if (err) return next(err);
+      if (err) return next(null, false);
 
-      next(null, stat.size > MAX_SIZE);
+      next(null, stat.size < MAX_SIZE);
     });
   };
 }
+
 function nameFrom(str) {
   var name = str;
 
@@ -98,42 +138,28 @@ function nameFrom(str) {
   return name;
 }
 
-function all(blogID, callback) {
-  ensure(blogID, "string").and(callback, "function");
+// Reads a directory containing template directories
+// this is used to build Blot's templates (owner === 'SITE')
+// and also to build templates the user is editing locally
+// inside /Templates
+function all(owner, dir, callback) {
+  fs.readdir(dir, function(err, contents) {
+    if (err) return callback(err);
 
-  var templateDir = blogDir + "/" + blogID + "/templates";
-
-  fs.readdir(templateDir, function(err, templates) {
-    if (err && err.code === "ENOENT") return callback();
-
-    if (err || !templates) return callback(err || "No templates");
-
-    async.eachSeries(
-      templates,
-      function(template, next) {
-        // Dotfile
-        if (template.charAt(0) === ".") return next();
-
-        var dir = templateDir + "/" + template;
-
-        read(blogID, dir, function(err) {
-          if (err) {
-            // we need to expose this error
-            // on the design page!
-            console.log(err);
-          }
-
-          next();
+    async.each(
+      contents,
+      function(item, next) {
+        fs.stat(dir + "/" + item, function(err, stat) {
+          if (err) return next();
+          next(null, stat.isDirectory());
         });
       },
-      function() {
-        var cacheID = Date.now();
-        Blog.set(
-          blogID,
-          {
-            cssURL: Blog.url.css(cacheID),
-            scriptURL: Blog.url.js(cacheID),
-            cacheID: cacheID
+      function(err, contents) {
+        if (err) return callback(err);
+        async.map(
+          contents,
+          function(item, next) {
+            read(owner, dir + "/" + item, next);
           },
           callback
         );
@@ -142,74 +168,5 @@ function all(blogID, callback) {
   });
 }
 
-function site(owner, templateName, dir, callback) {
-  var save;
-  var templateID = makeID(owner, templateName);
-  var info = JSON.parse(fs.readFileSync(dir + "package.json", "utf-8"));
-  var views = _.cloneDeep(info.views);
-
-  delete info.views;
-
-  if (!info.name) {
-    return callback("Please specify the package name");
-  }
-
-  isOwner(owner, templateName, function(err, exists) {
-    if (!exists) {
-      save = create.bind(null, owner, helper.capitalise(templateName), info);
-    } else {
-      save = update.bind(null, owner, helper.capitalise(templateName), info);
-    }
-
-    save(function(err) {
-      if (err) return callback(err);
-
-      var viewFiles = fs
-        .readdirSync(dir)
-        .filter(function(name) {
-          return name[0] !== "." && name !== "package.json";
-        })
-        .map(function(name) {
-          return dir + "/" + name;
-        });
-
-      async.each(
-        viewFiles,
-        function(viewFile, next) {
-          var viewContent = fs.readFileSync(viewFile, "utf-8");
-          var viewName = basename(viewFile).slice(
-            0,
-            basename(viewFile).lastIndexOf(".")
-          );
-
-          var view = {
-            name: viewName,
-            type: mime.lookup(basename(viewFile)),
-            content: viewContent
-          };
-
-          if (view.name.slice(0, 1) === "_") {
-            view.name = view.name.slice(1);
-          }
-
-          if (views && views[view.name]) {
-            var newView = views[view.name];
-            extend(newView).and(view);
-            view = newView;
-          }
-
-          set(templateID, view, next);
-        },
-        function(err) {
-          if (err) return callback(err);
-          require("../cache/empty")();
-          callback(null);
-        }
-      );
-    });
-  });
-}
-
 read.all = all;
-read.site = site;
 module.exports = read;
