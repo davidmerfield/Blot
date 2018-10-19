@@ -40,6 +40,10 @@ function messageHandler(id) {
       }
     }
 
+    if (!jobs[message.id] || !jobs[message.id].callback) {
+      return console.warn("No job with id", id, message);
+    }
+
     jobs[message.id].callback(err, message.entry);
   };
 }

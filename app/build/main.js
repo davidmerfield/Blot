@@ -33,7 +33,7 @@ function isWrongType(path) {
 }
 
 process.on("message", function(message) {
-  build(message.blog, message.path, message.options || {}, function(
+  build(message.blog, message.path, message.options, function(
     err,
     entry
   ) {
