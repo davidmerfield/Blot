@@ -4,57 +4,50 @@ var helper = require("helper");
 var arrayify = helper.arrayify;
 
 module.exports = function(req, res, next) {
-  var blogID = req.blog.id;
+  var templateID;
 
-  // makeSlug is called twice (stupidly, accidentally)
-  // in the process to create a template. This double encodes
-  // certain characters like ø. It means that we need to run
-  // makeSlug twice when looking up a template by its slug.
-  // makeID calls makeSlug under the hood so we only need
-  // to call it once ourselves. Update: I was retarded.
-  var name = helper.makeSlug(req.params.template);
+  try {
+    // makeSlug is called twice (stupidly, accidentally)
+    // in the process to create a template. This double encodes
+    // certain characters like ø. It means that we need to run
+    // makeSlug twice when looking up a template by its slug.
+    // makeID calls makeSlug under the hood so we only need
+    // to call it once ourselves. Update: I was retarded.
+    templateID = req.blog.id + ":" + helper.makeSlug(req.params.template);
+  } catch (err) {
+    return next(err);
+  }
 
-  if (!name) return next(new Error("No name"));
+  Template.get(templateID, function(err, template) {
+    if (
+      template.localEditing &&
+      req.path !== "/template/" + req.params.template + "/local-editing"
+    ) {
+      return res.redirect(
+        "/template/" + req.params.template + "/local-editing"
+      );
+    }
 
-  var templateID = blogID + ":" + name;
+    template.locals = arrayify(template.locals);
 
-  // This should probably be Template.owns(blogID, templateid)
-  Template.isOwner(blogID, templateID, function(err, isOwner) {
-    // Check the blog owns the template
-    if (err || !isOwner)
-      return next(new Error("No permission to edit template"));
+    req.template = template;
 
-    Template.get(templateID, function(err, template) {
-      if (
-        template.localEditing &&
-        req.path !== "/template/" + req.params.template + "/local-editing"
-      ) {
-        return res.redirect(
-          "/template/" + req.params.template + "/local-editing"
-        );
-      }
+    template.baseUrl = "/template/" + encodeURIComponent(template.slug);
+    template.preview = [
+      "http://preview.my",
+      template.slug,
+      req.blog.handle,
+      config.host
+    ].join(".");
 
-      template.locals = arrayify(template.locals);
+    res.locals.template = template;
+    res.locals.partials.head = "partials/head";
+    res.locals.partials.footer = "partials/footer";
+    res.locals.partials.local = "template/_local";
+    res.locals.partials.locals = "template/_locals";
+    res.locals.partials.partial = "template/_partial";
+    res.locals.partials.partials = "template/_partials";
 
-      req.template = template;
-
-      template.baseUrl = "/template/" + encodeURIComponent(template.slug);
-      template.preview = [
-        "http://preview.my",
-        template.slug,
-        req.blog.handle,
-        config.host
-      ].join(".");
-
-      res.locals.template = template;
-      res.locals.partials.head = "partials/head";
-      res.locals.partials.footer = "partials/footer";
-      res.locals.partials.local = "template/_local";
-      res.locals.partials.locals = "template/_locals";
-      res.locals.partials.partial = "template/_partial";
-      res.locals.partials.partials = "template/_partials";
-
-      return next();
-    });
+    return next();
   });
 };

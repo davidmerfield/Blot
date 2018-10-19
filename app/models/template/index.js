@@ -4,12 +4,10 @@ module.exports = {
   drop: require("./drop"),
   get: require("./get"),
   list: require("./list"),
-
   view: require("./view"),
-  slug: require("./util/slug"),
-  isOwner: require("./isOwner"),
-  model: require("./model"),
-
   read: require("./read"),
-  write: require("./write")
+  write: require("./write"),
+
+  slug: require("./util/slug"),
+  model: require("./model"),
 };
