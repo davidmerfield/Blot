@@ -153,7 +153,7 @@ module.exports = function(req, res, _next) {
   }
 };
 
-var Entry = require("./entry");
+var Entry = require("entry");
 var async = require("async");
 var getView = Template.view.get;
 
