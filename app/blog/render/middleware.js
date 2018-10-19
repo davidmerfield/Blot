@@ -155,7 +155,6 @@ module.exports = function(req, res, _next) {
 
 var Entry = require("entry");
 var async = require("async");
-var getView = Template.view.get;
 
 function getPartials(blogID, templateID, view, callback) {
   var partials = view.partials;
@@ -199,7 +198,7 @@ function getPartials(blogID, templateID, view, callback) {
         // If the partial's name doesn't start with a slash,
         // it is the name of a tempalte view.
         if (partial.charAt(0) !== "/") {
-          getView(templateID, partial, function(err, view) {
+          Template.view.get(templateID, partial, function(err, view) {
             if (view) {
               allPartials[partial] = view.content;
 

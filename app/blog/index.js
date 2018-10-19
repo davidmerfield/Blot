@@ -41,6 +41,8 @@ blog.use(function(req, res, next) {
       return next(error);
     }
 
+    // We don't want to expose all the templates properties
+    // to the rendering system so we replace it with these
     req.template = {
       locals: metadata.locals,
       id: req.blog.template
