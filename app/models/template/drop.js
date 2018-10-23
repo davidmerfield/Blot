@@ -1,30 +1,37 @@
+var debug = require("debug")("blot:template:drop");
 var key = require("./key");
 var client = require("client");
 var get = require("./get");
 var view = require("./view");
-var debug = require("debug")("blot:template:delete");
 
 module.exports = function drop(templateID, callback) {
-  var multi;
+  debug(templateID);
 
   get(templateID, function(err, template) {
-    if (err || !template) return callback(err || new Error("No template"));
+    if (err) return callback(err);
+
+    if (!template) {
+      err = new Error("No template to delete: " + templateID);
+      err.code = "ENOENT";
+      return callback(err);
+    }
+
+    debug(template);
 
     view.dropAll(templateID, function(err) {
       if (err) return callback(err);
 
-      multi = client.multi();
+      client
+        .multi()
+        .srem(key.blogTemplates(template.owner), templateID)
+        .srem(key.publicTemplates, templateID)
+        .del(key.metadata(templateID))
+        .exec(function(err) {
+          if (err) return callback(err);
 
-      multi.srem(key.blogTemplates(template.owner), templateID);
-      multi.srem(key.publicTemplates, templateID);
-      multi.del(key.metadata(templateID));
-
-      multi.exec(function(err) {
-        if (err) return callback(err);
-
-        debug("Deleted " + templateID);
-        callback(null);
-      });
+          debug("Deleted " + templateID);
+          callback(null);
+        });
     });
   });
 };
