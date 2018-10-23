@@ -51,85 +51,49 @@ Metadata bugs
 
 ---
 
-Themes:
+Template system
   
-  Add way to archive existing template
+- Add script to remove existing Blot template
+
+- Add script to rename existing Blot template
   
-  Add way to rename existing template
-  
-  Move to uuid based template IDs instead of slug
-  
-  Ask to confirm, but remove files from blog folder when disabling local editing
-  
-  How do we share info, like a link on a menu, or a header image across themes? Could there be a shared info repository that themes could access?
+- Ask to confirm, but remove files from blog folder when disabling local editing
 
-  How do we transition from a global menu to one that the themes have control over? How do we share existing links between themes? How do we deal with the order of pages in a user's folder?
+- Move to uuid based template IDs instead of slug  
 
-  How do we transition from a global date display format to one that themes have control over?
+- Add export to zip and import to zip feature for themes
 
-  Change url?json=true to debug=true?
+- Add support for 'creating' a template inside '/Templates/'
 
-  Add export to zip and import to zip feature for themes
+- Fix bug with theme editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
 
-  Port the jekyll theme [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
-  then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
+- Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 
-  Finish Ghost theme import for [Kingi](https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69)
-  
-  Bugs:
+- Fix bug with cache not busting for static rendered themes:
+  1. put posts in blog
+  2. sync, create view e.g. static.js which renders all_entries
+  3. remove posts from blog
+  4. reload page, static.js still shows the entries, which archives.html does not
 
-    Fix bug with theme editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
+- Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 
-    Fix bug with title and partials in local editing
-      - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7)
-      - Tell [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
+Template selection
+- feed - general purpose
+- photos - optimized for a photoblog
+- archive - optimized for an archive of photos, links, quotes
+- essays - optimized for longform essays
+- code - optimized for a developer's blog
+- portfolio - optimized for a portfolio of visual work
+- magazine - optimized for a magazine
 
-    Fix bug with cache not busting for static rendered themes:
-    1. put posts in blog
-    2. sync, create view e.g. static.js which renders all_entries
-    3. remove posts from blog
-    4. reload page, static.js still shows the entries, which archives.html does not
+Find good source of material, ideally on Blot like this [source for theme content](http://cinebloc.blot.im/)
 
-  Grid theme
-  - Find good source of material
-  - Release the theme
+Investigate [Jekyll themes to use](https://github.com/broccolini/swiss) which have permissive licenses
 
-  Magazine theme
-  - Fix bug with Barba.js which is not working
-  - Add fade in out transitions
-  - Ensure titleless blog posts work
-  - Improve the about page
-  - Add grey bg to loading thumbnails
+Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a) once there is a decent portfolio template.
 
-  Portfolio theme
-  - Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
-  Good source for theme content: http://cinebloc.blot.im/
+Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
-  Improve the selection of themes
-  - Don't modify any code, just design themes
-  - Build script to archive a particular theme
-  - Nice Jekyll theme: https://github.com/broccolini/swiss
-  - Draw simple abstract representations of each theme for the themes page to replace thumbnails
-  - Let [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
-
-  System
-  - Install and test a few of these static site generators:
-  https://news.ycombinator.com/item?id=17942395
-  - Make themes file or folder based
-  - Consider making file-based theme directory a git repo and using this to implement basic undo-redo functionality. 
-  - Disable re-rendering for theme locals
-  - Add better customization options
-  - Local theme editing does not clear cache
-  - Use Hogan for precompiling and rendering themes?
-  - Let [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) know when it's possible to set routes locally
-  - Let [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
-  - Let [Jason](https://mail.google.com/mail/u/1/#inbox/163186d43aaf52af) know when you can use tokens in routes
-  - Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
-  - Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange theme bug
-  - Warn users that underscore will not work for hidden pages
-  - Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
-  - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
-  - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
@@ -144,58 +108,46 @@ Record a new demo video
 - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
 - My personal site: simple landing page, edit with a doc file?
 
-
 Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
 
 Increase default quality for sharp's output images
+
+Client.write does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
 
 Re-enable image minifier and fix the bugs it creates
   
 Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
 
-Generate screenshots as thumbnails for webloc posts
-- https://github.com/GoogleChrome/puppeteer
-- Use PNG8, which seems [efficient for screenshots](https://news.ycombinator.com/item?id=18236912)
-
-Self-hosting documentation
-- Tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
+Generate screenshots as thumbnails for webloc posts perhaps using [pupeteer](https://github.com/GoogleChrome/puppeteer) and PNG8, which seems [efficient for screenshots](https://news.ycombinator.com/item?id=18236912)
 
 Move to Linode
 - Preserve AWS elastic IP and proxy to Linode
 - Think about eventual multiple locations around the world from day 1
-- https://www.linode.com/pricing
-- Use this for storing all users' folders https://www.linode.com/blockstorage
-- https://www.linode.com/backups
-- https://www.linode.com/nodebalancers
-
-Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally?
-  - More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
+- Work out the [pricing model carefully](https://www.linode.com/pricing)
+- Use [blockstorage this for storing all users' folders](https://www.linode.com/blockstorage)
+- Use [backups](https://www.linode.com/backups)
+- Use [nodebalancers](https://www.linode.com/nodebalancers)
 
 Prune package.json
-  To minify HTML
-    https://github.com/kangax/html-minifier
-  To minify CSS
-    https://github.com/cssnano/cssnano
-    https://github.com/css/csso
-  To minify JavaScript
-    https://github.com/mishoo/UglifyJS2
-    https://developers.google.com/closure/compiler/
+- To [minify HTML](https://github.com/kangax/html-minifier)
+- To [minify CSS](https://github.com/cssnano/cssnano) [(alternative)](https://github.com/css/csso)
+- To [minify JavaScript](https://github.com/mishoo/UglifyJS2) [(alternative)](https://developers.google.com/closure/compiler/)
 
-Perhaps just cluster the main process? How will I verify that there is not statefullness somewhere in the server? I also want the main 'server' running on different threads to the CPU intensive stuff like image processing. Will this fix the bug with additional child processes if main process runs out of memory? Something wasn't being killed during the Nash WAV bug of August, 2018. There were duplicate node rebuild processes running.
+Cluster the main process. How will I verify that there is not statefullness somewhere in the server? I also want the main 'server' running on different threads to the CPU intensive stuff like image processing. Will this fix the bug with additional child processes if main process runs out of memory? Something wasn't being killed during the Nash WAV bug of August, 2018. There were duplicate node rebuild processes running.
+
+Distribute static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
 
 Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
 
-Distribute static built blogs on [dat](https://github.com/datproject/dat-node)
-
-Use this redis analysis tool to see if I can squeeze more out of REDIS
-https://github.com/snmaynard/redis-audit
-
 Add an EXPIRY to the log entries for a blog's 404 log
+
+Use a [redis analysis tool](https://github.com/snmaynard/redis-audit) to see if I can squeeze more out of REDIS
+
+
+Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally? More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
 
 Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389c18) about DataValet blocking
 
-Client.write does not propogate sync errors...
-  to demonstrate this, revoke dropbox token then try to enable local editing.
   
 Look into mirroring site across multiple domains and follow up with Thomas
 https://mail.google.com/mail/u/1/#inbox/1625012def221a8f
@@ -216,13 +168,53 @@ Developer documentation
   - Add types and examples to items on reference page
   - Work how to explain the archives property
 
+Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
+
 Investigate static site search offerings
 - It would be nice to have one whose index you could build on 
   the server, and deliver statically, perhaps even chunked if it was huge
 - Would be nice to be able to patch updates to this index quickly without
   rebuilding the whole thing
 
+Template
+- Add support for 'Template' folder and a way to copy this to dashboard?
+
+- How do we share info, like a link on a menu, or a header image across themes? Could there be a shared info repository that themes could access?
+
+- add support for dynamic partials to make collections possible, e.g. {{> /{tag}.html}} ?
+
+- Add neat interface to customize blog level variables?
+
+- How do we transition from a global menu to one that the themes have control over? How do we share existing links between themes? How do we deal with the order of pages in a user's folder?
+
+- How do we transition from a global date display format to one that themes have control over?
+
+- Change url?json=true to debug=true?
+
+- Port the jekyll theme [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
+  then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
+
+- Finish Ghost theme import for [Kingi](https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69)
+- Draw simple abstract representations of each theme for the themes page to replace thumbnails
+- Install and test a few of these static site generators:
+https://news.ycombinator.com/item?id=17942395
+- Make themes file or folder based
+- Consider making file-based theme directory a git repo and using this to implement basic undo-redo functionality. 
+- Disable re-rendering for locals
+- Add better customization options
+- Local theme editing does not clear cache
+- Use Hogan for precompiling and rendering themes?
+- Parse tokens and params from routes and tell [Jason](https://mail.google.com/mail/u/1/#inbox/163186d43aaf52af)
+- Add way to allow all entry lists to access {{#months}} sorting options just like the archives page.
+- Fix [Frank](https://mail.google.com/mail/u/0/1527fbcf999ba0c3)'s strange theme bug
+- Warn users that underscore will not work for hidden pages
+- Fix _ entries to true public files, tell john & other folks who depend on the menu: yes, page: no side effect
+- Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
+- Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
+
+
 Dashboard
+- Offering a broken link checker service
 - Dumb quotes are still smartified, even without typeset enabled.
 - Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
 - Can we trim the homepage to get to this?
@@ -303,6 +295,8 @@ Increase price for new customers to $40 a year. This will not affect existing cu
 ---
 
 Buy the .com
+- Remember to bump LetsEncrypt rate limits if needed
+- Remember to transfer Dropbox webhooks to new domain on the Dropbox developers console
 
 Incorporate
 
@@ -542,49 +536,23 @@ Prevent image zoom plugin from zooming emojies
 
 Embed plugin https://github.com/ritz078/embed.js
 
-Soundcloud embeds and tell 
-  [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23)
-  Nashp
-  [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12)
+Soundcloud embeds then tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23), Nashp, and [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12)
 
 Create script to export Blot sites to common formats and let Roberto know
 
 Add transactional emails notifying user of changes to their email or password.
 
-IDEAS
-=====
-
-It could be nice to link to [@path/to/file.txt] and resolve the URL automatically?
-  - would need a dependency tree, if change were made to file.txt, the linker would
-    need to be updated too.
-  - would leave a trail, like regular permalinks, so file.txt could be moved without
-    breaking anything.
-
-Add 'opener=false' to target="_blank" links?
-
-Consider offering a broken link checker service?
-
-Add neat interface to customize blog level variables?
-
-add support for dynamic partials to make collections possible
-e.g. {{> /{tag}.html}} ?
+---
 
 Move from preview files -> webloc / .url files ?
 
 Consider adding date format localization with Moment
 
-Create webloc to live version for each entry? I LIKE
-
-Move to new api file ids for Dropbox renames?
-https://mail.google.com/mail/u/0/#inbox/150def93b65dc4b1
+Create webloc to live version for each entry?
 
 Move from 'archives' to 'archive'?
 
 Look into how Jekyll does data files and possibly support?
-
-Consider using the fancy new stripe payment form on the public site?
-https://stripe.com/docs/stripe-js/elements/quickstart
-
 
 Consider adding markdown support for [mermaid](https://mermaidjs.github.io/)?
 
@@ -596,8 +564,7 @@ Add .lhs support and tell Roy
 
 Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
 
-Add a cool bookmarklet which drafts a post a la
-https://www.youtube.com/watch?v=cu5uXXulnNk
+Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
 
-Consider allowing users to buy domains on Blot through 
-https://developer.dnsimple.com
+Consider allowing users to buy domains on Blot through [DNS simple](https://developer.dnsimple.com)
+
