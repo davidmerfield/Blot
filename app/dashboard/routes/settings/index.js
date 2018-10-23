@@ -96,7 +96,7 @@ settings.get("/settings/urls/redirects", load.redirects, function(req, res) {
 // Load the list of templates for this user
 
 settings.use("/settings/template", load.templates, function(req, res, next) {
-  res.locals.breadcrumbs.add("Templates", "template");
+  res.locals.breadcrumbs.add("Template", "template");
   next();
 });
 

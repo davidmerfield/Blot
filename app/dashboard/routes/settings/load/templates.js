@@ -27,17 +27,16 @@ module.exports = function(req, res, next) {
       return 0;
     });
 
-    res.locals.templates = {
-      yours: templates.filter(function(t) {
+    res.locals.templates = templates
+      .filter(function(t) {
         return t.isMine;
-      }),
-      blots: templates.filter(function(t) {
-        return !t.isMine;
       })
-    };
+      .concat(
+        templates.filter(function(t) {
+          return !t.isMine;
+        })
+      );
 
-    res.locals.templates.blots = res.locals.templates.blots.slice(0,7);
-    
     next();
   });
 };
