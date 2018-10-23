@@ -68,6 +68,14 @@ Move to using unix socket with redis client per [documentation](https://github.c
 
 Themes:
   
+  Add way to archive existing template
+  
+  Add way to rename existing template
+  
+  Move to uuid based template IDs instead of slug
+  
+  Ask to confirm, but remove files from blog folder when disabling local editing
+  
   How do we share info, like a link on a menu, or a header image across themes? Could there be a shared info repository that themes could access?
 
   How do we transition from a global menu to one that the themes have control over? How do we share existing links between themes? How do we deal with the order of pages in a user's folder?
