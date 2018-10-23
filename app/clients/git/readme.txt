@@ -12,26 +12,6 @@ Move these into this module when I start using git submodules or npm submodules 
     "simple-git": "^1.92.0",
     "uuid": "^3.2.1"
 
-To do
------
-* Extend sync lock during long syncs
-* Write test to simulate process dying and restarting mid-pull. Does the client recover? What happens if a pull fails midway? Does git recover?
-* Write tests for a series of random client operations (pull, add, push, move, reset, delete) that can be seeded and reliably re-run in the case of failure.
-* Move to neat promise chain api when 2.0 comes out
-* Test that client must keep sending new entries and deleted entries when it recieved an error from entry.build otherwise you get ghost posts...
-* send nice error message with instructions for 413 request too large: "git reset HEAD^" etc...
-* Thoroughly document:
-  - write
-  - read
-  - sync
-* Tidy up tests and reduce size and runtime
-* Add documentation and an explanation for how to mirror blot blog repo on Github or Gitlab:
-  https://mail.google.com/mail/u/1/#inbox/1658e28be94479af
-* This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
-* what happens if user changes their handle? will pushing break?
-  - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
-* Rate limit authentication route?
-
 Pitfalls
 --------
 * are all of simple-git's error strings turned into error objects? ran into issues with tests and this

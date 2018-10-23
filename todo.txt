@@ -8,7 +8,7 @@ Translate Benjamin's ghost theme and reply back to him on Twitter
 
 Fix URL encoding. Right now, the entry.url property is not encoded as a URI component on the server, but it needs to be. Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)
 
-Work out elegant way to produce fully qualified SRCs and HREFs for blogs to help make RSS feeds work more effectively, then tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a), [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec), [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928) and [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358) about the fix, which affects people who use micro.blog. Also tell [Michael](https://mail.google.com/mail/u/0/#inbox/1667c931e1142332) who is hardcoding his domain.
+Work out elegant way to produce fully qualified SRCs and HREFs for blogs to help make RSS feeds work more effectively, then tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a), [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec), [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928) and [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358) about the fix, which affects people who use micro.blog. Also tell [Michael](https://mail.google.com/mail/u/0/#inbox/1667c931e1142332) who is hardcoding his domain. Also tell [Jaco](https://mail.google.com/mail/u/0/#inbox/166911c96525df43)
 
 Prevent 'ignored' files which begin with an underscore from generating preview.html files when inside the Drafts folder. Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67)
 
@@ -67,6 +67,14 @@ Move to using unix socket with redis client per [documentation](https://github.c
 ---
 
 Themes:
+  
+  Add way to archive existing template
+  
+  Add way to rename existing template
+  
+  Move to uuid based template IDs instead of slug
+  
+  Ask to confirm, but remove files from blog folder when disabling local editing
   
   How do we share info, like a link on a menu, or a header image across themes? Could there be a shared info repository that themes could access?
 
@@ -259,13 +267,13 @@ File converters / codecs
 - Video posts (.mp4)
 - OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
 - Audio posts (.mp3 for now?)
-- Multi-file posts from inside one folder? 'Folder>'
+- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113)
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
 - Markdown
   Write a pandoc compatible markdown converter in javascript
   to resolve some of the performance issues with pandoc
   Perhaps just use https://github.com/markdown-it/markdown-it
-- Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206)
+- Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152)
 
 Photo posts
 - Expose exif data?
@@ -320,6 +328,40 @@ Support embedding an image in a post by copy-pasting the Dropbox share link
 Increase price for new customers to $60 a year. This will not affect existing customers.
 
 ---
+
+Git client:
+- Backdate existing commits (perhaps set file ctime using info from git log?) This would sidestep the frustration experienced by [Gavin](https://mail.google.com/mail/u/0/#inbox/1669a8e621f9ef37) when he imported an existing repository.
+- Extend sync lock during long syncs
+- Write test to simulate process dying and restarting mid-pull. Does the client recover? What happens if a pull fails midway? Does git recover?
+- Write tests for a series of random client operations (pull, add, push, move, reset, delete) that can be seeded and reliably re-run in the case of failure.
+- Move to neat promise chain api when 2.0 comes out
+* Test that client must keep sending new entries and deleted entries when it recieved an error from entry.build otherwise you get ghost posts...
+- send nice error message with instructions for 413 request too large: "git reset HEAD^" etc...
+- Thoroughly document:
+  - write
+- - read
+  - sync
+- Tidy up tests and reduce size and runtime
+- Add documentation and an explanation for how to mirror blot blog repo on Github or Gitlab:
+  https://mail.google.com/mail/u/1/#inbox/1658e28be94479af
+- This client should acquire a lock on the blog's folder before doing stuff to it more generally, especially during initialization etc...
+- what happens if user changes their handle? will pushing break?
+  - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
+- Rate limit authentication route?
+
+Dropbox client:
+- Adding an additional blog to existing app folder under constant webhooks failed. New blog had correct folder but old blog still used root. I guess we need to acquire a lock on ALL blogs interacting with that dropbox account.
+- Extend sync lock during long syncs
+- Write test to simulate process dying and restarting mid-pull. Does the client recover? 
+- Write tests for a series of random dropbox client operations (pull, add, push, move, reset, delete) that can be seeded and reliably re-run in the case of failure.
+- Look into getAccessTokenFromCode on DBSDK repo to avoid the mess in get_account.js https://github.com/dropbox/dropbox-sdk-js/issues/64
+- Gracefuly retry wrapper around Dropbox
+- Can we write to a folder_id instead of a path? It would be nice to be able to move the blog's folder even when writing the initial files to it, for example...
+- This should be simple once we copy the exisiting state of the blog folder across. But right now it doesn't really do much. It resets the local server folder. Then resyncs.
+- Update to latest version of Dropbox client.
+- Make the folder in Dropbox rename automatically when the
+user changes the username for one of their multiple blogs?
+
 
 Support 2FA (Two factor authentication)
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)

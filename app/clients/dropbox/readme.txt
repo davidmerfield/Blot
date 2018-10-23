@@ -13,20 +13,6 @@ Dependencies
 Move this into this module when I start using git submodules or npm submodules properly.
 
 
-To do
------
-* Adding an additional blog to existing app folder under constant webhooks failed. New blog had correct folder but old blog still used root. I guess we need to acquire a lock on ALL blogs interacting with that dropbox account.
-* Extend sync lock during long syncs
-* Write test to simulate process dying and restarting mid-pull. Does the client recover? 
-* Write tests for a series of random dropbox client operations (pull, add, push, move, reset, delete) that can be seeded and reliably re-run in the case of failure.
-* Look into getAccessTokenFromCode on DBSDK repo to avoid the mess in get_account.js https://github.com/dropbox/dropbox-sdk-js/issues/64
-* Gracefuly retry wrapper around Dropbox
-* Can we write to a folder_id instead of a path? It would be nice to be able to move the blog's folder even when writing the initial files to it, for example...
-* This should be simple once we copy the exisiting state of the blog folder across. But right now it doesn't really do much. It resets the local server folder. Then resyncs.
-* Update to latest version of Dropbox client.
-* Make the folder in Dropbox rename automatically when the
-user changes the username for one of their multiple blogs?
-
 Complications
 -------------
 
