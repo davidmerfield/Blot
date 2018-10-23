@@ -5,7 +5,7 @@ var Blog = require("blog");
 var get = require("./get");
 var fs = require("fs-extra");
 var localPath = helper.localPath;
-var debug = require("debug")("template:write");
+var debug = require("debug")("blot:template:write");
 
 module.exports = function write(blogID, templateID, callback) {
   debug(blogID, templateID);

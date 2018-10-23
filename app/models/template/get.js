@@ -2,7 +2,7 @@ var client = require("client");
 var key = require("./key");
 var deserialize = require("./util/deserialize");
 var model = require("./model");
-var debug = require("debug")("template:get");
+var debug = require("debug")("blot:template:get");
 
 module.exports = function get(templateID, callback) {
   debug(templateID);

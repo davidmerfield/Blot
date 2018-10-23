@@ -2,7 +2,7 @@ var key = require("./key");
 var client = require("client");
 var get = require("./get");
 var view = require("./view");
-var debug = require("debug")("template:delete");
+var debug = require("debug")("blot:template:delete");
 
 module.exports = function drop(templateID, callback) {
   var multi;

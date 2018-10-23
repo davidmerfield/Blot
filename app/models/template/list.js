@@ -2,7 +2,7 @@ var key = require("./key");
 var client = require("client");
 var get = require("./get");
 var async = require("async");
-var debug = require("debug")("template:list");
+var debug = require("debug")("blot:template:list");
 
 // The list of possible template choices
 // for a given blog. Accepts a UID and

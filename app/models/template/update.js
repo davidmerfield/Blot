@@ -1,4 +1,4 @@
-var debug = require("debug")("template:update");
+var debug = require("debug")("blot:template:update");
 var helper = require("helper");
 var ensure = helper.ensure;
 var key = require("./key");

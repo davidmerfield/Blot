@@ -1,3 +1,4 @@
+var debug = require("debug")("blot:template:create");
 var helper = require("helper");
 var extend = helper.extend;
 var ensure = helper.ensure;
@@ -6,39 +7,46 @@ var client = require("client");
 var get = require("./get");
 var view = require("./view");
 var model = require("./model");
-var debug = require("debug")("template:create");
 var makeID = require("./util/makeID");
 var serialize = require("./util/serialize");
 var async = require("async");
-// blogID represents the id of a blog who controls the template
-// or the string 'SITE' which represents a BLOT template not
-// not editable by any blog
+
+// Used to create templates for blogs, or for Blot. Templates
+// for Blot have the special blogID 'SITE'. I know this is inelegant.
 module.exports = function create(blogID, name, metadata, callback) {
   var templateID, slug, multi;
 
+  debug(blogID, name, metadata);
+
   try {
-    // Name is user input, it needs to be trimmed
+    // Name is the name of the template. It's shown on the dashboard
+    // and it can contain case. Its case is preserved.
     name = name.trim().slice(0, 100);
 
-    // The slug cannot contain a slash, or it messes up the routing middleware.
+    // Slug cannot contain a slash, or it messes up the routing middleware.
     slug = helper.makeSlug(name.split("/").join("-"));
 
-    // Each template has an ID which is namespaced under its blogID
+    // makeID and makeSlug do strange things, encoding, decoding, case
+    // modification and more. In future, they should be made simpler.
     templateID = makeID(blogID, slug);
   } catch (err) {
     return callback(err);
   }
 
+  // We make sure there is not existing template with this ID
   client.exists(key.metadata(templateID), function(err, stat) {
     if (err) return callback(err);
 
-    // Don't overwrite an existing template
     if (stat) {
       err = new Error(name + " already exists");
       err.code = "EEXISTS";
       return callback(err);
     }
 
+    // Most of the time, a user will be cloning one of Blot's templates
+    // on the dashboard. cloneFrom is the ID of the template they clone.
+    // We pass an empty string when running the script to build the
+    // global templates.
     get(metadata.cloneFrom, function(err, existingMetadata) {
       if (err) return callback(err);
 

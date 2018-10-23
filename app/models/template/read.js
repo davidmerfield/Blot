@@ -1,4 +1,4 @@
-var debug = require("debug")("template:read");
+var debug = require("debug")("blot:template:read");
 var basename = require("path").basename;
 var fs = require("fs-extra");
 var async = require("async");
