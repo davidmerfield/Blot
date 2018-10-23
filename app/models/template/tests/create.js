@@ -2,6 +2,7 @@ describe("template", function() {
   require("./setup")();
 
   var create = require("../create");
+  var async = require("async");
 
   it("creates a template", function(done) {
     create(this.blog.id, this.fake.random.word(), {}, done);
@@ -21,6 +22,29 @@ describe("template", function() {
       expect(err instanceof TypeError).toBe(true);
       done();
     });
+  });
+
+  it("creates multiple templates in parallel", function(done) {
+    var test = this;
+    var templateNames = [];
+
+    while (templateNames.length < 1000)
+      templateNames.push(test.fake.random.uuid());
+
+    async.map(
+      templateNames,
+      function(templateName, next) {
+        create(test.blog.id, templateName, {}, next);
+      },
+      function(err, templates) {
+        if (err) return done.fail(err);
+        templates.forEach(function(template) {
+          expect(template.id).toEqual(jasmine.any(String));
+          expect(templateNames.indexOf(template.name)).not.toEqual(-1);
+        });
+        done();
+      }
+    );
   });
 
   it("returns an error if you try to create a template which already exists", function(done) {
