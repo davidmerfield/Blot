@@ -35,6 +35,7 @@ module.exports = function(server) {
       var name = helper.makeSlug(req.params.template);
       var designPage = "/settings/template";
 
+      // We trust that the template ID is owned by the blog
       Template.drop(req.template.id, function(err) {
         if (err) return next(err);
 

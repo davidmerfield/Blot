@@ -23,6 +23,11 @@ module.exports = function(req, res, next) {
       return next(err || new Error("No template"));
     }
 
+    // Verify the blog controls the template to delete
+    if (template.owner !== req.blog.id) {
+      return next(new Error("No permission to edit this template"));
+    }
+
     if (
       template.localEditing &&
       req.path !== "/template/" + req.params.template + "/local-editing"
