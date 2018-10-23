@@ -67,35 +67,38 @@
 
 
     <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#template}} {{#checked}}{{name}}{{/checked}}{{/template}}</b> template.</p>
-<a href="/settings/template/edit">Edit your template</a>
+<a href="/settings/template/{{template.slug}}">Edit your template</a>
 
-<a href="/settings/template/disable" style="width:50%;float:right">Disable your template</a>
+<a href="/settings/template/disable" style="margin-left:40px">Disable your template</a>
+
+
+
+
+
+<hr style="margin-bottom:0">
+ <a href="/settings/template/new" class="line" style="margin-left:-20px;padding-right:40px;border-bottom:0"><span class="photo-holder plus">+</span> Create a new template</a>
+ 
+ <br>
 
 {{#templates}}
 
-  <Br>
-
-</span>
-
+<span style="color:rgb(153, 153, 153)">Available templates</span>
 </div>
 
-<br>
-<Div class="line">  <span style="color:rgb(153, 153, 153)">Templates
-<a href="/settings/template/new" style="float:right">Create new template</a>
-
-</div>
 
 {{#yours}}
-<a class="line theme {{checked}}" href="/settings/template/edit/{{slug}}">
+<a class="line theme {{checked}}" href="/settings/template/yours/{{slug}}">
   <span class="link">{{name}}</span>
-  <span class="right" style="float:right"><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#365899"></path></svg></span>
+  <span class="right" style="float:right">
+<!-- {{#checked}}<span style="background:rgba(0,0,0,0.05);border-radius:4px;margin:0 11px;color:rgb(109, 109, 109);padding:4px">Installed</span>{{/checked}} --><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#365899"></path></svg></span>
 </a>
 {{/yours}}
 
 {{#blots}}
-<a class="line theme {{checked}}" href="/settings/template/edit/{{slug}}">
+<a class="line theme {{checked}}" href="/settings/template/{{slug}}">
   <span class="link">{{name}}</span>
-  <span class="right" style="float:right"><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#365899"></path></svg></span>
+  <span class="right" style="float:right">
+<!-- {{#checked}}<span style="background:rgba(0,0,0,0.05);border-radius:4px;margin:0 11px;color:rgb(109, 109, 109);padding:4px">Installed</span>{{/checked}} --><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="#365899"></path></svg></span>
 
   </a>
 {{/blots}}

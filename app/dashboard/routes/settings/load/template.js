@@ -1,85 +1,31 @@
-var helper = require("helper");
-var arrayify = helper.arrayify;
-var previewHost = "http://preview";
-var ignored = ["blank", "monotone", "mono", "original", "serif"];
-var config = require("config");
 var Template = require("template");
+var extendTemplate = require("./extendTemplate");
 
 module.exports = function(req, res, next) {
-  var blog = req.blog,
-    blogID = blog.id,
-    currentTemplate = blog.template;
+  var templateID;
 
-  Template.list(blogID, function(err, templates) {
-    var yourTemplates = [];
-    var blotTemplates = [];
+  try {
+    templateID = decodeURIComponent(req.params.template);
+  } catch (err) {
+    return next(err);
+  }
 
-    // Turn the dictionary of templates returned
-    // from the DB into a list that Mustache can render
-    templates = arrayify(templates, function(template) {
-      template.nameLower = template.name.toLowerCase();
+  console.log('here', templateID);
+  
+  if (templateID.indexOf("yours/") === 0) {
+    templateID = req.blog.id + ":" + templateID;
+  } else {
+    templateID = "SITE:" + templateID;
+  }
 
-      if (template.owner === blog.id) template.isMine = true;
+  Template.get(templateID, function(err, template) {
+    if (err) {
+      return next(err);
+    }
 
-      if (template.id === "SITE:default") template.isDefault = true;
+    req.template = extendTemplate(req, res)(template);
+    res.locals.template = template;
 
-      if (template.id === currentTemplate) {
-        template.checked = "checked";
-        res.locals.template = template;
-      }
-
-      if (
-        !template.checked &&
-        ignored.indexOf(template.name.toLowerCase()) > -1
-      )
-        return false;
-
-      var mySubDomain = template.isMine ? "my." : "";
-
-      template.editURL = "/template/" + template.slug;
-
-      template.previewURL =
-        previewHost +
-        "." +
-        mySubDomain +
-        template.slug +
-        "." +
-        blog.handle +
-        "." +
-        config.host;
-
-      if (template.owner === blogID) yourTemplates.push(template);
-
-      if (template.owner !== blogID) blotTemplates.push(template);
-    });
-
-    // Sort templates alphabetically,
-    // with my templates above site tmeplates
-    templates.sort(function(a, b) {
-      if (a.isMine && !b.isMine) return -1;
-
-      if (b.isMine && !a.isMine) return 1;
-
-      var aName = a.name.trim().toLowerCase();
-
-      var bName = b.name.trim().toLowerCase();
-
-      if (aName < bName) return -1;
-
-      if (aName > bName) return 1;
-
-      return 0;
-    });
-
-    res.locals.templates = {
-      yours: templates.filter(function(t) {
-        return t.isMine;
-      }),
-      blots: templates.filter(function(t) {
-        return !t.isMine;
-      })
-    };
-
-    next();
+    return next();
   });
 };

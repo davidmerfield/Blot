@@ -18,8 +18,8 @@ settings.get("/settings", function(req, res) {
 var index = settings.route("/");
 
 index.get(
-  load.template,
-  debug("template loaded"),
+  load.templates,
+  debug("templates loaded"),
   load.menu,
   debug("menu loaded"),
   load.client,
@@ -95,8 +95,8 @@ settings.get("/settings/urls/redirects", load.redirects, function(req, res) {
 
 // Load the list of templates for this user
 
-settings.use("/settings/template", load.template, function(req, res, next) {
-  res.locals.breadcrumbs.add("Template", "template");
+settings.use("/settings/template", load.templates, function(req, res, next) {
+  res.locals.breadcrumbs.add("Templates", "template");
   next();
 });
 
@@ -121,6 +121,23 @@ settings.route("/settings/template/disable").get(function(req, res) {
   res.locals.breadcrumbs.add("Disable", "disable");
   res.render("template/disable", { title: "Disable your template" });
 });
+
+settings
+  .route("/settings/template/:template")
+  .get(load.template)
+  .get(function(req, res, next) {
+    if (!req.template) return next();
+    res.locals.breadcrumbs.add(req.template.name, req.template.slug);
+    res.render("template/edit", { title: "Edit template" });
+  });
+
+settings
+  .route("/settings/template/yours/:template")
+  .get(load.template)
+  .get(function(req, res) {
+    res.locals.breadcrumbs.add(req.template.name, req.template.slug);
+    res.render("template/edit", { title: "Edit template" });
+  });
 
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;

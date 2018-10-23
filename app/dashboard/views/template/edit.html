@@ -1,15 +1,41 @@
-<a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
-  <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
-  <form method='post' style="display:inline">
+{{#template}}
+
+
+<input type="hidden" name="redirect" value="/settings/template">  
+
+<div class="line" style="border-bottom:none">
+      <p>
+
+
+    <b style="font-weight:500">{{name}}</b> template</p>
+    <p>{{description}}</p>
+
+    <hr>
+
+<form method='post' action="/settings/template" style="display:inline">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    <input type="hidden" name="redirect" value="/settings/template/{{slug}}"> 
     <input type="hidden"  name="template" value="{{id}}" > 
-    <button {{#checked}}disabled{{/checked}} type="submit"><span class="square">Install</span></button>
-  </form>
+<div class="buttons">
+
+        <button type="submit" onclick="this.form.submit();this.disabled=true">Install</button>
+        <a href="{{previewURL}}"  target="_blank">Preview</a>
+      </div>  </form>
+
+      {{#isMine}}
   <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px" class="preview-button" ><span class="square">Edit</span></a>
+{{/isMine}}
+
+{{^isMine}}
+<p>Edit the source</p>
+{{/isMine}}
+</div>
+
+  
 
   
   
-  <a class="line" href="/settings/menu" style="margin:0 -20px">
+  <a class="line" href="/settings/menu">
     <span class="label">Menu</span>
     <span class="center">
       {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
@@ -20,10 +46,6 @@
   </a>
 
 
-  <a class="line" href="/settings/services" style="margin:0 -20px">
-    <span class="label">Services</span>
-    <span class="link">Configure analytics and other services
-</span>
 
-  </a>
   
+{{/template}}
