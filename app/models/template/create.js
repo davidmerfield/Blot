@@ -13,6 +13,8 @@ var async = require("async");
 
 // Used to create templates for blogs, or for Blot. Templates
 // for Blot have the special blogID 'SITE'. I know this is inelegant.
+// Name is specific by the user and is shown the dashboard. The preview
+// subdomain and URL slug for this template is generated from it.
 module.exports = function create(blogID, name, metadata, callback) {
   var templateID, slug, multi;
 

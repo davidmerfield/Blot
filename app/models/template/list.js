@@ -1,26 +1,25 @@
+var debug = require("debug")("blot:template:list");
 var key = require("./key");
 var client = require("client");
 var get = require("./get");
 var async = require("async");
-var debug = require("debug")("blot:template:list");
 
-// The list of possible template choices
-// for a given blog. Accepts a UID and
-// returns an array of template metadata
-// objects. Does not contain any view info
+// The list of possible template choices for a given blog.
+// Accepts a blog ID and returns an array of templates.
 module.exports = function list(blogID, callback) {
-  var batch = client.batch();
+  client
+    .batch()
+    .smembers(key.publicTemplates)
+    .smembers(key.blogTemplates(blogID))
+    .exec(function(err, templateIDs) {
+      if (err) return callback(err);
 
-  batch.smembers(key.publicTemplates);
-  batch.smembers(key.blogTemplates(blogID));
+      debug(blogID, templateIDs);
+      // Redis returns two arrays, the first containing
+      // public template IDs (i.e. Blot's) and the second
+      // containg this blog's template ids. Now we merge them.
+      templateIDs = templateIDs[0].concat(templateIDs[1]);
 
-  batch.exec(function(err, templateIDs) {
-    if (err) return callback(err);
-
-    templateIDs = templateIDs[0].concat(templateIDs[1]);
-
-    debug(blogID, templateIDs);
-
-    async.map(templateIDs, get, callback);
-  });
+      async.map(templateIDs, get, callback);
+    });
 };

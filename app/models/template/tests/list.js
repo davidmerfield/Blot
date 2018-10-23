@@ -2,7 +2,6 @@ describe("list", function() {
   require("./setup")({ createTemplate: true });
 
   var list = require("../list");
-  var drop = require("../drop");
 
   it("lists all templates", function(done) {
     var test = this;
@@ -14,17 +13,11 @@ describe("list", function() {
     });
   });
 
-  it("does not show a removed template", function(done) {
-    var test = this;
-
-    drop(test.template.id, function(err) {
+  it("does not return an error if the owner does not exist", function(done) {
+    list(test.fake.random.word(), function(err, result) {
       if (err) return done.fail(err);
-      list(test.blog.id, function(err, result) {
-        if (err) return done.fail(err);
-        expect(result).toEqual(jasmine.any(Array));
-        expect(result).not.toContain(test.template);
-        done();
-      });
+      expect(result).toEqual(jasmine.any(Array));
+      done();
     });
   });
 });

@@ -4,6 +4,8 @@ var client = require("client");
 var get = require("./get");
 var view = require("./view");
 
+// Used to remove a template. This does not just set a deleted
+// flag, it actually removes the template data from Redis.
 module.exports = function drop(templateID, callback) {
   debug(templateID);
 
@@ -17,7 +19,6 @@ module.exports = function drop(templateID, callback) {
     }
 
     debug(template);
-
     view.dropAll(templateID, function(err) {
       if (err) return callback(err);
 
