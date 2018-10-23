@@ -6,47 +6,6 @@ Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL enco
 
 Work out elegant way to produce fully qualified SRCs and HREFs for blogs to help make RSS feeds work more effectively, then tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a), [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec), [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928) and [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358) about the fix, which affects people who use micro.blog. Also tell [Michael](https://mail.google.com/mail/u/0/#inbox/1667c931e1142332) who is hardcoding his domain. Also tell [Jaco](https://mail.google.com/mail/u/0/#inbox/166911c96525df43)
 
-Prevent ignored files from generating preview.html files when inside the Drafts folder. Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67)
-
----
-
-Markdown bugs
-
-- Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
-
-- Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch)
-
-- Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
-
-- Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
-
-- Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly.
-
-- Fix bug with strange windows notepad encoding 
-
-- Let [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc) know
-
-- Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
-
-Metadata bugs
-
-- Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
-
-- Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12)
-
-- Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
-
-- Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
-
-- Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
-
-- Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
-
-- Fix bug in metadata parser which gets tripped by a URL on the first line of the file then tell [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc), [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) and [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
-
-- Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae)
-
-
 ---
 
 Template system
@@ -92,11 +51,50 @@ Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
-
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
-  
+
+Markdown bugs
+
+- Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
+
+- Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch)
+
+- Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
+
+- Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
+
+- Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly.
+
+- Fix bug with strange windows notepad encoding 
+
+- Let [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc) know
+
+- Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
+
+Metadata bugs
+
+- Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
+
+- Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12)
+
+- Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
+
+- Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
+
+- Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
+
+- Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+
+- Fix bug in metadata parser which gets tripped by a URL on the first line of the file then tell [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc), [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) and [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
+
+- Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae)
+
+Prevent ignored files from generating preview.html files when inside the Drafts folder. Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67)
+
+---
+
 Record a new demo video
 - Show sites I run using Blot
 - "Bring your own interface"
@@ -107,6 +105,8 @@ Record a new demo video
 - My personal site: simple landing page, edit with a doc file?
 
 Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
+
+Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
 
 Increase default quality for sharp's output images
 
