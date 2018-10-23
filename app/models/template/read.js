@@ -138,37 +138,4 @@ function nameFrom(str) {
   return name;
 }
 
-// Reads a directory containing template directories
-// this is used to build Blot's templates (owner === 'SITE')
-// and also to build templates the user is editing locally
-// inside /Templates
-function all(owner, dir, callback) {
-  debug(owner, dir, "reading all");
-  fs.readdir(dir, function(err, contents) {
-    if (err) return callback(err);
-
-    async.filter(
-      contents,
-      function(item, next) {
-        fs.stat(dir + "/" + item, function(err, stat) {
-          if (err) return next();
-          next(null, stat.isDirectory());
-        });
-      },
-      function(err, contents) {
-        if (err) return callback(err);
-        async.map(
-          contents,
-          function(item, next) {
-            debug(owner, dir + "/" + item, "building template");
-            read(owner, dir + "/" + item, next);
-          },
-          callback
-        );
-      }
-    );
-  });
-}
-
-read.all = all;
 module.exports = read;
