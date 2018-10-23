@@ -157,9 +157,6 @@ Generate screenshots as thumbnails for webloc posts
 - https://github.com/GoogleChrome/puppeteer
 - Use PNG8, which seems [efficient for screenshots](https://news.ycombinator.com/item?id=18236912)
 
-Implement LE wildcart SSL certificate support
-  - Tell [Johan](https://mail.google.com/mail/u/1/#inbox/165175a109b9e766)
-
 Self-hosting documentation
 - Tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
 
