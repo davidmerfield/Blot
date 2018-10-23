@@ -122,23 +122,6 @@ settings.route("/settings/template/disable").get(function(req, res) {
   res.render("template/disable", { title: "Disable your template" });
 });
 
-settings
-  .route("/settings/template/:template")
-  .get(load.template)
-  .get(function(req, res, next) {
-    if (!req.template) return next();
-    res.locals.breadcrumbs.add(req.template.name, req.template.slug);
-    res.render("template/edit", { title: "Edit template" });
-  });
-
-settings
-  .route("/settings/template/yours/:template")
-  .get(load.template)
-  .get(function(req, res) {
-    res.locals.breadcrumbs.add(req.template.name, req.template.slug);
-    res.render("template/edit", { title: "Edit template" });
-  });
-
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;
 
