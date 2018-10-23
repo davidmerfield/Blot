@@ -1,68 +1,53 @@
-Fix rename bug, tell [John](https://mail.google.com/mail/u/0/#sent/1667fb50c0ae5742) and Nash.
+Translate Benjamin's ghost theme and reply back to him on Twitter
+
+Fix [John](https://mail.google.com/mail/u/0/#sent/1667fb50c0ae5742) and Nash's rename bugs.
 
 Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
 
-Translate Benjamin's ghost theme and reply back to him on Twitter
-
----
-
-Fix URL encoding. Right now, the entry.url property is not encoded as a URI component on the server, but it needs to be. Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)
+Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL encoding bug. Each entry's url property is not encoded as a URI component on the server but it needs to be.
 
 Work out elegant way to produce fully qualified SRCs and HREFs for blogs to help make RSS feeds work more effectively, then tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a), [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec), [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928) and [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358) about the fix, which affects people who use micro.blog. Also tell [Michael](https://mail.google.com/mail/u/0/#inbox/1667c931e1142332) who is hardcoding his domain. Also tell [Jaco](https://mail.google.com/mail/u/0/#inbox/166911c96525df43)
 
-Prevent 'ignored' files which begin with an underscore from generating preview.html files when inside the Drafts folder. Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67)
+Prevent ignored files from generating preview.html files when inside the Drafts folder. Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67)
 
-Increase default quality for sharp's output images
+---
 
-Re-enable image minifier and fix the bugs it creates
-  
-Markdown bugs:
-  
-  Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
+Markdown bugs
 
-  Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
-  
-  Fix bug with double escaped embedded ampersands.
-  http://gavin.blot.im/this-code-doesnt-work
-  Tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672)
-  http://rtimmons.blot.im/member-function-dispatch
-  Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4)
-  
-  Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
+- Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
 
-  Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player
-  - Let [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
+- Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch)
 
-  Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67)
-    > I noticed another problem from WordPress import that is not unique to Blot, but also is a problem on GitHub. Namely, blockquotes in Markdown with multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly. I guess I need to strip these out with a script...
-  Fix bug with strange windows notepad encoding 
-  - Let [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc) know
+- Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
 
-  Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
+- Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813) know
 
-Metadata bugs:
+- Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly.
 
-  Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
+- Fix bug with strange windows notepad encoding 
 
-  Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12)
+- Let [Osvaldo](https://mail.google.com/mail/u/1/#inbox/15e44a91876cc5cc) know
 
-  Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
+- Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
-  Fix encoding bug with greek URLs
-  - Let [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
+Metadata bugs
 
-  Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
+- Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
 
-  Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+- Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12)
 
-  Fix bug in metadata parser which gets tripped by a URL on the first line of the file.
-  - Let [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc) know
-  - Let [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) know
-  - Let [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
+- Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
 
-Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae)
+- Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
 
-Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
+- Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
+
+- Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+
+- Fix bug in metadata parser which gets tripped by a URL on the first line of the file then tell [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc), [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) and [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
+
+- Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae)
+
 
 ---
 
@@ -89,9 +74,8 @@ Themes:
   Port the jekyll theme [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
   then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
 
-  Finish Ghost theme import for Kingi
-  https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69
-
+  Finish Ghost theme import for [Kingi](https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69)
+  
   Bugs:
 
     Fix bug with theme editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
@@ -159,6 +143,15 @@ Record a new demo video
 - My visual scrapbook: shows tag folders, photo blog
 - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
 - My personal site: simple landing page, edit with a doc file?
+
+
+Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
+
+Increase default quality for sharp's output images
+
+Re-enable image minifier and fix the bugs it creates
+  
+Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
 
 Generate screenshots as thumbnails for webloc posts
 - https://github.com/GoogleChrome/puppeteer
