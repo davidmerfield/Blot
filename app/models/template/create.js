@@ -67,13 +67,12 @@ module.exports = function create(blogID, name, metadata, callback) {
         metadata.thumb = metadata.thumb || "";
         metadata.localEditing = false;
         metadata.cloneFrom = metadata.cloneFrom || "";
-        metadata.isPublic = metadata.isPublic || false;
+        metadata.isPublic = metadata.owner === "SITE";
 
         ensure(metadata, model, true);
 
         multi = client.multi();
         multi.sadd(key.blogTemplates(blogID), templateID);
-        multi.sadd(key.blogTemplates(metadata.owner), templateID);
         multi.hmset(key.metadata(templateID), serialize(metadata, model));
 
         if (metadata.isPublic) multi.sadd(key.publicTemplates, templateID);
