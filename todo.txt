@@ -14,6 +14,8 @@ Begin generating SSL certs for Blot subdomains automatically now that LE has inc
 
 Import [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 
+Import [Kushal posts from Tumblr](https://mail.google.com/mail/u/0/#sent/166eb1ba11c1940a)
+
 ---
 
 Template system
