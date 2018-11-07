@@ -178,3 +178,5 @@ if (require.main === module) {
     process.exit();
   });
 }
+
+module.exports = main;
