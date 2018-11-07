@@ -1,8 +1,6 @@
-Run [Day one](https://mail.google.com/mail/u/0/#inbox/166c73944f015c5f) import script for John
+Import [Kushal posts from Tumblr](https://mail.google.com/mail/u/0/#sent/166eb1ba11c1940a)
 
 Import [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
-
-Import [Kushal posts from Tumblr](https://mail.google.com/mail/u/0/#sent/166eb1ba11c1940a)
 
 Begin generating SSL certs for Blot subdomains automatically now that LE has increased the rate limit for blot.im
 
