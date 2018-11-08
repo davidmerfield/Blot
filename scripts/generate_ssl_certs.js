@@ -1,7 +1,9 @@
 var eachBlog = require("./each/blog");
 var request = require("request");
 var host = process.env.BLOT_HOST;
-var Blog = require("../app/models/blog");
+var redis = require("../app/models/client");
+
+if (!host) throw new Error('No host');
 
 function checkSSl(blog, callback) {
   var valid;
@@ -21,10 +23,8 @@ function checkSSl(blog, callback) {
   });
 }
 
-
 eachBlog(
   function(user, blog, next) {
-
     if (blog.isDisabled) return next();
 
     console.log();
@@ -43,7 +43,7 @@ eachBlog(
 
       // this should now cause blot to create a domain key in redis
       // which nginx-auto-ssl depends on to check whether to generate a cert
-      Blog.set(blog.id, { handle: blog.handle }, function(err) {
+      redis.set("domain:" + blog.handle + "." + host, blog.id, function(err) {
         if (err) {
           console.log(err);
           return next(err);
