@@ -40,16 +40,16 @@ module.exports = function extend (blog) {
   blog.totalPages = pages.length;
 
   blog.feedURL = '/feed.rss';
-  blog.url = 'http://' + blog.handle + '.' + config.host;
+  blog.url = 'https://' + blog.handle + '.' + config.host;
 
   blog.pretty.url = blog.handle + '.' + config.host;
 
   if (blog.domain) {
-    blog.url = 'http://' + blog.domain;
+    blog.url = 'https://' + blog.domain;
     blog.pretty.url = blog.domain;
   }
 
-  blog.blogURL = 'http://' + blog.handle + '.' + config.host;
+  blog.blogURL = 'https://' + blog.handle + '.' + config.host;
   blog.cssURL = blog.cssURL || url.css(blog.cacheID);
   blog.scriptURL = blog.scriptURL || url.js(blog.cacheID);
 

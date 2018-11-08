@@ -45,7 +45,7 @@ function convert (blog, path, contents, callback) {
     domain: blog.domain,
     blogID: blog.id,
     path: path,
-    baseURL: 'http://' + blog.handle + '.' + config.host
+    baseURL: 'https://' + blog.handle + '.' + config.host
   };
 
   async.eachSeries(prerenderers, function (plugin, next){
