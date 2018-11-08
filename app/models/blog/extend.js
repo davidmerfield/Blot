@@ -1,6 +1,9 @@
 var PUBLIC = require('./scheme').PUBLIC;
-var config = require('../../../config');
+var config = require('config');
 var url = require('./url');
+var protocol = 'https';
+
+if (config.environment === 'development') protocol = 'http';
 
 module.exports = function extend (blog) {
 
@@ -40,16 +43,16 @@ module.exports = function extend (blog) {
   blog.totalPages = pages.length;
 
   blog.feedURL = '/feed.rss';
-  blog.url = 'https://' + blog.handle + '.' + config.host;
+  blog.url = protocol + '://' + blog.handle + '.' + config.host;
 
   blog.pretty.url = blog.handle + '.' + config.host;
 
   if (blog.domain) {
-    blog.url = 'https://' + blog.domain;
+    blog.url = protocol + '://' + blog.domain;
     blog.pretty.url = blog.domain;
   }
 
-  blog.blogURL = 'https://' + blog.handle + '.' + config.host;
+  blog.blogURL = protocol + '://' + blog.handle + '.' + config.host;
   blog.cssURL = blog.cssURL || url.css(blog.cacheID);
   blog.scriptURL = blog.scriptURL || url.js(blog.cacheID);
 
