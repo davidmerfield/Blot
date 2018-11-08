@@ -7,6 +7,8 @@ function checkSSl(blog, callback) {
   var valid;
   var url = "https://" + blog.handle + "." + host;
 
+  console.log(url);
+
   request(url, function(err, res) {
     if (err && err.message === "self signed certificate") {
       valid = false;
@@ -22,6 +24,9 @@ function checkSSl(blog, callback) {
 
 eachBlog(
   function(user, blog, next) {
+
+    if (blog.isDisabled) return next();
+
     console.log();
     console.log(blog.id, blog.handle);
 
