@@ -4,9 +4,8 @@ var host = process.env.BLOT_HOST;
 var Blog = require("../app/models/blog");
 
 function checkSSl(blog, callback) {
-  var url = "https://news.blot.im/";
   var valid;
-  // var url = "https://" + blog.handle + "." + host;
+  var url = "https://" + blog.handle + "." + host;
 
   request(url, function(err, res) {
     if (err && err.message === "self signed certificate") {
