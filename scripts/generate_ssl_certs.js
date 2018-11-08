@@ -3,7 +3,7 @@ var request = require("request");
 var host = process.env.BLOT_HOST;
 var redis = require("../app/models/client");
 
-if (!host) throw new Error('No host');
+if (!host) throw new Error("No host");
 
 function checkSSl(blog, callback) {
   var valid;
@@ -22,6 +22,8 @@ function checkSSl(blog, callback) {
     callback(err, valid);
   });
 }
+
+var failures = [];
 
 eachBlog(
   function(user, blog, next) {
@@ -58,6 +60,7 @@ eachBlog(
           if (valid) {
             console.log("- supports HTTPS!");
           } else {
+            failures.push(blog.handle);
             console.log("- failed");
           }
 
@@ -70,6 +73,9 @@ eachBlog(
     if (err) throw err;
     console.log();
     console.log("Complete!");
+    if (failures.length) {
+      console.log("Failed:", failures);
+    }
     process.exit();
   }
 );
