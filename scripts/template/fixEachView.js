@@ -44,7 +44,12 @@ function main(doThis, callback) {
         shouldWrite,
         function(blogID, templateID, next) {
           console.log("Writing", templateID);
-          writeToFolder(blogID, templateID, next);
+          writeToFolder(blogID, templateID, function(err){
+
+            if (err) console.log(err);
+            
+            next();
+          });
         },
         callback
       );
