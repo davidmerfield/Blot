@@ -4,7 +4,7 @@ var eachView = require("../each/view");
 var Template = require("../../app/models/template");
 var helper = require("helper");
 var async = require("async");
-var changedTemplates = {};
+var shouldWrite = {};
 
 // if (require.main === module) {
 //   main(
@@ -32,15 +32,16 @@ function main(doThis, callback) {
 
         if (_.isEqual(_view, view)) return next();
 
-        changedTemplates[template.id] = blog.id;
-        console.log("Changed", template.id);
+        if (template.localEditing) shouldWrite[template.id] = blog.id;
+        console.log("Changed", template.id, view.name);
         Template.setView(template.id, view, next);
       });
     },
     function() {
+      console.log();
       console.log("Checking to see if any templates need to be written...");
       async.eachOf(
-        changedTemplates,
+        shouldWrite,
         function(blogID, templateID, next) {
           console.log("Writing", templateID);
           writeToFolder(blogID, templateID, next);
