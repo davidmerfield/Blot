@@ -39,6 +39,7 @@ function build () {
 
       if (templateName.slice(0, 1) === '.') return nextTemplate();
       if (templateName === '_') return nextTemplate();
+      if (templateName === 'readme.txt') return nextTemplate();
       if (templateName === 'README.txt') return nextTemplate();
       if (templateName === 'README.md') return nextTemplate();
 
