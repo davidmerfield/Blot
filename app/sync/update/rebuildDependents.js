@@ -3,6 +3,7 @@ var Entry = require("entry");
 var client = require("client");
 var Blog = require("blog");
 var build = require("../../build");
+var Metadata = require("metadata");
 
 var dependentsKey = Entry.key.dependents;
 
