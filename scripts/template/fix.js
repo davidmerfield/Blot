@@ -1,81 +1,47 @@
-var writeToFolder = require('../../app/modules/template').writeToFolder;
-var eachTemplate = require('../each/template');
-var _ = require('lodash');
+var writeToFolder = require("../../app/modules/template").writeToFolder;
+var _ = require("lodash");
 
-var eachView = require('../each/view');
-var Template = require('../../app/models/template');
-var helper = require('helper');
+var eachView = require("../each/view");
+var Template = require("../../app/models/template");
+var helper = require("helper");
 var type = helper.type;
+var async = require("async");
+var changedTemplates = {};
 
-var DESCRIPTION = '{{pageDescription}}';
-var FIXED_DESCRIPTION = '{{> description}}';
+if (require.main === module) {
+  main(function(err) {
+    if (err) return console.error(err);
 
-var TITLE = '{{pageTitle}}';
-var FIXED_TITLE = '{{> title}}';
+    console.log("Fixed all templates!");
+    process.exit();
+  });
+}
 
-var changedTemplate = {};
+function main(callback) {
+  eachView(
+    function(user, blog, template, view, next) {
+      if (!view || !view.content) return next();
 
-eachView(function(user, blog, template, view, next){
+      var _view = _.cloneDeep(view);
 
-  if (!view || !view.content) return next();
+      // if (view.content.indexOf('') > -1) view.content = ...;
+      
+      if (_.isEqual(_view, view)) return next();
 
-  var _view = _.cloneDeep(view);
-
-  view.partials = view.partials || {};
-
-  if (type(view.partials, 'array')) {
-
-    var partials = {};
-
-    for (var i = 0; i < view.partials.length;i++)
-      partials[view.partials[i]] = null;
-
-    view.partials = partials;
-  }
-
-  if (view.content.indexOf(DESCRIPTION) > -1) {
-    view.content = view.content.split('{' + DESCRIPTION + '}').join(DESCRIPTION);
-    view.content = view.content.split(DESCRIPTION).join(FIXED_DESCRIPTION);
-  }
-
-  if (view.content.indexOf(TITLE) > -1) {
-    view.content = view.content.split('{' + TITLE + '}').join(TITLE);
-    view.content = view.content.split(TITLE).join(FIXED_TITLE);
-  }
-
-  if (view.locals.pageDescription) {
-    view.partials.description = view.locals.pageDescription;
-    delete view.locals.pageDescription;
-  }
-
-  if (view.locals.pageTitle) {
-    view.partials.title = view.locals.pageTitle;
-    delete view.locals.pageTitle;
-  }
-
-  if (_.isEqual(_view, view)) return next();
-
-  changedTemplate[template.id] = true;
-
-  console.log('Changed', template.id);
-
-  Template.setView(template.id, view, next);
-
-}, function(){
-
-  eachTemplate(function(user, blog, template, next) {
-
-    if (!template.localEditing) return next();
-
-    if (!changedTemplate[template.id]) return next();
-
-    console.log('Would write local for this tmeplate');
-
-    writeToFolder(blog.id, template.id, function(err){
-
-      if (err) console.log(err);
-
-      next();
-    });
-  }, process.exit);
-});
+      changedTemplates[template.id] = blog.id;
+      console.log("Changed", template.id);
+      Template.setView(template.id, view, next);
+    },
+    function() {
+      console.log("Checking to see if any templates need to be written...");
+      async.eachOf(
+        changedTemplates,
+        function(blogID, templateID, next) {
+          console.log("Writing", templateID);
+          writeToFolder(blogID, templateID, next);
+        },
+        callback
+      );
+    }
+  );
+}
