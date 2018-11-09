@@ -1,4 +1,4 @@
-- Remove {{name}} from templates that isn't public.html
+Run script to remove {{name}} from templates
 
 Template system
   
