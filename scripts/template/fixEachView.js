@@ -40,14 +40,14 @@ function main(doThis, callback) {
     function() {
       console.log();
       console.log("Checking to see if any templates need to be written...");
-      async.eachOf(
+      async.eachOfSeries(
         shouldWrite,
         function(blogID, templateID, next) {
           console.log("Writing", templateID);
           writeToFolder(blogID, templateID, function(err){
 
             if (err) console.log(err);
-            
+
             next();
           });
         },
