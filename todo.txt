@@ -1,6 +1,3 @@
-- Replace {{name}} inside {{#tags}} with {{tag}}
-  - in Blot's templates
-  - in everyone's templates
 - Remove {{name}} from templates that isn't public.html
 
 Template system
