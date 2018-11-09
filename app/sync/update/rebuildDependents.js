@@ -22,23 +22,37 @@ module.exports = function(blogID, path, callback) {
       async.eachSeries(
         dependent_paths,
         function(dependent_path, next) {
-          build(blog, dependent_path, options, function(err, updated_dependent) {
+          var options = {};
+
+          Metadata.get(blogID, dependent_path, function(err, name) {
             if (err) {
               console.log("Error rebuilding dependents:", path, err);
               return next();
             }
 
-            Entry.set(
-              blogID,
-              dependent_path,
-              updated_dependent,
-              function(err) {
-                if (err) return callback(err);
+            if (name) options.name = name;
 
-                next();
-              },
-              false
-            );
+            build(blog, dependent_path, options, function(
+              err,
+              updated_dependent
+            ) {
+              if (err) {
+                console.log("Error rebuilding dependents:", path, err);
+                return next();
+              }
+
+              Entry.set(
+                blogID,
+                dependent_path,
+                updated_dependent,
+                function(err) {
+                  if (err) return callback(err);
+
+                  next();
+                },
+                false
+              );
+            });
           });
         },
         callback
