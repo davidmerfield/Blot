@@ -16,7 +16,7 @@ module.exports = function(req, retrieve, callback) {
     _.keys(retrieve),
     function(localName, nextLocal) {
       if (dictionary[localName] === undefined) {
-        console.log("No retrieve method to look up", localName);
+        console.log(req.blog.handle, req.blog.id, ": No retrieve method to look up", localName);
         return nextLocal();
       }
 
