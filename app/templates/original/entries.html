@@ -17,7 +17,7 @@
         {{#entries}}
           <section class="entry">
             {{#date}}<a class="h4" href="{{url}}">{{date}}</a>{{/date}}
-             <a class="h4" href="/tagged/{{slug}}">{{tag}}</a>
+             {{#tags}}<a class="h4" href="/tagged/{{slug}}">{{tag}}</a>{{/tags}}
             {{{html}}}
           </section>
         {{/entries}}   

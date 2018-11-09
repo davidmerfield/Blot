@@ -18,7 +18,7 @@
 
     {{#tags.length}}
     under
-    <a href="/tagged/{{slug}}">{{tag}}</a>
+    {{#tags}}<a href="/tagged/{{slug}}">{{tag}}</a>{{/tags}}
     {{/tags.length}}
 
     {{#thumbnail}}

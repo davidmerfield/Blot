@@ -36,7 +36,7 @@
       <span class="mr4 black-50 mr3 f6 lh-copy db" style="text-overflow:ellipsis;max-height:9.1875rem;overflow:hidden">{{summary}}</span>      
      <span class=" db f6 mt4 " style="height:1.5em;overflow:hidden">
       	<span date-from-now="{{dateStamp}}" class="dib black-50 mr2">{{#formatDate}}MMM D, YYYY{{/formatDate}}</span>  
-      	<span class="dib fw6 clip-2 black-80"><span class="dib">{{^first}} & {{/first}}{{tag}}</span></span>
+      	{{#tags}}<span class="dib fw6 clip-2 black-80"><span class="dib">{{^first}} & {{/first}}{{tag}}</span></span>{{/tags}}
     </span>
       </span>
       {{/summary}}
@@ -47,7 +47,7 @@
 
        <span class=" db f6 mt1 mb3" style="height:1.5em;overflow:hidden">
           <span date-from-now="{{dateStamp}}" class="dib black-50 mr2">{{#formatDate}}MMM D, YYYY{{/formatDate}}</span>  
-          <span class="dib fw6 clip-2 black-80"><span class="dib">{{^first}} & {{/first}}{{tag}}</span></span>
+          {{#tags}}<span class="dib fw6 clip-2 black-80"><span class="dib">{{^first}} & {{/first}}{{tag}}</span></span>{{/tags}}
       </span>
 
 
