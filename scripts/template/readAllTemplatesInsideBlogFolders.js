@@ -18,11 +18,11 @@ if (require.main === module) {
 function main(callback) {
   eachBlog(
     function(user, blog, next) {
-      readFromFolder(blog.id, next);
+      readFromFolder(blog.id, function(err){
+        next();
+      });
     },
-    function() {
-      callback;
-    }
+    callback
   );
 }
 
