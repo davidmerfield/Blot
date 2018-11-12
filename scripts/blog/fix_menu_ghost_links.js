@@ -51,7 +51,7 @@ function main(blog, callback) {
           existing[entry.id] = true;
           next(null, item);
         } else {
-          existing[entry.id] = true;
+          if (entry) existing[entry.id] = true;
           next(null, item);
         }
       });
