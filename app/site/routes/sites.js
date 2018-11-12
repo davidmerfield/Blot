@@ -13,7 +13,6 @@ function capitalize(str) {
 
 var sites = [
   ["keywords.oxus.net", "Kerim Friedman teaches anthropology in Taiwan. Kerim"],
-  ["asw.fyi", "Adam Wood is a writer based in Reykjavík. Adam’s website"],
   [
     "hannautkin.com",
     "Hanna Utkin is a filmmaker and producer from New York City. Hanna"

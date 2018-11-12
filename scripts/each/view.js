@@ -1,7 +1,7 @@
 var eachTemplate = require('./template');
 var Template = require('../../app/models/template');
 var helper = require('../../app/helper');
-var forEach = helper.forEach;
+var async = require('async');
 
 module.exports = function (doThis, callback) {
 
@@ -11,7 +11,7 @@ module.exports = function (doThis, callback) {
 
       if (err) throw err;
 
-      forEach(views, function(name, view, nextView){
+      async.eachOfSeries(views, function(view, name, nextView){
 
         doThis(user, blog, template, view, nextView);
 

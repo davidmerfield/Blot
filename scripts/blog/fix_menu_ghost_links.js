@@ -8,11 +8,13 @@ if (require.main === module) {
   get(process.argv[2], function(user, blog) {
     main(blog, function(err) {
       if (err) throw err;
-      console.log('Saved menu.');
+      console.log("Saved menu.");
       process.exit();
     });
   });
 }
+
+var existing = {};
 
 function main(blog, callback) {
   console.log("Existing menu:");
@@ -26,6 +28,9 @@ function main(blog, callback) {
       Entry.get(blog.id, item.id, function(entry) {
         if (entry && entry.deleted) {
           console.log("Will delete", item);
+          next(null, null);
+        } else if (entry && existing[entry.id] === true) {
+          console.log("Will delete", item, "which is duplicated on the menu");
           next(null, null);
         } else if (entry) {
           if (item.label !== entry.title) {
@@ -43,8 +48,10 @@ function main(blog, callback) {
             console.log(item.id, "setting url to", item.url);
           }
 
+          existing[entry.id] = true;
           next(null, item);
         } else {
+          if (entry) existing[entry.id] = true;
           next(null, item);
         }
       });

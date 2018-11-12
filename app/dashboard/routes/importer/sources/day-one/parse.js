@@ -16,7 +16,6 @@ TODO: BUG FIX FOR MULTIPLE IMAGES IN POST
 
 */
 
-
 module.exports = function(json, outputDirectory, callback) {
   async.eachSeries(
     json.entries,
@@ -38,55 +37,75 @@ module.exports = function(json, outputDirectory, callback) {
         entry.metadata.Coordinates =
           input.location.latitude + ", " + input.location.longitude;
 
-      var id = input.text.match(/!\[\]\(dayone-moment:\/\/([^.\),]+)\)/)[1];
-      // console.log(id);
+      var id;
 
-      var image =
-        "_images/" +
-        input.photos.filter(function(i) {
-          return i.identifier === id;
-        })[0].md5 +
-        ".jpeg";
+      try {
+        id = input.text.match(/!\[\]\(dayone-moment:\/\/([^.\),]+)\)/)[1];
+      } catch (e) {
+        console.log("WARNING no id:", input.text);
+      }
 
-      // console.log(image);
+      if (id) {
+        var image =
+          "_images/" +
+          input.photos.filter(function(i) {
+            return i.identifier === id;
+          })[0].md5 +
+          ".jpeg";
 
-      input.text = input.text.split("dayone-moment://" + id).join(image);
+        // console.log(image);
+
+        input.text = input.text.split("dayone-moment://" + id).join(image);
+      }
 
       // input.text = input.text.split('dayone-moment://F37015BF4E5840F192BE44E13EFCAF23')
 
       var file = [];
 
-      file.push("Date: " + moment(entry.dateStamp).format('MMMM Do YYYY, h:mm:ss a'));
+      file.push(
+        "Date: " + moment(entry.dateStamp).format("MMMM Do YYYY, h:mm:ss a")
+      );
 
       for (var i in entry.metadata) file.push(i + ": " + entry.metadata[i]);
 
       if (file.length) file.push("");
       file.push(input.text);
 
-      file = file.join('\n');
+      file = file.join("\n");
 
       // console.log(input);
       console.log(entry);
 
-      var lines = input.text.trim().split('\n');
+      var lines = input.text.trim().split("\n");
 
-      lines = lines.filter(function(line){
-        return line.indexOf('![') === -1 && line.indexOf('://') === -1;
+      lines = lines.filter(function(line) {
+        return line.indexOf("![") === -1 && line.indexOf("://") === -1;
       });
 
-      if (lines.length) slug = lines[0].split('/').join('-').split(' ').join('-').toLowerCase();
+      if (lines.length)
+        slug = lines[0]
+          .split("/")
+          .join("-")
+          .split(" ")
+          .join("-")
+          .toLowerCase();
 
-      slug = slug.split('.').join('');
-      slug = slug.split(',').join('');
-      slug = slug.split('/').join('');
-      slug = slug.split('/').join('');
-      slug = slug.split('\'').join('');
+      slug = slug.split(".").join("");
+      slug = slug.split(",").join("");
+      slug = slug.split("/").join("");
+      slug = slug.split("/").join("");
+      slug = slug.split("'").join("");
+
+      while (slug.indexOf("--") > -1) slug = slug.split("--").join("-");
+
+      slug = slug.slice(0,20);
       
-      while (slug.indexOf('--') > -1)
-        slug = slug.split('--').join('-');
-
       fs.writeFile(
-        outputDirectory + "/" + moment(entry.dateStamp).format('YYYY-MM-DD-') + (slug || 'untitled') + ".txt",
+        outputDirectory +
+          "/" +
+          moment(entry.dateStamp).format("YYYY-MM-DD-") +
+          (slug || "untitled") +
+          ".txt",
         file,
         next
       );

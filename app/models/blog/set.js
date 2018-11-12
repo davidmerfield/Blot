@@ -8,6 +8,7 @@ var get = require("./get");
 var serial = require("./serial");
 var flushCache = require("./flushCache");
 var client = require("client");
+var config = require("config");
 
 function Changes(latest, former) {
   var changes = {};
@@ -37,6 +38,18 @@ module.exports = function(blogID, blog, callback) {
 
       if (changes.handle) {
         multi.set(key.handle(latest.handle), blogID);
+
+        // By storing the handle + Blot's host as a 'domain' we
+        // allow the SSL certificate generator to run for this.
+        // Now we have certs on Blot subdomains!
+        multi.set(key.domain(latest.handle + "." + config.host), blogID);
+
+        // I don't delete the handle key for the former domain
+        // so that we can redirect the former handle easily,
+        // whilst leaving it free for other users to claim.
+        if (former.handle) {
+          multi.del(key.domain(former.handle + "." + config.host), blogID);
+        }
       }
 
       // We check against empty string, because if the

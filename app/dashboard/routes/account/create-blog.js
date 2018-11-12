@@ -6,7 +6,7 @@ var pretty = helper.prettyPrice;
 var config = require("config");
 var helper = require("helper");
 var pretty = helper.prettyPrice;
-
+var request = require("request");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
@@ -164,7 +164,6 @@ function handleFromTitle(title) {
 }
 
 function saveBlog(req, res, next) {
-
   var title, handle;
 
   if (req.body.no_title) {
@@ -200,6 +199,9 @@ function saveBlog(req, res, next) {
     if (err) {
       return next(err);
     }
+
+    // Begin SSL cert fetching process
+    request(Blog.extend(blog).url, function() {});
 
     // Switch to the new blog
     req.session.blogID = blog.id;

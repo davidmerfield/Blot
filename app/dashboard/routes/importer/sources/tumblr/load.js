@@ -1,6 +1,6 @@
 var fs = require('fs-extra');
 var string = require('string');
-var API_KEY = fs.readFileSync(__dirname + '/secrets/api.key', 'utf-8');
+var API_KEY = process.env.BLOT_TUMBLR_KEY;
 var URL_TEMPLATE = "http://api.tumblr.com/v2/blog/{{url}}/{{resource}}?api_key={{API_KEY}}";
 var request = require('request');
 var helper = require('../../helper');
@@ -115,3 +115,5 @@ if (require.main === module) {
     });
   });
 }
+
+module.exports = main;
