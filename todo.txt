@@ -1,8 +1,3 @@
-Fix bug with case-sensitivity when transfering from Git to Dropbox.
-https://mail.google.com/mail/u/0/#inbox/166fe957b167f5e5
-
-Run script to remove {{name}} from templates
-
 Template system
   
 - Add script to remove existing Blot template
@@ -63,6 +58,9 @@ Markdown bugs
 - Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
 
 - Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch)
+
+Fix bug with case-sensitivity when transfering from Git to Dropbox and tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166fe957b167f5e5
+)
 
 - Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
 
