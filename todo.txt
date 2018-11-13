@@ -359,6 +359,7 @@ Generative tree
 - Learn about old trees
 - Learn how to make a generative illustration and render it quickly on the server
 - I like this idea because it's sort of anti-Farmville (i.e. click-to-grow, engage-to-grow). The tree just grows. No badgering to post more to keep the tree alive, all you have to do is keep your account. When you delete your account you just see the tree, and a thank you. Obviously don't do anything tacky like cut the tree down or anything. That would be horrible.
+- Could this [Wave Function Collapse](https://github.com/mxgmn/WaveFunctionCollapse) algorithm be useful? 
 
 Removing Date metadata from a post should reset its date to the file's creation date
 - Currently nothing changes.
