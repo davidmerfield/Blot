@@ -29,8 +29,8 @@ module.exports = function(server) {
 
       // Redirect this entry to the file from which it was generated
       // I use this when debugging user blogs.
-      if (entry.path && req.query && req.query.source)
-        return res.redirect(entry.path);
+      if (entry.path && request.query && request.query.source)
+        return response.redirect(entry.path);
 
       if (entry.scheduled && !scheduled) return next();
 
