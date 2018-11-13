@@ -14,6 +14,7 @@ var displays = [
   "Y/M/D",
   "MMMM D, Y",
   "MMMM D, Y [at] h:mma",
+  "D MMMM Y",
   "Y-MM-DD",
   "Y-MM-DD hh:mm"
 ];
