@@ -1,3 +1,7 @@
+Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
+
+Determine cause of Markdown converter failure for Dropbox/Apps/Strange encoding bug
+
 Template system
   
 - Add script to remove existing Blot template
