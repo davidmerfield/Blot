@@ -1,9 +1,7 @@
 {{> header}}
 
-<h1>{{title}}</h1>
-
 {{#entries}}
-<a href="{{url}}">{{title}}</a>
+<a href="{{url}}">{{title}} {{#thumbnail.medium}}<img src="{{url}}" width="{{width}}" height="{{height}}">{{/thumbnail.medium}}</a>
 {{/entries}}
 
 {{> footer}}
