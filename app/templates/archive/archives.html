@@ -1,0 +1,15 @@
+{{> header}}
+
+<h1>Archives</h1>
+
+{{#archives}}
+<h2>{{year}}</h2>
+{{#months}}
+<h2>{{month}}</h2>
+{{#entries}}
+<a href="{{url}}">{{title}}</a>
+{{/entries}}
+{{/months}}
+{{/archives}}
+
+{{> footer}}
