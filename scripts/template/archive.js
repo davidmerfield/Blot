@@ -32,12 +32,18 @@ function main(name, callback) {
         new Error("There is no template in the database with id: " + templateID)
       );
 
+    var total = 0;
+
+    console.log(
+      "Checking all blogs to see if any use template",
+      name,
+      "(" + templateID + "):"
+    );
     eachBlog(
       function(user, blog, next) {
         if (blog.template !== templateID) return next();
 
         var newTemplateID = blog.id + ":" + name;
-        console.log("Creating template...");
 
         Template.create(
           blog.id,
@@ -60,12 +66,20 @@ function main(name, callback) {
                 if (err) return next(err);
 
                 Template.getMetadata(newTemplateID, function(err, template) {
-                  console.log("Created template", template.id, template.name);
+                  if (err || !template)
+                    return next(err || new Error("no template"));
 
                   Blog.set(blog.id, { template: newTemplateID }, function(err) {
                     if (err) return next(err);
 
-                    console.log("Saved cloned template");
+                    console.log(
+                      blog.id,
+                      blog.handle,
+                      "used", templateID, "so I created a clone",
+                      template.id, "\nhttp://" + blog.handle + '.' + process.env.BLOT_HOST
+                    );
+
+                    total++;
                     next();
                   });
                 });
@@ -77,18 +91,19 @@ function main(name, callback) {
       function(err) {
         if (err) return callback(err);
 
-        console.log(
-          "Cloned template for sites currently using it successfully!",
-          templateID
-        );
+        console.log();
 
         Template.drop("SITE", name, function(err) {
           if (err) return callback(err);
           console.log(
-            "Removed template",
-            name,
-            "from database. You can safely archive the files in:\n\napp/templates/" +
-              name
+            "\nCloned template",
+            templateID,
+            "for all",
+            total,
+            "sites currently using it then removed it from the database."
+          );
+          console.log(
+            "You can now safely archive the files in:\napp/templates/" + name
           );
           callback(null);
         });
