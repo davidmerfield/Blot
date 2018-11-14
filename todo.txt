@@ -21,7 +21,8 @@ Template system
 Template selection
 - archive - optimized for an archive of photos, links, quotes
   index shows big grid of posts
-
+  type is sans-serif (cooper hewitt)
+  
 - feed (default) - general purpose
   index shows stream of posts truncated
   type is sans-serif (system?)
@@ -65,6 +66,8 @@ Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](h
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
+
+Fix bug which occurs when you change your username while using the Git client (repo url breaks) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd)
 
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f)
 
@@ -381,6 +384,7 @@ Generative tree
 - Learn how to make a generative illustration and render it quickly on the server
 - I like this idea because it's sort of anti-Farmville (i.e. click-to-grow, engage-to-grow). The tree just grows. No badgering to post more to keep the tree alive, all you have to do is keep your account. When you delete your account you just see the tree, and a thank you. Obviously don't do anything tacky like cut the tree down or anything. That would be horrible.
 - Could this [Wave Function Collapse](https://github.com/mxgmn/WaveFunctionCollapse) algorithm be useful? 
+- Look into [computational biology and fractals](https://www.google.com/search?q=computational+biology+fractals+book&hl=en&source=lnms&tbm=isch&sa=X&ved=0ahUKEwi1xbbFqtTeAhUJ21MKHUEsD2oQ_AUIEygB&biw=1440&bih=821#imgrc=_)
 
 Removing Date metadata from a post should reset its date to the file's creation date
 - Currently nothing changes.
