@@ -119,6 +119,8 @@ function build () {
 
                 fs.readFile(dir + viewFilename, 'utf-8', function(err, viewContent){
 
+                  if (err && err.code === 'EISDIR') return;
+
                   if (err) throw err;
 
                   var viewName = viewFilename.slice(0, viewFilename.lastIndexOf('.'));
