@@ -3,39 +3,56 @@ Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3
 Determine cause of Markdown converter failure for Dropbox/Apps/Strange encoding bug
 
 Template system
-  
 - Add script to remove existing Blot template
-
 - Add script to rename existing Blot template
-  
 - Ask to confirm, but remove files from blog folder when disabling local editing
-
 - Move to uuid based template IDs instead of slug  
-
 - Add export to zip and import to zip feature for themes
-
 - Add support for 'creating' a template inside '/Templates/'
-
 - Fix bug with theme editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
-
 - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
-
 - Fix bug with cache not busting for static rendered themes:
   1. put posts in blog
   2. sync, create view e.g. static.js which renders all_entries
   3. remove posts from blog
   4. reload page, static.js still shows the entries, which archives.html does not
-
 - Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 
 Template selection
-- feed - general purpose
+- feed (default) - general purpose
+  index shows stream of posts truncated
+  type is sans-serif (system?)
+
 - photos - optimized for a photoblog
+  index shows medium grid posts in columns but not rows
+  type is sans-serif (source sans?)
+
 - archive - optimized for an archive of photos, links, quotes
+  index shows big grid of posts
+  type is monospace (fira?)
+
 - essays - optimized for longform essays
-- code - optimized for a developer's blog
-- portfolio - optimized for a portfolio of visual work
+  index shows title list of posts, perhaps teaser
+  type is serif (charter?)
+
+- portfolio - optimized for a portfolio of work
+  index shows medium-sized grid of posts in columns and rows
+  type is sans-serif (?)
+
 - magazine - optimized for a magazine
+  index shows mixture of post previews
+  type is serif (charter?)
+
+- code - optimized for developers
+  index shows ?
+  type is monospace (plex mono?)
+
+Template spec
+- all themes must support a 'landing page' modification nicely
+- feed, archive, essays, portfolio, magazine must be optimized for code
+- all themes must be colorblind, with goal to add a color customization layer
+- Don't think about Blot developers in any way, produce seperate simple templates for them
+  
 
 Find good source of material, ideally on Blot like this [source for theme content](http://cinebloc.blot.im/)
 
