@@ -19,21 +19,20 @@ Template system
 - Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 
 Template selection
+- archive - optimized for an archive of photos, links, quotes
+  index shows big grid of posts
+
 - feed (default) - general purpose
   index shows stream of posts truncated
   type is sans-serif (system?)
 
 - photos - optimized for a photoblog
   index shows medium grid posts in columns but not rows
-  type is sans-serif (source sans?)
-
-- archive - optimized for an archive of photos, links, quotes
-  index shows big grid of posts
-  type is monospace (fira?)
+  type is sans-serif (system?)
 
 - essays - optimized for longform essays
   index shows title list of posts, perhaps teaser
-  type is serif (charter?)
+  type is serif (Charter)
 
 - portfolio - optimized for a portfolio of work
   index shows medium-sized grid of posts in columns and rows
@@ -41,11 +40,12 @@ Template selection
 
 - magazine - optimized for a magazine
   index shows mixture of post previews
-  type is serif (charter?)
+  type is serif (Charter)
 
 - code - optimized for developers
   index shows ?
-  type is monospace (plex mono?)
+  sidebar has subtraction-style list of other titles
+  type is monospace (Plex mono)
 
 Template spec
 - all themes must support a 'landing page' modification nicely
