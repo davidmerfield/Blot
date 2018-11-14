@@ -1,12 +1,82 @@
 <html>
 <head>
   <title>{{> title}}</title>
+  <style type="text/css">
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/cooper-hewitt/book.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/cooper-hewitt/book.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/cooper-hewitt/book.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/cooper-hewitt/book.svg#Cooper%20Hewitt') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-weight: 400;
+  font-style: italic;
+  src: url('/fonts/cooper-hewitt/book-italic.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/cooper-hewitt/book-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/cooper-hewitt/book-italic.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/cooper-hewitt/book-italic.svg#Cooper%20Hewitt') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-weight: 500;
+  font-style: normal;
+  src: url('/fonts/cooper-hewitt/medium.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/cooper-hewitt/medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/cooper-hewitt/medium.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/cooper-hewitt/medium.svg#Cooper%20Hewitt') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-weight: 500;
+  font-style: italic;
+  src: url('/fonts/cooper-hewitt/medium-italic.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/cooper-hewitt/medium-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/cooper-hewitt/medium-italic.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/cooper-hewitt/medium-italic.svg#Cooper%20Hewitt') format('svg'); /* Legacy iOS */
+}
+
+
+body {font-family: 'Cooper Hewitt', sans-serif;}
+  </style>
 </head>
 <body>
 
-<h1>{{title}}</h1>
+<div class="header">
+<p style="margin-right:1rem"><a href="/" ><b>{{title}}</b></a></p>
+<p style="margin-right:2rem">
+An independent archive of sources for <a href="https://blot.im">Blot</a>.
+</p>
 
-<form action="/search">
-  <input type="text" name="q">
+<div class="tags">
+{{#allTags}}
+<a href="/tagged/{{slug}}">{{tag}} &rarr;</a><br>
+{{/allTags}}
+</div>
+
+<a href="">Show more tags</a>
+
+<form action="/search" style="flex-grow:1;display:flex;">
+  <input type="text" placeholder="Search" style="flex-grow:1" name="q">
   <input type="submit">
 </form>
+
+<style type="text/css">
+.header {display: flex}
+.header a {color: black;text-decoration: none;}
+.menu {display: flex;flex-wrap:wrap;flex-basis:25%;}
+.menu a {width: 25%;margin:0.5rem;border-top: 2px solid black;font-weight: bold}
+</style>
+<div style="float:right" class="menu">
+{{#menu}}
+<a href="{{url}}">{{label}}</a>
+{{/menu}}
+</div>
+</div>
