@@ -1663,7 +1663,8 @@ form.account > .buttons {
 
 .line {
   display: block;
-  padding: 11px 20px;
+  padding: 11px 0;
+  margin: 0 20px;
 }  
 
   a.line:hover,
@@ -1747,7 +1748,7 @@ form.account, .inset {padding:20px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.wrapper {margin:0 auto;display: flex;padding-top: 60px}  
+.wrapper {margin:0 auto;display: flex;min-height: 100%;padding: 20px 0 40px}  
 
 .head {height:123px;padding-top:20px;}
 
@@ -1835,7 +1836,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
     .gap-small {flex-grow:1;flex-basis:0px;flex-shrink:1;max-width:40px;}
     .gap {flex-grow:1;flex-basis:0px;flex-shrink:1;}
-    .middle {min-width:400px;flex-grow:0;flex-basis:500px;max-width:500px;margin: 0}
+    .middle {min-width:400px;padding:0 21px;flex-grow:1;flex-basis:500px;margin: 0}
 
 .external {
   color:#365899;/*border:1px solid;*/text-decoration:none;
@@ -1855,7 +1856,6 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
 
 .folder-box {margin:0 0 0;
-  border-left:1px solid rgba(0,0,0,0.05);
   padding-bottom:30px;
   flex-basis:500px;flex-grow:1;}
 
@@ -1864,8 +1864,8 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
   .row a {padding: 11px 20px;flex-grow:1;color:rgb(200, 200, 200);text-decoration: none;}
   .opener {visibility: hidden;white-space: nowrap}
 .opener.show {visibility: visible}
-.photo-holder {vertical-align:text-bottom;margin:0em 8px 0 0;width:16px;height:16px;display: inline-block;line-height: 1;text-align: center;}
-.photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
+.photo-holder {vertical-align:text-bottom;margin:0em 8px 0 0;width:32px;height:32px;background: rgba(0,0,0,0.05);display: inline-block;line-height: 1;text-align: center;}
+.photo-holder img {vertical-align:text-bottom;max-width:32px;max-height:32px;}
 .photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9}
 
 button {background: none;border: none;color:rgb(109, 109, 109);padding: 0;margin: 0;line-height: inherit;}

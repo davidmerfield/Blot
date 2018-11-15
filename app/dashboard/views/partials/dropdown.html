@@ -1,52 +1,25 @@
 
-<div class="dropdown closed" >
+<div style="flex-grow:1" >
     
-    {{#blogs}}
-    {{#isCurrent}}
-    <a href="#!" class="opener nav-bar show" >
-      
-      {{#avatar}}<span class="photo-holder"><img src="{{avatar}}"></span>{{/avatar}}&nbsp;{{title}}{{^title}}{{blog.pretty.url}}{{/title}}&nbsp;&thinsp;&nbsp;<img src="/images/dropdown.svg" width=8>
-    </a>
-    {{/isCurrent}}
-    {{/blogs}}
-    
-    <div class="clear"></div>
+  <div style="float:right;">
+{{#blogs}}
 
-    <noscript>TODO: fix this for no JS users</noscript>
 
-    <div class="menu">
-      {{#blogs}}{{^isCurrent}}
-      <form style="" action="/account/switch-blog" method="POST"> 
+      <form style="padding:10px 20px" action="/account/switch-blog" method="POST"> 
         <input type="hidden" name="_csrf" value="{{csrftoken}}">
         <input type="hidden" name="to" value="{{id}}"> 
         <button type="submit" style="color:#111;font-weight:500">
           <span class="photo-holder"> {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
             {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>
           
-          {{title}}{{^title}}{{pretty.url}}{{/title}}
 
-          {{#isCurrent}}<span style="color:green;float:right;font-size:20px">&bull;</span>{{/isCurrent}}
         </button>
       </form>
-      {{/isCurrent}}{{/blogs}}
-      <div class="clear"></div>
-      <a href="/account/create-blog" style="padding-right:40px;border-bottom:0"><span class="photo-holder plus">+</span> Add another blog</a>
-      <div class="clear"></div>
-  </div>
-<!-- 
 
-  This will set the widths of everything in the UI by blocking out as needed
+      {{/blogs}}
+      <hr style="width:32px;margin-left:20px;margin-bottom:30px">
+    <a href="/account/create-blog" style="padding:10px 20px;border-bottom:0"><span class="photo-holder plus">+</span></a>
 
-    {{#blogs}}
-    {{^isCurrent}}
-    <a href="#!" class="opener nav-bar" >
-      
-      {{#avatar}}<img src="{{avatar}}" style="vertical-align:text-bottom;margin:0em 8px 0 0;max-width:16px;max-height:16px;width:16px;height:16px">{{/avatar}}
-
-      {{title}} &thinsp;
-      <img src="/images/dropdown.svg" width=8>
-      
-    </a>
-    {{/isCurrent}}<br>
-    {{/blogs}} -->
+    
+    </div>
   </div>
