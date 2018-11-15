@@ -1,14 +1,14 @@
 {{> header}}
 
 <style type="text/css">
-.posts {display: flex;padding:0.5rem;flex-wrap: wrap;}
-.post {padding:0.75rem;margin-bottom:1rem;flex-basis: 25%;width: 25%;box-sizing:border-box;
-font-size: 14px;color: grey;text-decoration: none;text-align: center;}
+.posts {display: flex;padding:2.5rem;flex-wrap: wrap;}
+.post {padding:10px;margin-bottom:1rem;flex-basis: 20%;width: 20%;box-sizing:border-box;
+font-size: 14px;color: #aaa;text-decoration: none;text-align: center;}
 .post .date {visibility: hidden;display: block;}
-.post .thumbnail {box-sizing:border-box;outline-style: inset;outline:1px solid transparent;width: 100%;height: 0;padding-bottom: 100%;display: block;overflow: hidden;position: relative;}
+.post .thumbnail {box-sizing:border-box;outline-style: inset;outline:1px solid transparent;width: 100%;height: 0;padding-bottom: 100%;display: block;overflow: hidden;position: relative;margin-bottom: 0.75rem}
 .post:hover .thumbnail {outline-color: #ddd}
 .post:hover .date {visibility: visible;}
-.post img {width: 100%;height: auto;}
+.post img {max-width: 100%;height: auto;margin: 0 auto}
 
 .post.no-thumbnail .thumbnail {color:green;border: 1px solid green;font-size: 18px;text-align: center;}
 .post.no-thumbnail .date {display: block;}
@@ -31,20 +31,30 @@ font-size: 14px;color: grey;text-decoration: none;text-align: center;}
         {{title}}
       </span>
       <br>
-      {{date}}
+      <span date-from-now="{{dateStamp}}">{{date}}</span>
       {{/thumbnail.medium}}
     </span>
   </span>
-
-  <br>
   {{#thumbnail.medium}}
   <span>{{title}}</span>
-  <span class="date">Added {{date}}</span>
+  <span class="date">Added       <span date-from-now="{{dateStamp}}">{{date}}</span>
+</span>
   {{/thumbnail.medium}}
 </a>
 
 {{/entries}}
 
 </div>
-
+<div style="clear:both"></div>
+<div style="padding:0 2.5rem 5rem">
+<style type="text/css">a.pagination{margin-right:0.25rem;padding:0.25rem;background:black;color:white;text-decoration: none;}</style>
+{{#pagination}}
+{{#previous}}<a class="pagination"href="/page/{{previous}}">{{previous}}</a>{{/previous}}
+<a class=" current" href="/page/{{current}}">{{current}}</a>
+{{#next}}<a class="pagination" href="/page/{{next}}">{{next}}</a>{{/next}}
+{{#previous}}<a  class="pagination" href="/page/1">First</a>{{/previous}}
+{{#next}}<a  class="pagination" href="/page/{{next}}">Next</a>{{/next}}
+<a class="pagination" href="/page/{{total}}">Last</a>
+{{/pagination}}
+</div>
 {{> footer}}

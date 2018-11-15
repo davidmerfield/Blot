@@ -44,41 +44,53 @@
 }
 
 
-body {font-family: 'Cooper Hewitt', sans-serif;}
+body {font-family: 'Cooper Hewitt', sans-serif;font-size: 18px;margin: 0;padding: 0}
   </style>
 </head>
 <body>
 
 <div class="header">
-<div style="margin-right:1rem"><a class="index" href="/" ><b>{{title}}</b></a></div>
-<div style="margin-right:2rem">
-An independent archive of sources for <a href="https://blot.im">Blot</a>.
+  <div style="padding:0.25rem 0;display:flex">
+<div style="margin-right:1rem"><a class="index" href="/">Reference</a></div>
+<!-- <div style="margin-right:2rem">
+An archive of references used to design <a href="https://blot.im">Blot</a>.
+</div> -->
 </div>
 
-<div class="tags">
+<form action="/search" style="flex-grow:1;margin-right:.75rem">
+
+
+<div class="tags menu" style="display:flex;">
+<a href="/">Show all</a>
 {{#allTags}}
-<a href="/tagged/{{slug}}">{{tag}} &rarr;</a><br>
+<a href="/tagged/{{slug}}">{{tag}}</a><br>
 {{/allTags}}
+<a href="">View all categories <span style="float:right">&rarr;</span></a>
+
 </div>
 
-<a href="">Show more tags</a>
 
-<form action="/search" style="flex-grow:1;display:flex;">
-  <div>
-  <input type="text" placeholder="Search" style="flex-grow:1;border:none;border-bottom:1px solid grey" name="q">
-  <input type="submit" style="background:black;color:white;border-radius:0.25rem;cursor:pointer">
-</div>
 </form>
 
 <style type="text/css">
 .header {display: flex}
-.header a {color: black;text-decoration: none;}
-.menu {display: flex;flex-wrap:wrap;flex-basis:25%;}
-.menu a {width: 25%;padding:0.25rem 0;margin:0.5rem;border-top: 2px solid black;font-weight: bold}
+.header a.index,
+.header .menu a {color: black;text-decoration: none;}
+.menu {display: flex;flex-wrap:wrap;flex-basis:20%;}
+.menu a {width: 20%;padding:0.25rem 0;border-top: 1px solid black;}
+.index {padding: 1rem}
 .menu a:hover,
 a.index:hover {background: black;color: white}
+form input {font-size: inherit;border:none;line-height: inherit;padding: 0.25rem 0}
+form input[type="text"] {flex-grow:1;}
+form input:focus {outline: none;background: #eee}
+.menu a[href="/search"] {display: none;}
 </style>
-<div style="float:right" class="menu">
+<div style="float:right;opacity:0.5;margin-left:.75rem" class="menu">
+    <div style="display:flex">
+  <input type="text" placeholder="Search" name="q">
+  <input type="submit" style="background:black;font:inherit;color:white;border-radius:0.25rem;cursor:pointer">
+</div>
 {{#menu}}
 <a href="{{url}}">{{label}}</a>
 {{/menu}}
