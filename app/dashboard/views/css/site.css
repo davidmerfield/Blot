@@ -1748,7 +1748,7 @@ form.account, .inset {padding:20px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.wrapper {margin:0 auto;display: flex;min-height: 100%;padding: 20px 0 40px}  
+.wrapper {margin:0 auto;display: flex;min-height: 100%;padding: 40px 0 40px}  
 
 .head {height:123px;padding-top:20px;}
 
@@ -1864,7 +1864,25 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
   .row a {padding: 11px 20px;flex-grow:1;color:rgb(200, 200, 200);text-decoration: none;}
   .opener {visibility: hidden;white-space: nowrap}
 .opener.show {visibility: visible}
-.photo-holder {vertical-align:text-bottom;margin:0em 8px 0 0;width:32px;height:32px;background: rgba(0,0,0,0.05);display: inline-block;line-height: 1;text-align: center;}
+.toggle-container {    color: #111;
+    font-weight: 500;
+    border-radius: 100%;
+    padding: 13px;
+    text-align: center;}
+    .toggle-container:hover {
+          background: rgba(0,0,0,0.3);
+
+    }
+
+.photo-holder {vertical-align: text-bottom;
+    /* margin: 0em 8px 0 0; */
+    width: 32px;
+    height: 32px;
+    background: rgba(0,0,0,0.05);
+    display: inline-block;
+    line-height: 1;
+    text-align: center;
+    display: block;}
 .photo-holder img {vertical-align:text-bottom;max-width:32px;max-height:32px;}
 .photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9}
 

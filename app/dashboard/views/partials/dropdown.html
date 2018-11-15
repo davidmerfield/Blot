@@ -5,20 +5,17 @@
 {{#blogs}}
 
 
-      <form style="padding:10px 20px" action="/account/switch-blog" method="POST"> 
+      <form style="padding:0 20px" action="/account/switch-blog" method="POST"> 
         <input type="hidden" name="_csrf" value="{{csrftoken}}">
         <input type="hidden" name="to" value="{{id}}"> 
-        <button type="submit" style="color:#111;font-weight:500">
+        <button class="toggle-container" type="submit" style="color:#111;font-weight:500">
           <span class="photo-holder"> {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
             {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>
-          
-
         </button>
       </form>
-
       {{/blogs}}
-      <hr style="width:32px;margin-left:20px;margin-bottom:30px">
-    <a href="/account/create-blog" style="padding:10px 20px;border-bottom:0"><span class="photo-holder plus">+</span></a>
+      <hr style="width:32px;margin-left:32px;margin-bottom:30px">
+    <a href="/account/create-blog" style="padding:10px 20px;border-bottom:0"><span class="photo-holder plus" style="background:none;text-align:center;font-size:32px;font-weight:300;color:rgba(0,0,0,0.25)">+</span></a>
 
     
     </div>
