@@ -53,9 +53,10 @@ Template spec
 - feed, archive, essays, portfolio, magazine must be optimized for code
 - all themes must be colorblind, with goal to add a color customization layer
 - Don't think about Blot developers in any way, produce seperate simple templates for them
-  
+
 
 Find good source of material, ideally on Blot like this [source for theme content](http://cinebloc.blot.im/)
+- Interesting way to find images matching colors: https://artsexperiments.withgoogle.com/artpalette/colors/ffffff-fcfcfc-ffffff-ffffff-ffffff
 
 Investigate [Jekyll themes to use](https://github.com/broccolini/swiss) which have permissive licenses
 
