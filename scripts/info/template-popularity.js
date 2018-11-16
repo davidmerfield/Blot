@@ -4,6 +4,9 @@ var templates = {};
 
 eachBlog(
   function(user, blog, next) {
+    // they use a custom template
+    if (blog.template.indexOf("SITE") !== 0) return next();
+
     templates[blog.template] = templates[blog.template] || 0;
     templates[blog.template]++;
 
