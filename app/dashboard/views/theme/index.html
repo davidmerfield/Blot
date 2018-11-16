@@ -61,24 +61,24 @@
     <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme.</p>
 
 
+    
+    <label>
+      How should the date appear on your blog?<br />
+      <select name="dateDisplay">
+        {{#displayFormats}}
+          <option value="{{value}}" {{selected}}>{{date}}</option>
+        {{/displayFormats}}
+      </select>
+    </label>
+
+    <label>
+      <input type='hidden' value='off' name='hideDates'>
+      <input type="checkbox" name="hideDates" {{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for your posts
+    </label>
+
+
+
   
-  <a class="line" href="/settings/menu" style="margin:0 -20px">
-    <span class="label">Menu</span>
-    <span class="center">
-      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
-
-    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
-    </span>
-    <span class="right" style="padding-left:0">Edit</span>
-  </a>
-
-
-  <a class="line" href="/settings/services" style="margin:0 -20px">
-    <span class="label">Services</span>
-    <span class="link">Configure analytics and other services
-</span>
-
-  </a>
   
 
   <Br>

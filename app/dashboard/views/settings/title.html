@@ -1,3 +1,71 @@
 <label for="title">Title</label>
 <input type="hidden" name="redirect" value="/settings/title">
 <input type="text" autofocus name="title" value="{{blog.title}}">
+
+<label>
+      What is your timezone?<br />
+      <select name="timeZone" style="max-width:300px">
+        {{#timeZones}}
+          <option value="{{value}}" {{selected}}>{{time}} {{value}}</option>
+        {{/timeZones}}
+      </select>
+    </label>
+
+    <label>
+      How do you write your dates?<br />
+      <select name="dateFormat">
+        {{#dateFormats}}
+          <option value="{{value}}" {{selected}}>{{date}}</option>
+        {{/dateFormats}}
+      </select>
+    </label>
+
+
+
+  <a class="line" href="/settings/menu" style="margin:0 -20px">
+    <span class="label">Menu</span>
+    <span class="center">
+      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
+
+    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
+    </span>
+    <span class="right" style="padding-left:0">Edit</span>
+  </a>
+
+
+<p>This photo can be used in your site’s theme and is used to generate your site’s favicon.</p>
+
+<input type="hidden" name="redirect" value="/settings/photo">
+
+<label>Photo</label>
+
+{{#blog.avatar}}
+<div style="float:left;margin-right:20px;border-right:1px solid rgba(0,0,0,0.03)">
+    <img style="max-width:82px;max-height:82px;float:left" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+
+  </div>
+  
+<div style="float:left;">
+
+  <label style="margin-top:0">
+<input type='hidden' value='off' name='roundAvatar'>
+<input {{#blog.roundAvatar}}checked{{/blog.roundAvatar}} type="checkbox" name="roundAvatar"/> Make my photo rounded
+</label>
+
+      <button class="button small" name="avatar" value="" type="submit">Remove photo</button>
+
+</div>
+
+<div class="clear"></div><br>
+  {{/blog.avatar}}
+
+<section class="imageUpload" style="width:50%;float:left;">
+{{#blog.avatar}}
+  <span style="margin-top:0">Select new photo:</span>
+{{/blog.avatar}}
+  <input type='file' id="avatarUpload" name='avatar' />
+{{#blog.avatar}}
+{{/blog.avatar}}
+</section>
+
+<div class="clear"></div><br>
