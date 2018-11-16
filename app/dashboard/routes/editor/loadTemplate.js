@@ -33,45 +33,56 @@ module.exports = function(req, res, next) {
         );
       }
 
-      // Determine which HTML input we should show for each local
-      // on the settings page.
-      template.locals = arrayify(template.locals).map(function(local) {
-        if (local.name.indexOf("size") > -1 || local.name.indexOf("height") > -1) {
-          // show the number picker component for this local
-          local.label = local.name.split('_').join(' ');
-          local.label = local.label[0].toUpperCase() + local.label.slice(1);
+      function desnake(str) {
+        str = str.split("_").join(" ");
+        str = str[0].toUpperCase() + str.slice(1);
+        return str;
+      }
 
-          if (local.label === 'Page size') local.label = 'Number of posts per page';
-          
+      // Determine which HTML input we should show for each local
+      // on the settings page. It would be nice to be able to mark
+      // this up in package.json somehow for future Blot developers.
+      template.locals = arrayify(template.locals).map(function(local) {
+        if (["page_size"].indexOf(local.name) > -1) {
+          // Show the number picker component for this local
           local.range = true;
-        } else if (local.name.indexOf("color") > -1) {
-          local.label = local.name.split('_').join(' ');
+          local.label = desnake(local.name);
+
+          if (local.label === "Page size") {
+            local.label = "Number of posts per page";
+            local.min = 1;
+            local.max = 1000;
+          }
+        } else if (["background_color"].indexOf(local.name) > -1) {
+          // Show the color picker component for this local
+          local.label = local.name.split("_").join(" ");
           local.label = local.label[0].toUpperCase() + local.label.slice(1);
-          // show the color picker component for this local
           local.color = true;
-        } else if (local.name.indexOf("font") > -1) {
-          // show the font picker component for this local
-          local.font = true;
-          local.label = local.name.split('_').join(' ');
-          local.label = local.label[0].toUpperCase() + local.label.slice(1);
-          local.fonts = [
-            {
-              label: "Charter",
-              value: "charter",
-              selected: local.content === "charter" ? "selected" : ""
-            },
-            {
-              label: "Helvetica",
-              value: "Helvetica",
-              selected: local.content === "Helvetica" ? "selected" : ""
-            },
-            {
-              label: "Times New Roman",
-              value: "times",
-              selected: local.content === "times" ? "selected" : ""
-            }
-          ];
-        } else {
+        }
+        // } else if (local.name.indexOf("font") > -1) {
+        // Show the font picker component for this local
+        // local.font = true;
+        // local.label = local.name.split('_').join(' ');
+        // local.label = local.label[0].toUpperCase() + local.label.slice(1);
+        // local.fonts = [
+        //   {
+        //     label: "Charter",
+        //     value: "charter",
+        //     selected: local.content === "charter" ? "selected" : ""
+        //   },
+        //   {
+        //     label: "Helvetica",
+        //     value: "Helvetica",
+        //     selected: local.content === "Helvetica" ? "selected" : ""
+        //   },
+        //   {
+        //     label: "Times New Roman",
+        //     value: "times",
+        //     selected: local.content === "times" ? "selected" : ""
+        //   }
+        // ];
+        // }
+        else {
           // use default template
           local.default = true;
         }

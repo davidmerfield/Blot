@@ -5,6 +5,7 @@
 <div id="variable-list" style="width:140%">
 
 {{#locals}}
+  {{^default}}
   {{#color}}
     {{> color}}
   {{/color}}
@@ -14,6 +15,15 @@
   {{#font}}
     {{> font}}
   {{/font}}  
+  {{/default}}
+{{/locals}}
+
+<input type="submit" class="button left" value="Save changes">
+
+<hr><p>Variables: <a id="variable-add" style="float:right" class="button secondary">Add a variable</a>
+</p>
+
+{{#locals}}
   {{#default}}
     {{> default}}
   {{/default}}
@@ -22,6 +32,4 @@
 <input name="has_locals" type="hidden" value="true">
 
 </div>
-<div class="clear"></div>
-<a id="variable-add" class="button secondary">Add a variable</a>
-<div class="clear"></div>
+<div class="clear"></div><br>

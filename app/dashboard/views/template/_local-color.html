@@ -1,25 +1,15 @@
-<div>
-
-<b>{{label}}</b><br>
-
-<label style="width:25%;float:left;margin-right:3.5%">
-  <input class="name" placeholder="e.g. background" type="hidden" value="{{name}}"/>
-</label>
-<label style="width:55.5%;float:left">
-  <input class="value" name="locals.{{name}}" placeholder="e.g. #FFFFFF" type="hidden" value="{{content}}"/>
-</label>
-
+<label>{{label}}</label>
+<input class="name" placeholder="e.g. background" type="hidden" value="{{name}}"/>
+<input class="value" name="locals.{{name}}" placeholder="e.g. #FFFFFF" type="hidden" value="{{content}}"/>
 <div class="color-picker"></div>
-
-<!-- <a style="margin-top:1.5rem" class="button right small secondary delete" class="right">Delete</a>
- --><span class="clear"></span>
-
-</div>
+<hr style="margin-bottom:0">
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.js"></script>
-
+<style type="text/css">
+.pcr-app.visible {z-index: 1} /* fixes bug with sidebar */
+</style>
 <script>// Simple example, see optional options for more configuration.
 var pickr{{name}} = Pickr.create({
     el: '.color-picker',
