@@ -3,8 +3,6 @@ Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3
 Determine cause of Markdown converter failure for Dropbox/Apps/Strange encoding bug
 
 Template system
-- Add script to remove existing Blot template
-- Add script to rename existing Blot template
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Move to uuid based template IDs instead of slug  
 - Add export to zip and import to zip feature for themes
