@@ -21,7 +21,7 @@ eachBlog(
         .sort(function(a, b) {
           return b.count - a.count;
         })
-        .slice(0, 10)
+        .slice(0, 30)
     );
 
     process.exit();
