@@ -5,7 +5,7 @@
 {{#blogs}}
 
 
-      <form style="padding:0 20px" action="/account/switch-blog" method="POST"> 
+      <form style="padding:0 " action="/account/switch-blog" method="POST"> 
         <input type="hidden" name="_csrf" value="{{csrftoken}}">
         <input type="hidden" name="to" value="{{id}}"> 
         <button class="toggle-container" type="submit" style="color:#111;font-weight:500">
@@ -14,8 +14,10 @@
         </button>
       </form>
       {{/blogs}}
-      <hr style="width:32px;margin-left:32px;margin-bottom:30px">
-    <a href="/account/create-blog" style="padding:10px 20px;border-bottom:0"><span class="photo-holder plus" style="background:none;text-align:center;font-size:32px;font-weight:300;color:rgba(0,0,0,0.25)">+</span></a>
+      <hr style="width:32px;margin-left:10px;margin-bottom:30px">
+    <a href="/account/create-blog" class="toggle-container" style="display:block;text-decoration:none;border-bottom:0">
+      <span style="background:none;text-align:center;width:32px;height:32px;line-height:32px;font-size:32px;font-weight:300;color:rgba(0,0,0,0.25);display:block;">+</span>
+    </a>
 
     
     </div>

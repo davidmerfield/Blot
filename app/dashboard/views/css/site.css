@@ -1870,7 +1870,12 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
     padding: 13px;
     text-align: center;}
     .toggle-container:hover {
-          background: rgba(0,0,0,0.3);
+          background: rgba(0,0,0,0.05);
+
+    }
+
+    .toggle-container:active {
+          background: rgba(0,0,0,0.1);
 
     }
 
