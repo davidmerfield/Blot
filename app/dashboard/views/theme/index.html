@@ -62,21 +62,6 @@
 
 
     
-    <label>
-      How should the date appear on your blog?<br />
-      <select name="dateDisplay">
-        {{#displayFormats}}
-          <option value="{{value}}" {{selected}}>{{date}}</option>
-        {{/displayFormats}}
-      </select>
-    </label>
-
-    <label>
-      <input type='hidden' value='off' name='hideDates'>
-      <input type="checkbox" name="hideDates" {{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for your posts
-    </label>
-
-
 
   
   

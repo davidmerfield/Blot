@@ -1,6 +1,16 @@
 <input type="hidden" name="redirect" value="/settings/services">
 
 
+  <a class="line" href="/services/urls" style="margin:0 -20px">
+    <label>URLs</label>
+    <span class="center">
+      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
+
+    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
+    </span>
+    <span class="right" style="padding-left:0">Edit</span>
+  </a>
+
 <style type="text/css">
   .plugin label,.plugin p  {margin: 0}
   .plugin label {line-height: 1.5}

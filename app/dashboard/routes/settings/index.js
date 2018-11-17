@@ -18,6 +18,16 @@ settings.get("/settings", function(req, res, next) {
   res.redirect("/");
 });
 
+
+settings.use(function(req, res, next) {
+
+  res.locals.breadcrumbs.add("Settings", "/settings");
+  res.locals.setup = !!req.query.setup;
+
+  next();
+});
+
+
 var index = settings.route("/");
 
 index.get(
@@ -36,14 +46,6 @@ index.get(
   }
 );
 
-
-settings.use(function(req, res, next) {
-
-  res.locals.breadcrumbs.add("Settings", "/settings");
-  res.locals.setup = !!req.query.setup;
-
-  next();
-});
 
 settings
   .route("/settings")
@@ -68,7 +70,7 @@ settings.get("/settings/urls", function(req, res, next) {
   next();
 });
 
-settings.get("/settings/title", function(req, res, next){
+settings.get("/settings/profile", load.menu, load.timezones, load.dates, function(req, res, next){
   res.locals.setup_title = true;
   next();
 });
