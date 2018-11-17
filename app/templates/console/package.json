@@ -2,46 +2,9 @@
   "name": "Console",
   "isPublic": true,
   "locals": {
-    "page_size": 36
-  },
-  "locals": {
+    "page_size": 36,
     "background_color": "#ffffff",
-    "dark_text": "#000000",
-    "light_text": "#ababab",
-    "light_background": "rgba(236, 236, 236, 0.37)",
-    "medium_text": "#696969",
-    "highlight_color": "blue"
-  },
-  "black": {
-    "background_color": "#000",
-    "dark_text": "#bbb",
-    "light_text": "#777",
-    "light_background": "rgba(255,255,255,0.12)",
-    "medium_text": "#ddd",
-    "highlight_color": "#fff"
-  },
-  "mint": {
-    "background_color": "#dfeeeb",
-    "dark_text": "#005240",
-    "light_text": "#839E99",
-    "light_background": "rgba(155, 188, 181, 0.18)",
-    "medium_text": "#397A6C",
-    "highlight_color": "#09AF8B"
-  },
-  "yellow": {
-    "background_color": "rgb(255, 250, 243)",
-    "dark_text": "rgb(0, 0, 77)",
-    "light_text": "#A3A3C7",
-    "light_background": "rgba(236, 236, 236, 0.37)",
-    "medium_text": "#4D4C80",
-    "highlight_color": "blue"
-  },
-  "balfron": {
-    "background_color": "#F6EFDE",
-    "light_background": "rgba(41, 0, 0, 0.05)",
-    "dark_text": "#000000",
-    "light_text": "rgb(150, 137, 104)",
-    "medium_text": "#6D5E3B",
-    "highlight_color": "#EF0006"
+    "body_text_color": "#000000",
+    "body_text_link_color": "blue"
   }
 }

@@ -3,8 +3,6 @@ Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3
 Determine cause of Markdown converter failure for Dropbox/Apps/Strange encoding bug
 
 Template system
-- Add script to remove existing Blot template
-- Add script to rename existing Blot template
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Move to uuid based template IDs instead of slug  
 - Add export to zip and import to zip feature for themes
@@ -25,11 +23,11 @@ Template selection
   
 - feed (default) - general purpose
   index shows stream of posts truncated
-  type is sans-serif (system?)
+  type is sans-serif (system? http://lunchtype.com?)
 
 - photos - optimized for a photoblog
   index shows medium grid posts in columns but not rows
-  type is sans-serif (system?)
+  type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
 
 - essays - optimized for longform essays
   index shows title list of posts, perhaps teaser
@@ -269,7 +267,7 @@ is happening before doing this.
 File converters / codecs
 - Video posts (.mp4)
 - OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
-- Audio posts (.mp3 for now?)
+- Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg)
 - Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113)
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
 - Markdown

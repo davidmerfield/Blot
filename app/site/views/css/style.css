@@ -139,7 +139,7 @@ input {box-sizing: border-box;}
 
 .bg {background:#f3eeea;}
 
-#thumb {position:relative;padding-bottom:60.5%;height:0;overflow: hidden;}
+.thumber {position:relative;padding-bottom:60.5%;height:0;overflow: hidden;}
 
 #play {    border: none;
     position: absolute;
@@ -148,11 +148,11 @@ input {box-sizing: border-box;}
     left: 0;
     right: 0;border:none;}
 
-#thumb window.text {margin:0;background:#fffefc;position:absolute;width:100%;top:0;bottom:0;max-width: 100%;float:none;}
+.thumber window.text {margin:0;background:#fffefc;position:absolute;width:100%;top:0;bottom:0;max-width: 100%;float:none;}
 
 window {-webkit-font-smoothing: auto;}
 
-#thumb iframe {
+.thumber iframe {
     position: absolute;
     top:0;
     left: 0;
