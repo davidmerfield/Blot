@@ -10,11 +10,11 @@
         <input type="hidden" name="to" value="{{id}}"> 
         <button class="toggle-container" type="submit" style="color:#111;font-weight:500">
           <span class="photo-holder"> {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
-            {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>
+            {{^avatar}}<span style="line-height:32px;opacity:0.3">D</span><!-- <span class="file" style="font-size:0.8em;opacity:0.3;margin:0.25em 0.64em"></span> -->{{/avatar}}</span>
         </button>
       </form>
       {{/blogs}}
-      <hr style="width:32px;margin-left:10px;margin-bottom:30px">
+      <hr style="width:32px;margin-left:10px;margin-bottom:20px">
     <a href="/account/create-blog" class="toggle-container" style="display:block;text-decoration:none;border-bottom:0">
       <span style="background:none;text-align:center;width:32px;height:32px;line-height:32px;font-size:32px;font-weight:300;color:rgba(0,0,0,0.25);display:block;">+</span>
     </a>
