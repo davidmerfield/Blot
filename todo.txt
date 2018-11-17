@@ -23,11 +23,11 @@ Template selection
   
 - feed (default) - general purpose
   index shows stream of posts truncated
-  type is sans-serif (system?)
+  type is sans-serif (system? http://lunchtype.com?)
 
 - photos - optimized for a photoblog
   index shows medium grid posts in columns but not rows
-  type is sans-serif (system?)
+  type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
 
 - essays - optimized for longform essays
   index shows title list of posts, perhaps teaser
