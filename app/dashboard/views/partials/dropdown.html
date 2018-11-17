@@ -1,22 +1,22 @@
 
 <div style="flex-grow:1" >
     
-  <div style="float:right;">
+  <div style="float:right;margin-right:42px">
 {{#blogs}}
 
 
       <form style="padding:0 " action="/account/switch-blog" method="POST"> 
         <input type="hidden" name="_csrf" value="{{csrftoken}}">
         <input type="hidden" name="to" value="{{id}}"> 
-        <button class="toggle-container" type="submit" style="color:#111;font-weight:500">
+        <button class="toggle-container {{#isCurrent}}active{{/isCurrent}}" type="submit" style="color:#111;font-weight:500">
           <span class="photo-holder"> {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
             {{^avatar}}<span style="line-height:32px;opacity:0.3">D</span><!-- <span class="file" style="font-size:0.8em;opacity:0.3;margin:0.25em 0.64em"></span> -->{{/avatar}}</span>
         </button>
       </form>
       {{/blogs}}
-      <hr style="width:32px;margin-left:10px;margin-bottom:20px">
+      <hr style="width:32px;margin-left:10px;margin-bottom:10px">
     <a href="/account/create-blog" class="toggle-container" style="display:block;text-decoration:none;border-bottom:0">
-      <span style="background:none;text-align:center;width:32px;height:32px;line-height:32px;font-size:32px;font-weight:300;color:rgba(0,0,0,0.25);display:block;">+</span>
+      <span style="background:none;text-align:center;width:32px;height:32px;line-height:32px;font-size:32px;font-weight:200;color:rgba(0,0,0,0.25);display:block;">+</span>
     </a>
 
     
