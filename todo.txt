@@ -171,6 +171,7 @@ Add an EXPIRY to the log entries for a blog's 404 log
 
 Use a [redis analysis tool](https://github.com/snmaynard/redis-audit) to see if I can squeeze more out of REDIS
 
+Set up [Dependabot](https://dependabot.com/) to automate dependency upgrade PRs
 
 Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally? More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
 
