@@ -177,7 +177,8 @@ Make dashboard requests idempotent to prevent multiple form resubmits, multiple 
 
 Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389c18) about DataValet blocking
 
-  
+Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
+
 Look into mirroring site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f
 )
 
