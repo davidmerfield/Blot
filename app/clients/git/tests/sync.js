@@ -68,7 +68,10 @@ fdescribe("git client sync", function() {
             if (response !== "true") {
               return http.get(url, check);
             }
-            ctx.areReposSynced(done);
+            // wait 1s before checking if repos are synced.
+            setTimeout(function(){
+              ctx.areReposSynced(done);
+            }, 1000)
           });
         });
       });
