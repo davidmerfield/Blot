@@ -4,6 +4,10 @@ Fix bug with asset EADDRINUSE test
 
 Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
 
+Fix issue with [Kushal](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLXCwDJtLtlqZGvRJkpVLcLbg)'s folder which won't sync the entire state. Some files are missing (e.g. Pages/about.md) even after a manual reset which is concerning.
+
+Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
+
 Determine cause of Markdown converter failure for `Dropbox/Apps/Strange encoding bug`
 
 Template system
