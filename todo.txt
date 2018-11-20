@@ -35,7 +35,7 @@ Template selection
 
 - portfolio - optimized for a portfolio of work
   index shows medium-sized grid of posts in columns and rows
-  type is sans-serif (?)
+  type is sans-serif (? Open sans ?)
   Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ)
 
 - magazine - optimized for a magazine
