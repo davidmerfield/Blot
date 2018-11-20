@@ -44,6 +44,7 @@ Template selection
 - portfolio - optimized for a portfolio of work
   index shows medium-sized grid of posts in columns and rows
   type is sans-serif (?)
+  Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ)
 
 - magazine - optimized for a magazine
   index shows mixture of post previews
@@ -201,6 +202,7 @@ Public site
 - Log 404s on the public site to identify neccessary redirects
 - Personalize the documentation for logged in users
 - Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
+  And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 - Inline all CSS for performance
 - Render the formatting guide navigation on the server
 
@@ -288,6 +290,8 @@ File converters / codecs
   Write a pandoc compatible markdown converter in javascript
   to resolve some of the performance issues with pandoc. Perhaps just use [Markdown-it](https://github.com/markdown-it/markdown-it)
 - Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152)
+
+- Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 
 - Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
   
