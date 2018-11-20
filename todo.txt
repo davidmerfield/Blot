@@ -1,14 +1,6 @@
-Fix bugs with git removed / renamed file test
-
-Fix bug with asset EADDRINUSE test
-
-Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
-
 Fix issue with [Kushal](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLXCwDJtLtlqZGvRJkpVLcLbg)'s folder which won't sync the entire state. Some files are missing (e.g. Pages/about.md) even after a manual reset which is concerning.
 
 Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
-
-Determine cause of Markdown converter failure for `Dropbox/Apps/Strange encoding bug`
 
 Template system
 - Ask to confirm, but remove files from blog folder when disabling local editing
@@ -74,6 +66,12 @@ Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](h
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
+
+Fix bugs with git removed / renamed file unit test on Travis
+
+Determine cause of Markdown converter failure for `Dropbox/Apps/Strange encoding bug`
+
+Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
 
 Fix bug which occurs when you change your username while using the Git client (repo url breaks) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd)
 
