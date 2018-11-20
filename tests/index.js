@@ -35,7 +35,7 @@ if (process.argv[2]) {
 if (process.argv[3]) {
   seed = process.argv[3];
 } else {
-  seed = Math.floor(Math.random() * 100000) + "";
+  seed = process.env.BLOT_TESTS_SEED || Math.floor(Math.random() * 100000) + "";
   console.log(
     'If you want your own seed run "npm test {path_to_specs} {seed}"'
   );
