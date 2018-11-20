@@ -11,6 +11,7 @@ cache:
 env:
   global:
     - CXX=g++-4.8
+    - DEBUG=clients:dropbox*
   matrix:
     - BLOT_TESTS_SEED=68818
     - BLOT_TESTS_SEED=
