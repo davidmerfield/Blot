@@ -20,19 +20,31 @@ Template selection
 - archive - optimized for an archive of photos, links, quotes
   index shows big grid of posts
   type is sans-serif (cooper hewitt)
-  
+  possible source folders:
+  http://filingcabinet.blot.im/
+
 - feed (default) - general purpose
   index shows stream of posts truncated
   type is sans-serif (system? http://lunchtype.com?)
+  possible source folders:
+  - https://www.svenseebeck.com/
+  - https://www.baty.blog/
+  - https://www.inthemargins.ca/
 
 - photos - optimized for a photoblog
   index shows medium grid posts in columns but not rows
   type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
+  possible source folders: 
+  - https://ylukem.com/
 
 - essays - optimized for longform essays
   index shows title list of posts, perhaps teaser
   type is serif (Charter)
-
+  possible source folders:
+  - https://www.schuth.xyz/archives
+  - https://chrbutler.com/about
+  - http://cinebloc.blot.im/
+  
 - portfolio - optimized for a portfolio of work
   index shows medium-sized grid of posts in columns and rows
   type is sans-serif (? Open sans ?)
