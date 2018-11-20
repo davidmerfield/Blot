@@ -1,4 +1,4 @@
-fdescribe("asset middleware", function() {
+describe("asset middleware", function() {
   var Express = require("express");
   var fs = require("fs-extra");
   var http = require("http");
