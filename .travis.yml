@@ -9,7 +9,12 @@ cache:
   directories:
     - node_modules
 env:
-  - CXX=g++-4.8
+  global:
+    - CXX=g++-4.8
+  matrix:
+    - BLOT_TESTS_SEED=26921
+    - BLOT_TESTS_SEED=15579
+    - BLOT_TESTS_SEED=
 addons:
   apt:
     sources:
