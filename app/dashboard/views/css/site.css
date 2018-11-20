@@ -1792,7 +1792,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
   .crumbs {display: flex}
 
-    .crumb {padding: 11px 20px;text-decoration:none;color:rgb(153, 153, 153);border-bottom: 1px solid rgb(237, 237, 237);
+    .crumb {padding: 11px 20px;text-decoration:none;color:rgb(153, 153, 153);border-bottom: 1px solid rgb(237, 237, 237);font-size: 14px;font-weight: 500;
 }}
 
 

@@ -1,11 +1,12 @@
 
-<div class="dropdown closed" >
+<div class="dropdown closed" style="margin-top:12px">
     
     {{#blogs}}
     {{#isCurrent}}
-    <a href="#!" class="opener nav-bar show" >
+    <a href="#!" class="opener nav-bar show" style="line-height:1.5;font-size:16px">
       
-      {{#avatar}}<span class="photo-holder"><img src="{{avatar}}"></span>{{/avatar}}&nbsp;{{title}}{{^title}}{{blog.pretty.url}}{{/title}}&nbsp;&thinsp;&nbsp;<img src="/images/dropdown.svg" width=8>
+      {{#avatar}}<span class="photo-holder" style="margin-left:-30px;margin-right:12px"><img src="{{avatar}}"></span>{{/avatar}}&nbsp;{{title}}{{^title}}{{blog.pretty.url}}{{/title}}&nbsp;&thinsp;&nbsp;<img src="/images/dropdown.svg" width=8 style="float:right">
+      <br><span style="font-weight:400;color:#aaa">{{pretty.url}}</span>
     </a>
     {{/isCurrent}}
     {{/blogs}}
@@ -23,7 +24,8 @@
           <span class="photo-holder"> {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
             {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>
           
-          {{title}}{{^title}}{{pretty.url}}{{/title}}
+          {{title}}{{^title}}{{pretty.url}}{{/title}}<br>
+          {{pretty.url}}
 
           {{#isCurrent}}<span style="color:green;float:right;font-size:20px">&bull;</span>{{/isCurrent}}
         </button>
