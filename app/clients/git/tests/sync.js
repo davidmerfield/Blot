@@ -1,4 +1,4 @@
-describe("git client sync", function() {
+fdescribe("git client sync", function() {
   // Sets up a clean test blog (this.blog) for each test,
   // sets the blog's client to git (this.client), then creates
   // a test server with the git client's routes exposed, then
