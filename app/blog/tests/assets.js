@@ -41,7 +41,7 @@ describe("asset middleware", function() {
     });
   });
 
-  // This test ensures that the middleware will pass 
+  // This test ensures that the middleware will pass
   // the request on if it can't find a matching file.
   it("returns a 404 correctly", function(done) {
     this.get("/" + this.fake.random.uuid(), function(err, body, res) {
@@ -75,14 +75,18 @@ describe("asset middleware", function() {
       });
 
       ctx.server.use(require("../assets"));
-      ctx.server = ctx.server.listen(port, function(err) {
-        if (err && err.code === "EADDRINUSE") return attempt(done);
-        if (err && err.code === "EACCESS") return attempt(done);
-        if (err) return done(err);
-        done();
-      });
+
+      try {
+        ctx.server = ctx.server.listen(port);
+      } catch (err) {
+        if (err.code === "EADDRINUSE") return attempt(done);
+        if (err.code === "EACCESS") return attempt(done);
+        return done(err);
+      }
+
       ctx.server.port = port;
       ctx.url = "http://localhost:" + port;
+      done();
     })(done);
   });
 
