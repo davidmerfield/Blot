@@ -28,7 +28,7 @@ module.exports = function(blogDirectory, callback) {
     // Has a space at the start, in my testing at least
     pathToGitRepository = pathToGitRepository.trim();
 
-    debug("Comparing path to git repository and blog folder:");
+    debug("Comparing path to git repository and blog folder. Do they match?", pathToGitRepository === blogDirectory);
 
     if (pathToGitRepository !== blogDirectory) {
       var message = [
