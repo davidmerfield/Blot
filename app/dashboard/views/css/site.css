@@ -1278,7 +1278,7 @@ p.sub {
     z-index: 20;
     background: #fffcfa;
   margin: 0;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .dropdown .menu button {text-align: left;}
@@ -1671,7 +1671,7 @@ form.account > .buttons {
   .dropdown .opener:hover,
   .dropdown .menu button:hover,
   .dropdown .menu a:hover,
-  .line form button:hover {background: #f7f4f2}
+  .line form button:hover {background: #f7f4f2;}
 
   a.line:active,
   div.line a.link:active,
@@ -1694,7 +1694,7 @@ form.account > .buttons {
 
 
 .label {
-  color: rgb(158, 154, 152);
+  color: rgba(158, 154, 152, 0.9);
   display: block;
 
 }
@@ -1878,16 +1878,15 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
     }
 
-.photo-holder {vertical-align: text-bottom;
-    /* margin: 0em 8px 0 0; */
+.photo-holder {
+     margin: 0em 9px 0 0; 
     width: 16px;
     height: 16px;
-    background: rgba(0,0,0,0.05);
     display: inline-block;
     line-height: 1;
     }
 .photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
-.photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9}
+.photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9;text-align: center;}
 
 button {background: none;border: none;color:rgb(109, 109, 109);padding: 0;margin: 0;line-height: inherit;}
 
@@ -1902,8 +1901,9 @@ button.content-line {
 }
 
 button.content-line:hover {
-  background: #f7f4f2
+  background: #f7f4f2;
 }
+
 button.content-line .folder,
 button.content-line .file {float: none}
 

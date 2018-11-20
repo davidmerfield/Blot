@@ -14,7 +14,7 @@
 
     <noscript>TODO: fix this for no JS users</noscript>
 
-    <div class="menu">
+    <div class="menu" style="margin-left:40px">
       {{#blogs}}{{^isCurrent}}
       <form style="" action="/account/switch-blog" method="POST"> 
         <input type="hidden" name="_csrf" value="{{csrftoken}}">
@@ -30,7 +30,7 @@
       </form>
       {{/isCurrent}}{{/blogs}}
       <div class="clear"></div>
-      <a href="/account/create-blog" style="padding-right:40px;border-bottom:0"><span class="photo-holder plus">+</span> Add another blog</a>
+      <a href="/account/create-blog" style="padding-right:40px;border-bottom:0"><span class="photo-holder plus">+</span> Add new blog</a>
       <div class="clear"></div>
   </div>
 <!-- 
