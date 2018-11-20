@@ -1,10 +1,8 @@
-Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
+Fix issue with [Kushal](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLXCwDJtLtlqZGvRJkpVLcLbg)'s folder which won't sync the entire state. Some files are missing (e.g. Pages/about.md) even after a manual reset which is concerning.
 
-Determine cause of Markdown converter failure for Dropbox/Apps/Strange encoding bug
+Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 
 Template system
-- Add script to remove existing Blot template
-- Add script to rename existing Blot template
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Move to uuid based template IDs instead of slug  
 - Add export to zip and import to zip feature for themes
@@ -21,14 +19,15 @@ Template system
 Template selection
 - archive - optimized for an archive of photos, links, quotes
   index shows big grid of posts
-
+  type is sans-serif (cooper hewitt)
+  
 - feed (default) - general purpose
   index shows stream of posts truncated
-  type is sans-serif (system?)
+  type is sans-serif (system? http://lunchtype.com?)
 
 - photos - optimized for a photoblog
   index shows medium grid posts in columns but not rows
-  type is sans-serif (system?)
+  type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
 
 - essays - optimized for longform essays
   index shows title list of posts, perhaps teaser
@@ -36,7 +35,8 @@ Template selection
 
 - portfolio - optimized for a portfolio of work
   index shows medium-sized grid of posts in columns and rows
-  type is sans-serif (?)
+  type is sans-serif (? Open sans ?)
+  Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ)
 
 - magazine - optimized for a magazine
   index shows mixture of post previews
@@ -52,9 +52,10 @@ Template spec
 - feed, archive, essays, portfolio, magazine must be optimized for code
 - all themes must be colorblind, with goal to add a color customization layer
 - Don't think about Blot developers in any way, produce seperate simple templates for them
-  
+
 
 Find good source of material, ideally on Blot like this [source for theme content](http://cinebloc.blot.im/)
+- Interesting way to find images matching colors: https://artsexperiments.withgoogle.com/artpalette/colors/ffffff-fcfcfc-ffffff-ffffff-ffffff
 
 Investigate [Jekyll themes to use](https://github.com/broccolini/swiss) which have permissive licenses
 
@@ -66,9 +67,21 @@ Increase price for new customers to $30 a year. This will not affect existing cu
 
 ---
 
+Fix bugs with git removed / renamed file unit test on Travis
+
+Determine cause of Markdown converter failure for `Dropbox/Apps/Strange encoding bug`
+
+Fix [John's thumbnail bug](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
+
+Fix bug which occurs when you change your username while using the Git client (repo url breaks) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd)
+
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f)
 
+Fix display of first item on magazine them when it lacks a thumbnail. Tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqpfWRzTjCTsHBjHRqCmxD)
+
 Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
+
+Fix bug with automatic title generator which removes the datestring from files whose name is only a datestring. Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ)
 
 Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL encoding bug. Each entry's url property is not encoded as a URI component on the server but it needs to be.
 
@@ -169,12 +182,14 @@ Add an EXPIRY to the log entries for a blog's 404 log
 
 Use a [redis analysis tool](https://github.com/snmaynard/redis-audit) to see if I can squeeze more out of REDIS
 
+Set up [Dependabot](https://dependabot.com/) to automate dependency upgrade PRs
 
 Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally? More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
 
 Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389c18) about DataValet blocking
 
-  
+Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
+
 Look into mirroring site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f
 )
 
@@ -185,6 +200,7 @@ Public site
 - Log 404s on the public site to identify neccessary redirects
 - Personalize the documentation for logged in users
 - Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
+  And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 - Inline all CSS for performance
 - Render the formatting guide navigation on the server
 
@@ -265,13 +281,15 @@ is happening before doing this.
 File converters / codecs
 - Video posts (.mp4)
 - OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
-- Audio posts (.mp3 for now?)
+- Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg)
 - Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113)
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
 - Markdown
   Write a pandoc compatible markdown converter in javascript
   to resolve some of the performance issues with pandoc. Perhaps just use [Markdown-it](https://github.com/markdown-it/markdown-it)
 - Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152)
+
+- Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 
 - Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
   
@@ -374,6 +392,7 @@ NGINX
 
 Support linking to another blog post by its *file path*
 - This would help with the importer to fix broken links
+- See [how Pelican does it](http://docs.getpelican.com/en/stable/content.html#linking-to-internal-content)
 
 Generative tree
 - Add a generative tree illustration to account page that is 'seeded' when you sign up and grows as you keep your account open. Slowly, day by day. Would still be growing in 1000 years should your account stay open that long.
@@ -381,6 +400,7 @@ Generative tree
 - Learn how to make a generative illustration and render it quickly on the server
 - I like this idea because it's sort of anti-Farmville (i.e. click-to-grow, engage-to-grow). The tree just grows. No badgering to post more to keep the tree alive, all you have to do is keep your account. When you delete your account you just see the tree, and a thank you. Obviously don't do anything tacky like cut the tree down or anything. That would be horrible.
 - Could this [Wave Function Collapse](https://github.com/mxgmn/WaveFunctionCollapse) algorithm be useful? 
+- Look into [computational biology and fractals](https://www.google.com/search?q=computational+biology+fractals+book&hl=en&source=lnms&tbm=isch&sa=X&ved=0ahUKEwi1xbbFqtTeAhUJ21MKHUEsD2oQ_AUIEygB&biw=1440&bih=821#imgrc=_)
 
 Removing Date metadata from a post should reset its date to the file's creation date
 - Currently nothing changes.

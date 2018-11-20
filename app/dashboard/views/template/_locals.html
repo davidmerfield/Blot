@@ -1,16 +1,41 @@
 <div id="variable-template" style="display:none;width:150%">
-  {{> local}}
+  {{> default}}
 </div>
-
+<hr>
 <div id="variable-list" style="width:140%">
 
 {{#locals}}
-  {{> local}}
+  {{^default}}
+  {{#color}}
+    {{> color}}
+  {{/color}}
+  {{#range}}
+    {{> range}}
+  {{/range}}
+  {{#font}}
+    {{> font}}
+  {{/font}}  
+  {{/default}}
+{{/locals}}
+
+<Br>
+
+<input type="submit" class="button left" value="Save changes">
+
+<Br>
+<Br>
+<hr>
+
+<p>Variables: <a id="variable-add" style="float:right" class="button secondary">Add a variable</a>
+</p>
+
+{{#locals}}
+  {{#default}}
+    {{> default}}
+  {{/default}}
 {{/locals}}
 
 <input name="has_locals" type="hidden" value="true">
 
 </div>
-<div class="clear"></div>
-<a id="variable-add" class="button secondary">Add a variable</a>
-<div class="clear"></div>
+<div class="clear"></div><br>

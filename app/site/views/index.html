@@ -1,7 +1,7 @@
 {{> head}}
 {{> header}}
 {{> sidebar}}
-
+<main>
 <div class="w-right-offset">
 
   <p class="mt0 measure">Blot is a blogging platform with no interface. It creates a special folder in your Dropbox and publishes files you put inside. The point of all this&hairsp;—&hairsp;the reason Blot exists&hairsp;—&hairsp;is so you can use your favorite tools to create whatever you publish.</p>
@@ -17,7 +17,7 @@
     <div class="mw8 center v-mid" style="margin-top:5rem">
 
     <div class="ph4 ">
-    <div id="thumb">
+    <div class="thumber">
     <iframe id="video" class="" src="" frameborder="0" allowfullscreen=""></iframe>
   </div>
   </div>
@@ -25,13 +25,13 @@
   </div>
 
   <div style="margin-top:5rem;" class="bg">
-    <div id="thumb" >
+    <div class="thumber" >
 
-      <a id="play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE" target="_blank" class="mw8 center thumb pv5 db">
+      <a id="play" href="https://www.youtube.com/watch?v=_k2NQNj9-LE" rel="noopener" rel="noreferrer" target="_blank" class="mw8 center thumb pv5 db">
         
 <!--         <span class="view">Watch</span>
  -->        
-        <div class="buts"><img src="/images/play.png" width="17"></div>
+        <div class="buts"><img alt="Play button" src="/images/play.png" width="17"></div>
 
         <div class="measure" style="">
           <div style="width:58%;float:right">
@@ -94,7 +94,7 @@ Posts
   <div class="sites" style="margin-top:5rem">
   {{#sites}}
   <div class="fl">
-  <a href="{{url}}" target="_blank" class="browser"><span class="tc db" style="line-height:103px">{{display_url}}</span>{{#first}}<span class="new">New</span>{{/first}}<dots><dot></dot><dot></dot><dot></dot></dots></a>
+  <a href="{{url}}" target="_blank" rel="noopener" rel="noreferrer" class="browser"><span class="tc db" style="line-height:103px">{{display_url}}</span>{{#first}}<span class="new">New</span>{{/first}}<dots><dot></dot><dot></dot><dot></dot></dots></a>
   <p class="mb0">{{{description}}}</p>
   </div>
   {{#clear}}<div class="cf"></div>{{/clear}}
@@ -105,4 +105,5 @@ Posts
   <div class="cf"></div>
 </div>
 </div>
+</main>
 {{> footer}}

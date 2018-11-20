@@ -50,7 +50,7 @@ pre, code {font: inherit;}
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-subst {
-  color: {{dark_text}};
+  color: {{body_text_color}};
   font-weight: bold;
 }
 
@@ -69,7 +69,7 @@ pre, code {font: inherit;}
 .hljs-title,
 .hljs-section,
 .hljs-selector-id {
-  color: {{dark_text}};
+  color: {{body_text_color}};
   font-weight: bold;
 }
 
@@ -96,18 +96,19 @@ pre, code {font: inherit;}
 .hljs-symbol,
 .hljs-bullet,
 .hljs-link {
-  color: {{dark_text}};
+  color: {{body_text_color}};
   background: {{light_background}}
 }
 
 .hljs-built_in,
 .hljs-builtin-name {
-  color: {{dark_text}};
+  color: {{body_text_color}};
   text-decoration: underline;
 }
 
 .hljs-meta {
-  color: {{light_text}};
+  color: {{body_text_color}};
+  opactity:0.5;
   font-weight: bold;
 }
 
@@ -117,7 +118,7 @@ pre, code {font: inherit;}
 }
 
 .hljs-addition {
-  color: {{dark_text}};
+  color: {{body_text_color}};
   background: {{light_background}}
 }
 
