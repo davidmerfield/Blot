@@ -29,7 +29,8 @@ module.exports = function(blogDirectory, callback) {
     pathToGitRepository = pathToGitRepository.trim();
 
     debug("Comparing path to git repository and blog folder. Do they match?", pathToGitRepository === blogDirectory);
-
+    debug("Do they both exist? pathToGitRepository:", !!pathToGitRepository, 'blogDirectory?', !!blogDirectory);
+    
     if (pathToGitRepository !== blogDirectory) {
       var message = [
         "Git repo does not exist in blog folder for " + blogDirectory,
