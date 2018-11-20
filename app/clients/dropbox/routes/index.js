@@ -44,9 +44,17 @@ dashboard
   .get(require("./checkAppFolder"))
   .get(require("./askToMigrateIfNeeded"))
   .get(require("./createFolder"))
-  .get(require("./writeExistingContents"))
   .get(require("./saveDropboxAccount"))
+  .get(function(req, res, next) {
+    res.message("/", "Set up Dropbox successfuly!");
 
+    require("./writeExistingContents")(req, res, function(err) {
+      // Headers have been sent at this point, so just log this error
+      if (err) console.log("Dropbox authentication error:", err);
+
+      console.log("Blog:");
+    });
+  })
   // If we encounter some error during
   // the authentication flow, send them
   // back to the setup page where they started
@@ -70,9 +78,17 @@ dashboard
   })
   .post(require("./moveExistingFiles"))
   .post(require("./createFolder"))
-  .post(require("./writeExistingContents"))
-  .post(require("./saveDropboxAccount"));
+  .post(require("./saveDropboxAccount"))
+  .post(function(req, res, next) {
+    res.message("/", "Set up Dropbox successfuly!");
 
+    require("./writeExistingContents")(req, res, function(err) {
+      // Headers have been sent at this point, so just log this error
+      if (err) console.log("Dropbox authentication error:", err);
+
+      console.log("Blog:");
+    });
+  });
 // Will remove the Dropbox account from the client's database
 // and revoke the token if needed.
 dashboard
