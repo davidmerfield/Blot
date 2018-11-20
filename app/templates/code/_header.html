@@ -11,5 +11,106 @@
       <style type="text/css">
       {{{appCSS}}}
       
+@font-face {
+  font-family: 'Plex Mono';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/plex/mono/regular.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/mono/regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/mono/regular.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/mono/regular.woff2') format('woff2'); /* Very modern */
+}
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-weight: 400;
+  font-style: italic;
+  src: url('/fonts/plex/mono/italic.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/mono/italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/mono/italic.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/mono/italic.woff2') format('woff2'); /* Very modern */
+}
+
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-weight: 600;
+  font-style: normal;
+  src: url('/fonts/plex/mono/bold.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/mono/bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/mono/bold.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/mono/bold.woff2') format('woff2'); /* Very modern */
+}
+
+@font-face {
+  font-family: 'Plex Serif';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/plex/serif/text.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/serif/text.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/serif/text.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/serif/text.woff2') format('woff2'); /* Very modern */
+}
+
+@font-face {
+  font-family: 'Plex Serif';
+  font-weight: 400;
+  font-style: italic;
+  src: url('/fonts/plex/serif/italic.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/serif/italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/serif/italic.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/serif/italic.woff2') format('woff2'); /* Very modern */
+}
+
+
+@font-face {
+  font-family: 'Plex Serif';
+  font-weight: 600;
+  font-style: normal;
+  src: url('/fonts/plex/serif/bold.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/serif/bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/serif/bold.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/serif/bold.woff2') format('woff2'); /* Very modern */
+}
+
+body {font-family: 'Plex Serif';
+color: rgb(51, 51, 51);
+line-height: 1.7;
+}
+
+.entry p,
+.entry ul,
+.entry ol {
+    margin-bottom: 26px;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 36em;
+}
+
+.entry a {font-weight: 500;color:#000;border-bottom: 1px solid #ccc;text-decoration: none;}
+
+.entry ul,
+.entry ol {padding-left: 105px;max-width: 31em}
+
+.entry blockquote {
+      margin: 0 0 0 52.5px;
+    font-size: inherit;
+    font-weight: inherit;
+    font-style: normal;
+    color: #666;
+    max-width: 33em
+}
+code {font-family: 'Plex Mono'}
       </style>
   </head>
+  <body>
+  <div style="max-width:1024px;margin:0 auto">
+    <br><br>    <div style="display:flex;flex-direction:row">
+      <a href="/" style="color:inherit;text-decoration:none">{{title}}</a>
+      <div style="flex-grow:1">
+        {{#menu}}
+      <a href="{{url}}">{{label}}</a><br>
+      {{/menu}}
+    </div>
+    </div>
+    <br><br>

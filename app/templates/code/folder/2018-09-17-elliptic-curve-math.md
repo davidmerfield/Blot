@@ -1,7 +1,5 @@
 # Arithmetic on a very small elliptic curve
 
-[WIP]
-
 This document gives a detailed illustration of discrete elliptic curve mathematics.
 After reading this document, one should be able to carry out calculations on
 elliptic curves by hand. The document is broken down as follows:

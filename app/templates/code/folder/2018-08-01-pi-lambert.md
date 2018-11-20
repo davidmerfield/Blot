@@ -1,6 +1,4 @@
-# (Transcript) Mémoire sur quelques propriétés remarquables des quantités transcendentes circulaires et logarithmiques
-
-[WIP]
+# Mémoire sur quelques propriétés remarquables des quantités transcendentes circulaires et logarithmiques
 
 Par M. LAMBERT
 
