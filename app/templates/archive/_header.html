@@ -2,73 +2,52 @@
 <head>
   <title>{{> title}}</title>
   <style type="text/css">
-
 @font-face {
-  font-family: 'Cooper Hewitt';
+  font-family: 'Plex Sans';
   font-weight: 400;
   font-style: normal;
-  src: url('/fonts/cooper-hewitt/book.eot'); /* IE9 Compat Modes */
-  src: url('/fonts/cooper-hewitt/book.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('/fonts/cooper-hewitt/book.woff') format('woff'), /* Pretty Modern Browsers */
-       url('/fonts/cooper-hewitt/book.svg#Cooper%20Hewitt') format('svg'); /* Legacy iOS */
+  src: url('/fonts/plex/sans/text.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/sans/text.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/sans/text.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/sans/text.woff2') format('woff2'); /* Very modern */
 }
-
-@font-face {
-  font-family: 'Cooper Hewitt';
+ @font-face {
+  font-family: 'Plex Sans';
   font-weight: 400;
   font-style: italic;
-  src: url('/fonts/cooper-hewitt/book-italic.eot'); /* IE9 Compat Modes */
-  src: url('/fonts/cooper-hewitt/book-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('/fonts/cooper-hewitt/book-italic.woff') format('woff'), /* Pretty Modern Browsers */
-       url('/fonts/cooper-hewitt/book-italic.svg#Cooper%20Hewitt') format('svg'); /* Legacy iOS */
+  src: url('/fonts/plex/sans/italic.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/sans/italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/sans/italic.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/sans/italic.woff2') format('woff2'); /* Very modern */
 }
-
-@font-face {
-  font-family: 'Cooper Hewitt';
-  font-weight: 500;
+ @font-face {
+  font-family: 'Plex Sans';
+  font-weight: 600;
   font-style: normal;
-  src: url('/fonts/cooper-hewitt/medium.eot'); /* IE9 Compat Modes */
-  src: url('/fonts/cooper-hewitt/medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('/fonts/cooper-hewitt/medium.woff') format('woff'), /* Pretty Modern Browsers */
-       url('/fonts/cooper-hewitt/medium.svg#Cooper%20Hewitt') format('svg'); /* Legacy iOS */
-}
-
-@font-face {
-  font-family: 'Cooper Hewitt';
-  font-weight: 500;
-  font-style: italic;
-  src: url('/fonts/cooper-hewitt/medium-italic.eot'); /* IE9 Compat Modes */
-  src: url('/fonts/cooper-hewitt/medium-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('/fonts/cooper-hewitt/medium-italic.woff') format('woff'), /* Pretty Modern Browsers */
-       url('/fonts/cooper-hewitt/medium-italic.svg#Cooper%20Hewitt') format('svg'); /* Legacy iOS */
+  src: url('/fonts/plex/sans/bold.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/plex/sans/bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/plex/sans/bold.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/plex/sans/bold.woff2') format('woff2'); /* Very modern */
 }
 
 
-body {font-family: 'Cooper Hewitt', sans-serif;font-size: 18px;margin: 0;padding: 0}
+body {font-family: 'Plex Sans', sans-serif;font-size: 16px;margin: 0;padding: 0}
   </style>
 </head>
 <body>
 
 <div class="header">
   <div style="padding:0.25rem 0;display:flex">
-<div style="margin-right:1rem"><a class="index" href="/">Reference</a></div>
+<div style="margin-right:1rem"><a class="index" href="/">{{title}}</a></div>
 <!-- <div style="margin-right:2rem">
 An archive of references used to design <a href="https://blot.im">Blot</a>.
 </div> -->
 </div>
 
-<form action="/search" style="flex-grow:1;margin-right:.75rem">
+<form action="/search" style="margin:0;flex-grow:1;margin-right:.75rem;display:flex">
 
-
-<div class="tags menu" style="display:flex;">
-<a href="/">Show all</a>
-{{#allTags}}
-<a href="/tagged/{{slug}}">{{tag}}</a><br>
-{{/allTags}}
-<a href="">View all categories <span style="float:right">&rarr;</span></a>
-
-</div>
-
+  <input type="text" placeholder="Search" style="flex-grow:1"name="q">
+  <input type="submit" style="background:black;color:white;border-radius:0.25rem;cursor:pointer">
 
 </form>
 
@@ -81,18 +60,25 @@ An archive of references used to design <a href="https://blot.im">Blot</a>.
 .index {padding: 1rem}
 .menu a:hover,
 a.index:hover {background: black;color: white}
-form input {font-size: inherit;border:none;line-height: inherit;padding: 0.25rem 0}
-form input[type="text"] {flex-grow:1;}
+form input {font:inherit;font-size: 14px;border:none;line-height: inherit;padding: 0.25rem 0}
+form input[type="text"] {flex-grow:1;padding:10px 20px;background: #eee;margin:4px;border-radius: 4px;cursor:pointer;}
+form input[type="submit"] {}
 form input:focus {outline: none;background: #eee}
 .menu a[href="/search"] {display: none;}
 </style>
-<div style="float:right;opacity:0.5;margin-left:.75rem" class="menu">
-    <div style="display:flex">
-  <input type="text" placeholder="Search" name="q">
-  <input type="submit" style="background:black;font:inherit;color:white;border-radius:0.25rem;cursor:pointer">
-</div>
+<div>
 {{#menu}}
 <a href="{{url}}">{{label}}</a>
 {{/menu}}
 </div>
 </div>
+
+<div style="width:150px;padding:0 20px;float:left">
+<a style="border-top:1px solid #eee;color:#aaa;display:block;font-size:12px;text-decoration:none;padding-bottom:20px" href="/">&darr; All topics</a><br>
+{{#allTags}}
+<a href="/tagged/{{slug}}" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.3333);margin-bottom:10px;display:inline-block">{{tag}}</a><br>
+{{/allTags}}
+<a href="">View all categories <span style="float:right">&rarr;</span></a>
+
+</div>
+<br>
