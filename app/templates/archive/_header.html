@@ -32,54 +32,53 @@
 
 
 body {font-family: 'Plex Sans', sans-serif;line-height:1.5;font-size: 16px;margin: 0;padding: 0}
+
+.header {display: flex;width:100%;padding:0.75em 0;}
+
+.header a {color: black;text-decoration: none;color: #aaa}
+
+.header a,
+.header input {
+  margin:4px 0;display: inline-block;border-radius: 4px;padding: 2px 6px
+}
+
+.menu {display: flex;flex-wrap:wrap;flex-basis:20%;}
+
+
+.header a:hover {background: #eee}
+
+form input {font:inherit;font-size: 14px;border:none;line-height: inherit;padding: 0.25rem 0}
+form input[type="text"] {flex-grow:1;background: #f2f2f2}
+form input:focus {outline: none;background: #eee}
+.menu a[href="/search"] {display: none;}
   </style>
 </head>
 <body>
 
-<style type="text/css">
-.header {display: flex}
-.header a.index,
-.header .menu a {color: black;text-decoration: none;}
-.menu {display: flex;flex-wrap:wrap;flex-basis:20%;}
-.menu a {width: 20%;padding:0.25rem 0;border-top: 1px solid black;}
-.index {padding: 1.5em;font-size:16px;font-weight: 600}
-.menu a:hover,
-a.index:hover {background: black;color: white}
-form input {font:inherit;font-size: 14px;border:none;line-height: inherit;padding: 0.25rem 0}
-form input[type="text"] {flex-grow:1;padding:6px 20px;background: #eee;margin:4px;border-radius: 4px;cursor:pointer;}
-form input[type="submit"] {}
-form input:focus {outline: none;background: #eee}
-.menu a[href="/search"] {display: none;}
-</style>
-
 <div class="header">
-  <div style="display:flex;width:100%">
 
+  <div>
+    <a class="index" style="font-size: 13px;padding-left:1.5em;padding-right:1.5em" href="/"><b>{{title}}</b></a>
+    {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
+    <div style="height:0;overflow:hidden">{{> sidebar}}</div>
+  </div>  
 
-<div style=""><a class="index" href="/">{{title}}</a>
-<div style="height:0;overflow:hidden">{{> sidebar}}</div>
-</div>
-
-<div style="flex-grow:1;padding-left:2.5rem;flex-basis:33%">
+  <div style="flex-grow:1;flex-basis:33%;padding-left:1.5em;margin-left:-6px">
     {{#menu}}
-<a style="line-height:24px;font-size:15px;margin:0 0.75rem;color:inherit;text-decoration:none" href="{{url}}">{{label}}</a>
-{{/menu}}
+    <a style="margin-right:0.75em;font-size: 13px;" href="{{url}}">{{label}}</a>
+    {{/menu}}
+  </div>
+
+  <form action="/search" style="margin:0;flex-grow:1;font-size: 13px;margin-right:1.5em;flex-basis:25%;display:flex">
+
+    <input type="text" placeholder="Search" style="flex-grow:1"name="q">
+    <input type="submit" value="Search" style="display:none;background:black;margin-left:4px;color:white;cursor:pointer">
+  </form>
+
+  <div style="font-size: 13px;">
+  <a>{{#pagination}}Page {{current}} of {{total}}{{/pagination}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  {{#pagination.next}}<a  href="/page/{{pagination.next}}">Next page &rarr;</a>{{/pagination.next}}
+  </div>  
 </div>
 
-<form action="/search" style="margin:0;flex-grow:1;margin-right:.75rem;display:flex">
-
-  <input type="text" placeholder="Search" style="flex-grow:1"name="q">
-  <input type="submit" style="background:black;padding:0;line-height:0;color:white;border-radius:0.25rem;cursor:pointer;height:26px">
-
-</form>
-</div>
-
-<div>
-
-</div>
-
-
-</div>
-
-
-<hr style="opacity:0.5">
+<!-- <hr style="opacity:0.5;margin:0;border:none;border-bottom:1px solid rgba(0,0,0,0.333)"> -->
