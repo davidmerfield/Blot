@@ -1,0 +1,85 @@
+Title: The Gift in Our Work
+Permalink: the gift in our work
+Date: September 25 2015
+Tags: mixpost, writing, design, work
+
+The Gift in Our Work
+====================
+
+<p2>Current Status: Officing it. Coffeing it. Sonosing it loud here to the sounds of some Newfangleder's energetic Spotify playlist. Current song: something called *Lights On* by Big Grams. I have not heard of this. Let's get into it. I've got a mixpost for you this week (and sorry, all you early risers, it's a bit later than usual)…</p2>
+
+<p2>— CB, September 25, 2015</p2>
+
+<p style="text-align:center;">⚅</p>
+
+Track (1) **Everyone lies about writing.**
+
+...So says Amy Poehler, in her book, *Yes, Please* (thank you, Austin Kleon, for <a href="http://tumblr.austinkleon.com/post/129596341201" target="_blank">quoting Amy</a>, as I have not read her book). She goes on to say this:
+
+> "...They lie about how easy it is or how hard it was. They perpetuate a romantic idea that writing is some beautiful experience that takes place in an architectural room filled with leather novels and chai tea. They talk about their ‘morning ritual’ and how they ‘dress for writing’ and the cabin in Big Sur where they go to ‘be alone’ - blah blah blah. No one tells the truth about writing a book. Authors pretend their stories were always shiny and perfect and just waiting to be written. The truth is, writing is this: hard and boring and occasionally great but usually not..."
+
+Amy Poehler is absolutely right. The thing is, even her admission fits squarely within the romanticism of the writer's "struggle." Yes, it's true that the process of writing is almost entirely unromantic and almost always looks like anything other than what that Pinterest board of writer's spaces depicts. But the writer-coming-clean-on-the-banality-of-writing trope is almost as romantic as the romanticism it ostensibly recants. Like I said, it's not that it's false. It's just that it's another way the writer &mdash; post-publication, of course &mdash; sets themselves apart from those who haven't struggled as they have. Maybe I'm fussing unnecessarily over this. I don't know. But what Amy Poehler's words reminded me is that there are many more lies about writing that we tell and tell ourselves than just the "whitewashing" of the process itself. Having been through it myself, I'll agree: it's very little fun. But here are a few other admissions of my own that I'd wager more writers *could* make than do: 
+
+
+- My book didn't need to be written. As it turns out, there were many better books covering the topics that mine covered before, during, and after my book.
+- I attempted to write as evergreen a treatment of web design as possible. But three years later, there remain only three out of nine chapters that I would be OK with any designer reading.
+- Even in 2012, my book didn't need to be as long as it was. It could have been a brief booklet, or a longform series of web articles. It probably would have been better that way. But no, *writing a book* was more important to me than maintaining the integrity of the information and perspective it contained.
+- Without exception, I've had more fun writing for periodicals and (especially) the web than I did writing the book.
+- Just about everything I've written for periodicals and the web is better and more worthy of being re-read than my book.
+- I actually made money on the book, which makes me feel worse about it than had I made no money on it, which is also a fashionable thing to say about writing now.
+
+<p style="text-align:center;">⏥</p>
+
+Track (2) **Design is Discovery**
+
+Because we're just a little over a week away from the <a href="http://howinteractiveconference.com/index.php/chicago" target="_blank">HOW Interactive Conference</a> (HIDC) in Chicago (which means it's not to late to <A href="http://howinteractiveconference.com/index.php/register" target="_blank">get a ticket</a> &mdash; use coupon code BUTLER50 for a discount &mdash; and join me there!), I've been thinking over my expectations for the event, what I hope to learn, and what I hope to share when I kick it off on Monday morning. Here's what's on my mind right now:
+
+A few weeks ago, I discovered that Netflix had a collection of episodes of *Mister Rogers' Neighborhood*. So one evening, I arbitrarily chose an episode for my wife and I to watch. (Ok, Ok, I *probably* chose it because its thumbnail image shows Mister Rogers drawing with crayons at an easel.) We both grew up on Mister Rogers; he is the patron saint of our household. A few minutes in to the episode, Mister McFeely stops by with a "speedy delivery" &mdash; a VHS tape. We both looked at one another, knowingly. This was going to be a *Picture Picture* sequence. A big deal. Mister Rogers loaded the tape. Picture Picture's abstract painting dissolved into the image of a train. Mister Rogers began to narrate, "There's the railroad tank car which carries the hot wax..." At this point, my wife let out a shriek of joy the likes of which I have never heard. This was the one where Mister Rogers takes us <a href="https://www.youtube.com/watch?v=5xhbctEcAAA&index=6&list=PLeR7OoiubDbZfGzxVEQZBhKCgQDJ8RduM" target="_blank">behind the scenes at a crayon factory</a>. Basically, toward the top of '80s Childhood Canon.
+
+There's a unique delight to going behind the scenes and seeing how things work and how new things are made. Mister Rogers understood that even the most mundane thing &mdash; like a crayon, for instance &mdash; represented vast wonder and unknown secrets to a child. Sadly, that's something we lose as we grow older. *Partly* because we learn so much about how things work and how new things are made as we age, but *mostly* because we begin to value knowing things more than learning things, which shuts down the abundant flow of wonder and discovery this world has to offer and reduces it down to a weak trickle that, frankly, is treated as a nuisance most of the time. Of course, it doesn't have to be this way. And you and I, we have the privilege of doing the kind of work that necessitates returning to that flow again and again. The discipline of design is pretty unique that way. Unlike other professions, it is one where discovery, learning, and adaptation are in a constant cycle. There is *always* another way something can be done. There are few rules. All that matters is that how you do something serves the purpose of achieving a clear goal. There's such freedom in that. An accountant has no such latitude. The numbers either add up or don't. In so many professions, the rules outnumber the unknowns. And ironically, in design, there's a tendency to impose rules in order to solidify the *professionalism* so often assumed to not exist in our profession. Wow, isn't that beside the point. It's not that there are no rules &mdash; sure there are some &mdash; but let's not squander the incredible privilege we have to work in a space so naturally unencumbered by them by becoming more dogmatic because it looks more serious to the outside eye.
+
+Take a moment to watch that *Picture Picture* sequence. Or, any of the others I'm gathering in <a href="https://www.youtube.com/playlist?list=PLeR7OoiubDbZfGzxVEQZBhKCgQDJ8RduM" target="_blank">this playlist of behind-the-scenes videos</a>. Rediscover how simple things are made. Pay attention to how it feels to learn something new &mdash; to acknowledge that there was something simple you didn't know, and to make space for it in your mind. Practice it. Make it a part of your daily routine. This, *how to learn*, above all other things, is the most important tool a designer wields and the gift in our work.
+
+<p style="text-align:center;">➴</p>
+
+Track (3) **Speaking of Tools**
+
+For years, my firm has used a homegrown prototyping tool to design and build complex, interactive website and software prototypes before we actually go and design and code the real thing. The Newfangleders who create these prototypes use a simplified CMS to construct the overall page/screen structure, then custom-code the rest. HTML, CSS, Javascript. The only difference between this thing and the *real* thing is that there's no database behind it. Any interaction is kind of smoke and mirrors. This is how we've been doing it for 15 years. But what began as "rapid prototyping" has become a little less than rapid.
+
+So I've been searching for options. Not necessarily a replacement of our current system &mdash; it's still pretty ideal for very complex, long-term projects &mdash; but alternatives we could use for simpler projects. At the least, having choices before we begin would be healthy. I've looked at all kinds of tools and systems, many of which are really great and quite similar to our own (Protoshare, Axure, etc.), but settled on an approach mostly because of how different it is. I've been using Sketch and Invision to create a proof-of-concept prototype and, man, it's pretty great. There's no code. Literally none. I mock up my screens in Sketch using entirely drawing and drag-and-drop conventions (which, by the way, makes me wonder when I'll ever feel the need to fire up Photoshop again) and then stitch them together in Invision. It's crazy fast. And yes, it has limitations. But the speed, portability, and lack of prerequisites make it a great option for the team when slogging through code for weeks maybe isn't the best use of their time. Anyway, we haven't put it to the client test yet, but several friends of mine who have their own shops have and their reports are encouraging. I'll let you know how it goes. And, of course, I'd be very interested in hearing your thoughts on these tools if you've had occasion to use them.
+
+
+<p style="text-align:center;">✏</p>
+
+Track (5) **Sketchbooks**
+
+I used to be a religious keeper of sketchbooks. But sometime over the last few years, I've fallen away. I'm not sure why. Time. Screens. All of that. Here's <a href="https://www.flickr.com/photos/humanprogresslandscape/albums/72157652235443830" target="_blank">the last one I kept</a>. Well, in prep for my sabbatical, I'm going to try to get back in to it. I purchased a small (5.5 x 8.5) Stillman & Birn Epsilon sketchbook. I'm looking down at it right now and it's emptiness is intimidating. It's crisp, clean, unweathered, scary. My goal is to put something in it every single day from now on. At that rate, I'll fill it somewhere between now and a couple of months from now. We'll see how it goes and I'll share with you the results. In the meantime, I want to see your sketchbooks! Hit reply and show me whatcha got.
+
+
+<p style="text-align:center;">♬</p>
+
+**Heavy Rotation**: A selection of songs from my growing "Cooking, Fall 2015" playlist:
+
+- *Don't Come Close*, Yeasayer
+- *Not Getting There*, Blond Redhead
+- *Lilies*, Bat for Lashes
+- *War Machine*, Bill Fay
+- *Gimme Shelter*, The Rolling Stones
+- *The Rover*, Led Zeppelin
+- *The Underdog*, Spoon
+- *Provider*, Midlake
+- *Solsbury Hill*, Peter Gabriel
+- *How to Disappear Completely*, Radiohead
+- *Yet Again*, Grizzly Bear
+- *Into the Great Wide Open*, Tom Petty
+- *Van Diemen's Land*, U2
+- *Directions*, Josh Rouse
+- *Into Your Arms*, The Lemonheads
+- *No Widows*, The Antlers
+- *A Summer Song*, Chad & Jeremy
+- *Kanta's Theme*, Chris Walla
+
+<p style="text-align:center;">☍</p>
+
+**Recent Tabs**: I want to steal <A href="http://www.domusweb.it//content/domusweb/en/news/2015/09/18/architecture_practice_experimentation_hedge_school.html/" target="_blank">this design and build a planthenge</a> in my backyard forthwith. <a href="http://danielmall.com/articles/time-for-work/" target="_blank">Time for work</a>. <a href="https://source.opennews.org/en-US/articles/whole-work/" target="_blank">The whole of work</a>. Oh, and "<a href="http://www.paulgraham.com/work.html" target="_blank">if something that seems like work to other people doesn't seem like work to you, that's something you're well suited for</a>." So here are <A href="http://lunar.lostgarden.com/Rules%20of%20Productivity.pdf" target="_blank">8 productivity experiments</a> you don't need to repeat. <a href="http://nymag.com/scienceofus/2014/08/sleep-hack-keep-one-foot-outside-your-covers.html#" target="_blank">Why</a> you should keep a foot outside your covers. <A href="https://www.quora.com/What-myths-do-we-most-commonly-realize-are-false-in-our-20s/answer/Carolyn-Cho?srid=n2Fg&share=1" target="_blank">What myths do we most commonly realize are false in our 20s</a>? Deck the halls <a href="http://www.theatlantic.com/technology/archive/2015/09/when-gifs-rule-the-living-room/406918/" target="_blank">with GIFs</a>. No one really knows <a href="http://www.fastcompany.com/3050535/how-cartrivisions-1972-vcr-foresaw-and-forfeited-the-time-shifted-future" target="_blank">what *hipster* means</a>. It appears that the rental-movies-by-mail service was <a href="http://www.fastcompany.com/3050535/how-cartrivisions-1972-vcr-foresaw-and-forfeited-the-time-shifted-future" target="_blank">actually invented in 1972</a>. Friend of *Don't Think About the Future* (and subscriber), Erin McKean, is looking for <a href="https://www.kickstarter.com/projects/1574790974/lets-add-a-million-missing-words-to-the-dictionary" target="_blank">a million words missing from the dictionary</a>. You *must* read Maciej Ceglowski's latest talk, <a href="http://idlewords.com/talks/what_happens_next_will_amaze_you.htm" target="_blank">*What Happens Next Will Amaze You*</a>.  
+

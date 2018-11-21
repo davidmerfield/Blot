@@ -1,0 +1,15 @@
+Title: Colophon
+Page: yes
+Permalink: colophon
+Date: Nov 1 2016
+Tags: design
+
+<h2>This site was created using <a href="http://www.blot.im" target="_Blank">Blot</a>, a wonderfully simple flat-file CMS that lets me maintain ownership over every piece of content I create.</h2>
+
+<h2>That means that this page — and every other page on my site — is a simple text file that I wrote using either <A href="https://en.wikipedia.org/wiki/TextEdit" target="_blank">TextEdit</a> or <a href="https://ia.net/writer" target="_Blank">iA Writer</a> and saved to <a href="http://www.dropbox.com" target="_blank">Dropbox</a>, a cloud-based file storage and management system. Pretty neat, right?</h2>
+
+<h2>Believe it or not, I'm using one of Blot's default themes (it's called "Default") but I've customized it a bit. I can do that because Blot gives me access to every line of code of its templates and CSS, not just bits and pieces of them. So, I styled it, but the design credit goes to <A href="https://twitter.com/lllIIlIlIl" target="_blank">David Merfield</a>, the creator of Blot.</h2>
+
+<h2>All text is set in <a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank">IBM Plex Sans</a> and <a href="https://fonts.google.com/specimen/IBM+Plex+Mono" target="_blank">IBM Plex Mono</a>.</h2>
+
+<h2>Occasionally, I'll include an image or a photo on a page, and unless otherwise noted, they're created by me.</h2>

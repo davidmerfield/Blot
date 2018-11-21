@@ -1,0 +1,175 @@
+Title: The Most Difficult Thing About Design
+Permalink: the most difficult thing about design
+Date: February 19, 2016
+Tags: design
+
+The Most Difficult Thing About Design
+====================
+
+<p2>I've been thinking all week about design. What is design, exactly? Is it an idea? An action? A thing? Linguistically, it's all of those things. There's Design with a capital "D" — the theoretical, the academic, the intellectual. There's the design we *do*, as in, *I design ______*. And then there's the design*ed* — the thing itself. The proposal. The plan. The *design*. And yet, none of those designs seem quite adequate to represent Design. I've always appreciated the expression that to design is *to form with intent*. It's appropriately general, broad, context and media-agnostic. I suppose it's the broad scope of design that makes it so challenging. And so rife with the angst of a slew of other d-words: difficulty, disagreement, disappointment, disorder, disaster. Oh, and let's not forget, it's a privilege. As each of these thoughts has wandered through my mind this week, I thought often of a piece I wrote on design almost four years ago. I read back over it and was pleased at how little I wanted to change. And since it's pretty likely that most of you didn't know I even existed four years ago (except for you, Mom!), and even more likely that most of you haven't read it (except for you, Mom!), I thought I'd dig it out of the archive, update it here and there, and share it with you. It's a long one, so find a comfortable spot and settle in. And, as always, I'd love to hear what you think. Holla at me (chrbutler {at} gmail dot com).</p2>
+
+<p2>— CB, February 19, 2016</p2>
+
+<p style="text-align:center;">⦠</p>
+
+**What is the most difficult thing about design?** I'd bet that most people with a little experience would answer that question with the *technical*: materials, programming, infrastructure, performance. But I'd argue with them.
+
+Technology poses all kinds of difficulties, but it is rarely the greatest challenge. This is because the expertise required to do the technical work — even to understand it — is held by few. Those that don't have it tend to know that and be OK with it. More than that, *not* knowing much about it often makes it an easy object of their reverence. Design, however, receives no such honor. Occasionally, a design*er* acquires a cult of personality, but the awe with which he or she is beheld rarely acts as a firewall for the criticism, complaints, and correction the things they make receive. Just ask Jony Ive. Once his stuff hits the shelves, everyone is a designer. Imagine, then, the sorts of conversations that happen behind the scenes. Before the marketing. Before the packaging. Before the unboxing.
+
+In my experience, the design process always presents unanticipated difficulty to everyone, delaying production and introducing interpersonal stresses that had been absent from the project beforehand. In fact, almost every delay or drama that I can recall in my career can be traced, ultimately, to matters of design, not technology. It happens so often that it should no longer be a surprise. And yet, it almost always is. Why?
+
+The reasons are many, of course. But the fundamental reason, I believe, is that design — specifically, when we start making visual decisions — is the first point in a project when we begin to engage one another in emotionally vulnerable ways. Every point in the process is an opportunity to second guess *who is in control?* and *how do I feel about that?* but design lacks the the social decorum of sales negotiations and the regimentation of information architecture planning. There’s simply no way to anticipate how you will feel, Client, upon seeing that first mockup, or how you will respond, Designer, to that initial deluge of feedback. David Kelly, founder of IDEO, once said that “<A href="http://ecorner.stanford.edu/videos/686/Design-as-an-Iterative-Process;jsessionid=5E5C2309562D2DC56B365BF1433BEA37" target="_blank">you don’t find anything out until you start showing it to people</a>.” While he was specifically talking about getting functional feedback from prototypes, I think his point can be broadened to include design in general: A description of how something might look — ”the site will be mostly blue” — will rarely elicit useful feedback, but once you show someone what you mean — an actual image of that first, blue screen, for instance — things will get real. Real is good, if you know it’s coming; not so good if you don’t. Most of the time, we don’t. Oh, and *real* is tough-kid lingo for *vulnerable*. But few of us establish the trust necessary to make vulnerability possible, safe, or productive. Getting surprised by real without trust: that’s what begins a fierce match of emotional-reaction ping-pong, and let’s be honest, games like ping-pong are much more fun when you’re tipsy and don’t care about winning. So, what can we do?
+
+Our strategies for dealing with the unquantifiable difficulties of design should take two forms: Strategies for beginning, and strategies for keeping things moving forward. Beginning and progressing both require leadership, and if there is one true thing of all good leaders, it is that they are willing to accept that they are often their own worst enemy and have the courage to change for the sake of progress. This is what we must learn to do. We don’t fail at design because we lack tools, time, money or the right clients. We fail at design because we lack *insight*. We don’t fail at design, we fail our design.
+
+So, how do we begin? With philosophy. A beginning without it is accidental, something you stumble into. So, to keep our beginnings intentional, some first principles:
+
+&nbsp;
+
+<h3 style="text-align:center;">Your ego is a bad designer.</h3>
+
+Several years ago, AgencyPJA CEO Phil Johnson wrote a great line about not letting your ego get in the way of your work. He says, “<a href="http://adage.com/article/small-agency-diary/advertising-job-advice-ad-agency-ceos/145861/" target="_blank">I take care of my ego at home</a>,” which frees him up to make better, more selfless decisions at work. This is a profound nugget of wisdom that applies to any work, by anyone, anywhere. But what of design? For you, Designer, it’s a matter of expectations. Are you using your work to take care of your ego? Or are you secure enough to do the work your job actually requires?
+
+&nbsp;
+
+<h3 style="text-align:center;">That doesn’t mean “stop caring."</h3>
+
+There’s a difference between ego-driven design and design that has a point of view. The greater role your ego takes in your work, the more often you will feel disappointed by it. So ego-control is a necessary sanity-preserving, professional survival strategy. But that doesn’t mean that you cannot be you. Ego-control doesn’t mean less of *you*, it means less pressure on your work to prove who you are. With that pressure off, you can be free to look honestly at your work and establish a point of view that will not only be sharper, but much more likely to benefit your client. As my friend <A href="https://www.newfangled.com/team/justin-kerr-blog/" target="_blank">Justin</a> has said to me many times, ego is not the same thing as passion.
+
+&nbsp;
+
+<h3 style="text-align:center;">Your design is probably not art.</h3>
+
+A fundamental difference between design and art is in whom each serve. Art first serves the artist; it is a vehicle for self-expression. From there, it serves others just by existing, by inspiring, by showing what’s possible. Design, on the other hand, should never first serve the designer. The designer is always rendering a service to someone else. Design serves the client, the process of serving the client serves the designer. Unlike art, design is not primarily a vehicle for self-expression. (Designers may express themselves in their work; good design does not demand it.) In other words, design is not all about you.
+
+&nbsp;
+
+<h3 style="text-align:center;">Your job isn’t to make art, anyway.</h3>
+
+Your job is to solve a business problem, not to create a thing of beauty. Your ideals — what you feel is attractive, innovative, or effective — are secondary to what your client needs. You may have good reason to doubt your client’s assessment of what they need. It’s common to want the opposite of what you need. But first, question your own needs. It’s just as common for designers to want the opposite of what their clients need.
+
+&nbsp;
+
+<h3 style="text-align:center;">Good design is rarely recognized.</h3>
+
+Don’t expect recognition. If what you’re creating replaces something of significantly less quality, then sure, some user down the line may think, “wow, this is well designed,” but that fantasy should not stand in for your goal. Put it out of your mind immediately. Most people don’t acknowledge great design because well-designed things always take a back seat to the experience they create. A designer may recognize the fundamental role that design plays in making great experiences possible, but most people don’t. But they do recognize when design fails.
+
+Product reviews demonstrate this very well, which is why most of them are either *best-in-the-world!* or *worst-in-the-world!* In between those extremes is the majority of responses to products and services, which can be positively expressed as satisfaction, or—perhaps more cynically—as “it was fine.” Fine may not inspire any shouting from the rooftops, but it does get return customers. This isn’t to say that you shouldn’t aim for best-in-the-world quality — you absolutely should — just don’t expect best-in-the-world accolades. Good design often hides itself, but bad design can’t be hidden.
+
+&nbsp;
+
+<h3 style="text-align:center;">Nobody wants to be a guinea pig.</h3>
+
+Unless your client is one of the rare breed that is interested in paying for experimentation — there are such wonderful people, by the way — keep your project out of your laboratory. In general, you should consider your every impulse to “try something new” out on a client project suspect. Is that “something new” aspirational for you? Or is it *evidential*, informed by your client’s situation? You know the answer. But do you have the integrity to act accordingly?
+
+&nbsp;
+
+<h3 style="text-align:center;">“Maximum idea, minimum stuff.”</h3>
+
+<a href="http://russelldavies.typepad.com/planning/2007/03/bright_green.html" target="_blank">I stole this from Russell Davies</a>. I’ve written it on a post-it note and stuck it up near my desk so that I remember it and apply it to everything I do. It speaks for itself. Maybe I'll frame that post-it.
+
+&nbsp;
+
+<h3 style="text-align:center;">Progressing</h3>
+
+Your progressing strategies should kick in as soon as you’re ready to present your work for the first time. *Progress*, from this point forward, has two meanings. The obvious one is the process of getting closer and closer to an approved design. The not-so-obvious meaning has to do with making relational progress. No matter what you’ve done by now — whether that be discovery, branding, prototyping, or what have you — don’t assume that everyone knows and trusts one another implicitly. Making progress here requires that you continue to earn your client’s trust.
+
+&nbsp;
+
+<h3 style="text-align:center;">Put words to reality before reality kicks in.</h3>
+
+More and more, I’m of the opinion that *before you show anything*, your client needs to be truly prepared for what the design process will involve. Not in terms of deliverables and schedules — what they’ll see and when — but in terms of the unspoken but extraordinarily powerful subtext that will drive the process from this point forward.
+
+Most design feedback is emotional, not rational. When design feedback is incoherent, for example, it’s usually the result of your client feeling out of control and grasping for ways to express their discomfort. And you know what? They are right to feel that way. When David Kelly says “you don’t find anything out until you start showing it to people” it’s obvious that the “you” is you, and the “people” are your clients. But what if we were to switch those pronouns? “You” now refers to your clients, who don’t find out how they feel until they see what you show them, and then, in that same moment, they start showing it to you. And what do you usually do? You get defensive. That’s a shame, especially when what your clients really need is guidance, not an argument.
+
+It doesn’t have to be that way. Not if you prepare your clients with care for what they are about to experience. So, *before you show them anything*…
+
+Never “post” work for the client to view on their own. I realize that this seems considerate — you letting them have space to look at the work and talk amongst themselves — but it actually ignores what they need, which, at this point, is primarily guidance. When you do this, you’ve dropped them in the middle of the jungle alone. While you’re flying back to safe, predictable civilization in your helicopter, they’re cursing you, the guide who abandoned them. Instead, prepare your work visually and thoughtfully, with detailed rationale and talking points, and first gather your team for a pre-presentation huddle. Make sure you and your colleagues are of one accord on what you’ve done and *why* you’ve done it. Decide who on your team will be the mouthpiece. (It’s not that only one of you should talk and everyone else hang back awkwardly. You can distribute your presentation, just do it intentionally.) Then, get in touch with your client to let them know that you’re ready to show them some work and suggest a time to do that. Make sure it’s *enough* time. 30 minutes is probably not enough for a first design review; 1-2 hours is more like it.
+
+At the meeting, don’t begin by showing your work. Start with an introduction that acknowledges the difficulty placed on anyone in seeing things for the first time. And really, say that. Say that you know it's awkward. Say that you know that they'll have all kinds of thoughts and feelings about what they see and that there's no pressure on them to commit to any of those thoughts and feelings. Give them permission to express themselves fully and messily in response to what they see. Remind them that this is valuable to you, that outward processing helps to exercise emotional responses — which are natural to all human beings — and progress toward more rational ones. Remind them that this process will help you to improve the work you’ve done. That’s the purpose of design reviews. They’re not obligatory I-guess-we-have-to-at-least-show-them-what-it’s-going-to-look-like-but-let’s-make-it-as-quick-as-possible-because-god-there’s-nothing-worse-than-client-opinions sessions <eyeroll>. They’re *opportunities* for you to further coalesce as a team and produce better work. You need to hear what is said at these reviews just as much as your client needs to see what you’ve made.
+
+&nbsp;
+
+<h3 style="text-align:center;">Now, it's safe to look.</h3>
+
+*But*, make sure you methodically lead them through that process, explaining your vision and rationale as you show it. This is not a big-reveal with an accompanying moment of silence. This is a presentation that is as much verbal as it is visual. You may believe in your design, but don’t expect that “good” design will be recognized for its merits. That usually doesn’t happen. Even good ideas need to be sold. You need to explain why you did what you did and why you believe it makes sense. Remind your client of their priorities and refer to them often. Showing them your solution means also showing them *why* it works.
+
+After you’ve shown everything, open things up for discussion, giving your client the space you just promised them to say *whatever* they need to say. Listen and take notes. If you hear things you don't like, put the debate you want to have quietly down on paper and save it for later, when you are feeling less defensive and your client trusts you more because you didn’t interrupt them and tell them why what they feel is wrong. This may feel risky, but what’s the worst thing that will happen? They might say something aloud that they otherwise would have kept silent and expressed in some later action that perplexed and frustrated you? Someone might agree with them? Perhaps, but it's better to be there to hear it if it's true. See, *how* they feel is out of your control. But how they *express* how they feel is not. My sense is that having been introduced to the work through your detailed and thoughtful presentation and then granted the freedom to express how they feel about it, their outward processing will be mostly positive. Many land mines will have been diffused. In your willingness to hear what they have to say, you’ll have demonstrated confidence that will, in turn, make them more confident in you.
+
+&nbsp;
+
+<h3 style="text-align:center;">I’m a designer, dammit, not a therapist!</h3>
+
+That’s true. But you have a choice: Offer your clients the human decency that you’ve decided to dismiss as “therapy,” or continue on as you were, building up a nice layer of angst and bitterness that you will someday pay a professional $120/hour to help you chip away. In therapy.
+
+&nbsp;
+
+<h3 style="text-align:center;">Moving on…</h3>
+
+Once you’re past the first review and have set a precedent for healthy communication, open processing, and trust building, all of that needs to be maintained without compromising the other sort of progress I mentioned: getting closer to approval. The rest of this has to do with the narrowing funnel — the iterative steps forward you will take.
+
+&nbsp;
+
+<h3 style="text-align:center;">Don’t accuse. Explain.</h3>
+
+It’s frustrating when feedback makes no sense. But you have to take the high road. The double-standard of designer-client relationships is that your clients get to be emotional, irrational, and reactive, but you don’t. You get to absorb all of that and gently guide. That doesn’t mean you don’t push back at times, it just means that you do so respectfully, carefully and calmly.
+
+Let’s say your client has said for the third time that the way you’ve arranged elements in the header is “just not quite right.” You’re starting to feel that you’re in an endless cycle of “…No? How about now? No? How about now? No? How about…” Maybe you are, but that’s probably because you reacted at some point rather than explaining the rationale behind your decisions, which pushed the discussion into a battle of wills. You probably arranged those header elements with an earlier priority in mind — keeping the header shallow so as to get more page information above the fold, for instance — but if you don’t explain that to your client, they won’t make the connection on their own. By reminding them of that earlier priority, you are helping them to evaluate the header in much more specific terms.
+
+Explaining design rationale is necessary, because without an explanation, your client will assume that design decisions are arbitrary and subjective. And if this stuff is all just a matter of opinion, there’s no question as to whose opinion matters more. Oh, and if you really want to throw grease on the fire, go ahead and tell your client they’re the ones being subjective.
+
+&nbsp;
+
+<h3 style="text-align:center;">Going backwards happens. Deal with it.</h3>
+
+If your client’s feedback is a setback, meaning it questions things they’ve already approved and reverses your narrowing funnel of progress, remain calm. They’re not trying to mess with you. First, get clarification that what you’ve heard is correct. Repeat what they’ve said in your own words to give your client an opportunity to clarify any misunderstanding. If you got it wrong, breath a sigh of relief. On the other hand, if you had it right, then yes, this isn't great. But, if you overreact, your client will become defensive and what could have been resolved professionally will now be a matter of principle for both sides. They will feel like what they want is being withheld; you will feel taken advantage of. You will both be right. The best thing you can do is to create a track for a project that goes off the rails.
+
+To do this, you’re going to have to try on some new language and grow accustomed to it. It will take some time to feel natural. Try this:
+
+> “Ok, let’s review: What you’ve said so far is X, Y, and Z. Is that right? I think we’ve got some ideas for how to handle X, but Y and Z are going to be trickier. We’d resolved them and gotten your approval in previous rounds, so revising them now will probably take more time than we’d anticipated needing at this stage of the process. What we do in this situation is take a look at where we are in the budget, estimate how much additional time we’ll need for this phase, and then amend the budget and schedule to account for that. As soon as we have those details, we’ll let you know where we stand.”
+
+Notice the diplomacy. Maybe most of their feedback is reversing earlier decisions and is just an all around pain in the neck. But there’s probably something in there, that if you’re willing to sort through it all calmly and prioritize it, is a minor point. If you can find one — just one X to consider no-big-deal — it will work to your advantage. By granting them X, you’re acknowledging the validity of their point of view and softening the blow of dealing more strictly with Y and Z. If they feel understood, they will be willing to consider your needs, too. That’s politics, by the way, which is not only helpful in moments of crisis, but can also help to prevent them.
+
+&nbsp;
+
+<h3 style="text-align:center;">Did I mention that design is politics?</h3>
+
+Balancing expertise (i.e. knowledge of best practices, which is often communicated as “I know what I’m doing”) with client satisfaction is an art. As your client steers your design in a new direction, you will need to learn to pick your battles. If you must address something, do so in a way that grants the client the power to act:
+
+> “My professional opinion on X is X. I understand that you may have reasons for feeling differently — and, ultimately, we’ll go where *you* need to go — but I’d be remiss in not addressing this point.”
+
+This is you, the designer, politely drawing a line in the sand on principle, but demonstrating that you, the servant, will cross it if you must.
+
+&nbsp;
+
+<h3 style="text-align:center;">You are not entitled to burnout.</h3>
+
+If you give up, they will know it and take it personally.
+
+Burnout happens, but not because of the job. Burnout happens because of you. Burnout happens because you fail to provide yourself with the energy you need to do your work. You do this because you believe you don’t have the time to recharge, but that, too, is false. You do have the time, you just distribute it poorly.
+
+You can prevent burnout by doing one simple thing: Know yourself. What gives you energy? What takes it away? Design is hardly a solitary job, so ask yourself what you need to do to present your best to others? If interfacing with clients leaves you exhausted, then do what you need to do in order to enter that meeting fully charged, as well as recharge afterward. That’s your responsibility because the terms of the job are not going to change to suit your threshold. One bit of advice: Many designers think that they recharge in the studio — that quiet time away from clients spent being truly “creative” provides them the energy they need for their next meeting. I’ve never seen this to be true. As soon as you’ve met your client or gotten your first bit of feedback from them, they will — appropriately — haunt your studio. They may not be there in the flesh, but, if you’re doing your job right, they will be there. The point is that if your work requires you to recharge, don’t recharge by doing work.
+
+&nbsp;
+
+<h3 style="text-align:center;">Your speck, my beam.</h3>
+
+I realize this is written from a strongly pro-client point of view and that yes, sometimes clients can be flat-out wrong or even “bad” for your business. But in a world where <a href="http://clientsfromhell.net/" target="_blank">Clients from Hell</a> exists and <a href="http://www.hugedomains.com/domain_profile.cfm?d=clientsfromheaven&e=com" target="_blank">its opposite does not</a>, I think this perspective is a healthy and needed balance to our natural preference toward the other.
+
+I wrote this just as much for myself and my colleagues as I did for you, because I needed to hear it again just as I imagine you do, too. You don’t learn this stuff once. 
+
+So what is the most difficult thing about design? We are. 
+
+<p style="text-align:center;">👁</p>
+
+**On Screen**: First, watch Laurie Spiegel <A href="https://www.youtube.com/watch?v=NChqEEz31eE" target="_blank">play the Alles synthesizer in 1977</a>. Laurie writes:
+
+> "This 1977 tape is one of the earliest examples of purely digital realtime audio synthesis. It manages to achieve an analog synth sounding quality, but it is entirely digital synthesis and signal processing. The interactive software I wrote and am playing in this video recycles my keyboard input into an accompaniment to my continued playing, which is why I called it a 'concerto generator'. I use part of one of the keyboards for control data entry, and the small switches upper right to access pre-entered numerical patterns. The sliders are mainly pre-Yamaha FM synthesis parameter controls, for the number of harmonics and amplitude and frequency of the FM modulator and carrier that constituted each musical voice."
+
+Cool. If you're unfamiliar with Laurie's work, check out <a href="http://www.sexmagazine.us/articles/laurie-spiegel/1" target="_blank">this interview with her</a>.
+
+Then, watch one of the 42 videos I've collected in my <a href="https://vimeo.com/channels/568276/videos" target="_blank">canon</a>. There's good stuff in there.
+
+<p style="text-align:center;">☍</p>
+
+**Recent Tabs**: <a href="http://brucesterling.tumblr.com/post/139173159328/the-area-of-town-where-the-kids-of-your-former" target="_blank">A map of every city</a>. Treat your creation time as <a href="https://fizzle.co/sparkline/240-mornings" target="_blank">sacred</a>. <a href="http://historybuff.com/edgar-allan-poe-had-a-time-machine-and-i-can-prove-it-K0GoDJzODRy6" target="_blank">Edgar Allan Poe had a time machine</a>. The web is about to start looking like a digital suburb. "<a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocking/" target="_blank">Payfences</a>" around everything. "<a href="http://www.rushkoff.com/the-guardian-the-malfunctioning-tech-economy/" target="_blank">Uber has nothing to do with helping people get rides in towns</a>." <a href="http://brucesterling.tumblr.com/post/139431085058/in-church" target="_blank">Where heterosexual US couples *don't* meet</a>. <a href="http://www.theverge.com/2016/2/16/11018018/5d-data-storage-glass" target="_blank">5d glass discs can store 360 terabytes of data for up to 13.8 billion years</a>. What different novels look like <a href="https://twitter.com/BoingBoing/status/699667937393799169" target="_blank">with everything removed but punctuation</a>. "<a href="http://mrsniffen.tumblr.com/post/134291045125/seeing-hamilton" target="_blank">I approached my house. I could see my wife’s familiar silhouette in the window, waiting. But that woman was a stranger. She hadn’t seen *Hamilton*. I walked away</a>." And finally, since I know you all were on the edge of your seat waiting for this, <a href="http://www.beefcentral.com/news/paris-gets-first-meat-vending-machine/" target="_blank">Paris has gotten its first meat vending machine</a>. So it seems it's not just Americans who are absurdly lazy and impatient. Oh, ok, one more thing: <a href="http://www.sciencefriday.com/articles/behold-the-gargantuan-stick-insect/" target="_Blank">Behold, the Gargantuan Stick Insect</a>!

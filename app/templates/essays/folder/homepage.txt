@@ -1,0 +1,14 @@
+Title: Home
+Page: yes
+Menu: no
+Permalink: home
+Date: Nov 1 2016
+
+
+<h2>Hello, <A href="/about">I'm Chris</a>. Welcome to my website. There's not much going on this page, so you should probably dig a little deeper.</h2>
+
+<h2>Inside, you can learn more <A href="/about">about me</a> or <a href="/now">what I'm doing now</a>. But I'd recommend reading something from <a href="/essays">the essay archives</a>. There are eighty-five (and counting!) to choose from.</h2>
+
+<h2>If you like what you read on this website, you should consider <A href="http://www.tinyletter.com/chrbutler" target="_blank">subscribing</a> to my newsletter. It's a (mostly) weekly, long letter full of strong opinions about design, technology, and being human.</h2>
+
+<h2>Finally, if you're interested in how this website was made, you can learn about that <A href="/colophon">here</a>.</h2>

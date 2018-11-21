@@ -1,0 +1,61 @@
+Title: Groupthink
+Permalink: groupthink
+Date: February 25 2014
+Tags: design, phones
+
+
+Groupthink
+====================
+<hr style="height:3px;width:5%;margin-top:30px;margin-bottom:30px">
+
+Over the weekend, I watched a <A href="http://billmoyers.com/episode/the-deep-state-hiding-in-plain-sight/" target="_blank">video</a> of Bill Moyers interviewing Mike Lofgren, a former GOP congressional analyst, about what he calls the “Deep State” &mdash; the goings on behind the governmental veil, so to speak, and the money that pays for it. Pretty fascinating stuff. If you’re interested, Lofgren has also written a longer <A href="http://billmoyers.com/2014/02/21/anatomy-of-the-deep-state/" target="_blank">essay</a> on the Deep State.</p>
+
+About midway through the interview, Lofgren is explaining how he first became interested in digging deeper and sticking his nose where it didn’t belong. He had begun to notice patterns of funding that didn’t quite match up with what was on the record &mdash; moving of money back and forth that mapped out a much different reality than that portrayed by public record. Then, he says, he “began to disenchant [himself] from the normal *groupthink* that tends to take over in any organization.” Groupthink. Moyers pushes Lofgren to talk more about that: “What is groupthink?” Lofgren replies, “The psychologist Irving Janis called it groupthink. it’s a kind of assimilation of the views of your superiors and your peers. It’s becoming a yes man. In many respects, it’s an unconscious thing.” Moyers picks up on this and quotes <a href="http://en.wikiquote.org/wiki/Upton_Sinclair" target="_blank">Upton Sinclair</a>, who said, “It is difficult to get a man to understand something, when his salary depends upon his not understanding it!"
+
+Of course I was interested in this Deep State business, but now my attention was on groupthink. I looked up Janis and found a bunch of interesting stuff. 
+
+Basically, groupthink is a phenomenon made up of eight symptoms observed by Janis. They are:
+
+- the illusion of vulnerability
+- collective rationalization
+- belief in inherent morality
+- stereotyped views of out-groups
+- direct pressure on dissenters
+- self-censorship
+- illusion of unanimity
+- self-appointed “mind guards"
+
+Any of these sound familiar?
+
+If not, check out this <A href="http://www.psysr.org/about/pubs_resources/groupthink%20overview.htm" target="_blank">webpage on groupthink</a> by the Psychologists for Social Responsibility. They do a nice job synthesizing these symptoms into a pretty relatable story. It reads:
+
+> When the above symptoms exist in a group that is trying to make a decision, there is a reasonable chance that groupthink will happen, although it is not necessarily so.  Groupthink occurs when groups are highly cohesive and when they are under considerable pressure to make a quality decision.  When pressures for unanimity seem overwhelming, members are less motivated to realistically appraise the alternative courses of action available to them.  These group pressures lead to carelessness and irrational thinking since groups experiencing groupthink fail to consider all alternatives and seek to maintain unanimity.  Decisions shaped by groupthink have low probability of achieving successful outcomes.
+
+Sounds like a design project to me. 
+
+Here’s the thing: The internet does an amazing job of spreading information. But it does just as good a job of preserving groupthink. There are tons of examples of it, where strange thinking gets sticky and suddenly gains a critical mass that can be quite a challenge to disentangle. 
+
+What are some examples of this? 
+
+From a design perspective, one came to mind quickly. “Mobile first.” As a moniker for a design philosophy, it can mean quite a number of things to different people. For example, some people use that as shorthand for, “Look, there are enough people accessing webpages from mobile devices that we should probably begin by organizing our information and designing interfaces for them and then move to rethinking that organization and design for larger screens. That will be more efficient than going the opposite direction, and will result in stronger design in both contexts.” I’m sure there are plenty of ways that summation could be torn apart (so let me have it), but I think it’s pretty close. And I’ve taken issue with that logic in the past from a variety of angles, so I’m not going to do that again here.
+
+My main point is this: The groupthink around design and mobile devices has become so strong that I’m frankly a bit hesitant to suggest that &mdash; despite the collective rationalization we cobble together to address the vulnerability we believe that new device paradigms have revealed in our design processes, and whatever inherent morality has emerged from that, and whatever stereotyped views there are of naysayers, and whatever illusion of unanimity there is among designers &mdash; we are asking the wrong questions and focused upon the wrong goals. Is the content experience we’re so focused upon solving for mobile devices any good? Should all content be made at home on a phone? Well, I’m going to out myself as a naysayer right now. I say NO. With a few exceptions, I honestly just don’t like most content experiences on smaller screens. I find them annoying and uncomfortable. The ones I like best are often native to the phone. Here’s a short list of the ways I use my phone that I *don’t* find very annoying:
+
+- texting
+- taking pictures
+- listening to music/podcasts
+- reading e-books
+
+That’s pretty much it.
+
+Even email and calendars are annoying because there’s always some little thing that just doesn’t come up on my laptop, like syncing issues with my address book or events not showing up or whatever. Twitter is generally good, but as soon as there’s a link in a tweet I want to check out, I feel stressed out because now I have to open that link in Twitter’s lame-o browser and then decide if I want to read it later, because I’m definitely not reading it in there, and then copy that link and then figure out where to paste it. Lately, I’ve been adding it to my Pocket queue, which is pretty and all, but I honestly almost never read those articles on my phone because I tend to want to process them in some way during and after reading them &mdash; like taking notes, pulling quotes, or sharing them. On my laptop, I’ve got a great flow for doing that which relies upon tabbed browsing and/or having a text document available right next to the page. But even if I'm just going to read the thing and not process it in any way, I still generally avoid doing that on my phone. Most of the time, I want the space a larger screen provides. No matter how good phones get, or mobile browsers, or design for smaller screens, if my laptop is handy, I will use it. And by handy, I am being generous. I've even tethered my phone to my laptop so that I can pull up certain webpages in very inconvenient places even though it might take much less time on my phone simply because I just don't like using my phone to do web stuff. You get the idea.
+
+Of course, I still do all of this stuff &mdash; email, calendars, reading webpages, etc. &mdash; pretty regularly on my phone, I just find it quite annoying and wish I didn't feel I must. Note that I am *not* expressing the it-should-be-better indignance that is so common now. Like, it's not fast enough. It's not responsive enough. I should have it now. Just the other day, I watched a guy throw a full-on manbaby tantrum after waiting for seven minutes for a sandwich at a fast food joint. I used my phone (aha!) to start a timer the moment I noticed him getting testy. Sure, there was some problem behind the counter that slowed things down, but the guy still got a hot sandwich in seven minutes! And he was angry about it. Though this same entitlement happens online constantly &mdash; I'm guessing it's 20% of Tweets at this point &mdash; this is not the problem I'm grappling with. I'd be fine if most of our connectivity went away and we were back to waiting a bit for things. But I digress...
+
+Where groupthink comes in is that I think we’ve recognized the obvious design problem that new devices have introduced, but that has pushed us into an inherent morality of design that ignores the fact that some experiences are simply better with a bit more room. The existence of a Netflix app for my phone is a good illustration of that. Yes, I can watch a movie on my phone. But the novelty of that has never been enough to actually make that worth doing. The phone screen can only get so close to my face. Same thing with webpages. By the time I’ve squeezed a navigation system into a little navburger, stacked all page’s content, and hidden other things that I’ve decided are not important enough to keep, what’s left? In our groupthink dogma, we say, “well, only the important stuff.” But if it wasn’t important enough to prioritize for the tiny screen, why was it there at all? 
+
+Not to mention the fact that maybe having access to everything everywhere all the time isn’t such a good thing after all. Perhaps putting context cchoice* back into the design equation would be a good move for us.
+
+The design paradigms around responsive/mobile have started to feel a bit like groupthink to me. I haven’t put together the most coherent case &mdash; I’m really writing off the cuff here &mdash; but I want to at least be willing to question it. If we can’t do that, then we’re squarely in symptom #5: Self-censorship.
+
+Oh, and Upton Sinclair was right. Those of us who are paid for our expertise need to admit how deep in the cave this truly keeps us.
