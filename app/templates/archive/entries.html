@@ -36,10 +36,22 @@ font-size: 14px;color: #aaa;text-decoration: none;text-align: center;}
 {{#entries}}
 
 <a class="post {{^thumbnail.medium}}no-thumbnail{{/thumbnail.medium}}" href="{{url}}">
-  
+  <style type="text/css">
+  .fadeMe {   visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;}
+  .fadeIn { visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s, visibility 0.3s;}
+  </style>
   <span class="thumbnail">
     <span style="top:0;left:0;right:0;bottom:0;position:absolute;display:flex;align-items:center">
-      {{#thumbnail.medium}}<img src="{{url}}">{{/thumbnail.medium}}
+      {{#thumbnail.medium}}
+      <img class="fadeMe" onload="this.className +=' fadeIn';" src="{{url}}"/>
+      <noscript>  
+      <img src="{{url}}">
+      </noscript>
+      {{/thumbnail.medium}}
       {{^thumbnail.medium}}
       <span>
         {{title}}
