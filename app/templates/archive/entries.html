@@ -65,6 +65,23 @@ font-size: 14px;color: #aaa;text-decoration: none;text-align: center;}
   <a style="text-decoration:none;color:inherit" href="/">&darr; Recent posts</a>
   
   <div style="float:right;padding-right:2.5rem">
+    <div class="page-numbers">
+      
+    </div>
+    <style type="text/css">
+    .page-numbers a {
+      color: #666;
+      text-decoration: none;
+      border:1px solid rgba(0,0,0,0.05);margin: 4px;padding: 2px 6px}
+    </style>
+    <script type="text/javascript">
+
+    document.querySelectorAll('.page-numbers').forEach(function(el){
+      for (var i = 1; i <= {{pagination.total}};i++) 
+        el.innerHTML += '<a href="/page/' + i + '" id="number-template">' + i + '</a>';
+    });
+
+    </script>
   {{#pagination}}Page {{current}} of {{total}}{{/pagination}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   {{#pagination.next}}<a style="text-decoration:none;color:inherit" href="/page/{{pagination.next}}">Next page &rarr;</a>{{/pagination.next}}
   </div>
