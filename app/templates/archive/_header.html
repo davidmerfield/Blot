@@ -58,7 +58,9 @@ form input:focus {outline: none;background: #eee}
 <div class="header">
 
   <div>
-    <a class="index" style="font-size: 13px;padding-left:1.5em;padding-right:1.5em" href="/"><b>{{title}}</b></a>
+    <a class="index" style="font-size: 13px;padding-left:1.5em;padding-right:1.5em" href="/">
+      {{#avatar}}<img style="max-width:26px;max-height:26px;vertical-align:middle" src="{{avatar}}">{{/avatar}}
+      <b>{{title}}</b></a>
     {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
     <div style="height:0;overflow:hidden">{{> sidebar}}</div>
   </div>  
