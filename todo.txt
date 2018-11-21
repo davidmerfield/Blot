@@ -184,6 +184,10 @@ Prune package.json
 
 Cluster the main process. How will I verify that there is not statefullness somewhere in the server? I also want the main 'server' running on different threads to the CPU intensive stuff like image processing. Will this fix the bug with additional child processes if main process runs out of memory? Something wasn't being killed during the Nash WAV bug of August, 2018. There were duplicate node rebuild processes running.
 
+Add support for Microformats in the default themes. Tell Amit.
+
+Add support for Micropub in Blot's API. Tell Amit.
+
 Add support for HTTPS on preview subdomains
 
 Distribute static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
