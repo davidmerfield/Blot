@@ -1,55 +1,60 @@
+<style type="text/css">
+.menu button:active {opacity: 0.8}
 
-<div class="dropdown closed" >
+.photo-holder {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin:0 17px 0 0
+}
+
+.photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
+.photo-holder.plus {background: rgba(0,0,0,0.05);border-radius: 2px;line-height: 0.9}
+
+</style>
+<div class="dropdown closed">
     
-    {{#blogs}}
-    {{#isCurrent}}
-    <a href="#!" class="opener nav-bar show" style="line-height:inherit;padding:11px 20px;font-size:14px">
-      
-      {{#avatar}}<span class="photo-holder" style="margin-left:-30px;margin-right:12px"><img src="{{avatar}}"></span>{{/avatar}}&nbsp;{{title}}{{^title}}{{blog.pretty.url}}{{/title}}&nbsp;&thinsp;&nbsp;<img src="/images/dropdown.svg" width=8 style="float:right">
+  {{#blogs}}{{#isCurrent}}
+  <a href="#!" class="opener nav-bar show" style="line-height:inherit;padding:11px 20px;font-size:14px">  
+    {{#avatar}}<span class="photo-holder" style="margin-right:9px"><img src="{{avatar}}"></span>{{/avatar}}
+
+    {{title}}
+    
+    {{! Show to blog's domain if the user has removed their title}}
+    {{^title}}{{blog.pretty.url}}{{/title}}
+
+    <img src="/images/dropdown.svg" width=8 style="margin-left:9px">
   </a>
-    {{/isCurrent}}
-    {{/blogs}}
+  {{/isCurrent}}{{/blogs}}
+  
+  {{! The opener link floats to the right so we need a clearfix}}
+  <div class="clear"></div>
+
+  <div class="menu">
+    {{#blogs}}{{^isCurrent}}
+    <form action="/account/switch-blog" method="POST"> 
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <input type="hidden" name="to" value="{{id}}"> 
+      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500">
+        <span class="photo-holder">
+          {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
+          {{^avatar}}<span class="file" style="width:16px;height:16px;opacity:0.4"></span>{{/avatar}}
+        </span>  
+        <span style="font-weight:400">
+          {{title}}{{^title}}{{pretty.url}}{{/title}}<br>
+          {{! Why include the hostname underneath the blog's title? Increased click area}}
+          <span style="color:#aaa;font-weight:400">{{pretty.url}}</span>
+        </span>
+
+      </button>
+    </form>
+    {{/isCurrent}}{{/blogs}}
     
     <div class="clear"></div>
 
-    <noscript>TODO: fix this for no JS users</noscript>
+    <a href="/account/create-blog" style="padding-right:40px;border-bottom:0"><span class="photo-holder plus">+</span> Create new blog</a>
 
-    <div class="menu">
-      {{#blogs}}{{^isCurrent}}
-      <form style="" action="/account/switch-blog" method="POST"> 
-        <input type="hidden" name="_csrf" value="{{csrftoken}}">
-        <input type="hidden" name="to" value="{{id}}"> 
-        <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500">
-          <span class="photo-holder" style="margin:0 10px 0 0">
-            {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
-            {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}
-          </span>
-          
-          <span style="font-weight:400">{{title}}{{^title}}{{pretty.url}}{{/title}}<br>
-          <span style="color:#aaa;font-weight:400">{{pretty.url}}</span>
-          </span>
+    <div class="clear"></div>
 
-        </button>
-      </form>
-      {{/isCurrent}}{{/blogs}}
-      <div class="clear"></div>
-      <a href="/account/create-blog" style="padding-right:40px;border-bottom:0"><span class="photo-holder plus">+</span> Add another blog</a>
-      <div class="clear"></div>
   </div>
-<!-- 
-
-  This will set the widths of everything in the UI by blocking out as needed
-
-    {{#blogs}}
-    {{^isCurrent}}
-    <a href="#!" class="opener nav-bar" >
-      
-      {{#avatar}}<img src="{{avatar}}" style="vertical-align:text-bottom;margin:0em 8px 0 0;max-width:16px;max-height:16px;width:16px;height:16px">{{/avatar}}
-
-      {{title}} &thinsp;
-      <img src="/images/dropdown.svg" width=8>
-      
-    </a>
-    {{/isCurrent}}<br>
-    {{/blogs}} -->
-  </div>
+</div>
