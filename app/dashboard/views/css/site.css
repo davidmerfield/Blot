@@ -1666,6 +1666,13 @@ form.account > .buttons {
   padding: 11px 20px;
 }  
 
+a.line,
+  div.line a.link,
+  .dropdown .opener,
+  .dropdown .menu button,
+  .dropdown .menu a,
+  .line form button {transition: background 0.1s;}
+
   a.line:hover,
   div.line a.link:hover,
   .dropdown .opener:hover,
@@ -1747,7 +1754,7 @@ form.account, .inset {padding:20px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.wrapper {margin:0 auto;display: flex;min-height: 100%;padding: 80px 0 40px}  
+.wrapper {margin:0 auto;display: flex;min-height: 100%;padding: 60px 0}  
 
 .head {height:123px;padding-top:20px;}
 
