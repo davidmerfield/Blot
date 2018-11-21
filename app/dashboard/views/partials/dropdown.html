@@ -5,7 +5,7 @@
   width: 16px;
   height: 16px;
   display: inline-block;
-  margin:0 17px 0 0
+  margin:0 16px 0 0
 }
 
 .photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
@@ -16,14 +16,7 @@
     
   {{#blogs}}{{#isCurrent}}
   <a href="#!" class="opener nav-bar show" style="line-height:inherit;padding:11px 20px;font-size:14px">  
-    {{#avatar}}<span class="photo-holder" style="margin-right:9px"><img src="{{avatar}}"></span>{{/avatar}}
-
-    {{title}}
-    
-    {{! Show to blog's domain if the user has removed their title}}
-    {{^title}}{{blog.pretty.url}}{{/title}}
-
-    <img src="/images/dropdown.svg" width=8 style="margin-left:9px">
+    {{#avatar}}<span class="photo-holder"><img src="{{avatar}}"></span>{{/avatar}}{{title}}{{! Show to blog's domain if the user has removed their title}}{{^title}}{{blog.pretty.url}}{{/title}}<img src="/images/dropdown.svg" width=8 style="margin-left:16px">
   </a>
   {{/isCurrent}}{{/blogs}}
   
@@ -52,7 +45,7 @@
     
     <div class="clear"></div>
 
-    <a href="/account/create-blog" style="color:rgb(158, 154, 152);padding-right:40px;border-bottom:0"><span class="photo-holder plus">+</span>Create new blog</a>
+    <a href="/account/create-blog" style="color:rgb(158, 154, 152);padding-right:40px;border-bottom:0"><span class="photo-holder plus" style="text-align:center">+</span>Create new blog</a>
 
     <div class="clear"></div>
 
