@@ -1,13 +1,13 @@
 
-<div class="dropdown closed" style="margin-top:12px">
+<div class="dropdown closed" >
     
     {{#blogs}}
     {{#isCurrent}}
-    <a href="#!" class="opener nav-bar show" style="line-height:1.5;font-size:16px">
+    <a href="#!" class="opener nav-bar show" style="line-height:1.5;font-size:14px">
       
       {{#avatar}}<span class="photo-holder" style="margin-left:-30px;margin-right:12px"><img src="{{avatar}}"></span>{{/avatar}}&nbsp;{{title}}{{^title}}{{blog.pretty.url}}{{/title}}&nbsp;&thinsp;&nbsp;<img src="/images/dropdown.svg" width=8 style="float:right">
-      <br><span style="font-weight:400;color:#aaa">{{pretty.url}}</span>
-    </a>
+<!--       <br><span style="font-weight:400;color:#aaa">{{pretty.url}}</span>
+ -->    </a>
     {{/isCurrent}}
     {{/blogs}}
     
@@ -25,7 +25,7 @@
             {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>
           
           {{title}}{{^title}}{{pretty.url}}{{/title}}<br>
-          {{pretty.url}}
+          <span style="color:#aaa;font-weight:400">{{pretty.url}}</span>
 
           {{#isCurrent}}<span style="color:green;float:right;font-size:20px">&bull;</span>{{/isCurrent}}
         </button>
