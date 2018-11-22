@@ -1,0 +1,37 @@
+{{> header}}
+
+{{#entry}}
+
+<style type="text/css">
+
+.entry {margin:0 auto;max-width:34em;margin-top:20%;}
+.entry p {
+  max-width: 34em;
+  margin: 1.45em 0;
+}
+
+.entry blockquote {
+  color: #656565;
+  margin: 1.45em 2.9em;
+}
+
+.entry p a {
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  border-bottom: 1px solid rgba(0,0,0,0.333333);
+}
+
+.entry h1 {
+  font-style: 36px;
+  font-style: italic;font-weight: bold
+}
+</style>
+<div class="entry">
+  {{{titleTag}}}
+  <span style="font-family:sans-serif;color:#666;font-size:14px">{{date}}</span>
+{{{body}}}
+</div>
+
+<br><br><br>
+{{/entry}}

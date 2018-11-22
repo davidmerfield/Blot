@@ -2,5 +2,6 @@
   "name": "Essays",
   "isPublic": true,
   "locals": {
+    "page_size": 32
   }
 }

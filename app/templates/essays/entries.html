@@ -1,1 +1,12 @@
-Hello, World!
+{{> header}}
+<center>
+{{#entries}}
+<a href="{{url}}" style="max-width:24em;display:block;color:inherit;text-decoration:none"><b>{{title}}</b><br>{{summary}}
+</a>
+<br>
+⦾
+<br>
+<br>
+{{/entries}}
+</center>
+{{> footer}}

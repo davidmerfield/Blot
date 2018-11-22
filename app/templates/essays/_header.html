@@ -1,0 +1,63 @@
+<html>
+<head>
+  <title>{{> title}}</title>
+  <style type="text/css">
+@font-face {
+  font-family: 'Charter';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/charter/regular.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/charter/regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/charter/regular.woff') format('woff'); /* Very modern */
+}
+ @font-face {
+  font-family: 'Charter';
+  font-weight: 400;
+  font-style: italic;
+  src: url('/fonts/charter/italic.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/charter/italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/charter/italic.woff') format('woff'); /* Very modern */
+}
+ @font-face {
+  font-family: 'Charter';
+  font-weight: 600;
+  font-style: normal;
+  src: url('/fonts/charter/bold.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/charter/bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/charter/bold.woff') format('woff'); /* Very modern */
+}
+
+ @font-face {
+  font-family: 'Charter';
+  font-weight: bold;
+  font-style: italic;
+  src: url('/fonts/charter/bold-italic.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/charter/bold-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/charter/bold-italic.woff') format('woff'); /* Very modern */
+}
+
+
+p2 {font-style: italic;}
+body {font-family: 'Charter', serif;color:#111;font-size:18px;line-height:1.5;margin: 0;padding: 0}
+
+.header a {color:inherit;text-decoration: none;font-family: sans-serif;}
+.header a:hover {text-decoration: underline;}
+
+.pull-double{margin-left:-.38em}.push-double{margin-right:.38em}.pull-single{margin-left:-.15em}.push-single{margin-right:.15em}.pull-T,.pull-V,.pull-W,.pull-Y{margin-left:-.07em}.push-T,.push-V,.push-W,.push-Y{margin-right:.07em}.pull-C,.pull-O,.pull-c,.pull-o{margin-left:-.04em}.push-C,.push-O,.push-c,.push-o{margin-right:.04em}.pull-A{margin-left:-.03em}.push-A{margin-right:.03em}
+
+hr {border-color: #e2e2e2}
+  </style>
+</head>
+<body>
+
+<div class="header" >
+  <a href="/"><b>{{#avatar}}
+  <img style="max-width:1.45em;max-height:1.45em;width:auto;height:auto" src="{{avatar}}">
+  {{/avatar}}
+  {{title}}</b></a>
+
+  {{#menu}}
+  <a href="{{url}}">{{label}}</a>
+  {{/menu}}
+</div>
+  <hr>
