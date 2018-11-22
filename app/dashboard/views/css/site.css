@@ -1708,8 +1708,8 @@ a.line,
 .center, div.line a.link {}
 
 div.center {}
-.center b {color:#111;font-weight:500}
-.center {color: #111}
+.center b {color:#000;font-weight:500}
+.center {color: #000}
 
 .tablet {
   border-radius:4em;
@@ -1798,7 +1798,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
   .crumbs {display: flex}
 
-    .crumb {padding: 11px 20px;text-decoration:none;color:rgb(153, 153, 153);border-bottom: 1px solid rgb(237, 237, 237);font-size: 14px;font-weight: 500;
+    .crumb {padding: 11px 20px;text-decoration:none;color:rgb(158, 154, 152);border-bottom: 1px solid rgb(237, 237, 237);
 }}
 
 
@@ -1806,7 +1806,7 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
       color:rgb(153, 153, 153);font-weight: 400;
     }
     
-    .last, .crumb:hover {color: rgb(109, 109, 109);/*font-weight:500;*/}
+    .last, .crumb:hover {color: rgb(158, 154, 152);/*font-weight:500;*/}
 
     .toggle {
       display:block;
