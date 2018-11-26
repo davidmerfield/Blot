@@ -2,6 +2,8 @@ Fix issue with [Kushal](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLXCwDJtL
 
 Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 
+Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
+
 Template system
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Move to uuid based template IDs instead of slug  
