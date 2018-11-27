@@ -1,15 +1,11 @@
-Fix issue with [Kushal](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLXCwDJtLtlqZGvRJkpVLcLbg)'s folder which won't sync the entire state. Some files are missing (e.g. Pages/about.md) even after a manual reset which is concerning.
-
-Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
-
-Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
-
 Template system
+- Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Move to uuid based template IDs instead of slug  
 - Add export to zip and import to zip feature for themes
 - Add support for 'creating' a template inside '/Templates/'
 - Fix bug with theme editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
+- Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC)
 - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Fix bug with cache not busting for static rendered themes:
   1. put posts in blog
@@ -50,7 +46,7 @@ Template selection
 - portfolio - optimized for a portfolio of work
   index shows medium-sized grid of posts in columns and rows
   type is sans-serif (? Open sans ?)
-  Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ)
+  Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ) and [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
 
 - magazine - optimized for a magazine
   index shows mixture of post previews
@@ -67,15 +63,14 @@ Template spec
 - all themes must be colorblind, with goal to add a color customization layer
 - Don't think about Blot developers in any way, produce seperate simple templates for them
 
-
 Find good source of material, ideally on Blot like this [source for theme content](http://cinebloc.blot.im/)
 - Interesting way to find images matching colors: https://artsexperiments.withgoogle.com/artpalette/colors/ffffff-fcfcfc-ffffff-ffffff-ffffff
 
 Investigate [Jekyll themes to use](https://github.com/broccolini/swiss) which have permissive licenses
 
-Follow up with [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a) once there is a decent portfolio template.
-
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
+
+Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
 
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
