@@ -14,6 +14,13 @@ Template system
   4. reload page, static.js still shows the entries, which archives.html does not
 - Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 
+
+Template spec
+- all themes must support a 'landing page' modification nicely
+- feed, archive, essays, portfolio, magazine must be optimized for code
+- all themes must be colorblind, with goal to add a color customization layer
+- Don't think about Blot developers in any way, produce seperate simple templates for them
+
 Template selection
 - archive - optimized for an archive of photos, links, quotes
   index shows big grid of posts
@@ -57,20 +64,12 @@ Template selection
   sidebar has subtraction-style list of other titles
   type is monospace (Plex mono)
 
-Template spec
-- all themes must support a 'landing page' modification nicely
-- feed, archive, essays, portfolio, magazine must be optimized for code
-- all themes must be colorblind, with goal to add a color customization layer
-- Don't think about Blot developers in any way, produce seperate simple templates for them
-
 Find good source of material, ideally on Blot like this [source for theme content](http://cinebloc.blot.im/)
 - Interesting way to find images matching colors: https://artsexperiments.withgoogle.com/artpalette/colors/ffffff-fcfcfc-ffffff-ffffff-ffffff
 
 Investigate [Jekyll themes to use](https://github.com/broccolini/swiss) which have permissive licenses
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
-
-Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
 
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
@@ -151,6 +150,8 @@ Record a new demo video
 - My visual scrapbook: shows tag folders, photo blog
 - My link blog: shows the webloc feature, shows IFFFT, perhaps from favourited tweets?
 - My personal site: simple landing page, edit with a doc file?
+
+Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
 
 Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
 
