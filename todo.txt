@@ -207,6 +207,8 @@ Work out why Pandoc cannot handle 'linked' images (instead of conventionally emb
 Look into mirroring site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f
 )
 
+Create server dashboard to visualize load etc. using something like this: https://github.com/GitSquared/edex-ui or https://github.com/yaronn/blessed-contrib
+
 Move to cool user subdomains
  - Pretty to proper blog IDs instead of integers
 
