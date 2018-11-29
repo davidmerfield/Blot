@@ -2,6 +2,7 @@
 <input type="hidden" name="redirect" value="/settings/profile">
 <input type="text" autofocus name="title" value="{{blog.title}}">
 
+<hr>
 
 <label>Photo</label>
 
@@ -25,20 +26,21 @@
 
 <section class="imageUpload" style="width:50%;float:left;">
 {{#blog.avatar}}
-  <span style="margin-top:0">Select new photo:</span>
+  <span style="margin-top:0;color:#aaa">Select new photo:</span>
 {{/blog.avatar}}
   <input type='file' id="avatarUpload" name='avatar' />
 {{#blog.avatar}}
-      <button class="button small" name="avatar" value="" type="submit">Remove existing photo</button>
+      <input type="submit" value="Remove existing photo">
 
 {{/blog.avatar}}
 </section>
 <div class="clear"></div>
 
 
+<hr>
 
 
-  <a class="line" href="/settings/menu" style="border-bottom:none;margin:0 -20px">
+  <a class="line" href="/settings/menu" style="margin:0 -20px">
     <label>Menu</label>
     <span class="center">
       {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}

@@ -1917,3 +1917,15 @@ button.content-line .file {float: none}
 .line-item .link {background:#f7f4f2;flex-grow:1;margin-left: 10px;padding: 4px 10px;text-align: center;}
 .line-item .link:first-child {margin-left: 0}
 .line-item .link span {display: none}
+
+.menu button:active {opacity: 0.8}
+
+.photo-holder {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin:0 16px 0 0
+}
+
+.photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
+.photo-holder.plus {background: rgba(0,0,0,0.05);line-height: 0.9}

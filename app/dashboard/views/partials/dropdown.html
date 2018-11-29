@@ -1,17 +1,4 @@
-<style type="text/css">
-.menu button:active {opacity: 0.8}
 
-.photo-holder {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  margin:0 16px 0 0
-}
-
-.photo-holder img {vertical-align:text-bottom;max-width:16px;max-height:16px;}
-.photo-holder.plus {background: rgba(0,0,0,0.05);line-height: 0.9}
-
-</style>
 <div class="dropdown closed">
     
   {{#blogs}}{{#isCurrent}}
@@ -24,8 +11,8 @@
   <div class="clear"></div>
 
   <div class="menu">
-    {{#blogs}}{{^isCurrent}}
-    <form action="/account/switch-blog" method="POST"> 
+    {{#blogs}}
+    <form action="/account/switch-blog" method="POST" {{#isCurrent}}style="height:0;visibility:hidden"{{/isCurrent}}> 
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden" name="to" value="{{id}}"> 
       <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500">
@@ -41,7 +28,7 @@
 
       </button>
     </form>
-    {{/isCurrent}}{{/blogs}}
+    {{/blogs}}
     
     <div class="clear"></div>
 
