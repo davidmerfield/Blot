@@ -1,0 +1,74 @@
+
+{{#isCurrent}}
+<p>
+ This is your current template. If you would like to delete it, first select another template for your blog on the <a href="/theme" class="link">design page</a> then return here.
+</p>
+{{/isCurrent}}
+
+
+
+
+{{^isCurrent}}
+  <p><b>Delete template</b></p>
+
+    Please type in the name of the template to confirm:
+
+    <input type="text" id="verify-name">
+
+    This action CANNOT be undone. This will permanently delete the template <b>{{name}}</b>.<br /><br />
+
+  <input name="delete" type="hidden" id="delete" value="">
+
+  <input type="submit" class="button red disabled" value="Delete this template">
+
+
+
+{{/isCurrent}}
+
+  <br /><Br /><Br /><Br /><Br />
+</div>
+
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script src="/scripts/template.js?{{cacheID}}"></script>
+
+<script type="text/javascript">
+
+  
+  // This function and entity map is taken
+  // right from the mustache source code. It is 
+  // neccessary to compare template names which contain
+  // escapable characters, like '. We don't want to open
+  // ourselves up to an injection attach by doing something
+  // silly like {{name}}...
+
+  var entityMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+  };
+
+  function escapeHtml (string) {
+    return String(string).replace(/[&<>"'`=\/]/g, function fromEntityMap (s) {
+      return entityMap[s];
+    });
+  }
+
+  $('#verify-name').keyup(function(){
+
+    var currentName = escapeHtml($('#verify-name').val());
+    var expectedName = "{{name}}";
+    
+    if (currentName === expectedName) {
+      $('#delete').val('true');
+      $('.button.red').removeClass('disabled');
+    }
+
+  });
+
+
+</script>

@@ -1,3 +1,4 @@
+{{#locals.length}}
 <div id="variable-template" style="display:none;width:150%">
   {{> default}}
 </div>
@@ -18,24 +19,7 @@
   {{/default}}
 {{/locals}}
 
-<Br>
 
+<Br>
 <input type="submit" class="button left" value="Save changes">
-
-<Br>
-<Br>
-<hr>
-
-<p>Variables: <a id="variable-add" style="float:right" class="button secondary">Add a variable</a>
-</p>
-
-{{#locals}}
-  {{#default}}
-    {{> default}}
-  {{/default}}
-{{/locals}}
-
-<input name="has_locals" type="hidden" value="true">
-
-</div>
-<div class="clear"></div><br>
+</div>{{/locals.length}}

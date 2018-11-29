@@ -9,21 +9,8 @@
 
 
 
-  <a class="line" href="{{base}}/settings/name">
-    <span class="label">Name</span>
-    <span class="center">{{template.name}}</span>
-    <span class="right">Edit</span>
-  </a>
+  {{> sidebar}}
 
-  {{> locals}}
-
-
-
-  <a class="line" href="{{base}}/settings/delete">
-    <span class="label">Delete</span>
-    <span class="center">Delete {{template.name}} template </span>
-    <span class="right">Edit</span>
-  </a>
 <script type="text/javascript">
 
 var opener = document.querySelector('.opener');
@@ -56,7 +43,7 @@ opener.addEventListener('click', function(e){ //say this is an anchor
 });</script>
   </div>
   <div style="flex-grow:1">
-    {{> preview}}
+    {{> text-editor}}
   </div>
 </div>
 

@@ -22,14 +22,14 @@ module.exports = function(req, res, next) {
     var extras = [];
     var partials = [];
     var assets = [];
-    var base = '/template/' + template.slug + '/view';
+    var base = '/template/' + template.slug + '/editor';
 
     views = arrayify(views, function (view) {
 
       view.extension = mime.extension(view.type || '');
       view.editorMode = editorMode(view);
       view.fullName = view.name + '.' + view.extension;
-      view.url = base + '/' + encodeURIComponent(view.name) + '/editor';
+      view.url = base + '/' + encodeURIComponent(view.name);
 
       // Load the first view if none selected
       if (viewName === null) viewName = view.name;

@@ -1,0 +1,34 @@
+<style type="text/css">
+.dropdown.closed {display: none;}
+.dropdown .menu {margin-top: 0;background: #111}
+</style>
+<div style="display:flex">
+<a href="/settings/theme" style="text-decoration:none;padding:11px 20px;background:#444;color:#ccc;flex-grow:1;flex-basis:33.3333%">✕&puncsp;&puncsp;Close&puncsp;</a>
+
+      <a href="#!" style="flex-basis:66.666%;text-decoration:none;width:100%;padding:11px 20px;background:#111;color:#ddd;display:block;float:none" class="opener nav-bar show">{{template.name}}
+
+        <img src="/images/dropdown.svg" width="8" style="float:right;margin-top:5px"></a>
+
+
+
+
+</div>
+<div class="dropdown closed">
+      
+      
+      <div class="menu">
+        
+{{#templates}}
+  <a href="{{editURL}}/settings" style="padding-right:40px;border-bottom:0"><span class="photo-holder plus">{{#checked}}-{{/checked}}</span>{{name}}</a>
+{{/templates}}
+        <a href="/settings/theme/new" style="padding-right:40px;border-bottom:0"><span class="photo-holder plus">+</span>Create new template</a>
+
+        <div class="clear"></div>
+    </div>
+  
+    </div>
+
+<div style="display:flex">
+<a style="text-decoration:none;color:#aaa;flex-grow:1;flex-basis:33.3333%;padding:11px 20px;background:#{{#tab.settings}}eee{{/tab.settings}}{{^tab.settings}}ddd{{/tab.settings}}" href="{{base}}/settings">Settings</a>
+<a style="text-decoration:none;color:#aaa;flex-grow:1;flex-basis:66.666%;padding:11px 20px;background:#{{#tab.editor}}eee{{/tab.editor}}{{^tab.editor}}ddd{{/tab.editor}}" href="{{base}}/editor">Edit source code</a>
+</div>

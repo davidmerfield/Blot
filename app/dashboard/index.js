@@ -3,11 +3,11 @@ var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
 var debug = require("./debug");
-var Blog = require('blog');
-var User = require('user');
-var async = require('async');
+var Blog = require("blog");
+var User = require("user");
+var async = require("async");
 var VIEW_DIRECTORY = __dirname + "/views";
-var config = require('config');
+var config = require("config");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -61,42 +61,38 @@ dashboard.use(require("./csrf"));
 
 dashboard.use(debug("fetching user and blog info and checking redirects"));
 
-dashboard.use('/clients', require("./routes/clients"));
-dashboard.use('/stripe-webhook', require("./routes/stripe_webhook"));
-dashboard.use('/log-in', require("./routes/log_in"));
-dashboard.use('/sign-up', require("./routes/sign_up"));
+dashboard.use("/clients", require("./routes/clients"));
+dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
+dashboard.use("/log-in", require("./routes/log_in"));
+dashboard.use("/sign-up", require("./routes/sign_up"));
 
-dashboard.get('/logged-out', function(req, res, next){
+dashboard.get("/logged-out", function(req, res, next) {
   res.locals.partials = {};
-  res.locals.partials.yield = 'logged-out';
-  res.render('partials/wrapper-public');
+  res.locals.partials.yield = "logged-out";
+  res.render("partials/wrapper-public");
 });
 
-dashboard.get('/deleted', function(req, res, next){
+dashboard.get("/deleted", function(req, res, next) {
   res.locals.partials = {};
-  res.locals.partials.yield = 'deleted';
-  res.render('partials/wrapper-public');
+  res.locals.partials.yield = "deleted";
+  res.render("partials/wrapper-public");
 });
-
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
-dashboard.use(function(req, res, next){
-
+dashboard.use(function(req, res, next) {
   if (req.session && req.session.uid) return next();
 
-  return next(new Error('NOUSER'));
+  return next(new Error("NOUSER"));
 });
 
 // Load properties as needed
 // these should not be invoked for requests to static files
-dashboard.use(function (req, res, next) {
-
+dashboard.use(function(req, res, next) {
   if (!req.session || !req.session.uid) return next();
 
   var uid = req.session.uid;
 
-  User.getById(uid, function(err, user){
-
+  User.getById(uid, function(err, user) {
     if (err) return next(err);
 
     if (!user) {
@@ -114,118 +110,129 @@ dashboard.use(function (req, res, next) {
   });
 });
 
-dashboard.use(function (req, res, next) {
-
+dashboard.use(function(req, res, next) {
   if (!req.session || !req.user || !req.user.blogs.length) return next();
 
   var blogs = [];
   var activeBlog = null;
 
-  async.each(req.user.blogs, function(blogID, nextBlog){
+  async.each(
+    req.user.blogs,
+    function(blogID, nextBlog) {
+      Blog.get({ id: blogID }, function(err, blog) {
+        if (!blog) return nextBlog();
 
-    Blog.get({id: blogID}, function(err, blog){
-      
-      if (!blog) return nextBlog();
+        try {
+          blog = Blog.extend(blog);
+        } catch (e) {
+          return next(e);
+        }
 
-      try {
-        blog = Blog.extend(blog);
-      } catch (e) {
-        return next(e);
-      }
+        if (req.session.blogID === blog.id) {
+          blog.isCurrent = true;
+          activeBlog = blog;
+        }
 
-      if (req.session.blogID === blog.id) {
-        blog.isCurrent = true;
-        activeBlog = blog;
-      }
-
-      blogs.push(blog);
-      nextBlog();
-    });
-
-  }, function(){
-
-    if (!activeBlog && !req.session.blogID) {
-      activeBlog = blogs.slice().pop();
-    }
-
-    // The blog active in the users session
-    // no longer exists, redirect them to one
-    if (!activeBlog && req.session.blogID) {
-
-      var candidates = blogs.slice();
-
-      candidates = candidates.filter(function(id){
-        return id !== req.session.blogID;
+        blogs.push(blog);
+        nextBlog();
       });
-
-      if (candidates.length > 0) {
-        activeBlog = candidates.pop();
-        req.session.blogID = activeBlog.id;
-        User.set(req.user.uid, {lastSession: activeBlog.id}, function(){});
-      } else {
-        req.session.blogID = null;
-        User.set(req.user.uid, {lastSession: ''}, function(){});
-        console.log('THERES NOTHING HERE');
+    },
+    function() {
+      if (!activeBlog && !req.session.blogID) {
+        activeBlog = blogs.slice().pop();
       }
+
+      // The blog active in the users session
+      // no longer exists, redirect them to one
+      if (!activeBlog && req.session.blogID) {
+        var candidates = blogs.slice();
+
+        candidates = candidates.filter(function(id) {
+          return id !== req.session.blogID;
+        });
+
+        if (candidates.length > 0) {
+          activeBlog = candidates.pop();
+          req.session.blogID = activeBlog.id;
+          User.set(req.user.uid, { lastSession: activeBlog.id }, function() {});
+        } else {
+          req.session.blogID = null;
+          User.set(req.user.uid, { lastSession: "" }, function() {});
+          console.log("THERES NOTHING HERE");
+        }
+      }
+
+      if (!activeBlog) return next(new Error("No blog"));
+
+      req.blog = activeBlog;
+      req.blogs = blogs;
+
+      res.locals.blog = activeBlog;
+      res.locals.blogs = blogs;
+
+      return next();
     }
-
-    if (!activeBlog) return next(new Error('No blog'));
-
-    req.blog = activeBlog;
-    req.blogs = blogs;
-
-    res.locals.blog = activeBlog;
-    res.locals.blogs = blogs;
-
-    return next();
-  });
+  );
 });
 
 // Performs some basic checks about the
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
-dashboard.use(require('./redirector'));
+dashboard.use(require("./redirector"));
 
 dashboard.use(debug("done fetching"));
 
 // Send user's avatar
-dashboard.use("/_avatars/:avatar", function(req, res, next){
-  
+dashboard.use("/_avatars/:avatar", function(req, res, next) {
   var blogID;
 
   if (req.query.handle) {
-    
-    blogID = req.blogs.filter(function(blog){
-      return blog.handle === req.query.handle;
-    }).map(function(blog){
-      return blog.id;
-    });
-
+    blogID = req.blogs
+      .filter(function(blog) {
+        return blog.handle === req.query.handle;
+      })
+      .map(function(blog) {
+        return blog.id;
+      });
   } else {
-
     blogID = req.blog.id;
   }
 
-  res.sendFile(config.blog_static_files_dir + '/' + blogID + '/_avatars/' + req.params.avatar, function(err){
-    if (err) return next();
-    // sent successfully
-  });
+  res.sendFile(
+    config.blog_static_files_dir +
+      "/" +
+      blogID +
+      "/_avatars/" +
+      req.params.avatar,
+    function(err) {
+      if (err) return next();
+      // sent successfully
+    }
+  );
 });
 
 dashboard.post(
-  ["/settings/theme*", "/path", "/folder*", "/settings/client*", "/flags", "/404s", "/account*"],
+  [
+    "/settings/theme*",
+    "/path",
+    "/folder*",
+    "/settings/client*",
+    "/flags",
+    "/404s",
+    "/account*"
+  ],
   bodyParser.urlencoded({ extended: false })
 );
 
-dashboard.post('/theme', function(req, res, next){
-  console.log('HERE');
+dashboard.post("/theme", function(req, res, next) {
+  console.log("HERE");
   next();
 });
 
 // Account page does not need to know about the state of the folder
 // for a particular blog
 
-dashboard.use(function(req, res, next){
+dashboard.use(function(req, res, next) {
   res.locals.partials = res.locals.partials || {};
   // res.locals.partials.head = __dirname + "/views/partials/head";
   // res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
@@ -233,40 +240,37 @@ dashboard.use(function(req, res, next){
   next();
 });
 
-dashboard.use(function(req, res, next){
-
+dashboard.use(function(req, res, next) {
   res.locals.links_for_footer = [];
 
-  res.locals.footer = function () {
-      
-    return function (text, render) {
-      res.locals.links_for_footer.push({html: text});
-      return '';
-    }
-  }
+  res.locals.footer = function() {
+    return function(text, render) {
+      res.locals.links_for_footer.push({ html: text });
+      return "";
+    };
+  };
 
   next();
 });
 
-
 // dashboard.use('/documentation', require("../site/documentation"));
 
-require("./routes/editor")(dashboard);
+dashboard.use("/template", require("./routes/editor"));
 
 // Special function which wraps render
 // so there is a default layout and a partial
 // inserted into it
 dashboard.use(require("./render"));
 
-dashboard.use('/account', require("./routes/account"));
+dashboard.use("/account", require("./routes/account"));
 
 dashboard.use(debug("before loading folder state"));
 
 // Load the files and folders inside a blog's folder
 dashboard.use(require("./routes/folder"));
 
-dashboard.get('/folder', function(req, res, next){
-  res.render('folder',{selected: {folder: 'selected'}});
+dashboard.get("/folder", function(req, res, next) {
+  res.render("folder", { selected: { folder: "selected" } });
 });
 
 function Breadcrumbs() {
@@ -289,26 +293,24 @@ function Breadcrumbs() {
   return list;
 }
 
-dashboard.use(function(req, res, next){
+dashboard.use(function(req, res, next) {
   res.locals.breadcrumbs = new Breadcrumbs();
   next();
 });
 
 dashboard.use(debug("after loading folder state"));
 
-
 require("./routes/tools")(dashboard);
 
 dashboard.use(require("./routes/settings"));
 
-
-dashboard.use(require('./routes/settings/errorHandler'));
+dashboard.use(require("./routes/settings/errorHandler"));
 
 // need to handle dashboard errors better...
 dashboard.use(require("./routes/error"));
 
 // Restore render function, remove this dumb bullshit eventually
-dashboard.use(function(req, res, next){
+dashboard.use(function(req, res, next) {
   if (res._render) res.render = res._render;
   next();
 });

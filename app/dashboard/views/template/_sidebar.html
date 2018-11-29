@@ -1,18 +1,10 @@
-<div id="sidebar" class="side">
 
-  <h1>
-    <a class="link" href="{{{template.baseUrl}}}/settings">{{name}}</a>
-  </h1>
 
 
   {{#sidebar}}
 
-    {{#is_title}}
-<!--     <h3>{{title}}</h3>
- --><br />{{/is_title}}
-
     {{^is_title}}
-    <a class="file {{active}}" href="{{{url}}}">
+    <a class="file {{active}}" href="{{{url}}}" style="display:block;padding:0 20px;text-decoration:none;color:inherit"><img src="/images/file-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
       {{name}}{{#extension}}<span class="lightestText">.{{extension}}</span>
       {{/extension}}
     </a>
@@ -20,8 +12,16 @@
 
   {{/sidebar}}
 
-  <Br />
+    <a class="borderButton"  href="{{{template.baseUrl}}}/view"><span style="position:relative;top:-1px">&thinsp;+&thinsp;</span> Create new view </a>
 
-  <a class="borderButton" style="margin-left:2rem" href="{{{template.baseUrl}}}/view"><span style="position:relative;top:-1px">&thinsp;+&thinsp;</span> Create view </a>
+
+
+
+  <a class="line" href="{{base}}/settings/local">
+    <span class="label">Local editing</span>
+    <span class="center">Edit this template locally from your folder</span>
+    <span class="right">Edit</span>
+  </a>
+
 
 </div>
