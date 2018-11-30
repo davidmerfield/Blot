@@ -23,7 +23,7 @@ var GLOBAL_TEMPLATE_DIRECTORY = TEMPLATES_DIRECTORY + "/_";
 // Build every template and then
 if (require.main === module) {
   main(TEMPLATES_DIRECTORY, function(err) {
-    if (err) throw err;
+    if (err) console.error(err);
 
     removeExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
       if (err) throw err;
@@ -166,8 +166,9 @@ function buildViews(directory, id, views, callback) {
 
       Template.setView(id, view, function onSet(err) {
         if (err) {
-          view.content = err;
+          view.content = err.toString();
           Template.setView(id, view, function() {});
+          console.log('Error in view:', path);
           return next(err);
         }
 
