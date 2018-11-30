@@ -51,6 +51,9 @@ form input {font:inherit;font-size: 14px;border:none;line-height: inherit;paddin
 form input[type="text"] {flex-grow:1;background: #f2f2f2}
 form input:focus {outline: none;background: #eee}
 .menu a[href="/search"] {display: none;}
+
+#results a {display: block;height:36px;line-height: 36px;overflow: hidden;}
+#results img {max-width: 32px;max-height: 32px;height: auto;width: auto;vertical-align: middle;}
   </style>
 </head>
 <body>
@@ -71,10 +74,12 @@ form input:focus {outline: none;background: #eee}
     {{/menu}}
   </div>
 
-  <form action="/search" style="margin:0;flex-grow:1;font-size: 13px;margin-right:1.5em;flex-basis:25%;display:flex">
+  <form action="/search" style="margin:0;flex-grow:1;font-size: 13px;margin-right:1.5em;flex-basis:25%;display:flex;position:relative">
 
     <input type="text" placeholder="Search" style="flex-grow:1"name="q">
     <input type="submit" value="Search" style="display:none;background:black;margin-left:4px;color:white;cursor:pointer">
+
+    <div id="results" style="position:absolute;top:100%;left:0;right:0;background:#fff;z-index:1"></div>
   </form>
 
   <div style="font-size: 13px;">

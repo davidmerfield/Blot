@@ -8,7 +8,40 @@
 
 {{{appJS}}}
 
+var searchInput = document.querySelectorAll('[name="q"]')[0];
+var results = document.getElementById('results');
 
+searchInput.oninput = function(){
+  console.log(searchInput.value);
+  httpGetAsync('/search?q=' + searchInput.value + '&json=true', function(res){
+    res = JSON.parse(res);
+    console.log(res.entries);
+    var result,html;
+    html = '';
+    res.entries.forEach(function(entry){
+      result = '';
+      result += '<a class="result" href="' + entry.url + '">';
+
+      if (entry.thumbnail && entry.thumbnail.square) result += '<span class="thumbnail"><img src="' + entry.thumbnail.square.url + '"></span>';
+
+      result += entry.title + '</a>';
+
+      html += result;
+    });
+    results.innerHTML = html;
+  });
+}
+
+function httpGetAsync(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
 
 var relativeDate = (function(undefined){
 
