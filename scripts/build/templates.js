@@ -69,7 +69,7 @@ function main(directory, callback) {
 
 // Path to a directory containing template files
 function build(directory, callback) {
-  console.log("Building", directory);
+  console.log("..", require('path').basename(directory), directory);
 
   var templatePackage, globalPackage, isPublic, method;
   var name, template, locals, description, views, id;
@@ -229,10 +229,6 @@ function watch(directory) {
       }
     });
   });
-
-  queue.drain = function() {
-    console.log("All builds have been processed");
-  };
 
   watcher(directory, function(path) {
     directory =
