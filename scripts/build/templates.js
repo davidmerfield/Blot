@@ -1,141 +1,235 @@
 var config = require("../../config");
-var helper = require("../../app/helper");
 var Template = require("../../app/models/template");
+var emptyCache = require("../cache/empty");
+var helper = require("../../app/helper");
+var extend = helper.extend;
+var basename = require("path").basename;
 
 var fs = require("fs-extra");
-var _ = require("lodash");
-var path = require("path");
 var mime = require("mime");
 var async = require("async");
 var watcher = require("watcher");
 
-var extend = helper.extend;
-var TEMPLATEDIR = path.resolve(__dirname + "/../../app/templates");
-var defaultDir = TEMPLATEDIR + "/_";
-var defaultInfo = fs.readJsonSync(TEMPLATEDIR + "/_/package.json");
+var TEMPLATES_DIRECTORY = require("path").resolve(
+  __dirname + "/../../app/templates"
+);
+var TEMPLATES_OWNER = "SITE";
 
-// Generate list of template names based on the names of
-// directories inside app/templates (e.g. ['console', 'default', ...])
-var templates = fs.readdirSync(TEMPLATEDIR).filter(function(name) {
-  return (
-    name[0] !== "." &&
-    name !== "_" &&
-    name.toLowerCase().indexOf("readme") === -1
-  );
-});
+// Right now, there are global template views inside the '_'
+// directory. This is bad. I should unfurl this into each
+// template directory and use my damn text editor properly.
+var GLOBAL_TEMPLATE_DIRECTORY = TEMPLATES_DIRECTORY + "/_";
 
-// If invoked from the command line, build
-// every template and then wait for changes
-// if inside development mode. I might want
-// to export the function for building a
-// single template, I might not...
+// Build every template and then
 if (require.main === module) {
-  async.each(templates, build, function(err) {
+  main(TEMPLATES_DIRECTORY, function(err) {
     if (err) throw err;
 
-    require("../cache/empty")();
-    console.log("Built all templates successfully");
+    removeExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
+      if (err) throw err;
 
-    if (config.environment !== "development") return process.exit();
-
-    console.log("Watching public directory for changes...");
-    process.stdin.resume();
-    templates.forEach(watch);
-  });
-}
-
-// Breaking this up allows us to watch individual
-// template directories and only rebuilt specific
-// templates, rather than every single template.
-function watch(name) {
-  watcher(TEMPLATEDIR, function() {
-    build(name, function(err) {
-      if (err) console.error(err);
-      require("../cache/empty")();
+      // Wait for changes if inside development mode.
+      if (config.environment === "development") {
+        watch(TEMPLATES_DIRECTORY);
+      } else {
+        process.exit();
+      }
     });
   });
 }
 
-// Name e.g. 'default' or 'console'
-function build(name, callback) {
-  console.log("Building", name);
+// Builds any templates inside the directory
+function main(directory, callback) {
+  var directories;
 
-  var owner = "SITE";
-  var dir = TEMPLATEDIR + name + "/";
-  var info, views;
+  // Generate list of template names based on the names of
+  // directories inside $directory (e.g. ['console', ...])
+  directories = fs
+    .readdirSync(directory)
+    .filter(function(name) {
+      return (
+        name[0] !== "." &&
+        name !== "_" &&
+        name.toLowerCase().indexOf("readme") === -1
+      );
+    })
+    .map(function(name) {
+      return directory + "/" + name;
+    });
 
-  try {
-    info = fs.readJsonSync(dir + "package.json");
-  } catch (e) {
-    return callback(new Error("Please create a package.json"));
-  }
-
-  extend(info).and(defaultInfo);
-  info.name = info.name || helper.capitalise(name);
-
-  views = _.cloneDeep(info.views);
-  delete info.views;
-
-  Template.update(owner, info.name, info, function(err) {
+  async.each(directories, build, function(err) {
     if (err) return callback(err);
 
-    var viewpaths = fs
-      .readdirSync(dir)
-      .map(function(n) {
-        return dir + "/" + n;
-      })
-      .concat(
-        fs.readdirSync(defaultDir).map(function(n) {
-          return defaultDir + "/" + n;
-        })
-      );
+    emptyCache(function() {
+      console.log("Built all templates successfully");
+      callback();
+    });
+  });
+}
 
-    async.each(
-      viewpaths,
-      function(path, next) {
-        var viewFilename = require("path").basename(path);
+// Path to a directory containing template files
+function build(directory, callback) {
+  console.log("Building", directory);
 
-        if (viewFilename.slice(0, 1) === ".") return next();
-        if (viewFilename === "package.json") return next();
+  var templatePackage, globalPackage, isPublic, method;
+  var name, template, locals, description, views, id;
 
-        var viewName = viewFilename.slice(0, viewFilename.lastIndexOf("."));
-        var viewContent;
+  try {
+    templatePackage = fs.readJsonSync(directory + "/package.json");
+    globalPackage = fs.readJsonSync(
+      GLOBAL_TEMPLATE_DIRECTORY + "/package.json"
+    );
+  } catch (e) {
+    return callback(e);
+  }
 
-        try {
-          viewContent = fs.readFileSync(dir + viewFilename, "utf-8");
-        } catch (err) {
-          if (err && err.code === "EISDIR") return next();
+  id = TEMPLATES_OWNER + ":" + basename(directory);
+  name = templatePackage.name || helper.capitalise(basename(directory));
+  description = templatePackage.description || "";
+  isPublic = templatePackage.isPublic !== false;
+
+  locals = {};
+
+  extend(locals)
+    .and(templatePackage.locals || {})
+    .and(globalPackage.locals || {});
+
+  views = {};
+
+  extend(views)
+    .and(templatePackage.views || {})
+    .and(globalPackage.views || {});
+
+  template = {
+    isPublic: isPublic,
+    description: description,
+    locals: locals
+  };
+
+  Template.getMetadata(id, function(err, existingTemplate) {
+    // Determine if we need to create a new template or
+    // update an existing one.
+    method = !!existingTemplate ? Template.update : Template.create;
+
+    method(TEMPLATES_OWNER, name, template, function(err) {
+      if (err) return callback(err);
+
+      buildViews(directory, id, views, callback);
+    });
+  });
+}
+
+function buildViews(directory, id, views, callback) {
+  var viewpaths;
+
+  viewpaths = fs.readdirSync(directory).map(function(n) {
+    return directory + "/" + n;
+  });
+
+  viewpaths = viewpaths.concat(
+    fs.readdirSync(GLOBAL_TEMPLATE_DIRECTORY).map(function(n) {
+      return GLOBAL_TEMPLATE_DIRECTORY + "/" + n;
+    })
+  );
+
+  async.each(
+    viewpaths,
+    function(path, next) {
+      var viewFilename = basename(path);
+
+      if (viewFilename === "package.json" || viewFilename.slice(0, 1) === ".")
+        return next();
+
+      var viewName = viewFilename.slice(0, viewFilename.lastIndexOf("."));
+      var viewContent;
+      if (viewName.slice(0, 1) === "_") {
+        viewName = viewName.slice(1);
+      }
+
+      try {
+        viewContent = fs.readFileSync(directory + "/" + viewFilename, "utf-8");
+      } catch (err) {
+        return next();
+      }
+
+      var view = {
+        name: viewName,
+        type: mime.lookup(viewFilename),
+        content: viewContent
+      };
+
+      if (views && views[view.name]) {
+        var newView = views[view.name];
+        extend(newView).and(view);
+        view = newView;
+      }
+
+      Template.setView(id, view, function onSet(err) {
+        if (err) {
+          view.content = err;
+          Template.setView(id, view, function() {});
           return next(err);
         }
 
-        var view = {
-          name: viewName,
-          type: mime.lookup(viewFilename),
-          content: viewContent
-        };
+        next();
+      });
+    },
+    callback
+  );
+}
 
-        if (view.name.slice(0, 1) === "_") {
-          view.name = view.name.slice(1);
-        }
+function removeExtinctTemplates(directory, callback) {
+  var names = fs.readdirSync(directory).map(function(name) {
+    return name.toLowerCase();
+  });
 
-        if (views && views[view.name]) {
-          var newView = views[view.name];
-          extend(newView).and(view);
-          view = newView;
-        }
+  console.log("Checking for extinct templates...");
 
-        Template.setView(templateID, view, function onSet(err) {
-          if (err) {
-            view.content = err;
-            Template.setView(templateID, view, function() {});
-            console.log("her");
-            return callback(err);
-          }
+  Template.getTemplateList("", function(err, templates) {
+    if (err) return callback(err);
 
-          next();
-        });
-      },
-      callback
-    );
+    templates = templates.filter(function(template) {
+      return template.owner === TEMPLATES_OWNER;
+    });
+
+    templates = templates.filter(function(template) {
+      return names.indexOf(template.name.toLowerCase()) === -1;
+    });
+
+    if (templates.length) {
+      console.log(
+        templates.length +
+          " templates no longer exist. Please run these scripts to safely remove them from the database:"
+      );
+    }
+
+    templates.forEach(function(template) {
+      console.log(
+        "node scripts/template/archive.js",
+        template.name.toLowerCase()
+      );
+    });
+
+    callback();
+  });
+}
+
+function watch(directory) {
+  console.log("Watching", directory, "for changes...");
+
+  // Stop the process from exiting automatically
+  process.stdin.resume();
+
+  watcher(directory, function(x, y, z) {
+    console.log(x, y, z);
+
+    // Breaking this up allows us to watch individual
+    // template directories and only rebuilt specific
+    // templates, rather than every single template.
+    return;
+    build(name, function(err) {
+      if (err) console.error(err);
+      require("../cache/empty")();
+    });
   });
 }
