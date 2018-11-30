@@ -207,7 +207,7 @@ function removeExtinctTemplates(directory, callback) {
     templates.forEach(function(template) {
       console.log(
         "node scripts/template/archive.js",
-        template.name.toLowerCase()
+        template.id.split(':')[1]
       );
     });
 
