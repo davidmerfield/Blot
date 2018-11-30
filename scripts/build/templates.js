@@ -215,21 +215,31 @@ function removeExtinctTemplates(directory, callback) {
 }
 
 function watch(directory) {
-  console.log("Watching", directory, "for changes...");
-
   // Stop the process from exiting automatically
   process.stdin.resume();
+  console.log("Watching", directory, "for changes...");
 
-  watcher(directory, function(x, y, z) {
-    console.log(x, y, z);
-
-    // Breaking this up allows us to watch individual
-    // template directories and only rebuilt specific
-    // templates, rather than every single template.
-    return;
-    build(name, function(err) {
-      if (err) console.error(err);
-      require("../cache/empty")();
+  var queue = async.queue(function(directory, callback) {
+    build(directory, function(err) {
+      if (err) {
+        console.error(err);
+        callback();
+      } else {
+        emptyCache(callback);
+      }
     });
+  });
+
+  queue.drain = function() {
+    console.log("All builds have been processed");
+  };
+
+  watcher(directory, function(path) {
+    directory =
+      TEMPLATES_DIRECTORY +
+      "/" +
+      path.slice(TEMPLATES_DIRECTORY.length).split("/")[1];
+
+    queue.push(directory);
   });
 }
