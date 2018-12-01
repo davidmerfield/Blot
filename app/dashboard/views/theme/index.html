@@ -24,7 +24,8 @@
   color: #999
 }
 
-.line.theme:hover {background: rgba(0,0,0,0.02)}
+/*.line.theme {border: 1px solid rgba(0,0,0,0.05);margin-bottom: 11px}
+*/.line.theme:hover {background: rgba(0,0,0,0.02)}
 .preview-button, .line form {float: right;}
 
 .preview-cover:hover + .preview-button .square,
@@ -38,37 +39,37 @@
 <input type="hidden" name="redirect" value="/theme">  
 
 {{^blog.template}}
-<div class="line" style="border-bottom:none">
-      <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your theme is disabled. </span>
+<div class="lisne" style="border-bottom:none">
+      <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your template is disabled. </span>
 
  <form method='post' style="display:inline">
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden"  name="template" value="SITE:default" > 
-      <button type="submit"><span class="square">Enable your theme</span></button>
+      <button type="submit"><span class="square">Enable your template</span></button>
   </form>
 </div>
 {{/blog.template}}
 
 
 {{#blog.template}}
-<div class="line">
+<div class="linse">
 
 
 
-  <p>
-
-
-    <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme.</p>
-
+  <style type="text/css">
+form label {text-transform:none;letter-spacing:0;color:rgb(158, 154, 152);font-size:16px}
+p a{color:#365899;text-decoration:none}
+p a:hover{text-decoration: underline;}</style>
+<!-- <p style="margin:15px 0"><b>{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme. </p>
+ -->
 
     
 
   
   
+<a class="line" style="color:#365899" href="/settings/theme/new">
+  Create new template</a>
 
-  <Br>
-
-  <span style="color:rgb(153, 153, 153)">Your themes      <a class="butty" href="/settings/theme/new">Create new theme</a>
 </span>
 
 </div>
@@ -93,13 +94,13 @@
 
   <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
 
-
-
+<!--   <span class="icon file"></span>
+ -->
     <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>  
   <form method='post' style="display:inline">
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden"  name="template" value="{{id}}" > 
-      <button {{#checked}}disabled{{/checked}} type="submit"><span class="square">Install</span></button>
+      <button {{#checked}}disabled{{/checked}} type="submit"><span class="square">Install{{#checked}}ed{{/checked}}</span></button>
   </form>
       {{#isMine}}
         <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px" class="preview-button" ><span class="square">Edit</span></a>  
@@ -109,13 +110,14 @@
   <div class="clear"></div>
 
 {{/templates}}
-<br><div class="line">
-<form method='post' style="float:left">
+
+
+<form method='post'>
   <input type="hidden" name="redirect" value="/settings/theme">  
   <input name="template" value="" type="hidden"/>
-  <button type="submit">Disable your theme</button>
+  <button type="submit" style="color:#365899;padding:11px 20px;display:block;text-align:left;width:100%">Disable your template</button>
 </form>
-</div>
+
 {{/blog.template}}
 
 

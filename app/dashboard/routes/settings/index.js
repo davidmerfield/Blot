@@ -106,7 +106,7 @@ settings.get('/settings/urls/redirects', load.redirects, function(req, res){
 // Load the list of templates for this user
 
 settings.use("/settings/theme", load.theme, function(req, res, next) {
-  res.locals.breadcrumbs.add("Theme", "theme");
+  res.locals.breadcrumbs.add("Template", "theme");
   next();
 });
 
@@ -115,15 +115,15 @@ settings.use('/settings/client', require('./client'));
 settings
   .route("/settings/theme")
   .get(function(req, res) {
-    res.render("theme", {title: "Theme"});
+    res.render("theme", {title: "Temmplate"});
   })
   .post(require('./save/theme'));
 
 settings
   .route("/settings/theme/new")
   .get(function(req, res) {
-    res.locals.breadcrumbs.add("Create new theme", "new");
-    res.render("theme/new", {title: 'Create new theme'});
+    res.locals.breadcrumbs.add("New", "new");
+    res.render("theme/new", {title: 'New template'});
   })
   .post(require('./save/newTheme'));
 
