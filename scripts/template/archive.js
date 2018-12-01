@@ -21,8 +21,8 @@ if (require.main === module) {
 function main(name, callback) {
   var templateID = "SITE:" + name;
 
-  if (!fs.statSync(templateDir + "/" + name).isDirectory())
-    return callback(new Error("Could not find global template " + name));
+  if (!fs.existsSync(templateDir + "/" + name))
+    console.warn("Warning: could not find existing global template directory at app/templates/" + name);
 
   Template.getMetadata(templateID, function(err, template) {
     if (err) return callback(err);

@@ -17,7 +17,7 @@ module.exports = function (doThis, allDone, options) {
 
     if (err || !blogIDs) throw err || 'No';
 
-    console.log();
+    if (!options.silent) console.log();
 
     if (options.s) {
 
@@ -59,8 +59,8 @@ module.exports = function (doThis, allDone, options) {
 
     }
 
-    console.log();
-    console.log();
+    if (!options.silent) console.log();
+    if (!options.silent) console.log();
 
     var forEach = ForEach;
 

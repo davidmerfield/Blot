@@ -37,6 +37,7 @@ module.exports = function main(blog, callback) {
       // blog folder in the user's Dropbox folder.
       delta(account.cursor, function handle(err, result) {
         if (err) {
+          debug("Delta error", err);
           return Database.set(
             blog.id,
             { error_code: err.status || 400 },
@@ -45,6 +46,8 @@ module.exports = function main(blog, callback) {
             }
           );
         }
+
+        debug("Retrieved", result.entries.length, "changes");
 
         // Now we attempt to apply the changes which occured in the
         // user's folder on Dropbox to the blog folder on Blot's server.
@@ -102,7 +105,10 @@ module.exports = function main(blog, callback) {
                 // we get them before returning the callback.
                 // This is important because a rename could
                 // be split across two pages of file events.
-                if (result.has_more) return delta(result.cursor, handle);
+                if (result.has_more) {
+                  debug("There are more change to fetch");
+                  return delta(result.cursor, handle);
+                }
 
                 debug("Finished sync!");
                 done(null, callback);
