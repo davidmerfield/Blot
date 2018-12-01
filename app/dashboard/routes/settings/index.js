@@ -18,6 +18,16 @@ settings.get("/settings", function(req, res, next) {
   res.redirect("/");
 });
 
+
+settings.use(function(req, res, next) {
+
+  res.locals.breadcrumbs.add("Settings", "/settings");
+  res.locals.setup = !!req.query.setup;
+
+  next();
+});
+
+
 var index = settings.route("/");
 
 index.get(
@@ -36,14 +46,6 @@ index.get(
   }
 );
 
-
-settings.use(function(req, res, next) {
-
-  res.locals.breadcrumbs.add("Settings", "/settings");
-  res.locals.setup = !!req.query.setup;
-
-  next();
-});
 
 settings
   .route("/settings")
@@ -68,7 +70,7 @@ settings.get("/settings/urls", function(req, res, next) {
   next();
 });
 
-settings.get("/settings/title", function(req, res, next){
+settings.get("/settings/profile", load.menu, load.timezones, load.dates, function(req, res, next){
   res.locals.setup_title = true;
   next();
 });
@@ -104,7 +106,7 @@ settings.get('/settings/urls/redirects', load.redirects, function(req, res){
 // Load the list of templates for this user
 
 settings.use("/settings/theme", load.theme, function(req, res, next) {
-  res.locals.breadcrumbs.add("Theme", "theme");
+  res.locals.breadcrumbs.add("Template", "theme");
   next();
 });
 
@@ -113,15 +115,15 @@ settings.use('/settings/client', require('./client'));
 settings
   .route("/settings/theme")
   .get(function(req, res) {
-    res.render("theme", {title: "Theme"});
+    res.render("theme", {title: "Temmplate"});
   })
   .post(require('./save/theme'));
 
 settings
   .route("/settings/theme/new")
   .get(function(req, res) {
-    res.locals.breadcrumbs.add("Create new theme", "new");
-    res.render("theme/new", {title: 'Create new theme'});
+    res.locals.breadcrumbs.add("New", "new");
+    res.render("theme/new", {title: 'New template'});
   })
   .post(require('./save/newTheme'));
 

@@ -4,7 +4,9 @@
   <p style="margin:0 0 2rem;max-width:475px">Please choose a title for your blog. Note that you can always edit this later on your blog's settings page.</p>
 
     <div style="max-width:22rem">
-    {{> subpage}}
+<label for="title">Title</label>
+<input type="hidden" name="redirect" value="/settings/profile">
+<input type="text" autofocus name="title" value="{{blog.title}}">
 
   <div class="buttons">
     <button type="submit" onclick="this.form.submit();this.disabled=true">Save title</button>

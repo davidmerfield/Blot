@@ -1,5 +1,6 @@
 <div style="max-width:400px;margin-left:1.33em">
 
+
 <label>Name:
  <input type="text" name="name" value="{{name}}"/>
 </label>
@@ -44,7 +45,26 @@
 
 
 {{/isCurrent}}
+</form>
+<form method='post' action='/settings' enctype='multipart/form-data'>
+  <input type="hidden" name="redirect" value="{{base}}">
+    <label>
+      How should the date appear on your blog?<br />
+      <select name="dateDisplay">
+        {{#displayFormats}}
+          <option value="{{value}}" {{selected}}>{{date}}</option>
+        {{/displayFormats}}
+      </select>
+    </label>
 
+    <label>
+      <input type='hidden' value='off' name='hideDates'>
+      <input type="checkbox" name="hideDates" {{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for your posts
+    </label>
+<input type="submit" class="button left" value="Save changes">
+
+
+</form>
   <br /><Br /><Br /><Br /><Br />
 </div>
 

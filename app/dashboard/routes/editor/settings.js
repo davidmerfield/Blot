@@ -17,7 +17,7 @@ module.exports = function (server) {
 
     // Ensure the viewer is logged in and
     // owns a template with that name.
-    .all(loadTemplate, loadSidebar)
+    .all(loadTemplate, loadSidebar, require('../settings/load/dates'))
 
     .get(function(req, res){
 
