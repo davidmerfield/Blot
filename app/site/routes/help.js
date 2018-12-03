@@ -122,7 +122,7 @@ help.get('/', function(req, res){
     if (err) return next(err);
 
     res.locals.menu.introduction = 'selected';
-    res.locals.title = 'Blot';  
+    res.locals.title = 'Blot: a blogging platform with no interface';  
     res.locals.next = {title: 'How to use Blot', url: '/help'};
     res.locals.sites = sites;
     res.render('index', {price: "$" + config.stripe.plan.slice(-2)});
