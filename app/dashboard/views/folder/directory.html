@@ -3,6 +3,13 @@
 
   <input type="hidden" name="redirect" value="{{redirect}}">
 
+  {{^contents.length}}
+  <div style="padding: 0 20px 11px;">
+  This folder is empty.
+  
+</div>
+  {{/contents.length}}
+
   {{#contents}}
 
     <button class="content-line" type="submit" name="path" value="{{path}}">

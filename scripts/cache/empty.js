@@ -46,7 +46,7 @@ function flush (cb) {
         fs.remove(item, next);
       }, cb);
     });
-  });
+  }, {silent: true});
 }
 
 module.exports = flush;

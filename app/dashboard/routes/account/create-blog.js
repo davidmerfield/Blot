@@ -66,7 +66,6 @@ CreateBlog.route("/")
   })
 
   .get(function(req, res) {
-    res.locals.partials.subpage = "settings/title";
     res.locals.partials.yield = "account/create-blog";
     res.locals.blog = {};
     res.render("partials/wrapper-setup", {
