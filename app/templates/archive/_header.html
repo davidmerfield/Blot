@@ -31,7 +31,7 @@
 }
 
 
-body {font-family: 'Plex Sans', sans-serif;line-height:1.5;font-size: 16px;margin: 0;padding: 0}
+body {font-family: 'Plex Sans', sans-serif;    /*-webkit-font-smoothing: antialiased;*/line-height:1.3;font-size: 16px;margin: 0;padding: 0}
 
 .header {display: flex;width:100%;padding:0.75em 0;}
 
@@ -61,20 +61,20 @@ form input:focus {outline: none;background: #eee}
 <div class="header">
 
   <div>
-    <a class="index" style="font-size: 13px;padding-left:1.5em;padding-right:1.5em" href="/">
+    <a style="color:rgba(0, 0, 0, 0.4);padding-left:2rem;padding-right:2rem" href="/">
       {{#avatar}}<img style="max-width:26px;max-height:26px;vertical-align:middle" src="{{avatar}}">{{/avatar}}
-      <b>{{title}}</b></a>
+      {{title}}</a>
     {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
     <div style="height:0;overflow:hidden">{{> sidebar}}</div>
   </div>  
 
-  <div style="flex-grow:1;flex-basis:33%;padding-left:1.5em;margin-left:-6px">
+<!--   <div style="flex-grow:1;flex-basis:33%;padding-left:1.5em;margin-left:-6px">
     {{#menu}}
     <a style="margin-right:0.75em;font-size: 13px;" href="{{url}}">{{label}}</a>
     {{/menu}}
-  </div>
+  </div> -->
 
-  <form action="/search" style="margin:0;flex-grow:1;font-size: 13px;margin-right:1.5em;flex-basis:25%;display:flex;position:relative">
+  <form action="/search" style="margin:0 0 0 1.5rem;max-width:50%;flex-grow:1;font-size: 13px;margin-right:1.5em;flex-basis:25%;display:flex;position:relative">
 
     <input type="text" placeholder="Search" style="flex-grow:1"name="q">
     <input type="submit" value="Search" style="display:none;background:black;margin-left:4px;color:white;cursor:pointer">
@@ -83,8 +83,10 @@ form input:focus {outline: none;background: #eee}
   </form>
 
   <div style="font-size: 13px;">
+  <a  href="/page/{{pagination.previous}}">&larr; Previous page </a>
+
   <a>{{#pagination}}Page {{current}} of {{total}}{{/pagination}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  {{#pagination.next}}<a  href="/page/{{pagination.next}}">Next page &rarr;</a>{{/pagination.next}}
+  <a  href="/page/{{pagination.next}}">Next page &rarr;</a>
   </div>  
 </div>
 
