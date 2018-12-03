@@ -1,0 +1,67 @@
+Date: October 6th, 2015 10:44
+Summary: I’d like to take a few minutes this morning and talk about one, really important part of social change and the work your organization does: people.
+Permalink: tbyt
+
+# Resource catalyst.
+
+### Speaking notes from a presentation delivered at Framework’s Take Back Your Tech event on October 6, 2015.
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt1.png)
+
+Today, you’ve heard a lot of really smart people, and will continue to hear a lot of smart people, talk about how technology can help you create, measure, and increase social change. This afternoon, you’re going to spend some time looking at how you can use technology in your own organizations to be more effective, efficient, and impactful.
+
+I’d like to take a few minutes this morning and talk about one, really important part of social change and the work your organization does: people.
+
+Today, you’ve heard a lot of really smart people, and will continue to hear a lot of smart people, talk about how technology can help you create, measure, and increase social change. This afternoon, you’re going to spend some time looking at how you can use technology in your own organizations to be more effective, efficient, and impactful.
+
+I’d like to take a few minutes this morning and talk about one, really important part of social change and the work your organization does: people.
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt2.png)
+
+In current times of economic constraint, you’re always being told to do more with less, to have large as an impact you can have but use as little money and resources as you can. It’s easy to feel like a robot with a big heart, when working at a non-profit: you care so much about your work, but your resource constraints make you bound to repeating what works, over and over again.
+
+So, in an environment where you have to do more with less, what do you cut? Operations? Fundraising? The actual services you provide?
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt3.png)
+
+Here’s the secret of being able to do more in a time when you’re told to use less: let others help you.
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt4.png)
+
+As nonprofits, our business is spreading the light that Edith Wharton talks about, but for many of us, we work every day to be the candle. There are people out there— volunteers, businesses, other service organizations — that are also interested in spreading light; perhaps we need to start thinking about how we can be the mirror that reflects them.
+
+There’s a massive group of people out there that want to help us do the work we do, but there’s a disconnect: how do identify, mobilize, and connect them?
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt5.png)
+
+That’s where technology comes in. We can use this series of virtual pipes and tubes to catalyze resources we didn’t realize we had.
+
+Here are a few examples.
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt6.png)
+
+[Kudoz](http://www.kudoz.ca/) is an atypical disability day program being run in Vancouver. Instead of going to a standard, set adult disability day program, participants use their mobile devices to choose special activities and adventures each day: a program that is tailor-made to their interests. These activities are hosted by volunteer businesses and organizations who have the capacity to provide new and exciting experiences outside of the regular day program model. For example, a bakery can host a cupcake-baking activity, or a pet-shop can host a learn about animals experience. Kudoz uses technology to play the role of connector, connecting the participants with a new pool of volunteers who are eager to help.
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt7.png)
+
+The [Central Park Conservancy](http://www.centralparknyc.org/) realized quickly that the people who are most likely to support the park financially, and in creating programs, were the people who used the park every day. Using a targeted social network, the conservancy created a space where people could self-appoint themselves as stewards of the park. These stewards would then create programs and event to increase the use, vibrancy, and long-term care of the park, and use the social network to advertise their programs and increase engagement with park visitors. (A side benefit: the social network also helped with fundraising, as many of the events ended up bringing in money.) The Conservancy used technology to mobilize people who cared about the park, and who were willing to do the work that the Conservancy had identified as their own in their mandate.
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt8.png)
+
+Some of you may be thinking: not all my volunteers or program participants want to, or can, use technology. Can I still tap into that resource pool?
+
+[Family By Family](http://familybyfamily.org.au/) is a program in Australia that connects families that have gone through programs and come out of vulnerable spaces with those that are in that situation right now. Their system of peer mentoring has proven successful in increasing the impact of their work, while still allowing a single social worker to manage many cases due to financial constraints. Some of their volunteers, and their participants, either do not have access to, or want to use connective technology, so all the work is done face to face, with a social worker connecting the two families in person.
+
+That said, behind the scenes, Family By Family has a technological infrastructure that helps them identify linkages, and a robust case management system that allows them to follow up with each family pair and ensure effective outcomes. The technology is invisible to the participants, but integral to connecting and mobilizing peer resources.
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt9.png)
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt10.png)
+
+I’ll leave you with this: technology can help you identify, mobilize, and connect resources you never knew you had — it is a resource catalyst.
+
+![Resource Catalyst Slides](../_assets/20151006-tbyt11.png)
+
+I’d love to chat more with all of you on how to use it as a resource catalyst in the work that you do, every day.
+
+_[Video of presentation available here.](https://www.youtube.com/watch?v=gmjfQTLwKW0) Full presentation deck available upon request._
