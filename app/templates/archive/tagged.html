@@ -29,8 +29,13 @@ font-size: 14px;color: #aaa;text-decoration: none;text-align: center;}
   </div>
 </div>
 <div style="clear:both"></div> -->
+<div style="padding:0 3.2rem">
+<h1>{{tag}} </h1><small>{{entries.length}} entries &bull; Last updated  {{#entries}}{{#first}}<span date-from-now="{{dateStamp}}" style="font-size:14px">{{date}}</span>{{/first}}{{/entries}}
+</small>
+<hr style="border:none;border-top:1px solid #f2f2f2">
+<br>
+</div>
 <div class="posts">
-
 
 
 {{#entries}}

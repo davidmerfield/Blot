@@ -1,7 +1,29 @@
-<div style="flex-basis:150px;padding:2rem 2rem;">
+<style type="text/css">
+
+a.sidebar {
+  color:rgba(0, 0, 0, 0.75);text-decoration:none;display:inline-block
+}
+
+a.sidebar:hover {
+  opacity: 0.8;
+}
+
+a.sidebar:active {
+  opacity: 0.6666;
+}
+
+
+a.sidebar.active {
+  color: rgba(0,0,0,0.4);
+}
+
+</style>
+<div style="padding:2.6rem 3.9rem 2rem 2rem;">
+
+<span style="color:rgba(0,0,0,.4);font-size:11px">TOPICS:</span><br><br>
 
 {{#allTags}}
-<a href="/tagged/{{slug}}" style="color:rgba(0, 0, 0, 0.75);text-decoration:none;display:inline-block">{{tag}}</a><br>
+<a href="/tagged/{{slug}}" class="sidebar {{active}}">{{tag}}</a><br>
 {{/allTags}}
 <br><br>
 

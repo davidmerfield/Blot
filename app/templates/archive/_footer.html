@@ -1,8 +1,8 @@
-<div style="background:black">
+<!-- <div style="background:black">
 {{#all_entries}}{{/all_entries}}
 {{all_entries.length}} posts. Last updated 3 hours ago.
 </div>
-
+ -->
 
 <script>
 
@@ -15,7 +15,12 @@ searchInput.oninput = function(){
   console.log(searchInput.value);
   httpGetAsync('/search?q=' + searchInput.value + '&json=true', function(res){
     res = JSON.parse(res);
+
+    // limit number of results to 15
+    res.entries = res.entries.slice(0,15);
+
     console.log(res.entries);
+    
     var result,html;
     html = '';
     res.entries.forEach(function(entry){
