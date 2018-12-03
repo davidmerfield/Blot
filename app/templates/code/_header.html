@@ -107,7 +107,9 @@
 
 body {font-family: 'Plex Serif';
 color: rgb(51, 51, 51);
-line-height: 1.7;
+line-height: 1.45;
+font-size: 18px;
+-webkit-font-smoothing: antialiased;
 }
 
 .entry p,
@@ -133,16 +135,20 @@ line-height: 1.7;
     max-width: 33em
 }
 code {font-family: 'Plex Mono'}
+
+.head a:hover {opacity: 0.8}
+.head a:active {opacity: 0.6666}
       </style>
   </head>
   <body>
-  <div style="max-width:1024px;margin:0 auto">
-    <br><br>    <div style="display:flex;flex-direction:row">
-      <a href="/" style="color:inherit;text-decoration:none">{{title}}</a>
-      <div style="flex-grow:1">
+
+      <div class="head" style="padding:2rem;font-size:14px;font-family:'Plex Mono';color:rgba(0,0,0,.2)">
+      <a href="/" style="color:rgba(0,0,0,.85);text-decoration:none">{{title}}</a>
+      
+      <span style="display:inline-block;width:2.175rem;border-top:1px solid #ccc;margin:.725rem;height:0;vertical-align:middle;"></span>
+
         {{#menu}}
-      <a href="{{url}}">{{label}}</a><br>
+      <a style="color:rgba(0,0,0,.4);text-decoration:none"href="{{url}}">{{label}}</a>{{^last}},&puncsp;{{/last}}
       {{/menu}}
-    </div>
     </div>
     <br><br>

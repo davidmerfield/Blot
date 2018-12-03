@@ -1,29 +1,60 @@
 {{> header}}
 
 <style type="text/css">
-h1 {font-size: 24px}
+h1 {font-size: 28px}
+
+h2, h3 {margin:5.8rem 0 1.45rem;font-size: 20px}
+img {max-width: 100%;max-height: 100%;width: auto;;height: auto;}
+/* Small caps */
+.small-caps {font-family: 'Charter SC', serif}
+
+/* Double quote (") marks */
+.pull-double{margin-left:-.38em}
+.push-double{margin-right:.38em}
+
+/* Single quote (') marks */
+.pull-single{margin-left:-.15em}
+.push-single{margin-right:.15em}
+
+/* Optical margin alignment for particular letters */
+.pull-T, .pull-V, .pull-W, .pull-Y {margin-left: -0.07em}
+.push-T, .push-V, .push-W, .push-Y {margin-right: 0.07em}
+
+.pull-O, .pull-C, .pull-o, .pull-c {margin-left: -0.04em}
+.push-O, .push-C, .push-o, .push-c {margin-right: 0.04em}
+
+.pull-A {margin-left: -0.03em}
+.push-A {margin-right: 0.03em}
+
+.entry a{transition:background 0.1s;}
+.entry a:hover {background: rgba(0,0,0,.05)}
+.entry a:active {background: rgba(0,0,255,0.1);}
+
+.entry li {padding-left: .725rem}
 </style>
 <div style="display:flex;flex-direction:row;">
-<div style="width:200px;padding-right: 2rem">
+<div style="width:200px;position:fixed;display:none;padding: 2rem;opacity:0.4">
+  <span style="text-transform:uppercase;font-size:11px">Recent posts</span>
 {{#recentEntries}}
-<hr style="width:1rem;margin-left:-0.25rem">
+<hr style="width:1rem;margin-left:-0.25rem;">
 <a style="font-family:'Plex Sans';font-size:13px;font-weight:bold;display:block;padding-bottom:2rem;color:black;text-decoration:none" href="{{url}}">{{title}}</a>
 {{/recentEntries}}
 </div>
-<div style="flex-grow:1;width:200px">
+<div style="flex-grow:1;width:200px;margin-left:20rem;max-width:50rem">
 {{#entries}}
 
-<hr>
+<hr style="border:none;border-top:1px solid #ccc">
   <a href="{{url}}" style="display:flex;color:inherit;text-decoration:none">
-  <span style="line-height:1.3;flex-basis:150px;font-size:13px;text-decoration:none"><b>{{#formatDate}}ddd D MMM<br>  YYYY{{/formatDate}}</b><br>{{#formatDate}}hh:mm A{{/formatDate}}</span>
   <h1  style="margin:0;flex-basis:200px;flex-grow:1">{{title}}</h1>
+  <span style="line-height:1.3;flex-basis:150px;font-size:13px;text-decoration:none;font-family:'Plex Mono';color:rgba(0,0,0,0.4)"><b>{{#formatDate}}ddd D MMM<br>  YYYY{{/formatDate}}</b><br>{{#formatDate}}hh:mm A{{/formatDate}}</span>
 </a>
 <br>
-<hr style="opacity:0.5">
+<hr style="border:none;border-top:1px solid #f2f2f2">
 <div class="entry">
 {{{body}}}
 </div>
-<br><br><br>
+<span style="float:right;color:rgba(0,0,0,0.4)">&rarr;</span>
+<br><br><br><br><br>
 {{/entries}}
 </div>
 
