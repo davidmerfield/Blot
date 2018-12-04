@@ -24,15 +24,15 @@
 <div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
 
   
-  <div style="float:right;padding-right:2.5rem">
+  <div style="padding-right:2.5rem">
     <div class="page-numbers">
       
     </div>
     <style type="text/css">
+    .page-numbers {display: flex;}
     .page-numbers a {
       color: #666;
-      text-decoration: none;
-      border:1px solid rgba(0,0,0,0.05);margin: 4px;padding: 2px 6px}
+      text-decoration: none;margin: 0 0.65rem;padding: 0.65rem;background: #f2f2f2}
     </style>
     <script type="text/javascript">
 
@@ -44,6 +44,7 @@
     </script>
   {{#pagination}}Page {{current}} of {{total}}{{/pagination}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   {{#pagination.next}}<a style="text-decoration:none;color:inherit" href="/page/{{pagination.next}}">Next page &rarr;</a>{{/pagination.next}}
+  <br><Br><br><br><Br>
   </div>
 </div>
 

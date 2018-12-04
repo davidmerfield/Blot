@@ -16,7 +16,7 @@ a.item span {vertical-align: middle;display: inline-block;}
 {{#months}}
 <h2>{{month}}</h2>
 {{#entries}}
-<a class="item" href="{{url}}">{{#thumbnail.square}}<span style="display:inline-block;width:1em;height:1em"><img src="{{thumbnail.square.url}}" style="float:left;max-width:1em;max-height:1em;width:auto;height:auto"></span>{{/thumbnail.square}} {{title}}</a>
+<a class="item" href="{{url}}">{{#thumbnail.square}}<span style="display:inline-block;width:1em;height:1em"><img src="{{thumbnail.square.url}}" style="float:left;max-width:1em;max-height:1em;width:auto;height:auto"></span>{{/thumbnail.square}} {{title}} <sup style="font-size:11px">{{date}}</sup></a>
 {{/entries}}
 {{/months}}
 {{/archives}}

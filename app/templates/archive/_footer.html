@@ -1,10 +1,17 @@
+  <a class="light" href="javascript:randomArticle()" style="text-transform:uppercase;font-size:11px;position:fixed;bottom:2rem;left:2rem"><img width="16" style="vertical-align:bottom" src="/icons/shuffle.svg">&puncsp;&puncsp; Random</a>
+
+
 <!-- <div style="background:black">
 {{#all_entries}}{{/all_entries}}
 {{all_entries.length}} posts. Last updated 3 hours ago.
 </div>
  -->
 
+
 <script>
+
+{{{appJS}}}
+
 
 var localHistory = sessionStorage.getItem('localHistory');
 
@@ -21,9 +28,6 @@ if (localHistory) {
 localHistory.push(window.location);
 sessionStorage.setItem('localHistory', JSON.stringify(localHistory));
 
-console.log('Current history', localHistory);
-
-{{{appJS}}}
 
 var articles = [{{#all_entries}}'{{{url}}}'{{^last}},{{/last}}{{/all_entries}}];
 var backIndex;
@@ -35,14 +39,13 @@ localHistory.reverse().forEach(function(href, i){
   }
 });
 
-console.log('Go back', backIndex, 'to get to an index page');
 
 function lastIndexPage () {
   window.history.go(-backIndex);
 }
 
 function randomArticle () {
-  window.location= articles[Math.floor(Math.random()*articles.length)];
+  window.location = articles[Math.floor(Math.random()*articles.length)];
 }
 
 var searchInput = document.querySelectorAll('[name="q"]')[0];
