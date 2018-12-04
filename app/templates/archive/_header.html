@@ -33,21 +33,24 @@
 
 body {font-family: 'Plex Sans', sans-serif;    /*-webkit-font-smoothing: antialiased;*/line-height:1.3;font-size: 16px;margin: 0;padding: 0}
 
-.header {display: flex;width:100%;}
+.header {display: flex;width:100%;padding:1.3rem 0;}
 
-.header a {color: black;text-decoration: none;color: #aaa}
-
+a.light {color:rgba(0, 0, 0, 0.4);text-decoration: none;}
+a.light:hover {color: rgba(0,0,0,.3);}
+a.light:hover img {opacity: 0.8}
+a.light:active {color: rgba(0,0,0,.25);}
+a.light:active img {opacity: 0.666}
 .header a,
 .header input {
-  margin:0 0;display: inline-block;padding: 0.666rem 1rem
+  margin:0 0;display: inline-block;padding: 0.65rem 0
 }
 
 .menu {display: flex;flex-wrap:wrap;flex-basis:20%;}
 
 
 
-form input {font:inherit;font-size: 16px;border:none;line-height: inherit;}
-form input[type="text"] {flex-grow:1;color:rgba(0,0,0,.4);padding-left:3.6rem;background:#f6f6f6 url('/icons/search.svg') no-repeat 1.3rem center;background-size: 1rem}
+form input {padding-left:1rem;padding-right:1rem; font:inherit;font-size: 16px;border:none;line-height: inherit;}
+form input[type="text"] {flex-grow:1;color:rgba(0,0,0,.85);padding-left:3.6rem;background:#f6f6f6 url('/icons/search.svg') no-repeat 1.3rem center;background-size: 1rem}
 form input:hover {outline: none;background-color: #f8f8f8}
 form input:focus {outline: none;background-color: #fbfbfb}
 .menu a[href="/search"] {display: none;}
@@ -65,6 +68,13 @@ form input:focus {outline: none;background-color: #fbfbfb}
 #results a {display: block;height:36px;line-height: 36px;overflow: hidden;}
 #results a:focus {outline: none;background: #ddd}
 #results img {max-width: 32px;max-height: 32px;height: auto;width: auto;vertical-align: middle;}
+ 
+
+.pag a,
+.pag a[href]:hover {font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.1);}
+
+.pag a[href] {color: rgba(0,0,0,0.4);}
+
   </style>
 </head>
 <body>
@@ -72,35 +82,31 @@ form input:focus {outline: none;background-color: #fbfbfb}
 <div class="header">
 
   <div>
-    <a style="color:rgba(0, 0, 0, 0.4);padding-left:2rem;padding-right:2rem" href="/">
-      {{#avatar}}<img style="max-width:26px;max-height:26px;vertical-align:middle" src="{{avatar}}">{{/avatar}}
-      {{title}}</a>
+    <a href="/" class="light" style="padding-left:2rem;padding-right:2rem;">
+      {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
+
     {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
     <div style="height:0;overflow:hidden">{{> sidebar}}</div>
   </div>  
 
-<!--   <div style="flex-grow:1;flex-basis:33%;padding-left:1.5em;margin-left:-6px">
-    {{#menu}}
-    <a style="margin-right:0.75em;font-size: 13px;" href="{{url}}">{{label}}</a>
-    {{/menu}}
-  </div> -->
-
-  <form action="/search" style="margin:0 0 0 1.3rem;max-width:60%;flex-grow:1;font-size: 13px;margin-right:1.5em;flex-basis:25%;display:flex;position:relative">
-
-    <input type="text" placeholder="Search" style="flex-grow:1"name="q">
-    <input type="submit" value="Search" style="display:none;background:black;margin-left:4px;color:white;cursor:pointer">
-
+  <form action="/search" style="flex-grow:1;margin:0;font-size:13px;display:flex;position:relative">
+    <input type="text" placeholder="Search" style="flex-grow:1" name="q">
     <div id="results" style=""></div>
   </form>
-<style type="text/css">
 
-.pag a,
-.pag a[href]:hover {font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.1);}
+  <div style="text-align:right">
+    <div style="visibility:hidden;height:0">
 
-.pag a[href] {color: rgba(0,0,0,0.4);}
+    {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
+    <a style="color:rgba(0, 0, 0, 0.4);padding-left:2rem;padding-right:2rem" href="/">
+      {{#avatar}}<img style="max-width:26px;max-height:26px;vertical-align:middle" src="{{avatar}}">{{/avatar}}
+      {{title}}</a>
 
-</style>
-{{#pagination}}  <div class="pag" style="display:flex;flex-grow:1">
+    <div style="height:0;overflow:hidden">{{> sidebar}}</div>
+  </div>
+
+{{#pagination}}
+<div class="pag" style="display:flex;flex-grow:1">
   <a  {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr; Previous page </a>
   <a {{#next}}href="/page/{{pagination.next}}"{{/next}}>Next page &rarr;</a>
   <a style="flex-grow:1;text-align:right"><B>Page {{current}} </b>/ {{total}}</a>
@@ -112,8 +118,12 @@ form input:focus {outline: none;background-color: #fbfbfb}
   {{/entry}}
 
   {{^entry}}{{^pagination}}
-<a href="javascript:history.back(1)">Back to index</a> 
+<!-- <a href="javascript:history.back(1)" style="padding-right:2rem">Back to index</a>  -->
   {{/pagination}}{{/entry}}
+
+  </div>  
+
 </div>
+    <hr style="border:none;margin:1.3rem 0;border-top:1px solid #f2f2f2">
 
 <!-- <hr style="opacity:0.5;margin:0;border:none;border-bottom:1px solid rgba(0,0,0,0.333)"> -->

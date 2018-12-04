@@ -16,8 +16,12 @@ font-size: 14px;color: grey;text-decoration: none;text-align: center;}
 
 </style>
 
-<h1>{{query}}</h1>
-
+<div style="padding:1.3rem 2rem">
+  {{#query}}
+<h1>Search results for {{query}}</h1>
+<small>{{entries.length}} entries found 
+</small>
+{{/query}}
 
 <div class="posts">
 
@@ -49,5 +53,7 @@ font-size: 14px;color: grey;text-decoration: none;text-align: center;}
 </a>
 
 {{/entries}}
+
+</div>
 
 {{> footer}}

@@ -1,8 +1,11 @@
 {{> header}}
 
-
+<div style="padding:1.3rem 2rem">
 <h1>Archives</h1>
 
+{{^archives.length}}
+<p>No posts.</p>
+{{/archives.length}}
 {{#archives}}
 <h2>{{year}}</h2>
 {{#months}}
@@ -12,5 +15,6 @@
 {{/entries}}
 {{/months}}
 {{/archives}}
+</div>
 
 {{> footer}}

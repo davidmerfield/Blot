@@ -1,7 +1,7 @@
 {{> header}}
 
 <style type="text/css">
-.posts {display: flex;padding:1.3rem 2.6rem;flex-wrap: wrap;}
+.posts {display: flex;padding:1.3rem;flex-wrap: wrap;}
 .post {padding:12px;margin-bottom:1rem;flex-basis: 25%;width: 25%;box-sizing:border-box;
 font-size: 14px;color: #aaa;text-decoration: none;text-align: center;}
 .post .date {visibility: hidden;display: block;}
@@ -18,22 +18,14 @@ font-size: 14px;color: #aaa;text-decoration: none;text-align: center;}
 <div style="display:flex">
   {{> sidebar}}
   <div style="flex-grow:1;flex-basis:500px;">
-<!-- 
-<div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
+<!--     <hr style="border:none;margin:1.3rem 0;border-top:1px solid #f2f2f2">
+ -->
+    <div class="posts">
 
-  <a style="text-decoration:none;color:inherit" href="/">&darr; Recent posts</a>
-  
-  <div style="float:right;padding-right:2.5rem">
-  {{#pagination}}Page {{current}} of {{total}}{{/pagination}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  {{#pagination.next}}<a style="text-decoration:none;color:inherit" href="/page/{{pagination.next}}">Next page &rarr;</a>{{/pagination.next}}
-  </div>
-</div>
-<div style="clear:both"></div> -->
-<br>
-<hr style="border:none;border-top:1px solid #f2f2f2">
 
-<div class="posts">
-
+{{^entries.length}}
+<p style="margin:0">No posts.</p>
+{{/entries.length}}
 
 {{#entries}}
 
@@ -77,7 +69,6 @@ font-size: 14px;color: #aaa;text-decoration: none;text-align: center;}
 <div style="clear:both"></div>
 <div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
 
-  <a style="text-decoration:none;color:inherit" href="/">&darr; Recent posts</a>
   
   <div style="float:right;padding-right:2.5rem">
     <div class="page-numbers">
