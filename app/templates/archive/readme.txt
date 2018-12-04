@@ -8,6 +8,12 @@ Type
 
 I want to use Chester Jenkins' Cooper Hewitt font and this seems appropriate. Cooper Hewitt uses it for their online archive too so it seems like an appropriate choice.
 
+Sources of archive design
+-------------------------
+
+https://www.are.na/daniel-pianetti/metadata-archive-references
+https://www.are.na/david-hilmer-rex/cross-indexed-archives
+
 References
 ----------
 
