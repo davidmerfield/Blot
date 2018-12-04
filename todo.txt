@@ -35,7 +35,10 @@ Template selection
   - https://www.svenseebeck.com/
   - https://www.baty.blog/
   - https://www.inthemargins.ca/
-
+  references:
+  https://craigmod.com/roden/021/
+  https://cargocollective.com/andromeda/Niobium-crystals-with-cube
+  
 - photos - optimized for a photoblog
   index shows medium grid posts in columns but not rows
   type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
