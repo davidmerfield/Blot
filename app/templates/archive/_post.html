@@ -1,0 +1,27 @@
+
+<a class="post {{^thumbnail.medium}}no-thumbnail{{/thumbnail.medium}}" href="{{url}}">
+
+  <span class="thumbnail">
+    <span style="top:0;left:0;right:0;bottom:0;position:absolute;display:flex;align-items:center">
+      {{#thumbnail.medium}}
+      <img class="fadeMe" onload="this.className +=' fadeIn';" src="{{url}}"/>
+      <noscript>  
+      <img src="{{url}}">
+      </noscript>
+      {{/thumbnail.medium}}
+      {{^thumbnail.medium}}
+      <span style="width:100%">
+        <span style="margin:12px 32px 0;display:block;">
+        {{title}}
+      </span>
+      <span date-from-now="{{dateStamp}}" style="font-size:14px">{{date}}</span>
+    </span>
+      {{/thumbnail.medium}}
+    </span>
+  </span>
+  {{#thumbnail.medium}}
+  <span>{{title}}</span>
+  <span class="date">Added       <span date-from-now="{{dateStamp}}">{{date}}</span>
+</span>
+  {{/thumbnail.medium}}
+</a>

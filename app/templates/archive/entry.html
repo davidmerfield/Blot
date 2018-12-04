@@ -1,20 +1,25 @@
-{{> header}}
 
 <style type="text/css">
-img {max-width: 100%;height: auto;width: auto;max-height: 90vh}
+img {max-width: 100%;height: auto;width: auto;max-height: calc(80vh)}
 </style>
 
 
 {{#entry}}
-<div style="padding:1.5em">
-<h1>{{title}}</h1>
-{{{body}}}
+<div style="padding:1.5em;display:flex">
+<div style="flex-grow:1">
+  <center>
+  {{{body}}}
+</center>
+</div>
+<div><h1>{{title}}</h1>
 
 <hr>
 Tags: {{}}
 <hr>
 Published: {{date}}
 <hr>
+</div>
+
 </div>
 {{/entry}}
 
