@@ -1,25 +1,43 @@
+<html>
+{{> head}}
+<body>
 
 <style type="text/css">
-img {max-width: 100%;height: auto;width: auto;max-height: calc(80vh)}
+h1 {font-size: 24px;line-height: 1.2;margin: 1.3rem 0}
+img {max-width: 100%;height: auto;width: auto;max-height: calc(100vh - 2.6rem)}
 </style>
 
 
+<div style="padding:1.3rem 0;display:flex">
+  <div>
+    <a href="/" class="light" style="display:block;padding-left:2rem;padding-right:2rem;padding:0.65rem 2rem">
+      {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
+
+    {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
+    <div style="height:0;overflow:hidden">{{> sidebar}}</div>
+  </div>  
+
 {{#entry}}
-<div style="padding:1.5em;display:flex">
-<div style="flex-grow:1">
-  <center>
+<div >
   {{{body}}}
-</center>
 </div>
-<div><h1>{{title}}</h1>
+<div style="flex-grow:1;padding:0 2rem 0 6rem;">
+<div style="min-width:15em;max-width:26rem;float:right">
 
-<hr>
-Tags: {{}}
-<hr>
-Published: {{date}}
-<hr>
+  <a href="javascript:lastIndexPage()" style="text-transform:uppercase;font-size:11px;padding:0.65rem 0.65rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right">Close &nbsp; &nbsp; <span style="float:right">⨉</span></a> 
+
+  <h1>{{title}}</h1>
+
+
+<hr style="opacity:0.5;margin:0;border:none;border-bottom:1px solid rgba(0,0,0,0.333)"><span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);margin:0.65rem 0;display:inline-block">Tags</span> {{#tags}}<a href="/tagged/{{slug}}">{{tag}}</a>{{/tags}}
+<hr style="opacity:0.5;margin:0;border:none;border-bottom:1px solid rgba(0,0,0,0.333)"><span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);margin:0.65rem 0;display:inline-block">Added</span> {{date}}
+
+<div>
+{{#previous}}<a style="display:inline-block;background:#f2f2f2;color:rgba(0,0,0,.4);text-decoration:none;padding:0.65rem;box-sizing:border-box;font-size:11px;text-transform:uppercase" href="{{url}}">&larr; Previous</a>{{/previous}}
+{{#next}}<a style="display:inline-block;background:#f2f2f2;color:rgba(0,0,0,.4);text-decoration:none;padding:0.65rem;box-sizing:border-box;font-size:11px;text-transform:uppercase" href="{{url}}">Next &rarr;</a>{{/next}}
 </div>
 
+</div>
 </div>
 {{/entry}}
 

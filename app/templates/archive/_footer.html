@@ -6,7 +6,44 @@
 
 <script>
 
+var localHistory = sessionStorage.getItem('localHistory');
+
+if (localHistory) {
+  try {
+  localHistory = JSON.parse(localHistory);    
+  } catch (e) {
+    localHistory = [];
+  }
+} else {
+  localHistory = [];
+}
+
+localHistory.push(window.location);
+sessionStorage.setItem('localHistory', JSON.stringify(localHistory));
+
+console.log('Current history', localHistory);
+
 {{{appJS}}}
+
+var articles = [{{#all_entries}}'{{{url}}}'{{^last}},{{/last}}{{/all_entries}}];
+var backIndex;
+
+localHistory.reverse().forEach(function(href, i){
+  if (backIndex === undefined && articles.indexOf(href.pathname) === -1) {
+    backIndex = i;
+    return false;    
+  }
+});
+
+console.log('Go back', backIndex, 'to get to an index page');
+
+function lastIndexPage () {
+  window.history.go(-backIndex);
+}
+
+function randomArticle () {
+  window.location= articles[Math.floor(Math.random()*articles.length)];
+}
 
 var searchInput = document.querySelectorAll('[name="q"]')[0];
 var results = document.getElementById('results');

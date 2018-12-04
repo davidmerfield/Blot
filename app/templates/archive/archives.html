@@ -1,5 +1,10 @@
 {{> header}}
 
+<style type="text/css">
+a.item {font-size:20px;color: rgba(0,0,0,.4);display:inline-block;text-decoration: none;}
+a.item:hover {background: yellow;color: rgba(0,0,0,.85)}
+a.item span {vertical-align: middle;display: inline-block;}
+</style>
 <div style="padding:1.3rem 2rem">
 <h1>Archives</h1>
 
@@ -11,7 +16,7 @@
 {{#months}}
 <h2>{{month}}</h2>
 {{#entries}}
-<a href="{{url}}">{{title}}</a>
+<a class="item" href="{{url}}">{{#thumbnail.square}}<span style="display:inline-block;width:1em;height:1em"><img src="{{thumbnail.square.url}}" style="float:left;max-width:1em;max-height:1em;width:auto;height:auto"></span>{{/thumbnail.square}} {{title}}</a>
 {{/entries}}
 {{/months}}
 {{/archives}}

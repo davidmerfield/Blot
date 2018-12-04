@@ -11,7 +11,9 @@
       {{/thumbnail.medium}}
       {{^thumbnail.medium}}
       <span style="width:100%">
-        <span style="margin:12px 32px 0;display:block;">
+        <span style="margin:12px 32px 0;display:block;margin:0 2rem;width:100%;white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;">
         {{title}}
       </span>
       <span date-from-now="{{dateStamp}}" style="font-size:14px">{{date}}</span>
@@ -20,7 +22,9 @@
     </span>
   </span>
   {{#thumbnail.medium}}
-  <span>{{title}}</span>
+  <span style="display:block;box-sizing:border-box;padding:0 2rem;width:100%;white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;">{{title}}</span>
   <span class="date">Added       <span date-from-now="{{dateStamp}}">{{date}}</span>
 </span>
   {{/thumbnail.medium}}
