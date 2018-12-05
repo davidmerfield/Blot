@@ -3,24 +3,74 @@
 <body>
 
 <style type="text/css">
-h1 {font-size: 24px;line-height: 1.2;margin: 1.3rem 0}
+h1 {font-size: 32px;line-height: 1.2;margin: 2rem 0}
 .entry img {max-width: 100%;height: auto;width: auto;max-height: calc(100vh - 2.6rem)}
+
+.entry {line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+color:
+rgb(88, 88, 88)
+;}
+
+.entry a {color: inherit;}
+
+.entry h2 {
+  font-size: 1.5rem;
+    text-rendering: optimizelegibility;
+    font-weight: bold;
+    margin: .75em 0;
+    line-height: 1.6em;
+}
+
+.entry blockquote {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 2em auto;
+
+    border-left: 3px #e7e7e5 solid;
+    padding-left: 1em;
+    font-style: italic;
+}
+.entry p {margin: 2rem 0}
+
+.entry hr {background-color: #e7e7e5;
+    border: none;
+    height: 2px;
+    margin: 3em 0;}
+
 </style>
 
 
-<div style="padding:1.3rem 0;display:flex">
+<div style="padding:2.5rem 0;display:flex">
+
   <div>
-    <a href="/" class="light" style="display:block;padding-left:2rem;padding-right:2rem;padding:0.65rem 2rem">
+    <a href="/" style="display:block;font-weight:300;color:rgba(0,0,0,.4);text-decoration:none;padding:0rem 3rem;margin-right:6rem">
       {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
 
     {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
-    <div style="height:0;overflow:hidden">{{> sidebar}}</div>
   </div>  
 
 {{#entry}}
+
+{{#page}}
+<div style="flex-grow:1">
+<div class="entry" style="max-width:40rem;margin:0 auto">
+  {{{html}}}
+</div>
+</div>
+<div style="visibility:hidden">
+    <a href="/" style="display:block;font-weight:300;color:rgba(0,0,0,.4);text-decoration:none;padding:0rem 3rem;margin-right:6rem">
+      {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
+
+    {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
+  </div>  
+
+{{/page}}
+{{^page}}
 <div class="entry">
   {{{body}}}
 </div>
+
 <div style="flex-grow:1;padding:0 2rem 0 6rem;">
 <div style="min-width:15em;max-width:26rem;float:right">
 
@@ -39,6 +89,10 @@ h1 {font-size: 24px;line-height: 1.2;margin: 1.3rem 0}
 
 </div>
 </div>
+  <a class="light" href="javascript:randomArticle()" style="text-transform:uppercase;font-size:11px;position:fixed;bottom:2rem;left:2rem"><img width="16" style="vertical-align:bottom" src="/icons/shuffle.svg">&puncsp;&puncsp; Random</a>
+
+
+{{/page}}
 {{/entry}}
 
 {{> footer}}
