@@ -44,6 +44,7 @@ Template selection
 - photos - optimized for a photoblog
   index shows medium grid posts in columns but not rows
   type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
+  I like the placeholder images: http://nicholascope.com/
   possible source folders: 
   - https://ylukem.com/
 
