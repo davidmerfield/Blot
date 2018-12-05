@@ -1,0 +1,51 @@
+
+<div style="clear:both"></div>
+
+<div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
+
+
+  <br><Br><br><br><Br>
+  <br><Br><br><br><Br>
+  {{#pagination}}
+  <div style="padding-right:2.5rem;display:flex">
+
+    <div style="flex-shrink:0">
+  Page {{current}} of {{total}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+  <a style="flex-shrink:0;text-decoration:none;color:inherit" href="/page/{{previous}}">&larr; Previous page </a>
+
+  <div class="page-numbers"></div>
+
+  <a style="flex-shrink:0;text-decoration:none;color:inherit" href="/page/{{next}}">Next page &rarr;</a>
+
+  </div>
+  {{/pagination}}
+  <br><Br><br><br><Br>
+  <hr>
+  <br><br><br><Br>
+
+    <script type="text/javascript">
+
+    document.querySelectorAll('.page-numbers').forEach(function(el){
+
+      var current = {{pagination.current}};
+      var start = 1;
+
+      if (el.getAttribute('data-limit')) {
+        start = Math.round(current - (parseInt(el.getAttribute('data-limit')) / 2));
+        if (start < 1) start = 1;
+        limit = start + parseInt(el.getAttribute('data-limit'));
+      } else {
+        limit = {{pagination.total}};
+      }
+
+      for (var i = start; i <= limit;i++) 
+        el.innerHTML += '<a href="/page/' + i + '" class="' + (i === current) + '" id="number-template">' + i + '</a> ';
+    });
+
+    </script>
+</div>
+
+
+</div>
+</div>

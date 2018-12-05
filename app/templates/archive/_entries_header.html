@@ -1,0 +1,29 @@
+{{> header}}
+
+
+    <hr style="border:none;margin:0 0 0.35rem;border-top:1px solid #f2f2f2">
+
+{{#pagination}}
+<div style="font-size:14px;color:rgba(0,0,0,.4);flex-grow:1;padding:0 2rem;padding-left:3rem">
+ <div style="float:right">
+
+  <a href="/tags" style="text-decoration:none;color:inherit;text-transform:uppercase;font-size:11px">Filter:</a>
+
+
+<!--   <span style="text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px;">Filter: </span>
+ -->  {{#popular_tags}}&nbsp;&nbsp;&nbsp;<A  style="color:inherit" href="/tagged/{{slug}}">{{tag}}</a>&nbsp;&nbsp;{{/popular_tags}}
+
+</div>
+
+  <div style="float:left;display:flex;">
+  <span style="display:inline-block;">Page {{current}} of {{total}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- {{#entries}}{{#first}}{{index}}{{/first}}{{/entries}}—{{#entries}}{{#last}}{{index}}{{/last}}{{/entries}} of {{total}} --></span>
+
+  <a  {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr;</a>
+
+  <div data-limit="5" class="page-numbers"></div>
+  <a {{#next}}href="/page/{{pagination.next}}"{{/next}}>&rarr;</a>
+</div>
+  </div>  
+  {{/pagination}}
+
+<br><br><br>

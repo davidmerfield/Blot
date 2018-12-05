@@ -1,66 +1,98 @@
 {{> header}}
 
-    <hr style="border:none;margin:1.3rem 0;border-top:1px solid #f2f2f2">
+
+    <hr style="border:none;margin:0 0 0.35rem;border-top:1px solid #f2f2f2">
+
+{{#pagination}}
+<div style="font-size:14px;color:rgba(0,0,0,.4);flex-grow:1;padding:0 2rem;padding-left:3rem">
+ <div style="float:right">
+
+  <a href="/tags" style="text-decoration:none;color:inherit;text-transform:uppercase;font-size:11px">Filter:</a>
 
 
-<div style="display:flex">
-  {{> sidebar}}
-  <div style="flex-grow:1;flex-basis:500px;">
-<!--     <hr style="border:none;margin:1.3rem 0;border-top:1px solid #f2f2f2">
- -->
-    <div class="posts">
+<!--   <span style="text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px;">Filter: </span>
+ -->  {{#popular_tags}}&nbsp;&nbsp;&nbsp;<A  style="color:inherit" href="/tagged/{{slug}}">{{tag}}</a>&nbsp;&nbsp;{{/popular_tags}}
 
+</div>
+
+  <div style="float:left;display:flex;">
+  <span style="display:inline-block;">Page {{current}} of {{total}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- {{#entries}}{{#first}}{{index}}{{/first}}{{/entries}}—{{#entries}}{{#last}}{{index}}{{/last}}{{/entries}} of {{total}} --></span>
+
+  <a  {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr;</a>
+
+  <div data-limit="5" class="page-numbers"></div>
+  <a {{#next}}href="/page/{{pagination.next}}"{{/next}}>&rarr;</a>
+</div>
+  </div> 
+  {{/pagination}}
+
+<br><br><br>
+<div style="clear:both"></div>
+
+<div class="posts">
 
 {{^entries.length}}
-<p style="margin:0">No posts.</p>
+<p>No posts.</p>
 {{/entries.length}}
 
 {{#entries}}
 {{> post}}
 {{/entries}}
 
+
+<style type="text/css">
+.pagination hr {border:none;margin:0;border-top:1px solid #f2f2f2}
+.pagination .button {text-decoration:none;color:inherit;padding:0.5rem;width: 12.5%;margin:0.8rem;display: inline-block;background: #f2f2f2}
+
+.page-numbers {margin: 0.8rem 0.4rem}
+.page-numbers a {
+color: #666;
+min-width: 1.25em;
+text-align: center;
+display: inline-block;
+text-decoration: none;margin: 0.4rem;padding: 0.25rem;background: #f2f2f2}
+.page-numbers a.true {color: rgba(0,0,0,0.1);background:#fafafa;border-color: rgba(0,0,0,.3);}
+
+</style>
+
+
+
+
 </div>
-<div style="clear:both"></div>
-<div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
 
-        <style type="text/css">
-    .page-numbers a {
-      color: #666;
-      text-decoration: none;margin: 0 0.65rem;padding: 0.65rem;background: #f2f2f2}
-    </style>
-
-  <br><Br><br><br><Br>
-  <br><Br><br><br><Br>
-  {{#pagination}}
-  <div style="padding-right:2.5rem;display:flex">
-
-    <div style="flex-shrink:0">
-  Page {{current}} of {{total}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{{#pagination}}
+<div class="pagination" style="padding:0 2.6rem;margin:0 0.8rem 13rem">
+<div style="display:flex">
+  <a class="button" {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr; <span style="float:right">Previous</span></a>
+  <div style="flex-grow:1" class="page-numbers"></div>
+  <a class="button" {{#next}}href="/page/{{next}}"{{/next}}>Next <span style="float:right">&rarr;</span></a>
 </div>
-  <a style="flex-shrink:0;text-decoration:none;color:inherit" href="/page/{{previous}}">&larr; Previous page </a>
+<div style="text-align:right;padding:0 0.8rem 0.8rem">
+1-36 of 120
+</div>
+<hr>
+</div>
+{{/pagination}}
 
-  <div class="page-numbers"></div>
-
-  <a style="flex-shrink:0;text-decoration:none;color:inherit" href="/page/{{next}}">Next page &rarr;</a>
-
-  </div>
-  {{/pagination}}
-  <br><Br><br><br><Br>
-  <hr>
-  <br><br>
-
-    <script type="text/javascript">
+<script type="text/javascript">
 
     document.querySelectorAll('.page-numbers').forEach(function(el){
-      for (var i = 1; i <= {{pagination.total}};i++) 
-        el.innerHTML += '<a href="/page/' + i + '" id="number-template">' + i + '</a> ';
+
+      var current = {{pagination.current}};
+      var start = 1;
+
+      if (el.getAttribute('data-limit')) {
+        start = Math.round(current - (parseInt(el.getAttribute('data-limit')) / 2));
+        if (start < 1) start = 1;
+        limit = start + parseInt(el.getAttribute('data-limit'));
+      } else {
+        limit = {{pagination.total}};
+      }
+
+      for (var i = start; i <= limit;i++) 
+        el.innerHTML += '<a href="/page/' + i + '" class="' + (i === current) + '" id="number-template">' + i + '</a> ';
     });
 
     </script>
-</div>
-
-
-</div>
-</div>
 
 {{> footer}}

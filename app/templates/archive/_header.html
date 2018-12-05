@@ -1,68 +1,33 @@
 <html>
 {{> head}}
 <body>
+<div style="display:flex;padding:2rem 3rem;font-weight:300">
 
-<div class="header">
+  <style type="text/css">
 
-  <div>
-    <a href="/" class="light" style="padding-left:2rem;padding-right:2rem;">
+  .light {display:inline-block}
+  .light[href="/"],
+  .light[href="/search"] {display: none;}
+  
+  </style>
+  <div style="padding-right:6rem">
+
+
+  <div style="height:0;visibility:hidden">
+  {{> menu}}
+  </div>
+    <a href="/" style="display:block;padding:0.5rem 0;text-rendering:optimizeLegibility;color:black;text-decoration:none">
       {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
-
-    {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
-    <div style="height:0;overflow:hidden">{{> sidebar}}</div>
   </div>  
 
-  {{^tag}}
-  <form action="/search" style="flex-grow:1;margin:0;font-size:13px;display:flex;position:relative">
-    <input type="text" placeholder="Search" style="flex-grow:1" name="q">
+  <form action="/search" style="font-size:inherit;flex-grow:1;margin:0 3rem;display:flex;position:relative">
+    <input type="text" placeholder="Search" style="padding:0.5rem 1rem 0.5rem 1rem;flex-grow:1;font-size:inherit" name="q">
     <div id="results" style=""></div>
   </form>
-  {{/tag}}
-  {{#tag}}
-  <div style="padding:0 0;flex-grow:1">
-<h1 style="margin:0">{{tag}} </h1>
-<hr>
-<small style="padding:0 2rem 0 0;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">{{entries.length}} posts</small>
-<small style="padding:0 2rem;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">Updated {{#entries}}{{#first}}<span date-from-now="{{dateStamp}}">{{date}}</span>{{/first}}{{/entries}}
-</small>
-<small style="padding:0 2rem;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">View tag index
-</small>
 
-</div>
-
-<div>
-
-    <a href="/" style="text-transform:uppercase;font-size:11px;padding:0.65rem 0.65rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right">Close &nbsp; &nbsp; <span style="float:right">⨉</span></a> 
-</div>
-
-{{/tag}}
-  <div style="text-align:right">
-    <div style="visibility:hidden;height:0">
-
-    {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
-    <a style="color:rgba(0, 0, 0, 0.4);padding-left:2rem;padding-right:2rem" href="/">
-      {{#avatar}}<img style="max-width:26px;max-height:26px;vertical-align:middle" src="{{avatar}}">{{/avatar}}
-      {{title}}</a>
-
-    <div style="height:0;overflow:hidden">{{> sidebar}}</div>
+  <div style="padding-left:6rem">
+  {{> menu}}
   </div>
-
-{{#pagination}}
-<div class="pag" style="display:flex;flex-grow:1;padding:0 2rem">
-  <span style="display:inline-block;">Page {{current}} / {{total}}</span>
-  <a  {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr;&puncsp; Previous </a>
-  <a {{#next}}href="/page/{{pagination.next}}"{{/next}}>Next &puncsp;&rarr;</a>
-  </div>  
-  {{/pagination}}
-
-
-
-  {{^entry}}{{^pagination}}
-<!-- <a href="javascript:history.back(1)" style="padding-right:2rem">Back to index</a>  -->
-  {{/pagination}}{{/entry}}
-
-  </div>  
-
 </div>
-
+<br>
 <!-- <hr style="opacity:0.5;margin:0;border:none;border-bottom:1px solid rgba(0,0,0,0.333)"> -->
