@@ -1,3 +1,5 @@
+Fix links in daily update email
+
 Template system
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Ask to confirm, but remove files from blog folder when disabling local editing
