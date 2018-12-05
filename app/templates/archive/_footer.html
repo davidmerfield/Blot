@@ -1,5 +1,3 @@
-  <a class="light" href="javascript:randomArticle()" style="text-transform:uppercase;font-size:11px;position:fixed;bottom:2rem;left:2rem"><img width="16" style="vertical-align:bottom" src="/icons/shuffle.svg">&puncsp;&puncsp; Random</a>
-
 
 <!-- <div style="background:black">
 {{#all_entries}}{{/all_entries}}
@@ -25,6 +23,7 @@ if (localHistory) {
   localHistory = [];
 }
 
+localHistory = localHistory.slice(-50);
 localHistory.push(window.location);
 sessionStorage.setItem('localHistory', JSON.stringify(localHistory));
 
