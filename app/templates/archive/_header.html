@@ -21,11 +21,15 @@
   {{#tag}}
   <div style="padding:0 0;flex-grow:1">
 <h1 style="margin:0">{{tag}} </h1>
-
-</div>
-<small style="padding:0 2rem;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">{{entries.length}} posts</small>
+<hr>
+<small style="padding:0 2rem 0 0;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">{{entries.length}} posts</small>
 <small style="padding:0 2rem;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">Updated {{#entries}}{{#first}}<span date-from-now="{{dateStamp}}">{{date}}</span>{{/first}}{{/entries}}
 </small>
+<small style="padding:0 2rem;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">View tag index
+</small>
+
+</div>
+
 <div>
 
     <a href="/" style="text-transform:uppercase;font-size:11px;padding:0.65rem 0.65rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right">Close &nbsp; &nbsp; <span style="float:right">⨉</span></a> 

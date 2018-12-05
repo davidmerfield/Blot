@@ -23,29 +23,40 @@
 <div style="clear:both"></div>
 <div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
 
-  
-  <div style="padding-right:2.5rem">
-    <div class="page-numbers">
-      
-    </div>
-    <style type="text/css">
-    .page-numbers {display: flex;}
+        <style type="text/css">
     .page-numbers a {
       color: #666;
       text-decoration: none;margin: 0 0.65rem;padding: 0.65rem;background: #f2f2f2}
     </style>
+
+  <br><Br><br><br><Br>
+  <br><Br><br><br><Br>
+  {{#pagination}}
+  <div style="padding-right:2.5rem;display:flex">
+
+    <div style="flex-shrink:0">
+  Page {{current}} of {{total}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+  <a style="flex-shrink:0;text-decoration:none;color:inherit" href="/page/{{previous}}">&larr; Previous page </a>
+
+  <div class="page-numbers"></div>
+
+  <a style="flex-shrink:0;text-decoration:none;color:inherit" href="/page/{{next}}">Next page &rarr;</a>
+
+  </div>
+  {{/pagination}}
+  <br><Br><br><br><Br>
+  <hr>
+  <br><br>
+
     <script type="text/javascript">
 
     document.querySelectorAll('.page-numbers').forEach(function(el){
       for (var i = 1; i <= {{pagination.total}};i++) 
-        el.innerHTML += '<a href="/page/' + i + '" id="number-template">' + i + '</a>';
+        el.innerHTML += '<a href="/page/' + i + '" id="number-template">' + i + '</a> ';
     });
 
     </script>
-  {{#pagination}}Page {{current}} of {{total}}{{/pagination}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  {{#pagination.next}}<a style="text-decoration:none;color:inherit" href="/page/{{pagination.next}}">Next page &rarr;</a>{{/pagination.next}}
-  <br><Br><br><br><Br>
-  </div>
 </div>
 
 
