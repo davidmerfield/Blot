@@ -3,6 +3,8 @@ Archive template
 
 Designed for a collection of quotes (text files), links (weblocs) and images. Primarily for images. Optimized for tag folders and tagging in general.
 
+The typography of the are.na blog is marvellous: https://www.are.na/blog/ida-c-benedetto
+
 A few decisions to make:
 
 Fixed floating navigation or part of page? I decided on part of page.
@@ -15,7 +17,17 @@ I've been learning that navigation does not have to be global. You don't need th
 
 Perhaps use this style for the close and pagination links? I like the weight and coloring on the filter dropdowns on this page: https://www.metmuseum.org/art/collection/search#!/search?artist=Seurat,%20Georges$Georges%20Seurat 
 
+I like the search input: https://www.moma.org/calendar/exhibitions/history?=undefined&page=&direction=fwd
+COuld the grey bit on the right become a link to the tags page?
+
 I really like a lot about this archive: http://collection.whitney.org/group/5 
+- I like the link styling (same color, underline)
+- I like the '109—144 of 173' on the index page
+- I like the pagination on the right side
+- I like the navigation on the left side. Use this on the tags page?
+
+I like the in place filtering of results on this page: https://ghostly.com/
+I also very much like the 'List view', especially the thumbnail on hover (toggle list view in the footer)
 
 I like the styling of metadata ('Format: X') in the search results: https://www.librarystack.org/tag/typography/
 
