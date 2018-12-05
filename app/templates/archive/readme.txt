@@ -9,6 +9,16 @@ Fixed floating navigation or part of page? I decided on part of page.
 
 Respect the images. Don't crop them. don't put stuff on top of them. Give them space.
 
+I want to include randomess into the design of the theme
+
+I've been learning that navigation does not have to be global. You don't need the full menu on every page.
+
+Perhaps use this style for the close and pagination links? I like the weight and coloring on the filter dropdowns on this page: https://www.metmuseum.org/art/collection/search#!/search?artist=Seurat,%20Georges$Georges%20Seurat 
+
+I really like a lot about this archive: http://collection.whitney.org/group/5 
+
+I like the styling of metadata ('Format: X') in the search results: https://www.librarystack.org/tag/typography/
+
 Type
 ----
 
@@ -27,7 +37,10 @@ They seem perfectly sized. Is it possible to pull this layout off using css? It 
 I also like this layout for the archives page, particularly the link and date treatment:
 http://www.matthewshengoodman.com/
 
+I want some interface like this on the archives page. I like how this site handled overflowing years / tags: http://cullinanstudio.com/project/lewisham-young-peoples-centre
+
 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+2018 2017 2016 ...
 
 Perhaps put the list of tags on the right side and do something similar
 
