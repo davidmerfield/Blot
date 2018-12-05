@@ -1,19 +1,17 @@
-Archive template
-----------------
+# About
 
-Designed for a collection of quotes (text files), links (weblocs) and images. Primarily for images. Optimized for tag folders and tagging in general.
+*Designed for a collection of quotes (text files), links (weblocs) and images. Primarily for images. Optimized for tag folders and tagging in general.*
 
-The typography of the are.na blog is marvellous: https://www.are.na/blog/ida-c-benedetto
+**Typography**: The typography of the are.na blog is marvellous: https://www.are.na/blog/ida-c-benedetto. I initially wanted to use Chester Jenkins' Cooper Hewitt font and this seems appropriate. Cooper Hewitt uses it for their online archive too so it seems like an appropriate choice. Now I am using Plex Sans, designed by X.
 
-A few decisions to make:
-
-Fixed floating navigation or part of page? I decided on part of page.
+**Navigation**: A few decisions to make: Fixed floating navigation or part of page? I decided on part of page. I've been learning that navigation does not have to be global. You don't need the full menu on every page.
 
 Respect the images. Don't crop them. don't put stuff on top of them. Give them space.
 
-I want to include randomess into the design of the theme
+**Randomness**: I want to include randomess into the design of the theme. I very much like the aspect of bookshelves. You might be looking something up by number or title or author, and you might happen across something physically adjacent. Maybe related in content. Maybe not. You walk the shelves and stumble through something new. How to capture this in a theme?
 
-I've been learning that navigation does not have to be global. You don't need the full menu on every page.
+
+***
 
 Perhaps use this style for the close and pagination links? I like the weight and coloring on the filter dropdowns on this page: https://www.metmuseum.org/art/collection/search#!/search?artist=Seurat,%20Georges$Georges%20Seurat 
 
@@ -31,10 +29,6 @@ I also very much like the 'List view', especially the thumbnail on hover (toggle
 
 I like the styling of metadata ('Format: X') in the search results: https://www.librarystack.org/tag/typography/
 
-Type
-----
-
-I want to use Chester Jenkins' Cooper Hewitt font and this seems appropriate. Cooper Hewitt uses it for their online archive too so it seems like an appropriate choice.
 
 Add link on entry page to the archives page at point where the entry is. One of the things I like about libraries is searching for a book, then looking at the adjacent books on the shelf. I want to be able to reproduce that experience. Or maybe put the next and previous posts at the bottom of the page?
 
