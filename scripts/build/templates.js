@@ -147,7 +147,7 @@ function buildViews(directory, id, views, callback) {
       }
 
       try {
-        viewContent = fs.readFileSync(directory + "/" + viewFilename, "utf-8");
+        viewContent = fs.readFileSync(path, "utf-8");
       } catch (err) {
         return next();
       }
@@ -163,6 +163,7 @@ function buildViews(directory, id, views, callback) {
         extend(newView).and(view);
         view = newView;
       }
+
 
       Template.setView(id, view, function onSet(err) {
         if (err) {
