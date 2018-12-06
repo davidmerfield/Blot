@@ -1,32 +1,44 @@
 {{> header}}
 
-
-    <hr style="border:none;margin:0 0 0.35rem;border-top:1px solid #f2f2f2">
+<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
 
 {{#pagination}}
-<div style="font-size:14px;color:rgba(0,0,0,.4);flex-grow:1;padding:0 2rem;padding-left:3rem">
- <div style="float:right">
 
-  <a href="/tags" style="text-decoration:none;color:inherit;text-transform:uppercase;font-size:11px">Filter:</a>
+<div style="padding:0 2rem;display:flex;color:rgba(0,0,0,.4);">
+
+  <div style="padding:0.325rem 0;">
+
+  <span style="text-decoration:none;color:rgba(0,0,0,.25);margin-top:2px;display:inline-block;text-transform:uppercase;font-size:11px">
+  Page {{current}} of {{total}}</span>
 
 
-<!--   <span style="text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px;">Filter: </span>
- -->  {{#popular_tags}}&nbsp;&nbsp;&nbsp;<A  style="color:inherit" href="/tagged/{{slug}}">{{tag}}</a>&nbsp;&nbsp;{{/popular_tags}}
+  <div style="padding-right:10rem;visibility:hidden;height:0">
+
+    <a href="/" style="display:block;padding:0.5rem 0;text-rendering:optimizeLegibility;color:rgba(0,0,0,0.4);text-decoration:none">
+      {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
+  </div>  
+  <!-- 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  {{#entries}}{{#first}}{{index}}{{/first}}{{/entries}}—{{#entries}}{{#last}}{{index}}{{/last}}{{/entries}} of {{total}} POSTS -->
+  </div>
+
+  <div style="flex-grow:1;padding:0.325rem 0;font-size:14px">
+    <a href="/tags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0 1.3rem;font-size:11px">Filter:</a>
+
+    {{#popular_tags}}<A  style="color:inherit;text-decoration:none" href="/tagged/{{slug}}">{{tag}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{/popular_tags}}
+  </div>
+
+  <div style="display:flex">
+    <a style="color:rgba(0,0,0,.25);text-decoration:none;padding:0.15rem 0.65rem;" {{#previous}}href="/page/{{previous}}"{{/previous}}><</a>
+    <div data-limit="5" class="page-numbers"></div>  
+    <a style="color:rgba(0,0,0,.25);text-decoration:none;padding:0.15rem 0.65rem;" {{#next}}href="/page/{{pagination.next}}"{{/next}}>></a>
+  </div>
 
 </div>
-
-  <div style="float:left;display:flex;">
-  <span style="display:inline-block;">Page {{current}} of {{total}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- {{#entries}}{{#first}}{{index}}{{/first}}{{/entries}}—{{#entries}}{{#last}}{{index}}{{/last}}{{/entries}} of {{total}} --></span>
-
-  <a  {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr;</a>
-
-  <div data-limit="5" class="page-numbers"></div>
-  <a {{#next}}href="/page/{{pagination.next}}"{{/next}}>&rarr;</a>
-</div>
-  </div> 
   {{/pagination}}
 
 
+<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
 <div class="posts">
 
 {{^entries.length}}
@@ -42,14 +54,31 @@
 .pagination hr {border:none;margin:0;border-top:1px solid #f2f2f2}
 .pagination .button {text-decoration:none;color:inherit;padding:0.5rem;width: 12.5%;margin:0.8rem;display: inline-block;background: #f2f2f2}
 
-.page-numbers {margin: 0.8rem 0.4rem}
-.page-numbers a {
-color: #666;
-min-width: 1.25em;
+/*.page-numbers {margin: 0.8rem 0.4rem}
+*/.page-numbers a {
+color: rgba(0,0,0,0.25);
+min-width: 1.5em;
 text-align: center;
+line-height: 1.4;
 display: inline-block;
-text-decoration: none;margin: 0.4rem;padding: 0.25rem;background: #f2f2f2}
-.page-numbers a.true {color: rgba(0,0,0,0.1);background:#fafafa;border-color: rgba(0,0,0,.3);}
+padding:0.325rem 0;
+font-size: 14px;
+position: relative;
+text-decoration: none;/*margin: 0.4rem;*/}
+
+.page-numbers a:before, .page-numbers a:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  height: 0.325rem;
+  width: 1px;
+  background: #f2f2f2;
+}
+
+.page-numbers a:before {top: 0}
+.page-numbers a:after {bottom: 0}
+
+.page-numbers a.true {}
 
 </style>
 
@@ -80,9 +109,9 @@ text-decoration: none;margin: 0.4rem;padding: 0.25rem;background: #f2f2f2}
       var start = 1;
 
       if (el.getAttribute('data-limit')) {
-        start = Math.round(current - (parseInt(el.getAttribute('data-limit')) / 2));
+        start = Math.floor(current - (parseInt(el.getAttribute('data-limit')) / 2));
         if (start < 1) start = 1;
-        limit = start + parseInt(el.getAttribute('data-limit'));
+        limit = start + parseInt(el.getAttribute('data-limit')) -1;
       } else {
         limit = {{pagination.total}};
       }
