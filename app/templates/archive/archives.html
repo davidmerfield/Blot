@@ -1,17 +1,22 @@
 {{> header}}
 
+    <hr style="border:none;margin:0 0 0.35rem;border-top:1px solid #f2f2f2">
+
 <style type="text/css">
 a.item {font-size:20px;color: rgba(0,0,0,.4);display:inline-block;text-decoration: none;}
 a.item:hover {background: yellow;color: rgba(0,0,0,.85)}
 a.item span {vertical-align: middle;display: inline-block;}
 </style>
-<div style="padding:1.3rem 2rem">
-<h1>Archives</h1>
+<div style="padding:2.6rem">
 
 {{^archives.length}}
-<p>No posts.</p>
+<center style="width:100%"><p>No posts yet.</p></center>
 {{/archives.length}}
+
+{{#archives.length}}
+<h1>Archives</h1>
 {{#archives}}
+
 <h2>{{year}}</h2>
 {{#months}}
 <h2>{{month}}</h2>
@@ -20,6 +25,7 @@ a.item span {vertical-align: middle;display: inline-block;}
 {{/entries}}
 {{/months}}
 {{/archives}}
+{{/archives.length}}
 </div>
 
 {{> footer}}

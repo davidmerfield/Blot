@@ -1,7 +1,7 @@
 <html>
 {{> head}}
 <body>
-<div style="display:flex;padding:2rem 3rem;font-weight:300">
+<div style="display:flex;padding:1.3rem 2rem 2.6rem;font-weight:300">
 
   <style type="text/css">
 
@@ -10,18 +10,20 @@
   .light[href="/search"] {display: none;}
   
   </style>
+
   <div style="padding-right:6rem">
 
 
   <div style="height:0;visibility:hidden">
   {{> menu}}
   </div>
-    <a href="/" style="display:block;padding:0.5rem 0;text-rendering:optimizeLegibility;color:black;text-decoration:none">
+
+    <a href="/" style="display:block;padding:0.5rem 0;text-rendering:optimizeLegibility;color:rgba(0,0,0,0.4);text-decoration:none">
       {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
   </div>  
 
   <form action="/search" style="font-size:inherit;flex-grow:1;margin:0 3rem;display:flex;position:relative">
-    <input type="text" placeholder="Search" style="padding:0.5rem 1rem 0.5rem 1rem;flex-grow:1;font-size:inherit" name="q">
+    <input type="text" placeholder="Search" style="padding:0.65rem 1.3rem 0.65rem 1.3rem;flex-grow:1;font-size:inherit" value="{{query}}" name="q">
     <div id="results" style=""></div>
   </form>
 
@@ -29,5 +31,4 @@
   {{> menu}}
   </div>
 </div>
-<br>
 <!-- <hr style="opacity:0.5;margin:0;border:none;border-bottom:1px solid rgba(0,0,0,0.333)"> -->
