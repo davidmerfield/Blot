@@ -94,6 +94,10 @@ function close () {
 }
 
 searchInput.oninput = function(){
+
+  dropdown.addEventListener('mousedown', function(e){
+    e.stopPropagation();
+  });
   
   document.body.addEventListener('mousedown', close);
 
