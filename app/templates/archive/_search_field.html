@@ -26,7 +26,9 @@ background-color: #fbfbfb}
 }
 
 #dropdown a {display: block;padding: 1rem 1.3rem 1rem 1.3rem;overflow: hidden;border-bottom: 1px solid #f2f2f2;color:rgba(0,0,0,.85);font-size:16px;text-decoration: none;   }
-#dropdown a:focus {outline: none;background: #ddd; }
+
+#dropdown a:last-of-type {border-bottom: none;}
+#dropdown a:focus {outline: none;background: #f0f0f0; }
 #dropdown a .thumbnail {
     vertical-align: middle;
     display: inline-block;
@@ -70,11 +72,14 @@ var results = document.getElementById('results');
 var dropdown = document.getElementById('dropdown');
 var linkToSearch = document.getElementById('link-to-search');
 
+var index = 0;
+
 function moveFocusDown () {
-  console.log('HERE');
-  var focussedLink = document.querySelector('#results a:focus');
-  console.log(focussedLink);
-  console.log()
+  var focussedLinks = document.querySelectorAll('#dropdown a');
+  index = index++;
+  if (index > focussedLinks.length) index = focussedLinks.length;
+  console.log(index, focussedLinks.length);
+  focussedLinks[index].focus();
 }
 
 searchInput.onkeydown = function(e){
