@@ -1,3 +1,5 @@
+Thumbnailer seems to be failing for images inside word documents (try folder 793)
+
 Fix links in daily update email
 
 Template system
