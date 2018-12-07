@@ -27,7 +27,8 @@ background-color: #fbfbfb}
 
 #dropdown a {display: block;padding: 1rem 1.3rem 1rem 1.3rem;overflow: hidden;border-bottom: 1px solid #f2f2f2;color:rgba(0,0,0,.85);font-size:16px;text-decoration: none;   }
 
-#dropdown a:last-of-type {border-bottom: none;}
+/*#dropdown a:last-of-type {border-bottom: none;}
+*/
 #dropdown a:focus {outline: none;background: #f0f0f0; }
 #dropdown a .thumbnail {
     vertical-align: middle;
@@ -36,7 +37,7 @@ background-color: #fbfbfb}
     height: 1rem;
     margin: 0 0.65rem 0 0;
   }
-#dropdown img {max-width: 2.6rem;max-height: 2.6rem;height: auto;width: auto;vertical-align: middle;}
+#dropdown img {max-width: 100%;max-height: 100%;height: auto;width: auto;vertical-align: middle;}
 #dropdown .date, #results .title {
   height: 1.3rem;
     overflow: hidden;
@@ -51,7 +52,7 @@ background-color: #fbfbfb}
 
 
 
-<form action="/search" style="font-size:inherit;flex-grow:1;margin:0;display:flex;position:relative">
+<form id="searchForm" action="/search" style="font-size:inherit;flex-grow:1;margin:0;display:flex;position:relative">
     <input type="text" placeholder="Search" style="padding:0.65rem 1.3rem 0.65rem 1.3rem;flex-grow:1;font-size:inherit" value="{{query}}" name="q">
     <div id="dropdown">
       <a href="/search?q=">
@@ -69,37 +70,83 @@ background-color: #fbfbfb}
 
 var searchInput = document.querySelectorAll('[name="q"]')[0];
 var results = document.getElementById('results');
+var searchForm = document.getElementById('searchForm');
 var dropdown = document.getElementById('dropdown');
 var linkToSearch = document.getElementById('link-to-search');
 
-var index;
+var index = null;
+
+
+function moveFocusUp () {
+  if (index === null) {
+    index = 0;
+  } else {
+    index--;    
+  }
+
+  setFocus();
+}
 
 function moveFocusDown () {
+  if (index === null) {
+    index = 0;
+  } else {
+    index++;    
+  }
+
+  setFocus();
+}
+
+function setFocus (){
+  
   var focussedLinks = document.querySelectorAll('#dropdown a');
-  index = index++;
-  if (index > focussedLinks.length) index = focussedLinks.length;
-  console.log(index, focussedLinks.length);
+  
+  if (index > focussedLinks.length) {
+    index = focussedLinks.length;
+  } if (index < 0) {
+    index = 0;
+  }
+
+  console.log('setting focus to', index);
+
   focussedLinks[index].focus();
 }
 
-searchInput.onkeydown = function(e){
+// My take on jquery's $(node).parents(secondnode);
+function parents (node, secondnode) {
+  while (node.parentNode) {
+    if (node.parentNode === secondnode) 
+      return true;
+    node = node.parentNode;
+  }
+  return false;
+}
+
+document.onkeydown = function(e){
+
+  if (!parents(document.activeElement, searchForm)) return;
+
+  if (e.keyCode !== 40 && e.keyCode !== 38) return;
+
   if (e.keyCode === 40) {
     moveFocusDown();
-    e.preventDefault();
-    return false;
   } else if (e.keyCode === 38) {
     moveFocusUp();
-    e.preventDefault();
-    return false;
   }
+
+  e.preventDefault();
+  return false;
 }
 
 function close () {
   dropdown.style.display = 'none';
-  index = 0;
+  index = null;
 }
 
-searchInput.oninput = function(){
+searchInput.oninput = loadResults;
+searchInput.onclick = loadResults;
+
+function loadResults (){
 
   dropdown.addEventListener('mousedown', function(e){
     e.stopPropagation();
@@ -107,16 +154,14 @@ searchInput.oninput = function(){
   
   document.body.addEventListener('mousedown', close);
 
-  if (searchInput.value) {
-    dropdown.style.display = 'block';
-  } else {
-    dropdown.style.display = 'none';
-  }
+  var query = searchInput.value;
+
+  if (!query) return dropdown.style.display = 'none';
   
+  dropdown.style.display = 'block';
+
   linkToSearch.innerHTML = searchInput.value;
   linkToSearch.parentNode.href = '/search?q=' + encodeURIComponent(searchInput.value);
-
-  var query = searchInput.value;
 
   httpGetAsync('/search?q=' + query + '&json=true', function(res){
 
