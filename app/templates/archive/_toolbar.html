@@ -20,7 +20,8 @@
 
   <div style="flex-grow:1;display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
     
-    <a href="/tags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Filter:</a>
+   {{#popular_tags.length}}
+   <a href="/tags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Filter:</a>
     <style type="text/css">
     #tags {height:1.2rem;overflow:hidden;display:flex;flex-wrap:wrap;}
     #tags.open {height:auto;overflow:visible;}
@@ -33,6 +34,9 @@
     </div>
 
     <a href="/tags" id="opentags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Show&nbsp;all</a>
+
+    {{/popular_tags.length}}
+    
     <script type="text/javascript">
     document.getElementById('opentags').onclick= function(e){
     if (document.getElementById('tags').className.indexOf('open') > -1) {
