@@ -22,18 +22,44 @@
   {{#entries}}{{#first}}{{index}}{{/first}}{{/entries}}—{{#entries}}{{#last}}{{index}}{{/last}}{{/entries}} of {{total}} POSTS -->
   </div>
 
-  <div style="flex-grow:1;padding:0.325rem 0;font-size:14px">
-    <a href="/tags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0 1.3rem;font-size:11px">Filter:</a>
+  <div style="flex-grow:1;display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
+    
+    <a href="/tags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Filter:</a>
+    <style type="text/css">
+    #tags {height:1.2rem;overflow:hidden}
+    #tags.open {height:auto;overflow:visible;}
+    </style>
+    <div id="tags" style="display:flex;flex-wrap:wrap;">
+    {{#popular_tags}}<a style="display:inline-block;margin:0 0.65rem;white-space:nowrap;color:inherit;text-decoration:none" href="/tagged/{{slug}}">{{tag}}</a>{{/popular_tags}}
+    </div>
 
-    {{#popular_tags}}<A  style="color:inherit;text-decoration:none" href="/tagged/{{slug}}">{{tag}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{/popular_tags}}
+    <a href="/tags" id="opentags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Show&nbsp;all</a>
+    <script type="text/javascript">
+    document.getElementById('opentags').onclick= function(e){
+    if (document.getElementById('tags').className.indexOf('open') > -1) {
+
+      document.getElementById('tags').className = document.getElementById('tags').className.replace('open', '');
+    } else {
+      document.getElementById('tags').className += ' open';
+    } 
+
+    e.preventDefault();
+  return false
+
+    } 
+    </script>
   </div>
 
-  <div style="display:flex">
+  <div style="flex-shrink:0">
+    <div style="padding-left:6rem;height:0;visibility:hidden">
+  {{> menu}}
+  </div>
+  <div style="display:flex;justify-content: flex-end">
     <a style="color:rgba(0,0,0,.25);text-decoration:none;padding:0.15rem 0.65rem;" {{#previous}}href="/page/{{previous}}"{{/previous}}><</a>
     <div data-limit="5" class="page-numbers"></div>  
     <a style="color:rgba(0,0,0,.25);text-decoration:none;padding:0.15rem 0.65rem;" {{#next}}href="/page/{{pagination.next}}"{{/next}}>></a>
   </div>
-
+</div>
 </div>
   {{/pagination}}
 
@@ -65,7 +91,7 @@ padding:0.325rem 0;
 font-size: 14px;
 position: relative;
 text-decoration: none;/*margin: 0.4rem;*/}
-
+/*
 .page-numbers a:before, .page-numbers a:after {
   content: "";
   position: absolute;
@@ -77,8 +103,16 @@ text-decoration: none;/*margin: 0.4rem;*/}
 
 .page-numbers a:before {top: 0}
 .page-numbers a:after {bottom: 0}
+*/
+.page-numbers a.true:before {  background: #f2f2f2;
+  content: "";
+width:1.5rem;height:1.5rem;content:"";border-radius: 50%;position: absolute;top: 50%;left: 50%;margin: -0.75rem;z-index: -1}
+.page-numbers a.true:after {display: none;}
+/*.page-numbers a.true + a,
+.page-numbers a + a.true {opacity: 0.5}
 
-.page-numbers a.true {}
+.page-numbers a.true + a + a,
+.page-numbers a + a + a.true {opacity: 0.25}*/
 
 </style>
 
@@ -109,7 +143,7 @@ text-decoration: none;/*margin: 0.4rem;*/}
       var start = 1;
 
       if (el.getAttribute('data-limit')) {
-        start = Math.floor(current - (parseInt(el.getAttribute('data-limit')) / 2));
+        start = current - Math.floor((parseInt(el.getAttribute('data-limit')) / 2));
         if (start < 1) start = 1;
         limit = start + parseInt(el.getAttribute('data-limit')) -1;
       } else {

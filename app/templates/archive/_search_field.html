@@ -1,0 +1,144 @@
+
+<style type="text/css">
+
+
+
+form input {padding-left:1rem;padding-right:1rem; font:inherit;font-size: 16px;border:none;line-height: inherit;}
+form input[type="text"] {flex-grow:1;color:rgba(0,0,0,.85);padding-left:3.6rem;background:#f6f6f6 url('/icons/search.svg') no-repeat right 1.3rem center;background-size: 1rem}
+form input:hover,
+.pag a[href]:hover {outline: none;background-color: #f8f8f8}
+form input:focus,
+.pag a[href]:focus {outline: none;background-color: #fbfbfb}
+.menu a[href="/search"] {display: none;}
+
+::placeholder { /* Most modern browsers support this now. */
+  color:rgba(0,0,0,.35);
+}
+
+
+
+#dropdown {
+  display: none;
+  position:absolute;top:100%;left:0;right:0;background:#fff;z-index:1;
+      box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.05) 0px 3px 6px, rgba(15, 15, 15, 0.1) 0px 9px 24px;
+    margin: 11px 0;
+
+}
+
+#dropdown a {display: block;height:36px;line-height: 36px;padding:0.65rem 1.3rem;overflow: hidden;border-bottom: 1px solid #f2f2f2;color:rgba(0,0,0,.85);font-size:16px;text-decoration: none;   }
+#dropdown a:focus {outline: none;background: #ddd; }
+#dropdown a .thumbnail {
+  vertical-align: middle;
+  display: inline-block;width: 2rem;height: 2rem;margin: 0 0.65rem 0 1.3rem}
+
+#dropdown img {max-width: 2.6rem;max-height: 2.6rem;height: auto;width: auto;vertical-align: middle;}
+#dropdown .date, #results .title {
+  height: 1.3rem;
+    overflow: hidden;
+}
+
+#dropdown .date {color: rgba(0,0,0,.4);
+    flex-shrink: 0;}
+
+    </style>
+
+
+
+
+
+<form action="/search" style="font-size:inherit;flex-grow:1;margin:0;display:flex;position:relative">
+    <input type="text" placeholder="Search" style="padding:0.65rem 1.3rem 0.65rem 1.3rem;flex-grow:1;font-size:inherit" value="{{query}}" name="q">
+    <div id="dropdown">
+      <a href="/search?q=">
+        <span class="thumbnail"></span>
+        <span id="link-to-search"></span> <span style="color:rgba(0,0,0,.4)">– Search {{title}}</span></a>
+      <div id="results" style=""></div>
+    </div>
+</form>
+
+
+
+
+
+  <script type="text/javascript">
+
+var searchInput = document.querySelectorAll('[name="q"]')[0];
+var results = document.getElementById('results');
+var dropdown = document.getElementById('dropdown');
+var linkToSearch = document.getElementById('link-to-search');
+
+function moveFocusDown () {
+  console.log('HERE');
+  var focussedLink = document.querySelector('#results a:focus');
+  console.log(focussedLink);
+  console.log()
+}
+
+searchInput.onkeydown = function(e){
+  if (e.keyCode === 40) {
+    moveFocusDown();
+    e.preventDefault();
+    return false;
+  } else if (e.keyCode === 38) {
+    moveFocusUp();
+    e.preventDefault();
+    return false;
+  }
+}
+
+searchInput.oninput = function(){
+  
+  if (searchInput.value) {
+    dropdown.style.display = 'block';
+  } else {
+    dropdown.style.display = 'none';
+  }
+  
+  linkToSearch.innerHTML = searchInput.value;
+  linkToSearch.parentNode.href = '/search?q=' + encodeURIComponent(searchInput.value);
+
+  var query = searchInput.value;
+
+  httpGetAsync('/search?q=' + query + '&json=true', function(res){
+
+    if (searchInput.value !== query) return;
+
+    res = JSON.parse(res);
+
+    // limit number of results to 15
+    res.entries = res.entries.slice(0,15);
+    
+    var result,html;
+    html = '';
+    res.entries.forEach(function(entry){
+      result = '';
+
+      result += '<a class="result" href="' + entry.url + '">';
+
+      result += '<span class="thumbnail">';
+
+      if (entry.thumbnail && entry.thumbnail.square) result += '<img src="' + entry.thumbnail.square.url + '">';
+
+      result += '</span>';
+
+      result += '<span class="title">' + entry.title.split(query).join('<b>' + query + '</b>') + '</span><span class="date"> - ' + entry.date + '</span></a>';
+
+      html += result;
+    });
+    results.innerHTML = html;
+  });
+}
+
+function httpGetAsync(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
+
+  </script>

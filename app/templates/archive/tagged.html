@@ -1,40 +1,75 @@
-{{> header}}
+<html>
+{{> head}}
+<body>
 
+  <div style="display:flex;padding:2rem 2rem 1.3rem">
+    
+    {{> index_link}}
 
   <div style="padding:0 0;flex-grow:1">
-<h1 style="margin:0">{{tag}} </h1>
-<hr>
-<small style="padding:0 2rem 0 0;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">{{entries.length}} posts</small>
-<small style="padding:0 2rem;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">Updated {{#entries}}{{#first}}<span date-from-now="{{dateStamp}}">{{date}}</span>{{/first}}{{/entries}}
-</small>
-<small style="padding:0 2rem;text-transform:uppercase;color:rgba(0,0,0,.4);font-size:11px">View tag index
-</small>
-
-</div>
-
-<div>
-
-    <a href="/" style="text-transform:uppercase;font-size:11px;padding:0.65rem 0.65rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right">Close &nbsp; &nbsp; <span style="float:right">⨉</span></a> 
-</div>
-
-
-    <hr style="border:none;margin:1.3rem 0;border-top:1px solid #f2f2f2">
-
-
-<div style="display:flex">
-  {{> sidebar}}
-  <div style="flex-grow:1;flex-basis:500px;">
-<!-- 
-<div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
-
-  <a style="text-decoration:none;color:inherit" href="/">&darr; Recent posts</a>
-  
-  <div style="float:right;padding-right:2.5rem">
-  {{#pagination}}Page {{current}} of {{total}}{{/pagination}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  {{#pagination.next}}<a style="text-decoration:none;color:inherit" href="/page/{{pagination.next}}">Next page &rarr;</a>{{/pagination.next}}
+  <h1 style="margin:0;line-height:1.1;padding:0 1.3rem">{{tag}} </h1>
   </div>
+
+  <div>
+    <a href="/" style="min-width:20rem;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right"><span style="font-size:11px;">Close</span> &nbsp; &nbsp; <span style="float:right">⨉</span></a> 
+  </div>
+  </div>
+<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
+
+
+
+<div style="padding:0 2rem;display:flex;color:rgba(0,0,0,.4);">
+
+  <div style="padding:0.325rem 0;">
+
+  <span style="text-decoration:none;color:rgba(0,0,0,.25);margin-top:2px;display:inline-block;text-transform:uppercase;font-size:11px">
+  Page {{current}} of {{total}}</span>
+
+
+  <div style="padding-right:10rem;visibility:hidden;height:0">
+
+    <a href="/" style="display:block;padding:0.5rem 0;text-rendering:optimizeLegibility;color:rgba(0,0,0,0.4);text-decoration:none">
+      {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
+  </div>  
+  <!-- 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  {{#entries}}{{#first}}{{index}}{{/first}}{{/entries}}—{{#entries}}{{#last}}{{index}}{{/last}}{{/entries}} of {{total}} POSTS -->
+  </div>
+
+  <div style="flex-grow:1;display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
+    
+    <a href="/tags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Filter:</a>
+    <style type="text/css">
+    #tags {height:1.2rem;overflow:hidden}
+    #tags.open {height:auto;overflow:visible;}
+    </style>
+    <div id="tags" style="display:flex;flex-wrap:wrap;">
+    {{#popular_tags}}<a style="display:inline-block;margin:0 0.65rem;white-space:nowrap;color:inherit;text-decoration:none" href="/tagged/{{slug}}">{{tag}}</a>{{/popular_tags}}
+    </div>
+
+    <a href="/tags" id="opentags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Show&nbsp;all</a>
+    <script type="text/javascript">
+    document.getElementById('opentags').onclick= function(e){
+    if (document.getElementById('tags').className.indexOf('open') > -1) {
+
+      document.getElementById('tags').className = document.getElementById('tags').className.replace('open', '');
+    } else {
+      document.getElementById('tags').className += ' open';
+    } 
+
+    e.preventDefault();
+  return false
+
+    } 
+    </script>
+  </div>
+
+
 </div>
-<div style="clear:both"></div> -->
+<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
+
+
+
 
 <div class="posts">
 

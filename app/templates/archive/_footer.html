@@ -47,69 +47,6 @@ function randomArticle () {
   window.location = articles[Math.floor(Math.random()*articles.length)];
 }
 
-var searchInput = document.querySelectorAll('[name="q"]')[0];
-var results = document.getElementById('results');
-
-function moveFocusDown () {
-  console.log('HERE');
-  var focussedLink = document.querySelector('#results a:focus');
-  console.log(focussedLink);
-  console.log()
-}
-
-searchInput.onkeydown = function(e){
-  if (e.keyCode === 40) {
-    moveFocusDown();
-    e.preventDefault();
-    return false;
-  } else if (e.keyCode === 38) {
-    moveFocusUp();
-    e.preventDefault();
-    return false;
-  }
-}
-
-searchInput.oninput = function(){
-  
-  console.log(searchInput.value);
-
-  httpGetAsync('/search?q=' + searchInput.value + '&json=true', function(res){
-    res = JSON.parse(res);
-
-    // limit number of results to 15
-    res.entries = res.entries.slice(0,15);
-    
-    var result,html;
-    html = '';
-    res.entries.forEach(function(entry){
-      result = '';
-
-      result += '<a class="result" href="' + entry.url + '">';
-
-      result += '<span class="thumbnail">';
-
-      if (entry.thumbnail && entry.thumbnail.square) result += '<img src="' + entry.thumbnail.square.url + '">';
-
-      result += '</span>';
-
-      result += '<span class="title">' + entry.title + '</span><span class="date"> - ' + entry.date + '</span></a>';
-
-      html += result;
-    });
-    results.innerHTML = html;
-  });
-}
-
-function httpGetAsync(theUrl, callback)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
-}
 
 var relativeDate = (function(undefined){
 

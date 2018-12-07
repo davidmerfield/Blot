@@ -57,40 +57,6 @@ a.light:active img {opacity: 0.666}
 .menu {display: flex;flex-wrap:wrap;flex-basis:20%;}
 
 
-
-form input {padding-left:1rem;padding-right:1rem; font:inherit;font-size: 16px;border:none;line-height: inherit;}
-form input[type="text"] {flex-grow:1;color:rgba(0,0,0,.85);padding-left:3.6rem;background:#f6f6f6 url('/icons/search.svg') no-repeat right 1rem center;background-size: 1rem}
-form input:hover,
-.pag a[href]:hover {outline: none;background-color: #f8f8f8}
-form input:focus,
-.pag a[href]:focus {outline: none;background-color: #fbfbfb}
-.menu a[href="/search"] {display: none;}
-
-::placeholder { /* Most modern browsers support this now. */
-  color:rgba(0,0,0,.35);
-}
-#results {
-  position:absolute;top:100%;left:0;right:0;background:#fff;z-index:1;
-      box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.05) 0px 3px 6px, rgba(15, 15, 15, 0.1) 0px 9px 24px;
-    margin: 11px 0;
-
-}
-#results:empty {display: none;}
-#results a {display: block;height:36px;line-height: 36px;padding:0.65rem 1.3rem;overflow: hidden;border-bottom: 1px solid #f2f2f2;color:rgba(0,0,0,.85);font-size:16px;text-decoration: none;   }
-#results a:focus {outline: none;background: #ddd; }
-#results .thumbnail {
-  vertical-align: middle;
-  display: inline-block;width: 2.6rem;height: 2.6rem;margin: 0 1.3rem 0 0}
-
-#results img {max-width: 2.6rem;max-height: 2.6rem;height: auto;width: auto;vertical-align: middle;}
-#results .date, #results .title {
-  height: 1.3rem;
-    overflow: hidden;
-}
-
-#results .date {color: rgba(0,0,0,.4);
-    flex-shrink: 0;}
-
 .pag a,
 .pag span,
 .pag a[href]:hover {
