@@ -1,13 +1,28 @@
-{{> header}}
+<html>
+<head>
+  <title>{{> title}}</title>
+  <style type="text/css">
+  {{> charter}}
+  </style>
+</head>
+<body>
+  <style type="text/css">
 
-{{#entry}}
+body {font-family: 'Charter', serif;color:rgba(0,0,0,.85);font-size:18px;line-height:1.4;margin: 0;padding: 0}
 
-<style type="text/css">
+.header a {color:inherit;text-decoration: none;font-family: sans-serif;}
+.header a:hover {text-decoration: underline;}
 
-.entry {margin:0 auto;max-width:34em;margin-top:20%;}
+.pull-double{margin-left:-.38em}.push-double{margin-right:.38em}.pull-single{margin-left:-.15em}.push-single{margin-right:.15em}.pull-T,.pull-V,.pull-W,.pull-Y{margin-left:-.07em}.push-T,.push-V,.push-W,.push-Y{margin-right:.07em}.pull-C,.pull-O,.pull-c,.pull-o{margin-left:-.04em}.push-C,.push-O,.push-c,.push-o{margin-right:.04em}.pull-A{margin-left:-.03em}.push-A{margin-right:.03em}
+
+hr {margin: 4em 0;border:none;border-top: 1px solid #f2f2f2}
+
+
+.entry {margin:0 auto;max-width:38em;margin-top:20%;}
+
+.entry img {max-width: 100%;max-height:100vh;height: auto;width: auto;}
 .entry p {
-  max-width: 34em;
-  margin: 1.45em 0;
+  margin: 2em 0;
 }
 
 .entry blockquote {
@@ -16,22 +31,33 @@
 }
 
 .entry p a {
-  font-weight: bold;
-  text-decoration: none;
   color: black;
-  border-bottom: 1px solid rgba(0,0,0,0.333333);
 }
 
 .entry h1 {
-  font-style: 36px;
-  font-style: italic;font-weight: bold
+  font-size: 32px;
+  font-style: italic;font-weight: bold;
+  margin: 2em 0;
 }
 </style>
+{{#entry}}
 <div class="entry">
-  {{{titleTag}}}
+  
   <span style="font-family:sans-serif;color:#666;font-size:14px">{{date}}</span>
-{{{body}}}
+{{{html}}}
 </div>
-
 <br><br><br>
 {{/entry}}
+
+<Div style="max-width:20rem;float:right">
+<b>Recent posts</b>
+<hr>
+{{#recentEntries}}
+{{#thumbnail.square.url}}
+<a href="{{url}}" style="display:flex;margin:16px 0;align-items:center;color:inherit;text-decoration:none">
+  <span style="width:70px;margin:0 16px 0 0;flex-shrink:0"><img style="max-width:100%;max-height:100%;width:auto;height:auto" src="{{thumbnail.square.url}}"></span>
+  <span>{{title}}</span>
+</a>
+{{/thumbnail.square.url}}
+{{/recentEntries}}
+</div>
