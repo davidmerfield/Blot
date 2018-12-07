@@ -72,7 +72,7 @@ var results = document.getElementById('results');
 var dropdown = document.getElementById('dropdown');
 var linkToSearch = document.getElementById('link-to-search');
 
-var index = 0;
+var index;
 
 function moveFocusDown () {
   var focussedLinks = document.querySelectorAll('#dropdown a');
@@ -96,6 +96,7 @@ searchInput.onkeydown = function(e){
 
 function close () {
   dropdown.style.display = 'none';
+  index = 0;
 }
 
 searchInput.oninput = function(){
