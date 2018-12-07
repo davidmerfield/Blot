@@ -1,9 +1,9 @@
 {{> header}}
 
-<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
 
 {{#pagination}}
 
+<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
 <div style="padding:0 2rem;display:flex;color:rgba(0,0,0,.4);">
 
   <div style="padding:0.325rem 0;">
@@ -65,11 +65,16 @@
 
 
 <hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
-<div class="posts">
+
+
 
 {{^entries.length}}
-<center style="width:100%"><p>No posts yet.</p></center>
+<center style="width:100%;flex-grow:1;display:flex;align-items:center"><p style="width:100%">No posts yet.</p></center>
 {{/entries.length}}
+
+{{#entries.length}}
+<div class="posts">
+
 
 {{#entries}}
 {{> post}}
@@ -120,6 +125,7 @@ width:1.5rem;height:1.5rem;content:"";border-radius: 50%;position: absolute;top:
 
 
 </div>
+{{/entries.length}}
 
 {{#pagination}}
 <div class="pagination" style="padding:0 2.6rem;margin:0 0.8rem 13rem">
