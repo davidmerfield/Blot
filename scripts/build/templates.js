@@ -4,6 +4,7 @@ var emptyCache = require("../cache/empty");
 var helper = require("../../app/helper");
 var extend = helper.extend;
 var basename = require("path").basename;
+var colors = require('colors/safe');
 
 var fs = require("fs-extra");
 var mime = require("mime");
@@ -40,28 +41,24 @@ if (require.main === module) {
 
 // Builds any templates inside the directory
 function main(directory, callback) {
-  var directories;
 
-  // Generate list of template names based on the names of
-  // directories inside $directory (e.g. ['console', ...])
-  directories = fs
-    .readdirSync(directory)
-    .filter(function(name) {
-      return (
-        name[0] !== "." &&
-        name !== "_" &&
-        name.toLowerCase().indexOf("readme") === -1
-      );
-    })
-    .map(function(name) {
-      return directory + "/" + name;
-    });
+  var dirs = templateDirectories(directory);
 
-  async.each(directories, build, function(err) {
-    if (err) return callback(err);
+  async.map(dirs, async.reflect(build), function(err,results) {
 
     emptyCache(function() {
-      console.log("Built all templates successfully");
+
+      results.forEach(function(result, i){
+
+        if (result.error) {
+          console.log();
+          console.error(colors.red('Error building: ' + dirs[i]));
+          console.error(colors.dim(result.error.stack));
+          console.log();
+        }
+
+      });
+
       callback();
     });
   });
@@ -69,7 +66,7 @@ function main(directory, callback) {
 
 // Path to a directory containing template files
 function build(directory, callback) {
-  console.log("..", require('path').basename(directory), directory);
+  console.log(colors.dim(".."), require("path").basename(directory), colors.dim(directory));
 
   var templatePackage, globalPackage, isPublic, method;
   var name, template, locals, description, views, id;
@@ -132,7 +129,7 @@ function buildViews(directory, id, views, callback) {
     })
   );
 
-  async.each(
+  async.eachSeries(
     viewpaths,
     function(path, next) {
       var viewFilename = basename(path);
@@ -164,12 +161,11 @@ function buildViews(directory, id, views, callback) {
         view = newView;
       }
 
-
       Template.setView(id, view, function onSet(err) {
         if (err) {
           view.content = err.toString();
           Template.setView(id, view, function() {});
-          console.log('Error in view:', path);
+          console.log("Error in view:", path);
           return next(err);
         }
 
@@ -208,7 +204,7 @@ function removeExtinctTemplates(directory, callback) {
     templates.forEach(function(template) {
       console.log(
         "node scripts/template/archive.js",
-        template.id.split(':')[1]
+        template.id.split(":")[1]
       );
     });
 
@@ -224,7 +220,7 @@ function watch(directory) {
   var queue = async.queue(function(directory, callback) {
     build(directory, function(err) {
       if (err) {
-        console.error(err);
+        console.error(err.message);
         callback();
       } else {
         emptyCache(callback);
@@ -233,11 +229,31 @@ function watch(directory) {
   });
 
   watcher(directory, function(path) {
-    directory =
-      TEMPLATES_DIRECTORY +
-      "/" +
-      path.slice(TEMPLATES_DIRECTORY.length).split("/")[1];
+    var subdirectoryName = path.slice(TEMPLATES_DIRECTORY.length).split("/")[1];
 
-    queue.push(directory);
+    if (subdirectoryName === "_") {
+      templateDirectories(TEMPLATES_DIRECTORY).forEach(function(dir){
+        queue.push(dir);
+      });
+    } else {
+      queue.push(TEMPLATES_DIRECTORY + "/" + subdirectoryName);
+    }
   });
+}
+
+// Generate list of template names based on the names of
+// directories inside $directory (e.g. ['console', ...])
+function templateDirectories(directory) {
+  return fs
+    .readdirSync(directory)
+    .filter(function(name) {
+      return (
+        name[0] !== "." &&
+        name !== "_" &&
+        name.toLowerCase().indexOf("readme") === -1
+      );
+    })
+    .map(function(name) {
+      return directory + "/" + name;
+    });
 }
