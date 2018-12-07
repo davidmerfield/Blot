@@ -36,10 +36,27 @@ function walk(dir) {
 }
 
 function init(blogID, userFolder, callback) {
-  var watcher = fs.watch(userFolder, { recursive: true }, handler);
+  fs.ensureDirSync(userFolder);
+
+  var queue = async.queue(function(task, callback) {
+    console.log("Beginning sync...");
+    handler(task.event, task.path, function(err) {
+      if (err) console.log(err);
+      console.log("Finished sync...");
+      callback();
+    });
+  });
+
+  var watcher = fs.watch(userFolder, { recursive: true }, function(
+    event,
+    path
+  ) {
+    queue.push({ event: event, path: path });
+  });
+
   callback(null);
 
-  function handler(event, path) {
+  function handler(event, path, callback) {
     if (!path) return;
 
     // Blot likes leading slashes
@@ -55,7 +72,7 @@ function init(blogID, userFolder, callback) {
       if (!folder) return watcher.close();
 
       Sync(blogID, syncOptions, function(err, folder, done) {
-        if (err) return console.log(err);
+        if (err) return callback(err);
 
         fs.stat(pathInUserFolder, function(err, stat) {
           try {
@@ -83,7 +100,8 @@ function init(blogID, userFolder, callback) {
           async.each(affectedPaths, folder.update, function(err) {
             if (err) console.log(err);
             done(null, function(err) {
-              if (err) console.log(err);
+              if (err) return callback(err);
+              callback();
             });
           });
         });
