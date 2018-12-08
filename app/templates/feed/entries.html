@@ -1,21 +1,23 @@
 {{> header}}
 
-  <div style="padding:2rem 10rem 2rem 4rem;">
+  <div >
 
     {{^entries.length}}
     No posts, yet.
     {{/entries.length}}
 
     {{#entries}}
-    
-    <div style="max-width:40em">
+    <br><br>
+    <br><br><br>    
+    <div class="entry" style="max-width:40em;padding:2rem 10rem 2rem 4rem;">
     {{{html}}}
     </div>
-    <br><br><br>
-    <br><br><br>
+<br><br>
+    <span style="font-size:13px;float:right;color:#888">{{date}}</span>
+<hr style="margin: 1em 0;clear:both">
+<br><br><br><br>
 
-
-
+<br><br>
     {{/entries}}
 
   </div>
