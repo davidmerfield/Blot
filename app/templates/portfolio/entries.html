@@ -1,0 +1,14 @@
+{{> header}}
+
+  <div class="entries">
+    {{#entries}}
+    <a href="{{url}}">
+      {{#thumbnail.medium}}
+      <img src="{{url}}">
+      {{/thumbnail.medium}}
+<!--       <span class="box">{{title}}</span>
+ -->    </a>
+    {{/entries}}
+  </div>
+
+{{> footer}}

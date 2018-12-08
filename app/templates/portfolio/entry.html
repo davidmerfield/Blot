@@ -1,0 +1,20 @@
+{{> header}}
+
+<style type="text/css">
+.entry {padding: 2rem 3rem;flex-grow:1;}
+.entry img {max-width: 100%;max-height: calc(100vh - 4rem);height: auto;width: auto;}
+.nav a {display:block;padding:2rem;color: rgba(0,0,0,.4);text-decoration: none;font-size: 20px}
+</style>
+  <div class="entry">
+    {{#entry}}
+    {{{html}}}
+    {{/entry}}
+  </div>
+
+  <div class="nav">
+    <a href="/">X</a><br>
+    <a href="{{entry.next.url}}">&uarr;</a>
+    <a href="{{entry.previous.url}}">&darr;</a>
+    <a href="">~</a>
+  </div>
+{{> footer}}
