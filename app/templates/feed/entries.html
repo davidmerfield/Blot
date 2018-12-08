@@ -1,13 +1,21 @@
 {{> header}}
 
-  <div style="flex-grow:1">
+  <div style="padding:2rem 10rem 2rem 4rem;">
 
     {{^entries.length}}
     No posts, yet.
     {{/entries.length}}
 
     {{#entries}}
+    
+    <div style="max-width:40em">
     {{{html}}}
+    </div>
+    <br><br><br>
+    <br><br><br>
+
+
+
     {{/entries}}
 
   </div>
