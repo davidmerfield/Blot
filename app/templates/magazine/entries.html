@@ -1,34 +1,54 @@
 {{> header}}
 
+<style type="text/css">
+hr {border:none;border-top:1px solid #ededed;}
+h1 {font-size: 24px}
+h2 {font-size: 16px;margin: 0;line-height: 1.2}
+h3 {font-size: 16px;margin: 0}
+
+</style>
 <div style="display:flex">
 
-<div style="flex-basis:40%;padding:1rem">
+<div style="flex-basis:35%;padding:0 1rem;margin: 1rem 0">
 {{#entries}}
 {{#first}}
 <img src="{{thumbnail.medium.url}}">
 <center>
 <h1>{{title}}</h1>
 <p>{{summary}}</p>
+<p style="color:rgba(0,0,0,.4)">{{date}}</p>
 </center>
 {{/first}}
 {{/entries}}
 </div>
 
-<div style="flex-basis:30%;border:1px solid #f2f2f2;border-top:none;border-bottom:none;padding:1rem">
+<div style="flex-basis:35%;border:1px solid #f2f2f2;border-top:none;border-bottom:none;padding:0 1rem;margin: 1rem 0">
 {{#entries}}
 {{^first}}
-<h3>{{title}}</h3>
+{{#thumbnail.medium}}
+<div style="display:flex">
+<div style="flex-basis:50%;">
+<h2>{{title}}</h2>
 <p>{{summary}}</p>
+<p style="color:rgba(0,0,0,.4)">{{date}}</p>
+</div>
+<div style="flex-basis:50%;">
+<img src="{{url}}" style="width:100%;height:auto;flex-grow:0">
+</div>
+</div>
 <hr>
+{{/thumbnail.medium}}
 {{/first}}
 {{/entries}}
 </div>
 
-<div style="flex-basis:10%;padding:1rem">
+<div style="flex-basis:20%;padding:0 1rem;margin: 1rem 0">
 {{#entries}}
 {{^first}}
+{{^thumbnail.medium}}
 <h3>{{title}}</h3>
-<p>{{summary}}</p>
+<hr>
+{{/thumbnail.medium}}
 {{/first}}
 {{/entries}}
 </div>

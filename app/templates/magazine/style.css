@@ -1,7 +1,45 @@
+@font-face{
+    font-family: 'Source Serif Pro';
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/source/serif/regular.woff') format('woff'),
+         url('/fonts/source/serif/regular.woff2') format('woff2'),
+         url('/fonts/source/serif/regular.otf') format('opentype'),
+         url('/fonts/source/serif/regular.ttf') format('truetype');
+}
+
+@font-face{
+    font-family: 'Source Serif Pro';
+    font-weight: 400;
+    font-style: italic;
+    font-stretch: normal;
+    src: url('/fonts/source/serif/italic.woff') format('woff'),
+         url('/fonts/source/serif/italic.woff2') format('woff2'),
+         url('/fonts/source/serif/italic.otf') format('opentype'),
+         url('/fonts/source/serif/italic.ttf') format('truetype');
+}
+
+@font-face{
+    font-family: 'Source Serif Pro';
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/source/serif/bold.woff') format('woff'),
+         url('/fonts/source/serif/bold.woff2') format('woff2'),
+         url('/fonts/source/serif/bold.otf') format('opentype'),
+         url('/fonts/source/serif/bold.ttf') format('truetype');
+}
+
+
+body {
+  font-family: 'Source Serif Pro';
+  font-feature-settings: "kern" 1,"liga" 1;
+  font-size: 100%;  
+}
 {{> css_hljs}}
 {{> css_bigfoot}}
 {{> css_typeset}}
 {{> css_katex}}
 {{> css_video-container}}
 {{> css_layout}}
-

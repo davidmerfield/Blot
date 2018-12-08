@@ -2,18 +2,51 @@
 <html>
   {{> head}}
 	<body>
-		
-    <center style="height:1.3em;overflow:hidden">
-      <a href="/">{{title}}</a>
+    <style type="text/css">
 
-            {{#menu}}
-      <a href="{{url}}"  class="no-underline no-wrap db black-80 f6 fw6 "  title="{{label}}">{{label}}</a>
-      {{/menu}}
+    html, body {margin: 0;padding: 0}
+    @font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/fonts/source/sans/regular.woff') format('woff'),
+         url('/fonts/source/sans/regular.woff2') format('woff2'),
+         url('/fonts/source/sans/regular.otf') format('opentype'),
+         url('/fonts/source/sans/regular.ttf') format('truetype');
+}
 
-      <hr>
+  
+  .tags a {padding: 0 0.5rem;font-family: 'Source Sans Pro';}
+
+  .menu a {text-transform: uppercase;font-variant: small-caps;
+}
+  
+  .search {width: 1.3em;height: 1.3em;border-radius: 50%;background: #000;margin: 0.5em;display: inline-block;}
+
+    .menu a[href="/"],     .menu a[href="/search"] {display: none;}
+
+    .header {display:flex;}
+    .header a {color: rgba(0,0,0,0.4);text-decoration: none;font-size: 14px}
+    </style>
+		<div class="header">
+      <a href="/" style="flex-shrink:0;padding:0 1rem"><img src="{{avatar}}" style="margin-right:4px;max-width:16px;max-height:16px;height:auto;width:auto">
+        {{title}}</a>
+      <span style="margin:0 1rem;color:#ededed">|</span>
+      <div class="tags" style="flex-grow:1;height:1.3em;overflow:hidden">
       {{#popular_tags}}
         <a href="/tagged/{{slug}}"  class="no-underline no-wrap db f3 fw3 black-50"  title="{{slug}}">{{name}}</a>
       {{/popular_tags}}
-      <hr>
+    </div>
+            <span style="margin:0 1rem;color:#ededed">|</span>
+
+    <div class="menu" style="flex-shrink:0">
+      {{#menu}}
+      <a href="{{url}}"  class="no-underline no-wrap db black-80 f6 fw6 "  title="{{label}}">{{label}}</a>
+      {{/menu}}
+    </div>
+    <a href="/search" class="search"></a>
     </center>
+    </div>
+      <hr>
     <div>
