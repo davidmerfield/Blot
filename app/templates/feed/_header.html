@@ -1,0 +1,24 @@
+<html>
+<head>
+  <style type="text/css">
+
+.menu {
+  text-align:center;position:fixed;right:3rem;top:2rem;bottom:2rem;
+  display: flex;flex-direction:column;
+}
+
+.menu a img {max-width:3rem;display:block;margin: 0.65rem auto}
+
+.menu a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+.menu a.active {color: #666}
+  </style>
+</head>
+<body>
+<div style="display:flex">
+
+  {{> menu}}

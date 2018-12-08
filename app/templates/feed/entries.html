@@ -1,0 +1,15 @@
+{{> header}}
+
+  <div style="flex-grow:1">
+
+    {{^entries.length}}
+    No posts, yet.
+    {{/entries.length}}
+
+    {{#entries}}
+    {{{html}}}
+    {{/entries}}
+
+  </div>
+
+{{> footer}}
