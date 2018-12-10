@@ -1,3 +1,5 @@
+Thumbnailer seems to be failing for images inside word documents (try folder 793)
+
 Fix links in daily update email
 
 Template system
@@ -297,6 +299,10 @@ is happening before doing this.
 - Take a look at Notion and Cargo for some neat ideas
 - Disabling a blog should free up the domain and handle associated
 - Removing a domain from a blog does NOT delete the domain:example.com key from redis. meaning if a user sets a domain once, it's effectively theirs forever. This is a bug!
+
+Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
+
+Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed.
 
 File converters / codecs
 - Video posts (.mp4)
