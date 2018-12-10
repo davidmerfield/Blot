@@ -99,6 +99,8 @@ width:1.5rem;height:1.5rem;content:"";border-radius: 50%;position: absolute;top:
         limit = {{pagination.total}};
       }
 
+      if (limit > {{pagination.total}}) limit = {{pagination.total}};
+      
       for (var i = start; i <= limit;i++) 
         el.innerHTML += '<a href="/page/' + i + '" class="' + (i === current) + '" id="number-template">' + i + '</a> ';
     });
