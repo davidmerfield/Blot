@@ -126,22 +126,32 @@ dates.forEach(function(el){
 
 document.querySelectorAll('.paginator .numbers').forEach(function(el){
 
-      var current = {{pagination.current}};
+      var current;
+      var total;
       var start = 1;
+
+      {{#pagination}}
+      current = {{pagination.current}};
+      total = {{pagination.total}};
+      {{/pagination}}
+      {{^pagination}}
+      return;
+      {{/pagination}}
 
       if (el.getAttribute('data-limit')) {
         start = current - Math.floor((parseInt(el.getAttribute('data-limit')) / 2));
         if (start < 1) start = 1;
         limit = start + parseInt(el.getAttribute('data-limit')) -1;
       } else {
-        limit = {{pagination.total}};
+        limit = total;
       }
 
-      if (limit > {{pagination.total}}) limit = {{pagination.total}};
+      if (limit > total) limit = total;
 
       for (var i = start; i <= limit;i++) 
         el.innerHTML += '<a href="/page/' + i + '" class="' + (i === current) + '" id="number-template">' + i + '</a> ';
     });
+
 
 </script>
 </body>

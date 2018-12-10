@@ -31,7 +31,7 @@ a.item span {vertical-align: middle;display: inline-block;}
 {{#archives}}
 {{#months}}
 {{#entries}}
-<a class="item" style="display:block" href="{{url}}">{{#thumbnail.square}}<span style="display:inline-block;width:1em;height:1em"><img src="{{thumbnail.square.url}}" style="float:left;max-width:1em;max-height:1em;width:auto;height:auto"></span>{{/thumbnail.square}} <span style="max-width:10em;overflow:hidden">{{title}}</span> <span style="float:right;">{{#formatDate}}MMM YYYY{{/formatDate}}</span></a>
+<a class="item" style="display:flex;align-items:center" href="{{url}}"><span style="display:inline-block;margin-right:0.5em;width:1em;height:1em">{{#thumbnail.square}}<img src="{{thumbnail.square.url}}" style="max-width:1em;max-height:1em;width:auto;height:auto">{{/thumbnail.square}}</span> <span style="flex-grow:1;overflow:hidden">{{title}}</span> <span style="flex-shrink:0">{{#formatDate}}MMM YYYY{{/formatDate}}</span></a>
 {{/entries}}
 {{/months}}
 {{/archives}}
