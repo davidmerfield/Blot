@@ -6,6 +6,7 @@ var _ = require("lodash");
 var to_markdown = helper.to_markdown;
 var each_el = helper.each_el;
 var insert_metadata = helper.insert_metadata;
+var download_pdfs = require("./download_pdfs");
 var Extract = helper.extract;
 var download_images = helper.download_images;
 var insert_video_embeds = helper.insert_video_embeds;
@@ -104,26 +105,30 @@ module.exports = function($, output_directory, callback) {
       }, 60 * 1000);
 
       function then(err, post) {
-        if (err) console.log(err);
+        download_images(post, function(err, post) {
+          if (err) console.log(err);
 
-        post.html = fix_missing_p_tags(post.html);
-        post.html = fix_markdown_bs(post.html);
+          download_pdfs(post, function(err, post) {
+            if (err) console.log(err);
 
-        if (post.html.indexOf("\\_") > -1) {
-          console.log("PRE MARKDOWN", post.html);
-          throw post.html;
-        }
+            post.html = fix_missing_p_tags(post.html);
+            post.html = fix_markdown_bs(post.html);
 
-        post.content = to_markdown(post.html);
+            if (post.html.indexOf("\\_") > -1) {
+              console.log("PRE MARKDOWN", post.html);
+              throw post.html;
+            }
 
-        insert_metadata(post);
+            post.content = to_markdown(post.html);
 
-        clearTimeout(timeout);
+            insert_metadata(post);
 
-        write(post, next);
+            clearTimeout(timeout);
+
+            write(post, next);
+          });
+        });
       }
-
-      download_images(post, then);
     },
     callback.bind(this, null, blog)
   );
