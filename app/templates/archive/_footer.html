@@ -7,6 +7,13 @@
 
 {{! Blocks out the same height of the header at the end of the page. Useful for centering stuff}}
 <div style="visibility:hidden">{{> header}}</div>
+<hr>
+{{#menu}}
+<a href="{{url}}">{{label}}</a>
+{{/menu}}
+
+<img src="{{avatar}}">
+{{title}}
 
 <script>
 

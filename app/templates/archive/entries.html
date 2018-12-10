@@ -27,41 +27,6 @@
 <style type="text/css">
 .pagination hr {border:none;margin:0;border-top:1px solid #f2f2f2}
 .pagination .button {text-decoration:none;color:inherit;padding:0.5rem;width: 12.5%;margin:0.8rem;display: inline-block;background: #f2f2f2}
-
-/*.page-numbers {margin: 0.8rem 0.4rem}
-*/.page-numbers a {
-color: rgba(0,0,0,0.25);
-min-width: 1.5em;
-text-align: center;
-line-height: 1.4;
-display: inline-block;
-padding:0.325rem 0;
-font-size: 14px;
-position: relative;
-text-decoration: none;/*margin: 0.4rem;*/}
-/*
-.page-numbers a:before, .page-numbers a:after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  height: 0.325rem;
-  width: 1px;
-  background: #f2f2f2;
-}
-
-.page-numbers a:before {top: 0}
-.page-numbers a:after {bottom: 0}
-*/
-.page-numbers a.true:before {  background: #f2f2f2;
-  content: "";
-width:1.5rem;height:1.5rem;content:"";border-radius: 50%;position: absolute;top: 50%;left: 50%;margin: -0.75rem;z-index: -1}
-.page-numbers a.true:after {display: none;}
-/*.page-numbers a.true + a,
-.page-numbers a + a.true {opacity: 0.5}
-
-.page-numbers a.true + a + a,
-.page-numbers a + a + a.true {opacity: 0.25}*/
-
 </style>
 
 
@@ -84,26 +49,11 @@ width:1.5rem;height:1.5rem;content:"";border-radius: 50%;position: absolute;top:
 </div>
 {{/pagination}}
 
+<a href="/archives">View the archives</a>
+
 <script type="text/javascript">
 
-    document.querySelectorAll('.page-numbers').forEach(function(el){
-
-      var current = {{pagination.current}};
-      var start = 1;
-
-      if (el.getAttribute('data-limit')) {
-        start = current - Math.floor((parseInt(el.getAttribute('data-limit')) / 2));
-        if (start < 1) start = 1;
-        limit = start + parseInt(el.getAttribute('data-limit')) -1;
-      } else {
-        limit = {{pagination.total}};
-      }
-
-      if (limit > {{pagination.total}}) limit = {{pagination.total}};
-      
-      for (var i = start; i <= limit;i++) 
-        el.innerHTML += '<a href="/page/' + i + '" class="' + (i === current) + '" id="number-template">' + i + '</a> ';
-    });
+    
 
     </script>
 
