@@ -4,17 +4,24 @@
 {{all_entries.length}} posts. Last updated 3 hours ago.
 </div>
  -->
-
 {{! Blocks out the same height of the header at the end of the page. Useful for centering stuff}}
 <div style="visibility:hidden">{{> header}}</div>
-<hr>
-{{#menu}}
-<a href="{{url}}">{{label}}</a>
+
+<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
+<div style="padding:0.65rem 2.5rem;display:flex;color:rgba(0,0,0,.4);">
+
+<div style="flex-grow:1">
+  {{#menu}}
+<a style="font-size:14px;color:inherit;text-decoration:none;margin:0.65rem" href="{{url}}">{{label}}</a>
 {{/menu}}
+</div>
 
-<img src="{{avatar}}">
+<a style="float:right;color:inherit;font-size:14px;text-decoration:none;margin:0 1.3rem" href="/">
 {{title}}
-
+<img src="{{avatar}}">
+</a>
+</div>
+<br>
 <script>
 
 {{{appJS}}}
@@ -116,6 +123,25 @@ dates.forEach(function(el){
   console.log(new_str);
   el.innerHTML = new_str;
 });
+
+document.querySelectorAll('.paginator .numbers').forEach(function(el){
+
+      var current = {{pagination.current}};
+      var start = 1;
+
+      if (el.getAttribute('data-limit')) {
+        start = current - Math.floor((parseInt(el.getAttribute('data-limit')) / 2));
+        if (start < 1) start = 1;
+        limit = start + parseInt(el.getAttribute('data-limit')) -1;
+      } else {
+        limit = {{pagination.total}};
+      }
+
+      if (limit > {{pagination.total}}) limit = {{pagination.total}};
+
+      for (var i = start; i <= limit;i++) 
+        el.innerHTML += '<a href="/page/' + i + '" class="' + (i === current) + '" id="number-template">' + i + '</a> ';
+    });
 
 </script>
 </body>
