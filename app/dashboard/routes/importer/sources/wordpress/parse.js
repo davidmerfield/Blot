@@ -98,7 +98,12 @@ module.exports = function($, output_directory, callback) {
         html: content
       };
 
-      download_images(post, function(err, post) {
+      var timeout = setTimeout(function() {
+        console.log("TIMEOUT?", post);
+        then(null, post);
+      }, 60 * 1000);
+
+      function then(err, post) {
         if (err) console.log(err);
 
         post.html = fix_missing_p_tags(post.html);
@@ -113,8 +118,12 @@ module.exports = function($, output_directory, callback) {
 
         insert_metadata(post);
 
+        clearTimeout(timeout);
+
         write(post, next);
-      });
+      }
+
+      download_images(post, then);
     },
     callback.bind(this, null, blog)
   );
