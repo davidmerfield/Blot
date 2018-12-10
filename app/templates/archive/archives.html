@@ -3,7 +3,7 @@
 <hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
 
 <style type="text/css">
-a.item {font-size:20px;color: rgba(0,0,0,.4);display:inline-block;text-decoration: none;}
+a.item {color: rgba(0,0,0,.4);display:inline-block;text-decoration: none;}
 a.item:hover {background: yellow;color: rgba(0,0,0,.85)}
 a.item span {vertical-align: middle;display: inline-block;}
 </style>
@@ -13,15 +13,25 @@ a.item span {vertical-align: middle;display: inline-block;}
 {{/archives.length}}
 
 {{#archives.length}}
-<div style="padding:2.6rem">
-<h1>Archives</h1>
-{{#archives}}
+<h1 style="margin-left:2rem">Archives</h1>
+<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
+<div style="padding:1.9rem;font-size:15px; 
+ 
+    -webkit-column-width: 16rem;
+    -moz-column-width: 16rem;
+    column-width: 16rem;
+    -webkit-column-gap: 2.6rem;
+    -moz-column-gap: 2.6rem;
 
-<h2>{{year}}</h2>
+    column-gap: 2.6rem;
+    text-align: left;
+    display: block;
+    white-space: nowrap;">
+
+{{#archives}}
 {{#months}}
-<h2>{{month}}</h2>
 {{#entries}}
-<a class="item" href="{{url}}">{{#thumbnail.square}}<span style="display:inline-block;width:1em;height:1em"><img src="{{thumbnail.square.url}}" style="float:left;max-width:1em;max-height:1em;width:auto;height:auto"></span>{{/thumbnail.square}} {{title}} <sup style="font-size:11px">{{date}}</sup></a>
+<a class="item" style="display:block" href="{{url}}">{{#thumbnail.square}}<span style="display:inline-block;width:1em;height:1em"><img src="{{thumbnail.square.url}}" style="float:left;max-width:1em;max-height:1em;width:auto;height:auto"></span>{{/thumbnail.square}} <span style="max-width:10em;overflow:hidden">{{title}}</span> <span style="float:right;">{{#formatDate}}MMM YYYY{{/formatDate}}</span></a>
 {{/entries}}
 {{/months}}
 {{/archives}}
