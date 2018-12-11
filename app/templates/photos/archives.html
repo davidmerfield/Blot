@@ -1,0 +1,19 @@
+{{> header}}
+
+<div>{{#allTags}}{{tag}}{{/allTags}}</div>
+<div>
+{{#archives}}
+{{#months}}
+{{#entries}}
+<a href="{{{url}}}">
+{{#thumbnail.square}}
+<img style="position:fixed;top:0;right:0" src="{{{url}}}">
+{{/thumbnail.square}}
+<small>{{title}}</small>
+</a>
+{{/entries}}
+{{/months}}
+{{/archives}}
+</div>
+
+{{> footer}}

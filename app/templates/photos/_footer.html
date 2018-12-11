@@ -1,0 +1,19 @@
+</div>
+<div class="navigation">
+    <div>1–10 of 66</div>
+    <div>
+    {{#menu}}
+    {{! the comma is wrapped in span tag so we can target it using CSS
+        and hide it for specific links, typically '/search' }}
+    <a href="{{url}}">{{label}}</a>{{^last}}<span>,</span> {{/last}}
+    {{/menu}}
+    </div>
+    <div style="text-align:right">
+    <a href="/"> &larr; Previous</a>
+    <a href="/">Next page &rarr;</a>
+    </div>
+    <a href="/" style="text-align:right">{{#allEntries}}{{#last}}{{date}}{{/last}}{{/allEntries}}–{{#allEntries}}{{#first}}{{date}}{{/first}}{{/allEntries}}</a>
+  </div>
+<script src="{{{scriptURL}}}" type="text/javascript"></script>
+</body>
+</html>

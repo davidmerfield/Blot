@@ -1,3 +1,21 @@
+{{> header}}
+
+<div class="entry">
 {{#entry}}
-{{{html}}}
+<a href="{{previous.url}}"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve">
+                <polyline fill="none" stroke="#000" stroke-width="2" stroke-miterlimit="10" points="18.361,34.601 1.414,17.654 18.361,0.707
+                  "></polyline>
+                </svg></a>
+
+<div>
+  {{{html}}}
+</div>
+
+<a href="{{next.url}}"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve">
+                <polyline fill="none" stroke="#000" stroke-width="2" stroke-miterlimit="10" points="0.707,0.707 17.654,17.654 0.707,34.601
+                  "></polyline>
+                </svg></a>
 {{/entry}}
+</div>
+
+{{> footer}}
