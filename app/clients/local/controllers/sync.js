@@ -36,6 +36,7 @@ function walk(dir) {
 }
 
 function init(blogID, userFolder, callback) {
+  fs.ensureDirSync(userFolder);
 
   var queue = async.queue(function(task, callback) {
     console.log("Beginning sync...");

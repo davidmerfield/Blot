@@ -21,7 +21,13 @@ if (require.main === module) {
     if (err) throw err;
 
     access("dev", function() {
-      console.log(DROPBOX_FOLDER_PATH);
+
+      if (identifier === 'debug') {
+        console.log('Folder: ', join(helper.rootDir, "data", "debug"));
+      } else {
+        console.log('Folder: ', DROPBOX_FOLDER_PATH);
+      }
+
       process.exit();
     });
   });
@@ -34,6 +40,11 @@ function main(label, callback) {
     fs.emptyDirSync(blog_dir);
     fs.ensureDirSync(join(dumps, label));
     fs.copySync(join(dumps, label), blog_dir);
+
+    if (label === 'debug') {
+      fs.emptyDirSync(join(helper.rootDir, "data", "debug"));
+      fs.copySync(join(blog_dir, BLOG_ID), join(helper.rootDir, "data", "debug"));
+    }
 
     fs.emptyDirSync(git_data_dir);
     fs.ensureDirSync(join(gitClientData, label));
