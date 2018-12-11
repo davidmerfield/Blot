@@ -1,22 +1,12 @@
 <html>
 {{> head}}
 <body style="display:flex;flex-direction:column;min-height:100%">
-<div style="display:flex;padding:2rem 2rem 1.3rem;font-weight:300">
-
-  <style type="text/css">
-
-  .light {display:inline-block}
-  .light[href="/"],
-  .light[href="/search"] {display: none;}
-  
-  </style>
-
-  {{> index_link}}
-
-  {{> search_field}}
-
-  <div style="padding-left:6rem">
-  {{> menu}}
+  <div style="display:flex;padding:2rem 2rem 1.3rem;font-weight:300">
+    {{> index_link}}
+    {{> search_field}}
+    <div style="padding-left:6rem">
+      {{> menu}}
+    </div>
   </div>
-</div>
-<!-- <hr style="opacity:0.5;margin:0;border:none;border-bottom:1px solid rgba(0,0,0,0.333)"> -->
+  <div style="flex-grow:1">
+    

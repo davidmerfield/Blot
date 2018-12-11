@@ -1,11 +1,11 @@
-<a href="{{url}}" class="post {{^thumbnail.medium}}no-thumbnail{{/thumbnail.medium}}">
+<a href="{{{url}}}" class="post {{^thumbnail.medium}}no-thumbnail{{/thumbnail.medium}}">
 
   <span class="thumbnail">
-    <span style="top:0;left:0;right:0;bottom:0;position:absolute;display:flex;align-items:center">
+    <span class="container">
       {{#thumbnail.medium}}
-      <img src="{{url}}" class="fadeMe" onload="this.className+=' fadeIn';" />
+      <img src="{{{url}}}" class="fadeMe" onload="this.className+=' fadeIn';" />
       <noscript>  
-      <img src="{{url}}">
+      <img src="{{{url}}}">
       </noscript>
       {{/thumbnail.medium}}
       {{^thumbnail.medium}}

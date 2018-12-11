@@ -1,23 +1,6 @@
 {{> header}}
 
-
-<style type="text/css">
-.posts {display: flex;padding:0.5rem;flex-wrap: wrap;}
-.post {padding:0.75rem;margin-bottom:1rem;flex-basis: 100%;width: 100%;box-sizing:border-box;
-font-size: 14px;color: grey;text-decoration: none;text-align: center;}
-.post .date {visibility: hidden;display: block;}
-.post .thumbnail {box-sizing:border-box;outline-style: inset;outline:1px solid transparent;width: 100%;height: 0;padding-bottom: 100%;display: block;overflow: hidden;position: relative;}
-.post:hover .thumbnail {outline-color: #ddd}
-.post:hover .date {visibility: visible;}
-.post img {width: 100%;height: auto;}
-
-.post.no-thumbnail .thumbnail {color:green;border: 1px solid green;font-size: 18px;text-align: center;}
-.post.no-thumbnail .date {display: block;}
-
-
-</style>
-
-
+<div style="flex-grow:1">
 <hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
 <div style="padding:1.3rem 2rem">
   {{#query}}
@@ -38,11 +21,11 @@ font-size: 14px;color: grey;text-decoration: none;text-align: center;}
 {{#entries}}
 
 
-<a class="post {{^thumbnail.medium}}no-thumbnail{{/thumbnail.medium}}" href="{{url}}">
+<a class="post {{^thumbnail.medium}}no-thumbnail{{/thumbnail.medium}}" href="{{{url}}}">
   
   <span class="thumbnail">
     <span style="top:0;left:0;right:0;bottom:0;position:absolute;display:flex;align-items:center">
-      {{#thumbnail.medium}}<img src="{{url}}">{{/thumbnail.medium}}
+      {{#thumbnail.medium}}<img src="{{{url}}}">{{/thumbnail.medium}}
       {{^thumbnail.medium}}
       <span>
         {{title}}
@@ -63,5 +46,6 @@ font-size: 14px;color: grey;text-decoration: none;text-align: center;}
 {{/entries}}
 
 </div>
-
+</div>
+</div>
 {{> footer}}

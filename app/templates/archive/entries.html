@@ -4,48 +4,20 @@
 {{> toolbar}}
 {{/pagination}}
 
-<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
+<hr>
 
 {{^entries.length}}
-<center style="width:100%;flex-grow:1;display:flex;align-items:center"><p style="width:100%">No posts yet.</p></center>
+<div class="centered">
+  <p>No posts yet.</p>
+</div>
 {{/entries.length}}
 
 {{#entries.length}}
 <div class="posts">
-{{#entries}}
-{{> post}}
-{{/entries}}
+  {{#entries}}
+  {{> post}}
+  {{/entries}}
 </div>
 {{/entries.length}}
-
-<style type="text/css">
-.pagination hr {border:none;margin:0;border-top:1px solid #f2f2f2}
-.pagination .button {text-decoration:none;color:inherit;padding:0.65rem 1.3rem 0.65rem 1.3rem;margin:0 0.8rem;display: inline-block;background: #fafafa;color:rgba(0,0,0,0.1);}
-
-.pagination .button[href] {background: #f2f2f2;color: #666}
-
-
-</style>
-
-{{#pagination}}
-<div class="pagination" style="padding:2.6rem 2.6rem;margin:0 0.8rem 0">
-<div style="display:flex">
-  <div style="flex-grow:1">
-      <div class="paginator" style="    justify-content: flex-start;">
-    <a class="arrow" {{#previous}}href="/page/{{previous}}"{{/previous}}>←</a>
-    <div data-limit="30" class="numbers"></div>  
-    <a class="arrow" {{#next}}href="/page/{{pagination.next}}"{{/next}}>→</a>
-  </div>
-  </div>
-  <div style="flex-grow:0.5;display:flex">
-  <a style="flex-grow:0.5" class="button" {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr; <span style="float:right">Previous</span></a>
-  <a style="flex-grow:1" class="button" {{#next}}href="/page/{{next}}"{{/next}}>Next <span style="float:right">&rarr;</span></a>
-</div>
-</div>
-<div style="text-align:right;padding:0 0.8rem 0.8rem">
-  <a href="/archives" class="light" style="margin:1.3rem">View the archives</a>
-</div>
-</div>
-{{/pagination}}
 
 {{> footer}}

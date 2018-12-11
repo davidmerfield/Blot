@@ -1,40 +1,32 @@
 {{> header}}
 
-<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
-
-<style type="text/css">
-a.item {color: rgba(0,0,0,.4);display:inline-block;text-decoration: none;}
-a.item:hover {background: #fafafa;color: rgba(0,0,0,.85)}
-a.item span {vertical-align: middle;display: inline-block;}
-</style>
+<hr>
 
 {{^archives.length}}
-<center style="width:100%;flex-grow:1;display:flex;align-items:center"><p style="width:100%">No posts yet.</p></center>
+<div class="centered">
+  <p>No posts yet.</p>
+</div>
 {{/archives.length}}
 
 {{#archives.length}}
-<h1 style="margin-left:2rem">Archives</h1>
-<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
-<div style="padding:1.9rem;font-size:15px; 
- 
-    -webkit-column-width: 16rem;
-    -moz-column-width: 16rem;
-    column-width: 16rem;
-    -webkit-column-gap: 2.6rem;
-    -moz-column-gap: 2.6rem;
+<div class="archives">
+  <h1 style="margin-left:2rem">Archives</h1>
+  <hr>
+  <div class="links">
+    {{#archives}}
+    {{#months}}
+    {{#entries}}
+    <a class="item" style="display:flex;align-items:center" href="{{{url}}}"><span style="display:inline-block;margin-right:0.5em;width:1em;height:1em">{{#thumbnail.square}}
+<img src="{{{url}}}" style="max-width:1em;max-height:1em;width:auto;height:auto" class="fadeMe" onload="this.className+=' fadeIn';" />
+      <noscript>  
+      <img src="{{{url}}}">
+      </noscript>
 
-    column-gap: 2.6rem;
-    text-align: left;
-    display: block;
-    white-space: nowrap;">
-
-{{#archives}}
-{{#months}}
-{{#entries}}
-<a class="item" style="display:flex;align-items:center" href="{{url}}"><span style="display:inline-block;margin-right:0.5em;width:1em;height:1em">{{#thumbnail.square}}<img src="{{thumbnail.square.url}}" style="max-width:1em;max-height:1em;width:auto;height:auto">{{/thumbnail.square}}</span> <span style="flex-grow:1;overflow:hidden">{{title}}</span> <span style="flex-shrink:0">{{#formatDate}}MMM YYYY{{/formatDate}}</span></a>
-{{/entries}}
-{{/months}}
-{{/archives}}
+  {{/thumbnail.square}}</span> <span style="flex-grow:1;overflow:hidden">{{title}}</span> <span style="flex-shrink:0">{{#formatDate}}MMM YYYY{{/formatDate}}</span></a>
+    {{/entries}}
+    {{/months}}
+    {{/archives}}
+  </div>
 </div>
 {{/archives.length}}
 
