@@ -534,7 +534,6 @@ form input:focus,
   display: flex;
   align-items: center;
   color: rgba(0, 0, 0, .4);
-  display: block;
   text-decoration: none;
 }
 
