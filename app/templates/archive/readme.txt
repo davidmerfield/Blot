@@ -1,14 +1,18 @@
 # To do
 
-- [ ] Long menu
-- [ ] Mobile testing
-   - [ ] Initial viewport width set correctly
-- [ ] Accessibility
-- [ ] :visited links change color
-- [ ] Create source folder of content that I can freely distribute
-- [ ] Works with disabled CSS
-- [ ] Theme icons have been inlined
-
+- Hide show all button for tag list when there is not enough tags to cause overflow
+- Make archives page less CPU intensive
+- Fix issues breaking layout caused by avatar uploaded
+- Fix issues breaking lahout caused by lots of links in the menu for the site
+- Mobile testing
+  - Initial viewport width set correctly
+- Accessibility
+- :visited links change color
+- Create source folder of content that I can freely distribute
+- Works with disabled CSS
+- Theme icons have been inlined
+- Remove the inline css
+- Block out temporary elements for the page numbers to prevent the FOUT
 
 # About
 
