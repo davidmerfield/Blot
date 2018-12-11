@@ -29,10 +29,12 @@
       <a href="/" onclick="return lastIndexPage()" style="float:right;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right;position:relative;"><span style="font-size:11px;">Close</span> ⨉ </a>
 
       {{#entry}}
-      <div style="width:15em;font-size:14px;float:right">
+      <div style="max-width:15em;font-size:14px;float:right">
         <h1 style="font-size:20px">{{title}}</h1>
-        <hr><span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);margin:0.65rem 0;display:inline-block">Tags</span> {{#tags}}<a href="/tagged/{{slug}}">{{tag}}</a>{{/tags}}
-        <hr><span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);margin:0.65rem 0;display:inline-block">Added</span> {{date}}
+        {{#tags.length}}
+        <hr style="margin:0.65em 0"> <span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);display:inline-block">Tags</span>{{#tags}}<a style="color:rgba(0,0,0,0.4);text-decoration:none;padding:0 0.325em;margin:0.325em;display:inline-block;background:#f2f2f2;" href="/tagged/{{slug}}">{{tag}}</a>{{/tags}}
+        {{/tags.length}}
+        <hr style="margin:0.65em 0"><span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);display:inline-block">Added</span> <span style="color:rgba(0,0,0,.4)">{{date}}</span>
 
       </div>{{/entry}}
 
