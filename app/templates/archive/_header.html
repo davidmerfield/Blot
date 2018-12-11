@@ -1,12 +1,14 @@
 <html>
 {{> head}}
+
 <body style="display:flex;flex-direction:column;min-height:100%">
   <div style="display:flex;padding:2rem 2rem 1.3rem;font-weight:300">
     {{> index_link}}
     {{> search_field}}
     <div style="padding-left:6rem">
-      {{> menu}}
+      {{#menu}}
+      <a class="light" title="{{label}}" style="margin:0.5rem 0.75rem;" href="{{{url}}}">{{label}}</a>
+      {{/menu}}
     </div>
   </div>
   <div style="flex-grow:1">
-    

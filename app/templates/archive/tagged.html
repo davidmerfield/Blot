@@ -3,47 +3,42 @@
 <body>
 
   <div style="display:flex;padding:2rem 2rem 1.3rem">
-    
+
     {{> index_link}}
 
-  <div style="padding:0 0;flex-grow:1">
-  <h1 style="margin:0;line-height:1.1;padding:0 1.3rem">{{tag}} </h1>
-  </div>
-
-  <div>
-    <a href="/" style="min-width:20rem;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right"><span style="font-size:11px;">Close</span> &nbsp; &nbsp; <span style="float:right">⨉</span></a> 
-  </div>
-  </div>
-
-{{> toolbar}}
-<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
-
-
-
-
-<div class="posts">
-
-
-{{#entries}}
-{{> post}}
-{{/entries}}
-
-</div>
-<div style="clear:both"></div>
-<div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
-
-  <a style="text-decoration:none;color:inherit" href="/">&darr; Recent posts</a>
-  
-  <div style="float:right;padding-right:2.5rem">
-    <div class="page-numbers">
-      
+    <div style="padding:0 0;flex-grow:1">
+      <h1 style="margin:0;line-height:1.1;padding:0 1.3rem">{{tag}} </h1>
     </div>
 
+    <div>
+      <a href="/" style="min-width:20rem;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right"><span style="font-size:11px;">Close</span> &nbsp; &nbsp; <span style="float:right">⨉</span></a>
+    </div>
   </div>
-</div>
 
+  {{> toolbar}}
+  <hr>
 
-</div>
-</div>
+  <div class="posts">
 
-{{> footer}}
+    {{#entries}}
+    {{> post}}
+    {{/entries}}
+
+  </div>
+  <div style="clear:both"></div>
+  <div style="border-top:1px solid transparent;color:#666;display:block;font-size:12px;opacity:0.5;text-decoration:none;padding:0.75em 1.5em;margin-left:10px">
+
+    <a style="text-decoration:none;color:inherit" href="/">&darr; Recent posts</a>
+
+    <div style="float:right;padding-right:2.5rem">
+      <div class="page-numbers">
+
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+  {{> footer}}

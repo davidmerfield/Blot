@@ -2,6 +2,6 @@
   "name": "Archive",
   "isPublic": true,
   "locals": {
-    "page_size": 28
+    "page_size": 24
   }
 }

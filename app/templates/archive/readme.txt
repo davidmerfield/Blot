@@ -35,6 +35,9 @@ Add link on entry page to the archives page at point where the entry is. One of 
 For the archives page, I very much like the filtering on Anish Kapoor's website:
 http://anishkapoor.com/#thought-experiment
 
+I also like this layout
+http://www.veen.com/jeff/
+
 I very much like the menu hamburger button. Perhaps use this on mobile? http://ktown92.com/index
 
 I also very much like the density of the columns on this page: https://www.experimentaljetset.nl/

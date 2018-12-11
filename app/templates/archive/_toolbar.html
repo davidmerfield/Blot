@@ -1,4 +1,4 @@
-<hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
+<hr>
 <div style="padding:0 2rem;display:flex;color:rgba(0,0,0,.4);">
 
   <div style="padding:0.325rem 0;">
@@ -29,7 +29,11 @@
   </div>
 
   <div style="flex-shrink:0">
-    <div style="padding-left:6rem;height:0;visibility:hidden">{{> menu}}</div>
+    <div style="padding-left:6rem;height:0;visibility:hidden">
+      {{#menu}}
+      <a class="light" title="{{label}}" style="margin:0.5rem 0.75rem;" href="{{{url}}}">{{label}}</a>
+      {{/menu}}
+    </div>
     <div class="paginator">
       <a class="arrow" {{#previous}}href="/page/{{previous}}"{{/previous}}>←</a>
       <div data-limit="5" data-current="{{current}}" data-total="{{total}}" class="numbers"></div>

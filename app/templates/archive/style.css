@@ -517,7 +517,6 @@ form input:focus,
 /* Grid of links on archives page */
 .archives .links {
   padding: 1.9rem;
-  font-size: 15px;
   -webkit-column-width: 16rem;
   -moz-column-width: 16rem;
   column-width: 16rem;
@@ -533,9 +532,11 @@ form input:focus,
   display: flex;
   align-items: center;
   color: rgba(0, 0, 0, .4);
-  display: inline-block;
+  display: block;
   text-decoration: none;
 }
+
+.archives a:visited {background:red;color: rgba(0,0,0,0.2);}
 
 .archives a.item:hover {
   background: #fafafa;
