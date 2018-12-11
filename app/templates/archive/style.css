@@ -71,6 +71,8 @@ body {
   padding: 0
 }
 
+.header {display:flex;padding:2rem 2rem 1.3rem;font-weight:300}
+
 hr {
   border: none;
   margin: 0;

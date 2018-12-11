@@ -1,4 +1,22 @@
+// Plugin JavaScript for analytics embed code
 {{{appJS}}}
+
+
+/* 
+
+Close button on entry page 
+--------------------------
+
+Purpose of this script is to allow the close button on the
+entry page to behave like the browser back button. It works
+out how far back in your navigation history you'd need to
+go to. It sort of simulates a popover 'Close' button, if the
+entry were a modal window in a slideshow. You can go to the
+next or previous entry but then still return to the last index
+page. Why bother doing this? When you press back, your browser
+will return you to the old scroll offset with great speed.
+
+*/
 
 var localHistory = sessionStorage.getItem("localHistory");
 
@@ -37,90 +55,6 @@ function randomArticle() {
   return false;
 }
 
-var relativeDate = (function(undefined) {
-  var SECOND = 1000,
-    MINUTE = 60 * SECOND,
-    HOUR = 60 * MINUTE,
-    DAY = 24 * HOUR,
-    WEEK = 7 * DAY,
-    YEAR = DAY * 365,
-    MONTH = YEAR / 12;
-
-  var formats = [
-    [0.7 * MINUTE, "just now"],
-    [1.5 * MINUTE, "a minute ago"],
-    [60 * MINUTE, "minutes ago", MINUTE],
-    [1.5 * HOUR, "an hour ago"],
-    [DAY, "hours ago", HOUR],
-    [2 * DAY, "yesterday"],
-    [7 * DAY, "days ago", DAY],
-    [1.5 * WEEK, "a week ago"],
-    [MONTH, "weeks ago", WEEK],
-    [1.5 * MONTH, "a month ago"],
-    [YEAR, "months ago", MONTH],
-    [1.5 * YEAR, "a year ago"],
-    [Number.MAX_VALUE, "years ago", YEAR]
-  ];
-
-  function relativeDate(input, reference) {
-    !reference && (reference = new Date().getTime());
-    reference instanceof Date && (reference = reference.getTime());
-    input instanceof Date && (input = input.getTime());
-
-    var delta = reference - input,
-      format,
-      i,
-      len;
-
-    for (i = -1, len = formats.length; ++i < len; ) {
-      format = formats[i];
-      if (delta < format[0]) {
-        return format[2] === undefined
-          ? format[1]
-          : Math.round(delta / format[2]) + " " + format[1];
-      }
-    }
-  }
-
-  return relativeDate;
-})();
-
-var dates = document.querySelectorAll("[date-from-now]");
-
-dates.forEach(function(el) {
-  var dateStamp = parseInt(el.getAttribute("date-from-now"));
-  if (isNaN(dateStamp)) return; // No date parsed
-  if (Date.now() - dateStamp > 1000 * 60 * 60 * 24 * 30 * 3) return; // Date too old
-  var new_str = relativeDate(new Date(dateStamp));
-  el.innerHTML = new_str;
-});
-
-document.querySelectorAll(".paginator .numbers").forEach(function(el) {
-  var current = parseInt(el.getAttribute("data-current"));
-  var total = parseInt(el.getAttribute("data-total"));
-  var start = 1;
-  var limit;
-
-  if (el.getAttribute("data-limit")) {
-    start = current - Math.floor(parseInt(el.getAttribute("data-limit")) / 2);
-    if (start < 1) start = 1;
-    limit = start + parseInt(el.getAttribute("data-limit")) - 1;
-  } else {
-    limit = total;
-  }
-
-  if (limit > total) limit = total;
-
-  for (var i = start; i <= limit; i++)
-    el.innerHTML +=
-      '<a href="/page/' +
-      i +
-      '" class="' +
-      (i === current) +
-      '" id="number-template">' +
-      i +
-      "</a> ";
-});
 
 var searchInput = document.querySelectorAll('[name="q"]')[0];
 var results = document.getElementById("results");
@@ -194,8 +128,10 @@ function close() {
   index = null;
 }
 
+if (searchInput) {
 searchInput.oninput = loadResults;
-searchInput.onclick = loadResults;
+searchInput.onclick = loadResults;  
+}
 
 function loadResults() {
   dropdown.addEventListener("mousedown", function(e) {
@@ -263,12 +199,142 @@ function httpGetAsync(theUrl, callback) {
 }
 
 
-document.getElementById('opentags').onclick = function(e) {
-      if (document.getElementById('tags').className.indexOf('open') > -1) {
-        document.getElementById('tags').className = document.getElementById('tags').className.replace('open', '');
-      } else {
-        document.getElementById('tags').className += ' open';
-      }
-      e.preventDefault();
-      return false
+/* 
+
+Tag list
+--------
+
+Opens and closes the long list of tags
+on the template's index page.
+
+*/
+
+var tagToggle = document.getElementById("opentags");
+
+if (tagToggle)
+  tagToggle.onclick = function(e) {
+    if (document.getElementById("tags").className.indexOf("open") > -1) {
+      document.getElementById("tags").className = document
+        .getElementById("tags")
+        .className.replace("open", "");
+    } else {
+      document.getElementById("tags").className += " open";
     }
+    e.preventDefault();
+    return false;
+  };
+
+
+
+
+
+/*
+
+Relative dates
+--------------
+
+This function maps entry dates to relative values
+e.g. December 11th 2018 -> 2 minutes ago
+
+*/
+
+var relativeDate = (function(undefined) {
+  var SECOND = 1000,
+    MINUTE = 60 * SECOND,
+    HOUR = 60 * MINUTE,
+    DAY = 24 * HOUR,
+    WEEK = 7 * DAY,
+    YEAR = DAY * 365,
+    MONTH = YEAR / 12;
+
+  var formats = [
+    [0.7 * MINUTE, "just now"],
+    [1.5 * MINUTE, "a minute ago"],
+    [60 * MINUTE, "minutes ago", MINUTE],
+    [1.5 * HOUR, "an hour ago"],
+    [DAY, "hours ago", HOUR],
+    [2 * DAY, "yesterday"],
+    [7 * DAY, "days ago", DAY],
+    [1.5 * WEEK, "a week ago"],
+    [MONTH, "weeks ago", WEEK],
+    [1.5 * MONTH, "a month ago"],
+    [YEAR, "months ago", MONTH],
+    [1.5 * YEAR, "a year ago"],
+    [Number.MAX_VALUE, "years ago", YEAR]
+  ];
+
+  function relativeDate(input, reference) {
+    !reference && (reference = new Date().getTime());
+    reference instanceof Date && (reference = reference.getTime());
+    input instanceof Date && (input = input.getTime());
+
+    var delta = reference - input,
+      format,
+      i,
+      len;
+
+    for (i = -1, len = formats.length; ++i < len; ) {
+      format = formats[i];
+      if (delta < format[0]) {
+        return format[2] === undefined
+          ? format[1]
+          : Math.round(delta / format[2]) + " " + format[1];
+      }
+    }
+  }
+
+  return relativeDate;
+})();
+
+var dates = document.querySelectorAll("[date-from-now]");
+
+dates.forEach(function(el) {
+  var dateStamp = parseInt(el.getAttribute("date-from-now"));
+  if (isNaN(dateStamp)) return; // No date parsed
+  if (Date.now() - dateStamp > 1000 * 60 * 60 * 24 * 30 * 3) return; // Date too old
+  var new_str = relativeDate(new Date(dateStamp));
+  el.innerHTML = new_str;
+});
+
+
+/*
+
+Pagination
+----------
+
+Generates a list of links like this:
+
+[1] [2] [3] [4] [5]
+
+With optional settings to limit the number of numbers.
+Centers around the current link where possible.
+Would be nice to do this on the server, too.
+
+*/
+
+document.querySelectorAll(".paginator .numbers").forEach(function(el) {
+  var current = parseInt(el.getAttribute("data-current"));
+  var total = parseInt(el.getAttribute("data-total"));
+  var start = 1;
+  var limit;
+
+  if (el.getAttribute("data-limit")) {
+    start = current - Math.floor(parseInt(el.getAttribute("data-limit")) / 2);
+    if (start < 1) start = 1;
+    limit = start + parseInt(el.getAttribute("data-limit")) - 1;
+  } else {
+    limit = total;
+  }
+
+  if (limit > total) limit = total;
+
+  for (var i = start; i <= limit; i++)
+    el.innerHTML +=
+      '<a href="/page/' +
+      i +
+      '" class="' +
+      (i === current) +
+      '" id="number-template">' +
+      i +
+      "</a> ";
+});
