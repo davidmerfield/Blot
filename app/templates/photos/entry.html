@@ -25,7 +25,7 @@
 
       <a href="/">{{title}}</a>
 
-      <a {{#entry.next.url}}href="{{entry.next.url}}"{{/entry.next.url}} class="arrow"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve"><polyline fill="none" stroke="{{#entry.next.url}}#000{{/entry.next.url}}{{^entry.next.url}}rgba(0,0,0,0.1){{/entry.next.url}}" stroke-width="2" stroke-miterlimit="10" points="18.361,34.601 1.414,17.654 18.361,0.707"></polyline></svg></a>
+      <a title="previous" {{#entry.next.url}}href="{{entry.next.url}}"{{/entry.next.url}} class="arrow"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve"><polyline fill="none" stroke="{{#entry.next.url}}#000{{/entry.next.url}}{{^entry.next.url}}rgba(0,0,0,0.1){{/entry.next.url}}" stroke-width="2" stroke-miterlimit="10" points="18.361,34.601 1.414,17.654 18.361,0.707"></polyline></svg></a>
     </div>
     {{/entry.page}}
 
@@ -39,12 +39,12 @@
     {{^entry.page}}
     <div class="edge right">
 
-      <a href="/" onclick="return lastIndexPage()" >Close<svg version="1.1" id="Layer_1" style="margin-left:0.5em;position:relative;top:1px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 29 29" enable-background="new 0 0 29 29" xml:space="preserve">
+      <a href="/" title="Close" onclick="return lastIndexPage()" ><svg version="1.1" id="Layer_1" style="margin-left:0.5em;position:relative;top:1px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 29 29" enable-background="new 0 0 29 29" xml:space="preserve">
         <polygon fill="rgba(0,0,0,.4)" points="17.063,14.708 28.678,3.093 26.291,0.708 14.678,12.323 3.063,0.708 0.677,3.093 12.291,14.708 
   0.677,26.323 3.063,28.708 14.677,17.094 26.291,28.708 28.678,26.323 "></polygon>
       </svg></a>
 
-      <a {{#entry.previous.url}}href="{{entry.previous.url}}"{{/entry.previous.url}} class="arrow"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve"><polyline fill="none" stroke="{{#entry.previous.url}}#000{{/entry.previous.url}}{{^entry.previous.url}}rgba(0,0,0,0.1){{/entry.previous.url}}" stroke-width="2" stroke-miterlimit="10" points="0.707,0.707 17.654,17.654 0.707,34.601"></polyline></svg></a>
+      <a title="Next" {{#entry.previous.url}}href="{{entry.previous.url}}"{{/entry.previous.url}} class="arrow"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve"><polyline fill="none" stroke="{{#entry.previous.url}}#000{{/entry.previous.url}}{{^entry.previous.url}}rgba(0,0,0,0.1){{/entry.previous.url}}" stroke-width="2" stroke-miterlimit="10" points="0.707,0.707 17.654,17.654 0.707,34.601"></polyline></svg></a>
     </div>
     {{/entry.page}}
 
