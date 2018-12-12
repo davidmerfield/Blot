@@ -6,6 +6,7 @@ var _ = require("lodash");
 var to_markdown = helper.to_markdown;
 var each_el = helper.each_el;
 var insert_metadata = helper.insert_metadata;
+var download_pdfs = require("./download_pdfs");
 var Extract = helper.extract;
 var download_images = helper.download_images;
 var insert_video_embeds = helper.insert_video_embeds;
@@ -98,23 +99,36 @@ module.exports = function($, output_directory, callback) {
         html: content
       };
 
-      download_images(post, function(err, post) {
-        if (err) console.log(err);
+      var timeout = setTimeout(function() {
+        console.log("TIMEOUT?", post);
+        then(null, post);
+      }, 60 * 1000);
 
-        post.html = fix_missing_p_tags(post.html);
-        post.html = fix_markdown_bs(post.html);
+      function then(err, post) {
+        download_images(post, function(err, post) {
+          if (err) console.log(err);
 
-        if (post.html.indexOf("\\_") > -1) {
-          console.log("PRE MARKDOWN", post.html);
-          throw post.html;
-        }
+          download_pdfs(post, function(err, post) {
+            if (err) console.log(err);
 
-        post.content = to_markdown(post.html);
+            post.html = fix_missing_p_tags(post.html);
+            post.html = fix_markdown_bs(post.html);
 
-        insert_metadata(post);
+            if (post.html.indexOf("\\_") > -1) {
+              console.log("PRE MARKDOWN", post.html);
+              throw post.html;
+            }
 
-        write(post, next);
-      });
+            post.content = to_markdown(post.html);
+
+            insert_metadata(post);
+
+            clearTimeout(timeout);
+
+            write(post, next);
+          });
+        });
+      }
     },
     callback.bind(this, null, blog)
   );
