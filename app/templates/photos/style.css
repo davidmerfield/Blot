@@ -46,6 +46,14 @@ body {
   padding: 2.6rem;
   box-sizing: border-box;
   width: 50%;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 700px) {
+  .index a {
+    width: 100%;
+    padding: 2.6rem 0
+  }
 }
 
 .index a:nth-child(2n) {
@@ -60,10 +68,26 @@ body {
   max-width: 100%;
   width: auto;
   height: auto;
-  max-height: calc(100vh - 3rem);
 }
 
-.index a:focus {opacity: 0.8}
+.index a .text {
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  display: block;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 0;
+}
+
+.index a .date {
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.index a:focus {
+  opacity: 0.8
+}
 
 .navigation {
   margin: 1.5rem;
@@ -77,8 +101,17 @@ body {
   width: 25%
 }
 
-.dim .navigation {
-  color: rgba(0, 0, 0, 0.4)
+@media screen and (max-width: 500px) {
+  .navigation>* {
+    width: 100%;
+  }
+}
+
+
+.dim .navigation,
+.edge a {
+  color: rgba(0, 0, 0, 0.4);
+  text-decoration: none;
 }
 
 .navigation a {
@@ -95,19 +128,44 @@ body {
   display: none;
 }
 
-.navigation a[href]:hover {
+.navigation a[href]:hover,
+.edge a:hover {
   text-decoration: underline
 }
 
 .entry {
   display: flex;
   align-items: center;
-  margin-top: -3rem;
+}
+
+.edge {
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px
+}
+
+.edge.left {
+  text-align: right;
+  padding-right: 1.5rem;
+}
+
+.edge.right {
+  text-align: right;
+  padding-left: 1.5rem;
+}
+
+.edge .arrow {
+  flex-grow: 1;
+  display: flex;
+  padding: 1.5rem;
+  align-items: center;
 }
 
 .entry.page {
   padding-top: 3rem;
-  margin-top: 0
+  margin-top: 0;
+  margin-left: 25%;
 }
 
 .entry .body {
@@ -141,10 +199,11 @@ hr {
 }
 
 .entry img {
-  max-height: calc(100vh - 2.5rem);
+  max-height: calc(100vh - 3rem);
   max-width: 100%;
   width: auto;
   height: auto;
+  vertical-align: bottom;
 }
 
 
