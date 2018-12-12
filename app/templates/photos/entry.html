@@ -1,21 +1,32 @@
 {{> header}}
 
-<div class="entry">
-{{#entry}}
-<a href="{{previous.url}}"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve">
+<div class="entry  {{#entry.page}} page {{/entry.page}}">
+  {{#entry}}
+  {{^page}}
+  <a href="{{next.url}}" style="padding:1.5rem"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve">
                 <polyline fill="none" stroke="#000" stroke-width="2" stroke-miterlimit="10" points="18.361,34.601 1.414,17.654 18.361,0.707
                   "></polyline>
                 </svg></a>
 
-<div>
-  {{{html}}}
-</div>
+  {{/page}}
+  {{#page}}
+  {{#titleTag}}
+  <div class="title">
+    {{{titleTag}}}
+  </div>
+  {{/titleTag}}
+  {{/page}}
+  <div class="body" style="position:relative">
+    {{{body}}}
+  </div>
+  {{^page}}
 
-<a href="{{next.url}}"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve">
+  <a href="{{previous.url}}" style="padding:1.5rem"><svg x="0px" y="0px" width="19.068px" height="35.308px" viewBox="0 0 19.068 35.308" enable-background="new 0 0 19.068 35.308" xml:space="preserve">
                 <polyline fill="none" stroke="#000" stroke-width="2" stroke-miterlimit="10" points="0.707,0.707 17.654,17.654 0.707,34.601
                   "></polyline>
                 </svg></a>
-{{/entry}}
+  {{/page}}
+  {{/entry}}
 </div>
 
 {{> footer}}
