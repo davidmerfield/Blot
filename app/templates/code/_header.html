@@ -142,13 +142,12 @@ code {font-family: 'Plex Mono'}
   </head>
   <body>
 
-      <div class="head" style="padding:2rem;font-size:14px;font-family:'Plex Mono';color:rgba(0,0,0,.2)">
+      <div class="head" style="padding:2rem;font-size:16px;color:rgba(0,0,0,.2)">
       <a href="/" style="color:rgba(0,0,0,.85);text-decoration:none">{{title}}</a>
       
-      <span style="display:inline-block;width:2.175rem;border-top:1px solid #ccc;margin:.725rem;height:0;vertical-align:middle;"></span>
 
         {{#menu}}
-      <a style="color:rgba(0,0,0,.4);text-decoration:none"href="{{url}}">{{label}}</a>{{^last}},&puncsp;{{/last}}
+      <a style="float:right;color:rgba(0,0,0,.4);text-decoration:none"href="{{url}}">{{label}}</a>&nbsp; 
       {{/menu}}
     </div>
     <br><br>
