@@ -10,7 +10,7 @@
 -webkit-font-feature-settings: 'tnum';
 -moz-font-feature-settings: 'tnum';">
       {{#pagination}} Page {{current}} / {{total}} {{/pagination}}
-      {{^pagination}} {{#entry}} {{^page}} All {{entries.length}} entries {{/page}} {{/entry}} {{/pagination}}
+      {{^pagination}} {{^entry.page}} {{allEntries.length}} entries {{/entry.page}} {{/pagination}}
       </span>
   </div>
   <div style="text-align:right">

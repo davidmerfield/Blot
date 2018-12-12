@@ -60,9 +60,14 @@ body {
   text-align: left;
 }
 
+.index a:nth-child(2n+1) .text {
+  float: right;
+}
+
 .index a:nth-child(2n+1) {
   text-align: right;
 }
+
 
 .index a img {
   max-width: 100%;
@@ -76,9 +81,12 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 4rem 0;
+  justify-content: center;
+  width:25vw;
+  height:25vw;
 }
+
+.index a .text:hover {border-color: rgba(0,0,0,.4);}
 
 .index a .date {
   font-size: 14px;
@@ -172,19 +180,38 @@ body {
   flex-grow: 1;
   text-align: center;
   font-size: 23px;
+  -webkit-font-smoothing: auto;
   color: rgba(0, 0, 0, 0.75)
 }
+
+.body p {margin: 1.4em 0}
 
 .entry.page .body {
   text-align: left;
 }
 
+.entry .body a {color: darkblue}
+.entry .body a:visited {color: purple}
+
+
 .entry.page .body>* {
   max-width: 35em;
 }
 
+.body.post p,
+.body.post .wide {
+  max-width: 35em;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.body.post .margin {position: relative;left: auto;right: auto;}
+
 hr {
-  margin: 1.5rem 0
+    background-color: #e7e7e5;
+    border: none;
+    height: 2px;
+    margin: 3em 0;
 }
 
 .entry .title {
@@ -258,7 +285,11 @@ the absolutely positioned stuff is off the viewport.
   padding-left: 3rem;
 }
 
-.margin :first-child {
+.margin:first-child > :first-child {
+  margin-top: 2em
+}
+
+.margin > :first-child {
   margin-top: 0.5em
 }
 
