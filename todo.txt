@@ -18,6 +18,7 @@ Template system
   4. reload page, static.js still shows the entries, which archives.html does not
 - Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 
+Investigate bug with templates and git client. Changes made to a template with a dash (-) in its name via the git client did not affect the live site for aupiff.com
 
 Template spec
 - all themes must support a 'landing page' modification nicely
