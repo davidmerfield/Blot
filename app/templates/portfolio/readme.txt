@@ -1,10 +1,9 @@
 # About
 
-Adjustable grid size on index page?
 
-indexexhibit.org
+I like the red in some of the photos. Can we compose the homepage to highlight this? I very much like the look and feel of [Sabine Rovers' website](https://sabinerovers.com/Au-Maroc)
 
-Use tags for sidebar? Recent entries?
+Adjustable grid size on index page? This is an obvious reference: indexexhibit.org I like the layout here on the sidebar? http://www.ricardoloureiro.com/ Use tags for sidebar? Recent entries?
 
 Björn Allard (1923-2006) was employed as a photographer at the Swedish National Heritage Board in the 1950s and 1960s. He took part in archaeological surveys and excavations to contribute documentary photographs. Since he held an academic degree in Nordic and comparative archeology, he was certainly well suited for the work. 
 
