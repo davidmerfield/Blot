@@ -81,11 +81,19 @@ label[for="toggle"] {
   padding: 1.3rem 2.6rem 1.3rem 2.6rem;
   margin: 0.65em;
   color: rgba(0, 0, 0, .4);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 800px) {
+  .pagination {
+    padding: 1.3rem 1.35rem;
+  }
 }
 
 .pagination .spacer {
   border-right: 1px solid rgb(0, 0, 0, 0.1);
-  height: 14px;
+  height: 22px;
   margin-left: 1.3em;
   margin-right: 1.3em;
 }
@@ -94,6 +102,8 @@ label[for="toggle"] {
   text-decoration: none;
   color: rgba(0, 0, 0, .1);
 }
+
+.pagination > * {margin: 0.65em 0}
 
 .navigation a:focus,
 .navigation a.active,
@@ -199,6 +209,7 @@ label[for="toggle"] {
   margin: 0.65rem;
   position: relative;
 }
+
 /* When navigation is collapsed into toggle */
 @media screen and (max-width: 800px) {
   .posts {
