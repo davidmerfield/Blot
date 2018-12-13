@@ -1,14 +1,29 @@
 {{> header}}
 
-  <div class="entries">
-    {{#entries}}
-    <a href="{{url}}">
+<div class="posts">
+  {{#entries}}
+  <a href="{{{url}}}" class="post {{^thumbnail.medium}}no-thumbnail{{/thumbnail.medium}}">
+  <span class="thumbnail">
+    <span class="container">
       {{#thumbnail.medium}}
-      <img src="{{url}}">
+      <img src="{{{url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
+      <noscript>  
+      <img src="{{{url}}}">
+      </noscript>
       {{/thumbnail.medium}}
-<!--       <span class="box">{{title}}</span>
- -->    </a>
-    {{/entries}}
-  </div>
+      {{^thumbnail.medium}}
+      <span style="width:100%">
+        <span style="display:block;width:100%;margin:0.65em 0;box-sizing:border-box;padding:0 1.3rem;color:rgba(0,0,0,.5);
+  font-size:24px">
+        {{title}}
+      </span>
+      <span style="font-size:13px;display:block;">Added <span date-from-now="{{dateStamp}}" >{{date}}</span></span>
+    </span>
+      {{/thumbnail.medium}}
+    </span>
+  </span>
+</a>
+  {{/entries}}
+</div>
 
 {{> footer}}

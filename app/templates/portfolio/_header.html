@@ -1,41 +1,15 @@
 <html>
+
 <head>
-  <style type="text/css">
-
-  body {font-family: -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
-    "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  text-rendering: optimizeLegibility;
-  font-variant-ligatures: common-ligatures;
-  font-feature-settings: "liga";
-  color: rgba(0,0,0,0.85);
-  line-height: 1.4;
-} 
-.menu {padding:2rem 3rem 2rem 2rem;}
-.entries {padding:1rem 2rem;}
-  .menu {flex-shrink:0;}
-  .menu a {display: block;color: rgba(0,0,0,0.85);text-decoration: none;}
-  .menu a.active,
-  .menu a.index {color:rgba(0,0,0,.4);}
-  .entries {display: flex;flex-wrap:wrap;}
-  .entries a {width: 15%;padding:1rem;box-sizing:border-box;}
-  .entries a .box {border: 1px solid;display: flex;align-items:center;}
-  .entries a img {max-width: 100%;max-height: 100%;width: auto;height: auto;}
-  </style>
+  <meta charset="utf-8">
+  <title>{{> title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{> description}}">
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for {{title}}" href="{{feedURL}}">{{#avatar}}
+  <link rel="icon" href="{{{avatar}}}" type="image/x-icon">
+  {{/avatar}}
+  <link rel="stylesheet" href="{{#asset}}/style.css{{/asset}}">
 </head>
+
 <body>
-<div style="display:flex">
-
-  <div class="menu">
-    <a href="/" class="index">{{title}}</a>
-    <br>
-    {{#recentEntries}}
-    <a href="{{url}}" class="{{active}}">{{title}}</a>
-    {{/recentEntries}}
-    <br>
-    {{#menu}}
-    <a href="{{url}}" class="{{active}}">{{label}}</a>
-    {{/menu}}
-
-  </div>
+  {{> navigation}}

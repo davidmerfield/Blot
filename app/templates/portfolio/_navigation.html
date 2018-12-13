@@ -1,0 +1,37 @@
+<div class="navigation-container">
+
+<label for="toggle">—<br>—<br>—</label>
+<input type="checkbox" style="display:none" name="toggle" id="toggle">
+
+<div class="navigation">
+
+  <a href="/" class="light">{{title}}</a>
+
+  <br><br>
+
+  <div class="clip-7">
+
+    {{#recentEntries}}
+    <a href="{{url}}" class="{{active}}">{{title}}</a>
+    {{/recentEntries}}
+
+  </div>
+
+  <!-- <br>
+
+  <div class="clip-5">
+
+    {{#popular_tags}}
+    <a href="/tagged/{{slug}}" class="{{active}}">{{tag}}</a>
+    {{/popular_tags}}
+
+  </div> -->
+
+  <br>
+
+  {{#menu}}
+  <a href="{{url}}" class="menu light {{active}}">{{label}}</a>
+  {{/menu}}
+
+</div>
+</div>

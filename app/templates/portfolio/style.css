@@ -1,0 +1,262 @@
+html,
+body {
+  margin: 0;
+  padding: 0
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: none;
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "liga";
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 1.3;
+  display: flex
+}
+
+.navigation,
+label[for="toggle"] {
+  padding: 3.5rem 2rem;
+}
+
+label[for="toggle"] {
+  line-height: 0.333;
+  cursor: pointer;
+  display: block;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+}
+
+.entries {
+  padding: 1rem 2rem;
+}
+
+.clip-7> :nth-child(n+18) {
+  display: none;
+}
+
+.clip-5> :nth-child(n+6) {
+  display: none;
+}
+
+.navigation-container {
+    flex-shrink: 0;
+}
+.navigation {
+  max-width: 12em
+}
+
+.navigation a {
+  display: block;
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+  transition: color 0.1s;
+}
+
+.navigation a:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.navigation a:focus,
+.navigation a.active,
+.navigation a.index,
+.navigation a.light {
+  color: rgba(0, 0, 0, .4);
+}
+
+.navigation a.light:hover {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.menu[href="/feed.rss"],
+.menu[href="/search"] {
+  display: none;
+}
+
+@media screen and (min-width: 800px) {
+  label[for="toggle"] {display: none;}
+}
+
+
+@media screen and (max-width: 800px) {
+
+.navigation, label[for=toggle] {
+     padding: 1rem 1rem; 
+}
+
+  body {flex-direction:column;}
+  .navigation-container {width: 100%;display: flex}
+  .navigation {height: 100vh}
+
+  input[name="toggle"]+.navigation {
+    display: none;
+  }
+
+  input[name="toggle"]:checked+.navigation {
+    display: block;
+  }
+
+}
+
+
+.entries {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.entries a {
+  width: 15%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.entries a .box {
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+}
+
+.entries a img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+
+.pre-loaded {
+  visibility: hidden;
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.loaded {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+
+.posts {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0rem 3rem;
+  flex-grow: 1;
+}
+
+.post {
+  position: relative;
+  padding: 0.8rem;
+  width: 25%;
+  box-sizing: border-box;
+  font-size: 13px;
+  color: #aaa;
+  text-decoration: none;
+  text-align: center;
+}
+
+.post .thumbnail .container {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  display: flex;
+  align-items: center
+}
+
+@media screen and (max-width: 1200px) {
+  .post {
+    width: 33.3333%
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .post {
+    width: 50%
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .post {
+    width: 100%
+  }
+}
+
+.post .date {
+  visibility: hidden;
+  display: block;
+}
+
+.post .thumbnail {
+  box-sizing: border-box;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1.3rem
+}
+
+.post .thumbnail:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid transparent
+}
+
+.post:hover .thumbnail:after {
+  border-color: rgba(0, 0, 0, .15)
+}
+
+.post:hover .date {
+  visibility: visible;
+}
+
+.post img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  margin: 0 auto
+}
+
+.post.no-thumbnail .thumbnail:after {
+  border-color: rgba(0, 0, 0, .15);
+  border-width: 2px
+}
+
+.post.no-thumbnail:hover .thumbnail:after {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+.post.no-thumbnail .thumbnail {
+  color: rgba(0, 0, 0, .4);
+  text-align: center;
+}
+
+.post.no-thumbnail .date {
+  display: block;
+}

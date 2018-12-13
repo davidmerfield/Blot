@@ -1,0 +1,13 @@
+{{> header}}
+
+<div class="entries">
+  {{#archives.entries}}
+  <a href="{{url}}">
+      {{#thumbnail.medium}}
+      <img src="{{url}}">
+      {{/thumbnail.medium}}
+ </a>
+  {{/archives.entries}}
+</div>
+
+{{> footer}}
