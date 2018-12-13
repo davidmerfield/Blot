@@ -1,46 +1,30 @@
 {{> header}}
 
 <div>
-<div class="posts">
-  {{#entries}}
-    <a class="post" href="{{{url}}}" style="max-width:{{thumbnail.large.width}};max-height:{{thumbnail.large.height}};width:calc({{thumbnail.large.width}}px*250/{{thumbnail.large.height}});flex-grow:calc({{thumbnail.large.width}}*250/{{thumbnail.large.height}})">
+  <div class="posts">
+    {{#entries}}
+    <a class="post" href="{{{url}}}" style="
+      max-width:{{thumbnail.large.width}};
+      max-height:{{thumbnail.large.height}};
+      width:calc({{thumbnail.large.width}}px*250/{{thumbnail.large.height}});
+      flex-grow:calc({{thumbnail.large.width}}*250/{{thumbnail.large.height}})">
       <i style="padding-bottom:{{thumbnail.large.ratio}}"></i>
       <img src="{{{thumbnail.large.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
       <noscript>  
       <img src="{{{thumbnail.large.url}}}">
       </noscript>
     </a>
-  {{/entries}}
-</div>
-<div style="padding: 1rem 2rem 1rem 3rem;
-">
-    {{#pagination}}
-  <a {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr; Previous</a>
-  <a {{#next}}href="/page/{{next}}"{{/next}}>Next &rarr;</a>
-  {{/pagination}}
-</div>
-</div>
-<!-- 
+    {{/entries}}
+  </div>
+  {{#pagination}}
+  <div class="pagination">
+    <span>Page {{current}} of {{total}}</span><span class="spacer"></span><a {{#previous}}href="/page/{{previous}}"{{/previous}}><span class="icon-holder margin-right">&larr;</span>Previous</a><a style="margin-left:1.3em" {{#next}}href="/page/{{next}}"{{/next}}>Next<span class="icon-holder margin-left"><span style="position:relative;left:-0.01em">&rarr;</span></span></a>
 
-  <a href="{{{url}}}" class="post {{^thumbnail.medium}}no-thumbnail{{/thumbnail.medium}}">
-  <span class="thumbnail">
-    <span class="container">
-      {{#thumbnail.medium}}
-      <img src="{{{url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
-      <noscript>  
-      <img src="{{{url}}}">
-      </noscript>
-      {{/thumbnail.medium}}
-      {{^thumbnail.medium}}
-      <span style="width:100%">
-        <span style="display:block;width:100%;margin:0.65em 0;box-sizing:border-box;padding:0 1.3rem;color:rgba(0,0,0,.5);
-  font-size:24px">
-        {{title}}
-      </span>
-      <span style="font-size:13px;display:block;">Added <span date-from-now="{{dateStamp}}" >{{date}}</span></span>
-    </span>
-      {{/thumbnail.medium}}
-    </span>
-  </span>
-</a> -->
+    <div style="float:right">
+      <a style="position:relative;right:-2px" href="/archives">Browse the archives<span class="icon-holder margin-left"><span style="position:relative;top:-1px">+</span></span></a>
+    </div>
+  </div>
+  {{/pagination}}
+  <br><br><br><br><br><br>
+</div>
 {{> footer}}
