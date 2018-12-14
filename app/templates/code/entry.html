@@ -1,11 +1,20 @@
 {{> header}}
 
-<div style="max-width:40em;position:relative;margin:0 auto">
+<div style="display:flex;">
+<!-- <div style="font-size:14px;color:#aaa">
+  Published on<br> {{entry.date}}
+  <br><br>
+  8 - M
+  <br><br>
+  {{#tags}}{{tag}}{{/tags}}
+</div>
+ --><div class="entry">
 {{#entry}}
-
 {{{html}}}
-
 {{/entry}}
 </div>
+<!-- <div style="color:#aaa;font-size:20px">&larr; &rarr; </div>
+
+ --></div>
 
 {{> footer}}

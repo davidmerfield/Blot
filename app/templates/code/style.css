@@ -42,141 +42,154 @@
     url('/fonts/plex/mono/bold.woff2') format('woff2');
   /* Very modern */
 }
-
-@font-face {
-  font-family: 'Plex Serif';
-  font-weight: 400;
-  font-style: normal;
-  src: url('/fonts/plex/serif/text.eot');
-  /* IE9 Compat Modes */
-  src: url('/fonts/plex/serif/text.eot?#iefix') format('embedded-opentype'),
-    /* IE6-IE8 */
-    url('/fonts/plex/serif/text.woff') format('woff'),
-    /* Pretty Modern Browsers */
-    url('/fonts/plex/serif/text.woff2') format('woff2');
-  /* Very modern */
+.katex {
+    font-size: 1em;line-height: 1.5;
 }
 
-@font-face {
-  font-family: 'Plex Serif';
-  font-weight: 400;
-  font-style: italic;
-  src: url('/fonts/plex/serif/italic.eot');
-  /* IE9 Compat Modes */
-  src: url('/fonts/plex/serif/italic.eot?#iefix') format('embedded-opentype'),
-    /* IE6-IE8 */
-    url('/fonts/plex/serif/italic.woff') format('woff'),
-    /* Pretty Modern Browsers */
-    url('/fonts/plex/serif/italic.woff2') format('woff2');
-  /* Very modern */
-}
-
-
-@font-face {
-  font-family: 'Plex Serif';
-  font-weight: 600;
-  font-style: normal;
-  src: url('/fonts/plex/serif/bold.eot');
-  /* IE9 Compat Modes */
-  src: url('/fonts/plex/serif/bold.eot?#iefix') format('embedded-opentype'),
-    /* IE6-IE8 */
-    url('/fonts/plex/serif/bold.woff') format('woff'),
-    /* Pretty Modern Browsers */
-    url('/fonts/plex/serif/bold.woff2') format('woff2');
-  /* Very modern */
-}
-
-
-@font-face {
-  font-family: 'Plex Sans';
-  font-weight: 400;
-  font-style: normal;
-  src: url('/fonts/plex/sans/text.eot');
-  /* IE9 Compat Modes */
-  src: url('/fonts/plex/sans/text.eot?#iefix') format('embedded-opentype'),
-    /* IE6-IE8 */
-    url('/fonts/plex/sans/text.woff') format('woff'),
-    /* Pretty Modern Browsers */
-    url('/fonts/plex/sans/text.woff2') format('woff2');
-  /* Very modern */
-}
-
-@font-face {
-  font-family: 'Plex Sans';
-  font-weight: 400;
-  font-style: italic;
-  src: url('/fonts/plex/sans/italic.eot');
-  /* IE9 Compat Modes */
-  src: url('/fonts/plex/sans/italic.eot?#iefix') format('embedded-opentype'),
-    /* IE6-IE8 */
-    url('/fonts/plex/sans/italic.woff') format('woff'),
-    /* Pretty Modern Browsers */
-    url('/fonts/plex/sans/italic.woff2') format('woff2');
-  /* Very modern */
-}
-
-
-@font-face {
-  font-family: 'Plex Sans';
-  font-weight: 600;
-  font-style: normal;
-  src: url('/fonts/plex/sans/bold.eot');
-  /* IE9 Compat Modes */
-  src: url('/fonts/plex/sans/bold.eot?#iefix') format('embedded-opentype'),
-    /* IE6-IE8 */
-    url('/fonts/plex/sans/bold.woff') format('woff'),
-    /* Pretty Modern Browsers */
-    url('/fonts/plex/sans/bold.woff2') format('woff2');
-  /* Very modern */
-}
+pre, code {font-family: inherit;}
 
 body {
-  font-family: 'Plex Serif';
-  color: rgb(51, 51, 51);
-  line-height: 1.45;
-  font-size: 18px;
+  background-color: #ffffff;
+  line-height: 1.4;
+  margin: 0 auto;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
-}
-
-.entry p,
-.entry ul,
-.entry ol {
-  margin-bottom: 26px;
-  word-wrap: break-word;
-  word-break: break-word;
-  max-width: 36em;
-}
-
-.entry a {
-  font-weight: 500;
-  color: #000;
-  border-bottom: 1px solid #ccc;
-  text-decoration: none;
-}
-
-.entry ul,
-.entry ol {
-  padding-left: 105px;
-  max-width: 31em
-}
-
-.entry blockquote {
-  margin: 0 0 0 52.5px;
-  font-size: inherit;
-  font-weight: inherit;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-kerning: normal;
+  font-kerning: normal;
+  -webkit-font-variant-ligatures: contextual;
+  font-variant-ligatures: contextual;
+  -webkit-font-feature-settings: "lnum"1, "pnum"1, "kern"1, "liga"1;
+  font-feature-settings: "lnum"1, "pnum"1, "kern"1, "liga"1;
+  font-family: 'Plex Mono';
   font-style: normal;
-  color: #666;
-  max-width: 33em
+  font-weight: 400;
+
+    line-height: 1.5;
+    letter-spacing: -0.01rem;
+    margin: 0 auto 1.2em;
+
 }
 
-code {
-  font-family: 'Plex Mono'
+.entry {
+  max-width: 640px;
+  width: 100%;  
+  margin: 0 auto
 }
 
-.head a:hover {
-  opacity: 0.8
+.entry > :first-child {margin-top: 0}
+
+blockquote {
+    padding-left: 3em;
+    margin-left: 0;
+    border-left: 1px dotted #000;
+    margin-top: 0.2em;
+    margin-bottom: 1.3em;
 }
 
-.head a:active {
-  opacity: 0.6666
+p a, blockquote a, li a {
+    border-bottom: 1px dotted #000;
+    color: black;
+    text-decoration: none;
+}
+
+p a:hover, blockquote a:hover {border-bottom-style: solid;}
+
+h1 {
+  font-size: 22px;
+  margin: 2em 0 1em;
+  font-style: italic;
+}
+
+
+h2, h3, h4 {
+  font-size: 16px;
+  margin: 2em 0 1em
+}
+
+
+/*
+
+Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmail.com>
+
+*/
+
+pre {color: #657b83}
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0;
+  background: #fff;
+  color: #657b83;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #93a1a1;
+}
+
+/* Solarized Green */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+  color: #859900;
+}
+
+/* Solarized Cyan */
+.hljs-number,
+.hljs-string,
+.hljs-meta .hljs-meta-string,
+.hljs-literal,
+.hljs-doctag,
+.hljs-regexp {
+  color: #2aa198;
+}
+
+/* Solarized Blue */
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #268bd2;
+}
+
+/* Solarized Yellow */
+.hljs-attribute,
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-class .hljs-title,
+.hljs-type {
+  color: #b58900;
+}
+
+/* Solarized Orange */
+.hljs-symbol,
+.hljs-bullet,
+.hljs-subst,
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-link {
+  color: #cb4b16;
+}
+
+/* Solarized Red */
+.hljs-built_in,
+.hljs-deletion {
+  color: #dc322f;
+}
+
+.hljs-formula {
+  background: #eee8d5;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
 }
