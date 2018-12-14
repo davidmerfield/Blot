@@ -3,7 +3,7 @@
 
 I like the red in some of the photos. Can we compose the homepage to highlight this? I very much like the look and feel of [Sabine Rovers' website](https://sabinerovers.com/Au-Maroc)
 
-I like this layout: https://davidroethlisberger.ch/Projekte
+I like this layout: https://davidroethlisberger.ch/Projekte and this layout: https://softsect.cargocollective.com/Information
 
 Implement the image panning feature here: https://openletters-online.com/Issue-70-Kenneth-Hasegawa-and-Isa-He-to-3D-TA
 
