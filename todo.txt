@@ -2,6 +2,9 @@ Thumbnailer seems to be failing for images inside word documents (try folder 793
 
 Fix links in daily update email
 
+Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ
+)
+
 Template system
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Ask to confirm, but remove files from blog folder when disabling local editing
@@ -18,6 +21,7 @@ Template system
   4. reload page, static.js still shows the entries, which archives.html does not
 - Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 
+Investigate bug with templates and git client. Changes made to a template with a dash (-) in its name via the git client did not affect the live site for aupiff.com
 
 Template spec
 - all themes must support a 'landing page' modification nicely
