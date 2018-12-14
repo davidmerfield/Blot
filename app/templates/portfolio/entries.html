@@ -3,7 +3,8 @@
 <div>
   <div class="posts">
     {{#entries}}
-    <a class="post" href="{{{url}}}" style="
+    {{#thumbnail.large.url}}
+    <a class="post photo" href="{{{url}}}" style="
       max-width:{{thumbnail.large.width}};
       max-height:{{thumbnail.large.height}};
       width:calc({{thumbnail.large.width}}px*250/{{thumbnail.large.height}});
@@ -14,6 +15,13 @@
       <img src="{{{thumbnail.large.url}}}">
       </noscript>
     </a>
+    {{/thumbnail.large.url}}
+    {{^thumbnail.large.url}}
+    <a class="post text" href="{{{url}}}" style="flex-grow:250">
+      <span class="title">{{title}}</span>
+      <span class="date">{{date}}</span>
+    </a>    
+    {{/thumbnail.large.url}}
     {{/entries}}
   </div>
   {{#pagination}}

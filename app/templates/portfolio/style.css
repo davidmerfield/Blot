@@ -1,4 +1,4 @@
-{{{appCSS}}}
+{{appCSS}}
 
 html,
 body {
@@ -209,9 +209,40 @@ label[for="toggle"] {
 }
 
 .post {
-  cursor: zoom-in;
   margin: 0.65rem;
   position: relative;
+}
+
+.post.photo {
+  cursor: zoom-in;
+}
+
+.post.text {
+  border: 2px solid rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-decoration: none;
+  padding: 3.9rem 2.6rem;
+}
+
+.post.text:hover {
+  border-color: rgba(0, 0, 0, .5)
+}
+
+.post.text .title {
+  font-size: 22px;
+  max-width: 15em;
+  text-align: center;
+  color: rgba(0, 0, 0, .75);
+  margin: 0.65rem 0 0.15rem;
+}
+
+.post.text .date {
+  font-size: 14px;
+  color: rgba(0, 0, 0, .4)
 }
 
 /* When navigation is collapsed into toggle */
@@ -272,9 +303,26 @@ label[for="toggle"] {
 
 .entry {
   padding: 1.95rem 0 1.95rem 3.25rem;
-  flex-grow: 1;
-  margin: 0 auto;
+/*  flex-grow: 1;
+*/  margin: 0 auto;
+  font-size: 22px
 }
+
+.entry hr {margin: 2.6em 0;border:none;border-top:2px solid #f2f2f2;}
+.entry h1 {font-size: 32px;margin: 0.65em 0}
+.entry p {margin: 1.3em 0}
+.entry a {color: darkblue}
+.entry a:visited {color: purple}
+.entry .videoContainer {position: relative;}
+.entry iframe {width: 100%;}
+.entry > * {max-width: 40em}
+
+
+
+.footnotes,
+blockquote {color: rgba(0,0,0,0.6);}
+blockquote {padding-left: 2.6em;box-sizing:border-box;}
+.footnotes {font-size: 18px}
 
 @media screen and (max-width: 800px) {
   .entry {
@@ -310,6 +358,18 @@ label[for="toggle"] {
 }
 
 .nav a {
-  color: rgba(0, 0, 0, .4);
   text-decoration: none;
+  color: rgba(0, 0, 0, 0.1)
+}
+
+.nav a[href] {
+  color: rgba(0, 0, 0, .4);
+}
+
+.nav a[href]:hover {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.nav a[href]:focus {
+  color: rgba(0, 0, 0, 0.2);
 }

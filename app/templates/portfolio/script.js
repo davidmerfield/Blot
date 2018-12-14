@@ -40,7 +40,10 @@ var candidates = sessionStorage.getItem("randomPostCandidates");
 
 try {
   candidates = JSON.parse(candidates);  
-  candidates = candidates.filter(function(pathname){return pathname !== window.location});
+  candidates = candidates.filter(function(pathname){
+    return articles.indexOf(pathname) > -1 && 
+    pathname !== window.location
+  });
   if (candidates.length === 0) candidates = articles;
 } catch (e) {
   candidates = articles.slice();

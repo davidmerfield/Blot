@@ -9,9 +9,9 @@
 <div class="nav">
   <a href="/" onclick="return lastIndexPage()">✕</a>
   <div>
-  <a href="{{entry.next.url}}"><span style="font-size:32px;font-weight:200"><</span></a>&nbsp;<a href="{{entry.previous.url}}" style="font-size:32px;font-weight:200">></a>
+  <a {{#entry.next}}href="{{entry.next.url}}"{{/entry.next}}><span style="font-size:32px;font-weight:200"><</span></a>&nbsp;<a {{#entry.previous}}href="{{entry.previous.url}}"{{/entry.previous}} style="font-size:32px;font-weight:200">></a>
   </div>
-  <a href="" onclick="return randomPost()">~</a>
+  <a href="" onclick="return randomPost()" style="font-size:24px">⚄</a>
 </div>
 
 {{> footer}}
