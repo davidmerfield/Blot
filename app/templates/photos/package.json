@@ -1,0 +1,9 @@
+{
+  "name": "Photos",
+  "isPublic": true,
+  "locals": {
+    "page_size": 16,
+    "background_color": "#fff",
+    "text_color": "rgba(0, 0, 0, 0.85)"
+  }
+}
