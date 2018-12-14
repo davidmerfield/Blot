@@ -32,10 +32,14 @@ module.exports = function download_pdfs(post, callback) {
     "a",
     function(el, next) {
       var href = $(el).attr("href");
+      var name;
 
-      if (!href) return next();
-      
-      var name = nameFrom(href);
+      try {
+        name = nameFrom(href);
+      } catch (e) {
+        return next();
+      }
+
       if (name.charAt(0) !== "_") name = "_" + name;
 
       if (require("path").extname(href) !== ".pdf") return next();
