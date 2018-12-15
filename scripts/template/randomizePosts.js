@@ -27,7 +27,7 @@ get(identifier, function(user, blog) {
       if (entry.deleted || entry.draft || entry.scheduled || entry.page)
         return next();
 
-      if (entry.metadata.date) return next();
+      // if (entry.metadata.date) return next();
 
       var newDateStamp = limit.valueOf() + Math.floor(Math.random() * (end.valueOf() - limit.valueOf()));
 

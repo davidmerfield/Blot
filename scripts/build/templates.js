@@ -4,7 +4,7 @@ var emptyCache = require("../cache/empty");
 var helper = require("../../app/helper");
 var extend = helper.extend;
 var basename = require("path").basename;
-var colors = require('colors/safe');
+var colors = require("colors/safe");
 
 var fs = require("fs-extra");
 var mime = require("mime");
@@ -41,22 +41,17 @@ if (require.main === module) {
 
 // Builds any templates inside the directory
 function main(directory, callback) {
-
   var dirs = templateDirectories(directory);
 
-  async.map(dirs, async.reflect(build), function(err,results) {
-
+  async.map(dirs, async.reflect(build), function(err, results) {
     emptyCache(function() {
-
-      results.forEach(function(result, i){
-
+      results.forEach(function(result, i) {
         if (result.error) {
           console.log();
-          console.error(colors.red('Error building: ' + dirs[i]));
+          console.error(colors.red("Error building: " + dirs[i]));
           console.error(colors.dim(result.error.stack));
           console.log();
         }
-
       });
 
       callback();
@@ -66,13 +61,30 @@ function main(directory, callback) {
 
 // Path to a directory containing template files
 function build(directory, callback) {
-  console.log(colors.dim(".."), require("path").basename(directory), colors.dim(directory));
+  console.log(
+    colors.dim(".."),
+    require("path").basename(directory),
+    colors.dim(directory)
+  );
 
   var templatePackage, globalPackage, isPublic, method;
   var name, template, locals, description, views, id;
 
   try {
     templatePackage = fs.readJsonSync(directory + "/package.json");
+  } catch (e) {
+    templatePackage = {};
+    console.warn(
+      colors.dim("     "),
+      colors.red(
+        "Warning: ENOENT " +
+          colors.dim(directory + "/package.json")
+      )
+    );
+    // package.json is optional
+  }
+
+  try {
     globalPackage = fs.readJsonSync(
       GLOBAL_TEMPLATE_DIRECTORY + "/package.json"
     );
@@ -232,7 +244,7 @@ function watch(directory) {
     var subdirectoryName = path.slice(TEMPLATES_DIRECTORY.length).split("/")[1];
 
     if (subdirectoryName === "_") {
-      templateDirectories(TEMPLATES_DIRECTORY).forEach(function(dir){
+      templateDirectories(TEMPLATES_DIRECTORY).forEach(function(dir) {
         queue.push(dir);
       });
     } else {
