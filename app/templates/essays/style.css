@@ -1,0 +1,121 @@
+@font-face {
+  font-family: 'Plex Serif';
+  font-weight: 400;
+  font-style: normal;
+  src: url('/fonts/plex/serif/regular.eot');
+  /* IE9 Compat Modes */
+  src: url('/fonts/plex/serif/regular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('/fonts/plex/serif/regular.woff') format('woff'),
+    /* Pretty Modern Browsers */
+    url('/fonts/plex/serif/regular.woff2') format('woff2');
+  /* Very modern */
+}
+
+@font-face {
+  font-family: 'Plex Serif';
+  font-weight: 400;
+
+  font-style: italic;
+  src: url('/fonts/plex/serif/italic.eot');
+  /* IE9 Compat Modes */
+  src: url('/fonts/plex/serif/italic.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('/fonts/plex/serif/italic.woff') format('woff'),
+    /* Pretty Modern Browsers */
+    url('/fonts/plex/serif/italic.woff2') format('woff2');
+  /* Very modern */
+}
+
+@font-face {
+  font-family: 'Plex Serif';
+  font-weight: 600;
+  font-style: normal;
+  src: url('/fonts/plex/serif/semi-bold.eot');
+  /* IE9 Compat Modes */
+  src: url('/fonts/plex/serif/semi-bold.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('/fonts/plex/serif/semi-bold.woff') format('woff'),
+    /* Pretty Modern Browsers */
+    url('/fonts/plex/serif/semi-bold.woff2') format('woff2');
+  /* Very modern */
+}
+
+
+
+body {
+  font-family: 'Plex Serif', serif;
+  line-height: 1.4;
+  font-size: 18px;
+  text-rendering: optimizeLegibility;
+  /*  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+*/
+  -webkit-font-kerning: normal;
+  font-kerning: normal;
+  -webkit-font-variant-ligatures: contextual;
+  font-variant-ligatures: contextual;
+  -webkit-font-feature-settings: "lnum"1, "pnum"1, "kern"1, "liga"1;
+  font-feature-settings: "lnum"1, "pnum"1, "kern"1, "liga"1;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.entry {
+  max-width: 38em;
+  margin: 0 auto
+}
+
+.entry h1 {
+  line-height: 1.25
+}
+
+.entry h2, .entry h3 {margin-top: 2.8rem}
+
+
+.entry>* {
+  margin: 1.4rem 0
+}
+
+.entry>p:first-of-type {
+  font-size: 1.25em
+}
+
+.entry ul, .entry ol {padding-left: 2.8rem}
+.entry ul {list-style-type: circle}
+.entry li {padding-left: .7rem}
+
+.entry a {
+
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+  background-image: linear-gradient(to bottom, #bcbcbc 50%, #bcbcbc 50%);
+  background-repeat: repeat-x;
+  background-size: 1px 1px;
+  background-position: 0 100%;
+  background-position: 0 100%;
+  padding-bottom: 1px;
+}
+
+.entry a:hover {
+  color: red;
+}
+
+.entry a:visited {
+  color: purple;
+}
+
+.entry img {
+  max-width: 100%;
+  max-height: 100vh;
+  height: auto;
+  width: auto;
+  margin: 1.4rem 0
+}
+
+.entry hr {
+  border: none;
+  border-top: 1px solid #f2f2f2;
+  margin: 2.8em 0
+}

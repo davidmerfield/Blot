@@ -1,13 +1,8 @@
 <html>
-<head>
-  <title>{{> title}}</title>
-  <style type="text/css">
-  {{> charter}}
-  </style>
-</head>
+{{> head}}
 <body>
 
-<div class="header" >
+<div class="header">
   <a href="/"><b>{{#avatar}}
   <img style="max-width:1.45em;max-height:1.45em;width:auto;height:auto" src="{{avatar}}">
   {{/avatar}}
@@ -17,4 +12,4 @@
   <a href="{{url}}">{{label}}</a>
   {{/menu}}
 </div>
-  <hr>
+<hr>
