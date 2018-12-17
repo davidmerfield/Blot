@@ -1,12 +1,16 @@
 <html>
 {{> head}}
 
-<body>
+<body style="display:flex">
+
+  <a href="/" style="color:rgba(0,0,0,.4);border-bottom:1px solid rgba(0,0,0,.2);text-decoration:none;font-size:1em;margin:1.4rem 2.8rem 5.6rem;display:block">{{title}}</a>
 
   {{#entry}}
   <div class="entry">
     {{{html}}}
   </div>
   {{/entry}}
+
+  <a href="/" style="visibility:hidden;color:rgba(0,0,0,.4);border-bottom:1px solid rgba(0,0,0,.2);text-decoration:none;font-size:1em;margin:0 2.8rem 5.6rem;display:block">{{title}} </a>
 
   {{> footer}}

@@ -106,6 +106,10 @@ body {
   color: purple;
 }
 
+.entry blockquote {color: #666;border-left: 1px solid #f2f2f2;padding-left: 2.8rem}
+
+.entry sup {font-size: inherit;vertical-align: inherit;}
+
 .entry img {
   max-width: 100%;
   max-height: 100vh;
@@ -119,3 +123,5 @@ body {
   border-top: 1px solid #f2f2f2;
   margin: 2.8em 0
 }
+
+.entry .footnotes {font-size: 16px;}
