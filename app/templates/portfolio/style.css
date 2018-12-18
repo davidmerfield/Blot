@@ -1,4 +1,8 @@
-{{appCSS}}
+{
+    {
+    appCSS
+  }
+}
 
 html,
 body {
@@ -20,6 +24,10 @@ body {
   color: rgba(0, 0, 0, 0.85);
   line-height: 1.3;
   display: flex
+}
+
+input[name="toggle"] {
+  display: none;
 }
 
 .navigation,
@@ -303,26 +311,62 @@ label[for="toggle"] {
 
 .entry {
   padding: 1.95rem 0 1.95rem 3.25rem;
-/*  flex-grow: 1;
-*/  margin: 0 auto;
+  /*  flex-grow: 1;
+*/
+  margin: 0 auto;
   font-size: 22px
 }
 
-.entry hr {margin: 2.6em 0;border:none;border-top:2px solid #f2f2f2;}
-.entry h1 {font-size: 32px;margin: 0.65em 0}
-.entry p {margin: 1.3em 0}
-.entry a {color: darkblue}
-.entry a:visited {color: purple}
-.entry .videoContainer {position: relative;}
-.entry iframe {width: 100%;}
-.entry > * {max-width: 40em}
+.entry hr {
+  margin: 2.6em 0;
+  border: none;
+  border-top: 2px solid #f2f2f2;
+}
+
+.entry h1 {
+  font-size: 32px;
+  margin: 0.65em 0
+}
+
+.entry p {
+  margin: 1.3em 0
+}
+
+.entry a {
+  color: darkblue
+}
+
+.entry a:visited {
+  color: purple
+}
+
+.entry .videoContainer {
+  position: relative;
+}
+
+.entry iframe {
+  width: 100%;
+}
+
+.entry>* {
+  max-width: 40em
+}
 
 
 
 .footnotes,
-blockquote {color: rgba(0,0,0,0.6);}
-blockquote {padding-left: 2.6em;box-sizing:border-box;}
-.footnotes {font-size: 18px}
+blockquote {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+blockquote {
+  padding-left: 2.6em;
+  box-sizing: border-box;
+}
+
+.footnotes {
+  font-size: 18px
+}
 
 @media screen and (max-width: 800px) {
   .entry {
