@@ -1,0 +1,34 @@
+{{> header}}
+
+<h2 id="custom-keyboards">Blog posts</h2>
+
+<p>A keyboard extension replaces the standard keyboard with a custom keyboard. Custom keyboards are enabled in the Settings app, under General &gt; Keyboards. Once enabled, the keyboard is available during text entry within any app, except when editing secure text fields and phone number fields. People can enable multiple custom keyboards, and switch between them at any time.</p>
+
+<p><img src="https://developer.apple.com/design/human-interface-guidelines/ios/images/CustomKeyboard-Screen_2x.png" alt="Image of a custom keyboard overlaid with a blue curving line that represents the path a finger took while moving through the letters that spell &quot;Hello.&quot;" title="" class="device-frame device-frame-bottom" data-hires-status="pending" style="background-image: url(&quot;https://developer.apple.com/design/human-interface-guidelines/images/iPhone6s_iOSHIG_Frame_2x.png&quot;);"></p>
+  <p><strong>Make sure you really need a custom keyboard.</strong> Custom keyboards make sense when you want to expose unique keyboard functionality systemwide, such as a novel way of inputting text or the ability to type in a language not supported by iOS. If you only want a custom keyboard in your app, consider creating a custom input view instead. See <a href="#custom-input-views">Custom Input Views</a>.</p>
+
+  <p><strong>Provide an obvious and easy way to switch between keyboards.</strong> People know that the Globe key on the standard iOS keyboard, which replaces the Emoji key when you have multiple keyboards enabled, quickly switches to other keyboards. They expect a similarly intuitive experience in your keyboard. Note that the Globe key replaces the Emoji key when you have multiple keyboards installed.</p>
+
+  <p><strong>Don't duplicate system-provided keyboard features.</strong> On some devices, the Emoji/Globe key and Dictation key automatically appear beneath the keyboard—even when using custom keyboards. Your app can't affect these keys, so avoid causing confusion by repeating them in your keyboard.</p>
+
+  <p><strong>Consider providing a keyboard tutorial in your app.</strong> People are used to the standard keyboard, and learning a new keyboard takes time. Make the onboarding process easier by providing usage instructions in your app—not in the keyboard itself. Tell people how to enable your keyboard, activate it during text entry, use it, and switch back to the standard keyboard.</p>
+
+  <p>For developer guidance, see <a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ExtensibilityPG/CustomKeyboard.html">Custom Keyboard</a> in <a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ExtensibilityPG/index.html">App Extension Programming Guide</a>.</p>
+
+  <h3 id="custom-input-views">Custom Input Views</h3>
+
+  <p>A custom input view replaces the standard keyboard with a custom keyboard, but only in your app, rather than systemwide. Use a custom input view to provide a unique and efficient method of data entry. Numbers, for example, implements a custom input view for entering numeric values while editing a spreadsheet.</p>
+
+  <p><img src="https://developer.apple.com/design/human-interface-guidelines/ios/images/CustomInputView-Screen_2x.png" alt="Image of a custom input view that includes dollar, percent, minus, delete, tab, and return buttons in addition to a numeric keypad." title="" class="device-frame device-frame-bottom" data-hires-status="pending" style="background-image: url(&quot;https://developer.apple.com/design/human-interface-guidelines/images/iPhone6s_iOSHIG_Frame_2x.png&quot;);"/></p>
+
+    <p><strong>Make functionality obvious.</strong> The controls on a custom input view should make sense in the context of your app. Data entry should be clear and intuitive, so additional instruction isn’t necessary.</p>
+
+    <p><strong>Play the standard keyboard click sound during typing.</strong> The keyboard click sound provides audible feedback while the user is tapping keys on the keyboard. Tapping custom controls in your input view should produce this sound too. Note that this sound is only available to visible custom input views, and people can disable the sound systemwide in Settings &gt; Sounds. For developer guidance, see the <a href="https://developer.apple.com/documentation/uikit/uidevice/1620050-playinputclick">playInputClick</a> method of <a href="https://developer.apple.com/documentation/uikit/uidevice">UIDevice</a>.</p>
+
+    <p><strong>Provide an input accessory view if necessary.</strong> Some apps implement an additional custom input accessory view, which appears above the keyboard. In Numbers, an input accessory view helps people enter standard or custom calculations.</p>
+
+    <p><img src="https://developer.apple.com/design/human-interface-guidelines/ios/images/CustomInputAccessory-Screen_2x.png" alt="Image of a custom accessory view that provides a search bar and three custom calculation buttons above the alphabetic keyboard." title="" class="device-frame device-frame-bottom" data-hires-status="pending" style="background-image: url(&quot;https://developer.apple.com/design/human-interface-guidelines/images/iPhone6s_iOSHIG_Frame_2x.png&quot;);"></p>
+
+      <p>For developer guidance, see <a href="https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/InputViews/InputViews.html">Custom Data Input Views</a> in <a href="https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/Introduction/Introduction.html">Text Programming Guide for iOS</a>.</p>
+
+      {{> footer}}

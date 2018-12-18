@@ -99,6 +99,8 @@ site.get("/privacy", function(req, res) {
   });
 });
 
+site.use('/documentation', require('./routes/documentation'));
+
 site.use("/updates", require("./routes/updates"));
 site.use("/formatting", require("./routes/formatting"));
 site.use("/", require("./routes/help"));
