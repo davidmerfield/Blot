@@ -1,14 +1,21 @@
 {{> header}}
 
-<div class="entries">
+<div class="archives">
   {{#archives}}
   {{#months}}
   {{#entries}}
-      <a class="post" href="{{{url}}}" ><img src="{{{thumbnail.small.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
+  <a href="{{{url}}}">
+    <span class="thumbnail">
+    {{#thumbnail.small.url}}
+        <img src="{{{thumbnail.small.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
       <noscript>  
       <img src="{{{thumbnail.small.url}}}">
       </noscript>
-    </a>
+    {{/thumbnail.small.url}}
+    </span>
+    <span class="title">{{title}}    <span class="date">{{date}}</span>
+</span>
+  </a>
   {{/entries}}
   {{/months}}
   {{/archives}}
