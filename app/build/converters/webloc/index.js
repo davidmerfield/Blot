@@ -127,7 +127,7 @@ function read (blog, path, options, callback) {
 
       if (!url) return callback(new Error(INVALID));
 
-      contents = '<p><a href="' + url + '" class="bookmark">' + (titlify(options.name) || titlify(path)) + '</a></p>';
+      contents = '<p><a href="' + url + '" class="bookmark">' + (titlify(options.name || '') || titlify(path)) + '</a></p>';
 
       callback(null, contents, stat);
     });

@@ -1,3 +1,12 @@
+Thumbnailer seems to be failing for images inside word documents (try folder 793)
+
+Fix links in daily update email
+
+Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ
+)
+
+Fix bug with link to redirect a 404 log entry on the dashboard and tell [Steven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjtDtksFZtsrNQrsvqSwrksw)
+
 Template system
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Ask to confirm, but remove files from blog folder when disabling local editing
@@ -14,6 +23,7 @@ Template system
   4. reload page, static.js still shows the entries, which archives.html does not
 - Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 
+Investigate bug with templates and git client. Changes made to a template with a dash (-) in its name via the git client did not affect the live site for aupiff.com
 
 Template spec
 - all themes must support a 'landing page' modification nicely
@@ -35,10 +45,14 @@ Template selection
   - https://www.svenseebeck.com/
   - https://www.baty.blog/
   - https://www.inthemargins.ca/
-
+  references:
+  https://craigmod.com/roden/021/
+  https://cargocollective.com/andromeda/Niobium-crystals-with-cube
+  
 - photos - optimized for a photoblog
   index shows medium grid posts in columns but not rows
   type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
+  I like the placeholder images: http://nicholascope.com/
   possible source folders: 
   - https://ylukem.com/
 
@@ -93,8 +107,6 @@ Fix bug with automatic title generator which removes the datestring from files w
 
 Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL encoding bug. Each entry's url property is not encoded as a URI component on the server but it needs to be.
 
-Work out elegant way to produce fully qualified SRCs and HREFs for blogs to help make RSS feeds work more effectively, then tell [Jack](https://mail.google.com/mail/u/1/#sent/1635d38b65e4660a), [Sven](https://mail.google.com/mail/u/1/#inbox/16408973039dcfec), [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928) and [Will](https://mail.google.com/mail/u/1/#inbox/164050fdc323b358) about the fix, which affects people who use micro.blog. Also tell [Michael](https://mail.google.com/mail/u/0/#inbox/1667c931e1142332) who is hardcoding his domain. Also tell [Jaco](https://mail.google.com/mail/u/0/#inbox/166911c96525df43)
-
 Import [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 
 Markdown bugs
@@ -122,7 +134,7 @@ Metadata bugs
 
 - Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
 
-- Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12)
+- Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 
 - Add support for IPv6 and tell [Raul](https://mail.google.com/mail/u/0/#inbox/167083384282a5df)
 
@@ -293,6 +305,10 @@ is happening before doing this.
 - Take a look at Notion and Cargo for some neat ideas
 - Disabling a blog should free up the domain and handle associated
 - Removing a domain from a blog does NOT delete the domain:example.com key from redis. meaning if a user sets a domain once, it's effectively theirs forever. This is a bug!
+
+Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
+
+Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed.
 
 File converters / codecs
 - Video posts (.mp4)
