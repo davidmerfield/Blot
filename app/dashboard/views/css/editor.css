@@ -116,7 +116,7 @@ h1 {
 }
 
 #sidebar h3 {
-  margin: 0;
+  margin: 2em 0 1em;
   position: relative;
   font-size: 11px;
   line-height: 16px;
@@ -125,8 +125,7 @@ h1 {
   color: rgb(158, 154, 152);
   font-weight: 400;
   margin-bottom: 4px;
-  padding-top: 1rem;
-  padding-bottom: .25rem;
+
 }
 
 #sidebar a {
@@ -139,7 +138,7 @@ h1 {
 }
 
 #sidebar a.active {
-  background: rgba(255, 248, 150, .76);
+  background: rgba(213, 213, 213, 0.41);
 }
 
 #sidebar .button {
@@ -167,6 +166,7 @@ form .box.orange.error {
 .CodeMirror {
   height: auto;
   flex-grow: 1;
+    min-height: calc(100vh - 2.875rem);
   font-family: monospace;
 }
 
