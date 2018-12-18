@@ -9,38 +9,41 @@
 </div>
 
 <script src="/scripts/jquery.js?{{cacheID}}"></script>
-<script src="/scripts/codemirror.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/codemirror.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/active-line.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-css.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-simple.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-multiplex.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-handlebars.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-htmlmixed.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-javascript.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-xml.js?{{cacheID}}"></script>
+
 <script type="text/javascript">
 
   $('#source').hide();
 
-  // Editor
-  var editor = CodeMirror($('#editor')[0], {
-    mode: $('#source').attr('data-mode'),
-    value: $('#source').val(),
-    inputStyle: "contenteditable",
-    autofocus: true
+  // Editor  
+  var editor = CodeMirror.fromTextArea(document.getElementById("source"), {
+    mode: {name: 'handlebars', base: $('#source').attr('data-mode')},
+    lineNumbers: true,
+    styleActiveLine: true,
+    theme: "default"
   });
+
 
   $('.deleteVar').click(function(){
     $('#save').removeClass('disabled')
   });
 
-  $('#editor').keyup(function(){
-    $('#save').removeClass('disabled')
-  });
-
-  $('#editor').keyup(function(){
-
+  editor.on('keyup', function(){
+   
     $('#save')
       .removeClass('disabled')
       .val('Save');
 
-  }).change(function(){
-    $('#save').removeClass('disabled').val('Save');
-
-  });
-
+  })
+  
   $(".form").submit(function() {
 
     $.ajax({

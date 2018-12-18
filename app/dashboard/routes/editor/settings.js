@@ -20,7 +20,7 @@ module.exports = function (server) {
     .all(loadTemplate, loadSidebar, require('../settings/load/dates'))
 
     .get(function(req, res){
-
+      res.locals.settings_active = 'active';
       res.locals.partials.yield = 'template/settings';
       res.render('template');
     })
