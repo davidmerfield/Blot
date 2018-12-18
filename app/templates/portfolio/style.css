@@ -1,8 +1,4 @@
-{
-    {
-    appCSS
-  }
-}
+{{{appCSS}}}
 
 html,
 body {
@@ -116,6 +112,8 @@ label[for="toggle"] {
 .pagination>* {
   margin: 0.65em 0
 }
+
+.pagination a + a {margin-left:1.3em;margin-right:2.6rem}
 
 .navigation a:focus,
 .navigation a.active,
