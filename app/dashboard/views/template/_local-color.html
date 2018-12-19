@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.js"></script>
 <style type="text/css">
-.pcr-app.visible {z-index: 1} /* fixes bug with sidebar */
+.pickr {z-index: auto}
+.pcr-app .pcr-selection .pcr-picker {z-index: 1}
 </style>
 <script>// Simple example, see optional options for more configuration.
 var pickr{{name}} = Pickr.create({

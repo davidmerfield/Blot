@@ -53,7 +53,7 @@ module.exports = function(req, res, next) {
             local.min = 1;
             local.max = 1000;
           }
-        } else if (["background_color", "body_text_color", "body_text_link_color"].indexOf(local.name) > -1) {
+        } else if (["navigation_link_color", "background_color", "text_color", "text_link_color", "text_link_vistied_color"].indexOf(local.name) > -1) {
           // Show the color picker component for this local
           local.label = local.name.split("_").join(" ");
           local.label = local.label[0].toUpperCase() + local.label.slice(1);
