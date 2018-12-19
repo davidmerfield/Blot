@@ -1,5 +1,6 @@
 {
   "name": "Portfolio",
+  "isPublic": true,
   "locals": {
     "page_size": 20
   }}

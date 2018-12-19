@@ -20,18 +20,24 @@
     <a class="post text" href="{{{url}}}" style="flex-grow:250">
       <span class="title">{{title}}</span>
       <span class="date">{{date}}</span>
-    </a>    
+    </a>
     {{/thumbnail.large.url}}
     {{/entries}}
   </div>
   {{#pagination}}
   <div class="pagination">
-    <span>Page {{current}} of {{total}}</span><span class="spacer"></span><a {{#previous}}href="/page/{{previous}}"{{/previous}}><span class="icon-holder margin-right">&larr;</span>Previous</a><a style="margin-left:1.3em;margin-right:2.6rem" {{#next}}href="/page/{{next}}"{{/next}}>Next<span class="icon-holder margin-left"><span style="position:relative;left:-0.01em">&rarr;</span></span></a>
+    <span>Page {{current}} of {{total}}</span>
+    <span class="spacer"></span>
+    <a {{#previous}}href="/page/{{previous}}"{{/previous}}>
+      <span class="icon-holder margin-right">&larr;</span>Previous
+    </a>
+    <a {{#next}}href="/page/{{next}}"{{/next}}>
+      Next<span class="icon-holder margin-left"><span>&rarr;</span></span>
+    </a>
 
     <div style="flex-grow:1"></div>
 
     <a href="/archives">Browse the archives<span class="icon-holder margin-left"><span style="position:relative;top:-1px">+</span></span></a>
-
   </div>
   {{/pagination}}
   <br><br><br><br><br><br>

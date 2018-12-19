@@ -1,6 +1,6 @@
 {
   "name": "Photos",
-  "isPublic": true,
+  "isPublic": false,
   "locals": {
     "page_size": 16,
     "background_color": "#fff",

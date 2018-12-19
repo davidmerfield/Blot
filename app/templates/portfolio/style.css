@@ -1,4 +1,4 @@
-{{appCSS}}
+{{{appCSS}}}
 
 html,
 body {
@@ -20,6 +20,10 @@ body {
   color: rgba(0, 0, 0, 0.85);
   line-height: 1.3;
   display: flex
+}
+
+input[name="toggle"] {
+  display: none;
 }
 
 .navigation,
@@ -48,9 +52,6 @@ label[for="toggle"] {
 
 }
 
-.entries {
-  padding: 1rem 2rem;
-}
 
 .clip-7> :nth-child(n+18) {
   display: none;
@@ -109,6 +110,11 @@ label[for="toggle"] {
   margin: 0.65em 0
 }
 
+.pagination a+a {
+  margin-left: 1.3em;
+  margin-right: 2.6rem
+}
+
 .navigation a:focus,
 .navigation a.active,
 .navigation a.index,
@@ -162,29 +168,7 @@ label[for="toggle"] {
 }
 
 
-.entries {
-  display: flex;
-  flex-wrap: wrap;
-}
 
-.entries a {
-  width: 15%;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.entries a .box {
-  border: 1px solid;
-  display: flex;
-  align-items: center;
-}
-
-.entries a img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-}
 
 
 .pre-loaded {
@@ -303,26 +287,62 @@ label[for="toggle"] {
 
 .entry {
   padding: 1.95rem 0 1.95rem 3.25rem;
-/*  flex-grow: 1;
-*/  margin: 0 auto;
+  /*  flex-grow: 1;
+*/
+  margin: 0 auto;
   font-size: 22px
 }
 
-.entry hr {margin: 2.6em 0;border:none;border-top:2px solid #f2f2f2;}
-.entry h1 {font-size: 32px;margin: 0.65em 0}
-.entry p {margin: 1.3em 0}
-.entry a {color: darkblue}
-.entry a:visited {color: purple}
-.entry .videoContainer {position: relative;}
-.entry iframe {width: 100%;}
-.entry > * {max-width: 40em}
+.entry hr {
+  margin: 2.6em 0;
+  border: none;
+  border-top: 2px solid #f2f2f2;
+}
+
+.entry h1 {
+  font-size: 32px;
+  margin: 0.65em 0
+}
+
+.entry p {
+  margin: 1.3em 0
+}
+
+.entry a {
+  color: darkblue
+}
+
+.entry a:visited {
+  color: purple
+}
+
+.entry .videoContainer {
+  position: relative;
+}
+
+.entry iframe {
+  width: 100%;
+}
+
+.entry>* {
+  max-width: 40em
+}
 
 
 
 .footnotes,
-blockquote {color: rgba(0,0,0,0.6);}
-blockquote {padding-left: 2.6em;box-sizing:border-box;}
-.footnotes {font-size: 18px}
+blockquote {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+blockquote {
+  padding-left: 2.6em;
+  box-sizing: border-box;
+}
+
+.footnotes {
+  font-size: 18px
+}
 
 @media screen and (max-width: 800px) {
   .entry {
@@ -372,4 +392,39 @@ blockquote {padding-left: 2.6em;box-sizing:border-box;}
 
 .nav a[href]:focus {
   color: rgba(0, 0, 0, 0.2);
+}
+
+
+.archives {
+  display: flex;flex-wrap:wrap;
+}
+
+.archives a {
+  padding: 1.3rem;
+  width: 220px;
+  box-sizing:border-box;
+  display: flex;
+  flex-direction:column;
+  align-items:center;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+}
+
+.archives a .thumbnail {
+  width: 80px;height: 80px;
+  display: flex;
+  align-items:center;
+}
+
+.archives a .date {color: rgba(0,0,0,.4);display: block;}
+.archives a:hover {opacity: 0.8}
+
+.archives a:active {opacity: 0.7}
+
+.archives a img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
 }
