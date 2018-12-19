@@ -2,11 +2,23 @@
 
   <ul>
 
-    <li class="{{selected.how}}">
-      <a href="/documentation">How to use Blot</a>
+
+
+  <li class="{{selected.s}} has-list">
+      <a href="/documentation" class="fix">Blot is a blogging platform<br> with no interface</a>
     </li>
+
+    <a class="button">Sign up</a> <a class="button">Log in</a>
+
+    <hr>
+
+    <li class="{{selected.s}}">
+      <a href="/documentation" class="fix">How to use Blot</a>
+    </li>
+
     <li class="has-list {{selected.publishing}}">
-      <a href="/documentation/publishing/posts">Publishing</a>
+      <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}}checked{{/selected.publishing}}>
+      <a href="/publishing">Publishing<label for="publishing"></label></a>
       <ul>
         <li class="{{selected.posts}}">
           <a href="/documentation/publishing/posts">Blog posts</a>
@@ -20,8 +32,8 @@
         <li>
           <a href="/documentation/images">Images</a>
         </li>
-        <li>
-          <a href="/documentation/images">Metadata</a>
+        <li class="{{selected.metadata}}">
+          <a href="/documentation/publishing/metadata">Metadata</a>
         </li>
         <li>
           <a href="/documentation/dates">Dates</a>
@@ -32,13 +44,14 @@
       </ul>
     </li>
     <li class="has-list">
-      <a href="/documentation">Configuring your blog</a>
+      <input type="checkbox" name="configuring" id="configuring">
+      <a href="/documentation">Configuring your blog<label for="configuring"></label></a>
       <ul>
         <li>
           <a href="/documentation/">The dashboard</a>
         </li>
         <li>
-          <a href="/documentation/domain">Using your domain</a>
+          <a href="/documentation/domain">Use your own domain</a>
         </li>
         <li>
           <a href="/documentation/dates">Dates</a>
@@ -48,47 +61,73 @@
         </li>
       </ul>
     </li>
-    <li class="has-list">
-      <a href="/">Templates</a>
-      <ul class="sub-side-page-list">
-
-        <li class="nav-accessibility">
-          <a href="/design/human-interface-guidelines/ios/app-architecture/accessibility/">Accessibility</a>
+    <li class="has-list {{selected.templates}}">
+      <input type="checkbox" name="templates" id="templates" {{#selected.templates}}checked{{/selected.templates}}>
+      <a href="/documentation/templates">Templates<label for="templates"></label></a>
+       <ul>
+        <li class="{{selected.archives}}">
+          <a href="/documentation/templates/archives">Archives</a>
         </li>
-        <li class="nav-loading">
-          <a href="/design/human-interface-guidelines/ios/app-architecture/loading/">Loading</a>
+        <li class="{{selected.code}}">
+          <a href="/documentation/templates/code">Code</a>
         </li>
-        <li class="nav-modality">
-          <a href="/design/human-interface-guidelines/ios/app-architecture/modality/">Modality</a>
+        <li class="{{selected.essays}}">
+          <a href="/documentation/templates/essays">Essays</a>
         </li>
-        <li class="nav-navigation">
-          <a href="/design/human-interface-guidelines/ios/app-architecture/navigation/">Navigation</a>
+        <li class="{{selected.feed}}">
+          <a href="/documentation/templates/feed">Feed</a>
         </li>
-        <li class="nav-onboarding">
-          <a href="/design/human-interface-guidelines/ios/app-architecture/onboarding/">Onboarding</a>
+        <li class="{{selected.magazine}}">
+          <a href="/documentation/templates/magazine">Magazine</a>
         </li>
-        <li class="nav-requesting-permission">
-          <a href="/design/human-interface-guidelines/ios/app-architecture/requesting-permission/">Requesting Permission</a>
+        <li class="{{selected.photos}}">
+          <a href="/documentation/templates/photos">Photos</a>
         </li>
-        <li class="nav-settings">
-          <a href="/design/human-interface-guidelines/ios/app-architecture/settings/">Settings</a>
+        <li class="{{selected.portfolio}}">
+          <a href="/documentation/templates/portfolio">Portfolio</a>
         </li>
       </ul>
-    </li>    
+    </li>
+<li class="has-list">
+      <input type="checkbox" name="configuring" id="configuring">
+      <a href="/documentation">Resources<label for="configuring"></label></a>
+      <ul>
+        <li>
+          <a href="/documentation/">The dashboard</a>
+        </li>
+        <li>
+          <a href="/documentation/domain">Use your own domain</a>
+        </li>
+        <li>
+          <a href="/documentation/dates">Dates</a>
+        </li>
+        <li>
+          <a href="/documentation/tags">Tags</a>
+        </li>
+      </ul>
+    </li>        
     <li class="{{selected.account}}">
       <a href="/documentation/account">Account and billing</a>
     </li>
        
     <hr class="sidebar_nav_separator">
 
-    <li>
-      <a href="/documentation/resources">Updates</a>
+    <li class="{{selected.updates}}">
+      <a href="/documentation/updates">Privacy policy</a>
     </li>
-    <li>
-      <a href="/documentation/resources">About</a>
+
+
+    <li class="{{selected.updates}}">
+      <a href="/documentation/updates">Terms of use</a>
     </li>
-    <li>
-      <a href="/contact">Contact</a>
+
+     <li class="{{selected.about}}">
+      <a href="/documentation/about">About</a>
     </li>
+
+    <li class="{{selected.contact}}">
+      <a href="/documentation/contact">Contact</a>
+    </li>
+
   </ul>
 </nav>

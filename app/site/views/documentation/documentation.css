@@ -1,3 +1,5 @@
+html, body {margin: 0;padding: 0}
+
 body {
   font-synthesis: none;
   -moz-font-feature-settings: 'kern';
@@ -11,14 +13,15 @@ body {
   font-size: 17px;
   line-height: 1.47059;
   font-weight: 400;
-  background-color: white;
+  background-color: #fffefc;
   color: #333333;
   font-style: normal;
 }
 
+
 .documentation {
   display: flex;
-  width: 980px;
+  width: 1060px;
   margin: 0 auto;
 }
 
@@ -38,14 +41,19 @@ body {
 .documentation nav a {
   display: inline-block;
   position: relative;
-  padding: 0.2em 0.5em 0.2em 1.975em;
-  margin-left: -1.37em;
+  margin-left: 0.1em;
+  padding: 0.2em 0.5em;
   border-radius: 4px;
   cursor: pointer !important;
   color: #595959;
   font-size: 14px;
   text-decoration: none;
   word-wrap: break-word;
+}
+
+.documentation .has-list > a {
+  margin-left: -1.37em;
+  padding-left: 1.975em;
 }
 
 .documentation nav li ul a,
@@ -57,7 +65,7 @@ body {
 }
 .documentation nav a:hover {background: #f2f2f2}
 
-.documentation nav .has-list > a:after {
+.documentation nav .has-list > a:before {
     background: url('https://developer.apple.com/design/human-interface-guidelines/images/menu-chevron_2x.png');
     background-repeat: no-repeat;
     background-size: 12px 6px;
@@ -75,26 +83,32 @@ body {
     background-size: 12px 6px;
 }
 
-.documentation nav .has-list.selected > a:after {
+.documentation nav input {display: none;}
+.documentation nav label {position: absolute;top: 0;left: 0;bottom: 0;right: 0;cursor: pointer;}
+
+.documentation nav :checked ~ a:before {
   transform: rotate(0);
 }
 
-.documentation nav .selected>a {
+.documentation nav .selected>a{
   font-weight: 600;
   color: black;
 }
-
-.documentation nav li:not(.selected) ul {display: none;}
 
 .documentation nav ul {
   margin-bottom: 1em;
   margin-left: -10px;
   margin-top: -0.25em;
-
   margin: 0;
   padding: 0;
   list-style: none;
 }
+
+.documentation nav ul ul {
+    display: none;
+
+}
+.documentation nav input:checked ~ ul {display: block;}
 
 .documentation nav li {
   margin-bottom: 0.1em;
@@ -132,6 +146,10 @@ h6+* {
   margin-top: 0.8em;
 }
 
+.documentation main > p:first-child {
+    padding-top: 60px;
+}
+
 .documentation h2 {
   color: inherit;
   font-size: 40px;
@@ -141,6 +159,65 @@ h6+* {
   margin-top: 0
 }
 
+.documentation h3 {
+  font-weight: 400;
+  font-size: inherit;
+  border-bottom: 1px solid;
+  margin: 3em 0 0.735em;
+  padding-bottom: 0.735em
+}
+
+.documentation h3 + * {margin-top: 0}
+
 p {
   margin: 1em 0 1.25em;
+}
+
+p a {
+    color: inherit;
+    border-bottom: 1px solid #bfbcba;
+    text-decoration: none;
+    transition-property: color,border-color;
+    transition-duration: .1s;
+    transition-timing-function: ease-out;
+}
+
+img {max-width: 100%;max-height: 100vh;height: auto;width: auto;}
+
+
+table {
+    width: 100%;
+    margin-bottom: 3em;
+    font-size: 14px;
+    word-wrap: normal;
+    table-layout: fixed;
+    display: table;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+table thead tr {
+    border-bottom: 1px solid #333;
+}
+
+
+a.button {
+    font-weight: 400;
+    background-color: #0070c9;
+    background: -webkit-linear-gradient(#42a1ec, #0070c9);
+    background: linear-gradient(#42a1ec, #0070c9);
+    border-color: #07c;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    min-width: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    text-align: center;
+    white-space: nowrap;
 }
