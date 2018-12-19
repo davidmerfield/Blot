@@ -1,30 +1,18 @@
 <nav>
 
   <ul>
-<!--     <li >
-      <a href="/documentation/resources"><b>Blot</b><br>A blogging platform with<br> no interface</a>
-    </li>
-    <br>
 
-    <li >
-      <a href="/documentation/resources">Log in</a>
+    <li class="{{selected.how}}">
+      <a href="/documentation">How to use Blot</a>
     </li>
-    <li >
-      <a href="/documentation/resources">Sign up</a>
-    </li>
-    <br>
- -->
-    <li class="selected">
-      <a href="/documentation/resources">How to use Blot</a>
-    </li>
-    <li class="has-list">
-      <a href="/documentation">Publishing</a>
+    <li class="has-list {{selected.publishing}}">
+      <a href="/documentation/publishing/posts">Publishing</a>
       <ul>
-        <li class="selected">
-          <a href="/documentation/">Blog posts</a>
+        <li class="{{selected.posts}}">
+          <a href="/documentation/publishing/posts">Blog posts</a>
         </li>
-        <li>
-          <a href="/documentation/">Drafts</a>
+        <li class="{{selected.drafts}}">
+          <a href="/documentation/publishing/drafts">Drafts</a>
         </li>
         <li>
           <a href="/documentation/">Pages</a>
@@ -87,7 +75,7 @@
         </li>
       </ul>
     </li>    
-    <li>
+    <li class="{{selected.account}}">
       <a href="/documentation/account">Account and billing</a>
     </li>
        

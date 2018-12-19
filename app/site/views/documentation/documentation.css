@@ -75,6 +75,10 @@ body {
     background-size: 12px 6px;
 }
 
+.documentation nav .has-list.selected > a:after {
+  transform: rotate(0);
+}
+
 .documentation nav .selected>a {
   font-weight: 600;
   color: black;
