@@ -2,6 +2,8 @@ Thumbnailer seems to be failing for images inside word documents (try folder 793
 
 Fix links in daily update email
 
+Increase size of disk on AWS
+
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ
 )
 
@@ -168,6 +170,8 @@ Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/
 Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
 
 Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
+
+Fix bug with restarting expired subscriptions and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxgBRlGfSSqqGpfzlnXLNNw)
 
 Increase default quality for sharp's output images
 
