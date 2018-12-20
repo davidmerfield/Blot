@@ -1,5 +1,51 @@
 {{{appCSS}}}
 
+/* Colors inherited from template settings */
+body {
+  background: {{background_color}};
+}
+
+body,
+.pagination a,
+.nav a {
+  color: {{text_color}};
+}
+
+.navigation a:hover,
+.pagination,
+.post.text .date,
+.navigation a:focus,
+.navigation a.active,
+.navigation a.index,
+.navigation a.light,
+.archives a .date,
+.pagination a[href],
+.nav a[href] {
+  color: {{navigation_link_color}};
+}
+
+.entry a {
+  color: {{text_link_color}}
+}
+
+.entry a:visited {
+  color: {{text_link_visited_color}}
+}
+
+
+
+
+.post.text .title {
+  color: {{text_color}};
+}
+
+.post.text:hover {
+  border-color: {{text_color}}
+}
+
+
+
+
 html,
 body {
   margin: 0;
@@ -17,7 +63,6 @@ body {
   -webkit-text-size-adjust: none;
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "liga";
-  color: rgba(0, 0, 0, 0.85);
   line-height: 1.3;
   display: flex
 }
@@ -71,19 +116,14 @@ label[for="toggle"] {
 
 .navigation a {
   display: block;
-  color: rgba(0, 0, 0, 0.75);
+  color: inherit;
   text-decoration: none;
   transition: color 0.1s;
-}
-
-.navigation a:hover {
-  color: rgba(0, 0, 0, 0.5);
 }
 
 .pagination {
   padding: 1.3rem 2.6rem 1.3rem 2.6rem;
   margin: 0.65em;
-  color: rgba(0, 0, 0, .4);
   display: flex;
   flex-wrap: wrap;
 }
@@ -101,9 +141,27 @@ label[for="toggle"] {
   margin-right: 1.3em;
 }
 
+.pagination a,
+.nav a {
+  opacity: 0.15;
+}
+
+
+.pagination a[href],
+.nav a[href] {
+  opacity: 1;
+}
+
+.navigation a.light:hover,
+.pagination a[href]:hover {
+  opacity: 0.85
+}
+
+
+
+
 .pagination a {
   text-decoration: none;
-  color: rgba(0, 0, 0, .1);
 }
 
 .pagination>* {
@@ -115,18 +173,6 @@ label[for="toggle"] {
   margin-right: 2.6rem
 }
 
-.navigation a:focus,
-.navigation a.active,
-.navigation a.index,
-.navigation a.light,
-.pagination a[href] {
-  color: rgba(0, 0, 0, .4);
-}
-
-.navigation a.light:hover,
-.pagination a[href]:hover {
-  color: rgba(0, 0, 0, 0.3);
-}
 
 .menu[href="/feed.rss"],
 .menu[href="/search"] {
@@ -212,21 +258,16 @@ label[for="toggle"] {
   padding: 3.9rem 2.6rem;
 }
 
-.post.text:hover {
-  border-color: rgba(0, 0, 0, .5)
-}
 
 .post.text .title {
   font-size: 22px;
   max-width: 15em;
   text-align: center;
-  color: rgba(0, 0, 0, .75);
   margin: 0.65rem 0 0.15rem;
 }
 
 .post.text .date {
   font-size: 14px;
-  color: rgba(0, 0, 0, .4)
 }
 
 /* When navigation is collapsed into toggle */
@@ -308,13 +349,7 @@ label[for="toggle"] {
   margin: 1.3em 0
 }
 
-.entry a {
-  color: darkblue
-}
 
-.entry a:visited {
-  color: purple
-}
 
 .entry .videoContainer {
   position: relative;
@@ -329,15 +364,16 @@ label[for="toggle"] {
 }
 
 
-
-.footnotes,
-blockquote {
-  color: rgba(0, 0, 0, 0.6);
-}
-
 blockquote {
   padding-left: 2.6em;
   box-sizing: border-box;
+}
+
+
+.footnotes,
+blockquote {
+  opacity: 0.85;
+  color: inherit;
 }
 
 .footnotes {
@@ -377,23 +413,15 @@ blockquote {
   font-size: 20px
 }
 
-.nav a {
-  text-decoration: none;
-  color: rgba(0, 0, 0, 0.1)
-}
-
-.nav a[href] {
-  color: rgba(0, 0, 0, .4);
-}
+.nav a { text-decoration: none; }
 
 .nav a[href]:hover {
-  color: rgba(0, 0, 0, 0.3);
+  opacity: 0.85
 }
 
 .nav a[href]:focus {
-  color: rgba(0, 0, 0, 0.2);
+  opacity: 0.6
 }
-
 
 .archives {
   display: flex;flex-wrap:wrap;
@@ -417,7 +445,7 @@ blockquote {
   align-items:center;
 }
 
-.archives a .date {color: rgba(0,0,0,.4);display: block;}
+.archives a .date {display: block;}
 .archives a:hover {opacity: 0.8}
 
 .archives a:active {opacity: 0.7}
