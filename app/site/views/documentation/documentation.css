@@ -83,6 +83,19 @@ body {
     background-size: 12px 6px;
 }
 
+.documentation nav .index > a:hover {background: transparent;}
+.documentation nav .index > a:before {
+    background: url('/images/logo-new.svg');
+    transform: none;
+    background-size: 1em;
+    width: 1em;
+    top: 0.5em;
+    opacity: 0.3;
+    left: 6px;
+    height: 1em;
+    background-repeat: no-repeat;
+}
+
 .documentation nav input {display: none;}
 .documentation nav label {position: absolute;top: 0;left: 0;bottom: 0;right: 0;cursor: pointer;}
 
@@ -124,7 +137,7 @@ body {
 .documentation nav hr {
   margin-top: 10px;
   margin-bottom: 8px;
-  width: 85%;
+  width: 80%;
 }
 
 
@@ -201,23 +214,20 @@ table thead tr {
 }
 
 
-a.button {
+.documentation nav a.button {
     font-weight: 400;
-    background-color: #0070c9;
-    background: -webkit-linear-gradient(#42a1ec, #0070c9);
-    background: linear-gradient(#42a1ec, #0070c9);
-    border-color: #07c;
     border-width: 1px;
     border-style: solid;
     border-radius: 4px;
-    color: #fff;
+    color: #2c8830;
     cursor: pointer;
     display: inline-block;
     min-width: 30px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 3px;
-    padding-bottom: 4px;
+    margin: 0.7em 0.7em;
     text-align: center;
     white-space: nowrap;
+}
+.documentation nav a.button.light {
+  color: #929292;
+  margin-left: 0
 }
