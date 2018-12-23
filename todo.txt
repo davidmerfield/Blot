@@ -1,3 +1,7 @@
+Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB)
+
+Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
+
 Thumbnailer seems to be failing for images inside word documents (try folder 793)
 
 Fix links in daily update email
@@ -6,6 +10,8 @@ Increase size of disk on AWS
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ
 )
+
+Add way to share themes between blogs and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB)
 
 Fix bug with link to redirect a 404 log entry on the dashboard and tell [Steven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjtDtksFZtsrNQrsvqSwrksw)
 
