@@ -1,20 +1,3 @@
-Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB)
-
-Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
-
-Thumbnailer seems to be failing for images inside word documents (try folder 793)
-
-Fix links in daily update email
-
-Increase size of disk on AWS
-
-Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ
-)
-
-Add way to share themes between blogs and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB)
-
-Fix bug with link to redirect a 404 log entry on the dashboard and tell [Steven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjtDtksFZtsrNQrsvqSwrksw)
-
 Template system
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Ask to confirm, but remove files from blog folder when disabling local editing
@@ -30,74 +13,21 @@ Template system
   3. remove posts from blog
   4. reload page, static.js still shows the entries, which archives.html does not
 - Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
+- Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
-Investigate bug with templates and git client. Changes made to a template with a dash (-) in its name via the git client did not affect the live site for aupiff.com
+Release new archive template
 
-Template spec
-- all themes must support a 'landing page' modification nicely
-- feed, archive, essays, portfolio, magazine must be optimized for code
-- all themes must be colorblind, with goal to add a color customization layer
-- Don't think about Blot developers in any way, produce seperate simple templates for them
-
-Template selection
-- archive - optimized for an archive of photos, links, quotes
-  index shows big grid of posts
-  type is sans-serif (plex sans)
-  possible source folders:
-  http://filingcabinet.blot.im/
-
-- feed (default) - general purpose
-  index shows stream of posts truncated
-  type is sans-serif (system? http://lunchtype.com?)
-  possible source folders:
-  - https://www.svenseebeck.com/
-  - https://www.baty.blog/
-  - https://www.inthemargins.ca/
-  references:
-  https://craigmod.com/roden/021/
-  https://cargocollective.com/andromeda/Niobium-crystals-with-cube
-  
-- photos - optimized for a photoblog
-  index shows medium grid posts in columns but not rows
-  type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
-  I like the placeholder images: http://nicholascope.com/
-  possible source folders: 
-  - https://ylukem.com/
-
-- essays - optimized for longform essays
-  index shows title list of posts, perhaps teaser
-  type is serif (Charter)
-  possible source folders:
-  - https://www.schuth.xyz/archives
-  - https://chrbutler.com/about
-  - http://cinebloc.blot.im/
-  
-- portfolio - optimized for a portfolio of work
-  index shows medium-sized grid of posts in columns and rows
-  type is sans-serif (? Open sans ?)
-  Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ) and [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
-
-- magazine - optimized for a magazine
-  index shows mixture of post previews
-  type is serif (Charter)
-
-- code - optimized for developers
-  index shows ?
-  sidebar has subtraction-style list of other titles
-  type is monospace (Plex mono)
-
-Find good source of material, ideally on Blot like this [source for theme content](http://cinebloc.blot.im/)
-- Interesting way to find images matching colors: https://artsexperiments.withgoogle.com/artpalette/colors/ffffff-fcfcfc-ffffff-ffffff-ffffff
-
-Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
-
-Investigate [Jekyll themes to use](https://github.com/broccolini/swiss) which have permissive licenses
-
-Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
+Release new photo template
 
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
+
+Fix bug with link to redirect a 404 log entry on the dashboard and tell [Steven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjtDtksFZtsrNQrsvqSwrksw)
+
+Investigate bug with templates and git client. Changes made to a template with a dash (-) in its name via the git client did not affect the live site for aupiff.com
+
+Thumbnailer seems to be failing for images inside Word Documents
 
 Fix bugs with git removed / renamed file unit test on Travis
 
@@ -150,6 +80,7 @@ Metadata bugs
 
 - Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
 
+
 - Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
 
 - Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
@@ -162,7 +93,17 @@ Metadata bugs
 
 Prevent ignored files from generating preview.html files when inside the Drafts folder. Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67)
 
+Fix badly encoded links in daily update email
+
+Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
+
+Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
+
 ---
+
+Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB)
+
+Create importer script for Weebly and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjzpgHQZMJSsvjktggRFNpDw)
 
 Record a new demo video
 - Show sites I run using Blot
@@ -178,6 +119,8 @@ Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/
 Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
 
 Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
+
+Add way to share themes between blogs and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB)
 
 Fix bug with restarting expired subscriptions and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxgBRlGfSSqqGpfzlnXLNNw)
 
@@ -205,6 +148,8 @@ Prune package.json
 - To [minify JavaScript](https://github.com/mishoo/UglifyJS2) [(alternative)](https://developers.google.com/closure/compiler/)
 
 Cluster the main process. How will I verify that there is not statefullness somewhere in the server? I also want the main 'server' running on different threads to the CPU intensive stuff like image processing. Will this fix the bug with additional child processes if main process runs out of memory? Something wasn't being killed during the Nash WAV bug of August, 2018. There were duplicate node rebuild processes running.
+
+Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
 Add support for Microformats in the default themes. Tell Amit.
 
