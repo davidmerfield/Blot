@@ -10,12 +10,6 @@ Template system
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Add support for 'creating' a template inside '/Templates/'
 - Add public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB)
-- Fix bug with theme editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
-- Fix bug with cache not busting for static rendered themes:
-  1. put posts in blog
-  2. sync, create view e.g. static.js which renders all_entries
-  3. remove posts from blog
-  4. reload page, static.js still shows the entries, which archives.html does not
 
 Release new archive template
 
