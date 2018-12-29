@@ -2,7 +2,7 @@ Tell [Steven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjtDtksFZtsrNQrsvq
 
 Tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqpfWRzTjCTsHBjHRqCmxD) I have fixed display of first item on magazine theme when it lacks a thumbnail. 
 
-Tell Paul that we now generate a SSL cert for www subdomain of apex domain pointed to Blot, and redirect it to apex domain. Tell [Paul](https://mail.google.com/mail/u/1/#inbox/164423db2ef130b0)
+Tell [Paul](https://mail.google.com/mail/u/1/#inbox/164423db2ef130b0) that we now generate a SSL cert for www subdomain of apex domain pointed to Blot, and redirect it to apex domain. 
 
 Tell [this customer](https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac) that there is now a button to remove avatar from settings page
 
@@ -14,30 +14,29 @@ Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmg
 
 Release new photo template
 
-Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
-
-Release new documentation and logo
-- Log 404s on the public site to identify neccessary redirects
-- Personalize the documentation for logged in users
+Finish new documentation and logo
 - Add documentation for each client and an explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
 - Inline all CSS for performance?
 - Render the formatting guide navigation on the server
 - Make reference page searchable
 - Add types and examples to items on reference page
-- Work how to explain the archives property
 - Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
 And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 
-Release new archive template
-
-Release new demo video
+Record new demo video
 - Show sites I run using Blot
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
 - Blot's developer blog, a conventional blog, show using different text editors
 - My visual scrapbook on the archives theme: shows tag folders, photo blog
 - My personal site: simple landing page, edit with a doc file?
 
-Increase price for new customers to $30 a year by February 1st.  This will not affect existing customers. Announce this change on January 15th so people can encourage their friends to sign up at the current price.
+Release new documentation and video
+
+Release new archive template
+
+Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
+
+Increase price for new customers to $30 a year by February 1st.  This will not affect existing customers. Announce this change on micro.blog on January 15th so people can encourage their friends to sign up at the current price.
 
 ---
 
@@ -149,6 +148,10 @@ Create script to export Blot sites to common formats like Wordpress and let Robe
 Increase annual price to $40. This will not affect existing customers.
 
 ---
+
+Create an API for Blot
+- Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405)
+- Change url?json=true to debug=true?
 
 When the user's blog does not have a client, client.write and client.remove need to remove the files from the source folder. Create some kind of local client which we fall back and use when none is configured?
 
@@ -267,6 +270,10 @@ is happening before doing this.
 - Disabling a blog should free up the domain and handle associated
 - Removing a domain from a blog does NOT delete the domain:example.com key from redis. meaning if a user sets a domain once, it's effectively theirs forever. This is a bug!
 
+Public site
+- Log 404s on the public site to identify neccessary redirects
+- Personalize the documentation for logged in users
+
 Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
 
 Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed.
@@ -288,8 +295,6 @@ File converters / codecs
 
 - Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
   
-Internationalize i8n
-- Tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971)
 Clients
 - OneDrive
   Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9)
@@ -370,21 +375,8 @@ Support linking to another blog post by its *file path*
 - This would help with the importer to fix broken links
 - See [how Pelican does it](http://docs.getpelican.com/en/stable/content.html#linking-to-internal-content)
 
-Generative tree
-- Add a generative tree illustration to account page that is 'seeded' when you sign up and grows as you keep your account open. Slowly, day by day. Would still be growing in 1000 years should your account stay open that long.
-- Learn about old trees
-- Learn how to make a generative illustration and render it quickly on the server
-- I like this idea because it's sort of anti-Farmville (i.e. click-to-grow, engage-to-grow). The tree just grows. No badgering to post more to keep the tree alive, all you have to do is keep your account. When you delete your account you just see the tree, and a thank you. Obviously don't do anything tacky like cut the tree down or anything. That would be horrible.
-- Could this [Wave Function Collapse](https://github.com/mxgmn/WaveFunctionCollapse) algorithm be useful? 
-- Look into [computational biology and fractals](https://www.google.com/search?q=computational+biology+fractals+book&hl=en&source=lnms&tbm=isch&sa=X&ved=0ahUKEwi1xbbFqtTeAhUJ21MKHUEsD2oQ_AUIEygB&biw=1440&bih=821#imgrc=_)
-
 Removing Date metadata from a post should reset its date to the file's creation date
 - Currently nothing changes.
-
-Add support for 'time' metadata property
-- Useful for posts with path-based-dates.
-- e.g. 'Time: 4:15pm'
-- Would append to any other date associated with the post.
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
@@ -437,10 +429,6 @@ Enable hyphenation again then tell rodericus
 
 Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and Roy's friend Tim.
 
-Create an API for Blot
-- Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405)
-- Change url?json=true to debug=true?
-
 Add option to *enable* hard line breaks
 
 Move all unit tests which run on server start (the helper folder is littered with these, CMD+F for 'require('assert') into CI tests.
@@ -483,6 +471,8 @@ Add an embed plugin https://github.com/ritz078/embed.js
 Look into how Jekyll does data files and possibly support?
 
 Add .lhs support and tell Roy
+
+Internationalize i8n and tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971)
 
 Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
 
