@@ -1,7 +1,8 @@
 var config = require("config");
-var fs = require("fs");
+var fs = require("fs-extra");
 var ensure = require("../ensure");
 var extend = require("../extend");
+var tempDir = require("../tempDir")();
 var assert = require("assert");
 var logg = require("../logg");
 var log = new logg("Email");
@@ -126,6 +127,12 @@ function send(locals, messageFile, to, callback) {
     };
 
     ensure(email, EMAIL_MODEL);
+
+    if (config.environment === "development") {
+      var previewPath = tempDir + Date.now() + ".html";
+      fs.outputFileSync(previewPath, email.html, "utf-8");
+      console.log("Preview:", previewPath);
+    }
 
     if (config.environment === "development" && to !== config.admin.email) {
       console.log("Email not sent in development environment:", email);
