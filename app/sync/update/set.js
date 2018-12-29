@@ -9,6 +9,7 @@ var isPreview = require("./drafts").isPreview;
 var async = require("async");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
+var isHidden = require('../../build/prepare/isHidden');
 
 function isPublic(path) {
   return (
@@ -70,7 +71,7 @@ module.exports = function(blog, path, options, callback) {
       // This file is a draft, write a preview file
       // to the users Dropbox and continue down
       // We look up the remote path later in this module...
-      if (entry.draft) Preview.write(blog.id, path);
+      if (entry.draft && !isHidden(entry.path)) Preview.write(blog.id, path);
 
       Entry.set(blog.id, entry.path, entry, callback);
     });
