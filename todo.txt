@@ -8,9 +8,6 @@ Tell [this customer](https://mail.google.com/mail/u/0/#search/remove+avatar/14f3
 
 ---
 
-
-Thumbnailer seems to be failing for images inside Word Documents
-
 Investigate bug with templates and git client. Changes made to a template with a dash (-) in its name via the git client did not affect the live site for aupiff.com
 
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f)
