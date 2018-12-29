@@ -1,29 +1,31 @@
+Tell [Steven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjtDtksFZtsrNQrsvqSwrksw) I have fixed link to redirects page
+
+Tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqpfWRzTjCTsHBjHRqCmxD) I have fixed display of first item on magazine them when it lacks a thumbnail. 
+
+
+---
+
 Template system
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Ask to confirm, but remove files from blog folder when disabling local editing
-- Move to uuid based template IDs instead of slug  
 - Add support for 'creating' a template inside '/Templates/'
-- Add export to zip and import to zip feature for themes
+- Add public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB)
 - Fix bug with theme editor which prevents you from setting the route of a new view. You need to set it, then reset it for the route to work as expected.
-- Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC)
-- Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Fix bug with cache not busting for static rendered themes:
   1. put posts in blog
   2. sync, create view e.g. static.js which renders all_entries
   3. remove posts from blog
   4. reload page, static.js still shows the entries, which archives.html does not
-- Read and write package.json for local editing, then tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
-- Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
 Release new archive template
 
 Release new photo template
 
+Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
+
 Increase price for new customers to $30 a year. This will not affect existing customers.
 
 ---
-
-Fix bug with link to redirect a 404 log entry on the dashboard and tell [Steven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjtDtksFZtsrNQrsvqSwrksw)
 
 Investigate bug with templates and git client. Changes made to a template with a dash (-) in its name via the git client did not affect the live site for aupiff.com
 
@@ -39,15 +41,11 @@ Fix bug which occurs when you change your username while using the Git client (r
 
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f)
 
-Fix display of first item on magazine them when it lacks a thumbnail. Tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqpfWRzTjCTsHBjHRqCmxD)
+Fix bug with automatic title generator which removes the datestring from files whose name is only a datestring. Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ)
 
 Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
 
-Fix bug with automatic title generator which removes the datestring from files whose name is only a datestring. Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ)
-
 Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL encoding bug. Each entry's url property is not encoded as a URI component on the server but it needs to be.
-
-Import [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 
 Markdown bugs
 
@@ -97,9 +95,14 @@ Fix badly encoded links in daily update email
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
-Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
-
 ---
+
+Finish re-write of template system
+- Move to uuid based template IDs instead of slug  
+- Read and write package.json for local editing, then tell [Aurynn](https://mail.google.
+com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
+- Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC)
+- Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 
 Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB)
 
@@ -118,9 +121,9 @@ Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/
 
 Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
 
-Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
+Import [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
 
-Add way to share themes between blogs and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB)
+Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
 
 Fix bug with restarting expired subscriptions and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxgBRlGfSSqqGpfzlnXLNNw)
 
@@ -164,6 +167,8 @@ Ensure the nginx service can be controlled properly using Upstart. It seems like
 Add an EXPIRY to the log entries for a blog's 404 log
 
 Use a [redis analysis tool](https://github.com/snmaynard/redis-audit) to see if I can squeeze more out of REDIS
+
+Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
 
 Set up [Dependabot](https://dependabot.com/) to automate dependency upgrade PRs
 
