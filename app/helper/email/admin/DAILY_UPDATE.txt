@@ -3,10 +3,11 @@
 
 {{#renewals.length}}
 
-**Upcoming renewals**
+**Renewals**
 
 {{#renewals}}
-  ${{fee}} {{from_now}} ({{time}}) from [{{name}}](mailto:{{email}}) for {{#blogs}}[{{handle}}]({{{link}}}){{^last}} ,{{/last}}{{/blogs}}.
+${{fee}} {{from_now}} from [{{email}}](mailto:{{email}}) *{{time}} {{#blogs}}[{{handle}}]({{{link}}}){{^last}} ,{{/last}}{{/blogs}}*
+
 
 {{/renewals}}
 
@@ -24,7 +25,7 @@
 [{{blog.handle}}]({{{link}}}) ({{total}} entries total)
 
   {{#entries}}
-  - [{{title}}]({{{link}}}{{url}})
+  - [{{title}}]({{{link}}}{{{url}}})
 
   {{/entries}}
 
@@ -40,19 +41,19 @@
 
 
 
+**Requests served yesterday:** {{views}}
+
+**Total posts:** {{total_posts}}
+
+..........................................................
+
 **Memory:** {{memory.available}} ({{memory.used}} used)
 
 **Disk space:** {{disk_space.available}} ({{disk_space.used}} used)
 
 ..........................................................
 
-**Total requests:** {{views}}
-
-**Total posts:** {{total_posts}}
-
-..........................................................
-
-**Total subscriptions:** {{total_subscriptions}}
+**Active subscriptions:** {{total_subscriptions}}
 
 **Total cancellations:** {{total_cancellations}}
 
