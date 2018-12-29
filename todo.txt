@@ -403,7 +403,7 @@ Download the webpage for bookmark files and try to extract title + summary
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
-Add support for comments via webmentions
+Add support for comments via webmentions like Disqus and tell Amit
 
 Thumbnail generator
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file
@@ -559,7 +559,7 @@ Embed plugin https://github.com/ritz078/embed.js
 
 Soundcloud embeds then tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23), Nashp, and [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12)
 
-Create script to export Blot sites to common formats and let Roberto know
+Create script to export Blot sites to common formats like Wordpress and let Roberto know
 
 Add transactional emails notifying user of changes to their email or password.
 
