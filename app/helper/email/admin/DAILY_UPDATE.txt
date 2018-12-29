@@ -21,15 +21,10 @@ ${{fee}} {{from_now}} from [{{email}}](mailto:{{email}}) *{{time}} {{#blogs}}[{{
 **New posts**
 
 {{#new_posts}}
+{{#entries}}
+[{{title}}]({{{link}}}{{{url}}}) {{summary}} *Posted by [{{blog.handle}}]({{{link}}})*
 
-[{{blog.handle}}]({{{link}}}) ({{total}} entries total)
-
-  {{#entries}}
-  - [{{title}}]({{{link}}}{{{url}}})
-
-  {{/entries}}
-
-
+{{/entries}}
 {{/new_posts}}
 
 ..........................................................
