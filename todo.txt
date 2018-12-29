@@ -96,9 +96,16 @@ Create a status page and uptime monitor and tell [Amit](https://mail.google.com/
 Start quarterly newsletter with improvements, changes, send first edition on the first day of Spring
 - Let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
 
+Prune redis keys and begin storing more on disk
+
+Use a [redis analysis tool](https://github.com/snmaynard/redis-audit) to see if I can squeeze more out of REDIS
+
 Generate list of external API dependencies and follow changes for each
 
+Add daemon for zero-downtime node restart
+
 Finish re-write of template system
+- Re-do url redirector to use route-parser and properly support regular expressions
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Add support for 'creating' a template inside '/Templates/'
 - Move to uuid based template IDs instead of slug  
@@ -196,8 +203,6 @@ Ensure the nginx service can be controlled properly using Upstart. It seems like
 
 Add an EXPIRY to the log entries for a blog's 404 log
 
-Use a [redis analysis tool](https://github.com/snmaynard/redis-audit) to see if I can squeeze more out of REDIS
-
 Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
 
 Set up [Dependabot](https://dependabot.com/) to automate dependency upgrade PRs
@@ -208,36 +213,22 @@ Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389
 
 Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
 
-Look into mirroring site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f
-)
+Look into mirroring a site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
 Create server dashboard to visualize load etc. using something like this: https://github.com/GitSquared/edex-ui or https://github.com/yaronn/blessed-contrib
 
-Move to cool user subdomains
- - Pretty to proper blog IDs instead of integers
+Move to cool user subdomains? Pretty to proper blog IDs instead of integers
 
 Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
 
-Investigate static site search offerings
-- It would be nice to have one whose index you could build on 
-  the server, and deliver statically, perhaps even chunked if it was huge
-- Would be nice to be able to patch updates to this index quickly without
-  rebuilding the whole thing
 
 - How do we share info, like a link on a menu, or a header image across themes? Could there be a shared info repository that themes could access?
-
 - add support for dynamic partials to make collections possible, e.g. {{> /{tag}.html}} ?
-
 - Add neat interface to customize blog level variables?
-
 - How do we transition from a global menu to one that the themes have control over? How do we share existing links between themes? How do we deal with the order of pages in a user's folder?
-
 - How do we transition from a global date display format to one that themes have control over?
-
 - Port the jekyll theme [Neocactus](https://github.com/mmarfil/neocactus/) to Blot and document the process
   then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
-
-- Draw simple abstract representations of each theme for the themes page to replace thumbnails
 - Install and test a few of these [static site generators](https://news.ycombinator.com/item?id=17942395)
 - Make themes file or folder based
 - Consider making file-based theme directory a git repo and using this to implement basic undo-redo functionality. 
@@ -267,8 +258,6 @@ is happening before doing this.
 - Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 - Allow users who are restarting an account with multiple blogs to disable some before restarting.
 - Take a look at Notion and Cargo for some neat ideas
-- Disabling a blog should free up the domain and handle associated
-- Removing a domain from a blog does NOT delete the domain:example.com key from redis. meaning if a user sets a domain once, it's effectively theirs forever. This is a bug!
 
 Public site
 - Log 404s on the public site to identify neccessary redirects
@@ -368,7 +357,7 @@ Add support for entry property with escaped double quotes, tell [Jay](https://ma
 
 NGINX
 - Improve error pages
-- Recompile nginx with neccessary dependencies for auto-ssl instead of openresty
+- Recompile nginx with neccessary dependencies for auto-ssl instead of openresty?
 - Install nginx fail2ban & http2
 
 Support linking to another blog post by its *file path*
@@ -400,14 +389,10 @@ Remove the dirToModule code and hard link the require references.
 
 Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
 
-Add daemon for zero-downtime node restart
-
 Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 - https://jsfiddle.net/m1e9wc6q/
 - [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
 - [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
-
-Re-do url redirector to use route-parser and properly support regular expressions
 
 Handle queries properly https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
 
@@ -456,7 +441,7 @@ Plugins:
 
 ---
 
-Add rewrite feature, e.g. rewrite /randomColor to /public/randomColor
+Add URL rewrite feature, e.g. rewrite /randomColor to /public/randomColor
 
 Menu needs concurrency or atomic operations (so we can build posts in parallel)
 
