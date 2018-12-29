@@ -93,7 +93,9 @@ module.exports = function(blogID, blog, callback) {
       }
 
       // Check if we need to change user's css or js cache id
-      if (changes.template || changes.plugins) {
+      // We sometimes manually pass in a new cache ID when we want 
+      // to bust the cache, e.g. in ./flushCache
+      if (changes.template || changes.plugins || changes.cacheID) {
         latest.cacheID = Date.now();
         latest.cssURL = "/style.css?" + latest.cacheID;
         latest.scriptURL = "/script.js?" + latest.cacheID;
