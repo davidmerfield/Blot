@@ -8,9 +8,9 @@ Tell [this customer](https://mail.google.com/mail/u/0/#search/remove+avatar/14f3
 
 Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67) I have prevented ignored files from generating preview.html files when inside the Drafts folder. 
 
----
+Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ) that the automatic title generator no longer removes the datestring from files whose name is only a datestring. 
 
-Fix bug with automatic title generator which removes the datestring from files whose name is only a datestring. Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ)
+---
 
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f)
 
