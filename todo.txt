@@ -12,10 +12,6 @@ Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmg
 
 ---
 
-Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f)
-
----
-
 Release new photo template
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
@@ -53,6 +49,8 @@ Fix bug with template editor which resets content of a view. Follow up with [Nat
 Fix bugs with git removed / renamed file unit test on Travis
 
 Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813)
+
+Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f). CANNOT REPRODUCE.
 
 Determine cause of Markdown converter failure for `Dropbox/Apps/Strange encoding bug`
 
@@ -429,7 +427,9 @@ Indicate that some posts' permalink will not change (if metadata) on the dashboa
 
 Add filtering by date to 404 log and [tell this person](https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca)
 
-Move daily update generator from scripts to app folder such that the server no longer depends on anything in /scripts.
+Daily update email
+- Move generator from scripts to app folder such that the server no longer depends on anything in /scripts.
+- Allow configurable timezone for when I travel?
 
 If entries share publish date, sort them by blot creation date
 
