@@ -1,26 +1,20 @@
 <div class="navigation">
   <a href="/">{{title}}</a>
-  <div style="position:relative">
+  <div>
     {{#menu}}
-    <a href="{{url}}" class="{{active}}">{{label}}</a>{{^last}}<span>,&hairsp;</span> {{/last}}
+    <a href="{{url}}" class="{{active}}">{{label}}</a>{{^last}}<span>,&hairsp;</span>{{/last}}
     {{/menu}}
   </div>
-  <div class="align-left">
-    <span style="margin-left:2.6rem;font-feature-settings: 'tnum';
--webkit-font-feature-settings: 'tnum';
--moz-font-feature-settings: 'tnum';">
-      {{#pagination}} Page {{current}} / {{total}} {{/pagination}}
-      {{^pagination}} {{^entry.page}} {{allEntries.length}} entries {{/entry.page}} {{/pagination}}
-      </span>
+  <div class="align-left tabular-numerals shift-margin">
+    {{#pagination}} Page {{current}} / {{total}} {{/pagination}}
+    {{^pagination}} {{^entry.page}} {{allEntries.length}} posts {{/entry.page}} {{/pagination}}
   </div>
   <div class="align-right">
     {{#entry}}
-    <a href="/" onclick="return lastIndexPage()" >Close &nbsp;
-      
-    </a>
+    <a href="/" onclick="return lastIndexPage()" >Close &nbsp;</a>
     {{/entry}}
     {{^entry}}
-    <a {{#pagination.previous}}href="/page/{{pagination.previous}}"{{/pagination.previous}}> &larr; Previous</a>
+    <a {{#pagination.previous}}href="/page/{{pagination.previous}}"{{/pagination.previous}}>&larr; Previous</a>
     &nbsp;&nbsp;
     <a {{#pagination.next}}href="/page/{{pagination.next}}"{{/pagination.next}}>Next &rarr;</a>
     {{/entry}}

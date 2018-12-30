@@ -50,6 +50,10 @@ body {
   text-decoration: none;
 }
 
+.shift-margin {
+  padding-left:2.6rem;
+}
+
 @media screen and (max-width: 700px) {
   .index a {
     width: 100%;
@@ -101,6 +105,10 @@ body {
     margin: 1rem 2rem;
     line-height: 1.2;
 }
+
+.index a .thumbnail {
+  display:block;height:0;overflow:hidden}
+
 .index a .date {
   font-size: 14px;
   text-decoration: none;
@@ -118,6 +126,21 @@ body {
 
 .archives a:visited {color:purple;}
 
+.archives a .thumbnail {
+  display:inline-block;
+  text-align: center;
+  width:1.3em;
+  height:1.3em
+}
+
+.archives a img {
+  max-height:100%;
+  max-width:100%;
+  height:auto;
+  width:auto;
+  vertical-align:middle
+}
+
 .archives a:hover {opacity: 0.5}
 
 .navigation {
@@ -126,6 +149,12 @@ body {
   font-size: 14px;
   display: flex;
   flex-wrap: wrap
+}
+
+.tabular-numerals {
+font-feature-settings: 'tnum';
+-webkit-font-feature-settings: 'tnum';
+-moz-font-feature-settings: 'tnum';
 }
 
 .align-center {
@@ -137,7 +166,8 @@ body {
 }
 
 .navigation>* {
-  width: 25%
+  width: 25%;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 500px) {

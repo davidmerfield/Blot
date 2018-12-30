@@ -8,7 +8,6 @@
 - Add support for typeset.css*
 - I like the [ + ] to show the menu: http://dariusou.work/popgun-presents-posters.html
 
-
 {>|} This page describes the design and research invovled for this template, the Photos template. You can start a site with this template right now on [Blot](https://blot.im).
 
 The purpose of this theme is to display photos. Its navigation should get out of the way when you are looking at photos. It should offer a way to browse photos at different sizes. The [homepage](/) shows a feed a of recently published photos. The [archives](/archives) give an overview of all the photos published on this site.
