@@ -1,8 +1,43 @@
+/* Colors */
+
+hr {
+  background-color: #e7e7e5;
+}
+
+.zoom-overlay, html, body {
+  background: {{background_color}};
+  color: {{text_color}};
+}
+
+.archives a,
+.entry .body a {
+  color: darkblue
+}
+
+.entry .body a:visited,
+.archives a:visited {color: purple;}
+
+
+.navigation a {
+  color: rgba(0, 0, 0, .1)
+}
+
+.index a .text:hover,
+.dim .navigation,
+.edge a {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.entry .body {
+  color: rgba(0, 0, 0, 0.75)
+}
+
+/* Styles */
+
 html,
 body {
   width: 100%;
   margin: 0;
-  background: {{background_color}};
   padding: 0;
 }
 
@@ -17,10 +52,7 @@ body {
 body {
   font-size: 1.9rem;
   font-weight: 400;
-  color: {{text_color}};
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Sans Serif', Icons
-    /*!System*/
-  ;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Sans Serif', Icons;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: none;
@@ -97,10 +129,6 @@ body {
   height: 25vw;
 }
 
-.index a .text:hover {
-  border-color: rgba(0, 0, 0, .4);
-}
-
 .index a .title {
     margin: 1rem 2rem;
     line-height: 1.2;
@@ -120,11 +148,8 @@ body {
 
 .archives a {
   text-decoration: none;
-  color: darkblue;
   font-size: 28px
 }
-
-.archives a:visited {color:purple;}
 
 .archives a .thumbnail {
   display:inline-block;
@@ -179,13 +204,9 @@ font-feature-settings: 'tnum';
 
 .dim .navigation,
 .edge a {
-  color: rgba(0, 0, 0, 0.4);
   text-decoration: none;
 }
 
-.navigation a {
-  color: rgba(0, 0, 0, .1)
-}
 
 .navigation a[href] {
   color: inherit;
@@ -242,7 +263,6 @@ font-feature-settings: 'tnum';
   text-align: center;
   font-size: 23px;
   -webkit-font-smoothing: auto;
-  color: rgba(0, 0, 0, 0.75)
 }
 
 .body ul, .body ol {
@@ -270,13 +290,7 @@ font-feature-settings: 'tnum';
   text-align: left;
 }
 
-.entry .body a {
-  color: darkblue
-}
 
-.entry .body a:visited {
-  color: purple
-}
 
 
 .entry.page .body>* {
@@ -297,7 +311,6 @@ font-feature-settings: 'tnum';
 }
 
 hr {
-  background-color: #e7e7e5;
   border: none;
   height: 2px;
   margin: 3em 0;
@@ -473,7 +486,6 @@ img.zoom-img {
 .zoom-overlay {
   cursor: zoom-out;
   z-index: 420;
-  background: #fff;
   position: fixed;
   top: 0;
   left: 0;
