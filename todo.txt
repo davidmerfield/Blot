@@ -10,6 +10,8 @@ Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmg
 
 ---
 
+Create pull request for blotpub which [removes space before colon in metadata](https://github.com/am1t/blotpub/blob/master/app.js).
+
 Expose {{next}} and {{previous}} entry in list of entries and tell Adam
 
 Fix collision in entry GUID which is causing bug with Disqus comments for [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbsTHngmxLMkJfdqQjhJplV)
