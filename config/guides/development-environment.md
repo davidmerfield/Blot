@@ -10,20 +10,24 @@ This is a short guide to installing Blot on your machine. I develop Blot on OSX 
   - [npm](https://www.npmjs.com) (use version ```6.4.1```, installed using nvm)
 - [redis](https://redis.io/) - Read the [installation guide](http://jasdeep.ca/2012/05/installing-redis-on-mac-os-x/)
 
-## Getting the codebase
+## Getting the code
 
-Clone the repo (700mb, sorry!)
+Clone the git repository containing Blot's source code (700mb, sorry!):
 
 ```
 git clone https://github.com/davidmerfield/Blot
 ```
 
-Move into the repo's root directory and then run npm install:
+## Installing dependencies
+
+Move into the repo's root directory and install all some of Blot's dependencies using npm:
 
 ```
 cd Blot
 npm install
 ```
+
+## Environment variables 
 
 Fill out and then source the environment variables in environment.dev.sh
 
