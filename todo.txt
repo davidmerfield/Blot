@@ -1,3 +1,5 @@
+Expose {{next}} and {{previous}} entry in list of entries and tell Adam
+
 Fix collision in entry GUID which is causing bug with Disqus comments for [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbsTHngmxLMkJfdqQjhJplV)
 
 Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
