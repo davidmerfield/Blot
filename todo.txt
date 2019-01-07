@@ -1,20 +1,22 @@
-Expose {{next}} and {{previous}} entry in list of entries and tell Adam
-
-Fix collision in entry GUID which is causing bug with Disqus comments for [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbsTHngmxLMkJfdqQjhJplV)
-
-Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
-
 Tell [Steven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjtDtksFZtsrNQrsvqSwrksw) I have fixed the broken link to redirects page
 
 Tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqpfWRzTjCTsHBjHRqCmxD) I have fixed display of first item on magazine theme when it lacks a thumbnail. 
-
-Tell [Paul](https://mail.google.com/mail/u/1/#inbox/164423db2ef130b0) that we now generate a SSL cert for www subdomain of apex domain pointed to Blot, and redirect it to apex domain. 
 
 Tell [this customer](https://mail.google.com/mail/u/0/#search/remove+avatar/14f3e02d6dcf97ac) that there is now a button to remove avatar from settings page
 
 Tell [Kerim](https://mail.google.com/mail/u/0/#search/kerim/165b813e36c5ad67) I have prevented ignored files from generating preview.html files when inside the Drafts folder. 
 
 Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ) that the automatic title generator no longer removes the datestring from files whose name is only a datestring. 
+
+---
+
+Expose {{next}} and {{previous}} entry in list of entries and tell Adam
+
+Fix collision in entry GUID which is causing bug with Disqus comments for [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbsTHngmxLMkJfdqQjhJplV)
+
+Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
+
+Produce setup guide for development mode for Paul
 
 ---
 
