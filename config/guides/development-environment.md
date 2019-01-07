@@ -1,11 +1,14 @@
 # Setting up Blot on your own machine
 
-Prerequisites:
+This is a short guide to installing Blot on your machine. I develop Blot on OSX and deploy Blot on one of Amazon's Linux distributions.
 
-- [nvm](https://github.com/creationix/nvm)  (https://github.com/creationix/nvm/blob/master/README.md)
-  - [node](https://nodejs.org/en/) (version 8.12.0, installed using nvm)
-  - [npm](https://www.npmjs.com) (version 6.4.1, installed using nvm)
-- [redis](https://redis.io/) *Read the [installation guide on MacOs](http://jasdeep.ca/2012/05/installing-redis-on-mac-os-x/)*
+## Prerequisites
+
+- [git](https://git-scm.com)
+- [nvm](https://github.com/creationix/nvm) - Read the [installation guide](https://github.com/creationix/nvm/blob/master/README.md)
+  - [node](https://nodejs.org/en/) (use version ```8.12.0```, installed using nvm)
+  - [npm](https://www.npmjs.com) (use version ```6.4.1```, installed using nvm)
+- [redis](https://redis.io/) - Read the [installation guide](http://jasdeep.ca/2012/05/installing-redis-on-mac-os-x/)
 
 ## Getting the codebase
 
