@@ -1,10 +1,8 @@
-Create pull request for blotpub which [removes space before colon in metadata](https://github.com/am1t/blotpub/blob/master/app.js).
-
-Fix collision in entry GUID which is causing bug with Disqus comments for [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbsTHngmxLMkJfdqQjhJplV)
-
 Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
 
 Produce setup guide for development mode for Paul
+
+Fix collision in entry GUID which is causing bug with Disqus comments for [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbsTHngmxLMkJfdqQjhJplV)
 
 ---
 
