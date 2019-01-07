@@ -93,7 +93,7 @@ module.exports = function(blogID, blog, callback) {
       }
 
       // Check if we need to change user's css or js cache id
-      // We sometimes manually pass in a new cache ID when we want 
+      // We sometimes manually pass in a new cache ID when we want
       // to bust the cache, e.g. in ./flushCache
       if (changes.template || changes.plugins || changes.cacheID) {
         latest.cacheID = Date.now();
@@ -110,13 +110,23 @@ module.exports = function(blogID, blog, callback) {
 
       var changesList = _.keys(changes);
 
+      // There are no changes to save so finish now
+      if (!changesList.length) {
+        return callback(null, changesList);
+      }
+
       multi.hmset(key.info(blogID), serial(latest));
 
       multi.exec(function(err) {
-        if (err) return callback(err);
+        if (err) {
+          // we didn't manage to save any changes
+          changesList = [];
+          return callback(err, changesList);
+        }
 
         flushCache(blogID, function(err) {
-          if (err) return callback(err);
+
+          if (err) return callback(err, changesList);
 
           callback(errors, changesList);
         });
