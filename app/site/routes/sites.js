@@ -16,12 +16,16 @@ var sites = [
     "com.johnbeeler.com",
     "John Beeler is the label director at Asthmatic Kitty Records. John"
   ],
-  ["keywords.oxus.net", "Kerim Friedman teaches anthropology in Taiwan. Kerim"],
+  ["photos.rachelpietraszek.com", "Rachel Pietraszek is a lawyer based in Toronto. Rachel"],
+  [
+    "blog.andrewjanjigian.com",
+    "Andrew Janjigian is a photographer and editor at Cook’s Illustrated. Andrew"
+  ],
   [
     "hannautkin.com",
     "Hanna Utkin is a filmmaker and producer from New York City. Hanna"
   ],
-
+  ["keywords.oxus.net", "Kerim Friedman teaches anthropology in Taiwan. Kerim"],
   [
     "www.rebeccatron.com",
     "Rebecca Kukshtel is an engineer based in New York City. Rebecca "
@@ -30,6 +34,15 @@ var sites = [
     "www.matthewbattles.org",
     "Matthew Battles directs metaLAB at Harvard. Matthew’s website"
   ],
+  [
+    "blog.aurynn.com",
+    "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"
+  ],
+  [
+    "www.kristianhjelle.com",
+    "Kristian Hjelle is a designer and partner at Bakken & Bæck. Kristian"
+  ],
+
   [
     "fagerheimen.no",
     "Fagerheimen Borettslag is an apartment building in Oslo, Norway. Its website"
@@ -42,10 +55,6 @@ var sites = [
   [
     "www.jacobyyoung.com/about",
     "Jacoby Young works at Kapālama Elementary School in Hawaii. Jacoby"
-  ],
-  [
-    "www.kristianhjelle.com",
-    "Kristian Hjelle is a designer and partner at Bakken & Bæck. Kristian"
   ],
 
   [
@@ -65,10 +74,7 @@ var sites = [
     "www.theliminal.co",
     "The Liminal is a podcast about metaphysical speculation. Their website"
   ],
-  [
-    "blog.aurynn.com",
-    "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"
-  ],
+
   [
     "iiiiiiiii.in",
     "Ishtaarth Dalmia writes about internet culture and economics from Bengaluru, India. Ishtaarth"
