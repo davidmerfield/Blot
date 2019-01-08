@@ -1,4 +1,4 @@
-Produce setup guide for development mode for Paul
+Fix www subdomain for blot.im to redirect to apex domain!
 
 Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
 
