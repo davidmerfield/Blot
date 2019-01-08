@@ -1,8 +1,6 @@
-Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
-
 Produce setup guide for development mode for Paul
 
-Fix collision in entry GUID which is causing bug with Disqus comments for [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbsTHngmxLMkJfdqQjhJplV)
+Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
 
 ---
 
@@ -348,6 +346,7 @@ Git client:
 - Rate limit authentication route?
 
 Dropbox client:
+- Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.
 - Adding an additional blog to existing app folder under constant webhooks failed. New blog had correct folder but old blog still used root. I guess we need to acquire a lock on ALL blogs interacting with that dropbox account.
 - Extend sync lock during long syncs
 - Write test to simulate process dying and restarting mid-pull. Does the client recover? 
