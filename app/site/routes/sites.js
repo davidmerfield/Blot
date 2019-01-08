@@ -12,6 +12,10 @@ function capitalize(str) {
 // Add new sites at the start
 
 var sites = [
+  [
+    "com.johnbeeler.com",
+    "John Beeler is the label director at Asthmatic Kitty Records. John"
+  ],
   ["keywords.oxus.net", "Kerim Friedman teaches anthropology in Taiwan. Kerim"],
   [
     "hannautkin.com",
@@ -105,7 +109,7 @@ module.exports = function(callback) {
       var template;
       var is_subdomain = domain.indexOf("blot.im") !== -1;
       var url, display_url, protocol, by, custom_template, template_name;
-          var response = "";
+      var response = "";
 
       var get = https.get(
         require("url").format({
