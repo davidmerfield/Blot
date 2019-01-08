@@ -1,6 +1,6 @@
 # Setting up Blot on your own machine
 
-This is a short guide to installing Blot on your machine. I develop Blot on OSX and deploy Blot on one of Amazon's Linux distributions.
+This is a short guide to installing Blot on your machine. I develop Blot on OSX and deploy Blot on one of Amazon's Linux distributions. Please note that Blot is not container-ized and this process is *involved*.
 
 ## Prerequisites
 
@@ -12,20 +12,20 @@ This is a short guide to installing Blot on your machine. I develop Blot on OSX 
 
 ## Installing Blot
 
-**Get the code** by cloning the git repository (700mb, sorry!):
+Get the code by cloning the git repository (700mb, sorry!):
 
 ```
 git clone https://github.com/davidmerfield/Blot
 ```
 
-**Install the depencies** once you're into the repo's root directory:
+Install the depencies once you're into the repo's root directory:
 
 ```
 cd Blot
 npm install
 ```
 
-**Export environment variables** needed by Blot:
+Export environment variables needed by Blot:
 
 ```
 export BLOT_HOST=localhost
@@ -33,7 +33,7 @@ export BLOT_CACHE_DIRECTORY=~/Projects/testblot/Blot/data/cache
 export BLOT_SESSION_SECRET=abc
 ```
 
-Start a redis server using the redis.conf file in /config
+Start a redis server using the [redis configuation file](/config/redis.conf).
 
 ```
 redis-server config/redis.conf
@@ -49,6 +49,10 @@ node app
 
 ## Creating a test account
 
-Create a new demo user:
+Since you haven't loaded in Stripe credentials, you'll want to create a new demo user manually:
 
+```
 node scripts/user/create example@example.com
+```
+
+Use the 'local client' when you set up your blog, since you haven't set up Dropbox credentials either.
