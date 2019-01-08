@@ -2,6 +2,8 @@ Produce setup guide for development mode for Paul
 
 Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
 
+Fix bug in summary generator when title metadata is set and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBlFGLGvDczGWJRhGGvkfsv). Right now, the summary will not include the first line of the file if there is no title tag. This breaks when there is title metadata set. 
+
 ---
 
 Release new photo template
@@ -167,6 +169,9 @@ Increase annual price to $40. This will not affect existing customers.
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405)
 - Change url?json=true to debug=true?
+
+Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
+- Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites. 
 
 When the user's blog does not have a client, client.write and client.remove need to remove the files from the source folder. Create some kind of local client which we fall back and use when none is configured?
 
