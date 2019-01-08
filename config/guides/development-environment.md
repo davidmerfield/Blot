@@ -39,11 +39,13 @@ Start a redis server using the [redis configuation file](/config/redis.conf).
 redis-server config/redis.conf
 ```
 
-Start nginx:
+Follow the [guide to generating the SSL certs](ssl-certificate-in-development.txt) needed by nginx in the development environment. Start nginx:
 
 ```
 nginx -c config/nginx/dev_server.conf
 ```
+
+Follow the [guide to getting wildcard subdomains](wildcard-subdomain-in-development.txt) working for the development environment host.
 
 ## Running the Blot server
 
