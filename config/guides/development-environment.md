@@ -41,6 +41,12 @@ Start a redis server using the [redis configuation file](/config/redis.conf).
 redis-server config/redis.conf
 ```
 
+Start nginx:
+
+```
+nginx -c config/nginx/dev_server.conf
+```
+
 ## Running the Blot server
 
 Start the node.js application like this:
@@ -52,7 +58,7 @@ node app
 You can then browse the public site:
 
 ```
-http://localhost:8080
+https://blot.development
 ```
 
 ## Creating an account 
