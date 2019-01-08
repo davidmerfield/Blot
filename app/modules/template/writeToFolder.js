@@ -28,20 +28,29 @@ function writeToFolder (blogID, templateID, callback) {
 
       makeClient(blogID, function(err, client){
 
-        if (err) console.log(err);
-
-        if (err) return callback(err);
+        if (err) {
+          return callback(err);
+        }
 
         var dir = joinpath('Templates', metadata.slug);
 
-        async.eachOfSeries(views, function(view, name, next){
+        // Reset the folder before writing. This fixes a bug in which
+        // there were two views with the same name, but different extension.
+        client.remove(blogID, dir, function(err){
 
-          if (!view.name || !view.type || !view.content)
-            return next();
+          if (err) {
+            return callback(err);
+          }
 
-          write(blogID, client, dir, view, next);
+          async.eachOfSeries(views, function(view, name, next){
 
-        }, callback);
+            if (!view.name || !view.type || !view.content)
+              return next();
+
+            write(blogID, client, dir, view, next);
+
+          }, callback);
+        });
       });
     });
   });
