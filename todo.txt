@@ -109,6 +109,10 @@ Add daemon for zero-downtime node restart
 Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
 
 Finish re-write of template system
+- Add persona/cargo style customization buttons
+  - Serve previews of templates from a domain with HTTPS
+  - Add <iframe> of site in edit page of template editor
+  - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Re-do url redirector to use route-parser and properly support regular expressions
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Add support for 'creating' a template inside '/Templates/'
