@@ -6,9 +6,10 @@ var TYPE = require("./scheme").TYPE;
 var validate = require("./validate");
 var get = require("./get");
 var serial = require("./serial");
-var flushCache = require("./flushCache");
 var client = require("client");
 var config = require("config");
+var flush = require("express-disk-cache")(config.cache_directory).flush;
+var async = require("async");
 
 function Changes(latest, former) {
   var changes = {};
@@ -24,7 +25,7 @@ module.exports = function(blogID, blog, callback) {
   ensure(blogID, "string").and(callback, "function");
 
   var multi = client.multi();
-  var formerBackupDomain, backupDomain;
+  var formerBackupDomain, changes, hosts, backupDomain;
 
   validate(blogID, blog, function(errors, latest) {
     if (errors) return callback(errors);
@@ -34,7 +35,21 @@ module.exports = function(blogID, blog, callback) {
 
       if (err) return callback(err);
 
-      var changes = Changes(latest, former);
+      changes = Changes(latest, former);
+
+      // Blot stores the rendered output of requests in a
+      // cache directory, files inside which are served before
+      // the rendering engine receives a request. We need to
+      // work out which hosts are affected by this change and
+      // then flush the cache directory for those hosts. Previously
+      // I had just cleared the cache for the latest handle and the
+      // latest domain, but this caused an issue when switching
+      // from the 'www' domain to the apex domain. NGINX continued
+      // to serve the old cached files for the 'www' subdomain instead
+      // of passing the request to Blot to redirect as expected.
+      hosts = [former.handle + "." + config.host];
+
+      if (former.domain) hosts.push(former.domain);
 
       if (changes.handle) {
         multi.set(key.handle(latest.handle), blogID);
@@ -43,6 +58,7 @@ module.exports = function(blogID, blog, callback) {
         // allow the SSL certificate generator to run for this.
         // Now we have certs on Blot subdomains!
         multi.set(key.domain(latest.handle + "." + config.host), blogID);
+        hosts.push(latest.handle + "." + config.host);
 
         // I don't delete the handle key for the former domain
         // so that we can redirect the former handle easily,
@@ -75,6 +91,10 @@ module.exports = function(blogID, blog, callback) {
               : former.domain.slice("www.".length);
           multi.del(key.domain(former.domain));
           multi.del(key.domain(formerBackupDomain));
+
+          // We want to flush the cache directory for the former backup
+          // domain just to be safe.
+          hosts.push(formerBackupDomain);
         }
 
         // Order is important, we must append the delete
@@ -89,6 +109,14 @@ module.exports = function(blogID, blog, callback) {
               : latest.domain.slice("www.".length);
           multi.set(key.domain(latest.domain), blogID);
           multi.set(key.domain(backupDomain), blogID);
+
+          // We want to flush the cache directory for the new domain
+          // just in case there is something there. There shouldn't be.
+          hosts.push(latest.domain);
+
+          // We also flush the cache directory for the backup domain
+          // of the new domain, just in case there are files inside.
+          hosts.push(backupDomain);
         }
       }
 
@@ -119,13 +147,13 @@ module.exports = function(blogID, blog, callback) {
 
       multi.exec(function(err) {
         if (err) {
-          // we didn't manage to save any changes
+          // We didn't manage to apply any changes
+          // to this blog, so empty the list of changes
           changesList = [];
           return callback(err, changesList);
         }
 
-        flushCache(blogID, function(err) {
-
+        async.each(hosts, flush, function(err) {
           if (err) return callback(err, changesList);
 
           callback(errors, changesList);
