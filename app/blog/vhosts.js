@@ -9,7 +9,7 @@ module.exports = function(req, res, next) {
   if (!host) {
     err = new Error("No blog");
     err.code = "ENOENT";
-    next(err);
+    return next(err);
   }
 
   // Cache the original host for use in templates
@@ -19,6 +19,12 @@ module.exports = function(req, res, next) {
   // We don't want to serve a blog in place of
   // the main blot site so leave now.
   if (host === config.host) return next();
+
+  // Redirect www subdomain of main blot site to
+  // the apex domain on which it is served.
+  if (host === 'www.' + config.host) {
+    return res.redirect(req.protocol + "://" + config.host + req.url);
+  }
 
   handle = extractHandle(host);
 
