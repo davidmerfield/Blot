@@ -170,9 +170,16 @@ module.exports = function(callback) {
           description +=
             ' <a href="/configuring">' + template_name + "</a> template.";
 
-          // Redirect
+          // Modify display URL for brevity. Eventually re-do design
+          // so this isn't neccessary, it's cramped right now
           if (display_url === "john.pavlusoffice.com")
             display_url = "johnpavlus.com";
+
+          if (display_url === "photos.rachelpietraszek.com")
+            display_url = "rachelpietraszek.com";
+
+          if (display_url === "blog.andrewjanjigian.com")
+            display_url = "andrewjanjigian.com";
 
           result.push({
             url: url,
