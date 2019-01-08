@@ -9,7 +9,7 @@ cache:
   directories:
     - node_modules
 env:
-  - CXX=g++-4.8 DEBUG=*
+  - CXX=g++-4.8
 addons:
   apt:
     sources:
