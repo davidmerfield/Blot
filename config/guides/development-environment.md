@@ -1,6 +1,6 @@
 # Setting up Blot on your own machine
 
-This is a short guide to installing Blot on your machine. I develop Blot on OSX and deploy Blot on one of Amazon's Linux distributions. Please note that Blot is not container-ized and this process is *involved*.
+This is a short guide to installing Blot on your machine. I develop Blot on OSX and deploy Blot on one of Amazon's Linux distributions. Please note that Blot is not container-ized and this process is *involved*. My grand vision is to eventually remove redis and nginx, and make the setup of a development environment as simple as ```git clone``` and ```npm install```.
 
 ## Prerequisites
 
@@ -55,12 +55,33 @@ You can then browse the public site:
 http://localhost:8080
 ```
 
-## Creating a test account
+## Creating an account 
 
-Since you haven't loaded in Stripe credentials, you'll want to create a new demo user manually:
+Since you haven't loaded in Stripe credentials, you'll want to create a new demo user and blog manually:
 
 ```
 node scripts/user/create example@example.com
 ```
 
+Once you have set up an account, create a blog manually:
+
+```
+node scripts/blog/create example@example.com example
+```
+
 Use the 'local client' when you set up your blog, since you haven't set up Dropbox credentials either.
+
+## Useful scripts
+
+Generate a one-time log-in link for a given username:
+
+```
+node scripts/access.js <username>
+```
+
+Save and load state of server:
+
+```
+node scripts/folder/save.js <label>
+node scripts/folder/load.js <label>
+```
