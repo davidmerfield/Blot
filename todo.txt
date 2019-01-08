@@ -1,10 +1,6 @@
-Fix www subdomain for blot.im to redirect to apex domain!
-
 Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
 
 Fix bug in summary generator when title metadata is set and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBlFGLGvDczGWJRhGGvkfsv). Right now, the summary will not include the first line of the file if there is no title tag. This breaks when there is title metadata set. 
-
-Fix bug in caching logic which does not wipe cache for www.subdomain of apex domain pointing to blot. Ran into this testing www.paul.af. Perhaps when changing a domain, flush the cache for the old one? When adding a domain, flush the cache for the new one?
 
 ---
 
