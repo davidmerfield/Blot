@@ -115,8 +115,7 @@ module.exports = function($, output_directory, callback) {
             post.html = fix_markdown_bs(post.html);
 
             if (post.html.indexOf("\\_") > -1) {
-              console.log("PRE MARKDOWN", post.html);
-              throw post.html;
+              console.warn("CONTAINS MARKDOWN? PRE MARKDOWN:", post.html);
             }
 
             post.content = to_markdown(post.html);
