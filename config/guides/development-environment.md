@@ -25,7 +25,7 @@ cd Blot
 npm install
 ```
 
-Export environment variables needed by Blot:
+Export [environment variables](/config/environment.sh) needed by Blot:
 
 ```
 export BLOT_HOST=localhost
@@ -45,6 +45,12 @@ Start the node.js application like this:
 
 ```
 node app
+```
+
+You can then browse the public site:
+
+```
+http://localhost:8080
 ```
 
 ## Creating a test account
