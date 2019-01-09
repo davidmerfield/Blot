@@ -1,10 +1,18 @@
-Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
+Fix failing unit tests for clients
+
+Bump sharp version to 0.20.0
+
+Write unit tests for summary generator
 
 Fix bug in summary generator when title metadata is set and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBlFGLGvDczGWJRhGGvkfsv). Right now, the summary will not include the first line of the file if there is no title tag. This breaks when there is title metadata set. 
 
 ---
 
+Work on new photo template
+
 Release new photo template
+
+---
 
 Finish new documentation and logo
 - Add documentation for each client and an explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
