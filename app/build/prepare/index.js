@@ -83,7 +83,7 @@ function Prepare(entry) {
   debug(entry.path, "Generated  title", entry.title);
 
   debug(entry.path, "Generating summary");
-  entry.summary = Summary($, entry.title);
+  entry.summary = Summary($, metadata.title || entry.title);
   debug(entry.path, "Generated  summary");
 
   debug(entry.path, "Generating teasers");
