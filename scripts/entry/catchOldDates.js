@@ -73,7 +73,7 @@ get(process.argv[2], function(err, user, blog) {
             " to " +
             colors.green(newDate) +
             "? (y/n)",
-          false,
+          true,
           function(ok) {
             if (!ok) {
               console.log(colors.dim("Leaving date as is..."));
