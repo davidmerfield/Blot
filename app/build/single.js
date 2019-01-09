@@ -1,4 +1,4 @@
-var debug = require("debug")("blot:models:entry:build:single");
+var debug = require("debug")("blot:build:single");
 var Metadata = require("./metadata");
 var Dependencies = require("./dependencies");
 var helper = require("helper");
