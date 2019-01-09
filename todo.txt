@@ -1,10 +1,11 @@
-Work on new photo template
-
-Release new photo template
+Finish photo template 
 
 ---
 
+Release new photo template
+
 Finish new documentation and logo
+- Use these [UI templates](https://nhsuk.github.io/nhsuk-frontend/pages/examples.html)
 - Add documentation for each client and an explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
 - Inline all CSS for performance?
 - Render the formatting guide navigation on the server
@@ -20,9 +21,9 @@ Record new demo video
 - My visual scrapbook on the archives theme: shows tag folders, photo blog
 - My personal site: simple landing page, edit with a doc file?
 
-Release new documentation and video
+Finish archive template
 
-Release new archive template
+Announce new archive template, documentation and video
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
