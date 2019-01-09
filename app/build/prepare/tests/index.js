@@ -1,4 +1,4 @@
-fdescribe("prepare", function() {
+describe("prepare", function() {
   var prepare = require("../index");
 
   beforeEach(function() {
