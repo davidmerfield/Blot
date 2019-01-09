@@ -41,7 +41,7 @@ get(process.argv[2], function(err, user, blog) {
       function(extantEntry, next) {
         candidates = deletedEntries.filter(function(deletedEntry) {
           return (
-            // extantEntry.dateStamp > deletedEntry.dateStamp &&
+            extantEntry.dateStamp > deletedEntry.dateStamp &&
             extantEntry.title === deletedEntry.title
           );
         });
