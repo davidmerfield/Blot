@@ -12,6 +12,7 @@ function capitalize(str) {
 // Add new sites at the start
 
 var sites = [
+  ["diary.craigwhite.nyc", "Craig White is a visual artist based in Harlem, New York. Craig"],
   ["www.tillmanjex.info", "Tillman Jex is a composer based in Berlin. Tillman"],
   [
     "photos.rachelpietraszek.com",
@@ -31,13 +32,14 @@ var sites = [
     "John Beeler is the label director at Asthmatic Kitty Records. John"
   ],
   [
-    "www.rebeccatron.com",
-    "Rebecca Kukshtel is an engineer based in New York City. Rebecca "
-  ],
-  [
     "www.matthewbattles.org",
     "Matthew Battles directs metaLAB at Harvard. Matthew’s website"
   ],
+  [
+    "www.rebeccatron.com",
+    "Rebecca Kukshtel is an engineer based in New York City. Rebecca "
+  ],
+
   [
     "blog.aurynn.com",
     "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"
