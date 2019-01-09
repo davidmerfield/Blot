@@ -1,10 +1,9 @@
-var fs = require('fs');
+var fs = require('fs-extra');
 var helper = require('helper');
 var ensure = helper.ensure;
 var LocalPath = helper.localPath;
 var extname = require('path').extname;
 var exec = require('child_process').exec;
-var mkdirp = helper.mkdirp;
 var cheerio = require('cheerio');
 var Metadata = require('../../metadata');
 var extend = helper.extend;
@@ -36,7 +35,7 @@ function read (blog, path, options, callback) {
   var blogDir = join(config.blog_static_files_dir, blog.id);
   var assetDir = join(blogDir, '_assets', hash(path));
 
-  mkdirp(outDir, function(err){
+  fs.ensureDir(outDir, function(err){
 
     if (err) return callback(err);
 

@@ -5,7 +5,7 @@ describe("dropbox database", function() {
   global.test.blog();
 
   describe("sets", function() {
-    it("a valid account", function(done) {
+    xit("a valid account", function(done) {
       database.set(this.blog.id, fakeAccount(), done);
     });
   });
@@ -15,7 +15,7 @@ describe("dropbox database", function() {
       database.set(this.blog.id, fakeAccount(), done);
     });
 
-    it("a valid account", function(done) {
+    xit("a valid account", function(done) {
       database.get(this.blog.id, function(err, account) {
         if (err) return done.fail(err);
         done();
@@ -28,7 +28,7 @@ describe("dropbox database", function() {
       database.set(this.blog.id, fakeAccount(), done);
     });
 
-    it("a valid account", function(done) {
+    xit("a valid account", function(done) {
       database.drop(this.blog.id, done);
     });
   });

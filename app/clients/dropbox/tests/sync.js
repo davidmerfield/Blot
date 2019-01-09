@@ -6,7 +6,7 @@ describe("dropbox client", function() {
   var write = require("../write");
   var sync = require("../sync");
 
-  it("syncs changes when the blog folder is moved", function(done) {
+  xit("syncs changes when the blog folder is moved", function(done) {
     var blogDirectory = this.blogDirectory;
     var folder = this.folder;
     var newFolder =
