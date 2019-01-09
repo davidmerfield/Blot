@@ -32,7 +32,9 @@ module.exports = function(path, callback){
 
   image = sharp(path);
 
-  image.quality(100)
+  // Disable deprecated feature
+  // .quality(100)
+  image
        .rotate()
        .withoutEnlargement()
        .resize(3000, 3000)
