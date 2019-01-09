@@ -83,7 +83,10 @@ function Prepare(entry) {
   debug(entry.path, "Generated  title", entry.title);
 
   debug(entry.path, "Generating summary");
-  entry.summary = Summary($, metadata.title || entry.title);
+  // We pass in the metadata title in case it exists to prevent
+  // a bug which surfaces when the file contains title metadata
+  // and 
+  entry.summary = Summary($, entry.metadata.title || entry.title);
   debug(entry.path, "Generated  summary");
 
   debug(entry.path, "Generating teasers");
