@@ -26,7 +26,7 @@ describe("dropbox client", function() {
 
     specs();
 
-    it("retrieves changes after blog folder is renamed", function(done) {
+    xit("retrieves changes after blog folder is renamed", function(done) {
       var addFile = this.addFile;
       var oldFolder = this.account.folder;
       var newFolder = "/" + this.fake.random.uuid();
@@ -69,7 +69,7 @@ describe("dropbox client", function() {
         .catch(done.fail);
     });
 
-    it("returns a tidy error when the folder is removed", function(done) {
+    xit("returns a tidy error when the folder is removed", function(done) {
       var ctx = this;
 
       ctx.client
@@ -88,7 +88,7 @@ describe("dropbox client", function() {
   });
 
   function specs() {
-    it("retrieves list of changes", function(done) {
+    xit("retrieves list of changes", function(done) {
       this.delta(function(err, res) {
         if (err) return done.fail(err);
 
@@ -100,11 +100,11 @@ describe("dropbox client", function() {
       });
     });
 
-    it("detects a new file", function(done) {
+    xit("detects a new file", function(done) {
       this.addFile(done);
     });
 
-    it("detects a removed file", function(done) {
+    xit("detects a removed file", function(done) {
       this.removeFile(done);
     });
   }

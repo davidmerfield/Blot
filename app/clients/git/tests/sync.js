@@ -140,7 +140,7 @@ describe("git client sync", function() {
     );
   });
 
-  it("should return an error if there is no git repo in blog folder", function(done) {
+  xit("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(this.blogDirectory + "/.git");
 
     sync(this.blog.id, function(err) {
@@ -149,7 +149,7 @@ describe("git client sync", function() {
     });
   });
 
-  it("handles a new file", function(done) {
+  xit("handles a new file", function(done) {
     var path = this.fake.path(".txt");
     var content = this.fake.file();
 
@@ -160,7 +160,7 @@ describe("git client sync", function() {
     });
   });
 
-  it("handles updates to a file", function(done) {
+  xit("handles updates to a file", function(done) {
     var writeAndPush = this.writeAndPush;
     var path = this.fake.path(".txt");
 
@@ -181,7 +181,7 @@ describe("git client sync", function() {
     });
   });
 
-  it("handles a renamed file", function(done) {
+  xit("handles a renamed file", function(done) {
     var writeAndPush = this.writeAndPush;
     var commitAndPush = this.commitAndPush;
 
@@ -204,7 +204,7 @@ describe("git client sync", function() {
     });
   });
 
-  it("handles a removed file", function(done) {
+  xit("handles a removed file", function(done) {
     var writeAndPush = this.writeAndPush;
     var commitAndPush = this.commitAndPush;
     var repoDirectory = this.repoDirectory;
@@ -226,7 +226,7 @@ describe("git client sync", function() {
     });
   });
 
-  it("handles multiple commits pushed at once", function(done) {
+  xit("handles multiple commits pushed at once", function(done) {
     var writeAndCommit = this.writeAndCommit;
     var push = this.push;
 
@@ -252,7 +252,7 @@ describe("git client sync", function() {
     );
   });
 
-  it("handles two pushes during a single sync", function(done) {
+  xit("handles two pushes during a single sync", function(done) {
     var git = this.git;
     var writeAndPush = this.writeAndPush;
     var fake = this.fake;
@@ -273,7 +273,7 @@ describe("git client sync", function() {
     });
   });
 
-  it("resets any uncommitted changes in the server's blog folder", function(done) {
+  xit("resets any uncommitted changes in the server's blog folder", function(done) {
     var writeAndPush = this.writeAndPush;
 
     var path = "/Hello world.txt";
@@ -298,7 +298,7 @@ describe("git client sync", function() {
     });
   });
 
-  it("handles a force push", function(done) {
+  xit("handles a force push", function(done) {
     var writeAndPush = this.writeAndPush;
     var writeAndCommit = this.writeAndCommit;
     var blogDirectory = this.blogDirectory;
