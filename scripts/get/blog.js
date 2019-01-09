@@ -7,6 +7,13 @@ var parseUrl = require("url").parse;
 module.exports = function get(url, callback) {
   url = parseUrl(url);
 
+  // Map 'preview.default.foo.blot.im' -> 'foo.blot.im'
+  if (url.host.indexOf("preview.") === 0)
+    url.host = url.host
+      .split(".")
+      .slice(-3)
+      .join(".");
+
   Blog.get({ domain: url.host }, function(err, blog) {
     if (err || !blog) return callback(err || new Error("No blog"));
 
