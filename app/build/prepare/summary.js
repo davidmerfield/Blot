@@ -1,3 +1,5 @@
+var debug = require('debug')('blot:build:prepare:summary');
+
 var puncs = '?.!:,'.split('');
 var MAX_LENGTH = 150;
 var he = require('he');
@@ -16,6 +18,8 @@ function summary ($, title) {
   $('p, blockquote').each(function(){
     $(this).append(' ');
   });
+
+  debug('title:', title);
 
   var summary = $(':root').text();
 
