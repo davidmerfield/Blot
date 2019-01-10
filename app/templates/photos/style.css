@@ -229,6 +229,12 @@ font-feature-settings: 'tnum';
   .navigation>* {
     width: 100%;
   }
+
+  .navigation> :nth-child(3) {margin-top: 1.3rem}
+  .navigation:first-of-type > :nth-child(n+3) {display: none;}
+
+  .shift-margin {padding-left: 0}
+  .align-right, .align-center {text-align: left;}
 }
 
 
