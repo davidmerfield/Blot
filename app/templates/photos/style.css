@@ -301,6 +301,12 @@ font-feature-settings: 'tnum';
   align-items: center;
 }
 
+.edge a.arrow:hover,
+.edge a[title="Close"]:hover {opacity: 0.7}
+
+.edge a.arrow:active,
+.edge a[title="Close"]:active {opacity: 0.5}
+
 @media screen and (max-width: 500px) {
 .edge.left {text-align: left;}
 .edge .arrow {display: none;}
