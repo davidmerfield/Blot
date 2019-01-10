@@ -1,10 +1,8 @@
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 
-Finish photo template 
+Release photo template
 
 ---
-
-Release new photo template
 
 Finish new documentation and logo
 - Use these [UI templates](https://nhsuk.github.io/nhsuk-frontend/pages/examples.html)
@@ -25,13 +23,19 @@ Record new demo video
 
 Finish archive template
 - Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
-Announce new archive template, documentation and video
+
+On January 15th, announce price increase for new customers to $30 a year. This will not affect existing customers.
+
+On February 1st:
+- Increase price for new customers to $30 a year.  This will not affect existing customers.
+- Announce new archive template, documentation and video, by linking to archive template page
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
-Increase price for new customers to $30 a year by February 1st.  This will not affect existing customers. Announce this change on January 15th so people can encourage their friends to sign up at the current price.
 
 ---
+
+Why are images downloading so slowly on the portfolio theme? Should I go back to using cloudfront?
 
 Fix bug with git client which prevent [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsdCpRCLrbNczKVGXxgBvDfr)'s first 9000 posts appearing.
 
