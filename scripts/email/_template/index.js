@@ -1,19 +1,20 @@
 var send = require("../send");
 var each = require("../../each/blog");
-
-var emailFile = __dirname + "/email.txt";
 var users = [];
 
-each(
-  function(user, blog, next) {
+// Use this function to filter blogs based on 
+// whether or not we should email their owner.
+function filter(user, blog, next) {
 
-    users.push(user);
-    next();
-  },
-  function() {
-    send(emailFile, users, function(err) {
-      if (err) throw err;
-      process.exit();
-    });
-  }
-);
+  // Add the user to the list of users to email
+  users.push(user);
+
+  next();
+}
+
+each(filter, function() {
+  send(__dirname + "/email.txt", users, function(err) {
+    if (err) throw err;
+    process.exit();
+  });
+});

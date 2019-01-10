@@ -17,14 +17,10 @@ module.exports = function (doThis, allDone, options) {
 
     if (err || !blogIDs) throw err || 'No';
 
-    if (!options.silent) console.log();
-
     if (options.s) {
-
       options.s = parseInt(options.s);
       console.log('Starting this script with blog which has ID', options.s);
       blogIDs = blogIDs.slice(options.s - 1);
-
     }
 
     if (options.e) {
@@ -56,11 +52,7 @@ module.exports = function (doThis, allDone, options) {
       }
 
       console.log('Starting this for blogs with ID', blogIDs.length > 1 ? blogIDs : blogIDs[0]);
-
     }
-
-    if (!options.silent) console.log();
-    if (!options.silent) console.log();
 
     var forEach = ForEach;
 
@@ -77,13 +69,13 @@ module.exports = function (doThis, allDone, options) {
       Blog.get({id: blogID}, function(err, blog){
 
         if (err || !blog) {
-          console.log('There is no blog with ID', blogID);
           return nextBlog();
         }
 
         User.getById(blog.owner, function(err, user){
 
-          if (err || !user) throw err || 'No user with uid ' + blog.owner;
+          if (err) throw err;
+          if (!user) throw new Error('No user with uid ' + blog.owner);
 
           doThis(user, blog, nextBlog);
         });
