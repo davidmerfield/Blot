@@ -187,7 +187,23 @@ body {
   font-size: 25px;
   font-size: 14px;
   display: flex;
-  flex-wrap: wrap
+  flex-wrap: wrap;
+}
+
+.navigation .next {position:relative;padding-right: 1.3em}
+
+.navigation .next:after {
+  content: "→";
+  position: absolute;
+  right: 0;
+}
+
+.navigation .previous {position:relative;padding-left: 1.3em}
+
+.navigation .previous:after {
+  content: "←";
+  position: absolute;
+  left: 0;
 }
 
 .tabular-numerals {

@@ -14,9 +14,9 @@
     <a href="/" onclick="return lastIndexPage()" >Close &nbsp;</a>
     {{/entry}}
     {{^entry}}
-    <a {{#pagination.previous}}href="/page/{{pagination.previous}}"{{/pagination.previous}}>&larr; Previous</a>
+    <a class="previous" {{#pagination.previous}}href="/page/{{pagination.previous}}"{{/pagination.previous}}>Previous</a>
     &nbsp;&nbsp;
-    <a {{#pagination.next}}href="/page/{{pagination.next}}"{{/pagination.next}}>Next &rarr;</a>
+    <a class="next" {{#pagination.next}}href="/page/{{pagination.next}}"{{/pagination.next}}>Next</a>
     {{/entry}}
   </div>
 </div>
