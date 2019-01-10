@@ -7,7 +7,8 @@ var users = [];
 function filter(user, blog, next) {
 
   // Add the user to the list of users to email
-  users.push(user);
+  // if the blog or user meets a certain condition
+  if (blog.handle === 'dev') users.push(user);
 
   next();
 }
