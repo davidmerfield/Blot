@@ -317,6 +317,8 @@ font-feature-settings: 'tnum';
   margin: 1.4em 0
 }
 
+.body h2 {margin: 2.8em 0 1.4em; font-size: inherit;font-weight: 600}
+
 .entry.page .body {
   text-align: left;
 }
@@ -435,7 +437,7 @@ the absolutely positioned stuff is off the viewport.
 }
 
 .margin:first-child> :first-child {
-  margin-top: 2em
+  margin-top: 2.4em
 }
 
 .margin> :first-child {
