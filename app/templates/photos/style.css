@@ -80,6 +80,10 @@ body {
   min-height: 100%
 }
 
+.yield.flex {
+  display: flex;
+}
+
 .yield {
   flex-grow: 1;
 }
@@ -225,6 +229,8 @@ font-feature-settings: 'tnum';
   box-sizing: border-box;
 }
 
+
+
 @media screen and (max-width: 500px) {
   .navigation>* {
     width: 100%;
@@ -235,6 +241,9 @@ font-feature-settings: 'tnum';
 
   .shift-margin {padding-left: 0}
   .align-right, .align-center {text-align: left;}
+
+    .yield.flex {display: block}
+
 }
 
 
@@ -243,6 +252,7 @@ font-feature-settings: 'tnum';
   text-decoration: none;
 }
 
+  
 
 .navigation a[href] {
   color: inherit;
@@ -282,6 +292,8 @@ font-feature-settings: 'tnum';
   padding-left: 1.5rem;
 }
 
+
+
 .edge .arrow {
   flex-grow: 1;
   display: flex;
@@ -289,10 +301,25 @@ font-feature-settings: 'tnum';
   align-items: center;
 }
 
+@media screen and (max-width: 500px) {
+.edge.left {text-align: left;}
+.edge .arrow {display: none;}
+
+}
+
+.edge a[title="Close"] {
+  position: fixed;
+    top: 1.5rem;
+    right: 1.5em;
+}
 .entry.page {
   padding-top: 3rem;
   margin-top: 0;
   margin-left: 25%;
+}
+
+@media screen and (max-width: 500px) {
+  .entry.page {margin-left: 0}
 }
 
 .entry .body {
@@ -517,7 +544,9 @@ the absolutely positioned stuff is off the viewport.
   }
 }
 
-
+@media screen and (max-width: 500px) {
+  .inside, .margin {width: 100%}
+}
 
 
 
