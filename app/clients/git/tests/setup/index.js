@@ -9,13 +9,13 @@ module.exports = function setup(options) {
   var setClientToGit = require("./setClientToGit");
 
   var server = {
-    start: function attempt (done) {
+    start: function attempt(done) {
       var port = 10000 + Math.round(Math.random() * 10000);
       this.server = Express()
         .use("/clients/git", require("../../routes").site)
-        .listen(port, function(err){
-          if (err && err.code === 'EADDRINUSE') return attempt(done);
-          if (err && err.code === 'EACCESS') return attempt(done);
+        .listen(port, function(err) {
+          if (err && err.code === "EADDRINUSE") return attempt(done);
+          if (err && err.code === "EACCESS") return attempt(done);
           if (err) return done(err);
           done();
         });
@@ -39,10 +39,10 @@ module.exports = function setup(options) {
   afterEach(server.close);
 
   // Expose methods for creating fake files, paths, etc.
-  beforeEach(function(){
+  beforeEach(function() {
     this.fake = global.test.fake;
   });
-  
+
   // Clean a bare repo in app/clients/git/data if needed
   afterEach(function(done) {
     // Each test creates a new bare repo in app/clients/git/data
@@ -62,7 +62,10 @@ module.exports = function setup(options) {
     beforeEach(function(done) {
       var context = this;
 
-      setClientToGit(this.blog, this.server.port, function(err, repoUrl) {
+      setClientToGit(this.user, this.blog, this.server.port, function(
+        err,
+        repoUrl
+      ) {
         if (err) return done(err);
 
         context.repoUrl = repoUrl;
@@ -74,13 +77,21 @@ module.exports = function setup(options) {
     beforeEach(function(done) {
       var context = this;
 
-      require("simple-git")(this.tmp).silent(true).clone(this.repoUrl, function(err) {
-        if (err) return done(new Error(err));
-        context.repoDirectory = context.tmp + "/" + context.blog.handle;
-        context.git = require("simple-git")(context.repoDirectory).silent(true);
-        context.gitBare = require("simple-git")(dataDir + "/" + context.blog.handle + ".git").silent(true);
-        context.gitBlot = require("simple-git")(context.blogDirectory).silent(true);
-        done(null);
-      });
+      require("simple-git")(this.tmp)
+        .silent(true)
+        .clone(this.repoUrl, function(err) {
+          if (err) return done(new Error(err));
+          context.repoDirectory = context.tmp + "/" + context.blog.handle;
+          context.git = require("simple-git")(context.repoDirectory).silent(
+            true
+          );
+          context.gitBare = require("simple-git")(
+            dataDir + "/" + context.blog.handle + ".git"
+          ).silent(true);
+          context.gitBlot = require("simple-git")(context.blogDirectory).silent(
+            true
+          );
+          done(null);
+        });
     });
 };
