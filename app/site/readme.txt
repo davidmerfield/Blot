@@ -279,7 +279,7 @@ Why are you doing this?
 
 We want to build simple, useful, usable software for people. That’s what we love to do. We’ll never sell this site. It’s not for sale. Ever. Not negotiable.
 
-Will it be $20 a year forever?
+Will it be $30 a year forever?
 
 No, it will probably end up at something like $5 a month, or $60 a year. Right now, Blot is still unfinished.
 
@@ -407,7 +407,7 @@ My bank account.
 
 ## Don't suffer for your success
 
-Most of the blogs on Blot receive around 100,000 visitors or fewer a month. The annual fee of $20 ensures that Blot is profitable. Large bursts of traffic aren't a big deal, but if you're planning to host a large publication on Blot, perhaps consider hosting yourself because...
+Most of the blogs on Blot receive around 100,000 visitors or fewer a month. The annual fee of $30 ensures that Blot is profitable. Large bursts of traffic aren't a big deal, but if you're planning to host a large publication on Blot, perhaps consider hosting yourself because...
 
 ## Blot is run by one person
 
@@ -469,7 +469,7 @@ Stop filling out forms and focus on your writing.
 
 Blot was designed with an obsessive eye for typography. Read more about the steps Blot takes to set your writing beautifully.
 
-Unlike some business, the more people use Blot, the more money Blot makes. This is because blot charges $20 a year.
+Unlike some business, the more people use Blot, the more money Blot makes. This is because blot charges $30 a year.
 
 
 Tumblr is so easy to use that it’s hard to explain.
