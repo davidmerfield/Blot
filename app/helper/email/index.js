@@ -138,7 +138,7 @@ function send(locals, messageFile, to, callback) {
       console.log("Email not sent in development environment:", email);
       return callback();
     }
-
+    
     mailgun.messages().send(email, function(err, body) {
       if (err) {
         console.log("Error: Mailgun failed to send transactional email:", err);
@@ -164,5 +164,7 @@ for (var i in MESSAGES) {
     "There is no message file for " + method
   );
 }
+
+exports.send = send;
 
 module.exports = exports;
