@@ -1,3 +1,5 @@
+Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
+
 Finish photo template 
 
 ---
@@ -298,7 +300,7 @@ File converters / codecs
   
 Clients
 - OneDrive
-  Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9)
+  Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL)
 - SFTP
   https://www.npmjs.com/package/ftpd
 - Google Drive
