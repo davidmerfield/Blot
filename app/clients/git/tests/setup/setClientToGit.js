@@ -6,7 +6,7 @@ module.exports = function setClientToGit(blog, port, callback) {
   require("../../create")(blog, function(err) {
     if (err) return callback(err);
 
-    require("../../database").getToken(blog.id, function(err, token) {
+    require("../../database").getToken(blog.owner, function(err, token) {
       if (err) return callback(err);
 
       repoUrl = url.format({

@@ -64,7 +64,7 @@ describe("git client authenticate", function() {
     var repoUrl = this.repoUrl;
 
     // Now the repoUrl, which contains the token, should be invalid
-    require('../database').refreshToken(this.blog.id, function(err) {
+    require('../database').refreshToken(this.blog.owner, function(err) {
 
       if (err) return done.fail(err);
 
