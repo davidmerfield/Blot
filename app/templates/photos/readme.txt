@@ -16,6 +16,7 @@ Hofstede's [archives page](http://www.hofstede.com.au/) has a really pleasing ho
 
 The good work of the people at [Are.na](https://are.na) and [Cargo Collective](https://cargocollective.com/) is a constant source of motivation.
 
+I like the subtle animation and controls of the video overlay on [Pentagram's website](https://www.pentagram.com/about/michael-bierut) 
 
 ## The design
 
