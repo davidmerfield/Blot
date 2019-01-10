@@ -32,6 +32,25 @@ hr {
   color: rgba(0, 0, 0, 0.75)
 }
 
+/* Proportions */
+
+body{
+  font-size: {{font_size}}rem;
+  line-height: {{line_height}};
+}
+
+.index a {
+  padding: {{spacing}}rem;
+}
+
+.yield {
+  padding: 0 calc({{spacing}}rem/2);
+}
+
+.shift-margin {
+  padding-left:{{spacing}}rem;
+}
+
 /* Styles */
 
 html,
@@ -50,14 +69,12 @@ body {
 }
 
 body {
-  font-size: 1.9rem;
   font-weight: 400;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Sans Serif', Icons;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: none;
   font-style: normal;
-  line-height: 1.4;
   display: flex;
   flex-direction: column;
   min-height: 100%
@@ -65,7 +82,6 @@ body {
 
 .yield {
   flex-grow: 1;
-  padding: 0 1.5rem;
 }
 
 .index {
@@ -76,20 +92,18 @@ body {
 }
 
 .index a {
-  padding: 2.6rem;
   box-sizing: border-box;
   width: 50%;
   text-decoration: none;
 }
 
-.shift-margin {
-  padding-left:2.6rem;
-}
+
 
 @media screen and (max-width: 700px) {
   .index a {
     width: 100%;
-    padding: 2.6rem 0
+    padding-left: 0;
+    padding-right: 0
   }
 }
 
@@ -236,8 +250,8 @@ font-feature-settings: 'tnum';
 }
 
 .edge.left {
-  text-align: right;
   padding-right: 1.5rem;
+  text-align: right;
 }
 
 .edge.right {
