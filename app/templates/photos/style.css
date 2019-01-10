@@ -1,8 +1,62 @@
+/* Colors */
+
+hr {
+  background-color: #e7e7e5;
+}
+
+.zoom-overlay, html, body {
+  background: {{background_color}};
+  color: {{text_color}};
+}
+
+.archives a,
+.entry .body a {
+  color: darkblue
+}
+
+.entry .body a:visited,
+.archives a:visited {color: purple;}
+
+
+.navigation a {
+  color: rgba(0, 0, 0, .1)
+}
+
+.index a .text:hover,
+.dim .navigation,
+.edge a {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.entry .body {
+  color: rgba(0, 0, 0, 0.75)
+}
+
+/* Proportions */
+
+body{
+  font-size: {{font_size}}rem;
+  line-height: {{line_height}};
+}
+
+.index a {
+  padding: {{spacing}}rem;
+}
+
+.yield {
+  padding: 0 calc({{spacing}}rem/2);
+}
+
+.shift-margin {
+  padding-left:{{spacing}}rem;
+}
+
+/* Styles */
+
 html,
 body {
   width: 100%;
   margin: 0;
-  background: {{background_color}};
   padding: 0;
 }
 
@@ -15,25 +69,23 @@ body {
 }
 
 body {
-  font-size: 1.9rem;
   font-weight: 400;
-  color: {{text_color}};
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Sans Serif', Icons
-    /*!System*/
-  ;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, 'Sans Serif', Icons;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: none;
   font-style: normal;
-  line-height: 1.4;
   display: flex;
   flex-direction: column;
   min-height: 100%
 }
 
+.yield.flex {
+  display: flex;
+}
+
 .yield {
   flex-grow: 1;
-  padding: 0 1.5rem;
 }
 
 .index {
@@ -44,16 +96,18 @@ body {
 }
 
 .index a {
-  padding: 2.6rem;
   box-sizing: border-box;
   width: 50%;
   text-decoration: none;
 }
 
+
+
 @media screen and (max-width: 700px) {
   .index a {
     width: 100%;
-    padding: 2.6rem 0
+    padding-left: 0;
+    padding-right: 0
   }
 }
 
@@ -93,14 +147,14 @@ body {
   height: 25vw;
 }
 
-.index a .text:hover {
-  border-color: rgba(0, 0, 0, .4);
-}
-
 .index a .title {
     margin: 1rem 2rem;
     line-height: 1.2;
 }
+
+.index a .thumbnail {
+  display:block;height:0;overflow:hidden}
+
 .index a .date {
   font-size: 14px;
   text-decoration: none;
@@ -112,11 +166,23 @@ body {
 
 .archives a {
   text-decoration: none;
-  color: darkblue;
   font-size: 28px
 }
 
-.archives a:visited {color:purple;}
+.archives a .thumbnail {
+  display:inline-block;
+  text-align: center;
+  width:1.3em;
+  height:1.3em
+}
+
+.archives a img {
+  max-height:100%;
+  max-width:100%;
+  height:auto;
+  width:auto;
+  vertical-align:middle
+}
 
 .archives a:hover {opacity: 0.5}
 
@@ -125,29 +191,68 @@ body {
   font-size: 25px;
   font-size: 14px;
   display: flex;
-  flex-wrap: wrap
+  flex-wrap: wrap;
+}
+
+.navigation .next {position:relative;padding-right: 1.3em}
+
+.navigation .next:after {
+  content: "→";
+  position: absolute;
+  right: 0;
+}
+
+.navigation .previous {position:relative;padding-left: 1.3em}
+
+.navigation .previous:after {
+  content: "←";
+  position: absolute;
+  left: 0;
+}
+
+.tabular-numerals {
+font-feature-settings: 'tnum';
+-webkit-font-feature-settings: 'tnum';
+-moz-font-feature-settings: 'tnum';
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
 }
 
 .navigation>* {
-  width: 25%
+  width: 25%;
+  box-sizing: border-box;
 }
+
+
 
 @media screen and (max-width: 500px) {
   .navigation>* {
     width: 100%;
   }
+
+  .navigation> :nth-child(3) {margin-top: 1.3rem}
+  .navigation:first-of-type > :nth-child(n+3) {display: none;}
+
+  .shift-margin {padding-left: 0}
+  .align-right, .align-center {text-align: left;}
+
+    .yield.flex {display: block}
+
 }
 
 
 .dim .navigation,
 .edge a {
-  color: rgba(0, 0, 0, 0.4);
   text-decoration: none;
 }
 
-.navigation a {
-  color: rgba(0, 0, 0, .1)
-}
+  
 
 .navigation a[href] {
   color: inherit;
@@ -172,19 +277,22 @@ body {
 .edge {
   padding: 1.5rem 0;
   display: flex;
+  max-height: 100vh;
   flex-direction: column;
   font-size: 14px
 }
 
 .edge.left {
-  text-align: right;
   padding-right: 1.5rem;
+  text-align: right;
 }
 
 .edge.right {
   text-align: right;
   padding-left: 1.5rem;
 }
+
+
 
 .edge .arrow {
   flex-grow: 1;
@@ -193,10 +301,31 @@ body {
   align-items: center;
 }
 
+.edge a.arrow:hover,
+.edge a[title="Close"]:hover {opacity: 0.7}
+
+.edge a.arrow:active,
+.edge a[title="Close"]:active {opacity: 0.5}
+
+@media screen and (max-width: 500px) {
+.edge.left {text-align: left;}
+.edge .arrow {display: none;}
+
+}
+
+.edge a[title="Close"] {
+  position: fixed;
+    top: 1.5rem;
+    right: 1.5em;
+}
 .entry.page {
   padding-top: 3rem;
   margin-top: 0;
   margin-left: 25%;
+}
+
+@media screen and (max-width: 500px) {
+  .entry.page {margin-left: 0}
 }
 
 .entry .body {
@@ -204,7 +333,6 @@ body {
   text-align: center;
   font-size: 23px;
   -webkit-font-smoothing: auto;
-  color: rgba(0, 0, 0, 0.75)
 }
 
 .body ul, .body ol {
@@ -228,17 +356,13 @@ body {
   margin: 1.4em 0
 }
 
+.body h2 {margin: 2.8em 0 1.4em; font-size: inherit;font-weight: 600}
+
 .entry.page .body {
   text-align: left;
 }
 
-.entry .body a {
-  color: darkblue
-}
 
-.entry .body a:visited {
-  color: purple
-}
 
 
 .entry.page .body>* {
@@ -259,7 +383,6 @@ body {
 }
 
 hr {
-  background-color: #e7e7e5;
   border: none;
   height: 2px;
   margin: 3em 0;
@@ -274,6 +397,11 @@ hr {
 .entry .title h1 {
   font-size: 23px;
   font-weight: normal;
+}
+
+.entry p img {
+  margin: 0 auto;
+  display: block;
 }
 
 .entry img {
@@ -297,6 +425,17 @@ hr {
   opacity: 1;
   transition: opacity 0.3s, visibility 0.3s;
 }
+
+/* Typeset.css */
+
+/* Small caps */
+/* Double quote (") marks */
+.pull-double{margin-left:-.47em}
+.push-double{margin-right:.47em}
+
+/* Single quote (') marks */
+.pull-single{margin-left:-.28em}
+.push-single{margin-right:.28em}
 
 /*
 
@@ -337,7 +476,7 @@ the absolutely positioned stuff is off the viewport.
 }
 
 .margin:first-child> :first-child {
-  margin-top: 2em
+  margin-top: 2.4em
 }
 
 .margin> :first-child {
@@ -411,7 +550,9 @@ the absolutely positioned stuff is off the viewport.
   }
 }
 
-
+@media screen and (max-width: 500px) {
+  .inside, .margin {width: 100%}
+}
 
 
 
@@ -435,7 +576,6 @@ img.zoom-img {
 .zoom-overlay {
   cursor: zoom-out;
   z-index: 420;
-  background: #fff;
   position: fixed;
   top: 0;
   left: 0;
