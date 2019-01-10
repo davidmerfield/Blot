@@ -20,7 +20,7 @@ dashboard.get("/", function(req, res, next) {
 });
 
 dashboard.get("/", function(req, res) {
-  database.getToken(req.blog.id, function(err, token) {
+  database.getToken(req.user.uid, function(err, token) {
     res.render(__dirname + "/views/index.html", {
       title: "Git",
       token: token,
@@ -36,7 +36,7 @@ dashboard.get("/disconnect", function(req, res) {
 });
 
 dashboard.post("/refresh-token", function(req, res, next) {
-  database.refreshToken(req.blog.id, function(err) {
+  database.refreshToken(req.user.uid, function(err) {
     if (err) return next(err);
 
     res.redirect(req.baseUrl);

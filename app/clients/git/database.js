@@ -6,29 +6,26 @@ var debug = require("debug")("clients:git:database");
 // because it said random next to its name?
 var uuid = require("uuid/v4");
 
-// JSON which stores useful information
-// information about this particular blog & dropbox account
-// combination, e.g. root directory and access token.
-function tokenKey(blog_id) {
-  return "blog:" + blog_id + ":git:token";
+function tokenKey(user_id) {
+  return "user:" + user_id + ":git:token";
 }
 
-function refreshToken(blog_id, callback) {
+function refreshToken(user_id, callback) {
   var new_token = uuid().replace(/-/g, "");
 
-  debug("Blog:", blog_id, "Refreshing token");
+  debug("User:", user_id, "Refreshing token");
 
   client.set(tokenKey(blog_id), new_token, function(err) {
     if (err) return callback(err);
 
-    debug("Blog:", blog_id, "Set token successfully");
+    debug("User:", user_id, "Set token successfully");
 
     return callback(null, new_token);
   });
 }
 
-function checkToken(blog_id, token, callback) {
-  debug("Blog:", blog_id, "Checking token", token);
+function checkToken(user_id, token, callback) {
+  debug("User:", user_id, "Checking token", token);
 
   getToken(blog_id, function(err, valid_token) {
     if (err) return callback(err);
@@ -37,16 +34,16 @@ function checkToken(blog_id, token, callback) {
   });
 }
 
-function flush(blog_id, callback) {
-  debug("Blog:", blog_id, "Getting token");
+function flush(user_id, callback) {
+  debug("User:", user_id, "Getting token");
 
-  client.del(tokenKey(blog_id), callback);
+  client.del(tokenKey(user_id), callback);
 }
 
-function getToken(blog_id, callback) {
-  debug("Blog:", blog_id, "Getting token");
+function getToken(user_id, callback) {
+  debug("User:", user_id, "Getting token");
 
-  client.get(tokenKey(blog_id), callback);
+  client.get(tokenKey(user_id), callback);
 }
 
 database.checkToken = checkToken;
