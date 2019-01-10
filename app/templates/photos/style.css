@@ -261,6 +261,7 @@ font-feature-settings: 'tnum';
 .edge {
   padding: 1.5rem 0;
   display: flex;
+  max-height: 100vh;
   flex-direction: column;
   font-size: 14px
 }
@@ -357,6 +358,11 @@ hr {
   font-weight: normal;
 }
 
+.entry p img {
+  margin: 0 auto;
+  display: block;
+}
+
 .entry img {
   max-height: calc(100vh - 3rem);
   max-width: 100%;
@@ -378,6 +384,17 @@ hr {
   opacity: 1;
   transition: opacity 0.3s, visibility 0.3s;
 }
+
+/* Typeset.css */
+
+/* Small caps */
+/* Double quote (") marks */
+.pull-double{margin-left:-.47em}
+.push-double{margin-right:.47em}
+
+/* Single quote (') marks */
+.pull-single{margin-left:-.28em}
+.push-single{margin-right:.28em}
 
 /*
 
