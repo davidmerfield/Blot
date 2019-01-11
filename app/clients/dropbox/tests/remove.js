@@ -29,11 +29,11 @@ describe("dropbox client", function() {
       });
   });
 
-  it("does not return an error when you remove a non-existent file", function(done) {
+  xit("does not return an error when you remove a non-existent file", function(done) {
     remove(this.blog.id, this.path, done);
   });
 
-  it("does not return an error when you remove a file which exists on Dropbox but not on Blot", function(done) {
+  xit("does not return an error when you remove a file which exists on Dropbox but not on Blot", function(done) {
     var path = this.path;
     var blog = this.blog;
     var blogDirectory = this.blogDirectory;
@@ -47,12 +47,12 @@ describe("dropbox client", function() {
     });
   });
 
-  it("does not return an error when you remove a file which exists on Blot but not on Dropbox", function(done) {
+  xit("does not return an error when you remove a file which exists on Blot but not on Dropbox", function(done) {
     fs.outputFileSync(this.blogDirectory + this.path, this.fake.file());
     remove(this.blog.id, this.path, done);
   });
 
-  it("removes a file", function(done) {
+  xit("removes a file", function(done) {
     var contents = this.fake.file();
     var blog = this.blog;
     var path = this.path;

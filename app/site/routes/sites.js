@@ -12,20 +12,43 @@ function capitalize(str) {
 // Add new sites at the start
 
 var sites = [
-  ["keywords.oxus.net", "Kerim Friedman teaches anthropology in Taiwan. Kerim"],
+  ["diary.craigwhite.nyc", "Craig White is a visual artist based in Harlem, New York. Craig"],
+  ["www.tillmanjex.info", "Tillman Jex is a composer based in Berlin. Tillman"],
+  [
+    "photos.rachelpietraszek.com",
+    "Rachel Pietraszek is a lawyer based in Toronto. Rachel"
+  ],
+  [
+    "blog.andrewjanjigian.com",
+    "Andrew Janjigian is a photographer and editor at Cook’s Illustrated. Andrew"
+  ],
   [
     "hannautkin.com",
     "Hanna Utkin is a filmmaker and producer from New York City. Hanna"
   ],
-
+  ["keywords.oxus.net", "Kerim Friedman teaches anthropology in Taiwan. Kerim"],
   [
-    "www.rebeccatron.com",
-    "Rebecca Kukshtel is an engineer based in New York City. Rebecca "
+    "com.johnbeeler.com",
+    "John Beeler is the label director at Asthmatic Kitty Records. John"
   ],
   [
     "www.matthewbattles.org",
     "Matthew Battles directs metaLAB at Harvard. Matthew’s website"
   ],
+  [
+    "www.rebeccatron.com",
+    "Rebecca Kukshtel is an engineer based in New York City. Rebecca "
+  ],
+
+  [
+    "blog.aurynn.com",
+    "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"
+  ],
+  [
+    "www.kristianhjelle.com",
+    "Kristian Hjelle is a designer and partner at Bakken & Bæck. Kristian"
+  ],
+
   [
     "fagerheimen.no",
     "Fagerheimen Borettslag is an apartment building in Oslo, Norway. Its website"
@@ -38,10 +61,6 @@ var sites = [
   [
     "www.jacobyyoung.com/about",
     "Jacoby Young works at Kapālama Elementary School in Hawaii. Jacoby"
-  ],
-  [
-    "www.kristianhjelle.com",
-    "Kristian Hjelle is a designer and partner at Bakken & Bæck. Kristian"
   ],
 
   [
@@ -61,10 +80,7 @@ var sites = [
     "www.theliminal.co",
     "The Liminal is a podcast about metaphysical speculation. Their website"
   ],
-  [
-    "blog.aurynn.com",
-    "Aurynn Shaw is a writer and engineer from New Zealand. Aurynn’s site"
-  ],
+
   [
     "iiiiiiiii.in",
     "Ishtaarth Dalmia writes about internet culture and economics from Bengaluru, India. Ishtaarth"
@@ -105,7 +121,7 @@ module.exports = function(callback) {
       var template;
       var is_subdomain = domain.indexOf("blot.im") !== -1;
       var url, display_url, protocol, by, custom_template, template_name;
-          var response = "";
+      var response = "";
 
       var get = https.get(
         require("url").format({
@@ -160,9 +176,16 @@ module.exports = function(callback) {
           description +=
             ' <a href="/configuring">' + template_name + "</a> template.";
 
-          // Redirect
+          // Modify display URL for brevity. Eventually re-do design
+          // so this isn't neccessary, it's cramped right now
           if (display_url === "john.pavlusoffice.com")
             display_url = "johnpavlus.com";
+
+          if (display_url === "photos.rachelpietraszek.com")
+            display_url = "rachelpietraszek.com";
+
+          if (display_url === "blog.andrewjanjigian.com")
+            display_url = "andrewjanjigian.com";
 
           result.push({
             url: url,

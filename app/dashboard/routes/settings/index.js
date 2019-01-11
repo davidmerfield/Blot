@@ -115,7 +115,7 @@ settings.use('/settings/client', require('./client'));
 settings
   .route("/settings/theme")
   .get(function(req, res) {
-    res.render("theme", {title: "Temmplate"});
+    res.render("theme", {title: "Template"});
   })
   .post(require('./save/theme'));
 

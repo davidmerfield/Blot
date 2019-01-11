@@ -45,7 +45,10 @@ function Transformer (blogID, name) {
     try {
       url = isURL(src);
 
-      if (src.indexOf('/_image_cache/') === 0) {
+      // Images pulled from Word Documents are stored in blot/static/{blogID}/_assets
+      // Images cached from blog posts are stored in blot/static/{blogID}/_image_cache
+      // Eventually we should consolidate this somehow.
+      if (src.indexOf('/_image_cache/') === 0 || src.indexOf('/_assets/') === 0) {
         path = join(config.blog_static_files_dir, blogID, src);
       } else {
         path = localPath(blogID, src);
