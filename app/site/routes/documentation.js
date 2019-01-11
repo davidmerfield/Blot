@@ -17,7 +17,7 @@ Documentation.param("page", function(req, res, next, page) {
 });
 
 Documentation.get("/", function(req, res, next) {
-  res.locals.selected.how = "selected";
+  res.locals.selected.index = "selected";
 
   res.locals.partials = {
     sidebar: "documentation/partials/sidebar",
@@ -32,15 +32,10 @@ Documentation.get("/", function(req, res, next) {
 var marked = require("marked");
 
 Documentation.get("/updates", function(req, res, next) {
+  var todo = require("path").resolve(__dirname + "/../../../todo.txt");
 
-  var todo = require("path").resolve(__dirname + "/../../../todo.txt")
-  res.locals.todo = marked(
-    require('fs-extra').readFileSync(
-      todo,
-      "utf-8"
-    )
-  );
-
+  res.locals.todo = marked(require("fs-extra").readFileSync(todo, "utf-8"));
+  res.locals.selected.updates = 'selected';
   res.locals.partials = {
     sidebar: "documentation/partials/sidebar",
     header: "documentation/partials/header",

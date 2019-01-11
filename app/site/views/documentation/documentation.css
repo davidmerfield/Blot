@@ -28,12 +28,13 @@ body {
 .documentation main {
   width: 75%;
   padding: 1.5em;
+  padding-right: 3em;
   box-sizing: border-box;
 }
 
 .documentation nav {
   width: 25%;
-  padding: 6em 1.5em;
+  padding: 6em 1.5em 0 0;
   margin-left: -10px
   box-sizing: border-box;
 }
@@ -49,6 +50,8 @@ body {
   font-size: 14px;
   text-decoration: none;
   word-wrap: break-word;
+  background-color: transparent;
+  transition: background-color .2s ease, color .2s ease;
 }
 
 .documentation .has-list > a {
@@ -63,7 +66,7 @@ body {
   margin-left: 0;
 
 }
-.documentation nav a:hover {background: #f2f2f2}
+.documentation nav a:hover {background-color: #f2f2f2;color: #292929;}
 
 .documentation nav .has-list > a:before {
     background: url('https://developer.apple.com/design/human-interface-guidelines/images/menu-chevron_2x.png');
@@ -137,7 +140,7 @@ body {
 .documentation nav hr {
   margin-top: 10px;
   margin-bottom: 8px;
-  width: 80%;
+  width: 75%;
 }
 
 
