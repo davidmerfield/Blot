@@ -1,5 +1,7 @@
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 
+Are people who have cancelled their subscription notified 1 week before their subscription expires? 
+
 ---
 
 Finish new documentation and logo
