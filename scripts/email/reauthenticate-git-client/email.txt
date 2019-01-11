@@ -1,11 +1,12 @@
 Re-authentication required with your git client
 
-I'm writing because one of your blogs uses [Blot](https://blot.im)'s Git client. I recently changed the way this client authenticates. Instead of your blog's username, the git client now uses your account's email address. This was neccessary to fix a bug for people who manage multiple blogs with git.
+I’m writing because one of your blogs hosted by [Blot](https://blot.im) uses git. I recently changed the way this client authenticates: instead of your blog’s username, the client uses your account’s email address. This change was neccessary to fix a bug for people who manage multiple blogs with git.
 
 When you next push, your existing credentials will fail. Please use these credentials instead:
 
 Username: {{email}}
-Password: [View your token](https://blot.im/log-in?then=/settings/client/git)
+
+Password: [View your token](https://blot.im/settings/client/git)
 
 If you have any questions, please reply directly to this email.
 
