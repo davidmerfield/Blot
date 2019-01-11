@@ -6,7 +6,7 @@ When you next push, your existing credentials will fail. Please use these creden
 
 Username: {{email}}
 
-Password: [View your token](https://blot.im/settings/client/git)
+Password: [View your git password](https://blot.im/settings/client/git)
 
 If you have any questions, please reply directly to this email.
 
