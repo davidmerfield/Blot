@@ -35,8 +35,9 @@ body {
 .documentation nav {
   width: 25%;
   padding: 6em 1.5em 0 0;
-  margin-left: -10px
-  box-sizing: border-box;
+  margin-left: -10px;
+  position: sticky;
+  top: 0;
 }
 
 .documentation nav a {

@@ -23,20 +23,20 @@
         <li class="{{selected.posts}}">
           <a href="/documentation/publishing/posts">Blog posts</a>
         </li>
-        <li class="{{selected.metadata}}">
-          <a href="/documentation/publishing/metadata">Metadata</a>
-        </li>        
+        <li class="{{selected.pages}}">
+          <a href="/documentation/publishing/pages">Pages</a>
+        </li>
         <li class="{{selected.drafts}}">
           <a href="/documentation/publishing/drafts">Drafts</a>
         </li>
-        <li>
-          <a href="/documentation/">Pages</a>
+        <li class="{{selected.public-files}}">
+          <a href="/documentation/publishing/public-files">Public files</a>
         </li>
-        <li>
-          <a href="/documentation/images">Public files</a>
-        </li>
-        <li class="{{selected.formatting}}">
-          <a href="/documentation/publishing/posts">Formatting guide</a>
+        <li class="{{selected.metadata}}">
+          <a href="/documentation/publishing/metadata">Metadata</a>
+        </li>        
+        <li class="{{selected.formatting-guide}}">
+          <a href="/documentation/publishing/formatting-guide">Formatting guide</a>
         </li>        
         <!-- <li>
           <a href="/documentation/dates">Dates</a>
@@ -67,7 +67,7 @@
         </li>
       </ul>
     </li>
-   <!--  <li class="has-list {{selected.templates}}">
+    <li class="has-list {{selected.templates}}">
       <input type="checkbox" name="templates" id="templates" {{#selected.templates}}checked{{/selected.templates}}>
       <a href="/documentation/templates">Templates<label for="templates"></label></a>
        <ul>
@@ -92,9 +92,17 @@
         <li class="{{selected.portfolio}}">
           <a href="/documentation/templates/portfolio">Portfolio</a>
         </li>
+      <hr class="sidebar_nav_separator">
+      <li class="{{selected.customizing}}">
+          <a href="/documentation/templates/customizing">Customize your template</a>
+        </li>
+      <li class="{{selected.developers}}">
+          <a href="/documentation/templates/developers">Developers</a>
+        </li>
+  
       </ul>
     </li>
-        -->
+       
     <li class="{{selected.account}}">
       <a href="/documentation/account">Account and billing</a>
     </li>
@@ -130,9 +138,20 @@
       <a href="/documentation/contact">Contact</a>
     </li>
 
-    <hr class="sidebar_nav_separator">
+    <!-- <hr class="sidebar_nav_separator">
 
+    <li class="{{selected.sign-up}}">
+      <a href="/documentation/contact">Sign up</a>
+    </li>
+
+    <li class="{{selected.sign-up}}">
+      <a href="/documentation/contact">Log in</a>
+    </li> -->
+
+
+
+<!-- 
     <a class="button" style="margin-left:8px">Sign up</a> <a class="button light">Log in</a>
-
+ -->
   </ul>
 </nav>
