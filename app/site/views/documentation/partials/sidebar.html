@@ -4,7 +4,7 @@
 
 
 
-  <!-- <li class="{{selected.s}} has-list index">
+<!--   <li class="{{selected.s}} has-list index">
       <a href="/documentation" class="fix">Blot is a blogging platform</a>
     </li>
 
@@ -23,6 +23,9 @@
         <li class="{{selected.posts}}">
           <a href="/documentation/publishing/posts">Blog posts</a>
         </li>
+        <li class="{{selected.metadata}}">
+          <a href="/documentation/publishing/metadata">Metadata</a>
+        </li>        
         <li class="{{selected.drafts}}">
           <a href="/documentation/publishing/drafts">Drafts</a>
         </li>
@@ -30,20 +33,17 @@
           <a href="/documentation/">Pages</a>
         </li>
         <li>
-          <a href="/documentation/images">Images</a>
+          <a href="/documentation/images">Public files</a>
         </li>
-        <li class="{{selected.metadata}}">
-          <a href="/documentation/publishing/metadata">Metadata</a>
-        </li>
-        <li class="{{selected.posts}}">
+        <li class="{{selected.formatting}}">
           <a href="/documentation/publishing/posts">Formatting guide</a>
         </li>        
-        <li>
+        <!-- <li>
           <a href="/documentation/dates">Dates</a>
         </li>
         <li>
           <a href="/documentation/tags">Tags</a>
-        </li>
+        </li> -->
       </ul>
     </li>
     <li class="has-list {{selected.configuring}}">
@@ -56,18 +56,18 @@
         <li class="{{selected.import}}">
           <a href="/documentation/configuring/import">Importing posts</a>
         </li>
+        <li class="{{selected.typography}}">
+          <a href="/documentation/configuring/typography">Typography</a>
+        </li>
+        <li class="{{selected.clients}}">
+          <a href="/documentation/configuring/clients">Clients</a>
+        </li>
         <li class="{{selected.redirects}}">
           <a href="/documentation/configuring/redirects">Redirects</a>
         </li>
-        <li>
-          <a href="/documentation/dates">Dates</a>
-        </li>
-        <li>
-          <a href="/documentation/tags">Tags</a>
-        </li>
       </ul>
     </li>
-    <li class="has-list {{selected.templates}}">
+   <!--  <li class="has-list {{selected.templates}}">
       <input type="checkbox" name="templates" id="templates" {{#selected.templates}}checked{{/selected.templates}}>
       <a href="/documentation/templates">Templates<label for="templates"></label></a>
        <ul>
@@ -94,21 +94,24 @@
         </li>
       </ul>
     </li>
-       
+        -->
     <li class="{{selected.account}}">
       <a href="/documentation/account">Account and billing</a>
     </li>
-       
+
+
     <hr class="sidebar_nav_separator">
+
+       
+           <li class="{{selected.news}}">
+      <a href="/documentation/news">News</a>
+    </li>
+
 
      <li class="{{selected.about}}">
       <a href="/documentation/about">About</a>
     </li>
 
-
-    <li class="{{selected.updates}}">
-      <a href="/documentation/updates">Updates</a>
-    </li>
 
 
 <!-- 

@@ -26,7 +26,7 @@ body {
 }
 
 .documentation main {
-  width: 75%;
+  max-width: 760px;
   padding: 1.5em;
   padding-right: 3em;
   box-sizing: border-box;
@@ -86,8 +86,8 @@ body {
     background-size: 12px 6px;
 }
 
-.documentation nav .index > a:hover {background: transparent;}
-.documentation nav .index > a:before {
+.documentation nav .index > a:first-child:hover {background: transparent;}
+.documentation nav .index > a:first-child:before {
     background: url('/images/logo-new.svg');
     transform: none;
     background-size: 1em;
@@ -171,7 +171,7 @@ h6+* {
   font-size: 40px;
   line-height: 1.1;
   font-weight: 600;
-  padding-top: 64px;
+  padding-top: 70px;
   margin-top: 0
 }
 

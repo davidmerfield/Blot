@@ -3,6 +3,7 @@ var Documentation = express.Router();
 
 Documentation.use(function(req, res, next) {
   res.locals.selected = {};
+  res.locals.price = '$30';
   next();
 });
 
@@ -31,16 +32,16 @@ Documentation.get("/", function(req, res, next) {
 
 var marked = require("marked");
 
-Documentation.get("/updates", function(req, res, next) {
+Documentation.get("/news", function(req, res, next) {
   var todo = require("path").resolve(__dirname + "/../../../todo.txt");
 
   res.locals.todo = marked(require("fs-extra").readFileSync(todo, "utf-8"));
-  res.locals.selected.updates = 'selected';
+  res.locals.selected.news = 'selected';
   res.locals.partials = {
     sidebar: "documentation/partials/sidebar",
     header: "documentation/partials/header",
     footer: "documentation/partials/footer",
-    yield: "documentation/updates",
+    yield: "documentation/news",
     "documentation.css": "documentation/documentation.css"
   };
 
