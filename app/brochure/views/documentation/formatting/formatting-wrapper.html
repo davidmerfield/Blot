@@ -1,0 +1,55 @@
+<div class="formatting">
+
+  <div class="main">
+    <div class="js-toc-content mw8 center ph4 pt5">
+      <div class="measure">
+        <h1 id="formatting">Formatting guide</h1>
+        <p class="measure">Blot offers a variety of standard tools to add formatting to your blog posts. You can use <a href="#markdown">Markdown</a> to add links, headings, lists and much more. Blot also renders <a href="#math">mathematics</a> set in <a class="bn" href="#math">\(\TeX\)</a>and provides syntax highlighting for code snippets.</p>
+        <p>The formatting described below is available for blog posts created from&nbsp;<code class="file txt">&nbsp;Text files,</code>&nbsp;<code class="file md">&nbsp;Markdown</code>&nbsp;and&nbsp;<code class="file txt">&nbsp;Word Documents</code>.
+      </div>
+
+      <div class="spacer cf"></div>
+
+{{> markdown}}
+
+      <div class="spacer cf"></div>
+      <div class="spacer cf"></div>
+
+{{> layout}}
+
+      <div class="spacer cf"></div>
+      <div class="spacer cf"></div>
+
+{{> tex}}
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.1.1/tocbot.min.js"></script>
+<script type="text/javascript">
+var links = document.querySelectorAll('div a:not(.sub_section)');
+
+links.forEach(function (node) {
+  node.onclick = function(){
+    node.parentNode.classList.toggle('open');
+    // node.parentNode.parentNode
+  }
+});
+
+try {
+tocbot.init({
+  // Where to render the table of contents.
+  tocSelector: '.js-toc',
+  includeHtml: true,
+  // ignoreSelector: 'table h1',
+  // Where to grab the headings to build the table of contents.
+  contentSelector: '.js-toc-content',
+  // Which headings to grab inside of the contentSelector element.
+  headingSelector: 'h1, h2, h3',
+});
+} catch (e) {
+  console.log(e);
+}
+
+
+</script>
