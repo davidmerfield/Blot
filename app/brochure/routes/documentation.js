@@ -3,7 +3,7 @@ var documentation = new Express.Router();
 
 documentation.use(function(req, res, next){
   res.locals.base = '/documentation';
-  res.locals.layout = 'partials/documentation-layout';
+  res.locals.layout = 'documentation/layout';
   next();
 });
 
