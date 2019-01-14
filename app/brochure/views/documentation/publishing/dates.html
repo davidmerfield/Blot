@@ -1,0 +1,49 @@
+
+<h2>Dates</h2>
+
+<p>A blog post’s publish date is the same as the file’s creation date by default. You can specify a different  date in the file’s <a href="#metadata">metadata</a> or in its <a href="#path">path</a>. <!-- You can adjust your blog’s <a href="/preferences">time zone</a> and other date‐related settings on the dashboard. -->The publish date is one of the properties of a blog post you can modify in the <a href="/help/metadata">metadata</a> at the start of a file. Here’s an example blog post with a modified publish date:</p>
+<pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+
+Blot supports a variety of date formats. The following all produce a blog post with the same date:
+
+{{#date}}MM/DD/YYYY{{/date}}   {{#date}}MMMM D, YYYY{{/date}}
+{{#date}}M.D.YYYY{{/date}}     {{#date}}YYYY-MM-DD 00-00{{/date}}
+
+
+</code></pre>
+<h3>Using the file’s path</h3>
+<p class="measure">You can modify a post’s publish date using the file’s name or path. Please note that a date specified in the file’s <a href="#metadata">metadata</a> takes precedence over one specified by its path. For example, all four of these posts share the same publish date:</p>
+    <table class="bt" style="margin-top:0.75rem">
+      <tbody>
+        <tr>
+        <td>
+          <code class="folder">&nbsp;{{#date}}YYYY{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+          <code class="folder">&nbsp;{{#date}}MM{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+          <code class="folder">&nbsp;{{#date}}DD{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+          <code class="file md">&nbsp;Post.txt</a></code>          
+        </td>
+        </tr>
+        <tr>
+        <td>
+          <code class="folder">&nbsp;{{#date}}YYYY{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+          <code class="folder">&nbsp;{{#date}}MM{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+          <code class="file md">&nbsp;{{#date}}DD-[Post.txt]{{/date}}</code>
+        </td>
+        </tr>        
+        <tr>
+        <td>
+          <code class="folder">&nbsp;{{#date}}YYYY{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+          <code class="file md">&nbsp;{{#date}}MM-DD-[Post.txt]{{/date}}</code>
+        </td>
+        </tr>         <tr>
+        <td><code class="file md">&nbsp;{{#date}}YYYY-MM-DD-00-00[-Post.txt]{{/date}}</a></code></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+<p><b>Schedule a blog post for future publication.</b> If you specify a date in the future, your post will be published then.</p>
+
+<p class="measure">You can use underscores, dashes and dots to seperate the components of the date. </p>
+
+</div>

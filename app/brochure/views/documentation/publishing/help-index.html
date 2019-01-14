@@ -1,23 +1,24 @@
-    <h2>Blog posts</h2>    
 
+<style type="text/css">td{padding-right: 0;text-align: right;}
+td:first-child {padding-right: 0;text-align: left;}
+</style>
+<div class=" w-right-offset">
+  <h1>How to use Blot<!--   <p class="fr tr w-30 mt0"><a class="light bn" href="/configuring">Next &rarr;</a></p> -->
+</h1>
 
+  <p class=" measure">Blot is a blogging platform with no interface. It creates a special folder in your Dropbox and automatically publishes files you put inside. You can organize your blog’s folder however you like. </p>
 
-    <p>All of these files become blog posts automatically when you put them somewhere inside your blog’s folder:</p>
-    <ul>
-      <li><b>Text and markdown</b> Use the full range of markdown features in these files, including footnotes.</li>
-      <li><b>Word documents</b> Most of the typographic formatting is stripped.</li>
-      <li><b>Bookmarks</b> Drag URLs from your browser's address bar to create these files. Blot turns them into a simple link.</li>
-      <li><b>Images</b> Drag URLs from your browser's address bar to create these files. Blot turns them into a link back to the original site.</li>
-      <li><b>HTML</b> Use HTML fragments. Blot will leave them as is.</li>
+  <div class="spacer half"></div>
+  
 
-    </ul>
-    <p>Any changes you make are applied automatically to your site. See <a href="./drafts">Drafts</a></p>
-    <!-- <table class="bt" style="margin-top:0.75rem">
+  <div class="w-50 fl pc">
+    <h2 class="mt0" >Blog posts</h2>    
+    <p >All of these files become blog posts automatically when you put them somewhere inside your blog’s folder:</p>
+    <table class="bt" style="margin-top:0.75rem">
       <tbody>
         <tr>
         <td><code class="file md">&nbsp;Text and Markdown</a></code></td>
         <td><span class="light">.txt&nbsp; .md</span></td>
-        <td>Full support for Markdown, including footnotes, LaTeX, code highlighting.
         </tr>
         <tr>
         <td><code class="file txt">&nbsp;Word Documents</a></code></td>
@@ -26,7 +27,6 @@
         <tr>
         <td><code class="file webloc">&nbsp;Bookmarks</a></code></td>
         <td><span class="light">.webloc&nbsp; .url</span></td>
-        <td>Become a link to the bookmark</td>
         </tr>
         <tr>
         <td><code class="file img" style="margin-left:-3px">&nbsp;Images</a></code></td>
@@ -37,11 +37,12 @@
         <td style="border:none"><span class="light">.html &nbsp; .htm</span></td>
         </tr>
       </tbody>
-    </table> -->
-    <p><b>Organize your folder as you like.</b> You can organize the files in your folder to suit you and your blog. Create subfolders if you like, or don't. You can always re-organize your folder later.</p>
+    </table>
+    <p>Blot ignores files and folders whose name starts with an underscore. Ignored files are <a href="/help/public-files">public</a> but don’t become blog posts.</p>
+    <div class="cf"></div>
+  </div>
 
-<div style="background:#6ed0fd;padding:2em 0 2.5em">
-<div class="w-50 center">
+  <div class="w-50 fr pc">
     <pre class="folder" title="Your blog"><code>Drafts
 Pages
 Posts
@@ -56,30 +57,20 @@ Posts
 </code>
     </pre>
   </div>
-</div>
 
-    <p><b>Prevent a file becoming a blog post.</b> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="./public-files">embedded in other posts</a>.</p>
 
-<div style="background:#6ed0fd;padding:2em 0 2.5em">
+  <div class="spacer cf"></div>
 
-  <div class="w-50 center">
-    <pre class="folder" title="Your blog"><code>Drafts
-Pages
-Posts
-  _not_a_blog_post.txt
-  blog_post.txt
-</code>
-    </pre>
-  </div>
-</div>
-
-    <p><b>Add formatting to your posts</b>. Blot supports a variety of standard tools to add formatting to your blog posts.</b> You can use <a href="/formatting">Markdown</a> to add links, headings, lists and much more. Blot also renders mathematics set in <a class="bn" href="/formatting">\(\TeX\)</a> and</span> provides syntax highlighting for code snippets.</p>
+  <div class="w-50 fl pc">  
+    <h2 class="mt0" >Formatting your blog posts</h2>
+    <p class="measure mb0">Blot supports a variety of standard tools to add formatting to your blog posts. You can use <a href="/formatting">Markdown</a> to add links, headings, lists and much more. Blot also renders mathematics set in <a class="bn" href="/formatting">\(\TeX\)</a> and</span> provides syntax highlighting for code snippets.</p>
 
     <a href="/formatting" class="next small db bt b--black-10">
       Read the formatting guide
     </a>
-  <div style="background:#aaa;padding:2em 2.5em 2.5em">
-  <div>
+  </div>
+
+  <div class="w-50 fr pc">
     <pre class="text with-chrome narrow" title="Post"><code><b># Formatting</b>
 
 You can use <em>*Markdown*</em>, a lightweight markup language for plain text files.
@@ -89,7 +80,10 @@ Use it for links, headings, lists and much more.
 </code>
     </pre>
   </div>
-</div>
+
+  <div class="spacer cf"></div>
+
+
   <div class="w-50 fl pc"> 
     <h2 class="mt0">Drafts</h2>
     <p class="measure" style="margin-bottom:0.75rem">Files in a folder called ‘Drafts’ are not published. Instead, Blot creates a preview file which updates as you make edits.</p>

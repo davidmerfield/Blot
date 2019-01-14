@@ -1,0 +1,255 @@
+{{=[[ ]]=}}
+
+<div class="measure">
+<h1>Post properties</h1>
+<p>Below is the list of properties which Blot generates for every post. Their values are determined by the file’s contents and location.</p>
+
+</div>
+<br>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{{html}}}</code></td>
+<td>The full HTML of the blog post.</td>
+</tr>
+<tr>
+<td><code>{{title}}</code></td>
+<td>The blog post's title.</td>
+</tr>
+<tr>
+<td><code>{{{url}}}</code></td>
+<td>The path of the URL to the post. For example:<br><code>"/your-blog-post"</code></td>
+</tr>
+<tr>
+<td><code>{{{absoluteURL}}}</code></td>
+<td>The full URL to the post. For example:<br><code>"https://example.com/your-blog-post"</code></td>
+</tr>
+<tr>
+<td><code>{{date}}</code></td>
+<td>The blog post's publish date, as a human-readable string</td>
+</tr>
+<tr>
+<td><code>{{dateStamp}}</code></td>
+<td>The blog post's publish date, as a unix timestamp.</td>
+</tr>
+
+<tr>
+<td><code>{{path}}</code></td>
+<td>The file's path, with the blog's folder as root.</code></td>
+</tr>
+<tr>
+<td><code>{{name}}</code></td>
+<td>The file's name, preserving the case where possible.</td>
+</tr>
+<tr>
+<td><code>{{size}}</code></td>
+<td>The file's size in bytes.</td>
+</tr>
+<tr>
+<td><code>{{created}}</code></td>
+<td>The file's creation date, as a Unix timestamp.</td>
+</tr>
+<tr>
+<td><code>{{updated}}</code></td>
+<td>The file's last-modified date, as a Unix timestamp.</td>
+</tr>
+
+
+
+<tr>
+<td><code>{{summary}}</code></td>
+<td>The text of the first paragraph of the entry.</td>
+</tr>
+<tr>
+<td><code>{{{titleTag}}}</code></td>
+<td>If the post's title was generated from a heading in the blog post, this property contains that heading's HTML. For example:<br><code>"&lt;h1&gt;Your post's &lt;em&gt;nice&lt;/em&gt; title&lt;/h1&gt;"}}</code></td>
+</tr>
+<tr>
+<td><code>{{{body}}}</code></td>
+<td>The HTML of the blog post, excluding the <code>titleTag</code>. This property is useful if you want to manipulate the HTML of the titles of your blog posts.</td>
+</tr>
+
+<tr>
+<td><code>{{{teaser}}}</code></td>
+<td>The HTML of the title and the first few items in the entry. You can specify the end of the teaser by inserting the special tag <code>more</code> into your blog post&apos;s file. Everything before <code>more</code> will be included in the teaser.</td>
+</tr>
+<tr>
+<td><code>{{{teaserBody}}}</code></td>
+<td>The HTML of the first few items in the entry, excluding the title. Equivalent to <code>teaser</code> without the <code>titleTag</code>.</td>
+</tr>
+<tr>
+<td><code>{{more}}</code></td>
+<td>A boolean value indicating if the post's <code>teaser</code> property is different to its <code>html</code> property. This is useful for determining whether or not to show &apos;read more&apos; links.</td>
+</tr>
+<tr>
+<td><code>{{slug}}</code></td>
+<td>The value of the metadata property permalink. Same as URL.</td>
+</tr>
+<tr>
+<td><code>{{permalink}}</code></td>
+<td>The value of the metadata property permalink. Same as URL.</td>
+</tr>
+
+
+<tr>
+<td><code>{{tags}}</code></td>
+<td>List of tags for the entry</td>
+</tr>
+<tr>
+<td><code>{{menu}}</code></td>
+<td>&quot;true&quot; if the entry is a page on the menu, &quot;false&quot; if not</td>
+</tr>
+<tr>
+<td><code>{{page}}</code></td>
+<td>&quot;true&quot; if the entry is a page, &quot;false&quot; if not</td>
+</tr>
+<tr>
+<td><code>{{deleted}}</code></td>
+<td>&quot;true&quot; if the entry is deleted, &quot;false&quot; if not</td>
+</tr>
+<tr>
+<td><code>{{draft}}</code></td>
+<td>&quot;true&quot; if the entry is a draft, &quot;false&quot; if not</td>
+</tr>
+<tr>
+<td><code>{{scheduled}}</code></td>
+<td>&quot;true&quot; if the entry is scheduled for future publication, &quot;false&quot; if not</td>
+</tr>
+<tr>
+<td><code>{{thumbnail}}</code></td>
+<td>object containing the thumbnails for the entry, if they exist.</td>
+</tr>
+<tr>
+<td><code>{{metadata}}</code></td>
+<td>object containing the metadata for the entry, if they exist.</td>
+</tr>
+<tr>
+<td><code>{{id}}</code></td>
+<td>Alias for the <code>path</code> property, which uniquely identifies the post.</td>
+</tr>
+<tr>
+<td><code>{{guid}}</code></td>
+<td>Alpha numeric identifier </td>
+</tr>
+
+</tbody>
+</table>
+
+<h2>Blog properties</h2>
+<p>Blot uses these variables to render <a href="https://mustache.github.io/">Mustache</a> templates.</p>
+<table>
+<thead>
+<tr>
+<th>The tag&#x2026;</th>
+<th>is replaced with&#x2026;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{title}}</code></td>
+<td>your site’s title</td>
+</tr>
+<tr>
+<td><code>{{#menu}}...{{/menu}}</code></td>
+<td>a list containing the links on your site’s menu</td>
+</tr>
+<tr>
+<td><code>{{avatar}}</code></td>
+<td>the URL to your site’s avatar</td>
+</tr>
+<tr>
+<td><code>{{blogURL}}</code></td>
+<td>the URL to your site’s homepage</td>
+</tr>
+<tr>
+<td><code>{{feedURL}}</code></td>
+<td>the URL to your site’s RSS feed</td>
+</tr>
+<tr>
+<td><code>{{cssURL}}</code></td>
+<td>the URL to your site’s CSS file</td>
+</tr>
+<tr>
+<td><code>{{scriptURL}}</code></td>
+<td>the URL to your site’s JS file</td>
+</tr>
+<tr>
+<td><code>{{sitemapURL}}</code></td>
+<td>the URL to your site’s sitemap</td>
+</tr>
+<tr>
+<td><code>{{cacheID}}</code></td>
+<td>a unix time stamp for the last change you made to your site</td>
+</tr>
+<tr>
+<td><code>{{timeZone}}</code></td>
+<td>your site’s timezone</td>
+</tr>
+<tr>
+<td><code>{{roundAvatar}}</code></td>
+<td><code>true</code> if you’ve indicated your avatar is round, <code>false</code> if not</td>
+</tr>
+<tr>
+<td><code>{{hideDates}}</code></td>
+<td><code>true</code> if you’ve chosen to hide the dates on your site, <code>false</code> if not</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Helper functions</h2>
+<p class="measure">Blot exposes some general purpose functions as Mustache lambdas. Note that you can pass another variable from the view to these functions.</p>
+
+<table>
+<thead>
+<tr>
+<th>The text inside the tag&#x2026;</th>
+<th>is replaced with&#x2026;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{#encodeURIComponent}}...{{/encodeURIComponent}}</code></td>
+<td>The same text, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent">encoded appropriately</a> for a URI component</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Lists of posts</h2>
+<p>You can uses these variables to render lists of posts</p>
+
+
+<table>
+<thead>
+<tr>
+<th>The tag&#x2026;</th>
+<th>is replaced with&#x2026;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{{#all_posts}}...{{/all_posts}}</code></td>
+<td>Every post ever published</td>
+</tr>
+<tr>
+<td><code>{{#recent_posts}}...{{/recent_posts}}</code></td>
+<td>25 most recent posts on your site</td>
+</tr>
+<tr>
+<td><code>{{#archives}}...{{/archives}}</code></td>
+<td>A list of years, months and the posts published on them</td>
+</tr>
+<tr>
+<td><code>{{#all_tags}}...{{/all_tags}}</code></td>
+<td>the URL to your site’s avatar</td>
+</tr>
+</tbody>
+</table>
+[[= }}=]]
