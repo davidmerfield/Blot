@@ -8,6 +8,7 @@ templates.get("/", function(req, res) {
 
 templates.get("/:template", function(req, res) {
   res.locals.title = "Blot – Templates";
+  res.locals.layout = 'templates/layout';
   res.render("templates/" + req.params.template);
 });
 
