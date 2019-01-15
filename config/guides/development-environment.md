@@ -34,6 +34,10 @@ export BLOT_SESSION_SECRET=abc
 export BLOT_MAILGUN_KEY=blah
 ```
 
+In future, I would like to make the ```BLOT_CACHE_DIRECTORY``` and ```BLOT_MAILGUN_KEY``` environment variables non-essential.
+
+Blot also depends on the existence of a few directories. This is because they are hard-coded into the configuration files for Redis and NGINX. In future, I would like to generate these configuration files and directories automatically based on the ```BLOT_DIRECTORY``` environment variable. For now, you will have to create them manually. 
+
 Symlink the repo directory to `/var/www` (may need to create `/var/www` with `sudo mkdir -p /var/www`):
 
 ```sh
@@ -46,6 +50,8 @@ Make directories used by Blot:
 # run in the repo root (e.g. ~/Projects/Blot)
 mkdir logs db
 ```
+
+## Starting Redis
 
 Start a redis server using the [redis configuation file](/config/redis.conf).
 
