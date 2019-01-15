@@ -63,8 +63,8 @@ dashboard.use(debug("fetching user and blog info and checking redirects"));
 
 dashboard.use('/clients', require("./routes/clients"));
 dashboard.use('/stripe-webhook', require("./routes/stripe_webhook"));
-dashboard.use('/log-in', require("./routes/log_in"));
-dashboard.use('/sign-up', require("./routes/sign_up"));
+// dashboard.use('/log-in', require("./routes/log_in"));
+// dashboard.use('/sign-up', require("./routes/sign_up"));
 
 dashboard.get('/logged-out', function(req, res, next){
   res.locals.partials = {};
