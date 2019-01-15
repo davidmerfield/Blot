@@ -14,35 +14,50 @@ This is a short guide to installing Blot on your machine. I develop Blot on OSX 
 
 Get the code by cloning the git repository (700mb, sorry!):
 
-```
+```sh
 git clone https://github.com/davidmerfield/Blot
 ```
 
 Install the depencies once you're into the repo's root directory:
 
-```
+```sh
 cd Blot
 npm install
 ```
 
 Export [environment variables](/config/environment.sh) needed by Blot:
 
-```
-export BLOT_HOST=localhost
-export BLOT_CACHE_DIRECTORY=~/Projects/testblot/Blot/data/cache
+```sh
+export BLOT_HOST=blot.development
+export BLOT_CACHE_DIRECTORY=~/Projects/Blot/data/cache
 export BLOT_SESSION_SECRET=abc
+export BLOT_MAILGUN_KEY=blah
+```
+
+Symlink the repo directory to `/var/www` (may need to create `/var/www` with `sudo mkdir -p /var/www`):
+
+```sh
+ln -s ~/Projects/Blot /var/www/blot
+```
+
+Make directories used by Blot:
+
+```sh
+# run in the repo root (e.g. ~/Projects/Blot)
+mkdir logs db
 ```
 
 Start a redis server using the [redis configuation file](/config/redis.conf).
 
-```
+```sh
 redis-server config/redis.conf
 ```
 
 Follow the [guide to generating the SSL certs](ssl-certificate-in-development.txt) needed by nginx in the development environment. Start nginx:
 
-```
-nginx -c config/nginx/dev_server.conf
+```sh
+# `sudo` required due to needing to bind to port 80
+sudo nginx -c /var/www/blot/config/nginx/dev_server.conf
 ```
 
 Follow the [guide to getting wildcard subdomains](wildcard-subdomain-in-development.txt) working for the development environment host.
@@ -51,7 +66,7 @@ Follow the [guide to getting wildcard subdomains](wildcard-subdomain-in-developm
 
 Start the node.js application like this:
 
-```
+```sh
 node app
 ```
 
@@ -65,13 +80,13 @@ https://blot.development
 
 Since you haven't loaded in Stripe credentials, you'll want to create a new demo user and blog manually:
 
-```
+```sh
 node scripts/user/create example@example.com
 ```
 
 Once you have set up an account, create a blog manually:
 
-```
+```sh
 node scripts/blog/create example@example.com example
 ```
 
@@ -81,13 +96,13 @@ Use the 'local client' when you set up your blog, since you haven't set up Dropb
 
 Generate a one-time log-in link for a given username:
 
-```
+```sh
 node scripts/access.js <username>
 ```
 
 Save and load state of server:
 
-```
+```sh
 node scripts/folder/save.js <label>
 node scripts/folder/load.js <label>
 ```
