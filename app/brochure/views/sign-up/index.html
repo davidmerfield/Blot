@@ -6,24 +6,30 @@
 
 <form method="POST" action="?_csrf=">
 
+  <p>
   <label for="email">Your email address</label>
   <input type="text" class="email" name="email" autofocus />
+  </p>
 
+  <p>
   <label for="number">Card number
-    <span class="lock"></span>
-    Blot does not store your card details. Stripe processes your payment.
+    <em>Blot does not store your card details. Stripe processes your payment.</em>
   </label>
   <input type="text" data-stripe="number" name="number" />
+  </p>
 
+  <p>
   <label for="month">Expiration date</label>
   <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
   <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
+  </p>
 
+  <p>
   <label for="cvc">CVC
-    <span class="help-icon">?</span>
-    The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.
+    <em>The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.</em>
   </label>
   <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
+</p>
 
   <input type="submit" value="Submit payment" />
   <input type="hidden" class="stripeToken" name="stripeToken" />

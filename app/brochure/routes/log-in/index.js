@@ -26,8 +26,6 @@ logIn.all(function(req, res, next) {
 
 logIn.all(require("./rateLimit"));
 
-logIn.all(require("./session"));
-
 logIn.get(checkToken, function(req, res) {
   res.render("log-in");
 });

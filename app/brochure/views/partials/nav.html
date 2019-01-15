@@ -1,6 +1,9 @@
-<a href="/documentation">Documentation</a>
-<a href="/templates">Templates</a>
-<a href="/support">Support</a>
-
-<a href="/sign-up">Sign up</a>
-<a href="/log-in">Log in</a>
+<ul>
+  <li><a href="/documentation">Documentation</a></li>
+  <li><a href="/templates">Templates</a></li>
+  <li><a href="/support">Support</a></li>
+  {{^user}}
+  <li><a href="/sign-up">Sign up</a></li>
+  <li><a href="/log-in">Log in</a></li>
+  {{/user}}
+</ul>
