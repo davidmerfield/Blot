@@ -1,6 +1,6 @@
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 
-Are people who have cancelled their subscription notified 1 week before their subscription expires? 
+Are people who have cancelled their subscription notified 1 week before their subscription expires?
 
 ---
 
@@ -79,7 +79,7 @@ Markdown bugs
 Metadata bugs
 
 - Fix permalink issue with periods and tell [Farzain](https://mail.google.com/mail/u/1/#inbox/164cd7bfa4bb3ca6)
- 
+
 - Fix bug generating summary when title metadata is set and tell [Amit](https://mail.google.com/mail/u/1/#inbox/1648098e60375487)
 
 - Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
@@ -125,7 +125,7 @@ Finish re-write of template system
 - Re-do url redirector to use route-parser and properly support regular expressions
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Add support for 'creating' a template inside '/Templates/'
-- Move to uuid based template IDs instead of slug  
+- Move to uuid based template IDs instead of slug
 - Read and write package.json for local editing, then tell [Aurynn](https://mail.google.
 com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 - Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC)
@@ -175,10 +175,9 @@ Increase annual price to $40. This will not affect existing customers.
 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405)
-- Change url?json=true to debug=true?
 
 Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
-- Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites. 
+- Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
 
 When the user's blog does not have a client, client.write and client.remove need to remove the files from the source folder. Create some kind of local client which we fall back and use when none is configured?
 
@@ -195,7 +194,7 @@ Increase default quality for sharp's output images
 Client.write does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
 
 Re-enable image minifier and fix the bugs it creates
-  
+
 Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
 
 Webloc converter
@@ -253,7 +252,7 @@ Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#in
   then tell [Robert](https://mail.google.com/mail/u/1/#inbox/16288ce117d980e4)
 - Install and test a few of these [static site generators](https://news.ycombinator.com/item?id=17942395)
 - Make themes file or folder based
-- Consider making file-based theme directory a git repo and using this to implement basic undo-redo functionality. 
+- Consider making file-based theme directory a git repo and using this to implement basic undo-redo functionality.
 - Disable re-rendering for locals
 - Add better customization options
 - Local theme editing does not clear cache
@@ -305,7 +304,7 @@ File converters / codecs
 - Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 
 - Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
-  
+
 Clients
 - OneDrive
   Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL)
@@ -365,7 +364,7 @@ Dropbox client:
 - Add a progress bar to the dashboard when writing existing files to Dropbox. It takes a while and confuses people.
 - Adding an additional blog to existing app folder under constant webhooks failed. New blog had correct folder but old blog still used root. I guess we need to acquire a lock on ALL blogs interacting with that dropbox account.
 - Extend sync lock during long syncs
-- Write test to simulate process dying and restarting mid-pull. Does the client recover? 
+- Write test to simulate process dying and restarting mid-pull. Does the client recover?
 - Write tests for a series of random dropbox client operations (pull, add, push, move, reset, delete) that can be seeded and reliably re-run in the case of failure.
 - Look into getAccessTokenFromCode on DBSDK repo to avoid the mess in get_account.js https://github.com/dropbox/dropbox-sdk-js/issues/64
 - Gracefuly retry wrapper around Dropbox
@@ -448,7 +447,7 @@ Incorporate typographic features from textile? http://redcloth.org/textile/phras
 Queue scheduled entries in redis somehow to make each server less stateful
 
 Noindex blog search results pages
- 
+
 Re-enable CSP on blot site in a way that works in Safari
 
 Expose list of rendering errors to callback
