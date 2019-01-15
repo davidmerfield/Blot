@@ -1,0 +1,31 @@
+<p>A blog costs <em>{{price}} per year</em> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p>
+
+{{#error}}
+<p>{{error}}</p>
+{{/error}}
+
+<form method="POST" action="?_csrf=">
+
+  <label for="email">Your email address</label>
+  <input type="text" class="email" name="email" autofocus />
+
+  <label for="number">Card number
+    <span class="lock"></span>
+    Blot does not store your card details. Stripe processes your payment.
+  </label>
+  <input type="text" data-stripe="number" name="number" />
+
+  <label for="month">Expiration date</label>
+  <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
+  <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
+
+  <label for="cvc">CVC
+    <span class="help-icon">?</span>
+    The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.
+  </label>
+  <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
+
+  <input type="submit" value="Submit payment" />
+  <input type="hidden" class="stripeToken" name="stripeToken" />
+</form>
+
