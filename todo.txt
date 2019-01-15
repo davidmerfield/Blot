@@ -1,12 +1,11 @@
-Fix Jekyll importer script and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsbswFJFlFSJJPSSRNcFPpMV)
+Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 
-Fix bug in summary generator when title metadata is set and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBlFGLGvDczGWJRhGGvkfsv). Right now, the summary will not include the first line of the file if there is no title tag. This breaks when there is title metadata set. 
+Are people who have cancelled their subscription notified 1 week before their subscription expires? 
 
 ---
 
-Release new photo template
-
 Finish new documentation and logo
+- Use these [UI templates](https://nhsuk.github.io/nhsuk-frontend/pages/examples.html)
 - Add documentation for each client and an explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
 - Inline all CSS for performance?
 - Render the formatting guide navigation on the server
@@ -22,17 +21,25 @@ Record new demo video
 - My visual scrapbook on the archives theme: shows tag folders, photo blog
 - My personal site: simple landing page, edit with a doc file?
 
-Release new documentation and video
+Finish archive template
+- Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
 
-Release new archive template
+On January 15th, announce price increase for new customers to $30 a year. This will not affect existing customers.
+
+On February 1st:
+- Increase price for new customers to $30 a year.  This will not affect existing customers.
+- Announce new archive template, documentation and video, by linking to archive template page
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
-Increase price for new customers to $30 a year by February 1st.  This will not affect existing customers. Announce this change on January 15th so people can encourage their friends to sign up at the current price.
 
 ---
 
+Why are images downloading so slowly on the portfolio theme? Should I go back to using cloudfront?
+
 Fix bug with git client which prevent [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsdCpRCLrbNczKVGXxgBvDfr)'s first 9000 posts appearing.
+
+Fix bug with gifs and the image cacher. Animated gifs from imgur.com were not playing, just the first frame was fetched. Tell [Oleg](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhZfBqbKBBXWBtZLpjPSNv)
 
 Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch)
 
@@ -105,6 +112,8 @@ Add hasBreakpoint property to entry to allow greater control over display of {{{
 Generate thumbnails for gifs and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBlghrTTLFFsKRqDvxkNNRJB)
 
 Add daemon for zero-downtime node restart
+
+Add way to auto-refresh page during theme development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
 
 Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
 
@@ -299,7 +308,7 @@ File converters / codecs
   
 Clients
 - OneDrive
-  Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9)
+  Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL)
 - SFTP
   https://www.npmjs.com/package/ftpd
 - Google Drive

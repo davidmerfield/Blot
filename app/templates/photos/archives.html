@@ -1,31 +1,25 @@
 {{> header}}
 
-
 <div class="archives">
-{{#archives}}
-{{#months}}
-{{#entries}}
-<a href="{{{url}}}">
-
-{{#thumbnail.small}}
-<span style="display:inline-block;text-align: center;width:1.3em;height:1.3em">
-
-      <img src="{{{url}}}" style="max-height:100%;max-width:100%;height:auto;width:auto;vertical-align:middle" class="pre-loaded" onload="this.className='loaded'" />
+  {{#archives}}
+  {{#months}}
+  {{#entries}}
+  <a href="{{{url}}}">
+    {{#thumbnail.small}}
+    <span class="thumbnail">
+      <img src="{{{url}}}" class="pre-loaded" onload="this.className='loaded'" />
       <noscript>  
       <img src="{{{url}}}">
       </noscript>
-</span>
-{{/thumbnail.small}}
+    </span>
+    {{/thumbnail.small}}
+    
+    <span style="text-decoration:underline">{{title}}</span>
 
-<span style="text-decoration:underline">{{title}}</span>
-
-</a> 
-{{/entries}}
-{{/months}}
-{{/archives}}
+  </a>
+  {{/entries}}
+  {{/months}}
+  {{/archives}}
 </div>
-
-<!-- <div style="border-top:1px solid;border-bottom:1px solid;font-size:14px">{{#allTags}}<label><input type="radio">{{tag}}</label>{{/allTags}}</div>
- -->
 
 {{> footer}}

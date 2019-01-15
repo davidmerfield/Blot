@@ -1,7 +1,0 @@
-{
-  "name": "Photo",
-  "isPublic": true,
-  "locals": {
-    "page_size": 24
-  }
-}

@@ -1,4 +1,4 @@
-var debug = require('debug')('blot:models:entry:build:prepare:teaser');
+var debug = require('debug')('blot:build:prepare:teaser');
 // Some of these characters are different, though they look the same...
 // Lines 5 - 24 should be removed, if I work out how to consolidate
 // escaped chars?

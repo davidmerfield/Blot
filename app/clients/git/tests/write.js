@@ -10,7 +10,7 @@ describe("write", function() {
   var fs = require("fs-extra");
   var localPath = require("helper").localPath;
 
-  it("should return an error if there is no git repo in blog folder", function(done) {
+  xit("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(localPath(this.blog.id, ".git"));
 
     write(this.blog.id, "/path", "content", function(err) {
@@ -20,7 +20,7 @@ describe("write", function() {
     });
   });
 
-  it("writes a file", function(done) {
+  xit("writes a file", function(done) {
     var repoDirectory = this.repoDirectory;
     var git = Git(repoDirectory).silent(true);
     var path = "/How/about That name.txt";
