@@ -2,11 +2,14 @@
 
 <body>
   <header>
-    <a href="/"><img src="/images/logo.svg">Blot</a>
+    <a href="/"><img width=16 src="/images/blot.svg">Blot</a>
     Sign up &rarr; Create a blog
   </header>
 
   <main>
+    
+    <p><mark id="error">{{#error}}{{error}}{{/error}}</mark></p>
+
     {{{body}}}
   </main>
 </body>
