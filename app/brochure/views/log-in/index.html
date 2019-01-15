@@ -1,0 +1,23 @@
+<h1>Log in</h1>
+
+{{^error}}
+<p>Welcome back! Please enter your email address below. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble.</p>
+{{/error}}
+
+{{#error.BADTOKEN}}
+<p>This link has expired or had already been clicked. Please try again or <a href="/contact">contact me</a> if you’re having trouble.</p>
+{{/error.BADTOKEN}}
+
+{{#error.BADEMAIL}}
+<p>This email address is not associated with a Blot account. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble.</p>
+{{/error.BADEMAIL}}
+
+{{#error.NOEMAIL}}
+<p>Please enter your email address. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble.</p>
+{{/error.NOEMAIL}}
+
+<form method="POST">
+  <label for="email">Your email address</label>
+  <input name="email" autofocus />
+  <input type="submit" value="Log in" />
+</form>
