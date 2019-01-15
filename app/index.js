@@ -10,7 +10,7 @@ var session = require("express-session");
 var redis = require("redis").createClient();
 var Store = require("connect-redis")(session);
 var dashboard = require("./dashboard");
-var site = require("./site");
+var brochure = require("./brochure");
 var blog = require("./blog");
 
 var server = express();
@@ -86,7 +86,7 @@ server
   })
   .use(vhost(config.host, session(sessionOptions)))
   .use(vhost(config.host, dashboard))
-  .use(vhost(config.host, site))
+  .use(vhost(config.host, brochure))
 
   // It is important that this route returns
   // 200 so that the script which determines
