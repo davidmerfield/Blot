@@ -113,6 +113,8 @@ Generate thumbnails for gifs and tell [Mike](https://mail.google.com/mail/u/0/#i
 
 Add daemon for zero-downtime node restart
 
+Add way to auto-refresh page during theme development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
+
 Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
 
 Finish re-write of template system
