@@ -10,6 +10,9 @@ module.exports = function get(url, callback) {
 
     url = parseUrl(url);
 
+    // getByUrl fails otherwise. This is probably a flaw?
+    url.path = decodeURIComponent(url.path);
+
     Entry.getByUrl(blog.id, url.path, function(entry) {
       if (!entry) return callback(new Error("No entry"));
 
