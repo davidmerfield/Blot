@@ -2,7 +2,7 @@ var checkToken = require("./checkToken");
 var checkEmail = require("./checkEmail");
 var checkReset = require("./checkReset");
 var checkPassword = require("./checkPassword");
-var LogInError = require("./LogInError");
+var LogInError = require("./logInError");
 // Error codes & their corresponding message
 var parse = require("body-parser").urlencoded({ extended: false });
 
