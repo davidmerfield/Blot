@@ -33,7 +33,11 @@ function parseDate (dateString, userFormat) {
     .split('--').join('-')
     .trim();
 
-  var created, strict, lazy;
+  var created, strict, lazy, withZone;
+
+  try {
+    withZone = moment.parseZone(dateString);
+  } catch (e) {}
 
   try {
     strict = moment.utc(dateString, userFormats, true);
@@ -47,7 +51,9 @@ function parseDate (dateString, userFormat) {
 
   if (strict && strict.isValid()) {
     created = strict.valueOf();
-  } else if (lazy && lazy.isValid()) {
+  } else if (withZone && withZone.isValid()) {
+    created = withZone.valueOf();
+      } else if (lazy && lazy.isValid()) {
     created = lazy.valueOf();
   } else {
     created = false;
