@@ -4,6 +4,8 @@ Are people who have cancelled their subscription notified 1 week before their su
 
 ---
 
+Fix bug with metadata parsing a URL on the first line of a file and tell [David](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVDKqlWWcsbfBZWDhMZMzNbrV)
+
 Finish new documentation and logo
 - Use these [UI templates](https://nhsuk.github.io/nhsuk-frontend/pages/examples.html)
 - Add documentation for each client and an explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
