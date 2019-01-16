@@ -87,13 +87,19 @@ https://blot.development
 Since you haven't loaded in Stripe credentials, you'll want to create a new demo user and blog manually:
 
 ```sh
-node scripts/user/create example@example.com
+node scripts/user/create.js <email> <password>
 ```
 
 Once you have set up an account, create a blog manually:
 
 ```sh
-node scripts/blog/create example@example.com example
+node scripts/blog/create.js <email> <username>
+```
+
+Then generate a log-in link to your new user:
+
+```sh
+node scripts/access.js <username>
 ```
 
 Use the 'local client' when you set up your blog, since you haven't set up Dropbox credentials either.

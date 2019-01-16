@@ -1,12 +1,13 @@
 var config = require('../../config');
 var ensure = require('./ensure');
 var fs = require('fs');
-var homeDir = fs.realpathSync(__dirname + '/../../');
+var homeDir = require('os').homedir();
+var blotDir = process.env.BLOT_DIRECTORY;
 
 var allowedDirs = [
-  homeDir + '/blogs/',
-  homeDir + '/tmp/',
-  homeDir + '/tests/'
+  blotDir + '/blogs/',
+  blotDir + '/tmp/',
+  blotDir + '/tests/'
 ];
 
 function notAllowed (path) {
@@ -32,20 +33,21 @@ function notAllowed (path) {
 function tests () {
 
   var assert = require('assert');
+  var dir = process.env.BLOT_DIRECTORY;
+  var testList = {};
 
-  var testList = {
-    '/Users/David/Projects/blot/blogs/': true,
-    '/Users/David/': true,
-    '/Users/David/Projects/blot/blogs/foo': true,
-    '/': true,
-    '*': true,
+  testList[`${blotDir}/blogs/`]    = true;
+  testList[homeDir]            = true;
+  // Is overriden overridden by one below
+  // testList[`${blotDir}/blogs/foo`] = true;
+  testList['/']                = true;
+  testList['*']                = true;
 
-    '/Users/David/Projects/blot/blogs/foo': false,
-    '/Users/David/Projects/blot/blogs/foo/bar/baz.txt': false,
-    '/Users/David/Projects/blot/blogs/foo.txt': false,
-    '/Users/David/Projects/blot/tmp/foo': false,
-    '/Users/David/Projects/blot/tests/foo': false
-  };
+  testList[`${dir}/blogs/foo`]             = false;
+  testList[`${blotDir}/blogs/foo/bar/baz.txt`] = false;
+  testList[`${blotDir}/blogs/foo.txt`]         = false;
+  testList[`${blotDir}/tmp/foo`]               = false;
+  testList[`${blotDir}/tests/foo`]             = false;
 
   for (var i in testList) {
     assert(notAllowed(i) === testList[i]);

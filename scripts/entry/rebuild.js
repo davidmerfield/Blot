@@ -1,29 +1,24 @@
-var get = require("../blog/get");
-var Entry = require("../../app/models/entry");
-var build = require("../../app/build");
+var get = require("../get/entry");
+var sync = require("../../app/sync");
 
-if (require.main === module) {
-  get(process.argv[2], function(user, blog) {
-    main(blog, process.argv[3], function(err) {
+if (!process.argv[2]) {
+  console.log(
+    "Please pass a URL to a blog post or source file as the first and only argument to this script. Blot will rebuild the entry which exists at that URL."
+  );
+  process.exit();
+}
+
+get(process.argv[2], function(err, user, blog, entry) {
+  if (err) throw err;
+  sync(blog.id, function(err, folder, done) {
+    if (err) throw err;
+    folder.update(entry.path, function(err) {
       if (err) throw err;
-      process.exit();
+      done(null, function(err) {
+        if (err) throw err;
+        console.log('Rebuilt:', process.argv[2]);
+        process.exit();
+      });
     });
   });
-}
-
-function main(blog, path, callback) {
-  console.log("Blog " + blog.id + ":", "Rebuilding", path);
-  build(blog, path, {}, function(err, entry) {
-    console.log("Back with", err, entry);
-
-    if (err) return callback(err);
-
-    console.log("Saving entry...");
-    Entry.set(blog.id, path, entry, function(err) {
-      if (err) return callback(err);
-
-      console.log("Blog " + blog.id + ":", "Rebuilt", path);
-      callback(null);
-    });
-  });
-}
+});
