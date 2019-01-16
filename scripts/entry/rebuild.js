@@ -3,7 +3,7 @@ var sync = require("../../app/sync");
 
 if (!process.argv[2]) {
   console.log(
-    "Please pass a URL to a blog post as the first and only argument to this script. Blot will rebuild the entry which exists at that URL."
+    "Please pass a URL to a blog post or source file as the first and only argument to this script. Blot will rebuild the entry which exists at that URL."
   );
   process.exit();
 }
