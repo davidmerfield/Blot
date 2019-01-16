@@ -1,5 +1,7 @@
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 
+Review Paul's json=true PR
+
 Review adjustments to development guide script that Paul needed to make to get the server up, per our messages. 
 - A good easy task would be replacing some of the assert() tests which run every time the server starts.
 - Adjust notAllowed.js
