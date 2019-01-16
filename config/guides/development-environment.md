@@ -32,6 +32,7 @@ export BLOT_HOST=blot.development
 export BLOT_CACHE_DIRECTORY=~/Projects/Blot/data/cache
 export BLOT_SESSION_SECRET=abc
 export BLOT_MAILGUN_KEY=blah
+export BLOT_ENVIRONMENT=development
 ```
 
 In future, I would like to make the ```BLOT_CACHE_DIRECTORY``` and ```BLOT_MAILGUN_KEY``` environment variables non-essential.
@@ -82,7 +83,13 @@ You can then browse the public site:
 https://blot.development
 ```
 
-## Creating an account 
+You'll need to build the templates from their source files if you want to look at blogs. Eventually this should be done automatically, as part of setup.sh.
+
+```sh
+node scripts/build/templates
+```
+
+## Creating a test blog and account 
 
 Since you haven't loaded in Stripe credentials, you'll want to create a new demo user and blog manually:
 
@@ -103,6 +110,7 @@ node scripts/access.js <username>
 ```
 
 Use the 'local client' when you set up your blog, since you haven't set up Dropbox credentials either.
+
 
 ## Useful scripts
 
