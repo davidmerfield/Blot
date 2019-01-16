@@ -40,6 +40,14 @@ module.exports = function remove(blogID, path, callback) {
       // Could we queue these commands for better performance?
       git.add(path, function(err){
 
+        // If this path was not tracked by git, no worries.
+        // simple-git returns errors as strings, with a trailing
+        // newline so we trim this and check against this template
+        // This doesn't feel *robust* but it seems to work.
+        if (err && err.trim() === "fatal: pathspec '" + path + "' did not match any files") {
+          return callback(null);
+        }
+
         // simple-git returns errors as strings
         if (err) return callback(new Error(err));
 
