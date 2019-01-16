@@ -77,7 +77,8 @@ module.exports = function(req, res, _next) {
             var locals = res.locals;
             var partials = res.locals.partials;
 
-            if (req.query && req.query.json) {
+            // ?debug=true _AND_ ?json=true to get template locals as JSON
+            if (req.query && (req.query.debug || req.query.json)) {
               if (callback) return callback(null, res.locals);
 
               res.set("Cache-Control", "no-cache");
