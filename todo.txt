@@ -2,6 +2,10 @@ Use email + token for git client authentication instead of username. This means 
 
 Are people who have cancelled their subscription notified 1 week before their subscription expires? 
 
+Review adjustments to development guide script that Paul needed to make to get the server up, per our messages. 
+- A good easy task would be replacing some of the assert() tests which run every time the server starts.
+- Adjust notAllowed.js
+
 ---
 
 Fix bug with metadata parsing a URL on the first line of a file and tell [David](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVDKqlWWcsbfBZWDhMZMzNbrV)
