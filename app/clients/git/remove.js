@@ -40,6 +40,11 @@ module.exports = function remove(blogID, path, callback) {
       // Could we queue these commands for better performance?
       git.add(path, function(err){
 
+        // This path was never tracked by git, so we are done!?
+        if (err && err.indexOf('did not match any files') > -1) {
+          return callback(null);
+        }
+
         // simple-git returns errors as strings
         if (err) return callback(new Error(err));
 
