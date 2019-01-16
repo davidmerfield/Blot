@@ -1,5 +1,5 @@
 var User = require("user");
-var LogInError = require('./LogInError');
+var LogInError = require('./logInError');
 var authenticate = require("./authenticate");
 
 module.exports = function checkPassword(req, res, next) {

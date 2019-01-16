@@ -1,5 +1,5 @@
 var User = require("user");
-var LogInError = require('./LogInError');
+var LogInError = require('./logInError');
 
 module.exports = function checkEmail(req, res, next) {
   var email = req.body && req.body.email;

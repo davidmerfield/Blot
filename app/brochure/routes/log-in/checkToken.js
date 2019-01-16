@@ -1,6 +1,6 @@
 var User = require("user");
 var authenticate = require("./authenticate");
-var LogInError = require('./LogInError');
+var LogInError = require('./logInError');
 
 // The purpose of this function is to check to see if the
 // user has requested the log in page with a one-time access
