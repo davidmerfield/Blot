@@ -12,4 +12,9 @@ templates.get("/:template", function(req, res) {
   res.render("templates/" + req.params.template);
 });
 
+
+template.get('/folder/:folder/download', function(req, res){
+
+});
+
 module.exports = templates;
