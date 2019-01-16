@@ -19,6 +19,7 @@ documentation.get('/:section', function(req, res){
 
 documentation.get('/:section/:subsection', function(req, res){
   res.locals.title = "Blot – " + req.params.section + ' – ' + req.params.subsection;
+  console.log(req.params);
   res.render("documentation/" + req.params.section + '/' + req.params.subsection);
 });
 
