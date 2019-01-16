@@ -1,6 +1,13 @@
 var get = require("../get/entry");
 var sync = require("../../app/sync");
 
+if (!process.argv[2]) {
+  console.log(
+    "Please pass a URL to a blog post as the first and only argument to this script. Blot will rebuild the entry which exists at that URL."
+  );
+  process.exit();
+}
+
 get(process.argv[2], function(err, user, blog, entry) {
   if (err) throw err;
   sync(blog.id, function(err, folder, done) {
@@ -9,6 +16,8 @@ get(process.argv[2], function(err, user, blog, entry) {
       if (err) throw err;
       done(null, function(err) {
         if (err) throw err;
+        console.log('Rebuilt:', process.argv[2]);
+        process.exit();
       });
     });
   });
