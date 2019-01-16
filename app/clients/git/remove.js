@@ -40,8 +40,8 @@ module.exports = function remove(blogID, path, callback) {
       // Could we queue these commands for better performance?
       git.add(path, function(err){
 
-        // This path was never tracked by git, so we are done!?
-        if (err && err.indexOf('did not match any files') > -1) {
+        // This path was not tracked by git, so no worries
+        if (err && err === "fatal: pathspec '" + path + "' did not match any files") {
           return callback(null);
         }
 
