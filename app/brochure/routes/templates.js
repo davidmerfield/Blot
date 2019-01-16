@@ -13,8 +13,4 @@ templates.get("/:template", function(req, res) {
 });
 
 
-template.get('/folder/:folder/download', function(req, res){
-
-});
-
 module.exports = templates;
