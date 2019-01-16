@@ -1,5 +1,7 @@
 Review adjustments to development guide script that Paul needed to make to get the server up, per our messages. 
 
+Investigate Shawn's issue with git client + local editing a template. His files did not appear on pull.
+
 A good easy task for Paul would be replacing some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
 ---
