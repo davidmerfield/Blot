@@ -30,9 +30,4 @@ brochure.use(require("./routes"));
 
 brochure.use(Express.static(__dirname + "/views", { maxAge: 86400000 }));
 
-if (config.environment === "development") {
-  brochure.listen(8976);
-  console.log("Serving brochure site: http://localhost:8976/");
-}
-
 module.exports = brochure;
