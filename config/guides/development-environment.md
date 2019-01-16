@@ -52,6 +52,14 @@ Make directories used by Blot:
 mkdir logs db
 ```
 
+## Install pandoc
+
+Install pandoc on your machine, and then export the following environment variable:
+
+```sh
+export BLOT_PANDOC_PATH=$(which pandoc)
+```
+
 ## Starting Redis
 
 Start a redis server using the [redis configuation file](/config/redis.conf).
