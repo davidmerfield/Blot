@@ -9,17 +9,24 @@
 
 <pre>git clone https://blot.im/url-to-your-repository.git</pre>
 
-<p>Blot uses the master branch of your repository to generate your blog.</p>
+<p>Blot uses the master branch of your repository to generate your blog. To update your blog, commit the changes you make and push. Note that you will need to push your changes for your <a href="/publishings/drafts">Drafts</a> to update.</p>
 
-<h2>Publishing changes</h2>
+<h2>Using an existing Git repository</h2>
 
-<p>Please note that you will need to push your changes for your <a href="/publishings/drafts">Drafts</a> to update.</p>
+<p>You can use an existing git repostory. Set it's remote URL to Blot's repository endpoint:</p>
+
+<pre>git remote set-url origin https://blot.im/url-to-your-repository.git</pre>
+
+<p>The next time you push, you will need to use the force flag:</p>
+
+<pre>git push --force</pre>
+
 
 <h2>Sharing your folder on GitHub</h2>
 
 <p>Recent versions of git support multiple remote URLs. This means you can use the same repository on Blot and GitHub. If you have an existing repository on GitHub, you can add Blot's endpoint:</p>
 
-<pre>$ git remote set-url --add --push origin https://blot.im/url-to-your-repository.git</pre>
+<pre>git remote set-url --add --push origin https://blot.im/url-to-your-repository.git</pre>
 
 <p>The next time you push, you will need to use the force flag to ensure the changes go through on Blot:</p>
 
