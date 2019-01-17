@@ -1,7 +1,3 @@
-A good easy task for Paul would be replacing some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
-
----
-
 Finish new documentation and logo
 - Use these [UI templates](https://nhsuk.github.io/nhsuk-frontend/pages/examples.html)
 - Add documentation for each client and an explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
@@ -27,7 +23,11 @@ On February 1st:
 
 ---
 
+A good easy task for Paul would be replacing some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
+
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
+
+Finish support for [RFC3339 dates](https://github.com/davidmerfield/Blot/pull/97) and tell Shawn.
 
 Fix bug with metadata parsing a URL on the first line of a file and tell [David](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVDKqlWWcsbfBZWDhMZMzNbrV)
 
