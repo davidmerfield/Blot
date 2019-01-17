@@ -11,7 +11,7 @@ describe("git client remove", function() {
   var fs = require("fs-extra");
   var localPath = require("helper").localPath;
 
-  xit("should return an error if there is no git repo in blog folder", function(done) {
+  it("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(localPath(this.blog.id, ".git"));
 
     remove(this.blog.id, "/path", function(err) {
@@ -21,7 +21,18 @@ describe("git client remove", function() {
     });
   });
 
-  xit("removes a file", function(done) {
+  it("does not error when removing a file that does not exist", function(done) {
+
+    remove(this.blog.id, "/path", function(err) {
+
+      if (err) return done.fail(err);
+
+      done();
+    });
+  });
+
+
+  it("removes a file", function(done) {
     var repoDirectory = this.repoDirectory;
     var git = Git(repoDirectory).silent(true);
     var path = "/How/about That name.txt";

@@ -2,9 +2,9 @@
 {{{appJS}}}
 
 
-/* 
+/*
 
-Close button on entry page 
+Close button on entry page
 --------------------------
 
 Purpose of this script is to allow the close button on the
@@ -130,7 +130,7 @@ function close() {
 
 if (searchInput) {
 searchInput.oninput = loadResults;
-searchInput.onclick = loadResults;  
+searchInput.onclick = loadResults;
 }
 
 function loadResults() {
@@ -153,7 +153,7 @@ function loadResults() {
   linkToSearch.parentNode.href =
     "/search?q=" + encodeURIComponent(searchInput.value);
 
-  httpGetAsync("/search?q=" + query + "&json=true", function(res) {
+  httpGetAsync("/search?q=" + query + "&debug=true", function(res) {
     if (searchInput.value !== query) return;
 
     res = JSON.parse(res);
@@ -199,7 +199,7 @@ function httpGetAsync(theUrl, callback) {
 }
 
 
-/* 
+/*
 
 Tag list
 --------
