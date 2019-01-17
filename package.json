@@ -61,7 +61,6 @@
     "reds": "^0.2.5",
     "remarkable": "^1.6.0",
     "request": "^2.72.0",
-    "rimraf": "^2.2.8",
     "sharp": "^0.21.1",
     "simple-git": "^1.102.0",
     "stripe": "^2.9.0",
