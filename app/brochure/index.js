@@ -30,4 +30,21 @@ brochure.use(require("./routes"));
 
 brochure.use(Express.static(__dirname + "/views", { maxAge: 86400000 }));
 
+// Missing page
+brochure.use(function(req, res, next){
+  console.error(new Error('Missing page: ' + req.originalUrl));
+  res.locals.code = {'missing': true};
+  res.locals.layout = '/partials/layout-focussed.html';
+  res.render('error');
+});
+
+// Some kind of other error
+brochure.use(function(err, req, res, next){
+  console.error(err);
+  res.locals.code = {'error': true};
+  if (config.environment === 'development') res.locals.err = err;
+  res.locals.layout = '/partials/layout-focussed.html';
+  res.render('error');
+});
+
 module.exports = brochure;

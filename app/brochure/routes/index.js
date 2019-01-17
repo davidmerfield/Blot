@@ -19,17 +19,20 @@ brochure.get("/support", function(req, res) {
 });
 
 brochure.get("/contact", function(req, res) {
-  res.locals.title = "Blot – Contact";
+  res.locals.title = "Contact";
+  res.locals.layout = '/partials/layout-focussed.html';
   res.render("contact");
 });
 
 brochure.get("/terms", function(req, res) {
-  res.locals.title = "Blot – Terms of use";
+  res.locals.title = "Terms of use";
+  res.locals.layout = '/partials/layout-focussed.html';
   res.render("terms");
 });
 
 brochure.get("/privacy", function(req, res) {
-  res.locals.title = "Blot – Privacy policy";
+  res.locals.title = "Privacy policy";
+  res.locals.layout = '/partials/layout-focussed.html';
   res.render("privacy");
 });
 
