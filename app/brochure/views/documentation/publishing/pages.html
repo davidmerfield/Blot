@@ -2,8 +2,8 @@
 <p>Files inside a folder called ‘Pages’ become pages instead of blog posts. Links to each page appear on your blog’s menu. </p>
 
 <Div style="background:#ebe9eb;padding:2em 0 2.5em">
-<div class="w-50 center">
-<pre class="folder" title="Your blog"><code>Drafts
+  <div class="w-50 center">
+    <pre class="folder" title="Your blog"><code>Drafts
 Pages
   About.txt
   Contact.docx  
@@ -11,15 +11,31 @@ Pages
 Posts
 
 
-</code></pre></div></div>
+</code></pre>
+  </div>
+</div>
 
 <h3>Hidden pages</h3>
 <p>You can hide a page from your blog’s menu by overriding the ‘Menu’ <a href="./metadata">metadata</a>:</p>
 
 <Div style="background:#ebe9eb;padding:2em 2.5em 2.5em">
-<div style="margin: 0 auto">
-<pre class="text with-chrome" title="Hidden.txt"><code>Menu: no
+  <div style="margin: 0 auto">
+    <pre class="text with-chrome" title="Hidden.txt"><code>Menu: no
 
 A link to this page will not appear on your blog's menu.
-</code></pre></div>
+</code></pre>
+  </div>
 </div>
+
+<h3>Create a landing page</h3>
+<p>You can change the permalink of any post or page. To create a landing page, change the page's URL:</p>
+
+<Div style="background:#ebe9eb;padding:2em 2.5em 2.5em">
+  <div style="margin: 0 auto">
+    <pre class="text with-chrome" title="Hidden.txt"><code>Permalink: /
+
+This page will replace your blog's homepage.
+</code></pre>
+  </div>
+</div>
+<p>If you still want your readers to access the list of your blog posts, consider adding a link to <em>/page/1</em> to your blog's menu.</p>

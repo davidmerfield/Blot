@@ -1,6 +1,9 @@
 var Express = require("express");
 var documentation = new Express.Router();
 
+// Renders dates dynamically
+documentation.use(require('./tools/dates'));
+
 documentation.use(function(req, res, next){
   res.locals.base = '/documentation';
   res.locals.layout = 'documentation/layout';
@@ -19,7 +22,6 @@ documentation.get('/:section', function(req, res){
 
 documentation.get('/:section/:subsection', function(req, res){
   res.locals.title = "Blot – " + req.params.section + ' – ' + req.params.subsection;
-  console.log(req.params);
   res.render("documentation/" + req.params.section + '/' + req.params.subsection);
 });
 
