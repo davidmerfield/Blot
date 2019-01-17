@@ -1,0 +1,28 @@
+{{> head}}
+<link rel="stylesheet" href="/css/tex.css">
+<body>
+<header>
+  <a href="/">Blot</a> / <a href="/formatting">Formatting guide</a>
+  {{> nav}}
+</header>
+<main>
+  <nav>
+    <ul>
+      <li class="{{selected.markdown}}">
+        <a href="/formatting/markdown">Markdown</a>
+      </li>
+      <li class="{{selected.tex}}">
+        <a href="/formatting/tex">\(\TeX\)</a>
+      </li>
+      <li class="{{selected.layout-tags}}">
+        <a href="/formatting/layout-tags">Layout</a>
+      </li>
+    </ul>
+  </nav>
+  {{{body}}}
+</main>
+
+{{> footer}}
+</body>
+
+</html>
