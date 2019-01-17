@@ -33,6 +33,8 @@ brochure.get("/privacy", function(req, res) {
   res.render("privacy");
 });
 
+brochure.get('/sitemap.xml', require('./sitemap'));
+
 brochure.use("/documentation", require("./documentation"));
 
 brochure.use("/developers", require("./developers"));
