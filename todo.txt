@@ -129,7 +129,7 @@ Add way to filter entries by post type (e.g. photo) and tell [Justin](https://tw
 Finish re-write of template system
 - Add persona/cargo style customization buttons
   - Serve previews of templates from a domain with HTTPS
-  - Add <iframe> of site in edit page of template editor
+  - Add iframe of site in edit page of template editor
   - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Re-do url redirector to use route-parser and properly support regular expressions
 - Ask to confirm, but remove files from blog folder when disabling local editing
