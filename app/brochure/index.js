@@ -32,17 +32,27 @@ brochure.use(Express.static(__dirname + "/views", { maxAge: 86400000 }));
 
 // Missing page
 brochure.use(function(req, res, next){
-  console.error(new Error('Missing page: ' + req.originalUrl));
-  res.locals.code = {'missing': true};
-  res.locals.layout = '/partials/layout-focussed.html';
-  res.render('error');
+  var err = new Error('404: ' + req.originalUrl);
+  err.status = 404;
+  next(err);
 });
 
 // Some kind of other error
 brochure.use(function(err, req, res, next){
+
   console.error(err);
-  res.locals.code = {'error': true};
-  if (config.environment === 'development') res.locals.err = err;
+  
+  if (err.status === 404) {
+    res.locals.code = {'missing': true};
+  } else {
+    res.locals.code = {'error': true};
+  }
+
+  if (config.environment === 'development') {
+    res.locals.err = err;
+  } 
+
+  res.status(err.status || 500);
   res.locals.layout = '/partials/layout-focussed.html';
   res.render('error');
 });
