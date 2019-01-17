@@ -4,7 +4,7 @@ var Keys = require('./keys');
 var HashFile = require('./hash');
 var download = require('./download');
 var ensure = require('../ensure');
-var rm = require('../remove');
+var fs = require('fs-extra');
 var localPath = require('../localPath');
 var config = require('config');
 var join = require('path').join;
@@ -103,7 +103,7 @@ function Transformer (blogID, name) {
           // The file was downloaded to the temp
           // directory so we remove it now...
           // do this before handling any errors...
-          rm(path);
+          fs.remove(path);
 
           if (err) return callback(err);
 

@@ -4,7 +4,7 @@ var helper = require('./helper');
 var upload = helper.upload;
 var rm = helper.remove;
 var encrypt = helper.encrypter.encrypt;
-
+var fs = require('fs-extra');
 var DB_PATH = require('path').resolve(__dirname + '/../db/dump.rdb');
 
 var tmp = helper.tempDir();
@@ -53,7 +53,7 @@ function backUP (extraString) {
           console.log('Backup complete!');
         }
 
-        rm(encrypted_clone_path);
+        fs.remove(encrypted_clone_path);
       });
     });
   });
