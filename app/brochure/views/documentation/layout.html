@@ -10,7 +10,7 @@
         </li>
 
         <li class="has-list {{selected.publishing}}">
-          <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="/publishing">Publishing<label for="publishing"></label></a>
+          <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">Publishing<label for="publishing"></label></a>
           <ul>
             <li class="{{selected.posts}}">
               <a href="{{{base}}}/publishing/posts">Blog posts</a>
@@ -37,7 +37,7 @@
           </ul>
         </li>
         <li class="has-list {{selected.configuring}}">
-          <input type="checkbox" name="configuring" id="configuring" {{#selected.configuring}} checked{{/selected.configuring}}> <a href="/">Configuring
+          <input type="checkbox" name="configuring" id="configuring" {{#selected.configuring}} checked{{/selected.configuring}}> <a href="{{{base}}}/configuring">Configuring
           <!--  your blog --><label for="configuring"></label></a>
           <ul>
             <li class="{{selected.domain}}">
