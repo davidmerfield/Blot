@@ -1,10 +1,18 @@
 var Express = require("express");
 var developers = new Express.Router();
 
-developers.get("/", function(req, res) {
+developers.use(function(req, res, next){
   res.locals.layout = 'developers/layout';
+  next();
+});
+
+developers.get("/", function(req, res) {
   res.locals.title = "Blot / Developers";
   res.render("developers");
+});
+
+developers.get("/:section", function(req, res) {
+  res.render("developers/" + req.params.section);
 });
 
 module.exports = developers;

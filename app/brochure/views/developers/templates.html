@@ -311,10 +311,10 @@ delimiters from <code>{{</code> and <code>}}</code> to custom strings.</p>
 <p>Consider the following contrived example:</p>
 
 <pre><code>* {{default_tags}}
-{{=&lt;% %>=}}
+\{{=&lt;% %>=}}
 * &lt;% erb_style_tags %>
 &lt;%={{ }}=%>
-* {{ default_tags_again }}
+* \{{ default_tags_again }}
 </code></pre>
 
 <p>Here we have a list with three items. The first item uses the default

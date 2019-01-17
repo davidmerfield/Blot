@@ -12,6 +12,7 @@ module.exports = function(req, res, next) {
     "/log-in",
     "/contact",
     "/about",
+    "/news",
     "/developers",
     "/formatting"
   ];
