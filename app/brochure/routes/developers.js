@@ -15,4 +15,9 @@ developers.get("/:section", function(req, res) {
   res.render("developers/" + req.params.section);
 });
 
+developers.get('/:section/:subsection', function(req, res){
+  res.render("developers/" + req.params.section + '/' + req.params.subsection);
+});
+
+
 module.exports = developers;

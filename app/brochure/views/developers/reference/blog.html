@@ -1,0 +1,114 @@
+<div class="measure">
+
+
+<h2>Blog properties</h2>
+<p>Blot uses these variables to render <a href="https://mustache.github.io/">Mustache</a> templates.</p>
+<table>
+<thead>
+<tr>
+<th>The tag&#x2026;</th>
+<th>is replaced with&#x2026;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\{{title}}</code></td>
+<td>your site’s title</td>
+</tr>
+<tr>
+<td><code>\{{#menu}}...\{{/menu}}</code></td>
+<td>a list containing the links on your site’s menu</td>
+</tr>
+<tr>
+<td><code>\{{avatar}}</code></td>
+<td>the URL to your site’s avatar</td>
+</tr>
+<tr>
+<td><code>\{{blogURL}}</code></td>
+<td>the URL to your site’s homepage</td>
+</tr>
+<tr>
+<td><code>\{{feedURL}}</code></td>
+<td>the URL to your site’s RSS feed</td>
+</tr>
+<tr>
+<td><code>\{{cssURL}}</code></td>
+<td>the URL to your site’s CSS file</td>
+</tr>
+<tr>
+<td><code>\{{scriptURL}}</code></td>
+<td>the URL to your site’s JS file</td>
+</tr>
+<tr>
+<td><code>\{{sitemapURL}}</code></td>
+<td>the URL to your site’s sitemap</td>
+</tr>
+<tr>
+<td><code>\{{cacheID}}</code></td>
+<td>a unix time stamp for the last change you made to your site</td>
+</tr>
+<tr>
+<td><code>\{{timeZone}}</code></td>
+<td>your site’s timezone</td>
+</tr>
+<tr>
+<td><code>\{{roundAvatar}}</code></td>
+<td><code>true</code> if you’ve indicated your avatar is round, <code>false</code> if not</td>
+</tr>
+<tr>
+<td><code>\{{hideDates}}</code></td>
+<td><code>true</code> if you’ve chosen to hide the dates on your site, <code>false</code> if not</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Helper functions</h2>
+<p class="measure">Blot exposes some general purpose functions as Mustache lambdas. Note that you can pass another variable from the view to these functions.</p>
+
+<table>
+<thead>
+<tr>
+<th>The text inside the tag&#x2026;</th>
+<th>is replaced with&#x2026;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\{{#encodeURIComponent}}...\{{/encodeURIComponent}}</code></td>
+<td>The same text, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent">encoded appropriately</a> for a URI component</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Lists of posts</h2>
+<p>You can uses these variables to render lists of posts</p>
+
+
+<table>
+<thead>
+<tr>
+<th>The tag&#x2026;</th>
+<th>is replaced with&#x2026;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\{{#all_posts}}...\{{/all_posts}}</code></td>
+<td>Every post ever published</td>
+</tr>
+<tr>
+<td><code>\{{#recent_posts}}...\{{/recent_posts}}</code></td>
+<td>25 most recent posts on your site</td>
+</tr>
+<tr>
+<td><code>\{{#archives}}...\{{/archives}}</code></td>
+<td>A list of years, months and the posts published on them</td>
+</tr>
+<tr>
+<td><code>\{{#all_tags}}...\{{/all_tags}}</code></td>
+<td>the URL to your site’s avatar</td>
+</tr>
+</tbody>
+</table>
