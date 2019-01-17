@@ -101,6 +101,10 @@ Metadata bugs
 
 ---
 
+Research state of static site generators:
+- https://www.11ty.io/docs/
+- https://www.staticgen.com/
+
 Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 
 Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
