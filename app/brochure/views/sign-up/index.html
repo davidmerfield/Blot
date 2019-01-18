@@ -1,104 +1,87 @@
 <p>A blog costs <em>{{price}} per year</em> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p>
 
-
 <p><mark id="error">{{#error}}{{error}}{{/error}}</mark></p>
+
+<noscript>
+  <p><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
+  <style type="text/css">form {display:none}</style>
+</noscript>
 
 <form method="POST">
 
   <p>
-  <label for="email">Your email address</label>
-  <input type="text" class="email" name="email" autofocus />
+    <label for="email">Your email address</label>
+    <input type="text" class="email" name="email" autofocus />
   </p>
 
   <p>
-  <label for="number">Card number
-    <em>Blot does not store your card details. Stripe processes your payment.</em>
-  </label>
-  <input type="text" data-stripe="number" name="number" />
+    <label for="number">Card number
+      <em>Blot does not store your card details. Stripe processes your payment.</em>
+    </label>
+    <input type="text" data-stripe="number" name="number" />
   </p>
 
   <p>
-  <label for="month">Expiration date</label>
-  <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
-  <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
+    <label for="month">Expiration date</label>
+    <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
+    <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
   </p>
 
   <p>
-  <label for="cvc">CVC
-    <em>The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.</em>
-  </label>
-  <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
-</p>
+    <label for="cvc">CVC
+      <em>The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.</em>
+    </label>
+    <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
+  </p>
 
   <input type="submit" value="Submit payment" />
   <input type="hidden" class="stripeToken" name="stripeToken" />
 </form>
-
 
 <script type="text/javascript" src="/js/jquery.js"></script>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 // This identifies your website in the createToken call below
 if (typeof Stripe !== 'undefined') Stripe.setPublishableKey('{{stripe_key}}');
-
-
 $('form').submit(function(event) {
-
-    var $form = $(this);
-
-    // Disable the submit button
-    // to prevent repeated clicks
-    $form
-      .find('[type="submit"]')
-      .prop('disabled', true);
-
-    // Validate the email address
-    var email = $('[name="email"]').val() || '';
-    var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
-    var email = email.replace(' ', '');
-
-    if (email === '' || !emailRegex.test(email)) {
-
-      $('#error')
-        .text('Please enter a valid email.')
-        .show();
-
-      $('[type="submit"]')
-        .prop('disabled', false)
-
-      return false;
-
-    } else {
-      $('[name="email"]').val(email)
-    }
-
-    Stripe.card.createToken($form, function(status, response){
-
-      if (response.error) {
-
-        $('#error')
-          .text(response.error.message)
-          .show();
-
-        $('[type="submit"]')
-          .prop('disabled', false);
-
-      } else {
-
-        var token = response.id;
-
-        // response also contains card,
-        // which has additional card details
-
-        // Insert the token into the form so
-        // it gets submitted to the server
-        $form.find('.stripeToken').val(token);
-        $form.get(0).submit();
-      }
-
-    });
-
-    // Prevent the form from submitting with the default action
+  var $form = $(this);
+  // Disable the submit button
+  // to prevent repeated clicks
+  $form
+    .find('[type="submit"]')
+    .prop('disabled', true);
+  // Validate the email address
+  var email = $('[name="email"]').val() || '';
+  var emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+  var email = email.replace(' ', '');
+  if (email === '' || !emailRegex.test(email)) {
+    $('#error')
+      .text('Please enter a valid email.')
+      .show();
+    $('[type="submit"]')
+      .prop('disabled', false)
     return false;
+  } else {
+    $('[name="email"]').val(email)
+  }
+  Stripe.card.createToken($form, function(status, response) {
+    if (response.error) {
+      $('#error')
+        .text(response.error.message)
+        .show();
+      $('[type="submit"]')
+        .prop('disabled', false);
+    } else {
+      var token = response.id;
+      // response also contains card,
+      // which has additional card details
+      // Insert the token into the form so
+      // it gets submitted to the server
+      $form.find('.stripeToken').val(token);
+      $form.get(0).submit();
+    }
+  });
+  // Prevent the form from submitting with the default action
+  return false;
 });
 </script>
