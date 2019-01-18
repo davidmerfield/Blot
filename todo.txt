@@ -1,3 +1,7 @@
+Invesigate issue with images and Facebook's preview. Tell John B.
+
+Write script to remove 'Templates' bug folder in blogs with the Dropbox client.
+
 Finish new documentation and logo
 - Use these [UI templates](https://nhsuk.github.io/nhsuk-frontend/pages/examples.html)
 - Add documentation for each client and an explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
