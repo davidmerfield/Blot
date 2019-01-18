@@ -1,3 +1,12 @@
 <h1>How does Blot work</h1>
 
 <p>In essence, Blot is a static file server. It serves your folder to your readers.</p>
+
+<p class="measure">When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
+
+<ol class="normal measure">
+  <li>Check if there is a template whose route matches the request’s path. <a href="#rendering">Render the template</a> if it matches.</li>
+  <li>Check if there is a file which matches the request’s path in your blog’s folder. <a href="/help/public-files">Send the file</a> as a response if it matches.</li>
+  <li>Check your site&apos;s list of <a href="/configuring/redirects">redirects</a>.</li>
+  <li>Render your blog’s error page if it exists, if not render Blot's error page.</li>
+</ol>

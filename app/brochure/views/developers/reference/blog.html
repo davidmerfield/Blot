@@ -17,7 +17,22 @@
 </tr>
 <tr>
 <td><code>\{{#menu}}...\{{/menu}}</code></td>
-<td>a list containing the links on your site’s menu</td>
+<td>a list containing the links on your site’s menu <pre>[
+
+..
+{
+id: <string> ,
+label: <string>,
+url: <string> ,
+selected: <string> | null
+first: <boolean>,
+last: <boolean>,
+penultimate: <boolean>,
+index: <number>
+}
+..
+]</pre>
+</td>
 </tr>
 <tr>
 <td><code>\{{avatar}}</code></td>

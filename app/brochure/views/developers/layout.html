@@ -2,7 +2,7 @@
 
 <body>
   <header>
-    <a href="/">Blot</a> / <a href="/developers">Developer's guide</a>
+    <a href="/">Blot</a> / <a href="/developers"><code>Developer's guide</code></a>
     {{> nav}}
   </header>
 
@@ -10,7 +10,7 @@
     <ul>
       <li><a href="/developers">Introduction</a></li>
       <li><a href="/developers/how-blot-works">How Blot works</a></li>
-      <li><a href="/developers/templates">Templates</a></li>
+      <li><a href="/developers/rendering-templates">Rendering templates</a></li>
       <li class="has-list {{selected.reference}}">
         <input type="checkbox" name="reference" id="reference" {{#selected.reference}} checked{{/selected.reference}}> <a href="/developers/reference">Reference<label for="reference"></label></a>
         <ul>
@@ -22,6 +22,9 @@
           </li>
           <li class="{{selected.entry}}">
             <a href="/developers/reference/entry">Entry</a>
+          </li>
+          <li class="{{selected.tags}}">
+            <a href="/developers/reference/tags">Tags</a>
           </li>
           <li class="{{selected.date-tokens}}">
             <a href="/developers/reference/date-tokens">Date tokens</a>

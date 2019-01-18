@@ -1,9 +1,27 @@
-<div class="measure">
-<div class="fw6">Date tokens</div>
-<br>
-This is the reference for the date tokens used in <A href="/guides/permalinks">Blot's permalinks</a> and in <a href="/developers">Blot's templates</a>. They're from the Moment.js date formatting library.
-</div>
-<br><br>
+<h1>Date tokens</h1>
+<p>This is the reference for the date tokens you can use in each <a href="/developers/reference/entry">Entry</a>'s <a href="/developers">formatDate</a> helper function. For example, to display this date:</p>
+
+<h2>Examples</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <th><b>Input</b> in your template</th>
+      <th><b>Output</b> on your blog</th>
+    </tr>
+    <tr>
+      <td><pre>\{{#formatDate}} MMMM DDDo, YYYY  \{{/formatDate}}</pre></td>
+      <td>January 1st, 2018</td>
+    </tr>
+    <tr>
+      <td><pre>\{{#formatDate}} MMMM DDDo, YYYY  \{{/formatDate}}</pre></td>
+      <td>January 1st, 2018</td>
+    </tr>    
+</tbody>
+</table>
+
+<h2>Reference</h2>
+
 <table>
   <tbody>
     <tr>
@@ -270,4 +288,6 @@ This is the reference for the date tokens used in <A href="/guides/permalinks">B
       <td>1360013296123</td>
     </tr>
   </tbody>
-</table></div></div>
+</table>
+
+<p>They're from the Moment.js date formatting library.</p>
