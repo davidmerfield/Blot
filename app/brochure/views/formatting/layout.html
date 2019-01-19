@@ -2,10 +2,12 @@
 <link rel="stylesheet" href="/css/tex.css">
 <body>
 <header>
-  <a href="/">Blot</a> / <a href="/formatting">Formatting guide</a>
+  <container>
+    <a href="/">Blot</a> / <a href="/formatting">Formatting guide</a>
   {{> nav}}
+</container>
 </header>
-<main>
+<main class="has-sidebar">
   <nav>
     <ul>
       <li class="{{selected.markdown}}">
@@ -19,7 +21,9 @@
       </li>
     </ul>
   </nav>
+  <content>
   {{{body}}}
+  </content>
 </main>
 
 {{> footer}}

@@ -30,7 +30,9 @@ brochure.locals.price = '$' + config.stripe.plan.slice(-2);
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
 
-brochure.use(Express.static(__dirname + "/views", { maxAge: 86400000 }));
+brochure.use(Express.static(__dirname + "/views", {
+ // maxAge: 86400000 
+}));
 
 // Missing page
 brochure.use(function(req, res, next){

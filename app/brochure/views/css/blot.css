@@ -1,0 +1,110 @@
+html,
+body {
+  padding: 0;
+  margin: 0
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+}
+
+header,
+footer {
+  padding: 0.5rem 1rem;
+  background: #f6f6f6
+}
+
+header container,
+footer container {
+  display: flex;
+}
+
+header container > a:first-child {
+  flex-grow:1;
+}
+
+header a {
+  text-decoration: none;
+  color: #aaa;
+  transition: color 0.15s ease-out;
+}
+
+header a:hover {
+  color: #bbb
+}
+
+header a:active {
+  color: #aaa
+}
+header .spacer {
+  height: 19px;
+  border-right: 1px solid #ccc
+}
+
+header img {
+  margin-right: 0.5rem
+}
+
+header * {
+  margin: 0
+}
+
+header ul {
+  display: flex
+}
+
+header ul a {
+  margin: 0 1rem
+}
+
+header li {
+  list-style-type: none;
+}
+
+
+/* This keeps the footer off the main page */
+main {
+  min-height: calc(100vh - 2rem);
+}
+
+main,
+container {
+  margin: 0 auto;
+  max-width: 1060px;
+}
+
+content {
+  max-width: 75%
+}
+
+main.has-sidebar {
+  display: flex
+}
+
+main.has-sidebar nav {
+  width: 25%
+}
+
+ul.templates {
+  display: flex;
+  margin: 0;
+  padding: 0
+}
+
+ul.templates li {
+  list-style-type: none;
+  padding: 1.5rem 0.5rem;
+  background: #f6f6f6
+}
+
+ul.templates li strong {display: block;}
+
+ul.templates img,
+p img {
+  width: 100%
+}
+
+
+footer {
+  display: flex
+}
