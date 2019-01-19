@@ -29,8 +29,6 @@ On February 1st:
 
 Template adjustments for [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDMBQJlpRFjHLQMCVXVjLpdH)
 
-Review [Shawn](https://twitter.com/soypunk)'s template
-
 Replacing some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
@@ -362,6 +360,7 @@ Increase price for new customers to $60 a year. This will not affect existing cu
 ---
 
 Git client:
+- Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
 - Backdate existing commits (perhaps set file ctime using info from git log?) This would sidestep the frustration experienced by [Gavin](https://mail.google.com/mail/u/0/#inbox/1669a8e621f9ef37) when he imported an existing repository.
 - Extend sync lock during long syncs
 - Write test to simulate process dying and restarting mid-pull. Does the client recover? What happens if a pull fails midway? Does git recover?
