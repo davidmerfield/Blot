@@ -2,7 +2,20 @@
 
 I found myself much more productive working on the content of the website seperately from it's design. That is, by disabling the CSS file before making any changes to the site itself, I found myself less distracted by the infinite design tweaks that could be made to a given page.
 
-Some references:
+# Structure of the site
+
+The entire views directly is served as a static folder.
+
+# Adding new content
+
+Make sure you update ./routes/sitemap.js with any new and important URLs
+
+# Twitter
+
+Test all tweets on this account:
+https://twitter.com/Dlot40201147
+
+# Some references
 
 UI components:
 https://nhsuk.github.io/nhsuk-frontend/pages/examples.html
