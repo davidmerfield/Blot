@@ -1,13 +1,4 @@
 Finish new documentation and logo
-- Use these [UI templates](https://nhsuk.github.io/nhsuk-frontend/pages/examples.html)
-- Add documentation for each client
-- Add explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
-- Inline all CSS for performance?
-- Render the formatting guide navigation on the server
-- Make reference page searchable
-- Add types and examples to items on reference page
-- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
-- And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 
 Record new demo video
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
