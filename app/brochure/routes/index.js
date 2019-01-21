@@ -1,6 +1,8 @@
 var Express = require("express");
 var brochure = new Express.Router();
 
+brochure.use(require('./tools/typeset'));
+
 brochure.get("/", function(req, res) {
   res.locals.featured = require("./featured");
   res.locals.layout = 'partials/index-layout';
