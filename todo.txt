@@ -1,35 +1,26 @@
 Finish new documentation and logo
-- Use these [UI templates](https://nhsuk.github.io/nhsuk-frontend/pages/examples.html)
-- Add documentation for each client and an explanation for how to mirror blot blog repo on Github or Gitlab then [tell](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af).
-- Inline all CSS for performance?
-- Render the formatting guide navigation on the server
-- Make reference page searchable
-- Add types and examples to items on reference page
-- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
-And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-
-Template adjustments for [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDMBQJlpRFjHLQMCVXVjLpdH)
-
-Review [Shawn](https://twitter.com/soypunk)'s template
-
-Add new variable for last-build-time for a blog, and use this for <lastBuildDate> in the sites' RSS feeds. Tell [Shawn](https://twitter.com/soypunk)
 
 Record new demo video
-- Show sites I run using Blot
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
-- Blot's developer blog, a conventional blog, show using different text editors
-- My visual scrapbook on the archives theme: shows tag folders, photo blog
-- My personal site: simple landing page, edit with a doc file?
+- Show sites I run using Blot: 
+  - Blot's developer blog
+  - My visual scrapbook on the archives theme: shows tag folders, photo blog
+  - My personal site: simple landing page, edit with a doc file?
+
+Finish archive template
+- Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
 
 On January 21st, re-announce price increase for new customers to $30 a year. This will not affect existing customers.
 
 On February 1st:
 - Increase price for new customers to $30 a year.  This will not affect existing customers.
-- Announce new archive template, documentation and video, by linking to archive template page
+- Announce new archive template (+ documentation and video) by linking to archive template page
 
 ---
 
-A good easy task for Paul would be replacing some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
+Add property of entry which is safe to use in a JSON feed. Tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqjfBFmTnZZFpzRhtdBrR).
+
+Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 
@@ -37,22 +28,19 @@ Finish support for [RFC3339 dates](https://github.com/davidmerfield/Blot/pull/97
 
 Fix bug with metadata parsing a URL on the first line of a file and tell [David](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVDKqlWWcsbfBZWDhMZMzNbrV)
 
-Are people who have cancelled their subscription notified 1 week before their subscription expires?
-
-Finish archive template
-- Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
-
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
 Why are images downloading so slowly on the portfolio theme? Should I go back to using cloudfront?
 
-Fix bug with git client which prevent [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsdCpRCLrbNczKVGXxgBvDfr)'s first 9000 posts appearing.
+Fix bug with git client which prevented [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsdCpRCLrbNczKVGXxgBvDfr)'s first 9000 posts appearing.
 
 Fix bug with gifs and the image cacher. Animated gifs from imgur.com were not playing, just the first frame was fetched. Tell [Oleg](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhZfBqbKBBXWBtZLpjPSNv)
 
 Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch)
 
 Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
+
+Fix bug with image with color profile in [Jonas' post](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
 
 Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 Fix bugs with git removed / renamed file unit test on Travis
@@ -105,9 +93,13 @@ Metadata bugs
 
 ---
 
+Investigate if people who have cancelled their subscription are notified 1 week before their blog  expires
+
 Research state of static site generators:
 - https://www.11ty.io/docs/
 - https://www.staticgen.com/
+
+Add new variable for last-build-time for a blog, and use this for <lastBuildDate> in the sites' RSS feeds. Tell [Shawn](https://twitter.com/soypunk)
 
 Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 
@@ -361,6 +353,7 @@ Increase price for new customers to $60 a year. This will not affect existing cu
 ---
 
 Git client:
+- Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
 - Backdate existing commits (perhaps set file ctime using info from git log?) This would sidestep the frustration experienced by [Gavin](https://mail.google.com/mail/u/0/#inbox/1669a8e621f9ef37) when he imported an existing repository.
 - Extend sync lock during long syncs
 - Write test to simulate process dying and restarting mid-pull. Does the client recover? What happens if a pull fails midway? Does git recover?
