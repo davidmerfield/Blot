@@ -1,7 +1,19 @@
 var Express = require("express");
 var brochure = new Express.Router();
+var finder = require('finder');
 
+// Renders the folders and text editors
+brochure.use(finder.middleware);
+
+// Fixes basic typographic errors 
+// See typeset.js for more information
 brochure.use(require('./tools/typeset'));
+
+// CSS required to render the windows
+brochure.get('/css/finder.css', function(req, res){
+  res.setHeader("Content-Type", "text/css");
+  res.send(finder.css());
+});
 
 brochure.get("/", function(req, res) {
   res.locals.featured = require("./featured");
