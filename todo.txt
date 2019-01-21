@@ -1,7 +1,5 @@
 Finish new documentation and logo
 
-Add property of entry which is safe to use in a JSON feed. Tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqjfBFmTnZZFpzRhtdBrR).
-
 Record new demo video
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
 - Show sites I run using Blot: 
@@ -20,9 +18,9 @@ On February 1st:
 
 ---
 
-Template adjustments for [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDMBQJlpRFjHLQMCVXVjLpdH)
+Add property of entry which is safe to use in a JSON feed. Tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqjfBFmTnZZFpzRhtdBrR).
 
-Replacing some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
+Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 
