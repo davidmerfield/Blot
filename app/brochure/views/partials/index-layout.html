@@ -31,7 +31,40 @@ Blot is a blogging platform with no interface</a>
     {{{body}}}
   </main>
 
-  {{> footer}}
-</body>
+<style type="text/css">
+footer li {list-style-type: none;}
+footer container > * {margin: 1em;padding: 0}
+footer index a {text-decoration: none;}
+footer a:visited {color: #005eb8}
+</style>
+<footer>
+  <container>
+
+    <index style="max-width:340px;margin-right:3em">
+  {{> logo}}
+  <p style="color:#948c84;margin-top:1.47em">A blogging platform with no interface. Blot turns a folder into a blog automatically. Use your favorite text-editor to write.</p>
+</index>
+
+  <ul>
+    <li><a href="/documentation"><b>Documentation</b></a></li>
+    <li><a href="/templates">Templates</a></li>
+    <li><a href="/formatting">Formatting guide</a></li>
+    <li><a href="/developers">Developer's guide</a></li>
+    <li><a href="/support">Support</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="/contact"><b>Contact</b></a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/news">News</a></li>
+    <li><a href="/terms">Terms of use</a></li>
+    <li><a href="/privacy">Privacy policy</a></li>
+  </ul>
+
+  <a href="/sign-up">Sign up</a>
+  <a href="/log-in">Log in</a>
+
+  </container>
+</footer></body>
 
 </html>

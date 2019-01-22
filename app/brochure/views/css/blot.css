@@ -50,7 +50,7 @@ a:active {
 
 header,
 footer {
-  padding: 2em 1rem;
+  padding: 2em 1rem 1em;
   background: #f7f5f3
 }
 
@@ -65,12 +65,18 @@ header container>a:first-child {
 
 header a {
   text-decoration: none;
-  color: #aaa;
   transition: color 0.15s ease-out;
 }
 
+header a,
+header a:visited {
+  color: #aaa;
+}
+
 header a:hover {
-  color: #bbb
+  color: #bbb;
+  box-shadow: none;
+  background: inherit;
 }
 
 header a:active {
@@ -107,6 +113,7 @@ header li {
 /* This keeps the footer off the main page */
 main {
   min-height: calc(100vh - 2rem);
+  padding: 1em 0;
 }
 
 main,
