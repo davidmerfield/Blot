@@ -11,6 +11,19 @@
   main {
 max-width:380px;margin:0 auto;  position: relative;left: -100px;  padding: 1em 0;  }
 
+input[type="submit"] {
+  background: #333;
+  padding: 0.75em 1em;
+  color: white;
+  margin: 1em 0;
+  border: none;
+  border-bottom: 2px solid #000;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500
+}
+
+input[type="submit"]:focus{border: none;position: relative;top: 2px}
 label {font-size: 14px;color:#666}
 
 /* turn into tooltip */
@@ -30,11 +43,13 @@ input[name="cvc"] {
 
 input[type="text"] {
   padding: 4px 2px;
+  border: 1px solid #e3e3e3;
   font-size: 17px;font-family: inherit;}
 
 input[type="text"]:focus,
 textarea:focus {
-
+  outline: 3px solid #ccc;
+  border-color: #606fdc;
 }
 
 flex {display: flex}
