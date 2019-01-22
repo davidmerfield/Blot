@@ -21,6 +21,33 @@ body {
   font-style: normal;
 }
 
+a:visited {
+  color: #330072;
+}
+
+a {
+  color: #005eb8;
+}
+
+a:focus {
+  background-color: #ffb81C;
+  box-shadow: 0 0 0 3px #ffb81C;
+  color: #212b32;
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+}
+
+a:hover {
+  background-color: #ffcd60;
+  box-shadow: 0 0 0 3px #ffcd60;
+  color: #212b32;
+  text-decoration: none;
+}
+
+a:active {
+  color: #374047;
+}
+
 header,
 footer {
   padding: 2em 1rem;

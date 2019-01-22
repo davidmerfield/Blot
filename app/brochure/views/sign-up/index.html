@@ -1,4 +1,4 @@
-<p>A blog costs <em>{{price}} per year</em> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p>
+<p>A blog costs <strong>{{price}} per year</strong> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p>
 
 <p><mark id="error">{{#error}}{{error}}{{/error}}</mark></p>
 
@@ -21,10 +21,14 @@
     <input type="text" data-stripe="number" name="number" />
   </p>
 
+  <flex>
+
   <p>
     <label for="month">Expiration date</label>
+    <flex>
     <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
     <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
+  </flex>
   </p>
 
   <p>
@@ -33,6 +37,7 @@
     </label>
     <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
   </p>
+  </flex>
 
   <input type="submit" value="Submit payment" />
   <input type="hidden" class="stripeToken" name="stripeToken" />

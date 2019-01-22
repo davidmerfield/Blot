@@ -1,9 +1,52 @@
 {{> head}}
 
 <body>
+  <style type="text/css">
+  /* hack pelase fix */
+  header container>a:first-child {flex-grow:0;}
+  
+  /* balances out the margins */
+  header container>a:last-child {visibility: hidden}
+  
+  main {
+max-width:400px;margin:0 auto;    padding: 1em 0;  }
+
+label {font-size: 14px;color:#666}
+
+/* turn into tooltip */
+label em {display: none;}
+
+input[name="email"] {
+  width:100%;display: block;
+}
+
+input[name="number"] {
+  width:80%;display: block;
+}
+
+input[name="cvc"] {
+  display: block;
+}
+
+input[type="text"] {
+  padding: 4px 2px;
+  font-size: 17px;font-family: inherit;}
+
+input[type="text"]:focus,
+textarea:focus {
+
+}
+
+flex {display: flex}
+
+flex {-webkit-margin-collapse: discard;}
+    </style>
   <header>
+    <container>
     {{> logo}}
-    Sign up &rarr; Create a blog
+    <div style="width:400px;margin:0 auto;color:#aaa"><span style="color:#000">Sign up</span>&nbsp;&nbsp;&nbsp;&rarr;&nbsp;&nbsp;&nbsp;Create a blog</div>
+    {{> logo}}
+  </container>
   </header>
 
   <main>
