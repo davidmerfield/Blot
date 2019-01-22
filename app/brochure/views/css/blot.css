@@ -153,3 +153,10 @@ p img {
 footer {
   display: flex
 }
+
+th, td {
+  padding: 16px;
+  border-bottom: 1px solid #eee
+}
+
+th {font-weight: 600;border-bottom-width:2px;}
