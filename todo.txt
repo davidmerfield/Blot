@@ -173,6 +173,7 @@ Add nice import step under 'Services' and as part of sign up
 - Finish Ghost theme import for [Kingi](https://mail.google.com/mail/u/1/#inbox/1625fdd572e72c69)
 - Map excerpt metadata to summary for Jekyll converter importer
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
+- Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 
 Backups
 - Add hourly local redis rdb dumps
