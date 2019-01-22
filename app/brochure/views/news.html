@@ -1,16 +1,73 @@
+<style type="text/css">
+ol {
+  list-style-type: none;
+  width: 300px
+}
+
+ol {
+  border-left: 1px solid #eee;
+  margin: 0 0 0 8px;
+  padding: 0;
+}
+
+ol li {
+  margin-bottom: 1.47em
+}
+
+ol li a {
+  position: relative;
+  display: block;
+  padding-left: 1.3em;
+  color: inherit;
+  text-decoration: none;
+}
+
+ol li p {
+  margin: 0;
+}
+
+ol li small {
+  color: blue;
+  text-decoration: underline;
+}
+
+ol li a:before {
+  width: 1em;
+  background: #eee;
+  height: 1em;
+  border-radius: 1em;
+  content: " ";
+  position: absolute;
+  left: -0.6em
+}
+
+ol li a:hover {
+  background: none
+}
+
+flex {
+  display: flex
+}
+</style>
 <h1>News</h1>
 <p>The lists below give you a idea of what I’m working on. I tend to announce significant news on <a href="https://www.twitter.com/blot__">Blot’s Twitter account</a>. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
 
-<h2>Done</h2>
-<ol>
-  {{#commits}}
-<li>
-  <p>{{message}}</p>
-  <p><small><a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">{{date}}</a></small></p>
-</li>
-{{/commits}}
-</ol>
-
-<h2>To do</h2>
-{{{todo}}}
-
+<flex>
+  <section>
+    <h2>Done</h2>
+    <ol>
+      {{#commits}}
+      <li>
+        <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">
+      <p>{{message}}</p>
+      <p><small>{{date}}</small></p>
+      </a>
+      </li>
+      {{/commits}}
+    </ol>
+  </section>
+  <section>
+    <h2>To do</h2>
+    {{{todo}}}
+  </section>
+</flex>

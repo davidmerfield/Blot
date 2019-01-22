@@ -1,9 +1,20 @@
 {{> head}}
 
 <body>
+  <style type="text/css">
+  h1 {font-size: inherit;width: 760px;margin: 0 auto}
+  /* hack pelase fix */
+  header container>a:first-child {flex-grow:0;}
+  header container>a:last-child {visibility: hidden;}
+
+  main {max-width: 760px;margin: 0 auto}
+  </style>
   <header>
+    <container>
     {{> logo}}
     <h1>{{title}}</h1>
+    {{> logo}}
+  </container>
   </header>
 
   <main>

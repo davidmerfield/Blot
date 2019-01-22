@@ -65,7 +65,6 @@ header container>a:first-child {
 
 header a {
   text-decoration: none;
-  transition: color 0.15s ease-out;
 }
 
 header a,
@@ -74,14 +73,9 @@ header a:visited {
 }
 
 header a:hover {
-  color: #bbb;
-  box-shadow: none;
-  background: inherit;
+  color: #000;
 }
 
-header a:active {
-  color: #aaa
-}
 
 header .spacer {
   height: 22px;
