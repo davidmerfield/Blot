@@ -192,6 +192,10 @@ Increase annual price to $40. This will not affect existing customers.
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
 
+Offer to make websites for in return for a link:
+- [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
+- [Just van Rossum](http://dailydrawbot.tumblr.com/)
+
 Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
 - Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
 
