@@ -1,7 +1,13 @@
-
-.sidebar {
+ul.sidebar  {
+  margin-bottom: 1em;
+  margin-left: -10px;
+  margin-top: -0.25em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   width: 25%;
-  padding: 6em 0 0 0;
+  margin-right: 8em;
+  margin-top: 1.5em;
   position: sticky;
   top: 0;
 }
@@ -13,13 +19,15 @@
   padding: 0.2em 0.5em;
   border-radius: 4px;
   cursor: pointer !important;
-  color: #aaa;
-  font-size: 14px;
+  color: #595959;
+  font-size: 15px;
   text-decoration: none;
   word-wrap: break-word;
   background-color: transparent;
   transition: background-color .2s ease, color .2s ease;
 }
+
+.sidebar a:visited {color: #595959}
 
 .sidebar .has-list > a {
   margin-left: -1.37em;
@@ -77,14 +85,7 @@
   color: black;
 }
 
-ul.sidebar  {
-  margin-bottom: 1em;
-  margin-left: -10px;
-  margin-top: -0.25em;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+
 
 ul.sidebar  ul {
     display: none;
