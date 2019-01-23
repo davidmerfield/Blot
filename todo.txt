@@ -394,6 +394,9 @@ user changes the username for one of their multiple blogs?
 Consider supporting Open Graph
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
 
+Search engine
+- Improve search engine results and tell [Tim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMjZKgvPxSjvsHjPRzGsDHQX)
+
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
 NGINX
