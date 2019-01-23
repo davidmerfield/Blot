@@ -38,15 +38,19 @@ a:focus {
 }
 
 a:hover {
-  background-color: #ffcd60;
-  box-shadow: 0 0 0 3px #ffcd60;
-  color: #212b32;
+  background-color: #fff0a8;
+  box-shadow: 0 0 0 3px #fff0a8;
+  color: #111;
   text-decoration: none;
 }
 
 a:active {
   color: #374047;
 }
+
+p {max-width: 40em}
+
+h2 {font-size: 1.2em;margin: 2em 0 0.75em}
 
 header,
 footer {
@@ -59,7 +63,7 @@ footer container {
   display: flex;
 }
 
-header container>a:first-child {
+header index {
   flex-grow: 1;
 }
 
@@ -73,7 +77,10 @@ header a:visited {
 }
 
 header a:hover {
-  color: #000;
+  color: #29201b;
+  background-color: #efeae5;
+  border-radius: 1px;
+  box-shadow: 0 0 0 5px #efeae5;
 }
 
 
@@ -160,3 +167,15 @@ th, td {
 }
 
 th {font-weight: 600;border-bottom-width:2px;}
+
+
+background {
+  padding: 2em 4em 2.5em;
+  background: #f6f6f6;
+  display: block;
+}
+
+background .folder {
+  max-width: 300px;
+  margin: 0 auto
+}
