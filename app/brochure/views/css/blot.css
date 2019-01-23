@@ -69,6 +69,7 @@ header index {
 
 header a {
   text-decoration: none;
+  transition: color 0.1s ease-out, background 0.1s ease-out, box-shadow 0.1s ease-out;
 }
 
 header a,
