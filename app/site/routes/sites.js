@@ -12,6 +12,7 @@ function capitalize(str) {
 // Add new sites at the start
 
 var sites = [
+  ["eli.li", "Eli Mellen is a web developer based in Portland, Maine. Eli"],
   ["diary.craigwhite.nyc", "Craig White is a visual artist based in Harlem, New York. Craig"],
   ["www.tillmanjex.info", "Tillman Jex is a composer based in Berlin. Tillman"],
   [
