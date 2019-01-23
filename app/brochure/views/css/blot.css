@@ -70,7 +70,8 @@ header index {
 
 header a {
   text-decoration: none;
-  transition: color 0.1s ease-out, background 0.1s ease-out, box-shadow 0.1s ease-out;
+  fill: #aaa;
+  transition: color 0.1s ease-out,  fill 0.1s ease-out, background 0.1s ease-out, box-shadow 0.1s ease-out;
   box-shadow: 0 0 0 5px transparent;
 }
 
@@ -82,6 +83,7 @@ header a:visited {
 
 header a:hover {
   color: #29201b;
+  fill: #29201b;
   border-radius: 1px;
   background-color: #efeae5;
   box-shadow: 0 0 0 5px #efeae5;
@@ -176,7 +178,8 @@ p img {
 
 
 footer {
-  display: flex
+  display: flex;
+  margin-top: 6em
 }
 
 th, td {
@@ -216,7 +219,9 @@ overlay {
   transition: opacity 0.1s ease-out;
 }
 
-overlay stage {  display: flex;
+overlay stage {
+  margin:2em 0;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -230,3 +235,32 @@ overlay.show {
   z-index: 1;
   opacity: 1
 }
+
+.sites {
+  list-style-type: none;
+  width: 200%;
+  margin-left: -50%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sites li {
+  width: 33%;
+  padding: 0 3em;
+  box-sizing: border-box;
+  margin: 1.35em 0;
+  position: relative;
+
+}
+
+.sites li img {
+  position: absolute;top: 0.2em;left: 1.5em
+}
+
+.action-link {    color: #aaa;
+    text-decoration: none;
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 0.125em;
+    padding: 0.5em 1em;
+    margin: 0 1em;}

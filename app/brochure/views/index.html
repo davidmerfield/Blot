@@ -23,17 +23,18 @@
 Blot is a blogging platform with no interface</a></index>
 
     <ul>
-  <li><a href="/"><svg style="width:0.65rem;margin-right: 0.65rem" viewBox="0 0 50 50"><path fill="#aaa" d="M50 5l-5-5-20 20L5 0 0 5l20 20L0 45l5 5 20-20 20 20 5-5-20-20z"></path></svg> Close</a></li>
+  <li><a href="/">&nbsp;<svg style="width:0.65rem;margin-right: 0.65rem" viewBox="0 0 50 50"><path fill="inherit" d="M50 5l-5-5-20 20L5 0 0 5l20 20L0 45l5 5 20-20 20 20 5-5-20-20z"></path></svg> Close</a></li>
 
 </ul>
   </container>
   </header>
   <stage>
-  <video width="320" height="240" controls>
+    <container>
+  <video width="1190" height="720" controls>
   <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
 <!--   <source src="/assets_tutorials/media/Shaun-the-Sheep-The-Movie-Official-Trailer.ogg" type="video/ogg">
  -->Your browser does not support the video tag.
-</video>
+</video></container>
 </stage>
 </overlay>
 <a class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
@@ -56,10 +57,13 @@ Posts
 
 document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(function(el){
   el.onclick = function (e) {
+window.scrollTo(0, 0);
     document.querySelector('overlay').className += 'show';
+    document.querySelector('video').play();
     e.preventDefault();
     return false;
   }
+
 });
 
 </script>
@@ -68,23 +72,17 @@ document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(fu
 
 <p>Blot turns a folder into a blog. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.</p>
 
-<p><center><br><a href="/documentation" style="    color: #aaa;
-    text-decoration: none;
-    display: inline-block;
-    border: 2px solid;
-    border-radius: 0.125em;
-    padding: 0.5em 1em;
-    margin: 0 1em;">Read the documentation</a></center><br></p>
+<p><center><br><a href="/documentation" class="action-link">Read the documentation</a></center><br></p>
 
 <p>Some of the people who host their website on Blot right now:</p>
 
-<ul>
+<ul class="sites">
   {{#featured}}
   <li><img width="16" src="/images/featured/{{image}}"><a href="{{{url}}}">{{name}}</a> {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
   {{/featured}}
 </ul>
 
-<p><a href="/templates">View templates</a></p>
+<p><center><br><a href="/templates" class="action-link">View templates</a></center><br></p>
 
 <p>Because Blot is file and folder-based, you can use your favorite text-editor. There are a wide number of text-editors which support Dropbox on phones and tablets. Blot is easy to connect with other services.</p>
 </div>
