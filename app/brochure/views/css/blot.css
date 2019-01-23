@@ -5,20 +5,14 @@ body {
 }
 
 body {
-  font-synthesis: none;
-  -moz-font-feature-settings: 'kern';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  direction: ltr;
-  text-align: left;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif, "Sans Serif", Icons
-    /*!System*/
-  ;
+  color: rgb(4, 4, 2);
+  line-height: 1.35;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 17px;
-  line-height: 1.47059;
   font-weight: 400;
   color: #000;
   font-style: normal;
+  -webkit-font-smoothing: antialiased;
 }
 
 a:visited {
@@ -48,14 +42,21 @@ a:active {
   color: #374047;
 }
 
-p {max-width: 40em}
+p {max-width: 37em}
 
-h2 {font-size: 1.2em;margin: 2em 0 0.75em}
+h1 {font-size: 32px;margin-bottom: 12px}
+h2 {font-size: 1em;margin: 2.7em 0 0}
+
+h2 + p {margin-top: 0}
 
 header,
 footer {
   padding: 2em 1rem 1em;
   background: #f7f5f3
+}
+
+header.transparent {
+  background:none
 }
 
 header container,
@@ -70,6 +71,7 @@ header index {
 header a {
   text-decoration: none;
   transition: color 0.1s ease-out, background 0.1s ease-out, box-shadow 0.1s ease-out;
+  box-shadow: 0 0 0 5px transparent;
 }
 
 header a,
@@ -77,17 +79,32 @@ header a:visited {
   color: #aaa;
 }
 
+
 header a:hover {
   color: #29201b;
-  background-color: #efeae5;
   border-radius: 1px;
+  background-color: #efeae5;
   box-shadow: 0 0 0 5px #efeae5;
 }
 
+header a:active {
+  background-color: #e6e0da;
+  box-shadow: 0 0 0 5px #e6e0da;
+}
+
+header.transparent a:hover {
+  background-color: #f7f5f3;
+  box-shadow: 0 0 0 5px #f7f5f3;  
+}
+
+header.transparent a:active {
+  background-color: #efeae5;
+  box-shadow: 0 0 0 5px #efeae5;  
+}
 
 header .spacer {
-  height: 22px;
-  margin: 0 20px;
+  height: 14px;
+  margin: 5px 20px;
   border-right: 1px solid #ccc
 }
 
@@ -172,11 +189,44 @@ th {font-weight: 600;border-bottom-width:2px;}
 
 background {
   padding: 2em 4em 2.5em;
-  background: #f6f6f6;
+  background: #f7f5f3;
   display: block;
 }
 
 background .folder {
   max-width: 300px;
   margin: 0 auto
+}
+
+/* Big link on homepage containing folder to play demo video */
+a.video{text-decoration:none; background: #f7f5f3;padding:6em 4em;margin:0 3em 2.7em;display:block}
+a.video div {opacity: 1.0;transition:opacity 0.1s ease-out;}
+a.video:hover {box-shadow: none;}
+a.video:hover div {opacity: 0.5}
+
+overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0;
+  background: #f7f5f3;
+  transition: opacity 0.1s ease-out;
+}
+
+overlay stage {  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+overlay video {
+  width: 100%;
+  height: auto;
+  max-height: 80vh
+}
+overlay.show {
+  z-index: 1;
+  opacity: 1
 }
