@@ -1,35 +1,22 @@
-<div class=" w-right-offset">
 <h1>Images</h1>
-<div class="measure">
 
-<p>There are a few ways to insert an image into a blog post. The best way will depend on the location of the image and the type of file you’d like to use to create the blog post.</p>
+<p>An image in your blog’s folder becomes its own <a href="{{base}}/publishing/posts">blog post</a> by default. However, files and fold­ers whose name starts with an un­der­score are ig­nored. Ignored ﬁles don’t be­come blog posts them­selves but they can be em­bed­ded in other posts.</p>
+
+<p>There are a few ways to insert an image into a blog post. The best way will depend on the type of file you’d like to use to create the post.</p>
+
 <h2>Using a Word Document</h2>
 <p>Just drag and drop the image into the Word Document.</p>
+
 <h2>Using a text file</h2>
-<p>You can use <a href="/formatting">Markdown</a> to embed an image in your blog's folder.</p>
-</div>
-<pre class="text with-chrome" title="Post"><code>Here’s the Markdown to embed an image:
+<p>You can use <a href="/formatting">Markdown</a> to embed an image in your post:</p>
+
+<background><pre class="text with-chrome" title="Post.txt"><code>Here’s how to embed an image in your folder:
 
 ![Image title](/path/to/the/_image.jpg)
 
-Blot resolves paths relative to the location of this file. Blot resolves absolute paths with your blog’s folder as the root directory. Paths are case-insensitive. 
+Absolute paths are resolved with your blog’s folder as root directory. Relative paths are resolved from the location of this file. Paths are case-insensitive. 
 
-You can embed an image that’s already on the internet:
+You can also embed an image that’s already on the internet:
 
 ![Image title](https://url.of/the/image.jpg)
-</code></pre>
-
-<p>Please note that any image in your blog’s folder becomes a blog post by default. You can tell Blot <a href="/help#ignoring-files">not to turn a particular image into a blog post</a> by starting its name with an underscore, or by putting it in a folder whose name begins with an underscore.</p>
-
-<div class="measure">
-</div>
-</div>
-
-<p>There are a few ways to insert an image into a blog post. The best way will depend on the location of the image and the type of file you’d like to use to create the blog post. Using a Word Document, just drag and drop the image into the Word Document.</p>
-<p>You can use <a href="/formatting">Markdown</a> to embed an image in your blog's folder. Here’s the Markdown to embed an image:</p>
-
-<p><code>![Image title](/path/to/the/_image.jpg)</code></p>
-
-<p>Blot resolves paths relative to the location of this file. Blot resolves absolute paths with your blog’s folder as the root directory. Paths are case-insensitive. You can embed an image that’s already on the internet:</p>
-
-<p>Please note that any image in your blog’s folder becomes a blog post by default. You can tell Blot <a href="/help#ignoring-files">not to turn a particular image into a blog post</a> by starting its name with an underscore, or by putting it in a folder whose name begins with an underscore.</p>
+</code></pre></background>

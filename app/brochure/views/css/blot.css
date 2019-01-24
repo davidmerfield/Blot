@@ -210,9 +210,17 @@ th {
 
 background {
   padding: 2em 4em 2.5em;
-  background: #f7f5f3;
   display: block;
+  background: #96deff
 }
+
+background + h2, background + h3 {
+margin-top: 3em
+}
+/*
+background:nth-of-type(1){background: #77d3fb}
+background:nth-of-type(2){background: #faba40}
+background:nth-of-type(3){background: #35cb4b}*/
 
 background .folder {
   max-width: 300px;

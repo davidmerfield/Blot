@@ -1,4 +1,4 @@
-ul.sidebar  {
+ul.sidebar {
   margin-bottom: 1em;
   margin-left: -10px;
   margin-top: -0.25em;
@@ -27,88 +27,110 @@ ul.sidebar  {
   transition: background-color .2s ease, color .2s ease;
 }
 
-.sidebar a:visited {color: #595959}
+.sidebar a:visited {
+  color: #595959
+}
 
-.sidebar .has-list > a {
+.sidebar .has-list>a {
   margin-left: -1.37em;
   padding-left: 1.975em;
 }
 
 .sidebar li ul a,
-.sidebar > li:not(.has-list) > a
- {
-    padding-left:0.5em;
+.sidebar>li:not(.has-list)>a {
+  padding-left: 0.5em;
   margin-left: 0;
 
 }
-.sidebar a:hover {background-color: #f2f2f2;color: #292929;}
 
-.sidebar .has-list > a:before {
-    background: url('https://developer.apple.com/design/human-interface-guidelines/images/menu-chevron_2x.png');
-    background-repeat: no-repeat;
-    background-size: 12px 6px;
-    content: '';
-    position: absolute;
-    top: 0.75em;
-    left: 10px;
-    display: block;
-    transform: rotate(-90deg);
-    opacity: 0.5;
-    width: 12px;
-    height: 6px;
-    background: url('https://developer.apple.com/design/human-interface-guidelines/images/menu-chevron.png');
-    background-repeat: no-repeat;
-    background-size: 12px 6px;
+.sidebar a:hover {
+  color: #292929;
 }
 
-.sidebar .index > a:first-child:hover {background: transparent;}
-.sidebar .index > a:first-child:before {
-    background: url('/images/logo-new.svg');
-    transform: none;
-    background-size: 1em;
-    width: 1em;
-    top: 0.5em;
-    opacity: 0.3;
-    left: 6px;
-    height: 1em;
-    background-repeat: no-repeat;
+.sidebar .has-list>a:before {
+  background: url('https://developer.apple.com/design/human-interface-guidelines/images/menu-chevron_2x.png');
+  background-repeat: no-repeat;
+  background-size: 12px 6px;
+  content: '';
+  position: absolute;
+  top: 0.75em;
+  left: 10px;
+  display: block;
+  transform: rotate(-90deg);
+  opacity: 0.5;
+  width: 12px;
+  height: 6px;
+  background: url('https://developer.apple.com/design/human-interface-guidelines/images/menu-chevron.png');
+  background-repeat: no-repeat;
+  background-size: 12px 6px;
 }
 
-.sidebar input {display: none;}
-.sidebar label {position: absolute;top: 0;left: 0;bottom: 0;right: 0;cursor: pointer;}
+.sidebar .index>a:first-child:hover {
+  background: transparent;
+}
 
-.sidebar :checked ~ a:before {
+.sidebar .index>a:first-child:before {
+  background: url('/images/logo-new.svg');
+  transform: none;
+  background-size: 1em;
+  width: 1em;
+  top: 0.5em;
+  opacity: 0.3;
+  left: 6px;
+  height: 1em;
+  background-repeat: no-repeat;
+}
+
+.sidebar input {
+  display: none;
+}
+
+.sidebar label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.sidebar :checked~a:before {
   transform: rotate(0);
 }
 
-.sidebar .selected>a{
+.sidebar .selected>a {
   color: black;
   font-weight: 700
 }
 
 
 
-ul.sidebar  ul {
-    display: none;
+ul.sidebar ul {
+  display: none;
 
 }
 
-.sidebar input:checked ~ ul {display: block;}
+.sidebar input:checked~ul {
+  display: block;
+}
 
 .sidebar li {
   margin-bottom: 0.1em;
   border-bottom: 1px solid #eee
 }
 
+.sidebar li ul li:last-child {border-bottom: none;}
+.sidebar li ul {border-top:  1px solid #eee}
+
 .sidebar li ul {
-    list-style: none;
-    margin-bottom: 1em;
-    padding-left: 0;
-    padding-top: 5px;
+  list-style: none;
+  padding-left: 0;
 }
+
+
 .sidebar li ul li {
   padding-left: 1.4em;
-  
+
 }
 
 .sidebar hr {
@@ -117,4 +139,3 @@ ul.sidebar  ul {
   border: none;
   border-top: 1px solid #ddd;
 }
-
