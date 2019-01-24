@@ -15,6 +15,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body.dark {
+  background: #000;
+  color: #fff
+}
+
 a:visited {
   color: #330072;
 }
@@ -55,6 +60,10 @@ footer {
   background: #f7f5f3
 }
 
+.dark header,
+.dark footer {
+  background: #111
+}
 header.transparent {
   background:none
 }

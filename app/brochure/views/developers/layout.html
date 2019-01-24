@@ -1,16 +1,15 @@
 {{> head}}
 
-<body>
+<body class="dark">
   <header>
     <container>
-    <a href="/">Blot</a> / <a href="/developers"><code>Developer's guide</code></a>
+    <index><a href="/">Blot</a> / <a href="/developers"><code>Developer's guide</code></a></index>
     {{> nav}}
   </container>
   </header>
 
   <main class="has-sidebar">
-    <nav>
-      <ul>
+      <ul class="sidebar">
         <li><a href="/developers">Introduction</a></li>
         <li><a href="/developers/how-blot-works">How Blot works</a></li>
         <li><a href="/developers/rendering-templates">Rendering templates</a></li>
@@ -46,7 +45,6 @@
           </ul>
         </li>
       </ul>
-    </nav>
     <content>
     {{{body}}}
   </content>
