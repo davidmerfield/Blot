@@ -39,6 +39,7 @@ p {
 
 h1 {
   font-size: 32px;
+  margin-top: 0rem;
   margin-bottom: 12px
 }
 
@@ -52,11 +53,7 @@ h2+p {
   margin-top: 0
 }
 
-p code,
-li code {
-  background: #eee;
-  padding: 0 5px
-}
+
 
 header,
 footer {
@@ -137,8 +134,10 @@ header ul {
 }
 
 header ul a {
-  margin: 0 10px
+  margin: 0 14px
 }
+
+header ul > :last-child a {margin-right: 0}
 
 header li {
   list-style-type: none;

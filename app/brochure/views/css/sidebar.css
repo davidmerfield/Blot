@@ -7,7 +7,7 @@ ul.sidebar {
   list-style: none;
   width: 25%;
   margin-right: 8em;
-  margin-top: 1.5em;
+  margin-top: 1em;
   position: sticky;
   top: 0;
 }
@@ -116,11 +116,11 @@ ul.sidebar ul {
 
 .sidebar li {
   margin-bottom: 0.1em;
-  border-bottom: 1px solid #eee
+  border-bottom: 1px solid #f2f2f2
 }
 
 .sidebar li ul li:last-child {border-bottom: none;}
-.sidebar li ul {border-top:  1px solid #eee}
+.sidebar li ul {border-top:  1px solid #f2f2f2}
 
 .sidebar li ul {
   list-style: none;

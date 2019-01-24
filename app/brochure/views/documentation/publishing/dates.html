@@ -1,16 +1,15 @@
 <h1>Dates</h1>
 
-<p>A blog post’s publish date is the same as the file’s creation date by default. You can specify a different date in the file’s <a href="#metadata">metadata</a> or in its <a href="#path">path</a>.
-  <!-- You can adjust your blog’s <a href="/preferences">time zone</a> and other date‐related settings on the dashboard. -->The publish date is one of the properties of a blog post you can modify in the <a href="/documentation/metadata">metadata</a>You can use underscores, dashes and dots to seperate the components of the date. at the start of a file. Here’s an example blog post with a modified publish date:</p>
+<p>A blog post’s publish date is the same as the file’s creation date by default. You can specify a different date in the file’s <a href="{{{base}}}/publishing/metadata">metadata</a>:</p>
 <background>
 <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 
-Blot supports a variety of date formats. The following all produce a blog post with the same date:
+Blot supports a variety of date formats. These all produce a post with the same date:
 
 {{#date}}MM/DD/YYYY{{/date}}   {{#date}}MMMM D, YYYY{{/date}}
 {{#date}}M.D.YYYY{{/date}}     {{#date}}YYYY-MM-DD 00-00{{/date}}
 
-
+You can use underscores, dashes and dots to seperate the components of the date.
 </code></pre></background>
 
 <h2>Using the file’s path</h2>
@@ -44,7 +43,7 @@ Blot supports a variety of date formats. The following all produce a blog post w
 
   </tbody>
 </table>
-<p>Please note that a date specified in the file’s <a href="#metadata">metadata</a> takes precedence.</p>
+<p>Please note that a date specified in the file’s <a href="{{{base}}}/publishing/metadata">metadata</a> takes precedence.</p>
 <h2>Schedule a post for publication</h2>
 <p> If you specify a date in the future, your post will be published then.</p>
 
