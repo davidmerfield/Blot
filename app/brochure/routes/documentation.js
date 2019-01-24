@@ -7,11 +7,23 @@ documentation.use(require('./tools/dates'));
 documentation.use(function(req, res, next){
   res.locals.base = '/documentation';
   res.locals.layout = 'documentation/layout';
+  res.locals.selected = {};
+  next();
+});
+
+documentation.param('section', function(req, res, next){
+  res.locals.selected[req.params.section] = 'selected';
+  next();
+});
+
+documentation.param('subsection', function(req, res, next){
+  res.locals.selected[req.params.subsection] = 'selected';
   next();
 });
 
 documentation.get("/", function(req, res) {
   res.locals.title = "Blot – Documentation";
+  res.locals.selected.index = 'selected';
   res.render("documentation");
 });
 

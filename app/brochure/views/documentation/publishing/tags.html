@@ -1,49 +1,45 @@
+<h1>Tags</h1>
 
-<h2>Tags</h2>
-    
-<p>Tags connect blog posts with a common subject. You can tag blog posts in the file’s <a href="#metadata">metadata</a> or in its <a href="#path">path</a>. You can specify a list of tags in the <a href="/documentation/metadata">metadata</a> at the start of a file. Here’s an example blog post with two tags in its metadata:</p>
+<p>Use tags to connect posts by similar subject. Specify tags in the file’s <a href="{{{base}}}/publishing/metadata">metadata</a> or in its <a href="#path">path</a>. Here’s an example blog post with two tags in its metadata:</p>
 
-<div style="background:red;padding:2em 2.5em 2.5em">
-<pre class="text with-chrome" title="Post.txt"><code>Tags: Getting started, Documentation
+<background><pre class="text with-chrome" title="Post.txt"><code>Tags: Getting started, Documentation
 
 Tags are case-insensitive and may contain whitespace. Blot picks the case you used last when displaying the tag on your blog.
 
 
 
 </code></pre>
-</div>
-<h3>Using the file’s path</h3>
+</background>
+
+<h2>Using the file’s path</h2>
 <p>You can add tags to a post in the file’s name or path. Include the tag, wrapped in brackets. Here’s a few examples:</p>
 
-    <table class="bt" style="margin-top:0.75rem">
-      <tbody>
-        <tr>
-        <td>
-          <code class="folder">&nbsp;[Photos]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-          <code class="folder">&nbsp;[Holiday]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-          <code class="file img">&nbsp;Picture.jpg</a></code>          
-        </td>
-        <td class="light">...&puncsp;is tagged&puncsp;...</td>
-        <td>Photos, Holiday</td>
-        </tr>
-        <tr>
-        <td>
-          <code class="folder">&nbsp;[Book notes]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-          <code class="file md">&nbsp;Thief.txt</a></code>          
-        </td>
-        <td class="light">...&puncsp;is tagged&puncsp;...</td>
-        <td>Book notes</td>
-        </tr>
-        <tr>
-        <td>
-          <code class="file md">&nbsp;[Reviews] Pnin.txt</a></code>          
-        </td>
-        <td class="light">...&puncsp;is tagged&puncsp;...</td>
-        <td>Reviews</td>
-        </tr>
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <code class="folder">&nbsp;[Photos]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+        <code class="folder">&nbsp;[Holiday]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+        <code class="file img">&nbsp;Picture.jpg</a></code>
+      </td>
+      <td class="light">...&puncsp;is tagged&puncsp;...</td>
+      <td>Photos, Holiday</td>
+    </tr>
+    <tr>
+      <td>
+        <code class="folder">&nbsp;[Book notes]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
+        <code class="file md">&nbsp;Thief.txt</a></code>
+      </td>
+      <td class="light">...&puncsp;is tagged&puncsp;...</td>
+      <td>Book notes</td>
+    </tr>
+    <tr>
+      <td>
+        <code class="file md">&nbsp;[Reviews] Pnin.txt</a></code>
+      </td>
+      <td class="light">...&puncsp;is tagged&puncsp;...</td>
+      <td>Reviews</td>
+    </tr>
 
-
-      </tbody>
-    </table>
-
-<p><b>Tags are case-insensitive.</b> For example, blog posts tagged ’Apple’ are merged under the same tag as those tagged ’aPpLe’. <!-- It is good practice to use consistent capitalization: w -->When displaying a tag on your blog, Blot picks the case you used last.</p>
+  </tbody>
+</table>

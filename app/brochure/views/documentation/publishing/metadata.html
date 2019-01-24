@@ -1,32 +1,18 @@
-<style type="text/css">
-td {
-  border-bottom-color: ;
-  padding: 0.75rem 3rem 0.75rem 0
-}
-
-td:nth-child(2n) {
-  padding-right: 0
-}
-
-table.bt {
-  border-color:
-}
-</style>
-
-<h2>Metadata</h2>
+<h1>Metadata</h1>
 
 <p>Each post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line. </p>
 
-<div style="background:yellow;padding:2em 2.5em 2.5em">
-<pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+<background><pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
 
 You must leave a space after the colon between the metadata property (e.g. Date) and its value. Metadata must be separated from the rest of the post by at least one blank line. 
 
-</code></pre></div>
+</code></pre></background>
 
 <p>Metadata must be separated from the rest of the post by at least one blank line. Metadata properties are case-insensitive. You can also <a href="/developers">define your own metadata</a> for use in your template. Blot uses this metadata to determine the <a href="/developers">properties of each post</a>. </p>
 </p>
+
+<h2>Reference</h2>
 <table>
   <tbody>
     <tr>
@@ -55,7 +41,8 @@ You must leave a space after the colon between the metadata property (e.g. Date)
     </tr>
     <tr>
       <td>Teaser</td>
-      <td>Defaults to the first few paragraphs of the blog post. You can specify a <a href="/documentation/teasers">teaser</a> in the file’s metadata or insert the <a href="/documentation/teasers">breakpoint</a> yourself.</td>
+      <td>Defaults to the first few paragraphs of the blog post. You can specify a <a href="/documentation/teasers">teaser</a> in the file’s metadata or insert the <a href="/documentation/teasers">breakpoint</a> yourself.You can specify the end of the teaser using the <code>{{more}}</code> tag somewhere in the file. Here’s an example blog post:</p>
+        Everything above the ’more’ tag, including this line, will be in the post’s teaser.Some of Blot’s <a href="/configuring">templates</a> show a teaser for each post on your blog's index page instead of the full post. By default, Blot creates this teaser from the first few paragraphs in the blog post. You can modify the post’s teaser using <a href="#metadata">metadata</a> or insert the <a href="#breakpoint">breakpoint</a> yourself in the middle of the file.</td>
     </tr>
     <tr>
       <td>Tags</td>

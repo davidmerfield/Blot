@@ -6,7 +6,7 @@ body {
 
 body {
   color: rgb(4, 4, 2);
-  line-height: 1.35;
+  line-height: 1.4;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 17px;
   font-weight: 400;
@@ -28,31 +28,35 @@ a {
   color: #005eb8;
 }
 
-a:focus {
-  background-color: #ffb81C;
-  box-shadow: 0 0 0 3px #ffb81C;
-  color: #212b32;
-  outline: 3px solid transparent;
-  outline-offset: 3px;
-}
-
-a:hover {
-  background-color: #fff0a8;
-  box-shadow: 0 0 0 3px #fff0a8;
-  color: #111;
-  text-decoration: none;
-}
 
 a:active {
   color: #374047;
 }
 
-p {max-width: 37em}
+p {
+  max-width: 37em
+}
 
-h1 {font-size: 32px;margin-bottom: 12px}
-h2 {font-size: 1em;margin: 2.7em 0 0}
+h1 {
+  font-size: 32px;
+  margin-bottom: 12px
+}
 
-h2 + p {margin-top: 0}
+h2 {
+  font-size: 1.15em;
+  margin: 2.8em 0 0.35em
+}
+
+
+h2+p {
+  margin-top: 0
+}
+
+p code,
+li code {
+  background: #eee;
+  padding: 0 5px
+}
 
 header,
 footer {
@@ -64,8 +68,9 @@ footer {
 .dark footer {
   background: #111
 }
+
 header.transparent {
-  background:none
+  background: none
 }
 
 header container,
@@ -80,7 +85,7 @@ header index {
 header a {
   text-decoration: none;
   fill: #aaa;
-  transition: color 0.1s ease-out,  fill 0.1s ease-out, background 0.1s ease-out, box-shadow 0.1s ease-out;
+  transition: color 0.1s ease-out, fill 0.1s ease-out, background 0.1s ease-out, box-shadow 0.1s ease-out;
   box-shadow: 0 0 0 5px transparent;
 }
 
@@ -105,12 +110,12 @@ header a:active {
 
 header.transparent a:hover {
   background-color: #f7f5f3;
-  box-shadow: 0 0 0 5px #f7f5f3;  
+  box-shadow: 0 0 0 5px #f7f5f3;
 }
 
 header.transparent a:active {
   background-color: #efeae5;
-  box-shadow: 0 0 0 5px #efeae5;  
+  box-shadow: 0 0 0 5px #efeae5;
 }
 
 header .spacer {
@@ -153,7 +158,7 @@ container {
 }
 
 content {
-  max-width: 75%
+  width: 75%
 }
 
 main.has-sidebar {
@@ -191,12 +196,16 @@ footer {
   margin-top: 6em
 }
 
-th, td {
-  padding: 16px;
+th,
+td {
+  padding: 8px 0;
   border-bottom: 1px solid #eee
 }
 
-th {font-weight: 600;border-bottom-width:2px;}
+th {
+  font-weight: 600;
+  border-bottom-width: 2px;
+}
 
 
 background {
@@ -211,10 +220,26 @@ background .folder {
 }
 
 /* Big link on homepage containing folder to play demo video */
-a.video{text-decoration:none; background: #f7f5f3;padding:6em 4em;margin:0 3em 2.7em;display:block}
-a.video div {opacity: 1.0;transition:opacity 0.1s ease-out;}
-a.video:hover {box-shadow: none;}
-a.video:hover div {opacity: 0.5}
+a.video {
+  text-decoration: none;
+  background: #f7f5f3;
+  padding: 6em 4em;
+  margin: 0 3em 2.7em;
+  display: block
+}
+
+a.video div {
+  opacity: 1.0;
+  transition: opacity 0.1s ease-out;
+}
+
+a.video:hover {
+  box-shadow: none;
+}
+
+a.video:hover div {
+  opacity: 0.5
+}
 
 overlay {
   position: fixed;
@@ -229,7 +254,7 @@ overlay {
 }
 
 overlay stage {
-  margin:2em 0;
+  margin: 2em 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -240,6 +265,7 @@ overlay video {
   height: auto;
   max-height: 80vh
 }
+
 overlay.show {
   z-index: 1;
   opacity: 1
@@ -263,13 +289,17 @@ overlay.show {
 }
 
 .sites li img {
-  position: absolute;top: 0.2em;left: 1.5em
+  position: absolute;
+  top: 0.2em;
+  left: 1.5em
 }
 
-.action-link {    color: #aaa;
-    text-decoration: none;
-    display: inline-block;
-    border: 2px solid;
-    border-radius: 0.125em;
-    padding: 0.5em 1em;
-    margin: 0 1em;}
+.action-link {
+  color: #aaa;
+  text-decoration: none;
+  display: inline-block;
+  border: 2px solid;
+  border-radius: 0.125em;
+  padding: 0.5em 1em;
+  margin: 0 1em;
+}

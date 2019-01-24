@@ -83,6 +83,7 @@ ul.sidebar  {
 
 .sidebar .selected>a{
   color: black;
+  font-weight: 700
 }
 
 
@@ -91,23 +92,29 @@ ul.sidebar  ul {
     display: none;
 
 }
+
 .sidebar input:checked ~ ul {display: block;}
 
 .sidebar li {
   margin-bottom: 0.1em;
+  border-bottom: 1px solid #eee
 }
 
 .sidebar li ul {
     list-style: none;
     margin-bottom: 1em;
-    margin-left: 0.25em;
     padding-left: 0;
     padding-top: 5px;
+}
+.sidebar li ul li {
+  padding-left: 1.4em;
+  
 }
 
 .sidebar hr {
   margin-top: 10px;
   margin-bottom: 8px;
-  max-width: 60%;
+  border: none;
+  border-top: 1px solid #ddd;
 }
 

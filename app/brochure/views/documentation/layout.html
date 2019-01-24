@@ -1,6 +1,6 @@
 {{> header}}
 
-  <main class="has-sidebar">
+  <main class="has-sidebar" style="padding-top:3em">
 
       <ul class="sidebar">
 
@@ -22,6 +22,9 @@
             </li>
             <li class="{{selected.tags}}">
               <a href="{{{base}}}/publishing/tags">Tags</a>
+            </li>
+            <li class="{{selected.images}}">
+              <a href="{{{base}}}/publishing/images">Images</a>
             </li>
             <li class="{{selected.dates}}">
               <a href="{{{base}}}/publishing/dates">Dates</a>
@@ -48,31 +51,25 @@
             <li class="{{selected.typography}}">
               <a href="{{{base}}}/configuring/typography">Typography</a>
             </li>
-            <li class="{{selected.typography}}">
-              <a href="{{{base}}}/configuring/services">Adding comments</a>
-            </li>
             <li class="{{selected.redirects}}">
               <a href="{{{base}}}/configuring/redirects">Redirects</a>
             </li>
-            <li class="{{selected.redirects}}">
-              <a href="{{{base}}}/configuring/permalinks">Permalinks format</a>
+            <li class="{{selected.permalinks}}">
+              <a href="{{{base}}}/configuring/permalinks">Changing permalinks</a>
             </li>
-            <li class="{{selected.analytics}}">
-              <a href="{{{base}}}/configuring/analytics">Enabling analytics</a>
+            <li class="{{selected.services}}">
+              <a href="{{{base}}}/configuring/services">External services</a>
             </li>
-            <li class="{{selected.micro-blog}}">
-              <a href="{{{base}}}/configuring/micro-blog">Micro.blog</a>
-            </li>            
           </ul>
         </li>
 
         <li class="has-list {{selected.clients}}">
           <input type="checkbox" name="clients" id="clients" {{#selected.clients}} checked{{/selected.clients}}> <a href="{{{base}}}/clients">Clients<label for="clients"></label></a>
           <ul>
-            <li class="{{selected.git}}">
+            <li class="{{selected.dropbox}}">
               <a href="{{{base}}}/clients/dropbox">Dropbox</a>
             </li>
-            <li class="{{selected.dropbox}}">
+            <li class="{{selected.git}}">
               <a href="{{{base}}}/clients/git">Git</a>
             </li>
           </ul>
@@ -86,8 +83,8 @@
           <a href="{{{base}}}/account">Text-editors</a>
         </li>
 
-        <hr>
-
+<!--         <hr>
+ -->
         <li>
           <a href="/formatting">Formatting guide</a>
         </li>
