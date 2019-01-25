@@ -13,3 +13,18 @@ Posts
 </background>
 
 <p>Paths to files are case-insensitive.</p>
+
+<h2>Embedding images in posts</h2>
+
+<p>An image in your blog’s folder becomes its own <a href="{{base}}/publishing/posts">blog post</a> by default. However, files and fold­ers whose name starts with an un­der­score are ig­nored. Ignored ﬁles don’t be­come blog posts them­selves but they can be em­bed­ded in other posts. You can use <a href="/formatting">Markdown</a> to embed an image in your post:</p>
+
+<background><pre class="text with-chrome" title="Post.txt"><code>Here’s how to embed an image in your folder:
+
+![Image title](/path/to/the/_image.jpg)
+
+Absolute paths are resolved with your blog’s folder as root. Relative paths are resolved from the location of this file.
+
+You can also embed an image that’s already on the internet:
+
+![Image title](https://url.of/the/image.jpg)
+</code></pre></background>

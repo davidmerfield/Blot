@@ -71,4 +71,17 @@ You must leave a space after the colon between the metadata property (e.g. Date)
 </div>
 
 <h2>Custom metadata</h2>
-<p>You can also <a href="/developers">define your own metadata</a> for use in your template. Blot uses </p>this 
+<p>You can also <a href="/developers">define your own metadata</a> for use in your template. Blot uses </p>
+
+<h2>Metadata in HTML files</h2>
+<p>You can use a comment at the start of an HTML file to specify metadata.</p>
+
+<background><pre class="code html" title="Post.html"><code><!--
+Date: {{#date}}MMMM Do, YYYY{{/date}}
+Permalink: /metadata
+-->
+
+The comment containing metadata in an HTML file
+<b>must</b> start on the file's first line.
+
+</code></pre></background>

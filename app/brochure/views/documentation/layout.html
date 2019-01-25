@@ -1,5 +1,6 @@
 {{> header}}
 
+<link rel="stylesheet" href="/css/tex.css">
 <main class="has-sidebar" style="padding-top:3em">
 
   <ul class="sidebar">
@@ -22,9 +23,6 @@
         </li>
         <li class="{{selected.tags}}">
           <a href="{{{base}}}/publishing/tags">Tags</a>
-        </li>
-        <li class="{{selected.images}}">
-          <a href="{{{base}}}/publishing/images">Images</a>
         </li>
         <li class="{{selected.dates}}">
           <a href="{{{base}}}/publishing/dates">Dates</a>
@@ -75,21 +73,7 @@
       </ul>
     </li>
 
-    <li class="has-list {{selected.tips}}">
-      <input type="checkbox" name="tips" id="tips" {{#selected.tips}} checked{{/selected.tips}}> <a href="{{{base}}}/tips">Resources<label for="tips"></label></a>
-      <ul>
-        <li class="{{selected.text-editors}}">
-          <a href="{{{base}}}/tips/text-editors">Text editors</a>
-        </li>
-        <li class="{{selected.keyboard-shortcuts}}">
-          <a href="{{{base}}}/tips/keyboard-shortcuts">Keyboard shortcuts</a>
-        </li>
-        <li class="{{selected.keyboard-shortcuts}}">
-          <a href="{{{base}}}/tips/keyboard-shortcuts">Cross posting</a>
-        </li>
-
-      </ul>
-    </li>
+    
 
     <li class="{{selected.account}}">
       <a href="{{{base}}}/account">Account and billing</a>

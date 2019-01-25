@@ -1,17 +1,15 @@
-<div class=" w-right-offset">
 <h1>Redirects</h1>
 
-<p class="measure">You can <a href="/settings/urls/redirects">set up redirects</a> for missing or moved pages on your blog. Your blog’s <a href="/settings/urls/404s">404 log</a> will help you discover broken links. You can specify individual redirects or use RegEx to specify a general rule.</p>
+<p>You can <a href="/settings/urls/redirects">set up redirect rules</a> for missing or moved pages on your blog. Your blog’s <a href="/settings/urls/404s">404 log</a> will help you discover broken links. </p>
 
-<p class="measure">Redirects are evaluated last in the order of <a href="/developers#routing">Blot’s routing</a>. This means that Blot will not evaluate a redirect if it matches an existing blog post’s URL, or the path to a file in your folder. Here are a few example redirect rules:</p>
+<p>You can specify individual redirects or use a <a href="https://en.wikipedia.org/wiki/Regular_expression">regular expression</a> to match multiple URLs. Here are a few example redirect rules:</p>
 
-<style type="text/css">td:nth-child(3) {padding-right: 0} td:nth-child(2), td:nth-child(1) {padding-right: 4.5rem}</style>
-<p class="measure"></p>
-<table class="w-100 bt">
+<small>
+<table>
   <thead>
-    <td class="light">From</td>
-    <td class="light">To</td>
-    <td class="light">Explanation</td>
+    <th>From</th>
+    <th>To</th>
+    <th>Explanation</th>
   </thead>
   <tr>
     <td>
@@ -24,7 +22,7 @@
       Will redirect the URL <code>/apples</code> to the URL <code>/oranges</code>, assuming there is no blog post or file with the URL <code>/apples</code>.
     </td>
   </tr>
-    <tr>
+  <tr>
     <td>
       <code>\/post\/(.*)</code>
     </td>
@@ -35,7 +33,6 @@
       Will redirect URLs starting with <code>/post</code> to URLs starting with <code>/blog</code>.
     </td>
   </tr>
+</table></small>
 
-
-
-</div>
+<p>Redirects are evaluated last. This means that a redirect will not resolve if it matches an existing blog post’s URL, or the path to a file in your folder.</p>

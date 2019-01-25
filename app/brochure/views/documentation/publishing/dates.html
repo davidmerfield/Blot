@@ -1,8 +1,8 @@
 <h1>Dates</h1>
 
-<p>A blog post’s publish date is the same as the file’s creation date by default. You can specify a different date in the file’s <a href="{{{base}}}/publishing/metadata">metadata</a>:</p>
+<p>A blog post’s publish date is the same as the file’s creation date by default. You can specify a different date in the file’s <a href="#path">path</a> or in its <a href="{{{base}}}/publishing/metadata">metadata</a>:</p>
 <background>
-<pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+  <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 
 Blot supports a variety of date formats. These all produce a post with the same date:
 
@@ -10,11 +10,12 @@ Blot supports a variety of date formats. These all produce a post with the same 
 {{#date}}M.D.YYYY{{/date}}     {{#date}}YYYY-MM-DD 00-00{{/date}}
 
 You can use underscores, dashes, slashes and dots to seperate the numbers in the date.
-</code></pre></background>
+</code></pre>
+</background>
 
-<h2>Using the file’s path</h2>
+<h2 id="path">Using the file’s path</h2>
 <p>You can specify a post’s publish date in its path. For example, all four of these posts share the same publish date:</p>
-<table class="bt" style="margin-top:0.75rem">
+<table>
   <tbody>
     <tr>
       <td>

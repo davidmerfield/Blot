@@ -1,5 +1,9 @@
 var Express = require("express");
 var documentation = new Express.Router();
+var tex = require('./tools/tex');
+
+// Renders TeX
+documentation.use(tex);
 
 // Renders dates dynamically
 documentation.use(require('./tools/dates'));

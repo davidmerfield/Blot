@@ -20,6 +20,10 @@ body.dark {
   color: #e2e1df
 }
 
+small {
+  font-size: 15px
+}
+
 code {
   font-family: 'IA Writer Duospace', Consolas, monaco, monospace;
 }
@@ -34,26 +38,35 @@ a:visited {
 
 a {
   color: #005eb8;
+  text-decoration: none;
 }
 
+p a:hover {
+  text-decoration: underline;
+}
 
-a:active {
-  color: #374047;
+p a:active,
+p a:focus {
+  text-decoration: none;
+  outline: 2px solid;
 }
 
 p {
-  max-width: 37em
+  max-width: 39em
 }
 
 h1 {
   font-size: 32px;
-  margin-top: 0rem;
+  margin-top: 0.5rem;
   margin-bottom: 12px
 }
 
 h2 {
-  font-size: 1.15em;
-  margin: 2.8em 0 0.35em
+  font-size: 1em;
+  margin: 2.8em 0 0.35em;
+  border-bottom: 1px solid;
+  padding: 0.5rem 0 0.3em;
+  font-weight: 700;
 }
 
 
@@ -231,33 +244,45 @@ footer {
   margin-top: 6em
 }
 
+table {
+  width: 100%;
+    margin-bottom: 3em;
+    word-wrap: normal;
+    table-layout: fixed;
+    display: table;
+    overflow: hidden;
+        border-collapse: collapse;
+    border-spacing: 0;
+    overflow-x: auto;
+}
+
 th,
 td {
   padding: 8px 0;
+  text-align: left;
   border-bottom: 1px solid #eee
 }
 
 th {
   font-weight: 600;
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
+  border-color: inherit
 }
 
-
-tr:first-of-type td {
-  border-top: 1px solid #eee
-}
-
-td {
+td,
+th {
   vertical-align: top;
   padding-left: 1em;
   padding-right: 1em;
 }
 
-td:first-child {
+td:first-child,
+th:first-child {
   padding-left: 0
 }
 
-td:last-child {
+td:last-child,
+th:last-child {
   padding-right: 0
 }
 
