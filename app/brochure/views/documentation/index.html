@@ -1,161 +1,20 @@
-<p><b>Organize your folder as you like.</b> You can organize the files in your folder to suit you and your blog. Create subfolders if you like, or don't. You can always re-organize your folder later.</p>
+<p>Blot turns a folder into a blog. Text and Markdown ﬁles, Word Documents, im­ages, book­marks and HTML in your folder be­come blog posts.</p>
+
+<p>You can organize the files in your folder to suit you and your blog. Create subfolders if you like, or don't. You can always re-organize your folder as you add files.</p>
 
 <background><pre class="folder" title="Your blog"><code>Drafts
 Pages
 Posts
-  Bookmark.webloc
-  Document.docx
-  Image.jpg
-  Markdown.md
-  Text.txt
-  Webpage.html
-
-
-</code>
-    </pre></background>
-
-<p>All of these files become blog posts automatically when you put them somewhere inside your blog’s folder:</p>
-<ul>
-  <li><b>Text and markdown</b> Use the full range of markdown features in these files, including footnotes.</li>
-  <li><b>Word documents</b> Most of the typographic formatting is stripped.</li>
-  <li><b>Bookmarks</b> Drag URLs from your browser's address bar to create these files. Blot turns them into a simple link.</li>
-  <li><b>Images</b> Drag URLs from your browser's address bar to create these files. Blot turns them into a link back to the original site.</li>
-  <li><b>HTML</b> Use HTML fragments. Blot will leave them as is.</li>
-
-</ul>
-<p>Any changes you make are applied automatically to your site. See <a href="./drafts">Drafts</a></p>
-<!-- <table class="bt" style="margin-top:0.75rem">
-      <tbody>
-        <tr>
-        <td><code class="file md">&nbsp;Text and Markdown</a></code></td>
-        <td><span class="light">.txt&nbsp; .md</span></td>
-        <td>Full support for Markdown, including footnotes, LaTeX, code highlighting.
-        </tr>
-        <tr>
-        <td><code class="file txt">&nbsp;Word Documents</a></code></td>
-        <td><span class="light">.docx &nbsp;.odt</span></td>
-        </tr>
-        <tr>
-        <td><code class="file webloc">&nbsp;Bookmarks</a></code></td>
-        <td><span class="light">.webloc&nbsp; .url</span></td>
-        <td>Become a link to the bookmark</td>
-        </tr>
-        <tr>
-        <td><code class="file img" style="margin-left:-3px">&nbsp;Images</a></code></td>
-        <td><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></td>
-        </tr>
-        <tr>
-        <td style="border:none"><code class="file html">&nbsp;HTML</a></code></td>
-        <td style="border:none"><span class="light">.html &nbsp; .htm</span></td>
-        </tr>
-      </tbody>
-    </table> -->
-<p><b>Organize your folder as you like.</b> You can organize the files in your folder to suit you and your blog. Create subfolders if you like, or don't. You can always re-organize your folder later.</p>
-
-<background><pre class="folder" title="Your blog"><code>Drafts
-Pages
-Posts
-  Bookmark.webloc
-  Document.docx
-  Image.jpg
-  Markdown.md
-  Text.txt
-  Webpage.html
-
-
-</code>
-    </pre></background>
-
-
-<p><b>Add formatting to your posts</b>. Blot supports a variety of standard tools to add formatting to your blog posts.</b> You can use <a href="/formatting">Markdown</a> to add links, headings, lists and much more. Blot also renders mathematics set in <a class="bn" href="/formatting">\(\TeX\)</a> and</span> provides syntax highlighting for code snippets.</p>
-
-<a href="/formatting" class="next small db bt b--black-10">
-      Read the formatting guide
-    </a>
-<background><pre class="text with-chrome narrow" title="Post"><code><b># Formatting</b>
-
-You can use <em>*Markdown*</em>, a lightweight markup language for plain text files.
-
-Use it for links, headings, lists and much more.
-
-</code>
-    </pre></background>
-
-  <h2 class="mt0">Drafts</h2>
-  <p class="measure" style="margin-bottom:0.75rem">Files in a folder called ‘Drafts’ are not published. Instead, Blot creates a preview file which updates as you make edits.</p>
-  <h2 class="mt0">Pages</h2>
-  <p class="measure mb0">Files in a folder called ‘Pages’ become pages instead of blog posts. They are added to your blog’s menu.</p>
-
-<div class="w-50 fr pc">
-  <pre class="folder" title="Your blog"><code>Drafts
-  Anecdote.txt
-  Anecdote.txt.html
-  Unpublished.txt
-  Unpublished.txt.html
-Pages
-  About.txt
-  Contact.txt
-  Home.txt
-Posts
+  Apple.txt
+  Bannana.txt
+  Cherry.txt
 
 
 </code>
     </pre>
-</div>
+</background>
 
-<div class="cf spacer"></div>
-
-<div class="w-50 fl pc">
-  <h2 class="mt0" >Metadata</h2>
-  <p class="measure">Each blog post’s permalink and date is generated automatically from the file’s contents and location. You can override this <a href="/documentation/metadata">metadata</a> at the start of a file.</p>
-  <a href="/documentation/dates" class="next small db bt b--black-10">
-      How to change a post’s date
-    </a>
-  <!--     <a href="/documentation/url" class="next small db bt b--black-10">
-      Change a blog post’s URL
-    </a>
- --> <a href="/documentation/tags" class="next small db bt b--black-10">
-      How to add tags to a post
-    </a>
-  <a href="/documentation/metadata" class="next small db bt b--black-10">
-      View the metadata reference
-    </a>
-</div>
-
-<div class="w-50 fr pc">
-  <pre class="text with-chrome narrow" title="Post"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
-Permalink: /metadata
-
-Metadata must start on the file’s first line and must be separated from the rest of the post by at least one blank line. You must leave a space after the colon.
-
-</code>
-    </pre>
-</div>
-
-<div class="cf spacer"></div>
-
-<div class="w-50 fl pc">
-  <h2 class="mt0" >Public files</h2>
-
-  <p class="measure mb0">Every file in your blog’s folder is public. Use this feature to distribute files to your readers and embed media in blog posts.</p>
-
-  <a href="/documentation/public-files" class="next small db bt b--black-10">
-      Guide to public files
-    </a>
-  <br>
-
-</div>
-
-<div class="w-50 fr pc">
-  <pre class="folder" title="Your blog"><code>_Assets
-  Archive.zip
-  Index.html
-  Photo.jpg
-Posts
-</code>
-    </pre>
-</div>
-</div>
+<p>You can synchronize your folder with <a href="{{{base}}}/clients/dropbox">Dropbox</a> or <a href="{{{base}}}/clients/git">Git</a>. All Blot needs is a folder.</p>
 
 
-
+<p>Because Blot is file and folder based, you can use your own text-editor. Blot tries to get out of the way.</p>
