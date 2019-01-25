@@ -1,30 +1,33 @@
 <h1>Rendering templates</h1>
 
+<style type="text/css">
+small pre {padding-left: 2.4em;color: #aaa}
+</style>
 <p>Templates are written in <A href="https://mustache.github.io/mustache.5.html">Mustache</a>. A typical Mustache template:</p>
 
-<pre><code>Hello \{{name}}
+<small><pre><code>Hello \{{name}}
 You have just won \{{value}} dollars!
 \{{#in_ca}}
 Well, \{{taxed_value}} dollars, after taxes.
 \{{/in_ca}}
-</code></pre>
+</code></pre></small>
 
 <p>Given the following object:</p>
 
-<pre><code>{
+<small><pre><code>{
   "name": "Chris",
   "value": 10000,
   "taxed_value": 10000 - (10000 * 0.4),
   "in_ca": true
 }
-</code></pre>
+</code></pre></small>
 
 <p>Will produce the following:</p>
 
-<pre><code>Hello Chris
+<small><pre><code>Hello Chris
 You have just won 10000 dollars!
 Well, 6000.0 dollars, after taxes.
-</code></pre>
+</code></pre></small>
 
 <p>You can retrieve the object used to render any template on Blot by appending the query string <em>?debug=true</em> to any URL rendered on Blot</p>
 
@@ -37,7 +40,7 @@ clauses, or for loops. Instead there are only tags. Some tags are
 replaced with a value, some nothing, and others a series of
 values. This document explains the different types of Mustache tags.</p>
 
-<h2 id="TAG-TYPES">TAG TYPES</h2>
+<h2 id="TAG-TYPES">Tag types</h2>
 
 <p>Tags are indicated by the double mustaches. <code>\{{person}}</code> is a tag, as
 is <code>\{{#person}}</code>. In both examples, we'd refer to <code>person</code> as the key
@@ -61,29 +64,29 @@ useful when changing delimiters (see "Set Delimiter" below).</p>
 be configured in your Mustache library. The Ruby version of Mustache
 supports raising an exception in this situation, for instance.</p>
 
-<p>Template:</p>
+<p>The template:</p>
 
-<pre><code>* \{{name}}
-* {{age}}
+<small><pre><code>* \{{name}}
+* \{{age}}
 * \{{company}}
-* {{{company}}}
-</code></pre>
+* \{{{company}}}
+</code></pre></small>
 
-<p>Hash:</p>
+<p>When given the following object:</p>
 
-<pre><code>{
+<small><pre><code>{
   "name": "Chris",
   "company": "&lt;b&gt;GitHub&lt;/b&gt;"
 }
-</code></pre>
+</code></pre></small>
 
-<p>Output:</p>
+<p>Will produce:</p>
 
-<pre><code>* Chris
+<small><pre><code>* Chris
 *
 * &amp;lt;b&amp;gt;GitHub&amp;lt;/b&amp;gt;
 * &lt;b&gt;GitHub&lt;/b&gt;
-</code></pre>
+</code></pre></small>
 
 <h3 id="Sections">Sections</h3>
 
@@ -102,18 +105,18 @@ list, the HTML between the pound and slash will not be displayed.</p>
 
 <p>Template:</p>
 
-<pre><code>Shown.
+<small><pre><code>Shown.
 \{{#person}}
   Never shown!
 \{{/person}}
-</code></pre>
+</code></pre></small>
 
 <p>Hash:</p>
 
-<pre><code>{
+<small><pre><code>{
   "person": false
 }
-</code></pre>
+</code></pre></small>
 
 <p>Output:</p>
 

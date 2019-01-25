@@ -16,12 +16,20 @@ body {
 }
 
 body.dark {
-  background: #000;
-  color: #fff
+  background: #111;
+  color: #e2e1df
+}
+
+code {
+  font-family: 'IA Writer Duospace', Consolas, monaco, monospace;
 }
 
 a:visited {
   color: #330072;
+}
+
+.dark a {
+  color: #64a0da
 }
 
 a {
@@ -63,7 +71,7 @@ footer {
 
 .dark header,
 .dark footer {
-  background: #111
+  background: #0a0a0a
 }
 
 header.transparent {
@@ -75,8 +83,34 @@ footer container {
   display: flex;
 }
 
-header index {
+.grow-index index {
   flex-grow: 1;
+}
+
+header index a {
+  color: #29201b
+}
+
+header index svg {
+  width: 20px;
+  margin-right: 4px;
+  position: relative;
+  top: 1px;
+  enable-background: new 0 0 61.1004448 49.8005981;
+}
+
+header index svg {
+  fill: #fff;
+  stroke: #29201b;
+}
+
+.dark header index a {
+  color: #fff
+}
+
+.dark header index svg {
+  fill: #000;
+  stroke: #fff;
 }
 
 header a {
@@ -137,7 +171,9 @@ header ul a {
   margin: 0 14px
 }
 
-header ul > :last-child a {margin-right: 0}
+header ul> :last-child a {
+  margin-right: 0
+}
 
 header li {
   list-style-type: none;
@@ -213,9 +249,11 @@ background {
   background: #96deff
 }
 
-background + h2, background + h3 {
-margin-top: 3em
+background+h2,
+background+h3 {
+  margin-top: 3em
 }
+
 /*
 background:nth-of-type(1){background: #77d3fb}
 background:nth-of-type(2){background: #faba40}

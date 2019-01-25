@@ -119,8 +119,12 @@ ul.sidebar ul {
   border-bottom: 1px solid #f2f2f2
 }
 
-.sidebar li ul li:last-child {border-bottom: none;}
 .sidebar li ul {border-top:  1px solid #f2f2f2}
+
+.dark .sidebar li,
+.dark .sidebar li ul {border-color: #222}
+
+.sidebar li ul li:last-child {border-bottom: none;}
 
 .sidebar li ul {
   list-style: none;
