@@ -243,6 +243,25 @@ th {
 }
 
 
+tr:first-of-type td {
+  border-top: 1px solid #eee
+}
+
+td {
+  vertical-align: top;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+td:first-child {
+  padding-left: 0
+}
+
+td:last-child {
+  padding-right: 0
+}
+
+
 background {
   padding: 2em 4em 2.5em;
   display: block;
