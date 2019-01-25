@@ -100,23 +100,6 @@ footer container {
   flex-grow: 1;
 }
 
-header index a {
-  color: #29201b
-}
-
-header index svg {
-  width: 20px;
-  margin-right: 4px;
-  position: relative;
-  top: 1px;
-  enable-background: new 0 0 61.1004448 49.8005981;
-}
-
-header index svg {
-  fill: #fff;
-  stroke: #29201b;
-}
-
 .dark header index a {
   color: #fff
 }
@@ -161,6 +144,26 @@ header.transparent a:active {
   background-color: #efeae5;
   box-shadow: 0 0 0 5px #efeae5;
 }
+
+
+header index a, 
+header index a:visited {
+  color: #29201b
+}
+
+header index svg {
+  width: 23px;
+  margin-right: 4px;
+  position: relative;
+  top: 3px;
+  enable-background: new 0 0 61.1004448 49.8005981;
+}
+
+header index svg {
+  fill: #fff;
+  stroke: #29201b;
+}
+
 
 header .spacer {
   height: 14px;

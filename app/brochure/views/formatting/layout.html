@@ -1,15 +1,15 @@
 {{> head}}
-<link rel="stylesheet" href="/css/tex.css">
+
 <body>
-<header>
-  <container>
-    <a href="/">Blot</a> / <a href="/formatting">Formatting guide</a>
-  {{> nav}}
-</container>
-</header>
-<main class="has-sidebar">
-  <nav>
-    <ul>
+  <link rel="stylesheet" href="/css/tex.css">
+  <header>
+    <container>
+    {{> logo}} &nbsp;&nbsp;  / &nbsp;&nbsp; <a href="/formatting"><code>Formatting guide</code></a>
+  </container>
+  </header>
+
+  <main class="has-sidebar">
+      <ul class="sidebar">
       <li class="{{selected.markdown}}">
         <a href="/formatting/markdown">Markdown</a>
       </li>
