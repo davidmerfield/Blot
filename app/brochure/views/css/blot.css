@@ -66,9 +66,8 @@ p {
 
 h1 {
   font-size: 32px;
-  margin-top: 0rem;
   line-height: 1.1;
-  margin-bottom: 1.1em
+  margin-bottom: 1.1em 0 0
 }
 
 h2 {
@@ -88,7 +87,7 @@ h2+p {
 /* This keeps the footer off the main page */
 main {
   min-height: calc(100vh - 2rem);
-  padding: 1em 0;
+  padding: 2em 0;
 }
 
 main,
@@ -112,13 +111,16 @@ main.has-sidebar nav {
 ul.templates {
   display: flex;
   margin: 0;
+  flex-wrap: wrap;
   padding: 0
 }
 
 ul.templates li {
   list-style-type: none;
+  min-width: 200px;
+  width: 25%;
+  box-sizing: border-box;
   padding: 1.5rem 0.5rem;
-  background: #f6f6f6
 }
 
 ul.templates li strong {
