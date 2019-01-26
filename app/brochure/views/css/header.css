@@ -68,14 +68,14 @@ a.index,
 a.index:visited {
   color: #312c25;
   position: relative;
-  padding-left: 3em
+  padding-left: 2.7em
 }
 
 a.index svg {
   width: 1.6em;
   position: absolute;
-  top: 0.55em;
-  left: 0.8em;
+  top: 0.2em;
+  left: 0.5em;
   fill: #fff;
   stroke: #312c25;
   enable-background: new 0 0 61.1004448 49.8005981;

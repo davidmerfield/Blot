@@ -4,13 +4,10 @@
 
   <link rel="stylesheet" href="/css/tex.css">
   <main class="has-sidebar" style="padding-top:3em">
-
+    <div style="flex-grow:1"></div>
     <ul class="sidebar">
       {{> home_link}}
       <br><br>
-<!--       <li class="{{selected.index}}">
-        <a href="{{{base}}}/" style="" class="fix">How to use Blot</a>
-      </li> -->
 
       <li class="has-list {{selected.publishing}}">
         <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">Publishing<label for="publishing"></label></a>
@@ -129,18 +126,19 @@
         <a href="{{{base}}}/account">Account and billing</a>
       </li>
 
-      <!--         <hr>
- -->
       <br>
+           <!--  <img style="max-width:138px;margin:1em 0;display:block;width:138px;margin-left:-0.5em;    clear: both;
+    float: none;" src="/butt.png"> -->
+
    <li>
         <a href="/support">Support</a>
       </li>
       <li>
-        <a href="/formatting">Formatting guide &rarr;</a>
+        <a href="/formatting">Formatting guide</a>
       </li>
 
       <li>
-        <a href="/developers">Developer's guide &rarr;</a>
+        <a href="/developers">Developers</a>
       </li>
 
    <li>
@@ -154,6 +152,8 @@
     <content>
       {{{body}}}
     </content>
+    <img style="max-width:138px;height:41px;margin:0 0;display:block;flex-shrink:0;width:138px;margin-left:-0.5em;    clear: both;
+    float: none;" src="/butt.png">
   </main>
 
   {{> footer}}
