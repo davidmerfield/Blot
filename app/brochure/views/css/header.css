@@ -6,6 +6,7 @@ header {
 header container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 header.transparent {
@@ -31,8 +32,8 @@ header label {
   fill: #aaa;
   white-space: nowrap;
   border-radius: 3px;
-  padding: 0.575em .8em;
-  margin: -0.575em -.8em;
+  padding: 0.55em .8em;
+  margin: -0.55em -.8em;
 }
 
 header a,
@@ -54,6 +55,7 @@ header ul :last-of-type a {background: #c3beb9}
 */
 header a:active {
   background-color: #e2dfdb;
+  color: #000;
 }
 
 header.transparent a:hover {
@@ -75,7 +77,7 @@ header a[href="/"]:visited {
 header a[href="/"] svg {
   width: 1.6em;
   position: absolute;
-  top: 0.5em;
+  top: 0.55em;
   left: 0.8em;
   fill: #fff;
   stroke: #312c25;
@@ -139,17 +141,20 @@ label[for="toggle"] {
 }
 
 
-@media screen and (min-width: 800px) {
+@media screen and (max-width: 990px) {
+  collapse {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 700px) {
   label[for="toggle"] {
     display: none;
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 700px) {
 
-  collapse {
-    display: none;
-  }
 
   input[name="toggle"]+ul {
     display: none;
@@ -159,21 +164,19 @@ label[for="toggle"] {
     display: block;
   }
 
-  header container {
-    display: block;
-  }
-
   header ul {
     display: block;
     padding: 0;
+    width: 100%;
     margin: 1em -0.8em 0;
-    margin-top: 1em
+    margin-top: 1em;
+    padding: 0 0.8em;
   }
 
   header ul li {
     border-top: 1px solid #efeae5;
   }
-  
+
   header ul li.spacer {
     display: none !important
   }
