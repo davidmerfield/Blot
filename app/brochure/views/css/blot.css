@@ -1,11 +1,15 @@
 /* So I focus */
-/*main, footer {display: none!important;}
+/*main {display: none!important;}
 */
 
 html,
 body {
   padding: 0;
-  margin: 0
+  margin: 0;
+}
+
+html {
+  background: #f7f5f3;
 }
 
 body {
@@ -15,6 +19,7 @@ body {
   font-size: 17px;
   font-weight: 400;
   color: #000;
+  background: #fff;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
 }

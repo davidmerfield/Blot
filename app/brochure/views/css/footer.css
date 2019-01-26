@@ -1,11 +1,11 @@
 footer {
   display: flex;
-  margin-top: 6em
-}
+  margin-top: 6em;
+  padding: 2em 1em 6em;
+  background: #f7f5f3;
+  fill: #fff;
+  stroke: #312c25;
 
-footer {
-  padding: 2em 1rem 1em;
-  background: #f7f5f3
 }
 
 
@@ -15,4 +15,32 @@ footer {
 
 footer container {
   display: flex;
+  align-items: baseline;
+}
+
+footer li a:hover,
+footer li a:active {
+  background: none
+}
+
+footer container>* {
+  margin-right: 2em
+}
+
+footer container> :last-child {
+  margin-right: 0
+}
+
+footer p {
+  max-width: 19em;
+  color: #a09d9c
+}
+
+footer li {
+  list-style-type: none;
+}
+
+footer ul a {
+  color: #a09d9c;
+  text-decoration: none;
 }

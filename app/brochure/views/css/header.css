@@ -17,43 +17,40 @@ header.transparent {
   background: #0a0a0a
 }
 
-.dark header a[href="/"] {
+.dark a.index {
   color: #fff;
 }
 
-.dark header a[href="/"] svg {
+.dark a.index svg {
   fill: #000;
   stroke: #fff;
 }
 
 header a,
-header label {
+header label,
+header a:visited,
+footer a,
+footer a:visited {
   text-decoration: none;
-  fill: #aaa;
+  fill: #a09d9c;
+  color: #a09d9c;
   white-space: nowrap;
   border-radius: 3px;
   padding: 0.55em .8em;
   margin: -0.55em -.8em;
 }
 
-header a,
-header a:visited {
-  color: #a09d9c;
-}
-
 
 header a:hover,
-header label:hover {
+header label:hover,
+footer a:hover {
   color: #312c25;
   fill: #312c25;
   background-color: #ece9e6;
 }
 
-/*
-header ul :first-of-type a {background: #efeae5}
-header ul :last-of-type a {background: #c3beb9}
-*/
-header a:active {
+header a:active,
+footer a:active {
   background-color: #e2dfdb;
   color: #000;
 }
@@ -67,14 +64,14 @@ header.transparent a:active {
 }
 
 
-header a[href="/"],
-header a[href="/"]:visited {
+a.index,
+a.index:visited {
   color: #312c25;
   position: relative;
   padding-left: 3em
 }
 
-header a[href="/"] svg {
+a.index svg {
   width: 1.6em;
   position: absolute;
   top: 0.55em;
@@ -84,15 +81,10 @@ header a[href="/"] svg {
   enable-background: new 0 0 61.1004448 49.8005981;
 }
 
-
 header .spacer {
   height: 17px;
   margin: 3px 1em;
   border-right: 1px solid #ded8d3;
-}
-
-header img {
-  margin-right: 0.5rem
 }
 
 header * {
@@ -104,8 +96,6 @@ header ul {
   list-style-type: none;
 }
 
-
-
 header ul a {
   margin: 0 0em
 }
@@ -113,7 +103,6 @@ header ul a {
 header ul> :last-child a {
   margin-right: 0
 }
-
 
 input[name="toggle"] {
   display: none;
