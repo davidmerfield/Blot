@@ -1,9 +1,16 @@
 var Express = require("express");
 var brochure = new Express.Router();
 var finder = require('finder');
+var tex = require('./tools/tex');
 
 // Renders the folders and text editors
 brochure.use(finder.middleware);
+
+// Renders TeX
+brochure.use(tex);
+
+// Renders dates dynamically
+brochure.use(require('./tools/dates'));
 
 // Fixes basic typographic errors 
 // See typeset.js for more information
@@ -15,11 +22,7 @@ brochure.get('/css/finder.css', function(req, res){
   res.send(finder.css());
 });
 
-brochure.get("/", function(req, res) {
-  res.locals.featured = require("./featured");
-  res.locals.layout = 'partials/index-layout';
-  res.render("index");
-});
+
 
 brochure.get("/about", function(req, res) {
   res.locals.title = "Blot – About";
@@ -52,18 +55,55 @@ brochure.get("/privacy", function(req, res) {
 
 brochure.get('/sitemap.xml', require('./sitemap'));
 
-brochure.use("/documentation", require("./documentation"));
 
 brochure.use("/developers", require("./developers"));
 
 brochure.use("/formatting", require("./formatting"));
 
-brochure.use("/templates", require("./templates"));
+// brochure.use("/templates", require("./templates"));
 
 brochure.use("/news", require("./news"));
 
 brochure.use("/sign-up", require("./sign-up"));
 
 brochure.use("/log-in", require("./log-in"));
+
+brochure.use(function(req, res, next){
+  res.locals.base = '';
+  res.locals.selected = {};
+  next();
+});
+
+brochure.param('section', function(req, res, next){
+  res.locals.selected[req.params.section] = 'selected';
+  next();
+});
+
+brochure.param('subsection', function(req, res, next){
+  res.locals.selected[req.params.subsection] = 'selected';
+  next();
+});
+
+brochure.get("/", function(req, res) {
+  res.locals.title = "Blot – brochure";
+  res.locals.selected.index = 'selected';
+  res.render("index");
+});
+
+brochure.get('/:section', function(req, res){
+  res.locals.title = "Blot – " + req.params.section;
+  res.render(req.params.section);
+});
+
+brochure.get('/:section/:subsection', function(req, res){
+  res.locals.title = "Blot – " + req.params.section + ' – ' + req.params.subsection;
+  res.render(req.params.section + '/' + req.params.subsection);
+});
+
+
+brochure.use(function(err, req, res, next){
+  console.log(err);
+  next();
+});
 
 module.exports = brochure;

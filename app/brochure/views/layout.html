@@ -1,0 +1,162 @@
+{{> head}}
+
+<body>
+
+  <link rel="stylesheet" href="/css/tex.css">
+  <main class="has-sidebar" style="padding-top:3em">
+
+    <ul class="sidebar">
+      {{> home_link}}
+      <br><br>
+<!--       <li class="{{selected.index}}">
+        <a href="{{{base}}}/" style="" class="fix">How to use Blot</a>
+      </li> -->
+
+      <li class="has-list {{selected.publishing}}">
+        <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">Publishing<label for="publishing"></label></a>
+        <ul>
+          <li class="{{selected.posts}}">
+            <a href="{{{base}}}/publishing/posts">Blog posts</a>
+          </li>
+          <li class="{{selected.pages}}">
+            <a href="{{{base}}}/publishing/pages">Pages</a>
+          </li>
+          <li class="{{selected.drafts}}">
+            <a href="{{{base}}}/publishing/drafts">Drafts</a>
+          </li>
+          <li class="{{selected.tags}}">
+            <a href="{{{base}}}/publishing/tags">Tags</a>
+          </li>
+          <li class="{{selected.dates}}">
+            <a href="{{{base}}}/publishing/dates">Dates</a>
+          </li>
+          <li class="{{selected.public-files}}">
+            <a href="{{{base}}}/publishing/public-files">Public files</a>
+          </li>
+          <li class="{{selected.metadata}}">
+            <a href="{{{base}}}/publishing/metadata">Metadata</a>
+          </li>
+
+        </ul>
+      </li>
+      <li class="has-list {{selected.templates}}">
+        <input type="checkbox" name="templates" id="templates" {{#selected.templates}} checked{{/selected.templates}}> <a href="{{{base}}}/templates">Templates<label for="templates"></label></a>
+        <ul>
+
+          <li class="{{selected.console}}">
+            <a href="{{{base}}}/templates/console">
+      <img src="{{{base}}}/templates/console/one.png">
+      Console
+    </a>
+          </li>
+          <li class="{{selected.default}}">
+            <a href="{{{base}}}/templates/default">
+      <img src="{{{base}}}/templates/default/one.png">
+      Default
+    </a>
+          </li>
+          <li class="{{selected.grid}}">
+            <a href="{{{base}}}/templates/grid">
+      <img src="{{{base}}}/templates/grid/one.png">
+      Grid
+    </a>
+          </li>
+          <li class="{{selected.magazine}}">
+            <a href="{{{base}}}/templates/magazine">
+      <img src="{{{base}}}/templates/magazine/one.png">
+      Magazine
+    </a>
+          </li>
+          <li class="{{selected.photos}}">
+            <a href="{{{base}}}/templates/photos">
+      <img src="{{{base}}}/templates/photos/one.png">
+      Photos
+    </a>
+          </li>
+          <li class="{{selected.portfolio}}">
+            <a href="{{{base}}}/templates/portfolio">
+      <img src="{{{base}}}/templates/portfolio/one.png">
+      Portfolio
+    </a>
+          </li>
+          <li class="{{selected.rosa}}">
+            <a href="{{{base}}}/templates/rosa">
+      <img src="{{{base}}}/templates/rosa/one.png">
+      Rosa
+    </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="has-list {{selected.configuring}}">
+        <input type="checkbox" name="configuring" id="configuring" {{#selected.configuring}} checked{{/selected.configuring}}> <a href="{{{base}}}/configuring">Configuring
+        <!--  your blog --><label for="configuring"></label></a>
+        <ul>
+          <li class="{{selected.domain}}">
+            <a href="{{{base}}}/configuring/domain">Use your own domain</a>
+          </li>
+          <li class="{{selected.import}}">
+            <a href="{{{base}}}/configuring/import">Importing posts</a>
+          </li>
+          <li class="{{selected.typography}}">
+            <a href="{{{base}}}/configuring/typography">Typography</a>
+          </li>
+          <li class="{{selected.redirects}}">
+            <a href="{{{base}}}/configuring/redirects">Redirects</a>
+          </li>
+          <li class="{{selected.urls}}">
+            <a href="{{{base}}}/configuring/urls">URLs</a>
+          </li>
+          <li class="{{selected.services}}">
+            <a href="{{{base}}}/configuring/services">External services</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="has-list {{selected.clients}}">
+        <input type="checkbox" name="clients" id="clients" {{#selected.clients}} checked{{/selected.clients}}> <a href="{{{base}}}/clients">Clients<label for="clients"></label></a>
+        <ul>
+          <li class="{{selected.dropbox}}">
+            <a href="{{{base}}}/clients/dropbox">Dropbox</a>
+          </li>
+          <li class="{{selected.git}}">
+            <a href="{{{base}}}/clients/git">Git</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="{{selected.account}}">
+        <a href="{{{base}}}/account">Account and billing</a>
+      </li>
+
+      <!--         <hr>
+ -->
+      <br>
+   <li>
+        <a href="/support">Support</a>
+      </li>
+      <li>
+        <a href="/formatting">Formatting guide &rarr;</a>
+      </li>
+
+      <li>
+        <a href="/developers">Developer's guide &rarr;</a>
+      </li>
+
+   <li>
+        <a href="/about">About</a>
+      </li>
+
+   <li>
+        <a href="/news">News and updates</a>
+      </li>
+    </ul>
+    <content>
+      {{{body}}}
+    </content>
+  </main>
+
+  {{> footer}}
+</body>
+
+</html>

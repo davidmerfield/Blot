@@ -36,6 +36,11 @@ ul.sidebar {
   padding-left: 1.975em;
 }
 
+.sidebar img {
+  max-width: 48px;
+  float: left;
+  margin-right: 1em
+}
 .sidebar li ul a,
 .sidebar>li:not(.has-list)>a {
   padding-left: 0.5em;
