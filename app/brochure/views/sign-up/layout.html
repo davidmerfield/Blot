@@ -13,11 +13,11 @@
   }
 
   main {
+    display: flex;
+  }
+
+  main container {
     max-width: 380px;
-    margin: 0 auto;
-    position: relative;
-    left: -100px;
-    padding: 2em 0;
   }
 
   input[type="submit"] {
@@ -135,28 +135,34 @@
   flex {
     -webkit-margin-collapse: discard;
   }
-
+  .arrow {margin: 0 1em}
   form {
     margin: 2em 0;
     width: 330px
   }
+  strong {font-weight: inherit;color: #312c25}
   </style>
   <header>
     <container>
       {{> home_link}}
-
-      <div style="max-width:380px;color:#a09d9c">
-        <p><strong>Sign up</strong><span>&rarr;</span>Create a blog</p>
+      <div style="flex-grow:0.3333;flex-shrink:1;min-width:2em"></div> 
+      <div style="flex-grow:1;max-width:380px;color:#a09d9c">
+        <p><strong>Sign up</strong><span class="arrow">&rarr;</span>Create a blog</p>
       </div>
-      <div></div> 
+      <div style="flex-grow:1;flex-shrink:1"></div> 
     </container>
   </header>
 
-  <main>
+  <main> 
+    <div style="flex-grow:1000;max-width:100px;flex-shrink:1"></div> 
+    <div style="flex-grow:0.3333;flex-shrink:1"></div> 
+    <container>
 
     <p><mark id="error">{{#error}}{{error}}{{/error}}</mark></p>
 
     {{{body}}}
+    </container>
+    <div style="flex-grow:1;flex-shrink:1"></div>     
   </main>
 </body>
 
