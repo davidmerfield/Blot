@@ -94,6 +94,7 @@ main {
 main,
 container {
   margin: 0 auto;
+  max-width: 1000px
 }
 
 content {
@@ -204,7 +205,7 @@ a.video {
   text-decoration: none;
   background: #f7f5f3;
   padding: 6em 4em;
-  margin: 0 3em 2.7em;
+  margin: 0 0 2.7em;
   display: block
 }
 

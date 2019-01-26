@@ -1,11 +1,13 @@
 header {
-  padding: 2em 1.4em 1em;
-  background: #f7f5f3
+  /*background: #f7f5f3*/
 }
 
 header container {
   display: flex;
+  padding: 2em 0 1em;
+  font-size: 15px;
   justify-content: space-between;
+  border-bottom: 1px solid rgba(120,134,156,.08);
   flex-wrap: wrap;
 }
 
@@ -74,8 +76,8 @@ a.index:visited {
 a.index svg {
   width: 1.6em;
   position: absolute;
-  top: 0.2em;
-  left: 0.5em;
+  top: 0.6em;
+  left: 0.6em;
   fill: #fff;
   stroke: #312c25;
   enable-background: new 0 0 61.1004448 49.8005981;

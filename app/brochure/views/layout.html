@@ -1,14 +1,9 @@
 {{> head}}
-
+{{> header}}
 <body>
-
   <link rel="stylesheet" href="/css/tex.css">
   <main class="has-sidebar" style="padding-top:3em">
-    <div style="flex-grow:1"></div>
     <ul class="sidebar">
-      {{> home_link}}
-      <br><br>
-
       <li class="has-list {{selected.publishing}}">
         <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">Publishing<label for="publishing"></label></a>
         <ul>
@@ -152,8 +147,6 @@
     <content>
       {{{body}}}
     </content>
-    <img style="max-width:138px;height:41px;margin:0 0;display:block;flex-shrink:0;width:138px;margin-left:-0.5em;    clear: both;
-    float: none;" src="/butt.png">
   </main>
 
   {{> footer}}
