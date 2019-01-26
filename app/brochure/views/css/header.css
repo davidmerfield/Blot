@@ -1,0 +1,124 @@
+header {
+  padding: 2em 1.2em 1em;
+  background: #f7f5f3
+}
+
+.dark header {
+  background: #0a0a0a
+}
+
+header.transparent {
+  background: none
+}
+
+header container {
+  display: flex;
+}
+
+.grow-index index {
+  flex-grow: 1;
+}
+
+.dark header index a {
+  color: #fff;
+}
+
+.dark header index svg {
+  fill: #000;
+  stroke: #fff;
+}
+
+header a {
+  text-decoration: none;
+  fill: #aaa;
+  white-space: nowrap;
+  border-radius: 3px;
+  padding: 0.575em .8em;
+  margin: -0.575em -.8em;
+}
+
+header a,
+header a:visited {
+  color: #a09d9c;
+}
+
+
+header a:hover {
+  color: #312c25;
+  fill: #312c25;
+  background-color: #ece9e6;
+}
+
+/*
+header ul :first-of-type a {background: #efeae5}
+header ul :last-of-type a {background: #c3beb9}
+*/
+header a:active {
+  background-color: #e2dfdb;
+}
+
+header.transparent a:hover {
+  background-color: #f7f5f3;
+}
+
+header.transparent a:active {
+  background-color: #efeae5;
+}
+
+
+header index a,
+header index a:visited {
+  color: #312c25;
+  position: relative;
+  padding-left: 2.8em
+}
+
+header index svg {
+  width: 1.6em;
+  position: absolute;
+  top: 0.5em;
+  left: 0.6em;
+  fill: #fff;
+  stroke: #312c25;
+  enable-background: new 0 0 61.1004448 49.8005981;
+}
+
+
+header .spacer {
+  height: 17px;
+  margin: 3px 1em;
+  border-right: 1px solid #ded8d3;
+}
+
+header img {
+  margin-right: 0.5rem
+}
+
+header * {
+  margin: 0
+}
+
+header ul {
+  display: flex;
+  list-style-type: none;
+}
+
+
+@media screen and (max-width: 700px) {
+
+  header ul a,
+  header ul .spacer {display: none;}
+
+  header a[href='/sign-up'],
+  header a[href='/log-in'] {
+    display: inline;
+  }
+
+}
+header ul a {
+  margin: 0 0em
+}
+
+header ul> :last-child a {
+  margin-right: 0
+}

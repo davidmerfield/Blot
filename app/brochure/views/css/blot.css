@@ -1,3 +1,7 @@
+/* So I focus */
+main, footer {display: none!important;}
+
+
 html,
 body {
   padding: 0;
@@ -57,142 +61,22 @@ p {
 
 h1 {
   font-size: 32px;
-  margin-top: 0.5rem;
-  margin-bottom: 12px
+  margin-top: 0rem;
+  line-height: 1.1;
+  margin-bottom: 1.1em
 }
 
 h2 {
   font-size: 1em;
-  margin: 2.8em 0 0.35em;
+  margin: 2.8em 0 0.3375em;
   border-bottom: 1px solid;
-  padding: 0.5rem 0 0.3em;
+  padding: 0.5rem 0 0.3375em;
   font-weight: 700;
 }
 
 
 h2+p {
   margin-top: 0
-}
-
-
-
-header,
-footer {
-  padding: 2em 1rem 1em;
-  background: #f7f5f3
-}
-
-.dark header,
-.dark footer {
-  background: #0a0a0a
-}
-
-header.transparent {
-  background: none
-}
-
-header container,
-footer container {
-  display: flex;
-}
-
-.grow-index index {
-  flex-grow: 1;
-}
-
-.dark header index a {
-  color: #fff
-}
-
-.dark header index svg {
-  fill: #000;
-  stroke: #fff;
-}
-
-header a {
-  text-decoration: none;
-  fill: #aaa;
-  transition: color 0.1s ease-out, fill 0.1s ease-out, background 0.1s ease-out, box-shadow 0.1s ease-out;
-  box-shadow: 0 0 0 5px transparent;
-}
-
-header a,
-header a:visited {
-  color: #aaa;
-}
-
-
-header a:hover {
-  color: #29201b;
-  fill: #29201b;
-  border-radius: 1px;
-  background-color: #efeae5;
-  box-shadow: 0 0 0 5px #efeae5;
-}
-
-header a:active {
-  background-color: #e6e0da;
-  box-shadow: 0 0 0 5px #e6e0da;
-}
-
-header.transparent a:hover {
-  background-color: #f7f5f3;
-  box-shadow: 0 0 0 5px #f7f5f3;
-}
-
-header.transparent a:active {
-  background-color: #efeae5;
-  box-shadow: 0 0 0 5px #efeae5;
-}
-
-
-header index a, 
-header index a:visited {
-  color: #29201b
-}
-
-header index svg {
-  width: 23px;
-  margin-right: 4px;
-  position: relative;
-  top: 3px;
-  enable-background: new 0 0 61.1004448 49.8005981;
-}
-
-header index svg {
-  fill: #fff;
-  stroke: #29201b;
-}
-
-
-header .spacer {
-  height: 14px;
-  margin: 5px 20px;
-  border-right: 1px solid #ccc
-}
-
-header img {
-  margin-right: 0.5rem
-}
-
-header * {
-  margin: 0
-}
-
-header ul {
-  display: flex
-}
-
-header ul a {
-  margin: 0 14px
-}
-
-header ul> :last-child a {
-  margin-right: 0
-}
-
-header li {
-  list-style-type: none;
 }
 
 
@@ -241,11 +125,6 @@ p img {
   width: 100%
 }
 
-
-footer {
-  display: flex;
-  margin-top: 6em
-}
 
 table {
   width: 100%;

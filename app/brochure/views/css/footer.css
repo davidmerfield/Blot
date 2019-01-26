@@ -1,0 +1,18 @@
+footer {
+  display: flex;
+  margin-top: 6em
+}
+
+footer {
+  padding: 2em 1rem 1em;
+  background: #f7f5f3
+}
+
+
+.dark footer {
+  background: #0a0a0a
+}
+
+footer container {
+  display: flex;
+}
