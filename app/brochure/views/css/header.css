@@ -1,34 +1,32 @@
 header {
-  padding: 2em 1.2em 1em;
+  padding: 2em 1.4em 1em;
   background: #f7f5f3
 }
 
-.dark header {
-  background: #0a0a0a
+header container {
+  display: flex;
+  justify-content: space-between;
 }
 
 header.transparent {
   background: none
 }
 
-header container {
-  display: flex;
+.dark header {
+  background: #0a0a0a
 }
 
-.grow-index index {
-  flex-grow: 1;
-}
-
-.dark header index a {
+.dark header a[href="/"] {
   color: #fff;
 }
 
-.dark header index svg {
+.dark header a[href="/"] svg {
   fill: #000;
   stroke: #fff;
 }
 
-header a {
+header a,
+header label {
   text-decoration: none;
   fill: #aaa;
   white-space: nowrap;
@@ -43,7 +41,8 @@ header a:visited {
 }
 
 
-header a:hover {
+header a:hover,
+header label:hover {
   color: #312c25;
   fill: #312c25;
   background-color: #ece9e6;
@@ -66,18 +65,18 @@ header.transparent a:active {
 }
 
 
-header index a,
-header index a:visited {
+header a[href="/"],
+header a[href="/"]:visited {
   color: #312c25;
   position: relative;
-  padding-left: 2.8em
+  padding-left: 3em
 }
 
-header index svg {
+header a[href="/"] svg {
   width: 1.6em;
   position: absolute;
   top: 0.5em;
-  left: 0.6em;
+  left: 0.8em;
   fill: #fff;
   stroke: #312c25;
   enable-background: new 0 0 61.1004448 49.8005981;
@@ -104,21 +103,84 @@ header ul {
 }
 
 
-@media screen and (max-width: 700px) {
 
-  header ul a,
-  header ul .spacer {display: none;}
-
-  header a[href='/sign-up'],
-  header a[href='/log-in'] {
-    display: inline;
-  }
-
-}
 header ul a {
   margin: 0 0em
 }
 
 header ul> :last-child a {
   margin-right: 0
+}
+
+
+input[name="toggle"] {
+  display: none;
+}
+
+label[for="toggle"] {
+  line-height: 0.375;
+  cursor: pointer;
+  display: block;
+  float: right;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+}
+
+
+@media screen and (min-width: 800px) {
+  label[for="toggle"] {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+
+  collapse {
+    display: none;
+  }
+
+  input[name="toggle"]+ul {
+    display: none;
+  }
+
+  input[name="toggle"]:checked+ul {
+    display: block;
+  }
+
+  header container {
+    display: block;
+  }
+
+  header ul {
+    display: block;
+    padding: 0;
+    margin: 1em -0.8em 0;
+    margin-top: 1em
+  }
+
+  header ul li {
+    border-top: 1px solid #efeae5;
+  }
+  
+  header ul li.spacer {
+    display: none !important
+  }
+
+  header ul a {
+    display: block;
+    padding-left: 3em;
+  }
+
 }
