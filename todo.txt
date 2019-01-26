@@ -28,6 +28,8 @@ Fix bug with metadata parsing a URL on the first line of a file and tell [David]
 
 Add property of entry which is safe to use in a JSON feed. Tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqjfBFmTnZZFpzRhtdBrR).
 
+Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzdmhFkmhcDkPGvQbqZjGZ)
+
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
 Fix bug in reset password flow on dashboard and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMlsmwQBszSbKzwvXwGDMQSK)
