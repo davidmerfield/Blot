@@ -35,7 +35,8 @@ footer a,
 footer a:visited {
   text-decoration: none;
   fill: #a09d9c;
-  color: #a09d9c;
+  color: rgb(0, 153, 229);
+    font-weight: 500;
   white-space: nowrap;
   border-radius: 3px;
   padding: 0.55em .8em;
