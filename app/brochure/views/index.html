@@ -44,16 +44,13 @@ Blot is a blogging platform with no interface</a></index>
 <br><br>
 <a class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
-<div style="max-width:340px;margin:0 auto">
+<div style="max-width:310px;margin:0 auto">
 <pre class="folder" title="Your blog"><code>Drafts
 Pages
 Posts
-  Bookmark.webloc
-  Document.docx
-  Image.jpg
-  Markdown.md
-  Text.txt
-  Webpage.html
+  Apple.md
+  Bannana.txt
+  Cherry.txt
 
 
 </code></pre></div></a>
@@ -72,7 +69,6 @@ window.scrollTo(0, 0);
 });
 
 </script>
-<div style="max-width:600px;margin:0 auto">
 
 <p>Blot turns a folder into a blog. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.</p>
 
@@ -82,9 +78,49 @@ window.scrollTo(0, 0);
 
 <p>Some of the people who host their website on Blot right now:</p>
 
+<style type="text/css">
+.sites {width: 100%;padding:0;display: block;margin-left: 0}
+.sites li {padding: 0 1em;margin: 0;float: left;}
+.sites li > a {    color: #111;
+    border-radius: 4px;
+    display: block;
+    position: relative;
+    text-align: center;
+    padding: 2em 0;
+    padding: 20px 0 0;
+    box-sizing: border-box;
+    border: 1px solid #a09d9c;}
+    .sites dots {
+    position: absolute;
+    top: .4rem;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid #a09d9c;
+    padding-left: .4rem;
+}
+
+.sites dot {
+    border-color: rgba(0,0,0,.35);
+    display: block;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: .3rem;
+    border-radius: 100%;
+    width: .25rem;
+    height: .25rem;
+    border: 1px solid #a09d9c;
+    background: 0 0;
+    box-shadow: none;}
+</style>
 <ul class="sites">
   {{#featured}}
-  <li><img width="16" src="/images/featured/{{image}}"><a href="{{{url}}}">{{name}}</a> {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
+  <li>
+
+    <a href="{{{url}}}">
+      <img width="16" src="/images/featured/{{image}}">{{url}}
+    <dots><dot></dot><dot></dot><dot></dot></dots>
+  </a>
+    <p>{{name}} {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
   {{/featured}}
 </ul>
 

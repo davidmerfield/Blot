@@ -1,22 +1,10 @@
-header {
-  /*background: #f7f5f3*/
-}
-
 header container {
   display: flex;
   padding: 1em 0 1em;
   font-size: 15px;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(120,134,156,.08);
+  border-bottom: 1px solid rgba(120, 134, 156, .08);
   flex-wrap: wrap;
-}
-
-header.transparent {
-  background: none
-}
-
-.dark header {
-  background: #0a0a0a
 }
 
 .dark a.index {
@@ -36,11 +24,8 @@ footer a:visited {
   text-decoration: none;
   fill: #a09d9c;
   color: rgb(0, 153, 229);
-    font-weight: 500;
+  font-weight: 500;
   white-space: nowrap;
-  border-radius: 3px;
-  padding: 0.55em .8em;
-  margin: -0.55em -.8em;
 }
 
 
@@ -48,13 +33,10 @@ header a:hover,
 header label:hover,
 footer a:hover {
   color: #312c25;
-  fill: #312c25;
-  background-color: #ece9e6;
 }
 
 header a:active,
 footer a:active {
-  background-color: #e2dfdb;
   color: #000;
 }
 
@@ -71,14 +53,14 @@ a.index,
 a.index:visited {
   color: #312c25;
   position: relative;
-  padding-left: 2.7em
+  padding-left: 2.3em
 }
 
 a.index svg {
   width: 1.6em;
   position: absolute;
-  top: 0.6em;
-  left: 0.6em;
+  top: 0;
+  left: 00;
   fill: #fff;
   stroke: #312c25;
   enable-background: new 0 0 61.1004448 49.8005981;
@@ -100,7 +82,7 @@ header ul {
 }
 
 header ul a {
-  margin: 0 0em
+  margin: 0 0em 0 2em
 }
 
 header ul> :last-child a {

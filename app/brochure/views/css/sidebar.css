@@ -7,7 +7,7 @@ ul.sidebar {
   list-style: none;
   width: 240px;
   margin-right: 8em;
-  margin-top: 1em;
+  margin-top: 0.88em;
   position: sticky;
   top: 0;
 }
@@ -37,9 +37,10 @@ ul.sidebar {
 }
 
 .sidebar img {
-  max-width: 48px;
+  max-width: 40px;
   float: left;
-  margin-right: 1em
+  margin-left: -1.5em;
+  margin-right: 0.75em
 }
 .sidebar li ul a,
 .sidebar>li:not(.has-list)>a {
