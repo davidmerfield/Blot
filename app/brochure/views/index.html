@@ -35,6 +35,25 @@ Posts
 
 </code></pre></a>
 
+<br>
+
+<p>Some of the people who host their website on Blot right now:</p>
+
+<ul class="sites">
+  {{#featured}}
+  <li>
+
+    <a target="_blank" rel="noopener" href="{{{url}}}">
+      {{#first}}<span class="new">New</span>{{/first}}
+      <img width="16" src="/images/featured/{{image}}">{{domain}}
+    <dots><dot></dot><dot></dot><dot></dot></dots>
+  </a>
+    <p>{{name}} {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
+  {{/featured}}
+</ul>
+
+</div>
+
 <script type="text/javascript">
 document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(function(el) {
   el.onclick = function(e) {
@@ -46,138 +65,3 @@ document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(fu
   }
 });
 </script>
-<br>
-
-<p>Some of the people who host their website on Blot right now:</p>
-
-<style type="text/css">
-.sites {
-  list-style-type: none;
-  display: flex;
-  padding: 0;
-  text-align: center;
-  flex-wrap: wrap;
-}
-
-.sites li {
-  box-sizing: border-box;
-  margin: 1.25rem 0;
-  position: relative;
-
-}
-
-.sites li img {
-  position: absolute;
-  top: 0.2em;
-  left: 1.5em
-}
-
-.sites li:nth-child(3n+2) {
-  margin-right: 2.5rem;
-  margin-left: 2.5rem
-}
-
-.sites img {
-  display: none;
-}
-
-.sites li {
-  margin: 1.4em 0;
-  float: left;
-  width: calc(33.33333333% - 1.6667rem);
-}
-
-.sites li>a {
-  color: #111;
-  border-radius: 4px;
-  display: block;
-  position: relative;
-  line-height: 80px;
-  text-align: center;
-  padding: 2em 0 1em;
-  box-sizing: border-box;
-  border: 1px solid #a09d9c;
-}
-
-.sites dots {
-  position: absolute;
-  top: .4rem;
-  left: 0;
-  right: 0;
-  border-bottom: 1px solid #a09d9c;
-  padding-left: .4rem;
-}
-
-
-.sites li>a:before,
-.sites .new {
-  color: #fffefc;
-  border: 2px solid #fffefc;
-  position: absolute;
-  vertical-align: middle;
-  text-align: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  line-height: 2.5rem;
-  text-transform: uppercase;
-  border-radius: 50%;
-  top: -0.85rem;
-  z-index: 1;
-  right: -1.25rem;
-  opacity: 0;
-  content: "↗";
-  z-index: 2;
-  transition-property: opacity;
-  transition-duration: 0.1s;
-  transition-timing-function: ease-out;
-  background: #111111;
-  text-indent: 0;
-}
-
-
-.sites .new {
-  text-indent: .1rem;
-  font-size: 12px;
-  text-transform: uppercase;
-  background: #fc625d;
-  letter-spacing: .05em;
-  opacity: 1.0;
-  z-index: 1
-}
-
-.sites li p {
-  font-size: 15px;
-}
-
-.sites li>a:hover:before {
-  opacity: 1.0;
-}
-
-.sites dot {
-  border-color: rgba(0, 0, 0, .35);
-  display: block;
-  float: left;
-  margin-right: 5px;
-  margin-bottom: .3rem;
-  border-radius: 100%;
-  width: .25rem;
-  height: .25rem;
-  border: 1px solid #a09d9c;
-  background: 0 0;
-  box-shadow: none;
-}
-</style>
-<ul class="sites">
-  {{#featured}}
-  <li>
-
-    <a href="{{{url}}}">
-      {{#first}}<span class="new">New</span>{{/first}}
-      <img width="16" src="/images/featured/{{image}}">{{domain}}
-    <dots><dot></dot><dot></dot><dot></dot></dots>
-  </a>
-    <p>{{name}} {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
-  {{/featured}}
-</ul>
-
-</div>
