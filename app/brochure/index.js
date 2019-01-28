@@ -2,6 +2,8 @@ var config = require("config");
 var Express = require("express");
 var brochure = new Express();
 var hbs = require("hbs");
+var Cache = require('express-disk-cache');
+var cache = new Cache(config.cache_directory);
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
@@ -9,9 +11,23 @@ brochure.set("views", __dirname + "/views");
 brochure.set("view engine", "html");
 brochure.engine("html", hbs.__express);
 
-// Only in development mode
-if (config.environment === "development") {
+if (config.cache === false) {
+  // During development we want views to reload as we edit
   brochure.disable("view cache");
+} else {
+
+  brochure.use(function(req,res,next){
+    console.log(req.headers['x-forwarded-proto']);
+    next();
+  });
+  
+  // This will store responses to disk for NGINX to serve
+  brochure.use(cache);
+  
+  // Empty any existing responses
+  cache.flush(config.host, function(err) {
+    if (err) console.warn(err);
+  });
 }
 
 // This is the layout that HBS uses by default to render a
