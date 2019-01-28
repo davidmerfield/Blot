@@ -9,7 +9,9 @@ body {
   background: #fffefc
 }
 
-html {background: #faf9f8}
+html {
+  background: #faf9f8
+}
 
 
 body {
@@ -41,14 +43,17 @@ code {
   color: #64a0da
 }
 
-a {text-decoration: none;}
+a {
+  text-decoration: none;
+}
+
 p a {
-    color: #111;
-    border-bottom: 1px solid #bfbcba;
-    text-decoration: none;
-    transition-property: color,border-color;
-    transition-duration: .1s;
-    transition-timing-function: ease-out;
+  color: #111;
+  border-bottom: 1px solid #bfbcba;
+  text-decoration: none;
+  transition-property: color, border-color;
+  transition-duration: .1s;
+  transition-timing-function: ease-out;
 }
 
 p a:hover {
@@ -60,7 +65,10 @@ p {
   color: #333333
 }
 
-.dark p {color:#839496}
+.dark p {
+  color: #839496
+}
+
 h1 {
   font-size: 32px;
   line-height: 1.1;
@@ -114,23 +122,32 @@ ul.templates {
   padding: 0
 }
 
-ul.templates small {display: none;}
+ul.templates small {
+  display: none;
+}
 
 ul.templates li {
   list-style-type: none;
   min-width: 200px;
-  border-top:  1px solid #eee;
+  border-top: 1px solid #eee;
   width: 33%;
   box-sizing: border-box;
   padding: 1.5rem 0.5rem;
 }
 
-ul.templates li a {color: inherit;}
+ul.templates li a {
+  color: inherit;
+}
+
 ul.templates li strong {
   display: block;
 }
 
-ul.templates img {margin-left:-0.5em;margin-top: 0.5em}
+ul.templates img {
+  margin-left: -0.5em;
+  margin-top: 0.5em
+}
+
 ul.templates img,
 p img {
   width: 100%
@@ -139,14 +156,14 @@ p img {
 
 table {
   width: 100%;
-    margin-bottom: 3em;
-    word-wrap: normal;
-    table-layout: fixed;
-    display: table;
-    overflow: hidden;
-        border-collapse: collapse;
-    border-spacing: 0;
-    overflow-x: auto;
+  margin-bottom: 3em;
+  word-wrap: normal;
+  table-layout: fixed;
+  display: table;
+  overflow: hidden;
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow-x: auto;
 }
 
 th,
@@ -203,15 +220,36 @@ background .folder {
 
 /* Big link on homepage containing folder to play demo video */
 a.video {
+  position: relative;
   text-decoration: none;
   background: #f7f5f3;
-  padding: 7em 4em 9em;
+  padding: 4em 4em 6.5em;
   margin: 1em 0 2.7em;
-  display: block
+  display: block;
 }
 
-a.video div {
+a.video span {
+  position: absolute;
+  bottom: 1.5em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: rgb(0, 153, 229);
+  font-weight: 500
+}
+
+a.video svg {
+  width: 28px;
+  vertical-align: middle;
+  position: relative;
+  top: 2px;
+  fill: rgb(0, 153, 229);
+}
+
+a.video window {
   opacity: 1.0;
+  max-width: 310px;
+  margin: 0 auto;
   transition: opacity 0.1s ease-out;
 }
 
@@ -219,7 +257,7 @@ a.video:hover {
   box-shadow: none;
 }
 
-a.video:hover div {
+a.video:hover window {
   opacity: 0.5
 }
 
@@ -231,7 +269,7 @@ overlay {
   left: 0;
   z-index: -1;
   opacity: 0;
-  background: #f7f5f3;
+  background: #faf9f8;
   transition: opacity 0.1s ease-out;
 }
 
@@ -249,31 +287,8 @@ overlay video {
 }
 
 overlay.show {
-  z-index: 1;
+  z-index: 10;
   opacity: 1
-}
-
-.sites {
-  list-style-type: none;
-  width: 200%;
-  margin-left: -50%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.sites li {
-  width: 33%;
-  padding: 0 3em;
-  box-sizing: border-box;
-  margin: 1.35em 0;
-  position: relative;
-
-}
-
-.sites li img {
-  position: absolute;
-  top: 0.2em;
-  left: 1.5em
 }
 
 .action-link {

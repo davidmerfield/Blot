@@ -1,29 +1,30 @@
-
 <overlay class="">
-      <header>
+  <header>
     <container class="grow-index">
       {{> home_link}}
-      <ul><li><a href="/">&nbsp;<svg style="width:0.65rem;margin-right: 0.65rem" viewBox="0 0 50 50"><path fill="inherit" d="M50 5l-5-5-20 20L5 0 0 5l20 20L0 45l5 5 20-20 20 20 5-5-20-20z"></path></svg> Close</a></li></ul>
+      <ul>
+        <li><a href="/">&nbsp;<svg style="width:0.65rem;margin-right: 0.65rem" viewBox="0 0 50 50"><path fill="inherit" d="M50 5l-5-5-20 20L5 0 0 5l20 20L0 45l5 5 20-20 20 20 5-5-20-20z"></path></svg> Close</a></li>
+      </ul>
     </container>
   </header>
   <stage>
     <container>
-  <video width="1190" height="720" controls>
-  <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
-<!--   <source src="/assets_tutorials/media/Shaun-the-Sheep-The-Movie-Official-Trailer.ogg" type="video/ogg">
- -->Your browser does not support the video tag.
-</video></container>
-</stage>
+      <video width="1190" height="720" controls>
+        <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video></container>
+  </stage>
 </overlay>
 <p>Blot is a blogging platform with no interface. It turns a folder into a blog. Files inside your blog's folder become blog posts automatically.</p>
 
 <p>Why a blogging platform with no interface? So you can blog with your favorite tools. Use your favorite text-editor to write and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>. </p>
 
 <br>
-<a class="video" href="/videos/publishing-with-blot.mp4" style="position:relative;" title="Play video">
+<a class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
-<span style="position:absolute;bottom:2em;left:4em;color:rgb(0, 153, 229);font-weight:500">Play video</span>
-<div style="max-width:310px;margin:0 auto">
+<span><?xml version="1.0" encoding="UTF-8"?>
+<svg enable-background="new 0 0 100 100" version="1.1" viewBox="0 0 100 125" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="M50,10.531c-21.763,0-39.469,17.706-39.469,39.469S28.237,89.469,50,89.469S89.469,71.763,89.469,50   S71.763,10.531,50,10.531z M50,84.469c-19.006,0-34.469-15.462-34.469-34.469S30.994,15.531,50,15.531S84.469,30.994,84.469,50   S69.006,84.469,50,84.469z"/><path d="m64.68 48.852l-22.192-12.812c-1.093-0.632-1.988-0.115-1.988 1.148v25.623c0 1.264 0.896 1.78 1.988 1.148l22.192-12.81c1.093-0.632 1.093-1.666 0-2.297z"/></svg> Watch the video</span>
+    
 <pre class="folder" title="Your blog"><code>Drafts
 Pages
 Posts
@@ -32,110 +33,139 @@ Posts
   Cherry.txt
 
 
-</code></pre></div></a>
+</code></pre></a>
 
 <script type="text/javascript">
-
-document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(function(el){
-  el.onclick = function (e) {
-window.scrollTo(0, 0);
+document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(function(el) {
+  el.onclick = function(e) {
+    window.scrollTo(0, 0);
     document.querySelector('overlay').className += 'show';
     document.querySelector('video').play();
     e.preventDefault();
     return false;
   }
-
 });
-
 </script>
 <br>
 
 <p>Some of the people who host their website on Blot right now:</p>
 
 <style type="text/css">
-.sites {        width: 124%;
-    padding: 0 1em;
-    margin-left: -9em;
-    margin-right: -1em;
-    text-align: center;}
+.sites {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+  text-align: center;
+  flex-wrap: wrap;
+}
 
-    .sites img {display: none;}
-.sites li {padding: 0 1.4em;margin: 1.4em 0;float: left;}
+.sites li {
+  box-sizing: border-box;
+  margin: 1.25rem 0;
+  position: relative;
 
-.sites li > a {        color: #111;
-    border-radius: 4px;
-    display: block;
-    position: relative;
-    line-height: 90px;
-    text-align: center;
-    padding: 2em 0 1em;
-    box-sizing: border-box;
-    border: 1px solid #a09d9c;
-  }
+}
 
-    .sites dots {
-    position: absolute;
-    top: .4rem;
-    left: 0;
-    right: 0;
-    border-bottom: 1px solid #a09d9c;
-    padding-left: .4rem;
+.sites li img {
+  position: absolute;
+  top: 0.2em;
+  left: 1.5em
+}
+
+.sites li:nth-child(3n+2) {
+  margin-right: 2.5rem;
+  margin-left: 2.5rem
+}
+
+.sites img {
+  display: none;
+}
+
+.sites li {
+  margin: 1.4em 0;
+  float: left;
+  width: calc(33.33333333% - 1.6667rem);
+}
+
+.sites li>a {
+  color: #111;
+  border-radius: 4px;
+  display: block;
+  position: relative;
+  line-height: 80px;
+  text-align: center;
+  padding: 2em 0 1em;
+  box-sizing: border-box;
+  border: 1px solid #a09d9c;
+}
+
+.sites dots {
+  position: absolute;
+  top: .4rem;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid #a09d9c;
+  padding-left: .4rem;
 }
 
 
-.sites li > a:before,
+.sites li>a:before,
 .sites .new {
-      color: #fffefc;
-      border:2px solid #fffefc;
-      position: absolute;
-      vertical-align: middle;
-      text-align: center;
-      width: 2.5rem;
-      height: 2.5rem;
-      line-height: 2.5rem;
-      text-transform: uppercase;
-      border-radius: 50%;
-      top: -0.85rem;
-      z-index: 1;
-      right: -1.25rem;
+  color: #fffefc;
+  border: 2px solid #fffefc;
+  position: absolute;
+  vertical-align: middle;
+  text-align: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-transform: uppercase;
+  border-radius: 50%;
+  top: -0.85rem;
+  z-index: 1;
+  right: -1.25rem;
   opacity: 0;
-      content: "↗";
-      z-index: 2;
-        transition-property: opacity;
+  content: "↗";
+  z-index: 2;
+  transition-property: opacity;
   transition-duration: 0.1s;
   transition-timing-function: ease-out;
-      background: #111111;
-      text-indent: 0;
-    }
+  background: #111111;
+  text-indent: 0;
+}
 
 
 .sites .new {
-    text-indent: .1rem;
-    font-size: 12px;
-    text-transform: uppercase;
-    background: #fc625d;
-    letter-spacing: .05em;
-    opacity: 1.0;
-    z-index: 1
+  text-indent: .1rem;
+  font-size: 12px;
+  text-transform: uppercase;
+  background: #fc625d;
+  letter-spacing: .05em;
+  opacity: 1.0;
+  z-index: 1
 }
 
-    .sites li p {font-size:15px;}
- .sites li > a:hover:before {
-      opacity: 1.0;
-    }
+.sites li p {
+  font-size: 15px;
+}
+
+.sites li>a:hover:before {
+  opacity: 1.0;
+}
 
 .sites dot {
-    border-color: rgba(0,0,0,.35);
-    display: block;
-    float: left;
-    margin-right: 5px;
-    margin-bottom: .3rem;
-    border-radius: 100%;
-    width: .25rem;
-    height: .25rem;
-    border: 1px solid #a09d9c;
-    background: 0 0;
-    box-shadow: none;}
+  border-color: rgba(0, 0, 0, .35);
+  display: block;
+  float: left;
+  margin-right: 5px;
+  margin-bottom: .3rem;
+  border-radius: 100%;
+  width: .25rem;
+  height: .25rem;
+  border: 1px solid #a09d9c;
+  background: 0 0;
+  box-shadow: none;
+}
 </style>
 <ul class="sites">
   {{#featured}}
@@ -149,6 +179,5 @@ window.scrollTo(0, 0);
     <p>{{name}} {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
   {{/featured}}
 </ul>
-
 
 </div>

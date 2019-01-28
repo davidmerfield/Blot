@@ -18,7 +18,7 @@ header a:visited,
 footer a,
 footer a:visited {
   text-decoration: none;
-  fill: #a09d9c;
+  fill: rgb(0, 153, 229);
   color: rgb(0, 153, 229);
   font-weight: 500;
   white-space: nowrap;
@@ -29,11 +29,13 @@ header a:hover,
 header label:hover,
 footer a:hover {
   color: #312c25;
+  fill: #312c25;
 }
 
 header a:active,
 footer a:active {
   color: #000;
+  fill: #000;
 }
 
 header.transparent a:hover {
