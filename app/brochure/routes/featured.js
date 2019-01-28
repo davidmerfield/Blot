@@ -6,7 +6,7 @@ module.exports = [
     domain: "rebeccatron.com",
     url: "https://www.rebeccatron.com",
     description: "is an engineer based in New York City. Rebecca",
-    custom: true,
+    template: "Rosa",
     first: true
   },
   {
@@ -23,7 +23,7 @@ module.exports = [
     domain: "andrewjanjigian.com",
     url: "https://blog.andrewjanjigian.com",
     description: "is a photographer and editor at Cook’s Illustrated. Andrew",
-    template: "Photos"
+    template: "Rosa"
   },
 
   {
@@ -41,7 +41,7 @@ module.exports = [
     domain: "johnbeeler.com",
     url: "https://com.johnbeeler.com",
     description: "is the label director at Asthmatic Kitty Records. John",
-    template: "Photos"
+    template: "Default"
   },
 
   {
@@ -50,7 +50,7 @@ module.exports = [
     domain: "hannautkin.com",
     url: "https://hannautkin.com",
     description: "is a filmmaker and producer from New York City. Hanna",
-    custom: true
+    template: "Console"
   },
 
   {
@@ -59,7 +59,7 @@ module.exports = [
     domain: "johnbeeler.com",
     url: "https://www.matthewbattles.org",
     description: "directs metaLAB at Harvard. Matthew’s website",
-    template: "Index"
+    template: "Rosa"
   },
 
   {
@@ -68,17 +68,17 @@ module.exports = [
     domain: "pavlusoffice.com",
     url: "https://john.pavlusoffice.com",
     description: "is a writer and filmmaker based in Portland, Oregon. John",
-    template: "Photos"
-  },
-
-  {
-    name: "Theo Francis",
-    image: "theo.jpg",
-    domain: "tf2.blot.im",
-    url: "https://tf2.blot.im",
-    description: "is a reporter at The Wall Street Journal. Theo’s blog",
     custom: true
   },
+
+  // {
+  //   name: "Theo Francis",
+  //   image: "theo.jpg",
+  //   domain: "tf2.blot.im",
+  //   url: "https://tf2.blot.im",
+  //   description: "is a reporter at The Wall Street Journal. Theo’s blog",
+  //   custom: true
+  // },
   {
     name: "Jacoby Young",
     image: "jacoby.png",
