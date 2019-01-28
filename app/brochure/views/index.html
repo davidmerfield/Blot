@@ -39,11 +39,12 @@ Blot is a blogging platform with no interface</a></index>
 </overlay>
 <p>Blot is a blogging platform with no interface. It turns a folder into a blog. Files inside your blog's folder become blog posts automatically.</p>
 
-<p>Why a blogging platform with no interface? So you can blog with your favorite tools. Use your favorite text-editor to write and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>.</p>
+<p>Why a blogging platform with no interface? So you can blog with your favorite tools. Use your favorite text-editor to write and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>. </p>
 
-<br><br>
-<a class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
+<br>
+<a class="video" href="/videos/publishing-with-blot.mp4" style="position:relative;" title="Play video">
 
+<span style="position:absolute;bottom:2em;left:15em;color:rgb(0, 153, 229);font-weight:500">Play video</span>
 <div style="max-width:310px;margin:0 auto">
 <pre class="folder" title="Your blog"><code>Drafts
 Pages
@@ -69,27 +70,31 @@ window.scrollTo(0, 0);
 });
 
 </script>
-
-<p>Blot turns a folder into a blog. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.</p>
-
-<p><center><br><a href="/documentation" class="action-link">Read the documentation</a></center><br></p>
-
-<br><br><br>
+<br>
 
 <p>Some of the people who host their website on Blot right now:</p>
 
 <style type="text/css">
-.sites {width: 100%;padding:0;display: block;margin-left: 0}
-.sites li {padding: 0 1em;margin: 0;float: left;}
-.sites li > a {    color: #111;
+.sites {        width: 124%;
+    padding: 0 1em;
+    margin-left: -9em;
+    margin-right: -1em;
+    text-align: center;}
+
+    .sites img {display: none;}
+.sites li {padding: 0 1.4em;margin: 1.4em 0;float: left;}
+
+.sites li > a {        color: #111;
     border-radius: 4px;
     display: block;
     position: relative;
+    line-height: 90px;
     text-align: center;
-    padding: 2em 0;
-    padding: 20px 0 0;
+    padding: 2em 0 1em;
     box-sizing: border-box;
-    border: 1px solid #a09d9c;}
+    border: 1px solid #a09d9c;
+  }
+
     .sites dots {
     position: absolute;
     top: .4rem;
@@ -98,6 +103,35 @@ window.scrollTo(0, 0);
     border-bottom: 1px solid #a09d9c;
     padding-left: .4rem;
 }
+
+.sites li > a:before {
+      color: #fffefc;
+      border:2px solid #fffefc;
+      position: absolute;
+      vertical-align: middle;
+      text-align: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      text-transform: uppercase;
+      border-radius: 50%;
+      top: -0.85rem;
+      z-index: 1;
+      right: -1.25rem;
+  opacity: 0;
+      content: "↗";
+      z-index: 2;
+        transition-property: opacity;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-out;
+      background: #111111;
+      text-indent: 0;
+    }
+
+    .sites li p {font-size:15px;}
+ .sites li > a:hover:before {
+      opacity: 1.0;
+    }
 
 .sites dot {
     border-color: rgba(0,0,0,.35);
@@ -117,14 +151,12 @@ window.scrollTo(0, 0);
   <li>
 
     <a href="{{{url}}}">
-      <img width="16" src="/images/featured/{{image}}">{{url}}
+      <img width="16" src="/images/featured/{{image}}">{{domain}}
     <dots><dot></dot><dot></dot><dot></dot></dots>
   </a>
     <p>{{name}} {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
   {{/featured}}
 </ul>
 
-<p><center><br><a href="/templates" class="action-link">View templates</a></center><br></p>
 
-<p>Because Blot is file and folder-based, you can use your favorite text-editor. There are a wide number of text-editors which support Dropbox on phones and tablets. Blot is easy to connect with other services.</p>
 </div>

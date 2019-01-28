@@ -3,14 +3,11 @@
 
 <body>
   <link rel="stylesheet" href="/css/tex.css">
-  <main class="has-sidebar" style="padding-top:3em">
+  <main class="has-sidebar">
     <ul class="sidebar">
       <li class="has-list {{selected.publishing}}">
         <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label></a>
         <ul>
-          <li class="{{selected.posts}}">
-            <a href="{{{base}}}/publishing/posts">Blog posts</a>
-          </li>
           <li class="{{selected.pages}}">
             <a href="{{{base}}}/publishing/pages">Pages</a>
           </li>
@@ -32,7 +29,7 @@
 
         </ul>
       </li>
-      <li class="has-list {{selected.templates}}">
+      <li class="has-img has-list {{selected.templates}}">
         <input type="checkbox" name="templates" id="templates" {{#selected.templates}} checked{{/selected.templates}}> <a href="{{{base}}}/templates">Templates<label for="templates"></label></a>
         <ul>
 
@@ -127,7 +124,7 @@
     float: none;" src="/butt.png"> -->
 
       <li>
-        <a href="/support">Support</a>
+        <a href="/support">Contact support</a>
       </li>
 
       <li>

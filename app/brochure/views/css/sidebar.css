@@ -5,8 +5,8 @@ ul.sidebar {
   margin: 0;
   padding: 0;
   list-style: none;
-  width: 240px;
-  margin-right: 8em;
+  width: 25%;
+  margin-right: 6em;
   margin-top: 0.88em;
   position: sticky;
   top: 0;
@@ -19,7 +19,7 @@ ul.sidebar {
   padding: 0.2em 0.5em;
   border-radius: 4px;
   cursor: pointer !important;
-  color: #595959;
+  color: #7b7774;
   font-size: 15px;
   text-decoration: none;
   word-wrap: break-word;
@@ -28,7 +28,7 @@ ul.sidebar {
 }
 
 .sidebar a:visited {
-  color: #595959
+  color: #7b7774
 }
 
 .sidebar .has-list>a {
@@ -37,11 +37,16 @@ ul.sidebar {
 }
 
 .sidebar img {
-  max-width: 40px;
-  float: left;
-  margin-left: -1.5em;
-  margin-right: 0.75em
+      max-width: 36px;
+    float: left;
+    display: none;
+    margin-left: -1.5em;
+    margin-right: 0.75em;
+    margin: 0.2em 0.75em 0.2em -1.5em;
 }
+
+/*.sidebar .has-img li {line-height: 1.8}
+*/
 .sidebar li ul a,
 .sidebar>li:not(.has-list)>a {
   padding-left: 0.5em;
@@ -92,13 +97,13 @@ ul.sidebar {
 }
 
 .sidebar label {
-  position: absolute;
+/*  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   cursor: pointer;
-}
+*/}
 
 .sidebar :checked~a:before {
   transform: rotate(0);

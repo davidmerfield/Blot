@@ -3,6 +3,7 @@ module.exports = [
      {
     name: "Rebecca Kukshtel",
     image: "rebecca.jpg",
+    domain: "rebeccatron.com",
     url: "https://www.rebeccatron.com",
     description: "is an engineer based in New York City. Rebecca",
     custom: true
@@ -10,6 +11,7 @@ module.exports = [
   {
     name: "Rachel Pietraszek",
     image: "rachel.jpg",
+    domain: "rachelpietraszek.com",
     url: "https://photos.rachelpietraszek.com",
     description: "is a lawyer based in Toronto. Rachel",
     template: "Photos"
@@ -17,6 +19,7 @@ module.exports = [
   {
     name: "Andrew Janjigian",
     image: "andrew.jpg",
+    domain: "andrewjanjigian.com",
     url: "https://blog.andrewjanjigian.com",
     description: "is a photographer and editor at Cook’s Illustrated. Andrew",
     template: "Photos"
@@ -25,6 +28,7 @@ module.exports = [
   {
     name: "Aurynn Shaw",
     image: "aurynn.jpg",
+    domain: "blog.aurynn.com",
     url: "https://blog.aurynn.com",
     description: "is a writer and engineer from New Zealand. Aurynn’s site",
     custom: true
@@ -33,6 +37,7 @@ module.exports = [
   {
     name: "John Beeler",
     image: "beeler.jpg",
+    domain: "johnbeeler.com",
     url: "https://com.johnbeeler.com",
     description: "is the label director at Asthmatic Kitty Records. John",
     template: "Photos"
@@ -41,6 +46,7 @@ module.exports = [
   {
     name: "Hanna Utkin",
     image: "hanna.jpg",
+    domain: "hannautkin.com",
     url: "https://hannautkin.com",
     description: "is a filmmaker and producer from New York City. Hanna",
     custom: true
@@ -49,6 +55,7 @@ module.exports = [
   {
     name: "Matthew Battles",
     image: "matthew.jpg",
+    domain: "johnbeeler.com",
     url: "https://www.matthewbattles.org",
     description: "directs metaLAB at Harvard. Matthew’s website",
     template: "Index"
@@ -57,6 +64,7 @@ module.exports = [
   {
     name: "John Pavlus",
     image: "john.jpg",
+    domain: "pavlusoffice.com",
     url: "https://john.pavlusoffice.com",
     description: "is a writer and filmmaker based in Portland, Oregon. John",
     template: "Photos"
@@ -65,6 +73,7 @@ module.exports = [
   {
     name: "Theo Francis",
     image: "theo.jpg",
+    domain: "tf2.blot.im",
     url: "https://tf2.blot.im",
     description: "is a reporter at The Wall Street Journal. Theo’s blog",
     custom: true
@@ -72,6 +81,7 @@ module.exports = [
   {
     name: "Jacoby Young",
     image: "jacoby.png",
+    domain: "jacobyyoung.com",
     url: "https://www.jacobyyoung.com/about",
     description: "works at Kapālama Elementary School in Hawaii. Jacoby",
     custom: true

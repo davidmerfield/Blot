@@ -1,27 +1,44 @@
-<p>Blot's template system offers you, the developer, control of every line of HTML, CSS and JavaScript delivered to your readers.</p>
+<p>Here you’ll find a guide to developing templates for Blot. Blot's template system offers you, the developer, control of every line of HTML, CSS and JavaScript delivered to your readers. Blot's templates will be familiar to those who have developed for other platforms.  </p>
 
-<p>Here you’ll find a guide to developing templates for Blot. You will need a working knowledge of HTML and CSS. Blot's templates will be immediately familiar to those who have developed for other platforms.</p>
+<p>You will need a working knowledge of HTML and CSS. If you’d like to hire a developer or designer to create a template for you, <a href="/developers/support">contact me</a>.</p>
 
-<p>If you’d like to hire a developer or designer to create a template for you, <a href="/developers/support">contact me</a>. I'll put you in touch with professionals who are familiar with Blot's templating system.</p>
-
-
-<pre class="code json"><code>
-{
-  "title": "Your blog's title",
-  "all_posts": [
-    {"title": "First post", "url": "/first-post"},
-    {"title": "Second post", "url": "/second-post"},
-    {"title": "Third post", "url": "/third-post"}
-  ]
+<style type="text/css">
+overlap {position: relative;margin:2em 0;display: block;padding: 1.5em 0}
+overlap window {width: 65.5%}
+overlap window:nth-child(2) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1
 }
+</style>
+<overlap>
+<pre class="code html"><code>
+<html>
+<body>
+  \{{#entries}}
+  <a href="\{{{url}}}">\{{title}}</a>
+  \{{/entries}}
+</body>
 </code></pre>
 
+<pre class="code html"><code>
+<html>
+<body>
+  <a href="/first-post">First post</a>
+  <a href="/second-post">Second post</a>
+  <a href="/third-post">Third post</a>
+  <a href="/fourth-post">Fourth post</a>
+  <a href="/fifth-post">Fifth post</a>
+</body>
+</code></pre>
+
+</overlap>
 
 <h2>Getting started</h2>
 
-<p>You can <a href="/theme/new">create a new template</a> on the your blog’s dashboard. You can make changes to a template using the online editor, or you can sync the template’s source files to your blog’s folder and edit them locally. </p>
+<p>You can <a href="/theme/new">create a new template</a> on the your blog’s dashboard. You can make changes to a template using the online editor, or you can sync the template’s source files to your blog’s folder and edit them directly. All of Blot’s templates are <a href="https://github.com/davidmerfield/Blot/blob/master/license.txt">dedicated to the public domain</a> so you can modify and share them freely.</p>
 
-<p>To familiarize yourself with Blot's templates I recommend creating a copy of a template on the dashboard and looking through its source code. All of Blot’s templates are <a href="https://github.com/davidmerfield/Blot/blob/master/license.txt">dedicated to the public domain</a> so you can modify and share them freely.</p>
 
 <h2>How Blot works</h2>
 

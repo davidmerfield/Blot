@@ -37,7 +37,6 @@ brochure.get("/support", function(req, res) {
 
 brochure.get("/contact", function(req, res) {
   res.locals.title = "Contact";
-  res.locals.layout = '/partials/layout-focussed.html';
   res.render("contact");
 });
 

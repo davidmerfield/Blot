@@ -9,6 +9,8 @@ body {
   background: #fffefc
 }
 
+html {background: #faf9f8}
+
 
 body {
   color: rgb(4, 4, 2);
@@ -59,9 +61,11 @@ p a:focus {
 }
 
 p {
-  max-width: 39em
+  max-width: 39em;
+  color: #333333
 }
 
+.dark p {color:#839496}
 h1 {
   font-size: 32px;
   line-height: 1.1;
@@ -92,12 +96,11 @@ main {
 main,
 container {
   margin: 0 auto;
-  max-width: 1000px
+  max-width: 1060px
 }
 
 content {
-  width: 75%;
-  max-width: 700px
+  width: 760px;
 }
 
 main.has-sidebar {
@@ -111,23 +114,28 @@ main.has-sidebar nav {
 
 ul.templates {
   display: flex;
-  margin: 0;
+  margin: 2em 0;
   flex-wrap: wrap;
   padding: 0
 }
 
+ul.templates small {display: none;}
+
 ul.templates li {
   list-style-type: none;
   min-width: 200px;
-  width: 25%;
+  border-top:  1px solid #eee;
+  width: 33%;
   box-sizing: border-box;
   padding: 1.5rem 0.5rem;
 }
 
+ul.templates li a {color: inherit;}
 ul.templates li strong {
   display: block;
 }
 
+ul.templates img {margin-left:-0.5em;margin-top: 0.5em}
 ul.templates img,
 p img {
   width: 100%
@@ -202,8 +210,8 @@ background .folder {
 a.video {
   text-decoration: none;
   background: #f7f5f3;
-  padding: 4em 4em;
-  margin: 0 0 2.7em;
+  padding: 7em 4em 9em;
+  margin: 1em 0 2.7em;
   display: block
 }
 

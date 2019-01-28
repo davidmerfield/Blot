@@ -1,20 +1,16 @@
+header {background: #faf9f8}
+
+.dark header {background: #000}
 header container {
   display: flex;
   padding: 1em 0 1em;
   font-size: 15px;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(120, 134, 156, .08);
-  flex-wrap: wrap;
+/*  border-bottom: 1px solid rgba(120, 134, 156, .08);
+*/  flex-wrap: wrap;
 }
 
-.dark a.index {
-  color: #fff;
-}
 
-.dark a.index svg {
-  fill: #000;
-  stroke: #fff;
-}
 
 header a,
 header label,
@@ -53,7 +49,17 @@ a.index,
 a.index:visited {
   color: #312c25;
   position: relative;
-  padding-left: 2.3em
+  padding-left: 2.3em;
+  margin-left: 0.5em
+}
+
+.dark a.index {
+  color: #fff;
+}
+
+.dark a.index svg {
+  fill: #000;
+  stroke: #fff;
 }
 
 a.index svg {

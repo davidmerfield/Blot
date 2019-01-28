@@ -1,1 +1,60 @@
-<h1>Publishing</h1>
+<h1>How to use Blot</h1>
+
+<p>Blot turns a folder into a blog. All of these files become blog posts automatically when you put them somewhere inside your blog’s folder:</p>
+
+<table style="table-layout:auto;border-top:1px solid #eee;margin-top:1.4em">
+  <tbody>
+    <tr>
+      <td><code class="file md">&nbsp;Text and Markdown</a></code></td>
+      <td><span class="light">.txt&nbsp; .md</span></td>
+      <td>Use the full range of <a href="/formatting/markdown">Markdown</a> features to add formatting to text files.</td>
+    </tr>
+    <tr>
+      <td><code class="file txt">&nbsp;Word Documents</a></code></td>
+      <td><span class="light">.docx &nbsp;.odt</span></td>
+      <td>Supports files created by <a href="https://en.wikipedia.org/wiki/Microsoft_Word">Microsoft Word</a>, <a href="https://en.wikipedia.org/wiki/Pages_(word_processor)">Pages</a>, <a href="https://en.wikipedia.org/wiki/Google_Docs">Google Docs</a> and <a href="https://en.wikipedia.org/wiki/OpenOffice.org">OpenOffice</a>.</td>
+    </tr>
+    <tr>
+      <td><code class="file webloc">&nbsp;Bookmarks</a></code></td>
+      <td><span class="light">.webloc&nbsp; .url</span></td>
+      <td>Drag URLs from your browser's address bar to create blog posts from bookmark files.</td>
+    </tr>
+    <tr>
+      <td><code class="file img" style="margin-left:-3px">&nbsp;Images</a></code></td>
+      <td><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></td>
+      <td>Use the file's path to add <a href="./tags">tags</a> or change the <a href="./dates">date</a> of a post created from an image.</td>
+    </tr>
+    <tr>
+      <td><code class="file html">&nbsp;HTML</a></code></td>
+      <td><span class="light">.html &nbsp; .htm</span></td>
+      <td>Published as-is. <a href="./metadata">Metadata</a> can be parsed from a comment at the start of a file.</td>
+
+    </tr>
+  </tbody>
+</table>
+
+<h2>Prevent a file becoming a blog post</h2>
+<p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="./public-files">embedded in other posts</a>.</p>
+
+<background>
+  <pre class="folder" title="Your blog"><code>Drafts
+Pages
+Posts
+  _not_a_blog_post.txt
+  blog_post.txt
+</code>
+    </pre>
+</background>
+
+<h2>Add formatting to your posts</h2>
+<p>You can use a variety of standard tools to add formatting to your blog posts.</b> <a href="/formatting/markdown">Markdown</a> to add links, headings, lists and much more. Blot also renders mathematics set in <a class="bn" href="/formatting/tex">\(\TeX\)</a> and</span> provides syntax highlighting for code snippets.</p>
+
+<background><pre class="text with-chrome narrow" title="Post"><code><b># Formatting</b>
+
+You can use <em>*Markdown*</em>, a lightweight markup language for plain text files.
+
+Use it for links, headings, lists and much more.
+
+</code>
+    </pre>
+</background>
