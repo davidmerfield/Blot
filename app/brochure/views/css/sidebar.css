@@ -59,7 +59,7 @@ ul.sidebar {
 }
 
 .sidebar .has-list>a:before {
-  background: url('https://developer.apple.com/design/human-interface-guidelines/images/menu-chevron_2x.png');
+  background: url('/images/chevron.png');
   background-repeat: no-repeat;
   background-size: 12px 6px;
   content: '';
@@ -71,9 +71,6 @@ ul.sidebar {
   opacity: 0.5;
   width: 12px;
   height: 6px;
-  background: url('https://developer.apple.com/design/human-interface-guidelines/images/menu-chevron.png');
-  background-repeat: no-repeat;
-  background-size: 12px 6px;
 }
 
 .sidebar .index>a:first-child:hover {
