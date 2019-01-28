@@ -37,27 +37,22 @@ code {
   font-family: 'IA Writer Duospace', Consolas, monaco, monospace;
 }
 
-a:visited {
-  color: #330072;
-}
-
 .dark a {
   color: #64a0da
 }
 
-a {
-  color: #005eb8;
-  text-decoration: none;
+a {text-decoration: none;}
+p a {
+    color: #111;
+    border-bottom: 1px solid #bfbcba;
+    text-decoration: none;
+    transition-property: color,border-color;
+    transition-duration: .1s;
+    transition-timing-function: ease-out;
 }
 
 p a:hover {
-  text-decoration: underline;
-}
-
-p a:active,
-p a:focus {
-  text-decoration: none;
-  outline: 2px solid;
+  border-color: #000
 }
 
 p {

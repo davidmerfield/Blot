@@ -82,7 +82,9 @@ window.scrollTo(0, 0);
     padding-left: .4rem;
 }
 
-.sites li > a:before {
+
+.sites li > a:before,
+.sites .new {
       color: #fffefc;
       border:2px solid #fffefc;
       position: absolute;
@@ -105,6 +107,17 @@ window.scrollTo(0, 0);
       background: #111111;
       text-indent: 0;
     }
+
+
+.sites .new {
+    text-indent: .1rem;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: #fc625d;
+    letter-spacing: .05em;
+    opacity: 1.0;
+    z-index: 1
+}
 
     .sites li p {font-size:15px;}
  .sites li > a:hover:before {
@@ -129,6 +142,7 @@ window.scrollTo(0, 0);
   <li>
 
     <a href="{{{url}}}">
+      {{#first}}<span class="new">New</span>{{/first}}
       <img width="16" src="/images/featured/{{image}}">{{domain}}
     <dots><dot></dot><dot></dot><dot></dot></dots>
   </a>

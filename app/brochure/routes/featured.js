@@ -6,7 +6,8 @@ module.exports = [
     domain: "rebeccatron.com",
     url: "https://www.rebeccatron.com",
     description: "is an engineer based in New York City. Rebecca",
-    custom: true
+    custom: true,
+    first: true
   },
   {
     name: "Rachel Pietraszek",
