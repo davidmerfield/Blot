@@ -18,6 +18,8 @@ On February 1st:
 
 ---
 
+Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
+
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 
 Convert [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot.
