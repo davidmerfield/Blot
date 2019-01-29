@@ -2,12 +2,13 @@ ul.sidebar {
   margin-bottom: 1em;
   margin-left: -10px;
   margin: 0;
+  font-size: 16px;
   padding: 0;
   margin-right: 8em;
   list-style: none;
   width: 25%;
-  min-width: 233px;
-  max-width: 233.333333333px;
+  min-width: 236px;
+  max-width: 236px;
   position: sticky;
   top: 0;
 }
@@ -20,7 +21,6 @@ ul.sidebar {
   border-radius: 4px;
   cursor: pointer !important;
   color: #7b7774;
-  font-size: 15px;
   text-decoration: none;
   word-wrap: break-word;
   background-color: transparent;
@@ -149,7 +149,7 @@ ul.sidebar ul {
 }
 
 
-.buttons {display: flex;margin-left: 8px;margin-top: -1px}
+.buttons {display: flex;margin-left: 8px;}
 
 a.action-button {
     cursor: pointer;

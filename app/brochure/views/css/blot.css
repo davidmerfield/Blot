@@ -9,6 +9,7 @@ body {
   background: #fffefc
 }
 
+html {background: #fffefc}
 
 body {
   color: rgb(4, 4, 2);
@@ -17,7 +18,7 @@ body {
   font-size: 17px;
   font-weight: 400;
   color: #000;
-  background: #fff;
+  background: #fffefc;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
 }
@@ -73,6 +74,7 @@ h1 {
 
 h2 {
   font-size: 1em;
+  max-width: 39em;
   margin: 2.8em 0 0.3375em;
   border-bottom: 1px solid;
   padding: 0.5rem 0 0.3375em;
@@ -87,8 +89,8 @@ h2+p {
 
 /* This keeps the footer off the main page */
 main {
-  min-height: calc(100vh - 2rem);
-  padding:3em 4em;
+  min-height: 100vh;
+  padding:4em;
 
 }
 
@@ -218,9 +220,9 @@ background .text {
 a.video {
   position: relative;
   text-decoration: none;
-  background:linear-gradient(#f6f6f6, #faf9f5);
-  margin: 0 0 2.7em;
-  height: calc(100vh - 6em);
+  background:linear-gradient(#f9f6ef, #faf9f5);
+  margin: 0 0 4em;
+  height: calc(100vh - 8em);
   display: flex;
   align-items: center;
 }
