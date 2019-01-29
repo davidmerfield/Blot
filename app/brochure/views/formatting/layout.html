@@ -2,25 +2,22 @@
 
 <body>
   <link rel="stylesheet" href="/css/tex.css">
-  <header>
-    <container>
-        <div>{{> home_link}} &nbsp;&nbsp;  / &nbsp;&nbsp; <a href="/formatting">Formatting guide</a></div>
-        <div>
-        <a href="/formatting/markdown">Markdown</a>
-        <a href="/formatting/tex">\(\TeX\)</a>
-        <a href="/formatting/layout-tags">Layout</a>
-      </div>
-    {{> nav}}  </container>
-  </header>
 
-  <main >
-     
-  <content style="max-width:800px;margin:0 auto;display:block">
-  {{{body}}}
-  </content>
-</main>
+  <main class="has-sidebar">
+    <ul class="sidebar">
+      <a class="in" href="/">Blot</a> / <a class="in" href="/formatting"> Formatting guide</a>
 
-{{> footer}}
+      <li><a href="/formatting">Introduction</a></li>
+      <li><a href="/formatting/markdown">Markdown</a></li>
+      <li><a href="/formatting/markdown">\(\TeX\)</a></li>
+      <li><a href="/formatting/layout">Layout</a></li>
+    </ul>
+    <content>
+      {{{body}}}
+    </content>
+  </main>
+
+  {{> footer}}
 </body>
 
 </html>
