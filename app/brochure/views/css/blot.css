@@ -9,10 +9,6 @@ body {
   background: #fffefc
 }
 
-html {
-  background: #faf9f8
-}
-
 
 body {
   color: rgb(4, 4, 2);
@@ -72,7 +68,7 @@ p {
 h1 {
   font-size: 36px;
   line-height: 1.1;
-  margin-bottom: 1.1em 0 0
+  margin: 0 0 1.1em;
 }
 
 h2 {
@@ -92,7 +88,7 @@ h2+p {
 /* This keeps the footer off the main page */
 main {
   min-height: calc(100vh - 2rem);
-  padding: 2em 4em;
+  padding:3em 4em;
 
 }
 
@@ -217,11 +213,11 @@ background .folder {
 a.video {
   position: relative;
   text-decoration: none;
-  background: #f7f5f3;
-  padding: 4em 4em 6.5em;
-  margin: 1em 0 2.7em;
-  height: calc(100vh - 17em);
-  display: block;
+  background:linear-gradient(#f6f6f6, #faf9f5);
+  margin: 0 0 2.7em;
+  height: calc(100vh - 6em);
+  display: flex;
+  align-items: center;
 }
 
 a.video span {
@@ -244,6 +240,7 @@ a.video svg {
 
 a.video window {
   opacity: 1.0;
+  min-width: 300px;
   max-width: 310px;
   margin: 0 auto;
   transition: opacity 0.1s ease-out;

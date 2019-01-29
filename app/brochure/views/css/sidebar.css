@@ -1,15 +1,13 @@
 ul.sidebar {
   margin-bottom: 1em;
   margin-left: -10px;
-  margin-top: -0.25em;
   margin: 0;
   padding: 0;
+  margin-right: 8em;
   list-style: none;
   width: 25%;
   min-width: 233px;
   max-width: 233.333333333px;
-  margin-right: 8em;
-  margin-top: 0.88em;
   position: sticky;
   top: 0;
 }
@@ -29,9 +27,6 @@ ul.sidebar {
   transition: background-color .2s ease, color .2s ease;
 }
 
-.sidebar a:visited {
-  color: #7b7774
-}
 
 .sidebar .has-list>a {
   margin-left: -1.37em;

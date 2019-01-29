@@ -1,13 +1,50 @@
 {{> head}}
+<style type="text/css">
 
+.buttons {display: flex;margin-left: -3px}
+
+a.action-button {
+      font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    -webkit-font-smoothing: antialiased;
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 3px 0 0 3px;
+    color: rgb(88, 88, 88);
+}
+
+a.action-button:hover {
+  border-color: rgb(155, 155, 155);
+  color: rgb(55, 55, 55);
+}
+a.action-button + a.action-button {
+  border-radius: 0 3px 3px 0;
+  margin-left: -1px;
+}
+
+
+.in {fill: white;stroke:#7b7774;position: relative;}
+.in svg {width: 19px;position: absolute;left: -23px;top: 6px}
+
+.in.selected {color: #000;stroke:#000;}
+
+</style>
 <body>
   <link rel="stylesheet" href="/css/tex.css">
   <main class="has-sidebar">
     <ul class="sidebar">
-      <a href="/">Blot is a blogging platform with no interface</a>
-      <a href="/log-in">Log in</a>
-      <a href="/sign-up">Sign up</a>
-      <br><br>
+      <a class="in" href="/">{{> logo}} Blot is a blogging platform<br> with no interface</a>
+      <br><br><div class="buttons">
+      <a class="action-button" href="/log-in">Log in</a>
+      <a class="action-button" href="/sign-up">Sign up</a>
+    </div>
+      <br>
       <li class="has-list {{selected.publishing}}">
         <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label></a>
         <ul>
@@ -137,6 +174,10 @@
 
       <li>
         <a href="/developers">Developers</a>
+      </li>
+      
+      <li>
+        <a href="/notes">Notes</a>
       </li>
 
       <li>
