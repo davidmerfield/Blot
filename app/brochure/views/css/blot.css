@@ -15,7 +15,7 @@ body {
   color: rgb(4, 4, 2);
   line-height: 1.4;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 400;
   color: #000;
   background: #fffefc;
@@ -69,13 +69,13 @@ p {
 h1 {
   font-size: 36px;
   line-height: 1.1;
-  margin: 0 0 0.75em;
+  margin: 0 0 0.6em;
 }
 
 h2 {
   font-size: 1em;
   max-width: 39em;
-  margin: 2.8em 0 0.3375em;
+  margin: 1.8em 0 0.3375em;
   border-bottom: 1px solid;
   padding: 0.5rem 0 0.3375em;
   font-weight: 700;
@@ -90,7 +90,7 @@ h2+p {
 /* This keeps the footer off the main page */
 main {
   min-height: 100vh;
-  padding:4em;
+  padding:3em 4em;
 
 }
 
@@ -194,7 +194,9 @@ th:last-child {
 background {
   padding: 2em 4em 2.5em;
   display: block;
-  background: #96deff
+  background: #96deff;
+      max-width: 39em;
+    box-sizing: border-box;
 }
 
 background+h2,
@@ -216,13 +218,14 @@ background .text {
   max-width: 600px;
   margin: 0 auto
 }
+
 /* Big link on homepage containing folder to play demo video */
 a.video {
   position: relative;
   text-decoration: none;
-  background:linear-gradient(#f9f6ef, #faf9f5);
+  background:#f3f2f3;
   margin: 0 0 4em;
-  height: calc(100vh - 8em);
+  height: calc(100vh - 6em);
   display: flex;
   align-items: center;
 }
@@ -305,37 +308,43 @@ overlay.show {
   list-style-type: none;
   display: flex;
   padding: 0;
+  margin-top: 3em;
   text-align: center;
   flex-wrap: wrap;
 }
 
 .sites li {
   box-sizing: border-box;
-  margin: 1.25rem 0;
+margin: 1em 0;
+    float: left;
+    width: calc(50% - 1em);
+    background: #f3f2f3;
+    padding: 2em;
+    padding-bottom: 0;
   position: relative;
-
 }
+/*
+.sites li:nth-child(2) {background: #739780}
+.sites li:nth-child(3) {background: #dba394}
+.sites li:nth-child(4) {background: #f1d9a0}
+*/
 
+.sites p {color: rgba(0,0,0,.5);
+}
 .sites li img {
   position: absolute;
   top: 0.2em;
   left: 1.5em
 }
 
-.sites li:nth-child(3n+2) {
-  margin-right: 2.5rem;
-  margin-left: 2.5rem
+.sites li:nth-child(2n) {
+  margin-left: 2em
 }
 
 .sites img {
   display: none;
 }
 
-.sites li {
-  margin: 1.4em 0;
-  float: left;
-  width: calc(33.33333333% - 1.6667rem);
-}
 
 .sites li>a {
   color: #111;
@@ -346,7 +355,7 @@ overlay.show {
   text-align: center;
   padding: 2em 0 1em;
   box-sizing: border-box;
-  border: 1px solid #a09d9c;
+  border: 1px solid rgba(0,0,0,0.2);
 }
 
 .sites dots {
@@ -354,15 +363,15 @@ overlay.show {
   top: .35rem;
   left: 0;
   right: 0;
-  border-bottom: 1px solid #a09d9c;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
   padding-left: .4rem;
 }
 
 
 .sites li>a:before,
 .sites .new {
-  color: #fffefc;
-  border: 2px solid #fffefc;
+  color: white;
+  border: 2px solid #f3f2f3;
   position: absolute;
   vertical-align: middle;
   text-align: center;
@@ -412,7 +421,7 @@ overlay.show {
   border-radius: 100%;
   width: .25rem;
   height: .25rem;
-  border: 1px solid #a09d9c;
+  border: 1px solid rgba(0,0,0,0.2);
   background: 0 0;
   box-shadow: none;
 }

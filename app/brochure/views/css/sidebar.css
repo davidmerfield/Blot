@@ -1,8 +1,9 @@
+
+.sidebar li a {display: block;}
 ul.sidebar {
   margin-bottom: 1em;
   margin-left: -10px;
   margin: 0;
-  font-size: 16px;
   padding: 0;
   margin-right: 8em;
   list-style: none;
@@ -13,6 +14,10 @@ ul.sidebar {
   top: 0;
 }
 
+.sidebar a:hover{color: #222}
+a.selected {color: black!important}
+
+
 .sidebar a {
   display: inline-block;
   position: relative;
@@ -20,7 +25,7 @@ ul.sidebar {
   padding: 0.2em 0.5em;
   border-radius: 4px;
   cursor: pointer !important;
-  color: #7b7774;
+  color: #868480;
   text-decoration: none;
   word-wrap: break-word;
   background-color: transparent;
@@ -52,22 +57,27 @@ ul.sidebar {
 }
 
 .sidebar a:hover {
-  color: #292929;
+  color:#222;
 }
 
+.sidebar a:active {color:#000;}
+.sidebar a:focus {color:#000;}
+
+
 .sidebar .has-list>a:before {
-  background: url('/images/chevron.png');
-  background-repeat: no-repeat;
-  background-size: 12px 6px;
-  content: '';
-  position: absolute;
-  top: 0.75em;
-  left: 10px;
   display: block;
-  transform: rotate(-90deg);
-  opacity: 0.5;
-  width: 12px;
-  height: 6px;
+    position: absolute;
+    top: 50%;
+    left:9px;
+    width: 7px;
+    height: 7px;
+    margin: -4px -5px 0 0;
+    border-top: solid 1px #d2cfc8;
+    border-right: solid 1px #d2cfc8;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: "";
 }
 
 .sidebar .index>a:first-child:hover {
@@ -100,11 +110,10 @@ ul.sidebar {
 */}
 
 .sidebar :checked~a:before {
-  transform: rotate(0);
+  transform: rotate(135deg);
 }
 
 .sidebar .selected>a {
-  font-weight: 600
 }
 
 
@@ -149,7 +158,7 @@ ul.sidebar ul {
 }
 
 
-.buttons {display: flex;margin-left: 8px;}
+.buttons {display: flex;margin-left: 8px;margin-top: -10px;margin-bottom: 0}
 
 a.action-button {
     cursor: pointer;
@@ -171,18 +180,24 @@ a.action-button:after{
     width: 7px;
     height: 7px;
     margin: -4px -5px 0 0;
-    border-top: solid 1px #ccc;
-    border-right: solid 1px #ccc;
+    border-top: solid 1px #d2cfc8;
+    border-right: solid 1px #d2cfc8;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
     content: "";
 }
+
 a.action-button:hover {
-  border-color: rgb(155, 155, 155);
-  color: rgb(55, 55, 55);
+  border-color: #222;
+  color: #222;
   z-index: 1
 }
+
+a.action-button:hover:after {    border-color: #222;
+color: #222;
+} 
+
 a.action-button + a.action-button {
   margin-right: 0;
 }
