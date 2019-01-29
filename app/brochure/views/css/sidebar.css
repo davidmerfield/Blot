@@ -147,3 +147,41 @@ ul.sidebar ul {
   border: none;
   border-top: 1px solid #ddd;
 }
+
+
+.buttons {display: flex;margin-left: 8px;margin-top: -4px}
+
+a.action-button {
+      font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    text-align: center;
+    padding-left: 1em;
+    margin: 0;
+    width: 50%;
+    text-align: center;
+    padding-right: 1em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    -webkit-font-smoothing: antialiased;
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 3px 0 0 3px;
+    color: rgb(88, 88, 88);
+}
+
+a.action-button:hover {
+  border-color: rgb(155, 155, 155);
+  color: rgb(55, 55, 55);
+  z-index: 1
+}
+a.action-button + a.action-button {
+  border-radius: 0 3px 3px 0;
+  margin-left: -1px;
+}
+
+
+.in {fill: white;stroke:#7b7774;position: relative;display: block;margin-bottom: 1.5em}
+.in svg {display:none;width: 19px;position: absolute;left: -23px;top: 6px}
+
+.in.selected {color: #000;stroke:#000;}

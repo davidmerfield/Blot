@@ -1,75 +1,43 @@
 {{> head}}
-<style type="text/css">
 
-.buttons {display: flex;margin-left: 8px;margin-top: -4px}
-
-a.action-button {
-      font-size: 12px;
-    font-weight: 600;
-    line-height: 1;
-    cursor: pointer;
-    text-align: center;
-    padding-left: 1em;
-    margin: 0;
-    padding-right: 1em;
-    padding-top: 0.75em;
-    padding-bottom: 0.75em;
-    -webkit-font-smoothing: antialiased;
-    border: 1px solid rgb(230, 230, 230);
-    border-radius: 3px 0 0 3px;
-    color: rgb(88, 88, 88);
-}
-
-a.action-button:hover {
-  border-color: rgb(155, 155, 155);
-  color: rgb(55, 55, 55);
-  z-index: 1
-}
-a.action-button + a.action-button {
-  border-radius: 0 3px 3px 0;
-  margin-left: -1px;
-}
-
-
-.in {fill: white;stroke:#7b7774;position: relative;}
-.in svg {display:none;width: 19px;position: absolute;left: -23px;top: 6px}
-
-.in.selected {color: #000;stroke:#000;}
-
-</style>
 <body>
   <link rel="stylesheet" href="/css/tex.css">
   <main class="has-sidebar">
     <ul class="sidebar">
       <a class="in" href="/">{{> logo}} Blot is a blogging platform<br> with no interface</a>
-      <br><br><div class="buttons">
-      <a class="action-button" href="/log-in">Log in</a>
-      <a class="action-button" href="/sign-up">Sign up</a>
-    </div>
+
+      <li style="border-top:1px solid #f2f2f2">
+        <a href="/sign-up">Sign up</a>
+      </li>
+      <li>
+        <a href="/log-in">Log in</a>
+      </li>
+
       <br>
       <li class="has-list {{selected.publishing}}">
-        <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label></a>
-        <ul>
-          <li class="{{selected.pages}}">
-            <a href="{{{base}}}/publishing/pages">Pages</a>
-          </li>
-          <li class="{{selected.drafts}}">
-            <a href="{{{base}}}/publishing/drafts">Drafts</a>
-          </li>
-          <li class="{{selected.tags}}">
-            <a href="{{{base}}}/publishing/tags">Tags</a>
-          </li>
-          <li class="{{selected.dates}}">
-            <a href="{{{base}}}/publishing/dates">Dates</a>
-          </li>
-          <li class="{{selected.public-files}}">
-            <a href="{{{base}}}/publishing/public-files">Public files</a>
-          </li>
-          <li class="{{selected.metadata}}">
-            <a href="{{{base}}}/publishing/metadata">Metadata</a>
-          </li>
+        <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label>
+      </a>
+      <ul>
+        <li class="{{selected.pages}}">
+          <a href="{{{base}}}/publishing/pages">Pages</a>
+        </li>
+        <li class="{{selected.drafts}}">
+          <a href="{{{base}}}/publishing/drafts">Drafts</a>
+        </li>
+        <li class="{{selected.tags}}">
+          <a href="{{{base}}}/publishing/tags">Tags</a>
+        </li>
+        <li class="{{selected.dates}}">
+          <a href="{{{base}}}/publishing/dates">Dates</a>
+        </li>
+        <li class="{{selected.public-files}}">
+          <a href="{{{base}}}/publishing/public-files">Public files</a>
+        </li>
+        <li class="{{selected.metadata}}">
+          <a href="{{{base}}}/publishing/metadata">Metadata</a>
+        </li>
 
-        </ul>
+      </ul>
       </li>
       <li class="has-img has-list {{selected.templates}}">
         <input type="checkbox" name="templates" id="templates" {{#selected.templates}} checked{{/selected.templates}}> <a href="{{{base}}}/templates">Templates<label for="templates"></label></a>
@@ -177,13 +145,10 @@ a.action-button + a.action-button {
       <li>
         <a href="/developers">Developers</a>
       </li>
-      
 
       <li>
         <a href="/about">About</a>
       </li>
-
-
 
     </ul>
     <content>

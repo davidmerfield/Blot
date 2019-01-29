@@ -73,12 +73,12 @@
     z-index: 1;
     position: relative;
     border: 1px solid #cccbca;
-    border-top-color: rgba(0,0,0,.25);
-    border-bottom-color: rgba(0,0,0,.15);
+    border-top-color: rgba(0, 0, 0, .25);
+    border-bottom-color: rgba(0, 0, 0, .15);
     box-sizing: border-box;
     background: 0 0;
-    box-shadow: inset 0 1px 2px 0 rgba(0,0,0,.075);
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   }
 
   input[name="exp-year"],
@@ -137,45 +137,56 @@
   flex {
     -webkit-margin-collapse: discard;
   }
-  .arrow {margin: 0 1em}
+
+  .arrow {
+    margin: 0 1em
+  }
+
   form {
     margin: 2em 0;
     width: 330px
   }
-  header strong {font-weight: inherit;color: #312c25}
+
+  header strong {
+    font-weight: inherit;
+    color: #312c25
+  }
 
   mark#success {
-        background: #cceacc;
+    background: #cceacc;
     color: green;
     outline: #cceacc solid 9px;
     margin-bottom: 2em;
     display: block;
   }
-  .error:empty {display: none;}
-  .error {color: #a54846;display: block;
-    background: #feeded;outline: 10px solid #feeded}
+
+  .error:empty {
+    display: none;
+  }
+
+  .error {
+    color: #a54846;
+    display: block;
+    background: #feeded;
+    outline: 10px solid #feeded
+  }
   </style>
-  <header>
-    <container>
-      {{> home_link}}
-      <div style="flex-grow:0.3333;flex-shrink:1;min-width:2em"></div> 
-      <div style="flex-grow:1;max-width:380px;">
-        <p style="color:#a09d9c"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create a blog</p>
+
+  <main class="has-sidebar">
+    <ul class="sidebar">
+      <a class="in" href="/">{{> logo}} Blot is a blogging platform<br> with no interface</a>
+    </ul>
+    <content>
+
+      <div style="flex-grow:1;max-width:380px;margin:0.25em 0 2.5em;">
+        <p style="color:#a09d9c;margin-top:0"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create a blog</p>
       </div>
-      <div style="flex-grow:1;flex-shrink:1"></div> 
-    </container>
-  </header>
 
-  <main> 
-    <div style="flex-grow:1000;max-width:100px;flex-shrink:1"></div> 
-    <div style="flex-grow:0.3333;flex-shrink:1"></div> 
-    <container>
+      <p><mark id="error" class="error">{{#error}}{{error}}{{/error}}</mark></p>
 
-    <p><mark id="error" class="error">{{#error}}{{error}}{{/error}}</mark></p>
-
-    {{{body}}}
-    </container>
-    <div style="flex-grow:1;flex-shrink:1"></div>     
+      {{{body}}}
+      </container>
+      <div style="flex-grow:1;flex-shrink:1"></div>
   </main>
 </body>
 
