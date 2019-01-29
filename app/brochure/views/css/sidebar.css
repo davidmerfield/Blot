@@ -6,7 +6,9 @@ ul.sidebar {
   padding: 0;
   list-style: none;
   width: 25%;
-  margin-right: 6em;
+  min-width: 233px;
+  max-width: 233.333333333px;
+  margin-right: 8em;
   margin-top: 0.88em;
   position: sticky;
   top: 0;

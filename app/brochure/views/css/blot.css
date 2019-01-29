@@ -70,7 +70,7 @@ p {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 36px;
   line-height: 1.1;
   margin-bottom: 1.1em 0 0
 }
@@ -99,20 +99,15 @@ main {
 main,
 container {
   margin: 0 auto;
-  max-width: 1060px
+  
 }
 
 content {
-  width: 760px;
+ 
 }
 
 main.has-sidebar {
   display: flex
-}
-
-main.has-sidebar nav {
-  width: 25%;
-  max-width: 233.333333333px;
 }
 
 ul.templates {
@@ -225,6 +220,7 @@ a.video {
   background: #f7f5f3;
   padding: 4em 4em 6.5em;
   margin: 1em 0 2.7em;
+  height: calc(100vh - 17em);
   display: block;
 }
 

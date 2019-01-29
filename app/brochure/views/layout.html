@@ -1,10 +1,13 @@
 {{> head}}
-{{> header}}
 
 <body>
   <link rel="stylesheet" href="/css/tex.css">
   <main class="has-sidebar">
     <ul class="sidebar">
+      <a href="/">Blot is a blogging platform with no interface</a>
+      <a href="/log-in">Log in</a>
+      <a href="/sign-up">Sign up</a>
+      <br><br>
       <li class="has-list {{selected.publishing}}">
         <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label></a>
         <ul>
