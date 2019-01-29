@@ -17,7 +17,6 @@ var signup = Express.Router();
 signup.use(function(req, res, next) {
   if (req.user) return res.redirect("/");
 
-  console.log("setting layout...");
   res.locals.layout = "sign-up/layout";
 
   return next();
@@ -140,6 +139,7 @@ passwordForm.get(function(req, res) {
   res.locals.email = req.session.email;
   res.locals.subscription = !!req.session.subscription;
   res.locals.error = req.query.error;
+  res.locals.errormessage = req.query.error;
   res.locals.change_email = req.query.change_email;
   res.locals.already_paid = req.session.already_paid;
 

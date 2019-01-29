@@ -28,7 +28,7 @@
     border: none;
     border-bottom: 2px solid #000;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500
   }
 
@@ -67,18 +67,18 @@
   input[type="password"] {
     padding: 4px 3px;
     margin: 2px 0;
-    border: 1px solid #e3e3e3;
     font-size: 17px;
+    padding: 10px;
     font-family: inherit;
     z-index: 1;
     position: relative;
     border: 1px solid #cccbca;
-    border-top-color: rgba(0, 0, 0, .25);
-    border-bottom-color: rgba(0, 0, 0, .15);
+    border-top-color: rgba(0,0,0,.25);
+    border-bottom-color: rgba(0,0,0,.15);
     box-sizing: border-box;
     background: 0 0;
-    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .075);
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    box-shadow: inset 0 1px 2px 0 rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
   }
 
   input[name="exp-year"],
@@ -151,13 +151,16 @@
     margin-bottom: 2em;
     display: block;
   }
+  .error:empty {display: none;}
+  .error {color: #a54846;display: block;
+    background: #feeded;outline: 10px solid #feeded}
   </style>
   <header>
     <container>
       {{> home_link}}
       <div style="flex-grow:0.3333;flex-shrink:1;min-width:2em"></div> 
-      <div style="flex-grow:1;max-width:380px;color:#a09d9c">
-        <p><strong>Log in</strong><span class="arrow">&rarr;</span>Dashboard</p>
+      <div style="flex-grow:1;max-width:380px;">
+        <p style="color:#a09d9c"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
       </div>
       <div style="flex-grow:1;flex-shrink:1"></div> 
     </container>
@@ -168,7 +171,6 @@
     <div style="flex-grow:0.3333;flex-shrink:1"></div> 
     <container>
 
-    <p><mark id="error">{{#error}}{{error}}{{/error}}</mark></p>
 
     {{{body}}}
     </container>
