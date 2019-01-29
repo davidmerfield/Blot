@@ -6,13 +6,10 @@
     <ul class="sidebar">
       <a class="in" href="/">{{> logo}} Blot is a blogging platform<br> with no interface</a>
 
-      <li style="border-top:1px solid #f2f2f2">
-        <a href="/sign-up">Sign up</a>
-      </li>
-      <li>
-        <a href="/log-in">Log in</a>
-      </li>
-
+      <div class="buttons">
+        <a class="action-button" href="/log-in">Log in</a>
+        <a class="action-button" href="/sign-up">Sign up</a>
+      </div>
       <br>
       <li class="has-list {{selected.publishing}}">
         <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label>

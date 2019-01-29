@@ -149,35 +149,42 @@ ul.sidebar ul {
 }
 
 
-.buttons {display: flex;margin-left: 8px;margin-top: -4px}
+.buttons {display: flex;margin-left: 8px;margin-top: -1px}
 
 a.action-button {
-      font-size: 12px;
-    font-weight: 600;
-    line-height: 1;
     cursor: pointer;
+    border-radius: 0;
     text-align: center;
+    padding-right: 2em;
     padding-left: 1em;
-    margin: 0;
-    width: 50%;
+    margin: 0 1em 0 0;
     text-align: center;
-    padding-right: 1em;
-    padding-top: 0.75em;
-    padding-bottom: 0.75em;
     -webkit-font-smoothing: antialiased;
     border: 1px solid rgb(230, 230, 230);
-    border-radius: 3px 0 0 3px;
-    color: rgb(88, 88, 88);
 }
 
+a.action-button:after{
+  display: block;
+    position: absolute;
+    top: 50%;
+    right: 22px;
+    width: 7px;
+    height: 7px;
+    margin: -4px -5px 0 0;
+    border-top: solid 1px #ccc;
+    border-right: solid 1px #ccc;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: "";
+}
 a.action-button:hover {
   border-color: rgb(155, 155, 155);
   color: rgb(55, 55, 55);
   z-index: 1
 }
 a.action-button + a.action-button {
-  border-radius: 0 3px 3px 0;
-  margin-left: -1px;
+  margin-right: 0;
 }
 
 
