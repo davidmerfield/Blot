@@ -68,7 +68,7 @@ p {
 h1 {
   font-size: 36px;
   line-height: 1.1;
-  margin: 0 0 1.1em;
+  margin: 0 0 0.75em;
 }
 
 h2 {
@@ -99,7 +99,8 @@ container {
 }
 
 content {
- 
+   flex-grow: 1;
+
 }
 
 main.has-sidebar {
@@ -209,6 +210,10 @@ background .folder {
   margin: 0 auto
 }
 
+background .text {
+  max-width: 600px;
+  margin: 0 auto
+}
 /* Big link on homepage containing folder to play demo video */
 a.video {
   position: relative;
@@ -222,7 +227,7 @@ a.video {
 
 a.video span {
   position: absolute;
-  bottom: 2em;
+  bottom: 4em;
   left: 0;
   right: 0;
   text-align: center;

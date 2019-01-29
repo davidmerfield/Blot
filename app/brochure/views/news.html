@@ -45,17 +45,13 @@ ol li a:hover {
   background: none
 }
 
-flex {
-  display: flex;
-    width: 150%;
-    margin-left: -49%;
-}
+flex {display: flex}
 </style>
 <h1>News and updates</h1>
 <p>The lists below give you a idea of what I’m working on. I tend to announce significant news on <a href="https://www.twitter.com/blot__">Blot’s Twitter account</a>. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
 
 <flex>
-  <section style="margin-top:200px">
+  <section >
     <h2>Done</h2>
     <ol>
       {{#commits}}
@@ -68,7 +64,7 @@ flex {
       {{/commits}}
     </ol>
   </section>
-  <section style="margin-left:40px">
+  <section >
     <h2>To do</h2>
     {{{todo}}}
   </section>
