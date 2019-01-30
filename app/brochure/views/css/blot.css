@@ -104,6 +104,7 @@ content {
   flex-grow: 1;
   width: 75%;
   margin-left: 1.5em;
+  margin-right: 1.5em;
 }
 
 main.has-sidebar {
@@ -224,7 +225,7 @@ background .text {
 a.video {
   position: relative;
   text-decoration: none;
-  background: #f6f6f6;
+  background: #f3eeea;
   margin: 0 0 4em;
   height: calc(100vh - 6em);
   display: flex;
@@ -239,7 +240,7 @@ a.video span {
   left: 0;
   right: 0;
   text-align: center;
-  color: #9c9c9c;
+  color: rgb(192, 39, 45);
 }
 
 a.video svg {
@@ -247,7 +248,7 @@ a.video svg {
   vertical-align: middle;
   position: relative;
   top: 2px;
-  fill: #9c9c9c;
+  fill: rgb(192, 39, 45);
 }
 
 a.video window {
