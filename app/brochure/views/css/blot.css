@@ -227,6 +227,8 @@ a.video {
   margin: 0 0 4em;
   height: calc(100vh - 6em);
   display: flex;
+  padding: 0 5em;
+  overflow: hidden;
   align-items: center;
 }
 

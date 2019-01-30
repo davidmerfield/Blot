@@ -18,6 +18,62 @@ ul.sidebar {
 a.selected {color: black!important}
 
 
+input[name="toggle"] {
+  display: none;
+}
+
+.navigation,
+label[for="toggle"] {
+  padding: 1em;
+}
+
+label[for="toggle"] {
+  line-height: 0.333;
+  cursor: pointer;
+  display: block;
+  float: right;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+}
+
+@media screen and (min-width: 800px) {
+  label[for="toggle"] {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 800px) {
+
+  label[for="toggle"] {
+    display: block;
+  }
+
+  main.has-sidebar {display: block!important;}
+
+  input[name="toggle"]+.sidebar>*:not(.in) {
+    display: none;
+  }
+
+  input[name="toggle"]:checked+.sidebar>*:not(.index) {
+    display: block;
+  }
+
+}
+
+
 .sidebar a {
   display: inline-block;
   position: relative;
