@@ -84,7 +84,7 @@ brochure.param('subsection', function(req, res, next){
 });
 
 brochure.get("/", function(req, res) {
-  res.locals.title = "Blot – brochure";
+  res.locals.title = "Blot – A blogging platform with no interface";
   res.locals.selected.index = 'selected';
   res.locals.featured = require('./featured');
   res.render("index");

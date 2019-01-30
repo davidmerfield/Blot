@@ -1,20 +1,18 @@
 
 .sidebar li a {display: block;}
 ul.sidebar {
-  margin-bottom: 1em;
-  margin-left: -10px;
   margin: 0;
   padding: 0;
-  margin-right: 8em;
+  margin-right: 1.5em;
   list-style: none;
   width: 25%;
-  min-width: 236px;
-  max-width: 236px;
-  position: sticky;
-  top: 0;
+  flex-shrink:0;
 }
 
-.sidebar a:hover{color: #222}
+ul.sidebar > * {max-width: 221px;min-width: 221px}
+
+.sidebar a:hover{color: #222;}
+
 a.selected {color: black!important}
 
 
@@ -81,7 +79,7 @@ label[for="toggle"] {
   padding: 0.2em 0.5em;
   border-radius: 4px;
   cursor: pointer !important;
-  color: #868480;
+  color: rgb(160, 157, 156);
   text-decoration: none;
   word-wrap: break-word;
   background-color: transparent;
@@ -218,7 +216,7 @@ ul.sidebar ul {
 
 a.action-button {
     cursor: pointer;
-    border-radius: 0;
+    border-radius: 3px;
     text-align: center;
     padding-right: 2em;
     padding-left: 1em;
@@ -259,7 +257,8 @@ a.action-button + a.action-button {
 }
 
 
-.in {fill: white;stroke:#7b7774;position: relative;display: block;margin-bottom: 1.5em}
+.sidebar a.in {fill: white;position: relative;display: block;margin-bottom: 1.5em}
 .in svg {display:none;width: 19px;position: absolute;left: -23px;top: 6px}
 
-.in.selected {color: #000;stroke:#000;}
+.sidebar a.selected,
+.sidebar .selected > a {color: #000;stroke:#000;}

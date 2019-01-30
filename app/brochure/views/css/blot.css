@@ -9,7 +9,6 @@ body {
   background: #fffefc
 }
 
-html {background: #fffefc}
 
 body {
   color: rgb(4, 4, 2);
@@ -17,8 +16,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 400;
-  color: #000;
-  background: #fffefc;
+  color: #111;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
 }
@@ -44,7 +42,9 @@ a {
   text-decoration: none;
 }
 
-p a {
+content p a,
+content li a,
+content table a {
   color: #111;
   border-bottom: 1px solid #bfbcba;
   text-decoration: none;
@@ -90,19 +90,20 @@ h2+p {
 /* This keeps the footer off the main page */
 main {
   min-height: 100vh;
-  padding:3em 4em;
+  padding: 3em;
 
 }
 
 main,
 container {
   margin: 0 auto;
-  
+
 }
 
 content {
-   flex-grow: 1;
-
+  flex-grow: 1;
+  width: 75%;
+  margin-left: 1.5em;
 }
 
 main.has-sidebar {
@@ -195,8 +196,8 @@ background {
   padding: 2em 4em 2.5em;
   display: block;
   background: #96deff;
-      max-width: 39em;
-    box-sizing: border-box;
+  max-width: 39em;
+  box-sizing: border-box;
 }
 
 background+h2,
@@ -223,7 +224,7 @@ background .text {
 a.video {
   position: relative;
   text-decoration: none;
-  background:#f3f2f3;
+  background: #f6f6f6;
   margin: 0 0 4em;
   height: calc(100vh - 6em);
   display: flex;
@@ -238,8 +239,7 @@ a.video span {
   left: 0;
   right: 0;
   text-align: center;
-  color: rgb(0, 153, 229);
-  font-weight: 500
+  color: #9c9c9c;
 }
 
 a.video svg {
@@ -247,7 +247,7 @@ a.video svg {
   vertical-align: middle;
   position: relative;
   top: 2px;
-  fill: rgb(0, 153, 229);
+  fill: #9c9c9c;
 }
 
 a.video window {
@@ -317,30 +317,30 @@ overlay.show {
 
 .sites li {
   box-sizing: border-box;
-margin: 1em 0;
-    float: left;
-    width: calc(50% - 1em);
-    background: #f3f2f3;
-    padding: 2em;
-    padding-bottom: 0;
+  margin: 1em 0;
+  float: left;
+  width: calc(33% - 1.333em);
   position: relative;
 }
+
+.sites li:nth-child(3n+2) {
+  margin: 1em 2em
+}
+
 /*
 .sites li:nth-child(2) {background: #739780}
 .sites li:nth-child(3) {background: #dba394}
 .sites li:nth-child(4) {background: #f1d9a0}
 */
 
-.sites p {color: rgba(0,0,0,.5);
+.sites p {
+  color: rgba(0, 0, 0, .5);
 }
+
 .sites li img {
   position: absolute;
   top: 0.2em;
   left: 1.5em
-}
-
-.sites li:nth-child(2n) {
-  margin-left: 2em
 }
 
 .sites img {
@@ -357,7 +357,7 @@ margin: 1em 0;
   text-align: center;
   padding: 2em 0 1em;
   box-sizing: border-box;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .sites dots {
@@ -365,7 +365,7 @@ margin: 1em 0;
   top: .35rem;
   left: 0;
   right: 0;
-  border-bottom: 1px solid rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   padding-left: .4rem;
 }
 
@@ -373,7 +373,7 @@ margin: 1em 0;
 .sites li>a:before,
 .sites .new {
   color: white;
-  border: 2px solid #f3f2f3;
+  border: 2px solid #fff;
   position: absolute;
   vertical-align: middle;
   text-align: center;
@@ -400,7 +400,7 @@ margin: 1em 0;
   text-indent: .1rem;
   font-size: 12px;
   text-transform: uppercase;
-  background: #fc625d;
+  background: rgb(192, 39, 45);
   letter-spacing: .05em;
   opacity: 1.0;
   z-index: 1
@@ -423,7 +423,7 @@ margin: 1em 0;
   border-radius: 100%;
   width: .25rem;
   height: .25rem;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   background: 0 0;
   box-shadow: none;
 }
