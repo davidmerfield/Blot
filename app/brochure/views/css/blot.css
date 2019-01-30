@@ -91,6 +91,8 @@ h2+p {
 main {
   min-height: 100vh;
   padding: 3em;
+  padding-bottom: 24em;
+  box-sizing:border-box;
 
 }
 

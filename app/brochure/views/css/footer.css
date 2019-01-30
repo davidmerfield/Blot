@@ -1,13 +1,11 @@
 footer {
   display: flex;
-  margin-top: 6em;
-  padding: 2em 1em 6em;
-  background: #f7f5f3;
+  padding: 2em 2em 6em;
+  background: #fbf8f6;
   fill: #fff;
   stroke: #312c25;
   margin-bottom: -6em;
 }
-
 
 .dark footer {
   background: #0a0a0a
@@ -15,15 +13,22 @@ footer {
 
 footer container {
   display: flex;
-  align-items: baseline;
+  flex-wrap: wrap;
 }
+
+footer a:active,
+footer a:focus {opacity: 0.7}
 
 footer li a:hover,
 footer li a:active {
   background: none
 }
 
-footer container>* {
+footer a.action-button {border-color: #c3c1bd;height: 1.4em;margin: 1em 1em 1em 0}
+footer a.action-button:hover {border-color: #000;color: #000}
+
+footer container div {display: flex;flex-wrap: wrap;}
+footer container div > * {
   margin-right: 2em
 }
 
@@ -31,16 +36,24 @@ footer container> :last-child {
   margin-right: 0
 }
 
+footer container div {margin-bottom: 2em}
+
+footer ul {padding-left: 0}
+
+footer svg {width: 30px;position: relative;top: 1em;}
+
 footer p {
   max-width: 19em;
-  color: #a09d9c
 }
 
 footer li {
   list-style-type: none;
 }
 
-footer ul a {
+footer ul a:hover {text-decoration: underline;}
+
+footer a {
   color: #a09d9c;
+  position: relative;
   text-decoration: none;
 }
