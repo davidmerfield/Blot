@@ -1,24 +1,17 @@
 <overlay class="">
-  <header>
-    <container class="grow-index">
-      <ul style="text-align:right">
-        <li><a href="/">&nbsp;<svg style="width:0.65rem;margin-right: 0.65rem" viewBox="0 0 50 50"><path fill="inherit" d="M50 5l-5-5-20 20L5 0 0 5l20 20L0 45l5 5 20-20 20 20 5-5-20-20z"></path></svg> Close</a></li>
-      </ul>
-    </container>
-  </header>
-  <stage>
-    <container>
-      <video width="1190" height="720" controls>
-        <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video></container>
-  </stage>
+  <a href="/" class="close">Close</a>
+  <div class="videoWrapper">
+    <div class="container">
+    <video id="player" playsinline controls>
+      <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
 </overlay>
 
 <a class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
-<span><?xml version="1.0" encoding="UTF-8"?>
-<svg enable-background="new 0 0 100 100" version="1.1" viewBox="0 0 100 125" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="M50,10.531c-21.763,0-39.469,17.706-39.469,39.469S28.237,89.469,50,89.469S89.469,71.763,89.469,50   S71.763,10.531,50,10.531z M50,84.469c-19.006,0-34.469-15.462-34.469-34.469S30.994,15.531,50,15.531S84.469,30.994,84.469,50   S69.006,84.469,50,84.469z"/><path d="m64.68 48.852l-22.192-12.812c-1.093-0.632-1.988-0.115-1.988 1.148v25.623c0 1.264 0.896 1.78 1.988 1.148l22.192-12.81c1.093-0.632 1.093-1.666 0-2.297z"/></svg> Watch the video</span>
+<span>Play video</span>
     
 <pre class="folder" title="Your blog"><code>Drafts
 Pages
@@ -41,23 +34,26 @@ Posts
 
     <a target="_blank" rel="noopener" href="{{{url}}}">
       {{#first}}<span class="new">New</span>{{/first}}
-      <img width="16" src="/images/featured/{{image}}">{{domain}}
+      <span class='domain'>{{domain}}</span>
     <dots><dot></dot><dot></dot><dot></dot></dots>
   </a>
-    <p>{{name}} {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
+    <p><a target="_blank" rel="noopener" href="{{{url}}}">{{name}}</a> {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{template}}">{{template}}</a> template{{/custom}}.</li>
   {{/featured}}
 </ul>
 
 </div>
 
+<script src="/js/plyr.js"></script>
 <script type="text/javascript">
+var player = new Plyr('#player');
 document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(function(el) {
   el.onclick = function(e) {
-    window.scrollTo(0, 0);
     document.querySelector('overlay').className += 'show';
     document.querySelector('video').play();
+    window.scrollTo(0, 0);
     e.preventDefault();
     return false;
   }
 });
 </script>
+<link rel="stylesheet" href="/css/plyr.css">

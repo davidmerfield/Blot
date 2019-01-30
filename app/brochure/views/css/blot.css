@@ -223,24 +223,44 @@ background .text {
 
 /* Big link on homepage containing folder to play demo video */
 a.video {
-  position: relative;
-  text-decoration: none;
   background: #f3eeea;
   margin: 0 0 4em;
   height: calc(100vh - 6em);
-  display: flex;
-  padding: 0 5em;
+  /*  padding-bottom: 56.25%;
+*/
+  position: relative;
   overflow: hidden;
-  align-items: center;
+  display: block;
 }
 
 a.video span {
   position: absolute;
-  bottom: 4em;
-  left: 0;
-  right: 0;
+  bottom: 3.5em;
+  left: 3.5em;
+  border-radius: 0;
   text-align: center;
+  padding: 4px 1em 4px 2em;
+  margin: 0 1em 0 0;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  border: 1px solid rgb(192, 39, 45);
   color: rgb(192, 39, 45);
+}
+
+a.video span:before {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 22px;
+  width: 7px;
+  height: 7px;
+  margin: -4px 0 0 -10px;
+  border-top: solid 1px rgb(192, 39, 45);
+  border-right: solid 1px rgb(192, 39, 45);
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  content: "";
 }
 
 a.video svg {
@@ -253,19 +273,24 @@ a.video svg {
 
 a.video window {
   opacity: 1.0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -150px;
+  margin-top: -120px;
   min-width: 300px;
   max-width: 310px;
-  margin: 0 auto;
-  transition: opacity 0.1s ease-out;
 }
 
-a.video:hover {
-  box-shadow: none;
+a.video:hover span {
+  background: rgb(192, 39, 45);
+  color: white;
 }
 
-a.video:hover window {
-  opacity: 0.5
+a.video:hover span:before {
+  border-color: white
 }
+
 
 overlay {
   position: fixed;
@@ -275,15 +300,14 @@ overlay {
   left: 0;
   z-index: -1;
   opacity: 0;
-  background: #faf9f8;
-  transition: opacity 0.1s ease-out;
+  padding: 3em;
+  background: #fffefc;
 }
 
 overlay stage {
-  margin: 2em 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-bottom: 56.25%;
+  display: block;
+  height: 0;
 }
 
 overlay video {
@@ -295,6 +319,99 @@ overlay video {
 overlay.show {
   z-index: 10;
   opacity: 1
+}
+
+overlay {
+  display: flex
+}
+
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.videoWrapper .container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+overlay .close:hover {
+  color: #000
+}
+
+overlay .close:hover,
+overlay .close:hover:before,
+overlay .close:hover:after {
+  border-color: #000
+}
+
+overlay .close {
+  height: 1.4em;
+  margin-right: 3em;
+  margin-left: 1.5em;
+  margin-bottom: 3em;
+  position: relative;
+  border-radius: 0;
+  text-align: center;
+  padding: 4px 1em 4px 2.4em;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  border: 1px solid #e6e4e3;
+  color: #a09d9c;
+}
+
+overlay .close:before {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 22px;
+  width: 7px;
+  height: 7px;
+  margin: -4px 0 0 -10px;
+  border-top: solid 1px #a9a6a3;
+  border-right: solid 1px #a9a6a3;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  content: "";
+}
+
+overlay .close:after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 32px;
+  width: 7px;
+  height: 7px;
+  margin: -4px 0 0 -10px;
+  border-top: solid 1px #a9a6a3;
+  border-right: solid 1px #a9a6a3;
+  -webkit-transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
+  transform: rotate(225deg);
+  content: "";
+}
+
+@media screen and (max-width: 1000px) {
+  overlay .close {
+    margin-left: 0;
+    width: fit-content;
+  }
+
+  overlay {
+    flex-direction: column;
+  }
 }
 
 .action-link {
@@ -320,13 +437,35 @@ overlay.show {
   box-sizing: border-box;
   margin: 1em 0;
   float: left;
-  width: calc(33% - 2em);
   position: relative;
 }
 
-.sites li:nth-child(3n+2) {
-  margin: 1em 3em
+@media screen and (min-width: 1200px) {
+
+  .sites li {
+    width: calc(33% - 2em);
+  }
+
+  .sites li:nth-child(3n+2) {
+    margin: 1em 3em
+  }
+
 }
+
+
+@media screen and (min-width: 540px) and (max-width: 1200px) {
+
+  .sites li {
+    width: calc(50% - 1.5em);
+  }
+
+  .sites li:nth-child(2n) {
+    margin-left:3em;
+  }
+
+}
+
+
 
 /*
 .sites li:nth-child(2) {background: #739780}
@@ -334,9 +473,6 @@ overlay.show {
 .sites li:nth-child(4) {background: #f1d9a0}
 */
 
-.sites p {
-  color: rgba(0, 0, 0, .5);
-}
 
 .sites li img {
   position: absolute;
@@ -350,15 +486,24 @@ overlay.show {
 
 
 .sites li>a {
-  color: #111;
+  color: #afaba8;
   border-radius: 4px;
   display: block;
   position: relative;
-  line-height: 83px;
   text-align: center;
-  padding: 2em 0 1em;
+  padding: 2em 0 50% 1em;
+  height: 0;
   box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid #bfbcba;
+}
+
+.sites li a span.domain {
+  position: absolute;
+  top: 50%;
+  margin-top: -0.3em;
+  text-align: center;
+  left: 0;
+  right: 0
 }
 
 .sites dots {
@@ -366,7 +511,7 @@ overlay.show {
   top: .35rem;
   left: 0;
   right: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #bfbcba;
   padding-left: .4rem;
 }
 
@@ -416,7 +561,6 @@ overlay.show {
 }
 
 .sites dot {
-  border-color: rgba(0, 0, 0, .35);
   display: block;
   float: left;
   margin-right: 5px;
@@ -424,7 +568,7 @@ overlay.show {
   border-radius: 100%;
   width: .25rem;
   height: .25rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid #afaba8;
   background: 0 0;
   box-shadow: none;
 }

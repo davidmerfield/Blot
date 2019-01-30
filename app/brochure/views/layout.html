@@ -8,8 +8,12 @@
 
     <input type="checkbox" name="toggle" id="toggle">
 
+
     <ul class="sidebar">
-      <a class="in {{selected.index}}" href="/">{{> logo}} Blot is a blogging platform<br> with no interface</a>
+    
+  
+      <a class="in {{selected.index}}" href="/">Blot is a blogging platform<br> with no interface</a>
+      <br>              
       <div class="buttons">
         <a class="action-button" href="/log-in">Log in</a>
         <a class="action-button" href="/sign-up">Sign up</a>
@@ -37,55 +41,49 @@
         <li class="{{selected.metadata}}">
           <a href="{{{base}}}/publishing/metadata">Metadata</a>
         </li>
-
+        <br>
       </ul>
       </li>
-      <li class="has-img has-list {{selected.templates}}">
+      <li class="has-list {{selected.templates}}">
         <input type="checkbox" name="templates" id="templates" {{#selected.templates}} checked{{/selected.templates}}> <a href="{{{base}}}/templates">Templates<label for="templates"></label></a>
         <ul>
 
           <li class="{{selected.console}}">
             <a href="{{{base}}}/templates/console">
-      <img src="{{{base}}}/templates/console/one.png">
       Console
     </a>
           </li>
           <li class="{{selected.default}}">
             <a href="{{{base}}}/templates/default">
-      <img src="{{{base}}}/templates/default/one.png">
       Default
     </a>
           </li>
           <li class="{{selected.grid}}">
             <a href="{{{base}}}/templates/grid">
-      <img src="{{{base}}}/templates/grid/one.png">
       Grid
     </a>
           </li>
           <li class="{{selected.magazine}}">
             <a href="{{{base}}}/templates/magazine">
-      <img src="{{{base}}}/templates/magazine/one.png">
       Magazine
     </a>
           </li>
           <li class="{{selected.photos}}">
             <a href="{{{base}}}/templates/photos">
-      <img src="{{{base}}}/templates/photos/one.png">
       Photos
     </a>
           </li>
           <li class="{{selected.portfolio}}">
             <a href="{{{base}}}/templates/portfolio">
-      <img src="{{{base}}}/templates/portfolio/one.png">
       Portfolio
     </a>
           </li>
           <li class="{{selected.rosa}}">
             <a href="{{{base}}}/templates/rosa">
-      <img src="{{{base}}}/templates/rosa/one.png">
       Rosa
     </a>
           </li>
+        <br>        
         </ul>
       </li>
 
@@ -108,6 +106,7 @@
           <li class="{{selected.services}}">
             <a href="{{{base}}}/configuring/services">External services</a>
           </li>
+          <br>
         </ul>
       </li>
 
@@ -120,6 +119,7 @@
           <li class="{{selected.git}}">
             <a href="{{{base}}}/clients/git">Git</a>
           </li>
+        <br>        
         </ul>
       </li>
 
@@ -128,20 +128,19 @@
       </li>
 
       <br>
-      <!--  <img style="max-width:138px;margin:1em 0;display:block;width:138px;margin-left:-0.5em;    clear: both;
-    float: none;" src="/butt.png"> -->
+  
+      <li>
+        <a href="/support">Support</a>
+      </li>
 
       <li>
-        <a href="/support">Contact support</a>
+        <a href="/formatting">Formatting guide</a>
       </li>
 
       <li>
         <a href="/news">News and updates</a>
       </li>
 
-      <li>
-        <a href="/formatting">Formatting guide</a>
-      </li>
 
       <li>
         <a href="/developers">Developers</a>

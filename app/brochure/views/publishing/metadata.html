@@ -1,20 +1,18 @@
 <h1>Metadata</h1>
 
-<p>Each post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line. </p>
+<p>Each post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line. Metadata must be separated from the rest of the post by at least one blank line. </p>
 
-<background><pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+<div style="max-width:39em;margin:3em 0 4em">
+<pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
 
 You must leave a space after the colon between the metadata property (e.g. Date) and its value. Metadata must be separated from the rest of the post by at least one blank line. 
 
-</code></pre></background>
+</code></pre></div>
 
-<p>Metadata must be separated from the rest of the post by at least one blank line. Metadata properties are case-insensitive. </p>
-</p>
 
-<h2>Reference</h2>
-<p>This is the full list of metadata generated for each post, which you can overwrite at the start of a file:</p>
-<table>
+<h2>Metadata reference</h2>
+<table style="max-width:39em;table-layout:auto">
   <tbody>
     <tr>
       <td>Title</td>
@@ -24,7 +22,7 @@ You must leave a space after the colon between the metadata property (e.g. Date)
     </tr>
     <tr>
       <td>Date</td>
-      <td>Defaults to the file’s creation date. Specify a different date in the file’s metadata with one of the <a href="/documentation/dates">supported formats</a>, or use the <a href="/documentation/dates">file’s path</a>.
+      <td>Defaults to the file’s creation date. Specify a different date in the file’s metadata with one of the <a href="/documentation/dates">supported formats</a>. You can also change a post's publish date <a href="/documentation/dates">using the file’s path</a>.
         <!-- <br><a class="next small db bt b--black-10" style="margin-bottom:0" href="/documentation/dates">Read more about dates</a>
  -->
       </td>
@@ -76,7 +74,8 @@ You must leave a space after the colon between the metadata property (e.g. Date)
 <h2>Metadata in HTML files</h2>
 <p>You can use a comment at the start of an HTML file to specify metadata.</p>
 
-<background><pre class="code html" title="Post.html"><code><!--
+<div style="max-width:39em;margin:3em 0 4em">
+<pre class="code html" title="Post.html"><code><!--
 Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
 -->
@@ -84,4 +83,4 @@ Permalink: /metadata
 The comment containing metadata in an HTML file
 <b>must</b> start on the file's first line.
 
-</code></pre></background>
+</code></pre></div>

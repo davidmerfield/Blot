@@ -13,6 +13,9 @@ ul.sidebar {
 /*ul.sidebar:hover a {color: black}*/
 ul.sidebar a:hover {text-decoration: underline;}
 
+ul.sidebar a:active,
+ul.sidebar a:focus  {opacity: 0.7;text-decoration: none;}
+
 ul.sidebar > * {max-width: 221px;min-width: 221px}
 
 a.selected {color: black!important}
@@ -83,7 +86,6 @@ label[for="toggle"] {
   text-decoration: none;
   word-wrap: break-word;
   background-color: transparent;
-  transition: background-color .2s ease, color .2s ease;
 }
 
 
@@ -98,8 +100,7 @@ label[for="toggle"] {
 
 /*.sidebar .has-img li {line-height: 1.8}
 */
-.sidebar a:active {color:#000;}
-.sidebar a:focus {color:#000;}
+
 
 
 .sidebar .has-list>a:before {
@@ -110,8 +111,8 @@ label[for="toggle"] {
     width: 7px;
     height: 7px;
     margin: -4px -5px 0 0;
-    border-top: solid 1px #8b9397;
-    border-right: solid 1px #8b9397;
+    border-top: solid 1px #a9a6a3;
+    border-right: solid 1px #a9a6a3;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
@@ -148,6 +149,7 @@ label[for="toggle"] {
 */}
 
 .sidebar :checked~a:before {
+  margin-top: -6px;
   transform: rotate(135deg);
 }
 
@@ -165,9 +167,7 @@ ul.sidebar ul {
   margin-bottom: 0.1em;
 }
 
-.sidebar li ul {border-left:  1px solid #f2f2f2;margin-bottom: 1.4em}
 
-.sidebar li ul a {padding-left: 1em}
 .dark .sidebar li,
 .dark .sidebar li ul {border-color: #222}
 
@@ -175,12 +175,22 @@ ul.sidebar ul {
 
 .sidebar li ul {
   list-style: none;
-  padding-left: 0;
+  padding-left: 1em;
 }
 
 
-.sidebar li ul li {
+.sidebar li ul li {position: relative;}
+.sidebar li ul li:before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left:-1em;
+    width: 7px;
+    height: 7px;
+    margin: 0 -5px 0 0;
+    border-top: solid 1px #a9a6a3;
 
+    content: "";
 }
 
 .sidebar hr {
@@ -201,7 +211,7 @@ a.action-button {
     margin: 0 1em 0 0;
     text-align: center;
     -webkit-font-smoothing: antialiased;
-    border: 1px solid #eae6e3;
+    border: 1px solid #e6e4e3;
 }
 
 a.action-button:after{
@@ -212,8 +222,8 @@ a.action-button:after{
     width: 7px;
     height: 7px;
     margin: -4px -5px 0 0;
-    border-top: solid 1px #eae6e3;
-    border-right: solid 1px #eae6e3;
+    border-top: solid 1px #a9a6a3;
+    border-right: solid 1px #a9a6a3;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
@@ -234,7 +244,4 @@ color: #222;
 a.action-button + a.action-button {
   margin-right: 0;
 }
-
-
-.sidebar a.in {fill: white;position: relative;display: block;margin-bottom: 1.5em}
-.in svg {display:none;width: 19px;position: absolute;left: -23px;top: 6px}
+.sidebar a.in {position: relative;display: block;}
