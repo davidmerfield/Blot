@@ -216,7 +216,7 @@ ul.sidebar ul {
 
 a.action-button {
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 0;
     text-align: center;
     padding-right: 2em;
     padding-left: 1em;

@@ -319,12 +319,12 @@ overlay.show {
   box-sizing: border-box;
   margin: 1em 0;
   float: left;
-  width: calc(33% - 1.333em);
+  width: calc(33% - 2em);
   position: relative;
 }
 
 .sites li:nth-child(3n+2) {
-  margin: 1em 2em
+  margin: 1em 3em
 }
 
 /*
