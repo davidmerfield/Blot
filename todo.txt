@@ -7,8 +7,6 @@ Record new demo video
   - My visual scrapbook on the archives theme: shows tag folders, photo blog
   - My personal site: simple landing page, edit with a doc file?
 
-On January 28th, re-announce price increase for new customers to $30 a year. This will not affect existing customers.
-
 Finish archive template
 - Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
 
@@ -17,6 +15,8 @@ On February 1st:
 - Announce new archive template (+ documentation and video) by linking to archive template page
 
 ---
+
+Import Filippo's posts from tumblr: philapple
 
 Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 
