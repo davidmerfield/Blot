@@ -168,8 +168,8 @@ ul.sidebar ul {
 }
 
 
-.dark .sidebar li,
-.dark .sidebar li ul {border-color: #222}
+.dark .sidebar,
+.dark .sidebar a  {border-color: #222;color: #839496}
 
 .sidebar li ul li:last-child {border-bottom: none;}
 

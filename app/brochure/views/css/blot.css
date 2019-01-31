@@ -23,19 +23,20 @@ body {
 
 body.dark {
   background: #111;
-  color: #e2e1df
+  color: #b5c2c3;
 }
 
+.dark p, .dark content a, .dark ol, .dark ul  {  color: #b5c2c3;
+}
+
+.dark content a {border-bottom-color: #444}
+.dark content a:hover {border-bottom-color: #b5c2c3}
 small {
   font-size: 15px
 }
 
 code {
   font-family: 'IA Writer Duospace', Consolas, monaco, monospace;
-}
-
-.dark a {
-  color: #64a0da
 }
 
 a {
@@ -57,13 +58,9 @@ p a:hover {
   border-color: #000
 }
 
-p {
+p, ol, ul {
   max-width: 39em;
   color: #333333
-}
-
-.dark p {
-  color: #839496
 }
 
 h1 {
