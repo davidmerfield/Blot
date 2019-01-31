@@ -1,5 +1,8 @@
 Finish new documentation and logo
 
+Finish archive template
+- Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
+
 Record new demo video
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
 - Show sites I run using Blot: 
@@ -7,30 +10,29 @@ Record new demo video
   - My visual scrapbook on the archives theme: shows tag folders, photo blog
   - My personal site: simple landing page, edit with a doc file?
 
-Finish archive template
-- Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
-
 On February 1st:
 - Increase price for new customers to $30 a year.  This will not affect existing customers.
 - Announce new archive template (+ documentation and video) by linking to archive template page
 
 ---
 
-Import Filippo's posts from tumblr: philapple
+Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
+
+Convert [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot.
+
+Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzdmhFkmhcDkPGvQbqZjGZ)
+
+---
 
 Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
-
-Convert [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot.
 
 Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
 Fix bug with metadata parsing a URL on the first line of a file and tell [David](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVDKqlWWcsbfBZWDhMZMzNbrV)
 
 Add property of entry which is safe to use in a JSON feed. Tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqjfBFmTnZZFpzRhtdBrR).
-
-Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzdmhFkmhcDkPGvQbqZjGZ)
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
