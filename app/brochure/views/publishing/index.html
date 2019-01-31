@@ -1,9 +1,21 @@
 <h1>How to use Blot</h1>
 
 <p>Blot turns a folder into a blog. The point of Blot is to let you use your favorite tools to blog. All of these files become blog posts automatically when you put them somewhere inside your blog’s folder:</p>
+<!-- 
+<style type="text/css">
+overlap {position: relative;margin:0em 0;display: block;padding: 3em 0;max-width: 39em}
+overlap window {width: 65.5%}
+overlap window:nth-child(2) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: 75%
+}
+</style>
+<overlap>
 
-
-<background><pre class="folder" title="Your blog"><code>Drafts
+<overlap style="height:20em"><pre class="folder" title="Your blog"><code>Drafts
 Pages
   About.txt
   Contact.docx  
@@ -11,11 +23,22 @@ Pages
 Posts
 
 
-</code></pre></background>
+</code></pre><pre class="text with-chrome narrow" title="Post"><code><b># Formatting</b>
+
+You can use <em>*Markdown*</em>, a lightweight markup language for plain text files.
+
+Use it for links, headings, lists and much more.
 
 
-<h2>Supported files</h2>
-<table style="table-layout:auto;border-top:1px solid #eee;margin-top:-5px">
+
+
+</code>
+    </pre></overlap>
+
+<style type="text/css">.light {opacity: 0.5}</style>
+
+<h2>Supported files</h2> -->
+<table style="table-layout:auto;border-top:1px solid #eee;margin-top:-5px;max-width:39em">
   <tbody>
     <tr>
       <td><code class="file md">&nbsp;Text and Markdown</a></code></td>
@@ -35,7 +58,7 @@ Posts
     <tr>
       <td><code class="file img" style="margin-left:-3px">&nbsp;Images</a></code></td>
       <td><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></td>
-      <td>Use the file's path to add <a href="./tags">tags</a> or change the <a href="./dates">date</a> of a post created from an image.</td>
+      <td>You can put images directly from your camera into your blog's folder. Use the file's path to add <a href="./tags">tags</a> or change the <a href="./dates">date</a> of a post created from an image. Blot generates thumbnails and optimized versions to deliver to your readers automatically.</td>
     </tr>
     <tr>
       <td><code class="file html">&nbsp;HTML</a></code></td>
