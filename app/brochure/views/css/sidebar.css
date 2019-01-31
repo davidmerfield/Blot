@@ -1,0 +1,247 @@
+
+.sidebar li a {display: block;}
+ul.sidebar {
+  margin: 0;
+  padding: 0;
+  margin-right: 1.5em;
+  margin-left: 1.5em;
+  list-style: none;
+  width: 25%;
+  flex-shrink:0;
+}
+
+/*ul.sidebar:hover a {color: black}*/
+ul.sidebar a:hover {text-decoration: underline;}
+
+ul.sidebar a:active,
+ul.sidebar a:focus  {opacity: 0.7;text-decoration: none;}
+
+ul.sidebar > * {max-width: 221px;min-width: 221px}
+
+a.selected {color: black!important}
+
+
+input[name="toggle"] {
+  display: none;
+}
+
+.navigation,
+label[for="toggle"] {
+  padding: 1em;
+}
+
+label[for="toggle"] {
+  line-height: 0.333;
+  cursor: pointer;
+  display: block;
+  float: right;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+}
+
+@media screen and (min-width: 800px) {
+  label[for="toggle"] {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 800px) {
+
+  label[for="toggle"] {
+    display: block;
+  }
+
+  main.has-sidebar {display: block!important;}
+
+  input[name="toggle"]+.sidebar>*:not(.in) {
+    display: none;
+  }
+
+  input[name="toggle"]:checked+.sidebar>*:not(.index) {
+    display: block;
+  }
+
+}
+
+
+.sidebar a {
+  display: inline-block;
+  position: relative;
+  border-radius: 4px;
+  cursor: pointer !important;
+  color: #a09d9c;
+  text-decoration: none;
+  word-wrap: break-word;
+  background-color: transparent;
+}
+
+
+.sidebar img {
+      max-width: 36px;
+    float: left;
+    display: none;
+    margin-left: -1.5em;
+    margin-right: 0.75em;
+    margin: 0.2em 0.75em 0.2em -1.5em;
+}
+
+/*.sidebar .has-img li {line-height: 1.8}
+*/
+
+
+
+.sidebar .has-list>a:before {
+  display: block;
+    position: absolute;
+    top: 50%;
+    left:-1.25em;
+    width: 7px;
+    height: 7px;
+    margin: -4px -5px 0 0;
+    border-top: solid 1px #a9a6a3;
+    border-right: solid 1px #a9a6a3;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: "";
+}
+
+.sidebar .index>a:first-child:hover {
+  background: transparent;
+}
+
+.sidebar .index>a:first-child:before {
+  background: url('/images/logo-new.svg');
+  transform: none;
+  background-size: 1em;
+  width: 1em;
+  top: 0.5em;
+  opacity: 0.3;
+  left: 6px;
+  height: 1em;
+  background-repeat: no-repeat;
+}
+
+.sidebar input {
+  display: none;
+}
+
+.sidebar label {
+/*  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+*/}
+
+.sidebar :checked~a:before {
+  margin-top: -6px;
+  transform: rotate(135deg);
+}
+
+
+ul.sidebar ul {
+  display: none;
+
+}
+
+.sidebar input:checked~ul {
+  display: block;
+}
+
+.sidebar li {
+  margin-bottom: 0.1em;
+}
+
+
+.dark .sidebar,
+.dark .sidebar a  {border-color: #222;color: #839496}
+
+.sidebar li ul li:last-child {border-bottom: none;}
+
+.sidebar li ul {
+  list-style: none;
+  padding-left: 1em;
+}
+
+
+.sidebar li ul li {position: relative;}
+.sidebar li ul li:before {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left:-1em;
+    width: 7px;
+    height: 7px;
+    margin: 0 -5px 0 0;
+    border-top: solid 1px #a9a6a3;
+
+    content: "";
+}
+
+.sidebar hr {
+  margin-top: 10px;
+  margin-bottom: 8px;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+
+.buttons {display: flex;}
+
+a.action-button {
+    cursor: pointer;
+    border-radius: 0;
+    text-align: center;
+    padding:4px 2em 4px 1em;
+    margin: 0 1em 0 0;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    border: 1px solid #e6e4e3;
+}
+
+a.action-button:after{
+  display: block;
+    position: absolute;
+    top: 50%;
+    right: 22px;
+    width: 7px;
+    height: 7px;
+    margin: -4px -5px 0 0;
+    border-top: solid 1px #a9a6a3;
+    border-right: solid 1px #a9a6a3;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: "";
+}
+
+.sidebar a.action-button:hover {
+  border-color: #222;
+  color: #222;
+  text-decoration: none;
+  z-index: 1
+}
+
+a.action-button:hover:after {    border-color: #222;
+color: #222;
+} 
+
+a.action-button + a.action-button {
+  margin-right: 0;
+}
+.sidebar a.in {position: relative;display: block;}
