@@ -1,0 +1,136 @@
+<style type="text/css">
+ol {
+  list-style-type: none;
+  width: 300px
+}
+
+ol {
+  margin: 0 0 0 8px;
+  padding: 0;
+}
+
+ol li {
+  margin-bottom: 1em
+}
+
+ol li a {
+  position: relative;
+  display: block;
+  padding-left: 1.3em;
+  border: none;
+  color: inherit;
+  text-decoration: none;
+}
+
+ol li p {
+  margin: 0;
+}
+
+ol li small {
+  color: #aaa;
+}
+
+section {position: relative;}
+ol li a,
+section > p,
+section > details {padding-left: 2em;position: relative;}
+
+hr {border: none;border-bottom: 1px solid #eee;margin: 2em 0}
+
+ol li a:before,
+section > p:before,
+section > details:before {
+  width: 0.66em;
+  border:1px solid;
+  height: 0.666em;
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0.25em
+}
+
+ol li a:before {content: "✖";text-align: center;text-indent: -0.15em;line-height: 0.8}
+
+ol li a:hover {
+  background: none
+}
+
+flex {display: flex}
+
+details {
+margin: 1em 0;
+display: block;position: relative;color: inherit;
+}
+
+details summary {
+    line-height: 1;
+        list-style: none;
+    list-style-type: none;
+
+    display: list-item;
+    touch-action: manipulation;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    z-index: 1;
+    top: 0;
+
+    cursor: pointer;
+    background-size: 16px auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: color .2s;
+}
+
+details[open] summary::before {
+    transform: rotate(-180deg);
+  }
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary:before {
+    content: "";
+    transform-box: fill-box;
+    position: absolute;
+    top: 12px;
+    margin-top: -4px;
+    right: 12px;
+    width: 12px;
+    height: 8px;
+    transform: rotate(-90deg);
+    transition: transform .2s ease-out;
+    transform-origin: 50% center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="612" height="612"><path d="M604.501 440.509L325.398 134.956c-5.331-5.357-12.423-7.627-19.386-7.27-6.989-.357-14.056 1.913-19.387 7.27L7.499 440.509c-9.999 10.024-9.999 26.298 0 36.323s26.223 10.024 36.222 0l262.293-287.164L568.28 476.832c9.999 10.024 26.222 10.024 36.221 0 9.999-10.023 9.999-26.298 0-36.323z"/></svg>');
+}
+</style>
+<h1>News and updates</h1>
+<p>The lists below give you a idea of what I’m working on. I tend to announce significant news on <a href="https://www.twitter.com/blot__">Blot’s Twitter account</a>. Blot’s <a href="https://github.com/davidmerfield/Blot">source code</a> is dedicated to the public domain. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+
+<flex>
+  
+  <section style="max-width:33em">
+    <h2 style="margin-bottom:2em">To do</h2>
+    {{{todo}}}
+  </section>
+  <section style="margin:0 3em">
+    <h2 style="margin-bottom:2em">Done</h2>
+    <ol>
+      {{#commits}}
+      <li>
+        <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">
+      <p>{{message}}</p>
+      <p><small>{{date}}</small></p>
+      </a>
+      </li>
+      {{/commits}}
+    </ol>
+  </section>
+</flex>

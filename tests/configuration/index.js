@@ -49,6 +49,7 @@ describe("configuration", function() {
 
       // App should not emit anything on standard error
       demo_app.stderr.on("data", function(data) {
+        console.log(data.toString('utf8'));
         has_err = true;
         demo_app.kill();
       });

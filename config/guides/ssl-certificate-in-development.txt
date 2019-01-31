@@ -22,6 +22,9 @@ openssl req \
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain cert.pem
 
 Then move these files to the location expected in dev-ssl.conf:
+
+If needed, make the directory: sudo mkdir -p /etc/blot, then:
+
 cp cert.pem /etc/blot/cert.pem
 cp key.pem /etc/blot/key.pem
 
