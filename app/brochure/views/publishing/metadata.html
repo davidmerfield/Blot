@@ -3,13 +3,13 @@
 <p>Each post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line. Metadata must be separated from the rest of the post by at least one blank line. </p>
 
 <div style="max-width:39em;margin:3em 0 4em">
-<pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+  <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
 
 You must leave a space after the colon between the metadata property (e.g. Date) and its value. Metadata must be separated from the rest of the post by at least one blank line. 
 
-</code></pre></div>
-
+</code></pre>
+</div>
 
 <h2>Metadata reference</h2>
 <table style="max-width:39em;table-layout:auto">
@@ -22,15 +22,15 @@ You must leave a space after the colon between the metadata property (e.g. Date)
     </tr>
     <tr>
       <td>Date</td>
-      <td>Defaults to the file’s creation date. Specify a different date in the file’s metadata with one of the <a href="/dates">supported formats</a>. You can also change a post's publish date <a href="/dates">using the file’s path</a>.
-        <!-- <br><a class="next small db bt b--black-10" style="margin-bottom:0" href="/dates">Read more about dates</a>
+      <td>Defaults to the file’s creation date. Specify a different date in the file’s metadata with one of the <a href="/publishing/dates">supported formats</a>. You can also change a post's publish date <a href="/publishing/dates">using the file’s path</a>.
+        <!-- <br><a class="next small db bt b--black-10" style="margin-bottom:0" href="/publishing/dates">Read more about dates</a>
  -->
       </td>
     </tr>
     <tr>
       <td>Permalink</td>
-      <td>Defaults to a URL-friendly version of the post’s title. Specify a different permalink in the file’s metadata, or adjust the <a href="/configuring/permalinks">default permalink format</a>.
-        <!-- <br><a class="next small db bt b--black-10" style="margin-bottom:0" href="/dates">Read more about permalinks</a>
+      <td>Defaults to a URL-friendly version of the post’s title. Specify a different permalink in the file’s metadata, or adjust the <a href="/configuring/urls">default permalink format</a>.
+        <!-- <br><a class="next small db bt b--black-10" style="margin-bottom:0" href="/publishing/dates">Read more about permalinks</a>
  -->
       </td>
     </tr>
@@ -40,12 +40,12 @@ You must leave a space after the colon between the metadata property (e.g. Date)
     </tr>
     <tr>
       <td>Teaser</td>
-      <td>Defaults to the first few paragraphs of the blog post. You can specify a <a href="/teasers">teaser</a> in the file’s metadata or insert the <a href="/teasers">breakpoint</a> yourself.You can specify the end of the teaser using the <code>{{more}}</code> tag somewhere in the file. Here’s an example blog post:</p>
-        Everything above the ’more’ tag, including this line, will be in the post’s teaser.Some of Blot’s <a href="/configuring">templates</a> show a teaser for each post on your blog's index page instead of the full post. By default, Blot creates this teaser from the first few paragraphs in the blog post. You can modify the post’s teaser using <a href="#metadata">metadata</a> or insert the <a href="#breakpoint">breakpoint</a> yourself in the middle of the file.</td>
+      <td>Defaults to the first few paragraphs of the blog post. You can specify a teaser in the file’s metadata or insert the breakpoint <code>\{{more}}</code> yourself.You can specify the end of the teaser using the <code>\{{more}}</code> tag somewhere in the file.</p>
+        Everything above the <code>\{{more}}</code> tag, including this line, will be in the post’s teaser.</td>
     </tr>
     <tr>
       <td>Tags</td>
-      <td>You can tag a blog post <a href="/tags">in the file’s metadata</a> or using the <a href="/tags">file’s path</a>.</td>
+      <td>You can tag a blog post <a href="/publishing/tags">in the file’s metadata</a> or using the <a href="/publishing/tags">file’s path</a>.</td>
     </tr>
     <tr>
       <td>Thumbnail</td>
@@ -75,7 +75,7 @@ You must leave a space after the colon between the metadata property (e.g. Date)
 <p>You can use a comment at the start of an HTML file to specify metadata.</p>
 
 <div style="max-width:39em;margin:3em 0 4em">
-<pre class="code html" title="Post.html"><code><!--
+  <pre class="code html" title="Post.html"><code><!--
 Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
 -->
@@ -83,4 +83,5 @@ Permalink: /metadata
 The comment containing metadata in an HTML file
 <b>must</b> start on the file's first line.
 
-</code></pre></div>
+</code></pre>
+</div>
