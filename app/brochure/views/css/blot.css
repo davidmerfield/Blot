@@ -324,7 +324,8 @@ overlay.show {
 }
 
 overlay {
-  display: flex
+  display: flex;
+  flex-direction: column;
 }
 
 .videoWrapper {
@@ -363,6 +364,8 @@ overlay .close {
   margin-right: 3em;
   margin-left: 1.5em;
   margin-bottom: 3em;
+  margin-left: 0;
+  width: fit-content;
   position: relative;
   border-radius: 0;
   text-align: center;
@@ -403,17 +406,6 @@ overlay .close:after {
   -ms-transform: rotate(225deg);
   transform: rotate(225deg);
   content: "";
-}
-
-@media screen and (max-width: 1000px) {
-  overlay .close {
-    margin-left: 0;
-    width: fit-content;
-  }
-
-  overlay {
-    flex-direction: column;
-  }
 }
 
 .action-link {
@@ -493,7 +485,7 @@ overlay .close:after {
   display: block;
   position: relative;
   text-align: center;
-  padding: 2em 0 50% 1em;
+  padding: 2em 0 45% 1em;
   height: 0;
   box-sizing: border-box;
   border: 1px solid #bfbcba;
@@ -582,7 +574,7 @@ overlay .close:after {
     transition: background 200ms ease-out 0s;
     padding: 10px 12px 10px;
     border-radius: 3px;
-    margin-bottom: 12px;
+    margin-bottom: 2em;
     display: block;
     box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
     background: white;}

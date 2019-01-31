@@ -2,24 +2,8 @@
 
 <body>
   <style type="text/css">
-  h1 {
-    font-size: inherit;
-    width: 580px;
-    margin: 0 auto
-  }
-
-  /* hack pelase fix */
-  header container>index {
-    flex-grow: 0;
-  }
-
-  header container>index:last-child {
-    visibility: hidden;
-  }
-
-  main {
-    max-width: 580px;
-    margin: 0 auto
+  content {
+    max-width: 28em;
   }
 
   ol {
@@ -31,18 +15,14 @@
     margin-bottom: 0.7em
   }
   </style>
-  <header>
-    <container>
-      {{> home_link}}
 
-      <h1>{{title}}</h1>
-      {{> home_link}}
-
-    </container>
-  </header>
-
-  <main>
-    {{{body}}}
+  <main class="has-sidebar">
+    <ul class="sidebar">
+      <a class="in" href="/">Blot is a blogging platform<br> with no interface</a>
+    </ul>
+    <content>
+      {{{body}}}
+    </content>
   </main>
 
   {{> footer}}
