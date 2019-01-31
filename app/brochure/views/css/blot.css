@@ -419,6 +419,7 @@ overlay .close:after {
   list-style-type: none;
   display: flex;
   padding: 0;
+  max-width: none;
   margin-top: 3em;
   text-align: center;
   flex-wrap: wrap;
@@ -564,7 +565,7 @@ overlay .close:after {
   box-shadow: none;
 }
 
-.clients {margin:2em 0;list-style-type: none;padding: 0}
+.clients {margin:2em 0;list-style-type: none;padding: 0;max-width: none;}
 .clients li {display: inline-block;width: 33%;margin-right: 2em;}
 .clients li a {    cursor: pointer;
     user-select: none;

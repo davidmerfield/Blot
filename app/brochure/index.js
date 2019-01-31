@@ -2,7 +2,7 @@ var config = require("config");
 var Express = require("express");
 var brochure = new Express();
 var hbs = require("hbs");
-var Cache = require('express-disk-cache');
+var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 
 // Configure the template engine for the brochure site
@@ -15,15 +15,14 @@ if (config.cache === false) {
   // During development we want views to reload as we edit
   brochure.disable("view cache");
 } else {
-
-  brochure.use(function(req,res,next){
-    console.log(req.headers['x-forwarded-proto']);
+  brochure.use(function(req, res, next) {
+    console.log(req.headers["x-forwarded-proto"]);
     next();
   });
-  
+
   // This will store responses to disk for NGINX to serve
   brochure.use(cache);
-  
+
   // Empty any existing responses
   cache.flush(config.host, function(err) {
     if (err) console.warn(err);
@@ -42,6 +41,19 @@ brochure.locals.description =
   "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
 
 brochure.locals.price = "$" + config.stripe.plan.slice(-2);
+
+brochure.use(function(req, res, next) {
+  if (
+    req.user &&
+    req.user.subscription &&
+    req.user.subscription.plan &&
+    req.user.subscription.plan.amount
+  ) {
+    res.locals.price = "$" + req.user.subscription.plan.amount / 100;
+  }
+
+  next();
+});
 
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));

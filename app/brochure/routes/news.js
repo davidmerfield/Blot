@@ -15,6 +15,19 @@ function loadToDo(req, res, next) {
   fs.readFile(__dirname + "/../../../todo.txt", "utf-8", function(err, todo) {
     if (err) return next(err);
     res.locals.todo = marked(todo);
+
+    var html = res.locals.todo;
+    var $ = require('cheerio').load(html);
+
+    $('ul').each(function(){
+      var ul = $(this).html();
+      var p = $(this).prev().html();
+
+      $(this).prev().remove();
+      $(this).replaceWith("<details><summary>" + p + "</summary><ul>" + ul + "</ul></details>");
+    });    
+
+    res.locals.todo = $.html();
     return next();
   });
 }
