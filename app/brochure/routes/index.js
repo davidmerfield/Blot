@@ -2,6 +2,7 @@ var Express = require("express");
 var brochure = new Express.Router();
 var finder = require("finder");
 var tex = require("./tools/tex");
+var config = require("config");
 
 // Renders the folders and text editors
 brochure.use(finder.middleware);
@@ -91,19 +92,36 @@ brochure.get("/", function(req, res) {
   res.render("index");
 });
 
-brochure.get("/:section", function(req, res) {
+brochure.get("/:section", function(req, res, next) {
+  // This check is designed to prevent an error polluting
+  // the logs which happens for requests like /images/foo.png
+  // Express doesn't have a renderer for '.png' so there is an error
+  if (req.params.section.indexOf(".") > -1) {
+    return next();
+  }
+
   res.locals.title = "Blot – " + req.params.section;
   res.render(req.params.section);
 });
 
-brochure.get("/:section/:subsection", function(req, res) {
+brochure.get("/:section/:subsection", function(req, res, next) {
+  // This check is designed to prevent an error polluting
+  // the logs which happens for requests like /images/foo.png
+  // Express doesn't have a renderer for '.png' so there is an error
+  if (
+    req.params.section.indexOf(".") > -1 ||
+    req.params.subsection.indexOf(".") > -1
+  ) {
+    return next();
+  }
+
   res.locals.title =
     "Blot – " + req.params.section + " – " + req.params.subsection;
   res.render(req.params.section + "/" + req.params.subsection);
 });
 
 brochure.use(function(err, req, res, next) {
-  console.log(err);
+  if (config.environment === "development") console.log(err);
   next();
 });
 
