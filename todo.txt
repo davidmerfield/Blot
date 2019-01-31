@@ -2,6 +2,7 @@ Finish new documentation and logo
 
 Finish archive template
 - Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
+- Announce new archive template (+ documentation and video) by linking to archive template page
 
 Record new demo video
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
@@ -9,10 +10,6 @@ Record new demo video
   - Blot's developer blog
   - My visual scrapbook on the archives theme: shows tag folders, photo blog
   - My personal site: simple landing page, edit with a doc file?
-
-On February 1st:
-- Increase price for new customers to $30 a year.  This will not affect existing customers.
-- Announce new archive template (+ documentation and video) by linking to archive template page
 
 ---
 
