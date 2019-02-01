@@ -1,5 +1,10 @@
-
 .sidebar li a {display: block;}
+
+/**
+ * 1. good progressive enhancement: https://caniuse.com/#search=sticky
+ * 2. to match the `main` padding
+ * 3. since it's a flex child, this sets `height` to `auto` to be scrolled against: https://stackoverflow.com/questions/44446671
+ */
 ul.sidebar {
   margin: 0;
   padding: 0;
@@ -8,6 +13,9 @@ ul.sidebar {
   list-style: none;
   width: 25%;
   flex-shrink:0;
+  position: sticky;       /* [1] */
+  top: 3em;               /* [2] */
+  align-self: flex-start; /* [3] */
 }
 
 /*ul.sidebar:hover a {color: black}*/
@@ -65,6 +73,10 @@ label[for="toggle"] {
   }
 
   main.has-sidebar {display: block!important;}
+
+  ul.sidebar {
+    position: initial;
+  }
 
   input[name="toggle"]+.sidebar>*:not(.in) {
     display: none;
@@ -239,7 +251,7 @@ a.action-button:after{
 
 a.action-button:hover:after {    border-color: #222;
 color: #222;
-} 
+}
 
 a.action-button + a.action-button {
   margin-right: 0;
