@@ -17,6 +17,7 @@ var signup = Express.Router();
 signup.use(function(req, res, next) {
   if (req.user) return res.redirect("/");
 
+  res.header('Cache-Control', 'no-cache');
   res.locals.layout = "sign-up/layout";
 
   return next();

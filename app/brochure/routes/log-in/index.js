@@ -18,6 +18,7 @@ logIn.all(function(req, res, next) {
   if (req.session) {
   }
 
+  res.header('Cache-Control', 'no-cache');
   res.locals.title = "Log in";
   res.locals.layout = "log-in/layout";
 
