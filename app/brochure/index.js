@@ -15,10 +15,6 @@ if (config.cache === false) {
   // During development we want views to reload as we edit
   brochure.disable("view cache");
 } else {
-  brochure.use(function(req, res, next) {
-    console.log(req.headers["x-forwarded-proto"]);
-    next();
-  });
 
   // This will store responses to disk for NGINX to serve
   brochure.use(cache);
@@ -73,7 +69,6 @@ brochure.use(function(req, res, next) {
 
 // Some kind of other error
 brochure.use(function(err, req, res, next) {
-  console.error(err);
 
   if (err.status === 404) {
     res.locals.code = { missing: true };
@@ -82,6 +77,7 @@ brochure.use(function(err, req, res, next) {
   }
 
   if (config.environment === "development") {
+    console.error(err);
     res.locals.err = err;
   }
 
