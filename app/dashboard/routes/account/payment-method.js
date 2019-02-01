@@ -29,35 +29,78 @@ PaymentMethod.route("/")
   // on the client and creates a charge
   .post(function(req, res, next) {
     var user = req.user;
-    var uid = user.uid;
 
     var stripeToken = req.body.stripeToken;
 
-    if (!stripeToken) return next(new Error('No Stripe token'));
+    if (!stripeToken) return next(new Error("No Stripe token"));
 
     stripe.customers.updateSubscription(
       user.subscription.customer,
       user.subscription.id,
       { card: stripeToken, quantity: user.subscription.quantity },
       function(err, subscription) {
-
         if (err) return next(err);
 
-        if (subscription) {
+        if (subscription) req.newSubscription = subscription;
 
-          User.set(uid, { subscription: subscription }, function(err) {
-  
-            if (err) return next(err);
-
-            email.UPDATE_BILLING(uid);
-            res.message(
-              "/account",
-              "Your payment information was updated successfully!"
-            );
-          });
-        }
+        next();
       }
     );
+  })
+
+  // Handle deleted customer edge case
+  .post(function(err, req, res, next) {
+    if (err.code !== "resource_missing") {
+      return next(err);
+    }
+
+    var card = req.body && req.body.stripeToken;
+    var email = req.user.email;
+    var plan = req.user.subscription.plan.id;
+
+    if (!card) return next(new Error("No card"));
+    if (!plan) return next(new Error("No plan"));
+
+    var info = {
+      card: card,
+      email: email,
+      plan: plan,
+      quantity: 0,
+      description: "Blot subscription"
+    };
+
+    stripe.customers.create(info, function(err, customer) {
+      if (err) return next(err);
+
+      stripe.customers.updateSubscription(
+        customer.subscription.customer,
+        customer.subscription.id,
+        { quantity: req.user.blogs.length || 1, prorate: false },
+        function(err, subscription) {
+          if (err) return next(err);
+
+          if (subscription) req.newSubscription = subscription;
+
+          next();
+        }
+      );
+    });
+  })
+
+  .post(function(req, res, next) {
+    if (!req.newSubscription) return next(new Error("No subscription"));
+
+    User.set(req.user.uid, { subscription: req.newSubscription }, function(
+      err
+    ) {
+      if (err) return next(err);
+
+      email.UPDATE_BILLING(req.user.uid);
+      res.message(
+        "/account",
+        "Your payment information was updated successfully!"
+      );
+    });
   });
 
 module.exports = PaymentMethod;
