@@ -14,6 +14,10 @@ var watcher = require("watcher");
 var TEMPLATES_DIRECTORY = require("path").resolve(
   __dirname + "/../../app/templates/latest"
 );
+var PAST_TEMPLATES_DIRECTORY = require("path").resolve(
+  __dirname + "/../../app/templates/past"
+);
+
 var TEMPLATES_OWNER = "SITE";
 
 // Build every template and then
@@ -21,15 +25,20 @@ if (require.main === module) {
   main(TEMPLATES_DIRECTORY, function(err) {
     if (err) console.error(err);
 
-    removeExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
-      if (err) throw err;
+    main(PAST_TEMPLATES_DIRECTORY, function(err) {
+      if (err) console.error(err);
+      
+      removeExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
+        if (err) throw err;
 
-      // Wait for changes if inside development mode.
-      if (config.environment === "development") {
-        watch(TEMPLATES_DIRECTORY);
-      } else {
-        process.exit();
-      }
+        // Wait for changes if inside development mode.
+        if (config.environment === "development") {
+          watch(TEMPLATES_DIRECTORY);
+          watch(PAST_TEMPLATES_DIRECTORY);
+        } else {
+          process.exit();
+        }
+      });
     });
   });
 }
@@ -71,10 +80,7 @@ function build(directory, callback) {
     templatePackage = {};
     console.warn(
       colors.dim("     "),
-      colors.red(
-        "Warning: ENOENT " +
-          colors.dim(directory + "/package.json")
-      )
+      colors.red("Warning: ENOENT " + colors.dim(directory + "/package.json"))
     );
     // package.json is optional
   }
