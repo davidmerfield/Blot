@@ -1,5 +1,3 @@
-Finish new documentation and logo
-
 Finish archive template
 - Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
 - Announce new archive template (+ documentation and video) by linking to archive template page
@@ -24,8 +22,6 @@ Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FM
 Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
-
-Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
 Fix bug with metadata parsing a URL on the first line of a file and tell [David](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVDKqlWWcsbfBZWDhMZMzNbrV)
 
@@ -101,6 +97,8 @@ Metadata bugs
 - Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
 ---
+
+Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
 Investigate if people who have cancelled their subscription are notified 1 week before their blog  expires
 
