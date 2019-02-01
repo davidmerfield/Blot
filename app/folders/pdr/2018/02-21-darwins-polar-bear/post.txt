@@ -1,0 +1,99 @@
+Tags: Science
+Summary: Musings upon the whys and wherefores of polar bears, particularly in relation to their forest-dwelling cousins, played an important but often overlooked role in the development of evolutionary theory. Michael Engelhard explores.
+Thumbnail: _26424139858_4308f81570_b.jpg
+
+# Darwin’s Polar Bear
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Musings upon the whys and wherefores of polar bears, particularly in relation to their forest-dwelling cousins, played an important but often overlooked role in the development of evolutionary theory. Michael Engelhard explores.**
+
+<figure>
+  <img src="_26424139858_4308f81570_b.jpg" alt="polar bear">
+  <figcaption>“Polar Bear”, artist unknown, ca. 1870s.
+    <cite>
+      <a href="http://www.loc.gov/pictures/item/2003655672/">Library of Congress</a>
+    </cite>
+  </figcaption>
+</figure>
+
+As any good high school student should know, the beaks of Galápagos “finches” (in fact the islands’ mockingbirds) helped Darwin to develop his ideas about evolution. But few people realize that the polar bear, too, informed his grand theory.
+
+Letting his fancy run wild in _On the Origin of Species_, the man accustomed to thinking in eons hypothesized “a race of bears being rendered, by natural selection, more and more aquatic in their structure and habits, with larger and larger mouths, till a creature was produced as monstrous as a whale.” Darwin based this speculation on a black bear the fur trader-explorer Samuel Hearne had observed swimming for hours, its mouth wide open, catching insects in the water. If the supply of insects were constant, Darwin thought, and no better-adapted competitors present, such a species could well take shape over time.
+
+Systematic approaches to animals and their respective niches had long fertilized the intellectual landscape. Georges-Louis Leclerc, Comte de Buffon, in his _Histoire Naturelle_ (published serially between 1749 and 1788) clearly distinguished a “land-bear” from a “sea-bear”. But his land-bear category was still muddled: it included a “white bear of the forest” as well as a brown bear. The count would have likely heard of polar bears in the boreal zone of southern Hudson Bay and he thought them a separate species: his “white bear of the forest”. In a 1754 publication of coloured plates used in Buffon’s _Histoire Naturelle_, his white land-bear looks different from his sea-bear, clearly showing the shorter neck and snout characteristic of brown bears and black bears. Perhaps the count knew about British Columbia’s white black bears or “spirit bears,” which could have confused him. (Other contributions by Buffon were significant. He discovered the first principle of biogeography, noticing that despite similar environments, different regions have distinct plants and animals.)  
+
+<figure>
+  <img src="_38587128990_f619419786_b.jpg" alt="dfdff">
+  <figcaption>Buffon’s <em>L’ours blanc</em>, the “White Bear”, featured in a 1754 publication of coloured plates used in his <em>Histoire Naturelle</em>.
+    <cite>
+      <a href="http://docnum.u-strasbg.fr/cdm/ref/collection/coll13/id/26407">L"Université de Strasbourg</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_40397377881_7d24b05e18_b.jpg" alt="buffon sea bear polar">
+  <figcaption>Buffon’s <em>L’ours de mer</em>, the “Sea Bear”, featured in a 1754 publication of coloured plates used in his <em>Histoire Naturelle</em>.
+    <cite>
+      <a href="http://docnum.u-strasbg.fr/cdm/ref/collection/coll13/id/26407">L"Université de Strasbourg</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Buffon’s classifying of animals by region or habitat — as in the case of the two “different” white bears — prompted later naturalists to try to explain their origins and distribution as resulting from the characteristics of a place. Long before the idea of “habitat” began to infiltrate scientific discourse, the polar bear’s range and that of its prey had been linked to environmental conditions. Synthesizing the work of the Comte de Buffon and other naturalists, the Anglo-Irish Romantic writer Oliver Goldsmith thought the “Greenland bear” exceptional, because it is
+
+> the only animal that, by being placed in the coldest climate, grows larger than those that live in the temperate zones. All other species of animated nature diminish as they approach the poles, and seem contracted in their size by the rigours of the ambient atmosphere. . . . In short, all the variations of its figure and its colour seem to proceed from the coldness of the climate where it resides and the nature of the food it is supplied with.
+
+Food availability does play a role in body mass, as does a region’s mean annual temperature, and while polar bears are not the only compact animal thriving in the Arctic, such biogeographic observations anticipated the theory of evolution and principles of ecology.
+
+<figure>
+  <img src="_27947441509_93ea334b07_b.jpg" alt="arctic animals">
+  <figcaption>Arctic fauna, by Gustav Mützel. Featured in Alfred Edmund Brehm’s <em>Thierleben</em>(1898), a German encyclopedia.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Arktisk_fauna,_Nordisk_familjebok.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+On Svalbard expeditions in the summers of 1858 and 1859, the Scottish nobleman-explorer Sir James Lamont watched polar bears frolic and dive. Intuiting that the animal had become what it is by living on seals, he deduced that the seal and the walrus must have originated first. Lamont assumed that polar bears had evolved from brown bears,
+
+> who, finding their means of subsistence running short, and pressed by hunger, ventured on the ice and caught some seals . . . so there is no impossibility in supposing that the brown bears, who by my theory were the progenitors of the present white bears, were accidentally driven over to Greenland and Spitzbergen by storms or currents.
+
+The palest brown bears with the greatest amount of external fat, Lamont thought, would have had the best chance to survive and, therefore, reproduce. Upon his return, he wrote to Darwin, whose _On the Origin of Species_ had been published in 1859. Encouraged by Darwin’s response, Lamont elaborated upon walrus and polar bear evolution in his 1861 travelogue, _Seasons with the Sea-horses_. Darwin approved of Lamont’s hypothesis, and, because Lamont’s thinking on the subject predated the publication of _On the Origin of Species_, he later credited Lamont (as he did Alfred Russel Wallace) with independently conceiving the theory of natural selection.
+
+<figure>
+  <img src="_27947438819_5e7fd65e2f_b.jpg" alt="polar bear">
+  <figcaption>Etching by S. C. Miger, ca. 1808, after N. Maréchal.
+    <cite>
+      <a href="https://wellcomecollection.org/works/c8gmp3up">Wellcome Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_39017182144_7ebee75b4e_b.jpg" alt="sdsdd">
+  <figcaption>Polar bear skeletal system. From Richard Owen, On the Anatomy of the Vertebrates (1866). A comparative anatomist and paleontologist who coined the term “dinosaur” Owen supported the theory of evolution but was critical of natural selection as its mechanism.
+    <cite>
+      <a href="https://www.biodiversitylibrary.org/bibliography/990#/summary">Biodiversity Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The oldest polar bear fossils found are from Svalbard and northern Norway and have been dated at 115,000–130,000 years old, before the beginning of the last Ice Age. But some biologists think that polar bears and brown bears diverged from their common ancestor as early as 600,000 years ago. According to current research, polar bears evolved from brown bears that ventured onto the frozen ocean to stalk marine mammals, possibly after climate separated them from the main population. This was not a single, clean-cut departure, and repeated pairings between both species have turned the family tree into a thicket. Shrinking sea ice could force polar bears to mingle with their southern cousins again, particularly as the latter now travel farther north. In coastal Arctic Alaska, grizzlies have been observed feasting in the company of polar bears on bowhead whale carcasses. and interbreeding has been documented.
+
+After he had been ridiculed for his musings on a future insect-eating cetacean bear, Darwin [altered that passage](http://darwin-online.org.uk/Variorum/1859/1859-184-c-1860.html) in the second edition of _Origin_ and removed it from subsequent ones. In a [letter](http://charles-darwin.classic-literature.co.uk/more-letters-of-charles-darwin-volume-i/ebook-page-92.asp) to the Irish algae specialist William Henry Harvey, Darwin complained how “The Bear case has been well laughed at, & disingenuously distorted by some into my saying that a bear could be converted into a whale”. Still, Darwin insisted that “there is no especial difficulty in a Bear’s mouth being enlarged to any degree useful to its changing habits, — no more difficulty than man has found in increasing the crop of the pigeon, by continued selection, until it is literally as big as whole rest of body.” Lamont’s observations and theories as well as later findings about polar bear evolution vindicated the eminent naturalist and his ursine thought experiment.
+
+* * *
+
+[**Michael Engelhard**](http://michaelengelhard.com/) is the author of [_Ice Bear: The Cultural History of an Arctic Icon_](https://www.amazon.com/Ice-Bear-Cultural-History-Arctic/dp/0295999225?tag=thepubdomrev-20) (University of Washington Press). Trained as an anthropologist, he now lives in Fairbanks, Alaska and works as a wilderness guide in the Arctic.
+
+* * *
+
+##### Public Domain Works
+
+*   _On the Origin of the Species_ (1859), first edition, by Charles Darwin.
+*   _Histoire Naturelle_ (1847–1888), by Georges-Louis Leclerc, Comte de Buffon.
+*   _Seasons with the Sea-horses; or, Sporting Adventures in the Northern Seas_ (1861), by James Lamont.
+*   _A History of the Earth, and Animated Nature_ (1825), by Oliver Goldsmith.
+*   _More Letters of Charles Darwin_ (1903), edited by Francis Darwin and A. C. Seward. (Includes Lamont letters)

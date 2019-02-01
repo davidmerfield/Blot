@@ -1,0 +1,228 @@
+Tags: Science
+Summary: Defecating ducks, talking busts, and mechanised Christs — Jessica Riskin on the wonderful history of automata, machines built to mimic the processes of intelligent life.
+Thumbnail: _26793334355_10e53e58db_c.jpg
+
+# Frolicsome Engines: The Long Prehistory of Artificial Intelligence
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Defecating ducks, talking busts, and mechanised Christs — Jessica Riskin on the wonderful history of automata, machines built to mimic the processes of intelligent life.**
+
+<figure>
+  <img src="_26204724833_c1d4974442_o.jpg">
+  <figcaption>Coloured engraving from Joseph Racknitz’s 1789 pamphlet which attempted to reveal the secret workings of William Kempelen’s alleged chess-playing automaton “The Turk”.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Racknitz_-_The_Turk_3.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+How old are the fields of robotics and artificial intelligence? Many might trace their origins to the mid-twentieth century, and the work of people such as Alan Turing, who wrote about the possibility of machine intelligence in the ’40s and ’50s, or the MIT engineer Norbert Wiener, a founder of cybernetics. But these fields have prehistories — traditions of machines that imitate living and intelligent processes — stretching back centuries and, depending on how you count, even millennia.
+
+The word “robot” made its first appearance in a 1920 play by the Czech writer Karel Čapek entitled R.U.R., for Rossum’s Universal Robots. Deriving his neologism from the Czech word “robota”, meaning “drudgery” or “servitude”, Čapek used “robot” to refer to a race of artificial humans who replace human workers in a futurist dystopia. (In fact, the artificial humans in the play are more like clones than what we would consider robots, grown in vats rather than built from parts.)
+
+There was, however, an earlier word for artificial humans and animals, “automaton”, stemming from Greek roots meaning “self-moving”. This etymology was in keeping with Aristotle’s definition of living beings as those things that could move themselves at will. Self-moving machines were inanimate objects that seemed to borrow the defining feature of living creatures: self-motion. The first-century-AD engineer Hero of Alexandria described lots of automata. Many involved elaborate networks of siphons that activated various actions as the water passed through them, especially figures of birds drinking, fluttering, and chirping.
+
+<figure>
+  <img src="_26768908656_4aa6fd60f9_o.jpg">
+  <figcaption>Illustration from an 1851 English edition of Hero’s <em>Pneumatica</em>, in which he describes machines working on air, steam or water pressure.
+    <cite>
+      <a href="https://www.loc.gov/resource/rbc.2009gen41532/?st=gallery">Library of Congress</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The siphon would have had a particular attraction to the ancient automaton-maker, in that it makes water travel upward, counter to what it would otherwise do. According to Aristotle, while living things moved themselves at will, inanimate things moved according to their natures: heavy things, made of earth or water, descended, while light things, made of air or fire, ascended. A siphon, by allowing water to ascend, appears to violate Aristotle’s principle, and it also tends to work intermittently, creating the illusion of wilful behavior.
+
+Waterworks, including but not limited to ones using siphons, were probably the most important category of automata in antiquity and the middle ages. Flowing water conveyed motion to a figure or set of figures by means of levers or pulleys or tripping mechanisms of various sorts. A late twelfth-century example by an Arabic automaton-maker named Al-Jazari is a peacock fountain for hand washing, in which flowing water triggers little figures to offer the washer first a dish of perfumed soap powder, then a hand towel.
+
+<figure>
+  <img src="_26768900716_9e86ee1ded_o.jpg">
+  <figcaption>Illustration of the peacock fountain, from a 14th-century edition of Al-Jazari’s <em>Book of Knowledge of Ingenious Mechanical Devices</em>.
+    <cite>
+      <a href="http://www.mfa.org/collections/object/al-jazaris-book-of-knowledge-of-ingenious-mechanical-devices-a-peacock-basin-16531">Boston Museum of Fine Arts</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Such hydraulic automata became ubiquitous on the grounds of palaces and wealthy estates. So-called “frolicsome engines” were to be found as early as the late thirteenth century at the French chateau of Hesdin, the account books of which mention mechanical monkeys, “an elephant and a he-goat”.[^1] Over the next two centuries, the chateau collection expanded to include “3 personnages that spout water and wet people at will”; a “machine for wetting ladies when they step on it”; an “engien \[_sic_\] which, when its knobs are touched, strikes in the face those who are underneath and covers them with black or white \[flour or coal dust\]”; a “window where, when people wish to open it, a personage in front of it wets people and closes the window again in spite of them”; a “lectern on which there is a book of ballades, and, when they try to read it, people are all covered with black, and, as soon as they look inside, they are all wet with water”; a “mirror where people are sent to look at themselves when they are besmirched, and, when they look into it, they are once more all covered with flour, and all whitened”, and so on, and so on.[^2]
+
+By the time the French essayist and diarist Michel de Montaigne went traveling through Europe in 1580–81, hydraulic automata had grown so commonplace that he grew bored, though he continued dutifully to record them in his travel diary. At one palace, for example, he saw sprays of water from “brass jets” activated by springs. “While the ladies are busy watching the fish play, you have only to release some spring: immediately all these jets spurt out thin, hard streams of water to the height of a man’s head, and fill the petticoats and thighs of the ladies with this coolness”.[^3]
+
+Twenty years later, the French King Henri IV hired the Italian engineer Tomaso Francini to build him some waterworks for the royal palace at Saint Germain en Laye. Francini built hydraulic grottoes devoted to the Greek pantheon and their adventures: Mercury played a trumpet and Orpheus his lyre; Perseus freed Andromeda from her dragon. There were automaton blacksmiths, weavers, millers, carpenters, knife-grinders, fishermen, and farriers conducting the obligatory watery attacks on spectators.
+
+<figure>
+  <img src="_26793332275_32029c568d_c.jpg">
+  <figcaption>Not actually one of Francini’s grottoes, but rather a depiction of a similar creation designed by a contemporary French hydraulic engineer Salomon de Caus, published in his 1615 work <em>Les raisons des forces mouvantes</em>.
+    <cite>
+      <a href="https://archive.org/details/raisonsdesforce00Caus">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Even more than in royal gardens and on noble estates, medieval and early Renaissance automata appeared in churches and cathedrals. Automaton Christs — muttering, blinking, grimacing on the Cross — were especially popular. A mechanical Christ on a crucifix, known as the Rood of Grace, attracted pilgrims to Boxley Abbey in Kent during the fifteenth century. This Jesus “was made to move the eyes and lipps by stringes of haire”. The Rood could move its hands and feet, nod its head, roll its eyes, and show “a well contented or displeased minde: byting the lippe, and gathering a frowning, forward, and disdainful face, when it would pretend offence: and shewing a most milde, amiable, and smyling cheere and countenaunce, when it woulde seeme to be well pleased”.[^4]
+
+Mechanical devils were also to be found. Poised in sacristies, they made horrible faces, howled, and stuck out their tongues. The Satan-machines rolled their eyes and flailed their arms and wings; some even had moveable horns and crowns.
+
+The Florentine architect Filippo Brunelleschi even mechanized Paradise itself: “a Heaven full of living and moving figures could be seen as well as countless lights, flashing on and off like lightning”.[^5] While elsewhere, elaborately engineered hells rumbled with thunder and flashed with lightning, spewing forth writhing automaton serpents and dragons.
+
+<figure>
+  <img src="_26540801570_6bd305c4da_o.jpg">
+  <figcaption>A mechanized creature, half-human half-serpent, from Johannes de Fontana’s 15th-century manuscript <em>Belli Corum instrumentorum liber cum figuris</em>.
+    <cite>
+      <a href="http://bildsuche.digitale-sammlungen.de/index.html?c=band_segmente&amp;bandnummer=bsb00013084&amp;pimage=00004&amp;l=en">Bildähnlichkeitssuche</a>
+    </cite>
+  </figcaption>
+</figure>
+
+These machines helped inspire the idea that perhaps automata accomplished something deeper than merely entertaining tricks: perhaps they genuinely modeled the workings of nature. The French philosopher René Descartes made this case powerfully during the 1640s, arguing that the entire world, including living bodies, was essentially machinery composed of moving parts and could be understood in just the way a clockmaker understands a clock. His work was foundational to modern science in general, and to modern physiology in particular. In developing his mechanist model of science, Descartes invoked the lifelike machines all around him. Indeed, he lived for a time in Saint Germain en Laye and almost certainly visited the hydraulic grottoes of Henri IV, which he described in detail.
+
+With the sixteenth-century advent of the pinned cylinder — a barrel with pins or bars sticking out, such as in a music box — even more complex lifelike machines were possible. Around this time, a new word also arose to describe human-like machines in particular: “android”, derived from Greek roots meaning “manlike”. This was the coinage of Gabriel Naudé, French physician and librarian, and personal doctor to none other than the automaton-loving Louis XIII.[^6]
+
+Pinned cylinders were the programming devices in automata and automatic organs from around 1600. In 1650, the German polymath Athanasius Kircher offered an early design of a hydraulic organ with automata, governed by a pinned cylinder and including a dancing skeleton.
+
+<figure>
+  <img src="_26700026492_f5f8853acb_c.jpg">
+  <figcaption>Kircher’s fanciful design for a hydraulic organ, complete with dancing skeleton, featured in his <em>Musurgia Universalis</em>(1650).
+    <cite>
+      <a href="https://archive.org/details/bub_gb_97xCAAAAcAAJ">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Of course, it’s an anachronism to call sixteenth- and seventeenth-century pinned cylinders “programming” devices. To be sure, there is a continuous line of development from these pinned cylinders to the punch cards used in nineteenth-century automatic looms (which automated the weaving of patterned fabrics), to the punch cards used in early computers, to a silicon chip. The designers of the automatic loom used automata and automatic musical instruments as their model; then Charles Babbage — the English mathematician who designed the first mechanical computers during the 1830s, the Analytical and Difference Engines — in turn used the automatic loom as his model. Indeed, one might consider a pinned cylinder to be a sequence of pins and spaces, just as a punch card is a sequence of holes and spaces, or zeroes and ones. However, it is important to remember that neither Babbage, nor the designers of the automatic loom, nor the automaton-makers thought of these devices in terms of programming or information, concepts which did not exist until the mid-twentieth century. For example, ideas about the division of labor inspired the automatic looms of the Industrial Revolution as well as Babbage’s calculating engines — they were machines intended primarily to separate mindless from intelligent forms of work.
+
+With pinned cylinders, beginning in the early part of the eighteenth century, people began to design automata that actually enacted the tasks they appeared to perform. The first simulative automata were designed in the 1730s by a Frenchman named Jacques Vaucanson, and quickly became the talk of Europe. Two were musicians, a “Piper” and a “Flutist”. The flutist had lips that flexed in four directions, delicate jointed fingers, and lungs made of bellows that gave three different blowing pressures. It was the first automaton musician actually to play an instrument, rather than being a music box with a decorative figure. It played a real flute: you could even bring it your own.
+
+Vaucanson’s third automaton was the notorious “Defecating Duck”. While it flapped its wings and cavorted duckishly, its main attraction was that it swallowed bits of corn or grain and excreted them at the other end in a _changed form_. (This part of the act was a fake: the corn that went in the front remained hidden for surreptitious removal, while the rear end was preloaded.)
+
+<figure>
+  <img src="_26793569885_d3550e41c2_o.jpg">
+  <figcaption>Undated photographs of what is purported to be Vaucanson’s duck. The images seem to fit with Goethe’s description of seeing it in 1805, “without feathers … like a skeleton”.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/Category:Jacques_de_Vaucanson">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_26809385105_e8c2ebc79d_o.jpg">
+  <figcaption>18th-century engraving showing all three of Vaucanson’s automata — the “Flutist” to the left, “Piper” to the right, and the notorious duck in the middle. Featured in Henry René d’Allemagne’s <em>Histoire des jouets</em>(1902).
+    <cite>
+      <a href="https://archive.org/stream/histoiredesjouet00alle/histoiredesjouet00alle#page/n335/mode/1up">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Although none of Vaucanson’s automata survive, their cousins do. Among these are three androids designed in the 1770s by a Swiss clock-making family named Jaquet-Droz: a lady “Musician” and two little boys, a “Writer” and a “Draughtsman”. The “Writer” can be arranged to write any message of up to forty characters; the “Draughtsman” sketches four pictures in charcoal; and the “Musician” plays several airs on a harpsichord. The trio are eerily lifelike, and still hold court in Neuchatel, Switzerland. Their eyes follow their fingers as they work, the “Draughtsman” blows the charcoal dust from his page periodically, and the “Musician” seems to sigh with emotion as she plays (she actually breathes for an hour before and after the act, giving spectators a certain _frisson_ as they arrive and depart).
+
+<figure>
+  <img src="_26521113490_a52000e4f5_o.jpg">
+  <figcaption>Jaquet-Droz at the court of Louis XV with his automata (left to right): the “Writer”, the “Musician”, and the “Draughtsman” — a lithograph reproduced in <em>Scientific American</em>, Vol. 88, Number 16 (April 1903).
+    <cite>
+      <a href="https://archive.org/stream/scientific-american-1903-04-18/scientific-american-v88-n16-1903-04-18#page/n8/mode/1up">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Later on in the eighteenth century, engineers and automaton makers became concerned with trying to mechanize two processes deemed the epitome of living intelligence: speech and chess playing. A flurry of talking heads in the 1770s, ’80s and ’90s was triggered by a prize competition sponsored by the St Petersburg Academy of Sciences for a machine that could produce the sound of vowels. People went far beyond just vowels. A Frenchman named Mical designed a pair of talking heads in 1778.  
+They contained “artificial glottises arranged over taut membranes”, but their dialogue in praise of Louis XVI was rather dull: “The King gives Peace to Europe”, intoned the first head; “Peace crowns the King with Glory”, replied the second; and so on.
+
+<figure>
+  <img src="_26208229533_a9cd617766_o.jpg" alt="mical talking heads automta">
+  <figcaption>Contemporary depiction of Mical’s heads, reproduced in Henry René d’Allemagne’s <em>Histoire des jouets</em>(1902)
+    <cite>
+      <a href="https://archive.org/stream/histoiredesjouet00alle/histoiredesjouet00alle#page/n330/mode/1up">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+About a decade later, a Hungarian engineer named Wolfgang von Kempelen designed a speaking machine using an ivory glottis, bellows for lungs, a leather vocal tract with a hinged tongue, a rubber oral cavity and mouth, and a nose with two little pipes as nostrils. Its pronouncements were more whimsical than those of Mical’s talking heads: “my wife is my friend”, for example, and “come with me to Paris”.
+
+<figure>
+  <img src="_26793334355_10e53e58db_c.jpg">
+  <figcaption>Illustration from Kempelen’s <em>Le mécanisme de la parole</em>(1791).
+    <cite>
+      <a href="https://archive.org/details/bub_gb_0mhDVNQwZAwC">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Kempelen was more famous for another “automaton” that he designed and built in 1769, the chess-playing Turk. This life-sized model was exhibited all over Europe and America by Kempelen himself and then by others until its demise in a fire in 1854; in the course of its long career, reportedly beating both Napoleon and Charles Babbage. Although aspects of its movement — the motion of the arms, head, etc. — were mechanical, it was not, of course, a full automaton. The crucial chess-playing aspect was the work of a succession of skillful and diminutive human chess players concealed in its pedestal, something all but admitted by Kempelen, who said his main achievement had been to create an illusion. People no doubt knew it was a hoax, but they were fascinated anyway, because it dramatized the question of the age: whether a machine could reason, and relatedly, whether the human mind might itself be a kind of machine.
+
+Edgar Allan Poe was taken by the question and in 1836 wrote an [essay](http://www.eapoe.org/works/essays/maelzel.htm) about Kempelen’s Turk and Babbage’s Difference Engine. He believed a machine could calculate, because calculation was a fixed and determinate process, but not that a machine could play chess because, he said, chess was _indeterminate_: the machine would have to respond to its opponent’s moves. So Babbage’s machine was genuine but Kempelen’s fraudulent.
+
+<figure>
+  <img src="_26204664894_8d732ce837_o.jpg">
+  <figcaption>Coloured engraving from Joseph Racknitz’s 1789 pamphlet which attempted to reveal the secret workings of William Kempelen’s alleged chess-playing automaton “The Turk”.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Racknitz_-_The_Turk_7.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+When I’ve assigned Poe’s essay to engineering students, they’ve found his reasoning strange: why couldn’t a machine respond to each move of its opponent? Here is another example of how people’s intuitions about the nature of life, mechanism and science continually transform. Poe assumed a machine was necessarily unresponsive. Two centuries earlier, Descartes had made the opposite assumption, and almost two centuries later, so did my students.
+
+How should we regard Hero of Alexandria’s siphon-driven birds, the medieval automaton Christs, the Renaissance frolicsome engines, the android musicians, artists, writers, and talking heads of the eighteenth century? They can certainly be seen as the ancestors of modern projects in robotics and artificial intelligence. But they were also expressions of a very different mode of understanding. Rather than embodying the concepts of programming, feedback, or information so important today, they were born from other ideas: animate versus inanimate matter, wilful versus constrained motion, mindless versus intelligent labor. It is hard to imagine that our own conceptual frameworks will one day seem as remote and exotic as an Aristotelian account of Hero’s siphons seems to us, but they surely will. Can knowing this perhaps help us to imagine what might come to replace information, programming, and feedback as the key concepts for understanding life, sentience, mechanism, and mind?
+
+* * *
+
+**Jessica Riskin** is Professor of History at Stanford University. Her teaching and scholarship concern the history of European science, ideas, culture and politics. Her new book, released last month, is [_The Restless Clock: A History of the Centuries-Long Argument Over What Makes Living Thing Tick_](https://www.amazon.com/Restless-Clock-History-Centuries-Long-Argument/dp/022630292X?tag=thepubdomrev-20).  
+.  
+.
+
+[^1]: Richard, Jules- Marie. _Une petite-nièce de saint Louis. Mahaut, comtesse d’Artois et de Bourgogne (1302— 1329): Etude sur la vie privée, les Arts et l’Industrie, en Artois et Paris au commencement du XIVe siècle_ (Paris: Champion, 1887), pp. 308, 336, 341, 342
+
+[^2]: Léon Laborde, _Les ducs de Bourgogne, études sur les lettres, les arts, et l’industrie pendant le  
+XVe siècle et plus particulièrement dans les Pays-Bas et le duch. de Bourgogne_. Second part, 3 vols. (Paris: Plon frères, 1849— 52), 1:268— 71. Translated excerpt in Merriam Sherwood, “Magic and Mechanics in Medieval Fiction.” _Studies in Philology_ 44, no. 4 (1947): 567— 9
+
+[^3]: Montaigne, _Journal du voyage de Michel de Montaigne en Italie par la Suisse & l’Allemagne en 1580 & 1581_ (Città di Castello, 1889).
+
+[^4]: William Lambarde, _A Perambulation of Kent_ (London: Chatnam, Baldwin, 1826).
+
+[^5]: Vasari, Giorgio. _Lives of the Most Eminent Painters, Sculptors and Architects_. Translated by  
+Gaston de Vere. 10 vols. London: Macmillan and the Medici Society, 1912— 15.
+
+[^6]: Naudé, Gabriel. _Apologie pour tous les grands hommes, qui ont est. accusez de magie_ (Paris: I. Cotin, 1669).
+
+Public Domain Works
+
+*   _The Pneumatics of Hero of Alexandria, from the original Greek_ (1851), translated and edited by Bennet Woodcroft.
+*   _Automata Old and New_ (1893), by Conrad William Cooke.
+*   “Maelzel’s Chess-player” (1836), by Edgar Allan Poe.
+*   _Les raisons des forces mouvantes_ (1615), by Salomon de Caus.
+*   _Le mécanisme de la parole_ (1791), by William Kempelen.
+
+Further Reading
+
+{<} ![The Restless Clock: A History of the Centuries-Long Argument over What Makes Living Things Tick](http://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=022630292X&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+The Restless Clock: A History of the Centuries-Long Argument over What Makes Living Things Tick (University Of Chicago Press, 2016) by Jessica Riskin
+
+_An exploration into how the automata of early modern Europe can be seen as models for the new science of living things, tracing questions of science and agency through Descartes, Leibniz, Lamarck, and Darwin, among others._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Restless-Clock-History-Centuries-Long-Argument/dp/022630292X?tag=thepubdomrev-20)
+
+{<} ![Genesis Redux: Essays in the History and Philosophy of Artificial Life](http://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0226720810&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Genesis Redux: Essays in the History and Philosophy of Artificial Life (University Of Chicago Press, 2007) edited by Jessica Riskin
+
+_A collection of essays examining efforts to simulate life in machinery, to synthesize life out of material parts, and to understand living beings by comparison with inanimate mechanisms._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Genesis-Redux-History-Philosophy-Artificial/dp/0226720810?tag=thepubdomrev-20)
+
+{<} ![Leonardo](http://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=3540284400&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Leonardo’s Lost Robots (Springer, 2006) by Mark Rosheim
+
+_Reinterpreting Leonardo’s legacy of notes, this book shows that apparently unconnected fragments from dispersed manuscripts actually comprise cohesive designs for functioning automata._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Leonardos-Lost-Robots-Mark-Rosheim/dp/3540284400?tag=thepubdomrev-20)
+
+{<} ![Medieval Robots: Mechanism, Magic, Nature, and Art](http://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0812246977&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Medieval Robots: Mechanism, Magic, Nature, and Art () by E. R. Truitt
+
+_Discovering the forgotten history of fantastical, aspirational, and terrifying machines that captivated Europe in imagination and reality between the ninth and fourteenth centuries._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Medieval-Robots-Mechanism-Nature-Middle/dp/0812246977?tag=thepubdomrev-20)

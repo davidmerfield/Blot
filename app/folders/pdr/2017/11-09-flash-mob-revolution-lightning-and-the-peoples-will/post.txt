@@ -1,0 +1,117 @@
+Tags: Art, History
+Summary: Kevin Duong explores how leading French revolutionaries, in need of an image to represent the all important “will of the people”, turned to the thunderbolt — a natural symbol of power and illumination that also signalled the scientific ideals so key to their project.
+Thumbnail: _38287703681_737264203c_b.jpg
+
+# Flash Mob: Revolution, Lightning, and the People’s Will
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Kevin Duong explores how leading French revolutionaries, in need of an image to represent the all important “will of the people”, turned to the thunderbolt — a natural symbol of power and illumination that also signalled the scientific ideals so key to their project.**
+
+<figure>
+  <img src="_38286030581_7a779e95cf_o.jpg" alt="french revolution liberty">
+  <figcaption>Detail from <em>La Liberté Triomphante</em>(1792), showing Liberty brandishing a thunderbolt in one hand and a Phrygian cap on a stick in the other.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b69482857/">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+It is often observed that the French Revolution was a revolution of scientists. Nourished by airy abstractions and heartfelt cries to Jean-Jacques Rousseau, its leaders sought a society grounded, not in God or tradition, but in what Edmund Burke decried as “the conquering empire of light and reason”. To be sure, if we tallied the professional affiliations of the members of the first National Assembly, we would find it overwhelmingly populated by lawyers. But the revolution’s symbols and motifs were not derived from legal practices and traditions, and it was not as men of law that Maximilien Robespierre and Jean-Paul Marat called for the death of their king and the creation of a democratic republic. Rather, they did so as scientists—middle class intellectuals who saw in government a field ripe for experimentation, innovation, and improvement.
+
+Nowhere was this as clear as their approach to “the will of the people”. Of the many puzzles to which revolutionaries applied themselves as scientists, few seemed so pressing and so intractable. It is obvious what a king’s will looks like, or so we like to think. Kings are individuals, they have bodies, and they can tell us what to do. However they choose to communicate their will — through voice, a gesture, a written pronouncement — it is relatively clear when such acts belong to them. But “the people” enjoy no such obvious body and no evident means of self-expression. What does the will of the people actually look like? And how do we hear their voice if they don’t have a mouth with which to speak? As French revolutionaries enthroned the will of the people, they stepped into uncharted terrain. Democratic revolution, it turned out, required men capable of visualizing the invisible and making appear what escaped our immediate senses. Indeed, it seemed to require the labor of scientific inquiry applied to the people themselves. Like the invisible composition of air, the secret patterns of a magnetic field, or the stratifications of the earth’s soil, democratic politics was governed by a hidden law which the scientist-statesman had to uncover.
+
+Revolutionary scientists designed a variety of strategies to make the will of the people discernable. They ranged from the statistical to the legalistic. However, one particular approach stood out, both for its intrinsic peculiarity and for its frequency: attempts to analogize the will of the people to lightning strikes. The historian Mary Ashburn Miller has documented the long history of symbolizing sovereignty as lightning.[^1] In the absolutist imagination, lightning symbolized royal power and its Jupiterian pretensions. The frontispiece to Thomas Hobbes’s 1651 _Leviathan_ features a thunderbolt alongside a crown, cannon, and other items in absolutism’s symbolic ensemble.
+
+<figure>
+  <img src="_Leviathan_by_Thomas_Hobbes.jpg" alt="hobbes leviathan">
+  <figcaption>Frontispiece to Thomas Hobbes’s <em>Leviathan</em>(1651)
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Leviathan.jpg">Wikimedia Commons</a>
+    </cite>
+    <br>
+  </figcaption>
+</figure>
+
+With the Revolution, French intellectuals seized this lightning and redirected it against their kings. In 1792, as the Revolution radicalized into a democratic revolution, members of the National Convention found themselves debating what to do with Louis XVI. On 3 December 1792, Robespierre answered that the king should be summarily executed rather than tried for treason, because “A people does not judge as does a court of law. It does not hand down sentences, it hurls down thunderbolts.”[^2] Louis XVI was struck down by the guillotine in the Place de la Révolution on 21 January 1793.
+
+The trope was ubiquitous, not only in texts and speeches, but also in the visual culture of the Revolution. An allegorical print from 1792 features “Liberty”, the figurehead and personification of the people. She is depicted striking down the remnants of monarchy with a fist full of lightning. Behind her, powerful bands of light (and enlightenment) repel the dark clouds that allude to the obscurity of monarchical superstition.
+
+<figure>
+  <img src="_26504974009_78bf00732f_o.jpg" alt="french revolution liberty">
+  <figcaption><em>La Liberté Triomphante</em>(1792), showing Liberty brandishing a thunderbolt in one hand and a Phrygian cap on a stick in the other.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b69482857/">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+A similar visual vocabulary is employed in a painting from the same year allegorizing 10 August 1792, the popular insurrection that brought down the French monarchy. Although the painting’s provenance is unknown, its symbolism is clear enough. Lightning erupts from “the mountain”, the nickname for the Jacobins who were seen as the people’s true faction. The lightning disperses the dark clouds with a flash.
+
+<figure>
+  <img src="_37575649974_8e0a373abd_o.jpg" alt="french revolution lightning">
+  <figcaption><em>Allégorie sur la journée du 10 août 1792</em>(1792).
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8411605s?rk=21459;2">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_38281072361_7565a96e12_c.jpg" alt="french revolution lightning">
+  <figcaption>Detail from above.</figcaption>
+</figure>
+
+In both illustrations, the causal relationship between popular insurrection and enlightenment, democratic revolution and scientific progress, is placed at center stage. The lightning, once unleashed, is conducted towards frogs and snakes. These critters represented “the Swamp”, the derogatory nickname for the Convention’s moderate Girondin faction known to be skeptics of popular direct action. A 1793 illustration repeats the visual pattern: a Jacobin uses his hand as a conductor for lightning from the heavens — the sacred people? — and directs it to the frogs and snakes at the base of the mountain.
+
+<figure>
+  <img src="_24409912448_306dc40b00_b.jpg" alt="french revolution allegory">
+  <figcaption><em>Sans union point de force, sans force point de liberté</em> (1793) — Source: scan from Mary Ashburn Miller’s <em>A Natural History of the Revolution</em> (2011).
+    <br>
+  </figcaption>
+</figure>
+
+These illustrations intimate what many revolutionaries might have thought about the will of the people. It was a natural force, erupting spontaneously like lightning. Yet it was capable of being conducted towards the true enemies of the people. It was invisible until unleashed, but once it struck, it was luminescent, dramatic, and absolute. The motif was pervasive enough for the revolution’s critics to invoke it satirically. In an extraordinary broadside from 1797, Jacobins are portrayed as zombies leading the living to their death. The broadside is crowned with an illustration of the All-Seeing Eye casting down destructive thunderbolts onto the Bastille. The headline warns us: “The mirror of the past in order to safeguard the future. STUPID PEOPLE!” Passed from the hands of kings to the people and their champions, lightning was now used to convey the counterrevolutionary interpretation of democracy: it was, as Joseph de Maistre’s argued, a satanic orgy of destruction.
+
+<figure>
+  <img src="_37575887044_0e0f667a2a_b.jpg" alt="french revolution lightning allegory">
+  <figcaption>Image from the broadside <em>Le Miroir du passé pour sauvegarde de l’avenir</em>(1797).
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b69505140?rk=21459;2">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_38231781376_303c71552e_b.jpg" alt="french revolution lightning allegory">
+  <figcaption>Detail from above.</figcaption>
+</figure>
+
+It was no accident that lightning was chosen as a model for the will of the people. The language of science and the language of politics were melding together in the crucible of democratic revolution, and not only in France. A fascination with electricity connected scientists of all stripes across the Atlantic, and tugging on those threads reveals a web of radicalism in late eighteenth-century scientific culture. Take two of the leading Jacobins: Marat and Robespierre. Marat was one of the heroes (or demons) of the Revolution. But before 1789, he was a scientist: in 1782, he had published a prominent study of electricity entitled _Recherches physiques sur l’électricité_. The next year in 1783, in the village of St Omer, a Monsieur de Vissery equipped his home with a lightning rod. Villagers believed the rod actively summoned lightning to their homes, and so they petitioned for the rod’s removal. The case eventually reached the Conseil d’Artois, where a young Robespierre took up the case to defend De Vissery in the name of scientific progress. Robespierre won the case, and it made his reputation as a progressive lawyer. In his enthusiasm, he wrote to Benjamin Franklin. In the letter dated 1 October 1783, he thanked the American for the “sublime discovery” of lightning conduction.[^3]
+
+Franklin was well known for having tamed lightning by conducting it from the sky in his “kite experiment” of 1752. Revolutionaries like Robespierre were more than a little obsessed with this fact. In his person, Franklin seemed to offer a paragon of scientific statesmanship. After all, besides taming lightning, Franklin served as ambassador to France from 1776-85. Yet he was not the only scientist of electricity to which the French were enthralled. On August 26, 1792, the National Convention set aside time from their busy schedule of waging revolution to confer honorary citizenship to the English scientist Joseph Priestley. (In June, they had conferred the same honor to Priestley’s son, William, in virtue of being his father’s representative.) Priestley was a friend of Franklin and known for discovering oxygen and founding Unitarianism. But Priestley was also a scientist of lightning. Throughout the 1770s, he authored and edited several editions of the _History of Electricity_, which was eventually translated into other languages. In 1774, he would deliver a paper on lightning storms to the Royal Academy and exchange letters with Jeremy Bentham concerning atmospheric lightning. In 1775, he would write to the American scientist Andrew Oliver about the origins of electricity. And in 1778, he would sit on an English Board of Ordinance tasked with optimizing the shape of lightning conductors.[^4]
+
+<figure>
+  <img src="_38287703681_737264203c_b.jpg" alt="Benjamin Franklin kite lightning">
+  <figcaption><em>Benjamin Franklin Drawing Electricity from the Sky</em>(ca. 1816), by Benjamin West.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Benjamin_West,_English_(born_America)_-_Benjamin_Franklin_Drawing_Electricity_from_the_Sky_-_Google_Art_Project.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+French revolutionaries idolized Priestley and Franklin because they sincerely believed that science was intimately connected with the struggle for freedom. For these men, the cause of science was the cause of democracy. The sentiment traveled both ways. When he was not investigating electricity and air, Priestley preoccupied himself with championing the French Revolution in England. His combination of revolutionary fervor and scientific fame made him a target for Burke in the Reflections on the Revolution in France. Evidently, Priestley’s neighbors agreed that he was a threat to social order. In 1791, they burned down his Birmingham home and laboratory, forcing Priestley to flee to America in 1794 where he was welcomed by yet another revolutionary scientist and French Revolution enthusiast: Thomas Jefferson (himself an occasional diplomat to France).
+
+These men shared an enthusiasm for democracy and electricity which, oddly enough, informed one another. Yet it shouldn’t be surprising. When faced with new political questions about democracy, these men applied themselves as they were wont to do, namely as scientists. The outcome was a transatlantic circuit of research, discovery, evidence — and radical politics.
+
+* * *
+
+**Kevin Duong** is an Assistant Professor at Bard College. His research focuses on democracy and political violence, with an area focus on modern French political thought and intellectual history. At Bard, he teaches classes on the history of political thought, gender and sexuality, and on various topics in modern intellectual history and European political development.
+
+[^1]: Mary Ashburn Miller, A Natural History of Revolution: Violence and Nature in the French Revolutionary Imagination, 1789-1794 (Ithaca and London: Cornell University Press, 2011).
+
+[^2]: Maximilien Robespierre, “Speech to the Convention, 3 December 1792,” in Regicide and Revolution: Speeches at the Trial of Louis XVI, ed. Michael Walzer, trans. Marian Rothstein (New York: Columbia University Press), 130–38, at 133.
+
+[^3]: Maximilien Robespierre, “Letter to Benjamin Franklin, 1 October 1783,” in The Papers of Benjamin Franklin, Vol 41, ed. Ellen R. Cohn (New Haven, CT: Yale University Press, 2014), 61.
+
+[^4]: Robert E. Schofield, The Enlightened Joseph Priestley: A Study of His Life and Work From 1773 to 1804 (University Park, PA: The Pennsylvania State University Press, 2004), 121-4.

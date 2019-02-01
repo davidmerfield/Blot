@@ -1,0 +1,8 @@
+/* Sidebar + general type */
+https://techcrunch.com/2018/04/04/news-startup-knowhere-aims-to-break-through-partisan-echo-chambers/
+
+/* Accent color for categories */ 
+http://www.nejm.org/
+
+/* Hover style */
+https://interfacelovers.com/

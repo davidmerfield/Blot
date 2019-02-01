@@ -1,0 +1,86 @@
+Tags: Books, Art, History, Religion
+Summary: More than 170 years before Jean-François Champollion had the first real success in translating Egyptian hieroglyphs, the 17th century Jesuit scholar Athanasius Kircher was convinced he had cracked it. He was very wrong. Daniel Stolzenberg looks at Kircher’s Egyptian Oedipus, a book that has been called “one of the most learned monstrosities of all times.”
+
+# Athanasius Kircher and the Hieroglyphic Sphinx
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**More than 170 years before Jean-François Champollion had the first real success in translating Egyptian hieroglyphs, the 17th century Jesuit scholar Athanasius Kircher was convinced he had cracked it. He was very wrong. Daniel Stolzenberg looks at Kircher’s _Egyptian Oedipus_, a book that has been called “one of the most learned monstrosities of all times.”**
+
+<figure>
+  <img src="_8741315194_cfd93f1f97_o.jpg">
+  <figcaption>Frontispiece to Volume 1 of <em>Oedipus Aegyptiacus</em>(1652), showing Kircher as the Egyptian Oedipus before the hieroglyphic sphinx –.
+    <cite>
+      <a href="http://books.google.co.uk/books/ucm?id=jHCt_wrnMqcC&amp;pg=PP7&amp;redir_esc=y#v=onepage&amp;q&amp;f=false">Google Books</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In 1655, after more than two decades of toil, Athanasius Kircher published _Egyptian Oedipus_. With his title, the Jesuit scholar characteristically paid honor to himself. Like Oedipus answering the riddle of the Sphinx, Kircher believed he had solved the enigma of the hieroglyphs. Together with its companion volume, _Pamphilian Obelisk_, Kircher’s magnum opus presented Latin translations of hieroglyphic inscriptions — utterly mistaken, as post–Rosetta-Stone Egyptology would reveal — preceded by treatises on ancient Egyptian history, the origins of idolatry, allegorical and symbolic wisdom, and numerous non-Egyptian textual traditions that supposedly preserved elements of the “hieroglyphic doctrine.” In addition to ancient Greek and Latin authors, Kircher’s vast array of sources included texts in Oriental languages, including Hebrew, Arabic, Aramaic, Coptic, Samaritan, and Ethiopian, as well as archeological evidence. The resulting amalgam is, without doubt, impressive. But it can also bewilder.
+
+_Egyptian Oedipus_ promised a complete “restoration of the hieroglyphic doctrine,” all the lost secrets of religion and science that ancient Egyptians supposedly encoded on their monuments. The massive final volume gathered almost every hieroglyphic inscription known to Europeans at that time, as well as other ancient artifacts, including mummies, sarcophagi, Canopic jars, sphinxes, idols, lamps, and amulets, found in Rome, other Christian cities, Istanbul, and Egypt. Kircher glossed each object with a learned explanation of its ancient significance. Without a Rosetta Stone, he translated the hieroglyphic inscriptions, character by character, into Latin prose.
+
+<figure>
+  <img src="_8740076331_b0d03956b4_o.jpg">
+  <figcaption>A mummy and inscriptions documenting Egyptian funerary practices, from Volume III of Kircher’s <em>Oedipus Aegyptiacus</em>(1654) –.
+    <cite>
+      <a href="http://books.google.co.uk/books?id=ldNIAAAAcAAJ&amp;pg=PA417&amp;redir_esc=y#v=onepage&amp;q&amp;f=false">Google Books</a>
+    </cite>
+  </figcaption>
+</figure>
+
+But _Egyptian Oedipus_ hardly confined itself to matters Egyptian. Kircher interpreted the hieroglyphs by comparing Egyptian inscriptions with evidence from other traditions that supposedly preserved elements of the “hieroglyphic doctrine.” The book contained extensive discussions of topics such as pagan religion from Mexico to Japan, ancient Greek esoteric texts like the Orphic hymns and Pythagorean verses, Jewish Kabbalah, Arabic magic, ancient alchemy, astrology, and astral medicine. To harmonize the “sacred history” of the Bible with the “profane history” of pagan civilizations, Kircher had recourse to symbolism and allegory. Properly interpreted, the seemingly “absurd” myths of the Greeks, Egyptians, and other heathens express a monotheistic theology that prefigures many of the tenets of Christianity. Among the many levels of meaning contained in the story of Isis and Osiris, for example, Kircher detected the doctrine of the Holy Trinity.
+
+At the dawn of time, Kircher, explained, Adam, instructed by God and the angels, and guided by experience acquired during his centuries-spanning life, possessed perfect wisdom, which he passed on to his children. Noah and his sons preserved antediluvian knowledge from destruction by the Flood, which Kircher placed 1,656 years after the creation of the world and 2,394 years before the birth of Christ. But Noah’s son Ham polluted the Adamic wisdom with magic and superstition. Eventually the great Egyptian sage Hermes Trismegistus recovered the pure antediluvian wisdom and invented hieroglyphic writing to preserve it for posterity. But later Egyptian priests mixed the Hermetic wisdom with magic and superstition, creating, yet again, an ambiguous legacy, which was passed on to other nations.
+
+<figure>
+  <img src="_8741208628_7fbf399ebe_b.jpg">
+  <figcaption>The abduction of Persephone and other ancient myths interpreted as symbols of esoteric wisdom, from Kircher’s <em>Pamphilian Obelisk</em>(1650) –.
+    <cite>
+      <a href="http://archive.org/stream/athanasiikircher00kirc#page/226/mode/1up">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Kircher undertook his investigation almost two centuries before Jean-François Champollion (1790–1832) famously solved the enigma of hieroglyphic writing, using the bilingual Rosetta Stone as his key. Modern Egyptology reveals that ancient obelisks were memorials whose inscriptions record the identity of the kings who built them and the gods to whom they were dedicated. For example, the obelisk that now stands in the private garden of the Villa Celimontana in Rome was originally erected in Heliopolis in the thirteenth century BC by Ramesses II and dedicated to the god Horus. We know this because its inscription reads, “Horus, strong bull, beloved of Maat, _Usr-Maat-Ra Setep-en-Ra_ (Ra-strong-in-truth-chosen-of-Ra), king of Upper and Lower Egypt, son of the Sun, Ramesses II.” Kircher, who scoffed at the idea that obelisks recorded such mundane details, interpreted the same hieroglyphs as symbols of esoteric wisdom. He arrived at a somewhat longer translation:
+
+> Supramundane Osiris, concealed in the center of eternity, flows down into the world of the Genies, which is the most near, similar, and immediately subject to him. He flows down into the divinity Osiris of the sensible World, and its soul, which is the Sun. He flows down into the Osiris of the elemental World, Apis, beneficent Agathodemon, who distributes the power imparted by Osiris to all the members of the lower world. His minister and faithful attendant, the polymorphous Spirit, shows the abundance and wealth of all necessary things by the variety that he brings about and oversees. But since the beneficent power of the polymorphous Spirit may be impeded in various ways by adverse powers, the sacred Mophto-Mendesian table, which acquires the moist strength and fertility of the Nile, in order for the flow of good things to be performed without impediment, must be worn for protection. But since the polymorphous Spirit is not capable of thoroughly completing this task, the cooperation of Isis, whose dryness tempers the moisture of Mendes, is needed. To obtain it, the following sacred table of Osiris is composed, on which are taught the things to be done in sacrifices and the way to perform the Komasian rites. Through this table and the sight of it supramundane Osiris shows the desired abundance of necessary things.
+
+Faced with Kircher’s relentless mobilization of erudition in the name of such nugatory results, one may be tempted to dismiss him as a learned charlatan or a crank. More than a few readers have done so, from the seventeenth century to the present, usually referring to his unwavering faith in dubious sources of Egyptian wisdom like the _Corpus Hermeticum_. In 1614 the Protestant scholar Isaac Casaubon convincingly demonstrated that these texts, long esteemed as the authentic teachings of Hermes Trismegistus, had in fact been composed in the early Christian era. Kircher notoriously gave them credence a generation after Casaubon. As a result most modern scholars have viewed him as an eccentric throwback to a Renaissance Hermetic tradition that had supposedly lost credibility by the mid-seventeenth century. But this view misjudges both Kircher and his age.
+
+<figure>
+  <img src="_8741299774_c91c4d54ae_o.jpg">
+  <figcaption>The pyramids of Giza, imagined by Kircher based on traveler’s reports, from <em>Sphinx Mystagoga</em>(1676) –.
+    <cite>
+      <a href="http://diglib.hab.de/wdb.php?dir=drucke/15-9-quod-2f&amp;distype=thumbs">Wolfenbütteler Digitale Bibliothek</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Kircher’s monomaniacal and uncommonly ambitious determination to wring a solution from the hieroglyphic monuments led him to play loose with the evidence. But he was not unique in thinking that esoteric traditions offered valuable aid to the investigator of ancient paganism and the earliest ages of history. Behind Kircher’s great failures—his incredible translations and his reliance on spurious documents—lay principles about symbolic communication and the transmission of ancient knowledge that were widely accepted. Most of Kircher’s seventeenth-century critics agreed with him about many things that, from a post-Enlightenment perspective, seem equally ridiculous. Literal biblical history, which set the ultimate parameters of Kircher’s research, went virtually unchallenged before the second half of the seventeenth century and retained favor with most scholars long afterward. That an inquiry into ancient Egyptian wisdom should focus on the transmission of antediluvian knowledge and genealogies linking all nations to Noah and his sons was fully in accord with principles shared by most of Kircher’s contemporaries, his critics included. The idea that the first human beings, such as Adam, Seth, and Enoch, had been scientists, philosophers and theologians, was the prevalent understanding of the history of knowledge throughout the Renaissance and remained popular in the seventeenth century. Proving that Hermes Trismegistus had not written the _Corpus Hermeticum_ was not the same as proving that the Egyptian sage and his esoteric wisdom had not existed. The idea that hieroglyphs were symbols encoding sacred mysteries remained the dominant theory at least until the early eighteenth century, even if most scholars doubted that Kircher had found their key.
+
+<figure>
+  <img src="_8740293839_11fa52b8d8_o.jpg">
+  <figcaption>The San Macuto obelisk, which today stands before the Pantheon in Rome, from <em>Romani Collegii Societatus Jesu musaeum celeberrimum: cujus magnum antiquariae rei, statuarum, imaginum, picturarumque partem ex legato Alphonsi Donini</em>(1678) –.
+    <cite>
+      <a href="http://echo.mpiwg-berlin.mpg.de/ECHOdocuView?url=/permanent/library/WEBYGP7Y/index.meta&amp;start=41&amp;pn=50">ECHO</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Understandably, posterity has not esteemed Kircher as one of the seminal figures in the genealogy of modernity—a Galileo or a Descartes. But in his day he was, without question, one of Europe’s most successful scholars. He embodied the contradictions of a moment when recognizably modern ways of thinking about the past had become available, yet older and conflicting models remained appealing and, to many, persuasive. As such, he allows us to explore a side of history too often lost to view. Without this view we cannot fully grasp the work of thinkers like Galileo or Descartes, much less understand the age on its own terms.
+
+* * *
+
+Daniel Stolzenberg is the author of [_Egyptian Oedipus: Athanasius Kircher and the Secrets of Antiquity_](http://www.amazon.com/gp/product/0226924149/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0226924149&linkCode=as2&tag=thepubdomrev-20) (Chicago, 2013), on which this article is based. He teaches history at the University of California, Davis.
+
+Links to Works
+==============
+
+*   _Oedipus Aegyptiacus_ (1652-4) by Athanasius Kircher.
+*   _Obeliscus Pamphilius_ (1650) by Athanasius Kircher.
+*   _Sphinx Mystagoga_ (1676) by Athanasius Kircher.
+*   _Romani Collegii Societatus Jesu musaeum celeberrimum: cujus magnum antiquariae rei, statuarum, imaginum, picturarumque partem ex legato Alphonsi Donini_ (1678) by Giorgio de Sepibus.
+
+Recommended Readings
+====================

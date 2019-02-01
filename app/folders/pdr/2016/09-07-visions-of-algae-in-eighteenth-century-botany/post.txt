@@ -1,0 +1,193 @@
+Tags: Science
+Summary: Although not normally considered the most glamorous of Mother Nature’s offerings, algae has found itself at the heart of many a key moment in the last few hundred years of botanical science. Ryan Feigenbaum traces the surprising history of one particular species — Conferva fontinalis — from the vials of Joseph Priestley’s laboratory to its possible role as inspiration for Shelley’s Frankenstein.
+Thumbnail: _29464111776_7bb40aedda_b.jpg
+
+# Visions of Algae in Eighteenth-Century Botany
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Although not normally considered the most glamorous of Mother Nature’s offerings, algae has found itself at the heart of many a key moment in the last few hundred years of botanical science. Ryan Feigenbaum traces the surprising history of one particular species — _Conferva fontinalis_ — from the vials of Joseph Priestley’s laboratory to its possible role as inspiration for Shelley’s _Frankenstein_.**
+
+<figure>
+  <img src="_29418465201_c99ec1ced6_h.jpg">
+  <figcaption>New York Botanical Garden Herbarium Specimen of <em>Conferva fontinalis</em>(1908).
+    <cite>
+      <a href="http://sweetgum.nybg.org/science/vh/specimen_details.php?irn=2454056">NYBG</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Algae are rarely thought of as remarkable plants, when and if they’re thought of at all.[^1] Attitudes seemingly haven’t changed all that much since the eighteenth century; people were as blasé about algae then as they are now.
+
+Given such an unremarkable status, it is surprising to find that a single species of algae managed to catalyze major eighteenth-century discoveries concerning photosynthesis and embryogenesis, especially in light of the fact that the naturalists responsible for these discoveries only stumbled upon this alga while looking for something else entirely. The species in question — a fine, light to dark green, filamentous aquatic plant, about a half inch in length, that clumps together by the thousands into decumbent, interwoven mats that look like wet felt — was often (but not always) identified at the time as _Conferva fontinalis_. (It’s now identified as _Vaucheria fontinalis_, a species of yellow-green algae.)
+
+By following it through the scientific literature of the eighteenth century, we find quite the complicated little being, a species that came to be recognized by the century’s end as beautiful, curious and, without a doubt, an alga worth the trouble of getting to know.
+
+#### **Neither Sought Nor Seen**
+
+The Italian botanist Pier Antonio Micheli (1679–1737), famous for being the first to collect and sow the spores of various fungi, was also the first to describe and illustrate the _C. fontinalis_ systematically in his _Nova plantarum genera_ (1729), though he called it _Byssus palustris, subobscura, filamentis non ramosis, brevibus_. That old chestnut. Whereas Micheli affirmed the existence of seeds in the alga, his contemporary, Johann Jacob Dillenius (1687–1747) denied their existence. Dillenius thought that in lieu of bearing seeds, these plants grew by aggregation, in the manner of minerals. This prominent German-born English botanist also scientifically described and illustrated the _C. fontinalis_ (though under a different name) in his _Historia muscorum_ (1741), a work completed entirely without the use of a microscope. These naturalists’ vexed hypotheses portend years of confusion about algal reproduction, which also indicates just how much phycology (the study of algae) was still in its infancy. Nevertheless, their works would remain the standard reference until the turn of the nineteenth century.
+
+<figure>
+  <img src="_28873667504_b99b6092e2_b.jpg">
+  <figcaption>Illustration of <em>C. fontinalis</em> (fig. 10) from Pier Antonio Micheli’s <em>Nova plantarum genera</em>(1729).
+    <cite>
+      <a href="http://biodiversitylibrary.org/page/33435501">Biodiversity Heritage Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+They retained this standing partly because of Carl Linnaeus, the century’s most famous botanist. He adopted the research of Micheli and Dillenius as the conclusive word in algae, conducting little if any research himself. In fact, when Linnaeus described the alga in his [_Species plantarum_](http://biodiversitylibrary.org/page/359184#page/605/mode/1up) (1753), a book that stands at the beginning of modern botanical taxonomy, he used Dillenius’s own herbarium specimen as the type species. What Linnaeus did change, however, was the alga’s name and taxonomic position. He replaced the previous naturalists’ long polynomials with his own binomial nomenclature: “_Conferva fontinalis_” was born.
+
+By basing his taxonomic system on the number or position of flowers’ reproductive organs, Linnaeus effectively discouraged algal research because the reproductive organs of these plants were thought to be either imperceptibly small or altogether missing. Hence, algae were of little concern to Linnaeus and his disciples. Moreover, because _C. fontinalis_ and many other species of algae were so small, they required tedious observations with high quality microscopes using well-developed protocols. The trouble was these microscopes weren’t yet widely available and protocols weren’t yet established. Accordingly, this alga remained in muddy waters.
+
+<figure>
+  <img src="_29464126976_c85e1b14ca_b.jpg">
+  <figcaption>Illustration of <em>C. fontinalis</em> (fig. 3) from Johann Jacob Dillenius’s <em>Historia muscorum</em>(1741).
+    <cite>
+      <a href="http://biodiversitylibrary.org/page/44581271">Biodiversity Heritage Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+#### **Not Sought But Seen**
+
+Given the longstanding neglect of algae and the poverty of established methods for its research, it would be surprising to find _C. fontinalis_ at the center of a major scientific discovery, let alone two. And yet, it was. Its appearances in these discoveries make more sense once it’s realized that they were completely fortuitous. Joseph Priestley (1733–1804), responsible for the first discovery in question, said as much: “In looking for one thing I have generally found another, and sometimes a thing of much more value than that which I was in quest of. But none of these unexpected discoveries appear to me to have been so extraordinary as that which I am about to relate”, that is, the remarkable property of what he called “green matter” (1790, 282–3).
+
+<figure>
+  <img src="_29464111776_7bb40aedda_b.jpg">
+  <figcaption>Joseph Priestley’s instruments for his experimentation on gases (1775).
+    <cite>
+      <a href="ttps://commons.wikimedia.org/wiki/File:Priestley_Joseph_pneumatic_trough.jpg#/media/File:Priestley_Joseph_pneumatic_trough.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Priestley, a veritable polymath who published on subjects ranging from theology, philosophy, natural science, politics, and more, began to experiment on gases in the 1770s. One of the first and most significant of his consequent discoveries was the identification of dephlogisticated air or, as it would soon be called, oxygen[^2], and that certain processes like respiration depleted the air of oxygen, whereas others, like introducing a plant into the test vial, restored it. This last finding led him to a crucial realization: plants produce oxygen.
+
+While testing this latter hypothesis, he observed that many of his vials became covered with a mysterious green matter. Initially concluding it to be neither animal nor vegetable, “but a thing _sui generis_”, Priestley soon became convinced otherwise by his more botanically skilled friends who declared it to be indisputably a plant (most likely _C. fontinalis_).
+
+Forced to leave vials of this green matter unattended for three months while he traveled, Priestley observed upon his return that specimens kept in poor sunlight did not survive, whereas those in the opposite condition flourished. Further experimentation showed that sunlight was necessary not only for the survival of green matter, as would be expected of a plant, but also, significantly, for its production of oxygen. In short, experiments on an alga likely to be _C. fontinalis_ were among the first to reveal the necessary role of sunlight in a plant’s production of oxygen. Priestley’s inadvertent discovery of green matter thus began to illuminate the concept of photosynthesis, one of the most fundamental and important processes in nature.
+
+While Priestley conducted his experiments on green matter in the late 1770s, one of the most celebrated naturalists in Germany, Johann Friedrich Blumenbach (1752–1840), was occupied with his own. He published his results in an article entitled “On an Extraordinarily Simple Manner of Reproduction” (1781), which described what its title promised: the propagation of an alga, namely, _C. fontinalis_.
+
+<figure>
+  <img src="_29209459350_158358cf51_b.jpg">
+  <figcaption>Illustration of <em>C. fontinalis</em>(I–III) and its propagation (1–7) from Johann Friedrich Blumenbach’s “On an Extraordinarily Simple Manner of Reproduction” (1781).
+    <cite>
+      <a href="http://www.blumenbach-online.de/fileadmin/wikiuser/Daten_Digitalisierung/ID%2000800/00800.pdf">Blumenbach</a>
+    </cite>
+  </figcaption>
+</figure>
+
+As with Priestley, the alga itself wasn’t Blumenbach’s focus. He only came across it while looking to support his own theory of generation, which he called the _Bildungstrieb_ or formative drive. The theory is complex, but the long and short of it is that this formative drive is responsible for bringing living beings into existence, keeping them alive, and, ultimately, producing more kangaroos, oak trees, algae, and every other living thing. Yet, how was an alga, something that Blumenbach described as looking like “wet mouse fur”, supposed to support this new theory of life?
+
+By being _simple_. For Blumenbach, everything about this alga was simple. It was simply collected. One only needed to check the nearest pipe, spring, ditch, pond, etc. It was simply formed. It consisted of a single straight filament with an identical internal and external structure that was simply examined under the microscope. Lastly, its manner of propagation, as the essay’s title indicates, was simple. Over the course of a mere forty-eight hours, the tip of the filament would swell up into a nub that detached from the alga’s body, fixing itself to a favorable location. The nub would then begin pushing out a filament of its own until it had grown into an entirely new _C. fontinalis_. This simplicity afforded any naturalist the opportunity to examine the alga inside and out, literally, and to observe the entire course of its generation. If this opportunity were taken, Blumenbach thought, then the naturalist would have no choice but to reject previous opinions and accept his theory of the formative drive.
+
+While Blumenbach’s algal experiments, in addition to his other studies, swayed many natural researchers in eighteenth-century debates over embryogenesis and inspired new research, they weren’t quite the coup for which he hoped. This disappointment stemmed, in part, from the fact that _C. fontinalis_ just wasn’t as simple as he thought. According to modern phycology, this genus of algae reproduces sexually _and_ asexually, _and_ in a variety of ways to boot. Even in Blumenbach’s time, shortly after the publication of his article, the eminent botanist James Edward Smith, founder and first president of the Linnean Society of London, recognized the genus _Conferva_ to be so understudied and misunderstood that he called it the “opprobrium of botany”.
+
+#### **Sought But Not Seen**
+
+Although the _C. fontinalis_ happened to prove illuminating for Priestley and Blumenbach, its lingering obscurity further confounded two other longstanding controversies in the latter half of the eighteenth century. A. P. de Candolle (1778–1841) aimed to resolve the first of these with his “Report on the _Confervae_” (1802), in which he reviewed foregoing scientific literature in order to determine whether species of _Conferva_ were plants, animals, or some intermediary thing between them. This third possibility referred to Priestley’s _sui generis_ hypothesis, which, as we saw above, he abandoned, instead judging the alga to be a true plant. Several other naturalists, however, claimed species of _Conferva_ had animal natures. For instance, the French scientist, Justin Girod-Chantran (1750–1841), believed that _C. fontinalis_ was an animal or at least of animal origin. (In his defense, the alga does discharge motile spores that look like swimming microscopic animals). Candolle responded to Girod-Chantran’s arguments as well as those of other naturalists, arguing that the evidence was overwhelmingly in favor of _Conferva_ being a plant, a conclusion that stuck for more than a century. (In a final twist, to happen much later, this alga is now considered neither plant nor animal, but falls into [another kingdom](https://en.wikipedia.org/wiki/Chromalveolata) altogether.)
+
+<figure>
+  <img src="_29498732655_db838c702e_o.jpg">
+  <figcaption>Illustrations of <em>C. fontinalis</em> and animalcules (figs. 19) from Justin Girod-Chantran’s <em>Recherches Chimiques et Microscopiques</em>(1802).
+    <cite>
+      <a href="http://biodiversitylibrary.org/page/2077713">Biodiversity Heritage Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The second controversy concerned how this plant comes into existence. Some scientists thought it was the product of spontaneous generation; that is, it came from inorganic matter and not from egg or seed. As strange as this idea might sound today, it persisted well into the nineteenth century. An example of the evidence given in support of it, which is as unpleasantly familiar today as it would’ve been in the eighteenth century, is the experience of finding weevils in flour. Supporters of this theory explained the pests’ presence by saying that they were produced _spontaneously_ out of the flour itself and not from any parent. They then extended the same logic to other living things whose propagation was not clearly understood, including algae.
+
+This controversy returns us to Priestley, who went to great lengths to demonstrate that his green matter wasn’t spontaneously generated, a theory he abhorred. Jan Ingenhousz (1730–1799), another scientist important in the elucidation of photosynthesis, asserted the contrary: “The water itself, or some substance in the water, is, as I think, changed into this vegetation” (1779, 90–1). To whomever might have balked at such a thought, that water could be transformed into a plant, Ingenhousz asked if he would have the same disbelief in the case where a ruminant transformed grass into fat.
+
+Neither Priestley nor Ingenhousz were alone in their positions, each finding vociferous adherents and opponents. Erasmus Darwin (1731–1802), grandfather of Charles, was one such adherent. Despite being a dear friend to Joseph Priestley, Darwin partly sided with Ingenhousz in the debate concerning the generation of _C. fontinalis_. In describing his own theory of spontaneous generation as part of the “Additional Notes” to his poem, _The Temple of Nature_ (1803), Darwin wrote, “There is one vegetable body, which appears to be produced by a spontaneous vital process, and is believed to be propagated and enlarged in so short a time by solitary generation as to become visible to the naked eye; I mean the green matter first attended to by Dr Priestley, and called by him conferva fontinalis” (4).
+
+<figure>
+  <img src="_29482472606_aef59ef0ce_b.jpg">
+  <figcaption>Frontispiece to <em>The Temple of Nature</em>(1803) by Erasmus Darwin, from the copy owned by his grandson Charles.
+    <cite>
+      <a href="http://biodiversitylibrary.org/page/34714261">Biodiversity Heritage Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Darwin’s remarks on the spontaneous vitality of the _C. fontinalis_ have their own surprising legacy. Mary Shelley (1797–1851) attributed the premise of her novel _Frankenstein_ to Darwin, who supposed it “as not of impossible occurrence” (1818). Yet, the reader learns nothing more of what Shelley has in mind, at least not until prodded by “The Publishers of the Standard Novels” to answer how “such a young girl, came to think of, and to dilate upon, so very hideous an idea” (1831).
+
+In her response, which occurred in the book’s third edition, Shelley recounted listening to a conversation between her husband and Lord Byron; at one point, one of them had inquired into the principle of life and asked whether it could ever be discovered and expressed. Shelley continued, “They talked of the experiments of Dr. Darwin, (I speak not of what the Doctor really did, or said that he did, but, as more to my purpose, of what was then spoken of has having been done by him,) who preserved a piece of vermicelli in a glass case, till by some extraordinary means it began to move with voluntary motion”. It was but a short distance for Shelley to consider the possibility that various once-living body parts could be reassembled into an amalgamous creature, then given life anew.
+
+But what Shelley meant by “vermicelli” — a kind of pasta that consequently bears no direct reference to anything in Darwin’s corpus — is unclear. Nonetheless, scholars agree that if Shelley is referring to something specific in Darwin, it likely stems from the note in _The Temple of Nature_ on spontaneous generation. One possibility is the vorticella, an aquatic animal that shows no signs of life when dry, but begins swimming about and searching for food when placed in water. While this example bears a resemblance to Shelley’s recollection, scholars have identified another possible source: Darwin’s discussion of _C. fontinalis_. Samuel H. Vasbinder has provided an intriguing argument on behalf of this possibility (1981). He points out that Darwin mentions a “glass case” with respect to Priestley’s alga; it isn’t there in the vorticella passage. Vasbinder also argues for a “strong rhythmic and phonemic similarity between ‘conferva fontinalis’ and ‘vermicelli,’” connecting, for instance, “ferva” with “vermi” (117). Unfortunately, the evidence is indeterminate and neither side’s arguments are ultimately decisive, or, in other words, it happily remains quite possible that the initial spark that brought the monster of Dr Victor Frankenstein to life was none other than the _C. fontinalis_. Given its already long list of exploits, should we really expect anything less of this alga?
+
+#### **Sought And Seen**
+
+There were a handful of scientists around the turn of the nineteenth century who certainly wouldn’t have underestimated it, like the German botanist, Albrecht Wilhelm Roth (1757–1834). After admitting that this part of the vegetable world was quite unfamiliar to him, he resolved to become acquainted with algae; however, he quickly realized the lack of resources available to the beginner in this area of study. This shortfall, he lamented, frustrated and discouraged research on these plants. He thus set out to redress the situation in his _Remarks on the Study of Cryptogamous Water Plants_ (1797). How could the botanist, he asked, be expected to study algae effectively when there were no guidelines, methods, or best practices yet in place? He enumerated the difficulties waiting to beset the researcher in the investigation of a water plant like _C. fontinalis_. How should it be gathered from its body of water without damaging it? Should it be studied while wet or while dry? How should it be preserved? How should its structures be communicated when extant terminology focused on flowering plants? How should it be mounted for microscopic examination? How should the researcher build a collection of other algae for the sake of comparison? How should the “wet felt”, constituted by thousands of slender filaments, be drawn? Roth answered each of these questions in turn, not hesitating to underscore how difficult it was for him to investigate this phenomenon without predecessors: “The lack of a teacher or guide, after which I could properly organize my work, was quite palpable to me. I believe, however, to have fortunately overcome the most significant difficulties and held it as my responsibility to make budding plant lovers familiar with the same” (8).
+
+Roth’s hard work did not escape the notice of another botanist, Lewis Weston Dillwyn (1778–1855), even if Dillwyn ended up disagreeing with almost all of Roth’s algal taxonomy. Dillwyn himself contributed to the study of _Conferva_ through his aptly named _British confervae_, which comprises a series of fascicles published from 1802 until 1809. In this work, we find a scientist with an unmistakable reverence for _Conferva_. He enthused that there was no genus more interesting than it, that its study relieved the mind from the hustle and bustle of active life, that the genus was a constant source of amusement, and that it, in the end, like all of natural history, produced satisfaction in the mind and led the naturalist to “admire and adore” the works of God. Finally, as if that weren’t enough, Dillwyn also hailed the genus _Conferva_ as the “most beautiful and curious” of the algae.
+
+<figure>
+  <img src="_29209449380_ebbc96316b_b.jpg">
+  <figcaption>Illustration of <em>C. fontinalis</em> from Lewis Weston Dillwyn’s <em>British confervae</em>(1802–1809).
+    <cite>
+      <a href="http://biodiversitylibrary.org/page/2213619">Biodiversity Heritage Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+While the eighteenth-century largely discounted most nonflowering plants like algae, _C. fontinalis_ was one that got itself noticed, for better and for worse. As it helped to clarify the phenomena of photosynthesis and embryogenesis, it also confused the kingdoms of nature and perpetuated belief in spontaneous generation. Nevertheless, at the turn of the nineteenth century, at least for a few intrepid researchers, this complicated, extraordinary little being inspired a new attitude toward algae, a reverence warranted just as much now as it was then.
+
+This new attitude persisted into the nineteenth century with the efforts of Carl Agardh (1785–1859) and William Harvey (1811–1866) who established the foundations of modern phycology. Previous dismissals and confusions gave way to the recognition of algae’s economic potential and its vital role in ecosystems. This recognition is captured particularly well by one of the first American phycologists, John Hooper (1802–1869). In his “Introduction to Algology”, a little known pamphlet self-published in Brooklyn in 1850, he delivered an impassioned defense of algae and its study, echoing many of the sentiments first voiced by Roth and Dillwyn. Hooper reinterpreted earlier confusions regarding the reproduction of _Conferva_ as evidence of the “chain of creation” that revealed the harmony and unity of nature. He reminded his readers that algae offered habitats and food for countless creatures and produced the oxygen essential for animal life. For the most recalcitrant of readers, Hooper called on a language with universal currency. “Let us speak in dollars and cents”, he said, pointing out that important industrial materials like kelp (i.e., soda ash) and iodine were both extracted from algae, and that seaboard farmers used algae as a fertilizer known as “vraic”.
+
+Hooper intended these remarks as encouragement for his readers to take another look at algae (or, in some cases, a first look) in order to see it not as “the green, slimy substance on the stagnant pond” or as “corruption emanating from feculent water”, but rather as “a beautiful Alga, pleasing to the eye, and, by its act of vegetating, freeing that stagnant pool of its impurities, which might have otherwise spread around pestilence and death” (11). His encouragement is one still worth hearing today, to look again not only at the algae living all around us, but also at the illustrious species like _C. fontinalis_ that constitute its history.[^3]
+
+* * *
+
+**[Ryan Feigenbaum](http://ryanfeigenbaum.com/)** is a PhD candidate in Philosophy at Villanova University, finishing his dissertation on the epistemic foundations of eighteenth-century German biology. He recently completed an Andrew W. Mellon Fellowship at The New York Botanical Garden, where he created a [digital exhibition](http://www.nybg.org/poetic-botany/#start) about poetic botany, a late-eighteenth century movement in which botany became the subject of poetry.
+
+[^1]: While, technically, [not all algae are plants](http://eol.org/info/526), for the purposes of this essay, I’ve maintained the eighteenth-century view that they are.
+
+[^2]: Scholars continue to debate whether Priestley deserves priority for this discovery.
+
+[^3]: The research for this essay was conducted at the Humanities Institute of The New York Botanical Garden with support from the Andrew W. Mellon Foundation.
+
+* * *
+
+Public Domain Works
+
+*   “Über eine ungemein einfache Fortpflanzungsart.” _Göttingisches Magazin der Wissenschaften und Litteratur_, 1–13 (1781), by J. F. Blumenbach.
+*   _Temple of Nature_ (1833), by Erasmus Darwin. (Charles Darwin’s copy)
+*   _Historia Muscorum_ (1741), by J. J. Dillenius.
+*   _British Confervæ; or Colored Figures and Descriptions of the British Plants Referred by Botanists to the Genus Conferva_ (1809), by L. W. Dillwyn
+*   _Recherches Chimiques et Microscopiques_ (1802), by Justin Girod-Chantrans.
+*   _Experiments Upon Vegetables: Discovering Their Great Power of Purifying the Common Air in the Sun-Shine, and of Injuring It in the Shade and at Night_ (1779), by Jan Ingenhousz.
+*   _Introduction to algology; with a catalogue of American Algae, or sea-weeds, according to the latest classification of Prof. Harvey_ (1850), by John Hooper.
+*   _Nova Plantarum Genera_ (1729), by P. A. Micheli.
+*   _Experiments and Observations Relating to Various Branches of Natural Philosophy_ (1779), by Joseph Priestley.
+*   _Experiments and Observations on Different Kinds of Air, and Other Branches of Natural Philosophy, Connected with the Subject_ Vol. 3 (1770), by Joseph Priestley.
+    *   \[Internet Archive\]https://archive.org/details/experimentsobser03prie)
+*   _Frankenstein; or, The Modern Prometheus_ 3rd edition (1831), by Mary Shelley.
+*   “Introductory Discourse on the Rise and Progress of Natural History”, in _Transactions of the Linnean Society of London_ (1791)
+*   _Frankenstein; or, The Modern Prometheus_ 3rd edition (1831), by Mary Shelley.
+*   _Histoire Des Conferves d’Eau Douce_ (1803), by Jean-Pierre Vaucher.
+
+Further Reading
+
+*   Christensen, Tyge. 1968. “Vaucheria Types in the Dillenian Herbaria.” British Phycological Bulletin 3 (3): 463–69.  
+    
+*   Vasbinder, Samuel H. 1981. “A Possible Source of the Term ‘Vermicelli’ in Mary Shelley’s Frankenstein.” The Wordsworth Circle 12 (2): 116–17.
+
+{<} ![Clandestine Marriage: Botany and Romantic Culture](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1421405172&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Clandestine Marriage: Botany and Romantic Culture (Johns Hopkins University Press, 2012) by Theresa Kelley
+
+_Exploring the meaning and methods of how plants were represented and reproduced in scientific, literary, artistic, and material cultures of the Romantic period._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Clandestine-Marriage-Botany-Romantic-Culture/dp/1421405172?tag=thepubdomrev-20)
+
+{<} ![Linnaeus and the Linnaeans](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=9060460642&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Linnaeus and the Linnaeans (A. Oosthoek’s Uitgeversmaatschappij N.V., 1971) by Frans A. Stafleu
+
+_Book on Linnaeus’ ideas spread in systematic botany between 1735 and 1789._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/LINNAEUS-LINNAEANS-spreading-systematic-1735-1789/dp/9060460642?tag=thepubdomrev-20)

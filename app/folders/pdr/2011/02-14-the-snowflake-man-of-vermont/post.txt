@@ -1,0 +1,112 @@
+Tags: Photography, Science, Art
+Summary: Keith C. Heidorn takes a look at the life and work of Wilson Bentley, a self-educated farmer from a small American town who, by combining a bellows camera with a microscope, managed to photograph the dizzyingly intricate and diverse structures of the snow crystal.
+
+# The Snowflake Man of Vermont
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Keith C. Heidorn takes a look at the life and work of Wilson Bentley, a self-educated farmer from a small American town who, by combining a bellows camera with a microscope, managed to photograph the dizzyingly intricate and diverse structures of the snow crystal.**
+
+<figure>
+  <img src="_25164174378_3683235800_b.jpg" alt="snowflake bentley">
+  <figcaption>Photograph of a snowflake, by Wilson Bentley, ca. 1910
+    <cite>
+      <a href="https://www.metmuseum.org/art/collection/search/286768">The Metropolitan Museum of Art</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In 1885, at the age of twenty, Wilson Alwyn Bentley, a farmer who would live all his life in the small town of Jericho in Vermont, gave the world its first ever photograph of a snowflake. Throughout the following winters, until his death in 1931, Bentley would go on to capture over 5000 snowflakes, or more correctly, snow crystals, on film. Despite the fact that he rarely left Jericho, thousands of Americans knew him as The Snowflake Man or simply Snowflake Bentley. Our belief that “no two snowflakes are alike” stems from a line in a 1925 report in which he remarked: “Every crystal was a masterpiece of design and no one design was ever repeated. When a snowflake melted, that design was forever lost.”
+
+It started with a microscope his mother gave him at age fifteen which opened the world of the small to young Wilson. A lover of winter, he made plans to use his microscope to view snowflakes. His initial investigations proved both fascinating and frustrating as he tried to observe the short-lived flakes. So that he could share his discoveries, he began by sketching what he saw, accumulating several hundred sketches by his seventeenth birthday. When his father purchased a camera for his son, Wilson combined it with his microscope, and went on to make his first successful photomicrograph of a snow crystal on January 15, 1885.
+
+In addition to the development of the hardware, Bentley also had to devise a protocol to capture a snow crystal and transport it with minimal damage to the camera’s field of vision. What he found worked best was to capture the crystals on a cool velvet-covered tray. Taking care not to melt the crystal with his breathe, he identified a suitable subject and lifted it onto a pre-cooled slide with a thin wood splint from his mother’s broom and nudged it into place with a turkey feather. The slide was then carried into his photographic shed and placed under the microscope. The back-lit image was focused using a system of strings and pulleys he devised to accommodate his mittened hands. Once focused, the sensitized glass plate — the “film” — was exposed and stored for further processing, development and printing.
+
+<figure>
+  <img src="_38149809585_af121dc485_b.jpg" alt="Wilson Bentley">
+  <figcaption>Portrait of Bentley, ca. 1910.
+    <cite>
+      <a href="https://www.metmuseum.org/art/collection/search/669364?sortBy=Relevance&amp;who=Bentley%2c+Wilson+Alwyn%24Wilson+Alwyn+Bentley&amp;ft=*&amp;offset=0&amp;rpp=20&amp;pos=11">The Metropolitan Museum of Art</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_39034754881_f687f76032_b.jpg" alt="snowflake bentley">
+  <figcaption>Photograph of a snow crystal by Wilson Bentley, ca. 1905.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Snowflake_-_By_Wilson_Bentley_ca._1905_-_MoPA.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Bentley also devised his own processing methods. In addition to developing the original image, he also created a post-development process to enhance it. Since each photograph was taken of a white snow crystal against a white background, Bentley was dissatisfied with the initial photograph. He felt he could improve the contrast and enhance the detail if he presented the crystal against a dark background. To do this, he painstakingly scraped away the dark emulsion surrounding the snow crystal image from a duplicate of the original negative using a sharp penknife and steady hand. The altered image was then carefully placed upon a clear glass plate and then printed, giving it a dark background. Even after years of practice, this post-production process often took as long as four hours for a complex snow crystal.
+
+With 70-75 photographs per storm and notes on the conditions under which they were collected, Bentley accrued a considerable understanding of snow. In 1897, he became acquainted with Professor George Perkins, a professor of geology at the University of Vermont, and they prepared the first paper on snow crystals published in the May 1898 issue of Appleton’s _Popular Scientific_ entitled “A Study of Snow Crystals.”
+
+While photographing snowflakes was his passion, Bentley also turned his interest to examining and sizing raindrops for seven summers from 1898 to 1904. From that work, he gave us early insights into raindrops and their size distribution in storms. After some experimentation, he developed a simple yet effective apparatus for gathering raindrops: a shallow pan of wheat flour. At first, he simply photographed the imprints made by the falling rain in the flour. Then in 1898, he made a serendipitous finding. In his journal, he wrote: “In the bottom of each raindrop impression in the flour there could always be found a roundish granule of dough nearly exact size of raindrop. After experimenting with artificial raindrops I could measure \[its\] diameter before falling into the flour, and thus tell if the dough granule corresponded in size with the measured raindrop.”
+
+<figure>
+  <img src="_24170276927_8eb23cba9d_b.jpg" alt="frost">
+  <figcaption>Photograph of frost, by Wilson Bentley, ca. 1910.
+    <cite>
+      <a href="https://www.metmuseum.org/art/collection/search/669362">The Metropolitan Museum of Art</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Bentley measured these raindrop “fossils” and divided them into one of five size-range categories. Over the tenure of his raindrop studies, he collected 344 sets of raindrop pellets from over 70 distinct storms, including 25 thunderstorms, to which he added meticulous weather data about the storm: date, time of day, temperature, wind, cloud type and estimated cloud height. He concluded that different storms produce different size raindrops and different size distributions. Few rainfall events had uniform drop sizes, but when they did, he discovered, they were composed of either all small drops or all large drops. Low rain clouds produced mostly small drops. The largest drops, around a quarter inch in diameter, fell from the tall cumulonimbus clouds of thunderstorms. He concluded that the size of drops and snowflakes could tell a lot about the vertical structure of the storm.
+
+Unfortunately, Bentley was so far ahead of his time that he wasn’t fully appreciated by contemporary scientists. They didn’t take this self-educated farmer seriously. It was forty years later — the study of cloud physics and precipitation processes would not blossom until the 1940s — before his raindrop work was rediscovered and corroborated. The first recognition of Bentley’s raindrop experiments appears to have been by US Soil Conservation Service scientists J. O. Laws and D. A. Parsons, who published a paper in 1943 reporting measurements of raindrop size under various rainfall intensities using Bentley’s collection method.
+
+Although he dropped his study of raindrops after a few years, he continued to photograph snow crystal and speculate on the nature of snow. From his large data archive, Bentley’s analysis convinced him that the form the ice crystal took (hexagonal plate, six-sided star, hexagonal column, needle, etc.) was dependent on the air temperature in which the crystal formed and fell. Nearly three decades would pass before Ukichiro Nakaya in Japan would confirm this hypothesis.
+
+<figure>
+  <img src="_27259225809_8790aca70f_b.jpg" alt="snowflake bentley">
+  <figcaption>Photograph of a snow crystal by Wilson Bentley, ca. 1910.
+    <cite>
+      <a href="https://www.metmuseum.org/art/collection/search#!/search?artist=Bentley,%20Wilson%20Alwyn$Wilson%20Alwyn%20Bentley">The Metropolitan Museum of Art</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_27259223939_5858b7ef4e_b.jpg" alt="snowflake bentley">
+  <figcaption>Photograph of a snow crystal by Wilson Bentley, ca. 1910.
+    <cite>
+      <a href="https://www.metmuseum.org/art/collection/search#!/search?artist=Bentley,%20Wilson%20Alwyn$Wilson%20Alwyn%20Bentley">The Metropolitan Museum of Art</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_38998666782_50e21e777d_b.jpg" alt="snowflake bentley">
+  <figcaption>Photograph of a snow crystal by Wilson Bentley, ca. 1910.
+    <cite>
+      <a href="https://www.metmuseum.org/art/collection/search#!/search?artist=Bentley,%20Wilson%20Alwyn$Wilson%20Alwyn%20Bentley">The Metropolitan Museum of Art</a>
+    </cite>
+  </figcaption>
+</figure>
+
+He also wanted to promote his work for its beauty, and thus submitted articles and delivered lectures that focused on his snow photography over the years. His lectures were popular, and from them he was dubbed The Snowflake Man and Snowflake Bentley by the newspapers. Over one hundred articles were published in well-known newspapers and magazines such as _The Christian Herald_, _Popular Mechanics_, _National Geographic_, the _New York Times Magazine_, and the _American Annual of Photography_. His best photographs were in demand from jewellers, engravers and textile makers who saw the beauty in his work.
+
+He also submitted technical reports to the US Weather Bureau’s publication _Monthly Weather Review_. Although he received scant recognition from most scientists, he did receive encouragement from Weather Bureau chief meteorologist Dr William J. Humphreys who helped him publish a collection of his photographs. Humphreys wrote the technical introduction and appeared as co-author. The book _Snow Crystals_ by W. A. Bentley and W. J. Humphrey was published by McGraw-Hill in November 1931. It contained 2500 selected snow crystal photos plus 100 of frost and dew formation. The book has since been [republished by Dover Books](https://www.amazon.com/Snow-Crystals-Dover-Pictorial-Archive/dp/0486202879?tag=thepubdomrev-20).
+
+As a grown man, Bentley was slight of frame, likely just over five feet tall and weighing around 120 pounds, but could dig a row of potatoes or pitch hay as well as any farmer in the valley. He continued to farm the acreage with his older brother for all his life. Though not an outgoing man, he loved to entertain by playing the piano or violin and singing popular songs. He also played clarinet in a small brass band and could imitate the sounds of many animals. Bentley never married.
+
+![](http://upload.wikimedia.org/wikipedia/commons/c/c2/SnowflakesWilsonBentley.jpg)
+
+In early-December 1931, Wilson Bentley walked six miles, ill-dressed, through a slushy snowstorm to reach his home. Not long thereafter, he contracted a cold, which grew into pneumonia. “Snowflake” Bentley died on December 23 at the age of sixty-six. In March of that year, he had taken the last of his photomicrographs of snow, still using the same camera that took the first one.
+
+Although his father thought Wilson’s snow photography a lot of nonsense and not the proper thing for a farmer to do, Wilson broke unique ground in the early days of modern meteorology as well as microscopic photography. His biographer, cloud physicist Duncan Blanchard, dubbed him “America’s First Cloud Physicist”. The _Burlington Free Press_ wrote in a Christmas Eve obituary for Bentley:
+
+> Longfellow said that genius is infinite painstaking. John Ruskin declared that genius is only a superior power of seeing. Wilson Bentley was a living example of this type of genius. He saw something in the snowflakes which other men failed to see, not because they could not see, but because they had not the patience and the understanding to look.
+
+On the morning he was laid to rest in the Jericho Center cemetery, it began to snow, leaving a dusting over the burial ground.
+
+* * *
+
+_[Keith C. Heidorn, PhD](http://www.islandnet.com/~see/) has nearly forty years of experience in meteorology, climatology, air quality assessment, and education. Currently, enjoying semi-retirement in the Canadian Rockies, he continues to write The Weather Doctor internet site. The site, now beginning its fourteenth year, celebrates the beauty of weather through science and art. Dr Heidorn is author of three books: The BC Weather Book: From the Sunshine Coast to Storm Mountain, published in 2004, and And Now…The Weather, released in July 2005, and The Field Guide to Natural Phenomena, coauthored with Ian Whitelaw, released in 2010. When not writing about the weather, Keith can be found painting weather and other landscapes using oil, acrylics and watercolors._
+
+*   Bentley’s snowflake photographs
+*   Bentley’s article “Snow Beauties” as featured in the _History of Jericho_ (1916)
