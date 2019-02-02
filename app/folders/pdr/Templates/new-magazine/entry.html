@@ -1,0 +1,95 @@
+{{> header}}
+
+  
+{{! Image zoom plugin depends on .entry selector}}
+{{#entry}}
+
+
+  <div style="min-height:6rem;flex-direction:row;align-items:center" class="flex mt3 pt3 mb5 ">
+    <div class="w-100">
+      <div class="w-20 bl pt5 nt5 fr pl3 lh-copy  b--black-10">
+ 
+    {{^page}}
+	<a href="{{url}}" class="db black-30 f5 pr4 no-underline"><span  date-from-now="{{dateStamp}}">{{#formatDate}}MMM M, YYYY{{/formatDate}}</span></a>
+    <span class="db black-50 f5">{{#tags}}<a href="/tagged/{{slug}}" class="no-underline">{{tag}}</a>{{^last}}, {{/last}}{{/tags}}</span>
+{{/page}}
+    
+  		</div> 
+      <div class="w-80 pr4" >{{{titleTag}}}</div>
+    </div>
+      
+    </div>
+
+  <div class="entry pv0  w-80 b--black-10" >
+    
+
+<div class="measure-wide lh-copy f5 black-90" style="position:relative">
+  {{{body}}}
+</div>
+
+</div>
+
+
+{{#recent_entries}}{{/recent_entries}}
+  
+<div class="cf mt6"></div>
+
+{{^page}}  
+
+<div class="w-50 fl pr4">
+  <span class="db f6 bt b--black-10 black-50 pv3">Up next</span>
+
+  
+{{#previous}}
+
+<a href="{{{url}}}" class=" pb3 lh-title fl dim no-underline">
+<span class="db">
+  <span class="db" style="outline: 1px solid rgba(0,0,0,.12);
+    outline-offset: -1px;max-height:14rem;overflow:hidden">
+    {{#thumbnail.medium}}
+    <img style="width:100%" src="{{url}}">
+    {{/thumbnail.medium}}
+   </span>
+</span>
+    <span class="mt3 fw6 black-80 db f5 pb2 tracked-tight" >{{title}}</span>
+  
+</a>
+{{/previous}}
+ {{#next}}
+  
+<a href="{{{url}}}" class=" pb3 lh-title fl dim no-underline">
+<span class="db">
+  <span class="db" style="outline: 1px solid rgba(0,0,0,.12);
+    outline-offset: -1px;max-height:14rem;overflow:hidden">
+    {{#thumbnail.medium}}
+    <img style="width:100%" src="{{url}}">
+    {{/thumbnail.medium}}
+   </span>
+</span>
+    <span class="mt3 fw6 black-80 db f5 pb2 tracked-tight" >{{title}}</span>
+  
+</a>
+{{/next}}
+
+</div>
+  
+  
+<div class="w-50 fr pl2 f6 clip-10 lh-title">
+  <span class="db  bt b--black-10 black-50 pv3">Latest posts</span>
+{{#recent_entries}}
+  <a href="{{{url}}}" class="dim no-underline db pv2 bt b--black-10" style="position:relative">
+    <span class="w-10 fr db" style="background: no-repeat url({{thumbnail.medium.url}}) 0 0 / cover">
+      <span class=" db" style="height:0;padding-bottom:100%;overflow:hidden">
+       </span>
+    </span>
+    <span class="fl w-80 db black-80" style="height:2.5em;overflow:hidden;">{{title}}</span>
+      
+    <span class="cf"></span>
+  </a>
+{{/recent_entries}}
+</div>
+{{/page}}
+{{/entry}}
+
+
+{{> footer}}

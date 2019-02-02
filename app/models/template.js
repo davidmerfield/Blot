@@ -72,8 +72,9 @@ module.exports = (function() {
 
       // Don't overwrite an existing template
       if (stat) {
-        var message = "A template called " + name + " name already exists";
-        return callback(new Error(message));
+        err = new Error("A template called " + name + " name already exists");
+        err.code = 'EEXISTS';
+        return callback(err);
       }
 
       redis.sadd(blogTemplatesKey(owner), id, function(err) {

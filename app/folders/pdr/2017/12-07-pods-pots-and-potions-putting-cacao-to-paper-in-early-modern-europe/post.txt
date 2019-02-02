@@ -1,0 +1,169 @@
+Tags: Science, Art, History
+Summary: Christine Jones explores the different ways the cacao tree has been depicted through history — from 16th-century codices to 18th-century botanicals — and what this changing iconography reveals about cacao’s journey into European culture.
+Thumbnail: _27115095529_7abcd5c0ba_b.jpg
+
+# Pods, Pots, and Potions: Putting Cacao to Paper in Early Modern Europe
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Christine Jones explores the different ways the cacao tree has been depicted through history — from 16th-century codices to 18th-century botanicals — and what this changing iconography reveals about cacao’s journey into European culture.**
+
+<figure>
+  <img src="_27115095529_7abcd5c0ba_b.jpg" alt="cacao
+    ">
+  <figcaption>Chromolithograph of a fruiting branch of the cacao tree, by P. Depannemaeker, ca.1885, after an image by the Dutch botanical artist Berthe Hoola van Nooten.
+    <cite>
+      <a href="https://wellcomecollection.org/works/yhkear3k ">Wellcome Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Lauded as the “food of the gods” (_Theobroma_) by the Swedish botanist Carl Linnaeus in 1753, the cacao plant (_Theobroma cacao_) has always elicited a certain amount of scientific curiosity and mystical reverence from Europeans. Tucked away under the canopy within the planet’s narrow equatorial zone, the only environment in which it grows, and first cultivated in the lands that now constitute Guatemala and Belize, cacao had spent centuries well hidden from Continental eyes. However, after Hernán Cortés and his army took Tenochtitlan, the capital of the Aztec empire, for Spain in 1521, cacao was among the first marvels they wrote home about to describe the new world bounty they’d won for the Castilian crown. Conquistador Bernal Díaz del Castillo wrote down in [his record of conquest](https://archive.org/stream/tesisnoqueprese00garcgoog#page/n271/mode/2up/search/cacao) that frothed chocolate was “the best thing they have to drink”.[^1] Others hailed it as the key to Moctezuma’s famed virility. Cacao, the base ingredient in chocolate, was also used as currency in Mesoamerica. It was not long before colonists took a keen interest in this fortifying drink and the money that grew on trees.
+
+Unlike that of a typical fruit, the sweet white flesh of the lumpy autumnal-colored pods that sprout from the cacao tree, was considered by locals and European settlers alike to be “of little or no use” and as having a “phlegmatic” texture.[^2] Its seeds were the valuable prize. Local women followed ancient recipes to produce from these hard, dry seeds an unctuous frothy drink that by all accounts could cure almost anything. That cold cacao beans could become a warming energy drink flummoxed early-modern humoral science.[^3] Overall, the botanical source of chocolate proved biologically curious, even as the drink became irresistibly compelling. As early Spanish colonists learned, it was not for nothing that the cacao tree had an elevated status in the cosmology and agriculture of Mesoamerica. In the century following conquest, cacao, which had been sacred to the Aztec and to the Maya before them, ranked among crops like tobacco and sugar that proved addictive to the European consumer and crucial to the economic exploitation of the New World.
+
+Spain imported beans regularly and Madrileño urbanites whipped up a vogue for the chocolate drink, whose popularity then spilled over into France, England, and beyond. Comparatively few Europeans had, however, seen the plant in its native ecosystem. Curious armchair explorers relied for their knowledge of chocolate’s raw ingredient on illustrations done by clerics and scientists who had voyaged across the Atlantic and documented the landscape. The history of such illustrations of cacao dates back to the first generation after conquest and it not only provides us with a bevy of wonderful botanical studies, but also chronicles cacao’s European reception from the mid sixteenth to the mid eighteenth century.
+
+<figure>
+  <img src="_38178878364_67a08d8336_c.jpg" alt="cacao">
+  <figcaption>Front page of the <em>Fejérváry-Mayer Codex</em>. Tree-cacao glyph on the right.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Xiuhtecuhtli_1.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Before the arrival of Europeans, the cacao tree made its textual debut in the form of glyphs in pre-Columbian, that is, indigenous codices. On the first page of what is now known as the _Fejérváry-Mayer Codex_, one of the oldest that survives today, the tree flanks the god Tezcatlipoca as one of the “trees of life” (a role the tree also played for the Maya, from whom the Aztecs learned cacao agriculture). Though highly stylized, in its placement of the fruit, the pre-Columbian Fejérváry-Mayer glyph offers a surprisingly accurate depiction of the plant’s growth habit. Cacao pods can push from anywhere along the tree trunk, as they do in the Codex, giving the tree a singular appearance. Post-conquest ethnographies and botanicals that feature the tree tended to instead Europeanize it by removing this distinguishing feature: they have the pods migrate up the trunk to the higher branches.
+
+<figure>
+  <img src="_24029473287_d9a25d3537_z.jpg" alt="cacao">
+  <figcaption>Detail from above, cropped and rotated to show the tree-cacao glyph.</figcaption>
+</figure>
+
+The first such “migration” of the pods occurred when Franciscan Friar Bernardino de Sahagún lent his name and publishing power to the inaugural ethnographic study of Aztec culture in the sixteenth century. Covering a period beginning in the years shortly after Cortés’s overthrow of Moctezuma II’s empire until its publication in Madrid in the 1570s, the _Historia general de las cosas de nueva España_ (General history of the things of New Spain) documented social habits and rites of the Aztecs. Now known as the Florentine Codex (for the city of its owner library, the Biblioteca Medicea Laurenziana), its composition among Mesoamerican codices is unique. This encyclopedic book in twelve volumes, each with dozens of short chapters, represents an early collaboration between Aztec and Spanish ethnographers. Sahagún harnessed knowledge of a team of indigenous students who had trained bilingually and biculturally at the Franciscan Colegio de Santa Cruz in Tlatelolco, where Sahagún taught. They wrote the book in glyphs and Nahuatl transcription in Latin characters, to which the friar, with the likely aid of the students, added Spanish translations. The glyphs provide insight into post-conquest culture using stylized pictograms, in the fashion of a pre-Columbian Aztec codex like the _Fejérváry-Mayer_ or the _Codex Borbonicus_ (which was written over with Spanish names after conquest). The more elaborate verbal descriptions that became a feature of post-Columbian Aztec and Spanish codices such as the _Florentine Codex_ and the _Codex Mendoza_, document the Nahuatl language and translate it into Spanish, giving European readers insight into the symbolic and practical rituals of everyday Mesoamerican life.
+
+Sahagún’s study was among the first to depict both the tree and the chocolate drink: cacao in nature and cacao in culture. Culture comes first in the order of the volumes. He classified social habits such as food and drink, along with their makers and sellers, among what he called the “virtues and vices” of the Aztec people (Book 10). Chocolate merits distinction among the beverages, being arduous to produce and crafted by women for the nobility, which he captures in the term _atlaquetzal_, or precious water.
+
+<figure>
+  <img src="_24026661807_108d1d0e85_z.jpg" alt="cacao">
+  <figcaption>Detail from a page of Fray Bernardino de Sahagún’s <em>Historia general de las cosas de nueva España</em>, Book X, p. 142, Folio 69, verso.
+    <cite>
+      <a href="https://www.wdl.org/en/item/10621/view/1/142/">World Digital Library Home</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In the years after conquest, “cacao made to drink”, as Sahagún calls the chocolate beverage, was a trade performed by the new Criolla class, women of Spanish descent born in the colonies. They are pictured in the glyph performing the first and final steps of the drink preparation: the Criolla “grinds…crushes, breaks, pulverizes” the seeds (left foreground) and “pours it back and forth, aerates it; she makes it form a head, makes it foam” (left background).[^4]
+
+Sahagún takes up the cacao tree in the next volume which focuses on the natural world of central Mexico. Despite the pods being large, because of its relatively compact size the _cacaoaquavitl_ (quavitl = tree) falls into the category of trees that produce small fruit, like guava and plumbs.
+
+<figure>
+  <img src="_27114859529_f01512caea_z.jpg" alt="cacao">
+  <figcaption>Detail from a page of Fray Bernardino de Sahagún’s <em>Historia general de las cosas de nueva España</em>, Book IX, p. 246, Folio 123.
+    <cite>
+      <a href="https://www.wdl.org/en/item/10622/view/1/246/">World Digital Library Home</a>
+    </cite>
+    <br>
+  </figcaption>
+</figure>
+
+The artist depicts the cacao tree in a shape — long trunk with a few outstretched branches — that echoes the cacao glyph of the _Fejérváry-Mayer Codex_. But the _Florentine Codex_ does something specific to the tree that helps it conform better to European expectation: it moves the pods off the trunk and high up onto the branches. In fact, as the first page of _Fejérváry-Mayer_ and the more recent figure that appeared in Walter Baker’s landmark history of the tree (pictured below) demonstrate, cacao pods can indeed push from anywhere along the trunk, giving the tree a singular appearance. Sahagún’s intention to translate Aztec culture for Spain caused him to strip the trunk of its pods so that the plant conformed better to the Continental vision of what a tree should look like.
+
+<figure>
+  <img src="_27114837399_24c97b4fb4_b.jpg" alt="cacao">
+  <figcaption>Image of the cacao tree featured in the <em>The Chocolate-Plant (Theobroma cacao) and its Products</em>(1891) by Walter Baker and Company, the oldest producer of chocolate in the United States.
+    <cite>
+      <a href="https://archive.org/stream/plantthchocolate00waltrich#page/16/mode/1up">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+When it came time for the Spanish crown to investigate the natural world of the tropical colonies it now governed, Philip II commissioned court physician Francisco Hernández de Toledo to undertake the first scientific expedition to New Spain. The posthumous publication of his descriptions of more than 3000 indigenous plants took the form of a encyclopedia richly illustrated with images by indigenous artists. This inaugural botanical of the new world was published posthumously in Spanish by the Mexican publisher Diego Lopez Davalos in 1615 under the title, _Quatro libros de la Naturaleza, y virtudes de las plantas y animales que están reunidos en el uso de Medicina en la Nueva España_ (Four Books on the Nature and Virtues of Plants and Animals for Medicinal Purposes in New Spain). In 1628, Nardo Antonio Recchi reorganized the original Latin text, eventually published in Rome as the _Rerum medicarum novae hispaniae thesaurus_ (Thesaurus of Medical Things of New Spain).
+
+<figure>
+  <img src="_25019781348_27b15b0a40_b.jpg" alt="cacao">
+  <figcaption>Image of a cacao tree featured in <em>Rerum medicarum novae hispaniae thesaurus</em> (ca. 1651) — Source.
+    <br>
+  </figcaption>
+</figure>
+
+The _Rerum medicarum_ again figures the tree with no pods on its trunk, giving it a Europeanized look, though the largest pods do hang low. Visible too in this full-body portrait are the characteristic surface roots that snake horizontally from the tree along the ground. This text also explores the agriculture of cacao in more verbal detail than earlier texts. The Aztecs had four words for the plant species, depending upon how it was cultivated, which Hernández indicates in Nahuatl transcription and Latin (translated here): tree-cacao (_cacahuaquahuitl_) grew to full height, rope cacao — known by the same word — (_cacahuaquahuitl_) was cut periodically to middling height, flower cacao (_xuchicacacahuaquahuitl_) produced large blooms, and dwarf cacao (_tlalcacahuaquahuitl_) was stunted. Each type of cacao in the size hierarchy had a distinct application, from the large aromatic seeds used to make chocolate served to Emperor Moctezuma and other elites (the finest) to the small beans delivered as taxes (the least precious). Both Sahagún before him and Hernández depicted the largest and most precious cultivation, which could then be read back as the same strain depicted in Mayan pictogram and Aztec glyph: tree-cacao.
+
+As the century elapsed, and botanical novelty turned to social curiosity, the plant’s image began to change accordingly. In the 1671 _Usages du caffé, du thé et du chocolate_ (translated, The Manner of Making Coffee, Tea, and Chocolate, 1685), Philippe Dufour first explained chocolate alongside the two other steeped beverages served hot in Europe and also known for their curative effects: coffee and tea. In the frontispiece to the section on chocolate, a disembodied branch floats above the ground, upon which the seeds contained in the pod (lower left) and a vanilla bean, an indigenous ingredient commonly found in early Mesoamerican recipes for chocolate, lie in wait. Above them stands an “American” in Aztec dress and characteristic bow, with the utensils used for preparing and serving the drink at his feet.
+
+<figure>
+  <img src="_38891535891_2c4343ff5f_h.jpg" alt="cacao">
+  <figcaption>Frontispieve to the chocolate section in Philippe Dufour’s <em>Traitez nouveaux et curieux du café, du thé et du chocolate</em>.
+    <cite>
+      <a href="https://archive.org/stream/traiteznouveauxc00dufo#page/n333/mode/2up">Internet Archive</a>
+    </cite>
+    <br>
+  </figcaption>
+</figure>
+
+A number of cultural allusions appear in this depiction of the plant. First, the pods on a cut branch (detail) look as one would expect to see them in a cabinet of curiosities, isolated as objects at which a European might marvel. Second, surrounding cacao with vanilla and servingware highlights its role as an ingredient in chocolate rather than a crop or a botanical specimen, and also as a consumer luxury rather than an indigenous woman’s trade. In the top image an “American” appears surrounded by the tools of the trade. Yet, the caption explaining the wares fails to make clear that these particular utensils — the _chocolatière_, or chocolate pot, for serving (right bottom of the top image) and the goblet for drinking (left bottom) — were designed and used, not by indigenous Americans, but by Europeans in the colonies and on the Continent. In its form, the goblet imitated the shape of a _jícara_, a gourd that was dried and used as a cup in Mesoamerica. The chocolate pot, for its part, was used as a receptacle to whip the chocolate with a _molinillo_ (pictured next to it) that was inserted through a hole in the lid and twisted quickly between the palms of the hands. It represents a modern way of frothing that replaced the risky pouring method Aztec and Criolla tradeswomen traditionally used to create a foamy head on the chocolate. The deeply colonial artifacts surrounding the American denaturalize both the man and the plant, reducing them to European commodities.
+
+As the sampling of wood-cuts above suggests, the images of the cacao tree before 1700 spoke to the needs of their audiences as well as the skill sets of their artists. Most of them stylized the tree without emphasizing its natural beauty or tropical environment. It would take a leader in entomology — Maria Sibylla Merian — to give cacao its native coloring and some indication of the sorts of wildlife that would surround it in the Americas. A landmark depiction of the plant’s lifeworld came to Europe when Merian published her _Metamorphosis Insectorum Surinamensium_ in 1705. The book was the result of her 1699 expedition to Surinam, a Dutch plantation colony. Today historians of science consider it the West’s first major study of American entomology and hail its author as the most talented botanical artist of her century. _Metamorphosis_ did something rare for the early environmental sciences: it combined empirical knowledge of local flora with Merian’s extensive knowledge of insect metamorphosis.
+
+Merian, who had begun studying butterflies as a young woman in Holland, quickly ranked among Europe’s leading experts in the new science of entomology. Investigating the life cycle of Lepidoptera (the order of butterflies and moths), which involved an extraordinary metamorphosis, gave her expertise in insect transformation, an even rarer sort of knowledge. Fascination with insects that morph from simple into complex physiognomies drove her to undertake a voyage to the tropics, where moths and butterflies abound. The trip would make her the first woman of Western science to undertake a botanical expedition in the New World. She spent her sojourn in Surinam documenting the different stages of Lepidoptera’s existence, upon and around the leaves they eat. A talented artist, she privileged drawings over words in her presentation of these indigenous life forms: each vibrant page of the picture book illustrates the physical contours of the plant; the profile, markings, and habit of the pupa and emergent worms that can be found on it; and their transformation via chrysalis into full-color butterflies and moths. Merian’s images of the plant gave it the graphic power of fine art, as though cacao was a unique subject worthy of attention, and the botanical complexity of an ecosystem that sustains metamorphosis.
+
+<figure>
+  <img src="_38175937064_b06e32d5b8_o.jpg" alt="cacao">
+  <figcaption>Image of the cacao tree from Maria Sibylla Merian’s <em>Metamorphosis Insectorum Surinamensium</em>(1705).
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Metamorphosis_insectorum_Surinamensium._Plate_XXVI.jpg">Wikimedia Commons</a>
+    </cite>
+    <br>
+  </figcaption>
+</figure>
+
+Merian depicts the cacao pod with variegation very close to the texture she gives the Surinam lemon, to which she compares the fruit in the verbal description of the image. While she telescopes to the branch of the tree, she shows the fruit hanging lower on the stem than the leaves, true to its growth habit. Both weight and size are easier to gauge in this image with a caterpillar feasting on the leaf — it is not so large or heavy enough to pull the leaf down — and small flower buds dangling from the stems. The fruit is much larger than the delicate stem and leaves would suggest was possible. Cacao pods are indeed substantial at about eight inches in full length and weighing in at about a pound, something earlier depictions do not render as plainly. Further, Merian’s interest in the four stages of insect metamorphosis appears to have influenced her depiction of the fruit. Four variations of the pod show new fruit pushing out, growing around its lumpy seeds, at full maturity, and then with its interior layers exposed. The mass of fleshy pulp cradles dozens of seeds — normally around forty. We are reminded that unlike the meat of other fruits, which are their treasure, the flesh of this one merely incubates the plant’s true dietary riches: its beans.
+
+If insects made the cacao plant ecologically concrete, the cacao plant also earned its very own signature insect after Merian depicted their relationship. The exquisite image of cacao composed for the 1705 edition (plate 26) features a black and red striped armyworm and its less spectacular moth. Now known as the Southern Armyworm, Spodoptera eridania belongs to the family Noctuidae, night fliers, of the order Lepidoptera. It’s east Asian relative, Tiracola plagiata, goes by the name Cacao Armyworm now that its diet includes that fruit, which traveled around the equator from South America to Asia in the wake of global colonialism. Merian’s seventeenth-century armyworm appears on Surinam cacao in the four states of its existence, reminding the European reader that they are not the only creature who enjoys chocolate as part of a healthy diet. Picturing the vibrant cacao plant as food for a caterpillar and a haven for its metamorphosis folds the plant into Surinam’s natural world. It was the closest a European armchair traveler could come to experiencing chocolate in nature.
+
+Merian’s drawings inaugurated a high age of naturalism in botanical sketching at the dawn of the high age of botanical expedition, of which perhaps the most famous of the century was undertaken by Hans Sloane to Jamaica. Sloane succeeded Isaac Newton as President of the Royal Society and bequeathed his substantial collection of artifacts and specimens to the crown, creating the foundation of what became today’s British Museum. The magisterial two-volume account of his 1690s trip to the Caribbean islands, _A Voyage to the Islands Madera, Barbados, Nieves, S. Christophers and Jamaica_ (Vol. 1 1707, Vol. 2 1725) contains nearly 350 plates published over the first quarter of the eighteenth century. His voyage in and around Jamaica lasted fifteen months and resulted in the “discovery” and collection of many hundreds of plant species, with cacao figured among them in the second volume. According to the title page, illustrations showcase “the figures of the things described, which have not been heretofore engraved.” While there had been images of cacao in circulation before 1725, the tree in Sloane’s study, drawn by Dutch artist Everhardus Kickius, can justifiably claim to render the small physical details of the plant, veins and petioles, more visible than previous illustrations.
+
+<figure>
+  <img src="_38175938554_78d83d9a0f_c.jpg" alt="cacao">
+  <figcaption>Image of the cacao tree from Sir Hans Sloane’s <em>A voyage to the islands Madera, Barbados, Nieves, S. Christophers and Jamaic</em>a, Vol. 2, 1725, table 160.
+    <cite>
+      <a href="https://www.biodiversitylibrary.org/item/11241#page/524/mode/1up">Biodiversity Library</a>
+    </cite>
+    <br>
+  </figcaption>
+</figure>
+
+The image features a branch as we might expect to see it in a botanist’s inventory destined for a laboratory to be tested or in a _materia medica_ display. (London’s Natural History Museum still displays Sloane’s original cacao specimen.) The artist’s eye has dissected the plant like a scientist to cluster three buds and detail a sample of flesh and a seed from the pod’s interior. Although the sketch is black and white, physical markings on the leaves and fruits showcase the plant’s characteristic striations: the ridges on the pods that compartmentalize the seeds and the dense veins of the leaf surface where it takes in light under the canopy. Another feature of the plant’s ability to draw enough nutrients and energy to form one-pound fruits is visible in the hollow of the cut stem. The sketch finally puts the visual depiction into dialogue with an earlier authority, John Ray, whose _Historia planetarum_ Sloane carried to guide his investigation of Jamaica’s landscape. The words “_Ray.hist. 1670_” printed at the bottom of the image, send the reader to the first page of Ray’s chapter on cacao.
+
+While the cacao illustration is one among a great many in his study, Sloane developed a special relationship to it, one that brings him nearly as much notoriety today as does his founding of the British Museum. As the story goes, like most travelers to the colonies, Sloane partook of the chocolate drink in Jamaica, but had an aversion to what he perceived to be its bitter taste. Legend has it that he added dairy to the brew to cut its bite, creating the first chocolate milk. The Sloane anecdote helped inaugurate a tradition of Europeans claiming to improve the bitter Mesoamerican drink by adapting it to their supposedly more refined taste. Scholars now consider these tales part and parcel of the general colonial pretension to civilizing the Tropics (see Delbourgo and Norton in the bibliography). In point of fact, the Aztecs sweetened their chocolate with honey and smoothed it with corn meal, in addition to adding a host of medically beneficial spices, many of which were enjoyed by Spanish and English colonists for generations. Those importing cacao for preparation in Europe logically sought alternatives to ingredients hard to find on the Continent, such as corn, and turned to what they had. As early as the 1660s, a treatise by Henry Stubbe and a witty dialogue by Bollicosgo Armuthaz recommended adding milk or egg, as a binding agent and for taste. While Sloane did not, therefore, invent the idea of adding a dairy product like milk to chocolate, his name did help the recipe garner press. Shrewd confectioners already began using Sloane’s notoriety to brand chocolate milk in the eighteenth century, and circa 1850, Cadbury printed “Sloane’s” recipe on its chocolate milk label, formalizing the connection. Like the historical illustrations of the tree, stories about chocolate tend to say as much about the interests of their teller as they do about the details of their subject.
+
+<figure>
+  <img src="_24026653657_d6b768a62b_c.jpg" alt="hot chocolate sloane">
+  <figcaption>Label for Cadbury’s milk chocolate drink featuring a recipe credited to Sloane, circa 1850.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Sir_Hans_Sloane_Hot_Chocolate.jpg">Wikimedia Commons</a>
+    </cite>
+    <br>
+  </figcaption>
+</figure>
+
+* * *
+
+**Christine A. Jones** is professor of French and Comparative Literary and Cultural Studies at the University of Utah. A specialist of early-modern genres and trades, she is the author of _Shapely Bodies: The Image of Porcelain in Eighteenth-Century France_ (University of Delaware, 2013) and currently researching the early European print reception of chocolate, coffee, and tea.
+
+[^1]: Bernal Díaz del Castillo, _The True History of the Conquest of New Spain_, translated by Alfred Percival, (London : Printed for the Hakluyt society, 1908), 169.
+
+[^2]: William Hughes, _The American Physician … Whereunto is Added a Discourse Concerning the Cacao-Nut-Tree_, (London: William Crook, 1672), 107–8.
+
+[^3]: Antonio Colmenero de Lesdema cleared up the humoral concerns in 1630 (English translation, 1640) by formally identifying the butter in the bean as a “warm” property that complemented the “cold” property of what we now call the nib, ushering in the high age of medical cacao in Europe.
+
+[^4]: Fray Bernardino de Sahagún, _Florentine Codex, General History of the Things of New Spain, Book X._, Eds. Arthur J. O. Anderson and Charles E. Dibble. (Santa Fe: School of American Research, 1955), 93.
+
+* * *
+
+##### Public Domain Works
+
+*   _The True history of the conquest of New Spain_ (1908), by Bernal Díaz del Castillo, translated by Alfred Percival Maudslay.
+*   _Usage du caphé, du thé, et du chocolate_ (1671), by Philippe Sylvestre Dufour.
+*   _Traitez nouveau et curieux du café, du thé, et du chocolate, ouvrage également nécessaire aux médecins, et à tous ceux qui aiment leur santé_ (1685), by Philippe Sylvestre Dufour.
+*   _Metamorphosis insectorum surinamensium_ (1705), by Maria Sibylla Merian.

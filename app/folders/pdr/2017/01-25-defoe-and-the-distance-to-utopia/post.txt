@@ -1,0 +1,144 @@
+Tags: Books, Literature
+Summary: In the wake of recent political shifts and the dystopian flavour they carry for many, J.H. Pearl looks to the works of Daniel Defoe and the lessons they can teach us about bringing utopia home.
+Thumbnail: _32477923166_11ac077bbf_c.jpg
+
+# Defoe and the Distance to Utopia
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**In the wake of recent political shifts and the dystopian flavour they carry for many, J.H. Pearl looks to the works of Daniel Defoe and the lessons they can teach us about bringing utopia home.**
+
+<figure>
+  <img src="_32138189660_d527a3043d_o.jpg">
+  <figcaption>Detail from the film <em>Robinson Crusoe</em>(1902) by Georges Méliès.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Melies_Robinson_Crusoe.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+How do you get to utopia? You don’t, of course. It’s unreachably distant. Thomas More’s _Utopia_ (1516) and Francis Bacon’s _New Atlantis_ (1627) are set in what were then uncharted waters, far enough away to have escaped both the attention and interference of the rest of the world. That’s what makes these islands, for a moment, plausible: no one can deny their existence with positive knowledge. And that’s how they stay perfect: no one’s colonized them, traded with them, influenced them in any way. Distance and difference were understood as directly relational: the greater the distance, the greater the difference. And utopias are radically different. Granted, in some cases, the distance is temporal; we call these “euchronias”. The point is we’ll never get there, never live long enough, never see fiction turned to fact.  
+
+Today’s readers demur. Too far-fetched, they complain, rejecting the distance. Others see utopias as prescriptive, rigidly so, even fascistic. People think of head-in-the-clouds dreamers or dogmatic philosopher kings, though Fredric Jameson argues, persuasively, that utopias give us not blueprints but open-ended possibilities. At any rate, we now prefer dystopias: [_The Road_](https://www.amazon.com/Road-Cormac-McCarthy/dp/0307387895?tag=thepubdomrev-20), [_The Hunger Games_](https://www.amazon.com/Hunger-Games-Mockingjay-Part/dp/B00T6UD7BY?tag=thepubdomrev-20), and countless others, many adapted as films. Such scenarios seem not distant but close, potentially imminent, and fans of the cult movie [_Idiocracy_](https://www.amazon.com/Idiocracy-Luke-Wilson/dp/B000K7VHOG?tag=thepubdomrev-20) have already noted, with horror, the accuracy of its predictions: our vulgar entertainment; the corporatization of everything; the dumbing down — and worse — of the highest office in the land. Dystopias speak to us because they’re practically adjacent.
+
+But there are exceptions to the rule of utopian distance. In the early history of the novel, writers from Aphra Behn to Jonathan Swift tried to bring utopia nearer, tried to bring it back home to England. This was a time of rambling adventure fiction: pseudo-true stories of merchants, pirates, captives, and castaways, all scattered to the four winds. In _Gulliver’s Travels_ (1726), for instance, Gulliver goes to Barbados and New Holland (modern Australia) but also the Country of the Houyhnhnms, a utopian land of naturally virtuous horses. It’s at once a satire on tall tales and a very serious philosophical provocation. But Swift doesn’t stop there. Gulliver comes home and recreates Houyhnhnm society in miniature, shunning humans for the company of the horses in his stable. It is a plot pattern that recurs throughout the period, most notably in the novels of Daniel Defoe, best known as the author of _Robinson Crusoe_ (1719).
+
+<figure>
+  <img src="_32394905341_35e1b92d3d_o.jpg">
+  <figcaption>Map of Houyhnhnms Land, featured in the 1726 edition of Jonathan Swift’s <em>Lemuel Gulliver’s Travels into Several Remote Nations of the World</em>.
+    <cite>
+      <a href="https://en.wikipedia.org/wiki/File:Map_of_Houyhnhnms_land.jpg">Wikipedia</a>
+    </cite>
+  </figcaption>
+</figure>
+
+When we think of Crusoe, we remember his island, but at the end of the novel he too returns to England, bringing the ideal of peaceful stoicism with him. In Defoe’s _Captain Singleton_, published a year later, the eponymous pirate comes back home with new notions of equality and communal property. Indeed, as Defoe teaches us, the highest ideals can be merged with everyday life, and we can relocate utopia, make it practicable, rescale it to manageable proportions. What’s distance, anyway, when ships connect the Earth’s farthest corners?
+
+In Defoe’s first novel, considered by some literature’s first novel, Crusoe grows up in York wanting to see the world, believing fulfilment lies far from England. He gets enslaved by Barbary pirates; he grows tobacco in Brazil; at the end, he treks across the Pyrenees. But he always wants more, and an ill-fated voyage for slaves runs into a storm and strands him on his famous island. At first, Crusoe bewails his loneliness, but then he sets to work, retrieving supplies from the wreck, building a shelter and all manner of furniture, growing crops, drying grapes, penning goats, even trying to his hand at beer-making. For many pages, nothing happens but work, work, work — and still it’s engrossing. You read it, sitting at the library or curled up on a couch, aware of your own solitude, too, thinking through what you’d do and how you’d fare in that situation. The work redeems him, but what satisfies Crusoe most is the stable rhythm of life on the island, its meditative peacefulness, its safety from the vicissitudes of life everywhere else. The distance to utopia — or rather its distance from the rest of the world — turns out to be the defining characteristic.
+
+<figure>
+  <img src="_32517219175_93fe009250_o.jpg">
+  <figcaption><em>Robinson Crusoe and his Pets</em>, Currier and Ives, 1874.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Robinson-crusoe-and-his-pets-by-currier-ives-980x765.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+But the idyll can’t last, not in the Caribbean, where native islanders plied the waters in longboats, where, since Columbus, multitudes of Europeans sailed in and planted flags wherever they could. Exactly halfway through the novel, Crusoe finds a footprint that’s not his — a major shock that provokes a spell of existential panic. And we’re jolted too. It’s like realizing someone’s spying on you. Crusoe flies to his shelter, now his “castle”, and retrenches. He sees a party of so-called “savages”, then saves one of their victims, whom he names Friday (it happened to be a Friday). The two get on, thanks to Friday’s deference, but more natives arrive, then pirates. Crusoe becomes a governor ruling English, Spanish, and indigenous subjects, and throughout much of the sequel, _The Farther Adventures of Robinson Crusoe_, published later in 1719, they’re almost always fighting — against either each other or marauding tribes from nearby islands. Finally, the smoke clears, and the island, once a sanctuary, is left a corpse-strewn battlefield. Crusoe sails away and keeps traveling, from Madagascar to China to Siberia, along the way committing a string of brutal acts against ethnic and cultural others — deeply disturbing to modern readers. You’ve got to cut out a lot to make these books suitable for kids.
+
+But the return home isn’t a total loss. In the seldom-read _Serious Reflections of Robinson Crusoe_ (1720), there’s a chapter entitled “Of Solitude”, where Defoe reclaims the experience of seclusion amid, of all places, London’s stock exchange, one of the beating hearts of modern globalization. “Man under a vow of perpetual silence,” he writes, “if but rigorously observed, would be even in the Exchange of London as perfectly retired from the world as a hermit in his cell or a solitaire in the deserts of Arabia.” Utopia becomes a withdrawal inward, a monkish asceticism, a life severed from worldly attachments. True, such quietism precludes this as an answer to larger social problems. More than that, the ideal of isolation seems at odds with fulfilling connections to friends and family. But Defoe concedes the value of friendship, extolling “the company of religious good men” — devotion to god being his highest ideal. What’s remarkable is the refusal to let go of the epiphany of the first volume, the insistence that all of us might find room for solitude even in otherwise dense and busy cities.
+
+<figure>
+  <img src="_32394916771_be1cb6a782_b.jpg" alt="Crusoe in armchair">
+  <figcaption>Frontispiece to Volume III of the 1903 collection <em>The Life and Strange Adventures of Robinson Crusoe</em>, which features Defoe’s <em>Serious Reflections of Robinson Crusoe</em>. Crusoe is here pictured back home reflecting on his travels.
+    <cite>
+      <a href="https://archive.org/details/lifestrangeadven003defo">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The ideals of _Captain Singleton_ are very different. Here, Defoe unfurls a similar narrative pattern: utopia found; utopia debunked; utopia recreated on a smaller scale in England. But this is a novel about piracy in which the pirates — villains in the prior novel — are now cast as heroes. Crusoe’s utopia is solitary; Singleton’s is social.
+
+One trait of early pirate culture, often overlooked in the colorful (now campy) mythology that followed, was their forming of parallel societies notable for egalitarianism. They voted for their captains and shared their spoils equally. They accepted identity differences for the greater good of all, welcoming women and African slaves, condoning disparate religions and queer sexualities. They developed their own cultures, their own pidgin languages, and even established colonies in remote outposts, for instance Madagascar, where Henry Avery was believed to have founded a colony called Libertalia. Never mind the Disney ride turned into a blockbuster movie franchise. Pirates were, in the popular phrase, “enemies of all mankind,” and their ships couldn’t have been more unlike the strictly normative and hierarchical merchant and naval vessels that vastly outnumbered them. Pirate societies, therefore, were radically separate, different, oppositional — distant.
+
+Avery makes a cameo in the novel, and Singleton and his crew agree to a just agreement. Everyone promises to “live and die together”, to “kill no food but what we would distribute in public”, to be “guided by the majority”, to “appoint a captain among us…during pleasure”, everyone taking a turn, and to “obey him without reserve on pain of death”, though “the captain was not to act in any particular thing without the advice of the rest, and by the majority.” They pool both their labor and treasure, and, in imitation of Avery, they hatch a plan to retire on Madagascar, a firmer footing for their waterborne utopia.
+
+<figure>
+  <img src="_32477923166_11ac077bbf_c.jpg">
+  <figcaption>The crews of the vessels belonging to notorious pirates Blackbeard and Vane carousing on the coast of Carolina, from Charles Ellms’ <em>The Pirates Own Book</em>(1837).
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Vane%27s_and_Blackbeard%27s_crews_on_the_Carolina_coast.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+But stability eludes them, and the tight-knit group cracks from pressures within and without. Ship politics shift constantly with mutinies and divisions, killings and defections, and the periodic addition of conquered prisoners and willing recruits. And that’s how it worked in real life, too. Only a handful of pirates got to enjoy their riches in peace. It’s rumored Avery died penniless, unable to afford his own coffin. Singleton and his crew get hunted by Europeans and repelled by native islanders, all while Singleton himself hordes a private cache. Eventually, he absconds with his confidant, William, a Quaker surgeon. They disguise themselves as Persians, then Armenians, then Greeks, trading their ill-gotten gains into a fortune before finally returning to England, despite the danger of being hanged.
+
+Crusoe internalized utopia; Singleton shares it with others. He’s faithful to William, much more an equal than Friday ever was. William, by contrast, becomes a crypto-lover, described as “my guide, my pilot, my governor, my everything.” There’s a marriage of convenience, between Singleton and William’s widowed sister, and the three live together, enjoying a domestic arrangement reminiscent of the ideals aboard the pirate ship. They swear a new oath of secrecy and loyalty, promising never to reveal themselves and to live out their days as a family — a very different sort of family from that formed at the end of a courtship novel. The ideal spreads outward, starting with Singleton’s conscience, then encompassing William, then his sister, then others when Singleton ponders giving his money to “charitable uses, as a debt due to mankind,” reasoning, “It was due to the community, and I ought to distribute it for the general good.” Utopia, a place, becomes a practice. And finally, the narrative goes blank, ending at a moment of unadventurous peacefulness, pushing us too away from the secret.  
+What’s remarkable here is the relocation of hitherto far-fetched ideals. In More’s _Utopia_, Raphael Hythloday merely recounts his travels to an unreceptive court. In Bacon’s _New Atlantis_, the narrator never even makes it home — the text was left unfinished. These utopias stay distant, too remote for everyday imitation. Defoe’s utopias are practicable anywhere, anytime.
+
+<figure>
+  <img src="_32476702516_deaf0e0fea_b.jpg">
+  <figcaption>Map of Crusoe’s island, as featured in Defoe’s <em>Serious Reflections During the Life and Surprising Adventures of Robinson Crusoe</em>.
+    <cite>
+      <a href="http://brbl-dl.library.yale.edu/vufind/Record/3827851">Yale</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_32479059376_a7a40ef963_b.jpg">
+  <figcaption>Detail from the very centre of the map of Crusoe’s island above.
+    <cite>
+      <a href="https://archive.org/details/seriousreflectio00defo">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Of course, we still have to try. Do nothing, and we get dystopias. Extrapolated from the present, they project a future that might seem inevitable, pulling us forward as if by tractor beam. For Margaret Atwood, this is literature that deals with “things that really could happen”.
+
+The great power of utopias is to disrupt our surrender to orthodoxy, freeing us to understand the status quo as contingent, not predetermined, as changeable, not inevitable. And by smuggling utopia home, Defoe unsettles our notion of the totality of state power, the power to which his utopias are opposed.
+
+Perhaps the seeds of utopia are within us already. Drawing on Ernst Bloch, Ruth Levitas [argues](https://www.amazon.com/Concept-Utopia-Student-Peter-Lang/dp/1906165335?tag=thepubdomrev-20), “The essential element in utopia is … desire — the desire for a better way of being.” By this light, utopia becomes only natural human longing. What we need these days is a new literature to express this longing and give it shape and detail. All the better if it can show us alternatives close at hand.
+
+* * *
+
+J.H. Pearl is an Associate Professor of English at Florida International University. He is book reviews editor at [_Digital Defoe_](http://digitaldefoe.org/) and author of [_Utopian Geographies and the Early English Novel_](https://www.amazon.com/Utopian-Geographies-Early-English-Novel-ebook/dp/B00L1M6HKI?tag=thepubdomrev-20) (2014).
+
+* * *
+
+Public Domain Works
+
+*   _The Life and Adventures of Robinson Crusoe_ (1719) by Daniel Defoe.
+*   _The Farther Adventures of Robinson Crusoe_ (1719) by Daniel Defoe.
+*   _Serious Reflections During the Life and Surprising Adventures of Robinson Crusoe_ (1720) by Daniel Defoe.
+*   _Captain Singleton_ (1720) by Daniel Defoe.
+*   _Utopia_ (1684 English edition) by Thomas More.
+*   _New Atlantis_ (1660) by Francis Bacon.
+
+Further Reading
+
+{<} ![Utopian Geographies and the Early English Novel](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0813936233&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Utopian Geographies and the Early English Novel (University of Virginia Press, 2014) by J.H. Pearl
+
+_Pearl argues that prose fiction from 1660 to 1740 helped demystify blank spaces on the map and make utopia available anywhere — this literature incorporating, debunking, and reformulating utopian conceptions of geography._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Utopian-Geographies-Early-English-Novel-ebook/dp/B00L1M6HKI?tag=thepubdomrev-20)
+
+{<} ![Archaeologies of the Future: The Desire Called Utopia and Other Science Fictions ](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1844675386&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Archaeologies of the Future: The Desire Called Utopia and Other Science Fictions  (Verso, 2007) by Fredric Jameson
+
+_Series of essays investgating the development of the concept of utopia since Thomas More, and interrogates the functions of utopian thinking in a post-Communist age._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Archaeologies-Future-Desire-Science-Fictions/dp/1844675386?tag=thepubdomrev-20)
+
+{<} ![The Concept of Utopia](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B00HMU6CSU&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+The Concept of Utopia (Peter Lang, 2011) by Ruth Levitas
+
+_In this highly influential book, Ruth Levitas provides an excellent introduction to the meaning and importance of the concept of utopia, and explores a wealth of material drawn from literature and social theory to illustrate its rich history and analytical versatility._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Concept-Utopia-Student-Peter-Lang/dp/1906165335?tag=thepubdomrev-20)

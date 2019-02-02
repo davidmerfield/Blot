@@ -1,0 +1,196 @@
+Tags: Science, Philosophy, History
+Summary: Three hundred years after the death of Gottfried Wilhelm Leibniz and seven hundred years after the death of Ramon Llull, Jonathan Gray looks at how their early visions of computation and the “combinatorial art” speak to our own age of data, algorithms, and artificial intelligence.
+Thumbnail: _30898148625_c6c3bd4aa5_b.jpg
+
+# “Let us Calculate!”: Leibniz, Llull, and the Computational Imagination
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Three hundred years after the death of Gottfried Wilhelm Leibniz and seven hundred years after the death of Ramon Llull, Jonathan Gray looks at how their early visions of computation and the “combinatorial art” speak to our own age of data, algorithms, and artificial intelligence.**
+
+<figure>
+  <img src="_30599219720_a4e7fcd6ea_b.jpg" alt="Leibniz calculating machine">
+  <figcaption>Drawing of Leibniz’s calculating machine, featured as a folding plate in <em>Miscellanea Berolensia ad incrementum scientiarum</em>(1710), the volume in which he first describes his invention.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Leibniz%27s_drawing_of_his_calculating_machine.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Each epoch dreams the one to follow”, wrote the historian Jules Michelet. The passage was later used by the philosopher and cultural critic Walter Benjamin in relation to his unfinished magnum opus, _The Arcades Project_, which explores the genesis of life under late capitalism through a forensic examination of the “dreamworlds” of nineteenth-century Paris.[^1] In tracing the emergence of the guiding ideals and visions of our own digital age, we may cast our eyes back a little earlier still: to the dreams of seventeenth-century polymath Gottfried Wilhelm Leibniz.
+
+There was a resurgence of interest in Leibniz’s role in the history of computation after workmen fixing a leaking roof discovered a mysterious machine discarded in the corner of an attic at the University of Göttingen in 1879. With its cylinders of polished brass and oaken handles, the artefact was identified as one of a number of early mechanical calculating devices that Leibniz invented in the late seventeenth century.
+
+Supported by a network of professors, preachers, and friends — and developed with the technical assistance of a series of itinerant and precariously employed clockmakers, mechanics, artisans, and even a butler — Leibniz’s instrument aspired to provide less function than even the most basic of today’s calculators. Through an intricate system of different sized wheels, the hand-crank operated device modestly expanded the repertoire of possible operations to include multiplication and division as well as addition and subtraction.[^2]
+
+<figure>
+  <img src="_30809296171_54a7eaa2f1_b.jpg" alt="leibniz calculating machine">
+  <figcaption>Illustration of Leibniz’s calculating machine (based on the sketch above), featuring in <em>Theatrum arithmetico-geometricum, das ist …</em>(1727) by Jacob Leupold.
+    <cite>
+      <a href="https://www.loc.gov/resource/cph.3c10471/">Library of Congress</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Three centuries before Douglas Engelbart’s “Mother of All Demos” received a standing ovation in 1968, Leibniz’s machine faltered through live demonstrations in London and Paris.[^3] Costing a small fortune to construct, it suffered from a series of financial setbacks and technical issues. The Royal Society invited Leibniz to come back once it was fully operational. There is even speculation that – despite Leibniz’s rhetoric spanning an impressive volume of letters and publications – the machine never actually worked as intended.[^4]
+
+Nevertheless, the instrument exercised a powerful grip on the imagination of later technicians. Leibniz’s machine became part of textbooks and industry narratives about the development of computation. It was retrospectively integrated into the way that practitioners envisaged the history of their work. IBM acquired a functioning replica for their “antiques attic” collection. Scientist and inventor Stephen Wolfram credits Leibniz with anticipating contemporary projects by “imagining a whole architecture for how knowledge would … be made computational”.[^5] Norbert Wiener calls him the “patron saint” of cybernetics.[^6] Another recent writer describes him as the “godfather of the modern algorithm”.[^7]
+
+While Leibniz made groundbreaking contributions towards the modern binary number system as well as integral and differential calculus,[^8] his role in the history of computing amounts to more than the sum of his scientific and technological accomplishments. He also advanced what we might consider a kind of “computational imaginary” — reflecting on the analytical and generative possibilities of rendering the world computable.
+
+<figure>
+  <img src="_30782338632_c16ede801c_b.jpg" alt="leibniz calculator machine">
+  <figcaption>Detail from the frontispiece to <em>Miscellanea Berolensia ad incrementum scientiarum</em>(1710). At the bottom of the image can be seen Leibniz’s calculating machine, the first description of which features in the volume.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Title_page_and_frontispiece_to_Miscellanea_Berolensia_ad_incrementum_scientiarum_(1710).jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_799px-Diagram_of_I_Ching_hexagrams_owned_by_Gottfried_Wilhelm_Leibniz%2C_1701.jpg" alt="leibniz i ching">
+  <figcaption>A diagram of I Ching hexagrams owned by Leibniz, given to him by the French Jesuit Joachim Bouvet, and to which Leibniz has added Arabic numerals. Leibniz saw immediate parallels between the I Ching and his own work on the <em>characteristica univeralis</em>–
+    and took this as confirmation of universal truth, independently discovered.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Diagram_of_I_Ching_hexagrams_owned_by_Gottfried_Wilhelm_Leibniz,_1701.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Leibniz’s interest in this area can be traced back to his 1666 _Dissertatio De Arte Combinatoria_ — an extended version of his doctoral dissertation in which he explores what was known as the “art of combinations” (or “combinatorial art”), a method which would enable its practitioners to generate novel ideas and inventions, as well as to analyse and decompose complex and difficult ideas into more simple elements. Describing it as the “mother of all inventions” which would lead to “the discovery of all things”, he sought to demonstrate the widespread applicability of this art to advance human endeavour in areas as diverse as law and logic, music and medicine, physics and politics.
+
+Leibniz’s broader vision of the power of logical calculation was inspired by many thinkers — from the logical works of Aristotle and Ramus to Thomas Hobbes’ proposal to equate reasoning with computation. But Leibniz’s curiosity around the art of combinations _per se_ was sparked by a group called the “Herborn Encyclopaedists” through whom he became acquainted with the works of Ramon Llull, a Majorcan philosopher, logician, and mystical thinker who is thought to have died seven centuries ago, in 1316.[^9] Llull’s _Ars magna_ (or “ultimate general art”) from 1308 outlines a form of analysis and argumentation based on working with different permutations of a small number of fundamental attributes.
+
+Llull sought to create a universal tool for helping to convert people to the Christian faith through logical argumentation. He proposed eighteen fundamental general principles (“Goodness, Greatness, Eternity, Power, Wisdom, Will, Virtue, Truth, Glory, Difference, Concordance, Contrariety, Beginning, Middle, End, Majority, Equality, and Minority”), accompanied by a set of definitions, rules, and figures in order to guide the process of argumentation, which is organised around different permutations of the principles. The art was to be used to generate and address questions such as “Is eternal goodness concordant?”, “What does the difference of eternal concordance consist of?”, or “Can goodness be great without concordance?”.
+
+<figure>
+  <img src="_30861738736_bf4f1a7209_b.jpg" alt="raymond llull Ars magna">
+  <figcaption>Diagram featured in a 16th-century edition of Ramon Llull’s <em>Ars Magna</em>(1517).
+    <cite>
+      <a href="https://archive.org/details/illuminatisacrep00llul">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Llull held that this art could be used to “banish all erroneous opinions” and to arrive at “true intellectual certitude removed from any doubt”. He drew in turn on the medieval Arabic _zairja_, an algorithmic process of “letter magic” for calculating truth on the basis of a finite number of elements. Its practitioners would give advice or make predictions on the basis of interpretations of strings of letters resulting from a calculation.[^10] Llull’s experimentation channelled this procedural conception of reasoning, and was drawn upon by the intellectual milieu in which Leibniz developed his early ideas.
+
+While critical towards the details of Llull’s proposed categories and procedures, Leibniz was taken with his overarching vision of the combinatorial art. He drew two key aspirations from Llull’s work: the idea of fundamental conceptual elements, and the idea of a method through which to combine and calculate with them. The former would enable us to reformulate more complex ideas in terms of simpler ones (for “everything which exists or which can be thought”, Leibniz wrote, “must be compounded of parts”).[^11] The latter would enable us to reason with these elements precisely and without error, as well as generate new insights and ideas.
+
+<figure>
+  <img src="_30267426634_ca24f01ed3_b.jpg" alt="ramon llull ars magna">
+  <figcaption>Page of letter combinations from 16th-century edition of Ramon Llull’s <em>Ars Magna</em>(1517).
+    <cite>
+      <a href="https://archive.org/details/illuminatisacrep00llul">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Just as all words in a language could be represented by the comparatively small number of letters in an alphabet, so the whole world of nature and thought could be considered in terms of a number of fundamental elements — an “alphabet of human thought”. By reformulating arguments and ideas in terms of a _characteristica universalis_, or universal language, all could be rendered computable. The combinatorial art would not only facilitate such analysis, but would also provide means to compose new ideas, entities, inventions, and worlds.
+
+Leibniz spared no modesty in promoting the art and the various initiatives associated with it for which he hoped to raise funds from prospective patrons. He presented his project as being the world’s most powerful instrument, an end to all argument, one of humanity’s most wonderful inventions (fulfilling a timeless dream shared by everyone from the Pythagoreans to the Cartesians); the ultimate source of answers to some of the world’s most complex and difficult theological, moral, legal, or scientific questions; and a foolproof means to converting people to Christianity and propagating the faith, amongst other things.
+
+In support of his project he argued that “no man who is not a prophet or a prince can ever undertake anything of greater good to mankind or more fitting for the divine glory”, and that “nothing could be proposed that would be more important for the Congregation for the Propagation of the Faith”.[^12] In a 1679 letter to one of his patrons, Johann Friedrich, he described his project of the universal language as “the great instrument of reason, which will carry the forces of the mind further than the microscope has carried those of sight”. Later he wrote:
+
+> The only way to rectify our reasonings is to make them as tangible as those of the Mathematicians, so that we can find our error at a glance, and when there are disputes among persons, we can simply say: Let us calculate, without further ado, to see who is right.[^13]
+
+<figure>
+  <img src="_30597568070_02f4c66b2b_b.jpg" alt="leibniz diagram">
+  <figcaption>Diagram included at the end of Leibniz’s dissertation on the art of combinations.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Fotothek_df_tg_0005486_Mathematik_%5E_Kombinatorik.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Ultimately he hoped that a perspicuous thought language of “pure” concepts, combined with formalised processes and methods akin to those used in mathematics, would lead to the mechanisation and automation of reason itself. By means of new artificial languages and methods, our ordinary and imperfect ways of reasoning with words and ideas would give way to a formal, symbolic, rule-governed science — conceived of as a computational process. Disputes, conflict, and grievances arising from ill-formed opinions, emotional hunches, biases, prejudices, and misunderstandings would give way to consensus, peace, and progress.
+
+Jonathan Swift’s satirical classic _Gulliver’s Travels_ (1726) parodied the mechanical conception of invention advanced by Llull and Leibniz. In the fictional city of Lagado, the protagonist encounters a device known as “the engine”, which is intended by its inventor to enable anyone to “write books in philosophy, poetry, politics, laws, mathematics, and theology, without the least assistance from genius or study”:
+
+> He then led me to the frame, about the sides, whereof all his pupils stood in ranks. It was twenty feet square, placed in the middle of the room. The superfices was composed of several bits of wood, about the bigness of a die, but some larger than others. They were all linked together by slender wires. These bits of wood were covered, on every square, with paper pasted on them; and on these papers were written all the words of their language, in their several moods, tenses, and declensions; but without any order. The professor then desired me “to observe; for he was going to set his engine at work.” The pupils, at his command, took each of them hold of an iron handle, whereof there were forty fixed round the edges of the frame; and giving them a sudden turn, the whole disposition of the words was entirely changed. He then commanded six-and-thirty of the lads, to read the several lines softly, as they appeared upon the frame; and where they found three or four words together that might make part of a sentence, they dictated to the four remaining boys, who were scribes. This work was repeated three or four times, and at every turn, the engine was so contrived, that the words shifted into new places, as the square bits of wood moved upside down.[^14]
+
+<figure>
+  <img src="_30898148625_c6c3bd4aa5_b.jpg" alt="gulliver's travels machine">
+  <figcaption>The people of Lagado’s “engine” from Swift’s <em>Gulliver’s Travels</em>, as illustrated in <em>The Prose Works of Jonathan Swift, DD</em>, Volume 8 (1899).
+    <cite>
+      <a href="file:///Users/PDR/Downloads/GulliversTravels_10011782.pdf">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The mechanical, combinatorial approach to cultural creation that Swift treated as an absurd caricature became a productive experimental technique for later writers, artists, and musicians — from the permutational works of American composer John Cage, to the generative poetic experiments of the French literary group Oulipo, to more recent procedural approaches of digital and software art.[^15] Moreover, the mechanization and externalization of reasoning processes exhibited by machine learning technologies and algorithms has not only become socially and culturally productive, but economically lucrative for today’s silicon empires.
+
+There are few contenders in the history of philosophy to rival the optimism that Leibniz had for his project as a kind of panacea. Many of the ideas of his youth never left him. In a 1714 letter, two years before his death, he laments that he was unable to make more progress:
+
+> I should venture to add that if I had been less distracted, or if I were younger or had talented young men to help me, I should still hope to create a kind of spécieuse générale, in which all truths of reason would be reduced to a kind of calculus. At the same time this could be a kind of universal language or writing, though infinitely different from all such languages which have thus far been proposed, for the characters and the words themselves would give directions to reason, and the errors (except those of fact) would be only mistakes in calculation.[^16]
+
+As ever more aspects of earthly life are rendered quantifiable, harvested into clouds, funneled into algorithmic engines — leading to what has been called “planetary-scale computation” — these dreams of the vast creative and emancipatory possibilities of procedural reasoning processes endure.[^17] The initial trickles of Llull’s and Leibniz’s arcane combinatorial fantasies have gradually given way to ubiquitous computational technologies, practices, and ideals which are interwoven into the fabric of our worlds — the broader consequences of which are still unfolding around us. The objects of their embryonic faith have become the living _a priori_ of the digital age — providing the conditions of possibility for our experience and our reflection, our genres of deliberation, our forms of sociality, and our institutions of judgement — regardless of whether or not the machines operate in the ways that we imagine.
+
+* * *
+
+**Dr Jonathan Gray** is Prize Fellow at the Institute for Policy Research, University of Bath where he is writing a book on _Data Worlds_. He is also Research Associate at the Digital Methods Initiative, University of Amsterdam; Research Associate at the médialab at Sciences Po; and Tow Fellow at the Tow Center for Digital Journalism, Columbia University. He is Senior Advisor at Open Knowledge International and co-founder of _The Public Domain Review_. More about him can be found at [jonathangray.org](http://jonathangray.org/) and he is on Twitter at [@jwyg](https://twitter.com/jwyg).
+
+[^1]: Benjamin, W. (1996) _Selected Writings: 1935-1938_, H. Eiland & M. W. Jennings (Eds.), Cambridge, MA: Harvard University Press, p. 33.
+
+[^2]: For more on the history of the machine and its reception, see: Morar, F.-S. (2015) “Reinventing Machines: The Transmission History of the Leibniz Calculator”, _The British Journal for the History of Science_, 48(1), pp. 123–146.
+
+[^3]: Leibniz complained that after one demonstration in London in 1673, Robert Hooke produced a machine with suspiciously similar designs. See Antognazza, M. R. (2009) _Leibniz: An Intellectual Biography_, Cambridge: Cambridge University Press, p. 149.
+
+[^4]: Ibid, p. 18.
+
+[^5]: Wolfram, S. (2013) “Dropping In on Gottfried Leibniz”. Available at: [blog.stephenwolfram.com](http://blog.stephenwolfram.com/2013/05/dropping-in-on-gottfried-leibniz/)
+
+[^6]: Wiener, N. (1985) _Cybernetics: or Control and Communication in the Animal and the Machine_, Cambridge, MA: MIT Press, p. 12.
+
+[^7]: Steiner, C. (2012) _Automate This: How Algorithms Took Over Our Markets, Our Jobs, and the World_. London: Penguin, p. 57.
+
+[^8]: Leibniz created a calculus independently of Isaac Newton, which became a major source of controversy between them. See Hall, A. R. (1980) _Philosophers at War: The Quarrel Between Newton and Leibniz_, Cambridge: Cambridge University Press
+
+[↩](#ref8 "Jump back to footnote 8 in the text.")
+
+[^9]: For more on Llull’s influence on Leibniz see, e.g., Antognazza, M. R. (2009) _Leibniz: An Intellectual Biography_, Cambridge: Cambridge University Press, pp. 40, 62; Loemker, L. E. (1973) “Leibniz and the Herborn Encyclopedists” in Ivor Leclerc (ed.) _The Philosophy of Leibniz and the Modern World_, Nashville: Vanderbilt University Press; Eco, U. (1995). _The Search for the Perfect Language_, J. Fentress (Trans.), Oxford: Blackwell; Welch, J. R. (1990) “Llull and Leibniz: The Logic of Discovery”, _Catalan Review_ 4:75-83; Maróstica, A. (1992), “Ars Combinatoria and Time: Llull, Leibniz and Peirce”. _Studia Lulliana_, 32(2), 105–134; Pombo, O. (2010) “Three Roots for Leibniz’s Contribution to the Computational Conception of Reason” and Uckelman, S. (2010) “Computing with Concepts, Computing with Numbers: Llull, Leibniz and Boole” in _Programs, Proofs, Processes_, F. Ferreira, B. Löwe, E. Mayordomo, L. M. Gomes (Eds.), Berlin: Springer-Verlag.
+
+[^10]: Khaldūn, I. (1958) _The Muqaddimah: An Introduction to History_, vol. 3, F. Rosenthal (Trans), Princeton, New Jersey: Princeton University Press, p. 182.
+
+[^11]: Leibniz, G. W. (1989) _Philosophical Papers and Letters_, L. E. Loemker (Ed. Trans.), Dodrecht: Kluwer Academic Publishers, p. 80.
+
+[^12]: Ibid, pp. 225, 262.
+
+[^13]: Leibniz, G. W. (1951), _Leibniz: Selections_, P. P. Wiener (Ed. Trans.), New York: Scribner, p. 51.
+
+[^14]: Jonathan Swift (1899) _Gulliver’s Travels into Several Remote Nations of the World_, London, George Bell and Sons, pp. 191-192
+
+[↩](#ref14 "Jump back to footnote 14 in the text.")
+
+[^15]: See: Zweig, J. (1997), “Ars Combinatoria”, _Art Journal_, 56(3), 20–29; Gonzalez, P. D. A. (2004) Goriunova, O. (2004), “Software Art and Political Implications in Algorithms” in _Read_me: Software Art and Cultures Edition_ 2004, O. Goriunova (Ed.), _Aarhus: Digital Aesthetics Research Centre_, University of Aarhus; Fazi, M. B. & Fuller, M. “Computational Aesthetics” in C. Paul (Ed.), _A Companion to Digital Art_, Chichester: John Wiley & Sons; Drucker, J. & Nowviskie, B. (2004) “Speculative Computing: Aesthetic Provocations in Humanities Computing” in _A Companion to Digital Humanities_, S. Schreibman, R. Siemens & J. Unsworth (Eds.), Oxford: Blackwell.
+
+[^16]: Quoted in Rutherford, D. (1995) “Philosophy and Language in Leibniz” in _The Cambridge Companion to Leibniz_, N. Jolley (Ed.), Cambridge, UK: Cambridge University Press, p. 239.
+
+[^17]: On “planetary scale computation” see, e.g. Bratton, B. H. (2014) “The Black Stack”, _e-flux_, 53.  
+
+* * *
+
+Public Domain Works
+
+*   _Ars Magna_ (1517 edition) by Ramon Llull.
+*   _The Philosophical Works of Leibnitz_ (1890) translated and edited by George Martin Duncan.
+*   _A System of Theology_ (1850) translated, with an introduction and notes by Charles William Russell.
+
+,
+
+Further Reading
+
+{<} ![The Search for the Perfect Language](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0631205101&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+The Search for the Perfect Language (Wiley-Blackwell, 1997) by Umberto Eco
+
+_In this _tour de force_ of scholarly investigation, Eco explores the idea that there once existed a language which was able to express the essence of all possible things and concepts; an idea which has engaged some of the greatest thinkers and mystics over the last 2000 years._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Search-Perfect-Language-Making-Europe/dp/0631205101?tag=thepubdomrev-20)
+
+{<} ![Leibniz: An Intellectual Biography](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1107627613&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Leibniz: An Intellectual Biography (Cambridge University Press, 2009) by Maria Rosa Antognazza
+
+_In this first intellectual biography of Gottfried Wilhelm Leibniz (1646-1716), Maria Rosa Antognazza surveys the full range of the philosopher’s interests and activities and offers a unified portrait of a unique thinker, identifying the master project that inspired and coordinated his huge range of apparently miscellaneous endeavors._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Leibniz-Intellectual-Maria-Rosa-Antognazza/dp/1107627613?tag=thepubdomrev-20)

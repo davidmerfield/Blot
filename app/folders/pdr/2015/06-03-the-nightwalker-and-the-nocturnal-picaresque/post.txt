@@ -1,0 +1,204 @@
+Tags: Books, Literature
+Summary: The introduction of street lighting to 17th-century London saw an explosion of nocturnal activity in the capital, most of revolving around the selling of sex. Matthew Beaumont explores how some writers, with the intention of condemning these nefarious goings-on, took to the city’s streets after dark, and in the process gave birth to a peculiar new literary genre.
+
+# The Nightwalker and the Nocturnal Picaresque
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**The introduction of street lighting to 17th-century London saw an explosion of nocturnal activity in the capital, most of revolving around the selling of sex. Matthew Beaumont explores how some writers, with the intention of condemning these nefarious goings-on, took to the city’s streets after dark, and in the process gave birth to a peculiar new literary genre.**
+
+<figure>
+  <img src="_18230290810_bcee82d49a_o.jpg">
+  <figcaption><em>Night</em> (1736), the fourth painting from William Hogarth’s <em>Four Times of the Day</em>series.
+    <cite>
+      <a href="https://en.wikipedia.org/wiki/File:Hogarth%27s_Night.jpg">Wikipedia</a>
+    </cite>
+  </figcaption>
+</figure>
+
+At the end of the seventeenth century a new literary genre or subgenre emerged in England, one that might be characterized as the nocturnal picaresque. Its authors, who were moralists or satirists or social tourists, or all of these at the same time, and who were almost invariably male, purported to recount their episodic adventures as pedestrians patrolling the streets of the metropolis at night.
+
+These narratives, which often provided detailed portraits of particular places, especially ones with corrupt reputations, also paid close attention to the precise times when more or less nefarious activities unfolded in the streets. As distinct from diaries, they were noctuaries (in his _Dictionary of the English Language_ \[1755\], Samuel Johnson defined a “noctuary” simply as “an account of what passes at night”).[^1] These apparently unmediated, more or less diaristic accounts of what happened during the course of the night on the street embodied either a tragic or a comic parable of the city, depending on whether their authors intended to celebrate its nightlife or condemn it as satanic.
+
+The nocturnal picaresque, composed more often in prose than in verse, was a distinctively modern, metropolitan form that, with several other literary genres that emerged in the late seventeenth and eighteenth centuries, comprised a response to the dramatic social and architectural transformations of the metropolis after the Great Fire of 1666.
+
+<figure>
+  <img src="_17798583844_9ff45543cb_b.jpg">
+  <figcaption><em>England’s Glory</em>, a map of London by Robert Walton from 1676, showing how London had rebuilt itself just 10 years after the Great Fire.
+    <cite>
+      <a href="http://www.altomagazine.com/newsdetails/art-and-collecting/collecting/8-maps-that-chart-the-history-of-london-4281775/#.VW7z2mRVikp">Elite Traveler</a>
+    </cite>
+  </figcaption>
+</figure>
+
+This was the epoch when both the West End, which the aristocracy colonized, and the suburbs to the south and east of the City, where the poor were exiled, expanded exponentially. By 1700, when its population reached approximately 550,000, London had outstripped Paris to become the largest city in Europe. Its concentration of imperial trade, industry, and government made it the most advanced and most energetic metropolitan centre in the world. Leo Hollis has even speculated that “the true ‘English Revolution’ was seen not in the 1640s, or in 1688, but in the 1690s”, when the expansion and recomposition of London “shattered the traditional urban space into enclaves and modern neighbourhoods” and “the city at large became a fluid mixture of anonymous and closely knit communities formed by new relationships dependent on work, status, religion and gender”.[^2]
+
+These social and topographical changes, especially this segregation, reshaped people’s psychogeographical relationship to the metropolis and its proliferating, increasingly complex forms. A number of different types of publication mapped and explored London after the Fire. These included guidebooks, street directories, topographical surveys, urban instruction manuals and antiquarian tour-books. They also included anti-pastoral poems, or “urban georgics”, such as Jonathan Swift’s “[Description of a City Shower](https://en.wikisource.org/wiki/A_Description_of_a_City_Shower)” (1710) and John Gay’s [_Trivia_](https://archive.org/details/triviaorartofwal00gayjrich) (1716). And, most prominently, pioneering instances of the novel, as practiced in particular by Daniel Defoe – “probably the first writer to grasp the exotic possibilities of city life with its unpredictable energies tempting the urban adventurer into ever new situations.”[^3]
+
+The nocturnal picaresque, which provided a moral map of the metropolitan night, was related to all these genres. But it was above all a type of “ramble or spy narrative”, a form that structured its account of the daily life of the city in terms of the adventures its narrator experienced in the course of a pedestrian stroll through its precincts.[^4] The ramble narrative claimed to record these scenes, which were at once sensational and typical of everyday life in the metropolis, as if they had momentarily occurred, at a particular time of day, in precisely located streets.
+
+Like the ramble narrative, the nocturnal picaresque was rendered possible by the fact that, in spite of its rapidly rising population, which leapt by at least 200,000 in the first half of the eighteenth century, London was still not too immense to be circumambulated. The anonymous author of _The Ambulator; Or, the Stranger’s Companion in a Tour Round London_ (1774) measured the metropolis, which included Westminster and Southwark as well as the City itself, as being five miles from east to west and three miles from north to south.[^5] It was still a pedestrian’s city, in spite of the rising levels of horse-drawn traffic.
+
+<figure>
+  <img src="_18231837569_f6a0f1d2a9_o.jpg">
+  <figcaption>Detail from the frontispiece map to <em>The Ambulator; Or, the Stranger’s Companion a Tour Round London</em>(1774).
+    <cite>
+      <a href="https://archive.org/details/ambulatororstran00lond">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The nocturnal picaresque was also rendered possible by the constantly flickering play of light and dark characteristic of the metropolis at night in the era of public street lighting initiated in the mid-1680s. For this technology, inconsistent and intermittent as the oil-burning street lamps were, provided the ideal theatrical conditions for staging the city’s social contradictions. The sooty, smutty industrial smoke that thickened and blackened the air in the day — especially in the City, where bakers, brewers, glassmakers, potters, and blacksmiths burned quantities of coal in the labyrinthine back streets – intensified these conditions at night.
+
+The pioneering example of the nocturnal picaresque was John Dunton’s _The Night-Walker: Or, Evening Rambles in Search after Lewd Women, with the Conferences Held with Them_, which appeared in 1696, roughly a decade after public lighting was first introduced in London.  
+An author and bookseller who insisted that “Life is a continued Ramble”, Dunton had founded the _Athenian Mercury_, Britain’s first successful periodical, in 1691.[^6] A committed Anglican whose father, grandfather, and great-grandfather had all been ministers in the Church of England, Dunton published _Proposals for a National Reformation of Manners_ in 1694 as part of a moral crusade led by Queen Mary. _The Night-Walker_, another periodical, which declared on the title page of its October 1696 issue that it was “To be publish’d Monthly, ’till a Discovery be made of all the chief Prostitutes in England, from the Pensionary Miss, down to the Common Strumpet”, was a supplementary contribution to Mary II’s campaign, albeit one whose crusading ambition was somewhat compromised by its scurrilous content.[^7] It folded in 1697 after eight issues — though not, presumably, because it had successfully recorded the identity of every prostitute in London.
+
+_The Night-Walker_ comprised a series of tracts against whoring and whore-mongering among the metropolitan nobility. It was inspired in part by anxieties about the degeneration of aristocratic bloodlines:
+
+> Some of you value your selves as being the Representatives of Ancient and Noble Families; but by the Methods which you take, you will deprive your Posterity of those Pretensions, for you give your Ladies occasion to repay you in your own Coin.
+
+As the Dedication in its first issue indicates, it reserved especially vituperative feelings for clergymen, judges, and other hypocritical members of the upper class who, though “mighty Pretenders to impartial Justice, and zealous Asserters of Liberty and Property”, had debauched “poor Maids” and exposed both them and the “spurious Issue” they have had by them to “Poverty, Reproach and Punishment”. _The Night-Walker_ detailed Dunton’s attempts to pursue these upright representatives of Society, and the “Suburb Strumpet\[s\]” with whom they consorted, through the streets of London, which he bemoaned as “a second Sodom”.[^8] The periodical’s title thus referred both to the activities of the prostitutes and their clients — and to Dunton’s identity as a noctambulant.
+
+<figure>
+  <img src="_18419684751_4018f8a38b_h.jpg">
+  <figcaption>Facsimile of the title-page to the October edition of <em>The Night-Walker: Or, Evening Rambles in Search after Lewd Women, with the Conferences Held with Them</em> – Source: own scan.</figcaption>
+</figure>
+
+Dunton’s modus operandi entailed rambling in places like Chancery Lane, Cheapside, Farringdon, Fleet Street, Holborn, St James’s Park or the Strand, generally between 8 p.m. and 9 p.m. He pursued this vocation throughout the winter of 1696-97. In addition to the streets, he visited coffee houses, music houses, playhouses, and pleasure gardens in pursuit of his victims. He liked to take his cue from the coded invitations of prostitutes, as when they pretended to stumble into him or drop their handkerchiefs on the pavement. In order to be morally and socially effective, as he saw it, Dunton masqueraded as the corrupt and sinful individuals whose behaviour he was determined to expose. So on his first night’s noctambulation, for example, traversing Pall Mall, he propositioned prostitutes, sequestered them in a convenient tavern, and only then, after several glasses, lectured them on their licentiousness.
+
+This approach, predictably, did not appeal to all his readers, and in the periodical’s fourth issue, in December 1696, he was compelled to respond to critics of the enterprise who complained that he acted “first the part of a Devil to tempt and then the part of a Parson to Preach”. In response, he insisted that “The Night-Walker cannot any other way prove the Crime upon each Person with whom he Confers but to sound their Inclinations”.[^9]
+
+Dunton is a splendid embodiment of the contradictory but symbiotic relationship between  
+puritanical impulses and satanic ones in the nocturnal city. The moral kicks he got from the streets at night cannot be extricated from his sexual kicks. In him the night-watcher and the nightwalker were in an uncomfortably close relationship. As the historian Joachim Schlör remarks of the “missionaries” who patrolled the nineteenth-century city at night, “they too ‘penetrate’ into the nocturnal city, they too seek the extraordinary experience, they too participate in the cycle of chance encounters, they too see how far they can go.”[^10]
+
+Middle- and upper-middle-class men such as Dunton were, of course, far freer in their movements at night than women. In the eighteenth century as in the nineteenth, “the suspicion of prostitution fell upon women who were about at night unaccompanied and without justification”.[^11] Picaresque accounts of the streets at night in the eighteenth century are therefore predicated on a male subject, one that is physically mobile and, more often than not, both patrician in his attitude to the poor and patriarchal in his attitude to women.
+
+<figure>
+  <img src="_18391607036_1f1e663633_b.jpg">
+  <figcaption>Detail from the third painting of Hogarth’s <em>A Rake’s Progress</em>(1732-33), depicting an orgy underway at a brothel, the Rose Tavern in Covent Garden.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:William_Hogarth_027.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The partial exception to this rule, which in the end it probably reinforces, is _The Midnight-Ramble: Or, the Adventures of Two Noble Females: Being a True and Impartial Account of their Late Excursion through the Streets of London and Westminster_ (1754). For this intriguing fiction, published by an anonymous author who is presumably male, features two gleeful female protagonists that explore the streets of London at night in disguise.
+
+The narrative opens with an account of the reasons for the heroine’s social (and perhaps sexual) frustration. Lady Betty, a virtuous young woman, has been married off to Dorimant, a dissolute nobleman who spends “his Evenings in riotous Mirth and Debauchery at the Taverns; and most commonly passe\[s\] the Remainder of the Night, in the Arms of some Courtezan at a Bagnio.” She befriends Mrs Sprightly, the wife of Dorimant’s best friend Ned, and the two women resolve to disguise themselves as monks in order to monitor their husbands’ nocturnal activities in the city. In prosecuting this plan, they commission their milliner, Mrs Flim, whose name signals that she is adept at idle deception, to bring them “ordinary Silk Gowns, close Capuchins, and black Hats”. And, having taken care “to exhilerate their Spirits with a Bottle of excellent Champain”, the three of them set off in pursuit of the men.
+
+After spying on their husbands at the playhouse, the three women are frustrated in their attempt to follow them by coach to a tavern at Temple Bar because there are so few vehicles on the street. Instead, though it is past 10 p.m., they determine “upon following their Chace on Foot, at all Hazards”.[^12] At a spot between Somerset House and the so-called New Church on the Strand (St. Mary le Strand), they meet “four Street-Walkers, that had been long used to tramp those Quarters”. These prostitutes assume that, because of “the Oddness of our Ladies Disguise”, Lady Betty and Mrs Sprightly are “some Strangers of their own Occupation, that were come thither to trespass upon their Walks”. So they jostle and curse their rivals.
+
+<figure>
+  <img src="_18230679438_787180b76c_b.jpg">
+  <figcaption><em>An evenings invitation, with a wink from the bagnio</em>(1773), printed for Carington Bowles, Map &amp; Printseller.
+    <cite>
+      <a href="http://images.library.yale.edu/walpoleweb/oneitem.asp?imageId=lwlpr03558">Yale</a>
+    </cite>
+  </figcaption>
+</figure>
+
+At this point, Mrs Flim intervenes, vociferating with them “in their own Stile of Language”. For her pains, she is punched in the face and has her false teeth pushed “directly down her Throat”. The three women promptly call for the Watch, and “a decrepid old Fellow, with his Staff and Lanthorn” appears. But this “Midnight Perambulator” is “in Fee with the Street-Walkers”, and, in any case, he too assumes that the women are prostitutes competing for this lucrative spot. An even more violent dispute is only averted when three “rakish Bucks” who have been drinking in a nearby tavern ascertain that Lady Betty and her companions are not of common rank and draw their swords against the prostitutes. Once the streetwalkers have fled, and since it is a wet night, these men invite the women into the tavern to drink wine and get warm, which they half-reluctantly do.[^13]
+
+Later, at Temple Bar, Mrs Flim happens to see Dorimant and Sprightly climbing into a coach bound for Covent Garden with two conspicuous courtesans. The three respectable women, who already seem morally and socially compromised, consequently decide to track it at a distance. They lose sight of it because the coach they have commandeered clips a post and end up walking to Covent Garden instead. By the time they reach this centre of eighteenth-century London’s nightlife — Vic Gatrell has identified it as “the first of the world’s bohemias” — the men have disappeared.[^14] They therefore decide to return to their houses, “once more, obliged to go on foot”. “However”, the author adds, “as the Moon was by this Time rose pretty high, they had Light sufficient to conduct them to their Habitations”.[^15] It is a reminder that nighttime illumination was, at best, limited even in the eighteenth-century West End.
+
+As they amble home, a foreign gentleman hears their footsteps and takes them for prostitutes returning from the bagnio. He accompanies them “for some Streets Length”, though for scarcely innocent or benign reasons, and the result is that, when they run into a constable, he too assumes that they are “three of the bettermost sort of Street-Walkers”. This constable, who announces that it is “his Duty to keep the Streets clear of People, that had no real Business in them”, threatens to put them in the Roundhouse for the remainder of the night. But the street-smart Mrs Flim bribes him. Finally, resuming their journey home by coach, they pass a couple of men “pretty much in Liquor, staggering along Arm in Arm together”.[^16] It is Dorimant and Sprightly. The two men stop the coach, climb into it, and immediately start kissing the two women, whom they have failed to recognise as their wives. They realise their embarrassing error once the coach has deposited them all at the same address.
+
+The pamphlet’s official intention, as its stentorious conclusion indicates, is to serve as “a Warning to the Female Sex, not to trust themselves abroad on any Frolicks, in this lewd and wicked Town, at unseasonable Hours”. But, until this moment, the tale’s moral assignment seems gloriously irrelevant. The women’s adventures are so mischievous, and they prove so successful, that it seems unlikely that the effect on them of “these Adventures of the Night”, as the author disingenuously professes to hope, will be to “prevent their undertaking any more Midnight Rambles, lest they should meet with worse Disasters than they experienced in this.”
+
+<figure>
+  <img src="_18392092606_7a140fc31a_c.jpg">
+  <figcaption>Thomas Rowlandson’s coloured etching <em>The Covent Garden Night Mare</em> (1784), a caricature of Henry Fuseli’s <em>The Nightmare</em>.
+    <cite>
+      <a href="http://unruly18thcentury.blogspot.co.uk/">Unruly Eighteenth-Century Britain</a>
+    </cite>
+  </figcaption>
+</figure>
+
+To the contrary, by the end of the tale, Betty and Mrs Sprightly, like the dubious Mrs Flim from the start, might be said to be “perfectly acquainted with the Streets” and to know “the Ways of the Town”.[^17] Certainly, the _Monthly Review_ remained unconvinced by the pamphlet’s official moral: it observed in nervous tones that “probably this pretended piece of secret history is altogether fabulous” and righteously dismissed it as “a low, ill-written tale, bearing the usual marks of a catch penny job”.[^18] This response is a clear indication that, in spite of _The Midnight-Ramble_’s claims to rectitude, its account of cross-dressing female aristocrats who spend the night slumming it in the streets is a little bit bent.
+
+_The Midnight-Ramble_’s alternative subtitle, given on the first page of the narrative, is “The Adventures of Two Noble Night-Walkers”. The juxtaposition of the adjective “noble” and the noun “night-walker” is surely designed to transmit an almost inadmissible frisson to the reader. This is, after all, the period when, in the popular imagination as well as in the discourse of Bridewell and other penal institutions, the term “night-walker” became increasingly associated not so much with images of maleficent men as with those of “prostitutes moving along dark streets, gathering on corners, loitering in alleys, touting trade”.[^19]
+
+The phrase “noble night-walkers” in the subtitle of _The Midnight-Ramble_ might distinguish its aristocratic protagonists from all the common kinds of streetwalker — from the “Jilts, Cracks, Prostitutes, Night-walkers, Whores, She-friends, Kind Women, and others of the Linnen-lifting Tribe” listed in a 1691 broadside against Bartholemew Fair.[^20] But it makes them seem morally unreliable at best. It is telling that the “noble females” in the tale are not once mistaken for monks, in spite of their costumes, but on at least three occasions are mistaken for prostitutes. In their disguises, they are highly ambiguous figures, at once masculine and feminine, aristocratic and common, virtuous and perfidious.
+
+According to a predictable formula, the author of _The Midnight-Ramble_ thus has it both ways: he contrives a daring fantasy of female independence and, at the last minute, presses it into the service of a patriarchal doctrine. As in the “Evening Rambles” described in Dunton’s _Night-Walker_ and other nocturnal picaresques, hedonistic and moralistic impulses cannot be dissociated in _The Midnight-Ramble_. Perhaps the importance of the Protestant ethic to the spirit of capitalism, as the latter materialized in late seventeenth- and eighteenth-century London, meant that these impulses were necessarily complicit.
+
+* * *
+
+**Matthew Beaumont**’s most recent book is _Nightwalking: A Nocturnal History of London_ (2015). He teaches in the [Department of English at UCL](http://www.ucl.ac.uk/english/staff/matthew-beaumont), and is a co-director of the UCL Urban Lab. He is also the author of [_Utopia Ltd._](https://www.amazon.com/Utopia-Ltd-Ideologies-Historical-Materialism/dp/1608460215?tag=thepubdomrev-20) (2005) and [_The Spectre of Utopia_](https://www.amazon.com/Spectre-Utopia-Utopian-Science-Ralahine/dp/303430725X?tag=thepubdomrev-20) (2012), and the co-author, with Terry Eagleton, of [_The Task of the Critic_](https://www.amazon.com/Task-Critic-Terry-Eagleton-Dialogue/dp/1844673391?tag=thepubdomrev-20) (2009). He has edited several essay collections, including [_Restless Cities_](https://www.amazon.com/Restless-Cities-Matthew-Beaumont/dp/1844674053?tag=thepubdomrev-20) (2010).
+
+[^1]: See Samuel Johnson, _A Dictionary of the English Language … in Two Volumes_, 2nd ed. (London: J. and P. Knapton et al., 1755), vol. 2. The term “noctuary”, as Johnson indicates, seems to have been coined in _The Spectator_ in 1714, where a correspondent named “John Shadow” relates one of a “parcel of visions” he has had in his sleep. See _The Spectator_ 586 (August 27, 1714) and 587 (August 30, 1714).
+
+[^2]: Leo Hollis, _The Phoenix: The Men Who Made Modern London_ (London: Phoenix, 2009), 295.
+
+[^3]: Paul Zweig, _The Adventurer_ (London: J.M. Dent, 1974), 103–4.
+
+[^4]: On the ramble or spy narrative, see Alison F. O’Byrne’s excellent Ph.D. thesis, “Walking, Rambling, and Promenading in Eighteenth-Century London: A Literary and Cultural History” (University of York, 2003), 47–56.
+
+[^5]: Anonymous, _The Ambulator; Or, the Stranger’s Companion in a Tour Round London_ (London: J. Bew, 1774), v. Vic Gattrell estimates that “from west to east you could walk across the metropolis in a couple of hours or so, and from south to north in one”. _City of Laughter: Sex and Satire in Eighteenth-Century London_ (London: Atlantic, 2006), 24.
+
+[^6]: Quoted in J. Paul Hunter _Before Novels: The Cultural Contexts of Eighteenth-Century English Fiction_ (New York: Norton, 1990), 102.
+
+[^7]: See Helen Berry, s.v. “John Dunton (1659–1732), bookseller,” in the _Oxford Dictionary of National Biography._
+
+[^8]: John Dunton, _The Night-Walker: or, Evening Rambles in Search after Lewd Women, with the Conferences Held with Them, &c., in Marriage, Sex, and the Family in England 1660-1800_, ed. Randolph Trumbach (New York: Garland, 1985), n.p.
+
+[^9]: John Dunton, _The Night-Walker_ (December 1696), in _Marriage, Sex, and the Family in England 1660-1800_, ed. Trumbach, n.p.
+
+[^10]: Joachim Schlör, _Nights in the Big City: Paris, Berlin, London, 1840-1930_ (London: Reaktion, 1998), 260.
+
+[^11]: Ibid., 170.
+
+[^12]: Anonymous, _The Midnight-Ramble: Or, the Adventures of Two Noble Females: Being a True and Impartial Account of Their Late Excursion through the Streets of London and Westminster_ (London: B. Dickinson, 1754), 3, 8, 10.
+
+[^13]: Anonymous, _The Midnight-Ramble_, 10-11, 12
+
+[^14]: Vic Gatrell, _The First Bohemians: Life and Art in London’s Global Age_ (London: Allen Lane, 2013), xxii.
+
+[^15]: Anonymous, _The Midnight-Ramble_, 18.
+
+[^16]: Ibid., 19, 20, 23.
+
+[^17]: Ibid., 26, 8.
+
+[^18]: “Monthly Catalogue,” _The Monthly Review, or, Literary Journal_ 10 (April 1754): 309.
+
+[^19]: Paul Griffiths, “Meanings of Nightwalking in Early Modern England”, _The Seventeenth Century_ 13, no. 2 (Autumn 1998): 212.
+
+[^20]: Anonymous, _A Catalogue of Jilts, Cracks, Prostitutes, Night-walkers, Whores, She-friends, Kind Women, and others of the Linnen-lifting Tribe Who are to Be Seen Every Night in the Cloysters in Smithfield, from the Hours of Eight to Eleven, during the Time of the Fair_ (London: R.W., 1691), 1.
+
+* * *
+
+Public Domain Works
+
+*   _The Night-Walker: Or, Evening Rambles in Search after Lewd Women, with the Conferences Held with Them_ (1696), by John Dunton.
+*   _Description of a City Shower_ (1710), by Jonathan Swift.
+*   _Trivia : or, the art of walking the streets of London_ (1922 edition), by John Gay.
+*   _The Ambulator; or, The Stranger’s Companion in a Tour Round London_ (1774), by Anonymous.
+
+Further Reading
+
+Alison F. O’Byrne, “[Walking, Rambling, and Promenading in Eighteenth-Century London: A Literary and Cultural History](http://core.ac.uk/download/pdf/9052842.pdf)” (University of York, 2003).
+
+{<} ![Nightwalking: A Nocturnal History of London](_61pr3YC1j7L._SL160_.jpg)
+
+Nightwalking: A Nocturnal History of London (Verso Books, 2015) by Matthew Beaumont
+
+_Beaumont presents an alternative history of London through the writers and thinkers for whom the city at night has served as inspiration – taking in the nocturnal preoccupations of such artists as William Blake, Thomas De Quincey, and Charles Dickens. Foreword by Will Self._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Nightwalking-Nocturnal-History-Matthew-Beaumont/dp/1781687951?tag=thepubdomrev-20)
+
+{<} ![Nights in the Big City: Paris, Berlin, London, 1840-1930](_51VYVKP1EKL._SL160_.jpg)
+
+Nights in the Big City: Paris, Berlin, London, 1840-1930 (Reaktion Books, 1998) by Joachim Schlör
+
+_Schlör explores how the introduction of public lighting brought changes to the nightlife of Paris, Berlin, and London between 1840-1930._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Nights-Big-City-1840-1930-Topographics/dp/186189015X?tag=thepubdomrev-20)
+
+{<} ![The First Bohemians: Life and Art in London’s Global Age](_51LHHIVd4vL._SL160_.jpg)
+
+The First Bohemians: Life and Art in London’s Global Age (Penguin Global, 2014) by Vic Gatrell
+
+_Covering artists such as Blake, Hogarth, Rowlandson, Turner and Reynolds, Gatrell explores one of the most productive eras in Britain’s artistic history._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/First-Bohemians-Life-Londons-Golden/dp/1846146771?tag=thepubdomrev-20)

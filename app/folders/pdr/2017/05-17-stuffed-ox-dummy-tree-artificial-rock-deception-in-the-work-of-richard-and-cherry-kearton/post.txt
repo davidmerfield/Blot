@@ -1,0 +1,209 @@
+Tags: Photography
+Summary: John Bevis explores the various feats of cunning and subterfuge undertaken by the Kearton brothers — among the very first professional wildlife photographers — in their pioneering attempts to get ever closer to their subjects.
+Thumbnail: _33871440234_ba0916e1f6_o.jpg
+
+# Stuffed Ox, Dummy Tree, Artificial Rock: Deception in the Work of Richard and Cherry Kearton
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**John Bevis explores the various feats of cunning and subterfuge undertaken by the Kearton brothers — among the very first professional wildlife photographers — in their pioneering attempts to get ever closer to their subjects.**
+
+<figure id="attachment_15505">
+  <img src="_carrying-ox.jpg" alt="carrying ox" srcset="http://publicdomainreview.org/wp-content/uploads/2017/05/carrying-ox.jpg 963w, http://publicdomainreview.org/wp-content/uploads/2017/05/carrying-ox-300x328.jpg 300w, http://publicdomainreview.org/wp-content/uploads/2017/05/carrying-ox-600x655.jpg 600w, http://publicdomainreview.org/wp-content/uploads/2017/05/carrying-ox-275x300.jpg 275w, http://publicdomainreview.org/wp-content/uploads/2017/05/carrying-ox-768x839.jpg 768w, http://publicdomainreview.org/wp-content/uploads/2017/05/carrying-ox-937x1024.jpg 937w"
+    sizes="(max-width: 963px) 100vw, 963px">
+  <figcaption>“Shouldering the imitation ox”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+> Although to use deception in any action is detestable, nevertheless in waging war it is praiseworthy and brings fame: he who conquers the enemy by deception is praised as much as he who conquers them by force.  
+> —  **Niccolò Machiavelli, Discourses on Livy**
+
+> To excel in deception is not a very laudable accomplishment, but the heinousness of the crime may, perhaps, be softened in the eyes of the moralist by a knowledge of the fact that in this case the duplicity employed has been as entirely harmless to the deceived as it has been profitable to the deceiver.  
+> — **Richard Kearton, Wild Nature’s Ways**
+
+It might stretch credulity for Richard Kearton, a benign man in a benign profession, to be labelled “the Machiavelli of bird photography”. But the fact is that he and his brother, Cherry, adapted a number of the tactics of _dell’arte della guerra_ in their search for ways of going undercover into “Birdland” to secure untainted images of wildlife at home. Between the years 1897 and 1903, their experiments included variations on such quasi-military techniques as the smoke screen, in which surprise through deception is achieved by camouflage; the feigned retreat, when a false sense of security leads the foe into ambush; the Trojan horse, famously gaining admittance to a restricted area under false pretences; and further ploys under the catch-all heading of misinformation.
+
+Richard and Cherry Kearton were foremost among the small coterie of British nature photographers working before the end of the nineteenth century. They took the first ever photograph of a bird’s nest with eggs, in April 1892, and three years later (with _British Birds’ Nests: How, Where and When to Find and Identify Them_) published the first nature book illustrated throughout with photographs. But their next project — photographing the birds themselves – would be fraught with difficulties. Richard Kearton noted that birds were so disturbed by human presence, the “great eye” of the camera lens, and the click of the shutter, for it to be near impossible to obtain natural studies.
+
+Sound trauma was addressed with the aural smoke-screen of the almost-silent window-blind shutter, while it was found that a false situational familiarity with any residual noise could be created by releasing the shutter repeatedly until the bird ignored it. The harder task of concealing the human form came with the commission of matching suits and caps of reversible material, brown one side and meadow-green the other. This deployment of camouflage clothing was ahead of the curve: khaki uniform, recently introduced for troops stationed in British India, would not become standard issue on the home front until 1902. To hide their faces, the Keartons employed the first of many items from their wonderful props cupboard: visors chiselled out from ash-tree stubs, inscrutable as Noh masks.
+
+<figure>
+  <img src="_34582843561_ee8030cae1_o.jpg" alt="kearton mask">
+  <figcaption>“Author hidden under wooden mask”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_33871440234_ba0916e1f6_o.jpg" alt="kearton mask">
+  <figcaption>“Author with wooden mask off”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The first device for concealing both camera and photographer was the “Artificial rubbish heap” (1897-1903). This was constructed from an old umbrella whose ribs were extended with bamboo and covered with linen; photographer and gear went underneath, while on top were piled whatever straw, leaves, sticks, or dirt were to hand. It could be positioned on the ground, on a rick, or better still on a wheeled farm cart, which could be set up some distance from the nest or perch and moved gradually closer before being put to use. The heap’s versatility made it one of the Keartons’ most successful interventions, with good photos obtained of wheatear and sandpiper in the Dales, and wren on the Surrey downs.
+
+<figure>
+  <img src="_34715244055_b01aa7cb4d_c.jpg" alt="rubbish heap kearton">
+  <figcaption>“Artificial rubbish-heap”, from Richard Kearton’s <em>Wild Life at Home</em>(1898).
+    <cite>
+      <a href="https://archive.org/details/wildlifeathomeho00keariala">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+A number of experiments were made in 1902 with site-specific fixed hides, built in situ and utilising – like miniature Arts and Crafts houses – locally-sourced materials. They were deployed particularly on open and featureless terrain where there was little natural cover, and relied for their effect on camouflage by homogeneity. They had the appeal of the secret “dens” of boyhood literature, bolt-holes where thrilling adventures might be plotted.
+
+The “Heather house” came first, conceived to solve the problem of photographing a merlin at its nest on Nateby Fell, Cumbria. Heather was thatched over a homemade hiding tent, a canvas skirt on a conical frame of iron rods, set up within twelve feet of the nest. The merlin, suspicions aroused, “flopped about in heather all round for about twenty minutes, then she went on to nest”, allowing Richard Kearton a chance to get his pictures.
+
+Two hides were built of turf (not lawn turf but slabs of moorland peat). The first, the “Sod house”, was constructed as with building blocks: horseshoe-shaped walls were completed with a roof supported by “the dilapidated remains of a neighbouring sheep-fold gate”. Access was through a doorway on the side farthest from the nest, while the camera was set up inside a hole punched in the facing wall. The subject matter here was a golden plover’s nest above Swaledale, and the Keartons were persuaded that the hide could be built as close as five feet from the nest. Four plates were secured, at a cost of kneeling for two and a half hours “with water dripping steadily down the back of my neck from the roof sods”.
+
+<figure>
+  <img src="_34331259890_e7e2e56e4a_b.jpg" alt="sod house kearton">
+  <figcaption>“Sod house for photographing golden plover”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_33875417384_5f97d178b1_b.jpg" alt="golden plover">
+  <figcaption>“Male golden plover covering chick”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Similarly, a “Turf hovel” was built to photograph the Arctic skua with nest, eggs, and young on heather uplands in the Hebrides. They dug out a pit for the accommodation of Richard’s feet and legs, built a frame of tent irons above it, and covered the whole in “great strips of turf”. The following day the weather closed in, but despite the darkness, the waving of bent grass and heather, and the constant head movements of the bird, of the ten “more or less haphazard” exposures he made, a couple turned out “good beyond all expectation”.
+
+On the Hebridean foreshore, Richard hit upon the idea of building a rough stone house to photograph oyster-catchers at nest. Boulders were hefted “a great distance on my back” to shape walls to the “sod house” footprint, while driftwood made a makeshift roof and doorway. He got his shots at a cost of “three hours of cramped misery”, with a “bitter wind whistling through every chink in the dry walls”. Undaunted, he followed up “Oyster-catcher house” with a similar “Ringed plover villa”.
+
+<figure>
+  <img src="_34331259120_ef0df96353_b.jpg" alt="stone house kearton">
+  <figcaption>“Stone house for photographing oyster-catcher”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_33906201193_e1fbf28d46_b.jpg" alt="oyster catcher kearton">
+  <figcaption>“Oyster-catcher approaching her eggs”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Among the useful tactics borrowed from warfare was the feigned retreat. The Keartons had learned that if the bird saw the photographer enter his hide and not emerge, she would remain alarmed. To deceive the bird into the placidity only exhibited in human absence, an assistant would accompany the photographer to the hide, “tuck him in” and ostentatiously walk away, taking with him the taint of humankind.
+
+It was, however, with variations of the Trojan horse that the Keartons really made their mark. In 1898 came the “Artificial tree-trunk”, anticipating by nearly twenty years the observation trees, made of angle-iron and camouflaged with bark, that were used by the British and French on the Western Front. The Kearton tree was a pantomime prop-like contraption whose wigwam frame of bamboo uprights was dressed with mesh, and covered with fabric camouflaged with paint, moss, and lichen. The photographer stood to attention inside, pressed against his camera, whose tripod legs could be only partially spread. It may have lacked versatility, but when it came to photographing a bird perched six feet above ground level, in woodland, the dummy tree trunk was hard to beat.
+
+<figure>
+  <img src="_34673253956_885f078352_b.jpg" alt="dummy tree kearton">
+  <figcaption>“Artificial tree-trunk open”, from Richard Kearton’s <em>Wild Life at Home</em>(1898).
+    <cite>
+      <a href="https://archive.org/details/wildlifeathomeho00keariala">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_33906475323_0c6d0a0f57_b.jpg" alt="tree dummy 2">
+  <figcaption>“Artificial tree-trunk closed”, from Richard Kearton’s <em>Wild Life at Home</em>(1898).
+    <cite>
+      <a href="https://archive.org/details/wildlifeathomeho00keariala">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The most outlandish – and, paradoxically, photogenic – of the mimetic hides was created for the Keartons in 1900 by society taxidermist Rowland Ward of Piccadilly. This was the “stuffed ox”, a hide realistically shaped over a padded frame, whose interior was just sufficiently capacious for both camera, mounted in the brisket and focussing through a hole in the hide, and photographer, bent into an excruciatingly uncomfortable posture. The ox was tried first on a skylark’s nest with young, and then beside a dew pond, where it “distinguished itself by completely deceiving every species of creature that came to drink”. The stuffed ox enjoyed a brilliant but brief working life, being retired damaged at the end of the 1900 season after being blown over with Cherry inside.
+
+<figure>
+  <img src="_34553358622_a7d707f1a3_c.jpg" alt="kearton stuffed ox ">
+  <figcaption>“Mounted on the imitation ox”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_34673233376_99d778d1e2_c.jpg" alt="stuffed ox kearton">
+  <figcaption>“The stuffed ox in operation”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Two further hides were commissioned from another taxidermist, Charles Thorpe of Croydon. The “Stuffed sheep”, intended to blend in on the fells of Cumbria, was a hide for the camera alone, operated remotely. Once the camera was positioned on a rock in front of the nest, the carapace of the sheep (which had been set up sitting down) was placed over, the chest wool being tied back so that it would not wave in front of the lens. Richard Kearton tethered his hiding tent at a vantage point overlooking the nest, and operated the shutter release via a fifty-foot length of pneumatic tubing. A few satisfactory shots were made when the sheep was tested out in Potts Valley, although the remote control introduced an element of luck into the timing.
+
+<figure>
+  <img src="_34551737812_27f12ba834_o.jpg" alt="stuffed sheep kearton">
+  <figcaption>“Stuffed sheep”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The following year Richard Kearton returned to Potts Valley with a lightweight “Artificial rock”, a flat-pack of four walls and a roof, large enough to accommodate photographer and camera, and painted limestone-grey. It was left overnight mounted on an existing large boulder, and moved in the morning behind a crag close to a dipper’s nest. The dippers took no alarm and Richard was able to secure some good shots. For a nearby curlew’s nest, the rock was placed sixty yards from the nest, and moved closer over the course of a week, until within sixteen feet of nest and eggs. The bird was so deceived that photographing her became a thing of “monotonous ease”, so Richard took to mewing like a cat to provoke the bird into different postures and behaviour.
+
+<figure>
+  <img src="_33904055873_6f81a7186a_c.jpg" alt="artificial rock kearton">
+  <figcaption>“Artificial rock”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+When Cherry Kearton first visited East Africa in 1909, he was again confronted by the problem of bringing the camera within range of the subject—in this case, herds of mammals that would “bound away in terror when I walked within two hundred yards of them”. One possible solution crossed his mind: “instead of a dummy sheep, I thought I might have a dummy zebra”. Luckily, he shared his thoughts with some local hunters, who anticipated what might happen when the immovable object of a stuffed zebra was met by the irresistible force of lion, cheetah, or bullet. Kearton retired, perhaps to consult the small-print of his travel insurance, and the matter was quietly dropped.
+
+Subsequent investigations persuaded the Keartons that mimetic or autochthonous structures were redundant, the imperative being to create something not that the bird would actively register as familiar, but that its reflexes could safely ignore. So in place of the portable rubbish heap and ox, a small tent, similar to what is used today, would suffice, while the fixed hides, the turf and stone houses, have their modern counterpart in the wooden chalets with viewing shutters familiar from nature reserves.
+
+<figure>
+  <img src="_33873608924_797e1ff147_b.jpg" alt="cart shed">
+  <figcaption>“Photographing in a cart-shed”, from a 1909 edition of Richard Kearton’s <em>Wild Nature’s Ways</em>.
+    <cite>
+      <a href="https://archive.org/details/wildnaturesways00kearrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+As a postscript, in the mid-1930s, Cherry Kearton bought some land in Firs Road, Kenley. The Tudoresque villa he built on the plot, “The Jungle”, was designed with long, low windows opening onto a varied garden habitat, so that Kearton could continue birdwatching from indoors. It was the last, and most opulent, of the site-specific Kearton bird hides. Sadly it lasted little longer than the others, being destroyed by a bomb during the Battle of Britain, a few weeks before Cherry Kearton’s death in September 1940.
+
+But perhaps the most subliminal of the Keartons’ deceptions was the psychological manipulation of the audiences who read their books and attended their numerous lectures. By showcasing the effortful hides and by emphasising the robust and stubborn constitution needed to operate them, the Keartons were setting a marker on their own exclusive access to “real” nature. In this scenario, the audience became civilians, and the Keartons a paramilitary commando unit operating behind the lines, their photographs and observations the hard-won spoils of war.
+
+* * *
+
+**John Bevis** is an English freelance writer specializing in nature and the arts, poetry and criticism. His writing career goes hand-in-hand with working in editing, printing and publishing. Books include [_Printed in Norfolk_](https://www.amazon.com/Printed-Norfolk-Coracle-Publications-1989/dp/0956902413?tag=thepubdomrev-20) (RGAP, 2012), a history of the gallery and artists’ publisher Coracle Press, and [_Aaaaw to Zzzzzd: The Words of Birds_](https://www.amazon.com/Aaaaw-Zzzzzd-America-Britain-Northern-ebook/dp/B005BB88L6?tag=thepubdomrev-20) (MIT Press, 2010) a study of the various ways we attempt to capture, preserve and imitate the songs of birds, with a lexicon of “bird words”. His work is discussed by Ross Hair in [_Avant-Folk: Small Press Poetry Networks from 1950 to the Present_](https://www.amazon.com/Avant-Folk-Small-Poetry-Networks-Present/dp/1781383294?tag=thepubdomrev-20) (Liverpool UP, 2016). For more information and contact, go to [www.johnbevis.com](http://www.johnbevis.com/).
+
+* * *
+
+Public Domain Works
+
+*   _British Birds’ Nests; How, Where, and When to Find and Identify Them_ (1895) by Richard Kearton.
+*   _Wild Nature’s Ways_ (1903) by Richard Kearton.
+*   _Wild Life at Home, How to Study and Photograph It_ (1898) by Richard Kearton.
+*   _With Nature and a Camera_ (1898) by Richard Kearton.
+*   _Keartons’ Nature Pictures_ (1910?) by Richard Kearton.
+
+Further Reading
+
+{<} ![The Keartons: Inventing Nature Photography](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=191001009X&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+The Keartons: Inventing Nature Photography (Uniformbooks, 2016) by John Bevis
+
+_This new and definitive study concerns itself with the lives and partnership of the Keartons, especially their role in the history of nature photography; their attitudes to and interaction with nature; and the status of invention in their work._

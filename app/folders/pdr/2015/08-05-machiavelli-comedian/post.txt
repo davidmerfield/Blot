@@ -1,0 +1,151 @@
+Tags: Philosophy, Drama
+Summary: Most familiar today as the godfather of Realpolitik and as the eponym for all things cunning and devious, the Renaissance thinker Niccolò Machiavelli also had a lighter side, writing as he did a number of comedies. Christopher S. Celenza looks at perhaps the best known of these plays, Mandragola, and explores what it can teach us about the man and his world.
+
+# Machiavelli, Comedian
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Most familiar today as the godfather of _Realpolitik_ and as the eponym for all things cunning and devious, the Renaissance thinker Niccolò Machiavelli also had a lighter side, writing as he did a number of comedies. Christopher S. Celenza looks at perhaps the best known of these plays, _Mandragola_, and explores what it can teach us about the man and his world.**
+
+<figure>
+  <img src="_20313754455_7c0cce410c_c.jpg">
+  <figcaption>Illustration of Machiavelli featured in the title page to <em>Historie di Nicolo Machiavegli cittadino &amp; secretario fiorentino</em>(1540) –.
+    <cite>
+      <a href="https://archive.org/details/bub_gb_41DsVqefazEC">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+“Comedian”, admittedly, isn’t the first word you associate with Machiavelli. And “funny” is not a word normally applied to Lucretius. And yet, through some strange alchemy of time, circumstance, and the rhythms of Renaissance life, those seemingly discordant elements came together in a remarkable way. You could argue that Machiavelli’s entire worldview was comic, but comic in a peculiar way: ironic, wry, a little melancholy, punctuated by an earthy vulgarity that, these days, would get him thrown off a university faculty in a minute. More than this, the central premises of what was funny have changed so significantly that it invites us to think about how comedy works and when it’s time to say that a comedy, however venerable, just isn’t funny anymore.
+
+Take his play, _Mandragola_, or, in English, “The Mandrake Root.” The odd title (and it would have been odd in Machiavelli’s day, too) has to do with fertility. The plant appears in the Bible, in contexts where carnal knowledge is in question, like when Leah, one of Jacob’s two wives, wants to convince him to lie with her (Gen. 30:14-16), or when, in the Song of Songs, a woman sings a song of her own seductiveness “I am my beloved’s, and his desire is toward me … The mandrakes give a smell, and at our gates are all manner of pleasant fruits ….” (Song of Songs, 7:10-13). If the lasting biblical associations of the plant had to do with love, the herb also had magical and spell-like connotations. It could be thought to induce a great and powerful sleep, and in some accounts was even thought to cry out when pulled from the earth.
+
+<figure>
+  <img src="_20296249661_e0ecece0f0_c.jpg">
+  <figcaption>Image from Ibn Butlan’s 14th-century <em>Tacuinum sanitatis in Medicina</em>, portraying a favoured medieval method – using a dog and string – for safely extracting a mandrake without enduring its shrieks –.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Tacuinum_Sanitatis_Mandrake_Dog.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Machiavelli’s title enfolded many of these meanings. The play concerns a young man, Callimaco, who though Florentine in origin spent much of his youth in France. From clues in the play we learn he is about thirty years old and that the action is set in the year 1504. At a gathering of friends, all male of course, a debate breaks out over who has the more beautiful women, France or Italy. Though the debaters give the palm to French women, one of his Florentine friends says he has a relative, Lucrezia, whose beauty is unequalled anywhere. Callimaco becomes curious to the point of leaving France and going to Florence. There his curiosity escalates to passion, as he is all but driven mad by love after finally laying eyes on Lucrezia.
+
+As it happens Lucrezia is married to a slow-witted lawyer named Messer Nicia. They have been trying unsuccessfully to have children. Ligurio – a matchmaker and, not coincidentally, a friend of Callimaco – suggests that the couple’s troubles may allow Callimaco to get close to Lucrezia. At first, Ligurio suggests that the couple go to the baths, known to improve fertility. Callimaco says he will go, so that he can see Lucrezia and because _di cosa nasce cosa_ – “one thing begets another”. He is ready to trust his instincts and improvise as need be to find a way to be with Lucrezia. But then another plan is hatched. This one involves an elaborate scheme whereby Callimaco, posing as a doctor, convinces dull-witted Nicia to have Lucrezia take a special potion to help her conceive.
+
+The catch? The first person to make love with Lucrezia after she takes this potion will die. But thereafter, she will be fertile, children will follow, and all will be well, so the concocted story goes. Nicia agrees to this “solution”. Lucrezia’s mother agrees to help, as does a corruptible friar named fra Timoteo, and of course Lucrezia is never to know of the fatal consequences of her one-time, absolutely necessary, extra-marital coition.
+
+And who lines up to play the role of that sacrificial, lovemaking lamb? Callimaco (in costume), with Ligurio’s eager help. Ligurio tells Callimaco how to break the news of all this to Lucrezia:
+
+> Explain the trick to her, show her the love you bring her, tell her how much you love her and how she can be your lover with no dishonor and how she can be your enemy, but with a great loss of her honor. Once she spends the night with you, she won’t want it to be the last.
+
+<figure>
+  <img src="_RIVERSIDE_THE_MANDRAKE_1979_2.jpg">
+  <figcaption>Riverside Shakespeare Company production of <em>The Mandrake</em>, at the Casa Italia, New York, 1979, with a young Tom Hanks centre. Photograph by W. Stuart McDowell –.
+    <cite>
+      <a href="https://en.wikipedia.org/wiki/File:RIVERSIDE_THE_MANDRAKE_1979_2.jpg">Wikipedia</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Everything goes according to plan. Lucrezia, having had Callimaco with her for a night and realizing that her honor would be lost if she blew the whistle, as it were, agrees to take Callimaco as a lover in the expectation that, when Nicia (older as he is) eventually passes away, she and Callimaco will marry. Poor old Nicia is fooled into accepting “doctor” Callimaco as a close family friend, and the play closes with Lucrezia being “introduced” to this wonder-working doctor.
+
+And here is where things get complicated. Because the truth is that what is being described in the play is, essentially, a kind of date rape. I had never been quite comfortable with the text for precisely this reason. True, there have been some feminist scholars who have argued that it was Lucrezia’s choice to go forward, so that it is really she who has “agency”. But we know what the story is: Callimaco and Ligurio found a way to get pure, naïve Lucrezia into bed, laughing all the way.
+
+This comedy, as well as Machiavelli’s other comedic works, possesses in many ways a formal unity with the rest of his (better known) oeuvre. All formed part of what we can call the “comedy of life”, in which life’s randomness, unpredictability (_di cosa nasce cosa_), and indecipherability take pride of place. Machiavelli himself had suffered outrageous slings of fortune. He went from being a respected public official who participated in over forty diplomatic missions for Florence (from 1498–1512) to coming under unwarranted suspicion for conspiracy, suffering jail time, and being forced into house arrest. The circumstances of his life taught him all he needed to know about life’s unpredictability.
+
+<figure>
+  <img src="_20129343530_43bcc4d768_b.jpg">
+  <figcaption>Portrait of Machiavelli by Santi di Tito, 16th century –.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Portrait_of_Niccol%C3%B2_Machiavelli_by_Santi_di_Tito.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+But there was more to the story. Some time around the year 1498, when a relatively young Machiavelli had not yet entered public life definitively, he took the time to hand copy two texts into a manuscript (that today resides in the Vatican Library). The texts were: Lucretius’ _On the Nature of Things_ and Terence’s _Eunuch_.
+
+It is a strange juxtaposition, at least on the surface. Lucretius had become popular in the fifteenth century after Poggio Bracciolini discovered a full version of _On the Nature of Things_ during the Council of Constance. The first-century BCE thinker had written a meditative poem in six books. Its overriding theme was Epicureanism, and the excellence of its Latin entranced Renaissance thinkers always on the alert for stylistic models. As an Epicurean, Lucretius adopted “atomism” as a basis of his natural philosophy. He believed, that is, that all things were made of particles. When the formal unity of any given thing ended — when a tree died, say, or when a human being passed away – the constituent particles then dispersed into the void, to combine and recombine endlessly into other things. This process was totally natural: “…nature is free and uncontrolled by proud masters and runs the universe herself without the aid of gods”. And though gods exist, they live in their own realm, utterly unconcerned with human affairs: “…All their wants are supplied by nature, and nothing at any time cankers their peace of mind”. Human beings are on their own, and if there is a purpose behind human life it is not obvious: randomness is all.
+
+<figure>
+  <img src="_19669330813_269eb3d770_c.jpg">
+  <figcaption>Detail from the title page of a 1620 edition of Lucretius’ <em>De rerum natura</em>(On the Nature of Things) –.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Titvs-Lvcretivs-Carvs-De-rerum-natura_MG_0207.tif">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Lucretius is a lot of things. One thing he is not, is funny. But Terence is, at least by the standards of pre-modern Florence. In fact Renaissance thinkers liked Terence quite a bit, both as a model of how to write Latin as people spoke it day-to-day and as a model for comedy. Convoluted plots, love stories, witty servants, love causing “madness” in youth: these things and more served as basic elements of comedy in the ancient world, as they did in the Renaissance.
+
+As to the _Eunuch_ itself, it set fashionably in Athens, where a young man, Phaedria, is madly in love with a foreign-born courtesan and is given hard-nosed advice on love by his wily servant. Sub-plot after sub-plot emerges, and other love struck characters come into play. These include Phaedria’s brother posing as a eunuch who uses his feigned status to be alone with a woman with whom he is madly in love and on whom he then forces himself. He runs away but then is forced to come back, whereupon he declares his love for the woman he raped, and they wind up together.
+
+We do not really know why Machiavelli copied those texts by Lucretius and Terence, one after the other, joining them in a single manuscript. We have only the artifact itself. And of course it would be unwise to make too much of the fact. But the juxtaposition is noteworthy, inviting us as it does to look at what the two ancient texts shared and how they may have contributed to Machiavelli’s views on the “comedy of life”.
+
+<figure>
+  <img src="_20125901550_03457593d2_c.jpg">
+  <figcaption>Detail from the frontispiece to <em>The Comedies of Terence</em>(1810) –.
+    <cite>
+      <a href="https://archive.org/details/comediesofterenctere00rich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Returning to _Mandragola_, we can ask: is it funny? The best I can come up with is … sort of. If it were performed and set well, the many comic asides could make an audience laugh. In their parody of pious religiosity, Timoteo’s attempts to convince Lucrezia to go through with what she believes will be a deadly act of extra-marital sex are funny. And the various times fra Timoteo is portrayed as less than pious can engender a wry smile. Example:
+
+LIGURIO TO CALLIMACO: Your friar will want something beyond prayers.  
+CALLIMACO: What?  
+LIGURIO: Money.
+
+But then there is that other thing: not only the date rape, but also the sense that Machiavelli and his male cohort had never once sat down and had a real, person to person conversation with a woman. Take fra Timoteo’s monologue in Act 3, scene 9, where he is musing out loud on the plan. The real reason he thinks it will work: “… in the end all women are pretty slow” (_tutte le donne hanno alla fine poco cervello_). It is like watching a comic slapstick film from the 1940s, laughing at all the perfectly executed pratfalls, and then coming up against that one cringe-inducing scene of a racial caricature, say, or anything else that for its time and place was acceptable but today is so out of bounds that it tends to taint the whole enterprise. Even Lucrezia’s decision to sleep with Callimaco is related indirectly. We learn of it only through Callimaco’s boastful recounting the day after to his friend Ligurio. Lucrezia is a device, not a person.
+
+In the end the value of Machiavelli’s comedies resides not so much in their original purpose – to make people laugh – but in what they can teach us about him and his world. It is striking that despite the manifold differences between Machiavelli’s surroundings and ours, there are such similarities between his environment and that of ancient Rome. A comedy like Terence’s _Eunuch_ not only spoke to Machiavelli and his cohort, it also served as a source of imitative inspiration. That fact reminds us that, despite the many times we can find traces of ourselves in Machiavelli’s work – of the Realpolitik that he helped create, say, or the tendency to observe human motivation shorn of traditional morality – he was also living in a world gone by.
+
+It was a place where it was assumed that women simply were not part of the conversation, where the post-enlightenment notion of universal human rights (imperfectly realized as those have been) was only a dim adumbration, and where a lot of what might have made one laugh was differently situated. None of this is to praise or blame Machiavelli or his ancient Roman sources for what seem to us today like failings. Comedy serves as a kind of retrospective indicator of blind spots. It is our fate not to know what posterity will make of our own age’s comic strivings. But wouldn’t one like to be a fly on the wall in five hundred years?
+
+* * *
+
+**Christopher S. Celenza** is the Vice Dean for Humanities and Social Sciences at Johns Hopkins University and served as Director of the American Academy in Rome from 2010-14. His most recent book is [_Machiavelli: A Portrait_](https://www.amazon.com/Machiavelli-Portrait-Christopher-S-Celenza/dp/0674416120?tag=thepubdomrev-20) (Harvard University Press, 2015).
+
+* * *
+
+Public Domain Works
+
+*   _The life and times of Niccolo Machiavelli_ (1892), by Pasquale Villari.
+*   _The works of Nicholas Machiavel, translated from the originals: illustrated with notes, annotations, dissertations, and several new plans on the Art of war_ (1775), by Niccolo Machiavelli, Ellis Farneworth.
+*   _Lucretius On the nature of things_ (1893), by Titus Lucretius Carus, translated by John Selby Watson.
+*   _The comedies of Terence_ (1810), by terence, translated by George Colman.
+
+Further Reading
+
+{<} ![Machiavelli: A Portrait](_51EXeJIlJEL._SL160_.jpg)
+
+Machiavelli: A Portrait (Harvard University Press, 2015) by Christopher Celenza
+
+_Christopher Celenza peels away the preconceptions surrounding Machiavelli to reveal the many faces of this well known figure._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Machiavelli-Portrait-Christopher-S-Celenza/dp/0674416120?tag=thepubdomrev-20)
+
+{<} ![Machiavelli: A Renaissance Life](_51RLz1PTBKL._SL160_.jpg)
+
+Machiavelli: A Renaissance Life (Prometheus Books, 2013) by Joseph Markulin
+
+_Markulin examines the life of Machiavelli through the colourful events and characters that surrounded him._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Machiavelli-Renaissance-Life-Joseph-Markulin/dp/1616148055?tag=thepubdomrev-20)
+
+{<} ![The Comedies of Machiavelli (Bilingual Edition)](_51NRGwa7vGL._SL160_.jpg)
+
+The Comedies of Machiavelli (Bilingual Edition) (Hackett Publishing Company, 2007) by Niccolo Machiavelli
+
+_A bilingual edition of three comedies by Niccolo Machiavelli, incuding _Mandragola_._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Comedies-Machiavelli-Mandrake-Hackett-Classics/dp/0872209016?tag=thepubdomrev-20)
+
+{<} ![The Swerve: How the World Became Modern](_51chpVixqKL._SL160_.jpg)
+
+The Swerve: How the World Became Modern (W. W. Norton & Company, 2012) by Stephen Greenblatt
+
+_How the rediscovery of Lucretius nearly 600 years ago fueled the Renaissance, inspiring artists and thinkers such as Botticelli and Giordano Bruno, and shaping the thought of Galileo and Freud, Darwin and Einstein._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Swerve-How-World-Became-Modern/dp/0393343405?tag=thepubdomrev-20)

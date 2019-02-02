@@ -1,0 +1,232 @@
+Tags: Science, Philosophy
+Summary: One remarkable symptom of scurvy, that constant bane of the Age of Discovery, was the acute and morbid heightening of the senses. Jonathan Lamb explores how this unusual effect of sailing into uncharted territory echoed a different kind of voyage, one undertaken by the Empiricists through their experiments in enhancing the senses artificially.
+
+# Scurvy and the Terra Incognita
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**One remarkable symptom of scurvy, that constant bane of the Age of Discovery, was the acute and morbid heightening of the senses. Jonathan Lamb explores how this unusual effect of sailing into uncharted territory echoed a different kind of voyage, one undertaken by the Empiricists through their experiments in enhancing the senses artificially.**
+
+<figure>
+  <img src="_17177488538_c9497d2c7f_c.jpg">
+  <figcaption>A page from the journal of Henry Walsh Mahon showing the effects of scurvy, from his time aboard HM Convict Ship Barrosa (1841-2).
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:A_case_of_Scurvy_journal_of_Henry_Walsh_Mahon.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+When the archangel Michael in Milton’s _Paradise Lost_ explains to Adam that his sin cannot be purged in Paradise, but must be worked off over time in the world at large, he opens a door to discovery that is at once promising and depressing. On the one hand there is the whole earth to traverse and to exploit, and on the other Adam is reminded that he is about to infect it with the taint of mortality. Two sides of discovery are exhibited, then: the prospect of a purer knowledge waiting to be found (the route to ultimate redemption), and the awareness of a degenerate constitution (“a distemper gross to aire as gross”) revealed to Adam as a terrestrial future filled with “th’effects which thy original crime hath wrought”. The scientists who ushered in the last era of maritime exploration were charmed by the promise of discovery. Robert Hooke wrote, “And as at first, mankind fell by tasting of the forbidden Tree of Knowledge, so we, their Posterity, may be in part restor’d by the same way . . . by tasting too those fruits of Natural Knowledge, that were never yet forbidden”.[^1] But no matter how many devices Hooke and his colleagues invented to advance this project, there was a distemper infecting all attempts to put it into practice. Scurvy.
+
+Caused by a genetic mutation that prevents humans from synthesising vitamin C, scurvy was inevitable in long voyages of discovery where fresh food was hard to get, causing the body to grossly disintegrate and perish. The disease ensured that the sinister ambiguity of discovery, so cheerfully overlooked in Hooke’s program of restoration, remained intact. If sin came into the world via knowledge and discovery could it really leave the same way? Scurvy seems to indicate, like God, that it can’t; and yet there is another way in which it suggests, like Hooke, the opposite. One of its more remarkable symptoms was a morbid receptivity to sense impressions, one aligned with the preternatural sensitivity scientists were trying to excite artificially. If scurvy is construed as physical manifestation of sin — a consequence of the postlapsarian body, the offspring of illicit knowledge — it has its own interest in the processes of empirical cognition.
+
+<figure>
+  <img src="_17365716911_c72a17a805_o.jpg">
+  <figcaption>An allegory for the sense of touch, featuring Adam and Eve being ejected from the Garden. Engraving by N. de Bruyn after M. de Vos.
+    <cite>
+      <a href="http://wellcomeimages.org/indexplus/image/V0007685.html">Wellcome Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Sudden sounds, such as the report of a musket or a cannon, were well known to kill scorbutic sailors. Even pleasant stimuli such as a drink of fresh water, or a long-awaited taste of fruit, could provoke a seizure and put an end to their lives. In his _Omoo_, Melville recalls how once
+
+> the Trades scarce filled our swooning sails; the air was languid with the aroma of a thousand strange, flowering shrubs. Upon inhaling it, one of the sick who had recently shown symptoms of scurvy, cried out in pain, and was carried below. This is no unusual effect in such cases.[^2]
+
+When, badly afflicted with scurvy, Bernardin de St Pierre landed on Mauritius, he was disgusted by the trees, which smelt of excrement, and flowers such as the veloutier were alluring only at a distance for the odour “quite close is perfectly loathesome”.[^3] Sometimes the sensation passed the frontier from pain to pleasure or vice versa. Here is Anders Sparrman, a scorbutic naturalist on the _Resolution_ who was hunting ducks when at last he landed in New Zealand: “The blood from these warm birds which were dying in my hands, running over my fingers, excited me to a degree I had never previously experienced. . . .This filled me with amazement, but the next moment I felt frightened”.[^4]
+
+The scorbutic eye was particularly engaged, so much so that vision seemed to envelop the viewer and turn the orb of the individual organ inside out, as in [this description](https://archive.org/stream/voyagespedrofer02ariagoog#page/n310/mode/2up) by Pedro Fernandez de Queirós of a festival he organized after he and his scorbutic crew reached Vanuatu:
+
+> There were seen amongst the green branches so many plumes of feathers and sashes, so many pikes, halberds, javelins, bright sword-blades, spears, lances, and on the breasts so many crosses, and so much gold, and so many colours and silken dresses, and many eyes could not contain what sprung from the heart, and they shed tears of joy.[^5]
+
+Spectacular novelties such as coral grew more wonderful for Matthew Flinders as scurvy heightened the impression, turning dangerous animate rock into fascinating antiscorbutics: “We had wheat sheaves, mushrooms, stags horns, cabbage leaves, and a variety of other forms, glowing under water with vivid tints of every shade betwixt green, purple, brown, and white”.[^6] Pleasure and disgust could be aroused by the selfsame phenomenon: Johann Reinhold Forster was fascinated by the effects of phosphorescence although he believed it was caused by rotting animalcules. One hundred fifty years later years later, Robert Louis Stevenson was to have the same mixed reactions to coral. The sea snakes in _The Rime of the Ancient Mariner_ excite similar extremes of wretchedness and rapture.
+
+<figure>
+  <img src="_17363434212_4a0e749650_o.jpg">
+  <figcaption>“I watched the water-snakes” (1877), illustration by Gustave Doré for Coleridge’s <em>Rime of the Ancient Mariner</em>.
+    <cite>
+      <a href="https://ebooks.adelaide.edu.au/c/coleridge/samuel_taylor/rime/#plate20">Adelaide</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In the previous century scientists had attempted various prostheses for the sense-organs designed to make the work of discovery more exact: telegraph wires to transport the voice to distant ears, hygroscopes for detecting effluvia leaking from the earth, and of course improved microscopes and telescopes designed to bring the infinitely small and the infinitely distant into distinct focus. Hooke’s reactions to the colours and shapes of microscopic specimens were sometimes quite as ecstatic as Sparrman’s, Flinders’ and De Queirós’, but at the same time he was able to make accurate drawings of them that had never been seen before. In this pursuit he explained how the senses were “wonderfully benefitted . . . and guided to an easie and more exact Performance of their Offices”.[^7] If other people were using ships, huge machines designed to bring the unknown into the purview of the five senses, Hooke was using his own portable contrivances to arrive at what he explicitly referred to as a discovery of “new Worlds and Terra-Incognita’s”.[^8] His machines were the forerunners of those that accompanied Cook’s supercargoes: Kendal’s and Arnold’s chronometers, Knight’s azimuth compass, and Bird’s astronomical quadrant.
+
+Support for Hooke was by no means unanimous. Margaret Cavendish said his instruments could never penetrate the surface of things and find out the secrets of their constitution; they only disarranged the distances, textures, and angles that made them usual or comely, revealing instead the immodesties, moles, and hairs that cause the maids of honour in Brobdingnag to appear so repulsive to Gulliver. Were we to see things a thousand times more clearly or hear things magnified at the same rate, our lives would be made intolerable, Locke argued: there would be no rest, no power of discrimination. Such a witness would live “in a quite different World from other People. Nothing would appear the same to him, and others”.[^9] For Hooke, temporary alienation from the familiar world was the whole point. If a _terra incognita_ was to be disclosed, then one had to act in the spirit of foreignness: “An Observer should endeavor to look upon such Experiments and Observations that are more common, and to which he has been more accustom’d, as if they were the greatest Rarity, and to imagine himself a Person of some other Country or Calling, that he never heard of, or seen the like before”.[^10] Scurvy, you might say, helped the observer into this estranged position.
+
+<figure>
+  <img src="_scheme34.png">
+  <figcaption>A flea as seen through a microscope, in Hooke’s <em>Micrographia</em>(1665).
+    <cite>
+      <a href="https://ebooks.adelaide.edu.au/h/hooke/robert/micrographia/observ53.html">Adelaide</a>
+    </cite>
+  </figcaption>
+</figure>
+
+By opting for the advantages of normal sense impressions, Locke and Cavendish were defending not just the proportionality and communicability of sensations, but also a very specific notion of how they are received and exchanged as ideas. Along with Descartes and Hobbes, Locke agreed that the sensory organ, while being stimulated by an object in the real world, did not take a print of it or in any way incorporate its properties. He said, “There is nothing like our Ideas in the Bodies themselves”.[^11] The smell of a flower is an event in the sensorium, created purely by the pulsations passing between the olfactory nerve and the brain. Cavendish did not go as far as that, but she resisted the Epicurean doctrine of films and effigies as streams of matter launched from the surface of the object at the eye, ear, or nose. Using the analogy of the mirror, she said, “It is not the real body of the object which the glass presents, but the glass only figures or patterns out the picture presented in and by the glass”.[^12] With this account of representation she denied Lucretius, the arch-empiricist, the indisputable evidence of impressions or any collaboration between them in the production of knowledge, for he had argued that no organ can thwart the receptivity of another. He asked, “Can th’eare, the sight denie?/ Shall th’eare, or tast, the feeling sense oppose?/ Or shall the eie, dispute against the nose?”.[^13] Cavendish retorted, “The nose knows not what the eyes see”.[^14]
+
+For his part, Hooke was convinced of the contrary, for it was only with the help of a microscope that the true roughness of a surface could be felt, a coalition of the prosthetized eye and the imaginary finger: “The roughness and smoothness of a Body is made much more sensible by the help of a Microscope, than by the most tender and delicate Hand”.[^15] Walter Charleton, the greatest authority on scurvy and nutrition in the seventeenth century, noticed that under the pressure of great stimuli the eye will engross the functions of other senses, resulting in the kind of imminent synaesthesia Addison vouched for in his essays of the pleasures of imagination when he observed that an appetent eye experiences sight as a “more delicate and diffusive Kind of Touch”.[^16] Coleridge was fascinated by this phenomenon. He called it the double touch (“touch . . . co-present with vision, yet not coalescing”) and wondered “whether the Skin be not a Terra Incognita in Medicine”.[^17]
+
+<figure>
+  <img src="_17180578128_df486fd3c3_b.jpg">
+  <figcaption>A female figure feeling an arrow with her finger; representing the sense of touch. Mezzotint by A. Vanhacken after J. Amiconi.
+    <cite>
+      <a href="http://wellcomeimages.org/indexplus/image/V0007672.html">Wellcome Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+From the beginning of this debate, the issue of enlarged sensations had calqued upon questions of disease. If you could smell too much like Bernardin de St Pierre and Melville’s sailor, or have your eyes dazzle with the colours of serpents, like the Ancient Mariner, then life was not only lived in a foreign place, that place was a hospital. Supposing that it might be possible to sense too much, and out of that superfluity for one organ to seize on the function of another, Francis Hutcheson had concluded such a condition to be inconsistent with providential mercy (“Senses incapable of bearing the surrounding Objects without Pain; Eyes pained with the Light; a Palate offended with the Fruits of the Earth; a Skin as tender as the Coats of the Eye”).[^18] But of course what he had done was to reject as improbable the very scenes of scorbutic distress widely reported in contemporary journals. In his [_Essay on Man_](https://archive.org/details/popesessayonmani00pope) Pope similarly excludes a list of morbid susceptibilities as exorbitant to the divine plan, concluding with the figment of a man so tender he shrieks at the smell of a flower, as Melville’s sailor was actually heard to do:
+
+> Say what the use, were finer optics given,  
+> T’inspect a mite, not comprehend the heaven?  
+> Or touch, if tremblingly alive all o’er,  
+> To smart and agonise at every pore?  
+> Or quick effluvia darting through the brain,  
+> Die of a rose in aromatic pain?
+
+Approaching the matter of acute sensation from a different angle, Robert Boyle saw a very useful connexion between disease and extraordinary powers of perception. In his essays on effluvia, he mentions several examples, some of an innate susceptibility (the lady who swoons at the smell of roses) and some of a valuable acquisition of sensibility after an illness. A man who recovered from bubonic plague found himself able to smell an infected person before any signs of the pestilence had appeared; another who suffered inflammation of the eyes and afterwards could distinguish colours in the dark; a physician who fell sick of a fever and discovered he could now overhear whispered speech at a great distance.[^19] Boyle’s explanation for these accidental improvements of the subtlety of the senses stems from his belief that effluvia do not bounce off the body, but pierce it and, by affecting its sensory equipment, alter the organs of the body that influence subsequent reactions to their environment. So from a blind and involuntary susceptibility, the body’s organs may advance to an alertness that is active and what Bacon would call ejaculative or emittent. From this superlative awareness of effluvia, Boyle supposes such a degree of potential discrimination that the size, shape, motion, and colour of effluvia themselves might become perceptible. So by means of the variations in the internal constitution of the living engine (as Boyle calls the body) he aims at the discovery of an invisible world of particles, just as Hooke with his machines goes in search of a terra incognita in the bottom of a microscope, or Coleridge beneath the porous surface of the skin.
+
+<figure>
+  <img src="_16746062694_1a2b44f2c7_b.jpg">
+  <figcaption>Detail from title page of Boyle’s <em>Essays of the Strange Subtilty, Great Efficacy, Determinate Nature of Effluviums</em>.
+    <cite>
+      <a href="http://wellcomeimages.org/indexplus/image/L0034654.html">Wellcome Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Is scurvy such a disease, capable of prostrating the body and then redeeming it with enhanced perceptions? Walter Charleton and Thomas Willis, Boyle’s contemporaries and authors of books on scurvy, offered some account of how this might happen. For both men the healthy state of the sensitive soul resembled Boyle’s idea of the action and reaction of effluvia. Willis called it dilation or irradiation, Charleton named it corroboration. It occurs when something powerfully imagined actually takes place:
+
+> We imagine the Drinking of excellent Wine, with a certain Pleasure, then we indulge it; the Imagination of its Pleasure is again sharpened by the taste, and then by a reflected Appetite drinking is repeated. So as it were in a Circle, the Throat or Appetite provokes the Sensation, and the Sensation causes the Appetite to be sharpened, and iterated”.[^20]
+
+This corroboration of an image by the addition of a sensation is to be compared with the fixations of the scorbutic imagination observed by Thomas Trotter:
+
+> The cravings of appetite, not only amuse their waking hours with thoughts on green fields, and streams of pure water; but in their dreams they are tantalized by the favourite idea; and on waking the mortifying disappointment is expressed with the utmost regret, with groans, and weeping, altogether childish”.[^21]
+
+But then when the desideratum is materialized, what a remarkable shift from miserable privation to intense pleasure! “The patient in the inveterate stage of the disease seems to gather strength even from the sight of fruit: the spirits are exhilarated by the taste itself, and the juice is swallowed, with emotions of the most voluptuous luxury”.[^22] John Mitchel, an Irish political prisoner en route for Tasmania aboard a scorbutic transport, wished never to forget the “brutal rapture” with which he devoured six oranges when the ship landed in Pernambuco. There is a gentler example of corroboration when the parched Ancient Mariner wakes from a dream of drinking to find his thirst quenched by the rain falling on his bare skin: “Sure I had drunken in my dreams,/ And still my body drank”.
+
+<figure>
+  <img src="_17180875578_e605b852dc_c.jpg">
+  <figcaption>“The rain poured down from one black cloud” (1877), detail from an illustration by Gustave Doré for Coleridge’s <em>Rime of the Ancient Mariner</em>–.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:Der_Alte_Matrose_b_22.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+If we bear this in mind when reviewing one of the great junctions in the history of scurvy and science, [Humphry Davy’s tests on nitrous oxide](http://publicdomainreview.org/2014/08/06/o-excellent-air-bag-humphry-davy-and-nitrous-oxide/) at the Pneumatic Institute in 1799, an unmistakable resemblance seems to take place between the excitements of a scorbutic seaman and the sensations induced by laughing gas in Davy’s fingers, eyes, and ears. He made and inhaled the gas in order to test a theory that “azote oxyd,” as it was called by Samuel Mitchill (whose theory it was), acted as the source of all contagious diseases, including scurvy. While finding that he did not succumb to scurvy or any other malady, Davy did find himself changed in ways a scorbutic sailor or a Royal Scientist might recognize:
+
+> I imagined that I had increased sensibility of touch: my fingers were pained by anything rough . . . I was certainly more irritable, and felt more acutely from trifling circumstances . . . My visible impressions were dazzling and apparently magnified . . . when I have breathed it amidst noise, the sense of hearing has been painfully affected even by moderate intensity of sound”.[^23]
+
+At the limit of sensory irritation, Davy had discovered that there was no difference between suffering the impression of an object and imagining it. Like Condillac’s statue, he could not tell the difference between passivity and activity, “between a cause within, and a cause without”.[^24] At this pitch both were the same, and the consequence was remarkable, explained by Mike Jay as follows: “\[Davy’s\] culminating experiment had proved, as nothing ever had before, that an altered sensory and mental frame had the power to generate an entirely different universe”.[^25]
+
+Was this universe Boyle’s invisible world? Hooke’s terra incognita? The corroborative assignation with fresh fruit on a desert island? Probably not, for it was experienced, as Coleridge himself was aware from his experiments with opium and laughing gas, with all sense of “outness” lost: and then, as he says, “What a horrid disease every moment would become”.[^26] Scurvy was a terrible affliction but was not that kind of distemper. It maintained some link with the real, for no matter how foreign and extravagant it might appear in a dream, it was an authentic message from the body to the imagination, to which the imagination and the will did their best to respond. Erasmus Darwin called reveries and delusions resulting in total disobedience to external stimuli “diseases of volition”, and we can conclude that scurvy was not of that genus because its morbid sensory alertness preserved (no matter how obliquely) some kind of faith with the empiricist principles that shadowed its history.
+
+* * *
+
+**Jonathan Lamb** is the Andrew W. Mellon Fellow of the Humanities at Vanderbilt University, currently on a Guggenheim Fellowship in Britain where he is writing a book titled _Scurvy: The Disease of Discovery_. His most recent books are _[The Things Things Say](http://www.amazon.com/gp/product/0691148066/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0691148066&linkCode=as2&tag=thepubdomrev-20)![](_ir)  
+_, published last year by Princeton University Press, and _[The Evolution of Sympathy](http://www.amazon.com/gp/product/1851968547/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=1851968547&linkCode=as2&tag=thepubdomrev-20)![](_ir)  
+_, (Pickering and Chatto, 2009).
+
+[^1]: Robert Hooke, _Micrographia_, 2003 \[1665\], p. vii.
+
+[^2]: Hermann Melville, _Omoo_, 1847, p. 64.
+
+[^3]: Bernardin de St Pierre, _Voyage à l’Île de France, à l’île Bourbon et au cap de Bonne-Espérance_, 1800 \[1773\], p. 66.
+
+[^4]: Anders Sparrman quoted in Bernard Smith, 1956, p. 138.
+
+[^5]: Pedro Fernandez de Queirós, _The Voyages of Pedro Fernandez de Quiros, 1595-1606_, translated and edited by Clements Markham, 1904, Vol.1, [p. 261](https://archive.org/stream/voyagespedrofer02ariagoog#page/n310/mode/2up).
+
+[^6]: Matthew Flinders, _A Voyage to Terra Australis_, 1814, Vol.2, p. 88.
+
+[^7]: Robert Hooke, _Micrographia_, 2003 \[1665\], p. viii.
+
+[^8]: Ibid., p. xvi.
+
+[^9]: John Locke, _The Clarendon Edition of the Works of John Locke_, 1979, p. 303; \[II; xxiii; 12\]).
+
+[^10]: Robert Hooke, _Posthumous Works of Robert Hooke_, 1969, pp. 61-2.
+
+[^11]: John Locke, _The Clarendon Edition of the Works of John Locke_, 1979, p. 137 \[II; vii; 14-15\].
+
+[^12]: Margaret Cavendish, _Observations upon Experimental Philosophy_, 2001 \[1668\], p. 51.
+
+[^13]: Lucretius translated by Lucy Hutchinson, _The Works of Lucy Hutchinson, Vol. I: The Translation of Lucretius_, edited by Reid Barbour and David Norbrook, 2012 Vol.1 p. 251.
+
+[^14]: Margaret Cavendish, _Observations upon Experimental Philosophy_, 2001 \[1668\], p. 46.
+
+[^15]: Robert Hooke, _Micrographia_, 2003 \[1665\], p. xii.
+
+[^16]: Joseph Addison, _The Spectator No.411_, 1712.
+
+[^17]: Samuel Coleridge, _Notebooks II_, 3217, f 70; I, 1826.16.209.
+
+[^18]: Frances Hutchenson, _An Essay on the Nature and Conduct of the Passions and Affections. With Illustrations upon the Moral Sense_, 2002 \[1728\], p. 119.
+
+[^19]: Robert Boyle, _The Works of Robert Boyle_, Edited by Michael Hunter and Edward B Davis, 1999, Vol.7, p. 268, 282.
+
+[^20]: Thomas Willis, _Two discourses concerning the soul of brutes which is that of the vital and sensitive of man_, 1683, p. 49.
+
+[^21]: Thomas Trotter, _Observations on the Scurvy_, 1792, p. 44.
+
+[^22]: Ibid., pp. 141-2.
+
+[^23]: Humphry Davy, _Researches, Chemical and Philosophical_, 1800, pp. 464, 487, 491.
+
+[^24]: Étienne Bonnot de Condillac, _Treatise on the Sensations_, translated by Margaret Geraldine Spooner Carr, 1930 \[1754\], p. 8.
+
+[^24]: Étienne Bonnot de Condillac, _Treatise on the Sensations_, translated by Margaret Geraldine Spooner Carr, 1930 \[1754\], p. 8.
+
+[^25]: Mike Jay, _The Atmosphere of Heaven: The Unnatural Experiments of Dr Beddoes an His Sons of Genius_, 2010, p. 199.
+
+[^26]: Samuel Coleridge, _Notebooks_, 1307.8.56.
+
+* * *
+
+Public Domain Works
+
+*   _An Essay on the Sea Scurvy_ (1753), by Anthony Addington.
+*   _Observations on the scurvy : with a review of the theories lately advanced on that disease ; and the opinions of Dr. Milman refuted from practice_ (1793), by Thomas Trotter.
+*   _An Inaugural Essay on Scurvy_ (1798), by John Claiborne.
+*   _A Treatise on the Scurvy_ (1772), by John Lind.
+*   _The voyages of Pedro Fernandez de Quiros, 1595-1606_ (1904), edited by Clements Markham.
+*   _Essay on Man_ (1843 edition), by Alexander Pope.
+*   _Micrographia_ (1665), by Robert Hooke.
+*   _The philosophical works of the Honourable Robert Boyle_ (1725), edited by Peter Shaw.
+*   _The Rime of the Ancient Mariner_, by Samuel Taylor Coleridge.
+
+Further Reading
+
+{<} ![Preserving the Self in the South Seas, 1680-1840](_51K4-iVR82L._SL160_.jpg)
+
+Preserving the Self in the South Seas, 1680-1840 (University Of Chicago Press, 2001) by Jonathan Lamb
+
+_Lamb delves into the writings of South Seas explorers, illuminating the European age of exploration through the distracted and infatuated feelings of the explorers themselves, as well as the contemporary audience’s interest in their narratives._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Preserving-Self-South-Seas-1680-1840/dp/0226468496?tag=thepubdomrev-20)
+
+{<} ![Scurvy: How a Surgeon, a Mariner, and a Gentleman Solved the Greatest Medical Mystery of the Age of Sail ](_51hLM-ciYSL._SL160_.jpg)
+
+Scurvy: How a Surgeon, a Mariner, and a Gentleman Solved the Greatest Medical Mystery of the Age of Sail  (St. Martin’s Griffin, 2005) by Stephen R. Bown
+
+_The cure for scurvy saved lives and changed the course of sea battles. In this book – a fusion of history and adventure story – Brown tells of how James Lind, James Cook, and Gilbert Blane worked to eradicate scurvy._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Scurvy-Surgeon-Mariner-Gentlemen-Greatest/dp/0312313926?tag=thepubdomrev-20)
+
+{<} ![The Atmosphere of Heaven: The Unnatural Experiments of Dr Beddoes and His Sons of Genius](_51ntraLorqL._SL160_-1.jpg)
+
+The Atmosphere of Heaven: The Unnatural Experiments of Dr Beddoes and His Sons of Genius (Yale University Press, 2010) by Mike Jay
+
+_An exploration into the fascinating history of how 18th-century exepriments into nitrous oxide (AKA laughing gas) led to improvements in anesthetic surgery and influenced our modern drug culture._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Atmosphere-Heaven-Unnatural-Experiments-Beddoes/dp/0300168918?tag=thepubdomrev-20)
+
+{<} ![A Natural History of the Senses](_41KzohV099L._SL160_.jpg)
+
+A Natural History of the Senses (Vintage, 1991) by Diane Ackerman
+
+_Ackerman takes us on a grand multi-disciplinary tour in which philosophy and physiology come together in a series of essays exploring the five senses._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Natural-History-Senses-Diane-Ackerman/dp/0679735666?tag=thepubdomrev-20)

@@ -1,0 +1,108 @@
+Tags: Books, Literature
+Summary: Christine Jones explores the early English translations of Charles Perrault’s 1697 collection of fairy tales and how a change in running order was key to them becoming the stories for children which we know today.
+
+# Mother Goose’s French Birth (1697) and British Afterlife (1729)
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Christine Jones explores the early English translations of Charles Perrault’s 1697 collection of fairy tales and how a change in running order was key to them becoming the stories for children which we know today.**
+
+<figure>
+  <img src="_8876616667_e3c498408a_o.jpg">
+  <figcaption>The 1695 frontispiece to the manuscript pages which, in 1697, were to become the first edition of Perrault’s <em>Histoires ou Contes du temps passé</em>. On the door, behind the old woman telling the tales, is written “Contes de ma mère l’Oye”, Tales
+    of Mother Goose, a subtitle which was to take prominence in the first English translations –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:Perrault_1695_Contes.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Unlike the Brothers Grimm, who recently metamorphosed from children’s story collectors to godfathers of gore for the fairy-tale series, _Grimm_, Charles Perrault’s name remains generally unrecognizable. Yet, his stories, first published in 1697 as the _Histoires ou Contes du temps passé_ (Stories or Tales of The Past) are anything but. Characters he immortalized, such as Cinderella with the glass slippers, the beauty who sleeps one hundred years, and the puss in boots, were destined for centuries of translation and revival. If he did not invent all of them — some appear in different guises in older folklore traditions — he did invent many of the particularities of their stories as we know them today.
+
+That said, most readers no doubt know these titles in English, not French and, in that sense, are familiar not with Perrault’s stories per se, but with the healthy tradition of English translation, inaugurated in 1729. Precious little has been said about those published words — the language of the eighteenth century that turned Cendrillon into Cinderella.[^1] One basic reason for this oversight in scholarship no doubt comes down to a long-standing premise about the 1697 fairy tales: that they fell out of favor in the early eighteenth century and disappeared for a spell.[^2] According to this argument, they reemerged in the nineteenth century with the recovery tactics of publishers interested in hooking a younger audience for these tales and with the Grimms, who credited Perrault with inspiring their work.[^3]
+
+Yet, when one looks into the early reception of the tales in Britain, extant editions tell a different story about Perrault’s fate during the Enlightenment. Libraries such as the Toronto Library, Osborne Collection of Early Children’s Books, Princeton University’s Cotsen Chidren’s Library, the Pierpont Morgan Library, and the British Library are home to myriad eighteenth-century editions of the tales: large, small, fancy, cheap, and all of them delighted by their subject matter. Pirated French editions in Amsterdam and rapid-fire translations from London rolled off the presses every few years. Copies of copies slid down the social ladder and made their way into chapbooks. Woodcutters busily carved variations of earlier images for their publishers, leaving posterity with dozens of illustrations of stories credited to M. Perrault. If France abandoned her native son in the early years of the century, French-speaking publishers in Amsterdam and their eager British counterparts gave him a glorious afterlife.
+
+<figure>
+  <img src="_8877594462_31bcbbf42d_o.jpg">
+  <figcaption>Title page to the seventh edition of Robert Samber’s 1729 translation, the first into English –.
+    <cite>
+      <a href="http://www.americanantiquarian.org/Exhibitions/Inpursuit/case8/10_343021_0001.jpg">American Antiquarian Society</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Furthermore, these early editions of Perrault’s stories are as illuminating as they are voluminous. Two inaugurations in that century of Enlightenment and francophilia are worthy of note. First, Amsterdam publishers flooding the market with French editions exerted surprising influence over England’s, and even France’s, eighteenth-century reception of the fairy tales. Second, the _Histoires_’ very first British translator, Robert Samber of London, found catchy language for these exciting young heroes and heroines in 1729 that immediately turned into classics for the English-speaking world. Before I detail these changes, a word about the stories as they appeared in print from 1697 until about 1720.
+
+The first hands that held and read the _Histoires ou contes du temps passé_ belonged to adults, not children. Written in a poetic style with myriad cultural references, the stories embody the style of their age: a blend of the intellectualism found at the Académie Française and the fashionable splendor of Louis XIV’s Versailles. Knowing Perrault had an adult readership may explain why the volume begins and ends with long, complex tales in a narrative style that we no longer associate with fairy tales today.
+
+<figure>
+  <img src="_8876946945_68de2e33aa_o.jpg">
+  <figcaption>19th century engraving showing Charles Perrault surrounded by depictions of the tales that were to make his name –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:Charles_Perrault02.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Readers of the earliest editions had to slog first through “La Belle au bois dormant”/”Sleeping Beauty” the longest tale in the collection, rich in detail and also violent in its themes. To take one example, the prince’s Ogress mother orders that her grandchildren and the princess be cooked for her in a Sauce Robert (a staple of classic French cuisine). Owing to the tale’s length, however, the plot has time to resolve the problems it sets up, notably by feeding the Ogress – a cruel irony for a gourmand – to a vat of vipers and snakes. Similarly, the volume ends with the second longest story, “Le Petit Poucet”/”Hop o’ my Thumb”, which sees a diminutive young man through a family drama that repeatedly thwarts his success and sends him on many adventures. Sandwiched in between is the kind of short story Walt Disney Studios prefers: “Little Red Riding Hood,” “Cinderella,” and “Puss in Boots.”
+
+If we no longer relish lengthy, tediously detailed fairy tales, it is in part because eighteenth-century editors made a series of decisions that privileged the shortest ones and, as the century reached its end, increasingly aimed the collection at children. Even the earliest choices made seem to have had lasting impact. In 1721, a major publisher in Amsterdam, the family Desbordes, changed the order of the texts in a French-language edition whose impact was subtle and enduring: “Petit Chaperon rouge” (Little Red Riding Hood) was placed first, followed by “Les Fées” (The Fairies).[^4] Desbordes kept “Barbe bleue” (Blue Beard), of middling length, in its traditional third spot and followed it with “Belle au bois dormant” (Sleeping Beauty) in fourth place.
+
+<figure>
+  <img src="_8868448903_583d436221_o.jpg">
+  <figcaption>Table of contents from a Desbordes edition of the tales. The 1721 edition was first to feature the new order of tales which the English editions would subsequently copy –.
+    <cite>
+      <a href="https://play.google.com/books/reader?id=_fV2d93m6kAC&amp;printsec=frontcover&amp;output=reader&amp;authuser=0&amp;hl=en&amp;pg=GBS.PR9">Google Play</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In the wake of this idiosyncratic change, something extraordinary happened: from the first translation by Robert Samber in 1729 onward, British editions copied the Desbordes order of tales.[^5] Along with the pithy names Samber chose for their protagonists—Sleeping Beauty, Little Red Riding Hood, Cinderilla (with an “i”), Puss in Boots—this order of stories stuck. Because editors tended to reprint and tweak earlier translations—the one by Samber and another very similar one credited to Guy Miège[^6]—rather than start from scratch, it was already difficult by 1750 to flout these convention. Of 30 extant editions from Paris, Amsterdam, and London between 1721 and 1800, all but one followed the Desbordes 1721 order and Samber’s names; and all claim to translate from the 1697 Paris edition and credit the book to M. Perrault. Thus, the order of stories with “Little Red Riding Hood” first and “Sleeping Beauty” in the middle quickly and seamlessly became the original edition to which subsequent editors referred. That small change created the conditions for a seismic shift in the volume’s identity. Through the course of the century, it was increasingly associated with simplicity of style and a young readership.
+
+Now, Little Red Riding Hood’s fate, to be eaten alive by a wolf, is not on the surface a more youthful theme than the long rest of Sleeping Beauty. Yet, in terms of length and complexity of plot, they represent opposite examples of the genre. In “Sleeping Beauty,” the tale Perrault put first in 1697, the young girl grows up to a teen, pricks her finger, falls asleep for a generation until her prince can be born and find her, elopes, has lots of sex with him, bears two children, and then lives out her life at his mother’s castle. For Little Red Riding Hood, by contrast, death cuts her down in the bloom of youth. Her narrative hardly affords her time to think, much less grow up. Desbordes privileges “Little Red Riding Hood” and pairs it with “The Fairies,” another mini-story about talking to people whose motives and rank the heroine does not fully understand. In first and second place in the volume, they form a neat package of apparently simple caution about behavior, balancing each other out with dystopian and utopian endings: Young girl talks nicely to wolf and dies vs. young girl talks nicely to fairy and wins (her reward is to spit gemstones whenever she opens her mouth to speak).
+
+<figure>
+  <img src="_8876947321_3bc2e333b9_o.jpg">
+  <figcaption>Illustration by Harry Clarke for the story that would play a central role to the change in tone Perrault’s tales took on, Little Red Hiding Hood, from <em>The Fairy Tales of Charles Perrault</em>(1922) which used the original 1729 translation by Robert
+    Samber with revisions by J.E. Mansion –.
+    <cite>
+      <a href="http://archive.org/stream/fairytalesofchar00perr#page/18/mode/2up">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+What happens when the text leads off with the shortest stories in the corpus? Readers are set up to read fairy tales a certain way. The short plots encourage us to look for a simple point—the nugget of action or “moral of the story” that teaches a lesson. Readers who approach the collection this way will logically seek out a similarly small nugget buried in the much longer stories to follow instead of relishing their narrative complexity. We can see in that perception of the genre something very close to popular ideas today about what a fairy tale should look like and do for children. Imagine if “Sleeping Beauty” with all its adult drama had stayed in first place. Then Little Red Riding Hood would have come through history as she was born: swallowed up between a story of sex and an Ogress mother-in-law, and Blue Beard’s bloody conjugal nightmare. If this had been the case, the collection probably would not have appeared to target children. Second, we might well have a different vision of the genre today as a form that works out social, rather than moral, complexities. Instead, when Walt Disney animators created the filmic Sleeping Beauty, they made it look like a chaste short story, ending the movie plot where Perrault’s story really begins: the marriage between the prince and the princess. (Spoiler alert: there is also no kiss in Perrault’s version. The princess wakes up and the trembling prince falls to his knees in amazement. Disney added the heroism for dramatic 1950s effect.)
+
+Eighteenth-century editors began a slow transformation of this small French book into a pithy classic for children two centuries before Disney got a hold of it. British editions, in particular, helped to canonize a specific vision of the stories. Simply put, eighteenth-century translations are many and relevant to our modern perception of Perrault’s 1697 French fairy tales. Editors reiterated their titles and line-up so often that they ceased to need the French antecedent to be veritable icons and legends of the literary past. No longer translations, they became English-language originals. With her position in first place, Little Red Riding Hood emerged from the century a ubiquitous heroine and the very definition of what a fairy tale should be.
+
+* * *
+
+Christine A. Jones is an associate professor of French Studies at the University of Utah specializing in 17th- and 18th-century culture and has recently completed new translations of Charles Perrault’s fairy tales.
+
+* * *
+
+_
+
+[^1]: In point of fact, her name had an ‘i’ (-illa instead of –ella) for part of the century.
+
+[^2]: See Natalie Froloff, “Préface,” Perrault Contes \[1981\], ed. Jean-Pierre Collinet (Paris: Gallimard/Folio Classique, 1999), 7-26; 15. Recent French editions of Perrault reiterate this claim.
+
+[^3]: Gillian Lathey, The Role of Translators in Children’s Literature: Invisible Storytellers (London: Taylor & Francis, 2010.
+
+[^4]: Desbordes printed 1697, 1700, 1708, and 1714 editions. When Jacques Desbordes died his widow took over the press and put out the 1721 edition: Histoires ou contes du temps passé. Avec des Moralitez. Par Mr. Perrault. Nouvelle edition…suivant la copie à Paris. A Amsterdam, chez la veuve de Jaq. Desbordes, 1721. Although she changed the order of the stories, the edition still purports to being done “after the Paris edition.” This may account for its wide acceptance as the appropriate order.
+
+[^5]: Robert Samber, Histories or Tales of past Times…with Morals. By M. Perrault. trans. Robert Samber (London: J. Pote, 1729).
+
+[^6]: A bilingual edition from 1764 at the British Library said to contain Miège’s translations is the earliest extant reference to his name that I have found. A 1799 edition in the British Library, which identifies itself as the eleventh using G.M.’s translations, and another from 1810 at the Osborne attest to reprinting through at least the early nineteenth century.
+
+_
+
+Links to Works
+==============
+
+*   _The Fairy Tales of Charles Perrault_ (1922), using the original 1729 translation by Robert Samber with revisions by J.E. Mansion, and illustrations by Harry Clarke.
+*   _Histoires ou Contes du temps passé_ (1697, Barbin edition) by Charles Perrault.
+
+Recommended Readings
+====================

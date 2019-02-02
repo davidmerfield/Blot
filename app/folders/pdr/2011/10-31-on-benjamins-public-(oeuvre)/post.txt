@@ -1,0 +1,58 @@
+Tags: Literature, Philosophy, History
+Summary: On the run from the Nazis in 1940, the philosopher, literary critic and essayist Walter Benjamin committed suicide in the Spanish border town of Portbou. In 2011, over 70 years later, his writings enter the public domain in many countries around the world. Anca Pusca, author of Walter Benjamin: The Aesthetics of Change, reflects on the relevance of Benjamin’s oeuvre in a digital age, and the implications of his work becoming freely available online.
+
+# On Benjamin’s Public (Oeuvre)
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**On the run from the Nazis in 1940, the philosopher, literary critic and essayist Walter Benjamin committed suicide in the Spanish border town of Portbou. In 2011, over 70 years later, his writings enter the public domain in many countries around the world. Anca Pusca, author of _Walter Benjamin: The Aesthetics of Change_, reflects on the relevance of Benjamin’s oeuvre in a digital age, and the implications of his work becoming freely available online.**
+
+<figure>
+  <img alt="" src="_6297951047_58f792751d_o.jpg">
+  <figcaption>Benjamin's passport photograph from 1928 - courtesy of the Walter Benjamin Archiv, Berlin.</figcaption>
+</figure>
+
+Walter Benjamin, a German-Jewish intellectual of kaleidoscopic abilities and interests – literary critic, philosopher, translator, essayist, radio presenter – has always fascinated academics and intellectuals. His dense academic prose, his unique reading of Marxism, his fascination with Jewish mysticism, but more importantly, his ability to capture some of the major transformations of the early 19th century Europe in a series of literal and temporal frames that distilled the very material which gave it consistency – iron, concrete, shopping arcades, new technologies such as photography and film, ideological propaganda – into words, earned Benjamin a cult-like following which continues today. Artists, philosophers, theorists from every discipline, continue to offer different readings and meanings to his work, which remains strikingly relevant to social and political transformations today.
+
+If Benjamin’s public is mainly of an academic nature today, that was certainly not the case at the time of his writing. With his habilitation rejected by the University of Frankfurt, Benjamin was forced to survive outside of academia, and hence to write accordingly: most of his work appears in fragments – essays, short stories, journal entries, letters, newspaper and journal articles, radio broadcasts – which mainly appeared in the public domain through his journalistic and radio work, with the exception of a few pieces intended for publication by the Institute for Social Research led by Horkheimer and Adorno. This significantly affected not only his writing style – making most of it much more accessible to a larger public – but also his thoughts on the role of language and text. The fragmentary nature of his work, initially a result of financial and practical constraints, later became a trademark of Benjamin’s methodology, particularly obvious in his unfinished magnus opus, the _Arcades Project_.
+
+<figure>
+  <img alt="" src="_6298481280_6ca12d3b71_o.jpg">
+  <figcaption>Detail from a 19th century postcard showing the Passage Bellivet, Caens, opened in 1836.</figcaption>
+</figure>
+
+Conceived as a catalogue of thoughts and images on 19th century Paris as the emblematic modern city, the _Arcades Project_ brings incredible innovation not only stylistically – through the fragmentary nature of the text, which could be read and accessed in non-linear fashion – but also intellectually, by breaking the traditional frame of text which rests upon a necessary temporal and linguistic progression, and effectively establishing a new architecture which relies less on words and more on the images and material that those words conjure. Benjamin effectively reconstructs different Parisian frames, capturing them not unlike a photographer captures a scene. Each of these frames, as fragments of text, contains its own temporality, existing both in relation to but also independent from the others. By embedding the relevance of each frame into a temporality that emerges directly from the material it depicts – for example, by depicting the old Parisian arcades in ruin as a new type of architecture emerges – Benjamin creates a unique dialectic in which the present can never exist as independent from either the past or the future.
+
+<figure>
+  <img alt="" src="_6298481712_2cb32ef931_o.jpg">
+  <figcaption>The Galerie Vivienne during the Bourbon restauration : 8 rue Vivienne, Paris 2nd arr. c. 1820, one of the arcades mentioned in Benjamin's
+    <i>Arcades Project</i>.</figcaption>
+</figure>
+
+The return of Benjamin’s work back to its original wider audience, the public domain, at this particular point in time, creates a series of new possibilities that Benjamin himself could not have envisioned. Internet technology and the ability to collect, categorize and re-arrange Benjamin’s fragments in an electronic publication form could perhaps provide Benjamin with a post-humos solution to his struggle to organize the _Arcades Project_ in a manner that would both appease publishers and maintain its innovative framework. One can already imagine the possibilities of a new interactive electronic _Arcades Project_ in which Benjamin’s fragments could easily be navigated through the click of a button, the text appearing as a digital image, a material fragment much closer to Benjamin’s original intentionality.
+
+Benjamin’s obsession with sorting, filing, keeping tabs on his work, making copies of manuscripts to leave with different friends, carrying a copy of the unfinished manuscript of the _Arcades Project_ with him to his death, as he attempted to escape Nazi-occupied France, shows his determination to protect his work, his hope for eventual publication for future audiences. This is an incredible opportunity to pay Benjamin the ultimate compliment, by finding and bringing together all the fragments of his work, many of which still lie undiscovered and untranslated, and bringing them together into the public domain, free from the constraints of the publishers on which Benjamin depended so desperately during his life.
+
+The publication of his writings on technology, online, particularly his essay ‘The Work of Art in the Age of Its Mechanical Reproducibility’, but also his other writings on media, could not be more appropriate and relevant at this particular point in time. His essay on the ‘Work of Art’ has been used by many of today’s artists and theorists to understand the impact of digital technologies, as a form of reproductive technology, on art, culture and political mobilization. His arguments about the prioritization of the act of seeing, the increased speed through which information/the image in processed when reproduced by mechanical means, but also, the extent to which the technically reproduceable image is now completely removed from the actuality, and intentionality of the scene where it was initially created, remain strangely relevant today.
+
+<figure>
+  <img alt="" src="_6297952081_2d32343c55_o.jpg">
+  <figcaption>Interior sculpture display. at the Paris Exposition. 1900 - from Brooklyn Museum Archives, Goodyear Archival Collection.</figcaption>
+</figure>
+
+<figure>
+  <img alt="" src="_6297951893_51d5d06da6_o.jpg">
+  <figcaption>Street scene outside the Rue de Rivoli Arcades during the Paris Exposition, 1900 - from Brooklyn Museum Archives, Goodyear Archival Collection.</figcaption>
+</figure>
+
+The inability of perception to detect ‘authenticity’ – to connect the image with the original setting in which it was taken – had, according to Benjamin, important repercussions for how mass culture was re-imagined and potentially manipulated by different ideologies. Through technology, the image no longer stayed in the domain of ‘art’, but rather moved into the domain of ‘politics’. If film, the cutting edge technology at the time, served according to Benjamin: ‘to train human beings in the apperceptions and reactions needed to deal with a vast apparatus whose role in their lives is expanding almost daily’, one can easily apply a similar logic to different internet technologies today. Benjamin was however both admirative and weary of the technology of film, for the so-called ‘film capital’ could be used both in the interest of and against the masses. As we are increasingly learning today, same goes for ‘internet and social media capital.’
+
+So many of Benjamin’s writings continue to carry important implications for the wider public today. It is perhaps high time that we remove the ‘aura’ around Benjamin’s figure – an aura built around limited accessibility to and tight control of his work – and return Benjamin and his oeuvre to his public.
+
+* * *
+
+_[Anca Pusca](http://www.gold.ac.uk/politics/staff/pusca/) is Senior Lecturer in International Studies at Goldsmiths, University of London. She is the author of [Walter Benjamin: The Aesthetics of Change](http://www.amazon.co.uk/Walter-Benjamin-Aesthetics-Change-Pusca/dp/0230580866) and other articles on Benjamin which have appeared in Alternatives, International Political Sociology, Perspectives and the Journal of International Research and Development._
+
+A selection of Benjamin’s writings are housed in German [here](http://de.wikisource.org/wiki/Walter_Benjamin) at Wikisource, including relevant Internet Archive links.
+
+If you are interested in helping get English translations of Benjamin’s works into the public domain then [get in touch](mailto:publicdomainreview@okfn.org)
