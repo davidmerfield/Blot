@@ -68,6 +68,8 @@
 }
 </style>
 
+<p>This page contains templates that are no longer maintained. Some are old, some are unfinished,  some are experimental. Some are translations of popular templates on other platforms. </p>
+
 <input type="hidden" name="redirect" value="/theme">
 
 {{^blog.template}}
@@ -122,14 +124,6 @@
   <!--   <span class="icon file"></span>
  -->
   <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
-  <form method='post' style="display:inline">
-    <input type="hidden" name="_csrf" value="{{csrftoken}}">
-    <input type="hidden" name="template" value="{{id}}">
-    <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Install{{#checked}}ed{{/checked}}</span></button>
-  </form>
-  {{#isMine}}
-  <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px" class="preview-button" ><span class="square">Edit</span></a>
-  {{/isMine}}
 
   <form method='post' action="/settings/theme/new">
     <input type="hidden" name="redirect" value="/settings/theme">
@@ -143,15 +137,5 @@
 <div class="clear"></div>
 
 {{/templates}}
-
-<form method='post'>
-  <input type="hidden" name="redirect" value="/settings/theme">
-  <input name="template" value="" type="hidden" />
-  <button type="submit" style="color:#365899;padding:11px 20px;display:block;text-align:left;width:100%">Disable your template</button>
-</form>
-
-
-  <a class="line" style="color:#365899" href="/settings/theme/past">
-  View archived templates</a>
 
 {{/blog.template}}
