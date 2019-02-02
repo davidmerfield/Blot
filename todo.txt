@@ -17,7 +17,7 @@ Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FM
 
 Add property of entry which is safe to use in a JSON feed. Tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqjfBFmTnZZFpzRhtdBrR).
 
-Fix bug in reset password flow on dashboard and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMlsmwQBszSbKzwvXwGDMQSK) and [Donovan](https://micro.blog/donovanwatts/2091983)
+Fix bug in reset password flow on dashboard and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMlsmwQBszSbKzwvXwGDMQSK) and [Donovan](https://micro.blog/donovanwatts/2091983) and [Alessandro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWKdRcVHRBrNlVmMKCqDTWhR)
 
 Convert [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot.
 
