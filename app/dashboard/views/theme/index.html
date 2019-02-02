@@ -20,8 +20,8 @@
 }
 
 .preview-button {
-  margin-right: -9px;
-  margin-left: 11px
+  margin-right: -0;
+  margin-left: -9px
 }
 
 .preview-button .square,
@@ -43,10 +43,6 @@
   background: rgba(0, 0, 0, 0.02)
 }
 
-.preview-button,
-.line form {
-  float: right;
-}
 
 .preview-cover:hover+.preview-button .square,
 .preview-button:hover .square,
@@ -112,7 +108,7 @@
 {{#templates}}
 <div class="line theme {{checked}}">
 
-  {{name}}
+  <span style="display:block;margin-bottom:0.5em">{{name}}</span>
 
   <!--     <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
  -->
@@ -127,16 +123,18 @@
     <input type="hidden" name="template" value="{{id}}">
     <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Install{{#checked}}ed{{/checked}}</span></button>
   </form>
-  {{#isMine}}
-  <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px" class="preview-button" ><span class="square">Edit</span></a>
-  {{/isMine}}
 
-  <form method='post' action="/settings/theme/new">
+  <form method='post'  style="display:inline" action="/settings/theme/new">
     <input type="hidden" name="redirect" value="/settings/theme">
     <input type="hidden" name="name" value="Copy of {{name}}" />
     <input type="hidden" name="cloneFrom" value="{{id}}" />
-    <button type="submit" style="color:#365899;padding:11px 20px;display:block;text-align:left;width:100%">Fork</button>
+    <button type="submit"><span class="square">Fork</span></button>
   </form>
+
+
+  {{#isMine}}
+  <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px;margin-left:0" class="preview-button" ><span class="square">Edit</span></a>
+  {{/isMine}}
 
   <div class="clear"></div>
 </div>
