@@ -2,7 +2,36 @@
   "name": "Forty",
   "isPublic": false,
   "locals": {
-    "page_size": 12
+    "page_size": 12,
+    "email": "test@example.com",
+    "email": "youremailaddress@gmail.com",
+    "description":
+      "A responsive site template designed by HTML5 Up<br /> and released under the Creative Commons.",
+    "baseurl": "/forty-jekyll-theme",
+    "url": null,
+    "author": null,
+    "street_address": "1234 Somewhere Road",
+    "city": "Nashville",
+    "state": "TN",
+    "zip_code": 55555,
+    "country": "United States of America",
+    "phone": "(716) 555-5555",
+    "tiles-source": "pages",
+    "tiles-count": 6,
+    "500px_url": null,
+    "facebook_url": null,
+    "github_url": null,
+    "gitlab_url": "https://gitlab.com/u/andrewbanchich",
+    "googleplus_url": "https://plus.google.com/u/0/+AndrewBanchich",
+    "instagram_url": "https://instagram.com",
+    "linkedin_url": "https://www.linkedin.com/in/andrew-banchich-a4ba1195",
+    "pinterest_url": null,
+    "slack_url": null,
+    "twitter_url": "https://twitter.com/andrewbanchich",
+    "markdown": "kramdown",
+    "sass": {
+      "style": "compressed"
+    }
   },
   "isPublic": false,
   "views": {
@@ -16,7 +45,8 @@
     "tagged": {
       "partials": {
         "title": "Entries tagged {{{tag}}} from {{{title}}}",
-        "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
+        "description":
+          "All of the entries posted on {{{title}}} tagged {{{tag}}}"
       }
     },
     "entries": {

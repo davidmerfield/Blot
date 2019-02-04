@@ -6,36 +6,37 @@
   -->
 <html>
 
-  {{> head}}
+{{> head}}
 
-  <body>
+<body>
 
-    {{> header}} 
-    
-    
-    <!-- Main -->
-    <div id="main" class="alt">
+  {{> header}}
 
-      <!-- One -->
-      <section id="one">
-	<div class="inner">
-          {% for post in site.posts %}
-	  {% if post.title != 404 %}
-	  <header class="major">
-	    <h1>{{ post.title }}</h1>
-	  </header>
-	  {% if post.image %}<span class="image main"><img src="{{ site.baseurl }}/{{ post.image }}" alt="" /></span>{% endif %}
-	  {% if post.date %}<p>{{ post.date }}</p>{% endif %}
-	  <p>{{ post.content }}</p>
-	  {% endif %}
-          {% endfor %}
-	</div>
-      </section>
+  <!-- Main -->
+  <div id="main" class="alt">
 
-    </div>
+    <!-- One -->
+    <section id="one">
+      <div class="inner">
+        {{#archives}}
+        {{#months}}
+        {{#entries}}
+        <header class="major">
+          <h1>{{title}}</h1>
+        </header>
+        {{#thumbnail.large.url}}<span class="image main"><img src="{{{thumbnail.large.url}}}" alt="" /></span>{{/thumbnail.large.url}}
+        {{#date}}<p>{{date}}</p>{{/date}}
+        {{{body}}}
+        {{/entries}}
+        {{/months}}
+        {{/archives}}
+      </div>
+    </section>
 
-    {{> footer}}
+  </div>
 
-  </body>
+  {{> footer}}
+
+</body>
 
 </html>

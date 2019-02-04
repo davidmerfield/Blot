@@ -2,7 +2,7 @@
 <section id="contact">
 	<div class="inner">
 		<section>
-			<form action="https://formspree.io/{{ site.email }}" method="POST">
+			<form action="https://formspree.io/{{email}}" method="POST">
 				<div class="field half first">
 					<label for="name">Name</label>
 					<input type="text" name="name" id="name" />
@@ -26,14 +26,14 @@
 				<div class="contact-method">
 					<span class="icon alt fa-envelope"></span>
 					<h3>Email</h3>
-					<a href="#">{{ site.email }}</a>
+					<a href="#">{{email}}</a>
 				</div>
 			</section>
 			<section>
 				<div class="contact-method">
 					<span class="icon alt fa-phone"></span>
 					<h3>Phone</h3>
-					<span>{{ site.phone }}</span>
+					<span>{{phone}}</span>
 				</div>
 			</section>
 			<section>
@@ -41,21 +41,21 @@
 					<span class="icon alt fa-home"></span>
 					<h3>Address</h3>
 					<span>
-					{% if site.street_address %}
-					    {{ site.street_address }}<br />
-					{% endif %}
-					{% if site.city %}
-					    {{ site.city }},
-					{% endif %}
-					{% if site.state %}
-					    {{ site.state }} 
-					{% endif %}
-					{% if site.zip_code %}
-					    {{ site.zip_code }}<br />
-					{% endif %}
-					{% if site.country %}
-					    {{ site.country }}
-					{% endif %}
+					{{#street_address}}
+					    {{street_address}}<br />
+					{{/street_address}}
+					{{#city}}
+					    {{city}},
+					{{/city}}
+					{{#state}}
+					    {{state}} 
+					{{/state}}
+					{{#zip_code}}
+					    {{zip_code}}<br />
+					{{/zip_code}}
+					{{#country}}
+					    {{country}}
+					{{/country}}
 					</span>
 				</div>
 			</section>
@@ -67,42 +67,42 @@
 	<footer id="footer">
 		<div class="inner">
 			<ul class="icons">
-				{% if site.twitter_url %}
-				<li><a href="{{ site.twitter_url }}" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-				{% endif %}
-				{% if site.googleplus_url %}
-				<li><a href="{{ site.googleplus_url }}" class="icon alt fa-google-plus" target="_blank"><span class="label">Google+</span></a></li>
-				{% endif %}
-				{% if site.facebook_url %}
-				<li><a href="{{ site.facebook_url }}" class="icon alt fa-facebook" target="_blank"><span class="label">Facebook</span></a></li>
-				{% endif %}
-				{% if site.instagram_url %}
-				<li><a href="{{ site.instagram_url }}" class="icon alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-				{% endif %}
-				{% if site.pinterest_url %}
-				<li><a href="{{ site.pinterest_url }}" class="icon alt fa-pinterest" target="_blank"><span class="label">Pinterest</span></a></li>
-				{% endif %}
-				{% if site.500px_url %}
-				<li><a href="{{ site.500px_url }}" class="icon alt fa-500px" target="_blank"><span class="label">500px</span></a></li>
-				{% endif %}
-				{% if site.gitlab_url %}
-				<li><a href="{{ site.gitlab_url }}" class="icon alt fa-gitlab" target="_blank"><span class="label">GitLab</span></a></li>
-				{% endif %}
-				{% if site.github_url %}
-				<li><a href="{{ site.github_url }}" class="icon alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
-				{% endif %}
-				{% if site.slack_url %}
-				<li><a href="{{ site.slack_url }}" class="icon alt fa-slack" target="_blank"><span class="label">Slack</span></a></li>
-				{% endif %}
-				{% if site.linkedin_url %}
-				<li><a href="{{ site.linkedin_url }}" class="icon alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
-				{% endif %}
+				{{#twitter_url}}
+				<li><a href="{{twitter_url}}" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+				{{/twitter_url}}
+				{{#googleplus_url}}
+				<li><a href="{{googleplus_url}}" class="icon alt fa-google-plus" target="_blank"><span class="label">Google+</span></a></li>
+				{{/googleplus_url}}
+				{{#facebook_url}}
+				<li><a href="{{facebook_url}}" class="icon alt fa-facebook" target="_blank"><span class="label">Facebook</span></a></li>
+				{{/facebook_url}}
+				{{#instagram_url}}
+				<li><a href="{{instagram_url}}" class="icon alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+				{{/instagram_url}}
+				{{#pinterest_url}}
+				<li><a href="{{pinterest_url}}" class="icon alt fa-pinterest" target="_blank"><span class="label">Pinterest</span></a></li>
+				{{/pinterest_url}}
+				{{#500px_url}}
+				<li><a href="{{500px_url}}" class="icon alt fa-500px" target="_blank"><span class="label">500px</span></a></li>
+				{{/500px_url}}
+				{{#gitlab_url}}
+				<li><a href="{{gitlab_url}}" class="icon alt fa-gitlab" target="_blank"><span class="label">GitLab</span></a></li>
+				{{/gitlab_url}}
+				{{#github_url}}
+				<li><a href="{{github_url}}" class="icon alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+				{{/github_url}}
+				{{#slack_url}}
+				<li><a href="{{slack_url}}" class="icon alt fa-slack" target="_blank"><span class="label">Slack</span></a></li>
+				{{/slack_url}}
+				{{#linkedin_url}}
+				<li><a href="{{linkedin_url}}" class="icon alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+				{{/linkedin_url}}
 			</ul>
 			<ul class="copyright">
-				<li>&copy; {{ site.title }} {{ site.subtitle }}</li>
-				<li>Design: <a href="https://html5up.net" target="_blank">HTML5 UP</a></li>
+				<li>&copy; {{title}} {{subtitle}}</li>
+<!-- 				<li>Design: <a href="https://html5up.net" target="_blank">HTML5 UP</a></li>
 				<li>Jekyll integration: <a href="http://andrewbanchi.ch" target="_blank">Andrew Banchich</a></li>
-
+ -->
 			</ul>
 		</div>
 	</footer>
