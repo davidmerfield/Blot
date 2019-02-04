@@ -13,6 +13,10 @@ Record new demo video
 
 Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 
+Fix bug with P spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
+
+Rewrite Wordpress importer? Expose it online?
+
 Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzdmhFkmhcDkPGvQbqZjGZ)
 
 Add property of entry which is safe to use in a JSON feed. Tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqjfBFmTnZZFpzRhtdBrR).
