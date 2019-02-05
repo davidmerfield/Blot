@@ -17,7 +17,22 @@
 <body>
   {{> navigation}}
 
+<div class="profile">
+<section id="wrapper">
+<header class="h-card">
+<a class="u-url" href="/">
+<img id="avatar" src="{{{avatar}}}">
+</a>
+<h1 class="p-name" rel="me">{{title}}</h1>
+<h4 class="p-role">{{description}}</h4>
+</header>
+</section>
+</div>
+
   <section id="wrapper">
+
+
+
     {{> post-list}}
   </section>
 

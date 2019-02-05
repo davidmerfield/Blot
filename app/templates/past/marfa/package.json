@@ -6,8 +6,7 @@
         "description": "A short description.",
         "email": "email@site.url",
         "microblog_user": "enter-username",
-        "page_size": 3,
-        "highlighter": "rouge"
+        "page_size": 20
     },
     "isPublic": false,
     "views": {
