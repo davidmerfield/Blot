@@ -1,17 +1,29 @@
 <h1>Helper functions</h1>
-<p>Blot exposes some general purpose functions as Mustache lambdas. Note that you can pass another variable from the view to these functions.</p>
+<p>Blot exposes some general purpose functions across your template.</p>
 
-<table>
+<table style="table-layout:auto">
   <thead>
     <tr>
-      <th>The text inside the tag&#x2026;</th>
+      <th>The contents inside the tag</th>
       <th>is replaced with&#x2026;</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><code>\{{#encodeURIComponent}}...\{{/encodeURIComponent}}</code></td>
-      <td>The same text, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent">encoded appropriately</a> for a URI component</td>
+      <td><code>\{{#absoluteURLs}} ... \{{/absoluteURLs}}</code></td>
+      <td>The same contents, with any relative URLs fully resolved. This is useful to create an <a href="https://developer.mozilla.org/en-US/docs/MDN/Contribute/Tools/Feeds">RSS feed</a>, since many clients struggle with relative URLs. For example:<br><br> <pre class="code html">\{{#absoluteURLs}} \{{{html}}} \{{/absoluteURLs}}</pre><br></td>
     </tr>
+    
+    <tr>
+      <td><code>\{{#encodeJSON}} ... \{{/encodeJSON}}</code></td>
+      <td>The same contents, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify">encoded appropriately</a> for JSON. This is useful to create a <a href="https://jsonfeed.org/">JSON feed</a>. You can use it like this:<br><br><pre class="code json">html: "\{{#encodeJSON}} \{{{html}}} \{{/encodeJSON}}"</pre><br>
+      </td>
+    </tr>
+
+    <tr>
+      <td><code>\{{#encodeURIComponent}} ... \{{/encodeURIComponent}}</code></td>
+      <td>The same contents, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent">encoded appropriately</a> for a URI component</td>
+    </tr>
+
   </tbody>
 </table>

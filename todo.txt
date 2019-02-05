@@ -16,8 +16,6 @@ Use email + token for git client authentication instead of username. This means 
 
 Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 
-Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzdmhFkmhcDkPGvQbqZjGZ)
-
 Rewrite Wordpress importer? Expose it online?
 - Fix bug with <p> spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 
