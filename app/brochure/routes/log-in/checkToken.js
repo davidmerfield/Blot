@@ -1,6 +1,6 @@
 var User = require("user");
 var authenticate = require("./authenticate");
-var LogInError = require('./logInError');
+var LogInError = require("./logInError");
 
 // The purpose of this function is to check to see if the
 // user has requested the log in page with a one-time access
@@ -8,7 +8,7 @@ var LogInError = require('./logInError');
 // appropriate page: the dashboard homepage or somewhere specified
 // in the query 'then'.
 module.exports = function checkToken(req, res, next) {
-  var token, then, redirect;
+  var token, then;
 
   // There is no token,  then proceed to the next middleware.
   if (!req.query || !req.query.token) return next();
@@ -38,7 +38,7 @@ module.exports = function checkToken(req, res, next) {
       // request a link to reset their password.
       if (then !== "/account/password/set") {
         return res.redirect("/");
-      } 
+      }
 
       User.generateAccessToken(uid, function(err, token) {
         if (err) return next(err);
@@ -48,7 +48,7 @@ module.exports = function checkToken(req, res, next) {
         // session instead of a query string to keep the URLs tidy.
         req.session.passwordSetToken = token;
 
-        res.redirect(redirect);
+        res.redirect(then);
       });
     });
   });
