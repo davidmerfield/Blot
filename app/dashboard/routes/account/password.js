@@ -75,9 +75,9 @@ function checkMatching(req, res, next) {
 }
 
 function verifyToken(req, res, next) {
-  var token = req.session.token;
+  var token = req.session.passwordSetToken;
 
-  delete req.session.token;
+  delete req.session.passwordSetToken;
 
   User.checkAccessToken(token, function(err, tokenUid) {
     if (err) return next(err);
