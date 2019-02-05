@@ -39,10 +39,14 @@ module.exports = function checkToken(req, res, next) {
       if (then !== "/account/password/set") {
         return res.redirect("/");
       } 
+
       User.generateAccessToken(uid, function(err, token) {
         if (err) return next(err);
 
-        redirect = then + "?token=" + token;
+        // This token is used to authenticate a password change
+        // without an existing password. It's stored in the user's
+        // session instead of a query string to keep the URLs tidy.
+        req.session.passwordSetToken = token;
 
         res.redirect(redirect);
       });

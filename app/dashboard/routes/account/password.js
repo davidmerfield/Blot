@@ -18,24 +18,20 @@ Password.route("/change")
 
 Password.route("/set")
 
+  .all(requireToken)
+
   .get(function(req, res) {
-
-    if (req.query.token) {
-      req.session.token = req.query.token;
-      return res.redirect(req.baseUrl + req.path);
-    }
-
-    if (!req.session.token) {
-      return res.redirect("/");
-    }
-
-    return res.render("account/set-password", {
-      title: "Set your password",
-      token: req.session.token
+    res.render("account/set-password", {
+      title: "Set your password"
     });
   })
 
-  .post(checkMatching, verifyToken, save)
+  // We check whether the passwords match
+  // before verifying the token because token
+  // verification can only happen once and the
+  // user might make a mistake typing their
+  // password twice or submitting an empty form.
+  .post(checkMatching, verifyToken, save);
 
 function requireExisting(req, res, next) {
   if (req.user.hasPassword) {
@@ -43,6 +39,14 @@ function requireExisting(req, res, next) {
   } else {
     res.redirect("/account/password/set");
   }
+}
+
+function requireToken(req, res, next) {
+  if (!req.session.passwordSetToken) {
+    return res.redirect("/");
+  }
+
+  next();
 }
 
 function save(req, res, next) {
@@ -71,13 +75,11 @@ function checkMatching(req, res, next) {
 }
 
 function verifyToken(req, res, next) {
-
   var token = req.session.token;
 
   delete req.session.token;
-  
+
   User.checkAccessToken(token, function(err, tokenUid) {
-    
     if (err) return next(err);
 
     if (tokenUid !== req.user.uid) {
