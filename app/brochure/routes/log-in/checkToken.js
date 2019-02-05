@@ -36,8 +36,9 @@ module.exports = function checkToken(req, res, next) {
       // send them to the dashboard's homepage. Users will be redirected
       // elsewhere when they attempt to visit private pages, or when they
       // request a link to reset their password.
-      if (then !== "/account/set-password") return res.redirect("/");
-
+      if (then !== "/account/password/set") {
+        return res.redirect("/");
+      } 
       User.generateAccessToken(uid, function(err, token) {
         if (err) return next(err);
 

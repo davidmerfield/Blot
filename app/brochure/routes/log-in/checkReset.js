@@ -19,10 +19,10 @@ function sendPasswordResetEmail(uid, callback) {
       pathname: "/log-in",
       query: {
         token: token,
-        then: "/account/set-password"
+        then: "/account/password/set"
       }
     });
-
+    
     Email.SET_PASSWORD(uid, { url: url }, callback);
   });
 }

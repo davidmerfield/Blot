@@ -1,7 +1,7 @@
 var Express = require("express");
 var Password = new Express.Router();
 var User = require("user");
-var checkPassword = require('./util/checkPassword');
+var checkPassword = require("./util/checkPassword");
 
 Password.route("/change")
 
@@ -20,22 +20,28 @@ Password.route("/set")
 
   .get(function(req, res) {
 
-    if (!req.query.token) return res.redirect("/");
+    if (req.query.token) {
+      req.session.token = req.query.token;
+      return res.redirect(req.baseUrl + req.path);
+    }
+
+    if (!req.session.token) {
+      return res.redirect("/");
+    }
 
     return res.render("account/set-password", {
       title: "Set your password",
-      token: req.query.token
+      token: req.session.token
     });
   })
 
-  .post(verifyToken, checkMatching, save);
-
+  .post(checkMatching, verifyToken, save)
 
 function requireExisting(req, res, next) {
   if (req.user.hasPassword) {
     next();
   } else {
-    res.redirect("/account/set-password");
+    res.redirect("/account/password/set");
   }
 }
 
@@ -46,14 +52,11 @@ function save(req, res, next) {
     if (!passwordHash) return next(new Error("Could not hash password"));
 
     User.set(req.user.uid, { passwordHash: passwordHash }, function(err) {
-      
       if (err) return next(err);
       res.message("/account", "Saved your new password");
     });
   });
 }
-
-
 
 function checkMatching(req, res, next) {
   if (!req.body.newPasswordA) {
@@ -68,7 +71,13 @@ function checkMatching(req, res, next) {
 }
 
 function verifyToken(req, res, next) {
-  User.checkAccessToken(req.body.token, function(err, tokenUid) {
+
+  var token = req.session.token;
+
+  delete req.session.token;
+  
+  User.checkAccessToken(token, function(err, tokenUid) {
+    
     if (err) return next(err);
 
     if (tokenUid !== req.user.uid) {
