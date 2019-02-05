@@ -11,13 +11,15 @@ Record new demo video
 
 ---
 
+Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
+- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd)
+
 Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 
-Fix bug with P spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
+Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzdmhFkmhcDkPGvQbqZjGZ)
 
 Rewrite Wordpress importer? Expose it online?
-
-Port marfa Jekyll theme for [Quintin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzdmhFkmhcDkPGvQbqZjGZ)
+- Fix bug with <p> spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 
 Add property of entry which is safe to use in a JSON feed. Tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqjfBFmTnZZFpzRhtdBrR).
 
@@ -25,10 +27,8 @@ Convert [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDf
 
 ---
 
-Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 
-Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
-- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd)
+Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
@@ -228,6 +228,8 @@ Add support for Micropub in Blot's API. Tell Amit.
 Add support for HTTPS on preview subdomains
 
 Add public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB)
+
+Allow download of templates as [zip](https://www.npmjs.com/package/adm-zip) of local contents on dashboard?
 
 Distribute static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
 
