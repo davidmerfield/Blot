@@ -22,7 +22,7 @@ function sendPasswordResetEmail(uid, callback) {
         then: "/account/password/set"
       }
     });
-    
+
     Email.SET_PASSWORD(uid, { url: url }, callback);
   });
 }
