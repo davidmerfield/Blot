@@ -216,15 +216,9 @@ function watch(directory) {
   });
 
   watcher(directory, function(path) {
-    var subdirectoryName = path.slice(TEMPLATES_DIRECTORY.length).split("/")[1];
+    var subdirectoryName = path.slice(directory.length).split("/")[1];
 
-    if (subdirectoryName === "_") {
-      templateDirectories(TEMPLATES_DIRECTORY).forEach(function(dir) {
-        queue.push(dir);
-      });
-    } else {
-      queue.push(TEMPLATES_DIRECTORY + "/" + subdirectoryName);
-    }
+    queue.push(directory + "/" + subdirectoryName);
   });
 }
 
