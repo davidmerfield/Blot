@@ -12,7 +12,7 @@ The images are taken between 1957 and 1963. They show landscapes, cultural envir
 
 ***
 
-As for this template: [indexexhibit.org](http://indexexhibit.org) is the obvious reference. I like the red in some of the photos. Can we compose the homepage to highlight this? I very much like the look and feel of [Sabine Rovers' website](https://sabinerovers.com/Au-Maroc)
+As for this template: [indexhibit.org](http://indexhibit.org) is the obvious reference. I like the red in some of the photos. Can we compose the homepage to highlight this? I very much like the look and feel of [Sabine Rovers' website](https://sabinerovers.com/Au-Maroc)
 
 I like [David Röthlisberger](https://davidroethlisberger.ch/Projekte)'s layout. And also the layout of the [softsect](https://softsect.cargocollective.com/Information) CargoCollective template.
 
