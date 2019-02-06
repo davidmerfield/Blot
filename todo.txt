@@ -470,6 +470,8 @@ Push archives feature https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be
 
 Make drafts preview file identical (construct iframe based on window.location.href) and use copyref?
 
+Follow up with [Eli](https://beardandbeanie.com/) about work on the documentation and user's guide
+
 Plugins:
 - Implement custom CSS for syntax highlight plugin
 - Fix image caption plugin to be semantic using <figure>
