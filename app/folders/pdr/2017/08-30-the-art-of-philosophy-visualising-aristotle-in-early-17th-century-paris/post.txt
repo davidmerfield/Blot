@@ -1,0 +1,130 @@
+Tags: Philosophy, Art
+Summary: With their elaborate interplay of image and text, the several large-scale prints designed by the French friar Martin Meurisse to communicate Aristotelian thought are wonderfully impressive creations. Susanna Berger explores the function of these complex works, and how such visual commentaries not only served to express philosophical ideas in a novel way but also engendered their own unique mode of thinking.
+Thumbnail: _36742555122_9a3629b8a7_o.png
+
+# The Art of Philosophy: Visualising Aristotle in Early 17th-Century Paris
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**With their elaborate interplay of image and text, the several large-scale prints designed by the French friar Martin Meurisse to communicate Aristotelian thought are wonderfully impressive creations. Susanna Berger explores the function of these complex works, and how such visual commentaries not only served to express philosophical ideas in a novel way but also engendered their own unique mode of thinking.**
+
+<figure>
+  <img src="_36082104683_557c786637_o.jpg" alt="Artificiosa totius logices descriptio">
+  <figcaption>Meurisse and Gaultier’s <em>Artificiosa totius logices descriptio</em>, 1614.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8401680g/f1.item">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In 1619, Martin Meurisse (1584–1644), a Franciscan professor of philosophy at the Grand Couvent des Cordeliers in Paris, became embroiled in a debate with the Protestant pastor François Oyseau (1545–1625) about the significance of the rituals of the mass. In the heat of the exchange, and riled by an accusation that he was a poor logician, Oyseau decried Meurisse to be an incompetent judge as he was “a logician only in picturing and copper-plate engraving.”[^1] Oyseau’s barb was alluding to a series of extravagantly engraved thesis prints, broadsides incorporating both text and image, that Meurisse had designed for his philosophy students to use during their oral examinations. Although for Oyseau they were mere “frivolous allegories”, these pedagogical prints are now considered among the most important early modern images of philosophy, and their inventive iconography inspired new visualizations of thought in a range of drawn and printed sources: from the lecture notebooks of students in Leuven to eighteenth-century German textbooks.
+
+Produced in collaboration with the engraver Léonard Gaultier (1560/61–1635) and published by Jean Messager (1572–1649), Meurisse’s prints are wonderfully dense and complex creations — elaborate depictions of landscapes and architectural structures adorned with a dizzying array of figures, animals, and objects, and annotated with quotations from the writings of classical and scholastic philosophers. The first, a summary of logic entitled _Artificiosa totius logices descriptio_ (_Artificial Description of Logic in Its Entirety_), appeared in 1614 (see image above). The following year, Meurisse and Gaultier produced the _Clara totius physiologiae synopsis_ (C_lear Synopsis of Physics in Its Entirety_), which visualizes Aristotelian natural philosophy. Their third, the _Laurus metaphysica_ (_Laurel of Metaphysics_) of 1616, represents metaphysics, and their fourth, _Tableau industrieux de toute la philosophie morale_ (_Artificial Table of Moral Philosophy in Its Entirety_), of 1618, depicts moral philosophy. In addition, a fifth thesis print, entitled _Typus necessitatis logicae ad alias scientias capessendas_ (_Scheme of the Necessity of Logic for Grasping the Other Branches of Knowledge_), inspired by the _Descriptio_, appeared some years later in 1622. Also engraved by Gaultier and published by Messager, this broadside was designed by the Carmelite philosophy professor Jean Chéron (1596–1673).[^2]
+
+<figure>
+  <img src="_36719506052_e96e0bf582_o.jpg" alt="Clara totius physiologiae synopsis">
+  <figcaption>Meurisse and Gaultier’s <em>Clara totius physiologiae synopsis</em>, 1615.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b55002425z/f1.item">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_36082105693_ebc365daf8_o.jpg" alt="Laurus metaphysica">
+  <figcaption>Meurisse and Gaultier’s <em>Laurus metaphysica</em>, 1616.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b55002359m/f1.item">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+All of these broadsides are extremely impressive in scale — not only physically as regards to size, but also in relation to the tremendous amount of work and close collaboration among the wide network of scholars, artisans, engravers, patrons, and printers involved. The effort and significant cost expended to create these and other philosophical images attest to how highly such prints were valued in the study and transmission of philosophy. Although the broadsides of Meurisse, Chéron, and Gaultier were relatively little known through the seventeenth and eighteenth centuries, for a handful of academics across Europe they had a deep impact on the philosophy classroom. _Descriptio_, _Laurus metaphysica_, and _Tableau_ were reproduced and translated into English by Richard Dey, a graduate of the University of Cambridge, in mid-seventeenth-century London, while a copy of Meurisse’s _Synopsis_ was displayed at the anatomy theater of the University of Leiden by Ottho van Heurne (1577–1652), professor of medicine.[^3] Meurisse’s acclaim as a designer of illustrated broadsides was also reported in the Hungarian travelogue _Europica varietas_ (1620) by Márton Szepsi Csombor (1594–1623) who, while visiting Paris in 1618, was “anxious above all else to become acquainted with the celebrated, renowned, and highly intelligent friar, who with great mastery put the entire philosophy course on a\[n engraver’s\] plate.”[^4]
+
+These thesis prints’ kaleidoscopic mobile of images and texts visualizes something more than just harmonious principles of philosophy — in a way, it mirrors the early modern European mind itself as it produced and transmitted knowledge. For the knowledge generators of this time, the viewing and creation of imagery functioned as important instruments of philosophical thought and teaching. There were two particularly important mechanisms at play here. First, artists, students, and philosophers used the space of the page to map theoretical relationships, so that in creating and looking at these visual representations, they could think through the mechanism of spatial constructs. Second, through producing or simply examining figurative images, they could think through the mechanism of visual commentary. Both spatial constructs and visual commentaries worked together as part of a common project of philosophical thinking through visual representation.
+
+Logic instruction at this time was based primarily on a collection of texts by Aristotle known as the _Organon_ and on Porphyry’s third-century text, _Isagoge_, which served as a preface to the _Organon_.[^5] The teaching of these treatises reflected the view that logic should be organized into the three mental operations: apprehension, judgment, and ratiocination (or reasoning by using syllogisms). It is through apprehension, the first operation, that the conception of an object or term is brought to mind: for example, the apprehension of such concepts as “dog” and “mammal”. Through judgment, the second operation, simple concepts are then combined or divided to create propositions ( “Dogs are mammals”). By way of ratiocination, the third operation, the mind organizes these propositions to form syllogisms ( “Dogs are mammals / All mammals are animals / Thus dogs are animals”).
+
+<figure>
+  <img src="_36748910082_3111d7a26c_o.jpg" alt="descriptio segments">
+  <figcaption>Meurisse and Gaultier’s <em>Artificiosa totius logices descriptio</em>, 1614, shown divided into its main segments.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8401680g/f1.item">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+To make sense of how the images within these broadsides use the space of the page to organize such conceptual affiliations, let us take a look at how the _Descriptio_ print of Meurisse and Gaultier is structured.[^6] By slicing it up into horizontal segments, we can better see how the layers build upon one another successively, from the bottom of the page to the top (see image above). Segment one offers information about the engraving’s production and shows Meurisse and his students, surrounded by various personifications of logical concepts — crowds of children, men, and ladies, a one-legged laborer bearing a basket (of human limbs) — all approaching a walled garden.
+
+<figure>
+  <img src="_36104912033_469412a68d_o.png" alt="one legged man">
+  <figcaption>Detail of the man with the basket of limbs, from Meurisse and Gaultier’s <em>Artificiosa totius logices descriptio</em>, 1614. The figure visualises a passage in Boethius’s <em>De divisione</em>(ca. 515) concerning a form of partition. The body parts
+    in the man’s basket, which seems also to hold his left foot, represent an explication of how a whole human body may be divided into parts.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8401680g/f1.item">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The inside of this garden, which appears in segment two, represents the realm of the first operation of the mind (apprehension), dominated by a central fountain, around which water spurts into dishes. To either side of these basins are six groups of real, logically graspable entities which contrast with the respective entities positioned just outside the garden, directly across the wall. So, for example, we see a group of “finite” angels inside, and over the wall outside, wearing a tiara and holding a globe, encircled and sustained by an incandescent cloud, an image of “infinite” God. Likewise elsewhere, a group of “complete” humans inside, and outside an array of disembodied hands and feet; three cows (identified as “real entities”) inside, and outside a chimera (marked “rational being”).
+
+<figure>
+  <img src="_36742556522_52fcdb9999_o.png" alt="god angels">
+  <figcaption>Detail from Meurisse and Gaultier’s <em>Artificiosa totius logices descriptio</em>, 1614.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8401680g/f1.item">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_36078706794_4768d4f301_o.png" alt="chimera">
+  <figcaption>Detail from Meurisse and Gaultier’s <em>Artificiosa totius logices descriptio</em>, 1614.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8401680g/f1.item">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In the third segment above we meet another garden, this one, rather less busy, explicating the activity of the second operation (judgment). The fourth segment pertains to propositions that are organized into syllogisms (a result of the third operation, ratiocination). Crowning the whole piece, in segment five, is a dedication to the French statesman and bibliophile Jacques-Auguste de Thou (1553–1617), flanked on the left by de Thou’s coat of arms and on the right by the arms of the Franciscans.
+
+Altogether the broadside allows viewers to grasp at a glance how a philosophical discipline can be divided into its parts and how its parts relate to one another and the greater whole. The individual sections of the print cannot be fully appreciated when seen in isolation; they gain their significance and meaning from their location within the broadside’s spatial system.
+
+In addition to relying on the space of the page to show how the field of logic is organized, the _Descriptio_ also features visual commentaries that offer original interpretations of Aristotle’s age-old system. Rather than merely reiterating already extant philosophical concepts, the visual form of this engraving enriches theoretical knowledge, functioning as a visual exegesis which produces new meaning. In a detail from segment three, for instance, we find two palm trees forming an archway, inscribed with a description of the creation of propositions. Meurisse has carved “noun” and “verb”, central elements in any proposition, into the trunks: each is “an utterance signified by convention”.
+
+<figure>
+  <img src="_36742555122_9a3629b8a7_o.png" alt="palm trees">
+  <figcaption>Detail of the intertwining palms, from Meurisse and Gaultier’s <em>Artificiosa totius logices descriptio</em>, 1614.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8401680g/f1.item">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Why palm trees in particular? Palms are dioecious — their male and female flowers grow on separate plants — and were thought, at the time, to reproduce by intertwining with the branches of palm trees of the opposite sex. In this way mating palm trees became popular emblems for conjugal love and fertility in French iconography between the mid-sixteenth and mid-eighteenth centuries.[^7] Meurisse and Gaultier are here therefore, drawing an analogy between the mating of trees and the production of propositions: adapting the emblem in a manner that they expected viewers of the broadside to understand and appreciate.[^8] This detail highlights the varied sources of inspiration for the designers of philosophical broadsides, but it also indicates the richness of their visual commentaries. Whereas a textbook from the period might simply define a proposition as the sum of its parts (a noun and a verb), this image presents a much more intricate and complex interpretation of the proposition, likening it to a new organic entity, a proposition generated by mating plants.
+
+Even though the philosophical visualizations of Meurisse, Chéron, and Gaultier had an international reputation in the early modern period, they have since been largely forgotten, and although there is great interest among intellectual historians today in challenges to Aristotelian orthodoxies during the “scientific revolution”, no major study has focused on the visual documents integral to this epistemic shift. It is true that in recent years, a newly emerging and rich body of scholarship has started to explore the frescoes, oil paintings, prints, and drawings relating to the works of anti-Aristotelian philosophers such as Galileo Galilei (1564–1642) and Thomas Hobbes (1588–1679).[^9] But these studies consider only a piece of a larger picture, as it were. Image and image production were, in fact, vital in the early modern intellectual movements that embraced and developed Aristotelian thought, as evidenced by the many visual representations found among pedagogical and scholarly materials from the period, with perhaps no finer example than these thesis prints of Meurisse, Chéron, and Gaultier.
+
+* * *
+
+**Susanna Berger** is Assistant Professor of Art History at the University of Southern California. Her research and teaching explore diverse facets of art and visual culture from printed and drawn illustrations of philosophical knowledge to central works in the history of European early modern painting. Her first book, [_The Art of Philosophy: Visual Thinking in Europe from the Late Renaissance to the Early Enlightenment_](https://www.amazon.com/Art-Philosophy-Thinking-Renaissance-Enlightenment/dp/0691172277?tag=thepubdomrev-20), appeared with Princeton University Press in March 2017.
+
+The essay above is adapted from THE ART OF PHILOSOPHY: Visual Thinking in Europe from the Late Renaissance to the Early Enlightenment by Susanna Berger. Copyright © 2017 by Princeton University Press. Reprinted by permission.
+
+[^1]: Oyseau, _Les faussetez insignes du sieur Meurisse Cordelier, qu’il a nagueres publiées contre le sieur Oyseau Ministre de L’Eglise de Reformée de Gyen Sur Loire. Avec la response et refutation des faussetez par ledit sieur Oyseau_ (Charenton: Samuel Petit, 1619), 20: “. . . n’est Logicien qu’en peinture & en taille douce . . .” The word “peinture” did not imply “painting” in the strict sense.
+
+[^2]: For the purposes of discussion, these broadsides will hereafter be referred to as _Descriptio_, _Synopsis_, _Tableau_, and _Typus_.
+
+[^3]: See Malcolm Jones, _The Print in Early Modern England: An Historical Oversight_ (New Haven: Yale University Press, 2010), 47. The print was displayed either at the entrance to the anatomy theater or in one of the rooms above or below the stage.
+
+[^4]: See Márton Szepsi Csombor, _Szepsi Csombor Márton összes müvei_ (Budapest: Akadémiai Kiadó, 1968), 233: “és mindeneknek elötte igyekeztem azon hogy amaz hires neves nagy elmejü baráttal ki az egész Cursus Philosophicust nagy mesterségel tablákra hozta, megismerkedhetnem.” (On meeting Meurisse, Csombor told him that his name was greatly respected everywhere his writings were known.) I would like to thank Péter Tóth for translating this text for me.
+
+[^5]: Laurence Brockliss, _French Higher Education in the Seventeenth and Eighteenth Centuries: A Cultural History_ (Oxford: Oxford University Press, 1987), 194–95 [↩](#ref5 "Jump back to footnote 5 in the text.")
+
+[^6]: For in-depth discussions of this print, see Susanna Berger, “Martin Meurisse’s Garden of Logic”, _The Journal of the Warburg and Courtauld Institutes_ 76 (2013): 203–-49; and Susanna Berger, _The Art of Philosophy: Visual Thinking in Europe from the Late Renaissance to the Early Enlightenment_ (Princeton: Princeton University Press, 2017), chapter 2.
+
+[^7]: David Watkin, “Iungit Amor: Royal Marriage Imagery in France, 1550–1750”, _Journal of the Warburg and Courtauld Institutes_ 54 (1991): 256–61, especially 256–57. This theory of palm tree reproduction became well known in sixteenth- and seventeenth-century France through vernacular editions of Philostratus the Elder’s _Imagines_, in which it is presented as fact. Gaultier, who engraved the _Descriptio_, also created illustrations for Blaise de Vigenère’s _Les images ou tableaux de platte peinture des deux Philostrates_, which was published in the same year (1614).
+
+[^7]: For another adaptation of the palm tree motif, see the title page of Tommaso Campanella’s _Realis philosophiae epilogisticae partes quatuor_ (1623).
+
+[^8]: Here I am thinking of such path-breaking projects as Eileen Reeves, _Painting the Heavens: Art and Science in the Age of Galileo_ (Princeton: Princeton University Press, 1997); Horst Bredekamp, _Thomas Hobbes Visuelle Strategien. Der Leviathan: Urbild Des Modernen Staates_ (Berlin: Akademie, 1999); David Freedberg, _The Eye of the Lynx: Galileo, His Friends, and the Beginnings of Modern Natural History_ (Chicago: University of Chicago Press, 2003); Pamela H. Smith, The Body of the Artisan: Art and Experience in the Scientific Revolution (Chicago: University of Chicago Press, 2004); and Alexander Marr, _Between Raphael and Galileo: Mutio Oddi and the Mathematical Culture of Late Renaissance Italy_ (Chicago: University of Chicago Press, 2011)

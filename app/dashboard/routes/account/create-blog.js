@@ -107,6 +107,7 @@ function calculateFee(req, res, next) {
   // change the charge function
   req.amount_due_now = now;
 
+  res.locals.price = pretty(subscription.plan.amount);
   res.locals.now = pretty(now);
   res.locals.later = pretty(later);
   res.locals.individual = pretty(individual);

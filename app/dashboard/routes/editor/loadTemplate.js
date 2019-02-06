@@ -42,53 +42,68 @@ module.exports = function(req, res, next) {
       // Determine which HTML input we should show for each local
       // on the settings page. It would be nice to be able to mark
       // this up in package.json somehow for future Blot developers.
-      template.locals = arrayify(template.locals).map(function(local) {
-        if (["page_size"].indexOf(local.name) > -1) {
-          // Show the number picker component for this local
-          local.range = true;
-          local.label = desnake(local.name);
 
-          if (local.label === "Page size") {
-            local.label = "Number of posts per page";
-            local.min = 1;
-            local.max = 1000;
+      try {
+        template.locals = arrayify(template.locals).map(function(local) {
+          if (["page_size"].indexOf(local.name) > -1) {
+            // Show the number picker component for this local
+            local.range = true;
+            local.label = desnake(local.name);
+
+            if (local.label === "Page size") {
+              local.label = "Number of posts per page";
+              local.min = 1;
+              local.max = 1000;
+            }
+          } else if (
+            [
+              "navigation_link_color",
+              "background_color",
+              "text_color",
+              "text_link_color",
+              "text_link_vistied_color"
+            ].indexOf(local.name) > -1
+          ) {
+            // Show the color picker component for this local
+            local.label = local.name.split("_").join(" ");
+            local.label = local.label[0].toUpperCase() + local.label.slice(1);
+            local.color = true;
           }
-        } else if (["navigation_link_color", "background_color", "text_color", "text_link_color", "text_link_vistied_color"].indexOf(local.name) > -1) {
-          // Show the color picker component for this local
-          local.label = local.name.split("_").join(" ");
-          local.label = local.label[0].toUpperCase() + local.label.slice(1);
-          local.color = true;
-        }
-        // } else if (local.name.indexOf("font") > -1) {
-        // Show the font picker component for this local
-        // local.font = true;
-        // local.label = local.name.split('_').join(' ');
-        // local.label = local.label[0].toUpperCase() + local.label.slice(1);
-        // local.fonts = [
-        //   {
-        //     label: "Charter",
-        //     value: "charter",
-        //     selected: local.content === "charter" ? "selected" : ""
-        //   },
-        //   {
-        //     label: "Helvetica",
-        //     value: "Helvetica",
-        //     selected: local.content === "Helvetica" ? "selected" : ""
-        //   },
-        //   {
-        //     label: "Times New Roman",
-        //     value: "times",
-        //     selected: local.content === "times" ? "selected" : ""
-        //   }
-        // ];
-        // }
-        else {
-          // use default template
-          local.default = true;
-        }
+          // } else if (local.name.indexOf("font") > -1) {
+          // Show the font picker component for this local
+          // local.font = true;
+          // local.label = local.name.split('_').join(' ');
+          // local.label = local.label[0].toUpperCase() + local.label.slice(1);
+          // local.fonts = [
+          //   {
+          //     label: "Charter",
+          //     value: "charter",
+          //     selected: local.content === "charter" ? "selected" : ""
+          //   },
+          //   {
+          //     label: "Helvetica",
+          //     value: "Helvetica",
+          //     selected: local.content === "Helvetica" ? "selected" : ""
+          //   },
+          //   {
+          //     label: "Times New Roman",
+          //     value: "times",
+          //     selected: local.content === "times" ? "selected" : ""
+          //   }
+          // ];
+          // }
+          else {
+            // use default template
+            local.default = true;
+          }
 
-        return local;
-      });
+          return local;
+        });
+      } catch (e) {
+        console.log(e);
+        console.log(template.locals);
+        return next(e);
+      }
 
       req.template = template;
 

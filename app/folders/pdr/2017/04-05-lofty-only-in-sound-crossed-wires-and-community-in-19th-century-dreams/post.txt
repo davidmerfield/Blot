@@ -1,0 +1,189 @@
+Tags: Poems, Science, History
+Summary: Alicia Puglionesi explores a curious case of supposed dream telepathy at the end of the US Civil War, in which old ideas about the prophetic nature of dreaming collided with loss, longing, and new possibilities of communication at a distance.
+Thumbnail: _32914513074_fa5d57cd6f_o.jpg
+
+# Lofty Only in Sound: Crossed Wires and Community in 19th-Century Dreams
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Alicia Puglionesi explores a curious case of supposed dream telepathy at the end of the US Civil War, in which old ideas about the prophetic nature of dreaming collided with loss, longing, and new possibilities of communication at a distance.**
+
+<figure>
+  <img src="_33474493220_9f814da9f9_c.jpg" alt="telepathy magnetism">
+  <figcaption>Illustration from Edwin D. Babbitt’s <em>The Principles of Light and Color</em>(1878).
+    <cite>
+      <a href="https://archive.org/details/gri_c00033125011227010">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In the predawn of July 21, 1865, a young man in Cambridge, Massachusetts, woke from a deep sleep with a strange phrase on his lips. “What they dare to dream of dare to die for”, he recalled saying to himself, before slipping back into unconsciousness, wondering dimly “whether \[the words\] really expressed a lofty thought, or were lofty only in sound.” Later that day, the man, who gave his name as Mr. W., was surprised to hear the line delivered from a podium by the famous poet James Russell Lowell, at a Harvard commemoration ceremony for students killed in the Civil War. Lowell’s version replaced “die for” with “do” in order to fit the rhyme scheme, a discrepancy which left Mr. W. pondering “whether I liked his sentiment or mine the most”.[^1] Decades later Mr. W. still recalled the coincidence vividly enough to submit his account to Harvard psychologist William James, “hoping that these reminisces may be amusing to your society” – that is, the American Society for Psychical Research (ASPR), a group devoted to collecting and studying supernormal mental phenomena. Self-deprecation aside, Mr. W. clearly saw more than mere amusement in this incident that he continued to ponder for so many years. Had a force more powerful than random chance actually transmitted Lowell’s as-of-yet unknown verse to Mr. W. while he slept?
+
+Dreams so often feel trivial and momentous at the same time. They hold the promise of revelation if only one could pin down a face, a location – like the common dream of words on a page that dissolve just before their meaning registers. The history of dream interpretation is almost as slippery as dreams themselves; the practice spans cultures, but manifests in highly-specific forms, shaped by particular ways of understanding the relationship between mind and world. In religious texts, dreams usually predict the future, like Jacob’s ladder or Pharaoh’s dream of famine in the book of Genesis. In their revelatory capacity, they can unite believers with the divine and connect members of faith communities. In other settings dreams can shed light upon past events, and even have legal standing, as in the famous “[Greenbrier ghost](http://www.wvculture.org/history/crime/shuearticles.html)” case of 1897, where a murdered woman appeared in her mother’s dreams to out her former husband as the killer.[^2]
+
+<figure>
+  <img src="_32914513074_fa5d57cd6f_o.jpg" alt="blake jacobs ladder dream">
+  <figcaption><em>Jacob’s Dream</em>by William Blake, 1805.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Blake_jacobsladder.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+A major transition occurred in the eighteenth and nineteenth centuries, when religious, spiritual, and symbolic modes of dream interpretation were challenged by rationalist accounts that explained dreaming as a product of mental mechanisms. British philosopher David Hartley, in his 1749 [_Observations on Man_](https://archive.org/details/observationsonma02hartuoft), listed three mechanistic causes of dreaming that would become standard: “First, the impressions and ideas lately received, and particularly those of the preceding day. Secondly, the state of the body, particularly of the stomach and brain.” The third source of dream content was “association”, a law by which sensations and responses became emblazoned in the brain, which many Enlightenment thinkers proposed as the basis of learning and memory. During sleep, Hartley claimed, the mental law of association continued to operate, but without any sensory input and without the rudder of reason steering it. Thus unmoored, the brain “carried on from one thing to another” at the mercy of bodily fluctuations.[^3]
+
+The work of natural philosophers like Hartley signaled a concerted Enlightenment effort to debunk centuries of mysticism around dreams: American iconoclast Thomas Paine proclaimed in an 1807 [essay](https://archive.org/stream/greatworksofthom00painiala#page/258/mode/2up/search/essay+on+dream) that Biblical prophecies were merely “riotous assemblage\[s\] of mis-shapen images and ranting ideas”, exploited by power-hungry priests to delude the people.[^4] His case never quite won out over the old mystical mode – instead, the two commingled, with natural and supernatural, medical and moral interpretations of dreams feeding into each other throughout the nineteenth century. In Charles Dickens’ [_A Christmas Carol_](https://archive.org/details/christmascarolin20dick) (1843), when Scrooge announced to Marley’s ghost, “You may be an undigested bit of beef, a blot of mustard, a crumb of cheese,” he echoed Hartley and the medical authorities of his day.[^5] However, Dickens played it both ways, since Scrooge’s astral travels were also very real. Dickens demanded that Scrooge, and the reader, open their hearts to spiritual riches beyond the material realm of mere mustard and money.
+
+<figure>
+  <img src="_33628528631_cc86e1ff83_b.jpg" alt="dickens christmas carol ghost">
+  <figcaption>John Leech illustration depicting Marley’s ghost appearing to a postprandial Scrooge, from <em>A Christmas Carol in Prose</em>by Charles Dickens, 1843.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Marley%27s_Ghost_-_A_Christmas_Carol_(1843),_opposite_25_-_BL.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Dickens believed that dreams could tell us something meaningful, even if the message was mediated by physiology, and the broader public seemed to agree. Fortune-telling guides could assert a divine origin while also [noting](https://searchworks.stanford.edu/view/8344900) that “dreams which persons have in the beginning of the night, especially if they eat heavy or solid suppers, are not so much to be depended on.”[^6] Knowledge of physiology’s impact on the mind made it all the more fascinating to parse out where one ended and the other began. Anecdotes like Mr. W’s flooded the American Society for Psychical Research throughout the 1880s and 90s; they circulated in magazines, newspapers, and journals, where letter-writers were just as keen as ever to discuss nocturnal visions. More than in times past, they were likely to take note of bodily states, and to speak of the mind as in some ways mechanical: an “intellectual apparatus”, a clock, engine, or camera. The new scientific psychology did not conquer older understandings of dreaming, but it helped to re-shape the language of dreamers.
+
+The amusement Mr. W felt about scooping the great poet James Russell Lowell was mixed with a genuine conviction that he received the line telepathically during a liminal state of consciousness. Psychologists speculated that thoughts had a basis in invisible vibrations or waves that acted upon the brain; if these waves did not respect the boundaries of the individual skull, they might communicate from one mind to another. In nineteenth-century theories of mind, sleep was a prime time for mental permeability, when the barriers of reason and attention dissolved.
+
+Lowell himself inadvertently supported such a model of mental permeability with his account of the poem’s origins. In the days leading up to the commemoration ceremony, he said he was “hopelessly dumb”, stricken with writer’s block. Composing an ode to the Civil War dead in the summer of 1865 was an intimidating task even for a poet of Lowell’s stature. The Confederate army surrendered at Appomattox Courthouse only three months before, and Lincoln’s assassination deepened the nation’s misery just as relief was in sight. An estimated 750,000 soldiers, more than two percent of the American population, perished on the battlefield or in the ruins. Lowell’s mind was strained to its limits by the difficult task at hand, but also by the general despair of a country awash in its own blood. It would not surprise psychical researchers who studied such states that the Ode manifested “in a flash of sudden inspiration” that felt to Lowell like an outside force working through his pen.
+
+<figure>
+  <img src="_33703881311_f75288482f_c.jpg" alt="James russell lowell in his study">
+  <figcaption>James Russell Lowell in his study, detail from an image featured in Horace Elisha Scudder’s <em>James Russell Lowell: A Biography</em>(1901).
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:James_Russell_Lowell_-_a_biography_(1901)_(14576488748).jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+“It all came with a rush,” Lowell recalled, “literally making me lean and so nervous that I was weeks in getting over it.”[^7] The visceral impact of his effort – he claimed that he lost ten pounds – was intertwined with the psychic element, nerves frayed by the intensity of the message they conducted. Lowell reported writing most of the piece between 10 p.m. and 4 a.m. on the night before the ceremony,[^8] supporting neatly the idea that Mr. W.’s strange experience occurred at the peak of Lowell’s emotional labor. Perhaps the spirit of the Ode was literally in the air, like electricity, magnetism, and the other invisible forces captured by nineteenth century physics.
+
+If so, the invisible force wringing Lowell’s nerves bore a distinctively national imprint. As a poet, he was selected to channel the passions of his less-articulate fellow citizens in the wake of a devastating war. Even if the night of July 21st was not quite as revelatory as his account makes it out to be, he told the story of the Ode’s creation the way he did to make his channeling function explicit. It would make sense to contemporary readers that the psychic energies of a nation might overwhelm a medium’s capacity and ricochet to other, lesser receptacles; for instance, the innocent Mr. W. sleeping nearby in Cambridge.
+
+<figure>
+  <img src="_33008585864_af522cfa61_c.jpg" alt="telepathy">
+  <figcaption>Diagram on telepathic communication, featured in <em>Psycho-therapy in the Practice of Medicine and Surgery</em> (1903) by Sheldon Leavitt.
+    <br>
+  </figcaption>
+</figure>
+
+Based on personal details provided in his letter, we can identify Mr. W. as Charles Pickard Ware, an English teacher known for publishing a collection of American slave songs in the 1870s.[^9] Harvard philosopher Josiah Royce, who presented Ware’s story in the _Proceedings of the American Society for Psychical Research_, diagnosed a case of “most beautiful pseudo-presentiment”. He thought that Ware’s unconscious mind, whipped into a heightened emotional state during Lowell’s delivery of the “Commemoration Ode”, simply conjured a false memory of the previous night’s dream.[^10] Royce set out to debunk Ware’s suggestion of telepathy with a psychological argument about how the mind works. “Pseudo-presentiments”, he explained, could be “created or reinforced by dreams” that occurred after the supposedly-foreseen event. “By an instantaneous and irresistible hallucination of memory”, the agitated mind projects the dream into the past “so as to make it seem prophetic, or at least telepathic.”[^11] Royce placed this case on a continuum of susceptible mental states ranging from the temporary unreason of sleep to the elation of poetry to paranoiac delusions, all of which could produce astonishing experiences like Ware’s.
+
+It’s unlikely that Ware was asking to be compared to a paranoid asylum patient when he sent his recollections to the ASPR. Though he didn’t name what happened to him, he strongly insinuated that a form of telepathy or clairvoyance was at work – a real, rather than a deluded, communion. This was certainly at odds with Royce’s pathological framing, yet the two sides of the debate both claimed a methodology rhetorically aligned with the spirit of modern science. Both tried to elaborate a set of law-like, rational processes that eliminated the need for any supernatural agency. Advocates of telepathy saw thought as a material or energetic substance that could travel unconsciously between minds, similar to the behavior of electricity or magnetism. Royce took the position increasingly shared by psychologists in the later nineteenth century; they agreed that thoughts emerged from some wave- or electricity-like process acting on brain cells, but they restricted this process to the individual’s brain. Supernormal experiences arose from errors in our skull-encapsulated machinery, not from outside signals.
+
+Despite skepticism from some scientists, people took the idea of spontaneous, unconscious mental transmission quite seriously, as a possibility and as a danger, in an age when powerful ideas crisscrossed the nation through new and mysterious channels. From mass print to the telegraph to the railroad, burgeoning communication systems collapsed time and space through increasingly rapid connections. They brought unprecedented economic growth, creating new forms of investment and trading that depended as much on information flow as they did on the movement of commodities. Such precipitous connectedness also posed a threat to the socio-economic order: it allowed laborers to organize, abolitionists and suffragists to rally. Dangerous ideas could spread uncontrollably, and many worried that hardware might not limit their range.[^12] The line between technology and telepathy blurred, with medical men like William Carpenter explaining the nervous system as a telegraph and extending its reach beyond the individual body; he believed that “nerve-force,” as a form of electricity, could “exert itself from a distance, so as to bring the Brain of one person into direct dynamical communication with that of another.”[^13] This popular analogy turned the country into a literal body politic that could succumb to hysteria or mass frenzies originating with a single disturbed citizen.
+
+<figure>
+  <img src="_33706031211_1dff2e3fea_o.jpg" alt="telegraph civil war">
+  <figcaption>A man fixes telegraph wires during the US Civil War, ca. 1863.
+    <cite>
+      <a href="https://www.loc.gov/item/2006676182/">Library of Congress</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Much of the American medical and scientific work on this topic appeared in the 1870s, which meant that its authors shared a common point of reference for mass psychic upheaval: the Civil War. For instance, Philadelphia physician and novelist Silas Weir Mitchell wrote about mental permeability and contagion in a decidedly negative light: if people could see each others’ true thoughts, “the whole fabric of civilization would crumble”, one of his characters warned.[^14] During the war, Mitchell served in the Turner’s Lane army hospital, where he studied the lingering effects of nerve injuries through intimate conversations with men who had actually seen civil society crumble around them and who had fought in its ruins. In his subsequent decades of practice, Mitchell urgently counseled patients and the public on shoring up their nervous power to defend against the intrusion of alien psychic forces. Though he denounced psychic mediums as frauds, Mitchell wrote so incessantly about mental barriers and scenarios of penetration that his concern about volatile powers of mind is unmistakeable. Perhaps, like Walt Whitman, another Civil War medic, Mitchell was plagued by “dreams’ projections”, sentenced each night to “thread my way through the hospitals”.[^15] What war reporter Ambrose Bierce called a “spiritual darkness”,[^16] unleashed over four years of brutal killing and halted only with fragile documents, left a generation wary of the violence lurking below the surface of American life.
+
+Others, however, saw great potential in harnessing the mental forces that stirred men from remote villages to take up arms. During the war, dreams had joined people to a common cause in very tangible ways. They appeared, of course, in political speeches and poems – Whitman again, with his imperiled “dream of humanity, the vaunted Union”.[^17] Dreams and premonitions forged a meaningful connection between civilians, soldiers, and the distant leaders whose choices determined their fate – especially Abraham Lincoln, who traversed the dreamscape of Civil War America as restlessly as he stalked the White House’s corridors. But dreams also pervade private letters, journals, and newspaper reports of more intimate encounters. People felt linked with imperilled loved ones through moments of clairvoyance, premonition, or dream communion.
+
+<figure>
+  <img src="_33601075422_7158ecc8a8_b.jpg" alt="civil war soldier dream">
+  <figcaption><em>The Soldier’s Dream of Home</em>, a Currier and Ives print, ca. 1861–1865.
+    <cite>
+      <a href="http://www.loc.gov/pictures/resource/cph.3b50888/">Library of Congress</a>
+    </cite>
+  </figcaption>
+</figure>
+
+For instance, on a July night in 1863, Sarah Oates saw a vision of her son John, wounded and dying.[^18] Her dream extended even to his burial, giving her a chance to be virtually present as the young man was lowered into an unmarked grave. The grave was in Gettysburg, Pennsylvania, hundreds of miles away. Two days later, the letter arrived telling of John’s fatal injury, but Sarah had already gone into mourning. Countless families treasured and circulated such stories; they acted as a virtual salve, helping bend violent death on the battlefield towards the nineteenth-century ideal of a “good death” which occurred at home surrounded by loved ones. Psychic manifestations of familial love in times of crisis suggested that these invisible bonds might transcend even a war of brother against brother.
+
+By stretching love and intimacy across vast distances, and by troubling the presumed boundaries of the self, the act of dreaming remained more than a physiological function of the brain during sleep. From its earliest links with prognostication, dreaming connoted an expectant gaze towards the future, a hope (or promise, or fear) for the waking world. The Enlightenment’s dismissal of divine prophecy changed the register in which dreams spoke to the collective destiny of families, communities, and nations. Dreams became a metaphor, but one still linked to interiority and revelation. In the satirical device of illustrating a politician’s nightmare, we see a Thomas Paine-like jab at the persistence of superstition.
+
+<figure>
+  <img src="_33628528891_b102ba2dda_b.jpg" alt="abraham lincoln dream">
+  <figcaption><em>Abraham’s dream! — “Coming events cast their shadows before”</em>, a Currier and Ives print portraying the President tormented by nightmares of defeat in the election of 1864.
+    <cite>
+      <a href="http://www.loc.gov/pictures/item/2003689256/">Library of Congress</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Yet the cartoonist who lampooned Abraham Lincoln as a trembling dreamer worked within the tradition of casting the president as a sort of secular prophet. Only a few years before the start of the Civil War, artist Louis Maurer produced a decidedly un-ironic image of George Washington dreaming of liberty and justice in the midst of his generation’s war for national independence – not an idle wish, but the hoped-for outcome of waking struggles shared by mighty generals and humble soldiers. [Representations](https://www.loc.gov/resource/amss.as112620.0) of enslaved African Americans showed them suffering the torments of this dream’s constant denial. Equals in mental mechanism must be equals in their capacity to imagine a better life, and thus, in theory, equals in democratic politics.
+
+<figure>
+  <img src="_33601073382_3a597c8caf_b.jpg" alt="george washington dream">
+  <figcaption><em>Washington’s Dream</em>, a Currier and Ives print, ca. 1857.
+    <cite>
+      <a href="https://www.loc.gov/item/2002698177/">Library of Congress</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Pitched warfare over this very claim had barely ended when Charles Ware woke abruptly, before sunrise, on a friend’s couch in Cambridge, where he’d traveled to attend a memorial service for his former classmates. “What they dare to dream of dare to die for” arrived, like a telegram, instantaneously and pre-formed, piercing his slumber. At the time, Ware was still young and harbored literary aspirations. Though he never succeeded as poet, perhaps his moment of communion with the renowned James Russell Lowell affirmed a private sense that Ware, too, had access to a higher plane of inspiration. The less we think of Ware as gifted or inspired, however, the more his experience appeals to a broader notion of dreaming as a perhaps too-democratic pathway for shared sentiment and action. The violent upheaval of war seemed to demonstrate that the stirrings of individual hearts were highly contagious. The line in question, “And what they dare to dream of, dare to do”, refers to the collective political dream that led Harvard’s undergraduates into battle. Whether people decided to classify such dreams as symbols, portents, or mechanical blips, they took on an indisputable, concrete reality for many nineteenth-century Americans, and their power to manifest in catastrophic ways gave skeptics pause.
+
+Anecdotes of dream communion represent a kind of “dream work” distinct from the later Freudian sense of the term: dreams “worked” in the narrative context of people’s lives to account for sometimes-mysterious shared experiences. At the same time, much of the reading public followed current psychology and viewed dreaming as a physiological activity of the brain – the result of electrical or etheric impressions moving along telegraph-like circuits.[^19] This left ambiguity as to where the boundaries of the unconscious fell – was it restricted to the individual mind, or part of a larger psychic economy? Lowell’s “Commemoration Ode” appeared to leap the divide between two strangers, confounding distinctions of authorship. Despite scientific efforts to rationalize and individualize dreaming, it retained its old portentousness in an hour when the need to unify diverse citizens was an overbearing anxiety.
+
+Whether through science or art, dreams proved difficult to regulate for practical aims. Lowell could testify to this challenge. While one line of his poem made a profound impression on Charles Pickard Ware, the full version was a flop with his audience at Harvard, and nobody bothered to reprint it in the newspapers. Despite a profusion of theories, neither poets nor psychologists seemed any closer to mastering the laws of dreaming, inspiration, and sympathy.
+
+* * *
+
+**Alicia Puglionesi** holds a PhD in the History of Science, Medicine, and Technology from Johns Hopkins University. She is currently an NEH Postdoctoral Fellow at the Consortium for the History of Science, Technology, and Medicine in Philadelphia. Her essays from various corners of the web can be found [here](https://aliciapuglionesi.com/).
+
+[^1]: Letter from “Mr. W” quoted in Josiah Royce, “[Report of Committee on Phantasms and Presentiments](https://archive.org/stream/proceedingsofame18589amer#page/372/mode/2up)”, _PASPR_ 1:4 (1889) 373.
+
+[^2]: “The Greenbrier Ghost”. [Wvculture.org](http://www.wvculture.org/history/crime/shuearticles.html). N.p., 2017. Web. 5 Apr. 2017.
+
+[^3]: Hartley, David. [_Observations On Man_](https://archive.org/details/observationsonm00pistgoog). 1st ed. London: Printed for Leake & Frederick, 1849.
+
+[^4]: Paine, Thomas. “[An Essay on Dreams](https://archive.org/stream/greatworksofthom00painiala#page/258/mode/2up)“, in _The Great Works Of Thomas Paine_. 1st ed. New York: D. M. Bennett, 1878.
+
+[^5]: Dickens, Charles, John Leech, and Daniel Maclise. _A Christmas Carol In Prose_. 1st ed. New York: Walter J. Black, Inc.
+
+[^6]: _The New Dream Book, Or, Interpretation Of Remarkable Dreams_. 1818\. 1st ed. Boston: Printed for Nathaniel Coverly.
+
+[^7]: Quotation from Lowell to James B. Thayer, Jan. 18, 1886, in _Letters of James Russell Lowell, Volume II_, ed. Charles Eliot Norton (New York: Harper & Brothers, 1893), 10.
+
+[^8]: Horace Elisha Scudder, _James Russell Lowell: A Biography_ (Cambridge: Riverside Press, 1901), 63-65. On the metaphor of male creative production as childbirth, see Sherry Marie Velasco, _Male Delivery: Reproduction, Effeminacy, and Pregnant Men in Early Modern Spain_ (Nashville: Vanderbilt University Press, 2006) and Michael Davidson, “Pregnant Men: Modernism, Disability, and Biofuturity in Djuna Barnes.” _Novel_ 43.2 (2010): 207–226.
+
+[^9]: _1862-1912 Class Report: Class of ’Sixty-Two Harvard University, Fiftieth Anniversary_, ed. by Charles Pickard Ware (Norwood, Mass: The Plimpton Press, 1912). Hamilton Bail also identifies Mr. W. as Ware (Bail, “James Russell Lowell’s Ode,” 177).
+
+[^10]: Josiah Royce, “[Report of Committee on Phantasms and Presentiments](https://archive.org/stream/proceedingsofame18589amer#page/372/mode/2up)”, _PASPR_ 1:4 (1889): 373. Royce personally attested to Mr. W.’s character, noting that he was a “well-known gentleman of a suburban community” near Boston.
+
+[^11]: Ibid., 375-377.
+
+[^12]: The internet made these concerns a reality in twenty-first-century resistance movements like the [Arab spring](http://r-shief.org/) and Occupy; while related fears of unconscious mental influence are also at play in what some analysts see as the [weaponization](https://motherboard.vice.com/en_us/article/how-our-likes-helped-trump-win) of social media through psychologically-exploitative algorithms.
+
+[^13]: William Benjamin Carpenter, [_Principles of Mental Physiology: With Their Applications to the Training and Discipline of the Mind, and the Study of Its Morbid Conditions_](https://archive.org/details/principlesofment00carprich) (London : H.S. King & Co., 1876), 633.
+
+[^14]: Silas Weir Mitchell, Dr. North and His Friends (New York: The Century Co., 1900), 95.
+
+[^15]: “818. The Wound-Dresser. Walt Whitman. 1909-14. English Poetry III: From Tennyson To Whitman. The Harvard Classics”. 2017. Bartleby.Com. http://www.bartleby.com/42/818.html.
+
+[^16]: Bierce, Ambrose. 1909. _Iconoclastic Memories Of The Civil War_. 1st ed. Girard, Ka.: Haldeman-Julius.
+
+[^17]: “20. Battle Of Bull Run, July, 1861. Specimen Days. Whitman, Walt. 1892. Prose Works”. 2017. Bartleby.Com. http://www.bartleby.com/229/1020.html.
+
+[^18]: Glenn W. LaFantasie, _Gettysburg Requiem: The Life and Lost Causes of Confederate Colonel William C. Oates_ (Oxford: Oxford University Press, 2007).
+
+[^19]: An example of this metaphor is Oliver Wendell Holmes, _Mechanism in Thought and Morals. An Address Delivered before the Phi Beta Kappa Society of Harvard University, June 29, 1870_ (Boston, J. R. Osgood & co., 1871); for the long history of the metaphor see Margaret Boden, _Mind As Machine: A History of Cognitive Science_ (Oxford: Oxford University Press, 2008).  
+
+* * *
+
+Public Domain Works
+
+*   Mention of the Ode in _James Russell Lowell: A Biography_ (1901) by Horace Elisha Scudder.
+*   “Report of Committee on Phantasms and Presentiments”, by Josiah Royce in _Proceedings of the American Society for Psychical Research_ 1:4 (1889) 373.
+*   “Ode Recited at the Harvard Commemoration” (1865), by James Russell Lowell.
+*   *Principles of Mental Physiology (1876) by William Benjamin Carpenter.
+
+Further Reading
+
+{<} ![Midnight in America: Darkness, Sleep, and Dreams during the Civil War](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1469632047&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Midnight in America: Darkness, Sleep, and Dreams during the Civil War (The University of North Carolina Press, 2017) by Jonathan W. White
+
+_In this innovative new study, Jonathan W. White explores what dreams meant to Civil War–era Americans and what their dreams reveal about their experiences during the war._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Midnight-America-Darkness-Dreams-during/dp/1469632047?tag=thepubdomrev-20)

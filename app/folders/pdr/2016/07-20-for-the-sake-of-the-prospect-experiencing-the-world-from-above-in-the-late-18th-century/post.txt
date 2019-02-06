@@ -1,0 +1,148 @@
+Tags: Art, History
+Summary: The first essay in a two-part series in which Lily Ford explores how balloon flight transformed our ideas of landscape. We begin with a look at the unique set of images included in Thomas Baldwin’s Airopaidia (1786) — the first “real” overhead aerial views.
+Thumbnail: _28326632622_a7b89c65c0_b.jpg
+
+# “For the Sake of the Prospect”: Experiencing the World from Above in the Late 18th Century
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**The first essay in a two-part series in which Lily Ford explores how balloon flight transformed our ideas of landscape. We begin with a look at the unique set of images included in Thomas Baldwin’s _Airopaidia_ (1786) — the first “real” overhead aerial views.**
+
+<figure>
+  <img src="_28326632622_a7b89c65c0_b.jpg">
+  <figcaption>Detail from the “Balloon-Prospect” image, featured in Thomas Baldwin’s <em>Airopaidia</em>(1786).
+    <cite>
+      <a href="https://archive.org/details/Airopaidia00Bald">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Although it is often dismissed as a comedy moment, an amusing episode in the history of flight, ballooning had a profound effect on the epistemological model of being in the world and viewing landscape. That balloons are innately comic is undeniable, and their physical attributes were a gift to satirists of the late eighteenth century, who riffed delightedly on the graphic and semantic associations of this new and somewhat unlikely technology.[^1] Furthermore, in the first few decades of ballooning, its utility was unclear. Although flight had been achieved, the power to navigate had not, so balloons could not be used as aerial transport. Once airborne, balloonists were dependent on the mysteries of the upper air and its currents to carry them along. In this captive state, aeronauts set about conducting experiments with a full array of scientific instruments, their own senses and perception being among these. Tasting ginger to see if it was as spicy, or undertaking a complex mathematical equation to test mental acuity at altitude, went alongside checking height and air pressure.
+
+In some cases, science funding had got the aeronauts up there in the first place. The first successful manned balloon flights were conducted in France with state support. The ascents themselves became known as “experiments”, and were concerned with an exploration of the upper air. In Britain, the Royal Society withheld support from such endeavours, so the first British ascents were underwritten, in the words of one early balloonist, by “a tax on the curiosity of the public”.[^2] This affected the cultural profile of ballooning in England: it was always more of a spectacle than a science. In 1785, Tiberius Cavallo, a member of the Royal Society and author of the first English history of ballooning, concluded that:
+
+> many, if not the greatest number of the aerial voyages, though said to be purposely made for the improvement of science, were performed by persons absolutely incapable of accomplishing this purpose; and who, in reality, had either pecuniary profit alone in view, or were stimulated to go up with a balloon, for the sake of the prospect, and the vanity of adding their names to the list of aerial adventurers.[^3]
+
+As Cavallo’s words suggest, there was a performative element to ballooning. Balloons were highly visible objects; Vincent Lunardi, who first brought the balloon to Britain, incorporated eye-catching colours and decorative flourishes to the already impressive forms of the balloon’s envelope and gondola.
+
+<figure>
+  <img src="_27812994284_d498216b8e_b.jpg">
+  <figcaption>Vincent Lunardi’s elaborately decorated second balloon, which first took to the skies on 13th May, 1785.
+    <cite>
+      <a href="http://4.bp.blogspot.com/-DDUTiC4CbK4/Uumr3w_jWBI/AAAAAAABm5k/uWCu3QJH9Dw/s1600/1784+An+exact+representation+of+Mr+Lunardi%27s+New+Balloon+as+it+ascended+with+himself+13+May+1785+Pub+by+Carrington+Bowles,+London.jpg">Blogpost</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Anybody prepared to step into the gondola had to be ready to be seen, watched, and indeed documented. Balloon launches were highly public events, in part because of financial necessity. Michael Lynn documents many instances between 1783 and 1820 of crowds erupting into violence if the balloon failed, through caution or defect, to rise.[^4] Balloonists suffered from performance-related anxiety; they were all too aware of their spectators as they prepared for an ascent and, presumably were rather relieved to leave them behind. They then needed to be prepared to greet the astonished witnesses of their landing, wherever that might be, with enough charm to ensure their help in packing up the balloon and getting home. In a way, they also carried on performing long after that by writing up their voyages for publication.
+
+These accounts are a fascinating example of extreme travel writing, of efforts to communicate an utterly new experience to the reader. Lunardi published volumes of letters; as Clare Brant has pointed out, the conventions of the epistolary form invited readers to relive the sensations of the author in their imagination.[^5] Thomas Baldwin, an early balloonist who hired Lunardi’s balloon for an ascent over Chester in 1785, inscribed a long book about his one day in the air to “the principal inhabitants of Chester” who had covered his costs. Uniquely in this period, Baldwin attempted to describe his experience not only verbally, but using images: three expensively produced plates depicting the view from the balloon, the balloon in the view, and the charted passage of the balloon over the landscape.
+
+<figure>
+  <img src="_28429576095_fe22df0304_b.jpg">
+  <figcaption>“A Circular View from the Balloon at its greatest Elevation”, featured in Thomas Baldwin’s <em>Airopaidia</em>(1786).
+    <cite>
+      <a href="https://archive.org/details/Airopaidia00Bald">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The first image in his _Airopaidia_, “A Circular View from the Balloon at its greatest Elevation”, departs from established conventions of landscape representation.[^6] At a quick glance it resembles an eyeball in its spherical regularity. In case it does not succeed in visually conveying his experience, Baldwin offers an explanation in words. “The Spectator is supposed to be in the Car of the Balloon, suspended above the _Center_ of the View” (Baldwin:iv). The ground is visible in the “iris”, a central roundel which contains, upon inspection, the plan view of a town and its river. This is Chester, fondly placed at the centre of this entirely new kind of view. The town is framed by a thick “Amphitheatre, or white Floor of Clouds” (Baldwin:iv). Drawing clouds was clearly not one of Baldwin’s strengths. They are crudely worked, knobbly protuberances, signs for clouds (the first classification of clouds was made sixteen years later by Luke Howard[^7]). The concentric circles formed by these rings of clouds, together with the blue ring at the edge, are meant to suggest depth. “The Breadth of the _blue_ Margin _defines_ the apparent Height of the Spectator in the Balloon (viz. 4 Miles) above the _white_ Floor of Clouds, as he hangs in the Center, and looks _horizontally_ round, into the _azure_ Sky” (Baldwin:iv).
+
+Baldwin is trying to convey in one image both his sense of space and height and his view of the ground. The execution is not entirely successful. Nevertheless, the attempt is significant. In combining phenomenological and visual sensations, Baldwin is responding to the extraordinary new conditions of flight. The experience he is communicating is as much about the feeling of moving upwards and occupying a vast space as it is about perceiving the world from above. He invites readers to imagine themselves in the balloon at the apogee of the ascent, where they can look down at the earth, and out into the sky. He even advises they assume a physical position over the image, by placing the book “_flat_ on a Table or Chair, and _rather_ in the Shade: the Eye looking _directly_ down upon the Picture” (Baldwin:v).
+
+<figure>
+  <img src="_27812994044_16276f4827_h.jpg">
+  <figcaption>“Balloon-Prospect”, featured in Thomas Baldwin’s <em>Airopaidia</em>(1786).
+    <cite>
+      <a href="https://archive.org/details/Airopaidia00Bald">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+With the “Balloon-Prospect” (Baldwin:154), Baldwin again departs from convention. It is a coloured map, accompanied, upon unfolding the page behind it, by a key which moors the elements of the image to more recognizable, and labelled, cartographic features. The city of Chester is once again included, this time in the bottom right-hand corner. As in the “Circular View”, the colours correspond to those Baldwin claims to have seen. The waterways are represented with all their twists and turns — Baldwin notes in the book that rivers appear “twining in Meanders infinitely more serpentine than are expressed in Maps” (Baldwin:41, also 81–2). The picture field is dominated by clouds over which, on closer examination, the erratic route of the balloon is plotted with a thin black line. The “Track of the Balloon” is marked on the key with a type and font matching that which spells out “River Mersey”; information about the journey (“Breeze”, “Balloon alighted here”) is printed in text matching that of the place names. The clouds still obscure the land below. It is as if the temporal and topographical information inscribed in the key are of equivalent value; the experience Baldwin had travelling over the landscape is as important to record and depict as the landscape he viewed. The observations of the journey and the observations of the landscape take equal weight.
+
+<figure>
+  <img src="_28398872036_3ca88f5f6b_b.jpg">
+  <figcaption>The “Explanatory Print” which accompanied the “Balloon-Prospect” image, featured in Thomas Baldwin’s <em>Airopaidia</em>(1786).
+    <cite>
+      <a href="https://archive.org/details/Airopaidia00Bald">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Having prepared the reader by presenting them, in the “Circular View”, with a picture of looking — an eyeball that turned out to be a radically different view from above — Baldwin demands a little more of them with this second aerial image. He includes two levels of time along with the strangely coloured landscape. Firstly, the atmosphere is represented by a “snapshot” or moment of the cloud form and distribution. Then a narrative unfolds along the winding black line that squiggles over the page. It is meant to be followed carefully: Baldwin asks the reader to use a rolled-up paper or their hands to form a kind of peephole when looking at the image, in order to “form a very accurate Idea of the Manner in which the _Prospect below_ was represented _gradually in Succession_, to the Aironaut; whose Sight was bounded by a Circularity of Vapour” (Baldwin:v). In other words, the viewers themselves are to impose the frame in their interaction with the image. Baldwin’s inclusion of a sense of motion in his instructions (“gradually in succession”) suggests that the viewer should move this improvised viewfinder along the line, in a recreation of the journey.
+
+The images included in _Airopaidia_ cater to Baldwin’s concern to record the ascent in as comprehensive a way as possible: they show the view from above, the view from below, and a map of the time and space of the journey. His choice of title gives an indication of his ambitions for the book. Though it chronicles his own experience, it also attempts to offer a more general, and exhaustive, account of aerostation, referencing in his portmanteau construction the newest literary form of definitive information (the first edition of the _Encyclopaedia Britannica_ was published in 1768). In it, the sensation of flying is treated on an equal footing with the mechanics of ascension and the details of the journey. As seen in the text, Baldwin’s concern for the spectator is real, not just perfunctory. With respect to the images, Baldwin makes every effort to situate the viewer in the “correct” viewpoint, using graphic means to funnel their vision, and suggesting a particular physical engagement with the page. Not only does he supply short captions for the images, he also places them among extensive passages of description of his mental and visual impressions. As an ensemble of text and image, _Airopaidia_ is intended to give readers the most vivid impression possible of the experience of flight, so that they might imagine themselves up in the balloon.
+
+<figure>
+  <img src="_28353135051_a0dd422255_b.jpg">
+  <figcaption>Detail from “A Circular View from the Balloon at its greatest Elevation”, featured in Thomas Baldwin’s <em>Airopaidia</em>(1786).
+    <cite>
+      <a href="https://archive.org/details/Airopaidia00Bald">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Baldwin’s extraordinary presentation of his ascent experience provoked a rethinking of the conventions of landscape depiction and charting a journey. It led him to engage with what we might label aerial visuality, in writing and depicting vision and motion together. His practice raises several points that inform later representations of the experience of seeing and flying. Firstly, he does not draw in any respect upon the convention of a bird’s-eye view to represent his aerial views. They are vertical views; they lack horizons and a vanishing point, and the order that these features usually bring to the composition of an image. There is no foreground figure, no portrait of Baldwin in the gondola; indeed, the images contain no visual clue as to the apparatus of ascension. He has invented a new framing of the landscape, a vertical view that is nonetheless not quite a map in the contemporary sense.
+
+Secondly, the viewer’s interface with an aerial image is directed. They must assume a particular position and distance to see the image correctly, even restricting their view. Helen Wickstead and Martyn Barber suggest that with his “improvised ‘telescope’ or ‘microscope’” (the hand-as-viewfinder), Baldwin is “\[t\]ransporting the world into an interior where it can be contemplated outside the body”, an act “redolent of the _camera obscura_”.[^8] Not only is he the first to produce a “real” aerial view, he also sets a precedent for the considered positioning of the viewer of the image. Where seventeenth-century city views used framing and perspective to fix the viewer outside the image and in their social place, Baldwin is beginning to find ways of letting the viewer in — after all, many of his readers had paid a subscription to fund his ascent. His instructions for both aerial images are involved, exhaustive.
+
+Baldwin seems to me, and to other twenty-first-century historians, to have been unique, and outstanding, in attempting to convey the sensory and visual aspects of flight to his readers.[^9] It is striking that no other balloonist produced an image of the aerial view until the 1830s. There are two possible reasons for this. On one hand, Baldwin’s images may have been deemed failures of representation. Although only one edition of _Airopaidia_ was printed, it must have been widely distributed by Baldwin, given the ubiquity of the book now in British academic libraries. Yet there is a critical silence, insofar as this can be judged given the limitations of documentary evidence — no contemporary reviews of the book have been found, and later references to it are scant. On the other hand, only a few years later, another viewing technology appeared which would furnish balloonists with a whole new reference point for their experiences of synoptic vision and visual immersion in landscape: the panorama.
+
+_\[This is the first essay in a two part series. Read the second essay [here](https://publicdomainreview.org/2016/08/03/unlimiting-the-bounds-the-panorama-and-the-balloon-view/)\]_
+
+* * *
+
+**Lily Ford** works on the cultural history of flight, and finished her thesis on “airmindedness” in 1920s Britain last year at Birkbeck, University of London. She also produces essay films at the [Derek Jarman Lab](http://www.jarmanlab.org/), including this year’s [The Seasons in Quincy: Four Portraits of John Berger](http://seasonsinquincy.com/).  
+
+[^1]: See this definitive collection of images, for example p. 104: François Bruel, _Histoire Aéronautique par les monuments peints, sculptés, dessinés et gravés des origines à 1830_ (Paris: André Marty, 1909).
+
+[^2]: John Jeffries, _A Narrative of the Two Aerial Voyages of Doctor Jeffries with Mons. Blanchard; with Meteorological Observations and Remarks_ (London: the author, 1786), 12.
+
+[^3]: Tiberius Cavallo, _The History and Practice of Aerostation_ (London: the author, 1785) 200–201.
+
+[^4]: Michael Lynn _The Sublime Invention: Ballooning in Europe, 1783-1820_. London: Pickering & Chatto, 2010, pp. 110-117.
+
+[^5]: Clare Brant ‘“I Will Carry You with Me on the Wings of Immagination”: Aerial Letters and Eighteenth-Century Ballooning’. _Eighteenth-Century Life_ 35:1 (winter 2011), pp. 168-187, p. 171.
+
+[^6]: Thomas Baldwin _Airopaidia or Aerial Recreation_. Chester: J. Fletcher, 1786, p. 58. All subsequent references to this work will be in the text as page numbers, eg. Baldwin:58.
+
+[^7]: See Richard Hamblyn _The Invention of Clouds_. London: Picador, 2001.
+
+[^8]: Helen Wickstead and Martyn Barber ‘A spectacular history of survey by flying machine’. _Cambridge Archaeological Journal_ 22:1 (2010), pp.. 71-88, p. 77.
+
+[^9]: Ibid. See also Marie Thébaud-Sorger ‘Thomas Baldwin’s Airopaidia or the Aerial View in Colour’ in Mark Dorrian and Frédéric Pousin (eds.) _The Aerial View in Visual Culture_. London: I.B. Tauris, 2013, pp. 46-65, p. 62.
+
+Public Domain Works
+
+*   _Airopaidia: containing the narrative of a balloon excursion from Chester, the eighth of September, 1785, taken from minutes made during the voyage_ (1786), by Thomas Baldwin.
+*   _An Account of Five Aerial Voyages in Scotland_ (1786), by Vincent Lunardi.
+*   _Wonderful Ballon Ascents: or, The Conquest of the Skies. A History of Balloons and Balloon Voyages_ (1870), by Fulgence Marion.
+*   _Astra Castra: Experiments and Adventures in the Atmosphere_ (1879), by Hatton Turner.
+
+Further Reading
+
+{<} ![Falling Upwards: How We Took to the Air](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0307742326&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Falling Upwards: How We Took to the Air (Vintage, 2014) by Richard Holmes
+
+_Dazzling fusion of history, art, science, and biography, resurrecting the daring men and women who first risked their lives to take to the air in balloons._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Falling-Upwards-How-Took-Air/dp/0307379663?tag=thepubdomrev-20)
+
+{<} ![Seeing from Above: The Aerial View in Visual Culture ](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1780764618&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+Seeing from Above: The Aerial View in Visual Culture  (I. B. Tauris, 2013) by Mark Dorrian (Editor), Frédéric Pousin (Editor)
+
+_Investigation into cultural effect of the aerial view including Marie Thébaud-Sorger’s “Thomas Baldwin’s Airopaidia or the Aerial View in Colour”._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Seeing-Above-Aerial-Visual-Culture/dp/1780764618?tag=thepubdomrev-20)
+
+{<} ![The Sublime Invention: Ballooning in Europe, 1783-1820](https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=113866121X&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=thepubdomrev-20)
+
+The Sublime Invention: Ballooning in Europe, 1783-1820 (Routledge, 2016) by Michael R Lynn
+
+_An exploration of why exploring how ballooning entered and stayed in the public consciousness is key to understanding the importance of science during the age of the Enlightenment and Atlantic revolutions._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Sublime-Invention-Ballooning-1783-1820-Enlightenment-ebook/dp/B012B7J4Z6?tag=thepubdomrev-20)

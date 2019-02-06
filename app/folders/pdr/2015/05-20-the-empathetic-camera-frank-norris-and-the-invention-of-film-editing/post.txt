@@ -1,0 +1,192 @@
+Tags: Literature, Film
+Summary: At the heart of American author Frank Norris’ gritty turn-of-the-century fiction lies an essential engagement with the everyday shock and violence of modernity. Henry Giardina explores how this focus, combined with his unique approach to storytelling, helped to pave the way for a truly filmic style.
+
+# The Empathetic Camera: Frank Norris and the Invention of Film Editing
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**At the heart of American author Frank Norris’ gritty turn-of-the-century fiction lies an essential engagement with the everyday shock and violence of modernity. Henry Giardina explores how this focus, combined with his unique approach to storytelling, helped to pave the way for a truly filmic style.**
+
+<figure>
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Portait_of_Frank_Norris_by_Peixotto.jpg/593px-Portait_of_Frank_Norris_by_Peixotto.jpg">
+  <figcaption>A portrait of Frank Norris by the painter Ernest Clifford Peixotto, possibly Norris’ oldest friend, the two having first met at California School of Design in 1886 –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:Portait_of_Frank_Norris_by_Peixotto.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The story of cinema begins in violence. The first motion picture camera was constructed by Etienne-Jules Marey, a French scientist who, in seeking to prove Darwin’s theory of evolution through recording animals in motion, created a rifle-shaped device – a kind of “photographic gun” — in order to record birds in flight.
+
+Even without this detail there was, for those first exposed to moving images, a sense of violation inherent in the concept. Film was defined at the start by the same protean aspect that made it impossible to define. Was it a way of documenting life, or telling stories? Was it in service of fact or fiction? Art or science? Could the shadow-like findings of the camera ever be trusted as concrete, or as something more than apparition?
+
+The first film apparatus, though developed at the end of the nineteenth century, only reached full maturity by the start of the quite different twentieth century. It was the concept of capturing reality in full that first appealed to the two scientists, Marey and the photographer Eadweard Muybridge, the motion picture camera’s accidental co-creators. But to its first audiences, film represented something different: a total manipulation of reality, an uncomfortable expression of modernity, and a reflection of the contradictions of modern life. A sense of the moving image as deception, as trickery, accompanied the earliest manifestations of cinema, from the abrasive thaumatrope[^1] onward. It was the story of the terrified audience response to the Lumiere Brothers’ 1896 film [_L’Arriveé d’un Train_](https://www.youtube.com/watch?v=RjtXXypztyw) that solidified the sense of alienation between the earliest films and their audiences. This is referred to as cinema’s “founding myth” — the idea that the earliest consumers of moving pictures had neither the capacity nor the tools to distinguish film from reality.
+
+<figure>
+  <img src="_17890311785_586bf23a9c_b.jpg">
+  <figcaption>Still from <em>L’arrivée d’un train en gare de La Ciotat</em>(1895), directed and produced by Auguste and Louis Lumière –.
+    <cite>
+      <a href="https://jaredandkyal.files.wordpress.com/2015/04/larrive-dun-train-a-la-ciotat1.jpg">jaredandkyal</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The turn-of-the-century novelist Frank Norris makes infrequent reference to the then-new art of cinema in his writing, but when he does, it is always to a distinct purpose. In his 1899 novel _McTeague_, a group of characters go to the theater and are treated to a short film as part of the program. Their responses vary from wonder to distrust as they are faced with the sheer impossibility of what appears before them. McTeague himself is “awe-struck”:
+
+> “Look at that horse move his head,” he cried excitedly, quite carried away. “Look at that cable car coming — and the man going across the street. See here comes a truck. Well, I never in all my life!”
+
+Norris had written _McTeague_ in the late 1890s, after a term of reporting on the Spanish American war for a San Francisco newspaper. The novel – a gruesome story of greed, revenge, and sexual darwinism – was to put him on the map at the age of twenty-nine. The response of the American public of the time – still relatively prim and conservative at the turn of the century – to _McTeague_’s naturalism was a mixture of fascination and fear, a sense that propriety had been breached in Norris’ no holds barred tale of sex of murder. The depiction of sex and modernity was unlike anything in the current American literary landscape; as a result, the young author was somewhat uncategorizable at first. In 1899 he seemed to have come out of nowhere, a twenty-nine-year-old San Francisco reporter who had come out with a notable novel that didn’t seem to fit inside of any clear mold. In an attempt to link him to some pre-existing tradition, the American press often referred to Norris as an “American Zola” whose graphic depictions of a violent modern world went so far as to outdo the French master himself – as they would outdo Theodore Drieser years later – taking up the gauntlet with his own, more popular naturalist works. But it was Norris’ comfort with depictions of violent sexuality, the world of machines, and a sense of American “melting-pot” ethnicity (including large sections written in dialect and several unfortunate anti-semitic depictions) that made him an indecent writer by the standards of the time. It was also what made his body of work a kind of blueprint for what the cinema would become in no time at all: something that was not, as yet, full art or commodity but squarely in between, trading on sex and violence to draw its earliest audiences and keep them in their seats.
+
+_McTeague_’s depiction of an early commercial film audience is a scene that fits queerly into the rest of the story, as a strange foreboding of things to come. In McTeague’s incredulity, his mother-in-law’s distrust of the film apparatus as a kind of trick, and his wife Trina’s enchantment at the device, the reader gets an encapsulated view of the different responses to one of the most violently modern events of the time: a trip to the cinema, to see a past reality unfold as if in real time before people who were slightly unable to believe in this reality. This is part of Norris’ grand project, throughout the small but thematically consistent body of work he produced from the age of twenty-nine to his death three years later at thirty-two: a depiction of the everyday shock of new media and industrialization, the concept of capturing time and presenting its fictional form as the truth, through the film apparatus. Even if the story of audience members fainting at the arrival of the train on-screen is, as many suspect, a fiction, the reason for its existence as lore stems from a very real disjuncture, part of the premise of the industrial age. How can the present reality hold a living document of the past? How can a unit of lost time make such a realistic reappearance in the present?
+
+<figure>
+  <img src="_17270173483_15cebb1c8e_z.jpg">
+  <figcaption>Still from the famous finale of Edwin S. Porter’s <em>The Great Train Robbery</em>(1903) in which Justus D. Barnes, playing leader of the bandits, fires point blank at the audience –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:Great_train_robbery_still.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+By the turn of the century, the complex relationship between the way life was being represented and the way representation was changing the structure of real, lived life, was becoming a study in itself. Bergson, lecturing in Paris in 1902, compared the “mechanism” of thought and the mechanism of the camera. In everyday life, he said, “we hardly do anything else than set going a kind of cinematograph inside us.”
+
+Norris’ _The Octopus_ came out in 1901, a year before Bergson’s lecture. In it, one of the main characters has a filmic vision before falling asleep:
+
+> …as his mind relaxed in that strange, hypnotic condition that comes just before sleep, a series of pictures of the day’s doings passed before his imagination like the roll of a kinetoscope.
+
+By 1902, the natural parallel between the mind and the camera as equal agents of visual interpretation was already being drawn. What had begun as a shock to the system was quickly becoming culturally internalized, yet still somehow alien. Modernism would become a sort of response to this, putting forth a body of art and literature that centered on the juncture between physical reality and the human brain that encounters and, without missing a beat, reinterprets it.
+
+The only distinction that seemed to have existed for the earliest film audiences was between belief and understanding. To trust in such an improbable invention as the camera required a grand, collective leap of faith, similar to the kind required by religion or occult forms of spirituality. Indeed, film was from the very start compared to ghosts, phantoms, and dreams, figments which were authored by the mind but were not to be trusted by the rational brain. These are also things that neither science nor religion had any way of making cohere, and as such would soon become signposts of psychology. It was film’s natural place inside of this same area – between something witnessed and something believed, something that exists but cannot be completely explained to the satisfaction of many – that made it appear uncanny by Freud’s famous 1919 definition: the thing that calls into question not only our external environment, but the stability of our own minds and susceptibilities, our faculties of perception.
+
+In 1898, Norris experienced trauma of a more conventional kind during his work as a correspondent in the Spanish American War. In a letter from the front he describes the indelible imagery of battle:
+
+> I want to get these things out of my mind and the fever out of my blood and so if my luck holds I am going back to the old places for three weeks and for the biggest part of the time I hope to wallow and grovel in the longest grass I can find in the Presidio Reservation on the cliffs overlooking the ocean and absorb ozone and smell smells that don’t come from rotting and scorched vegetation, dead horses and bad water.
+
+On his return to America, Norris’ intention was to get back to a sane, calm style of living. Instead, he used the period of recovery after the war to conceptualize and write the bulk of _McTeague_, the grim, realist work that would cement its author’s reputation as an unflinching naturalist, a novelist of violence. The violent reality of the changing world was not something that could be ignored or forgotten once experienced, especially in an environment of combat. It came out in Norris’ work, in cinematic manifestations which would, in turn, influence the art of filmmaking still in its infancy at the time of his death.
+
+Norris completed eight novels in all, alongside a large body of short stories and journalistic pieces. For such a short and relatively indecisive career, the clarity and fixity of Norris’ style is surprising from the start. From _McTeague_ onward, his themes are clear, as is his mode of spinning them into narrative. The earliest and most Victorian of his novels, _Vandover and the Brute_, lays out a crude, almost experimental sketch of the concept of the “human animal”, borrowed from his greatest influence and naturalistic forbear, Emile Zola. It tracks the decline of its hero, Vandover, from a state of youth and purity to a place of total corruption and degradation, brought about by sexual impropriety and a loss of funds. _McTeague_ is a more sophisticated version of the same story, with a larger cast of characters and a greater emphasis on setting.[^2] McTeague the dentist is described as uneducated and hot-tempered, and seems, initially, to be saved by his marriage to Trina, a slightly more refined member of the bourgeoisie, and the child of recent German immigrants. The two of them are undone, however, by a series of changes in their income and social status, and the innate and simmering violence of both characters is slowly revealed through their decline.
+
+_The Octopus_ was the first novel in what Norris planned out as “The Trilogy of the Wheat”, an anthology conceived as a fictional-journalistic treatise (much like what Sinclair’s _The Jungle_ would be in 1906) following the life of the wheat crop from growth to distribution to corporate speculation. _The Octopus_ opened the story with a reimagining of the Mussel Slough tragedy of 1880, a bloody example of corporate monopoly that had become, by the time of Norris’ retelling in 1900, a crucial part of the history of the developing West Coast. The second novel was _The Pit_, which followed Laura Jadwin, a cultured and idealistic woman married to a man whose dealings in the stock market nearly destroy them both. The final novel, _The Wolf_, was planned to focus on wheat growth and famine in Europe. Norris died before he could begin research.
+
+The literature of the American West was, at the turn of the century, being made almost from scratch, lacking a distinct literary tradition to extend or comment upon, or to emerge from. Its stories were based on and inspired by the evolving landscape of the West itself, poised in this period directly between its original identity as wilderness and the climate of industrialization that was rapidly becoming the new reality. The wild, sprawling landscape of California was no longer a frontier, not yet quite a metropolitan center. The film industry would of course change all that – and quickly.
+
+<figure>
+  <img src="_17669518048_00556880a0_b.jpg">
+  <figcaption>Map of the area, in California’s San Joaquin Valley, featured in Norris’ <em>The Octopus</em>(1901) –.
+    <cite>
+      <a href="https://archive.org/details/octopusstorytwo00norrrich">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Norris grew up inside of the changing urban landscapes of Chicago and San Francisco, and made it his purpose, near the end of his life, to track these changes politically in his fiction. Yet his artistic development as a painter, a journalist, and finally a prose writer, was defined by his relationship to the visual world, and the changing ways of interpreting that world that were growing up around him during the time in which he lived.
+
+“One of the legacies of his painterly experience,” his biographers write, “was a fictional aesthetic that similarly downplayed the role of imaginative license and emphasized the Academic values of close observation of life and technical ability in its representation.” This was, as well, his journalistic inheritance. For Norris’ _Wave_ assignments abroad, he was entrusted with a camera. “Whatever he thought of that day,” said Will Irwin, another _Wave_ correspondent, “whatever he had seen with the eye of his flash \[camera\] or the eye of his imagination, he might write and print.” When he went to cover the Spanish American war, he and his fellow journalists were expected to document what they saw visually as well as in writing. It was, after all, the first filmed American war.
+
+In Norris’ early journalistic work for _The Wave_ and _McClure_’s, he had already developed the most important aspects of this style. There is in evidence the harsh, overbearing symbolism and crude metaphor which, in the novels, would give way to a variation on the Homeric epithet, a process by which he reduces his characters, by use of a repeated, unchanging phrase, to fixed visual entities, able to be called up as concrete images in the reader’s memory. There is also the forward-moving, action-driven style of narration that is circular and self-referential, such as that used to describe the panoramic views of location that open both _McTeague_ and _The Octopus_, and the style of repetitive description defined by overuse of adjectives, often in threes (in _McTeague_, the perfume of Trina’s hair is “sweet, heavy, enervating”. McTeague’s sexual impulse, meanwhile, is “hideous, monstrous, not to be resisted”) that seek to mimic on the page the locomotive style of action they are describing in the scene. It may be that Norris’ work reflects the cinematic mission by the simple virtue of having grown up alongside it. But Norris’ tendency of editing on the page seems to lay out the blueprint for a true filmic style. If his novels are not quite screenplays, they are at the very least sophisticated film treatments, anticipating the kind of intuitive visual storytelling that film had not yet mastered.
+
+In the period between 1909 and 1924, the classical editing technique was born, developed in America primarily by D.W. Griffith. It was also in this period that four of Norris’ major works were adapted to film. _McTeague_ was adapted three times, _The Pit_ twice. The first and last of these adaptations brought on a serious shift in the way that cinema as an art form and the changing laws of artistic adaptation were discussed in the culture at large. 1909’s _A Corner in Wheat_, adapted and directed by D.W. Griffith, showcases one of the first sophisticated uses of parallel editing in cinematic history by leaping across location to juxtapose the different social realities of its characters as they played out in the real time of the film. 1924’s _Greed_ was Erich von Stroheim’s famous, doomed attempt to translate _McTeague_, page by page, to the language of the screen.
+
+In _The Octopus_, Norris actually edits on the page, jumping between locations to contrast between the different realities of the disenfranchised working class and the glutted lifestyle of the rich. The discrepancy is laid out in such a way that the reader must feel some level of responsibility for it. The response is a mix of indignation, guilt, and helplessness. Here are the rich, here are the poor, here is the gap between them. The relationship between them, and how we must feel about it, is clear.
+
+<figure>
+  <img src="_17864523906_5cd8b34da2_b.jpg">
+  <figcaption>Climax to the “cutting” scene in <em>The Octopus</em>–.
+    <cite>
+      <a href="https://archive.org/stream/octopusstorytwo00norrrich#page/612/mode/2up">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Nothing divides them but a line, a visual break in the narrative. No attempt is made on Norris’ part to ease the reader into their new location — the cut is sudden and severe, almost disorienting. It is from this strangely experimental sequence that Griffith’s own film takes its cues.
+
+_A Corner in Wheat_ combines the most dramatic aspects of _The Octopus_ and _The Pit_ to make a more emotionally succinct statement about economic disparity. Griffith condenses the thesis of the “Trilogy of the Wheat” in thirteen minutes, showing us the different lives of the wheat crop: in the abstract (the stock market) and in reality, and on the shelves, where market forces have driven its value beyond what can be afforded by lower and middle-class citizens (or even harvested by the impoverished farmers). Cause and effect are placed side by side, as tableaux.
+
+We are given the lively dinner party in one frame:
+
+![wheatking-dinner](_17857388931_4604f7f886_c.jpg)
+
+And the poverty tableau in the next:
+
+![wheatking-queue](_17853930372_be02546f87_c.jpg)
+
+In the second frame the actors stand still — it is a purely visual moment without any attempt made on the part of the actors to simulate reality. The sense of life having come to a complete halt is clearer in the jarring cut between the intensely animated dinner party scene and this stark portrait. The cut is made too quickly for us to do anything but compare images, and feel.
+
+When Griffith reinterprets the death of Norris’ villain for the screen, he uses the same cutting technique to make a vague moral point. In one frame, the Wheat King falls into the pit of threshed wheat, the very substance that has made him his fortune:
+
+![wheatking-fall](_17236425333_3be2c99749_c.jpg)
+
+In the next, rioting breaks out at the bakery. The police are called in:
+
+![wheatking-riot](_17670567389_7b709dd394_c.jpg)
+
+In the next cut, the Wheat King is all but buried in a violent hourglass effect. Only his fingers are visible:
+
+![wheatking-hand](_17236424953_f553230f44_c.jpg)
+
+Parallel editing became, after _A Corner in Wheat_, a type of statement technique. It was a quick and intuitive way to forge a clear relationship between two separate image sequences that, without this relationship, could have stood for anything.
+
+In Norris’ 1897 essay, “Fiction is Selection”, he argues that writers are editors more than inventors. The job of “writer and mosaicist alike” is “to select and combine.” It is from the rough-hewn design in a writer’s brain that a story must be whittled, for nothing can be created that is not already, in some form, hidden in the folds of memory. “Imagination!” He writes. “There is no such thing; you can’t imagine anything that you have not already seen and observed.”
+
+Film’s greatest strength was, from the start, its ability to emotionally manipulate viewers on a mass scale. It spoke to one as easily and as powerfully as it spoke to millions, controlling viewers seamlessly and guiding them toward a forgone conclusion that he believes he has come upon naturally, by an organic, empathetic process. Filmic storytelling was, in even its earliest manifestations, a way of transforming the frighteningly unpredictable human body into a predictable set of responses.
+
+If, in the first quarter of the 20th century, the camera as mechanism stood for pure truth, editing was selection, manipulation, violence. If film as footage stood for impartiality, editing allowed for the presence of an author. Editing was the true artistic aspect of a mode of storytelling that was still too new to be considered an art form. Editing gave film what it desperately needed to become art in the eyes of its audience: a point of view.
+
+* * *
+
+**Henry Giardina** is a writer living in Massachusetts. His work has appeared in the _New York Times Book Review_, _The New Yorker_, _The Paris Review Daily_ and _Berfrois_ among other publications. His criticism, essays and interviews can be found at [henrygiardina.com](http://www.henrygiardina.com/).
+
+[^1]: An early 19th-century motion toy whose effect is similar to that of a strobe light.
+
+[^2]: Subtitled “A Story of San Francisco”.
+
+* * *
+
+Public Domain Works
+
+*   _The Octopus: A Story of California_ (1903), by Frank Norris.
+*   _McTeague: A Story of San Fransisco_ (1903), by Frank Norris.
+*   _The Pit: A Story of Chicago_ (1903), by Frank Norris.
+*   _The Responsibilities of the Novelist: and other Literary Essays_ (1903), by Frank Norris.
+*   _A Deal in Wheat, and other stories of the new and old West_ (1903), by Frank Norris.
+*   _The Pit: A Story of Chicago_ (1903), by Frank Norris.
+*   Various Works by Frank Norris on [Project Gutenberg](http://www.gutenberg.org/ebooks/author/103) (good for ebook downloads)
+    
+*   _Corner in Wheat_ (1909), directed by D.W. Griffith
+    
+*   _Greed_ (1924), by Erich von Stroheim (4 hour version).
+    
+
+Further Reading
+
+{<} ![Novels and Essays](_41MCS89DQSL._SL160_.jpg)
+
+Novels and Essays (Library of America, 1985) by Frank Norris
+
+_The writings of Frank Norris, including essays as well as the novels McTeague, The Octopus, and Vandover and the Brute._
+
+[![](_further-reading-infobuy-button.jpg)‘](https://www.amazon.com/Norris-Novels-Essays-Library-America/dp/0940450402?tag=thepubdomrev-20)
+
+{<} ![Frank Norris: A Life](_51CrsmA5wWL._SL160_.jpg)
+
+Frank Norris: A Life (University of Illinois Press, 2010) by Joseph R. McElrath Jr. & Jesse Crisler
+
+_The first comprehensive biography of American author Frank Norris, whose early death and largely destroyed correspondence have formed obstacles for attempts at in-depth biographies of the author – until now._
+
+[![](_further-reading-infobuy-button.jpg)‘](https://www.amazon.com/Frank-Norris-Joseph-McElrath-Jr/dp/0252077296?tag=thepubdomrev-20)
+
+{<} ![Film Form: Essays in Film Theory](_51nNUG7A1FL._SL160_.jpg)
+
+Film Form: Essays in Film Theory (Harcourt, 1969) by Sergei Eisenstein (edited and translated by Jay Leyda)
+
+_A collection of twelve essays by Russian film director and film theorist Sergei Eisenstein._
+
+[![](_further-reading-infobuy-button.jpg)‘](https://www.amazon.com/Film-Form-Essays-Theory/dp/0156309203?tag=thepubdomrev-20)
+
+{<} ![The Silent Clowns](_51kjpa7R6GL._SL160_.jpg)
+
+The Silent Clowns (Alfred A. Knopf, 1975) by Walter Kerr
+
+_In his study of comedy and the era of silent film, Walter Kerr looks at the great silent era comedians from Buster Keaton and Charlie Chaplin to Laurel and Hardy._
+
+[![](_further-reading-infobuy-button.jpg)‘](?tag=thepubdomrev-20)

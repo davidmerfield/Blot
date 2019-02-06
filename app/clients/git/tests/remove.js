@@ -21,6 +21,17 @@ describe("git client remove", function() {
     });
   });
 
+  it("does not error when removing a file that does not exist", function(done) {
+
+    remove(this.blog.id, "/path", function(err) {
+
+      if (err) return done.fail(err);
+
+      done();
+    });
+  });
+
+
   it("removes a file", function(done) {
     var repoDirectory = this.repoDirectory;
     var git = Git(repoDirectory).silent(true);

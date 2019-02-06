@@ -1,0 +1,56 @@
+{{> head}}
+
+<body class="dark">
+
+  <main class="has-sidebar">
+    <ul class="sidebar">
+
+      <a style="min-width:auto" href="/">Blot</a> <span style="color:#444;padding:0 0.2em">/</span> <a  style="min-width:auto"href="/developers"> Developers</a>
+
+      <br><br>
+
+      <li><a href="/developers">Introduction</a></li>
+      <li><a href="/developers/how-blot-works">How Blot works</a></li>
+      <li><a href="/developers/rendering-templates">Rendering templates</a></li>
+      <li class="has-list {{selected.reference}}">
+        <input type="checkbox" name="reference" id="reference" {{#selected.reference}} checked{{/selected.reference}}> <a href="/developers/reference">Reference<label for="reference"></label>
+      </a>
+      <ul>
+        <li class="{{selected.blog}}">
+          <a href="/developers/reference/blog">Blog</a>
+        </li>
+        <li class="{{selected.entry}}">
+          <a href="/developers/reference/lists-of-entries">Lists of entries</a>
+        </li>
+        <li class="{{selected.entry}}">
+          <a href="/developers/reference/entry">Entry</a>
+        </li>
+        <li class="{{selected.helper-functions}}">
+          <a href="/developers/reference/helper-functions">Helper functions</a>
+        </li>
+        <li class="{{selected.tags}}">
+          <a href="/developers/reference/tags">Tags</a>
+        </li>
+        <li class="{{selected.date-tokens}}">
+          <a href="/developers/reference/date-tokens">Date tokens</a>
+        </li>
+      </ul>
+      </li>
+      <li class="has-list {{selected.guides}}">
+        <input type="checkbox" name="guides" id="guides" {{#selected.guides}} checked{{/selected.guides}}> <a href="/developers/guides">Guides<label for="guides"></label></a>
+      <ul>
+        <li class="{{selected.posts-tagged}}">
+          <a href="/developers/guides/json-feed">JSON feed</a>
+        </li>
+      </ul>
+      </li>
+    </ul>
+    <content>
+      {{{body}}}
+    </content>
+  </main>
+
+  {{> footer}}
+</body>
+
+</html>
