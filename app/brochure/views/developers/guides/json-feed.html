@@ -1,0 +1,38 @@
+<h1>JSON feed</h1>
+
+<p>The <a href="https://jsonfeed.org">JSON feed</a> format is a pragmatic syndication format, like RSS and Atom, but with one big difference: it’s JSON instead of XML.</p>
+
+<h2>The template</h2>
+
+<p>Create a new view and paste in the following template. You can use the <a href="https://meetingguide.org/validate">JSON feed validator</a> to verify your feed is correctly formed.</p>
+<p><em>Warning: If you have an existing view called <b>feed.rss</b> or <b>feed.xml</b>, please name your JSON feed something other than <b>feed.json</b>. There's an obscure and silly bug which is triggered when two template views share the same name, even with different extensions. I know this is bad and I will fix it soon.</em></p>
+
+
+<pre class="code html">
+{ 
+  "version": "https://jsonfeed.org/version/1",
+  "title": "\{{#encodeJSON}}\{{{title}}}\{{/encodeJSON}}",
+  "description": "\{{#encodeJSON}}Feed for \{{{title}}}\{{/encodeJSON}}",
+  "home_page_url": "\{{{blogURL}}}",
+  "feed_url": "\{{{blogURL}}}/jsonfeed.json",
+  "items": [
+    \{{#recentEntries}}
+    { 
+      "id": "\{{{absoluteURL}}}",
+      "title": "\{{#encodeJSON}}\{{{title}}}\{{/encodeJSON}}",
+      \{{#summary}}
+      "summary": "\{{#encodeJSON}}\{{{summary}}}\{{/encodeJSON}}",
+      \{{/summary}}
+      \{{#thumbnail.large}}
+      "image": "\{{{blogURL}}}\{{{url}}}",
+      \{{/thumbnail.large}}
+      "content_html": "\{{#encodeJSON}}\{{#absoluteURLs}}\{{{body}}}\{{/absoluteURLs}}\{{/encodeJSON}}",
+      "date_published": "\{{#formatDate}}YYYY-MM-DDTHH:mm:ssZ\{{/formatDate}}",
+      "url": "\{{{absoluteURL}}}"
+    }\{{^last}},\{{/last}}
+    \{{/recentEntries}}
+  ]
+}
+</pre>
+
+<p><em>Thanks to <a href="https://www.amitgawande.com/">Amit Gawande</a> and <a href="https://www.thingelstad.com/">Jamie Thingelstad</a> for their help with this guide. And thanks to <a href="https://manton.org">Manton Reece</a> and <a href="http://inessential.com/">Brent Simmons</a> for writing the JSON feed spec.</em></p>
