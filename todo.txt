@@ -2,6 +2,8 @@ Finish archive template
 - Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
 - Announce new archive template (+ documentation and video) by linking to archive template page
 
+Finish default feed theme
+
 Record new demo video
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
 - Show sites I run using Blot: 
@@ -18,8 +20,6 @@ Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/F
 
 Rewrite Wordpress importer? Expose it online?
 - Fix bug with <p> spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
-
-Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
 ---
 
@@ -74,6 +74,8 @@ Metadata bugs
 - Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
 - Fix bug with how the date parser. It doesn't handles a space (or lack of space) between the date and the time. For example, '2017-08-27 18:16:59' works but '2017-08-27-18:16:59' doesn't
 - Fix bug in metadata parser which gets tripped by a URL on the first line of the file then tell [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc), [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) and [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
+
+Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
 ---
 
