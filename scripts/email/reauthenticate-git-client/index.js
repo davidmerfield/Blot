@@ -6,8 +6,8 @@ var users = [];
 // whether or not we should email their owner.
 function filter(user, blog, next) {
 
-  user.s = user.blogs.length > 1;
-  
+  user.s = user.blogs.length > 1 ? 's' : '';
+
   // Add the user to the list of users to email
   // if the blog or user meets a certain condition
   if (blog.client === "git")
