@@ -16,21 +16,24 @@ Record new demo video
 Use email + token for git client authentication instead of username. This means that users with multiple blogs don't need to retype their credentials each time. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDCtsSWrcXjMMHfbFfVVFNfr)
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd)
 
-Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
-- Filter the homepage such that only posts tagged 'homepage' appear
+---
 
 Rewrite Wordpress importer? Expose it online?
 - Fix bug with <p> spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 
----
+Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
+- Filter the homepage such that only posts tagged 'homepage' appear
+
+Image and thumbnail bugs
+- Fix bug for images containing upper-case characters on [Jonas' blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
+- Fix bug with image minification which produces larger file than source file and tell [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkHlNvhcJLGVRCPvXvjbwsWR)
+- Fix bug with gifs and the image cacher. Animated gifs from imgur.com were not playing, just the first frame was fetched. Tell [Oleg](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhZfBqbKBBXWBtZLpjPSNv)
+- Fix [bug with thumbnails and tell John](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
+- Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
 
-Fix bug with git client which prevented [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsdCpRCLrbNczKVGXxgBvDfr)'s first 9000 posts appearing.
-
 Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch)
-
-- Fix bug images containing upper-case characters on [Jonas' blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
 
 Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 Fix bugs with git removed / renamed file unit test on Travis
@@ -53,12 +56,6 @@ Fix bug with case sensitivity for tag folders. Need to recursively check all dir
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
-Image and thumbnail bugs
-- Fix bug with image minification which produces larger file than source file and tell [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkHlNvhcJLGVRCPvXvjbwsWR)
-- Fix bug with gifs and the image cacher. Animated gifs from imgur.com were not playing, just the first frame was fetched. Tell [Oleg](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhZfBqbKBBXWBtZLpjPSNv)
-- Fix [bug with thumbnails and tell John](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
-- Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
-
 Date parser bugs
 - Finish support for [RFC3339 dates](https://github.com/davidmerfield/Blot/pull/97) and tell Shawn.
 - Handle edge case of date surrounded by quotes, e.g. Date: '2018-01-02' and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
@@ -77,6 +74,8 @@ Metadata bugs
 - Fix bug in metadata parser which gets tripped by a URL on the first line of the file then tell [Jan](https://mail.google.com/mail/u/1/#sent/16122e631e8d95bc), [Pete](https://mail.google.com/mail/u/1/#inbox/164e12d742ba69da) and [Kim](https://mail.google.com/mail/u/1/#inbox/164f7e252492f1ea) know
 
 Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
+
+Fix bug with git client which prevented [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsdCpRCLrbNczKVGXxgBvDfr)'s first 9000 posts appearing.
 
 ---
 
