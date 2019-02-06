@@ -127,7 +127,7 @@ Finish re-write of template system
 - Ask to confirm, but remove files from blog folder when disabling local editing
 - Add support for 'creating' a template inside '/Templates/'
 - Move to uuid based template IDs instead of slug
-- Read and write package.json for local editing, then tell [Aurynn](https://mail.google.
+- Read and write package.json for local editing, then tell [uncrtn](https://micro.blog/uncrtn/2196557), [Aurynn](https://mail.google.
 com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
 - Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
