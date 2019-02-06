@@ -1,0 +1,166 @@
+Tags: Art, History
+Summary: Simon Werrett explores how artists through the ages have responded to the challenge of representing firework displays, from the highly politicised and allegorical renderings of the early modern period to Whistler’s impressionistic Nocturne in Black and Gold.
+
+# Picturing Pyrotechnics
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Simon Werrett explores how artists through the ages have responded to the challenge of representing firework displays, from the highly politicised and allegorical renderings of the early modern period to Whistler’s impressionistic _Nocturne in Black and Gold_.**
+
+<figure>
+  <img src="_14504355655_a853a2d216_c.jpg" alt="detail">
+  <figcaption>Detail from an image showing fireworks in Hamburg to celebrate the coronation of Emperor Franz I. Stephan in 1745, found in Klebeband 10 of the Fürstlich Waldecksche Hofbibliothek –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/Category:Fireworks_in_art#mediaviewer/File:Arolsen_Klebeband_10_010-011.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+> Such were the pleasing triumphs of the sky  
+> For James his late nocturnal victory:  
+> The pledge of his almighty Patron’s love,  
+> The fireworks which His angels made above.  
+> I saw myself the lambent easy light  
+> Gild the brown horror and dispel the night.  
+> (John Dryden, The Hind and the Panther, 1687)
+
+In the early modern period, throughout the sixteenth to eighteenth centuries, elaborate fireworks displays were often put on by European courts, governments, and cities to celebrate a whole host of events: religious festivals, coronations, royal weddings and birthdays, triumphs, treaties, and the bringing in of the new year. These events were celebrations and opportunities for revelry but also an opportunity for those in power to show their might, and for this end fireworks were crucial, serving to manifest power by appearing to discipline the most dangerous of the elements and to transform nature itself. Contemporaries often commented that fireworks turned night into day and – being benign version of military pyrotechnics – transformed war into peace, or “marte” into “arte”.
+
+As well as this general demonstration of power, displays also typically featured symbolic or allegorical decorations and scenery which were intended to present a more specific message to audiences. The figure of a lion might represent a powerful king, or the slaying of a dragon might signal the conquest of the king’s enemies. As such, it was important to states to make sure that everyone understood the message of fireworks, and so artists were commissioned to engrave large prints of displays for distribution to relevant audiences. Fireworks prints became something of a genre in their own right, and were made by artists across Europe for several hundred years. They are interesting because of the diverse ways they represented very fleeting episodes, playing with time, space, and visual techniques to commemorate pyrotechnic dramas.
+
+<figure>
+  <img src="_14503601992_4db1ea131d_c.jpg" alt="one">
+  <figcaption>Image showing fireworks at The Hague, June 14, 1713 on the occasion of the “Peace of Utrecht”, found in Klebeband 10 of the Fürstlich Waldecksche Hofbibliothek –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/Category:Fireworks_in_art#mediaviewer/File:Arolsen_Klebeband_10_026-027.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+It might be imagined that fireworks prints are pictures made after the event looking back, but this was not the case. It was typical for fireworks prints to actually be made _before_ an event, so they do not depict a scene witnessed at all. They were not a _record of history_ but rather an _anticipation of its being remembered_. The remembering of fireworks served many different purposes. In Russia, for example, large fireworks engravings were published along with explanations of their allegorical content in pamphlets that were distributed to courtly audiences during a display. These engravings were schematic, designed to make clear the iconography of the performance which was described and explained in the text. An event was turned into a _storia_, a narrative or history.
+
+One such engraving shows a fireworks temple designed by the St. Petersburg Academy of Sciences professor of eloquence, Jacob von Stählin, and executed by the artillery officer Petr Ivanovich Melissino for the anniversary of the coronation of Empress Catherine II in June 1763. The accompanying description explained how the display centred on the Island of Pallas represented in fireworks, which carried a temple, in front of which Pallas sat on a dark cloud casting out bolts of lightning. Subsequent decorations appeared, including palm trees, garlands, and the figure of the goddess Minerva holding a cornucopia. These decorations were all meant to signal the wisdom and power of the Empress Catherine and the happiness of the empire under her reign.
+
+<figure>
+  <img src="_14524465723_580167557f_c.jpg" alt="catherine island foireqorks">
+  <figcaption>An engraving of Francesco Gradizzi’s drawing depicting fireworks on June 28th 1763 at St. Petersburg, in honor of Catherine II’s coronation –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/Category:Fireworks_in_art#mediaviewer/File:%D0%9F%D0%B0%D0%BB%D0%BB%D0%B0%D0%B4%D0%B8%D0%BD_%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B2_%D0%B8_%D1%84%D0%B5%D0%B9%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%BA_%D0%B2_%D1%87%D0%B5%D1%81%D1%82%D1%8C_%D0%B3%D0%BE%D0%B4%D0%BE%D0%B2%D1%89%D0%B8%D0%BD%D1%8B_%D0%B2%D0%BE%D1%81%D1%88%D0%B5%D1%81%D1%82%D0%B2%D0%B8%D1%8F_%D0%BD%D0%B0_%D0%BF%D1%80%D0%B5%D1%81%D0%BE%D0%BB_%D0%95%D0%BA%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%BD%D1%8B_II.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Prints were also included in festival books in western Europe. Images were typically large, printed on paper, or sometimes silk, and distributed either at the display or as gifts to diplomats and other courts subsequently. Prints were not intended to capture the reality of a performance, like a photograph, but to serve as well-ordered representations of official events. Fireworks prints acted as a front-stage, sanitizing the messiness of the real event to leave only an idealized account. In fact many fireworks failed – displays often witnessed accidents, sometimes quite horrible, and there were frequently mistakes.
+
+An etching by Dumont le Romain of a firework shown on the Seine in Paris on 21 January 1730, depicted a display staged on behalf of Philip V of Spain to celebrate the birth of Louis XV’s son Louis. To show Spain and France’s mutual regard, the display included two eighty-foot high Pyrenean mountains, across which a rainbow spread to show the two countries’ unity before a great sun rose up symbolizing the dauphin’s birth. All this was captured admirably by Dumont le Romain, but the performance apparently never took place, at least according to a report from an English observer (who perhaps isn’t to be trusted either). This tells us,
+
+> the Rising sun was omitted for Want of Time; and the Rainbow, when made, was too unwieldy and unmanageable; and therefore could not appear; nor the Goddess Iris… these should have been describ’d as designed only, and not executed.
+
+<figure>
+  <img src="_14501491741_f9c78abb3c_o.jpg" alt="rainbow">
+  <figcaption>Dumont le Romain’s etching of a firework shown on the Seine in Paris on 21 January 1730, depicting a display staged on behalf of Philip V of Spain to celebrate the birth of Louis XV’s son Louis –.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8408722j.r=Servandoni+feu.langEN">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In the eighteenth century, these official images were joined by a growing number of commodified fireworks prints, cheaply produced, smaller, and, in the case of _vue d’optique_ prints, designed for consumption in the home. In the latter colour and pattern begin to become more important than any desire to record or commemorate an event. Here aesthetics begin to be disassociated from content, a form of abstraction which fireworks, with their explosions and patterns, were well-suited to.
+
+<figure>
+  <img src="_14318138630_868d979452_o.jpg" alt="vue">
+  <figcaption>A view of a fireworks display in front of City Hall for the Publication of Peace in Paris, Jacques Chereau –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:Vue_perspective_d%27un_Feu_d%27Artifice_tir%C3%A9_devant_l%27H%C3%B4tel_de_Ville,_1763-1783.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Simultaneously, other images sought out more reality in fireworks art, in journalistic illustrations and satires. Official prints appeared in 1749 advertising the splendid classical temple erected in Green Park as a stage for setting off fireworks to celebrate the peace of Aix la Chapelle. But _The Times_ newspaper showed what really happened on the night, when a wing of the temple accidentally caught fire and burned to the ground. Such an image, countering the court and government’s vision of events, would have been unthinkable in France or Russia at this time. It anticipates the uses of art later in the century to promote more urgent issues such as the abolition of slavery.
+
+In all cases, pictures of fireworks were always conventionalized images using a wide repertoire of visual techniques to create the impression of a pyrotechnic performance. The art historian Kevin Salatino has explored many of these conventions in his book _Incendiary Art_ (1997) published by the Getty Museum in Los Angeles. They ranged from a host of techniques for depicting fire to the bold and apparently random colors used to brighten up perspective views. It should be said that fireworks prints were also very _unconventional_ – they rarely followed a pattern in their overall design, and different artists emphasized different elements of displays – the pyrotechnics, the labour, the architecture, the audience, often with a politics lying behind those decisions. In Russia, for example, images of fireworks very rarely depicted any of the artillerists who set them off, perhaps because the artists who made the images were in competition with them for credit in realizing displays.
+
+<figure>
+  <img src="_14481256656_1694390802_c.jpg" alt="rijk">
+  <figcaption>Detail from <em>Fireworks in Covent Garden</em>(1690), by Bernard Lens II –.
+    <cite>
+      <a href="https://www.rijksmuseum.nl/nl/collectie/RP-P-1907-2735">Rijksmuseum</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Despite the great variety evident in fireworks prints, artists always seem to have sought to reveal fireworks to their audience in some way, making accessible an otherwise fleeting and obscure experience. One convention in this regard, as Salatino mentions, is that the engravings rarely showed smoke, or made it into a backdrop for more prominent fiery effects. An exception is _A representation of the Fire-Workes in St James’s Square on the joyfull occasion of his Majesties Glorious success in taking of Namur Sept 9 1695_, in which the engraver Bernard Lens II shows smoke billowing from barrels of gunpowder. Indeed, displays in the early modern period certainly were smoky, and one diarist wrote of how smoke completely obscured a displays from the audience’s view. But it was more common for a print to show no smoke, or to make it nothing more than a minor decorative feature of the composition. Painters interested in the sublime, however, might make smoke part of the sublimity of the scene they wished to capture, as in Paul Sandby’s 1769 painting, _Windsor Castle from Datchet Lane on a rejoicing night_.
+
+<figure>
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Paul_Sandby_-_Windsor_Castle_from_Datchet_Lane_on_a_rejoicing_night,_1768_-_Google_Art_Project.jpg/800px-Paul_Sandby_-_Windsor_Castle_from_Datchet_Lane_on_a_rejoicing_night,_1768_-_Google_Art_Project.jpg"
+    alt="dachet">
+  <figcaption>Paul Sandby’s <em>Windsor Castle from Datchet Lane on a rejoicing night</em>, (1768) –.
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:Paul_Sandby_-_Windsor_Castle_from_Datchet_Lane_on_a_rejoicing_night,_1768_-_Google_Art_Project.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+To capture smoke might imply the representation of a moment in time in a display, and fireworks images dealt variously with the issue of representing time visually. Most commonly, artists and engravers created a single image capturing a significant moment in a pyrotechnic performance. An image of fireworks on the Seine in front of the Louvre in 1628 by Morel, celebrating the siege of La Rochelle, showed the moment when Perseus (Louis XIII) attacked a Sea Monster (representing Protestantism) to save Andromeda (Catholicism) tied to a rock (La Rochelle).
+
+The same approach was used later in the eighteenth century, when fireworks might be staged in several acts. One act might be chosen to be represented in a print, or a significant moment in each depicted. Only rarely did artists try to capture the passage of time in displays, with a few notable exceptions. For a festival book in honour of the election of Ferdinand III as Holy Roman Emperor in February 1637 in Rome, Claude Lorrain produced a sequence of thirteen images showing fireworks in which each image showed a different stage of the display. One artificial edifice burned down or exploded to reveal another inside before finally revealing a statue of the King of the Romans. Lorrain’s choice to do this probably reflected the nature of the performance itself, staged as a series of revelations. This was quite a common feature of fireworks displays, but it was not common to use serial images to record them.
+
+<figure>
+  <img src="_14525070343_ac4bb5e588_o.jpg" alt="lorrain">
+  <figcaption>Image ten of thirteen in Claude Lorrain’s series featured in <em>Relatione delle feste fatte dell’ Excellentiss. Sig. Marchese di Castello Rodrigo</em>(1637) –.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8455966v.r=Relatione+delle+feste+fatte+dell%27+Excellentiss+Sig+Marchese+di+Castello+Rodrigo.langEN">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_14318355998_1fc5643ae6_o.jpg" alt="lorrain2">
+  <figcaption>Penultimate image in which the “King of the Romans” is revealed, from Claude Lorrain’s series featured in <em>Relatione delle feste fatte dell’ Excellentiss. Sig. Marchese di Castello Rodrigo</em>(1637) –.
+    <cite>
+      <a href="http://gallica.bnf.fr/ark:/12148/btv1b8455966v.r=Relatione+delle+feste+fatte+dell%27+Excellentiss+Sig+Marchese+di+Castello+Rodrigo.langEN">Gallica</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The early modern artists who made fireworks prints used many different techniques to capture the passing of time, the explosive effects of pyrotechnics, and the complex iconography of fireworks displays. Their work presents a remarkable ingenuity in developing so many different solutions to difficult problems of representation. This was in part owing to the peculiar demands of the fireworks print, made before the event, and depicting something which destroyed itself in a matter of minutes or even seconds. But it was also owing to the great skill of artists in imagining fireworks in an image, a skill which remained even after the grand symbolic fireworks of royal courts declined in the nineteenth century.
+
+<figure>
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Whistler-Nocturne_in_black_and_gold.jpg/770px-Whistler-Nocturne_in_black_and_gold.jpg" alt="whistler fireworks">
+  <figcaption><em>Nocturne in Black and Gold: The Falling Rocket</em>(1875), by James McNeill Whistler –.
+    <cite>
+      <a href="http://en.wikipedia.org/wiki/File:Whistler-Nocturne_in_black_and_gold.jpg">Wikipedia</a>
+    </cite>
+  </figcaption>
+</figure>
+
+James McNeill Whistler, for example, in his _Nocturne in Black and Gold_ (1875), developed a very different solution to the problem of capturing fireworks in an image. In the age of photography, he seems to have captured, as in a photograph, a single instant in a fireworks display, envisioned while it is taking place. He does not reproduce the appearance of a photograph, but recalls its temporality. Neither was he interested in the meaning of the fireworks. There is no symbolic content here to explain, and the smoke stands all around the image instead of being parted to reveal the fireworks more clearly. There was no demand on Whistler to commemorate the state or the king, and his image is really a commemoration of the firework itself – its colours, textures, and dynamic movements. No wonder then that fireworks came to be seen as exemplary of abstraction in the twentieth century. The critic Theodore Adorno reckoned fireworks were the “other of the empirical world” being “a script that flashes up, vanishes, and indeed cannot be read for its meaning.” This might have been true for Whistler and fireworks in Adorno’s time, but it was precisely to capture meaning and manifest it dramatically that fireworks had been used and recorded in images for several centuries previously.
+
+* * *
+
+**Simon Werrett** teaches the history of science in the Department of Science and Technology Studies at University College London. Before joining UCL he was an associate professor in the Department of History at the University of Washington. He is the author of _[Fireworks: Pyrotechnic Arts and Sciences in European History](http://www.amazon.com/gp/product/0226893774/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0226893774&linkCode=as2&tag=thepubdomrev-20&linkId=QAPLJGTODYTY47QB)_ (University of Chicago Press, 2010).
+
+Links to Public Domain Works
+
+*   _Artificial Fireworks_ (1785), by John Maskall.
+    
+*   _Description de la feste et du feu d’artifice, qui doit être tiré sur la riviere, au sujet de la naissance de Monseigneur le Dauphin, par ordre de Sa Majesté catholique Philippe V: et par les soins de leurs excellences MM. le Marquis de Santa-Cruz et de Barrenechea, ambassadeurs extraordinaires et plenipotentiaires du roi d’Espagne_ (1730), by Anon.
+    
+
+Further Reading
+
+{<} ![Fireworks: Pyrotechnic Arts and Sciences in European History ](_51rO9xJcOzL._SL160_.jpg)
+
+Fireworks: Pyrotechnic Arts and Sciences in European History  (University of Chicago Press, 2010) by Simon Werrett
+
+_In this book, Werrett shows that far from being just a form of entertainment, fireworks have long done their part to contribute to modern ideas within chemistry, mathematics, astronomy, and other branches of the sciences._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Fireworks-Pyrotechnic-Sciences-European-History/dp/0226893774?tag=thepubdomrev-20)
+
+{<} ![Incendiary Art: The Representation of Fireworks in Early Modern Europe ](_41CKQ9EVQ6L._SL160_.jpg)
+
+Incendiary Art: The Representation of Fireworks in Early Modern Europe  (University of Oxford Press, 1998) by Kevin Salatino
+
+_Throughout the ages, various festivities have culminated in wonderous pyrotechnical displays. In this book, Salatino explores the propagandistic and rhetorical functions that printed and written records of these displays have served._
+
+![](_further-reading-infobuy-button.jpg)

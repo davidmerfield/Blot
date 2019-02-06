@@ -1,0 +1,194 @@
+Tags: Music, Science, History
+Summary: Deirdre Loughridge and Thomas Patteson, curators of the Museum of Imaginary Musical Instruments, explore the wonderful history of made-up musical contraptions, including a piano comprised of yelping cats and Francis Bacon’s 17th-century vision of experimental sound manipulation.
+
+# Cat Pianos, Sound-Houses, and Other Imaginary Musical Instruments
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Deirdre Loughridge and Thomas Patteson, curators of the [Museum of Imaginary Musical Instruments](http://imaginaryinstruments.org/), explore the wonderful history of made-up musical contraptions, including a piano comprised of yelping cats and Francis Bacon’s 17th-century vision of experimental sound manipulation.**
+
+<figure id="attachment_13091">
+  <img src="_19480768498_e466ee0b35_h-753x1024.jpg" alt="sasa" srcset="http://publicdomainreview.org/wp-content/uploads/2015/07/19480768498_e466ee0b35_h-753x1024.jpg 753w, http://publicdomainreview.org/wp-content/uploads/2015/07/19480768498_e466ee0b35_h-221x300.jpg 221w, http://publicdomainreview.org/wp-content/uploads/2015/07/19480768498_e466ee0b35_h-768x1044.jpg 768w, http://publicdomainreview.org/wp-content/uploads/2015/07/19480768498_e466ee0b35_h-441x600.jpg 441w, http://publicdomainreview.org/wp-content/uploads/2015/07/19480768498_e466ee0b35_h.jpg 1177w"
+    sizes="(max-width: 753px) 100vw, 753px">
+  <figcaption>Robert Fludd’s Temple of Music. One of the great seventeenth-century occultist’s contributions to the domain of speculative technology. From his <em>Utriusque cosmi</em>(1617).
+    <cite>
+      <a href="https://archive.org/details/utriusquecosmima01flud">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+> And as the instruments of the hand either give motion or guide it, so the instruments of the mind supply either suggestions for the understanding or cautions.
+> 
+> Francis Bacon
+
+Numerous museums are dedicated to musical instruments. In Berlin and Brussels, Paris and Phoenix, one can wander rooms lined with musical artifacts from many times and places. Strolling through these rooms, one might admire the exquisite craftsmanship of a Stradivarius violin or the opulent artistry of a French harpsichord. One might linger over forgotten curiosities like the tromba marina or abortive experiments like Adolphe Sax’s seven-bell horn. One’s path might follow changes in the instrumentarium from Renaissance woods and metals to modern plastics and electronics, and the experience might lead one to wonder at the diversity of species born from the physics of vibrating strings, air columns, and resonating bodies.
+
+Missing from such collections, however, is the peculiar class of what we like to call “fictophones”: imaginary musical instruments. Though these instruments, due to some measure of impracticality and impossibility, did not take sounding form, they were nonetheless put forth in the various means available to conjure objects in our minds: in writings, drawings, sometimes even in detailed schematics. One might suppose that imaginary musical instruments, deprived of physical reality, have no place in the cultural histories and heritages that a museum of musical instruments aims to illuminate and preserve. Yet in their own strange ways, imaginary musical instruments exist. What’s more, they have not merely shadowed or paralleled musical life; they have formed a vital part of it, participating in ways that show the fragility of the distinction between imaginary and real. No less than instruments you hold in your hand, imaginary instruments act as interfaces between mind and world, limning the edges of what we may think and do.
+
+<figure id="attachment_13092">
+  <img src="_kircher-instrument-695x1024.jpg" alt="gfgfg" srcset="http://publicdomainreview.org/wp-content/uploads/2015/07/kircher-instrument-695x1024.jpg 695w, http://publicdomainreview.org/wp-content/uploads/2015/07/kircher-instrument-204x300.jpg 204w, http://publicdomainreview.org/wp-content/uploads/2015/07/kircher-instrument-768x1131.jpg 768w, http://publicdomainreview.org/wp-content/uploads/2015/07/kircher-instrument-407x600.jpg 407w, http://publicdomainreview.org/wp-content/uploads/2015/07/kircher-instrument.jpg 1224w"
+    sizes="(max-width: 695px) 100vw, 695px">
+  <figcaption>A fantastical musical machine as imagined by Athanasius Kircher in his <em>Musurgia Universalis</em>(1650). Kircher would also write about the “cat piano”: see below.
+    <cite>
+      <a href="https://archive.org/details/bub_gb_97xCAAAAcAAJ">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Take, for starters, Francis Bacon’s “sound-houses”. Bacon described these spaces for manipulating sound in his [_New Atlantis_](http://www.gutenberg.org/ebooks/2434) (1626), a utopian work in which a European traveller, lost at sea, happens upon a society living on the mythical island of Bensalem. The “sound-houses” represent the acoustic branch of Bensalem’s state-sponsored research program, which seeks both to produce knowledge of how nature works, and to translate that knowledge into real-world applications for human benefit. In the following passage, the director of Bensalem’s scientific endeavors explains to his foreign guest:
+
+> We have also sound-houses, where we practice and demonstrate all sounds and their generation. We have harmonies, which you have not, of quarter-sounds and lesser slides of sounds. Divers instruments of music likewise to you unknown, some sweeter than any you have, together with bells and rings that are dainty and sweet. We represent small sounds as great and deep, likewise great sounds extenuate and sharp; we make divers tremblings and warblings of sounds, which in their original are entire. We represent and imitate all articulate sounds and letters, and the voices and notes of beasts and birds. We have certain helps which set to the ear do further the hearing greatly. We also have divers strange and artificial echoes, reflecting the voice many times, and as it were tossing it, and some that give back the voice louder than it came, some shriller and some deeper; yea, some rendering the voice differing in the letters or articulate sound from that they receive. We have also means to convey sounds in trunks and pipes, in strange lines and distances.
+
+Bacon’s sound-houses are hypothetical, an exercise in imagining what could be. Many readers today find them prophetic, and it is tempting to read the line about “divers instruments of music likewise to you unknown” as if its author had a foreknowledge of synthesizers and tape. But to read the sound-houses in this way displaces them from their own time, and from the experiments with pipes, bells, and string instruments from which Bacon extrapolated. By reducing their role to one of prediction, furthermore, it sets the imaginary at a powerless remove from the real. Rather than prophetic, Bacon’s sound-houses are emblematic of the power of imaginary instruments to act upon the world — of the magnet-like force they exert, attracting (or repelling) certain modes of thought and action.
+
+One of the first to explore the musical possibilities of electronic instruments, Daphne Oram, was familiar with Bacon’s _New Atlantis_. In 1958, she posted the passage about sound-houses on the door of the Radiophonic Workshop, the newly founded department within the BBC dedicated to electronic music, which she helped establish. At this early moment in electronic music, it was far from clear what techniques and sounds would prove valuable, what aspects of past musical practice would translate. Oram’s invocation of Bacon’s sound-houses suggests that such moments create openings for the imaginary to flood in — not just from the creative minds of individuals, but from a collective storehouse of fantasies. Imaginary instruments help ideas circulate together with the desire for (or fear of) their realization. As Bacon himself observed, “instruments of the mind supply either suggestions for the understanding or cautions.”
+
+Bacon’s sound-houses illustrate one era’s technological imaginary becoming a later one’s reality — the course of things we’d likely expect. But the process can run the other way around as well. The tubo cochleato, for example, was described by Athanasius Kircher in his treatise on acoustics, [_Phonurgia nova_](https://archive.org/details/bub_gb_cLlCAAAAcAAJ) (1673), as a device for amplifying the voice. Kircher’s student Filippo Bonanni also discussed the device in his book, _Gabinetto armonico pieno d’istromenti sonori indicati e spiegati_ (Musical cabinet full of sounding instruments, shown and explained, 1722), where it appears among musical instruments both of common European use and from other parts of the world. As Bonanni explained, the tubo cochleato would amplify the voice much more than a straight tube; the evidence came from nature, from the fact that the ears of hares and other timid animals were formed in the spiral shape. But since it was extremely difficult for man to make a spiral so perfect as nature, it was near impossible to construct the tubo cochleato, and no one in Bonanni’s day used the device.
+
+<figure id="attachment_13093">
+  <img src="_tubocochleato-684x1024.jpg" alt="fr" srcset="http://publicdomainreview.org/wp-content/uploads/2015/07/tubocochleato-684x1024.jpg 684w, http://publicdomainreview.org/wp-content/uploads/2015/07/tubocochleato-200x300.jpg 200w, http://publicdomainreview.org/wp-content/uploads/2015/07/tubocochleato-401x600.jpg 401w, http://publicdomainreview.org/wp-content/uploads/2015/07/tubocochleato.jpg 753w"
+    sizes="(max-width: 684px) 100vw, 684px">
+  <figcaption>Image from Filippo Bonanni’s <em>Gabinetto armonico</em>(1723).
+    <cite>
+      <a href="http://digital.ub.uni-duesseldorf.de/ihd/content/pageview/3694188?lang=en">ULB Düsseldorf</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In fact, the tubo cochleato was purely speculative. But only in light of later theories of sound propagation would the design appear fundamentally flawed, the concept out of line with basic physics in addition to human craftsmanship. For Kircher and Bonanni, the instrument was real. Kircher’s reality, indeed, included many things we would consider fantastic (dragons, for instance, [as John Glassie has discussed](http://publicdomainreview.org/2012/11/01/athanasius-underground/)). As a measure of the gap between our reality and Kircher’s, the tubo cochleato (like the dragon) attests to the power of research and experiment to debunk the fabulous. At the same time — perhaps more disconcertingly — Bonanni’s book reveals the power of images and texts to define the real through a blend of speculative and empirical elements.
+
+Similarly hovering between the speculative and empirical is the curious device known as the cat piano. The earliest known image of a set of cats arrayed as sound-producing elements to be activated by the fingers dates to the late sixteenth century, that is, over a hundred years before the invention of the piano, at a time when it would more properly be called a cat harpsichord or clavichord. The image comes from an emblem book, Johann Theodor de Bry’s _Emblemata saecularia mira et iucunda uarietate saeculi huius mores ita exprimentia ut sodalitatum symbolis…_ (1596), and shows a motley ensemble of animals and confused musicians. A subtitle to the scene, “There is no music sweeter to Midas’s ears”, alludes to the Phrygian King whose punishment for preferring Pan’s pipe to Apollo’s lyre was to have his ears turned into those of a donkey.
+
+<figure id="attachment_13099">
+  <img src="_cat-piano-1-945x1024.jpg" alt="First known image of the cat piano from Johann Theodor de Bry's Emblemata (1596) - Source: courtesy of Robert J. Richards." srcset="http://publicdomainreview.org/wp-content/uploads/2015/07/cat-piano-1-945x1024.jpg 945w, http://publicdomainreview.org/wp-content/uploads/2015/07/cat-piano-1-277x300.jpg 277w, http://publicdomainreview.org/wp-content/uploads/2015/07/cat-piano-1-768x832.jpg 768w, http://publicdomainreview.org/wp-content/uploads/2015/07/cat-piano-1-554x600.jpg 554w, http://publicdomainreview.org/wp-content/uploads/2015/07/cat-piano-1.jpg 1074w"
+    sizes="(max-width: 940px) 100vw, 940px">
+  <figcaption>First known image of the cat piano from Johann Theodor de Bry’s <em>Emblemata</em> (1596) – Source: courtesy of Robert J. Richards.</figcaption>
+</figure>
+
+From a comical image of cacophony, the cat piano underwent a series of unexpected functional transformations. By the 1650s it was a legendary music therapy: supposedly, an Italian prince was cured of his melancholy by the device when he found its meowing cats, triggered by driving spikes through their tails, irresistibly funny. The early-nineteenth-century medical theorist Johann Christian Reil offered a different account of the cat piano’s therapeutic powers. In his treatise on psychological cures for the mentally disturbed, [_Rhapsodieen über die Anwendung der psychischen Curmethode auf Geisteszerrüttungen_](https://archive.org/details/rhapsodieenber00reil) (1803), he presented the cat piano as a hypothetical fix for dreamers unable to focus attention on the external world. As he vividly explained, the cats would
+
+> be arranged in a row with their tails stretched behind them. And a keyboard fitted out with sharpened nails would be set over them. The struck cats would provide the sound. A fugue played on this instrument — when the ill person is so placed that he cannot miss the expressions on their faces and the play of these animals — must bring Lot’s wife herself from her fixed state into conscious awareness.
+
+In yet another thought-experiment with the instrument, the eighteenth-century Parisian Louis-Bertrand Castel invoked it to prove his contention that what mattered in music was the combination of sounds, not sounds in their own right. The fact that one could make music from the individually ugly plaints of pained cats proved that “sounds on their own possess no beauty, and that all the beauties of music come not from sound, but from the melodic sequence and the harmonic combination of these sounds, multiplied and varied in proportion.”
+
+<figure id="attachment_13084">
+  <img src="_Magia_universalis_naturae_et_artis_-_Katzenklavier-1024x537.jpg" alt="jjk" srcset="http://publicdomainreview.org/wp-content/uploads/2015/07/Magia_universalis_naturae_et_artis_-_Katzenklavier-1024x537.jpg 1024w, http://publicdomainreview.org/wp-content/uploads/2015/07/Magia_universalis_naturae_et_artis_-_Katzenklavier-300x157.jpg 300w, http://publicdomainreview.org/wp-content/uploads/2015/07/Magia_universalis_naturae_et_artis_-_Katzenklavier-768x403.jpg 768w, http://publicdomainreview.org/wp-content/uploads/2015/07/Magia_universalis_naturae_et_artis_-_Katzenklavier-600x315.jpg 600w, http://publicdomainreview.org/wp-content/uploads/2015/07/Magia_universalis_naturae_et_artis_-_Katzenklavier.jpg 1026w"
+    sizes="(max-width: 940px) 100vw, 940px">
+  <figcaption>The cat piano, or “Katzenklavier”, as depicted in Gaspar Schott’s <em>Magia universalis naturae et artis</em>.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Magia_universalis_naturae_et_artis_-_Katzenklavier.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure id="attachment_13085">
+  <img src="_19046217944_f01db7df03_o.png" alt="Illustration of the cat piano from La Nature, Vol. 11 (1883) - Source." srcset="http://publicdomainreview.org/wp-content/uploads/2015/07/19046217944_f01db7df03_o.png 609w, http://publicdomainreview.org/wp-content/uploads/2015/07/19046217944_f01db7df03_o-300x167.png 300w, http://publicdomainreview.org/wp-content/uploads/2015/07/19046217944_f01db7df03_o-600x335.png 600w"
+    sizes="(max-width: 609px) 100vw, 609px">
+  <figcaption>Illustration of the cat piano from <em>La nature, vol. 11</em>(1883) –.
+    <cite>
+      <a href="http://imaginaryinstruments.org/the-cat-piano-katzenklavier-piano-de-chats/">Museum of Imaginary Musical Instruments</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The absurdity of a cat piano has no doubt contributed to its appeal across the centuries. But the license granted in the space of the imaginary points to illicit aspects of the real. The cat piano unearths an uncomfortable connection between music and abuse, between the artistic control of sound and the heartless treatment of sounding bodies. Both artistic control and heartless treatment are abetted by the keyboard interface, which gives players access to numerous pitches but only at a remove from their sources. That keyboards facilitate cruelty is a notion hardly evident in the history of realized instruments (a rare hint is found on an eighteenth-century spinet inscribed, “intactum sileo percute dulce cano”: “untouched, I am silent; strike me, I sing sweetly”). But it is front and center in the history of imaginary instruments. Jules Verne demonstrated the connection by substituting humans for cats: in his short story “M. Ré-dièze et Mlle Mi-bémol” (“Mister Ray Sharp and Miss Me Flat”, 1893) a musician outfits an organ with a special register of children’s voices. From the perspective of the child assigned to the pitch D-sharp (or _re sharp_, in solfége), we learn the appalling truth:
+
+> then an air-current inflates my chest, a current skillfully controlled, which carries the _Ray sharp_ out of my lips. I want to be silent, but I cannot. I am nothing but an instrument in the organist’s hands. His touch upon the keyboard is like a valve opening in my heart.
+
+The keyboard finds yet more sadistic form as a species of organ in the film _The Adventures of Baron Munchausen_ (1988). Called the “Torturetron”, the instrument sends spikes into people’s sides so as to add their moans to the tones of its more conventional ranks of pipes.
+
+<figure id="attachment_13097">
+  <img src="_verne-music-540.jpg" alt=" “Pas un son ne s’échappe…”, an illustration by Georges Roux from the first edition of Jules Verne's Hier et demain (1910) - Source." srcset="http://publicdomainreview.org/wp-content/uploads/2015/07/verne-music-540.jpg 540w, http://publicdomainreview.org/wp-content/uploads/2015/07/verne-music-540-201x300.jpg 201w, http://publicdomainreview.org/wp-content/uploads/2015/07/verne-music-540-403x600.jpg 403w"
+    sizes="(max-width: 540px) 100vw, 540px">
+  <figcaption>“Pas un son ne s’échappe…”, an illustration by Georges Roux from the first edition of Jules Verne’s <em>Hier et demain</em>(1910).
+    <cite>
+      <a href="http://jv.gilead.org.il/rpaul/M.%20R%C3%A9-Di%C3%A8ze%20et%20Mlle%20Mi-B%C3%A9mol/">Zvi Har’El</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Verne’s organ and the Torturetron exemplify the capacity of imaginary instruments to serve as “cautions” — cautions we would do well to heed in this age when so much of what we do takes place through keyboards and other interfaces that remove us from the carrying-out of our commands. The note of warning is one imaginary instruments have sounded with growing regularity since the nineteenth century, as the wonders of new technologies have stoked fears about their consequences for humanity. Amidst the rise of industrial machinery, for example, the French caricaturist J. J. Grandville envisioned a fantastic “steam concert” of intelligent, steam-powered instruments. The program, described in his book _Un autre monde_ (1844), features such pieces as _L’explosion, mélodie pour 200 trombones_ (The explosion: A melody for 200 trombones) and _La locomotive, symphonie à basse pression, de la orce de trois cents chevaux_ (The locomotive: A low pressure symphony with 200 horsepower) and _Le moi et le non-moi, symphonie philosophique en ut_ (The self and the non-self: Philosophical symphony in C). At once fascinating and disturbing, Grandville’s anthropomorphic instruments express a fundamental ambivalence about the development of increasingly powerful and autonomous technologies.
+
+<figure id="attachment_13098">
+  <img src="_unautremondetran00gran_0032-730x1024.jpg" alt="Illustration from J. J. Grandville's Un autre monde (1844) - Source." srcset="http://publicdomainreview.org/wp-content/uploads/2015/07/unautremondetran00gran_0032-730x1024.jpg 730w, http://publicdomainreview.org/wp-content/uploads/2015/07/unautremondetran00gran_0032-214x300.jpg 214w, http://publicdomainreview.org/wp-content/uploads/2015/07/unautremondetran00gran_0032-768x1078.jpg 768w, http://publicdomainreview.org/wp-content/uploads/2015/07/unautremondetran00gran_0032-427x600.jpg 427w, http://publicdomainreview.org/wp-content/uploads/2015/07/unautremondetran00gran_0032.jpg 1301w"
+    sizes="(max-width: 730px) 100vw, 730px">
+  <figcaption>Illustration from J. J. Grandville’s <em>Un autre monde</em>(1844).
+    <cite>
+      <a href="https://archive.org/details/unautremondetran00gran">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+“Ask any good Frenchman … what he understands by progress”, Charles Baudelaire observed in 1855, “he will tell you that it is steam, electricity, and gas lighting.” Today, one might say that what we understand by progress is digital networks, mind-machine interfaces, and biotechnologies. These have been prime stimuli to twentieth- and twenty-first-century inventors of imaginary instruments such as Pat Cadigan, who detailed brain-sockets for music video production in the cyberpunk novel [_Synners_](https://www.amazon.com/Synners-SF-Masterworks-Pat-Cadigan/dp/0575119543?tag=thepubdomrev-20) (1991), and Richard Powers, whose [_Orfeo_](https://www.amazon.com/Orfeo-Novel-Richard-Powers/dp/0393349845?tag=thepubdomrev-20) (2014) envisioned music encoded in DNA.
+
+Grandville, Cadigan, and Powers illustrate not only a cautionary strand in imaginary instrument design, but also a distinct temporal orientation: each places his or her inventions in the not-too-distant future. In the history of imaginary musical instruments, the emergence of a futuristic orientation can be dated quite precisely. The turning point occurs with Louis-Sébastien Mercier’s novel [_L’An 2440_](https://archive.org/search.php?query=L%27an%20deux%20mille%20quatre%20cent%20quarante) (The year 2440), published in 1771. The utopian premise of the novel is reminiscent of Bacon’s _New Atlantis_. Here too, an outsider encounters a society where experimental research is undertaken for the benefit of mankind; in the field of acoustics, a device made of springs is capable of imitating all manner of sounds, and is used to dissuade the King from going to war by letting him hear the horrors and grief it would cause. But where Bacon’s sound-houses were found in a contemporaneous foreign land, Mercier’s springs exist in their author’s home city seven hundred years in the future (Paris in 2440). The novel, generally considered the first significant example of fiction set in the future, promptly inspired other futurological visions, such as the fantastic image of a twenty-fifth-century postal balloon shown below, which would deliver mail via the air and have a pipe organ built into its bow.
+
+<figure>
+  <img src="http://airandspace.si.edu/webimages/collections/full/A19680060000cp03.jpg">
+  <figcaption>Print by Balthasar Anton Dunker, probably dating to 1784, depicting the twenty-fifth-century postal balloon.
+    <cite>
+      <a href="http://airandspace.si.edu/collections/artifact.cfm?id=A19680060000">National Air and Space Museum |</a>
+    </cite>
+  </figcaption>
+</figure>
+
+The imagination is often figured as a site of infinite possibility, free to create without regard to material limitations. But touring the museum of imaginary musical instruments suggests that there are in fact certain grooves that form over time to channel the course of fantasy. Futuristic imaginary instruments flow along one such groove. The future orientation of the imagination directs its energies to the technologies synonymous with “progress” in the present – an effect that starts to show its peculiar limitations when one looks back at projections like the hot air balloon of 2440. This particular channel for technological fantasy was not always so deep. Before the eighteenth century, imaginary instruments typically appeared either in a contemporaneous foreign land (like Bacon’s sound-houses) or in the past, as devices that existed but had been lost (like the tubo cochleato). The museum of imaginary musical instruments thus illuminates not only the intersection of reality and fantasy, but also the unknown history of the imagination. It reveals numerous paths of inventive thought not taken — paths covered up by years of “progress”, but which, when cleared off, might yet lead us back to something new.
+
+* * *
+
+[**Deirdre Loughridge**](https://deirdreloughridge.wordpress.com/) is a musicologist whose work focuses on the history of music and technology. She teaches at the University of California, Berkeley, and writes about music and technology at her blog, [Spooky & the Metronome](https://spookyandthemetronome.wordpress.com/). Her forthcoming book, _Haydn’s Sunrise, Beethoven’s Shadow_, explores the audiovisual culture that shaped romantic musical thought, and was published in June 2016 by University of Chicago Press.
+
+[**Thomas Patteson**](http://www.thomaspatteson.com/) is a Philadelphia-based musicologist whose work explores modern music, technology, and the experimental arts. He teaches at the [Curtis Institute of Music](http://www.curtis.edu/) and is an associate curator for [Bowerbird](http://www.bowerbird.org/newsite/). His first book, [_Instruments for New Music_](http://www.ucpress.edu/book.php?isbn=9780520288027), was published in December 2015 by the University of California Press.  
+
+* * *
+
+Public Domain Works
+
+*   _The advancement of learning and New Atlantis_ (1906), by Francis Bacon.
+*   _Un autre monde_ (1844), by J.J. Grandville.
+*   _Musurgia Universalis_ (1650), by Athanasius Kircher.
+*   _Phonurgia Nova_ (1673), by Athanasius Kircher.
+*   _Utriusque cosmi_ (1617), by Robert Fludd.
+*   _Memoirs of the year two thousand five hundred_ (1772), by Louis-Sébastien Mercier.
+
+Further Reading
+
+{<} ![Instruments and the Imagination](_41DK7nXVX%2BL._SL160_.jpg)
+
+Instruments and the Imagination (Princeton University Press, 1999) by Thomas Hankins and Robert Silverman
+
+_Hankins and Silverman explore various strange instruments from the 17th through the 19th century, from magnetic clocks to ocular harpsichords that played different colored lights in harmonious mixtures._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Instruments-Imagination-Princeton-Legacy-Library/dp/0691005494?tag=thepubdomrev-20)
+
+{<} ![Three Early Modern Utopias: Thomas More: Utopia / Francis Bacon: New Atlantis / Henry Neville: The Isle of Pines](_61TRfHCcDOL._SL160_.jpg)
+
+Three Early Modern Utopias: Thomas More: Utopia / Francis Bacon: New Atlantis / Henry Neville: The Isle of Pines (Oxford, 2009) by Francis Bacon, Thomas More, Henry Neville. Edited by Susan Bruce
+
+_An edition of three utopian narratives – spanning from early-16th century to mid-17th century – which examine society and the impacts of science, race, and colonialism._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Three-Early-Modern-Utopias-Atlantis/dp/0199537992?tag=thepubdomrev-20)
+
+{<} ![The Book of Legendary Lands](_51i8HIJ5XUL._SL160_.jpg)
+
+The Book of Legendary Lands (Rizzoli Ex Libris, 2013) by Umberto Eco
+
+_Exploring the worlds of literature and folklore, Eco conducts an illustrated tour through some of the most compelling utopias and dystopias through which humans over the ages have played out their fears, ideals, and dreams._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Book-Legendary-Lands-Umberto-Eco/dp/0847841219?tag=thepubdomrev-20)
+
+{<} ![A Man of Misconceptions: The Life of an Eccentric in an Age of Change](_410bygy63TL._SL160_.jpg)
+
+A Man of Misconceptions: The Life of an Eccentric in an Age of Change (Riverhead Books, 2013) by John Glassie
+
+_An exploration of one of history’s most fascinating thinkers, the 17th-century priest-scientist Athanasius Kircher, whose interests and inventions seemingly knew no bounds._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Man-Misconceptions-Life-Eccentric-Change/dp/1594631891?tag=thepubdomrev-20)
+
+{<} ![Codex Seraphinianus](_51LtcqWH0hL._SL160_.jpg)
+
+Codex Seraphinianus (Rizzoli, 2013) by Luigi Serafini
+
+_A new edition of one of the strangest books to be published over the last fifty years, a visually surreal encyclopedia of an unknown world, originally published in 1981, which remains more topical than ever in today’s media and information society._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Codex-Seraphinianus-Luigi-Serafini/dp/0847842134?tag=thepubdomrev-20)

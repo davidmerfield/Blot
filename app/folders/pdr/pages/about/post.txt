@@ -1,0 +1,114 @@
+# About
+
+
+{|<} Please note, this document will not and should not appear identical across different templates. 
+
+{>|} ![](_thumb.png)
+
+The theme is designed for blogs which publish magazine-style articles. Articles which generally contain high quality imagery and are of substantial length. 
+
+I took a handful of things from lots of places to arrive at this theme.
+
+[Techcrunch](https://techcrunch.com) –  the most obvious reference. In general I think they have quite an impressive site for their category. Compact and efficient. The layout of their entries is quite thoughtful and I lifted it almost wholesale. I stole a lot of their decisions about text color. It was quite well done.
+
+[Cargo Collective](https://2.cargocollective.com/) – I copied the outline of the thumbnails from a few of their themes. It's such a good idea.
+
+[Arena](https://are.na) are also doing really good, enviable work. The typography of the main entry page is lifted from their blog.
+
+
+1. Lentils, white chickpeas, rice, raisins, spelt
+2. Sugar, pepper, cloves, cinnamon, spices, jams
+3. Soaps, oranges
+4. Two artillery balls
+5. Rock crystal, polished
+6. Pieces of mirror
+
+
+The purpose of the rest of this document is to test the implementation of [Blot](https://blot.im)’s various typographic features in this particular template. Remember, templates exercise *ultimate control* over the presentation of your site. Blot depends on the discretion and judgement of the template designer.
+
+
+
+## Typography
+
+Blot uses a number of techniques to improve the quality of your blog's typography. For example, it wraps candidates for small-caps in a particular HTML tag that can be targeted in your template's CSS. It's possible that the font used on this particular theme doesn't support this though. The purpose of small caps is to prevent acronyms like BBC don’t stand out relative to the rest of the text. 
+
+> The typesetting library also automatically convert three dots to an ellipsis... « Hello » there should have non-breaking spaces between the punctuation and the word...
+
+### Footnotes
+
+You can references footnotes in this blog posts. The note itself may appear at the bottom of this page or they might appear inline.[^1]
+
+[^1]: This is the note
+
+### Character test
+
+{||} Make sure that the font you are using can support an appropriate variety of languages. Al­brecht Dürer, François Truf­faut, Plácido Domingo. Cause célèbre, piña co­lada.
+
+{||} Γ Δ Θ Λ Ξ Π Σ Υ Φ Ψ Ω α β γ δ ϵ ζ η θ ι κ λ μ ν ξ o π ρ σ τ υ ϕ χ ψ ω ε ϑ ϖ ϱ ς φ ∂ ð ∇ ℑ ℓ ℘ ℜ Ⅎ ℵ ℶ ℷ ℸ ⅁ ℂ ℍ ℕ ℙ ℚ ℝ ℤ À Á Â Ã Ä Å Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö Ù Ú Û Ü Ý Þ à á â ã ä å ç è é ê ë ì í î ï ð ñ ò ó ô ö ù ú û ü ý þ ÿ
+
+### Punctuation
+
+"Hanging punctuation or exdentation is a way of typesetting punctuation marks and bullet points, most commonly quotation marks and hyphens, so that they do not disrupt the ‘flow’ of a body of text or ‘break’ the margin of alignment," according to Wikipedia. Blot will convert primes and basic quotes automatically. All you have to do is type using primes (\') and inch marks (\") and "everything" looks lovely. "Better than a 65'6" whale." – Captain Ahab. "It's my '#1' choice!" – 12" Foam Finger from '93. 
+
+### Syntax highlighting for code snippets
+
+Blot will add syntax highlighting to snippets of code in your blog posts if you specify the language. Read more about how to do this in the formatting guide.  Consider the **Fast inverse square root** algorithm which is best known for its implementation in 1999 in the source code of _[Quake III Arena](/wiki/Quake_III_Arena "Quake III Arena")_. 
+
+```c
+float InvSqrt (float x){
+    float xhalf = 0.5f*x;
+    int i = *(int*)&x;
+    i = 0x5f3759df - (i>>1);
+    x = *(float*)&i;
+    x = x*(1.5f - xhalf*x*x);
+    return x;
+}
+
+```
+
+This theme uses Highlight.js's Github theme. You can modify this if you like.
+
+### Mathematics
+
+Blot supports a number of $$\TeX$$ functions for typesetting Mathematical statements.
+
+$$
+f(x) = \int_{-\infty}^\infty
+    \hat f(\xi)\,e^{2 \pi i \xi x}
+    \,d\xi
+$$
+
+Hello is a designer and writer. Recent work has touched on a range of topics, including the relationship of movement and interaction, the history of visual identity and branding in the arts, and the future of the museum in the digital age. His essay on the rise of graphic design MFA programs, "School Days" was dope. Thank you Twitter and your emoji project. Also, I made the descenders on links more pretty – look how they don’t overlap with the underline. The emoji extractor ignores some unicode characters, like these ones.
+
+{|<} > Notes work on the right side too! This is a blockquote, useful for reminders. What about if it's too big?
+
+***
+
+## Layout 
+
+{>|} ![A book cover looks great in the margin](http://iems-ferox.com/assets/images/c4/IEMS_s22.jpg)
+
+You can hang stuff in the left margins and the right margins. It's possible that because of the structure of some templates, stuff in one margin will flow inside the page.  You can also make images and other items spread to the full width of the page:
+
+| Tables        | Alignment     | Cost  |
+| ------------- |:-------------:| -----:|
+| Zebra         | Right aligned | $0    |
+| Elephant      | Centered      |   $12 |
+| Crocodile     | This is neat  |    $1 |
+
+{<>} https://www.youtube.com/watch?v=BxewkRwY_uY
+
+
+
+http://iems-ferox.com/assets/images/c4/IEMS_m32.jpg
+
+I just added RSS feeds to each blog. A link to your feed is in the footer of your blog. Here is [my feed](/feed.rss). While I was in the mood for XML I added a [site map](/sitemap.xml) to each blog and a [robots.txt](/robots.txt) file so Google can index your posts easily. Here is while I was in the mood for XML I added to each blog and file so Google can index your posts easily.
+
+Hello is a designer and writer. Recent work has touched on a range of topics, including the relationship of movement and interaction, the history of visual identity and branding in the arts, and the future of the museum in the digital age. His essay on the rise of graphic design MFA programs, "School Days," was published in the Walker Art Center's Graphic Design: Now in Production catalogue in 2011.
+
+
+{||} http://iems-ferox.com/assets/images/c1/IEMS_m9.jpg
+
+{||} http://iems-ferox.com/assets/images/c3/IEMS_m14.jpg
+
+

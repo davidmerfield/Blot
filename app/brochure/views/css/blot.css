@@ -577,6 +577,10 @@ overlay .close:after {
     box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
     background: white;}
 
+.dark .clients li a {    box-shadow: rgb(0,0,0) 0px 0px 0px 1px, rgb(0,0,0) 0px 2px 4px;
+    background: #171616;
+    border: none;
+  }
     .clients svg {
       width:32px;float:left;margin-right:1em;margin-top:0.2em;margin-left:0.2em;margin-bottom:2em
     }

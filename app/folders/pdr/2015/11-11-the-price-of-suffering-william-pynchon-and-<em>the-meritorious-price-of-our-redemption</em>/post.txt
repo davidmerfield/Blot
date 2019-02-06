@@ -1,0 +1,192 @@
+Tags: Books, Religion
+Summary: William Pynchon, earliest colonial ancestor of the novelist Thomas Pynchon, was a key figure in the early settlement of New England. He also wrote a book which became, at the hands of the Puritans it riled against, one of the first to be banned and burned on American soil. Daniel Crown explores.
+
+# The Price of Suffering: William Pynchon  and <em>The Meritorious Price of Our Redemption</em>
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**William Pynchon, earliest colonial ancestor of the novelist Thomas Pynchon, was a key figure in the early settlement of New England. He also wrote a book which became, at the hands of the Puritans it riled against, one of the first to be banned and burned on American soil. Daniel Crown explores.**
+
+<figure>
+  <img src="_22508934057_cdd56b7111_o.png">
+  <figcaption>Portrait of William Pynchon, featured as the frontispiece to <em>The Puritan in England and New England</em>(1896) by Ezra Hoyt Byington –.
+    <cite>
+      <a href="https://archive.org/details/puritaninengland00byin">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+On October 16, 1650, the General Court of Boston summoned the town executioner. Like his name, the executioner’s thoughts as he made his way to the marketplace that afternoon, far from the gallows at Boston Common, remain lost to history. Still, reason dictates that even a man inured to the grisliness of the execution racket must have worn a smile of relief on this, such an odd and unprecedented day. A typical workday for the professional death-dealer, when pressed into duty, would have usually entailed dusting off an old ladder, uncoiling a good bit of rope, and eventually sliding a noose around the neck of a prisoner. Not today. Today, the General Court, ever aware of the affecting power of symbolism, had charged the executioner of Boston with a comparably breezy task. He was to conjure a torch, listen to a town official prattle off a public proclamation, and then, with theatrical gusto, set fire to a pile of William Pynchon’s _The Meritorious Price of Our Redemption_.[^1]
+
+“Derogatory!” the Court had called the book the previous day.  
+“Erroneous”.  
+“Unsound”.  
+“Heretical”.[^2]
+
+Pithy denunciations, certainly, but ones with both immediate and lasting ramifications. Indeed, _The Meritorious Price_, written by the earliest colonial ancestor of the novelist Thomas Pynchon, had the lifespan of a Boston mayfly. A London publisher issued the first and only edition of the “small quarto volume of a hundred and fifty-eight pages” early in 1650.[^3] It made its way to Boston by summer. Mere months later, the book’s detractors had all but wiped it out of existence. What the Boston executioner had started, general disinterest finished with aplomb over the ensuing centuries. Only four copies of the book remain extant.
+
+_The Meritorious Price_, of course, reads today harmlessly enough. Truth be told, a modern reader need only fear boredom from Pynchon’s exegesis on the origins of Grace. To leading officials in the government of Massachusetts Bay, however, this was an insidious text, an exercise in heresy—one the Puritan clergy believed capable of throwing their young and vulnerable colony into irreversible chaos. Pynchon, a prominent layman with a devoted constituency, was charismatic enough to inspire a movement similar to the Antinomian debacle that had nearly brought the colony to its knees in the previous decade. Notwithstanding his lofty place in New England society, Pynchon and his book simply had to go. The ensuing controversy, placed within the context of Pynchon’s life, perfectly encapsulates the tenuous relationship between colonial New England’s people, its Church, and its State.
+
+<figure id="attachment_13394">
+  <img src="_mural9-large-crop.jpg" alt="dsdd" srcset="http://publicdomainreview.org/wp-content/uploads/2015/11/mural9-large-crop.jpg 830w, http://publicdomainreview.org/wp-content/uploads/2015/11/mural9-large-crop-300x198.jpg 300w, http://publicdomainreview.org/wp-content/uploads/2015/11/mural9-large-crop-768x508.jpg 768w, http://publicdomainreview.org/wp-content/uploads/2015/11/mural9-large-crop-600x397.jpg 600w"
+    sizes="(max-width: 830px) 100vw, 830px">
+  <figcaption>Detail from a mural created in 1937 by Umberto Romano for the walls of the Springfield Main Post Office, now the Commonwealth of Massachusetts State Office Building. This particular panel is entitled <em>Mr. Pynchon and the Settling of Springfield</em>.
+    Note the man to the bottom right gazing at what looks to be some kind of smartphone device –.
+    <cite>
+      <a href="http://postalmuseum.si.edu/indiansatthepostoffice/mural9.html">Postal Museum</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In many ways, William Pynchon is _the_ forgotten founding father of colonial New England. Though largely unheralded today, there is no refuting he had his hands all over the enterprise from its very inception. Born around 1590, Pynchon came from an old and prestigious family. He owned a sizable amount of land in Springfield, Essex, where he served as a churchwarden — a lay position, typically held by prominent parishioners, which represented the laity at official meetings of the Anglican Church.[^4] It is unknown when Pynchon began to associate with Puritans, though it is widely held that by the 1610s he had befriended numerous influential reformers[^5], more than a few of whom advocated removal to America.
+
+Soon after arriving in 1630, Pynchon helped found and govern a settlement at Rocksbury—now Roxbury, Massachusetts. On May 14, 1636, he, along with a handful of pioneering Puritans, abandoned the colony to establish the Plantation of Agawam. From the start, he served there as a magistrate, overseeing local disputes and legal matters.
+
+It was not long before Agawam began to run afoul with its neighboring English settlements. Situated between the borders of Massachusetts and Connecticut, Pynchon’s colony had been affiliated with the latter since its foundation in 1636. During the Pequot War (1636–1638), Pynchon refused to jeopardize his lucrative trade agreements with nearby Native American tribes, putting him at odds with those in charge of the war effort. This was particularly true in Connecticut, which hosted many of the war’s fiercest battles. Ultimately, the animosity between Pynchon and Connecticut led to Agawam — which was soon renamed Springfield — becoming a part of Massachusetts when the two colonies redrew their lines in 1638.[^6] Taking full advantage of the distance between Springfield and Boston, Pynchon soon bolstered his rogue reputation by openly questioning the authority of the Massachusetts government.[^7]
+
+Four years before the publication of _The Meritorious Price_, seven members of the Plymouth Colony took a public stand against the Bay colony’s stranglehold on local politics. Though New England’s Church and State remained technically separate, only members of the predominate Puritan churches were eligible for governmental positions.[^8] This stripped many members of the colonial community — particularly Presbyterians — of any sense of agency in their home colonies. Not only did these men, all of them English citizens, have to pay taxes to support Puritan ministers with whom they fundamentally disagreed, but they were also forced to agree to restrictive citizenship regulations, which they believed blatantly defied English law.[^9] In response to this, Robert Child and six others presented the General Court with a _Remonstrance and Petition_ in 1646.
+
+In March 1647, Pynchon, seemingly unrequested, wrote to Gov. John Winthrop with advice on the matter. His words heavily hinted at what would become one of the implicit themes in _The Meritorious Price_. Noting a contemporary controversy in Scotland, Pynchon not only reminded the governor that American colonies remained subject to English law, but he also championed the merits of reasonable religious tolerance:
+
+> For the parliament doe not hould any certaine fourme of Church government to be commanded in the particulars thereof as the only way of Christ … But truly where zeale of gods glory and godly wisdome are joined together: a world of good hath bin don by godly ministers even in England that have held no certain fourme of discipline.[^10]
+
+For obvious reasons, Pynchon’s criticism of the colonial government proved immediately controversial. His _true_ troubles began, however, the moment he turned his attention to the failings of the Massachusetts clergy.
+
+<figure>
+  <img src="_22509010857_04fa35d9af_o.jpg">
+  <figcaption>Title page to William Pynchon’s <em>The Meritorious Price of Our Redemption</em>(1650) –.
+    <cite>
+      <a href="https://archive.org/details/meritoriousprice00pync">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Historians are not sure when, exactly, Pynchon began to write _The Meritorious Price_. The spiritual and intellectual growth processes behind the book also remain a mystery, though Pynchon later admitted he wrote it as a synthesis of sorts, combining sermons and books crafted by a handful of controversial, but non-heretical English Puritans: chiefly Anthony Wotton and Hugh Broughton. As the historian Michael Winship argues in his essay, “William Pynchon Reexamined,” _The Meritorious Price_ is an incredible accomplishment for a man who likely did not have access to a comprehensive theological library in the colonies. It brims with references to esoteric texts, suggesting Pynchon spent his last years in England gathering sources to augment the gestating arguments of his controversial book. Lest anyone misunderstand his intent for _The Meritorious Price_, he sums up the crux of these long-brewing arguments in a single paragraph on the book’s title page:
+
+> The Meritorious Price of Redemption, Justification, &c., Cleering from Some common Errors; And proving: 1. That Christ did not suffer for us those unutterable torments of God’s wrath, that commonly are called Hell-torments, to redeem our soules from them. 2. That Christ did not bear our sins by Gods imputation, and therefore he did not bear the curse of the Law for them. 3. That Christ hath redeemed us from the curse of Law (not by suffering the said curse for us, but by a satisfactory price of attonement; _viz_. by paying or performing unto his Father that invaluable precious thing of his Mediatroiall obedience, whereof his Mediatoriall Sacrifice of attonement was the master-piece. 4. A sinners righousnesse or justification is explained, and cleared from some common errors.
+
+According to a letter written in the following months by five prominent New England ministers as a response to a group of Pynchon’s English supporters, this paragraph alone proved enough to raise the ire of the General Court. The letter states that the Court first received the book during its quarterly meeting in October 1650. “At the same time,” they write, “a Ship in the Harbor was ready to set sail for England.” The Court, they continue:
+
+> perceiving by the Title Page that the Contents of the Book were unsound, and Derogatory, both to the Justice and the Grace of Christ, \[worried that\] this Book being published under the name of a New English Gentleman, might occasion many to think that New England also concurred in the allowance of such Exorbitant Aberrations.[^11]
+
+It is likely, then, the Court did not read the entirety of Pynchon’s book before having it burned. In their eyes, its opening pages were rife enough with heresy to merit immediate action. With this in mind, the Court ensured the aforementioned ship left Massachusetts without _The Meritorious Price_. Instead, it sent a letter of repudiation. In it, the Court did not merely rebuke Pynchon; they committed to paper a wholesale abjuration of the controversial conversations then occurring within the native Anglican Church and its growingly abundant offshoots. _Old_ England had let its ecclesiastical leash go slack. _New_ England would not make the same mistake.
+
+<figure>
+  <img src="_22739312900_cc234ef5a4_o.jpg">
+  <figcaption>Illustration showing the burning of Pynchon’s book, from <em>The History of Springfield in Massachusetts, for the Young</em>(1921) by Charles H. Barrows –.
+    <cite>
+      <a href="https://archive.org/details/historyofspringf02barr">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+To understand why, exactly, the Court reacted this way, one cannot avoid diving headlong into the debates that largely defined mid-17th-century Puritanism. Puritans of the era, both in the homeland and the colonies, lived and worked within an at times suffocating paradox. One of the major draws to the faith involved its emphasis on a personal relationship with the Bible. The Puritan clergy, then, had to figure out a way to encourage people of the faith to read the text without reading _too much_ into it.
+
+While the Church taught and promoted very specific interpretations of scripture — particularly those defending the tenets of predestination — this did little to satiate the most curious and defiant in their ranks. As more and more fringe theologians grew in prominence, new and controversial exegeses soon proliferated across the Atlantic community. Given that England was currently winding up a ten-year civil war — one caused at least in part by controversial doctrinal issues — the colonial clergy was perhaps justifiably sensitive to what it deemed divisive ideas and innovations.
+
+When considering potential heresy, clergy members kept an eye out for a series of red flags. Pynchon’s book rose just about all of them. First, he openly and defiantly questioned the nature and origin of God’s Grace. Most Puritans of the era believed that God had gifted his spiritual elect with salvation by “imputing” his son with their sins on the cross. In effect, these sins were wiped clean the moment Jesus died and descended into Hell where he “suffered the extremity of \[God’s\] wrath”. To Pynchon, Christ was not so much a sacrifice as a mediator. According to the historian Philip F. Gura, Pynchon believed that “since sin had come into the world through Adam’s archetypal transgression, Christ’s perfect obedience to the Father’s will — evidenced by his passion and death — and not the Father’s imputation of men’s sins to him, redeemed the elect from Adam’s curse”. In other words, mankind inflicted its wrath upon God (in the form of man), and not the other way around. The elect, then, earned salvation through the example of Christ’s perfect life, which culminated on the cross. Obedience, _not_ Jesus’ suffering, ultimately served as the wellspring of Grace.[^12]
+
+While Pynchon does not explicitly say so, _The Meritorious Price_ nonetheless put the millennia-old idea of “works” back on the table — a belief that flew in the face of Grace-based redemption. Though Pynchon in effect doubled down on predestination by denouncing Antinomians and other troublesome Anabaptist groups (which had advocated for universal Grace in the past), the Court likely did not read these contentions when it made its initial ruling. Based solely upon the nutgraph printed on the title page, the Court seems to have inferred from the text that anyone, should they live piously, might _earn_ Grace rather than receive it. This constituted Pynchon’s second major offense. Many who read _The Meritorious Price_ saw this belief as incongruent with the notion of a spiritual elect.
+
+Finally, Pynchon’s motives themselves came under fire. During the court process, it became clear the author did not believe the Massachusetts clergy held a monopoly on biblical interpretation. As Gura writes, Pynchon believed ardently in “the latitudinarian principle that no man — be he minister or magistrate — was infallible and thus \[no man had the right\] to impose ecclesiastical or doctrinal norms on an individual otherwise directed by his conscience”.[^13] According to the historian Michael Winship, this particular stance is what ultimately damned Pynchon’s book. _The Meritorious Price_ spoke directly to what the Massachusetts clergy saw as “the problematic involvement of laity in professional theological quarrels”.[^14]
+
+None of Pynchon’s arguments, after all, were new. Pynchon admitted as much in future works. Wotton and Broughton, Pynchon’s greatest influences, both promoted similar theologies years earlier; yet, thanks in large part to their professional status, neither saw their respective books summarily rejected as did the founder of Springfield. Though a prominent member of Massachusetts’ society, Pynchon was nonetheless a theological layman. When he published his work, he crossed a line.
+
+Governor John Endicott and his council made this abundantly clear in a letter written on October 20, 1652, to one of Pynchon’s defenders, Henry Vane. Pointing out that “ministers in all the four jurisdictions” had deemed the book heretical, the Council nonetheless regretted having to publicly embarrass Pynchon, a man held in such high regard in Springfield. He likely would have avoided censure, the letter continues, “had he kept his judgment to himself, as it seems he did above thirty years”. However, when Pynchon “\[published and spread\] his erroneous books amongst us, to the endangering of the faith of such as might read them…we held it our duty, and believe we were called of God, to proceed against him accordingly”.[^15]
+
+<figure>
+  <img src="_22523812427_590fca1221_o.jpg">
+  <figcaption>Cracked lantern slide depicting a portrait of William Pynchon –.
+    <cite>
+      <a href="https://www.digitalcommonwealth.org/search/commonwealth:ff365b18v">Digital Commonwealth</a>
+    </cite>
+  </figcaption>
+</figure>
+
+In addition to the burning of Pynchon’s book, the General Court also commissioned a theologian named John Norton to write an official rebuttal. They then summoned Pynchon to appear before the General Court in May 1651.[^16] There Pynchon offered the Court a half-hearted apology. “I have not spoken in my book,” he relented, “so fully of the price, and merit of \[Christ’s\] sufferings as I should have done”.[^17] The General Court accepted the man’s contrition, though the magistrates did demand he appear before them again the following October. They set bail at £100. This time, Pynchon absconded.
+
+As it turned out, he’d already made plans for a permanent return to England. It was there that Pynchon’s gloves truly came off. No longer held back by Massachusetts’ restrictive policies on lay-theology, he quickly published another book in 1652. In this work — titled _The Jewish Synagogue_ — Pynchon took the New England clergy to task for veering too far from accepted doctrine with its foundational ideas about “visible saints”.[^18] In doing so, Pynchon joined a growing chorus of dissenters who took issue with the restrictive nature of church membership in the colonies. And Pynchon was just getting started. By the time he died in 1662, he had published numerous further works, including an official response to Norton’s rebuttal under the cheeky title of _The Meritorious Price of **Man’s** Redemption_. Though Pynchon polished his original arguments in this work, he nonetheless used the book to reaffirm the most controversial of his views, including those for which he had publicly apologized at the General Court.[^19]
+
+In the end, Pynchon’s ideas about imputation and atonement never gained much traction. For all of its failures as a theological text, however, _The Meritorious Price_ did live on, if only in the shadows of America’s earliest self-spun history. From the early-19th century onward, historical societies began to use Pynchon’s text as a literal and figurative footnote — often referencing _The Meritorious Price_ as America’s “first banned book”. It is also worth noting that Pynchon’s equally enigmatic descendent, Thomas, has brought occasional attention to the book over the past five decades, making multiple references to his family history in his short stories, as well as in his classic novel _Gravity’s Rainbow_.
+
+This is not, however, to say that the impact of _The Meritorious Price_ was entirely limited to future eras. In the decades following William’s death, the New England clergy’s staunch defense of restrictive church membership eventually softened as new and evolving viewpoints among the laity threatened to damn their church into irrelevancy. Though there is no direct link between Pynchon’s work and this radical shift in the colonial paradigm, historians have recently elucidated the fact that the father of Solomon Stoddard, one of the key figures in the reformation of the Church’s membership policy, once went to prison for his support of Pynchon’s book. This gives “the strong indication” that _The Meritorious Price_ and Stoddard’s important innovations “grew from the same New England roots”.[^20] If so, then this stands as yet one more important facet of Pynchon’s lost legacy — a record paradoxically consumed _and_ invigorated within the cleansing light of the executioner’s flame.
+
+* * *
+
+**Daniel Crown** is a freelance writer and editor. He lives in Queens, New York. He writes predominately about history and books, with a strong emphasis on colonial America.  
+
+[^1]: _Records of the Governor and Company of the Massachusetts Bay in New England_. Nathaniel B. Shurtleff, editor. Boston: William White Press. 1854. Vol. IV. Part I. Pages 29-30.
+
+[^2]: Ibid.
+
+[^3]: Ezra Hoyt Byington. _The Puritan in England and New England_. Boston: Roberts Brothers. 1897. P. 200.
+
+[^4]: Michael P. Winship. “Contesting Control of Orthodoxy among the Godly: William Pynchon Reexamined.” _The William and Mary Quarterly_, Vol. 54, No.4, (Oct., 1997), p. 799.
+
+[^5]: Ibid, 800.
+
+[^6]: _Records of the Governor_. Vol. I. pp. 320-322.
+
+[^7]: Philip F. Gura. “The Contagion of Corrupt Opinions” in Puritan Massachusetts: The Case of William Pynchon. _The William and Mary Quarterly_, Vol. 39, No 3. (Jul., 1982), p. 473.
+
+[^7]: Edmund S. Morgan. Roger Williams: The Church and State. New York. W.W. Norton Company. p. 76.
+
+[^8]: Daniel R. Coquillette. “Radical Lawmakers in Colonial Massachusetts: The ‘Countenance of Authorite’ and the Lawes and Libertyes. _The New England Quarterly_, Vol. 67, No. 2 (Jun., 1994). P. 193.
+
+[^9]: Adam Winthrop. _Winthrop Papers_, eBook. Page 136.
+
+[^10]: The authors were: John Cotton, Richard Mather, Zech. Symmes, John Wilson, William Thompson. See _The Meritorious Price of Our Redemption_. The letter is reprinted in the PDF of Pynchon’s book—seemingly pasted on backing board into a bound version of an original copy.
+
+[^11]: Gura, 478-479.
+
+[^13]: Ibid.
+
+[^14]: Winship, 796.
+
+[^15]: All of this taken from “Letter to Henry Vale” — beneath the “Cotton Letter” in _The Meritorious Price_
+
+[^16]: _Records of the Governor_, Vol. I., 29-30.
+
+[^17]: _Records of the Governor_, Vol. III. 229.
+
+[^18]: See Gura, 477. Also, for a comprehensive summary of this phenomenon, see: Edmund Morgan. _Visible Saints_. New York. Cornell University Press. 1963.
+
+[^19]: Byington, 216-217.
+
+[^20]: For much more on this, please see: Michael P. Winship. “William Pynchon’s The Jewes Synagogue.” _The New England Quarterly_, Vol. 71, No. 2. Page 297.
+
+* * *
+
+Public Domain Works
+
+*   _The Meritorious Price of our Redemption_ (1650), by William Pynchon.
+*   _Records of the Governor and Company of the Massachusetts Bay in New England_ (1854), edited by Nathaniel B. Shurtleff.
+*   _The Puritan in England and New England_ (1896), by Ezra Hoyt Byington.
+*   _The First Century of the History of Springfield; the Official Records from 1636 to 1736_ (1898/9), edited by Henry M. Burt.
+*   _The History of Springfield in Massachusetts, for the Young_ (1921), by Charles H. Barrows.
+
+Further Reading
+
+{<} ![Damnable Heresy: William Pynchon, the Indians, and the First Book Banned (and Burned) in Boston](_41tjKwknUGL._SL160_.jpg)
+
+Damnable Heresy: William Pynchon, the Indians, and the First Book Banned (and Burned) in Boston (Wipf & Stock, 2015) David M. Powers
+
+_The first book-length biography of William Pynchon, earliest colonial ancestor of renowned novelist Thomas Pynchon, and key figure in the early history of New England._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Damnable-Heresy-William-Pynchon-Indians/dp/1625648707?tag=thepubdomrev-20)
+
+{<} ![The Crossroads of American History and Literature](_41Rc78mwwtL._SL160_.jpg)
+
+The Crossroads of American History and Literature (Penn State University Press, 2004) Philip F. Gura
+
+_Collecting twenty years’ worth of the best essays from historian Philip F. Gura, this book offers a fascinating snapshot of American history, from the explorations of early colonial beginnings to the early music trade of the 19th-century._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Crossroads-American-History-Literature/dp/0271024836?tag=thepubdomrev-20)
+
+{<} ![Visible Saints: The History of a Puritan Idea](_51o2uFeEgzL._SL160_.jpg)
+
+Visible Saints: The History of a Puritan Idea (Martino Fine Books, 2013) Edmund S. Morgan
+
+_Reprint of Morgan’s classic work from 1963, exploring the Puritan idea and how it manifested itself in the early history of America, focusing on the central issue of church membership._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Visible-Saints-History-Puritan-Idea/dp/1614275300?tag=thepubdomrev-20)

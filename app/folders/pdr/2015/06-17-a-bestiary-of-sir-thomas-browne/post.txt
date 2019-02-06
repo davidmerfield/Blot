@@ -1,0 +1,190 @@
+Tags: Books, Religion
+Summary: Hugh Aldersey-Williams takes a tour through Thomas Browne’s Pseudodoxia Epidemica, a work which sees one of the 17th-century’s greatest writers stylishly debunk all manner of myths, in particular those relating to the world of animals.
+
+# A Bestiary of Sir Thomas Browne
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Hugh Aldersey-Williams takes a tour through Thomas Browne’s _Pseudodoxia Epidemica_, a work which sees one of the 17th-century’s greatest writers stylishly debunk all manner of myths, in particular those relating to the world of animals.**
+
+<figure>
+  <img src="_18703957409_9715232332_c.jpg">
+  <figcaption>Miniature of a manticore, a creature with the body of a lion, the head of a man, and the tail of a scorpion, from a 13th-century English bestiary (Royal 12 F XIII).
+    <cite>
+      <a href="https://www.bl.uk/catalogues/illuminatedmanuscripts/ILLUMIN.ASP?Size=mid&amp;IllID=43159">The British Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Sir Thomas Browne was a seventeenth-century physician in the English city of Norwich. Between tending his patients, he wrote some of the greatest prose in the English language: _Religio Medici_, the confession of his Christian faith to those who believed he might be an atheist; _Urn Burial_, a meditation on our mortal remains and the vanity of monuments; and its verdant companion, _The Garden of Cyrus_, a speculation on the importance of pattern and number in nature.
+
+However, the greatest and most popular work in his lifetime is the one that is now most neglected, _Pseudodoxia Epidemica_, a vast catalogue of “vulgar errors” — urban (and rural) myths of the seventeenth century — which Browne debunks with unique and characteristic wit, style, and generosity.
+
+Many of these “vulgar errors” concern silly things that people believed about animals. Browne was an astute observer of natural history, well-positioned to correct these errors, and to make his own contribution to the field. He wrote a _Natural History of Norfolk_ and gave several species their now familiar English names. What follows is an ad hoc “bestiary” drawn from these writings, intended to illustrate above all Browne’s gentle method of correcting those who too easily believe in nonsense and superstition.
+
+<figure>
+  <img src="_18889387425_ff449d31c3_h.jpg">
+  <figcaption>Title page to the first edition of Browne’s <em>Pseudodoxia Epidemica: or, Enquiries into very many received tenents, and commonly presumed Truths</em>(1646).
+    <cite>
+      <a href="http://www.dreweatts.com/cms/pages/lot/36118/353">Dreweatts</a>
+    </cite>
+  </figcaption>
+</figure>
+
+### The Badger
+
+In the seventeenth century, country folk believed that the badger had legs on one side shorter than the other — the consensus was that the short legs were on the left. The idea may originate in the observation that badgers ran easily along the furrows of ploughed fields, where the legs on one side might be on higher ground than the other.
+
+Browne might have refuted this myth simply enough by drawing attention to the fact that the badger’s legs, as measured perhaps from a convenient skeleton or preserved specimen, are of equal length. But he doesn’t do this. Instead, he wants his readers to think about it. He calls upon “the three Determinators of Truth … Authority, Sense, and Reason”. However, the authorities he cites (purposely chosen, one feels) are in disagreement. So we must look (“Sense”) and think (“Reason”). Browne asks us to consider what other animals we have seen that are lopsided, trusting that we will be able to think of none, before leading us to the conclusion that such asymmetry is surely “repugnant unto the course of Nature”.
+
+<figure>
+  <img src="_18552421968_f3d99e7d01_o.png">
+  <figcaption>Illustration from <em>The History of Four-Footed Beasts and Serpents…</em> by Edward Topsell, printed in 1658, just 12 years after Browne’s <em>Pseudodoxia Epidemica</em>first was published.
+    <cite>
+      <a href="http://digital.lib.uh.edu/collection/p15195coll18/item/84">University of Houston</a>
+    </cite>
+  </figcaption>
+</figure>
+
+### The Kingfisher
+
+Often, when learned authorities (which range from ancients such as Aristotle and Pliny to Renaissance naturalists he has learnt of on his continental travels) fail him, or when sense and reason do not convince, Browne tries an experiment.
+
+Bizarrely, it was once believed that a dead kingfisher hung up by its bill made a good weathervane. To test the idea, Sir Thomas procures one of the dead birds and rigs it up from a thread — an untwisted silk thread, so that no bias is introduced into the experiment. The bird hangs and turns, apparently at random in relation to the wind: “it observes not a constant respect unto the mouth of the wind, but variously converting, doth seldom breast it right”, Browne tells us. Faced with this inconclusive result, he refines the experiment. Here he shows himself as a true modern scientist. He gets a second bird, and now finds that “If two be suspended in the same room, they will not regularly conform their breasts, but oft-times respect the opposite points of Heaven.” He has shown conclusively that a dead kingfisher is not a good weathervane.
+
+Sometimes, though, an experiment does not yield the desired result. People also believed that the bittern, another bird of the kingfisher family, requires the reeds among which it lives in order to make its characteristic mating cry — a low “booming” note that may be heard over distances of two miles. The belief was that the bird must use the reeds somewhat like a bassoon.
+
+On this occasion, Browne obtains a live bittern, which he proceeds to keep in his yard, where he denies it access to reeds. The bird fails to boom. But Browne understands this isn’t the end of the matter. Perhaps the bittern was lovelorn or just fed up. He knows, in the formulation popularized by Carl Sagan, that absence of evidence isn’t evidence of absence. In the end he is forced to rely on the testimony of a friend who has been out in the wild reedbeds and says he has seen bitterns booming without artificial aids.
+
+<figure>
+  <img src="_18884619052_679c92bb6d_b.jpg">
+  <figcaption>Illustrations from <em>The Birds of Norfolk</em>(1866), by Henry Stevenson and Thomas Southwell.
+    <cite>
+      <a href="https://archive.org/details/birdsofnorfolkwi02stev">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+### Some Other Birds
+
+Thomas Browne was born in London and trained as a physician first at Oxford and then abroad in the best schools of anatomy and physic, but he settled and established his medical practice in Norwich in the county of Norfolk. There he makes numerous observations and gives the names we still use to several species, including the mistle thrush, the shearwater, and the merganser.
+
+### The Unicorn
+
+Many of the foolish things people believed in the seventeenth century arose from seeing them in pictures, often as heraldic emblems or in biblical illustrations. Such pictures would have been regarded as true in the same way that our twentieth-century parents and grandparents once thought “the camera never lies”.
+
+One widely pictured creature was the unicorn, which had been incorporated into the royal coat of arms of James I when he acceded to the English throne in 1603. It’s still on my British passport. But the trouble was, nobody in England had seen a unicorn. So did the creature exist in far-off lands?
+
+Browne is surprising as he begins to tackle this “vulgar error”. “There may be many Unicorns,” he writes. It is soon clear that he means the word unicorn in its literal sense — a unique horn — and includes the rhinoceros and even the narwhal — the “sea-unicorn” — in his reckoning. He is more doubtful about the emblematic white creature with the horse’s body and goat’s tail whose horn projects from its head at an angle that, as he notes, would make it impossible for it to graze.
+
+Browne has good reason to be concerned about the truth or fiction of unicorns at a time when people are selling substances of supposed medical effect that they claim are made from unicorn horn. This is his motive for addressing the many “vulgar errors” to do with special properties claimed for animals, minerals, and vegetables. In an age when medicine is primitive and unregulated, his careful doses find themselves in competition with raw herbs and false remedies of street-corner “quacksalvers”.
+
+<figure>
+  <img src="_18740195145_9c69a43b80_o.png">
+  <figcaption>Illustration from <em>The History of Four-Footed Beasts and Serpents</em> by Edward Topsell, printed in 1658, just 12 years after Browne’s <em>Pseudodoxia Epidemica</em>first was published.
+    <cite>
+      <a href="http://digital.lib.uh.edu/collection/p15195coll18/item/33">University of Houston</a>
+    </cite>
+  </figcaption>
+</figure>
+
+### The Basilisk
+
+Browne disavows the existence of many imaginary beasts, but he is reluctant to consign them all to oblivion. He retains the basilisk — a hybrid of a serpent and a cockerel — and satyrs — men with equine ears and tails. “Their shadowed moralities requite their substantial falsities”, he writes. In other words, their role in the myths in which they appear makes them too valuable to let go. We might feel the same today about some of the creatures appearing in the pages of Dr Seuss or _Where the Wild Things Are_.
+
+<figure>
+  <img src="_859px-Wenceslas_Hollar_-_The_basilisk_and_the_weasel.jpg">
+  <figcaption>17th-century depiction of a basilisk with a weasel, by Wenceslas Hollar.
+    <cite>
+      <a href="https://commons.wikimedia.org/wiki/File:Wenceslas_Hollar_-_The_basilisk_and_the_weasel.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+### The Whale
+
+Herman Melville’s epic novel _Moby-Dick_ contains a long, scientifically descriptive chapter entitled “Cetology”. It draws upon many factual sources, but not least upon Thomas Browne’s account of a sperm whale that he visits when it is beached on the Norfolk coast. Like many others, Browne attends the scene out of curiosity, but also because he hopes to retrieve some of “that medicall matter” known as ambergris, as well as to investigate the spermaceti, the mysterious oil that is held in a reservoir in the animal’s massive head.
+
+Unsurprisingly given their size and rare appearances, whales were regarded as portents. Dutch engravings of the period portray beached whales as an allegory of the endangered nation or its overflowing riches. For Browne, as later for Melville, the whale was a vast curiosity, the container of many physical and metaphysical mysteries.
+
+<figure>
+  <img src="_18117552224_24d8366de6_o.jpg">
+  <figcaption>17th-century engraving of the whale washed up on the shore of Berckhey near Scheveningen in Holland in 1598.
+    <cite>
+      <a href="https://www.rijksmuseum.nl/en/collection/RP-P-OB-80.361">Rijksmuseum</a>
+    </cite>
+  </figcaption>
+</figure>
+
+### Noah’s Ark
+
+The existence or otherwise here or there of unfamiliar creatures is a topic that is only just beginning to be explored. Early in his life, Browne travelled to Ireland, where his stepfather had estates. There he noted the presence of spiders — unremarkable maybe, but worth pointing out since in the rest of Britain it was ignorantly believed that Ireland was without spiders quite as much as it was without snakes. Observing the arrival of exhausted seabirds on the Norfolk coast, Browne was among the first to conclude that annual migration over huge distances must be part of their life cycle (he coined the word “migrant” as well as more than seven hundred other neologisms).
+
+Taking a global view of nature’s diversity also informed Browne’s religious belief. So it is that he finds he cannot hold the story of Noah’s flood as historical truth. Why? Because there is no mention in the Bible of all the American species that were just beginning to come to the attention of European scholars. Surely if the native Americans had originated in the Old World, they would have taken with them horses, but left behind them the “beasts of prey, and noxious creatures” that are to be found there. “By what passage those, not onely Birds, but dangerous and unwelcome Beasts came over”, was the question. “How there bee creatures there, which are not found in this triple Continent; all which must needs bee strange unto us, that hold but one Arke, and that the creatures began their progresse from the mountaines of Ararat.”
+
+### Starfish
+
+In his long, lush essay, _The Garden of Cyrus_, Browne muses on the significance of the number five in nature. He has observed it in the arrangement of many flowers and thinks he discerns its presence too in the net-like surfaces of catkins and pine cones. He is unfortunately ignorant of the work of Leonardo of Pisa, known as Fibonacci, who described the sequence of numbers that encodes the golden ratio. Yet he tantalizingly anticipates the science of phyllotaxis which found that the Fibonacci sequence and therefore the number five truly do underlie all plants.
+
+In his catalogue of five-fold nature, Browne lists also the starfish, but he knows nothing of the radiolaria, tiny marine micro-organisms that also possess this symmetry, or of viruses which repeat this pattern at an even smaller scale.
+
+<figure>
+  <img src="_18740188685_43becfc1c4_o.jpg">
+  <figcaption>The “quincunx” pattern, with accompanying Latin inscription, taken from the frontispiece to Browne’s 17th-century masterpiece <em>The Garden of Cyrus</em>, the central figure upon which he weaves his mystical vision of the interconnection of art, nature,
+    and the Universe.
+    <cite>
+      <a href="https://archive.org/stream/hydriotaphiaurne00browuoft#page/n115/mode/thumb">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+### Morgellons
+
+While studying medicine in Montpellier in southern France, Browne observed a local affliction to which he gave the name morgellons. The illness manifests as an eruption of tiny hairs on the skin, and was cured by applications of milk or honey. In 2002, morgellons resurfaced as a modern anxiety-related illness with similar symptoms. The disease spread rapidly, thanks to the internet, but was brusquely dismissed by many doctors as “delusional parasitosis”. Tests never found the alleged hairs. Oddly, the hairs of morgellons observed by Browne, before microscopes were widely in use, were visible to the naked eye; by the twenty-first century, the morgellon’s hairs had shrunk to microscopic size.
+
+* * *
+
+**[Hugh Aldersey-Williams](http://www.hughalderseywilliams.com/)** is a writer and curator with interests ranging from science to architecture. He is the author of [_Periodic Tales: A Cultural History of the Elements, from Arsenic to Zinc_](https://www.amazon.com/Periodic-Tales-Cultural-History-Elements/dp/0061824739?tag=thepubdomrev-20) and [_Anatomies: A Cultural History of the Human Body_](https://www.amazon.com/Anatomies-Cultural-History-Human-Body/dp/0393239888?tag=thepubdomrev-20). His new book is [_In Search of Sir Thomas Browne: The Life and Afterlife of The Seventeenth Century’s Most Inquiring Mind_](https://www.amazon.com/Search-Sir-Thomas-Browne-Seventeenth/dp/0393241645?tag=thepubdomrev-20). He lives in Browne’s home county of Norfolk, England.
+
+* * *
+
+Public Domain Works
+
+*   _Pseudodoxia Epidemica_ in _The Works of Sir Thomas Browne_ (1888), by Thomas Browne, edited by Simon Wilkin.
+*   _Notes and letters on the natural history of Norfolk : more especially on the birds and fishes_ (1902 edition), by Thomas Browne, with notes by Thomas Southwell.
+
+Further Reading
+
+Claire Preston, “[Lost Libraries](http://publicdomainreview.org/2012/02/20/lost-libraries/)“, an essay from 2012 for _The Public Domain Review_ on Browne’s wonderful _Musaeum Clausum_.
+
+{<} ![In Search of Sir Thomas Browne: The Life and Afterlife of the 17th Century](_51wsSMUEGgL._SL160_.jpg)
+
+In Search of Sir Thomas Browne: The Life and Afterlife of the 17th Century’s Most Enquiring Mind (W. W. Norton & Company, 2015) by Hugh Aldersey-Williams
+
+_Aldersey-Williams examines the life of 17th-century writer, physician, and philosopher Sir Thomas Browne, and how his unique thoughts on knowledge, science, and religion still have relevance today._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Search-Sir-Thomas-Browne-Seventeenth/dp/0393241645?tag=thepubdomrev-20)
+
+{<} ![Thomas Browne and the Writing of Early Modern Science](_5112QcmdLDL._SL160_.jpg)
+
+Thomas Browne and the Writing of Early Modern Science (Cambridge University Press, 2009) by Claire Preston
+
+_Claire Preston explores Browne’s contributions to literature, science and philosophy._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Thomas-Browne-Writing-Modern-Science/dp/0521107792?tag=thepubdomrev-20)
+
+{<} ![Sir Thomas Browne: A Life](_51pnm3V0UTL._SL160_.jpg)
+
+Sir Thomas Browne: A Life (Oxford University Press, 2013) by Reid Barbour
+
+_The biography of Sir Thomas Brown takes a look at his life and work as well as the ways in which he influenced seventeenth-century England._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Sir-Thomas-Browne-Reid-Barbour/dp/0199679886?tag=thepubdomrev-20)
+
+{<} ![The Book of Imaginary Beings](_512NV88T9GL._SL160_.jpg)
+
+The Book of Imaginary Beings (Penguin Classics, 2006) by Jorge Luis Borges
+
+_From the pen of one the 20th-century’s most singular and inventive writers, comes this compendium of imagined beasts including mythological creatures from folklore as well as popular literature – beautifully illustrated throughout._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Imaginary-Beings-Penguin-Classics-Deluxe/dp/0143039938?tag=thepubdomrev-20)

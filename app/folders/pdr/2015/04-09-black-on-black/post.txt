@@ -1,0 +1,227 @@
+Tags: Books, Painting, Science, Philosophy
+Summary: Should we consider black a colour, the absence of colour, or a suspension of vision produced by a deprivation of light? Beginning with Robert Fludd’s attempt to picture nothingness, Eugene Thacker reflects* on some of the ways in which blackness has been used and thought about through the history of art and philosophical thought.
+
+# Black on Black
+
+{|<} *This essay was originally published in [The Public Domain Review](http://publicdomainreview.org/) under a Creative Commons License. Please see [their rules for reuse](http://publicdomainreview.org/legal/).*
+
+**Should we consider black a colour, the absence of colour, or a suspension of vision produced by a deprivation of light? Beginning with Robert Fludd’s attempt to picture nothingness, Eugene Thacker reflects* on some of the ways in which blackness has been used and thought about through the history of art and philosophical thought.**
+
+<figure>
+  <img src="_16890071989_25a27890c7_o.jpg">
+  <figcaption>Robert Fludd’s black square representing the nothingness that was prior to the universe, from his <em>Utriusque Cosmi</em>(1617).
+    <cite>
+      <a href="http://wellcomeimages.org/indexplus/image/L0060919.html">Wellcome Library</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Some time ago I was doing research for a seminar I planned to offer on “media and magic”. I was interested in the concept of magic as it existed in the Renaissance, and in particular with the so-called occult philosophy of thinkers like Marsilio Ficino, Giordano Bruno, Heinrich Cornelius Agrippa and Robert Fludd. It was while reading about Fludd that I discovered a startling image. It was from his major work, an ambitious, multi-volume, syncretic theory-of-everything with the cumbersome title [_The Metaphysical, Physical, and Technical History of the Two Worlds, the Major as well as the Minor_](https://archive.org/details/utriusquecosmima01flud). Fludd published his work between 1617 and 1621, and each volume is generously supplied with diagrams, tables and images. The image that jumped out at me is quite simple. In a section discussing the origin of the universe, Fludd was compelled to speculate on what existed prior to the universe, which he describes as an empty nothingness, a sort of “pre-universe” or “un-universe”. He chose to represent this with a simple black square.
+
+The image was startling to me because it was so different from the [other images](http://publicdomainreview.org/2011/09/13/robert-fludd-and-his-images-of-the-divine/) of Fludd’s that we are used to – elaborate, ornate, hyper-complex diagrams that detail all the movements of the planets or of the mind. The black square was also startling because it immediately brought to mind examples from modern art, the most noteworthy being Kazimir Malevich’s _Black Square on a White Ground_ from 1915. Being a former literature student, I was also reminded of the enigmatic “black page” from Laurence Sterne’s _The Life and Opinions of Tristram Shandy, Gentleman_ (1759-67). Fludd’s black square was, to be sure, enigmatic. Not only that, but Fludd also seemed aware of the limits of representation, noting on each edge of the black square, _Et sic in infinitum_, “And so on to infinity…”
+
+<figure>
+  <img src="_16890159109_b0b5fc6161_o.jpg">
+  <figcaption>Kazimir Malevich’s <em>Black Square</em>(1915).
+    <cite>
+      <a href="http://www.tate.org.uk/art/research-publications/the-sublime/philip-shaw-kasimir-malevichs-black-square-r1141459">Tate</a>
+    </cite>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="_16890150049_721e267e62_o.jpg">
+  <figcaption>The black page in Laurence Sterne’s <em>The Life and Opinions of Tristam Shandy, Gentleman</em>, which first appeared in 1759.
+    <cite>
+      <a href="https://archive.org/details/lifeopinionsoftr01ster">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Looking at it out of context, I find Fludd’s image indelibly modern, in both its simplicity and its austerity. It was as if Fludd had the intuition that only a self-negating form of representation would be able to suggest the nothingness prior to all existence, an un-creation prior to all creation. And so we get a “colour” that is not really a colour – a colour that either negates or consumes all colours. And we get a square that is not really a square, a box meant to indicate boundlessness. For the image to work within the context of Fludd’s cosmology, the viewer must not see the image for what it is – a black square. The viewer must understand the square as formlessness and the black inside as neither a fullness nor an emptiness. This simple little image requires a lot of work on the part of the viewer, perhaps as much work as in Fludd’s other, more complex diagrams. For a synthetic, systematic thinker like Fludd, this must have been a difficult move. After all, _The Metaphysical, Physical, and Technical History_ is, if nothing else, a totalising work, and work whose ambition is to include and to account for everything — even nothing.
+
+That Fludd would choose to do this is not surprising. His own syncretic philosophy combined elements of Neoplatonism, hermeticism, and Christian Kabbalah, with a touch of alchemy, music theory, Renaissance mechanics, and Rosicrucianism. Trained as a physician, Fludd was influenced early on by the work of Paracelsus and was intrigued by the idea of God as an alchemist, mixing matter to produce the strange brew that is the universe. At one point, Fludd describes the state prior to creation as “the mist and darkness of this hitherto shapeless and obscured region”, in which the “impure, dark, and dense part of the abyss’s substance” is dramatically transformed by divine light.[^1] The black square is quickly followed by a series of images — almost like a stop-motion animation — in which the divine fiat of creation and light flows forth. The Neoplatonic theme of the divine as a central source of radiating light takes over, producing the macrocosm and the microcosm, the ethereal and the earthly domains, all the stuff of the world.
+
+<figure>
+  <img src="_17085569951_38e2107816_c.jpg">
+  <figcaption>Light flowing forth from the blackness, from Fludd’s <em>Utriusque Cosmi</em>(1617) –.
+    <cite>
+      <a href="https://archive.org/details/utriusquecosmima01flud">Internet Archive</a>
+    </cite>
+  </figcaption>
+</figure>
+
+I lose interest in much of what follows, detailed and systematic though it is. But I continue to find the black square fascinating because of the contradictions in it. An image that, in order to be seen, negates itself. An un-universe that can only present its own absence. A boundless abyss that gives itself forth in an infinite austerity. Of course, words fail. For every un-universe, then, an un-philosophy that must also negate itself.
+
+*
+
+Fludd’s use of black in his cosmology is indicative of what modern colour theory has had to say about black. On the one hand, black is not considered to be a colour in the conventional sense of the term. Black objects are those that do not reflect light in the visible spectrum; thus colour theory refers to black as “non-chromatic” or “achromatic”. A further nuance is the notion that black is the condition without any light — largely a theoretical proposition, or at least one that would have to be verified without being seen. But already there is some ambiguity, for does black designate a “colour” that does not reflect light (and if so, why label it a colour?), or does black designate the “colour” that results in the total absence of light? Without light, no colour, and without colour, there is only black – and yet black is not a colour. But this is not exactly right, for black is a colour, not only in the sense in which we routinely designate this or that object as “black” but in the sense that black contains all colours, the colour that absorbs all other colours into the non-colour of black — the black hole of colour, as it were. We see black, but what exactly are we seeing when we see black? Light, or the absence of light? And if the latter, how is it possible to see the absence of light?
+
+While black as a colour has a rich and varied history in terms of its symbolic meanings, it would take a modern, scientific theory of colour to begin to address such questions. When Goethe published his [_Theory of Colours_](https://theoryofcolor.org/Theory+of+Colours) in 1810, such conundrums were largely ignored in aesthetics, and often not discussed in the science of optics. But Goethe, being the polymath that we was, was not content to write a treatise of aesthetics. The _Theory of Colours_ is as much a science of colour as it is an aesthetics; indeed, the aim is to attempt a synthesis of the two. Goethe’s major contribution was to distinguish the “visible” from the “optical” spectrum, and to make possible a science of optics that would be distinct from that of aesthetics, but which would overlap with it as well.[^2] Goethe’s project is determined to consider colour as a physiological phenomenon, to “search for nothing beyond the phenomena” of seeing colour through the apparatus of the eye. For Goethe, any theory of colour must begin from the physiological event of seeing colour.
+
+But black proves to be a difficult colour to discuss for Goethe. In the opening sections of his treatise, “black” is often interchangeable with “dark” and “shadow”, all three terms denoting a physiological state when the eye is deprived of light:
+
+> If we keep the eyes open in a totally dark place, a certain sense of privation is experienced. The organ is abandoned to itself; it retires into itself. That stimulating and grateful contact is wanting by means of which it is connected with the external world…[^3]
+
+Black is conceived of in privative terms, in terms of the absence of light – not unlike Fludd’s cosmic black square. And, black is even moralised by Goethe (as it is in Fludd), for the light that enables sight is not just a physiological stimulation, but a quasi-divine gift. When Goethe does briefly discuss black later on in his treatise, it is largely to discuss the combustion and oxidation processes that produce blackness in objects such as wood or metal. Strangely, Goethe does not raise the problem of black as a colour, choosing instead to analyse the chemical process of blackening, and in the process sounding very much like a Renaissance alchemist.
+
+<figure>
+  <img src="_16889101990_2666da2c3d_c.jpg">
+  <figcaption>The “rose of temperaments” (Temperamentenrose), an earlier study (1798/9) by Goethe and Schiller, matching twelve colours to human occupations or their character traits.
+    <cite>
+      <a href="http://en.wikipedia.org/wiki/File:Goethe_Schiller_Die_Temperamentenrose.jpg">Wikipedia</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Goethe’s _Theory of Colours_ had an immediate impact on the philosophy and science of colour. One person particularly taken by it was Arthur Schopenhauer, who knew Goethe and discussed colour theory with him on several occasions. While Schopenhauer does not depart from Goethe’s distinction between the visible and the optical, he does attempt to root colour theory in philosophy more than science. Schopenhauer’s _On Vision and Colours_ was published in 1816, just three years after the completion of his doctoral dissertation. A short book, it does not display the systematicity of _The World as Will and Representation_ nor the aphoristic pessimism of his late writings. What it does do is drive a wedge into Goethe’s _Theory of Colours_. Goethe, Schopenhauer claimed, does not really present a theory of colour, foremost because he never considers what colour is – that colour exists is something assumed in his treatise.
+
+Furthermore, Schopenhauer took Goethe to task for another assumption – that the perception of colour necessarily corresponded to colour itself, as if it were a physical thing in itself. Being a good Kantian, Schopenhauer tended to understand colour as a cognitive process that began with the sensation of light and resulted in the cognitive representation of colour. Schopenhauer was even more precise in identifying the “intensive activity of the retina” as the main apparatus for the perception of colour. The trick was to understand what it was that made an impression on the retina in the first place; was colour something identifiable in the world as such (i.e. as light), or was it merely a by-product of the physiology of vision?[^4] Where did colour take place? To say that we receive light that stimulates our retina is one thing, but to show how colour is necessarily produced from this activity is quite another. In Schopenhauer’s theory of perception, the theory of colour begins to ever so slightly slip away – and yet, he admits, some vague entity called “colour” could be identified, classified, measured, even agreed upon in an everyday context.
+
+As with Goethe, for Schopenhauer the problem is black, which for Schopenhauer is inseparable from white. Black and white are strange entities in Schopenhauer’s treatise. At some points they seem to be additions or privations of light, much in line with Goethe: “The influence of light and white on the retina and its ensuing activity have degrees according to which light steadily approaches darkness and white approaches black.”[^5] But at other points black and white function more as logical necessities, forming the absolute poles of colour perception; that is, black and white are never actually seen, and yet they determine the perception of colour.[^6] And, later in the treatise, there is even a third, more naturalistic interpretation, one that has to do specifically with black and not with white: that black is simply the physiological state of “retinal inactivity.”[^7] The eye without sight – or without vision.
+
+After all is said and done, Schopenhauer’s questions prove to be more interesting than his answers. All the same, it is tempting to make some connections between Schopenhauer’s colour theory and his pessimistic philosophy. A central ambiguity of Schopenhauer’s _On Vision and Colours_ has to do with black. Is black something that can be seen, like any other colour? Or is black simply the name for something in the structure of vision that conditions colour perception, but which can never be seen in itself? Perhaps there is a black that is seen, the black of shading and gradients, as well as a black that is unseen; the black of retinal inactivity. And here again we seem to return to the paradox of Fludd’s black square – the black that can only be seen at the expense of ceasing to be black (where black becomes “dark” or “shade”). Perhaps, and maybe this is being generous to Schopenhauer’s text, there is a retinal pessimism that secretly underlies colour theory, encapsulated in the notion of black as privation (Goethe), black as retinal inactivity (Schopenhauer), black as that which precedes the very existence of light itself (Fludd).
+
+Retinal pessimism is not simply the failure of the phenomena of perception, the physiology of the retina, or the science of optics. Nor is it the conviction that whatever one is seeing is the worst of all possible things that could be seen. Both are intriguing options. But, retinal pessimism is something else, and it is encapsulated in the strange status of black: at once present and absent, at once a fullness and an emptiness, at once the absorption of all light and the total absence of light. Black is at once the foundation of all colour and, in its absence or emptiness, it is also what undermines the substantiality of all colour. If one is willing to go down this path, a retinal pessimism is not just about the non-colour that is black, but it is about the perception of colour itself. It is, ultimately, the suspicion that all colours are black, that all retinal activity is retinal inactivity. Retinal pessimism: there is nothing to see (and you’re seeing it).
+
+*
+
+The question is, what would such a retinal pessimism see, if it is not simply the physiological state of blindness, or the metaphorical state of “inner vision”? Not surprisingly, artists have thought about this question, and there is, of course, a history of black painting in modern art.[^8] For me the most notable example is that of Ad Reinhardt who, in the 1960s, produced a number of paintings that, at first glance, appear to be all matte black, much in the tradition of Malevich. But after looking at the painting for some time, what appears to be black is not black at all. Instead, subtle hues of deep mauve, purple, magenta, and grey become apparent. And the uniform black canvas reveals a grid, or a series of squares within the canvas, each of a slightly different colour. The painting actually changes within the duration of its viewing. “Black” literally vanishes as one looks at it, and what quietly emerges are colours and shapes. Reinhardt’s paintings are almost visual analogues for Fludd’s cosmology.
+
+<figure id="attachment_12758">
+  <a href="_Black-Paintings-5.jpg">
+    <img src="_Black-Paintings-5.jpg" alt="dsdsd" srcset="http://publicdomainreview.org/wp-content/uploads/2015/04/Black-Paintings-5.jpg 800w, http://publicdomainreview.org/wp-content/uploads/2015/04/Black-Paintings-5-300x203.jpg 300w, http://publicdomainreview.org/wp-content/uploads/2015/04/Black-Paintings-5-768x520.jpg 768w, http://publicdomainreview.org/wp-content/uploads/2015/04/Black-Paintings-5-600x407.jpg 600w"
+      sizes="(max-width: 800px) 100vw, 800px"> </a>
+  <figcaption>Ad Reinhardt hangs his paintings to dry in a studio, New York, 1966. Photo by John Loengard/The LIFE Picture Collection.
+    <cite>
+      <a href="https://s-media-cache-ak0.pinimg.com/736x/68/62/ef/6862ef1cddc1cc3815bf4084e389f07e.jpg">PINIMG</a>
+    </cite>
+  </figcaption>
+</figure>
+
+But modern black painting is, in a way, too predictable a place to begin, for black paintings always push black up front, in front of the viewer, as something to be seen. My own fascination with black in painting comes not from abstract expressionism, but from an earlier period – the infinite, stark black backgrounds in Velázquez’s [_The Water Seller of Seville_](http://en.wikipedia.org/wiki/The_Waterseller_of_Seville_%28Vel%C3%A1zquez%29#/media/File:15_El_Aguador_de_Sevilla_(Wellington_Museum,_Apsley_House,_Londres,_1623).jpg) (1618-22), the black clouds that envelop Rembrandt’s [_The Abduction of Proserpine_](http://commons.wikimedia.org/wiki/File:Rembrandt_-_The_Rape_of_Proserpine_-_Google_Art_Project.jpg) (1631), the almost surreal flatness of Zurburan’s [_Christ on the Cross_](http://commons.wikimedia.org/wiki/File:Francisco_de_Zurbar%C3%A1n_-_Christ_on_the_Cross_-_WGA26051.jpg) (1627). As a painter of black, the artist that stands out from the rest for me is Caravaggio. In fact, I only came to appreciate modern black painting by seeing paintings like [_The Crucifixion of St. Peter_](http://en.wikipedia.org/wiki/Crucifixion_of_St._Peter_%28Caravaggio%29#/media/File:Caravaggio_-_Martirio_di_San_Pietro.jpg) (1601), [_St. Matthew and the Angel_](http://en.wikipedia.org/wiki/Saint_Matthew_and_the_Angel#/media/File:Caravaggio_MatthewAndTheAngel_byMikeyAngels.jpg) (1602), and [_David with the Head of Goliath_](http://en.wikipedia.org/wiki/David_with_the_Head_of_Goliath#/media/File:Caravaggio_-_David_con_la_testa_di_Golia.jpg) (1605; 1609/10). However, of the paintings of this period, there is one that I find endlessly fascinating, and that is Caravaggio’s _St. Jerome Writing_ (c.1606).
+
+<figure>
+  <img src="_16456506893_de8a5fef3a_o.jpg">
+  <figcaption>Caravaggio’s <em>St. Jerome Writing</em>(c.1606).
+    <cite>
+      <a href="http://commons.wikimedia.org/wiki/File:Saint_Jerome_Writing-Caravaggio_%281605-6%29.jpg">Wikimedia Commons</a>
+    </cite>
+  </figcaption>
+</figure>
+
+Certainly in paintings like this Caravaggio makes extreme use of chiaroscuro, and he is not the first to do so. But there is a sense that Caravaggio took as much care painting the black backgrounds as he did the lighted figures in the foreground. Caravaggio’s black is ambiguous. In one part of the canvas the black background is flat and full. In another part it is an empty, infinite depth. In still another part it is a thick black cloud, miasmatically embracing the foreground figures. The echo between the saint’s barely haloed head and the skull holding open the book is accentuated by one kind of black – a black of shadows, shading and contour. But behind both skull and head there is only outer space, at once flat and infinite. In a strange optical illusion, this same cosmic black seems to also inhabit the edges of the books, the space underneath the table, the creases of the fabric, and Jerome’s own wrists. This is “black painting” – black as a background that is always about to eclipse the foreground, the groundlessness of the figure/ground distinction itself, the presence of an absence, a retinal pessimism.
+
+Black painting of the abstract expressionist type has had a long career in modern art. And a survey of contemporary art suggests that black is always back, in some shape or form. But what I find interesting about black art works today is the way they seem to combine the likes of abstract expressionism with that of Caravaggio and his tenebrist contemporaries. An example is Terence Hannum’s series _Veils_ (2012), which consists of images of disembodied hair on a black background; St. Jerome as a headbanger, as it were. The wisps of hair not only recall the black drawings of abstract expressionism, but they give the same sense of flat depth evoked in Caravaggio, in which we see figures almost drowning in black. Black is both flat background, but a background that literally engulfs the foreground figure into a seemingly infinite abyss below, above, behind, everywhere.
+
+<figure id="attachment_12762">
+  <a href="_harnum-veils-540.jpg">
+    <img src="_harnum-veils-540.jpg" alt="dsdsd" srcset="http://publicdomainreview.org/wp-content/uploads/2015/04/harnum-veils-540.jpg 540w, http://publicdomainreview.org/wp-content/uploads/2015/04/harnum-veils-540-300x286.jpg 300w" sizes="(max-width: 540px) 100vw, 540px"> </a>
+  <figcaption>Three images from Terence Hannum’s series <em>Veils</em>(2012)
+    <cite>
+      <a href="https://www.pinterest.com/pin/119767671311621064/">Pinterest</a>
+    </cite>
+    <a href="http://bmoreart.com/2012/09/terence-hannum-veils-is-up-through.html" target="_blank">ii</a> &amp;
+    <a href="http://www.metamute.org/editorial/occultural-studies-column/black-black" target="_blank">iii</a> (NB: not public domain).</figcaption>
+</figure>
+
+A further play on the foreground/background distinction comes in Jonah Groeneboer’s [drawings](http://www.jonahgroeneboer.com/selected-works/selected-drawings/), which often feature luminous, geometric forms against a cloudy black background. The geometric forms seem to suggest some unstated significance in their subtle asymmetries, bringing to mind a tradition of occult drawing that includes Hilma af Klint and Emma Kunz, ultimately suggesting the alchemical diagrams of the likes of Paracelsus and Fludd. Groeneboer’s drawings, such as [_Untitled VII_](https://s-media-cache-ak0.pinimg.com/736x/83/7d/af/837daf1b9fb3ee088f7d5878afb16ad3.jpg) (2009), compress several depths together into one picture plane. There is the dim and luminous geometric figure, a prismatic optical illusion that is at once flat and three-dimensional. Then there is the cloudy, foggy, grey mass that occupies an ambiguous nether-region perhaps behind the prism, perhaps surrounding it. Finally there is the black background, which is variously textured at different points. This black background serves several functions; it is at once the backdrop for the geometric shape and it is the seemingly endless and empty abyss that contains that shape – much in line with Fludd’s paradoxically unbounded black square.
+
+<figure>
+  <img src="https://s-media-cache-ak0.pinimg.com/736x/83/7d/af/837daf1b9fb3ee088f7d5878afb16ad3.jpg">
+  <figcaption>Jonah Groeneboer’s <em>Untitled VII</em>(2009).
+    <cite>
+      <a href="https://s-media-cache-ak0.pinimg.com/736x/83/7d/af/837daf1b9fb3ee088f7d5878afb16ad3.jpg">PINIMG</a>
+    </cite>
+  </figcaption>
+</figure>
+
+As if to signal a return to the cosmological black square of Fludd, several artists undertake works that attempt a “pure” black that is flat, square and evenly distributed. Juliet Jacobson’s recent [black drawings](http://www.artspace.com/julietjacobson/untitled-black-drawings) pick up a different aspect of Fludd and the occult philosophers in their material, chemical, and alchemical commitment to the connection between the microcosm and macrocosm. Each drawing, while it can be taken on its own, also refers to the other drawings in the series. Taken together, they seem to depict the phases of the moon, but some of the drawings are completely black. Seen together, the drawings can be taken either as a sequence or as a continuous, panoramic image. This means that while some drawings depict the moon at various stages, other drawings depict nothing, except the blackness of graphite on paper, worked over and over through a laborious process of reducing graphite to mere specks.
+
+It is worth noting that each of these contemporary artists produces their black artworks through very material, physical processes that are also processes of negation: rubbing, smearing, smudging, and erasing material like graphite or charcoal into shards of powder and dust. The process seems adequate for the result, the showing of nothing, the revealing of black less as a colour and more as this “nothing-to-see.”
+
+*
+
+It seems that we are brought back to Fludd’s cosmic black square, and the paradox of the flat abyss, the background that is a foreground, the retinal pessimism of the nothing to see, that we see.
+
+It is this transition – from black as a colour you see, to black as a non-colour you don’t see, to black as “nothing-to-see” (and you’re seeing it) – it is this transition that Fludd encapsulates in his simple black square. That black was for Fludd the “colour” of non-existence, of pre-existence, of an un-universe prior to its possibility. This idea has also come full circle in contemporary philosophy. In a short and opaque text entitled [“On the Black Universe”](http://www.recessart.org/wp-content/uploads/Laruelle-Black-Universe1.pdf), the French thinker François Laruelle extends this idea of black as a cosmological principle. Neither an aesthetics of colour nor a metaphor for knowledge and ignorance, black is, for Laruelle, inseparable from the conditions of thought and its limit. Separate from “the World” we make in our own, all-too-human image, and apart from “the Earth” which tolerates our habitation of its surface, there is “the Universe” – indifferent, opaque, black: “Black prior to light is the substance of the Universe, what escaped from the World before the World was born into the World.”[^9]
+
+In such a scenario, human beings probe the Earth and manufacture the World, but neither of these respond to the groping around that constitutes being, or being-there, or becoming-this-or-that, or the event, or what have you. The human being “is answered only by the Universe, being black and mute.”[^10] And yet, it is this enigmatic response that leads us into thinking that this black universe, the black of Fludd’s un-universe, is something “out there” – the nature of reality, the fabric of the universe, a consensual hallucination, something that I can see and touch and feel, a colour. Laruelle again:
+
+> A phenomenal blackness entirely fills the essence of the human. Because of it, the most ancient stars of the paleo-cosmos, together with the most venerable stones of the archeo-earth, appear to the human as being outside the World…[^11]
+
+Fludd’s cosmic black square, his un-universe, is not temporally prior to the universe, but neither is it some cataclysm to come; it is right here. But you can’t see it. (And you’re seeing it.)
+
+Black is the colour of ink, oil, crows, mourning and outer space. Black is not just one colour among others, and neither is it one element or material among others. Black bathes all things in an absence, makes apparent an opacity, evaporates all the nuances of shadow and light. I leave the last word to an alchemist of a different sort, Yohji Yamamoto, who provides yet another variation of black: “Above all, black says this: I don’t bother you – don’t bother me.”
+
+* * *
+
+**Eugene Thacker** is the author of several books, including [_In The Dust Of This Planet_](http://www.amazon.com/gp/product/184694676X/ref=as_li_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=184694676X&linkCode=as2&tag=thepubdomrev-20&linkId=R6QSH5A5T4P4JTXQ) (Zero Books, 2011). He teaches at The New School in New York.  
+
+[^1]: Robert Fludd, _The Technical, Physical and Metaphysical History of the Macrocosm and Microcosm_, in _Robert Fludd (Western Esoteric Masters Series)_, William Huffman (Ed.), Berkeley: North Atlantic Books, 2001, pp.74; 62.
+
+[^2]: For instance, in some sections Goethe separates his discussion of “physiological” colours from “physical” and “chemical” colours. It is only after laying this groundwork that he then goes on to consider the “effect of colour with reference to moral association”, (i.e. in myth, religion, art, and culture).
+
+[^3]: Johann Wolfgang von Goethe, _Theory of Colors_, Charles Lock Eastlake (Trans.), Cambridge: MIT Press, 1970 \[1840\], p. 2.
+
+[^4]: The most well-known debate of this type prior to Schopenhauer was that of John Locke, who argued for a distinction between primary qualities and secondary qualities, the former being those properties that exist independent of a viewer, and the latter being those produced exclusively within the viewer. Locke considered colour to be a secondary quality, while Goethe, drawing upon the optics research of his day, suggests that colour is in effect a primary quality.
+
+[^5]: If the visible spectrum has black and white at either pole, then colour is some mixture or “fraction” in between. As Schopenhauer notes: “Black and white are not colours in the true sense \[…\] because they do not represent fractions, and thus no qualitative division of the retina”, ibid., p. 70.
+
+[^6]: Arthur Schopenhauer, _On Vision and Colors_, in _On Vision and Colors by Arthur Schopenhauer and Color Sphere by Philipp Otto Runge_, trans. Georg Stahl (New York: Princeton Architectural Press, 2010), p. 61.
+
+[^7]: Summarising the polarised nature of the visible spectrum between white and black, Schopenhauer comments: “We have found that, by the qualitatively divided activity of the retina, the appearance of one half is essentially conditioned by the inactivity of the other half, at any rate at the same spot. Inactivity of the retina is…total darkness.” Ibid., p. 73.
+
+[^8]: In the late 1940s De Kooning produced several “black drawings”, though these were really expressionist white on a black background. In the 1950s Ellsworth Kelly produced his own, ultra-flat black paintings in a series of large canvases, including _Black_ (1951), and later in the decade Robert Motherwell produced almost all-black canvases of his giant brush strokes (such as _Iberia no. 18_, from 1958). Also in the late ’50s, Robert Rauschenberg produced a thick, textual canvas of black goop, though the thickness of the paint produced a glossy, reflective surface. And throughout the 1960s several artists produced black paintings with differing degrees of hue and texture, such as in Frank Stella’s geometric paintings of think white lines on near-black backgrounds.
+
+[^9]: François Laruelle, “On the Black Universe”/”Du noir univers”, trans. Miguel Abreu et al., in Daniel Colucciello Barber, Alexander Galloway, Nicola Masciandaro, and Eugene Thacker (Eds.), Dark Nights of the Universe, \[name\] publications, 2013, p. 104. This book collects four texts that comment on Laruelle’s idea of the black universe, and is the result of a four-day seminar given through the Public School New York and Recess Gallery in the spring of 2012. For more info see: http://www.recessart.org/activities/5136.
+
+[^10]: Ibid., p. 105.
+
+[^11]: Ibid., p. 105-106. Laruelle continues: “As opposed to the black objectified in the spectrum, Black is already manifested, before any process of manifestation.”  
+
+* * *
+
+\* A version of this essay first appeared in [Mute magazine](http://www.metamute.org/editorial/occultural-studies-column/black-black), July 2013.
+
+* * *
+
+Public Domain Works
+
+*   _Utriusque cosmi_ (1617), by Robert Fludd.
+*   _Theory of Colours_ (1840 English edition), by J.W. Goethe, translated by Charles Lock Eastlake.
+*   Ueber das Sehn und die Farben: eine Abhandlung (1870 edition), by Arthur Schopenhauer
+
+Further Reading
+
+{<} ![The Story of Black](_51t0oCXx5PL._SL160_.jpg)
+
+The Story of Black (Reaktion Books, 2013) by John Harvey
+
+_Examining the ambivalent relationship the world’s cultures have had with the colour black, this books takes a look at the colour’s connection to race, death, fashion, and art._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Story-Black-John-Harvey/dp/1780230842?tag=thepubdomrev-20)
+
+{<} ![Black: The History of a Color](_512kcH-YJpL._SL160_.jpg)
+
+Black: The History of a Color (Princeton University Press, 2008) by Michel Pastoureau
+
+_In this richly illustrated book, Michel Pastoureau explores the European social history of the colour black through religion, art, and politics._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Black-History-Color-Michel-Pastoureau/dp/069113930X?tag=thepubdomrev-20)
+
+{<} ![Black Paintings: Robert Rauschenberg, Ad Reinhardt, Mark Rothko, Frank Stella](_31h8mx5AyDL._SL160_.jpg)
+
+Black Paintings: Robert Rauschenberg, Ad Reinhardt, Mark Rothko, Frank Stella (Hatje Cantz, 2007) by Stephanie Rosenthal
+
+_A collection of black works by Robert Rauschenberg, Ad Reinhardt, Mark Rothko, and Frank Stella, examining both the similarities and differences in these postwar works._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Black-Paintings-Robert-Rauschenberg-Reinhardt/dp/3775718605?tag=thepubdomrev-20)
+
+{<} ![The Color Black](_415-AJibYKL._SL110_.jpg)
+
+The Color Black (Lars Muller, 2015) by Katrin Trautwein
+
+_Katrin Trautwein examines the idea of a “pure black” colour by showing how various shades of grey can produce black, a colour that has countless meanings in all parts of the world._
+
+[![](_further-reading-infobuy-button.jpg)](https://www.amazon.com/Schwarz-German-English-Katrin-Trautwein/dp/3037783826?tag=thepubdomrev-20)

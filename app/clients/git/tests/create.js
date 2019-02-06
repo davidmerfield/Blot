@@ -16,7 +16,7 @@ describe("git client create", function() {
   var setClientToGit = require('./setup/setClientToGit');
 
   // this prevents an existing bare repo from being clobbered
-  xit("should fail when the client has already been initialized", function(done) {
+  it("should fail when the client has already been initialized", function(done) {
 
     var blog = this.blog;
 
@@ -35,7 +35,7 @@ describe("git client create", function() {
   // this prevents an existing bare repo from being clobbered
   // this simulates a user connecting the git client, disconnecting
   // then connecting again..
-  xit("should not fail when disconnect is called in between", function(done) {
+  it("should not fail when disconnect is called in between", function(done) {
 
     var blog = this.blog;
 
@@ -57,7 +57,7 @@ describe("git client create", function() {
     });
   });  
   
-  xit("should fail when there is a repo with an origin in the blog's folder", function(done) {
+  it("should fail when there is a repo with an origin in the blog's folder", function(done) {
 
     var Git = require("simple-git");
     var blog = this.blog;
@@ -82,7 +82,7 @@ describe("git client create", function() {
     });
   });
   
-  xit("preserves existing files and folders", function(done) {
+  it("preserves existing files and folders", function(done) {
 
     var blogDir = localPath(this.blog.id,'/');
     var fs = require('fs-extra');
@@ -94,7 +94,7 @@ describe("git client create", function() {
     fs.outputFileSync(blogDir + '/Sub Folder/second.txt', 'World');
     fs.outputFileSync(blogDir + '/third', '!');
 
-    setClientToGit(blog, this.server.port, function(err, repoUrl){
+    setClientToGit(this.user, blog, this.server.port, function(err, repoUrl){
 
       if (err) return done.fail(err);
 

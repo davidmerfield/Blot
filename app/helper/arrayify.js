@@ -43,6 +43,7 @@ module.exports = function arrayify (obj, manipulate) {
       var name = i;
       obj[i] = {content: obj[i], name: name, index: ++count};
     } else {
+      obj[i] = obj[i] || {};
       obj[i].name = obj[i].name || i;
     }
 
