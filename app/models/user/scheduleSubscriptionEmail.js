@@ -8,46 +8,43 @@ var schedule = require("node-schedule").scheduleJob;
 var DAYS_WARNING = 7;
 
 module.exports = function(uid, callback) {
+  var notificationDate;
+
+  // Fetch the latest version of the user's subcription from the
+  // database to determine when we should notify them of a renewal.
   getById(uid, function(err, user) {
     if (err) return callback(err);
-
-    var notificationDate;
 
     // This user does not have a subscription through Stripe
     if (!user || !user.subscription || !user.subscription.current_period_end)
       return callback();
 
+    // Stripe uses a seconds timestamp vs. JavaScript's ms
     notificationDate = new Date(user.subscription.current_period_end * 1000);
+
+    // Subtract the number of days warning we'd like to give to user
+    // Right now we tell them a week in advance of a renewal or expiry
     notificationDate.setDate(notificationDate.getDate() - DAYS_WARNING);
 
     debug(user.uid, user.email, "needs to be notified on", notificationDate);
 
-    // The notification date has passed
+    // When the server starts, we schedule a notification email for every user
+    // If they should have been notified in the past, we stop now since we
+    // don't want to email the user more than once.
     if (notificationDate.getTime() < Date.now()) {
-      debug(
-        user.uid,
-        user.email,
-        "should already have been notified on",
-        notificationDate
-      );
+      debug(user.email, "should already been notified on", notificationDate);
       return callback();
     }
 
-    // Schedule the email
-    debug(user.uid, user.email, "scheduling warning email....");
-    console.log(
-      "Scheduled subscription notification email on",
-      notificationDate,
-      "for",
-      user.email
-    );
     schedule(notificationDate, function() {
+
       // We fetch the latest state of the user's subscription
       // from the database in case the user's subscription
       // has changed since the time the server started.
       getById(uid, function(err, user) {
         debug(user.id, user.email, "Time to notify the user!");
 
+        // No callback now, that was called long ago
         if (!user || !user.subscription) {
           return;
         }
@@ -70,11 +67,18 @@ module.exports = function(uid, callback) {
           return email.UPCOMING_RENEWAL(uid);
         }
 
-        debug(user.uid, user.email, "Not sure how to notify this user!");
+        console.error(user.uid, user.email, "Not sure how to notify this user about their renewal!");
       });
     });
 
     // Let the callee know the email is schedule
+    debug(user.uid, user.email, "scheduled warning email....");
+    console.log(
+      "Scheduled subscription email on",
+      notificationDate,
+      "for",
+      user.email
+    );
     callback();
   });
 };
