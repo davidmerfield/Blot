@@ -13,10 +13,6 @@ Record new demo video
 
 ---
 
-Fix bug with restarting expired subscriptions and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxgBRlGfSSqqGpfzlnXLNNw)
-
-Download [Working Copy](https://workingcopyapp.com/) for iOS, try and configure repo with Blot to reproduce email encoding bug raised by [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWQNsdfnQgKPRBSKJnVVqzlc). Determine if I can fix this on the server, if not, contact the developer of [Working Copy](mailto:anders@workingcopyapp.com).
-
 Rewrite Wordpress importer? Expose it online?
 - Fix bug with <p> spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 
