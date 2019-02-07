@@ -33,7 +33,7 @@ module.exports = {
       secret: process.env.BLOT_DROPBOX_FULL_SECRET
     }
   },
-
+  
   stripe: {
     key: process.env.BLOT_STRIPE_KEY,
     secret: process.env.BLOT_STRIPE_SECRET,
