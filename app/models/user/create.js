@@ -1,16 +1,16 @@
-var helper = require('helper');
+var helper = require("helper");
 var ensure = helper.ensure;
-var key = require('./key');
-var client = require('client');
-var validate = require('./validate');
-var generateId = require('./generateId');
+var key = require("./key");
+var client = require("client");
+var validate = require("./validate");
+var generateId = require("./generateId");
+var scheduleSubscriptionEmail = require("./scheduleSubscriptionEmail");
 
-module.exports = function create (email, passwordHash, subscription, callback) {
-
-  ensure(email, 'string')
-    .and(passwordHash, 'string')
-    .and(subscription, 'object')
-    .and(callback, 'function');
+module.exports = function create(email, passwordHash, subscription, callback) {
+  ensure(email, "string")
+    .and(passwordHash, "string")
+    .and(subscription, "object")
+    .and(callback, "function");
 
   var multi, userString;
   var uid = generateId();
@@ -19,14 +19,13 @@ module.exports = function create (email, passwordHash, subscription, callback) {
     uid: uid,
     isDisabled: false,
     blogs: [],
-    lastSession: '',
+    lastSession: "",
     email: email,
     subscription: subscription,
     passwordHash: passwordHash
   };
 
-  validate({uid: uid}, user, function(err, user){
-
+  validate({ uid: uid }, user, function(err, user) {
     if (err) return callback(err);
 
     try {
@@ -48,15 +47,19 @@ module.exports = function create (email, passwordHash, subscription, callback) {
       multi.set(key.customer(user.subscription.customer), uid);
 
     multi.exec(function(err) {
-
       // Retry if generated ID was in use
-      if (err && err.code === 'SETNX')
+      if (err && err.code === "SETNX")
         return create(email, passwordHash, subscription, callback);
 
       // I need to handle uid collision gracefully
       if (err) console.log(err);
 
       if (err) return callback(err);
+
+      // Schedule a notifcation email for their subscription renewal
+      scheduleSubscriptionEmail(user.uid, function(err) {
+        if (err) console.log(err);
+      });
 
       callback(null, user);
     });
