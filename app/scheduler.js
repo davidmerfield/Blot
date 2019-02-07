@@ -119,12 +119,12 @@ function scheduleSubscriptionEmails(callback) {
           notificationDate = new Date(
             user.subscription.current_period_end * 1000
           );
-          notificationDate.setDate(warningDate.getDate() - DAYS_WARNING);
+          notificationDate.setDate(notificationDate.getDate() - DAYS_WARNING);
 
           debug(user.uid, user.email, "will be notified on", notificationDate);
 
           // The notification date has passed
-          if (notification.getTime() < Date.now()) {
+          if (notificationDate.getTime() < Date.now()) {
             debug(
               user.uid,
               user.email,
@@ -136,9 +136,9 @@ function scheduleSubscriptionEmails(callback) {
 
           // Schedule the email
           debug(user.uid, user.email, "scheduling warning email....");
-          schedule(warningDate, notificationEmail(user.uid));
+          schedule(notificationDate, notificationEmail(user.uid));
         },
-        function(err) {}
+        callback
       );
     });
   });
@@ -146,25 +146,32 @@ function scheduleSubscriptionEmails(callback) {
 
 function notificationEmail(uid) {
   return function() {
-    debug(user.uid, user.email, "Time to notify the user!");
-
     // We fetch the latest state of the user's subscription
     // from the database in case the user's subscription
     // has changed since the time the server started.
     User.getById(uid, function(err, user) {
+      debug(user.id, user.email, "Time to notify the user!");
       if (
         user &&
         user.subscription &&
         user.subscription.cancel_at_period_end === true
       ) {
-        debug(user.uid, user.email, "Sending email about a subscription expiry...");
+        debug(
+          user.uid,
+          user.email,
+          "Sending email about a subscription expiry..."
+        );
         email.UPCOMING_EXPIRY(uid);
       } else if (
         user &&
         user.subscription &&
         user.subscription.cancel_at_period_end === false
       ) {
-        debug(user.uid, user.email, "Sending email about a subscription renewal...");
+        debug(
+          user.uid,
+          user.email,
+          "Sending email about a subscription renewal..."
+        );
         email.UPCOMING_RENEWAL(uid);
       } else {
         debug(user.uid, user.email, "Not sure how to notify this user!");
@@ -172,4 +179,3 @@ function notificationEmail(uid) {
     });
   };
 }
-
