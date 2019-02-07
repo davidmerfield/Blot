@@ -3,6 +3,8 @@ Finish archive template
 - Announce new archive template (+ documentation and video) by linking to archive template page
 
 Finish default feed theme
+- Add script to build sites from the folders in app/folders
+- Add new folders with public domain material
 
 Record new demo video
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
@@ -18,6 +20,8 @@ Rewrite Wordpress importer? Expose it online?
 
 Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 - Filter the homepage such that only posts tagged 'homepage' appear
+
+---
 
 Image and thumbnail bugs
 - Fix bug for images containing upper-case characters on [Jonas' blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
