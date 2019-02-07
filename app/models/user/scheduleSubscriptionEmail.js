@@ -33,8 +33,6 @@ module.exports = function(uid, callback) {
       return callback();
     }
 
-    notificationDate = new Date(Date.now() + 1000);
-
     // Schedule the email
     debug(user.uid, user.email, "scheduling warning email....");
     schedule(notificationDate, function() {
