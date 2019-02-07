@@ -1,3 +1,3 @@
-User warned about upcoming renewal
+User notified of subscription renewal in 7 days
 
-{{name}} with UID {{uid}} and handle {{handle}} was notified that their subscription will be renewed next week.
+{{email}} ({{blogs.length}} x {{pretty.price}} blog{{s}}) was notified that their subscription will renew next week. They were offered a chance to cancel their subscription or update their billing information.

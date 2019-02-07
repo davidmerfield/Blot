@@ -1,3 +1,3 @@
 User cancelled subscription{{andDisabled}}
 
-{{name}} with UID {{uid}} and handle {{handle}} and email {{email}} cancelled their subscription{{andDisabled}}.
+{{email}} ({{blogs.length}} x {{pretty.price}} blog{{s}}) cancelled their subscription.
