@@ -1,6 +1,8 @@
 To simulate failed renewals:
 
 1. Create new Stripe test plan ```blot_10``` which costs $10 per day.
+   Switch to using this guide in config/index.js  (config.stripe.plan)
+
 2. Create new test users on this plan with the valid test card number ```4242 4242 4242 4242 ```
 ```
 one@failed-subscription.com
@@ -31,9 +33,5 @@ Then I updated the subscription for each user before logging in, since Stripe's 
 ```
 node scripts/user/updateSubscription.js one@failed-subscription.com
 ```
-
-Then make sure:
-
-- [ ] You can update billing information to pay overdue invoices
 
 If needed, refer to the [version of the Stripe API Docs](https://web.archive.org/web/20140625062328/https://stripe.com/docs/api) which Blot uses.
