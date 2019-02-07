@@ -81,6 +81,14 @@ Fix bug with git client which prevented [Jamie](https://mail.google.com/mail/u/0
 
 ---
 
+Add support for HTTP2
+
+Verify that GZIP is disabled at the node.js level and is handled by NGINX instead
+
+Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
+
+Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
+
 Why are images downloading so slowly on the portfolio theme? Should I go back to using cloudfront?
 
 Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
