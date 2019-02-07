@@ -35,6 +35,12 @@ module.exports = function(uid, callback) {
 
     // Schedule the email
     debug(user.uid, user.email, "scheduling warning email....");
+    console.log(
+      "Scheduled subscription notification email on",
+      notificationDate,
+      "for",
+      user.email
+    );
     schedule(notificationDate, function() {
       // We fetch the latest state of the user's subscription
       // from the database in case the user's subscription
