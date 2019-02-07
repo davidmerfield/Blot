@@ -4,17 +4,19 @@ var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
 var Express = require("express");
 var PaySubscription = new Express.Router();
-var debug = require("debug")("blot:dashboard:pay-subscription");
 
 PaySubscription.route("/")
 
   // First, make sure the customer has a subscription
-  // through Stripe, then fetch the latest state of
-  // their subscription from Stripe and finally fetch
-  // any unpaid invoices.
+  // through Stripe, then fetch its latest state. We 
+  // typically recieve the latest version of a subscription
+  // through Stripe's webhooks – this is just a double-check.
   .all(checkCustomer)
   .all(updateSubscription)
 
+  // We want to tell the user how much they will have to pay to
+  // re-open their account, so work that out before rendering
+  // the payment form on the dashboard.
   .get(listUnpaidInvoices)
   .get(function(req, res) {
     res.render("account/pay-subscription", {
@@ -23,8 +25,11 @@ PaySubscription.route("/")
     });
   })
 
+  // The user must submit a valid card to restart their account
+  // Then we list all outstanding invoices and pay them.
   .post(updateCard)
   .post(payUnpaidInvoices)
+  .post(updateSubscription)
   .post(function(req, res) {
     res.message("/", "Payment recieved, thank you!");
   });
