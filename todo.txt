@@ -13,6 +13,8 @@ Record new demo video
 
 ---
 
+Fix bug with restarting expired subscriptions and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxgBRlGfSSqqGpfzlnXLNNw)
+
 Download [Working Copy](https://workingcopyapp.com/) for iOS, try and configure repo with Blot to reproduce email encoding bug raised by [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWQNsdfnQgKPRBSKJnVVqzlc). Determine if I can fix this on the server, if not, contact the developer of [Working Copy](mailto:anders@workingcopyapp.com).
 
 Rewrite Wordpress importer? Expose it online?
@@ -93,8 +95,6 @@ Why are images downloading so slowly on the portfolio theme? Should I go back to
 
 Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
-Investigate if people who have cancelled their subscription are notified 1 week before their blog  expires
-
 Research state of static site generators:
 - https://www.11ty.io/docs/
 - https://www.staticgen.com/
@@ -155,7 +155,6 @@ Subscription refactor
 - Add support for subscriptions via PayPal
 - Different payment methods per blog
 - Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
-- Fix bug with restarting expired subscriptions and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxgBRlGfSSqqGpfzlnXLNNw)
 
 Move to Linode
 - Preserve AWS elastic IP and proxy to Linode
