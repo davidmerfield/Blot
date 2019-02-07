@@ -20,7 +20,7 @@ module.exports = function() {
   });
 
   // Warn users about impending subscriptions
-  scheduleWarningEmails(function(stat) {
+  scheduleSubscriptionEmails(function(stat) {
     console.log(stat);
   });
 
@@ -173,60 +173,3 @@ function notificationEmail(uid) {
   };
 }
 
-function scheduleWarningEmails(callback) {
-  User.getAllIds(function(err, uids) {
-    var total = uids.length;
-    var numberScheduled = 0;
-
-    (function syncNextUser() {
-      if (!uids.length)
-        return callback(
-          "Warning emails scheduled for " +
-            numberScheduled +
-            " of " +
-            total +
-            " users!"
-        );
-
-      var uid = uids.pop();
-
-      User.getById(uid, function(err, user) {
-        if (err) {
-          console.log("Scheduler error:", err);
-          return syncNextUser();
-        }
-
-        if (!user) {
-          console.log("No user with uid", uid);
-          return syncNextUser();
-        }
-
-        if (
-          user.subscription &&
-          user.subscription.current_period_end &&
-          !user.subscription.cancel_at_period_end
-        ) {
-          var nextBill = user.subscription.current_period_end;
-
-          var warningDate = new Date(nextBill * 1000);
-          warningDate.setDate(warningDate.getDate() - 7);
-
-          if (warningDate.getTime() > Date.now()) {
-            numberScheduled++;
-
-            schedule(warningDate, function() {
-              email.UPCOMING_RENEWAL(uid);
-            });
-          } else {
-            console.log(
-              "Warning email already sent (hopefully) to",
-              user.email
-            );
-          }
-        }
-
-        syncNextUser();
-      });
-    })();
-  });
-}
