@@ -79,8 +79,6 @@ Metadata bugs
 
 Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
-Fix bug with git client which prevented [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsdCpRCLrbNczKVGXxgBvDfr)'s first 9000 posts appearing.
-
 ---
 
 Add support for HTTP2
