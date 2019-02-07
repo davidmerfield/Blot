@@ -20,8 +20,12 @@ module.exports = function() {
   });
 
   // Warn users about impending subscriptions
-  scheduleSubscriptionEmails(function(stat) {
-    console.log(stat);
+  scheduleSubscriptionEmails(function(err) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("Scheduled emails for renewals and expiries!");
+    }
   });
 
   console.log("Scheduled daily backups for 3am!");
