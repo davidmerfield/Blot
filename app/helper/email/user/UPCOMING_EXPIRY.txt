@@ -1,0 +1,7 @@
+Your Blot subscription will expire in 7 days
+
+Your [Blot subscription]({{{site}}}) will expire in 7 days and your account will close. If you want to keep your account open, please [restart your subscription]({{{site}}}/account/cancel).
+
+Please reply directly to this email if you have any questions.
+
+Sincerely, David

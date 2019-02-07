@@ -1,0 +1,3 @@
+User warned about upcoming expiry
+
+{{name}} with UID {{uid}} and handle {{handle}} was notified that their subscription will expire next week.
