@@ -1,10 +1,9 @@
 Finish archive template
-- Turn this [image gallery into a blog folder](https://www.flickr.com/photos/swedish_heritage_board/sets/72157671599852420/with/3873525371/)
+- Add script to build sites from the folders in app/folders
+- Add new folders with public domain material
 - Announce new archive template (+ documentation and video) by linking to archive template page
 
 Finish default feed theme
-- Add script to build sites from the folders in app/folders
-- Add new folders with public domain material
 
 Record new demo video
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
