@@ -298,10 +298,15 @@ module.exports = (function() {
   }
 
   function getPartials(blogID, templateID, partials, callback) {
-    ensure(blogID, "string")
-      .and(templateID, "string")
-      .and(partials, "object")
-      .and(callback, "function");
+    
+    try {
+      ensure(blogID, "string")
+        .and(templateID, "string")
+        .and(partials, "object")
+        .and(callback, "function");      
+    } catch (e) {
+      return callback(e);
+    }
 
     var Entry = require("./entry");
     var allPartials = {};
