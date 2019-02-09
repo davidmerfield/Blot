@@ -14,8 +14,10 @@ Record new demo video
 
 ---
 
-Rewrite Wordpress importer? Expose it online?
+Rewrite Wordpress importer
+- Add tests
 - Fix bug with <p> spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
+- Add options for preserving permalinks or spitting out redirects file
 
 Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 - Filter the homepage such that only posts tagged 'homepage' appear
