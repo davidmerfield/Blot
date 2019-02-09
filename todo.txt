@@ -14,6 +14,8 @@ Record new demo video
 
 ---
 
+Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWRXqnjmjBDmcRXKcdxjcDfr)
+
 Rewrite Wordpress importer
 - Add tests
 - Fix bug with <p> spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
