@@ -1,6 +1,7 @@
 var insert_video_embeds = require('../../../helper').insert_video_embeds;
 
 module.exports = function(entry, callback) {
+
   entry.html = fix_missing_p_tags(entry.html);
   entry.html = remove_caption(entry.html);
   entry.html = insert_video_embeds(entry.html);
