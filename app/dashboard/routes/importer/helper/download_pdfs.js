@@ -2,8 +2,7 @@ var cheerio = require("cheerio");
 var basename = require("path").basename;
 var parse = require("url").parse;
 var download = require("download");
-var helper = require("../../helper");
-var each_el = helper.each_el;
+var each_el = require("./each_el");
 var fs = require("fs-extra");
 
 module.exports = function download_pdfs(post, callback) {

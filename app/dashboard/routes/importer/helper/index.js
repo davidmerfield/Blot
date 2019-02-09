@@ -1,5 +1,6 @@
 module.exports = {
   determine_path: require('./determine_path'),
+  download_pdfs: require('./download_pdfs'),
   download_images: require('./download_images'),
   each_el: require('./each_el'),
   extract: require('./extract'),

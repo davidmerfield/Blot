@@ -1,25 +1,35 @@
-var async = require('async');
+var async = require("async");
+var helper = require("../../../helper");
+var extract_entry = require("./extract_entry");
+var tidy_HTML = require("./tidy_HTML");
+var convert_to_markdown = require("./convert_to_markdown");
 
-module.exports = function(item, callback) {
+module.exports = function(item, output_directory, callback) {
   
-  console.log(item);
-
-  // we take the item and write it out.
-  // before calling back
-
-};
-
-function remove_caption(content) {
-  while (content.indexOf("[caption") > -1) {
-    var opening_index = content.indexOf("[caption");
-    var remainder = content.slice(opening_index);
-    var closing_index = remainder.indexOf("]");
-
-    content =
-      content.slice(0, opening_index) +
-      content.slice(opening_index + closing_index + 1);
-    content = content.split("[/caption]").join("");
+  // Filter out items which should not become posts or pages
+  if (
+    item["wp:post_type"][0] === "nav_menu_item" ||
+    item["wp:post_type"][0] === "attachment" ||
+    item["wp:post_type"][0] === "feedback"
+  ) {
+    return callback(null);
   }
 
-  return content;
-}
+  async.waterfall(
+    [
+      extract_entry(item, output_directory),
+      tidy_HTML,
+      helper.download_pdfs,
+      helper.download_images,
+      convert_to_markdown,
+      helper.insert_metadata,
+      helper.write
+    ],
+    function(err, result) {
+      if (err) console.error(error);
+      callback(null);
+    }
+  );
+};
+
+
