@@ -22,9 +22,5 @@ module.exports = {
   // We expose a special method to make it easier
   // for the test suit to interact with this client
   // Don't do this for normal client.
-  setup: function(blogID, folder, callback) {
-    require("./models/folder").set(blogID, folder, function(err) {
-      callback(null);
-    });
-  }
+  setup: require('./setup')
 };

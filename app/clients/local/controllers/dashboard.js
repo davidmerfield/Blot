@@ -1,8 +1,7 @@
 var Express = require("express");
-var fs = require("fs-extra");
 
 var Folder = require("../models/folder");
-var sync = require("./sync");
+var setup = require("../setup");
 
 // It's important this is an Express router
 // and not an Express app for reasons unknown
@@ -24,18 +23,10 @@ Dashboard.post("/set", function(req, res, next) {
 
   var folder = require("os").homedir() + "/" + req.body.name.trim();
 
-  fs.ensureDir(folder, function(err) {
+  setup(req.blog.id, folder, function(err) {
     if (err) return next(err);
 
-    Folder.set(req.blog.id, folder, function(err) {
-      if (err) return next(err);
-
-      sync(req.blog.id, folder, function(err) {
-        if (err) return next(err);
-
-        res.redirect(req.baseUrl);
-      });
-    });
+    res.redirect(req.baseUrl);
   });
 });
 
