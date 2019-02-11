@@ -1,5 +1,4 @@
 Finish archive template
-- Add script to build sites from the folders in app/folders
 - Add new folders with public domain material
 - Announce new archive template (+ documentation and video) by linking to archive template page
 
