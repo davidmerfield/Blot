@@ -23,13 +23,16 @@ setupUser(function(err, user) {
     async.eachSeries(
       blogs,
       function(blog, next) {
-        
-        if (blog.handle === 'pdr') return next();
-
         LocalClient.setup(blog.id, foldersDirectory + "/" + blog.handle, next);
       },
       function() {
-        console.log("BUILT ALL TEST BLOGS!");
+        
+        console.log("Built all ", folders.length, 'demonstration blogs');
+        
+        folders.forEach(function(folder){
+          console.log('- http://' + folder + '.' + config.host);
+        });
+
         process.exit();
       }
     );
@@ -62,7 +65,7 @@ function setupBlogs(user, handles, callback) {
 
           next(
             new Error(
-              "Blog: ;" +
+              "Blog: " +
                 handle +
                 " already exists and it is not owned by " +
                 user.email
