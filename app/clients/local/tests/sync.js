@@ -11,17 +11,17 @@ describe("local client", function() {
     setup(this.blog.id, this.tmp, done);
   });
 
+  // I still can't reliably work out when the sync has finished
+  // so this is a dangerous feature to test...
   xit("syncs a new file", function(done) {
     fs.outputFileSync(this.tmp + "/hello.txt", "Hello World!");
     setTimeout(function() {
-      console.log('CHecking file..');
       expect(fs.existsSync(this.blogDirectory + "/hello.txt")).toEqual(true);
 
       fs.removeSync(this.tmp + "/hello.txt");
 
       setTimeout(function() {
   
-        console.log('CHecking file..');
         expect(fs.existsSync(this.blogDirectory + "/hello.txt")).toEqual(false);
         done();
       }, 1000);
