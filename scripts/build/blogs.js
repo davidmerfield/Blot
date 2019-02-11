@@ -30,6 +30,7 @@ setupUser(function(err, user) {
       },
       function() {
         console.log("BUILT ALL TEST BLOGS!");
+        process.exit();
       }
     );
   });
