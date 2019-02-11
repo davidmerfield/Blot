@@ -1,7 +1,7 @@
 var Express = require("express");
 
-var Folder = require("../models/folder");
-var setup = require("../setup");
+var Folder = require("./models/folder");
+var setup = require("./controllers/setup");
 
 // It's important this is an Express router
 // and not an Express app for reasons unknown
@@ -13,7 +13,7 @@ Dashboard.get("/", function(req, res, next) {
   Folder.get(req.blog.id, function(err, folder) {
     if (err) return next(err);
 
-    res.render(__dirname + "/../views/index.html", { userFolder: folder });
+    res.render(__dirname + "/views/index.html", { userFolder: folder });
   });
 });
 
@@ -31,7 +31,7 @@ Dashboard.post("/set", function(req, res, next) {
 });
 
 Dashboard.post("/disconnect", function(req, res, next) {
-  require("./disconnect")(req.blog.id, next);
+  require("./controllers/disconnect")(req.blog.id, next);
 });
 
 module.exports = Dashboard;

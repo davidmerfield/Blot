@@ -1,3 +1,4 @@
+// Redis client with default configuration
 var client = require("client");
 
 module.exports = {

@@ -1,6 +1,6 @@
 describe("local client", function() {
   var fs = require("fs-extra");
-  var setup = require("../setup");
+  var setup = require("../controllers/setup");
 
   global.test.blog();
 
