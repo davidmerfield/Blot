@@ -5,6 +5,7 @@ var foldersDirectory = __dirname + "/../../app/folders";
 var User = require("../../app/models/user");
 var Blog = require("../../app/models/blog");
 var Sync = require("../../app/sync");
+var LocalClient = require("../../app/clients/local");
 
 var folders;
 
@@ -22,7 +23,10 @@ setupUser(function(err, user) {
     async.eachSeries(
       blogs,
       function(blog, next) {
-        buildAllFilesInBlogFolder(foldersDirectory, blog, next);
+        
+        if (blog.handle === 'pdr') return next();
+
+        LocalClient.setup(blog.id, foldersDirectory + "/" + blog.handle, next);
       },
       function() {
         console.log("BUILT ALL TEST BLOGS!");
@@ -68,38 +72,4 @@ function setupBlogs(user, handles, callback) {
     },
     callback
   );
-}
-
-function walk(dir) {
-  var results = [];
-  var list = fs.readdirSync(dir);
-  list.forEach(function(file) {
-    file = dir + "/" + file;
-    var stat = fs.statSync(file);
-    if (stat && stat.isDirectory()) {
-      results = results.concat(walk(file));
-    } else {
-      results.push(file);
-    }
-  });
-  return results;
-}
-
-function buildAllFilesInBlogFolder(foldersDirectory, blog, callback) {
-  Sync(blog.id, {}, function(err, folder, done) {
-    if (err) return callback(err);
-
-    fs.emptyDirSync(folder.path);
-    fs.copySync(foldersDirectory + "/" + blog.handle, folder.path);
-
-    async.eachSeries(
-      walk(folder.path).map(function(path) {
-        return path.slice(folder.path.length);
-      }),
-      folder.update,
-      function(err) {
-        done(err, callback);
-      }
-    );
-  });
 }
