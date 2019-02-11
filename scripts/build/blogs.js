@@ -4,7 +4,6 @@ var config = require("../../config");
 var foldersDirectory = __dirname + "/../../app/folders";
 var User = require("../../app/models/user");
 var Blog = require("../../app/models/blog");
-var Sync = require("../../app/sync");
 var LocalClient = require("../../app/clients/local");
 
 var folders;
@@ -13,6 +12,14 @@ var folders;
 folders = fs.readdirSync(foldersDirectory).filter(function(folder) {
   return fs.statSync(foldersDirectory + "/" + folder).isDirectory();
 });
+
+if (require.main === module && process.argv.slice(2).length) {
+  folders = folders.filter(function(folder) {
+    return process.argv.slice(2).indexOf(folder) > -1;
+  });
+
+  if (!folders.length) throw new Error('No folders to build matching "' + process.argv.slice(2) + '"');
+}
 
 setupUser(function(err, user) {
   if (err) throw err;
@@ -23,18 +30,22 @@ setupUser(function(err, user) {
     async.eachSeries(
       blogs,
       function(blog, next) {
-        LocalClient.setup(blog.id, foldersDirectory + "/" + blog.handle, function(err){
-          if (err) return next(err);
+        console.log('Building', blog.handle);
+        LocalClient.setup(
+          blog.id,
+          foldersDirectory + "/" + blog.handle,
+          function(err) {
+            if (err) return next(err);
 
-          LocalClient.disconnect(blog.id, next);
-        });
+            LocalClient.disconnect(blog.id, next);
+          }
+        );
       },
       function() {
-        
-        console.log("Built all ", folders.length, 'demonstration blogs');
-        
-        folders.forEach(function(folder){
-          console.log('- http://' + folder + '.' + config.host);
+        console.log("Built all", folders.length, "demonstration blogs");
+
+        folders.forEach(function(folder) {
+          console.log("- http://" + folder + "." + config.host);
         });
 
         process.exit();
