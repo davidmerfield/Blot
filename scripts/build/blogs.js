@@ -23,7 +23,11 @@ setupUser(function(err, user) {
     async.eachSeries(
       blogs,
       function(blog, next) {
-        LocalClient.setup(blog.id, foldersDirectory + "/" + blog.handle, next);
+        LocalClient.setup(blog.id, foldersDirectory + "/" + blog.handle, function(err){
+          if (err) return next(err);
+
+          LocalClient.disconnect(blog.id, next);
+        });
       },
       function() {
         
