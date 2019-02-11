@@ -2,7 +2,7 @@ var fs = require("fs-extra");
 var Sync = require("sync");
 var Folder = require("../models/folder");
 var async = require("async");
-var debug = require("debug")("blot:clients:local");
+var debug = require("debug")("blot:clients:local:setup");
 var localPath = require("helper").localPath;
 // Start listening for all blogs with this client
 Folder.list(function(err, blogIDs) {
