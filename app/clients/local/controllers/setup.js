@@ -4,22 +4,28 @@ var Folder = require("../models/folder");
 var async = require("async");
 var debug = require("debug")("blot:clients:local:setup");
 var watch = require("./watch");
-var walk = require('./util/walk');
-var hash = require('./util/hash');
+var walk = require("./util/walk");
+var hash = require("./util/hash");
+var config = require("config");
 
 // Start listening for all blogs with this client
-Folder.list(function(err, blogIDs) {
-  if (err) throw err;
-  blogIDs.forEach(function(blogID) {
-    Folder.get(blogID, function(err, folder) {
-      if (err) throw err;
-      if (!folder) return;
-      setup(blogID, folder, function(err) {
-        if (err) throw err;
+if (config.environment === "development") {
+  Folder.list(function(err, blogIDs) {
+    if (err) console.error(err);
+    blogIDs.forEach(function(blogID) {
+      Folder.get(blogID, function(err, folder) {
+        if (err) console.error(err);
+        if (!folder) return;
+
+        watch(blogID, folder);
+
+        synchronize(blogID, folder, function(err) {
+          if (err) console.error(err);
+        });
       });
     });
   });
-});
+}
 
 function setup(blogID, folder, callback) {
   debug("Setting up local client in", folder);
@@ -31,8 +37,12 @@ function setup(blogID, folder, callback) {
       debug("Synchronizing source folder with Blot");
       synchronize(blogID, folder, function(err) {
         if (err) return callback(err);
-        debug("Watching source folder for changes");
-        watch(blogID, folder);
+        
+        if (config.environment === 'development') {
+          debug("Watching source folder for changes");
+          watch(blogID, folder);          
+        }
+        
         debug("Setup complete");
         callback();
       });
