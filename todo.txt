@@ -85,6 +85,41 @@ Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwB
 
 ---
 
+Improvements to public site
+- Clean up error messages in logs for public site
+- Add 404 log
+- Tooltips for lock and CVC on sign up page
+-  Loading state for submit button on sign up page
+-  Unify dashboard header style post-payment
+- Navigation collapse on mobile devices
+- Fix formatting guide
+- Featured sites on homepage are generated automatically
+- Collapsible sidebar
+- Fix logged out page
+- Pixel perfect logo SVG (no blur)
+- Logo spacing from Chrome tab
+- Fix <title> tags across site
+- Upload new Twitter avatar and background
+- Tell [this person](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af) that there is now documentation on how to mirror a repo to GitHub
+- Favicon with white background for folder
+- HTML minifier
+- CSS comporessor
+- JavaScript minifier
+- Custom video player on index page
+- Add types and examples to items on reference page
+- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
+ - And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+- Make formatting guide searchable
+- Make reference page searchable
+- Generate high quality optimized favicons from new logo
+- Extract SVG of logo which can be used to produce hover effects, and on black
+- Write build scripts which can be run to produce results checked into git
+   - inline css in blot.css
+   - inline css in katex.css?
+   - base 64 encode and inline small images on homepage
+   - Optimize all images in image directory
+- Ask for critiques
+
 Add support for HTTP2
 
 Verify that GZIP is disabled at the node.js level and is handled by NGINX instead
