@@ -1,5 +1,4 @@
 Finish archive template
-- Add script to build sites from the folders in app/folders
 - Add new folders with public domain material
 - Announce new archive template (+ documentation and video) by linking to archive template page
 
@@ -14,8 +13,16 @@ Record new demo video
 
 ---
 
-Rewrite Wordpress importer? Expose it online?
+Re-enable error messages on dashboard
+
+Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWRXqnjmjBDmcRXKcdxjcDfr)
+
+Fix bug with image zoom on the magazine theme when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
+
+Rewrite Wordpress importer
+- Add tests
 - Fix bug with <p> spacing and image timeouts for Wordpress importer and tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
+- Add options for preserving permalinks or spitting out redirects file
 
 Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 - Filter the homepage such that only posts tagged 'homepage' appear
@@ -37,6 +44,8 @@ Fix bug with template editor which resets content of a view. Follow up with [Nat
 Fix bugs with git removed / renamed file unit test on Travis
 
 Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813)
+
+Fix bug with makeTeaser for ~/Dropbox/bug.html which locks main process painfully
 
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f). CANNOT REPRODUCE.
 
@@ -79,6 +88,41 @@ Metadata bugs
 Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
 ---
+
+Improvements to public site
+- Clean up error messages in logs for public site
+- Add 404 log
+- Tooltips for lock and CVC on sign up page
+-  Loading state for submit button on sign up page
+-  Unify dashboard header style post-payment
+- Navigation collapse on mobile devices
+- Fix formatting guide
+- Featured sites on homepage are generated automatically
+- Collapsible sidebar
+- Fix logged out page
+- Pixel perfect logo SVG (no blur)
+- Logo spacing from Chrome tab
+- Fix <title> tags across site
+- Upload new Twitter avatar and background
+- Tell [this person](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af) that there is now documentation on how to mirror a repo to GitHub
+- Favicon with white background for folder
+- HTML minifier
+- CSS comporessor
+- JavaScript minifier
+- Custom video player on index page
+- Add types and examples to items on reference page
+- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
+ - And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+- Make formatting guide searchable
+- Make reference page searchable
+- Generate high quality optimized favicons from new logo
+- Extract SVG of logo which can be used to produce hover effects, and on black
+- Write build scripts which can be run to produce results checked into git
+   - inline css in blot.css
+   - inline css in katex.css?
+   - base 64 encode and inline small images on homepage
+   - Optimize all images in image directory
+- Ask for critiques
 
 Add support for HTTP2
 
@@ -140,6 +184,9 @@ and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVs
 - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
+- [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760
+) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
+
 
 Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 
@@ -375,6 +422,7 @@ Git client:
 - Rate limit authentication route?
 
 Dropbox client:
+- Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.
 - Add a progress bar to the dashboard when writing existing files to Dropbox. It takes a while and confuses people.
