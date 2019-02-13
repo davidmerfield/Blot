@@ -45,6 +45,8 @@ Fix bugs with git removed / renamed file unit test on Travis
 
 Fix bug with pandoc's video embed feature which automatically adds the autoplay attribute when turning a raw url to a video into a video player then tell [Wesley](https://mail.google.com/mail/u/1/#inbox/15f4685a6f861813)
 
+Fix bug with makeTeaser for ~/Dropbox/bug.html which locks main process painfully
+
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f). CANNOT REPRODUCE.
 
 Determine cause of Markdown converter failure for `Dropbox/Apps/Strange encoding bug`
