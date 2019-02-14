@@ -1,8 +1,8 @@
 var async = require("async");
 var helper = require("../../../helper");
 var extract_entry = require("./extract_entry");
-var tidy_HTML = require("./tidy_HTML");
 var convert_to_markdown = require("./convert_to_markdown");
+var tidy = require('./tidy');
 
 module.exports = function(item, output_directory, callback) {
   
@@ -18,7 +18,7 @@ module.exports = function(item, output_directory, callback) {
   async.waterfall(
     [
       extract_entry(item, output_directory),
-      tidy_HTML,
+      tidy,
       helper.download_pdfs,
       helper.download_images,
       convert_to_markdown,

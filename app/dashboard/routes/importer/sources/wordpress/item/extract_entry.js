@@ -3,6 +3,8 @@ var moment = require("moment");
 var join = require("path").join;
 var helper = require("../../../helper");
 var determine_path = helper.determine_path;
+var tidy = require("./tidy");
+
 module.exports = function(item, output_directory) {
   return function(callback) {
     var entry = {};
@@ -29,9 +31,11 @@ module.exports = function(item, output_directory) {
       determine_path(entry.title, entry.page, entry.draft, entry.dateStamp)
     );
 
-    entry.tags = item.category.map(function(category) {
-      return category._;
-    });
+    if (item.category) {
+      entry.tags = item.category.map(function(category) {
+        return category._;
+      });      
+    }
 
     callback(null, entry);
   };
