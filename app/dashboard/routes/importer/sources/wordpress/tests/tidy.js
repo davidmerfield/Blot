@@ -1,8 +1,8 @@
-var fs = require("fs-extra");
-var tidy = require("../item/tidy");
-var convert_to_markdown = require("../item/convert_to_markdown");
-
 xdescribe("wordpress", function() {
+
+  var fs = require("fs-extra");
+  var tidy = require("../item/tidy");
+  var convert_to_markdown = require("../item/convert_to_markdown");
   var testsFolder = __dirname + "/tidy";
   var tests = fs.readdirSync(testsFolder).filter(function(dir) {
     return fs.statSync(testsFolder + "/" + dir).isDirectory();

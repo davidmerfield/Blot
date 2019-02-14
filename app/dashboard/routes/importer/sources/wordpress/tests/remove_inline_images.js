@@ -1,6 +1,7 @@
-var remove_inline_images = require("../item/remove_inline_images");
-
 xdescribe("remove inline images", function() {
+
+  var remove_inline_images = require("../item/remove_inline_images");
+  
   it("should remove inline images", function() {
     var html = '<p><img src="x">Hey</p>';
 
