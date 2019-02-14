@@ -1,79 +1,60 @@
 // This script will find an <item> or blog post inside a Wordpress export
-// file and generate a new test for it.
+// file and generate a new test case for it inside /tests/tidy.
 
-var cheerio = require("cheerio");
 var fs = require("fs-extra");
+var parseXML = require("xml2js").parseString;
 
 var sourceFile = process.argv[2];
 var filter = process.argv[3];
-var testsDirectory = require("path").resolve(__dirname + "/../tests/examples/");
+var testsDirectory = require("path").resolve(__dirname + "/../tests/tidy");
 
 if (!sourceFile || !filter)
   throw new Error(
     "Please pass source export file as first argument and filter for <item> as second argument"
   );
 
-var $ = cheerio.load(fs.readFileSync(sourceFile, "utf-8"), {
-  withDomLvl1: false,
-  normalizeWhitespace: false,
-  xmlMode: true,
-  decodeEntities: false
-});
-
-var candidates = $("item").filter(function() {
-  var title = $(this)
-    .find("title")
-    .text();
-  return (
-    title.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
-    digest(title) === filter
-  );
-});
-
-if (!candidates.length)
-  throw new Error('No item titles matched "' + filter + '"');
-
-if (candidates.length > 1) {
-  console.log(
-    'Multiple item titles matched "' +
-      filter +
-      '". Please select one of the following:'
-  );
-
-  $(candidates).each(function(i, el) {
-    console.log();
-    console.log(
-      ++i +
-        ". " +
-        $(el)
-          .find("title")
-          .text()
-    );
-    console.log(
-      "node scripts/generate-test.js " +
-        process.argv[2] +
-        " " +
-        digest(
-          $(el)
-            .find("title")
-            .text()
-        )
+parseXML(fs.readFileSync(sourceFile, "utf-8"), function(err, result) {
+  var candidates = result.rss.channel[0].item.filter(function(item) {
+    return (
+      item.title[0].toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
+      digest(item.title[0]) === filter
     );
   });
 
-  return process.exit();
-}
+  if (!candidates.length)
+    throw new Error('No item titles matched "' + filter + '"');
 
-var title = $(candidates[0])
-  .find("title")
-  .text();
-var folder = testsDirectory + "/" + digest(title);
-var path = folder + "/item.xml";
+  if (candidates.length > 1) {
+    console.log(
+      'Multiple item titles matched "' +
+        filter +
+        '". Please select one of the following:'
+    );
 
-fs.outputFileSync(path, $.html(candidates[0]));
+    candidates.forEach(function(item, i) {
+      console.log();
+      console.log(++i + ". " + item.title[0]);
+      console.log(
+        "node scripts/generate-test.js " +
+          process.argv[2] +
+          " " +
+          digest(item.title[0])
+      );
+    });
 
-console.log("Generated new test for \"" + title + "\" in:");
-console.log(folder);
+    return process.exit();
+  }
+
+  var title = candidates[0].title[0];
+  var folder = testsDirectory + "/" + digest(title);
+  var path = folder + "/input.txt";
+
+  fs.outputFileSync(path, candidates[0]["content:encoded"][0]);
+  fs.outputFileSync(folder + '/result.txt', 'REPLACE');
+
+  console.log('Generated new test for "' + title + '" in:');
+  console.log(folder);
+});
 
 function digest(str) {
   return require("crypto")
