@@ -1,4 +1,4 @@
-var debug = require("debug")("blot:importer:wordpress:tidy_caption");
+var debug = require("debug")("blot:importer:wordpress:remove_inline_images");
 var cheerio = require("cheerio");
 
 module.exports = function(html) {
@@ -11,13 +11,24 @@ module.exports = function(html) {
       return $(this).find("img").length;
     })
     .each(function(i, p) {
-      if (!$(this).text()) return;
+          debug('here!', !$(p).text());
+
+      if (!$(p).text()) return;
 
       $(this)
-        .find("a img")
-        .each(function(i, aWithImg) {
-          $('<p>' + $.html(aWithImg) + '</p>').insertBefore(p);
-          $(aWithImg).remove();
+        .find("img")
+        .each(function(i, img) {
+
+          if ($(img).parentsUntil(p).filter('a').length) {
+            debug('INSIDE A TAG');
+            img = $(img).parentsUntil(p).filter('a');
+            debug(img);
+          } else {
+            debug('NOT INSIDE A TAG');
+          }
+
+          $('<p>' + $.html(img) + '</p>').insertBefore(p);
+          $(img).remove();
         });
 
     });
