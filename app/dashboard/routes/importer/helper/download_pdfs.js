@@ -60,14 +60,21 @@ module.exports = function download_pdfs(post, callback) {
           });
         })
         .catch(function(err) {
-          console.log("PDF error", href, err);
+            console.log("PDF error:", href, err.name, err.statusCode);
           return next();
         });
     },
     function() {
-      if (changes) {
+      // Download PDFS or download images might have already moved the output
+      // path for this file into its own folder, so check.
+      if (changes && post.path.slice(-'/post.txt'.length) !== '/post.txt') {
         post.path = post.path + "/post.txt";
       }
+
+      if (!changes && post.path.slice(-'.txt'.length) !== '.txt') {
+        post.path = post.path + ".txt";
+      }
+      
       post.html = $.html();
       callback(null, post);
     }
