@@ -6,33 +6,12 @@ var express = require("express");
 var compression = require("compression");
 var vhost = require("vhost");
 var helmet = require("helmet");
-var session = require("express-session");
 var redis = require("redis").createClient();
-var Store = require("connect-redis")(session);
 var dashboard = require("./dashboard");
 var brochure = require("./brochure");
 var blog = require("./blog");
 
 var server = express();
-
-// Session settings
-// It is important that session
-// comes before the cache so we
-// know what to serve to which user
-var sessionOptions = {
-  secret: config.session.secret,
-  saveUninitialized: false,
-  resave: false,
-  proxy: true,
-  cookie: {
-    httpOnly: true,
-    secure: config.environment !== "development"
-  },
-  store: new Store({
-    client: redis,
-    port: config.redis.port
-  })
-};
 
 // Blot's SSL certificate system requires the existence
 // of the domain key in redis. See config/nginx/auto-ssl.conf
@@ -68,7 +47,6 @@ var client = require("client");
 
 server
   .disable("x-powered-by")
-  .use(compression())
   .set("trust proxy", "loopback")
   .use(helmet.ieNoOpen())
   .use(helmet.noSniff())
@@ -84,7 +62,6 @@ server
     res.setHeader("Cache-Hit", "false");
     next();
   })
-  .use(vhost(config.host, session(sessionOptions)))
   .use(vhost(config.host, dashboard))
   .use(vhost(config.host, brochure))
 
