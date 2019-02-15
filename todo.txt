@@ -13,16 +13,14 @@ Record new demo video
 
 ---
 
-Re-enable error messages on dashboard
-
-Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWRXqnjmjBDmcRXKcdxjcDfr)
-
-Fix bug with image zoom on the magazine theme when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
-
 Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 - Filter the homepage such that only posts tagged 'homepage' appear
 
 ---
+
+Fix bug with image zoom on the magazine theme when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
+
+Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWRXqnjmjBDmcRXKcdxjcDfr)
 
 Image and thumbnail bugs
 - Fix bug for images containing upper-case characters on [Jonas' blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
