@@ -1,4 +1,3 @@
-var compression = require("compression");
 var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
@@ -21,9 +20,6 @@ dashboard.use("/scripts", express.static(VIEW_DIRECTORY + "/scripts"));
 
 // Log response time in development mode
 dashboard.use(debug.init);
-
-// Enable GZIP
-dashboard.use(compression());
 
 // Hide the header which says the app
 // is built with Express

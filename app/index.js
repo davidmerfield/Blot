@@ -47,7 +47,6 @@ var client = require("client");
 
 server
   .disable("x-powered-by")
-  .use(compression())
   .set("trust proxy", "loopback")
   .use(helmet.ieNoOpen())
   .use(helmet.noSniff())
