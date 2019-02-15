@@ -12,13 +12,12 @@ var form = new Express.Router();
 var logIn = form.route("/");
 
 logIn.all(function(req, res, next) {
-  
   if (req.session && req.session.uid && !req.query.token) {
-    var then = req.query.then || req.body.then || "/";
+    var then = req.query.then || (req.body && req.body.then) || "/";
     return res.redirect(then);
   }
 
-  res.header('Cache-Control', 'no-cache');
+  res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
   res.locals.layout = "log-in/layout";
 
