@@ -39,8 +39,9 @@ function read(blog, path, options, callback) {
 
       if (err) return callback(err);
 
-      // Normalize newlines
-      text = text.replace(/\r/gm, "\n");
+      // Normalize newlines. Windows does \r\n
+      // Some strange text editor does \r\r.
+      text = text.replace(/\r\r/gm, "\n\n");
 
       time("metadata");
       text = metadata(text);
