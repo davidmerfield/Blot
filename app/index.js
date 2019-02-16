@@ -1,81 +1,60 @@
-var root = require("helper").rootDir;
-var fs = require("fs-extra");
 var config = require("config");
-var scheduler = require("./scheduler");
-var express = require("express");
-var vhost = require("vhost");
+var Express = require("express");
 var helmet = require("helmet");
-var redis = require("redis").createClient();
-var dashboard = require("./dashboard");
-var brochure = require("./brochure");
+var vhost = require("vhost");
+
 var blog = require("./blog");
+var brochure = require("./brochure");
+var dashboard = require("./dashboard");
+var scheduler = require("./scheduler");
 
-var server = express();
+// Welcome to Blot. This is the Express application which does
+// most of the work. NGINX listens on port 80 in front of Express
+// app and proxies requests. NGINX handles SSL termination, cached
+// response delivery and compression. See ../config/nginx for more
+var Blot = Express();
 
-// Blot's SSL certificate system requires the existence
-// of the domain key in redis. See config/nginx/auto-ssl.conf
-// for more information about the specific implementation.
-// Anyway, so that the homepage. We redirect the 'www' subdomain
-// to the apex domain, but we need to generate a cert to do this.
-// Typically, domain keys like domain:example.com store a blog's ID
-// but since the homepage is not a blog, we just use a placeholder 'X'
-redis.mset(
-  ["domain:" + config.host, "X", "domain:www." + config.host, "X"],
-  function(err) {
-    if (err) {
-      console.error(
-        "Unable to set domain flag for host" +
-          config.host +
-          ". SSL may not work on site."
-      );
-      console.error(err);
-    }
-  }
-);
+// Removes a header otherwise added by Express. Save those bytes.
+Blot.disable("x-powered-by");
 
-// Prevent IE users from executing
-// downloads in your site's context
-// Prevent some browsers from
-// sniffing some mimetypes
-// Don't allow Blot to be used in iframes
-// Create directive at /crossdomain.xml
-// which prevents flash from doing shit
-// Rendering middleware
+// Trusts secure requests terminated by NGINX, as far as I know
+Blot.set("trust proxy", "loopback");
 
-server
-  .disable("x-powered-by")
-  .set("trust proxy", "loopback")
-  .use(helmet.frameguard("allow-from", config.host))
-  .use(function(req, res, next) {
-    res.setHeader("Cache-Hit", "false");
-    next();
-  })
-  .use(vhost(config.host, dashboard))
-  .use(vhost(config.host, brochure))
+// Prevent <iframes> embedding pages served by Blot
+Blot.use(helmet.frameguard("allow-from", config.host));
 
-  // It is important that this route returns
-  // 200 so that the script which determines
-  // whether the server is health runs OK!
-  // Don't remove it unless you change monit.rc
-  // It needs to be here because VHOSTS prevent
-  // it from working under the sites app
-  .use("/health", function(req, res, next) {
-    if (req.hostname === "localhost") res.send("OK");
-    return next();
-  })
+// Blot is composed of three sub applications.
 
-  // Serve the blogs!
-  .use(blog);
+// 1. The Blogs
+// ------------
+// Serves the customers's blogs. It comes first because it's the
+// most important. We don't know the hosts for all the blogs in
+// advance so all requests hit this middleware.
+Blot.use(blog);
 
-// Unleash the daemon for backups, syncs and emails
+// 2. The Dashboard
+// -------------
+// Serve the dashboard and public site (the brochure)
+// Webhooks from Dropbox and Stripe, git pushes are
+// served by these two applications. The dashboard can
+// only ever be served for request to the host
+Blot.use(vhost(config.host, dashboard));
+
+// 3. The Brochure
+// ------------
+// The least important application. It serves the documentation
+// and sign up page.
+Blot.use(vhost(config.host, brochure));
+
+// Monit requests localhost/health to see if it should attempt
+// to restart Blot. If you remove this, change monit.rc too.
+Blot.use("/health", function(req, res, next) {
+  res.send("OK");
+});
+
+// Open the Blot to handle requests
+Blot.listen(config.port);
+
+// Schedule backups, subscription renewal emails
+// and the publication of scheduled blog posts.
 scheduler();
-
-// Create empty directories if they don't exist
-fs.ensureDirSync(root + "/blogs");
-fs.ensureDirSync(root + "/tmp");
-fs.ensureDirSync(root + "/logs");
-fs.ensureDirSync(root + "/db");
-fs.ensureDirSync(root + "/static");
-
-// Create an HTTP service.
-server.listen(config.port);
