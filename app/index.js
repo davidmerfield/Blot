@@ -3,7 +3,6 @@ var fs = require("fs-extra");
 var config = require("config");
 var scheduler = require("./scheduler");
 var express = require("express");
-var compression = require("compression");
 var vhost = require("vhost");
 var helmet = require("helmet");
 var redis = require("redis").createClient();
@@ -42,20 +41,11 @@ redis.mset(
 // Create directive at /crossdomain.xml
 // which prevents flash from doing shit
 // Rendering middleware
-var todayKey = "analytics:today";
-var client = require("client");
 
 server
   .disable("x-powered-by")
   .set("trust proxy", "loopback")
   .use(helmet.frameguard("allow-from", config.host))
-  .use(function(req, res, next) {
-    next();
-
-    return client.incr(todayKey, function(err) {
-      if (err) console.log(err);
-    });
-  })
   .use(function(req, res, next) {
     res.setHeader("Cache-Hit", "false");
     next();
