@@ -56,7 +56,7 @@ module.exports = [
   {
     name: "Matthew Battles",
     image: "matthew.jpg",
-    domain: "johnbeeler.com",
+    domain: "matthewbattles.org",
     url: "https://www.matthewbattles.org",
     description: "directs metaLAB at Harvard. Matthew’s website",
     template: "Rosa"
