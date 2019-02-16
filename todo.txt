@@ -13,8 +13,7 @@ Record new demo video
 
 ---
 
-Transfer [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#sent/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
-- Filter the homepage such that only posts tagged 'homepage' appear
+Finish tidying [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB) and add the bio to the homepage, along with posts tagged 'Homepage'
 
 ---
 
