@@ -48,8 +48,6 @@ var client = require("client");
 server
   .disable("x-powered-by")
   .set("trust proxy", "loopback")
-  .use(helmet.ieNoOpen())
-  .use(helmet.noSniff())
   .use(helmet.frameguard("allow-from", config.host))
   .use(function(req, res, next) {
     next();
@@ -91,6 +89,3 @@ fs.ensureDirSync(root + "/static");
 
 // Create an HTTP service.
 server.listen(config.port);
-console.log("Blot server is listening on port " + config.port);
-console.log("WARNING RENABLE CROSS DOMAINS (helmet)");
-// .use(helmet.crossdomain())
