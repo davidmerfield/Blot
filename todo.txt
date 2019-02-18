@@ -13,6 +13,8 @@ Record new demo video
 
 ---
 
+Work out how to get posts out of Weebly for David
+
 Finish tidying [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB) and add the bio to the homepage, along with posts tagged 'Homepage'
 
 ---
@@ -124,7 +126,7 @@ Set NODE_ENV [environment variable to production](https://expressjs.com/en/advan
 
 Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
 
-Why are images downloading so slowly on the portfolio theme? Should I go back to using cloudfront?
+Why are images downloading so slowly on the portfolio theme? Should I go back to using cloudfront? Tell Alexander (@wbergg in Twitter DMs) when this is sorted.
 
 Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
