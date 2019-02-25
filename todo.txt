@@ -365,7 +365,7 @@ File converters / codecs
 
 Clients
 - OneDrive
-  Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768)
+  Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768)
 - SFTP
   https://www.npmjs.com/package/ftpd
 - Google Drive
