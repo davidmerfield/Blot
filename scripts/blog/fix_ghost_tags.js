@@ -24,10 +24,11 @@ function main(blog, callback) {
     async.eachSeries(
       tags,
       function(tag, next) {
+        console.log(tag.slug,':');
         async.eachSeries(
           tag.entries,
           function(path, next) {
-            
+
             if (fs.existsSync(localPath(blog.id, path))) {
               console.log("file for blog post exists", path);
               return next();
