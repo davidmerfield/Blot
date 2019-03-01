@@ -19,6 +19,8 @@ Finish tidying [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#
 
 ---
 
+Fix bug with Magazine template text styling inside blockquotes, and index template footnote link styling and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
+
 Fix bug with image zoom on the magazine theme when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
 
 Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWRXqnjmjBDmcRXKcdxjcDfr)
