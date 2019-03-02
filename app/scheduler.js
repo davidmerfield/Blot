@@ -35,30 +35,6 @@ module.exports = function() {
     backup.now();
   });
 
-  console.log("Scheduled analytics reset for 6am!");
-  schedule({ hour: 13, minute: 0 }, function() {
-    console.log("Reseting the analytics counter...");
-
-    var todayKey = "analytics:today";
-    var allKey = "analytics:all";
-    var client = require("client");
-
-    client.get(todayKey, function(err, views) {
-      if (err) throw err;
-
-      client.lpush(allKey, views, function(err) {
-        if (err) throw err;
-
-        // this will effectively reset it to zero
-        client.del(todayKey, function(err) {
-          if (err) throw err;
-
-          console.log("Reset the analytics counter.");
-        });
-      });
-    });
-  });
-
   // At some point I should check this doesnt consume too
   // much memory
   console.log("Scheduled daily update email for 6:05am!");
