@@ -21,6 +21,8 @@ Tell [Myron](@rodriguesmyron) on Twitter when it is possible to rename the folde
 
 Finish tidying [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB) and add the bio to the homepage, along with posts tagged 'Homepage'
 
+Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
+
 ---
 
 Fix bug with Magazine template text styling inside blockquotes, and index template footnote link styling and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
@@ -171,6 +173,7 @@ Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius
 
 Finish re-write of template system
 - Add [titlecase](https://daringfireball.net/2008/05/title_case) helper function? 
+- Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) when you can safely toggle to local editing.
 - Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Add persona/cargo style customization buttons
   - Serve previews of templates from a domain with HTTPS
