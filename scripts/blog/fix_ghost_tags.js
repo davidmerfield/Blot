@@ -24,21 +24,22 @@ function main(blog, callback) {
     async.eachSeries(
       tags,
       function(tag, next) {
-        console.log(tag.slug,':');
-        async.eachSeries(
-          tag.entries,
-          function(path, next) {
+        console.log(tag.slug, ":");
+        Tags.get(blog.id, tag.slug, function(err, entryIDs) {
+          async.eachSeries(
+            entryIDs,
+            function(path, next) {
+              if (fs.existsSync(localPath(blog.id, path))) {
+                console.log("file for blog post exists", path);
+                return next();
+              }
 
-            if (fs.existsSync(localPath(blog.id, path))) {
-              console.log("file for blog post exists", path);
-              return next();
-            }
-
-            console.log("file for blog post is missing", path);
-            missing.push(path);
-          },
-          next
-        );
+              console.log("file for blog post is missing", path);
+              missing.push(path);
+            },
+            next
+          );
+        });
       },
       callback
     );
