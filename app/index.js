@@ -8,13 +8,13 @@ var brochure = require("./brochure");
 var dashboard = require("./dashboard");
 var scheduler = require("./scheduler");
 
-// Welcome to Blot. This is the Express application which does
-// most of the work. NGINX listens on port 80 in front of Express
-// app and proxies requests. NGINX handles SSL termination, cached
-// response delivery and compression. See ../config/nginx for more
+// Welcome to Blot. This is the Express application which listens on port 8080.
+// NGINX listens on port 80 in front of Express app and proxies requests to
+// port 8080. NGINX handles SSL termination, cached response delivery and
+// compression. See ../config/nginx for more. Blot does the rest.
 var Blot = Express();
 
-// Removes a header otherwise added by Express. Save those bytes.
+// Removes a header otherwise added by Express. No wasted bytes
 Blot.disable("x-powered-by");
 
 // Trusts secure requests terminated by NGINX, as far as I know
@@ -25,14 +25,14 @@ Blot.use(helmet.frameguard("allow-from", config.host));
 
 // Blot is composed of three sub applications.
 
-// 1. The Blogs
-// ------------
+// The Blogs
+// ---------
 // Serves the customers's blogs. It comes first because it's the
 // most important. We don't know the hosts for all the blogs in
 // advance so all requests hit this middleware.
 Blot.use(blog);
 
-// 2. The Dashboard
+// The Dashboard
 // -------------
 // Serve the dashboard and public site (the brochure)
 // Webhooks from Dropbox and Stripe, git pushes are
@@ -40,19 +40,20 @@ Blot.use(blog);
 // only ever be served for request to the host
 Blot.use(vhost(config.host, dashboard));
 
-// 3. The Brochure
+// The Brochure
 // ------------
 // The least important application. It serves the documentation
 // and sign up page.
 Blot.use(vhost(config.host, brochure));
 
-// Monit requests localhost/health to see if it should attempt
-// to restart Blot. If you remove this, change monit.rc too.
-Blot.use("/health", function(req, res, next) {
+// Monit, which we use to monitor the server's health, requests
+// localhost/health to see if it should attempt to restart Blot.
+// If you remove this, change monit.rc too.
+Blot.use("/health", function(req, res) {
   res.send("OK");
 });
 
-// Open the Blot to handle requests
+// Open the server to handle requests
 Blot.listen(config.port);
 
 // Schedule backups, subscription renewal emails
