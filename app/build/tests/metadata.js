@@ -1,10 +1,22 @@
 describe("metadata parser", function() {
   var Metadata = require("../metadata");
 
-  it("handles empty metadata", function() {
+  it("parses metadata", function() {
     expect(
       Metadata(
         ["Page:yes", "Permalink:", "Date: 12/10/12", "", "# Hi"].join("\n")
+      ).metadata
+    ).toEqual({
+      permalink: "",
+      page: "yes",
+      date: "12/10/12"
+    });
+  });
+
+  it("parses metadata with Windows newlines", function() {
+    expect(
+      Metadata(
+        ["Page:yes", "Permalink:", "Date: 12/10/12", "", "# Hi"].join("\r\n")
       ).metadata
     ).toEqual({
       permalink: "",
@@ -25,14 +37,9 @@ describe("metadata parser", function() {
     });
   });
 
-
   it("stops parsing when a line lacks a colon", function() {
     expect(
-      Metadata(
-        ["Author:me", "Hey", "Date: 1"].join(
-          "\n"
-        )
-      ).metadata
+      Metadata(["Author:me", "Hey", "Date: 1"].join("\n")).metadata
     ).toEqual({
       author: "me"
     });
