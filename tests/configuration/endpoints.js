@@ -4,6 +4,9 @@ describe("configuration", function() {
   var has_err = false;
 
   beforeAll(function(done) {
+
+    // process.env.BLOT_HOST = 'localhost';
+    
     server = require("child_process").fork(__dirname + "/../../app", {
       silent: true
     });
@@ -35,6 +38,10 @@ describe("configuration", function() {
 
     server.kill();
   });
+
+  // Stripe and Dropbox webhooks require HTTPS set up, or NGINX
+  // working, so they are harder to test but it would be nice to
+  // do this eventually.
 
   it("returns OK at the health endpoint", function(done) {
     request("http://localhost:8080/health", function(err, res, body) {
