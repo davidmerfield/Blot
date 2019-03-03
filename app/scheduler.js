@@ -1,13 +1,11 @@
 var Entries = require("./models/entries");
 var Entry = require("./models/entry");
 var User = require("./models/user");
-var email = require("helper").email;
 var async = require("async");
 var schedule = require("node-schedule").scheduleJob;
 var Blog = require("./models/blog");
 var backup = require("./backup");
 var dailyUpdate = require("../scripts/info/dailyUpdate");
-var debug = require("debug")("blot:scheduler");
 
 module.exports = function() {
   // Bash the cache for scheduled posts
@@ -17,8 +15,6 @@ module.exports = function() {
 
   // Warn users about impending subscriptions
   User.getAllIds(function(err, uids) {
-    if (err) return callback(err);
-
     async.each(uids, User.scheduleSubscriptionEmail, function(err) {
       if (err) {
         console.error("Error scheduling subscription emails:", err);
