@@ -1,13 +1,11 @@
 var Entries = require("./models/entries");
 var Entry = require("./models/entry");
 var User = require("./models/user");
-var email = require("helper").email;
 var async = require("async");
 var schedule = require("node-schedule").scheduleJob;
 var Blog = require("./models/blog");
 var backup = require("./backup");
 var dailyUpdate = require("../scripts/info/dailyUpdate");
-var debug = require("debug")("blot:scheduler");
 
 module.exports = function() {
   // Bash the cache for scheduled posts
@@ -17,8 +15,6 @@ module.exports = function() {
 
   // Warn users about impending subscriptions
   User.getAllIds(function(err, uids) {
-    if (err) return callback(err);
-
     async.each(uids, User.scheduleSubscriptionEmail, function(err) {
       if (err) {
         console.error("Error scheduling subscription emails:", err);
@@ -33,30 +29,6 @@ module.exports = function() {
     // Start the backup daemon
     console.log("Backup: It is 1am, time to start!");
     backup.now();
-  });
-
-  console.log("Scheduled analytics reset for 6am!");
-  schedule({ hour: 13, minute: 0 }, function() {
-    console.log("Reseting the analytics counter...");
-
-    var todayKey = "analytics:today";
-    var allKey = "analytics:all";
-    var client = require("client");
-
-    client.get(todayKey, function(err, views) {
-      if (err) throw err;
-
-      client.lpush(allKey, views, function(err) {
-        if (err) throw err;
-
-        // this will effectively reset it to zero
-        client.del(todayKey, function(err) {
-          if (err) throw err;
-
-          console.log("Reset the analytics counter.");
-        });
-      });
-    });
   });
 
   // At some point I should check this doesnt consume too
