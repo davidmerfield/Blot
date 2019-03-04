@@ -3,18 +3,27 @@ var lineReader = require("./util/linereader");
 var numberWithCommas = require("./util/numberWithCommas");
 
 if (require.main === module) {
-  var range = process.argv[2] || "day";
+  var range = process.argv[2] || "hours";
+  var number = parseInt(process.argv[3]);
 
-  if (range !== "day" && range !== "month") {
+  if (isNaN(number)) {
+    if (range === "hours") number = 24;
+    if (range === "day") number = 1;
+    if (range === "month") number = 1;
+  }
+
+  if (range !== "day" && range !== "month" && range !== "hours") {
     throw new Error("Only use day or month for range");
   }
 
-  main({ range: range }, function(err, res) {
+  main({ range: range, number: number }, function(err, res) {
     console.log(
       res.averageResponseTime.toFixed(3) +
         "s average response time across " +
         numberWithCommas(res.hits) +
-        " successful responses in last " +
+        " successful responses in previous " +
+        number +
+        " " +
         range +
         ", " +
         res.errors +
@@ -60,7 +69,7 @@ function main(options, callback) {
       // console.log("  Server name:", serverName);
       // console.log("  Url:", uri);
 
-      if (date.isAfter(moment().subtract(1, options.range))) {
+      if (date.isAfter(moment().subtract(options.number, options.range))) {
         hits++;
         responseTimes.push(responseTime);
         return true;

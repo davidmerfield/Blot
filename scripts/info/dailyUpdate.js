@@ -137,7 +137,7 @@ function main(callback) {
           });
         },
         function() {
-          hits({range: 'day'}, function(err, res) {
+          hits({range: 'hours', number: 24}, function(err, res) {
             if (err || !res) res = { hits: 0 };
 
             view.views = numberWithCommas(res.hits);
