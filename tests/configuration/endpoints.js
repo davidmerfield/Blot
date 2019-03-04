@@ -14,6 +14,7 @@ describe("configuration", function() {
     // App should not emit anything on standard error
     server.stderr.on("data", function(data) {
       has_err = true;
+      console.log('CONFIGURATION error:', data.toString(utf8));
       server.kill();
       done(new Error("Server failed to start: " + data.toString("utf8")));
     });
