@@ -1,18 +1,28 @@
 var moment = require("moment");
 var lineReader = require("./util/linereader");
+var numberWithCommas = require("./util/numberWithCommas");
 
-if (require.main === module)
-  main(function(err, res) {
+if (require.main === module) {
+  var range = process.argv[2] || "day";
+
+  if (range !== "day" && range !== "month") {
+    throw new Error("Only use day or month for range");
+  }
+
+  main({ range: range }, function(err, res) {
     console.log(
-      res.averageResponseTime +
+      res.averageResponseTime.toFixed(3) +
         "s average response time across " +
-        res.hits +
-        " hits in last day"
+        numberWithCommas(res.hits) +
+        " successful responses in last " +
+        range +
+        ", " +
+        res.errors +
+        " requests errored"
     );
-    console.log(res.errors + " requests errored");
   });
-
-function main(callback) {
+}
+function main(options, callback) {
   var hits = 0;
   var responseTimes = [];
   var errors = 0;
@@ -50,7 +60,7 @@ function main(callback) {
       // console.log("  Server name:", serverName);
       // console.log("  Url:", uri);
 
-      if (date.isAfter(moment().subtract(1, "day"))) {
+      if (date.isAfter(moment().subtract(1, options.range))) {
         hits++;
         responseTimes.push(responseTime);
         return true;

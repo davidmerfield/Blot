@@ -9,6 +9,7 @@ var Email = helper.email;
 
 var diskspace = require("./disk-space");
 var memory = require("./memory");
+var numberWithCommas = require('./util/numberWithCommas');
 
 if (require.main === module) {
   main(process.exit);
@@ -161,8 +162,6 @@ function main(callback) {
   });
 }
 
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+
 
 module.exports = main;
