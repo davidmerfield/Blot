@@ -25,13 +25,6 @@ Blot.use(helmet.frameguard("allow-from", config.host));
 
 // Blot is composed of three sub applications.
 
-// The Blogs
-// ---------
-// Serves the customers's blogs. It comes first because it's the
-// most important. We don't know the hosts for all the blogs in
-// advance so all requests hit this middleware.
-Blot.use(blog);
-
 // The Dashboard
 // -------------
 // Serve the dashboard and public site (the brochure)
@@ -45,6 +38,13 @@ Blot.use(vhost(config.host, dashboard));
 // The least important application. It serves the documentation
 // and sign up page.
 Blot.use(vhost(config.host, brochure));
+
+// The Blogs
+// ---------
+// Serves the customers's blogs. It should come first because it's the
+// most important. We don't know the hosts for all the blogs in
+// advance so all requests hit this middleware.
+Blot.use(blog);
 
 // Monit, which we use to monitor the server's health, requests
 // localhost/health to see if it should attempt to restart Blot.
