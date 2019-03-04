@@ -1,8 +1,8 @@
 Finish archive template
-- Add new folders with public domain material
-- Announce new archive template (+ documentation and video) by linking to archive template page
+- Add new folders with public domain material, public domain new deal photos?
 
 Finish default feed templates
+- Create folder with public domain material
 
 Record new demo video
 - "Bring your own interface" show demo of simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself.
@@ -11,7 +11,7 @@ Record new demo video
   - My visual scrapbook on the archives theme: shows tag folders, photo blog
   - My personal site: simple landing page, edit with a doc file?
 
-Start quarterly newsletter with improvements, changes, send first edition on the first day of Spring and let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
+Start quarterly newsletter with improvements, changes, send first edition on March 20th and let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
 
 ---
 
