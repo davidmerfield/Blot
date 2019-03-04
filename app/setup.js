@@ -30,3 +30,5 @@ fs.ensureDirSync(root + "/tmp");
 fs.ensureDirSync(root + "/logs");
 fs.ensureDirSync(root + "/db");
 fs.ensureDirSync(root + "/static");
+
+process.exit();
