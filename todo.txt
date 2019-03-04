@@ -13,13 +13,11 @@ Record new demo video
 
 ---
 
-Work out how to get monit to successfully restart nginx. This was the cause of recent downtime.
-
-Finish tidying [Kerim's template from Jekyll](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB) and add the bio to the homepage, along with posts tagged 'Homepage'
-
 Work out how to get posts out of Weebly for David
 
 Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
+
+Work out how to get monit to successfully restart nginx. This was the cause of recent downtime.
 
 ---
 
