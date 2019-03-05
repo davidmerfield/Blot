@@ -15,13 +15,18 @@ Start quarterly newsletter with improvements, changes, send first edition on Mar
 
 ---
 
+Work out how to get monit to successfully restart nginx. This was the cause of recent downtime.
+
+Experiment with proxy buffers nginx to speed up static file deliver?
+
+Get nginx serving static files from scratch?
+
 Work out how to get posts out of Weebly for David
 
 Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
 
 Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
-Work out how to get monit to successfully restart nginx. This was the cause of recent downtime.
 
 ---
 
@@ -455,6 +460,8 @@ Removing Date metadata from a post should reset its date to the file's creation 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
 Add support for comments via webmentions like Disqus and tell Amit
+
+Investigate [commento](https://commento.io/) as an alternative to Disqus
 
 Thumbnail generator
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file
