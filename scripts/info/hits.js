@@ -64,12 +64,14 @@ function main(options, callback) {
         return true;
       }
 
+      if (line[0] !== '[') return true;
+      
       var date = moment(
         line.slice(1, line.indexOf("]")),
         "DD/MMM/YYYY:HH:mm:ss Z"
       );
 
-      if (!date.isValid()) return;
+      if (!date.isValid()) return true;
 
       var components = line.slice(line.indexOf("]") + 2).split(" ");
       var status = parseInt(components[0]);
