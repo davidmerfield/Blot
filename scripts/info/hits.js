@@ -3,6 +3,7 @@ var lineReader = require("./util/linereader");
 var numberWithCommas = require("./util/numberWithCommas");
 
 if (require.main === module) {
+
   var range = process.argv[2] || "hours";
   var number = parseInt(process.argv[3]);
 
@@ -21,27 +22,41 @@ if (require.main === module) {
       res.averageResponseTime.toFixed(3) +
         "s average response time across " +
         numberWithCommas(res.hits) +
-        " successful responses in previous " +
+        " responses in previous " +
         number +
         " " +
-        range +
-        ", " +
-        res.errors +
-        " requests errored"
+        range
     );
+    console.log(
+      " ",
+      res.twentyFiveResponseTime.toFixed(3) + "s 25th percentile response time"
+    );
+    console.log(
+      " ",
+      res.fiftyResponseTime.toFixed(3) + "s 50th percentile response time"
+    );
+    console.log(
+      " ",
+      res.seventyFiveResponseTime.toFixed(3) + "s 75th percentile response time"
+    );
+    console.log(
+      " ",
+      res.ninetyNineResponseTime.toFixed(3) + "s 99th percentile response time"
+    );
+
+    console.log();
+    console.log('Pass a unit (hours/day/month) as first argument and a size (e.g. 24) as second argument to view information for different periods.');
   });
 }
 function main(options, callback) {
   var hits = 0;
   var responseTimes = [];
-  var errors = 0;
   lineReader
     .eachLine(__dirname + "/../../logs/nginx.log", function(line, last) {
       // Last line of file is often empty
       if (!line) return true;
 
       if (line.indexOf("[error]") > -1) {
-        errors++;
         return true;
       }
 
@@ -82,6 +97,8 @@ function main(options, callback) {
       var averageResponseTime;
       var sum = 0;
 
+      responseTimes.sort();
+
       responseTimes.forEach(function(responseTime) {
         sum += responseTime;
       });
@@ -90,8 +107,15 @@ function main(options, callback) {
 
       callback(null, {
         averageResponseTime: averageResponseTime,
-        hits: hits,
-        errors: errors
+        twentyFiveResponseTime:
+          responseTimes[Math.floor(responseTimes.length * 0.25)],
+        fiftyResponseTime:
+          responseTimes[Math.floor(responseTimes.length * 0.5)],
+        seventyFiveResponseTime:
+          responseTimes[Math.floor(responseTimes.length * 0.75)],
+        ninetyNineResponseTime:
+          responseTimes[Math.floor(responseTimes.length * 0.99)],
+        hits: hits
       });
     });
 }
