@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"
+  xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:wp="http://wordpress.org/export/1.2/"
+>
+<channel>
+  <title><![CDATA[ {{{title}}}]]></title>
+  <link>{{{blogURL}}}</link>
+  <description><![CDATA[ The feed of updates to {{{title}}} ]]></description>
+  {{#allEntries}}{{#last}}
+  <pubDate>{{#formatDate}}ddd, DD MMM YYYY HH:mm:ss ZZ{{/formatDate}}</pubDate>
+  {{/last}}{{/allEntries}}
+  <language>en-US</language>
+  <wp:wxr_version>1.2</wp:wxr_version>
+  <wp:base_site_url>{{{blogURL}}}</wp:base_site_url>
+  <wp:base_blog_url>{{{blogURL}}}</wp:base_blog_url>
+
+  {{#allEntries}}
+  <item> 
+    <title><![CDATA[ {{{title}}} ]]></title>
+    <link>{{{absoluteURL}}}</link>
+    <pubDate>{{#formatDate}}ddd, DD MMM YYYY HH:mm:ss ZZ{{/formatDate}}</pubDate>
+    <dc:creator><![CDATA[ {{{title}}} ]]></dc:creator>
+    <guid isPermaLink="true">{{{absoluteURL}}}</guid>
+    <description></description>    
+    <content:encoded><![CDATA[ {{#absoluteURLs}} {{{body}}} {{/absoluteURLs}} ]]></content:encoded>
+  <wp:post_name><![CDATA[{{{slug}}}]]></wp:post_name>
+    <wp:post_type><![CDATA[post]]></wp:post_type>
+  <wp:status><![CDATA[publish]]></wp:status>
+    {{#tags}}
+    <category domain="category" nicename="{{slug}}"><![CDATA[{{tag}}]]></category>
+    {{/tags}}
+  </item>
+  {{/allEntries}}
+</channel>
+</rss>
