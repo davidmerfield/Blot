@@ -100,6 +100,14 @@ module.exports = function delta(token, folderID) {
           message = "Failed to fetch changes from Dropbox";
         }
 
+        // Determine the error message to pass back
+        // to sync. We might show this to the user.
+        if (err.status === 429) {
+          debug('429 error?');
+          debug(err);
+          debug(err.error);
+        } 
+
         error = new Error(message);
         error.status = err.status || 400;
 
