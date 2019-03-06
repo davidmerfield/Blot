@@ -25,6 +25,8 @@ Work out how to get posts out of Weebly for David
 
 Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
 
+Finish tweaking [Kerim's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
+
 Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
 
