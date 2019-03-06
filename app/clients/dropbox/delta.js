@@ -124,6 +124,6 @@ module.exports = function delta(token, folderID) {
   // certain conditions, and adding a timeout to eachh attempt.
   // Only retry if the folder has not been moved
   return retry(get, {
-    timeout: 15 * 1000
+    // timeout: 600 * 1000 // double the 300s which Dropbox tends to del
   }); // Dropbox sometimes hangs...
 };
