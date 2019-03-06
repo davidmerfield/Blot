@@ -41,9 +41,9 @@ I used iperf to measure network throughput out of AWS instance to my machine on 
 35.9 Mbits/sec
 28.4 Mbits/sec
 
-
-
 I installed iftop to visualize bandwidth
+
+I thought it might be something to do with proxy buffering but since NGINX was serving the image (and not node) the proxying was not the culprit
 
 ---
 
