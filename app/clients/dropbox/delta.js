@@ -101,16 +101,22 @@ module.exports = function delta(token, folderID) {
           message = "Failed to fetch changes from Dropbox";
         }
 
-        // Determine the error message to pass back
-        // to sync. We might show this to the user.
-        if (err.status === 429) {
-          debug("429 error? Retry after:", err.error.error.retry_after);
-        }
-
         error = new Error(message);
         error.status = err.status || 400;
 
-        callback(error, null);
+        // Check if the error returned from Dropbox has a delay
+        // before we should retry the request. It might be nice
+        // to use async.retry's features to do this instead
+        if (err.error && err.error.error && err.error.error.retry_after) {
+          debug("Waiting", err.error.error.retry_after, "seconds to retry");
+          setTimeout(function() {
+            debug("Wait over, calling back with error");
+            callback(error, null);
+          }, err.error.error.retry_after * 1000);
+        } else {
+          debug("Calling back with the error immediately");
+          callback(error, null);
+        }
       });
   }
 
