@@ -107,3 +107,7 @@ Dammit, it is. Aparently latency affects bandwidth for TCP. Dammit.
 Back to using a CDN... and I need to read the RFC for TCP.
 
 Oh well, at least I now have some concrete numbers for why people use CDNS.
+
+This seems to be the mathematics underpinning the problem I encountered:
+
+https://en.wikipedia.org/wiki/Bandwidth-delay_product
