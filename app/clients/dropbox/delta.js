@@ -1,3 +1,4 @@
+var debug = require("debug")("clients:dropbox:delta");
 var createClient = require("./util/createClient");
 var retry = require("./util/retry");
 
@@ -103,10 +104,10 @@ module.exports = function delta(token, folderID) {
         // Determine the error message to pass back
         // to sync. We might show this to the user.
         if (err.status === 429) {
-          debug('429 error?');
+          debug("429 error?");
           debug(err);
           debug(err.error);
-        } 
+        }
 
         error = new Error(message);
         error.status = err.status || 400;
