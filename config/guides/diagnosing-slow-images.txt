@@ -97,6 +97,13 @@ From CA
 - 4077597.000
 - 4024071.000
 
+I then used iperf to verify the differnce:
+
+west-coast linode -> oregon-ec2 instance: 251 Mbits/sec
+east-coast linode -> oregon-ec2 instance:  59 Mbits/sec
+
 Dammit, it is. Aparently latency affects bandwidth for TCP. Dammit. 
 
-Back to using a CDN...
+Back to using a CDN... and I need to read the RFC for TCP.
+
+Oh well, at least I now have some concrete numbers for why people use CDNS.
