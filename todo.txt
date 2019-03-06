@@ -93,7 +93,10 @@ Re-instate blotcdn.com
 - Can I do blotcdn.com/blogID/cacheID/asset/path inside {{#asset}} {{/asset}} --> to improve load times for arbritrary files and remove cssURL etc.?
   e.g. for fully rendered views: <link src="{{#asset}}/style.css{{/asset}}">     
        and also paths to files in the folder url({{#asset}}/_fonts/webfont.woff{{/asset}})
-- Can I bypass s3 completely?
+- s3 questions
+  - Can I bypass s3 completely?
+  - Should I be s3 creating buckets per blog?
+  - Should I bypass s3? Might be nice to take load off ec2
 - Can I warm the cache for the index page?
 
 Improvements to public site
