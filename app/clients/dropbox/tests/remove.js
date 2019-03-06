@@ -52,7 +52,7 @@ describe("dropbox client", function() {
     remove(this.blog.id, this.path, done);
   });
 
-  xit("removes a file", function(done) {
+  it("removes a file", function(done) {
     var contents = this.fake.file();
     var blog = this.blog;
     var path = this.path;
