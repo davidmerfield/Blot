@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# I should write a script to rotate log files
 set -e
 
 FILES=/var/www/blot/logs/*

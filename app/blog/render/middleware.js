@@ -84,6 +84,10 @@ module.exports = function(req, res, _next) {
         var viewType = response[3];
         var view = response[4];
 
+        // ?debug=true _AND_ ?json=true to get template locals as JSON
+        if (req.query && (req.query.debug || req.query.json))
+          if (callback) return callback(null, res.locals);
+
         extend(res.locals)
           .and(viewLocals)
           .and(req.template.locals)

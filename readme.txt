@@ -52,9 +52,3 @@ Inside this folder
 
   tests
     integration tests and test configuration for blot
-     
-
-To do
------
-
-Eventually, I would like to remove NGINX and handle SSL termination and static file delivery from the Node.js server. I'd also like to remove as much data as possible from Redis and store it on disk.

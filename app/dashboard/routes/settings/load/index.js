@@ -6,6 +6,7 @@ module.exports = {
   dates: require("./dates"),
   templates: require("./templates"),
   template: require("./template"),
+  pastTemplates: require("./pastTemplates"),
   fourOhFour: require("./404"),
   redirects: require("./redirects"),
   timezones: require("./timezones"),

@@ -1,6 +1,6 @@
 var moment = require('moment');
 
-module.exports = function insert_metadata (post) {
+module.exports = function insert_metadata (post, callback) {
 
   var lines = [];
   var content = post.content;
@@ -25,7 +25,7 @@ module.exports = function insert_metadata (post) {
 
   post.content = lines.join('\n') + '\n\n' + content;
 
-  return post;
+  callback(null, post)
 };
 
 function capitalize (str) {return str[0].toUpperCase() + str.slice(1);}

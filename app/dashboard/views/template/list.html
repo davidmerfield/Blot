@@ -1,18 +1,31 @@
 <style type="text/css">
+.line {
+  position: relative;
+}
 
-.line {position: relative;}
-.preview-cover {position: absolute;top:0;left: 0;right: 0;bottom: 0}
+.preview-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0
+}
 
-.preview-button, .line form button {
+.preview-button,
+.line form button {
   margin: -12px 0;
   padding: 11px 0;
   color: #365899;
   display: inline-block;
 }
 
-.preview-button {margin-right: -9px;margin-left: 11px}
+.preview-button {
+  margin-right: -0;
+  margin-left: -9px
+}
 
-.preview-button .square, .line form button .square {
+.preview-button .square,
+.line form button .square {
   padding: 4px 10px;
   border-radius: 4px;
   display: block;
@@ -20,19 +33,31 @@
 
 .line form button:disabled .square,
 .line form button:disabled:hover .square {
-  background: rgba(0,0,0,0.08);
+  background: rgba(0, 0, 0, 0.08);
   color: #999
 }
 
 .line.template:hover {background: rgba(0,0,0,0.02)}
 .preview-button, .line form {float: right;}
 
-.preview-cover:hover + .preview-button .square,
+.preview-cover:hover+.preview-button .square,
 .preview-button:hover .square,
-.line form button:hover .square {background: #365899;color:white;}
+.line form button:hover .square {
+  background: #365899;
+  color: white;
+}
 
-.butty {color:#365899;padding: 10px 20px;float: right;margin-right: -20px;margin-top: -10px}
-.butty:hover {background: rgba(0,0,0,.05)}
+.butty {
+  color: #365899;
+  padding: 10px 20px;
+  float: right;
+  margin-right: -20px;
+  margin-top: -10px
+}
+
+.butty:hover {
+  background: rgba(0, 0, 0, .05)
+}
 </style>
 
 <input type="hidden" name="redirect" value="/settings/template">  
@@ -49,79 +74,69 @@
 </div>
 {{/blog.template}}
 
-
 {{#blog.template}}
-<div class="line">
 
+<div class="linse">
 
+  <style type="text/css">
+  form label {
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgb(158, 154, 152);
+    font-size: 16px
+  }
 
-  <p>
+  p a {
+    color: #365899;
+    text-decoration: none
+  }
 
+  p a:hover {
+    text-decoration: underline;
+  }
+  </style>
+  <!-- <p style="margin:15px 0"><b>{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme. </p>
+ -->
 
-    <b style="font-weight:500">{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> template.</p>
-
-
-  
-  <a class="line" href="/settings/menu" style="margin:0 -20px">
-    <span class="label">Menu</span>
-    <span class="center">
-      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
-
-    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
-    </span>
-    <span class="right" style="padding-left:0">Edit</span>
-  </a>
-
-
-  <a class="line" href="/settings/services" style="margin:0 -20px">
-    <span class="label">Services</span>
-    <span class="link">Configure analytics and other services
-</span>
-
-  </a>
-  
-
-  <Br>
-
-  <span style="color:rgb(153, 153, 153)">Your templates      <a class="butty" href="/settings/template/new">Create new template</a>
-</span>
+  </span>
 
 </div>
 
-
-
-
 {{#templates}}
-<div class="line template {{checked}}">
-  
-  {{name}}
-  
-<!--     <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
+
+<div class="line theme {{checked}}">
+
+  <span style="display:block;margin-bottom:0.5em">{{name}}</span>
+
+  <!--     <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
  -->
-   
-
-
-    
-
-
-
 
   <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
 
-
-
-    <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>  
+  <!--   <span class="icon file"></span>
+ -->
+  <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
   <form method='post' style="display:inline">
-      <input type="hidden" name="_csrf" value="{{csrftoken}}">
-      <input type="hidden"  name="template" value="{{id}}" > 
-      <button {{#checked}}disabled{{/checked}} type="submit"><span class="square">Install</span></button>
+    <input type="hidden" name="_csrf" value="{{csrftoken}}">
+    <input type="hidden" name="template" value="{{id}}">
+    <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Install{{#checked}}ed{{/checked}}</span></button>
   </form>
-      {{#isMine}}
-        <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px" class="preview-button" ><span class="square">Edit</span></a>  
-    {{/isMine}}
+
+  <form method='post'  style="display:inline" action="/settings/theme/new">
+    <input type="hidden" name="redirect" value="/settings/theme">
+    <input type="hidden" name="name" value="Copy of {{name}}" />
+    <input type="hidden" name="cloneFrom" value="{{id}}" />
+    <button type="submit"><span class="square">Fork</span></button>
+  </form>
+
+
+  {{#isMine}}
+  <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px;margin-left:0" class="preview-button" ><span class="square">Edit</span></a>
+  {{/isMine}}
+
   <div class="clear"></div>
 </div>
-  <div class="clear"></div>
+<div class="clear"></div>
 
 {{/templates}}
 <br><div class="line">
@@ -130,7 +145,10 @@
   <input name="template" value="" type="hidden"/>
   <button type="submit">Disable your template</button>
 </form>
-</div>
+
+
+
+  <a class="line" style="color:#365899" href="/settings/theme/past">
+  View archived templates</a>
+
 {{/blog.template}}
-
-

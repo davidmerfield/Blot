@@ -27,6 +27,11 @@ module.exports = function(server) {
     Entry.getByUrl(blog.id, url, function(entry) {
       if (!entry || entry.deleted || entry.draft) return next();
 
+      // Redirect this entry to the file from which it was generated
+      // I use this when debugging user blogs.
+      if (entry.path && request.query && request.query.source)
+        return response.redirect(entry.path);
+
       if (entry.scheduled && !scheduled) return next();
 
       // We check if the url is not the site's index page

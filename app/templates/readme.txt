@@ -1,5 +1,6 @@
 # Templates to create
 
+<<<<<<< HEAD
 log - general purpose
 photos - optimized for a photoblog
 archive - optimized for an archive of photos, links, quotes
@@ -7,6 +8,60 @@ essays - optimized for longform essays
 code - optimized for a developer's blog
 portfolio - optimized for a portfolio of visual work
 magazine - optimized for a magazine
+=======
+Template selection
+- archive - optimized for an archive of photos, links, quotes
+  index shows big grid of posts
+  type is sans-serif (plex sans)
+  possible source folders:
+  http://filingcabinet.blot.im/
+
+- feed (default) - general purpose
+  index shows stream of posts truncated
+  type is sans-serif (system? http://lunchtype.com?)
+  possible source folders:
+  - https://www.svenseebeck.com/
+  - https://www.baty.blog/
+  - https://www.inthemargins.ca/
+  references:
+  https://craigmod.com/roden/021/
+  https://cargocollective.com/andromeda/Niobium-crystals-with-cube
+  
+- photos - optimized for a photoblog
+  index shows medium grid posts in columns but not rows
+  type is sans-serif (system? https://fonts.floriankarsten.com/space-grotesk?)
+  I like the placeholder images: http://nicholascope.com/
+  possible source folders: 
+  - https://ylukem.com/
+
+- essays - optimized for longform essays
+  index shows title list of posts, perhaps teaser
+  type is serif (Charter)
+  possible source folders:
+  - https://www.schuth.xyz/archives
+  - https://chrbutler.com/about
+  - http://cinebloc.blot.im/
+  
+- portfolio - optimized for a portfolio of work
+  index shows medium-sized grid of posts in columns and rows
+  type is sans-serif (? Open sans ?)
+  Tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhjbTcwppvpnDchFmgNPDdWQ) and [Laura](https://mail.google.com/mail/u/1/#inbox/1658708331a8d28a)
+
+- magazine - optimized for a magazine
+  index shows mixture of post previews
+  type is serif (Charter)
+
+- code - optimized for developers
+  index shows ?
+  sidebar has subtraction-style list of other titles
+  type is monospace (Plex mono)
+
+# Spec
+- all themes must support a 'landing page' modification nicely
+- feed, archive, essays, portfolio, magazine must be optimized for code
+- all themes must be colorblind, with goal to add a color customization layer
+- Don't think about Blot developers in any way, produce seperate simple templates for them
+>>>>>>> master
 
 # Adding a new template
 
@@ -31,6 +86,8 @@ Is cropping thumbnails justifiable? In my mind it seems like this might fall int
 I've also been struggling with lifting things wholesale from a particular spot. I have been looking at Techcrunch.com far too regularly when making the design for the upcoming magazine theme, for example. This is bad.
 
 
+Find good source of material, ideally on Blot like this [source for theme content](http://cinebloc.blot.im/)
+- Interesting way to find images matching colors: https://artsexperiments.withgoogle.com/artpalette/colors/ffffff-fcfcfc-ffffff-ffffff-ffffff
 
 
 Improving the templating code

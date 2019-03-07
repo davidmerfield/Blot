@@ -9,7 +9,7 @@ var PLAYER_OPTIONS = 'rel=0&wmode=transparent&rel=0&autohide=1&showinfo=0';
 // bug on mobile safari where if the embed is the first child,
 // the video player will not show.
 function template (id, ratio) {
-  return '<div style="width:0;height:0"> </div><div class="videoContainer" style="padding-bottom:' + ratio + '%"><iframe src="https://www.youtube.com/embed/' + id + '?' + PLAYER_OPTIONS + '" frameborder="0" allowfullscreen></iframe></div>';
+  return '<div style="width:0;height:0"> </div><div class="videoContainer" style="padding-bottom:' + ratio + '%"><iframe src="https://www.youtube-nocookie.com/embed/' + id + '?' + PLAYER_OPTIONS + '" frameborder="0" allowfullscreen></iframe></div>';
 }
 
 function apiURL (id) {

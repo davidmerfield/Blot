@@ -1,4 +1,4 @@
-var debug = require('debug')('blot:models:entry:build:prepare');
+var debug = require('debug')('blot:build:prepare');
 var _ = require("lodash");
 var helper = require('helper');
 var falsy = helper.falsy;
@@ -73,9 +73,13 @@ function Prepare(entry) {
   // the plain path because some clients, like Dropbox, send the case
   // sensitive name with the update. So we form a temporary variable,
   // pathWithCaseSensitiveName to use to generate a title...
-  var pathWithCaseSensitiveName = require('path').dirname(entry.path) + '/' + entry.name;
+  var pathWithCaseSensitiveName = '';
 
-  debug(entry.path, "Generating title from", entry.name);
+  if (entry.path && entry.name) {
+    pathWithCaseSensitiveName = require('path').dirname(entry.path) + '/' + entry.name;
+  }
+
+  debug(entry.path, "Generating title from", pathWithCaseSensitiveName);
   var parsedTitle = Title($, pathWithCaseSensitiveName);
   entry.title = parsedTitle.title;
   entry.titleTag = parsedTitle.tag;
@@ -83,7 +87,11 @@ function Prepare(entry) {
   debug(entry.path, "Generated  title", entry.title);
 
   debug(entry.path, "Generating summary");
-  entry.summary = Summary($, entry.title);
+  // We pass in the metadata title in case it exists to prevent
+  // a bug which surfaces when the file contains title metadata
+  var title = entry.title;
+  if (type(entry.metadata.title, Model.title)) title = entry.metadata.title;
+  entry.summary = Summary($, title || '');
   debug(entry.path, "Generated  summary");
 
   debug(entry.path, "Generating teasers");

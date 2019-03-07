@@ -170,14 +170,14 @@ function tests () {
 
   // Fallback to filename
   is('', 'file-name.txt', [
-    'file name',
+    'file-name',
     '',
     ''
   ]);
 
   // Fallback to filename
   is('', '[bar]file-name.txt', [
-    'file name',
+    'file-name',
     '',
     ''
   ]);

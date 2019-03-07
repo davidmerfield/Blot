@@ -19,7 +19,7 @@ module.exports = function create(blog, callback) {
 
   var queue = [
     fs.mkdir.bind(this, bareRepoDirectory),
-    database.refreshToken.bind(this, blog.id)
+    database.createToken.bind(this, blog.owner)
   ];
 
   async.parallel(queue, function(err) {

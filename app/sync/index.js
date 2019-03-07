@@ -106,10 +106,18 @@ function sync(blogID, options, callback) {
             // We no longer need to unlock if the process dies...
             delete locks[blogID];
 
-            Blog.flushCache(blogID, function(err) {
+            // Passing in cacheID manually busts the cache.
+            // Since Blog.set and Blog.flushCache depend on each other
+            // we can't put this there. Ideally we would expose a single function to
+            // wipe the cache. So fix that eventually...
+            Blog.set(blogID, { cacheID: Date.now() }, function(err) {
               if (err) return callback(err);
 
-              callback(syncError);
+              Blog.flushCache(blogID, function(err) {
+                if (err) return callback(err);
+
+                callback(syncError);
+              });
             });
           });
         });

@@ -3,17 +3,19 @@
 
   {{> head}}
 
-  <body class="template-editor">
+  <body>
+    {{#template}}
 
     <style type="text/css">
+    @import url("/scripts/codemirror/codemirror.css?{{cacheID}}");
+    @import url("/scripts/codemirror/theme.css?{{cacheID}}");
     @import url("/css/editor.css?{{cacheID}}");
     </style>
 
-    {{#template}}
 
     {{> sidebar}}
 
-    <form method="POST" class="form" action='?_csrf={{csrftoken}}'>
+    <form method="POST" style="flex-grow:1" class="form" action='?_csrf={{csrftoken}}'>
 
       <div id="header">
 
@@ -24,21 +26,16 @@
         </div>
 
 
+        <h1>{{name}}</h1>
+
 
         {{#view}}
+
         <div id="tabs">
 
-          <a class="tab" href="{{{baseUrl}}}/editor">
+      
 
-            {{^active.editor}}
-              <span class="link">{{name}}.{{extension}}</span>
-            {{/active.editor}}
-
-            {{#active.editor}}
-              {{name}}.<span class="lightestText">{{extension}}</span>
-            {{/active.editor}}
-          </a>
-
+          <a class="tab {{active.editor}}" href="{{{baseUrl}}}/editor">{{name}}.{{extension}}</a>
           <a class="tab {{active.settings}}" href="{{{baseUrl}}}/settings" >
 
             {{^active.settings}}<span class="link">{{/active.settings}}
@@ -61,14 +58,14 @@
           <span class="box orange error" {{^error}}style="display:none"{{/error}}>{{error}}</span>
 
 
+          <div style="flex-grow:1"></div>
 
-        <a class="borderButton right arrow small" href="{{preview}}" target="_blank">Preview this template</a>
+        <a href="{{preview}}" target="_blank">Preview this template</a>
 
-        <a class="borderButton secondary right small" href="/help" target="_blank">Help &amp; documentation</a>
 
       </div>
 
-      <div class="main">
+      <div>
 
       {{> yield}}
 

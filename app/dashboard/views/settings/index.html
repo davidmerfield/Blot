@@ -1,5 +1,15 @@
 {{> sub_nav}}
 
+<!-- <span style="color:rgba(0,0,0,0.3)">Settings</span>
+<hr style="margin-bottom:0"> -->
+
+        {{#message}}
+          <a href="" class="mess {{#error}}error{{/error}} {{^error}}success{{/error}}">
+           {{text}}
+           <span class="link">Dismiss</span>
+          </a>
+        {{/message}}
+        
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
 {{^client}}
@@ -10,8 +20,8 @@
   </a>
 {{/client}}
 
-  <a class="line" href="/settings/title">
-    <span class="label">Title</span>
+  <a class="line" href="/settings/profile">
+    <span class="label">Profile</span>
     <span class="center">
 
       
@@ -34,25 +44,16 @@
   </a>
 
 
-<a class="line" href="/settings/template">
+
+<a class="line" href="/settings/theme">
     <span class="label">Template</span>
-    <span class="center">
-
-      {{^template.name}}
-      <span class="link">Choose a template</span>
-      {{/template.name}}
-
-      {{#template.name}}
-      {{template.name}}
-      {{/template.name}}
-    </span>
-          {{#template.name}}
-
+    <span class="center">{{#template.name}}
+        {{template.name}}
+        {{/template.name}}        {{^template.name}}<i>You are not using a theme</i>{{/template.name}}</span>
             <span class="right">Edit</span>
-      {{/template.name}}
 
   </a>
-
+<!-- 
   <a class="line" href="/settings/photo">
     <span class="label">Photo</span>
     <span class="center">
@@ -70,9 +71,9 @@
     </span>
       {{#blog.avatar}}
 {{/blog.avatar}}
-  </a>
+  </a> -->
   
-
+<!-- 
    <a class="line" href="/settings/date">
     <span class="label">Dates</span>
     <span class="center">
@@ -81,24 +82,36 @@
 </span>
     <span class="right">Edit</span>
 
-  </a>
-  
+  </a> -->
+  <!-- 
   <a class="line" href="/settings/urls" >
     <span class="label">URLs</span>
     <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
     <span class="right">Edit</span>
-  </a>
+  </a> -->
 
 
+<<<<<<< HEAD
 <a class="line" href="/settings/client/{{name}}">
+=======
+
+
+<a class="line" href="/settings/client/{{name}}" >
+>>>>>>> master
     <span class="label">Client</span>
     <span class="center">{{client.display_name}}</span>
     <span class="right">Edit</span>
   </a>
 
+<<<<<<< HEAD
   <a class="line" href="/settings/services"  style="border-bottom:none">
     <span class="label">Services</span>
     <span class="link">Configure analytics and other services
+=======
+  <a class="line" href="/settings/services" style="border-bottom:none">
+    <span class="label">Services</span>
+    <span class="link">Import, export and typography
+>>>>>>> master
 </span>
 
   </a>

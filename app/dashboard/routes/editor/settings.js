@@ -13,9 +13,10 @@ module.exports = function(server) {
 
     // Ensure the viewer is logged in and
     // owns a template with that name.
-    .all(loadTemplate, loadSidebar)
+    .all(loadTemplate, loadSidebar, require("../settings/load/dates"))
 
     .get(function(req, res) {
+      res.locals.settings_active = "active";
       res.locals.partials.yield = "template/settings";
       res.render("template");
     })
@@ -80,7 +81,7 @@ module.exports = function(server) {
             if (err)
               console.log(
                 "Blog:",
-                blog.id,
+                req.blog.id,
                 req.template.id,
                 "Error writing to folder:",
                 err

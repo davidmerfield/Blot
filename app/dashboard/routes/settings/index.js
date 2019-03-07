@@ -15,6 +15,16 @@ settings.get("/settings", function(req, res) {
   res.redirect("/");
 });
 
+
+settings.use(function(req, res, next) {
+
+  res.locals.breadcrumbs.add("Settings", "/settings");
+  res.locals.setup = !!req.query.setup;
+
+  next();
+});
+
+
 var index = settings.route("/");
 
 index.get(
@@ -61,7 +71,7 @@ settings.get("/settings/urls", function(req, res, next) {
   next();
 });
 
-settings.get("/settings/title", function(req, res, next) {
+settings.get("/settings/profile", load.menu, load.timezones, load.dates, function(req, res, next){
   res.locals.setup_title = true;
   next();
 });
@@ -122,6 +132,14 @@ settings.route("/settings/template/disable").get(function(req, res) {
   res.render("template/disable", { title: "Disable your template" });
 });
 
+settings
+  .route("/settings/theme/past")
+  .all(load.pastTemplates)
+  .get(function(req, res) {
+    res.locals.breadcrumbs.add("Past", "past");
+    res.render("theme/past", {title: 'Past templates'});
+  });
+  
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;
 

@@ -66,7 +66,6 @@ CreateBlog.route("/")
   })
 
   .get(function(req, res) {
-    res.locals.partials.subpage = "settings/title";
     res.locals.partials.yield = "account/create-blog";
     res.locals.blog = {};
     res.render("partials/wrapper-setup", {
@@ -90,6 +89,13 @@ function calculateFee(req, res, next) {
   // We dont need to do this for free users
   if (canSkip(req.user)) return next();
 
+  // This happens when the latest subscription is not available from
+  // Stripe. Basically the end date for the subscription is in the
+  // past and the calculations below produce a negative amount to
+  if (end * 1000 < Date.now()) {
+    return next(new Error("Your subscription is out of date"));
+  }
+
   var subscription = req.user.subscription;
   var end = subscription.current_period_end;
   var start = subscription.current_period_start;
@@ -108,6 +114,7 @@ function calculateFee(req, res, next) {
   // change the charge function
   req.amount_due_now = now;
 
+  res.locals.price = pretty(subscription.plan.amount);
   res.locals.now = pretty(now);
   res.locals.later = pretty(later);
   res.locals.individual = pretty(individual);

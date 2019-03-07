@@ -58,5 +58,6 @@ module.exports = function(req, res, next) {
     res.locals.partials.partials = "template/_partials";
 
     return next();
+  
   });
 };
