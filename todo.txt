@@ -474,6 +474,15 @@ Add support for comments via webmentions like Disqus and tell Amit
 
 Investigate [commento](https://commento.io/) as an alternative to Disqus
 
+Automate setting up application environment using /etc/profile.d:
+
+  sudo echo "export BLOT_CACHE=true" > /etc/profile.d/blot.sh
+  sudo chmod +x /etc/profile.d/blot.sh
+
+Move away from upstart to systemd, because there was an issue with upstart losing track of nginx and failing to stop or restart its process.
+
+
+
 Thumbnail generator
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file
 - Generate thumbnails for GIFs / SVG thum
