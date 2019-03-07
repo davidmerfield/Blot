@@ -1,3 +1,5 @@
+var debug = require('debug')('blot:build:prepare:summary');
+
 var puncs = '?.!:,'.split('');
 var MAX_LENGTH = 150;
 var he = require('he');
@@ -16,6 +18,8 @@ function summary ($, title) {
   $('p, blockquote').each(function(){
     $(this).append(' ');
   });
+
+  debug('title:', title);
 
   var summary = $(':root').text();
 
@@ -57,44 +61,5 @@ function summary ($, title) {
 
   return summary;
 }
-
-var cheerio = require('cheerio');
-var assert = require('assert');
-
-function is (html, expected, title) {
-
-  var $ = cheerio.load(html, {decodeEntities: false});
-  var output = summary($, title || '');
-
-  try {
-    assert(output === expected);
-  } catch (e) {
-    console.log('INPUT', html);
-    console.log('OUTPUT', output);
-    console.log('EXPECTED', expected);
-  }
-
-}
-
-var longWord = 'helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo';
-
-
-is('<p>H</p>', 'H');
-
-// Handle inline elements nicely
-is('<span>H</span><a href="">ello</a>', 'Hello');
-
-// Check spaces are inserted between paragraphs
-is('<p>H</p><p>E</p>', 'H E');
-
-// Check blot ignores the title text
-is('<p>Hello</p><p>there</p>', 'there', 'Hello');
-
-// Check long results are trimmed to words
-is('<p>Hello there ' + longWord + '.</p>', 'Hello there');
-
-// Check the result is decoded
-is('<p>Hello & foo</p><p>there</p>', 'Hello & foo there');
-is('<p>Hello &amp; & foo</p><p>there</p>', 'Hello & & foo there');
 
 module.exports = summary;

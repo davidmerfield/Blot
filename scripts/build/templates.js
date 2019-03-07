@@ -12,29 +12,33 @@ var async = require("async");
 var watcher = require("watcher");
 
 var TEMPLATES_DIRECTORY = require("path").resolve(
-  __dirname + "/../../app/templates"
+  __dirname + "/../../app/templates/latest"
 );
-var TEMPLATES_OWNER = "SITE";
+var PAST_TEMPLATES_DIRECTORY = require("path").resolve(
+  __dirname + "/../../app/templates/past"
+);
 
-// Right now, there are global template views inside the '_'
-// directory. This is bad. I should unfurl this into each
-// template directory and use my damn text editor properly.
-var GLOBAL_TEMPLATE_DIRECTORY = TEMPLATES_DIRECTORY + "/_";
+var TEMPLATES_OWNER = "SITE";
 
 // Build every template and then
 if (require.main === module) {
   main(TEMPLATES_DIRECTORY, function(err) {
     if (err) console.error(err);
 
-    removeExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
-      if (err) throw err;
+    main(PAST_TEMPLATES_DIRECTORY, function(err) {
+      if (err) console.error(err);
+      
+      removeExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
+        if (err) throw err;
 
-      // Wait for changes if inside development mode.
-      if (config.environment === "development") {
-        watch(TEMPLATES_DIRECTORY);
-      } else {
-        process.exit();
-      }
+        // Wait for changes if inside development mode.
+        if (config.environment === "development") {
+          watch(TEMPLATES_DIRECTORY);
+          watch(PAST_TEMPLATES_DIRECTORY);
+        } else {
+          process.exit();
+        }
+      });
     });
   });
 }
@@ -67,8 +71,8 @@ function build(directory, callback) {
     colors.dim(directory)
   );
 
-  var templatePackage, globalPackage, isPublic, method;
-  var name, template, locals, description, views, id;
+  var templatePackage, isPublic, method;
+  var name, template, description, id;
 
   try {
     templatePackage = fs.readJsonSync(directory + "/package.json");
@@ -76,20 +80,9 @@ function build(directory, callback) {
     templatePackage = {};
     console.warn(
       colors.dim("     "),
-      colors.red(
-        "Warning: ENOENT " +
-          colors.dim(directory + "/package.json")
-      )
+      colors.red("Warning: ENOENT " + colors.dim(directory + "/package.json"))
     );
     // package.json is optional
-  }
-
-  try {
-    globalPackage = fs.readJsonSync(
-      GLOBAL_TEMPLATE_DIRECTORY + "/package.json"
-    );
-  } catch (e) {
-    return callback(e);
   }
 
   id = TEMPLATES_OWNER + ":" + basename(directory);
@@ -97,22 +90,10 @@ function build(directory, callback) {
   description = templatePackage.description || "";
   isPublic = templatePackage.isPublic !== false;
 
-  locals = {};
-
-  extend(locals)
-    .and(templatePackage.locals || {})
-    .and(globalPackage.locals || {});
-
-  views = {};
-
-  extend(views)
-    .and(templatePackage.views || {})
-    .and(globalPackage.views || {});
-
   template = {
     isPublic: isPublic,
     description: description,
-    locals: locals
+    locals: templatePackage.locals
   };
 
   Template.getMetadata(id, function(err, existingTemplate) {
@@ -123,7 +104,7 @@ function build(directory, callback) {
     method(TEMPLATES_OWNER, name, template, function(err) {
       if (err) return callback(err);
 
-      buildViews(directory, id, views, callback);
+      buildViews(directory, id, templatePackage.views, callback);
     });
   });
 }
@@ -134,12 +115,6 @@ function buildViews(directory, id, views, callback) {
   viewpaths = fs.readdirSync(directory).map(function(n) {
     return directory + "/" + n;
   });
-
-  viewpaths = viewpaths.concat(
-    fs.readdirSync(GLOBAL_TEMPLATE_DIRECTORY).map(function(n) {
-      return GLOBAL_TEMPLATE_DIRECTORY + "/" + n;
-    })
-  );
 
   async.eachSeries(
     viewpaths,
@@ -241,15 +216,9 @@ function watch(directory) {
   });
 
   watcher(directory, function(path) {
-    var subdirectoryName = path.slice(TEMPLATES_DIRECTORY.length).split("/")[1];
+    var subdirectoryName = path.slice(directory.length).split("/")[1];
 
-    if (subdirectoryName === "_") {
-      templateDirectories(TEMPLATES_DIRECTORY).forEach(function(dir) {
-        queue.push(dir);
-      });
-    } else {
-      queue.push(TEMPLATES_DIRECTORY + "/" + subdirectoryName);
-    }
+    queue.push(directory + "/" + subdirectoryName);
   });
 }
 

@@ -1,7 +1,8 @@
 var config = require("config");
-var fs = require("fs");
+var fs = require("fs-extra");
 var ensure = require("../ensure");
 var extend = require("../extend");
+var tempDir = require("../tempDir")();
 var assert = require("assert");
 var logg = require("../logg");
 var log = new logg("Email");
@@ -47,6 +48,7 @@ var MESSAGES = [
   "SYNC_DOWN",
   "SYNC_EXCEPTION",
   "UPCOMING_RENEWAL",
+  "UPCOMING_EXPIRY",
   "UPDATE_BILLING"
 ];
 
@@ -127,11 +129,17 @@ function send(locals, messageFile, to, callback) {
 
     ensure(email, EMAIL_MODEL);
 
+    if (config.environment === "development") {
+      var previewPath = tempDir + Date.now() + ".html";
+      fs.outputFileSync(previewPath, email.html, "utf-8");
+      console.log("Preview:", previewPath);
+    }
+
     if (config.environment === "development" && to !== config.admin.email) {
       console.log("Email not sent in development environment:", email);
       return callback();
     }
-
+    
     mailgun.messages().send(email, function(err, body) {
       if (err) {
         console.log("Error: Mailgun failed to send transactional email:", err);
@@ -157,5 +165,7 @@ for (var i in MESSAGES) {
     "There is no message file for " + method
   );
 }
+
+exports.send = send;
 
 module.exports = exports;

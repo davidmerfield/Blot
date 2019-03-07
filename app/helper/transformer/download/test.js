@@ -1,5 +1,5 @@
 var download = require('./index');
-var rm = require('../../remove');
+var fs = require('fs-extra');
 
 var urls = {
   'bad': 'foo',

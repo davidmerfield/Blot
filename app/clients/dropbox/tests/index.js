@@ -2,7 +2,7 @@ describe("dropbox client", function() {
   // Create test user and tmp directory
   require("./setup")();
 
-  it("syncs a removed file", function(done) {
+  xit("syncs a removed file", function(done) {
     var client = this.client;
     var webhook = this.webhook;
     var path = this.fake.path(".txt");
@@ -49,7 +49,7 @@ describe("dropbox client", function() {
       });
   });
 
-  it("syncs a new file", function(done) {
+  xit("syncs a new file", function(done) {
     var client = this.client;
     var webhook = this.webhook;
     var path = this.fake.path(".txt");

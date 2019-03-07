@@ -35,9 +35,12 @@ module.exports = function(blogID, handle, callback){
     // a handle is in use before creating
     // a new blog. If so, we don't know
     // the blog's ID yet.
-    if (blog && blog.id && blogID !== blog.id && blog.handle === handle)
-      return callback(new Error(IN_USE));
-
+    if (blog && blog.id && blogID !== blog.id && blog.handle === handle) {
+      err = new Error(IN_USE);
+      err.code = 'EEXISTS';
+      return callback(err);
+    }
+      
     return callback(null, handle);
   });
 };

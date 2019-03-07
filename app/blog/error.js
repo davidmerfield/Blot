@@ -33,7 +33,7 @@ module.exports = function(server) {
     res.addLocals({
       error: {
         title: "Page not found",
-        message: "There is no page on this blog with this url.",
+        message: "There is no page on this blog with this URL.",
         status: 404
       }
     });
@@ -51,6 +51,15 @@ module.exports = function(server) {
     // This reponse was partially finished
     // end it now and get over it...
     if (res.headersSent) return res.end();
+
+    // Monit requests localhost/health to determine whether
+    // to attempt to restart Blot's node Blot. If you remove
+    // this, change monit.rc too. This middleware must come
+    // before the blog middleware, since there is no blog with
+    // the host 'localhost' and hence returns a 404, bad!    
+    if (err.code === "ENOENT" && req.hostname === "localhost") {
+      return next();
+    } 
 
     // Blog does not exist...
     if (err.code === "ENOENT") {

@@ -1,0 +1,31 @@
+<div class="navigation-container">
+
+  <input type="checkbox" name="toggle" id="toggle">
+
+  <div class="navigation">
+
+    <a href="/" class="index light">{{title}}</a>
+
+    <br><br>
+
+    <div class="clip-7">
+
+      {{#recentEntries}}
+      {{#title}}
+      <a href="{{url}}" class="{{active}}">{{title}}</a>
+      {{/title}}
+      {{/recentEntries}}
+
+    </div>
+
+    <br>
+
+    {{#menu}}
+    <a href="{{{url}}}" class="menu light {{active}}">{{label}}</a>
+    {{/menu}}
+
+  </div>
+
+  <label for="toggle">—<br>—<br>—</label>
+
+</div>

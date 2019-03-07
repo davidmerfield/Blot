@@ -17,8 +17,6 @@ validate('', new_handle, function(err, new_handle){
 
     if (err || !user) throw 'There is no user \'' + email + '\'';
 
-    console.log('Creating blog', new_handle, 'for user', user.email, '(' + user.uid + ')');
-
     new_blog = {handle: new_handle};
 
     Blog.create(user.uid, new_blog, function(err){
@@ -26,6 +24,7 @@ validate('', new_handle, function(err, new_handle){
       if (err) throw err;
 
       console.log('Created blog', new_handle, '!');
+      process.exit();
     });
   });
 });

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    {{> header}}
+    <section class="container">
+      <section class="sidebar">
+        <h4>All entries</h4>
+      </section>
+      <section class="main">
+        <h1>Entries tagged "{{tag}}"</h1>
+        <section class="archives">
+          {{#entries}}
+          <a href="{{url}}">
+            <span class="date">{{date}}</span>
+            <span class="title">{{title}}</span>
+            <span class="summary">{{summary}}</span>
+          </a>
+          {{/entries}}
+        </section>
+        {{> footer}}
+      </section>
+    </section>
+  </body>
+</html>

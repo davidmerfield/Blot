@@ -1,7 +1,7 @@
 require('shelljs/global');
 require('../only_locally');
 
-var fs = require('fs');
+var fs = require('fs-extra');
 var yesno = require('yesno');
 var redis = require('redis').createClient();
 var dumps = __dirname + '/dumps/user';
@@ -44,7 +44,7 @@ function main (label, callback) {
 
       console.log('Moving database dump...');
 
-      mkdirp(dir, function(err){
+      fs.ensureDir(dir, function(err){
 
         if (err) throw err;
 

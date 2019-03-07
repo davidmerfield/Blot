@@ -72,8 +72,9 @@ module.exports = (function() {
 
       // Don't overwrite an existing template
       if (stat) {
-        var message = "A template called " + name + " name already exists";
-        return callback(new Error(message));
+        err = new Error("A template called " + name + " name already exists");
+        err.code = 'EEXISTS';
+        return callback(err);
       }
 
       redis.sadd(blogTemplatesKey(owner), id, function(err) {
@@ -297,10 +298,15 @@ module.exports = (function() {
   }
 
   function getPartials(blogID, templateID, partials, callback) {
-    ensure(blogID, "string")
-      .and(templateID, "string")
-      .and(partials, "object")
-      .and(callback, "function");
+    
+    try {
+      ensure(blogID, "string")
+        .and(templateID, "string")
+        .and(partials, "object")
+        .and(callback, "function");      
+    } catch (e) {
+      return callback(e);
+    }
 
     var Entry = require("./entry");
     var allPartials = {};
