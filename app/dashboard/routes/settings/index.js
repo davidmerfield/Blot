@@ -16,15 +16,6 @@ settings.get("/settings", function(req, res) {
 });
 
 
-settings.use(function(req, res, next) {
-
-  res.locals.breadcrumbs.add("Settings", "/settings");
-  res.locals.setup = !!req.query.setup;
-
-  next();
-});
-
-
 var index = settings.route("/");
 
 index.get(
