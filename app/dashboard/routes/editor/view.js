@@ -13,7 +13,6 @@ var helper = require("helper");
 var extend = helper.extend;
 
 var parseName = require("./parseName");
-var error = require("./error");
 
 var parseName = require("./parseName");
 
@@ -67,7 +66,6 @@ module.exports = function(server) {
 
     .post(parseBody, saveView)
 
-    .all(error);
 
   server
     .route("/template/:template/view/:view/settings")
@@ -103,7 +101,6 @@ module.exports = function(server) {
 
     .post(saveView)
 
-    .all(error);
 };
 
 function saveView(req, res, next) {
