@@ -122,8 +122,8 @@
     <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Install{{#checked}}ed{{/checked}}</span></button>
   </form>
 
-  <form method='post'  style="display:inline" action="/settings/theme/new">
-    <input type="hidden" name="redirect" value="/settings/theme">
+  <form method='post'  style="display:inline" action="/settings/template/new">
+    <input type="hidden" name="redirect" value="/settings/template">
     <input type="hidden" name="name" value="Copy of {{name}}" />
     <input type="hidden" name="cloneFrom" value="{{id}}" />
     <button type="submit"><span class="square">Fork</span></button>
@@ -148,7 +148,7 @@
 
 
 
-  <a class="line" style="color:#365899" href="/settings/theme/past">
+  <a class="line" style="color:#365899" href="/settings/template/past">
   View archived templates</a>
 
 {{/blog.template}}

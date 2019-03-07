@@ -112,10 +112,6 @@ settings
 
 settings
   .route("/settings/template/new")
-  .get(function(req, res) {
-    res.locals.breadcrumbs.add("New", "new");
-    res.render("template/new", { title: "Create new template" });
-  })
   .post(require("./save/newTemplate"));
 
 settings.route("/settings/template/disable").get(function(req, res) {
@@ -124,11 +120,11 @@ settings.route("/settings/template/disable").get(function(req, res) {
 });
 
 settings
-  .route("/settings/theme/past")
+  .route("/settings/template/past")
   .all(load.pastTemplates)
   .get(function(req, res) {
     res.locals.breadcrumbs.add("Past", "past");
-    res.render("theme/past", {title: 'Past templates'});
+    res.render("template/past", {title: 'Past templates'});
   });
   
 settings.get("/settings/:view", function(req, res) {

@@ -5,7 +5,9 @@ var config = require("config");
 var Template = require("template");
 
 module.exports = function(req, res, next) {
-  Template.getTemplateList("SITE", function(err, templates) {
+  Template.list("SITE", function(err, templates) {
+    if (err) return next(err);
+
     templates = templates.filter(function(template) {
       return (
         !template.isMine && !template.isPublic && template.owner === "SITE"
