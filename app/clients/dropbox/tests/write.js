@@ -28,7 +28,7 @@ describe("dropbox client", function() {
       });
   });
 
-  it("writes a file", function(done) {
+  xit("writes a file", function(done) {
     write(this.blog.id, this.path, this.contents, done);
   });
 });

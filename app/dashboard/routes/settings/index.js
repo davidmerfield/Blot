@@ -115,7 +115,7 @@ settings.use('/settings/client', require('./client'));
 settings
   .route("/settings/theme")
   .get(function(req, res) {
-    res.render("theme", {title: "Temmplate"});
+    res.render("theme", {title: "Template"});
   })
   .post(require('./save/theme'));
 
@@ -127,6 +127,14 @@ settings
   })
   .post(require('./save/newTheme'));
 
+settings
+  .route("/settings/theme/past")
+  .all(load.pastTemplates)
+  .get(function(req, res) {
+    res.locals.breadcrumbs.add("Past", "past");
+    res.render("theme/past", {title: 'Past templates'});
+  });
+  
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;
 

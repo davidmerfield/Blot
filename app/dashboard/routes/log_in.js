@@ -157,6 +157,7 @@ function checkEmail (req, res, next) {
 
     req.user = user;
     res.locals.email = user.email;
+    res.locals.then = req.query.then;
 
     next();
   });
@@ -190,7 +191,7 @@ function checkPassword (req, res, next) {
 
   var user = req.user;
   var password = req.body && req.body.password;
-  var then = (req.query && req.query.then) || '/';
+  var then = req.query.then || req.body.then || '/';
 
   if (password === '') {
     return next(new LogInError('NOPASSWORD'));

@@ -1,0 +1,15 @@
+{
+  "name": "Wordpress Export",
+  "locals": {},
+  "isPublic": false,
+  "views": {
+    "index": {
+      "url": "/",
+      "partials": {}
+    },
+    "export": {
+      "url": "/export.xml",
+      "partials": {}
+    }
+  }
+}

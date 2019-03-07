@@ -1,5 +1,7 @@
+var debug = require("debug")("clients:dropbox:delta");
 var createClient = require("./util/createClient");
 var retry = require("./util/retry");
+var waitForErrorTimeout = require("./util/waitForErrorTimeout");
 
 // The goal of this function is to retrieve a list of changes made
 // to the blog folder inside a user's Dropbox folder. We add a new
@@ -76,6 +78,11 @@ module.exports = function delta(token, folderID) {
 
         callback(null, result);
       })
+
+      // Handle 429 Errors from Dropbox which ask us 
+      // to wait a certain number of seconds before retrying
+      .catch(waitForErrorTimeout)
+
       .catch(function(err) {
         var message, error;
 
@@ -107,10 +114,6 @@ module.exports = function delta(token, folderID) {
       });
   }
 
-  // We try to make this function more robust by retrying under
-  // certain conditions, and adding a timeout to eachh attempt.
-  // Only retry if the folder has not been moved
-  return retry(get, {
-    timeout: 15 * 1000
-  }); // Dropbox sometimes hangs...
+  // Removed the timeout since it
+  return retry(get);
 };

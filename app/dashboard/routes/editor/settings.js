@@ -20,7 +20,7 @@ module.exports = function (server) {
     .all(loadTemplate, loadSidebar, require('../settings/load/dates'))
 
     .get(function(req, res){
-
+      res.locals.settings_active = 'active';
       res.locals.partials.yield = 'template/settings';
       res.render('template');
     })
@@ -77,7 +77,9 @@ module.exports = function (server) {
 
         if (err) return next(err);
 
-        if (metadata.localEditing) writeToFolder(req.blog.id, req.template.id, function(){});
+        if (metadata.localEditing) writeToFolder(req.blog.id, req.template.id, function(err){
+          // could we do something with this error? Could we wait to render the page?
+        });
 
         Blog.flushCache(req.blog.id, function(err){
 

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Don't delete this, or Blot's upstart script will fail
+# Update the environment variable $BLOT_START and the
+# upstart/blot.conf if you need to move this
+
 # Otherwise the nvm executable is not available
 . ~/.nvm/nvm.sh
 

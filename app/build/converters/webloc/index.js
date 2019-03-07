@@ -1,4 +1,4 @@
-var debug = require("debug")("blot:models:entry:build");
+var debug = require("debug")("blot:build");
 var fs = require('fs');
 var bplist = require('./bplist');
 var helper = require('helper');

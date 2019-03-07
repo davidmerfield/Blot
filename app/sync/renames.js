@@ -15,20 +15,23 @@ module.exports = function(blogID, update, callback) {
       if (err) return callback(err);
 
       createdEntries.forEach(function(createdEntry) {
-        
         var deletedEntriesOfSameSize;
         var deletedEntriesOfSameTitle;
         var deletedEntry;
 
-        deletedEntriesOfSameSize = deletedEntries.filter(function(deletedEntry) {
+        deletedEntriesOfSameSize = deletedEntries.filter(function(
+          deletedEntry
+        ) {
           return deletedEntry.size === createdEntry.size;
         });
 
-        deletedEntriesOfSameTitle = deletedEntries.filter(function(deletedEntry) {
+        deletedEntriesOfSameTitle = deletedEntries.filter(function(
+          deletedEntry
+        ) {
           return deletedEntry.title === createdEntry.title;
         });
 
-        if (deletedEntriesOfSameSize.length === 1)  {
+        if (deletedEntriesOfSameSize.length === 1) {
           deletedEntry = deletedEntriesOfSameSize.pop();
         } else if (deletedEntriesOfSameTitle.length === 1) {
           deletedEntry = deletedEntriesOfSameTitle.pop();
@@ -57,11 +60,20 @@ module.exports = function(blogID, update, callback) {
             guid: deletedEntry.guid
           };
 
-          // we need to make sure the date stamp updates too?
-          // we need to rethink entry / build so that entries
-          // with metadata removed revert to original created?
-          if (deletedEntry.dateStamp === deletedEntry.created)
+          // If the deleted entry did not have a path specified
+          // in its path or its metadata (which we determine by
+          // comparing its publish dateStamp with the time it was
+          // created on blot) if the new created entry is the same
+          // then set the publish dateStamp for the created entry
+          // to the publish date of the deleted entry. I amended
+          // this logic to fix a bug caused by renaming x.jpg to
+          // 2018_10_06.jpg. The newly specified date was clobbered.
+          if (
+            deletedEntry.dateStamp === deletedEntry.created &&
+            createdEntry.dateStamp === createdEntry.created
+          ) {
             updates.dateStamp = deletedEntry.dateStamp;
+          }
 
           console.log(
             "Blog:",

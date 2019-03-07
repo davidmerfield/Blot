@@ -1,7 +1,6 @@
 var Transformer = require('../index');
-var fs = require('fs');
+var fs = require('fs-extra');
 var localPath = require('../../localPath');
-var cp = require('../../copyFile');
 
 // This function looks to see if there is any information
 // about the file stored. If not, then it invokes middleware
@@ -50,7 +49,7 @@ function testPath (path, callback) {
 
   //   console.log("Flushed lowercase...");
 
-    cp(src, dest, function(err){
+    fs.copy(src, dest, function(err){
 
       if (err) throw err;
 

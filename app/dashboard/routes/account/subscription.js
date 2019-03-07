@@ -24,6 +24,8 @@ Subscription.route("/cancel")
 
 Subscription.route("/restart")
 
+  .all(retrieveSubscription)
+
   .all(requireCancelledSubscription)
 
   .get(function(req, res) {
@@ -35,7 +37,24 @@ Subscription.route("/restart")
 
   .post(restartStripeSubscription, function(req, res) {
     email.RESTART(req.user.uid);
-    res.message("/account", 'Restarted your subscription');
+    res.message("/account", "Restarted your subscription");
+  });
+
+Subscription.route("/restart/pay")
+
+  .all(requireCancelledSubscription)
+
+  .get(function(req, res) {
+    res.render("account/restart-pay", {
+      title: "Restart your subscription",
+      stripe_key: config.stripe.key,
+      breadcrumb: "Restart"
+    });
+  })
+
+  .post(recreateStripeSubscription, function(req, res) {
+    email.RESTART(req.user.uid);
+    res.message("/account", "Restarted your subscription");
   });
 
 function requireCancelledSubscription(req, res, next) {
@@ -69,6 +88,58 @@ function cancelStripeSubscription(req, res, next) {
       if (!subscription) return next(new Error("No subscription"));
 
       User.set(req.user.uid, { subscription: subscription }, next);
+    }
+  );
+}
+
+// If the customer's subscription has expired it will
+// not be possible for them to restart it. Instead
+// we create a new one for them.
+function recreateStripeSubscription(req, res, next) {
+  stripe.customers.update(
+    req.user.subscription.customer,
+    {
+      card: req.body.stripeToken
+    },
+    function(err) {
+      if (err) return next(err);
+
+      stripe.customers.createSubscription(
+        req.user.subscription.customer,
+        {
+          plan: req.user.subscription.plan.id,
+          quantity: req.user.subscription.quantity || 1
+        },
+        function(err, subscription) {
+          if (err || !subscription) {
+            return next(err || new Error("No subscription"));
+          }
+
+          User.set(req.user.uid, { subscription: subscription }, next);
+        }
+      );
+    }
+  );
+}
+
+function retrieveSubscription(req, res, next) {
+  stripe.customers.retrieveSubscription(
+    req.user.subscription.customer,
+    req.user.subscription.id,
+    function(err, subscription) {
+      if (err && err.code === "resource_missing") {
+        return res.redirect("/account/subscription/restart/pay");
+      }
+
+      if (err) return next(err);
+
+      if (!subscription) return next(new Error("No subscription"));
+
+      User.set(req.user.uid, { subscription: subscription }, function(err) {
+        if (err) return next(err);
+
+        next();
+      });
     }
   );
 }

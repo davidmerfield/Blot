@@ -94,7 +94,7 @@ describe("git client create", function() {
     fs.outputFileSync(blogDir + '/Sub Folder/second.txt', 'World');
     fs.outputFileSync(blogDir + '/third', '!');
 
-    setClientToGit(blog, this.server.port, function(err, repoUrl){
+    setClientToGit(this.user, blog, this.server.port, function(err, repoUrl){
 
       if (err) return done.fail(err);
 
