@@ -24,7 +24,7 @@ describe("template", function() {
     });
   });
 
-  it("reads a folder full of template folders", function(done) {
+  xit("reads a folder full of template folders", function(done) {
     fs.outputJsonSync(
       this.tmp + "/" + this.fake.random.word() + "package.json",
       {
