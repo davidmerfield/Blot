@@ -1,21 +1,25 @@
 set logfile /var/www/blot/logs/monit.log
 
-# the route which responds to this check is
-# located in app/index.js
+# The route which responds is in app/index.js
+# If monit fails to recieve a 200 OK response from node
+# then it will attempt to restart its upstart service
 check process nodejs with pidfile "/var/run/blot.pid"
     start program = "/sbin/start blot"
     stop program  = "/sbin/stop blot"
     if failed port 8080 protocol HTTP
         request /health
         with timeout 10 seconds
+        for 3 cycles
         then restart
 
-# the route which responds to this status check
-# is in config/nginx/server.conf
+# The route which responds is in config/nginx/server.conf
+# If monit fails to recieve a 200 OK response from NGINX
+# then it will attempt to restart its upstart service
 check process nginx with pidfile "/var/run/nginx.pid"
     start program = "/sbin/start nginx"
     stop program  = "/sbin/stop nginx"
     if failed port 80 protocol HTTP
         request /health
         with timeout 10 seconds
+        for 3 cycles
         then restart
