@@ -1,5 +1,5 @@
 Finish archive template
-- Add new folders with public domain material, public domain new deal photos?
+- Create folder with public domain material, public domain new deal photos?
 
 Finish default feed templates
 - Create folder with public domain material
