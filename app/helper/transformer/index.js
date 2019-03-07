@@ -4,7 +4,7 @@ var Keys = require('./keys');
 var HashFile = require('./hash');
 var download = require('./download');
 var ensure = require('../ensure');
-var rm = require('../remove');
+var fs = require('fs-extra');
 var localPath = require('../localPath');
 var config = require('config');
 var join = require('path').join;
@@ -45,7 +45,10 @@ function Transformer (blogID, name) {
     try {
       url = isURL(src);
 
-      if (src.indexOf('/_image_cache/') === 0) {
+      // Images pulled from Word Documents are stored in blot/static/{blogID}/_assets
+      // Images cached from blog posts are stored in blot/static/{blogID}/_image_cache
+      // Eventually we should consolidate this somehow.
+      if (src.indexOf('/_image_cache/') === 0 || src.indexOf('/_assets/') === 0) {
         path = join(config.blog_static_files_dir, blogID, src);
       } else {
         path = localPath(blogID, src);
@@ -100,7 +103,7 @@ function Transformer (blogID, name) {
           // The file was downloaded to the temp
           // directory so we remove it now...
           // do this before handling any errors...
-          rm(path);
+          fs.remove(path);
 
           if (err) return callback(err);
 

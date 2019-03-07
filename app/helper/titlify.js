@@ -8,7 +8,14 @@ function titlify(path) {
   // Otherwise basename doesn't work right?
   if (path[0] !== "/") path = "/" + path;
 
-  if (hasDate && hasDate.fileName) {
+  // The filename is now just an extension, e.g. .jpg
+  // so we set it to an empty string
+  if (
+    hasDate &&
+    hasDate.fileName &&
+    hasDate.fileName[0] !== "." &&
+    hasDate.fileName.lastIndexOf(".") !== 0
+  ) {
     name = hasDate.fileName;
   } else {
     name = basename(path);
@@ -37,7 +44,6 @@ function titlify(path) {
       title = title.split("_").join(" ");
     } else {
       title = title.split("_").join(" ");
-      title = title.split("-").join(" ");
     }
   }
 
@@ -68,6 +74,9 @@ function tests() {
   // But only at start and end
   is("/-f_o_o-.txt", "f o o");
 
+  // Preverve dashes
+  is("/f-o-o.txt", "f-o-o");
+
   // Only replace dashes with spaces
   // when file name has no spaces.
   is("/2-1 Match report.txt", "2-1 Match report");
@@ -84,6 +93,9 @@ function tests() {
   is("2016-1/2 Bar.txt", "Bar");
   is("/2016-1 2 Bar.txt", "Bar");
   is("/2018-10-02-02-35 Hello.png", "Hello");
+
+  // preserve date as title if no other characters exist
+  is("/2016-1-2.txt", "2016-1-2");
 
   // extract tags
   is("[Foo] Apple.txt", "Apple");

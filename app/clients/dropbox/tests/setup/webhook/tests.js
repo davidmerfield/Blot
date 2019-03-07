@@ -6,7 +6,7 @@ describe("webhook", function() {
   beforeEach(server.start);
   afterEach(server.close);
 
-  it("challenges", function(done) {
+  xit("challenges", function(done) {
     var webhook = new Webhook(
       process.env.BLOT_DROPBOX_APP_SECRET,
       "http://localhost:" + this.server.port + "/clients/dropbox/webhook"
@@ -19,7 +19,7 @@ describe("webhook", function() {
     });
   });
 
-  it("notifies", function(done) {
+  xit("notifies", function(done) {
     var webhook = new Webhook(
       process.env.BLOT_DROPBOX_APP_SECRET,
       "http://localhost:" + this.server.port + "/clients/dropbox/webhook"

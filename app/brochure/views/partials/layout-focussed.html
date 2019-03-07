@@ -1,0 +1,31 @@
+{{> head}}
+
+<body>
+  <style type="text/css">
+  content {
+    max-width: 28em;
+  }
+
+  ol {
+    padding-left: 1em
+  }
+
+  ol li {
+    padding-left: 2em;
+    margin-bottom: 0.7em
+  }
+  </style>
+
+  <main class="has-sidebar">
+    <ul class="sidebar">
+      <a class="in" href="/">Blot is a blogging platform<br> with no interface</a>
+    </ul>
+    <content>
+      {{{body}}}
+    </content>
+  </main>
+
+  {{> footer}}
+</body>
+
+</html>

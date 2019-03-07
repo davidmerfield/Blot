@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  {{> head}} 
+  <body>
+    <div class="container">
+    {{> header}}
+    <br />
+    {{#recentEntries}}
+    <a href="{{url}}">
+        <b>{{title}}</b>
+    </a>
+    <br />
+    <span>{{summary}}</span>
+    <br />
+    <br />
+    <br />
+    {{/recentEntries}}   
+    {{> footer}}    
+    </div>
+  </body>
+</html>

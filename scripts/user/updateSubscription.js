@@ -9,8 +9,8 @@ User.getByEmail(process.argv[2], function(err, user){
   console.log(user);
 
   stripe.customers.retrieveSubscription(
-      user.subscription.subscription.customer,
-      user.subscription.subscription.id,
+      user.subscription.customer,
+      user.subscription.id,
       function(err, subscription) {
         if (err) throw err;
 

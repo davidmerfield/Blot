@@ -1,7 +1,7 @@
 var Express = require("express");
 var Password = new Express.Router();
 var User = require("user");
-var checkPassword = require('./util/checkPassword');
+var checkPassword = require("./util/checkPassword");
 
 Password.route("/change")
 
@@ -18,25 +18,35 @@ Password.route("/change")
 
 Password.route("/set")
 
+  .all(requireToken)
+
   .get(function(req, res) {
-
-    if (!req.query.token) return res.redirect("/");
-
-    return res.render("account/set-password", {
-      title: "Set your password",
-      token: req.query.token
+    res.render("account/set-password", {
+      title: "Set your password"
     });
   })
 
-  .post(verifyToken, checkMatching, save);
-
+  // We check whether the passwords match
+  // before verifying the token because token
+  // verification can only happen once and the
+  // user might make a mistake typing their
+  // password twice or submitting an empty form.
+  .post(checkMatching, verifyToken, save);
 
 function requireExisting(req, res, next) {
   if (req.user.hasPassword) {
     next();
   } else {
-    res.redirect("/account/set-password");
+    res.redirect("/account/password/set");
   }
+}
+
+function requireToken(req, res, next) {
+  if (!req.session.passwordSetToken) {
+    return res.redirect("/");
+  }
+
+  next();
 }
 
 function save(req, res, next) {
@@ -46,14 +56,11 @@ function save(req, res, next) {
     if (!passwordHash) return next(new Error("Could not hash password"));
 
     User.set(req.user.uid, { passwordHash: passwordHash }, function(err) {
-      
       if (err) return next(err);
       res.message("/account", "Saved your new password");
     });
   });
 }
-
-
 
 function checkMatching(req, res, next) {
   if (!req.body.newPasswordA) {
@@ -68,7 +75,11 @@ function checkMatching(req, res, next) {
 }
 
 function verifyToken(req, res, next) {
-  User.checkAccessToken(req.body.token, function(err, tokenUid) {
+  var token = req.session.passwordSetToken;
+
+  delete req.session.passwordSetToken;
+
+  User.checkAccessToken(token, function(err, tokenUid) {
     if (err) return next(err);
 
     if (tokenUid !== req.user.uid) {

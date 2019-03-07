@@ -5,6 +5,7 @@ var join = require("path").join;
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var retry = require("./util/retry");
+var waitForErrorTimeout = require("./util/waitForErrorTimeout");
 
 // Remove should only ever be called inside the function returned
 // from Sync for a given blog, since it modifies the blog folder.
@@ -19,12 +20,21 @@ function remove(blogID, path, callback) {
   database.get(blogID, function(err, account) {
     client = createClient(account.access_token);
     pathOnDropbox = join(account.folder || "/", path);
-    pathOnBlot = localPath(blogID, path);
+
+    // We must lowercase this since localPath no longer
+    // does and files for the Dropbox client are stored
+    // in the folder with a lowercase path. 
+    pathOnBlot = localPath(blogID, path).toLowerCase();
 
     client
       .filesDelete({
         path: pathOnDropbox
       })
+
+      // Respect any delay Dropbox would like before
+      // potentially retry and requests
+      .catch(waitForErrorTimeout)
+
       .catch(function(err) {
         // This means that error is something other
         // than the file not existing. HTTP 409 means

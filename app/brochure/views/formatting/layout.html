@@ -1,0 +1,30 @@
+{{> head}}
+
+<style type="text/css">
+table {table-layout: auto;}
+</style>
+<body>
+  <link rel="stylesheet" href="/css/tex.css">
+
+  <main class="has-sidebar">
+    <ul class="sidebar">
+
+      <a style="min-width:auto" href="/">Blot</a> <span style="color:#aaa;padding:0 0.2em">/</span> <a  style="min-width:auto"href="/formatting"> Formatting guide</a>
+
+      <br><br>
+
+      <li><a href="/formatting">Introduction</a></li>
+      <li><a href="/formatting/markdown">Markdown</a></li>
+      <li><a href="/formatting/tex">\(\TeX\)</a></li>
+      <li><a href="/formatting/layout-tags">Layout</a></li>
+    </ul>
+    <content>
+<!--       <input placeholder="Search the formatting guide" type="text" style="padding:0.5em 1em;border:1px solid #eee;margin-bottom:1em;border-radius:3px;max-width:39em;font-size:inherit;width:100%;">
+ -->      {{{body}}}
+    </content>
+  </main>
+
+  {{> footer}}
+</body>
+
+</html>
