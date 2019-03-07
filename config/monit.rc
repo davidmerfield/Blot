@@ -2,7 +2,8 @@ set logfile /var/www/blot/logs/monit.log
 
 # The route which responds is in app/index.js
 # If monit fails to recieve a 200 OK response from node
-# then it will attempt to restart its upstart service
+# for three consecutive attempts then it will attempt 
+# to restart its upstart service
 check process nodejs with pidfile "/var/run/blot.pid"
     start program = "/sbin/start blot"
     stop program  = "/sbin/stop blot"
@@ -14,7 +15,8 @@ check process nodejs with pidfile "/var/run/blot.pid"
 
 # The route which responds is in config/nginx/server.conf
 # If monit fails to recieve a 200 OK response from NGINX
-# then it will attempt to restart its upstart service
+# for three consecutive attempts then it will attempt to
+# restart its upstart service
 check process nginx with pidfile "/var/run/nginx.pid"
     start program = "/sbin/start nginx"
     stop program  = "/sbin/stop nginx"
