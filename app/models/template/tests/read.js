@@ -1,4 +1,4 @@
-describe("template", function() {
+fdescribe("template", function() {
   var read = require("../read");
   var fs = require("fs-extra");
 
@@ -11,41 +11,18 @@ describe("template", function() {
     read(this.blog.id, this.tmp, done);
   });
 
-  it("reads a template from a folder", function(done) {
+  fit("reads a template from a folder", function(done) {
+    fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
+
     fs.outputJsonSync(this.tmp + "/package.json", {
-      locals: { foo: "bar" }
+      locals: { foo: "bar" },
+      views: { style: { url: "/style.css" } }
     });
 
     read(this.blog.id, this.tmp, function(err, template) {
       if (err) return done.fail(err);
 
       expect(template.locals.foo).toEqual("bar");
-      done();
-    });
-  });
-
-  xit("reads a folder full of template folders", function(done) {
-    fs.outputJsonSync(
-      this.tmp + "/" + this.fake.random.word() + "package.json",
-      {
-        locals: { foo: "bar" }
-      }
-    );
-
-    fs.outputJsonSync(
-      this.tmp + "/" + this.fake.random.word() + "package.json",
-      {
-        locals: { foo: "bar" }
-      }
-    );
-
-    read.all(this.blog.id, this.tmp, function(err, templates) {
-      if (err) return done.fail(err);
-
-      templates.forEach(function(template) {
-        expect(template.locals.foo).toEqual("bar");
-      });
-
       done();
     });
   });

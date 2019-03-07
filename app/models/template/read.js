@@ -35,12 +35,25 @@ function read(blogID, folder, callback) {
         debug(blogID, folder, "read contents", contents);
         // We remove system files and large files
         async.filter(contents, validViewFiles(folder), function(err, views) {
+          debug(blogID, folder, "views in package:", viewsInPackage);
+
           // Merge any view properties declared in
           // package.json. This is typically where
           // you will specify the route for a view.
-          for (var viewID in views)
-            if (viewsInPackage[viewID] !== undefined)
-              Object.assign(views[viewID], viewsInPackage[viewID]);
+          views = views.map(function(viewID) {
+            var view = {
+              name: nameFrom(viewID),
+              id: viewID,
+              type: mime.lookup(viewID)
+            };
+
+            if (viewsInPackage[view.name] !== undefined) {
+              debug('Merging properties from package', view)
+              Object.assign(view, viewsInPackage[view.name]); 
+            }
+
+            return view;
+          });
 
           debug(blogID, folder, "saving views", views);
 
@@ -96,19 +109,13 @@ function saveTemplate(blogID, folder, metadata, callback) {
 }
 
 function saveView(templateID, folder) {
-  return function(viewID, next) {
-    fs.readFile(folder + "/" + viewID, "utf-8", function(err, content) {
+  return function(view, next) {
+    fs.readFile(folder + "/" + view.id, "utf-8", function(err, content) {
       if (err) return next();
-      debug(templateID, folder, "saving view", viewID);
-      set(
-        templateID,
-        {
-          name: nameFrom(viewID),
-          type: mime.lookup(viewID),
-          content: content
-        },
-        next
-      );
+      debug(templateID, folder, "saving view", view);
+      view.content = content;
+      delete view.id;
+      set(templateID, view, next);
     });
   };
 }
