@@ -1,8 +1,3 @@
-When you make an edit, run scripts/production/update_upstart
-
-then sudo stop blot && sudo start blot
-
-
 Installing an upstart service 
 ------------------
 
@@ -60,74 +55,6 @@ monit           0:off   1:off   2:off    3:off    4:off    5:off    6:off
 ...
 ```
 
-## Installing upstart scripts
-
-Before we install our upstart scripts, we'll need to comment out ```Defaults    requiretty``` in /etc/sudoers. This allows me to run an upstart script as another user without a tty. Ideally, we'd use upstart's setuid feature, but the version of upstart that ships with amazon linux is too old and does not have that feature.
-
-To fix this, open /etc/sudoers and comment out requiretty by adding a '#' at the start of its line.
-
-Upstart reads conf files in /etc/init. So copy the file's from Blot's directory there.
-
-```
-> cp /var/www/blot/scripts/upstart/nginx.conf /etc/init/nginx.conf
-> cp /var/www/blot/scripts/upstart/redis.conf /etc/init/redis.conf
-> cp /var/www/blot/scripts/upstart/monit.conf /etc/init/monit.conf
-> cp /var/www/blot/scripts/upstart/blot.conf /etc/init/blot.conf
-```
-
-Then reload upstart's configuration:
-
-```
-> initctl reload-configuration
-```
-
-Then verify that upstart could load the scripts:
-
-```
-> initctl list | grep -e 'blot\|nginx\|redis\|monit'
-blot stop/waiting
-nginx stop/waiting
-redis stop/waiting
-monit stop/waiting
-```
-
-If the configuration is incorrect, the service will not appear on that list.
-
-Then you can start redis, then blot, then nginx.
-
-```
-> start redis
-> start blot
-> start nginx
-```
-
-If you'd like more information about the scripts, check the conf files. I've added plenty of comments. Remember that Blot needs redis to be running before it can run. This is documented in its conf file.
-
-
-
-
-
-
-# Monit
-
-Upstart will respawn processes it detects have crashed. It detects crashed processes by checking a pid file. It's possible that Blot's webserver (and NGINX) enter an unresponsive state in which a process is still running and a pid file exists, but the server cannot handle requests. To mitigate this risk, we use monit to check periodically that nginx and blot and responding to requests as they should.
-
-Monit requires that root owns the configuration file and that is has ```0700``` permissions.
-
-```
-> chmod 0700 /etc/monit.rc
-```
-
-I then added a line to /etc/hosts file to allow monit to request localhost.
-
-
-# Deploying changes
-
-First fetch the latest code:
-
-```
-> git pull origin master
-```
 
 ## Blot
 
