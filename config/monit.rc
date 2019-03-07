@@ -1,6 +1,7 @@
 # Monit exists to restart the node.js server or
 # NGINX if either become unresponsive. Upstart
 # only restart these processes if they exit.
+
 set logfile /var/www/blot/logs/monit.log
 
 # The route which responds is in app/index.js

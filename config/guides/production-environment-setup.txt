@@ -11,6 +11,36 @@ Then make sure you make all the contents of scripts/production executable:
 chmod +x scripts/production/start_blot.sh
 ```
 
+AWS
+---
+
+At the moment I have moved Blot to an I3 instance which has 16GB of RAM, a 500GB SSD hardrive for temporary data.
+
+The 500GB harddrive is what Amazon calls an 'instance store'. It should not be depended on. When the instance reboots the data on it is lost, I believe.
+
+I think it might be a good idea to use it as a cache. I should also move my EBS data to a cheaper (non-ssd)drive. Then I can use the SSD drive that comes with the i3 instance.
+
+The I3 instance offers volatile storage.
+
+---
+
+3/3/2018 I have since set up the instance store as a cache.
+
+I followed these steps to set up the disk to use as a cache:
+
+https://richardstechnotes.wordpress.com/2015/12/18/setting-up-an-nvme-ssd-on-ubuntu-14-04-lts/
+
+More instructions here:
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/add-instance-store-volumes.html
+
+I don't really care about write speed (as opposed to read speed) but here is a guide for optimizing write performance on instance stores:
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disk-performance.html
+
+
+
+
 Production machine configuration (Linux)
 ----------------------------------------
 
@@ -19,6 +49,7 @@ I made these changes to the AWS instance when I created it. I believe they were 
 sysctl vm.overcommit_memory=1
 sudo bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
 dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
+
 
 Upstart
 -------
