@@ -1,7 +1,7 @@
 Config
 ------
 
-This directory contains the scripts and configuration code to run NGINX, Redis and Monit, which combine with the node js server to produce a useful blogging platform. When setting up a new production or development machine, follow the respective guides in the guides directory. There are a number of scripts for updating Blot's configuration on the server, which are stored in scripts/production:
+This directory contains the scripts and configuration code to run NGINX, Redis and Monit, which combine with the node js server to produce Blot. When setting up a new production or development machine, follow the respective guides in the guides directory. There are a number of scripts for updating Blot's configuration on the server, which are stored in scripts/production:
 
 Upstart: reloading the scripts
 sudo ./scripts/production/update_upstart.sh
@@ -9,9 +9,17 @@ sudo ./scripts/production/update_upstart.sh
 Monit: reloading configuration
 sudo ./scripts/production/reload_monit_rc.sh
 
-NGINX: reloading configuration
+NGINX: reloading configuration with zero downtime
 sudo ./scripts/production/nginx_reload_configuration.sh
 
+
+Logging
+-------
+
+Check logs/sys.log for upstart related logging
+Check logs/monit.log for monit related logging
+Check logs/app.log for the node.js server's logs
+Check logs/nginx.log for nginx's access log
 
 Upstart
 -------
