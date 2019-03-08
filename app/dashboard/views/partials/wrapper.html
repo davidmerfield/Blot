@@ -87,44 +87,5 @@
 {{#links_for_footer}}
 {{{html}}}
 {{/links_for_footer}}
-
-<script type="text/javascript">
-
-// $('input.button:not(.small)').each(function(){
-
-//     $(this).click(function(){
-//       $(this).addClass('working').val('Saving changes');
-//     });
-// });
-
-var opener = document.querySelector('.dropdown .opener');
-var closer = document.querySelector('.dropdown .closer');
-var dropdown = document.querySelector('.dropdown');
-
-opener.addEventListener('click', function(e){ //say this is an anchor
-  
-  function close (e) {
-
-    if (dropdown.className.split(' ').indexOf('closed') === -1)
-      dropdown.className += ' closed';
-
-    document.body.removeEventListener('click', close);
-  }
-
-  if (dropdown.className.split(' ').indexOf('closed') === -1) {
-    
-    dropdown.className += ' closed';
-    document.body.removeEventListener('click', close);
-
-  } else {
-  
-    dropdown.className = dropdown.className.split('closed').join('');
-    document.body.addEventListener('click', close);
-  }
-  
-  e.preventDefault();
-  e.stopPropagation();
-});
-</script>
 </body>
 </html>
