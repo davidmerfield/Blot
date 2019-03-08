@@ -1,34 +1,31 @@
-
-
 {{#entry}}
 
-  <span class="line-item">
+<span class="line-item">
     <span class="lab">Title:</span>
-    <span class="val">{{title}}</span>
-  </span>
+<span class="val">{{title}}</span>
+</span>
 
-  {{^draft}}{{^scheduled}}
-  <span class="line-item">
+{{^draft}}{{^scheduled}}
+<span class="line-item">
     <span class="lab">URL:</span>
-    <span class="val"><a href="{{blog.url}}{{url}}">{{{url}}}</a></span>
-  </span>
-  {{/scheduled}}{{/draft}}
+<span class="val"><a href="{{blog.url}}{{url}}">{{{url}}}</a></span>
+</span>
+{{/scheduled}}{{/draft}}
 
-
-  <span class="line-item">
+<span class="line-item">
     <span class="lab">Date:</span>
-    <span class="val">{{#scheduled}}Scheduled for publication {{toNow}} on {{date}}{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</span>
-  </span>
+<span class="val">{{#scheduled}}Scheduled for publication {{toNow}} on {{date}}{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</span>
+</span>
 
-  <span class="line-item">
+<span class="line-item">
     <span class="lab">Draft:</span>
-    <span class="val">{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</span>
-  </span>
+<span class="val">{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</span>
+</span>
 
-  <span class="line-item">
+<span class="line-item">
     <span class="lab">Page:</span>
-    <span class="val">{{#page}}Yes {{/page}}{{^page}}No{{/page}}</span>
-  </span>
+<span class="val">{{#page}}Yes {{/page}}{{^page}}No{{/page}}</span>
+</span>
 
 <!-- 
   <span class="line-item">
@@ -57,8 +54,6 @@
 
       -->
 
-  
-
 <!-- 
   <span class="line-item">
     <span class="lab">Created:</span>
@@ -69,6 +64,5 @@
     <span class="lab">Modified:</span>
     <span class="val">Plain text document</span>
   </span> -->
-
 
 {{/entry}}

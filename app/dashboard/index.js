@@ -12,12 +12,14 @@ var dashboard = express();
 // Hide the header which says the app is built with Express
 dashboard.disable("x-powered-by");
 
-// Without trust proxy is not set, express will incorrectly 
+// Without trust proxy is not set, express will incorrectly
 // register the proxy’s IP address as the client's
 dashboard.set("trust proxy", "loopback");
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
+hbs.registerPartials(__dirname + "/views/folder");
+
 dashboard.set("views", __dirname + "/views");
 dashboard.set("view engine", "html");
 dashboard.engine("html", hbs.__express);
@@ -91,7 +93,6 @@ dashboard.post(
   [
     "/settings/theme*",
     "/path",
-    "/folder*",
     "/settings/client*",
     "/flags",
     "/404s",
@@ -102,47 +103,55 @@ dashboard.post(
 
 dashboard.use(require("./util/breadcrumbs"));
 
-dashboard.use(function(req, res, next){
+dashboard.use(function(req, res, next) {
   res.locals.breadcrumbs.add("Your blogs", "/");
   next();
 });
 
-dashboard.get("/", require('./util/loadBlogs'), function(req, res, next){
+dashboard.get("/", require("./util/loadBlogs"), function(req, res, next) {
   res.render("index");
 });
 
-dashboard.use("/blog/:handle", require('./util/loadBlog'), function(req, res, next){
-  res.locals.breadcrumbs.add(req.params.handle, "/blog/" + req.params.handle);
+dashboard.use("/blog/:handle", require("./util/loadBlog"), function(
+  req,
+  res,
+  next
+) {
+  res.locals.breadcrumbs.add(req.blog.title, "/blog/" + req.params.handle);
   res.locals.base = "/blog/" + req.params.handle;
   next();
-});
-
-dashboard.get("/blog/:handle", function(req, res, next){
-
-  res.render("settings");
 });
 
 require("./routes/editor")(dashboard);
 
 dashboard.use("/account", require("./routes/account"));
 
-
-
 dashboard.use(debug("before loading folder state"));
 
-// Load the files and folders inside a blog's folder
-dashboard.use(require("./routes/folder"));
+dashboard.get(
+  "/blog/:handle/folder",
+  require("./routes/folder/loadBreadcrumbs"),
+  require("./routes/folder/loadFolder"),
+  require("./routes/folder/loadFile"),
+  function(req, res, next) {
+    res.render("folder");
+  }
+);
 
-dashboard.get("/folder", function(req, res, next) {
-  res.render("folder", { selected: { folder: "selected" } });
-});
+dashboard.get(
+  "/blog/:handle/folder/:path*",
+  require("./routes/folder/loadBreadcrumbs"),
+  require("./routes/folder/loadFolder"),
+  require("./routes/folder/loadFile"),
+  function(req, res, next) {
+    console.log(req.params);
+    res.render("folder");
+  }
+);
 
 dashboard.use(debug("after loading folder state"));
 
-
 require("./routes/tools")(dashboard);
-
-
 
 dashboard.use("/blog/:handle", require("./routes/settings"));
 

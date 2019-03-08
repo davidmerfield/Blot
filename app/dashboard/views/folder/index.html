@@ -1,16 +1,18 @@
+
 {{#folder}}
 <div class="folder-box">
+  
+  {{> breadcrumbs}}
 
-{{> breadcrumbs}}
+  {{#directory}}
+  {{> directory}}
+  {{/directory}}
 
-{{#directory}}
-{{> directory}}
-{{/directory}}
+  {{#file}}
+  {{> file}}
+  {{/file}}
 
-{{#file}}
-{{> file}}
-{{/file}}
-
-<!-- <div style="position:absolute;bottom:0;line-height:41px;border-top:1px solid rgba(0,0,0,0.05);padding: 0 20px;left:0;right:0;color:#aaa">Posts <span style="float:right">&uarr;</span> --><!-- </div> -->
+  <!-- <div style="position:absolute;bottom:0;line-height:41px;border-top:1px solid rgba(0,0,0,0.05);padding: 0 20px;left:0;right:0;color:#aaa">Posts <span style="float:right">&uarr;</span> -->
+  <!-- </div> -->
 </div>
 {{/folder}}
