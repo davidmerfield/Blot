@@ -35,7 +35,6 @@
     "he": "^1.1.0",
     "helmet": "^3.13.0",
     "highlight.js": "^9.5.0",
-    "hogan-express": "^0.5.2",
     "http-auth": "^3.2.3",
     "imagemin": "^5.2.1",
     "imagemin-jpeg-recompress": "^5.0.0",
