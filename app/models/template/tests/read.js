@@ -13,6 +13,19 @@ describe("template", function() {
     read(this.blog.id, this.tmp, done);
   });
 
+  it("reads template properties from package.json", function(done) {
+    fs.outputJsonSync(this.tmp + "/package.json", {
+      locals: { foo: "bar" }
+    });
+
+    read(this.blog.id, this.tmp, function(err, template) {
+      if (err) return done.fail(err);
+
+      expect(template.locals.foo).toEqual("bar");
+      done();
+    });
+  });
+
   it("reads a template from a folder", function(done) {
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
 
@@ -36,6 +49,20 @@ describe("template", function() {
           expect(view.locals.baz).toEqual("bat");
           done();
         });
+      });
+    });
+  });
+
+  it("reads a view's content from a folder", function(done) {
+    fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
+
+    read(this.blog.id, this.tmp, function(err, template) {
+      if (err) return done.fail(err);
+
+      get(template.id, "style", function(err, view) {
+        if (err) return done.fail(err);
+        expect(view.content).toEqual("body {color:pink}");
+        done();
       });
     });
   });
