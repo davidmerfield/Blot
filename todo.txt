@@ -15,10 +15,6 @@ Start quarterly newsletter with improvements, changes, send first edition on Mar
 
 ---
 
-Verify that server reboot works from AWS console
-- Add notification emails for monit events?
-- Add secure one-time link to reboot the AWS instance?
-
 Work out how to get posts out of Weebly for David
 
 Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
@@ -140,6 +136,10 @@ Add support for HTTP2
 
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 
+Add notification emails for monit events?
+
+Add secure one-time link to reboot the AWS instance?
+
 Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
 
 Why are images downloading so slowly on the portfolio theme? Should I go back to using cloudfront? Tell Alexander (@wbergg in Twitter DMs) when this is sorted.
@@ -177,7 +177,14 @@ Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius
 Finish re-write of template system
 - Add [titlecase](https://daringfireball.net/2008/05/title_case) helper function? 
 - Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) when you can safely toggle to local editing.
-- Tell [Myron](@rodriguesmyron) on Twitter when it is possible to rename the folder created for a template in local editing.
+- Local editing
+  - Ask to confirm, but remove files from blog folder when disabling local editing
+  - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
+  - Read and write package.json for local editing, then tell [uncrtn](https://micro.blog/uncrtn/2196557), [Aurynn](https://mail.google.
+com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
+and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
+  - Add support for 'creating' a template inside '/Templates/'
+  - Tell [Myron](@rodriguesmyron) on Twitter when it is possible to rename the folder created for a template in local editing.
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Add persona/cargo style customization buttons
@@ -185,20 +192,13 @@ Finish re-write of template system
   - Add iframe of site in edit page of template editor
   - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Re-do url redirector to use route-parser and properly support regular expressions
-- Ask to confirm, but remove files from blog folder when disabling local editing
-- Add support for 'creating' a template inside '/Templates/'
 - Move to uuid based template IDs instead of slug
-- Read and write package.json for local editing, then tell [uncrtn](https://micro.blog/uncrtn/2196557), [Aurynn](https://mail.google.
-com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
-and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
 - Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm)
-- Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760
 ) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
-
 
 Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 
