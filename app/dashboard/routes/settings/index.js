@@ -15,7 +15,7 @@ settings.use(function(req, res, next) {
 });
 
 settings.use(function(req, res, next) {
-  res.locals.breadcrumbs.add(req.blog.title, "/settings");
+  res.locals.breadcrumbs.add(req.blog.title || req.blog.pretty.url, "/settings");
   res.locals.setup = !!req.query.setup;
 
   next();
