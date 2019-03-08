@@ -1,18 +1,14 @@
 
-<div class="dropdown closed">
+<div class="dropdown">
     
-  {{#blogs}}{{#isCurrent}}
-  <a href="#!" class="opener nav-bar show" style="line-height:inherit;padding:11px 20px;">  
-    {{#avatar}}<span class="photo-holder"><img src="{{avatar}}"></span>{{/avatar}}{{title}}{{! Show to blog's domain if the user has removed their title}}{{^title}}{{blog.pretty.url}}{{/title}}<img src="/images/dropdown.svg" width=8 style="margin-left:16px">
-  </a>
-  {{/isCurrent}}{{/blogs}}
+  
   
   {{! The opener link floats to the right so we need a clearfix}}
   <div class="clear"></div>
 
   <div class="menu">
     {{#blogs}}
-    <form action="/account/switch-blog" method="POST" {{#isCurrent}}style="height:0;visibility:hidden"{{/isCurrent}}> 
+    <form action="/account/switch-blog" method="POST" > 
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden" name="to" value="{{id}}"> 
       <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500">
