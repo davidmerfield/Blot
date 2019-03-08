@@ -143,8 +143,8 @@ settings.get("/settings/:view", function(req, res) {
   if (uppercaseName === "Urls") uppercaseName = "URLs";
 
   res.locals.breadcrumbs.add(uppercaseName, req.params.view);
-  res.locals.partials.subpage = "settings/" + req.params.view;
-  res.render("settings/subpage", { host: process.env.BLOT_HOST });
+  res.locals.layout = "settings/subpage";
+  res.render("settings/" + req.params.view, { host: process.env.BLOT_HOST });
 });
 
 module.exports = settings;

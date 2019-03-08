@@ -51,15 +51,6 @@ module.exports = function (req, res, next) {
 
   if (pathIs(STATIC)) return next();
 
-  // Only let the user see routes under account
-  // if they don't have a blog yet.
-  // Auth is not under the account route
-  // so add it. It probably should be though.
-  // We need the auth route to make the switch
-  // dropbox feature work for accounts without blogs.
-  if (!req.blog && pathIsNot([ACCOUNT, AUTH])) {
-    return res.redirect(ACCOUNT);
-  }
 
   // Don't expose any features which modify the database
   if (config.maintenance && pathIsNot(MAINTENANCE)) {

@@ -1,5 +1,8 @@
 {{#blogs}}
-<a class="line" href="/blog/{{handle}}">{{title}}<br>{{pretty.url}}</a>
+<a class="line" href="/blog/{{handle}}"><span class="photo-holder">
+          {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
+          {{^avatar}}<span class="file" style="width:16px;height:16px;opacity:0.4"></span>{{/avatar}}
+        </span> {{title}}<br>{{pretty.url}}</a>
 {{/blogs}}
 
 <a class="line" href="/account/create-blog">Create new blog</a>

@@ -107,12 +107,13 @@ dashboard.use(function(req, res, next){
   next();
 });
 
-dashboard.get("/", function(req, res, next){
+dashboard.get("/", require('./util/loadBlogs'), function(req, res, next){
   res.render("index");
 });
 
-dashboard.use("/blog/:handle", function(req, res, next){
+dashboard.use("/blog/:handle", require('./util/loadBlog'), function(req, res, next){
   res.locals.breadcrumbs.add(req.params.handle, "/blog/" + req.params.handle);
+  res.locals.base = "/blog/" + req.params.handle;
   next();
 });
 
@@ -143,7 +144,7 @@ require("./routes/tools")(dashboard);
 
 
 
-dashboard.use(require("./routes/settings"));
+dashboard.use("/blog/:handle", require("./routes/settings"));
 
 dashboard.use(require("./routes/settings/errorHandler"));
 
