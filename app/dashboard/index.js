@@ -18,6 +18,8 @@ dashboard.set("trust proxy", "loopback");
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
+hbs.registerPartials(__dirname + "/views/folder");
+
 dashboard.set("views", __dirname + "/views");
 dashboard.set("view engine", "html");
 dashboard.engine("html", hbs.__express);
@@ -112,10 +114,14 @@ dashboard.get("/", require('./util/loadBlogs'), function(req, res, next){
 });
 
 dashboard.use("/blog/:handle", require('./util/loadBlog'), function(req, res, next){
-  res.locals.breadcrumbs.add(req.params.handle, "/blog/" + req.params.handle);
+  res.locals.breadcrumbs.add(req.blog.title, "/blog/" + req.params.handle);
   res.locals.base = "/blog/" + req.params.handle;
   next();
 });
+
+// Load the files and folders inside a blog's folder
+dashboard.use(require("./routes/folder"));
+
 
 dashboard.get("/blog/:handle", function(req, res, next){
 
@@ -130,12 +136,6 @@ dashboard.use("/account", require("./routes/account"));
 
 dashboard.use(debug("before loading folder state"));
 
-// Load the files and folders inside a blog's folder
-dashboard.use(require("./routes/folder"));
-
-dashboard.get("/folder", function(req, res, next) {
-  res.render("folder", { selected: { folder: "selected" } });
-});
 
 dashboard.use(debug("after loading folder state"));
 
