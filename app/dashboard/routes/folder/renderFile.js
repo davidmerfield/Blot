@@ -1,7 +1,7 @@
 var stat = require("./stat");
 
 module.exports = function(req, res, next) {
-  stat(req.blog, req.params.path || "/", function(err, stat) {
+  stat(req.blog, req.dir, function(err, stat) {
     
     if (err) return next(err);
 

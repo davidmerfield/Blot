@@ -1,17 +1,16 @@
 var stat = require("./stat");
 var fs = require("fs-extra");
 var join = require("path").join;
-var async = require("async");
+var async = require('async');
 var blog_folder_dir = require("config").blog_folder_dir;
 var stat = require("./stat");
 
 module.exports = function(req, res, next) {
-  var dir = req.params.path || "/";
+
+  var dir = req.dir;
   var localPath = join(blog_folder_dir, req.blog.id, dir);
   var files = [];
   var folders = [];
-
-  if (dir === "/") res.locals.folder.root = true;
 
   function load(path, callback) {
     stat(req.blog, path, function(err, stat) {
@@ -29,8 +28,6 @@ module.exports = function(req, res, next) {
     });
   }
 
-  console.log('reading', localPath);
-  
   fs.readdir(localPath, function render(err, contents) {
     if (err && err.code === "ENOTDIR") {
       return next();
@@ -41,7 +38,8 @@ module.exports = function(req, res, next) {
         if (err) return next(err);
         fs.readdir(localPath, render);
       });
-    }
+    } 
+
 
     // If the user has the Dropbox client, case-preserved folder
     // is stored lowercase on disk. So we check that too.
@@ -50,7 +48,7 @@ module.exports = function(req, res, next) {
     }
 
     if (err && err.code === "ENOENT") {
-      return fs.readdir(join(blog_folder_dir, req.blog.id), render);
+      return fs.readdir(join(blog_folder_dir, req.blog.id), render)
     }
 
     if (err) {
@@ -59,11 +57,10 @@ module.exports = function(req, res, next) {
 
     contents = contents.filter(function(name) {
       // hide dotfiles
-      return (
-        name[0] !== "." &&
-        // hide preview files
-        name.slice(-".preview.html".length) !== ".preview.html"
-      );
+      return name[0] !== "." &&
+
+      // hide preview files
+             name.slice(-'.preview.html'.length) !== '.preview.html';
     });
 
     contents = contents.map(function(name) {

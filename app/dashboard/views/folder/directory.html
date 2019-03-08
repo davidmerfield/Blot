@@ -1,31 +1,38 @@
-{{^contents.length}}
-<div style="padding: 0 20px 11px;">
+
+<form method='post' class="files" action='/path?_csrf={{csrftoken}}'>
+
+  <input type="hidden" name="redirect" value="{{redirect}}">
+
+  {{^contents.length}}
+  <div style="padding: 0 20px 11px;">
   This folder is empty.
-
+  
 </div>
-{{/contents.length}}
+  {{/contents.length}}
 
-{{#contents}}
+  {{#contents}}
 
-<a class="content-line" href="{{{url}}}">
-
-  {{#directory}}
-  <img src="/images/folder-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+    <button class="content-line" type="submit" name="path" value="{{path}}">
+        
+      {{#directory}}
+      <img src="/images/folder-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
       {{/directory}}
 
       {{^directory}}
       {{#entry}}
-  <img src="/images/file-post.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      <img src="/images/file-post.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
       {{/entry}}
       {{^entry}}
-  <img src="/images/file-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      <img src="/images/file-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
       {{/entry}}
       {{/directory}}
+      
+      <span >{{name}}</span>
+      
+      <span class="clear"></span>
+    </button>
 
-  <span >{{name}}</span>
+  {{/contents}}
+  <div class="clear"></div>
 
-  <span class="clear"></span>
-</a>
-
-{{/contents}}
-<div class="clear"></div>
+</form>

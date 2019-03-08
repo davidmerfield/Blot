@@ -1,20 +1,23 @@
 <div style="padding:20px">
 
-  {{#folder.stat}}
+{{#folder.stat}}
 
-  {{#entry}}
-  <img src="/images/file-post.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      {{#entry}}
+      <img src="/images/file-post.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
       {{/entry}}
       {{^entry}}
-  <img src="/images/file-empty.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      <img src="/images/file-empty.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
       {{/entry}}
+
 
   <span>
     <b>{{name}}</b>
     <span style="float:right">{{size}}</span>
-  <span style="display:block">Modified: {{updated}}</span>
+    <span style="display:block">Modified: {{updated}}</span>
   </span>
   <div class="clear"></div>
+
+
 
   <span class="line-item">
     {{#entry}}<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{{url}}}" >Visit 
@@ -31,16 +34,16 @@
       {{/page}}
       
          <span class="square">&rarr;</span></a>{{/entry}}
-  {{^entry}}<span class="val">This file is not a blog post because it is <a href="/publishing">{{ignored}}</a>. You can however <a href="">embed this file or link to it</a>.</span>{{/entry}}
-  </span>
+    {{^entry}}<span class="val">This file is not a blog post because it is <a href="/publishing">{{ignored}}</a>. You can however <a href="">embed this file or link to it</a>.</span>{{/entry}}
+  </span>  
 
   {{> entry}}
-
+  
   <span class="line-item">
 <a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{path}}" >Download file <span class="square">&darr;</span></a>
-  </span>
+  </span>  
 
   {{> stat}}
 
-  {{/folder.stat}}
+{{/folder.stat}}
 </div>
