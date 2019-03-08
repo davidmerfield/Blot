@@ -36,7 +36,7 @@ module.exports = function(server) {
     .post(parseBody, parseName, function(req, res, next) {
       var view = formJSON(req.body, Template.view.model);
 
-      Template.setView(req.template.id, view, function(err) {
+      Template.view.set(req.template.id, view, function(err) {
         if (err) return next(err);
 
         var url = req.path + "/" + view.name + "/editor";
