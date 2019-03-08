@@ -254,6 +254,18 @@ dashboard.use(require("./render"));
 
 dashboard.use('/account', require("./routes/account"));
 
+
+dashboard.use(function(req, res, next){
+  res.locals.breadcrumbs = new Breadcrumbs();
+  res.locals.breadcrumbs.add("Your blogs", "/");
+  next();
+});
+
+dashboard.get("/", function(req, res, next){
+  res.render("index")
+});
+
+
 dashboard.use(debug("before loading folder state"));
 
 // Load the files and folders inside a blog's folder
@@ -283,15 +295,11 @@ function Breadcrumbs() {
   return list;
 }
 
-dashboard.use(function(req, res, next){
-  res.locals.breadcrumbs = new Breadcrumbs();
-  next();
-});
-
 dashboard.use(debug("after loading folder state"));
 
 
 require("./routes/tools")(dashboard);
+
 
 dashboard.use(require("./routes/settings"));
 

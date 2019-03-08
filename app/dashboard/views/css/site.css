@@ -1274,10 +1274,7 @@ p.sub {
 }
 
 .dropdown .menu {
-        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.05) 0px 3px 6px, rgba(15, 15, 15, 0.1) 0px 9px 24px;
     z-index: 20;
-    background: #fffcfa;
-  margin: 11px 0;
 }
 
 .dropdown .menu button {text-align: left;}

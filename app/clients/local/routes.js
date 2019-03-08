@@ -14,7 +14,7 @@ Dashboard.get("/", function(req, res, next) {
   Folder.get(req.blog.id, function(err, folder) {
     if (err) return next(err);
 
-    res.render(__dirname + "/views/index.html", { folder: folder });
+    res.render(__dirname + "/views/index.html", { dir: folder });
   });
 });
 
