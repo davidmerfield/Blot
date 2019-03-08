@@ -46,6 +46,23 @@ describe("template", function() {
     });
   });
 
+  it("assigns a view a URL automatically", function(done) {
+    
+    fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
+
+    read(this.blog.id, this.tmp, function(err, template) {
+      if (err) return done.fail(err);
+
+      getNameByUrl(template.id, "/style.css", function(err, name) {
+        if (err) return done.fail(err);
+
+        expect(name).toEqual("style");
+        done();
+      });
+    });
+  });
+
+
   it("reads a view's content from a folder", function(done) {
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
 

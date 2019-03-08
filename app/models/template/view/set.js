@@ -27,6 +27,8 @@ module.exports = function set(templateID, updates, callback) {
     return callback(new Error("The view's name is invalid"));
   }
 
+  // Ensure the view contains valid template code
+  // before attempting to save it.
   if (updates.content !== undefined) {
     try {
       Mustache.render(updates.content, {});

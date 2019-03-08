@@ -114,7 +114,11 @@ function saveView(templateID, folder) {
       if (err) return next();
       debug(templateID, folder, "saving view", view);
       view.content = content;
+      view.url = view.url || view.id;
+
+      // This is the filename for the view
       delete view.id;
+
       set(templateID, view, next);
     });
   };
