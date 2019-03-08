@@ -1288,6 +1288,7 @@ p.sub {
     line-height: 48px;
       margin: 0;
   color: #909090;
+  background: transparent;
     border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
@@ -1661,13 +1662,6 @@ form.account > .buttons {
   display: block;
   padding: 11px 20px;
 }  
-
-a.line,
-  div.line a.link,
-  .dropdown .opener,
-  .dropdown .menu button,
-  .dropdown .menu a,
-  .line form button {transition: background 0.1s;}
 
   a.line:hover,
   div.line a.link:hover,
