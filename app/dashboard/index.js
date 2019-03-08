@@ -1,36 +1,26 @@
 var bodyParser = require("body-parser");
-var hogan = require("hogan-express");
 var express = require("express");
 var debug = require("./debug");
 var VIEW_DIRECTORY = __dirname + "/views";
+var hbs = require("hbs").create();
 
 // This is the express application used by a
 // customer to control the settings and view
 // the state of the blog's folder
 var dashboard = express();
 
-// Send static files
-dashboard.use("/css", express.static(VIEW_DIRECTORY + "/css"));
-dashboard.use("/images", express.static(VIEW_DIRECTORY + "/images"));
-dashboard.use("/scripts", express.static(VIEW_DIRECTORY + "/scripts"));
-
-// Log response time in development mode
-dashboard.use(debug.init);
-
-// Hide the header which says the app
-// is built with Express
+// Hide the header which says the app is built with Express
 dashboard.disable("x-powered-by");
 
-// Without trust proxy is not set, express
-//  will incorrectly register the proxy’s IP address
-// as the client IP address unless trust proxy is configured.
+// Without trust proxy is not set, express will incorrectly 
+// register the proxy’s IP address as the client's
 dashboard.set("trust proxy", "loopback");
 
-// Register the engine we will use to
-// render the views.
+// Configure the template engine for the brochure site
+hbs.registerPartials(__dirname + "/views/partials");
+dashboard.set("views", __dirname + "/views");
 dashboard.set("view engine", "html");
-dashboard.set("views", VIEW_DIRECTORY);
-dashboard.engine("html", hogan);
+dashboard.engine("html", hbs.__express);
 
 // For when we want to cache templates
 if (process.env.BLOT_ENVIRONMENT !== "development") {
@@ -42,8 +32,17 @@ if (process.env.BLOT_ENVIRONMENT !== "development") {
 // the assets into a single file
 dashboard.locals.cacheID = Date.now();
 
-// Special function which wraps redirect
-// so I can pass messages between views cleanly
+// Default layout file
+dashboard.locals.layout = "partials/wrapper";
+
+// Send static files
+dashboard.use("/css", express.static(VIEW_DIRECTORY + "/css"));
+dashboard.use("/images", express.static(VIEW_DIRECTORY + "/images"));
+dashboard.use("/scripts", express.static(VIEW_DIRECTORY + "/scripts"));
+
+// Log response time in development mode
+dashboard.use(debug.init);
+
 dashboard.use("/clients", require("./routes/clients"));
 
 dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
@@ -59,7 +58,6 @@ dashboard.get("/deleted", function(req, res, next) {
   res.locals.partials.yield = "deleted";
   res.render("partials/wrapper-public");
 });
-
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
 dashboard.use(debug("fetching user and blog info and checking redirects"));
 dashboard.use(require("../session"));
@@ -102,30 +100,32 @@ dashboard.post(
   bodyParser.urlencoded({ extended: false })
 );
 
+dashboard.use(require("./util/breadcrumbs"));
 
-dashboard.use(function(req, res, next) {
-  res.locals.partials = res.locals.partials || {};
-
-  res.locals.links_for_footer = [];
-
-  res.locals.footer = function() {
-    return function(text, render) {
-      res.locals.links_for_footer.push({ html: text });
-      return "";
-    };
-  };
-
+dashboard.use(function(req, res, next){
+  res.locals.breadcrumbs.add("Your blogs", "/");
   next();
 });
 
+dashboard.get("/", function(req, res, next){
+  res.render("index");
+});
+
+dashboard.use("/blog/:handle", function(req, res, next){
+  res.locals.breadcrumbs.add(req.params.handle, "/blog/" + req.params.handle);
+  next();
+});
+
+dashboard.get("/blog/:handle", function(req, res, next){
+
+  res.render("settings");
+});
 
 require("./routes/editor")(dashboard);
 
-// Special function which wraps render so there is a default layout and a partial
-// inserted into it
-dashboard.use(require("./render"));
-
 dashboard.use("/account", require("./routes/account"));
+
+
 
 dashboard.use(debug("before loading folder state"));
 
@@ -138,9 +138,10 @@ dashboard.get("/folder", function(req, res, next) {
 
 dashboard.use(debug("after loading folder state"));
 
-dashboard.use(require("./util/breadcrumbs"));
 
 require("./routes/tools")(dashboard);
+
+
 
 dashboard.use(require("./routes/settings"));
 
