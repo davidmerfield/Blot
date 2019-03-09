@@ -5,6 +5,7 @@
   
   {{! The opener link floats to the right so we need a clearfix}}
   <div class="clear"></div>
+  <style type="text/css">.menu button:hover .title {text-decoration: underline;}</style>
 
   <div class="menu">
     {{#blogs}}
@@ -16,10 +17,10 @@
           {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
           {{^avatar}}<span class="file" style="width:16px;height:16px;opacity:0.4"></span>{{/avatar}}
         </span>  
-        <span style="font-weight:400">
-          {{title}}{{^title}}{{pretty.url}}{{/title}}<br>
+        <span style="color:#365899;font-weight:400">
+          <span class="title">{{title}}{{^title}}{{pretty.url}}{{/title}}</span><br>
           {{! Why include the hostname underneath the blog's title? Increased click area}}
-          <span style="color:rgba(158, 154, 152, 0.66);font-weight:400">{{pretty.url}}</span>
+          <span style="color:rgb(158, 154, 152);font-weight:400">{{pretty.url}}</span>
         </span>
 
       </button>
