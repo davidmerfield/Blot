@@ -1,24 +1,26 @@
-<div style="padding:20px">
+<div style="padding:0 20px">
 
 {{#folder.stat}}
 
+<span style="line-height:36px">
       {{#entry}}
-      <img src="/images/file-post.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      <img src="/images/file-post.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
       {{/entry}}
       {{^entry}}
-      <img src="/images/file-empty.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      <img src="/images/file-empty.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
       {{/entry}}
 
-
   <span>
-    <b>{{name}}</b>
-    <span style="float:right">{{size}}</span>
-    <span style="display:block">Modified: {{updated}}</span>
+    <a href="{{blog.url}}{{path}}" style="color:#365899;text-decoration:none">{{name}}</a>
+    <span style="float:right;color:rgb(158, 154, 152)">{{size}}</span>
   </span>
-  <div class="clear"></div>
+</span>
+    <span style="display:block;color:rgb(158, 154, 152);margin-left:24px;margin-top:-6px;margin-bottm:">Modified: {{updated}}</span>
+  </span>
+  <div class="clear" style="margin:11px 0;border-bottom:1px solid rgba(0,0,0,0.05)"></div>
 
 
-
+<!-- 
   <span class="line-item">
     {{#entry}}<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{{url}}}" >Visit 
 
@@ -34,15 +36,17 @@
       {{/page}}
       
          <span class="square">&rarr;</span></a>{{/entry}}
-    {{^entry}}<span class="val">This file is not a blog post because it is <a href="/publishing">{{ignored}}</a>. You can however <a href="">embed this file or link to it</a>.</span>{{/entry}}
-  </span>  
+  </span>  --> 
+
+  {{^entry}}
+  <span class="line-item">
+    <span class="lab">Ignored:</span>
+    <span class="val">This file is not a blog post because it is <a href="/publishing">{{ignored}}</a>. You can however <a href="">embed this file or link to it</a>.</span>
+  </span>
+  {{/entry}}
 
   {{> entry}}
   
-  <span class="line-item">
-<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{path}}" >Download file <span class="square">&darr;</span></a>
-  </span>  
-
   {{> stat}}
 
 {{/folder.stat}}
