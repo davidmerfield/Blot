@@ -1,49 +1,60 @@
-<div style="padding:20px">
+<style type="text/css">
+table {
+  display: table;
+  width: 100%
+}
 
-{{#folder.stat}}
+tr {
+  border: none;
+}
 
+tr.break {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05)
+}
+
+tr.break td {
+  padding-bottom: 11px
+}
+
+tr.break+tr td {
+  padding-top: 11px
+}
+
+td {
+  vertical-align: top;
+}
+
+td:first-child {
+  color: rgb(158, 154, 152);
+  padding-right: 20px
+}
+
+td a {
+  color: #365899
+}
+
+td:nth-child(2) {
+  width: 100%;
+}
+</style>
+<div style="padding:0 20px">
+
+  {{#folder.stat}}
+
+  <div style="line-height:36px;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:11px;margin-bottom:11px">
       {{#entry}}
-      <img src="/images/file-post.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      <img src="/images/file-post.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
       {{/entry}}
       {{^entry}}
-      <img src="/images/file-empty.svg" style="float:left;margin-right:10px;vertical-align:text-bottom;" width="40">
+      <img src="/images/file-empty.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
       {{/entry}}
+    {{name}}
+  </div>
 
+  <table>
+    {{> entry}}
+    {{> stat}}
+  </table>
 
-  <span>
-    <b>{{name}}</b>
-    <span style="float:right">{{size}}</span>
-    <span style="display:block">Modified: {{updated}}</span>
-  </span>
-  <div class="clear"></div>
-
-
-
-  <span class="line-item">
-    {{#entry}}<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{{url}}}" >Visit 
-
-      {{#draft}}
-        draft
-        {{/draft}}
-        {{#scheduled}}
-        preview of blog post
-        {{/scheduled}}
-
-      {{#page}}
-      page
-      {{/page}}
-      
-         <span class="square">&rarr;</span></a>{{/entry}}
-    {{^entry}}<span class="val">This file is not a blog post because it is <a href="/publishing">{{ignored}}</a>. You can however <a href="">embed this file or link to it</a>.</span>{{/entry}}
-  </span>  
-
-  {{> entry}}
-  
-  <span class="line-item">
-<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{path}}" >Download file <span class="square">&darr;</span></a>
-  </span>  
-
-  {{> stat}}
-
-{{/folder.stat}}
+  {{/folder.stat}}
 </div>
