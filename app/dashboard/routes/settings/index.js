@@ -57,18 +57,19 @@ settings.get("/settings/urls", function(req, res, next) {
   next();
 });
 
-settings.get(
+settings.use(
   "/settings/profile",
   load.menu,
   load.timezones,
   load.dates,
   function(req, res, next) {
+    res.locals.breadcrumbs.add("Profile", "profile");
     res.locals.setup_title = true;
     next();
   }
 );
 
-settings.get("/settings/menu", load.menu);
+settings.get("/settings/profile/menu", load.menu);
 settings.get("/settings/date", load.timezones, load.dates);
 settings.get("/settings/services", load.plugins);
 settings.get("/settings/urls", load.permalinkFormats);
@@ -127,6 +128,18 @@ settings
     res.render("theme/past", { title: "Past templates" });
   });
 
+
+settings.get("/settings/:section/:view", function(req, res) {
+  var uppercaseName = req.params.view;
+
+  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+
+  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  res.locals.partials.subpage = "settings/" + req.params.view;
+  res.render("settings/subpage", { host: process.env.BLOT_HOST });
+});
+
+
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;
 
@@ -134,7 +147,10 @@ settings.get("/settings/:view", function(req, res) {
 
   if (uppercaseName === "Urls") uppercaseName = "URLs";
 
-  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  if (uppercaseName !== "Profile") {
+    res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  }
+
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });
