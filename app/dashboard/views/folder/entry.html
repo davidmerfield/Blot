@@ -8,15 +8,17 @@
 
 {{#entry}}
 
+  
+ 
   <tr>
     <td>Title:</td>
-    <td>{{title}}</td>
+    <td><a href="{{blog.url}}{{{url}}}">{{title}}</a></td>
   </tr>
 
   {{^draft}}{{^scheduled}}
   <tr>
     <td>URL:</td>
-    <td><a href="{{blog.url}}{{url}}">{{{url}}}</a></td>
+    <td>{{{url}}}</td>
   </tr>
   {{/scheduled}}{{/draft}}
 
@@ -31,50 +33,10 @@
     <td>{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</td>
   </tr>
 
-  <tr>
-    <td>Page:</td>
-    <td>{{#page}}Yes {{/page}}{{^page}}No{{/page}}</td>
+  <tr style="border-bottom:1px solid rgba(0,0,0,0.05)">
+    <td style="padding-bottom:11px;margin-bottom:11px">Page:</td>
+    <td style="padding-bottom:11px;margin-bottom:11px">{{#page}}Yes {{/page}}{{^page}}No{{/page}}</td>
   </tr>
-
-<!-- 
-  <tr>
-    <td>Why:</td>
-    <td>{{name}} became a blog post because it a type of file Blot can process</td>
-  </td>
- -->
-<!-- 
-  {{^scheduled}}
-        Draft that will be dated: <span style="float:right">{{date}}</td>
-        {{/scheduled}}
-
-        {{#scheduled}}
-        Draft that will be published {{toNow}}
-      
-        {{/scheduled}}  
-
-
-{{^scheduled}}
-        Published: <span style="float:right">{{date}}</td>
-        {{/scheduled}}
-
-        {{#scheduled}}
-        Scheduled for publication {{toNow}}
-        {{/scheduled}} 
-
-      -->
-
-  
-
-<!-- 
-  <tr>
-    <td>Created:</td>
-    <td>Plain text document</td>
-  </td>
-
-  <tr>
-    <td>Modified:</td>
-    <td>Plain text document</td>
-  </td> -->
 
 
 {{/entry}}

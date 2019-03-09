@@ -1,7 +1,22 @@
 <style type="text/css">
-tr {border: none;}
-td {vertical-align: top;}
-td:first-child {color: rgb(158, 154, 152);padding-right: 20px}
+table {display: table;width: 100%}
+tr {
+  border: none;
+}
+
+td {
+  vertical-align: top;
+}
+
+td:first-child {
+  color: rgb(158, 154, 152);
+  padding-right: 20px
+}
+
+td a {color: #365899}
+td:nth-child(2) {
+  width: 100%;
+}
 </style>
 <div style="padding:0 20px">
 
@@ -16,13 +31,34 @@ td:first-child {color: rgb(158, 154, 152);padding-right: 20px}
       {{/entry}}
 
   <span>
-    <a href="{{blog.url}}{{path}}" style="color:#365899;text-decoration:none">{{name}}</a>
-<!--     <span style="float:right;color:rgb(158, 154, 152)">{{size}}</span>
- -->  </span>
-  </span>
-  <!--     <span style="display:block;color:rgb(158, 154, 152);margin-left:24px;margin-top:-6px;margin-bottm:">Modified: {{updated}}</span>
- --> </span>
+  <!-- <a style="color:#365899;text-decoration:none" href="{{blog.url}}{{{path}}}"> -->{{name}}<!--  </a> -->
+ </span>
+  <br>
   <div class="clear" style="margin:11px 0;border-bottom:1px solid rgba(0,0,0,0.05)"></div>
+
+<!-- 
+  {{#entry}}<a class="val external" style="margin-bottom:11px" href="{{blog.url}}{{{url}}}" >Visit 
+
+      {{#draft}}
+        draft
+      {{/draft}}
+      
+      {{#scheduled}}
+        preview of blog post
+      {{/scheduled}}
+
+      {{#page}}
+      page
+      {{/page}}
+    
+      {{^draft}}  {{^page}} {{^scheduled}} post {{/scheduled}} {{/page}} {{/draft}}
+
+         <span class="square">&rarr;</span></a><br>
+{{/entry}} -->
+
+
+  </span>
+  </span>
 
   <!-- 
   <span class="line-item">
@@ -41,7 +77,6 @@ td:first-child {color: rgb(158, 154, 152);padding-right: 20px}
       
          <span class="square">&rarr;</span></a>{{/entry}}
   </span>  -->
-
 
   <table>
     {{> entry}}
