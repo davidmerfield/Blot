@@ -4,6 +4,7 @@ var join = require("path").join;
 var async = require('async');
 var blog_folder_dir = require("config").blog_folder_dir;
 var stat = require("./stat");
+var alphanum = require('./alphanum');
 
 module.exports = function(req, res, next) {
 
@@ -66,11 +67,21 @@ module.exports = function(req, res, next) {
     contents = contents.map(function(name) {
       return join(dir, name);
     });
+    
 
     async.eachLimit(contents, 10, load, function() {
+
+      folders = alphanum(folders, {property: 'name'});
+      files = alphanum(files, {property: 'name'});
+
       res.locals.folder.contents = folders.concat(files);
       res.locals.folder.directory = true;
       next();
     });
   });
 };
+function alphabeticallyByName (a, b) {
+    var aName = a.name.toUpperCase();
+    var bName = b.name.toUpperCase();
+    return (aName < bName) ? -1 : (aName > bName) ? 1 : 0;
+}
