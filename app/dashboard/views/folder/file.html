@@ -41,19 +41,15 @@ td:nth-child(2) {
 
   {{#folder.stat}}
 
-  <span style="line-height:36px">
+  <div style="line-height:36px;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:11px;margin-bottom:11px">
       {{#entry}}
       <img src="/images/file-post.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
       {{/entry}}
       {{^entry}}
       <img src="/images/file-empty.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
       {{/entry}}
-
-  <span>{{name}}</span>
-  <br>
-  <div class="clear" style="margin:11px 0;border-bottom:1px solid rgba(0,0,0,0.05)"></div>
-
-  </span>
+    {{name}}
+  </div>
 
   <table>
     {{> entry}}
