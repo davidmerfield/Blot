@@ -1,5 +1,9 @@
 <style type="text/css">
-table {display: table;width: 100%}
+table {
+  display: table;
+  width: 100%
+}
+
 tr {
   border: none;
 }
@@ -13,7 +17,10 @@ td:first-child {
   padding-right: 20px
 }
 
-td a {color: #365899}
+td a {
+  color: #365899
+}
+
 td:nth-child(2) {
   width: 100%;
 }
@@ -30,58 +37,16 @@ td:nth-child(2) {
       <img src="/images/file-empty.svg" style="margin-right:4px;vertical-align:text-bottom;" width="16">
       {{/entry}}
 
-  <span>
-  <!-- <a style="color:#365899;text-decoration:none" href="{{blog.url}}{{{path}}}"> -->{{name}}<!--  </a> -->
- </span>
+  <span>{{name}}</span>
   <br>
   <div class="clear" style="margin:11px 0;border-bottom:1px solid rgba(0,0,0,0.05)"></div>
 
-<!-- 
-  {{#entry}}<a class="val external" style="margin-bottom:11px" href="{{blog.url}}{{{url}}}" >Visit 
-
-      {{#draft}}
-        draft
-      {{/draft}}
-      
-      {{#scheduled}}
-        preview of blog post
-      {{/scheduled}}
-
-      {{#page}}
-      page
-      {{/page}}
-    
-      {{^draft}}  {{^page}} {{^scheduled}} post {{/scheduled}} {{/page}} {{/draft}}
-
-         <span class="square">&rarr;</span></a><br>
-{{/entry}} -->
-
-
   </span>
-  </span>
-
-  <!-- 
-  <span class="line-item">
-    {{#entry}}<a class="val external" style="margin-top:20px;margin-bottom:10px" href="{{blog.url}}{{{url}}}" >Visit 
-
-      {{#draft}}
-        draft
-        {{/draft}}
-        {{#scheduled}}
-        preview of blog post
-        {{/scheduled}}
-
-      {{#page}}
-      page
-      {{/page}}
-      
-         <span class="square">&rarr;</span></a>{{/entry}}
-  </span>  -->
 
   <table>
     {{> entry}}
-
     {{> stat}}
   </table>
+
   {{/folder.stat}}
 </div>
