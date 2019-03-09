@@ -1,44 +1,50 @@
+  {{^entry}}
+  <tr>
+    <td>Ignored:</td>
+    <td>This file is not a post because {{ignored}}.</td>
+  </tr>
+  {{/entry}}
 
 
 {{#entry}}
 
-  <span class="line-item">
-    <span class="lab">Title:</span>
-    <span class="val">{{title}}</span>
-  </span>
+  <tr>
+    <td>Title:</td>
+    <td>{{title}}</td>
+  </tr>
 
   {{^draft}}{{^scheduled}}
-  <span class="line-item">
-    <span class="lab">URL:</span>
-    <span class="val"><a href="{{blog.url}}{{url}}">{{{url}}}</a></span>
-  </span>
+  <tr>
+    <td>URL:</td>
+    <td><a href="{{blog.url}}{{url}}">{{{url}}}</a></td>
+  </tr>
   {{/scheduled}}{{/draft}}
 
 
-  <span class="line-item">
-    <span class="lab">Date:</span>
-    <span class="val">{{#scheduled}}Scheduled for publication {{toNow}} on {{date}}{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</span>
-  </span>
+  <tr>
+    <td>Date:</td>
+    <td>{{#scheduled}}Scheduled for publication {{toNow}} on {{date}}{{/scheduled}}{{^scheduled}}{{date}}{{/scheduled}}</td>
+  </tr>
 
-  <span class="line-item">
-    <span class="lab">Draft:</span>
-    <span class="val">{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</span>
-  </span>
+  <tr>
+    <td>Draft:</td>
+    <td>{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</td>
+  </tr>
 
-  <span class="line-item">
-    <span class="lab">Page:</span>
-    <span class="val">{{#page}}Yes {{/page}}{{^page}}No{{/page}}</span>
-  </span>
+  <tr>
+    <td>Page:</td>
+    <td>{{#page}}Yes {{/page}}{{^page}}No{{/page}}</td>
+  </tr>
 
 <!-- 
-  <span class="line-item">
-    <span class="lab">Why:</span>
-    <span class="val">{{name}} became a blog post because it a type of file Blot can process</span>
-  </span>
+  <tr>
+    <td>Why:</td>
+    <td>{{name}} became a blog post because it a type of file Blot can process</td>
+  </td>
  -->
 <!-- 
   {{^scheduled}}
-        Draft that will be dated: <span style="float:right">{{date}}</span>
+        Draft that will be dated: <span style="float:right">{{date}}</td>
         {{/scheduled}}
 
         {{#scheduled}}
@@ -48,7 +54,7 @@
 
 
 {{^scheduled}}
-        Published: <span style="float:right">{{date}}</span>
+        Published: <span style="float:right">{{date}}</td>
         {{/scheduled}}
 
         {{#scheduled}}
@@ -60,15 +66,15 @@
   
 
 <!-- 
-  <span class="line-item">
-    <span class="lab">Created:</span>
-    <span class="val">Plain text document</span>
-  </span>
+  <tr>
+    <td>Created:</td>
+    <td>Plain text document</td>
+  </td>
 
-  <span class="line-item">
-    <span class="lab">Modified:</span>
-    <span class="val">Plain text document</span>
-  </span> -->
+  <tr>
+    <td>Modified:</td>
+    <td>Plain text document</td>
+  </td> -->
 
 
 {{/entry}}

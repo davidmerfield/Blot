@@ -5,20 +5,20 @@ var basename = require("path").basename;
 var dirname = require("path").dirname;
 var joinpath = require("path").join;
 var moment = require("moment");
-             require("moment-timezone");
+require("moment-timezone");
 
 var Entry = require("entry");
 var IgnoredFiles = require("../../../models/ignoredFiles");
 var extname = require("path").extname;
 var Metadata = require("metadata");
 var REASONS = {
-  PREVIEW: "a preview",
-  TOO_LARGE: "too large",
-  PUBLIC_FILE: "a public file",
-  WRONG_TYPE: "not a file Blot can process"
+  PREVIEW: "it is a preview",
+  TOO_LARGE: "it is too large",
+  PUBLIC_FILE: "it is a public file",
+  WRONG_TYPE: "it is not a file Blot can process"
 };
 
-var kind = require('./kind');
+var kind = require("./kind");
 
 module.exports = function(blog, path, callback) {
   var blogID = blog.id;
@@ -26,7 +26,7 @@ module.exports = function(blog, path, callback) {
 
   stat(local, function(err, stat) {
     if (err) return callback(err);
-    
+
     Metadata.get(blogID, path, function(err, casePresevedName) {
       if (err) return callback(err);
 
@@ -34,23 +34,45 @@ module.exports = function(blog, path, callback) {
         if (err) return callback(err);
 
         Entry.get(blogID, path, function(entry) {
-          if (ignored) ignored = REASONS[ignored] || "was ignored";
+
+          if (ignored || !entry) {
+            if (path.toLowerCase().indexOf("/templates/") === 0) {
+              ignored = "it is part of a template";
+            } else if (
+              path.split("/").filter(function(n) {
+                return n[0] === "_";
+              }).length
+            ) {
+              ignored =
+                "it is inside a folder whose name begins with an underscore";
+            } else if (require("path").basename(path)[0] === "_") {
+              ignored = "its name begins with an underscore";
+            } else {
+              ignored = REASONS[ignored] || "it was ignored";
+            }
+          }
 
           stat.kind = kind(path);
           stat.path = path;
           stat.name = casePresevedName || basename(path);
-          stat.created = moment.utc(stat.ctime).tz(blog.timeZone).calendar(null, {
-    sameDay: '[Today], h:mm A',
-    lastDay: '[Yesterday], h:mm A',
-    lastWeek: 'LL, h:mm A',
-    sameElse: 'LL, h:mm A'
-});
-          stat.modified = moment.utc(stat.mtime).tz(blog.timeZone).calendar(null, {
-    sameDay: '[Today], h:mm A',
-    lastDay: '[Yesterday], h:mm A',
-    lastWeek: 'LL, h:mm A',
-    sameElse: 'LL, h:mm A'
-});
+          stat.created = moment
+            .utc(stat.ctime)
+            .tz(blog.timeZone)
+            .calendar(null, {
+              sameDay: "[Today], h:mm A",
+              lastDay: "[Yesterday], h:mm A",
+              lastWeek: "LL, h:mm A",
+              sameElse: "LL, h:mm A"
+            });
+          stat.modified = moment
+            .utc(stat.mtime)
+            .tz(blog.timeZone)
+            .calendar(null, {
+              sameDay: "[Today], h:mm A",
+              lastDay: "[Yesterday], h:mm A",
+              lastWeek: "LL, h:mm A",
+              sameElse: "LL, h:mm A"
+            });
 
           stat.updated = moment.utc(stat.mtime).from(moment.utc());
           stat.size = humanFileSize(stat.size);
@@ -66,11 +88,10 @@ module.exports = function(blog, path, callback) {
             // Replace with case-preserving
             entry.name = stat.name;
 
-              entry.date = moment
-                .utc(entry.dateStamp)
-                .tz(blog.timeZone)
-                .format("MMMM Do YYYY, h:mma");
-
+            entry.date = moment
+              .utc(entry.dateStamp)
+              .tz(blog.timeZone)
+              .format("MMMM Do YYYY, h:mma");
 
             if (
               entry.page &&
