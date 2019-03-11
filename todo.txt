@@ -183,6 +183,7 @@ and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVs
   - Add support for 'creating' a template inside '/Templates/'
   - Tell [Myron](@rodriguesmyron) on Twitter when it is possible to rename the folder created for a template in local editing.
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
+- Add support for entry lists of variable length and tell [Logan](@LoganGreer)
 - Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Add persona/cargo style customization buttons
   - Serve previews of templates from a domain with HTTPS
