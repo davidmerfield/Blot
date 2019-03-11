@@ -15,13 +15,23 @@ Start quarterly newsletter with improvements, changes, send first edition on Mar
 
 ---
 
-Work out how to get posts out of Weebly for David
-
 Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
 
 Finish tweaking [Kerim's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 
-Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
+Re-instate blotcdn.com
+- Work out how to process the assets for new posts in the background to reduce publish latency
+- Prevent protocol-less bug for URLs to blotcdn which messed with micro.blog
+- Get nginx serving static files from scratch
+- Can I do blotcdn.com/blogID/cacheID/asset/path inside {{#asset}} {{/asset}} --> to improve load times for arbritrary files and remove cssURL etc.?
+  e.g. for fully rendered views: <link src="{{#asset}}/style.css{{/asset}}">     
+       and also paths to files in the folder url({{#asset}}/_fonts/webfont.woff{{/asset}})
+- s3 questions
+  - Can I bypass s3 completely?
+  - Should I be s3 creating buckets per blog?
+  - Should I bypass s3? Might be nice to take load off ec2
+- Can I warm the cache for the index page?
+- Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
 
 ---
 
@@ -32,6 +42,8 @@ Fix bug which means that a date specified in a file's path takes precedence over
 Fix Magazine template
 - Fix text styling inside blockquotes and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
 - Fix bug with image zoom when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
+
+Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
 Fix index template
 - Footnote link styling is wonky and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
@@ -84,19 +96,6 @@ Markdown bugs
 
 ---
 
-Re-instate blotcdn.com
-- Work out how to process the assets for new posts in the background to reduce publish latency
-- Prevent protocol-less bug for URLs to blotcdn which messed with micro.blog
-- Get nginx serving static files from scratch
-- Can I do blotcdn.com/blogID/cacheID/asset/path inside {{#asset}} {{/asset}} --> to improve load times for arbritrary files and remove cssURL etc.?
-  e.g. for fully rendered views: <link src="{{#asset}}/style.css{{/asset}}">     
-       and also paths to files in the folder url({{#asset}}/_fonts/webfont.woff{{/asset}})
-- s3 questions
-  - Can I bypass s3 completely?
-  - Should I be s3 creating buckets per blog?
-  - Should I bypass s3? Might be nice to take load off ec2
-- Can I warm the cache for the index page?
-
 Improvements to public site
 - Clean up error messages in logs for public site
 - Add 404 log
@@ -141,8 +140,6 @@ Add notification emails for monit events?
 Add secure one-time link to reboot the AWS instance?
 
 Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
-
-Why are images downloading so slowly on the portfolio theme? Should I go back to using cloudfront? Tell Alexander (@wbergg in Twitter DMs) when this is sorted.
 
 Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
