@@ -17,8 +17,6 @@ Start quarterly newsletter with improvements, changes, send first edition on Mar
 
 Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
 
-Finish tweaking [Kerim's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
-
 Re-instate blotcdn.com
 - Work out how to process the assets for new posts in the background to reduce publish latency
 - Prevent protocol-less bug for URLs to blotcdn which messed with micro.blog
