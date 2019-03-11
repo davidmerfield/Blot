@@ -66,11 +66,11 @@ label[for="toggle"] {
 
   main.has-sidebar {display: block!important;}
 
-  input[name="toggle"]+.sidebar>*:not(.in) {
+  input[name="toggle"]+.table>*:not(.in) {
     display: none;
   }
 
-  input[name="toggle"]:checked+.sidebar>*:not(.index) {
+  input[name="toggle"]:checked+.table>*:not(.index) {
     display: block;
   }
 
