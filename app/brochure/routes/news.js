@@ -51,6 +51,10 @@ function confirmationLink(guid) {
   return "https://" + config.host + "/news/confirm/" + guid;
 }
 
+function cancelLink (email) {
+  return 'https://' + config.host + '/news/cancel/' + hash(email);
+}
+
 news.get("/confirm/:guid", function(req, res, next) {
   var guid = decodeURIComponent(req.params.guid);
 
@@ -60,8 +64,15 @@ news.get("/confirm/:guid", function(req, res, next) {
     client.sadd(listKey, email, function(err) {
       if (err) return next(err);
 
-      res.locals.email = email;
-      res.render("news/confirmed");
+      var locals = { email: email, cancel: cancelLink(email)  };
+
+      helper.email.NEWSLETTER_SUBSCRIPTION_CONFIRMED(null, locals, function(
+        err
+      ) {
+        if (err) return next(err);
+        res.locals.email = email;
+        res.render("news/confirmed");
+      });
     });
   });
 });
@@ -83,7 +94,9 @@ news.post("/sign-up", parse, function(req, res, next) {
   client.setex(confirmationKey(guid), TTL, email, function(err) {
     if (err) return next(err);
 
-    helper.email.SUBSCRIBE_CONFIRMATION(null, locals, function(err) {
+    helper.email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function(
+      err
+    ) {
       if (err) return next(err);
 
       req.session.newsletter_email = email;

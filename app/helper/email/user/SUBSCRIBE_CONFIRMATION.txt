@@ -1,3 +1,0 @@
-Do you want to subscribe?
-
-[Confirm subscription]({{{confirm}}})
