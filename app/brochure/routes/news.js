@@ -15,61 +15,80 @@ news.get("/", loadDone, loadToDo, function(req, res) {
   res.render("news");
 });
 
-news.get("/archive", loadDone, loadToDo, function(req, res) {
+news.get("/archive", function(req, res) {
   res.locals.title = "Blot / News";
   res.render("news/archive");
 });
 
+news.get("/archive/:letter", function(req, res) {
+  res.locals.title = "Blot / News";
+  res.render("news/archive");
+});
+
+// The rest of these pages should not be cached
+news.use(function(req, res, next) {
+  res.header("Cache-Control", "no-cache");
+  next();
+});
+
 news.get("/sign-up", function(req, res) {
+  if (req.session && req.session.newsletter_email) {
+    res.locals.email = req.session.newsletter_email;
+    delete req.session.newsletter_email;
+  }
+
   res.render("news/sign-up");
 });
 
-news.get("/confirm/:guid", function(req, res) {
-  client.get(
-    "newsletter:confirm:" + decodeURIComponent(req.params.guid),
-    function(err, email) {
-      if (err || !email) {
-        res.locals.error = err ? "EINVAL" : null;
-      }
+function confirmationKey(guid) {
+  return "newsletter:confirm:" + guid;
+}
 
-      client.sadd("newsletter:list", email, function(err) {
-        res.locals.email = email;
-        res.render("news/confirmed");
-      });
-    }
-  );
+var listKey = "newsletter:list";
+var TTL = 60 * 60 * 24; // 1 day in seconds
+
+function confirmationLink(guid) {
+  return "https://" + config.host + "/news/confirm/" + guid;
+}
+
+news.get("/confirm/:guid", function(req, res, next) {
+  var guid = decodeURIComponent(req.params.guid);
+
+  client.get(confirmationKey(guid), function(err, email) {
+    if (err || !email) return next(err || new Error("No email"));
+
+    client.sadd(listKey, email, function(err) {
+      if (err) return next(err);
+
+      res.locals.email = email;
+      res.render("news/confirmed");
+    });
+  });
 });
 
-news.post("/sign-up", parse, function(req, res) {
-  var err;
-  var guid = encodeURIComponent(
-    uuid()
-      .split("-")
-      .join("")
-  );
-  var confirm = "https://" + config.host + "/news/confirm/" + guid;
-  var TTL = 60 * 60 * 24; // 1 day in seconds
+news.post("/sign-up", parse, function(req, res, next) {
+  var confirm, email, locals;
+  var guid = uuid();
 
   if (!req.body || !req.body.email) {
-    err = new Error();
-    err.code = "ENOENT";
+    return next(new Error("No email"));
   }
 
-  client.setex("newsletter:confirm:" + guid, TTL, req.body.email, function(
-    err
-  ) {
-    helper.email.SUBSCRIBE_CONFIRMATION(
-      null,
-      { email: req.body.email.trim().toLowerCase(), confirm: confirm },
-      function(err) {
-        if (err) {
-          err = new Error();
-          err.code = "EINVAL";
-        }
+  email = req.body.email.trim().toLowerCase();
+  guid = guid.split("-").join("");
+  guid = encodeURIComponent(guid);
+  confirm = confirmationLink(guid);
+  locals = { email: email, confirm: confirm };
 
-        res.redirect("/news/sign-up");
-      }
-    );
+  client.setex(confirmationKey(guid), TTL, email, function(err) {
+    if (err) return next(err);
+
+    helper.email.SUBSCRIBE_CONFIRMATION(null, locals, function(err) {
+      if (err) return next(err);
+
+      req.session.newsletter_email = email;
+      res.redirect("/news/sign-up");
+    });
   });
 });
 
