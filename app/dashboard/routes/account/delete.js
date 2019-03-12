@@ -68,9 +68,12 @@ function loadBlogToDelete(req, res, next) {
 }
 
 function calculateSubscriptionChange(req, res, next) {
-
   // You must pay for at least one blog to keep an account open
-  if (req.user.subscription.plan && req.user.subscription.quantity > 1 && req.user.subscription.plan.amount) {
+  if (
+    req.user.subscription.plan &&
+    req.user.subscription.quantity > 1 &&
+    req.user.subscription.plan.amount
+  ) {
     res.locals.reduction = pretty(req.user.subscription.plan.amount);
   }
 
