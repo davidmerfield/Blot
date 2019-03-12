@@ -12,15 +12,37 @@ news.get("/", loadDone, loadToDo, function(req, res) {
   res.render("news");
 });
 
-
 news.get("/archive", loadDone, loadToDo, function(req, res) {
   res.locals.title = "Blot / News";
   res.render("news/archive");
 });
 
-news.post('/sign-up', parse, function(req, res){
-  console.log(req.body);
+news.get("/sign-up", function(req ,res){
   res.render("news/sign-up");
+});
+
+news.post("/sign-up", parse, function(req, res) {
+  var err;
+
+  if (!req.body || !req.body.email) {
+    err = new Error();
+    err.code = "ENOENT";
+  }
+
+  var confirm = "https://blot.development/news/confirm";
+
+  helper.email.SUBSCRIBE_CONFIRMATION(
+    null,
+    { email: req.body.email.trim().toLowerCase(), confirm: confirm },
+    function(err) {
+      if (err) {
+        err = new Error();
+        err.code = "EINVAL";
+      }
+
+      req.message("/news/sign-up");
+    }
+  );
 });
 
 function loadToDo(req, res, next) {
@@ -29,15 +51,21 @@ function loadToDo(req, res, next) {
     res.locals.todo = marked(todo);
 
     var html = res.locals.todo;
-    var $ = require('cheerio').load(html);
+    var $ = require("cheerio").load(html);
 
-    $('ul').each(function(){
+    $("ul").each(function() {
       var ul = $(this).html();
-      var p = $(this).prev().html();
+      var p = $(this)
+        .prev()
+        .html();
 
-      $(this).prev().remove();
-      $(this).replaceWith("<details><summary>" + p + "</summary><ul>" + ul + "</ul></details>");
-    });    
+      $(this)
+        .prev()
+        .remove();
+      $(this).replaceWith(
+        "<details><summary>" + p + "</summary><ul>" + ul + "</ul></details>"
+      );
+    });
 
     res.locals.todo = $.html();
     return next();
