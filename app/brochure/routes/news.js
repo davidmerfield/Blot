@@ -6,6 +6,9 @@ var fs = require("fs-extra");
 var marked = require("marked");
 var helper = require("helper");
 var parse = require("body-parser").urlencoded({ extended: false });
+var uuid = require("uuid/v4");
+var config = require("config");
+var client = require("client");
 
 news.get("/", loadDone, loadToDo, function(req, res) {
   res.locals.title = "Blot / News";
@@ -17,32 +20,57 @@ news.get("/archive", loadDone, loadToDo, function(req, res) {
   res.render("news/archive");
 });
 
-news.get("/sign-up", function(req ,res){
+news.get("/sign-up", function(req, res) {
   res.render("news/sign-up");
+});
+
+news.get("/confirm/:guid", function(req, res) {
+  client.get(
+    "newsletter:confirm:" + decodeURIComponent(req.params.guid),
+    function(err, email) {
+      if (err || !email) {
+        res.locals.error = err ? "EINVAL" : null;
+      }
+
+      client.sadd("newsletter:list", email, function(err) {
+        res.locals.email = email;
+        res.render("news/confirmed");
+      });
+    }
+  );
 });
 
 news.post("/sign-up", parse, function(req, res) {
   var err;
+  var guid = encodeURIComponent(
+    uuid()
+      .split("-")
+      .join("")
+  );
+  var confirm = "https://" + config.host + "/news/confirm/" + guid;
+  var TTL = 60 * 60 * 24; // 1 day in seconds
 
   if (!req.body || !req.body.email) {
     err = new Error();
     err.code = "ENOENT";
   }
 
-  var confirm = "https://blot.development/news/confirm";
+  client.setex("newsletter:confirm:" + guid, TTL, req.body.email, function(
+    err
+  ) {
+    helper.email.SUBSCRIBE_CONFIRMATION(
+      null,
+      { email: req.body.email.trim().toLowerCase(), confirm: confirm },
+      function(err) {
+        if (err) {
+          err = new Error();
+          err.code = "EINVAL";
+        }
 
-  helper.email.SUBSCRIBE_CONFIRMATION(
-    null,
-    { email: req.body.email.trim().toLowerCase(), confirm: confirm },
-    function(err) {
-      if (err) {
-        err = new Error();
-        err.code = "EINVAL";
+        res.redirect("/news/sign-up");
       }
-
-      req.message("/news/sign-up");
-    }
-  );
+    );
+  });
 });
 
 function loadToDo(req, res, next) {
