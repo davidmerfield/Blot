@@ -1,21 +1,4 @@
-Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
-
----
-
 Start quarterly newsletter with improvements, changes, send first edition on March 20th and let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
-
-Finish default feed templates
-- Create folder with public domain material
-
-Finish archive template
-- Create folder with public domain material, public domain new deal photos?
-
-Record new demo video
-- Create simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself "Bring your own interface"
-- Show sites I run using Blot: 
-  - Blot's developer blog on the default feed theme
-  - My visual scrapbook on the archives theme: shows tag folders, photo blog
-  - My personal site: simple landing page, edit with a doc file?
 
 Re-instate blotcdn.com
 - Work out how to process the assets for new posts in the background to reduce publish latency
@@ -31,7 +14,22 @@ Re-instate blotcdn.com
 - Can I warm the cache for the index page?
 - Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
 
+Finish default feed templates
+- Create folder with public domain material
+
+Finish archive template
+- Create folder with public domain material, public domain new deal photos?
+
+Record new demo video
+- Create simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself "Bring your own interface"
+- Show sites I run using Blot: 
+  - Blot's developer blog on the default feed theme
+  - My visual scrapbook on the archives theme: shows tag folders, photo blog
+  - My personal site: simple landing page, edit with a doc file?
+
 ---
+
+Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
