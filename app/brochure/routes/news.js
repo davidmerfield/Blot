@@ -5,10 +5,22 @@ var exec = require("child_process").exec;
 var fs = require("fs-extra");
 var marked = require("marked");
 var helper = require("helper");
+var parse = require("body-parser").urlencoded({ extended: false });
 
 news.get("/", loadDone, loadToDo, function(req, res) {
   res.locals.title = "Blot / News";
   res.render("news");
+});
+
+
+news.get("/archive", loadDone, loadToDo, function(req, res) {
+  res.locals.title = "Blot / News";
+  res.render("news/archive");
+});
+
+news.post('/sign-up', parse, function(req, res){
+  console.log(req.body);
+  res.render("news/sign-up");
 });
 
 function loadToDo(req, res, next) {
