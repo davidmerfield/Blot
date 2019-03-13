@@ -31,6 +31,8 @@ function main(letter, callback) {
   getAllSubscribers(function(err, emails) {
     if (err) return callback(err);
 
+    console.log('Sending ' + letter + ' out to ' + emails.length + ' subscribers');
+
     async.filter(emails, alreadySent, function(err, emails) {
       if (err) return callback(err);
 
