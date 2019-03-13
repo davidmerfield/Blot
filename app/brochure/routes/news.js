@@ -40,20 +40,92 @@ news.get("/sign-up", function(req, res) {
   res.render("news/sign-up");
 });
 
+news.get("/cancel", function(req, res) {
+  if (req.session && req.session.newsletter_email) {
+    res.locals.email = req.session.newsletter_email;
+    delete req.session.newsletter_email;
+  }
+
+  res.render("news/cancel");
+});
+
+var listKey = "newsletter:list";
+var TTL = 60 * 60 * 24; // 1 day in seconds
+
 function confirmationKey(guid) {
   return "newsletter:confirm:" + guid;
 }
 
-var listKey = "newsletter:list";
-var TTL = 60 * 60 * 24; // 1 day in seconds
+function cancellationKey(guid) {
+  return "newsletter:cancel:" + guid;
+}
 
 function confirmationLink(guid) {
   return "https://" + config.host + "/news/confirm/" + guid;
 }
 
-function cancelLink (email) {
-  return 'https://' + config.host + '/news/cancel/' + hash(email);
+function cancellationLink(guid) {
+  return "https://" + config.host + "/news/cancel/" + guid;
 }
+
+news.post("/cancel", parse, function(req, res, next) {
+  var cancel, email, locals;
+  var guid = uuid();
+
+  if (!req.body || !req.body.email) {
+    return next(new Error("No email"));
+  }
+
+  email = req.body.email.trim().toLowerCase();
+  guid = guid.split("-").join("");
+  guid = encodeURIComponent(guid);
+  cancel = cancellationLink(guid);
+  locals = { email: email, cancel: cancel };
+
+  client.sismember(listKey, email, function(err, stat) {
+    if (err || !stat) return next(err || new Error("No subscription found"));
+
+    client.setex(cancellationKey(guid), TTL, email, function(err) {
+      if (err) return next(err);
+
+      helper.email.NEWSLETTER_CANCELLATION_CONFIRMATION(null, locals, function(
+        err
+      ) {
+        if (err) return next(err);
+
+        req.session.newsletter_email = email;
+        res.redirect("/news/cancel");
+      });
+    });
+  });
+});
+
+news.get("/cancel/:guid", function(req, res, next) {
+  var guid = decodeURIComponent(req.params.guid);
+
+  client.get(cancellationKey(guid), function(err, email) {
+    if (err || !email) return next(err || new Error("No email"));
+
+    client.srem(listKey, email, function(err) {
+      if (err) return next(err);
+
+      var locals = { email: email };
+
+      helper.email.NEWSLETTER_CANCELLATION_CONFIRMED(null, locals, function(
+        err
+      ) {
+        if (err) return next(err);
+
+        client.del(cancellationKey(guid), function(err) {
+          if (err) return next(err);
+
+          res.locals.email = email;
+          res.render("news/cancelled");
+        });
+      });
+    });
+  });
+});
 
 news.get("/confirm/:guid", function(req, res, next) {
   var guid = decodeURIComponent(req.params.guid);
@@ -64,14 +136,21 @@ news.get("/confirm/:guid", function(req, res, next) {
     client.sadd(listKey, email, function(err) {
       if (err) return next(err);
 
-      var locals = { email: email, cancel: cancelLink(email)  };
+      var locals = {
+        email: email,
+        cancel: "https://" + config.host + "/news/cancel"
+      };
 
       helper.email.NEWSLETTER_SUBSCRIPTION_CONFIRMED(null, locals, function(
         err
       ) {
         if (err) return next(err);
-        res.locals.email = email;
-        res.render("news/confirmed");
+
+        client.del(confirmationKey(guid), function(err) {
+          if (err) return next(err);
+          res.locals.email = email;
+          res.render("news/confirmed");
+        });
       });
     });
   });

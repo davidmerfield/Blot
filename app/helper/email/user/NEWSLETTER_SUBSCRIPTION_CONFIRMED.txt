@@ -1,3 +1,5 @@
 You have subscribed to Blot's newsletter
 
-You can [cancel your subscription]({{{cancel}}}) to this newsletter at at point.
+You can [cancel your subscription]({{{cancel}}}) to this newsletter at any point. Please respond directly to this email if you have any questions.
+
+Sincerely, David
