@@ -1,0 +1,5 @@
+Warning: running out of space on Blot's disk
+
+The storage drive attached to Blot's server is running out of space. It is currently {{usage}} full with {{available}} remaining. Please follow the guide here to resize it:
+
+https://github.com/davidmerfield/Blot/blob/master/config/guides/resize-instance.txt
