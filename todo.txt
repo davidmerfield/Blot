@@ -130,6 +130,9 @@ Improvements to public site
 
 Add support for HTTP2
 
+Write summer newsletter
+- Send on June 21
+
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 
 Add notification emails for monit events?
