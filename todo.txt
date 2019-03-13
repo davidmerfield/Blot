@@ -1,4 +1,5 @@
-Send Spring edition of newsletter on March 20th
+Write Spring edition of newsletter
+- Send on March 20th
 
 Re-instate blotcdn.com
 - Work out how to process the assets for new posts in the background to reduce publish latency
