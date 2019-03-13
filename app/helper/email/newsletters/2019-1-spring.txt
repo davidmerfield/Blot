@@ -1,0 +1,28 @@
+Spring news
+
+You recieved [this email]({{{permalink}}}) because you subscribed to [Blot's newsletter]({{{host}}}/news). You can [unsubscribe]({{{unsubscribe}}}) if you like.
+
+New features:
+
+- Recently I added two new templates to Blot:
+  
+  [Photos]
+  
+  [Portfolio]
+
+Fixed bugs:
+
+Downtime:
+
+There were two downtime incidents over winter:
+
+- The first began after the disk attached to Blot's main server ran out of free space. I have attached a substantially larger disk and set up dedicated alerts when disk space is running low. 
+- The second downtime incident occured because of overzealous monitoring and incorrect systems in place to recover from server failures. 
+
+Featured sites:
+
+Plans for this season:
+
+- I'd like to take a step back and do some research on existing blogging platforms. 
+
+You can visit [Blot's website]({{{host}}}) for more information. Feel free to reply directly to this email if you have any questions, or [contact support]({{{host}}}/contact).

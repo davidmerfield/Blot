@@ -1,4 +1,67 @@
 <style type="text/css">
+
+input[type="submit"] {
+    background: #333;
+    padding: 0.75em 1em;
+    color: white;
+    border: none;
+    border-bottom: 2px solid #000;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 2px 0
+  }
+
+  input[type="submit"]:focus {
+    border: none;
+    position: relative;
+    top: 2px
+  }
+
+  label {
+    font-size: 14px;
+    color: #666
+  }
+
+  /* turn into tooltip */
+  label em {
+    display: none;
+  }
+
+  input[name="email"],
+  input[name="password"] {
+    width: 100%;
+    display: block;
+  }
+
+  input[name="number"] {
+    width: 100%;
+    display: block;
+  }
+
+  input[name="cvc"] {
+    display: block;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 4px 3px;
+    margin: 2px 0;
+    font-size: 17px;
+    padding: 10px;
+    font-family: inherit;
+    z-index: 1;
+    position: relative;
+    border: 1px solid #cccbca;
+    border-top-color: rgba(0, 0, 0, .25);
+    border-bottom-color: rgba(0, 0, 0, .15);
+    box-sizing: border-box;
+    background: 0 0;
+    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  }
+
+
 ol {
   list-style-type: none;
   width: 300px
@@ -112,7 +175,19 @@ details summary:before {
 }
 </style>
 <h1>News and updates</h1>
-<p>The lists below give you a idea of what I’m working on. I tend to announce significant news on <a href="https://www.twitter.com/blot__">Blot’s Twitter account</a>. Blot’s <a href="https://github.com/davidmerfield/Blot">source code</a> is dedicated to the public domain. Please don’t hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+<p>The lists below give you an idea of what I'm working on. I send out an email each season with a summary of new features, templates, fixed bugs and future plans. <!-- View the <a href="/news/archive">newsletter archive</a>. -->  Please don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+
+<p>
+<form action="/news/sign-up" method="POST" style="max-width:35em;">
+  <label for="email">Your email</label>
+  <div style="display:flex">
+  <input type="text" required id="email" name="email">
+  <input type="submit" value="Subscribe to the newsletter">
+</div>
+</form>
+</p>
+
+<br><br>
 
 <flex>
   
