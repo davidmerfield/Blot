@@ -1,4 +1,4 @@
-Start quarterly newsletter with improvements, changes, send first edition on March 20th and let [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know
+Send Spring edition of newsletter on March 20th
 
 Re-instate blotcdn.com
 - Work out how to process the assets for new posts in the background to reduce publish latency
