@@ -1,0 +1,32 @@
+Spring news
+
+*You recieved [this email]({{{permalink}}}) because you subscribed to [Blot's newsletter]({{{host}}}/news). You can [unsubscribe]({{{unsubscribe}}}) if you like. If you have any questions at all, please don't hesitate to respond directly to this email.*
+
+**New features**
+
+Recently I added two new templates to Blot:
+  
+- [Photos]({{{host}}}/templates/photos) designed for photos. It features an index page with a grid of thumbnails.
+  
+- [Portfolio]({{{host}}}/templates/portfolio)
+
+I made a number of changes to the layout of the dashboard. 
+
+**Fixed bugs**
+
+
+**Mistakes**
+
+There were two downtime incidents over the winter. I made adjustments to Blot's infrastructure to prevent their repeating in future:
+
+- The first period of downtime began after the disk attached to Blot's main server ran out of free space. Blot's database couldn't persist on disk and began to throw errors. I was travelling for Christmas in the UK and managed to SSH into Blot's server, wipe a few uneeded log files to give me enough time to attach a substantially larger disk. I have now set up dedicated alerts when disk space starts to run low. 
+- The second downtime incident occured because of overzealous monitoring and incorrect systems in place to recover from server failures. I use a tool called Monit to ensure that the processes which Blot's server depends on are running. Monit attempts to restart processes it determines are no longer working. Monit incorrectly determined NGINX, which Blot uses as a reverse proxy, 
+
+
+**Plans for this season**
+
+I'd like to take a step back and do some research on existing blogging platforms. 
+
+
+
+You can visit [Blot's website]({{{host}}}) for more information. Feel free to reply directly to this email if you have any questions, or [contact support]({{{host}}}/contact).
