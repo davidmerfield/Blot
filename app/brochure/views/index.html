@@ -28,18 +28,10 @@ Posts
 
 <p>Why a blogging platform with no interface? So you can blog with your favorite tools. Use your favorite text-editor to write and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>.  Here's a handful of the people who host their website on Blot:</p>
 
-<ul class="sites">
   {{#featured}}
-  <li>
-
-    <a target="_blank" rel="noopener" href="{{{url}}}">
-      {{#first}}<span class="new">New</span>{{/first}}
-      <span class='domain'>{{domain}}</span>
-    <dots><dot></dot><dot></dot><dot></dot></dots>
-  </a>
-    <p><a target="_blank" rel="noopener" href="{{{url}}}">{{name}}</a> {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{templateLower}}">{{template}}</a> template{{/custom}}.</li>
+    <p style="width:50%;float:left;max-width:none;position:relative;padding-left:1.5em;padding-right:1em;box-sizing:border-box"><a target="_blank" rel="noopener" href="{{{url}}}"> <b>   <img style="position:absolute;left:0px;top:3px;width:16px;height:16px;" src="/images/featured/{{image}}">
+ {{name}}</b></a> {{description}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{templateLower}}">{{template}}</a> template{{/custom}}.</li>
   {{/featured}}
-</ul>
 
 </div>
 
