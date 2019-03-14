@@ -1,32 +1,42 @@
 Spring news
 
-*You recieved [this email]({{{permalink}}}) because you subscribed to [Blot's newsletter]({{{host}}}/news). You can [unsubscribe]({{{unsubscribe}}}) if you like. If you have any questions at all, please don't hesitate to respond directly to this email.*
+*You received [this email]({{{permalink}}}) because you subscribed to [Blot's newsletter]({{{host}}}/news). You can [unsubscribe]({{{unsubscribe}}}) if you like. If you have any questions at all, please don't hesitate to respond directly to this email.*
+
 
 **New features**
 
-Recently I added two new templates to Blot:
+Blot has two new templates:
   
 - [Photos]({{{host}}}/templates/photos) designed for photos. It features an index page with a grid of thumbnails.
   
-- [Portfolio]({{{host}}}/templates/portfolio)
+- [Portfolio]({{{host}}}/templates/portfolio) is designed for photos. It features a persistent index on the side of the page.
 
-I made a number of changes to the layout of the dashboard. 
+**Changes**
 
-**Fixed bugs**
+I made a number of changes to the layout of the dashboard and documentation, as is tradition. 
 
+**Bugs fixed**
+
+- I fixed an ancient bug with Blot's metadata parser which prevented you from writing a post with a URL on the first line.
+- Customers hosting multiple blogs using Blot's git client now no longer need to re-authenticate each time they switch blog.
+- Error limits from Dropbox are now handled appropriately. This was a hard one to test.
+- Fixed bug with Metadataparser tripped by the way Windows encodes newlines.
+- I introduced and then subsequently fixed a number of caching bugs, as is tradition.
 
 **Mistakes**
 
 There were two downtime incidents over the winter. I made adjustments to Blot's infrastructure to prevent their repeating in future:
 
-- The first period of downtime began after the disk attached to Blot's main server ran out of free space. Blot's database couldn't persist on disk and began to throw errors. I was travelling for Christmas in the UK and managed to SSH into Blot's server, wipe a few uneeded log files to give me enough time to attach a substantially larger disk. I have now set up dedicated alerts when disk space starts to run low. 
-- The second downtime incident occured because of overzealous monitoring and incorrect systems in place to recover from server failures. I use a tool called Monit to ensure that the processes which Blot's server depends on are running. Monit attempts to restart processes it determines are no longer working. Monit incorrectly determined NGINX, which Blot uses as a reverse proxy, 
+- The first period of downtime began after the disk attached to Blot's main server ran out of free space. Blot's database couldn't persist on disk and began to throw errors. I was travelling for Christmas in the UK and managed to SSH into Blot's server from my phone, wipe a few uneeded log files to give me enough time to attach a substantially larger disk. I have now set up dedicated alerts when disk space starts to run low. 
+- The second downtime incident occured because of overzealous monitoring and incorrect systems in place to recover from server failures. I use a tool called Monit to ensure that the processes which Blot's server depends on are running. Monit attempts to restart processes it determines are no longer working. Monit incorrectly determined NGINX, which Blot uses as a reverse proxy. The gods conspired to make this happen when I was on a train. I was able to reboot Blot's server from my phone.
 
 
 **Plans for this season**
 
 I'd like to take a step back and do some research on existing blogging platforms. 
 
+Paul has been kindly helping. We managed to get Blot running in his development environment and wrote up the process. This is an important step on the eventual road to encouraging self-hosting.
 
+ 
 
-You can visit [Blot's website]({{{host}}}) for more information. Feel free to reply directly to this email if you have any questions, or [contact support]({{{host}}}/contact).
+Sincerely, David
