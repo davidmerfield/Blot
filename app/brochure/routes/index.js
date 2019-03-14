@@ -54,8 +54,6 @@ brochure.get("/sitemap.xml", require("./sitemap"));
 
 brochure.use("/developers", require("./developers"));
 
-brochure.use("/formatting", require("./formatting"));
-
 // brochure.use("/templates", require("./templates"));
 
 brochure.use("/news", require("./news"));
@@ -92,6 +90,10 @@ brochure.get("/", function(req, res) {
   res.render("index");
 });
 
+var tex = require('./tools/tex');
+
+brochure.use('/publishing/formatting', tex);
+
 brochure.get("/:section", function(req, res, next) {
   // This check is designed to prevent an error polluting
   // the logs which happens for requests like /images/foo.png
@@ -118,6 +120,22 @@ brochure.get("/:section/:subsection", function(req, res, next) {
   res.locals.title =
     "Blot – " + req.params.section + " – " + req.params.subsection;
   res.render(req.params.section + "/" + req.params.subsection);
+});
+
+brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
+  // This check is designed to prevent an error polluting
+  // the logs which happens for requests like /images/foo.png
+  // Express doesn't have a renderer for '.png' so there is an error
+  if (
+    req.params.section.indexOf(".") > -1 ||
+    req.params.subsection.indexOf(".") > -1
+  ) {
+    return next();
+  }
+
+  res.locals.title =
+    "Blot – " + req.params.subsubsection + " – " + req.params.section;
+  res.render(req.params.section + "/" + req.params.subsection + '/' + req.params.subsubsection);
 });
 
 brochure.use(function(err, req, res, next) {
