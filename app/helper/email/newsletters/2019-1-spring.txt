@@ -22,6 +22,9 @@ I made a number of changes to the layout of the dashboard and documentation, as 
 - Error limits from Dropbox are now handled appropriately. This was a hard one to test.
 - Fixed bug with Metadataparser tripped by the way Windows encodes newlines.
 - I introduced and then subsequently fixed a number of caching bugs, as is tradition.
+- Images in Word Documents now become thumbnails as expected.
+
+
 
 **Mistakes**
 
@@ -30,6 +33,7 @@ There were two downtime incidents over the winter. I made adjustments to Blot's 
 - The first period of downtime began after the disk attached to Blot's main server ran out of free space. Blot's database couldn't persist on disk and began to throw errors. I was travelling for Christmas in the UK and managed to SSH into Blot's server from my phone, wipe a few uneeded log files to give me enough time to attach a substantially larger disk. I have now set up dedicated alerts when disk space starts to run low. 
 - The second downtime incident occured because of overzealous monitoring and incorrect systems in place to recover from server failures. I use a tool called Monit to ensure that the processes which Blot's server depends on are running. Monit attempts to restart processes it determines are no longer working. Monit incorrectly determined NGINX, which Blot uses as a reverse proxy. The gods conspired to make this happen when I was on a train. I was able to reboot Blot's server from my phone.
 
+I turned off Blot's CDN late last year. I then discovered that this dramatically increased the time that images took to download. 
 
 **Plans for this season**
 
