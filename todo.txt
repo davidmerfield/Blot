@@ -111,7 +111,7 @@ Improvements to public site
 - Tell [this person](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af) that there is now documentation on how to mirror a repo to GitHub
 - Favicon with white background for folder
 - HTML minifier
-- CSS comporessor
+- CSS compressor
 - JavaScript minifier
 - Custom video player on index page
 - Add types and examples to items on reference page
