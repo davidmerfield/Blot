@@ -25,14 +25,16 @@
     .table input {display: none;}
     .table ul {display: none;}
     .table input:checked + a + ul {display: block;}
+    .table a.inline {display: block;width: 50%;float:left;box-sizing:border-box;}
     </STYLE>
     <section>
       <ul class="table">
 
         {{^user}}
         <a class="in {{selected.index}}" href="/">Blot is a blogging platform<br>with no interface</a>
-        <a href="/log-in">Log in</a>
-        <a href="/sign-up">Sign up</a>
+        <a href="/log-in" class="inline">Log in</a>
+        <a href="/sign-up" class="inline">Sign up</a>
+        <br>
         {{/user}}
         {{#user}}
         <a class="in {{selected.index}}" href="/">←  Back to dashboard</a>
@@ -140,7 +142,7 @@
       <ul class="table">
 
         <li>
-          <a href="/support">Support</a>
+          <a href="/contact">Contact</a>
         </li>
 
         <li>
@@ -153,6 +155,7 @@
       </ul>
     </section>
     <content>
+      {{> breadcrumbs}}
       {{{body}}}
     </content>
   </main>

@@ -100,6 +100,8 @@ brochure.get("/:section", function(req, res, next) {
     return next();
   }
 
+  res.locals.breadcrumbs = [];
+  res.locals.breadcrumbs.push({url: '/' + req.params.section, label: req.params.section})
   res.locals.title = "Blot – " + req.params.section;
   res.render(req.params.section);
 });
@@ -114,6 +116,11 @@ brochure.get("/:section/:subsection", function(req, res, next) {
   ) {
     return next();
   }
+
+  res.locals.breadcrumbs = [];
+  res.locals.breadcrumbs.push({url: '/' + req.params.section, label: req.params.section})
+
+  res.locals.breadcrumbs.push({url: '/' + req.params.subsection, label: req.params.subsection})
 
   res.locals.title =
     "Blot – " + req.params.section + " – " + req.params.subsection;
