@@ -45,6 +45,31 @@
         <li class="{{selected.metadata}}">
           <a href="{{{base}}}/publishing/metadata">Metadata</a>
         </li>
+          <li class="{{selected.configuring}}">
+            <a href="{{{base}}}/publishing/configuring">Configuring your blog</a>
+          </li>
+          <li class="{{selected.redirects}}">
+            <a href="{{{base}}}/publishing/clients">Clients</a>
+          </li>
+                    <li class="{{selected.domain}}">
+            <a href="{{{base}}}/publishing/domain">Use your own domain</a>
+          </li>
+          <li class="{{selected.import}}">
+            <a href="{{{base}}}/publishing/import">Importing posts</a>
+          </li>
+          <li class="{{selected.redirects}}">
+            <a href="{{{base}}}/publishing/redirects">Redirects</a>
+          </li>
+          <li class="{{selected.urls}}">
+            <a href="{{{base}}}/publishing/urls">URLs</a>
+          </li>
+                <li>
+        <a href="/publishing/formatting">Formatting guide</a>
+      </li>
+
+          <li class="{{selected.services}}">
+            <a href="{{{base}}}/publishing/services">External services</a>
+          </li>        
         <br>
       </ul>
       </li>
@@ -92,41 +117,7 @@
       </ul>
       </li>
 
-      <li class="has-list {{selected.configuring}}">
-        <input type="checkbox" name="configuring" id="configuring" {{#selected.configuring}} checked{{/selected.configuring}}> <a href="{{{base}}}/configuring">Configuring
-        <!--  your blog --><label for="configuring"></label></a>
-        <ul>
-          <li class="{{selected.domain}}">
-            <a href="{{{base}}}/configuring/domain">Use your own domain</a>
-          </li>
-          <li class="{{selected.import}}">
-            <a href="{{{base}}}/configuring/import">Importing posts</a>
-          </li>
-          <li class="{{selected.redirects}}">
-            <a href="{{{base}}}/configuring/redirects">Redirects</a>
-          </li>
-          <li class="{{selected.urls}}">
-            <a href="{{{base}}}/configuring/urls">URLs</a>
-          </li>
-          <li class="{{selected.services}}">
-            <a href="{{{base}}}/configuring/services">External services</a>
-          </li>
-          <br>
-        </ul>
-      </li>
-
-      <li class="has-list {{selected.clients}}">
-        <input type="checkbox" name="clients" id="clients" {{#selected.clients}} checked{{/selected.clients}}> <a href="{{{base}}}/clients">Clients<label for="clients"></label></a>
-        <ul>
-          <li class="{{selected.dropbox}}">
-            <a href="{{{base}}}/clients/dropbox">Dropbox</a>
-          </li>
-          <li class="{{selected.git}}">
-            <a href="{{{base}}}/clients/git">Git</a>
-          </li>
-          <br>
-        </ul>
-      </li>
+    
 
       <li class="{{selected.account-billing}}">
         <a href="{{{base}}}/account-billing">Account and billing</a>
@@ -138,21 +129,22 @@
         <a href="/support">Support</a>
       </li>
 
-      <li>
-        <a href="/formatting">Formatting guide</a>
-      </li>
-
-      <li>
-        <a href="/news">News and updates</a>
-      </li>
-
-      <li>
-        <a href="/developers">Developers</a>
-      </li>
 
       <li>
         <a href="/about">About</a>
       </li>
+
+      <li>
+        <a href="/news">News</a>
+      </li>
+
+     <!--  <li><a href="/developers">Developer guide</a></li>
+
+      <li><a href="/terms">Terms of use</a></li>
+      <li><a href="/privacy">Privacy policy</a></li>
+    -->   <!-- <li><a href="/contact">Contact</a></li>
+ -->
+
 
     </ul>
     <content>
