@@ -224,7 +224,7 @@ background .text {
 a.video {
   background: #f3eeea;
   margin: 0 0 4em;
-  height: calc(100vh - 6em);
+  height: calc(100vh - 18em);
   /*  padding-bottom: 56.25%;
 */
   position: relative;
