@@ -7,8 +7,7 @@ var assert = require("assert");
 var logg = require("../logg");
 var log = new logg("Email");
 var Mustache = require("mustache");
-var Remarkable = require("remarkable");
-var md = new Remarkable();
+var marked = require("marked");
 
 var Mailgun = require("mailgun-js");
 var mailgun = new Mailgun({
@@ -123,7 +122,7 @@ function send(locals, messageFile, to, callback) {
     var subject = Mustache.render(lines[0] || "", locals);
     var message = lines.slice(2).join("\n") || "";
 
-    var html = md.render(Mustache.render(message, locals));
+    var html = marked(Mustache.render(message, locals));
 
     var email = {
       html: html,
@@ -144,7 +143,7 @@ function send(locals, messageFile, to, callback) {
       console.log("Email not sent in development environment:", email);
       return callback();
     }
-    
+
     mailgun.messages().send(email, function(err, body) {
       if (err) {
         console.log("Error: Mailgun failed to send transactional email:", err);
