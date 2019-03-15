@@ -1,6 +1,6 @@
 Spring news
 
-*You received [this email]({{{permalink}}}) because you subscribed to [Blot's newsletter]({{{host}}}/news). You can [unsubscribe]({{{unsubscribe}}}) if you like. If you have any questions at all, please don't hesitate to respond directly to this email.*
+*You received [this email]({{{permalink}}}) because you subscribed to [Blot's newsletter]({{{host}}}/news). You can [unsubscribe]({{{unsubscribe}}}) if you like.*
 
 
 **New features**
@@ -13,7 +13,8 @@ Blot has two new templates:
 
 **Changes**
 
-I made a number of changes to the layout of the dashboard and documentation, as is tradition. 
+- I made a number of changes to the layout of the dashboard and documentation, as is tradition. 
+- I increased the price for new customers to $30 a year. This did not affect existing customers in any way: you'll always pay whatever annual fee you signed up for and you'll always be able to create new blogs at that price.
 
 **Bugs fixed**
 
@@ -41,6 +42,6 @@ I'd like to take a step back and do some research on existing blogging platforms
 
 Paul has been kindly helping. We managed to get Blot running in his development environment and wrote up the process. This is an important step on the eventual road to encouraging self-hosting.
 
- 
+If you have any questions at all, please don't hesitate to respond directly to this email.
 
 Sincerely, David
