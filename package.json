@@ -57,7 +57,6 @@
     "redis": "^2.8.0",
     "redlock": "^3.1.2",
     "reds": "^0.2.5",
-    "remarkable": "^1.6.0",
     "request": "^2.72.0",
     "sharp": "^0.21.1",
     "simple-git": "^1.102.0",
