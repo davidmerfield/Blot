@@ -105,8 +105,8 @@ module.exports = function(req, res, _next) {
             // advance? If it throws an error, the user
             // probably forgot an equals sign or some bs...
             try {
-              if (viewType === STYLE && !req.preview)
-                output = minimize.minify(output || "");
+              // if (viewType === STYLE && !req.preview)
+              //   output = minimize.minify(output || "");
 
               if (viewType === JS && !req.preview)
                 output = UglifyJS.minify(output, { fromString: true }).code;
