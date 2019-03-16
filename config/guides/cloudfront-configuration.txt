@@ -1,0 +1,49 @@
+Goals
+-----
+
+So I've worked out why CDNs are import: bandwidth latency product. And now I want to get the CDN working again. The goal is to take as much load off the main server as possible, and to make blogs load faster.
+
+I don't want to be uploading stuff to S3 because of the additional latency. I want publishing posts to be as fast as possible. 
+
+
+Specific behaviour
+------------------
+
+I want a few things:
+
+- permanent URLs which never change, don't need to be swapped when a blog rebuilds for:
+  - thumbnails
+  - cached images
+  - avatars
+  - template assets
+
+- temporary URLs which only change when 
+  - for internal links to static files on disk
+
+I want to be able to do something synchronously like:
+
+{{#asset}}/style.css{{/asset}} ---> blotcdn.com/{blogID}/{cacheID}/templates/foo/style.css
+
+I can also have multiple subdomains, e.g. example.com.blotcdn.com/{cacheID}/templates/foo/style.css but maybe shouldn't use this.
+
+Setup
+-----
+
+Cloudfront now offers 'Origin Groups' which mean it can first attempt an S3 bucket, then pass the request to some other server (which in my case will be an EC2 instance).
+
+Some files still exist only on S3, which is why this is important. Eventually I'd like to just store everything on disk.
+
+   1. Create origin pointing to s3 bucket
+   2. Create origin pointing to blot.im
+   3. Create origin group which contains origins pointing to s3, and then blot.im
+   4. Create behaviour pointing to origin group
+
+I verified requests were still getting through with this image:
+
+https://blotcdn.com/443d398b03/avatars/1468462389403/sut8yy-cm2vr9izecb64i-yhcfrlvfg.png
+
+I checked requests without a match in S3 were getting passed to Blot:
+
+https://blotcdn.com/
+
+I then replaced the origin path for the behaviour with '/static' to ensure that requests to blotcdn.com always return 404s for now, until I handle them on the server side.
