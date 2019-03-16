@@ -1,8 +1,7 @@
-Write Spring edition of newsletter
-- Send on March 20th
+Send Spring edition of newsletter on March 20th
 
 Re-instate blotcdn.com
-- Work out how to process the assets for new posts in the background to reduce publish latency
+- Work out how to process the assets for new posts in the background to reduce publish latency?
 - Prevent protocol-less bug for URLs to blotcdn which messed with micro.blog
 - Get nginx serving static files from scratch
 - Can I do blotcdn.com/blogID/cacheID/asset/path inside {{#asset}} {{/asset}} --> to improve load times for arbritrary files and remove cssURL etc.?
@@ -14,11 +13,13 @@ Re-instate blotcdn.com
   - Should I bypass s3? Might be nice to take load off ec2
 - Can I warm the cache for the index page?
 - Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
+- Think about folder structure to make serving static files easier
+- Think about moving to guid blog ids to include in the path
 
-Finish default feed templates
+Finish Feed template
 - Create folder with public domain material
 
-Finish archive template
+Finish Archive template
 - Create folder with public domain material, public domain new deal photos?
 
 Record new demo video
