@@ -13,6 +13,7 @@ Re-instate blotcdn.com
   - Should I bypass s3? Might be nice to take load off ec2
 - Can I warm the cache for the index page?
 - Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
+- Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW)
 - Think about folder structure to make serving static files easier
 - Think about moving to guid blog ids to include in the path
 
@@ -432,6 +433,8 @@ Git client:
 - what happens if user changes their handle? will pushing break?
   - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
 - Rate limit authentication route?
+
+Review [Fathom analytics](https://usefathom.com/) and get back to [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKVZBFfnxCDXcmCzMXDHcTDv)
 
 Dropbox client:
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
