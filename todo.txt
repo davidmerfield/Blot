@@ -60,6 +60,7 @@ Git client bugs:
 Image and thumbnail bugs
 - Fix bug for images containing upper-case characters on [Jonas' blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
 - Fix bug for missing thumbnails from images in posts on [Shashwati's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
+- Fix bug for missing thumbnails on [Jay's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKSFqbSHKQkxHhqhgqzGVsfg)
 - Fix bug with image minification which produces larger file than source file and tell [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkHlNvhcJLGVRCPvXvjbwsWR)
 - Fix bug with gifs and the image cacher. Animated gifs from imgur.com were not playing, just the first frame was fetched. Tell [Oleg](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhZfBqbKBBXWBtZLpjPSNv)
 - Fix [bug with thumbnails and tell John](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
@@ -193,7 +194,7 @@ and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVs
 - Re-do url redirector to use route-parser and properly support regular expressions
 - Move to uuid based template IDs instead of slug
 - Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
-- Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm)
+- Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](@LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760
