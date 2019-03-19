@@ -6,7 +6,7 @@ Spring newsletter
 **New features**
 
 
-I made some improvements to the [guide](https://blot.im/publishing) and [developer documentation](https://blot.im/developers). There's a new section on [the Git and Dropbox clients](https://blot.im/publishing/clients). I also designed two new templates:
+I made some additions to the [guide](https://blot.im/publishing) and [developer documentation](https://blot.im/developers). There's a new section on [the Git and Dropbox clients](https://blot.im/publishing/clients). I also designed two new templates:
   
 - [Photos](https://blot.im/templates/photos)
 - [Portfolio](https://blot.im/templates/portfolio) 
@@ -24,7 +24,7 @@ I made some improvements to the [guide](https://blot.im/publishing) and [develop
 **Bugs fixed**
 
 - Fixed an vintage bug with Blot's metadata parser which incorrectly interpreted a URL on the first line of the file as metadata.
-- Customers hosting multiple blogs using Blot's [Git client](https://blot.im/publishing/clients/git) now no longer need to re-authenticate each they switch blog.
+- Customers hosting multiple blogs using Blot's [Git client](https://blot.im/publishing/clients/git) now no longer need to re-authenticate when they switch blog.
 - Rate limit errors from Dropbox are now handled appropriately.
 - Images in posts generated from Word Documents can now become thumbnails.
 - As is tradition, I introduced and then fixed a number of caching bugs.
@@ -45,7 +45,7 @@ However, I discovered that disabling Blot's CDN dramatically reduced the availab
 
 I will restart Blot's CDN so that images on your blog download quickly again. I will then focus on Blot's template system for the next few months. I'd also like to continue my research on existing blogging platforms and publish these notes online.
 
-[Paul](https://github.com/Pinjasaur) has been kindly helping out  since January. One of the first things we did was get Blot running on Paul's machine and [write up the process](https://github.com/davidmerfield/Blot/blob/master/config/guides/development-environment.md). This is an important step towards encouraging people to self-host Blot, which is one of my long-term goals.
+[Paul](https://github.com/Pinjasaur) has been kindly contributing to Blot's code since January. We managed to get Blot running on Paul's machine and we wrote a [guide to setting up Blot in a development environment](https://github.com/davidmerfield/Blot/blob/master/config/guides/development-environment.md). This is an important step towards encouraging people to self-host Blot, which is one of my long-term goals.
 
 If you have any questions at all about any of this, please don't hesitate to reply directly to this email.
 
