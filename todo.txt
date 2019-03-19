@@ -1,6 +1,7 @@
 Send Spring edition of newsletter on March 20th
 
 Re-instate blotcdn.com
+- Should I just create the infrastructure to point customer domains directly to Cloudfront?
 - Work out how to process the assets for new posts in the background to reduce publish latency?
 - Prevent protocol-less bug for URLs to blotcdn which messed with micro.blog
 - Get nginx serving static files from scratch

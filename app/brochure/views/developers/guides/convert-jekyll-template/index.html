@@ -1,15 +1,22 @@
 <h1>Convert a Jekyll template to Blot</h1>
 
-<p>This guide will explain the process of converting a Jekyll template to Blot. I'm going to convert the <a href="https://jekyll.github.io/minima/">Minima template</a> step-by-step. You will need a decent familiarity with web development to complete this guide. This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
 
-  You can find the source code for Minima at GitHub:
-  [jekyll][jekyll-organization] /
-  [minima](https://github.com/jekyll/minima)
+<p>This guide will explain how to translate a <a href="https://jekyllrb.com/">Jekyll</a> template to Blot. I'm going to convert the base Jekyll theme <a href="https://jekyll.github.io/minima/">Minima</a> step-by-step. Consider browsing the source code for Minima as as Jekyll template before reading this guide.</p>
 
-  You can find the source code for Jekyll at GitHub:
-  [jekyll][jekyll-organization] /
-  [jekyll](https://github.com/jekyll/jekyll)
-</p>
+  <a style="display:block;width:50%;" href="https://jekyll.github.io/minima/2016/05/20/welcome-to-jekyll.html">
+<img src="/developers/guides/convert-jekyll-template/screenshot.png" style="max-width:100%;">
+</a>
+
+<h2>Before</h2>
+<ul>
+  <li><a href="https://github.com/jekyll/minima">Source code for Minima as Jekyll Template</a></li>
+  <li><a href="https://jekyll.github.io/minima">Demo of Minima on Jekyll</a></li>
+</ul>
+  <h2>After</h2>
+  <ul>
+  <li>Source code for Minima as Blot template</li>
+  <li>Demo of Minima on Blot</li>
+</ul>
 
 <h2>Get the source</h2>
 <p><a href="https://github.com/jekyll/minima">Download the code from GitHub and unzip the results</a>. Here is what I have:</p>
@@ -81,6 +88,7 @@ style.css</pre>
 </html>
 </pre>
 
+
 <h2>Flatten directory structure</h2>
 <p>Blot template files cannot exist in subdirectories, so move the files inside '_includes' and '_layouts' into the root directory.</p>
 <pre class="folder">_config.yml
@@ -142,3 +150,33 @@ layout: default
 </pre>
 
 
+
+<p>Here's how it should look using Blot's template system:</p>
+<pre class="window code html">
+\{{> header}}
+<div class="home">
+  
+  <h2 class="post-list-heading">Posts</h2>
+  <ul class="post-list">
+    \{{#entries}}
+    <li>
+      <span class="post-meta">\{{date}}</span>
+      <h3>
+        <a class="post-link" href="\{{{url}}}">
+          \{{title}}
+        </a>
+      </h3>
+      \{{#show_excerpts}}
+        \{{summary}}
+      \{{/show_excerpts}}
+    </li>
+    \{{/entries}}
+  </ul>
+
+  <p class="feed-subscribe"><svg class="svg-icon orange"><use xlink:href="/minima-social-icons.svg#rss"></use></svg><a href="/feed.xml">Subscribe</a></p>
+
+</div>
+\{{> footer}}
+</pre>
+
+<p>We have changed Jekyll's <code>{%- for post in site.posts -%}</code> syntax with Blot's <code>\{{#entries}}</code> syntax.
