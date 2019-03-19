@@ -1,27 +1,27 @@
 Spring newsletter
 
-*You received this email because you subscribed to [Blot's newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don't hesitate to reply directly to this email if you have any thoughts or questions.*
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
 
 
 **New features**
 
 - Designed two new templates: [Photos](https://blot.im/templates/photos) and [Portfolio](https://blot.im/templates/portfolio) 
-- Made some additions to the [guide](https://blot.im/publishing) and [developer documentation](https://blot.im/developers). There's a new section on [the Git and Dropbox clients](https://blot.im/publishing/clients). 
+- Made some additions to the [guide](https://blot.im/publishing) and [developer documentation](https://blot.im/developers). There’s a new section on [the Git and Dropbox clients](https://blot.im/publishing/clients). 
 
 
 **Changes**
 
 - Adjusted the design of the dashboard and documentation, as is tradition.
-- The analytics plugin now respects your readers' DNT privacy settings.
-- Video embeds now use Youtube's cookie-free domain.
-- Resolved any known security vulnerabilities in Blot's dependencies and updated them as needed.
+- The analytics plugin now respects your readers’ DNT privacy settings.
+- Video embeds now use Youtube’s cookie-free domain.
+- Resolved any known security vulnerabilities in Blot’s dependencies and updated them as needed.
 - Improved the script which imports posts from Wordpress. 
-- Added some scripts to analyse Blot's access log so that I can monitor the performance of Blot's server
+- Added some scripts to analyse Blot’s access log so that I can monitor the performance of Blot’s server
 
 **Bugs fixed**
 
-- Fixed an vintage bug with Blot's metadata parser which incorrectly interpreted a URL on the first line of the file as metadata.
-- Customers hosting multiple blogs using Blot's [Git client](https://blot.im/publishing/clients/git) now no longer need to re-authenticate when they switch blog.
+- Fixed an vintage bug with Blot’s metadata parser which incorrectly interpreted a URL on the first line of the file as metadata.
+- Customers hosting multiple blogs using Blot’s [Git client](https://blot.im/publishing/clients/git) now no longer need to re-authenticate when they switch blog.
 - Rate limit errors from Dropbox are now handled appropriately.
 - Images in posts generated from Word Documents can now become thumbnails.
 - As is tradition, I introduced and then fixed a number of caching bugs.
@@ -29,19 +29,19 @@ Spring newsletter
 
 **Mistakes**
 
-There were two downtime incidents over winter. I made adjustments to Blot's infrastructure to prevent their causes recurring:
+There were two downtime incidents over winter. I made adjustments to Blot’s infrastructure to prevent their causes recurring:
 
-- The first period of downtime began after the disk attached to Blot's main server ran out of space. Blot's database couldn't persist on disk and began to error. I was travelling for Christmas in the UK and managed to SSH into Blot's server from my phone, wipe a few unneeded log files to give me enough time to attach a substantially larger disk. I have now set up dedicated alerts when disk space starts to run low. This was embarrassing and will not happen again.
-- The second downtime incident was caused by a bug in the system I set up to monitor the health of processes on Blot's server. Unknown to me, Upstart was losing track of NGINX's process and subsequent attempts by Monit to restart NGINX triggered a death-spiral. I temporarily solved the issue by turning Blot's server off-and-on. I have since fixed the Upstart script which manages NGINX.
+- The first period of downtime began after the disk attached to Blot’s main server ran out of space. Blot’s database couldn’t persist on disk and began to error. I was travelling for Christmas in the UK and managed to SSH into Blot’s server from my phone, wipe a few unneeded log files to give me enough time to attach a substantially larger disk. I have now set up dedicated alerts when disk space starts to run low. This was embarrassing and will not happen again.
+- The second downtime incident was caused by a bug in the system I set up to monitor the health of processes on Blot’s server. Unknown to me, Upstart was losing track of NGINX’s process and subsequent attempts by Monit to restart NGINX triggered a death-spiral. I temporarily solved the issue by turning Blot’s server off-and-on. I have since fixed the Upstart script which manages NGINX.
 
-Another mistake I made over winter: I turned off Blot's CDN, hoping to reduce the latency between you adding a file to your folder and the post appearing on your site. I also hoped to reduce the time-to-first-byte of images on your site. However, I discovered that disabling Blot's CDN dramatically reduced the available bandwidth and increased the download time for images and other large files. I eventually realised that this was caused by the [bandwidth-delay product](https://en.wikipedia.org/wiki/Bandwidth-delay_product) which affects TCP. Did you know that latency affects bandwidth for some internet protocols? I didn't. All in all, I spent too much time deriving the usefulness of CDNs from first principles. At least I learnt about the internet in the process.
+Another mistake I made over winter: I turned off Blot’s CDN, hoping to reduce the latency between you adding a file to your folder and the post appearing on your site. I also hoped to reduce the time-to-first-byte of images on your site. However, I discovered that disabling Blot’s CDN dramatically reduced the available bandwidth and increased the download time for images and other large files. I eventually realised that this was caused by the [bandwidth-delay product](https://en.wikipedia.org/wiki/Bandwidth-delay_product) which affects TCP. Did you know that latency affects bandwidth for some internet protocols? I didn’t. All in all, I spent too much time deriving the usefulness of CDNs from first principles. At least I learnt about the internet in the process.
 
 **Plans for this season**
 
-I will restart Blot's CDN so that images on your site download quickly again. I will then focus on Blot's template system for the next few months. I'd also like to continue my research on existing blogging platforms and publish these notes. 
+I will restart Blot’s CDN so that images on your site download quickly again. I will then focus on Blot’s template system for the next few months. I’d also like to continue my research on existing blogging platforms and publish these notes. 
 
-[Paul](https://github.com/Pinjasaur) has been kindly contributing to Blot's code since January. We managed to get Blot running on Paul's machine and we wrote a [guide to setting up a development environment](https://github.com/davidmerfield/Blot/blob/master/config/guides/development-environment.md). This is an important step towards encouraging people to self-host Blot, which is one of my long-term goals.
+[Paul](https://github.com/Pinjasaur) has been kindly contributing to Blot’s code since January. We managed to get Blot running on Paul’s machine and we wrote a [guide to setting up a development environment](https://github.com/davidmerfield/Blot/blob/master/config/guides/development-environment.md). This is an important step towards encouraging people to self-host Blot, which is one of my long-term goals.
 
-If you have any questions at all about any of this, please don't hesitate to reply directly to this email.
+If you have any questions at all about any of this, please don’t hesitate to reply directly to this email.
 
 Sincerely, David
