@@ -1,5 +1,6 @@
 {
   "name": "Minima",
+  "isPublic": false,
   "locals": {
     "author": "GitHub User",
     "email": "your-email@domain.com",
