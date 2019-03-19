@@ -179,4 +179,8 @@ layout: default
 \{{> footer}}
 </pre>
 
-<p>We have changed Jekyll's <code>{%- for post in site.posts -%}</code> syntax with Blot's <code>\{{#entries}}</code> syntax.
+<p>We have changed Jekyll's <code>{%- for post in site.posts -%}</code> syntax with Blot's <code>\{{#entries}}</code> syntax.</p>
+
+<h2>Config.yml to Package.json</h2>
+
+<p>Jekyll stores information about the theme in a file called <a href="https://github.com/jekyll/minima/blob/master/_config.yml">_config.yml</a>. Blot uses a file called package.json. The "locals" property of package.json is passed to render your template.</p>
