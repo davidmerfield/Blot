@@ -1,6 +1,6 @@
 Spring news
 
-*You received [this email]({{{permalink}}}) because you subscribed to [Blot's newsletter]({{{host}}}/news). You can [unsubscribe]({{{unsubscribe}}}) if you like.*
+*You received [this email]({{{permalink}}}) because you subscribed to [Blot's newsletter]({{{host}}}/news). You can [unsubscribe]({{{unsubscribe}}}) if you like. Please don't hesitate to reply directly to this email.*
 
 
 **New features**
@@ -13,17 +13,20 @@ Blot has two new templates:
 
 **Changes**
 
-- I made a number of changes to the layout of the dashboard and documentation, as is tradition. 
-- I increased the price for new customers to $30 a year. This did not affect existing customers in any way: you'll always pay whatever annual fee you signed up for and you'll always be able to create new blogs at that price.
+- I made a number of changes to the layout of the dashboard and documentation, as is tradition. My aim is always to make the dashboard clearer. For example, I recently replaced the dropdown menu which you can use to switch between your blogs with a landing page and breadcrumb navigation.
+- I added some scripts to analyse the last 24 hours of Blot's access log so that I can monitor the response time of Blot's server. 
+- I made major improvements to the script which imports posts from Wordpress.
+- Adjusted the analytics plugin so that it now respects your readers' DNT privacy settings.
+- Adjusted the youtube video embed plugin so that it now uses Youtube's cookie-less domain for improved privacy.
 
 **Bugs fixed**
 
-- I fixed an ancient bug with Blot's metadata parser which prevented you from writing a post with a URL on the first line.
+- Fixed an ancient bug with Blot's metadata parser which incorrectly parsed a URL on the first line of the file as metadata.
 - Customers hosting multiple blogs using Blot's git client now no longer need to re-authenticate each time they switch blog.
-- Error limits from Dropbox are now handled appropriately. This was a hard one to test.
-- Fixed bug with Metadataparser tripped by the way Windows encodes newlines.
+- Rate limit errors from Dropbox's API are now handled appropriately.
+- The metadata parser now properly handles Windows' newlines.
+- Images in Word Documents can now become thumbnails.
 - I introduced and then subsequently fixed a number of caching bugs, as is tradition.
-- Images in Word Documents now become thumbnails as expected.
 
 
 
@@ -40,7 +43,7 @@ I turned off Blot's CDN late last year. I then discovered that this dramatically
 
 I'd like to take a step back and do some research on existing blogging platforms. 
 
-Paul has been kindly helping. We managed to get Blot running in his development environment and wrote up the process. This is an important step on the eventual road to encouraging self-hosting.
+[Paul](https://github.com/Pinjasaur) has been kindly helping out  here and there. We managed to get Blot running on Paul's machine and wrote up the process. This is an important step on the eventual road to encouraging self-hosting.
 
 If you have any questions at all, please don't hesitate to respond directly to this email.
 
