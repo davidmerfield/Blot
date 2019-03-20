@@ -62,8 +62,7 @@ describe("image", function() {
       expect(result).toContain(".png");
       expect(result).toContain("/_image_cache/");
 
-      var cachedImagePath = result.slice(result.indexOf('"') + 1);
-
+      var cachedImagePath = result.slice(result.indexOf('/_image_cache/'));
       cachedImagePath = cachedImagePath.slice(0, cachedImagePath.indexOf('"'));
 
       // Does the cached image exist on disk?
