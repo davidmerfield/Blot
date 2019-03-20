@@ -22,5 +22,5 @@ module.exports = function(blogID, path) {
   // Add leading slash
   if (path[0] !== "/") path = "/" + path;
 
-  return joinPath(blogDir, blogID, path);
+  return joinPath(blogDir, blogID, 'folder', path);
 };
