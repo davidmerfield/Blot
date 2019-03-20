@@ -4,6 +4,18 @@ var Blog = require("blog");
 var config = require("config");
 var mime = require("mime-types");
 
+static.use(function(req, res, next){
+  
+  if (req.get("host") === config.host) return next();
+  
+  var err;
+
+  err = new Error("Not a request to main host");
+  err.code = 'EINVAL';
+
+  next(err);
+});
+
 static.param("handle", function(req, res, next, handle) {
   Blog.get({ handle: handle }, function(err, blog) {
     if (err) return next(err);
@@ -36,6 +48,9 @@ static.use(function(req, res, next) {
 });
 
 static.use(function(err, req, res, next) {
+
+  if (err.code === 'EINVAL') return next();
+  
   res.sendStatus(404);
 });
 
