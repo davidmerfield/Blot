@@ -30,7 +30,7 @@ function create(blogID, path, done) {
 
       for (var i in thumbnails) {
         thumbnails[i].path = outputDirectory + "/" + thumbnails[i].name;
-        thumbnails[i].url = thumbnails[i].path;
+        thumbnails[i].url = 'https://' + config.cdn.host + '/' + blogID + thumbnails[i].path;
       }
 
       if (err) return done(err);
