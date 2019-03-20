@@ -1,20 +1,3 @@
-Move to UUIDs for blog identifiers
-- Can we incrementally move people over to check it works ok?
-
-Re-instate blotcdn.com
-- Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
-
-Restructure application folder
-- make serving static files from NGINX easier
-- consolidating the data stored about each blog
-- Specfic ideas:
-  - Move cache directory from /cache to /data/cache
-  - Move blog's folder contents from /blogs/{blogID} to data/blogs/{blogID}/folder
-  - Move static files directory from /static/{blogID} to /data/blogs/{blogID}/static
-  - Move db directory from /db to /data/db
-  - Move logs directory from /logs to /data/logs
-  - Remove /tmp directory and instead use os.tmpDir
-
 Finish Feed template
 - Create folder with public domain material
 
@@ -93,6 +76,25 @@ Markdown bugs
 - Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
 ---
+
+Move to UUIDs for blog identifiers
+- Can we incrementally move people over to check it works ok?
+
+Re-instate blotcdn.com
+- Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
+
+Restructure application folder
+- make serving static files from NGINX easier?
+  - ln /data/blogs/{blogID}/folder /data/cache/{hostname}/folder/...
+  - ln /data/blogs/{blogID}/static  /data/cache/{hostname}/static/...
+- consolidating the data stored about each blog
+- Specfic ideas:
+  - Move cache directory from /cache to /data/cache
+  - Move blog's folder contents from /blogs/{blogID} to data/blogs/{blogID}/folder
+  - Move static files directory from /static/{blogID} to /data/blogs/{blogID}/static
+  - Move db directory from /db to /data/db
+  - Move logs directory from /logs to /data/logs
+  - Remove /tmp directory and instead use os.tmpDir
 
 Improvements to public site
 - Clean up error messages in logs for public site
