@@ -4,6 +4,17 @@ Move to UUIDs for blog identifiers
 Re-instate blotcdn.com
 - Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
 
+Restructure application folder
+- make serving static files from NGINX easier
+- consolidating the data stored about each blog
+- Specfic ideas:
+  - Move cache directory from /cache to /data/cache
+  - Move blog's folder contents from /blogs/{blogID} to data/blogs/{blogID}/folder
+  - Move static files directory from /static/{blogID} to /data/blogs/{blogID}/static
+  - Move db directory from /db to /data/db
+  - Move logs directory from /logs to /data/logs
+  - Remove /tmp directory and instead use os.tmpDir
+
 Finish Feed template
 - Create folder with public domain material
 
