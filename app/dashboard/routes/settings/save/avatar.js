@@ -6,8 +6,7 @@ var folder = "_avatars";
 
 var VALID_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif"];
 var INVALID_EXTENSION =
-  "Please choose an image of these formats: " +
-  VALID_EXTENSIONS.join(", ");
+  "Please choose an image of these formats: " + VALID_EXTENSIONS.join(", ");
 
 module.exports = function(req, res, next) {
   if (!req.files || !req.files.avatar) return next();
@@ -31,7 +30,15 @@ module.exports = function(req, res, next) {
     folder +
     "/" +
     name;
-  var url = "/" + folder + "/" + name;
+  var url =
+    "https://" +
+    config.cdn.host +
+    "/" +
+    req.blog.id +
+    "/" +
+    folder +
+    "/" +
+    name;
 
   fs.move(req.files.avatar.path, finalPath, function(err) {
     if (err) return next(err);
