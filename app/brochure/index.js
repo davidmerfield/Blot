@@ -15,7 +15,6 @@ if (config.cache === false) {
   // During development we want views to reload as we edit
   brochure.disable("view cache");
 } else {
-
   // This will store responses to disk for NGINX to serve
   brochure.use(cache);
 
@@ -62,6 +61,10 @@ brochure.use(
 
 // Missing page
 brochure.use(function(req, res, next) {
+  // Pass on requests to static files down to app/blog
+  // Express application.
+  if (req.path.indexOf("/static") === 0) return next();
+
   var err = new Error("404: " + req.originalUrl);
   err.status = 404;
   next(err);
@@ -69,7 +72,6 @@ brochure.use(function(req, res, next) {
 
 // Some kind of other error
 brochure.use(function(err, req, res, next) {
-
   if (err.status === 404) {
     res.locals.code = { missing: true };
   } else {
