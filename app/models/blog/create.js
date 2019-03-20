@@ -10,6 +10,7 @@ var fs = require("fs-extra");
 var localPath = helper.localPath;
 var User = require('../user');
 var validate = require('./validate');
+var uuid = require('uuid/v4');
 
 module.exports = function create (uid, info, callback) {
 
@@ -36,33 +37,30 @@ module.exports = function create (uid, info, callback) {
 
     User.getById(uid, function(err, user){
 
-      if (err || !user) return callback(err || new Error('No user'));
+      if (err || !user) return callback(err || new Error('No user'));      
 
-      client.incr(key.totalBlogs, function(err, blogID){
+      if (err) return callback(err);
+
+      // Cast to a string from int
+      blogID = 'blog_' + uuid().split('-').join('');
+      blog.id = blogID;
+      
+      blogs = user.blogs || [];
+      blogs.push(blogID);
+
+      User.set(uid, {blogs: blogs, lastSession: blogID}, function(err){
 
         if (err) return callback(err);
 
-        // Cast to a string from int
-        blogID += '';
-        blog.id = blogID;
-        
-        blogs = user.blogs || [];
-        blogs.push(blogID);
-
-        User.set(uid, {blogs: blogs, lastSession: blogID}, function(err){
+        set(blogID, blog, function(err){
 
           if (err) return callback(err);
 
-          set(blogID, blog, function(err){
-
+          fs.emptyDir(localPath(blog.id, "/"), function(err) {
+            
             if (err) return callback(err);
 
-            fs.emptyDir(localPath(blog.id, "/"), function(err) {
-              
-              if (err) return callback(err);
-
-              return callback(err, blog);
-            });
+            return callback(err, blog);
           });
         });
       });
