@@ -12,7 +12,7 @@
   <p class="crumbs" style="color:#a09d9c;margin-top:0">
 
     {{#each breadcrumbs.items}}
-    <a style="color:{{^last}}black{{/last}}{{#last}}#a09d9c{{/last}}" {{^last}}href="{{{url}}}"{{/last}}>{{{label}}}</a>{{^last}}<span class="arrow">&rarr;</span> {{/last}}
+    <a style="color:{{#last}}black{{/last}}{{^last}}#a09d9c{{/last}}" {{^last}}href="{{{url}}}"{{/last}}>{{{label}}}</a>{{^last}}<span class="arrow">&rarr;</span> {{/last}}
     {{/each}}
 
   </p>
