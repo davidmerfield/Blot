@@ -48,9 +48,9 @@ static.route("/:handle/:path*").get(function(req, res) {
   var path = req.params.path + req.params[0];
   var options = {
     root: config.blog_static_files_dir + "/" + req.blog.id,
-    maxAge: 86400000,
     headers: {
-      "Content-Type": getContentType(path)
+      "Content-Type": getContentType(path),
+      "Cache-Control": "public, max-age=31536000"
     }
   };
 
