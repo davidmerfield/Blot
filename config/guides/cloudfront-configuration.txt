@@ -5,6 +5,26 @@ So I've worked out why CDNs are import: bandwidth latency product. And now I wan
 
 I don't want to be uploading stuff to S3 because of the additional latency. I want publishing posts to be as fast as possible. 
 
+---
+
+Order of origins was important
+
+---
+
+
+So here's how I know I can get cloudfront between the custom doman and Blot working:
+1. create cloudfront distribution for user's custom domain which points to Blot's server (edited) 
+2. user creates DNS record for custom domain to point it to cloudfront's hostname
+3. user creates custom CNAME record on custom domain with value specified by cloudfront to verify ownership so cloudfront can issue an SSL cert for custom domain
+
+My problem is that this is deeply tied into Cloudfront
+Ideally, my new hypothetical system would work automatically for existing users already pointing a DNS record at the host 'blot.im'
+(I don't think there's any way to make this work for users pointing a DNS record at Blot's IP)
+But basically in my hypothetical system:
+
+1. create cloudfront distribution for user's custom domain which points to Blot's server
+2. user creates DNS record for custom domain to point it to *Blot's hostname*
+3. there is no step 3
 
 Specific behaviour
 ------------------
