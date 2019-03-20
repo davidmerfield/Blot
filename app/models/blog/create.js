@@ -3,8 +3,6 @@ var ensure = helper.ensure;
 var extend = helper.extend;
 var capitalise = helper.capitalise;
 var defaults = require('./defaults');
-var client = require('client');
-var key = require('./key');
 var set = require('./set');
 var fs = require("fs-extra");
 var localPath = helper.localPath;
@@ -42,7 +40,7 @@ module.exports = function create (uid, info, callback) {
       if (err) return callback(err);
 
       // Cast to a string from int
-      blogID = 'blog_' + uuid().split('-').join('');
+      var blogID = 'blog_' + uuid().split('-').join('');
       blog.id = blogID;
       
       blogs = user.blogs || [];
