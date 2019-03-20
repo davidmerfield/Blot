@@ -1,5 +1,9 @@
 /* 
 
+Don't use this, it's for testing my CDN configuration.
+
+I will remove it eventually.
+
 This function accepts some HTML and will resolve any relative
 URLs against the host for the particular request. This is only
 used in a site's RSS feed and should eventually be deprecated,
