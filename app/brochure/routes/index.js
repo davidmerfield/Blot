@@ -3,12 +3,22 @@ var brochure = new Express.Router();
 var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
+var Breadcrumbs = require("./tools/breadcrumbs");
+
+var TITLES = {
+  publishing: "How to use Blot"
+};
 
 // Renders the folders and text editors
 brochure.use(finder.middleware);
 
 // Renders TeX
 brochure.use(tex);
+
+brochure.use(function(req, res, next) {
+  res.locals.breadcrumbs = new Breadcrumbs();
+  next();
+});
 
 // Renders dates dynamically
 brochure.use(require("./tools/dates"));
@@ -68,13 +78,27 @@ brochure.use(function(req, res, next) {
   next();
 });
 
-brochure.param("section", function(req, res, next) {
-  res.locals.selected[req.params.section] = "selected";
+brochure.param("section", function(req, res, next, section) {
+  var title = TITLES[section] || capitalize(section);
+  res.locals.sectionTitle = title;
+  res.locals.selected[section] = "selected";
+  res.locals.breadcrumbs.add(title, section);
   next();
 });
 
-brochure.param("subsection", function(req, res, next) {
-  res.locals.selected[req.params.subsection] = "selected";
+brochure.param("subsection", function(req, res, next, subsection) {
+  var title = TITLES[subsection] || capitalize(subsection);
+  res.locals.sectionTitle = title;
+  res.locals.selected[subsection] = "selected";
+  res.locals.breadcrumbs.add(title, subsection);
+  next();
+});
+
+brochure.param("subsubsection", function(req, res, next, subsubsection) {
+  var title = TITLES[subsubsection] || capitalize(subsubsection);
+  res.locals.sectionTitle = title;
+  res.locals.selected[subsubsection] = "selected";
+  res.locals.breadcrumbs.add(title, subsubsection);
   next();
 });
 
@@ -90,9 +114,9 @@ brochure.get("/", function(req, res) {
   res.render("index");
 });
 
-var tex = require('./tools/tex');
+var tex = require("./tools/tex");
 
-brochure.use('/publishing/formatting', tex);
+brochure.use("/publishing/formatting", tex);
 
 brochure.get("/:section", function(req, res, next) {
   // This check is designed to prevent an error polluting
@@ -102,7 +126,7 @@ brochure.get("/:section", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + req.params.section;
+  res.locals.title = "Blot – " + res.locals.sectionTitle;
   res.render(req.params.section);
 });
 
@@ -117,8 +141,7 @@ brochure.get("/:section/:subsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title =
-    "Blot – " + req.params.section + " – " + req.params.subsection;
+  res.locals.title = "Blot – " + res.locals.sectionTitle;
   res.render(req.params.section + "/" + req.params.subsection);
 });
 
@@ -133,9 +156,14 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title =
-    "Blot – " + req.params.subsubsection + " – " + req.params.section;
-  res.render(req.params.section + "/" + req.params.subsection + '/' + req.params.subsubsection);
+  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.render(
+    req.params.section +
+      "/" +
+      req.params.subsection +
+      "/" +
+      req.params.subsubsection
+  );
 });
 
 brochure.use(function(err, req, res, next) {
@@ -143,4 +171,7 @@ brochure.use(function(err, req, res, next) {
   next();
 });
 
+function capitalize(str) {
+  return str[0].toUpperCase() + str.slice(1);
+}
 module.exports = brochure;
