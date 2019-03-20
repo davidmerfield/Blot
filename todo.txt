@@ -1,6 +1,5 @@
 Re-instate blotcdn.com
 - Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
-- Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW)
 
 Finish Feed template
 - Create folder with public domain material
@@ -117,6 +116,8 @@ Improvements to public site
 - Ask for critiques
 
 Add support for HTTP2
+
+Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW)
 
 Write summer newsletter
 - Send on June 21
