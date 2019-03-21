@@ -1,3 +1,21 @@
+/*
+
+I want to be able to generate a wall of featured sites of users who have consented to appear on the homepage which are guaranteed to be still hosted by Blot. 
+
+Return the following data:
+    - first name + last name, e.g. 'John Smith'
+    - a short one-sentence bio, e.g. 'is an antiquarian from London'
+    - url to site, e.g. 'https://www.johnsmith.com'
+    - pretty hostname, e.g. 'johnsmith.com'
+    - template used on the site, e.g. 'Feed template'
+    - favicon or avatar 16 x 16
+
+Generate an email I can send to customers asking for permission to link to their site.
+
+Sort the sites by the latest published post?
+
+*/
+
 var eachBlog = require("../each/blog");
 var Entries = require("../../app/models/entries");
 var request = require("request");
