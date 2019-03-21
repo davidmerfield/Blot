@@ -9,12 +9,18 @@ padding: 1em;display: flex;justify-content:space-between;}
 }
 header svg {    width: 22px;
     height: 22px;
-    display: block;margin-right: 0.5em}
+    display: block;margin: 0 0.5em}
 header strong {font-weight: 700}
 header a:hover {color: #000}
 header .nav {    display: flex;}
 header .nav a {margin: 0 1em}
 header .nav a:last-child {margin-right: 0.5em}
+
+.page {padding: 1em 0 3.125em;margin:3.125em 0;text-align: center;color: rgb(88,88,88);border-bottom: 1px solid rgb(231, 231, 229)
+;}
+.page h1 {font-size: 32px;font-weight: normal;margin: 0 0 1em;line-height: 43px}
+.page p {margin: 0 auto;max-width: 28em}
+
   </STYLE>
   <header>
     <a href="/">{{> logo}} <strong>Blot</strong></a>
@@ -24,6 +30,9 @@ header .nav a:last-child {margin-right: 0.5em}
       <a href="/log-in"><strong>Log in</strong></a>
     </div>
   </header>
+
+<div class="page">{{#selected.index}}
+<h1>A blogging platform with no interface</h1><p>Blot turns a folder into a blog automatically. Why? So you can blog with the tools you use already. Write with your favorite text-editor and Blot does the rest.</p>{{/selected.index}}</div>
 
   <link rel="stylesheet" href="/css/tex.css">
   <main class="has-sidebar">
