@@ -1,5 +1,3 @@
-Work on [Tim's theme](https://mail.google.com/mail/u/0/#inbox/KtbxLthVctKQCFkwnxTKWZDtdFBHlHdgJV)
-
 Finish Feed template
 - Create folder with public domain material
 
