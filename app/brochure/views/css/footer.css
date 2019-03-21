@@ -1,7 +1,7 @@
 footer {
   display: flex;
   padding: 2em 2em 6em;
-  background: #fbf8f6;
+  border-top: 1px solid rgb(231, 231, 229);
   fill: #fff;
   stroke: #312c25;
   margin-bottom: -6em;
@@ -27,7 +27,11 @@ footer li a:active {
 footer a.action-button {border-color: #c3c1bd;height: 1.4em;margin: 1em 1em 1em 0}
 footer a.action-button:hover {border-color: #000;color: #000}
 
-footer container div {display: flex;flex-wrap: wrap;}
+footer container {
+      width: 100%;
+    justify-content: space-between;
+}
+footer container div {display: flex;flex-wrap: wrap;width: 25%}
 footer container div > * {
   margin-right: 2em
 }
