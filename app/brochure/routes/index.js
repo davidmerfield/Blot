@@ -9,6 +9,10 @@ var TITLES = {
   publishing: "How to use Blot"
 };
 
+var REDIRECTS = {
+  "/help/tags": "/publishing/metadata"
+};
+
 // Renders the folders and text editors
 brochure.use(finder.middleware);
 
@@ -164,6 +168,12 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
       "/" +
       req.params.subsubsection
   );
+});
+
+brochure.use(function(err, req, res, next) {
+  if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
+
+  next();
 });
 
 brochure.use(function(err, req, res, next) {
