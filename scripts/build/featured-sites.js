@@ -14,6 +14,8 @@ Generate an email I can send to customers asking for permission to link to their
 
 Sort the sites by the latest published post?
 
+Want to be able to run the script once per day so the sites are always fresh even if the server doesn't go down...
+
 */
 
 var eachBlog = require("../each/blog");
