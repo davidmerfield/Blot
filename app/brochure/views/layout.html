@@ -1,6 +1,30 @@
 {{> head}}
 
 <body>
+  <STYLE TYPE="text/css">
+    header {  fill: #fff;
+  stroke: rgb(88, 88, 88);
+padding: 1em;display: flex;justify-content:space-between;}
+  header a {color:rgb(88, 88, 88);display: flex
+}
+header svg {    width: 22px;
+    height: 22px;
+    display: block;margin-right: 0.5em}
+header strong {font-weight: 700}
+header a:hover {color: #000}
+header .nav {    display: flex;}
+header .nav a {margin: 0 1em}
+header .nav a:last-child {margin-right: 0.5em}
+  </STYLE>
+  <header>
+    <a href="/">{{> logo}} <strong>Blot</strong></a>
+
+    <div class="nav">
+      <a href="/sign-up"><strong>Sign up</strong></a>
+      <a href="/log-in"><strong>Log in</strong></a>
+    </div>
+  </header>
+
   <link rel="stylesheet" href="/css/tex.css">
   <main class="has-sidebar">
 
@@ -10,123 +34,109 @@
 
     <ul class="sidebar">
 
-      {{^user}}
-      <a class="in {{selected.index}}" href="/">Blot is a blogging platform<br> with no interface</a>
-      <br>
-      <div class="buttons">
-        <a class="action-button" href="/log-in">Log in</a>
-        <a class="action-button" href="/sign-up">Sign up</a>
-      </div>
-      {{/user}}
-      {{#user}}
-      <a class="in {{selected.index}}" href="/">←  Back to dashboard</a>
-      <br>
-      {{/user}}
       <br>
       <li class="has-list {{selected.publishing}}">
         <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label>
-      </a>
-      <ul>
-        <li class="{{selected.pages}}">
-          <a href="{{{base}}}/publishing/pages">Pages</a>
-        </li>
-        <li class="{{selected.drafts}}">
-          <a href="{{{base}}}/publishing/drafts">Drafts</a>
-        </li>
-        <li class="{{selected.public-files}}">
-          <a href="{{{base}}}/publishing/public-files">Public files</a>
-        </li>
-        <li class="{{selected.metadata}}">
-          <a href="{{{base}}}/publishing/metadata">Metadata</a>
-        </li>
-         <li>
-          <a href="/publishing/formatting">Formatting guide</a>
-        </li>
-        <li class="{{selected.configuring}}">
-          <a href="{{{base}}}/publishing/configuring">Configuring your blog</a>
-        </li>
-        <li class="{{selected.domain}}">
-          <a href="{{{base}}}/publishing/domain">Use your own domain</a>
-        </li>
-<!--         <li class="{{selected.redirects}}">
+        </a>
+        <ul>
+          <li class="{{selected.pages}}">
+            <a href="{{{base}}}/publishing/pages">Pages</a>
+          </li>
+          <li class="{{selected.drafts}}">
+            <a href="{{{base}}}/publishing/drafts">Drafts</a>
+          </li>
+          <li class="{{selected.public-files}}">
+            <a href="{{{base}}}/publishing/public-files">Public files</a>
+          </li>
+          <li class="{{selected.metadata}}">
+            <a href="{{{base}}}/publishing/metadata">Metadata</a>
+          </li>
+          <li>
+            <a href="/publishing/formatting">Formatting guide</a>
+          </li>
+          <li class="{{selected.configuring}}">
+            <a href="{{{base}}}/publishing/configuring">Configuring your blog</a>
+          </li>
+          <li class="{{selected.domain}}">
+            <a href="{{{base}}}/publishing/domain">Use your own domain</a>
+          </li>
+          <!--         <li class="{{selected.redirects}}">
           <a href="{{{base}}}/publishing/redirects">Redirects</a>
         </li>
         <li class="{{selected.urls}}">
           <a href="{{{base}}}/publishing/urls">URLs</a>
         </li>
- -->       
+ -->
 
+          <li class="{{selected.redirects}}">
+            <a href="{{{base}}}/publishing/clients">Clients</a>
+          </li>
 
-
-        <li class="{{selected.redirects}}">
-          <a href="{{{base}}}/publishing/clients">Clients</a>
-        </li>
-
-        <br>
-      </ul>
+          <br>
+        </ul>
       </li>
       <li class="has-list {{selected.templates}}">
         <input type="checkbox" name="templates" id="templates" {{#selected.templates}} checked{{/selected.templates}}> <a href="{{{base}}}/templates">Templates<label for="templates"></label>
-      </a>
-      <ul>
+        </a>
+        <ul>
 
-        <li class="{{selected.console}}">
-          <a href="{{{base}}}/templates/console">
+          <li class="{{selected.console}}">
+            <a href="{{{base}}}/templates/console">
       Console
     </a>
-        </li>
-        <li class="{{selected.default}}">
-          <a href="{{{base}}}/templates/default">
+          </li>
+          <li class="{{selected.default}}">
+            <a href="{{{base}}}/templates/default">
       Default
     </a>
-        </li>
-        <li class="{{selected.grid}}">
-          <a href="{{{base}}}/templates/grid">
+          </li>
+          <li class="{{selected.grid}}">
+            <a href="{{{base}}}/templates/grid">
       Grid
     </a>
-        </li>
-        <li class="{{selected.magazine}}">
-          <a href="{{{base}}}/templates/magazine">
+          </li>
+          <li class="{{selected.magazine}}">
+            <a href="{{{base}}}/templates/magazine">
       Magazine
     </a>
-        </li>
-        <li class="{{selected.photos}}">
-          <a href="{{{base}}}/templates/photos">
+          </li>
+          <li class="{{selected.photos}}">
+            <a href="{{{base}}}/templates/photos">
       Photos
     </a>
-        </li>
-        <li class="{{selected.portfolio}}">
-          <a href="{{{base}}}/templates/portfolio">
+          </li>
+          <li class="{{selected.portfolio}}">
+            <a href="{{{base}}}/templates/portfolio">
       Portfolio
     </a>
-        </li>
-        <li class="{{selected.rosa}}">
-          <a href="{{{base}}}/templates/rosa">
+          </li>
+          <li class="{{selected.rosa}}">
+            <a href="{{{base}}}/templates/rosa">
       Rosa
     </a>
-        </li>
-        <br>
-      </ul>
+          </li>
+          <br>
+        </ul>
       </li>
 
       <li class="{{selected.account-billing}}">
         <a href="{{{base}}}/account-billing">Account and billing</a>
       </li>
 
-<!--       <li>
+      <!--       <li>
         <a href="/support">Support</a>
       </li>
 
- -->      <br>
+ --> <br>
 
-     <li><a href="/support">Support</a></li>
+      <li><a href="/support">Support</a></li>
       <li><a href="/about">About</a></li>
       <li><a href="/news">News</a></li>
 
-<!--       <li><a href="/developers">Developers</a></li>
+      <!--       <li><a href="/developers">Developers</a></li>
       <li><a href="/terms">Terms of use</a></li>
       <li><a href="/privacy">Privacy policy</a></li>
- -->     
+ -->
     </ul>
     <content>
       {{> breadcrumbs}}
