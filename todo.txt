@@ -13,6 +13,8 @@ Record new demo video
 
 ---
 
+Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
+
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f). CANNOT REPRODUCE.
@@ -59,8 +61,6 @@ Fix bug with makeTeaser for ~/Dropbox/bug.html which locks main process painfull
 Fix bug with rename catcher which allows two posts to share a guid. It caused a bug with Disqus comments. To reproduce this bug: Rename an entry. Create new entry with old name. Both entries have same GUID.
 
 Fix bug with .emf files in Word Document and follow up with Todd. Can we convert EMFs? Can we pass a flag to pandoc to let them deal with it? Is this just caused by Tiff files? I need a Windows machine to test this.
-
-Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae)
 
 Date parser bugs
 - Finish support for [RFC3339 dates](https://github.com/davidmerfield/Blot/pull/97) and tell Shawn.
