@@ -1,6 +1,6 @@
 /*
 
-I want to be able to generate a wall of featured sites of users who have consented to appear on the homepage which are guaranteed to be still hosted by Blot. 
+I want to be able to generate a wall of featured sites (~100) of users who have consented to appear on the homepage which are guaranteed to be still hosted by Blot. 
 
 Return the following data:
     - first name + last name, e.g. 'John Smith'
@@ -28,9 +28,11 @@ var request = require("request");
 var colors = require("colors/safe");
 var featured = [];
 
-var Path = require('path');
-var outputPath = Path.resolve(__dirname + '/../../../data/brochure/featured-sites/sites.json');
-var fs = require('fs-extra');
+var Path = require("path");
+var outputPath = Path.resolve(
+  __dirname + "/../../../data/brochure/featured-sites/sites.json"
+);
+var fs = require("fs-extra");
 
 fs.ensureDirSync(Path.dirname(outputPath));
 
