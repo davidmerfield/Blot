@@ -13,6 +13,8 @@ Record new demo video
 
 ---
 
+Work out how to get [Emily's grid layout](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC) working with the portfolio template
+
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
