@@ -16,15 +16,25 @@ Sort the sites by the latest published post?
 
 Want to be able to run the script once per day so the sites are always fresh even if the server doesn't go down...
 
+Want to be able to paste in an avatar....
+
+This shouldn't be in source code. I don't want to be distributing this, perhaps a data directory...
+
 */
 
-var eachBlog = require("../each/blog");
-var Entries = require("../../app/models/entries");
+var eachBlog = require("../../each/blog");
+var Entries = require("../../../app/models/entries");
 var request = require("request");
 var colors = require("colors/safe");
 var featured = [];
 
-console.log("Checking blogs...");
+var Path = require('path');
+var outputPath = Path.resolve(__dirname + '/../../../data/brochure/featured-sites/sites.json');
+var fs = require('fs-extra');
+
+fs.ensureDirSync(Path.dirname(outputPath));
+
+console.log("Checking blogs...", outputPath);
 
 eachBlog(checkBlog, function() {
   console.log("Done!");
@@ -56,6 +66,7 @@ function checkBlog(user, blog, next) {
         domain: blog.domain,
         lastPublishedPost: lastPublishedPost
       });
+
       next();
     });
   });
