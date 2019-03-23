@@ -9,6 +9,7 @@ bitdepth.org Chris Campbell is a filmmaker based in Nova Scotia
 www.matthewbattles.org Matthew Battles directs metaLAB at Harvard
 www.rebeccatron.com Rebecca Kukshtel is an engineer based in New York City
 blog.aurynn.com Aurynn Shaw is a writer and engineer from New Zealand
+www.skincarriedaway.com Tiffany Cecilia writes about skincare from San Francisco
 www.kristianhjelle.com Kristian Hjelle is a designer and partner at Bakken & Bæck
 www.alexgibson.nyc Alexander Gibson is an artist from New York City
 www.jacobyyoung.com/about Jacoby Young works at Kapālama Elementary School in Hawaii
@@ -37,3 +38,4 @@ www.crossingthethreshold.net David Johnson is a psychologist in Maui Hawaii
 www.inthemargins.ca Sameer Vasta teaches public affairs in Ontario Canada
 www.jmablog.com James Adams is a sports therapist based in London
 www.seanmcdevitt.com Sean McDevitt is a writer from Illinois
+afc.letterspace.org Robert van Vliet is a writer in Minneapolis
