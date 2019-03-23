@@ -1,0 +1,36 @@
+
+
+<style type="text/css">
+  featured {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+  featured p {padding: 0 1.5em;position: relative;
+  }
+  featured img {
+    width: 16px;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: 16px;
+  }
+</style>
+
+<featured>{{#featured}}
+
+  <p>
+        <img src="{{{favicon}}}">
+
+    <a target="_blank"
+      rel="noopener"
+      href="{{{link}}}">
+
+      <b>
+        {{name}}
+      </b>
+    </a>{{bio}}
+    <!-- uses {{#custom}}a
+  <a href="/templates">custom</a>template{{/custom}}{{^custom}}the
+  <a href="/templates/{{templateLower}}">{{template}}</a>template{{/custom}}. -->
+  </p>{{/featured}}
+</featured>
