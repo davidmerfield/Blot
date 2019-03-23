@@ -35,5 +35,5 @@ journal.cheribaker.com Cheri Baker is a writer based in Seattle
 blog.amitgawande.com Amit Gawande is software developer based in Pune India
 www.crossingthethreshold.net David Johnson is a psychologist in Maui Hawaii
 www.inthemargins.ca Sameer Vasta teaches public affairs in Ontario Canada
-www.jmablog.comm James Adams is a sports therapist based in London
+www.jmablog.com James Adams is a sports therapist based in London
 www.seanmcdevitt.com Sean McDevitt is a writer from Illinois
