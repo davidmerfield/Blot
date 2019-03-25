@@ -1,7 +1,29 @@
 var request = require("request");
 var Blog = require("blog");
 
-module.exports = function verify(domain, callback) {
+// Think about version control!
+
+// Should only run in production, will pull in live
+// whether or not domain is still connected to Blot
+// fetch latest post date and template information.
+// Can be run every hour...
+function update(callback) {
+  var sites = require(result);
+
+  async.filter(
+    sites,
+    function(site, next) {},
+    function(err, sites) {
+      fs.outputJson(result);
+      // Empty any existing responses
+      cache.flush(config.host, function(err) {
+        if (err) console.warn(err);
+      });
+    }
+  );
+}
+
+function verify(domain, callback) {
   Blog.getBy({ domain: domain }, function(err, blog) {
     if (err) return callback(err);
 
@@ -24,4 +46,6 @@ module.exports = function verify(domain, callback) {
       callback(null);
     });
   });
-};
+}
+
+module.exports = update;

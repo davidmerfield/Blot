@@ -110,7 +110,7 @@ brochure.get("/", function(req, res) {
   res.locals.title = "Blot – A blogging platform with no interface";
   res.locals.selected.index = "selected";
   // Only show the first six sites on the homepage
-  res.locals.featured = require("./featured/output.json").slice(0, 6);
+  res.locals.featured = require("./featured").slice(0, 6);
   res.render("index");
 });
 
