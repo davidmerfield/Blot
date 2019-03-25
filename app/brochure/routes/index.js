@@ -107,6 +107,7 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
 });
 
 brochure.get("/featured", function(req, res) {
+  res.locals.layout = 'featured-layout';
   res.locals.featured = require("./featured/output.json");
   res.render("featured");
 });
