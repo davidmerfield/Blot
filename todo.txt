@@ -13,6 +13,8 @@ Record new demo video
 
 ---
 
+Fix bug with upper-case domain and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTZVPGRVHXDzZbrZxzMzsq)
+
 Tell [Amit when new homepage is live!](https://mail.google.com/mail/u/0/#inbox/KtbxLrjVkmBtRXhLbbPmxpgSVhjfqszwwg)
 
 Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ)
