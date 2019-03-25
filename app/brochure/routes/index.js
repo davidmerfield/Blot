@@ -106,17 +106,11 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
   next();
 });
 
-brochure.get("/featured", function(req, res) {
-  res.locals.layout = 'featured-layout';
-  res.locals.featured = require("./featured/output.json");
-  res.render("featured");
-});
-
-
 brochure.get("/", function(req, res) {
   res.locals.title = "Blot – A blogging platform with no interface";
   res.locals.selected.index = "selected";
-  res.locals.featured = require("./featured/output.json");
+  // Only show the first six sites on the homepage
+  res.locals.featured = require("./featured/output.json").slice(0, 6);
   res.render("index");
 });
 
