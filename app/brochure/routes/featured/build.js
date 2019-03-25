@@ -10,7 +10,7 @@ var avatars = __dirname + "/avatars";
 var viewDirectory = __dirname + "/../../views";
 var faviconPath = "/images/featured";
 var faviconDirectory = viewDirectory + faviconPath;
-var result = __dirname + "/index.json";
+var result = __dirname + "/output.json";
 
 if (require.main === module) {
   build(function(err, sites) {

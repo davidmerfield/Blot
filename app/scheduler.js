@@ -78,7 +78,7 @@ module.exports = function() {
   console.log("Scheduled daily check of the featured sites for midnight!");
   schedule({ hour: 8, minute: 0 }, function() {
     // Start the backup daemon
-    console.log("Backup: It is 1am, time to start!");
+    console.log("Backup: It is midnight, time to check that the featured sites are still correct!");
     updateFeaturedSites();
   });
 

@@ -1,26 +1,39 @@
 var request = require("request");
 var Blog = require("blog");
+var async = require("async");
+var fs = require("fs-extra");
+var config = require("config");
+var Cache = require("express-disk-cache");
+var cache = new Cache(config.cache_directory);
 
 // Think about version control!
+var pathToSites = __dirname + "/data/index.json";
 
 // Should only run in production, will pull in live
 // whether or not domain is still connected to Blot
 // fetch latest post date and template information.
 // Can be run every hour...
 function update(callback) {
-  var sites = require(result);
+  fs.readJson(pathToSites, function(err, sites) {
+    if (err) return callback(err);
 
-  async.filter(
-    sites,
-    function(site, next) {},
-    function(err, sites) {
-      fs.outputJson(result);
-      // Empty any existing responses
-      cache.flush(config.host, function(err) {
-        if (err) console.warn(err);
-      });
-    }
-  );
+    async.filter(
+      sites,
+      function(site, next) {
+        verify(site.host, function(err) {
+          if (err) return next(false);
+        });
+      },
+      function(err, sites) {
+        fs.outputJson(pathToSites, sites);
+
+        // Empty any existing responses
+        cache.flush(config.host, function(err) {
+          if (err) console.warn(err);
+        });
+      }
+    );
+  });
 }
 
 function verify(domain, callback) {
