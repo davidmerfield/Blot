@@ -30,10 +30,8 @@ function main(callback) {
         function(site, next) {
           var words = site.split(" ");
           var link = "https://" + words[0];
-          var firstName = words[1];
-          var lastName = words[2];
-          var name = firstName + " " + lastName;
-          var bio = words.slice(3).join(" ");
+          var name = words.slice(1).join(' ').split(',')[0];
+          var bio = words.slice(1).join(' ').split(',').slice(1).join(',');
           var host = Url.parse(link)
             .host.split("www.")
             .join("");

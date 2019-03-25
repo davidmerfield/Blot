@@ -1,11 +1,13 @@
 <style type="text/css">
 featured {
   display: grid;
-  grid-template-columns: 33.3333% 33.3333% 33.3333% ;
+  grid-template-columns: 50% 50%; 
 }
 
 featured p {
   padding: 0 1.5em;
+  margin: 0;
+  font-size: 16px;
   position: relative;
 }
 
@@ -17,8 +19,15 @@ featured img {
   height: 16px;
 }
 
+featured a {text-decoration: underline;}
 </style>
 
+<div style="  padding: 1em 0 0 3em;">
+  <p style="max-width:34rem">Why a blogging platform with no interface? So you can blog with the tools you use already. Write with your favorite text-editor and Blot does the rest.</p>
+
+<p style="max-width:34rem">Blot turns a folder into a blog. Drag-and-drop ﬁles inside to publish them. Organize your ﬁles in a way that suits you. Use your existing tools to create and collaborate with others. </p>
+
+<p>Here are some of people who host their website with Blot at this moment:</p>
 <featured>{{#featured}}
 
   <p>
@@ -26,13 +35,10 @@ featured img {
 
     <a target="_blank"
       rel="noopener"
-      href="{{{link}}}">
-
-      {{name}}
-      
-    </a><!-- {{bio}} -->
+      href="{{{link}}}">{{name}}</a> {{bio}}.
     <!-- uses {{#custom}}a
   <a href="/templates">custom</a>template{{/custom}}{{^custom}}the
   <a href="/templates/{{templateLower}}">{{template}}</a>template{{/custom}}. -->
   </p>{{/featured}}
 </featured>
+</div>
