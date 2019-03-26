@@ -63,6 +63,11 @@ global.test = {
 
   fake: require("./util/fake"),
 
+  user: function() {
+    beforeEach(require("./util/createUser"));
+    afterEach(require("./util/removeUser"));
+  },
+
   blogs: function(total) {
     beforeEach(require("./util/createUser"));
     afterEach(require("./util/removeUser"));
