@@ -26,8 +26,26 @@ describe("template", function() {
     });
   });
 
+  fit("ignores view files which are too large", function(done) {
+    // 3mb of random data should exceed the limit of 2.5mb
+    fs.writeFileSync(
+      this.tmp + "/style.css",
+      require("crypto").randomBytes(3 * 1000 * 1000)
+    );
+
+    read(this.blog.id, this.tmp, function(err, template) {
+      if (err) return done.fail(err);
+
+      getNameByUrl(template.id, "/style.css", function(err, name) {
+        if (err) return done.fail(err);
+
+        expect(name).toEqual(null);
+        done();
+      });
+    });
+  });
+
   it("reads a view's properties from package.json", function(done) {
-    
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
     fs.outputJsonSync(this.tmp + "/package.json", {
       locals: { foo: "bar" },
@@ -47,7 +65,6 @@ describe("template", function() {
   });
 
   it("assigns a view a URL automatically", function(done) {
-    
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
 
     read(this.blog.id, this.tmp, function(err, template) {
@@ -61,7 +78,6 @@ describe("template", function() {
       });
     });
   });
-
 
   it("reads a view's content from a folder", function(done) {
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
