@@ -15,8 +15,6 @@ Record new demo video
 
 ---
 
-Work out how to get [Emily's grid layout](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC) working with the portfolio template
-
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
