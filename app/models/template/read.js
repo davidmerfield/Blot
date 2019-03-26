@@ -14,28 +14,31 @@ var create = require("./create");
 var get = require("./get");
 var update = require("./update");
 
-var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
+// Template files (e.g. entry.html) cannot be > 2.5mb
+var MAX_SIZE = 2.5 * 1000 * 1000;
 
+// Transforms a directory of template files into a Blot template
 function read(blogID, folder, callback) {
-  // Create a new template if it doesn't exist, otherwise
-  // update an existing template with the contents of package.json
   debug(blogID, folder);
-  parsePackageJson(blogID, folder, function(err, metadata, viewsInPackage) {
+
+  // Template metadata is stored in package.json in the root folder
+  readMetadata(blogID, folder, function(err, metadata, viewMetadata) {
     if (err) return callback(err);
 
-    debug(blogID, folder, "parsed metadata", metadata);
-
-    saveTemplate(blogID, folder, metadata, function(err, template) {
+    // Create or update a template with the data in package.json
+    saveMetadata(blogID, folder, metadata, function(err, template) {
       if (err) return callback(err);
 
-      debug(blogID, folder, "saved template", template);
       fs.readdir(folder, function(err, contents) {
         if (err) return callback(err);
 
         debug(blogID, folder, "read contents", contents);
-        // We remove system files and large files
+
+        // Walk the template directory and for each file which
+        // can be turned into a template view (e.g. entry.html)
+        // read it and add it to the template.
         async.filter(contents, validViewFiles(folder), function(err, views) {
-          debug(blogID, folder, "views in package:", viewsInPackage);
+          debug(blogID, folder, "views in package:", viewMetadata);
 
           // Merge any view properties declared in
           // package.json. This is typically where
@@ -47,9 +50,9 @@ function read(blogID, folder, callback) {
               type: mime.lookup(viewID)
             };
 
-            if (viewsInPackage[view.name] !== undefined) {
-              debug('Merging properties from package', view)
-              Object.assign(view, viewsInPackage[view.name]); 
+            if (viewMetadata[view.name] !== undefined) {
+              debug("Merging properties from package", view);
+              Object.assign(view, viewMetadata[view.name]);
             }
 
             return view;
@@ -67,7 +70,7 @@ function read(blogID, folder, callback) {
   });
 }
 
-function parsePackageJson(blogID, folder, callback) {
+function readMetadata(blogID, folder, callback) {
   var views = {};
 
   fs.readJson(folder + "/package.json", function(err, metadata) {
@@ -89,11 +92,13 @@ function parsePackageJson(blogID, folder, callback) {
       locals: "object"
     });
 
+    debug(blogID, folder, "parsed metadata", metadata);
+
     callback(null, metadata, views);
   });
 }
 
-function saveTemplate(blogID, folder, metadata, callback) {
+function saveMetadata(blogID, folder, metadata, callback) {
   var templateID = makeID(blogID, basename(folder));
 
   get(templateID, function(err, template) {
@@ -101,8 +106,10 @@ function saveTemplate(blogID, folder, metadata, callback) {
 
     if (template) {
       template = Object.assign(template, metadata);
+      debug(blogID, folder, "updating template", template);
       update(templateID, template, callback);
     } else {
+      debug(blogID, folder, "creating template", template);
       create(blogID, basename(folder), metadata, callback);
     }
   });
@@ -123,6 +130,9 @@ function saveView(templateID, folder) {
     });
   };
 }
+
+// Eventually we should add a check by mimetype against
+// a whitelist to avoid locking the server up
 function validViewFiles(dir) {
   return function(item, next) {
     // Dotfile
