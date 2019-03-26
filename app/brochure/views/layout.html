@@ -16,7 +16,9 @@ header .nav {    display: flex;}
 header .nav a {margin: 0 1em}
 header .nav a:last-child {margin-right: 0.5em}
 
-.page {padding: 1em 0 3.125em;margin:3.125em 0;text-align: center;color: rgb(88,88,88);border-bottom: 1px solid rgb(231, 231, 229)
+.page {
+  {{#selected.index}}padding: 1em 0 3.125em;margin:3.125em 0;{{/selected.index}}
+  text-align: center;color: rgb(88,88,88);border-bottom: 1px solid rgb(231, 231, 229)
 ;}
 .page h1 {font-size: 32px;font-weight: normal;margin: 0 0 1em;line-height: 43px}
 .page p {margin: 0 auto;max-width: 28em}
