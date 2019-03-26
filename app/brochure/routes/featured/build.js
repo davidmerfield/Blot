@@ -1,5 +1,8 @@
-// Should only run on my machine, generates JSON
-// to filter on the server. Resizes images etc..
+// Should only run on my machine, transforms the text-file
+// which is written by humans into JSON to be read by machines
+// It will build the images inside the avatars directory into
+// 32x32 favicons. This could be extended to fetch other data
+// about sites featured on the homepage, like template used...
 
 var sharp = require("sharp");
 var fs = require("fs-extra");

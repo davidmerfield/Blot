@@ -1,7 +1,9 @@
 Featured sites
 --------------
 
-I want to be able to generate a wall of featured sites (~100) of users who have consented to appear on the homepage which are guaranteed to be still hosted by Blot. Want to be able to run the script once per day so the sites are always fresh even if the server doesn't go down...
+Why? Testimonials are tacky and there's no better endorsement of a website hosting platform than someone using it to host their real-life website, so show potential customers that there are real people who trust Blot to host their website.
+
+I want to be able to generate a wall of featured sites (~100) of users who have consented to appear on the homepage which are guaranteed to be still hosted by Blot. Want to be able to run the script once per day so the sites are always fresh even if the server doesn't go down. 
 
 
 How to feature a new site
@@ -36,5 +38,3 @@ Ideas
 -----
 
 Sort the sites by the latest published post?
-
-

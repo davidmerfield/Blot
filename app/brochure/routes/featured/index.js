@@ -1,3 +1,10 @@
+// This middleware appends the list of featured sites
+// to the view used to render a page. It filters the
+// list asynchronously to ensure that featured sites
+// still point to Blot. This filtering should not block
+// the server's boot. This filtering is also rescheduled
+// once per day to ensure sites are fresh.
+
 var schedule = require("node-schedule").scheduleJob;
 var filter = require("./filter");
 var config = require("config");
@@ -7,27 +14,30 @@ var cache = new Cache(config.cache_directory);
 
 var featured = require("./featured.json");
 
-function update() {
-  console.log("Featured sites: check that the featured sites are still!");
+// Check the list of featured sites when the server starts
+check();
+
+console.log("Featured sites: scheduled check each midnight!");
+schedule({ hour: 8, minute: 0 }, check);
+
+function check() {
+  if (config.environment === "development") {
+    console.log("Featured sites: not checking in development environment");
+    return;
+  }
+
+  console.log("Featured sites: checking which sites point to Blot");
   filter(featured, function(err, filtered) {
     if (err) return console.warn(err);
 
     featured = filtered;
 
-    // Empty any existing responses
     cache.flush(config.host, function(err) {
       if (err) console.warn(err);
+
+      console.log("Featured sites: check completed!");
     });
   });
-}
-
-// I don't want the server to hang when it starts, so
-// filter the list of sites asynchronously.
-if (config.environment === "production") {
-  update();
-
-  console.log("Scheduled daily check of the featured sites for midnight!");
-  schedule({ hour: 8, minute: 0 }, update);
 }
 
 module.exports = function(req, res, next) {
