@@ -31,7 +31,7 @@ function verify(domain, callback) {
     if (!blog) return callback(new Error("No blog with domain " + domain));
 
     var options = {
-      uri: "http://www." + domain + "/verify/domain-setup",
+      uri: "http://" + domain + "/verify/domain-setup",
       timeout: 1000,
       maxRedirects: 5
     };
