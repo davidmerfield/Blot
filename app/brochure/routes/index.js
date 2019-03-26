@@ -9,6 +9,10 @@ var TITLES = {
   publishing: "How to use Blot"
 };
 
+var REDIRECTS = {
+  "/help/tags": "/publishing/metadata"
+};
+
 // Renders the folders and text editors
 brochure.use(finder.middleware);
 
@@ -102,15 +106,10 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
   next();
 });
 
-brochure.get("/", function(req, res) {
+brochure.get("/", require("./featured"), function(req, res) {
   res.locals.title = "Blot – A blogging platform with no interface";
   res.locals.selected.index = "selected";
-  res.locals.featured = require("./featured");
-  res.locals.featured = res.locals.featured.map(function(site) {
-    if (site.template) site.templateLower = site.template.toLowerCase();
-    return site;
-  });
-
+  res.locals.featured = res.locals.featured.slice(0, 6);
   res.render("index");
 });
 
@@ -164,6 +163,12 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
       "/" +
       req.params.subsubsection
   );
+});
+
+brochure.use(function(err, req, res, next) {
+  if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
+
+  next();
 });
 
 brochure.use(function(err, req, res, next) {
