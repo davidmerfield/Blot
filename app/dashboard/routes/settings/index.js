@@ -11,10 +11,6 @@ settings.use(function(req, res, next) {
   next();
 });
 
-settings.get("/settings", function(req, res) {
-  res.redirect("/");
-});
-
 var index = settings.route("/");
 
 index.get(
