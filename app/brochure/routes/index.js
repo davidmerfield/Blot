@@ -109,7 +109,6 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
 brochure.get("/", require("./featured"), function(req, res) {
   res.locals.title = "Blot – A blogging platform with no interface";
   res.locals.selected.index = "selected";
-  res.locals.featured = res.locals.featured.slice(0, 6);
   res.render("index");
 });
 
