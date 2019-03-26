@@ -51,9 +51,12 @@ function build(callback) {
             .split(",")
             .slice(1)
             .join(",");
-          var host = Url.parse(link)
-            .host.split("www.")
-            .join("");
+          var host = Url.parse(link).host;
+
+          if (!favicons[host])
+            return next(
+              new Error("Please add an image to the avatars folder for " + host)
+            );
 
           output.push({
             link: link,

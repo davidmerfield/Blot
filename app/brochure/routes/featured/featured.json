@@ -1,17 +1,10 @@
 [
   {
-    "link": "https://diary.craigwhite.nyc",
-    "host": "diary.craigwhite.nyc",
-    "name": "Craig White",
-    "bio": " is a visual artist based in Harlem New York",
-    "favicon": "/images/featured/diary.craigwhite.nyc.jpg"
-  },
-  {
     "link": "https://www.tillmanjex.info",
-    "host": "tillmanjex.info",
+    "host": "www.tillmanjex.info",
     "name": "Tillman Jex",
     "bio": " is a composer based in Berlin",
-    "favicon": "/images/featured/tillmanjex.info.png"
+    "favicon": "/images/featured/www.tillmanjex.info.png"
   },
   {
     "link": "https://photos.rachelpietraszek.com",
@@ -57,17 +50,17 @@
   },
   {
     "link": "https://www.matthewbattles.org",
-    "host": "matthewbattles.org",
+    "host": "www.matthewbattles.org",
     "name": "Matthew Battles",
     "bio": " directs metaLAB at Harvard",
-    "favicon": "/images/featured/matthewbattles.org.jpg"
+    "favicon": "/images/featured/www.matthewbattles.org.jpg"
   },
   {
     "link": "https://www.rebeccatron.com",
-    "host": "rebeccatron.com",
+    "host": "www.rebeccatron.com",
     "name": "Rebecca Kukshtel",
     "bio": " is an engineer based in New York City",
-    "favicon": "/images/featured/rebeccatron.com.jpg"
+    "favicon": "/images/featured/www.rebeccatron.com.jpg"
   },
   {
     "link": "https://blog.aurynn.com",
@@ -78,31 +71,31 @@
   },
   {
     "link": "https://www.skincarriedaway.com",
-    "host": "skincarriedaway.com",
+    "host": "www.skincarriedaway.com",
     "name": "Tiffany Cecilia",
     "bio": " writes about skincare from San Francisco",
-    "favicon": "/images/featured/skincarriedaway.com.jpg"
+    "favicon": "/images/featured/www.skincarriedaway.com.jpg"
   },
   {
     "link": "https://www.kristianhjelle.com",
-    "host": "kristianhjelle.com",
+    "host": "www.kristianhjelle.com",
     "name": "Kristian Hjelle",
     "bio": " is a designer and partner at Bakken & Bæck",
-    "favicon": "/images/featured/kristianhjelle.com.jpg"
+    "favicon": "/images/featured/www.kristianhjelle.com.jpg"
   },
   {
     "link": "https://www.alexgibson.nyc",
-    "host": "alexgibson.nyc",
+    "host": "www.alexgibson.nyc",
     "name": "Alexander Gibson",
     "bio": " is an artist from New York City",
-    "favicon": "/images/featured/alexgibson.nyc.png"
+    "favicon": "/images/featured/www.alexgibson.nyc.png"
   },
   {
     "link": "https://www.jacobyyoung.com/about",
-    "host": "jacobyyoung.com",
+    "host": "www.jacobyyoung.com",
     "name": "Jacoby Young",
     "bio": " works at Kapālama Elementary School in Hawaii",
-    "favicon": "/images/featured/jacobyyoung.com.png"
+    "favicon": "/images/featured/www.jacobyyoung.com.png"
   },
   {
     "link": "https://john.pavlusoffice.com",
@@ -127,10 +120,10 @@
   },
   {
     "link": "https://www.failuretolerated.com",
-    "host": "failuretolerated.com",
+    "host": "www.failuretolerated.com",
     "name": "Sean McCoy",
     "bio": " is a game designer from Dallas Texas",
-    "favicon": "/images/featured/failuretolerated.com.jpg"
+    "favicon": "/images/featured/www.failuretolerated.com.jpg"
   },
   {
     "link": "https://mrfris.by",
@@ -141,10 +134,10 @@
   },
   {
     "link": "https://www.querlin.com",
-    "host": "querlin.com",
+    "host": "www.querlin.com",
     "name": "Querlin Ricci",
     "bio": " is a designer based in Atlanta",
-    "favicon": "/images/featured/querlin.com.jpg"
+    "favicon": "/images/featured/www.querlin.com.jpg"
   },
   {
     "link": "https://eli.li",
@@ -175,6 +168,13 @@
     "favicon": "/images/featured/paul.af.jpg"
   },
   {
+    "link": "https://diary.craigwhite.nyc",
+    "host": "diary.craigwhite.nyc",
+    "name": "Craig White",
+    "bio": " is a visual artist based in Harlem New York",
+    "favicon": "/images/featured/diary.craigwhite.nyc.jpg"
+  },
+  {
     "link": "https://shashwati.com",
     "host": "shashwati.com",
     "name": "Shashwati Talukdar",
@@ -197,10 +197,10 @@
   },
   {
     "link": "https://www.thingelstad.com",
-    "host": "thingelstad.com",
+    "host": "www.thingelstad.com",
     "name": "Jamie Thingelstad",
     "bio": " is CTO at SPS Commerce in Minneapolis",
-    "favicon": "/images/featured/thingelstad.com.jpg"
+    "favicon": "/images/featured/www.thingelstad.com.jpg"
   },
   {
     "link": "https://ishshah.me",
@@ -211,10 +211,10 @@
   },
   {
     "link": "https://www.chrbutler.com",
-    "host": "chrbutler.com",
+    "host": "www.chrbutler.com",
     "name": "Chris Butler",
     "bio": " is a designer based in Chapel Hill",
-    "favicon": "/images/featured/chrbutler.com.png"
+    "favicon": "/images/featured/www.chrbutler.com.png"
   },
   {
     "link": "https://tyler.vc",
@@ -232,10 +232,10 @@
   },
   {
     "link": "https://www.enzel.io",
-    "host": "enzel.io",
+    "host": "www.enzel.io",
     "name": "David Enzel",
     "bio": " is a lawyer based in Washington D.C.",
-    "favicon": "/images/featured/enzel.io.jpg"
+    "favicon": "/images/featured/www.enzel.io.jpg"
   },
   {
     "link": "https://journal.cheribaker.com",
@@ -253,31 +253,31 @@
   },
   {
     "link": "https://www.crossingthethreshold.net",
-    "host": "crossingthethreshold.net",
+    "host": "www.crossingthethreshold.net",
     "name": "David Johnson",
     "bio": " is a life coach in Maui Hawaii",
-    "favicon": "/images/featured/crossingthethreshold.net.jpg"
+    "favicon": "/images/featured/www.crossingthethreshold.net.jpg"
   },
   {
     "link": "https://www.inthemargins.ca",
-    "host": "inthemargins.ca",
+    "host": "www.inthemargins.ca",
     "name": "Sameer Vasta",
     "bio": " writes letters and takes long walks in Ontario, Canada",
-    "favicon": "/images/featured/inthemargins.ca.jpg"
+    "favicon": "/images/featured/www.inthemargins.ca.jpg"
   },
   {
     "link": "https://www.jmablog.com",
-    "host": "jmablog.com",
+    "host": "www.jmablog.com",
     "name": "James Adams",
     "bio": " is a sports therapist based in London",
-    "favicon": "/images/featured/jmablog.com.jpg"
+    "favicon": "/images/featured/www.jmablog.com.jpg"
   },
   {
     "link": "https://www.seanmcdevitt.com",
-    "host": "seanmcdevitt.com",
+    "host": "www.seanmcdevitt.com",
     "name": "Sean McDevitt",
     "bio": " is a writer from Illinois",
-    "favicon": "/images/featured/seanmcdevitt.com.jpg"
+    "favicon": "/images/featured/www.seanmcdevitt.com.jpg"
   },
   {
     "link": "https://afc.letterspace.org",
