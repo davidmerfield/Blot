@@ -1,20 +1,34 @@
-var fs = require("fs-extra");
+var schedule = require("node-schedule").scheduleJob;
+var filter = require("./filter");
+var config = require("config");
 
-var initialVersion = __dirname + "/output.json";
+var Cache = require("express-disk-cache");
+var cache = new Cache(config.cache_directory);
 
-// This will have been checked by the script to verify 
-// the sites still point to Blot...
-var latestVersion = __dirname + "/data/index.json";
+var featured = require("./featured.json");
 
-// When the server starts, copy the featured sites in version
-// control into the data directory...
-fs.moveSync(initialVersion, latestVersion);
+function update() {
+  console.log("Featured sites: check that the featured sites are still!");
+  filter(featured, function(err, filtered) {
+    if (err) return console.warn(err);
+
+    featured = filtered;
+
+    // Empty any existing responses
+    cache.flush(config.host, function(err) {
+      if (err) console.warn(err);
+    });
+  });
+}
+
+// I don't want the server to hang when it starts, so 
+// filter the list of sites asynchronously. 
+update();
+
+console.log("Scheduled daily check of the featured sites for midnight!");
+schedule({ hour: 8, minute: 0 }, update);
 
 module.exports = function(req, res, next) {
-  fs.readJson(__dirname + "/data/index.json", function(err, sites) {
-    if (err) return next(err);
-
-    res.locals.sites = sites;
-    next();
-  });
+  res.locals.featured = featured;
+  next();
 };

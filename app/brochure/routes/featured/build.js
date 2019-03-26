@@ -1,7 +1,7 @@
-var sharp = require("sharp");
-var fs = require("fs-extra");
-var async = require("async");
+// Should only run on my machine, generates JSON
+// to filter on the server. Resizes images etc..
 
+var sharp = require("sharp");
 var fs = require("fs-extra");
 var async = require("async");
 var Url = require("url");
@@ -10,7 +10,7 @@ var avatars = __dirname + "/avatars";
 var viewDirectory = __dirname + "/../../views";
 var faviconPath = "/images/featured";
 var faviconDirectory = viewDirectory + faviconPath;
-var result = __dirname + "/output.json";
+var result = __dirname + "/featured.json";
 
 if (require.main === module) {
   build(function(err, sites) {
@@ -22,8 +22,6 @@ if (require.main === module) {
   });
 }
 
-// Should only run on my machine, generates JSON
-// to filter on the server. Resizes images etc..
 function build(callback) {
   var output = [];
 
