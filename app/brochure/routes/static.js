@@ -32,7 +32,7 @@ module.exports = function (req, res, next) {
     css = css.split('/images/' + name).join(datauri.content);
   });
 
-  css = minimize.minify(css || '');
+  css = minimize.minify(css || '').styles;
 
   res.set('Content-Type', 'text/css');
   if (config.cache) res.set('Cache-Control', 'max-age=31536000');  

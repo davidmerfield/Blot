@@ -1274,10 +1274,7 @@ p.sub {
 }
 
 .dropdown .menu {
-        box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.05) 0px 3px 6px, rgba(15, 15, 15, 0.1) 0px 9px 24px;
     z-index: 20;
-    background: #fffcfa;
-  margin: 11px 0;
 }
 
 .dropdown .menu button {text-align: left;}
@@ -1291,6 +1288,7 @@ p.sub {
     line-height: 48px;
       margin: 0;
   color: #909090;
+  background: transparent;
     border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
@@ -1665,13 +1663,6 @@ form.account > .buttons {
   padding: 11px 20px;
 }  
 
-a.line,
-  div.line a.link,
-  .dropdown .opener,
-  .dropdown .menu button,
-  .dropdown .menu a,
-  .line form button {transition: background 0.1s;}
-
   a.line:hover,
   div.line a.link:hover,
   .dropdown .opener:hover,
@@ -1753,7 +1744,7 @@ form.account, .inset {padding:20px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.wrapper {margin:0 auto;display: flex;min-height: 100%;padding: 80px 40px}  
+.wrapper {margin:0 auto;display: flex;min-height: calc(100vh - 3em);padding: 60px 40px}  
 
 .head {height:123px;padding-top:20px;}
 

@@ -15,7 +15,6 @@ settings.get("/settings", function(req, res) {
   res.redirect("/");
 });
 
-
 var index = settings.route("/");
 
 index.get(
@@ -55,6 +54,21 @@ settings
     save.removeTmpFiles,
     debug("removed any tmp files"),
     save.finish
+  )
+  .get(
+    load.template,
+    debug("template loaded"),
+    load.menu,
+    debug("menu loaded"),
+    load.client,
+    debug("client loaded"),
+    load.dates,
+    debug("dates loaded"),
+    load.permalinkFormats,
+    debug("permalinks loaded"),
+    function(req, res) {
+      res.render("settings", { title: "Dashboard" });
+    }
   );
 
 settings.get("/settings/urls", function(req, res, next) {
@@ -62,12 +76,19 @@ settings.get("/settings/urls", function(req, res, next) {
   next();
 });
 
-settings.get("/settings/profile", load.menu, load.timezones, load.dates, function(req, res, next){
-  res.locals.setup_title = true;
-  next();
-});
+settings.use(
+  "/settings/profile",
+  load.menu,
+  load.timezones,
+  load.dates,
+  function(req, res, next) {
+    res.locals.breadcrumbs.add("Profile", "profile");
+    res.locals.setup_title = true;
+    next();
+  }
+);
 
-settings.get("/settings/menu", load.menu);
+settings.get("/settings/profile/menu", load.menu);
 settings.get("/settings/date", load.timezones, load.dates);
 settings.get("/settings/services", load.plugins);
 settings.get("/settings/urls", load.permalinkFormats);
@@ -110,9 +131,7 @@ settings
   })
   .post(require("./save/template"));
 
-settings
-  .route("/settings/template/new")
-  .post(require("./save/newTemplate"));
+settings.route("/settings/template/new").post(require("./save/newTemplate"));
 
 settings.route("/settings/template/disable").get(function(req, res) {
   res.locals.breadcrumbs.add("Disable", "disable");
@@ -124,9 +143,19 @@ settings
   .all(load.pastTemplates)
   .get(function(req, res) {
     res.locals.breadcrumbs.add("Past", "past");
-    res.render("template/past", {title: 'Past templates'});
+    res.render("template/past", { title: "Past templates" });
   });
-  
+
+settings.get("/settings/:section/:view", function(req, res) {
+  var uppercaseName = req.params.view;
+
+  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+
+  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  res.locals.partials.subpage = "settings/" + req.params.view;
+  res.render("settings/subpage", { host: process.env.BLOT_HOST });
+});
+
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;
 
@@ -134,7 +163,10 @@ settings.get("/settings/:view", function(req, res) {
 
   if (uppercaseName === "Urls") uppercaseName = "URLs";
 
-  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  if (uppercaseName !== "Profile") {
+    res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  }
+
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });

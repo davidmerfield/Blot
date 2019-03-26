@@ -141,7 +141,7 @@ module.exports = function(req, res, _next) {
               // probably forgot an equals sign or some bs...
               try {
                 if (viewType === STYLE && !req.preview)
-                  output = minimize.minify(output || "");
+                  output = minimize.minify(output || "").styles;
 
                 if (viewType === JS && !req.preview)
                   output = UglifyJS.minify(output, { fromString: true }).code;
