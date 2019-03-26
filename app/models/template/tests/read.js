@@ -9,7 +9,7 @@ describe("template", function() {
   // Sets up a temporary tmp folder and cleans it up after
   global.test.tmp();
 
-  it("reads a template from an empty folder", function(done) {
+  it("reads a template from an empty folder without error", function(done) {
     read(this.blog.id, this.tmp, done);
   });
 
@@ -26,7 +26,7 @@ describe("template", function() {
     });
   });
 
-  fit("ignores view files which are too large", function(done) {
+  it("ignores view files which are too large", function(done) {
     // 3mb of random data should exceed the limit of 2.5mb
     fs.writeFileSync(
       this.tmp + "/style.css",
