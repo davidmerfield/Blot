@@ -10,7 +10,7 @@ var Blog = require("blog");
 var async = require("async");
 
 function filter(sites, callback) {
-  async.filter(
+  async.filterSeries(
     sites,
     function(site, next) {
       verify(site.host, function(err) {

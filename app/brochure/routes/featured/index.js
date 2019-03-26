@@ -21,12 +21,14 @@ function update() {
   });
 }
 
-// I don't want the server to hang when it starts, so 
-// filter the list of sites asynchronously. 
-update();
+// I don't want the server to hang when it starts, so
+// filter the list of sites asynchronously.
+if (config.environment === "production") {
+  update();
 
-console.log("Scheduled daily check of the featured sites for midnight!");
-schedule({ hour: 8, minute: 0 }, update);
+  console.log("Scheduled daily check of the featured sites for midnight!");
+  schedule({ hour: 8, minute: 0 }, update);
+}
 
 module.exports = function(req, res, next) {
   res.locals.featured = featured;
