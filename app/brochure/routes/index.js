@@ -106,15 +106,10 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
   next();
 });
 
-brochure.get("/", function(req, res) {
+brochure.get("/", require("./featured"), function(req, res) {
   res.locals.title = "Blot – A blogging platform with no interface";
   res.locals.selected.index = "selected";
-  res.locals.featured = require("./featured");
-  res.locals.featured = res.locals.featured.map(function(site) {
-    if (site.template) site.templateLower = site.template.toLowerCase();
-    return site;
-  });
-
+  res.locals.featured = res.locals.featured.slice(0, 6);
   res.render("index");
 });
 
