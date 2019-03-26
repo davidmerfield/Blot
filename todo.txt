@@ -1,5 +1,6 @@
 Finish Feed template
 - Create folder with public domain material
+- Add a centered nav with a bold-text selected state for nav items that doesn't shift around as you change page
 
 Finish Archive template
 - Create folder with public domain material, public domain new deal photos?
