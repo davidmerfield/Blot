@@ -13,9 +13,15 @@ Record new demo video
 
 ---
 
-Tell [Amit when new homepage is live!](https://mail.google.com/mail/u/0/#inbox/KtbxLrjVkmBtRXhLbbPmxpgSVhjfqszwwg)
-
 Work out how to get [Emily's grid layout](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC) working with the portfolio template
+
+Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
+
+Fix bug with upper-case domain and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTZVPGRVHXDzZbrZxzMzsq)
+
+Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ)
+
+Tell [Amit when new homepage is live!](https://mail.google.com/mail/u/0/#inbox/KtbxLrjVkmBtRXhLbbPmxpgSVhjfqszwwg)
 
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
 
@@ -160,7 +166,7 @@ Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#i
 
 Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 
-Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB)
+Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB). I like [this style](https://status.sunsed.com/) (just a JSON response)
 
 Prune redis keys and begin storing more on disk
 
