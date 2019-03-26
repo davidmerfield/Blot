@@ -1,17 +1,19 @@
 describe("blog creates", function() {
+  var create = require("../create");
+  var remove = require("../remove");
+  var getAllIDs = require("../getAllIDs");
+
   // Create a test user before each spec
   global.test.user();
 
   // Clean up blogs created during tests
-  afterEach(function(done) {
+  afterEach(function (done) {
     if (this.blog) {
-      require("../remove")(this.blog.id, done);
+      remove(this.blog.id, done);
     } else {
       done();
     }
   });
-
-  var create = require("../create");
 
   it("creates a blog", function(done) {
     var ctx = this;
@@ -19,7 +21,7 @@ describe("blog creates", function() {
     create(ctx.user.uid, { handle: "example" }, function(err, blog) {
       if (err) return done.fail(err);
 
-      ctx.blog = blog;
+      ctx.blog = blog; // will be cleaned up at the end of this test
 
       expect(blog).toEqual(jasmine.any(Object));
       done();
@@ -32,10 +34,12 @@ describe("blog creates", function() {
     create(ctx.user.uid, { handle: "example" }, function(err, blog) {
       if (err) return done.fail(err);
 
-      ctx.blog = blog;
+      ctx.blog = blog; // will be cleaned up at the end of this test
 
-      expect(blog).toEqual(jasmine.any(Object));
-      done();
+      getAllIDs(function(err, ids) {
+        expect(ids).toContain(blog.id);
+        done();
+      });
     });
   });
 });
