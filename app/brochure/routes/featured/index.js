@@ -27,10 +27,14 @@ function check() {
   }
 
   console.log("Featured sites: checking which sites point to Blot");
-  filter(featured, function(err, filtered) {
+  filter(featured, function(err, filtered, missing) {
     if (err) return console.warn(err);
 
     featured = filtered;
+
+    missing.forEach(function(site) {
+      console.warn("Featured sites:", site.host, "no longer points to Blot");
+    });
 
     cache.flush(config.host, function(err) {
       if (err) console.warn(err);

@@ -10,20 +10,17 @@ var Blog = require("blog");
 var async = require("async");
 
 function filter(sites, callback) {
-  async.filterSeries(
+  async.groupByLimit(
     sites,
+    3,
     function(site, next) {
       verify(site.host, function(err) {
-        if (err)
-          console.warn(
-            "Featured site missing: ",
-            site.host,
-            "[" + err.message + "]"
-          );
         next(null, err === null);
       });
     },
-    callback
+    function(err, result) {
+      callback(err, result.true || [], result.false || []);
+    }
   );
 }
 

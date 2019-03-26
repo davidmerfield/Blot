@@ -2,39 +2,71 @@
 // for new sites to feature on the homepage and list the email
 // to contact for the site.
 
-var eachBlog = require("../../each/blog");
-var Entries = require("../../../app/models/entries");
+var Blog = require("blog");
+var moment = require("moment");
+var Entries = require("entries");
+var User = require("user");
 var colors = require("colors/safe");
-var featured = [];
+var async = require("async");
+var filter = require("./filter");
 
-eachBlog(checkBlog, function() {
-  console.log("Done!");
-  process.exit();
+// We want to be able to check if a candidate is already
+// featured, so transform the existing list into an array
+var featured = require("./featured").map(function(site) {
+  return site.host;
 });
 
-function checkBlog(user, blog, next) {
-  var lastPublishedPost;
+Blog.getAllIDs(function(err, ids) {
 
-  if (user.isDisabled || blog.isDisabled) return next();
+  async.map(
+    ids,
+    function(id, next) {
+      Blog.get({ id: id }, function(err, blog) {
+        if (err || !blog || blog.isDisabled || !blog.domain) return next();
 
-  process.stdout.clearLine();
-  process.stdout.cursorTo(0);
-  process.stdout.write(colors.dim("...", blog.handle));
+        User.getById(blog.owner, function(err, user) {
+          if (err || !user || user.isDisabled) return next();
 
-  if (!blog.domain) return next();
+          Entries.getPage(blog.id, 1, 1, function(entries) {
+            if (!entries.length) return next();
 
-  Entries.getPage(blog.id, 1, 1, function(entries) {
-    if (!entries.length) return next();
+            next(null, {
+              host: blog.domain,
+              email: user.email,
+              lastPublishedPost: entries[0].dateStamp
+            });
+          });
+        });
+      });
+    },
+    function(err, sites) {
+      sites = sites.filter(function(site) {
+        return site && site.host && featured.indexOf(site.host) === -1;
+      });
 
-    lastPublishedPost = entries[0].dateStamp;
+      filter(sites, function(err, sites) {
+        if (err) throw err;
 
-    console.log(" >> https://" + blog.domain, "is ok!");
+        console.log("Found " + sites.length + " sites to consider:\n");
 
-    featured.push({
-      domain: blog.domain,
-      lastPublishedPost: lastPublishedPost
-    });
+        sites.sort(function(a, b) {
+          if (a.lastPublishedPost > b.lastPublishedPost) return 1;
+          if (b.lastPublishedPost > a.lastPublishedPost) return -1;
+          if (a.lastPublishedPost === b.lastPublishedPost) return 0;
+        });
 
-    next();
-  });
-}
+        sites.forEach(function(site) {
+          console.log(
+            "https://" + site.host,
+            colors.dim(
+              "last published",
+              moment(site.lastPublishedPost).fromNow()
+            ),
+            site.email
+          );
+        });
+        console.log();
+      });
+    }
+  );
+});
