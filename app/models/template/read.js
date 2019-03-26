@@ -18,6 +18,7 @@ var update = require("./update");
 var MAX_SIZE = 2.5 * 1000 * 1000;
 
 // Transforms a directory of template files into a Blot template
+// Should this be called build?
 function read(blogID, folder, callback) {
   debug(blogID, folder);
 
@@ -81,7 +82,9 @@ function readMetadata(blogID, folder, callback) {
 
     // Views are not part of the template model, but they
     // are in the package.json file. Extract them before ensure
-    if (metadata.views) views = JSON.parse(JSON.stringify(metadata.views));
+    if (metadata.views) {
+      views = JSON.parse(JSON.stringify(metadata.views));
+    }
 
     // Remove all properties which do not match this spec
     ensure(metadata, {
