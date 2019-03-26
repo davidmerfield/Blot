@@ -1,3 +1,12 @@
+
+<style type="text/css">
+.featured {  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.featured p {margin: 0}
+content p a {text-decoration: underline;border: none;color: #394cd2}
+.featured img {vertical-align: middle;}
+</style>
  <div class="page">{{#selected.index}}
 <h1>A blogging platform with no interface</h1><p>Blot turns a folder into a blog automatically. Why? So you can blog with the tools you use already. Write with your favorite text-editor and Blot does the rest.</p>{{/selected.index}}</div>
 
@@ -12,16 +21,8 @@
   </div>
 </div>
 </overlay>
-
-
-<Div style="width:50%">
-
-<p style="margin-top:0">Why a blogging platform with no interface? So you can blog with the tools you use already. Write with your favorite text-editor and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>.</p>
-
-<p>Blot turns a folder into a blog. Drag-and-drop files inside to publish them. Organize your files in a way that suits you. Use your existing tools to create and collaborate with others.</p>
-
-<br><Br>
-<a style="width:200%;" class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
+<!-- 
+<a style="width:50%;float:right" class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
 <span>Play video</span>
     
@@ -34,16 +35,25 @@ Posts
 
 
 </code></pre></a>
+ -->
+<Div style="width:50%;padding-right:3em;box-sizing:border-box">
 
 
+<p style="margin-top:0">Why a blogging platform with no interface? So you can blog with the tools you use already. Write with your favorite text-editor and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>.</p>
 
+<p>Blot turns a folder into a blog. Drag-and-drop files inside to publish them. Organize your files in a way that suits you. Use your existing tools to create and collaborate with others.</p>
 
-  <p>Here's a handful of the people who host their website on Blot:</p>
+<p>Use one of the included templates or design your own. Here's some of the people who host their website on Blot right now:</p>
+</div>
 
+<div class="featured">
   {{#featured}}
-    <a target="_blank" rel="noopener" href="{{{link}}}"> <b>   <img style="width:16px;height:16px;" src="{{{favicon}}}">
- {{name}}</b></a> {{bio}} uses {{#custom}}a <a href="/templates">custom</a> template{{/custom}}{{^custom}}the <a href="/templates/{{templateLower}}">{{template}}</a> template{{/custom}}.<br>
+  <p>
+    <img style="width:16px;height:16px;" src="{{{favicon}}}">
+    <a target="_blank" rel="noopener" href="{{{link}}}">{{name}}</a> {{bio}}.
+  </p>
   {{/featured}}
+</div>
 
 
 <h2>Why does Blot exist?</h2>
