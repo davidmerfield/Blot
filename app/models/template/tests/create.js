@@ -17,24 +17,26 @@ describe("template", function() {
     done();
   });
 
-  fit("creates a template whose name contains a slash", function(done) {
+  it("creates a template whose name contains a slash", function(done) {
     var name = this.fake.random.word() + "/" + this.fake.random.word();
     var blog = this.blog;
     create(blog.id, name, {}, function(err) {
       if (err) return done.fail(err);
       getTemplateList(blog.id, function(err, templates) {
         if (err) return done.fail(err);
-        
-        expect(templates.filter(function(template){
-          return template.name === name;
-        }).length).toEqual(1);
+
+        expect(
+          templates.filter(function(template) {
+            return template.name === name;
+          }).length
+        ).toEqual(1);
 
         done();
       });
     });
   });
 
-  xit("creates multiple templates in parallel", function(done) {
+  it("creates multiple templates in parallel", function(done) {
     var test = this;
     var templateNames = [];
 
@@ -46,13 +48,19 @@ describe("template", function() {
       function(templateName, next) {
         create(test.blog.id, templateName, {}, next);
       },
-      function(err, templates) {
+      function(err) {
         if (err) return done.fail(err);
-        templates.forEach(function(template) {
-          expect(template.id).toEqual(jasmine.any(String));
-          expect(templateNames.indexOf(template.name)).not.toEqual(-1);
+        getTemplateList(test.blog.id, function(err, templates) {
+          if (err) return done.fail(err);
+
+          expect(
+            templates.filter(function(template) {
+              return templateNames.indexOf(template.name) > -1;
+            }).length
+          ).toEqual(1000);
+
+          done();
         });
-        done();
       }
     );
   });
