@@ -2,6 +2,7 @@ describe("template", function() {
   require("./setup")();
 
   var create = require("../index").create;
+  var getTemplateList = require("../index").getTemplateList;
   var async = require("async");
 
   it("creates a template", function(done) {
@@ -9,7 +10,6 @@ describe("template", function() {
   });
 
   it("throws an error if you try to create a template with no name", function(done) {
-
     expect(function() {
       create(this.blog.id, null, null, function() {});
     }).toThrow();
@@ -17,12 +17,20 @@ describe("template", function() {
     done();
   });
 
-  xit("creates a template whose name contains a slash", function(done) {
+  fit("creates a template whose name contains a slash", function(done) {
     var name = this.fake.random.word() + "/" + this.fake.random.word();
-    create(this.blog.id, name, {}, function(err, template) {
-      expect(err).toBeNull();
-      expect(template.id).toEqual(jasmine.any(String));
-      done();
+    var blog = this.blog;
+    create(blog.id, name, {}, function(err) {
+      if (err) return done.fail(err);
+      getTemplateList(blog.id, function(err, templates) {
+        if (err) return done.fail(err);
+        
+        expect(templates.filter(function(template){
+          return template.name === name;
+        }).length).toEqual(1);
+
+        done();
+      });
     });
   });
 
