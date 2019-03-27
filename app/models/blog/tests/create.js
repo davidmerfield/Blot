@@ -1,4 +1,4 @@
-describe("blog creates", function() {
+describe("Blog.create", function() {
   var create = require("../create");
   var remove = require("../remove");
   var getAllIDs = require("../getAllIDs");
@@ -6,7 +6,7 @@ describe("blog creates", function() {
   // Create a test user before each spec
   global.test.user();
 
-  // Clean up blogs created during tests
+  // Clean up a blog created during tests
   afterEach(function (done) {
     if (this.blog) {
       remove(this.blog.id, done);
