@@ -8,18 +8,20 @@ describe("template", function() {
     create(this.blog.id, this.fake.random.word(), {}, done);
   });
 
+  it("throws an error if you try to create a template with no name", function(done) {
+
+    expect(function() {
+      create(this.blog.id, null, null, function() {});
+    }).toThrow();
+
+    done();
+  });
+
   xit("creates a template whose name contains a slash", function(done) {
     var name = this.fake.random.word() + "/" + this.fake.random.word();
     create(this.blog.id, name, {}, function(err, template) {
       expect(err).toBeNull();
       expect(template.id).toEqual(jasmine.any(String));
-      done();
-    });
-  });
-
-  xit("returns an error if you try to create a template with no name", function(done) {
-    create(this.blog.id, null, null, function(err) {
-      expect(err instanceof TypeError).toBe(true);
       done();
     });
   });
