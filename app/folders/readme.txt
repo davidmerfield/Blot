@@ -1,1 +1,1 @@
-# This directory contains test material to develop templates with
+This directory contains test material to develop templates with
