@@ -18,11 +18,11 @@ describe("template", function() {
   });
 
   it("creates a template whose name contains a slash", function(done) {
+    var test = this;
     var name = this.fake.random.word() + "/" + this.fake.random.word();
-    var blog = this.blog;
-    create(blog.id, name, {}, function(err) {
+    create(test.blog.id, name, {}, function(err) {
       if (err) return done.fail(err);
-      getTemplateList(blog.id, function(err, templates) {
+      getTemplateList(test.blog.id, function(err, templates) {
         if (err) return done.fail(err);
 
         expect(
@@ -77,29 +77,41 @@ describe("template", function() {
     });
   });
 
-  xit("creates a template from an existing template", function(done) {
+  it("creates a template from an existing template", function(done) {
     var test = this;
     var blogID = test.blog.id;
     var original = this.fake.random.word();
     var cloned = this.fake.random.word();
     var description = this.fake.random.word();
+    var originalTemplate, clonedTemplate;
 
-    create(blogID, original, { description: description }, function(
-      err,
-      originalTemplate
-    ) {
+    create(blogID, original, { locals: { description: description } }, function(err) {
       if (err) return done.fail(err);
 
-      create(blogID, cloned, { cloneFrom: originalTemplate.id }, function(
-        err,
-        clonedTemplate
-      ) {
-        if (err) return done.fail(err);
+      getTemplateList(test.blog.id, function(err, templates) {
+        originalTemplate = templates.filter(function(template) {
+          return template.name === original;
+        })[0];
 
-        expect(originalTemplate.description).toEqual(
-          clonedTemplate.description
-        );
-        done();
+        create(blogID, cloned, { cloneFrom: originalTemplate.id }, function(
+          err
+        ) {
+          if (err) return done.fail(err);
+
+          getTemplateList(test.blog.id, function(err, templates) {
+            if (err) return done.fail(err);
+
+            clonedTemplate = templates.filter(function(template) {
+              return template.name === cloned;
+            })[0];
+
+            expect(originalTemplate.locals).toEqual(
+              clonedTemplate.locals
+            );
+
+            done();
+          });
+        });
       });
     });
   });
