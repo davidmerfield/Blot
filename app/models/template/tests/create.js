@@ -85,7 +85,9 @@ describe("template", function() {
     var description = this.fake.random.word();
     var originalTemplate, clonedTemplate;
 
-    create(blogID, original, { locals: { description: description } }, function(err) {
+    create(blogID, original, { locals: { description: description } }, function(
+      err
+    ) {
       if (err) return done.fail(err);
 
       getTemplateList(test.blog.id, function(err, templates) {
@@ -105,9 +107,7 @@ describe("template", function() {
               return template.name === cloned;
             })[0];
 
-            expect(originalTemplate.locals).toEqual(
-              clonedTemplate.locals
-            );
+            expect(originalTemplate.locals).toEqual(clonedTemplate.locals);
 
             done();
           });
@@ -116,12 +116,18 @@ describe("template", function() {
     });
   });
 
+  // There is a bug with the clone function at the moment
+  // It does a truthy check against an empty object in the
+  // case of an attempt to clone a non-existent template.
+  // if (err || !allViews)  where all views is {}
+  // Fix this in future and enable the spec.
   xit("returns an error if you try to clone a template that does not exist", function(done) {
     create(
       this.blog.id,
       this.fake.random.word(),
       { cloneFrom: this.fake.random.word() },
       function(err) {
+        console.log(err);
         expect(err instanceof Error).toBe(true);
         done();
       }
