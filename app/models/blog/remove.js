@@ -1,4 +1,5 @@
 var get = require("./get");
+var key = require("./key");
 var helper = require("helper");
 var ensure = helper.ensure;
 var async = require("async");
@@ -7,6 +8,9 @@ var START_CURSOR = "0";
 var SCAN_SIZE = 1000;
 
 module.exports = function(blogID, callback) {
+
+  var multi = client.multi();
+
   ensure(blogID, "string").and(callback, "function");
 
   get({ id: blogID }, function(err, blog) {
@@ -39,7 +43,9 @@ module.exports = function(blogID, callback) {
         });
       },
       function() {
-        client.del(remove, callback);
+        multi.del(remove, callback);
+        multi.srem(key.ids, blogID);
+        multi.exec(callback);
       }
     );
   });

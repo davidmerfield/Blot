@@ -49,13 +49,17 @@ module.exports = function create(uid, info, callback) {
         User.set(uid, { blogs: blogs, lastSession: blogID }, function(err) {
           if (err) return callback(err);
 
-          set(blogID, blog, function(err) {
+          client.sadd(key.ids, blog.id, function(err) {
             if (err) return callback(err);
 
-            fs.emptyDir(localPath(blog.id, "/"), function(err) {
+            set(blogID, blog, function(err) {
               if (err) return callback(err);
 
-              return callback(err, blog);
+              fs.emptyDir(localPath(blog.id, "/"), function(err) {
+                if (err) return callback(err);
+
+                return callback(err, blog);
+              });
             });
           });
         });
