@@ -16,12 +16,12 @@ describe("blog creates", function() {
   });
 
   it("creates a blog", function(done) {
-    var ctx = this;
+    var test = this;
 
-    create(ctx.user.uid, { handle: "example" }, function(err, blog) {
+    create(test.user.uid, { handle: "example" }, function(err, blog) {
       if (err) return done.fail(err);
 
-      ctx.blog = blog; // will be cleaned up at the end of this test
+      test.blog = blog; // will be cleaned up at the end of this test
 
       expect(blog).toEqual(jasmine.any(Object));
       done();
@@ -29,12 +29,12 @@ describe("blog creates", function() {
   });
 
   it("adds created blog to list of all blogs", function(done) {
-    var ctx = this;
+    var test = this;
 
-    create(ctx.user.uid, { handle: "example" }, function(err, blog) {
+    create(test.user.uid, { handle: "example" }, function(err, blog) {
       if (err) return done.fail(err);
 
-      ctx.blog = blog; // will be cleaned up at the end of this test
+      test.blog = blog; // will be cleaned up at the end of this test
 
       getAllIDs(function(err, ids) {
         expect(ids).toContain(blog.id);
