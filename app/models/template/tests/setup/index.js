@@ -1,6 +1,8 @@
 var create = require("../../index").create;
 var getTemplateList = require("../../index").getTemplateList;
 
+var setView = require("../../index").setView;
+
 module.exports = function setup(options) {
   options = options || {};
 
@@ -25,6 +27,23 @@ module.exports = function setup(options) {
           })[0];
           done();
         });
+      });
+    });
+  }
+
+  // Create a test view
+  if (options.createView) {
+    beforeEach(function(done) {
+      var test = this;
+      var view = {
+        name: test.fake.random.word(),
+        url: '/' + test.fake.random.word(),
+        content: test.fake.random.word(),
+      };
+      setView(test.blog.id, view, function(err) {
+        if (err) return done(err);
+        test.view = view;
+        done();
       });
     });
   }
