@@ -1,4 +1,6 @@
 var create = require("../../index").create;
+var getTemplateList = require("../../index").getTemplateList;
+
 module.exports = function setup(options) {
   options = options || {};
 
@@ -14,10 +16,15 @@ module.exports = function setup(options) {
   if (options.createTemplate) {
     beforeEach(function(done) {
       var test = this;
-      create(test.blog.id, test.fake.random.word(), {}, function(err, template) {
+      var name = test.fake.random.word();
+      create(test.blog.id, name, {}, function(err) {
         if (err) return done(err);
-        test.template = template;
-        done();
+        getTemplateList(test.blog.id, function(err, templates) {
+          test.template = templates.filter(function(template) {
+            return template.name === name;
+          })[0];
+          done();
+        });
       });
     });
   }
