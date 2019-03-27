@@ -1,7 +1,14 @@
 <h1>Use your own domain</h1>
 <p>Let&apos;s say you own <em>example.com</em> and would like to use it for your blog. First, decide whether you would like to use a subdomain, like <em>blog.example.com</em> or <em>www.example.com</em>, or the apex domain, which is just <em>example.com</em>.</p>
 
-<h2>Use a subdomain</h2>
+<p>
+  Due to DNS propagation, it may take <mark>up to 72 hours</mark> for your
+  domain to be live with Blot. Typically it happens quickly &mdash; under 24
+  hours &mdash; but please <a href="/support">reach out</a> if you&apos;re
+  having trouble.
+</p>
+
+<h2>Use a subdomain (e.g. <em>www.example.com</em>)</h2>
 <ol>
   <li>
     <p>Go to your domain&apos;s DNS page. This is usually where you bought the domain. Create a <code>CNAME</code> record for the subdomain you&apos;d like to use and set its value to <code>blot.im</code>.</p>
@@ -11,7 +18,7 @@
   </li>
 </ol>
 
-<h2>Use your apex domain</h2>
+<h2>Use your apex domain (e.g. <em>example.com</em>)</h2>
 
 <ol>
   <li>
@@ -22,26 +29,38 @@
   </li>
 </ol>
 
+<p>
+  Not all DNS providers support <code>ALIAS</code> records. Namely, Route 53 and
+  DNSimple do. Cloudflare supports CNAME Flattening, which allows you to use a
+  <code>CNAME</code> record on your apex domain to get the same functionality.
+</p>
+
 <p>If you cannot create an <code>ALIAS</code> record, I recommend you use the <code>www</code> subdomain, then set up a redirect from the apex domain to the subdomain.</p>
 
 <h2>Quick reference</h2>
-<table>
+<table style="max-width: 39em">
   <thead>
-    <td>DNS record type</td>
-    <td>Host</td>
-    <td>Value</td>
-  <tr>
-    <td>CNAME</td>
-    <td>www</td>
-    <td>blot.im</td>
-  </tr>
-  <tr>
-    <td>ALIAS</td>
-    <td>*</td>
-    <td>blot.im</td>
-  </tr>
     <tr>
-    <td>A</td>
-    <td>*</td>
-    <td>{{ip}}</td>
-  </tr>
+      <th>Type</th>
+      <th>Host</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CNAME</td>
+      <td>www</td>
+      <td>blot.im</td>
+    </tr>
+    <tr>
+      <td>ALIAS</td>
+      <td>@</td>
+      <td>blot.im</td>
+    </tr>
+      <tr>
+      <td>A</td>
+      <td>@</td>
+      <td>{{ip}}</td>
+    </tr>
+  </tbody>
+</table>
