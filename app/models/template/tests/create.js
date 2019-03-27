@@ -65,7 +65,7 @@ describe("template", function() {
     );
   });
 
-  xit("returns an error if you try to create a template which already exists", function(done) {
+  it("returns an error if you try to create a template which already exists", function(done) {
     var name = this.fake.random.word();
     var test = this;
     create(this.blog.id, name, {}, function(err) {
