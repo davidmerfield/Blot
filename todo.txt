@@ -1,7 +1,8 @@
 Finish Feed template
 - Create folder with public domain material
-- Add a centered nav with a bold-text selected state for nav items that doesn't shift around as you change page
-- Add a customizable header motif with dots, gradient etc.
+- Add script to build test sites from folders
+- Add a centered nav with a bold-text selected state for nav items that doesn't shift around as you change page?
+- Add a customizable header motif with dots, gradient etc?
 
 Finish Archive template
 - Create folder with public domain material, public domain new deal photos?
@@ -16,6 +17,18 @@ Record new demo video
 ---
 
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
+
+Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
+
+Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
+
+Investigate log-in issue. There's no reason sessions should expire any sooner than say after a week of inactivity. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
+
+Fix the hamburger button on public site. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
+
+Improve the access to the documentation links. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
+
+Run a scraper for broken documentation links on the site. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
 
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
 
@@ -281,7 +294,7 @@ Re-enable image minifier and fix the bugs it creates
 Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
 
 Webloc converter
-- Generate screenshots as thumbnails for webloc posts perhaps using [pupeteer](https://github.com/GoogleChrome/puppeteer) and PNG8, which seems [efficient for screenshots](https://news.ycombinator.com/item?id=18236912)
+- Generate screenshots as thumbnails for webloc posts perhaps using [pupeteer](https://github.com/GoogleChrome/puppeteer) and PNG8, which seems [efficient for screenshots](https://news.ycombinator.com/item?id=18236912) and tell [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwcVDLBRqVlxrsXqMcwsKFB)
 - Download the webpage for bookmark files and try to extract title + summary
 
 Prune package.json

@@ -117,6 +117,11 @@ var tex = require("./tools/tex");
 
 brochure.use("/publishing/formatting", tex);
 
+brochure.use("/publishing/domain", function(req, res, next) {
+  res.locals.ip = config.ip;
+  return next();
+});
+
 brochure.get("/:section", function(req, res, next) {
   // This check is designed to prevent an error polluting
   // the logs which happens for requests like /images/foo.png
