@@ -24,7 +24,8 @@
 html, body {margin: 0;padding: 0}
 
 body {
-  font: 16px / 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif, "Sans Serif", Icons /*!System*/;
+  --line-height: 22px;
+  font: 16px / var(--line-height) -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif, "Sans Serif", Icons /*!System*/;
   text-rendering: optimizeLegibility;
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "liga";
@@ -37,7 +38,7 @@ body {
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
 .small,
-.caption {font-size: 13px;color: #999;font-weight: 500;}
+.caption {font-size: 12px;color: #999;}
 
 .caption {
   line-height: 18px;
@@ -61,10 +62,26 @@ div {
   position: relative;
 }
 
-.header {margin-top: 48px;margin-bottom: 72px}
+.header {margin-top: 1em;margin-bottom: 2em;display: flex}
+.nav {margin: 0;flex-grow:1;}
 .main {max-width: 60%;min-width: 600px}
 .container {}
-.entry {margin: 72px 0 120px}
+.entry {margin: 6em 0}
+
+
+/* entry tweaks */
+
+.entry > p,
+.entry > blockquote,
+.entry > h1,
+.entry > h2,
+.entry > h3,
+.entry > h4,
+.entry > h5,
+.entry > h6,
+.entry > hr,
+.entry ol
+ {max-width: 39rem;margin-left: auto;margin-right: auto}
 
 /* LAYOUT */
 
@@ -133,7 +150,7 @@ div {
 
 p, li {
   position: relative;
-  margin: 24px 0;
+  margin: 2em 0;
 }
 
 h1 {font-size: 25px;line-height: 36px;font-weight: bold;margin-bottom: 24px}
@@ -141,7 +158,7 @@ h1 {font-size: 25px;line-height: 36px;font-weight: bold;margin-bottom: 24px}
 h2, h3, h4, h5, h6 {font-size: 17px;font-weight: bold;line-height: 24px;margin: 48px 0 24px}
 
 blockquote {
-  padding: 0 0 0 12px;
+  padding: 0 0 0 calc(var(--line-height) * 3);
   color: #777
 }
 
@@ -160,7 +177,7 @@ a {
   text-decoration: none;
   text-shadow: .03em 0 #fff, -.03em 0 #fff, 0 .03em #fff, 0 -.03em #fff, .06em 0 #fff, -.06em 0 #fff, .09em 0 #fff, -.09em 0 #fff, .12em 0 #fff, -.12em 0 #fff, 0 0.03em #fff, 0 -.03em #fff, 0 .06em #fff, 0 -.06em #fff, 0 .08em #fff, 0 -.08em #fff;
   background-image: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff), linear-gradient(#004984, #004984);
-  background-size: 0 0,0 0,0.07em 0.07em;
+  background-size: 0 0,0 0,0.04em 0.04em;
   background-repeat: no-repeat, no-repeat, repeat-x;
   background-position: 0% 90%, 100% 90%, 0% 95%;
 }
@@ -198,7 +215,7 @@ a.tag {
 
 /* RULE */
 
-hr {width: 100%;margin: 24px auto -1px;border: none;border-bottom: 3px double #efefef; padding-bottom: 1.4em;text-shadow: none;box-shadow: none;}
+hr {width: 100%;margin: 2em auto -1px;border: none;border-bottom: 3px double #efefef; padding-bottom: 1.4em;text-shadow: none;box-shadow: none;}
 
 /* CODE */
 
@@ -288,7 +305,7 @@ iframe {width: 100%;}
 
 /* Only apply vertical margin to direct
    descendants, prevents multi margins */
-.entry > iframe {margin: 24px 0!important;}
+.entry > iframe {margin: 2em 0!important;}
 
 /* TWEETS */
 
@@ -298,19 +315,19 @@ iframe {width: 100%;}
 
 .katex  {font-size: 1.05em;}
 
-
+.header {line-height: 36px;height: 36px;padding: 0 1em;font-size: 14px;}
+.header a {margin-right: 8px;background: none;text-shadow: none;}
 
 #logo {
   font-weight: bold;
-  display:block;
-  font-size: 15px;
   color: #222;
   position: relative;
+  display: inline-block;
   text-shadow: none;
   background-image: none;
 }
 
-#logo img {position: absolute;width: 48px;top: 0px;left: -62px;}
+#logo img {display: inline-block;max-width: 36px;max-height: 36px;}
 
 #logo:hover {color: #555}
 #logo img:hover {opacity: 0.8}
@@ -318,9 +335,6 @@ iframe {width: 100%;}
 #logo img.rounded {width: 52px;border-radius: 50%;top: -2px;left: -64px}
 #logo img:active {margin-top: 1px}
 
-/* Nav links are underlined which affects their optical lineheight */
-.nav {line-height: 20px;padding-bottom: 4px}
-.nav a {margin-right: 6px;font-size: 14px;background: none;text-shadow: none;}
 
 .nav a[href="/feed.rss"],
 .nav a[href="/search"] {
