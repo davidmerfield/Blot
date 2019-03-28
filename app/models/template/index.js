@@ -308,7 +308,7 @@ module.exports = (function() {
       return callback(e);
     }
 
-    var Entry = require("./entry");
+    var Entry = require("../entry");
     var allPartials = {};
     var retrieve = {};
 
