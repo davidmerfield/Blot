@@ -1,7 +1,6 @@
 Finish Feed template
 - Create folder with public domain material
 - Add script to build test sites from folders
-- Add a centered nav with a bold-text selected state for nav items that doesn't shift around as you change page?
 - Add a customizable header motif with dots, gradient etc?
 
 Finish Archive template
