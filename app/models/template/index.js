@@ -8,27 +8,8 @@ var extend = helper.extend;
 var _ = require("lodash");
 var siteOwner = "SITE";
 var defaultTemplate = makeID(siteOwner, "default");
-var metadataModel = {
-  id: "string",
-  name: "string",
-  slug: "string",
-  owner: "string",
-  cloneFrom: "string",
-  isPublic: "boolean",
-  description: "string",
-  localEditing: "boolean",
-  thumb: "string",
-  locals: "object"
-};
-var viewModel = {
-  name: "string",
-  content: "string",
-  type: "string",
-  partials: "object",
-  locals: "object",
-  retrieve: "object",
-  url: "string"
-};
+var metadataModel = require('./metadataModel');
+var viewModel = require('./viewModel');
 
 // Associates a theme with a UID owner
 // and an existing theme to clone if possible
