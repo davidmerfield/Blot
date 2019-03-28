@@ -6,9 +6,10 @@ var config = require("../config");
 if (require.main === module) {
   var identifier = process.argv[2];
 
-  main(identifier, function(err) {
+  main(identifier, function(err, url) {
     if (err) throw err;
 
+    console.log(url);
     process.exit();
   });
 }
@@ -47,8 +48,7 @@ function main(handle, callback) {
             }
           });
 
-          console.log(url);
-          callback();
+          callback(null, url);
         });
       });
     });
