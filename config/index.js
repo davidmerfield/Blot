@@ -12,7 +12,7 @@ module.exports = {
   blog_folder_dir: process.env.BLOT_DIRECTORY + "/blogs",
   cache_directory: process.env.BLOT_CACHE_DIRECTORY,
 
-  ip: process.env.BLOT_IP,
+  ip: process.env.BLOT_IP || "127.0.0.1",
 
   port: 8080,
 
@@ -33,7 +33,7 @@ module.exports = {
       secret: process.env.BLOT_DROPBOX_FULL_SECRET
     }
   },
-  
+
   stripe: {
     key: process.env.BLOT_STRIPE_KEY,
     secret: process.env.BLOT_STRIPE_SECRET,
