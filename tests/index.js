@@ -6,7 +6,7 @@ var async = require("async");
 var seed;
 var config = {
   spec_dir: "",
-  spec_files: ["tests/**/*.js", "app/**/tests/*.js", "app/**/tests.js"],
+  spec_files: ["tests/**/*.js", "app/**/tests/*.js", "app/**/tests.js", "!**/node_modules/**"],
   helpers: [],
   stopSpecOnExpectationFailure: false,
   random: true
