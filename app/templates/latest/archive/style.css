@@ -390,12 +390,15 @@ form input:focus,
   padding: 0 0.325rem;
   white-space: nowrap;
   color: inherit;
+  position: relative;
   text-decoration: none
 }
 
-#tags a.active {
-  background: #f2f2f2
-}
+
+#tags a strong {visibility: hidden;font-weight: 500;color: black}
+#tags a span {position: absolute;left: 0;right: 0;text-align: center;}
+#tags a.active strong {visibility: visible;}
+#tags a.active span {display: none;}
 
 .paginator {
   display: flex;

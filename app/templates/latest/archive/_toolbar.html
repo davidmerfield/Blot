@@ -18,9 +18,8 @@
   <div style="flex-grow:1;display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
 
     {{#popular_tags.length}}
-    <a href="/tags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Filter:</a>
     <div id="tags">
-      {{#popular_tags}}<a href="/tagged/{{slug}}" class="{{active}}">{{tag}}</a>{{/popular_tags}}
+      {{#popular_tags}}<a href="/tagged/{{slug}}" class="{{active}}"><strong>{{tag}}</strong><span>{{tag}}</span></a>{{/popular_tags}}
     </div>
 
     <a href="/tags" id="opentags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Show&nbsp;all</a>
