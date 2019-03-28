@@ -1,34 +1,34 @@
 var Mustache = require("mustache");
 var async = require("async");
-var redis = require("client"),
-  helper = require("helper"),
-  ensure = helper.ensure,
-  type = helper.type,
-  extend = helper.extend,
-  _ = require("lodash"),
-  siteOwner = "SITE",
-  defaultTemplate = makeID(siteOwner, "default"),
-  metadataModel = {
-    id: "string",
-    name: "string",
-    slug: "string",
-    owner: "string",
-    cloneFrom: "string",
-    isPublic: "boolean",
-    description: "string",
-    localEditing: "boolean",
-    thumb: "string",
-    locals: "object"
-  },
-  viewModel = {
-    name: "string",
-    content: "string",
-    type: "string",
-    partials: "object",
-    locals: "object",
-    retrieve: "object",
-    url: "string"
-  };
+var redis = require("client");
+var helper = require("helper");
+var ensure = helper.ensure;
+var type = helper.type;
+var extend = helper.extend;
+var _ = require("lodash");
+var siteOwner = "SITE";
+var defaultTemplate = makeID(siteOwner, "default");
+var metadataModel = {
+  id: "string",
+  name: "string",
+  slug: "string",
+  owner: "string",
+  cloneFrom: "string",
+  isPublic: "boolean",
+  description: "string",
+  localEditing: "boolean",
+  thumb: "string",
+  locals: "object"
+};
+var viewModel = {
+  name: "string",
+  content: "string",
+  type: "string",
+  partials: "object",
+  locals: "object",
+  retrieve: "object",
+  url: "string"
+};
 
 // Associates a theme with a UID owner
 // and an existing theme to clone if possible
