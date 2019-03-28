@@ -40,7 +40,7 @@ module.exports = function setup(options) {
         url: '/' + test.fake.random.word(),
         content: test.fake.random.word(),
       };
-      setView(test.blog.id, view, function(err) {
+      setView(test.template.id, view, function(err) {
         if (err) return done(err);
         test.view = view;
         done();
