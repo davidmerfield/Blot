@@ -20,7 +20,9 @@ if (require.main === module) {
   main(identifier, function(err) {
     if (err) throw err;
 
-    access("dev", function() {
+    access("dev", function(err, url) {
+
+      console.log(url);
 
       if (identifier === 'debug') {
         console.log('Folder: ', join(helper.rootDir, "data", "debug"));

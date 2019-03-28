@@ -26,7 +26,7 @@ module.exports = function(item, output_directory, callback) {
       helper.write
     ],
     function(err, result) {
-      if (err) console.error(error);
+      if (err) console.error(err);
       callback(null);
     }
   );

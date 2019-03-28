@@ -23,7 +23,7 @@ module.exports = function (html) {
     // the colon fucks with cheerio so I just ignore
     // note identifiers if they have them. Pandoc
     // never makes note identifiers with colons.
-    if (noteID.indexOf(':') > -1 || noteID.slice(0, 2) !== 'fn'){
+    if (!noteID || noteID.indexOf(':') > -1 || noteID.slice(0, 2) !== 'fn'){
       return;
     }
 

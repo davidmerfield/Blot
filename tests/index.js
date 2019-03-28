@@ -6,7 +6,12 @@ var async = require("async");
 var seed;
 var config = {
   spec_dir: "",
-  spec_files: ["tests/**/*.js", "app/**/tests/*.js", "app/**/tests.js"],
+  spec_files: [
+    "tests/**/*.js",
+    "app/**/tests/*.js",
+    "app/**/tests.js",
+    "!**/node_modules/**" // excludes tests inside node_modules directories
+  ],
   helpers: [],
   stopSpecOnExpectationFailure: false,
   random: true
@@ -62,6 +67,11 @@ global.test = {
   compareDir: require("./util/compareDir"),
 
   fake: require("./util/fake"),
+
+  user: function() {
+    beforeEach(require("./util/createUser"));
+    afterEach(require("./util/removeUser"));
+  },
 
   blogs: function(total) {
     beforeEach(require("./util/createUser"));
