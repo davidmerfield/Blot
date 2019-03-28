@@ -5,11 +5,13 @@ var helper = require("helper");
 var ensure = helper.ensure;
 var type = helper.type;
 var extend = helper.extend;
-var _ = require("lodash");
 var siteOwner = "SITE";
 var defaultTemplate = makeID(siteOwner, "default");
-var metadataModel = require('./metadataModel');
-var viewModel = require('./viewModel');
+var metadataModel = require("./metadataModel");
+var viewModel = require("./viewModel");
+
+var serialize = require("./util/serialize");
+var deserialize = require("./util/deserialize");
 
 // Associates a theme with a UID owner
 // and an existing theme to clone if possible
@@ -545,41 +547,6 @@ function blogTemplatesKey(blogID) {
 
 function makeID(owner, name) {
   return owner + ":" + helper.makeSlug(name);
-}
-
-function serialize(sourceObj, model) {
-  ensure(sourceObj, model);
-
-  // We don't want to modify the
-  // obj passed in case we use it
-  // elsewhere in future
-  var obj = _.cloneDeep(sourceObj);
-
-  for (var i in obj) {
-    if (model[i] === "object" || model[i] === "array") {
-      obj[i] = JSON.stringify(obj[i]);
-    }
-  }
-
-  return obj;
-}
-
-function deserialize(sourceObj, model) {
-  // We don't want to modify the
-  // obj passed in case we use it
-  // elsewhere in future
-  var obj = _.cloneDeep(sourceObj);
-
-  for (var i in obj) {
-    if (model[i] === "object" || model[i] === "array")
-      obj[i] = JSON.parse(obj[i]);
-
-    if (model[i] === "boolean") obj[i] = obj[i] === "true";
-  }
-
-  // ensure(obj, model);
-
-  return obj;
 }
 
 // This method is used to retrieve the locals,
