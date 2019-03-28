@@ -37,7 +37,7 @@ body {
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
 .small,
-.caption {font-size: 13px;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;color: #999;font-weight: 500;}
+.caption {font-size: 13px;color: #999;font-weight: 500;}
 
 .caption {
   line-height: 18px;
@@ -80,7 +80,7 @@ div {
 .margin img,
 .column img {margin-top: 6px}
 
-.margin p {font-style: italic;font-family: Georgia;font-size: 0.9em;margin-top: 0}
+.margin p {font-style: italic;font-size: 0.9em;margin-top: 0}
 .margin h1, .margin h2, .margin h3 {margin-top:0}
 
 .left.margin {
@@ -132,7 +132,6 @@ div {
 /* TEXT */
 
 p, li {
-  font-family: Georgia, serif;
   position: relative;
   margin: 24px 0;
 }
@@ -152,7 +151,7 @@ li .small-caps {
   font-family: "Georgia Pro SC";
 }*/
 
-big {color: #000;font-size: 32px;font-family: Georgia;line-height: 48px;display: block;}
+big {color: #000;font-size: 32px;line-height: 48px;display: block;}
 
 /* LINKS */
 
@@ -353,7 +352,6 @@ input#search {
   box-sizing: border-box;
   margin: .33em .66em 2em -1em;
   border: 1px solid #A1ADB6;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 input#search:focus {
@@ -427,7 +425,6 @@ input#search:focus {
 .nextEntry .title {
   display: block;
   font-size: 1.156em;
-  font-family: sans-serif;
   line-height: 20px;
   margin-bottom: 3px
 }
