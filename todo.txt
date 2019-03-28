@@ -294,7 +294,7 @@ Re-enable image minifier and fix the bugs it creates
 Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
 
 Webloc converter
-- Generate screenshots as thumbnails for webloc posts perhaps using [pupeteer](https://github.com/GoogleChrome/puppeteer) and PNG8, which seems [efficient for screenshots](https://news.ycombinator.com/item?id=18236912)
+- Generate screenshots as thumbnails for webloc posts perhaps using [pupeteer](https://github.com/GoogleChrome/puppeteer) and PNG8, which seems [efficient for screenshots](https://news.ycombinator.com/item?id=18236912) and tell [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwcVDLBRqVlxrsXqMcwsKFB)
 - Download the webpage for bookmark files and try to extract title + summary
 
 Prune package.json
