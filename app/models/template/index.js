@@ -1,8 +1,8 @@
 module.exports = (function() {
   var Mustache = require("mustache");
-  var async = require('async');
-  var redis = require('client'),
-    helper = require('helper'),
+  var async = require("async");
+  var redis = require("client"),
+    helper = require("helper"),
     ensure = helper.ensure,
     type = helper.type,
     extend = helper.extend,
@@ -73,7 +73,7 @@ module.exports = (function() {
       // Don't overwrite an existing template
       if (stat) {
         err = new Error("A template called " + name + " name already exists");
-        err.code = 'EEXISTS';
+        err.code = "EEXISTS";
         return callback(err);
       }
 
@@ -298,12 +298,11 @@ module.exports = (function() {
   }
 
   function getPartials(blogID, templateID, partials, callback) {
-    
     try {
       ensure(blogID, "string")
         .and(templateID, "string")
         .and(partials, "object")
-        .and(callback, "function");      
+        .and(callback, "function");
     } catch (e) {
       return callback(e);
     }
