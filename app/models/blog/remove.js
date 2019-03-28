@@ -43,7 +43,7 @@ module.exports = function(blogID, callback) {
         });
       },
       function() {
-        multi.del(remove, callback);
+        multi.del(remove);
         multi.srem(key.ids, blogID);
         multi.exec(callback);
       }
