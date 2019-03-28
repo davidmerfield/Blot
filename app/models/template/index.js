@@ -10,6 +10,7 @@ var defaultTemplate = makeID(siteOwner, "default");
 var metadataModel = require("./metadataModel");
 var viewModel = require("./viewModel");
 
+var key = require("./key");
 var serialize = require("./util/serialize");
 var deserialize = require("./util/deserialize");
 
@@ -49,7 +50,7 @@ function create(owner, name, metadata, callback) {
 
   ensure(metadata, metadataModel);
 
-  redis.exists(metadataKey(id), function(err, stat) {
+  redis.exists(key.metadata(id), function(err, stat) {
     if (err) throw err;
 
     // Don't overwrite an existing template
@@ -59,13 +60,13 @@ function create(owner, name, metadata, callback) {
       return callback(err);
     }
 
-    redis.sadd(blogTemplatesKey(owner), id, function(err) {
+    redis.sadd(key.blogTemplates(owner), id, function(err) {
       if (err) throw err;
 
       if (metadata.isPublic) {
-        redis.sadd(publicTemplatesKey(), id, then);
+        redis.sadd(key.publicTemplates(), id, then);
       } else {
-        redis.srem(publicTemplatesKey(), id, then);
+        redis.srem(key.publicTemplates(), id, then);
       }
 
       function then(err) {
@@ -94,9 +95,9 @@ function update(owner, name, metadata, callback) {
   var id = makeID(owner, name);
 
   if (metadata.isPublic) {
-    redis.sadd(publicTemplatesKey(), id);
+    redis.sadd(key.publicTemplates(), id);
   } else {
-    redis.srem(publicTemplatesKey(), id);
+    redis.srem(key.publicTemplates(), id);
   }
 
   return setMetadata(id, metadata, callback);
@@ -109,13 +110,13 @@ function getViewByURL(templateID, url, callback) {
 
   url = helper.urlNormalizer(url);
 
-  redis.get(urlKey(templateID, url), callback);
+  redis.get(key.url(templateID, url), callback);
 }
 
 function getMetadata(id, callback) {
   ensure(id, "string").and(callback, "function");
 
-  redis.hgetall(metadataKey(id), function(err, metadata) {
+  redis.hgetall(key.metadata(id), function(err, metadata) {
     if (err) return callback(err);
 
     metadata = deserialize(metadata, metadataModel);
@@ -142,15 +143,15 @@ function setMetadata(id, updates, callback) {
     metadata = serialize(metadata, metadataModel);
 
     if (metadata.isPublic) {
-      redis.sadd(publicTemplatesKey(), id);
+      redis.sadd(key.publicTemplates(), id);
     } else {
-      redis.srem(publicTemplatesKey(), id);
+      redis.srem(key.publicTemplates(), id);
     }
 
-    redis.sadd(blogTemplatesKey(metadata.owner), id, function(err) {
+    redis.sadd(key.blogTemplates(metadata.owner), id, function(err) {
       if (err) throw err;
 
-      redis.hmset(metadataKey(id), metadata, function(err) {
+      redis.hmset(key.metadata(id), metadata, function(err) {
         if (err) throw err;
 
         return callback(err, changes);
@@ -164,7 +165,7 @@ function getView(name, viewName, callback) {
     .and(viewName, "string")
     .and(callback, "function");
 
-  redis.hgetall(viewKey(name, viewName), function(err, view) {
+  redis.hgetall(key.view(name, viewName), function(err, view) {
     if (!view) {
       var message = "No view called " + viewName;
       return callback(new Error(message));
@@ -181,10 +182,10 @@ function dropView(templateID, viewName, callback) {
     .and(viewName, "string")
     .and(callback, "function");
 
-  redis.del(viewKey(templateID, viewName), function(err) {
+  redis.del(key.view(templateID, viewName), function(err) {
     if (err) throw err;
 
-    redis.srem(allViewsKey(templateID), viewName, function(err) {
+    redis.srem(key.allViews(templateID), viewName, function(err) {
       if (err) throw err;
 
       callback();
@@ -216,9 +217,9 @@ function setView(templateID, updates, callback) {
     }
   }
 
-  var templateKey = metadataKey(templateID);
-  var allViews = allViewsKey(templateID);
-  var key = viewKey(templateID, name);
+  var templateKey = key.metadata(templateID);
+  var allViews = key.allViews(templateID);
+  var viewKey = key.view(templateID, name);
 
   redis.exists(templateKey, function(err, stat) {
     if (err) return callback(err);
@@ -239,8 +240,8 @@ function setView(templateID, updates, callback) {
         view = view || {};
 
         if (updates.url && updates.url !== view.url) {
-          redis.del(urlKey(templateID, view.url));
-          redis.set(urlKey(templateID, updates.url), name);
+          redis.del(key.url(templateID, view.url));
+          redis.set(key.url(templateID, updates.url), name);
         }
 
         for (var i in updates) view[i] = updates[i];
@@ -269,7 +270,7 @@ function setView(templateID, updates, callback) {
 
         view = serialize(view, viewModel);
 
-        redis.hmset(key, view, function(err) {
+        redis.hmset(viewKey, view, function(err) {
           if (err) throw err;
 
           callback();
@@ -377,7 +378,7 @@ function setMultipleViews(name, views, callback) {
 function getAllViews(name, callback) {
   ensure(name, "string").and(callback, "function");
 
-  redis.smembers(allViewsKey(name), function(err, viewNames) {
+  redis.smembers(key.allViews(name), function(err, viewNames) {
     getMultipleViews(name, viewNames, function(err, views) {
       getMetadata(name, function(err, metadata) {
         callback(err, views, metadata);
@@ -426,8 +427,8 @@ function getMultipleViews(templateName, viewNames, callback) {
 function getTemplateList(blogID, callback) {
   ensure(blogID, "string").and(callback, "function");
 
-  redis.smembers(publicTemplatesKey(), function(err, publicTemplates) {
-    redis.smembers(blogTemplatesKey(blogID), function(err, blogTemplates) {
+  redis.smembers(key.publicTemplates(), function(err, publicTemplates) {
+    redis.smembers(key.blogTemplates(blogID), function(err, blogTemplates) {
       var templateIDs = publicTemplates.concat(blogTemplates);
       var response = [];
 
@@ -453,7 +454,7 @@ function getTemplateList(blogID, callback) {
 function isOwner(owner, id, callback) {
   ensure(owner, "string").and(id, "string");
 
-  redis.SISMEMBER(blogTemplatesKey(owner), id, callback);
+  redis.SISMEMBER(key.blogTemplates(owner), id, callback);
 }
 
 function clone(fromID, toID, metadata, callback) {
@@ -497,52 +498,28 @@ function drop(owner, templateName, callback) {
   getAllViews(templateID, function(err, views) {
     if (err || !views) return callback(err || "No views");
 
-    redis.srem(blogTemplatesKey(owner), templateID, function(err) {
+    redis.srem(key.blogTemplates(owner), templateID, function(err) {
       if (err) throw err;
 
-      redis.srem(publicTemplatesKey(), templateID, function(err) {
+      redis.srem(key.publicTemplates(), templateID, function(err) {
         if (err) throw err;
 
-        redis.del(metadataKey(templateID));
-        redis.del(allViewsKey(templateID));
+        redis.del(key.metadata(templateID));
+        redis.del(key.allViews(templateID));
 
         // console.log('DEL: ' + metadataKey(templateID));
-        // console.log('DEL: ' + allViewsKey(templateID));
+        // console.log('DEL: ' + key.allViews(templateID));
         // console.log('DEL: ' + partialsKey(templateID));
 
         for (var i in views) {
-          // console.log('DEL: ' + viewKey(templateID, views[i].name));
-          redis.del(viewKey(templateID, views[i].name));
+          // console.log('DEL: ' + key.view(templateID, views[i].name));
+          redis.del(key.view(templateID, views[i].name));
         }
 
         callback(null, "Deleted " + templateID);
       });
     });
   });
-}
-
-function metadataKey(name) {
-  return "template:" + name + ":info";
-}
-
-function viewKey(name, viewName) {
-  return "template:" + name + ":view:" + viewName;
-}
-
-function urlKey(templateID, url) {
-  return "template:" + templateID + ":url:" + url;
-}
-
-function allViewsKey(name) {
-  return "template:" + name + ":all_views";
-}
-
-function publicTemplatesKey() {
-  return "template:public_templates";
-}
-
-function blogTemplatesKey(blogID) {
-  return "template:owned_by:" + blogID;
 }
 
 function makeID(owner, name) {
