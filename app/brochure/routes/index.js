@@ -45,7 +45,6 @@ brochure.use(function(req, res, next) {
     res.locals.selected[slug] = 'selected';
   });
 
-  console.log(res.locals.selected, req.originalUrl);
   // Handle index page of site.
   if (req.originalUrl === '/') res.locals.selected.index = 'selected';
 
@@ -115,7 +114,6 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
 
 brochure.get("/", require("./featured"), function(req, res) {
   res.locals.title = "Blot – A blogging platform with no interface";
-  res.locals.featured = res.locals.featured.slice(0, 6);
   res.render("index");
 });
 
