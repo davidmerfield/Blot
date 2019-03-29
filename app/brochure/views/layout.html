@@ -16,7 +16,8 @@
   }
 
   header a {
-    color: #005eb8
+    color: #005eb8;
+    text-decoration: none;
   }
 /*
   header a:visited {
@@ -24,22 +25,22 @@
   }*/
 
   header a:focus {
-    background-color: #ffb81c;
-    box-shadow: 0 0 0 4px #ffb81c;
-    color: #212b32;
+    background-color: #eee;
+    box-shadow: 0 0 0 4px #eee;
+    color: #444;
     outline: 4px solid transparent;
     outline-offset: 4px
   }
 
   header a:hover {
-    background-color: #ffcd60;
-    box-shadow: 0 0 0 4px #ffcd60;
-    color: #212b32;
-    text-decoration: none
+    background-color: #eee;
+    box-shadow: 0 0 0 4px #eee;
+    text-decoration: underline;
   }
 
   a:active {
-    color: #374047
+    color: #444;
+    text-decoration: none;
   }
 
   header a.selected {
@@ -74,14 +75,7 @@
     margin: 0
   }
 
-  header ul a {
-    text-decoration: underline;
-  }
 
-  header ul a:hover {
-    text-decoration: none;
-    background: gold
-  }
 
   header .logo {
     margin-right: 1em;
