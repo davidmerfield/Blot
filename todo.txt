@@ -101,7 +101,7 @@ Move to UUIDs for blog identifiers
 - Can we incrementally move people over to check it works ok?
 
 Re-instate blotcdn.com
-- Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs)
+- Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
 
 Restructure application folder
 - make serving static files from NGINX easier?
