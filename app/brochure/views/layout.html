@@ -58,14 +58,16 @@
     stroke: #aaa;
     width: 23px;
     margin-right: 0.5em;
+    margin-left: 0.125em;
     vertical-align: text-bottom;
   }
 
   .header-button {
-    background-color: red;
-    box-shadow: 0 0 0 4px red;
+    background-color: #0070c9;
+    box-shadow: 0 0 0 4px #0070c9;
+    padding: 0 0.5em;
     color: white;
-    margin: 0 0.5em;
+    margin-left: 1em;
     text-decoration: none
   }
 
@@ -79,7 +81,7 @@
 
   header .logo {
     margin-right: 1em;
-    margin-left: 0.25em
+    margin-left: 0.5em
   }
 
   header li {
@@ -95,7 +97,7 @@
 
     <row>
 
-      <a class="logo {{selected.index}}" href="/">{{>logo}} Blot  is a blogging platform with no interface</a>
+      <a class="logo {{selected.index}}" href="/">{{>logo}}Blot  is a blogging platform with no interface</a>
 
       <ul>
 
@@ -126,6 +128,9 @@
     {{#if selected.publishing}}
     <ul>
       <li>
+        <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">Getting started</a>
+      </li>
+      <li>
         <a class="{{selected.pages}}" href="{{{base}}}/publishing/pages">Pages</a>
       </li>
       <li>
@@ -138,10 +143,7 @@
         <a class="{{selected.metadata}}" href="{{{base}}}/publishing/metadata">Metadata</a>
       </li>
       <li>
-        <a class="{{selected.formatting}}" href="/publishing/formatting">Formatting guide</a>
-      </li>
-      <li>
-        <a class="{{selected.configuring}}" href="{{{base}}}/publishing/configuring">Configuring your blog</a>
+        <a class="{{selected.formatting}}" href="/publishing/formatting">Formatting guides</a>
       </li>
       <li>
         <a class="{{selected.domain}}" href="{{{base}}}/publishing/domain">Use your own domain</a>
@@ -200,7 +202,6 @@
   <main>
 
     <content>
-      {{> breadcrumbs}}
       {{{body}}}
     </content>
   </main>
