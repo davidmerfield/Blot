@@ -37,6 +37,21 @@ brochure.get("/css/finder.css", function(req, res) {
   res.send(finder.css());
 });
 
+brochure.use(function(req, res, next) {
+  res.locals.base = "";
+  res.locals.selected = {};
+
+  req.originalUrl.split('/').forEach(function(slug){
+    res.locals.selected[slug] = 'selected';
+  });
+
+  console.log(res.locals.selected, req.originalUrl);
+  // Handle index page of site.
+  if (req.originalUrl === '/') res.locals.selected.index = 'selected';
+
+  next();
+});
+
 brochure.get("/about", function(req, res) {
   res.locals.title = "Blot – About";
   res.render("about");
@@ -76,16 +91,10 @@ brochure.use("/sign-up", require("./sign-up"));
 
 brochure.use("/log-in", require("./log-in"));
 
-brochure.use(function(req, res, next) {
-  res.locals.base = "";
-  res.locals.selected = {};
-  next();
-});
 
 brochure.param("section", function(req, res, next, section) {
   var title = TITLES[section] || capitalize(section);
   res.locals.sectionTitle = title;
-  res.locals.selected[section] = "selected";
   res.locals.breadcrumbs.add(title, section);
   next();
 });
@@ -93,7 +102,6 @@ brochure.param("section", function(req, res, next, section) {
 brochure.param("subsection", function(req, res, next, subsection) {
   var title = TITLES[subsection] || capitalize(subsection);
   res.locals.sectionTitle = title;
-  res.locals.selected[subsection] = "selected";
   res.locals.breadcrumbs.add(title, subsection);
   next();
 });
@@ -101,14 +109,12 @@ brochure.param("subsection", function(req, res, next, subsection) {
 brochure.param("subsubsection", function(req, res, next, subsubsection) {
   var title = TITLES[subsubsection] || capitalize(subsubsection);
   res.locals.sectionTitle = title;
-  res.locals.selected[subsubsection] = "selected";
   res.locals.breadcrumbs.add(title, subsubsection);
   next();
 });
 
 brochure.get("/", require("./featured"), function(req, res) {
   res.locals.title = "Blot – A blogging platform with no interface";
-  res.locals.selected.index = "selected";
   res.locals.featured = res.locals.featured.slice(0, 6);
   res.render("index");
 });
