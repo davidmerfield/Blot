@@ -76,14 +76,15 @@ header row,
   header ul {
     list-style-type: none;
     padding: 0;
-    margin: 0
-  }
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;  }
 
 
 
   header .logo {
     margin-right: 0.5em;
-    margin-left: 0.5em
+    margin-left: 0.5em;
   }
 
   header li {

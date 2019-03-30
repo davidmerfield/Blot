@@ -67,10 +67,12 @@ p, ol, ul {
   color: #333333
 }
 
+
 h1 {
   font-size: 36px;
+  text-align: center;
   line-height: 1.1;
-  margin: 0 0 0.6em;
+  margin: 0 0 2em;
 }
 
 h2 {
@@ -86,6 +88,8 @@ h2 {
 h2+p {
   margin-top: 0
 }
+
+p, h2, background, window {max-width: 600px;margin-left: auto;margin-right: auto}
 
 
 /* This keeps the footer off the main page */
@@ -200,7 +204,6 @@ background {
   padding: 2em 4em 2.5em;
   display: block;
   background: #96deff;
-  max-width: 39em;
   box-sizing: border-box;
 }
 
