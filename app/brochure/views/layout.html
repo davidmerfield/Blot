@@ -16,9 +16,12 @@
   }
 
   header a {
-/*    color: #969696;
-*/   
- color: #005eb8;
+    color: #a09d9c;
+        fill: white;
+    stroke: #a19e9d;
+
+   
+ /*color: #005eb8;*/
     text-decoration: none;
   }
 /*
@@ -30,6 +33,7 @@
     background-color: #eee;
     box-shadow: 0 0 0 4px #eee;
     color: #444;
+    stroke: #444;
     outline: 4px solid transparent;
     outline-offset: 4px
   }
@@ -42,6 +46,7 @@
 
   a:active {
     color: #444;
+    stroke: #444;
     text-decoration: none;
   }
 
@@ -56,14 +61,13 @@
   }
 
   header a svg {
-    fill: white;
-    stroke: #aaa;
-    width: 23px;
+    width: 22px;
     margin-right: 0.5em;
     margin-left: 0.125em;
     vertical-align: text-bottom;
   }
 
+  header .selected svg {stroke: black;}
   .header-button {
     background-color: #0070c9;
     box-shadow: 0 0 0 4px #0070c9;
@@ -82,7 +86,7 @@
 
 
   header .logo {
-    margin-right: 1em;
+    margin-right: 0.5em;
     margin-left: 0.5em
   }
 
@@ -148,7 +152,7 @@
         <a class="{{selected.formatting}}" href="/publishing/formatting">Formatting guides</a>
       </li>
       <li>
-        <a class="{{selected.domain}}" href="{{{base}}}/publishing/domain">Use your own domain</a>
+        <a class="{{selected.domain}}" href="{{{base}}}/publishing/domain">Use your domain</a>
       </li>
 
       <li>
