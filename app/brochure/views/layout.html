@@ -2,99 +2,8 @@
 
 <body>
   <link rel="stylesheet" href="/css/tex.css">
-  <style type="text/css">
-  header row,
-  header ul {
-    display: flex;
-    align-items: baseline;
-    max-width: none
-  }
+  <link rel="stylesheet" href="/css/header.css">
 
-  header {
-    padding: 0 1em;
-    margin: 1em
-  }
-
-  header a {
-    color: #a09d9c;
-        fill: white;
-    stroke: #a19e9d;
-
-   
- /*color: #005eb8;*/
-    text-decoration: none;
-  }
-/*
-  header a:visited {
-    color: #330072
-  }*/
-
-  header a:focus {
-    background-color: #eee;
-    box-shadow: 0 0 0 4px #eee;
-    color: #444;
-    stroke: #444;
-    outline: 4px solid transparent;
-    outline-offset: 4px
-  }
-
-  header a:hover {
-    background-color: #eee;
-    box-shadow: 0 0 0 4px #eee;
-    text-decoration: underline;
-  }
-
-  a:active {
-    color: #444;
-    stroke: #444;
-    text-decoration: none;
-  }
-
-  header a.selected {
-    color: black;
-    text-decoration: none;
-  }
-
-  header hr {
-    border: none;
-    border-bottom: 1px solid #e7e7e5
-  }
-
-  header a svg {
-    width: 22px;
-    margin-right: 0.5em;
-    margin-left: 0.125em;
-    vertical-align: text-bottom;
-  }
-
-  header .selected svg {stroke: black;}
-  .header-button {
-    background-color: #0070c9;
-    box-shadow: 0 0 0 4px #0070c9;
-    padding: 0 0.5em;
-    color: white;
-    margin-left: 1em;
-    text-decoration: none
-  }
-
-  header ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0
-  }
-
-
-
-  header .logo {
-    margin-right: 0.5em;
-    margin-left: 0.5em
-  }
-
-  header li {
-    margin: 0 0.5em;
-  }
-
-  </style>
   <header>
 
     <label for="toggle">—<br>—<br>—</label>
@@ -103,7 +12,7 @@
 
     <row>
 
-      <a class="logo {{selected.index}}" href="/">{{>logo}}Blot  is a blogging platform with no interface</a>
+      <a class="logo {{selected.index}}" href="/">{{>logo}}Blot <!-- is a blogging platform with no interface --></a>
 
       <ul>
 
@@ -126,8 +35,10 @@
         <li><a class="{{selected.support}}" href="/support">Support</a></li>
 
       </ul>
-      <a class="header-button" href="/log-in">Log in</a>
-      <a class="header-button" href="/sign-up">Sign up</a>
+      <div style="flex-grow:1;text-align:right">
+      <a href="/sign-up">Sign up</a>
+      <a href="/log-in">Log in</a>
+    </div>
     </row>
     <hr>
 
