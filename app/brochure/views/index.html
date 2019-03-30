@@ -2,20 +2,23 @@
   <a href="/" class="close">Close</a>
   <div class="videoWrapper">
     <div class="container">
-    <video id="player" playsinline controls>
-      <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
-    </video>
+      <video id="player" playsinline controls>
+        <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
+      </video>
+    </div>
   </div>
-</div>
 </overlay>
 
-<Div style="width:50%;float:right">
+<div style="display:flex;">
+  
 
-<p style="margin-top:0">Why a blogging platform with no interface? So you can blog with the tools you use already. Write with your favorite text-editor and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>.</p>
+  <Div style="flex-basis:50%;display:flex;padding:10em;box-sizing:border-box;    justify-content: center;flex-direction:column">
 
-<p>Blot turns a folder into a blog. Drag-and-drop files inside to publish them. Organize your files in a way that suits you. Use your existing tools to create and collaborate with others.</p>
-</div>
-<a style="width:50%;" class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
+    <p>Why a blogging platform with no interface? So you can blog with the tools you use already. Write with your favorite text-editor and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>.</p>
+
+    <p>Blot turns a folder into a blog. Drag-and-drop files inside to publish them. Organize your files in a way that suits you. Use your existing tools to create and collaborate with others.</p>
+  </div>
+<a style="flex-basis:50%;" class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
 <span>Watch the demo</span>
     
@@ -28,28 +31,42 @@ Posts
 
 
 </code></pre></a>
-
-
+</div>
 
 <br><Br>
 
-
-
-
-  <p>Here's some of the people who host their website on Blot:</p>
+<p>Here's some of the people who host their website on Blot:</p>
 
 </div>
 <style type="text/css">
-a.featured {flex-basis:50%;color: inherit;padding: 0.5em 1em;box-sizing:border-box;}
-a.featured:hover {background: #eee}
-a.featured .a {color: #005eb8;}
-a.featured img {vertical-align: text-bottom;}
-a.featured:hover .a {text-decoration: underline;}
+a.featured {
+  flex-basis: 50%;
+  color: inherit;
+  padding: 0.5em 1em;
+  box-sizing: border-box;
+}
+
+a.featured:hover {
+  background: #eee
+}
+
+a.featured .a {
+  color: #005eb8;
+}
+
+a.featured img {
+  vertical-align: text-bottom;
+}
+
+a.featured:hover .a {
+  text-decoration: underline;
+}
+
 </style>
-  <div style="display:flex;flex-direction:row;flex-wrap:wrap;">
+<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
-    <a class="featured" target="_blank" rel="noopener" href="{{{link}}}"> <img style="width:16px;height:16px;" src="{{{favicon}}}">
- <span class="a">{{name}}</span> {{bio}}. <br><span style="padding-left:24px;text-transform:uppercase;font-weight:700;font-size:12px;color:#aaa">{{firstName}} uses the Default template.</span></a> 
+  <a class="featured" target="_blank" rel="noopener" href="{{{link}}}"> <img style="width:16px;height:16px;" src="{{{favicon}}}">
+ <span class="a">{{name}}</span> {{bio}}. <br><span style="padding-left:24px;text-transform:uppercase;font-weight:700;font-size:12px;color:#aaa">{{firstName}} uses the Default template.</span></a>
   {{/featured}}
 </div>
 
@@ -65,5 +82,6 @@ document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(fu
     return false;
   }
 });
+
 </script>
 <link rel="stylesheet" href="/css/plyr.css">
