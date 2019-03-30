@@ -35,14 +35,14 @@ Posts
 
 <br><Br>
 
-<p>Here's some of the people who host their website on Blot:</p>
+<p>Here's some the websites on Blot:</p>
 
 </div>
 <style type="text/css">
 a.featured {
   flex-basis: 50%;
   color: inherit;
-  padding: 0.5em 1em;
+  padding: 0em 1em;
   box-sizing: border-box;
 }
 
@@ -66,7 +66,7 @@ a.featured:hover .a {
 <div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
   <a class="featured" target="_blank" rel="noopener" href="{{{link}}}"> <img style="width:16px;height:16px;" src="{{{favicon}}}">
- <span class="a">{{name}}</span> {{bio}}. <br><span style="padding-left:24px;text-transform:uppercase;font-weight:700;font-size:12px;color:#aaa">{{firstName}} uses the Default template.</span></a>
+ <span class="a">{{name}}</span> {{bio}}. <!-- <br><span style="padding-left:24px;text-transform:uppercase;font-weight:700;font-size:12px;color:#aaa">{{firstName}} uses the Default template.</span> --></a>
   {{/featured}}
 </div>
 

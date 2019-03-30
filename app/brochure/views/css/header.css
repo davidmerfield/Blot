@@ -1,91 +1,87 @@
 header row,
-  header ul {
-    display: flex;
-    align-items: baseline;
-    max-width: none
-  }
+header ul {
+  display: flex;
+  align-items: baseline;
+  max-width: none
+}
 
-  header {
-    padding: 0 1em;
-    margin: 1em
-  }
+header {
+  padding: 0 1em;
+  margin: 1em
+}
 
-  header a {
-    color: #827f7b;
-    fill: white;
-    stroke: #a19e9d;
-    margin: 0 0.6666em;
+header a {
+  margin: 0 0.6666em;
+  color: #005eb8;
+  text-decoration: none;
+}
 
-   
-/* color: #005eb8;
-*/    text-decoration: none;
-  }
-/*
-  header a:visited {
-    color: #330072
-  }*/
+header a:focus {
+  background-color: #eee;
+  box-shadow: 0 0 0 4px #eee;
+  color: #444;
+  outline: 4px solid transparent;
+  outline-offset: 4px
+}
 
-  header a:focus {
-    background-color: #eee;
-    box-shadow: 0 0 0 4px #eee;
-    color: #444;
-    stroke: #444;
-    outline: 4px solid transparent;
-    outline-offset: 4px
-  }
 
-  header a:hover {
-    background-color: #eee;
-    box-shadow: 0 0 0 4px #eee;
-    text-decoration: underline;
-  }
+header a:hover {
+  background-color: #eee;
+  box-shadow: 0 0 0 4px #eee;
+  text-decoration: underline;
+}
 
-  a:active {
-    color: #444;
-    stroke: #444;
-    text-decoration: none;
-  }
 
-  header a.selected {
-    color: black;
-    text-decoration: none;
-  }
+a:active {
+  color: #444;
+  stroke: #444;
+  text-decoration: none;
+}
 
-  header hr {
-    border: none;
-    border-bottom: 1px solid #e7e7e5
-  }
+header a.selected:hover {background: transparent;box-shadow: none;}
 
-  header a svg {
-    width: 22px;
-    margin-right: 0.5em;
-    margin-left: 0.125em;
-    vertical-align: text-bottom;
-  }
+header a.selected {
+  color: black;
+  text-decoration: none;
+}
 
-  header .selected svg {stroke: black;}
-  .header-button {
-    background-color: #0070c9;
-    box-shadow: 0 0 0 4px #0070c9;
-    padding: 0 0.5em;
-    color: white;
-    margin-left: 1em;
-    text-decoration: none
-  }
+header hr {
+  border: none;
+  border-bottom: 1px solid #e7e7e5
+}
 
-  header ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;  }
+header a svg {
+  width: 22px;
+  margin-right: 0.5em;
+  margin-left: 0.125em;
+  vertical-align: text-bottom;
+}
+
+
+.header-button {
+  background-color: #0070c9;
+  box-shadow: 0 0 0 4px #0070c9;
+  padding: 0 0.5em;
+  color: white;
+  margin-left: 1em;
+  text-decoration: none
+}
+
+header ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
 
 
 
-  header .logo {
-    margin-right: 0.5em;
-    margin-left: 0.5em;
-  }
-
-  header li {
-  }
+header .logo,
+header .logo:focus {
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  fill: white;
+  stroke: black;
+  color: black
+}

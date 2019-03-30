@@ -17,12 +17,12 @@
       <ul>
 
         <li>
-          <a class="{{selected.publishing}}" href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label>
+          <a class="{{selected.publishing}}" {{#unless selected.publishing}}href="{{{base}}}/publishing"{{/unless}}>How to use Blot<label for="publishing"></label>
       </a>
 
         </li>
         <li>
-          <a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</a>
+          <a class="{{selected.templates}}" {{#unless selected.templates}}href="{{{base}}}/templates"{{/unless}}>Templates</a>
 
         </li>
         <!-- 
@@ -30,9 +30,9 @@
         <a href="{{{base}}}/account-billing">Account and billing</a>
       </li>
  -->
-        <li><a class="{{selected.news}}" href="/news">News</a></li>
-        <li><a class="{{selected.about}}" href="/about">About</a></li>
-        <li><a class="{{selected.support}}" href="/support">Support</a></li>
+        <li><a class="{{selected.news}}" {{#unless selected.news}}href="/news"{{/unless}}>News</a></li>
+        <li><a class="{{selected.about}}" {{#unless selected.about}}href="/about"{{/unless}}>About</a></li>
+        <li><a class="{{selected.support}}" {{#unless selected.support}}href="/support"{{/unless}}>Support</a></li>
 
       </ul>
       <div style="text-align:right">
