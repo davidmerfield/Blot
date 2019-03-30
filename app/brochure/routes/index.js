@@ -41,9 +41,13 @@ brochure.use(function(req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
 
-  req.originalUrl.split('/').forEach(function(slug){
+  var slugs = req.originalUrl.split('/');
+
+  slugs.forEach(function(slug, i){
     res.locals.selected[slug] = 'selected';
   });
+
+  res.locals.selected[slugs[slugs.length - 1] + 'Index'] = 'selected';
 
   // Handle index page of site.
   if (req.originalUrl === '/') res.locals.selected.index = 'selected';

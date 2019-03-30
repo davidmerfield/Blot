@@ -16,7 +16,8 @@
   }
 
   header a {
-    color: #005eb8;
+    color: #969696;
+    /*color: #005eb8;*/
     text-decoration: none;
   }
 /*
@@ -128,7 +129,7 @@
     {{#if selected.publishing}}
     <ul>
       <li>
-        <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">Getting started</a>
+        <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">Introduction</a>
       </li>
       <li>
         <a class="{{selected.pages}}" href="{{{base}}}/publishing/pages">Pages</a>
@@ -149,8 +150,8 @@
         <a class="{{selected.domain}}" href="{{{base}}}/publishing/domain">Use your own domain</a>
       </li>
 
-      <li class="{{selected.redirects}}">
-        <a href="{{{base}}}/publishing/clients">Clients</a>
+      <li>
+        <a class="{{selected.clients}}" href="{{{base}}}/publishing/clients">Clients</a>
       </li>
 
       <br>
@@ -160,6 +161,11 @@
     {{#if selected.templates}}
     <ul>
 
+      <li >
+        <a class="{{selected.templatesIndex}}" href="{{{base}}}/templates">
+      Introduction
+    </a>
+      </li>
       <li >
         <a class="{{selected.console}}" href="{{{base}}}/templates/console">
       Console
