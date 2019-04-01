@@ -15,3 +15,7 @@
 // blog entry keys
 // rename /blogs/{id} directory
 // rename /static/{id} file directory
+
+var oldBlogID = process.argv[2];
+var newBlogID = process.argv[3];
+
