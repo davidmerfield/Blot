@@ -168,7 +168,12 @@ settings
     template.cloneFrom = res.locals.template.id;
     template.owner = req.blog.id;
 
-    Template.create(req.blog.id, template.name, template, function(err) {
+    Template.create(req.blog.id, template.name, template, function then(err) {
+      if (err && err.code === "EEXISTS") {
+        template.name = "Copy of " + template.name;
+        return Template.create(req.blog.id, template.name, template, then);
+      }
+
       if (err) return next(err);
 
       res.message("/settings/theme", "Created new template!");
