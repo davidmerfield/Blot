@@ -108,6 +108,14 @@ module.exports = function(req, res, next) {
       req.template = template;
 
       template.baseUrl = "/template/" + encodeURIComponent(template.slug);
+      template.shareUrl =
+        config.protocol +
+        config.host +
+        "/template/" +
+        encodeURIComponent(template.slug) +
+        "/share/" +
+        req.blog.handle;
+
       template.preview = [
         "http://preview.my",
         template.slug,
