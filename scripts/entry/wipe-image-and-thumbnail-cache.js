@@ -72,7 +72,12 @@ function thumbnails(blog, entry, callback) {
         client.get(key, function(err, res) {
           if (err) return next(err);
 
-          res = JSON.parse(res);
+          try {
+            res = JSON.parse(res);            
+          } catch (e){
+            console.log('Error', key, e.message);
+            return next();
+          }
           if (res.small.name !== entry.thumbnail.small.name) return next();
 
           var multi = client.multi();
