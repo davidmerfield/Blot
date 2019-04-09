@@ -15,9 +15,11 @@ Record new demo video
 
 ---
 
-Fix bug with query string in image path for thumbnail generator or image cacher and tell [John](https://mail.google.com/mail/u/0/#sent/FMfcgxwBWTDMwMGfsLNgSNKqmnjSMchL)
+Regenerate a single post's thumbnails for [John](https://mail.google.com/mail/u/0/#sent/FMfcgxwBWTDMwMGfsLNgSNKqmnjSMchL)'s post
 
-Write script to regenerate a single post's thumbnails and fix [John](https://mail.google.com/mail/u/0/#sent/FMfcgxwBWTDMwMGfsLNgSNKqmnjSMchL)'s post
+---
+
+Fix bug with query string in image path for thumbnail generator or image cacher and tell [John](https://mail.google.com/mail/u/0/#sent/FMfcgxwBWTDMwMGfsLNgSNKqmnjSMchL)
 
 Add public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG)
 
