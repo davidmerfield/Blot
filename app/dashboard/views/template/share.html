@@ -1,8 +1,11 @@
 <form method="POST">
 
+<p>Would you like to add
   {{#template}}
-  {{name}}
-  {{/template}}
+  <b>{{name}}</b>
+  {{/template}} to your list of templates?</p>
 
-  <input type="submit">
-</form>
+ <div class="buttons">
+    <button type="submit"onclick="this.form.submit();this.disabled=true">Add template</button>
+    <a href="/settings">Cancel</a>
+  </div></form>

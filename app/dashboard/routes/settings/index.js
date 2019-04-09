@@ -4,7 +4,7 @@ var settings = express.Router();
 var load = require("./load");
 var save = require("./save");
 var debug = require("../../debug");
-
+var helper = require("helper");
 var Template = require("template");
 var Blog = require("blog");
 var load = require("./load");
@@ -15,7 +15,10 @@ settings.use(function(req, res, next) {
 });
 
 settings.use(function(req, res, next) {
-  res.locals.breadcrumbs.add(req.blog.title || req.blog.pretty.url, "/settings");
+  res.locals.breadcrumbs.add(
+    req.blog.title || req.blog.pretty.url,
+    "/settings"
+  );
   res.locals.setup = !!req.query.setup;
 
   next();
@@ -128,6 +131,49 @@ settings
     res.render("theme/past", { title: "Past templates" });
   });
 
+settings
+  .route("/settings/theme/:template/share/:handle")
+  .all(function(req, res, next) {
+    Blog.get({ handle: req.params.handle }, function(err, blog) {
+      if (err || !blog) return next(err || new Error("No blog"));
+
+      if (blog.handle === req.blog.handle)
+        return next(new Error("This is your template."));
+
+      // makeSlug is called twice (stupidly, accidentally)
+      // in the process to create a template. This double encodes
+      // certain characters like ø. It means that we need to run
+      // makeSlug twice when looking up a template by its slug.
+      // makeID calls makeSlug under the hood so we only need
+      // to call it once ourselves.
+      var name = helper.makeSlug(req.params.template);
+      var templateID = Template.makeID(blog.id, name);
+
+      Template.getMetadata(templateID, function(err, template) {
+        if (err || !blog) return next(err || new Error("No template"));
+
+        res.locals.template = template;
+        next();
+      });
+    });
+  })
+
+  .get(function(req, res) {
+    res.render("template/share");
+  })
+
+  .post(function(req, res, next) {
+    var template = res.locals.template;
+
+    template.cloneFrom = res.locals.template.id;
+    template.owner = req.blog.id;
+
+    Template.create(req.blog.id, template.name, template, function(err) {
+      if (err) return next(err);
+
+      res.message("/settings/theme", "Created new template!");
+    });
+  });
 
 settings.get("/settings/:section/:view", function(req, res) {
   var uppercaseName = req.params.view;
@@ -138,7 +184,6 @@ settings.get("/settings/:section/:view", function(req, res) {
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });
-
 
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;

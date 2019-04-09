@@ -111,7 +111,7 @@ module.exports = function(req, res, next) {
       template.shareUrl =
         config.protocol +
         config.host +
-        "/template/" +
+        "/settings/theme/" +
         encodeURIComponent(template.slug) +
         "/share/" +
         req.blog.handle;
