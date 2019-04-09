@@ -19,15 +19,15 @@ Regenerate a single post's thumbnails for [John](https://mail.google.com/mail/u/
 
 ---
 
-Fix bug with query string in image path for thumbnail generator or image cacher and tell [John](https://mail.google.com/mail/u/0/#sent/FMfcgxwBWTDMwMGfsLNgSNKqmnjSMchL)
+Fix bug with query string in image path for thumbnail generator or image cacher and tell [John](https://mail.google.com/mail/u/0/#sent/FMfcgxwBWTDMwMGfsLNgSNKqmnjSMchL). This doesn't seem to fail, is it really when you don't use the caching function? Image cache works for paths with question marks in my development environment. Thumbnails fail.
+
+Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
 
 Add public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG)
 
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
-
-Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
 
 ---
 
