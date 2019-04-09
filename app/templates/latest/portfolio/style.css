@@ -174,9 +174,11 @@ label[for="toggle"] {
 }
 
 
+/* We never want to show these links on the 
+   portfolio theme since they don't make sense */
 .menu[href="/feed.rss"],
 .menu[href="/search"] {
-  display: none;
+  display: none !important;
 }
 
 
