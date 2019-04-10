@@ -7,7 +7,7 @@
 <p><ol>
   <li>Check if there is a template whose route matches the request’s path. <a href="#rendering">Render the template</a> if it matches.</li>
   <li>Check if there is a file which matches the request’s path in your blog’s folder. <a href="/publishing/public-files">Send the file</a> as a response if it matches.</li>
-  <li>Check your site&apos;s list of <a href="/configuring/redirects">redirects</a>.</li>
+  <li>Check your site&apos;s list of <a href="/settings/urls/redirects">redirects</a>.</li>
   <li>Render your blog’s error page if it exists, if not render Blot's error page.</li>
 </ol></p>
 
@@ -18,12 +18,12 @@
 <p><ol>
   <li>Check if there is a template whose route matches the request’s path. <a href="#rendering">Render the template</a> if it matches.</li>
   <li>Check if there is a file which matches the request’s path in your blog’s folder. <a href="/publishing/public-files">Send the file</a> as a response if it matches.</li>
-  <li>Check your site&apos;s list of <a href="/configuring/redirects">redirects</a>.</li>
+  <li>Check your site&apos;s list of <a href="/settings/urls/redirects">redirects</a>.</li>
   <li>Render your blog’s error page.</li>
 </ol></p>
 
 <h2>What if a blog post and a file share the same URL?</h2>
-<p>Blot shows the blog post instead of the file. This is because Blot <a href="/developers#routing">routes requests</a> from your readers to your blog’s template first. If you prefer, you can <a href="/theme">disable your blog’s template</a> on the dashboard and just use Blot as a static file server.</p>
+<p>Blot shows the blog post instead of the file. This is because Blot <a href="/developers#routing">routes requests</a> from your readers to your blog’s template first. If you prefer, you can <a href="/settings/theme">disable your blog’s template</a> on the dashboard and just use Blot as a static file server.</p>
 </div>
 <h2  id="rendering">Rendering</h2>
 <p>Blot's templates are written in <a href="https://mustache.github.io/">Mustache</a>.
