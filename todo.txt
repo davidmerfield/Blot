@@ -21,8 +21,6 @@ Finish working out how to get zoom-able images on [Emily's template](https://mai
 
 Work out cause of Paul's bug with image_cache directory not existing, perhaps use one of fs-extra's methods?
 
-Fix layout of Yang's blog
-
 ---
 
 Fix thumbnail bug in metadata and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzKtcHfWnzjcNdnksXFHGCXdWP)
