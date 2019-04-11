@@ -23,6 +23,8 @@ Work out cause of Paul's bug with image_cache directory not existing, perhaps us
 
 ---
 
+Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
+
 Fix thumbnail bug in metadata and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzKtcHfWnzjcNdnksXFHGCXdWP)
 
 Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCLkqPBsNsjbKhFrLsvWdjnC)
