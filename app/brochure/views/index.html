@@ -12,13 +12,19 @@
 <div style="display:flex;">
   
 
-  <Div style="flex-basis:50%;display:flex;padding:10em;box-sizing:border-box;    justify-content: center;flex-direction:column">
+  <Div style="flex-basis:75%;">
 
-    <p>Why a blogging platform with no interface? So you can blog with the tools you use already. Write with your favorite text-editor and <a href="/videos/publishing-with-blot.mp4">Blot does the rest</a>.</p>
+    <p style="max-width:none;font-size:22px">
+      Blot is a blogging platform with no interface. Why? So you can blog with the tools you use already. Write with your favorite text-editor and Blot does the rest. Blot turns a folder into a blog. Drag-and-drop files inside to publish them. Organize your ﬁles in a way that suits you. Create and collaborate with others.
 
-    <p>Blot turns a folder into a blog. Drag-and-drop files inside to publish them. Organize your files in a way that suits you. Use your existing tools to create and collaborate with others.</p>
+       </p>
+
+    <p style="max-width:none;font-size:22px"><a href="/">Watch the video</a>, <a href="/publishing">Read how to use Blot</a></p>
+
+
   </div>
-<a style="flex-basis:50%;" class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
+  <div style="width:3em"></div>
+<a style="flex-basis:25%;" class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
 <span>Watch the demo</span>
     
@@ -35,14 +41,16 @@ Posts
 
 <br><Br>
 
-<p>Here's some the websites on Blot:</p>
+<p style="margin-left:0">Here's some the people who host their website on Blot right now:</p>
 
-</div>
 <style type="text/css">
 a.featured {
   flex-basis: 50%;
+  font-size: 14px;
   color: inherit;
   padding: 0em 1em;
+  display: block;
+  margin-bottom: 1em;
   box-sizing: border-box;
 }
 
@@ -56,6 +64,7 @@ a.featured .a {
 
 a.featured img {
   vertical-align: text-bottom;
+  margin-right: 8px;
 }
 
 a.featured:hover .a {
@@ -66,7 +75,7 @@ a.featured:hover .a {
 <div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
   <a class="featured" target="_blank" rel="noopener" href="{{{link}}}"> <img style="width:16px;height:16px;" src="{{{favicon}}}">
- <span class="a">{{name}}</span> {{bio}}. <!-- <br><span style="padding-left:24px;text-transform:uppercase;font-weight:700;font-size:12px;color:#aaa">{{firstName}} uses the Default template.</span> --></a>
+ <span class="a">{{name}}</span> {{bio}}. <br><span style="padding-left:28px;font-size:12px;color:#aaa">{{firstName}} uses the Default template.</span></a>
   {{/featured}}
 </div>
 

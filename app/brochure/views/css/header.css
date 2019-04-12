@@ -7,7 +7,7 @@ header ul {
 
 header {
   padding: 0 1em;
-  margin: 1em
+  margin: 1em;
 }
 
 header a {
@@ -52,8 +52,8 @@ header hr {
 }
 
 header a svg {
-  width: 22px;
-  margin-right: 0.5em;
+  width: 20px;
+  margin-right: 0.66em;
   margin-left: 0.125em;
   vertical-align: text-bottom;
 }
@@ -72,8 +72,8 @@ header ul {
   list-style-type: none;
   padding: 0;
   margin: 0 auto;
-  display: flex;
   justify-content: center;
+  display: flex;  
 }
 
 
