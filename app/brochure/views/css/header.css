@@ -12,7 +12,8 @@ header {
 
 header a {
   margin: 0 0.6666em;
-  color: #005eb8;
+  /*color: #005eb8;*/
+  color: #84847e;
   text-decoration: none;
 }
 
