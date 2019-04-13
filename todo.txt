@@ -1,10 +1,10 @@
 Finish Feed template
 - Create folder with public domain material
-- Add script to build test sites from folders
+- Finish script to build test sites from folders
 - Add a customizable header motif with dots, gradient etc?
 
 Finish Archive template
-- Create folder with public domain material, public domain new deal photos?
+- Create folder with public domain material, new deal photos?
 
 Record new demo video
 - Create simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself "Bring your own interface"
@@ -23,13 +23,15 @@ Work out cause of Paul's bug with image_cache directory not existing, perhaps us
 
 ---
 
+Tell [Amit when new homepage is live](https://mail.google.com/mail/u/0/#inbox/KtbxLrjVkmBtRXhLbbPmxpgSVhjfqszwwg)
+
 Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
 
 Fix thumbnail bug in metadata and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzKtcHfWnzjcNdnksXFHGCXdWP)
 
 Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCLkqPBsNsjbKhFrLsvWdjnC)
 
-Add public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG)
+Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG)
 
 ---
 
@@ -49,8 +51,6 @@ Improve the access to the documentation links. Tell [Marcus](https://mail.google
 
 Run a scraper for broken documentation links on the site. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
 
-Tell [Amit when new homepage is live!](https://mail.google.com/mail/u/0/#inbox/KtbxLrjVkmBtRXhLbbPmxpgSVhjfqszwwg)
-
 Fix bug with upper-case domain and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTZVPGRVHXDzZbrZxzMzsq)
 
 Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ)
@@ -59,13 +59,13 @@ Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function?
 
 Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f). CANNOT REPRODUCE.
 
-Fix Magazine template
+Fix Magazine template bugs
 - Fix text styling inside blockquotes and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
 - Fix bug with image zoom when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
 
 Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
-Fix index template
+Fix index template bugs
 - Footnote link styling is wonky and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
 
 Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) know about new themes
@@ -114,6 +114,8 @@ Markdown bugs
 - Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
 ---
+
+Move to monthly billing of $3 per month for new customers?
 
 Move to UUIDs for blog identifiers
 - Can we incrementally move people over to check it works ok?
