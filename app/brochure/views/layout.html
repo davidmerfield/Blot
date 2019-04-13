@@ -12,7 +12,7 @@
 
     <row>
 
-      <a class="logo {{selected.index}}" href="/" style="width:128px">{{>logo}}Blot</a>
+      <a class="logo {{selected.index}}" href="/" >{{>logo}}Blot </a>
 
       <ul>
 
@@ -21,21 +21,22 @@
       </a>
 
         </li>
-        <li>
+        <!-- <li>
           <a class="{{selected.templates}}" {{#unless selected.templates}}href="{{{base}}}/templates"{{/unless}}>Templates</a>
 
-        </li>
+        </li> -->
         <!-- 
       <li class="{{selected.account-billing}}">
         <a href="{{{base}}}/account-billing">Account and billing</a>
       </li>
  -->
-        <li><a class="{{selected.news}}" {{#unless selected.news}}href="/news"{{/unless}}>News</a></li>
-        <li><a class="{{selected.about}}" {{#unless selected.about}}href="/about"{{/unless}}>About</a></li>
+      <li><a class="{{selected.about}}" {{#unless selected.about}}href="/about"{{/unless}}>About</a></li>
+<!--               <li><a class="{{selected.news}}" {{#unless selected.news}}href="/news"{{/unless}}>News</a></li>
+ -->  
         <li><a class="{{selected.support}}" {{#unless selected.support}}href="/support"{{/unless}}>Support</a></li>
 
       </ul>
-      <div style="text-align:right;">
+      <div style="text-align:right;flex-grow:1">
       <a href="/sign-up">Sign up</a>
       <a href="/log-in">Log in</a>
     </div>

@@ -71,8 +71,7 @@ header a svg {
 header ul {
   list-style-type: none;
   padding: 0;
-  margin: 0 auto;
-  justify-content: center;
+  margin: 0;
   display: flex;  
 }
 
