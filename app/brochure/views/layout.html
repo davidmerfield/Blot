@@ -39,6 +39,40 @@
 
     <hr>
 
+
+      {{#if selected.publishing}}     
+
+
+    <ul style="font-size:14px">
+      <li>
+        <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">Introduction</a>
+      </li>
+      <li>
+        <a class="{{selected.pages}}" href="{{{base}}}/publishing/pages">Pages</a>
+      </li>
+      <li>
+        <a class="{{selected.drafts}}" href="{{{base}}}/publishing/drafts">Drafts</a>
+      </li>
+      <li>
+        <a class="{{selected.public-files}}" href="{{{base}}}/publishing/public-files">Public files</a>
+      </li>
+      <li>
+        <a class="{{selected.metadata}}" href="{{{base}}}/publishing/metadata">Metadata</a>
+      </li>
+      <li>
+        <a class="{{selected.formatting}}" href="/publishing/formatting">Formatting</a>
+      </li>
+      <li>
+        <a class="{{selected.domain}}" href="{{{base}}}/publishing/domain">Use your domain</a>
+      </li>
+
+      <li>
+        <a class="{{selected.clients}}" href="{{{base}}}/publishing/clients">Clients</a>
+      </li>
+
+    </ul>
+  {{/if}}
+
     {{#if selected.templates--}}
     <ul>
 
@@ -90,45 +124,6 @@
 
     <content>
 
-      {{#if selected.publishing}}
-    <h1 style="margin-bottom:0">{{sectionTitle}}</h1>
-    <header>
-
-      <row>
-
-    <ul style="border-top: 1px solid rgba(0,0,0,0.1);padding-top:1em;">
-      <li>
-        <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">Introduction</a>
-      </li>
-      <li>
-        <a class="{{selected.pages}}" href="{{{base}}}/publishing/pages">Pages</a>
-      </li>
-      <li>
-        <a class="{{selected.drafts}}" href="{{{base}}}/publishing/drafts">Drafts</a>
-      </li>
-      <li>
-        <a class="{{selected.public-files}}" href="{{{base}}}/publishing/public-files">Public files</a>
-      </li>
-      <li>
-        <a class="{{selected.metadata}}" href="{{{base}}}/publishing/metadata">Metadata</a>
-      </li>
-      <li>
-        <a class="{{selected.formatting}}" href="/publishing/formatting">Formatting</a>
-      </li>
-      <li>
-        <a class="{{selected.domain}}" href="{{{base}}}/publishing/domain">Use your domain</a>
-      </li>
-
-      <li>
-        <a class="{{selected.clients}}" href="{{{base}}}/publishing/clients">Clients</a>
-      </li>
-
-    </ul>
-  </row>
-    <br><br>
-  <br>
-</header>
-    {{/if}}
 
       {{{body}}}
     </content>

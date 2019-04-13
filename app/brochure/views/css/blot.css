@@ -253,10 +253,10 @@ window+h3 {
   margin-top: 3em
 }
 
-/*
-background:nth-of-type(1){background: #77d3fb}
-background:nth-of-type(2){background: #faba40}
-background:nth-of-type(3){background: #35cb4b}*/
+
+background.red{background: #fc615d}
+background.yellow{background: #fdbd416b}/*#faba40*/ 
+background.green{background: #35cb4b42} /*#35cb4b*/
 
 background .folder {
   max-width: 300px;
