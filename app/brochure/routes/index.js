@@ -6,7 +6,8 @@ var config = require("config");
 var Breadcrumbs = require("./tools/breadcrumbs");
 
 var TITLES = {
-  publishing: "How to use Blot"
+  publishing: "How to use Blot",
+  "public-files": "Public files"
 };
 
 var REDIRECTS = {

@@ -80,7 +80,7 @@ header ul {
 
 header .logo,
 header .logo:focus {
-  margin-right: 0.5em;
+  margin-right: 90px;
   margin-left: 0.5em;
   fill: white;
   stroke: black;
