@@ -271,11 +271,12 @@ background .text {
 /* Big link on homepage containing folder to play demo video */
 a.video {
   /*background: #f3eeea;*/
-  margin: 0 0 4em;
+  margin: 0;
   /*height: calc(100vh - 18em);*/
   height: 0;
   padding-bottom: 30%;
-
+  min-height: 48px;
+  margin: -48px 0 24px;
   position: relative;
   overflow: hidden;
   display: block;
