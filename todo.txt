@@ -15,11 +15,11 @@ Record new demo video
 
 ---
 
+Work out cause of Paul's bug with image_cache directory not existing, perhaps use one of fs-extra's methods?
+
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
-
-Work out cause of Paul's bug with image_cache directory not existing, perhaps use one of fs-extra's methods?
 
 ---
 
