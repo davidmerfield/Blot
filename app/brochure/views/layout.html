@@ -1,6 +1,14 @@
 {{> head}}
+<style type="text/css">
+/* 0.5 + 0.5 = gutter of 1em */
+.grid {padding: 0.5em}
+.col {padding: 0.5em} 
 
-<body>
+.col-25 {width: 25%}
+.col-75 {width: 75%}
+
+</style>
+<body class="grid">
   <link rel="stylesheet" href="/css/tex.css">
   <link rel="stylesheet" href="/css/header.css">
 
@@ -12,8 +20,10 @@
 
     <row>
 
+      <section class="col-25">
       <a class="logo {{selected.index}}" href="/" >{{>logo}} </a>
-
+    </section>
+    
       <!-- <a class="{{selected.news}}" href="/news">News</a> -->
        <ul>
         <li><a class="{{selected.publishing}}" href="{{{base}}}/publishing">How to use Blot</a></li>
