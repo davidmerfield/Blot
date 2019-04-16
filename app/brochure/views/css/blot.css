@@ -94,18 +94,15 @@ content table a:hover {
 h1 {
     font-size: 36px;
     line-height: 1.1;
-    max-width: 16.86em;
     margin: 1em auto 1em;
 
     }
 
 h2 {
   font-size: 1em;
-  max-width: 39em;
   margin: 1.8em 0 0.3375em;
   border-bottom: 1px solid;
   padding: 0.5rem 0 0.3375em;
-  font-weight: 700;
 }
 
 
@@ -115,12 +112,14 @@ h2+p {
 
 p,
 h2,
+h1,
 background,
 window,
 ul,
 ol,
-.clients {
-  max-width: 608px;
+.clients,
+ul.templates {
+  max-width: 637px;
   margin-left: auto;
   margin-right: auto
 }
@@ -154,7 +153,6 @@ main.has-sidebar {
 ul.templates {
   display: flex;
   margin: 2em auto;
-  max-width: 608px;
   justify-content: center;
   flex-wrap: wrap;
   padding: 0

@@ -8,9 +8,11 @@
     </div>
   </div>
 </overlay>
+<style type="text/css"> flex {display: flex;}
+.video {background: #fdbd41}</style>
+<flex>
+<a style="flex-basis:75%;min-height: calc(100vh - 5.5em);padding-bottom:0" class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
-
-<a style="flex-basis:25%;" class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
     
 <pre class="folder" title="Your blog"><code>Drafts
 Pages
@@ -22,25 +24,23 @@ Posts
 
 </code></pre></a>
 
-<h1 style="text-align:center;margin-bottom:2em">A blogging platform with no interface</h1>
+<div style="flex-basis:25%">
+<h1 style="text-align:left;margin-bottom:2em;font-size:1em;margin: 0 1em">Blot is a blogging platform with no interface.</h1>
+<p style="margin:1em 1em"> Why a blogging platform with no interface? So you can blog with the tools you use already. </p>
+<p style="margin:1em 1em">Blot turns a folder into a blog.  Write with your favorite text-editor. 
+<p style="margin: 1em"><a href="/">Watch the video</a>, <a href="/publishing">Read how to use Blot</a></p>
 
-<p> Why? So you can blog with the tools you use already. Write with your favorite text-editor and Blot does the rest. Blot turns a folder into a blog. Drag-and-drop ﬁles inside to publish them. </p>
+</div>
+</flex>
 
-    <p style=""><a href="/">Watch the video</a>, <a href="/publishing">Read how to use Blot</a></p>
-
-
-
-<br><Br>
-
-
-<p>Here's some the people who host their website on Blot right now:</p>
+<p> Here's some the people who host their website on Blot right now:</p>
 
 <style type="text/css">
 a.featured {
-  flex-basis: 50%;
-  font-size: 14px;
+  position: relative;
+  flex-basis: 25%;
   color: inherit;
-  padding: 0em 1em;
+  padding: 0em 2em 0 3em;
   display: block;
   margin-bottom: 1em;
   box-sizing: border-box;
@@ -52,6 +52,7 @@ a.featured:hover {
 
 a.featured .a {
   color: #005eb8;
+  text-decoration: underline;
 }
 
 a.featured img {
@@ -66,8 +67,8 @@ a.featured:hover .a {
 </style>
 <div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
-  <a class="featured" target="_blank" rel="noopener" href="{{{link}}}"> <img style="width:16px;height:16px;" src="{{{favicon}}}">
- <span class="a">{{name}}</span> {{bio}}. <br><span style="padding-left:28px;font-size:12px;color:#aaa">{{firstName}} uses the Default template.</span></a>
+  <a class="featured" target="_blank" rel="noopener" href="{{{link}}}"> <img style="width:16px;height:16px;position:absolute;left:1.4em;top:0.15em" src="{{{favicon}}}">
+ <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses the Default template.</span></a>
   {{/featured}}
 </div>
 

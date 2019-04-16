@@ -6,14 +6,14 @@ header ul {
 }
 
 header {
-  padding: 0 1em;
-  margin: 1em;
+  padding: 1.4em;
+  /*background: #fbf8f6*/
 }
 
 header a, .sidebar a {
-  margin: 0 0.6666em;
+  margin: 0 0.7em;
   /*color: #005eb8;*/
-  color: #84847e;
+  color: #989694;
   text-decoration: none;
 }
 

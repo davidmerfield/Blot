@@ -8,10 +8,8 @@
 ul.sidebar {
   margin: 0;
   padding: 0;
-  margin-right: 1.5em;
-  margin-left: 1.5em;
+  margin: 3.5em 0.666em;
   list-style: none;
-  margin-top: 3.5em;
   flex-shrink:0;
   position: sticky;       /* [1] */
   top: 3em;               /* [2] */
