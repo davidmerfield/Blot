@@ -41,8 +41,12 @@
 
       
 
-    {{#if selected.templates--}}
-    <ul>
+   
+  </header>
+  <main>
+
+     {{#if selected.templates}}
+    <ul class="sidebar">
 
       <li >
         <a class="{{selected.templatesIndex}}" href="{{{base}}}/templates">
@@ -87,8 +91,7 @@
       <br>
     </ul>
     {{/if}}
-  </header>
-  <main>
+
 {{#if selected.publishing}}     
 
 
@@ -122,8 +125,6 @@
     </ul>
   {{/if}}
     <content>
-
-
       {{{body}}}
     </content>
   </main>
