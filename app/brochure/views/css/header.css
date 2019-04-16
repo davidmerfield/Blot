@@ -27,9 +27,9 @@ header a:focus, .sidebar a:focus {
 
 
 header a:hover, .sidebar a:hover {
-  background-color: #eee;
+/*  background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
-  text-decoration: underline;
+*/  text-decoration: underline;
 }
 
 
