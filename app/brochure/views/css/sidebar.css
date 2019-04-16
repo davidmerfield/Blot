@@ -1,4 +1,4 @@
-.sidebar li a {display: block;}
+.sidebar li {display: block;}
 
 /**
  * 1. good progressive enhancement: https://caniuse.com/#search=sticky
@@ -11,7 +11,6 @@ ul.sidebar {
   margin-right: 1.5em;
   margin-left: 1.5em;
   list-style: none;
-  width: 25%;
   flex-shrink:0;
   position: sticky;       /* [1] */
   top: 3em;               /* [2] */
@@ -24,9 +23,9 @@ ul.sidebar a:hover {text-decoration: underline;}
 ul.sidebar a:active,
 ul.sidebar a:focus  {opacity: 0.7;text-decoration: none;}
 
-ul.sidebar > * {max-width: 221px;min-width: 221px}
+ul.sidebar > * {}
 
-a.selected {color: black!important}
+.sidebar a.selected {color: black!important}
 
 
 input[name="toggle"] {
@@ -92,9 +91,9 @@ label[for="toggle"] {
 .sidebar a {
   display: inline-block;
   position: relative;
-  border-radius: 4px;
   cursor: pointer !important;
   color: #a09d9c;
+  line-height: 1.3;
   text-decoration: none;
   word-wrap: break-word;
   background-color: transparent;
@@ -214,33 +213,6 @@ ul.sidebar ul {
 
 
 .buttons {display: flex;}
-
-a.action-button {
-    cursor: pointer;
-    border-radius: 0;
-    text-align: center;
-    padding:4px 2em 4px 1em;
-    margin: 0 1em 0 0;
-    text-align: center;
-    -webkit-font-smoothing: antialiased;
-    border: 1px solid #e6e4e3;
-}
-
-a.action-button:after{
-  display: block;
-    position: absolute;
-    top: 50%;
-    right: 22px;
-    width: 7px;
-    height: 7px;
-    margin: -4px -5px 0 0;
-    border-top: solid 1px #a9a6a3;
-    border-right: solid 1px #a9a6a3;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    content: "";
-}
 
 .sidebar a.action-button:hover {
   border-color: #222;

@@ -10,14 +10,14 @@ header {
   margin: 1em;
 }
 
-header a {
+header a, .sidebar a {
   margin: 0 0.6666em;
   /*color: #005eb8;*/
   color: #84847e;
   text-decoration: none;
 }
 
-header a:focus {
+header a:focus, .sidebar a:focus {
   background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
   color: #444;
@@ -26,7 +26,7 @@ header a:focus {
 }
 
 
-header a:hover {
+header a:hover, .sidebar a:hover {
   background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
   text-decoration: underline;
@@ -39,12 +39,12 @@ a:active {
   text-decoration: none;
 }
 
-header a.selected:hover {background: transparent;box-shadow: none;}
+/*header a.selected:hover {background: transparent;box-shadow: none;}
 
 header a.selected {
   color: black;
   text-decoration: none;
-}
+}*/
 
 header hr {
   border: none;
@@ -53,9 +53,11 @@ header hr {
 
 header a svg {
   width: 20px;
-  margin-right: 0.66em;
+  margin-right: 0.5em;
   margin-left: 0.125em;
   vertical-align: text-bottom;
+  position: relative;
+  top: -1px
 }
 
 
@@ -71,8 +73,7 @@ header a svg {
 header ul {
   list-style-type: none;
   padding: 0;
-  margin: 0 auto;
-  justify-content: center;
+  margin: 0;
   display: flex;  
 }
 
@@ -80,7 +81,7 @@ header ul {
 
 header .logo,
 header .logo:focus {
-  margin-right: 90px;
+  margin-right: 0.5em;
   margin-left: 0.5em;
   fill: white;
   stroke: black;

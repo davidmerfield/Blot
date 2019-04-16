@@ -92,11 +92,12 @@ content table a:hover {
 
 
 h1 {
-  font-size: 36px;
-  text-align: center;
-  line-height: 1.1;
-  margin: 0 0 2em;
-}
+    font-size: 36px;
+    line-height: 1.1;
+    max-width: 16.86em;
+    margin: 1em auto 1em;
+
+    }
 
 h2 {
   font-size: 1em;
@@ -128,9 +129,10 @@ ol,
 /* This keeps the footer off the main page */
 main {
   min-height: 100vh;
-  padding: 3em;
+  padding: 3em 1em;
   padding-bottom: 24em;
   box-sizing: border-box;
+  display: flex
 
 }
 
@@ -142,9 +144,7 @@ container {
 
 content {
   flex-grow: 1;
-  width: 75%;
-  margin-left: 1.5em;
-  margin-right: 1.5em;
+  margin: 0 auto;
 }
 
 main.has-sidebar {
@@ -154,7 +154,7 @@ main.has-sidebar {
 ul.templates {
   display: flex;
   margin: 2em auto;
-  max-width: 800px;
+  max-width: 608px;
   justify-content: center;
   flex-wrap: wrap;
   padding: 0
