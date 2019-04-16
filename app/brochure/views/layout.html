@@ -12,36 +12,25 @@
 
     <row>
 
-      <a class="logo {{selected.index}}" href="/" >{{>logo}}Blot </a>
+      <a class="logo {{selected.index}}" href="/" >{{>logo}} </a>
 
-      <ul>
-
-        <li>
-          <a class="{{selected.publishing}}" href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label>
-      </a>
-
-        </li>
-        <li>
-          <a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</a>
-
-        </li>
-      <li><a class="{{selected.about}}" href="/about">About</a></li>
-                <li><a class="{{selected.news}}" href="/news">News</a></li>
-  
+      <!-- <a class="{{selected.news}}" href="/news">News</a> -->
+       <ul>
+        <li><a class="{{selected.publishing}}" href="{{{base}}}/publishing">How to use Blot</a></li>
         <li><a class="{{selected.support}}" href="/support">Support</a></li>
-
-      </ul>
-      <div style="text-align:right;flex-grow:1">
-      <a href="/sign-up">Sign up</a>
-      <a href="/log-in">Log in</a>
-    </div>
+        <li><a href="/sign-up">Sign up</a></li>
+        <li><a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</a></li>
+        <li><a class="{{selected.about}}" href="/about">About</a></li>
+        <li><a href="/log-in">Log in</a></li>
+    </ul>
     </row>
 
 
 
-      
-
-   
+    {{#unless selected.index}}
+    <br>
+    <hr>
+    {{/unless}}
   </header>
   <main>
 
@@ -124,7 +113,7 @@
 
     </ul>
   {{/if}}
-    <content>
+    <content  {{#if selected.index}}style="margin-left:0"{{/if}}>
       {{{body}}}
     </content>
   </main>

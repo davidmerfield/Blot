@@ -1,22 +1,25 @@
 header row,
 header ul {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   max-width: none
 }
 
 header {
-  padding: 1.4em;
+  padding: 0.8em 0;
   /*background: #fbf8f6*/
 }
 
 header a, .sidebar a {
-  margin: 0 0.7em;
-  /*color: #005eb8;*/
+/*  margin: 0 0.7em;
+*/  /*color: #005eb8;*/
   color: #989694;
+  box-sizing: border-box;
   text-decoration: none;
 }
 
+header a {  padding: 0 1em;
+}
 header a:focus, .sidebar a:focus {
   background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
@@ -52,12 +55,8 @@ header hr {
 }
 
 header a svg {
-  width: 20px;
-  margin-right: 0.5em;
-  margin-left: 0.125em;
+  width: 36px;
   vertical-align: text-bottom;
-  position: relative;
-  top: -1px
 }
 
 
@@ -73,17 +72,20 @@ header a svg {
 header ul {
   list-style-type: none;
   padding: 0;
+  width: 75%;
   margin: 0;
   display: flex;  
+  flex-wrap: wrap;
 }
+
+header li {width: 33%}
 
 
 
 header .logo,
 header .logo:focus {
-  margin-right: 0.5em;
-  margin-left: 0.5em;
   fill: white;
   stroke: black;
+  width: 25%;
   color: black
 }
