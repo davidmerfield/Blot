@@ -1,3 +1,54 @@
+.grid {padding: 0.7em}
+.col-25, .col-75, .col-33, .col-50 {padding: 0 0.7em;box-sizing: border-box;} 
+
+.ml-25 {margin-left: 25%}
+
+.col-33 {width: 33.3333333%}
+.col-25 {width: 25%;}
+.col-50 {width: 50%}
+.col-75 {width: 75%}
+
+
+@media screen and (min-width: 800px) {
+  label[for="toggle"] {
+    display: none;
+  }
+}
+
+.mobile {display: none;}
+  
+  .index .sidebar {display: none;}
+
+@media screen and (max-width: 800px) {
+
+  main.has-sidebar {display: block!important;}
+
+  ul.sidebar {
+    position: initial;
+    margin-top: 0em;
+    width: 100%;
+    display: none;
+  }
+
+  main {flex-wrap:wrap;}
+  .mobile {display: block;}
+
+  .nav {display: flex;flex-grow:1;}
+  .nav > * {width: 33.333%;padding-left: 0.7em;box-sizing:border-box;}
+  .nav > *:first-child {padding-left: 0}
+
+  input[name="toggle"]+ul {
+    display: none;
+  }
+
+  .collapse {display: none;}
+
+  input[name="toggle"]:checked + .sidebar {
+    display: block;
+  }
+
+}
+
 header row {
   display: flex;
   align-items: center;

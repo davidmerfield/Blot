@@ -1,18 +1,9 @@
 {{> head}}
 
-<body>
+<body class="grid">
       <link rel="stylesheet" href="/css/header.css">
 
   <style type="text/css">
-  /* hack pelase fix */
-  header container>index {
-    flex-grow: 0;
-  }
-
-  /* balances out the margins */
-  header container>index:last-child {
-    visibility: hidden
-  }
 
   main {
     display: flex;
@@ -178,23 +169,22 @@
 
 <header>
 
-    <label for="toggle">—<br>—<br>—</label>
-
-    <input type="checkbox" name="toggle" id="toggle">
 
     <row>
 
-      <a class="logo {{selected.index}}" href="/">{{>logo}}Blot</a>
+      <section class="col-25">
+        <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
+      </section>
 
-        <p style="color:#a09d9c;margin:0 auto;width:30em"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create a blog</p>
+        <p class="col-50" style="margin:0;color:#aaa"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create a blog</p>
 </row>
     <hr>
 
     </header>
 
-  <main class="has-sidebar" >
+  <main  >
 
-    <content style="">
+    <content class="col-50 ml-25">
 
 
 

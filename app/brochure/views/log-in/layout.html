@@ -1,18 +1,9 @@
 {{> head}}
 
-<body>
-    <link rel="stylesheet" href="/css/header.css">
+<body class="grid">
+      <link rel="stylesheet" href="/css/header.css">
 
   <style type="text/css">
-  /* hack pelase fix */
-  header container>index {
-    flex-grow: 0;
-  }
-
-  /* balances out the margins */
-  header container>index:last-child {
-    visibility: hidden
-  }
 
   main {
     display: flex;
@@ -84,6 +75,7 @@
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   }
 
+  p {margin-left: 0;margin-right: 0}
   input[name="exp-year"],
   input[name="exp-month"],
   input[name="cvc"] {
@@ -177,28 +169,29 @@
 
 <header>
 
-    <label for="toggle">—<br>—<br>—</label>
-
-    <input type="checkbox" name="toggle" id="toggle">
 
     <row>
 
-      <a class="logo {{selected.index}}" href="/">{{>logo}}Blot</a>
+      <section class="col-25">
+        <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
+      </section>
 
-              <p style="color:#a09d9c;margin:0 auto;width:30em"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
+        <p class="col-50" style="margin:0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
 </row>
     <hr>
 
     </header>
-  <main class="has-sidebar">
-    
-    <content>
 
-    
+  <main  >
+
+    <content class="col-50 ml-25">
+
+
+
+      <p><mark id="error" class="error">{{#error}}{{error}}{{/error}}</mark></p>
 
       {{{body}}}
-      </container>
-      <div style="flex-grow:1;flex-shrink:1"></div>
+      </content>
   </main>
 </body>
 
