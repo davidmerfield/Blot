@@ -236,7 +236,7 @@ a.video {
   display: block;
 }
 
-a.video span {
+a.video .play {
   position: absolute;
   bottom: 3.5em;
   left: 3.5em;
@@ -250,7 +250,7 @@ a.video span {
   color: rgb(192, 39, 45);
 }
 
-a.video span:before {
+a.video .play:before {
   display: block;
   position: absolute;
   top: 50%;
@@ -274,7 +274,7 @@ a.video svg {
   fill: rgb(192, 39, 45);
 }
 
-a.video window {
+a.video .window {
   opacity: 1.0;
   position: absolute;
   top: 50%;
@@ -285,13 +285,14 @@ a.video window {
   max-width: 310px;
 }
 
-a.video:hover span {
-  background: rgb(192, 39, 45);
-  color: white;
+a.video:hover .play {
+  background: rgb(192, 39, 45)!important;
+  color: white!important;
 }
 
-a.video:hover span:before {
-  border-color: white
+a.video:hover svg {fill:white!important;}
+a.video:hover .play:before {
+  border-color: white!important
 }
 
 
