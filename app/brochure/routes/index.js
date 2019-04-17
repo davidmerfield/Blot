@@ -31,6 +31,12 @@ brochure.use(require("./tools/dates"));
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
 
+// Inlines all CSS properties
+brochure.use(require("./tools/inline-css"));
+
+// Inlines all CSS properties
+brochure.use(require("./tools/minify-html"));
+
 // CSS required to render the windows
 brochure.get("/css/finder.css", function(req, res) {
   res.setHeader("Content-Type", "text/css");
