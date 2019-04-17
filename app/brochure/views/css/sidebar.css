@@ -7,7 +7,6 @@
  */
 ul.sidebar {
   margin: 0;
-  padding: 0;
   margin: 3.5em 0;
   list-style: none;
   width: 25%;
@@ -77,7 +76,7 @@ label[for="toggle"] {
     position: initial;
   }
 
-  input[name="toggle"]+.sidebar>*:not(.in) {
+  input[name="toggle"]+ul {
     display: none;
   }
 

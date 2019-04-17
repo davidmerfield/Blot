@@ -6,7 +6,7 @@ header ul {
 }
 
 header {
-  padding: 0.8em 0;
+  padding: 0em 0 0.7em;
   /*background: #fbf8f6*/
 }
 
@@ -18,8 +18,7 @@ header a, .sidebar a {
   text-decoration: none;
 }
 
-header a {  padding: 0 1em;
-}
+header a {  }
 header a:focus, .sidebar a:focus {
   background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
@@ -78,7 +77,6 @@ header ul {
   flex-wrap: wrap;
 }
 
-header li {width: 33%}
 
 
 

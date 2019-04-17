@@ -3,7 +3,7 @@
 <p>All the files in your blog’s folder are public and can be accessed by your readers. This is useful if you want to embed an image in your blog posts or distribute files. </p>
 
 
-<background><pre class="folder" title="Your blog"><code>Files
+<background class="red"><pre class="folder" title="Your blog"><code>Files
   Archive.zip
   index.html
 Posts
@@ -14,18 +14,20 @@ Posts
 </code></pre>
 </background>
 
-<p>For example, given the following folder, your readers can download <code class="file zip">Archive.zip</code> if they visit <em>/files/archive.zip</em> on your blog. Blot also serves index files. Your readers will see <code class="file html">index.html</code> if they visit <em>/files</em>. Paths to files are case-insensitive.</p>
+<p>For example, given the folder above, your readers can download <em>Archive.zip</em> if they visit <em>/files/archive.zip</em> on your blog. Blot also serves index files. Your readers will see <em>index.html</em> if they visit <em>/files</em>. Paths to files are case-insensitive.</p>
 
 
 <h2>Prevent a file becoming a blog post</h2>
 <p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="/publishing/public-files">embedded in other posts</a>.</p>
 
-<background>
+<background class="red">
   <pre class="folder" title="Your blog"><code>Drafts
 Pages
 Posts
-  _not_a_blog_post.txt
-  blog_post.txt
+  _Not_a_Post.txt
+  Post.txt
+
+
 </code>
     </pre>
 </background>
@@ -34,15 +36,13 @@ Posts
 
 <h2>Embedding images in posts</h2>
 
-<p>An image in your blog’s folder becomes its own blog post by default. However, files and fold­ers whose name starts with an un­der­score are ig­nored. Ignored ﬁles don’t be­come blog posts them­selves but they can be em­bed­ded in other posts. You can use <a href="/publishing/formatting">Markdown</a> to embed an image in your post:</p>
+<p>An image in your blog’s folder becomes its own blog post by default. However, files and fold­ers whose name starts with an un­der­score do not become blog posts. Use <a href="/publishing/formatting">Markdown</a> to embed an image in a text file:</p>
 
-<pre class="text with-chrome" title="Post.txt"><code>Here’s how to embed an image in your folder:
+<pre class="text with-chrome" title="Post.txt"><code>Here’s how to embed an image in your folder. Note the image’s name starts with an underscore to prevent it becoming its own blog post:
 
 ![Image title](/path/to/the/_image.jpg)
 
-Absolute paths are resolved with your blog’s folder as root. Relative paths are resolved from the location of this file.
-
-You can also embed an image that’s already on the internet:
+Absolute paths are resolved with your blog’s folder as root. Relative paths are resolved from the location of this file. You can also embed an image that’s already on the internet:
 
 ![Image title](https://url.of/the/image.jpg)
 </code></pre>

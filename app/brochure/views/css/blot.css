@@ -126,7 +126,6 @@ ul.templates {
 /* This keeps the footer off the main page */
 main {
   min-height: 100vh;
-  padding: 3em 1em;
   padding-bottom: 24em;
   box-sizing: border-box;
   display: flex
@@ -141,7 +140,6 @@ container {
 
 content {
   flex-grow: 1;
-  margin-left: 25%;
 }
 
 .sidebar + content {margin-left: 0}
@@ -245,12 +243,20 @@ background {
   box-sizing: border-box;
 }
 
+background.text {margin: 3em 0}
+
 background+h2,
 background+h3,
 window+h2,
 window+h3 {
   margin-top: 3em
 }
+background.text+h2,
+background.text+h3
+ {
+  margin-top: 4em
+}
+
 
 
 background.red{background: #fc615d}
@@ -275,7 +281,7 @@ a.video {
   height: 0;
   padding-bottom: 30%;
   min-height: 48px;
-  margin: -48px 0 24px;
+  margin: 0 0 24px;
   position: relative;
   overflow: hidden;
   display: block;
@@ -467,7 +473,7 @@ overlay .close:after {
 
 
 .clients {
-  margin: 2em auto;
+  margin: 2em 0;
   list-style-type: none;
   padding: 0;
   display: flex;
