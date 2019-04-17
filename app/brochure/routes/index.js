@@ -13,16 +13,22 @@ var REDIRECTS = {
   "/help/tags": "/publishing/metadata"
 };
 
+brochure.use(function(req, res, next) {
+  res.locals.breadcrumbs = new Breadcrumbs();
+  next();
+});
+
+// Minifies HTML
+brochure.use(require("./tools/minify-html"));
+
+// Inlines all CSS properties
+brochure.use(require("./tools/inline-css"));
+
 // Renders the folders and text editors
 brochure.use(finder.middleware);
 
 // Renders TeX
 brochure.use(tex);
-
-brochure.use(function(req, res, next) {
-  res.locals.breadcrumbs = new Breadcrumbs();
-  next();
-});
 
 // Renders dates dynamically
 brochure.use(require("./tools/dates"));
@@ -30,18 +36,6 @@ brochure.use(require("./tools/dates"));
 // Fixes basic typographic errors
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
-
-// Inlines all CSS properties
-brochure.use(require("./tools/inline-css"));
-
-// Inlines all CSS properties
-brochure.use(require("./tools/minify-html"));
-
-// CSS required to render the windows
-brochure.get("/css/finder.css", function(req, res) {
-  res.setHeader("Content-Type", "text/css");
-  res.send(finder.css());
-});
 
 brochure.get("/about", function(req, res) {
   res.locals.title = "Blot – About";

@@ -61,7 +61,7 @@ label[for="toggle"] {
 
 @media screen and (min-width: 800px) {
   label[for="toggle"] {
-    display: none;
+    display: none!important;
   }
 }
 
@@ -69,21 +69,21 @@ label[for="toggle"] {
 @media screen and (max-width: 800px) {
 
   label[for="toggle"] {
-    display: block;
+    display: block!important;
   }
 
   main.has-sidebar {display: block!important;}
 
   ul.sidebar {
-    position: initial;
+    position: initial!important;
   }
 
   input[name="toggle"]+.sidebar>*:not(.in) {
-    display: none;
+    display: none!important;
   }
 
   input[name="toggle"]:checked+.sidebar>*:not(.index) {
-    display: block;
+    display: block!important;
   }
 
 }
@@ -242,7 +242,8 @@ a.action-button:after{
     content: "";
 }
 
-.sidebar a.action-button:hover {
+.sidebar a.action-button:hover,
+a.action-button:hover span {
   border-color: #222;
   color: #222;
   text-decoration: none;
