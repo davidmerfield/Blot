@@ -9,10 +9,16 @@
   </div>
 </overlay>
 <style type="text/css"> flex {display: flex;}
-.video {background: #fdbd41}</style>
+.video {background: #fdbd41}
+flex {flex-wrap: wrap;}
+@media screen and (max-width: 800px) {
+flex {flex-direction: column-reverse;}
+flex .col-75, flex .col-25,.col-50.ml-25 {width: 100%;margin-left: 0}
+}
+</style>
 <flex>
   <div class="col-75">
-<a style="min-height: calc(100vh - 5.4em);padding-bottom:0" class="video " href="/videos/publishing-with-blot.mp4" title="Play video">
+<a style="min-height: calc(100vh - 8.4em);padding-bottom:0" class="video " href="/videos/publishing-with-blot.mp4" title="Play video">
 
     
 <pre class="folder" title="Your blog"><code>Drafts
@@ -25,11 +31,14 @@ Posts
 
 </code></pre></a></div>
 
-<div class="col-25" style="font-size:18px">
+<div class="col-25" style="font-size:20px">
   <br><br><br>
-<h1 style="text-align:left;line-height:1.4;margin-bottom:2em;font-size:1em;">Blot is a blogging platform with no interface.</h1>
-<p > Why a blogging platform with no interface? So you can blog with your favorite text-editor. <!-- Use the tools you use already. --> Blot  turns a folder into a blog.  <!-- Write with your favorite text-editor. --> 
-<p ><a href="/videos/publishing-with-blot.mp4">Play the video</a> to see how it works or read the <a href="/">guide to using Blot</a>.<!-- , <a href="/publishing">Read more</a> --></p>
+<h1 style="text-align:left;font-weight:400;line-height:1.4;margin-bottom:2em;font-size:1em;">Blot is a blogging platform with no interface.</h1>
+ <!-- Use the tools you use already. -->     <!-- Write with your favorite text-editor. --> 
+<!-- <p >
+   or turns a folder into a blog
+ -->  
+<p> Why a blogging platform with no interface? So you can blog with your favorite text-editor. <a href="/videos/publishing-with-blot.mp4">Watch the video</a> to see how Blot works.<!-- <a href="/">guide to using Blot</a>. --><!-- , <a href="/publishing">Read more</a> --></p>
 
 </div>
 </flex>
@@ -50,6 +59,10 @@ a.featured {
 /*  text-align: center;
 */  margin-bottom: 1.4em;
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 800px) {
+  a.featured {flex-basis:100%}
 }
 
 a.featured:hover {

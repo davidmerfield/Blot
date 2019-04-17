@@ -10,6 +10,7 @@ ul.sidebar {
   margin: 3.5em 0;
   list-style: none;
   width: 25%;
+  max-width: none;
   flex-shrink:0;
   position: sticky;       /* [1] */
   top: 3em;               /* [2] */
@@ -31,16 +32,8 @@ input[name="toggle"] {
   display: none;
 }
 
-.navigation,
 label[for="toggle"] {
-  padding: 1em;
-}
-
-label[for="toggle"] {
-  line-height: 0.333;
   cursor: pointer;
-  display: block;
-  float: right;
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;
@@ -54,35 +47,6 @@ label[for="toggle"] {
   user-select: none;
   /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
-
-}
-
-@media screen and (min-width: 800px) {
-  label[for="toggle"] {
-    display: none;
-  }
-}
-
-
-@media screen and (max-width: 800px) {
-
-  label[for="toggle"] {
-    display: block;
-  }
-
-  main.has-sidebar {display: block!important;}
-
-  ul.sidebar {
-    position: initial;
-  }
-
-  input[name="toggle"]+ul {
-    display: none;
-  }
-
-  input[name="toggle"]:checked+.sidebar>*:not(.index) {
-    display: block;
-  }
 
 }
 
@@ -203,12 +167,6 @@ ul.sidebar ul {
     content: "";
 }
 
-.sidebar hr {
-  margin-top: 10px;
-  margin-bottom: 8px;
-  border: none;
-  border-top: 1px solid #ddd;
-}
 
 
 .buttons {display: flex;}
