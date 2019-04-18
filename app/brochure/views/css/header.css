@@ -8,6 +8,12 @@
 .col-50 {width: 50%}
 .col-75 {width: 75%}
 
+.links {
+  text-align:right;flex-grow:1;padding:0 0.7em;
+}
+
+.links a {margin-left: 1.4em}
+
 
 @media screen and (min-width: 800px) {
   label[for="toggle"] {
@@ -57,11 +63,9 @@ header row {
 }
 
 header {
-  padding: 0em 0 0.7em;
-  /*background: #fbf8f6*/
 }
 
-header a, .sidebar a {
+header a, .sidebar a, header label {
 /*  margin: 0 0.7em;
 */  /*color: #005eb8;*/
   color: #989694;
@@ -71,7 +75,7 @@ header a, .sidebar a {
 
 header a {  }
 
-header a:focus, .sidebar a:focus {
+header a:focus, .sidebar a:focus, header label:focus {
 /*  background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
 */  color: #bbb;
@@ -80,7 +84,7 @@ header a:focus, .sidebar a:focus {
 */}
 
 
-header a:hover, .sidebar a:hover {
+header a:hover, .sidebar a:hover, header label:hover {
 /*  background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
 */  
@@ -89,7 +93,7 @@ header a:hover, .sidebar a:hover {
 }
 
 
-header a:active {
+header a:active, header label:active {
   color: #bbb;
 /*  color: #444;
   stroke: #444;

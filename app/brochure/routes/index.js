@@ -42,7 +42,14 @@ brochure.use(function(req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
 
-  var slugs = req.originalUrl.split('/');
+  var url = req.originalUrl;
+    
+  // Trim trailing slash from the URL before working out which 
+  // slugs to set as selected. This ensures that the following url
+  // https://blot.im/publishing/ will set {{publishingIndex}} as selected
+  if (url.length > 1 && url.slice(-1) === '/') url = url.slice(0, -1);
+
+  var slugs = url.split('/');
 
   slugs.forEach(function(slug, i){
     res.locals.selected[slug] = 'selected';
@@ -122,9 +129,7 @@ brochure.get("/", require("./featured"), function(req, res) {
   res.render("index");
 });
 
-var tex = require("./tools/tex");
 
-brochure.use("/publishing/formatting", tex);
 
 brochure.use("/publishing/domain", function(req, res, next) {
   res.locals.ip = config.ip;
@@ -140,6 +145,7 @@ brochure.get("/:section", function(req, res, next) {
   }
 
   res.locals.title = "Blot – " + res.locals.sectionTitle;
+
   res.render(req.params.section);
 });
 
@@ -180,6 +186,7 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
 });
 
 brochure.use(function(err, req, res, next) {
+
   if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
 
   next();
@@ -193,4 +200,5 @@ brochure.use(function(err, req, res, next) {
 function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1);
 }
+
 module.exports = brochure;

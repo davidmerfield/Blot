@@ -7,13 +7,13 @@
  */
 ul.sidebar {
   margin: 0;
-  margin: 3.5em 0;
+  margin: 1em 0;
   list-style: none;
   width: 25%;
   max-width: none;
   flex-shrink:0;
   position: sticky;       /* [1] */
-  top: 3em;               /* [2] */
+  top: 2em;               /* [2] */
   align-self: flex-start; /* [3] */
 }
 

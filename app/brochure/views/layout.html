@@ -6,98 +6,36 @@
 
   <header>
     <row>
-      <section class="col-25">
+      <section style="padding: 0 0.7em;    display: flex;
+    align-items: center;">
         <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
       </section>
   
-      <section class="col-25 collapse">
-        <a class="{{selected.publishing}}" href="{{{base}}}/publishing">How to use Blot</a><bR>
-        <a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</a>
-      </section>
 
-      <section class="col-25 collapse">
-        <a class="{{selected.support}}" href="/support">Support</a><bR>
-        <a class="{{selected.about}}" href="/about">About</a>
-      </section>
-
-      <section class="col-25 nav">
-        <a href="/sign-up">Sign up</a><br class="collapse">
-        <a href="/log-in">Log in</a>
+      <section class="links">
         <label for="toggle">Menu</label>
+        <a href="/sign-up">Sign up</a>
+        <a href="/log-in">Log in</a>
       </section>
     </row>
-    {{#unless selected.index}}
-    <br>
-    <hr>
-    {{/unless}}
-  </header>
-  <main {{#if selected.index}}class="index"{{/if}}>
-    
-    
 
-    <input type="checkbox" name="toggle" id="toggle">
+  </header>
+  <main>
     
+    
+    <input type="checkbox" name="toggle" id="toggle">
+      
     <ul class="sidebar col-25">
       
-      <section class="mobile">
-        <hr>
-        <li><a class="{{selected.publishing}}" href="{{{base}}}/publishing">How to use Blot</a></li>
-        <li><a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</li>
-        <li><a class="{{selected.support}}" href="/support">Support</a></li>
-        <li><a class="{{selected.about}}" href="/about">About</li>
-        <hr>
-      </section>
-
-     {{#if selected.templates}}
-
-      <li >
-        <a class="{{selected.templatesIndex}}" href="{{{base}}}/templates">
-      Introduction
-    </a>
-      </li>
-      <li >
-        <a class="{{selected.console}}" href="{{{base}}}/templates/console">
-      Console
-    </a>
-      </li>
-      <li >
-        <a class="{{selected.default}}" href="{{{base}}}/templates/default">
-      Default
-    </a>
-      </li>
-      <li >
-        <a class="{{selected.grid}}" href="{{{base}}}/templates/grid">
-      Grid
-    </a>
-      </li>
-      <li >
-        <a class="{{selected.magazine}}" href="{{{base}}}/templates/magazine">
-      Magazine
-    </a>
-      </li>
-      <li >
-        <a class="{{selected.photos}}" href="{{{base}}}/templates/photos">
-      Photos
-    </a>
-      </li>
-      <li >
-        <a class="{{selected.portfolio}}" href="{{{base}}}/templates/portfolio">
-      Portfolio
-    </a>
-      </li>
-      <li >
-        <a class="{{selected.rosa}}" href="{{{base}}}/templates/rosa">
-      Rosa
-    </a>
-      </li>
-    {{/if}}
+    <br><br>
 
 
-{{#if selected.publishing}}     
+
+
 
 
       <li>
-        <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">Introduction</a>
+        <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">How to use Blot</a>
       </li>
       <li>
         <a class="{{selected.pages}}" href="{{{base}}}/publishing/pages">Pages</a>
@@ -122,10 +60,14 @@
         <a class="{{selected.clients}}" href="{{{base}}}/publishing/clients">Clients</a>
       </li>
 
-  {{/if}}
+        <hr>
+        <li><a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</li>
+        <li><a class="{{selected.support}}" href="/support">Support</a></li>
+        <li><a class="{{selected.news}}" href="/news">News</a></li>
+        <li><a class="{{selected.about}}" href="/about">About</li>
    </ul>
 
-    <content {{#unless selected.index}}style="padding: 0 0.7em"{{/unless}}>
+    <content class="col-75">
       {{{body}}}
     </content>
   </main>
