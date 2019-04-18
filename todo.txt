@@ -127,6 +127,8 @@ Move to UUIDs for blog identifiers
 Re-instate blotcdn.com
 - Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
 
+Research [Redis clustering](http://highscalability.com/blog/2019/2/19/intro-to-redis-cluster-sharding-advantages-limitations-deplo.html)
+
 Restructure application folder
 - make serving static files from NGINX easier?
   - ln /data/blogs/{blogID}/folder /data/cache/{hostname}/folder/...
