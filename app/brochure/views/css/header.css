@@ -31,7 +31,7 @@
 
   ul.sidebar {
     position: initial;
-    margin-top: 0em;
+    margin-top: 1.4em;
     width: 100%;
     display: none;
   }
@@ -59,10 +59,12 @@ header row {
   display: flex;
   align-items: center;
   max-width: none;
-  min-height: 2.8em
+  min-height: 2.8em;
 }
 
 header {
+    padding: 1.4em;
+
 }
 
 header a, .sidebar a, header label {
