@@ -64,6 +64,7 @@ header row {
 
 header {
     padding: 1.4em;
+    border-bottom: 1px solid #eceff1
 
 }
 
@@ -111,7 +112,7 @@ header a.selected {
 
 header hr, .sidebar hr {
   border: none;
-  border-bottom: 1px solid #e7e7e5
+  border-bottom: 1px solid #eceff1
 }
 
 header a svg {

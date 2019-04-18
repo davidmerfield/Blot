@@ -39,11 +39,7 @@ Posts
 
 
 </code></pre></a>
-<div class="col-25" style="font-size:20px">
-  <br><br><br>
 
-
-</div>
 </flex>
 
 <div class="">
@@ -56,11 +52,14 @@ Posts
 a.featured {
   position: relative;
   flex-basis: 33.333%;
+  min-width: 200px;
+  max-width: 300px;
+  padding: 0 1.4em;
 /*  font-size: 14px;
 */  color: inherit;
   display: block;
 /*  text-align: center;
-*/  margin-bottom: 1.4em;
+*/  margin-bottom: 2.8em;
   box-sizing: border-box;
 }
 
@@ -82,16 +81,52 @@ a.featured img {
   margin-right: 4px;
 }
 
+a.featured:hover {background: none}
+
 a.featured:hover .a {
   text-decoration: underline;
 }
 
+.feat-toolbar {
+  border-bottom:  1px solid #ddd;
+  display: flex;
+  padding: 0.25em;
+}
+.feat-dot {
+  font-size: 0.3em;
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  border: 1px solid #ddd;
+  margin-right: 0.5em;
+}
+
+.feat-window {
+  margin: 0 -0.1525em;
+  border:1px solid #ddd;border-radius:3px;display:block;text-align:center;margin-bottom:0.7em
+}
+
+.feat-arrow {background: #005eb8;width: 2em;height: 2em;border-radius: 2em;line-height:2em;text-align:center;position: absolute;
+top: -0.7em;right: 0.1em;color: white;border:3px solid white;opacity: 0}
+a.featured:hover .feat-arrow {opacity: 1}
+
+
 </style>
-<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
+<div style="display:flex;flex-direction:row;flex-wrap:wrap;margin:0 -1.4em">
   {{#featured}}
-  <a class="featured col-25" target="_blank" rel="noopener" href="{{{link}}}"> 
- <b class="-a">{{name}}</b> {{bio}}. {{firstName}} uses the Default template.</span><br>
- <img style="width:16px;height:16px;" src="{{{favicon}}}"> <span class="a">{{host}}</span>
+  <a class="featured col-25" target="_blank" rel="noopener" href="{{{link}}}">
+    <span class="feat-window">
+      <span class="feat-arrow">↗</span>
+      <span class="feat-toolbar">
+        <span class="feat-dot"></span>
+        <span class="feat-dot"></span>
+        <span class="feat-dot"></span>
+      </span>
+      <br><br><!-- 
+   <img style="width:16px;height:16px;" src="{{{favicon}}}">  --><span class="-a">{{host}}</span>
+      <br><br>      <br>
+ </span>
+ <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses the Default template.</span><br>
 </a>
   {{/featured}}
 </div>
