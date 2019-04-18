@@ -1,23 +1,16 @@
 {{> head}}
 
-<body>
-  <style type="text/css">
-  /* hack pelase fix */
-  header container>index {
-    flex-grow: 0;
-  }
+<body >
+      <link rel="stylesheet" href="/css/header.css">
 
-  /* balances out the margins */
-  header container>index:last-child {
-    visibility: hidden
-  }
+  <style type="text/css">
 
   main {
     display: flex;
   }
 
-  main container {
-    max-width: 380px;
+  main content {
+    max-width: 400px;
   }
 
   input[type="submit"] {
@@ -81,6 +74,7 @@
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   }
 
+  p {margin-left: 0;margin-right: 0}
   input[name="exp-year"],
   input[name="exp-month"],
   input[name="cvc"] {
@@ -172,21 +166,33 @@
   }
   </style>
 
-  <main class="has-sidebar">
-    <ul class="sidebar">
-      <a class="in" href="/">Blot is a blogging platform<br> with no interface</a>
-    </ul>
-    <content>
+<header class="grid">
 
-      <div style="flex-grow:1;max-width:380px;margin:0.25em 0 2.5em;">
-        <p style="color:#a09d9c;margin-top:0"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create a blog</p>
-      </div>
+
+    <row>
+
+      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
+        <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
+      </section>
+
+        <p style="margin:0;color:#aaa"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create a blog</p>
+</row>
+
+    </header>
+
+  <main  class="grid">
+
+      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
+      </section>
+
+    <content>
+      <br><br>
+
 
       <p><mark id="error" class="error">{{#error}}{{error}}{{/error}}</mark></p>
 
       {{{body}}}
-      </container>
-      <div style="flex-grow:1;flex-shrink:1"></div>
+      </content>
   </main>
 </body>
 

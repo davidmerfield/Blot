@@ -1,135 +1,72 @@
 {{> head}}
 
-<body>
+<body >
   <link rel="stylesheet" href="/css/tex.css">
-  <main class="has-sidebar">
+  <link rel="stylesheet" href="/css/header.css">
 
-    <label for="toggle">—<br>—<br>—</label>
+  <header class="grid">
+    <row>
+      <section style="padding: 0 0.7em;    display: flex;
+    align-items: center;">
+        <a class="logo {{selected.index}}" href="/" >{{> logo}}</a>
+      </section>
+  
 
+      <section class="links">
+        <label for="toggle">Menu</label>
+        <a href="/sign-up">Sign up</a>
+        <a href="/log-in">Log in</a>
+      </section>
+    </row>
+
+  </header>
+  <main class="grid" style="padding-top:0">
+    
     <input type="checkbox" name="toggle" id="toggle">
-
-    <ul class="sidebar">
-
-      {{^user}}
-      <a class="in {{selected.index}}" href="/">Blot is a blogging platform<br> with no interface</a>
-      <br>
-      <div class="buttons">
-        <a class="action-button" href="/log-in">Log in</a>
-        <a class="action-button" href="/sign-up">Sign up</a>
-      </div>
-      {{/user}}
-      {{#user}}
-      <a class="in {{selected.index}}" href="/">←  Back to dashboard</a>
-      <br>
-      {{/user}}
-      <br>
-      <li class="has-list {{selected.publishing}}">
-        <input type="checkbox" name="publishing" id="publishing" {{#selected.publishing}} checked{{/selected.publishing}}> <a href="{{{base}}}/publishing">How to use Blot<label for="publishing"></label>
-      </a>
-      <ul>
-        <li class="{{selected.pages}}">
-          <a href="{{{base}}}/publishing/pages">Pages</a>
-        </li>
-        <li class="{{selected.drafts}}">
-          <a href="{{{base}}}/publishing/drafts">Drafts</a>
-        </li>
-        <li class="{{selected.public-files}}">
-          <a href="{{{base}}}/publishing/public-files">Public files</a>
-        </li>
-        <li class="{{selected.metadata}}">
-          <a href="{{{base}}}/publishing/metadata">Metadata</a>
-        </li>
-         <li>
-          <a href="/publishing/formatting">Formatting guide</a>
-        </li>
-        <li class="{{selected.configuring}}">
-          <a href="{{{base}}}/publishing/configuring">Configuring your blog</a>
-        </li>
-        <li class="{{selected.domain}}">
-          <a href="{{{base}}}/publishing/domain">Use your own domain</a>
-        </li>
-<!--         <li class="{{selected.redirects}}">
-          <a href="{{{base}}}/publishing/redirects">Redirects</a>
-        </li>
-        <li class="{{selected.urls}}">
-          <a href="{{{base}}}/publishing/urls">URLs</a>
-        </li>
- -->       
+      
+    <ul class="sidebar col-25">
 
 
 
-        <li class="{{selected.redirects}}">
-          <a href="{{{base}}}/publishing/clients">Clients</a>
-        </li>
 
-        <br>
-      </ul>
+
+
+      <li>
+        <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">How to use Blot</a>
       </li>
-      <li class="has-list {{selected.templates}}">
-        <input type="checkbox" name="templates" id="templates" {{#selected.templates}} checked{{/selected.templates}}> <a href="{{{base}}}/templates">Templates<label for="templates"></label>
-      </a>
-      <ul>
-
-        <li class="{{selected.console}}">
-          <a href="{{{base}}}/templates/console">
-      Console
-    </a>
-        </li>
-        <li class="{{selected.default}}">
-          <a href="{{{base}}}/templates/default">
-      Default
-    </a>
-        </li>
-        <li class="{{selected.grid}}">
-          <a href="{{{base}}}/templates/grid">
-      Grid
-    </a>
-        </li>
-        <li class="{{selected.magazine}}">
-          <a href="{{{base}}}/templates/magazine">
-      Magazine
-    </a>
-        </li>
-        <li class="{{selected.photos}}">
-          <a href="{{{base}}}/templates/photos">
-      Photos
-    </a>
-        </li>
-        <li class="{{selected.portfolio}}">
-          <a href="{{{base}}}/templates/portfolio">
-      Portfolio
-    </a>
-        </li>
-        <li class="{{selected.rosa}}">
-          <a href="{{{base}}}/templates/rosa">
-      Rosa
-    </a>
-        </li>
-        <br>
-      </ul>
+      <li>
+        <a class="{{selected.pages}}" href="{{{base}}}/publishing/pages">Pages</a>
+      </li>
+      <li>
+        <a class="{{selected.drafts}}" href="{{{base}}}/publishing/drafts">Drafts</a>
+      </li>
+      <li>
+        <a class="{{selected.public-files}}" href="{{{base}}}/publishing/public-files">Public files</a>
+      </li>
+            <li>
+        <a class="{{selected.formatting}}" href="/publishing/formatting">Formatting</a>
       </li>
 
-      <li class="{{selected.account-billing}}">
-        <a href="{{{base}}}/account-billing">Account and billing</a>
+      <li>
+        <a class="{{selected.metadata}}" href="{{{base}}}/publishing/metadata">Metadata</a>
+      </li>
+            <li>
+        <a class="{{selected.clients}}" href="{{{base}}}/publishing/clients">Clients</a>
       </li>
 
-<!--       <li>
-        <a href="/support">Support</a>
+      <li>
+        <a class="{{selected.domain}}" href="{{{base}}}/publishing/domain">Use your domain</a>
       </li>
 
- -->      <br>
 
-     <li><a href="/support">Support</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/news">News</a></li>
+        <hr>
+        <li><a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</li>
+        <li><a class="{{selected.support}}" href="/support">Support</a></li>
+        <li><a class="{{selected.news}}" href="/news">News</a></li>
+        <li><a class="{{selected.about}}" href="/about">About</li>
+   </ul>
 
-<!--       <li><a href="/developers">Developers</a></li>
-      <li><a href="/terms">Terms of use</a></li>
-      <li><a href="/privacy">Privacy policy</a></li>
- -->     
-    </ul>
-    <content>
-      {{> breadcrumbs}}
+    <content class="col-75">
       {{{body}}}
     </content>
   </main>

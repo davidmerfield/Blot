@@ -1,20 +1,15 @@
 footer {
   display: flex;
-  padding: 2em 2em 6em;
-  background: #fbf8f6;
-  fill: #fff;
-  stroke: #312c25;
-  margin-bottom: -6em;
+  flex-wrap:wrap;
+  padding: 1.4em;
+  border-top: 1px solid #eceff1;
+  margin: 0 0 -6em;
 }
 
 .dark footer {
   background: #0a0a0a
 }
 
-footer container {
-  display: flex;
-  flex-wrap: wrap;
-}
 
 footer a:active,
 footer a:focus {opacity: 0.7}
@@ -27,20 +22,20 @@ footer li a:active {
 footer a.action-button {border-color: #c3c1bd;height: 1.4em;margin: 1em 1em 1em 0}
 footer a.action-button:hover {border-color: #000;color: #000}
 
-footer container div {display: flex;flex-wrap: wrap;}
-footer container div > * {
+footer div {display: flex;flex-wrap: wrap;}
+footer div > * {
   margin-right: 2em
 }
 
-footer container> :last-child {
+footer :last-child {
   margin-right: 0
 }
 
-footer container div {margin-bottom: 2em}
+footer > * {min-width:200px;flex-grow:1;flex-basis:25%;padding:0.7em;box-sizing:border-box;}
+footer div {margin-bottom: 2em}
 
-footer ul {padding-left: 0}
 
-footer svg {width: 30px;position: relative;top: 1em;}
+footer svg {width: 36px;position: relative;top: 1em;}
 
 footer p {
   max-width: 19em;

@@ -1,20 +1,18 @@
 <h1>Metadata</h1>
 
-<p>Each post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line. Metadata must be separated from the rest of the post by at least one blank line. </p>
+<p>Each post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line.</p>
 
-<div style="max-width:39em;margin:3em 0 4em">
   <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
 
 You must leave a space after the colon between the metadata property (e.g. Date) and its value. Metadata must be separated from the rest of the post by at least one blank line. 
 
 </code></pre>
-</div>
+
 
 <h2>Dates</h2>
 
 <p>A blog post’s publish date is the same as the file’s creation date by default. You can specify a different date in the file’s <a href="#path">path</a> or in its <a href="{{{base}}}/publishing/metadata">metadata</a>:</p>
-<div style="max-width:39em;margin:3em 0 4em">
   <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 
 Blot supports a variety of date formats. These all produce a post with the same date:
@@ -24,7 +22,6 @@ Blot supports a variety of date formats. These all produce a post with the same 
 
 You can use underscores, dashes, slashes and dots to seperate the numbers in the date.
 </code></pre>
-</div>
 <p>You can specify a post’s publish date in its path. For example, all four of these posts share the same publish date:</p>
 <table>
   <tbody>
