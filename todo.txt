@@ -15,19 +15,17 @@ Record new demo video
 
 ---
 
+Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
+
 Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLmnfGdPkfJlFNLbLjwnsjNq)
 
 Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
 
-Work out cause of Paul's bug with image_cache directory not existing, perhaps use one of fs-extra's methods?
-
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
-Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
+Work out cause of Paul's bug with image_cache directory not existing, perhaps use one of fs-extra's methods?
 
 ---
-
-Could we have multiple clients attached to one blog?
 
 Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
 
@@ -177,6 +175,8 @@ Improvements to public site
 - Ask for critiques
 
 Add support for HTTP2
+
+Could we have multiple clients attached to one blog?
 
 Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW)
 
