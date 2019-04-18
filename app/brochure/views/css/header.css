@@ -130,7 +130,4 @@ header a svg {
 
 header .logo,
 header .logo:focus {
-  fill: white;
-  stroke: black;
-  color: black
 }

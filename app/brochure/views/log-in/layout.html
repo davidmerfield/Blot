@@ -11,7 +11,6 @@
 
   main content {
     max-width: 400px;
-    margin: 0 auto
   }
 
   input[type="submit"] {
@@ -172,11 +171,11 @@
 
     <row>
 
-      <section class="col-25">
+      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
         <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
       </section>
 
-        <p class="col-50" style="margin:0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
+        <p style="margin:0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
 </row>
     <hr>
 
@@ -184,7 +183,10 @@
 
   <main  >
 
-    <content class="col-50 ml-25">
+      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
+      </section>
+
+    <content>
 
 
 
