@@ -29,8 +29,6 @@ Finish working out how to get zoom-able images on [Emily's template](https://mai
 
 Could we have multiple clients attached to one blog?
 
-Tell [Amit when new homepage is live](https://mail.google.com/mail/u/0/#inbox/KtbxLrjVkmBtRXhLbbPmxpgSVhjfqszwwg)
-
 Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
 
 Fix thumbnail bug in metadata and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzKtcHfWnzjcNdnksXFHGCXdWP)
