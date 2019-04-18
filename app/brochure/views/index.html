@@ -126,7 +126,7 @@ a.featured:hover .feat-arrow {opacity: 1}
    <img style="width:16px;height:16px;" src="{{{favicon}}}">  --><span class="-a">{{host}}</span>
       <br><br>      <br>
  </span>
- <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses the Default template.</span><br>
+ <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span><br>
 </a>
   {{/featured}}
 </div>
