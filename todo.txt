@@ -15,6 +15,8 @@ Record new demo video
 
 ---
 
+Tidy up homepage on mobile
+
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
 
 Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLmnfGdPkfJlFNLbLjwnsjNq)
