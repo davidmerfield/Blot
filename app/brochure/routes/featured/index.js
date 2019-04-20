@@ -21,10 +21,10 @@ console.log("Featured sites: scheduled check each midnight!");
 schedule({ hour: 8, minute: 0 }, check);
 
 function check() {
-  // if (config.environment === "development") {
-  //   console.log("Featured sites: not checking in development environment");
-  //   return;
-  // }
+  if (config.environment === "development") {
+    console.log("Featured sites: not checking in development environment");
+    return;
+  }
 
   console.log("Featured sites: checking which sites point to Blot");
   filter(featured, function(err, filtered, missing) {
