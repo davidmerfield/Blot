@@ -288,19 +288,26 @@ background .text {
 
 /* Big link on homepage containing folder to play demo video */
 a.video {
-  /*background: #f3eeea;*/
   margin: 0;
-  /*height: calc(100vh - 18em);*/
   height: 0;
+  background: #fdbd41;
   padding-bottom: 30%;
   min-height: 48px;
   margin: 0 0 24px;
   position: relative;
   overflow: hidden;
-  display: block;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+        min-height: 288px;
+    padding-bottom: 0;
+    height: calc(100vh - 19.5em);
+  }
+
+
 
 @media screen and (max-width: 800px) {
+
   a.video {margin: 0 -1.4em;}
 }
 
@@ -345,14 +352,11 @@ a.video svg {
 }
 
 a.video window {
-  opacity: 1.0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -150px;
-  margin-top: -120px;
-  min-width: 300px;
-  max-width: 310px;
+      opacity: 1.0;
+      flex-grow:1;
+      max-width: 320px;
+    min-width: 256px;
+    margin: 1.4em;
 }
 
 a.video:hover span {
