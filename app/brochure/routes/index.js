@@ -78,6 +78,11 @@ brochure.get("/contact", function(req, res) {
   res.render("contact");
 });
 
+brochure.use("/logged-out", function(req, res, next){
+  res.locals.layout = "/partials/layout-focussed.html";
+  next();
+});
+
 brochure.get("/terms", function(req, res) {
   res.locals.title = "Terms of use";
   res.locals.layout = "/partials/layout-focussed.html";
