@@ -321,7 +321,7 @@ a.video {
 
 @media screen and (max-width: 800px) {
 
-  a.video, background {margin: 0 -1.4em;}
+  a.video, background {margin-left: -1.4em;margin-right: -1.4em}
 }
 
 
