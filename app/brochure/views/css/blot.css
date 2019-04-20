@@ -250,13 +250,13 @@ window {
 }
 
 background {
-  padding: 2em 4em 2.5em;
-  display: block;
-  margin: 2.8em 0;
-  background: #96deff;
-  box-sizing: border-box;
+    display: flex;
+    margin: 2.8em 0;
+    background: #96deff80;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
 }
-
 
 background+h2,
 background+h3,
@@ -272,14 +272,11 @@ background.text+h3
 
 
 
-background.red{background: #fc615d}
+background.red{background: #fc615d38}
 background.yellow{background: #fdbd416b}/*#faba40*/ 
 background.green{background: #35cb4b42} /*#35cb4b*/
 
-background .folder {
-  max-width: 300px;
-  margin: 0 auto
-}
+
 
 background .text {
   max-width: 600px;
@@ -305,10 +302,26 @@ a.video {
   }
 
 
+@media screen and (max-width: 800px) {
+
+.text pre {padding: 2.22rem 2.222rem}
+
+}
+
+
+@media screen and (max-width: 600px) {
+
+.text pre {padding: 2.22rem 1.4rem;
+    font-size: 13px;
+}
+
+}
+
+
 
 @media screen and (max-width: 800px) {
 
-  a.video {margin: 0 -1.4em;}
+  a.video, background {margin: 0 -1.4em;}
 }
 
 
@@ -327,21 +340,7 @@ a.video span {
   color: rgb(192, 39, 45);
 }
 
-a.video span:before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 22px;
-  width: 7px;
-  height: 7px;
-  margin: -4px 0 0 -10px;
-  border-top: solid 1px rgb(192, 39, 45);
-  border-right: solid 1px rgb(192, 39, 45);
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  content: "";
-}
+
 
 a.video svg {
   width: 28px;
@@ -351,12 +350,11 @@ a.video svg {
   fill: rgb(192, 39, 45);
 }
 
-a.video window {
-      opacity: 1.0;
+a.video window, background window {
       flex-grow:1;
       max-width: 320px;
     min-width: 256px;
-    margin: 1.4em;
+    margin: 2.8rem 1.4rem;
 }
 
 a.video:hover span {
@@ -495,33 +493,29 @@ overlay .close:after {
 
 
 .clients {
-  margin: 2em 0;
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
+    margin: 2em -0.7em;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .clients li {
-  display: inline-block;
-  width: 50%;
-  box-sizing: border-box;
+display: inline-block;
+    flex-basis: 33%;
+    box-sizing: border-box;
+    margin: 0.7em;
+    min-width: 256px;
+    flex-grow: 1;
 }
 
-.clients li:nth-child(2n+1) {
-  padding-right: 1em
-}
-
-.clients li:nth-child(2n) {
-  padding-left: 1em
-}
 
 .clients li a {
   cursor: pointer;
   user-select: none;
   padding: 10px 12px 10px;
   border-radius: 3px;
-  margin-bottom: 2em;
+  margin-bottom: 1.4 em;
   display: block;
   color: inherit;
   text-decoration: none;
@@ -550,7 +544,7 @@ overlay .close:after {
 }
 
 .clients svg {
-  width: 32px;
+  width: 24px;
   float: left;
   margin-right: 1em;
   margin-top: 0.2em;
