@@ -10,6 +10,8 @@ body {
 
 }
 
+.dark main {background: #111}
+
 main {  background: #fffefc;padding-bottom: 14em!important
 }
 
@@ -533,8 +535,9 @@ display: inline-block;
   text-decoration: underline;
 }
 
-.clients li a strong {
-  color: #005eb8
+.clients li a .a {
+  color: #005eb8;
+  text-decoration: underline;
 }
 
 .dark .clients li a {
@@ -550,4 +553,10 @@ display: inline-block;
   margin-top: 0.2em;
   margin-left: 0.2em;
   margin-bottom: 2em
+}
+
+p.back-link {
+  margin: -1.4em 0 1.4em;
+    border-top: 1px solid #eceff1;
+    padding: 0.7em 0;
 }

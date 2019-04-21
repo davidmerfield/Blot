@@ -1,8 +1,6 @@
 <h1>How Blot works</h1>
 
-<p>In essence, Blot is a static file server. It serves your folder to your readers.</p>
-
-<p>When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
+<p>In essence, Blot is a static file server. It serves your folder to your readers. When a request from one of your readers arrives at your blog, Blot follows these steps to work out what to send in response.</p>
 
 <p><ol>
   <li>Check if there is a template whose route matches the request’s path. <a href="#rendering">Render the template</a> if it matches.</li>
@@ -31,11 +29,11 @@
 
 <pre class="code html"><code>
 <html>
-<title>{{title}}</title>
+<title>\{{title}}</title>
 <body>
-{{#all_posts}}
-  <a href="{{url}}">{{title}}</a><br>
-{{/all_posts}}
+\{{#all_posts}}
+  <a href="{{url}}">\{{title}}</a><br>
+\{{/all_posts}}
 </body>
 </html>
 </code></pre>
@@ -85,12 +83,12 @@ Metadata keys should be a single word. They are case insensitive
 
 <p>Once the property exists in a file, you can use it in your template:</p>
 <pre class="code html"><code><html>
-<title>{{title}}</title>
+<title>\{{title}}</title>
 <body>
-{{#entry}}
-  <p>Posted by {{metadata.author}}</p>
+\{{#entry}}
+  <p>Posted by \{{metadata.author}}</p>
   ...
-{{/entry}}
+\{{/entry}}
 </body>
 </html>
 </code></pre>

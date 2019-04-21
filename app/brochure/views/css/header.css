@@ -115,10 +115,23 @@ header hr, .sidebar hr {
   border-bottom: 1px solid #eceff1
 }
 
-header a svg {
+.dark header, .dark .sidebar hr, .dark footer {
+  border-color: #333
+}
+
+header a svg,
+footer a svg {
   width: 36px;
   margin: 6px 0;
+  fill: #000;
+  stroke: #000;
   vertical-align: text-bottom;
+}
+
+.dark header a svg,
+.dark footer a svg {
+  fill: #666;
+  stroke: #666;
 }
 
 

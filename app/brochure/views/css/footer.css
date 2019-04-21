@@ -6,10 +6,6 @@ footer {
   margin: 0 0 -6em;
 }
 
-.dark footer {
-  background: #0a0a0a
-}
-
 
 footer a:active,
 footer a:focus {opacity: 0.7}
