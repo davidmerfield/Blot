@@ -9,12 +9,18 @@ var isPreview = require("./drafts").isPreview;
 var async = require("async");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
-var isHidden = require('../../build/prepare/isHidden');
+var isHidden = require("../../build/prepare/isHidden");
 
 function isPublic(path) {
   return (
+    // blot specific rule not to turn files inside
+    // a folder called public into blog posts
     normalize(path).indexOf("/public/") === 0 ||
-    normalize(path).indexOf("/_") === 0
+    // blot specific rule to ignore files and folders
+    // whose name begins with an underscore
+    normalize(path).indexOf("/_") === 0 ||
+    // convention to ingore dotfiles or folders
+    normalize(path).indexOf("/.") === 0
   );
 }
 
@@ -22,7 +28,7 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-var build = require('../../build');
+var build = require("../../build");
 
 module.exports = function(blog, path, options, callback) {
   var queue;
