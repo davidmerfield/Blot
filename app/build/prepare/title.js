@@ -42,9 +42,11 @@ function extractTitle ($, path) {
   if (titleNode && order.indexOf(titleNode.name) > -1) {
 
     title = tidy($(titleNode).text());
-    tag = $.html($(titleNode));
 
-    $(titleNode).remove();
+    if (titleNode.name === 'h1') {
+      $(titleNode).remove();
+      tag = $.html($(titleNode));
+    } 
 
   } else if ($.root().children().first()) {
 
