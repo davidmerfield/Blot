@@ -16,9 +16,10 @@ function render ($, callback, options) {
     var width, height;
 
     // Test for query string to skip caching
-    var query = url.parse(src, { parseQueryString: true }).query;
-    if (query['no_cache']) {
-      debug(src, 'Image marked with \'?no_cache=1\', skipping');
+    var parsed = url.parse(src, { parseQueryString: true });
+    // debug(src, 'has pathname', parsed.pathname);
+    if (parsed.query.static) {
+      debug(src, 'Image marked with \'?static\', skipping');
       return next();
     }
 
