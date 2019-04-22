@@ -7,8 +7,6 @@ var git_data_dir = join(helper.rootDir, "app", "clients", "git", "data");
 var save_db = require("../db/save");
 var dumps = join(__dirname, "data", "dumps");
 var gitClientData = join(__dirname, "data", "git");
-var dropboxContents = join(__dirname, "data", "dropbox");
-var DROPBOX_FOLDER_PATH = "/Users/David/Dropbox/Apps/Blot test";
 
 if (require.main === module) {
   var options = require("minimist")(process.argv.slice(2));
@@ -25,14 +23,11 @@ function main(label, callback) {
     if (err) return callback(err);
 
     fs.emptyDirSync(join(dumps, label));
-    fs.emptyDirSync(join(dropboxContents, label));
     fs.emptyDirSync(join(gitClientData, label));
     fs.ensureDirSync(git_data_dir);
-    fs.ensureDirSync(DROPBOX_FOLDER_PATH);
     fs.ensureDirSync(blog_dir);
     fs.copySync(git_data_dir, join(gitClientData, label));
     fs.copySync(blog_dir, join(dumps, label));
-    fs.copySync(DROPBOX_FOLDER_PATH, join(dropboxContents, label));
 
     save_db(label, callback);
   });
