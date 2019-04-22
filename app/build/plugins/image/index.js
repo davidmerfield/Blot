@@ -3,6 +3,7 @@ var debug = require('debug')('entry:build:plugins:image');
 var eachEl = require('../eachEl');
 var optimize = require('./optimize');
 var url = require('url');
+var decodeAmpersands = require('helper').decodeAmpersands;
 
 function render ($, callback, options) {
 
@@ -12,23 +13,30 @@ function render ($, callback, options) {
   // Process 5 images concurrently
   eachEl($, 'img', function(el, next){
 
-    var src = $(el).attr('src');
+    // Decode any doubly-encoded ampersands in the image src
+    var src = decodeAmpersands($(el).attr('src'));
     var width, height;
 
-    // Test for query string to skip caching
-    var parsed = url.parse(src, { parseQueryString: true });
-    // debug(src, 'has pathname', parsed.pathname);
-    if (parsed.query.static) {
-      debug(src, 'Image marked with \'?static\', skipping');
+    // Test for query string to skip caching & optimizing
+    var parsedSrc = url.parse(src, { parseQueryString: true });
+    debug(src, 'is parsed into', parsedSrc)
+
+    if (parsedSrc.query.static) {
+      debug(src, 'Image has \'static\' URL param, skipping');
       return next();
     }
 
-    debug(src, 'checking cache');
+    // No URL params or hash values
+    var cleanSrc = origin(parsedSrc) + parsedSrc.pathname;
+    debug(src, 'is cleaned into', cleanSrc);
 
-    cache.lookup(src, optimize(blogID), function(err, info){
+    debug(cleanSrc, 'checking cache');
+
+    // Pass in the `pathname` component of the image src (no URL params or hash)
+    cache.lookup(cleanSrc, optimize(blogID), function(err, info){
 
       if (err) {
-        debug(src, 'Optimize failed with Error:', err);
+        debug(cleanSrc, 'Optimize failed with Error:', err);
         return next();
       }
 
@@ -40,7 +48,7 @@ function render ($, callback, options) {
       // Now we will attempt to declare the width and
       // height of the image to speed up page loads...
       if ($(el).attr('width') || $(el).attr('height')) {
-        debug(src, 'El has width or height pre-specified dont modify');
+        debug(cleanSrc, 'El has width or height pre-specified dont modify');
         return next();
       }
 
@@ -48,15 +56,15 @@ function render ($, callback, options) {
       height = info.height;
 
       // This is a retina image so halve its dimensions
-      if ($(el).attr('data-2x') || isRetina(src)) {
-        debug(src, 'retinafying the dimensions');
+      if ($(el).attr('data-2x') || isRetina(cleanSrc)) {
+        debug(cleanSrc, 'retinafying the dimensions');
         height /= 2;
         width /= 2;
       }
 
       $(el).attr('width', width).attr('height', height);
 
-      debug(src, 'complete!');
+      debug(cleanSrc, 'complete!');
       next();
     });
   }, function(){
@@ -69,6 +77,14 @@ function isRetina (url) {
   return url && url.toLowerCase && url.toLowerCase().indexOf('@2x') > -1;
 }
 
+// Legacy URL API doesn't have an `origin` property
+// Assuming both `protocol` and `hostname` exist, create it
+// Otherwise return empty string
+function origin (url) {
+  if (url.protocol && url.hostname)
+    return url.protocol + "//" + url.hostname;
+  return "";
+}
 
 module.exports = {
   render: render,
