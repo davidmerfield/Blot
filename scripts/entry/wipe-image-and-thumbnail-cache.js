@@ -39,6 +39,8 @@ function imageCache(blog, entry, callback) {
         client.get(key, function(err, res) {
           if (err) return next(err);
 
+          if (!res) return next();
+          
           res = JSON.parse(res);
 
           if (entry.html.indexOf(res.src) === -1) return next();

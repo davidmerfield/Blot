@@ -8,14 +8,13 @@ Finish Archive template
 
 Record new demo video
 - Create simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself "Bring your own interface"
-- Show sites I run using Blot: 
-  - Blot's developer blog on the default feed theme
-  - My visual scrapbook on the archives theme: shows tag folders, photo blog
-  - My personal site: simple landing page, edit with a doc file?
+- Show sites I run using Blot
 
 ---
 
-Tidy up homepage on mobile
+Fix bug with title parser and follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsWqgQpfDpvlWdrWPdXJMJD)
+
+Fix bug with images inside a folder called '_assets' and follow up with [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsXSrLlcWfmBhkvDzgqksvV)
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
 
@@ -24,8 +23,6 @@ Redirect Blot subdomain to valid custom domain with temporary 302 response and t
 Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
 
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
-
-Work out cause of Paul's bug with image_cache directory not existing, perhaps use one of fs-extra's methods?
 
 ---
 
@@ -88,7 +85,6 @@ Image and thumbnail bugs
 - Fix [bug with thumbnails and tell John](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
 - Fix bug for missing thumbnails on [Jay's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKSFqbSHKQkxHhqhgqzGVsfg)
 - Fix bug with image minification which produces larger file than source file and tell [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkHlNvhcJLGVRCPvXvjbwsWR)
-- Fix bug with gifs and the image cacher. Animated gifs from imgur.com were not playing, just the first frame was fetched. Tell [Oleg](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhZfBqbKBBXWBtZLpjPSNv)
 - Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
 
 Encoding bugs:
