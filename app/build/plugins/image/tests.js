@@ -1,13 +1,12 @@
 describe("image", function() {
-  
   global.test.blog();
 
   var image = require("./index");
   var cheerio = require("cheerio");
   var fs = require("fs-extra");
   var localPath = require("helper").localPath;
-  var config = require('config');
-  var join = require('path').join;
+  var config = require("config");
+  var join = require("path").join;
 
   it("returns a different cached image when source image is modified", function(done) {
     var image = "/tests-image.png";
@@ -33,16 +32,30 @@ describe("image", function() {
     });
   });
 
+  it("ignores gifs", function(done) {
+    var image = "/tests-image.gif";
+    var html = '<img src="' + image + '">';
+    var blog = this.blog;
+
+    fs.copySync(__dirname + image, localPath(blog.id, image));
+
+    render(blog, html, function(err, result) {
+      if (err) return done.fail(err);
+
+      expect(result).not.toContain("/_image_cache/");
+      expect(result).toEqual(html);
+      done();
+    });
+  });
+
   it("returns the same cached image when re-run", function(done) {
     var path = "/tests-image.png";
     var html = '<img src="' + path + '">';
     var blog = this.blog;
     fs.copySync(__dirname + path, localPath(this.blog.id, path));
-      
-    render(blog, html, function(err, firstResult) {
-      
-      render(blog, html, function(err, secondResult) {
 
+    render(blog, html, function(err, firstResult) {
+      render(blog, html, function(err, secondResult) {
         expect(firstResult).toContain("/_image_cache/");
         expect(secondResult).toContain("/_image_cache/");
         expect(firstResult).toEqual(secondResult);
@@ -67,12 +80,14 @@ describe("image", function() {
       cachedImagePath = cachedImagePath.slice(0, cachedImagePath.indexOf('"'));
 
       // Does the cached image exist on disk?
-      fs.stat(join(config.blog_static_files_dir, blog.id, cachedImagePath), function(err, stat){
-
-        expect(err).toEqual(null);
-        expect(stat.isFile()).toEqual(true);
-        done();        
-      });
+      fs.stat(
+        join(config.blog_static_files_dir, blog.id, cachedImagePath),
+        function(err, stat) {
+          expect(err).toEqual(null);
+          expect(stat.isFile()).toEqual(true);
+          done();
+        }
+      );
     });
   });
 
