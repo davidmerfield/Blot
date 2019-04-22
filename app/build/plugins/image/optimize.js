@@ -13,10 +13,8 @@ var join = require("path").join;
 var debug = require("debug")("entry:build:plugins:image");
 
 // Only cache images with the following file extensions
-// We don't do .gif because sharp cannot handle animated
-// gifs at the moment. Perhaps in future we could still
-// dowload them but just avoid processing them with sharp...
-var EXTENSION_WHITELIST = [".jpg", ".jpeg", ".png"];
+// We only resize and optimize JPG and PNG.
+var EXTENSION_WHITELIST = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
 
 module.exports = function(blogID) {
   return function(path, _callback) {

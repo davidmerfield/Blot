@@ -7,6 +7,7 @@ describe("image", function() {
   var localPath = require("helper").localPath;
   var config = require("config");
   var join = require("path").join;
+  var crypto = require("crypto");
 
   it("returns a different cached image when source image is modified", function(done) {
     var image = "/tests-image.png";
@@ -32,7 +33,7 @@ describe("image", function() {
     });
   });
 
-  it("ignores gifs", function(done) {
+  it("will fetch dimensions of GIFs but will not resize them", function(done) {
     var image = "/tests-image.gif";
     var html = '<img src="' + image + '">';
     var blog = this.blog;
@@ -42,8 +43,32 @@ describe("image", function() {
     render(blog, html, function(err, result) {
       if (err) return done.fail(err);
 
-      expect(result).not.toContain("/_image_cache/");
-      expect(result).toEqual(html);
+      expect(result).toContain("/_image_cache/");
+
+      // Image cache retrieves dimensions of images that it
+      // does not resize or modify
+      expect(result).toContain('width="450" height="338"');
+
+      var path =
+        config.blog_static_files_dir +
+        "/" +
+        blog.id +
+        result.slice(
+          result.indexOf("/_image_cache"),
+          result.indexOf('" width')
+        );
+
+      var cachedContentHash = crypto
+        .createHash("sha1")
+        .update(fs.readFileSync(path))
+        .digest("hex");
+      var originalContentHash = crypto
+        .createHash("sha1")
+        .update(fs.readFileSync(__dirname + image))
+        .digest("hex");
+
+      expect(originalContentHash).toEqual(cachedContentHash);
+
       done();
     });
   });
