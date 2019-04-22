@@ -17,6 +17,10 @@ Record new demo video
 
 Tidy up homepage on mobile
 
+Fix bug with title parser and follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsWqgQpfDpvlWdrWPdXJMJD)
+
+Fix bug with images inside a folder called '_assets' and follow up with [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsXSrLlcWfmBhkvDzgqksvV)
+
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
 
 Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLmnfGdPkfJlFNLbLjwnsjNq)
