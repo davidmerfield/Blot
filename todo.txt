@@ -8,14 +8,9 @@ Finish Archive template
 
 Record new demo video
 - Create simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself "Bring your own interface"
-- Show sites I run using Blot: 
-  - Blot's developer blog on the default feed theme
-  - My visual scrapbook on the archives theme: shows tag folders, photo blog
-  - My personal site: simple landing page, edit with a doc file?
+- Show sites I run using Blot
 
 ---
-
-Tidy up homepage on mobile
 
 Fix bug with title parser and follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsWqgQpfDpvlWdrWPdXJMJD)
 
@@ -28,8 +23,6 @@ Redirect Blot subdomain to valid custom domain with temporary 302 response and t
 Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
 
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
-
-Work out cause of Paul's bug with image_cache directory not existing, perhaps use one of fs-extra's methods?
 
 ---
 
