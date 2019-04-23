@@ -41,12 +41,12 @@ function imageCache(blog, entry, callback) {
 
           if (!res) return next();
 
-            try {
-          res = JSON.parse(res);              
-            } catch (e) {
-              console.log(e.message);
-              return next();
-            }
+          try {
+            res = JSON.parse(res);
+          } catch (e) {
+            console.log(e.message);
+            return next();
+          }
 
           if (entry.html.indexOf(res.src) === -1) return next();
 
@@ -80,14 +80,12 @@ function thumbnails(blog, entry, callback) {
           if (err) return next(err);
 
           try {
-            res = JSON.parse(res);     
-                      if (res.small.name !== entry.thumbnail.small.name) return next();
-       
-          } catch (e){
-            console.log('Error', key, e.message);
+            res = JSON.parse(res);
+            if (res.small.name !== entry.thumbnail.small.name) return next();
+          } catch (e) {
+            console.log("Error", key, e.message);
             return next();
           }
-
 
           var multi = client.multi();
 
