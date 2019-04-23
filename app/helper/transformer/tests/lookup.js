@@ -1,4 +1,6 @@
 describe("transformer", function() {
+  var fs = require("fs-extra");
+
   // Creates test environment
   require("./setup")({});
 
@@ -42,6 +44,31 @@ describe("transformer", function() {
         expect(firstTransform).toHaveBeenCalled();
         expect(secondTransform).not.toHaveBeenCalled();
         expect(firstResult).toEqual(secondResult);
+
+        done();
+      });
+    });
+  });
+
+  it("re-transforms the file if its contents changes", function(done) {
+    var test = this;
+    var spy = jasmine.createSpy().and.callFake(test.transform);
+    var path = test.blogDirectory + "/" + test.path;
+
+    test.transformer.lookup(test.path, test.transform, function(
+      err,
+      firstResult
+    ) {
+      if (err) return done.fail(err);
+
+      // Modify the file
+      fs.outputFileSync(path, Date.now().toString());
+
+      test.transformer.lookup(test.path, spy, function(err, secondResult) {
+        if (err) return done.fail(err);
+
+        expect(spy).toHaveBeenCalled();
+        expect(firstResult).not.toEqual(secondResult);
 
         done();
       });

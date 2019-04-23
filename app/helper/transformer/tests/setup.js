@@ -28,7 +28,7 @@ module.exports = function setup(options) {
 
     // Create a test file to use for the transformer
     this.path = "foo.txt";
-    fs.outputFileSync(this.blogDirectory + "/" + this.path, "Hello, World!");
+    fs.outputFileSync(this.blogDirectory + "/" + this.path, "Hello, World !" + Date.now());
   });
 
   // Clean up the transformer used in each test
