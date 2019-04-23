@@ -40,8 +40,13 @@ function imageCache(blog, entry, callback) {
           if (err) return next(err);
 
           if (!res) return next();
-          
-          res = JSON.parse(res);
+
+            try {
+          res = JSON.parse(res);              
+            } catch (e) {
+              console.log(e.message);
+              return next();
+            }
 
           if (entry.html.indexOf(res.src) === -1) return next();
 
