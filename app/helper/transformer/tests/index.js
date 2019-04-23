@@ -1,74 +1,69 @@
-var Transformer = require('../index');
-var fs = require('fs-extra');
-var localPath = require('../../localPath');
+var Transformer = require("../index");
+var fs = require("fs-extra");
+// var localPath = require("../../localPath");
 
-// This function looks to see if there is any information
-// about the file stored. If not, then it invokes middleware
-// function with a path to a temp version of the file.
-// Once the middleware is complete, it calls the done and the
-// info is now stored...
+describe("transformer", function() {
+  // Create temporary blog before each test, clean up after
+  global.test.blog();
 
-var blogID = '1000';
+  // Sets up a temporary tmp folder, cleans it up after
+  global.test.tmp();
 
-// testURL('https://pbs.twimg.com/media/Cj-ffhPUkAET01m.jpg', done);
+  beforeEach(function() {
+    // This simulates me using the transformer to perform
+    // some task that I don't want to repeat needlessly.
+    // In reality, it might be the function which turns
+    // an image into thumbnails, or the function which
+    this.transform = function(path, done) {
+      fs.stat(path, function(err, stat) {
+        if (err) return done(err);
 
-testPath('/input.txt', done);
+        done(null, { size: stat.size });
+      });
+    };
 
-function done (err, result){
+    // This represents the cache of previous transformations
+    // stored for a given blog. "transformer" is just a label
+    this.transformer = new Transformer(this.blog.id, "transformer");
 
-  if (err) throw err;
+    // Create a test file to use for the transformer
+    this.path = "foo.txt";
+    fs.outputFileSync(this.blogDirectory + "/" + this.path, "Hello, World!");
+  });
 
-  console.log(result);
-}
+  it("transforms a file", function(done) {
+    this.transformer.lookup(this.path, this.transform, function(err, result) {
+      if (err) return done.fail(err);
 
-function testURL (url, callback) {
-
-  var sizer = new Transformer(blogID, 'sizer');
-
-  sizer.lookup(url, function (path, done){
-
-    console.log('Transforming', path);
-
-    fs.stat(path, function(err, stat){
-
-      if (err) done(err);
-
-      done(null, {size: stat.size});
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.size).toEqual(jasmine.any(Number));
+      done();
     });
-  }, callback);
-}
+  });
 
-function testPath (path, callback) {
+  it("transforms the same file once", function(done) {
+    var test = this;
+    var firstTransform = jasmine.createSpy().and.callFake(test.transform);
+    var secondTransform = jasmine.createSpy().and.callFake(test.transform);
 
-  var lowercase = new Transformer(blogID, 'lowercase');
+    test.transformer.lookup(test.path, firstTransform, function(
+      err,
+      firstResult
+    ) {
+      if (err) return done.fail(err);
 
-  var src = __dirname + path;
-  var dest = localPath(blogID, path);
+      test.transformer.lookup(test.path, secondTransform, function(
+        err,
+        secondResult
+      ) {
+        if (err) return done.fail(err);
 
-  // lowercase.flush(function(){
+        expect(firstTransform).toHaveBeenCalled();
+        expect(secondTransform).not.toHaveBeenCalled();
+        expect(firstResult).toEqual(secondResult);
 
-  //   console.log("Flushed lowercase...");
-
-    fs.copy(src, dest, function(err){
-
-      if (err) throw err;
-
-      lowercase.lookup(path, function (path, done){
-
-        console.log('Transforming', path);
-
-        fs.readFile(path, 'utf-8', function(err, contents){
-
-          if (err) done(err);
-
-          done(null, {
-            contents: contents.toLowerCase(),
-            size: contents.length
-          });
-        });
-      }, callback);
+        done();
+      });
     });
-  // });
-}
-
-
+  });
+});
