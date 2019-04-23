@@ -1,6 +1,7 @@
 module.exports = function setup(options) {
   var Transformer = require("../index");
   var fs = require("fs-extra");
+  var Express = require("express");
 
   // Create temporary blog before each test, clean up after
   global.test.blog();
@@ -28,5 +29,29 @@ module.exports = function setup(options) {
     // Create a test file to use for the transformer
     this.path = "foo.txt";
     fs.outputFileSync(this.blogDirectory + "/" + this.path, "Hello, World!");
+  });
+
+  // Clean up the transformer used in each test
+  afterEach(function(done) {
+    this.transformer.flush(done);
+  });
+
+  // Create a webserver for testing remote files
+  beforeAll(function() {
+    var server = Express();
+    var port = 8919;
+    var route = "/foo.html";
+
+    this.url = "http://localhost:" + port + route;
+
+    server.get(route, function(req, res) {
+      res.send("Hello, World!");
+    });
+
+    this.server = server.listen(port);
+  });
+
+  afterAll(function(done) {
+    this.server.close(done);
   });
 };

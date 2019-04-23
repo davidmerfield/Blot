@@ -12,6 +12,16 @@ describe("transformer", function() {
     });
   });
 
+  it("transforms a remote file", function(done) {
+    this.transformer.lookup(this.url, this.transform, function(err, result) {
+      if (err) return done.fail(err);
+
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.size).toEqual(jasmine.any(Number));
+      done();
+    });
+  });
+
   it("transforms the same file once", function(done) {
     var test = this;
     var firstTransform = jasmine.createSpy().and.callFake(test.transform);
