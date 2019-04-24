@@ -61,6 +61,16 @@ describe("title parser", function() {
     });
   });
 
+  it("does not consider h2 or lower tags as title tags, but uses them for metadata", function() {
+    expect(
+      this.title("<h2>Hey</h2><p>World</p>")
+    ).toEqual({
+      title: "Hey",
+      tag: "",
+      body: "<h2>Hey</h2><p>World</p>"
+    });
+  });
+
   it("falls back to the file's name for text-less files", function() {
     expect(this.title('<a href="/"></a>', "/Another.txt")).toEqual({
       title: "Another",
