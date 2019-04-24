@@ -1,3 +1,4 @@
+var debug = require("debug")("blot:helper:transformer");
 var client = require("../../models/client");
 var isURL = require("./isURL");
 var Keys = require("./keys");
@@ -37,6 +38,7 @@ function Transformer(blogID, name) {
     tasks.push(join(config.blog_static_files_dir, blogID, src));
 
     tasks = tasks.map(function(path) {
+      debug(path, "will be checked");
       return fromPath.bind(null, path, transform);
     });
 
@@ -98,19 +100,24 @@ function Transformer(blogID, name) {
       .and(transform, "function")
       .and(callback, "function");
 
+    debug(path, "hashing file");
+
     HashFile(path, function(err, hash) {
       if (err) return callback(err);
 
+      debug(path, "getting existing result from hash");
       get(hash, function(err, result) {
         // Leave early, please pass hash so that
         // from URL doesn't have to compute it again
         if (err || result) return callback(err, result, hash);
 
+        debug(path, "transforming new file");
         transform(path, function(err, result) {
           if (err) return callback(err);
 
           // Pass hash so that
           // from URL doesn't have to compute it again
+          debug(path, "saving result of new transform");
           set(hash, result, function(err) {
             if (err) throw err;
 

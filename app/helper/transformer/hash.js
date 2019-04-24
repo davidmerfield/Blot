@@ -6,8 +6,8 @@ module.exports = function(path, callback) {
   var hash;
 
   fs.createReadStream(path)
-    .pipe(crypto.createHash("sha1").setEncoding("hex"))
     .on("error", callback)
+    .pipe(crypto.createHash("sha1").setEncoding("hex"))
     .on("finish", function() {
       hash = this.read();
       debug(path, "hashed to", hash);

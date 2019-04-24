@@ -1,11 +1,28 @@
 describe("transformer", function() {
   var fs = require("fs-extra");
+  var STATIC_DIRECTORY = require("config").blog_static_files_dir;
 
   // Creates test environment
   require("./setup")({});
 
-  it("transforms a file", function(done) {
+  it("transforms a file in the blog's directory", function(done) {
     this.transformer.lookup(this.path, this.transform, function(err, result) {
+      if (err) return done.fail(err);
+
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.size).toEqual(jasmine.any(Number));
+      done();
+    });
+  });
+
+  it("transforms a file in the blog's static directory", function(done) {
+    var fullPath = this.blogDirectory + "/" + this.path;
+    var path = "/" + Date.now() + "-" + this.path;
+    var newFullPath = STATIC_DIRECTORY + "/" + this.blog.id + path;
+
+    fs.copySync(fullPath, newFullPath);
+
+    this.transformer.lookup(path, this.transform, function(err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
