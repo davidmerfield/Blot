@@ -8,14 +8,11 @@ Finish Archive template
 
 Record new demo video
 - Create simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself "Bring your own interface"
-- Show sites I run using Blot: 
-  - Blot's developer blog on the default feed theme
-  - My visual scrapbook on the archives theme: shows tag folders, photo blog
-  - My personal site: simple landing page, edit with a doc file?
+- Show sites I run using Blot
 
 ---
 
-Tidy up homepage on mobile
+Fix bug with title parser and follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsWqgQpfDpvlWdrWPdXJMJD)
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
 
@@ -24,8 +21,6 @@ Redirect Blot subdomain to valid custom domain with temporary 302 response and t
 Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
 
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
-
-Work out cause of Paul's bug with image_cache directory not existing, perhaps use one of fs-extra's methods?
 
 ---
 
@@ -118,6 +113,15 @@ Markdown bugs
 ---
 
 Move to monthly billing of $3 per month for new customers?
+
+Transformer bugs:
+- Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
+- Adjust interface to accept a number of directories. Make it 'unaware' of blog IDs?
+- Handle ampersand encoding in remote URLs and tell Marius
+- Add support for case-insensitive file path resolution
+- Add method which accepts a path or URL and flushes what is stored for it, update the rebuild entry script
+- Handle query strings in path to image files
+
 
 Move to UUIDs for blog identifiers
 - Can we incrementally move people over to check it works ok?
@@ -536,7 +540,6 @@ Move away from upstart to systemd, because there was an issue with upstart losin
 
 
 Thumbnail generator
-- Improve transformer so it checks a file's MTIME against a stored value before rehashing the file
 - Generate thumbnails for GIFs / SVG thum
 - Prioritize faces
 - Aim to generate distinct thumbnails across the blog
