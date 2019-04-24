@@ -8,21 +8,7 @@ var fs = require("fs-extra");
 var localPath = require("../localPath");
 var config = require("config");
 var join = require("path").join;
-
-// This module allows us to transform
-// a file to some arbritrary JSON object
-// and persist that in the db. The file can
-// exist on disk or at a URL. This module
-// only applies the transformation function
-// to the same file once.
-
-// I use this module to upload images in blog
-// posts, but to only upload the same image once.
-// If it's already uploaded, this retrieves its
-// url and dimensions from the database.
-// As you can imagine, this massively speeds up
-// saving existing entries, since images don't need
-// to be reuploaded each time!
+var async = require("async");
 
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
@@ -33,37 +19,34 @@ function Transformer(blogID, name) {
   var keys = Keys(blogID, name);
 
   function lookup(src, transform, callback) {
-    ensure(src, "string")
-      .and(transform, "function")
-      .and(callback, "function");
-
-    var url, path;
-
-    try {
-      url = isURL(src);
-
-      // Images pulled from Word Documents are stored in blot/static/{blogID}/_assets
-      // Images cached from blog posts are stored in blot/static/{blogID}/_image_cache
-      // Eventually we should consolidate this somehow.
-      if (
-        src.indexOf("/_image_cache/") === 0 ||
-        src.indexOf("/_assets/") === 0
-      ) {
-        path = join(config.blog_static_files_dir, blogID, src);
-      } else {
-        path = localPath(blogID, src);
-      }
-
-      if (src.length > 300) path = false;
-      if (src.indexOf("data:") === 0) path = false;
-    } catch (e) {}
+    var url = isURL(src);
+    var path = src;
+    var tasks = [];
 
     // We check URLs first since isPath is less strict
     if (url) return fromURL(url, transform, callback);
 
-    if (path) return fromPath(path, transform, callback);
+    if (path.length > 300) return callback(bad(src));
 
-    return callback(bad(src));
+    if (path.indexOf("data:") === 0) return callback(bad(src));
+
+    tasks.push(localPath(blogID, path));
+
+    // Images pulled from Word Documents are stored in the static folder
+    // so we need to check there too.
+    tasks.push(join(config.blog_static_files_dir, blogID, src));
+
+    tasks = tasks.map(function(path) {
+      return fromPath.bind(null, path, transform);
+    });
+
+    // Will work down the list of paths. If one of the paths
+    // works then it'll stop and return the result!
+    async.tryEach(tasks, function(err, results) {
+      if (err) return callback(err);
+
+      callback(null, results[0], results[1]);
+    });
   }
 
   // callback must be passed an error or null and result
