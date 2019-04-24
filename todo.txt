@@ -16,6 +16,11 @@ Transformer bugs:
 - Fix bug with images inside a folder called '_assets' and follow up with [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsXSrLlcWfmBhkvDzgqksvV)
 - Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
+- Adjust interface to accept a number of directories. Make it 'unaware' of blog IDs?
+- Handle ampersand encoding in remote URLs and tell Marius
+- Add support for case-insensitive file path resolution
+- Add method which accepts a path or URL and flushes what is stored for it, update the rebuild entry script
+- Handle query strings in path to image files
 
 
 Fix bug with title parser and follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsWqgQpfDpvlWdrWPdXJMJD)
