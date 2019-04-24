@@ -45,9 +45,11 @@ function extractTitle($, path) {
   // We found a title tag
   if (titleNode && order.indexOf(titleNode.name) > -1) {
     title = tidy($(titleNode).text());
-    tag = $.html($(titleNode));
 
-    $(titleNode).remove();
+    if (titleNode.name === "h1") {
+      $(titleNode).remove();
+      tag = $.html($(titleNode));
+    }
   } else if (
     $.root()
       .children()
