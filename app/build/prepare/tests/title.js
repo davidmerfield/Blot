@@ -62,30 +62,32 @@ describe("title parser", function() {
   });
 
   it("falls back to the file's name for text-less files", function() {
-    expect(
-      this.title("<a href=\"/\"></a>", "/Another.txt")
-    ).toEqual({
+    expect(this.title('<a href="/"></a>', "/Another.txt")).toEqual({
       title: "Another",
       tag: "",
-      body: "<a href=\"/\"></a>"
+      body: '<a href="/"></a>'
     });
   });
 
   it("falls back to the file's name for empty files", function() {
-    expect(
-      this.title("", "/Hello.txt")
-    ).toEqual({
+    expect(this.title("", "/Hello.txt")).toEqual({
       title: "Hello",
       tag: "",
       body: ""
     });
   });
 
-   it("ignores tags in the file's name when falling back", function() {
-    expect(
-      this.title("", "/[foo]Hello[bar].txt")
-    ).toEqual({
+  it("ignores tags in the file's name when falling back", function() {
+    expect(this.title("", "/[foo]Hello[bar].txt")).toEqual({
       title: "Hello",
+      tag: "",
+      body: ""
+    });
+  });
+
+  it("ignores date components in the file's name when falling back", function() {
+    expect(this.title("", "/2018-12-10 Hey.txt")).toEqual({
+      title: "Hey",
       tag: "",
       body: ""
     });
