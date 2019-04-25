@@ -34,7 +34,7 @@ describe("transformer", function() {
 
     this.transformer.lookup(this.path, spy, function(err, result) {
       expect(err instanceof Error).toBe(true);
-      expect(err.code).toEqual('ENOENT');
+      expect(err.code).toEqual("ENOENT");
       expect(spy).not.toHaveBeenCalled();
       expect(result).not.toBeTruthy();
       done();

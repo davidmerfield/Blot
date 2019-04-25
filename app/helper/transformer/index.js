@@ -32,35 +32,40 @@ function Transformer(blogID, name) {
 
     if (path.indexOf("data:") === 0) return callback(bad(src));
 
-    tasks.push(localPath(blogID, path));
+    tasks.push(function(next) {
+      fromPath(localPath(blogID, path), transform, next);
+    });
 
     // Images pulled from Word Documents are stored in the static folder
-    // so we need to check there too.
-    tasks.push(join(config.blog_static_files_dir, blogID, src));
-
-    tasks = tasks.map(function(path) {
-      debug(path, "will be checked");
-      return fromPath.bind(null, path, transform);
+    tasks.push(function(next) {
+      fromPath(
+        join(config.blog_static_files_dir, blogID, src),
+        transform,
+        next
+      );
     });
 
     // Attempt to resolve the path case-insensitively in the blog directory
     // we don't need to check the static folder since those paths are
     // guaranteed correct and lowercase.
-    tasks.push(function(callback) {
-      var cwd = localPath(blogID, "");
+    tasks.push(function(then) {
+      var cwd = localPath(blogID, "/").slice(0, -1);
+
       debug(path, "will be checked case-insensitively in", cwd);
       glob(path, { nocase: true, cwd: cwd }, function(err, files) {
+        debug(path, err, files);
+
         if (err) {
-          return callback(err);
+          return then(err);
         }
 
         if (!files || !files[0]) {
           err = new Error("No file matches " + path + " in directory " + cwd);
           err.code = "ENOENT";
-          return callback(err);
+          return then(err);
         }
 
-        transform(files[0], callback);
+        fromPath(join(cwd, files[0]), transform, then);
       });
     });
 
@@ -68,6 +73,8 @@ function Transformer(blogID, name) {
     // works then it'll stop and return the result!
     async.tryEach(tasks, function(err, results) {
       if (err) return callback(err);
+
+      debug(results);
 
       callback(null, results[0], results[1]);
     });
