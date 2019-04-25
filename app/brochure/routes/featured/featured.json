@@ -8,6 +8,14 @@
     "favicon": "/images/featured/www.tillmanjex.info.png"
   },
   {
+    "link": "https://www.dmatthams.co.uk",
+    "host": "www.dmatthams.co.uk",
+    "name": "David Matthams is a designer from the UK",
+    "firstName": "David",
+    "bio": "",
+    "favicon": "/images/featured/www.dmatthams.co.uk.png"
+  },
+  {
     "link": "https://photos.rachelpietraszek.com",
     "host": "photos.rachelpietraszek.com",
     "name": "Rachel Pietraszek",
@@ -342,5 +350,13 @@
     "firstName": "Thomas",
     "bio": " is a biologist at the University of Sydney",
     "favicon": "/images/featured/blog.tomwhite.io.jpg"
+  },
+  {
+    "link": "https://zacharykeeting.com",
+    "host": "zacharykeeting.com",
+    "name": "Zachary Keeting is an artist based in New Haven",
+    "firstName": "Zachary",
+    "bio": " Connecticut",
+    "favicon": "/images/featured/zacharykeeting.com.png"
   }
 ]
