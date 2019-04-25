@@ -27,7 +27,7 @@ describe("transformer", function() {
     });
   });
 
-  fit("transforms a file whose path has been URI encoded", function(done) {
+  xit("transforms a file whose path has been URI encoded", function(done) {
     this.path = encodeURI(this.path);
 
     this.transformer.lookup(this.path, this.transform, function(err, result) {
