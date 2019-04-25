@@ -54,6 +54,12 @@ function Transformer(blogID, name) {
       fromPath(fullLocalPath, transform, next);
     });
 
+    // Now we check the path to the file in the folder with its URI decoded
+    tasks.push(function(next) {
+      fullLocalPath = localPath(blogID, decodeURI(path));
+      fromPath(fullLocalPath, transform, next);
+    });
+
     // Attempt to resolve the path case-insensitively in the blog directory
     // We don't need to check the static folder since those paths are
     // guaranteed correct and lowercase.
