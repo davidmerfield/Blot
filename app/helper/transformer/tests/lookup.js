@@ -27,7 +27,7 @@ describe("transformer", function() {
     });
   });
 
-  fit("transforms a file whose path has been URI encoded", function(done) {
+  it("transforms a file whose path has been URI encoded", function(done) {
     this.path = '/Hello world.txt';
     fs.moveSync(this.localPath, this.blogDirectory + this.path);
     this.path = encodeURI(this.path);
