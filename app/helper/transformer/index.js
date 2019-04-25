@@ -23,30 +23,39 @@ function Transformer(blogID, name) {
   function lookup(src, transform, callback) {
     var url = isURL(src);
     var path = src;
+    var fullLocalPath;
     var tasks = [];
 
+    debug(src);
+
     // We check URLs first since isPath is less strict
-    if (url) return fromURL(url, transform, callback);
+    if (url) {
+      debug(src, "seemes to be a URL");
+      return fromURL(url, transform, callback);
+    }
 
-    if (path.length > 300) return callback(bad(src));
+    if (path.length > 300) {
+      return callback(new Error("Transformer: source too long: " + clip(src)));
+    }
 
-    if (path.indexOf("data:") === 0) return callback(bad(src));
+    if (path.indexOf("data:") === 0) {
+      return callback(new Error("Transformer: source is unsupported protocol"));
+    }
 
+    // First we check if this path matches a file in the blog folder
     tasks.push(function(next) {
-      fromPath(localPath(blogID, path), transform, next);
+      fullLocalPath = localPath(blogID, path);
+      fromPath(fullLocalPath, transform, next);
     });
 
     // Images pulled from Word Documents are stored in the static folder
     tasks.push(function(next) {
-      fromPath(
-        join(config.blog_static_files_dir, blogID, src),
-        transform,
-        next
-      );
+      fullLocalPath = join(config.blog_static_files_dir, blogID, src);
+      fromPath(fullLocalPath, transform, next);
     });
 
     // Attempt to resolve the path case-insensitively in the blog directory
-    // we don't need to check the static folder since those paths are
+    // We don't need to check the static folder since those paths are
     // guaranteed correct and lowercase.
     tasks.push(function(then) {
       var cwd = localPath(blogID, "/").slice(0, -1);
@@ -65,7 +74,8 @@ function Transformer(blogID, name) {
           return then(err);
         }
 
-        fromPath(join(cwd, files[0]), transform, then);
+        fullLocalPath = join(cwd, files[0]);
+        fromPath(fullLocalPath, transform, then);
       });
     });
 
@@ -256,10 +266,6 @@ function Transformer(blogID, name) {
 
 function nothing(err) {
   if (err) throw err;
-}
-
-function bad(src) {
-  return new Error("Transformer: Identifier must be path or url: " + clip(src));
 }
 
 function missing(src) {
