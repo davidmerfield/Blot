@@ -10,6 +10,7 @@ var localPath = require("../localPath");
 var config = require("config");
 var join = require("path").join;
 var async = require("async");
+var glob = require("glob");
 
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
@@ -40,6 +41,27 @@ function Transformer(blogID, name) {
     tasks = tasks.map(function(path) {
       debug(path, "will be checked");
       return fromPath.bind(null, path, transform);
+    });
+
+    // Attempt to resolve the path case-insensitively in the blog directory
+    // we don't need to check the static folder since those paths are
+    // guaranteed correct and lowercase.
+    tasks.push(function(callback) {
+      var cwd = localPath(blogID, "");
+      debug(path, "will be checked case-insensitively in", cwd);
+      glob(path, { nocase: true, cwd: cwd }, function(err, files) {
+        if (err) {
+          return callback(err);
+        }
+
+        if (!files || !files[0]) {
+          err = new Error("No file matches " + path + " in directory " + cwd);
+          err.code = "ENOENT";
+          return callback(err);
+        }
+
+        transform(files[0], callback);
+      });
     });
 
     // Will work down the list of paths. If one of the paths
