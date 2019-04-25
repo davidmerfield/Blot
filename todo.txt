@@ -12,11 +12,9 @@ Record new demo video
 
 ---
 
-Fix bug with title parser and follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLsWqgQpfDpvlWdrWPdXJMJD)
+Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLmnfGdPkfJlFNLbLjwnsjNq)
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
-
-Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLmnfGdPkfJlFNLbLjwnsjNq)
 
 Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
 
@@ -31,8 +29,6 @@ Fix thumbnail bug in metadata and tell [Michael](https://mail.google.com/mail/u/
 Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCLkqPBsNsjbKhFrLsvWdjnC)
 
 Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG)
-
----
 
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
 
