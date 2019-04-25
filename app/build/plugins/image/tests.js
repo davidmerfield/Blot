@@ -105,7 +105,7 @@ describe("image", function() {
   });
 
   it("caches an image case-insensitively", function(done) {
-    var path = "/tests-Image.png";
+    var path = "/tests-image.png";
     var html = '<img src="' + path.toUpperCase() + '">';
     var blog = this.blog;
 
