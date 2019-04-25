@@ -106,10 +106,10 @@ describe("image", function() {
 
   it("caches an image case-insensitively", function(done) {
     var path = "/tests-image.png";
-    var html = '<img src="' + path.toUpperCase() + '">';
+    var html = '<img src="/nested/' + path.toUpperCase() + '">';
     var blog = this.blog;
 
-    fs.copySync(__dirname + path, localPath(blog.id, path));
+    fs.copySync(__dirname + path, localPath(blog.id, '/nested' + path));
 
     render(blog, html, function(err, result) {
       expect(result).toContain(".png");

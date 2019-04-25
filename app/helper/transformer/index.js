@@ -60,6 +60,9 @@ function Transformer(blogID, name) {
     tasks.push(function(then) {
       var cwd = localPath(blogID, "/").slice(0, -1);
 
+      // Remove leading slash otherwise glob does not work
+      if (path[0] === '/') path = path.slice(1);
+
       debug(path, "will be checked case-insensitively in", cwd);
       glob(path, { nocase: true, cwd: cwd }, function(err, files) {
         debug(path, err, files);
