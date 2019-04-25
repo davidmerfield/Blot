@@ -20,6 +20,10 @@ Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/F
 
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
+Add a photos page to [Gabriel's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLtjHvbXprzCbFGVhmWwbtsv)
+
+Transfer [Ana's design to a Blot template](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe8d0f08-2593/screen/63c8075e-2ffd-43c2-be9e-d08a1369b971/Web-1366-1?fullscreen)
+
 ---
 
 Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
