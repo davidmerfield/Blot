@@ -18,4 +18,32 @@ describe("build", function() {
       done();
     });
   });
+
+  fit("handles images with accents in their filename correctly", function(done) {
+    var path = "/blog/Hello world.txt";
+    var contents = "![Best Image Ever](ómg.jpg)";
+    var absolutePathToImage = "/blog/ómg.jpg";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    fs.copySync(
+      __dirname + "/small.jpg",
+      this.blogDirectory + absolutePathToImage
+    );
+
+    build(this.blog, path, {}, function(err, entry) {
+      if (err) return done.fail(err);
+
+      // verify the image was cached
+      expect(entry.html).toContain("/_image_cache/");
+
+      // verify a thumbnail was generated from the image
+      expect(entry.thumbnail.small).toEqual(
+        jasmine.objectContaining({
+          name: "small.jpg"
+        })
+      );
+
+      done();
+    });
+  });
 });
