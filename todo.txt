@@ -12,11 +12,15 @@ Record new demo video
 
 ---
 
+Modify image path resolved to use glob
+- Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
+- Fix bug for images containing upper-case characters on [Jonas' blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
+- Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
+
+
 Redirect Blot subdomain to valid custom domain with temporary 302 response and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTPxrQvmfnlgdrxhSMsWxJ) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLmnfGdPkfJlFNLbLjwnsjNq)
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
-
-Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
 
 Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
@@ -28,7 +32,7 @@ Transfer [Ana's design to a Blot template](https://xd.adobe.com/view/53a2d74b-ad
 
 Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
 
-Fix thumbnail bug in metadata and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzKtcHfWnzjcNdnksXFHGCXdWP)
+Fix thumbnail path resolution for files in folder when path is in metadata and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzKtcHfWnzjcNdnksXFHGCXdWP)
 
 Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCLkqPBsNsjbKhFrLsvWdjnC)
 
@@ -51,7 +55,6 @@ Improve the access to the documentation links. Tell [Marcus](https://mail.google
 Run a scraper for broken documentation links on the site. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
 
 Fix bug with upper-case domain and tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTZVPGRVHXDzZbrZxzMzsq)
-
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
@@ -78,12 +81,10 @@ Git client bugs:
 - Tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) about the broken repo URL fix
 
 Image and thumbnail bugs
-- Fix bug for images containing upper-case characters on [Jonas' blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
 - Fix bug for missing thumbnails from images in posts on [Shashwati's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 - Fix [bug with thumbnails and tell John](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
 - Fix bug for missing thumbnails on [Jay's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKSFqbSHKQkxHhqhgqzGVsfg)
 - Fix bug with image minification which produces larger file than source file and tell [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkHlNvhcJLGVRCPvXvjbwsWR)
-- Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
 
 Encoding bugs:
 - Fix [Kevin](https://mail.google.com/mail/u/0/#inbox/1665be131ce98928)'s URL encoding bug. Each entry's url property is not encoded as a URI component on the server but it needs to be.
