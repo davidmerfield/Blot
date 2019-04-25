@@ -19,7 +19,7 @@ describe("build", function() {
     });
   });
 
-  fit("handles images with accents in their filename correctly", function(done) {
+  it("handles images with accents in their filename correctly", function(done) {
     var path = "/blog/Hello world.txt";
     var contents = "![Best Image Ever](ómg.jpg)";
     var absolutePathToImage = "/blog/ómg.jpg";
