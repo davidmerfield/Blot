@@ -58,7 +58,7 @@ module.exports = function(req, res, next) {
 
     // Redirect Blot subdomain to custom domain we use
     // 302 temporary since the domain might break in future
-    if (identifier.handle && blog.domain)
+    if (identifier.handle && blog.domain && blog.redirectSubdomain)
       return res.status(302).redirect(req.protocol + "://" + blog.domain);
 
     // Should we be using 302 temporary for this?
