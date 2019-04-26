@@ -43,10 +43,10 @@ function Transformer(blogID, name) {
     }
 
     // First we check if this path matches a file in the blog folder
-    tasks.push(function(next) {
-      fullLocalPath = localPath(blogID, path);
-      fromPath(fullLocalPath, transform, next);
-    });
+    // tasks.push(function(next) {
+    //   fullLocalPath = localPath(blogID, path);
+    //   fromPath(fullLocalPath, transform, next);
+    // });
 
     // Images pulled from Word Documents are stored in the static folder
     tasks.push(function(next) {
@@ -58,7 +58,15 @@ function Transformer(blogID, name) {
     // We don't need to check the static folder since those paths are
     // guaranteed correct and lowercase.
     tasks.push(function(then) {
-      var options = {
+      var stream, err;
+      var match = false;
+      var pathWithoutLeadingSlashes = trimLeadingSlashes(path);
+      var patterns = [pathWithoutLeadingSlashes];
+
+      if (decodeURI(pathWithoutLeadingSlashes) !== pathWithoutLeadingSlashes)
+        patterns.push(decodeURI(pathWithoutLeadingSlashes));
+
+      stream = glob.stream(patterns, {
         // Perform a case-insensitive match. Note: on case-insensitive
         // filesystems, non-magic patterns will match by default, since
         // stat and readdir will not raise errors.
@@ -80,30 +88,22 @@ function Transformer(blogID, name) {
 
         // Disables matching with globstars
         globstar: false
-      };
-
-      // Remove leading slash otherwise glob does not work
-      if (path[0] === "/") path = path.slice(1);
-
-      debug(path, "will be checked case-insensitively in", options.cwd);
-
-      var stream = glob.stream([path, decodeURI(path)], options);
-      var match = false;
-
-      stream.on("data", function(file) {
-        match = true;
-        fromPath(file, transform, then);
-        stream.destroy();
       });
 
       stream.once("error", then);
 
+      stream.on("data", function(file) {
+        if (match) return;
+
+        match = true;
+        stream.destroy();
+        fromPath(file, transform, then);
+      });
+
       stream.once("end", function() {
         if (match) return;
-        
-        var err = new Error(
-          "No file matches " + path + " in directory " + options.cwd
-        );
+
+        err = new Error("No file matches " + patterns);
         err.code = "ENOENT";
         then(err);
       });
@@ -292,6 +292,11 @@ function Transformer(blogID, name) {
     lookup: lookup,
     flush: flush
   };
+}
+
+function trimLeadingSlashes(str) {
+  while (str[0] === "/" && str.length > 1) str = str.slice(1);
+  return str;
 }
 
 function nothing(err) {
