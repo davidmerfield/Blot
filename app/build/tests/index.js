@@ -20,7 +20,7 @@ describe("build", function() {
     });
   });
 
-  fit("handles image URLs with query strings", function(done) {
+  xit("handles image URLs with query strings", function(done) {
     var path = "/hello.txt";
     var contents = "![](http://localhost:8000/a.jpg?b=c&d=e&f=g)";
 
