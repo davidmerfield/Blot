@@ -30,7 +30,6 @@
     "express-brute-redis": "0.0.1",
     "express-disk-cache": "^1.0.4",
     "express-session": "^1.6.5",
-    "fast-glob": "^2.2.6",
     "fs-extra": "^3.0.1",
     "hbs": "^4.0.3",
     "he": "^1.1.0",
