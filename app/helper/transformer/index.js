@@ -88,35 +88,6 @@ function Transformer(blogID, name) {
       });
     });
 
-    // Attempt to resolve the path case-insensitively in the blog directory
-    // using a decoded path
-    tasks.push(function(then) {
-      var cwd = localPath(blogID, "/").slice(0, -1);
-
-      // Remove leading slash otherwise glob does not work
-      if (path[0] === '/') path = path.slice(1);
-
-      path = decodeURI(path);
-
-      debug(path, "will be checked case-insensitively in", cwd);
-      glob(path, { nocase: true, cwd: cwd }, function(err, files) {
-        debug(path, err, files);
-
-        if (err) {
-          return then(err);
-        }
-
-        if (!files || !files[0]) {
-          err = new Error("No file matches " + path + " in directory " + cwd);
-          err.code = "ENOENT";
-          return then(err);
-        }
-
-        fullLocalPath = join(cwd, files[0]);
-        fromPath(fullLocalPath, transform, then);
-      });
-    });
-
     // Will work down the list of paths. If one of the paths
     // works then it'll stop and return the result!
     async.tryEach(tasks, function(err, results) {
