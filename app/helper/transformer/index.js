@@ -43,10 +43,10 @@ function Transformer(blogID, name) {
     }
 
     // First we check if this path matches a file in the blog folder
-    // tasks.push(function(next) {
-    //   fullLocalPath = localPath(blogID, path);
-    //   fromPath(fullLocalPath, transform, next);
-    // });
+    tasks.push(function(next) {
+      fullLocalPath = localPath(blogID, path);
+      fromPath(fullLocalPath, transform, next);
+    });
 
     // Images pulled from Word Documents are stored in the static folder
     tasks.push(function(next) {
