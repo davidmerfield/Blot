@@ -46,7 +46,10 @@ describe("transformer", function() {
     fs.moveSync(this.localPath, this.blogDirectory + this.path);
     this.path = encodeURI(this.path);
 
-    this.transformer.lookup(this.path.toLowerCase(), this.transform, function(err, result) {
+    this.transformer.lookup(this.path.toLowerCase(), this.transform, function(
+      err,
+      result
+    ) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -76,16 +79,6 @@ describe("transformer", function() {
     fs.copySync(fullPath, newFullPath);
 
     this.transformer.lookup(path, this.transform, function(err, result) {
-      if (err) return done.fail(err);
-
-      expect(result).toEqual(jasmine.any(Object));
-      expect(result.size).toEqual(jasmine.any(Number));
-      done();
-    });
-  });
-
-  it("transforms a remote file", function(done) {
-    this.transformer.lookup(this.url, this.transform, function(err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -144,4 +137,15 @@ describe("transformer", function() {
       });
     });
   });
+
+  it("transforms a url", function(done) {
+    this.transformer.lookup(this.url, this.transform, function(err, result) {
+      if (err) return done.fail(err);
+
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.size).toEqual(jasmine.any(Number));
+      done();
+    });
+  });
+
 });
