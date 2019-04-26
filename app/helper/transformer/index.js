@@ -60,6 +60,12 @@ function Transformer(blogID, name) {
       fromPath(fullLocalPath, transform, next);
     });
 
+    // Now we check the path to the file in the folder with its URI decoded and normalized
+    tasks.push(function(next) {
+      fullLocalPath = localPath(blogID, decodeURI(path)).normalize();
+      fromPath(fullLocalPath, transform, next);
+    });
+
     // Attempt to resolve the path case-insensitively in the blog directory
     // We don't need to check the static folder since those paths are
     // guaranteed correct and lowercase.
@@ -97,7 +103,7 @@ function Transformer(blogID, name) {
       if (path[0] === '/') path = path.slice(1);
 
       path = decodeURI(path);
-      
+
       debug(path, "will be checked case-insensitively in", cwd);
       glob(path, { nocase: true, cwd: cwd }, function(err, files) {
         debug(path, err, files);
