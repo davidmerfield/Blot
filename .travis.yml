@@ -5,6 +5,7 @@ node_js:
   - "8.12.0"
 before_install:
   - export BLOT_PANDOC_PATH=$(which pandoc)
+before_script:
   - node app/setup
 env:
   - CXX=g++-4.8
