@@ -10,7 +10,7 @@ var localPath = require("../localPath");
 var config = require("config");
 var join = require("path").join;
 var async = require("async");
-var glob = require("glob");
+var glob = require("fast-glob");
 
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
@@ -54,12 +54,6 @@ function Transformer(blogID, name) {
       fromPath(fullLocalPath, transform, next);
     });
 
-    // Now we check the path to the file in the folder with its URI decoded
-    tasks.push(function(next) {
-      fullLocalPath = localPath(blogID, decodeURI(path));
-      fromPath(fullLocalPath, transform, next);
-    });
-
     // Attempt to resolve the path case-insensitively in the blog directory
     // We don't need to check the static folder since those paths are
     // guaranteed correct and lowercase.
@@ -73,9 +67,11 @@ function Transformer(blogID, name) {
         // The current working directory in which to search.
         cwd: localPath(blogID, "/").slice(0, -1),
 
+        stats: false,
+
         // Do not match directories, only files. (Note: to match only
         //  directories, simply put a / at the end of the pattern.)
-        nodir: true,
+        onlyFiles: true,
 
         // Set to true to always receive absolute paths for matched files.
         // Unlike realpath, this also affects the values returned
@@ -86,22 +82,24 @@ function Transformer(blogID, name) {
       if (path[0] === "/") path = path.slice(1);
 
       debug(path, "will be checked case-insensitively in", options.cwd);
-      glob(path, options, function(err, files) {
-        debug(path, err, files);
 
-        if (err) {
-          return then(err);
-        }
+      var stream = glob.stream([path, decodeURI(path)], options);
+      var match = false;
 
-        if (!files || !files[0]) {
-          err = new Error(
-            "No file matches " + path + " in directory " + options.cwd
-          );
-          err.code = "ENOENT";
-          return then(err);
-        }
+      stream.on("data", function(file) {
+        match = true;
+        fromPath(file, transform, then);
+      });
 
-        fromPath(files[0], transform, then);
+      stream.once("error", then);
+
+      stream.once("end", function() {
+        if (match) return;
+        var err = new Error(
+          "No file matches " + path + " in directory " + options.cwd
+        );
+        err.code = "ENOENT";
+        return then(err);
       });
     });
 
