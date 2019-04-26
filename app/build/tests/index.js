@@ -47,6 +47,30 @@ describe("build", function() {
 
   it("handles images with spaces in their filename correctly", function(done) {
     var path = "/blog/Hello world.txt";
+    var contents = "![Best Image Ever](_gomorgen danmark.jpg)";
+    var pathToImage = "/blog/_gomorgen danmark.jpg";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
+
+    build(this.blog, path, {}, function(err, entry) {
+      if (err) return done.fail(err);
+
+      // verify the image was cached
+      expect(entry.html).toContain("/_image_cache/");
+
+      // verify a thumbnail was generated from the image
+      expect(entry.thumbnail.small).toEqual(
+        jasmine.objectContaining({
+          name: "small.jpg"
+        })
+      );
+      done();
+    });
+  });
+
+  it("handles images with spaces and accents in their filename correctly", function(done) {
+    var path = "/blog/Hello world.txt";
     var contents = "![Best Image Ever](_på besøg hos gomorgen danmark.jpg)";
     var pathToImage = "/blog/_på besøg hos gomorgen danmark.jpg";
 
