@@ -22,8 +22,8 @@ describe("build", function() {
 
   it("handles images with accents in their filename correctly", function(done) {
     var path = "/blog/Hello world.txt";
-    var contents = "![Best Image Ever](ómg.jpg)";
-    var pathToImage = "/blog/ómg.jpg";
+    var contents = "![Best Image Ever](óåg.jpg)";
+    var pathToImage = "/blog/óåg.jpg";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
@@ -47,8 +47,8 @@ describe("build", function() {
 
   it("handles images with spaces in their filename correctly", function(done) {
     var path = "/blog/Hello world.txt";
-    var contents = "![Best Image Ever](_gomorgen danmark.jpg)";
-    var pathToImage = "/blog/_gomorgen danmark.jpg";
+    var contents = "![Best Image Ever](_hey there.jpg)";
+    var pathToImage = "/blog/_hey there.jpg";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
@@ -72,8 +72,8 @@ describe("build", function() {
   it("handles images with spaces and accents in their filename correctly", function(done) {
     var test = this;
     var path = "/blog/Hello world.txt";
-    var contents = "![Best Image Ever](_på besøg hos gomorgen danmark.jpg)";
-    var pathToImage = "/blog/_på besøg hos gomorgen danmark.jpg";
+    var contents = "![Best Image Ever](_på be.jpg)";
+    var pathToImage = "/blog/_på be.jpg";
 
     console.log('writing', this.blogDirectory + path);
     fs.outputFileSync(this.blogDirectory + path, contents);
