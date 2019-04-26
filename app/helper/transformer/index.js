@@ -60,6 +60,12 @@ function Transformer(blogID, name) {
       fromPath(fullLocalPath, transform, next);
     });
 
+    // Now we check the path to the file in the folder with its URI decoded
+    tasks.push(function(next) {
+      fullLocalPath = localPath(blogID, path).normalize();
+      fromPath(fullLocalPath, transform, next);
+    });
+
     // Now we check the path to the file in the folder with its URI decoded and normalized
     tasks.push(function(next) {
       fullLocalPath = localPath(blogID, decodeURI(path)).normalize();
