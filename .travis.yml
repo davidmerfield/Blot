@@ -7,6 +7,7 @@ before_install:
   - export BLOT_PANDOC_PATH=$(which pandoc)
 before_script:
   - node app/setup
+cache: npm
 env:
   - CXX=g++-4.8
 addons:
