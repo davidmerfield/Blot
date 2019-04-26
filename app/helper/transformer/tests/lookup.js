@@ -41,6 +41,20 @@ describe("transformer", function() {
     });
   });
 
+  it("transforms a file whose path contains an accent", function(done) {
+    this.path = '/Hållœ wòrld.txt';
+    fs.moveSync(this.localPath, this.blogDirectory + this.path);
+    this.path = encodeURI(this.path);
+
+    this.transformer.lookup(this.path, this.transform, function(err, result) {
+      if (err) return done.fail(err);
+
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.size).toEqual(jasmine.any(Number));
+      done();
+    });
+  });
+
   it("will not transform a file that does not exist", function(done) {
     var spy = jasmine.createSpy().and.callFake(this.transform);
 
