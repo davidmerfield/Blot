@@ -70,15 +70,26 @@ describe("build", function() {
   });
 
   it("handles images with spaces and accents in their filename correctly", function(done) {
+    var test = this;
     var path = "/blog/Hello world.txt";
     var contents = "![Best Image Ever](_på besøg hos gomorgen danmark.jpg)";
     var pathToImage = "/blog/_på besøg hos gomorgen danmark.jpg";
 
+    console.log('writing', this.blogDirectory + path);
     fs.outputFileSync(this.blogDirectory + path, contents);
+    console.log('copying', __dirname + "/small.jpg", this.blogDirectory + pathToImage);
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
 
     build(this.blog, path, {}, function(err, entry) {
       if (err) return done.fail(err);
+
+      console.log('Entry.html:', entry.html);
+      console.log("Directory state:");
+      console.log(test.blogDirectory, fs.readdirSync(test.blogDirectory));
+      console.log(
+        test.blogDirectory + "/blog",
+        fs.readdirSync(test.blogDirectory + "/blog")
+      );
 
       // verify the image was cached
       expect(entry.html).toContain("/_image_cache/");
