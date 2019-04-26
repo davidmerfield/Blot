@@ -28,7 +28,7 @@ describe("transformer", function() {
   });
 
   it("transforms a file whose path has been URI encoded", function(done) {
-    this.path = '/Hello world.txt';
+    this.path = "/Hello world.txt";
     fs.moveSync(this.localPath, this.blogDirectory + this.path);
     this.path = encodeURI(this.path);
 
@@ -41,12 +41,12 @@ describe("transformer", function() {
     });
   });
 
-  it("transforms a file whose path contains an accent", function(done) {
-    this.path = '/Hållœ wòrld.txt';
+  it("transforms a file whose path with incorrect case contains an accent and URI encoded characters", function(done) {
+    this.path = "/Hållœ wòrld.txt";
     fs.moveSync(this.localPath, this.blogDirectory + this.path);
     this.path = encodeURI(this.path);
 
-    this.transformer.lookup(this.path, this.transform, function(err, result) {
+    this.transformer.lookup(this.path.toLowerCase(), this.transform, function(err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
