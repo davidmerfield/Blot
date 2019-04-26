@@ -81,7 +81,7 @@ describe("template", function() {
     var test = this;
     var blogID = test.blog.id;
     var original = this.fake.random.word();
-    var cloned = this.fake.random.word();
+    var cloned = Date.now().toString(); // prevents same name as original
     var description = this.fake.random.word();
     var originalTemplate, clonedTemplate;
 
