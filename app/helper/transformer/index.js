@@ -89,17 +89,19 @@ function Transformer(blogID, name) {
       stream.on("data", function(file) {
         match = true;
         fromPath(file, transform, then);
+        stream.destroy();
       });
 
       stream.once("error", then);
 
       stream.once("end", function() {
         if (match) return;
+        
         var err = new Error(
           "No file matches " + path + " in directory " + options.cwd
         );
         err.code = "ENOENT";
-        return then(err);
+        then(err);
       });
     });
 
