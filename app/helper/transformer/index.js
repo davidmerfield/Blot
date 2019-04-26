@@ -64,13 +64,29 @@ function Transformer(blogID, name) {
     // We don't need to check the static folder since those paths are
     // guaranteed correct and lowercase.
     tasks.push(function(then) {
-      var cwd = localPath(blogID, "/").slice(0, -1);
+      var options = {
+        // Perform a case-insensitive match. Note: on case-insensitive
+        // filesystems, non-magic patterns will match by default, since
+        // stat and readdir will not raise errors.
+        nocase: true,
+
+        // The current working directory in which to search.
+        cwd: localPath(blogID, "/").slice(0, -1),
+
+        // Do not match directories, only files. (Note: to match only
+        //  directories, simply put a / at the end of the pattern.)
+        nodir: true,
+
+        // Set to true to always receive absolute paths for matched files.
+        // Unlike realpath, this also affects the values returned
+        absolute: true
+      };
 
       // Remove leading slash otherwise glob does not work
-      if (path[0] === '/') path = path.slice(1);
+      if (path[0] === "/") path = path.slice(1);
 
-      debug(path, "will be checked case-insensitively in", cwd);
-      glob(path, { nocase: true, cwd: cwd }, function(err, files) {
+      debug(path, "will be checked case-insensitively in", options.cwd);
+      glob(path, options, function(err, files) {
         debug(path, err, files);
 
         if (err) {
@@ -78,13 +94,14 @@ function Transformer(blogID, name) {
         }
 
         if (!files || !files[0]) {
-          err = new Error("No file matches " + path + " in directory " + cwd);
+          err = new Error(
+            "No file matches " + path + " in directory " + options.cwd
+          );
           err.code = "ENOENT";
           return then(err);
         }
 
-        fullLocalPath = join(cwd, files[0]);
-        fromPath(fullLocalPath, transform, then);
+        fromPath(files[0], transform, then);
       });
     });
 
