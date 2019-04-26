@@ -67,15 +67,19 @@ function Transformer(blogID, name) {
         // The current working directory in which to search.
         cwd: localPath(blogID, "/").slice(0, -1),
 
-        stats: false,
-
         // Do not match directories, only files. (Note: to match only
         //  directories, simply put a / at the end of the pattern.)
         onlyFiles: true,
 
         // Set to true to always receive absolute paths for matched files.
         // Unlike realpath, this also affects the values returned
-        absolute: true
+        absolute: true,
+
+        // Disables expansion of brace patterns
+        brace: false,
+
+        // Disables matching with globstars
+        globstar: false
       };
 
       // Remove leading slash otherwise glob does not work
