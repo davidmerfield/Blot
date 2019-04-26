@@ -70,7 +70,7 @@ function Transformer(blogID, name) {
         // Perform a case-insensitive match. Note: on case-insensitive
         // filesystems, non-magic patterns will match by default, since
         // stat and readdir will not raise errors.
-        nocase: true,
+        // case: true,
 
         // The current working directory in which to search.
         cwd: localPath(blogID, "/").slice(0, -1),

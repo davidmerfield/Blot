@@ -20,6 +20,20 @@ describe("build", function() {
     });
   });
 
+  fit("handles image URLs with query strings", function(done) {
+    var path = "/hello.txt";
+    var contents = "![](http://localhost:8000/a.jpg?b=c&d=e&f=g)";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function(err, entry) {
+      if (err) return done.fail(err);
+
+      console.log(entry.html);
+      done();
+    });
+  });
+
   it("handles images with accents and spaces in their filename", function(done) {
     var path = "/blog/Hello world.txt";
     var contents = "![Best Image Ever](óå g.jpg)";
