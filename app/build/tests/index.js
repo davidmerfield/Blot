@@ -31,7 +31,7 @@ describe("build", function() {
     });
   });
 
-  xit("handles image URLs with query strings", function(done) {
+  it("handles image URLs with query strings", function(done) {
     var path = "/hello.txt";
     var contents = "![](" + this.origin + "/a.jpg?user=foo&pass=bar)";
 

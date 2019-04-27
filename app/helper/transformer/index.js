@@ -67,17 +67,18 @@ function Transformer(blogID, name) {
       });
     });
 
-    // Attempt to resolve the URI-decoded path case-insensitively in the 
-    // blog directory. We don't need to check the static folder since 
+    // Attempt to resolve the URI-decoded path case-insensitively in the
+    // blog directory. We don't need to check the static folder since
     // those paths are guaranteed correct and lowercase.
     tasks.push(function(next) {
-      resolveCaseInsensitivePathToFile(localPath(blogID, "/"), decodeURI(path), function(
-        err,
-        fullLocalPath
-      ) {
-        if (err) return next(err);
-        fromPath(fullLocalPath, transform, next);
-      });
+      resolveCaseInsensitivePathToFile(
+        localPath(blogID, "/"),
+        decodeURI(path),
+        function(err, fullLocalPath) {
+          if (err) return next(err);
+          fromPath(fullLocalPath, transform, next);
+        }
+      );
     });
 
     // Will work down the list of paths. If one of the paths
@@ -93,9 +94,7 @@ function Transformer(blogID, name) {
 
   // callback must be passed an error or null and result
   function fromURL(url, transform, callback) {
-    ensure(url, "string")
-      .and(transform, "function")
-      .and(callback, "function");
+    var tasks = [];
 
     // Look in the database to see if we have downloaded
     // this URL in the past. If so, retrieve the response
@@ -104,11 +103,25 @@ function Transformer(blogID, name) {
     getURL(url, function(err, headers, hash, result) {
       if (err) return callback(err);
 
-      // Now we try and download the URL, passing in previously
-      // stored headers if any. This module interprets 304
-      // responses nicely.
-      download(url, headers, function(err, path, headers) {
+      tasks.push(function(next) {
+        download(url, headers, next);
+      });
+
+      if (url.indexOf("&amp;") > -1) {
+        tasks.push(function(next) {
+          download(url.split("&amp;").join("&"), headers, next);
+        });
+      }
+
+      async.tryEach(tasks, function(err, results) {
+        // Now we try and download the URL, passing in previously
+        // stored headers if any. This module interprets 304
+        // responses nicely.
         if (err) return callback(err);
+
+        var path = results[0];
+
+        headers = results[1];
 
         // We didn't redownload the file since it's
         if (!path && result) return callback(null, result);
