@@ -1,5 +1,8 @@
 # About
 
+
+![](_iems_logo.png)
+
 {>|} [Download the folder](/folder.zip) (22mb) from which this website is generated.  [View the source](https://github.com/davidmerfield/Blot/tree/master/app/templates/photos) for the photos template to see how it works.
 
 The purpose of the 'Photos' template is to display photos. Its navigation should get out of the way when you are looking at photos. It should offer a way to browse photos at different sizes. The [homepage](/) shows a feed a of recently published photos. The [archives](/archives) give an overview of all the photos published on this site.
