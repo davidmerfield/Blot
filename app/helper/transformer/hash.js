@@ -1,26 +1,16 @@
-var ensure = require('../ensure');
-var callOnce = require('../callOnce');
+var fs = require("fs-extra");
+var crypto = require("crypto");
+var debug = require("debug")("blot:helper:transformer:hash");
 
-var fs = require('fs');
-var crypto = require('crypto');
+module.exports = function(path, callback) {
+  var hash;
 
-module.exports = function (path, callback) {
-
-  ensure(path, 'string')
-    .and(callback, 'function');
-
-  callback = callOnce(callback);
-
-  var hash = crypto.createHash('sha1');
-      hash.setEncoding('hex');
-
-  var fd = fs.createReadStream(path);
-      fd.pipe(hash);
-
-  fd.on('error', callback);
-
-  fd.on('end', function() {
-    hash.end();
-    callback(null, hash.read());
-  });
+  fs.createReadStream(path)
+    .on("error", callback)
+    .pipe(crypto.createHash("sha1").setEncoding("hex"))
+    .on("finish", function() {
+      hash = this.read();
+      debug(path, "hashed to", hash);
+      callback(null, hash);
+    });
 };

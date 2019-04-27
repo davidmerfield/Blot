@@ -23,6 +23,7 @@ module.exports = {
   dateDisplay: 'MMMM D, Y',
   hideDates: false,
   forceSSL: false,
+  redirectSubdomain: true,
   plugins: defaultPlugins,
   cacheID: 0
 };

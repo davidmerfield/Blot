@@ -29,6 +29,7 @@ if (config.cache === false) {
 // partials/layout is replaced with the view passed to
 // res.render(). You can modify this in the route if needed.
 brochure.locals.layout = "layout";
+brochure.locals.cacheID = Date.now();
 
 // Default page title and <meta> description
 brochure.locals.title = "Blot – A blogging platform with no interface.";

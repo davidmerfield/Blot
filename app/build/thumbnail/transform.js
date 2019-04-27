@@ -1,6 +1,6 @@
 var helper = require("helper");
 var callOnce = helper.callOnce;
-var basename = require("path").basename;
+var extname = require("path").extname;
 var async = require("async");
 var fs = require("fs-extra");
 var sharp = require("sharp");
@@ -43,11 +43,14 @@ function main(path, outputDirectory, callback) {
   async.eachOf(
     thumbnails,
     function(options, name, next) {
-      
       // We want to ensure that this will work on case-sensitive
-      // file systems so we lowercase it...
-      var fileName = name + "-" + basename(path).toLowerCase();
-      var to = outputDirectory + '/' + fileName;
+      // file systems so we lowercase it. In the past we used the
+      // original filename for the file in the resulting path but 
+      // I couldn't work out how to handle filenames like ex?yz.jpg
+      // Should I store the name URL-encoded (e.g. ex%3Fyz.jpg)...
+      // Now I just use the guuid + size + file extension. 
+      var fileName = (name + extname(path)).toLowerCase();
+      var to = outputDirectory + "/" + fileName;
 
       transform(input, to, options, function(err, width, height) {
         if (err) return next(err);

@@ -98,7 +98,7 @@ ol li a,
 section > p,
 section > details {padding-left: 2em;position: relative;}
 
-hr {border: none;border-bottom: 1px solid #eee;margin: 2em 0}
+content hr {border: none;border-bottom: 1px solid #eee;margin: 2em 0}
 
 ol li a:before,
 section > p:before,
@@ -175,23 +175,23 @@ details summary:before {
 }
 </style>
 <h1>News</h1>
-<p>The lists below give you an idea of what I'm working on. I send out an email each season with a summary of new features, templates, fixed bugs and future plans. <!-- View the <a href="/news/archive">newsletter archive</a>. -->  Please don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+<p>This page explains what I'm working on and what I have planned. You can subscribe to the newsletter below to recieve a summary <!-- of new features, templates, fixed bugs and future plans --> at the start of each season. <!-- See <a href="/news/archive">past newsletters</a> for a sense of what I send out. --> Please don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
 
 <br><p>
-<form action="/news/sign-up" method="POST" style="max-width:35em;">
-  <label for="email">Your email</label>
+<form action="/news/sign-up" method="POST" style="max-width:608px;">
+  <label for="email">Your email address</label>
   <div style="display:flex">
   <input type="text" required id="email" name="email">
-  <input type="submit" value="Subscribe to the newsletter">
+  <input type="submit" style="margin-left:1.5em" value="Subscribe to the newsletter">
 </div>
 </form>
 </p>
-
+</div>
 <br><br>
 
 <flex>
   
-  <section style="max-width:33em">
+  <section >
     <h2 style="margin-bottom:2em">To do</h2>
     {{{todo}}}
   </section>
