@@ -10,7 +10,7 @@ var localPath = require("../localPath");
 var config = require("config");
 var join = require("path").join;
 var async = require("async");
-var glob = require("fast-glob");
+var resolveCaseInsensitivePathToFile = require("./resolveCaseInsensitivePathToFile");
 
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
@@ -42,70 +42,41 @@ function Transformer(blogID, name) {
       return callback(new Error("Transformer: source is unsupported protocol"));
     }
 
-    // First we check if this path matches a file in the blog folder
-    tasks.push(function(next) {
-      fullLocalPath = localPath(blogID, path);
-      fromPath(fullLocalPath, transform, next);
-    });
-
     // Images pulled from Word Documents are stored in the static folder
     tasks.push(function(next) {
       fullLocalPath = join(config.blog_static_files_dir, blogID, src);
       fromPath(fullLocalPath, transform, next);
     });
 
+    // First we check if this path matches a file in the blog folder
+    tasks.push(function(next) {
+      fullLocalPath = localPath(blogID, path);
+      fromPath(fullLocalPath, transform, next);
+    });
+
     // Attempt to resolve the path case-insensitively in the blog directory
     // We don't need to check the static folder since those paths are
     // guaranteed correct and lowercase.
-    tasks.push(function(then) {
-      var stream, err;
-      var match = false;
-      var pathWithoutLeadingSlashes = trimLeadingSlashes(path);
-      var patterns = [pathWithoutLeadingSlashes];
-
-      if (decodeURI(pathWithoutLeadingSlashes) !== pathWithoutLeadingSlashes)
-        patterns.push(decodeURI(pathWithoutLeadingSlashes));
-
-      stream = glob.stream(patterns, {
-        // Perform a case-insensitive match. Note: on case-insensitive
-        // filesystems, non-magic patterns will match by default, since
-        // stat and readdir will not raise errors.
-        case: true,
-
-        // The current working directory in which to search.
-        cwd: localPath(blogID, "/").slice(0, -1),
-
-        // Do not match directories, only files. (Note: to match only
-        //  directories, simply put a / at the end of the pattern.)
-        onlyFiles: true,
-
-        // Set to true to always receive absolute paths for matched files.
-        // Unlike realpath, this also affects the values returned
-        absolute: true,
-
-        // Disables expansion of brace patterns
-        brace: false,
-
-        // Disables matching with globstars
-        globstar: false
+    tasks.push(function(next) {
+      resolveCaseInsensitivePathToFile(localPath(blogID, "/"), path, function(
+        err,
+        fullLocalPath
+      ) {
+        if (err) return next(err);
+        fromPath(fullLocalPath, transform, next);
       });
+    });
 
-      stream.once("error", then);
-
-      stream.on("data", function(file) {
-        if (match) return;
-
-        match = true;
-        stream.destroy();
-        fromPath(file, transform, then);
-      });
-
-      stream.once("end", function() {
-        if (match) return;
-
-        err = new Error("No file matches " + patterns);
-        err.code = "ENOENT";
-        then(err);
+    // Attempt to resolve the URI-decoded path case-insensitively in the 
+    // blog directory. We don't need to check the static folder since 
+    // those paths are guaranteed correct and lowercase.
+    tasks.push(function(next) {
+      resolveCaseInsensitivePathToFile(localPath(blogID, "/"), decodeURI(path), function(
+        err,
+        fullLocalPath
+      ) {
+        if (err) return next(err);
+        fromPath(fullLocalPath, transform, next);
       });
     });
 
