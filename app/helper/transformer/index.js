@@ -48,15 +48,17 @@ function Transformer(blogID, name) {
       fromPath(fullLocalPath, transform, next);
     });
 
-    // First we check if this path matches a file in the blog folder
+    // If we make it here, the file doesn't match anything in the static
+    // folder. We don't need to look further inside the static folder since
+    // those paths are added by Blot and guaranteed correct and lowercase.
+
+    // First we check if this path matches a file in the blog folder exactly.
     tasks.push(function(next) {
       fullLocalPath = localPath(blogID, path);
       fromPath(fullLocalPath, transform, next);
     });
 
-    // Attempt to resolve the path case-insensitively in the blog directory
-    // We don't need to check the static folder since those paths are
-    // guaranteed correct and lowercase.
+    // Next we attempt to resolve the path case-insensitively
     tasks.push(function(next) {
       resolveCaseInsensitivePathToFile(localPath(blogID, "/"), path, function(
         err,
@@ -67,9 +69,7 @@ function Transformer(blogID, name) {
       });
     });
 
-    // Attempt to resolve the URI-decoded path case-insensitively in the
-    // blog directory. We don't need to check the static folder since
-    // those paths are guaranteed correct and lowercase.
+    // Finally we attempt to resolve the URI-decoded path case-insensitively
     tasks.push(function(next) {
       resolveCaseInsensitivePathToFile(
         localPath(blogID, "/"),
@@ -85,9 +85,7 @@ function Transformer(blogID, name) {
     // works then it'll stop and return the result!
     async.tryEach(tasks, function(err, results) {
       if (err) return callback(err);
-
       debug(results);
-
       callback(null, results[0], results[1]);
     });
   }
@@ -111,7 +109,7 @@ function Transformer(blogID, name) {
           download(url.split("&amp;").join("&"), headers, next);
         });
       }
-      
+
       tasks.push(function(next) {
         download(url, headers, next);
       });
@@ -279,11 +277,6 @@ function Transformer(blogID, name) {
     lookup: lookup,
     flush: flush
   };
-}
-
-function trimLeadingSlashes(str) {
-  while (str[0] === "/" && str.length > 1) str = str.slice(1);
-  return str;
 }
 
 function nothing(err) {
