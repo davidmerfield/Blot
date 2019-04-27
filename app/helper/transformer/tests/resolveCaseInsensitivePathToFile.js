@@ -4,23 +4,34 @@ describe("transformer ", function() {
 
   var resolveCaseInsensitivePathToFile = require("../resolveCaseInsensitivePathToFile");
   var fs = require("fs-extra");
+  var async = require("async");
 
   it("resolves case insensitive paths to a file", function(done) {
-    var path = "/foo/Bar/baz.jpg";
-    var randomizedPath = randomizeCase(path);
     var cwd = this.blogDirectory;
 
-    fs.outputFileSync(cwd + path, "");
+    // We have to use globally unique names for each directory
+    // since on case-insensitive file systems you can clobber
+    // an existing test case with a new case
+    async.timesSeries(
+      100,
+      function(i, next) {
+        var truePath = global.test.fake.path(Date.now().toString() + ".txt");
+        var randomizedPath = randomizeCase(truePath);
+        fs.outputFileSync(cwd + truePath, "");
 
-    resolveCaseInsensitivePathToFile(cwd, randomizedPath, function(
-      err,
-      resolvedPath
-    ) {
-      if (err) return done.fail(err);
+        resolveCaseInsensitivePathToFile(cwd, randomizedPath, function(
+          err,
+          resolvedPath
+        ) {
+          if (err) return done.fail(err);
 
-      expect(resolvedPath).toEqual(cwd + path);
-      done();
-    });
+          expect(resolvedPath).toEqual(cwd + truePath);
+          fs.emptyDirSync(cwd);
+          next();
+        });
+      },
+      done
+    );
   });
 });
 
