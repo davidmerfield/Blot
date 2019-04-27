@@ -37,22 +37,16 @@ module.exports = function setup(options) {
     this.transformer.flush(done);
   });
 
-  // Create a webserver for testing remote files
-  beforeAll(function() {
-    var server = Express();
-    var port = 8919;
-    var route = "/foo.html";
-
-    this.url = "http://localhost:" + port + route;
-
-    server.get(route, function(req, res) {
+  global.test.server(function(server) {
+    // Only server an image at this route if 
+    // the request passes the correct query
+    server.get("/foo.html", function(req, res) {
       res.send("Hello, World!");
     });
-
-    this.server = server.listen(port);
   });
 
-  afterAll(function(done) {
-    this.server.close(done);
+  // Create a webserver for testing remote files
+  beforeAll(function() {
+    this.url = this.origin + "/foo.html";
   });
 };
