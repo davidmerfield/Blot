@@ -12,6 +12,7 @@ function resolveCaseInsensitivePathToFile(cwd, path, callback) {
   // the results. '/a/b'.split('/') is ['', 'a', 'b']
   // while 'a/b'.split('/') is ['a', 'b']
   while (path[0] === "/") path = path.slice(1);
+  while (path.slice(-1) === "/") path = path.slice(0, -1);
 
   // We must remove a trailing slash from the current
   // working directory to ensure paths mesh nicely

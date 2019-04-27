@@ -9,14 +9,11 @@ describe("transformer ", function() {
   it("resolves case insensitive paths to a file", function(done) {
     var cwd = this.blogDirectory;
 
-    // We have to use globally unique names for each directory
-    // since on case-insensitive file systems you can clobber
-    // an existing test case with a new case
     async.timesSeries(
       100,
       function(i, next) {
         var truePath = global.test.fake.path(Date.now().toString() + ".txt");
-        var randomizedPath = randomizeCase(truePath);
+        var randomizedPath = addSlashes(randomizeCase(truePath));
         fs.outputFileSync(cwd + truePath, "");
 
         resolveCaseInsensitivePathToFile(cwd, randomizedPath, function(
@@ -34,6 +31,25 @@ describe("transformer ", function() {
     );
   });
 });
+
+function addSlashes(path) {
+  path = path
+    .split("/")
+    .map(function(str) {
+      if (coinFlip()) str = str + "/";
+
+      if (coinFlip()) str = "/" + str;
+
+      return str;
+    })
+    .join("/");
+  return path;
+      
+}
+
+function coinFlip() {
+  return Math.random() > 0.5;
+}
 
 function randomizeCase(str) {
   return str
