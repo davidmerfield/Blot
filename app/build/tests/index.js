@@ -2,6 +2,17 @@ describe("build", function() {
   var build = require("../index");
   var fs = require("fs-extra");
 
+  global.test.server(function(server) {
+    // Only server an image at this route if 
+    // the request passes the correct query
+    server.get("/a.jpg", function(req, res) {
+      if (!req.query || req.query.user !== "foo" || req.query.pass !== "bar")
+        return res.sendStatus(400);
+
+      res.sendFile(__dirname + "/small.jpg");
+    });
+  });
+
   global.test.blog();
 
   it("resolves relative paths inside files", function(done) {
@@ -22,14 +33,22 @@ describe("build", function() {
 
   xit("handles image URLs with query strings", function(done) {
     var path = "/hello.txt";
-    var contents = "![](http://localhost:8000/a.jpg?b=c&d=e&f=g)";
+    var contents = "![](" + this.origin + "/a.jpg?user=foo&pass=bar)";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
     build(this.blog, path, {}, function(err, entry) {
       if (err) return done.fail(err);
 
-      console.log(entry.html);
+      // verify the image was cached
+      expect(entry.html).toContain("/_image_cache/");
+
+      // verify a thumbnail was generated from the image
+      expect(entry.thumbnail.small).toEqual(
+        jasmine.objectContaining({
+          name: "small.jpg"
+        })
+      );
       done();
     });
   });
@@ -58,5 +77,4 @@ describe("build", function() {
       done();
     });
   });
-
 });
