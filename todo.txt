@@ -1,21 +1,15 @@
+Finish Archive template
+
 Finish Feed template
 - Create folder with public domain material
 - Finish script to build test sites from folders
 - Add a customizable header motif with dots, gradient etc?
-
-Finish Archive template
-- Create folder with public domain material, new deal photos?
 
 Record new demo video
 - Create simple custom text editor built in electron or something which has autocomplete tags, drag and drop images, explain that you can build something like this yourself "Bring your own interface"
 - Show sites I run using Blot
 
 ---
-
-Modify image path resolved to use glob
-- Fix ampersand encoding bug in [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCVwWxCgNbcqtHwGCWQZQPlb)'s thumbnails
-- Fix bug for images containing upper-case characters on [Jonas' blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzcDqksPQndQsthxKMqBrMTDt)
-- Fix [Anders](https://mail.google.com/mail/u/1/#inbox/1661bcc946b4960a) image path bug. A file titled "_på besøg hos gomorgen danmark.jpg" cannot be embedded in a blog post. Write test which ensures this doesn't happen again. This should also fix bug with case-sensitive paths to thumbnails + Dropbox client and tell Jan-Erik on Twitter DMs. Make resolve work more impressively, attempt to resolve a path in a case insensitive manner. Or is this a good idea? Maybe we should only resolve paths which match stored metadata? Or should we make a best-effort? As long as we are resolving case-only it should be fine... Tell [Michael](https://mail.google.com/mail/u/0/#inbox/1665ddc4057851cf) it now works. This should also fix bug with accents in image paths for [Wesley](https://mail.google.com/mail/u/1/#inbox/15f65ae5c00af8a1). Incorporate retries into the thumbnail fetcher...
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
 
@@ -536,7 +530,6 @@ Automate setting up application environment using /etc/profile.d:
 Move away from upstart to systemd, because there was an issue with upstart losing track of nginx and failing to stop or restart its process.
 
 
-
 Thumbnail generator
 - Generate thumbnails for GIFs / SVG thum
 - Prioritize faces
@@ -615,6 +608,8 @@ Menu needs concurrency or atomic operations (so we can build posts in parallel)
 Investigate atompub support for Marsedit and tell Chet
 
 Move from preview files -> webloc / .url files? Everything requires an internet connection
+
+Incorporate retries into the thumbnail fetcher...
 
 Consider adding date format localization with Moment
 
