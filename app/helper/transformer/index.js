@@ -103,15 +103,18 @@ function Transformer(blogID, name) {
     getURL(url, function(err, headers, hash, result) {
       if (err) return callback(err);
 
-      tasks.push(function(next) {
-        download(url, headers, next);
-      });
-
+      // Right now ampersands in URL queries are escaped
+      // which isn't ideal and breaks the thumbnail generator.
+      // So we try the URL with unescaped ampersands first.
       if (url.indexOf("&amp;") > -1) {
         tasks.push(function(next) {
           download(url.split("&amp;").join("&"), headers, next);
         });
       }
+      
+      tasks.push(function(next) {
+        download(url, headers, next);
+      });
 
       async.tryEach(tasks, function(err, results) {
         // Now we try and download the URL, passing in previously
