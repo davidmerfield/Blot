@@ -1,26 +1,15 @@
-var get = require("./get");
-var Entry = require("../../app/models/entry");
-var Blog = require("../../app/models/blog");
+var Entry = require("../../../app/models/entry");
+var Blog = require("../../../app/models/blog");
 var async = require("async");
 var yesno = require("yesno");
-
-if (require.main === module) {
-  get(process.argv[2], function(user, blog) {
-    main(blog, function(err) {
-      if (err) throw err;
-      console.log("Saved menu.");
-      process.exit();
-    });
-  });
-}
+var host = require("../../../config").host;
 
 var existing = {};
 
 function main(blog, callback) {
-  console.log("Existing menu:");
-  console.log(blog.menu);
-  console.log();
-  console.log("Checking each link...");
+  var domain = "http://" + blog.handle + "." + host;
+
+  console.log("Blog", blog.id, "(" + domain + ") Fixing menu");
 
   async.map(
     blog.menu,
@@ -63,16 +52,26 @@ function main(blog, callback) {
         return item !== null;
       });
 
-      console.log();
-      console.log("Fixed menu:");
-      console.log(results);
+      try {
+        require("assert").deepStrictEqual(results, blog.menu);
+      } catch (e) {
+        console.log("Existing menu:");
+        console.log(blog.menu);
+        console.log();
 
-      yesno.ask("Save menu? (y/n)", false, function(yes) {
-        if (!yes) {
-          return callback(new Error("\nDid not apply changes"));
-        }
-        Blog.set(blog.id, { menu: results }, callback);
-      });
+        console.log();
+        console.log("Fixed menu:");
+        console.log(results);
+
+        return yesno.ask("Save menu? (y/n)", false, function(yes) {
+          if (!yes) {
+            return callback(new Error("\nDid not apply changes"));
+          }
+          Blog.set(blog.id, { menu: results }, callback);
+        });
+      }
+
+      callback();
     }
   );
 }

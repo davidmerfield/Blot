@@ -1,20 +1,10 @@
-var get = require("./get");
 var yesno = require("yesno");
-var Entries = require("../../app/models/entries");
-var Entry = require("../../app/models/entry");
-var localPath = require("../../app/helper").localPath;
+var Entries = require("../../../app/models/entries");
+var Entry = require("../../../app/models/entry");
+var localPath = require("helper").localPath;
 var fs = require("fs");
 var async = require("async");
-var host = require("../../config").host;
-
-if (require.main === module) {
-  get(process.argv[2], function(user, blog) {
-    main(blog, function(err) {
-      if (err) throw err;
-      process.exit();
-    });
-  });
-}
+var host = require("../../../config").host;
 
 function resolvePath(blogID, path, callback) {
   var candidates = [];
@@ -85,7 +75,6 @@ function main(blog, callback) {
       if (err) return callback(err);
 
       if (!missing.length && !edit.length) {
-        console.log("All entries are in order");
         return callback();
       }
 
