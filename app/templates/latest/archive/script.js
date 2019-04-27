@@ -178,9 +178,14 @@ function loadResults() {
       result +=
         '<span class="title">' +
         entry.title.split(query).join("<b>" + query + "</b>") +
-        '</span><span class="date"> - ' +
+        '</span>';
+
+      if (entry.date)
+        result += '<span class="date"> - ' +
         entry.date +
-        "</span></a>";
+        "</span>";
+
+      result += "</a>";
 
       html += result;
     });

@@ -14,21 +14,21 @@ body {
   padding: 0
 }
 
-.header {display:flex;padding:2rem 2rem 1.3rem;font-weight:300}
+.header {display:flex;padding:0.65rem 1.3rem;min-height:3rem;align-items: center;}
 
 hr {
   border: none;
   margin: 0;
-  border-top: 1px solid #f2f2f2
+  border-top: 1px solid #eceff1
 }
 
 a.light {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.85);
   text-decoration: none;
 }
 
 a.light:hover {
-  color: rgba(0, 0, 0, .3);
+  color: rgba(0, 0, 0, .8);
 }
 
 a.light:hover img {
@@ -153,6 +153,8 @@ a.light:active img {
 .post:hover .date {
   visibility: visible;
 }
+
+.post:active {opacity: 0.7}
 
 .post img {
   max-width: 100%;
