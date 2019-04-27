@@ -14,6 +14,8 @@ if (require.main === module) {
         return process.exit(1);
       }
 
+      console.log('To rebuild all cached images: node scripts/blog/rebuild/cached-images ' + blog.handle);
+      console.log('To regenerate all thumbnails: node scripts/blog/rebuild/thumbnails ' + blog.handle);
       process.exit();
     });
   });
