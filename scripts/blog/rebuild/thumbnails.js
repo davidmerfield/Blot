@@ -1,15 +1,21 @@
+var colors = require("colors/safe");
 var Transformer = require("helper").transformer;
-var get = require("./get");
+var get = require("../../get/blog");
 var config = require("config");
 var fs = require("fs-extra");
 var async = require("async");
-var rebuildAllEntries = require("./rebuild_all_entries");
+var rebuild = require("./index");
 
 if (require.main === module) {
-  get(process.argv[2], function(user, blog) {
+  get(process.argv[2], function(err, user, blog) {
+    if (err) throw err;
+
     main(blog, function(err) {
-      console.log(err);
-      if (err) throw err;
+      if (err) {
+        console.error(colors.red("Error:", err.message));
+        return process.exit(1);
+      }
+
       process.exit();
     });
   });
@@ -21,18 +27,23 @@ function main(blog, callback) {
   var thumbnailDirectory =
     config.blog_static_files_dir + "/" + blog.id + "/_thumbnails";
 
-  console.log('Blog ' + blog.id + ':', 'Retrieving existing thumbnail files...');
+  console.log(
+    "Blog " + blog.id + ":",
+    "Retrieving existing thumbnail files..."
+  );
 
   fs.readdir(thumbnailDirectory, function(err, contents) {
-  
-    console.log('Blog ' + blog.id + ':', 'Flushing thumbnail data store');
+    console.log("Blog " + blog.id + ":", "Flushing thumbnail data store");
     store.flush(function(err) {
       if (err) return callback(err);
 
-      rebuildAllEntries(blog, function(err) {
-      if (err) return callback(err);
+      rebuild(blog, function(err) {
+        if (err) return callback(err);
 
-        console.log('Blog ' + blog.id + ':', 'Removing old thumbnail files...');
+        console.log(
+          "Blog " + blog.id + ":",
+          "Removing old thumbnail files..."
+        );
 
         async.each(
           contents,
@@ -44,7 +55,10 @@ function main(blog, callback) {
           function(err) {
             if (err) return callback(err);
 
-            console.log('Blog ' + blog.id + ':', 'Rebuilt all thumbnails and flushed old ones from disk!');
+            console.log(
+              "Blog " + blog.id + ":",
+              "Regenerated all thumbnails and flushed old ones from disk!"
+            );
             callback();
           }
         );

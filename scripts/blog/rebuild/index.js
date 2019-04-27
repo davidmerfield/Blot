@@ -1,44 +1,50 @@
-var get = require("./get");
-var Entries = require('../../app/models/entries');
-var Entry = require('../../app/models/entry');
-var build = require('../../app/build');
+var colors = require("colors/safe");
+var get = require("../../get/blog");
+var sync = require("../../../app/sync");
+var walk = require("./walk");
+var async = require("async");
 
 if (require.main === module) {
-  get(process.argv[2], function(user, blog) {
+  get(process.argv[2], function(err, user, blog) {
+    if (err) throw err;
+
     main(blog, function(err) {
-      if (err) throw err;
+      if (err) {
+        console.error(colors.red("Error:", err.message));
+        return process.exit(1);
+      }
+
       process.exit();
     });
   });
 }
 
 function main(blog, callback) {
-  console.log('Blog ' + blog.id + ':', 'Rebuilding entries...');
-  Entries.each(
-    blog.id,
-    function(_entry, next) {
-      build(blog, _entry.path, function(err, entry){
+  console.log("Starting sync for", blog.handle);
+  sync(blog.id, function(err, folder, done) {
+    if (err) return done(err);
 
-        if (err && err.code === 'ENOENT' && _entry.deleted) {
-          return next();
+    walk(folder.path, function(err, paths) {
+      if (err) return done(err);
+
+      async.eachSeries(
+        paths,
+        function(path, next) {
+          // turn absolute path returned by walk into relative path
+          // used by Blot inside the user's blog folder...
+          path = path.slice(folder.path.length);
+          folder.update(path, next);
+        },
+        function(err) {
+          done(err, function(err) {
+
+            console.log("Rebuilt:", process.argv[2]);
+            callback(err);
+          });
         }
-
-        if (err) {
-          console.log('-', _entry.path, err, _entry);
-          return next();
-        } else {
-          console.log('-', _entry.path);
-        }
-
-        Entry.set(blog.id, entry.path, entry, next);
-      });
-    },
-    function(err){
-      if (err) return callback(err);
-      console.log('Blog ' + blog.id + ':', 'Rebuilt all entries!');
-      callback();
-    }
-  );
+      );
+    });
+  });
 }
 
 module.exports = main;

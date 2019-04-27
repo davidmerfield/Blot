@@ -1,15 +1,21 @@
+var colors = require("colors/safe");
 var Transformer = require("helper").transformer;
-var get = require("./get");
+var get = require("../../get/blog");
 var config = require("config");
 var fs = require("fs-extra");
 var async = require("async");
-var rebuildAllEntries = require("./rebuild_all_entries");
+var rebuild = require("./index");
 
 if (require.main === module) {
-  get(process.argv[2], function(user, blog) {
+  get(process.argv[2], function(err, user, blog) {
+    if (err) throw err;
+
     main(blog, function(err) {
-      console.log(err);
-      if (err) throw err;
+      if (err) {
+        console.error(colors.red("Error:", err.message));
+        return process.exit(1);
+      }
+
       process.exit();
     });
   });
@@ -31,7 +37,7 @@ function main(blog, callback) {
     store.flush(function(err) {
       if (err) return callback(err);
 
-      rebuildAllEntries(blog, function(err) {
+      rebuild(blog, function(err) {
         if (err) return callback(err);
 
         console.log(
