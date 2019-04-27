@@ -1,9 +1,3 @@
-{{> head}}
-
-<body >
-      <link rel="stylesheet" href="/css/header.css">
-
-  <style type="text/css">
 
   main {
     display: flex;
@@ -164,36 +158,3 @@
     background: #feeded;
     outline: 10px solid #feeded
   }
-  </style>
-
-<header class="grid">
-
-
-    <row>
-
-      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
-        <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
-      </section>
-
-        <p style="margin:0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
-</row>
-
-    </header>
-
-  <main  class="grid">
-
-      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
-      </section>
-
-    <content>
-      <br><br>
-
-
-      <p><mark id="error" class="error">{{#error}}{{error}}{{/error}}</mark></p>
-
-      {{{body}}}
-      </content>
-  </main>
-</body>
-
-</html>
