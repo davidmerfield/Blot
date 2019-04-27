@@ -15,14 +15,10 @@ describe("transformer", function() {
     });
   });
 
-  it("transforms a file in the blog's static directory", function(done) {
-    var fullPath = this.blogDirectory + "/" + this.path;
-    var path = "/" + Date.now() + "-" + this.path;
-    var newFullPath = STATIC_DIRECTORY + "/" + this.blog.id + path;
+  it("transforms a file with incorrect case in the blog's directory", function(done) {
+    this.path = this.path.toUpperCase();
 
-    fs.copySync(fullPath, newFullPath);
-
-    this.transformer.lookup(path, this.transform, function(err, result) {
+    this.transformer.lookup(this.path, this.transform, function(err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -31,8 +27,58 @@ describe("transformer", function() {
     });
   });
 
-  it("transforms a remote file", function(done) {
-    this.transformer.lookup(this.url, this.transform, function(err, result) {
+  it("transforms a file whose path has been URI encoded", function(done) {
+    this.path = "/Hello world.txt";
+    fs.moveSync(this.localPath, this.blogDirectory + this.path);
+    this.path = encodeURI(this.path);
+
+    this.transformer.lookup(this.path, this.transform, function(err, result) {
+      if (err) return done.fail(err);
+
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.size).toEqual(jasmine.any(Number));
+      done();
+    });
+  });
+
+  it("transforms a file whose path with incorrect case contains an accent and URI encoded characters", function(done) {
+    this.path = "/Hållœ wòrld.txt";
+    fs.moveSync(this.localPath, this.blogDirectory + this.path);
+    this.path = encodeURI(this.path);
+
+    this.transformer.lookup(this.path.toLowerCase(), this.transform, function(
+      err,
+      result
+    ) {
+      if (err) return done.fail(err);
+
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.size).toEqual(jasmine.any(Number));
+      done();
+    });
+  });
+
+  it("will not transform a file that does not exist", function(done) {
+    var spy = jasmine.createSpy().and.callFake(this.transform);
+
+    fs.removeSync(this.blogDirectory + "/" + this.path);
+
+    this.transformer.lookup(this.path, spy, function(err, result) {
+      expect(err instanceof Error).toBe(true);
+      expect(err.code).toEqual("ENOENT");
+      expect(spy).not.toHaveBeenCalled();
+      expect(result).not.toBeTruthy();
+      done();
+    });
+  });
+  it("transforms a file in the blog's static directory", function(done) {
+    var fullPath = this.blogDirectory + "/" + this.path;
+    var path = "/" + Date.now() + "-" + this.path;
+    var newFullPath = STATIC_DIRECTORY + "/" + this.blog.id + path;
+
+    fs.copySync(fullPath, newFullPath);
+
+    this.transformer.lookup(path, this.transform, function(err, result) {
       if (err) return done.fail(err);
 
       expect(result).toEqual(jasmine.any(Object));
@@ -91,4 +137,15 @@ describe("transformer", function() {
       });
     });
   });
+
+  it("transforms a url", function(done) {
+    this.transformer.lookup(this.url, this.transform, function(err, result) {
+      if (err) return done.fail(err);
+
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.size).toEqual(jasmine.any(Number));
+      done();
+    });
+  });
+
 });

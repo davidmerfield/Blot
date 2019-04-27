@@ -10,6 +10,7 @@ var localPath = require("../localPath");
 var config = require("config");
 var join = require("path").join;
 var async = require("async");
+var resolveCaseInsensitivePathToFile = require("./resolveCaseInsensitivePathToFile");
 
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
@@ -22,40 +23,76 @@ function Transformer(blogID, name) {
   function lookup(src, transform, callback) {
     var url = isURL(src);
     var path = src;
+    var fullLocalPath;
     var tasks = [];
 
+    debug(src);
+
     // We check URLs first since isPath is less strict
-    if (url) return fromURL(url, transform, callback);
+    if (url) {
+      debug(src, "seemes to be a URL");
+      return fromURL(url, transform, callback);
+    }
 
-    if (path.length > 300) return callback(bad(src));
+    if (path.length > 300) {
+      return callback(new Error("Transformer: source too long: " + clip(src)));
+    }
 
-    if (path.indexOf("data:") === 0) return callback(bad(src));
-
-    tasks.push(localPath(blogID, path));
+    if (path.indexOf("data:") === 0) {
+      return callback(new Error("Transformer: source is unsupported protocol"));
+    }
 
     // Images pulled from Word Documents are stored in the static folder
-    // so we need to check there too.
-    tasks.push(join(config.blog_static_files_dir, blogID, src));
+    tasks.push(function(next) {
+      fullLocalPath = join(config.blog_static_files_dir, blogID, src);
+      fromPath(fullLocalPath, transform, next);
+    });
 
-    tasks = tasks.map(function(path) {
-      debug(path, "will be checked");
-      return fromPath.bind(null, path, transform);
+    // If we make it here, the file doesn't match anything in the static
+    // folder. We don't need to look further inside the static folder since
+    // those paths are added by Blot and guaranteed correct and lowercase.
+
+    // First we check if this path matches a file in the blog folder exactly.
+    tasks.push(function(next) {
+      fullLocalPath = localPath(blogID, path);
+      fromPath(fullLocalPath, transform, next);
+    });
+
+    // Next we attempt to resolve the path case-insensitively
+    tasks.push(function(next) {
+      resolveCaseInsensitivePathToFile(localPath(blogID, "/"), path, function(
+        err,
+        fullLocalPath
+      ) {
+        if (err) return next(err);
+        fromPath(fullLocalPath, transform, next);
+      });
+    });
+
+    // Finally we attempt to resolve the URI-decoded path case-insensitively
+    tasks.push(function(next) {
+      resolveCaseInsensitivePathToFile(
+        localPath(blogID, "/"),
+        decodeURI(path),
+        function(err, fullLocalPath) {
+          if (err) return next(err);
+          fromPath(fullLocalPath, transform, next);
+        }
+      );
     });
 
     // Will work down the list of paths. If one of the paths
     // works then it'll stop and return the result!
     async.tryEach(tasks, function(err, results) {
       if (err) return callback(err);
-
+      debug(results);
       callback(null, results[0], results[1]);
     });
   }
 
   // callback must be passed an error or null and result
   function fromURL(url, transform, callback) {
-    ensure(url, "string")
-      .and(transform, "function")
-      .and(callback, "function");
+    var tasks = [];
 
     // Look in the database to see if we have downloaded
     // this URL in the past. If so, retrieve the response
@@ -64,11 +101,28 @@ function Transformer(blogID, name) {
     getURL(url, function(err, headers, hash, result) {
       if (err) return callback(err);
 
-      // Now we try and download the URL, passing in previously
-      // stored headers if any. This module interprets 304
-      // responses nicely.
-      download(url, headers, function(err, path, headers) {
+      // Right now ampersands in URL queries are escaped
+      // which isn't ideal and breaks the thumbnail generator.
+      // So we try the URL with unescaped ampersands first.
+      if (url.indexOf("&amp;") > -1) {
+        tasks.push(function(next) {
+          download(url.split("&amp;").join("&"), headers, next);
+        });
+      }
+
+      tasks.push(function(next) {
+        download(url, headers, next);
+      });
+
+      async.tryEach(tasks, function(err, results) {
+        // Now we try and download the URL, passing in previously
+        // stored headers if any. This module interprets 304
+        // responses nicely.
         if (err) return callback(err);
+
+        var path = results[0];
+
+        headers = results[1];
 
         // We didn't redownload the file since it's
         if (!path && result) return callback(null, result);
@@ -227,10 +281,6 @@ function Transformer(blogID, name) {
 
 function nothing(err) {
   if (err) throw err;
-}
-
-function bad(src) {
-  return new Error("Transformer: Identifier must be path or url: " + clip(src));
 }
 
 function missing(src) {
