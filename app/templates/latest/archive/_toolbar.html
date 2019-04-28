@@ -1,7 +1,9 @@
 <hr>
-<div style="padding:0 1.3rem;display:flex;color:rgba(0,0,0,.4);">
+<div style="display:flex;color:rgba(0,0,0,.4);">
 
-  <div style="padding:0.325rem 0;">
+  <div style="    padding: 0.325rem 1.3rem;
+    flex-basis: 25%;
+    box-sizing: border-box;">
 
     <span style="text-decoration:none;color:rgba(0,0,0,.25);margin-top:2px;display:inline-block;text-transform:uppercase;font-size:11px">
   {{#pagination}}Page {{current}} of {{total}} {{/pagination}}
@@ -15,19 +17,20 @@
 
   </div>
 
-  <div style="flex-grow:1;display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
+  <div style="flex-basis:50%;display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
 
     {{#popular_tags.length}}
-    <div id="tags">
+    <div id="tags" style="padding-left:0.3rem">
       {{#popular_tags}}<a href="/tagged/{{slug}}" class="{{active}}"><strong>{{tag}}</strong><span>{{tag}}</span></a>{{/popular_tags}}
     </div>
 
-    <a href="/tags" id="opentags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Show&nbsp;all</a>
+    <a href="/tags"  style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;margin: 0 0.325rem;
+    padding: 0.15rem 0.325rem 0;display:inline-block;font-size:11px">All&nbsp;categories&puncsp;&rarr;</a>
 
     {{/popular_tags.length}}
   </div>
 
-  <div style="flex-shrink:0">
+  <div style="flex-shrink:0;flex-basis:25%;">
     <div style="padding-left:6rem;height:0;visibility:hidden">
       {{#menu}}
       <a class="light" title="{{label}}" style="margin:0.5rem 0.75rem;" href="{{{url}}}">{{label}}</a>

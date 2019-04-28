@@ -4,10 +4,12 @@
 <body style="display:flex;flex-direction:column;min-height:100%;">
   <div class="header">
     {{> index_link}}
+
     {{> search_field}}
-    <div style="padding-left:6rem;display:flex;align-items: center;">
+    
+    <div class="w-25" style="display:flex;justify-content: flex-end;    align-items: center;">
       {{#menu}}
-      <a class="light" title="{{label}}" style="margin:0.5rem 0.75rem;" href="{{{url}}}">{{label}}</a>
+      <a class="light" title="{{label}}" style="padding:0.5rem 0.75rem;{{#last}}padding-right:1.3rem{{/last}}" href="{{{url}}}">{{label}}</a>
       {{/menu}}
     </div>
   </div>

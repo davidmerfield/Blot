@@ -14,7 +14,10 @@ body {
   padding: 0
 }
 
-.header {display:flex;padding:0.65rem 1.3rem;min-height:3rem;align-items: center;}
+.header {display:flex;align-items: center;min-height: 3.4rem;}
+
+.header .w-25 {flex-basis:25%;}
+.header .w-50 {flex-basis:50%;}
 
 hr {
   border: none;
@@ -201,15 +204,16 @@ form input {
   font-size: 16px;
   border: none;
   line-height: inherit;
-  border: 1px solid transparent;
 }
 
 form input[type="text"] {
   flex-grow: 1;
   color: rgba(0, 0, 0, .85);
-  padding-left: 3.6rem;
-  background: #f6f6f6 url('/icons/search.svg') no-repeat right 1.3rem center;
-  background-size: 1rem
+  background: transparent url('/icons/search.svg') no-repeat 1rem center;
+  background-size: 0.95rem;
+/*  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+*/  cursor: text;
 }
 
 form input:hover,
@@ -221,8 +225,7 @@ form input:hover,
 form input:focus,
 .pag a[href]:focus {
   outline: none;
-  border: 1px solid #222;
-  background-color: #fbfbfb
+  background-color: transparent;
 }
 
 .menu a[href="/search"] {
@@ -400,7 +403,10 @@ form input:focus,
 
 #tags a strong {visibility: hidden;font-weight: 500;color: black}
 #tags a span {position: absolute;left: 0;right: 0;text-align: center;}
+#tags a:focus strong,
 #tags a.active strong {visibility: visible;}
+
+#tags a:focus span,
 #tags a.active span {display: none;}
 
 .paginator {
@@ -415,7 +421,6 @@ form input:focus,
 .paginator a {
   min-width: 1.5em;
   text-align: center;
-  line-height: 1.4;
   display: inline-block;
   padding: 0.325rem 0;
   margin: 0 0.1rem;
@@ -496,4 +501,10 @@ form input:focus,
 .archives a.item span {
   vertical-align: middle;
   display: inline-block;
+}
+
+.zoomable {
+      cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in;
+    cursor: zoom-in;
 }

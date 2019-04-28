@@ -2,20 +2,19 @@
 
 <hr>
 
-{{^archives.length}}
+{{^allTags.length}}
 <div class="centered">
-  <p>No posts yet.</p>
+  <p>No categories yet.</p>
 </div>
-{{/archives.length}}
+{{/allTags.length}}
 
-{{#archives.length}}
+{{#allTags.length}}
 <div class="archives">
-  <h1 style="margin-left:2rem">Archives</h1>
-  {{> toolbar}}
+  <h1 style="margin-left:2rem">Categories</h1>
+  {{#allTags}}
   <hr>
+  <h2>{{tag}}</h2>
   <div class="links">
-    {{#archives}}
-    {{#months}}
     {{#entries}}
     <a class="item" style="" href="{{{url}}}"><span style="display:inline-block;margin-right:0.5em;width:1em;height:1em;flex-shrink:0">{{#thumbnail.square}}
 <img src="{{{url}}}" style="max-width:1em;max-height:1em;width:auto;height:auto" class="fadeMe" onload="this.className+=' fadeIn';" />
@@ -30,10 +29,9 @@
     
 ">{{title}}</span></span> <span style="flex-shrink:0">{{#formatDate}}MMM YYYY{{/formatDate}}</span></a>
     {{/entries}}
-    {{/months}}
-    {{/archives}}
   </div>
+  {{/allTags}}  
 </div>
-{{/archives.length}}
+{{/allTags.length}}
 
 {{> footer}}
