@@ -24,19 +24,21 @@ Review and merge Paul's PR with the static query
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
 
-Work [more on Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
+Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Add a photos page to [Gabriel's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLtjHvbXprzCbFGVhmWwbtsv)
 
-Transfer [Ana's design to a Blot template](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe8d0f08-2593/screen/63c8075e-2ffd-43c2-be9e-d08a1369b971/Web-1366-1?fullscreen)
+Transfer [Ana's design](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe8d0f08-2593/screen/63c8075e-2ffd-43c2-be9e-d08a1369b971/Web-1366-1?fullscreen) to a Blot template
 
 ---
 
-Review thumbnail bugs possibly fixed:
+Review thumbnail bugs which I may have fixed
 - Fix bug for missing thumbnails from images in posts on [Shashwati's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMdxqhWpSbWNBFTBNbgNrSnB)
 - Fix [bug with thumbnails and tell John](https://mail.google.com/mail/u/0/#inbox/1670ec0e13ca3353)
 - Fix bug for missing thumbnails on [Jay's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKSFqbSHKQkxHhqhgqzGVsfg)
 - Fix thumbnail path resolution for files in folder when path is in metadata and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzKtcHfWnzjcNdnksXFHGCXdWP)
+
+Attempt to reproduce bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f)
 
 Fix Magazine template bugs
 - Fix text styling inside blockquotes and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
@@ -45,11 +47,11 @@ Fix Magazine template bugs
 Fix index template bugs
 - Footnote link styling is wonky and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
 
-Brochure site redirects:
+Add brochure site redirects
 - Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
 - Add script to fetch 404s on dashboard with interface to set up redirects 
 
-Add integration tests for brochure site:
+Add integration tests for brochure site
 - Run a scraper for broken documentation links on the site, fix them and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
 - Test sign up flow
 
@@ -67,8 +69,6 @@ Investigate log-in issue. Does this only happen when I reboot the server? There'
 Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
-
-Fix bug which means that a date specified in a file's path takes precedence over a date specified in the file's metadata. Current behaviour conflicts with the documentation. Tell [Sean](https://mail.google.com/mail/u/0/#inbox/16709a874030b03f). CANNOT REPRODUCE.
 
 Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWRXqnjmjBDmcRXKcdxjcDfr)
 
@@ -108,11 +108,11 @@ Create a status page and uptime monitor and tell [Amit](https://mail.google.com/
 
 Look into mirroring a site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
-Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
+Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](@wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
 
 ---
 
-Move to monthly billing of $3 per month for new customers?
+Increase price to $3 per month for new customers. This will not affect existing customers in any way.
 
 Transformer bugs:
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
@@ -145,8 +145,7 @@ Restructure application folder
   - Remove /tmp directory and instead use os.tmpDir
 
 Add notification emails for monit events
-
-Add secure one-time link to reboot the AWS instance
+- Include secure one-time link to reboot the AWS instance?
 
 Research state of static site generators:
 - https://www.11ty.io/docs/
@@ -287,9 +286,9 @@ Backups
 
 Create script to export Blot sites to common formats like Wordpress and let Roberto know
 
-Increase annual price to $40. This will not affect existing customers.
-
 ---
+
+Increase price to $4 per month for new customers. This will not affect existing customers in any way.
 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
@@ -452,9 +451,9 @@ Add support for other payment methods
 Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
 
-Increase price for new customers to $60 a year. This will not affect existing customers.
-
 ---
+
+Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Git client:
 - Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
