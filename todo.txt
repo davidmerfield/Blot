@@ -106,8 +106,9 @@ Add frequency indicator for each route 404 log and tell [Jamie](https://mail.goo
 
 Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB). I like [this style](https://status.sunsed.com/) (just a JSON response)
 
-Re-instate blotcdn.com
-- Tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
+Look into mirroring a site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+
+Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and Alexander (@wbergg in Twitter DMs) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
 
 ---
 
@@ -124,7 +125,11 @@ Transformer bugs:
 Move to UUIDs for blog identifiers
 - Can we incrementally move people over to check it works ok?
 
-Research [Redis clustering](http://highscalability.com/blog/2019/2/19/intro-to-redis-cluster-sharding-advantages-limitations-deplo.html)
+Redis improvements:
+- Research [Redis clustering](http://highscalability.com/blog/2019/2/19/intro-to-redis-cluster-sharding-advantages-limitations-deplo.html)
+- Prune redis keys and begin storing more on disk
+- [redis analysis tool](https://github.com/snmaynard/redis-audit)
+- Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
 
 Restructure application folder
 - make serving static files from NGINX easier?
@@ -204,11 +209,6 @@ Could we have multiple clients attached to one blog?
 Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
 
 Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
-
-
-Prune redis keys and begin storing more on disk
-
-Use a [redis analysis tool](https://github.com/snmaynard/redis-audit) to see if I can squeeze more out of REDIS
 
 Generate list of external API dependencies and follow changes for each
 
@@ -307,8 +307,6 @@ Add tool to services page which would ensure that all posts in the folder had a 
 
 Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
 
-Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
-
 Add support for IPv6 and tell [Raul](https://mail.google.com/mail/u/0/#inbox/167083384282a5df)
 
 Client.write does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
@@ -338,8 +336,6 @@ Add support for HTTPS on preview subdomains
 
 Allow download of templates as [zip](https://www.npmjs.com/package/adm-zip) of local contents on dashboard?
 
-Ensure the nginx service can be controlled properly using Upstart. It seems like Monit's attempts to reboot the service which failed, caused the downtime. Potentially worth reviewing commands in this: https://gist.github.com/andmej/1953239
-
 Add an EXPIRY to the log entries for a blog's 404 log
 
 Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
@@ -352,11 +348,6 @@ Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389
 
 Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
 
-Look into mirroring a site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
-
-Create server dashboard to visualize load etc. using something like this: https://github.com/GitSquared/edex-ui or https://github.com/yaronn/blessed-contrib
-
-Move to cool user subdomains? Pretty to proper blog IDs instead of integers
 
 Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
 
@@ -419,9 +410,11 @@ File converters / codecs
   to resolve some of the performance issues with pandoc. Perhaps just use [Markdown-it](https://github.com/markdown-it/markdown-it)
 - Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152)
 
-- Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
+Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 
-- Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
+Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
+
+Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and Roy's friend Tim.
 
 Clients
 - OneDrive
@@ -441,6 +434,8 @@ Sync
 - Add method to pause syncing and prevent future syncs
 then use this method with the create/remove blog migration too.
 - Ensure sync script is run by less priveledged user (just access to /tmp ? /blogs/{{ID}})?
+
+Add soundcloud embeds then tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23), Nashp, and [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12)
 
 ---
 
@@ -496,6 +491,13 @@ Dropbox client:
 - Make the folder in Dropbox rename automatically when the
 user changes the username for one of their multiple blogs?
 
+Thumbnail generator
+- Generate thumbnails for GIFs / SVG thum
+- Prioritize faces in crop
+- Try to crop out ruined borders. E.g. when making a square crop of a rectangular image with a border, crop into the image as well to remove the border-on-three-sides effect
+- Extract color palette too for the image
+- Offer imgix style API for embedding thumbnails
+
 Consider supporting Open Graph
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
 
@@ -527,22 +529,11 @@ Automate setting up application environment using /etc/profile.d:
   sudo echo "export BLOT_CACHE=true" > /etc/profile.d/blot.sh
   sudo chmod +x /etc/profile.d/blot.sh
 
-Move away from upstart to systemd, because there was an issue with upstart losing track of nginx and failing to stop or restart its process.
-
-Thumbnail generator
-- Generate thumbnails for GIFs / SVG thum
-- Prioritize faces
-- Aim to generate distinct thumbnails across the blog
-- Try to crop out ruined borders. E.g. when making a square crop of a rectangular image with a border, crop into the image as well to remove the border-on-three-sides effect
-- Extract color palette too for the image
-- Run quickly first time, then run in the background to pick the best thumbnail
-- Offer imgix style API for embedding thumbnails
-
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
 Migrate code from require('../../../') to shortcuts in node_modules
 
-Remove the dirToModule code and hard link the require references.
+Remove the dirToModule code and hard link the require references
 
 Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
 
@@ -554,8 +545,6 @@ Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 Handle queries properly https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
 
 Giphy url support
-
-Catch rename failed to find a match for scrapboox/patch_bunny_slippers.jpg -> /patch_bunny_slippers.png
 
 Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
 
@@ -569,9 +558,7 @@ If entries share publish date, sort them by blot creation date
 
 Enable hyphenation again then tell rodericus
 
-Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and Roy's friend Tim.
-
-Add option to *enable* hard line breaks
+Add option to enable hard line breaks in Markdown parser?
 
 Move all unit tests which run on server start (the helper folder is littered with these, CMD+F for 'require('assert') into CI tests.
 
@@ -579,26 +566,19 @@ Incorporate typographic features from textile? http://redcloth.org/textile/phras
 
 Queue scheduled entries in redis somehow to make each server less stateful
 
-Noindex blog search results pages
-
 Re-enable CSP on blot site in a way that works in Safari
 
-Expose list of rendering errors to callback
+Expose list of rendering errors
 
 Push archives feature https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be
 
-Make drafts preview file identical (construct iframe based on window.location.href) and use copyref?
-
-Follow up with [Eli](https://beardandbeanie.com/) about work on the documentation and user's guide
-
 Plugins:
-- Implement custom CSS for syntax highlight plugin
 - Fix image caption plugin to be semantic using <figure>
 - Ensure Youtube plugin still functions if apis fails
-- Prevent image zoom plugin from zooming emojies
-- Add soundcloud embeds then tell [Jonas](https://mail.google.com/mail/u/1/#inbox/16404cc8d437cc23), Nashp, and [Anders](https://twitter.com/4nd3rs/status/1028250661589278720?s=12)
 
 ---
+
+Follow up with [Eli](https://beardandbeanie.com/) about work on the documentation and user's guide
 
 Add URL rewrite feature, e.g. rewrite /randomColor to /public/randomColor
 
@@ -607,10 +587,6 @@ Menu needs concurrency or atomic operations (so we can build posts in parallel)
 Investigate atompub support for Marsedit and tell Chet
 
 Move from preview files -> webloc / .url files? Everything requires an internet connection
-
-Incorporate retries into the thumbnail fetcher...
-
-Consider adding date format localization with Moment
 
 Add an embed plugin https://github.com/ritz078/embed.js
 
