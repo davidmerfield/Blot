@@ -1,3 +1,9 @@
+Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) the hamburger button on public site is fixed
+
+Tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTZVPGRVHXDzZbrZxzMzsq) the bug with upper-case domain is fixed
+
+---
+
 Finish script to build test sites from folders
 
 Finish Archive template
@@ -11,12 +17,6 @@ Finish Feed template
 Record new demo video
 - Create simple custom text editor
 - Show sites I run using Blot
-
----
-
-Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) the hamburger button on public site is fixed
-
-Tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTZVPGRVHXDzZbrZxzMzsq) the bug with upper-case domain is fixed
 
 ---
 
@@ -570,7 +570,7 @@ Re-enable CSP on blot site in a way that works in Safari
 
 Expose list of rendering errors
 
-Push archives feature https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be
+Push [archives feature](https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be)
 
 Plugins:
 - Fix image caption plugin to be semantic using <figure>
@@ -585,10 +585,6 @@ Add URL rewrite feature, e.g. rewrite /randomColor to /public/randomColor
 Menu needs concurrency or atomic operations (so we can build posts in parallel)
 
 Investigate atompub support for Marsedit and tell Chet
-
-Move from preview files -> webloc / .url files? Everything requires an internet connection
-
-Add an embed plugin https://github.com/ritz078/embed.js
 
 Look into how Jekyll does data files and possibly support?
 
