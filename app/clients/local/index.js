@@ -17,14 +17,11 @@ module.exports = {
   disconnect: require("./controllers/disconnect"),
 
   // This is where the user is asked to select a folder
-  dashboard_routes: require("./controllers/dashboard"),
+  dashboard_routes: require("./routes"),
 
   // We expose a special method to make it easier
-  // for the test suit to interact with this client
-  // Don't do this for normal client.
-  setup: function(blogID, folder, callback) {
-    require("./models/folder").set(blogID, folder, function(err) {
-      callback(null);
-    });
-  }
+  // for the test suite and script to build the
+  // demonstration blogs to interact with this client.
+  // No need to expose this for a conventional client.
+  setup: require("./controllers/setup")
 };

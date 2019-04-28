@@ -1,0 +1,5 @@
+Do you want to cancel your subscription to Blot’s newsletter?
+
+[Cancel your newsletter subscription]({{{cancel}}})
+
+Sincerely, David

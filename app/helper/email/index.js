@@ -7,8 +7,7 @@ var assert = require("assert");
 var logg = require("../logg");
 var log = new logg("Email");
 var Mustache = require("mustache");
-var Remarkable = require("remarkable");
-var md = new Remarkable();
+var marked = require("marked");
 
 var Mailgun = require("mailgun-js");
 var mailgun = new Mailgun({
@@ -38,6 +37,10 @@ var MESSAGES = [
   "FAILED_PAYMENT",
   "LONG_DELAY",
   "NETWORK_ERROR",
+  "NEWSLETTER_SUBSCRIPTION_CONFIRMED",
+  "NEWSLETTER_SUBSCRIPTION_CONFIRMATION",
+  "NEWSLETTER_CANCELLATION_CONFIRMED",
+  "NEWSLETTER_CANCELLATION_CONFIRMATION",
   "NO_SPACE",
   "OVERDUE",
   "OVERDUE_CLOSURE",
@@ -48,7 +51,9 @@ var MESSAGES = [
   "SYNC_DOWN",
   "SYNC_EXCEPTION",
   "UPCOMING_RENEWAL",
-  "UPDATE_BILLING"
+  "UPCOMING_EXPIRY",
+  "UPDATE_BILLING",
+  "WARNING_LOW_DISK_SPACE"
 ];
 
 var NO_MESSAGE = "No messages found for";
@@ -117,7 +122,7 @@ function send(locals, messageFile, to, callback) {
     var subject = Mustache.render(lines[0] || "", locals);
     var message = lines.slice(2).join("\n") || "";
 
-    var html = md.render(Mustache.render(message, locals));
+    var html = marked(Mustache.render(message, locals));
 
     var email = {
       html: html,
@@ -138,7 +143,7 @@ function send(locals, messageFile, to, callback) {
       console.log("Email not sent in development environment:", email);
       return callback();
     }
-    
+
     mailgun.messages().send(email, function(err, body) {
       if (err) {
         console.log("Error: Mailgun failed to send transactional email:", err);

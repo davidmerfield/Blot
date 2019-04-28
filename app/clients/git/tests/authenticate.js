@@ -12,7 +12,7 @@ describe("git client authenticate", function() {
   var Git = require("simple-git");
   var url = require("url");
 
-  xit("allows a user with good credentials to clone a repo", function(done) {
+  it("allows a user with good credentials to clone a repo", function(done) {
     var tmp = this.tmp;
     var handle = this.blog.handle;
     
@@ -26,7 +26,7 @@ describe("git client authenticate", function() {
     });
   });
 
-  xit("prevents a user with good credentials from accessing someone else's repo", function(done) {
+  it("prevents a user with good credentials from accessing someone else's repo", function(done) {
 
     var repoUrl = this.repoUrl;
     var tmp = this.tmp;
@@ -42,7 +42,7 @@ describe("git client authenticate", function() {
     });
   });
 
-  xit("prevents a user with invalid credentials from accessing someone else's repo", function(done) {
+  it("prevents a user with invalid credentials from accessing someone else's repo", function(done) {
 
     var tmp = this.tmp;
     var repoUrl = this.repoUrl;
@@ -58,13 +58,13 @@ describe("git client authenticate", function() {
     });
   });
 
-  xit("prevents a user with an expired token from accessing their repo", function(done) {
+  it("prevents a user with an expired token from accessing their repo", function(done) {
 
     var tmp = this.tmp;
     var repoUrl = this.repoUrl;
 
     // Now the repoUrl, which contains the token, should be invalid
-    require('../database').refreshToken(this.blog.id, function(err) {
+    require('../database').refreshToken(this.blog.owner, function(err) {
 
       if (err) return done.fail(err);
 

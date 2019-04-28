@@ -1,27 +1,28 @@
-var helper = require('helper');
+var helper = require("helper");
 var ensure = helper.ensure;
-var validate = require('./validate');
-var client = require('client');
+var validate = require("./validate");
+var client = require("client");
 
-var key = require('./key');
-var getById = require('./getById');
+var key = require("./key");
+var getById = require("./getById");
 
-module.exports = function save (uid, updates, callback) {
+module.exports = function save(uid, updates, callback) {
+  ensure(uid, "string")
+    .and(updates, "object")
+    .and(callback, "function");
 
-  ensure(uid, 'string')
-    .and(updates, 'object')
-    .and(callback, 'function');
+  var multi, userString, former;
 
-  var multi, userString;
-
-  getById(uid, function(err, user){
-
+  getById(uid, function(err, user) {
     if (err) return callback(err);
 
-    if (!user) return callback(new Error('No user'));
+    if (!user) return callback(new Error("No user"));
 
-    validate(user, updates, function(err, user, changes){
+    // Clone the state of the user so we can
+    // compare any changes further down
+    former = JSON.parse(JSON.stringify(user));
 
+    validate(user, updates, function(err, user, changes) {
       if (err) return callback(err);
 
       try {
@@ -33,15 +34,24 @@ module.exports = function save (uid, updates, callback) {
       // If I add or remove methods here
       // also remove them from create.js
       multi = client.multi();
-      multi.set(key.email(user.email), uid);
+
+      // Should this be setNX? We don't want to clobber
+      // emails which are set between validation and here.
+      if (user.email)
+        multi.set(key.email(user.email), uid);
+      
+      // If the user changes their email, remove the old
+      // email pointing to the User's ID.
+      if (former.email && former.email !== user.email)
+        multi.del(key.email(former.email));
+
       multi.set(key.user(uid), userString);
 
       // some users might not have stripe subscriptions
       if (user.subscription && user.subscription.customer)
         multi.set(key.customer(user.subscription.customer), uid);
 
-      multi.exec(function(err){
-
+      multi.exec(function(err) {
         if (err) return callback(err);
 
         callback(null, changes);

@@ -1,0 +1,7 @@
+Do you want to subscribe to Blot’s newsletter?
+
+[Confirm your subscription]({{{confirm}}})
+
+Please respond directly to this email if you have any questions.
+
+Sincerely, David

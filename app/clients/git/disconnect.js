@@ -30,7 +30,7 @@ module.exports = function disconnect(blogID, callback) {
     Blog.set(blogID, { client: "" }, function(err) {
       if (err) return callback(err);
 
-      database.flush(blogID, function(err) {
+      database.flush(blog.owner, function(err) {
         if (err) return callback(err);
 
         // Remove the bare git repo in /repos

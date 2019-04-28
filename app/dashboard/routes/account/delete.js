@@ -44,8 +44,9 @@ Delete.route("/blog/:handle")
     function(req, res, next) {
       deleteBlog(req.blogToDelete.id, next);
     },
+    calculateSubscriptionChange,
     decreaseSubscription,
-    function(req, res, next) {
+    function(req, res) {
       res.message("/account", "Deleted " + req.blogToDelete.title);
     }
   );
@@ -68,9 +69,31 @@ function loadBlogToDelete(req, res, next) {
 }
 
 function calculateSubscriptionChange(req, res, next) {
-  if (req.user.subscription.plan && req.user.subscription.plan.amount) {
-    res.locals.reduction = pretty(req.user.subscription.plan.amount);
-  }
+  var subscription = req.user.subscription;
+
+  // The user does not have an active subscription
+  // so proceed to the next middleware
+  if (!subscription || !subscription.status || subscription.status !== "active")
+    return next();
+
+  var currentQuantity = req.user.subscription.quantity;
+  var newQuantity = req.user.blogs.length - 1;
+
+  // Quantity cannot go below 1
+  // You must pay for at least one blog to keep an account open
+  // We only decrease the quantity on the Stripe plan if you are
+  // paying for all of your blogs.
+  if (newQuantity < 1) newQuantity = 1;
+
+  // You can't increase your bill by deleting a blog
+  // Some early users have free blogs for various
+  // reasons. Handle this case here.
+  if (newQuantity >= currentQuantity) return next();
+
+  res.locals.reduction = pretty(
+    (currentQuantity - newQuantity) * req.user.subscription.plan.amount
+  );
+  req.newQuantity = newQuantity;
 
   return next();
 }
@@ -151,15 +174,9 @@ function deleteUser(req, res, next) {
 
 function decreaseSubscription(req, res, next) {
   var subscription = req.user.subscription;
-  var quantity = req.user.blogs.length - 1;
+  var quantity = req.newQuantity;
 
-  // Quantity cannot go below 1
-  if (!quantity) quantity = 1;
-
-  // The user does not have an active subscription
-  // so proceed to the next middleware
-  if (!subscription || !subscription.status || subscription.status !== "active")
-    return next();
+  if (!quantity || !subscription) return next();
 
   stripe.customers.updateSubscription(
     subscription.customer,

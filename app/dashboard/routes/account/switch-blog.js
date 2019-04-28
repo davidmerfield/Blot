@@ -20,7 +20,7 @@ SwitchBlog.route("/")
       if (err) return next(err);
       req.session.blogID = req.body.to;
       
-      res.redirect('/');
+      res.redirect('/settings');
     });
   });
 

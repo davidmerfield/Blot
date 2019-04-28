@@ -1,1 +1,1 @@
-There might be multiple input xml files! Need to think about this when building the web interface.
+Use the Wordpress importer in ../wordpress. SquareSpace uses Wordpress' export format.

@@ -1,4 +1,3 @@
-var compression = require("compression");
 var bodyParser = require("body-parser");
 var hogan = require("hogan-express");
 var express = require("express");
@@ -21,9 +20,6 @@ dashboard.use("/scripts", express.static(VIEW_DIRECTORY + "/scripts"));
 
 // Log response time in development mode
 dashboard.use(debug.init);
-
-// Enable GZIP
-dashboard.use(compression());
 
 // Hide the header which says the app
 // is built with Express
@@ -52,25 +48,9 @@ dashboard.locals.cacheID = Date.now();
 
 // Special function which wraps redirect
 // so I can pass messages between views cleanly
-dashboard.use(require("./message"));
-
-// Appends a one-time CSRF-checking token
-// for each GET request, and validates this token
-// for each POST request, using csurf.
-dashboard.use(require("./csrf"));
-
-dashboard.use(debug("fetching user and blog info and checking redirects"));
-
 dashboard.use('/clients', require("./routes/clients"));
-dashboard.use('/stripe-webhook', require("./routes/stripe_webhook"));
-dashboard.use('/log-in', require("./routes/log_in"));
-dashboard.use('/sign-up', require("./routes/sign_up"));
 
-dashboard.get('/logged-out', function(req, res, next){
-  res.locals.partials = {};
-  res.locals.partials.yield = 'logged-out';
-  res.render('partials/wrapper-public');
-});
+dashboard.use('/stripe-webhook', require("./routes/stripe_webhook"));
 
 dashboard.get('/deleted', function(req, res, next){
   res.locals.partials = {};
@@ -78,14 +58,22 @@ dashboard.get('/deleted', function(req, res, next){
   res.render('partials/wrapper-public');
 });
 
-
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
+dashboard.use(debug("fetching user and blog info and checking redirects"));
+dashboard.use(require('../session'));
 dashboard.use(function(req, res, next){
 
   if (req.session && req.session.uid) return next();
 
   return next(new Error('NOUSER'));
 });
+
+dashboard.use(require("./message"));
+
+// Appends a one-time CSRF-checking token
+// for each GET request, and validates this token
+// for each POST request, using csurf.
+dashboard.use(require("./csrf"));
 
 // Load properties as needed
 // these should not be invoked for requests to static files
@@ -260,6 +248,18 @@ dashboard.use(require("./render"));
 
 dashboard.use('/account', require("./routes/account"));
 
+
+dashboard.use(function(req, res, next){
+  res.locals.breadcrumbs = new Breadcrumbs();
+  res.locals.breadcrumbs.add("Your blogs", "/");
+  next();
+});
+
+dashboard.get("/", function(req, res, next){
+  res.render("index")
+});
+
+
 dashboard.use(debug("before loading folder state"));
 
 // Load the files and folders inside a blog's folder
@@ -289,15 +289,11 @@ function Breadcrumbs() {
   return list;
 }
 
-dashboard.use(function(req, res, next){
-  res.locals.breadcrumbs = new Breadcrumbs();
-  next();
-});
-
 dashboard.use(debug("after loading folder state"));
 
 
 require("./routes/tools")(dashboard);
+
 
 dashboard.use(require("./routes/settings"));
 

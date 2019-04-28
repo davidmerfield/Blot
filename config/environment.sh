@@ -1,3 +1,5 @@
+# Copy this file to /etc/blot/environment.sh and fill it in
+
 # Flags
 export BLOT_PRODUCTION=true
 export BLOT_CACHE=true

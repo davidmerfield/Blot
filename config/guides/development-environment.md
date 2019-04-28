@@ -139,3 +139,24 @@ node scripts/folder/load.js <label>
 
 - [nginx](https://nginx.org/) - Read the [installation guide](https://coderwall.com/p/dgwwuq/installing-nginx-in-mac-os-x-maverick-with-homebrew)
 - [pandoc](https://pandoc.org) - Read the [installation guide](https://pandoc.org/installing.html)
+
+
+## Old guide
+
+
+Set up symlink if you install Blot elsewhere. Also link the caching directory:
+
+ln -s ~/projects/blot /var/www/blot
+ln -s ~/projects/blot/www /cache
+
+I then followed this guide for getting *.development working (it's hosted on Blot!):
+
+http://asciithoughts.com/posts/2014/02/23/setting-up-a-wildcard-dns-domain-on-mac-os-x/
+
+I also followed this guide to get a local self-signed SSL certificate for blot.development:
+
+https://certsimple.com/blog/localhost-ssl-fix
+
+Then ensure dhparams exists and create symlinks to cert.pem and key.pem 
+
+ln -s source target

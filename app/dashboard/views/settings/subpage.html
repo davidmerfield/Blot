@@ -1,5 +1,6 @@
-
-<form method='post' {{^setup}}style="padding: 20px 20px"{{/setup}} {{#setup}}style="padding:20px 0"{{/setup}} action='/settings' enctype='multipart/form-data'>
+<style type="text/css">form label {padding-top: 0} hr {margin: 20px 0} 
+</style>
+<form method='post' {{^setup}}style="padding: 0 0"{{/setup}} {{#setup}}style="padding:20px 0"{{/setup}} action='/settings' enctype='multipart/form-data'>
 
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
@@ -10,7 +11,7 @@
   <br>
   <div class="buttons">
     <button type="submit"onclick="this.form.submit();this.disabled=true">Save changes</button>
-    <a href="/">Cancel</a>
+    <a href="/settings">Cancel</a>
   </div>
   <br>
 </form>

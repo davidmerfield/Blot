@@ -13,30 +13,11 @@ ${{fee}} {{from_now}} from [{{email}}](mailto:{{email}}) *{{time}} {{#blogs}}[{{
 
 ..........................................................
 
-
 {{/renewals.length}}
 
-{{#new_posts.length}}
-
-**New posts**
-
-{{#new_posts}}
-{{#entries}}
-[{{title}}]({{{link}}}{{{url}}}) {{summary}} *Posted by [{{blog.handle}}]({{{link}}})*
-
-{{/entries}}
-{{/new_posts}}
-
-..........................................................
-
-{{/new_posts.length}}
-
-
-
-
-
-
 **Requests served yesterday:** {{views}}
+
+**Average response time yesterday:** {{averageResponseTime}}s
 
 **Total posts:** {{total_posts}}
 
@@ -53,3 +34,20 @@ ${{fee}} {{from_now}} from [{{email}}](mailto:{{email}}) *{{time}} {{#blogs}}[{{
 **Total cancellations:** {{total_cancellations}}
 
 **Annual revenue:** {{total_revenue}}
+
+
+{{#new_posts.length}}
+
+..........................................................
+
+**New posts**
+
+{{#new_posts}}
+{{#entries}}
+[{{title}}]({{{link}}}{{{url}}}) {{summary}} *Posted by [{{blog.handle}}]({{{link}}})*
+
+{{/entries}}
+{{/new_posts}}
+
+
+{{/new_posts.length}}

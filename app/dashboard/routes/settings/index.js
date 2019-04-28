@@ -9,43 +9,17 @@ var Template = require("template");
 var Blog = require("blog");
 var load = require("./load");
 
-settings.use(function(req, res, next){
-  res.locals.selected = {settings: 'selected'};
+settings.use(function(req, res, next) {
+  res.locals.selected = { settings: "selected" };
   next();
 });
 
-settings.get("/settings", function(req, res, next) {
-  res.redirect("/");
-});
-
-
 settings.use(function(req, res, next) {
-
-  res.locals.breadcrumbs.add("Settings", "/settings");
+  res.locals.breadcrumbs.add(req.blog.title || req.blog.pretty.url, "/settings");
   res.locals.setup = !!req.query.setup;
 
   next();
 });
-
-
-var index = settings.route("/");
-
-index.get(
-  load.template,
-  debug("template loaded"),
-  load.menu,
-  debug("menu loaded"),
-  load.client,
-  debug("client loaded"),
-  load.dates,
-  debug("dates loaded"),
-  load.permalinkFormats,
-  debug("permalinks loaded"),
-  function(req, res) {
-    res.render("settings", { title: "Dashboard" });
-  }
-);
-
 
 settings
   .route("/settings")
@@ -61,27 +35,47 @@ settings
     save.removeTmpFiles,
     debug("removed any tmp files"),
     save.finish
+  )
+  .get(
+    load.template,
+    debug("template loaded"),
+    load.menu,
+    debug("menu loaded"),
+    load.client,
+    debug("client loaded"),
+    load.dates,
+    debug("dates loaded"),
+    load.permalinkFormats,
+    debug("permalinks loaded"),
+    function(req, res) {
+      res.render("settings", { title: "Dashboard" });
+    }
   );
-
-
 
 settings.get("/settings/urls", function(req, res, next) {
   res.locals.edit = !!req.query.edit;
   next();
 });
 
-settings.get("/settings/profile", load.menu, load.timezones, load.dates, function(req, res, next){
-  res.locals.setup_title = true;
-  next();
-});
+settings.use(
+  "/settings/profile",
+  load.menu,
+  load.timezones,
+  load.dates,
+  function(req, res, next) {
+    res.locals.breadcrumbs.add("Profile", "profile");
+    res.locals.setup_title = true;
+    next();
+  }
+);
 
-settings.get("/settings/menu", load.menu);
+settings.get("/settings/profile/menu", load.menu);
 settings.get("/settings/date", load.timezones, load.dates);
 settings.get("/settings/services", load.plugins);
 settings.get("/settings/urls", load.permalinkFormats);
 
-settings.use('/settings/urls/*', function(req, res, next){
-  res.locals.breadcrumbs.add('URLs', 'urls');
+settings.use("/settings/urls/*", function(req, res, next) {
+  res.locals.breadcrumbs.add("URLs", "urls");
   next();
 });
 
@@ -96,11 +90,10 @@ settings
     require("./save/404")
   );
 
-
-settings.get('/settings/urls/redirects', load.redirects, function(req, res){
-  res.locals.breadcrumbs.add('Redirects', 'redirects');
-  res.locals.partials.subpage = "settings/redirects";  
-  res.render("settings/subpage", { title: 'Redirects' });
+settings.get("/settings/urls/redirects", load.redirects, function(req, res) {
+  res.locals.breadcrumbs.add("Redirects", "redirects");
+  res.locals.partials.subpage = "settings/redirects";
+  res.render("settings/subpage", { title: "Redirects" });
 });
 
 // Load the list of templates for this user
@@ -110,22 +103,42 @@ settings.use("/settings/theme", load.theme, function(req, res, next) {
   next();
 });
 
-settings.use('/settings/client', require('./client'));
+settings.use("/settings/client", require("./client"));
 
 settings
   .route("/settings/theme")
   .get(function(req, res) {
-    res.render("theme", {title: "Template"});
+    res.render("theme", { title: "Template" });
   })
-  .post(require('./save/theme'));
+  .post(require("./save/theme"));
 
 settings
   .route("/settings/theme/new")
   .get(function(req, res) {
     res.locals.breadcrumbs.add("New", "new");
-    res.render("theme/new", {title: 'New template'});
+    res.render("theme/new", { title: "New template" });
   })
-  .post(require('./save/newTheme'));
+  .post(require("./save/newTheme"));
+
+settings
+  .route("/settings/theme/past")
+  .all(load.pastTemplates)
+  .get(function(req, res) {
+    res.locals.breadcrumbs.add("Past", "past");
+    res.render("theme/past", { title: "Past templates" });
+  });
+
+
+settings.get("/settings/:section/:view", function(req, res) {
+  var uppercaseName = req.params.view;
+
+  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+
+  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  res.locals.partials.subpage = "settings/" + req.params.view;
+  res.render("settings/subpage", { host: process.env.BLOT_HOST });
+});
+
 
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;
@@ -134,7 +147,10 @@ settings.get("/settings/:view", function(req, res) {
 
   if (uppercaseName === "Urls") uppercaseName = "URLs";
 
-  res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  if (uppercaseName !== "Profile") {
+    res.locals.breadcrumbs.add(uppercaseName, req.params.view);
+  }
+
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });

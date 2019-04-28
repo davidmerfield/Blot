@@ -2,25 +2,38 @@ var User = require("../../app/models/user");
 var Blog = require("../../app/models/blog");
 var parseUrl = require("url").parse;
 
-// Takes a URL and fetches the blog, user and entry
+// Takes a URL or handle and fetches the blog and user
+module.exports = function get(identifier, callback) {
+  var domain;
+  var handle;
+  var blog;
 
-module.exports = function get(url, callback) {
-  url = parseUrl(url);
+  handle = identifier;
 
-  // Map 'preview.default.foo.blot.im' -> 'foo.blot.im'
-  if (url.host.indexOf("preview.") === 0)
-    url.host = url.host
-      .split(".")
-      .slice(-3)
-      .join(".");
+  try {
+    // Map 'preview.default.foo.blot.im' -> 'foo.blot.im'
+    if (parseUrl(identifier).host.indexOf("preview.") === 0)
+      domain = parseUrl(identifier)
+        .host.split(".")
+        .slice(-3)
+        .join(".");
+    else domain = parseUrl(identifier).host;
+  } catch (e) {
+    domain = identifier;
+  }
 
-  Blog.get({ domain: url.host }, function(err, blog) {
-    if (err || !blog) return callback(err || new Error("No blog"));
+  Blog.get({ domain: domain }, function(err, blogFromDomain) {
+    Blog.get({ handle: handle }, function(err, blogFromHandle) {
+      if (!blogFromDomain && !blogFromHandle)
+        return callback(new Error("No blog"));
 
-    User.getById(blog.owner, function(err, user) {
-      if (err || !user) return callback(err || new Error("No user"));
+      blog = blogFromHandle || blogFromDomain;
 
-      callback(err, user, blog);
+      User.getById(blog.owner, function(err, user) {
+        if (err || !user) return callback(err || new Error("No user"));
+
+        callback(err, user, blog);
+      });
     });
   });
 };
