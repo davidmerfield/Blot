@@ -1,0 +1,120 @@
+// Generate demonstration blogs from the folders inside
+// for showing templates and explaining how Blot works
+// in the docs. This script will create a blog for each
+// folder e.g. one 'bjorn' for folders/bjorn
+
+// 1. Create admin user if none exists
+// 2. Create blogs against admin user assuming the
+//    handle is not taken.
+// 3. Configure each blog with the local client
+//    pointing to the source folder. Local client will
+//    watch source folder so changes should appear.
+
+var fs = require("fs-extra");
+var async = require("async");
+var config = require("config");
+var User = require("user");
+var Blog = require("blog");
+var basename = require("path").basename;
+var localClient = require("clients").local;
+
+function main(callback) {
+  loadFoldersToBuild(__dirname, function(err, folders) {
+    if (err) return callback(err);
+
+    console.log("Loaded folders from", __dirname);
+    setupUser(function(err, user) {
+      if (err) return callback(err);
+
+      console.log("Set up user " + user.email + " to own demonstration blogs");
+      setupBlogs(user, folders, function(err) {
+        if (err) return callback(err);
+
+        console.log("Built " + folders.length + " blogs for user");
+        folders.forEach(function(folder) {
+          console.log("http://" + basename(folder) + "." + config.host);
+          console.log("Source folder:", folder);
+        });
+
+        callback(null);
+      });
+    });
+  });
+}
+
+function setupUser(callback) {
+  User.getByEmail(config.admin.email, function(err, user) {
+    if (user) return callback(null, user);
+
+    callback(
+      new Error(
+        "Please create a user to own the blogs. Use the email: " +
+          config.admin.email
+      )
+    );
+  });
+}
+
+function setupBlogs(user, folders, callback) {
+  var blogs = {};
+
+  async.eachSeries(
+    folders,
+    function(path, next) {
+      var handle = basename(path);
+      Blog.get({ handle: handle }, function(err, existingBlog) {
+        if (err) return next(err);
+
+        if (existingBlog && existingBlog.owner !== user.uid)
+          return next(
+            new Error(existingBlog.handle + " owned by another user")
+          );
+
+        if (existingBlog) {
+          blogs[existingBlog.id] = path;
+          return next();
+        }
+
+        Blog.create(user.uid, { handle: handle }, function(err, newBlog) {
+          blogs[newBlog.id] = path;
+          next();
+        });
+      });
+    },
+    function(err) {
+      if (err) return callback(err);
+      async.eachOfSeries(
+        blogs,
+        function(path, id, next) {
+          localClient.setup(id, path, next);
+        },
+        callback
+      );
+    }
+  );
+}
+
+function loadFoldersToBuild(foldersDirectory, callback) {
+  fs.readdir(foldersDirectory, function(err, folders) {
+    if (err) return callback(err);
+
+    folders = folders
+      .map(function(name) {
+        return foldersDirectory + "/" + name;
+      })
+      .filter(function(path) {
+        return fs.statSync(path).isDirectory();
+      });
+
+    callback(null, folders);
+  });
+}
+
+if (require.main === module) {
+  main(function(err) {
+    if (err) throw err;
+    process.exit();
+  });
+}
+
+module.exports = main;
