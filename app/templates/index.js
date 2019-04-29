@@ -1,7 +1,6 @@
-var config = require("../../config");
-var Template = require("../../app/models/template");
-var emptyCache = require("../cache/empty");
-var helper = require("../../app/helper");
+var config = require("config");
+var Template = require("template");
+var helper = require("helper");
 var extend = helper.extend;
 var basename = require("path").basename;
 var colors = require("colors/safe");
@@ -11,40 +10,34 @@ var mime = require("mime");
 var async = require("async");
 var watcher = require("watcher");
 
-var TEMPLATES_DIRECTORY = require("path").resolve(
-  __dirname + "/../../app/templates/latest"
-);
-var PAST_TEMPLATES_DIRECTORY = require("path").resolve(
-  __dirname + "/../../app/templates/past"
-);
-
+var TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/latest");
+var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
 
-// Build every template and then
-if (require.main === module) {
-  main(TEMPLATES_DIRECTORY, function(err) {
-    if (err) console.error(err);
+var emptyCache = require("../cache/empty");
 
-    main(PAST_TEMPLATES_DIRECTORY, function(err) {
-      if (err) console.error(err);
-      
+function main(callback) {
+  buildAll(TEMPLATES_DIRECTORY, function(err) {
+    if (err) return callback(err);
+
+    buildAll(PAST_TEMPLATES_DIRECTORY, function(err) {
+      if (err) return callback(err);
+
       removeExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
-        if (err) throw err;
+        if (err) return callback(err);
 
         // Wait for changes if inside development mode.
-        if (config.environment === "development") {
-          watch(TEMPLATES_DIRECTORY);
-          watch(PAST_TEMPLATES_DIRECTORY);
-        } else {
-          process.exit();
-        }
+        if (config.environment !== "development") return callback(null);
+
+        watch(TEMPLATES_DIRECTORY);
+        watch(PAST_TEMPLATES_DIRECTORY);
       });
     });
   });
 }
 
 // Builds any templates inside the directory
-function main(directory, callback) {
+function buildAll(directory, callback) {
   var dirs = templateDirectories(directory);
 
   async.map(dirs, async.reflect(build), function(err, results) {
@@ -238,3 +231,5 @@ function templateDirectories(directory) {
       return directory + "/" + name;
     });
 }
+
+module.exports = main;

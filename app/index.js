@@ -60,7 +60,12 @@ Blot.listen(config.port);
 // and the publication of scheduled blog posts.
 scheduler();
 
-// Build sites from demonstration folders
+// Build templates from disk
+require("./templates")(function(err) {
+  if (err) console.error(err);
+});
+
+// Build demonstration sites from source folders
 require("./folders")(function(err) {
   if (err) console.error(err);
 });
