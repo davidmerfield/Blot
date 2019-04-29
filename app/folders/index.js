@@ -16,7 +16,7 @@ var config = require("config");
 var User = require("user");
 var Blog = require("blog");
 var basename = require("path").basename;
-var localClient = require("clients").local;
+var localClient = require("../clients/local");
 
 function main(callback) {
   loadFoldersToBuild(__dirname, function(err, folders) {
@@ -83,7 +83,15 @@ function setupBlogs(user, folders, callback) {
       async.eachOfSeries(
         blogs,
         function(path, id, next) {
-          localClient.setup(id, path, next);
+          localClient.setup(id, path, function(err){
+            if (err) return next(err);
+
+            if (config.environment !== 'development') {
+              localClient.disconnect(id, next)
+            } else {
+              next();
+            }
+          });
         },
         callback
       );
