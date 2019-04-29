@@ -15,28 +15,28 @@ function render ($, callback, options) {
 
     // Decode any doubly-encoded ampersands in the image src
     var src = decodeAmpersands($(el).attr('src'));
-    var width, height;
+    var width, height, parsedSrc;
 
-    // Test for query string to skip caching & optimizing
-    var parsedSrc = url.parse(src, { parseQueryString: true });
-    debug(src, 'is parsed into', parsedSrc)
+    try {
+      // Test for query string to skip caching & optimizing
+      parsedSrc  = url.parse(src, { parseQueryString: true });
 
-    if (parsedSrc.query.static) {
+      debug(src, 'is parsed into', parsedSrc);
+  
+    } catch (e) {
+      return next();
+    }
+
+    if (parsedSrc && parsedSrc.query && parsedSrc.query.static) {
       debug(src, 'Image has \'static\' URL param, skipping');
       return next();
     }
 
-    // No URL params or hash values
-    var cleanSrc = origin(parsedSrc) + parsedSrc.pathname;
-    debug(src, 'is cleaned into', cleanSrc);
-
-    debug(cleanSrc, 'checking cache');
-
     // Pass in the `pathname` component of the image src (no URL params or hash)
-    cache.lookup(cleanSrc, optimize(blogID), function(err, info){
+    cache.lookup(src, optimize(blogID), function(err, info){
 
       if (err) {
-        debug(cleanSrc, 'Optimize failed with Error:', err);
+        debug(src, 'Optimize failed with Error:', err);
         return next();
       }
 
@@ -48,7 +48,7 @@ function render ($, callback, options) {
       // Now we will attempt to declare the width and
       // height of the image to speed up page loads...
       if ($(el).attr('width') || $(el).attr('height')) {
-        debug(cleanSrc, 'El has width or height pre-specified dont modify');
+        debug(src, 'El has width or height pre-specified dont modify');
         return next();
       }
 
@@ -56,15 +56,15 @@ function render ($, callback, options) {
       height = info.height;
 
       // This is a retina image so halve its dimensions
-      if ($(el).attr('data-2x') || isRetina(cleanSrc)) {
-        debug(cleanSrc, 'retinafying the dimensions');
+      if ($(el).attr('data-2x') || isRetina(src)) {
+        debug(src, 'retinafying the dimensions');
         height /= 2;
         width /= 2;
       }
 
       $(el).attr('width', width).attr('height', height);
 
-      debug(cleanSrc, 'complete!');
+      debug(src, 'complete!');
       next();
     });
   }, function(){
@@ -75,15 +75,6 @@ function render ($, callback, options) {
 
 function isRetina (url) {
   return url && url.toLowerCase && url.toLowerCase().indexOf('@2x') > -1;
-}
-
-// Legacy URL API doesn't have an `origin` property
-// Assuming both `protocol` and `hostname` exist, create it
-// Otherwise return empty string
-function origin (url) {
-  if (url.protocol && url.hostname)
-    return url.protocol + "//" + url.hostname;
-  return "";
 }
 
 module.exports = {
