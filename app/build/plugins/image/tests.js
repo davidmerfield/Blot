@@ -99,22 +99,46 @@ describe("image", function() {
     render(blog, html, function(err, result) {
       expect(result).toContain(".png");
       expect(result).toContain("/_image_cache/");
-
-      var cachedImagePath = result.slice(result.indexOf('"') + 1);
-
-      cachedImagePath = cachedImagePath.slice(0, cachedImagePath.indexOf('"'));
-
-      // Does the cached image exist on disk?
-      fs.stat(
-        join(config.blog_static_files_dir, blog.id, cachedImagePath),
-        function(err, stat) {
-          expect(err).toEqual(null);
-          expect(stat.isFile()).toEqual(true);
-          done();
-        }
-      );
+      verifyCachedImage(blog, result);
+      done();
     });
   });
+
+  it("caches an image case-insensitively", function(done) {
+    var path = "/tests-image.png";
+    var html = '<img src="/nested/' + path.toUpperCase() + '">';
+    var blog = this.blog;
+
+    fs.copySync(__dirname + path, localPath(blog.id, '/nested' + path));
+
+    render(blog, html, function(err, result) {
+      expect(result).toContain(".png");
+      expect(result).toContain("/_image_cache/");
+      verifyCachedImage(blog, result);
+      done();
+    });
+  });
+
+  function verifyCachedImage(blog, result) {
+    var stat;
+    var cachedImagePath = result.slice(result.indexOf('"') + 1);
+
+    cachedImagePath = cachedImagePath.slice(0, cachedImagePath.indexOf('"'));
+    cachedImagePath = join(
+      config.blog_static_files_dir,
+      blog.id,
+      cachedImagePath
+    );
+
+    try {
+      // Does the cached image exist on disk?
+      stat = fs.statSync(cachedImagePath);
+    } catch (e) {
+      fail(e);
+    }
+
+    expect(stat.isFile()).toEqual(true);
+  }
 
   // Wrapper around dumb API for this plugin
   function render(blog, html, callback) {

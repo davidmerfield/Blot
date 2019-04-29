@@ -55,8 +55,14 @@
       <li class="has-list {{selected.guides}}">
         <input type="checkbox" name="guides" id="guides" {{#selected.guides}} checked{{/selected.guides}}> <a href="/developers/guides">Guides<label for="guides"></label></a>
       <ul>
-        <li class="{{selected.posts-tagged}}">
+        <li class="{{selected.json-feed}}">
           <a href="/developers/guides/json-feed">JSON feed</a>
+        </li>
+        <li class="{{selected.group-posts-by-dates}}">
+          <a href="/developers/guides/group-posts-by-dates">Group posts by date</a> 
+        </li>
+        <li class="{{selected.posts-tagged}}">
+          <a href="/developers/guides/posts-tagged">A page with posts with a tag</a> 
         </li>
       </ul>
       </li>
