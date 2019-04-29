@@ -1,9 +1,3 @@
-Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) the hamburger button on public site is fixed
-
-Tell [Sed](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKdTZVPGRVHXDzZbrZxzMzsq) the bug with upper-case domain is fixed
-
----
-
 Finish script to build test sites from folders
 
 Finish Archive template
