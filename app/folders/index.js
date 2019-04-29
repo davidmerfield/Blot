@@ -108,7 +108,7 @@ function loadFoldersToBuild(foldersDirectory, callback) {
         return foldersDirectory + "/" + name;
       })
       .filter(function(path) {
-        return fs.statSync(path).isDirectory();
+        return basename(path)[0] !== '-' && fs.statSync(path).isDirectory();
       });
 
     callback(null, folders);
