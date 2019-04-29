@@ -44,14 +44,11 @@ function main(callback) {
 
 function setupUser(callback) {
   User.getByEmail(config.admin.email, function(err, user) {
+    if (err) return callback(err);
+
     if (user) return callback(null, user);
 
-    callback(
-      new Error(
-        "Please create a user to own the blogs. Use the email: " +
-          config.admin.email
-      )
-    );
+    User.create(config.admin.email, config.session.secret, {}, callback);
   });
 }
 
