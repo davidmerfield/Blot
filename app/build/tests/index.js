@@ -85,8 +85,11 @@ describe("build", function() {
 
   it("will not cache image an image using the static query string", function(done) {
     var path = "/Hello world.txt";
-    var contents = "![Image](" + this.origin + "/public.jpg?static=1)";
+    var contents = "<img src='" + this.origin + "/public.jpg?static=1'>";
 
+    // we use an img tag instead of a markdown image because for
+    // some reason the version of Pandoc running on Blot's CI server
+    // creates <embed>'s instead of <img> for certain URLs
     fs.outputFileSync(this.blogDirectory + path, contents);
 
     build(this.blog, path, {}, function(err, entry) {
