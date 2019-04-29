@@ -26,11 +26,11 @@ function main(callback) {
     setupUser(function(err, user) {
       if (err) return callback(err);
 
-      console.log("Set up user " + user.email + " to own demonstration blogs");
+      console.log("Established user " + user.email + " to manage demonstration blogs");
       setupBlogs(user, folders, function(err) {
         if (err) return callback(err);
 
-        console.log("Built " + folders.length + " blogs for user");
+        console.log("Built " + folders.length + " blogs");
         folders.forEach(function(folder) {
           console.log("http://" + basename(folder) + "." + config.host);
           console.log("Source folder:", folder);
