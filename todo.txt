@@ -1,5 +1,3 @@
-Finish script to build test sites from folders
-
 Finish Archive template
 - Finish compiling Ferox folder
 
@@ -13,8 +11,6 @@ Record new demo video
 - Show sites I run using Blot
 
 ---
-
-Review and merge Paul's PR with the static query
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
 
