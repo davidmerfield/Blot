@@ -20,13 +20,14 @@ function render ($, callback, options) {
     try {
       // Test for query string to skip caching & optimizing
       parsedSrc  = url.parse(src, { parseQueryString: true });
-
-      debug(src, 'is parsed into', parsedSrc);
+      debug(src, 'parsed into', parsedSrc);
   
     } catch (e) {
       return next();
     }
 
+    // We want to allow you to opt out of image caching We do not
+    // cache images with the static query e.g. /image.jpg?static=1
     if (parsedSrc && parsedSrc.query && parsedSrc.query.static) {
       debug(src, 'Image has \'static\' URL param, skipping');
       return next();
