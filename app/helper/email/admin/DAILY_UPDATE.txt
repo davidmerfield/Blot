@@ -35,6 +35,7 @@ ${{fee}} {{from_now}} from [{{email}}](mailto:{{email}}) *{{time}} {{#blogs}}[{{
 
 **Annual revenue:** {{total_revenue}}
 
+**Newsletter subscribers:** {{newsletter_subscribers}}
 
 {{#new_posts.length}}
 
