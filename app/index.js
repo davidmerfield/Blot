@@ -59,8 +59,3 @@ Blot.listen(config.port);
 // Schedule backups, subscription renewal emails
 // and the publication of scheduled blog posts.
 scheduler();
-
-// Build sites from demonstration folders
-require("./folders")(function(err) {
-  if (err) console.error(err);
-});
