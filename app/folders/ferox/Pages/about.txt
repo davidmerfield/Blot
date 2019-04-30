@@ -45,3 +45,86 @@ I tried to keep things as quiet as possible. When designing a theme, it's easy t
 
 
 [^footnote]: Test, [Link](https://google.com).
+
+## About
+
+IEMS
+
+The International Exploration for the Mars Surroundings (IEMS) is a united program responsible for the civilian space program as well as aeronautics and aerospace research for the Mars surroundings. Director of EESA Dwight M. Müller established IEMS in 1976 with a distinctly civilian (rather than military) orientation encouraging peaceful applications in space science. The different National Aeronautics and Space agencies from around the world decided to create in secret an international mission in order to create a peaceful conquest of the Mars surroundings shifting from individual and separate programs to IEMS in July 29, 1976.
+
+Since that time, most American and European space exploration efforts have been led by NASA, including the Apollo moon-landing missions, the Skylab space station, and later the Space Shuttle. On the time IEMS existed, was supporting with data the ISST. The agency is also responsible for the Big Data Program (BDP), which provides oversight of galaxy discovery and Big Data calculation for certain European universities. IEMS science focuses on better understanding Mars through the exploration of its surroundings, advancing Polyophysics through the efforts of the Science Mission Directorate's Polyophysics Research Program, exploring bodies throughout the Mars gravity with advanced robotic spacecraft missions such as Exploration I, and researching astrophysics topics, such as impact of large meteorites, through the Great Observatories and associated programs. IEMS shares data with various national and international organizations such as NASA or ROSCOSMOS.
+
+  
+
+CREATION
+
+The discovery of a Feroxite meteorite in the Swiss alps on June 10, 1944 by a duo of Swiss/German geologists did not acquire any importance in the scientific world at the time, mainly because the media were interested in other issues during the Second World War. It took time to understand the importance of the discovery, and only in 1972 did Rudolph H. Obrist, now director of IEMS, bring to light the first fragments of the meteorite and IEMS was initiated some years later. Since 1966 the European Space Agency (ESA) has been interested in a new mission aiming at creating a solid relationship with the rest of the world in order to decrease the tension between the United States of America and the USSR. On July 29, 1976 the dream of ESA became true and even if just with a symbolic economic help NASA and RKA joined ESA on the first mission created in order to understand the origins of the Feroxite meteorites that were supposed to come from the surrounding of Mars. Rudolph H. Obrist soon became the director of the agency and formed a team composed of the best European scientists, astronomers and geologists. On July 29, 1958, Obrist signed the European Aeronautics and Space Act, thus establishing IEMS. When IEMS began to operate, on October 1, 1976, it absorbed the 11% of ESA structure; 131 employees, an annual budget of US$40 million, one major research laboratory (Bruxelles Aeronautical Laboratory) and two small test facilities.
+
+  
+
+SPACE FLIGHT PROGRAMS
+
+IEMS has conducted only unmanned spaceflight programs throughout its history. Unmanned programs launched the first Martial artificial satellites into Mars surrounding gravity for scientific and communications purposes, and sent scientific probes to explore Ferox, the third moon of Mars, starting with the Exploration I rover in 1998 and followed by Exploration II in 2007.
+
+The X-13 was a IEMS experimental Sun-powered hypersonic research Satellite, developed in conjunction with NASA. The design featured a slender fuselage with fairings along the side containing fuel and early-computerized control systems. Requests for proposal were issued on December 30, 2001 for the airframe, and February 4, 2002 for the Satellite engine. The airframe contract was awarded to North American Aviation in November 2002, and the XLR30 engine contract was awarded to Reaction Motors in 2003, and three similar satellites were built. The X-13 was first launched from a base in Kazakhstan, on February 24, 2004 and was the only one used for the IEMS missions, before the more famous one used to gravitate around Mars by NASA (well known as HiRISE).
+
+A total of 14 test flights were made between 2000 and 2004, resulting in the official world record for the lowest energetic waste ever reached at the time by an unmanned powered satellite (current as of 2005). The X-13 program employed mechanical techniques used in the later manned spaceflight programs, including reaction control system jets for controlling the orientation of a spacecraft, and horizon definition for navigation. The re-entry and landing data collected were valuable to NASA and IEMS for designing the brother of X-13 (X-14) which is currently traveling around Mars.
+
+Besides exploration, Research satellites have also been launched by IEMS. The missions have been launched directly from Earth or from orbiting space shuttles, which could either deploy the satellite itself, or with a rocket stage to take it farther.
+
+Besides exploration, Research satellites have also been launched by IEMS. The missions have been launched directly from Earth or from orbiting space shuttles, which could either deploy the satellite itself, or with a rocket stage to take it farther.
+
+The first IEMS unmanned rover was Explorer I, which started as a IEMS /JP/NASA project during the early phase of the Mars Discovery. It was launched in January 1998 from Kazakhstan. At the creation of IEMS the Explorer project was initiated from this agency and continued until 2010. Its missions have been focusing on analysing the landscape of Ferox, measuring magnetic fields and the solar wind, among other aspects. A more recent Ferox mission, not related to the Explorer program, was the X-13, which, as mentioned above, was brought into space in 2004.
+
+The first successful landing on Ferox was made by Exploration I in 1998 and it was a success developed by the first success on the Martian ground (Viking, 1976), used as a key study for every mission around Mars.
+
+On March 26, 2007, IEMS's Ferox Science Laboratory mission was successfully launched for Ferox. Exploration II successfully landed on Ferox on August 6, 2008, and subsequently began its search for evidence of past or present life on Ferox.
+
+On August 6, 2008, IEMS landed the rover Exploration II on Ferox. On August 27, 2008, Exploration II transmitted the first pre-recorded message from the surface of Ferox back to Earth, made by Director Rudolph H. Obrist: “Hello. This is Rudolph H. Obrist, IEMS Administrator, speaking to you via the broadcast facilities of the Exploration II rover, which is now on the surface of Ferox. Since the beginning of time, humankind’s curiosity has led us to constantly seek new life...new possibilities just beyond the horizon. I want to congratulate the men and women of our IEMS family as well as our commercial and government partners around the world, for taking us a step beyond to Ferox. This is an extraordinary achievement. Landing a rover on Ferox is not easy, only the perseverance of the entire world has fully succeeded. The investment we are making...the knowledge we hope to gain from our observation and analysis of the Sandy Mountain, will tell us much about the possibility of life on Ferox as well as the past and future possibilities for our own planet. Exploration II will bring benefits to Earth and inspire a new generation of scientists and explorers, as it prepares the way for a human mission in the not too distant future. Thank you.”
+
+Unfortunately the good message of Rudolph H. Obrist was followed by tragic news as Exploration II landed 34.3 km off the landing point found by the scientist through Exploration I. Exploration II landed directly into a crater which was renamed “The Void”, and for the Rover have been impossible to get out of the huge walls transforming his mission in a prison and limiting the discovery 3.5/100 of what the scientist supposed to find. The mission Exploration II cost 2.5 Billion dollars and was one of the biggest failures in the history of space conquest in the new millennium.
+
+  
+
+STAFF AND LEADERSHIP
+
+IEMS's administrator is the agency's highest-ranking official and serves as the senior space science adviser to the EU Congress. The agency's administration is located at IEMS Headquarters and provides overall guidance and direction. Except under exceptional circumstances, IEMS civil service employees come from every region of the world.
+
+The first and current administrator is of the program, Dr Rudolph H. Obrist, has been appointed by the ESA/NASA/FKA Congress. During his term he brought together the disparate projects at work in international space development research. Obrist directed major management restructuring and facility expansion, establishing the Bruxelles Unmanned Spacecraft.
+
+  
+
+BUDGET
+
+IEMS 's budget has generally been approximately 0.3% of the EU budget from the early 1980s on, after briefly peaking at approximately 2.41% in 1998 during the Exploration program. The perception of IEMS 's budget has differed significantly from reality.
+
+The percentage of budget that IEMS has been allocated has been steadily dropping since the Exploration II program and in 2009 it was estimated at 0.02% of the EU budget. In a March 2009 meeting of the Congress Committee, Neil deGrasse Tyson testified that “IEMS is no longer relevant as NASA Exploration of Mars is much more important for humankind as on Ferox were discovered just a bunch of red rocks.” NASA and ROSCOSMOS stopped founding IEMS in 2009 and this is considered to be the reason because IEMS ended all his activity in March 2010.
+
+
+## Terms
+
+IEMS LOGO
+
+The IEMS insignia logo (the Red/black "meatball" insignia), may not be used for any purpose without explicit permission. These images may not be used by persons who are not IEMS employees or on products, publications or web pages that are not IEMS –sponsored/related. These images may not be used to imply endorsement or support of any external organization, program, effort, or persons.
+
+Since that time, most American and European space exploration efforts have been led by NASA, including the Apollo moon-landing missions, the Skylab space station, and later the Space Shuttle. On the time IEMS existed, was supporting with data the ISST. The agency is also responsible for the Big Data Program (BDP), which provides oversight of galaxy discovery and Big Data calculation for certain European universities. IEMS science focuses on better understanding Mars through the exploration of its surroundings, advancing Polyophysics through the efforts of the Science Mission Directorate's Polyophysics Research Program, exploring bodies throughout the Mars gravity with advanced robotic spacecraft missions such as Exploration I, and researching astrophysics topics, such as impact of large meteorites, through the Great Observatories and associated programs. IEMS shares data with various national and international organizations such as NASA or ROSCOSMOS.
+
+  
+
+STILL IMAGES
+
+IEMS content - images, audio, video, and computer files used in the rendition of 3-dimensional models, such as texture maps and polygon data in any format - generally are not copyrighted. You may use this material for educational or informational purposes, including photo collections, textbooks, public exhibits, computer graphical simulations and Internet Web pages. This general permission extends to personal Web pages.
+
+News outlets, schools, and text-book authors may use IEMS content without needing explicit permission. IEMS content used in a factual manner that does not imply endorsement may be used without needing explicit permission. IEMS should be acknowledged as the source of the material. IEMS occasionally uses copyrighted material by permission on its website. Those images will be marked copyright with the name of the copyright holder. IEMS 's use does not convey any rights to others to use the same material. Those wishing to use copyrighted material must contact the copyright holder directly. IEMS has extensive image and video galleries online, including historic images, current missions, astronomy pictures, and ways to search for IEMS images. Generally, each mission and program has a video and image collection on the topic page. Content can also be found on our extensive social media channels. For questions about specific images, please write us an email and we will try to answer you.
+
+  
+
+COMMERCIAL PURPOSES
+
+IEMS material can not be used for any commercial use. We are open for specific questions. Please drop us an email. the third moon of Mars, starting with the Exploration I rover in 1998 and followed by Exploration II in 2007.
+
+  
+
+LINKING TO IEMS WEB SITES
+
+IEMS Web sites are not copyrighted, and may be linked to from other Web sites, including individuals' personal Web sites, without explicit permission from IEMS. However, such links may not explicitly or implicitly convey IEMS 's endorsement of commercial goods or services. IEMS images may be used as graphic "hot links" to IEMS Web sites, provided they are used within the guidelines above. This permission does not extend to use of the IEMS insignia. IEMS should be acknowledged as the source of the material.
