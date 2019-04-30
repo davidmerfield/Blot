@@ -1,5 +1,4 @@
 Finish Archive template
-- Finish compiling Ferox folder
 
 Finish Feed template
 - Create folder with public domain material
