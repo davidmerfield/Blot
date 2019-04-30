@@ -23,7 +23,7 @@ module.exports = function(req, res, next) {
   // Redirect www subdomain of main blot site to
   // the apex domain on which it is served.
   if (host === "www." + config.host) {
-    return res.redirect(req.protocol + "://" + config.host + req.url);
+    return res.redirect(req.protocol + "://" + config.host + req.originalUrl);
   }
 
   handle = extractHandle(host);
@@ -45,21 +45,21 @@ module.exports = function(req, res, next) {
 
     // Probably a www -> apex redirect
     if (identifier.domain && blog.domain !== identifier.domain)
-      redirect = req.protocol + "://" + blog.domain + req.url;
+      redirect = req.protocol + "://" + blog.domain + req.originalUrl;
 
     // Redirect HTTP to HTTPS
     if (identifier.domain && blog.forceSSL && req.protocol !== "https")
-      redirect = "https://" + blog.domain + req.url;
+      redirect = "https://" + blog.domain + req.originalUrl;
 
     // Redirect old handle
     if (identifier.handle && blog.handle !== identifier.handle)
       redirect =
-        req.protocol + "://" + blog.handle + "." + config.host + req.url;
+        req.protocol + "://" + blog.handle + "." + config.host + req.originalUrl;
 
     // Redirect Blot subdomain to custom domain we use
     // 302 temporary since the domain might break in future
     if (identifier.handle && blog.domain && blog.redirectSubdomain)
-      return res.status(302).redirect(req.protocol + "://" + blog.domain);
+      return res.status(302).redirect(req.protocol + "://" + blog.domain + req.originalUrl);
 
     // Should we be using 302 temporary for this?
     if (redirect) return res.status(301).redirect(redirect);
