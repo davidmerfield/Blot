@@ -2,8 +2,15 @@
 {{> head}}
 
 <body style="display:flex;flex-direction:column;min-height:100%">
-  <div style="padding:2rem 2rem;display:flex;flex-grow:1;min-height:calc(100vh - 2rem)">
-    <div>{{> index_link}}
+  <div class="header">
+    {{> index_link}}
+
+
+     <a href="/" onclick="return lastIndexPage()" style="float:right;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right;position:relative;"><span style="font-size:11px;">Close</span> ⨉ </a>
+  </div>
+
+  <div style="padding:0 2rem;display:flex;flex-grow:1;min-height:calc(100vh - 2rem)">
+    <div>
       <a class="light" href="/" onclick="return randomArticle()" style="text-transform:uppercase;font-size:11px;"><img width="16" style="vertical-align:bottom" src="/icons/shuffle.svg">&puncsp;&puncsp; Random</a>
     </div>
 
@@ -26,7 +33,7 @@
       {{{body}}}
     </div>
     <div style="flex-grow:0;margin-bottom:2rem;margin-left:2rem;flex-shrink:0;display:flex;justify-content:space-between;flex-direction:column">
-      <a href="/" onclick="return lastIndexPage()" style="float:right;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right;position:relative;"><span style="font-size:11px;">Close</span> ⨉ </a>
+ 
 
       {{#entry}}
       <div style="max-width:15em;font-size:14px;float:right">
