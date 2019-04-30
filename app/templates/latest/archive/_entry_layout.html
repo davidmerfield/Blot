@@ -4,6 +4,9 @@
   <div style="padding:1.3rem 2rem;display:flex;flex-grow:1;min-height:calc(100vh - 2rem)">
     <div>
       <a class="light" href="/" onclick="return randomArticle()" style="text-transform:uppercase;font-size:11px;"><img width="16" style="vertical-align:bottom" src="/icons/shuffle.svg">&puncsp;&puncsp; Random</a>
+
+              <a style="display:inline-block;background:#f2f2f2;color:rgba(0,0,0,.4);text-decoration:none;padding:0.65rem;box-sizing:border-box;font-size:11px;text-transform:uppercase" {{#previous}}href="{{{url}}}"{{/previous}}>&larr; Previous</a>
+
     </div>
 
     {{#entry}}
@@ -11,12 +14,18 @@
     <div class="entry" style="flex-grow:1">
       {{{body}}}
     </div>
+
+
     <div style="flex-grow:0;margin-bottom:2rem;margin-left:2rem;flex-shrink:0;display:flex;justify-content:space-between;flex-direction:column">
  
 
-      {{#entry}}
+                   <a href="/" onclick="return lastIndexPage()" style="float:right;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right;position:relative;"><span style="font-size:11px;">Close</span> ⨉ </a>
+
+        <a style="display:inline-block;background:#f2f2f2;color:rgba(0,0,0,.4);text-decoration:none;padding:0.65rem;box-sizing:border-box;font-size:11px;text-transform:uppercase" {{#next}}href="{{{url}}}"{{/next}}>Next &rarr;</a>
+
+
+   <!--    {{#entry}}
       <div style="max-width:15em;font-size:14px;float:right">
-             <a href="/" onclick="return lastIndexPage()" style="float:right;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right;position:relative;"><span style="font-size:11px;">Close</span> ⨉ </a>
 
         <h1 style="font-size:20px">{{title}}</h1>
         {{#tags.length}}
@@ -25,10 +34,8 @@
         <hr style="margin:0.65em 0"><span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);display:inline-block">Added</span> <span style="color:rgba(0,0,0,.4)">{{date}}</span>
 
       </div>{{/entry}}
-
+ -->
       <div style="text-align:right">
-        <a style="display:inline-block;background:#f2f2f2;color:rgba(0,0,0,.4);text-decoration:none;padding:0.65rem;box-sizing:border-box;font-size:11px;text-transform:uppercase" {{#previous}}href="{{{url}}}"{{/previous}}>&larr; Previous</a>
-        <a style="display:inline-block;background:#f2f2f2;color:rgba(0,0,0,.4);text-decoration:none;padding:0.65rem;box-sizing:border-box;font-size:11px;text-transform:uppercase" {{#next}}href="{{{url}}}"{{/next}}>Next &rarr;</a>
       </div>
     </div>
     {{/entry}}
