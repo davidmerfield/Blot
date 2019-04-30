@@ -20,6 +20,7 @@ if (require.main === module) {
     process.exit();
   });
 }
+
 function main(callback) {
   buildAll(TEMPLATES_DIRECTORY, function(err) {
     if (err) return callback(err);
@@ -27,7 +28,7 @@ function main(callback) {
     buildAll(PAST_TEMPLATES_DIRECTORY, function(err) {
       if (err) return callback(err);
 
-      removeExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
+      checkForExtinctTemplates(TEMPLATES_DIRECTORY, function(err) {
         if (err) return callback(err);
 
         // Wait for changes if inside development mode.
@@ -162,7 +163,7 @@ function buildViews(directory, id, views, callback) {
   );
 }
 
-function removeExtinctTemplates(directory, callback) {
+function checkForExtinctTemplates(directory, callback) {
   var names = fs.readdirSync(directory).map(function(name) {
     return name.toLowerCase();
   });
