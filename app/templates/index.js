@@ -8,14 +8,18 @@ var colors = require("colors/safe");
 var fs = require("fs-extra");
 var mime = require("mime");
 var async = require("async");
-var watcher = require("watcher");
+var Blog = require("blog");
 
 var TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/latest");
 var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
 
-var emptyCache = require("../cache/empty");
-
+if (require.main === module) {
+  main(function(err){
+    if (err) throw err;
+    process.exit();
+  })
+}
 function main(callback) {
   buildAll(TEMPLATES_DIRECTORY, function(err) {
     if (err) return callback(err);
@@ -41,18 +45,16 @@ function buildAll(directory, callback) {
   var dirs = templateDirectories(directory);
 
   async.map(dirs, async.reflect(build), function(err, results) {
-    emptyCache(function() {
-      results.forEach(function(result, i) {
-        if (result.error) {
-          console.log();
-          console.error(colors.red("Error building: " + dirs[i]));
-          console.error(colors.dim(result.error.stack));
-          console.log();
-        }
-      });
-
-      callback();
+    results.forEach(function(result, i) {
+      if (result.error) {
+        console.log();
+        console.error(colors.red("Error building: " + dirs[i]));
+        console.error(colors.dim(result.error.stack));
+        console.log();
+      }
     });
+
+    callback();
   });
 }
 
@@ -97,7 +99,11 @@ function build(directory, callback) {
     method(TEMPLATES_OWNER, name, template, function(err) {
       if (err) return callback(err);
 
-      buildViews(directory, id, templatePackage.views, callback);
+      buildViews(directory, id, templatePackage.views, function(err) {
+        if (err) return callback(err);
+
+        emptyCacheForBlogsUsing(id, callback);
+      });
     });
   });
 }
@@ -201,14 +207,18 @@ function watch(directory) {
     build(directory, function(err) {
       if (err) {
         console.error(err.message);
-        callback();
-      } else {
-        emptyCache(callback);
       }
+
+      callback();
     });
   });
 
-  watcher(directory, function(path) {
+  fs.watch(directory, { recursive: true }, function(event, path) {
+
+    console.log('EVENT', event);
+    console.log('Path', path);
+    throw 'here';
+    
     var subdirectoryName = path.slice(directory.length).split("/")[1];
 
     queue.push(directory + "/" + subdirectoryName);
@@ -230,6 +240,27 @@ function templateDirectories(directory) {
     .map(function(name) {
       return directory + "/" + name;
     });
+}
+
+function emptyCacheForBlogsUsing(templateID, callback) {
+  Blog.getAllIDs(function(err, ids) {
+    if (err) return callback(err);
+    async.eachSeries(
+      ids,
+      function(blogID, next) {
+        Blog.get({ id: blogID }, function(err, blog) {
+          if (err || !blog || !blog.template || blog.template !== templateID)
+            return next();
+
+          Blog.flushCache(blog.id, function(err) {
+            if (err) return next(err);
+            Blog.set(blog.id, { cacheID: Date.now() }, next);
+          });
+        });
+      },
+      callback
+    );
+  });
 }
 
 module.exports = main;
