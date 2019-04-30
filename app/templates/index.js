@@ -15,10 +15,10 @@ var PAST_TEMPLATES_DIRECTORY = require("path").resolve(__dirname + "/past");
 var TEMPLATES_OWNER = "SITE";
 
 if (require.main === module) {
-  main(function(err){
+  main(function(err) {
     if (err) throw err;
     process.exit();
-  })
+  });
 }
 function main(callback) {
   buildAll(TEMPLATES_DIRECTORY, function(err) {
@@ -214,14 +214,11 @@ function watch(directory) {
   });
 
   fs.watch(directory, { recursive: true }, function(event, path) {
+    var subdirectory = require("path")
+      .dirname(path)
+      .split("/")[0];
 
-    console.log('EVENT', event);
-    console.log('Path', path);
-    throw 'here';
-    
-    var subdirectoryName = path.slice(directory.length).split("/")[1];
-
-    queue.push(directory + "/" + subdirectoryName);
+    queue.push(directory + "/" + subdirectory);
   });
 }
 
@@ -252,6 +249,12 @@ function emptyCacheForBlogsUsing(templateID, callback) {
           if (err || !blog || !blog.template || blog.template !== templateID)
             return next();
 
+          console.log(
+            colors.dim("   .."),
+            colors.dim(templateID),
+            colors.dim("flushed for"),
+            blog.handle + colors.dim(" (" + blog.id + ")")
+          );
           Blog.flushCache(blog.id, function(err) {
             if (err) return next(err);
             Blog.set(blog.id, { cacheID: Date.now() }, next);
