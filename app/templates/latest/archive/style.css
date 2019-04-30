@@ -157,7 +157,8 @@ a.light:active img {
   visibility: visible;
 }
 
-.post:active {opacity: 0.7}
+.post:active,
+.opac:active {opacity: 0.7}
 
 .post img {
   max-width: 100%;
@@ -326,8 +327,10 @@ form input:focus,
   max-width: 100%;
   height: auto;
   width: auto;
-  max-height: calc(100vh - 4rem)
+  max-height: calc(100vh - 2.6rem)
 }
+
+.entry > img {margin: 0 auto;display: block;}
 
 .entry {
   line-height: 1.5;
@@ -403,11 +406,17 @@ form input:focus,
 
 #tags a strong {visibility: hidden;font-weight: 500;color: black}
 #tags a span {position: absolute;left: 0;right: 0;text-align: center;}
+
+
 #tags a:focus strong,
 #tags a.active strong {visibility: visible;}
 
 #tags a:focus span,
 #tags a.active span {display: none;}
+
+#tags a:active {opacity: 0.6}
+#tags a:active strong {visibility: hidden;}
+#tags a:active:focus span {display: block;}
 
 .paginator {
   display: flex;
