@@ -93,7 +93,7 @@ Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbo
 
 ---
 
-Increase price to $3 per month for new customers. This will not affect existing customers in any way.
+Switch billing to $3 per month for new customers. This will not affect existing customers in any way.
 
 Transformer bugs:
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
