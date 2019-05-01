@@ -9,10 +9,8 @@
     <div style="">
       <a class="light" href="/" onclick="return randomArticle()" style="text-transform:uppercase;font-size:11px;"><img width="16" style="vertical-align:bottom" src="/icons/shuffle.svg">&puncsp;&puncsp; Random</a>
 
-      <a style="padding:1.3rem;text-align:center;display:inline-block;color:rgba(0,0,0,.4);text-decoration:none;box-sizing:border-box;font-size:11px;text-transform:uppercase" {{#previous}}href="{{{url}}}"{{/previous}}>
-                    <svg style="display:block;margin:0 auto" width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="rgba(0,0,0,.4)" stroke-width="2"></circle><path d="M12.6298 27.3702L27.3701 12.6299" stroke="rgba(0,0,0,.4)" stroke-width="2"></path><path d="M12.6298 12.6298L27.3701 27.3701" stroke="rgba(0,0,0,.4)" stroke-width="2"></path></svg>
+      <a style="display:inline-block;padding:1.3rem;color:rgba(0,0,0,.4);text-decoration:none;box-sizing:border-box;font-size:11px;text-transform:uppercase;{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"><svg style="display:block" width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="rgba(0,0,0,.4)" stroke-width="2"></circle><path d="M12.6298 27.3702L27.3701 12.6299" stroke="rgba(0,0,0,.4)" stroke-width="2"></path><path d="M12.6298 12.6298L27.3701 27.3701" stroke="rgba(0,0,0,.4)" stroke-width="2"></path></svg></a>
 
-          <!-- Previous --> </a>
     </div>
 
     <div class="entry" style="flex-grow:1">
@@ -27,11 +25,11 @@
 <!-- 
                     <span style="color:rgba(0,0,0,.4);text-decoration:none;font-size:11px;text-transform:uppercase">Close</span>  --> </a>
 
-      <a style="display:inline-block;padding:1.3rem;color:rgba(0,0,0,.4);text-decoration:none;box-sizing:border-box;font-size:11px;text-transform:uppercase" {{#next}}href="{{{url}}}"{{/next}}>
-                    <svg style="display:block" width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="rgba(0,0,0,.4)" stroke-width="2"></circle><path d="M12.6298 27.3702L27.3701 12.6299" stroke="rgba(0,0,0,.4)" stroke-width="2"></path><path d="M12.6298 12.6298L27.3701 27.3701" stroke="rgba(0,0,0,.4)" stroke-width="2"></path></svg>
 
-          <!-- Next --> </a>
+      <a style="padding:1.3rem;text-align:center;display:inline-block;color:rgba(0,0,0,.4);text-decoration:none;box-sizing:border-box;font-size:11px;text-transform:uppercase;{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}">
+                    <svg style="display:block;margin:0 auto" width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="rgba(0,0,0,.4)" stroke-width="2"></circle><path d="M12.6298 27.3702L27.3701 12.6299" stroke="rgba(0,0,0,.4)" stroke-width="2"></path><path d="M12.6298 12.6298L27.3701 27.3701" stroke="rgba(0,0,0,.4)" stroke-width="2"></path></svg>
 
+          <!-- Previous --> </a>
       <!--    {{#entry}}
       <div style="max-width:15em;font-size:14px;float:right">
 
