@@ -71,7 +71,12 @@ function main(options, callback) {
       if (date.isAfter(moment().subtract(options.number, options.range))) {
 
         if (status === 404 && require('url').parse(uri).hostname === config.host) {
-          four04s.push(uri);
+
+          if (require('url').parse(uri).pathname.indexOf('/static') === 0) {
+            // refers to a file in the user's folder server by s3
+          } else {
+            four04s.push(uri);
+          }
         }
           
         return true;
