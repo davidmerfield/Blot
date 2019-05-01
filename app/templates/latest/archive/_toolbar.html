@@ -36,10 +36,11 @@
       <a class="light" title="{{label}}" style="margin:0.5rem 0.75rem;" href="{{{url}}}">{{label}}</a>
       {{/menu}}
     </div>
-    <div class="paginator">
-      <a class="arrow" {{#previous}}href="/page/{{previous}}"{{/previous}}>←</a>
-      <div data-limit="5" data-current="{{current}}" data-total="{{total}}" class="numbers"></div>
-      <a class="arrow" {{#next}}href="/page/{{pagination.next}}"{{/next}}>→</a>
+    <div style="text-align:right">
+      <a style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;margin: 0 0.325rem;flex-shrink:0;
+    padding: 0.15rem 0.325rem 0;font-size:11px" {{#previous}}href="/page/{{previous}}"{{/previous}}>← PREVIOUS</a>
+      <a style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;margin: 0 0.325rem;flex-shrink:0;
+    padding: 0.15rem 0.325rem 0;font-size:11px" {{#next}}href="/page/{{pagination.next}}"{{/next}}>NEXT →</a>
     </div>
   </div>
 </div>

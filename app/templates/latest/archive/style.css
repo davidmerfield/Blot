@@ -212,7 +212,6 @@ form input[type="text"] {
   color: rgba(0, 0, 0, .85);
   background: transparent url('/icons/search.svg') no-repeat 1rem center;
   background-size: 0.95rem;
-  margin: 0.65rem 0;
 /*  border-left: 1px solid #eee;
   border-right: 1px solid #eee;
 */  cursor: text;

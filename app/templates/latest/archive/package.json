@@ -12,7 +12,14 @@
         "description": "All the entries posted on {{{title}}}"
       }
     },
-    "tags": {
+    "focus": {
+      "url": "/focus",
+      "partials": {
+        "title": "{{{title}}}",
+        "description": "All the tags on on {{{title}}}"
+      }
+    },
+        "tags": {
       "url": "/tags",
       "partials": {
         "title": "Tags - {{{title}}}",
