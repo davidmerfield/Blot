@@ -1,6 +1,6 @@
 // This script will edit the ID of a blog
 // Run this on my blogs in production first
-// before incrementally rolling it out to
+// before incrementally rolling it out to 
 // ensure all blogs have IDs which are guuids
 
 // Things to think about:
@@ -15,6 +15,9 @@
 // blog entry keys
 // rename /blogs/{id} directory
 // rename /static/{id} file directory
+
+var oldBlogID = process.argv[2];
+var newBlogID = process.argv[3];
 
 var keys = require("../redis/keys");
 var async = require("async");
