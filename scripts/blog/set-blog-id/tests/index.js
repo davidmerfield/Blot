@@ -11,6 +11,8 @@ describe("switchBlogID script", function(){
     switchBlogID(test.blog.id, newID, function(err){
       if (err) return done.fail(err);
 
+      // We need to modify this property so the cleanup
+      // function can remove the blog safely.
       test.blog.id = newID;
       done();
     });

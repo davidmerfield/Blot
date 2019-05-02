@@ -29,6 +29,8 @@
 //   return "clients:dropbox:" + account_id;
 // }
 
+// The git client uses User ID so it'll continue to work
+
 var debug = require("debug")("blot:scripts:set-blog-id");
 
 var switchDropboxClient = require('./switchDropboxClient');
