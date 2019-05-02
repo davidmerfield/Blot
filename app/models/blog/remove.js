@@ -20,6 +20,7 @@ module.exports = function(blogID, callback) {
 
     var remove = ["template:owned_by:" + blogID, "handle:" + blog.handle];
 
+    // TODO ALSO remove alternate key with/out 'www', e.g. www.example.com
     if (blog.domain) remove.push("domain:" + blog.domain);
 
     async.each(
