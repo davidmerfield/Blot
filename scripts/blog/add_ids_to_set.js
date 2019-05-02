@@ -15,7 +15,15 @@ keys("blog:*:info", function(err, keys) {
     keys,
     function(key, next) {
       client.HGETALL(key, function(err, blog) {
-        if (err) return next(err);
+        if (err) {
+          console.log("ERROR hgetall", key, err);
+          return next();
+        }
+
+        if (!blog || !blog.id) {
+          console.log("No blog", key);
+          return next();
+        }
 
         if (key !== "blog:" + blog.id + ":info")
           return next(
