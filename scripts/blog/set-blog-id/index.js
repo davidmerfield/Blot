@@ -31,6 +31,10 @@
 
 // The git client uses User ID so it'll continue to work
 
+// we also need to edit all template IDs stored against stuff
+// e.g. the blog.template property.
+// e.g. the templates:owned_by:X values
+
 var debug = require("debug")("blot:scripts:set-blog-id");
 
 var switchDropboxClient = require('./switchDropboxClient');
