@@ -1,7 +1,6 @@
 var helper = require("helper");
 var ensure = helper.ensure;
 var extend = helper.extend;
-var capitalise = helper.capitalise;
 var defaults = require("./defaults");
 var client = require("client");
 var key = require("./key");
@@ -17,10 +16,21 @@ module.exports = function create(uid, info, callback) {
     .and(callback, "function");
 
   var blogs;
+  var title;
+
+  // Determine a title for the new blog. Falls
+  // back to the handle then a placeholder
+  if (info.title) {
+    title = info.title;
+  } else if (info.handle) {
+    title = info.handle;
+  } else {
+    title = "Untitled blog";
+  }
+
   var blog = {
     owner: uid,
-    title:
-      info.title || capitalise((info.handle || "untitled") + "’s") + " blog",
+    title: title,
     client: "",
     timeZone: info.timeZone || "UTC",
     dateFormat: info.dateFormat || "M/D/YYYY"
