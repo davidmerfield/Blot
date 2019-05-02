@@ -1,30 +1,69 @@
-var Blog = require('blog');
-var User = require('user');
-var validate = require('../../app/models/blog/validate/handle');
-var email, new_handle, new_blog;
+var colors = require("colors/safe");
+var yesno = require("yesno");
+var Blog = require("blog");
+var User = require("user");
+var validate = require("../../app/models/blog/validate/handle");
+var access = require('../access');
 
-email = process.argv[2];
-new_handle = process.argv[3];
+if (require.main === module) {
+  main(process.argv[2], process.argv[3], function(err) {
+    if (err) {
+      console.error(colors.red("Error:", err.message));
+      return process.exit(1);
+    }
 
-if (!email) throw 'Missing email address of user';
-if (!new_handle) throw 'Missing second argument: a handle for new blog';
+    process.exit();
+  });
+}
 
-validate('', new_handle, function(err, new_handle){
+function main(email, handle, callback) {
+  if (!email) {
+    return callback(
+      new Error("Pass email of user to add new blog to as first argument")
+    );
+  }
 
-  if (err) throw err;
+  if (!handle) {
+    return callback(new Error("Pass handle for new blog as second argument"));
+  }
 
-  User.getByEmail(email, function(err, user){
+  validate("", handle, function(err, handle) {
+    if (err) return callback(err);
 
-    if (err || !user) throw 'There is no user \'' + email + '\'';
+    User.getByEmail(email, function(err, user) {
+      if (err || !user) {
+        return callback(
+          new Error("No user with email " + colors.underline(email))
+        );
+      }
 
-    new_blog = {handle: new_handle};
+      var message =
+        colors.dim("Email: ") +
+        user.email +
+        colors.dim("\nUser ID: ") +
+        user.uid +
+        colors.dim("\nHandle: ") +
+        handle +
+        "\n\nCreate blog " +
+        colors.bold(handle) +
+        "? (y/N)";
 
-    Blog.create(user.uid, new_blog, function(err){
+      yesno.ask(message, false, function(ok) {
+        if (!ok) return callback(new Error("User was not created"));
+        Blog.create(user.uid, { handle: handle }, function(err) {
+          if (err) return callback(err);
 
-      if (err) throw err;
+          access(handle, function(err, url) {
+            if (err) return callback(err);
 
-      console.log('Created blog', new_handle, '!');
-      process.exit();
+            console.log(colors.green("Added new blog", handle, "to", email, ":"));
+            console.log(url);
+            callback(null);
+          });
+        });
+      });
     });
   });
-});
+}
+
+module.exports = main;

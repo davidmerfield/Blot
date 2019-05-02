@@ -17,7 +17,7 @@ describe("create", function() {
       expect(err).toBe(null);
       expect(thumbnails).toEqual(jasmine.any(Object));
       expect(thumbnails.square.width).toEqual(160);
-      expect(thumbnails.square.name).toEqual('square-portrait.jpg');
+      expect(thumbnails.square.name).toEqual('square.jpg');
       done();
     });
   });

@@ -53,13 +53,16 @@ module.exports = function(req, res, next) {
           req.updates.plugins.typeset.options[x] === "on";
     }
 
+    extend(req.updates.plugins).and(req.blog.plugins)
+
+    // We mpdify the analytics settings after the extend function because 
+    // the extend function will not overwrite existing conflicting providers
+    // it'll produce {Google: 'selected', Clicky: 'selected'}...
     if (req.updates.plugins.analytics && req.updates.plugins.analytics.options.provider) {
       var provider = {};
       provider[req.updates.plugins.analytics.options.provider] = "selected";
       req.updates.plugins.analytics.options.provider = provider;
     }
-
-    extend(req.updates.plugins).and(req.blog.plugins)
   }
   next();
 };

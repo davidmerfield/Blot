@@ -1,0 +1,23 @@
+Summer newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
+
+
+**New features**
+
+**Changes**
+
+**Bugs fixed**
+
+**Mistakes**
+
+Downtime incidents:
+- It looks like one of the processes which serves blog content was stuck in a restart loop and my process manager was unable to recover. The constant restarts were draining the resources of the server and causing slow performance and dropped requests. I fixed the issue by turning the server off and on again.
+
+Not sure what triggered the restart loop, but will work it out and fix.
+
+**Plans for this season**
+
+If you have any questions at all about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
