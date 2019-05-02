@@ -1,20 +1,18 @@
 <h1>Metadata</h1>
 
-<p>Each post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line. Metadata must be separated from the rest of the post by at least one blank line. </p>
+<p>Each post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line.</p>
 
-<div style="max-width:39em;margin:3em 0 4em">
   <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 Permalink: /metadata
 
 You must leave a space after the colon between the metadata property (e.g. Date) and its value. Metadata must be separated from the rest of the post by at least one blank line. 
 
 </code></pre>
-</div>
+
 
 <h2>Dates</h2>
 
 <p>A blog post’s publish date is the same as the file’s creation date by default. You can specify a different date in the file’s <a href="#path">path</a> or in its <a href="{{{base}}}/publishing/metadata">metadata</a>:</p>
-<div style="max-width:39em;margin:3em 0 4em">
   <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
 
 Blot supports a variety of date formats. These all produce a post with the same date:
@@ -24,33 +22,32 @@ Blot supports a variety of date formats. These all produce a post with the same 
 
 You can use underscores, dashes, slashes and dots to seperate the numbers in the date.
 </code></pre>
-</div>
 <p>You can specify a post’s publish date in its path. For example, all four of these posts share the same publish date:</p>
-<table>
+
+
+<style type="text/css">icon.folder {position: relative;
+    top: 1px;}
+    table icon {margin-right: 3px}
+    .light {margin: 0 10px 0 12px;color:#777}</style>
+<table style="max-width:637px">
   <tbody>
     <tr>
       <td>
-        <code class="folder">&nbsp;{{#date}}YYYY{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="folder">&nbsp;{{#date}}MM{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="folder">&nbsp;{{#date}}DD{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="file md">&nbsp;Post.txt</a></code>
+        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}MM{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}DD{{/date}}<span class="light">›</span></code><code class="file md">Post.txt</a></code>
       </td>
     </tr>
     <tr>
       <td>
-        <code class="folder">&nbsp;{{#date}}YYYY{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="folder">&nbsp;{{#date}}MM{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="file md">&nbsp;{{#date}}DD-[Post.txt]{{/date}}</code>
+        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}MM{{/date}}<span class="light">›</span></code><code class="file md">{{#date}}DD-[Post.txt]{{/date}}</code>
       </td>
     </tr>
     <tr>
       <td>
-        <code class="folder">&nbsp;{{#date}}YYYY{{/date}}<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="file md">&nbsp;{{#date}}MM-DD-[Post.txt]{{/date}}</code>
+        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="file md">{{#date}}MM-DD-[Post.txt]{{/date}}</code>
       </td>
     </tr>
     <tr>
-      <td><code class="file md">&nbsp;{{#date}}YYYY-MM-DD-00-00[-Post.txt]{{/date}}</a></code></td>
+      <td><code class="file md">{{#date}}YYYY-MM-DD-00-00[-Post.txt]{{/date}}</a></code></td>
     </tr>
 
   </tbody>
@@ -62,43 +59,41 @@ You can use underscores, dashes, slashes and dots to seperate the numbers in the
 <h2>Tags</h2>
 
 <p>Use tags to connect posts by similar subject. Specify tags in the file’s <a href="{{{base}}}/publishing/metadata">metadata</a> or in its <a href="#path">path</a>. Here’s an example blog post with two tags in its metadata:</p>
-
-<background><pre class="text with-chrome" title="Post.txt"><code>Tags: Getting started, Documentation
+<pre class="text with-chrome" title="Post.txt"><code>Tags: Getting started, Documentation
 
 Tags are case-insensitive and may contain whitespace. Blot picks the case you used last when displaying the tag on your blog.
 
 
 
 </code></pre>
-</background>
 
 <p>You can add tags to a post in the file’s name or path. Include the tag, wrapped in brackets. Here’s a few examples:</p>
 
-<table style="    table-layout: auto;">
+<table style="max-width:637px;table-layout: auto;">
+  <thead>
+    <tr>
+      <th>Path</th>
+      <th>Tagged</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
       <td>
-        <code class="folder">&nbsp;[Photos]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="folder">&nbsp;[Holiday]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="file img">&nbsp;Picture.jpg</a></code>
+        <code class="folder">[Pictures]<span class="light">›</span></code><code class="folder">[Holiday]<span class="light">›</span></code><code class="file img">Picture.jpg</a></code>
       </td>
-      <td class="light">...&puncsp;is tagged&puncsp;...</td>
-      <td>Photos, Holiday</td>
+      <td>Pictures, Holiday</td>
     </tr>
     <tr>
       <td>
-        <code class="folder">&nbsp;[Book notes]<span class="light">&nbsp;/&nbsp;</span></code>&nbsp;
-        <code class="file md">&nbsp;Thief.txt</a></code>
+        <code class="folder">[Reviews]<span class="light">›</span></code><code class="file md">Thief.txt</a></code>
       </td>
-      <td class="light">...&puncsp;is tagged&puncsp;...</td>
-      <td>Book notes</td>
-    </tr>
-    <tr>
-      <td>
-        <code class="file md">&nbsp;[Reviews] Pnin.txt</a></code>
-      </td>
-      <td class="light">...&puncsp;is tagged&puncsp;...</td>
       <td>Reviews</td>
+    </tr>
+    <tr>
+      <td>
+        <code class="file md">[Notes] Pnin.txt</a></code>
+      </td>
+      <td>Notes</td>
     </tr>
 
   </tbody>

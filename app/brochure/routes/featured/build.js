@@ -45,6 +45,7 @@ function build(callback) {
             .slice(1)
             .join(" ")
             .split(",")[0];
+          var firstName = name.split(" ")[0];
           var bio = words
             .slice(1)
             .join(" ")
@@ -62,6 +63,7 @@ function build(callback) {
             link: link,
             host: host,
             name: name,
+            firstName: firstName,
             bio: bio,
             favicon: faviconPath + "/" + favicons[host]
           });

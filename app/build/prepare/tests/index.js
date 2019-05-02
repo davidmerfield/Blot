@@ -32,11 +32,26 @@ describe("prepare", function() {
     expect(entry.summary).toEqual("Hey there.");
   });
 
+  it("will not remove non-h1 title tags from the body", function() {
+    var entry = this.entry;
+
+    entry.html = "<p>Bar bat.</p><h3>How</h3><p>Now</p>";
+    entry.metadata = {
+      title: "Foo"
+    };
+
+    prepare(entry);
+
+    expect(entry.title).toEqual("Foo");
+    expect(entry.body).toEqual(entry.html);
+    expect(entry.body).toEqual("<p>Bar bat.</p><h3>How</h3><p>Now</p>");
+  });
+
   it("generates an empty title when given an empty file", function() {
     var entry = this.entry;
 
     entry.html = "";
-    
+
     prepare(entry);
 
     expect(entry.title).toEqual("");
