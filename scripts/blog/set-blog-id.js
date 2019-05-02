@@ -56,20 +56,60 @@ function main(oldBlogID, newBlogID, callback) {
   loadBlog(oldBlogID, newBlogID, function(err, oldBlog) {
     if (err) return callback(err);
 
-    debug("Renaming keys from", oldBlogID, "to", newBlogID);
-    renameKeys(oldBlog, newBlogID, function(err) {
+    debug("Switching dropbox client from", oldBlogID, "to", newBlogID);
+    switchDropboxClient(oldBlogID, newBlogID, function(err) {
       if (err) return callback(err);
 
-      debug("Updating list of blogs associated with user", oldBlog.owner);
-      updateUser(oldBlog.owner, oldBlogID, newBlogID, function(err) {
+      debug("Renaming keys from", oldBlogID, "to", newBlogID);
+      renameKeys(oldBlog, newBlogID, function(err) {
         if (err) return callback(err);
 
-        debug("Moving blog and static directories for", oldBlogID);
-        moveDirectories(oldBlogID, newBlogID, function(err) {
+        debug("Updating list of blogs associated with user", oldBlog.owner);
+        updateUser(oldBlog.owner, oldBlogID, newBlogID, function(err) {
           if (err) return callback(err);
-          callback();
+
+          debug("Updating property of blogs with new ID", oldBlog.owner);
+          updateBlog(newBlogID, function(err) {
+            if (err) return callback(err);
+
+            debug("Moving blog and static directories for", oldBlogID);
+            moveDirectories(oldBlogID, newBlogID, function(err) {
+              if (err) return callback(err);
+              callback();
+            });
+          });
         });
       });
+    });
+  });
+}
+
+function switchDropboxClient(oldBlogID, newBlogID, callback) {
+  // Redis Hash which stores the Dropbox account info
+  client.hgetall("blog:" + oldBlogID + ":dropbox:account", function(err, keys) {
+    if (err) return callback(err);
+
+    if (!keys || !keys.account_id) {
+      debug(oldBlogID, "was not configured to use the Dropbox client");
+      return callback();
+    }
+
+    // Redis set whoses members are the blog IDs
+    // connected to this dropbox account.
+    client.smembers("clients:dropbox:" + keys.account_id, function(
+      err,
+      members
+    ) {
+      if (err) return callback(err);
+
+      if (!members) return callback(new Error("No members"));
+
+      if (members.indexOf(oldBlogID) === -1) return callback();
+
+      client.multi()
+        .srem("clients:dropbox:" + keys.account_id, oldBlogID)
+        .sadd("clients:dropbox:" + keys.account_id, newBlogID)
+        .exec(callback);
     });
   });
 }
@@ -91,6 +131,7 @@ function loadBlog(oldBlogID, newBlogID, callback) {
     });
   });
 }
+
 function renameKeys(oldBlog, newBlogID, callback) {
   var multi = client.multi();
   var patterns = ["template:" + oldBlog.id + ":*", "blog:" + oldBlog.id + ":*"];
@@ -113,7 +154,10 @@ function renameKeys(oldBlog, newBlogID, callback) {
     });
 
     multi.set("handle:" + oldBlog.handle, newBlogID);
-    multi.set("template:owned_by:" + oldBlog.id, newBlogID);
+    multi.rename(
+      "template:owned_by:" + oldBlog.id,
+      "template:owned_by:" + newBlogID
+    );
 
     // also set the www subdomain alternate key...
     if (oldBlog.domain) {
@@ -147,8 +191,12 @@ function updateUser(uid, oldBlogID, newBlogID, callback) {
   });
 }
 
-function moveDirectories(oldBlogID, newBlogID, callback) {
+function updateBlog(newBlogID, callback) {
+  debug("Saving new ID as property of blog", newBlogID);
+  Blog.set(newBlogID, { id: newBlogID }, callback);
+}
 
+function moveDirectories(oldBlogID, newBlogID, callback) {
   // This will be dangerous if oldBlog or newBlogID are empty strings
   if (!oldBlogID || !newBlogID)
     return callback(new Error("Pass valid blogs IDs to moveDirectories"));
@@ -163,13 +211,19 @@ function moveDirectories(oldBlogID, newBlogID, callback) {
   fs.ensureDirSync(oldStaticFilesDir);
 
   if (fs.existsSync(newBlogDir)) {
-    console.error('The blog directory for new blog already exists, please remove it:\nrm -rf', newBlogDir);
-    return callback(new Error('EEXISTS'));
+    console.error(
+      "The blog directory for new blog already exists, please remove it:\nrm -rf",
+      newBlogDir
+    );
+    return callback(new Error("EEXISTS"));
   }
 
   if (fs.existsSync(newStaticFilesDir)) {
-    console.error('The static file directory for the new blog already exists, please remove it:\nrm -rf', newStaticFilesDir);
-    return callback(new Error('EEXISTS'));
+    console.error(
+      "The static file directory for the new blog already exists, please remove it:\nrm -rf",
+      newStaticFilesDir
+    );
+    return callback(new Error("EEXISTS"));
   }
 
   debug("Moving blog folder");
