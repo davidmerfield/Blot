@@ -29,11 +29,11 @@
 //   return "clients:dropbox:" + account_id;
 // }
 
-var keys = require("../redis/keys");
+var keys = require("../../redis/keys");
 var async = require("async");
-var client = require("../../app/models/client");
-var User = require("../../app/models/user");
-var Blog = require("../../app/models/blog");
+var client = require("../../../app/models/client");
+var User = require("../../../app/models/user");
+var Blog = require("../../../app/models/blog");
 var debug = require("debug")("blot:scripts:set-blog-id");
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
