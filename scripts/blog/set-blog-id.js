@@ -47,22 +47,26 @@ if (require.main === module) {
     if (err) throw err;
 
     console.log("Done!");
+    process.exit();
   });
 }
 
 function main(oldBlogID, newBlogID, callback) {
   debug("Switching blog with", oldBlogID, "to", newBlogID);
-
   loadBlog(oldBlogID, newBlogID, function(err, oldBlog) {
     if (err) return callback(err);
+
+    debug("Renaming keys from", oldBlogID, "to", newBlogID);
     renameKeys(oldBlog, newBlogID, function(err) {
       if (err) return callback(err);
+
+      debug("Updating list of blogs associated with user", oldBlog.owner);
       updateUser(oldBlog.owner, oldBlogID, newBlogID, function(err) {
         if (err) return callback(err);
 
+        debug("Moving blog and static directories for", oldBlogID);
         moveDirectories(oldBlogID, newBlogID, function(err) {
           if (err) return callback(err);
-
           callback();
         });
       });
@@ -144,11 +148,29 @@ function updateUser(uid, oldBlogID, newBlogID, callback) {
 }
 
 function moveDirectories(oldBlogID, newBlogID, callback) {
+
+  // This will be dangerous if oldBlog or newBlogID are empty strings
+  if (!oldBlogID || !newBlogID)
+    return callback(new Error("Pass valid blogs IDs to moveDirectories"));
+
   var oldBlogDir = localPath(oldBlogID, "/").slice(0, -1);
   var newBlogDir = localPath(newBlogID, "/").slice(0, -1);
 
   var oldStaticFilesDir = staticDirectory + "/" + oldBlogID;
   var newStaticFilesDir = staticDirectory + "/" + newBlogID;
+
+  fs.ensureDirSync(oldBlogDir);
+  fs.ensureDirSync(oldStaticFilesDir);
+
+  if (fs.existsSync(newBlogDir)) {
+    console.error('The blog directory for new blog already exists, please remove it:\nrm -rf', newBlogDir);
+    return callback(new Error('EEXISTS'));
+  }
+
+  if (fs.existsSync(newStaticFilesDir)) {
+    console.error('The static file directory for the new blog already exists, please remove it:\nrm -rf', newStaticFilesDir);
+    return callback(new Error('EEXISTS'));
+  }
 
   debug("Moving blog folder");
   debug("  Old: ", oldBlogDir);
