@@ -39,6 +39,8 @@ var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var staticDirectory = require("config").blog_static_files_dir;
 
+var switchDropboxClient = require('./switchDropboxClient');
+
 if (require.main === module) {
   var oldBlogID = process.argv[2];
   var newBlogID = process.argv[3];
@@ -84,35 +86,7 @@ function main(oldBlogID, newBlogID, callback) {
   });
 }
 
-function switchDropboxClient(oldBlogID, newBlogID, callback) {
-  // Redis Hash which stores the Dropbox account info
-  client.hgetall("blog:" + oldBlogID + ":dropbox:account", function(err, keys) {
-    if (err) return callback(err);
 
-    if (!keys || !keys.account_id) {
-      debug(oldBlogID, "was not configured to use the Dropbox client");
-      return callback();
-    }
-
-    // Redis set whoses members are the blog IDs
-    // connected to this dropbox account.
-    client.smembers("clients:dropbox:" + keys.account_id, function(
-      err,
-      members
-    ) {
-      if (err) return callback(err);
-
-      if (!members) return callback(new Error("No members"));
-
-      if (members.indexOf(oldBlogID) === -1) return callback();
-
-      client.multi()
-        .srem("clients:dropbox:" + keys.account_id, oldBlogID)
-        .sadd("clients:dropbox:" + keys.account_id, newBlogID)
-        .exec(callback);
-    });
-  });
-}
 
 function loadBlog(oldBlogID, newBlogID, callback) {
   Blog.get({ id: oldBlogID }, function(err, oldBlog) {
@@ -240,3 +214,6 @@ function moveDirectories(oldBlogID, newBlogID, callback) {
     fs.move(oldStaticFilesDir, newStaticFilesDir, callback);
   });
 }
+
+
+module.exports = main;
