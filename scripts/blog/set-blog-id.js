@@ -53,11 +53,8 @@ if (require.main === module) {
 function main(oldBlogID, newBlogID, callback) {
   debug("Switching blog with", oldBlogID, "to", newBlogID);
 
-  Blog.get({ id: oldBlogID }, function(err, oldBlog) {
+  loadBlog(oldBlogID, newBlogID, function(err, oldBlog) {
     if (err) return callback(err);
-
-    if (!oldBlog) return callback(new Error("No blog with ID: " + oldBlogID));
-
     renameKeys(oldBlog, newBlogID, function(err) {
       if (err) return callback(err);
       updateUser(oldBlog.owner, oldBlogID, newBlogID, function(err) {
@@ -73,6 +70,23 @@ function main(oldBlogID, newBlogID, callback) {
   });
 }
 
+function loadBlog(oldBlogID, newBlogID, callback) {
+  Blog.get({ id: oldBlogID }, function(err, oldBlog) {
+    if (err) return callback(err);
+
+    if (!oldBlog) return callback(new Error("No blog with ID: " + oldBlogID));
+
+    Blog.get({ id: newBlogID }, function(err, existingBlog) {
+      if (err) return callback(err);
+
+      // We might want to be able to clobber and existing blog though...
+      if (existingBlog)
+        return callback(new Error("Existing blog with ID: " + existingBlog));
+
+      callback(null, oldBlog);
+    });
+  });
+}
 function renameKeys(oldBlog, newBlogID, callback) {
   var multi = client.multi();
   var patterns = ["template:" + oldBlog.id + ":*", "blog:" + oldBlog.id + ":*"];
@@ -111,13 +125,19 @@ function renameKeys(oldBlog, newBlogID, callback) {
 }
 
 function updateUser(uid, oldBlogID, newBlogID, callback) {
+  debug("Retrieving user", uid);
   User.getById(uid, function(err, user) {
     if (err) return callback(err);
+
+    if (!user) return callback(new Error("No user: " + uid));
+
+    debug("Old list of blogs:", user.blogs);
     user.blogs = user.blogs.filter(function(id) {
       return id !== oldBlogID;
     });
 
     user.blogs.push(newBlogID);
+    debug("New list of blogs:", user.blogs);
 
     User.set(user.uid, user, callback);
   });
@@ -130,11 +150,17 @@ function moveDirectories(oldBlogID, newBlogID, callback) {
   var oldStaticFilesDir = staticDirectory + "/" + oldBlogID;
   var newStaticFilesDir = staticDirectory + "/" + newBlogID;
 
-  debug("Moving folder", oldBlogDir, "to", newBlogDir);
+  debug("Moving blog folder");
+  debug("  Old: ", oldBlogDir);
+  debug("  New: ", newBlogDir);
+
   fs.move(oldBlogDir, newBlogDir, function(err) {
     if (err) return callback(err);
 
-    debug("Moving folder", oldStaticFilesDir, "to", newStaticFilesDir);
+    debug("Moving static files folder");
+    debug("  Old: ", oldStaticFilesDir);
+    debug("  New: ", newStaticFilesDir);
+
     fs.move(oldStaticFilesDir, newStaticFilesDir, callback);
   });
 }
