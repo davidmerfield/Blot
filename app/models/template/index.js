@@ -452,11 +452,7 @@ function getTemplateList(blogID, callback) {
   });
 }
 
-function isOwner(owner, id, callback) {
-  ensure(owner, "string").and(id, "string");
 
-  redis.SISMEMBER(key.blogTemplates(owner), id, callback);
-}
 
 function clone(fromID, toID, metadata, callback) {
   ensure(fromID, "string")
@@ -586,7 +582,7 @@ module.exports = {
   drop: drop,
 
   makeID: makeID,
-  isOwner: isOwner,
+  isOwner: require('./isOwner'),
   siteOwner: siteOwner,
   defaultTemplate: defaultTemplate,
 
