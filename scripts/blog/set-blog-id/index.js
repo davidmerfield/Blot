@@ -43,6 +43,7 @@ var updateBlog = require("./updateBlog");
 var updateUser = require("./updateUser");
 var renameKeys = require("./renameKeys");
 var renameTemplateIDs = require("./renameTemplateIDs");
+var renameTransformerIDs = require("./renameTransformerIDs");
 var moveDirectories = require("./moveDirectories");
 
 if (require.main === module) {
@@ -87,10 +88,15 @@ function main(oldBlogID, newBlogID, callback) {
             renameTemplateIDs(oldBlog, newBlogID, function(err) {
               if (err) return callback(err);
 
-              debug("Moving blog and static directories for", oldBlogID);
-              moveDirectories(oldBlogID, newBlogID, function(err) {
+              debug("Renaming Transformer stores for", oldBlogID);
+              renameTransformerIDs(oldBlog, newBlogID, function(err) {
                 if (err) return callback(err);
-                callback();
+
+                debug("Moving blog and static directories for", oldBlogID);
+                moveDirectories(oldBlogID, newBlogID, function(err) {
+                  if (err) return callback(err);
+                  callback();
+                });
               });
             });
           });
