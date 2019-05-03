@@ -22,7 +22,6 @@
     "connect-redis": "^3.3.3",
     "css": "^2.2.4",
     "csurf": "1.9.0",
-    "datauri": "^1.1.0",
     "debug": "^3.1.0",
     "dropbox": "^4.0.9",
     "dropbox-stream": "^2.0.0",
