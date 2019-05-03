@@ -32,12 +32,6 @@ brochure.use(require("./tools/dates"));
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
 
-// CSS required to render the windows
-brochure.get("/css/finder.css", function(req, res) {
-  res.setHeader("Content-Type", "text/css");
-  res.send(finder.css());
-});
-
 brochure.use(function(req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
