@@ -6,6 +6,7 @@ var ensure = helper.ensure;
 var type = helper.type;
 var extend = helper.extend;
 var siteOwner = "SITE";
+var makeID = require('./util/makeID');
 var defaultTemplate = makeID(siteOwner, "default");
 var metadataModel = require("./metadataModel");
 var viewModel = require("./viewModel");
@@ -522,9 +523,6 @@ function drop(owner, templateName, callback) {
   });
 }
 
-function makeID(owner, name) {
-  return owner + ":" + helper.makeSlug(name);
-}
 
 // This method is used to retrieve the locals,
 // partials and missing locals for a given view.
