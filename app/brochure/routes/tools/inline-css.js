@@ -68,8 +68,6 @@ module.exports = function render_tex (req, res, next) {
       
       var shouldMakeImportant;
       
-      console.log(rule.selectors);
-
       for (var x in rule.selectors)
         if (rule.selectors[x].indexOf(':hover') > -1 ||
           rule.selectors[x].indexOf(':active') > -1 || 
@@ -88,8 +86,6 @@ module.exports = function render_tex (req, res, next) {
     css = CSS.stringify(obj);
 
     $('head').append('<style type="text/css">' + css + '</style>');
-
-    // console.log(css);
 
     html = $.html();
 
