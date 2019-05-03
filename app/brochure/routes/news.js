@@ -11,17 +11,17 @@ var config = require("config");
 var client = require("client");
 
 news.get("/", loadDone, loadToDo, function(req, res) {
-  res.locals.title = "Blot / News";
+  res.locals.title = "Blot - News";
   res.render("news");
 });
 
 news.get("/archive", function(req, res) {
-  res.locals.title = "Blot / News";
+  res.locals.title = "Blot - News";
   res.render("news/archive");
 });
 
 news.get("/archive/:letter", function(req, res) {
-  res.locals.title = "Blot / News";
+  res.locals.title = "Blot - News";
   res.render("news/archive");
 });
 

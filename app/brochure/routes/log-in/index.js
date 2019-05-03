@@ -19,7 +19,7 @@ logIn.all(function(req, res, next) {
 
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
-  res.locals.layout = "log-in/layout";
+  res.locals.layout = "partials/layout-form";
 
   return next();
 });

@@ -1,5 +1,6 @@
 var eachBlog = require("../each/blog");
 var moment = require("moment");
+var newsletterSubscribers = require('./newsletter-subscribers');
 var helper = require("../../app/helper");
 var forEach = helper.forEach;
 var arrayify = helper.arrayify;
@@ -9,7 +10,7 @@ var Email = helper.email;
 
 var diskspace = require("./disk-space");
 var memory = require("./memory");
-var numberWithCommas = require('./util/numberWithCommas');
+var numberWithCommas = require("./util/numberWithCommas");
 
 if (require.main === module) {
   main(process.exit);
@@ -137,31 +138,35 @@ function main(callback) {
           });
         },
         function() {
-          hits({range: 'hours', number: 24}, function(err, res) {
+          hits({ range: "hours", number: 24 }, function(err, res) {
             if (err || !res) res = { hits: 0 };
 
-            view.views = numberWithCommas(res.hits);
-            view.averageResponseTime = res.averageResponseTime.toFixed(3);
+            newsletterSubscribers(function(err, subscribers) {
+              if (err) subscribers = [];
 
-            view.total_revenue =
-              "$" + numberWithCommas(view.total_subscriptions * 20) + ".00";
-            view.new_posts = arrayify(view.new_posts);
-            view.renewals = arrayify(view.renewals);
+              view.newsletter_subscribers = subscribers.length;
 
-            view.renewals.sort(function(a, b) {
-              return a.next_payment - b.next_payment;
+              view.views = numberWithCommas(res.hits);
+              view.averageResponseTime = res.averageResponseTime.toFixed(3);
+
+              view.total_revenue =
+                "$" + numberWithCommas(view.total_subscriptions * 20) + ".00";
+              view.new_posts = arrayify(view.new_posts);
+              view.renewals = arrayify(view.renewals);
+
+              view.renewals.sort(function(a, b) {
+                return a.next_payment - b.next_payment;
+              });
+
+              view.total_posts = numberWithCommas(view.total_posts);
+
+              Email.DAILY_UPDATE("", view, callback);
             });
-
-            view.total_posts = numberWithCommas(view.total_posts);
-
-            Email.DAILY_UPDATE("", view, callback);
           });
         }
       );
     });
   });
 }
-
-
 
 module.exports = main;
