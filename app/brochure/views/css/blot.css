@@ -6,9 +6,14 @@ html,
 body {
   padding: 0;
   margin: 0;
-  background: #fffefc
+    background: #fffefc;
+
 }
 
+.dark main {background: #111}
+
+main {  background: #fffefc;padding-bottom: 14em!important
+}
 
 body {
   color: rgb(4, 4, 2);
@@ -26,11 +31,21 @@ body.dark {
   color: #b5c2c3;
 }
 
-.dark p, .dark content a, .dark ol, .dark ul  {  color: #b5c2c3;
+.dark p,
+.dark content a,
+.dark ol,
+.dark ul {
+  color: #b5c2c3;
 }
 
-.dark content a {border-bottom-color: #444}
-.dark content a:hover {border-bottom-color: #b5c2c3}
+.dark content a {
+  border-bottom-color: #444
+}
+
+.dark content a:hover {
+  border-bottom-color: #b5c2c3
+}
+
 small {
   font-size: 15px
 }
@@ -50,36 +65,60 @@ mark {
 content p a,
 content li a,
 content table a {
-  color: #111;
-  border-bottom: 1px solid #bfbcba;
-  text-decoration: none;
-  transition-property: color, border-color;
-  transition-duration: .1s;
-  transition-timing-function: ease-out;
+  color: #005eb8;
+  text-decoration: underline;
 }
 
-p a:hover {
-  border-color: #000
+
+
+
+content p a:focus,
+content li a:focus,
+content table a:focus {
+  background-color: #eee;
+  box-shadow: 0 0 0 4px #eee;
+  color: #444;
+  stroke: #444;
+  outline: 4px solid transparent;
+  outline-offset: 4px
 }
 
-p, ol, ul {
-  max-width: 39em;
-  color: #333333
+
+content p a:hover,
+content li a:hover,
+content table a:hover {
+  background-color: #eee;
+  box-shadow: 0 0 0 4px #eee;
+  text-decoration: underline;
 }
 
-h1 {
-  font-size: 36px;
-  line-height: 1.1;
-  margin: 0 0 0.6em;
+
+
+
+
+h1 {/*
+    font-size: 36px;
+    line-height: 1.1;
+    margin: 1em 0 1em;
+*/
+
+/*    font-size: 32px;
+    line-height: 1.1;
+    margin: 1.7em 0 1em;
+*/    
+ font-size: 36px;
+ font-weight: 400;
+    line-height: 1.1;
+    margin: 1.5em 0 1em;
+
 }
 
 h2 {
-  font-size: 1em;
-  max-width: 39em;
-  margin: 1.8em 0 0.3375em;
+  font-size: 20px;
+  margin: 2em 0 0.3375em;
   border-bottom: 1px solid;
   padding: 0.5rem 0 0.3375em;
-  font-weight: 700;
+  font-weight: 400
 }
 
 
@@ -87,13 +126,25 @@ h2+p {
   margin-top: 0
 }
 
+p,
+h2,
+h1,
+background,
+.window,
+ul,
+ol,
+.clients,
+ul.templates {
+  max-width: 637px;
+}
+
 
 /* This keeps the footer off the main page */
 main {
   min-height: 100vh;
-  padding: 3em;
   padding-bottom: 24em;
-  box-sizing:border-box;
+  box-sizing: border-box;
+  display: flex
 
 }
 
@@ -105,10 +156,9 @@ container {
 
 content {
   flex-grow: 1;
-  width: 75%;
-  margin-left: 1.5em;
-  margin-right: 1.5em;
 }
+
+.sidebar + content {margin-left: 0}
 
 main.has-sidebar {
   display: flex
@@ -117,6 +167,7 @@ main.has-sidebar {
 ul.templates {
   display: flex;
   margin: 2em 0;
+  justify-content: center;
   flex-wrap: wrap;
   padding: 0
 }
@@ -128,14 +179,14 @@ ul.templates small {
 ul.templates li {
   list-style-type: none;
   min-width: 200px;
-  border-top: 1px solid #eee;
-  width: 33%;
+  width: 25%;
   box-sizing: border-box;
   padding: 1.5rem 0.5rem;
 }
 
 ul.templates li a {
   color: inherit;
+  border: none;
 }
 
 ul.templates li strong {
@@ -195,29 +246,39 @@ th:last-child {
   padding-right: 0
 }
 
+.window {
+  margin-top: 4.2em;
+  margin-bottom: 4.2em
+}
 
 background {
-  padding: 2em 4em 2.5em;
-  display: block;
-  background: #96deff;
-  max-width: 39em;
-  box-sizing: border-box;
+    display: flex;
+    margin: 2.8em 0;
+    background: #96deff80;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
 }
 
 background+h2,
-background+h3 {
+background+h3,
+.window+h2,
+.window+h3 {
   margin-top: 3em
 }
-
-/*
-background:nth-of-type(1){background: #77d3fb}
-background:nth-of-type(2){background: #faba40}
-background:nth-of-type(3){background: #35cb4b}*/
-
-background .folder {
-  max-width: 300px;
-  margin: 0 auto
+background.text+h2,
+background.text+h3
+ {
+  margin-top: 4em
 }
+
+
+
+background.red{background: #fc615d38}
+background.yellow{background: #fdbd416b}/*#faba40*/ 
+background.green{background: #35cb4b42} /*#35cb4b*/
+
+
 
 background .text {
   max-width: 600px;
@@ -226,74 +287,52 @@ background .text {
 
 /* Big link on homepage containing folder to play demo video */
 a.video {
-  background: #f3eeea;
-  margin: 0 0 4em;
-  height: calc(100vh - 18em);
-  /*  padding-bottom: 56.25%;
-*/
+  margin: 0;
+  height: 0;
+  background: #fdbd41;
+  padding-bottom: 30%;
+  min-height: 48px;
+  margin: 0 0 24px;
   position: relative;
   overflow: hidden;
-  display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+        min-height: 288px;
+    padding-bottom: 0;
+    height: calc(100vh - 19.5em);
+  }
+
+
+@media screen and (max-width: 800px) {
+
+.text pre {padding: 2.22rem 2.222rem}
+
 }
 
-a.video span {
-  position: absolute;
-  bottom: 3.5em;
-  left: 3.5em;
-  border-radius: 0;
-  text-align: center;
-  padding: 4px 1em 4px 2em;
-  margin: 0 1em 0 0;
-  text-align: center;
-  -webkit-font-smoothing: antialiased;
-  border: 1px solid rgb(192, 39, 45);
-  color: rgb(192, 39, 45);
+
+@media screen and (max-width: 600px) {
+
+.text pre {padding: 2.22rem 1.4rem;
+    font-size: 13px;
 }
 
-a.video span:before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 22px;
-  width: 7px;
-  height: 7px;
-  margin: -4px 0 0 -10px;
-  border-top: solid 1px rgb(192, 39, 45);
-  border-right: solid 1px rgb(192, 39, 45);
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  content: "";
 }
 
-a.video svg {
-  width: 28px;
-  vertical-align: middle;
-  position: relative;
-  top: 2px;
-  fill: rgb(192, 39, 45);
+
+
+@media screen and (max-width: 800px) {
+
+  a.video, background {margin-left: -1.4em;margin-right: -1.4em}
 }
 
-a.video window {
-  opacity: 1.0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -150px;
-  margin-top: -120px;
-  min-width: 300px;
-  max-width: 310px;
-}
 
-a.video:hover span {
-  background: rgb(192, 39, 45);
-  color: white;
+a.video .window, background .window {
+      flex-grow:1;
+      max-width: 320px;
+    min-width: 256px;
+    margin: 2.8rem 1.4rem;
 }
-
-a.video:hover span:before {
-  border-color: white
-}
-
 
 overlay {
   position: fixed;
@@ -420,22 +459,69 @@ overlay .close:after {
 }
 
 
-.clients {margin:2em 0;list-style-type: none;padding: 0;max-width: none;}
-.clients li {display: inline-block;width: 33%;margin-right: 2em;}
-.clients li a {    cursor: pointer;
-    user-select: none;
-    transition: background 200ms ease-out 0s;
-    padding: 10px 12px 10px;
-    border-radius: 3px;
-    margin-bottom: 2em;
-    display: block;
-    box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
-    background: white;}
+.clients {
+    margin: 2em -0.7em;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
 
-.dark .clients li a {    box-shadow: rgb(0,0,0) 0px 0px 0px 1px, rgb(0,0,0) 0px 2px 4px;
-    background: #171616;
-    border: none;
-  }
-    .clients svg {
-      width:32px;float:left;margin-right:1em;margin-top:0.2em;margin-left:0.2em;margin-bottom:2em
-    }
+.clients li {
+display: inline-block;
+    flex-basis: 33%;
+    box-sizing: border-box;
+    margin: 0.7em;
+    min-width: 256px;
+    flex-grow: 1;
+}
+
+
+.clients li a {
+  cursor: pointer;
+  user-select: none;
+  padding: 10px 12px 10px;
+  border-radius: 3px;
+  margin-bottom: 1.4 em;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  background: white;
+}
+
+.clients li a:hover {
+  text-decoration: none;
+  background: #f6f6f6;
+  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px;
+}
+
+.clients li a:hover strong {
+  text-decoration: underline;
+}
+
+.clients li a .a {
+  color: #005eb8;
+  text-decoration: underline;
+}
+
+.dark .clients li a {
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 1px, rgb(0, 0, 0) 0px 2px 4px;
+  background: #171616;
+  border: none;
+}
+
+.clients svg {
+  width: 24px;
+  float: left;
+  margin-right: 1em;
+  margin-top: 0.2em;
+  margin-left: 0.2em;
+  margin-bottom: 2em
+}
+
+p.back-link {
+  margin: -1.4em 0 1.4em;
+    border-top: 1px solid #eceff1;
+    padding: 0.7em 0;
+}

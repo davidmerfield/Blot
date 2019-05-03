@@ -7,6 +7,7 @@
 
 var request = require("request");
 var Blog = require("blog");
+var Template = require("template");
 var async = require("async");
 
 function filter(sites, callback) {
@@ -14,8 +15,17 @@ function filter(sites, callback) {
     sites,
     3,
     function(site, next) {
-      verify(site.host, function(err) {
-        next(null, err === null);
+      verify(site.host, function(err, template) {
+
+        if (err !== null) return next(null, false);
+
+        site.template = {
+          custom: template.id.indexOf("SITE:") === -1,
+          label: template.name,
+          slug: template.slug
+        };
+
+        next(null, true);
       });
     },
     function(err, result) {
@@ -30,21 +40,25 @@ function verify(domain, callback) {
 
     if (!blog) return callback(new Error("No blog with domain " + domain));
 
-    var options = {
-      uri: "http://" + domain + "/verify/domain-setup",
-      timeout: 1000,
-      maxRedirects: 5
-    };
-
-    request(options, function(err, res, body) {
+    Template.getMetadata(blog.template, function(err, template) {
       if (err) return callback(err);
 
-      if (body !== blog.handle)
-        return callback(
-          new Error("Domain" + domain + " no longer connected to Blot")
-        );
+      var options = {
+        uri: "http://" + domain + "/verify/domain-setup",
+        timeout: 1000,
+        maxRedirects: 5
+      };
 
-      callback(null);
+      request(options, function(err, res, body) {
+        if (err) return callback(err);
+
+        if (body !== blog.handle)
+          return callback(
+            new Error("Domain" + domain + " no longer connected to Blot")
+          );
+
+        callback(null, template);
+      });
     });
   });
 }

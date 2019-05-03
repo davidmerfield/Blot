@@ -1,14 +1,30 @@
 {{> head}}
-
+<style type="text/css">html {background: #111}</style>
 <body class="dark">
+  <link rel="stylesheet" href="/css/tex.css?cache={{cacheID}}&extension=.css">
+  <link rel="stylesheet" href="/css/header.css?cache={{cacheID}}&extension=.css">
 
-  <main class="has-sidebar">
-    <ul class="sidebar">
+  <header class="grid">
+    <row>
+      <section style="padding: 0 0.7em;    display: flex;
+    align-items: center;">
+        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a> <span style="color:#444;padding:0 0.7em">/</span> <a  style="min-width:auto"href="/developers"> Developers</a>
+      </section>
+  
 
-      <a style="min-width:auto" href="/">Blot</a> <span style="color:#444;padding:0 0.2em">/</span> <a  style="min-width:auto"href="/developers"> Developers</a>
+      <section class="links">
+        <label for="toggle">Menu</label>
+        <a href="/sign-up">Sign up</a>
+        <a href="/log-in">Log in</a>
+      </section>
+    </row>
 
-      <br><br>
-
+  </header>
+  <main class="grid" style="padding-top:0">
+    
+    <input type="checkbox" name="toggle" id="toggle">
+      
+   <ul class="sidebar col-25">
       <li><a href="/developers">Introduction</a></li>
       <li><a href="/developers/how-blot-works">How Blot works</a></li>
       <li><a href="/developers/rendering-templates">Rendering templates</a></li>
@@ -39,13 +55,23 @@
       <li class="has-list {{selected.guides}}">
         <input type="checkbox" name="guides" id="guides" {{#selected.guides}} checked{{/selected.guides}}> <a href="/developers/guides">Guides<label for="guides"></label></a>
       <ul>
-        <li class="{{selected.posts-tagged}}">
+        <li class="{{selected.json-feed}}">
           <a href="/developers/guides/json-feed">JSON feed</a>
+        </li>
+        <li class="{{selected.group-posts-by-dates}}">
+          <a href="/developers/guides/group-posts-by-dates">Group posts by date</a> 
+        </li>
+        <li class="{{selected.posts-tagged}}">
+          <a href="/developers/guides/posts-tagged">A page with posts with a tag</a> 
         </li>
       </ul>
       </li>
-    </ul>
-    <content>
+        <hr>
+        <li><a class="{{selected.support}}" href="/developers/support">Support</a></li>
+        <li><a class="{{selected.news}}" href="https://github.com/davidmerfield/blot">Source code</a></li>
+   </ul>
+
+    <content class="col-75">
       {{{body}}}
     </content>
   </main>

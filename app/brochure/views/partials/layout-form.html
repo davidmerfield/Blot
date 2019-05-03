@@ -1,0 +1,36 @@
+{{> head}}
+
+<body>
+
+  <header class="grid">
+
+    <row>
+
+      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
+        <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
+      </section>
+
+      {{#if selected.log-in}}
+      <p style="margin:0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
+      {{/if}}
+
+      {{#if selected.sign-up}}
+      <p style="margin:0;color:#aaa"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Dashboard</p>
+      {{/if}}
+    </row>
+
+  </header>
+
+  <main class="grid form">
+
+    <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
+    </section>
+
+    <content>
+      <br><br>
+      {{{body}}}
+    </content>
+  </main>
+</body>
+
+</html>

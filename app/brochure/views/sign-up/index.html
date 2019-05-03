@@ -3,18 +3,18 @@
 <p style="max-width:350px">A blog costs <span style="    background: #fff0a8;">{{price}} per year</span> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p>
 
 <noscript>
-  <p><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
-  <style type="text/css">form {display:none}</style>
+  <p class="error"><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
 </noscript>
 
-<form method="POST">
+<form method="POST" style="width:330px">
 
   <p>
     <label for="email">Your email address</label>
     <input type="text" class="email" name="email" autofocus />
   </p>
 
-  <p>
+
+  <p >
     <label for="number">Card number
       <em>Blot does not store your card details. Stripe processes your payment.</em>
     </label>
@@ -28,7 +28,7 @@
     <flex>
     <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
     <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
-  </flex>
+    </flex>
   </p>
 
   <p >
@@ -38,8 +38,15 @@
     <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
   </p>
   </flex>
-
+    <!-- <div style="flex-grow:1;margin-right:2em">
+  <p style="margin-bottom:0">
+    <label>Total</label>
+  </p>
+    <hr style="margin:2px 0;border:none;border-top:1px solid rgba(0, 0, 0, .25)">
+    <p style="margin-top:4px">$30 for 1 blog for 1 year</p>
+  </div> -->
   <input type="submit" value="Submit payment" />
+</flex>
   <input type="hidden" class="stripeToken" name="stripeToken" />
 </form>
 

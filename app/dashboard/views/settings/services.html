@@ -14,6 +14,11 @@
       <input name='forceSSL' type="checkbox" {{#blog.forceSSL}}checked{{/blog.forceSSL}}/> Redirect HTTP traffic to HTTPS
     </label>
 
+     <label>
+      <input name='redirectSubdomain' type='hidden' value='off' >
+      <input name='redirectSubdomain' type="checkbox" {{#blog.redirectSubdomain}}checked{{/blog.redirectSubdomain}}/> Redirect subdomain to custom domain
+    </label>
+
 <style type="text/css">
   .plugin label,.plugin p  {margin: 0}
   .plugin label {line-height: 1.5}

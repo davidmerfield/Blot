@@ -52,12 +52,6 @@ dashboard.use('/clients', require("./routes/clients"));
 
 dashboard.use('/stripe-webhook', require("./routes/stripe_webhook"));
 
-dashboard.get('/logged-out', function(req, res, next){
-  res.locals.partials = {};
-  res.locals.partials.yield = 'logged-out';
-  res.render('partials/wrapper-public');
-});
-
 dashboard.get('/deleted', function(req, res, next){
   res.locals.partials = {};
   res.locals.partials.yield = 'deleted';
