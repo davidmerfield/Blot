@@ -18,7 +18,11 @@ module.exports = function render_tex (req, res, next) {
     $('link[rel="stylesheet"]').each(function(){
 
       var css;
-      var pathToCSSFile = __dirname + '/../../views' + $(this).attr('href');
+      var href = $(this).attr('href');
+
+      if (href.indexOf('?') > -1) href = href.slice(0, href.indexOf('?'));
+      
+      var pathToCSSFile = __dirname + '/../../views' + href;
         
       try{
         
