@@ -15,6 +15,5 @@ module.exports = {
   remove: require("./remove"),
   scheduleSubscriptionEmail: require("./scheduleSubscriptionEmail"),
   set: require("./set"),
-  tests: require("./tests"),
   validate: require("./validate")
 };
