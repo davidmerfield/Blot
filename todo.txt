@@ -21,6 +21,8 @@ Transfer [Ana's design](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe
 
 ---
 
+Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
+
 Fix Magazine template bugs
 - Fix text styling inside blockquotes and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
 - Fix bug with image zoom when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
@@ -232,8 +234,6 @@ and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVs
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760
 ) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
-
-Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 
 Support 2FA (Two factor authentication)
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
