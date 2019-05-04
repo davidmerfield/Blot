@@ -14,7 +14,7 @@ var viewModel = require("./viewModel");
 var key = require("./key");
 var serialize = require("./util/serialize");
 var deserialize = require("./util/deserialize");
-var getViewByURL = require("./getViewByURL");
+var getMetadata = require("./getMetadata");
 
 // Associates a theme with a UID owner
 // and an existing theme to clone if possible
@@ -107,17 +107,7 @@ function update(owner, name, metadata, callback) {
 
 
 
-function getMetadata(id, callback) {
-  ensure(id, "string").and(callback, "function");
 
-  redis.hgetall(key.metadata(id), function(err, metadata) {
-    if (err) return callback(err);
-
-    metadata = deserialize(metadata, metadataModel);
-
-    return callback(null, metadata);
-  });
-}
 
 function setMetadata(id, updates, callback) {
   ensure(id, "string")
@@ -565,7 +555,7 @@ module.exports = {
 
   getFullView: getFullView,
   getView: getView,
-  getViewByURL: getViewByURL,
+  getViewByURL: require("./getViewByURL"),
   setView: setView,
   dropView: dropView,
   getPartials: getPartials,
