@@ -1,31 +1,31 @@
 <h1>Pages</h1>
-<p>Files inside a folder called ‘Pages’ become pages instead of blog posts. Links to each page appear on your blog’s menu. </p>
 
-<background><pre class="folder" title="Your blog"><code>Drafts
+<p>Files inside a folder called <em>Pages</em> become pages instead of blog posts. Links to each page appear on your blog’s menu. </p>
+
+<background class="yellow"><pre class="folder" title="Your blog"><code>Drafts
 Pages
   About.txt
   Contact.docx  
-  Hidden.txt
+  Home.txt
+  Secret.txt
 Posts
-
 
 </code></pre></background>
 
 <h2>Hidden pages</h2>
 
-<p>You can hide a page from your blog’s menu by overriding the ‘Menu’ <a href="./metadata">metadata</a>:</p>
+<p>You can hide a page from your blog’s menu with the <em>Menu</em> <a href="./metadata">metadata</a>.</p>
 
-<background><pre class="text with-chrome" title="Hidden.txt"><code>Menu: no
+<pre class="text with-chrome" title="Secret.txt"><code>Menu: no
 
-A link to this page will not appear on your blog‘s menu.
-</code></pre></background>
+This page will not appear on your blog‘s menu.
+
+</code></pre>
 
 <h2>Create a landing page</h2>
-<p>You can create a landing page by overriding the ‘Permalink’ <a href="./metadata">metadata</a>:</p>
+<p>You can create a landing page with the <em>Permalink</em> <a href="./metadata">metadata</a>.</p>
 
-<background>
-  <pre class="text with-chrome" title="Hidden.txt"><code>Permalink: /
+  <pre class="text with-chrome" title="Home.txt"><code>Permalink: /
 
 This page will replace your blog‘s homepage. If you still want your readers to access the list of your blog posts, consider adding a link to ‘/page/1’ to your blog’s menu.
 </code></pre>
-</background>

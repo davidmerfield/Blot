@@ -3,10 +3,16 @@ var jasmine = new Jasmine();
 var colors = require("colors");
 var seedrandom = require("seedrandom");
 var async = require("async");
+var Express = require("express");
 var seed;
 var config = {
   spec_dir: "",
-  spec_files: ["tests/**/*.js", "app/**/tests/*.js", "app/**/tests.js"],
+  spec_files: [
+    "tests/**/*.js",
+    "app/**/tests/*.js",
+    "app/**/tests.js",
+    "!**/node_modules/**" // excludes tests inside node_modules directories
+  ],
   helpers: [],
   stopSpecOnExpectationFailure: false,
   random: true
@@ -66,6 +72,26 @@ global.test = {
   user: function() {
     beforeEach(require("./util/createUser"));
     afterEach(require("./util/removeUser"));
+  },
+
+  server: function(fn) {
+    var server;
+    var port = 8919;
+
+    // Create a webserver for testing remote files
+    beforeAll(function() {
+      server = Express();
+      
+      // Load in routes in suite
+      fn(server);
+
+      server = server.listen(port);
+      this.origin = "http://localhost:" + port;
+    });
+
+    afterAll(function(done) {
+      server.close(done);
+    });
   },
 
   blogs: function(total) {
