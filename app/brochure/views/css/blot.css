@@ -130,7 +130,7 @@ p,
 h2,
 h1,
 background,
-window,
+.window,
 ul,
 ol,
 .clients,
@@ -246,7 +246,7 @@ th:last-child {
   padding-right: 0
 }
 
-window {
+.window {
   margin-top: 4.2em;
   margin-bottom: 4.2em
 }
@@ -262,8 +262,8 @@ background {
 
 background+h2,
 background+h3,
-window+h2,
-window+h3 {
+.window+h2,
+.window+h3 {
   margin-top: 3em
 }
 background.text+h2,
@@ -327,47 +327,12 @@ a.video {
 }
 
 
-a.video span {
-  position: absolute;
-  bottom: 3.5em;
-  left: 3.5em;
-  display: none;
-  border-radius: 0;
-  text-align: center;
-  padding: 4px 1em 4px 2em;
-  margin: 0 1em 0 0;
-  text-align: center;
-  -webkit-font-smoothing: antialiased;
-  border: 1px solid rgb(192, 39, 45);
-  color: rgb(192, 39, 45);
-}
-
-
-
-a.video svg {
-  width: 28px;
-  vertical-align: middle;
-  position: relative;
-  top: 2px;
-  fill: rgb(192, 39, 45);
-}
-
-a.video window, background window {
+a.video .window, background .window {
       flex-grow:1;
       max-width: 320px;
     min-width: 256px;
     margin: 2.8rem 1.4rem;
 }
-
-a.video:hover span {
-  background: rgb(192, 39, 45);
-  color: white;
-}
-
-a.video:hover span:before {
-  border-color: white
-}
-
 
 overlay {
   position: fixed;
