@@ -13,6 +13,9 @@ describe("switchBlogID script", function(){
 
       // We need to modify this property so the cleanup
       // function can remove the blog safely.
+
+      // we should also search entire db for keys with this value
+      
       test.blog.id = newID;
       done();
     });
