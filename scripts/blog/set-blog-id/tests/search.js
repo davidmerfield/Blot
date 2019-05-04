@@ -6,8 +6,8 @@ var colors = require("colors/safe");
 if (require.main === module) {
   var searchTerm = process.argv[2];
 
-  if (!searchTerm) throw new Error('Please pass search query as first arg');
-  
+  if (!searchTerm) throw new Error("Please pass search query as first arg");
+
   main(searchTerm, function(err, res) {
     if (err) throw err;
     res.map(function(item) {
@@ -33,6 +33,9 @@ function main(string, callback) {
     async.each(
       keys,
       function(key, next) {
+        if (key.indexOf(string) > -1)
+          result.push({ key: key, value: "KEY ITSELF", type: "KEY" });
+
         client.type(key, function(err, type) {
           if (err) return next(err);
 

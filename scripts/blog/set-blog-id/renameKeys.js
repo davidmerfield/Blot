@@ -1,6 +1,7 @@
 var keys = require("../../redis/keys");
-var client = require('client');
-var async = require('async');
+var client = require("client");
+var async = require("async");
+var config = require("config");
 
 module.exports = function renameKeys(oldBlog, newBlogID, callback) {
   var multi = client.multi();
@@ -29,6 +30,9 @@ module.exports = function renameKeys(oldBlog, newBlogID, callback) {
       "template:owned_by:" + newBlogID
     );
 
+    multi.sadd("blogs", newBlogID);
+    multi.srem("blogs", oldBlog.id);
+
     // also set the www subdomain alternate key...
     if (oldBlog.domain) {
       multi.set("domain:" + oldBlog.domain, newBlogID);
@@ -37,6 +41,8 @@ module.exports = function renameKeys(oldBlog, newBlogID, callback) {
         multi.set("domain:" + oldBlog.domain.slice("www.".length), newBlogID);
       else multi.set("domain:" + "www." + oldBlog.domain, newBlogID);
     }
+
+    multi.set("domain:" + oldBlog.handle + "." + config.host, newBlogID);
 
     multi.exec(callback);
   });

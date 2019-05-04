@@ -13,6 +13,8 @@ module.exports = function updateUser(uid, oldBlogID, newBlogID, callback) {
       return id !== oldBlogID;
     });
 
+    if (user.lastSession === oldBlogID) user.lastSession = newBlogID;
+
     user.blogs.push(newBlogID);
     debug("New list of blogs:", user.blogs);
 
