@@ -8,12 +8,13 @@ var renameKeys = require("./renameKeys");
 var renameTemplateIDs = require("./renameTemplateIDs");
 var renameTransformerIDs = require("./renameTransformerIDs");
 var moveDirectories = require("./moveDirectories");
+var generateID = require('../../../app/models/blog/generateID');
 
 if (require.main === module) {
   var oldBlogID = process.argv[2];
   var newBlogID = process.argv[3];
 
-  if (!newBlogID) newBlogID = Date.now().toString();
+  if (!newBlogID) newBlogID = generateID();
 
   main(oldBlogID, newBlogID, function(err) {
     if (err) throw err;
