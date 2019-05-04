@@ -18,6 +18,9 @@ var getView = require("./getView");
 var getAllViews = require("./getAllViews");
 var getPartials = require("./getPartials");
 
+var setMetadata = require("./setMetadata");
+var dropView = require("./dropView");
+
 // Associates a theme with a UID owner
 // and an existing theme to clone if possible
 function create(owner, name, metadata, callback) {
@@ -107,56 +110,8 @@ function update(owner, name, metadata, callback) {
   return setMetadata(id, metadata, callback);
 }
 
-function setMetadata(id, updates, callback) {
-  ensure(id, "string")
-    .and(updates, "object")
-    .and(callback, "function");
 
-  getMetadata(id, function(err, metadata) {
-    var changes;
 
-    metadata = metadata || {};
-
-    for (var i in updates) {
-      if (metadata[i] !== updates[i]) changes = true;
-      metadata[i] = updates[i];
-    }
-
-    metadata = serialize(metadata, metadataModel);
-
-    if (metadata.isPublic) {
-      redis.sadd(key.publicTemplates(), id);
-    } else {
-      redis.srem(key.publicTemplates(), id);
-    }
-
-    redis.sadd(key.blogTemplates(metadata.owner), id, function(err) {
-      if (err) throw err;
-
-      redis.hmset(key.metadata(id), metadata, function(err) {
-        if (err) throw err;
-
-        return callback(err, changes);
-      });
-    });
-  });
-}
-
-function dropView(templateID, viewName, callback) {
-  ensure(templateID, "string")
-    .and(viewName, "string")
-    .and(callback, "function");
-
-  redis.del(key.view(templateID, viewName), function(err) {
-    if (err) throw err;
-
-    redis.srem(key.allViews(templateID), viewName, function(err) {
-      if (err) throw err;
-
-      callback();
-    });
-  });
-}
 
 function setView(templateID, updates, callback) {
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
