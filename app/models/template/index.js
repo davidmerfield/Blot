@@ -1,9 +1,6 @@
-var Mustache = require("mustache");
-var async = require("async");
 var client = require("client");
 var helper = require("helper");
 var ensure = helper.ensure;
-var type = helper.type;
 var extend = helper.extend;
 var siteOwner = "SITE";
 var makeID = require("./util/makeID");
@@ -12,13 +9,13 @@ var metadataModel = require("./metadataModel");
 var viewModel = require("./viewModel");
 
 var key = require("./key");
-var serialize = require("./util/serialize");
 var getMetadata = require("./getMetadata");
 var getView = require("./getView");
 var getAllViews = require("./getAllViews");
 var getPartials = require("./getPartials");
 
 var setMetadata = require("./setMetadata");
+var setView = require("./setView");
 var dropView = require("./dropView");
 
 // Associates a theme with a UID owner
@@ -113,93 +110,6 @@ function update(owner, name, metadata, callback) {
 
 
 
-function setView(templateID, updates, callback) {
-  if (updates.partials !== undefined && type(updates.partials) !== "object") {
-    updates.partials = {};
-    console.log(templateID, updates, "Partials are wrong type");
-  }
-
-  ensure(templateID, "string")
-    .and(updates, viewModel)
-    .and(callback, "function");
-
-  var name = updates.name;
-
-  if (!name || !type(name, "string")) {
-    return callback(new Error("The view's name is invalid"));
-  }
-
-  if (updates.content !== undefined) {
-    try {
-      Mustache.render(updates.content, {});
-    } catch (e) {
-      return callback(e);
-    }
-  }
-
-  var templateKey = key.metadata(templateID);
-  var allViews = key.allViews(templateID);
-  var viewKey = key.view(templateID, name);
-
-  client.exists(templateKey, function(err, stat) {
-    if (err) return callback(err);
-
-    if (!stat)
-      return callback(new Error("There is no template called " + templateID));
-
-    client.sadd(allViews, name, function(err) {
-      if (err) return callback(err);
-
-      // Look up previous state of view if applicable
-      getView(templateID, name, function(err, view) {
-        // This will error if no view exists
-        // we ust this method to create a view
-        // to so dont use this error...
-        // if (err) return callback(err);
-
-        view = view || {};
-
-        if (updates.url && updates.url !== view.url) {
-          client.del(key.url(templateID, view.url));
-          client.set(key.url(templateID, updates.url), name);
-        }
-
-        for (var i in updates) view[i] = updates[i];
-
-        view.locals = view.locals || {};
-        view.retrieve = view.retrieve || {};
-        view.partials = view.partials || {};
-
-        view.url = helper.urlNormalizer(view.url || "");
-
-        var parseResult = helper.parseTemplate(view.content);
-
-        // TO DO REMOVE THIS
-        if (type(view.partials, "array")) {
-          var _partials = {};
-
-          for (var i = 0; i < view.partials.length; i++)
-            _partials[view.partials[i]] = null;
-
-          view.partials = _partials;
-        }
-
-        extend(view.partials).and(parseResult.partials);
-
-        view.retrieve = parseResult.retrieve || [];
-
-        view = serialize(view, viewModel);
-
-        client.hmset(viewKey, view, function(err) {
-          if (err) throw err;
-
-          callback();
-        });
-      });
-    });
-  });
-}
-
 
 
 function setMultipleViews(name, views, callback) {
@@ -229,36 +139,7 @@ function setMultipleViews(name, views, callback) {
 
 
 
-// The list of possible template choices
-// for a given blog. Accepts a UID and
-// returns an array of template metadata
-// objects. Does not contain any view info
-function getTemplateList(blogID, callback) {
-  ensure(blogID, "string").and(callback, "function");
 
-  client.smembers(key.publicTemplates(), function(err, publicTemplates) {
-    client.smembers(key.blogTemplates(blogID), function(err, blogTemplates) {
-      var templateIDs = publicTemplates.concat(blogTemplates);
-      var response = [];
-
-      async.eachSeries(
-        templateIDs,
-        function(id, next) {
-          getMetadata(id, function(err, info) {
-            if (err) return next();
-
-            if (info) response.push(info);
-
-            next();
-          });
-        },
-        function() {
-          callback(err, response);
-        }
-      );
-    });
-  });
-}
 
 function clone(fromID, toID, metadata, callback) {
   ensure(fromID, "string")
@@ -291,83 +172,8 @@ function clone(fromID, toID, metadata, callback) {
   });
 }
 
-function drop(owner, templateName, callback) {
-  var templateID = makeID(owner, templateName);
 
-  ensure(owner, "string")
-    .and(templateID, "string")
-    .and(callback, "function");
 
-  getAllViews(templateID, function(err, views) {
-    if (err || !views) return callback(err || "No views");
-
-    client.srem(key.blogTemplates(owner), templateID, function(err) {
-      if (err) throw err;
-
-      client.srem(key.publicTemplates(), templateID, function(err) {
-        if (err) throw err;
-
-        client.del(key.metadata(templateID));
-        client.del(key.allViews(templateID));
-
-        // console.log('DEL: ' + metadataKey(templateID));
-        // console.log('DEL: ' + key.allViews(templateID));
-        // console.log('DEL: ' + partialsKey(templateID));
-
-        for (var i in views) {
-          // console.log('DEL: ' + key.view(templateID, views[i].name));
-          client.del(key.view(templateID, views[i].name));
-        }
-
-        callback(null, "Deleted " + templateID);
-      });
-    });
-  });
-}
-
-// This method is used to retrieve the locals,
-// partials and missing locals for a given view.
-function getFullView(blogID, templateID, viewName, callback) {
-  ensure(blogID, "string")
-    .and(templateID, "string")
-    .and(viewName, "string")
-    .and(callback, "function");
-
-  getView(templateID, viewName, function(err, view) {
-    if (err || !view) return callback(err);
-
-    // View has:
-
-    // - content (string) of the template view
-    // - retrieve (object) locals embedded in the view
-    //                     which need to be fetched.
-    // - partials (object) partials in view
-
-    getPartials(blogID, templateID, view.partials, function(
-      err,
-      allPartials,
-      retrieveFromPartials
-    ) {
-      if (err) return callback(err);
-
-      // allPartials (object) viewname : viewcontent
-
-      // Now we've fetched the partials we need to
-      // append the missing locals in the partials...
-      extend(view.retrieve).and(retrieveFromPartials);
-
-      var response = [
-        view.locals,
-        allPartials,
-        view.retrieve,
-        view.type,
-        view.content
-      ];
-
-      return callback(null, response);
-    });
-  });
-}
 
 module.exports = {
   create: create,
@@ -375,16 +181,16 @@ module.exports = {
   getMetadata: getMetadata,
   setMetadata: setMetadata,
 
-  getFullView: getFullView,
+  getFullView: require('./getFullView'),
   getView: getView,
   getViewByURL: require("./getViewByURL"),
   setView: setView,
   dropView: dropView,
   getPartials: getPartials,
   getAllViews: getAllViews,
-  getTemplateList: getTemplateList,
+  getTemplateList: require('./getTemplateList'),
 
-  drop: drop,
+  drop: require('./drop'),
 
   makeID: makeID,
   isOwner: require("./isOwner"),
