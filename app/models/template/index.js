@@ -14,6 +14,7 @@ var viewModel = require("./viewModel");
 var key = require("./key");
 var serialize = require("./util/serialize");
 var deserialize = require("./util/deserialize");
+var getViewByURL = require("./getViewByURL");
 
 // Associates a theme with a UID owner
 // and an existing theme to clone if possible
@@ -104,15 +105,7 @@ function update(owner, name, metadata, callback) {
   return setMetadata(id, metadata, callback);
 }
 
-function getViewByURL(templateID, url, callback) {
-  ensure(templateID, "string")
-    .and(url, "string")
-    .and(callback, "function");
 
-  url = helper.urlNormalizer(url);
-
-  redis.get(key.url(templateID, url), callback);
-}
 
 function getMetadata(id, callback) {
   ensure(id, "string").and(callback, "function");
