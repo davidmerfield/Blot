@@ -6,15 +6,15 @@ var ensure = helper.ensure;
 var type = helper.type;
 var extend = helper.extend;
 var siteOwner = "SITE";
-var makeID = require('./util/makeID');
+var makeID = require("./util/makeID");
 var defaultTemplate = makeID(siteOwner, "default");
 var metadataModel = require("./metadataModel");
 var viewModel = require("./viewModel");
 
 var key = require("./key");
 var serialize = require("./util/serialize");
-var deserialize = require("./util/deserialize");
 var getMetadata = require("./getMetadata");
+var getView = require("./getView");
 
 // Associates a theme with a UID owner
 // and an existing theme to clone if possible
@@ -105,10 +105,6 @@ function update(owner, name, metadata, callback) {
   return setMetadata(id, metadata, callback);
 }
 
-
-
-
-
 function setMetadata(id, updates, callback) {
   ensure(id, "string")
     .and(updates, "object")
@@ -141,23 +137,6 @@ function setMetadata(id, updates, callback) {
         return callback(err, changes);
       });
     });
-  });
-}
-
-function getView(name, viewName, callback) {
-  ensure(name, "string")
-    .and(viewName, "string")
-    .and(callback, "function");
-
-  redis.hgetall(key.view(name, viewName), function(err, view) {
-    if (!view) {
-      var message = "No view called " + viewName;
-      return callback(new Error(message));
-    }
-
-    view = deserialize(view, viewModel);
-
-    callback(err, view);
   });
 }
 
@@ -435,8 +414,6 @@ function getTemplateList(blogID, callback) {
   });
 }
 
-
-
 function clone(fromID, toID, metadata, callback) {
   ensure(fromID, "string")
     .and(toID, "string")
@@ -502,7 +479,6 @@ function drop(owner, templateName, callback) {
   });
 }
 
-
 // This method is used to retrieve the locals,
 // partials and missing locals for a given view.
 function getFullView(blogID, templateID, viewName, callback) {
@@ -565,7 +541,7 @@ module.exports = {
   drop: drop,
 
   makeID: makeID,
-  isOwner: require('./isOwner'),
+  isOwner: require("./isOwner"),
   siteOwner: siteOwner,
   defaultTemplate: defaultTemplate,
 
