@@ -1,9 +1,41 @@
 var _ = require("lodash");
+var async = require("async");
 var helper = require("helper");
 var ensure = helper.ensure;
-var dirToModule = helper.dirToModule;
-var dictionary = dirToModule(__dirname, require);
-var async = require("async");
+var dictionary = {
+  absoluteURLs: require("./absoluteURLs"),
+  active: require("./active"),
+  allEntries: require("./allEntries"),
+  allTags: require("./allTags"),
+  all_entries: require("./all_entries"),
+  all_tags: require("./all_tags"),
+  appCSS: require("./appCSS"),
+  appJS: require("./appJS"),
+  archives: require("./archives"),
+  asset: require("./asset"),
+  avatar_url: require("./avatar_url"),
+  cdnify: require("./cdnify"),
+  css_url: require("./css_url"),
+  encodeJSON: require("./encodeJSON"),
+  encodeURIComponent: require("./encodeURIComponent"),
+  feed_url: require("./feed_url"),
+  isActive: require("./isActive"),
+  latestEntry: require("./latestEntry"),
+  page: require("./page"),
+  plugin_css: require("./plugin_css"),
+  plugin_js: require("./plugin_js"),
+  popular_tags: require("./popular_tags"),
+  public: require("./public"),
+  recentEntries: require("./recentEntries"),
+  recent_entries: require("./recent_entries"),
+  script_url: require("./script_url"),
+  search_query: require("./search_query"),
+  search_results: require("./search_results"),
+  "sort:date": require("./sort:date"),
+  "sort:path": require("./sort:path"),
+  tagged: require("./tagged"),
+  updated: require("./updated")
+};
 
 module.exports = function(req, retrieve, callback) {
   ensure(req, "object")
