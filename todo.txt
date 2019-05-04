@@ -2,7 +2,6 @@ Finish Archive template
 
 Finish Feed template
 - Create folder with public domain material
-- Add a customizable header motif with dots, gradient etc?
 - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
 
 Record new demo video
