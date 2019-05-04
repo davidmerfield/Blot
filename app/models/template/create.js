@@ -1,4 +1,4 @@
-var clone = require("clone");
+var clone = require("./clone");
 var ensure = require("helper").ensure;
 var helper = require("helper");
 var makeID = require("./util/makeID");

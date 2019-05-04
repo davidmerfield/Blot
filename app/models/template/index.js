@@ -1,3 +1,5 @@
+var siteOwner = "SITE";
+
 module.exports = {
   create: require("./create"),
   update: require("./update"),
@@ -17,7 +19,7 @@ module.exports = {
 
   makeID: require("./util/makeID"),
   isOwner: require("./isOwner"),
-  siteOwner: "SITE",
+  siteOwner: siteOwner,
   defaultTemplate: require("./util/makeID")(siteOwner, "default"),
 
   viewModel: require("./viewModel"),
