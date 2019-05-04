@@ -1,6 +1,6 @@
 var Mustache = require("mustache");
 var async = require("async");
-var redis = require("client");
+var client = require("client");
 var helper = require("helper");
 var ensure = helper.ensure;
 var type = helper.type;
@@ -57,7 +57,7 @@ function create(owner, name, metadata, callback) {
 
   ensure(metadata, metadataModel);
 
-  redis.exists(key.metadata(id), function(err, stat) {
+  client.exists(key.metadata(id), function(err, stat) {
     if (err) throw err;
 
     // Don't overwrite an existing template
@@ -67,13 +67,13 @@ function create(owner, name, metadata, callback) {
       return callback(err);
     }
 
-    redis.sadd(key.blogTemplates(owner), id, function(err) {
+    client.sadd(key.blogTemplates(owner), id, function(err) {
       if (err) throw err;
 
       if (metadata.isPublic) {
-        redis.sadd(key.publicTemplates(), id, then);
+        client.sadd(key.publicTemplates(), id, then);
       } else {
-        redis.srem(key.publicTemplates(), id, then);
+        client.srem(key.publicTemplates(), id, then);
       }
 
       function then(err) {
@@ -102,9 +102,9 @@ function update(owner, name, metadata, callback) {
   var id = makeID(owner, name);
 
   if (metadata.isPublic) {
-    redis.sadd(key.publicTemplates(), id);
+    client.sadd(key.publicTemplates(), id);
   } else {
-    redis.srem(key.publicTemplates(), id);
+    client.srem(key.publicTemplates(), id);
   }
 
   return setMetadata(id, metadata, callback);
@@ -141,13 +141,13 @@ function setView(templateID, updates, callback) {
   var allViews = key.allViews(templateID);
   var viewKey = key.view(templateID, name);
 
-  redis.exists(templateKey, function(err, stat) {
+  client.exists(templateKey, function(err, stat) {
     if (err) return callback(err);
 
     if (!stat)
       return callback(new Error("There is no template called " + templateID));
 
-    redis.sadd(allViews, name, function(err) {
+    client.sadd(allViews, name, function(err) {
       if (err) return callback(err);
 
       // Look up previous state of view if applicable
@@ -160,8 +160,8 @@ function setView(templateID, updates, callback) {
         view = view || {};
 
         if (updates.url && updates.url !== view.url) {
-          redis.del(key.url(templateID, view.url));
-          redis.set(key.url(templateID, updates.url), name);
+          client.del(key.url(templateID, view.url));
+          client.set(key.url(templateID, updates.url), name);
         }
 
         for (var i in updates) view[i] = updates[i];
@@ -190,7 +190,7 @@ function setView(templateID, updates, callback) {
 
         view = serialize(view, viewModel);
 
-        redis.hmset(viewKey, view, function(err) {
+        client.hmset(viewKey, view, function(err) {
           if (err) throw err;
 
           callback();
@@ -236,8 +236,8 @@ function setMultipleViews(name, views, callback) {
 function getTemplateList(blogID, callback) {
   ensure(blogID, "string").and(callback, "function");
 
-  redis.smembers(key.publicTemplates(), function(err, publicTemplates) {
-    redis.smembers(key.blogTemplates(blogID), function(err, blogTemplates) {
+  client.smembers(key.publicTemplates(), function(err, publicTemplates) {
+    client.smembers(key.blogTemplates(blogID), function(err, blogTemplates) {
       var templateIDs = publicTemplates.concat(blogTemplates);
       var response = [];
 
@@ -301,14 +301,14 @@ function drop(owner, templateName, callback) {
   getAllViews(templateID, function(err, views) {
     if (err || !views) return callback(err || "No views");
 
-    redis.srem(key.blogTemplates(owner), templateID, function(err) {
+    client.srem(key.blogTemplates(owner), templateID, function(err) {
       if (err) throw err;
 
-      redis.srem(key.publicTemplates(), templateID, function(err) {
+      client.srem(key.publicTemplates(), templateID, function(err) {
         if (err) throw err;
 
-        redis.del(key.metadata(templateID));
-        redis.del(key.allViews(templateID));
+        client.del(key.metadata(templateID));
+        client.del(key.allViews(templateID));
 
         // console.log('DEL: ' + metadataKey(templateID));
         // console.log('DEL: ' + key.allViews(templateID));
@@ -316,7 +316,7 @@ function drop(owner, templateName, callback) {
 
         for (var i in views) {
           // console.log('DEL: ' + key.view(templateID, views[i].name));
-          redis.del(key.view(templateID, views[i].name));
+          client.del(key.view(templateID, views[i].name));
         }
 
         callback(null, "Deleted " + templateID);
