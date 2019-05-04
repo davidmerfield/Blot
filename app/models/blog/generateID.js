@@ -6,5 +6,6 @@ module.exports = function() {
     uuid()
       .split("-")
       .join("")
+      .toLowerCase()
   );
 };
