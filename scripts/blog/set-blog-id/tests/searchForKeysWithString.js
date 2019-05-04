@@ -4,15 +4,28 @@ var async = require("async");
 var colors = require("colors/safe");
 
 if (require.main === module) {
-  main(process.argv[2], function(err) {
+  var searchTerm = process.argv[2];
+
+  if (!searchTerm) throw new Error('Please pass search query as first arg');
+  
+  main(searchTerm, function(err, res) {
     if (err) throw err;
-    console.log("Done!");
+    res.map(function(item) {
+      var val = item.value;
+      var key = item.key;
+      var res = colors.dim(item.type) + " " + key;
+
+      val = val.split(searchTerm).join(colors.white(searchTerm));
+      res += " " + colors.dim(val);
+      console.log(res);
+    });
     process.exit();
   });
 }
 
 function main(string, callback) {
   var types = {};
+  var result = [];
 
   keys("*", function(err, keys) {
     if (err) return callback(err);
@@ -36,24 +49,26 @@ function main(string, callback) {
           types,
           function(keys, type, next) {
             if (type === "string") {
-              stringSearch(string, keys, next);
+              stringSearch(string, keys, result, next);
             } else if (type === "hash") {
-              hashSearch(string, keys, next);
+              hashSearch(string, keys, result, next);
             } else if (type === "set") {
-              setSearch(string, keys, next);
+              setSearch(string, keys, result, next);
             } else {
               next(new Error("No handlers for strings of type: " + type));
             }
           },
-          callback
+          function(err) {
+            if (err) return callback(err);
+            callback(null, result);
+          }
         );
       }
     );
   });
 }
 
-function stringSearch(string, keys, callback) {
-  var print = new Print(string, 'STRING');
+function stringSearch(string, keys, result, callback) {
   async.each(
     keys,
     function(key, next) {
@@ -62,7 +77,7 @@ function stringSearch(string, keys, callback) {
         if (!value) return next();
         if (value.indexOf(string) === -1) return next();
 
-        print(key, value);
+        result.push({ key: key, type: "STRING", value: value });
         next();
       });
     },
@@ -70,9 +85,7 @@ function stringSearch(string, keys, callback) {
   );
 }
 
-function hashSearch(string, keys, callback) {
-  var print = new Print(string, 'HASH');
-
+function hashSearch(string, keys, result, callback) {
   async.each(
     keys,
     function(key, next) {
@@ -85,7 +98,11 @@ function hashSearch(string, keys, callback) {
             res[property].indexOf(string) > -1 ||
             property.indexOf(string) > -1
           )
-            print(key, property, res[property]);
+            result.push({
+              key: key,
+              type: "HASH",
+              value: property + " " + res[property]
+            });
 
         next();
       });
@@ -94,9 +111,7 @@ function hashSearch(string, keys, callback) {
   );
 }
 
-function setSearch(string, keys, callback) {
-  var print = new Print(string, 'SET');
-
+function setSearch(string, keys, result, callback) {
   async.each(
     keys,
     function(key, next) {
@@ -105,7 +120,8 @@ function setSearch(string, keys, callback) {
         if (!members) return next();
 
         members.forEach(function(member) {
-          if (member.indexOf(string) > -1) print(key, member);
+          if (member.indexOf(string) > -1)
+            result.push({ key: key, type: "SET", value: member });
         });
 
         next();
@@ -113,25 +129,6 @@ function setSearch(string, keys, callback) {
     },
     callback
   );
-}
-
-function Print(str, type) {
-  return function() {
-    var args = Array.from(arguments);
-    var key = args[0];
-    var vals = args.slice(1);
-    var res = colors.dim(type) + ' ' + key;
-
-    vals.forEach(function(val) {
-      val = val
-        .split(str)
-        .join(colors.white(str));
-
-      res += " " + colors.dim(val);
-    });
-
-    console.log(res);
-  };
 }
 
 module.exports = main;
