@@ -1,11 +1,11 @@
 var uuid = require("uuid/v4");
+var PREFIX = "blog_";
 
 module.exports = function() {
-  return (
-    "blog_" +
-    uuid()
-      .split("-")
-      .join("")
-      .toLowerCase()
-  );
+  var id = uuid()
+    .split("-")
+    .join("")
+    .toLowerCase();
+
+  return PREFIX + id;
 };
