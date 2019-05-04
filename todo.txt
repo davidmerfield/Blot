@@ -515,8 +515,6 @@ Migrate code from require('mime') to require('mime-types') since it doesn't use 
 
 Migrate code from require('../../../') to shortcuts in node_modules
 
-Remove the dirToModule code and hard link the require references
-
 Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
 
 Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
