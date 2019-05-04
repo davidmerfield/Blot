@@ -81,7 +81,7 @@ global.test = {
     // Create a webserver for testing remote files
     beforeAll(function() {
       server = Express();
-      
+
       // Load in routes in suite
       fn(server);
 
@@ -90,8 +90,13 @@ global.test = {
     });
 
     afterAll(function(done) {
+      console.log("Closing out server...");
       server.close(done);
-    });
+      setTimeout(function() {
+        console.log("Timeout expired");
+        done();
+      }, 5 * 1000);
+    }, 10 * 1000);
   },
 
   blogs: function(total) {
