@@ -1,9 +1,10 @@
-
-  main {
+  
+  main.form {
     display: flex;
+    min-height: auto
   }
 
-  main content {
+  main.form content {
     max-width: 400px;
   }
 
@@ -68,7 +69,7 @@
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   }
 
-  p {margin-left: 0;margin-right: 0}
+  .form p {margin-left: 0;margin-right: 0}
   input[name="exp-year"],
   input[name="exp-month"],
   input[name="cvc"] {
@@ -119,11 +120,11 @@
     color: #a09d9c;
   }
 
-  flex {
+  .form flex {
     display: flex
   }
 
-  flex {
+  .form flex {
     -webkit-margin-collapse: discard;
   }
 
@@ -131,16 +132,12 @@
     margin: 0 1em
   }
 
-  form {
+  .form form {
     margin: 2em 0;
     width: 330px
   }
 
-  header strong {
-    font-weight: inherit;
-    color: #312c25
-  }
-
+  
   mark#success {
     background: #cceacc;
     color: green;

@@ -2,7 +2,6 @@ Finish Archive template
 
 Finish Feed template
 - Create folder with public domain material
-- Add a customizable header motif with dots, gradient etc?
 - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
 
 Record new demo video
@@ -21,6 +20,8 @@ Transfer [Ana's design](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe
 
 ---
 
+Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
+
 Fix Magazine template bugs
 - Fix text styling inside blockquotes and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
 - Fix bug with image zoom when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
@@ -31,6 +32,8 @@ Fix index template bugs
 Add brochure site redirects
 - Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
 - Add script to fetch 404s on dashboard with interface to set up redirects 
+
+Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
 
 Add integration tests for brochure site
 - Run a scraper for broken documentation links on the site, fix them and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
@@ -230,8 +233,6 @@ and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVs
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760
 ) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
-
-Add support for YAML-style custom metadata and tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 
 Support 2FA (Two factor authentication)
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
@@ -514,8 +515,6 @@ Automate setting up application environment using /etc/profile.d:
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
 Migrate code from require('../../../') to shortcuts in node_modules
-
-Remove the dirToModule code and hard link the require references
 
 Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
 
