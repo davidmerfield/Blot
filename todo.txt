@@ -68,7 +68,7 @@ Fix bug with [Rodrigo's Word Document files](https://mail.google.com/mail/u/0/#i
 Fix bug with image minification which produces larger file than source file and tell [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkHlNvhcJLGVRCPvXvjbwsWR)
 
 Git client bugs:
-- Fix bug with case-sensitivity when transfering from Git to Dropbox and tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166fe957b167f5e5)
+- Fix bug with case-sensitivity when transfering from Git to Dropbox and tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166fe957b167f5e5) and [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbMGXzRQBBplHKnFLWMbhhS)
 - Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd)
 - Work out how to pipe custom error messages down
 - Pipe custom message when you change a blog's handle (breaking repo url)
