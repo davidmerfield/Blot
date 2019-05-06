@@ -37,7 +37,16 @@ describe("Blot", function() {
           var cookie = res.headers["set-cookie"];
           var headers = { cookie: cookie };
 
-          if (!cookie) return done.fail("No cookie");
+          if (!cookie) {
+            console.log(
+              "ERRRR",
+              test.user.email,
+              test.user.fakePassword,
+              res.statusCode,
+              res.headers
+            );
+            return done.fail("No cookie");
+          }
 
           broken(test.origin, { headers: headers }, function(err, results) {
             if (err) return done.fail(err);
