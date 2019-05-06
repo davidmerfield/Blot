@@ -32,7 +32,9 @@ function main(url, options, callback) {
 
   // add some items to the queue
   function checkPage(base, url, callback) {
-    request(url, function(err, res, body) {
+    var uri = { url: url, headers: options.headers || {} };
+
+    request(uri, function(err, res, body) {
       if (err) return callback(err);
 
       if (res.statusCode !== 200) {
