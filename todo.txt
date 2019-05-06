@@ -27,6 +27,8 @@ Transfer [Ana's design](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe
 
 ---
 
+Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
+
 Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 
 Fix Magazine template bugs

@@ -72,8 +72,10 @@ function requireSubscription(req, res, next) {
   // otherwise they have nothing to cancel
   if (req.user.isSubscribed) {
     next();
-  } else {
+  } else if (req.user.subscription && req.user.subscription.customer) {
     res.redirect("/account/restart");
+  } else {
+    res.redirect("/account");
   }
 }
 
