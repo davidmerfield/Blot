@@ -79,21 +79,29 @@ global.test = {
     var port = 8919;
 
     // Create a webserver for testing remote files
-    beforeAll(function() {
+    beforeAll(function(done) {
       server = Express();
 
       // Load in routes in suite
       fn(server);
 
-      server = server.listen(port);
       this.origin = "http://localhost:" + port;
+      server = server.listen(port, function() {
+        // I was getting unexpected results without
+        // this arbritary delay. Basically, the dynamic
+        // routes in my server were not working, but the
+        // static folder was being served. This was serving
+        // raw template files at endpoints, breaking my
+        // broken link checking test. We would solve this
+        // by only calling back to done once the server is
+        // truly responding to requests properly...
+        setTimeout(done, 1000);
+      });
     });
 
     afterAll(function(done) {
-      console.log("Closing out server...");
       server.close(done);
       setTimeout(function() {
-        console.log("Timeout expired");
         done();
       }, 5 * 1000);
     }, 10 * 1000);
