@@ -2,13 +2,15 @@ var output = process.argv[2];
 var fs = require("fs-extra");
 var join = require("path").join;
 
-output = join(__dirname, output);
+module.exports = function() {
+  output = join(__dirname, output);
 
-fs.ensureDirSync(output);
-fs.emptyDirSync(output);
-folder();
-console.log("Done!");
-process.exit();
+  fs.ensureDirSync(output);
+  fs.emptyDirSync(output);
+  folder();
+  console.log("Done!");
+  process.exit();
+};
 
 function randomWord() {
   var len = 2 + Math.floor(Math.random() * 12);
