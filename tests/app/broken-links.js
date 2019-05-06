@@ -38,13 +38,6 @@ describe("Blot", function() {
           var headers = { cookie: cookie };
 
           if (!cookie) {
-            console.log(
-              "ERRRR",
-              test.user.email,
-              test.user.fakePassword,
-              res.statusCode,
-              res.headers
-            );
             return done.fail("No cookie");
           }
 
