@@ -1,6 +1,6 @@
 describe("brochure site", function() {
   var brochure = require("../../app/brochure");
-  var blc = require("broken-link-checker");
+  var broken = require("./broken");
 
   global.test.server(function(server) {
     server.use(brochure);
@@ -9,29 +9,11 @@ describe("brochure site", function() {
   it(
     "does not have any broken links",
     function(done) {
-      var broken = {};
-      var origin = this.origin;
-      var siteChecker = new blc.SiteChecker(
-        {
-          excludeExternalLinks: true
-        },
-        {
-          link: function(result) {
-            if (result.broken) {
-              var base = result.base.resolved.slice(origin.length);
-
-              broken[base] = broken[base] || [];
-              broken[base].push(result.url.original);
-            }
-          },
-          end: function() {
-            expect(broken).toEqual({});
-            done();
-          }
-        }
-      );
-
-      siteChecker.enqueue(origin);
+      broken(this.origin, function(err, results) {
+        if (err) return done.fail(err);
+        expect(results).toEqual([]);
+        done();
+      });
     },
     60 * 1000
   );
