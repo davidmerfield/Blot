@@ -134,7 +134,7 @@ function validateSubscription(req, res, next) {
     !subscription.status ||
     subscription.status !== "active"
   ) {
-    next(new Error("You must have an active subscription to create a blog"));
+    res.redirect('/account');
   } else {
     next();
   }
