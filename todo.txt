@@ -1,4 +1,9 @@
+Minify brochure site
+- Use uncss or purifycss to remove unused styles from <style> tag at start of page. Does it improve rendering time? Measure the difference.
+
 Finish Archive template
+- Finish script to load / save application state
+- Losslessly minify and resize images to reduce insanse folder size? (currently 600mb+)
 
 Finish Feed template
 - Create folder with public domain material
@@ -7,6 +12,8 @@ Finish Feed template
 Record new demo video
 - Create simple custom text editor
 - Show sites I run using Blot
+
+Create credits page listing the names of the people involved in all the open source software used by Blot
 
 ---
 
@@ -19,6 +26,8 @@ Add a photos page to [Gabriel's template](https://mail.google.com/mail/u/0/#inbo
 Transfer [Ana's design](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe8d0f08-2593/screen/63c8075e-2ffd-43c2-be9e-d08a1369b971/Web-1366-1?fullscreen) to a Blot template
 
 ---
+
+Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
 
 Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 
@@ -92,7 +101,7 @@ Create a status page and uptime monitor and tell [Amit](https://mail.google.com/
 
 Look into mirroring a site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
-Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](@wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
+Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
 
 ---
 
@@ -216,10 +225,10 @@ Finish re-write of template system
 com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
 and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
   - Add support for 'creating' a template inside '/Templates/'
-  - Tell [Myron](@rodriguesmyron) on Twitter when it is possible to rename the folder created for a template in local editing.
+  - Tell [Myron](https://twitter.com/rodriguesmyron) on Twitter when it is possible to rename the folder created for a template in local editing.
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 - Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
-- Add support for entry lists of variable length and tell [Logan](@LoganGreer)
+- Add support for entry lists of variable length and tell [Logan](https://twitter.com/LoganGreer)
 - Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Add persona/cargo style customization buttons
   - Serve previews of templates from a domain with HTTPS
@@ -228,7 +237,7 @@ and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVs
 - Re-do url redirector to use route-parser and properly support regular expressions
 - Move to uuid based template IDs instead of slug
 - Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
-- Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](@LoganGreer)
+- Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760
@@ -378,7 +387,7 @@ Public site
 
 Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
 
-Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](twitter.com/nashp)
+Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp)
 
 Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
 
