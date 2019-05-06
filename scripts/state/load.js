@@ -1,98 +1,130 @@
+require("../only_locally");
+
 var fs = require("fs-extra");
 var helper = require("helper");
-var join = require("path").join;
-var blog_dir = join(helper.rootDir, "blogs");
-var git_data_dir = join(helper.rootDir, "app", "clients", "git", "data");
-var load_db = require("../db/load");
-var dumps = join(__dirname, "data", "dumps");
-var gitClientData = join(__dirname, "data", "git");
-var dropboxContents = join(__dirname, "data", "dropbox");
-var config = require("config");
+var async = require("async");
 var access = require("../access");
-var BLOG_ID = "1";
-var DROPBOX_FOLDER_PATH = "/Users/David/Dropbox/Apps/Blot test";
-
-if (require.main === module) {
-  var identifier = process.argv[2];
-
-  if (!identifier) return print_available();
-
-  main(identifier, function(err) {
-    if (err) throw err;
-
-    access("dev", function(err, url) {
-
-      console.log(url);
-
-      if (identifier === 'debug') {
-        console.log('Folder: ', join(helper.rootDir, "data", "debug"));
-      } else {
-        console.log('Folder: ', DROPBOX_FOLDER_PATH);
-      }
-
-      process.exit();
-    });
-  });
-}
+var ROOT = helper.rootDir;
+var config = require("config");
+var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";
+var GIT_CLIENTS_DATA = ROOT + "/app/clients/git/data";
+var STATIC_FILES_DIRECTORY = ROOT + "/static";
+var exec = require("child_process").exec;
+var colors = require("colors/safe");
 
 function main(label, callback) {
-  load_db(label, function(err) {
+  var directory = __dirname + "/data/" + label;
+
+  loadDB(directory, function(err) {
     if (err) return callback(err);
 
-    fs.emptyDirSync(blog_dir);
-    fs.ensureDirSync(join(dumps, label));
-    fs.copySync(join(dumps, label), blog_dir);
+    fs.copySync(directory + "/blogs", BLOG_FOLDERS_DIRECTORY);
+    fs.copySync(directory + "/git", GIT_CLIENTS_DATA);
+    fs.copySync(directory + "/static", STATIC_FILES_DIRECTORY);
 
-    if (label === 'debug') {
-      fs.emptyDirSync(join(helper.rootDir, "data", "debug"));
-      fs.copySync(join(blog_dir, BLOG_ID), join(helper.rootDir, "data", "debug"));
-    }
+    printBlogs(callback);
+  });
+}
 
-    fs.emptyDirSync(git_data_dir);
-    fs.ensureDirSync(join(gitClientData, label));
-    fs.copySync(join(gitClientData, label), git_data_dir);
+function ensureRedisIsShutdown(callback) {
+  var redis = require("redis");
+  var client = redis.createClient();
 
-    fs.ensureDirSync(join(blog_dir, BLOG_ID));
-    fs.emptyDirSync(config.cache_directory);
-    fs.ensureDirSync(DROPBOX_FOLDER_PATH);
-    fs.emptyDirSync(DROPBOX_FOLDER_PATH);
-
-    var dropbox_exists;
-
-    try {
-      dropbox_exists = fs.statSync(join(dropboxContents, label));
-    } catch (e) {}
-
-    if (dropbox_exists) {
-      fs.copySync(join(dropboxContents, label), DROPBOX_FOLDER_PATH);
+  client.on("error", function(err) {
+    if (err.code === "ECONNREFUSED") {
+      return callback(null);
     } else {
-      fs.copySync(join(blog_dir, BLOG_ID), DROPBOX_FOLDER_PATH);
+    }
+  });
+
+  var multi = client.multi();
+
+  multi.config("SET", "appendonly", "no");
+  multi.config("SET", "save", "");
+  multi.shutdown();
+
+  multi.exec(function(err) {
+    if (err && err.code !== "ECONNREFUSED" && err.code !== "UNCERTAIN_STATE")
+      return callback(err);
+
+    callback(null);
+  });
+}
+
+function loadDB(directory, callback) {
+  var dump = directory + "/dump.rdb";
+
+  if (!fs.existsSync(dump)) return callback(new Error("NOENT " + dump));
+
+  ensureRedisIsShutdown(function(err) {
+    if (err) return callback(err);
+
+    exec(
+      "redis-server " + ROOT + "/config/redis.conf",
+      { silent: true },
+      function(err) {
+        if (err) return callback(err);
+
+        callback(null);
+      }
+    );
+  });
+}
+
+function printBlogs(callback) {
+  var Blog = require("blog");
+
+  Blog.getAllIDs(function(err, ids) {
+    if (err) return callback(err);
+
+    if (ids && ids.length > 10) {
+      console.log("Too many blogs to log in");
+      return callback();
     }
 
+    async.each(
+      ids,
+      function(id, next) {
+        Blog.get({ id: id }, function(err, blog) {
+          if (err) return next(err);
+          setupFolder(blog, function(err, folder) {
+            if (err) return next(err);
+            access(blog.handle, function(err, url) {
+              if (err) return next(err);
+
+              console.log();
+              console.log(colors.yellow(blog.title), "-", colors.dim(blog.id));
+              console.log("Dashboard:", url);
+              console.log("Blog:", "http://" + blog.handle + "." + config.host);
+              console.log("Folder:", folder);
+              next();
+            });
+          });
+        });
+      },
+      callback
+    );
+  });
+}
+
+function setupFolder(blog, callback) {
+  if (blog.client === "dropbox") {
+    console.log(blog.handle, "uses dropbox client");
+  } else if (blog.client === "local") {
+    console.log(blog.handle, "uses local client");
+  } else if (blog.client === "git") {
+    console.log(blog.handle, "uses git client");
+  } else {
+    console.log(blog.handle, "uses unknown client");
     callback();
-  });
-}
-
-function load_dir(dir) {
-  return fs.readdirSync(dir).filter(function(e) {
-    return fs.statSync(dir + "/" + e).isDirectory();
-  });
-}
-
-function print_available() {
-  var all_dumps = load_dir(dumps);
-
-  console.log("Please choose one of the available folders:");
-
-  console.log();
-
-  for (var i in all_dumps) {
-    console.log("", all_dumps[i]);
   }
-
-  console.log("");
 }
 
-// save the contents of the blogs folder to /dumps
+if (require.main === module) {
+  main(process.argv[2], function(err) {
+    if (err) throw err;
+    process.exit();
+  });
+}
 
-// save the state of the database
+module.exports = main;

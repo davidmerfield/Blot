@@ -1,18 +1,33 @@
 var fs = require("fs-extra");
 var directory = __dirname + "/data";
-var moment = require('moment');
-var colors = require('colors/safe');
+var moment = require("moment");
+var colors = require("colors/safe");
 
-if (require.main === module) list(process.exit);
+if (require.main === module && !process.argv[2]) list(process.exit);
+else require("./load")(process.argv[2], process.exit);
 
 function list(callback) {
+  console.log("Save: node scripts/state/save\n");
+  fs.readdirSync(directory)
+    .filter(function(i) {
+      return fs.statSync(directory + "/" + i).isDirectory();
+    })
+    .map(function(dir) {
+      var message = "";
+      message += colors.yellow(dir);
 
-  console.log('Save: node scripts/state/save\n');
-  var states = fs.readdirSync(directory).filter(function(i) {
-    return fs.statSync(directory + "/" + i).isDirectory();
-  }).map(function(dir){
-    console.log(colors.yellow(dir), colors.green(moment(fs.statSync(directory + '/' + dir).mtime).fromNow()));
-    console.log('node scripts/state', dir, '\n');
-  });
+      if (fs.existsSync(directory + "/" + dir + "/description.txt"))
+        message +=
+          " - " +
+          fs.readFileSync(directory +  "/" + dir + "/description.txt", "utf-8");
 
+      message +=
+        " - " +
+        colors.green(
+          moment(fs.statSync(directory + "/" + dir).mtime).fromNow()
+        );
+
+      console.log(message);
+    });
+  callback();
 }

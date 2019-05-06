@@ -9,6 +9,8 @@ var async = require("async");
 var helper = require("helper");
 var yesno = require("yesno");
 var client = require("client");
+var colors = require("colors");
+var moment = require("moment");
 
 var ROOT = helper.rootDir;
 
@@ -18,14 +20,14 @@ var GIT_CLIENTS_DATA = ROOT + "/app/clients/git/data";
 var STATIC_FILES_DIRECTORY = ROOT + "/static";
 
 if (require.main === module) {
-  main(process.argv[2], function(err) {
+  main(process.argv[2], process.argv[3], function(err) {
     if (err) throw err;
     console.log("Done!");
     process.exit();
   });
 }
 
-function main(label, callback) {
+function main(label, description, callback) {
   var directory = __dirname + "/data/" + (label || Date.now().toString());
 
   askToOverwrite(directory, function(err) {
@@ -45,6 +47,9 @@ function main(label, callback) {
           fs.ensureDirSync(BLOG_FOLDERS_DIRECTORY);
           fs.copySync(BLOG_FOLDERS_DIRECTORY, directory + "/blogs");
 
+          if (description)
+            fs.outputFileSync(directory + "/description.txt", description);
+
           done();
         },
         function(done) {
@@ -56,14 +61,33 @@ function main(label, callback) {
   });
 }
 
-function askToOverwrite(path, callback) {
-  if (!fs.existsSync(path)) return callback();
+function askToOverwrite(directory, callback) {
+  if (!fs.existsSync(directory)) return callback();
 
-  yesno.ask("Overwrite existing ‘" + path + "’? y / n", false, function(ok) {
+  var label = require("path").basename(directory);
+  var message =
+    colors.red("Are you sure you want to overwrite?") +
+    "\n  Label: " +
+    colors.yellow(label);
+
+  if (fs.existsSync(directory + "/description.txt"))
+    message +=
+      "\n  Description: " +
+      fs.readFileSync(directory + "/description.txt", "utf-8");
+
+  message +=
+    "\n  Modified: " +
+    colors.green(moment(fs.statSync(directory).mtime).fromNow()) +
+    "\n  Directory: " +
+    directory +
+    "\n\nEnter label to continue:";
+
+  yesno.options.yes = [label];
+  yesno.ask(message, false, function(ok) {
     if (ok) {
       callback();
     } else {
-      callback("Do not overwrite file");
+      callback(new Error("Did not overwrite file"));
     }
   });
 }
