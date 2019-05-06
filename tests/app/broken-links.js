@@ -22,7 +22,7 @@ describe("Blot", function() {
     60 * 1000
   );
 
-  xit(
+  it(
     "does not have any broken links for logged-in users",
     function(done) {
       var request = require("request");
