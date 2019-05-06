@@ -11,7 +11,7 @@ describe("brochure site", function() {
     function(done) {
       broken(this.origin, function(err, results) {
         if (err) return done.fail(err);
-        expect(results).toEqual([]);
+        expect(results).toEqual({});
         done();
       });
     },

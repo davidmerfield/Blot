@@ -18,7 +18,7 @@ var request = require("request");
 
 function main(url, options, callback) {
   var checked = {};
-  var results = [];
+  var results = {};
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
@@ -35,8 +35,14 @@ function main(url, options, callback) {
     request(url, function(err, res, body) {
       if (err) return callback(err);
 
-      if (res.statusCode !== 200)
-        results.push({ url: url, status: res.statusCode, base: base });
+      if (res.statusCode !== 200) {
+        var basePath = require("url").parse(base).pathname;
+        results[basePath] = results[basePath] || [];
+        results[basePath].push({
+          url: require("url").parse(url).pathname,
+          status: res.statusCode
+        });
+      }
 
       if (res.headers["content-type"].indexOf("text/html") === -1) {
         return callback();
