@@ -1,4 +1,9 @@
+Minify brochure site
+- Use uncss or purifycss to remove unused styles from <style> tag at start of page. Does it improve rendering time? Measure the difference.
+
 Finish Archive template
+- Finish script to load / save application state
+- Losslessly minify and resize images to reduce insanse folder size? (currently 600mb+)
 
 Finish Feed template
 - Create folder with public domain material
@@ -7,6 +12,8 @@ Finish Feed template
 Record new demo video
 - Create simple custom text editor
 - Show sites I run using Blot
+
+Create credits page listing the names of the people involved in all the open source software used by Blot
 
 ---
 
