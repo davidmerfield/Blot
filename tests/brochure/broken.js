@@ -1,7 +1,20 @@
+// Recursively checks a URL for broken internal links. Will check
+// the href= and src= attributes of any elements in the HTML response.
+
+// I tried to use a third-party library for this at first but couldn't
+// find anything which allowed custom HTTP readers with each request.
+// This feature is neccessary to check the dashboard, with authentication.
+
+// Calls back with an array of broken links in this format:
+// [{
+//   url:  the broken link's value, e.g. https://blot.im/XXX
+//   base: the page on which the broken link was found
+//   status: the HTTP status code returned for the broken link
+// }]
+
 var async = require("async");
 var cheerio = require("cheerio");
 var request = require("request");
-var debug = require("debug")("blot:tests:broken-link-checker");
 
 function main(url, options, callback) {
   var checked = {};
@@ -66,12 +79,5 @@ function main(url, options, callback) {
     );
   }
 }
-
-if (require.main === module)
-  main(process.argv[2], {}, function(err, results) {
-    if (err) throw err;
-    console.log(results);
-    process.exit();
-  });
 
 module.exports = main;
