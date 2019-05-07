@@ -1,3 +1,5 @@
+require('../only_locally');
+
 var config = require("config");
 var Blog = require("blog");
 var async = require("async");

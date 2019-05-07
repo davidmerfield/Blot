@@ -1,3 +1,5 @@
+require('../only_locally');
+
 var fs = require("fs-extra");
 var exec = require("child_process").exec;
 var redis = require("redis");

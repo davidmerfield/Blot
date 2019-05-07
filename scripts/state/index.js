@@ -1,3 +1,5 @@
+require('../only_locally');
+
 var fs = require("fs-extra");
 var directory = __dirname + "/data";
 var moment = require("moment");

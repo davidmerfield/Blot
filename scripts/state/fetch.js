@@ -1,3 +1,5 @@
+require('../only_locally');
+
 var fs = require('fs-extra');
 var Blog = require('blog');
 var helper = require('helper');
