@@ -1,4 +1,4 @@
-describe("Blot", function() {
+describe("Blot endpoints", function() {
   var request = require("request");
 
   // Run Blot's application servers

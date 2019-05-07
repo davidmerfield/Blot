@@ -1,4 +1,4 @@
-describe("Blot", function() {
+describe("Blot broken links", function() {
   var brochure = require("../../app/brochure");
   var dashboard = require("../../app/dashboard");
   var broken = require("../util/broken");
@@ -19,7 +19,7 @@ describe("Blot", function() {
         done();
       });
     },
-    60 * 1000
+    2 * 60 * 1000
   );
 
   it(
@@ -49,6 +49,6 @@ describe("Blot", function() {
         }
       );
     },
-    60 * 1000
+    2 * 60 * 1000
   );
 });

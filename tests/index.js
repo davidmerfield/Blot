@@ -95,16 +95,14 @@ global.test = {
         // broken link checking test. We would solve this
         // by only calling back to done once the server is
         // truly responding to requests properly...
-        setTimeout(done, 1000);
+        setTimeout(done, 1500);
       });
     });
 
     afterAll(function(done) {
       server.close(done);
-      setTimeout(function() {
-        done();
-      }, 5 * 1000);
-    }, 10 * 1000);
+      setTimeout(done, 1500);
+    });
   },
 
   blogs: function(total) {
