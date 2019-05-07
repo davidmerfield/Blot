@@ -4,7 +4,7 @@ var parseCSS = require("css");
 var CleanCSS = require("clean-css");
 var minimize = new CleanCSS();
 
-module.exports = function render_tex(req, res, next) {
+module.exports = function (req, res, next) {
   var send = res.send;
 
   res.send = function(string) {
