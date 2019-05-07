@@ -27,14 +27,16 @@ module.exports = function() {
   });
 
   afterAll(function(done) {
+
     server.on("close", function(code) {
       // 128 + 15
       // https://github.com/sindresorhus/exit-hook/commit/b6c274f6dc7617b8c800d612ac343ecc0cdef867
       expect(code).toEqual(143);
       expect(has_err).toEqual(false);
-      done();
     });
 
     server.kill();
+
+    done();
   });
 };
