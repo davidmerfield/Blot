@@ -6,6 +6,7 @@ var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";
 var GIT_CLIENTS_DATA = ROOT + "/app/clients/git/data";
 var STATIC_FILES_DIRECTORY = ROOT + "/static";
 var ACTIVE_DATABASE_DUMP = ROOT + "/db/dump.rdb";
+var TMP_DIRECTORY = ROOT + "/tmp";
 
 if (!ROOT) throw new Error("Please set environment variable BLOT_DIRECTORY");
 
@@ -19,19 +20,32 @@ function main(label, callback) {
     fs.copySync(directory + "/git", GIT_CLIENTS_DATA);
     fs.copySync(directory + "/static", STATIC_FILES_DIRECTORY);
 
+    fs.emptyDirSync(TMP_DIRECTORY);
     printBlogs(callback);
   });
 }
 
 function ensureRedisIsShutdown(callback) {
-  var DISABLE_SAVE =
-    'redis-cli CONFIG SET appendonly no && redis-cli CONFIG SET save ""';
+  var redis = require("redis");
+  var client = redis.createClient();
 
-  exec(DISABLE_SAVE, { silent: true }, function() {
+  client.on("error", function(err) {
+    if (err.code === "ECONNREFUSED") {
+      callback(null);
+    }
+  });
 
-    exec("redis-cli shutdown", { silent: true }, function() {
-      callback();
-    });
+  var multi = client.multi();
+
+  multi.config("SET", "appendonly", "no");
+  multi.config("SET", "save", "");
+  multi.shutdown();
+
+  multi.exec(function(err) {
+    if (err && err.code !== "ECONNREFUSED" && err.code !== "UNCERTAIN_STATE")
+      return callback(err);
+
+    callback(null);
   });
 }
 
@@ -85,7 +99,7 @@ function printBlogs(callback) {
               console.log(colors.yellow(blog.title), "-", colors.dim(blog.id));
               console.log("Dashboard:", url);
               console.log("Blog:", "http://" + blog.handle + "." + config.host);
-              console.log("Folder:", folder);
+              if (folder) console.log("Folder:", folder);
               next();
             });
           });
@@ -97,15 +111,45 @@ function printBlogs(callback) {
 }
 
 function setupFolder(blog, callback) {
+  var clients = require("../../app/clients");
+  var join = require("path").join;
+  var os = require("os");
+
   if (blog.client === "dropbox") {
-    console.log(blog.handle, "uses dropbox client");
+
+    var getFolder = require("../../app/clients/dropbox/database").get;
+
+    getFolder(blog.id, function(err, account) {
+      var folder;
+
+      if (account.full_access && account.folder && account.folder !== "/") {
+        folder = join(os.homedir(), "Dropbox", account.folder);
+      } else {
+        folder = join(os.homedir(), "Dropbox", "Apps", "Blot test");
+      }
+
+      fs.copySync(BLOG_FOLDERS_DIRECTORY + "/" + blog.id, folder);
+      callback(null, folder);
+    });
+
   } else if (blog.client === "local") {
-    console.log(blog.handle, "uses local client");
+    var folder = TMP_DIRECTORY + "/" + blog.handle;
+
+    fs.copySync(BLOG_FOLDERS_DIRECTORY + "/" + blog.id, folder);
+
+    clients.local.setup(blog.id, folder, function(err) {
+      if (err) return callback(err);
+      callback(null, folder);
+    });
+
   } else if (blog.client === "git") {
+
     console.log(blog.handle, "uses git client");
+
   } else {
+    
     console.log(blog.handle, "uses unknown client");
-    callback();
+    callback(null);
   }
 }
 
