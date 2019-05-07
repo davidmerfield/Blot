@@ -27,6 +27,7 @@ module.exports = function() {
   });
 
   afterAll(function(done) {
+    done();
 
     server.on("close", function(code) {
       // 128 + 15
@@ -36,7 +37,5 @@ module.exports = function() {
     });
 
     server.kill();
-
-    done();
   });
 };
