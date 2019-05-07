@@ -2,7 +2,7 @@ var crypto = require('crypto');
 var client = require('client');
 var key = require('./key');
 
-var LENGTH = 32; // characters long
+var LENGTH = 16; // characters long
 var EXPIRE = 24 * 60 * 60; // 24 hrs
 
 module.exports = function (uid, callback) {
