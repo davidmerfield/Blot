@@ -1,4 +1,4 @@
-describe("Blot", function() {
+describe("Blot configuration", function() {
   // The test to start the main server
   // and resolve unused dependencies both
   // needs a little longer to run. 20s should be plenty
