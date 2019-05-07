@@ -7,13 +7,12 @@ if (require.main === module && !process.argv[2]) list(process.exit);
 else require("./load")(process.argv[2], process.exit);
 
 function list(callback) {
-  console.log("Save: node scripts/state/save\n");
   fs.readdirSync(directory)
     .filter(function(i) {
       return fs.statSync(directory + "/" + i).isDirectory();
     })
     .map(function(dir) {
-      var message = "";
+      var message = " ";
       message += colors.yellow(dir);
 
       if (fs.existsSync(directory + "/" + dir + "/description.txt"))

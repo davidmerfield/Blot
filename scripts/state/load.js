@@ -1,16 +1,13 @@
-require("../only_locally");
-
 var fs = require("fs-extra");
-var helper = require("helper");
-var async = require("async");
-var access = require("../access");
-var ROOT = helper.rootDir;
-var config = require("config");
+var exec = require("child_process").exec;
+var colors = require("colors/safe");
+var ROOT = process.env.BLOT_DIRECTORY;
 var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";
 var GIT_CLIENTS_DATA = ROOT + "/app/clients/git/data";
 var STATIC_FILES_DIRECTORY = ROOT + "/static";
-var exec = require("child_process").exec;
-var colors = require("colors/safe");
+var ACTIVE_DATABASE_DUMP = ROOT + "/db/dump.rdb";
+
+if (!ROOT) throw new Error("Please set environment variable BLOT_DIRECTORY");
 
 function main(label, callback) {
   var directory = __dirname + "/data/" + label;
@@ -27,27 +24,14 @@ function main(label, callback) {
 }
 
 function ensureRedisIsShutdown(callback) {
-  var redis = require("redis");
-  var client = redis.createClient();
+  var DISABLE_SAVE =
+    'redis-cli CONFIG SET appendonly no && redis-cli CONFIG SET save ""';
 
-  client.on("error", function(err) {
-    if (err.code === "ECONNREFUSED") {
-      return callback(null);
-    } else {
-    }
-  });
+  exec(DISABLE_SAVE, { silent: true }, function() {
 
-  var multi = client.multi();
-
-  multi.config("SET", "appendonly", "no");
-  multi.config("SET", "save", "");
-  multi.shutdown();
-
-  multi.exec(function(err) {
-    if (err && err.code !== "ECONNREFUSED" && err.code !== "UNCERTAIN_STATE")
-      return callback(err);
-
-    callback(null);
+    exec("redis-cli shutdown", { silent: true }, function() {
+      callback();
+    });
   });
 }
 
@@ -58,6 +42,8 @@ function loadDB(directory, callback) {
 
   ensureRedisIsShutdown(function(err) {
     if (err) return callback(err);
+
+    fs.copySync(dump, ACTIVE_DATABASE_DUMP);
 
     exec(
       "redis-server " + ROOT + "/config/redis.conf",
@@ -73,6 +59,9 @@ function loadDB(directory, callback) {
 
 function printBlogs(callback) {
   var Blog = require("blog");
+  var access = require("../access");
+  var config = require("config");
+  var async = require("async");
 
   Blog.getAllIDs(function(err, ids) {
     if (err) return callback(err);
