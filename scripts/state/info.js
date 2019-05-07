@@ -43,6 +43,7 @@ module.exports = function(callback) {
               console.log("Dashboard:", url);
               console.log("Blog:", "http://" + blog.handle + "." + config.host);
               if (folder) console.log("Folder:", folder);
+              next();
             });
           });
         });
@@ -84,14 +85,14 @@ function setupDropbox(blog, callback) {
 function setupGit(blog, callback) {
   User.getById(blog.owner, function(err, user) {
     getToken(blog.owner, function(err, token) {
-      var folder = TMP_DIRECTORY + "/" + blog.handle;
+      var folder = TMP_DIRECTORY + "/git-" + Date.now() + "-" + blog.handle;
       var email = encodeURIComponent(user.email);
       var protocol = "https://" + email + ":" + token + "@";
       var route = "/clients/git/end/" + blog.handle + ".git";
       var endpoint = protocol + config.host + route;
       var git = "git clone " + endpoint + " " + folder;
 
-      fs.emptyDirSync(folder);
+      fs.emptyDirSync(TMP_DIRECTORY);
       exec(git, { silent: true }, function(err) {
         if (err) return callback(err);
         callback(null, folder);
@@ -101,10 +102,11 @@ function setupGit(blog, callback) {
 }
 
 function setupLocal(blog, callback) {
-  var folder = TMP_DIRECTORY + "/" + blog.handle;
+  var folder = TMP_DIRECTORY + "/local-" + Date.now() + "-" + blog.handle;
 
-  fs.emptyDirSync(folder);
+  fs.emptyDirSync(TMP_DIRECTORY);
   fs.copySync(BLOG_FOLDERS_DIRECTORY + "/" + blog.id, folder);
+  fs.ensureDirSync(folder);
 
   clients.local.setup(blog.id, folder, function(err) {
     if (err) return callback(err);

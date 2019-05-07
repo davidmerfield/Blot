@@ -4,7 +4,10 @@ var moment = require("moment");
 var colors = require("colors/safe");
 
 if (require.main === module && !process.argv[2]) list(process.exit);
-else require("./load")(process.argv[2], process.exit);
+else require("./load")(process.argv[2], function(err){
+  if (err) throw err;
+  process.exit();
+});
 
 function list(callback) {
   fs.readdirSync(directory)
