@@ -1,96 +1,96 @@
-var juice = require('juice');
-var cheerio = require('cheerio');
-var fs = require('fs');
-var CSS = require('css');
+var cheerio = require("cheerio");
+var fs = require("fs");
+var parseCSS = require("css");
 var CleanCSS = require("clean-css");
 var minimize = new CleanCSS();
 
-module.exports = function render_tex (req, res, next) {
-
+module.exports = function render_tex(req, res, next) {
   var send = res.send;
 
-  res.send = function (string) {
-
+  res.send = function(string) {
     var html = string instanceof Buffer ? string.toString() : string;
+    var css = "";
+    var $ = cheerio.load(html, { decodeEntities: false });
 
-    var $ = cheerio.load(html, {decodeEntities: false});
+    $('link[rel="stylesheet"]').each(function() {
+      var css = "";
+      var href = $(this).attr("href");
 
-    $('link[rel="stylesheet"]').each(function(){
+      if (href.indexOf("?") > -1) href = href.slice(0, href.indexOf("?"));
 
-      var css;
-      var href = $(this).attr('href');
+      var pathToCSSFile = __dirname + "/../../views" + href;
 
-      if (href.indexOf('?') > -1) href = href.slice(0, href.indexOf('?'));
-      
-      var pathToCSSFile = __dirname + '/../../views' + href;
-        
-      try{
-        
-        css = fs.readFileSync(pathToCSSFile, 'utf-8');
-
+      try {
+        css = fs.readFileSync(pathToCSSFile, "utf-8");
       } catch (e) {
         console.log(e);
-        console.log('failed to load', pathToCSSFile);
+        console.log("failed to load", pathToCSSFile);
         return;
       }
 
-      $(this).replaceWith('<style type="text/css">' + css + '</style>');
+      $(this).replaceWith('<style type="text/css">' + css + "</style>");
     });
 
-    html = $.html();
-
-    // Inline properties from <style> tags
-    html = juice(html, {inlinePseudoElements: true});
-
-    var $ = cheerio.load(html, {decodeEntities: false});
-    var css = '';
-
-    $('style[type="text/css"]').each(function(){
-
+    $('style[type="text/css"]').each(function() {
       // If the style tag is inside a <noscript> tag
       // then it is important that it doesn't move...
-      if ($(this).parents('noscript').length) return;
+      if ($(this).parents("noscript").length) return;
 
       css += $(this).contents();
-      
+
       $(this).remove();
     });
 
-    css = minimize.minify(css || "").styles;
+    try {
+      var obj = parseCSS.parse(css);
 
-    var obj = CSS.parse(css);
-      
-    for (var i in obj.stylesheet.rules) {
+      obj.stylesheet.rules = obj.stylesheet.rules.filter(function(rule) {
+        if (rule.type !== "rule") return true;
 
-      var rule = obj.stylesheet.rules[i];
-      
-      if (rule.type !== 'rule') continue;
-      
-      var shouldMakeImportant;
-      
-      for (var x in rule.selectors)
-        if (rule.selectors[x].indexOf(':hover') > -1 ||
-          rule.selectors[x].indexOf(':active') > -1 || 
-          rule.selectors[x].indexOf(':focus') > -1)
-          shouldMakeImportant = true;
+        var originalSelectors = rule.selectors.slice();
 
-      if (!shouldMakeImportant) continue;
+        rule.selectors = rule.selectors.filter(function(selector) {
+          // we need to skip font-face here...
+          if (selector.indexOf("@font-face") > -1) return true;
 
-      for (var y in rule.declarations) {
-        if (rule.declarations[y].value.indexOf('!important') > -1) continue;
-        rule.declarations[y].value+='!important'
-      }
-        
+          selector = selector
+            .split(":focus")
+            .join("")
+            .split(":hover")
+            .join("")
+            .split(":active")
+            .join("");
+          var matches;
+
+          try {
+            matches = $(selector).length;
+          } catch (e) {
+            return false;
+          }
+
+          return matches > 0;
+        });
+
+        if (!rule.selectors.length) {
+          console.log("deleting rule", originalSelectors.join(", "));
+          return false;
+        }
+
+        return true;
+      });
+
+      css = parseCSS.stringify(obj);
+      css = minimize.minify(css || "").styles;
+
+      $("head").append('<style type="text/css">' + css + "</style>");
+
+      html = $.html();
+    } catch (e) {
+      console.log(e);
     }
-
-    css = CSS.stringify(obj);
-
-    $('head').append('<style type="text/css">' + css + '</style>');
-
-    html = $.html();
 
     send.call(this, html);
   };
 
-  next();  
+  next();
 };
