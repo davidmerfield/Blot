@@ -13,6 +13,10 @@ module.exports = function render_tex(req, res, next) {
     var $ = cheerio.load(html, { decodeEntities: false });
 
     $('link[rel="stylesheet"]').each(function() {
+      if ($(this).attr("data-skip-inline")) {
+        return;
+      }
+
       var css = "";
       var href = $(this).attr("href");
 
@@ -23,8 +27,6 @@ module.exports = function render_tex(req, res, next) {
       try {
         css = fs.readFileSync(pathToCSSFile, "utf-8");
       } catch (e) {
-        console.log(e);
-        console.log("failed to load", pathToCSSFile);
         return;
       }
 
@@ -32,6 +34,10 @@ module.exports = function render_tex(req, res, next) {
     });
 
     $('style[type="text/css"]').each(function() {
+      if ($(this).attr("data-skip-inline")) {
+        $(this).removeAttr("data-skip-inline");
+        return;
+      }
       // If the style tag is inside a <noscript> tag
       // then it is important that it doesn't move...
       if ($(this).parents("noscript").length) return;
@@ -56,10 +62,15 @@ module.exports = function render_tex(req, res, next) {
           selector = selector
             .split(":focus")
             .join("")
+            .split(":before")
+            .join("")
+            .split(":after")
+            .join("")
             .split(":hover")
             .join("")
             .split(":active")
             .join("");
+
           var matches;
 
           try {
@@ -72,7 +83,7 @@ module.exports = function render_tex(req, res, next) {
         });
 
         if (!rule.selectors.length) {
-          console.log("deleting rule", originalSelectors.join(", "));
+          // console.log("deleting rule", originalSelectors.join(", "));
           return false;
         }
 
