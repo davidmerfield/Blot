@@ -1,5 +1,6 @@
-Minify brochure site
-- Use uncss or purifycss to remove unused styles from <style> tag at start of page. Does it improve rendering time? Measure the difference.
+Merge PR minifying brochure site
+
+Re-instate disabled test for Blot's application server starting in tests/app
 
 Finish Archive template
 - Losslessly minify and resize images to reduce insanse folder size? (currently 600mb+)
