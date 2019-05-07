@@ -19,7 +19,7 @@ describe("Blot", function() {
         done();
       });
     },
-    60 * 1000
+    2 * 60 * 1000
   );
 
   it(
@@ -49,6 +49,6 @@ describe("Blot", function() {
         }
       );
     },
-    60 * 1000
+    2 * 60 * 1000
   );
 });
