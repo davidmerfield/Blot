@@ -8,14 +8,6 @@
     "favicon": "/images/featured/zacharykeeting.com.png"
   },
   {
-    "link": "https://www.tillmanjex.info",
-    "host": "www.tillmanjex.info",
-    "name": "Tillman Jex",
-    "firstName": "Tillman",
-    "bio": " is a composer based in Berlin",
-    "favicon": "/images/featured/www.tillmanjex.info.png"
-  },
-  {
     "link": "https://www.dmatthams.co.uk",
     "host": "www.dmatthams.co.uk",
     "name": "David Matthams",
@@ -24,12 +16,28 @@
     "favicon": "/images/featured/www.dmatthams.co.uk.png"
   },
   {
-    "link": "https://photos.rachelpietraszek.com",
-    "host": "photos.rachelpietraszek.com",
-    "name": "Rachel Pietraszek",
-    "firstName": "Rachel",
-    "bio": " is a lawyer based in Toronto",
-    "favicon": "/images/featured/photos.rachelpietraszek.com.jpg"
+    "link": "https://www.souloftheimage.com",
+    "host": "www.souloftheimage.com",
+    "name": "Kimberly Evans",
+    "firstName": "Kimberly",
+    "bio": " is a photographer and writer from Los Angeles",
+    "favicon": "/images/featured/www.souloftheimage.com.jpg"
+  },
+  {
+    "link": "https://www.skincarriedaway.com",
+    "host": "www.skincarriedaway.com",
+    "name": "Tiffany Cecilia",
+    "firstName": "Tiffany",
+    "bio": " writes about skincare from San Francisco",
+    "favicon": "/images/featured/www.skincarriedaway.com.jpg"
+  },
+  {
+    "link": "https://www.tillmanjex.info",
+    "host": "www.tillmanjex.info",
+    "name": "Tillman Jex",
+    "firstName": "Tillman",
+    "bio": " is a composer based in Berlin",
+    "favicon": "/images/featured/www.tillmanjex.info.png"
   },
   {
     "link": "https://blog.andrewjanjigian.com",
@@ -64,12 +72,28 @@
     "favicon": "/images/featured/com.johnbeeler.com.jpg"
   },
   {
+    "link": "https://www.inextenso.dev",
+    "host": "www.inextenso.dev",
+    "name": "Nicola Zanon",
+    "firstName": "Nicola",
+    "bio": " is a web developer from Berlin",
+    "favicon": "/images/featured/www.inextenso.dev.jpg"
+  },
+  {
     "link": "https://bitdepth.org",
     "host": "bitdepth.org",
     "name": "Chris Campbell",
     "firstName": "Chris",
     "bio": " is a filmmaker based in Nova Scotia",
     "favicon": "/images/featured/bitdepth.org.jpg"
+  },
+  {
+    "link": "https://discombobulated.co.nz",
+    "host": "discombobulated.co.nz",
+    "name": "Jessica Nickelsen",
+    "firstName": "Jessica",
+    "bio": " is a writer from New Zealand",
+    "favicon": "/images/featured/discombobulated.co.nz.jpg"
   },
   {
     "link": "https://www.matthewbattles.org",
@@ -94,14 +118,6 @@
     "firstName": "Aurynn",
     "bio": " is a writer and engineer from New Zealand",
     "favicon": "/images/featured/blog.aurynn.com.jpg"
-  },
-  {
-    "link": "https://www.skincarriedaway.com",
-    "host": "www.skincarriedaway.com",
-    "name": "Tiffany Cecilia",
-    "firstName": "Tiffany",
-    "bio": " writes about skincare from San Francisco",
-    "favicon": "/images/featured/www.skincarriedaway.com.jpg"
   },
   {
     "link": "https://www.kristianhjelle.com",
@@ -134,6 +150,14 @@
     "firstName": "John",
     "bio": " is a writer and filmmaker based in Portland, Oregon",
     "favicon": "/images/featured/john.pavlusoffice.com.jpg"
+  },
+  {
+    "link": "https://photos.rachelpietraszek.com",
+    "host": "photos.rachelpietraszek.com",
+    "name": "Rachel Pietraszek",
+    "firstName": "Rachel",
+    "bio": " is a lawyer based in Toronto",
+    "favicon": "/images/featured/photos.rachelpietraszek.com.jpg"
   },
   {
     "link": "https://iiiiiiiii.in",
@@ -288,14 +312,6 @@
     "favicon": "/images/featured/www.enzel.io.jpg"
   },
   {
-    "link": "https://journal.cheribaker.com",
-    "host": "journal.cheribaker.com",
-    "name": "Cheri Baker",
-    "firstName": "Cheri",
-    "bio": " is a writer based in Seattle",
-    "favicon": "/images/featured/journal.cheribaker.com.jpg"
-  },
-  {
     "link": "https://blog.amitgawande.com",
     "host": "blog.amitgawande.com",
     "name": "Amit Gawande",
@@ -342,14 +358,6 @@
     "firstName": "Robert",
     "bio": " is a writer in Minneapolis",
     "favicon": "/images/featured/afc.letterspace.org.jpg"
-  },
-  {
-    "link": "https://discombobulated.co.nz",
-    "host": "discombobulated.co.nz",
-    "name": "Jessica Nickelsen",
-    "firstName": "Jessica",
-    "bio": " is a writer from New Zealand",
-    "favicon": "/images/featured/discombobulated.co.nz.jpg"
   },
   {
     "link": "https://blog.tomwhite.io",
