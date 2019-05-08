@@ -1,5 +1,4 @@
-describe("configuration", function() {
-  var request = require("request");
+module.exports = function() {
   var server;
   var has_err = false;
 
@@ -28,28 +27,15 @@ describe("configuration", function() {
   });
 
   afterAll(function(done) {
+    done();
+
     server.on("close", function(code) {
       // 128 + 15
       // https://github.com/sindresorhus/exit-hook/commit/b6c274f6dc7617b8c800d612ac343ecc0cdef867
       expect(code).toEqual(143);
       expect(has_err).toEqual(false);
-      done();
     });
 
     server.kill();
   });
-
-  // Stripe and Dropbox webhooks require HTTPS set up, or NGINX
-  // working, so they are harder to test but it would be nice to
-  // do this eventually.
-
-  it("returns OK at the health endpoint", function(done) {
-    request("http://localhost:8080/health", function(err, res, body) {
-      if (err) return done.fail(err);
-
-      expect(res.statusCode).toBe(200);
-      expect(body).toEqual("OK");
-      done();
-    });
-  });
-});
+};

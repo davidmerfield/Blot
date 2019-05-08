@@ -1,4 +1,6 @@
-.sidebar li {display: block;}
+.sidebar li {
+  display: block;
+}
 
 /**
  * 1. good progressive enhancement: https://caniuse.com/#search=sticky
@@ -11,23 +13,33 @@ ul.sidebar {
   list-style: none;
   width: 25%;
   padding-right: 2.1em;
-  box-sizing:border-box;
+  box-sizing: border-box;
   max-width: none;
-  flex-shrink:0;
-  position: sticky;       /* [1] */
-  top: 1.4em;               /* [2] */
-  align-self: flex-start; /* [3] */
+  flex-shrink: 0;
+  position: sticky;
+  /* [1] */
+  top: 1.4em;
+  /* [2] */
+  align-self: flex-start;
+  /* [3] */
 }
 
 /*ul.sidebar:hover a {color: black}*/
-ul.sidebar a:hover {text-decoration: underline;}
+ul.sidebar a:hover {
+  text-decoration: underline;
+}
 
 ul.sidebar a:active,
-ul.sidebar a:focus  {opacity: 0.7;text-decoration: none;}
+ul.sidebar a:focus {
+  opacity: 0.7;
+  text-decoration: none;
+}
 
-ul.sidebar > * {}
+ul.sidebar>* {}
 
-.sidebar a.selected {color: black!important}
+.sidebar a.selected {
+  color: black !important
+}
 
 
 input[name="toggle"] {
@@ -66,12 +78,12 @@ label[for="toggle"] {
 
 
 .sidebar img {
-      max-width: 36px;
-    float: left;
-    display: none;
-    margin-left: -1.5em;
-    margin-right: 0.75em;
-    margin: 0.2em 0.75em 0.2em -1.5em;
+  max-width: 36px;
+  float: left;
+  display: none;
+  margin-left: -1.5em;
+  margin-right: 0.75em;
+  margin: 0.2em 0.75em 0.2em -1.5em;
 }
 
 /*.sidebar .has-img li {line-height: 1.8}
@@ -81,18 +93,18 @@ label[for="toggle"] {
 
 .sidebar .has-list>a:before {
   display: block;
-    position: absolute;
-    top: 50%;
-    left:-1.25em;
-    width: 7px;
-    height: 7px;
-    margin: -4px -5px 0 0;
-    border-top: solid 1px #a9a6a3;
-    border-right: solid 1px #a9a6a3;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    content: "";
+  position: absolute;
+  top: 50%;
+  left: -1.25em;
+  width: 7px;
+  height: 7px;
+  margin: -4px -5px 0 0;
+  border-top: solid 1px #a9a6a3;
+  border-right: solid 1px #a9a6a3;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  content: "";
 }
 
 .sidebar .index>a:first-child:hover {
@@ -116,13 +128,14 @@ label[for="toggle"] {
 }
 
 .sidebar label {
-/*  position: absolute;
+  /*  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   cursor: pointer;
-*/}
+*/
+}
 
 .sidebar :checked~a:before {
   margin-top: -6px;
@@ -147,9 +160,14 @@ ul.sidebar ul {
 .dark .sidebar,
 .dark .sidebar a,
 .dark header a,
-.dark footer a  {border-color: #222;color: #839496}
+.dark footer a {
+  border-color: #222;
+  color: #839496
+}
 
-.sidebar li ul li:last-child {border-bottom: none;}
+.sidebar li ul li:last-child {
+  border-bottom: none;
+}
 
 .sidebar li ul {
   list-style: none;
@@ -157,23 +175,28 @@ ul.sidebar ul {
 }
 
 
-.sidebar li ul li {position: relative;}
-.sidebar li ul li:before {
-    display: block;
-    position: absolute;
-    top: 50%;
-    left:-1em;
-    width: 7px;
-    height: 7px;
-    margin: 0 -5px 0 0;
-    border-top: solid 1px #a9a6a3;
+.sidebar li ul li {
+  position: relative;
+}
 
-    content: "";
+.sidebar li ul li:before {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: -1em;
+  width: 7px;
+  height: 7px;
+  margin: 0 -5px 0 0;
+  border-top: solid 1px #a9a6a3;
+
+  content: "";
 }
 
 
 
-.buttons {display: flex;}
+.buttons {
+  display: flex;
+}
 
 .sidebar a.action-button:hover {
   border-color: #222;
@@ -182,11 +205,16 @@ ul.sidebar ul {
   z-index: 1
 }
 
-a.action-button:hover:after {    border-color: #222;
-color: #222;
+a.action-button:hover:after {
+  border-color: #222;
+  color: #222;
 }
 
-a.action-button + a.action-button {
+a.action-button+a.action-button {
   margin-right: 0;
 }
-.sidebar a.in {position: relative;display: block;}
+
+.sidebar a.in {
+  position: relative;
+  display: block;
+}
