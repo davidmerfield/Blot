@@ -14,16 +14,22 @@ var REDIRECTS = {
   "/help/tags": "/publishing/metadata"
 };
 
+brochure.use(function(req, res, next) {
+  res.locals.breadcrumbs = new Breadcrumbs();
+  next();
+});
+
+// Minifies HTML
+brochure.use(require("./tools/minify-html"));
+
+// Inlines all CSS properties
+brochure.use(require("./tools/inline-css"));
+
 // Renders the folders and text editors
 brochure.use(finder.middleware);
 
 // Renders TeX
 brochure.use(tex);
-
-brochure.use(function(req, res, next) {
-  res.locals.breadcrumbs = new Breadcrumbs();
-  next();
-});
 
 // Renders dates dynamically
 brochure.use(require("./tools/dates"));

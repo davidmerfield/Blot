@@ -19,7 +19,7 @@ describe("Blot broken links", function() {
         done();
       });
     },
-    2 * 60 * 1000
+    5 * 60 * 1000
   );
 
   it(
@@ -49,6 +49,6 @@ describe("Blot broken links", function() {
         }
       );
     },
-    2 * 60 * 1000
+    5 * 60 * 1000
   );
 });
