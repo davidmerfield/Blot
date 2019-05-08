@@ -1,5 +1,3 @@
-Merge PR minifying brochure site
-
 Re-instate disabled test for Blot's application server starting in tests/app
 
 Finish Archive template
@@ -152,6 +150,8 @@ Improvements to brochure
 -  Unify dashboard header style post-payment
 - Navigation collapse on mobile devices
 - Fix formatting guide
+- Prune unused font-face declarations from CSS passed to dashboard
+- Use blotcdn for video and other static files
 - Featured sites on homepage are generated automatically
 - Collapsible sidebar
 - Fix logged out page
