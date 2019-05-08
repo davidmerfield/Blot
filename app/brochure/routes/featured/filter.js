@@ -16,7 +16,6 @@ function filter(sites, callback) {
     3,
     function(site, next) {
       verify(site.host, function(err, template) {
-
         if (err !== null) return next(null, false);
 
         site.template = {
@@ -42,6 +41,11 @@ function verify(domain, callback) {
 
     Template.getMetadata(blog.template, function(err, template) {
       if (err) return callback(err);
+
+      if (!template) {
+        console.log("no template", blog.template);
+        return callback(new Error("No template:" + blog.template));
+      }
 
       var options = {
         uri: "http://" + domain + "/verify/domain-setup",
