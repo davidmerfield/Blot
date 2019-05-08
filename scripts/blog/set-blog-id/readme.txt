@@ -1,5 +1,5 @@
 Can this script be idempotent? It might be useful
-to be able to run it multiple times...
+to be able to run it multiple times... yes. this must be a requirement.
 
 This script will edit the ID of a blog
 Run this on my blogs in production first
