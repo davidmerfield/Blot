@@ -23,7 +23,7 @@ if (require.main === module) {
         site.email
       );
     });
-    
+
     process.exit();
   });
 }
@@ -36,7 +36,6 @@ var featured = require("./featured").map(function(site) {
 
 function main(callback) {
   Blog.getAllIDs(function(err, ids) {
-    ids = ids.slice(0, 100);
 
     async.map(
       ids,
@@ -66,8 +65,12 @@ function main(callback) {
           return site && site.host && featured.indexOf(site.host) === -1;
         });
 
+        console.log(sites.length, "candidates");
+
         filter(sites, function(err, sites) {
           if (err) return callback(err);
+
+          console.log(sites.length, "candidates remain post-filter");
 
           sites.sort(function(a, b) {
             if (a.lastPublishedPost > b.lastPublishedPost) return 1;

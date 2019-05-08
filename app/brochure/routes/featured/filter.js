@@ -43,12 +43,12 @@ function verify(domain, callback) {
       if (err) return callback(err);
 
       if (!template) {
-        console.log("no template", blog.template);
+        console.log("no template", blog);
         return callback(new Error("No template:" + blog.template));
       }
 
       if (!template.id) {
-        console.log("no template id", blog.template, template);
+        console.log("no template id", blog, template);
         return callback(new Error("No template:" + blog.template));
       }
 
