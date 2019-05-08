@@ -47,6 +47,11 @@ function verify(domain, callback) {
         return callback(new Error("No template:" + blog.template));
       }
 
+      if (!template.id) {
+        console.log("no template id", blog.template, template);
+        return callback(new Error("No template:" + blog.template));
+      }
+
       var options = {
         uri: "http://" + domain + "/verify/domain-setup",
         timeout: 1000,
