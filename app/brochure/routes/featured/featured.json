@@ -1,5 +1,13 @@
 [
   {
+    "link": "https://zacharykeeting.com",
+    "host": "zacharykeeting.com",
+    "name": "Zachary Keeting",
+    "firstName": "Zachary",
+    "bio": " is an artist based in New Haven, Connecticut",
+    "favicon": "/images/featured/zacharykeeting.com.png"
+  },
+  {
     "link": "https://www.tillmanjex.info",
     "host": "www.tillmanjex.info",
     "name": "Tillman Jex",
@@ -148,7 +156,7 @@
     "host": "www.failuretolerated.com",
     "name": "Sean McCoy",
     "firstName": "Sean",
-    "bio": " is a game designer from Dallas Texas",
+    "bio": " is a game designer from Dallas, Texas",
     "favicon": "/images/featured/www.failuretolerated.com.jpg"
   },
   {
@@ -172,7 +180,7 @@
     "host": "eli.li",
     "name": "Eli Mellen",
     "firstName": "Eli",
-    "bio": " is a web developer based in Portland Maine",
+    "bio": " is a web developer based in Portland, Maine",
     "favicon": "/images/featured/eli.li.jpg"
   },
   {
@@ -204,7 +212,7 @@
     "host": "diary.craigwhite.nyc",
     "name": "Craig White",
     "firstName": "Craig",
-    "bio": " is a visual artist based in Harlem New York",
+    "bio": " is a visual artist based in Harlem, New York",
     "favicon": "/images/featured/diary.craigwhite.nyc.jpg"
   },
   {
@@ -292,7 +300,7 @@
     "host": "blog.amitgawande.com",
     "name": "Amit Gawande",
     "firstName": "Amit",
-    "bio": " is software developer based in Pune India",
+    "bio": " is software developer based in Pune, India",
     "favicon": "/images/featured/blog.amitgawande.com.jpg"
   },
   {
@@ -300,7 +308,7 @@
     "host": "www.crossingthethreshold.net",
     "name": "David Johnson",
     "firstName": "David",
-    "bio": " is a life coach in Maui Hawaii",
+    "bio": " is a life coach in Maui, Hawaii",
     "favicon": "/images/featured/www.crossingthethreshold.net.jpg"
   },
   {
@@ -350,13 +358,5 @@
     "firstName": "Thomas",
     "bio": " is a biologist at the University of Sydney",
     "favicon": "/images/featured/blog.tomwhite.io.jpg"
-  },
-  {
-    "link": "https://zacharykeeting.com",
-    "host": "zacharykeeting.com",
-    "name": "Zachary Keeting is an artist based in New Haven",
-    "firstName": "Zachary",
-    "bio": " Connecticut",
-    "favicon": "/images/featured/zacharykeeting.com.png"
   }
 ]
