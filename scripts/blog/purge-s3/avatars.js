@@ -8,7 +8,8 @@ var config = require("config");
 var download = require("./download");
 var yesno = require("yesno");
 var VALID_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif"];
-var colors = require('colors/safe');
+var colors = require("colors/safe");
+var fs = require('fs-extra');
 
 if (require.main === module)
   main(function(err) {
@@ -48,7 +49,9 @@ function main(callback) {
               colors.dim("\nNew: ") +
               avatar +
               colors.dim("\n     ") +
-              path;
+              path +
+              " - " +
+              humanFileSize(fs.statSync(path).size);
 
             yesno.ask(message, true, function(ok) {
               if (!ok) return next();
@@ -61,6 +64,15 @@ function main(callback) {
       callback
     );
   });
+}
+
+function humanFileSize(size) {
+  var i = Math.floor(Math.log(size) / Math.log(1024));
+  return (
+    (size / Math.pow(1024, i)).toFixed(2) * 1 +
+    " " +
+    ["B", "kB", "MB", "GB", "TB"][i]
+  );
 }
 
 module.exports = main;
