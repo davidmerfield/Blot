@@ -10,6 +10,8 @@ var download = require("./util/download");
 var CDN = "blotcdn.com";
 
 function main(blog, callback) {
+  console.log("Blog:", blog.id, "Checking cached images...");
+
   Entries.each(
     blog.id,
     function(entry, next) {
@@ -28,7 +30,9 @@ function main(blog, callback) {
           $("[href],[src]").each(function() {
             var url = $(this).attr("href") || $(this).attr("src");
             if (!url) return;
-            if (url.indexOf(CDN) > -1) urls.push(url);
+            if (url.indexOf(CDN) > -1) {
+              urls.push(url);
+            }
           });
 
           async.eachSeries(
@@ -56,7 +60,7 @@ function main(blog, callback) {
         function() {
           var latest = JSON.stringify(entry, null, 2);
 
-          if (latest === initial) return callback();
+          if (latest === initial) return next();
 
           Entry.set(blog.id, entry.id, entry, next);
         }

@@ -2,6 +2,7 @@ var Entries = require("entries");
 var Blog = require("blog");
 var User = require("user");
 var CDN = "blotcdn.com";
+var colors = require("colors/safe");
 
 function main(blog, next) {
   Blog.get({ id: blog.id }, function(err, blog) {
@@ -13,7 +14,7 @@ function main(blog, next) {
       if (JSON.stringify(user).indexOf(CDN) > -1) {
         var listInUser = [];
         for (var x in user) if (user[x].indexOf(CDN) > -1) listInUser.push(x);
-        console.log(user.uid, "references CDN in", listInUser);
+        console.log(colors.red(user.uid, "references CDN in", listInUser));
       }
 
       if (JSON.stringify(blog).indexOf(CDN) > -1) {
@@ -21,7 +22,9 @@ function main(blog, next) {
         for (var i in blog)
           if (blog[i].toString().indexOf(CDN) > -1) listInBlog.push(i);
 
-        console.log(blog.handle, blog.id, "references CDN in", listInBlog);
+        console.log(
+          colors.red(blog.handle, blog.id, "references CDN in", listInBlog)
+        );
       }
 
       Entries.each(
@@ -32,7 +35,15 @@ function main(blog, next) {
             for (var y in entry)
               if (entry[y].toString().indexOf(CDN) > -1) listInEntry.push(y);
 
-            console.log(blog.handle, blog.id, entry.id, "references CDN in", listInEntry);
+            console.log(
+              colors.red(
+                blog.handle,
+                blog.id,
+                entry.id,
+                "references CDN in",
+                listInEntry
+              )
+            );
           }
           next();
         },
@@ -42,6 +53,6 @@ function main(blog, next) {
   });
 }
 
-if (require.main === module) require("./util/cli")(main, {skipAsk: true});
+if (require.main === module) require("./util/cli")(main, { skipAsk: true });
 
 module.exports = main;

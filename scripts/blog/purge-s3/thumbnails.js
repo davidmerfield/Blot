@@ -1,7 +1,7 @@
 var Entry = require("entry");
 var Entries = require("entries");
 var async = require("async");
-var download = require("./download");
+var download = require("./util/download");
 var dirname = require("path").dirname;
 var basename = require("path").basename;
 var yesno = require("yesno");
@@ -16,13 +16,7 @@ function main(blog, next) {
     function(entry, next) {
       downloadThumbnails(blog.id, entry, next);
     },
-    function() {
-      yesno.ask("Blog: " + blog.id + " Complete! Continue?", true, function(
-        ok
-      ) {
-        if (ok) next();
-      });
-    }
+    next
   );
 }
 

@@ -12,6 +12,8 @@ var humanFileSize = require("./util/humanFileSize");
 var download = require("./util/download");
 
 function main(blog, next) {
+    console.log("Blog:", blog.id, "Checking avatar...");
+
   if (blog.avatar.indexOf(CDN) === -1) return next();
 
   var extension = extname(blog.avatar).toLowerCase();
