@@ -1,4 +1,3 @@
-
 module.exports = function humanFileSize(size) {
   var i = Math.floor(Math.log(size) / Math.log(1024));
   return (
@@ -6,4 +5,4 @@ module.exports = function humanFileSize(size) {
     " " +
     ["B", "kB", "MB", "GB", "TB"][i]
   );
-}
+};
