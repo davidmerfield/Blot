@@ -10,6 +10,7 @@ var yesno = require("yesno");
 var VALID_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif"];
 var colors = require("colors/safe");
 var fs = require('fs-extra');
+var humanFileSize = require('./humanFileSize');
 
 if (require.main === module)
   main(function(err) {
@@ -64,15 +65,6 @@ function main(callback) {
       callback
     );
   });
-}
-
-function humanFileSize(size) {
-  var i = Math.floor(Math.log(size) / Math.log(1024));
-  return (
-    (size / Math.pow(1024, i)).toFixed(2) * 1 +
-    " " +
-    ["B", "kB", "MB", "GB", "TB"][i]
-  );
 }
 
 module.exports = main;
