@@ -22,12 +22,15 @@ function main(label, callback) {
     if (err) return callback(err);
 
     fs.emptyDirSync(BLOG_FOLDERS_DIRECTORY);
+    fs.ensureDirSync(directory + "/blogs");
     fs.copySync(directory + "/blogs", BLOG_FOLDERS_DIRECTORY);
 
     fs.emptyDirSync(GIT_CLIENTS_DATA);
+    fs.ensureDirSync(directory + "/git");
     fs.copySync(directory + "/git", GIT_CLIENTS_DATA);
 
     fs.emptyDirSync(STATIC_FILES_DIRECTORY);
+    fs.ensureDirSync(directory + "/static");
     fs.copySync(directory + "/static", STATIC_FILES_DIRECTORY);
 
     require("./info")(callback);

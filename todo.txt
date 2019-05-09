@@ -103,6 +103,8 @@ Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbo
 
 Switch billing to $3 per month for new customers. This will not affect existing customers in any way.
 
+Write script to download all the redis data + files for a particular blog, then restore it in my local environment. The hard part will be using [Redis's DUMP command](https://stackoverflow.com/a/23439302).
+
 Transformer bugs:
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
 - Adjust interface to accept a number of directories. Make it 'unaware' of blog IDs?
