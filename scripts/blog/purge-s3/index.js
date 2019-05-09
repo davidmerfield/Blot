@@ -16,6 +16,6 @@ function main(blog, callback) {
   });
 }
 
-if (require.main === module) require("./util/cli")(main);
+if (require.main === module) require("./util/cli")(main, { skipAsk: true });
 
 module.exports = main;
