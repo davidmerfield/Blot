@@ -1,6 +1,5 @@
 require("../only_locally");
 
-var moment = require("moment");
 var Remote = require("../remote");
 var download = Remote.download;
 var execRemote = Remote.exec;
@@ -8,9 +7,8 @@ var execRemote = Remote.exec;
 var REMOTE_DUMP_PATH = Remote.root + "/db/dump.rdb";
 
 function main(callback) {
-  var date = moment().format("YYYY-MM-D");
   var now = Math.round(Date.now() / 1000);
-  var directory = __dirname + "/data/production-" + now + "-" + date;
+  var directory = __dirname + "/data/production-" + now;
   var local_dump_path = directory + "/dump.rdb";
   
   console.log("Retrieving the last time db was saved to disk...");
