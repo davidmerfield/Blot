@@ -107,8 +107,6 @@ Switch billing to $3 per month for new customers. This will not affect existing 
 
 Write script to download all the redis data + files for a particular blog, then restore it in my local environment. The hard part will be using [Redis's DUMP command](https://stackoverflow.com/a/23439302).
 
-Add integration tests for brochure site to test sign up flow
-
 Redis improvements:
 - Research [Redis clustering](http://highscalability.com/blog/2019/2/19/intro-to-redis-cluster-sharding-advantages-limitations-deplo.html)
 - Prune redis keys and begin storing more on disk
@@ -137,14 +135,15 @@ Transformer bugs:
 Add notification emails for monit events
 - Include secure one-time link to reboot the AWS instance?
 
-Create credits page listing the names of the people involved in all the open source software used by Blot
-
 Research state of static site generators:
 - https://www.11ty.io/docs/
 - https://www.staticgen.com/
 
 Improvements to brochure
+- Add integration tests for brochure site to test sign up flow
+- Create credits page listing the names of the people involved in all the open source software used by Blot
 - Clean up error messages in logs for public site
+- Personalize the documentation for logged in users
 - Add script to fetch 404s with interface to set up redirects 
 - Tooltips for lock and CVC on sign up page
 -  Loading state for submit button on sign up page
@@ -263,7 +262,7 @@ Add nice import step under 'Services' and as part of sign up
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
 - Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
 
-Backups
+Improvements to backup system
 - Add hourly local redis rdb dumps
 - Add script to roll back into hourly local db dumps and remote backups
 - Delete backups older than a month from s3 automatically
@@ -373,10 +372,6 @@ is happening before doing this.
 - Handle noscript on dashboard / signup gracefully (remove all dashboard js?)
 - Allow users who are restarting an account with multiple blogs to disable some before restarting.
 - Take a look at Notion and Cargo for some neat ideas
-
-Public site
-- Log 404s on the public site to identify neccessary redirects
-- Personalize the documentation for logged in users
 
 Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
 
