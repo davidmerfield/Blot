@@ -2,6 +2,18 @@ Tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720) that link
 
 Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) I fixed all the broken links on the dashboard and set up an integration test to prevent them in future
 
+Tell [this person](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af) that there is now documentation on how to mirror a repo to GitHub
+
+---
+
+Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
+
+Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
+
+Add a photos page to [Gabriel's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLtjHvbXprzCbFGVhmWwbtsv)
+
+Transfer [Ana's design](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe8d0f08-2593/screen/63c8075e-2ffd-43c2-be9e-d08a1369b971/Web-1366-1?fullscreen) to a Blot template
+
 ---
 
 Re-instate disabled test for Blot's application server in tests/app
@@ -20,16 +32,6 @@ Finish Feed template
 Record new demo video
 - Create simple custom text editor
 - Show sites I run using Blot
-
----
-
-Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
-
-Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
-
-Add a photos page to [Gabriel's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLtjHvbXprzCbFGVhmWwbtsv)
-
-Transfer [Ana's design](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe8d0f08-2593/screen/63c8075e-2ffd-43c2-be9e-d08a1369b971/Web-1366-1?fullscreen) to a Blot template
 
 ---
 
@@ -113,8 +115,6 @@ Redis improvements:
 - [redis analysis tool](https://github.com/snmaynard/redis-audit)
 - Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
 
-Add script to fetch 404s on dashboard with interface to set up redirects 
-
 Restructure application folder
 - make serving static files from NGINX easier?
   - ln /data/blogs/{blogID}/folder /data/cache/{hostname}/folder/...
@@ -145,7 +145,7 @@ Research state of static site generators:
 
 Improvements to brochure
 - Clean up error messages in logs for public site
-- Add 404 log
+- Add script to fetch 404s with interface to set up redirects 
 - Tooltips for lock and CVC on sign up page
 -  Loading state for submit button on sign up page
 -  Unify dashboard header style post-payment
@@ -153,14 +153,8 @@ Improvements to brochure
 - Fix formatting guide
 - Prune unused font-face declarations from CSS passed to dashboard
 - Use blotcdn for video and other static files
-- Featured sites on homepage are generated automatically
-- Collapsible sidebar
-- Fix logged out page
-- Pixel perfect logo SVG (no blur)
 - Logo spacing from Chrome tab
 - Fix <title> tags across site
-- Upload new Twitter avatar and background
-- Tell [this person](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af) that there is now documentation on how to mirror a repo to GitHub
 - Favicon with white background for folder
 - HTML minifier
 - CSS compressor
