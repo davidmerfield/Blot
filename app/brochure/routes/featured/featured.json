@@ -40,6 +40,14 @@
     "favicon": "/images/featured/www.tillmanjex.info.png"
   },
   {
+    "link": "https://www.withbb.com",
+    "host": "www.withbb.com",
+    "name": "Bibi Zhang",
+    "firstName": "Bibi",
+    "bio": " is a designer from Beijing",
+    "favicon": "/images/featured/www.withbb.com.jpg"
+  },
+  {
     "link": "https://blog.andrewjanjigian.com",
     "host": "blog.andrewjanjigian.com",
     "name": "Andrew Janjigian",
