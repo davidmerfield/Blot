@@ -1,4 +1,14 @@
-Re-instate disabled test for Blot's application server starting in tests/app
+Tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720) that links to dashboard now redirect to log-in pages
+
+Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) I fixed all the broken links on the dashboard and set up an integration test to prevent them in future
+
+---
+
+Re-instate disabled test for Blot's application server in tests/app
+
+Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
+- Move to UUIDs for blog identifiers
+- Can we incrementally move people over to check it works ok?
 
 Finish Archive template
 - Losslessly minify and resize images to reduce insanse folder size? (currently 600mb+)
@@ -34,15 +44,7 @@ Fix Magazine template bugs
 Fix index template bugs
 - Footnote link styling is wonky and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
 
-Add brochure site redirects
-- Fix bug on brochure site with links to dashboard not redirecting to log-in pages and tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720)
-- Add script to fetch 404s on dashboard with interface to set up redirects 
-
 Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
-
-Add integration tests for brochure site
-- Run a scraper for broken documentation links on the site, fix them and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
-- Test sign up flow
 
 Encoding bugs:
 - Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCLkqPBsNsjbKhFrLsvWdjnC)
@@ -97,30 +99,21 @@ Create a status page and uptime monitor and tell [Amit](https://mail.google.com/
 
 Look into mirroring a site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
 
-Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
-
 ---
 
 Switch billing to $3 per month for new customers. This will not affect existing customers in any way.
 
 Write script to download all the redis data + files for a particular blog, then restore it in my local environment. The hard part will be using [Redis's DUMP command](https://stackoverflow.com/a/23439302).
 
-Transformer bugs:
-- Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
-- Adjust interface to accept a number of directories. Make it 'unaware' of blog IDs?
-- Handle ampersand encoding in remote URLs and tell Marius
-- Add support for case-insensitive file path resolution
-- Add method which accepts a path or URL and flushes what is stored for it, update the rebuild entry script
-- Handle query strings in path to image files
-
-Move to UUIDs for blog identifiers
-- Can we incrementally move people over to check it works ok?
+Add integration tests for brochure site to test sign up flow
 
 Redis improvements:
 - Research [Redis clustering](http://highscalability.com/blog/2019/2/19/intro-to-redis-cluster-sharding-advantages-limitations-deplo.html)
 - Prune redis keys and begin storing more on disk
 - [redis analysis tool](https://github.com/snmaynard/redis-audit)
 - Move to using unix socket with redis client per [documentation](https://github.com/NodeRedis/node_redis) for better throughput. [Read this issue first](https://github.com/NodeRedis/node_redis/issues/204), I might need to make some user group permissions tweaks to ensure things are secure.
+
+Add script to fetch 404s on dashboard with interface to set up redirects 
 
 Restructure application folder
 - make serving static files from NGINX easier?
@@ -134,6 +127,12 @@ Restructure application folder
   - Move db directory from /db to /data/db
   - Move logs directory from /logs to /data/logs
   - Remove /tmp directory and instead use os.tmpDir
+
+Transformer bugs:
+- Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
+- Adjust interface to accept a number of directories. Make it 'unaware' of blog IDs?
+- Add method which accepts a path or URL and flushes what is stored for it, update the rebuild entry script
+- Handle query strings in path to image files
 
 Add notification emails for monit events
 - Include secure one-time link to reboot the AWS instance?
@@ -188,8 +187,6 @@ Add support for HTTP2
 Fix bug with question mark in image name, e.g. drag and drop 'x?y.jpg' into a blog folder.
 
 Fix bug with question mark in image path's name inside a markdown file, e.g. embed a file 'x?y.jpg' in a markdown file.
-
-Fix bugs with git removed / renamed file unit test on Travis
 
 Fix bug with makeTeaser for ~/Dropbox/bug.html which locks main process painfully
 
@@ -453,6 +450,7 @@ Increase price to $6 per month for new customers. This will not affect existing 
 Git client:
 - Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
 - Backdate existing commits (perhaps set file ctime using info from git log?) This would sidestep the frustration experienced by [Gavin](https://mail.google.com/mail/u/0/#inbox/1669a8e621f9ef37) when he imported an existing repository.
+- Fix bugs with git removed / renamed file unit test on Travis
 - Extend sync lock during long syncs
 - Write test to simulate process dying and restarting mid-pull. Does the client recover? What happens if a pull fails midway? Does git recover?
 - Write tests for a series of random client operations (pull, add, push, move, reset, delete) that can be seeded and reliably re-run in the case of failure.
@@ -543,8 +541,9 @@ Indicate that some posts' permalink will not change (if metadata) on the dashboa
 Add filtering by date to 404 log and [tell this person](https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca)
 
 Daily update email
-- Move generator from scripts to app folder such that the server no longer depends on anything in /scripts.
+- Move generator from scripts to app folder such that the server no longer depends on anything in /scripts
 - Allow configurable timezone for when I travel?
+- Write integration test
 
 If entries share publish date, sort them by blot creation date
 
