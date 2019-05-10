@@ -159,6 +159,7 @@ Improvements to brochure
 - Write new view renderer for express which would allow middleware like render_tex and would save templates to disk pre- mustache render but post minifyHTML.
 - Add integration tests for brochure site to test sign up flow
 - Create credits page listing the names of the people involved in all the open source software used by Blot
+- Add latest news item from footer
 - Clean up error messages in logs for public site
 - Personalize the documentation for logged in users
 - Add script to fetch 404s with interface to set up redirects 
