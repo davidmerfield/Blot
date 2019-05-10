@@ -26,13 +26,12 @@ function render($, callback) {
 function lacksZoomQuery(src) {
   var parsed;
 
-  try {
-    if (src.indexOf("?") === -1) return true;
+  if (src.indexOf("?") === -1) return true;
 
-    parsed = Url.parse(src);
+  parsed = Url.parse(src);
 
-    if (parsed && parsed.query && parsed.query.zoom === "false") return false;
-  } catch (e) {}
+  if (parsed && parsed.query && parsed.query.indexOf("zoom=false") > -1)
+    return false;
 
   return true;
 }
