@@ -4,6 +4,8 @@ Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftc
 
 Tell [this person](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af) that there is now documentation on how to mirror a repo to GitHub
 
+Follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f) about mirroring a site across multiple domains.
+
 ---
 
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
@@ -20,7 +22,6 @@ Re-instate disabled test for Blot's application server in tests/app
 
 Re-instate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
 - Move to UUIDs for blog identifiers
-- Can we incrementally move people over to check it works ok?
 
 Finish Archive template
 - Losslessly minify and resize images to reduce insanse folder size? (currently 600mb+)
@@ -37,7 +38,7 @@ Record new demo video
 
 Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
 
-Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
+Fix bug with handling of queries and tell [this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1).
 
 Fix Magazine template bugs
 - Fix text styling inside blockquotes and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
@@ -45,8 +46,6 @@ Fix Magazine template bugs
 
 Fix index template bugs
 - Footnote link styling is wonky and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
-
-Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
 
 Encoding bugs:
 - Fix bug with [double escaped embedded ampersands](http://gavin.blot.im/this-code-doesnt-work) then tell [Gavin](https://twitter.com/GavinHigham/status/1013161417472540672) and [Ryan](https://mail.google.com/mail/u/1/#inbox/165106e1180e78e4) [his](http://rtimmons.blot.im/member-function-dispatch) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCLkqPBsNsjbKhFrLsvWdjnC)
@@ -58,8 +57,6 @@ Encoding bugs:
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH)
 
 Investigate log-in issue. Does this only happen when I reboot the server? There's no reason sessions should expire any sooner than say after a week of inactivity. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
-
-Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
@@ -85,6 +82,14 @@ Markdown bugs
 - Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly.
 - Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
+--- 
+
+Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
+
+Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
+
+Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
+
 Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG)
 
 Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
@@ -93,13 +98,24 @@ Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwB
 
 Add new variable for last-build-time for a blog, and use this for <lastBuildDate> in the sites' RSS feeds. Tell [Shawn](https://twitter.com/soypunk)
 
-Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
-
-Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
+Improve 404 log page on Dashboard:
+- Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
+- Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
+- Add filtering by date to 404 log and [tell this person](https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca)
 
 Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB). I like [this style](https://status.sunsed.com/) (just a JSON response)
 
-Look into mirroring a site across multiple domains and follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
+Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
+
+Generate thumbnails for gifs and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBlghrTTLFFsKRqDvxkNNRJB)
+
+Add way to auto-refresh page during template development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
+
+Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
+
+Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
+
+Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3) and [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)and [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a).
 
 ---
 
@@ -140,6 +156,7 @@ Research state of static site generators:
 - https://www.staticgen.com/
 
 Improvements to brochure
+- Write new view renderer for express which would allow middleware like render_tex and would save templates to disk pre- mustache render but post minifyHTML.
 - Add integration tests for brochure site to test sign up flow
 - Create credits page listing the names of the people involved in all the open source software used by Blot
 - Clean up error messages in logs for public site
@@ -189,28 +206,18 @@ Fix bug with .emf files in Word Document and follow up with Todd. Can we convert
 
 Could we have multiple clients attached to one blog?
 
-
 Use the [--trace-sync-io command-line flag](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production) to determine if Blot is using any sync methods inappropriately
 
 Replace some of the assert() tests which run every time the server starts with Jasmine tests that run via ```npm test```.
 
 Generate list of external API dependencies and follow changes for each
 
-Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
-
-Generate thumbnails for gifs and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBlghrTTLFFsKRqDvxkNNRJB)
-
-Add way to auto-refresh page during template development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
-
-Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
-
-Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
-
 Finish re-write of template system
 - Add [titlecase](https://daringfireball.net/2008/05/title_case) helper function? 
 - Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) when you can safely toggle to local editing.
 - Add way to query list of posts using SQL? Something like [jsql](https://archive.codeplex.com/?p=jsql)
 - Local editing
+  - Allow download of templates as [zip](https://www.npmjs.com/package/adm-zip) of local contents on dashboard?
   - Ask to confirm, but remove files from blog folder when disabling local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
   - Read and write package.json for local editing, then tell [uncrtn](https://micro.blog/uncrtn/2196557), [Aurynn](https://mail.google.
@@ -235,23 +242,10 @@ and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVs
 - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760
 ) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
 
-Support 2FA (Two factor authentication)
-- Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
-- Tell [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)
-- Tell [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a)
-
 Subscription refactor
 - Add support for subscriptions via PayPal
 - Different payment methods per blog
 - Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
-
-Move to Linode?
-- Preserve AWS elastic IP and proxy to Linode
-- Think about eventual multiple locations around the world from day 1
-- Work out the [pricing model carefully](https://www.linode.com/pricing)
-- Use [blockstorage this for storing all users' folders](https://www.linode.com/blockstorage)
-- Use [backups](https://www.linode.com/backups)
-- Use [nodebalancers](https://www.linode.com/nodebalancers)
 
 Add nice import step under 'Services' and as part of sign up
 - Create importer script for [John's posts from flickr](https://mail.google.com/mail/u/0/#inbox/166da622325d19e7)
@@ -269,6 +263,14 @@ Improvements to backup system
 - Archive logfiles with backups and wipe on a rolling basis
 
 Create script to export Blot sites to common formats like Wordpress and let Roberto know
+
+Move to Linode?
+- Preserve AWS elastic IP and proxy to Linode
+- Think about eventual multiple locations around the world from day 1
+- Work out the [pricing model carefully](https://www.linode.com/pricing)
+- Use [blockstorage this for storing all users' folders](https://www.linode.com/blockstorage)
+- Use [backups](https://www.linode.com/backups)
+- Use [nodebalancers](https://www.linode.com/nodebalancers)
 
 ---
 
@@ -317,15 +319,11 @@ Add support for Micropub in Blot's API. Tell Amit.
 
 Add support for HTTPS on preview subdomains
 
-Allow download of templates as [zip](https://www.npmjs.com/package/adm-zip) of local contents on dashboard?
-
 Add an EXPIRY to the log entries for a blog's 404 log
 
 Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
 
 Set up [Dependabot](https://dependabot.com/) to automate dependency upgrade PRs
-
-Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally? More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
 
 Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389c18) about DataValet blocking
 
@@ -358,8 +356,10 @@ Transfer some of [Anders Norén's templates to Blot](https://www.andersnoren.se/
 - Tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/1564a13991197f63) don't write previews for _ posts
 - Add support for fetching only some properties of an entry (ideally only those that are used). prevent some properties from being fetched in some lists (html, for example in all_entries). Would be a good candidate for hgetall or hget?
 
-Dashboard
+Improvements to Dashboard
 - Add a broken link checker
+- Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally? More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
+- Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
 - Dumb quotes are still smartified, even without typeset enabled, possibly by pandoc?
 - Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
 - Undo option for form changes
@@ -521,14 +521,6 @@ Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 - [cool user subdomains](https://jsfiddle.net/ev2gLa87/)
 - [generating dope domain names](https://jsfiddle.net/91vwt7p0/)
 
-Handle queries properly https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1
-
-Giphy url support
-
-Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
-
-Add filtering by date to 404 log and [tell this person](https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca)
-
 Daily update email
 - Move generator from scripts to app folder such that the server no longer depends on anything in /scripts
 - Allow configurable timezone for when I travel?
@@ -542,13 +534,13 @@ Add option to enable hard line breaks in Markdown parser?
 
 Move all unit tests which run on server start (the helper folder is littered with these, CMD+F for 'require('assert') into CI tests.
 
-Incorporate typographic features from textile? http://redcloth.org/textile/phrase-modifiers/
+Incorporate typographic features from [Textile](http://redcloth.org/textile/phrase-modifiers/)? 
 
 Queue scheduled entries in redis somehow to make each server less stateful
 
 Re-enable CSP on blot site in a way that works in Safari
 
-Expose list of rendering errors
+Expose list of rendering errors on dashboard
 
 Push [archives feature](https://mail.google.com/mail/u/0/#inbox/14fb1a48c08fe9be)
 
@@ -566,11 +558,9 @@ Menu needs concurrency or atomic operations (so we can build posts in parallel)
 
 Investigate atompub support for Marsedit and tell Chet
 
-Look into how Jekyll does data files and possibly support?
+Look into how Jekyll does data files and possibly support
 
 Add .lhs support and tell Roy
-
-Internationalize i8n and tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971) and [Simon about French](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWSgnQswHnPkNBGvnGnPjGbZ)
 
 Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW)
 
@@ -581,3 +571,5 @@ Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.
 Consider allowing users to buy domains on Blot through [DNS simple](https://developer.dnsimple.com)
 
 Distribute static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
+
+Internationalize i8n and tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971) and [Simon about French](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWSgnQswHnPkNBGvnGnPjGbZ)
