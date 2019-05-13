@@ -1,7 +1,14 @@
+// The purpose of this module is to set up a number of symlinks between the blogs
+// folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. data/hosts/example.com
+// This is designed to allow NGINX to serve static content without a way to lookup the
+// blog by ID, and will take load off the Node.js server
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var async = require("async");
 var HOSTS = process.env.BLOT_DIRECTORY + "/data/hosts";
+
+if (!process.env.BLOT_DIRECTORY)
+  throw new Error("Please declare a BLOT_DIRECTORY environment variable");
 
 module.exports = function(blogID, add, remove, callback) {
   var blogFolder = localPath(blogID, "/").slice(0, -1);
