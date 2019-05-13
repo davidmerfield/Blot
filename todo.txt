@@ -1,5 +1,3 @@
-Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
-
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Add a photos page to [Gabriel's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLtjHvbXprzCbFGVhmWwbtsv)
