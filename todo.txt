@@ -1,13 +1,3 @@
-Tell [Chris](https://twitter.com/_chrisEde/status/1116173709717278720) that links to dashboard now redirect to log-in pages
-
-Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) I fixed all the broken links on the dashboard and set up an integration test to prevent them in future
-
-Tell [this person](https://mail.google.com/mail/u/1/#inbox/1658e28be94479af) that there is now documentation on how to mirror a repo to GitHub
-
-Follow up with [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f) about mirroring a site across multiple domains.
-
----
-
 Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
 
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
@@ -159,6 +149,7 @@ Improvements to brochure
 - Write new view renderer for express which would allow middleware like render_tex and would save templates to disk pre- mustache render but post minifyHTML.
 - Add integration tests for brochure site to test sign up flow
 - Create credits page listing the names of the people involved in all the open source software used by Blot
+- Add latest news item from footer
 - Clean up error messages in logs for public site
 - Personalize the documentation for logged in users
 - Add script to fetch 404s with interface to set up redirects 

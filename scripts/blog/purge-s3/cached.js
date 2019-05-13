@@ -20,7 +20,7 @@ function main(blog, callback) {
       async.eachOfSeries(
         entry,
         function(value, property, next) {
-          if (["html", "body", "teaser", "teaserBody"].indexOf(property) === -1)
+          if (["html", "body", "teaser", "teaserBody", "titleTag"].indexOf(property) === -1)
             return next();
 
           var urls = [];

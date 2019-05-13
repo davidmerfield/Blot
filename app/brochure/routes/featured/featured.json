@@ -40,6 +40,14 @@
     "favicon": "/images/featured/www.tillmanjex.info.png"
   },
   {
+    "link": "https://www.withbb.com",
+    "host": "www.withbb.com",
+    "name": "Bibi Zhang",
+    "firstName": "Bibi",
+    "bio": " is a designer from Beijing",
+    "favicon": "/images/featured/www.withbb.com.jpg"
+  },
+  {
     "link": "https://blog.andrewjanjigian.com",
     "host": "blog.andrewjanjigian.com",
     "name": "Andrew Janjigian",
@@ -78,6 +86,14 @@
     "firstName": "Nicola",
     "bio": " is a web developer from Berlin",
     "favicon": "/images/featured/www.inextenso.dev.jpg"
+  },
+  {
+    "link": "https://www.andrew-bishop.com",
+    "host": "www.andrew-bishop.com",
+    "name": "Andrew Bishop",
+    "firstName": "Andrew",
+    "bio": " is an artist and writer living in San Francisco",
+    "favicon": "/images/featured/www.andrew-bishop.com.jpg"
   },
   {
     "link": "https://bitdepth.org",

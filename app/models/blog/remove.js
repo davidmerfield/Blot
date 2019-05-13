@@ -6,10 +6,13 @@ var async = require("async");
 var client = require("client");
 var START_CURSOR = "0";
 var SCAN_SIZE = 1000;
+var symlinks = require("./symlinks");
+var config = require("config");
+var BackupDomain = require("./util/backupDomain");
 
 module.exports = function(blogID, callback) {
-
   var multi = client.multi();
+  var symlinksToRemove = [];
 
   ensure(blogID, "string").and(callback, "function");
 
@@ -21,7 +24,16 @@ module.exports = function(blogID, callback) {
     var remove = ["template:owned_by:" + blogID, "handle:" + blog.handle];
 
     // TODO ALSO remove alternate key with/out 'www', e.g. www.example.com
-    if (blog.domain) remove.push("domain:" + blog.domain);
+    if (blog.domain) {
+      symlinksToRemove.push(blog.domain);
+      symlinksToRemove.push(BackupDomain(blog.domain));
+      remove.push("domain:" + blog.domain);
+      remove.push("domain:" + BackupDomain(blog.domain));
+    }
+
+    if (blog.handle) {
+      symlinksToRemove.push(blog.handle + "." + config.host);
+    }
 
     async.each(
       patterns,
@@ -46,7 +58,10 @@ module.exports = function(blogID, callback) {
       function() {
         multi.del(remove);
         multi.srem(key.ids, blogID);
-        multi.exec(callback);
+        multi.exec(function(err) {
+          if (err) return callback(err);
+          symlinks(blogID, [], symlinksToRemove, callback);
+        });
       }
     );
   });
