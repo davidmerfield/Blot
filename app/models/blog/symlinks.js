@@ -6,14 +6,16 @@
 // We make sure to remove symlinks when deleting a blog or renaming its hosts
 // e.g. handle or custom domain
 
+if (!process.env.BLOT_DIRECTORY)
+  throw new Error("Please declare a BLOT_DIRECTORY environment variable");
+
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var async = require("async");
 var HOSTS = process.env.BLOT_DIRECTORY + "/data/hosts";
 
-if (!process.env.BLOT_DIRECTORY)
-  throw new Error("Please declare a BLOT_DIRECTORY environment variable");
-
+// add and remove should be a list of hosts, e.g.
+// ['example.blot.im', 'example.com']
 module.exports = function(blogID, add, remove, callback) {
   var blogFolder = localPath(blogID, "/").slice(0, -1);
   var staticFolder = process.env.BLOT_DIRECTORY + "/static/" + blogID;
