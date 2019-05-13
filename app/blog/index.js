@@ -2,7 +2,7 @@ var renderView = require("./render/middleware");
 var express = require("express");
 var config = require("config");
 var compression = require("compression");
-var cache = require("express-disk-cache")(config.cache_directory);
+var cache = require("helper")["express-disk-cache"](config.cache_directory);
 var Template = require("template");
 
 // This serves the content
@@ -14,7 +14,7 @@ var blog = express();
 blog
   .disable("x-powered-by")
   .use(compression())
-  .use('/static', require('./static'))
+  .use("/static", require("./static"))
   .use(require("./vhosts"))
   .use(require("./add")());
 

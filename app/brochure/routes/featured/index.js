@@ -9,8 +9,7 @@ var schedule = require("node-schedule").scheduleJob;
 var filter = require("./filter");
 var config = require("config");
 
-var Cache = require("express-disk-cache");
-var cache = new Cache(config.cache_directory);
+var cache = require("helper")["express-disk-cache"](config.cache_directory);
 
 var featured = require("./featured.json");
 

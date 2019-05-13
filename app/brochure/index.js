@@ -2,8 +2,7 @@ var config = require("config");
 var Express = require("express");
 var brochure = new Express();
 var hbs = require("hbs");
-var Cache = require("express-disk-cache");
-var cache = new Cache(config.cache_directory);
+var cache = require("helper")["express-disk-cache"](config.cache_directory);
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");

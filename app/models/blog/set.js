@@ -8,7 +8,8 @@ var get = require("./get");
 var serial = require("./serial");
 var client = require("client");
 var config = require("config");
-var flush = require("express-disk-cache")(config.cache_directory).flush;
+var flush = require("helper")["express-disk-cache"](config.cache_directory)
+  .flush;
 var async = require("async");
 
 function Changes(latest, former) {

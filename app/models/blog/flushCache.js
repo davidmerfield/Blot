@@ -1,5 +1,6 @@
 var config = require("config");
-var flush = require("express-disk-cache")(config.cache_directory).flush;
+var flush = require("helper")["express-disk-cache"](config.cache_directory)
+  .flush;
 var get = require("./get");
 
 // This empties the cache for a blog by emptying the cache
