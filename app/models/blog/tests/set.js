@@ -16,12 +16,9 @@ describe("Blog.set", function() {
 
       var domainFolder = HOSTS + "/" + domain + "/folder";
       var backupDomainFolder = HOSTS + "/www." + domain + "/folder";
-      var handleFolder =
-        HOSTS + "/" + test.blog.handle + "." + config.host + "/folder";
 
       expect(fs.realpathSync(domainFolder)).toEqual(test.blogDirectory);
       expect(fs.realpathSync(backupDomainFolder)).toEqual(test.blogDirectory);
-      expect(fs.realpathSync(handleFolder)).toEqual(test.blogDirectory);
 
       done();
     });
