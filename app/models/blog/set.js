@@ -11,6 +11,7 @@ var config = require("config");
 var flush = require("express-disk-cache")(config.cache_directory).flush;
 var async = require("async");
 var symlinks = require("./symlinks");
+var BackupDomain = require("./util/backupDomain");
 
 function Changes(latest, former) {
   var changes = {};
@@ -90,10 +91,7 @@ module.exports = function(blogID, blog, callback) {
         // a good deal of frustration and confusion on the part of
         // Blot's customers. So it will remain for now.
         if (former.domain) {
-          formerBackupDomain =
-            former.domain.indexOf("www.") === -1
-              ? "www." + former.domain
-              : former.domain.slice("www.".length);
+          formerBackupDomain = BackupDomain(former.domain);
           multi.del(key.domain(former.domain));
           multi.del(key.domain(formerBackupDomain));
           symlinksToRemove.push(former.domain);
@@ -110,15 +108,12 @@ module.exports = function(blogID, blog, callback) {
         // from www.example.com to example.com on the dashboard
         // we don't accidentally delete the new settings.
         if (latest.domain) {
-          backupDomain =
-            latest.domain.indexOf("www.") === -1
-              ? "www." + latest.domain
-              : latest.domain.slice("www.".length);
+          backupDomain = BackupDomain(latest.domain);
           multi.set(key.domain(latest.domain), blogID);
           multi.set(key.domain(backupDomain), blogID);
 
-          symlinksToAdd(backupDomain);
-          symlinksToAdd(latest.domain);
+          symlinksToAdd.push(backupDomain);
+          symlinksToAdd.push(latest.domain);
 
           // We want to flush the cache directory for the new domain
           // just in case there is something there. There shouldn't be.
