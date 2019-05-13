@@ -2,6 +2,10 @@
 // folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. data/hosts/example.com
 // This is designed to allow NGINX to serve static content without a way to lookup the
 // blog by ID, and will take load off the Node.js server
+
+// We make sure to remove symlinks when deleting a blog or renaming its hosts
+// e.g. handle or custom domain
+
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var async = require("async");
