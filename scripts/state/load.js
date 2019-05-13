@@ -6,6 +6,7 @@ var redis = require("redis");
 
 var ROOT = process.env.BLOT_DIRECTORY;
 
+var DATA_DIRECTORY = ROOT + "/data";
 var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";
 var GIT_CLIENTS_DATA = ROOT + "/app/clients/git/data";
 var STATIC_FILES_DIRECTORY = ROOT + "/static";
@@ -20,6 +21,10 @@ function main(label, callback) {
 
   loadDB(directory, function(err) {
     if (err) return callback(err);
+
+    fs.emptyDirSync(DATA_DIRECTORY);
+    fs.ensureDirSync(directory + "/data");
+    fs.copySync(directory + "/data", DATA_DIRECTORY);
 
     fs.emptyDirSync(BLOG_FOLDERS_DIRECTORY);
     fs.ensureDirSync(directory + "/blogs");
