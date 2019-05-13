@@ -14,7 +14,7 @@ Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox
 - Move to UUIDs for blog identifiers
 
 Finish Archive template
-- Losslessly minify and resize images to reduce insanse folder size? (currently 600mb+)
+- Losslessly minify and resize images to reduce insane folder size? (currently 600mb+)
 
 Finish Feed template
 - Create folder with public domain material
