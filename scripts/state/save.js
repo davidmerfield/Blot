@@ -15,6 +15,7 @@ var moment = require("moment");
 var ROOT = helper.rootDir;
 
 var ACTIVE_DATABASE_DUMP = ROOT + "/db/dump.rdb";
+var DATA_DIRECTORY = ROOT + "/data";
 var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";
 var GIT_CLIENTS_DATA = ROOT + "/app/clients/git/data";
 var STATIC_FILES_DIRECTORY = ROOT + "/static";
@@ -37,6 +38,9 @@ function main(label, description, callback) {
       [
         function(done) {
           fs.emptyDirSync(directory);
+
+          fs.ensureDirSync(DATA_DIRECTORY);
+          fs.copySync(DATA_DIRECTORY, directory + "/data");
 
           fs.ensureDirSync(GIT_CLIENTS_DATA);
           fs.copySync(GIT_CLIENTS_DATA, directory + "/git");
