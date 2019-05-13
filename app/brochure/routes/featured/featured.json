@@ -1,11 +1,11 @@
 [
   {
-    "link": "https://www.tillmanjex.info",
-    "host": "www.tillmanjex.info",
-    "name": "Tillman Jex",
-    "firstName": "Tillman",
-    "bio": " is a composer based in Berlin",
-    "favicon": "/images/featured/www.tillmanjex.info.png"
+    "link": "https://zacharykeeting.com",
+    "host": "zacharykeeting.com",
+    "name": "Zachary Keeting",
+    "firstName": "Zachary",
+    "bio": " is an artist based in New Haven, Connecticut",
+    "favicon": "/images/featured/zacharykeeting.com.png"
   },
   {
     "link": "https://www.dmatthams.co.uk",
@@ -16,12 +16,36 @@
     "favicon": "/images/featured/www.dmatthams.co.uk.png"
   },
   {
-    "link": "https://photos.rachelpietraszek.com",
-    "host": "photos.rachelpietraszek.com",
-    "name": "Rachel Pietraszek",
-    "firstName": "Rachel",
-    "bio": " is a lawyer based in Toronto",
-    "favicon": "/images/featured/photos.rachelpietraszek.com.jpg"
+    "link": "https://www.souloftheimage.com",
+    "host": "www.souloftheimage.com",
+    "name": "Kimberly Evans",
+    "firstName": "Kimberly",
+    "bio": " is a photographer and writer from Los Angeles",
+    "favicon": "/images/featured/www.souloftheimage.com.jpg"
+  },
+  {
+    "link": "https://www.skincarriedaway.com",
+    "host": "www.skincarriedaway.com",
+    "name": "Tiffany Cecilia",
+    "firstName": "Tiffany",
+    "bio": " writes about skincare from San Francisco",
+    "favicon": "/images/featured/www.skincarriedaway.com.jpg"
+  },
+  {
+    "link": "https://www.tillmanjex.info",
+    "host": "www.tillmanjex.info",
+    "name": "Tillman Jex",
+    "firstName": "Tillman",
+    "bio": " is a composer based in Berlin",
+    "favicon": "/images/featured/www.tillmanjex.info.png"
+  },
+  {
+    "link": "https://www.withbb.com",
+    "host": "www.withbb.com",
+    "name": "Bibi Zhang",
+    "firstName": "Bibi",
+    "bio": " is a designer from Beijing",
+    "favicon": "/images/featured/www.withbb.com.jpg"
   },
   {
     "link": "https://blog.andrewjanjigian.com",
@@ -56,12 +80,36 @@
     "favicon": "/images/featured/com.johnbeeler.com.jpg"
   },
   {
+    "link": "https://www.inextenso.dev",
+    "host": "www.inextenso.dev",
+    "name": "Nicola Zanon",
+    "firstName": "Nicola",
+    "bio": " is a web developer from Berlin",
+    "favicon": "/images/featured/www.inextenso.dev.jpg"
+  },
+  {
+    "link": "https://www.andrew-bishop.com",
+    "host": "www.andrew-bishop.com",
+    "name": "Andrew Bishop",
+    "firstName": "Andrew",
+    "bio": " is an artist and writer living in San Francisco",
+    "favicon": "/images/featured/www.andrew-bishop.com.jpg"
+  },
+  {
     "link": "https://bitdepth.org",
     "host": "bitdepth.org",
     "name": "Chris Campbell",
     "firstName": "Chris",
     "bio": " is a filmmaker based in Nova Scotia",
     "favicon": "/images/featured/bitdepth.org.jpg"
+  },
+  {
+    "link": "https://discombobulated.co.nz",
+    "host": "discombobulated.co.nz",
+    "name": "Jessica Nickelsen",
+    "firstName": "Jessica",
+    "bio": " is a writer from New Zealand",
+    "favicon": "/images/featured/discombobulated.co.nz.jpg"
   },
   {
     "link": "https://www.matthewbattles.org",
@@ -86,14 +134,6 @@
     "firstName": "Aurynn",
     "bio": " is a writer and engineer from New Zealand",
     "favicon": "/images/featured/blog.aurynn.com.jpg"
-  },
-  {
-    "link": "https://www.skincarriedaway.com",
-    "host": "www.skincarriedaway.com",
-    "name": "Tiffany Cecilia",
-    "firstName": "Tiffany",
-    "bio": " writes about skincare from San Francisco",
-    "favicon": "/images/featured/www.skincarriedaway.com.jpg"
   },
   {
     "link": "https://www.kristianhjelle.com",
@@ -128,6 +168,14 @@
     "favicon": "/images/featured/john.pavlusoffice.com.jpg"
   },
   {
+    "link": "https://photos.rachelpietraszek.com",
+    "host": "photos.rachelpietraszek.com",
+    "name": "Rachel Pietraszek",
+    "firstName": "Rachel",
+    "bio": " is a lawyer based in Toronto",
+    "favicon": "/images/featured/photos.rachelpietraszek.com.jpg"
+  },
+  {
     "link": "https://iiiiiiiii.in",
     "host": "iiiiiiiii.in",
     "name": "Ishtaarth Dalmia",
@@ -148,7 +196,7 @@
     "host": "www.failuretolerated.com",
     "name": "Sean McCoy",
     "firstName": "Sean",
-    "bio": " is a game designer from Dallas Texas",
+    "bio": " is a game designer from Dallas, Texas",
     "favicon": "/images/featured/www.failuretolerated.com.jpg"
   },
   {
@@ -172,7 +220,7 @@
     "host": "eli.li",
     "name": "Eli Mellen",
     "firstName": "Eli",
-    "bio": " is a web developer based in Portland Maine",
+    "bio": " is a web developer based in Portland, Maine",
     "favicon": "/images/featured/eli.li.jpg"
   },
   {
@@ -204,7 +252,7 @@
     "host": "diary.craigwhite.nyc",
     "name": "Craig White",
     "firstName": "Craig",
-    "bio": " is a visual artist based in Harlem New York",
+    "bio": " is a visual artist based in Harlem, New York",
     "favicon": "/images/featured/diary.craigwhite.nyc.jpg"
   },
   {
@@ -280,19 +328,11 @@
     "favicon": "/images/featured/www.enzel.io.jpg"
   },
   {
-    "link": "https://journal.cheribaker.com",
-    "host": "journal.cheribaker.com",
-    "name": "Cheri Baker",
-    "firstName": "Cheri",
-    "bio": " is a writer based in Seattle",
-    "favicon": "/images/featured/journal.cheribaker.com.jpg"
-  },
-  {
     "link": "https://blog.amitgawande.com",
     "host": "blog.amitgawande.com",
     "name": "Amit Gawande",
     "firstName": "Amit",
-    "bio": " is software developer based in Pune India",
+    "bio": " is software developer based in Pune, India",
     "favicon": "/images/featured/blog.amitgawande.com.jpg"
   },
   {
@@ -300,7 +340,7 @@
     "host": "www.crossingthethreshold.net",
     "name": "David Johnson",
     "firstName": "David",
-    "bio": " is a life coach in Maui Hawaii",
+    "bio": " is a life coach in Maui, Hawaii",
     "favicon": "/images/featured/www.crossingthethreshold.net.jpg"
   },
   {
@@ -336,27 +376,11 @@
     "favicon": "/images/featured/afc.letterspace.org.jpg"
   },
   {
-    "link": "https://discombobulated.co.nz",
-    "host": "discombobulated.co.nz",
-    "name": "Jessica Nickelsen",
-    "firstName": "Jessica",
-    "bio": " is a writer from New Zealand",
-    "favicon": "/images/featured/discombobulated.co.nz.jpg"
-  },
-  {
     "link": "https://blog.tomwhite.io",
     "host": "blog.tomwhite.io",
     "name": "Thomas White",
     "firstName": "Thomas",
     "bio": " is a biologist at the University of Sydney",
     "favicon": "/images/featured/blog.tomwhite.io.jpg"
-  },
-  {
-    "link": "https://zacharykeeting.com",
-    "host": "zacharykeeting.com",
-    "name": "Zachary Keeting is an artist based in New Haven",
-    "firstName": "Zachary",
-    "bio": " Connecticut",
-    "favicon": "/images/featured/zacharykeeting.com.png"
   }
 ]

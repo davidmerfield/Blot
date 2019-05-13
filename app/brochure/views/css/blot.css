@@ -68,14 +68,16 @@ mark {
 
 content p a,
 content li a,
-content table a {
+content table a,
+content details a {
   color: #005eb8;
   text-decoration: underline;
 }
 
 content p a:focus,
 content li a:focus,
-content table a:focus {
+content table a:focus,
+content details a:focus {
   background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
   color: #444;
@@ -86,7 +88,8 @@ content table a:focus {
 
 content p a:hover,
 content li a:hover,
-content table a:hover {
+content table a:hover,
+content details a:hover {
   background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
   text-decoration: underline;

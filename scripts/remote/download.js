@@ -1,63 +1,38 @@
-var helper =  require('../../app/helper');
-var mkdirp = helper.mkdirp;
-var HOST = require('./host');
+var fs = require("fs-extra");
+var dirname = require("path").dirname;
+var exec = require("child_process").exec;
 
-var localRoot = helper.rootDir;
-var remoteRoot = require('./root');
+var REMOTE_ROOT = require("./root");
+var LOCAL_ROOT = require("helper").rootDir;
 
-var dirname = require('path').dirname;
-var basename = require('path').basename;
-
-require('shelljs/global');
-
-function inside (dir, root) {
-
-  if (dir.indexOf(root) !== 0) {
-    console.log('Root:', root);
-    console.log('Dir:', dir);
-    throw 'Directory is not inside the root';
-  }
+if (require.main === module) {
+  download(process.argv[2], process.argv[3], function(err) {
+    if (err) throw err;
+    process.exit();
+  });
 }
 
-module.exports = function (remotePath, localPath, callback, options) {
+function download(remotePath, localPath, callback) {
+  var COMMAND =
+    "rsync -v --progress -e ssh blot:" + remotePath + " " + localPath;
 
-  callback = callback || function(err) {console.log(err)};
-  options = options || {};
+  if (remotePath.indexOf(REMOTE_ROOT) !== 0)
+    return callback(new Error(remotePath + " must be inside " + REMOTE_ROOT));
 
-  var progress = '--progress';
+  if (localPath.indexOf(LOCAL_ROOT) !== 0)
+    return callback(new Error(localPath + " must be inside " + LOCAL_ROOT));
 
-  var localDir = dirname(localPath);
-  var localName = basename(localPath);
+  fs.ensureDirSync(dirname(localPath));
 
-  var remoteDir = dirname(remotePath);
-  var remoteName = basename(remotePath);
+  var rsync = exec(COMMAND);
 
-  var prettyRemote = remotePath.slice(remoteRoot.length);
-  var prettyLocal = localPath.slice(localRoot.length);
+  rsync.stdout.pipe(process.stdout);
 
-  inside(localDir, localRoot);
-  inside(remoteDir, remoteRoot);
+  rsync.on("close", function(err) {
+    if (err) return callback(err);
 
-  if (!options.silent)
-    console.log('Downloading ', prettyRemote, 'to' , prettyLocal);
-
-  mkdirp(localDir, function(err){
-
-    if (err) throw err;
-
-    exec('rsync -v ' + progress + ' -e ssh blot:' + remotePath + ' ' + localDir, options, function(code, stdout, stderr){
-
-      if (code) return callback(code + stdout + stderr);
-
-      if (localName === remoteName)
-        return callback(null, stdout);
-
-      exec('mv ' + localDir + '/' + remoteName + ' ' + localDir + '/' + localName, options, function(code, stdout, stderr){
-
-        if (code) return callback(code + stdout + stderr);
-
-        callback(null, stdout);
-      });
-    });
+    callback();
   });
-};
+}
+
+module.exports = download;
