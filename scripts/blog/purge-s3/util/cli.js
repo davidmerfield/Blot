@@ -11,7 +11,8 @@ function startMessage(blog) {
     colors.dim("\nBlog: " + blog.id) +
     colors.yellow(" https://" + blog.handle + "." + config.host) +
     " Processing..."
-  );}
+  );
+}
 
 function endMessage(blog) {
   return (
@@ -22,17 +23,23 @@ function endMessage(blog) {
 }
 
 module.exports = function(main, options) {
+  var results = {};
+
   function cb(err) {
     if (err) throw err;
     console.log("Finished!");
+    for (var blogID in results) console.log("\n\nBlog: " + blogID, results[blogID]);
+
     process.exit();
   }
 
   if (process.argv[2]) {
     get(process.argv[2], function(err, user, blog) {
       console.log(startMessage(blog));
-      main(blog, function(err) {
+      main(blog, function(err, res) {
         if (err) return cb(err);
+
+        if (res && res.length) results[blog.id] = res;
 
         console.log(endMessage(blog));
         cb();
@@ -45,8 +52,10 @@ module.exports = function(main, options) {
         function(blogID, next) {
           Blog.get({ id: blogID }, function(err, blog) {
             console.log(startMessage(blog));
-            main(blog, function(err) {
+            main(blog, function(err, res) {
               if (err) return next(err);
+
+        if (res && res.length) results[blog.id] = res;
 
               if (options && options.skipAsk) {
                 console.log(endMessage(blog));
