@@ -26,4 +26,24 @@ describe("Blog.set", function() {
       done();
     });
   });
+
+  it("will clean up old symlink when you change handle", function(done) {
+    var test = this;
+    var handle = "exampleABC";
+    var newHandleFolder = HOSTS + "/" + handle + "." + config.host + "/folder";
+    var handleFolder =
+      HOSTS + "/" + test.blog.handle + "." + config.host + "/folder";
+
+    expect(fs.existsSync(newHandleFolder)).toEqual(false);
+    expect(fs.realpathSync(handleFolder)).toEqual(test.blogDirectory);
+
+    set(test.blog.id, { handle: handle }, function(err) {
+      if (err) return done.fail(err);
+
+      expect(fs.existsSync(handleFolder)).toEqual(false);
+      expect(fs.realpathSync(newHandleFolder)).toEqual(test.blogDirectory);
+
+      done();
+    });
+  });
 });
