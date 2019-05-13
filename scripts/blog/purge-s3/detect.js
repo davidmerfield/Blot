@@ -36,6 +36,8 @@ function main(blog, callback) {
             for (var y in entry)
               if (entry[y].toString().indexOf(CDN) > -1) listInEntry.push(y);
 
+            if (!listInEntry.length) console.log(entry);
+            
             matches.push(
               blog.handle +
                 " " +
