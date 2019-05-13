@@ -127,6 +127,4 @@ function canGZIP (path) {
   return shouldGZIP.indexOf(extname(path).toLowerCase()) > -1;
 }
 
-upload.removeFolder = require('./removeFolder');
-
 module.exports = upload;
