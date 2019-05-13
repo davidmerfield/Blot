@@ -29,6 +29,7 @@ if (config.cache === false) {
 // partials/layout is replaced with the view passed to
 // res.render(). You can modify this in the route if needed.
 brochure.locals.layout = "layout";
+brochure.locals.cacheID = Date.now();
 
 // Default page title and <meta> description
 brochure.locals.title = "Blot – A blogging platform with no interface.";
@@ -58,6 +59,11 @@ brochure.use(
     // maxAge: 86400000
   })
 );
+
+// Redirect user to dashboard for these links
+brochure.use(["/account", "/settings"], function(req, res, next) {
+  return res.redirect("/log-in?then=" + req.originalUrl);
+});
 
 // Missing page
 brochure.use(function(req, res, next) {

@@ -11,17 +11,17 @@ var config = require("config");
 var client = require("client");
 
 news.get("/", loadDone, loadToDo, function(req, res) {
-  res.locals.title = "Blot / News";
+  res.locals.title = "Blot - News";
   res.render("news");
 });
 
 news.get("/archive", function(req, res) {
-  res.locals.title = "Blot / News";
+  res.locals.title = "Blot - News";
   res.render("news/archive");
 });
 
 news.get("/archive/:letter", function(req, res) {
-  res.locals.title = "Blot / News";
+  res.locals.title = "Blot - News";
   res.render("news/archive");
 });
 
@@ -225,9 +225,28 @@ function loadDone(req, res, next) {
 
         message = message[0].toUpperCase() + message.slice(1);
 
-        // Ignore changes to TODO file, pull request and branch merges, and messages with URLS
-        if (message.indexOf("Merge pull request") === 0) return;
-        if (message.indexOf("Merge branch") === 0) return;
+        // Ignores merge commits since they're not useful to readers
+        if (
+          message
+            .split(" ")
+            .join("")
+            .toLowerCase()
+            .indexOf("merge") > -1
+        )
+          return;
+
+        // Ignores commits mentioning 'commit' since they're not useful to readers
+        if (
+          message
+            .split(" ")
+            .join("")
+            .toLowerCase()
+            .indexOf("commit") > -1
+        )
+          return;
+
+
+        // Ignores commits to todo file since there are so many of them
         if (
           message
             .split(" ")
@@ -236,6 +255,8 @@ function loadDone(req, res, next) {
             .indexOf("todo") > -1
         )
           return;
+
+        // Ignores commits with links since they're ugly
         if (
           message
             .split(" ")

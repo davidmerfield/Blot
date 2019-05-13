@@ -1,17 +1,18 @@
-<h1>Create a page showing all the posts with a tag</h1>
+<h1>A page with posts with a particular tag</h1>
 
-<p>Let's say you want to create a page on your site which shows all the posts tagged 'Apple'.</p>
+<p>Let's say you want to create a page on your site which shows all the posts tagged 'Apple'. Create a new template with the follow content:</p>
 
-<pre>
+<pre class="code html">
 <html>
 <head><title>Your blog</title></head>
 <body>
-  {{#allEntries}}
-  {{#tagged.Apple}}
+  \{{#allEntries}}
+  \{{#tagged.Apple}}
 
+  <p><a href="\{{{url}}}">\{{title}}</a></p>
 
-  {{/tagged.Apple}}
-  {{/allEntries}}
+  \{{/tagged.Apple}}
+  \{{/allEntries}}
 </body>
 </html>
 </pre>

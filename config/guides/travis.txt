@@ -1,0 +1,10 @@
+
+
+Issue with build script:
+
+1. I configured Travis to cache the node_modules directory
+2. I added a setup script to the Travis configuration which ran before dependencies were installed. This setup script should have failed on a clean, uncached build but didn't because the node_modules directory was cached.
+3. Wait a few months, write code merrily, all builds succeed because of the cached dependencies
+4. I add a new dependency, Travis resets the node_modules cache (as it should) and now none of my builds pass on any branch, because of the setup script.
+5. I email you, confused about why my builds are breaking.
+6. I review the error messages and Travis configuration, realize I need to run the setup script after dependencies are installed, so I move it to the before_script block.

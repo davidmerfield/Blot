@@ -12,11 +12,17 @@ var uuid = require("uuid/v4");
 var join = require("path").join;
 var debug = require("debug")("entry:build:plugins:image");
 
+
+// Only cache images with the following file extensions
+// We only resize and optimize JPG and PNG.
+var EXTENSION_WHITELIST = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
+
 module.exports = function(blogID) {
   return function(path, _callback) {
     // Extnames can sometimes be uppercase, we want to ensure that
     // this will work on case-sensitive file systems so we lowercase it...
-    var name = uuid() + extname(path).toLowerCase();
+    var extension = extname(path).toLowerCase();
+    var name = uuid() + extension;
     var finalPath = join(
       config.blog_static_files_dir,
       blogID,
@@ -42,6 +48,11 @@ module.exports = function(blogID) {
         _callback(err, info);
       });
     };
+
+    if (EXTENSION_WHITELIST.indexOf(extension) === -1)
+      return callback(
+        new Error("Image does not have an extension we can cache.")
+      );
 
     debug("Copying", path, "to", finalPath);
     fs.copy(path, finalPath, function(err) {

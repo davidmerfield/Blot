@@ -1,23 +1,25 @@
-{{^error}}
-<p>Welcome back! Please enter your email address below. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble.</p>
-{{/error}}
+{{^error}}<p>Welcome back! Please don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble logging in for any reason.</p>{{/error}}
 
 {{#BADTOKEN}}
-<p class="error">This link has expired or had already been clicked. Please try again or <a href="/contact">contact me</a> if you’re having trouble.</p>
+<p class="error">This link has expired or had already been clicked. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
 {{/BADTOKEN}}
 
 {{#BADEMAIL}}
-<p class="error">This email address does not match a Blot account.  Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble.</p>
+<p class="error">That email address did not match a Blot account. Please <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
 {{/BADEMAIL}}
 
 {{#NOEMAIL}}
-<p class="error">Please enter your email address. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble.</p>
+<p class="error">Please enter your email address. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
 {{/NOEMAIL}}
 
 <form method="POST">
   <p>
     <label for="email">Your email address</label>
     <input name="email" type="text" autofocus />
+  </p>
+  <p>
+    <label for="password" >Password</label>
+    <input name="password" type="password" />
   </p>
   <input type="submit" value="Log in" />
 </form>
