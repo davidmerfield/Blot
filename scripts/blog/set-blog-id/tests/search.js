@@ -57,6 +57,8 @@ function main(string, callback) {
               hashSearch(string, keys, result, next);
             } else if (type === "set") {
               setSearch(string, keys, result, next);
+            } else if (type === "zset") {
+              sortedSetSearch(string, keys, result, next);
             } else {
               next(new Error("No handlers for strings of type: " + type));
             }
@@ -125,6 +127,26 @@ function setSearch(string, keys, result, callback) {
         members.forEach(function(member) {
           if (member.indexOf(string) > -1)
             result.push({ key: key, type: "SET", value: member });
+        });
+
+        next();
+      });
+    },
+    callback
+  );
+}
+
+function sortedSetSearch(string, keys, result, callback) {
+  async.each(
+    keys,
+    function(key, next) {
+      client.zrange(key, 0, -1, function(err, members) {
+        if (err) return next(err);
+        if (!members) return next();
+        
+        members.forEach(function(member) {
+          if (member.indexOf(string) > -1)
+            result.push({ key: key, type: "ZSET", value: member });
         });
 
         next();

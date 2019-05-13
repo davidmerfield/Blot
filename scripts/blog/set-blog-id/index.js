@@ -8,7 +8,7 @@ var renameKeys = require("./renameKeys");
 var renameTemplateIDs = require("./renameTemplateIDs");
 var renameTransformerIDs = require("./renameTransformerIDs");
 var moveDirectories = require("./moveDirectories");
-var generateID = require('../../../app/models/blog/generateID');
+var generateID = require("../../../app/models/blog/generateID");
 
 if (require.main === module) {
   var oldBlogID = process.argv[2];
@@ -43,22 +43,23 @@ function main(oldBlogID, newBlogID, callback) {
         debug("Updating list of blogs associated with user", oldBlog.owner);
         updateUser(oldBlog.owner, oldBlogID, newBlogID, function(err) {
           if (err) return callback(err);
-
-          debug("Updating property of blogs with new ID", oldBlog.owner);
-          updateBlog(oldBlog, newBlogID, function(err) {
+          
+          debug("Moving blog and static directories for", oldBlogID);
+          moveDirectories(oldBlogID, newBlogID, function(err) {
             if (err) return callback(err);
 
-            debug("Renaming old template IDs for", oldBlogID);
-            renameTemplateIDs(oldBlog, newBlogID, function(err) {
+            debug("Updating property of blogs with new ID", oldBlog.owner);
+            updateBlog(oldBlog, newBlogID, function(err) {
               if (err) return callback(err);
 
-              debug("Renaming Transformer stores for", oldBlogID);
-              renameTransformerIDs(oldBlog, newBlogID, function(err) {
+              debug("Renaming old template IDs for", oldBlogID);
+              renameTemplateIDs(oldBlog, newBlogID, function(err) {
                 if (err) return callback(err);
 
-                debug("Moving blog and static directories for", oldBlogID);
-                moveDirectories(oldBlogID, newBlogID, function(err) {
+                debug("Renaming Transformer stores for", oldBlogID);
+                renameTransformerIDs(oldBlog, newBlogID, function(err) {
                   if (err) return callback(err);
+
                   callback();
                 });
               });
