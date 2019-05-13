@@ -26,7 +26,7 @@ describe("Blog.set", function() {
 
   it("will clean up old symlink when you change handle", function(done) {
     var test = this;
-    var handle = "exampleABC";
+    var handle = "exampleabc";
     var newHandleFolder = HOSTS + "/" + handle + "." + config.host + "/folder";
     var handleFolder =
       HOSTS + "/" + test.blog.handle + "." + config.host + "/folder";
