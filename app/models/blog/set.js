@@ -10,6 +10,7 @@ var client = require("client");
 var config = require("config");
 var flush = require("express-disk-cache")(config.cache_directory).flush;
 var async = require("async");
+var symlinks = require("./symlinks");
 
 function Changes(latest, former) {
   var changes = {};
@@ -26,6 +27,8 @@ module.exports = function(blogID, blog, callback) {
 
   var multi = client.multi();
   var formerBackupDomain, changes, hosts, backupDomain;
+  var symlinksToAdd = [];
+  var symlinksToRemove = [];
 
   validate(blogID, blog, function(errors, latest) {
     if (errors) return callback(errors);
@@ -53,6 +56,7 @@ module.exports = function(blogID, blog, callback) {
 
       if (changes.handle) {
         multi.set(key.handle(latest.handle), blogID);
+        symlinksToAdd.push(latest.handle + "." + config.host);
 
         // By storing the handle + Blot's host as a 'domain' we
         // allow the SSL certificate generator to run for this.
@@ -65,6 +69,7 @@ module.exports = function(blogID, blog, callback) {
         // whilst leaving it free for other users to claim.
         if (former.handle) {
           multi.del(key.domain(former.handle + "." + config.host), blogID);
+          symlinksToRemove.push(former.handle + "." + config.host);
         }
       }
 
@@ -91,6 +96,8 @@ module.exports = function(blogID, blog, callback) {
               : former.domain.slice("www.".length);
           multi.del(key.domain(former.domain));
           multi.del(key.domain(formerBackupDomain));
+          symlinksToRemove.push(former.domain);
+          symlinksToRemove.push(formerBackupDomain);
 
           // We want to flush the cache directory for the former backup
           // domain just to be safe.
@@ -109,6 +116,9 @@ module.exports = function(blogID, blog, callback) {
               : latest.domain.slice("www.".length);
           multi.set(key.domain(latest.domain), blogID);
           multi.set(key.domain(backupDomain), blogID);
+
+          symlinksToAdd(backupDomain);
+          symlinksToAdd(latest.domain);
 
           // We want to flush the cache directory for the new domain
           // just in case there is something there. There shouldn't be.
@@ -156,7 +166,11 @@ module.exports = function(blogID, blog, callback) {
         async.each(hosts, flush, function(err) {
           if (err) return callback(err, changesList);
 
-          callback(errors, changesList);
+          symlinks(blogID, symlinksToAdd, symlinksToRemove, function(err) {
+            if (err) return callback(err);
+
+            callback(errors, changesList);
+          });
         });
       });
     });
