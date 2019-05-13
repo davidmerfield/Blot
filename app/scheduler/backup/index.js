@@ -1,10 +1,10 @@
-var config = require("../config");
+var config = require("config");
 var redis = require("redis").createClient();
-var helper = require("./helper");
+var helper = require("helper");
 var upload = helper.upload;
 var encrypt = helper.encrypter.encrypt;
 var fs = require("fs-extra");
-var DB_PATH = require("path").resolve(__dirname + "/../db/dump.rdb");
+var DB_PATH = require("path").resolve(__dirname + "/../../db/dump.rdb");
 
 var tmp = helper.tempDir();
 var Moment = require("moment");
