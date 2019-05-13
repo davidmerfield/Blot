@@ -1,22 +1,17 @@
-var helper = require("../../helper");
-var ensure = helper.ensure;
+var helper = require("helper");
 var joinpath = require("path").join;
 var async = require("async");
-var Template = require("../../models/template");
 var callOnce = helper.callOnce;
-var Blog = require("blog");
+var isOwner = require("./isOwner");
+var getAllViews = require("./getAllViews");
 
 function writeToFolder(blogID, templateID, callback) {
-  ensure(blogID, "string")
-    .and(templateID, "string")
-    .and(callback, "function");
-
-  Template.isOwner(blogID, templateID, function(err, owner) {
+  isOwner(blogID, templateID, function(err, owner) {
     if (err) return callback(err);
 
     if (!owner) return callback(badPermission(blogID, templateID));
 
-    Template.getAllViews(templateID, function(err, views, metadata) {
+    getAllViews(templateID, function(err, views, metadata) {
       if (err) return callback(err);
 
       if (!views || !metadata) return callback(noTemplate(blogID, templateID));
@@ -51,10 +46,8 @@ function writeToFolder(blogID, templateID, callback) {
 }
 
 function makeClient(blogID, callback) {
-  var clients = require("clients");
-
-  Blog.get({ id: blogID }, function(err, blog) {
-    var client = clients[blog.client];
+  require("blog").get({ id: blogID }, function(err, blog) {
+    var client = require("clients")[blog.client];
 
     if (!blog.client || !client)
       return callback(new Error("No client for this blog"));
@@ -64,11 +57,7 @@ function makeClient(blogID, callback) {
 }
 
 function write(blogID, client, dir, view, callback) {
-  ensure(client, "object")
-    .and(dir, "string")
-    .and(view, "object")
-    .and(callback, "function");
-
+  
   callback = callOnce(callback);
 
   // eventually I should just store

@@ -5,7 +5,7 @@ var formJSON = helper.formJSON;
 var model = Template.metadataModel;
 var save = Template.update;
 
-var writeToFolder = require('../../../modules/template').writeToFolder;
+var writeToFolder = Template.writeToFolder;
 var loadTemplate = require('./loadTemplate');
 var loadSidebar = require('./loadSidebar');
 var error = require('./error');

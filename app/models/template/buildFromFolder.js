@@ -1,9 +1,8 @@
-var helper = require("../../helper");
+var helper = require("helper");
 var ensure = helper.ensure;
 var blogDir = helper.blogDir;
-var fs = require("fs");
+var fs = require("fs-extra");
 var readFromFolder = require("./readFromFolder");
-var Blog = require("blog");
 var async = require("async");
 
 module.exports = function(blogID, callback) {
@@ -43,12 +42,11 @@ module.exports = function(blogID, callback) {
     },
     function(err) {
       var cacheID = Date.now();
-      Blog.set(
+      require("blog").set(
         blogID,
         {
-          cssURL: Blog.url.css(cacheID),
-          scriptURL: Blog.url.js(cacheID),
-          cacheID: cacheID
+          cssURL: "/style.css?" + cacheID,
+          scriptURL: "/script.js?" + cacheID
         },
         callback
       );
