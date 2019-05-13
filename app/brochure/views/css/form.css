@@ -25,7 +25,7 @@ input[type="submit"]:focus {
   top: 2px
 }
 
-label {
+form label {
   font-size: 14px;
   color: #666
 }
