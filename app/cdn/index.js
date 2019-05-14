@@ -22,7 +22,7 @@ cdn
   // by Blot and their paths contain GUIDs. They never change
   // and can be cached forever.
   .use(
-    "/static",
+    "/cdn",
     Express.static(config.blog_static_files_dir, {
       immutable: true,
       maxAge: "31536000",
@@ -33,7 +33,7 @@ cdn
 
   // Next we check the user's blog folder. These files
   .use(
-    "/static",
+    "/cdn",
     Express.static(config.blog_folder_dir, {
       lastModified: true,
       etag: true
