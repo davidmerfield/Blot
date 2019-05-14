@@ -22,6 +22,10 @@ module.exports = {
   siteOwner: siteOwner,
   defaultTemplate: require("./util/makeID")(siteOwner, "default"),
 
+  buildFromFolder: require("./buildFromFolder"),
+  readFromFolder: require("./readFromFolder"),
+  writeToFolder: require("./writeToFolder"),
+
   viewModel: require("./viewModel"),
   metadataModel: require("./metadataModel")
 };
