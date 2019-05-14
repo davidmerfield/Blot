@@ -1,10 +1,4 @@
-Finish working out how to get zoom-able images on [Emily's template](https://mail.google.com/mail/u/0/#all/FMfcgxwBWKTQRJdkfRTgvthvrWtvVrxC)
-
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
-
-Add a photos page to [Gabriel's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgLtjHvbXprzCbFGVhmWwbtsv)
-
-Transfer [Ana's design](https://xd.adobe.com/view/53a2d74b-ad40-45e9-7bb1-2477fe8d0f08-2593/screen/63c8075e-2ffd-43c2-be9e-d08a1369b971/Web-1366-1?fullscreen) to a Blot template
 
 ---
 
@@ -14,7 +8,7 @@ Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox
 - Move to UUIDs for blog identifiers
 
 Finish Archive template
-- Losslessly minify and resize images to reduce insanse folder size? (currently 600mb+)
+- Losslessly minify and resize images to reduce insane folder size? (currently 600mb+)
 
 Finish Feed template
 - Create folder with public domain material
@@ -73,6 +67,10 @@ Markdown bugs
 - Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
 --- 
+
+Disable access to s3 blogs bucket
+
+Wait a month and then delete s3 blogs bucket
 
 Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
 
