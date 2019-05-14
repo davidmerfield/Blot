@@ -1,8 +1,10 @@
 var DropboxSync = require("../../app/clients/dropbox/sync");
 var DropboxDatabase = require("../../app/clients/dropbox/database");
-var get = require("../blog/get");
+var get = require("../get/blog");
 
-get(process.argv[2], function(user, blog) {
+get(process.argv[2], function(err, user, blog) {
+  if (err) throw err;
+
   console.log(
     "Warning, this uses internal functions of Dropbox client. Syncing blog...",
     blog.handle

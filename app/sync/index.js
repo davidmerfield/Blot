@@ -1,6 +1,6 @@
 var client = require("client");
 var Redlock = require("redlock");
-var buildFromFolder = require("../modules/template").update;
+var buildFromFolder = require("template").buildFromFolder;
 var Blog = require("blog");
 var Update = require("./update");
 var localPath = require("helper").localPath;
