@@ -13,42 +13,48 @@ describe("switchBlogID script", function() {
   });
 
   afterEach(function(done) {
-    search(this.oldID, function(err, results) {
+    var test = this;
+    switchBlogID(test.oldID, test.newID, function(err) {
       if (err) return done.fail(err);
-      expect(results).toEqual([]);
-      done();
+
+      search(test.oldID, function(err, results) {
+        if (err) return done.fail(err);
+        expect(results).toEqual([]);
+        done();
+      });
     });
   });
 
-  it("switches the id of a blog", function(done) {
-    switchBlogID(this.oldID, this.newID, function(err) {
-      if (err) return done.fail(err);
-
-      done();
-    });
-  });
-
-  it("handles blogs who've changed their handle", function(done) {
+  it("can be run multiple times without breaking anything", function(done) {
     var oldID = this.oldID;
     var newID = this.newID;
 
-    require("blog").set(oldID, { handle: "example" }, function(err) {
+    switchBlogID(oldID, newID, function(err) {
       if (err) return done.fail(err);
+
       switchBlogID(oldID, newID, done);
     });
   });
 
-  it("handles blogs who've change their domain", function(done) {
-    var oldID = this.oldID;
-    var newID = this.newID;
+  it("handles blogs who change their handle", function(done) {
+    require("blog").set(this.oldID, { handle: "example" }, done);
+  });
 
-    require("blog").set(oldID, { domain: "example.com" }, function(err) {
+  it("handles blogs who change their domain", function(done) {
+    var test = this;
+    require("blog").set(test.oldID, { domain: "example.com" }, function(err) {
       if (err) return done.fail(err);
 
-      require("blog").set(oldID, { domain: "newexample.com" }, function(err) {
-        if (err) return done.fail(err);
-        switchBlogID(oldID, newID, done);
-      });
+      require("blog").set(test.oldID, { domain: "newexample.com" }, done);
     });
+  });
+
+  xit("handles Templates", function(done) {
+    require("template").create(
+      this.oldID,
+      "example",
+      { cloneFrom: "SITE:default" },
+      done
+    );
   });
 });

@@ -8,7 +8,7 @@ describe("switchBlogID script", function() {
     var test = this;
     var newID = Date.now().toString();
 
-    client.keys('*',function(err, initialKeys) {
+    client.keys("*", function(err, initialKeys) {
       if (err) return done.fail(err);
       switchBlogID(test.blog.id, newID, function(err) {
         if (err) return done.fail(err);
@@ -17,12 +17,10 @@ describe("switchBlogID script", function() {
         // function can remove the blog safely.
         test.blog.id = newID;
 
-        client.keys('*',function(err, keys) {
+        client.keys("*", function(err, keys) {
           if (err) return done.fail(err);
 
           expect(initialKeys.length).toEqual(keys.length);
-          console.log(initialKeys);
-          console.log(keys);
           done();
         });
       });
