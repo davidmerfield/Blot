@@ -4,23 +4,27 @@ describe("switchBlogID script", function() {
 
   global.test.blog();
 
-  it("switches the id of a blog", function(done) {
-    var test = this;
-    var newID = Date.now().toString();
+  // We need to modify this property so the cleanup
+  // function can remove the blog safely.
+  beforeEach(function() {
+    this.oldID = this.blog.id;
+    this.newID = Date.now().toString();
+    this.blog.id = this.newID;
+  });
 
-    switchBlogID(test.blog.id, newID, function(err) {
+  afterEach(function(done) {
+    search(this.oldID, function(err, results) {
+      if (err) return done.fail(err);
+      expect(results).toEqual([]);
+      done();
+    });
+  });
+
+  it("switches the id of a blog", function(done) {
+    switchBlogID(this.oldID, this.newID, function(err) {
       if (err) return done.fail(err);
 
-      search(test.blog.id, function(err, results) {
-        if (err) return done.fail(err);
-
-        expect(results).toEqual([]);
-
-        // We need to modify this property so the cleanup
-        // function can remove the blog safely.
-        test.blog.id = newID;
-        done();
-      });
+      done();
     });
   });
 });
