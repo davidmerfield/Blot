@@ -15,12 +15,27 @@ var resolveCaseInsensitivePathToFile = require("./resolveCaseInsensitivePathToFi
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
 
+function resolveCDNPath(src) {
+  if (src.indexOf(config.cdn.origin) !== 0) return src;
+
+  try {
+    src = src.slice(config.cdn.origin.length).split('/').slice(2).join('/');
+    console.log('SRC', src);
+    return src;
+  } catch (e) {
+    return src;
+  }
+}
+
 function Transformer(blogID, name) {
   ensure(blogID, "string").and(name, "string");
 
   var keys = Keys(blogID, name);
 
   function lookup(src, transform, callback) {
+
+    src = resolveCDNPath(src);
+
     var url = isURL(src);
     var path = src;
     var fullLocalPath;
