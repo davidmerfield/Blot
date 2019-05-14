@@ -124,9 +124,10 @@ describe("image", function() {
     var cachedImagePath = result.slice(result.indexOf('"') + 1);
 
     cachedImagePath = cachedImagePath.slice(0, cachedImagePath.indexOf('"'));
+    cachedImagePath = cachedImagePath.slice(config.cdn.origin.length);
+
     cachedImagePath = join(
       config.blog_static_files_dir,
-      blog.id,
       cachedImagePath
     );
 
