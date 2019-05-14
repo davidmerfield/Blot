@@ -24,10 +24,9 @@ function main(oldBlogID, newBlogID, callback) {
   var tasks = [
     require("./moveDirectories"),
     require("./renameBlogKeys"),
-    require("./renameTemplateKeys"),
     require("./renameDomainKeys"),
     require("./renameHandleKeys"),
-    require("./renameTemplateIDs"),
+    require("./renameTemplateKeys"),
     require("./renameTransformerIDs"),
     require("./switchDropboxClient"),
     require("./updateUser")

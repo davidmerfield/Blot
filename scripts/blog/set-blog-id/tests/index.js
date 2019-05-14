@@ -49,11 +49,11 @@ describe("switchBlogID script", function() {
     });
   });
 
-  xit("handles Templates", function(done) {
+  it("handles Templates", function(done) {
     require("template").create(
       this.oldID,
       "example",
-      { cloneFrom: "SITE:default" },
+      { name: "example", isPublic: false },
       done
     );
   });
