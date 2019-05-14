@@ -1,6 +1,9 @@
 var client = require("client");
+var debug = require("debug")("blot:scripts:set-blog-id:renameTemplateIDs");
 
-module.exports = function renameTemplateIDs(oldBlog, newBlogID, callback) {
+module.exports = function renameTemplateIDs(oldBlogID, newBlogID, callback) {
+  debug("Renaming old template IDs for", oldBlogID);
+
   var multi = client.multi();
 
   client.smembers("template:owned_by:" + newBlogID, function(
@@ -9,7 +12,7 @@ module.exports = function renameTemplateIDs(oldBlog, newBlogID, callback) {
   ) {
     oldTemplateIDs.forEach(function(oldTemplateID) {
       var newTemplateID = oldTemplateID
-        .split(oldBlog.id + ":")
+        .split(oldBlogID + ":")
         .join(newBlogID + ":");
 
       multi.srem("template:owned_by:" + newBlogID, oldTemplateID);

@@ -1,14 +1,7 @@
-var debug = require("debug")("blot:scripts:set-blog-id");
-
-var switchDropboxClient = require("./switchDropboxClient");
-var loadBlog = require("./loadBlog");
-var updateBlog = require("./updateBlog");
-var updateUser = require("./updateUser");
-var renameKeys = require("./renameKeys");
-var renameTemplateIDs = require("./renameTemplateIDs");
-var renameTransformerIDs = require("./renameTransformerIDs");
-var moveDirectories = require("./moveDirectories");
 var generateID = require("../../../app/models/blog/generateID");
+var debug = require("debug")("blot:scripts:set-blog-id");
+var async = require("async");
+var updateBlog = require("./updateBlog");
 
 if (require.main === module) {
   var oldBlogID = process.argv[2];
@@ -28,46 +21,26 @@ function main(oldBlogID, newBlogID, callback) {
   if (!oldBlogID || !newBlogID)
     return callback(new Error("Pass oldBlogID and newBlogID"));
 
-  debug("Switching blog with", oldBlogID, "to", newBlogID);
-  loadBlog(oldBlogID, newBlogID, function(err, oldBlog) {
+  var tasks = [
+    require("./moveDirectories"),
+    require("./renameBlogKeys"),
+    require("./renameTemplateKeys"),
+    require("./renameDomainKeys"),
+    require("./renameHandleKeys"),
+    require("./renameTemplateIDs"),
+    require("./renameTransformerIDs"),
+    require("./switchDropboxClient"),
+    require("./updateUser")
+  ].map(function(task) {
+    return task.bind(null, oldBlogID, newBlogID);
+  });
+
+  debug("Migrating", oldBlogID, "to", newBlogID);
+
+  async.parallel(tasks, function(err) {
     if (err) return callback(err);
 
-    debug("Switching dropbox client from", oldBlogID, "to", newBlogID);
-    switchDropboxClient(oldBlogID, newBlogID, function(err) {
-      if (err) return callback(err);
-
-      debug("Renaming keys from", oldBlogID, "to", newBlogID);
-      renameKeys(oldBlog, newBlogID, function(err) {
-        if (err) return callback(err);
-
-        debug("Updating list of blogs associated with user", oldBlog.owner);
-        updateUser(oldBlog.owner, oldBlogID, newBlogID, function(err) {
-          if (err) return callback(err);
-          
-          debug("Moving blog and static directories for", oldBlogID);
-          moveDirectories(oldBlogID, newBlogID, function(err) {
-            if (err) return callback(err);
-
-            debug("Updating property of blogs with new ID", oldBlog.owner);
-            updateBlog(oldBlog, newBlogID, function(err) {
-              if (err) return callback(err);
-
-              debug("Renaming old template IDs for", oldBlogID);
-              renameTemplateIDs(oldBlog, newBlogID, function(err) {
-                if (err) return callback(err);
-
-                debug("Renaming Transformer stores for", oldBlogID);
-                renameTransformerIDs(oldBlog, newBlogID, function(err) {
-                  if (err) return callback(err);
-
-                  callback();
-                });
-              });
-            });
-          });
-        });
-      });
-    });
+    updateBlog(oldBlogID, newBlogID, callback);
   });
 }
 

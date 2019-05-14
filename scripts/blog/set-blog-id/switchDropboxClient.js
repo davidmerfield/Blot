@@ -2,6 +2,8 @@ var debug = require("debug")("blot:scripts:set-blog-id:switchDropboxClient");
 var client = require("client");
 
 module.exports = function switchDropboxClient(oldBlogID, newBlogID, callback) {
+  debug("Switching dropbox client from", oldBlogID, "to", newBlogID);
+
   // Redis Hash which stores the Dropbox account info
   client.hgetall("blog:" + oldBlogID + ":dropbox:account", function(err, keys) {
     if (err) return callback(err);

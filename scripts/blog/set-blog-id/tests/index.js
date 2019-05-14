@@ -27,4 +27,28 @@ describe("switchBlogID script", function() {
       done();
     });
   });
+
+  it("handles blogs who've changed their handle", function(done) {
+    var oldID = this.oldID;
+    var newID = this.newID;
+
+    require("blog").set(oldID, { handle: "example" }, function(err) {
+      if (err) return done.fail(err);
+      switchBlogID(oldID, newID, done);
+    });
+  });
+
+  it("handles blogs who've change their domain", function(done) {
+    var oldID = this.oldID;
+    var newID = this.newID;
+
+    require("blog").set(oldID, { domain: "example.com" }, function(err) {
+      if (err) return done.fail(err);
+
+      require("blog").set(oldID, { domain: "newexample.com" }, function(err) {
+        if (err) return done.fail(err);
+        switchBlogID(oldID, newID, done);
+      });
+    });
+  });
 });

@@ -1,12 +1,14 @@
 var async = require("async");
 var client = require("client");
-var keys = require("../../redis/keys");
+var Keys = require("../../redis/keys");
+var debug = require("debug")("blot:scripts:set-blog-id:renameTransformerIDs");
 
-module.exports = function renameTransformerIDs(oldBlog, newBlogID, callback) {
+module.exports = function renameTransformerIDs(oldBlogID, newBlogID, callback) {
+  debug("Renaming Transformer stores for", oldBlogID);
+
   // there are keys in the transformer which contain a set of other keys
   // containing the old blog ID, we need to modify those keys
-
-  keys("blog:" + newBlogID + ":store:*:everything", function(err, sets) {
+  Keys("blog:" + newBlogID + ":store:*:everything", function(err, sets) {
     var multi = client.multi();
 
     async.each(
@@ -17,7 +19,7 @@ module.exports = function renameTransformerIDs(oldBlog, newBlogID, callback) {
 
           keys.forEach(function(key) {
             var newKey = key
-              .split("blog:" + oldBlog.id + ":")
+              .split("blog:" + oldBlogID + ":")
               .join("blog:" + newBlogID + ":");
 
             multi.srem(set, key);

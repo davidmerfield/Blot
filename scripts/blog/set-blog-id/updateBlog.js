@@ -1,15 +1,19 @@
 var Blog = require("blog");
 var debug = require("debug")("blot:scripts:set-blog-id:updateBlog");
 
-module.exports = function updateBlog(oldBlog, newBlogID, callback) {
-  debug("Saving new ID as property of blog", newBlogID);
+module.exports = function updateBlog(oldBlogID, newBlogID, callback) {
+  debug("Updating property of blogs with new ID", newBlogID);
 
-  var changes = { id: newBlogID };
-  
-  if (oldBlog.template.indexOf(oldBlog.id + ":") === 0)
-    changes.template = oldBlog.template
-      .split(oldBlog.id + ":")
-      .join(newBlogID + ":");
-      
-  Blog.set(newBlogID, changes, callback);
+  Blog.get({ id: newBlogID }, function(err, blog) {
+    var changes = {};
+
+    if (blog.id === oldBlogID) changes.id = newBlogID;
+
+    if (blog.template.indexOf(oldBlogID + ":") === 0)
+      changes.template = blog.template
+        .split(oldBlogID + ":")
+        .join(newBlogID + ":");
+
+    Blog.set(newBlogID, changes, callback);
+  });
 };

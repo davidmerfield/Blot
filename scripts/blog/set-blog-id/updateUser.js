@@ -1,23 +1,35 @@
 var debug = require("debug")("blot:scripts:set-blog-id:updateUser");
 var User = require("user");
+var async = require("async");
 
-module.exports = function updateUser(uid, oldBlogID, newBlogID, callback) {
-  debug("Retrieving user", uid);
-  User.getById(uid, function(err, user) {
-    if (err) return callback(err);
+module.exports = function updateUser(oldBlogID, newBlogID, callback) {
+  debug("Moving old id in user properties");
+  User.getAllIds(function(err, uids) {
+    async.each(
+      uids,
+      function(uid, next) {
+        User.getById(uid, function(err, user) {
+          if (err || !user) return next(err);
 
-    if (!user) return callback(new Error("No user: " + uid));
+          var changes = {};
 
-    debug("Old list of blogs:", user.blogs);
-    user.blogs = user.blogs.filter(function(id) {
-      return id !== oldBlogID;
-    });
+          if (user.blogs.indexOf(oldBlogID) > -1) {
+            changes.blogs = user.blogs.filter(function(id) {
+              return id !== oldBlogID;
+            });
+            changes.blogs.push(newBlogID);
+          }
 
-    if (user.lastSession === oldBlogID) user.lastSession = newBlogID;
+          if (user.lastSession === oldBlogID) {
+            changes.lastSession = newBlogID;
+          }
 
-    user.blogs.push(newBlogID);
-    debug("New list of blogs:", user.blogs);
+          if (!Object.keys(changes).length) return next();
 
-    User.set(user.uid, user, callback);
+          User.set(uid, changes, next);
+        });
+      },
+      callback
+    );
   });
 };

@@ -1,49 +1,38 @@
 var fs = require("fs-extra");
-var localPath = require("helper").localPath;
-var staticDirectory = require("config").blog_static_files_dir;
+var config = require("config");
+var STATIC_DIRECTORY = config.blog_static_files_dir;
+var BLOG_DIRECTORY = config.blog_folder_dir;
 var debug = require("debug")("blot:scripts:set-blog-id:moveDirectories");
+var async = require("async");
 
 module.exports = function moveDirectories(oldBlogID, newBlogID, callback) {
-  // This will be dangerous if oldBlog or newBlogID are empty strings
-  if (!oldBlogID || !newBlogID)
-    return callback(new Error("Pass valid blogs IDs to moveDirectories"));
+  debug("Moving blog and static directories for", oldBlogID);
+  var tasks = [];
 
-  var oldBlogDir = localPath(oldBlogID, "/").slice(0, -1);
-  var newBlogDir = localPath(newBlogID, "/").slice(0, -1);
+  var oldBlogDir = BLOG_DIRECTORY + "/" + oldBlogID;
+  var oldStaticFilesDir = STATIC_DIRECTORY + "/" + oldBlogID;
 
-  var oldStaticFilesDir = staticDirectory + "/" + oldBlogID;
-  var newStaticFilesDir = staticDirectory + "/" + newBlogID;
+  var newBlogDir = BLOG_DIRECTORY + "/" + newBlogID;
+  var newStaticFilesDir = STATIC_DIRECTORY + "/" + newBlogID;
 
-  fs.ensureDirSync(oldBlogDir);
-  fs.ensureDirSync(oldStaticFilesDir);
-
-  if (fs.existsSync(newBlogDir)) {
-    console.error(
-      "The blog directory for new blog already exists, please remove it:\nrm -rf",
-      newBlogDir
-    );
-    return callback(new Error("EEXISTS"));
+  if (fs.existsSync(oldBlogDir)) {
+    debug("Moving blog folder");
+    debug("  Old: ", oldBlogDir);
+    debug("  New: ", newBlogDir);
+    tasks.push(fs.remove.bind(null, newBlogDir));
+    tasks.push(fs.move.bind(null, oldBlogDir, newBlogDir));
   }
 
-  if (fs.existsSync(newStaticFilesDir)) {
-    console.error(
-      "The static file directory for the new blog already exists, please remove it:\nrm -rf",
-      newStaticFilesDir
-    );
-    return callback(new Error("EEXISTS"));
-  }
-
-  debug("Moving blog folder");
-  debug("  Old: ", oldBlogDir);
-  debug("  New: ", newBlogDir);
-
-  fs.move(oldBlogDir, newBlogDir, function(err) {
-    if (err) return callback(err);
-
+  if (fs.existsSync(oldStaticFilesDir)) {
     debug("Moving static files folder");
     debug("  Old: ", oldStaticFilesDir);
     debug("  New: ", newStaticFilesDir);
+    tasks.push(fs.remove.bind(null, newStaticFilesDir));
+    tasks.push(fs.move.bind(null, oldStaticFilesDir, newStaticFilesDir));
+  }
 
-    fs.move(oldStaticFilesDir, newStaticFilesDir, callback);
-  });
+  tasks.push(fs.ensureDir.bind(null, newBlogDir));
+  tasks.push(fs.ensureDir.bind(null, newStaticFilesDir));
+
+  async.series(tasks, callback);
 };
