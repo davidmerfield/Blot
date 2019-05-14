@@ -9,17 +9,6 @@ describe("cdn", function() {
     server.use("/", require("../index"));
   });
 
-  it("exposes contents of blog folder at CDN endpoint", function(done) {
-    var path = "/small.jpg";
-
-    fs.copySync(__dirname + path, this.blogDirectory + path);
-
-    request(this.origin + "/cdn/" + this.blog.id + path, function(err, res) {
-      expect(res.statusCode).toEqual(200);
-      done();
-    });
-  });
-
   it("exposes contents of static folder at CDN endpoint", function(done) {
     var path = "/small.jpg";
 

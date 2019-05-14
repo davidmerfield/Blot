@@ -29,15 +29,6 @@ cdn
       lastModified: false,
       etag: false
     })
-  )
-
-  // Next we check the user's blog folder. These files
-  .use(
-    "/cdn",
-    Express.static(config.blog_folder_dir, {
-      lastModified: true,
-      etag: true
-    })
   );
 
 // It might be nice to add a route which can render CSS and JS
