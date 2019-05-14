@@ -15,12 +15,18 @@ var resolveCaseInsensitivePathToFile = require("./resolveCaseInsensitivePathToFi
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
 
+// Maps https://blotcdn.com/blog_xyz/_image_cache/abc.jpg to 
+// /_image_cache/abc.jpg to enable us to look up the file quickly
+// on disk without making an HTTP request
 function resolveCDNPath(src) {
   if (src.indexOf(config.cdn.origin) !== 0) return src;
 
   try {
-    src = src.slice(config.cdn.origin.length).split('/').slice(2).join('/');
-    console.log('SRC', src);
+    // First we remove the protocol and CDN host
+    src = src.slice(config.cdn.origin.length);
+
+    // Now we remove the blog ID from the path on the CDN
+    src = src.split('/').slice(2).join('/');
     return src;
   } catch (e) {
     return src;
