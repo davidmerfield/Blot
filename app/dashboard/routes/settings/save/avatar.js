@@ -31,8 +31,7 @@ module.exports = function(req, res, next) {
     "/" +
     name;
   var url =
-    "https://" +
-    config.cdn.host +
+    config.cdn.origin +
     "/" +
     req.blog.id +
     "/" +

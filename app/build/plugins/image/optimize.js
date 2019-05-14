@@ -2,16 +2,13 @@ var config = require("config");
 var uuid = require("uuid/v4");
 var join = require("path").join;
 var fs = require("fs-extra");
-// e.g. /_image_cache/{uuid}.jpg will be final URL
 var cache_folder_name = "_image_cache";
 var fs = require("fs-extra");
 var resize = require("./resize");
-var minify = require("./minify");
 var extname = require("path").extname;
 var uuid = require("uuid/v4");
 var join = require("path").join;
 var debug = require("debug")("entry:build:plugins:image");
-
 
 // Only cache images with the following file extensions
 // We only resize and optimize JPG and PNG.
@@ -29,10 +26,9 @@ module.exports = function(blogID) {
       cache_folder_name,
       name
     );
+
     var src =
-      "https://" +
-      config.cdn.host +
-      "/" +
+      config.cdn.origin + "/" +
       blogID +
       "/" +
       cache_folder_name +

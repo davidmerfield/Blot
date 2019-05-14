@@ -8,8 +8,6 @@ var config = require("config");
 
 var TIMEOUT = 10 * 1000; // 10s
 
-var minify = require("./minify");
-var validate = require("./validate");
 
 function create(blogID, path, done) {
   done = callOnce(done);
@@ -30,7 +28,7 @@ function create(blogID, path, done) {
 
       for (var i in thumbnails) {
         thumbnails[i].path = outputDirectory + "/" + thumbnails[i].name;
-        thumbnails[i].url = 'https://' + config.cdn.host + '/' + blogID + thumbnails[i].path;
+        thumbnails[i].url = config.cdn.origin + '/' + blogID + thumbnails[i].path;
       }
 
       if (err) return done(err);
