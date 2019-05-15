@@ -1,6 +1,6 @@
+var fs = require("fs");
 var basename = require("path").basename;
 var mime = require("mime");
-var fs = require("fs");
 var async = require("async");
 var makeID = require("./util/makeID");
 var isOwner = require("./isOwner");
@@ -9,7 +9,6 @@ var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
 var PACKAGE = "package.json";
 
 module.exports = function readFromFolder(blogID, dir, callback) {
-
   var id = makeID(blogID, basename(dir));
 
   isOwner(blogID, id, function(err, isOwner) {
@@ -23,27 +22,16 @@ module.exports = function readFromFolder(blogID, dir, callback) {
       async.eachSeries(
         contents,
         function(name, next) {
-          // Dotfile
-          if (name[0] === ".") return next();
-
-          // Package.json
-          if (name === PACKAGE) return next();
+          // Skip Dotfile or Package.json
+          if (name[0] === "." || name === PACKAGE) return next();
 
           fs.stat(dir + "/" + name, function(err, stat) {
-            if (err) return next();
-
-            if (stat.size > MAX_SIZE) return next();
+            // Skip folders, or files which are too large
+            if (err || !stat || stat.size > MAX_SIZE || stat.isDirectory())
+              return next();
 
             fs.readFile(dir + "/" + name, "utf-8", function(err, content) {
-              if (err && err.code === "ENOENT") return next();
-
-              // this is a directory
-              if (err && err.code === "EISDIR") return next();
-
-              if (err) {
-                console.log(err);
-                return next();
-              }
+              if (err) return next();
 
               var view = {
                 name: nameFrom(name),
@@ -51,7 +39,11 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                 content: content
               };
 
-              setView(id, view, next);
+              setView(id, view, function(err) {
+                if (err) return next();
+
+                next();
+              });
             });
           });
         },
