@@ -10,7 +10,7 @@ describe("switchBlogID script", function() {
 
     client.keys("*", function(err, initialKeys) {
       if (err) return done.fail(err);
-      switchBlogID(test.blog.id, newID, function(err) {
+      switchBlogID(test.blog.id, newID, function(err, newID) {
         if (err) return done.fail(err);
 
         // We need to modify this property so the cleanup

@@ -1,6 +1,7 @@
 describe("switchBlogID script", function() {
   var switchBlogID = require("../index");
   var search = require("./search");
+  var generateID = require("../../../../app/models/blog/generateID");
 
   global.test.blog();
 
@@ -8,12 +9,13 @@ describe("switchBlogID script", function() {
   // function can remove the blog safely.
   beforeEach(function() {
     this.oldID = this.blog.id;
-    this.newID = Date.now().toString();
+    this.newID = generateID();
     this.blog.id = this.newID;
   });
 
   afterEach(function(done) {
     var test = this;
+
     switchBlogID(test.oldID, test.newID, function(err) {
       if (err) return done.fail(err);
 
@@ -59,13 +61,24 @@ describe("switchBlogID script", function() {
   });
 
   it("handles blogs with posts", function(done) {
+    var test = this;
 
-    require('fs-extra').outputFileSync(this.blogDirectory + "/welcome.txt", "Tags: Hello, World\n\nHello, world!");
+    var files = {
+      "/welcome.txt": "Tags: Hello, World\n\nHello, world!",
+      "/welcome.js": "alert()"
+    };
 
-    require("sync")(this.oldID, function(err, folder, finish) {
-      folder.update("/welcome.txt", function(err) {
-        finish(null, done);
-      });
+    require("sync")(test.oldID, function(err, folder, finish) {
+      require("async").eachOf(
+        files,
+        function(content, path, next) {
+          require("fs-extra").outputFileSync(test.blogDirectory + path);
+          folder.update(path, next);
+        },
+        function(err) {
+          finish(err, done);
+        }
+      );
     });
   });
 });
