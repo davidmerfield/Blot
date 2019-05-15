@@ -65,14 +65,18 @@ describe("switchBlogID script", function() {
 
     var files = {
       "/welcome.txt": "Tags: Hello, World\n\nHello, world!",
-      "/welcome.js": "alert()"
+      "/welcome.js": "alert()",
+      "/xY/z.jpg": require("fs").readFileSync(__dirname + "/small.jpg")
     };
 
     require("sync")(test.oldID, function(err, folder, finish) {
       require("async").eachOf(
         files,
         function(content, path, next) {
-          require("fs-extra").outputFileSync(test.blogDirectory + path);
+          require("fs-extra").outputFileSync(
+            test.blogDirectory + path,
+            content
+          );
           folder.update(path, next);
         },
         function(err) {
