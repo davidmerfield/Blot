@@ -57,4 +57,15 @@ describe("switchBlogID script", function() {
       done
     );
   });
+
+  fit("handles blogs with posts", function(done) {
+
+    require('fs-extra').outputFileSync(this.blogDirectory + "/welcome.txt", "Tags: Hello, World\n\nHello, world!");
+
+    require("sync")(this.oldID, function(err, folder, finish) {
+      folder.update("/welcome.txt", function(err) {
+        finish(null, done);
+      });
+    });
+  });
 });
