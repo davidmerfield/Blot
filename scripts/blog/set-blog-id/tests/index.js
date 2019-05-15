@@ -58,7 +58,7 @@ describe("switchBlogID script", function() {
     );
   });
 
-  fit("handles blogs with posts", function(done) {
+  it("handles blogs with posts", function(done) {
 
     require('fs-extra').outputFileSync(this.blogDirectory + "/welcome.txt", "Tags: Hello, World\n\nHello, world!");
 
