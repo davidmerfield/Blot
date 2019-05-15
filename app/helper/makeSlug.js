@@ -51,17 +51,12 @@ function makeSlug (string) {
 
   // Remove leading and trailing
   // slashes and dashes.
-  if (slug[0] === '/' && slug.length > 1)
+
+  while(slug.length > 1 && slug[0] === '/' || slug[0] === '-')
     slug = slug.slice(1);
 
-  if (slug.slice(-1) === '/' && slug.length > 1)
-    slug = slug.slice(0,-1);
-
-  if (slug[0] === '-')
-    slug = slug.slice(1);
-
-  if (slug.slice(-1) === '-')
-    slug = slug.slice(0,-1);
+  while(slug.length > 1 && slug.slice(-1) === '/' || slug.slice(-1) === '-')
+    slug = slug.slice(0, -1);
 
   slug = encodeURI(slug);
 
@@ -103,5 +98,6 @@ is('Foo & bar', 'foo-and-bar');
 is('Foo &amp; bar', 'foo-and-bar');
 is('China ← NYC → China', 'china-from-nyc-to-china');
 is('Chin+a()[] ← NY!C → China', 'china-from-nyc-to-china');
+is('No more cd ../../', 'no-more-cd');
 
 module.exports = makeSlug;
