@@ -477,7 +477,6 @@ Search engine
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
 NGINX
-- Improve error pages
 - Recompile nginx with neccessary dependencies for auto-ssl instead of openresty?
 - Install nginx fail2ban & http2
 
