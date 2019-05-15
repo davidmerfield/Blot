@@ -1,6 +1,6 @@
 describe("switchBlogID script", function() {
   var switchBlogID = require("../index");
-  var search = require("./search");
+  var search = require("../../../redis/search");
   var generateID = require("../../../../app/models/blog/generateID");
 
   global.test.blog();

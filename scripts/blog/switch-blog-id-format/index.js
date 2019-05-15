@@ -3,17 +3,27 @@ var debug = require("debug")("blot:scripts:set-blog-id");
 var async = require("async");
 var updateBlog = require("./updateBlog");
 var client = require("client");
-var ensureOldBlogIsDisabled = require('./ensureOldBlogIsDisabled');
+var ensureOldBlogIsDisabled = require("./ensureOldBlogIsDisabled");
+var get = require("../../get/blog");
+var search = require("../../redis/search");
 
 if (require.main === module) {
-  // loadID(oldBlogID, function(err, newBlogID) {
-  // get(process.argv[2], function(err, user, blog) {
-  // main(blog.id, function(err) {
-  //   if (err) throw err;
-  //   console.log("Done!");
-  //   process.exit();
-  // });
-  // });
+  get(process.argv[2], function(err, user, blog) {
+    if (err) throw err;
+    loadID(blog.id, function(err, newBlogID) {
+      if (err) throw err;
+      main(blog.id, newBlogID, function(err) {
+        if (err) throw err;
+        // this is a bad idea with the old format since they're just integers
+        search(blog.id, function(err, results) {
+          if (err) throw err;
+          console.log("Done!");
+          console.log(results);
+          process.exit();
+        });
+      });
+    });
+  });
 }
 
 function loadID(oldBlogID, callback) {
@@ -28,8 +38,6 @@ function loadID(oldBlogID, callback) {
   });
 }
 
-
-
 function main(oldBlogID, newBlogID, callback) {
   if (!oldBlogID || !newBlogID) return callback(new Error("Pass oldBlogID"));
 
@@ -39,7 +47,7 @@ function main(oldBlogID, newBlogID, callback) {
     require("./renameDomainKeys"),
     require("./renameHandleKeys"),
     require("./renameTemplateKeys"),
-    require("./renameTransformerIDs"),
+    require("./switchSessionID"),
     require("./switchDropboxClient"),
     require("./updateUser")
   ].map(function(task) {
