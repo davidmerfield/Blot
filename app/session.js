@@ -13,8 +13,7 @@ var sessionOptions = {
   resave: false,
   proxy: true,
   cookie: {
-    httpOnly: true,
-    secure: config.environment !== "development"
+    httpOnly: true
   },
   store: new Store({
     client: redis,

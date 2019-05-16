@@ -6,10 +6,10 @@ var debug = require("debug")("blot:build");
 var workers = [];
 var jobs = {};
 
-console.log("Master", process.pid, "is running");
+debug("Master", process.pid, "is running");
 
 exitHook(function() {
-  console.log("Shutting down master:", process.pid);
+  debug("Shutting down master:", process.pid);
   workers.forEach(function(item) {
     item.worker.kill();
   });
@@ -80,16 +80,16 @@ function closeHandler(id) {
 
     // SIGINT, SIGTERM, etc.
     if (signal) {
-      console.log("worker was killed by signal: ", signal);
+      debug("worker was killed by signal: ", signal);
 
       // typically means the process threw and error and had to stop.
     } else if (code !== 0) {
-      console.log("worker exited with error code:", code);
+      debug("worker exited with error code:", code);
       workers.push(new worker());
       // 0 Means the process exitted successfully.
       // Any other code
     } else {
-      console.log("worker exitted success!");
+      debug("worker exitted success!");
     }
   };
 }
@@ -102,7 +102,7 @@ for (var i = 0; i < numCPUs; i++) {
 function worker() {
   var wrkr = child_process.fork(__dirname + "/main");
   var id = uuid();
-  console.log("creating worker", id);
+  debug("creating worker", id);
   wrkr.on("error", errorHandler(id));
   wrkr.on("message", messageHandler(id));
   wrkr.on("close", closeHandler(id));

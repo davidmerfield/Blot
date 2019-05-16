@@ -212,7 +212,7 @@ Rewrite Templates
     hide/show date
     entries per page
  - Store view name should include file extension...
- - Expose errors in modules/template/update on design page.
+ - Expose errors on design page.
 
 
 

@@ -23,7 +23,7 @@ function keys(pattern, callback) {
   var complete;
   var cursor = "0";
 
-  client.scan(cursor, "match", pattern, function then(err, res) {
+  client.scan(cursor, "match", pattern, "count", 1000, function then(err, res) {
     if (err) return callback(err);
 
     cursor = res[0];
@@ -33,7 +33,7 @@ function keys(pattern, callback) {
     if (complete) {
       callback(err, keys);
     } else {
-      client.scan(cursor, "match", pattern, then);
+      client.scan(cursor, "match", pattern, "count", 1000, then);
     }
   });
 }

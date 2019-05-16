@@ -14,8 +14,11 @@ var cache = new Cache(config.cache_directory);
 
 var featured = require("./featured.json");
 
-// Check the list of featured sites when the server starts
-check();
+// Check the list of featured sites a few seconds after the server starts
+// We wait a somewhat arbritary 5 seconds since Blot often fails to serve 
+// the site immediately and then the filter thinks the domain has moved 
+// elsewhere. I need to add zero-downtime deploy. Once I do, remove delay.
+setTimeout(check, 1000 * 5);
 
 console.log("Featured sites: scheduled check each midnight!");
 schedule({ hour: 8, minute: 0 }, check);

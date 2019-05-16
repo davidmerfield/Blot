@@ -42,7 +42,7 @@ Fruit.html
 <hr>
 <row>
   <p><code class="file img" style="margin-left:-3px">&nbsp;Images</a></code><br><span class="light">.png&nbsp; .jpeg&nbsp; .gif</span></p>
-  <p>Put images directly into your blog's folder. Blot generates optimized versions to deliver to your readers. Use the path to add <a href="/publishing/tags">tags</a> or change the <a href="/publishing/dates">publish date</a>. </p>
+  <p>Put images directly into your blog's folder. Blot generates optimized versions to deliver to your readers. Use the path to add <a href="/publishing/metadata">tags</a> or change the <a href="/publishing/metadata">publish date</a>. </p>
 </row>
 <hr>    
 <row>
@@ -52,7 +52,7 @@ Fruit.html
 <hr>    
 <row>
   <p><code class="file webloc">&nbsp;Bookmarks</a></code><br><span class="light">.webloc&nbsp; .url</span></p>
-  <p>Drag URLs from your browser's address bar to create blog posts from bookmark files. Use the file's path to add <a href="/publishing/tags">tags</a> or change the <a href="/publishing/dates">publish date</a>.</p>
+  <p>Drag URLs from your browser's address bar to create blog posts from bookmark files. Use the file's path to add <a href="/publishing/metadata">tags</a> or change the <a href="/publishing/metadata">publish date</a>.</p>
     </row>
 <hr>    
 <row>
@@ -66,12 +66,12 @@ Fruit.html
 <h2>Prevent a file becoming a blog post</h2>
 <p> Files and folders whose name starts with an underscore are ignored. Ignored files don’t become blog posts themselves but they can be <a href="/publishing/public-files">embedded in other posts</a>.</p>
 
-<background>
+<background class="green">
   <pre class="folder" title="Your blog"><code>Drafts
 Pages
 Posts
-  _not_a_blog_post.txt
-  blog_post.txt
+  _Not_a_Post.txt
+  Post.txt
 
 
 </code>
@@ -82,9 +82,25 @@ Posts
 
 
 
+<h2>Drafts</h2>
+
+<p>Files in a folder called <em>Drafts</em> are not published. Instead, Blot creates a preview file which updates as you make changes to your draft. You can share the preview file with others. Preview files work on other computers that are connected to the internet.</p>
+
+<background class="green"><pre class="folder" title="Your blog"><code>Drafts
+  Anecdote.txt
+  Anecdote.txt.html
+  Unpublished.txt
+  Unpublished.txt.html
+Pages
+Posts
+
+</code></pre></background>
+
+
 
 <h2>Importing posts</h2>
 <p>Blot comes with scripts to turn your site on <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/tumblr">Tumblr</a>, <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/wordpress">Wordpress</a>, <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/jekyll">Jekyll</a> or <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/squarespace">Squarespace</a> into a folder of files which are friendly to Blot. These scripts preserve your URLs to prevent broken links if you decide to switch to Blot. Please <a href="/contact">contact me</a> and I will run them for you.</p>
+
 <!-- 
 <h2>Redirects</h2>
 <p>You can set up redirects to prevent broken links on your blog. Your blog’s 404 log will help you discover URLs which need redirects.<a href="/publishing/configuring/redirects" class="measure next small db bt b--black-10">

@@ -17,6 +17,8 @@ if (config.environment === "development") {
         if (err) console.error(err);
         if (!folder) return;
 
+        if (!fs.existsSync(folder)) return;
+
         watch(blogID, folder);
 
         synchronize(blogID, folder, function(err) {
