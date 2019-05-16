@@ -1,4 +1,3 @@
-var keys = require("../redis/keys");
 var get = require("../get/entry");
 var client = require("redis").createClient();
 var async = require("async");
@@ -32,7 +31,7 @@ function imageCache(blog, entry, callback) {
   var set = "blog:" + blog.id + ":store:image-cache:everything";
 
   client.smembers(set, function(err, keys) {
-    if (err) return next(err);
+    if (err) return callback(err);
     async.each(
       keys,
       function(key, next) {
@@ -71,7 +70,7 @@ function thumbnails(blog, entry, callback) {
   var set = "blog:" + blog.id + ":store:thumbnails:everything";
 
   client.smembers(set, function(err, keys) {
-    if (err) return next(err);
+    if (err) return callback(err);
 
     async.each(
       keys,

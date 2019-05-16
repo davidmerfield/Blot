@@ -1,5 +1,5 @@
 var client = require("../../app/models/client");
-var keys = require("../redis/keys");
+var redisKeys = require("helper").redisKeys;
 var Blog = require("../../app/models/blog");
 var async = require("async");
 
@@ -8,7 +8,7 @@ if (Blog.key.ids !== "blogs")
 
 // keys is safe to run in production, I rewrote
 // the SSCAN method so it works like KEYS
-keys("blog:*:info", function(err, keys) {
+redisKeys("blog:*:info", function(err, keys) {
   if (err) throw err;
 
   async.each(

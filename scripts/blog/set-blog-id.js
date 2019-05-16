@@ -16,7 +16,7 @@
 // rename /blogs/{id} directory
 // rename /static/{id} file directory
 
-var keys = require("../redis/keys");
+var redisKeys = require("helper").redisKeys;
 var async = require("async");
 var client = require("../../app/models/client");
 
@@ -67,7 +67,7 @@ function renamePatterns(oldBlogID, newBlogID, callback) {
   async.each(
     patterns,
     function(pattern, next) {
-      keys(pattern, function(err, keys) {
+      redisKeys(pattern, function(err, keys) {
         async.each(
           keys,
           function(key, next) {
