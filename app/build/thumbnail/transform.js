@@ -73,24 +73,16 @@ function main(path, outputDirectory, callback) {
 function transform(input, to, options, callback) {
   var size = options.size;
 
-  var transform = input
-    .clone()
-    .withoutEnlargement()
-    .rotate(); // try to auto rotate
-  // we need to reset quality
-  // .quality(100); // don't compress, we'll do that later
-  // need to update vips
-  // .trellisQuantisation()
-
-  // doesnt seem to do anything
-  // .compressionLevel(9)
+  var transform = input.clone().rotate();
 
   transform.on("error", callback);
 
   if (options.crop) {
-    transform
-      .resize(size, size, { withoutEnlargement: true })
-      .crop(sharp.strategy.entropy);
+    transform.resize(size, size, {
+      withoutEnlargement: true,
+      fit: "cover",
+      position: sharp.strategy.entropy
+    });
   } else {
     transform.resize(size, size, { withoutEnlargement: true, fit: "inside" });
   }
