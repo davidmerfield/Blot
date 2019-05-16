@@ -1,33 +1,12 @@
-var client = require("client");
-var keys = require("./keys");
+var client = require("redis").createClient();
 var async = require("async");
-var colors = require("colors/safe");
-
-if (require.main === module) {
-  var searchTerm = process.argv[2];
-
-  if (!searchTerm) throw new Error("Please pass search query as first arg");
-
-  main(searchTerm, function(err, res) {
-    if (err) throw err;
-    res.map(function(item) {
-      var val = item.value;
-      var key = item.key;
-      var res = colors.dim(item.type) + " " + key;
-
-      val = val.split(searchTerm).join(colors.white(searchTerm));
-      res += " " + colors.dim(val);
-      console.log(res);
-    });
-    process.exit();
-  });
-}
+var redisKeys = require("./redisKeys");
 
 function main(string, callback) {
   var types = {};
   var result = [];
 
-  keys("*", function(err, keys) {
+  redisKeys("*", function(err, keys) {
     if (err) return callback(err);
 
     async.each(
@@ -143,7 +122,7 @@ function sortedSetSearch(string, keys, result, callback) {
       client.zrange(key, 0, -1, function(err, members) {
         if (err) return next(err);
         if (!members) return next();
-        
+
         members.forEach(function(member) {
           if (member.indexOf(string) > -1)
             result.push({ key: key, type: "ZSET", value: member });
