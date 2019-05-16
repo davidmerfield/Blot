@@ -18,15 +18,24 @@ var Blog = require("blog");
 var basename = require("path").basename;
 var localClient = require("../clients/local");
 
-function main(callback) {
+function main(options, callback) {
+  if (callback === undefined && typeof options === "function") {
+    callback = options;
+    options = {};
+  }
+
   loadFoldersToBuild(__dirname, function(err, folders) {
     if (err) return callback(err);
+
+    if (options.filter) folders = folders.filter(options.filter);
 
     console.log("Loaded folders from", __dirname);
     setupUser(function(err, user) {
       if (err) return callback(err);
 
-      console.log("Established user " + user.email + " to manage demonstration blogs");
+      console.log(
+        "Established user " + user.email + " to manage demonstration blogs"
+      );
       setupBlogs(user, folders, function(err) {
         if (err) return callback(err);
 
@@ -83,11 +92,11 @@ function setupBlogs(user, folders, callback) {
       async.eachOfSeries(
         blogs,
         function(path, id, next) {
-          localClient.setup(id, path, function(err){
+          localClient.setup(id, path, function(err) {
             if (err) return next(err);
 
-            if (config.environment !== 'development') {
-              localClient.disconnect(id, next)
+            if (config.environment !== "development") {
+              localClient.disconnect(id, next);
             } else {
               next();
             }
@@ -108,7 +117,7 @@ function loadFoldersToBuild(foldersDirectory, callback) {
         return foldersDirectory + "/" + name;
       })
       .filter(function(path) {
-        return basename(path)[0] !== '-' && fs.statSync(path).isDirectory();
+        return basename(path)[0] !== "-" && fs.statSync(path).isDirectory();
       });
 
     callback(null, folders);
@@ -116,7 +125,14 @@ function loadFoldersToBuild(foldersDirectory, callback) {
 }
 
 if (require.main === module) {
-  main(function(err) {
+  var options = {};
+
+  if (process.argv[2])
+    options.filter = function(path) {
+      return path.indexOf(process.argv[2]) > -1;
+    };
+
+  main(options, function(err) {
     if (err) throw err;
     process.exit();
   });
