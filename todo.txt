@@ -1,14 +1,10 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
----
-
-Reenable disabled test for Blot's application server
-
-Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
-- Move to UUIDs for blog identifiers
-
 Finish Archive template
-- Losslessly minify and resize images to reduce insane folder size? (currently 600mb+)
+
+Finish script to adjust blog ID formats
+- Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
+- Announce archive template
 
 Finish Feed template
 - Create folder with public domain material
@@ -70,6 +66,12 @@ Markdown bugs
 
 Disable access to s3 blogs bucket
 
+Improve scheduler
+- Adds a command to restore database from backup.
+- Adds a scheduled task to flush old backups using app/scheduler/backup/remove.js in branch 'scheduler' which was ported from the old remove method of the upload module
+- Adds offsite (i.e. non AWS backups)
+- Rotates log files
+
 Wait a month and then delete s3 blogs bucket
 
 Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
@@ -78,7 +80,8 @@ Add support for YAML-style custom metadata. Consider using something like Strict
 
 Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
 
-Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG)
+Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggBFmgljcPqXScrXswlXgjfg).
+- Create simple reference to original template that is uneditable by default (but forkable, like default Blot templates). This would mean the template would auto-update.
 
 Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
 
@@ -477,7 +480,6 @@ Search engine
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
 NGINX
-- Improve error pages
 - Recompile nginx with neccessary dependencies for auto-ssl instead of openresty?
 - Install nginx fail2ban & http2
 

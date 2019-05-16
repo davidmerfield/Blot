@@ -61,7 +61,12 @@ Blot.use("/health", function(req, res) {
 });
 
 // Open the server to handle requests
-Blot.listen(config.port);
+Blot.listen(config.port, function() {
+  // The endpoints test listens for this line in stdout
+  // so if you change its text, ensure you update the
+  // START_MESSAGE variable in tests/app/endpoints.js
+  console.log("Blot is listening on port", config.port);
+});
 
 // Schedule backups, subscription renewal emails
 // and the publication of scheduled blog posts.
