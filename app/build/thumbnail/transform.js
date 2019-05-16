@@ -45,10 +45,10 @@ function main(path, outputDirectory, callback) {
     function(options, name, next) {
       // We want to ensure that this will work on case-sensitive
       // file systems so we lowercase it. In the past we used the
-      // original filename for the file in the resulting path but 
+      // original filename for the file in the resulting path but
       // I couldn't work out how to handle filenames like ex?yz.jpg
       // Should I store the name URL-encoded (e.g. ex%3Fyz.jpg)...
-      // Now I just use the guuid + size + file extension. 
+      // Now I just use the guuid + size + file extension.
       var fileName = (name + extname(path)).toLowerCase();
       var to = outputDirectory + "/" + fileName;
 
@@ -87,12 +87,12 @@ function transform(input, to, options, callback) {
 
   transform.on("error", callback);
 
-  transform.resize(size, size);
-
   if (options.crop) {
-    transform.crop(sharp.strategy.entropy);
+    transform
+      .resize(size, size, { withoutEnlargement: true })
+      .crop(sharp.strategy.entropy);
   } else {
-    transform.max();
+    transform.resize(size, size, { withoutEnlargement: true, fit: "inside" });
   }
 
   transform.toFile(to, function done(err, info) {
