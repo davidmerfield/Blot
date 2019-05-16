@@ -11,27 +11,13 @@ var BackupDomain = require("./util/backupDomain");
 var START_CURSOR = "0";
 var SCAN_SIZE = 1000;
 
-// function updateUser(blog, callback) {
-//   require("user").getById(blog.owner, function(err, user) {
-//     if (err) return callback(err);
-
-//     var blogs = user.blogs.slice();
-
-//     blogs = blogs.filter(function(otherBlogID) {
-//       return otherBlogID !== blog.id;
-//     });
-
-//     User.set(blog.owner, { blogs: blogs }, callback);
-//   });
-// }
-
 function remove(blogID, callback) {
-  get({id: blogID}, function(err, blog) {
+  get({ id: blogID }, function(err, blog) {
     if (err) return callback(err);
 
     var tasks = [
       wipeFolders,
-      // updateUser,
+      updateUser,
       disconnectClient,
       removeSymlinks,
       deleteKeys
@@ -112,6 +98,21 @@ function disconnectClient(blog, callback) {
   if (!blog.client || !clients[blog.client]) return callback(null);
 
   clients[blog.client].disconnect();
+}
+
+function updateUser(blog, callback) {
+  var User = require("user");
+  User.getById(blog.owner, function(err, user) {
+    if (err) return callback(err);
+
+    var blogs = user.blogs.slice();
+
+    blogs = blogs.filter(function(otherBlogID) {
+      return otherBlogID !== blog.id;
+    });
+
+    User.set(blog.owner, { blogs: blogs }, callback);
+  });
 }
 
 module.exports = remove;
