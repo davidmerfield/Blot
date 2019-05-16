@@ -1,5 +1,5 @@
 var client = require("client");
-var Keys = require("../../redis/keys");
+var Keys = require("helper").redisKeys;
 
 module.exports = function renameTransformerIDs(oldBlogID, newBlogID, callback) {
   var multi = client.multi();

@@ -5,7 +5,7 @@ var updateBlog = require("./updateBlog");
 var client = require("client");
 var ensureOldBlogIsDisabled = require("./ensureOldBlogIsDisabled");
 var get = require("../../get/blog");
-var search = require("../../redis/search");
+var redisSearch = require("helper").redisSearch;
 
 if (require.main === module) {
   get(process.argv[2], function(err, user, blog) {
@@ -15,7 +15,7 @@ if (require.main === module) {
       main(blog.id, newBlogID, function(err) {
         if (err) throw err;
         // this is a bad idea with the old format since they're just integers
-        // search(blog.id, function(err, results) {
+        // redisSearch(blog.id, function(err, results) {
         // if (err) throw err;
         console.log("Done!");
         // console.log(results);

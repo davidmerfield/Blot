@@ -1,5 +1,5 @@
 var debug = require("debug")("blot:scripts:set-blog-id:switchSessionID");
-var Keys = require("../../redis/keys");
+var Keys = require("helper").redisKeys;
 var client = require("client");
 var async = require("async");
 

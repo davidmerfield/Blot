@@ -1,6 +1,6 @@
 describe("switchBlogID script", function() {
   var switchBlogID = require("../index");
-  var search = require("../../../redis/search");
+  var redisSearch = require("helper").redisSearch;
   var generateID = require("../../../../app/models/blog/generateID");
 
   global.test.blog();
@@ -19,7 +19,7 @@ describe("switchBlogID script", function() {
     switchBlogID(test.oldID, test.newID, function(err) {
       if (err) return done.fail(err);
 
-      search(test.oldID, function(err, results) {
+      redisSearch(test.oldID, function(err, results) {
         if (err) return done.fail(err);
         expect(results).toEqual([]);
         done();

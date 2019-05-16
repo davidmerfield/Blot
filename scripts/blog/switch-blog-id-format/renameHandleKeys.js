@@ -1,4 +1,4 @@
-var Keys = require("../../redis/keys");
+var Keys = require("helper").redisKeys;
 var client = require("client");
 var async = require("async");
 
