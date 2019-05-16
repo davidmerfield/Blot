@@ -67,6 +67,12 @@ Markdown bugs
 
 Disable access to s3 blogs bucket
 
+Improve scheduler
+- Adds a command to restore database from backup.
+- Adds a scheduled task to flush old backups using app/scheduler/backup/remove.js in branch 'scheduler' which was ported from the old remove method of the upload module
+- Adds offsite (i.e. non AWS backups)
+- Rotates log files
+
 Wait a month and then delete s3 blogs bucket
 
 Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
