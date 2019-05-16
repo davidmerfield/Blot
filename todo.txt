@@ -5,7 +5,6 @@ Reenable disabled test for Blot's application server
 Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
 
 Finish Archive template
-- Losslessly minify and resize images to reduce insane folder size? (currently 600mb+)
 
 Finish Feed template
 - Create folder with public domain material
