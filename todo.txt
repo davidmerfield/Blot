@@ -1,11 +1,8 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
----
-
 Reenable disabled test for Blot's application server
 
 Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
-- Move to UUIDs for blog identifiers
 
 Finish Archive template
 - Losslessly minify and resize images to reduce insane folder size? (currently 600mb+)
