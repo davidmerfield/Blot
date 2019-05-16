@@ -15,12 +15,12 @@ if (require.main === module) {
       main(blog.id, newBlogID, function(err) {
         if (err) throw err;
         // this is a bad idea with the old format since they're just integers
-        search(blog.id, function(err, results) {
-          if (err) throw err;
-          console.log("Done!");
-          console.log(results);
-          process.exit();
-        });
+        // search(blog.id, function(err, results) {
+        // if (err) throw err;
+        console.log("Done!");
+        // console.log(results);
+        process.exit();
+        // });
       });
     });
   });
