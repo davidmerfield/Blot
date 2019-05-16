@@ -1,14 +1,10 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
----
-
-Reenable disabled test for Blot's application server
-
-Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
-- Move to UUIDs for blog identifiers
-
 Finish Archive template
-- Losslessly minify and resize images to reduce insane folder size? (currently 600mb+)
+
+Finish script to adjust blog ID formats
+- Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
+- Announce archive template
 
 Finish Feed template
 - Create folder with public domain material
@@ -69,6 +65,12 @@ Markdown bugs
 --- 
 
 Disable access to s3 blogs bucket
+
+Improve scheduler
+- Adds a command to restore database from backup.
+- Adds a scheduled task to flush old backups using app/scheduler/backup/remove.js in branch 'scheduler' which was ported from the old remove method of the upload module
+- Adds offsite (i.e. non AWS backups)
+- Rotates log files
 
 Wait a month and then delete s3 blogs bucket
 
