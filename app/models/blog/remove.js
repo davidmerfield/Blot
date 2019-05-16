@@ -58,11 +58,13 @@ function deleteKeys(blog, callback) {
 
   var remove = ["template:owned_by:" + blog.id, "handle:" + blog.handle];
 
-  // TODO ALSO remove alternate key with/out 'www', e.g. www.example.com
+  // TODO ALSO remove alternate key with/out 'www', e.g. www.example.com  
   if (blog.domain) {
     remove.push("domain:" + blog.domain);
     remove.push("domain:" + BackupDomain(blog.domain));
   }
+
+  remove.push("domain:" + blog.handle + "." + config.host);
 
   async.each(
     patterns,
@@ -105,13 +107,19 @@ function updateUser(blog, callback) {
   User.getById(blog.owner, function(err, user) {
     if (err) return callback(err);
 
+    var changes = {};
+
     var blogs = user.blogs.slice();
 
     blogs = blogs.filter(function(otherBlogID) {
       return otherBlogID !== blog.id;
     });
 
-    User.set(blog.owner, { blogs: blogs }, callback);
+    changes.blogs = blogs;
+
+    if (user.lastSession === blog.id) changes.lastSession = "";
+
+    User.set(blog.owner, changes, callback);
   });
 }
 
