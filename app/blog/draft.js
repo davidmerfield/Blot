@@ -55,6 +55,8 @@ module.exports = function route(server) {
 
     var filePath = drafts.getPath(request.url, drafts.viewRoute);
 
+    // Asks search engines not to index drafts
+    response.set("X-Robots-Tag", "noindex");
     response.set("Cache-Control", "no-cache");
 
     renderDraft(request, response, next, filePath, function(html) {
