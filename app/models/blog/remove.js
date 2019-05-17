@@ -58,7 +58,7 @@ function deleteKeys(blog, callback) {
 
   var remove = ["template:owned_by:" + blog.id, "handle:" + blog.handle];
 
-  // TODO ALSO remove alternate key with/out 'www', e.g. www.example.com  
+  // TODO ALSO remove alternate key with/out 'www', e.g. www.example.com
   if (blog.domain) {
     remove.push("domain:" + blog.domain);
     remove.push("domain:" + BackupDomain(blog.domain));
@@ -99,7 +99,7 @@ function disconnectClient(blog, callback) {
 
   if (!blog.client || !clients[blog.client]) return callback(null);
 
-  clients[blog.client].disconnect();
+  clients[blog.client].disconnect(blog.id, callback);
 }
 
 function updateUser(blog, callback) {
