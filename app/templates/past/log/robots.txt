@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /drafts/view/*
 Sitemap: {{{blogURL}}}/sitemap.xml
