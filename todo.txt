@@ -89,6 +89,8 @@ Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwB
 
 Add new variable for last-build-time for a blog, and use this for <lastBuildDate> in the sites' RSS feeds. Tell [Shawn](https://twitter.com/soypunk)
 
+Redirect old draft URL to live published post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggCNxgsmCtmRTSkVrDlMJqSH)
+
 Improve 404 log page on Dashboard
 - Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 - Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
