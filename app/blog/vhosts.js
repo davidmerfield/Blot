@@ -62,7 +62,7 @@ module.exports = function(req, res, next) {
     // Redirect HTTP to HTTPS. Preview subdomains are not currently
     // available over HTTPS but when they are, remove this.
     if (blog.forceSSL && req.protocol === "http" && !previewTemplate)
-      redirect = "https://" + blog.domain + req.originalUrl;
+      redirect = "https://" + host + req.originalUrl;
 
     // Should we be using 302 temporary for this?
     if (redirect) return res.status(301).redirect(redirect);
