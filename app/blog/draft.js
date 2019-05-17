@@ -75,7 +75,7 @@ module.exports = function route(server) {
     // console.log('Draft: Rendering draft HTML for entry at: ' + filePath);
 
     Entry.get(blogID, filePath, function(entry) {
-      if (!entry) return next();
+      if (!entry || !entry.draft || entry.deleted) return next();
 
       // GET FULL ENTRY RETURNS NULL SINCE IT"S DRAFT
       // HOW DO WE RESOLVE THIS NEATLY? WHERE TO DRAW
