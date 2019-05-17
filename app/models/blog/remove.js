@@ -2,7 +2,6 @@ var async = require("async");
 var client = require("client");
 var config = require("config");
 var fs = require("fs-extra");
-
 var get = require("./get");
 var key = require("./key");
 var symlinks = require("./symlinks");
@@ -13,7 +12,7 @@ var SCAN_SIZE = 1000;
 
 function remove(blogID, callback) {
   get({ id: blogID }, function(err, blog) {
-    if (err) return callback(err);
+    if (err || !blog) return callback(err || new Error("No blog"));
 
     var tasks = [
       wipeFolders,
@@ -30,10 +29,43 @@ function remove(blogID, callback) {
 }
 
 function wipeFolders(blog, callback) {
-  fs.remove(config.blog_folder_dir + "/" + blog.id, function(err) {
-    if (err) return callback(err);
-    fs.remove(config.blog_static_files_dir + "/" + blog.id, callback);
-  });
+  if (!blog.id || typeof blog.id !== "string")
+    return callback(new Error("Invalid blog id"));
+
+  var blogFolder = config.blog_folder_dir + "/" + blog.id;
+  var staticFolder = config.blog_static_files_dir + "/" + blog.id;
+
+  async.parallel(
+    [
+      safelyRemove.bind(null, blogFolder, config.blog_folder_dir),
+      safelyRemove.bind(null, staticFolder, config.blog_static_files_dir)
+    ],
+    callback
+  );
+
+  // This could get messy if the blog.id is an empty
+  // string or if it somehow resolves to the blog folder
+  // so we do a few more steps to ensure we're only ever deleting
+  // a folder inside the particular directory and nothing else
+  function safelyRemove(folder, root, callback) {
+    fs.realpath(folder, function(err, realpathToFolder) {
+      // This folder does not exist, so no need to do anything
+      if (err && err.code === "ENOENT") return callback();
+
+      if (err) return callback(err);
+
+      fs.realpath(root, function(err, realpathToRoot) {
+        if (err) return callback(err);
+
+        if (realpathToFolder.indexOf(realpathToRoot + "/") !== 0)
+          return callback(
+            new Error("Could not safely remove directory:" + folder)
+          );
+
+        fs.remove(realpathToFolder, callback);
+      });
+    });
+  }
 }
 
 function removeSymlinks(blog, callback) {
