@@ -114,6 +114,8 @@ function calculateFee(req, res, next) {
   // change the charge function
   req.amount_due_now = now;
 
+  res.locals.monthly = subscription.plan.interval === 'month';
+  res.locals.interval = subscription.plan.interval;
   res.locals.price = pretty(subscription.plan.amount);
   res.locals.now = pretty(now);
   res.locals.later = pretty(later);
@@ -254,6 +256,10 @@ function chargeForRemaining(req, res, next) {
     return next();
   }
 
+  /// We don't need to do this for users with monthly billing
+  if (req.user.subscription.plan.interval === 'month')
+    return next();
+  
   // This is their first blog, so don't charge the user twice
   if (req.user.blogs.length === 0 && req.user.subscription.quantity === 1) {
     return next();

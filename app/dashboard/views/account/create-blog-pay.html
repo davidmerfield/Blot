@@ -1,17 +1,19 @@
 <form method="post"> 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
-  <div style="max-width:420px">
+  <div style="max-width:440px">
       <p>A blog costs <span style="color: #111;
-    background: #fff0a8;">{{price}} per year</span>. You can host as many as you like and you can cancel at any time. If you create another today, you will be charged {{now}} to cover its cost until your next bill on {{user.pretty.expiry}}.</p>
+    background: #fff0a8;">{{price}} per {{interval}}</span>. You can host as many as you like. {{^monthly}}If you create another today, you will be charged {{now}} to cover its cost until your next bill on <b>{{user.pretty.expiry}}</b>.{{/monthly}}{{#monthly}}If you create another today, your next bill on <b>{{user.pretty.expiry}}</b> will increase by $3.{{/monthly}}</p>
     <div  style="max-width:20rem;margin-top:2.5rem">
+      {{^monthly}}
       <hr style="margin:0 0 1rem">
     <div style="display:flex;">
       <span style="Color:#a09d9c">Amount due today:</span>
       <span style="flex-grow:1;text-align:right">{{now}}</span>
     </div>
+    {{/monthly}}
   <div class="buttons" style="width:100%">
-    <button type="submit" onclick="this.form.submit();this.disabled=true">Submit payment</button>
+    <button type="submit" onclick="this.form.submit();this.disabled=true">{{#monthly}}Create blog{{/monthly}}{{^monthly}}Submit payment{{/monthly}}</button>
     <a href="/">Cancel</a>
   </div>
 </div>
