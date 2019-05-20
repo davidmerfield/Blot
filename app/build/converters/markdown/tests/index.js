@@ -27,6 +27,9 @@ describe("markdown converter", function() {
         fs.readFile(__dirname + path +'.html', 'utf-8', function(err, expected){
 
           expect(err).toBe(null);
+
+          if (html !== expected) fs.outputFileSync(__dirname + path + '.expected.html', html);
+
           expect(html).toEqual(expected);
 
           callback();
@@ -38,7 +41,8 @@ describe("markdown converter", function() {
   it("handles return characters", from('/return-character.txt'));
   it("converts basic markdown", from('/basic-post.txt'));
   it("converts a list", from('/list.txt'));
-  
+  it("handles pre-formatted indentation", from('/pre-formatted-indents.txt'));
+
   // These are disabled because Travis uses an old version of Pandoc
   // I need to update Travis' pandoc.
   xit("does not obfuscate an email address", from('/email-addresses.txt'));

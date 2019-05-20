@@ -1,0 +1,13 @@
+```
+<li>
+  Preserve this indent
+</li>
+```
+<p>
+    Do not preserve this indent because Pandoc would turn it into a code block
+</p>
+```
+<b>
+    Preserve this indent
+</b>
+```
