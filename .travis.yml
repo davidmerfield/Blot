@@ -6,14 +6,18 @@ node_js:
 before_install:
   - export BLOT_PANDOC_PATH=$(which pandoc)
 before_script:
+  - export PATH=$PATH:/home/travis/.cabal/bin
   - node app/setup
 cache: npm
 env:
   - CXX=g++-4.8
+install:
+- cabal update
+- cabal install pandoc
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - pandoc
+      - haskell-platform
       - g++-4.8    
