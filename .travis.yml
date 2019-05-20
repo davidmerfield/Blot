@@ -4,7 +4,6 @@ services:
 node_js:
   - "8.12.0"
 before_script:
-  - node app/setup
   - uname -a 
   - cat /etc/lsb-release
   - sudo apt-get install cabal-install
@@ -12,6 +11,8 @@ before_script:
   - cabal install pandoc
   - export PATH=~/.cabal/bin:$PATH
   - export BLOT_PANDOC_PATH=$(which pandoc)
+rvm:
+  - 1.9.3
 cache: npm
 env:
   - CXX=g++-4.8
