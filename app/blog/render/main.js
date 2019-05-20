@@ -2,6 +2,15 @@ var Mustache = require("mustache");
 var helper = require("helper");
 var ensure = helper.ensure;
 
+// Disables Mustache's escaping so {{html}} is now the same as {{{html}}}
+// Why does Mustache offer escaping by default? It's to prevent HTML
+// injection, e.g. a screename "<script>alert()</script>" would cause
+// undesired JavaScript to run. Since you can only ever control your own
+// site, this behaviour is less useful for Blot. In fact, it's caused a 
+// number of confusing issues. For example, Mustache escapes slashes by
+// default, which break a number of URL parsers and feed readers.
+Mustache.escape = function(text) {return text;};
+
 var ERROR = require("./error");
 var OVERFLOW = "Maximum call stack size exceeded";
 
