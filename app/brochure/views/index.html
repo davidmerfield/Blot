@@ -44,15 +44,14 @@ Posts
 <style type="text/css">
 a.featured {
   position: relative;
-  flex-basis: 33.333%;
   min-width: 200px;
-  max-width: 300px;
+  max-width: 40em;
   padding: 0 1.4em;
+  display: flex;
 /*  font-size: 14px;
 */  color: inherit;
-  display: block;
 /*  text-align: center;
-*/  margin-bottom: 2.8em;
+*/  margin-bottom: 1.4em;
   box-sizing: border-box;
 }
 
@@ -97,6 +96,11 @@ a.featured:hover .a {
 .feat-window {
   margin: 0 -0.1525em;
   color: #005eb8;
+  flex-basis:180px;
+  position: relative;
+  flex-shrink: 0;
+  float: left;
+  margin-right: 2em;
   border:1px solid #005eb8;border-radius:3px;display:block;text-align:center;margin-bottom:0.7em
 }
 
@@ -112,11 +116,12 @@ a.featured:hover .a {
   color:red;border-color: red
 }
 
+.feat-window .-a {padding: 1.4rem 0;display: block;font-size: 14px}
 
 </style>
-<div style="display:flex;flex-direction:row;flex-wrap:wrap;margin:0 -1.4em">
+<div style="margin:0 -1.4em">
   {{#featured}}
-  <a class="featured col-25" target="_blank" rel="noopener" href="{{{link}}}">
+  <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
     <span class="feat-window">
       <span class="feat-arrow">↗</span>
       <span class="feat-toolbar">
@@ -124,11 +129,13 @@ a.featured:hover .a {
         <span class="feat-dot"></span>
         <span class="feat-dot"></span>
       </span>
-      <br><br><!-- 
+     <!-- 
    <img style="width:16px;height:16px;" src="{{{favicon}}}">  --><span class="-a">{{host}}</span>
-      <br><br>      <br>
+      
  </span>
- <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span><br>
+ <span>
+ <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span>
+</span>
 </a>
   {{/featured}}
 </div>
