@@ -16,6 +16,8 @@ Record new demo video
 
 ---
 
+Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggDZGZhRJkhQhGdMjkQqNXfm)
+
 Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
 
 Fix bug with handling of queries and tell [this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1).
@@ -382,7 +384,6 @@ File converters / codecs
 - Markdown
   Write a pandoc compatible markdown converter in javascript
   to resolve some of the performance issues with pandoc. Perhaps just use [Markdown-it](https://github.com/markdown-it/markdown-it)
-- Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152)
 
 Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 
