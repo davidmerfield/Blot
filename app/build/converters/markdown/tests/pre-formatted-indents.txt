@@ -3,11 +3,9 @@
   Preserve this indent
 </li>
 ```
-
 <p>
     Don't preserve this indent because Pandoc would turn it into a code block
 </p>
-
 ```
 <b>
     Preserve this indent
