@@ -1682,7 +1682,7 @@ form.account > .buttons {
   div.line a.link:hover {text-decoration: underline;}
 
 .link, 
-.right { color: #365899;text-decoration:underline;}
+.right { color: #365899;}
 
 .right {
   float:right;
@@ -1882,18 +1882,20 @@ button {background: none;border: none;color:rgb(109, 109, 109);padding: 0;margin
 button:hover{color: #111}
 button:focus {outline: none;}
 
-button.content-line {
+a.content-line {
   padding:0 20px;
+  display: block;
   line-height: 36px;
+  text-decoration: none;
   height: 36px;
   overflow: hidden;
 }
 
-button.content-line:hover {
+a.content-line:hover {
   background: #f7f4f2
 }
-button.content-line .folder,
-button.content-line .file {float: none}
+a.content-line .folder,
+a.content-line .file {float: none}
 
 
 .line-item {display: flex;font-size: 14px}

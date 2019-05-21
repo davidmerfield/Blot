@@ -12,7 +12,7 @@
 
   {{#contents}}
 
-    <a href="/folder{{path}}" class="content-line">
+    <a href="/folder{{path}}" class="line" style="padding:6px 20px;{{#last}}border-bottom:none{{/last}}">
         
       {{#directory}}
       <img src="/images/folder-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
@@ -27,8 +27,9 @@
       {{/entry}}
       {{/directory}}
       
-      <span >{{name}}</span>
-      
+      <span class="link" style="min-width:20%;display:inline-block">{{name}}</span>
+      <span class="center" >{{entry.title}}</span>
+      <span class="right" style="color:#aaa">3 hours ago</span>
       <span class="clear"></span>
     </a>
 

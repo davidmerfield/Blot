@@ -1,9 +1,11 @@
 {{> sub_nav}}
 
-<!-- <span style="color:rgba(0,0,0,0.3)">Settings</span>
-<hr style="margin-bottom:0"> -->
 
-        
+
+{{> folder}}
+
+
+<div style="border:1px solid #eee;border-radius:3px">
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
 
@@ -44,8 +46,6 @@
 
   </a>
 
-  <br>
-
 
 <a class="line" href="/settings/links" style="">
     <span class="label">Links</span>
@@ -73,7 +73,11 @@
     </section>
   </a>
 
-
+<a class="line" href="/settings/client/{{name}}" >
+    <span class="label">Client</span>
+    <span class="center">{{client.display_name}}</span>
+    <span class="right">Change</span>
+  </a>
 
   <a class="line" href="/settings/services" style="border-bottom:none">
     <span class="label">Services</span>
@@ -114,15 +118,8 @@
 
 
 
-<br><br>
 
-<a class="line" href="/settings/client/{{name}}" >
-    <span class="label">Folder</span>
-    <span class="center">{{client.display_name}}</span>
-    <span class="right">Change</span>
-  </a>
 
-    {{> folder}}
 
 
   
@@ -135,3 +132,4 @@
 
 
 </form>
+</div>

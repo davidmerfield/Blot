@@ -7,13 +7,11 @@
 
 <style type="text/css">
 .breadcrumbs {
-    font-family: "nta",Arial,sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
     color: #0b0c0c;
     margin-top: 15px;
     margin-bottom: 10px;
+    padding: 0 20px
 }
 .breadcrumbs__list {
     margin: 0;
@@ -55,8 +53,11 @@
 .breadcrumbs__list-item:first-child:before{content:none;display:none}
 .breadcrumbs__link:link,
 .breadcrumbs__link:visited {
-    color: #0b0c0c;
+    color: #365899;
+        text-decoration: none;
+
   }
+  .breadcrumbs__link:hover{text-decoration: underline;}
 </style>
 
 
@@ -91,7 +92,6 @@
   </ol>
 </div>
 
-    <hr>
     
     {{#message}}
     {{^error}}
