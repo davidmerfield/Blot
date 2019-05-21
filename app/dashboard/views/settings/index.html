@@ -6,16 +6,10 @@
         
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
-{{^client}}
 
-<a href="/settings/client" class="mess error">
-     <span class="link">Select a client</span>
-     Please select a client to sync your folder.
-  </a>
-{{/client}}
 
-  <a class="line" href="/settings/profile">
-    <span class="label">Profile</span>
+  <a class="line" href="/settings/title">
+    <span class="label">Title</span>
     <span class="center">
 
 {{#blog.avatar}}<span class="photo-holder" style="margin-right:6px">
@@ -30,26 +24,64 @@
     </span>
 
     {{#blog.title}}
-        <span class="right">Edit</span>
+        <span class="right">Change</span>
     {{/blog.title}}
     
   </a>
 
-  <a class="line" href="/settings/domain">
+    <a class="line" href="/settings/domain">
     <span class="label">Domain</span>
     <span class="center">{{blog.pretty.url}}</span>
-    <span class="right">Edit</span>
+    <span class="right">Change</span>
   </a>
-
 
 <a class="line" href="/settings/theme">
     <span class="label">Template</span>
     <span class="center">{{#template.name}}
         {{template.name}}
         {{/template.name}}        {{^template.name}}<i>You are not using a theme</i>{{/template.name}}</span>
-            <span class="right">Edit</span>
+            <span class="right">Change</span>
 
   </a>
+
+  <br>
+
+
+<a class="line" href="/settings/links" style="">
+    <span class="label">Links</span>
+    <span class="center">
+      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
+
+    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
+    </span>
+    <span class="right" style="padding-left:0">Change</span>
+  </a>
+
+  <a class="line" href="/settings/photo">
+  <span class="label">Photo</span>
+{{^blog.avatar}}
+      <span class="link">Choose a photo</span>
+      {{/blog.avatar}}
+
+      {{#blog.avatar}}
+        <img style="max-width:64px;max-height:64px;margin:4px 8px 0 0;    vertical-align: baseline;
+    display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+            <span class="link">Change</span>    
+
+      {{/blog.avatar}}
+
+    </section>
+  </a>
+
+
+
+  <a class="line" href="/settings/services" style="border-bottom:none">
+    <span class="label">Services</span>
+    <span class="link">Import, export and typography
+</span>
+
+  </a>
+
 <!-- 
   <a class="line" href="/settings/photo">
     <span class="label">Photo</span>
@@ -62,46 +94,44 @@
       {{#blog.avatar}}
         <img style="max-width:64px;max-height:64px;margin:4px 8px 0 0;    vertical-align: baseline;
     display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-            <span class="link">Edit</span>    
+            <span class="link">Change</span>    
 
       {{/blog.avatar}}
     </span>
       {{#blog.avatar}}
 {{/blog.avatar}}
   </a> -->
-  
-<!-- 
-   <a class="line" href="/settings/date">
-    <span class="label">Dates</span>
-    <span class="center">
-      {{^blog.hideDates}}{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}{{/blog.hideDates}}
-      {{#blog.hideDates}}<i>Dates are hidden</i>{{/blog.hideDates}}
-</span>
-    <span class="right">Edit</span>
 
-  </a> -->
   <!-- 
   <a class="line" href="/settings/urls" >
     <span class="label">URLs</span>
     <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
-    <span class="right">Edit</span>
+    <span class="right">Change</span>
   </a> -->
 
 
 
 
+
+
+<br><br>
+
 <a class="line" href="/settings/client/{{name}}" >
-    <span class="label">Client</span>
+    <span class="label">Folder</span>
     <span class="center">{{client.display_name}}</span>
-    <span class="right">Edit</span>
+    <span class="right">Change</span>
   </a>
 
-  <a class="line" href="/settings/services" style="border-bottom:none">
-    <span class="label">Services</span>
-    <span class="link">Import, export and typography
-</span>
+    {{> folder}}
 
-  </a>
+
   
+
+<!-- <div style="font-size:14px;opacity:0.3;padding:40px 20px 10px">
+      13GB used
+      <div style="float:right">Last sync: 12 minutes ago
+    </div>
+    </div> -->
+
 
 </form>

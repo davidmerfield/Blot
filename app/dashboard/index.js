@@ -269,12 +269,16 @@ dashboard.get("/", function(req, res, next) {
   res.render("index");
 });
 
-dashboard.use(debug("before loading folder state"));
+dashboard.use(function(req, res, next){
+  res.locals.breadcrumbs.add(req.blog.title || req.blog.pretty.url, "/settings");
+  next();
+});
+
 
 // Load the files and folders inside a blog's folder
-dashboard.use(require("./routes/folder"));
+dashboard.use(['/', '/folder'], require("./routes/folder"));
 
-dashboard.get("/folder", function(req, res, next) {
+dashboard.use("/folder", function(req, res, next) {
   res.render("folder", { selected: { folder: "selected" } });
 });
 
@@ -298,7 +302,6 @@ function Breadcrumbs() {
   return list;
 }
 
-dashboard.use(debug("after loading folder state"));
 
 require("./routes/tools")(dashboard);
 

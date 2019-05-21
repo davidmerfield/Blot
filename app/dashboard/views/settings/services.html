@@ -1,6 +1,14 @@
 <input type="hidden" name="redirect" value="/settings/services">
 
+   <a class="line" href="/settings/date">
+    <span class="label">Dates</span>
+    <span class="center">
+      {{^blog.hideDates}}{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}{{/blog.hideDates}}
+      {{#blog.hideDates}}<i>Dates are hidden</i>{{/blog.hideDates}}
+</span>
+    <span class="right">Change</span>
 
+  </a>
   <a class="line" href="/settings/urls" style="margin:0 -20px">
     <label>URLs</label>
     <span class="center">

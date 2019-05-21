@@ -1682,17 +1682,18 @@ form.account > .buttons {
   div.line a.link:hover {text-decoration: underline;}
 
 .link, 
-.right { color: #365899 }
+.right { color: #365899;text-decoration:underline;}
 
 .right {
-  float:none;
+  float:right;
   padding-left: 4px;
 }
 
 
 .label {
   color: rgb(158, 154, 152);
-  display: block;
+  display: inline-block;
+  width: 25%;
 
 }
 
@@ -1744,7 +1745,7 @@ form.account, .inset {padding:20px}
 .mess .link {float: right;color: inherit;}
 .mess:hover .link {text-decoration: underline;}
 
-.wrapper {margin:0 auto;display: flex;min-height: calc(100vh - 3em);padding: 60px 40px}  
+.wrapper {margin:0 auto;display: flex;justify-content: center;min-height: calc(100vh - 3em);padding: 0 40px}  
 
 .head {height:123px;padding-top:20px;}
 

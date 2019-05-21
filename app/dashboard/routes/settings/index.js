@@ -15,7 +15,6 @@ settings.use(function(req, res, next) {
 });
 
 settings.use(function(req, res, next) {
-  res.locals.breadcrumbs.add(req.blog.title || req.blog.pretty.url, "/settings");
   res.locals.setup = !!req.query.setup;
 
   next();
@@ -69,7 +68,7 @@ settings.use(
   }
 );
 
-settings.get("/settings/profile/menu", load.menu);
+settings.get("/settings/links", load.menu);
 settings.get("/settings/date", load.timezones, load.dates);
 settings.get("/settings/services", load.plugins);
 settings.get("/settings/urls", load.permalinkFormats);

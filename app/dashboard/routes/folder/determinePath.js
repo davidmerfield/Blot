@@ -1,9 +1,9 @@
 module.exports = function determinePath(req, res, next) {
   
-  var dir;
+  var dir = '/';
 
-  req.session[req.blog.id] = req.session[req.blog.id] || {};
-  dir = req.session[req.blog.id].path || "/";
+  if (req.originalUrl.indexOf('/folder') > -1) dir = req.originalUrl.slice('/folder'.length);
+
   res.locals.folder = {};
 
   if (dir === '/') res.locals.folder.root = true;

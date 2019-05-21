@@ -12,7 +12,7 @@
 
   {{#contents}}
 
-    <button class="content-line" type="submit" name="path" value="{{path}}">
+    <a href="/folder{{path}}" class="content-line">
         
       {{#directory}}
       <img src="/images/folder-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
@@ -30,7 +30,7 @@
       <span >{{name}}</span>
       
       <span class="clear"></span>
-    </button>
+    </a>
 
   {{/contents}}
   <div class="clear"></div>
