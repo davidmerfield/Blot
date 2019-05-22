@@ -276,9 +276,9 @@ dashboard.use(function(req, res, next){
 
 
 // Load the files and folders inside a blog's folder
-dashboard.use(['/', '/folder'], require("./routes/folder"));
+dashboard.use(['/', '/settings/folder'], require("./routes/folder"));
 
-dashboard.use("/folder", function(req, res, next) {
+dashboard.use("/settings/folder", function(req, res, next) {
   res.render("folder", { selected: { folder: "selected" } });
 });
 
