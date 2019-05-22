@@ -41,7 +41,7 @@ module.exports = function(callback) {
 
             setupFolder(blog, function(err, folder) {
               console.log();
-              console.log(colors.yellow(blog.title), "-", colors.dim(blog.id));
+              console.log(colors.yellow(blog.title || blog.handle), "-", colors.dim(blog.id));
               console.log("Dashboard:", url);
               console.log("Blog:", "http://" + blog.handle + "." + config.host);
               if (folder) console.log("Folder:", folder);
