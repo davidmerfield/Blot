@@ -12,7 +12,7 @@
     <form action="/account/switch-blog" method="POST" > 
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;">
+      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;border-radius:3px;border:1px solid #eee">
         <span class="photo-holder">
           {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
           {{^avatar}}<span class="file" style="width:16px;height:16px;opacity:0.4"></span>{{/avatar}}
