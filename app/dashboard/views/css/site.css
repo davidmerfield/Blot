@@ -1853,7 +1853,6 @@ border: 1px solid;margin-left: -1px;padding: 0 8px}
 
 
 .folder-box {margin:0 0 0;
-  padding-bottom:30px;
   flex-basis:500px;flex-grow:1;}
 
   .row {display: flex;}

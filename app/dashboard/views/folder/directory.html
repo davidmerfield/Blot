@@ -1,14 +1,20 @@
+{{^contents.length}}
+  <small style="text-align:center;display:block;align-self:center;color:rgb(158, 154, 152)">
 
-<form method='post' class="files" action='/path?_csrf={{csrftoken}}'>
-
-  <input type="hidden" name="redirect" value="{{redirect}}">
-
-  {{^contents.length}}
-  <div style="padding: 0 20px 11px;">
+  {{#root}}
+  Your blog's folder is empty.
+  {{/root}}
+  {{^root}}
   This folder is empty.
-  
-</div>
+  {{/root}}
+
+</small>
   {{/contents.length}}
+
+{{#contents.length}}
+<div style="width:100%">
+
+  
 
   {{#contents}}
 
@@ -29,11 +35,12 @@
       
       <span class="link" style="min-width:20%;display:inline-block">{{name}}</span>
       <span class="center" >{{entry.title}}</span>
-      <span class="right" style="color:#aaa">3 hours ago</span>
+      <span class="right" style="color:#aaa">{{modified}}</span>
       <span class="clear"></span>
     </a>
 
   {{/contents}}
   <div class="clear"></div>
 
-</form>
+</div>
+  {{/contents.length}}
