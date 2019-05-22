@@ -162,11 +162,16 @@ describe("image", function() {
 
     $("img").each(function() {
       var src = $(this).attr("src");
+      var path;
 
-      if (src.indexOf(config.cdn.origin) === 0)
+      if (src.indexOf(config.cdn.origin) === 0) {
         src = src.slice(config.cdn.origin.length);
+        path = join(config.blog_static_files_dir, src);
+      } else {
+        path = join(config.blog_static_files_dir, blog.id, src);
+      }
 
-      paths.push(join(config.blog_static_files_dir, blog.id, src));
+      paths.push(path);
     });
 
     return paths;
