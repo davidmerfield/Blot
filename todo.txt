@@ -3,6 +3,8 @@ Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmt
 Finish Archive template
 
 Finish script to adjust blog ID formats
+- Finish PR adjusting delete blog
+- Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
 - Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441) and [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
 - Announce archive template
 
@@ -23,8 +25,6 @@ Catch 404s in Google search results and set up redirects
 Fall back to file name before first sentence when generating title metadata and tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
 
 Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggDZGZhRJkhQhGdMjkQqNXfm)
-
-Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
 
 Fix bug with handling of queries and tell [this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1).
 
@@ -71,6 +71,8 @@ Markdown bugs
 - Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
 --- 
+
+Increase price to $4 per month for new customers. This will not affect existing customers in any way.
 
 Disable access to s3 blogs bucket
 
@@ -120,7 +122,7 @@ Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.go
 
 ---
 
-Switch billing to $3 per month for new customers. This will not affect existing customers in any way.
+Increase price to $5 per month for new customers. This will not affect existing customers in any way.
 
 Write script to download all the redis data + files for a particular blog, then restore it in my local environment. The hard part will be using [Redis's DUMP command](https://stackoverflow.com/a/23439302).
 
@@ -276,7 +278,7 @@ Move to Linode?
 
 ---
 
-Increase price to $4 per month for new customers. This will not affect existing customers in any way.
+Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
@@ -432,8 +434,6 @@ Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
 
 ---
-
-Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Improvements to Git client
 - Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
