@@ -5,11 +5,76 @@
   <div style="display:flex;flex-grow:1;min-height:calc(100vh - 2rem);align-items: center;">
 
     {{#entry}}
+    <style type="text/css">
+    .left, .right, .close {
+      text-align: center;
+      display: inline-block;
+      margin: 1.3rem;
+      border: 1px solid rgba(0,0,0,.25);
+      padding: 2.6rem 1.3rem;
+      text-decoration: none;
+      box-sizing: border-box;
+      position: relative;
+    }
 
+    .close {padding: 1.3rem}
+
+    .left:focus, .right:focus, .close:focus {opacity: 0.6}
+
+    .left:before, .right:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 17px;
+      right: auto;
+      width: 9px;
+      height: 9px;
+      margin: auto 0;
+      -webkit-transform: rotate(-135deg);
+      -ms-transform: rotate(-135deg);
+      transform: rotate(-135deg);
+      border: solid;
+      border-width: 1px 1px 0 0;
+      border-color: rgba(0,0,0,.4);
+    }
+
+ .right:before{      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+            left: 13px;
+
+}
+
+.close:before, .close:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: auto;
+      width: 1px;
+      background: rgba(0,0,0,.4);
+      height: 16px;
+      margin: auto 0;
+      -webkit-transform: rotate(-135deg);
+      -ms-transform: rotate(-135deg);
+      transform: rotate(-135deg);
+      left: 20px
+    }
+
+.close:after {      -webkit-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+}
+
+    </style>
     <div style="">
-      <a class="light" href="/" onclick="return randomArticle()" style="text-transform:uppercase;font-size:11px;"><img width="16" style="vertical-align:bottom" src="/icons/shuffle.svg">&puncsp;&puncsp; Random</a>
 
-      <a style="display:inline-block;padding:1.3rem;color:rgba(0,0,0,.4);text-decoration:none;box-sizing:border-box;font-size:11px;text-transform:uppercase;{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"><svg style="display:block" width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="rgba(0,0,0,.4)" stroke-width="2"></circle><path d="M12.6298 27.3702L27.3701 12.6299" stroke="rgba(0,0,0,.4)" stroke-width="2"></path><path d="M12.6298 12.6298L27.3701 27.3701" stroke="rgba(0,0,0,.4)" stroke-width="2"></path></svg></a>
+      <a class="left" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}">
+
+      </a>
 
     </div>
 
@@ -19,30 +84,12 @@
 
     <div style="flex-grow:0;min-height:100vh;flex-shrink:0;display:flex;justify-content:space-between;flex-direction:column">
 
-      <a href="/" onclick="return lastIndexPage()" style="float:right;text-transform:uppercase;padding:1.3rem;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right;position:relative;">
+      <a class="close" href="/" onclick="return lastIndexPage()"></a>
 
-                    <svg style="display:block" width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="rgba(0,0,0,.4)" stroke-width="2"></circle><path d="M12.6298 27.3702L27.3701 12.6299" stroke="rgba(0,0,0,.4)" stroke-width="2"></path><path d="M12.6298 12.6298L27.3701 27.3701" stroke="rgba(0,0,0,.4)" stroke-width="2"></path></svg>
-<!-- 
-                    <span style="color:rgba(0,0,0,.4);text-decoration:none;font-size:11px;text-transform:uppercase">Close</span>  --> </a>
+      <a class="right" style="{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
+      <a class="close" href="/" style="visibility:hidden"></a>
 
 
-      <a style="padding:1.3rem;text-align:center;display:inline-block;color:rgba(0,0,0,.4);text-decoration:none;box-sizing:border-box;font-size:11px;text-transform:uppercase;{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}">
-                    <svg style="display:block;margin:0 auto" width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" stroke="rgba(0,0,0,.4)" stroke-width="2"></circle><path d="M12.6298 27.3702L27.3701 12.6299" stroke="rgba(0,0,0,.4)" stroke-width="2"></path><path d="M12.6298 12.6298L27.3701 27.3701" stroke="rgba(0,0,0,.4)" stroke-width="2"></path></svg>
-
-          <!-- Previous --> </a>
-      <!--    {{#entry}}
-      <div style="max-width:15em;font-size:14px;float:right">
-
-        <h1 style="font-size:20px">{{title}}</h1>
-        {{#tags.length}}
-        <hr style="margin:0.65em 0"> <span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);display:inline-block">Tags</span>{{#tags}}<a style="color:rgba(0,0,0,0.4);text-decoration:none;padding:0 0.325em;margin:0.325em;display:inline-block;background:#f2f2f2;" href="/tagged/{{slug}}">{{tag}}</a>{{/tags}}
-        {{/tags.length}}
-        <hr style="margin:0.65em 0"><span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);display:inline-block">Added</span> <span style="color:rgba(0,0,0,.4)">{{date}}</span>
-
-      </div>{{/entry}}
- -->
-      <div style="text-align:right">
-      </div>
     </div>
     {{/entry}}
   </div>

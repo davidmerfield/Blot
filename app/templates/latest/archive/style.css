@@ -482,12 +482,6 @@ form input:focus,
 /* Grid of links on archives page */
 .archives .links {
   padding: 1.9rem;
-  -webkit-column-width: 16rem;
-  -moz-column-width: 16rem;
-  column-width: 16rem;
-  -webkit-column-gap: 2.6rem;
-  -moz-column-gap: 2.6rem;
-  column-gap: 2.6rem;
   text-align: left;
   display: block;
   white-space: nowrap;
