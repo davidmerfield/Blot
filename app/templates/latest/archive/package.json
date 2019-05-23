@@ -5,6 +5,10 @@
   },
   "isPublic": true,
   "views": {
+    "components": {"url": "/components"},
+    "components-grid": {"url": "/components-grid"},
+    "components-footer": {"url": "/components-footer"},
+    "components-header": {"url": "/components-header"},
     "archives": {
       "url": "/archives",
       "partials": {
@@ -12,13 +16,7 @@
         "description": "All the entries posted on {{{title}}}"
       }
     },
-    "focus": {
-      "url": "/focus",
-      "partials": {
-        "title": "{{{title}}}",
-        "description": "All the tags on on {{{title}}}"
-      }
-    },
+    
         "tags": {
       "url": "/tags",
       "partials": {
