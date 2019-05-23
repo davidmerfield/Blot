@@ -14,10 +14,14 @@ function remove(blogID, callback) {
   get({ id: blogID }, function(err, blog) {
     if (err || !blog) return callback(err || new Error("No blog"));
 
+    // The order of these tasks is important right now.
+    // For example, if you wipe the blog's folder before disconnecting
+    // the client, you might run into an error. It would be nice to 
+    // be able to run them in parallel though
     var tasks = [
-      wipeFolders,
-      updateUser,
       disconnectClient,
+      updateUser,
+      wipeFolders,
       removeSymlinks,
       deleteKeys
     ].map(function(task) {
