@@ -1,5 +1,7 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
+Investigate support for .bib/.csl files and follow up with [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGKbxLLmfcBDBScrrVBKh) on Tuesday
+
 Finish Archive template
 
 Finish script to adjust blog ID formats
@@ -15,6 +17,13 @@ Finish Feed template
 Record new demo video
 - Create simple custom text editor
 - Show sites I run using Blot
+
+Delete social media accounts
+- Twitter
+  - Archive all tweets, including external images
+  - Archive all DMs
+- Micro.blog
+  - Archive all micro.blog posts
 
 ---
 
@@ -74,6 +83,8 @@ Markdown bugs
 
 Increase price to $4 per month for new customers. This will not affect existing customers in any way.
 
+Add Q and A section to site where users could post
+
 Disable access to s3 blogs bucket
 
 Improve scheduler
@@ -92,6 +103,8 @@ Implement hidden link section on Menu page under profile settings. Default links
 
 Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggBFmgljcPqXScrXswlXgjfg).
 - Create simple reference to original template that is uneditable by default (but forkable, like default Blot templates). This would mean the template would auto-update.
+
+Move away from reds and investigate good full text search options
 
 Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
 
