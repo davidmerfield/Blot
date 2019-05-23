@@ -83,6 +83,8 @@ Markdown bugs
 
 Increase price to $4 per month for new customers. This will not affect existing customers in any way.
 
+Add Q and A section to site where users could post
+
 Disable access to s3 blogs bucket
 
 Improve scheduler
