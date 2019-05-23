@@ -1,11 +1,24 @@
 {{^entry.page}}
 
 <body style="display:flex;flex-direction:column;min-height:100%;">
-
-  <div style="display:flex;flex-grow:1;min-height:calc(100vh - 2rem);align-items: center;">
-
     {{#entry}}
+
+  <div class="top">
+    <a class="close" style="float:right" href="/" onclick="return lastIndexPage()"></a>
+      <a class="right" style="margin-left:0;{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
+      <a class="left" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"></a>
+
+  </div>
+
+  <div class="main" style="display:flex;">
+
     <style type="text/css">
+
+    .main {align-items: center;min-height:calc(100vh - 2rem);flex-grow:1;}
+    .top  > * {float: right;}
+
+    .top .right, .top .left {padding: 1.3rem}
+
     .left, .right, .close {
       text-align: center;
       display: inline-block;
@@ -69,33 +82,37 @@
       transform: rotate(-45deg);
 }
 
+.side {}
+.right-side {justify-content:space-between;flex-grow:0;min-height:100vh;flex-shrink:0;display:flex;flex-direction:column}
+.top {display: none;}
+@media screen and (max-width: 600px) {
+  .top {display: block}
+  .main {align-items: normal;min-height: initial;flex-grow:0;}
+  .side {
+    display: none;
+  }
+}
     </style>
-    <div style="">
-
-      <a class="left" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}">
-
-      </a>
-
+    <div class="side" style="">
+      <a class="left" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"></a>
     </div>
-
     <div class="entry" style="flex-grow:1">
       {{{body}}}
     </div>
-
-    <div style="flex-grow:0;min-height:100vh;flex-shrink:0;display:flex;justify-content:space-between;flex-direction:column">
-
+    <div class="side right-side" style="">
       <a class="close" href="/" onclick="return lastIndexPage()"></a>
-
       <a class="right" style="{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
       <a class="close" href="/" style="visibility:hidden"></a>
-
-
     </div>
-    {{/entry}}
   </div>
   <div>
     {{> pluginHTML}}
   </div>
+
+  <div class="bottom">
+  </div>
+      {{/entry}}
+
   {{/entry.page}}
 
   <script type="text/javascript">

@@ -121,6 +121,8 @@ a.light:active img {
   .post {
     width: 100%
   }
+
+  .posts {padding-left: 0;padding-right: 0}
 }
 
 .post .date {
