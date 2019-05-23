@@ -3,23 +3,15 @@
 
 <body>
 
-  <div class="header">
+  {{> header}}
 
-    {{> index_link}}
+ <hr>
 
-    <div style="padding:0 0;flex-grow:1">
-      <h1 style="font-size:1.875rem;margin:0;line-height:1.1;padding:0 0 0 0.65rem">{{tag}} </h1>
-    </div>
-
-    <div>
-      <a href="/" style="min-width:20rem;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right"><span style="font-size:11px;">Close</span> &nbsp; &nbsp; <span style="float:right">⨉</span></a>
-    </div>
-  </div>
-
+ <h1 style="margin-left:1.4rem">{{tag}}</h1>
   {{> toolbar}}
   <hr>
-
   <div class="posts">
+
 
     {{#entries}}
     {{> post}}
