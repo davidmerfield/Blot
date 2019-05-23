@@ -36,7 +36,10 @@ brochure.locals.title = "Blot – A blogging platform with no interface.";
 brochure.locals.description =
   "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
 
-brochure.locals.price = "$" + config.stripe.plan.slice(-2);
+
+brochure.locals.price = "$" + config.stripe.plan.split('_').pop();
+brochure.locals.interval =
+  config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
 
 brochure.use(function(req, res, next) {
   if (

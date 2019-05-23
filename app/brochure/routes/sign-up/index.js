@@ -69,7 +69,6 @@ paymentForm.get(function(req, res) {
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
   res.locals.stripe_key = config.stripe.key;
-  res.locals.price = "$" + config.stripe.plan.slice(-2);
   res.render("sign-up");
 });
 

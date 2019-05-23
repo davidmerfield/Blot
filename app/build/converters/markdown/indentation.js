@@ -1,3 +1,26 @@
+// Pandoc is very strict and treats indents inside
+// HTML blocks as code blocks. This is correct but
+// bad user experience. For instance this:
+//
+// <table>
+//     <td>[Hey!](/goo)</td>
+// </table>
+//
+// Becomes:
+//
+// <table>
+// <pre><code><td>[Hey!](/goo)</td></code></pre>
+// </table>
+//
+// This is obviously not desirable. But we want to
+// mix HTML and Markdown in the same file. So I wrote
+// a little script to collapse the indentation
+// for the contents of an HTML tag. This preserves
+// indentation in text! More discussion of this issue:
+// https://github.com/jgm/pandoc/issues/1841
+
+// This function will not remove the indents for pre
+// formatted text <pre> since pandoc will leave those.
 var cheerio = require('cheerio');
 var $ = cheerio.load('');
 
@@ -14,10 +37,22 @@ function indentation (text) {
   for (var i = 0; i < totalLines; i++) {
 
     var line = lines[i];
-    var name = firstTag(line);
     var closingIndex = null;
+    var name = firstTag(line);
 
     if (leadingWhitespace(line)) continue;
+
+    if (hasPreTag(line)) {
+
+      for (var l = i + 1; l < totalLines; l++) {
+        if (hasPreTag(lines[l])) {
+          i = l;
+          break;
+        }
+      }
+
+      continue;
+    }
 
     if (!name) continue;
 
@@ -55,6 +90,10 @@ function verify (before, after) {
   if (after !== before) return before;
 
   return after;
+}
+
+function hasPreTag (line) {
+  return line.indexOf('```') > -1;
 }
 
 function hasClosingTag (line, name) {
@@ -200,5 +239,15 @@ var bOut = m(
 );
 
 // testIndentation(bIn, bOut);
+
+var cIn = m(
+'```',
+'<li>',
+'  Chet',
+'</li>',
+'```'
+);
+
+testIndentation(cIn, cIn);
 
 module.exports = indentation;

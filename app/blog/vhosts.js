@@ -43,13 +43,11 @@ module.exports = function(req, res, next) {
       return next(err);
     }
 
+    previewTemplate = extractPreviewTemplate(host, blog.id);
+
     // Probably a www -> apex redirect
     if (identifier.domain && blog.domain !== identifier.domain)
       redirect = req.protocol + "://" + blog.domain + req.originalUrl;
-
-    // Redirect HTTP to HTTPS
-    if (identifier.domain && blog.forceSSL && req.protocol !== "https")
-      redirect = "https://" + blog.domain + req.originalUrl;
 
     // Redirect old handle
     if (identifier.handle && blog.handle !== identifier.handle)
@@ -61,10 +59,13 @@ module.exports = function(req, res, next) {
     if (identifier.handle && blog.domain && blog.redirectSubdomain)
       return res.status(302).redirect(req.protocol + "://" + blog.domain + req.originalUrl);
 
+    // Redirect HTTP to HTTPS. Preview subdomains are not currently
+    // available over HTTPS but when they are, remove this.
+    if (blog.forceSSL && req.protocol === "http" && !previewTemplate)
+      redirect = "https://" + host + req.originalUrl;
+
     // Should we be using 302 temporary for this?
     if (redirect) return res.status(301).redirect(redirect);
-
-    previewTemplate = extractPreviewTemplate(host, blog.id);
 
     // Retrieve the name of the template from the host
     // If the request came from a preview domain

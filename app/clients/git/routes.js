@@ -12,14 +12,23 @@ var site = Express.Router();
 var debug = require("debug")("clients:git:routes");
 
 dashboard.get("/", function(req, res, next) {
+
+  if (req.query.setup) return res.redirect(require('url').parse(req.originalUrl).pathname);
+
   repos.exists(req.blog.handle + ".git", function(exists) {
     if (exists) return next();
 
-    create(req.blog, next);
+    create(req.blog, function(err){
+      if (err) return next(err);
+
+      console.log('sending message to',req.baseUrl);
+      res.message(req.baseUrl, "Set up git client successfully");
+    });
   });
 });
 
 dashboard.get("/", function(req, res) {
+
   database.getToken(req.blog.owner, function(err, token) {
     res.render(__dirname + "/views/index.html", {
       title: "Git",
