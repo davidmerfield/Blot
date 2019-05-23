@@ -7,6 +7,9 @@ main.form content {
   max-width: 400px;
 }
 
+input[type="submit"],
+input[type="text"]  {border-radius: 3px}
+
 input[type="submit"] {
   background: #333;
   padding: 0.75em 1em;
@@ -22,7 +25,12 @@ input[type="submit"] {
 input[type="submit"]:focus {
   border: none;
   position: relative;
-  top: 2px
+  top: 2px;
+  outline: none;
+}
+
+input[type="submit"].working {
+  background: #aaa
 }
 
 form label {
@@ -81,6 +89,8 @@ input[name="cvc"] {
 
 input[name="exp-month"] {
   width: 60px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 input[name="cvc"] {
@@ -91,12 +101,16 @@ input[name="exp-year"] {
   width: 75px;
   margin-left: -1px;
   margin-right: 2em;
+    border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus,
 textarea:focus {
   outline: none !important;
+  z-index: 2;
   border: 1px solid #699ad2;
   box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .075), 0 0 10px #bdcfe2;
 }
