@@ -2,6 +2,14 @@ var moment = require("moment");
 var lineReader = require("./util/linereader");
 var config = require('config');
 
+
+
+
+// Exec remote something like this:
+// tail logs/nginx.log -n 1000000 | grep " 404 " | grep "https://blot.im" | grep -v "https://blot.im/cdn/"
+
+
+
 if (require.main === module) {
 
   var range = process.argv[2] || "hours";
