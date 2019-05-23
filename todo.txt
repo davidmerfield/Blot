@@ -137,6 +137,8 @@ Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.go
 
 Increase price to $5 per month for new customers. This will not affect existing customers in any way.
 
+Add media-query to prevent typeset hanging punctuation on small screens (it looks weird) and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpXqMzwcBGWgjxgpcpCnMCQW)
+
 Write script to download all the redis data + files for a particular blog, then restore it in my local environment. The hard part will be using [Redis's DUMP command](https://stackoverflow.com/a/23439302).
 
 Make Redis performance improvements
