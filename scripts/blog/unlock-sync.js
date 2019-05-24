@@ -9,8 +9,12 @@ get(process.argv[2], function(err, user, blog) {
   var resource = "blog:" + blog.id + ":lock";
   var redlock = new Redlock([client]);
 
+
   client.get(resource, function(err, value) {
     var lock = new Redlock.Lock(redlock, resource, value, 1);
+  
+    console.log('Unlocking', resource, value);
+  
     lock.unlock(function(err) {
       if (err) throw err;
       console.log("Unlocked", blog.id);
