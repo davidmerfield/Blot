@@ -4,7 +4,7 @@ var fs = require("fs-extra");
 var tmpDir = require("helper").tempDir();
 var join = require("path").join;
 var uuid = require("uuid/v4");
-var retry = require('./retry');
+var retry = require("./retry");
 
 // This is used by sync.js to retrieve files efficiently
 // from Dropbox after notification of a change through a webhook
@@ -22,11 +22,17 @@ function download(token, source, destination, callback) {
 
   ws.on("finish", function() {
     fs.move(tmpLocation, destination, { overwrite: true }, function(err) {
-      if (err) return callback(err);
+      if (err) {
+        debug("move error", err);
+        return callback(err);
+      }
       debug("Moved", tmpLocation, "to", destination);
       setMtime(destination, metadata.client_modified, callback);
     });
-  }).on("error", callback);
+  }).on("error", function(err) {
+    debug("ws error", err);
+    callback(err);
+  });
 
   down = dropboxStream
     .createDropboxDownloadStream({
@@ -45,7 +51,10 @@ function download(token, source, destination, callback) {
       debug("metadata", res);
       metadata = res;
     })
-    .on("error", callback)
+    .on("error", function(err) {
+      debug("error", err);
+      callback(err);
+    })
     .pipe(ws);
 }
 
