@@ -65,6 +65,7 @@ brochure.use(
 
 // Redirect user to dashboard for these links
 brochure.use(["/account", "/settings"], function(req, res, next) {
+
   return res.redirect("/log-in?then=" + req.originalUrl);
 });
 
