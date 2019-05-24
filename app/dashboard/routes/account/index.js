@@ -32,7 +32,7 @@ Account.route("/log-out")
   })
 
   .post(logout, function(req, res) {
-    var redirect = (req.query && req.query.then) || "/logged-out";
+    var redirect = (req.query && req.query.then) || "/account/logged-out";
 
     res.redirect(redirect);
   });
