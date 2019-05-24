@@ -167,7 +167,10 @@ function Apply(token, blogFolder) {
         token,
         item.path_lower,
         join(blogFolder, item.relative_path),
-        callback
+        function(err) {
+          if (err) debug("Download error", err);
+          callback(err);
+        }
       );
     }
 
@@ -181,7 +184,10 @@ function Apply(token, blogFolder) {
         async.apply(async.each, folders, mkdir),
         async.apply(async.eachLimit, files, 20, download)
       ],
-      callback
+      function(err) {
+        debug("Finished!");
+        callback(err);
+      }
     );
   };
 }
