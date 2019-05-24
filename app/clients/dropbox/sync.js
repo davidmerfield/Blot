@@ -46,7 +46,7 @@ module.exports = function main(blog, callback) {
       // blog folder in the user's Dropbox folder.
       delta(account.cursor, function handle(err, result) {
         if (err) {
-          debug("Delta error", err);
+          console.log("Blog", blog.id, "Dropbox Error:", err);
           return Database.set(
             blog.id,
             { error_code: err.status || 400 },
@@ -64,6 +64,7 @@ module.exports = function main(blog, callback) {
         // or changed files, and removing any deleted items.
         apply(result.entries, function(err) {
           if (err) {
+            console.log("Blog", blog.id, "Dropbox Error:", err);
             return Database.set(
               blog.id,
               { error_code: err.status || 400 },
