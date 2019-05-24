@@ -168,7 +168,11 @@ function Apply(token, blogFolder) {
         item.path_lower,
         join(blogFolder, item.relative_path),
         function(err) {
-          if (err) debug("Download error", err);
+          if (err) {
+            debug("Download error", err);
+          } else {
+            debug("Downloaded", item.relative_path);
+          }
           callback(err);
         }
       );
@@ -185,6 +189,7 @@ function Apply(token, blogFolder) {
         async.apply(async.eachSeries, files, download)
       ],
       function(err) {
+        if (err) debug(err);
         debug("Finished!");
         callback(err);
       }
