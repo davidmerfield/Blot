@@ -16,7 +16,7 @@ function remove(blogID, callback) {
 
     // The order of these tasks is important right now.
     // For example, if you wipe the blog's folder before disconnecting
-    // the client, you might run into an error. It would be nice to 
+    // the client, you might run into an error. It would be nice to
     // be able to run them in parallel though
     var tasks = [
       disconnectClient,
@@ -142,6 +142,12 @@ function updateUser(blog, callback) {
   var User = require("user");
   User.getById(blog.owner, function(err, user) {
     if (err) return callback(err);
+
+    // If the user has already been deleted then
+    // we don't need to worry about this.
+    if (!user || !user.blogs) {
+      return callback();
+    }
 
     var changes = {};
 

@@ -109,7 +109,7 @@ Delete.route("/")
     deleteUser,
     logout,
     function(req, res) {
-      res.redirect("/deleted");
+      res.redirect("/account/deleted");
     }
   );
 
