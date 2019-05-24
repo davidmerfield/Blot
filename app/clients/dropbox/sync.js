@@ -182,10 +182,10 @@ function Apply(token, blogFolder) {
     debug("Folders:", folders);
     debug("Files:", files);
 
-    async.parallel(
+    async.series(
       [
-        async.apply(async.each, deleted, remove),
-        async.apply(async.each, folders, mkdir),
+        async.apply(async.eachSeries, deleted, remove),
+        async.apply(async.eachSeries, folders, mkdir),
         async.apply(async.eachSeries, files, download)
       ],
       function(err) {
