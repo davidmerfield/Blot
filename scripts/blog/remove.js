@@ -10,17 +10,23 @@ Blog.get({ handle: process.argv[2] }, function(err, blogFromHandle) {
 
       if (!blog || !blog.id) throw new Error("No blog: " + process.argv[2]);
 
-      yesno.ask("Delete " + blog.id + " " + blog.handle + "? (y/N)", false, function(
-        ok
-      ) {
-        if (!ok) throw new Error("Not ok!");
+      yesno.ask(
+        "Delete " + blog.id + " " + blog.handle + "? (y/N)",
+        false,
+        function(ok) {
+          if (!ok) throw new Error("Not ok!");
 
-        Blog.remove(blog.id, function(err) {
-          if (err) throw err;
-          console.log("Deleted", blog.id, blog.handle);
-          process.exit();
-        });
-      });
+          // We need to enable the blog to disconnect the client
+          // since we need to acquire a sync lock...
+          Blog.set(blog.id, { isDisabled: false }, function(err) {
+            Blog.remove(blog.id, function(err) {
+              if (err) throw err;
+              console.log("Deleted", blog.id, blog.handle);
+              process.exit();
+            });
+          });
+        }
+      );
     });
   });
 });
