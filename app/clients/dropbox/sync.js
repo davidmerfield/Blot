@@ -149,7 +149,7 @@ function Apply(token, blogFolder) {
 
     function remove(item, callback) {
       debug("Removing", item.relative_path);
-      fs.remove(join(blogFolder, item.relative_path), function(err) {
+      fs.remove(join(blogFolder, item.relative_path), function(err){
         // This error happens if you try to remove a non-existent file
         // inside a non-existent folder whose name happens to be the same
         // as an existent file. For example, create a file 'hello.txt' then
@@ -176,14 +176,7 @@ function Apply(token, blogFolder) {
         token,
         item.path_lower,
         join(blogFolder, item.relative_path),
-        function(err) {
-          if (err) {
-            debug("Download error", err);
-          } else {
-            debug("Downloaded", item.relative_path);
-          }
-          callback(err);
-        }
+        callback
       );
     }
 
@@ -191,17 +184,13 @@ function Apply(token, blogFolder) {
     debug("Folders:", folders);
     debug("Files:", files);
 
-    async.series(
+    async.parallel(
       [
-        async.apply(async.eachSeries, deleted, remove),
-        async.apply(async.eachSeries, folders, mkdir),
-        async.apply(async.eachSeries, files, download)
+        async.apply(async.each, deleted, remove),
+        async.apply(async.each, folders, mkdir),
+        async.apply(async.eachLimit, files, 20, download)
       ],
-      function(err) {
-        if (err) debug(err);
-        debug("Finished!");
-        callback(err);
-      }
+      callback
     );
   };
 }
