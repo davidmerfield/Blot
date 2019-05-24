@@ -53,12 +53,6 @@ dashboard.use("/clients", require("./routes/clients"));
 
 dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 
-dashboard.get("/deleted", function(req, res, next) {
-  res.locals.partials = {};
-  res.locals.partials.yield = "deleted";
-  res.render("partials/wrapper-public");
-});
-
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
 dashboard.use(debug("fetching user and blog info and checking redirects"));
 dashboard.use(require("../session"));

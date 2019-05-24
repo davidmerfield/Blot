@@ -78,7 +78,7 @@ brochure.get("/contact", function(req, res) {
   res.render("contact");
 });
 
-brochure.use("/logged-out", function(req, res, next){
+brochure.use("/account", function(req, res, next){
   res.locals.layout = "/partials/layout-focussed.html";
   next();
 });
