@@ -61,6 +61,8 @@ function download(token, source, destination, callback) {
 function setMtime(path, modified, callback) {
   var mtime;
 
+  debug("setting mtime", path, "to", modified);
+
   try {
     mtime = new Date(modified);
   } catch (e) {
@@ -76,9 +78,15 @@ function setMtime(path, modified, callback) {
     return callback(new Error("Download: setMtime: Could not create date"));
   }
 
-  fs.utimes(path, mtime, mtime, function(err) {
-    if (err) return callback(err);
+  debug("setMtime", path, mtime);
 
+  fs.utimes(path, mtime, mtime, function(err) {
+    if (err) {
+      debug("mtime error", err);
+      return callback(err);
+    }
+
+    debug("set mtime successfully!");
     return callback(null);
   });
 }
