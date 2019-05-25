@@ -1,5 +1,4 @@
 var Blog = require("blog");
-var assert = require("assert");
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var colors = require("colors/safe");
@@ -41,7 +40,10 @@ function blogs(oldBlogID, newBlogID, callback) {
       if (blog)
         return callback(new Error("There is a blog stored against the old ID"));
 
-      callback(null, "The new blog can be retrieved from the DB and the old cannot");
+      callback(
+        null,
+        "The new blog can be retrieved from the DB and the old cannot"
+      );
     });
   });
 }
