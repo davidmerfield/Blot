@@ -4,9 +4,11 @@ var STATIC_DIRECTORY = config.blog_static_files_dir;
 var BLOG_DIRECTORY = config.blog_folder_dir;
 var debug = require("debug")("blot:scripts:set-blog-id:moveDirectories");
 var async = require("async");
+var colors = require("colors/safe");
 
 module.exports = function moveDirectories(oldBlogID, newBlogID, callback) {
-  debug("Moving blog and static directories for", oldBlogID);
+  console.log(colors.dim("Blog: " + oldBlogID) + " Moving blog directories...");
+
   var tasks = [];
 
   var oldBlogDir = BLOG_DIRECTORY + "/" + oldBlogID;

@@ -1,8 +1,10 @@
 var Blog = require("blog");
-var debug = require("debug")("blot:scripts:set-blog-id:updateBlog");
+var colors = require("colors/safe");
 
 module.exports = function updateBlog(oldBlogID, newBlogID, callback) {
-  debug("Updating property of blogs with new ID", newBlogID);
+  console.log(
+    colors.dim("Blog: " + oldBlogID) + " Updating property of blogs with new ID"
+  );
 
   Blog.get({ id: newBlogID }, function(err, blog) {
     var changes = {};

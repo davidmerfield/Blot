@@ -1,11 +1,18 @@
 var Blog = require("blog");
 var async = require("async");
 var Sync = require("sync");
+var colors = require("colors/safe");
 
 module.exports = function(oldBlogID, newBlogID, callback) {
   var cleanupTasks = [];
 
+  console.log(
+    colors.dim("Blog: " + oldBlogID) + " Ensuring blog is disabled..."
+  );
+
   function renableOldBlog(callback) {
+    console.log(colors.dim("Blog: " + oldBlogID) + " Re-enabling blog ...");
+
     async.parallel(cleanupTasks, callback);
   }
 

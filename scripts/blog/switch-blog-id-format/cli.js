@@ -7,7 +7,7 @@ var colors = require("colors/safe");
 var config = require("config");
 
 function startMessage(oldBlogID) {
-  return colors.dim("\nBlog: " + oldBlogID) + " Processing...";
+  return colors.dim("\nBlog: " + oldBlogID) + " Switching blog ID...";
 }
 
 function endMessage(oldBlogID, blog, access) {

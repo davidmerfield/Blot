@@ -1,9 +1,9 @@
-var debug = require("debug")("blot:scripts:set-blog-id:updateUser");
 var User = require("user");
 var async = require("async");
+var colors = require("colors/safe");
 
 module.exports = function updateUser(oldBlogID, newBlogID, callback) {
-  debug("Moving old id in user properties");
+  console.log(colors.dim("Blog: " + oldBlogID) + " Updating property of owner");
   User.getAllIds(function(err, uids) {
     async.each(
       uids,

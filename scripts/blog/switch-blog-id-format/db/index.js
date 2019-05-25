@@ -8,7 +8,10 @@ function main(oldBlogID, newBlogID, callback) {
   before(multi, oldBlogID, newBlogID, function(err) {
     if (err) return callback(err);
 
-    console.log("Modifying keys...");
+    console.log(
+      colors.dim("Blog: " + oldBlogID) + " Modifying database keys..."
+    );
+
     redisKeys(
       "*",
       function(keys, next) {
@@ -26,6 +29,9 @@ function main(oldBlogID, newBlogID, callback) {
       },
       function(err) {
         if (err) return callback(err);
+        console.log(
+          colors.dim("Blog: " + oldBlogID) + " Modified all database keys"
+        );
         multi.exec(callback);
       }
     );
@@ -76,8 +82,6 @@ function redisKeys(pattern, fn, callback) {
     var processed = 0;
     var totalLen = total.toString().length;
 
-    console.log("Processing DB keys...");
-
     client.scan(cursor, "match", pattern, "count", 1000, function then(
       err,
       res
@@ -93,17 +97,17 @@ function redisKeys(pattern, fn, callback) {
 
         process.stdout.clearLine();
         process.stdout.cursorTo(0);
-        process.stdout.write(
-          pad(Math.floor((processed / total) * 100), 3, " ") +
-            "% " +
-            colors.dim(pad(processed, totalLen) + "/" + total)
-        );
+
         complete = cursor === "0";
 
         if (complete) {
-          console.log("\nProcessed all DB keys...");
           callback(err);
         } else {
+          process.stdout.write(
+            pad(Math.floor((processed / total) * 100), 3, " ") +
+              "% " +
+              colors.dim(pad(processed, totalLen) + "/" + total)
+          );
           client.scan(cursor, "match", pattern, "count", 1000, then);
         }
       });

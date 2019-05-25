@@ -44,7 +44,7 @@ function main(oldBlogID, callback) {
 
       debug("Migrating", oldBlogID, "to", newBlogID);
 
-      async.parallel(tasks, function(err) {
+      async.series(tasks, function(err) {
         if (err) return callback(err);
 
         db(oldBlogID, newBlogID, function(err) {
