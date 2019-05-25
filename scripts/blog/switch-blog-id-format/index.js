@@ -8,17 +8,14 @@ var get = require("../../get/blog");
 var db = require("./db");
 
 if (require.main === module) {
-  get(process.argv[2], function(err, user, blog) {
+  console.log('Please pass the ID of an existing blog');
+
+  loadID(process.argv[2], function(err, newBlogID) {
     if (err) throw err;
-    loadID(blog.id, function(err, newBlogID) {
+    main(process.argv[2], newBlogID, function(err) {
       if (err) throw err;
-      main(blog.id, newBlogID, function(err) {
-        if (err) throw err;
-        // if (err) throw err;
-        console.log("Done!");
-        // console.log(results);
-        process.exit();
-      });
+      console.log("Done!");
+      process.exit();
     });
   });
 }
