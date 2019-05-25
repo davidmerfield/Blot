@@ -5,7 +5,7 @@ var updateBlog = require("./updateBlog");
 var client = require("client");
 var ensureOldBlogIsDisabled = require("./ensureOldBlogIsDisabled");
 var get = require("../../get/blog");
-var redisSearch = require("helper").redisSearch;
+var db = require("./db");
 
 if (require.main === module) {
   get(process.argv[2], function(err, user, blog) {
@@ -14,14 +14,10 @@ if (require.main === module) {
       if (err) throw err;
       main(blog.id, newBlogID, function(err) {
         if (err) throw err;
-        console.log("Searching for old id");
-        // this is a bad idea with the old format since they're just integers
-        redisSearch("blog:" + blog.id + ":", function(err, results) {
-          // if (err) throw err;
-          console.log("Done!");
-          // console.log(results);
-          process.exit();
-        });
+        // if (err) throw err;
+        console.log("Done!");
+        // console.log(results);
+        process.exit();
       });
     });
   });
@@ -44,11 +40,6 @@ function main(oldBlogID, newBlogID, callback) {
 
   var tasks = [
     require("./moveDirectories"),
-    require("./renameBlogKeys"),
-    require("./renameDomainKeys"),
-    require("./renameHandleKeys"),
-    require("./renameTemplateKeys"),
-    require("./switchSessionID"),
     require("./switchDropboxClient"),
     require("./updateUser")
   ].map(function(task) {
@@ -65,13 +56,17 @@ function main(oldBlogID, newBlogID, callback) {
     async.parallel(tasks, function(err) {
       if (err) return callback(err);
 
-      updateBlog(oldBlogID, newBlogID, function(err) {
+      db(oldBlogID, newBlogID, function(err) {
         if (err) return callback(err);
 
-        renableNewBlog(function(err) {
+        updateBlog(oldBlogID, newBlogID, function(err) {
           if (err) return callback(err);
 
-          callback(null, newBlogID);
+          renableNewBlog(function(err) {
+            if (err) return callback(err);
+
+            callback(null, newBlogID);
+          });
         });
       });
     });
