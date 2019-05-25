@@ -1,7 +1,6 @@
 describe("switchBlogID script", function() {
   var switchBlogID = require("../index");
   var redisSearch = require("helper").redisSearch;
-  var generateID = require("../../../../app/models/blog/generateID");
 
   global.test.blog();
 
@@ -9,19 +8,25 @@ describe("switchBlogID script", function() {
   // function can remove the blog safely.
   beforeEach(function() {
     this.oldID = this.blog.id;
-    this.newID = generateID();
-    this.blog.id = this.newID;
   });
 
   afterEach(function(done) {
     var test = this;
 
-    switchBlogID(test.oldID, test.newID, function(err) {
+    switchBlogID(test.oldID, function(err, newID) {
       if (err) return done.fail(err);
+      test.newID = newID;
+      test.blog.id = newID;
 
       redisSearch(test.oldID, function(err, results) {
         if (err) return done.fail(err);
-        expect(results).toEqual([]);
+        expect(results).toEqual([
+          {
+            key: "switch-blog-id-format:" + test.oldID,
+            value: "KEY ITSELF",
+            type: "KEY"
+          }
+        ]);
         done();
       });
     });
@@ -29,12 +34,11 @@ describe("switchBlogID script", function() {
 
   it("can be run multiple times without breaking anything", function(done) {
     var oldID = this.oldID;
-    var newID = this.newID;
 
-    switchBlogID(oldID, newID, function(err) {
+    switchBlogID(oldID, function(err) {
       if (err) return done.fail(err);
 
-      switchBlogID(oldID, newID, done);
+      switchBlogID(oldID, done);
     });
   });
 

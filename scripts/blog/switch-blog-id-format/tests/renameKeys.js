@@ -6,11 +6,10 @@ describe("switchBlogID script", function() {
 
   it("renames keys associated with old id", function(done) {
     var test = this;
-    var newID = Date.now().toString();
 
     client.keys("*", function(err, initialKeys) {
       if (err) return done.fail(err);
-      switchBlogID(test.blog.id, newID, function(err, newID) {
+      switchBlogID(test.blog.id, function(err, newID) {
         if (err) return done.fail(err);
 
         // We need to modify this property so the cleanup
@@ -20,7 +19,8 @@ describe("switchBlogID script", function() {
         client.keys("*", function(err, keys) {
           if (err) return done.fail(err);
 
-          expect(initialKeys.length).toEqual(keys.length);
+          // We create one new key to make the script repeatable
+          expect(initialKeys.length + 1).toEqual(keys.length);
           done();
         });
       });
