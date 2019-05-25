@@ -14,13 +14,14 @@ if (require.main === module) {
       if (err) throw err;
       main(blog.id, newBlogID, function(err) {
         if (err) throw err;
+        console.log("Searching for old id");
         // this is a bad idea with the old format since they're just integers
-        // redisSearch(blog.id, function(err, results) {
-        // if (err) throw err;
-        console.log("Done!");
-        // console.log(results);
-        process.exit();
-        // });
+        redisSearch("blog:" + blog.id + ":", function(err, results) {
+          // if (err) throw err;
+          console.log("Done!");
+          // console.log(results);
+          process.exit();
+        });
       });
     });
   });
