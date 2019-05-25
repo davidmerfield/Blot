@@ -29,6 +29,12 @@ module.exports = function checkToken(req, res, next) {
     User.getById(uid, function(err, user) {
       if (err || !user) return next(new LogInError("NOUSER"));
 
+      // You used to be able to disable your account
+      // but this is no longer possible. Once all
+      // users with isDisabled:true are removed you
+      // can delete this check safely.
+      if (user.isDisabled) return res.redirect("/account/disabled");
+
       // Store the valid user'd ID in the session.
       authenticate(req, user);
 

@@ -46,7 +46,7 @@ module.exports = function main(blog, callback) {
       // blog folder in the user's Dropbox folder.
       delta(account.cursor, function handle(err, result) {
         if (err) {
-          debug("Delta error", err);
+          console.log("Blog", blog.id, "Dropbox Error:", err);
           return Database.set(
             blog.id,
             { error_code: err.status || 400 },
@@ -64,6 +64,7 @@ module.exports = function main(blog, callback) {
         // or changed files, and removing any deleted items.
         apply(result.entries, function(err) {
           if (err) {
+            console.log("Blog", blog.id, "Dropbox Error:", err);
             return Database.set(
               blog.id,
               { error_code: err.status || 400 },
@@ -148,7 +149,16 @@ function Apply(token, blogFolder) {
 
     function remove(item, callback) {
       debug("Removing", item.relative_path);
-      fs.remove(join(blogFolder, item.relative_path), callback);
+      fs.remove(join(blogFolder, item.relative_path), function(err){
+        // This error happens if you try to remove a non-existent file
+        // inside a non-existent folder whose name happens to be the same
+        // as an existent file. For example, create a file 'hello.txt' then
+        // try to remove hello.txt/bar.txt, you will get this error.
+        // Since we don't care, we suppress it.
+        if (err && err.code === "ENOTDIR") return callback();
+
+        callback(err);
+      });
     }
 
     function mkdir(item, callback) {
