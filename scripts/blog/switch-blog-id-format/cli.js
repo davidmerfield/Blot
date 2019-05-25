@@ -3,46 +3,38 @@ var async = require("async");
 var yesno = require("yesno");
 var async = require("async");
 var get = require("../../get/blog");
-var config = require("config");
 var colors = require("colors/safe");
+var config = require("config");
 
-function startMessage(blog) {
-  return (
-    colors.dim("\nBlog: " + blog.id) +
-    colors.yellow(" https://" + blog.handle + "." + config.host) +
-    " Processing..."
-  );
+function startMessage(oldBlogID) {
+  return colors.dim("\nBlog: " + oldBlogID) + " Processing...";
 }
 
-function endMessage(blog) {
+function endMessage(oldBlogID, blog) {
   return (
-    colors.dim("Blog: " + blog.id) +
+    colors.dim("Blog: " + oldBlogID) +
     colors.yellow(" https://" + blog.handle + "." + config.host) +
-    " Complete!"
+    " switched to " +
+    blog.id
   );
 }
 
 module.exports = function(main, options) {
-  var results = {};
-
   function cb(err) {
     if (err) throw err;
     console.log("Finished!");
-    for (var blogID in results)
-      console.log("\n\nBlog: " + blogID, results[blogID]);
-
     process.exit();
   }
 
-  if (process.argv[2]) {
-    get(process.argv[2], function(err, user, blog) {
-      console.log(startMessage(blog));
-      main(blog, function(err, res) {
-        if (err) return cb(err);
+  var oldBlogID = process.argv[2];
 
-        if (res && res.length) results[blog.id] = res;
+  if (oldBlogID) {
+    console.log(startMessage(oldBlogID));
+    main(oldBlogID, function(err, newBlogID) {
+      if (err) return cb(err);
 
-        console.log(endMessage(blog));
+      get(newBlogID, function(err, user, blog) {
+        console.log(endMessage(oldBlogID, blog));
         cb();
       });
     });
@@ -51,19 +43,21 @@ module.exports = function(main, options) {
       async.eachSeries(
         blogIDs,
         function(blogID, next) {
-          Blog.get({ id: blogID }, function(err, blog) {
-            console.log(startMessage(blog));
-            main(blog, function(err, res) {
-              if (err) return next(err);
+          if (blogID.indexOf("blog_") === 0) return next();
 
-              if (res && res.length) results[blog.id] = res;
+          console.log(startMessage(blogID));
+          main(blogID, function(err, newBlogID) {
+            if (err) return next(err);
 
+            get(newBlogID, function(err, user, blog) {
               if (options && options.skipAsk) {
-                console.log(endMessage(blog));
+                console.log(endMessage(blogID, blog));
                 return next();
               }
 
-              yesno.ask(endMessage(blog) + " Continue?", true, function(ok) {
+              yesno.ask(endMessage(blogID, blog) + " Continue?", true, function(
+                ok
+              ) {
                 if (ok) next();
               });
             });
