@@ -33,7 +33,10 @@ module.exports = function get(identifier, callback) {
         User.getById(blog.owner, function(err, user) {
           if (err || !user) return callback(err || new Error("No user"));
 
-          callback(err, user, blog);
+          require('../access')(blog.handle, function(err, url){
+            if (err) return callback(err);
+            callback(err, user, blog, url);
+          });
         });
       });
     });
