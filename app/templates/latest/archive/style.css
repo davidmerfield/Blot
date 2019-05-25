@@ -201,8 +201,8 @@ a.light:active img {
 }
 
 form input {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 2.7rem;
+  padding-right: 2.7rem;
   font: inherit;
   font-size: 16px;
   border: none;
@@ -210,9 +210,11 @@ form input {
 }
 
 form input[type="text"] {
+  margin: 0.65rem 0 0.65rem 0;
+  border-radius: 3px;
   flex-grow: 1;
   color: rgba(0, 0, 0, .85);
-  background: transparent url('/icons/search.svg') no-repeat 1rem center;
+  background: #f7f7f7 url('/icons/search.svg') no-repeat 1rem center;
   background-size: 0.95rem;
 /*  border-left: 1px solid #eee;
   border-right: 1px solid #eee;
@@ -397,7 +399,7 @@ form input:focus,
 
 #tags a {
   display: inline-block;
-  margin: 0 0.325rem;
+  margin: 0 0.1625rem;
   padding: 0 0.325rem;
   white-space: nowrap;
   color: inherit;

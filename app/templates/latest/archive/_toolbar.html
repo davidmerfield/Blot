@@ -17,15 +17,15 @@
 
   </div> -->
 
-  <div style="flex-basis:50%;display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
+  <div style="display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
 
     {{#popular_tags.length}}
-    <div id="tags" style="padding-left:0.3rem">
+    <div id="tags" style="padding-left:0.325rem">
       {{#popular_tags}}<a href="/tagged/{{slug}}" class="{{active}}"><strong>{{tag}}</strong><span>{{tag}}</span></a>{{/popular_tags}}
     </div>
     
-    <a href="/tags" class="opac" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;margin: 0 0.325rem;flex-shrink:0;
-    padding: 0.15rem 0.325rem 0;font-size:11px">All&nbsp;categories&puncsp;&rarr;</a>
+    <a href="/tags" class="opac" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;margin: 0 0rem;flex-shrink:0;
+    padding: 0.15rem 0.16125rem 0;font-size:11px">All&nbsp;categories&puncsp;&rarr;</a>
 
     {{/popular_tags.length}}
   </div>
