@@ -1,17 +1,17 @@
 var async = require("async");
 var client = require("client");
-var debug = require("debug")("blot:scripts:set-blog-id:db");
-function main(oldBlogID, newBlogID, callback) {
-  debug("switching db keys", oldBlogID, newBlogID);
-  before(oldBlogID, newBlogID, function(err) {
-    debug("handled before tasks");
+var colors = require("colors/safe");
 
+function main(oldBlogID, newBlogID, callback) {
+  var multi = client.multi();
+
+  before(multi, oldBlogID, newBlogID, function(err) {
     if (err) return callback(err);
+
+    console.log("Modifying keys...");
     redisKeys(
       "*",
       function(keys, next) {
-        debug("iterating...");
-        var multi = client.multi();
         var tasks = [
           require("./renameBlogKeys"),
           require("./renameDomainKeys"),
@@ -22,21 +22,23 @@ function main(oldBlogID, newBlogID, callback) {
           return task.bind(null, keys, multi, oldBlogID, newBlogID);
         });
 
-        async.series(tasks, function(err) {
-          if (err) return next(err);
-
-          debug("iterated...");
-          multi.exec(next);
-        });
+        async.series(tasks, next);
       },
-      callback
+      function(err) {
+        if (err) return callback(err);
+        multi.exec(callback);
+      }
     );
   });
 }
 
-function before(oldBlogID, newBlogID, callback) {
-  var multi = client.multi();
+function pad(x, len, str) {
+  x = x.toString();
+  while (x.length < len) x = (str || "0") + x;
+  return x;
+}
 
+function before(multi, oldBlogID, newBlogID, callback) {
   multi.sadd("blogs", newBlogID);
   multi.srem("blogs", oldBlogID);
 
@@ -61,7 +63,7 @@ function before(oldBlogID, newBlogID, callback) {
       "template:owned_by:" + newBlogID
     );
 
-    multi.exec(callback);
+    callback();
   });
 }
 
@@ -69,23 +71,42 @@ function redisKeys(pattern, fn, callback) {
   var complete;
   var cursor = "0";
 
-  client.scan(cursor, "match", pattern, "count", 1000, function then(err, res) {
+  client.dbsize(function(err, total) {
     if (err) return callback(err);
+    var processed = 0;
+    var totalLen = total.toString().length;
 
-    cursor = res[0];
+    console.log("Processing DB keys...");
 
-    console.log(cursor);
-
-    fn(res[1], function(err) {
+    client.scan(cursor, "match", pattern, "count", 1000, function then(
+      err,
+      res
+    ) {
       if (err) return callback(err);
 
-      complete = cursor === "0";
+      cursor = res[0];
 
-      if (complete) {
-        callback(err);
-      } else {
-        client.scan(cursor, "match", pattern, "count", 1000, then);
-      }
+      fn(res[1], function(err) {
+        if (err) return callback(err);
+
+        processed += res[1].length;
+
+        process.stdout.clearLine();
+        process.stdout.cursorTo(0);
+        process.stdout.write(
+          pad(Math.floor((processed / total) * 100), 3, " ") +
+            "% " +
+            colors.dim(pad(processed, totalLen) + "/" + total)
+        );
+        complete = cursor === "0";
+
+        if (complete) {
+          console.log("\nProcessed all DB keys...");
+          callback(err);
+        } else {
+          client.scan(cursor, "match", pattern, "count", 1000, then);
+        }
+      });
     });
   });
 }
