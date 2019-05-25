@@ -7,11 +7,11 @@ module.exports = function(oldBlogID, newBlogID, callback) {
   var cleanupTasks = [];
 
   console.log(
-    colors.dim("Blog: " + oldBlogID) + " Ensuring blog is disabled..."
+    colors.dim("Blog: " + oldBlogID) + " Ensuring blog is disabled"
   );
 
   function renableOldBlog(callback) {
-    console.log(colors.dim("Blog: " + oldBlogID) + " Re-enabling blog ...");
+    console.log(colors.dim("Blog: " + oldBlogID) + " Re-enabling blog");
 
     async.parallel(cleanupTasks, callback);
   }

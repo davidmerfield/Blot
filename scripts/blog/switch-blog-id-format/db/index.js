@@ -9,7 +9,7 @@ function main(oldBlogID, newBlogID, callback) {
     if (err) return callback(err);
 
     console.log(
-      colors.dim("Blog: " + oldBlogID) + " Modifying database keys..."
+      colors.dim("Blog: " + oldBlogID) + " Modifying database keys"
     );
 
     redisKeys(

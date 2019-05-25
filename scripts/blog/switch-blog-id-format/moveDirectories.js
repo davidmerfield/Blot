@@ -7,7 +7,7 @@ var async = require("async");
 var colors = require("colors/safe");
 
 module.exports = function moveDirectories(oldBlogID, newBlogID, callback) {
-  console.log(colors.dim("Blog: " + oldBlogID) + " Moving blog directories...");
+  console.log(colors.dim("Blog: " + oldBlogID) + " Moving blog directories");
 
   var tasks = [];
 
