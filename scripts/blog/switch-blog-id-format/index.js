@@ -8,7 +8,7 @@ var get = require("../../get/blog");
 var db = require("./db");
 
 if (require.main === module) {
-  console.log('Please pass the ID of an existing blog');
+  console.log("Please pass the ID of an existing blog");
 
   loadID(process.argv[2], function(err, newBlogID) {
     if (err) throw err;
