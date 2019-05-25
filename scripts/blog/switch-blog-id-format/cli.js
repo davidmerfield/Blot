@@ -10,12 +10,19 @@ function startMessage(oldBlogID) {
   return colors.dim("\nBlog: " + oldBlogID) + " Processing...";
 }
 
-function endMessage(oldBlogID, blog) {
+function endMessage(oldBlogID, blog, access) {
   return (
     colors.dim("Blog: " + oldBlogID) +
-    colors.yellow(" https://" + blog.handle + "." + config.host) +
-    " switched to " +
-    blog.id
+    " New ID:    " +
+    colors.cyan(blog.id) +
+    "\n" +
+    colors.dim("Blog: " + oldBlogID) +
+    " Live site: " +
+    colors.yellow("https://" + blog.handle + "." + config.host + (blog.domain ?  ' - https://' + blog.domain : '')) +
+    "\n" +
+    colors.dim("Blog: " + oldBlogID) +
+    " Dashboard: " +
+    colors.green(access)
   );
 }
 
@@ -49,15 +56,14 @@ module.exports = function(main, options) {
           main(blogID, function(err, newBlogID) {
             if (err) return next(err);
 
-            get(newBlogID, function(err, user, blog) {
+            get(newBlogID, function(err, user, blog, access) {
+              console.log(endMessage(blogID, blog, access));
+
               if (options && options.skipAsk) {
-                console.log(endMessage(blogID, blog));
                 return next();
               }
 
-              yesno.ask(endMessage(blogID, blog) + " Continue?", true, function(
-                ok
-              ) {
+              yesno.ask("\nContinue?", true, function(ok) {
                 if (ok) next();
               });
             });
