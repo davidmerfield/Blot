@@ -1,3 +1,4 @@
+var readline = require('readline');
 var async = require("async");
 var client = require("client");
 var colors = require("colors/safe");
@@ -95,8 +96,8 @@ function redisKeys(pattern, fn, callback) {
 
         processed += res[1].length;
 
-        process.stdout.clearLine();
-        process.stdout.cursorTo(0);
+        readline.clearLine();
+        readline.cursorTo(0);
 
         complete = cursor === "0";
 
