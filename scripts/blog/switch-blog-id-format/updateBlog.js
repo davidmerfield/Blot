@@ -7,6 +7,11 @@ module.exports = function updateBlog(oldBlogID, newBlogID, callback) {
   );
 
   Blog.get({ id: newBlogID }, function(err, blog) {
+    if (err) return callback(err);
+
+    if (!blog)
+      return callback(new Error("No blog stored with new ID " + newBlogID));
+
     var changes = {};
 
     if (blog.id === oldBlogID) changes.id = newBlogID;
