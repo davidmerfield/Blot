@@ -5,6 +5,7 @@ var ensureOldBlogIsDisabled = require("./ensureOldBlogIsDisabled");
 var db = require("./db");
 var sanityChecks = require("./sanityChecks");
 var loadID = require("./loadID");
+var colors = require('colors/safe');
 
 function main(oldBlogID, callback) {
   if (!oldBlogID) return callback(new Error("Pass oldBlogID"));
@@ -30,7 +31,7 @@ function main(oldBlogID, callback) {
     ) {
       if (err) return callback(err);
 
-      debug("Migrating", oldBlogID, "to", newBlogID);
+      console.log(colors.dim("Blog: " + oldBlogID) + " New ID is", newBlogID);
 
       async.series(tasks, function(err) {
         if (err) return callback(err);
