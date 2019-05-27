@@ -1,4 +1,3 @@
-var readline = require('readline');
 var async = require("async");
 var client = require("client");
 var colors = require("colors/safe");
@@ -96,9 +95,6 @@ function redisKeys(pattern, fn, callback) {
 
         processed += res[1].length;
 
-        readline.clearLine();
-        readline.cursorTo(0);
-
         complete = cursor === "0";
 
         if (complete) {
@@ -107,7 +103,7 @@ function redisKeys(pattern, fn, callback) {
           process.stdout.write(
             pad(Math.floor((processed / total) * 100), 3, " ") +
               "% " +
-              colors.dim(pad(processed, totalLen) + "/" + total)
+              colors.dim(pad(processed, totalLen) + "/" + total + '\r')
           );
           client.scan(cursor, "match", pattern, "count", 1000, then);
         }
