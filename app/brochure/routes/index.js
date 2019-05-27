@@ -43,22 +43,22 @@ brochure.use(function(req, res, next) {
   res.locals.selected = {};
 
   var url = req.originalUrl;
-    
-  // Trim trailing slash from the URL before working out which 
+
+  // Trim trailing slash from the URL before working out which
   // slugs to set as selected. This ensures that the following url
   // https://blot.im/publishing/ will set {{publishingIndex}} as selected
-  if (url.length > 1 && url.slice(-1) === '/') url = url.slice(0, -1);
+  if (url.length > 1 && url.slice(-1) === "/") url = url.slice(0, -1);
 
-  var slugs = url.split('/');
+  var slugs = url.split("/");
 
-  slugs.forEach(function(slug, i){
-    res.locals.selected[slug] = 'selected';
+  slugs.forEach(function(slug, i) {
+    res.locals.selected[slug] = "selected";
   });
 
-  res.locals.selected[slugs[slugs.length - 1] + 'Index'] = 'selected';
+  res.locals.selected[slugs[slugs.length - 1] + "Index"] = "selected";
 
   // Handle index page of site.
-  if (req.originalUrl === '/') res.locals.selected.index = 'selected';
+  if (req.originalUrl === "/") res.locals.selected.index = "selected";
 
   next();
 });
@@ -78,8 +78,11 @@ brochure.get("/contact", function(req, res) {
   res.render("contact");
 });
 
-brochure.use("/logged-out", function(req, res, next){
+brochure.use("/account", function(req, res, next) {
   res.locals.layout = "/partials/layout-focussed.html";
+  // we don't want search engines indexing these pages
+  // since they're /logged-out, /disabled and
+  res.set("X-Robots-Tag", "noindex");
   next();
 });
 
@@ -107,7 +110,6 @@ brochure.use("/sign-up", require("./sign-up"));
 
 brochure.use("/log-in", require("./log-in"));
 
-
 brochure.param("section", function(req, res, next, section) {
   var title = TITLES[section] || capitalize(section);
   res.locals.sectionTitle = title;
@@ -133,8 +135,6 @@ brochure.get("/", require("./featured"), function(req, res) {
   res.locals.title = "Blot – A blogging platform with no interface";
   res.render("index");
 });
-
-
 
 brochure.use("/publishing/domain", function(req, res, next) {
   res.locals.ip = config.ip;
@@ -191,14 +191,15 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
 });
 
 brochure.use(function(err, req, res, next) {
-
   if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
 
-  next();
-});
+  if (err && err.message && err.message.indexOf("Failed to lookup view") === 0)
+    return next();
 
-brochure.use(function(err, req, res, next) {
-  if (config.environment === "development") console.log(err);
+  if (config.environment === "development") {
+    console.log(err);
+  }
+
   next();
 });
 

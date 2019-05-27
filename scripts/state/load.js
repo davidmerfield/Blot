@@ -1,4 +1,4 @@
-require('../only_locally');
+require("../only_locally");
 
 var fs = require("fs-extra");
 var exec = require("child_process").exec;
@@ -17,13 +17,19 @@ if (!ROOT) throw new Error("Please set environment variable BLOT_DIRECTORY");
 function main(label, callback) {
   var directory = __dirname + "/data/" + label;
 
-  if (!fs.existsSync(directory)) return callback(new Error('No state ' + label));
+  if (!fs.existsSync(directory))
+    return callback(new Error("No state " + label));
 
   loadDB(directory, function(err) {
     if (err) return callback(err);
 
     fs.emptyDirSync(DATA_DIRECTORY);
     fs.ensureDirSync(directory + "/data");
+    // There is some bug or weird behaviour with the latest
+    // version of fs-extra which errors out when you copy the
+    // symlinks inside the hosts folder. Since in local development
+    // this isn't essential, we wipe that folder first.
+    fs.removeSync(directory + "/data/hosts");
     fs.copySync(directory + "/data", DATA_DIRECTORY);
 
     fs.emptyDirSync(BLOG_FOLDERS_DIRECTORY);

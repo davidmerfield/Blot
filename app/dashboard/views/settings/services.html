@@ -110,7 +110,8 @@
     $(this).parent().parent().parent().toggleClass('checked')
   });
 
-  if ($('#selectAnalytics').val() !== 'None') {
+  // Simple Analytics doesn't require a tracking ID
+  if ($('#selectAnalytics').val() !== 'None' && $('#selectAnalytics').val() !== 'SimpleAnalytics') {
     $('#trackingIdInput').show();
   } else {
     $('#trackingIdInput').hide();
@@ -118,7 +119,7 @@
 
   $('#selectAnalytics').change(function(){
 
-    if ($(this).val() !== 'None') {
+    if ($(this).val() !== 'None' && $(this).val() !== 'SimpleAnalytics') {
       $('#trackingIdInput').show();
     } else {
       $('#trackingIdInput').hide();

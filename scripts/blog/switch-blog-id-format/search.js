@@ -1,57 +1,58 @@
-var client = require("redis").createClient();
+console.log("Searching keys for stragglers...");
+          redisKeys(
+            "*",
+            require("./search").bind(null, "blog:" + oldBlogID + ":"),
+            callback
+          );
+
+          var client = require("client");
 var async = require("async");
 
-function main(string, callback) {
+module.exports = function(string, keys, callback) {
   var types = {};
   var result = [];
 
-  redisKeys(
-    "*",
-    function(keys, callback) {
-      async.each(
-        keys,
-        function(key, next) {
-          if (key.indexOf(string) > -1)
-            result.push({ key: key, value: "KEY ITSELF", type: "KEY" });
+  async.each(
+    keys,
+    function(key, next) {
+      if (key.indexOf(string) > -1)
+        result.push({ key: key, value: "KEY ITSELF", type: "KEY" });
 
-          client.type(key, function(err, type) {
-            if (err) return next(err);
+      client.type(key, function(err, type) {
+        if (err) return next(err);
 
-            types[type] = types[type] || [];
-            types[type].push(key);
+        types[type] = types[type] || [];
+        types[type].push(key);
 
-            next();
-          });
-        },
-        function(err) {
-          if (err) return callback(err);
-
-          async.eachOf(
-            types,
-            function(keys, type, next) {
-              if (type === "string") {
-                stringSearch(string, keys, result, next);
-              } else if (type === "hash") {
-                hashSearch(string, keys, result, next);
-              } else if (type === "set") {
-                setSearch(string, keys, result, next);
-              } else if (type === "zset") {
-                sortedSetSearch(string, keys, result, next);
-              } else {
-                next(new Error("No handlers for strings of type: " + type));
-              }
-            },
-            callback
-          );
-        }
-      );
+        next();
+      });
     },
     function(err) {
       if (err) return callback(err);
-      callback(null, result);
+
+      async.eachOf(
+        types,
+        function(keys, type, next) {
+          if (type === "string") {
+            stringSearch(string, keys, result, next);
+          } else if (type === "hash") {
+            hashSearch(string, keys, result, next);
+          } else if (type === "set") {
+            setSearch(string, keys, result, next);
+          } else if (type === "zset") {
+            sortedSetSearch(string, keys, result, next);
+          } else {
+            next(new Error("No handlers for strings of type: " + type));
+          }
+        },
+        function(err) {
+          if (result.length) console.log(result);
+          callback(err);
+        }
+      );
     }
   );
-}
+};
 
 function stringSearch(string, keys, result, callback) {
   async.each(
@@ -135,28 +136,3 @@ function sortedSetSearch(string, keys, result, callback) {
     callback
   );
 }
-
-function redisKeys(pattern, fn, callback) {
-  var complete;
-  var cursor = "0";
-
-  client.scan(cursor, "match", pattern, "count", 1000, function then(err, res) {
-    if (err) return callback(err);
-
-    cursor = res[0];
-
-    fn(res[1], function(err) {
-      if (err) return callback(err);
-
-      complete = cursor === "0";
-
-      if (complete) {
-        callback(err);
-      } else {
-        client.scan(cursor, "match", pattern, "count", 1000, then);
-      }
-    });
-  });
-}
-
-module.exports = main;
