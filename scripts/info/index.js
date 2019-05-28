@@ -1,52 +1,135 @@
-var Blog = require('../../app/models/blog');
-var User = require('../../app/models/user');
-var forEach = require('../../app/helper').forEach;
+// I want to be able to get info about:
 
-var eachBlog = require('../each/blog');
+// Entry:
+// - URL to entry, see its source file
 
-var identifier = process.argv[2] + '';
+// Blog:
+// - URL to blog, see its owner, URL and access the dashboard
+// - blog ID, see its owner, URL and access the dashboard
 
-var verbose = !!process.argv[3];
+// User:
+// - user ID, see its blogs, subscription info
+// - email, see its blogs, subscription info
 
-if (!identifier) throw 'Please pass the user\'s handle as an argument.';
+var User = require("user");
+var getEntry = require("../get/entry");
+var getBlog = require("../get/blog");
+var config = require("config");
+var colors = require("colors/safe");
+var access = require("../access");
+var identifier = process.argv[2];
+var moment = require("moment");
 
-eachBlog(function(user, blog, nextBlog){
+if (!identifier) throw "Please pass an identifier for a user, blog or entry.";
 
-  if (blog.handle === identifier) return show(user, nextBlog);
+function callback(err) {
+  if (err) throw err;
+  console.log("Done!");
+  process.exit();
+}
 
-  if (user.uid === identifier) return show(user, nextBlog);
+// Parse a URL to an entry
+getEntry(identifier, function(err, user, blog, entry) {
+  if (entry) {
+    return showEntry(entry, blog, user, callback);
+  }
 
-  if (blog.id === identifier) return show(user, nextBlog);
+  // Parse a URL to a blog
+  getBlog(identifier, function(err, user, blog) {
+    if (blog) {
+      return showBlog(blog, user, callback);
+    }
 
-  if (user.email === identifier) return show(user, nextBlog);
+    User.getById(identifier, function(err, user) {
+      if (user) {
+        return showUser(user, callback);
+      }
 
-  nextBlog();
+      User.getById(identifier, function(err, user) {
+        if (user) {
+          return showUser(user, callback);
+        }
 
-}, process.exit);
-
-
-function show (user, then) {
-  console.log('-----------------------------');
-  console.log('Name: ' + user.name);
-  console.log('Email: ' + user.email);
-  console.log('UID: ' + user.uid);
-  console.log('Country: ' + user.countryCode);
-  console.log('Blogs: ');
-  forEach(user.blogs, function(blogID, next){
-
-    Blog.get({id: blogID}, function(err, blog){
-
-      console.log('  ID: ' + blog.id);
-      console.log('  Handle: ' + blog.handle);
-      console.log('  Domain: ' + blog.domain);
-
-      console.log();
-
-      if (verbose) console.log(blog);
-      next();
+        callback(
+          new Error(
+            'Could not find a matching entry, blog or user for "' +
+              identifier +
+              '"'
+          )
+        );
+      });
     });
-  }, function(){
-    if (verbose) console.log(user);
-    then();
   });
+});
+
+function showEntry(entry, blog, user, callback) {
+  var origin =
+    "http" +
+    (config.environment === "development" ? "" : "s") +
+    "://" +
+    blog.handle +
+    "." +
+    config.host;
+
+  console.log();
+  console.log(colors.dim("Found entry " + entry.id));
+  console.log("- URL:", colors.green(origin + entry.url));
+  console.log("- Source:", colors.yellow(origin + entry.path));
+  console.log("- Full:", origin + entry.url + '?json=true');
+
+  showBlog(blog, user, callback);
+}
+
+function showBlog(blog, user, callback) {
+  var origin =
+    "http" +
+    (config.environment === "development" ? "" : "s") +
+    "://" +
+    blog.handle +
+    "." +
+    config.host;
+  console.log();
+  console.log(colors.dim("Found " + blog.id));
+  console.log("Site:", colors.green(origin));
+  access(blog.handle, function(err, url) {
+    console.log("Dashboard:", colors.yellow(url));
+    showUser(user, callback);
+  });
+}
+
+function showUser(user, callback) {
+  var subscriptionMessage;
+
+  console.log();
+  console.log(colors.dim("Found " + user.uid));
+  console.log("Email: " + user.email);
+
+  if (user.subscription && user.subscription.plan) {
+    subscriptionMessage =
+      user.subscription.quantity +
+      " x " +
+      require("helper").prettyPrice(user.subscription.plan.amount) +
+      "/" +
+      user.subscription.plan.interval;
+  }
+
+  // console.log(user.subscription);
+  if (user.subscription.status) {
+    var end = moment
+      .utc(user.subscription.current_period_end * 1000)
+      .format("LL");
+
+    if (user.subscription.status !== "active") {
+      subscriptionMessage = colors.red(subscriptionMessage + ", end " + end);
+    } else {
+      subscriptionMessage = subscriptionMessage + ", renewing " + end;
+    }
+  } else {
+    subscriptionMessage = 'no subscription';
+  }
+
+  console.log("Subscription: " + subscriptionMessage);
+  console.log("Blogs: " + user.blogs);
+  console.log();
+  callback();
 }
