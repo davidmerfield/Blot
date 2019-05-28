@@ -1,9 +1,14 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
+Work out how to kill stray build processes. There were a bunch of zombies consuming memory on Blot's server.
+
 Finish Archive template
+- Tell [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpfcRHTcCwlZHLrJHkPkGGbh)
 
 Finish script to adjust blog ID formats
-- Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441)
+- Finish PR adjusting delete blog
+- Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
+- Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441) and [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
 - Announce archive template
 
 Finish Feed template
@@ -14,9 +19,22 @@ Record new demo video
 - Create simple custom text editor
 - Show sites I run using Blot
 
+Delete social media accounts
+- Twitter
+  - Archive all tweets, including external images
+  - Archive all DMs
+- Micro.blog
+  - Archive all micro.blog posts
+
 ---
 
-Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
+Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%20825%20printer%20font%20-%20a%20work%20in%20progress.markdown) draft and speed up its build time
+
+Catch 404s in Google search results and set up redirects
+
+Follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnrrjHZGqtgschtWwXs) about how to ignore arbritrary paths and keep clean URLS (no underscores). Sitewide .blotignore file?
+
+Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggDZGZhRJkhQhGdMjkQqNXfm)
 
 Fix bug with handling of queries and tell [this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1).
 
@@ -64,6 +82,10 @@ Markdown bugs
 
 --- 
 
+Increase price to $4 per month for new customers. This will not affect existing customers in any way.
+
+Add Q and A section to site where users could post
+
 Disable access to s3 blogs bucket
 
 Improve scheduler
@@ -74,20 +96,29 @@ Improve scheduler
 
 Wait a month and then delete s3 blogs bucket
 
-Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
+Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) and [Rod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggCQDlrRZcdXwPZGCjBZFFTr)
 
-Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
+Metadata parser
+- Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
+- Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
+- Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
+- Removing Date metadata from a post should reset its date to the file's creation date. Currently nothing changes.
+- Fall back to file name before first sentence when generating title metadata and tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
 
 Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
 
 Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggBFmgljcPqXScrXswlXgjfg).
 - Create simple reference to original template that is uneditable by default (but forkable, like default Blot templates). This would mean the template would auto-update.
 
+Move away from reds and investigate good full text search options
+
 Improve Ghost importer and tell [Vin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSwbGRtFTnJCPCXzVHntQPtC)
 
 Finish converting [Jack's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMgJLwPxDfgSnZfcWjHMHPTj) from Hugo to Blot using this [Wordpress-style export view](https://gist.github.com/davidmerfield/1a1413a3ca07040e93e29fe3edc74ec0) for a Hugo template.
 
 Add new variable for last-build-time for a blog, and use this for <lastBuildDate> in the sites' RSS feeds. Tell [Shawn](https://twitter.com/soypunk)
+
+Redirect old draft URL to live published post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggCNxgsmCtmRTSkVrDlMJqSH)
 
 Improve 404 log page on Dashboard
 - Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
@@ -110,7 +141,9 @@ Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.go
 
 ---
 
-Switch billing to $3 per month for new customers. This will not affect existing customers in any way.
+Increase price to $5 per month for new customers. This will not affect existing customers in any way.
+
+Add media-query to prevent typeset hanging punctuation on small screens (it looks weird) and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpXqMzwcBGWgjxgpcpCnMCQW)
 
 Write script to download all the redis data + files for a particular blog, then restore it in my local environment. The hard part will be using [Redis's DUMP command](https://stackoverflow.com/a/23439302).
 
@@ -266,7 +299,7 @@ Move to Linode?
 
 ---
 
-Increase price to $4 per month for new customers. This will not affect existing customers in any way.
+Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
@@ -380,22 +413,17 @@ File converters / codecs
 - Markdown
   Write a pandoc compatible markdown converter in javascript
   to resolve some of the performance issues with pandoc. Perhaps just use [Markdown-it](https://github.com/markdown-it/markdown-it)
-- Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152)
-
-Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 
 Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
-Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and Roy's friend Tim.
+Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and Roy's friend Tim.
 
 Clients
-- OneDrive
-  Tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768)
-- SFTP
-  https://www.npmjs.com/package/ftpd
-- Google Drive
-  Tell Cecil: https://twitter.com/Blot__/status/988162892594860032?s=20
-  Tell Jonathan: https://twitter.com/chin_jon/status/1032392398473650176
+- OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768)
+- [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
+- [SFTP](https://www.npmjs.com/package/ftpd)
+
+Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh)
 
 Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
 
@@ -425,8 +453,6 @@ Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
 
 ---
-
-Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Improvements to Git client
 - Add support for LFS and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMcpnxGHqnxJHNdbMBSrglzg)
@@ -486,9 +512,6 @@ NGINX
 Support linking to another blog post by its *file path*
 - This would help with the importer to fix broken links
 - See [how Pelican does it](http://docs.getpelican.com/en/stable/content.html#linking-to-internal-content)
-
-Removing Date metadata from a post should reset its date to the file's creation date
-- Currently nothing changes.
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 

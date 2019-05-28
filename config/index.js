@@ -36,7 +36,7 @@ module.exports = {
   stripe: {
     key: process.env.BLOT_STRIPE_KEY,
     secret: process.env.BLOT_STRIPE_SECRET,
-    plan: "yearly_30"
+    plan: "monthly_3"
   },
 
   pandoc_path: process.env.BLOT_PANDOC_PATH,

@@ -60,7 +60,7 @@
     {{#user.isSubscribed}}
       
       {{#user.subscription.quantity}}
-        Your next bill on <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>. You will recieve an email reminder one week before.
+        Your next bill on <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>. {{^monthly}}You will recieve an email reminder one week before.{{/monthly}}
       {{/user.subscription.quantity}}
 
       {{^user.subscription.quantity}}

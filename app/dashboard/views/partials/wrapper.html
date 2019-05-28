@@ -11,14 +11,9 @@
     <div style="flex-grow:1;">
       <div>
     <!-- 
-    {{#message}}{{^error}}
-    <a href="" class="mess success" style="margin-bottom:19px">
-     <span class="link">Dismiss</span>
-     {{text}}
-    </a>
-    {{/error}}{{#error}}
+    {{#error}}
     <div class="clear" style="margin-bottom:60px"></div>
-    {{/error}}{{/message}}
+    {{/error}}
 
     {{^message}}
     <div class="clear" style="margin-bottom:60px"></div>
@@ -40,6 +35,15 @@
       
     </div>
     
+    {{#message}}
+    {{^error}}
+    <a href="" class="mess success" style="margin-bottom:19px">
+     <span class="link">Dismiss</span>
+     {{text}}
+    </a>
+    {{/error}}
+    {{/message}}
+
     {{#message.error}}
     <a href="" class="mess error" style="margin-bottom:19px">
      <span class="link">Dismiss</span>

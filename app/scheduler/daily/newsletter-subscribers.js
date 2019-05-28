@@ -13,7 +13,9 @@ if (require.main === module) {
 function main(callback) {
   require("redis")
     .createClient()
-    .smembers("newsletter:list", callback);
+    .smembers("newsletter:list", function(err, subscribers) {
+      callback(null, { newsletter_subscribers: subscribers.length });
+    });
 }
 
 module.exports = main;

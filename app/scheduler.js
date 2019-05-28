@@ -5,7 +5,7 @@ var async = require("async");
 var schedule = require("node-schedule").scheduleJob;
 var Blog = require("./models/blog");
 var backup = require("./backup");
-var dailyUpdate = require("../scripts/info/dailyUpdate");
+var dailyUpdate = require("./scheduler/daily");
 var helper = require("helper");
 var email = helper.email;
 
