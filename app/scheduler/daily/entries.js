@@ -27,7 +27,6 @@ function main(callback) {
                     title: entry.title,
                     link:
                       config.protocol +
-                      "://" +
                       blog.handle +
                       "." +
                       config.host +
