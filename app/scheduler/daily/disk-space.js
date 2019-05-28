@@ -11,7 +11,7 @@ function main(callback) {
       .split(" ");
 
     callback(null, {
-      disk_space_usage: disk[4],
+      disk_space_usage: prettySize(disk[2]),
       disk_space_available: prettySize(disk[3])
     });
   });
