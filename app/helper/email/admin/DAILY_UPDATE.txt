@@ -1,10 +1,6 @@
 Daily update for {{date}}
 
-Memory available: {{memory_available}} ({{memory_usage}} used)
-
-Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
-
-***
+New entries published: {{new_entries.length}}
 
 Requests served: {{total_requests_served}}
 
@@ -14,15 +10,17 @@ Median response time: {{median_response_time}}
 
 ***
 
-New entries published: {{new_entries.length}}
+Memory available: {{memory_available}} ({{memory_usage}} used)
+
+Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
 
 Total entries published: {{total_entries}}
 
 ***
 
-Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month)
-
 Number of active blogs: {{total_active_blogs}}
+
+Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month)
 
 Newsletter subscribers: {{newsletter_subscribers}}
 
