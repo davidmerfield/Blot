@@ -7,10 +7,13 @@ var encodeAmpersands = helper.encodeAmpersands;
 var config = require("config");
 var pandoc_path = config.pandoc_path;
 
+var bib = require("./bib");
+var csl = require("./csl");
+
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-module.exports = function(text, callback) {
+module.exports = function(blog, text, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
@@ -34,7 +37,7 @@ module.exports = function(text, callback) {
     "-blank_before_header" +
     "-blank_before_blockquote";
 
-  var pandoc = spawn(pandoc_path, [
+  var args = [
     "-f",
     "markdown" + extensions,
 
@@ -53,7 +56,26 @@ module.exports = function(text, callback) {
 
     // such a dumb default feature... sorry john!
     "--email-obfuscation=none"
-  ]);
+  ];
+
+  if (bib(blog, text)) {
+    args.push("-M");
+    args.push("bibliography=" + bib(blog, text));
+  }
+
+  if (csl(blog, text)) {
+    args.push("-M");
+    args.push("csl=" + csl(blog, text));
+  }
+
+  if (bib(blog, text) || csl(blog, text)) {
+    args.push("--filter");
+    args.push("pandoc-citeproc");
+  }
+
+  console.log(args);
+  
+  var pandoc = spawn(pandoc_path, args);
 
   var result = "";
   var error = "";

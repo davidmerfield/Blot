@@ -1,0 +1,20 @@
+bibliography: bibliography.bib
+csl: style.csl
+
+
+## Citations
+
+[@smalley_spectromorphology_1997-1, @vulture_sickest_2019]
+[@parker_final_2019]
+
+## Equations {#equations}
+
+(@linear)
+$$x=y$$
+
+(@triangle)
+$$a^2 + b^2 = c^2$$
+
+~~~~~~~~~
+
+# References

@@ -57,7 +57,7 @@ function read(blog, path, options, callback) {
         time.end("katex");
       }
 
-      convert(text, function(err, html) {
+      convert(blog, text, function(err, html) {
         if (err) return callback(err);
 
         callback(null, html, stat);
