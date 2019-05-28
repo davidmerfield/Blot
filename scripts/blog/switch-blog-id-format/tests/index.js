@@ -1,4 +1,4 @@
-describe("switchBlogID script", function() {
+xdescribe("switchBlogID script", function() {
   var switchBlogID = require("../index");
   var redisSearch = require("helper").redisSearch;
 

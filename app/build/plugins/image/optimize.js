@@ -2,11 +2,9 @@ var config = require("config");
 var uuid = require("uuid/v4");
 var join = require("path").join;
 var fs = require("fs-extra");
-// e.g. /_image_cache/{uuid}.jpg will be final URL
 var cache_folder_name = "_image_cache";
 var fs = require("fs-extra");
 var resize = require("./resize");
-var minify = require("./minify");
 var extname = require("path").extname;
 var uuid = require("uuid/v4");
 var join = require("path").join;
@@ -28,7 +26,14 @@ module.exports = function(blogID) {
       cache_folder_name,
       name
     );
+
     var src = "/" + cache_folder_name + "/" + name;
+
+    // Only put the image through the CDN if the blog
+    // ID uses the new format instead of the old integers
+    // once all the blogs use the new format, remove this check
+    if (blogID.indexOf("blog_") === 0)
+      src = config.cdn.origin + "/" + blogID + src;
 
     // Wrap callback to clean up file if we encounter an error in this module
     // When transformer creates and cleans up a tmp file for us, can remove this.

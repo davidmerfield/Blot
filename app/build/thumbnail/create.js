@@ -1,15 +1,12 @@
 var helper = require("helper");
 var fs = require("fs-extra");
-var uuid = require('uuid');
+var uuid = require("uuid");
 var callOnce = helper.callOnce;
 var transform = require("./transform");
 var join = require("path").join;
 var config = require("config");
 
 var TIMEOUT = 10 * 1000; // 10s
-
-var minify = require("./minify");
-var validate = require("./validate");
 
 function create(blogID, path, done) {
   done = callOnce(done);
@@ -31,6 +28,14 @@ function create(blogID, path, done) {
       for (var i in thumbnails) {
         thumbnails[i].path = outputDirectory + "/" + thumbnails[i].name;
         thumbnails[i].url = thumbnails[i].path;
+
+        // Only put the image through the CDN if the blog
+        // ID uses the new format instead of the old integers
+        // once all the blogs use the new format, remove this check
+        if (blogID.indexOf("blog_") === 0) {
+          thumbnails[i].url =
+            config.cdn.origin + "/" + blogID + thumbnails[i].url;
+        }
       }
 
       if (err) return done(err);

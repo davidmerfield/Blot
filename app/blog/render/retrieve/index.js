@@ -14,7 +14,6 @@ var dictionary = {
   archives: require("./archives"),
   asset: require("./asset"),
   avatar_url: require("./avatar_url"),
-  cdnify: require("./cdnify"),
   css_url: require("./css_url"),
   encodeJSON: require("./encodeJSON"),
   encodeURIComponent: require("./encodeURIComponent"),
