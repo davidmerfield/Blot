@@ -1,10 +1,11 @@
 var exec = require("child_process").exec;
 var config = require("config");
+var prettySize = require("helper").prettySize;
 
 function main(callback) {
   if (config.environment !== "production") return callback();
 
-  exec("free -m", function(err, stdout) {
+  exec("free -k", function(err, stdout) {
     var line = stdout
       .split("\n")[1]
       .replace(/\s+/g, " ")
@@ -13,8 +14,8 @@ function main(callback) {
     var available = line[2];
 
     callback(null, {
-      memory_usage: usage + "mb",
-      memory_available: available + "mb"
+      memory_usage: prettySize(usage),
+      memory_available: prettySize(available)
     });
   });
 }
