@@ -1,7 +1,3 @@
-Think about how to ignore paths and follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnrrjHZGqtgschtWwXs)
-
----
-
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Work out how to kill stray build processes. There were a bunch of zombies consuming memory on Blot's server.
@@ -36,6 +32,7 @@ Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%
 
 Catch 404s in Google search results and set up redirects
 
+Follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnrrjHZGqtgschtWwXs) about how to ignore arbritrary paths and keep clean URLS (no underscores). Sitewide .blotignore file?
 
 Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggDZGZhRJkhQhGdMjkQqNXfm)
 
