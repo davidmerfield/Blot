@@ -1,3 +1,5 @@
+Work out how to prevent stray processes. There were a bunch of zombies consuming memory on Blot's server
+
 Think about how to ignore paths and follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnrrjHZGqtgschtWwXs)
 
 ---
