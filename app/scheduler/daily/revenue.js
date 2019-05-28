@@ -21,7 +21,7 @@ function main(callback) {
         if (user.subscription.status !== "active") return;
 
         if (user.subscription.current_period_end * 1000 < Date.now()) return;
-        
+
         total_active_blogs += user.subscription.quantity;
 
         if (user.subscription.plan.interval === "year") {
@@ -37,9 +37,11 @@ function main(callback) {
       });
 
       callback(null, {
-        annual_recurring_revenue: helper.prettyPrice(annual_recurring_revenue),
+        annual_recurring_revenue: helper.prettyPrice(
+          Math.floor(annual_recurring_revenue / 100) * 100
+        ),
         monthly_recurring_revenue: helper.prettyPrice(
-          Math.floor(annual_recurring_revenue / 12)
+          Math.floor(Math.floor(annual_recurring_revenue / 12) / 100) * 100
         ),
         total_active_blogs: helper.prettyNumber(total_active_blogs)
       });
