@@ -10,8 +10,8 @@ function main(callback) {
       .split("\n")[1]
       .replace(/\s+/g, " ")
       .split(" ");
-    var usage = line[3];
-    var available = line[2];
+    var usage = line[2];
+    var available = line[3];
 
     callback(null, {
       memory_usage: prettySize(usage),
