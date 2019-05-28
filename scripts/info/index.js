@@ -45,7 +45,7 @@ getEntry(identifier, function(err, user, blog, entry) {
         return showUser(user, callback);
       }
 
-      User.getById(identifier, function(err, user) {
+      User.getByEmail(identifier, function(err, user) {
         if (user) {
           return showUser(user, callback);
         }
@@ -75,7 +75,7 @@ function showEntry(entry, blog, user, callback) {
   console.log(colors.dim("Found entry " + entry.id));
   console.log("- URL:", colors.green(origin + entry.url));
   console.log("- Source:", colors.yellow(origin + entry.path));
-  console.log("- Full:", origin + entry.url + '?json=true');
+  console.log("- Full:", origin + entry.url + "?json=true");
 
   showBlog(blog, user, callback);
 }
@@ -91,10 +91,7 @@ function showBlog(blog, user, callback) {
   console.log();
   console.log(colors.dim("Found " + blog.id));
   console.log("Site:", colors.green(origin));
-  access(blog.handle, function(err, url) {
-    console.log("Dashboard:", colors.yellow(url));
-    showUser(user, callback);
-  });
+  showUser(user, callback);
 }
 
 function showUser(user, callback) {
@@ -125,11 +122,15 @@ function showUser(user, callback) {
       subscriptionMessage = subscriptionMessage + ", renewing " + end;
     }
   } else {
-    subscriptionMessage = 'no subscription';
+    subscriptionMessage = "no subscription";
   }
 
   console.log("Subscription: " + subscriptionMessage);
   console.log("Blogs: " + user.blogs);
-  console.log();
-  callback();
+  access(user.uid, function(err, url) {
+    console.log("Dashboard:", colors.yellow(url));
+    console.log();
+    callback();
+  });
+
 }
