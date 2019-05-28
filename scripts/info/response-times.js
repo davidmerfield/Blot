@@ -1,6 +1,7 @@
 var moment = require("moment");
-var lineReader = require("./util/linereader");
-var numberWithCommas = require("./util/numberWithCommas");
+var helper = require("helper");
+var lineReader = helper.lineReader;
+var numberWithCommas = helper.prettyNumber;
 
 if (require.main === module) {
 
