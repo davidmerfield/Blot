@@ -39,9 +39,12 @@ function main(callback) {
 
         if (next_payment < now) return;
 
-        var revenue = removeStripeFee(
-          user.subscription.quantity * user.subscription.plan.amount
-        );
+        var revenue =
+          Math.floor(
+            removeStripeFee(
+              user.subscription.quantity * user.subscription.plan.amount
+            ) / 100
+          ) * 100;
 
         var renewal = {
           email: user.email,
@@ -77,9 +80,7 @@ function main(callback) {
         }
 
         result[i].total = helper.prettyNumber(result[i].total);
-        result[i].revenue = helper.prettyPrice(
-          Math.floor(result[i].revenue / 100) * 100
-        );
+        result[i].revenue = helper.prettyPrice(result[i].revenue);
       }
 
       callback(null, result);
