@@ -4,9 +4,7 @@ New entries published: {{new_entries.length}}
 
 Requests served: {{total_requests_served}}
 
-Average response time: {{average_response_time}}
-
-Median response time: {{median_response_time}}
+Average response time: {{average_response_time}} ({{median_response_time}} median response time)
 
 ***
 
