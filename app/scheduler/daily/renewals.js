@@ -77,7 +77,9 @@ function main(callback) {
         }
 
         result[i].total = helper.prettyNumber(result[i].total);
-        result[i].revenue = helper.prettyPrice(result[i].revenue);
+        result[i].revenue = helper.prettyPrice(
+          Math.floor(result[i].revenue / 100) * 100
+        );
       }
 
       callback(null, result);
