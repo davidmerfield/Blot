@@ -2,17 +2,18 @@ Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmt
 
 Finish Archive template
 - Tell [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpfcRHTcCwlZHLrJHkPkGGbh)
-
-Finish script to adjust blog ID formats
 - Announce archive template
 
 Finish Feed template
 - Create folder with public domain material
 - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
+- Announce feed template
 
 Record new demo video
 - Create simple custom text editor
 - Show sites I run using Blot
+
+Write summer newsletter and send it out on June 21st
 
 Delete social media accounts
 - Twitter
@@ -21,8 +22,6 @@ Delete social media accounts
 - Micro.blog
   - Archive all micro.blog posts
 
-Write summer newsletter and send it out on June 21st
-
 ---
 
 Rebuild all the thumbnails and cached images for every blog
@@ -30,7 +29,9 @@ Rebuild all the thumbnails and cached images for every blog
 - This might break something? What if the cached images are no longer available?
 - I'm worried there are old references to blotcdn in the thumbnail data stores too, my purge-cdn script did not account for that...
 
-NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory. Is this a permissions issue? Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
+NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory
+- Is this a permissions issue? 
+- Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
 
 Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server.
 - Work out how to kill them safely
