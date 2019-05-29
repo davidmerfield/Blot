@@ -4,8 +4,8 @@ var config = require("config");
 var fs = require("fs-extra");
 var get = require("./get");
 var key = require("./key");
-var symlinks = require("./symlinks");
 var BackupDomain = require("./util/backupDomain");
+var flushCache = require("./flushCache");
 
 var START_CURSOR = "0";
 var SCAN_SIZE = 1000;
@@ -22,7 +22,7 @@ function remove(blogID, callback) {
       disconnectClient,
       updateUser,
       wipeFolders,
-      removeSymlinks,
+      emptyCache,
       deleteKeys
     ].map(function(task) {
       return task.bind(null, blog);
@@ -30,6 +30,10 @@ function remove(blogID, callback) {
 
     async.series(tasks, callback);
   });
+}
+
+function emptyCache(blog, callback) {
+  flushCache(blog.id, blog, {}, callback);
 }
 
 function wipeFolders(blog, callback) {
@@ -70,21 +74,6 @@ function wipeFolders(blog, callback) {
       });
     });
   }
-}
-
-function removeSymlinks(blog, callback) {
-  var symlinksToRemove = [];
-
-  if (blog.domain) {
-    symlinksToRemove.push(blog.domain);
-    symlinksToRemove.push(BackupDomain(blog.domain));
-  }
-
-  if (blog.handle) {
-    symlinksToRemove.push(blog.handle + "." + config.host);
-  }
-
-  symlinks(blog.id, [], symlinksToRemove, callback);
 }
 
 function deleteKeys(blog, callback) {
