@@ -93,4 +93,4 @@ function switchThumbnails(blogID, entry) {
 
 module.exports = main;
 
-if (require.main === module) require("./cli")(main);
+if (require.main === module) require("./cli")(main, {skipAsk:true});
