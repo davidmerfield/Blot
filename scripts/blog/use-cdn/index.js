@@ -78,8 +78,8 @@ function switchCachedImages(blogID, html) {
 }
 
 function switchThumbnails(blogID, entry) {
-  for (var i in entry.thumbnails) {
-    var thumbnail = entry.thumbnails[i];
+  for (var i in entry.thumbnail) {
+    var thumbnail = entry.thumbnail[i];
     var newUrl = config.cdn.origin + "/" + blogID + thumbnail.url;
 
     if (thumbnail.url.indexOf(THUMBNAIL_DIRECTORY) !== 0) continue;
