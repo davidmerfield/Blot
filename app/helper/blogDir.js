@@ -1,6 +1,6 @@
 var fs = require('fs');
 var rootDir = require('./rootDir');
-var blogDir = rootDir + '/blogs';
+var blogDir = rootDir + '/data/blogs';
 
 try {
   fs.mkdirSync(blogDir)
