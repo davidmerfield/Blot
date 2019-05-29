@@ -27,13 +27,7 @@ module.exports = function(blogID) {
       name
     );
 
-    var src = "/" + cache_folder_name + "/" + name;
-
-    // Only put the image through the CDN if the blog
-    // ID uses the new format instead of the old integers
-    // once all the blogs use the new format, remove this check
-    if (blogID.indexOf("blog_") === 0)
-      src = config.cdn.origin + "/" + blogID + src;
+    var src = config.cdn.origin + "/" + blogID + "/" + cache_folder_name + "/" + name;
 
     // Wrap callback to clean up file if we encounter an error in this module
     // When transformer creates and cleans up a tmp file for us, can remove this.
