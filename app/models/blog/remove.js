@@ -14,26 +14,22 @@ function remove(blogID, callback) {
   get({ id: blogID }, function(err, blog) {
     if (err || !blog) return callback(err || new Error("No blog"));
 
-    // The order of these tasks is important right now.
-    // For example, if you wipe the blog's folder before disconnecting
-    // the client, you might run into an error. It would be nice to
-    // be able to run them in parallel though
-    var tasks = [
-      disconnectClient,
-      updateUser,
-      wipeFolders,
-      emptyCache,
-      deleteKeys
-    ].map(function(task) {
-      return task.bind(null, blog);
+    flushCache(blogID, function(err) {
+      if (err) return callback(err);
+
+      // The order of these tasks is important right now.
+      // For example, if you wipe the blog's folder before disconnecting
+      // the client, you might run into an error. It would be nice to
+      // be able to run them in parallel though
+      var tasks = [disconnectClient, updateUser, wipeFolders, deleteKeys].map(
+        function(task) {
+          return task.bind(null, blog);
+        }
+      );
+
+      async.series(tasks, callback);
     });
-
-    async.series(tasks, callback);
   });
-}
-
-function emptyCache(blog, callback) {
-  flushCache(blog.id, blog, {}, callback);
 }
 
 function wipeFolders(blog, callback) {
