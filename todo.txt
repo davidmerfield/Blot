@@ -1,20 +1,9 @@
-Fix cached references to images in transformer stores
-
-Work out how to kill stray build processes. There were a bunch of zombies consuming memory on Blot's server.
-
-NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory. Is this a permissions issue? Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
-
----
-
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Finish Archive template
 - Tell [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpfcRHTcCwlZHLrJHkPkGGbh)
 
 Finish script to adjust blog ID formats
-- Finish PR adjusting delete blog
-- Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
-- Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441) and [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
 - Announce archive template
 
 Finish Feed template
@@ -31,6 +20,20 @@ Delete social media accounts
   - Archive all DMs
 - Micro.blog
   - Archive all micro.blog posts
+
+Write summer newsletter and send it out on June 21st
+
+---
+
+Rebuild all the thumbnails and cached images for every blog
+- The stores contain old urls, e.g. "/_image_cache/..." even though we have updated new entries
+- This might break something? What if the cached images are no longer available?
+- I'm worried there are old references to blotcdn in the thumbnail data stores too, my purge-cdn script did not account for that...
+
+NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory. Is this a permissions issue? Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
+
+Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server.
+- Work out how to kill them safely
 
 ---
 
