@@ -8,51 +8,52 @@ var flush = require("express-disk-cache")(config.cache_directory).flush;
 var localPath = require("helper").localPath;
 var HOSTS = config.cache_directory;
 var BackupDomain = require("./util/backupDomain");
-var debug = require('debug')('blot:blog:flushCache');
+var debug = require("debug")("blot:blog:flushCache");
+var get = require("./get");
 
 // This empties the cache for a blog by emptying the cache
 // for its Blot subdomain and its custom domain, if one is set
-module.exports = function(blogID, former, latest, callback) {
-
-  var latestHosts = [];
+module.exports = function(blogID, former, callback) {
+  var blogHosts = [];
   var affectedHosts = [];
 
-  if (latest.domain) {
-    latestHosts.push(latest.domain);
-    affectedHosts.push(latest.domain);
-
-    latestHosts.push(BackupDomain(latest.domain));
-    affectedHosts.push(BackupDomain(latest.domain));
-  }
-
-  if (latest.handle) {
-    latestHosts.push(latest.handle + "." + config.host);
-    affectedHosts.push(latest.handle + "." + config.host);
-  }
-
-  if (former.handle) {
-    affectedHosts.push(former.handle + "." + config.host);
-  }
-
-  if (former.domain) {
-    affectedHosts.push(former.domain);
-    affectedHosts.push(BackupDomain(former.domain));
-  }
-
-  debug('Emptying cache directories for:', affectedHosts);
-
-  async.each(affectedHosts, flush, function(err) {
+  get({ id: blogID }, function(err, blog) {
     if (err) return callback(err);
 
-    // The purpose of this module is to set up a number of symlinks between the blogs
-    // folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. /cache/example.com
-    // This is designed to allow NGINX to serve static content without a way to lookup the
-    // blog by ID, and will take load off the Node.js server
+    if (blog.domain) {
+      blogHosts.push(blog.domain);
+      affectedHosts.push(blog.domain);
 
-    // We make sure to remove symlinks when deleting a blog or renaming its hosts
-    // e.g. handle or custom domain
-    debug('Setting up symlinks to blog folder for', latestHosts);
-    async.each(latestHosts, symlink.bind(null, blogID), callback);
+      blogHosts.push(BackupDomain(blog.domain));
+      affectedHosts.push(BackupDomain(blog.domain));
+    }
+
+    if (blog.handle) {
+      blogHosts.push(blog.handle + "." + config.host);
+      affectedHosts.push(blog.handle + "." + config.host);
+    }
+
+    if (former.handle && former.handle !== blog.handle) {
+      affectedHosts.push(former.handle + "." + config.host);
+    }
+
+    if (former.domain && former.domain !== blog.domain) {
+      affectedHosts.push(former.domain);
+      affectedHosts.push(BackupDomain(former.domain));
+    }
+
+    // We make sure to empty cache directories when deleting a blog
+    debug("Emptying cache directories for:", affectedHosts);
+    async.each(affectedHosts, flush, function(err) {
+      if (err) return callback(err);
+
+      // The purpose of this module is to set up a number of symlinks between the blogs
+      // folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. /cache/example.com
+      // This is designed to allow NGINX to serve static content without a way to lookup the
+      // blog by ID, and will take load off the Node.js server
+      debug("Setting up symlinks to blog folder for", blogHosts);
+      async.each(blogHosts, symlink.bind(null, blogID), callback);
+    });
   });
 };
 

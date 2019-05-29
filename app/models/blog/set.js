@@ -128,7 +128,7 @@ module.exports = function(blogID, blog, callback) {
         // to this blog, so empty the list of changes
         if (err) return callback(err, []);
 
-        flushCache(blogID, former, latest, function(err) {
+        flushCache(blogID, former, function(err) {
           callback(err, changesList);
         });
       });
