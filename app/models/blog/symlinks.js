@@ -12,13 +12,13 @@ if (!process.env.BLOT_DIRECTORY)
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var async = require("async");
-var HOSTS = process.env.BLOT_DIRECTORY + "/data/hosts";
+var HOSTS = process.env.BLOT_DIRECTORY + "/cache";
 
 // add and remove should be a list of hosts, e.g.
 // ['example.blot.im', 'example.com']
 module.exports = function(blogID, add, remove, callback) {
   var blogFolder = localPath(blogID, "/").slice(0, -1);
-  var staticFolder = process.env.BLOT_DIRECTORY + "/static/" + blogID;
+  var staticFolder = config.blog_static_files_dir + "/" + blogID;
 
   async.parallel([addSymlinks, removeSymlinks], callback);
 
