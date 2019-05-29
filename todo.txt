@@ -1,8 +1,8 @@
 Symlinked static file delivery of files from /cache is not working in production
 
-Fix Peter's caching issues
+Fix cached references to images in transformer stores
 
-Fix error adding and substracting 'www' from custom domain with symlinks
+Prevent files served from blog folder ending up in *permanent* cache folder
 
 Work out how to kill stray build processes. There were a bunch of zombies consuming memory on Blot's server.
 
