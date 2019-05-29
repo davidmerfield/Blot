@@ -256,10 +256,7 @@ function emptyCacheForBlogsUsing(templateID, callback) {
             colors.dim("flushed for"),
             blog.handle + colors.dim(" (" + blog.id + ")")
           );
-          Blog.flushCache(blog.id, function(err) {
-            if (err) return next(err);
-            Blog.set(blog.id, { cacheID: Date.now() }, next);
-          });
+          Blog.set(blog.id, { cacheID: Date.now() }, next);
         });
       },
       callback

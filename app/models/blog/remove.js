@@ -4,8 +4,8 @@ var config = require("config");
 var fs = require("fs-extra");
 var get = require("./get");
 var key = require("./key");
-var symlinks = require("./symlinks");
 var BackupDomain = require("./util/backupDomain");
+var flushCache = require("./flushCache");
 
 var START_CURSOR = "0";
 var SCAN_SIZE = 1000;
@@ -14,21 +14,21 @@ function remove(blogID, callback) {
   get({ id: blogID }, function(err, blog) {
     if (err || !blog) return callback(err || new Error("No blog"));
 
-    // The order of these tasks is important right now.
-    // For example, if you wipe the blog's folder before disconnecting
-    // the client, you might run into an error. It would be nice to
-    // be able to run them in parallel though
-    var tasks = [
-      disconnectClient,
-      updateUser,
-      wipeFolders,
-      removeSymlinks,
-      deleteKeys
-    ].map(function(task) {
-      return task.bind(null, blog);
-    });
+    flushCache(blogID, function(err) {
+      if (err) return callback(err);
 
-    async.series(tasks, callback);
+      // The order of these tasks is important right now.
+      // For example, if you wipe the blog's folder before disconnecting
+      // the client, you might run into an error. It would be nice to
+      // be able to run them in parallel though
+      var tasks = [disconnectClient, updateUser, wipeFolders, deleteKeys].map(
+        function(task) {
+          return task.bind(null, blog);
+        }
+      );
+
+      async.series(tasks, callback);
+    });
   });
 }
 
@@ -70,21 +70,6 @@ function wipeFolders(blog, callback) {
       });
     });
   }
-}
-
-function removeSymlinks(blog, callback) {
-  var symlinksToRemove = [];
-
-  if (blog.domain) {
-    symlinksToRemove.push(blog.domain);
-    symlinksToRemove.push(BackupDomain(blog.domain));
-  }
-
-  if (blog.handle) {
-    symlinksToRemove.push(blog.handle + "." + config.host);
-  }
-
-  symlinks(blog.id, [], symlinksToRemove, callback);
 }
 
 function deleteKeys(blog, callback) {

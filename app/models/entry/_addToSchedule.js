@@ -19,7 +19,10 @@ module.exports = function (blogID, entry, callback) {
 
   // Refresh will perform a re-save of the entry
   var refresh = set.bind(this, blogID, entry.path, {}, function(){
-    console.log('Blog:', blogID + ':', 'Published entry as scheduled!', entry.path);
+    require('blog').set(blogID, {cacheID: Date.now()}, function(err){
+
+      console.log('Blog:', blogID + ':', 'Published entry as scheduled!', entry.path);
+    });
   });
 
   // This key is to ensure one event per entry
