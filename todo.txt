@@ -1,3 +1,7 @@
+Symlinked static file delivery of files from /cache is not working in production
+
+Fix Peter's caching issues
+
 Fix error adding and substracting 'www' from custom domain with symlinks
 
 Work out how to kill stray build processes. There were a bunch of zombies consuming memory on Blot's server.
