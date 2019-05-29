@@ -21,7 +21,7 @@ module.exports = function(blogID, add, remove, callback) {
   var blogFolder = localPath(blogID, "/").slice(0, -1);
   var staticFolder = config.blog_static_files_dir + "/" + blogID;
 
-  async.parallel([addSymlinks, removeSymlinks], callback);
+  async.series([removeSymlinks, addSymlinks], callback);
 
   function addSymlinks(done) {
     var links = [];
