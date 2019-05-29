@@ -1,5 +1,5 @@
 // The purpose of this module is to set up a number of symlinks between the blogs
-// folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. data/hosts/example.com
+// folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. /cache/example.com
 // This is designed to allow NGINX to serve static content without a way to lookup the
 // blog by ID, and will take load off the Node.js server
 
@@ -12,15 +12,16 @@ if (!process.env.BLOT_DIRECTORY)
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var async = require("async");
-var HOSTS = process.env.BLOT_DIRECTORY + "/data/hosts";
+var config = require("config");
+var HOSTS = config.cache_directory;
 
 // add and remove should be a list of hosts, e.g.
 // ['example.blot.im', 'example.com']
 module.exports = function(blogID, add, remove, callback) {
   var blogFolder = localPath(blogID, "/").slice(0, -1);
-  var staticFolder = process.env.BLOT_DIRECTORY + "/static/" + blogID;
+  var staticFolder = config.blog_static_files_dir + "/" + blogID;
 
-  async.parallel([addSymlinks, removeSymlinks], callback);
+  async.series([removeSymlinks, addSymlinks], callback);
 
   function addSymlinks(done) {
     var links = [];
