@@ -1,5 +1,5 @@
 var moment = require("moment");
-var lineReader = require("./util/linereader");
+var lineReader = require("helper").lineReader;
 
 if (require.main === module) {
   var range = process.argv[2] || "hours";

@@ -119,11 +119,7 @@ function sync(blogID, options, callback) {
               Blog.set(blogID, { cacheID: Date.now() }, function(err) {
                 if (err) return callback(err);
 
-                Blog.flushCache(blogID, function(err) {
-                  if (err) return callback(err);
-
-                  callback(syncError);
-                });
+                callback(syncError);
               });
             });
           });

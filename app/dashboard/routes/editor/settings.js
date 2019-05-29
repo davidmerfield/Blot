@@ -81,7 +81,7 @@ module.exports = function (server) {
           // could we do something with this error? Could we wait to render the page?
         });
 
-        Blog.flushCache(req.blog.id, function(err){
+        Blog.set(req.blog.id, {cacheID: Date.now()}, function(err){
 
           if (err) return next(err);
 

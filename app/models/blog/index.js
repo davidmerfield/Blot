@@ -2,7 +2,6 @@ module.exports = {
   create: require("./create"),
   defaults: require("./defaults"),
   extend: require("./extend"),
-  flushCache: require("./flushCache"),
   get: require("./get"),
   getAllIDs: require("./getAllIDs"),
   getHosts: require("./getHosts"),

@@ -1,54 +1,58 @@
-💌 {{total_new_posts}} new posts{{#renewals.length}}, {{renewals.length}} renewals{{/renewals.length}}
+Daily update for {{date}}
 
+New entries published: {{new_entries.length}}
 
-{{#renewals.length}}
+Requests served: {{total_requests_served}}
 
-**Renewals**
+Average response time: {{average_response_time}} ({{median_response_time}} median response time)
 
-{{#renewals}}
-${{fee}} {{from_now}} from [{{email}}](mailto:{{email}}) *{{time}} {{#blogs}}[{{handle}}]({{{link}}}){{^last}} ,{{/last}}{{/blogs}}*
+***
 
+Memory available: {{memory_available}} ({{memory_usage}} used)
 
-{{/renewals}}
+Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
 
-..........................................................
+***
 
-{{/renewals.length}}
+Number of active blogs: {{total_active_blogs}}
 
-**Requests served yesterday:** {{views}}
+Total entries published: {{total_entries}}
 
-**Average response time yesterday:** {{averageResponseTime}}s
+Newsletter subscribers: {{newsletter_subscribers}}
 
-**Total posts:** {{total_posts}}
+***
 
-..........................................................
+{{#renewals_today}}
 
-**Memory:** {{memory.available}} ({{memory.used}} used)
+Revenue expected from renewals today: {{revenue}} from {{total}} blog{{s}}
 
-**Disk space:** {{disk_space.available}} ({{disk_space.used}} used)
+{{#list}}
+- {{revenue}} from {{email}} {{next_payment}}
 
-..........................................................
+{{/list}}
 
-**Active subscriptions:** {{total_subscriptions}}
+{{/renewals_today}}
 
-**Total cancellations:** {{total_cancellations}}
+{{#renewals_next_7_days}}
+Revenue expected from renewals in the next 7 days: {{revenue}} from {{total}} blog{{s}}
 
-**Annual revenue:** {{total_revenue}}
+{{/renewals_next_7_days}}
+{{#renewals_next_30_days}}
+Revenue expected from renewals in the next 30 days: {{revenue}}  from {{total}} blog{{s}}
 
-**Newsletter subscribers:** {{newsletter_subscribers}}
+{{/renewals_next_30_days}}
 
-{{#new_posts.length}}
+Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month)
 
-..........................................................
+{{#new_entries.length}}
 
-**New posts**
+***
 
-{{#new_posts}}
-{{#entries}}
-[{{title}}]({{{link}}}{{{url}}}) {{summary}} *Posted by [{{blog.handle}}]({{{link}}})*
+New entries:
 
-{{/entries}}
-{{/new_posts}}
+{{#new_entries}}
+- [{{title}}]({{{link}}})
 
+{{/new_entries}}
 
-{{/new_posts.length}}
+{{/new_entries.length}}

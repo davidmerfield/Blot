@@ -1,22 +1,19 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
-Investigate support for .bib/.csl files and follow up with [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGKbxLLmfcBDBScrrVBKh) on Tuesday
-
 Finish Archive template
-
-Finish script to adjust blog ID formats
-- Finish PR adjusting delete blog
-- Ensure Git client data is flushed when a blog or account is deleted. [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbLmrQHnhdpsBnKdFNjPsPC) saw his old repo data when he signed up again.
-- Reinstate blotcdn.com then tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Alexander](https://twitter.com/wbergg) and [Nash](https://twitter.com/nashp/status/1111637118206525441) and [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
+- Tell [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpfcRHTcCwlZHLrJHkPkGGbh)
 - Announce archive template
 
 Finish Feed template
 - Create folder with public domain material
 - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e), [Nash](https://mail.google.com/mail/u/0/#search/nash+p/157400b543535706) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
+- Announce feed template
 
 Record new demo video
 - Create simple custom text editor
 - Show sites I run using Blot
+
+Write summer newsletter and send it out on June 21st
 
 Delete social media accounts
 - Twitter
@@ -27,11 +24,25 @@ Delete social media accounts
 
 ---
 
+Rebuild all the thumbnails and cached images for every blog
+- The stores contain old urls, e.g. "/_image_cache/..." even though we have updated new entries
+- This might break something? What if the cached images are no longer available?
+- I'm worried there are old references to blotcdn in the thumbnail data stores too, my purge-cdn script did not account for that...
+
+NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory
+- Is this a permissions issue? 
+- Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
+
+Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server.
+- Work out how to kill them safely
+
+---
+
 Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%20825%20printer%20font%20-%20a%20work%20in%20progress.markdown) draft and speed up its build time
 
 Catch 404s in Google search results and set up redirects
 
-Fall back to file name before first sentence when generating title metadata and tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
+Follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnrrjHZGqtgschtWwXs) about how to ignore arbritrary paths and keep clean URLS (no underscores). Sitewide .blotignore file?
 
 Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggDZGZhRJkhQhGdMjkQqNXfm)
 
@@ -97,7 +108,12 @@ Wait a month and then delete s3 blogs bucket
 
 Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) and [Rod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggCQDlrRZcdXwPZGCjBZFFTr)
 
-Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
+Metadata parser
+- Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
+- Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
+- Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
+- Removing Date metadata from a post should reset its date to the file's creation date. Currently nothing changes.
+- Fall back to file name before first sentence when generating title metadata and tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
 
 Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
 
@@ -408,8 +424,6 @@ File converters / codecs
   Write a pandoc compatible markdown converter in javascript
   to resolve some of the performance issues with pandoc. Perhaps just use [Markdown-it](https://github.com/markdown-it/markdown-it)
 
-Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
-
 Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
 Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and Roy's friend Tim.
@@ -508,9 +522,6 @@ NGINX
 Support linking to another blog post by its *file path*
 - This would help with the importer to fix broken links
 - See [how Pelican does it](http://docs.getpelican.com/en/stable/content.html#linking-to-internal-content)
-
-Removing Date metadata from a post should reset its date to the file's creation date
-- Currently nothing changes.
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
