@@ -1,5 +1,5 @@
 // The purpose of this module is to set up a number of symlinks between the blogs
-// folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. data/hosts/example.com
+// folder stored againsts its ID, e.g. blogs/XYZ and its host, e.g. /cache/example.com
 // This is designed to allow NGINX to serve static content without a way to lookup the
 // blog by ID, and will take load off the Node.js server
 
