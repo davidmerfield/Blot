@@ -7,8 +7,8 @@ module.exports = {
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
-  blog_static_files_dir: process.env.BLOT_DIRECTORY + "/static",
-  blog_folder_dir: process.env.BLOT_DIRECTORY + "/blogs",
+  blog_static_files_dir: process.env.BLOT_DIRECTORY + "/data/static",
+  blog_folder_dir: process.env.BLOT_DIRECTORY + "/data/blogs",
   cache_directory: process.env.BLOT_CACHE_DIRECTORY,
 
   ip: process.env.BLOT_IP || "127.0.0.1",
