@@ -12,7 +12,8 @@ if (!process.env.BLOT_DIRECTORY)
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;
 var async = require("async");
-var HOSTS = process.env.BLOT_DIRECTORY + "/cache";
+var config = require("config");
+var HOSTS = config.cache_directory;
 
 // add and remove should be a list of hosts, e.g.
 // ['example.blot.im', 'example.com']
