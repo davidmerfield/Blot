@@ -1,6 +1,8 @@
-Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
-
 Work out how to kill stray build processes. There were a bunch of zombies consuming memory on Blot's server.
+
+---
+
+Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Finish Archive template
 - Tell [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpfcRHTcCwlZHLrJHkPkGGbh)
