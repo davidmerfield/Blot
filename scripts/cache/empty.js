@@ -22,12 +22,12 @@ function main(callback) {
         if (item[0] === ".") return next();
 
         process.stdout.write("\r-" + config.cache_directory + "/" + item);
-        fs.remove(item, next);
+        fs.remove(config.cache_directory + "/" + item, next);
       },
       function(err) {
         if (err) return callback(err);
-        console.log("\nUpdating cache ID of each blog");
         Blog.getAllIDs(function(err, blogIDs) {
+          console.log("\nUpdating cache ID of " + blogIDs.length + " blogs");
           async.eachSeries(
             blogIDs,
             function(blogID, next) {
