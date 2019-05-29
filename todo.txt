@@ -2,6 +2,8 @@ Fix cached references to images in transformer stores
 
 Work out how to kill stray build processes. There were a bunch of zombies consuming memory on Blot's server.
 
+NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory. Is this a permissions issue? Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
+
 ---
 
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
