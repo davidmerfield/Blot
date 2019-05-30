@@ -8,30 +8,30 @@
 </div>
 {{/allTags.length}}
 
-{{#allTags.length}}
-<div class="archives">
-  <h1 style="margin-left:2rem">Categories</h1>
-  {{#allTags}}
-  <hr>
-  <h2>{{tag}}</h2>
-  <div class="links">
-    {{#entries}}
-    <a class="item" style="" href="{{{url}}}"><span style="display:inline-block;margin-right:0.5em;width:1em;height:1em;flex-shrink:0">{{#thumbnail.square}}
-<img src="{{{url}}}" style="max-width:1em;max-height:1em;width:auto;height:auto" class="fadeMe" onload="this.className+=' fadeIn';" />
-      <noscript>  
-      <img src="{{{url}}}">
-      </noscript>
+{{#allTags.length}} <style type="text/css">
+  .stack .inset {position: absolute;top:0;bottom:0;right:0;left: 0;width: 1em;height: 1em;display: flex;justify-content: center;align-content:center;}
+  .stack img {max-width: 100%;max-height: 100%;width: auto;height: auto;}
+  .stack img:nth-child(n+4) {display: none;}</style>
 
-  {{/thumbnail.square}}</span> <span style="flex-grow:1;overflow:hidden"><span style="    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;display:block;      height: 1.4em;
-    
-">{{title}}</span></span> <span style="flex-shrink:0">{{#formatDate}}MMM YYYY{{/formatDate}}</span></a>
+<div style="flex-basis:50%">
+   <span style="text-decoration:none;color:rgba(0,0,0,.25);margin-top:2px;display:inline-block;text-transform:uppercase;font-size:11px">All Categories</span>
+   {{#allTags}}
+  <hr>
+  <a href="/tagged/{{slug}}" style="text-decoration:none">
+    <span class="stack" style="margin:0 1.3rem ;width:1em;height:1em;font-size:5em;float:right;position:relative">
+    {{#entries}}
+    {{#thumbnail.small}}
+    <span class="inset"><span style="display:block"><img width="{{width}}" height="{{height}}" src="{{{url}}}"></span></span>
+    {{/thumbnail.small}}
     {{/entries}}
-  </div>
+  </span>
+  <h3 style="margin:1.3rem 0 0rem">{{tag}}</h3>
+  <p style="margin:0"><small>{{entries.length}} posts</small></p>
+  <div style="clear:both"></div>
+</a>
   {{/allTags}}  
-</div>
+
+  </div>
 {{/allTags.length}}
 
 {{> footer}}
