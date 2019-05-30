@@ -4,9 +4,9 @@
   <div class="header">
     {{> index_link}}
 
-    <div style="flex-basis:41rem;flex-grow:0">
+    <div style="flex-basis:42rem;flex-shrink:0;flex-grow:0">
     {{#tag}}
-     <h1 style="padding-left:1.3rem;margin:0;font-size:1.85em;">{{tag}}</h1>
+     <h1 style="padding:0 0.9rem;margin:0;font-size:1.85em;">{{tag}}</h1>
      {{/tag}}
      {{^tag}}
     {{> search_field}}
