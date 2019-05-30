@@ -126,6 +126,8 @@ a.light:active img {
     width: 100%
   }
 
+  .post:hover .thumbnail:after {border: none!important;}
+
   .posts {padding-left: 0;padding-right: 0}
 }
 
