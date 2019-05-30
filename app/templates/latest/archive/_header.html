@@ -4,14 +4,16 @@
   <div class="header">
     {{> index_link}}
 
+    <div style="flex-basis:41rem;flex-grow:0">
     {{#tag}}
-     <h1 style="padding-left:1.3rem;margin:0;flex-basis:50%;font-size:1.85em;box-sizing:border-box">{{tag}}</h1>
+     <h1 style="padding-left:1.3rem;margin:0;font-size:1.85em;">{{tag}}</h1>
      {{/tag}}
      {{^tag}}
     {{> search_field}}
      {{/tag}}
-    
-    <div class="w-25" style="display:flex;justify-content: flex-end;    align-items: center;">
+    </div>
+
+    <div style="display:flex;justify-content: flex-end;flex-basis:25%;flex-grow:1;align-items: center;">
       {{#menu}}
       <a class="light" title="{{label}}" style="padding:0.5rem 0.75rem;{{#last}}padding-right:1.3rem{{/last}}" href="{{{url}}}">{{label}}</a>
       {{/menu}}
