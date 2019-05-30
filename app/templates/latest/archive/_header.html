@@ -1,19 +1,83 @@
 <html>
 {{> head}}
+
 <body style="display:flex;flex-direction:column;min-height:100%;">
+  <style type="text/css">
+  label {
+    display: none;
+  }
+
+  @media screen and (max-width: 976px) {
+    label {
+      display: block;
+      position: absolute;
+      top: 0;
+      padding: 0.7rem 1.3rem;
+      cursor: pointer;
+      right: 0
+    }
+
+    .header .hide,
+    div .toolbar,
+    .header + div > hr:first-child {
+      display: none;
+    }
+
+    input:checked~.header .hide,
+    input:checked~div .toolbar {
+      display: block;
+    }
+
+    .header {
+      flex-wrap: wrap;
+      align-items:normal;
+    }
+
+    .header>*,
+    .toolbar > *,
+    .header {
+      z-index: 1;
+      flex-shrink: 0;
+      max-width: none!important;
+      width: 100% !important
+    }
+
+    .header label {width: auto!important;z-index: 100}
+
+  }
+
+  .nav {
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 25%;
+    flex-grow: 1;
+    align-items: center;
+  }
+
+  input#toggle {
+    position: absolute;
+    top: 0;
+    left: -1em;
+    visibility: hidden;
+  }
+
+  </style>
+  <input type="checkbox" id="toggle" name="toggle">
   <div class="header">
     {{> index_link}}
 
-    <div style="flex-basis:42rem;flex-shrink:0;flex-grow:0">
-    {{#tag}}
-     <h1 style="padding:0 0.9rem;margin:0;font-size:1.85em;">{{tag}}</h1>
-     {{/tag}}
-     {{^tag}}
-    {{> search_field}}
-     {{/tag}}
+    <label for="toggle">Menu</label>
+
+    <div class="hide" style="flex-basis:42rem;flex-shrink:0;flex-grow:0">
+      {{#tag}}
+      <h1 style="padding:0 0.9rem;margin:0;font-size:1.85em;">{{tag}}</h1>
+      {{/tag}}
+      {{^tag}}
+      {{> search_field}}
+      {{/tag}}
     </div>
 
-    <div style="display:flex;justify-content: flex-end;flex-basis:25%;flex-grow:1;align-items: center;">
+    <div class="hide nav">
       {{#menu}}
       <a class="light" title="{{label}}" style="padding:0.5rem 0.75rem;{{#last}}padding-right:1.3rem{{/last}}" href="{{{url}}}">{{label}}</a>
       {{/menu}}
