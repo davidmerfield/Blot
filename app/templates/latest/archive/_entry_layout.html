@@ -1,40 +1,57 @@
 {{^entry.page}}
 
 <body style="display:flex;flex-direction:column;min-height:100%;">
-    {{#entry}}
+  {{#entry}}
 
   <div class="top">
     <a class="close" style="float:right" href="/" onclick="return lastIndexPage()"></a>
-      <a class="right" style="margin-left:0;{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
-      <a class="left" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"></a>
+    <a class="right" style="margin-left:0;{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
+    <a class="left" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"></a>
 
   </div>
 
   <div class="main" style="display:flex;">
 
     <style type="text/css">
+    .main {
+      min-height: calc(100vh - 2rem);
+      flex-grow: 1;
+    }
 
-    .main {min-height:calc(100vh - 2rem);flex-grow:1;}
-    .top  > * {float: right;}
+    .top>* {
+      float: right;
+    }
 
-    .top .right-toolbar, .top .left-toolbar {padding: 1.3rem}
+    .top .right-toolbar,
+    .top .left-toolbar {
+      padding: 1.3rem
+    }
 
-    .left-toolbar, .right-toolbar, .close {
+    .left-toolbar,
+    .right-toolbar,
+    .close {
       text-align: center;
       display: inline-block;
       margin: 1.3rem;
-      border: 1px solid rgba(0,0,0,.25);
+      border: 1px solid rgba(0, 0, 0, .25);
       padding: 2.6rem 1.3rem;
       text-decoration: none;
       box-sizing: border-box;
       position: relative;
     }
 
-    .close {padding: 1.3rem}
+    .close {
+      padding: 1.3rem
+    }
 
-    .left-toolbar:focus, .right-toolbar:focus, .close:focus {opacity: 0.6}
+    .left-toolbar:focus,
+    .right-toolbar:focus,
+    .close:focus {
+      opacity: 0.6
+    }
 
-    .left-toolbar:before, .right-toolbar:before {
+    .left-toolbar:before,
+    .right-toolbar:before {
       content: "";
       display: block;
       position: absolute;
@@ -50,19 +67,23 @@
       transform: rotate(-135deg);
       border: solid;
       border-width: 1px 1px 0 0;
-      border-color: rgba(0,0,0,.4);
+      border-color: rgba(0, 0, 0, .4);
     }
 
- .right-toolbar:before{      -webkit-transform: rotate(45deg);
+    .right-toolbar:before {
+      -webkit-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
-            left: 13px;
+      left: 13px;
 
-}
+    }
 
-.entry {    align-self: center;}
+    .entry {
+      align-self: center;
+    }
 
-.close:before, .close:after {
+    .close:before,
+    .close:after {
       content: "";
       display: block;
       position: absolute;
@@ -70,7 +91,7 @@
       bottom: 0;
       right: auto;
       width: 1px;
-      background: rgba(0,0,0,.4);
+      background: rgba(0, 0, 0, .4);
       height: 16px;
       margin: auto 0;
       -webkit-transform: rotate(-135deg);
@@ -79,26 +100,48 @@
       left: 20px
     }
 
-.close:after {      -webkit-transform: rotate(-45deg);
+    .close:after {
+      -webkit-transform: rotate(-45deg);
       -ms-transform: rotate(-45deg);
       transform: rotate(-45deg);
-}
+    }
 
-.side {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-}
-.right-toolbar-side {justify-content:space-between;flex-grow:0;min-height:100vh;flex-shrink:0;display:flex;flex-direction:column}
-.top {display: none;}
-@media screen and (max-width: 600px) {
-  .top {display: block}
-  .main {align-items: normal;min-height: initial;flex-grow:0;}
-  .side {
-    display: none;
-  }
-}
+    .side {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+    }
+
+    .right-toolbar-side {
+      justify-content: space-between;
+      flex-grow: 0;
+      min-height: 100vh;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column
+    }
+
+    .top {
+      display: none;
+    }
+
+    @media screen and (max-width: 600px) {
+      .top {
+        display: block
+      }
+
+      .main {
+        align-items: normal;
+        min-height: initial;
+        flex-grow: 0;
+      }
+
+      .side {
+        display: none;
+      }
+    }
+
     </style>
     <div class="side" style="">
       <a class="close" href="/" style="visibility:hidden"></a>
@@ -126,17 +169,17 @@
   <br>
   <br>
   <div class="entry" style="min-width:400px;max-width:50em">
-  <h1 style="margin:0.7rem 0 0">{{title}}</h1>
-  <hr style="margin:0.7rem 0">
-  <p style="margin:0 0 0.7rem"><small>Added {{date}} under {{#tags}} {{#last}}{{^first}}and{{/first}}{{/last}} <a href="/tagged/{{slug}}">{{tag}}</a>{{^last}},{{/last}} {{/tags}}</small></p>
-</div>
+    <h1 style="margin:0.7rem 0 0">{{title}}</h1>
+    <hr style="margin:0.7rem 0">
+    <p style="margin:0 0 0.7rem"><small>Added {{date}} under {{#tags}} {{#last}}{{^first}}and{{/first}}{{/last}} <a href="/tagged/{{slug}}">{{tag}}</a>{{^last}},{{/last}} {{/tags}}</small></p>
+  </div>
   <br>
   <br>
   <br>
 
   {{/titleTag}}
 
-      {{/entry}}
+  {{/entry}}
 
   {{/entry.page}}
 

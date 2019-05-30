@@ -5,10 +5,6 @@
   },
   "isPublic": true,
   "views": {
-    "components": {"url": "/components"},
-    "components-grid": {"url": "/components-grid"},
-    "components-footer": {"url": "/components-footer"},
-    "components-header": {"url": "/components-header"},
     "archives": {
       "url": "/archives",
       "partials": {
@@ -16,8 +12,7 @@
         "description": "All the entries posted on {{{title}}}"
       }
     },
-    
-        "tags": {
+    "tags": {
       "url": "/tags",
       "partials": {
         "title": "Tags - {{{title}}}",
@@ -27,7 +22,8 @@
     "tagged": {
       "partials": {
         "title": "Entries tagged {{{tag}}} from {{{title}}}",
-        "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
+        "description":
+          "All of the entries posted on {{{title}}} tagged {{{tag}}}"
       }
     },
     "entries": {
