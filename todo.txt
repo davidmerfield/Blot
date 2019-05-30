@@ -21,7 +21,7 @@ Delete social media accounts
 ---
 
 Rebuild all the thumbnails and cached images for every blog
-- Weird things happened to the ferox blog – it was not attached to its user owner...
+- Weird things happened to the ferox blog – it was not attached to its user owner... Can we reproduce bug locally with production dump?
 - The stores contain old urls, e.g. "/_image_cache/..." even though we have updated new entries
 - This might break something? What if the cached images are no longer available?
 - I'm worried there are old references to blotcdn in the thumbnail data stores too, my purge-cdn script did not account for that...
