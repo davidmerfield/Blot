@@ -59,8 +59,8 @@
     "style": {
       "url": "/style.css"
     },
-    "instant.page.js": {
-      "url": "/instant.page.js"
+    "instant.js": {
+      "url": "/instant.js"
     },
     "script": {
       "url": "/script.js"
