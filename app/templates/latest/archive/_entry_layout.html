@@ -14,12 +14,12 @@
 
     <style type="text/css">
 
-    .main {align-items: center;min-height:calc(100vh - 2rem);flex-grow:1;}
+    .main {min-height:calc(100vh - 2rem);flex-grow:1;}
     .top  > * {float: right;}
 
-    .top .right, .top .left {padding: 1.3rem}
+    .top .right-toolbar, .top .left-toolbar {padding: 1.3rem}
 
-    .left, .right, .close {
+    .left-toolbar, .right-toolbar, .close {
       text-align: center;
       display: inline-block;
       margin: 1.3rem;
@@ -32,9 +32,9 @@
 
     .close {padding: 1.3rem}
 
-    .left:focus, .right:focus, .close:focus {opacity: 0.6}
+    .left-toolbar:focus, .right-toolbar:focus, .close:focus {opacity: 0.6}
 
-    .left:before, .right:before {
+    .left-toolbar:before, .right-toolbar:before {
       content: "";
       display: block;
       position: absolute;
@@ -53,12 +53,14 @@
       border-color: rgba(0,0,0,.4);
     }
 
- .right:before{      -webkit-transform: rotate(45deg);
+ .right-toolbar:before{      -webkit-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
       transform: rotate(45deg);
             left: 13px;
 
 }
+
+.entry {    align-self: center;}
 
 .close:before, .close:after {
       content: "";
@@ -82,8 +84,13 @@
       transform: rotate(-45deg);
 }
 
-.side {}
-.right-side {justify-content:space-between;flex-grow:0;min-height:100vh;flex-shrink:0;display:flex;flex-direction:column}
+.side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+.right-toolbar-side {justify-content:space-between;flex-grow:0;min-height:100vh;flex-shrink:0;display:flex;flex-direction:column}
 .top {display: none;}
 @media screen and (max-width: 600px) {
   .top {display: block}
@@ -94,14 +101,16 @@
 }
     </style>
     <div class="side" style="">
-      <a class="left" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"></a>
+      <a class="close" href="/" style="visibility:hidden"></a>
+      <a class="left-toolbar" style="{{^next}}visibility:hidden{{/next}}" href="{{{next.url}}}"></a>
+      <a class="close" href="/" style="visibility:hidden"></a>
     </div>
     <div class="entry" style="flex-grow:1">
       {{{body}}}
     </div>
     <div class="side right-side" style="">
       <a class="close" href="/" onclick="return lastIndexPage()"></a>
-      <a class="right" style="{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
+      <a class="right-toolbar" style="{{^previous}}visibility:hidden{{/previous}}" href="{{{previous.url}}}"> </a>
       <a class="close" href="/" style="visibility:hidden"></a>
     </div>
   </div>
@@ -111,6 +120,22 @@
 
   <div class="bottom">
   </div>
+
+  {{^titleTag}}
+  <br>
+  <br>
+  <br>
+  <div class="entry" style="min-width:400px;max-width:50em">
+  <h1 style="margin:0.7rem 0 0">{{title}}</h1>
+  <hr style="margin:0.7rem 0">
+  <p style="margin:0 0 0.7rem"><small>Added {{date}} under {{#tags}} {{#last}}{{^first}}and{{/first}}{{/last}} <a href="/tagged/{{slug}}">{{tag}}</a>{{^last}},{{/last}} {{/tags}}</small></p>
+</div>
+  <br>
+  <br>
+  <br>
+
+  {{/titleTag}}
+
       {{/entry}}
 
   {{/entry.page}}
