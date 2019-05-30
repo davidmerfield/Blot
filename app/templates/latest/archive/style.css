@@ -14,8 +14,12 @@ body {
   padding: 0
 }
 
-.header {display:flex;align-items: center;min-height: 3.4rem;}
+.header {display:flex;min-height: 3.4rem;}
 
+.header > * {
+      display: flex;
+    align-items: center;
+}
 .header .w-25 {flex-basis:25%;}
 .header .w-50 {flex-basis:50%;}
 
