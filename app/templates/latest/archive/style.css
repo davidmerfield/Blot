@@ -201,7 +201,7 @@ a.light:active img {
 }
 
 form input {
-  padding-left: 2.7rem;
+  padding-left: 0rem;
   padding-right: 2.7rem;
   font: inherit;
   font-size: 16px;
@@ -217,12 +217,6 @@ form input[type="text"] {
 /*  border-left: 1px solid #eee;
   border-right: 1px solid #eee;
 */  cursor: text;
-}
-
-form input:hover,
-.pag a[href]:hover {
-  outline: none;
-  background-color: #f8f8f8
 }
 
 form input:focus,
