@@ -172,9 +172,7 @@ header a.selected {
   border-color: #333
 }
 
-.links a svg,
-.sidebar a svg,
-footer a svg {
+.logo svg {
   width: 36px;
   margin: 16px 0;
   fill: #000;

@@ -68,12 +68,12 @@ label[for="toggle"] {
 
 
 .sidebar a {
-  display: inline-block;
+  display: block;
   position: relative;
   cursor: pointer !important;
   color: #a09d9c;
   line-height: 1.3;
-  padding: 0 1.4rem;
+  padding: 0.15em 2rem;
   text-decoration: none;
   word-wrap: break-word;
   background-color: transparent;
@@ -155,9 +155,6 @@ ul.sidebar ul {
   display: block;
 }
 
-.sidebar li {
-  margin-bottom: 0.1em;
-}
 
 
 .dark .sidebar,
