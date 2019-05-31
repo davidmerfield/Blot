@@ -20,6 +20,9 @@ Delete social media accounts
 
 ---
 
+Add image partial template which would render inside each entry to provide ways to access exif, etc.
+- Tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304)
+
 Rebuild all the thumbnails and cached images for every blog
 - Weird things happened to the ferox blog – it was not attached to its user owner... Can we reproduce bug locally with production dump?
 - The stores contain old urls, e.g. "/_image_cache/..." even though we have updated new entries
