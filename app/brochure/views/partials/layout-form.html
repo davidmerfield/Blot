@@ -1,33 +1,30 @@
 {{> head}}
 
 <body>
+  <div style="display:flex;padding: 0 2rem">
+    <div style="flex-basis:18.2rem;flex-shrink:1">
+      <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+      <hr style="border:none;margin:0;border-bottom:1px solid #eceff1;">
+    </div>
 
-  <header class="grid">
+    {{#if selected.log-in}}
+    <p style="white-space:nowrap;margin:21px 0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
+    {{/if}}
 
-    <row>
+    {{#if selected.sign-up}}
+    <p style="white-space:nowrap;margin:21px 0;color:#aaa"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create blog</p>
+    {{/if}}
+  </div>
 
-      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
-        <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
-      </section>
 
-      {{#if selected.log-in}}
-      <p style="margin:0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
-      {{/if}}
+  <main class=" form">
 
-      {{#if selected.sign-up}}
-      <p style="margin:0;color:#aaa"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Dashboard</p>
-      {{/if}}
-    </row>
+    <div style="flex-basis:18.2rem;flex-shrink:1">
+    </div>
 
-  </header>
+    <content style="border-top:1px solid #eceff1;margin-top:-1px;padding-top:8px">
 
-  <main class="grid form">
-
-    <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
-    </section>
-
-    <content>
-      <br><br>
+      <br>
       {{{body}}}
     </content>
   </main>

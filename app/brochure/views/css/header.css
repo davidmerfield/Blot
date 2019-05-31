@@ -1,3 +1,5 @@
+header row {padding:0 2rem}
+
 .grid {
   padding: 0.7em
 }
@@ -55,10 +57,16 @@
   display: none;
 }
 
+
+
 @media screen and (max-width: 800px) {
 
   main.has-sidebar {
     display: block !important;
+  }
+
+  content {
+    padding: 0 2rem;
   }
 
   ul.sidebar {
@@ -105,21 +113,20 @@
 
 }
 
-header row {
-  display: flex;
-  align-items: center;
-  max-width: none;
-  min-height: 2.8em;
+@media screen and (max-width: 600px) {
+content {
+    padding: 0 1rem;
+  }
+  a.video, background {margin-right: -1rem;margin-left: -1rem}
+  header row {padding-left: 1rem;padding-right: 1rem}
+  .sidebar a {padding-left:1rem;padding-right: 1rem}
 }
 
-header {
-  padding: 1.4em;
-  border-bottom: 1px solid #eceff1
-}
+.links a {line-height: 43px}
 
-header a,
+.links a,
 .sidebar a,
-header label {
+.links label {
   /*  margin: 0 0.7em;
 */
   /*color: #005eb8;*/
@@ -128,9 +135,8 @@ header label {
   text-decoration: none;
 }
 
-header a {}
 
-header a:focus,
+.links a:focus,
 .sidebar a:focus,
 header label:focus {
   /*  background-color: #eee;
@@ -155,8 +161,8 @@ header label:hover {
 }
 
 
-header a:active,
-header label:active {
+.links a:active,
+.links label:active {
   color: #bbb;
   /*  color: #444;
   stroke: #444;
@@ -177,16 +183,15 @@ header hr,
   border-bottom: 1px solid #eceff1
 }
 
-.dark header,
+.dark .links,
 .dark .sidebar hr,
 .dark footer {
   border-color: #333
 }
 
-header a svg,
-footer a svg {
+.logo svg {
   width: 36px;
-  margin: 6px 0;
+  margin: 16px 0;
   fill: #000;
   stroke: #000;
   vertical-align: text-bottom;
