@@ -160,7 +160,7 @@ header a.selected {
   text-decoration: none;
 }*/
 
-.links hr,
+header hr,
 .sidebar hr {
   border: none;
   border-bottom: 1px solid #eceff1
