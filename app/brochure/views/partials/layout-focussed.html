@@ -1,195 +1,36 @@
 {{> head}}
 
 <body>
+  <div style="display:flex;padding: 0 2rem">
+    <div style="flex-basis:18rem;flex-shrink:1">
+      <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+      <hr style="border:none;margin:0;border-bottom:1px solid #eceff1;">
+    </div>
+    <style type="text/css">.focussed * {margin:0 1.4rem 0 0;padding:0;font:inherit;color: inherit;}.focussed h1 {color: black}</style>
+    <div class="focussed" style="margin:21px 0;color:#aaa;display:flex">
+    {{#if selected.terms}}
+    <h1>Terms of use</h1>
+    <a href="/privacy">Privacy policy</a>
+    {{/if}}
 
-  <style type="text/css">
-
-  main {
-    display: flex;
-  } 
-
-  a.selected {color: black}
-
-  input[type="submit"] {
-    background: #333;
-    padding: 0.75em 1em;
-    color: white;
-    margin: 1em 0;
-    border: none;
-    border-bottom: 2px solid #000;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500
-  }
-
-  input[type="submit"]:focus {
-    border: none;
-    position: relative;
-    top: 2px
-  }
-
-  label {
-    font-size: 14px;
-    color: #666
-  }
-
-  /* turn into tooltip */
-  label em {
-    display: none;
-  }
-
-  input[name="email"],
-  input[name="password"] {
-    width: 100%;
-    display: block;
-  }
-
-  input[name="number"] {
-    width: 100%;
-    display: block;
-  }
-
-  input[name="cvc"] {
-    display: block;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    padding: 4px 3px;
-    margin: 2px 0;
-    font-size: 17px;
-    padding: 10px;
-    font-family: inherit;
-    z-index: 1;
-    position: relative;
-    border: 1px solid #cccbca;
-    border-top-color: rgba(0, 0, 0, .25);
-    border-bottom-color: rgba(0, 0, 0, .15);
-    box-sizing: border-box;
-    background: 0 0;
-    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .075);
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-  }
-
-  p {margin-left: 0;margin-right: 0}
-  input[name="exp-year"],
-  input[name="exp-month"],
-  input[name="cvc"] {
-    text-align: center;
-  }
-
-  input[name="exp-month"] {
-    width: 60px;
-  }
-
-  input[name="cvc"] {
-    width: 75px;
-  }
-
-  input[name="exp-year"] {
-    width: 75px;
-    margin-left: -1px;
-    margin-right: 2em;
-  }
-
-  input[type="text"]:focus,
-  textarea:focus {
-    outline: none !important;
-    border: 1px solid #699ad2;
-    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .075), 0 0 10px #bdcfe2;
-  }
+    {{#if selected.privacy}}
+    <a href="/terms">Terms of use</a>
+    <h1>Privacy policy</h1>
+    {{/if}}
+  </div>
+  </div>
 
 
+  <main class=" form">
 
-  ::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
-    color: #a09d9c;
-  }
+    <div style="flex-basis:18rem;flex-shrink:1">
+    </div>
 
-  ::-moz-placeholder {
-    /* Firefox 19+ */
-    color: #a09d9c;
-  }
+    <content style="border-top:1px solid #eceff1;margin-top:-1px">
 
-  :-ms-input-placeholder {
-    /* IE 10+ */
-    color: #a09d9c;
-  }
-
-  :-moz-placeholder {
-    /* Firefox 18- */
-    color: #a09d9c;
-  }
-
-  flex {
-    display: flex
-  }
-
-  flex {
-    -webkit-margin-collapse: discard;
-  }
-
-  .arrow {
-    margin: 0 1em
-  }
-
-  form {
-    margin: 2em 0;
-    width: 330px
-  }
-
-  header strong {
-    font-weight: inherit;
-    color: #312c25
-  }
-
-  mark#success {
-    background: #cceacc;
-    color: green;
-    outline: #cceacc solid 9px;
-    margin-bottom: 2em;
-    display: block;
-  }
-
-  .error:empty {
-    display: none;
-  }
-
-  .error {
-    color: #a54846;
-    display: block;
-    background: #feeded;
-    outline: 10px solid #feeded
-  }
-
-  ol {margin: 1em 0;padding: 0 0 0 1em}
-  ol li {padding: 0;margin: 1em 0;max-width: 25em}
-  </style>
-
-<header  class="grid">
-
-
-    <row>
-
-      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
-        <a class="logo {{selected.index}}" href="/" >{{>logo}}</a>
-      </section>
-      <section style="">
-        <a class="{{selected.terms}}" href="/terms" style="margin-right:1.4em" >Terms of use</a>
-        <a class="{{selected.privacy}}" href="/privacy" >Privacy policy</a>
-      </section>
-</row>
-
-    </header>
-
-  <main  class="grid" >
-
-      <section style="padding: 0 0.7em;flex-basis:25%;flex-shrink:1;box-sizing:border-box">
-      </section>
-
-    <content>
+      <br>
       {{{body}}}
-      </content>
+    </content>
   </main>
 </body>
 
