@@ -176,7 +176,7 @@ header a.selected {
 .sidebar a svg,
 footer a svg {
   width: 36px;
-  margin: 6px 0;
+  margin: 16px 0;
   fill: #000;
   stroke: #000;
   vertical-align: text-bottom;

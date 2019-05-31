@@ -98,14 +98,14 @@ content details a:hover {
 h1 {
 font-size: 24px;
     font-weight: 600;
-    margin: 2.2em 0 1em;
+    margin: 36px 0 31px;
     border-bottom: 1px solid #eceff1;
-    padding: .5rem 0 .3375em;
+    padding: 0 0 0.25em;
 }
 
 h2 {
   font-size: 18px;
-  margin: 2em 0 0.3375em;
+  margin: 2.8rem 0 0.35rem;
   border-bottom: 1px solid #eceff1;
   padding: 0.5rem 0 0.3375em;
   font-weight: 600;
@@ -116,8 +116,6 @@ h2+p {
 }
 
 p,
-h2,
-h1,
 background,
 .window,
 ul,
@@ -142,6 +140,7 @@ container {
 
 content {
   flex-grow: 1;
+  padding: 0 4.2rem;
 }
 
 .sidebar+content {
@@ -240,7 +239,7 @@ th:last-child {
 
 background {
   display: flex;
-  margin: 2.8em 0;
+  margin: 2rem 0;
   background: #96deff80;
   box-sizing: border-box;
   align-items: center;
