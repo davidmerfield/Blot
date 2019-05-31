@@ -6,8 +6,18 @@
       <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
       <hr style="border:none;margin:0;border-bottom:1px solid #eceff1;">
     </div>
-    <style type="text/css">.focussed * {margin:0 1.4rem 0 0;padding:0;font:inherit;color: inherit;}.focussed h1 {color: black}</style>
-    <div class="focussed" style="margin:21px 0;color:#aaa;display:flex">
+    <style type="text/css">
+    .links {padding: 0;display: block;text-align: left;}
+    .links a {line-height: inherit;margin: 0;padding: 0}
+    .links a:hover {text-decoration: underline;}
+    .focussed * {margin:0 1.4rem 0 0!important;padding:0;font:inherit;color: inherit;}
+    .focussed h1 {color: black}
+
+    ol, ul, li {margin-left: 0;margin-right:0;padding: 0}
+    ol li {margin-bottom: 1.4rem;padding-left: 1.4rem;margin-left: -1.4rem}
+    ul {padding-left: 1.4rem}
+    </style>
+    <div class="links focussed" style="white-space:nowrap;margin:21px 0;color:#aaa;display:flex">
     {{#if selected.terms}}
     <h1>Terms of use</h1>
     <a href="/privacy">Privacy policy</a>
