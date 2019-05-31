@@ -37,15 +37,6 @@ function main(url, options, callback) {
     request(uri, function(err, res, body) {
       if (err) return callback(err);
 
-      if (res.statusCode !== 200) {
-        var basePath = require("url").parse(base).pathname;
-        results[basePath] = results[basePath] || [];
-        results[basePath].push({
-          url: require("url").parse(url).pathname,
-          status: res.statusCode
-        });
-      }
-
       if (res.headers["content-type"].indexOf("text/html") === -1) {
         return callback();
       }
@@ -74,13 +65,12 @@ function main(url, options, callback) {
       URLs.push(url);
     });
 
-    async.each(
+    async.eachSeries(
       URLs,
       function(url, next) {
         if (checked[url]) return next();
 
         checked[url] = true;
-
         checkPage(base, url, next);
       },
       callback
