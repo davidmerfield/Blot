@@ -4,6 +4,7 @@ var brochure = new Express();
 var hbs = require("hbs");
 var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
+var warmCache = require('./warmCache');
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
@@ -21,6 +22,9 @@ if (config.cache === false) {
   // Empty any existing responses
   cache.flush(config.host, function(err) {
     if (err) console.warn(err);
+    warmCache(config.protocol + config.host, function(err){
+      if (err) console.warn(err);
+    });
   });
 }
 
