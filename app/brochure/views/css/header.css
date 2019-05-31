@@ -1,3 +1,5 @@
+header row {padding:0 2rem}
+
 .grid {
   padding: 0.7em
 }
@@ -55,6 +57,8 @@
   display: none;
 }
 
+
+
 @media screen and (max-width: 800px) {
 
   main.has-sidebar {
@@ -107,6 +111,15 @@
     display: block;
   }
 
+}
+
+@media screen and (max-width: 600px) {
+content {
+    padding: 0 1rem;
+  }
+  a.video, background {margin-right: -1rem;margin-left: -1rem}
+  header row {padding-left: 1rem;padding-right: 1rem}
+  .sidebar a {padding-left:1rem;padding-right: 1rem}
 }
 
 .links a {line-height: 43px}
