@@ -3,24 +3,32 @@
 {{! Blocks out the same height of the header at the end of the page. Useful for centering stuff}}
 
 {{#pagination}}
-<div class="pagination" style="padding:2.6rem 2.6rem;margin:0 0.8rem 0">
-  <div style="display:flex">
-    <div style="flex-grow:1">
-      <div class="paginator" style="    justify-content: flex-start;">
+<div class="pagination" style="display:flex;padding:1.3rem 2.6rem;">
+  <a style="flex-grow:0.5" class="button" {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr; <span style="float:right">Previous</span></a>
+  <a style="flex-grow:1" class="button" {{#next}}href="/page/{{next}}"{{/next}}>Next <span style="float:right">&rarr;</span></a>
+  <a style="flex-grow:0.5" href="/archives" class="button">View the archives</a>
+
+</div>
+<hr>
+<div class="pagination" style="padding:1.3rem 2.6rem;margin:0 0.8rem 0">
+  <div style="display:flex;align-items: baseline;">
+    <span style="text-decoration:none;color:rgba(0,0,0,.25);margin-top:2px;display:inline-block;text-transform:uppercase;font-size:11px">
+  {{#pagination}}Page {{current}} of {{total}} {{/pagination}}
+  {{^pagination}}All {{entries.length}} posts{{/pagination}}</span>
+    <div style="flex-grow:1;">
+
+      <div class="paginator" style=" margin:0 auto;   justify-content: center;">
         <a class="arrow" {{#previous}}href="/page/{{previous}}"{{/previous}}>←</a>
         <div data-limit="30" data-current="{{current}}" data-total="{{total}}" class="numbers"></div>
         <a class="arrow" {{#next}}href="/page/{{pagination.next}}"{{/next}}>→</a>
       </div>
     </div>
-    <div style="flex-grow:0.5;display:flex">
-      <a style="flex-grow:0.5" class="button" {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr; <span style="float:right">Previous</span></a>
-      <a style="flex-grow:1" class="button" {{#next}}href="/page/{{next}}"{{/next}}>Next <span style="float:right">&rarr;</span></a>
-    </div>
-  </div>
-  <div style="text-align:right;padding:0 0.8rem 0.8rem">
-    <a href="/archives" class="light" style="margin:1.3rem">View the archives</a>
+    <span style="text-decoration:none;color:rgba(0,0,0,.25);margin-top:2px;display:inline-block;text-transform:uppercase;font-size:11px">
+  {{#pagination}}Page {{current}} of {{total}} {{/pagination}}
+  {{^pagination}}All {{entries.length}} posts{{/pagination}}</span>
   </div>
 </div>
+
 {{/pagination}}
 
 <hr style="border:none;margin:0;border-top:1px solid #f2f2f2">
@@ -33,10 +41,10 @@
     {{/menu}}
   </div>
 
-  <a style="float:right;color:inherit;font-size:14px;text-decoration:none;margin:0 1.3rem" href="/">{{title}}<img src="{{avatar}}"></a>
+  <a style="float:right;color:inherit;font-size:14px;text-decoration:none;margin:0 1.3rem" href="/">{{title}}</a>
 </div>
-<br>
 <script src="{{#asset}}/script.js{{/asset}}" type="text/javascript"></script>
+<script src="/instant.js" type="module"></script>
 </body>
 
 </html>

@@ -90,11 +90,10 @@ function setFocus() {
   if (index > focussedLinks.length) {
     index = focussedLinks.length;
   }
+
   if (index < 0) {
     index = 0;
   }
-
-  console.log("setting focus to", index);
 
   focussedLinks[index].focus();
 }
@@ -109,7 +108,14 @@ function parents(node, secondnode) {
 }
 
 document.onkeydown = function(e) {
+
   if (!parents(document.activeElement, searchForm)) return;
+
+  if (e.keyCode === 37 && document.activeElement !== searchInput) {
+    searchInput.focus();
+    e.preventDefault();
+    return false;
+  }
 
   if (e.keyCode !== 40 && e.keyCode !== 38) return;
 
@@ -178,9 +184,14 @@ function loadResults() {
       result +=
         '<span class="title">' +
         entry.title.split(query).join("<b>" + query + "</b>") +
-        '</span><span class="date"> - ' +
+        '</span>';
+
+      if (entry.date)
+        result += '<span class="date"> - ' +
         entry.date +
-        "</span></a>";
+        "</span>";
+
+      result += "</a>";
 
       html += result;
     });

@@ -1,43 +1,40 @@
-<hr>
-<div style="padding:0 2rem;display:flex;color:rgba(0,0,0,.4);">
+<div class="toolbar" style="  border-top: 1px solid #f2f2f2">
 
-  <div style="padding:0.325rem 0;">
+  <div style="    padding: 0.325rem 1.3rem;
+    flex-basis: 25%;
+    flex-grow:1;white-space: nowrap;
+    box-sizing: border-box;    display: flex;
+    align-items: center;">
 
-    <span style="text-decoration:none;color:rgba(0,0,0,.25);margin-top:2px;display:inline-block;text-transform:uppercase;font-size:11px">
+    <span class="upper">
   {{#pagination}}Page {{current}} of {{total}} {{/pagination}}
   {{^pagination}}All {{entries.length}} posts{{/pagination}}</span>
-
-    <div style="padding-right:10rem;visibility:hidden;height:0">
-
-      <a href="/" style="display:block;padding:0.5rem 0;text-rendering:optimizeLegibility;color:rgba(0,0,0,0.4);text-decoration:none">
-      {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
-    </div>
-
   </div>
 
-  <div style="flex-grow:1;display:flex;padding:0.325rem 0;overflow:hidden;font-size:14px">
+  <div style="display:flex;flex-basis:42rem;flex-shrink:0;padding:0.325rem 0 0;overflow:hidden;font-size:14px;flex-grow: 0;">
 
     {{#popular_tags.length}}
-    <a href="/tags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Filter:</a>
-    <div id="tags">
-      {{#popular_tags}}<a href="/tagged/{{slug}}" class="{{active}}">{{tag}}</a>{{/popular_tags}}
+    <div id="tags" style="padding-left:0.325rem">
+      {{#popular_tags}}<a href="/tagged/{{slug}}" class="{{active}}"><strong>{{tag}}</strong><span>{{tag}}</span></a>{{/popular_tags}}
     </div>
 
-    <a href="/tags" id="opentags" style="text-decoration:none;color:inherit;color:rgba(0,0,0,.25);text-transform:uppercase;padding:0.2rem 1.3rem 0;display:inline-block;font-size:11px">Show&nbsp;all</a>
+    <a href="/tags" class="opac upper" style="position:relative;top:2px;flex-shrink:0">All&nbsp;categories&puncsp;&rarr;</a>
 
     {{/popular_tags.length}}
   </div>
 
-  <div style="flex-shrink:0">
+  <div style="    padding: 0.325rem 1.3rem;
+    flex-basis: 25%;
+    flex-grow:1;
+    box-sizing: border-box;">
     <div style="padding-left:6rem;height:0;visibility:hidden">
       {{#menu}}
       <a class="light" title="{{label}}" style="margin:0.5rem 0.75rem;" href="{{{url}}}">{{label}}</a>
       {{/menu}}
     </div>
-    <div class="paginator">
-      <a class="arrow" {{#previous}}href="/page/{{previous}}"{{/previous}}>←</a>
-      <div data-limit="5" data-current="{{current}}" data-total="{{total}}" class="numbers"></div>
-      <a class="arrow" {{#next}}href="/page/{{pagination.next}}"{{/next}}>→</a>
+    <div style="text-align:right;position:relative;top:-2px">
+      <a class="upper opac" style="{{^previous}}opacity:0.25{{/previous}}" {{#previous}}href="/page/{{previous}}"{{/previous}}>← PREVIOUS</a>
+      <a class="upper opac" style="{{^next}}opacity:0.25;{{/next}}margin-left:0.7rem" {{#next}}href="/page/{{pagination.next}}"{{/next}}>NEXT PAGE →</a>
     </div>
   </div>
 </div>

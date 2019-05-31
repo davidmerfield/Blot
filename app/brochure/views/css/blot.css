@@ -96,28 +96,19 @@ content details a:hover {
 }
 
 h1 {
-  /*
-    font-size: 36px;
-    line-height: 1.1;
-    margin: 1em 0 1em;
-*/
-
-  /*    font-size: 32px;
-    line-height: 1.1;
-    margin: 1.7em 0 1em;
-*/
-  font-size: 36px;
-  font-weight: 400;
-  line-height: 1.1;
-  margin: 1.5em 0 1em;
+font-size: 24px;
+    font-weight: 600;
+    margin: 36px 0 16px;
+/*    border-bottom: 1px solid #eceff1;
+*/    padding: 0 0 0.25em;
 }
 
 h2 {
-  font-size: 20px;
-  margin: 2em 0 0.3375em;
-  border-bottom: 1px solid;
+  font-size: 17px;
+  margin: 2.8rem 0 0.35rem;
+  border-bottom: 1px solid #eceff1;
   padding: 0.5rem 0 0.3375em;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 h2+p {
@@ -125,8 +116,6 @@ h2+p {
 }
 
 p,
-h2,
-h1,
 background,
 .window,
 ul,
@@ -151,6 +140,7 @@ container {
 
 content {
   flex-grow: 1;
+  padding: 0 4.2rem;
 }
 
 .sidebar+content {
@@ -249,7 +239,7 @@ th:last-child {
 
 background {
   display: flex;
-  margin: 2.8em 0;
+  margin: 2rem 0;
   background: #96deff80;
   box-sizing: border-box;
   align-items: center;
@@ -323,8 +313,8 @@ a.video {
 
   a.video,
   background {
-    margin-left: -1.4em;
-    margin-right: -1.4em;
+    margin-left: -2rem;
+    margin-right: -2rem;
   }
 }
 

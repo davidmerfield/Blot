@@ -147,11 +147,7 @@ function saveView(req, res, next) {
     Blog.set(req.blog.id, changes, function(err) {
       if (err) return next(err);
 
-      Blog.flushCache(req.blog.id, function(err) {
-        if (err) return next(err);
-
-        res.message(req.path, "Saved changes!");
-      });
+      res.message(req.path, "Saved changes!");
     });
   });
 }
@@ -182,7 +178,7 @@ function renameView(req, res, next) {
           .split("/view/" + req.params.view + "/")
           .join("/view/" + view.name + "/");
 
-        Blog.flushCache(req.blog.id, function(err) {
+        Blog.set(req.blog.id, {cacheID: Date.now()}, function(err) {
           if (err) return next(err);
 
           res.message(redirect, "Saved changes!");

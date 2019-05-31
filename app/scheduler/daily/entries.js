@@ -25,12 +25,13 @@ function main(callback) {
                 if (entry.title)
                   new_entries.push({
                     title: entry.title,
-                    link:
+                    link: encodeURI(
                       config.protocol +
-                      blog.handle +
-                      "." +
-                      config.host +
-                      entry.url
+                        blog.handle +
+                        "." +
+                        config.host +
+                        entry.url
+                    )
                   });
               });
               next();

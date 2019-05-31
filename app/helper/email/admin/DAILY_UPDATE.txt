@@ -12,13 +12,11 @@ Memory available: {{memory_available}} ({{memory_usage}} used)
 
 Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
 
-Total entries published: {{total_entries}}
-
 ***
 
 Number of active blogs: {{total_active_blogs}}
 
-Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month)
+Total entries published: {{total_entries}}
 
 Newsletter subscribers: {{newsletter_subscribers}}
 
@@ -44,12 +42,13 @@ Revenue expected from renewals in the next 30 days: {{revenue}}  from {{total}} 
 
 {{/renewals_next_30_days}}
 
+Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month)
 
 {{#new_entries.length}}
 
 ***
 
-New Entries
+New entries:
 
 {{#new_entries}}
 - [{{title}}]({{{link}}})

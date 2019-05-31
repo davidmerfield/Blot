@@ -1,10 +1,12 @@
 main.form {
   display: flex;
-  min-height: auto
+  min-height: auto;
+  padding: 0 2rem;
 }
 
 main.form content {
   max-width: 400px;
+  padding: 0
 }
 
 input[type="submit"],

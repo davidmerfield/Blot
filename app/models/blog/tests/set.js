@@ -2,7 +2,7 @@ describe("Blog.set", function() {
   var set = require("../set");
   var config = require("config");
   var fs = require("fs-extra");
-  var HOSTS = process.env.BLOT_DIRECTORY + "/data/hosts";
+  var HOSTS = config.cache_directory;
 
   // Create a test blog before each spec
   global.test.blog();
