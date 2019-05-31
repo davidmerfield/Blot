@@ -68,7 +68,7 @@ $('form').submit(function(event) {
   var email = email.replace(' ', '');
   if (email === '' || !emailRegex.test(email)) {
     $('#error')
-      .text('Please enter a valid email.')
+      .text('Please enter your email address.')
       .show();
     $('[type="submit"]')
       .prop('disabled', false)

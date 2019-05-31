@@ -2,16 +2,24 @@
 
 <body>
 
-  <header style="">
-    <div style="padding: 0 2rem;display:flex;align-items:center">
-      <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
-      <div class="links">
-        <a href="{{{base}}}/sign-up">Sign up</a>
-        <a href="{{{base}}}/log-in">Log in</a>
-      </div>
-    </div>
+<header>
+    <row style="display:flex;align-items:center;padding:0 2rem">
+      <section style="display: flex;
+    align-items: center;">
+        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+      </section>
+  
+
+      <section class="links">
+        <label for="toggle">Menu</label>
+        <a href="/sign-up">Sign up</a>
+        <a href="/log-in">Log in</a>
+      </section>
+    </row>
+
     <hr style="margin:0">
-    </header>
+  </header>
+
   <main style="padding-top:0">
 
     <input type="checkbox" name="toggle" id="toggle">

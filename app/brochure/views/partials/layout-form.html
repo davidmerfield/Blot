@@ -1,29 +1,28 @@
 {{> head}}
 
 <body>
-  <br>
-  <div style="display:flex;align-items: center;padding: 2px 2rem">
+  <div style="display:flex;padding: 0 2rem">
     <div style="flex-basis:18rem;flex-shrink:1">
       <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+      <hr style="border:none;margin:0;border-bottom:1px solid #eceff1;">
     </div>
 
     {{#if selected.log-in}}
-    <p style="margin:0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
+    <p style="margin:21px 0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
     {{/if}}
 
     {{#if selected.sign-up}}
-    <p style="margin:0;color:#aaa"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create blog</p>
+    <p style="margin:21px 0;color:#aaa"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create blog</p>
     {{/if}}
   </div>
 
-  <hr style="border:none;border-bottom:1px solid #eceff1;margin:0 2rem">
 
   <main class=" form">
 
     <div style="flex-basis:18rem;flex-shrink:1">
     </div>
 
-    <content>
+    <content style="border-top:1px solid #eceff1;margin-top:-1px">
 
       <br>
       {{{body}}}
