@@ -105,21 +105,11 @@
 
 }
 
-header row {
-  display: flex;
-  align-items: center;
-  max-width: none;
-  min-height: 2.8em;
-}
+.links a {line-height: 43px}
 
-header {
-  padding: 1.4em;
-  border-bottom: 1px solid #eceff1
-}
-
-header a,
+.links a,
 .sidebar a,
-header label {
+.links label {
   /*  margin: 0 0.7em;
 */
   /*color: #005eb8;*/
@@ -128,9 +118,8 @@ header label {
   text-decoration: none;
 }
 
-header a {}
 
-header a:focus,
+.links a:focus,
 .sidebar a:focus,
 header label:focus {
   /*  background-color: #eee;
@@ -155,8 +144,8 @@ header label:hover {
 }
 
 
-header a:active,
-header label:active {
+.links a:active,
+.links label:active {
   color: #bbb;
   /*  color: #444;
   stroke: #444;
@@ -171,19 +160,20 @@ header a.selected {
   text-decoration: none;
 }*/
 
-header hr,
+.links hr,
 .sidebar hr {
   border: none;
   border-bottom: 1px solid #eceff1
 }
 
-.dark header,
+.dark .links,
 .dark .sidebar hr,
 .dark footer {
   border-color: #333
 }
 
-header a svg,
+.links a svg,
+.sidebar a svg,
 footer a svg {
   width: 36px;
   margin: 6px 0;

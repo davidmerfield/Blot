@@ -96,28 +96,19 @@ content details a:hover {
 }
 
 h1 {
-  /*
-    font-size: 36px;
-    line-height: 1.1;
-    margin: 1em 0 1em;
-*/
-
-  /*    font-size: 32px;
-    line-height: 1.1;
-    margin: 1.7em 0 1em;
-*/
-  font-size: 36px;
-  font-weight: 400;
-  line-height: 1.1;
-  margin: 1.5em 0 1em;
+font-size: 24px;
+    font-weight: 600;
+    margin: 2.2em 0 1em;
+    border-bottom: 1px solid #eceff1;
+    padding: .5rem 0 .3375em;
 }
 
 h2 {
-  font-size: 20px;
+  font-size: 18px;
   margin: 2em 0 0.3375em;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #eceff1;
   padding: 0.5rem 0 0.3375em;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 h2+p {
