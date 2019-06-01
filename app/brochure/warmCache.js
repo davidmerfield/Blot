@@ -12,8 +12,6 @@
 //   status: the HTTP status code returned for the broken link
 // }]
 
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-
 var async = require("async");
 var cheerio = require("cheerio");
 var request = require("request");
