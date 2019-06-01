@@ -1,7 +1,5 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
----
-
 Finish Feed template
 - Create folder with public domain material
 - Announce feed template
