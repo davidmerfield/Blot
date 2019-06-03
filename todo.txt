@@ -10,11 +10,13 @@ Record new demo video
 - Create simple custom text editor? Bash script?
 - Show sites I run using Blot...
 
-Write summer newsletter and send it out on June 21st
-
 Delete social media accounts
 - Twitter after archiving all tweets, DMs, including external images
 - Micro.blog after archiving all micro.blog posts
+
+---
+
+Write summer newsletter and send it out on June 21st
 
 ---
 
@@ -213,7 +215,7 @@ Improvements to brochure
 - JavaScript minifier
 - Custom video player on index page
 - Add types and examples to items on reference page
-- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
+- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20) and [Martin's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGKbxLLmfcBDBScrrVBKh)  [guide to citations](https://tinparkblog.blot.im/p2b-sh-pushtoblot)
  - And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 - Make formatting guide searchable
 - Make reference page searchable
