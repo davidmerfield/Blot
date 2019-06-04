@@ -38,6 +38,7 @@ describe("markdown converter", function() {
     };
   }
 
+  it("handles amerpsands in code blocks", from('/ampersand-in-code.txt'));
   it("handles return characters", from('/return-character.txt'));
   it("converts basic markdown", from('/basic-post.txt'));
   it("converts a list", from('/list.txt'));
