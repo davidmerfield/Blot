@@ -3,7 +3,6 @@ var debug = require('debug')('entry:build:plugins:image');
 var eachEl = require('../eachEl');
 var optimize = require('./optimize');
 var url = require('url');
-var decodeAmpersands = require('helper').decodeAmpersands;
 
 function render ($, callback, options) {
 
@@ -13,8 +12,7 @@ function render ($, callback, options) {
   // Process 5 images concurrently
   eachEl($, 'img', function(el, next){
 
-    // Decode any doubly-encoded ampersands in the image src
-    var src = decodeAmpersands($(el).attr('src'));
+    var src = $(el).attr('src');
     var width, height, parsedSrc;
 
     try {
