@@ -3,9 +3,10 @@ var indentation = require("./indentation");
 var footnotes = require("./footnotes");
 var helper = require("helper");
 var time = helper.time;
-var encodeAmpersands = helper.encodeAmpersands;
 var config = require("config");
 var pandoc_path = config.pandoc_path;
+var debug = require("debug")("blot:converters:markdown");
+var ampersands = require("./ampersands");
 
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
@@ -80,10 +81,17 @@ module.exports = function(text, callback) {
 
     if (err) return callback(err);
 
+    debug("Pre-footnotes", result);
     time("footnotes");
     result = safely(footnotes, result);
     time.end("footnotes");
 
+    debug("Pre-de-double-escape amerpsands");
+    time("de-double-escape-ampersands");
+    result = safely(ampersands.deDoubleEscape, result);
+    time.end("de-double-escape-ampersands");
+
+    debug("Final:", result);
     callback(null, result);
   });
 
@@ -93,10 +101,10 @@ module.exports = function(text, callback) {
   // as a string, because of the amerpsands.
   // This is an issue that's open in Pandoc's repo
   // https://github.com/jgm/pandoc/issues/2410
-
-  time("ampersands");
-  text = safely(encodeAmpersands, text);
-  time.end("ampersands");
+  debug("Pre-ampersands-escape", text);
+  time("escape-ampersands");
+  text = safely(ampersands.escape, text);
+  time.end("escape-ampersands");
 
   // Pandoc is very strict and treats indents inside
   // HTML blocks as code blocks. This is correct but
@@ -118,10 +126,12 @@ module.exports = function(text, callback) {
   // for the contents of an HTML tag. This preserves
   // indentation in text! More discussion of this issue:
   // https://github.com/jgm/pandoc/issues/1841
+  debug("Pre-indentation", text);
   time("indentation");
   text = safely(indentation, text);
   time.end("indentation");
 
+  debug("Pre-pandoc", text);
   time("pandoc");
   pandoc.stdin.end(text, "utf8");
 };

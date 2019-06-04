@@ -1,6 +1,5 @@
 var ensure = require("./ensure");
 var MAX_LENGTH = 100;
-var encodeAmpersands = require("./encodeAmpersands");
 
 // This must always return a string but it can be empty
 function makeSlug(string) {
@@ -13,9 +12,6 @@ function makeSlug(string) {
   var slug = "";
 
   slug = string;
-
-  // We do this to handle ampersands nicely
-  slug = encodeAmpersands(slug);
 
   // Remove query sluging
   if (slug.indexOf("?=") > -1) slug = slug.slice(0, slug.indexOf("?="));
@@ -108,7 +104,7 @@ is(
   "applescript/automator-folder-action-to-convert-excel-to-csv"
 );
 is("'xsb' command line error.", "xsb-command-line-error");
-is("Foo & bar", "foo-and-bar");
+is("Foo & bar", "foo-bar");
 is("Foo &amp; bar", "foo-and-bar");
 is("China ← NYC → China", "china-from-nyc-to-china");
 is("Chin+a()[] ← NY!C → China", "china-from-nyc-to-china");
