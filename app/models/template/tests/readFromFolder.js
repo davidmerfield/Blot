@@ -1,7 +1,7 @@
-xdescribe("template", function() {
-  var read = require("../index").read;
+fdescribe("template", function() {
+  var read = require("../index").readFromFolder;
   var fs = require("fs-extra");
-  var getNameByUrl = require("../index").getViewNameByUrl;
+  var getViewByUrl = require("../index").getViewByURL;
   var get = require("../index").getView;
 
   require("./setup")({ createTemplate: true });
@@ -36,7 +36,7 @@ xdescribe("template", function() {
     read(this.blog.id, this.tmp, function(err, template) {
       if (err) return done.fail(err);
 
-      getNameByUrl(template.id, "/style.css", function(err, name) {
+      getViewByUrl(template.id, "/style.css", function(err, name) {
         if (err) return done.fail(err);
 
         expect(name).toEqual(null);
@@ -55,7 +55,7 @@ xdescribe("template", function() {
     read(this.blog.id, this.tmp, function(err, template) {
       if (err) return done.fail(err);
 
-      getNameByUrl(template.id, "/test", function(err, name) {
+      getViewByUrl(template.id, "/test", function(err, name) {
         if (err) return done.fail(err);
 
         expect(name).toEqual("style");
@@ -70,7 +70,7 @@ xdescribe("template", function() {
     read(this.blog.id, this.tmp, function(err, template) {
       if (err) return done.fail(err);
 
-      getNameByUrl(template.id, "/style.css", function(err, name) {
+      getViewByUrl(template.id, "/style.css", function(err, name) {
         if (err) return done.fail(err);
 
         expect(name).toEqual("style");

@@ -26,18 +26,25 @@ function writeToFolder(blogID, templateID, callback) {
         // Reset the folder before writing. This fixes a bug in which
         // there were two views with the same name, but different extension.
         client.remove(blogID, dir, function(err) {
-          if (err) {
-            return callback(err);
-          }
+          if (err) return callback(err);
 
-          async.eachOfSeries(
-            views,
-            function(view, name, next) {
-              if (!view.name || !view.type || !view.content) return next();
+          client.write(
+            blogID,
+            dir + "/package.json",
+            JSON.stringify(metadata, null, 2),
+            function(err) {
+              if (err) return callback(err);
 
-              write(blogID, client, dir, view, next);
-            },
-            callback
+              async.eachOfSeries(
+                views,
+                function(view, name, next) {
+                  if (!view.name || !view.type || !view.content) return next();
+
+                  write(blogID, client, dir, view, next);
+                },
+                callback
+              );
+            }
           );
         });
       });
@@ -57,7 +64,6 @@ function makeClient(blogID, callback) {
 }
 
 function write(blogID, client, dir, view, callback) {
-  
   callback = callOnce(callback);
 
   // eventually I should just store
