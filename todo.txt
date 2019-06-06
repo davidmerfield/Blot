@@ -20,6 +20,8 @@ Write summer newsletter and send it out on June 21st
 
 ---
 
+Ignore files inside 'assets' inside .textbundle directories to improve support for textbundles and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzDLvlTkKNmfZgnXpzzLZjWN).
+
 Add image partial template which would render inside each entry to provide ways to access exif, etc.
 - Tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304)
 - Tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc) that it's possible to have full screen images and sized text.
