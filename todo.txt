@@ -1,5 +1,7 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
+---
+
 Finish Feed template
 - Create folder with public domain material
 - Announce feed template
@@ -13,8 +15,6 @@ Record new demo video
 Delete social media accounts
 - Twitter after archiving all tweets, DMs, including external images
 - Micro.blog after archiving all micro.blog posts
-
----
 
 Write summer newsletter and send it out on June 21st
 
