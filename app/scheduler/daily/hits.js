@@ -66,6 +66,7 @@ function main(callback) {
 }
 
 function prettyTime (n) {
+  if (!n) return '';
   n = n.toFixed(2);
   if (n.toString() === '0.00') n = 0.01;
   return n + 's';

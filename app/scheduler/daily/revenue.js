@@ -19,6 +19,8 @@ function main(callback) {
         if (!user.subscription.status) return;
 
         if (user.subscription.status !== "active") return;
+          
+        if (user.subscription.cancel_at_period_end) return;
 
         if (user.subscription.current_period_end * 1000 < Date.now()) return;
 
