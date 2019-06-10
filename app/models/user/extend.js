@@ -20,9 +20,10 @@ module.exports = function extend (user) {
 
     if (subscription.plan) {
       user.pretty.amount = subscription.quantity;
+      user.pretty.s = subscription.quantity === 1 ? '' : 's';
       user.pretty.amount_in_words = amountInWords(subscription.quantity);
-      user.pretty.expiry = helper.prettyDate(user.subscription.current_period_end * 1000);
-      user.pretty.price = helper.prettyPrice(user.subscription.plan.amount * subscription.quantity);
+      user.pretty.expiry = helper.prettyDate(subscription.current_period_end * 1000);
+      user.pretty.price = helper.prettyPrice(subscription.plan.amount * subscription.quantity);
     }
 
     if (subscription.cancel_at_period_end)
