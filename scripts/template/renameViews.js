@@ -32,7 +32,6 @@ function main(doThis, callback) {
         altExtension = view.url.slice(view.url.lastIndexOf(".") + 1);
         if (altExtension !== extension && view.type === "application/xml")
           extension = altExtension;
-
         // console.log(
         //   "View:",
         //   view.name,
@@ -46,6 +45,10 @@ function main(doThis, callback) {
       view.name = view.name + "." + extension;
       delete view.type;
     }
+
+    if (view.name === oldName || !view.name || !oldName) return next();
+
+    console.log(oldName, '>>', view.name);
 
     Template.setView(template.id, view, function(err) {
       if (err) return next(err);
