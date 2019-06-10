@@ -3,12 +3,12 @@ var dirs = [];
 var async = require("async");
 
 fs.readdirSync(__dirname + "/latest").forEach(function(name) {
-  if (name[0] === '.') return;
+  if (name[0] === ".") return;
   dirs.push(__dirname + "/latest/" + name);
 });
 
 fs.readdirSync(__dirname + "/past").forEach(function(name) {
-  if (name[0] === '.') return;
+  if (name[0] === ".") return;
   dirs.push(__dirname + "/past/" + name);
 });
 
@@ -46,6 +46,6 @@ function fix(templateDir, callback) {
 
   // console.log("After", Package.views);
 
-  // fs.writeJsonSync(templateDir + "/package.json");
+  fs.outputJsonSync(templateDir + "/package.json", Package, { spaces: 2 });
   callback(null);
 }

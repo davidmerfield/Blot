@@ -3,11 +3,11 @@
   "locals": {},
   "isPublic": false,
   "views": {
-    "index": {
+    "index.html": {
       "url": "/",
       "partials": {}
     },
-    "export": {
+    "export.xml": {
       "url": "/export.xml",
       "partials": {}
     }
