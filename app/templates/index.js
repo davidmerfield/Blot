@@ -138,7 +138,8 @@ function buildViews(directory, id, views, callback) {
 
       var view = {
         name: viewName,
-        content: viewContent
+        content: viewContent,
+        url: '/' + viewName
       };
 
       if (views && views[view.name]) {
