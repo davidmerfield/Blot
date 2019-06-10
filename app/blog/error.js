@@ -39,7 +39,7 @@ module.exports = function(server) {
     });
 
     res.status(404);
-    res.renderView("error", next);
+    res.renderView("error.html", next);
 
     // We expose these to the user
     store404(req.blog.id, req.url);
@@ -80,7 +80,7 @@ module.exports = function(server) {
       }
     });
 
-    res.renderView("error", next, function(err, output) {
+    res.renderView("error.html", next, function(err, output) {
       if (err) return next(err);
 
       res.status(status || 500);
