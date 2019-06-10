@@ -1,7 +1,8 @@
-var getView = require('./getView');
-var ensure = require('helper').ensure;
-var extend = require('helper').extend;
-var getPartials = require('./getPartials');
+var getView = require("./getView");
+var ensure = require("helper").ensure;
+var extend = require("helper").extend;
+var getPartials = require("./getPartials");
+var mime = require("mime-types");
 
 // This method is used to retrieve the locals,
 // partials and missing locals for a given view.
@@ -38,11 +39,11 @@ module.exports = function getFullView(blogID, templateID, viewName, callback) {
         view.locals,
         allPartials,
         view.retrieve,
-        view.type,
+        view.type || mime.lookup(view.name) || "text/html",
         view.content
       ];
 
       return callback(null, response);
     });
   });
-}
+};

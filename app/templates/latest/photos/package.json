@@ -10,24 +10,10 @@
     "spacing": 3
   },
   "views": {
-    "archives": {
-      "url": "/archives",
-      "partials": {
-        "title": "Archives - {{{title}}}",
-        "description": "All the entries posted on {{{title}}}"
-      }
-    },
     "tagged": {
       "partials": {
         "title": "Entries tagged {{{tag}}} from {{{title}}}",
-        "description":
-          "All of the entries posted on {{{title}}} tagged {{{tag}}}"
-      }
-    },
-    "entries": {
-      "partials": {
-        "title": "{{{title}}}",
-        "description": "The latest entries posted on {{{title}}}"
+        "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
       }
     },
     "error": {
@@ -36,39 +22,36 @@
         "description": "Error on {{{title}}}"
       }
     },
-    "entry": {
-      "partials": {
-        "title": "{{{entry.title}}} - {{{title}}}",
-        "description": "{{{entry.summary}}}"
-      }
-    },
-    "public": {
-      "partials": {
-        "title": "Index of {{{path}}}",
-        "description": "All the files and folders inside {{{path}}}"
-      }
-    },
     "search": {
       "partials": {
         "title": "Search - {{{title}}}",
         "description": "Search all the entries posted on {{{title}}}"
       }
     },
-    "style": {
-      "url": "/style.css"
+    "archives.html": {
+      "url": "/archives",
+      "partials": {
+        "title": "Archives - {{{title}}}",
+        "description": "All the entries posted on {{{title}}}"
+      }
     },
-    "script": {
-      "url": "/script.js"
+    "entries.html": {
+      "partials": {
+        "title": "{{{title}}}",
+        "description": "The latest entries posted on {{{title}}}"
+      }
     },
-    "sitemap": {
-      "url": "/sitemap.xml"
+    "entry.html": {
+      "partials": {
+        "title": "{{{entry.title}}} - {{{title}}}",
+        "description": "{{{entry.summary}}}"
+      }
     },
-    "feed": {
-      "url": "/feed.rss",
-      "type": "application/xml"
-    },
-    "robots": {
-      "url": "/robots.txt"
+    "public.html": {
+      "partials": {
+        "title": "Index of {{{path}}}",
+        "description": "All the files and folders inside {{{path}}}"
+      }
     }
   }
 }

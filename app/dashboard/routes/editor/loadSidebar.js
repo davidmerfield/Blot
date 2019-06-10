@@ -1,12 +1,9 @@
 var Template = require("template");
 var helper = require('helper');
 var arrayify = helper.arrayify;
-var mime = require('mime');
 
 var getViews = Template.getAllViews;
 
-var arePartials = ['head', 'header', 'footer'];
-var areAssets = ['text/css', 'application/javascript'];
 var arePartials = ['head', 'header', 'footer'];
 
 module.exports = function(req, res, next) {
@@ -19,16 +16,12 @@ module.exports = function(req, res, next) {
     if (err || !views || !template)
       return next(new Error('No template'));
 
-    var extras = [];
     var partials = [];
-    var assets = [];
     var base = '/template/' + template.slug + '/view';
 
     views = arrayify(views, function (view) {
 
-      view.extension = mime.extension(view.type || '');
       view.editorMode = editorMode(view);
-      view.fullName = view.name + '.' + view.extension;
       view.url = base + '/' + encodeURIComponent(view.name) + '/editor';
 
       // Load the first view if none selected
@@ -77,20 +70,19 @@ function sort (arr){
   });
 }
 
+
+var extname = require('path').extname;
+
 // Determine the mode for the
 // text editor based on the file extension
-function editorMode (view) {
+function editorMode(view) {
+  var mode = "xml";
 
-  var mode = 'xml';
+  if (extname(view.name) === ".js") mode = "javascript";
 
-  if (view.extension === 'js')
-      mode = 'javascript';
+  if (extname(view.name) === ".css") mode = "css";
 
-  if (view.extension === 'css')
-      mode = 'css';
-
-  if (view.extension === 'txt')
-      mode = 'text';
+  if (extname(view.name) === ".txt") mode = "text";
 
   return mode;
 }

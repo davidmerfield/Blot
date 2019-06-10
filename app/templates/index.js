@@ -124,7 +124,7 @@ function buildViews(directory, id, views, callback) {
       if (viewFilename === "package.json" || viewFilename.slice(0, 1) === ".")
         return next();
 
-      var viewName = viewFilename.slice(0, viewFilename.lastIndexOf("."));
+      var viewName = viewFilename;
       var viewContent;
       if (viewName.slice(0, 1) === "_") {
         viewName = viewName.slice(1);
@@ -138,8 +138,8 @@ function buildViews(directory, id, views, callback) {
 
       var view = {
         name: viewName,
-        type: mime.lookup(viewFilename),
-        content: viewContent
+        content: viewContent,
+        url: '/' + viewName
       };
 
       if (views && views[view.name]) {
