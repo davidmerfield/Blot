@@ -1,3 +1,3 @@
-User deleted a blog from their subscription
+User removed a blog from their subscription
 
-{{email}} now pays {{pretty.price}} for {{pretty.amount}} blogs
+{{email}} now pays {{pretty.price}} per {{subscription.plan.interval}} for {{pretty.amount}} blog{{pretty.s}}

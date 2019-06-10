@@ -3,5 +3,3 @@ Blot has closed your account
 You had previously cancelled your Blot subscription. Blot has now closed your account.
 
 Please reply directly to this email if you have any questions.
-
-Sincerely, David
