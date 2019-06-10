@@ -10,7 +10,7 @@ var request = require("request");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
-
+var Email = helper.email;
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
 
@@ -114,7 +114,7 @@ function calculateFee(req, res, next) {
   // change the charge function
   req.amount_due_now = now;
 
-  res.locals.monthly = subscription.plan.interval === 'month';
+  res.locals.monthly = subscription.plan.interval === "month";
   res.locals.interval = subscription.plan.interval;
   res.locals.price = pretty(subscription.plan.amount);
   res.locals.now = pretty(now);
@@ -136,7 +136,7 @@ function validateSubscription(req, res, next) {
     !subscription.status ||
     subscription.status !== "active"
   ) {
-    res.redirect('/account');
+    res.redirect("/account");
   } else {
     next();
   }
@@ -245,7 +245,13 @@ function updateSubscription(req, res, next) {
 
       if (!subscription) return next(new Error(ERR));
 
-      User.set(req.user.uid, { subscription: subscription }, next);
+      User.set(req.user.uid, { subscription: subscription }, function(err) {
+        if (err) return next(err);
+
+        Email.SUBSCRIPTION_INCREASE(req.user.uid);
+
+        next();
+      });
     }
   );
 }
@@ -257,9 +263,8 @@ function chargeForRemaining(req, res, next) {
   }
 
   /// We don't need to do this for users with monthly billing
-  if (req.user.subscription.plan.interval === 'month')
-    return next();
-  
+  if (req.user.subscription.plan.interval === "month") return next();
+
   // This is their first blog, so don't charge the user twice
   if (req.user.blogs.length === 0 && req.user.subscription.quantity === 1) {
     return next();

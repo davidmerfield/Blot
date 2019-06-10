@@ -35,7 +35,7 @@ describe("template", function() {
         expect(fullView[0]).toEqual(view.locals); // view.locals
         expect(fullView[1]).toEqual(allPartials); // allPartials
         expect(fullView[2]).toEqual({}); // view.retrieve
-        expect(fullView[3]).toEqual(undefined); // view.type
+        expect(fullView[3]).toEqual('text/html'); // view.type
         expect(fullView[4]).toEqual(view.content);
 
         done();

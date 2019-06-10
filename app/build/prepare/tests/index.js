@@ -47,6 +47,17 @@ describe("prepare", function() {
     expect(entry.body).toEqual("<p>Bar bat.</p><h3>How</h3><p>Now</p>");
   });
 
+  it("will generate a title from an ampersand", function() {
+    var entry = this.entry;
+
+    entry.html = "<p>&amp;</p>";
+
+    prepare(entry);
+
+    expect(entry.title).toEqual("&");
+    expect(entry.body).toEqual(entry.html);
+  });
+
   it("generates an empty title when given an empty file", function() {
     var entry = this.entry;
 

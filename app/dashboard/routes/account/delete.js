@@ -1,7 +1,7 @@
 var Express = require("express");
 var Delete = new Express.Router();
 var User = require("user");
-
+var Email = require("helper").email;
 var checkPassword = require("./util/checkPassword");
 var logout = require("./util/logout");
 var async = require("async");
@@ -107,12 +107,16 @@ Delete.route("/")
     deleteBlogs,
     deleteSubscription,
     deleteUser,
+    emailUser,
     logout,
     function(req, res) {
       res.redirect("/account/deleted");
     }
   );
 
+function emailUser(req, res, next) {
+  Email.DELETED("", req.user, next);
+}
 function deleteBlogs(req, res, next) {
   async.each(req.user.blogs, Blog.remove, next);
 }
@@ -138,6 +142,8 @@ function decreaseSubscription(req, res, next) {
 
       User.set(req.user.uid, { subscription: subscription }, function(err) {
         if (err) return next(err);
+
+        Email.SUBSCRIPTION_DECREASE(req.user.uid);
 
         next();
       });

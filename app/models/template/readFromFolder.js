@@ -1,6 +1,5 @@
 var fs = require("fs-extra");
 var basename = require("path").basename;
-var mime = require("mime");
 var async = require("async");
 var makeID = require("./util/makeID");
 var setView = require("./setView");
@@ -78,8 +77,7 @@ function loadViews(templateID, dir, callback) {
             if (err) return next();
 
             var view = {
-              name: nameFrom(name),
-              type: mime.lookup(name),
+              name: name,
               content: content
             };
 
@@ -95,12 +93,4 @@ function loadViews(templateID, dir, callback) {
     );
   });
 }
-function nameFrom(str) {
-  var name = str;
 
-  if (name.indexOf(".") > -1) name = name.slice(0, name.lastIndexOf("."));
-
-  if (name[0] === "_") name = name.slice(1);
-
-  return name;
-}

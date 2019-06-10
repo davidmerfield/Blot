@@ -3,5 +3,3 @@ Blot has closed your account
 Blot has closed your account because you failed to pay your subscription fee. If you’d like to restart your subscription and re-open your account, please [log in]({{{site}}}/log-in) to Blot and make the payment.
 
 Please reply directly to this email if you have any questions.
-
-Sincerely, David
