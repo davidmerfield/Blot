@@ -16,7 +16,6 @@
   },
   "views": {
     "archives": {
-      "url": "/archives",
       "partials": {
         "title": "Archives - {{{title}}}",
         "description": "All the entries posted on {{{title}}}"
@@ -53,7 +52,6 @@
       "url": "/robots.txt"
     },
     "minima-social-icons.svg": {
-      "url": "/minima-social-icons.svg",
       "partials": {}
     },
     "entries.html": {
@@ -73,9 +71,6 @@
         "title": "{{{entry.title}}} - {{{title}}}",
         "description": "{{{entry.summary}}}"
       }
-    },
-    "style.css": {
-      "url": "/style.css"
     }
   }
 }

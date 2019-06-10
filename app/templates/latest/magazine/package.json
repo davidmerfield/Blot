@@ -14,23 +14,8 @@
     "tags.html": {
       "url": "/tags"
     },
-    "css-theme.css": {
-      "url": "/css-theme.css"
-    },
     "js-barbra.js": {
       "url": "/js-barba.js"
-    },
-    "js-jquery.js": {
-      "url": "/js-jquery.js"
-    },
-    "js-bigfoot.js": {
-      "url": "/js-bigfoot.js"
-    },
-    "js-medium-zoom.js": {
-      "url": "/js-medium-zoom.js"
-    },
-    "js-smoothscroll.js": {
-      "url": "/js-smoothscroll.js"
     },
     "archives.html": {
       "url": "/archives",
@@ -74,18 +59,6 @@
         "title": "Search - {{{title}}}",
         "description": "Search all the entries posted on {{{title}}}"
       }
-    },
-    "script.js": {
-      "url": "/script.js"
-    },
-    "sitemap.xml": {
-      "url": "/sitemap.xml"
-    },
-    "feed.rss": {
-      "url": "/feed.rss"
-    },
-    "robots.txt": {
-      "url": "/robots.txt"
     }
   }
 }

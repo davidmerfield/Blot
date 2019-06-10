@@ -54,24 +54,6 @@
         "title": "Search - {{{title}}}",
         "description": "Search all the entries posted on {{{title}}}"
       }
-    },
-    "style.css": {
-      "url": "/style.css"
-    },
-    "instant.js": {
-      "url": "/instant.js"
-    },
-    "script.js": {
-      "url": "/script.js"
-    },
-    "sitemap.xml": {
-      "url": "/sitemap.xml"
-    },
-    "feed.rss": {
-      "url": "/feed.rss"
-    },
-    "robots.txt": {
-      "url": "/robots.txt"
     }
   }
 }

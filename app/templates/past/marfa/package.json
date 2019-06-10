@@ -66,12 +66,6 @@
         "title": "Search - {{{title}}}",
         "description": "Search all the entries posted on {{{title}}}"
       }
-    },
-    "style.css": {
-      "url": "/style.css"
-    },
-    "feed.rss": {
-      "url": "/feed.rss"
     }
   }
 }

@@ -36,9 +36,23 @@ function fix(templateDir, callback) {
   // console.log("Before", Package.views);
 
   for (var viewnameWithoutExtension in Package.views) {
-    
-    if (Package.views[viewnameWithoutExtension] && Package.views[viewnameWithoutExtension].type)
+    if (
+      Package.views[viewnameWithoutExtension] &&
+      Package.views[viewnameWithoutExtension].type
+    )
       delete Package.views[viewnameWithoutExtension].type;
+
+    if (
+      Package.views[viewnameWithoutExtension] &&
+      Package.views[viewnameWithoutExtension].url &&
+      !viewnameDictionary[viewnameWithoutExtension] &&
+      Package.views[viewnameWithoutExtension].url ===
+        "/" + viewnameWithoutExtension
+    )
+      delete Package.views[viewnameWithoutExtension].url;
+
+    if (Object.keys(Package.views[viewnameWithoutExtension]).length === 0)
+      delete Package.views[viewnameWithoutExtension];
 
     if (!viewnameDictionary[viewnameWithoutExtension]) continue;
 

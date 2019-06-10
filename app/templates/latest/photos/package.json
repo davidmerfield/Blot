@@ -52,21 +52,6 @@
         "title": "Index of {{{path}}}",
         "description": "All the files and folders inside {{{path}}}"
       }
-    },
-    "style.css": {
-      "url": "/style.css"
-    },
-    "script.js": {
-      "url": "/script.js"
-    },
-    "sitemap.xml": {
-      "url": "/sitemap.xml"
-    },
-    "feed.rss": {
-      "url": "/feed.rss"
-    },
-    "robots.txt": {
-      "url": "/robots.txt"
     }
   }
 }

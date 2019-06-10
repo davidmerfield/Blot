@@ -86,12 +86,6 @@
         "title": "{{{entry.title}}} - {{{title}}}",
         "description": "{{{entry.summary}}}"
       }
-    },
-    "style.css": {
-      "url": "/style.css"
-    },
-    "script.js": {
-      "url": "/script.js"
     }
   }
 }
