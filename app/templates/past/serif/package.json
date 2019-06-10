@@ -63,8 +63,7 @@
       "url": "/sitemap.xml"
     },
     "feed.rss": {
-      "url": "/feed.rss",
-      "type": "application/xml"
+      "url": "/feed.rss"
     },
     "robots.txt": {
       "url": "/robots.txt"
