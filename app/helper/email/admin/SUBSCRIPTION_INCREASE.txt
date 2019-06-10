@@ -1,0 +1,3 @@
+User added a blog to their subscription
+
+{{email}} now pays {{pretty.price}} for {{pretty.amount}} blogs
