@@ -34,8 +34,7 @@ module.exports = function readFromFolder(blogID, dir, callback) {
               if (err) return next();
 
               var view = {
-                name: nameFrom(name),
-                type: mime.lookup(name),
+                name: name,
                 content: content
               };
 
@@ -52,16 +51,6 @@ module.exports = function readFromFolder(blogID, dir, callback) {
     });
   });
 };
-
-function nameFrom(str) {
-  var name = str;
-
-  if (name.indexOf(".") > -1) name = name.slice(0, name.lastIndexOf("."));
-
-  if (name[0] === "_") name = name.slice(1);
-
-  return name;
-}
 
 function badPermission(blogID, templateID) {
   return new Error("No permission for " + blogID + " to write " + templateID);
