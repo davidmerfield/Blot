@@ -22,12 +22,35 @@ function main(doThis, callback) {
   eachView(function(user, blog, template, view, next) {
     if (!view || !view.content || !view.type) return next();
 
+    var oldName, extension, altExtension;
+
     if (view.type) {
-      view.name = view.name + "." + mime.extension(view.type);
+      oldName = view.name;
+      extension = mime.extension(view.type);
+
+      if (view.url && view.url.indexOf(".") > -1) {
+        altExtension = view.url.slice(view.url.lastIndexOf(".") + 1);
+        if (altExtension !== extension && view.type === "application/xml")
+          extension = altExtension;
+
+        // console.log(
+        //   "View:",
+        //   view.name,
+        //   "consider",
+        //   altExtension,
+        //   " as alternative extension to",
+        //   extension, 'for', view.type
+        // );
+      }
+
+      view.name = view.name + "." + extension;
       delete view.type;
     }
 
-    Template.setView(template.id, view, next);
+    Template.setView(template.id, view, function(err) {
+      if (err) return next(err);
+      Template.dropView(template.id, oldName, next);
+    });
   }, callback);
 }
 
