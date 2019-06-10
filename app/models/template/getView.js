@@ -23,10 +23,10 @@ module.exports = function getView(templateID, viewID, callback) {
         if (name === viewID) match = viewname;
       });
 
-      if (!match) return callback(null, new Error("No view: " + viewID));
+      if (!match) return callback(new Error("No view: " + viewID));
 
       client.hgetall(key.view(templateID, match), function(err, view) {
-        if (!view) return callback(null, new Error("No view: " + viewID));
+        if (!view) return callback(new Error("No view: " + viewID));
 
         view = deserialize(view, viewModel);
         callback(err, view);
