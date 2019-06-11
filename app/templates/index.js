@@ -92,12 +92,10 @@ function build(directory, callback) {
     locals: templatePackage.locals
   };
 
-  Template.getMetadata(id, function(err, existingTemplate) {
-    // Determine if we need to create a new template or
-    // update an existing one.
-    method = !!existingTemplate ? Template.update : Template.create;
+  Template.drop(TEMPLATES_OWNER, basename(directory), function(err) {
+    if (err) return callback(err);
 
-    method(TEMPLATES_OWNER, name, template, function(err) {
+    Template.create(TEMPLATES_OWNER, name, template, function(err) {
       if (err) return callback(err);
 
       buildViews(directory, id, templatePackage.views, function(err) {
