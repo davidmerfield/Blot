@@ -42,4 +42,27 @@ describe("template", function() {
       });
     });
   });
+
+  it("writes view metadata to package.json to a folder", function(done) {
+    var test = this;
+    var view = {
+      name: test.fake.random.word() + ".html",
+      content: test.fake.random.word(),
+      locals: { foo: "bar" }
+    };
+    var path =
+      test.clientDir + "/Templates/" + test.template.slug + "/package.json";
+
+    setView(this.template.id, view, function(err) {
+      if (err) return done.fail(err);
+
+      writeToFolder(test.blog.id, test.template.id, function(err) {
+        if (err) return done.fail(err);
+        expect(fs.readJsonSync(path).views[view.name].locals).toEqual(
+          view.locals
+        );
+        done();
+      });
+    });
+  });
 });
