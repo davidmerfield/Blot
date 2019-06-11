@@ -97,6 +97,11 @@ function makeClient(blogID, callback) {
   require("blog").get({ id: blogID }, function(err, blog) {
     var client = require("clients")[blog.client];
 
+    // we want to be able to use the local client in our test
+    // environment, which is set up to simulate production
+    if (blog.client === 'local' && !require("clients").local)
+      client = require('../../clients/local');
+
     if (!blog.client || !client)
       return callback(new Error("No client for this blog"));
 
