@@ -1,6 +1,6 @@
 var create = require("../../index").create;
 var getTemplateList = require("../../index").getTemplateList;
-var localClient = require("clients").local;
+var setupLocalClient = require("../../../../clients/local/controllers/setup");
 var setView = require("../../index").setView;
 var helper = require("helper");
 var Blog = require("blog");
@@ -25,7 +25,7 @@ module.exports = function setup(options) {
 
     Blog.set(blogID, { client: "local" }, function(err) {
       if (err) return done.fail(err);
-      localClient.setup(blogID, clientDir, done);
+      setupLocalClient(blogID, clientDir, done);
     });
   });
 
