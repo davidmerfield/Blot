@@ -1,7 +1,6 @@
-var helper = require("helper");
 var joinpath = require("path").join;
 var async = require("async");
-var callOnce = helper.callOnce;
+var callOnce = require("helper").callOnce;
 var isOwner = require("./isOwner");
 var getAllViews = require("./getAllViews");
 
@@ -52,27 +51,36 @@ function writeToFolder(blogID, templateID, callback) {
 }
 
 function writePackage(blogID, client, dir, metadata, views, callback) {
-  var Package = {
-    name: metadata.name,
-    locals: metadata.locals,
-    views: {}
-  };
+  var Package = {};
+
+  if (metadata.name) {
+    Package.name = metadata.name;
+  }
+
+  if (metadata.locals) {
+    Package.locals = metadata.locals;
+  }
 
   for (var name in views) {
-    if (views[name].url) {
-      Package.views[name] = Package.views[name] || {};
-      Package.views[name].url = views[name].url;
+    var view = views[name];
+    var metadataToAddToPackage = {};
+
+    if (view.url) {
+      metadataToAddToPackage.url = view.url;
     }
 
-    if (views[name].locals) {
-      Package.views[name] = Package.views[name] || {};
-      Package.views[name].locals = views[name].locals;
+    if (view.locals) {
+      metadataToAddToPackage.locals = view.locals;
     }
 
-    if (views[name].partials) {
-      Package.views[name] = Package.views[name] || {};
-      Package.views[name].partials = views[name].partials;
+    if (view.partials) {
+      metadataToAddToPackage.partials = view.partials;
     }
+
+    if (!Object.keys(metadataToAddToPackage).length) continue;
+
+    Package.views = Package.views || {};
+    Package.views[name] = metadataToAddToPackage;
   }
 
   Package = JSON.stringify(Package, null, 2);
