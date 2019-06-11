@@ -244,9 +244,7 @@ Generate list of external API dependencies and follow changes for each
 
 Finish re-write of template system
 - Local editing
-  - Ask to confirm, but remove files from blog folder when disabling local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
-  - Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) when you can safely toggle to local editing.
   - Read and write package.json for local editing, then tell [uncrtn](https://micro.blog/uncrtn/2196557), [Aurynn](https://mail.google and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
 
