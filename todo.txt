@@ -54,10 +54,7 @@ Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inb
 Fix bug with handling of queries and tell [this person](https://mail.google.com/mail/u/0/?zx=tqp989l7y4yi#inbox/15b575fbc8d80ad1).
 
 Fix Magazine template bugs
-- Fix text styling inside blockquotes and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
 - Fix bug with image zoom when you click back on the zoomed image to close and tell [Florence](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVglfhVGFtwQPdwzskGKrDlzh)
-- Hide disqus comments on pages
-- Hide dates when 'Hide dates' is turned on
 
 Fix index template bugs
 - Footnote link styling is wonky and tell [Jacob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqPzdRcKXPcSRgPZgstHRlbW)
@@ -374,7 +371,7 @@ Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#in
 Transfer some of [Anders Norén's templates to Blot](https://www.andersnoren.se/teman/)
 
 - How do we share info, like a link on a menu, or a header image across templates? Could there be a shared info repository that templates could access?
-- add support for dynamic partials to make collections possible, e.g. {{> /{tag}.html}} ?
+- add support for dynamic partials to make collections possible, e.g. {{> /:tag.html}} ?
 - Add neat interface to customize blog level variables?
 - How do we transition from a global menu to one that the templates have control over? How do we share existing links between templates? How do we deal with the order of pages in a user's folder?
 - How do we transition from a global date display format to one that templates have control over?
