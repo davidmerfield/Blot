@@ -523,10 +523,6 @@ NGINX
 - Recompile nginx with neccessary dependencies for auto-ssl instead of openresty?
 - Install nginx fail2ban & http2
 
-Support linking to another blog post by its *file path*
-- This would help with the importer to fix broken links
-- See [how Pelican does it](http://docs.getpelican.com/en/stable/content.html#linking-to-internal-content)
-
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
 Add support for comments via webmentions like Disqus and tell Amit
