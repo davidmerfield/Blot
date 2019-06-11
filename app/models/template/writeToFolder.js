@@ -3,6 +3,7 @@ var async = require("async");
 var callOnce = require("helper").callOnce;
 var isOwner = require("./isOwner");
 var getAllViews = require("./getAllViews");
+var type = require("helper").type;
 
 function writeToFolder(blogID, templateID, callback) {
   isOwner(blogID, templateID, function(err, owner) {
@@ -65,19 +66,19 @@ function writePackage(blogID, client, dir, metadata, views, callback) {
     var view = views[name];
     var metadataToAddToPackage = {};
 
-    if (view.url) {
+    if (view.url && view.url !== "/" + name) {
       metadataToAddToPackage.url = view.url;
     }
 
-    if (view.locals) {
+    if (view.locals && objectWithProperties(view.locals)) {
       metadataToAddToPackage.locals = view.locals;
     }
 
-    if (view.partials) {
+    if (view.partials && objectWithProperties(view.partials)) {
       metadataToAddToPackage.partials = view.partials;
     }
 
-    if (!Object.keys(metadataToAddToPackage).length) continue;
+    if (!objectWithProperties(metadataToAddToPackage)) continue;
 
     Package.views = Package.views || {};
     Package.views[name] = metadataToAddToPackage;
@@ -86,6 +87,10 @@ function writePackage(blogID, client, dir, metadata, views, callback) {
   Package = JSON.stringify(Package, null, 2);
 
   client.write(blogID, dir + "/package.json", Package, callback);
+}
+
+function objectWithProperties(obj) {
+  return type(obj, "object") && Object.keys(obj).length;
 }
 
 function makeClient(blogID, callback) {
