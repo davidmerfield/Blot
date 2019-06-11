@@ -1,6 +1,6 @@
 var fs = require("fs");
 var basename = require("path").basename;
-var mime = require("mime");
+var getMetadata = require("./getMetadata");
 var async = require("async");
 var makeID = require("./util/makeID");
 var isOwner = require("./isOwner");
@@ -16,38 +16,43 @@ module.exports = function readFromFolder(blogID, dir, callback) {
 
     if (!isOwner) return callback(badPermission(blogID, id));
 
-    fs.readdir(dir, function(err, contents) {
-      if (err) return callback(err);
+    getMetadata(id, function(err, template) {
+      if (!template || template.localEditing !== true)
+        return callback(new Error("Not local"));
 
-      async.eachSeries(
-        contents,
-        function(name, next) {
-          // Skip Dotfile or Package.json
-          if (name[0] === "." || name === PACKAGE) return next();
+      fs.readdir(dir, function(err, contents) {
+        if (err) return callback(err);
 
-          fs.stat(dir + "/" + name, function(err, stat) {
-            // Skip folders, or files which are too large
-            if (err || !stat || stat.size > MAX_SIZE || stat.isDirectory())
-              return next();
+        async.eachSeries(
+          contents,
+          function(name, next) {
+            // Skip Dotfile or Package.json
+            if (name[0] === "." || name === PACKAGE) return next();
 
-            fs.readFile(dir + "/" + name, "utf-8", function(err, content) {
-              if (err) return next();
+            fs.stat(dir + "/" + name, function(err, stat) {
+              // Skip folders, or files which are too large
+              if (err || !stat || stat.size > MAX_SIZE || stat.isDirectory())
+                return next();
 
-              var view = {
-                name: name,
-                content: content
-              };
-
-              setView(id, view, function(err) {
+              fs.readFile(dir + "/" + name, "utf-8", function(err, content) {
                 if (err) return next();
 
-                next();
+                var view = {
+                  name: name,
+                  content: content
+                };
+
+                setView(id, view, function(err) {
+                  if (err) return next();
+
+                  next();
+                });
               });
             });
-          });
-        },
-        callback
-      );
+          },
+          callback
+        );
+      });
     });
   });
 };
