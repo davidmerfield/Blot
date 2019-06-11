@@ -69,6 +69,8 @@ tr {border-bottom: 1px solid #eee}
   
   b, strong, h1, h2, h3, h4, h5, h6, th {font-weight:500}
   
+  .entry b, .entry strong {font-weight: 600}
+  
   code {
       font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
 padding: .2rem .4rem;
