@@ -4,6 +4,8 @@ var callOnce = require("helper").callOnce;
 var isOwner = require("./isOwner");
 var getAllViews = require("./getAllViews");
 var type = require("helper").type;
+var localPath = require("helper").localPath;
+var fs = require("fs-extra");
 
 function writeToFolder(blogID, templateID, callback) {
   isOwner(blogID, templateID, function(err, owner) {
@@ -97,13 +99,18 @@ function makeClient(blogID, callback) {
   require("blog").get({ id: blogID }, function(err, blog) {
     var client = require("clients")[blog.client];
 
-    // we want to be able to use the local client in our test
-    // environment, which is set up to simulate production
-    if (blog.client === 'local' && !require("clients").local)
-      client = require('../../clients/local');
-
-    if (!blog.client || !client)
-      return callback(new Error("No client for this blog"));
+    // we create a fake client to write the template files directly
+    // to the blog's folder if the user has not configured a client
+    if (!blog.client || !client) {
+      return callback(null, {
+        remove: function(blogID, path, callback) {
+          fs.remove(localPath(blogID, path), callback);
+        },
+        write: function(blogID, path, content, callback) {
+          fs.outputFile(localPath(blogID, path), content, callback);
+        }
+      });
+    }
 
     return callback(null, client);
   });

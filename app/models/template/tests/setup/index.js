@@ -16,19 +16,6 @@ module.exports = function setup(options) {
     this.fake = global.test.fake;
   });
 
-  // Set up local client so we can write templates locally
-  beforeEach(function(done) {
-    var blogID = this.blog.id;
-    var clientDir = helper.tempDir() + helper.guid();
-
-    this.clientDir = clientDir;
-
-    Blog.set(blogID, { client: "local" }, function(err) {
-      if (err) return done.fail(err);
-      setupLocalClient(blogID, clientDir, done);
-    });
-  });
-
   // Create a test template
   if (options.createTemplate) {
     beforeEach(function(done) {

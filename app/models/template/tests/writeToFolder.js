@@ -13,7 +13,7 @@ describe("template", function() {
       content: test.fake.random.word()
     };
     var path =
-      test.clientDir + "/Templates/" + test.template.slug + "/" + view.name;
+      test.blogDirectory + "/Templates/" + test.template.slug + "/" + view.name;
 
     setView(this.template.id, view, function(err) {
       if (err) return done.fail(err);
@@ -30,7 +30,7 @@ describe("template", function() {
     var test = this;
     var metadata = { locals: { foo: "bar" } };
     var path =
-      test.clientDir + "/Templates/" + test.template.slug + "/package.json";
+      test.blogDirectory + "/Templates/" + test.template.slug + "/package.json";
 
     setMetadata(this.template.id, metadata, function(err) {
       if (err) return done.fail(err);
@@ -51,7 +51,7 @@ describe("template", function() {
       locals: { foo: "bar" }
     };
     var path =
-      test.clientDir + "/Templates/" + test.template.slug + "/package.json";
+      test.blogDirectory + "/Templates/" + test.template.slug + "/package.json";
 
     setView(this.template.id, view, function(err) {
       if (err) return done.fail(err);
