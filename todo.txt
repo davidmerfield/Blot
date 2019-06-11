@@ -243,34 +243,34 @@ Replace some of the assert() tests which run every time the server starts with J
 Generate list of external API dependencies and follow changes for each
 
 Finish re-write of template system
-- Add [titlecase](https://daringfireball.net/2008/05/title_case) helper function? 
-- Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) when you can safely toggle to local editing.
-- Add way to query list of posts using SQL? Something like [jsql](https://archive.codeplex.com/?p=jsql)
 - Local editing
   - Ask to confirm, but remove files from blog folder when disabling local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
-  - Read and write package.json for local editing, then tell [uncrtn](https://micro.blog/uncrtn/2196557), [Aurynn](https://mail.google.
-com/mail/u/0/#inbox/1588e3df7489b554) and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally
-and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
-  - Add support for 'creating' a template inside '/Templates/'
-  - Tell [Myron](https://twitter.com/rodriguesmyron) on Twitter when it is possible to rename the folder created for a template in local editing.
+  - Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) when you can safely toggle to local editing.
+  - Read and write package.json for local editing, then tell [uncrtn](https://micro.blog/uncrtn/2196557), [Aurynn](https://mail.google and [Brian](https://mail.google.com/mail/u/1/#inbox/16409a32f8246597) know when it's possible to set variables locally and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
+
+- Add way to query list of posts using SQL? Something like [jsql](https://archive.codeplex.com/?p=jsql)
+com/mail/u/0/#inbox/1588e3df7489b554) 
+  - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
+  - Add support for entry lists of variable length and tell [Logan](https://twitter.com/LoganGreer)
+- Add support for 'creating' a template inside '/Templates/'
+  - Tell [Myron](https://twitter.com/rodriguesmyron) on Twitter when it is possible to rename the folder created for a template in local editing.
+- Add [titlecase](https://daringfireball.net/2008/05/title_case) helper function? 
 - Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
-- Add support for entry lists of variable length and tell [Logan](https://twitter.com/LoganGreer)
-- Think about serving the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
+- Move to uuid based template IDs instead of slug
+- Move to data directory for templates
+  - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Add persona/cargo style customization buttons
   - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
   - Serve previews of templates from a domain with HTTPS
   - Add iframe of site in edit page of template editor
   - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Re-do url redirector to use route-parser and properly support regular expressions
-- Move to uuid based template IDs instead of slug
-- Allow paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
+- Add support for paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
-- [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760
-) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
 
 Subscription refactor
 - Add support for subscriptions via PayPal
