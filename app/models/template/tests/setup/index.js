@@ -1,7 +1,9 @@
 var create = require("../../index").create;
 var getTemplateList = require("../../index").getTemplateList;
-
+var setupLocalClient = require("../../../../clients/local/controllers/setup");
 var setView = require("../../index").setView;
+var helper = require("helper");
+var Blog = require("blog");
 
 module.exports = function setup(options) {
   options = options || {};
@@ -37,8 +39,8 @@ module.exports = function setup(options) {
       var test = this;
       var view = {
         name: test.fake.random.word(),
-        url: '/' + test.fake.random.word(),
-        content: test.fake.random.word(),
+        url: "/" + test.fake.random.word(),
+        content: test.fake.random.word()
       };
       setView(test.template.id, view, function(err) {
         if (err) return done(err);
