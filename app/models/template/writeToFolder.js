@@ -33,7 +33,7 @@ function writeToFolder(blogID, templateID, callback) {
           async.eachOfSeries(
             views,
             function(view, name, next) {
-              if (!view.name || !view.type || !view.content) return next();
+              if (!view.name || !view.content) return next();
 
               write(blogID, client, dir, view, next);
             },
@@ -60,19 +60,7 @@ function write(blogID, client, dir, view, callback) {
   
   callback = callOnce(callback);
 
-  // eventually I should just store
-  // the goddamn filename and avoid this bullSHIT
-  var extension = ".html";
-
-  if (view.type === "text/css") extension = ".css";
-  if (view.type === "application/xml") extension = ".rss";
-  if (view.type === "application/rss+xml") extension = ".rss";
-  if (view.type === "application/xml" && view.name === "sitemap")
-    extension = ".xml";
-  if (view.type === "application/javascript") extension = ".js";
-  if (view.type === "text/plain") extension = ".txt";
-
-  var path = joinpath(dir, view.name + extension);
+  var path = joinpath(dir, view.name);
   var content = view.content;
 
   client.write(blogID, path, content, callback);
