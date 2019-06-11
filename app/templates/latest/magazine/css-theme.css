@@ -1,3 +1,6 @@
+/* This template tag is replaced by CSS when this file is rendered */
+{{{appCSS}}}
+
 {{> css-tachyons}}
 {{> css-hljs}}
 {{> css-bigfoot}}
