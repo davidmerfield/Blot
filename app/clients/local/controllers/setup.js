@@ -40,8 +40,10 @@ function setup(blogID, folder, callback) {
       synchronize(blogID, folder, function(err) {
         if (err) return callback(err);
 
-        debug("Watching source folder for changes");
-        watch(blogID, folder);
+        if (config.environment === "development") {
+          debug("Watching source folder for changes");
+          watch(blogID, folder);
+        }
 
         debug("Setup complete");
         callback();
