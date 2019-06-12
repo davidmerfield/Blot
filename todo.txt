@@ -402,7 +402,7 @@ is happening before doing this.
 
 Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
 
-Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp)
+Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg)
 
 Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
 
@@ -425,7 +425,7 @@ Clients
 - [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
 - [SFTP](https://www.npmjs.com/package/ftpd)
 
-Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh)
+Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML)
 
 Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
 
