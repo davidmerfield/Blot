@@ -2,19 +2,14 @@
 
 
 
-{{> folder}}
-
+<!-- 
   <a href="{{blog.url}}" target="_blank" style="    padding: 4px 20px;
     display: block;
     border-bottom: 1px solid #eee;
     background: #eeeeee57;
-    color: #b9b6b6;">{{blog.url}}</a>
-<div style="margin-top:21px">
-  <small style="padding: 4px 20px;
-    display: block;
-    border-bottom: 1px solid #eee;
-    background: #eeeeee57;
-    color: #b9b6b6;">Settings</small>
+    color: #b9b6b6;">{{blog.url}}</a> -->
+<div >
+
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
 
@@ -55,12 +50,12 @@
       {{/blog.avatar}}
 
       {{#blog.avatar}}
-    <span class="center" style="    width: 64px;
-    height: 64px;
+    <span class="center" style="    width: 48px;
+    height: 48px;
     display: inline-block;
     vertical-align: middle;">
 
-        <img style="margin-left:4px;max-width:64px;max-height:64px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+        <img style="margin-left:4px;max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
 </span>
             <span class="right">Change</span>    
       {{/blog.avatar}}
@@ -80,18 +75,9 @@
 
  
 
-<a class="line" href="/settings/client/{{name}}" >
-    <span class="label">Client</span>
-    {{^blog.client}}
-      <span class="link">Set up a client</span>
-    {{/blog.client}}
-    {{#blog.client}}
-    <span class="center">{{client.display_name}}</span>
-    <span class="right">Change</span>
-    {{/blog.client}}
-  </a>
 
-  <a class="line" href="/settings/services" style="border-bottom:none">
+
+  <a class="line" href="/settings/services">
     <span class="label">Services</span>
     <span class="link">Import, export and typography
 </span>
@@ -142,6 +128,18 @@
     </div>
     </div> -->
 
-
+<a class="line" href="/settings/client/{{name}}" >
+    <span class="label">Folder</span>
+    {{^blog.client}}
+      <span class="link">Set up a client</span>
+    {{/blog.client}}
+    {{#blog.client}}
+    <span class="center">{{client.display_name}}</span>
+    <span class="right">Change</span>
+    {{/blog.client}}
+  </a>
 </form>
 </div>
+
+
+{{> folder}}
