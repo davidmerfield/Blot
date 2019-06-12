@@ -1,12 +1,14 @@
-var fs = require("fs");
+var fs = require("fs-extra");
 var basename = require("path").basename;
-var mime = require("mime");
+var getMetadata = require("./getMetadata");
 var async = require("async");
 var makeID = require("./util/makeID");
 var isOwner = require("./isOwner");
 var setView = require("./setView");
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
 var PACKAGE = "package.json";
+var type = require("helper").type;
+var setMetadata = require("./setMetadata");
 
 module.exports = function readFromFolder(blogID, dir, callback) {
   var id = makeID(blogID, basename(dir));
@@ -16,51 +18,84 @@ module.exports = function readFromFolder(blogID, dir, callback) {
 
     if (!isOwner) return callback(badPermission(blogID, id));
 
-    fs.readdir(dir, function(err, contents) {
-      if (err) return callback(err);
+    getMetadata(id, function(err, template) {
+      if (!template || template.localEditing !== true)
+        return callback(new Error("Not local"));
 
-      async.eachSeries(
-        contents,
-        function(name, next) {
-          // Skip Dotfile or Package.json
-          if (name[0] === "." || name === PACKAGE) return next();
+      fs.readdir(dir, function(err, contents) {
+        if (err) return callback(err);
 
-          fs.stat(dir + "/" + name, function(err, stat) {
-            // Skip folders, or files which are too large
-            if (err || !stat || stat.size > MAX_SIZE || stat.isDirectory())
-              return next();
+        loadPackage(id, dir, function(err, views) {
+          if (err) return callback(err);
 
-            fs.readFile(dir + "/" + name, "utf-8", function(err, content) {
-              if (err) return next();
+          async.eachSeries(
+            contents,
+            function(name, next) {
+              // Skip Dotfile or Package.json
+              if (name[0] === "." || name === PACKAGE) return next();
 
-              var view = {
-                name: nameFrom(name),
-                type: mime.lookup(name),
-                content: content
-              };
+              fs.stat(dir + "/" + name, function(err, stat) {
+                // Skip folders, or files which are too large
+                if (err || !stat || stat.size > MAX_SIZE || stat.isDirectory())
+                  return next();
 
-              setView(id, view, function(err) {
-                if (err) return next();
+                fs.readFile(dir + "/" + name, "utf-8", function(err, content) {
+                  if (err) return next();
 
-                next();
+                  var view = {
+                    name: name,
+                    content: content
+                  };
+
+                  if (views[name])
+                    for (var i in views[name]) view[i] = views[name][i];
+
+                  view.url = view.url || '/' + view.name;
+                                  
+                  setView(id, view, function(err) {
+                    if (err) return next();
+
+                    next();
+                  });
+                });
               });
-            });
-          });
-        },
-        callback
-      );
+            },
+            function(err) {
+              if (err) return callback(err);
+              getMetadata(id, callback);
+            }
+          );
+        });
+      });
     });
   });
 };
 
-function nameFrom(str) {
-  var name = str;
+function loadPackage(id, dir, callback) {
+  var changes = {};
+  var views = {};
 
-  if (name.indexOf(".") > -1) name = name.slice(0, name.lastIndexOf("."));
+  fs.readJson(dir + "/package.json", function(err, metadata) {
+    if (err) return callback(null, views);
 
-  if (name[0] === "_") name = name.slice(1);
+    if (!metadata) return callback(null, views);
 
-  return name;
+    if (metadata.name) {
+      changes.name = metadata.name;
+    }
+
+    if (metadata.locals && type(metadata.locals, "object")) {
+      changes.locals = metadata.locals;
+    }
+
+    if (metadata.views && type(metadata.views, "object")) {
+      views = metadata.views;
+    }
+
+    setMetadata(id, changes, function(err) {
+      callback(null, views);
+    });
+  });
 }
 
 function badPermission(blogID, templateID) {

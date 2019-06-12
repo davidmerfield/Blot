@@ -7,7 +7,7 @@ describe("template", function() {
   it("sets a view", function(done) {
     var test = this;
     var view = {
-      name: test.fake.random.word(),
+      name: test.fake.random.word() + '.txt',
       content: test.fake.random.word()
     };
 

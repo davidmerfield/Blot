@@ -92,12 +92,10 @@ function build(directory, callback) {
     locals: templatePackage.locals
   };
 
-  Template.getMetadata(id, function(err, existingTemplate) {
-    // Determine if we need to create a new template or
-    // update an existing one.
-    method = !!existingTemplate ? Template.update : Template.create;
+  Template.drop(TEMPLATES_OWNER, basename(directory), function(err) {
+    if (err) return callback(err);
 
-    method(TEMPLATES_OWNER, name, template, function(err) {
+    Template.create(TEMPLATES_OWNER, name, template, function(err) {
       if (err) return callback(err);
 
       buildViews(directory, id, templatePackage.views, function(err) {
@@ -124,7 +122,7 @@ function buildViews(directory, id, views, callback) {
       if (viewFilename === "package.json" || viewFilename.slice(0, 1) === ".")
         return next();
 
-      var viewName = viewFilename.slice(0, viewFilename.lastIndexOf("."));
+      var viewName = viewFilename;
       var viewContent;
       if (viewName.slice(0, 1) === "_") {
         viewName = viewName.slice(1);
@@ -138,8 +136,8 @@ function buildViews(directory, id, views, callback) {
 
       var view = {
         name: viewName,
-        type: mime.lookup(viewFilename),
-        content: viewContent
+        content: viewContent,
+        url: '/' + viewName
       };
 
       if (views && views[view.name]) {

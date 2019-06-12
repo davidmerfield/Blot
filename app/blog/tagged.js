@@ -19,7 +19,7 @@ module.exports = function(server) {
           total: entries.length
         });
 
-        response.renderView("tagged", next);
+        response.renderView("tagged.html", next);
       });
     });
   });

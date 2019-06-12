@@ -42,7 +42,7 @@ module.exports = function(server) {
           contents: contents
         });
 
-        return res.renderView("public", next);
+        return res.renderView("public.html", next);
       });
     });
   });

@@ -1,3 +1,6 @@
+/* This template tag is replaced by CSS when this file is rendered */
+{{{appCSS}}}
+
 {{> css-tachyons}}
 {{> css-hljs}}
 {{> css-bigfoot}}
@@ -68,6 +71,8 @@ tr {border-bottom: 1px solid #eee}
   th, td {padding-top:0.5rem;padding-bottom:0.5rem}
   
   b, strong, h1, h2, h3, h4, h5, h6, th {font-weight:500}
+  
+  .entry b, .entry strong {font-weight: 600}
   
   code {
       font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
