@@ -13,12 +13,6 @@ Adding new content
 
   Make sure you update ./routes/sitemap.js with any new and important URLs
 
-Twitter
--------
-
-  Test all tweets on @Dlot40201147 first. Don't tweet anything
-  except product news. 
-  
 Some references
 ---------------
 
