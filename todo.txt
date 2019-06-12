@@ -4,7 +4,6 @@ Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmt
 
 Finish Feed template
 - Create folder with public domain material
-- Announce feed template
 - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
 
 Record new demo video
@@ -13,7 +12,7 @@ Record new demo video
 - Show sites I run using Blot...
 
 Delete social media accounts
-- Twitter after archiving all tweets, DMs, including external images
+- Twitter after archiving all tweets, DMs, including external images, also delete @Dlot40201147 test account
 - Micro.blog after archiving all micro.blog posts
 
 Write summer newsletter and send it out on June 21st
