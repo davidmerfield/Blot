@@ -1659,7 +1659,7 @@ form.account > .buttons {
 }
 
 .line {
-  display: block;
+  display: flex;
   padding: 8px 20px;
 }  
 
@@ -1685,7 +1685,8 @@ form.account > .buttons {
 .right { color: #365899;}
 
 .right {
-  float:right;
+  
+  flex-shrink:0;
   padding-left: 4px;
 }
 
@@ -1693,11 +1694,14 @@ form.account > .buttons {
 .label {
   color: rgb(158, 154, 152);
   display: inline-block;
-  width: 25%;
+  flex-basis: 25%;
+  flex-shrink:0;
 
 }
 
 .center, div.line a.link {}
+
+.center {flex-grow:1;}
 
 div.center {}
 .center b {color:#000;font-weight:500}
@@ -1712,7 +1716,7 @@ line-height: 1.35;
 
 border: 1px solid;
 
-margin: 0 1.2em 0 -9px;
+margin: 0 0.75em 0 0;
 
 display: inline-block;
 }
