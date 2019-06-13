@@ -3,6 +3,11 @@ var Account = new Express.Router();
 var logout = require("./util/logout");
 var type = require("helper").type;
 
+Account.use(function(req, res, next) {
+  res.locals.breadcrumbs.add("Your account", "account");
+  next();
+});
+
 Account.route("/").get(function(req, res) {
   res.render("account/index", {
     title: "Your account",
@@ -11,6 +16,15 @@ Account.route("/").get(function(req, res) {
       req.user.subscription.plan &&
       req.user.subscription.plan.interval === "month"
   });
+});
+
+Account.use("/:section", function(req, res, next) {
+  var uppercaseName = req.params.section;
+
+  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+
+  res.locals.breadcrumbs.add(uppercaseName, req.params.section);
+  next();
 });
 
 Account.use("/password", require("./password"));

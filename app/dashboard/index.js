@@ -251,10 +251,14 @@ require("./routes/editor")(dashboard);
 // inserted into it
 dashboard.use(require("./render"));
 
+dashboard.use(function(req, res, next) {
+  res.locals.breadcrumbs = new Breadcrumbs();
+  next();
+});
+
 dashboard.use("/account", require("./routes/account"));
 
 dashboard.use(function(req, res, next) {
-  res.locals.breadcrumbs = new Breadcrumbs();
   res.locals.breadcrumbs.add("Your blogs", "/");
   next();
 });

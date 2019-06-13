@@ -55,7 +55,7 @@
     display: inline-block;
     vertical-align: middle;">
 
-        <img style="margin-left:4px;max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+        <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
 </span>
             <span class="right">Change</span>    
       {{/blog.avatar}}
@@ -65,13 +65,13 @@
 
 <a class="line" href="/settings/links" style="">
     <span class="label">Menu links</span>
-    <span class="center" style="overflow:hidden;position:relative">
-      <div style="height:1.5em;width:1000px">
+    <span class="center" style="overflow:hidden;position:relative;left:-2px">
+      <div style="height:1.5em;width:1000px;">
       {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
 
     {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
   </div>
-  <div style="position:absolute;right:0;top:0;bottom:0;width:3rem;  background: linear-gradient(to right, transparent, white);"></div>
+  <div class="tablet-cover"></div>
       
     </span>
     <span class="right" style="padding-left:0">Change</span>
