@@ -47,7 +47,7 @@ settings
     load.permalinkFormats,
     debug("permalinks loaded"),
     function(req, res) {
-      res.render("settings", { title: "Dashboard" });
+      res.render("settings", { title: req.blog.pretty.label });
     }
   );
 
