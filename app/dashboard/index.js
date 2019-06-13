@@ -260,6 +260,7 @@ dashboard.use(function(req, res, next) {
 });
 
 dashboard.get("/", function(req, res, next) {
+  res.locals.title = "Your blogs";
   res.render("index");
 });
 

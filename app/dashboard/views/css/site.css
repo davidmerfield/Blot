@@ -19,6 +19,7 @@ html {
   text-rendering: optimizeLegibility;
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "liga";
+  background: #fffefc
 }
 a {
   background-color: transparent;
@@ -1703,11 +1704,17 @@ div.center {}
 .center {color: #000}
 
 .tablet {
-  border-radius:4em;
-  padding:0 9px;
-  line-height:1.5;
-  border: 1px solid;
-  margin:5px 1.2em 5px -9px;display:inline-block;
+border-radius: 4em;
+
+padding: 0 9px;
+
+line-height: 1.35;
+
+border: 1px solid;
+
+margin: 0 1.2em 0 -9px;
+
+display: inline-block;
 }
 
 .line form {padding: 0}
