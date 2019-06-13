@@ -1,19 +1,19 @@
 
-<div class="line">
+<div class="line" style="border-top:1px solid rgba(0,0,0,0.05)">
 <span class="label" style="padding-right:0">Your blogs       
 </span>
 
-<div class="center">
+<div class="center" style="position:relative;top:-3px">
     {{#blogs}}
 
-    <div style="display:flex;border:none;padding:0;border-bottom:1px solid rgba(0,0,0,0.05)" class="line">
+    <div style="display:flex;border:none;align-items:center;padding:0;border-bottom:1px solid rgba(0,0,0,0.05)" class="line">
 
       <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
         <input type="hidden" name="_csrf" value="{{csrftoken}}">
         <input type="hidden" name="to" value="{{id}}"> 
         <button type="submit" style="width:100%;padding:6px 11px 6px 0;display:flex;border:none;margin:0;background:none">
-          <span style="display:flex;flex-grow:1;"><span class="photo-holder" style="margin-top:0"> {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
-              {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>{{pretty.label}}</span>
+          <span style="display:flex;flex-grow:1;align-items:center"><span class="photo-holder" style="margin-top:0"> {{#avatar}}<img style="vertical-align: top;" src="{{avatar}}?handle={{handle}}">{{/avatar}}
+              {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span><span class="link">{{pretty.label}}</span></span>
         </button>
       </form> 
       
@@ -30,7 +30,7 @@
 
 </div>
 
-<a class="line" href="/account/email" style="border-top:1px solid rgba(0,0,0,0.05)">
+<a class="line" href="/account/email" >
   <span class="label">Email</span>
   <span class="center">{{user.email}}</span>
   <span class="right">Change</span>
