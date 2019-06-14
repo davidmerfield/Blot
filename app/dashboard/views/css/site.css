@@ -1793,7 +1793,7 @@ div.line a.link:hover,
 .dropdown .menu button:hover,
 .dropdown .menu a:hover,
 .line form button:hover {
-  background: #f7f4f2
+  background: rgba(0,0,0,0.02)
 }
 
 a.line:active,
@@ -1802,7 +1802,7 @@ div.line a.link:active,
 .dropdown .menu button:active,
 .dropdown .menu a:active,
 .line form button:active {
-  background: rgba(0, 0, 0, 0.05)
+  background: rgba(0, 0, 0, 0.04)
 }
 
 a:hover .link,
