@@ -5,6 +5,7 @@ var type = require("helper").type;
 
 Account.use(function(req, res, next) {
   res.locals.breadcrumbs.add("Your account", "account");
+  res.locals.account = true;
   next();
 });
 

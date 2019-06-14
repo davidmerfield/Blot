@@ -6,14 +6,29 @@
     <row style="display:flex;align-items:center;">
       <section style="display: flex;
     align-items: center;">
+
+        {{#unless user}}
         <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+        {{/unless}}
+                {{#if user}}
+        <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
+
+        {{/if}}
+
       </section>
   
 
       <section class="links">
         <label for="toggle">Menu</label>
+        {{#unless user}}
         <a href="/sign-up">Sign up</a>
         <a href="/log-in">Log in</a>
+        {{/unless}}
+        {{#if user}}
+        <a href="/account">Your account</a>
+        <a href="/publishing">How to use Blot</a>
+        <a href="/contact">Contact</a>
+        {{/if}}
       </section>
     </row>
 
