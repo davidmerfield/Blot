@@ -369,13 +369,8 @@ form .fullRow label {
 }
 
 form label {
-  line-height: 2.5;
   margin: 0;
   position: relative;
-  font-size: 12px;
-  line-height: 16px;
-  text-transform: uppercase;
-  letter-spacing: .05em;
   color: #111;
   margin-bottom: 4px;
   padding-top: 1rem;
@@ -2338,3 +2333,5 @@ a.content-line .file {
 .subpage {
   background:#fff;border:1px solid #eee;border-radius:3px
 }
+
+form a {color: #365899}

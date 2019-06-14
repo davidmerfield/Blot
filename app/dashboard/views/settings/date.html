@@ -1,3 +1,5 @@
+  <input type="hidden" name="redirect" value="/settings/services/date">
+
 <style type="text/css">
 form label {
   text-transform: none;
@@ -19,7 +21,6 @@ p a:hover {
 
 
 
-<div class="line" style="border-bottom:none">
    <label>
     In what order do you write your dates?<br />
     <select style="color:#000;margin-top:11px" name="dateFormat">
@@ -28,6 +29,7 @@ p a:hover {
       {{/dateFormats}}
     </select>
   </label>
+  <br>
   <label style="margin-top:20px">
     Your timezone<br />
     <select style="color:#000;margin-top:11px" name="timeZone" style="max-width:300px">
@@ -38,4 +40,3 @@ p a:hover {
   </label>
 
  
-</div>
