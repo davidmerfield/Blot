@@ -1,13 +1,7 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Finish Feed template
-- Create folder with public domain material, ideally would be about a unified subject yet contain:
-  - images
-  - code snippets
-  - mathematics
-  - essays
-  - quotes
-  - links
+- Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
 - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
 
 Record new demo video
@@ -90,7 +84,11 @@ Markdown bugs
 
 --- 
 
-Increase price to $4 per month for new customers. This will not affect existing customers in any way.
+Performance improvements
+- Streamline and cache loading of data on dashboard
+- Ensure node.js server has one process per CPU
+- Ensure nginx is handling all static file delivery
+- Detect CPU intensive functions in node.js process
 
 Add Q and A section to site where users could post
 
@@ -145,9 +143,9 @@ Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius
 
 Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3) and [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)and [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a).
 
----
+Increase price to $4 per month for new customers. This will not affect existing customers in any way.
 
-Increase price to $5 per month for new customers. This will not affect existing customers in any way.
+---
 
 Add media-query to prevent typeset hanging punctuation on small screens (it looks weird) and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpXqMzwcBGWgjxgpcpCnMCQW)
 
@@ -300,9 +298,9 @@ Move to Linode?
 - Use [backups](https://www.linode.com/backups)
 - Use [nodebalancers](https://www.linode.com/nodebalancers)
 
----
+Increase price to $5 per month for new customers. This will not affect existing customers in any way.
 
-Increase price to $6 per month for new customers. This will not affect existing customers in any way.
+---
 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
@@ -560,6 +558,8 @@ Plugins
 - Ensure Youtube plugin still functions if apis fails
 
 ---
+
+Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Follow up with [Eli](https://beardandbeanie.com/) about work on the documentation and user's guide
 
