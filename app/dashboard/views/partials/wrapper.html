@@ -1,91 +1,145 @@
 {{> head}}
 
+  {{#account}}
+  <div style="float:left;margin: 20px 0 0 21px;">
+
+  <a style="margin-right:1.4em;color:rgb(158, 154, 152);;text-decoration:none" href="/">&larr; Back to your blogs</a>
+</div>
+  {{/account}}
 
 
-<div class="wrapper">
+<div style="float:right;margin: 20px 21px 0;">
+  <a style="margin-right:1.4em;color:rgb(158, 154, 152);;text-decoration:none" href="/account">Your account</a>
+    <a style="margin-right:1.4em;color:rgb(158, 154, 152);;text-decoration:none" href="/publishing">How to use Blot</a>
+  <a style="margin-right:1.4em;color:rgb(158, 154, 152);;text-decoration:none" href="/contact">Contact</a>
 
+</div>
+<div style="clear:both"></div>
+<div style="display:flex;    align-items: center;padding: 0 2rem;">
 
+  <div class="wrapper">
 
+    <style type="text/css">
+    .sidebar {
+      list-style-type: none;
+      margin-right: 4em
+    }
 
-  <div style="flex-basis:50%;display:flex;flex-direction:column;margin:0 40px">
-    <div style="flex-grow:1;">
-      <div>
-    <!-- 
-    {{#error}}
-    <div class="clear" style="margin-bottom:60px"></div>
-    {{/error}}
+    .sidebar a {
+      color: rgb(158, 154, 152)
+    }
 
-    {{^message}}
-    <div class="clear" style="margin-bottom:60px"></div>
-    {{/message}}
+    </style>
 
-    <div class="clear"></div>
- -->
-    <div class="crumbs">
+    <div style="flex-basis:50%;min-width:780px;display:flex;flex-direction:column;margin:0 auto">
 
-      {{#breadcrumbs}}
-      
-      <a href="{{url}}" class="crumb {{#last}}last{{/last}}">{{label}}</a>
+      <div style="flex-grow:1;">
+        <div>
 
-      {{^last}}
-      <span style="margin:11px -1em 0 -0.5em" ><svg width="11" height="9" style="transform:rotate(270deg)" viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.998 6.244c-.255 0-.51-.098-.703-.292L1.048 1.705C.663 1.32.66.683 1.05.293 1.444-.1 2.073-.1 2.462.29L6 3.83 9.538.29c.384-.384 1.02-.388 1.412.003.393.393.39 1.023.002 1.412L6.705 5.952c-.192.192-.447.29-.702.29z" fill="rgb(153, 153, 153)"></path></svg></span>
-      {{/last}}
+          <div class="breadcrumbs" style="flex-grow:1;">
+            <ol class="breadcrumbs__list">
+              {{#breadcrumbs}}
+              <li class="breadcrumbs__list-item">
+                {{^last}}
+                <a class="breadcrumbs__link" href="{{url}}">{{label}}</a>
+                {{/last}}
+                {{#last}}
+                {{label}}
+                {{/last}}
+              </li>
+              {{/breadcrumbs}}
+              <br>
+            </ol>
+          </div>
 
-      {{/breadcrumbs}}
-      
-    </div>
-    
-    {{#message}}
-    {{^error}}
-    <a href="" class="mess success" style="margin-bottom:19px">
+        </div>
+
+        <style type="text/css">
+        .breadcrumbs {
+          font-weight: 400;
+          color: #0b0c0c;
+          padding: 16px 20px
+        }
+
+        .breadcrumbs__list {
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
+        }
+
+        .breadcrumbs__list-item:first-child {
+          margin-left: 0;
+          padding-left: 0;
+        }
+
+        .breadcrumbs__list-item {
+          display: inline-block;
+          position: relative;
+          margin-bottom: 5px;
+          margin-left: 10px;
+          padding-left: 15.655px;
+          float: left;
+        }
+
+        .breadcrumbs__list-item:before {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          bottom: 0px;
+          left: -3.31px;
+          width: 7px;
+          height: 7px;
+          margin: auto 0;
+          -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+          border: solid;
+          border-width: 1px 1px 0 0;
+          border-color: #6f777b;
+        }
+
+        .breadcrumbs__list-item:first-child:before {
+          content: none;
+          display: none
+        }
+
+        .breadcrumbs__link:link,
+        .breadcrumbs__link:visited {
+          color: #365899;
+          text-decoration: none;
+
+        }
+
+        .breadcrumbs__link:hover {
+          text-decoration: underline;
+        }
+
+        </style>
+
+        {{#message}}
+        {{^error}}
+        <a href="" class="mess success" style="margin-bottom:19px">
      <span class="link">Dismiss</span>
      {{text}}
     </a>
-    {{/error}}
-    {{/message}}
+        {{/error}}
+        {{/message}}
 
-    {{#message.error}}
-    <a href="" class="mess error" style="margin-bottom:19px">
+        {{#message.error}}
+        <a href="" class="mess error" style="margin-bottom:19px">
      <span class="link">Dismiss</span>
      {{message.text}}
     </a>
-    {{/message.error}}
+        {{/message.error}}
 
-    {{> yield}}
-  </div>
-  </div>
-
-
+        {{> yield}}
+      </div>
+    </div>
 
   </div>
-    
-  <div style="display:flex;flex-direction:column;flex-basis:50%;margin:0 60px">
-  
-   
-
-    {{> folder}}
-
-  <!--  <a href="{{blog.url}}" target="_blank" style="width: 150px;
-  height: 150px;
-  margin: 0 41px;
-  line-height: 150px;
-  border-radius: 50%;
-  display: block;
-  color: #fff;
-  text-align: center;
-  background: #000;
-  text-decoration:none;
-">Visit</a> -->
-<!-- <div style="font-size:14px;opacity:0.3;padding:40px 20px 10px">
-      13GB used
-      <div style="float:right">Last sync: 12 minutes ago
-    </div> -->
 
 </div>
-
-</div>
-
-       <div style="border-top:1px solid rgba(0,0,0,.05);color:rgb(158, 154, 152);padding:11px 80px 11px 100px"><a style="margin-right:40px;color:inherit;text-decoration:none" href="/account">Your account</a>  <a style="margin-right:40px;color:inherit;text-decoration:none" href="/publishing">Documentation</a> <a style="color:inherit;text-decoration:none" href="/contact">Contact support</a></div>
 
 <div class="clear"></div>
 
@@ -93,4 +147,5 @@
 {{{html}}}
 {{/links_for_footer}}
 </body>
+
 </html>

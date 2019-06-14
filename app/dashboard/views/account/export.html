@@ -4,11 +4,11 @@
 
 <p>You can <b>export the data</b> stored by Blot about you and your blogs, including your settings, your templates and your blog posts.</p>
 
-<p>This data <b>does not include the files in your blog{{#user.s}}s{{/user.s}}’{{^user.s}}s{{/user.s}} folder{{user.s}}</b>, your password or the tokens used to process payments and access Dropbox.</p>
+<p>This data <b>does not include the files in your blog{{#user.s}}s{{/user.s}}’{{^user.s}}s{{/user.s}} folder{{user.s}}</b>, your password hash or the tokens used to process payments and access Dropbox.</p>
 {{/user.blogs.length}}
 
 {{^user.blogs.length}}
-<p>You can download the data stored by Blot about you. This data does not include your password or the tokens used to process payments.</p>
+<p>You can download the data stored by Blot about you. This data does not include your password hash or the tokens used to process payments.</p>
 {{/user.blogs.length}}
 
   <div class="buttons">

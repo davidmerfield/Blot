@@ -40,6 +40,7 @@ module.exports = function extend(blog) {
   blog.url = protocol + "://" + blog.handle + "." + config.host;
 
   blog.pretty.url = blog.handle + "." + config.host;
+  blog.pretty.label = blog.title || blog.pretty.url;
 
   if (blog.domain) {
     blog.url = protocol + "://" + blog.domain;

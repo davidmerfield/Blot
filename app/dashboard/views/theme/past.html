@@ -66,76 +66,70 @@
 .butty:hover {
   background: rgba(0, 0, 0, .05)
 }
+
 </style>
 
-<p>This page contains templates that are no longer maintained. Some are old, some are unfinished,  some are experimental. Some are translations of popular templates on other platforms. </p>
+<div class="subpage">
+  <p style="margin:11px 20px">This page contains templates that are no longer maintained. Some are old, some are unfinished, some are experimental. Some are translations of popular templates on other platforms. </p>
 
-<input type="hidden" name="redirect" value="/theme">
+  <input type="hidden" name="redirect" value="/theme">
 
-{{^blog.template}}
-<div class="lisne" style="border-bottom:none">
-  <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your template is disabled. </span>
+  {{^blog.template}}
+  <div class="lisne" style="border-bottom:none">
+    <span class="box orange fr" style="line-height:2.5;background:#f2f2f2;padding:0 1.33em;border:#aaa;margin:0 0">Your template is disabled. </span>
 
-  <form method='post' style="display:inline">
-    <input type="hidden" name="_csrf" value="{{csrftoken}}">
-    <input type="hidden" name="template" value="SITE:default">
-    <button type="submit"><span class="square">Enable your template</span></button>
-  </form>
-</div>
-{{/blog.template}}
+    <form method='post' style="display:inline">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <input type="hidden" name="template" value="SITE:default">
+      <button type="submit"><span class="square">Enable your template</span></button>
+    </form>
+  </div>
+  {{/blog.template}}
 
-{{#blog.template}}
-<div class="linse">
+  {{#blog.template}}
+  <div class="linse">
 
-  <style type="text/css">
-  form label {
-    text-transform: none;
-    letter-spacing: 0;
-    color: rgb(158, 154, 152);
-    font-size: 16px
-  }
+    <style type="text/css">
+    form label {
+      text-transform: none;
+      letter-spacing: 0;
+      color: rgb(158, 154, 152);
+      font-size: 16px
+    }
 
-  p a {
-    color: #365899;
-    text-decoration: none
-  }
+    p a {
+      color: #365899;
+      text-decoration: none
+    }
 
-  p a:hover {
-    text-decoration: underline;
-  }
-  </style>
-  <!-- <p style="margin:15px 0"><b>{{blog.title}}</b> uses the <b style="font-weight:500">{{#templates}} {{#checked}}{{name}}{{/checked}}{{/templates}}</b> theme. </p>
- -->
+    p a:hover {
+      text-decoration: underline;
+    }
 
-  </span>
+    </style>
+    </span>
+  </div>
 
-</div>
+  {{#templates}}
+  <div class="line theme {{checked}}">
 
-{{#templates}}
-<div class="line theme {{checked}}">
+    <span style="flex-grow:1">{{name}}</span>
 
-  {{name}}
+    <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
 
-  <!--     <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
- -->
+    <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
 
-  <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
+    <form method='post' action="/settings/theme/new">
+      <input type="hidden" name="redirect" value="/settings/theme">
+      <input type="hidden" name="name" value="Copy of {{name}}" />
+      <input type="hidden" name="cloneFrom" value="{{id}}" />
+      <button type="submit" style="color:#365899;padding:11px 20px;display:block;text-align:left;width:100%">Fork</button>
+    </form>
 
-  <!--   <span class="icon file"></span>
- -->
-  <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
-
-  <form method='post' action="/settings/theme/new">
-    <input type="hidden" name="redirect" value="/settings/theme">
-    <input type="hidden" name="name" value="Copy of {{name}}" />
-    <input type="hidden" name="cloneFrom" value="{{id}}" />
-    <button type="submit" style="color:#365899;padding:11px 20px;display:block;text-align:left;width:100%">Fork</button>
-  </form>
-
+  </div>
   <div class="clear"></div>
+
+  {{/templates}}
+
+  {{/blog.template}}
 </div>
-<div class="clear"></div>
-
-{{/templates}}
-
-{{/blog.template}}

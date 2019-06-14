@@ -21,7 +21,6 @@
 
 .preview-button {
   margin-right: -0;
-  margin-left: -9px
 }
 
 .preview-button .square,
@@ -63,7 +62,7 @@
   background: rgba(0, 0, 0, .05)
 }
 </style>
-
+<div class="subpage">
 <input type="hidden" name="redirect" value="/theme">
 
 {{^blog.template}}
@@ -73,8 +72,10 @@
   <form method='post' style="display:inline">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
     <input type="hidden" name="template" value="SITE:default">
-    <button type="submit"><span class="square">Enable your template</span></button>
-  </form>
+<div class="buttons">
+            <button type="submit" onclick="this.form.submit();this.disabled=true">Enable your template</button>
+            <a href="/settings">Cancel</a>
+          </div>  </form>
 </div>
 {{/blog.template}}
 
@@ -108,16 +109,22 @@
 {{#templates}}
 <div class="line theme {{checked}}">
 
-  <span style="display:block;margin-bottom:0.5em">{{name}}</span>
-
-  <!--     <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
- -->
-
   <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
+
+  <span style="display:block;margin-bottom:0.5em;flex-grow: 1;
+
+flex-basis: 50%;">{{name}}</span>
+  
+
+
+  {{#isMine}}
+  <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px;margin-left:0" class="preview-button" ><span class="square">Edit</span></a>
+  {{/isMine}}
+
+
 
   <!--   <span class="icon file"></span>
  -->
-  <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
   <form method='post' style="display:inline">
     <input type="hidden" name="_csrf" value="{{csrftoken}}">
     <input type="hidden" name="template" value="{{id}}">
@@ -132,11 +139,8 @@
   </form>
 
 
-  {{#isMine}}
-  <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px;margin-left:0" class="preview-button" ><span class="square">Edit</span></a>
-  {{/isMine}}
+  <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
 
-  <div class="clear"></div>
 </div>
 <div class="clear"></div>
 
@@ -145,7 +149,7 @@
 <form method='post'>
   <input type="hidden" name="redirect" value="/settings/theme">
   <input name="template" value="" type="hidden" />
-  <button type="submit" style="color:#365899;padding:11px 20px;display:block;text-align:left;width:100%">Disable your template</button>
+  <button type="submit" style="color:#365899;border-bottom: 1px solid rgba(0,0,0,0.05);padding:11px 20px;display:block;text-align:left;width:100%">Disable your template</button>
 </form>
 
 
@@ -153,3 +157,4 @@
   View archived templates</a>
 
 {{/blog.template}}
+</div>

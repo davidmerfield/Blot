@@ -1,94 +1,130 @@
-<input type="hidden" name="redirect" value="/settings/services">
+<div style="margin:-11px -20px">
+  <input type="hidden" name="redirect" value="/settings/services">
+
+<a class="line" href="/settings/services/date">
+            <span class="label">Date and time</span>
+            <span class="center">{{^blog.hideDates}}{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}{{/blog.hideDates}}
+      {{#blog.hideDates}}<i>Dates are hidden</i>{{/blog.hideDates}}</span>
+            <span class="right">Change</span>
+          </a>
 
 
-  <a class="line" href="/settings/urls" style="margin:0 -20px">
-    <label>URLs</label>
+
+<a class="line" href="/settings/services/permalinks">
+    <span class="label">Permalinks</span>
     <span class="center">
-      Edit URL rules.
+            {{#permalinkFormats}}
+            {{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
     </span>
-    <span class="right" style="padding-left:0">Edit</span>
+    <span class="right link">Change</span>
   </a>
 
-      <label>
-      <input name='forceSSL' type='hidden' value='off' >
-      <input name='forceSSL' type="checkbox" {{#blog.forceSSL}}checked{{/blog.forceSSL}}/> Redirect HTTP traffic to HTTPS
-    </label>
-
-     <label>
-      <input name='redirectSubdomain' type='hidden' value='off' >
-      <input name='redirectSubdomain' type="checkbox" {{#blog.redirectSubdomain}}checked{{/blog.redirectSubdomain}}/> Redirect subdomain to custom domain
-    </label>
-
+  <a class="line" href="/settings/services/redirects">
+            <span class="label">Redirects</span>
+            <span class="link">Edit your redirect rules</span>
+          </a>
 <style type="text/css">
-  .plugin label,.plugin p  {margin: 0}
-  .plugin label {line-height: 1.5}
-  .plugin {padding: 6px 0;border-bottom: 1px solid rgba(0,0,0,0.03)}
+.plugin label,
+.plugin p {
+  margin: 0
+}
+
+.plugin label {
+  padding: 0
+}
+
+.plugin {
+margin-bottom: 6px;
+
+padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03)
+}
+
+.plugin:last-child {border-bottom: none;padding-bottom: 0}
+
 </style>
 {{#categories.Services}}
+<div class="line">
+  <span class="label">External services</span>
+  <span class="center">
     {{#plugins}}
     <div class="plugin {{checked}}">
 
       <label style="margin:0">
-        <span style="width:7.5%;display:block;float:left;position:relative;top:1px">
+        <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
           <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
           <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
         </span>
-        <span style="width:92.5%;display:block;float:left">        {{{description}}}
+  <span style="width:92.5%;display:block;float:left">        {{{description}}}
         </span>
-        <span class="clear"></span>
-      </label>
+  <span class="clear"></span>
+  </label>
 
-      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
-        {{{formHTML}}}
-      </div>
+  <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+    {{{formHTML}}}
+  </div>
 
-    </div>
-    {{/plugins}}
+</div>
+{{/plugins}}
+</span>
+</div>
 {{/categories.Services}}
 
 {{#categories.Typography}}
+<div class="line">
+  <span class="label">Typography</span>
+
+  <span class="center">
     {{#plugins}}
     <div class="plugin {{checked}}">
 
       <label>
-        <span style="width:7.5%;display:block;float:left;position:relative;top:1px">
+        <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
           <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
           <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
         </span>
-        <span style="width:92.5%;display:block;float:left">        {{{description}}}
+  <span style="width:92.5%;display:block;float:left">        {{{description}}}
         </span>
-        <span class="clear"></span>
-      </label>
+  <span class="clear"></span>
+  </label>
 
-      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
-        {{{formHTML}}}
-      </div>
+  <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+    {{{formHTML}}}
+  </div>
 
-    </div>
-    {{/plugins}}
+</div>
+{{/plugins}}
+</span>
+</div>
 {{/categories.Typography}}
 
-
 {{#categories.Images}}
+<div class="line">
+  <span class="label">Images</span>
+
+  <span class="center">
+
     {{#plugins}}
     <div class="plugin {{checked}}">
 
       <label>
-        <span style="width:7.5%;display:block;float:left;position:relative;top:1px">
+        <span style="margin-right:0.5rem;display:block;float:left;position:relative;top:1px">
           <input name='plugins.{{id}}.enabled' type='hidden' value='off' >
           <input name='plugins.{{id}}.enabled' type="checkbox" {{checked}}/>
         </span>
-        <span style="width:92.5%;display:block;float:left">        {{{description}}}
+  <span style="width:92.5%;display:block;float:left">        {{{description}}}
         </span>
-        <span class="clear"></span>
-      </label>
+  <span class="clear"></span>
+  </label>
 
-      <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
-        {{{formHTML}}}
-      </div>
+  <div class="pluginOptions" style="clear:both;margin:0;padding-left:2em">
+    {{{formHTML}}}
+  </div>
 
-    </div>
-    {{/plugins}}
+</div>
+{{/plugins}}
+</span>
+</div>
 {{/categories.Images}}
 
 <br class="clear">
@@ -96,24 +132,23 @@
 
 <script src="/scripts/jquery.js?{{cacheID}}"></script>
 <script type="text/javascript">
-
-  $('.plugin > label input[type=checkbox]').click(function(){
-
-    $(this).parent().parent().parent().toggleClass('checked')
-  });
-
-  // Simple Analytics doesn't require a tracking ID
-  if ($('#selectAnalytics').val() !== 'None' && $('#selectAnalytics').val() !== 'SimpleAnalytics') {
+$('.plugin > label input[type=checkbox]').click(function() {
+  $(this).parent().parent().parent().toggleClass('checked')
+});
+// Simple Analytics doesn't require a tracking ID
+if ($('#selectAnalytics').val() !== 'None' && $('#selectAnalytics').val() !== 'SimpleAnalytics') {
+  $('#trackingIdInput').show();
+} else {
+  $('#trackingIdInput').hide();
+}
+$('#selectAnalytics').change(function() {
+  if ($(this).val() !== 'None' && $(this).val() !== 'SimpleAnalytics') {
     $('#trackingIdInput').show();
   } else {
     $('#trackingIdInput').hide();
   }
+});
 
-  $('#selectAnalytics').change(function(){
+</script>
 
-    if ($(this).val() !== 'None' && $(this).val() !== 'SimpleAnalytics') {
-      $('#trackingIdInput').show();
-    } else {
-      $('#trackingIdInput').hide();
-    }
-  });</script>
+</div>

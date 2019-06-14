@@ -1,8 +1,17 @@
-<input type="hidden" name="redirect" value="/settings/urls/redirects">
+
+
+<input type="hidden" name="redirect" value="/settings/services/redirects">
 <input type="hidden" name="has_redirects" value="true">
 
 <p>Use redirects to fix broken links to your site. You can use Regular Expressions to match multiple URLs in a single rule.</p>
       <a href="/settings/urls/404s" style="color:rgb(109, 109, 109);line-height:40px;text-decoration:none;display:block;border-top:1px solid rgba(0,0,0,.05)">View your 404 log <span style="float:right">&rarr;</span></a>
+
+
+<label>
+  <input name='forceSSL' type='hidden' value='off'>
+  <input name='forceSSL' type="checkbox" {{#blog.forceSSL}} checked{{/blog.forceSSL}}/> Redirect HTTP traffic to HTTPS </label> <label>
+  <input name='redirectSubdomain' type='hidden' value='off'>
+  <input name='redirectSubdomain' type="checkbox" {{#blog.redirectSubdomain}} checked{{/blog.redirectSubdomain}}/> Redirect subdomain to custom domain </label> 
 
 
 {{#warning}}

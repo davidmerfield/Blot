@@ -7,7 +7,7 @@ var User = require("user");
 var async = require("async");
 var VIEW_DIRECTORY = __dirname + "/views";
 var config = require("config");
-var helper = require('helper');
+var helper = require("helper");
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -251,24 +251,35 @@ require("./routes/editor")(dashboard);
 // inserted into it
 dashboard.use(require("./render"));
 
+dashboard.use(function(req, res, next) {
+  res.locals.breadcrumbs = new Breadcrumbs();
+  next();
+});
+
 dashboard.use("/account", require("./routes/account"));
 
 dashboard.use(function(req, res, next) {
-  res.locals.breadcrumbs = new Breadcrumbs();
   res.locals.breadcrumbs.add("Your blogs", "/");
   next();
 });
 
 dashboard.get("/", function(req, res, next) {
+  res.locals.title = "Your blogs";
   res.render("index");
 });
 
-dashboard.use(debug("before loading folder state"));
+dashboard.use(function(req, res, next) {
+  // we use pretty.label instead of title for title-less blogs
+  // this falls back to the domain of the blog if no title exists
+  res.locals.breadcrumbs.add(req.blog.pretty.label, "/settings");
+  res.locals.title = req.blog.pretty.label;
+  next();
+});
 
 // Load the files and folders inside a blog's folder
-dashboard.use(require("./routes/folder"));
+dashboard.use(["/", "/settings/folder"], require("./routes/folder"));
 
-dashboard.get("/folder", function(req, res, next) {
+dashboard.use("/settings/folder", function(req, res, next) {
   res.render("folder", { selected: { folder: "selected" } });
 });
 
@@ -291,8 +302,6 @@ function Breadcrumbs() {
 
   return list;
 }
-
-dashboard.use(debug("after loading folder state"));
 
 require("./routes/tools")(dashboard);
 
