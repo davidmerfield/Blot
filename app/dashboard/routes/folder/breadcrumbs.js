@@ -16,7 +16,17 @@ module.exports = function breadcrumbs(req, res, next) {
       Metadata.get(req.blog.id, path, function(err, casePresevedName) {
         if (err) return next(err);
 
-        res.locals.breadcrumbs.add(casePresevedName || name, "/folder" + path);
+        if (i === 0) {
+          res.locals.breadcrumbs.add(
+            casePresevedName || name,
+            "/folder/" + (casePresevedName || name)
+          );
+        } else {
+          res.locals.breadcrumbs.add(
+            casePresevedName || name,
+            casePresevedName || name
+          );
+        }
         done();
       });
     },

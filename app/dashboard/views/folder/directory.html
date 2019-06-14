@@ -20,25 +20,24 @@
 
   {{#contents}}
 
-    <a href="/settings/folder{{path}}" class="line" style="padding:2px 20px;border:none{{#last}}border-bottom:none{{/last}}">
+    <a href="/settings/folder{{path}}" style="align-items:baseline" class="line" style="padding:2px 20px;border:none{{#last}}border-bottom:none{{/last}}">
         
       {{#directory}}
-      <img src="/images/folder-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      <img src="/images/folder-empty.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:8px" width="16">
       {{/directory}}
 
       {{^directory}}
       {{#entry}}
-      <img src="/images/file-post.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      <img src="/images/file-post.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:8px" width="16">
       {{/entry}}
       {{^entry}}
-      <img src="/images/file-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      <img src="/images/file-empty.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:8px" width="16">
       {{/entry}}
       {{/directory}}
       
-      <span class="link" style="min-width:20%;display:inline-block">{{name}}</span>
-      <span class="center" >{{entry.title}}</span>
+      <span class="link" style="flex-grow:1;flex-basis:20%;display:inline-block;padding-right:16px">{{name}}</span>
+      <span style="flex-basis:30%;flex-shrink:1;color:#111;padding-right:16px">{{entry.title}}</span>
       <span class="right" style="color:#aaa">{{modified}}</span>
-      <span class="clear"></span>
     </a>
 
   {{/contents}}

@@ -108,12 +108,10 @@
 {{#templates}}
 <div class="line theme {{checked}}">
 
-  <span style="display:block;margin-bottom:0.5em">{{name}}</span>
-  
-  <span class="center">x</span>
+  <span style="display:block;margin-bottom:0.5em;flex-grow: 1;
 
-  <!--     <img style="max-width:48px;vertical-align:middle;margin-left:1em" src="/images/templates/{{nameLower}}.jpg">
- -->
+flex-basis: 50%;">{{name}}</span>
+  
 
   <a target="_blank" class="preview-cover" href="{{previewURL}}"></a>
 
@@ -138,7 +136,6 @@
   <a href="{{editURL}}/settings" style="margin-right:0;padding-right:11px;margin-left:0" class="preview-button" ><span class="square">Edit</span></a>
   {{/isMine}}
 
-  <div class="clear"></div>
 </div>
 <div class="clear"></div>
 
