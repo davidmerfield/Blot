@@ -68,11 +68,11 @@ Some references
 Demo video script
 -----------------
 
-Hello there, I'm going to show you how to use Blot to create a blog. Blot turns a folder into a blog. I've just signed up and connected Blot to this folder using Dropbox. You can use Git too, if you prefer. 
+Hello there, I'm going to show you how to run a blog using Blot. Blot turns a folder into a blog. I've just signed up and connected Blot to this folder in my Dropbox.
 
 --- text file
 
-Here's my blog, which is empty because my folder is empty. Here's a text file on my desktop. When I put the text file inside my blog's folder, Blot turns it into a blog post automatically and publishes it to my blog. There's the blog post! 
+Here's the blog, which is empty because my folder is empty. And here's a text file on my desktop. When I put the text file inside my blog's folder, Blot turns it into a blog post automatically. There it is!
 
 --- image 
 
@@ -80,15 +80,21 @@ Here's an image. Blot knows how to deal with images too. To publish the image to
 
 --- word document
 
-Here's a Word Document. It contains a little bit of formatting. Once I stick it into Blot's folder, Blot turns it into a blog post too. If I want to update this blog post, I just update its file. I'll drag this image into the Word Document. And there it is in the post.
+Here's a Word Document. Once I stick it into Blot's folder, Blot turns it into a blog post too. 
+
+If I want to make a change this post, I just update the document. I'll drag this image into the Word Document. And there it is in the post.
 
 --- complicated layout file
 
-This text file contains a little more complicated formatting but Blot knows how to handle it. It's got some interesting layout, embeddded videos, code snippets and more. 
+This Markdown file contains a little more complicated formatting but Blot knows how to handle it. It has more complex layout, embeddded videos, code snippets, mathematics in TeX, and more. 
 
---- folder reorganization
+--- the point of blot
 
-I've got a few posts onto my blog now, and my folder is getting a little messy – you can organize the files inside however you like. Blot doesn't mind, it will keep track of everything.
+The whole point of this, the reason that Blot exists, is so that I can use my favorite text editor to write my blog posts. I can take advantage of all these wonderfully powerful bits of software to run my blog. I can blog from the command line, or I can use microsoft word. I could manage my photo blog through lightroom. I could write a micro.blog from the text editor I really like on my phone. This is all possible because Blot strips away a conventional publishing interface and replaces it with files and folders.
+
+--- search, RSS, archives
+
+Although the interface is simple, the blog itself that Blot generates comes with the features you'd expect – there's a search engine, an archives page and an RSS feed. 
 
 --- drafts
 
@@ -98,9 +104,9 @@ Let's say you want to preview a post, before publishing it to your live blog. We
 
 If I ever want to remove a blog post, and to be honest this is a bit of a weak one, I just remove the file and there, the post is gone.
 
---- search, RSS, archives
+--- folder reorganization
 
-The blog itself that Blot generates comes with the features you'd expect – there's a search engine, an archives page and an RSS feed. 
+I've got a few posts onto my blog now and my folder is getting a little messy – I can organize the files inside however you like. Blot doesn't mind, it will keep track of everything.
 
 --- metadata
 
@@ -127,5 +133,7 @@ Here's my personal website with links to some of my projects. It's a Word Docume
 I also use Blot to the mini sites for some of my other projects too. Behind Blot's template engine is basically a static file server, which is useful for embedding images in blog posts, for example. Anyway, this site is just HTML which Blot serves as-is.
 
 --- conclusion
+
+I could use Git too, to sync this folder with Blot if prefered.
 
 So that's your introduction to Blot – I charge a small fee to use Blot. Blot's been around for 5 years now and it's independent, profitable and I can confidently say it'll be around for decades. Blot's entire source code is dedicated to the public domain available to you, too. Thank you for taking a look.
