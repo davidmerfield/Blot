@@ -2,17 +2,17 @@ Summer newsletter
 
 *You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
 
-
 **New features**
 - Added the Archive template
-- Re-instated Blot's CDN and generally sped up the delivery of static files on blot
+- Re-instated Blot's CDN and generally sped up the delivery of static files on Blot
+- Updated the design and layout of the dashboard
 - Added an option to redirect your blot subdomain to your custom domain
 - Added option to use Simple Analytics as your analytics provider
 
 **Changes**
+- New customers now pay by the month instead of by the year
 - Cleaned up Blot's automatic slug generator – it is now no longer possible generate a slug with a trailing dash or slash
-- New customers now pay by the month instead of the year
-- Drafts are now hidden from search engines.
+- Drafts are now hidden from search engines
 - Updated a number of the libraries which Blot depends on to their latest version
 
 **Bugs fixed**
@@ -27,7 +27,9 @@ There were two downtime incidents:
 - The first happened when packets stopped flowing into Blot's server for some reason on Mar 25. There was a brief outage for a few minutes around 3:35pm UTC today. Packets were not making their way to Blot's server for some reason. They're flowing again now.
 
 **Plans for this season**
-Work on the template engine.
+- Work on the template engine. 
+- Add a Google Drive client. 
+- Improve the performance of Blot's application server so the service can continue to scale smoothly.
 
 If you have any questions at all about any of this, please don’t hesitate to reply directly to this email.
 
