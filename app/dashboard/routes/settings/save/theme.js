@@ -8,7 +8,7 @@ module.exports = function(req, res, next) {
 
     if (templateID === "")
       return Blog.set(blogID, { template: "" }, function(err) {
-        res.message("/", "Disabled your template");
+        res.message("/settings/theme", "Disabled your template");
       });
 
     // Blog selected a new template

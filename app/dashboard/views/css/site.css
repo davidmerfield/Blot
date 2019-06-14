@@ -2334,3 +2334,7 @@ a.content-line .file {
   /* Most modern browsers support this now. */
   color: #ccc;
 }
+
+.subpage {
+  background:#fff;border:1px solid #eee;border-radius:3px
+}
