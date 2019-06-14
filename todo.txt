@@ -98,8 +98,6 @@ Improve scheduler
 
 Wait a month and then delete s3 blogs bucket
 
-Improve the access to the documentation links on the dashboard and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ) and [Rod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggCQDlrRZcdXwPZGCjBZFFTr)
-
 Metadata parser
 - Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
 - Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
@@ -385,11 +383,9 @@ Improvements to Dashboard
 - Make dashboard requests idempotent to prevent multiple form resubmits, multiple new blogs created accidentally? More information about [idempotent requests](https://stripe.com/docs/api#idempotent_requests)
 - Indicate that some posts' permalink will not change (if metadata) on the dashboard when setting the blog's permalink format. Tell Chet.
 - Dumb quotes are still smartified, even without typeset enabled, possibly by pandoc?
-- Tolerate missing 'www' in personal domain field on dashboard for users with a custom domain when checking validity
 - Undo option for form changes
 - Add transactional emails notifying user of changes to their email or password.
 - Implement a flags page for toggling all the settings (including hidden ones) for a given blog
-- Route requests to new dashboard if toggle is on to allow thorough testing
 - When a user pastes the whole tracking script into the preferences page on the dashboard,
 strip out everything except the ID which we need... perhaps create a page explaining what
 is happening before doing this.
