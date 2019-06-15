@@ -18,7 +18,7 @@ Password.route("/change")
 
 Password.route("/set")
 
-  .all(requireToken)
+  .all(requireTokenOrLackOfPassword)
 
   .get(function(req, res) {
     res.render("account/set-password", {
@@ -41,12 +41,16 @@ function requireExisting(req, res, next) {
   }
 }
 
-function requireToken(req, res, next) {
-  if (!req.session.passwordSetToken) {
-    return res.redirect("/");
+function requireTokenOrLackOfPassword(req, res, next) {
+  if (req.session.passwordSetToken) {
+    return next();
   }
 
-  next();
+  if (!req.user.passwordHash) {
+    return next();
+  }
+
+  return res.redirect("/");
 }
 
 function save(req, res, next) {
@@ -75,6 +79,9 @@ function checkMatching(req, res, next) {
 }
 
 function verifyToken(req, res, next) {
+
+  if (!req.session.passwordSetToken) return next();
+
   var token = req.session.passwordSetToken;
 
   delete req.session.passwordSetToken;

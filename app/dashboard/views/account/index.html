@@ -43,6 +43,13 @@
 </a>
 {{/user.hasPassword}}
 
+{{^user.hasPassword}}
+<a class="line" href="/account/password/set">
+  <span class="label">Password</span>
+  <span class="center"><span class="link">Set your password</span></span>
+</a>
+{{/user.hasPassword}}
+
 
 <div class="line">
   <span class="label">Subscription</span>
