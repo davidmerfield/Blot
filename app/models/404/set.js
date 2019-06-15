@@ -19,7 +19,7 @@ module.exports = function (blogID, url, callback) {
   var multi = client.multi();
 
   // Add the new 404
-  // multi.ZADD(key, now, url);
+  multi.ZADD(key, now, url);
 
   // Remove any entries which are older than 30 days
   // -inf is to avoid looking up the lowest score in the sorted set.

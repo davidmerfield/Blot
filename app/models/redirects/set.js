@@ -58,7 +58,7 @@ module.exports = function (blogID, mappings, callback) {
         .and(fromKey, 'string')
         .and(redirects, 'string');
 
-      // multi.zadd(redirects, index, from);
+      multi.zadd(redirects, index, from);
       multi.set(fromKey, to);
     });
 
