@@ -4,6 +4,10 @@ Finish Feed template
 - Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
 - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
 
+Review changes made during previous downtime
+
+Write about downtime incident for newsletter
+
 Move from social media accounts to newletter by June 21st
 - Delete Twitter after archiving all tweets, DMs, including external images
 - Also delete @Dlot40201147 test Twitter account
