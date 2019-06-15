@@ -11,6 +11,7 @@ function main(callback) {
     [
       require("./disk-space"),
       require("./memory"),
+      require("./redis"),
       require("./hits"),
       require("./revenue"),
       require('./entries'),
