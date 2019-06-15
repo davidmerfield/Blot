@@ -4,11 +4,11 @@ var newCustomerID = process.argv[4];
 var config = require('config');
 var stripe = require('stripe')(config.stripe.secret);
 
-var get = require('../blog/get');
+var get = require('../get');
 
-var User = require('../../app/models/user');
+var User = require('user');
 
-get(from, function(user){
+get(from, function(err, user){
 
   if (!user) throw 'No user';
   if (!newSubscriptionID) throw 'No Subscription id';
