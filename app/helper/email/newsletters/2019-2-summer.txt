@@ -3,33 +3,35 @@ Summer newsletter
 *You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
 
 **New features**
-- Added the Archive template
-- Re-instated Blot's CDN and generally sped up the delivery of static files on Blot
-- Updated the design and layout of the dashboard
-- Added an option to redirect your blot subdomain to your custom domain
-- Added option to use Simple Analytics as your analytics provider
+- Added the [Archive template](https://blot.im/templates/archive), which is designed for storing and organizing lots of images. It works well for bookmarks, too.
+- Re-instated Blot’s CDN and generally improved the delivery speed of files from Blot.
+- Added a setting to [redirect your blog’s Blot subdomain](https://blot.im/settings/services/redirects) to your custom domain.
+- Added *Simple Analytics* as [one of the analytics providers](https://blot.im/settings/services) you can install on the dashboard.
 
 **Changes**
-- New customers now pay by the month instead of by the year
-- Cleaned up Blot's automatic slug generator – it is now no longer possible generate a slug with a trailing dash or slash
+- New customers now pay by the month instead of by the year. Since I am reluctant to write the tedious subscription code to handle a free trial period, this seems like a relatively painless way to reduce the initial commitment.
+- Improved Blot’s slug generator, which is used to generate permalinks for your blog posts – it is now no longer possible generate a slug with trailing or leading punctuation.
 - Drafts are now hidden from search engines
 - Updated a number of the libraries which Blot depends on to their latest version
+- Adjusted the design of the dashboard and documentation, as is tradition.
 
 **Bugs fixed**
-- Fixed a number of bugs with Blot's thumbnail generator. Found a bug in a major globbing library in the process. You can now use case-insensitive paths as expected.
-- Fixed a bug with the Dropbox client which was locking blog folders
-- Fixed minor bug with Markdown parser and indentation in code snippets
-- Fixed a number of typos and broken links in Blot's documentation. I wrote an integration test to verify there are no broken links which should prevent them in future.
+- Fixed a number of bugs with Blot’s thumbnail generator. Found [a bug](https://github.com/mrmlnc/fast-glob/issues/172) in a [popular globbing library](https://www.npmjs.com/package/fast-glob) in the process. You can now use case-insensitive paths as expected.
+- Fixed a bug with the Dropbox client which was locking blog folders with particular characters in their name.
+- Fixed a bug with Markdown parser and indentation in code snippets
+- Fixed a number of typos and broken links in Blot’s documentation. I wrote a test to verify there are no broken links, which should prevent them in future.
 
 **Mistakes**
 
-There were two downtime incidents:
-- The first happened when packets stopped flowing into Blot's server for some reason on Mar 25. There was a brief outage for a few minutes around 3:35pm UTC today. Packets were not making their way to Blot's server for some reason. They're flowing again now.
+There have been two incidents of downtime since the spring:
+
+- The first period of downtime happened when packets completely stopped flowing into Blot’s server for some reason on Mar 25 around 3:35pm UTC. Packets were not making their way to Blot’s server for some reason. Packets began to arrive again a few minutes later. To this day, I still don't know why.
+- On June 14th, around midnight UTC, Blot’s database hit its memory limit. The machine it runs on had plenty of memory to spare but the application limit imposed by configuration prevented the database from taking advantage of this memory. I was vaguely aware of this configuration limit and I’ve now incrased it. I now monitor this number and will ensure this doesn’t happen again in future. I will also ensure that Blot can continue to function in maintenance mode when its database runs out of memory. 
 
 **Plans for this season**
 - Work on the template engine. 
 - Add a Google Drive client. 
-- Improve the performance of Blot's application server so the service can continue to scale smoothly.
+- Improve the performance of Blot’s application server so the service can continue to scale smoothly.
 
 If you have any questions at all about any of this, please don’t hesitate to reply directly to this email.
 
