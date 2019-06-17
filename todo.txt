@@ -306,9 +306,38 @@ Increase price to $5 per month for new customers. This will not affect existing 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
 
-Offer to make websites for these people in return for a link
-- [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
-- [Just van Rossum](http://dailydrawbot.tumblr.com/)
+Create a mock version of these websites and send an email showing the folder structure for them. Offer to convert entire site in return for a link on Blot's homepage:
+
+- Design:
+  - [Frank Chimero](https://frankchimero.com/)
+  - [David Rudnick](https://davidrudnick.org/)
+  - [Peter Mendelsund](https://www.petermendelsund.com/about)
+  - [Ben Pierrat](http://pieratt.com/)
+  - [Tina Roth Eisenberg](https://www.swiss-miss.com/)
+  - [Khoi Vinh](https://www.subtraction.com/)
+  
+- Type:
+  - [Just van Rossum](http://dailydrawbot.tumblr.com/)
+  - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
+
+- Writers:
+  - [Maciej Ceglowski](https://idlewords.com/about.htm)
+  - [Robin Sloan](https://www.robinsloan.com/)
+  - [Paul Ford](https://www.ftrain.com/)
+  - [Craig Mod](https://craigmod.com/)
+
+- Programming:
+  - [Lovell Fuller](http://lovell.info/)
+  - [Rasmus Andersson](https://rsms.me/)
+  - [Una Kravets](https://una.im/)
+  - [Chris Coyier](https://chriscoyier.net/)
+  - [Moxie Marlinspike](https://moxie.org/)
+  - [Marco Arment](https://marco.org/)
+  - [John Resig](https://johnresig.com/)
+
+- Created [popular text editors](https://en.wikipedia.org/wiki/List_of_text_editors):
+  - [Oliver Reichenstein](https://ia.net/)
+  - [Zachary Schneirov](http://notational.net/)
 
 Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
 - Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
