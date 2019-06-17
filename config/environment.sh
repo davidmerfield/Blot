@@ -45,6 +45,8 @@ export BLOT_STRIPE_SECRET=
 
 # Paypal for payment processing
 export BLOT_PAYPAL_CLIENT_ID=
+export BLOT_PAYPAL_SECRET=
+export BLOT_PAYPAL_PLAN_ID=
 
 # Dropbox for folder syncing
 export BLOT_DROPBOX_APP_KEY=

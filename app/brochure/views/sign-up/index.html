@@ -13,14 +13,36 @@
     <input type="text" class="email" name="email" autofocus />
   </p>
 
-  <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}">
+  <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&vault=true">
   </script>
 
   <div id="paypal-button-container"></div>
 
   <script>
-    paypal.Buttons().render('#paypal-button-container');
-  </script>
+    paypal.Buttons({
+
+  createSubscription: function(data, actions) {
+
+    return actions.subscription.create({
+
+      'plan_id': '{{paypal_plan}}'
+
+    });
+
+  },
+
+
+  onApprove: function(data, actions) {
+
+    alert('You have successfully created subscription ' + data.subscriptionID);
+
+  }
+
+
+}).render('#paypal-button-container');
+
+ </script>
+
   <p>
     <label for="number">Card number
       <em>Blot does not store your card details. Stripe processes your payment.</em>
