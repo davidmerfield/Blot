@@ -14,6 +14,10 @@ Then followed these instructions to generate an access token using the sandbox a
 
 https://developer.paypal.com/docs/api/get-an-access-token-curl/
 
+I also used the guide here to install the JavaScript SDK:
+
+https://github.com/paypal/PayPal-node-SDK
+
 Wrote a script to do this: 
 
 node scripts/paypal/generate-access-token.js

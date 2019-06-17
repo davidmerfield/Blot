@@ -6,6 +6,21 @@
   <p class="error"><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
 </noscript>
 
+<style type="text/css">
+.tabs a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  color: #777;
+  border: 1px solid #aaa;
+  padding: 6px 12px;
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  display: inline-block;
+}
+
+.tabs {border-bottom: 1px solid #eee}
+</style>
 <form method="POST" style="width:330px">
 
   <p>
@@ -13,6 +28,13 @@
     <input type="text" class="email" name="email" autofocus />
   </p>
 
+  <p class="tabs">
+    <a href="#tab-card">Credit or debit card</a>
+    <a href="#tab-paypal">PayPal</a>
+  </p>
+
+
+  <div id="tab-paypal" style="display:none">
   <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&vault=true">
   </script>
 
@@ -42,7 +64,8 @@
 }).render('#paypal-button-container');
 
  </script>
-
+</div>
+<div id="tab-card">
   <p>
     <label for="number">Card number
       <em>Blot does not store your card details. Stripe processes your payment.</em>
@@ -67,6 +90,7 @@
       <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
     </p>
   </flex>
+</div>
   <div style="flex-grow:1;margin-right:2em">
     <p style="margin-bottom:0">
       <label>Amount due today</label>
