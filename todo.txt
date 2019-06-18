@@ -353,6 +353,8 @@ Add support for IPv6 and tell [Raul](https://mail.google.com/mail/u/0/#inbox/167
 
 Client.write does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
 
+Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
+
 Re-enable image minifier and fix the bugs it creates
 
 Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
