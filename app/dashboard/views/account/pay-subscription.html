@@ -10,8 +10,8 @@ a:hover {text-decoration: underline;}
 </style>
 
 
-<p style="margin-top:0;padding:11px 20px">Your subscription fee is overdue. Please pay {{amountDue}} to restart your subscription. You can also permanently <a href="/account/delete">delete your account</a>. If you have any questions please <a href="/contact">contact me</a>.</p>
-
+<p style="margin-top:0;padding:11px 20px 0;margin-bottom:0">Your subscription fee is overdue. Please pay {{amountDue}} to restart your subscription. You can also permanently <a href="/account/delete">delete your account</a>. If you have any questions please <a href="/contact">contact me</a>.</p>
+<!-- 
 <div class="center" style="position:relative;top:-3px;padding:0 20px;max-width:75%">
 <p style="margin:6px 0 0;padding:0 0 6px;border-bottom:1px solid rgba(0,0,0,0.05);color:rgb(158, 154, 152);">Your blogs</p>
   {{#blogs}}
@@ -33,7 +33,7 @@ a:hover {text-decoration: underline;}
 
   {{/blogs}}
   <div class="clear"></div>
-</div>
+</div> -->
 
 <form method="POST" class="account" id="payment-form">
 
@@ -100,3 +100,8 @@ $('#payment-form').submit(function(event) {
 </script>
 
 </div>
+
+
+<form action="/account/log-out" method="post">
+  <button type="submit" style="background:none;border:none;line-height:41px;padding:0 20px;margin:0;color:rgb(153, 153, 153);">Log out &thinsp;&rarr;</button>
+</form>
