@@ -108,7 +108,8 @@ Metadata parser
 - Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 - Removing Date metadata from a post should reset its date to the file's creation date. Currently nothing changes.
 - Fall back to file name before first sentence when generating title metadata and tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
-
+- Add support for setting the index of an item in the menu to metadata and tell [Silvio](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLljXGvbjpNwDBFWXDWR
+)
 Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
 
 Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggBFmgljcPqXScrXswlXgjfg).
@@ -264,7 +265,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
   - Add iframe of site in edit page of template editor
   - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Re-do url redirector to use route-parser and properly support regular expressions
-- Add support for paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh)
+- Add support for paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
@@ -306,9 +307,38 @@ Increase price to $5 per month for new customers. This will not affect existing 
 Create an API for Blot
 - Add webhooks and tell [Aurynn](https://mail.google.com/mail/u/0/#inbox/1554260da157b405) and [Shawn](https://twitter.com/soypunk)
 
-Offer to make websites for these people in return for a link
-- [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
-- [Just van Rossum](http://dailydrawbot.tumblr.com/)
+Create a mock version of these websites and send an email showing the folder structure for them. Offer to convert entire site in return for a link on Blot's homepage:
+
+- Design:
+  - [Frank Chimero](https://frankchimero.com/)
+  - [David Rudnick](https://davidrudnick.org/)
+  - [Peter Mendelsund](https://www.petermendelsund.com/about)
+  - [Ben Pierrat](http://pieratt.com/)
+  - [Tina Roth Eisenberg](https://www.swiss-miss.com/)
+  - [Khoi Vinh](https://www.subtraction.com/)
+
+- Type:
+  - [Just van Rossum](http://dailydrawbot.tumblr.com/)
+  - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
+
+- Writers:
+  - [Maciej Ceglowski](https://idlewords.com/about.htm)
+  - [Robin Sloan](https://www.robinsloan.com/)
+  - [Paul Ford](https://www.ftrain.com/)
+  - [Craig Mod](https://craigmod.com/)
+
+- Programming:
+  - [Lovell Fuller](http://lovell.info/)
+  - [Rasmus Andersson](https://rsms.me/)
+  - [Una Kravets](https://una.im/)
+  - [Chris Coyier](https://chriscoyier.net/)
+  - [Moxie Marlinspike](https://moxie.org/)
+  - [Marco Arment](https://marco.org/)
+  - [John Resig](https://johnresig.com/)
+
+- Created [popular text editors](https://en.wikipedia.org/wiki/List_of_text_editors):
+  - [Oliver Reichenstein](https://ia.net/)
+  - [Zachary Schneirov](http://notational.net/)
 
 Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
 - Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
@@ -322,6 +352,8 @@ Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/
 Add support for IPv6 and tell [Raul](https://mail.google.com/mail/u/0/#inbox/167083384282a5df)
 
 Client.write does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
+
+Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
 
 Re-enable image minifier and fix the bugs it creates
 
@@ -424,7 +456,7 @@ Write new clients to sync blog folders
 - [SFTP](https://www.npmjs.com/package/ftpd)
 - [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
 - Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz)
-- If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
+- If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJjqgsvKxxVgFdbXvxNTHTsz)
 
 Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
 
