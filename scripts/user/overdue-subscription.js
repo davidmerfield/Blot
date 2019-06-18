@@ -17,6 +17,8 @@ var customer = {
   description: "Blot subscription"
 };
 
+var password = "x";
+
 var blog = {
   handle:
     "overdue" +
@@ -40,6 +42,7 @@ if (require.main === module)
         "Unpaid invoice found for " + email + "! Please log in and pay it:"
       );
       console.log(url);
+      console.log("Use password:", password);
       process.exit();
     });
   });
@@ -50,75 +53,84 @@ function main(callback) {
 
     debug("Created stripe customer");
 
-    User.create(email, "XXXX", customer.subscription, function(err, user) {
+    User.hashPassword(password, function(err, passwordHash) {
       if (err) return callback(err);
-
-      debug("Created user on Blot", blog, user.uid);
-
-      Blog.create(user.uid, blog, function(err, blog) {
+      User.create(email, passwordHash, customer.subscription, function(
+        err,
+        user
+      ) {
         if (err) return callback(err);
 
-        debug("Created blog", blog);
+        debug("Created user on Blot", blog, user.uid);
 
-        stripe.customers.update(
-          customer.id,
-          {
-            card: "tok_chargeCustomerFail"
-          },
-          function(err) {
-            if (err) return callback(err);
+        Blog.create(user.uid, blog, function(err, blog) {
+          if (err) return callback(err);
 
-            debug("Updated stripe subscription to bad card");
+          debug("Created blog", blog);
 
-            stripe.customers.updateSubscription(
-              customer.id,
-              customer.subscription.id,
-              {
-                trial_end: Math.round(Date.now() / 1000) + 3,
-                prorate: false
-              },
-              function(err, subscription) {
-                if (err) return callback(err);
+          stripe.customers.update(
+            customer.id,
+            {
+              card: "tok_chargeCustomerFail"
+            },
+            function(err) {
+              if (err) return callback(err);
 
-                debug("Ended stripe subscription trial");
+              debug("Updated stripe subscription to bad card");
 
-                stripe.invoices.list({ customer: customer.id }, function onList(
-                  err,
-                  res
-                ) {
+              stripe.customers.updateSubscription(
+                customer.id,
+                customer.subscription.id,
+                {
+                  trial_end: Math.round(Date.now() / 1000) + 3,
+                  prorate: false
+                },
+                function(err, subscription) {
                   if (err) return callback(err);
 
-                  var invoices = res.data.filter(function(invoice) {
-                    return !invoice.paid;
-                  });
+                  debug("Ended stripe subscription trial");
 
-                  if (!invoices.length) {
-                    console.log(
-                      "No unpaid invoices yet, waiting 5s and trying again..."
-                    );
-                    return setTimeout(function() {
-                      stripe.invoices.list({ customer: customer.id }, onList);
-                    }, 5000);
-                  }
+                  stripe.invoices.list(
+                    { customer: customer.id },
+                    function onList(err, res) {
+                      if (err) return callback(err);
 
-                  async.each(
-                    invoices,
-                    function(invoice, nextInvoice) {
-                      if (invoice.paid) return nextInvoice();
-                      stripe.invoices.pay(invoice.id, nextInvoice);
-                    },
-                    function() {
-                      fetchSubscription(email, function(err) {
-                        if (err) return callback(err);
-                        callback(null, email, invoices);
+                      var invoices = res.data.filter(function(invoice) {
+                        return !invoice.paid;
                       });
+
+                      if (!invoices.length) {
+                        console.log(
+                          "No unpaid invoices yet, waiting 5s and trying again..."
+                        );
+                        return setTimeout(function() {
+                          stripe.invoices.list(
+                            { customer: customer.id },
+                            onList
+                          );
+                        }, 5000);
+                      }
+
+                      async.each(
+                        invoices,
+                        function(invoice, nextInvoice) {
+                          if (invoice.paid) return nextInvoice();
+                          stripe.invoices.pay(invoice.id, nextInvoice);
+                        },
+                        function() {
+                          fetchSubscription(email, function(err) {
+                            if (err) return callback(err);
+                            callback(null, email, invoices);
+                          });
+                        }
+                      );
                     }
                   );
-                });
-              }
-            );
-          }
-        );
+                }
+              );
+            }
+          );
+        });
       });
     });
   });
