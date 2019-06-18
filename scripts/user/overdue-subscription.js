@@ -53,8 +53,11 @@ function main(callback) {
 
     debug("Created stripe customer");
 
+    console.log(password);
     User.hashPassword(password, function(err, passwordHash) {
       if (err) return callback(err);
+      console.log(passwordHash);
+
       User.create(email, passwordHash, customer.subscription, function(
         err,
         user
