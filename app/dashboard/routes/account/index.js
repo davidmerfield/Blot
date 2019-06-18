@@ -23,7 +23,8 @@ Account.use("/:section", function(req, res, next) {
   var uppercaseName = req.params.section;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
-
+  uppercaseName = uppercaseName.split('-').join(' ');
+  
   res.locals.breadcrumbs.add(uppercaseName, req.params.section);
   next();
 });
