@@ -13,6 +13,9 @@ html {background: #111}
 
         {{#unless user}}
         <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+        <span style="color:#444;margin:0 0.75em">/</span>
+        <a title="Developers" href="/developers" >Developers</a>
+        
         {{/unless}}
         {{#if user}}
         <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
@@ -44,7 +47,6 @@ html {background: #111}
 
     <ul class="sidebar col-25">
       <br><Br>
-      <li><a href="/developers">Introduction</a></li>
       <li><a href="/developers/how-blot-works">How Blot works</a></li>
       <li><a href="/developers/rendering-templates">Rendering templates</a></li>
       <li class="has-list {{selected.reference}}">
@@ -84,7 +86,7 @@ html {background: #111}
             <a href="/developers/guides/posts-tagged">A page with posts with a tag</a>
           </li>
         </ul>
-      </li>
+      </li><!-- 
 <br>
       <hr>
 
@@ -93,7 +95,7 @@ html {background: #111}
         <li><a class="{{selected.contact}}" href="/developers/support">Contact</a></li>
         <li><a class="{{selected.news}}" href="/news">News</a></li>
       <li><a class="{{selected.news}}" href="https://github.com/davidmerfield/blot">Source code</a></li>
-      </div>
+      </div> -->
     </ul>
 
     <content>
