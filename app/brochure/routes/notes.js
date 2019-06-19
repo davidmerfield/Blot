@@ -27,10 +27,12 @@ notes.get("/", function(req, res) {
 });
 
 notes.get("/:section", function(req, res) {
+  res.locals.body = marked(require('fs').readFileSync(notesDirectory + '/' + req.params.section + '/readme.txt', 'utf-8'));
   res.render("notes/layout");
 });
 
 notes.get("/:section/:subsection", function(req, res) {
+  res.locals.body = marked(require('fs').readFileSync(notesDirectory + '/' + req.params.section + '/' + req.params.subsection + '.txt', 'utf-8'));
   res.render("notes/layout");
 });
 
