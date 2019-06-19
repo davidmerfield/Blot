@@ -102,6 +102,8 @@ brochure.get("/sitemap.xml", require("./sitemap"));
 
 brochure.use("/developers", require("./developers"));
 
+brochure.use("/notes", require("./notes"));
+
 // brochure.use("/templates", require("./templates"));
 
 brochure.use("/news", require("./news"));
