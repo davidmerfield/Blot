@@ -54,6 +54,9 @@
           <li class="{{selected.references}}">
             <a href="/notes/design/references">References</a>
           </li>
+          <li class="{{selected.templates}}">
+            <a href="/notes/design/templates">Templates</a>
+          </li>
         </ul>
       </li>
       <li class="has-list {{selected.programming}}">
@@ -63,14 +66,41 @@
           <li class="{{selected.caching-strategies}}">
             <a href="/notes/programming/caching-strategies">Caching strategies</a>
           </li>
+          <li class="{{selected.code-architecture}}">
+            <a href="/notes/programming/code-architecture">Code architecture</a>
+          </li>
+          <li class="{{selected.git-mistakes}}">
+            <a href="/notes/programming/git-mistakes">Git mistakes</a>
+          </li>
+          <li class="{{selected.generating-titles}}">
+            <a href="/notes/programming/generating-titles">Generating titles</a>
+          </li>
+          <li class="{{selected.templates}}">
+            <a href="/notes/programming/templates">Templates</a>
+          </li>
+          <li class="{{selected.zero-downtime-deployments}}">
+            <a href="/notes/programming/zero-downtime-deployments">Zero downtime deployments</a>
+          </li>
+
         </ul>
       </li>
       <li class="has-list {{selected.business}}">
         <input type="checkbox" name="business" id="business" {{#selected.business}} checked{{/selected.business}}> <a href="/notes/business">Business<label for="business"></label>
         </a>
         <ul>
+         
           <li class="{{selected.social-media}}">
             <a href="/notes/business/social-media">Social media</a>
+          </li>
+        </ul>
+      </li>
+        <li class="has-list {{selected.politics}}">
+        <input type="checkbox" name="politics" id="politics" {{#selected.politics}} checked{{/selected.politics}}> <a href="/notes/politics">Politics<label for="politics"></label>
+        </a>
+        <ul>
+         
+          <li class="{{selected.social-media}}">
+            <a href="/notes/politics/free-speech">Free speech</a>
           </li>
         </ul>
       </li>
@@ -88,8 +118,6 @@
       <br>
       <div style="font-size:14px">
         <li><a class="{{selected.contact}}" href="/contact">Contact</a></li>
-        <li><a class="{{selected.news}}" href="/news">News</a></li>
-        <li><a class="{{selected.news}}" href="/about">About</a></li>
       </div>
     </ul>
 

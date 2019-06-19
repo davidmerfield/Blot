@@ -1,6 +1,6 @@
 # Notes
 
-This section contains some of my notes. I've been working on Blot for a number of years now and for the sake of working out what I was thinking at a particular time, I've tried to write things down.
+This section contains some of my notes. I've been working on Blot for a number of years now and for the sake of working out what I was thinking at a particular time, I've tried to write things down. Here are some of the notes which might be useful to you:
 
 ## Design
 

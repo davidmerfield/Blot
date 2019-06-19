@@ -1,0 +1,3 @@
+# Politics
+
+There are politics.
