@@ -9,6 +9,7 @@ body {
   background: #fffefc;
 }
 
+body {max-width: 64rem;margin: 0 auto}
 .dark main {
   background: #111;
 }
