@@ -392,7 +392,9 @@ Work out why Pandoc cannot handle 'linked' images (instead of conventionally emb
 
 Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
 
-Transfer some of [Anders Norén's templates to Blot](https://www.andersnoren.se/teman/)
+Templates to translate:
+- [Anders Norén](https://www.andersnoren.se/teman/)
+- [Radek Kozieł](https://github.com/panr)
 
 - How do we share info, like a link on a menu, or a header image across templates? Could there be a shared info repository that templates could access?
 - add support for dynamic partials to make collections possible, e.g. {{> /:tag.html}} ?
