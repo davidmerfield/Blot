@@ -173,7 +173,6 @@ ul.templates li {
 }
 
 ul.templates li a {
-  color: inherit;
   border: none;
 }
 
@@ -181,6 +180,8 @@ ul.templates li a:hover{box-shadow: none;outline: none;background: none}
 
 ul.templates li strong {
   display: block;
+  color: #005eb8;
+  font-weight: 400;
 }
 
 ul.templates img {
