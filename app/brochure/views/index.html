@@ -146,20 +146,21 @@ a.featured:hover .a {
 <div style="display:flex;flex-direction:row;flex-wrap:wrap;margin:0 -1.4em">
   {{#featured}}
   <a class="featured col-25" target="_blank" rel="noopener" href="{{{link}}}">
-    <span class="feat-window">
+    
+ <span style="flex-basis:40%;padding-right:8%;padding-left:2.7em">
+   <img style="width:24px;height:24px;position:absolute;top:3px;left:1.5em" src="{{{favicon}}}"> 
+ <span class="a">{{name}}</span> {{bio}}.<small style="margin-top:1em;color:#989694;display:block;font-size:0.75rem;">{{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</small></span>
+</span>
+<span class="feat-window">
       <span class="feat-arrow">↗</span>
       <span class="feat-toolbar">
         <span class="feat-dot"></span>
         <span class="feat-dot"></span>
         <span class="feat-dot"></span>
       </span>
-      <br><br><!-- 
-   <img style="width:16px;height:16px;" src="{{{favicon}}}">  --><span class="-a">{{host}}</span>
+      <br><br><span class="-a">{{host}}</span>
       <br><br>      <br>
  </span>
- <span style="flex-basis:40%;padding-left:8%">
- <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span>
-</span>
 </a>
   {{/featured}}
 </div>
