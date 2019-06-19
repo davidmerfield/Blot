@@ -1,6 +1,8 @@
 var helper = require("helper");
 var ensure = helper.ensure;
 
+var alphaNumericRegEx = /^([a-zA-Z0-9 ]+)$/;
+
 function Metadata(html) {
   ensure(html, "string");
 
@@ -54,6 +56,13 @@ function Metadata(html) {
       .slice(0, firstColon)
       .trim()
       .toLowerCase();
+
+    // The key contains non-alphanumeric characters, so reject it
+    if (alphaNumericRegEx.test(key) === false) break;
+
+    // The key contains more than two spaces, so reject it
+    if (key.split(" ").length > 3) break;
+
     value = line.slice(firstColon + 1).trim();
 
     // Extract metadata from within comments
