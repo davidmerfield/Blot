@@ -1,0 +1,9 @@
+At its core, Blot is a static file server.
+
+If you put a file called apple.png inside Blot's folder, it will be accessible at your-domain.com/apple.png.
+
+This means you could use Blot as a relatively inexpensive host the output of a static blogging tool like Jekkyl or to host hand-crafted site.
+
+But that's fairly boring. What makes Blot more interesting is its templating system.
+
+The templating system sits above the static file server

@@ -1,0 +1,62 @@
+# Better fluid images
+
+Fluid images are images of undeclared dimension which can adjust their size to fill the layout of the page. This means you can have an image which fills the user's viewport – no matter if the user is on a phone or a laptop.
+
+## The problem
+
+For obvious reasons, fluid images must not have a declared with and height. Since the width and height of the image are unspecified, the browser *must* wait for the image to load to finalize the page's layout. This means that the content will jump around as images arrive. It's frustrating to read an article with lots of images and have to keep scrolling up and down to find where that sentence you were just reading has disappeared to.
+
+## The solution
+
+Wrap the image in container whose dimensions are of the same ratio as the image within, then allow the image container to adjust to the size of its parent while remaining no great than the image within.
+
+```html
+<span class="fluid_outer" style="max-width: 700px">
+	<span class="fluid_inner" style="padding-bottom:33%">
+		<img class="fluid" src="/foo.jpg">
+	</span>
+</span>
+```
+
+```css
+.fluid_outer {
+	display: block;
+}
+
+.fluid_inner {
+  position: relative;
+  overflow: hidden;
+  height: 0;
+  padding: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+img.fluid {max-width: 100%}
+```
+
+{|<} N.B. To omit this container would cause a small image to fill the width of its parent.
+
+To accomplish this we set the maximum width of ```fluid_outer``` to width of the image. This ensures the fluid image wrapper is always smaller than the image it contains. We then set the padding-bottom property of ```fluid_inner`` to the ratio of the image's height to its width. The principle of the technique is borrowed from this excellent post on [responsive video embeds](http://alistapart.com/article/creating-intrinsic-ratios-for-video).
+
+To do this manually would be tedious so Blot automatically retrieves the dimensions of any image embedded in blog posts, calculates the correct ratio then wraps them in the containers. I accomplish this using [cheerio](https://github.com/cheeriojs/cheerio) to manipulate the entry's HTML, [request](https://github.com/request/request) to retrieve the image and [imagesize](https://www.npmjs.com/package/imagesize) to calculate its dimensions.
+
+All told Blot will automatically turn this markdown:
+```
+![A book cover](http://i.imgur.com/9S9tLiD.jpg)
+```
+into a fluid image. Because we apply ```max-width``` to the image container it will still work with smaller images:
+
+![](http://alistapart.com/d/_made/pix/authors/uploads/photo_116023_60_60_c1.jpg)
+
+![](http://alistapart.com/d/_made/pix/authors/uploads/photo_129828_60_60_c1.jpg)
+
+![](http://alistapart.com/d/_made/pix/authors/uploads/photo_116070_60_60_c1.png)
+
+And it works as you’d hope? Ideally one wrapper would be better than two. What about if I want the image to flow inline with text? Then this technique doesn't work.
+
+
+# Adding the image model
+
+Blot now caches image URLs against a content hash, and image dimensions against an image URL. This means that the modules which typically make network requests (like image-size) or even the update module, will never process the same image twice needlessly. This means instant avatar re-uploads. I really should verify the remote hash of the image each time to ensure the user doesn't make a remote change to the image. Perhaps a freeze options? Would be lovely to know that my post will NEVER change.

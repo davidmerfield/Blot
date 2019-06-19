@@ -1,0 +1,60 @@
+-- preparation
+
+0. reset logfiles
+1. backup data
+2. stop monit to prevent it interfering
+3. create dirs ~/config ~/config/secrets ~/db
+4. sync ~/config/secrets with remote and verify they exist
+5. update git files
+6. copy new upstart configuration files
+7. reload new upstart configuration
+8. bgsave redis
+
+-- brief downtime
+
+1. stop and start nginx with new config
+
+-- downtime
+
+2. stop blot
+3. stop redis
+4. move ~/dump.rdb to ~/db/dump.rdb
+
+cp /var/www/blot/dump.rdb /var/www/blot/db/dump.rdb
+
+5. start redis
+6. start blot
+
+--- commands
+
+
+mkdir /var/www/blot/config
+mkdir /var/www/blot/config/secrets
+mkdir /var/www/blot/db
+
+rememeber dhparams!!!!
+
+
+git pull origin master
+
+sudo cp /var/www/blot/scripts/upstart/nginx.conf /etc/init/nginx.conf
+sudo cp /var/www/blot/scripts/upstart/redis.conf /etc/init/redis.conf
+sudo cp /var/www/blot/scripts/upstart/blot.conf /etc/init/blot.conf
+sudo cp /var/www/blot/scripts/upstart/monit.conf /etc/init/monit.conf
+
+sudo initctl reload-configuration
+initctl list | grep -e 'blot\|nginx\|redis\|monit'
+redis-cli bgsave
+
+sudo stop nginx && sudo start nginx
+sudo stop blot
+sudo stop redis
+cp /var/www/blot/dump.rdb /var/www/blot/db/dump.rdb
+sudo start redis
+sudo start blot
+
+
+------- my fuck ups
+
+forgot to create flags.json
+forgot to move dhparams to config/secrets

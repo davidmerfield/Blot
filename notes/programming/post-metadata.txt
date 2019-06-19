@@ -1,0 +1,44 @@
+Entry
+
+Can be:
+
+just a image
+just a paragraph
+just a title
+title + paragraph...
+
+Extract
+
+{{{titleHTML}}}
+{{{body}}}
+
+are equal in total to:
+
+{{{html}}}
+
+{{date}}
+
+{{{body}}}
+
+{{{teaser}}}
+
+<a href="/{{url}}"></a>
+should this contain a title?
+
+{{{before}}}
+{{{before}}}
+
+{{{hook}}}
+{{{hookBody}}}
+
+{{#more}}
+  <a href="/{{url}}">Continue reading</a>
+{{/more}}
+
+
+{{{introduction}}}
+{{{introductionNoTitle}}}
+
+{{#more}}
+  <a href="/{{url}}">Continue reading</a>
+{{/more}}

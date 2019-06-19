@@ -1,0 +1,11 @@
+we really have three paths for a file on blot.
+
+1. the 'blot path'
+  -> relative to blog folder
+2. the 'dropbox path'
+  -> blogfolder + 'blot path'
+3. the 'local path'
+  -> blog dir + 'blot path'
+
+how do we track these?
+I should *not* modifiy the dropbox file object to keep things simple.
