@@ -154,10 +154,10 @@ main.has-sidebar {
 
 ul.templates {
   display: flex;
-  margin: 2em 0;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: space-between;
   padding: 0;
+  margin: 2em -0.5em;
 }
 
 ul.templates small {
@@ -176,6 +176,8 @@ ul.templates li a {
   color: inherit;
   border: none;
 }
+
+ul.templates li a:hover{box-shadow: none;outline: none;background: none}
 
 ul.templates li strong {
   display: block;
