@@ -120,6 +120,7 @@ a.featured {
 /*  font-size: 14px;
 */  color: inherit;
   display: flex;
+  flex-wrap:wrap;
 /*  text-align: center;
 */  margin-bottom: 2.8em;
   box-sizing: border-box;
@@ -164,10 +165,13 @@ a.featured:hover .a {
 }
 
 .feat-window {
-  margin: -1em 1em -1em -0.1525em;
+  margin: 0 1em 0 -0.1525em;
   color: #005eb8;
   position: relative;
+  flex-grow:1;
   flex-basis:35%;
+  min-width:200px;
+  max-width: 300px;
   border:1px solid #005eb8;border-radius:3px;display:block;text-align:center;margin-bottom:0.7em
 }
 
@@ -189,9 +193,9 @@ a.featured:hover .a {
   {{#featured}}
   <a class="featured col-25" target="_blank" rel="noopener" href="{{{link}}}">
     
- <span style="flex-basis:40%;padding-right:8%;padding-left:2.7em">
+ <span style="flex-basis:40%;flex-grow:1;padding-right:8%;padding-left:2.7em">
    <img style="width:22px;height:22px;position:absolute;top:3px;left:1.5em" src="{{{favicon}}}"> 
- <span class="a">{{name}}</span> {{bio}}.<small style="margin-top:1em;color:#989694;display:block;font-size:14px;">{{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</small></span>
+ <span class="a">{{name}}</span> {{bio}}.<small style="margin-top:1em;margin-bottom:2em;color:#989694;display:block;font-size:14px;">{{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</small></span>
 </span>
 <span class="feat-window">
       <span class="feat-arrow">↗</span>
