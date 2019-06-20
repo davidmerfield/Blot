@@ -61,7 +61,7 @@ function Metadata(html) {
     if (alphaNumericRegEx.test(key) === false) break;
 
     // The key contains more than two spaces, so reject it
-    if (key.split(" ").length > 3) break;
+    if (key.split(" ").length > 2) break;
 
     value = line.slice(firstColon + 1).trim();
 
