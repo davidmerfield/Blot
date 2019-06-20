@@ -1,0 +1,165 @@
+- name: Linux
+  link: https://www.kernel.org/
+  contributors:
+    - name: Linus Torvalds
+      link: https://en.wikipedia.org/wiki/Linus_Torvalds
+
+- name: GNU
+  link: https://www.gnu.org/home.en.html
+  contributors:
+    - name: Richard Stallman
+      link: https://stallman.org/
+
+- name: NGINX
+  link: http://nginx.org/
+  contributors:
+    - name: Igor Sysoev
+      link: http://sysoev.ru/en/
+
+- name: Redis
+  link: https://redis.io/
+  contributors:
+    - name: Salvatore Sanfilippo
+      link: http://invece.org/
+    - name: Matt Ranney
+      link: https://ranney.com
+
+- name: Git
+  link: https://git-scm.com/
+  contributors:
+    - name: Linus Torvalds
+      link: https://en.wikipedia.org/wiki/Linus_Torvalds
+    - name: Junio Hamano
+      link: https://github.com/gitster
+
+- name: Pandoc
+  link: https://pandoc.org/
+  contributors:
+    - name: John MacFarlane
+      link: https://johnmacfarlane.net/
+
+- name: Sharp
+  link: https://sharp.pixelplumbing.com/en/stable/
+  contributors: 
+    - name: Lovell Fuller
+      link: http://lovell.info/
+
+- name: Async
+  link: http://caolan.github.io/async/v3/
+  contributors:
+    - name: Caolan McMahon
+      link: https://caolan.org/
+
+- name: bcrypt
+  link: https://en.wikipedia.org/wiki/Bcrypt
+  contributors: 
+    - name: Niels Provos
+      link: https://www.provos.org/
+    - name: David Mazières
+      link: http://www.scs.stanford.edu/~dm/
+    - name: Daniel Wirtz
+      link: https://dcode.io/
+
+- name: Cheerio
+  link: https://cheerio.js.org/
+  contributors: 
+    - name: Matthew Mueller
+      link: https://github.com/matthewmueller
+
+- name: clean-css
+  link: https://jakubpawlowicz.github.io/clean-css/
+  contributors:
+    - name: Jakub Pawlowicz
+      link: https://jakubpawlowicz.com/
+
+- name: Express
+  link: http://expressjs.com/
+  contributors: 
+    - name: TJ Holowaychuk
+      link: https://tjholowaychuk.com
+
+- name: fs-extra
+  link: https://github.com/jprichardson/node-fs-extra
+  contributors:
+    - name: JP Richardson
+      link: https://www.exodus.io/
+
+- name: Highlight.js
+  link: https://highlightjs.org/
+  contributors:
+    - name: Ivan Sagalaev
+      link: http://softwaremaniacs.org/
+
+- name: HTML Minifier
+  link: https://kangax.github.io/html-minifier/
+  contributors: 
+    - name: Juriy Zaytsev
+      link: http://perfectionkills.com/
+
+- name: imagemin
+  link: https://github.com/imagemin/imagemin
+  contributors: 
+    - name: Kevin Mårtensson
+      link: https://github.com/kevva
+
+- name: KaTeX
+  link: https://katex.org/
+  contributors: 
+    - name: Sophie Alpert
+      link: https://sophiebits.com/
+    - name: Kevin Barabash
+      link: https://github.com/kevinbarabash
+    - name: Erik Demaine
+      link: http://erikdemaine.org/
+
+- name: Lodash
+  link: https://lodash.com/
+  contributors:
+    - name: John-David Dalton
+      link: https://github.com/jdalton
+
+- name: Marked
+  link: https://marked.js.org
+  contributors:
+    - name: Christopher Jeffrey
+      link: https://github.com/chjj
+
+- name: Moment
+  link: https://momentjs.com/
+  contributors:
+    - name: Iskren Ivov Chernev
+      link: https://github.com/ichernev
+    - name: Tim Wood
+      link: https://github.com/timrwood
+
+- name: Mustache
+  link: https://mustache.github.io/
+  contributors:
+    - name: Chris Wanstrath
+      link: http://chriswanstrath.com/
+
+- name: Pushover
+  link: https://github.com/substack/pushover
+  contributors:
+    - name: James Halliday
+      link: https://substack.net/
+
+- name: Redlock
+  link: https://github.com/mike-marcacci/node-redlock
+  contributors:
+    - name: Mike Marcacci
+      link: https://www.marcacci-labs.com/
+
+- name: UglifyJS
+  link: http://lisperator.net/uglifyjs/
+  contributors:
+    - name: Mihai Bazon
+      link: http://lisperator.net/
+
+- name: UUID
+  link: https://github.com/kelektiv/node-uuid
+  contributors:
+    - name: Christoph Tavan
+      link: https://github.com/ctavan
+    - name: Robert Kieffer
+      link: https://broofa.com
