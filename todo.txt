@@ -317,7 +317,8 @@ Create a mock version of these websites and send an email showing the folder str
   - [Ben Pierrat](http://pieratt.com/)
   - [Tina Roth Eisenberg](https://www.swiss-miss.com/)
   - [Khoi Vinh](https://www.subtraction.com/)
-
+  - [Jarrett Fuller](https://jarrettfuller.com/)
+  
 - Type:
   - [Just van Rossum](http://dailydrawbot.tumblr.com/)
   - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
