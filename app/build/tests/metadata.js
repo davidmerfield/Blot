@@ -51,6 +51,14 @@ describe("metadata parser", function() {
     });
   });
 
+  it("allows a maximum of one space in the metadata key", function() {
+    expect(Metadata(["Author last name: Jason"].join("\n")).metadata).toEqual({});
+  });
+
+  it("disallows punctuation in the metadata key", function() {
+    expect(Metadata(["Au-thor: Jason"].join("\n")).metadata).toEqual({});
+  });
+
   it("handles pure metadata", function() {
     expect(Metadata(["only:metadata", "in:this"].join("\n")).metadata).toEqual({
       only: "metadata",
