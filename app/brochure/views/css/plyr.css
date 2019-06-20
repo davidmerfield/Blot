@@ -41,30 +41,18 @@ overlay {
 
 
 
-overlay .close:hover {
-  color: #000
-}
-
-overlay .close:hover,
-overlay .close:hover:before,
-overlay .close:hover:after {
-  border-color: #000
-}
 
 overlay .close {
   height: 1.4em;
-  margin-right: 3em;
-  margin-left: 1.5em;
   margin-bottom: 3em;
-  margin-left: 0;
+  margin-right: -1.2em;
   width: fit-content;
   position: relative;
   border-radius: 0;
   text-align: center;
-  padding: 4px 1em 4px 2.4em;
+  padding: 4px 2.2em 4px 0;
   text-align: center;
   -webkit-font-smoothing: antialiased;
-  border: 1px solid #e6e4e3;
   color: #a09d9c;
 }
 
@@ -72,12 +60,12 @@ overlay .close:before {
   display: block;
   position: absolute;
   top: 50%;
-  left: 22px;
+  right: 22px;
   width: 7px;
   height: 7px;
-  margin: -4px 0 0 -10px;
-  border-top: solid 1px #a9a6a3;
-  border-right: solid 1px #a9a6a3;
+  margin: -3px 0 0 -10px;
+  border-top: solid 1px #95908b;
+  border-right: solid 1px #95908b;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -88,12 +76,12 @@ overlay .close:after {
   display: block;
   position: absolute;
   top: 50%;
-  left: 32px;
+  right: 12px;
   width: 7px;
   height: 7px;
-  margin: -4px 0 0 -10px;
-  border-top: solid 1px #a9a6a3;
-  border-right: solid 1px #a9a6a3;
+  margin: -3px 0 0 -10px;
+  border-top: solid 1px #95908b;
+  border-right: solid 1px #95908b;
   -webkit-transform: rotate(225deg);
   -ms-transform: rotate(225deg);
   transform: rotate(225deg);

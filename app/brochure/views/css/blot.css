@@ -26,7 +26,6 @@ body {
     "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 400;
-  color: #111;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
 }
@@ -415,6 +414,6 @@ overlay {
   left: 0;
   z-index: -1;
   opacity: 0;
-  padding: 3em;
+  padding: 0;
   background: #fffefc;
 }
