@@ -1,0 +1,25 @@
+there will be bugs.
+
+what is most important is that readers can access blogs.
+
+what is secondarily most important is that writers can publish files.
+
+some files will causes the syncer to crash. this is expected. this must not prevent other users from syncing. and must not take down the process which serves files.
+
+I must work out how to do hot reloads to prevent downtime during deployments.
+
+I must add a feature to stick blot in a read-only state, and make this clear on the dashboard. this will make upgrading instances (taking db snapshots etc easier)
+
+currently I fork a new process when doing the sync. It adds 700ms to start up the new process, possibly more on remote.unacceptable.
+
+perhaps I should just use domains...
+
+I should be running a 'sync' server seperately which is up all the time and handles fetching changes and rebuilding blogs. passing a blog handle / or uid? will cause it to fetch any changes to the user's folder, store those new changes locally.
+
+'the main' server handles reader traffic.
+
+if some file causes the sync server to reboot, I must work out what file it was first and push this to an error list. this information must be exposed to me and to the user. this will hopefully prevent an infinite loop of failed syncs. perhaps a new fork for each make file?
+
+given input file I should pre-process as much as possible and run it through the asset pipeline...
+
+when a request comes in, I render the file, then dump the result in a static dir which eventually I'll use in combination with NGINX

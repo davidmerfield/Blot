@@ -1,0 +1,3 @@
+If I ever move Blot from blot.im here is a list of changes I need to make:
+
+1. At the moment, nginx's auto-ssl feature checks in the redis db for the existence of the key 'domain:blot.im' before requesting or renewing Blot's SSL cert. I need to set a new key for the new domain 'domain:blot.XXX' in redis for the renewal request to go through. See config/nginx/auto-ssl-init.conf, specifically the allow_domain function for more info.

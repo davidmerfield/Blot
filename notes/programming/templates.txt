@@ -1,0 +1,218 @@
+I will need a script to write out existing templates in new format
+
+
+# Revisiting templates
+
+blogs/{{id}}/themes/{{default}}
+
+set blog.template to {{default}} ?
+
+create new Template "Foo bar" in blogs/{{id}}/themes/Foo bar
+
+editing will just save the files directly
+
+can rename the template -> copy folder, set blog.template to new folder, delete old folder.
+
+we could load a users template into memory instead? but what about static files? eh avoid this optimization for now.
+
+we only need to serve-static the non-css and js files in /assets?
+
+on enable local-editing
+
+ theme / theme.json etc...
+
+on enable local editing for multiple
+
+ theme / foo
+ theme / bar
+
+
+
+
+
+Templates should be copy/pastable between blogs
+
+Installation of custom template should be as easy as
+
+'Create folder Template:
+
+Blot themes are derived from a folder of HTML fragments.
+
+If you want to just a tweak a thing or two with an existing template, it's not really neccessary to read all the nonsense below. Just create a clone of the template you'd like to modify, then open it in the template editor. It should be self-explanatory.
+
+Blot uses Mustache to render templates. Please read its documentation. It is important you understand the meaning of a template, a partial and a view.
+
+Blot themes are a collection of **templates** and **partials** which are rendered with a **view** containing variables from your blog.
+
+**Templates** represent the layout for a given page on your blog. **Partials** represent small fragments of a template that repeat across your site like a menu. The **view** is a collection of variables, structured as JSON, which is used to render your template.
+
+Blot generates the view for a template based on a few inputs:
+
+- The tags used in the template
+- Local variables specified in your theme's configuation file
+- Properties from your blog (e.g. title, profile picture)
+- Variables derived from the template's route
+
+## Configuration file
+
+You can use the configuration file to declare template-specific locals and partial templates. Blot's themes use this feature to customize the <title> and description tags of each template.
+
+## Templates
+
+Blot themes inherit a handful of templates and options by default:
+
+- feed.rss (for your blog's RSS feed)
+- robots.txt
+- sitemap.xml
+
+I assume you probably won't want to modify them, but you can override these templates yourself by creating the corresponding file in your theme's /templates directory.
+
+The template site.xml would be rendered at the url example.com/site.xml. The template foo.html would be rendered at the url example.com/foo. You can adjust the url for a given template. The exceptions are entries.html, entry.html and error.html. Error.html is used for all routes which return nothing. You can override this in your theme's configuration file.
+
+## Partials
+
+If a partial file is called 'footer.html', blot will make it available to views like this:
+
+```
+{{> footer}}
+```
+
+## Routing
+
+With the exception of entry.html and entries.html, you control the routes
+If a view file is called 'archives.html', by default Blot will mount it to /archives You can customize the route used for the view in theme.json.
+
+## Assets
+
+Files in the /assets folder are served. JavaScript and CSS files are minified and rendered like templates. This means you can use variables from your blog or your template inside scripts and stylesheets:
+
+```
+body {
+  background: {{background_color}};
+}
+```
+
+Everything else is served as-is. This folder is useful for template-specific images, font-files and that kinds of thing.
+
+
+
+
+stick files inside? indicate selected template with leading *? How does blot know which template to use? Do user templates always exist in Blog folder?
+
+move _assets to .assets or .blot ?
+  image cache cannot look up images embedded in doc files
+  since they're outside the blot folder
+
+put templates inside this folder
+
+Rewrite Templates
+ - Add way to edit a color variable, select an option etc...
+ - theme should be a set of options for the color picker...
+ - Migrate these currently-global settings to template level:
+    date presentation
+    hide/show date
+    entries per page
+ - Store view name should include file extension...
+ - Expose errors in modules/template/update on design page.
+
+
+
+
+
+
+
+I need to make sure Blot can render 100 pages / second.
+
+Based on current usage, that reflects double the avg. load for 10k blogs.
+
+the render module is currently a shitshow
+
+each template
+
+ENTRIES SHOULD NOT BE VIEWS
+  they should not be embeddable -> use albums for similar features...
+
+LOCALS SHOULD NOT CONTAIN LOCALS
+  migrate page title and page description to hard coding in template
+
+EACH VIEW SHOULD HAVE A FULL LIST OF PARTIALS & LOCALS
+
+
+add 'default' template views which templates inherit but can override?
+
+add 'default' partials which templates inherit?
+
+  e.g. {{view.name}} - {{blog.title}}
+
+e.g. feed.rss, sitemap.xml, robots.txt
+
+
+* / template / default
+
+no template info stored in db
+
+everything stored on disk?
+
+---
+
+
+template = read(...) ;
+
+mustache.parse(template);
+
+... fetch partials and parse them too
+... extract locals from view and all partials
+... load locals
+
+mustache.render(template, view);
+
+---
+
+store full list of locals and paths to partials against each template path?
+
+
+---
+first_entry:
+  source: posts
+  length: 1
+
+next_entries:
+  source: posts
+  except: first_entry
+  length: 4
+
+remaining_entries:
+  source:posts
+  except: 
+    - first_entry
+    - next_entries
+  length: 10
+---
+
+{{#first}}
+
+{{/posts}}
+
+--------------------------
+
+{{> header}}
+
+{{#entries}}
+
+  {{{html}}}
+
+{{/entries}}
+
+{{#pagination}}
+
+  {{#next}}
+    <a href="{{url}}">Next page</a>
+  {{/next}}
+
+  {{#previous}}
+    <a href="{{url}}">Previous page</a>
+  {{/previous}}
+
+{{/pagination}}
+
+{{> footer}}

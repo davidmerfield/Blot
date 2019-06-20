@@ -1,0 +1,15 @@
+I did this:
+
+git fetch origin
+git reset --hard origin/master
+
+Don't do this.
+
+it removed a load of files from my remote BRANCH
+
+thankfully not dump.rdb, or config.json
+
+but it did remove all my ssl certs
+
+and a few dirs
+

@@ -1,0 +1,331 @@
+People describe it like this:
+-----------------------------
+
+This looks like a really simple, elegant way to have a blog just by putting files in your Dropbox
+
+Wordpress watch out!
+
+If you're blog-lazy, but have dropbox, blot.im is an easy alternative. Drop pics and text into a folder, and you make blog.
+
+It's so wonderfully simple!
+
+Really clean and simple.
+
+Blot creates a folder in your Dropbox
+and publishes files you put inside.
+
+Just discovered http://blot.im  A hosted blog straight from your Dropbox. Clever idea. Simple and clean. Nice work
+
+In other news I bought this the other day and it is good. Using it is like Tumblr but slightly less convenient: http://blot.im
+
+Blot - Create your Blog in Dropbox
+
+this simple blogging platform seems perfect!
+
+perfect! And so quick - we love blot.im! :D
+
+holy shit. i am totally doing this. very easy blog system (based on dropbox + markdown = generates blog)
+
+OMG I'm already in love with this! blot.im
+
+# Pledge
+
+Need a blog? So did I.
+
+This one is made to last forever.
+
+We need a good solid blog platform for ourselves, and we know our friends and colleagues need one too.
+
+We’re not going to show ads. We’re not looking for investors. We’re going to make money the best way we know how: charging for it.
+
+It will be everything you expect in a blog platform - simple and modern.
+
+What is it?
+
+Post haven is a long-term project that aims to create the world’s best blogging platform and stay that way for as long as humanly possible. We’re as sick as you are about having to move your posts and photos every time a service goes away.
+
+What are the key goals of Posthaven?
+
+Durable URLs forever
+Straightforward, open, self-sustaining, pro-user business model
+Best-in-class ease of use always
+
+Why are you doing this?
+
+We want to build simple, useful, usable software for people. That’s what we love to do. We’ll never sell this site. It’s not for sale. Ever. Not negotiable.
+
+Will it be $20 a year forever?
+
+No, it will probably end up at something like $5 a month, or $60 a year. Right now, Blot is still unfinished.
+
+We believe fair’s fair — and we’ll always be fair.
+
+First off, we’ll charge money. There’s no question the site will run when you know how to pay for the servers.
+
+Then we’ll keep improving the site the way a good caretaker would tend a garden. We’ll make sure things are clean and safe, and replace things when they get worn, or when it’s ready for a renovation. Think of us as long term data custodians.
+
+What happens if I stop paying?
+
+Permanent URLs are a powerful idea, and it’s a feature of using Posthaven we think you should get even if you stop paying. We’ll keep the site online, but you won’t be able to edit content or add to it. If you want to renew, start paying again and your account will be restored.
+
+When will something qualify for permanent storage? Let’s keep it simple initially: If you pay for a year’s worth of service, your content is safe and we’ll keep it online.
+
+Can I use custom domains with Posthaven?
+
+Yes, you’ll be able to use any domain name you have with Posthaven.
+
+Will Posthaven support multiple sites for one user?
+
+Most definitely — we’re thinking $5/mo per user will buy you up to 10 sites with more for a small additional fee. So don’t worry about paying $5/mo for every new site you have.
+
+What do the blogs look like?
+
+Here are some prominent blogs currently hosted on Posthaven:
+
+Alexis Ohanian — Cofounder of Reddit
+Sam Altman — Founder of Loopt
+Y Combinator — Startup Incubator
+When will Posthaven be able to do _______?
+
+We’re trying to reimplement what took us years to do with a larger team and more resources, but now with just the two of us (Brett and Garry) and just a few months. So it’s a lot, but we can’t wait to ship it all for you.
+
+Here’s what’s in there now:
+
+Post by email
+Post by web, with photos, music, video and documents
+Private sites with passwords
+Pages and links
+Autopost to Facebook and Twitter
+Image gallery upload and editing
+Commenting with automatic anti spam
+Blog following with email notifications
+Multiple contributors per blog
+Here’s what’s coming soonest:
+
+Bookmarklet
+HTML/CSS customization
+Autopost to App.net and other services
+The biggest feature that we’ll put at the end of this list but will get to in a few months is full HTML/CSS theming. It’s the most complicated feature of Posterous and we rushed it last time — so we don’t want to make that mistake again.
+
+We’ll deploy the features and let you know as soon as they’re available. The best way to see the latest is to follow us at the Posthaven Blog .
+
+Questions? Comments?
+Email us at help@posthaven.com »
+
+Landing-divider
+
+Welcome to Posthaven-landing
+Simple, easy blogs for $5 a month, forever.
+Sign Up for Posthaven login
+
+
+Dropbox folder -> blog
+
+Turns a Dropbox folder into a blog
+
+Blot turns a dropbox folder into a blog
+
+Blot is a blogging platform.
+
+Blot is a simple way to blog.
+
+It adds a folder to your Dropbox and publishes files you put inside.
+
+Move to dashboard.blot.im ?
+
+Publish your blog with
+B L O T
+
+Sign up * Log In
+
+Hi, welcome to Blot!
+A blogging platform for lazy people
+
+Hi. This is Blot. A blogging platform.
+
+Check the blog for the latest.
+
+Made in the USA
+
+It’s the best blogging platform. Publish a post from your phone. Fix a web page from the back of a car. It’s elegant, powerful, and always ready.
+
+Start from scratch or choose from a variety of included templates.
+
+
+Any Content You Like
+
+Blog articles, galleries, simple pages or complex product sheets – with Kirby you are not limited to a fixed data structure. You are in control of
+
+
+Why isn’t there a free plan?
+We want Cushion to live a long and healthy life, and we want to afford to work on it. That’s only possible if it can pay for itself.
+
+# Bring your own morals
+
+I am unconcerned with the moral quality of what you publish.  I don't have to energy to evaluate all the erotic poetry published on Blot, let alone the scatological short stories. If it's legal, it stays.
+
+## Should I switch to Blot from another platform?
+
+It's probably more effort than it's worth. Some of Blot's user have written some export tools for Tumblr, Wordpress and Jekyll.
+
+## Should I use Blot or Medium?
+
+Just use Medium. By the way, if anyone comes across anything worthwhile on that platform, please contact me. They've published 2 million articles and each one apparently frivolous.
+
+## Will Blot make me write more?
+
+No. Blot might make publishing a blog easier but it's not going to turn you into Cicero.
+
+## Where does the subscription fee go?
+
+My bank account.
+
+## Don't suffer for your success
+
+Most of the blogs on Blot receive around 100,000 visitors or fewer a month. The annual fee of $20 ensures that Blot is profitable. Large bursts of traffic aren't a big deal, but if you're planning to host a large publication on Blot, perhaps consider hosting yourself because...
+
+## Blot is run by one person
+
+That's me. If I get hit by a bus: all your blog posts are on your machine and the source code is public. I'm sure you'll manage. At this point, I just tend to the few bugs left and ensure things run smoothly.
+
+## A hosted service
+
+I have to wake up at 3am to fix something instead of you. If the service goes down at 3am you'll have to wake me up.
+
+
+## Feature requests
+
+I built Blot to be the blogging platform I want. I recognize it is a niche product and I'm not going to do anything retarded and raise funding or employ people. I've been on that proverbial rollercoaster before and it was silly.
+
+This means that I only add features to the platform which I want to exist. Otherwise I won't care to implement them properly.
+
+## Branding
+
+As far as I'm concerned, advertising is the devil and anyone party to it should be lined up at shouted at until they past. One of my goals has been to ensure that it would difficult to tell whether or not a blog is published on Blot. Even the source code.
+
+
+## The worst are full of passionate intensity
+
+I don't *really* care about this. It's a way to host my writing which got a little out of hand. 100% passion-free guarantee. If you want passion, go public your listicle on Medium.
+
+
+# A blogging platform
+
+Blot creates a folder in your Dropbox
+and publishes files you put inside.
+
+Write with your favorite tool. Drag-and-drop
+text and images into Blot's special folder.
+
+Blot handles typesetting and distribution
+behind the scenes. Learn more about what Blot.
+
+I charge a small annual fee to keep Blot fast,
+independent and sustainable.
+
+THE BASIC GOAL OF THE HOMEPAGE IS TO GET THE USER TO WATCH THE DEMO, UNDERSTAND HOW THE PUBLISHING HAPPENS.
+
+HOME
+- FAQ
+- TERMS
+- SIGN UP
+
+A blogging platform with no interface.
+
+Blot turns files in your Dropbox into blog posts. Publishing is as simple as drag and drop.
+
+Just files and folders.
+
+You can use whatever text editor you like to write your blog posts.
+
+Blot creates a folder in your Dropbox and converts files you put inside to blog posts. Publishing is as easy as drag and drop.
+
+Stop filling out forms and focus on your writing.
+
+Blot was designed with an obsessive eye for typography. Read more about the steps Blot takes to set your writing beautifully.
+
+Unlike some business, the more people use Blot, the more money Blot makes. This is because blot charges $20 a year.
+
+
+Tumblr is so easy to use that it’s hard to explain.
+We made it really, really simple for people to make a blog and put whatever they want on it. Stories, photos, GIFs, TV shows, links, quips, dumb jokes, smart jokes, Spotify tracks, mp3s, videos, fashion, art, deep stuff. Tumblr is 236 million different blogs, filled with literally whatever.
+
+You do this:
+
+1. Write a blog post, take a photo. THis is the hard part.
+2. Drag and drop the post or image into Blot's folder
+
+Blot does the rest automatically:
+
+1. Downloads the file from Dropbox
+2. Converts it into a blog post. If there's text, it will typeset it.
+3. Publish it to your blog, add it to your RSS feed & search engine.
+
+
+
+Blot is friendly to designers and developers.
+Creating your own template is simple and
+straightforward. Customzing an existing template
+is easy too.
+
+Websites come and go.
+This is one made to last forever.
+
+
+Freedom of expression
+
+Because Blot isn't subject to the business ethics of advertisers, you are free to publish anything as long as it's legal in the USA. Blot does not and will never censor your blog posts.
+
+Blot allows you to retain full intellectual ownership of the material you post.
+
+Use your own domain.
+Unbranded – blot's logo appears nowhere on your blog.
+Blot comes with plugins to make writing even easier:
+- embedded tweets
+- embedded videos from youtube and vimeo
+- automatic smart punctuation.
+
+Why Blot?
+
+Here are thirteen great reasons to use Blot:
+
+1. Blot has the simplest publishing interface – drag and drop.
+2. Blot is fast, even with thousands of blog posts.
+3. You get support from the developer, via email or Twitter.
+4. You can use your own domain.
+5. Blot doesn't put ads on your blog and never will.
+6. You can completely customize the HTML & CSS of your blog.
+7. Blot is reliable. Downtime is rare and brief.
+8. The pricing plan is simple and fair: you pay a small annual fee
+9. You can write your posts in a variety of formats: html, markdown and plain text.
+10. Blot offers handy plugins for improving your publishing experience.
+10. Blot caters to users who value privacy. You don't need to use your real name or share your address.
+12. Blot generates an RSS feed, sitemap and search engine for your blog automatically.
+
+Your current blogging platform is poorly designed, slow and unnecessarily complex. Publishing new posts is a chore.
+
+Blot is the simplest way to blog.
+
+<video>
+
+Blot creates a folder inside your Dropbox and automatically converts any text files inside to blog posts.
+
+Blot has no interface. Publishing is as simple as moving a text file into Blot's Dropbox folder.
+
+You can write with the text editor of your choice and publish from anywhere. Blot supports Markdown which allows your to add rich formatting to your blog posts. Read more about Markdown.
+
+Blot comes with a good looking theme by default. You can also write your own custom theme. It's blazing fast. You can also use a custom domain with Blot.
+
+Blot charges $12 a year. This fee goes towards the costs of running and maintaining Blot. The signup fee helps discourage spammers and gives me more time to work on features. It also ensures Blot is a service you can depend to be around.
+
+Blot is open source. You can self-host the code which powers Blot for free.
+
+Additional features
+
+- Open source
+- Markdown support
+- Custom themes
+- Custom domains
+- Is a financially sustainable project
+- No ads, anywhere, ever.
+- Great privacy policy and data protection

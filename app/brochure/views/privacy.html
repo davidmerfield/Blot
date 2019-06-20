@@ -1,22 +1,23 @@
 <p>
-  Do not store sensitive information on Blot. Your blog’s folder is hosted on Blot’s servers and its contents can be accessed by visitors to your blog. Blot stores the following about you:
+  Do not store sensitive information on Blot. Your blog’s folder is hosted on Blot’s servers and its contents can be accessed by your readers. Blot stores the following about you:
 </p>
 
 <ul>
-  <li>The blogs you run on Blot</li>
-  <li>Your email address and password (hashed using bcrypt)</li>
-  <li>A token to collect subscription payments through <a href="https://stripe.com">Stripe</a></li>
-  <li>A token to read and write to your blog’s folder in your <a href="https://www.dropbox.com">Dropbox</a></li>
+  <li>Your email address</li>
+  <li>Your password hash</li>
+  <li>A list of the blogs you run on Blot</li>
+  <li>A token to collect payments through <a href="https://stripe.com">Stripe</a>. Your full payment details are not stored on Blot's server.</li>
+  <li>A token to access your blog’s folder in your <a href="/publishing/clients/dropbox">Dropbox</a> if your blog uses Dropbox.</li>
 </ul>
 
 <p>
-  The only usage data Blot collects is the number of requests per day and the time it takes to handle each request. Blot may temporarily monitor URIs with exceptional response times.
+  The only usage data Blot collects is the number of requests per day and the time it takes to respond to each request. Blot may monitor URIs with exceptional response times.
 </p>
 
 <p>
-  You can <a href="/account/delete">delete your account</a> and all the data associated with it. Blot does not share the data it stores with third parties and will not unless compelled by law.
+  You can permanently <a href="/account/delete">delete your account</a> and all the data associated with it at any point. Blot does not share the data it stores with third parties and will not unless compelled by law.
 </p>
 
 <p>
-  <span class="yellow db">If you discover a security breach, please <a href="/contact">report it to me</a>. If there is a security breach, I promise to disclose it.</span>
+  <span class="yellow db">Please <a href="/contact">report any security breach</a>. If there is a security breach, I promise to disclose it.</span>
 </p>

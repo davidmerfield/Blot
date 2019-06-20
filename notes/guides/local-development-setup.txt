@@ -1,0 +1,7 @@
+Set up symlink if you install Blot elsewhere
+
+ln -s ~/projects/blot /var/www/blot
+
+Also link the caching directory:
+
+ln -s ~/projects/blot/www /cache
