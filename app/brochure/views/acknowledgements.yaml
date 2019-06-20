@@ -22,7 +22,7 @@
     - name: Salvatore Sanfilippo
       link: http://invece.org/
     - name: Matt Ranney
-      link: ranney.com
+      link: https://ranney.com
 
 - name: Git
   link: https://git-scm.com/
@@ -162,4 +162,4 @@
     - name: Christoph Tavan
       link: https://github.com/ctavan
     - name: Robert Kieffer
-      link: broofa.com
+      link: https://broofa.com
