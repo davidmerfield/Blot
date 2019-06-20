@@ -1,77 +1,104 @@
 {{> head}}
-<style type="text/css">html {background: #111}</style>
-<body class="dark">
-  <link rel="stylesheet" href="/css/tex.css?cache={{cacheID}}&extension=.css">
-  <link rel="stylesheet" href="/css/header.css?cache={{cacheID}}&extension=.css">
 
-  <header class="grid">
-    <row>
-      <section style="padding: 0 0.7em;    display: flex;
+<body class="dark">
+
+<style type="text/css">
+header hr {border-color: #222}
+html {background: #111}
+</style>
+  <header>
+    <row style="display:flex;align-items:center;">
+      <section style="display: flex;
     align-items: center;">
-        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a> <span style="color:#444;padding:0 0.7em">/</span> <a  style="min-width:auto"href="/developers"> Developers</a>
+
+        {{#unless user}}
+        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+        <span style="color:#444;margin:0 0.75em">/</span>
+        <a title="Developers" href="/developers" >Developers</a>
+        
+        {{/unless}}
+        {{#if user}}
+        <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
+
+        {{/if}}
+
       </section>
-  
 
       <section class="links">
         <label for="toggle">Menu</label>
+        {{#unless user}}
         <a href="/sign-up">Sign up</a>
         <a href="/log-in">Log in</a>
+        {{/unless}}
+        {{#if user}}
+        <a href="/account">Your account</a>
+        <a href="/publishing">How to use Blot</a>
+        <a href="/contact">Contact</a>
+        {{/if}}
       </section>
     </row>
 
+    <hr style="margin:0">
   </header>
-  <main class="grid" style="padding-top:0">
-    
+
+  <main style="padding-top:0">
+
     <input type="checkbox" name="toggle" id="toggle">
-      
-   <ul class="sidebar col-25">
-      <li><a href="/developers">Introduction</a></li>
+
+    <ul class="sidebar col-25">
+      <br><Br>
       <li><a href="/developers/how-blot-works">How Blot works</a></li>
       <li><a href="/developers/rendering-templates">Rendering templates</a></li>
       <li class="has-list {{selected.reference}}">
         <input type="checkbox" name="reference" id="reference" {{#selected.reference}} checked{{/selected.reference}}> <a href="/developers/reference">Reference<label for="reference"></label>
-      </a>
-      <ul>
-        <li class="{{selected.blog}}">
-          <a href="/developers/reference/blog">Blog</a>
-        </li>
-        <li class="{{selected.entry}}">
-          <a href="/developers/reference/lists">Lists</a>
-        </li>
-        <li class="{{selected.entry}}">
-          <a href="/developers/reference/entry">Entry</a>
-        </li>
-        <li class="{{selected.helper-functions}}">
-          <a href="/developers/reference/helper-functions">Helper functions</a>
-        </li>
-        <li class="{{selected.tags}}">
-          <a href="/developers/reference/tags">Tags</a>
-        </li>
-        <li class="{{selected.date-tokens}}">
-          <a href="/developers/reference/date-tokens">Date tokens</a>
-        </li>
-      </ul>
+        </a>
+        <ul>
+          <li class="{{selected.blog}}">
+            <a href="/developers/reference/blog">Blog</a>
+          </li>
+          <li class="{{selected.entry}}">
+            <a href="/developers/reference/lists">Lists</a>
+          </li>
+          <li class="{{selected.entry}}">
+            <a href="/developers/reference/entry">Entry</a>
+          </li>
+          <li class="{{selected.helper-functions}}">
+            <a href="/developers/reference/helper-functions">Helper functions</a>
+          </li>
+          <li class="{{selected.tags}}">
+            <a href="/developers/reference/tags">Tags</a>
+          </li>
+          <li class="{{selected.date-tokens}}">
+            <a href="/developers/reference/date-tokens">Date tokens</a>
+          </li>
+        </ul>
       </li>
       <li class="has-list {{selected.guides}}">
         <input type="checkbox" name="guides" id="guides" {{#selected.guides}} checked{{/selected.guides}}> <a href="/developers/guides">Guides<label for="guides"></label></a>
-      <ul>
-        <li class="{{selected.json-feed}}">
-          <a href="/developers/guides/json-feed">JSON feed</a>
-        </li>
-        <li class="{{selected.group-posts-by-dates}}">
-          <a href="/developers/guides/group-posts-by-dates">Group posts by date</a> 
-        </li>
-        <li class="{{selected.posts-tagged}}">
-          <a href="/developers/guides/posts-tagged">A page with posts with a tag</a> 
-        </li>
-      </ul>
-      </li>
-        <hr>
-        <li><a class="{{selected.support}}" href="/developers/support">Support</a></li>
-        <li><a class="{{selected.news}}" href="https://github.com/davidmerfield/blot">Source code</a></li>
-   </ul>
+        <ul>
+          <li class="{{selected.json-feed}}">
+            <a href="/developers/guides/json-feed">JSON feed</a>
+          </li>
+          <li class="{{selected.group-posts-by-dates}}">
+            <a href="/developers/guides/group-posts-by-dates">Group posts by date</a>
+          </li>
+          <li class="{{selected.posts-tagged}}">
+            <a href="/developers/guides/posts-tagged">A page with posts with a tag</a>
+          </li>
+        </ul>
+      </li><!-- 
+<br>
+      <hr>
 
-    <content class="col-75">
+      <br>
+      <div style="font-size:14px">
+        <li><a class="{{selected.contact}}" href="/developers/support">Contact</a></li>
+        <li><a class="{{selected.news}}" href="/news">News</a></li>
+      <li><a class="{{selected.news}}" href="https://github.com/davidmerfield/blot">Source code</a></li>
+      </div> -->
+    </ul>
+
+    <content>
       {{{body}}}
     </content>
   </main>
