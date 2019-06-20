@@ -5,7 +5,13 @@ var fs = require("fs-extra");
 var viewDirectory = fs.realpathSync(__dirname + "/../views/templates");
 
 var folders = {
-  archive: "ferox"
+  archive: "ferox",
+  console: "bjorn",
+  default: "bjorn",
+  magazine: "magazine",
+  photos: "bjorn",
+  portfolio: "bjorn",
+  rosa: "bjorn"  
 };
 
 templates.use(function(req, res, next) {
