@@ -38,6 +38,8 @@ Work out how to detect stray build processes. There were a bunch of zombies cons
 
 ---
 
+Increase price to $4 per month for new customers. This will not affect existing customers in any way.
+
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH) and [Michael](https://mail.google.com/mail/u/0/#sent/QgrcJHsTkKSHVKgTvQJXTffdLDdbGZPbFxl)
 
 Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%20825%20printer%20font%20-%20a%20work%20in%20progress.markdown) draft and speed up its build time
@@ -144,8 +146,6 @@ Add way to filter entries by post type (e.g. photo) and tell [Justin](https://tw
 Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
 
 Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3) and [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)and [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a).
-
-Increase price to $4 per month for new customers. This will not affect existing customers in any way.
 
 ---
 
