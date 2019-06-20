@@ -104,6 +104,8 @@ brochure.use("/developers", require("./developers"));
 
 // brochure.use("/templates", require("./templates"));
 
+brochure.use("/acknowledgements", require("./acknowledgements"));
+
 brochure.use("/news", require("./news"));
 
 brochure.use("/sign-up", require("./sign-up"));

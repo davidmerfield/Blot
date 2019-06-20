@@ -31,6 +31,7 @@
     "express-disk-cache": "^1.0.4",
     "express-session": "^1.6.5",
     "fs-extra": "^8.0.1",
+    "gray-matter": "^4.0.2",
     "hbs": "^4.0.4",
     "he": "^1.1.0",
     "helmet": "^3.13.0",
