@@ -26,11 +26,37 @@
 </overlay>
 
 
+<style type="text/css">
+.p {text-decoration: none;}
+.p:hover {text-decoration: underline;background: none;box-shadow: none;}
+.t {
+  width: 0;
+height: 0;
+position: absolute;
+top: 5px;
+left: 9px;
+border-style: solid;
+border-width: 4.5px 0 4.5px 8px;
+border-color: transparent transparent transparent #005eb8;display: inline-block;
+}
 
+.box {
+  width:1.5em;height:1.15em;float:left;border:1px solid;display:inline-block;position:relative;border-radius:2px;margin-right:0.65em;
+  position: relative;top: 1px;
+}
+
+.p:hover .box {background: #005eb8}
+.p:hover .t {
+  border-color: transparent transparent transparent #fff;
+}
+
+.p:focus .box {background: #444}
+
+</style>
 
 <p style="margin-top:46px">Blot is a blogging platform with no interface. Blot turns a folder into a blog. Drag-and-drop ﬁles into your blog's folder to publish them to your blog.</p>
 <p>Why a blogging platform with no interface? So you can blog with the tools you use already. Write your blog with your favorite text-editor.</p>
-<p><a href="/videos/publishing-with-blot.mp4">Watch the film</a></p>
+<p style="margin:2em 0 1em"><a class="p" href="/videos/publishing-with-blot.mp4"><span class="box"><span class="t"></span></span>Watch the film</a></p>
 <!-- 
 
 <br><br>
