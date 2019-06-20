@@ -141,7 +141,7 @@ brochure.get("/sitemap.xml", require("./sitemap"));
 
 brochure.use("/developers", require("./developers"));
 
-// brochure.use("/templates", require("./templates"));
+brochure.use("/templates", require("./templates"));
 
 brochure.use("/news", require("./news"));
 
@@ -227,6 +227,10 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
       "/" +
       req.params.subsubsection
   );
+});
+
+brochure.use(function(err, req, res, next){
+  if (err.code === 'MODULE_NOT_FOUND') return next();
 });
 
 brochure.use(function(err, req, res, next) {
