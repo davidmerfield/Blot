@@ -8,7 +8,6 @@ var User = require('user');
 var webhooks = Express.Router();
 
 // Stripe event codes
-var FAILED_PAYMENT = 'invoice.payment_failed';
 var UPDATED_SUBSCRIPTION = 'customer.subscription.updated';
 
 // Error messages
@@ -31,9 +30,6 @@ webhooks.post('/', parser.json(), function(req, res) {
 
   var event = req.body;
   var event_data = event.data.object;
-
-  if (event.type === FAILED_PAYMENT)
-    email.FAILED_PAYMENT();
 
   // A customer's subscription was changed, save changed info
   if (event.type === UPDATED_SUBSCRIPTION)
