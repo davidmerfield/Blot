@@ -46,7 +46,10 @@ function main(url, options, callback) {
         });
       }
 
-      if (res.headers["content-type"].indexOf("text/html") === -1) {
+      if (
+        res.headers["content-type"] &&
+        res.headers["content-type"].indexOf("text/html") === -1
+      ) {
         return callback();
       }
 
