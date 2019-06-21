@@ -45,7 +45,7 @@ Expected revenue from renewals in the next 30 days: {{revenue}}  from {{total}} 
 
 {{/renewals_next_30_days}}
 
-Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month)
+Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month, {{revenue_billed_monthly}} of which is billed monthly)
 
 {{#new_entries.length}}
 
