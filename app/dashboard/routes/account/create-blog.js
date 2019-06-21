@@ -78,6 +78,7 @@ CreateBlog.route("/")
   .post(saveBlog)
 
   .post(function(req, res) {
+    Email.CREATED_BLOG(req.user.uid);    
     res.message("/settings/client?setup=true", "Saved your title");
   })
 
@@ -247,8 +248,6 @@ function updateSubscription(req, res, next) {
 
       User.set(req.user.uid, { subscription: subscription }, function(err) {
         if (err) return next(err);
-
-        Email.SUBSCRIPTION_INCREASE(req.user.uid);
 
         next();
       });

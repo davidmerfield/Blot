@@ -1,3 +1,3 @@
-User added a blog to their subscription
+New blog created
 
 {{email}} now pays {{pretty.price}} per {{subscription.plan.interval}} for {{pretty.amount}} blogs
