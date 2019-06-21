@@ -59,7 +59,7 @@ function update_subscription (customer_id, subscription_id, callback) {
       if (subscription.status === 'past_due')
         email.OVERDUE(user.uid);
 
-      if (subscription.status === 'active' && user.subscription.status === 'past_due')
+      if (subscription.status === 'active' && (user.subscription.status === 'past_due' || subscription.status === 'unpaid'))
         email.RECOVERED(user.uid);
 
       if (subscription.status === 'unpaid')
