@@ -1,17 +1,19 @@
-var checkToken = require("./checkToken");
-var checkEmail = require("./checkEmail");
-var checkReset = require("./checkReset");
-var checkPassword = require("./checkPassword");
-var LogInError = require("./logInError");
-// Error codes & their corresponding message
-var parse = require("body-parser").urlencoded({ extended: false });
-
+var BodyParser = require("body-parser");
 var Express = require("express");
+
+var checkToken = require("./checkToken");
+var checkReset = require("./checkReset");
+var checkEmail = require("./checkEmail");
+var checkPassword = require("./checkPassword");
+var errorHandler = require("./errorHandler");
+var parse = BodyParser.urlencoded({ extended: false });
+
 var form = new Express.Router();
 
-var logIn = form.route("/");
+// form.use(require("./rateLimit"));
 
-logIn.all(function(req, res, next) {
+form.use(function(req, res, next) {
+  // Send logged-in users to the dashboard
   if (req.session && req.session.uid && !req.query.token) {
     var then = req.query.then || (req.body && req.body.then) || "/";
     return res.redirect(then);
@@ -24,29 +26,32 @@ logIn.all(function(req, res, next) {
   return next();
 });
 
-// logIn.all(require("./rateLimit"));
+form
+  .route("/reset")
 
-logIn.get(checkToken, function(req, res) {
-  res.render("log-in");
-});
+  .get(function(req, res) {
+    res.render("log-in/reset");
+  })
 
-logIn.post(parse, checkEmail, checkReset, checkPassword);
+  .post(parse, checkEmail, checkReset, errorHandler)
 
-logIn.all(function(err, req, res, next) {
-  if (!(err instanceof LogInError)) {
-    console.log(err);
-    return next(err);
-  }
+  .post(function(err, req, res, next) {
+    res.render("log-in/reset");
+  });
 
-  res.locals.error = res.locals[err.code] = true;
-  res.locals.email = req.body && req.body.email;
-  res.status(403);
+form
+  .route("/")
+  .get(checkToken, function(req, res) {
+    res.render("log-in");
+  })
 
-  if (err.code === "BADPASSWORD" || err.code === "NOPASSWORD") {
-    return res.render("log-in/password");
-  }
+  .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
 
-  return res.render("log-in");
-});
+  .post(function(err, req, res, next) {
+    if (req.body && req.body.reset !== undefined)
+      return res.redirect("/log-in/reset");
+
+    res.render("log-in");
+  });
 
 module.exports = form;

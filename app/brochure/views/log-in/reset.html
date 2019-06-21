@@ -1,3 +1,48 @@
-<p>I just sent a link to set your password to <b>{{email}}</b></p>
+<style type="text/css">
+input[type="submit"].link {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline;
+  margin: 0;
+  color: #005eb8;
+  text-decoration: underline;
+  transition-property: color, border-color;
+  transition-duration: .1s;
+  transition-timing-function: ease-out;
+}
 
-<p>Please <a href="/contact">contact me</a> if you have any questions.</p>
+input[type="submit"].link:hover {
+  border-bottom-color: #111
+}
+
+</style>
+
+{{^sent}}
+{{#BADEMAIL}}
+<p class="error">That email address does not match a Blot account.</p>
+{{/BADEMAIL}}
+
+{{#NOEMAIL}}
+<p class="error">Please enter your email address to reset your password.</p>
+{{/NOEMAIL}}
+
+<p>{{^error}}Please enter your email address to reset your password.{{/error}}
+ Don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+
+<form method="POST">
+
+  <p>
+    <label for="email">Your email address</label>
+    <input name="email" value="{{email}}" type="text" autofocus />
+  </p>
+
+  <input type="submit" name="reset"  value="Reset your password" />
+</form>
+{{/sent}}
+
+{{#sent}}
+<p>A link to {{#if hasPassword}}re{{/if}}set your password was sent to <b>{{email}}</b>. Don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+{{/sent}}
