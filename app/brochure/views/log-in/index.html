@@ -44,7 +44,7 @@ input[type="submit"].link:hover {
   <p class="error">That was not your password.</p>
   {{/BADPASSWORD}}
 
-  <p>{{^error}}Welcome back!{{/error}} You can <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
+  <p {{^error}}style="width:120%"{{/error}}>{{^error}}Welcome back!{{/error}} You can <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
 </form>
 
 <form method="POST">
