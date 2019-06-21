@@ -10,6 +10,7 @@ function main(callback) {
   // Minus Stripe fees
   var annual_recurring_revenue = 0;
   var total_active_blogs = 0;
+  var revenue_billed_monthly = 0;
 
   User.getAllIds(function(err, uids) {
     async.map(uids, User.getById, function(err, users) {
@@ -19,7 +20,7 @@ function main(callback) {
         if (!user.subscription.status) return;
 
         if (user.subscription.status !== "active") return;
-          
+
         if (user.subscription.cancel_at_period_end) return;
 
         if (user.subscription.current_period_end * 1000 < Date.now()) return;
@@ -31,6 +32,9 @@ function main(callback) {
             user.subscription.quantity * user.subscription.plan.amount
           );
         } else if (user.subscription.plan.interval === "month") {
+          revenue_billed_monthly += removeStripeFee(
+            user.subscription.quantity * user.subscription.plan.amount
+          );
           annual_recurring_revenue +=
             removeStripeFee(
               user.subscription.quantity * user.subscription.plan.amount
@@ -39,6 +43,9 @@ function main(callback) {
       });
 
       callback(null, {
+        revenue_billed_monthly: helper.prettyPrice(
+          Math.floor(revenue_billed_monthly / 100) * 100
+        ),
         annual_recurring_revenue: helper.prettyPrice(
           Math.floor(annual_recurring_revenue / 100) * 100
         ),
