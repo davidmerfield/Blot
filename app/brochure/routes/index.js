@@ -229,8 +229,9 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
   );
 });
 
-brochure.use(function(err, req, res, next){
-  if (err.code === 'MODULE_NOT_FOUND') return next();
+brochure.use(function(err, req, res, next) {
+  if (err.code === "MODULE_NOT_FOUND") return next();
+  next(err);
 });
 
 brochure.use(function(err, req, res, next) {
