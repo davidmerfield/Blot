@@ -40,6 +40,7 @@ function main(callback) {
     });
 
     callback(null, {
+      revenue_in_last_24_hours: helper.prettyPrice(revenue_in_last_24_hours),
       revenue_in_last_7_days: helper.prettyPrice(revenue_in_last_7_days),
       revenue_in_last_30_days: helper.prettyPrice(revenue_in_last_30_days)
     });
