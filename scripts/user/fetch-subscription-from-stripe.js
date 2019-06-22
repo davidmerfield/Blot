@@ -3,6 +3,8 @@ var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var yesno = require("yesno");
 var each = require("../each/user");
+var colors = require("colors/safe");
+
 function main(user, callback) {
   if (
     !user.subscription ||
@@ -10,10 +12,12 @@ function main(user, callback) {
     !user.subscription.id
   ) {
     console.log(
-      "User:",
-      user.uid,
-      user.email,
-      "does not have a Stripe subscription"
+      colors.dim(
+        "User:",
+        user.uid,
+        user.email,
+        "does not have a Stripe subscription"
+      )
     );
 
     return callback();
@@ -29,20 +33,24 @@ function main(user, callback) {
         err.param === "subscription"
       ) {
         console.log(
-          "User:",
-          user.uid,
-          user.email,
-          "used to have a Stripe subscription but no longer does, customer still exists on Stripe"
+          colors.red(
+            "User:",
+            user.uid,
+            user.email,
+            "used to have a Stripe subscription but no longer does, customer still exists on Stripe"
+          )
         );
         return callback();
       }
 
       if (err && err.code === "resource_missing" && err.param === "id") {
         console.log(
-          "User:",
-          user.uid,
-          user.email,
-          "used to have a Stripe subscription but no longer does, customer does not exist on Stripe"
+          colors.red(
+            "User:",
+            user.uid,
+            user.email,
+            "used to have a Stripe subscription but no longer does, customer does not exist on Stripe"
+          )
         );
         return callback();
       }
