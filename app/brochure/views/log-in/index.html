@@ -6,6 +6,7 @@ input[type="submit"].link {
   border: none;
   padding: 0;
   display: inline;
+  border-radius: 0;
   margin: 0;
   color: #005eb8;
   text-decoration: underline;
@@ -15,8 +16,15 @@ input[type="submit"].link {
 }
 
 input[type="submit"].link:hover {
-  border-bottom-color: #111
+  background-color: #eee;
+  box-shadow: 0 0 0 4px #eee;
+  text-decoration: underline;
 }
+
+input[type="submit"].link:active {
+  color: #444
+}
+
 
 </style>
 
