@@ -20,6 +20,13 @@
   left: 0;
 }*/
 
+h1 + .guides {margin-top: -14px}
+
+h2 + .guides {
+  margin-top: -6px;
+}
+
+h2 + .guides li:first-child a {border-top:none;}
 .guides li {
   margin: 0;
   padding: 0
@@ -35,7 +42,7 @@
 
 .guides li a {
   padding: 9px 0;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eceff1;
   color: inherit;
   text-decoration: none;
 /*  padding-left: 30px;
@@ -56,8 +63,8 @@
 
 <h2>Formatting</h2>
 
-<p>You can use a variety of standard tools to add formatting to your blog posts.</p>
-
+<!-- <p>You can use a variety of standard tools to add formatting to your blog posts.</p>
+ -->
     <ul class="guides">
       <li><a href="/publishing/guides/markdown"><span class="a">Markdown</span>  A lightweight markup language with plain text formatting syntax.</a> </li>
   <li><a href="/publishing/guides/tex"><span class="a">\(\TeX\)</span> A math typesetting library with powerful formatting features.</a> </li>
