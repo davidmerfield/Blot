@@ -15,6 +15,12 @@ Fix bug with local editing which wipes metadata and route for views inside templ
 
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
 
+Finish script to identify long-expired users with blogs to safely delete. 
+- Write script to safely delete blogs
+  - wipe blog folder
+  - wipe static directory
+  - wipe all keys
+  
 Ignore files inside 'assets' inside .textbundle directories to improve support for textbundles and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzDLvlTkKNmfZgnXpzzLZjWN).
 
 Add image partial template which would render inside each entry to provide ways to access exif, etc.
