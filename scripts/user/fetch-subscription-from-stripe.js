@@ -1,36 +1,56 @@
 var User = require("user");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
+var yesno = require("yesno");
+var each = require("../each/user");
+function main(user, callback) {
+  stripe.customers.retrieveSubscription(
+    user.subscription.customer,
+    user.subscription.id,
+    function(err, subscription) {
+      if (err || !subscription)
+        return callback(err || new Error("No subscription"));
 
-function main(email, callback) {
-  User.getByEmail(email, function(err, user) {
-    if (err) return callback(err);
-
-    stripe.customers.retrieveSubscription(
-      user.subscription.customer,
-      user.subscription.id,
-      function(err, subscription) {
+      User.set(user.uid, { subscription: subscription }, function(err) {
         if (err) return callback(err);
 
-        if (!subscription) return callback(new Error("No subscription"));
+        console.log(
+          "User:",
+          user.uid,
+          user.email,
+          user.subscription.customer,
+          "updated subscription",
+          user.subscription.id
+        );
 
-        User.set(user.uid, { subscription: subscription }, function(err) {
-          if (err) return callback(err);
+        callback(null, subscription);
+      });
+    }
+  );
+}
 
-          callback(null, subscription);
-        });
-      }
-    );
-  });
+function done(err) {
+  if (err) throw err;
+  console.log("Done!");
+  process.exit();
 }
 
 if (require.main === module) {
-  main(process.argv[2], function(err, subscription) {
-    if (err) throw err;
-    console.log("Fetched latest subscription for user " + process.argv[2]);
-    console.log(subscription);
-    process.exit();
-  });
+  if (process.argv[2]) {
+    User.getByEmail(process.argv[2], function(err, user) {
+      if (err || !user) throw err || new Error("No user");
+      main(user, done);
+    });
+  } else {
+    yesno.ask(
+      "Fetch latest subscription information from Stripe for all users? (y/N)",
+      false,
+      function(ok) {
+        if (!ok) return process.exit();
+        each(main, done);
+      }
+    );
+  }
 }
 
 module.exports = main;
