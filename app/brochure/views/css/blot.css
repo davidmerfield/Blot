@@ -70,6 +70,8 @@ mark {
   background-color: #fff0a8;
 }
 
+content > p:first-child {margin-top: 46px}
+
 content p a,
 content li a,
 content table a,
