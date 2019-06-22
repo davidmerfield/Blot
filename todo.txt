@@ -1,5 +1,3 @@
-Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
-
 Write script to catch template views with incorrect routes
 - For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
 
@@ -38,6 +36,8 @@ Work out how to detect stray build processes. There were a bunch of zombies cons
 ---
 
 Increase price to $4 per month for new customers. This will not affect existing customers in any way.
+
+Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH) and [Michael](https://mail.google.com/mail/u/0/#sent/QgrcJHsTkKSHVKgTvQJXTffdLDdbGZPbFxl)
 
