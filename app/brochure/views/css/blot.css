@@ -317,7 +317,7 @@ a.video {
   justify-content: center;
   min-height: 288px;
   padding-bottom: 0;
-  height: calc(100vh - 24em);
+  height: calc(100vh - 23em);
 }
 
 @media screen and (max-width: 800px) {
