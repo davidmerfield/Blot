@@ -16,6 +16,7 @@ function main(callback) {
       require("./revenue"),
       require('./entries'),
       require("./newsletter-subscribers"),
+      require("./payments"),
       require("./renewals")
     ],
     function(fn, next) {

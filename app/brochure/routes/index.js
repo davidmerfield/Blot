@@ -143,7 +143,7 @@ brochure.use("/developers", require("./developers"));
 
 brochure.use("/notes", require("./notes"));
 
-// brochure.use("/templates", require("./templates"));
+brochure.use("/templates", require("./templates"));
 
 brochure.use("/news", require("./news"));
 
@@ -229,6 +229,11 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
       "/" +
       req.params.subsubsection
   );
+});
+
+brochure.use(function(err, req, res, next) {
+  if (err.code === "MODULE_NOT_FOUND") return next();
+  next(err);
 });
 
 brochure.use(function(err, req, res, next) {

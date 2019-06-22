@@ -78,7 +78,6 @@
     "faker": "^4.1.0",
     "jasmine": "^3.3.1",
     "minimist": "^1.2.0",
-    "seedrandom": "^2.4.4",
-    "shelljs": "^0.3.0"
+    "seedrandom": "^2.4.4"
   }
 }

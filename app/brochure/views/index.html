@@ -1,5 +1,21 @@
 <overlay class="">
-  <a href="/" class="close">Close</a>
+  <header style="max-width:64rem;margin:0 auto 3em;width: 100%;">
+    <row style="display:flex;align-items:center;">
+      <section style="display: flex;
+    align-items: center;">
+
+        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+        
+
+      </section>
+
+      <section class="links">
+          <a href="/" class="close">Close</a>
+      </section>
+    </row>
+
+  </header>
+
   <div class="videoWrapper">
     <div class="container">
       <video id="player" playsinline controls>
@@ -10,11 +26,37 @@
 </overlay>
 
 
+<style type="text/css">
+.p {text-decoration: none;}
+.p:hover {text-decoration: underline;background: none;box-shadow: none;}
+.t {
+  width: 0;
+height: 0;
+position: absolute;
+top: 5px;
+left: 9px;
+border-style: solid;
+border-width: 4.5px 0 4.5px 8px;
+border-color: transparent transparent transparent #005eb8;display: inline-block;
+}
 
+.box {
+  width:1.5em;height:1.15em;float:left;border:1px solid;display:inline-block;position:relative;border-radius:2px;margin-right:0.65em;
+  position: relative;top: 1px;
+}
 
-<p style="margin-top:46px">Blot turns a folder into a blog. Drag-and-drop ﬁles inside to publish them. Text ﬁles, images, Markdown, Word Documents and more become blog posts.</p>
+.p:hover .box {background: #005eb8}
+.p:hover .t {
+  border-color: transparent transparent transparent #fff;
+}
+
+.p:focus .box {background: #444}
+
+</style>
+
+<p style="margin-top:46px">Blot is a blogging platform with no interface. Blot turns a folder into a blog. Drag-and-drop ﬁles into your blog's folder to publish them to your blog.</p>
 <p>Why a blogging platform with no interface? So you can blog with the tools you use already. Write your blog with your favorite text-editor.</p>
-<p><a href="/videos/publishing-with-blot.mp4">Watch the film</a></p>
+<p style="margin:36px 0 25px"><a class="p" href="/videos/publishing-with-blot.mp4"><span class="box"><span class="t"></span></span>Watch the film</a></p>
 <!-- 
 
 <br><br>
@@ -78,6 +120,7 @@ a.featured {
 /*  font-size: 14px;
 */  color: inherit;
   display: flex;
+  flex-wrap:wrap;
 /*  text-align: center;
 */  margin-bottom: 2.8em;
   box-sizing: border-box;
@@ -122,10 +165,13 @@ a.featured:hover .a {
 }
 
 .feat-window {
-  margin: -1em 1em -1em -0.1525em;
+  margin: 0 1em 0 -0.1525em;
   color: #005eb8;
   position: relative;
+  flex-grow:1;
   flex-basis:35%;
+  min-width:200px;
+  max-width: 300px;
   border:1px solid #005eb8;border-radius:3px;display:block;text-align:center;margin-bottom:0.7em
 }
 
@@ -147,9 +193,9 @@ a.featured:hover .a {
   {{#featured}}
   <a class="featured col-25" target="_blank" rel="noopener" href="{{{link}}}">
     
- <span style="flex-basis:40%;padding-right:8%;padding-left:2.7em">
+ <span style="flex-basis:40%;flex-grow:1;padding-right:8%;padding-left:2.7em">
    <img style="width:22px;height:22px;position:absolute;top:3px;left:1.5em" src="{{{favicon}}}"> 
- <span class="a">{{name}}</span> {{bio}}.<small style="margin-top:1em;color:#989694;display:block;font-size:14px;">{{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</small></span>
+ <span class="a">{{name}}</span> {{bio}}.<small style="margin-top:1em;margin-bottom:2em;color:#989694;display:block;font-size:14px;">{{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</small></span>
 </span>
 <span class="feat-window">
       <span class="feat-arrow">↗</span>
