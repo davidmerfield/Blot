@@ -28,15 +28,22 @@ function main(user, callback) {
         err.code === "resource_missing" &&
         err.param === "subscription"
       ) {
-        console.log(err.message);
-        return stripe.customers.retrieve(user.subscription.customer, function(
-          othererr,
-          customer
-        ) {
-          if (othererr) console.log(othererr);
-          console.log(customer);
-          return callback(err);
-        });
+        console.log(
+          "User:",
+          user.uid,
+          user.email,
+          "used to have a Stripe subscription but no longer does"
+        );
+        return callback();
+        // console.log(err.message);
+        // return stripe.customers.retrieve(user.subscription.customer, function(
+        //   othererr,
+        //   customer
+        // ) {
+        //   if (othererr) console.log(othererr);
+        //   console.log(customer);
+        //   return callback(err);
+        // });
       }
 
       if (err) {
