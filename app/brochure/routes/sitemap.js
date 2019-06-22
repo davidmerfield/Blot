@@ -14,7 +14,7 @@ module.exports = function(req, res) {
     "/publishing/public-files",
     "/publishing/metadata",
     "/publishing/clients",
-    "/publishing/formatting",
+    "/publishing/guides",
     "/developers",
     "/contact",
     "/about",
