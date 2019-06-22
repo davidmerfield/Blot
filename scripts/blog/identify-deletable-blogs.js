@@ -10,6 +10,9 @@ yesno.ask("Have you done that? (y/N)", false, function(ok) {
   if (!ok) return process.exit();
   each(
     function(user, blog, next) {
+      // see if the blog has a custom domain?
+      // see if the blog is still accessible?
+
       if (user.isDisabled) {
         console.log("Blog:", blog.id, "owner is disabled");
         found++;
