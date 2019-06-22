@@ -32,7 +32,7 @@ var MESSAGES = [
   "BAD_REQUEST",
   "CANCELLED",
   "CLOSED",
-  "CREATED_BLOG",  
+  "CREATED_BLOG",
   "DAILY_UPDATE",
   "DELETED",
   "DISABLED",
@@ -139,12 +139,8 @@ function send(locals, messageFile, to, callback) {
     if (config.environment === "development") {
       var previewPath = tempDir + Date.now() + ".html";
       fs.outputFileSync(previewPath, email.html, "utf-8");
-      console.log("Preview:", previewPath);
-    }
-
-    if (config.environment === "development" && to !== config.admin.email) {
       console.log("Email not sent in development environment:", email);
-      return callback();
+      console.log("Preview:", previewPath);
     }
 
     mailgun.messages().send(email, function(err, body) {
