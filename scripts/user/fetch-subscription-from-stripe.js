@@ -4,6 +4,21 @@ var stripe = require("stripe")(config.stripe.secret);
 var yesno = require("yesno");
 var each = require("../each/user");
 function main(user, callback) {
+  if (
+    !user.subscription ||
+    !user.subscription.customer ||
+    !user.subscription.id
+  ) {
+    console.log(
+      "User:",
+      user.uid,
+      user.email,
+      "does not have a Stripe subscription"
+    );
+
+    return callback();
+  }
+
   stripe.customers.retrieveSubscription(
     user.subscription.customer,
     user.subscription.id,
