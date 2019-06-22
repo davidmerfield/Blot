@@ -139,11 +139,8 @@ function send(locals, messageFile, to, callback) {
     if (config.environment === "development") {
       var previewPath = tempDir + Date.now() + ".html";
       fs.outputFileSync(previewPath, email.html, "utf-8");
-      console.log("Preview:", previewPath);
-    }
-
-    if (config.environment === "development" && to !== config.admin.email) {
       console.log("Email not sent in development environment:", email);
+      console.log("Preview:", previewPath);
       return callback();
     }
 
