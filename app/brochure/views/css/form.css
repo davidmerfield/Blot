@@ -10,7 +10,8 @@ main.form content {
 }
 
 input[type="submit"],
-input[type="text"]  {border-radius: 3px}
+input[type="text"],
+input[type="password"]  {border-radius: 3px}
 
 input[type="submit"] {
   background: #333;
