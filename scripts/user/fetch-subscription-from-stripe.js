@@ -37,7 +37,7 @@ function main(user, callback) {
         return callback();
       }
 
-      if (err && err.code === "resource_missing" && err.param === "customer") {
+      if (err && err.code === "resource_missing" && err.param === "id") {
         console.log(
           "User:",
           user.uid,
