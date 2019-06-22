@@ -1,6 +1,7 @@
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
-Write script to catch archives pages with incorrect routes '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
+Write script to catch template views with incorrect routes
+- For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
 
 Finish Feed template
 - Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
