@@ -32,18 +32,19 @@ function main(user, callback) {
           "User:",
           user.uid,
           user.email,
-          "used to have a Stripe subscription but no longer does"
+          "used to have a Stripe subscription but no longer does, customer still exists on Stripe"
         );
         return callback();
-        // console.log(err.message);
-        // return stripe.customers.retrieve(user.subscription.customer, function(
-        //   othererr,
-        //   customer
-        // ) {
-        //   if (othererr) console.log(othererr);
-        //   console.log(customer);
-        //   return callback(err);
-        // });
+      }
+
+      if (err && err.code === "resource_missing" && err.param === "customer") {
+        console.log(
+          "User:",
+          user.uid,
+          user.email,
+          "used to have a Stripe subscription but no longer does, customer does not exist on Stripe"
+        );
+        return callback();
       }
 
       if (err) {
