@@ -13,6 +13,8 @@ Fix bug with local editing which wipes metadata and route for views inside templ
 - Write script to catch template views with incorrect routes
 - For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
 
+Add white background to folder in favicon
+
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
 
 Finish script to identify long-expired users with blogs to safely delete. 
