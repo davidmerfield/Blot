@@ -23,6 +23,10 @@ function main(user, callback) {
     user.subscription.customer,
     user.subscription.id,
     function(err, subscription) {
+      if (err) {
+        console.log(err);
+      }
+
       if (err || !subscription)
         return callback(err || new Error("No subscription"));
 
