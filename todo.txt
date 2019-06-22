@@ -1,6 +1,3 @@
-Write script to catch template views with incorrect routes
-- For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
-
 Finish Feed template
 - Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
 - Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
@@ -11,6 +8,9 @@ Record new demo video
 - Tidy up fontarchive.org
 
 ---
+
+Write script to catch template views with incorrect routes
+- For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
 
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
 
