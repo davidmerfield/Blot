@@ -9,7 +9,8 @@ Record new demo video
 
 ---
 
-Write script to catch template views with incorrect routes
+Fix bug with local editing which wipes metadata and route for views inside templates without package.json
+- Write script to catch template views with incorrect routes
 - For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
 
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
