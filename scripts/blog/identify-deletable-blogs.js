@@ -4,7 +4,7 @@ var yesno = require("yesno");
 console.log(
   "Fetch latest version of subscription from Stripe for each user first:"
 );
-console.log("node scripts/user/fetch-latest-subscription-for-each-user\n");
+console.log("node scripts/user/fetch-subscription-from-stripe.js\n");
 
 yesno.ask("Have you done that? (y/N)", false, function(ok) {
   if (!ok) return process.exit();
