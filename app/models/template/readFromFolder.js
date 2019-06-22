@@ -50,6 +50,8 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                   if (views[name])
                     for (var i in views[name]) view[i] = views[name][i];
 
+                  // we need to fetch existing version of view from database
+                  // to prevent removal of package.json from clobbering its data
                   view.url = view.url || '/' + view.name;
                                   
                   setView(id, view, function(err) {
