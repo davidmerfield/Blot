@@ -16,6 +16,7 @@ Fix bug with local editing which wipes metadata and route for views inside templ
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
 
 Finish script to identify long-expired users with blogs to safely delete. 
+- Sort by date expired
 - Write script to safely delete blogs
   - wipe blog folder
   - wipe static directory
