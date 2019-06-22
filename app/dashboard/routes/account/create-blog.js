@@ -248,8 +248,7 @@ function updateSubscription(req, res, next) {
       User.set(req.user.uid, { subscription: subscription }, function(err) {
         if (err) return next(err);
 
-        Email.SUBSCRIPTION_INCREASE(req.user.uid);
-
+        Email.CREATED_BLOG(req.user.uid);
         next();
       });
     }

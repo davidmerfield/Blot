@@ -98,7 +98,7 @@ label[for="toggle"] {
   display: block;
   position: absolute;
   top: 50%;
-  left: -1.25em;
+  left: 0.75em;
   width: 7px;
   height: 7px;
   margin: -4px -5px 0 0;
@@ -172,6 +172,7 @@ ul.sidebar ul {
 .sidebar li ul {
   list-style: none;
   padding-left: 1em;
+  padding-bottom: 1em;
 }
 
 
@@ -179,18 +180,6 @@ ul.sidebar ul {
   position: relative;
 }
 
-.sidebar li ul li:before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: -1em;
-  width: 7px;
-  height: 7px;
-  margin: 0 -5px 0 0;
-  border-top: solid 1px #a9a6a3;
-
-  content: "";
-}
 
 
 

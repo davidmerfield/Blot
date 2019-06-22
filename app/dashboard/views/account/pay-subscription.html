@@ -1,43 +1,71 @@
+<div class="subpage">
 <a href="" class="mess error" style="display:none">
          {{text}}
          <span class="link">Dismiss</span>
         </a>
 
-        <a style="padding: 0 20px;line-height:41px;color:rgb(153, 153, 153);display:block;text-decoration:none;border-bottom:1px solid rgba(0,0,0,.05)" href="/account">Restart subscription
-          </a>
-<form method="POST" class="account" id="payment-form" >
+<style type="text/css">
+a {color: rgb(54, 88, 153);text-decoration: none;}
+a:hover {text-decoration: underline;}
+</style>
+
+
+<p style="margin-top:0;padding:11px 20px 0;margin-bottom:0">Your subscription fee is overdue. Please pay {{amountDue}} to restart your subscription. You can also permanently <a href="/account/delete">delete your account</a>. If you have any questions please <a href="/contact">contact me</a>.</p>
+<!-- 
+<div class="center" style="position:relative;top:-3px;padding:0 20px;max-width:75%">
+<p style="margin:6px 0 0;padding:0 0 6px;border-bottom:1px solid rgba(0,0,0,0.05);color:rgb(158, 154, 152);">Your blogs</p>
+  {{#blogs}}
+
+  <div style="display:flex;border:none;align-items:center;padding:0;border-bottom:1px solid rgba(0,0,0,0.05)" class="line">
+
+    <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
+      <input type="hidden" name="_csrf" value="{{csrftoken}}">
+      <input type="hidden" name="to" value="{{id}}">
+      <button type="submit" style="width:100%;padding:6px 11px 6px 0;display:flex;border:none;margin:0;background:none">
+        <span style="display:flex;flex-grow:1;align-items:center"><span class="photo-holder" style="margin-top:0"> {{#avatar}}<img style="vertical-align: top;" src="{{avatar}}?handle={{handle}}">{{/avatar}}
+              {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span><span class="link">{{pretty.label}}</span></span>
+      </button>
+    </form>
+
+    <a class="right link" style="display:flex;background:none;padding:0" href="/account/delete/blog/{{handle}}">Delete </a>
+
+  </div>
+
+  {{/blogs}}
+  <div class="clear"></div>
+</div> -->
+
+<form method="POST" class="account" id="payment-form">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-  <p style="margin-top:0">Your subscription fee is overdue. Please pay {{amountDue}} to restart your account. Processing may take a few seconds so please don’t reload the page once you submit your payment. If you have any questions please <a href="/contact">contact me</a>.</p>
-
-<div style="max-width:300px">
+  <div style="max-width:300px">
 
     <label style="margin-top:1rem">
       <span>Card number:</span>
     </label>
-    <input autofocus type="text" size="20" data-stripe="number" name="number"/>
+    <input autofocus type="text" size="20" data-stripe="number" name="number" />
 
     <div class="expiration">
-    <label class="title">Expiration date:</label>
-      <input class="month" name="exp-month" placeholder="MM" type="text" size="2" data-stripe="exp-month"/>
-      <input class="year" name="exp-year" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+      <label class="title">Expiration date:</label>
+      <input class="month" name="exp-month" placeholder="MM" type="text" size="2" data-stripe="exp-month" />
+      <input class="year" name="exp-year" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
     </div>
 
     <div class="cvc">
       <label>CVC:</label>
-      <input type="text" size="4" data-stripe="cvc" name="cvc"/>
+      <input type="text" size="4" data-stripe="cvc" name="cvc" />
     </div>
 
     <div class="clear"></div>
-</div>
-    
+  </div>
+
   <div class="buttons" style="max-width:300px">
     <button type="submit">Submit payment</button>
     <a href="/">Cancel</a>
   </div>
-<br>
-<br>
+  <br>
+  <br>
 
 </form>
 
@@ -46,35 +74,34 @@
 <script type="text/javascript">
 // This identifies your website in the createToken call below
 Stripe.setPublishableKey('{{stripe_key}}');
-
-  $('#payment-form').submit(function(event) {
-
-    var $form = $(this);
-
-    // Disable the submit button to prevent repeated clicks
-    $form.find('button').prop('disabled', true);
-
-    Stripe.card.createToken($form, function(status, response){
-
-      var $form = $('#payment-form');
-
-      if (response.error) {
-        // Show the errors on the form
-        $('.mess').text(response.error.message).show();
-        $form.find('button').prop('disabled', false);
-      } else {
-        // response contains id and card, which contains additional card details
-        var token = response.id;
-        // Insert the token into the form so it gets submitted to the server
-        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-        // and submit
-        $form.get(0).submit();
-      }
-
-    });
-
-    // Prevent the form from submitting with the default action
-    return false;
+$('#payment-form').submit(function(event) {
+  var $form = $(this);
+  // Disable the submit button to prevent repeated clicks
+  $form.find('button').prop('disabled', true);
+  Stripe.card.createToken($form, function(status, response) {
+    var $form = $('#payment-form');
+    if (response.error) {
+      // Show the errors on the form
+      $('.mess').text(response.error.message).show();
+      $form.find('button').prop('disabled', false);
+    } else {
+      // response contains id and card, which contains additional card details
+      var token = response.id;
+      // Insert the token into the form so it gets submitted to the server
+      $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+      // and submit
+      $form.get(0).submit();
+    }
+  });
+  // Prevent the form from submitting with the default action
+  return false;
 });
+
 </script>
 
+</div>
+
+
+<form action="/account/log-out" method="post">
+  <button type="submit" style="background:none;border:none;line-height:41px;padding:0 20px;margin:0;color:rgb(153, 153, 153);">Log out &thinsp;&rarr;</button>
+</form>

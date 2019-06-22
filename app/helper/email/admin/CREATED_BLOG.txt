@@ -1,0 +1,3 @@
+New blog created
+
+{{email}} now pays {{pretty.price}} per {{subscription.plan.interval}} for {{pretty.amount}} blog{{pretty.s}}

@@ -2,7 +2,7 @@ var helper = require("helper");
 var ensure = helper.ensure;
 var validate = require("./validate");
 var client = require("client");
-
+var updateBillingEmail = require("./updateBillingEmail");
 var key = require("./key");
 var getById = require("./getById");
 
@@ -37,13 +37,16 @@ module.exports = function save(uid, updates, callback) {
 
       // Should this be setNX? We don't want to clobber
       // emails which are set between validation and here.
-      if (user.email)
-        multi.set(key.email(user.email), uid);
-      
+      if (user.email) multi.set(key.email(user.email), uid);
+
       // If the user changes their email, remove the old
       // email pointing to the User's ID.
-      if (former.email && former.email !== user.email)
+      if (former.email && former.email !== user.email) {
         multi.del(key.email(former.email));
+        updateBillingEmail(user, function(err) {
+          console.log("Error updating email for customer on Stripe:", err);
+        });
+      }
 
       multi.set(key.user(uid), userString);
 

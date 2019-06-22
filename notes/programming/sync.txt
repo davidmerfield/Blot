@@ -1,0 +1,53 @@
+14. sync
+
+the problem
+
+blot does not handle sync notifications from dropbox well.
+
+- for some reason, sync locked up for allpole. this is catastrophic, much worse than multiple entries?
+- for some reason, ben log has multiple drafts.
+
+let's say you add a big directory of files to blot's folder.
+
+Blot will recieve a webhook, get the list of changed files and start downloading them to process them.
+
+This could take a long a while – if during the downloading the user changes one of the files, then the dropbox will notify again. Since the previous sync is not complete, dropbox will send the entire list of changes again, as well as the change.
+
+## the current strategy is to block multiple concurrent syncs for a user, and re-sync after each successful sync until no changes are detected.
+
+## ideal strategy?
+
+- on webhook, fetch changes
+  then handle 'instant changes' instantly (drop, rename, ignore, unignore)
+  store changes which require a download to a queue
+  then immediately save the folderstate
+  then move down the queue
+  - downloading and setting as needed?
+  - this queue would persist, so if the server restarted it could finish OK.
+  all modules should be either 'set' or 'drop' to keep things simple?
+
+- process the changes in the queue, if a file needs to be downloaded, then download
+  - this is where a failure might happen,
+
+  if dealing with a particular change i
+
+
+the goal is to set entry idempotent to permit multiple syncs
+assuming no entry called 'foo.txt', running:
+
+Entry.create(1, {path: 'foo.txt', html: 'A', updated: 1}, callback);
+Entry.create(1, {path: 'foo.txt', html: 'B', updated: 2}, callback);
+ and only have one entry ID generated, with the content of the
+ most recent updated stored.
+
+ set    - store entry JSON against path
+        - if existing updated and updated > new updated, abort
+        - if no JSON exists, gen new ID
+        - if no created exists, gen new created
+        - store path against entry ID
+
+ rename - redis.rename path
+        - update to store new path against ID
+
+
+ensure the mtime setting works in unix as well as it does on OSX

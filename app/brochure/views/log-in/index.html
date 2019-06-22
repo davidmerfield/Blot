@@ -1,25 +1,68 @@
-{{^error}}<p>Welcome back! Please don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble logging in for any reason.</p>{{/error}}
+<style type="text/css">
+input[type="submit"].link {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline;
+  border-radius: 0;
+  margin: 0;
+  color: #005eb8;
+  text-decoration: underline;
+  transition-property: color, border-color;
+  transition-duration: .1s;
+  transition-timing-function: ease-out;
+}
 
-{{#BADTOKEN}}
-<p class="error">This link has expired or had already been clicked. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
-{{/BADTOKEN}}
+input[type="submit"].link:hover {
+  background-color: #eee;
+  box-shadow: 0 0 0 4px #eee;
+  text-decoration: underline;
+}
 
-{{#BADEMAIL}}
-<p class="error">That email address did not match a Blot account. Please <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
-{{/BADEMAIL}}
+input[type="submit"].link:active {
+  color: #444
+}
 
-{{#NOEMAIL}}
-<p class="error">Please enter your email address. Don’t hesitate to <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
-{{/NOEMAIL}}
+
+</style>
+
+<form method="POST" style="margin:0;padding:0">
+
+  <input type="hidden" name="email" value="{{email}}" />
+
+  {{#BADTOKEN}}
+  <p class="error">This link has expired or had already been clicked.</p>
+  {{/BADTOKEN}}
+
+  {{#BADEMAIL}}
+  <p class="error">That email address does not match a Blot account.</p>
+  {{/BADEMAIL}}
+
+  {{#NOEMAIL}}
+  <p class="error">Please enter your email address.</p>
+  {{/NOEMAIL}}
+
+  {{#NOPASSWORD}}
+  <p class="error">Please enter your password.</p>
+  {{/NOPASSWORD}}
+
+  {{#BADPASSWORD}}
+  <p class="error">That was not your password.</p>
+  {{/BADPASSWORD}}
+
+  <p {{^error}}style="width:120%"{{/error}}>{{^error}}Welcome back!{{/error}} You can <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/contact">contact me</a> if you’re having trouble logging in.</p>
+</form>
 
 <form method="POST">
   <p>
     <label for="email">Your email address</label>
-    <input name="email" type="text" autofocus />
+    <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
   </p>
   <p>
-    <label for="password" >Password</label>
-    <input name="password" type="password" />
+    <label for="password">Password</label>
+    <input name="password" type="password" {{#if validemail}} autofocus{{/if}} />
   </p>
   <input type="submit" value="Log in" />
 </form>

@@ -31,6 +31,7 @@
     "express-disk-cache": "^1.0.4",
     "express-session": "^1.6.5",
     "fs-extra": "^8.0.1",
+    "gray-matter": "^4.0.2",
     "hbs": "^4.0.4",
     "he": "^1.1.0",
     "helmet": "^3.13.0",
@@ -77,7 +78,6 @@
     "faker": "^4.1.0",
     "jasmine": "^3.3.1",
     "minimist": "^1.2.0",
-    "seedrandom": "^2.4.4",
-    "shelljs": "^0.3.0"
+    "seedrandom": "^2.4.4"
   }
 }

@@ -9,6 +9,11 @@ body {
   background: #fffefc;
 }
 
+body {
+  max-width: 64rem;
+  margin: 0 auto
+}
+
 .dark main {
   background: #111;
 }
@@ -25,7 +30,6 @@ body {
     "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 400;
-  color: #111;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
 }
@@ -66,6 +70,8 @@ mark {
   background-color: #fff0a8;
 }
 
+content > p:first-child {margin-top: 46px}
+
 content p a,
 content li a,
 content table a,
@@ -96,11 +102,12 @@ content details a:hover {
 }
 
 h1 {
-font-size: 24px;
-    font-weight: 600;
-    margin: 36px 0 16px;
-/*    border-bottom: 1px solid #eceff1;
-*/    padding: 0 0 0.25em;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 36px 0 16px;
+  /*    border-bottom: 1px solid #eceff1;
+*/
+  padding: 0 0 0.25em;
 }
 
 h2 {
@@ -153,10 +160,10 @@ main.has-sidebar {
 
 ul.templates {
   display: flex;
-  margin: 2em 0;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: space-between;
   padding: 0;
+  margin: 2em -0.5em;
 }
 
 ul.templates small {
@@ -168,16 +175,32 @@ ul.templates li {
   min-width: 200px;
   width: 25%;
   box-sizing: border-box;
-  padding: 1.5rem 0.5rem;
+  padding: 1.5rem 0.5rem 0;
 }
 
 ul.templates li a {
-  color: inherit;
   border: none;
+  min-height: 180px;
+  display: block;
+}
+
+ul.templates li a:hover {
+  box-shadow: none;
+  outline: none;
+  background: none
+}
+
+ul.templates li a:hover strong {
+  background-color: #eee;
+  box-shadow: 0 0 0 4px #eee;
+
 }
 
 ul.templates li strong {
-  display: block;
+  display: inline-block;
+  text-decoration: underline;
+  color: #005eb8;
+  font-weight: 400;
 }
 
 ul.templates img {
@@ -188,6 +211,7 @@ ul.templates img {
 ul.templates img,
 p img {
   width: 100%;
+  height: auto;
 }
 
 table {
@@ -282,7 +306,7 @@ background .text {
 a.video {
   margin: 0;
   height: 0;
-  background: #fdbd41;
+  background: #fdbd416b;
   padding-bottom: 30%;
   min-height: 48px;
   margin: 0 0 24px;
@@ -293,7 +317,7 @@ a.video {
   justify-content: center;
   min-height: 288px;
   padding-bottom: 0;
-  height: calc(100vh - 19.5em);
+  height: calc(100vh - 24em);
 }
 
 @media screen and (max-width: 800px) {
@@ -400,7 +424,6 @@ background .window {
 
 p.back-link {
   margin: -1.4em 0 1.4em;
-  border-top: 1px solid #eceff1;
   padding: 0.7em 0;
 }
 
@@ -412,6 +435,50 @@ overlay {
   left: 0;
   z-index: -1;
   opacity: 0;
-  padding: 3em;
+  padding: 0;
   background: #fffefc;
+}
+
+
+.screenshot {
+  width: 100%;
+  height: 0;
+  position: relative;
+  overflow: hidden;
+  margin: 3em -1.7em 1em
+}
+
+.screenshot a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0
+}
+
+.screenshot a img {
+  width: 100%
+}
+
+
+.screenshot a:hover {
+  background: none;
+  box-shadow: none;
+  outline: none;
+}
+
+figure {
+  margin: 4em 0
+}
+
+figcaption {
+  font-size: 12px
+}
+
+ul.side-links {
+  list-style-type: none;
+  float: right;
+  border-left: 1px solid #eee;
+  padding: 0 0 1.5em 1.5em;
+  margin: 0 0 0 2em
 }

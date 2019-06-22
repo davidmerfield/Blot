@@ -8,7 +8,6 @@ var User = require('user');
 var webhooks = Express.Router();
 
 // Stripe event codes
-var FAILED_PAYMENT = 'invoice.payment_failed';
 var UPDATED_SUBSCRIPTION = 'customer.subscription.updated';
 
 // Error messages
@@ -31,9 +30,6 @@ webhooks.post('/', parser.json(), function(req, res) {
 
   var event = req.body;
   var event_data = event.data.object;
-
-  if (event.type === FAILED_PAYMENT)
-    email.FAILED_PAYMENT();
 
   // A customer's subscription was changed, save changed info
   if (event.type === UPDATED_SUBSCRIPTION)
@@ -62,6 +58,9 @@ function update_subscription (customer_id, subscription_id, callback) {
 
       if (subscription.status === 'past_due')
         email.OVERDUE(user.uid);
+
+      if (subscription.status === 'active' && (user.subscription.status === 'past_due' || subscription.status === 'unpaid'))
+        email.RECOVERED(user.uid);
 
       if (subscription.status === 'unpaid')
         email.OVERDUE_CLOSURE(user.uid);

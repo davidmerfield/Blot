@@ -68,7 +68,6 @@ ol {
 }
 
 ol {
-  margin: 0 0 0 8px;
   padding: 0;
 }
 
@@ -79,7 +78,6 @@ ol li {
 ol li a {
   position: relative;
   display: block;
-  padding-left: 1.3em;
   border: none;
   color: inherit;
   text-decoration: none;
@@ -89,30 +87,21 @@ ol li p {
   margin: 0;
 }
 
-ol li small {
-  color: #aaa;
+ol li a:hover {
+  box-shadow: none;
+  text-decoration: none;
 }
 
-section {position: relative;width:50%;}
-ol li a,
-section > p,
-section > details {padding-left: 2em;position: relative;}
+ol li a:active,
+ol li a:focus {background: none;box-shadow: none;}
+
+ol li a:hover small {text-decoration: underline;color: #005eb8}
+ol li small {
+  color: #989694;
+  font-size: 14px
+}
 
 content hr {border: none;border-bottom: 1px solid #eee;margin: 2em 0}
-
-ol li a:before,
-section > p:before,
-section > details:before {
-  width: 0.66em;
-  border:1px solid;
-  height: 0.666em;
-  content: " ";
-  position: absolute;
-  left: 0;
-  top: 0.25em
-}
-
-ol li a:before {content: "✖";text-align: center;text-indent: -0.15em;line-height: 0.8}
 
 ol li a:hover {
   background: none
@@ -120,6 +109,8 @@ ol li a:hover {
 
 flex {display: flex}
 
+details ul,
+details ol {padding-left: 1.5em;margin-left: 0}
 details {
 margin: 1em 0;
 display: block;position: relative;color: inherit;
@@ -174,7 +165,7 @@ details summary:before {
 }
 </style>
 <h1>News</h1>
-<p>This page explains what I'm working on and what I have planned. You can subscribe to the newsletter below to recieve a summary <!-- of new features, templates, fixed bugs and future plans --> at the start of each season. <!-- See <a href="/news/archive">past newsletters</a> for a sense of what I send out. --> Please don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+<p>This page explains what I'm working on and what I have planned. You can subscribe below to recieve a newsletter <!-- of new features, templates, fixed bugs and future plans --> at the start of each season. <!-- See <a href="/news/archive">past newsletters</a> for a sense of what I send out. --> Please don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
 
 <br>
 <form action="/news/sign-up" method="POST" style="max-width:608px;">
@@ -189,18 +180,18 @@ details summary:before {
 
 <flex>
   
-  <section style="flex-grow:1">
+  <section style="flex-grow:1;margin-right:2.1rem">
     <h2 style="margin-bottom:1.5em">To do</h2>
     {{{todo}}}
   </section>
-  <section style="margin:0 3em;flex-basis:33%">
+  <section style="font-size:14px;flex-basis:25%;box-sizing:border-box">
     <h2 style="margin-bottom:1.5em">Done</h2>
-    <ol>
+    <ol style="max-width:200px">
       {{#commits}}
       <li>
         <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">
-      <p>{{message}}</p>
-      <p><small>{{date}}</small></p>
+      {{message}}
+      <br><small>{{date}}</small>
       </a>
       </li>
       {{/commits}}
