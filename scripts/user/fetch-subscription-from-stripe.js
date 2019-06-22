@@ -23,6 +23,22 @@ function main(user, callback) {
     user.subscription.customer,
     user.subscription.id,
     function(err, subscription) {
+      if (
+        err &&
+        err.code === "resource_missing" &&
+        err.param === "subscription"
+      ) {
+        console.log(err.message);
+        return stripe.customers.retrieve(user.subscription.customer, function(
+          othererr,
+          customer
+        ) {
+          if (othererr) console.log(othererr);
+          console.log(customer);
+          return callback(err);
+        });
+      }
+
       if (err) {
         console.log(err);
       }
