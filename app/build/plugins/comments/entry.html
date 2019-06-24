@@ -1,3 +1,4 @@
+{{#provider.disqus}}
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = '{{plugins.disqus.options.shortname}}';
@@ -16,3 +17,10 @@
     })();
 </script>
 <noscript>Please enable JavaScript to view the comments.</noscript>
+{{/provider.disqus}}
+{{#provider.commento}}
+<div id="commento"></div>
+<script defer
+  src="https://cdn.commento.io/js/commento.js">
+</script>
+{{/provider.commento}}

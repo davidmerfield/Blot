@@ -1,0 +1,12 @@
+<label>
+  Your comments service:<br />
+  <select name="plugins.comments.options.provider" id="selectComment">
+    <option {{provider.None}} value="None">None</option>
+    <option {{provider.Disqus}} value="Disqus">Disqus</option>
+    <option {{provider.Commento}} value="Commento">Commento</option>
+  </select>
+</label>
+<label id="commentIdInput" style="{{^id}}display:none{{/id}}">
+  Disqus shortname:
+  <input name="plugins.comments.options.id" value="{{id}}" type="text" placeholder="" />
+</label>
