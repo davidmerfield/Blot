@@ -19,7 +19,7 @@ developers.param('subsection', function(req, res, next){
 });
 
 developers.get("/", function(req, res) {
-  res.locals.title = "Blot / Developers";
+  res.locals.title = "Developers - Blot";
   res.render("developers");
 });
 
