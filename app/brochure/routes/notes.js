@@ -12,6 +12,7 @@ notes.use(function(req, res, next) {
 
 notes.param("section", function(req, res, next) {
   res.locals.selected[req.params.section] = "selected";
+  res.locals.section = '/notes/' + req.params.section;
   next();
 });
 
