@@ -390,7 +390,9 @@ Cluster the main process. How will I verify that there is not statefullness some
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
-Add support for Microformats in the default templates. Tell Amit.
+Add support for Microformats in the default templates. Tell Amit and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
+
+Add JSONFeed to default templates. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
 
 Add support for Micropub in Blot's API. Tell Amit.
 
