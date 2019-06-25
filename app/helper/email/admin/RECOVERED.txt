@@ -1,3 +1,3 @@
-Overdue subscription recovered
+User restarted overdue subscription
 
 {{email}} pays {{pretty.price}} per {{subscription.plan.interval}} for {{pretty.amount}} blog{{pretty.s}}
