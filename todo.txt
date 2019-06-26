@@ -327,6 +327,7 @@ Create a mock version of these websites and send an email showing the folder str
   - [Frank Chimero](https://frankchimero.com/)
   - [David Rudnick](https://davidrudnick.org/)
   - [Peter Mendelsund](https://www.petermendelsund.com/about)
+  - [Rob Giampietro](https://linedandunlined.com/)
   - [Ben Pierrat](http://pieratt.com/)
   - [Tina Roth Eisenberg](https://www.swiss-miss.com/)
   - [Khoi Vinh](https://www.subtraction.com/)
@@ -355,6 +356,8 @@ Create a mock version of these websites and send an email showing the folder str
 - Created [popular text editors](https://en.wikipedia.org/wiki/List_of_text_editors):
   - [Oliver Reichenstein](https://ia.net/)
   - [Zachary Schneirov](http://notational.net/)
+
+Search HN for popular indie-blogs and contact the authors with similar offers. 
 
 Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
 - Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
@@ -524,7 +527,7 @@ Improvements to Git client
   - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
 - Rate limit authentication route?
 
-Review [Fathom analytics](https://usefathom.com/) and get back to [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKVZBFfnxCDXcmCzMXDHcTDv)
+Review [Fathom analytics](https://usefathom.com/) and get back to [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKVZBFfnxCDXcmCzMXDHcTDv) and [Luke](https://mail.google.com/mail/u/1/#inbox/FMfcgxwChSJjszxXhSZcZVPfjmrdhvzr)
 
 Improvements to Dropbox client
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
