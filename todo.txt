@@ -340,6 +340,7 @@ Create a mock version of these websites and send an email showing the folder str
   - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
 
 - Writers:
+  - [Warren Ellis](http://warrenellis.ltd/) via [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHZrcrTqrjtJVqVrhZKLXNw)
   - [Maciej Ceglowski](https://idlewords.com/about.htm)
   - [Robin Sloan](https://www.robinsloan.com/)
   - [Paul Ford](https://www.ftrain.com/)
