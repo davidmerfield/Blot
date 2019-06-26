@@ -1,6 +1,5 @@
-Finish Feed template
+Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
 - Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
-- Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
 
 Record new demo video
 - Finish video script in brochure/readme.txt
@@ -26,9 +25,7 @@ Finish script to identify long-expired users with blogs to safely delete.
   
 Ignore files inside 'assets' inside .textbundle directories to improve support for textbundles and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzDLvlTkKNmfZgnXpzzLZjWN).
 
-Add image partial template which would render inside each entry to provide ways to access exif, etc.
-- Tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304)
-- Tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc) that it's possible to have full screen images and sized text.
+Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
 
 Rebuild all the thumbnails and cached images for every blog
 - Weird things happened to the ferox blog – it was not attached to its user owner... Can we reproduce bug locally with production dump?
