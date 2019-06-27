@@ -27,7 +27,6 @@ if (!doNotTrack) {
   heap.load("{{plugins.analytics.options.trackingID}}");
 }
 {{/plugins.analytics.options.provider.Heap}}
-
 {{#plugins.analytics.options.provider.SimpleAnalytics}}
 /* eslint-disable no-empty */
 /* eslint-env browser */
@@ -36,3 +35,16 @@ if (!doNotTrack) {
 
 !function(o){if(o){var n,a,i="https://",s=i+"api.simpleanalytics.io/post",c=o.console;try{var h,u=o.navigator,l=o.location,p=o.document,d=u.userAgent,f=o.dispatchEvent,m="Not sending requests ",v=p.querySelector('script[src="https://cdn.simpleanalytics.io/hello.js"]'),g=v?v.getAttribute("data-mode"):null,y=function(e){c&&c.warn&&c.warn("Simple Analytics: "+e)};if(-1<d.search(/(bot|spider|crawl)/gi))return y(m+"because user agent is a robot");var w=function(e){var t=l.protocol+"//"+l.hostname+l.pathname;if("hash"===g&&l.hash&&(t+=l.hash.split("?")[0]),h!==t){if(h=t,"visibilityState"in p&&"prerender"===p.visibilityState)return y(m+"when prerender");if("doNotTrack"in u&&"1"===u.doNotTrack)return y(m+"when doNotTrack is enabled");if("localhost"===l.hostname||"file:"===l.protocol)return y(m+"from localhost");var r=l.search.match(/[?&](utm_source|source|ref)=([^?&]+)/gi),n=r?r.map(function(e){return e.split("=")[1]}):[],a={url:t};d&&(a.ua=d),n&&n[0]&&(a.urlReferrer=n[0]),p.referrer&&!e&&(a.referrer=p.referrer),o.innerWidth&&(a.width=o.innerWidth);try{a.timezone=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(e){}var i=new XMLHttpRequest;i.open("POST",s,!0),i.setRequestHeader("Content-Type","text/plain; charset=UTF-8"),i.send(JSON.stringify(a))}},S=o.history;if((S?S.pushState:null)&&Event&&f){S.pushState=(a=S[n="pushState"],function(){var e=a.apply(this,arguments),t=new Event(n);return t.arguments=arguments,f(t),e}),o.addEventListener("pushState",function(){w(!0)})}"hash"===g&&"onhashchange"in o&&(o.onhashchange=function(){w(!0)}),w()}catch(e){c&&c.error&&c.error(e);var b=s+".gif";e&&e.message&&(b=b+"?error="+encodeURIComponent(e.message)),(new Image).src=b}}}(window);
 {{/plugins.analytics.options.provider.SimpleAnalytics}}
+{{#plugins.analytics.options.provider.Fathom}}
+(function(f, a, t, h, o, m){
+a[h]=a[h]||function(){
+    (a[h].q=a[h].q||[]).push(arguments)
+};
+o=f.createElement('script'),
+m=f.getElementsByTagName('script')[0];
+o.async=1; o.src=t; o.id='fathom-script';
+m.parentNode.insertBefore(o,m)
+})(document, window, '//cdn.usefathom.com/tracker.js', 'fathom');
+fathom('set', 'siteId', '{{plugins.analytics.options.trackingID}}');
+fathom('trackPageview');
+{{/plugins.analytics.options.provider.Fathom}}
