@@ -175,7 +175,7 @@ brochure.get("/", require("./featured"), function(req, res) {
   res.render("index");
 });
 
-brochure.use("/publishing/domain", function(req, res, next) {
+brochure.use("/publishing/guides/domain", function(req, res, next) {
   res.locals.ip = config.ip;
   return next();
 });
