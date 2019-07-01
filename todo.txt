@@ -1,3 +1,11 @@
+Fix bug with local editing which wipes metadata and route for views inside templates without package.json
+- Write script to catch template views with incorrect routes
+- For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
+- Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfgRKhKxpHMdmqkfzThhR) once this is sorted.
+- Tell [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSNKqcBKTSmWpLbmzsXCLQzh) once this is sorted
+
+---
+
 Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
 - Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
 
@@ -7,11 +15,6 @@ Record new demo video
 - Tidy up fontarchive.org
 
 ---
-
-Fix bug with local editing which wipes metadata and route for views inside templates without package.json
-- Write script to catch template views with incorrect routes
-- For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
-- Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfgRKhKxpHMdmqkfzThhR) once this is sorted.
 
 Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
 - To reproduce, create file 'hello.txt' with title and permalink 'foo'
