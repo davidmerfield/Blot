@@ -33,7 +33,7 @@ exitHook(function(callback) {
 });
 
 function sync(blogID, options, callback) {
-  var redlock, resource, ttl, folder;
+  var redlock, resource, ttl, folder, now;
 
   if (typeof options === "function" && typeof callback === "undefined") {
     callback = options;
@@ -41,7 +41,6 @@ function sync(blogID, options, callback) {
   }
   ttl = options.ttl || DEFAULT_TTL;
   options = options || {};
-
   resource = "blog:" + blogID + ":lock";
 
   redlock = new Redlock([client], {
@@ -90,7 +89,13 @@ function sync(blogID, options, callback) {
       // We acquired a lock on the resource!
       // This function is to be called when we are finished
       // with the lock on the user's folder.
+      now = new Date();
+      console.log('Blog:', blogID, 'Sync:', now, 'Started');
+      
       callback(null, folder, function(syncError, callback) {
+
+        console.log('Blog:', blogID, 'Sync:', now, 'Released');
+
         if (typeof syncError === "function")
           throw new Error("Pass an error or null as first argument to done");
 
@@ -119,6 +124,7 @@ function sync(blogID, options, callback) {
               Blog.set(blogID, { cacheID: Date.now() }, function(err) {
                 if (err) return callback(err);
 
+                console.log('Blog:', blogID, 'Sync:', now, 'Finished');
                 callback(syncError);
               });
             });
