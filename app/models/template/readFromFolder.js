@@ -1,6 +1,7 @@
 var fs = require("fs-extra");
 var basename = require("path").basename;
 var getMetadata = require("./getMetadata");
+var getView = require("./getView");
 var async = require("async");
 var makeID = require("./util/makeID");
 var isOwner = require("./isOwner");
@@ -42,20 +43,27 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                 fs.readFile(dir + "/" + name, "utf-8", function(err, content) {
                   if (err) return next();
 
-                  var view = {
-                    name: name,
-                    content: content
-                  };
+                  // We look up this view file to merge any existing properties
+                  // Should this really be handled by setView? It looks like
+                  // setView already calls getView...
+                  getView(id, name, function(err, view) {
 
-                  if (views[name])
-                    for (var i in views[name]) view[i] = views[name][i];
+                    // getView returns an error if the view does not exist
+                    // We want to be able to create new views using local editing
+                    // we so ignore this error, and create the view object as needed
+                    view = view || {};
+                    view.name = view.name || name;
+                    if (views[name])
+                      for (var i in views[name]) view[i] = views[name][i];
 
-                  view.url = view.url || '/' + view.name;
-                                  
-                  setView(id, view, function(err) {
-                    if (err) return next();
+                    view.content = content;
+                    view.url = view.url || "/" + view.name;
 
-                    next();
+                    setView(id, view, function(err) {
+                      if (err) return next();
+
+                      next();
+                    });
                   });
                 });
               });
