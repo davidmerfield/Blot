@@ -5,7 +5,7 @@ var Url = require("url");
 var Twit = require("twit");
 var Twitter;
 var SCRIPT =
-  '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+  '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
 
 if (!process.env.BLOT_TWITTER_CONSUMER_KEY) {
   console.log(
@@ -29,8 +29,6 @@ try {
 }
 
 function render($, callback) {
-  return callback();
-
   var prepend;
 
   each(
@@ -58,8 +56,23 @@ function render($, callback) {
       // which point to twitter.com
       if (host !== "twitter.com") return next();
 
-      fetch(id, $(el), function(err, success) {
-        if (success) prepend = true;
+      var params = {
+        id: id,
+        hide_thread: true
+      };
+
+      Twitter.get("statuses/oembed", params, function(err, data) {
+        if (err || !data || !data.html) return callback();
+
+        var html = data.html;
+
+        if (html.indexOf(SCRIPT) > -1) {
+          html = html.split(SCRIPT).join('');
+          $(el).replaceWith(html);
+          prepend = true;
+        } else {
+          console.warn("Response from twitter no longer includes script tag");
+        }
 
         next();
       });
@@ -91,29 +104,6 @@ function parseID(url) {
   if (category !== "status") return "";
 
   return tweetID;
-}
-
-function fetch(id, $el, callback) {
-  var params = {
-    id: id,
-    hide_thread: true
-  };
-
-  Twitter.get("statuses/oembed", params, function(err, data) {
-    if (err || !data || !data.html) return callback();
-
-    var html = data.html;
-
-    if (html.indexOf(SCRIPT) > -1) {
-      html = html.slice(0, -SCRIPT.length);
-      $el.replaceWith(html);
-    } else {
-      console.warn("Response from twitter no longer includes script tag");
-      return callback(null, false);
-    }
-
-    callback(null, true);
-  });
 }
 
 module.exports = {
