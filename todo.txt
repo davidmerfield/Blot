@@ -1,10 +1,17 @@
+Make sure cache volume is remounted after boot
+- https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
+- https://www.reddit.com/r/aws/comments/8chnbh/i3_instances_initializing_nvme_instance_store/
+- https://gist.github.com/andreas-wilm/3460a788d6548370a136e63b5b91281e
+- remove lines from fstab
+- https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Stop_Start.html
+- use userdata to run the script? https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
+- can this be resilient enough to run ok if the mounting fails?
+
 Fix bug with local editing which wipes metadata and route for views inside templates without package.json
 - Write script to catch template views with incorrect routes
 - For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
 - Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfgRKhKxpHMdmqkfzThhR) once this is sorted.
 - Tell [Frank](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSNKqcBKTSmWpLbmzsXCLQzh) once this is sorted
-
-Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
 
 ---
 
@@ -17,6 +24,8 @@ Record new demo video
 - Tidy up fontarchive.org
 
 ---
+
+Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
 
 Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
 - To reproduce, create file 'hello.txt' with title and permalink 'foo'
