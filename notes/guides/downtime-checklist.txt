@@ -1,0 +1,17 @@
+Questions to answer:
+
+Can you SSH into the instance?
+- if not, try 'stopping' then 'starting' the instance through AWS, which is different to a system 'reboot' and may provision new hardware for the instance
+
+Can you reboot the instance?
+
+Does the instance have free disk space?
+
+Does the instance have free memory?
+
+What do you see in the logs?
+
+Do you see inbound network packets (is this a networking issue?) on AWS cloudwatch metrics
+
+Do you see elevated or missing CPU usage information on AWS cloudwatch metrics for the instance
+
