@@ -489,7 +489,7 @@ File converters / codecs
 - Video posts (.mp4)
 - OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
 - Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg)
-- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113)
+- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113) and [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW)
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
 - Markdown
   Write a pandoc compatible markdown converter in javascript
@@ -502,7 +502,7 @@ Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/
 Write new clients to sync blog folders
 - OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz)
 - [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
-- [SFTP](https://www.npmjs.com/package/ftpd)
+- [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW)
 - [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
 - Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv)
 - If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk)
