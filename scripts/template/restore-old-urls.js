@@ -12,14 +12,18 @@ function main(doThis, callback) {
 
       if (view.url !== "/" + view.name) return next();
 
-      if (["archives.html", "search.html"].indexOf(view.name) === -1) {
-        console.log("nothing for", view.name);
+      if (view.name === "archives.html") {
+        view.url = "/archives";
+        console.log(blog.id, template.id, view.url, "fixed");
+      } else if (view.name === "search.html") {
+        view.url = "/search";
+        console.log(blog.id, template.id, view.url, "fixed");
+      } else {
+        // console.log(blog.id, template.id, view.name, "missing");
         return next();
       }
 
-      if (view.name === "archives.html") view.url = "/archives";
-      if (view.name === "search.html") view.url = "/search";
-
+      shouldWrite[template.id] = blog.id;
       Template.setView(template.id, view, next);
     },
     function() {
