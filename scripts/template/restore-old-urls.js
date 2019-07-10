@@ -10,10 +10,15 @@ function main(doThis, callback) {
 
       if (!view) return next();
 
-      if (view.url === "/" + view.name)
-        console.log(blog.id, template.id, view.url);
+      if (view.url !== "/" + view.name) return next();
 
-      return next();
+      if (["archives.html", "search.html"].indexOf(view.name) === -1) {
+        console.log("nothing for", view.name);
+        return next();
+      }
+
+      if (view.name === "archives.html") view.url = "/archives";
+      if (view.name === "search.html") view.url = "/search";
 
       Template.setView(template.id, view, next);
     },
