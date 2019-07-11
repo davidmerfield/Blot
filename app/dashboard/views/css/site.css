@@ -1859,9 +1859,7 @@ div.center {}
   top: 0;
   bottom: 0;
   width: 4rem;
-  background: -moz-linear-gradient(to right, transparent, #fffefc 75%);
-  background: -webkit-linear-gradient(to right, transparent, #fffefc 75%);
-  background: linear-gradient(to right, transparent, #fffefc 75%);
+  background: linear-gradient(to right, rgba(255,255,255,0), #fffefc 75%);
 }
 
 a:hover .tablet-cover {
