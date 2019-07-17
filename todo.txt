@@ -13,7 +13,7 @@ Make sure server is hardened to ssh brute force log in attempts
 
 ---
 
-Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
+Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT)
 - Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
 
 Record new demo video
