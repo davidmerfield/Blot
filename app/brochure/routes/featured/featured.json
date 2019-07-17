@@ -1,5 +1,13 @@
 [
   {
+    "link": "https://rafagarces.com",
+    "host": "rafagarces.com",
+    "name": "Rafa Garcés",
+    "firstName": "Rafa",
+    "bio": " is a designer from Madrid",
+    "favicon": "/images/featured/rafagarces.com.jpg"
+  },
+  {
     "link": "https://zacharykeeting.com",
     "host": "zacharykeeting.com",
     "name": "Zachary Keeting",
