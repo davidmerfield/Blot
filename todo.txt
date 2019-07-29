@@ -1,5 +1,3 @@
-Fix issue with Youtube embeds and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTWfPGKrtPhhFmNVZFlJlZsr) and [Sean](https://mail.google.com/mail/u/0/#search/shaun/FMfcgxwDqTWfXXLvLXtpqMGPWNjmPkDx)
-
 Fix issue with clearfix on archives page for magazine template and tell [Deepak](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmRbBzTBDPmQKSdTzNsHzqzl)
 
 Make sure cache volume is remounted after boot
