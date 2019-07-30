@@ -1,5 +1,3 @@
-Fix issue with clearfix on archives page for magazine template and tell [Deepak](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmRbBzTBDPmQKSdTzNsHzqzl)
-
 Make sure cache volume is remounted after boot
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
 - https://www.reddit.com/r/aws/comments/8chnbh/i3_instances_initializing_nvme_instance_store/
@@ -24,15 +22,6 @@ Record new demo video
 - Tidy up fontarchive.org
 
 ---
-
-Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
-
-Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
-- To reproduce, create file 'hello.txt' with title and permalink 'foo'
-- Then rename file to 'world.txt', and edit title to 'bar' at the same time
-- we expect /foo to redirect to /bar, but it doesn't perhaps due to the rename?
-
-Add white background to folder in favicon
 
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
 
@@ -73,6 +62,11 @@ Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5W
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH) and [Michael](https://mail.google.com/mail/u/0/#sent/QgrcJHsTkKSHVKgTvQJXTffdLDdbGZPbFxl)
 
 Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%20825%20printer%20font%20-%20a%20work%20in%20progress.markdown) draft and speed up its build time
+
+Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
+- To reproduce, create file 'hello.txt' with title and permalink 'foo'
+- Then rename file to 'world.txt', and edit title to 'bar' at the same time
+- we expect /foo to redirect to /bar, but it doesn't perhaps due to the rename?
 
 Catch 404s in Google search results and set up redirects
 
@@ -130,6 +124,8 @@ Add Q and A section to site where users could post
 
 Disable access to s3 blogs bucket
 
+Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
+
 Improve scheduler
 - Adds a command to restore database from backup.
 - Adds a scheduled task to flush old backups using app/scheduler/backup/remove.js in branch 'scheduler' which was ported from the old remove method of the upload module
@@ -137,6 +133,8 @@ Improve scheduler
 - Rotates log files
 
 Wait a month and then delete s3 blogs bucket
+
+Add white background to folder logo in Blot's favicon
 
 Metadata parser
 - Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
