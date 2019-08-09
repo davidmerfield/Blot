@@ -27,7 +27,7 @@ Subscription.route("/create")
   .all(requireLackOfSubscription)
 
   .get(function(req, res) {
-    res.locals.price = "$" + config.stripe.plan.split("_").pop();
+    res.locals.price = "$" + parseInt(config.stripe.plan.split("_").pop())*req.user.blogs.length;
     res.locals.interval =
       config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
     res.locals.stripe_key = config.stripe.key;
