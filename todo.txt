@@ -154,6 +154,8 @@ Implement hidden link section on Menu page under profile settings. Default links
 
 Think about adding way to add/edit files from the dashboard directly, bypassing need for a client. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about the decision. What about a web-based client for Blot with a basic text editor, posts listed on sidebar, conventional tag interface?
 
+Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
+
 Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggBFmgljcPqXScrXswlXgjfg).
 - Create simple reference to original template that is uneditable by default (but forkable, like default Blot templates). This would mean the template would auto-update.
 
