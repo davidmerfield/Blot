@@ -11,8 +11,6 @@ Make sure server is hardened to ssh brute force log in attempts
 - Use nonstandard ssh port?
 - Was this cause of downtime last week?
 
-Redirect HTTP to HTTPS for new domains and subdomains automatically, allow it to be disabled
-
 Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
 
 ---
