@@ -13,6 +13,8 @@ Make sure server is hardened to ssh brute force log in attempts
 
 Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
 
+Write fall newsletter to send out on September 23
+
 ---
 
 Tweak script to import posts from Hugo for [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTWfXSnTFpgXXshxhLGBMWQW)
