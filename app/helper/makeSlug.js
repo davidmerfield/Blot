@@ -19,6 +19,11 @@ function makeSlug(string) {
   slug = slug
     .trim()
     .slice(0, MAX_LENGTH + 10)
+
+    // Removes 'object replacement character' which unexpectedly
+    // entered a file created on Ulysses. Perhaps an embedded image?
+    .split(decodeURIComponent("%EF%BF%BC")).join('')
+
     .toLowerCase()
 
     // remove common punction, basically everything except & _ and - /
@@ -91,6 +96,9 @@ is("1-2-3-4", "1-2-3-4");
 is("12 34", "12-34");
 is("f/ü/k", "f/%C3%BC/k");
 is("微博", "%E5%BE%AE%E5%8D%9A");
+
+is("remove object replacement character: ￼", "remove-object-replacement-character");
+
 is(
   "Review of “The Development of William Butler Yeats” by V. K. Narayana Menon",
   "review-of-the-development-of-william-butler-yeats-by-v-k-narayana-menon"
