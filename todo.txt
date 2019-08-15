@@ -1,3 +1,5 @@
+Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
+
 Make sure cache volume is remounted after boot
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
 - https://www.reddit.com/r/aws/comments/8chnbh/i3_instances_initializing_nvme_instance_store/
