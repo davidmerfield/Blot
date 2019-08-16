@@ -15,8 +15,6 @@ Make sure server is hardened to ssh brute force log in attempts
 - Use nonstandard ssh port?
 - Was this cause of downtime last week?
 
-Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
-
 Write fall newsletter to send out on September 23
 
 ---
@@ -32,6 +30,8 @@ Record new demo video
 - Tidy up fontarchive.org
 
 ---
+
+Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
 
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
 
