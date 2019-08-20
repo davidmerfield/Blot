@@ -19,6 +19,9 @@ Write fall newsletter to send out on September 23
 
 ---
 
+Fix issue with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
+- ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](../images/_landingImage_01.jpg)
+
 Tweak script to import posts from Hugo for [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTWfXSnTFpgXXshxhLGBMWQW)
 
 Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT)
@@ -30,6 +33,8 @@ Record new demo video
 - Tidy up fontarchive.org
 
 ---
+
+Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR)
 
 Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
 
@@ -152,7 +157,6 @@ Add white background to folder logo in Blot's favicon
 
 Metadata parser
 - Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
-- Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 - Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 - Removing Date metadata from a post should reset its date to the file's creation date. Currently nothing changes.
 - Fall back to file name before first sentence when generating title metadata and tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
