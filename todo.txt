@@ -276,7 +276,7 @@ Improvements to brochure
 
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 
-Add support for HTTP2
+Add support for HTTP2 and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnjnkQjwXHFWSTtWtwhFWxGd)
 
 Fix bug with question mark in image name, e.g. drag and drop 'x?y.jpg' into a blog folder.
 
