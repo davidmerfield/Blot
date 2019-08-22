@@ -52,6 +52,8 @@ module.exports = function(req, res, next) {
   // Strip the 'www' from the host property for aesthetics
   res.locals.featured = featured.map(function(site){
     site.host = site.host.split("www.").join("");
+    site.template = site.template || {};
+    site.template.label = site.template.label || 'Default';
     return site;
   });
 
