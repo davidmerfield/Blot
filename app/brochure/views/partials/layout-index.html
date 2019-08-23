@@ -1,15 +1,58 @@
 {{> head}}
 
 <body>
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
 
   <div style="display:flex;padding: 0 2rem">
     <div style="flex-basis:18.2rem;flex-shrink:1">
       <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
-      <hr style="border:none;margin:0;border-bottom:1px solid #eceff1;">
     </div>
+    <a class="ff" href="/publishing">How to use Blot</a>
+    <a class="ff" href="/about">About</a>
+    <a class="ff" href="/news">News</a>
+    <a class="ff" href="/publishing">Contact</a>
+    <span style="border-right-color: rgb(221, 221, 221);
+border-right-style: solid;
+border-right-width: 1px;
+box-sizing: border-box;
+color: rgb(4, 4, 2);
+display: block;
+fill: rgb(4, 4, 2);
+font-family: -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 15px;
+height: 14px;
+line-height: 21px;
+margin-left: 10px;
+margin-right: 10px;
+outline-color: rgb(4, 4, 2);
+outline-style: none;
+outline-width: 0px;
+text-size-adjust: 100%;
+white-space: nowrap;
+width: 1px;
+-webkit-font-smoothing: antialiased;"></span>
+    <a class="ff" href="/sign-up">Sign up</a>
+    <a class="ff" href="/log-in">Log in</a>
+
     <style type="text/css">
-    body {font-family: 'IBM Plex Sans'}
+    .ff {
+      background-attachment: scroll;
+border-bottom-left-radius: 3px;
+border-bottom-right-radius: 3px;
+border-top-left-radius: 3px;
+border-top-right-radius: 3px;
+box-sizing: border-box;
+color: rgb(4, 4, 2);
+cursor: pointer;
+display: block;
+fill: rgb(4, 4, 2);
+font-size: 15px;
+font-weight: 500;
+line-height: 21px;
+margin-left: 12px;
+margin-right: 12px;
+
+-webkit-font-smoothing: antialiased;
+    }
     .links {padding: 0;display: block;text-align: left;}
     .links a {line-height: inherit;margin: 0;padding: 0}
     .links a:hover {text-decoration: underline;}
@@ -39,7 +82,7 @@
 
 
 
-    <content style="max-width:540px;border-top:1px solid #eceff1;margin-top:-1px;padding-top:8px">
+    <content style="max-width:540px;padding-top:8px">
 
       <br>
       {{{body}}}
