@@ -37,12 +37,11 @@ function main(url, options, callback) {
     request(uri, function(err, res, body) {
       if (err) return callback(err);
 
-      if (res.statusCode !== 200) {
+      if (res.statusCode == 404) {
         var basePath = require("url").parse(base).pathname;
         results[basePath] = results[basePath] || [];
         results[basePath].push({
-          url: require("url").parse(url).pathname,
-          status: res.statusCode
+          url: require("url").parse(url).pathname
         });
       }
 
