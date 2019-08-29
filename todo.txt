@@ -1,6 +1,6 @@
 Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
 
-Fix integration test dependency issue
+---
 
 Make sure cache volume is remounted after boot
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
@@ -15,9 +15,16 @@ Make sure server is hardened to ssh brute force log in attempts
 - Use nonstandard ssh port?
 - Was this cause of downtime last week?
 
+Fix integration test dependency issue
+
 Write fall newsletter to send out on September 23
 
+Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+
 ---
+
+Fix issue with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
+- ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
 
 Tweak script to import posts from Hugo for [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTWfXSnTFpgXXshxhLGBMWQW)
 
@@ -30,6 +37,8 @@ Record new demo video
 - Tidy up fontarchive.org
 
 ---
+
+Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR)
 
 Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
 
@@ -73,6 +82,12 @@ Fix column formatting for layout.css on default template and tell [Ryan](https:/
 
 Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5WQ0/)
 
+New template lambdas to consider:
+- Whitespace trimming and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+- Number formatting (e.g. add commas to int.) and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+
+Add way to filter archives page by year or month and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH) and [Michael](https://mail.google.com/mail/u/0/#sent/QgrcJHsTkKSHVKgTvQJXTffdLDdbGZPbFxl)
 
 Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%20825%20printer%20font%20-%20a%20work%20in%20progress.markdown) draft and speed up its build time
@@ -110,7 +125,7 @@ Fix bug with image minification which produces larger file than source file and 
 
 Fix Git client bugs
 - Fix bug with case-sensitivity when transfering from Git to Dropbox and tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166fe957b167f5e5) and [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbMGXzRQBBplHKnFLWMbhhS)
-- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk)
+- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG)
 - Work out how to pipe custom error messages down
 - Pipe custom message when you change a blog's handle (breaking repo url)
 - Tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) about the broken repo URL fix
@@ -152,7 +167,6 @@ Add white background to folder logo in Blot's favicon
 
 Metadata parser
 - Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
-- Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 - Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 - Removing Date metadata from a post should reset its date to the file's creation date. Currently nothing changes.
 - Fall back to file name before first sentence when generating title metadata and tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
@@ -194,7 +208,7 @@ Add way to filter entries by post type (e.g. photo) and tell [Justin](https://tw
 
 Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
 
-Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3) and [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)and [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a).
+Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3), [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77), [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a) and [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnpZncgBDbDskMZdPMXkgGCN).
 
 ---
 
@@ -272,7 +286,7 @@ Improvements to brochure
 
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 
-Add support for HTTP2
+Add support for HTTP2 and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnjnkQjwXHFWSTtWtwhFWxGd)
 
 Fix bug with question mark in image name, e.g. drag and drop 'x?y.jpg' into a blog folder.
 
