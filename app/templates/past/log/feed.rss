@@ -13,7 +13,7 @@
     {{! RSS feeds need a RFC 822 date}}
     <pubDate>{{#formatDate}}ddd, DD MMM YYYY HH:mm:ss ZZ{{/formatDate}}</pubDate>
     <dc:creator><![CDATA[ {{{title}}} ]]></dc:creator>
-    <description><![CDATA[ {{#absoluteURLs}} {{{body}}} {{/absoluteURLs}} ]]></description>
+    <description><![CDATA[ {{#encodeXML}} {{{body}}} {{/encodeXML}} ]]></description>
   </item>
   {{/recentEntries}}
 </channel>
