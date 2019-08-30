@@ -3,12 +3,13 @@
 <body>
 
   <div style="display:flex;padding: 0 2rem">
-    <div style="flex-basis:18.2rem;flex-shrink:1">
-      <a class="logo {{selected.index}}" title="Blot" href="/" style="display:flex;align-items:center;color:black;font-weight:500">{{> logo}}&nbsp;&thinsp; Blot</a>
+    <div style="flex-basis:18.2rem;flex-grow:1">
+      <a class="logo {{selected.index}}" title="Blot" href="/" style="display:flex;align-items:center;color:black;font-size:16px;font-weight:500">{{> logo}}&nbsp;&thinsp; Blot</a>
     </div>
     <a class="ff" href="/publishing">How to use Blot</a>
     <a class="ff" href="/templates">Templates</a>
-    <a class="ff" href="/contact">Contact</a>
+    <a class="ff" href="/support">Support</a>
+    <a class="ff" href="/sign-up">Sign up</a>
     <span style="border-right-color: rgb(221, 221, 221);
 border-right-style: solid;
 border-right-width: 1px;
@@ -16,10 +17,10 @@ box-sizing: border-box;
 color: rgb(4, 4, 2);
 display: block;
 fill: rgb(4, 4, 2);
-font-family: -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
 font-size: 15px;
 height: 14px;
 line-height: 21px;
+margin-top:20px;
 margin-left: 10px;
 margin-right: 10px;
 outline-color: rgb(4, 4, 2);
@@ -28,8 +29,8 @@ outline-width: 0px;
 text-size-adjust: 100%;
 white-space: nowrap;
 width: 1px;
+height: 14px;
 -webkit-font-smoothing: antialiased;"></span>
-    <a class="ff" href="/sign-up">Sign up</a>
     <a class="ff" href="/log-in">Log in</a>
 
     <style type="text/css">
@@ -48,6 +49,7 @@ font-size: 15px;
 font-weight: 500;
 line-height: 21px;
 margin-left: 12px;
+margin-top: 16px;
 margin-right: 12px;
 
 -webkit-font-smoothing: antialiased;
@@ -63,17 +65,7 @@ margin-right: 12px;
     ul {padding-left: 1rem}
     ul li {padding-left: 0.7rem}
     </style>
-    <div class="links focussed" style="white-space:nowrap;margin:20px 0;color:#aaa;display:flex">
-    {{#if selected.terms}}
-    <h1>Terms of use</h1>
-    <a href="/privacy">Privacy policy</a>
-    {{/if}}
 
-    {{#if selected.privacy}}
-    <a href="/terms">Terms of use</a>
-    <h1>Privacy policy</h1>
-    {{/if}}
-  </div>
   </div>
 
 

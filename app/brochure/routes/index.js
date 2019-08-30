@@ -181,6 +181,11 @@ brochure.use("/publishing/guides/domain", function(req, res, next) {
   return next();
 });
 
+brochure.use('/publishing', function(req, res, next){
+  res.locals.layout = 'layout';
+  next();
+});
+
 brochure.get("/:section", function(req, res, next) {
   // This check is designed to prevent an error polluting
   // the logs which happens for requests like /images/foo.png

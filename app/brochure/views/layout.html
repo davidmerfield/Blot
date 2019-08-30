@@ -2,37 +2,72 @@
 
 <body>
 
-  <header>
-    <row style="display:flex;align-items:center;">
-      <section style="display: flex;
-    align-items: center;">
+    <div style="display:flex;padding: 0 2rem">
+    <div style="flex-basis:18.2rem;flex-grow:1">
+      <a class="logo {{selected.index}}" title="Blot" href="/" style="display:flex;align-items:center;color:black;font-size:16px;font-weight:500">{{> logo}}&nbsp;&thinsp; Blot</a>
+    </div>
+    <a class="ff" href="/publishing">How to use Blot</a>
+    <a class="ff" href="/templates">Templates</a>
+    <a class="ff" href="/support">Support</a>
+    <a class="ff" href="/sign-up">Sign up</a>
+    <span style="border-right-color: rgb(221, 221, 221);
+border-right-style: solid;
+border-right-width: 1px;
+box-sizing: border-box;
+color: rgb(4, 4, 2);
+display: block;
+fill: rgb(4, 4, 2);
+font-size: 15px;
+height: 14px;
+line-height: 21px;
+margin-top:20px;
+margin-left: 10px;
+margin-right: 10px;
+outline-color: rgb(4, 4, 2);
+outline-style: none;
+outline-width: 0px;
+text-size-adjust: 100%;
+white-space: nowrap;
+width: 1px;
+height: 14px;
+-webkit-font-smoothing: antialiased;"></span>
+    <a class="ff" href="/log-in">Log in</a>
 
-        {{#unless user}}
-        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
-        {{/unless}}
-        {{#if user}}
-        <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
+    <style type="text/css">
+    .ff {
+      background-attachment: scroll;
+border-bottom-left-radius: 3px;
+border-bottom-right-radius: 3px;
+border-top-left-radius: 3px;
+border-top-right-radius: 3px;
+box-sizing: border-box;
+color: rgb(4, 4, 2);
+cursor: pointer;
+display: block;
+fill: rgb(4, 4, 2);
+font-size: 15px;
+font-weight: 500;
+line-height: 21px;
+margin-left: 12px;
+margin-top: 16px;
+margin-right: 12px;
 
-        {{/if}}
+-webkit-font-smoothing: antialiased;
+    }
+    .links {padding: 0;display: block;text-align: left;}
+    .links a {line-height: inherit;margin: 0;padding: 0}
+    .links a:hover {text-decoration: underline;}
+    .focussed * {margin:0 1.4rem 0 0!important;padding:0;font:inherit;color: inherit;}
+    .focussed h1 {color: black}
 
-      </section>
+    ol, ul, li {margin-left: 0;margin-right:0;padding: 0}
+    ol li {margin-bottom: 1.4rem;padding-left: 1.4rem;margin-left: -1.4rem}
+    ul {padding-left: 1rem}
+    ul li {padding-left: 0.7rem}
+    </style>
 
-      <section class="links">
-        <label for="toggle">Menu</label>
-        {{#unless user}}
-        <a href="/sign-up">Sign up</a>
-        <a href="/log-in">Log in</a>
-        {{/unless}}
-        {{#if user}}
-        <a href="/account">Your account</a>
-        <a href="/publishing">How to use Blot</a>
-        <a href="/contact">Contact</a>
-        {{/if}}
-      </section>
-    </row>
-
-    <hr style="margin:0">
-  </header>
+  </div>
+  <br>
 
   <main style="padding-top:0">
 
@@ -45,7 +80,6 @@
       <li>
         <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">How to use Blot</a>
       </li>
-      <li><a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</li>
 
       <li>
         <a class="{{selected.pages}}" href="{{{base}}}/publishing/pages">Pages</a>
