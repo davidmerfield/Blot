@@ -44,6 +44,8 @@ Set up template previews on HTTPS (query string? custom header? cookie? wildcard
 
 Translate [Roberto's theme](http://roberto.micro.blog/archive/) to Blot and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnfMLBBJDNdDRPmfLLwcQkdH)
 
+Translate [this theme](https://github.com/huangyz0918/moving) to Blot and tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZlmGfwNKCPLPMbkRHJSjNs)
+
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
 
 Translate [Ana's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTgjDcQwDdcmTkgjjKTdQhQV) designs to Blot
