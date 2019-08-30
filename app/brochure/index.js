@@ -36,7 +36,7 @@ if (config.cache === false) {
 // page. Look into the source, but basically {{{body}}} in
 // partials/layout is replaced with the view passed to
 // res.render(). You can modify this in the route if needed.
-brochure.locals.layout = "layout";
+brochure.locals.layout = "partials/layout-index";
 brochure.locals.cacheID = Date.now();
 
 // Default page title and <meta> description

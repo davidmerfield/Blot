@@ -2,6 +2,7 @@ main.form {
   display: flex;
   min-height: auto;
   padding: 0 2rem;
+  justify-content: center;
 }
 
 main.form content {
