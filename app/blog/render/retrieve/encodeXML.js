@@ -26,21 +26,26 @@ function removeXMLInvalidChars(string) {
   //     "(?:[^\\uD800-\\uDBFF]|^)[\\uDC00-\\uDFFF]))",
   //   "g"
   // );
-
-  string = string.replace(regex, "");
+  // string = string.replace(regex, "");
 
   return string;
 }
 
 module.exports = function (req, callback) {
-  var base = req.protocol + "://" + req.get("host");
   return callback(null, function() {
     return function(text, render) {
+      var xml;
+      
       text = render(text);
-      text = absoluteURLs(base, text);
-      text = removeXMLInvalidChars(text, true);
+      
+      try {
+        xml = absoluteURLs(req.protocol + "://" + req.get("host"), text);
+        xml = removeXMLInvalidChars(text);        
+      } catch (e) {
+        // do nothing if we can't 
+      }
 
-      return text;
+      return xml || text;
     };
   });
 };
