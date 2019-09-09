@@ -21,3 +21,20 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/add-instance-store-volumes.h
 I don't really care about write speed (as opposed to read speed) but here is a guide for optimizing write performance on instance stores:
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disk-performance.html
+
+---
+
+I installed fail2ban:
+
+sudo yum install fail2ban
+sudo service start fail2ban
+
+I added firewall rules on port 22 to prevent ssh brute force:
+
+sudo iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set
+sudo iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent  --update --seconds 60 --hitcount 4 -j DROP
+
+This ensures the IP tables rules persist across restart:
+
+sudo service iptables save
+
