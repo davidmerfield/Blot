@@ -59,6 +59,8 @@ Finish script to identify long-expired users with blogs to safely delete and fre
   
 Ignore files inside 'assets' inside .textbundle directories to improve support for textbundles and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzDLvlTkKNmfZgnXpzzLZjWN).
 
+Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
+
 Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
 
 Rebuild all the thumbnails and cached images for every blog
@@ -533,7 +535,7 @@ Write new clients to sync blog folders
 - [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW)
 - [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
 - Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm)
-- If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD)
+- If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD)
 
 Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
 
@@ -619,7 +621,7 @@ NGINX
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
-Add support for comments via webmentions like Disqus and tell Amit
+Add support for comments via webmentions like Disqus and tell Amit and [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLKckzjnQRsszbdLwvnGb)
 
 Investigate [commento](https://commento.io/) as an alternative to Disqus
 
@@ -699,3 +701,5 @@ Distribute static built blogs on [dat](https://github.com/datproject/dat-node) o
 Internationalize i8n and tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971) and [Simon about French](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWSgnQswHnPkNBGvnGnPjGbZ)
 
 Add embedabble support for giphy URLs and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfJvghFlmRDQCtMDrlpDwWxM)
+
+Consider adding educational pricing and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) with my decision.
