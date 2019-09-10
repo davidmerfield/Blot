@@ -2,7 +2,7 @@ Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDH
 
 ---
 
-Make sure cache volume is remounted after boot
+Make sure cache volume is remounted after hard reboot
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
 - https://www.reddit.com/r/aws/comments/8chnbh/i3_instances_initializing_nvme_instance_store/
 - https://gist.github.com/andreas-wilm/3460a788d6548370a136e63b5b91281e
@@ -10,18 +10,13 @@ Make sure cache volume is remounted after boot
 - https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Stop_Start.html
 - use userdata to run the script? https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
 - can this be resilient enough to run ok if the mounting fails?
-
-Make sure server is hardened to ssh brute force log in attempts
-- Use nonstandard ssh port?
-- Was this cause of downtime last week?
-
-Fix integration test dependency issue
+- test that iptables rules persist too
 
 Write fall newsletter to send out on September 23
 
-Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
-
 ---
+
+Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
 Fix issue with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
 - ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)

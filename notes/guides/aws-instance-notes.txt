@@ -24,6 +24,10 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disk-performance.html
 
 ---
 
+Did some 'hardening' using the following guide:
+
+https://www.rackaid.com/blog/how-to-block-ssh-brute-force-attacks/
+
 I installed fail2ban:
 
 sudo yum install fail2ban
