@@ -1,6 +1,6 @@
 Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
 
----
+Write fall newsletter to send out on September 23
 
 Make sure cache volume is remounted after hard reboot
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
@@ -11,8 +11,6 @@ Make sure cache volume is remounted after hard reboot
 - use userdata to run the script? https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
 - can this be resilient enough to run ok if the mounting fails?
 - test that iptables rules persist too
-
-Write fall newsletter to send out on September 23
 
 ---
 
