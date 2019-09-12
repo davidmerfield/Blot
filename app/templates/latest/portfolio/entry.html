@@ -11,10 +11,12 @@
 
 <div class="nav">
   <a href="/" onclick="return lastIndexPage()">✕</a>
+  {{^entry.page}}
   <div>
     <a {{#entry.next}}href="{{entry.next.url}}"{{/entry.next}}><span style="font-size:32px;font-weight:200"><</span></a>&nbsp;<a {{#entry.previous}}href="{{entry.previous.url}}"{{/entry.previous}} style="font-size:32px;font-weight:200">></a>
   </div>
   <a href="" onclick="return randomPost()" style="font-size:24px">⚄</a>
+  {{/entry.page}}
 </div>
 
 {{> footer}}

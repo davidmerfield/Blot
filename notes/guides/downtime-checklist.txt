@@ -1,0 +1,22 @@
+Questions to answer:
+
+Can you SSH into the instance?
+- if not, try 'stopping' then 'starting' the instance through AWS, which is different to a system 'reboot' and may provision new hardware for the instance
+
+Can you OS-level reboot the instance?
+- if not, try 'stopping' then 'starting' the instance through AWS, which is different to a system 'reboot' and may provision new hardware for the instance
+
+Does the instance have free disk space?
+- if not, trying removing log files
+
+Does the instance have free memory?
+- if not, try reseting blogs' search index
+
+What do you see in the logs?
+- resolve any obvious issues
+
+Check AWS console cloudwatch metrics:
+- Do you see inbound network packets (is this a networking issue?) on AWS cloudwatch metrics
+- Do you see elevated or missing CPU usage information on AWS cloudwatch metrics for the instance
+- Are there obvious patterns to these metrics?
+

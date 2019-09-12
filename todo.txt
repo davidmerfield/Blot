@@ -1,6 +1,28 @@
-Finish Feed template
+Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
+
+Write fall newsletter to send out on September 23
+
+Make sure cache volume is remounted after hard reboot
+- https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
+- https://www.reddit.com/r/aws/comments/8chnbh/i3_instances_initializing_nvme_instance_store/
+- https://gist.github.com/andreas-wilm/3460a788d6548370a136e63b5b91281e
+- remove lines from fstab
+- https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Stop_Start.html
+- use userdata to run the script? https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
+- can this be resilient enough to run ok if the mounting fails?
+- test that iptables rules persist too
+
+---
+
+Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+
+Fix issue with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
+- ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
+
+Tweak script to import posts from Hugo for [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTWfXSnTFpgXXshxhLGBMWQW)
+
+Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT)
 - Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
-- Tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) about Archive and Feed templates when they are released
 
 Record new demo video
 - Finish video script in brochure/readme.txt
@@ -9,15 +31,19 @@ Record new demo video
 
 ---
 
-Fix bug with local editing which wipes metadata and route for views inside templates without package.json
-- Write script to catch template views with incorrect routes
-- For example '/archives.html'. Are other pages affected? /search.html? Is this an underlying bug with locally edited templates?
+Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR)
 
-Add white background to folder in favicon
+Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
+
+Translate [Roberto's theme](http://roberto.micro.blog/archive/) to Blot and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnfMLBBJDNdDRPmfLLwcQkdH)
+
+Translate [this theme](https://github.com/huangyz0918/moving) to Blot and tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZlmGfwNKCPLPMbkRHJSjNs)
 
 Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
 
-Finish script to identify long-expired users with blogs to safely delete. 
+Translate [Ana's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTgjDcQwDdcmTkgjjKTdQhQV) designs to Blot
+
+Finish script to identify long-expired users with blogs to safely delete and free up space. 
 - Sort by date expired
 - Write script to safely delete blogs
   - wipe blog folder
@@ -26,9 +52,9 @@ Finish script to identify long-expired users with blogs to safely delete.
   
 Ignore files inside 'assets' inside .textbundle directories to improve support for textbundles and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzDLvlTkKNmfZgnXpzzLZjWN).
 
-Add image partial template which would render inside each entry to provide ways to access exif, etc.
-- Tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304)
-- Tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc) that it's possible to have full screen images and sized text.
+Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
+
+Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
 
 Rebuild all the thumbnails and cached images for every blog
 - Weird things happened to the ferox blog – it was not attached to its user owner... Can we reproduce bug locally with production dump?
@@ -49,11 +75,24 @@ Increase price to $4 per month for new customers. This will not affect existing 
 
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
+Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
+
 Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5WQ0/)
+
+New template lambdas to consider:
+- Whitespace trimming and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+- Number formatting (e.g. add commas to int.) and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+
+Add way to filter archives page by year or month and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH) and [Michael](https://mail.google.com/mail/u/0/#sent/QgrcJHsTkKSHVKgTvQJXTffdLDdbGZPbFxl)
 
 Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%20825%20printer%20font%20-%20a%20work%20in%20progress.markdown) draft and speed up its build time
+
+Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
+- To reproduce, create file 'hello.txt' with title and permalink 'foo'
+- Then rename file to 'world.txt', and edit title to 'bar' at the same time
+- we expect /foo to redirect to /bar, but it doesn't perhaps due to the rename?
 
 Catch 404s in Google search results and set up redirects
 
@@ -83,7 +122,7 @@ Fix bug with image minification which produces larger file than source file and 
 
 Fix Git client bugs
 - Fix bug with case-sensitivity when transfering from Git to Dropbox and tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166fe957b167f5e5) and [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbMGXzRQBBplHKnFLWMbhhS)
-- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd)
+- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG)
 - Work out how to pipe custom error messages down
 - Pipe custom message when you change a blog's handle (breaking repo url)
 - Tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) about the broken repo URL fix
@@ -111,6 +150,8 @@ Add Q and A section to site where users could post
 
 Disable access to s3 blogs bucket
 
+Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
+
 Improve scheduler
 - Adds a command to restore database from backup.
 - Adds a scheduled task to flush old backups using app/scheduler/backup/remove.js in branch 'scheduler' which was ported from the old remove method of the upload module
@@ -119,9 +160,10 @@ Improve scheduler
 
 Wait a month and then delete s3 blogs bucket
 
+Add white background to folder logo in Blot's favicon
+
 Metadata parser
 - Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
-- Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google.com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm)
 - Add support for [Pelican-style metadata](http://docs.getpelican.com/en/stable/content.html) in HTML posts using <meta name="date" content="2012-07-09 22:28" />
 - Removing Date metadata from a post should reset its date to the file's creation date. Currently nothing changes.
 - Fall back to file name before first sentence when generating title metadata and tell [Rob](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWgqcnbZjCdSXbjrBlLkFC)
@@ -130,6 +172,8 @@ Metadata parser
 Implement hidden link section on Menu page under profile settings. Default links not on the menu would appear there, making it easy to restore them in future. Tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVTbfgnTVvCjfMGzWDjvjfML)
 
 Think about adding way to add/edit files from the dashboard directly, bypassing need for a client. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about the decision. What about a web-based client for Blot with a basic text editor, posts listed on sidebar, conventional tag interface?
+
+Disable redirect to HTTPS for blogs by default (to ensure old browsers without SNI work) but ensure all prominent links to the blog on dashboard use HTTPS
 
 Finish public share url for templates and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBzdlVDmTghLnJNfBgsvwZB) and [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWTHpCpZvdbmLtxMcgMpPRRxG) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggBFmgljcPqXScrXswlXgjfg).
 - Create simple reference to original template that is uneditable by default (but forkable, like default Blot templates). This would mean the template would auto-update.
@@ -161,7 +205,7 @@ Add way to filter entries by post type (e.g. photo) and tell [Justin](https://tw
 
 Add support for nesting multiple layout tags e.g. "{<>} {||} Y" and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqNqbsQJjcrTXRcsFxHVPzDq)
 
-Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3) and [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77)and [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a).
+Add support for 2FA (Two factor authentication) then tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3), [Max](https://mail.google.com/mail/u/1/#inbox/1641e9bd104c5b77), [Chaz](https://mail.google.com/mail/u/1/#inbox/165b726aa900158a) and [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnpZncgBDbDskMZdPMXkgGCN).
 
 ---
 
@@ -239,7 +283,7 @@ Improvements to brochure
 
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 
-Add support for HTTP2
+Add support for HTTP2 and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnjnkQjwXHFWSTtWtwhFWxGd)
 
 Fix bug with question mark in image name, e.g. drag and drop 'x?y.jpg' into a blog folder.
 
@@ -330,16 +374,20 @@ Create a mock version of these websites and send an email showing the folder str
   - [Frank Chimero](https://frankchimero.com/)
   - [David Rudnick](https://davidrudnick.org/)
   - [Peter Mendelsund](https://www.petermendelsund.com/about)
+  - [Rob Giampietro](https://linedandunlined.com/)
   - [Ben Pierrat](http://pieratt.com/)
   - [Tina Roth Eisenberg](https://www.swiss-miss.com/)
   - [Khoi Vinh](https://www.subtraction.com/)
   - [Jarrett Fuller](https://jarrettfuller.com/)
+  - [Dan Cederholm](http://simplebits.com)
   
 - Type:
   - [Just van Rossum](http://dailydrawbot.tumblr.com/)
   - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
+  - [Tobias Rechsteiner](http://www.tobiasrechsteiner.ch/) knows about Blot
 
 - Writers:
+  - [Warren Ellis](http://warrenellis.ltd/) via [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHZrcrTqrjtJVqVrhZKLXNw) knows about Blot
   - [Maciej Ceglowski](https://idlewords.com/about.htm)
   - [Robin Sloan](https://www.robinsloan.com/)
   - [Paul Ford](https://www.ftrain.com/)
@@ -357,6 +405,8 @@ Create a mock version of these websites and send an email showing the folder str
 - Created [popular text editors](https://en.wikipedia.org/wiki/List_of_text_editors):
   - [Oliver Reichenstein](https://ia.net/)
   - [Zachary Schneirov](http://notational.net/)
+
+Search HN for popular indie-blogs and contact the authors with similar offers. 
 
 Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for dashboard?
 - Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
@@ -390,7 +440,9 @@ Cluster the main process. How will I verify that there is not statefullness some
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
-Add support for Microformats in the default templates. Tell Amit.
+Add support for Microformats in the default templates. Tell Amit and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
+
+Add JSONFeed to default templates. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
 
 Add support for Micropub in Blot's API. Tell Amit.
 
@@ -452,7 +504,7 @@ is happening before doing this.
 
 Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
 
-Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg)
+Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com)
 
 Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
 
@@ -460,7 +512,7 @@ File converters / codecs
 - Video posts (.mp4)
 - OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
 - Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg)
-- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113)
+- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113) and [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW)
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
 - Markdown
   Write a pandoc compatible markdown converter in javascript
@@ -468,15 +520,15 @@ File converters / codecs
 
 Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
-Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and Roy's friend Tim.
+Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and Roy's friend Tim.
 
 Write new clients to sync blog folders
-- OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz)
+- OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and
 - [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
-- [SFTP](https://www.npmjs.com/package/ftpd)
+- [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW)
 - [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
-- Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj)
-- If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJjqgsvKxxVgFdbXvxNTHTsz)
+- Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm)
+- If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD)
 
 Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
 
@@ -524,8 +576,6 @@ Improvements to Git client
   - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
 - Rate limit authentication route?
 
-Review [Fathom analytics](https://usefathom.com/) and get back to [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKVZBFfnxCDXcmCzMXDHcTDv)
-
 Improvements to Dropbox client
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
@@ -564,7 +614,7 @@ NGINX
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
-Add support for comments via webmentions like Disqus and tell Amit
+Add support for comments via webmentions like Disqus and tell Amit and [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLKckzjnQRsszbdLwvnGb)
 
 Investigate [commento](https://commento.io/) as an alternative to Disqus
 
@@ -593,7 +643,9 @@ If entries share publish date, sort them by blot creation date
 
 Enable hyphenation again then tell rodericus
 
-Add option to enable hard line breaks in Markdown parser?
+Improvements to Markdown parser:
+- Add support for fancy_lists and tell [Regan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJmJbkbscVcdRfvLBPQMPwhQ)
+- Add option to enable hard line breaks in Markdown parser?
 
 Move all unit tests which run on server start (the helper folder is littered with these, CMD+F for 'require('assert') into CI tests.
 
@@ -640,3 +692,7 @@ Consider allowing users to buy domains on Blot through [DNS simple](https://deve
 Distribute static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
 
 Internationalize i8n and tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971) and [Simon about French](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWSgnQswHnPkNBGvnGnPjGbZ)
+
+Add embedabble support for giphy URLs and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfJvghFlmRDQCtMDrlpDwWxM)
+
+Consider adding educational pricing and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) with my decision.

@@ -103,12 +103,12 @@ function uniqueBy(property, list) {
 }
 
 brochure.get("/about", loadContributors, function(req, res) {
-  res.locals.title = "Blot – About";
+  res.locals.title = "About";
   res.render("about");
 });
 
 brochure.get("/support", function(req, res) {
-  res.locals.title = "Blot – Support";
+  res.locals.title = "Support";
   res.render("support");
 });
 
@@ -177,7 +177,7 @@ brochure.get("/", require("./featured"), function(req, res) {
   res.render("index");
 });
 
-brochure.use("/publishing/domain", function(req, res, next) {
+brochure.use("/publishing/guides/domain", function(req, res, next) {
   res.locals.ip = config.ip;
   return next();
 });
@@ -190,7 +190,7 @@ brochure.get("/:section", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
 
   res.render(req.params.section);
 });
@@ -206,7 +206,7 @@ brochure.get("/:section/:subsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
   res.render(req.params.section + "/" + req.params.subsection);
 });
 
@@ -221,7 +221,7 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
   res.render(
     req.params.section +
       "/" +

@@ -1,6 +1,11 @@
 /* This template tag is replaced by CSS when this file is rendered */
 {{{appCSS}}}
 
+/* Fixes bug with image zoom plugin and archives page 
+   which had previously rendered archives page links 
+   unclickable with the image zoom plugin enabled */
+.cf {clear: both;}
+
 {{> css-tachyons}}
 {{> css-hljs}}
 {{> css-bigfoot}}

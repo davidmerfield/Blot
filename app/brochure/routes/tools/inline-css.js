@@ -57,6 +57,9 @@ module.exports = function (req, res, next) {
           // we need to skip font-face here...
           if (selector.indexOf("@font-face") > -1) return true;
 
+          // we need to skip font-face here...
+          if (selector.indexOf("placeholder") > -1) return true;
+
           // I use some complex selectors to style these elements
           // which do not match although they should when I run
           // the document query below. 

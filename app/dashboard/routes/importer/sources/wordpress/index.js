@@ -66,7 +66,7 @@ function main(sourceFile, outputDirectory, options, callback) {
       async.eachOfSeries(
         result.rss.channel[0].item,
         function(item, index, done) {
-          log(colors.dim(++index + "/" + totalItems), item.title[0]);
+          log(colors.dim(++index + "/" + totalItems), item.title[0].trim());
           Item(item, outputDirectory, done);
         },
         callback

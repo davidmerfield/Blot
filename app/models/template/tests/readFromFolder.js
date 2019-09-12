@@ -4,6 +4,7 @@ describe("template", function() {
 
   var create = require("../index").create;
   var readFromFolder = require("../index").readFromFolder;
+  var setView = require("../index").setView;
   var getViewByURL = require("../index").getViewByURL;
 
   require("./setup")({ createTemplate: true });
@@ -57,7 +58,7 @@ describe("template", function() {
     fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
     fs.outputJsonSync(this.tmp + "/package.json", {
       locals: { foo: "bar" },
-      views: { 'style.css': { url: "/test", locals: { baz: "bat" } } }
+      views: { "style.css": { url: "/test", locals: { baz: "bat" } } }
     });
 
     readFromFolder(this.blog.id, this.tmp, function(err, template) {
@@ -83,6 +84,36 @@ describe("template", function() {
 
         expect(name).toEqual("style.css");
         done();
+      });
+    });
+  });
+
+  // By default, when a new view is read from a template folder its URL
+  // is set to its name, i.e. tags.html will be accessible at /tags.html
+  // on the blog. It's possible to edit this URL/route on the template
+  // editor. We want to preserve this URL if the template is ever read
+  // from a folder in future.
+  it("will not clobber the URL for a view set elsewhere", function(done) {
+    fs.outputFileSync(this.tmp + "/style.css", "body {color:pink}");
+    var templateFolder = this.tmp;
+    var blogID = this.blog.id;
+
+    readFromFolder(blogID, templateFolder, function(err, template) {
+      if (err) return done.fail(err);
+
+      setView(template.id, { name: "style.css", url: "/foo" }, function(err) {
+        if (err) return done.fail(err);
+
+        readFromFolder(blogID, templateFolder, function(err, template) {
+          if (err) return done.fail(err);
+
+          getViewByURL(template.id, "/foo", function(err, name) {
+            if (err) return done.fail(err);
+
+            expect(name).toEqual("style.css");
+            done();
+          });
+        });
       });
     });
   });
