@@ -23,7 +23,6 @@ ul.sidebar {
   /* [2] */
   align-self: flex-start;
   /* [3] */
-  border-right: 1px solid #eceff1  
 }
 
 /*ul.sidebar:hover a {color: black}*/

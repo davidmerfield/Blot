@@ -122,7 +122,6 @@ content {
   .sidebar a {padding-left:1rem;padding-right: 1rem}
 }
 
-.links a {line-height: 43px}
 
 .links a,
 .sidebar a,
@@ -134,6 +133,8 @@ content {
   box-sizing: border-box;
   text-decoration: none;
 }
+
+.links a {line-height: 43px;color:#000;}
 
 
 .links a:focus,
@@ -190,8 +191,8 @@ header hr,
 }
 
 .logo svg {
-  width: 34px;
-  margin: 16px 0;
+  width: 26px;
+  margin: 0 10px 0 0;
   fill: #000;
   stroke: #000;
   vertical-align: text-bottom;
@@ -214,4 +215,4 @@ header hr,
 }
 
 header .logo,
-header .logo:focus {}
+header .logo:focus {display:flex;align-items:center;margin:20px 0;font-weight: 500;color:#000;}
