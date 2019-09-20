@@ -1,13 +1,14 @@
-var async = require('async');
-var Tags = require('./index');
-var blogID = '10000';
+var async = require("async");
+var Tags = require("./index");
+var blogID = "10000";
 
-function makeTag () {
-  return Math.random().toString(36).toUpperCase();
+function makeTag() {
+  return Math.random()
+    .toString(36)
+    .toUpperCase();
 }
 
-function makeEntry (id) {
-
+function makeEntry(id) {
   var tags = [];
   var totalTags = Math.ceil(Math.random() * 10);
 
@@ -19,9 +20,7 @@ function makeEntry (id) {
   };
 }
 
-
-function makeEntries (total) {
-
+function makeEntries(total) {
   var res = [];
 
   while (res.length <= total) {
@@ -33,26 +32,22 @@ function makeEntries (total) {
 
 var entries = makeEntries(2);
 
-console.time('All entries set!');
+console.time("All entries set!");
 
-async.eachSeries(entries, function(entry, next){
+async.eachSeries(
+  entries,
+  function(entry, next) {
+    Tags.set(blogID, entry, next);
+  },
+  function() {
+    console.timeEnd("All entries set!");
+    console.time("All tags retrieved!");
 
-  Tags.set(blogID, entry, next);
-
-}, function () {
-
-  console.timeEnd('All entries set!');
-  console.time('All tags retrieved!');
-
-
-  Tags.list(blogID, function (err, tags) {
-
-    console.timeEnd('All tags retrieved!');
-
-  });
-});
-
-
+    Tags.list(blogID, function(err, tags) {
+      console.timeEnd("All tags retrieved!");
+    });
+  }
+);
 
 // Tags.list(blogID, function (err, tags) {
 

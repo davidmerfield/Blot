@@ -27,7 +27,9 @@ Subscription.route("/create")
   .all(requireLackOfSubscription)
 
   .get(function(req, res) {
-    res.locals.price = "$" + parseInt(config.stripe.plan.split("_").pop())*req.user.blogs.length;
+    res.locals.price =
+      "$" +
+      parseInt(config.stripe.plan.split("_").pop()) * req.user.blogs.length;
     res.locals.interval =
       config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
     res.locals.stripe_key = config.stripe.key;
@@ -158,7 +160,7 @@ function recreateStripeSubscription(req, res, next) {
 // not have a stripe subscription. In order to create new
 // blogs they will need one.
 function createStripeSubscription(req, res, next) {
-  console.log('body', req.body);
+  console.log("body", req.body);
   stripe.customers.create(
     {
       card: req.body.stripeToken,

@@ -11,7 +11,7 @@ var folders = {
   magazine: "magazine",
   photos: "bjorn",
   portfolio: "bjorn",
-  rosa: "bjorn"  
+  rosa: "bjorn"
 };
 
 templates.use(function(req, res, next) {

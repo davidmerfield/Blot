@@ -1,19 +1,16 @@
-
-var helper = require('helper');
+var helper = require("helper");
 var ensure = helper.ensure;
-var redis = require('client');
-var model = require('./model');
+var redis = require("client");
+var model = require("./model");
 
-module.exports = function (blogID, entry, callback) {
-
-  ensure(blogID, 'string')
+module.exports = function(blogID, entry, callback) {
+  ensure(blogID, "string")
     .and(entry, model)
-    .and(callback, 'function');
+    .and(callback, "function");
 
   if (!entry.draft) return callback();
 
-  var channel = 'blog:' + blogID +
-                ':draft:' + entry.path;
+  var channel = "blog:" + blogID + ":draft:" + entry.path;
 
   // Now the entry has been updated,
   // tell the server to send a SSE event

@@ -30,22 +30,27 @@ describe("sync", function() {
     });
   });
 
-  it("will release a lock when the process dies due to an uncaught exception", function(testDone) {
-    var child = require("child_process").fork(__dirname + "/error", {silent: true});
-    var blog = this.blog;
-
-    // Did sync release the child's lock on the blog when the child
-    // died (was killed)? We test this by trying to acquire a lock.
-    child.on("close", function() {
-      sync(blog.id, function(err, folder, done) {
-        if (err) return testDone.fail(err);
-        done(null, testDone);
+  it(
+    "will release a lock when the process dies due to an uncaught exception",
+    function(testDone) {
+      var child = require("child_process").fork(__dirname + "/error", {
+        silent: true
       });
-    });
+      var blog = this.blog;
 
-    child.send(blog.id);    
+      // Did sync release the child's lock on the blog when the child
+      // died (was killed)? We test this by trying to acquire a lock.
+      child.on("close", function() {
+        sync(blog.id, function(err, folder, done) {
+          if (err) return testDone.fail(err);
+          done(null, testDone);
+        });
+      });
 
-  }, 10 * 1000);
+      child.send(blog.id);
+    },
+    10 * 1000
+  );
 
   it("will release a lock when the process is killed", function(testDone) {
     var child = require("child_process").fork(__dirname + "/kill");

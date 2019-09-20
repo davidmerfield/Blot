@@ -11,7 +11,8 @@ module.exports = function(req, callback) {
 
       if (!starts_with("/")) text = "/" + text;
 
-      if (extension) text = text + "?cache={{cacheID}}&amp;extension=" + extension;
+      if (extension)
+        text = text + "?cache={{cacheID}}&amp;extension=" + extension;
 
       return render(text);
     };

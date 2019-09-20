@@ -67,7 +67,7 @@ function render($, callback) {
         var html = data.html;
 
         if (html.indexOf(SCRIPT) > -1) {
-          html = html.split(SCRIPT).join('');
+          html = html.split(SCRIPT).join("");
           $(el).replaceWith(html);
           prepend = true;
         } else {

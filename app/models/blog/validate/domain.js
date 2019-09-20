@@ -22,7 +22,6 @@ module.exports = function(blogID, domain, callback) {
 
     // http://google.com -> google.com
     if (domain.indexOf("://") > -1) domain = url.parse(domain).hostname;
-    
   } catch (e) {
     return callback(INVALID);
   }

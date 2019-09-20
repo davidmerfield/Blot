@@ -45,9 +45,9 @@ function extractID(href) {
   // Url.parse maps backslashes (used to escape) to forward
   // slashes, e.g. '/_' for some reason. We remove the forward
   // slash here, since it breaks video embeds for videos with
-  // ids that contain escapable characters, e.g. 
+  // ids that contain escapable characters, e.g.
   // https://youtu.be/6orc\_lHvJKY
-  id = id.split('/').join('');
+  id = id.split("/").join("");
 
   return id;
 }

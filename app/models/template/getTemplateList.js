@@ -1,8 +1,8 @@
-var client = require('client');
-var key = require('./key');
-var async = require('async');
-var getMetadata = require('./getMetadata');
-var ensure = require('helper').ensure;
+var client = require("client");
+var key = require("./key");
+var async = require("async");
+var getMetadata = require("./getMetadata");
+var ensure = require("helper").ensure;
 
 // The list of possible template choices
 // for a given blog. Accepts a UID and
@@ -33,4 +33,4 @@ module.exports = function getTemplateList(blogID, callback) {
       );
     });
   });
-}
+};

@@ -19,7 +19,7 @@ module.exports = function(req, res) {
     clientId: key,
     secret: secret
   });
-  
+
   authentication_url = client.getAuthenticationUrl(callback, null, "code");
   authentication_url = authentication_url.replace(
     "response_type=token",

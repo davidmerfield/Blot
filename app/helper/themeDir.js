@@ -1,8 +1,8 @@
-var rootDir = require('./rootDir');
-var joinpath = require('path').join;
+var rootDir = require("./rootDir");
+var joinpath = require("path").join;
 
-function themeDir (name) {
-  return joinpath(rootDir, 'themes', name);
-};
+function themeDir(name) {
+  return joinpath(rootDir, "themes", name);
+}
 
 module.exports = themeDir;

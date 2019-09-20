@@ -1,5 +1,4 @@
 describe("transformer", function() {
-
   // Creates test environment
   require("./setup")({});
 

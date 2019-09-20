@@ -50,7 +50,7 @@ parseXML(fs.readFileSync(sourceFile, "utf-8"), function(err, result) {
   var path = folder + "/input.txt";
 
   fs.outputFileSync(path, candidates[0]["content:encoded"][0]);
-  fs.outputFileSync(folder + '/result.txt', 'REPLACE');
+  fs.outputFileSync(folder + "/result.txt", "REPLACE");
 
   console.log('Generated new test for "' + title + '" in:');
   console.log(folder);

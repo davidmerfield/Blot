@@ -4,7 +4,7 @@ var Debug = require("debug");
 if (process.env.BLOT_ENVIRONMENT !== "development") {
   module.exports = function() {
     return function(req, res, next) {
-      req.debug = function(){};
+      req.debug = function() {};
       next();
     };
   };

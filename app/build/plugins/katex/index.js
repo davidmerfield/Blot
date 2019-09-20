@@ -1,5 +1,5 @@
 module.exports = {
-  category: 'Typography',
-  title: 'Math',
-  description: 'Render TeX into HTML'
+  category: "Typography",
+  title: "Math",
+  description: "Render TeX into HTML"
 };

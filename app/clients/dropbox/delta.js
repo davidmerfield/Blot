@@ -79,7 +79,7 @@ module.exports = function delta(token, folderID) {
         callback(null, result);
       })
 
-      // Handle 429 Errors from Dropbox which ask us 
+      // Handle 429 Errors from Dropbox which ask us
       // to wait a certain number of seconds before retrying
       .catch(waitForErrorTimeout)
 
