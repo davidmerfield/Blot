@@ -1,6 +1,9 @@
-Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
-
 Write fall newsletter to send out on September 23
+
+Write script to increase size of Blot's hard drive
+- Increase size of Blot's hard drive
+
+Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
 
 Make sure cache volume is remounted after hard reboot
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
@@ -307,6 +310,8 @@ Replace some of the assert() tests which run every time the server starts with J
 
 Generate list of external API dependencies and follow changes for each
 
+Add search page to archive template and tell [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRPFhmWPrZXbFZvhwWMWzfTl)
+
 Finish re-write of template system
 - Local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
@@ -334,6 +339,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
+- Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm)
 
 Subscription refactor
 - Add support for subscriptions via PayPal
