@@ -52,12 +52,24 @@ module.exports = function(req, res, next) {
     // Redirect old handle
     if (identifier.handle && blog.handle !== identifier.handle)
       redirect =
-        req.protocol + "://" + blog.handle + "." + config.host + req.originalUrl;
+        req.protocol +
+        "://" +
+        blog.handle +
+        "." +
+        config.host +
+        req.originalUrl;
 
     // Redirect Blot subdomain to custom domain we use
     // 302 temporary since the domain might break in future
-    if (identifier.handle && blog.domain && blog.redirectSubdomain && !previewTemplate)
-      return res.status(302).redirect(req.protocol + "://" + blog.domain + req.originalUrl);
+    if (
+      identifier.handle &&
+      blog.domain &&
+      blog.redirectSubdomain &&
+      !previewTemplate
+    )
+      return res
+        .status(302)
+        .redirect(req.protocol + "://" + blog.domain + req.originalUrl);
 
     // Redirect HTTP to HTTPS. Preview subdomains are not currently
     // available over HTTPS but when they are, remove this.

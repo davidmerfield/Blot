@@ -97,7 +97,11 @@ module.exports = function(req, res, _next) {
 
             // Only cache JavaScript and CSS if the request is not to a preview
             // subdomain and Blot's caching is turned on.
-            if (CACHE && !req.preview && (viewType === STYLE || viewType === JS)) {
+            if (
+              CACHE &&
+              !req.preview &&
+              (viewType === STYLE || viewType === JS)
+            ) {
               res.header(CACHE_CONTROL, cacheDuration);
             }
 

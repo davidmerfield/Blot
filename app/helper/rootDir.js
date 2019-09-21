@@ -1,1 +1,1 @@
-module.exports = require('fs').realpathSync(__dirname + '/../../');
+module.exports = require("fs").realpathSync(__dirname + "/../../");

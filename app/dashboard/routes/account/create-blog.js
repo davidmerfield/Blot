@@ -136,7 +136,10 @@ function validateSubscription(req, res, next) {
     !subscription.status ||
     subscription.status !== "active"
   ) {
-    res.message("/account/subscription/create", new Error("You need an active subscription to create a new blog"));
+    res.message(
+      "/account/subscription/create",
+      new Error("You need an active subscription to create a new blog")
+    );
   } else {
     next();
   }

@@ -14,7 +14,6 @@ var get = require("./get");
 // This empties the cache for a blog by emptying the cache
 // for its Blot subdomain and its custom domain, if one is set
 module.exports = function(blogID, former, callback) {
-
   // You can optionally pass the former state of the blog
   // to ensure that the cache directories for old domains
   // and blot subdomains are flushed too. It's not required.

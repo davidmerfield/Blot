@@ -35,7 +35,7 @@ module.exports = function(req, res, next) {
   if (req.blog.id.indexOf("blog_") === 0) {
     url = config.cdn.origin + "/" + req.blog.id + url;
   }
-  
+
   fs.move(req.files.avatar.path, finalPath, function(err) {
     if (err) return next(err);
 

@@ -38,7 +38,7 @@ module.exports = function setup(options) {
   });
 
   global.test.server(function(server) {
-    // Only server an image at this route if 
+    // Only server an image at this route if
     // the request passes the correct query
     server.get("/foo.html", function(req, res) {
       res.send("Hello, World!");

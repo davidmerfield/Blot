@@ -78,7 +78,10 @@ module.exports = function(req, res, next) {
   }
 
   // Only allow the user to pay
-  if (user.needsToPay && pathIsNot([PAY_SUBSCRIPTION, LOGOUT, DELETE_ACCOUNT])) {
+  if (
+    user.needsToPay &&
+    pathIsNot([PAY_SUBSCRIPTION, LOGOUT, DELETE_ACCOUNT])
+  ) {
     return res.redirect(PAY_SUBSCRIPTION);
   }
 

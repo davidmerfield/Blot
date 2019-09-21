@@ -1,11 +1,11 @@
-var fs = require('fs');
-var rootDir = require('./rootDir');
-var blogDir = rootDir + '/blogs';
+var fs = require("fs");
+var rootDir = require("./rootDir");
+var blogDir = rootDir + "/blogs";
 
 try {
-  fs.mkdirSync(blogDir)
+  fs.mkdirSync(blogDir);
 } catch (e) {
-  if (e.code !== 'EEXIST') throw e;
+  if (e.code !== "EEXIST") throw e;
 }
 
 module.exports = blogDir;

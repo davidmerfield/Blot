@@ -34,7 +34,7 @@ function main(callback) {
         if (!user.subscription.status) return;
 
         if (user.subscription.status !== "active") return;
-          
+
         if (user.subscription.cancel_at_period_end) return;
 
         var next_payment = user.subscription.current_period_end * 1000;

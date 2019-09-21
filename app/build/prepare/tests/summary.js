@@ -60,7 +60,8 @@ describe("summary", function() {
   it("will not contain or truncate long words", function() {
     expect(
       this.summary({
-        html: "<p>Hello there helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.</p>"
+        html:
+          "<p>Hello there helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.</p>"
       })
     ).toEqual("Hello there");
   });
@@ -72,5 +73,4 @@ describe("summary", function() {
       })
     ).toEqual("Hello & & foo there");
   });
-
 });

@@ -29,12 +29,12 @@ describe("encodeXML", function() {
   it("removes invalid characters", function(done) {
     var result;
     var locals = {};
-    var html = '& foo &#xFF08;&#x4FBF;&#x5229;';
+    var html = "& foo &#xFF08;&#x4FBF;&#x5229;";
     var template = "{{#encodeXML}}" + html + "{{/encodeXML}}";
 
     encodeXML(this.request, function(err, lambda) {
       result = mustache.render(template, { encodeXML: lambda });
-      expect(result).toEqual('&amp; foo &#xFF08;&#x4FBF;&#x5229;');
+      expect(result).toEqual("&amp; foo &#xFF08;&#x4FBF;&#x5229;");
       done();
     });
   });

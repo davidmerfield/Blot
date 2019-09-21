@@ -1,7 +1,6 @@
 var createClient = require("../util/createClient");
 
 module.exports = function(req, res, next) {
-  
   if (!req.token) return next(new Error("No access token"));
 
   var client = createClient(req.token);

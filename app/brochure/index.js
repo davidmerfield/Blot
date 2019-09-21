@@ -23,10 +23,10 @@ if (config.cache === false) {
   cache.flush(config.host, function(err) {
     if (err) console.warn(err);
     setTimeout(function() {
-      console.log('Warming cache...');
+      console.log("Warming cache...");
       warmCache(config.protocol + config.host, function(err) {
         if (err) console.warn(err);
-        console.log('Warmed cache');
+        console.log("Warmed cache");
       });
     }, 10 * 1000);
   });

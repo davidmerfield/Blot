@@ -18,7 +18,9 @@ module.exports = function render_tex(req, res, next) {
 
     // Inject stylesheet to render TeX
     if (hadTex) {
-      $("head").append('<link rel="stylesheet" type="text/css" href="/css/tex.css">');
+      $("head").append(
+        '<link rel="stylesheet" type="text/css" href="/css/tex.css">'
+      );
     }
 
     // This text does not contain LaTeX

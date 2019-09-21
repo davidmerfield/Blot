@@ -1,8 +1,8 @@
-var getAllViews = require('./getAllViews');
-var ensure = require('helper').ensure;
-var client = require('client');
-var key = require('./key');
-var makeID = require('./util/makeID');
+var getAllViews = require("./getAllViews");
+var ensure = require("helper").ensure;
+var client = require("client");
+var key = require("./key");
+var makeID = require("./util/makeID");
 
 module.exports = function drop(owner, templateName, callback) {
   var templateID = makeID(owner, templateName);

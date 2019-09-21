@@ -34,7 +34,7 @@ function main(callback) {
       var serverName = components[2];
       var uri = components.slice(3).join(" ");
 
-      if (date.isAfter(moment().subtract(1, 'day'))) {
+      if (date.isAfter(moment().subtract(1, "day"))) {
         hits++;
         responseTimes.push(responseTime);
         return true;
@@ -57,19 +57,22 @@ function main(callback) {
 
       callback(null, {
         average_response_time: prettyTime(averageResponseTime),
-        median_response_time: prettyTime(responseTimes[Math.floor(responseTimes.length * 0.5)]),
-        ninety_ninth_percentile_response_time:
-          prettyTime(responseTimes[Math.floor(responseTimes.length * 0.99)]),
-        total_requests_served: require('helper').prettyNumber(hits)
+        median_response_time: prettyTime(
+          responseTimes[Math.floor(responseTimes.length * 0.5)]
+        ),
+        ninety_ninth_percentile_response_time: prettyTime(
+          responseTimes[Math.floor(responseTimes.length * 0.99)]
+        ),
+        total_requests_served: require("helper").prettyNumber(hits)
       });
     });
 }
 
-function prettyTime (n) {
-  if (!n) return '';
+function prettyTime(n) {
+  if (!n) return "";
   n = n.toFixed(2);
-  if (n.toString() === '0.00') n = 0.01;
-  return n + 's';
+  if (n.toString() === "0.00") n = 0.01;
+  return n + "s";
 }
 
 module.exports = main;

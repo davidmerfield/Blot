@@ -1,7 +1,7 @@
 describe("blog server vhosts", function() {
   var vhosts = require("../vhosts");
   var config = require("config");
-  
+
   it("extracts a blot domain", function(done) {
     var ctx = this;
     var host = this.blog.handle + "." + config.host;

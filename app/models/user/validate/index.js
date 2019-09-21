@@ -1,18 +1,17 @@
-var helper = require('helper');
+var helper = require("helper");
 var ensure = helper.ensure;
-var async = require('async');
+var async = require("async");
 
-var MODEL = require('../model');
+var MODEL = require("../model");
 
 var validators = {
-  email: require('./email'),
+  email: require("./email")
 };
 
-module.exports = function validate (user, updates, callback) {
-
+module.exports = function validate(user, updates, callback) {
   ensure(user, MODEL)
-    .and(updates, 'object')
-    .and(callback, 'function');
+    .and(updates, "object")
+    .and(callback, "function");
 
   var changes = [];
 
@@ -22,42 +21,43 @@ module.exports = function validate (user, updates, callback) {
     return callback(err);
   }
 
-  async.eachOf(updates, function(value, name, next){
-
-    try {
-      ensure(value, MODEL[name]);
-    } catch (e){
-      return next(e);
-    }
-
-    if (!validators[name]) {
-      user[name] = value;
-      changes.push(name);
-      return next();
-    }
-
-    validators[name](user, value, function(err, value){
-
-      if (err) return next(err);
-
-      if (value && user[name] !== value) {
-        user[name] = value;
-        changes.push(name);
+  async.eachOf(
+    updates,
+    function(value, name, next) {
+      try {
+        ensure(value, MODEL[name]);
+      } catch (e) {
+        return next(e);
       }
 
-      next();
-    });
-  }, function (err){
+      if (!validators[name]) {
+        user[name] = value;
+        changes.push(name);
+        return next();
+      }
 
-    if (err) return callback(err);
+      validators[name](user, value, function(err, value) {
+        if (err) return next(err);
 
-    // Check user properties are correct type
-    try {
-      ensure(user, MODEL, true);
-    } catch (err) {
-      return callback(err);
+        if (value && user[name] !== value) {
+          user[name] = value;
+          changes.push(name);
+        }
+
+        next();
+      });
+    },
+    function(err) {
+      if (err) return callback(err);
+
+      // Check user properties are correct type
+      try {
+        ensure(user, MODEL, true);
+      } catch (err) {
+        return callback(err);
+      }
+
+      return callback(null, user, changes);
     }
-
-    return callback(null, user, changes);
-  });
+  );
 };

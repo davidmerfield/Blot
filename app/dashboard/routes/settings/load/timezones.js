@@ -64,7 +64,6 @@ module.exports = function(req, res, next) {
     return 0;
   });
 
-
   for (var x in timeZones)
     if (timeZones[x].value === blog.timeZone)
       timeZones[x].selected = "selected";
