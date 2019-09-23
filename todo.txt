@@ -1,7 +1,7 @@
-Write fall newsletter to send out on September 23
-
 Write script to increase size of Blot's hard drive
 - Increase size of Blot's hard drive
+
+Work on online writing tool which connects to Dropbox and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRMwRlXWkJQpsjGrHxFmFzDw)
 
 Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
 
