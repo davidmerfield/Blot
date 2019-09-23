@@ -22,7 +22,9 @@ Autumn newsletter
 
 **Mistakes**
 
-Blot’s server went down three times over the summer. First on July 3rd, then July 28th and August 21st. During each of these incidents, something caused the CPUs on Blot’s server to max out, and stay maxed. Blot’s reverse proxy locked up. I could not SSH into Blot’s server, or control it through my hosting provider’s command line interface. Each time, I managed to get Blot online by booting a replacement server on clean hardware. I added additional logging after each incident but I have not determined an ultimate cause.
+Blot’s server went down three times over the summer. The first downtime began on July 3rd, the second on July 28th and the last on August 21st. During each of these incidents, something caused the CPUs on Blot’s server to max out, and stay maxed. Blot’s reverse proxy froze and stopped passing requests to the processes which render the pages on your blogs. I could not SSH into Blot’s server nor control it through my hosting provider’s tools. 
+
+Each time, I managed to get Blot online by booting a replacement server on clean hardware. I added additional logging after each incident. However, I have not determined the ultimate cause or causes of these incidents.
 
 **Plans for this season**
 - Deepen my understanding of Linux and the administration of Linux servers in the hope of uncovering the ultimate cause of last season’s downtime.
