@@ -40,7 +40,10 @@ module.exports = function(result, callback) {
     if (src.indexOf("/assets") !== 0) return;
 
     try {
-      fs.copySync(result.sourceDirectory + src, result.assetDirectory + '/' + newName);      
+      fs.copySync(
+        result.sourceDirectory + src,
+        result.assetDirectory + "/" + newName
+      );
     } catch (e) {
       console.log(e);
       return;

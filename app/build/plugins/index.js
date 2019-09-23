@@ -1,15 +1,15 @@
-var config = require('config');
-var helper = require('helper');
-var marked = require('marked');
-var cheerio = require('cheerio');
-var fs = require('fs');
+var config = require("config");
+var helper = require("helper");
+var marked = require("marked");
+var cheerio = require("cheerio");
+var fs = require("fs");
 var ensure = helper.ensure;
 var callOnce = helper.callOnce;
 var extend = helper.extend;
 var deCamelize = helper.deCamelize;
-var log = new helper.logg('PLUGIN');
+var log = new helper.logg("PLUGIN");
 var time = helper.time;
-var async = require('async');
+var async = require("async");
 
 // Wait 10 minutes to go to next plugin
 var TIMEOUT = 10 * 60 * 1000;
@@ -27,12 +27,11 @@ var prerenderers = loaded.prerenderers;
 
 // Takes a string and based on the user's
 // plugins converts it into an HTML string
-function convert (blog, path, contents, callback) {
-
-  ensure(contents, 'string')
-    .and(path, 'string')
-    .and(blog, 'object')
-    .and(callback, 'function');
+function convert(blog, path, contents, callback) {
+  ensure(contents, "string")
+    .and(path, "string")
+    .and(blog, "object")
+    .and(callback, "function");
 
   var enabled = Enabled(blog.plugins);
 
@@ -45,69 +44,28 @@ function convert (blog, path, contents, callback) {
     domain: blog.domain,
     blogID: blog.id,
     path: path,
-    baseURL: 'https://' + blog.handle + '.' + config.host
+    baseURL: "https://" + blog.handle + "." + config.host
   };
 
-  async.eachSeries(prerenderers, function (plugin, next){
-
-    var id, blogOptions, options, prerender, timeout;
-    
-    id = plugin.id;
-
-    // Only skip this plugin if it's optional
-    // and if the user has disabled it.
-    if (plugin.optional && !enabled[id]) {
-      return next();
-    }
-
-    // The options for this plugin are not 
-    // neccessarily associated with the blog,
-    // especially if it is a required plugin
-    blogOptions = blog.plugins[id] ? blog.plugins[id].options : {};
-    options = {};
-    prerender = plugin.prerender;
-
-    extend(options)
-      .and(blogOptions)
-      .and(globalOptions);
-
-    // We wrap the callback passed to the function
-    // to ensure its called once. This allows us
-    // to set a timeout safely.
-    next = callOnce(next);
-    timeout = Timeout(id, next);
-    time(id);
-
-    prerender(contents, function(err, result){
-
-      time.end(id);
-      clearTimeout(timeout);
-
-      if (result && !err) contents = result;
-
-      next();
-
-    }, options);
-
-  }, function(){
-
-    // Don't decode entities, preserve the original content
-    var $ = cheerio.load(contents, {decodeEntities: false});
-
-    async.eachSeries(plugins, function (plugin, next) {
-
-      var id, options, blogOptions, timeout;
+  async.eachSeries(
+    prerenderers,
+    function(plugin, next) {
+      var id, blogOptions, options, prerender, timeout;
 
       id = plugin.id;
 
-      if (!plugin.render) return next();
-
+      // Only skip this plugin if it's optional
+      // and if the user has disabled it.
       if (plugin.optional && !enabled[id]) {
         return next();
-      } 
+      }
 
-      options = {};
+      // The options for this plugin are not
+      // neccessarily associated with the blog,
+      // especially if it is a required plugin
       blogOptions = blog.plugins[id] ? blog.plugins[id].options : {};
+      options = {};
+      prerender = plugin.prerender;
 
       extend(options)
         .and(blogOptions)
@@ -120,95 +78,130 @@ function convert (blog, path, contents, callback) {
       timeout = Timeout(id, next);
       time(id);
 
-      plugin.render($, function(){
+      prerender(
+        contents,
+        function(err, result) {
+          time.end(id);
+          clearTimeout(timeout);
 
-        time.end(id);
-        clearTimeout(timeout);
+          if (result && !err) contents = result;
 
-        next();
+          next();
+        },
+        options
+      );
+    },
+    function() {
+      // Don't decode entities, preserve the original content
+      var $ = cheerio.load(contents, { decodeEntities: false });
 
-      }, options);
+      async.eachSeries(
+        plugins,
+        function(plugin, next) {
+          var id, options, blogOptions, timeout;
 
-    }, function () {
+          id = plugin.id;
 
-      // Return the entry's completed HTML
-      // pass the HTML so it can be rendered totally tast
-      callback(null, $.html());
-    });
-  });
+          if (!plugin.render) return next();
+
+          if (plugin.optional && !enabled[id]) {
+            return next();
+          }
+
+          options = {};
+          blogOptions = blog.plugins[id] ? blog.plugins[id].options : {};
+
+          extend(options)
+            .and(blogOptions)
+            .and(globalOptions);
+
+          // We wrap the callback passed to the function
+          // to ensure its called once. This allows us
+          // to set a timeout safely.
+          next = callOnce(next);
+          timeout = Timeout(id, next);
+          time(id);
+
+          plugin.render(
+            $,
+            function() {
+              time.end(id);
+              clearTimeout(timeout);
+
+              next();
+            },
+            options
+          );
+        },
+        function() {
+          // Return the entry's completed HTML
+          // pass the HTML so it can be rendered totally tast
+          callback(null, $.html());
+        }
+      );
+    }
+  );
 }
 
 // Load plugin templates,
 // this is currently async but uses
 // a callback for when I need it
-function load (file, blogPlugins, callback) {
-
-  var response = '';
+function load(file, blogPlugins, callback) {
+  var response = "";
 
   for (var i in blogPlugins) {
-
     if (blogPlugins[i].enabled && list[i]) {
+      if (file === "entryHTML" && list[i].entryHTML)
+        response += list[i].entryHTML || "";
 
-      if (file === 'entryHTML' && list[i].entryHTML)
-        response += list[i].entryHTML || '';
+      if (file === "css" && list[i].publicCSS)
+        response += list[i].publicCSS || "";
 
-      if (file === 'css' && list[i].publicCSS)
-        response += list[i].publicCSS || '';
-
-      if (file === 'js' && list[i].publicJS)
-        response += list[i].publicJS || '';
+      if (file === "js" && list[i].publicJS) response += list[i].publicJS || "";
     }
   }
 
   return callback(null, response);
 }
 
-function Enabled (blogPlugins) {
-
+function Enabled(blogPlugins) {
   var enabled = {};
 
-  for (var i in blogPlugins)
-    if (blogPlugins[i].enabled)
-      enabled[i] = true;
+  for (var i in blogPlugins) if (blogPlugins[i].enabled) enabled[i] = true;
 
   return enabled;
 }
 
-function isHTML (path) {
-  return path.slice(-5) === '.html' ||
-         path.slice(-4) === '.htm';
+function isHTML(path) {
+  return path.slice(-5) === ".html" || path.slice(-4) === ".htm";
 }
 
-function read (name, file) {
+function read(name, file) {
+  var path = __dirname + "/" + name + "/" + file;
 
-  var path = __dirname + '/' + name + '/' + file;
-
-  var contents = '';
+  var contents = "";
 
   try {
-    contents = fs.readFileSync(path, 'utf8');
+    contents = fs.readFileSync(path, "utf8");
   } catch (e) {
-    if (e.code !== 'ENOENT') throw e;
+    if (e.code !== "ENOENT") throw e;
   }
 
   return contents;
 }
 
-
-function loadPlugins (dir) {
-
+function loadPlugins(dir) {
   var _list = {};
   var _plugins = [];
   var _prerenderers = [];
 
-  fs.readdirSync(dir).forEach(function(name){
-
+  fs.readdirSync(dir).forEach(function(name) {
     // Ignore this file (index.js) and sys files
-    if (name[0] === '.') return;
-    if (name.slice(-3) === '.js') return;
-    if (name.slice(-4) === '.txt') return;
+    if (name[0] === ".") return;
+    if (name.slice(-3) === ".js") return;
+    if (name.slice(-4) === ".txt") return;
 
-    var plugin = require('./' + name);
+    var plugin = require("./" + name);
 
     if (plugin.disabled) return;
 
@@ -217,12 +210,14 @@ function loadPlugins (dir) {
     // Plugins are used by default unless
     // explicitly blacklisted in config
     plugin.title = plugin.title || deCamelize(name);
-    plugin.description = marked(plugin.description || '');
+    plugin.description = marked(plugin.description || "");
     plugin.id = name;
 
     // undefined -> true, defined to defined
-    plugin.optional = plugin.optional === undefined || plugin.optional !== false;
-    plugin.isDefault = plugin.isDefault === undefined || plugin.isDefault !== false;
+    plugin.optional =
+      plugin.optional === undefined || plugin.optional !== false;
+    plugin.isDefault =
+      plugin.isDefault === undefined || plugin.isDefault !== false;
 
     // undefined -> false, defined to defined
     plugin.first = !!plugin.first;
@@ -232,10 +227,10 @@ function loadPlugins (dir) {
     // JS to be appended to every user blog
     // CSS to be appended to every user blog
     // HTML to be appended to every full entry
-    plugin.formHTML = read(name, 'form.html');
-    plugin.publicJS = read(name, 'public.js');
-    plugin.publicCSS = read(name, 'public.css');
-    plugin.entryHTML = read(name, 'entry.html');
+    plugin.formHTML = read(name, "form.html");
+    plugin.publicJS = read(name, "public.js");
+    plugin.publicCSS = read(name, "public.css");
+    plugin.entryHTML = read(name, "entry.html");
 
     // Store this plugin for internal use
     // plugins[name] = plugin;
@@ -266,9 +261,9 @@ function loadPlugins (dir) {
   };
 }
 
-function Timeout (name, cb) {
-  return setTimeout(function(){
-    log.debug(name + ' timed out. Moving to next plugin.');
+function Timeout(name, cb) {
+  return setTimeout(function() {
+    log.debug(name + " timed out. Moving to next plugin.");
     cb();
   }, TIMEOUT);
 }

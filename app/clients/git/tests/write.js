@@ -28,7 +28,6 @@ describe("write", function() {
     var blogID = this.blog.id;
 
     write(blogID, path, content, function(err) {
-      
       if (err) return done.fail(err);
 
       git.pull(function(err) {

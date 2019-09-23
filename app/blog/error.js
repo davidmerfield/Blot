@@ -56,10 +56,10 @@ module.exports = function(server) {
     // to attempt to restart Blot's node Blot. If you remove
     // this, change monit.rc too. This middleware must come
     // before the blog middleware, since there is no blog with
-    // the host 'localhost' and hence returns a 404, bad!    
+    // the host 'localhost' and hence returns a 404, bad!
     if (err.code === "ENOENT" && req.hostname === "localhost") {
       return next();
-    } 
+    }
 
     // Blog does not exist...
     if (err.code === "ENOENT") {

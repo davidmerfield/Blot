@@ -245,7 +245,6 @@ function loadDone(req, res, next) {
         )
           return;
 
-
         // Ignores commits to todo file since there are so many of them
         if (
           message

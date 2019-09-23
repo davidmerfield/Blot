@@ -21,11 +21,9 @@ describe("local client", function() {
       fs.removeSync(this.tmp + "/hello.txt");
 
       setTimeout(function() {
-  
         expect(fs.existsSync(this.blogDirectory + "/hello.txt")).toEqual(false);
         done();
       }, 1000);
     }, 2000);
   });
-
 });

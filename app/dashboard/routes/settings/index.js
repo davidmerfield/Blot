@@ -69,7 +69,12 @@ settings.use(
 );
 
 settings.get("/settings/links", load.menu);
-settings.get("/settings/services", load.plugins, load.permalinkFormats, load.dates);
+settings.get(
+  "/settings/services",
+  load.plugins,
+  load.permalinkFormats,
+  load.dates
+);
 settings.get("/settings/services/date", load.timezones, load.dates);
 settings.get("/settings/services/permalinks", load.permalinkFormats);
 
@@ -89,7 +94,10 @@ settings
     require("./save/404")
   );
 
-settings.get("/settings/services/redirects", load.redirects, function(req, res) {
+settings.get("/settings/services/redirects", load.redirects, function(
+  req,
+  res
+) {
   res.locals.breadcrumbs.add("Redirects", "redirects");
   res.locals.partials.subpage = "settings/redirects";
   res.render("settings/subpage", { title: "Redirects" });
@@ -127,7 +135,6 @@ settings
     res.render("theme/past", { title: "Past templates" });
   });
 
-
 settings.get("/settings/:section/:view", function(req, res) {
   var uppercaseName = req.params.view;
 
@@ -137,7 +144,6 @@ settings.get("/settings/:section/:view", function(req, res) {
   res.locals.partials.subpage = "settings/" + req.params.view;
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });
-
 
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;

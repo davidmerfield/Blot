@@ -15,9 +15,9 @@
 
 // adapted from http://code.google.com/p/plist/source/browse/trunk/src/com/dd/plist/BinaryPropertyListParser.java
 
-'use strict';
+"use strict";
 
-var fs = require('fs');
+var fs = require("fs");
 var bigInt = require("./biginteger");
 var debug = false;
 
@@ -30,11 +30,11 @@ exports.maxObjectCount = 32768;
 var EPOCH = 978307200000;
 
 // UID object definition
-var UID = exports.UID = function(id) {
+var UID = (exports.UID = function(id) {
   this.UID = id;
-}
+});
 
-var parseFile = exports.parseFile = function (fileNameOrBuffer, callback) {
+var parseFile = (exports.parseFile = function(fileNameOrBuffer, callback) {
   function tryParseBuffer(buffer) {
     var err = null;
     var result;
@@ -49,19 +49,21 @@ var parseFile = exports.parseFile = function (fileNameOrBuffer, callback) {
   if (Buffer.isBuffer(fileNameOrBuffer)) {
     return tryParseBuffer(fileNameOrBuffer);
   } else {
-    fs.readFile(fileNameOrBuffer, function (err, data) {
-      if (err) { return callback(err); }
+    fs.readFile(fileNameOrBuffer, function(err, data) {
+      if (err) {
+        return callback(err);
+      }
       tryParseBuffer(data);
     });
   }
-};
+});
 
-var parseBuffer = exports.parseBuffer = function (buffer) {
+var parseBuffer = (exports.parseBuffer = function(buffer) {
   var result = {};
 
   // check header
-  var header = buffer.slice(0, 'bplist'.length).toString('utf8');
-  if (header !== 'bplist') {
+  var header = buffer.slice(0, "bplist".length).toString("utf8");
+  if (header !== "bplist") {
     throw new Error("Invalid binary plist. Expected 'bplist' at offset 0.");
   }
 
@@ -97,10 +99,21 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
   var offsetTable = [];
 
   for (var i = 0; i < numObjects; i++) {
-    var offsetBytes = buffer.slice(offsetTableOffset + i * offsetSize, offsetTableOffset + (i + 1) * offsetSize);
+    var offsetBytes = buffer.slice(
+      offsetTableOffset + i * offsetSize,
+      offsetTableOffset + (i + 1) * offsetSize
+    );
     offsetTable[i] = readUInt(offsetBytes, 0);
     if (debug) {
-      console.log("Offset for Object #" + i + " is " + offsetTable[i] + " [" + offsetTable[i].toString(16) + "]");
+      console.log(
+        "Offset for Object #" +
+          i +
+          " is " +
+          offsetTable[i] +
+          " [" +
+          offsetTable[i].toString(16) +
+          "]"
+      );
     }
   }
 
@@ -111,51 +124,51 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
   function parseObject(tableOffset) {
     var offset = offsetTable[tableOffset];
     var type = buffer[offset];
-    var objType = (type & 0xF0) >> 4; //First  4 bits
-    var objInfo = (type & 0x0F);      //Second 4 bits
+    var objType = (type & 0xf0) >> 4; //First  4 bits
+    var objInfo = type & 0x0f; //Second 4 bits
     switch (objType) {
-    case 0x0:
-      return parseSimple();
-    case 0x1:
-      return parseInteger();
-    case 0x8:
-      return parseUID();
-    case 0x2:
-      return parseReal();
-    case 0x3:
-      return parseDate();
-    case 0x4:
-      return parseData();
-    case 0x5: // ASCII
-      return parsePlistString();
-    case 0x6: // UTF-16
-      return parsePlistString(true);
-    case 0xA:
-      return parseArray();
-    case 0xD:
-      return parseDictionary();
-    default:
-      throw new Error("Unhandled type 0x" + objType.toString(16));
+      case 0x0:
+        return parseSimple();
+      case 0x1:
+        return parseInteger();
+      case 0x8:
+        return parseUID();
+      case 0x2:
+        return parseReal();
+      case 0x3:
+        return parseDate();
+      case 0x4:
+        return parseData();
+      case 0x5: // ASCII
+        return parsePlistString();
+      case 0x6: // UTF-16
+        return parsePlistString(true);
+      case 0xa:
+        return parseArray();
+      case 0xd:
+        return parseDictionary();
+      default:
+        throw new Error("Unhandled type 0x" + objType.toString(16));
     }
 
     function parseSimple() {
       //Simple
       switch (objInfo) {
-      case 0x0: // null
-        return null;
-      case 0x8: // false
-        return false;
-      case 0x9: // true
-        return true;
-      case 0xF: // filler byte
-        return null;
-      default:
-        throw new Error("Unhandled simple type 0x" + objType.toString(16));
+        case 0x0: // null
+          return null;
+        case 0x8: // false
+          return false;
+        case 0x9: // true
+          return true;
+        case 0xf: // filler byte
+          return null;
+        default:
+          throw new Error("Unhandled simple type 0x" + objType.toString(16));
       }
     }
 
     function bufferToHexString(buffer) {
-      var str = '';
+      var str = "";
       var i;
       for (i = 0; i < buffer.length; i++) {
         if (buffer[i] != 0x00) {
@@ -163,7 +176,7 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
         }
       }
       for (; i < buffer.length; i++) {
-        var part = '00' + buffer[i].toString(16);
+        var part = "00" + buffer[i].toString(16);
         str += part.substr(part.length - 2);
       }
       return str;
@@ -175,10 +188,17 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
         var data = buffer.slice(offset + 1, offset + 1 + length);
         var str = bufferToHexString(data);
         return bigInt(str, 16);
-      } if (length < exports.maxObjectSize) {
+      }
+      if (length < exports.maxObjectSize) {
         return readUInt(buffer.slice(offset + 1, offset + 1 + length));
       } else {
-        throw new Error("To little heap space available! Wanted to read " + length + " bytes, but only " + exports.maxObjectSize + " are available.");
+        throw new Error(
+          "To little heap space available! Wanted to read " +
+            length +
+            " bytes, but only " +
+            exports.maxObjectSize +
+            " are available."
+        );
       }
     }
 
@@ -187,7 +207,13 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
       if (length < exports.maxObjectSize) {
         return new UID(readUInt(buffer.slice(offset + 1, offset + 1 + length)));
       } else {
-        throw new Error("To little heap space available! Wanted to read " + length + " bytes, but only " + exports.maxObjectSize + " are available.");
+        throw new Error(
+          "To little heap space available! Wanted to read " +
+            length +
+            " bytes, but only " +
+            exports.maxObjectSize +
+            " are available."
+        );
       }
     }
 
@@ -197,12 +223,17 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
         var realBuffer = buffer.slice(offset + 1, offset + 1 + length);
         if (length === 4) {
           return realBuffer.readFloatBE(0);
-        }
-        else if (length === 8) {
+        } else if (length === 8) {
           return realBuffer.readDoubleBE(0);
         }
       } else {
-        throw new Error("To little heap space available! Wanted to read " + length + " bytes, but only " + exports.maxObjectSize + " are available.");
+        throw new Error(
+          "To little heap space available! Wanted to read " +
+            length +
+            " bytes, but only " +
+            exports.maxObjectSize +
+            " are available."
+        );
       }
     }
 
@@ -211,19 +242,19 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
         console.error("Unknown date type :" + objInfo + ". Parsing anyway...");
       }
       var dateBuffer = buffer.slice(offset + 1, offset + 9);
-      return new Date(EPOCH + (1000 * dateBuffer.readDoubleBE(0)));
+      return new Date(EPOCH + 1000 * dateBuffer.readDoubleBE(0));
     }
 
     function parseData() {
       var dataoffset = 1;
       var length = objInfo;
-      if (objInfo == 0xF) {
+      if (objInfo == 0xf) {
         var int_type = buffer[offset + 1];
-        var intType = (int_type & 0xF0) / 0x10;
+        var intType = (int_type & 0xf0) / 0x10;
         if (intType != 0x1) {
           console.error("0x4: UNEXPECTED LENGTH-INT TYPE! " + intType);
         }
-        var intInfo = int_type & 0x0F;
+        var intInfo = int_type & 0x0f;
         var intLength = Math.pow(2, intInfo);
         dataoffset = 2 + intLength;
         if (intLength < 3) {
@@ -235,22 +266,28 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
       if (length < exports.maxObjectSize) {
         return buffer.slice(offset + dataoffset, offset + dataoffset + length);
       } else {
-        throw new Error("To little heap space available! Wanted to read " + length + " bytes, but only " + exports.maxObjectSize + " are available.");
+        throw new Error(
+          "To little heap space available! Wanted to read " +
+            length +
+            " bytes, but only " +
+            exports.maxObjectSize +
+            " are available."
+        );
       }
     }
 
-    function parsePlistString (isUtf16) {
+    function parsePlistString(isUtf16) {
       isUtf16 = isUtf16 || 0;
       var enc = "utf8";
       var length = objInfo;
       var stroffset = 1;
-      if (objInfo == 0xF) {
+      if (objInfo == 0xf) {
         var int_type = buffer[offset + 1];
-        var intType = (int_type & 0xF0) / 0x10;
+        var intType = (int_type & 0xf0) / 0x10;
         if (intType != 0x1) {
           console.err("UNEXPECTED LENGTH-INT TYPE! " + intType);
         }
-        var intInfo = int_type & 0x0F;
+        var intInfo = int_type & 0x0f;
         var intLength = Math.pow(2, intInfo);
         var stroffset = 2 + intLength;
         if (intLength < 3) {
@@ -260,29 +297,37 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
         }
       }
       // length is String length -> to get byte length multiply by 2, as 1 character takes 2 bytes in UTF-16
-      length *= (isUtf16 + 1);
+      length *= isUtf16 + 1;
       if (length < exports.maxObjectSize) {
-        var plistString = new Buffer(buffer.slice(offset + stroffset, offset + stroffset + length));
+        var plistString = new Buffer(
+          buffer.slice(offset + stroffset, offset + stroffset + length)
+        );
         if (isUtf16) {
           plistString = swapBytes(plistString);
           enc = "ucs2";
         }
         return plistString.toString(enc);
       } else {
-        throw new Error("To little heap space available! Wanted to read " + length + " bytes, but only " + exports.maxObjectSize + " are available.");
+        throw new Error(
+          "To little heap space available! Wanted to read " +
+            length +
+            " bytes, but only " +
+            exports.maxObjectSize +
+            " are available."
+        );
       }
     }
 
     function parseArray() {
       var length = objInfo;
       var arrayoffset = 1;
-      if (objInfo == 0xF) {
+      if (objInfo == 0xf) {
         var int_type = buffer[offset + 1];
-        var intType = (int_type & 0xF0) / 0x10;
+        var intType = (int_type & 0xf0) / 0x10;
         if (intType != 0x1) {
           console.error("0xa: UNEXPECTED LENGTH-INT TYPE! " + intType);
         }
-        var intInfo = int_type & 0x0F;
+        var intInfo = int_type & 0x0f;
         var intLength = Math.pow(2, intInfo);
         arrayoffset = 2 + intLength;
         if (intLength < 3) {
@@ -296,7 +341,12 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
       }
       var array = [];
       for (var i = 0; i < length; i++) {
-        var objRef = readUInt(buffer.slice(offset + arrayoffset + i * objectRefSize, offset + arrayoffset + (i + 1) * objectRefSize));
+        var objRef = readUInt(
+          buffer.slice(
+            offset + arrayoffset + i * objectRefSize,
+            offset + arrayoffset + (i + 1) * objectRefSize
+          )
+        );
         array[i] = parseObject(objRef);
       }
       return array;
@@ -305,13 +355,13 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
     function parseDictionary() {
       var length = objInfo;
       var dictoffset = 1;
-      if (objInfo == 0xF) {
+      if (objInfo == 0xf) {
         var int_type = buffer[offset + 1];
-        var intType = (int_type & 0xF0) / 0x10;
+        var intType = (int_type & 0xf0) / 0x10;
         if (intType != 0x1) {
           console.error("0xD: UNEXPECTED LENGTH-INT TYPE! " + intType);
         }
-        var intInfo = int_type & 0x0F;
+        var intInfo = int_type & 0x0f;
         var intLength = Math.pow(2, intInfo);
         dictoffset = 2 + intLength;
         if (intLength < 3) {
@@ -328,12 +378,27 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
       }
       var dict = {};
       for (var i = 0; i < length; i++) {
-        var keyRef = readUInt(buffer.slice(offset + dictoffset + i * objectRefSize, offset + dictoffset + (i + 1) * objectRefSize));
-        var valRef = readUInt(buffer.slice(offset + dictoffset + (length * objectRefSize) + i * objectRefSize, offset + dictoffset + (length * objectRefSize) + (i + 1) * objectRefSize));
+        var keyRef = readUInt(
+          buffer.slice(
+            offset + dictoffset + i * objectRefSize,
+            offset + dictoffset + (i + 1) * objectRefSize
+          )
+        );
+        var valRef = readUInt(
+          buffer.slice(
+            offset + dictoffset + length * objectRefSize + i * objectRefSize,
+            offset +
+              dictoffset +
+              length * objectRefSize +
+              (i + 1) * objectRefSize
+          )
+        );
         var key = parseObject(keyRef);
         var val = parseObject(valRef);
         if (debug) {
-          console.log("  DICT #" + tableOffset + ": Mapped " + key + " to " + val);
+          console.log(
+            "  DICT #" + tableOffset + ": Mapped " + key + " to " + val
+          );
         }
         dict[key] = val;
       }
@@ -341,8 +406,8 @@ var parseBuffer = exports.parseBuffer = function (buffer) {
     }
   }
 
-  return [ parseObject(topObject) ];
-};
+  return [parseObject(topObject)];
+});
 
 function readUInt(buffer, start) {
   start = start || 0;
@@ -350,7 +415,7 @@ function readUInt(buffer, start) {
   var l = 0;
   for (var i = start; i < buffer.length; i++) {
     l <<= 8;
-    l |= buffer[i] & 0xFF;
+    l |= buffer[i] & 0xff;
   }
   return l;
 }
@@ -365,8 +430,8 @@ function swapBytes(buffer) {
   var len = buffer.length;
   for (var i = 0; i < len; i += 2) {
     var a = buffer[i];
-    buffer[i] = buffer[i+1];
-    buffer[i+1] = a;
+    buffer[i] = buffer[i + 1];
+    buffer[i + 1] = a;
   }
   return buffer;
 }

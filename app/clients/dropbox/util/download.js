@@ -4,7 +4,7 @@ var fs = require("fs-extra");
 var tmpDir = require("helper").tempDir();
 var join = require("path").join;
 var uuid = require("uuid/v4");
-var retry = require('./retry');
+var retry = require("./retry");
 
 // This is used by sync.js to retrieve files efficiently
 // from Dropbox after notification of a change through a webhook

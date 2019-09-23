@@ -8,7 +8,7 @@ var PaySubscription = new Express.Router();
 PaySubscription.route("/")
 
   // First, make sure the customer has a subscription
-  // through Stripe, then fetch its latest state. We 
+  // through Stripe, then fetch its latest state. We
   // typically recieve the latest version of a subscription
   // through Stripe's webhooks – this is just a double-check.
   .all(checkCustomer)

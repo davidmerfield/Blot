@@ -22,7 +22,8 @@ function makeSlug(string) {
 
     // Removes 'object replacement character' which unexpectedly
     // entered a file created on Ulysses. Perhaps an embedded image?
-    .split(decodeURIComponent("%EF%BF%BC")).join('')
+    .split(decodeURIComponent("%EF%BF%BC"))
+    .join("")
 
     .toLowerCase()
 
@@ -97,7 +98,10 @@ is("12 34", "12-34");
 is("f/ü/k", "f/%C3%BC/k");
 is("微博", "%E5%BE%AE%E5%8D%9A");
 
-is("remove object replacement character: ￼", "remove-object-replacement-character");
+is(
+  "remove object replacement character: ￼",
+  "remove-object-replacement-character"
+);
 
 is(
   "Review of “The Development of William Butler Yeats” by V. K. Narayana Menon",

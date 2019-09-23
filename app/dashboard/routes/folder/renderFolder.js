@@ -70,7 +70,7 @@ module.exports = function(req, res, next) {
     });
 
     if (contents.length) contents[contents.length - 1].last = true;
-    
+
     async.eachLimit(contents, 10, load, function() {
       folders = alphanum(folders, { property: "name" });
       files = alphanum(files, { property: "name" });

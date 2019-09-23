@@ -1,13 +1,11 @@
-var Url = require('url');
+var Url = require("url");
 
-function render ($, callback, options) {
-
+function render($, callback, options) {
   // Links with these hosts
   // are not external.
   var ignore;
 
   try {
-
     // sometimes url parse returns null for
     // some reason with an apparently valid domain
     // not sure yet why but should fix this.
@@ -18,24 +16,17 @@ function render ($, callback, options) {
       Url.parse(options.baseURL).host,
       options.domain
     ];
-
-  } catch(e) {
-
+  } catch (e) {
     return callback();
   }
 
-  $('a').each(function(){
-
+  $("a").each(function() {
     try {
-
-      var href = $(this).attr('href');
+      var href = $(this).attr("href");
       var host = Url.parse(href).host;
 
-      if (host && ignore.indexOf(host) === -1)
-        $(this).attr('target', '_blank');
-
+      if (host && ignore.indexOf(host) === -1) $(this).attr("target", "_blank");
     } catch (e) {}
-
   });
 
   return callback();
@@ -44,6 +35,6 @@ function render ($, callback, options) {
 module.exports = {
   render: render,
   isDefault: false,
-  category: 'external',
-  description: 'Make external links open in a new tab'
+  category: "external",
+  description: "Make external links open in a new tab"
 };

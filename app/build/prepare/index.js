@@ -1,6 +1,6 @@
-var debug = require('debug')('blot:build:prepare');
+var debug = require("debug")("blot:build:prepare");
 var _ = require("lodash");
-var helper = require('helper');
+var helper = require("helper");
 var falsy = helper.falsy;
 var time = helper.time;
 var cheerio = require("cheerio");
@@ -41,7 +41,6 @@ function canOverwrite(key) {
 // scheduled: scheduled, // this is handled by set
 
 function Prepare(entry) {
-  
   ensure(entry, "object")
     .and(entry.path, "string")
     .and(entry.size, "number")
@@ -65,18 +64,19 @@ function Prepare(entry) {
   // var body = teaser + remainder;
   // var html = titleTag + body;
 
-  // We sometimes fall back to generating a title from the path to the 
+  // We sometimes fall back to generating a title from the path to the
   // file. We need to know the full path to determine if part of the
   // file's name, from which the title may be generated, includes some
-  // part of the date, e.g. /2018/10-10 Hello.jpg. We want to make sure 
+  // part of the date, e.g. /2018/10-10 Hello.jpg. We want to make sure
   // the title is 'Hello' and not '10-10 Hello'. But we can't just use
   // the plain path because some clients, like Dropbox, send the case
   // sensitive name with the update. So we form a temporary variable,
   // pathWithCaseSensitiveName to use to generate a title...
-  var pathWithCaseSensitiveName = '';
+  var pathWithCaseSensitiveName = "";
 
   if (entry.path && entry.name) {
-    pathWithCaseSensitiveName = require('path').dirname(entry.path) + '/' + entry.name;
+    pathWithCaseSensitiveName =
+      require("path").dirname(entry.path) + "/" + entry.name;
   }
 
   debug(entry.path, "Generating title from", pathWithCaseSensitiveName);
@@ -91,7 +91,7 @@ function Prepare(entry) {
   // a bug which surfaces when the file contains title metadata
   var title = entry.title;
   if (type(entry.metadata.title, Model.title)) title = entry.metadata.title;
-  entry.summary = Summary($, title || '');
+  entry.summary = Summary($, title || "");
   debug(entry.path, "Generated  summary");
 
   debug(entry.path, "Generating teasers");

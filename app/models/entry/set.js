@@ -1,63 +1,58 @@
-var helper = require('helper');
+var helper = require("helper");
 var ensure = helper.ensure;
 var doEach = helper.doEach;
 
-var model = require('./model');
-var redis = require('client');
+var model = require("./model");
+var redis = require("client");
 
 var guid = helper.guid;
 
-var get = require('./get');
-var key = require('./key');
-var setUrl = require('./_setUrl');
+var get = require("./get");
+var key = require("./key");
+var setUrl = require("./_setUrl");
 
 // Queue items
-var rebuildDependencyGraph = require('./_rebuildDependencyGraph');
-var updateSearchIndex = require('./_updateSearchIndex');
-var updateTagList = require('../tags').set;
-var addToSchedule = require('./_addToSchedule');
-var notifyDrafts = require('./_notifyDrafts');
-var assignToLists = require('./_assign');
+var rebuildDependencyGraph = require("./_rebuildDependencyGraph");
+var updateSearchIndex = require("./_updateSearchIndex");
+var updateTagList = require("../tags").set;
+var addToSchedule = require("./_addToSchedule");
+var notifyDrafts = require("./_notifyDrafts");
+var assignToLists = require("./_assign");
 
 // Set is a private method which takes any valid
 // properties in the updates param and then overwrites those.
 // Also updates entry properties which affect data stored
 // elsewhere such as created date, permalink etc..
-module.exports = function set (blogID, path, updates, callback) {
-
-  ensure(blogID, 'string')
-    .and(path, 'string')
+module.exports = function set(blogID, path, updates, callback) {
+  ensure(blogID, "string")
+    .and(path, "string")
     .and(updates, model)
-    .and(callback, 'function');
+    .and(callback, "function");
 
   var entryKey = key.entry(blogID, path);
   var queue;
 
   // Get the entry stored against this ID
-  get(blogID, path, function(entry){
-
+  get(blogID, path, function(entry) {
     // Create an empty object if new entry
     entry = entry || {};
 
-    var previous_dependencies = entry.dependencies ? entry.dependencies.slice() : [];
+    var previous_dependencies = entry.dependencies
+      ? entry.dependencies.slice()
+      : [];
 
     // Overwrite any updates to the entry
-    for (var i in updates)
-      entry[i] = updates[i];
+    for (var i in updates) entry[i] = updates[i];
 
-    if (entry.guid === undefined)
-      entry.guid = 'entry_' + guid();
+    if (entry.guid === undefined) entry.guid = "entry_" + guid();
 
     // This is for new entries
-    if (entry.created === undefined)
-      entry.created = Date.now();
+    if (entry.created === undefined) entry.created = Date.now();
 
-    if (entry.dateStamp === undefined)
-      entry.dateStamp = entry.created;
+    if (entry.dateStamp === undefined) entry.dateStamp = entry.created;
 
     // ToDO remove this and ensure all existing entries have been rebuilt
-    if (entry.dependencies === undefined)
-      entry.dependencies = [];
+    if (entry.dependencies === undefined) entry.dependencies = [];
 
     entry.scheduled = entry.dateStamp > Date.now();
 
@@ -79,7 +74,6 @@ module.exports = function set (blogID, path, updates, callback) {
     }
 
     setUrl(blogID, entry, function(err, url) {
-
       // Should be pretty serious (i.e. issue with DB)
       if (err) return callback(err);
 
@@ -92,29 +86,31 @@ module.exports = function set (blogID, path, updates, callback) {
       ensure(entry, model, true);
 
       // Store the entry
-      redis.set(entryKey, JSON.stringify(entry), function(err){
-
+      redis.set(entryKey, JSON.stringify(entry), function(err) {
         if (err) return callback(err);
 
         queue = [
           updateSearchIndex.bind(this, blogID, entry),
           updateTagList.bind(this, blogID, entry),
           assignToLists.bind(this, blogID, entry),
-          rebuildDependencyGraph.bind(this, blogID, entry, previous_dependencies)
+          rebuildDependencyGraph.bind(
+            this,
+            blogID,
+            entry,
+            previous_dependencies
+          )
         ];
 
         if (entry.scheduled)
           queue.push(addToSchedule.bind(this, blogID, entry));
 
-        if (entry.draft)
-          queue.push(notifyDrafts.bind(this, blogID, entry));
+        if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        doEach(queue, function(){
-
+        doEach(queue, function() {
           if (entry.deleted) {
-            console.log('Blog:',blogID, 'Entry:', path, 'deleted');
+            console.log("Blog:", blogID, "Entry:", path, "deleted");
           } else {
-            console.log('Blog:',blogID, 'Entry:', path, 'updated');
+            console.log("Blog:", blogID, "Entry:", path, "updated");
           }
           callback(null);
         });

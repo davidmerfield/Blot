@@ -1,19 +1,13 @@
-var moment = require('moment');
+var moment = require("moment");
 
-module.exports = function (req, res, next) {
-
-  res.locals.date = function () {
-
-    return function (text, render) {
-
+module.exports = function(req, res, next) {
+  res.locals.date = function() {
+    return function(text, render) {
       try {
-
         text = text.trim();
         text = moment.utc(Date.now()).format(text);
-
       } catch (e) {
-
-        text = '';
+        text = "";
       }
 
       if (render) return render(text);
@@ -22,5 +16,5 @@ module.exports = function (req, res, next) {
     };
   };
 
-  next();  
+  next();
 };

@@ -92,8 +92,7 @@ turndown.addRule("keep-footnotes-ref", {
 });
 
 // This is a heauristic
-function isAlreadyMarkdown (html) {
-
+function isAlreadyMarkdown(html) {
   var hasLinks = /\[[^]+\]\([^]+\)/.test(html);
   var hasEmphasis = /[_*][^]+[_*]/.test(html);
   var hasTitles = /^[#]+\ [^\n\r]*$/.test(html);
@@ -102,7 +101,6 @@ function isAlreadyMarkdown (html) {
 }
 
 module.exports = function(html) {
-
   if (isAlreadyMarkdown(html)) {
     return html;
   }
