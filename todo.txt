@@ -119,8 +119,6 @@ Fix post encoding bugs
 - Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
 - Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
 
-Investigate log-in issue. Does this only happen when I reboot the server? There's no reason sessions should expire any sooner than say after a week of inactivity. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
-
 Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSPdnRhXcXGjVxkvbkbzlg) when it's possible to switch from annual to monthly billing
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
