@@ -29,7 +29,7 @@
     "express-brute": "^1.0.1",
     "express-brute-redis": "0.0.1",
     "express-disk-cache": "^1.0.4",
-    "express-session": "^1.6.5",
+    "express-session": "^1.16.2",
     "fs-extra": "^8.0.1",
     "gray-matter": "^4.0.2",
     "hbs": "^4.0.4",
