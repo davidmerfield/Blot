@@ -10,9 +10,9 @@ var sessionOptions = {
   saveUninitialized: false,
   resave: false,
   proxy: true,
-  maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days in ms
   cookie: {
-    httpOnly: true
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 90 // 90 days in ms
   },
   store: new Store({
     client: redis,
