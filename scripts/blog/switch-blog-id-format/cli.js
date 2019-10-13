@@ -18,7 +18,13 @@ function endMessage(oldBlogID, blog, access) {
     "\n" +
     colors.dim("Blog: " + oldBlogID) +
     " Live site: " +
-    colors.yellow("https://" + blog.handle + "." + config.host + (blog.domain ?  ' - https://' + blog.domain : '')) +
+    colors.yellow(
+      "https://" +
+        blog.handle +
+        "." +
+        config.host +
+        (blog.domain ? " - https://" + blog.domain : "")
+    ) +
     "\n" +
     colors.dim("Blog: " + oldBlogID) +
     " Dashboard: " +
@@ -47,6 +53,11 @@ module.exports = function(main, options) {
     });
   } else {
     Blog.getAllIDs(function(err, blogIDs) {
+      console.log(
+        blogIDs.filter(id => id.indexOf("blog_") !== 0).length +
+          " blog IDs remain in old format"
+      );
+
       async.eachSeries(
         blogIDs,
         function(blogID, next) {
@@ -59,13 +70,14 @@ module.exports = function(main, options) {
             get(newBlogID, function(err, user, blog, access) {
               console.log(endMessage(blogID, blog, access));
 
-              if (options && options.skipAsk) {
-                return next();
-              }
-
-              yesno.ask("\nContinue?", true, function(ok) {
-                if (ok) next();
-              });
+              console.log("Waiting one second to process next blog...");
+              setTimeout(function() {
+                console.log("Waiting one more second...");
+                setTimeout(function() {
+                  console.log("Too late...");
+                  next();
+                }, 1000);
+              }, 1000);
             });
           });
         },

@@ -5,7 +5,7 @@ var ensureOldBlogIsDisabled = require("./ensureOldBlogIsDisabled");
 var db = require("./db");
 var sanityChecks = require("./sanityChecks");
 var loadID = require("./loadID");
-var colors = require('colors/safe');
+var colors = require("colors/safe");
 
 function main(oldBlogID, callback) {
   if (!oldBlogID) return callback(new Error("Pass oldBlogID"));
@@ -60,4 +60,5 @@ function main(oldBlogID, callback) {
 
 module.exports = main;
 
-if (require.main === module) require("./cli")(main);
+if (require.main === module)
+  require("./cli")(main);
