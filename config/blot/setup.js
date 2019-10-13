@@ -1,5 +1,5 @@
 var config = require("../index");
-var root = require("helper").rootDir;
+var root = require("../../app/helper").rootDir;
 var fs = require("fs-extra");
 var redis = require("redis").createClient();
 
@@ -30,3 +30,5 @@ fs.ensureDirSync(root + "/tmp");
 fs.ensureDirSync(root + "/logs");
 fs.ensureDirSync(root + "/db");
 fs.ensureDirSync(root + "/static");
+
+process.exit();
