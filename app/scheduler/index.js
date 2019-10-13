@@ -1,13 +1,14 @@
-var Entries = require("./models/entries");
-var Entry = require("./models/entry");
-var User = require("./models/user");
+var Entries = require("entries");
+var Entry = require("entry");
+var User = require("user");
 var async = require("async");
-var schedule = require("node-schedule").scheduleJob;
-var Blog = require("./models/blog");
+var Blog = require("blog");
 var backup = require("./backup");
-var dailyUpdate = require("./scheduler/daily");
+var dailyUpdate = require("./daily");
 var helper = require("helper");
 var email = helper.email;
+
+var schedule = require("node-schedule").scheduleJob;
 
 module.exports = function() {
   // Bash the cache for scheduled posts
