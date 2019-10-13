@@ -55,7 +55,7 @@ dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
 dashboard.use(debug("fetching user and blog info and checking redirects"));
-dashboard.use(require("../session"));
+dashboard.use(require("./session"));
 dashboard.use(function(req, res, next) {
   if (req.session && req.session.uid) return next();
 
