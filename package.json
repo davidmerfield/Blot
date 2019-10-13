@@ -7,7 +7,8 @@
     "node": ">=8.12.0"
   },
   "scripts": {
-    "test": "node tests"
+    "test": "node tests",
+    "start": "node app"
   },
   "version": "0.0.0",
   "dependencies": {
