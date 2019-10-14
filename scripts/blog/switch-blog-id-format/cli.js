@@ -70,12 +70,18 @@ module.exports = function(main, options) {
             get(newBlogID, function(err, user, blog, access) {
               console.log(endMessage(blogID, blog, access));
 
-              console.log("Waiting one second to process next blog...");
+              console.log();
+              console.log();
+              console.log();
+              console.log("Waiting three seconds to process next blog...");
               setTimeout(function() {
-                console.log("Waiting one more second...");
+                console.log("Two seconds...");
                 setTimeout(function() {
-                  console.log("Too late...");
-                  next();
+                  console.log("One second...");
+                  setTimeout(function() {
+                    console.log("Processing next blog...");
+                    next();
+                  }, 1000);
                 }, 1000);
               }, 1000);
             });
