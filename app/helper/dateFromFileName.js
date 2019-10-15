@@ -68,7 +68,7 @@ function dateFromFileName(path) {
         invalidTokens.join("").length + invalidTokens.length;
       var pathOfInvalidTokens = path.slice(-lengthOfInvalidTokens);
 
-      // Try to seperate the numbers which are part of the date
+      // Try to separate the numbers which are part of the date
       // from the file name. This is used later to generate titles aautomatically.
       fileName = pathOfInvalidTokens.trim();
 

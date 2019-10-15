@@ -48,7 +48,7 @@ describe("summary", function() {
   });
 
   // Not sure if I like this behaviour
-  it("has spaces between seperate paragraphs", function() {
+  it("has spaces between separate paragraphs", function() {
     expect(
       this.summary({
         html: "<p>Hello</p><p>World</p>",

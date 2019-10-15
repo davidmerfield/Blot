@@ -22,7 +22,7 @@ module.exports = function(blog, output_directory, callback) {
 
       title = post.title;
 
-      // we need to extract tags seperately
+      // we need to extract tags separately
       tags = extract_tags(post, blog);
 
       metadata = {};

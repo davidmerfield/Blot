@@ -24,7 +24,7 @@ module.exports = function(text, callback) {
     "-multiline_tables" +
     // We already convert any math with katex
     // perhaps we should use pandoc to do this
-    // instead of a seperate function?
+    // instead of a separate function?
     "-tex_math_dollars" +
     // This sometimes throws errors for some reason
     "-yaml_metadata_block" +
