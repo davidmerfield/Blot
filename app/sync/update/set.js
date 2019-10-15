@@ -18,9 +18,9 @@ function isPublic(path) {
     normalize(path).indexOf("/public/") === 0 ||
     // blot specific rule to ignore files and folders
     // whose name begins with an underscore
-    normalize(path).indexOf("/_") === 0 ||
+    normalize(path).indexOf("/_") > -1 ||
     // convention to ingore dotfiles or folders
-    normalize(path).indexOf("/.") === 0
+    normalize(path).indexOf("/.") > -1 0
   );
 }
 
