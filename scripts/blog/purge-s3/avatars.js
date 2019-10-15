@@ -12,7 +12,7 @@ var humanFileSize = require("./util/humanFileSize");
 var download = require("./util/download");
 
 function main(blog, next) {
-    console.log("Blog:", blog.id, "Checking avatar...");
+  console.log("Blog:", blog.id, "Checking avatar...");
 
   if (blog.avatar.indexOf(CDN) === -1) return next();
 
@@ -43,11 +43,9 @@ function main(blog, next) {
       " - " +
       humanFileSize(fs.statSync(path).size);
 
-    yesno.ask(message, true, function(ok) {
-      if (!ok) return next();
+    console.log(message);
 
-      Blog.set(blog.id, { avatar: avatar }, next);
-    });
+    Blog.set(blog.id, { avatar: avatar }, next);
   });
 }
 
