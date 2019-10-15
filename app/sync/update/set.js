@@ -20,7 +20,7 @@ function isPublic(path) {
     // whose name begins with an underscore
     normalize(path).indexOf("/_") > -1 ||
     // convention to ingore dotfiles or folders
-    normalize(path).indexOf("/.") > -1 0
+    normalize(path).indexOf("/.") > -1
   );
 }
 
