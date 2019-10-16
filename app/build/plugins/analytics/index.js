@@ -1,9 +1,9 @@
 module.exports = {
-  description: 'Embed your analytics tracking code',
+  description: "Embed your analytics tracking code",
   isDefault: false,
-  category: 'external',
+  category: "external",
   options: {
-    provider: {None: 'selected'},
-    trackingID: ''
+    provider: { None: "selected" },
+    trackingID: ""
   }
 };

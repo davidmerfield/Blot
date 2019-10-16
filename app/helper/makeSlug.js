@@ -1,6 +1,5 @@
 var ensure = require("./ensure");
 var MAX_LENGTH = 100;
-var encodeAmpersands = require("./encodeAmpersands");
 
 // This must always return a string but it can be empty
 function makeSlug(string) {
@@ -14,15 +13,18 @@ function makeSlug(string) {
 
   slug = string;
 
-  // We do this to handle ampersands nicely
-  slug = encodeAmpersands(slug);
-
   // Remove query sluging
   if (slug.indexOf("?=") > -1) slug = slug.slice(0, slug.indexOf("?="));
 
   slug = slug
     .trim()
     .slice(0, MAX_LENGTH + 10)
+
+    // Removes 'object replacement character' which unexpectedly
+    // entered a file created on Ulysses. Perhaps an embedded image?
+    .split(decodeURIComponent("%EF%BF%BC"))
+    .join("")
+
     .toLowerCase()
 
     // remove common punction, basically everything except & _ and - /
@@ -95,6 +97,12 @@ is("1-2-3-4", "1-2-3-4");
 is("12 34", "12-34");
 is("f/ü/k", "f/%C3%BC/k");
 is("微博", "%E5%BE%AE%E5%8D%9A");
+
+is(
+  "remove object replacement character: ￼",
+  "remove-object-replacement-character"
+);
+
 is(
   "Review of “The Development of William Butler Yeats” by V. K. Narayana Menon",
   "review-of-the-development-of-william-butler-yeats-by-v-k-narayana-menon"
@@ -108,7 +116,7 @@ is(
   "applescript/automator-folder-action-to-convert-excel-to-csv"
 );
 is("'xsb' command line error.", "xsb-command-line-error");
-is("Foo & bar", "foo-and-bar");
+is("Foo & bar", "foo-bar");
 is("Foo &amp; bar", "foo-and-bar");
 is("China ← NYC → China", "china-from-nyc-to-china");
 is("Chin+a()[] ← NY!C → China", "china-from-nyc-to-china");

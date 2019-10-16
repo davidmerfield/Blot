@@ -40,7 +40,7 @@ module.exports = function(server) {
         pagination: pagination
       });
 
-      res.renderView("entries", next);
+      res.renderView("entries.html", next);
     });
   }
 };

@@ -1,0 +1,21 @@
+18. make menu a model?
+    ensure concurrent changes to user's menu works
+    also background changes succeed if user presses submit
+    on settings page (with no local changes)
+
+    background:
+    cannot affect order
+    or links existence
+      rem
+      push
+
+    foreground:
+    cannot affect pages existence
+    can affect links and order
+      rem
+      insert
+      reorder
+
+    for each page verify it still exists
+      if not trim it from updates
+

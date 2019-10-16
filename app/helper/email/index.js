@@ -32,9 +32,10 @@ var MESSAGES = [
   "BAD_REQUEST",
   "CANCELLED",
   "CLOSED",
+  "CREATED_BLOG",
   "DAILY_UPDATE",
+  "DELETED",
   "DISABLED",
-  "FAILED_PAYMENT",
   "LONG_DELAY",
   "NETWORK_ERROR",
   "NEWSLETTER_SUBSCRIPTION_CONFIRMED",
@@ -46,8 +47,10 @@ var MESSAGES = [
   "OVERDUE_CLOSURE",
   "RATE_LIMIT",
   "RESTART",
+  "RECOVERED",
   "REVOKED",
   "SET_PASSWORD",
+  "SUBSCRIPTION_DECREASE",
   "SYNC_DOWN",
   "SYNC_EXCEPTION",
   "UPCOMING_RENEWAL",
@@ -136,11 +139,8 @@ function send(locals, messageFile, to, callback) {
     if (config.environment === "development") {
       var previewPath = tempDir + Date.now() + ".html";
       fs.outputFileSync(previewPath, email.html, "utf-8");
-      console.log("Preview:", previewPath);
-    }
-
-    if (config.environment === "development" && to !== config.admin.email) {
       console.log("Email not sent in development environment:", email);
+      console.log("Preview:", previewPath);
       return callback();
     }
 

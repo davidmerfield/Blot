@@ -1,8 +1,6 @@
 module.exports = function(req, res, next) {
-  
   // Expose a valid message to the view
   if (req.session.message) {
-
     if (req.session.message.url === req.path) {
       res.locals.message = req.session.message;
     }
@@ -15,23 +13,18 @@ module.exports = function(req, res, next) {
   }
 
   res.message = function(value, message) {
-
     if (message instanceof Error) {
-
       req.session.message = {
-        text: message.message || 'Error',
+        text: message.message || "Error",
         error: true,
         url: value
       };
-
     } else if (typeof message === "string") {
-
       req.session.message = {
         text: message,
         error: false,
         url: value
       };
-
     }
 
     res.redirect(value);

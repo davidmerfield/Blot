@@ -1,13 +1,26 @@
+var debug = require("debug")("blot:build:metadata");
 var helper = require("helper");
 var ensure = helper.ensure;
 
 function Metadata(html) {
   ensure(html, "string");
 
+  // We try and normalize all the different ways to end a line
+  // here. This is how Windows does newlines, we normalize it
+  // to the unix way.
+  html = html.replace(/\r\n/gm, "\n");
+
+  // Somehow some text-editors/OSs have a single return character
+  // to signify a newline. Although it doesn't seem technically correct
+  // we handle this edge cache here.
+  html = html.replace(/\r/gm, "\n");
+
   var metadata = {};
 
   var linesToRemove = [];
   var lines = html.trim().split(/\n/);
+
+  debug(lines.length, "lines found");
 
   // THIS SHOULD ALSO WORK FOR HTML:
   // i.e. <p>Page: yes</p>
@@ -17,12 +30,16 @@ function Metadata(html) {
     line = lines[i];
 
     // if we encounter an empty line, stop looking for metadata.
-    if (!line || !line.trim()) break;
+    if (!line || !line.trim()) {
+      debug("Line", i, "found an empty line, breaking");
+      break;
+    }
 
     firstColon = line.indexOf(":");
     firstCharacter = line.trim().charAt(0);
 
     if (i === 0 && firstColon === -1 && line.trim() === "<!--") {
+      debug("Line", i, "found an HTML comment open tag");
       continue;
     }
 
@@ -36,6 +53,7 @@ function Metadata(html) {
       // this line is probably an HTML tag
       (firstCharacter === "<" && line.slice(0, 4) !== "<!--")
     ) {
+      debug("Line", i, "found a line without metadata, breaking");
       break;
     }
 
@@ -46,6 +64,7 @@ function Metadata(html) {
         line.slice(firstColon - 5, firstColon) === "https") &&
       line.slice(firstColon + 1, firstColon + 3) === "//"
     ) {
+      debug("Line", i, "found a line with a URL, breaking");
       break;
     }
 
@@ -55,6 +74,9 @@ function Metadata(html) {
       .trim()
       .toLowerCase();
     value = line.slice(firstColon + 1).trim();
+
+    debug("Line", i, "Found metadata from:", JSON.stringify(line));
+    debug("Line", i, "Key", key, "value", value);
 
     // Extract metadata from within comments
 
@@ -67,6 +89,7 @@ function Metadata(html) {
     }
 
     metadata[key] = value;
+    debug("Line", i, "will be removed");
     linesToRemove.push(i);
   }
 

@@ -33,10 +33,7 @@ function isWrongType(path) {
 }
 
 process.on("message", function(message) {
-  build(message.blog, message.path, message.options, function(
-    err,
-    entry
-  ) {
+  build(message.blog, message.path, message.options, function(err, entry) {
     if (err) {
       try {
         err = JSON.stringify(err, Object.getOwnPropertyNames(err));

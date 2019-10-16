@@ -1,0 +1,17 @@
+
+postgres
+
+users
+  owns blogs
+
+blogs
+  owns files
+  own templates
+
+templates
+
+files
+  e.g. html, path, etc...
+  own tags
+
+tags

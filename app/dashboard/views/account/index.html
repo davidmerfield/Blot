@@ -1,7 +1,39 @@
-<a class="line" href="/account/email">
+
+<div class="line" style="border-top:1px solid rgba(0,0,0,0.05)">
+<span class="label" style="padding-right:0">Your blogs       
+</span>
+
+<div class="center" style="position:relative;top:-3px">
+    {{#blogs}}
+
+    <div style="display:flex;border:none;align-items:center;padding:0;border-bottom:1px solid rgba(0,0,0,0.05)" class="line">
+
+      <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
+        <input type="hidden" name="_csrf" value="{{csrftoken}}">
+        <input type="hidden" name="to" value="{{id}}"> 
+        <button type="submit" style="width:100%;padding:6px 11px 6px 0;display:flex;border:none;margin:0;background:none">
+          <span style="display:flex;flex-grow:1;align-items:center"><span class="photo-holder" style="margin-top:0"> {{#avatar}}<img style="vertical-align: top;" src="{{avatar}}?handle={{handle}}">{{/avatar}}
+              {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span><span class="link">{{pretty.label}}</span></span>
+        </button>
+      </form> 
+      
+      <a class="right link" style="display:flex;background:none;padding:0" href="/account/delete/blog/{{handle}}">Delete </a>
+
+    </div>
+
+    {{/blogs}}
+     <a class="link" style="display:block;padding:11px 0;background:none;margin-bottom:-11px" href="/account/create-blog">Create new blog</a> 
+    <div class="clear"></div>
+</div>
+
+    
+
+</div>
+
+<a class="line" href="/account/email" >
   <span class="label">Email</span>
   <span class="center">{{user.email}}</span>
-  <span class="right">Edit</span>
+  <span class="right">Change</span>
 </a>
 
 {{#user.hasPassword}}
@@ -11,35 +43,12 @@
 </a>
 {{/user.hasPassword}}
 
-<div class="line">
-<span class="label" style="">Your blogs       {{#blogs.length}} <a class="link" style="display:block;float:right;" href="/account/create-blog">Create new blog</a>  {{/blogs.length}}
-</span>
-<hr style="margin:11px 0 0">
-<div class="clear"></div>
-    {{#blogs}}
-
-    <div style="display:flex;border:none;padding:0;" class="line">
-
-      <form action="/account/switch-blog" style="display:flex;flex-grow:1;" method="post">
-        <input type="hidden" name="_csrf" value="{{csrftoken}}">
-        <input type="hidden" name="to" value="{{id}}"> 
-        <button type="submit" style="width:100%;padding:11px 11px 11px 0;display:flex;border:none;margin:0;background:none">
-          <span style="display:flex;flex-grow:1;"><span class="photo-holder" style="margin-top:3px"> {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
-              {{^avatar}}<span class="file" style="font-size:0.8em;opacity:0.5;margin:-0.3em 0 0 0"></span>{{/avatar}}</span>{{title}}{{^title}}{{pretty.url}}{{/title}}</span><span style="padding:0 20px" class="link">Open dashboard</span>
-        </button>
-      </form> 
-      <a class="right link" style="display:flex;background:none;padding:11px 0 11px 0" href="/account/delete/blog/{{handle}}">Delete </a>
-
-    </div>
-
-    {{/blogs}}
-    {{^blogs.length}}
-     <a class="link" style="display:block;padding:11px 0;background:none;margin-bottom:-11px" href="/account/create-blog">Create a{{#blogs.length}}nother{{/blogs.length}} blog</a> 
-     {{/blogs.length}}
-    <div class="clear"></div>
-</div>
-
-    
+{{^user.hasPassword}}
+<a class="line" href="/account/password/set">
+  <span class="label">Password</span>
+  <span class="center"><span class="link">Set your password</span></span>
+</a>
+{{/user.hasPassword}}
 
 
 <div class="line">
@@ -47,10 +56,13 @@
   
   <div class="center">
 
-    <p style="padding:0.75em 2em 0 0;margin:0;line-height:1.5">
+    <p style="padding:0em 2em 0 0;margin:0;line-height:1.5">
     
     {{#user.isFreeForLife}}
       You can use Blot <b>for free</b> for as long as Blot exists.
+      
+             <a class="link" style="display:flex;flex-grow:1;padding:11px 0;background:none;margin-bottom:-11px" href="/account/subscription/create">Create a subscription</a> 
+
     {{/user.isFreeForLife}}
 
     {{#user.cancel_at_period_end}}
@@ -85,7 +97,7 @@
 ">
        <a class="link" style="display:flex;flex-grow:1;background:none;padding:11px 0;margin-bottom:-11px" href="/account/subscription/cancel">Cancel subscription</a> 
 
-       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1;padding:11px 16px;background:none;margin-bottom:-11px">Edit payment method</a>
+       <a class="link" href="/account/payment-method" style="display:flex;flex-grow:1;padding:11px 16px;background:none;margin-bottom:-11px">Change payment method</a>
      </div>
 
       {{/user.isSubscribed}}
@@ -102,7 +114,11 @@
 
 <a class="line" href="/account/delete">
   <span class="label">Delete</span>
-  <span class="center"><span class="link">Permanently close your account</span></span>
+  <span class="center"><span class="link">Permanently delete your account</span></span>
 </a>
+
+<form action="/account/log-out" method="post">
+  <button type="submit" style="background:none;border:none;line-height:41px;padding:0 20px;margin:0;color:rgb(153, 153, 153);">Log out &thinsp;&rarr;</button>
+</form>
 
 

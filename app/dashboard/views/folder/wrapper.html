@@ -1,7 +1,15 @@
 {{#folder}}
-<div class="folder-box">
 
-{{> breadcrumbs}}
+  <div style="display:flex;flex-direction:column;border:1px solid rgba(0,0,0,0.05);border-radius:3px">
+{{#root}}<p style="background: #f6f4f0;
+    margin: 0;
+    padding: 6px 20px;
+    color: #a49a98;
+    border-bottom: 1px solid rgba(0,0,0,0.05);">Folder</p>{{/root}}
+
+<div class="folder-box" style="flex-grow:1;flex-basis:25vh;    display: flex;
+    justify-content: center;">
+
 
 {{#directory}}
 {{> directory}}
@@ -11,6 +19,8 @@
 {{> file}}
 {{/file}}
 
-<!-- <div style="position:absolute;bottom:0;line-height:41px;border-top:1px solid rgba(0,0,0,0.05);padding: 0 20px;left:0;right:0;color:#aaa">Posts <span style="float:right">&uarr;</span> --><!-- </div> -->
 </div>
 {{/folder}}
+
+</div>
+

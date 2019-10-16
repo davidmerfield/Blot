@@ -20,41 +20,47 @@ Use it like this:
 var cheerio = require("cheerio");
 var debug = require("debug")("blot:render:absoluteURLs");
 
-function resolve($, base) {
-  return function() {
-    var href = $(this).attr("href");
-    var src = $(this).attr("src");
+function absoluteURLs(base, html) {
+  var $;
 
-    // This is a little naive but whatever.
-    // For example, what about protcolless
-    // urls like //example.com/site.jpg
-    if (href && href[0] === "/") {
-      $(this).attr("href", base + href);
-    }
+  try {
+    $ = cheerio.load(html);
+    $("[href], [src]").each(function() {
+      var href = $(this).attr("href");
+      var src = $(this).attr("src");
 
-    if (src && src[0] === "/") {
-      $(this).attr("src", base + src);
-    }
-  };
+      // This is a little naive but whatever.
+      // For example, what about protcol-less
+      // urls like //example.com/site.jpg
+      if (href && href[0] === "/") {
+        $(this).attr("href", base + href);
+      }
+
+      if (src && src[0] === "/") {
+        $(this).attr("src", base + src);
+      }
+    });
+    html = $.html();
+  } catch (e) {
+    debug(e);
+  }
+
+  return html;
 }
 
-module.exports = function absoluteURLs(req, callback) {
+module.exports = function(req, callback) {
   return callback(null, function() {
     return function(text, render) {
-      var $;
       var base = req.protocol + "://" + req.get("host");
 
       text = render(text);
-
-      try {
-        $ = cheerio.load(text);
-        $("[href], [src]").each(resolve($, base));
-        text = $.html();
-      } catch (e) {
-        debug(e);
-      }
+      text = absoluteURLs(base, text);
 
       return text;
     };
   });
 };
+
+// We also want to use this function in encodeXML
+// so we export it without the callback wrapper.
+module.exports.absoluteURLs = absoluteURLs;

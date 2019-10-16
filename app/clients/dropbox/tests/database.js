@@ -35,8 +35,8 @@ describe("dropbox database", function() {
 
   function fakeAccount() {
     return {
-      account_id: 'XXXXX',
-      access_token: 'YYYYY',
+      account_id: "XXXXX",
+      access_token: "YYYYY",
       email: "",
       error_code: 0,
       last_sync: Date.now(),

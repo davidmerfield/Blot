@@ -37,16 +37,18 @@ function main(url, options, callback) {
     request(uri, function(err, res, body) {
       if (err) return callback(err);
 
-      if (res.statusCode !== 200) {
+      if (res.statusCode == 404) {
         var basePath = require("url").parse(base).pathname;
         results[basePath] = results[basePath] || [];
         results[basePath].push({
-          url: require("url").parse(url).pathname,
-          status: res.statusCode
+          url: require("url").parse(url).pathname
         });
       }
 
-      if (res.headers["content-type"].indexOf("text/html") === -1) {
+      if (
+        res.headers["content-type"] &&
+        res.headers["content-type"].indexOf("text/html") === -1
+      ) {
         return callback();
       }
 
@@ -66,6 +68,10 @@ function main(url, options, callback) {
 
     $("[href],[src]").each(function() {
       var url = $(this).attr("href") || $(this).attr("src");
+
+      if (!url)
+        return;
+
       url = require("url").resolve(base, url);
 
       if (require("url").parse(url).host !== require("url").parse(base).host)

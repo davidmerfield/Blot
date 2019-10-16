@@ -6,7 +6,7 @@ var vhost = require("vhost");
 var blog = require("./blog");
 var brochure = require("./brochure");
 var dashboard = require("./dashboard");
-var cdn = require('./cdn');
+var cdn = require("./cdn");
 var scheduler = require("./scheduler");
 
 // Welcome to Blot. This is the Express application which listens on port 8080.

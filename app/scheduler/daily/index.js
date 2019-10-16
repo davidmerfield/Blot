@@ -5,16 +5,18 @@ var async = require("async");
 function main(callback) {
   var view = {};
 
-  view.date = require('moment')().format('LL');
-  
+  view.date = require("moment")().format("LL");
+
   async.map(
     [
       require("./disk-space"),
       require("./memory"),
+      require("./redis"),
       require("./hits"),
       require("./revenue"),
-      require('./entries'),
+      require("./entries"),
       require("./newsletter-subscribers"),
+      require("./payments"),
       require("./renewals")
     ],
     function(fn, next) {

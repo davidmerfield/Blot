@@ -1,14 +1,17 @@
 main.form {
   display: flex;
-  min-height: auto
+  min-height: auto;
+  padding: 0 2rem;
 }
 
 main.form content {
   max-width: 400px;
+  padding: 0
 }
 
 input[type="submit"],
-input[type="text"]  {border-radius: 3px}
+input[type="text"],
+input[type="password"]  {border-radius: 3px}
 
 input[type="submit"] {
   background: #333;
@@ -117,25 +120,47 @@ textarea:focus {
 
 
 
-::-webkit-input-placeholder {
+input::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: #a09d9c;
 }
 
-::-moz-placeholder {
+input::-moz-placeholder {
   /* Firefox 19+ */
   color: #a09d9c;
 }
 
-:-ms-input-placeholder {
+input:-ms-input-placeholder {
   /* IE 10+ */
   color: #a09d9c;
 }
 
-:-moz-placeholder {
+input:-moz-placeholder {
   /* Firefox 18- */
   color: #a09d9c;
 }
+
+
+input:focus::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #c5c4c4;
+}
+
+input:focus::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #c5c4c4;
+}
+
+input:focus:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #c5c4c4;
+}
+
+input:focus:-moz-placeholder {
+  /* Firefox 18- */
+  color: #c5c4c4;
+}
+
 
 .form flex {
   display: flex

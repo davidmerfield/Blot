@@ -1,0 +1,34 @@
+First make sure that requests to blot.development go to localhost. You can't just use the hosts file since it doesn't support wildcard entries. I followed this guide so user subdomains work as expected:
+
+https://passingcuriosity.com/2013/dnsmasq-dev-osx/
+
+It involved installing Dnsmasq using homebrew, then configuring it to resolve all requests to .development to localhost. Then I had to tell OSX's DNS resolver to pass requests to .development to Dnsmasq. Phew!
+
+You need to generate a self-signed certificate and key pair then tell your system to trust it. I then load the key.pem and cert.pem files into the webserver.
+
+Since Chrome 58, you need to declare a Subject Alternative Name. I don't really understand what that is or why it is neccessary but it is.
+
+Here are the commands to generate the certificate and tell Keychain to trust the certificate (cert.pem):
+
+openssl req \
+    -newkey rsa:2048 \
+    -x509 \
+    -nodes \
+    -keyout key.pem \
+    -new \
+    -out cert.pem \
+    -subj /CN=blot.development \
+    -reqexts SAN \
+    -extensions SAN \
+    -config <(cat /System/Library/OpenSSL/openssl.cnf \
+        <(printf '[SAN]\nsubjectAltName=DNS:blot.development')) \
+    -sha256 \
+    -days 3650
+
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain cert.pem
+
+I then needed to create a symbolic link between:
+
+ln -s /var/run/nginx.pid /usr/local/var/run/nginx.pid
+
+To reload NGINX successfully

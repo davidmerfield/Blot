@@ -1,13 +1,13 @@
-var User = require('../../app/models/user');
-var get = require('../blog/get');
-var handle = process.argv[2];
+var User = require("user");
+var get = require("../get/blog");
+var identifier = process.argv[2];
 
-if (!handle) throw 'Please pass the user\'s handle as an argument.';
+if (!identifier) throw "Please pass the user's email as an argument.";
 
-get(handle, function(user){
+User.getByEmail(identifier, function(err, user) {
+  if (err || !user) throw err || new Error("No user");
 
-  User.set(user.uid, {passwordHash: ''}, function(err){
-
+  User.set(user.uid, { passwordHash: "" }, function(err) {
     if (err) throw err;
 
     process.exit();

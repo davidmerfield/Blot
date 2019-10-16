@@ -25,11 +25,6 @@ function main(label, callback) {
 
     fs.emptyDirSync(DATA_DIRECTORY);
     fs.ensureDirSync(directory + "/data");
-    // There is some bug or weird behaviour with the latest
-    // version of fs-extra which errors out when you copy the
-    // symlinks inside the hosts folder. Since in local development
-    // this isn't essential, we wipe that folder first.
-    fs.removeSync(directory + "/data/hosts");
     fs.copySync(directory + "/data", DATA_DIRECTORY);
 
     fs.emptyDirSync(BLOG_FOLDERS_DIRECTORY);

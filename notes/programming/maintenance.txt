@@ -1,0 +1,20 @@
+
+
+// blot to maintenance mode
+
+//   save db to disk
+
+//     copy dump and start staging server
+
+//       // we need to get ENTRY set working on staging server?
+//       apply transformation to staging server
+
+//         shutdown blot
+
+//           shutdown live server
+
+//             copy dump from staging server to live server
+
+//               restart live server
+
+//                 restart blot

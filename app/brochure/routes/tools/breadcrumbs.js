@@ -1,5 +1,5 @@
 module.exports = function Breadcrumbs() {
-  var list = {items: []};
+  var list = { items: [] };
 
   list.add = function(label, slug) {
     var base = "/";

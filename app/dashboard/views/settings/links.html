@@ -1,0 +1,120 @@
+  
+<div style="margin:20px 0 6px;padding-bottom:8px;">
+  <label style="display:inline-block">Links</label>
+  <a id="add" href="#!" style="float:right;text-decoration:none"><span class="link">Add a new link</span></a>
+  <div class="clear"></div>
+</div>
+
+<!-- Neccessary to produce an empty menu -->
+<input type="hidden" name="hasMenu" value="true">
+<input type="hidden" name="redirect" value="/settings/links">
+
+<section id="menu" class="fullRow sortable"  style="max-width:100%">
+  
+<i id="emptyMenu" {{#blog.menu.length}}style="display:none"{{/blog.menu.length}}>Your menu is empty</i>
+
+{{#blog.menu}}
+  <section id="link_{{id}}">
+    <span class="handle">&#9776;</span>
+    <input type="hidden" name="menu.{{index}}.id" value="{{id}}"/ >
+    {{#page}}
+
+    <a class="pageLink" target="_blank" href="{{blog.blogURL}}{{url}}">
+      <span class="link" style="height:1px;display:inline-block">{{label}}</span> 
+    </a>
+    {{/page}}
+    {{^page}}
+
+    <input class="lab" placeholder="Label" type="text" name="menu.{{index}}.label" value="{{label}}"/>
+    <input class="val" placeholder="URL" type="text" name="menu.{{index}}.url" value="{{url}}"/>
+    <a href="#!" class="removeLink">Delete</a>
+    {{/page}}
+  </section>
+{{/blog.menu}}
+</section>
+
+<section id="link_" style="display:none">
+  <span class="handle">&#9776;</span>
+  <input disabled type="hidden" name="menu.{index}.id" value="{id}"/ >
+  <input disabled class="lab" placeholder="Label" type="text" name="menu.{index}.label" value=""/>
+  <input disabled class="val" placeholder="URL" type="text" name="menu.{index}.url" value=""/>
+  <a href="#!" class="removeLink">Delete</a>
+</section>
+
+<div class="clear"></div>
+{{#footer}}
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script src="/scripts/sortable.js?{{cacheID}}"></script>
+<script type="text/javascript">
+
+
+  Sortable.create($('.sortable')[0], {
+    handle: ".handle",
+    ghostClass: "sortable-ghost",
+    onUpdate: function (){
+
+      $('.sortable').find('section').each(function(){
+
+        var index = $(this).index();
+
+        $(this).find('input').each(function(){
+
+          var name = $(this).attr('name');
+          var newName = name.slice(0, name.indexOf('.') + 1) + index + name.slice(name.lastIndexOf('.'));
+
+          $(this).attr('name', newName);
+
+          console.log(name + ' > ' + newName);
+        });
+
+        console.log('');
+      });
+    }
+  });
+
+  $('#menu').on('click', '.removeLink', function(e){
+    $(this).parent().remove();
+    e.preventDefault();
+
+    if (!$('#menu section').length) {
+      $('#emptyMenu').show();
+    }
+
+    return false;
+  });
+
+  $('#add').click(function(e){
+
+    var index = $('#menu section').length;
+    var linkID = new Date().getTime();
+    var newlink = $('#link_').clone().removeAttr('style');
+
+    $('#emptyMenu').hide();
+    
+    newlink
+      .attr('id', function(el, val){
+        return val + linkID;
+      })
+      .find('input')
+        .removeAttr('disabled')
+        .end()
+      .find('input[name*="{index}"]')
+        .attr('name', function(i, val){
+          return val.split('{index}').join(index)
+        })
+        .end()
+      .find('input[value*="{id}"]')
+        .attr('value', function(i, val){
+          return val.split('{id}').join(linkID)
+        })
+        .end();
+
+    newlink.appendTo("#menu");
+
+    $('[name="title_' + linkID + '"]').focus();
+
+    e.preventDefault();
+    return false;
+  });
+</script>
+{{/footer}}

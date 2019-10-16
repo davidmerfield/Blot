@@ -1,52 +1,7 @@
-<html>
 {{> head}}
 
-<body style="display:flex;flex-direction:column;min-height:100%">
-  <div style="padding:2rem 2rem;display:flex;flex-grow:1;min-height:calc(100vh - 2rem)">
-    <div>{{> index_link}}
-      <a class="light" href="/" onclick="return randomArticle()" style="text-transform:uppercase;font-size:11px;"><img width="16" style="vertical-align:bottom" src="/icons/shuffle.svg">&puncsp;&puncsp; Random</a>
-    </div>
+{{> page_layout}}
 
-    {{#entry}}
-    {{#page}}
-    <div style="flex-grow:1">
-      <div class="entry" style="max-width:40rem;margin:0 auto">
-        {{{html}}}
-      </div>
-    </div>
-    <div style="visibility:hidden">
-      <a href="/" style="display:block;font-weight:300;color:rgba(0,0,0,.4);text-decoration:none;padding:0rem 3rem;margin-right:6rem">
-      {{#avatar}}<img style="max-width:1.65rem;max-height:1.65rem;margin-right:1rem;vertical-align:middle" src="{{avatar}}">{{/avatar}}{{title}}</a>
-      {{! This blocks out the neccessary width for the sidebar so the grid lines up}}
+{{> entry_layout}}
 
-    </div>
-    {{/page}}
-    {{^page}}
-    <div class="entry" style="flex-grow:1">
-      {{{body}}}
-    </div>
-    <div style="flex-grow:0;margin-bottom:2rem;margin-left:2rem;flex-shrink:0;display:flex;justify-content:space-between;flex-direction:column">
-      <a href="/" onclick="return lastIndexPage()" style="float:right;text-transform:uppercase;padding:0.65rem 1.3rem 0.65rem 1.3rem;box-sizing:border-box;background:#f8f8f8;color:rgba(0,0,0,.4);text-decoration:none;display:block;width:100%;text-align:right;position:relative;"><span style="font-size:11px;">Close</span> ⨉ </a>
-
-      {{#entry}}
-      <div style="max-width:15em;font-size:14px;float:right">
-        <h1 style="font-size:20px">{{title}}</h1>
-        {{#tags.length}}
-        <hr style="margin:0.65em 0"> <span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);display:inline-block">Tags</span>{{#tags}}<a style="color:rgba(0,0,0,0.4);text-decoration:none;padding:0 0.325em;margin:0.325em;display:inline-block;background:#f2f2f2;" href="/tagged/{{slug}}">{{tag}}</a>{{/tags}}
-        {{/tags.length}}
-        <hr style="margin:0.65em 0"><span style="font-size:11px;text-transform:uppercase;color:rgba(0,0,0,.4);display:inline-block">Added</span> <span style="color:rgba(0,0,0,.4)">{{date}}</span>
-
-      </div>{{/entry}}
-
-      <div style="text-align:right">
-        <a style="display:inline-block;background:#f2f2f2;color:rgba(0,0,0,.4);text-decoration:none;padding:0.65rem;box-sizing:border-box;font-size:11px;text-transform:uppercase" {{#previous}}href="{{{url}}}"{{/previous}}>&larr; Previous</a>
-        <a style="display:inline-block;background:#f2f2f2;color:rgba(0,0,0,.4);text-decoration:none;padding:0.65rem;box-sizing:border-box;font-size:11px;text-transform:uppercase" {{#next}}href="{{{url}}}"{{/next}}>Next &rarr;</a>
-      </div>
-    </div>
-    {{/page}}
-    {{/entry}}
-  </div>
-  <div>
-    {{#entry}}{{^page}}{{> pluginHTML}}{{/page}}{{/entry}}
-  </div>
-  {{> footer}}
+{{> footer}}

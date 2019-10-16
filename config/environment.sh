@@ -18,7 +18,9 @@ export BLOT_ENVIRONMENT=production
 
 # Name of linux user who runs the blot server
 export BLOT_USER=
-export BLOT_NODE_VERSION=4.4.2
+
+# Use latest stable version which passes tests
+export BLOT_NODE_VERSION=10.16.3
 
 # result of which pandoc
 export BLOT_PANDOC_PATH=

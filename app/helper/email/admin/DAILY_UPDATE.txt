@@ -12,6 +12,8 @@ Memory available: {{memory_available}} ({{memory_usage}} used)
 
 Disk space available: {{disk_space_available}} ({{disk_space_usage}} used)
 
+Redis: {{redis_memory_usage}} used of {{redis_memory_limit}} limit
+
 ***
 
 Number of active blogs: {{total_active_blogs}}
@@ -22,27 +24,28 @@ Newsletter subscribers: {{newsletter_subscribers}}
 
 ***
 
+Revenue from the last 24 hours: {{revenue_in_last_24_hours}}
+
+Revenue from the last 7 days: {{revenue_in_last_7_days}}
+
+Revenue from the last 30 days: {{revenue_in_last_30_days}}
+
+***
+
 {{#renewals_today}}
-
-Revenue expected from renewals today: {{revenue}} from {{total}} blog{{s}}
-
-{{#list}}
-- {{revenue}} from {{email}} {{next_payment}}
-
-{{/list}}
+Expected revenue from renewals in the next 24 hours: {{revenue}} from {{total}} blog{{s}}
 
 {{/renewals_today}}
-
 {{#renewals_next_7_days}}
-Revenue expected from renewals in the next 7 days: {{revenue}} from {{total}} blog{{s}}
+Expected revenue from renewals in the next 7 days: {{revenue}} from {{total}} blog{{s}}
 
 {{/renewals_next_7_days}}
 {{#renewals_next_30_days}}
-Revenue expected from renewals in the next 30 days: {{revenue}}  from {{total}} blog{{s}}
+Expected revenue from renewals in the next 30 days: {{revenue}}  from {{total}} blog{{s}}
 
 {{/renewals_next_30_days}}
 
-Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month)
+Annual recurring revenue: {{annual_recurring_revenue}} ({{monthly_recurring_revenue}} per month, {{revenue_billed_monthly}} of which is billed monthly)
 
 {{#new_entries.length}}
 

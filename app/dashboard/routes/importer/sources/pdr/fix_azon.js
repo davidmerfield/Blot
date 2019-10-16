@@ -1,56 +1,80 @@
-module.exports = function ($) {
-
-  $('p').each(function(i, el){
-    if ($(el).text().indexOf('Discover more recommended books') > -1) $(el).remove();
-    if ($(el).text().indexOf('[easyazon_link') > -1) $(el).remove();
+module.exports = function($) {
+  $("p").each(function(i, el) {
+    if (
+      $(el)
+        .text()
+        .indexOf("Discover more recommended books") > -1
+    )
+      $(el).remove();
+    if (
+      $(el)
+        .text()
+        .indexOf("[easyazon_link") > -1
+    )
+      $(el).remove();
   });
 
-  $('.bookinfo').each(function(i, el){
-
-    var text = '';
+  $(".bookinfo").each(function(i, el) {
+    var text = "";
 
     // Remove empty p tags
-    $(el).find('p').each(function(i, el){
-      if (!$(el).html().trim()) $(el).remove();
-    });
+    $(el)
+      .find("p")
+      .each(function(i, el) {
+        if (
+          !$(el)
+            .html()
+            .trim()
+        )
+          $(el).remove();
+      });
 
-    $(el).find('span').each(function(i, el){
+    $(el)
+      .find("span")
+      .each(function(i, el) {
+        text += $(el).text();
 
-      text += $(el).text();
+        $(el).remove();
+      });
 
-      $(el).remove();
-    });
+    text += $(el)
+      .find(".bookauthor")
+      .first()
+      .text();
 
-    text += $(el).find('.bookauthor').first().text();
+    $(el)
+      .find(".bookauthor")
+      .remove();
 
-    $(el).find('.bookauthor').remove();
-
-    $(el).prepend('<p>' + text + '</p>');
+    $(el).prepend("<p>" + text + "</p>");
   });
 
-  $('a').each(function(i, el){
+  $("a").each(function(i, el) {
+    $(el)
+      .contents()
+      .each(function fix(i, el) {
+        if (el.type !== "text")
+          return $(el)
+            .contents()
+            .each(fix);
 
-    $(el).contents().each(function fix (i, el){
+        var text = el.data;
 
-      if (el.type !== 'text') return $(el).contents().each(fix);
+        // [easyazon_link identifier=“191001009X” locale=“US” tag=“thepubdomrev-20”]
+        if (text.indexOf("[easyazon_link") === -1) return;
 
-      var text = el.data;
+        console.log("BEFORE", text);
 
-      // [easyazon_link identifier=“191001009X” locale=“US” tag=“thepubdomrev-20”]
-      if (text.indexOf('[easyazon_link') === -1) return;
+        var start = text.indexOf("[easyazon_link");
+        var end = text.slice(start).indexOf("]") + start + 1;
 
-      console.log('BEFORE', text);
+        console.log(start, end);
 
-      var start = text.indexOf('[easyazon_link');
-      var end = text.slice(start).indexOf(']') + start + 1;
+        text = text.slice(0, start) + text.slice(end);
 
-      console.log(start, end);
+        console.log("AFTER", text);
 
-      text = text.slice(0, start) + text.slice(end);
-
-      console.log('AFTER', text);
-
-      el.data = text;
-    });
+        el.data = text;
+      });
   });
 };

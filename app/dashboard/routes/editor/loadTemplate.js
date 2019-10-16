@@ -26,7 +26,7 @@ module.exports = function(req, res, next) {
     Template.getMetadata(templateID, function(err, template) {
       if (
         template.localEditing &&
-        req.path !== "/template/" + req.params.template + "/local-editing"
+        req.path.slice(-"/local-editing".length) !== "/local-editing"
       ) {
         return res.redirect(
           "/template/" + req.params.template + "/local-editing"

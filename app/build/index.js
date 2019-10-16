@@ -123,5 +123,6 @@ module.exports = function(blog, path, options, callback) {
   };
 
   debug("Sending job to worker", jobs[id]);
+  console.log("Blog:", blog.id, "building", path);
   worker.send({ blog: blog, path: path, id: id, options: options });
 };

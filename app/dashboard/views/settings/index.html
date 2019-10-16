@@ -1,28 +1,22 @@
 {{> sub_nav}}
 
-<!-- <span style="color:rgba(0,0,0,0.3)">Settings</span>
-<hr style="margin-bottom:0"> -->
 
-        
+
+<!-- 
+  <a href="{{blog.url}}" target="_blank" style="    padding: 4px 20px;
+    display: block;
+    border-bottom: 1px solid #eee;
+    background: #eeeeee57;
+    color: #b9b6b6;">{{blog.url}}</a> -->
+<div >
+
 <form method='post' action='?_csrf={{csrftoken}}' enctype='multipart/form-data'>
 
-{{^client}}
 
-<a href="/settings/client" class="mess error">
-     <span class="link">Select a client</span>
-     Please select a client to sync your folder.
-  </a>
-{{/client}}
 
-  <a class="line" href="/settings/profile">
-    <span class="label">Profile</span>
+  <a class="line" style="border-top:1px solid rgba(0,0,0,0.05)" href="/settings/title">
+    <span class="label">Title</span>
     <span class="center">
-
-{{#blog.avatar}}<span class="photo-holder" style="margin-right:6px">
-          <img src="{{blog.avatar}}?handle={{handle}}">
-          
-        </span>  {{/blog.avatar}}
-      
 
       {{blog.title}}
       {{^blog.title}}<span class="link">Add a title</span>{{/blog.title}}
@@ -30,26 +24,70 @@
     </span>
 
     {{#blog.title}}
-        <span class="right">Edit</span>
+        <span class="right">Change</span>
     {{/blog.title}}
     
   </a>
 
-  <a class="line" href="/settings/domain">
+    <a class="line" href="/settings/domain">
     <span class="label">Domain</span>
     <span class="center">{{blog.pretty.url}}</span>
-    <span class="right">Edit</span>
+    <span class="right">Change</span>
   </a>
-
 
 <a class="line" href="/settings/theme">
     <span class="label">Template</span>
     <span class="center">{{#template.name}}
         {{template.name}}
-        {{/template.name}}        {{^template.name}}<i>You are not using a theme</i>{{/template.name}}</span>
-            <span class="right">Edit</span>
+        {{/template.name}}        {{^template.name}}<i>You are not using a template</i>{{/template.name}}</span>
+            <span class="right">Change</span>
 
   </a>
+ <a class="line" href="/settings/photo">
+  <span class="label" style="float:left">Photo</span>
+{{^blog.avatar}}
+      <span class="link">Choose a photo</span>
+      {{/blog.avatar}}
+
+      {{#blog.avatar}}
+    <span class="center" style="    width: 48px;
+    height: 48px;
+    display: inline-block;
+    vertical-align: middle;">
+
+        <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
+</span>
+            <span class="right">Change</span>    
+      {{/blog.avatar}}
+
+    </section>
+  </a>
+
+<a class="line" href="/settings/links" style="">
+    <span class="label">Menu links</span>
+    <span class="center" style="overflow:hidden;position:relative;left:-2px">
+      <div style="height:1.5em;width:1000px;">
+      {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
+
+    {{^blog.menu.length}}<i>Your menu is empty</i>{{/blog.menu.length}}
+  </div>
+  <div class="tablet-cover"></div>
+      
+    </span>
+    <span class="right" style="padding-left:0">Change</span>
+  </a>
+
+ 
+
+
+
+  <a class="line" href="/settings/services">
+    <span class="label">Services</span>
+    <span class="link">Import, export and typography
+</span>
+
+  </a>
+
 <!-- 
   <a class="line" href="/settings/photo">
     <span class="label">Photo</span>
@@ -62,46 +100,50 @@
       {{#blog.avatar}}
         <img style="max-width:64px;max-height:64px;margin:4px 8px 0 0;    vertical-align: baseline;
     display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
-            <span class="link">Edit</span>    
+            <span class="link">Change</span>    
 
       {{/blog.avatar}}
     </span>
       {{#blog.avatar}}
 {{/blog.avatar}}
   </a> -->
-  
-<!-- 
-   <a class="line" href="/settings/date">
-    <span class="label">Dates</span>
-    <span class="center">
-      {{^blog.hideDates}}{{#displayFormats}}{{#selected}}{{date}}{{/selected}}{{/displayFormats}}{{/blog.hideDates}}
-      {{#blog.hideDates}}<i>Dates are hidden</i>{{/blog.hideDates}}
-</span>
-    <span class="right">Edit</span>
 
-  </a> -->
   <!-- 
   <a class="line" href="/settings/urls" >
     <span class="label">URLs</span>
     <span class="center">{{#permalinkFormats}}{{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}</span>
-    <span class="right">Edit</span>
+    <span class="right">Change</span>
   </a> -->
 
 
 
 
-<a class="line" href="/settings/client/{{name}}" >
-    <span class="label">Client</span>
-    <span class="center">{{client.display_name}}</span>
-    <span class="right">Edit</span>
-  </a>
 
-  <a class="line" href="/settings/services" style="border-bottom:none">
-    <span class="label">Services</span>
-    <span class="link">Import, export and typography
-</span>
 
-  </a>
+
+
+
+
   
 
+<!-- <div style="font-size:14px;opacity:0.3;padding:40px 20px 10px">
+      13GB used
+      <div style="float:right">Last sync: 12 minutes ago
+    </div>
+    </div> -->
+
+<a class="line" href="/settings/client/{{name}}" >
+    <span class="label">Client</span>
+    {{^blog.client}}
+      <span class="link">Set up a client</span>
+    {{/blog.client}}
+    {{#blog.client}}
+    <span class="center">{{client.display_name}}</span>
+    <span class="right">Change</span>
+    {{/blog.client}}
+  </a>
 </form>
+</div>
+
+<Br>
+{{> folder}}

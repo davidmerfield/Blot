@@ -25,6 +25,18 @@ describe("metadata parser", function() {
     });
   });
 
+  it("parses metadata with non-standard return character newlines", function() {
+    expect(
+      Metadata(
+        ["Page:yes", "Permalink:", "Date: 12/10/12", "", "# Hi"].join("\r")
+      ).metadata
+    ).toEqual({
+      permalink: "",
+      page: "yes",
+      date: "12/10/12"
+    });
+  });
+
   it("handles colons", function() {
     expect(
       Metadata(

@@ -10,29 +10,61 @@
 
 {{#archives.length}}
 <div class="archives">
-  <h1 style="margin-left:2rem">Archives</h1>
+  <h1 style="margin-left:1.3rem">Archives</h1>
   <hr>
-  <div class="links">
-    {{#archives}}
-    {{#months}}
-    {{#entries}}
-    <a class="item" style="" href="{{{url}}}"><span style="display:inline-block;margin-right:0.5em;width:1em;height:1em;flex-shrink:0">{{#thumbnail.square}}
-<img src="{{{url}}}" style="max-width:1em;max-height:1em;width:auto;height:auto" class="fadeMe" onload="this.className+=' fadeIn';" />
-      <noscript>  
-      <img src="{{{url}}}">
-      </noscript>
+  <div style="display:flex;flex-wrap:wrap;padding:0 1.3rem">
+    <div style="flex-basis:50%">
 
-  {{/thumbnail.square}}</span> <span style="flex-grow:1;overflow:hidden"><span style="    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;display:block;      height: 1.4em;
-    
-">{{title}}</span></span> <span style="flex-shrink:0">{{#formatDate}}MMM YYYY{{/formatDate}}</span></a>
-    {{/entries}}
-    {{/months}}
-    {{/archives}}
+      <style type="text/css">
+      table {
+        width: 100%;
+      }
+
+      table a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      table {
+        border-collapse: collapse
+      }
+
+      tr:hover {
+        background: #eee
+      }
+
+      td,
+      th {
+        padding: 0.35rem 0.7rem;
+      }
+
+      th {
+        font-size: 12px;
+        text-align: left;
+        color: #aaa;
+        font-weight: normal;
+        text-transform: uppercase;
+      }
+
+      </style>
+      <table>
+        <thead>
+          <th></th>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Categories</th>
+        </thead>
+        {{#archives}}
+        {{#months}}
+        {{#entries}}
+        {{> row_link}}
+        {{/entries}}
+        {{/months}}
+        {{/archives}}
+      </table>
+    </div>
+
   </div>
-</div>
-{{/archives.length}}
+  {{/archives.length}}
 
-{{> footer}}
+  {{> footer}}

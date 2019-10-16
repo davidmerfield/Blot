@@ -20,7 +20,6 @@ var displays = [
 ];
 
 module.exports = function(req, res, next) {
-
   var displayFormats = [];
   var dateFormats = [];
 
@@ -31,7 +30,6 @@ module.exports = function(req, res, next) {
       date: alias[format]
     });
   });
-
 
   displays.forEach(function(display) {
     var now = moment

@@ -1,0 +1,15 @@
+Blot has been running for almost three years now and already there are hundreds of posts and articles published that disgust me. But I would never remove them. I think free-speech is a good principle. Of course letting people speak freely sometimes causes others pain. On balance, I believe the pain is less damaging than the censorship needed to prevent it.
+
+There's a webcomic on free-speech which irritates me whenever I come across it: ...
+
+From the start, Blot was designed with free-speech in mind.
+- no advertisers
+- no patrons
+
+I don't want to have the power to prevent people from reading dumb, hateful, mean and stupid things. 
+
+If I had a choice, I wouldn't remove anything from Blot. I believe in the marketplace of ideas. I have a low opinion of copyright but I am bound by the laws of the state of Washington in the USA. I will remove copyrighted material per the DMCA.
+
+At some point, Blot will be blocked in China, in Russia and various other states which implement internet filtering. Perhaps some bureacrat will ask me to block or remove some content from the site. It is inevitable. Thankfully, Blot is open-source software dedicated to the public domain. You can host it on your own server and (at least for a little while) beat the jackbooted arseholes who want to control your thoughts.
+
+The poet must not avert his eyes.

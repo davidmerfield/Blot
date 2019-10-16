@@ -29,9 +29,13 @@ function main(callback) {
   User.getAllIds(function(err, uids) {
     async.map(uids, User.getById, function(err, users) {
       users.forEach(function(user) {
+        if (user.isDisabled) return;
+
         if (!user.subscription.status) return;
 
         if (user.subscription.status !== "active") return;
+
+        if (user.subscription.cancel_at_period_end) return;
 
         var next_payment = user.subscription.current_period_end * 1000;
 

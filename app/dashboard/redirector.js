@@ -15,6 +15,7 @@ var FORMATTING = "/formatting";
 var PRIVACY = "/privacy";
 var MAINTENANCE = "/maintenance";
 var ACCOUNT = "/account";
+var DELETE_ACCOUNT = "/account/delete";
 var PAY_SUBSCRIPTION = "/account/pay-subscription";
 var LOGOUT = "/account/log-out";
 
@@ -77,7 +78,10 @@ module.exports = function(req, res, next) {
   }
 
   // Only allow the user to pay
-  if (user.needsToPay && pathIsNot([PAY_SUBSCRIPTION, LOGOUT])) {
+  if (
+    user.needsToPay &&
+    pathIsNot([PAY_SUBSCRIPTION, LOGOUT, DELETE_ACCOUNT])
+  ) {
     return res.redirect(PAY_SUBSCRIPTION);
   }
 

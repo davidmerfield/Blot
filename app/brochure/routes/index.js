@@ -1,3 +1,4 @@
+var fs = require("fs-extra");
 var Express = require("express");
 var brochure = new Express.Router();
 var finder = require("finder");
@@ -63,13 +64,51 @@ brochure.use(function(req, res, next) {
   next();
 });
 
-brochure.get("/about", function(req, res) {
-  res.locals.title = "Blot – About";
+var matter = require("gray-matter");
+
+function loadContributors(req, res, next) {
+  fs.readFile(__dirname + "/../views/acknowledgements.yaml", "utf-8", function(
+    err,
+    contents
+  ) {
+    if (err) return next(err);
+
+    var dependencies = matter("---\n" + contents + "\n---").data;
+    var contributors = [];
+
+    dependencies.forEach(function(dependency) {
+      contributors = contributors.concat(dependency.contributors);
+    });
+
+    dependencies[dependencies.length - 1].last = true;
+    contributors[contributors.length - 1].last = true;
+
+    res.locals.dependencies = dependencies;
+    res.locals.contributors = uniqueBy("name", contributors);
+
+    next();
+  });
+}
+
+function uniqueBy(property, list) {
+  var seen = {};
+
+  list = list.filter(function(item) {
+    if (seen[item[property]]) return false;
+    seen[item[property]] = true;
+    return true;
+  });
+
+  return list;
+}
+
+brochure.get("/about", loadContributors, function(req, res) {
+  res.locals.title = "About";
   res.render("about");
 });
 
 brochure.get("/support", function(req, res) {
-  res.locals.title = "Blot – Support";
+  res.locals.title = "Support";
   res.render("support");
 });
 
@@ -102,7 +141,7 @@ brochure.get("/sitemap.xml", require("./sitemap"));
 
 brochure.use("/developers", require("./developers"));
 
-// brochure.use("/templates", require("./templates"));
+brochure.use("/templates", require("./templates"));
 
 brochure.use("/news", require("./news"));
 
@@ -136,7 +175,7 @@ brochure.get("/", require("./featured"), function(req, res) {
   res.render("index");
 });
 
-brochure.use("/publishing/domain", function(req, res, next) {
+brochure.use("/publishing/guides/domain", function(req, res, next) {
   res.locals.ip = config.ip;
   return next();
 });
@@ -149,7 +188,7 @@ brochure.get("/:section", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
 
   res.render(req.params.section);
 });
@@ -165,7 +204,7 @@ brochure.get("/:section/:subsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
   res.render(req.params.section + "/" + req.params.subsection);
 });
 
@@ -180,7 +219,7 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
   res.render(
     req.params.section +
       "/" +
@@ -188,6 +227,11 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
       "/" +
       req.params.subsubsection
   );
+});
+
+brochure.use(function(err, req, res, next) {
+  if (err.code === "MODULE_NOT_FOUND") return next();
+  next(err);
 });
 
 brochure.use(function(err, req, res, next) {

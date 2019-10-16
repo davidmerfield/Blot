@@ -47,7 +47,7 @@ module.exports = function render_tex(req, res, next) {
     try {
       send.call(this, minify(html, options));
     } catch (e) {
-      console.error('Error: Failed to minify HTML for', req.originalUrl);
+      console.error("Error: Failed to minify HTML for", req.originalUrl);
       send.call(this, html);
     }
   };

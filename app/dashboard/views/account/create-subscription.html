@@ -1,0 +1,75 @@
+<a href="" class="mess error" style="display:none">
+         {{text}}
+         <span class="link">Dismiss</span>
+        </a>
+
+
+<form class="account" method="POST" id="payment-form" style="max-width:400px">
+
+<p style="margin-top:0;padding:11px 0 0;width:120%;margin-bottom:0">Would you like to pay <span class="yellow" style="background:#fff0a8">{{price}} per {{interval}}</span> to activate your subscription? If you have any questions please <a href="/contact">contact me</a>.</p>
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+
+    <label>
+      <span>Card number:</span>
+      <input autofocus type="text" size="20" data-stripe="number" name="number"/>
+    </label>
+
+    <label class="expiration">
+      <span class="title">Expiration date:</span><br>
+      <input class="month" name="exp-month" placeholder="MM" type="text" size="2" data-stripe="exp-month"/>
+      <input class="year" name="exp-year" placeholder="YYYY" type="text" size="4" data-stripe="exp-year"/>
+    </label>
+
+    <label class="cvc">
+      <span>CVC:</span>
+      <input type="text" size="4" data-stripe="cvc" name="cvc"/>
+    </label>
+
+    <div class="clear"></div>
+    
+  <div class="buttons">
+    <button type="submit">Submit payment</button>
+    <a href="/account">Cancel</a>
+  </div>
+<br>
+<br>
+
+</form>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript" src="/scripts/jquery.js?{{cacheID}}"></script>
+<script type="text/javascript">
+// This identifies your website in the createToken call below
+Stripe.setPublishableKey('{{stripe_key}}');
+
+  $('#payment-form').submit(function(event) {
+
+    var $form = $(this);
+
+    // Disable the submit button to prevent repeated clicks
+    $form.find('button').prop('disabled', true);
+
+    Stripe.card.createToken($form, function(status, response){
+
+      var $form = $('#payment-form');
+
+      if (response.error) {
+        // Show the errors on the form
+        $('.mess').text(response.error.message).show();
+        $form.find('button').prop('disabled', false);
+      } else {
+        // response contains id and card, which contains additional card details
+        var token = response.id;
+        // Insert the token into the form so it gets submitted to the server
+        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+        // and submit
+        $form.get(0).submit();
+      }
+
+    });
+
+    // Prevent the form from submitting with the default action
+    return false;
+});
+</script>

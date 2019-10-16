@@ -1,6 +1,6 @@
-  var fourOhFour = require("../../../../models/404");
+var fourOhFour = require("../../../../models/404");
 
-module.exports = function  (req, res, next) {
+module.exports = function(req, res, next) {
   var blog = req.blog;
   var blogID = blog.id;
 
@@ -29,4 +29,4 @@ module.exports = function  (req, res, next) {
 
     return res.redirect(req.route.path);
   });
-}
+};

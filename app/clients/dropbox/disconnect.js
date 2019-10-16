@@ -8,7 +8,6 @@ var Sync = require("sync");
 // an access token for Travis and it'll be annoying. Just
 // test it on the development server.
 module.exports = function disconnect(blogID, callback) {
-
   // Make sure we don't create something unexpected
   // by messing with a blog mid-sync. This might fail
   // we need to surface a clear error message to the user.

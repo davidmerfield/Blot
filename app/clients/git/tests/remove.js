@@ -22,15 +22,12 @@ describe("git client remove", function() {
   });
 
   it("does not error when removing a file that does not exist", function(done) {
-
     remove(this.blog.id, "/path", function(err) {
-
       if (err) return done.fail(err);
 
       done();
     });
   });
-
 
   it("removes a file", function(done) {
     var repoDirectory = this.repoDirectory;
@@ -40,7 +37,6 @@ describe("git client remove", function() {
     var blogID = this.blog.id;
 
     write(blogID, path, content, function(err) {
-      
       if (err) return done.fail(err);
 
       git.pull(function(err) {

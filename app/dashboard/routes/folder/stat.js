@@ -34,7 +34,6 @@ module.exports = function(blog, path, callback) {
         if (err) return callback(err);
 
         Entry.get(blogID, path, function(entry) {
-
           if (ignored || !entry) {
             if (path.toLowerCase().indexOf("/templates/") === 0) {
               ignored = "it is part of a template";
