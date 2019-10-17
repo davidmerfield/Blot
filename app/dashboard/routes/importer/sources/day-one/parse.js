@@ -98,8 +98,8 @@ module.exports = function(json, outputDirectory, callback) {
 
       while (slug.indexOf("--") > -1) slug = slug.split("--").join("-");
 
-      slug = slug.slice(0,20);
-      
+      slug = slug.slice(0, 20);
+
       fs.writeFile(
         outputDirectory +
           "/" +

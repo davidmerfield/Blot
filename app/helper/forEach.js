@@ -1,102 +1,95 @@
-var type = require('./type');
-var callOnce = require('./callOnce');
-var _ = require('lodash');
+var type = require("./type");
+var callOnce = require("./callOnce");
+var _ = require("lodash");
 var pairs = _.pairs;
 
 // Perform some basic sanity checks
 // and determine how to handle the items
-function series (items, doThis, callback) {
-
+function series(items, doThis, callback) {
   callback = callback || doNothing;
 
-  if (!type(doThis, 'function'))
-    throw badDoThis(doThis);
+  if (!type(doThis, "function")) throw badDoThis(doThis);
 
-  if (!type(callback, 'function'))
-    throw badCallback(callback);
+  if (!type(callback, "function")) throw badCallback(callback);
 
   // Clone the items list in case
   // its modified during processing
-  if (type(items, 'array'))
-    return seriesItem(items.slice(0), doThis, callback);
+  if (type(items, "array")) return seriesItem(items.slice(0), doThis, callback);
 
   // Pairs returns a new array anyway
   // so we don't have to worry about
   // side effects using slice(0)
-  if (type(items, 'object'))
-    return seriesPair(pairs(items), doThis, callback);
+  if (type(items, "object")) return seriesPair(pairs(items), doThis, callback);
 
   throw badItems(items);
 }
 
 // We let the supervisor handle type checking...
-function seriesItem (list, doThis, callback) {
-
+function seriesItem(list, doThis, callback) {
   if (list.length === 0) return callback();
 
   var item = list.shift();
   var nextItem = seriesItem.bind(this, list, doThis, callback);
 
-  doThis(item, callOnce(function(err){
+  doThis(
+    item,
+    callOnce(function(err) {
+      if (err) {
+        // should handle this err
+      }
 
-    if (err) {
-      // should handle this err
-    }
-
-    setImmediate(nextItem);
-  }));
+      setImmediate(nextItem);
+    })
+  );
 }
 
-function seriesPair (list, doThis, callback) {
-
+function seriesPair(list, doThis, callback) {
   if (list.length === 0) return callback();
 
   var item = list.shift();
   var nextItem = seriesPair.bind(this, list, doThis, callback);
 
-  doThis(item[0], item[1], callOnce(function(err){
+  doThis(
+    item[0],
+    item[1],
+    callOnce(function(err) {
+      if (err) {
+        // should handle this err
+      }
 
-    if (err) {
-      // should handle this err
-    }
-
-    setImmediate(nextItem);
-  }));
+      setImmediate(nextItem);
+    })
+  );
 }
 
-function parallel (items, doThis, callback) {
-
+function parallel(items, doThis, callback) {
   callback = callback || doNothing;
 
-  if (!type(doThis, 'function'))
-    throw badDoThis(doThis);
+  if (!type(doThis, "function")) throw badDoThis(doThis);
 
-  if (!type(callback, 'function'))
-    throw badCallback(callback);
+  if (!type(callback, "function")) throw badCallback(callback);
 
   // Clone the items list in case
   // its modified during processing
-  if (type(items, 'array'))
+  if (type(items, "array"))
     return parallelItem(items.slice(0), doThis, callback);
 
   // Pairs returns a new array anyway
   // so we don't have to worry about
   // side effects using slice(0)
-  if (type(items, 'object'))
+  if (type(items, "object"))
     return parallelPair(pairs(items), doThis, callback);
 
   throw badItems(items);
 }
 
-function parallelItem (list, doThis, callback) {
-
+function parallelItem(list, doThis, callback) {
   var total = list.length;
   var completed = 0;
 
-  if (total === 0)
-    return callback();
+  if (total === 0) return callback();
 
-  function done () {
+  function done() {
     if (++completed === total) return callback();
   }
 
@@ -105,15 +98,13 @@ function parallelItem (list, doThis, callback) {
   }
 }
 
-function parallelPair (list, doThis, callback) {
-
+function parallelPair(list, doThis, callback) {
   var total = list.length;
   var completed = 0;
 
-  if (total === 0)
-    return callback();
+  if (total === 0) return callback();
 
-  function done () {
+  function done() {
     if (++completed === total) return callback();
   }
 
@@ -122,13 +113,13 @@ function parallelPair (list, doThis, callback) {
   }
 }
 
-function multi (max) {
-
-  return function (array, doThis, done) {
-
+function multi(max) {
+  return function(array, doThis, done) {
     // Do nothing after
     if (done === undefined)
-      done = function(){return true;};
+      done = function() {
+        return true;
+      };
 
     done = callOnce(done);
 
@@ -150,8 +141,7 @@ function multi (max) {
       active++;
     }
 
-    function run () {
-
+    function run() {
       var i = counter;
 
       // No more to do
@@ -159,8 +149,7 @@ function multi (max) {
 
       counter++;
 
-      setTimeout(function(){
-
+      setTimeout(function() {
         // call once people!
         doThis(array[i], callOnce(onComplete));
       }, 0);
@@ -175,165 +164,174 @@ function multi (max) {
   };
 }
 
-function doNothing(){}
+function doNothing() {}
 
-function badDoThis (doThis) {
-  return new TypeError('ForEach must be invoked a function. Do this is:' + doThis);
+function badDoThis(doThis) {
+  return new TypeError(
+    "ForEach must be invoked a function. Do this is:" + doThis
+  );
 }
 
-function badCallback (callback) {
-  return new TypeError('ForEach must be passed a callback which is a function. callback is:' + callback);
+function badCallback(callback) {
+  return new TypeError(
+    "ForEach must be passed a callback which is a function. callback is:" +
+      callback
+  );
 }
 
-function badItems (items) {
-  return new TypeError('ForEach must be passed a list of object. It was ' + items);
+function badItems(items) {
+  return new TypeError(
+    "ForEach must be passed a list of object. It was " + items
+  );
 }
-
 
 var forEach = series;
 
 forEach.parallel = parallel;
 forEach.multi = multi;
 
-
 /////// Tests....
 
-var assert = require('assert');
+var assert = require("assert");
 
-function longList (len) {
+function longList(len) {
   var list = [];
-  while (list.length < len) {list.push(list.length + 1);}
+  while (list.length < len) {
+    list.push(list.length + 1);
+  }
   return list;
 }
 
-function massiveParallelList (cb) {
-
+function massiveParallelList(cb) {
   var list = longList(100000);
 
-  console.log('Processing massive list in parallel...');
+  console.log("Processing massive list in parallel...");
 
-  forEach.parallel(list, function(number, next){
-
-    list[number - 1] = number * 10;
-    next();
-    next();
-
-  }, function(){
-    console.log('All done!');
-    console.log('Checking valid process...');
-    assert.deepEqual(list, longList(100000).map(function(n){return n*10;}));
-    cb();
-  });
+  forEach.parallel(
+    list,
+    function(number, next) {
+      list[number - 1] = number * 10;
+      next();
+      next();
+    },
+    function() {
+      console.log("All done!");
+      console.log("Checking valid process...");
+      assert.deepEqual(
+        list,
+        longList(100000).map(function(n) {
+          return n * 10;
+        })
+      );
+      cb();
+    }
+  );
 }
 
-function massiveSeriesList (cb) {
-
+function massiveSeriesList(cb) {
   var list = longList(100000);
 
-  console.log('Processing massive list in series...');
+  console.log("Processing massive list in series...");
 
-  forEach(list, function(number, next){
-
-    list[number - 1] = number * 2;
-    next();
-    next();
-
-  }, function(){
-    console.log('All done!');
-    console.log('Checking valid process...');
-    assert.deepEqual(list, longList(100000).map(function(n){return n*2;}));
-    cb();
-  });
+  forEach(
+    list,
+    function(number, next) {
+      list[number - 1] = number * 2;
+      next();
+      next();
+    },
+    function() {
+      console.log("All done!");
+      console.log("Checking valid process...");
+      assert.deepEqual(
+        list,
+        longList(100000).map(function(n) {
+          return n * 2;
+        })
+      );
+      cb();
+    }
+  );
 }
 
-function delayedSeriesList (cb) {
-
+function delayedSeriesList(cb) {
   console.log("Processing delayed list in series...");
 
-  var list = ['a', 'b', 'c', 'd', 'e'];
+  var list = ["a", "b", "c", "d", "e"];
 
-  forEach(list, function(num, next){
-
-    console.log(num + ' is processing...');
-    setTimeout(function(){
-
-      console.log(num + ' is completed...');
-      next();
-      next();
-
-    }, 120);
-
-  }, function(){
-    console.log('All done!');
-    cb();
-  });
+  forEach(
+    list,
+    function(num, next) {
+      console.log(num + " is processing...");
+      setTimeout(function() {
+        console.log(num + " is completed...");
+        next();
+        next();
+      }, 120);
+    },
+    function() {
+      console.log("All done!");
+      cb();
+    }
+  );
 }
 
-function delayedParallelList (cb) {
-
+function delayedParallelList(cb) {
   console.log("Processing delayed list in parallel...");
 
-  var list = ['a', 'b', 'c', 'd', 'e'];
+  var list = ["a", "b", "c", "d", "e"];
 
-  forEach.parallel(list, function(letter, next){
-
-    console.log(letter + ' is processing...');
-    setTimeout(function(){
-
-      console.log(letter + ' is completed...');
-      next();
-      next();
-
-    }, 120);
-
-  }, function(){
-    console.log('All done!');
-    cb();
-  });
+  forEach.parallel(
+    list,
+    function(letter, next) {
+      console.log(letter + " is processing...");
+      setTimeout(function() {
+        console.log(letter + " is completed...");
+        next();
+        next();
+      }, 120);
+    },
+    function() {
+      console.log("All done!");
+      cb();
+    }
+  );
 }
 
-function multiList (cb) {
-
+function multiList(cb) {
   console.log("Processing list in multi mode...");
 
-  var list = ['a', 'b', 'c', 'd', 'e'];
+  var list = ["a", "b", "c", "d", "e"];
 
-  forEach.multi(2)(list, function(letter, next){
-
-    console.log(letter + ' is processing...');
-    setTimeout(function(){
-
-      console.log(letter + ' is completed...');
-      next();
-      next();
-
-    }, 120);
-
-  }, function(){
-    console.log('All done!');
-    cb();
-  });
+  forEach.multi(2)(
+    list,
+    function(letter, next) {
+      console.log(letter + " is processing...");
+      setTimeout(function() {
+        console.log(letter + " is completed...");
+        next();
+        next();
+      }, 120);
+    },
+    function() {
+      console.log("All done!");
+      cb();
+    }
+  );
 }
 
-
-function listTests (cb) {
-
-  console.log('');
-  massiveParallelList(function(){
-
-    console.log('');
-    massiveSeriesList(function(){
-
-      console.log('');
-      delayedSeriesList(function(){
-
-        console.log('');
-        delayedParallelList(function(){
-
-          console.log('');
-          multiList(function(){
-
-            console.log('List tests complete!');
+function listTests(cb) {
+  console.log("");
+  massiveParallelList(function() {
+    console.log("");
+    massiveSeriesList(function() {
+      console.log("");
+      delayedSeriesList(function() {
+        console.log("");
+        delayedParallelList(function() {
+          console.log("");
+          multiList(function() {
+            console.log("List tests complete!");
             cb();
           });
         });
@@ -342,155 +340,143 @@ function listTests (cb) {
   });
 }
 
-
 ///// Object tests....
 
-function seriesMassiveObject (cb) {
-
-
+function seriesMassiveObject(cb) {
   var obj = bigObj(1000);
   var _obj = _.cloneDeep(obj);
 
   console.log("Processing massive object in series...");
 
-  forEach(obj, function(key, value, next){
+  forEach(
+    obj,
+    function(key, value, next) {
+      // console.log(key, value.length);
 
-    // console.log(key, value.length);
+      value = false;
+      key = false;
 
-    value = false;
-    key = false;
-
-    next();
-
-
-  }, function(){
-    console.log('All done!');
-    assert.deepEqual(obj, _obj);
-    cb();
-  });
+      next();
+    },
+    function() {
+      console.log("All done!");
+      assert.deepEqual(obj, _obj);
+      cb();
+    }
+  );
 }
 
-function bigObj (len) {
+function bigObj(len) {
   var obj = {};
   while (len) {
-    obj[len + ''] = longList(len);
+    obj[len + ""] = longList(len);
     len--;
   }
   return obj;
 }
 
-function parallelMassiveObject (cb) {
-
-
+function parallelMassiveObject(cb) {
   var obj = bigObj(1000);
   var _obj = _.cloneDeep(obj);
 
   console.log("Processing massive object in parallel...");
 
-  forEach.parallel(obj, function(key, value, next){
+  forEach.parallel(
+    obj,
+    function(key, value, next) {
+      // console.log(key, value.length);
 
-    // console.log(key, value.length);
+      value = false;
+      key = false;
 
-    value = false;
-    key = false;
-
-    next();
-
-
-  }, function(){
-    console.log('All done!');
-    assert.deepEqual(obj, _obj);
-    cb();
-  });
+      next();
+    },
+    function() {
+      console.log("All done!");
+      assert.deepEqual(obj, _obj);
+      cb();
+    }
+  );
 }
 
-function delayedSeriesObject (cb) {
-
+function delayedSeriesObject(cb) {
   console.log("Processing delayed object in series...");
 
-  var obj = {a: '1', b: '2', c: '3', d: '4', e: '5'};
+  var obj = { a: "1", b: "2", c: "3", d: "4", e: "5" };
 
-  forEach(obj, function(letter, number, next){
-
-    console.log(letter + ' ' + number + ' is processing...');
-    setTimeout(function(){
-
-      console.log(letter + ' ' + number + ' is completed');
-      next();
-      next();
-
-    }, 120);
-
-  }, function(){
-    console.log('All done!');
-    cb();
-  });
+  forEach(
+    obj,
+    function(letter, number, next) {
+      console.log(letter + " " + number + " is processing...");
+      setTimeout(function() {
+        console.log(letter + " " + number + " is completed");
+        next();
+        next();
+      }, 120);
+    },
+    function() {
+      console.log("All done!");
+      cb();
+    }
+  );
 }
 
-function delayedParallelObject (cb) {
-
+function delayedParallelObject(cb) {
   console.log("Processing delayed object in parallel...");
 
-  var obj = {a: '1', b: '2', c: '3', d: '4', e: '5'};
+  var obj = { a: "1", b: "2", c: "3", d: "4", e: "5" };
 
-  forEach.parallel(obj, function(letter, number, next){
-
-    console.log(letter + ' ' + number + ' is processing...');
-    setTimeout(function(){
-
-      console.log(letter + ' ' + number + ' is completed');
-      next();
-      next();
-
-    }, 120);
-
-  }, function(){
-    console.log('All done!');
-    cb();
-  });
+  forEach.parallel(
+    obj,
+    function(letter, number, next) {
+      console.log(letter + " " + number + " is processing...");
+      setTimeout(function() {
+        console.log(letter + " " + number + " is completed");
+        next();
+        next();
+      }, 120);
+    },
+    function() {
+      console.log("All done!");
+      cb();
+    }
+  );
 }
 
-function multiObject (cb) {
-
+function multiObject(cb) {
   console.log("Processing object in multi mode...");
 
-  var obj = {a: '1', b: '2', c: '3', d: '4', e: '5'};
+  var obj = { a: "1", b: "2", c: "3", d: "4", e: "5" };
 
-  forEach.multi(2)(obj, function(letter, number, next){
-
-    console.log(letter + ' ' + number + ' is processing...');
-    setTimeout(function(){
-
-      console.log(letter + ' ' + number + ' is completed');
-      next();
-      next();
-
-    }, 120);
-
-  }, function(){
-    console.log('All done!');
-    cb();
-  });
+  forEach.multi(2)(
+    obj,
+    function(letter, number, next) {
+      console.log(letter + " " + number + " is processing...");
+      setTimeout(function() {
+        console.log(letter + " " + number + " is completed");
+        next();
+        next();
+      }, 120);
+    },
+    function() {
+      console.log("All done!");
+      cb();
+    }
+  );
 }
 
-function objectTests (cb) {
-
-  console.log('');
-  seriesMassiveObject(function(){
-
-
-    console.log('');
-    parallelMassiveObject(function(){
-
-      console.log('');
-      delayedSeriesObject(function(){
-
-        console.log('');
-        delayedParallelObject(function(){
-
-          console.log('');
-          multiObject(function(){
-            console.log('Object tests complete!');
+function objectTests(cb) {
+  console.log("");
+  seriesMassiveObject(function() {
+    console.log("");
+    parallelMassiveObject(function() {
+      console.log("");
+      delayedSeriesObject(function() {
+        console.log("");
+        delayedParallelObject(function() {
+          console.log("");
+          multiObject(function() {
+            console.log("Object tests complete!");
             cb();
           });
         });
@@ -498,7 +484,6 @@ function objectTests (cb) {
     });
   });
 }
-
 
 // listTests(function(){
 
@@ -508,7 +493,6 @@ function objectTests (cb) {
 
 //   });
 // });
-
 
 // (function tests () {
 
@@ -574,7 +558,6 @@ function objectTests (cb) {
 //   return setTimeout(next, 100);
 
 // }, function () {
-
 
 //   console.log('All done!');
 //   objectTest();

@@ -7,7 +7,7 @@
   <span class="w-third fl db mb2 title-block">
       <span class="mr4 db fw9 black-80  lh-title tracked-tight f4 pb2">{{title}}</span>
       <span class="mr3 db f6 " style="height:1.5em;overflow:hidden">
-          <span date-from-now="{{dateStamp}}" class="dib black-50 mr2">{{#formatDate}}MMM D, YYYY{{/formatDate}}</span>  
+          {{#date}}<span date-from-now="{{dateStamp}}" class="dib black-50 mr2">{{#formatDate}}MMM D, YYYY{{/formatDate}}</span>{{/date}} 
           <span class="fw6 clip-2 black-80">{{#tags}}<span class="dib">{{^first}} &amp; {{/first}}{{tag}}</span>{{/tags}}</span>
       </span>
     </span>

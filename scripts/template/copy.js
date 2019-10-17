@@ -1,4 +1,4 @@
-var get = require("../blog/get");
+var get = require("../get/blog");
 var Template = require("../../app/models/template");
 
 // will create a copy of templateID for the blog passed as first argument
@@ -19,7 +19,8 @@ if (require.main === module) {
       "Please pass the template ID of the template you'd like to copy as the second argument to this script"
     );
 
-  get(blogIdentifier, function(user, blog) {
+  get(blogIdentifier, function(err, user, blog) {
+    if (err || !blog) throw err || new Error('No blog');
     main(blog.id, templateID, newName, function(err) {
       if (err && err.message.indexOf("already exists") > -1) {
         throw new Error(

@@ -5,9 +5,13 @@ module.exports = function(req, res, next) {
     return next();
 
   var client = createClient(req.unsavedAccount.access_token);
+  var folder = req.blog.title;
+
+  folder = folder.split("/").join("");
+  folder = folder.trim();
 
   client
-    .filesCreateFolder({ path: "/" + req.blog.title, autorename: true })
+    .filesCreateFolder({ path: "/" + folder, autorename: true })
     .then(function(res) {
       req.unsavedAccount.folder = res.path_display;
       req.unsavedAccount.folder_id = res.id;

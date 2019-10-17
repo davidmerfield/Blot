@@ -22,17 +22,22 @@ module.exports = function get(identifier, callback) {
     domain = identifier;
   }
 
-  Blog.get({ domain: domain }, function(err, blogFromDomain) {
-    Blog.get({ handle: handle }, function(err, blogFromHandle) {
-      if (!blogFromDomain && !blogFromHandle)
-        return callback(new Error("No blog"));
+  Blog.get({ id: identifier }, function(err, blogFromID) {
+    Blog.get({ domain: domain }, function(err, blogFromDomain) {
+      Blog.get({ handle: handle }, function(err, blogFromHandle) {
+        if (!blogFromDomain && !blogFromHandle && !blogFromID)
+          return callback(new Error("No blog"));
 
-      blog = blogFromHandle || blogFromDomain;
+        blog = blogFromID || blogFromHandle || blogFromDomain;
 
-      User.getById(blog.owner, function(err, user) {
-        if (err || !user) return callback(err || new Error("No user"));
+        User.getById(blog.owner, function(err, user) {
+          if (err || !user) return callback(err || new Error("No user"));
 
-        callback(err, user, blog);
+          require('../access')(blog.handle, function(err, url){
+            if (err) return callback(err);
+            callback(err, user, blog, url);
+          });
+        });
       });
     });
   });

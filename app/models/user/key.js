@@ -1,21 +1,19 @@
 module.exports = {
+  uids: "uids",
 
-  uids: 'uids',
-
-  user: function (uid) {
-    return 'user:' + uid + ':info';
+  user: function(uid) {
+    return "user:" + uid + ":info";
   },
 
   accessToken: function(token) {
-    return 'token:' + token;
+    return "token:" + token;
   },
 
-  email: function (email) {
-    return 'email:' + email;
+  email: function(email) {
+    return "email:" + email;
   },
 
-  customer: function (customer) {
-    return 'customer:' + customer;
+  customer: function(customer) {
+    return "customer:" + customer;
   }
-
 };

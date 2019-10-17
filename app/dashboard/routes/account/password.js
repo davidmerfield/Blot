@@ -18,7 +18,7 @@ Password.route("/change")
 
 Password.route("/set")
 
-  .all(requireToken)
+  .all(requireTokenOrLackOfPassword)
 
   .get(function(req, res) {
     res.render("account/set-password", {
@@ -41,12 +41,20 @@ function requireExisting(req, res, next) {
   }
 }
 
-function requireToken(req, res, next) {
-  if (!req.session.passwordSetToken) {
-    return res.redirect("/");
+// If users have an existing password then they should
+// not be able to set their password (i.e. overwrite) unless
+// they have a password set token which they will have
+// retrieved through the email associated with their account.
+function requireTokenOrLackOfPassword(req, res, next) {
+  if (req.session.passwordSetToken) {
+    return next();
   }
 
-  next();
+  if (!req.user.passwordHash) {
+    return next();
+  }
+
+  res.redirect("/");
 }
 
 function save(req, res, next) {
@@ -75,6 +83,8 @@ function checkMatching(req, res, next) {
 }
 
 function verifyToken(req, res, next) {
+  if (!req.session.passwordSetToken) return next();
+
   var token = req.session.passwordSetToken;
 
   delete req.session.passwordSetToken;

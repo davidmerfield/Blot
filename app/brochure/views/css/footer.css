@@ -1,25 +1,38 @@
 footer {
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   padding: 1.4em;
   border-top: 1px solid #eceff1;
   margin: 0 0 -6em;
 }
 
-
 footer a:active,
-footer a:focus {opacity: 0.7}
+footer a:focus {
+  opacity: 0.7
+}
 
 footer li a:hover,
 footer li a:active {
   background: none
 }
 
-footer a.action-button {border-color: #c3c1bd;height: 1.4em;margin: 1em 1em 1em 0}
-footer a.action-button:hover {border-color: #000;color: #000}
+footer a.action-button {
+  border-color: #c3c1bd;
+  height: 1.4em;
+  margin: 1em 1em 1em 0
+}
 
-footer div {display: flex;flex-wrap: wrap;}
-footer div > * {
+footer a.action-button:hover {
+  border-color: #000;
+  color: #000
+}
+
+footer div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+footer div>* {
   margin-right: 2em
 }
 
@@ -27,11 +40,23 @@ footer :last-child {
   margin-right: 0
 }
 
-footer > * {min-width:200px;flex-grow:1;flex-basis:25%;padding:0.7em;box-sizing:border-box;}
-footer div {margin-bottom: 2em}
+footer>* {
+  min-width: 200px;
+  flex-grow: 1;
+  flex-basis: 25%;
+  padding: 0.7em;
+  box-sizing: border-box;
+}
 
+footer div {
+  margin-bottom: 2em
+}
 
-footer svg {width: 36px;position: relative;top: 1em;}
+footer svg {
+  width: 36px;
+  position: relative;
+  top: 1em;
+}
 
 footer p {
   max-width: 19em;
@@ -41,7 +66,9 @@ footer li {
   list-style-type: none;
 }
 
-footer ul a:hover {text-decoration: underline;}
+footer ul a:hover {
+  text-decoration: underline;
+}
 
 footer a {
   color: #a09d9c;

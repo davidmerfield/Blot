@@ -3,6 +3,8 @@ var mime = require("mime-types");
 var async = require("async");
 var debug = require("debug")("blot:blog:assets");
 
+var LARGEST_POSSIBLE_MAXAGE = 86400000;
+
 module.exports = function(req, res, next) {
   var paths,
     roots,
@@ -18,12 +20,15 @@ module.exports = function(req, res, next) {
     { root: config.blog_folder_dir + "/" + req.blog.id },
 
     // Static directory /static/$id
-    { root: config.blog_static_files_dir + "/" + req.blog.id },
+    {
+      root: config.blog_static_files_dir + "/" + req.blog.id,
+      maxAge: LARGEST_POSSIBLE_MAXAGE
+    },
 
     // Global static directory
     {
       root: __dirname + "/static",
-      maxAge: 86400000 // largest possible maxAge I believe
+      maxAge: LARGEST_POSSIBLE_MAXAGE
     }
   ];
 
@@ -43,13 +48,19 @@ module.exports = function(req, res, next) {
 
   roots.forEach(function(options) {
     paths.forEach(function(path) {
+      var headers = {
+        "Content-Type": getContentType(path)
+      };
+
+      if (!options.maxAge) {
+        headers["Cache-Control"] = "no-cache";
+      }
+
       candidates.push({
         options: {
           root: options.root,
           maxAge: options.maxAge || 0,
-          headers: {
-            "Content-Type": getContentType(path)
-          }
+          headers: headers
         },
         path: path
       });
@@ -64,7 +75,6 @@ module.exports = function(req, res, next) {
   });
 
   async.tryEach(candidates, function(err) {
-
     // Is this still neccessary?
     if (res.headersSent) return;
 

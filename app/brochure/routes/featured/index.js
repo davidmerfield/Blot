@@ -14,8 +14,11 @@ var cache = new Cache(config.cache_directory);
 
 var featured = require("./featured.json");
 
-// Check the list of featured sites when the server starts
-check();
+// Check the list of featured sites a few seconds after the server starts
+// We wait a somewhat arbritary 5 seconds since Blot often fails to serve
+// the site immediately and then the filter thinks the domain has moved
+// elsewhere. I need to add zero-downtime deploy. Once I do, remove delay.
+setTimeout(check, 1000 * 5);
 
 console.log("Featured sites: scheduled check each midnight!");
 schedule({ hour: 8, minute: 0 }, check);
@@ -45,12 +48,19 @@ function check() {
 }
 
 module.exports = function(req, res, next) {
-
   // Strip the 'www' from the host property for aesthetics
-  res.locals.featured = featured.map(function(site){
+  res.locals.featured = featured.slice().map(function(site) {
     site.host = site.host.split("www.").join("");
+    site.template = site.template || {};
+    site.template.label = site.template.label || "Default";
     return site;
   });
+
+  res.locals.featured.sort(function(a, b) {
+    return Math.round(Math.random() * 2) - 1;
+  });
+
+  res.locals.featured = res.locals.featured.slice(0, 16);
 
   next();
 };

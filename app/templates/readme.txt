@@ -51,7 +51,7 @@ Template selection
 - all themes must support a 'landing page' modification nicely
 - feed, archive, essays, portfolio, magazine must be optimized for code
 - all themes must be colorblind, with goal to add a color customization layer
-- Don't think about Blot developers in any way, produce seperate simple templates for them
+- Don't think about Blot developers in any way, produce separate simple templates for them
 
 # Adding a new template
 
@@ -212,7 +212,7 @@ Rewrite Templates
     hide/show date
     entries per page
  - Store view name should include file extension...
- - Expose errors in modules/template/update on design page.
+ - Expose errors on design page.
 
 
 

@@ -12,58 +12,89 @@ the absolutely positioned stuff is off the viewport.
 .wide,
 .margin,
 .column {
-  overflow: auto; /* collapse internal margins */
-  box-sizing: border-box; /* be sane about sizing */
+  overflow: auto;
+  /* collapse internal margins */
+  box-sizing: border-box;
+  /* be sane about sizing */
 }
 
 .margin,
-.inside {width: 33%;}
+.inside {
+  width: 33%;
+}
 
 .margin.left,
-.inside.left {float: left;}
+.inside.left {
+  float: left;
+}
 
 .margin.right,
-.inside.right {float: right;}
+.inside.right {
+  float: right;
+}
 
-.column {float: left;}
+.column {
+  float: left;
+}
 
 .column.two {
-  width: 48.5%; /* (100 - 3 * 1)/2 */
+  width: 48.5%;
+  /* (100 - 3 * 1)/2 */
   margin-right: 3%
 }
 
 .column.three {
-  width: 31.333%; /* (100 - 3 * 2)/3 */
+  width: 31.333%;
+  /* (100 - 3 * 2)/3 */
   margin-right: 3%
 }
 
 .column.four {
-  width: 22.75%; /* (100 - 3 * 3)/4 */
+  width: 22.75%;
+  /* (100 - 3 * 3)/4 */
   margin-right: 3%
 }
 
 .column.two:nth-child(2n),
 .column.three:nth-child(3n),
-.column.four:nth-child(4n){margin-right: 0}
+.column.four:nth-child(4n) {
+  margin-right: 0
+}
 
 @media screen and (min-width: 900px) {
 
 
   /* For larger screens, we allow wide things to break out */
 
-  .wide {width: 150%;}
+  .wide {
+    width: 150%;
+  }
 
   .wide.left,
-  .wide.right {width: 125%;}
+  .wide.right {
+    width: 125%;
+  }
 
-  .wide.left {margin-left: -25%}
-  .wide.right {margin-right: -25%}
+  .wide.left {
+    margin-left: -25%
+  }
+
+  .wide.right {
+    margin-right: -25%
+  }
 
 
   /* For larger screens, we allow this to enter the margins */
 
-  .margin {position: absolute;}
+  .margin {
+    position: absolute;
+  }
 
-  .left.margin {left: -33%;}
-  .right.margin {right: -33%;}
+  .left.margin {
+    left: -33%;
+  }
+
+  .right.margin {
+    right: -33%;
+  }
 }

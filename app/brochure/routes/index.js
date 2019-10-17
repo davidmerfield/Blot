@@ -1,3 +1,4 @@
+var fs = require("fs-extra");
 var Express = require("express");
 var brochure = new Express.Router();
 var finder = require("finder");
@@ -14,16 +15,22 @@ var REDIRECTS = {
   "/help/tags": "/publishing/metadata"
 };
 
+brochure.use(function(req, res, next) {
+  res.locals.breadcrumbs = new Breadcrumbs();
+  next();
+});
+
+// Minifies HTML
+brochure.use(require("./tools/minify-html"));
+
+// Inlines all CSS properties
+brochure.use(require("./tools/inline-css"));
+
 // Renders the folders and text editors
 brochure.use(finder.middleware);
 
 // Renders TeX
 brochure.use(tex);
-
-brochure.use(function(req, res, next) {
-  res.locals.breadcrumbs = new Breadcrumbs();
-  next();
-});
 
 // Renders dates dynamically
 brochure.use(require("./tools/dates"));
@@ -32,44 +39,76 @@ brochure.use(require("./tools/dates"));
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
 
-// CSS required to render the windows
-brochure.get("/css/finder.css", function(req, res) {
-  res.setHeader("Content-Type", "text/css");
-  res.send(finder.css());
-});
-
 brochure.use(function(req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
 
   var url = req.originalUrl;
-    
-  // Trim trailing slash from the URL before working out which 
+
+  // Trim trailing slash from the URL before working out which
   // slugs to set as selected. This ensures that the following url
   // https://blot.im/publishing/ will set {{publishingIndex}} as selected
-  if (url.length > 1 && url.slice(-1) === '/') url = url.slice(0, -1);
+  if (url.length > 1 && url.slice(-1) === "/") url = url.slice(0, -1);
 
-  var slugs = url.split('/');
+  var slugs = url.split("/");
 
-  slugs.forEach(function(slug, i){
-    res.locals.selected[slug] = 'selected';
+  slugs.forEach(function(slug, i) {
+    res.locals.selected[slug] = "selected";
   });
 
-  res.locals.selected[slugs[slugs.length - 1] + 'Index'] = 'selected';
+  res.locals.selected[slugs[slugs.length - 1] + "Index"] = "selected";
 
   // Handle index page of site.
-  if (req.originalUrl === '/') res.locals.selected.index = 'selected';
+  if (req.originalUrl === "/") res.locals.selected.index = "selected";
 
   next();
 });
 
-brochure.get("/about", function(req, res) {
-  res.locals.title = "Blot – About";
+var matter = require("gray-matter");
+
+function loadContributors(req, res, next) {
+  fs.readFile(__dirname + "/../views/acknowledgements.yaml", "utf-8", function(
+    err,
+    contents
+  ) {
+    if (err) return next(err);
+
+    var dependencies = matter("---\n" + contents + "\n---").data;
+    var contributors = [];
+
+    dependencies.forEach(function(dependency) {
+      contributors = contributors.concat(dependency.contributors);
+    });
+
+    dependencies[dependencies.length - 1].last = true;
+    contributors[contributors.length - 1].last = true;
+
+    res.locals.dependencies = dependencies;
+    res.locals.contributors = uniqueBy("name", contributors);
+
+    next();
+  });
+}
+
+function uniqueBy(property, list) {
+  var seen = {};
+
+  list = list.filter(function(item) {
+    if (seen[item[property]]) return false;
+    seen[item[property]] = true;
+    return true;
+  });
+
+  return list;
+}
+
+brochure.get("/about", loadContributors, function(req, res) {
+  res.locals.title = "About";
   res.render("about");
 });
 
 brochure.get("/support", function(req, res) {
-  res.locals.title = "Blot – Support";
+  res.locals.title = "Support";
   res.render("support");
 });
 
@@ -78,8 +117,11 @@ brochure.get("/contact", function(req, res) {
   res.render("contact");
 });
 
-brochure.use("/logged-out", function(req, res, next){
+brochure.use("/account", function(req, res, next) {
   res.locals.layout = "/partials/layout-focussed.html";
+  // we don't want search engines indexing these pages
+  // since they're /logged-out, /disabled and
+  res.set("X-Robots-Tag", "noindex");
   next();
 });
 
@@ -99,14 +141,13 @@ brochure.get("/sitemap.xml", require("./sitemap"));
 
 brochure.use("/developers", require("./developers"));
 
-// brochure.use("/templates", require("./templates"));
+brochure.use("/templates", require("./templates"));
 
 brochure.use("/news", require("./news"));
 
 brochure.use("/sign-up", require("./sign-up"));
 
 brochure.use("/log-in", require("./log-in"));
-
 
 brochure.param("section", function(req, res, next, section) {
   var title = TITLES[section] || capitalize(section);
@@ -134,9 +175,7 @@ brochure.get("/", require("./featured"), function(req, res) {
   res.render("index");
 });
 
-
-
-brochure.use("/publishing/domain", function(req, res, next) {
+brochure.use("/publishing/guides/domain", function(req, res, next) {
   res.locals.ip = config.ip;
   return next();
 });
@@ -149,7 +188,7 @@ brochure.get("/:section", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
 
   res.render(req.params.section);
 });
@@ -165,7 +204,7 @@ brochure.get("/:section/:subsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
   res.render(req.params.section + "/" + req.params.subsection);
 });
 
@@ -180,7 +219,7 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
   res.render(
     req.params.section +
       "/" +
@@ -191,14 +230,20 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
 });
 
 brochure.use(function(err, req, res, next) {
-
-  if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
-
-  next();
+  if (err.code === "MODULE_NOT_FOUND") return next();
+  next(err);
 });
 
 brochure.use(function(err, req, res, next) {
-  if (config.environment === "development") console.log(err);
+  if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
+
+  if (err && err.message && err.message.indexOf("Failed to lookup view") === 0)
+    return next();
+
+  if (config.environment === "development") {
+    console.log(err);
+  }
+
   next();
 });
 

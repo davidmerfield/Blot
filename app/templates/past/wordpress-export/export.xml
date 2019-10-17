@@ -26,7 +26,7 @@
     <dc:creator><![CDATA[ {{{title}}} ]]></dc:creator>
     <guid isPermaLink="true">{{{absoluteURL}}}</guid>
     <description></description>    
-    <content:encoded><![CDATA[ {{#absoluteURLs}} {{{body}}} {{/absoluteURLs}} ]]></content:encoded>
+    <content:encoded><![CDATA[ {{#encodeXML}} {{{body}}} {{/encodeXML}} ]]></content:encoded>
   <wp:post_name><![CDATA[{{{slug}}}]]></wp:post_name>
     <wp:post_type><![CDATA[post]]></wp:post_type>
   <wp:status><![CDATA[publish]]></wp:status>

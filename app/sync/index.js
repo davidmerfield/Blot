@@ -1,12 +1,13 @@
 var client = require("client");
 var Redlock = require("redlock");
-var buildFromFolder = require("../modules/template").update;
+var buildFromFolder = require("template").buildFromFolder;
 var Blog = require("blog");
 var Update = require("./update");
 var localPath = require("helper").localPath;
 var async = require("async");
 var renames = require("./renames");
 var exitHook = require("async-exit-hook");
+var debug = require("debug")("blog:sync");
 
 // By default, we give a sync process up to
 // 10 minutes to compete before we allow other
@@ -19,12 +20,12 @@ var DEFAULT_TTL = 10 * 60 * 1000;
 var locks = {};
 
 exitHook(function(callback) {
-  console.log("Unlocking all locks...");
+  debug("Unlocking all locks...");
 
   async.eachOf(
     locks,
     function(lock, blogID, next) {
-      console.log("Unlocking", blogID, "...");
+      debug("Unlocking", blogID, "...");
       lock.unlock(next);
     },
     callback
@@ -32,7 +33,7 @@ exitHook(function(callback) {
 });
 
 function sync(blogID, options, callback) {
-  var redlock, resource, ttl, folder;
+  var redlock, resource, ttl, folder, now;
 
   if (typeof options === "function" && typeof callback === "undefined") {
     callback = options;
@@ -40,7 +41,6 @@ function sync(blogID, options, callback) {
   }
   ttl = options.ttl || DEFAULT_TTL;
   options = options || {};
-
   resource = "blog:" + blogID + ":lock";
 
   redlock = new Redlock([client], {
@@ -89,7 +89,12 @@ function sync(blogID, options, callback) {
       // We acquired a lock on the resource!
       // This function is to be called when we are finished
       // with the lock on the user's folder.
+      now = new Date();
+      console.log("Blog:", blogID, "Sync:", now, "Started");
+
       callback(null, folder, function(syncError, callback) {
+        console.log("Blog:", blogID, "Sync:", now, "Released");
+
         if (typeof syncError === "function")
           throw new Error("Pass an error or null as first argument to done");
 
@@ -112,17 +117,14 @@ function sync(blogID, options, callback) {
               if (err) return callback(err);
 
               // Passing in cacheID manually busts the cache.
-              // Since Blog.set and Blog.flushCache depend on each other 
-              // we can't put this there. Ideally we would expose a single function to 
+              // Since Blog.set and Blog.flushCache depend on each other
+              // we can't put this there. Ideally we would expose a single function to
               // wipe the cache. So fix that eventually...
               Blog.set(blogID, { cacheID: Date.now() }, function(err) {
                 if (err) return callback(err);
 
-                Blog.flushCache(blogID, function(err) {
-                  if (err) return callback(err);
-
-                  callback(syncError);
-                });
+                console.log("Blog:", blogID, "Sync:", now, "Finished");
+                callback(syncError);
               });
             });
           });

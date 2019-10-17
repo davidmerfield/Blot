@@ -13,9 +13,13 @@ module.exports = function(req, res) {
   var dateDisplay = blog.dateDisplay;
 
   return function(entry) {
-
     entry.formatDate = FormatDate(entry.dateStamp, req.blog.timeZone);
-    entry.absoluteURL = req.blog.locals.blogURL + entry.url.split('/').map(encodeURIComponent).join('/');
+    entry.absoluteURL =
+      req.blog.locals.blogURL +
+      entry.url
+        .split("/")
+        .map(encodeURIComponent)
+        .join("/");
 
     var tags = [];
     var tagged = {};

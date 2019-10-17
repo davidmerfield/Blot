@@ -1,0 +1,44 @@
+At the moment I have moved Blot to an I3 instance which has 16GB of RAM, a 500GB SSD hardrive for temporary data.
+
+The 500GB harddrive is what Amazon calls an 'instance store'. It should not be depended on. When the instance reboots the data on it is lost, I believe.
+
+I think it might be a good idea to use it as a cache. I should also move my EBS data to a cheaper (non-ssd)drive. Then I can use the SSD drive that comes with the i3 instance.
+
+The I3 instance offers volatile storage.
+
+---
+
+3/3/2018 I have since set up the instance store as a cache.
+
+I followed these steps to set up the disk to use as a cache:
+
+https://richardstechnotes.wordpress.com/2015/12/18/setting-up-an-nvme-ssd-on-ubuntu-14-04-lts/
+
+More instructions here:
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/add-instance-store-volumes.html
+
+I don't really care about write speed (as opposed to read speed) but here is a guide for optimizing write performance on instance stores:
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disk-performance.html
+
+---
+
+Did some 'hardening' using the following guide:
+
+https://www.rackaid.com/blog/how-to-block-ssh-brute-force-attacks/
+
+I installed fail2ban:
+
+sudo yum install fail2ban
+sudo service start fail2ban
+
+I added firewall rules on port 22 to prevent ssh brute force:
+
+sudo iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set
+sudo iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent  --update --seconds 60 --hitcount 4 -j DROP
+
+This ensures the IP tables rules persist across restart:
+
+sudo service iptables save
+

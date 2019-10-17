@@ -76,7 +76,7 @@ module.exports = function(server) {
             entry: entry
           });
 
-          response.renderView("entry", next);
+          response.renderView("entry.html", next);
         });
       });
     });

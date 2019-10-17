@@ -55,6 +55,8 @@ module.exports = function route(server) {
 
     var filePath = drafts.getPath(request.url, drafts.viewRoute);
 
+    // Asks search engines not to index drafts
+    response.set("X-Robots-Tag", "noindex");
     response.set("Cache-Control", "no-cache");
 
     renderDraft(request, response, next, filePath, function(html) {
@@ -75,7 +77,7 @@ module.exports = function route(server) {
     // console.log('Draft: Rendering draft HTML for entry at: ' + filePath);
 
     Entry.get(blogID, filePath, function(entry) {
-      if (!entry) return next();
+      if (!entry || !entry.draft || entry.deleted) return next();
 
       // GET FULL ENTRY RETURNS NULL SINCE IT"S DRAFT
       // HOW DO WE RESOLVE THIS NEATLY? WHERE TO DRAW
@@ -96,7 +98,7 @@ module.exports = function route(server) {
           entry: entry
         });
 
-        response.renderView("entry", next, function(err, output) {
+        response.renderView("entry.html", next, function(err, output) {
           drafts.injectScript(output, filePath, callback);
         });
       });

@@ -1,10 +1,9 @@
 module.exports = {
-
   environment: process.env.BLOT_ENVIRONMENT,
   host: process.env.BLOT_HOST,
   protocol: process.env.BLOT_PROTOCOL + "://",
 
-  maintenance: process.env.BLOT_MAINTENANCE  === "true",
+  maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
   debug: process.env.BLOT_DEBUG === "true",
 
@@ -37,14 +36,18 @@ module.exports = {
   stripe: {
     key: process.env.BLOT_STRIPE_KEY,
     secret: process.env.BLOT_STRIPE_SECRET,
-    plan: "yearly_30"
+    plan: "monthly_3"
   },
 
   pandoc_path: process.env.BLOT_PANDOC_PATH,
 
   cdn: {
     bucket: "blot-blogs",
-    host: "blotcdn.com"
+    host: "blotcdn.com",
+    origin:
+      process.env.BLOT_ENVIRONMENT === "production"
+        ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
+        : process.env.BLOT_PROTOCOL + "://" + process.env.BLOT_HOST + "/cdn"
   },
 
   session: {

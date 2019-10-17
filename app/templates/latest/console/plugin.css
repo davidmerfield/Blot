@@ -139,7 +139,6 @@ pre, code {font: inherit;}
   position: absolute;
   box-sizing: border-box;
   width: 29.3333%;
-  overflow: auto;
 }
 
 .margin p {font-style: italic;}
@@ -158,7 +157,7 @@ pre, code {font: inherit;}
 .wide {
   width: 158.6666667%;
   margin-left: -29.3333333%;
-  overflow: auto; /* collapse internal margins */
+  overflow: auto; /* collapses internal margins */
 }
 
 .wide.left, .wide.right {width: 129.3333333%;float: none;}

@@ -1,7 +1,6 @@
 var User = require("user");
 
 module.exports = function checkPassword(req, res, next) {
-
   if (!req.body.password) {
     return next(new Error("Please enter your password"));
   }

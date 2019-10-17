@@ -1,10 +1,9 @@
 <p id="error" class="error">{{error}}</p>
 
-<p style="max-width:350px">A blog costs <span style="    background: #fff0a8;">{{price}} per year</span> and includes hosting and support. You can cancel at any point. You must agree to the <a href="/terms">terms of use</a>.</p>
+<p style="max-width:380px">A blog costs <span style="    background: #fff0a8;">{{price}} per {{interval}}</span> and includes hosting and support. You can cancel your subscription at any point. You must agree to the <a href="/terms">terms of use</a>.</p>
 
 <noscript>
-  <p><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
-  <style type="text/css">form {display:none}</style>
+  <p class="error"><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
 </noscript>
 
 <form method="POST" style="width:330px">
@@ -39,13 +38,13 @@
     <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
   </p>
   </flex>
-    <!-- <div style="flex-grow:1;margin-right:2em">
+    <div style="flex-grow:1;margin-right:2em">
   <p style="margin-bottom:0">
-    <label>Total</label>
+    <label>Amount due today</label>
   </p>
     <hr style="margin:2px 0;border:none;border-top:1px solid rgba(0, 0, 0, .25)">
-    <p style="margin-top:4px">$30 for 1 blog for 1 year</p>
-  </div> -->
+    <p style="margin-top:4px">$3</p>
+  </div>
   <input type="submit" value="Submit payment" />
 </flex>
   <input type="hidden" class="stripeToken" name="stripeToken" />
@@ -69,7 +68,7 @@ $('form').submit(function(event) {
   var email = email.replace(' ', '');
   if (email === '' || !emailRegex.test(email)) {
     $('#error')
-      .text('Please enter a valid email.')
+      .text('Please enter your email address.')
       .show();
     $('[type="submit"]')
       .prop('disabled', false)

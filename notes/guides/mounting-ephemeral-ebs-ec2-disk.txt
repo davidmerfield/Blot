@@ -1,0 +1,15 @@
+When you stop and then start an ec2 instance, its underlying hardware might change. This means the mounting you might have done for the ephemeral disk won't work. Here's the process for re-mounting this ephemeral disk.
+
+to determine if the disk is mounted:
+
+sudo lsblk
+
+to mount the disk:
+
+sudo mkfs -t xfs /dev/nvme0n1
+sudo mount /dev/nvme0n1 /cache
+sudo chown -R ec2-user:ec2-user /cache
+
+restart blot:
+
+sudo stop blot && sudo start blot

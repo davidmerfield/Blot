@@ -15,10 +15,10 @@ var exitHook = require("async-exit-hook");
 // }, Math.random() * 20 * 1000);
 
 exitHook(function() {
-  console.log("Shutting down worker:", process.pid);
+  debug("Shutting down worker:", process.pid);
 });
 
-console.log("Worker", process.pid, "started");
+debug("Worker", process.pid, "started");
 
 // This file cannot become a blog post because it is not
 // a type that Blot can process properly.
@@ -33,10 +33,7 @@ function isWrongType(path) {
 }
 
 process.on("message", function(message) {
-  build(message.blog, message.path, message.options, function(
-    err,
-    entry
-  ) {
+  build(message.blog, message.path, message.options, function(err, entry) {
     if (err) {
       try {
         err = JSON.stringify(err, Object.getOwnPropertyNames(err));
@@ -48,7 +45,7 @@ process.on("message", function(message) {
 });
 
 function build(blog, path, options, callback) {
-  console.log("Build:", process.pid, "processing", path);
+  debug("Build:", process.pid, "processing", path);
 
   if (isWrongType(path)) {
     var err = new Error("Path is wrong type to convert");

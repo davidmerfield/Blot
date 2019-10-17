@@ -14,7 +14,11 @@ dashboard.use(require("./loadDropboxAccount"));
 // The settings page for a Dropbox account
 dashboard.get("/", function(req, res) {
   // Ask to user to authenticate with Dropbox if they have not yet
-  if (!req.account) return res.redirect(req.baseUrl + "/setup");
+  if (!req.account) {
+    var query = "";
+    if (req.query.setup) query = "?setup=true";
+    return res.redirect(req.baseUrl + "/setup" + query);
+  }
 
   res.render(views + "index");
 });
@@ -46,7 +50,7 @@ dashboard
   .get(require("./createFolder"))
   .get(require("./saveDropboxAccount"))
   .get(function(req, res, next) {
-    res.message("/settings", "Set up Dropbox successfuly!");
+    res.message(req.baseUrl, "Set up Dropbox successfuly!");
 
     require("./writeExistingContents")(req, res, function(err) {
       // Headers have been sent at this point, so just log this error

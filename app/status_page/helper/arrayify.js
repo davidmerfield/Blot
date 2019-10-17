@@ -1,5 +1,5 @@
-var type = require('./type');
-var ensure = require('./ensure');
+var type = require("./type");
+var ensure = require("./ensure");
 
 /*
 
@@ -21,8 +21,7 @@ becomes:
 
 */
 
-module.exports = function arrayify (obj, manipulate) {
-
+module.exports = function arrayify(obj, manipulate) {
   // This is useful for mustache templates
   // manipulate should be a simple function
 
@@ -30,18 +29,17 @@ module.exports = function arrayify (obj, manipulate) {
   var count = 0;
 
   for (var i in obj) {
-
     try {
-      ensure(obj.name, 'undefined');
+      ensure(obj.name, "undefined");
     } catch (e) {
       if (obj.name !== i) {
-        throw 'Attempting to arrayIfy object failed because it already has the name property set';
+        throw "Attempting to arrayIfy object failed because it already has the name property set";
       }
     }
 
-    if (type(obj[i], 'string') || type(obj[i], 'number')) {
+    if (type(obj[i], "string") || type(obj[i], "number")) {
       var name = i;
-      obj[i] = {content: obj[i], name: name, index: ++count};
+      obj[i] = { content: obj[i], name: name, index: ++count };
     } else {
       obj[i].name = obj[i].name || i;
     }

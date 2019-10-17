@@ -1,0 +1,67 @@
+<h1>Use your domain</h1>
+<p class="back-link"><a href="/publishing/guides">View all guides</a></p>
+<p>Let&apos;s say you own <em>example.com</em> and would like to use it for your blog. First, decide whether you would like to use a subdomain, like <em>blog.example.com</em> or <em>www.example.com</em>, or the apex domain, which is just <em>example.com</em>.</p>
+
+<h2>Use a subdomain (e.g. <em>www.example.com</em>)</h2>
+<ol>
+  <li>
+    <p>Go to your domain&apos;s DNS page. This is usually where you bought the domain. Create a <code>CNAME</code> record for the subdomain you&apos;d like to use and set its value to <code>blot.im</code>.</p>
+  </li>
+  <li>
+    <p>Tell Blot your full domain, including the subdomain, on <a href="/settings">the dashboard</a>.</p>
+  </li>
+</ol>
+
+<h2>Use an apex domain (e.g. <em>example.com</em>)</h2>
+
+<ol>
+  <li>
+    <p>Go to your domain&apos;s DNS page. This is usually where you bought the domain. Create an <code>ALIAS</code> record which points to <code>blot.im</code>.</p>
+  </li>
+  <li>
+    <p>Tell Blot your domain on <a href="/settings">the dashboard</a>.</p>
+  </li>
+</ol>
+
+<p>
+  If you cannot create an <code>ALIAS</code> record, I recommend you use the <code>www</code> subdomain, then set up a redirect from the apex domain to the subdomain. A number of DNS providers offer <code>ALIAS</code> records, including <a href="https://aws.amazon.com/route53/">Route 53</a> and
+  <a href="https://dnsimple.com/">DNSimple</a>. <a href="https://www.cloudflare.com/">Cloudflare</a> offers <a href="https://support.cloudflare.com/hc/en-us/articles/200169056-Understand-and-configure-CNAME-Flattening">CNAME Flattening</a>, which are ALIAS records by another name.
+</p>
+
+<p></p>
+
+<h2>Reference</h2>
+<table style="max-width: 39em;table-layout: auto;">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Host</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CNAME</td>
+      <td>www</td>
+      <td>blot.im</td>
+    </tr>
+    <tr>
+      <td>ALIAS</td>
+      <td>@</td>
+      <td>blot.im</td>
+    </tr>
+      <tr>
+      <td>A</td>
+      <td>@</td>
+      <td>{{ip}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Having trouble setting up your domain?</h2>
+<p>Please don't hesitate to <a href="/support">contact support</a>. Here are some checks I make when diagnosing DNS issues:</p>
+<ul>
+<li>Are your domain's old DNS records still in your computer's DNS cache? It may take up to 72 hours for these records to flush on their own.</li>
+<li> Are the domain's name servers pointing to the registrar's DNS service?</li>
+<li> Are the host (e.g. <code>www</code>) and value (e.g. <code>blot.im</code>) fields in the DNS record reversed?</li>
+</ul>

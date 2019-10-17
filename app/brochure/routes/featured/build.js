@@ -108,8 +108,8 @@ function generateAvatars(source, destination, callback) {
 function createFavicon(favicon, host, callback) {
   sharp(favicon.input)
     .resize({
-      width: 32,
-      height: 32,
+      width: 64,
+      height: 64,
       fit: sharp.fit.cover,
       position: sharp.strategy.entropy
     })

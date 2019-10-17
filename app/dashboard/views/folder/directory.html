@@ -1,38 +1,47 @@
 
-<form method='post' class="files" action='/path?_csrf={{csrftoken}}'>
 
-  <input type="hidden" name="redirect" value="{{redirect}}">
+{{^contents.length}}
+  <small style="text-align:center;display:block;align-self:center;color:rgb(158, 154, 152)">
 
-  {{^contents.length}}
-  <div style="padding: 0 20px 11px;">
+  {{#root}}
+  Your blog’s folder is empty.
+  {{/root}}
+  {{^root}}
   This folder is empty.
-  
-</div>
+  {{/root}}
+
+</small>
   {{/contents.length}}
+
+{{#contents.length}}
+<div style="width:100%">
+
+  
 
   {{#contents}}
 
-    <button class="content-line" type="submit" name="path" value="{{path}}">
+    <a href="/settings/folder{{path}}" style="align-items:baseline" class="line" style="padding:2px 20px;border:none{{#last}}border-bottom:none{{/last}}">
         
       {{#directory}}
-      <img src="/images/folder-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      <img src="/images/folder-empty.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:8px" width="16">
       {{/directory}}
 
       {{^directory}}
       {{#entry}}
-      <img src="/images/file-post.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      <img src="/images/file-post.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:8px" width="16">
       {{/entry}}
       {{^entry}}
-      <img src="/images/file-empty.svg" style="vertical-align:text-bottom;margin-right:4px" width="16">
+      <img src="/images/file-empty.svg" style="position:relative;top:2px;flex-shrink:0;margin-right:8px" width="16">
       {{/entry}}
       {{/directory}}
       
-      <span >{{name}}</span>
-      
-      <span class="clear"></span>
-    </button>
+      <span class="link" style="flex-grow:1;flex-basis:20%;display:inline-block;padding-right:16px">{{name}}</span>
+      <span style="flex-basis:30%;flex-shrink:1;color:#111;padding-right:16px">{{entry.title}}</span>
+      <span class="right" style="color:#aaa">{{modified}}</span>
+    </a>
 
   {{/contents}}
   <div class="clear"></div>
 
-</form>
+</div>
+  {{/contents.length}}

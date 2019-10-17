@@ -1,135 +1,121 @@
-module.exports = (function () {
+module.exports = (function() {
+  var redis = require("client"),
+    helper = require("helper"),
+    normalize = helper.pathNormalizer,
+    ensure = helper.ensure,
+    REASONS = {
+      TOO_LARGE: {
+        message: "too large",
+        url: "/help"
+      },
+      WRONG_TYPE: {
+        message: "not a file Blot can process",
+        url: "/help"
+      },
+      PUBLIC_FILE: {
+        message: "a public file",
+        url: "/help"
+      }
+    };
 
-  var redis = require('client'),
-      helper = require('helper'),
-      normalize = helper.pathNormalizer,
-      ensure = helper.ensure,
-
-      REASONS = {
-        'TOO_LARGE': {
-          message: 'too large',
-          url: '/help'
-        },
-        'WRONG_TYPE': {
-          message: 'not a file Blot can process',
-          url: '/help'
-        },
-        'PUBLIC_FILE': {
-          message: 'a public file',
-          url: '/help'
-        }
-      };
-
-  function add (blogID, path, reason, callback) {
-
-    ensure(blogID, 'string')
-      .and(path, 'string')
-      .and(reason, 'string')
-      .and(callback, 'function');
+  function add(blogID, path, reason, callback) {
+    ensure(blogID, "string")
+      .and(path, "string")
+      .and(reason, "string")
+      .and(callback, "function");
 
     path = normalize(path);
 
-    redis.hset(ignoredFilesKey(blogID), path, reason, function(err){
-
+    redis.hset(ignoredFilesKey(blogID), path, reason, function(err) {
       if (err) throw err;
 
-      console.log('Blog: ' + blogID + ': Ignored ' + path, 'because it is ' + reason);
+      console.log(
+        "Blog: " + blogID + ": Ignored " + path,
+        "because it is " + reason
+      );
       callback();
     });
   }
 
-  function drop (blogID, path, callback) {
-
-    ensure(blogID, 'string')
-      .and(path, 'string')
-      .and(callback, 'function');
+  function drop(blogID, path, callback) {
+    ensure(blogID, "string")
+      .and(path, "string")
+      .and(callback, "function");
 
     path = normalize(path);
 
-    redis.hdel(ignoredFilesKey(blogID), path, function(err, stat){
-
+    redis.hdel(ignoredFilesKey(blogID), path, function(err, stat) {
       if (err) throw err;
 
-      if (stat) console.log('Blog: ' + blogID + ': Un-ignored ' + path);
+      if (stat) console.log("Blog: " + blogID + ": Un-ignored " + path);
 
       callback();
     });
   }
 
-  function get (blogID, callback) {
+  function get(blogID, callback) {
+    ensure(blogID, "string").and(callback, "function");
 
-    ensure(blogID, 'string')
-      .and(callback, 'function');
-
-    redis.hgetall(ignoredFilesKey(blogID), function(error, ignoredFiles){
-
+    redis.hgetall(ignoredFilesKey(blogID), function(error, ignoredFiles) {
       callback(error, ignoredFiles || {});
     });
   }
 
-  function flush (blogID, callback) {
-
-    ensure(blogID, 'string')
-      .and(callback, 'function');
+  function flush(blogID, callback) {
+    ensure(blogID, "string").and(callback, "function");
 
     redis.del(ignoredFilesKey(blogID), callback);
   }
 
-  function getArray (blogID, callback) {
+  function getArray(blogID, callback) {
+    ensure(blogID, "string").and(callback, "function");
 
-    ensure(blogID, 'string')
-      .and(callback, 'function');
-
-    get(blogID, function(err, ignoredFiles){
-
+    get(blogID, function(err, ignoredFiles) {
       if (err) return callback(err);
 
       var ignoredFileList = [];
 
       for (var path in ignoredFiles) {
-
         var reasonCode = ignoredFiles[path];
         var reason = REASONS[reasonCode] && REASONS[reasonCode].message;
         var url = REASONS[reasonCode] && REASONS[reasonCode].url;
 
-        if (reason) ignoredFileList.push({
-          path: path.slice(1),
-          reason: reason,
-          url: url
-        });
+        if (reason)
+          ignoredFileList.push({
+            path: path.slice(1),
+            reason: reason,
+            url: url
+          });
       }
 
       callback(null, ignoredFileList);
     });
   }
 
-  function getStatus (blogID, path, callback) {
-
-    ensure(blogID, 'string')
-      .and(path, 'string')
-      .and(callback, 'function');
+  function getStatus(blogID, path, callback) {
+    ensure(blogID, "string")
+      .and(path, "string")
+      .and(callback, "function");
 
     path = normalize(path);
 
     redis.hget(ignoredFilesKey(blogID), path, callback);
   }
 
-  function isIt (blogID, path, callback) {
-
-    ensure(blogID, 'string')
-      .and(path, 'string')
-      .and(callback, 'function');
+  function isIt(blogID, path, callback) {
+    ensure(blogID, "string")
+      .and(path, "string")
+      .and(callback, "function");
 
     path = normalize(path);
 
-    redis.hexists(ignoredFilesKey(blogID), path, function(err, exists){
-
+    redis.hexists(ignoredFilesKey(blogID), path, function(err, exists) {
       return callback(err, !!exists);
     });
   }
 
-  function ignoredFilesKey (blogID) {
-    return 'blog:' + blogID + ':ignored_files';
+  function ignoredFilesKey(blogID) {
+    return "blog:" + blogID + ":ignored_files";
   }
 
   return {
@@ -141,5 +127,4 @@ module.exports = (function () {
     isIt: isIt,
     flush: flush
   };
-
-}());
+})();

@@ -1,1 +1,7 @@
-module.exports = require('helper').dirToModule(__dirname, require);
+module.exports = {
+  get: require("./get"),
+  key: require("./key"),
+  list: require("./list"),
+  normalize: require("./normalize"),
+  set: require("./set")
+};

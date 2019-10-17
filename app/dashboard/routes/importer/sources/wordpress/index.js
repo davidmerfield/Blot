@@ -12,7 +12,7 @@ if (require.main === module) {
   var sourceFile = process.argv[2];
 
   options.filter = process.argv[4];
-  
+
   if (!outputDirectory || !sourceFile.length) {
     console.log(
       "Please pass XML export file to convert and directory to output result:"
@@ -56,7 +56,9 @@ function main(sourceFile, outputDirectory, options, callback) {
       // console.log(result.rss.channel);
 
       if (options.filter) {
-        result.rss.channel[0].item = result.rss.channel[0].item.filter(function(item){
+        result.rss.channel[0].item = result.rss.channel[0].item.filter(function(
+          item
+        ) {
           return item.title[0].toLowerCase().indexOf(options.filter) > -1;
         });
       }
@@ -66,7 +68,7 @@ function main(sourceFile, outputDirectory, options, callback) {
       async.eachOfSeries(
         result.rss.channel[0].item,
         function(item, index, done) {
-          log(colors.dim(++index + "/" + totalItems), item.title[0]);
+          log(colors.dim(++index + "/" + totalItems), item.title[0].trim());
           Item(item, outputDirectory, done);
         },
         callback

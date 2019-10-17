@@ -44,9 +44,7 @@ module.exports = function(path, callback) {
     // .quality(100)
     image
       .rotate()
-      .withoutEnlargement()
-      .resize(3000, 3000)
-      .max();
+      .resize(3000, 3000, { withoutEnlargement: true, fit: "inside" });
   } catch (e) {
     return callback(e);
   }

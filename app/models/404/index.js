@@ -1,1 +1,7 @@
-module.exports = require('helper').dirToModule(__dirname, require);
+module.exports = {
+  ignore: require("./ignore"),
+  key: require("./key"),
+  list: require("./list"),
+  set: require("./set"),
+  unignore: require("./unignore")
+};

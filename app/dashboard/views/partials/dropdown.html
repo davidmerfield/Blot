@@ -12,13 +12,13 @@
     <form action="/account/switch-blog" method="POST" > 
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;">
+      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;border-radius:3px;border:1px solid #eee;margin-bottom:11px">
         <span class="photo-holder">
           {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
           {{^avatar}}<span class="file" style="width:16px;height:16px;opacity:0.4"></span>{{/avatar}}
         </span>  
         <span style="color:#365899;font-weight:400">
-          <span class="title">{{title}}{{^title}}{{pretty.url}}{{/title}}</span><br>
+          <span class="title">{{pretty.label}}</span><br>
           {{! Why include the hostname underneath the blog's title? Increased click area}}
           <span style="color:rgb(158, 154, 152);font-weight:400">{{pretty.url}}</span>
         </span>
@@ -29,7 +29,7 @@
     
     <div class="clear"></div>
 
-    <a href="/account/create-blog" style="color:rgb(158, 154, 152);padding-right:40px;border-bottom:0"><span class="photo-holder plus" style="text-align:center">+</span>Create new blog</a>
+    <a href="/account/create-blog" style="border:1px dashed #e4e3e3;border-radius:3px;color:#365899;padding-right:40px;"><span class="photo-holder plus" style="text-align:center">+</span>Create new blog</a>
 
     <div class="clear"></div>
 

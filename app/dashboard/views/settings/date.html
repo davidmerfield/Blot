@@ -1,0 +1,42 @@
+  <input type="hidden" name="redirect" value="/settings/services/date">
+
+<style type="text/css">
+form label {
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgb(158, 154, 152);
+  font-size: 16px
+}
+
+form .line {padding-top: 16px;padding-bottom: 16px}
+p a {
+  color: #365899;
+  text-decoration: none
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+   <label>
+    In what order do you write your dates?<br />
+    <select style="color:#000;margin-top:11px" name="dateFormat">
+      {{#dateFormats}}
+      <option value="{{value}}" {{selected}}>{{date}}</option>
+      {{/dateFormats}}
+    </select>
+  </label>
+  <br>
+  <label style="margin-top:20px">
+    Your timezone<br />
+    <select style="color:#000;margin-top:11px" name="timeZone" style="max-width:300px">
+      {{#timeZones}}
+      <option value="{{value}}" {{selected}}>{{time}} {{value}}</option>
+      {{/timeZones}}
+    </select>
+  </label>
+
+ 

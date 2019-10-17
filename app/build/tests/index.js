@@ -11,6 +11,10 @@ describe("build", function() {
         res.sendFile(__dirname + "/small.jpg");
       else res.sendStatus(400);
     });
+
+    server.get("/public.jpg", function(req, res) {
+      res.sendFile(__dirname + "/small.jpg");
+    });
   });
 
   it("handles image URLs with query strings", function(done) {
@@ -69,6 +73,32 @@ describe("build", function() {
       expect(entry.html).toContain("/_image_cache/");
 
       // verify a thumbnail was generated from the image
+      expect(entry.thumbnail.small).toEqual(
+        jasmine.objectContaining({
+          name: "small.jpg"
+        })
+      );
+
+      done();
+    });
+  });
+
+  it("will not cache image an image using the static query string", function(done) {
+    var path = "/Hello world.txt";
+    var contents = "<img src='" + this.origin + "/public.jpg?static=1'>";
+
+    // we use an img tag instead of a markdown image because for
+    // some reason the version of Pandoc running on Blot's CI server
+    // creates <embed>'s instead of <img> for certain URLs
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, function(err, entry) {
+      if (err) return done.fail(err);
+
+      // verify the image was not cached
+      expect(entry.html).not.toContain("/_image_cache/");
+
+      // verify a thumbnail was still generated from the image
       expect(entry.thumbnail.small).toEqual(
         jasmine.objectContaining({
           name: "small.jpg"

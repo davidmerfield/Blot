@@ -1,37 +1,34 @@
-var client = require('client');
-var helper = require('helper');
+var client = require("client");
+var helper = require("helper");
 var ensure = helper.ensure;
-var key = require('./key');
-var moment = require('moment');
+var key = require("./key");
+var moment = require("moment");
 
-module.exports = function (blogID, callback) {
-
-  ensure(blogID, 'string')
-    .and(callback, 'function');
+module.exports = function(blogID, callback) {
+  ensure(blogID, "string").and(callback, "function");
 
   var everythingKey = key.everything(blogID);
   var ignoreKey = key.ignore(blogID);
 
-  ensure(everythingKey, 'string')
-    .and(ignoreKey, 'string');
+  ensure(everythingKey, "string").and(ignoreKey, "string");
 
-  client.SMEMBERS(ignoreKey, function (err, ignoreThese) {
-
+  client.SMEMBERS(ignoreKey, function(err, ignoreThese) {
     if (err) throw err;
 
-    ensure(ignoreThese, 'array');
+    ensure(ignoreThese, "array");
 
-    client.ZREVRANGE(everythingKey, 0, -1, 'WITHSCORES', function (err, response) {
-
+    client.ZREVRANGE(everythingKey, 0, -1, "WITHSCORES", function(
+      err,
+      response
+    ) {
       if (err) throw err;
 
-      ensure(response, 'array');
+      ensure(response, "array");
 
       var list = [];
       var ignored = [];
 
       for (var i in response) {
-
         if (i % 2) continue;
 
         var url = response[i];

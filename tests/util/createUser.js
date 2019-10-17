@@ -1,20 +1,24 @@
-var User = require('../../app/models/user');
-var randomString = require('./randomString');
+var User = require("../../app/models/user");
+var randomString = require("./randomString");
 
-module.exports = function(done){
-
+module.exports = function(done) {
   var context = this;
-  var fakePasswordHash = randomString(16);
-  var fakeEmail = randomString(20) + '@example.com';
+  var fakePassword = "XXX-" + Date.now();
+  var fakeEmail = randomString(20) + "@example.com";
 
-
-  User.create(fakeEmail, fakePasswordHash, {}, function(err, user){
-
+  User.hashPassword(fakePassword, function(err, passwordHash) {
     if (err) {
       return done(err);
     }
-  
-    context.user = user;
-    done();
+
+    User.create(fakeEmail, passwordHash, {}, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+
+      context.user = user;
+      context.user.fakePassword = fakePassword;
+      done();
+    });
   });
 };

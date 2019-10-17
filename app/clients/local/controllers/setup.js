@@ -17,6 +17,8 @@ if (config.environment === "development") {
         if (err) console.error(err);
         if (!folder) return;
 
+        if (!fs.existsSync(folder)) return;
+
         watch(blogID, folder);
 
         synchronize(blogID, folder, function(err) {
@@ -37,12 +39,12 @@ function setup(blogID, folder, callback) {
       debug("Synchronizing source folder with Blot");
       synchronize(blogID, folder, function(err) {
         if (err) return callback(err);
-        
-        if (config.environment === 'development') {
+
+        if (config.environment === "development") {
           debug("Watching source folder for changes");
-          watch(blogID, folder);          
+          watch(blogID, folder);
         }
-        
+
         debug("Setup complete");
         callback();
       });
@@ -69,13 +71,17 @@ function synchronize(blogID, sourceFolder, callback) {
   Sync(blogID, {}, function(err, folder, done) {
     if (err) return callback(err);
 
-    walk(sourceFolder).forEach(function(path) {
-      sourceFolderTree[path.slice(sourceFolder.length)] = hash(path);
-    });
+    try {
+      walk(sourceFolder).forEach(function(path) {
+        sourceFolderTree[path.slice(sourceFolder.length)] = hash(path);
+      });
 
-    walk(folder.path).forEach(function(path) {
-      blotFolderTree[path.slice(folder.path.length)] = hash(path);
-    });
+      walk(folder.path).forEach(function(path) {
+        blotFolderTree[path.slice(folder.path.length)] = hash(path);
+      });
+    } catch (e) {
+      return callback(e);
+    }
 
     // We remove any paths in /blot/blogs/$blog_id which no
     // longer exist in the source folder.

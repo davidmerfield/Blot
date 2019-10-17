@@ -1,29 +1,69 @@
-<overlay class="">
-  <a href="/" class="close">Close</a>
-  <div class="videoWrapper">
-    <div class="container">
-      <video id="player" playsinline controls>
-        <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-</overlay>
+
+
+
+<style type="text/css">
+.p {text-decoration: none;}
+.p:hover {text-decoration: underline;background: none;box-shadow: none;}
+.t {
+  width: 0;
+height: 0;
+position: absolute;
+top: 5px;
+left: 9px;
+border-style: solid;
+border-width: 4.5px 0 4.5px 8px;
+border-color: transparent transparent transparent #005eb8;display: inline-block;
+}
+
+.box {
+  width:1.5em;height:1.15em;float:left;border:1px solid;display:inline-block;position:relative;border-radius:2px;margin-right:0.65em;
+  position: relative;top: 1px;
+}
+
+.p:hover .box {background: #005eb8}
+.p:hover .t {
+  border-color: transparent transparent transparent #fff;
+}
+
+.p:focus .box {background: #444}
+
+</style>
+
+<h1>A blogging platform with no interface</h1>
+<p>Why a blogging platform with no interface? So you can blog with your favorite tools. Blot turns a folder into a blog. Drag-and-drop ﬁles inside to publish. Images, text files, Word Documents, Markdown and more become blog posts automatically.</p>
+<p style="margin:28px 0 0px"><a class="p" href="/videos/publishing-with-blot.mp4"><span class="box"><span class="t"></span></span>Watch the film</a></p>
+<!-- 
 
 <br><br>
+<background class="yellow"><pre class="folder" title="Your blog"><code>Drafts
+Pages
+  About.txt
+  Contact.docx  
+  Home.txt
+  Secret.txt
+Posts
 
-<p>Blot is a blogging platform with no interface. Blot turns a folder into a blog. Drag-and-drop ﬁles inside to publish them. Organize your ﬁles in a way that suits you.  </p>
- <!-- Use the tools you use already. -->     <!-- Write with your favorite text-editor. --> 
-<!-- <p >
-   or turns a folder into a blog
- -->  
-<p> Why a blogging platform with no interface? So you can blog with the tools you use already. Write your blog with your favorite text-editor. <a href="/videos/publishing-with-blot.mp4">Watch the video</a> to see how<!-- , or read <a href="/publishing">how to use Blot</a> -->. <!-- Use your fa­vorite text-ed­i­tor to write and Blot does the rest. --> <!-- <a href="/videos/publishing-with-blot.mp4">Watch the video</a> to see how Blot works. --><!-- <a href="/">guide to using Blot</a>. --><!-- , <a href="/publishing">Read more</a> --></p>
+</code></pre></background> -->
 
-<br><br>
-
-<a class="video " href="/videos/publishing-with-blot.mp4" title="Play video">
+<br><Br>
+<style type="text/css">a.video {background: #fdd27f}</style>
+<a class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
     
 <pre class="folder" title="Your blog"><code>Drafts
+Pages
+Posts
+  Apple.md 
+  Bannana.jpg
+  Cherry.docx
+
+
+</code></pre></a> 
+<br><Br>
+
+<!-- 
+<background style="background:transparent">
+  <pre class="folder" title="Your blog"><code>Drafts
 Pages
 Posts
   Apple.md
@@ -31,31 +71,36 @@ Posts
   Cherry.docx
 
 
-</code></pre></a>
+</code></pre></background> -->
 
-</flex>
+<!-- 
+<Div style="width:300px;float:right;margin:0 0 0 100px">
+</div>
+<div style="clear:both"></div> --><!-- 
+<br><br>
+
+
+</flex> -->
 
 <div class="">
-<br><Br>
-<p>Blot comes with seven <a href="/templates">templates</a>. They’re easy to customize, lightweight and designed to fit both small and large screens. You can also <a href="/developers">develop your own template</a> from scratch. Here's some the people who host their website on Blot:</p>
-<br><br>
+<p>Blot comes with seven <a href="/templates">templates</a>. They make it easy to start a blog, portfolio or link blog. You can also <a href="/developers">develop your own template</a> from scratch. Here's some the people who use Blot to host their website:</p>
+<br>
 </div>
 
 <style type="text/css">
 a.featured {
   position: relative;
-  flex-basis: 33.333%;
+  flex-basis: 100%;
   min-width: 200px;
-  max-width: 300px;
-  padding: 0 1.4em;
-/*  font-size: 14px;
-*/  color: inherit;
-  display: block;
-/*  text-align: center;
-*/  margin-bottom: 2.8em;
+  color: inherit;
   box-sizing: border-box;
+  margin: 0 1em 0 -0.1525em;
+  padding: 1em 1.4em 1em 3.6em;
+  border-bottom: 1px solid #eee;
+  
 }
 
+a.featured:last-child {border-bottom: none;}
 @media screen and (max-width: 800px) {
   a.featured {flex-basis:100%}
 }
@@ -94,44 +139,88 @@ a.featured:hover .a {
   margin-right: 0.5em;
 }
 
-.feat-window {
-  margin: 0 -0.1525em;
-  color: #005eb8;
-  border:1px solid #005eb8;border-radius:3px;display:block;text-align:center;margin-bottom:0.7em
-}
-
+  
 .feat-arrow {background: red;width: 2em;height: 2em;border-radius: 2em;line-height:2em;text-align:center;position: absolute;
-top: -0.7em;right: 0.1em;color: white;border:3px solid white;opacity: 0}
+top: -0.7em;right: -0.7em;color: white;border:3px solid white;opacity: 0}
 
-a.featured:hover .feat-arrow {opacity: 1}
-
-a.featured:hover .feat-dot, 
-a.featured:hover .feat-window, 
-a.featured:hover .feat-toolbar,
-a.featured:hover .a {
-  color:red;border-color: red
-}
+.featured:hover .a {background: #eee;outline: 4px solid #eee }
 
 
 </style>
-<div style="display:flex;flex-direction:row;flex-wrap:wrap;margin:0 -1.4em">
+<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
-  <a class="featured col-25" target="_blank" rel="noopener" href="{{{link}}}">
-    <span class="feat-window">
-      <span class="feat-arrow">↗</span>
-      <span class="feat-toolbar">
-        <span class="feat-dot"></span>
-        <span class="feat-dot"></span>
-        <span class="feat-dot"></span>
-      </span>
-      <br><br><!-- 
-   <img style="width:16px;height:16px;" src="{{{favicon}}}">  --><span class="-a">{{host}}</span>
-      <br><br>      <br>
- </span>
- <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span><br>
+  <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
+    
+
+        <img style="border-radius:50%;width:32px;height:32px;position:absolute;top:1em;left:0em" src="{{{favicon}}}"> 
+
+       <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span>
+
 </a>
   {{/featured}}
 </div>
+<!-- 
+
+<h2>Importing posts</h2>
+<p>Blot comes with scripts to turn your site on <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/tumblr">Tumblr</a>, <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/wordpress">Wordpress</a>, <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/jekyll">Jekyll</a> or <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/squarespace">Squarespace</a> into a folder of files which are friendly to Blot. These scripts preserve your URLs to prevent broken links if you decide to switch to Blot. Please <a href="/contact">contact me</a> and I will run them for you.</p>
+
+
+
+<h2>Typography</h2>
+
+<p>Blot comes with a number of features to refine the typography of your blog. This includes true hanging punctuation and common typographic substitutions with <a href="https://github.com/davidmerfield/typeset">Typeset</a>. Blot also renders mathematics in <a class="bn" href="/publishing/guides">\(\TeX\)</a>and provides syntax highlighting for code.</p>
+<ul>
+<li>Real hang­ing punc­tu­a­tion</li>
+<li>Soft hy­phen in­ser­tion</li>
+<li>Optical mar­gin align­ment</li>
+<li>Small caps de­tec­tion</li>
+<li>Punctuation sub­sti­tu­tion</li>
+</ul>
+
+
+<h2>Analytics</h2>
+<p>Blot makes it easy to set up Google Analytics, Heap and Clicky.</p>
+
+<h2>Comments</h2>
+<p>Blot makes it easy to set up Disqus.</p>
+
+<h2>Videos</h2>
+<p>Blot converts URLs to YouTube and Vimeo into videos. You can embed a YouTube video like this:</p>
+
+<p><code>https://www.youtube.com/watch?v=cmaNByqIeeQ</code></p>
+
+<p>You can paste the HTML for a video player directly into the post if you prefer.</p>
+ -->
+
+
+<overlay class="">
+  <header style="max-width:64rem;margin:0 auto 3em;width: 100%;">
+    <row style="display:flex;align-items:center;">
+      <section style="display: flex;
+    align-items: center;">
+
+        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+        
+
+      </section>
+
+      <section class="links">
+          <a href="/" class="close">Close</a>
+      </section>
+    </row>
+
+  </header>
+
+  <div class="videoWrapper">
+    <div class="container">
+      <video id="player" playsinline controls>
+        <source src="/videos/publishing-with-blot.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</overlay>
+<link rel="stylesheet" data-skip-inline="true" href="/css/plyr.css?cache={{cacheID}}&extension=.css">
+
 
 <script src="/js/plyr.js"></script>
 <script type="text/javascript">
@@ -147,4 +236,3 @@ document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(fu
 });
 
 </script>
-<link rel="stylesheet" href="/css/plyr.css?cache={{cacheID}}&extension=.css">

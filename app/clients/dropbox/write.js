@@ -21,7 +21,7 @@ function write(blogID, path, contents, callback) {
 
     // We must lowercase this since localPath no longer
     // does and files for the Dropbox client are stored
-    // in the folder with a lowercase path. 
+    // in the folder with a lowercase path.
     pathOnBlot = localPath(blogID, path).toLowerCase();
 
     client

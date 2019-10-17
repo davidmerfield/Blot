@@ -4,7 +4,7 @@ var Folder = require("../models/folder");
 var async = require("async");
 var debug = require("debug")("blot:clients:local:watch");
 var localPath = require("helper").localPath;
-var walk = require('./util/walk');
+var walk = require("./util/walk");
 
 // This method watches the source folder for subsequent
 // changes after the initial synchronization.
@@ -13,10 +13,15 @@ module.exports = function watch(blogID, folder) {
   // We want to queue up and process in order
   // events from the file system.
   queue = async.queue(handler);
-  // To stop this watcher, call watcher.close();
-  watcher = fs.watch(folder, { recursive: true }, function(event, path) {
-    queue.push({ event: event, path: path });
-  });
+
+  try {
+    // To stop this watcher, call watcher.close();
+    watcher = fs.watch(folder, { recursive: true }, function(event, path) {
+      queue.push({ event: event, path: path });
+    });
+  } catch (e) {
+    return console.error(e);
+  }
 
   function handler(task, callback) {
     debug("Beginning sync...");
@@ -68,4 +73,4 @@ module.exports = function watch(blogID, folder) {
       });
     });
   }
-}
+};

@@ -1,0 +1,140 @@
+<h1>Markdown</h1>
+<p class="back-link"><a href="/publishing/guides">View all guides</a></p>
+
+
+
+<p>Markdown is a text-to-HTML conversion tool for web writers created by John Gruber. Markdown allows you to write using an easy-to-read, easy-to-write plain text format that is simple to convert to HTML. </p>
+
+<pre class="text with-chrome" title="Post.txt"><code><b># Formatting</b>
+
+You can use <em>*Markdown*</em>, a lightweight markup language for plain text files.
+
+Use it for links, headings, lists and much more.
+
+</code>
+    </pre>
+
+<p>Note that you can always mix HTML tags directly into Markdown files, should you need to do something beyond the limits of the Markdown.</p>
+
+<h2>Bold and italics</h2>
+
+<p>Surrounding text with two asterisks makes text bold:</p>
+
+<p><code>**This text will be bold.**</code></p>
+
+<p>To create italics, use a single asterix (*) on either side of the text:</p>
+
+<p><code>*This text will be italic.*</code></p>
+
+<p>Both * or _ symbols work to make text bold or italic. This way you can combine bold and italic in the same sentence. For example:</p>
+
+<p><code>**Everyone _must_ listen.**</code></p>
+
+<h2>Headings</h2>
+
+<p>You can create headings using the octothorpe (#).</p>
+
+<p><code># Largest heading</code></p>
+
+<p>Use two octothropes to create a subheading.</p>
+
+<p><code>## Subheading</code></p>
+
+<p>Alternatively, for H1 and H2, an underline-ish style:</p>
+
+<p><pre>Alternative heading
+===================
+
+Alternative subheading
+----------------------</pre>
+</p>
+
+<h2>Links</h2>
+
+<p>Create a text link by wrapping the linked text in brackets [ ], and then wrapping the link in parenthesis ( ). For example:</p>
+
+<pre><code>[Wikipedia](https://wikipedia.org)</pre></code>
+
+<h2>Images</h2>
+
+<p>Use the syntax for a link, with an exclamation point (!) in front. For example:
+
+<p><code>![Image title](https://url.of/the/image.jpg)</code></p>
+</code></pre>
+
+
+<h2>Lists</h2>
+<p>Make a bulleted list by preceding list items with a single hyphen (-)  or an asterix (*). You need a space between the hyphen and the text.</p>
+
+<pre>- Round
+- Shell
+- Projectile</pre>
+
+<p>Create a numbered list by preceding list items with a number.</p>
+
+<pre>1. Eins
+2. Deux
+3. Tres</pre>
+
+<h2>Footnotes</h2>
+<p>Use square brackets and a caret (^) to mark the position of a footnote in your text:</p>
+
+<pre>Use this syntax.[^1] Another line with a different footnote.[^2]</pre>
+
+<p>And then write the footnotes themselves at the bottom of your file like this:</p>
+
+<pre>[^1]: And the note goes here.
+[^2]: And the second goes here too.</pre>
+
+<p>You can also write footnotes inline with your text:</p>
+<pre>Use this syntax ^[Footnote text goes here] for inline footnotes.</pre>
+
+<h2>Strike out text</h2>
+<p>Put a double tilde (~) on either side of the text you want to strikethrough:</p>
+
+<p><code>~~Strike out mistakes~~</code></p>
+
+<h2>Code</h2>
+<p>Indent code with four spaces:</p>
+
+<pre>
+    var foo = &#x201C;bar&#x201D;;
+</pre>
+
+<p>You can also wrap code with three backticks (`) and specify the language to enable syntax highlighting:</p>
+
+<pre>```javascript
+var foo = "bar";
+```</pre>
+
+<p>You can customize your code's syntax highlighting by modifying the highlight.js CSS file which comes with <a href="/developers">your blog's template.</a></p>
+
+<h2>Horizontal rules</h2>
+
+<p>Use three or more hyphens (-), asterisks (*) or underscores (_) to create a horizontal rule.</p>
+
+<p><code>---</code></p>
+<p><code>***</code></p>
+<p><code>___</code></p>
+
+<h2>Blockquotes</h2>
+
+<p>Markdown uses email-style > characters for block quoting. They are presented as:</p>
+
+<pre>> This is a blockquote with two paragraphs.
+>
+> This is the second pragraph. Vestibulum enim wisi.</pre>
+
+<h2>Tables</h2>
+
+<p>You can the follow syntax to create tables:</p>
+
+<pre>| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |</pre>
+
+
+
+<h2>HTML</h2>
+<p>You can mix HTML tags directly into Markdown files, should you need to do something beyond the limits of the Markdown.</p>

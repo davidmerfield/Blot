@@ -1,68 +1,24 @@
 # About
 
 
-![](_iems_logo.png)
 
-{>|} [Download the folder](/folder.zip) (22mb) from which this website is generated.  [View the source](https://github.com/davidmerfield/Blot/tree/master/app/templates/photos) for the photos template to see how it works.
-
-The purpose of the 'Photos' template is to display photos. Its navigation should get out of the way when you are looking at photos. It should offer a way to browse photos at different sizes. The [homepage](/) shows a feed a of recently published photos. The [archives](/archives) give an overview of all the photos published on this site.
-
-All of the the images on this site are courtesy of the [IEMS](http://iems-ferox.com). Many thanks to Dr Rudolph H. Obrist and the brave souls on the [Ferox expedition](http://iems-ferox.com) for their kind contributions to the public domain.
-
-## Theft 
-
-Georgia Kareola's [website](https://notapipe.today) is the source of the layout for this template. I like the menu's grid and the typography of the subpages in particular.
-
-Gavin Atkinson's [compilation of image user interfaces](https://www.are.na/gavin-atkinson-1489764520/image-ui) was a useful source of interesting techniques to navigate and index images.
-
-Hofstede's [archives page](http://www.hofstede.com.au/) has a really pleasing hover effect, with the thumbnail for the hovered link displayed to the left.
-
-The good work of the people at [Are.na](https://are.na) and [Cargo Collective](https://cargocollective.com/) is a constant source of motivation.
-
-
-## The design
-
-I tried to keep things as quiet as possible. When designing a theme, it's easy to get lost in the ornamentation of the theme's *chrome*, its menu bar, its search field. I tried to focus on the details. Here are a few things which I have done to this template which might not meet the eye:
-
-- Thumbnails are never cropped. They are always displayed in the aspect ratio chosen by the photographer. To do otherwise seemes rude. Of course, this complicates the layout but that is my job. I think that layouts which do not respect the aspect ratio chosen by the photographer are lazy.
-
-- The pagination on the index page uses your system typeface's [tabular numbers](https://www.fonts.com/content/learning/fontology/level-3/numbers/proportional-vs-tabular-figures) feature, where possible. This prevents the width of the page indicator changing.
-
-- The years in the footer indicate the range of published works. It sometimes looks a little silly if you have only published this year but just be patient!
-
-- When there is no pagination, we instead list the number of entries displayed on the page to maintain the balance of the navigation's layout.
-
-
-## Technical details
-
-- This template just hides all of Blot's search functionality, since it's not as useful for photos.
-
-- The thumbnail's computed width and height is used to block out the layout of the index page before the images load. This means that nothing has to be recalculated as each image makes its way down the tubes. This prevents the layout 'shifting', something I think makes websites feel flimsy.
-
-- The fade-on-load feature for the grid of images uses a tiny amount of JavaScript and a css class.
-
-*Please [contact me](https://blot.im/contact) if you have any questions. I'm always happy to hear about bugs. [View the source file for this page](?source=true) to see how the layout for this page was marked up.*
-
-
-[^footnote]: Test, [Link](https://google.com).
-
-## About
-
-IEMS
+*All images and text are courtesy of [IEMS](http://iems-ferox.com), a space agency contrived by [Nicolas Polli](http://nicolaspolli.tumblr.com/). You can purchase the book [Ferox – The Forgotten Archives](https://www.ciaopress.com) published by Ciao Press. Many thanks to Dr Rudolph H. Obrist and the brave souls on the [Ferox expedition](http://iems-ferox.com) for their kind contributions to the public domain.*
 
 The International Exploration for the Mars Surroundings (IEMS) is a united program responsible for the civilian space program as well as aeronautics and aerospace research for the Mars surroundings. Director of EESA Dwight M. Müller established IEMS in 1976 with a distinctly civilian (rather than military) orientation encouraging peaceful applications in space science. The different National Aeronautics and Space agencies from around the world decided to create in secret an international mission in order to create a peaceful conquest of the Mars surroundings shifting from individual and separate programs to IEMS in July 29, 1976.
+
+{>|} ![](_iems_logo.png)
 
 Since that time, most American and European space exploration efforts have been led by NASA, including the Apollo moon-landing missions, the Skylab space station, and later the Space Shuttle. On the time IEMS existed, was supporting with data the ISST. The agency is also responsible for the Big Data Program (BDP), which provides oversight of galaxy discovery and Big Data calculation for certain European universities. IEMS science focuses on better understanding Mars through the exploration of its surroundings, advancing Polyophysics through the efforts of the Science Mission Directorate's Polyophysics Research Program, exploring bodies throughout the Mars gravity with advanced robotic spacecraft missions such as Exploration I, and researching astrophysics topics, such as impact of large meteorites, through the Great Observatories and associated programs. IEMS shares data with various national and international organizations such as NASA or ROSCOSMOS.
 
   
 
-CREATION
+## CREATION
 
 The discovery of a Feroxite meteorite in the Swiss alps on June 10, 1944 by a duo of Swiss/German geologists did not acquire any importance in the scientific world at the time, mainly because the media were interested in other issues during the Second World War. It took time to understand the importance of the discovery, and only in 1972 did Rudolph H. Obrist, now director of IEMS, bring to light the first fragments of the meteorite and IEMS was initiated some years later. Since 1966 the European Space Agency (ESA) has been interested in a new mission aiming at creating a solid relationship with the rest of the world in order to decrease the tension between the United States of America and the USSR. On July 29, 1976 the dream of ESA became true and even if just with a symbolic economic help NASA and RKA joined ESA on the first mission created in order to understand the origins of the Feroxite meteorites that were supposed to come from the surrounding of Mars. Rudolph H. Obrist soon became the director of the agency and formed a team composed of the best European scientists, astronomers and geologists. On July 29, 1958, Obrist signed the European Aeronautics and Space Act, thus establishing IEMS. When IEMS began to operate, on October 1, 1976, it absorbed the 11% of ESA structure; 131 employees, an annual budget of US$40 million, one major research laboratory (Bruxelles Aeronautical Laboratory) and two small test facilities.
 
   
 
-SPACE FLIGHT PROGRAMS
+## SPACE FLIGHT PROGRAMS
 
 IEMS has conducted only unmanned spaceflight programs throughout its history. Unmanned programs launched the first Martial artificial satellites into Mars surrounding gravity for scientific and communications purposes, and sent scientific probes to explore Ferox, the third moon of Mars, starting with the Exploration I rover in 1998 and followed by Exploration II in 2007.
 
@@ -86,7 +42,7 @@ Unfortunately the good message of Rudolph H. Obrist was followed by tragic news 
 
   
 
-STAFF AND LEADERSHIP
+## STAFF AND LEADERSHIP
 
 IEMS's administrator is the agency's highest-ranking official and serves as the senior space science adviser to the EU Congress. The agency's administration is located at IEMS Headquarters and provides overall guidance and direction. Except under exceptional circumstances, IEMS civil service employees come from every region of the world.
 
@@ -94,37 +50,9 @@ The first and current administrator is of the program, Dr Rudolph H. Obrist, has
 
   
 
-BUDGET
+## BUDGET
 
 IEMS 's budget has generally been approximately 0.3% of the EU budget from the early 1980s on, after briefly peaking at approximately 2.41% in 1998 during the Exploration program. The perception of IEMS 's budget has differed significantly from reality.
 
 The percentage of budget that IEMS has been allocated has been steadily dropping since the Exploration II program and in 2009 it was estimated at 0.02% of the EU budget. In a March 2009 meeting of the Congress Committee, Neil deGrasse Tyson testified that “IEMS is no longer relevant as NASA Exploration of Mars is much more important for humankind as on Ferox were discovered just a bunch of red rocks.” NASA and ROSCOSMOS stopped founding IEMS in 2009 and this is considered to be the reason because IEMS ended all his activity in March 2010.
 
-
-## Terms
-
-IEMS LOGO
-
-The IEMS insignia logo (the Red/black "meatball" insignia), may not be used for any purpose without explicit permission. These images may not be used by persons who are not IEMS employees or on products, publications or web pages that are not IEMS –sponsored/related. These images may not be used to imply endorsement or support of any external organization, program, effort, or persons.
-
-Since that time, most American and European space exploration efforts have been led by NASA, including the Apollo moon-landing missions, the Skylab space station, and later the Space Shuttle. On the time IEMS existed, was supporting with data the ISST. The agency is also responsible for the Big Data Program (BDP), which provides oversight of galaxy discovery and Big Data calculation for certain European universities. IEMS science focuses on better understanding Mars through the exploration of its surroundings, advancing Polyophysics through the efforts of the Science Mission Directorate's Polyophysics Research Program, exploring bodies throughout the Mars gravity with advanced robotic spacecraft missions such as Exploration I, and researching astrophysics topics, such as impact of large meteorites, through the Great Observatories and associated programs. IEMS shares data with various national and international organizations such as NASA or ROSCOSMOS.
-
-  
-
-STILL IMAGES
-
-IEMS content - images, audio, video, and computer files used in the rendition of 3-dimensional models, such as texture maps and polygon data in any format - generally are not copyrighted. You may use this material for educational or informational purposes, including photo collections, textbooks, public exhibits, computer graphical simulations and Internet Web pages. This general permission extends to personal Web pages.
-
-News outlets, schools, and text-book authors may use IEMS content without needing explicit permission. IEMS content used in a factual manner that does not imply endorsement may be used without needing explicit permission. IEMS should be acknowledged as the source of the material. IEMS occasionally uses copyrighted material by permission on its website. Those images will be marked copyright with the name of the copyright holder. IEMS 's use does not convey any rights to others to use the same material. Those wishing to use copyrighted material must contact the copyright holder directly. IEMS has extensive image and video galleries online, including historic images, current missions, astronomy pictures, and ways to search for IEMS images. Generally, each mission and program has a video and image collection on the topic page. Content can also be found on our extensive social media channels. For questions about specific images, please write us an email and we will try to answer you.
-
-  
-
-COMMERCIAL PURPOSES
-
-IEMS material can not be used for any commercial use. We are open for specific questions. Please drop us an email. the third moon of Mars, starting with the Exploration I rover in 1998 and followed by Exploration II in 2007.
-
-  
-
-LINKING TO IEMS WEB SITES
-
-IEMS Web sites are not copyrighted, and may be linked to from other Web sites, including individuals' personal Web sites, without explicit permission from IEMS. However, such links may not explicitly or implicitly convey IEMS 's endorsement of commercial goods or services. IEMS images may be used as graphic "hot links" to IEMS Web sites, provided they are used within the guidelines above. This permission does not extend to use of the IEMS insignia. IEMS should be acknowledged as the source of the material.

@@ -1,155 +1,160 @@
-var fs = require('fs-extra');
-var helper = require('../../helper');
+var fs = require("fs-extra");
+var helper = require("../../helper");
 var for_each = helper.for_each;
 var download_images = helper.download_images;
-var to_markdown = helper.to_markdown;
+var to_markdown = require("./to_markdown");
 var determine_path = helper.determine_path;
 var insert_metadata = helper.insert_metadata;
-var join = require('path').join;
+var join = require("path").join;
 
+function main(blog, output_directory, callback) {
+  for_each(
+    blog.posts,
+    function(post, next) {
+      var created, updated, path_without_extension;
+      var dateStamp, tags, draft, page, path, metadata;
+      var content, title, html, url;
 
-function main (blog, output_directory, callback) {
+      switch (post.type) {
+        case "link":
+          post.body = '<a href="' + post.url + '">' + post.url + "</a>\n\n";
+          post.body += post.description;
+          break;
 
-  for_each(blog.posts, function(post, next){
+        case "photo":
+          post.body = "";
 
-    var created, updated, path_without_extension;
-    var dateStamp, tags, draft, page, path, metadata;
-    var content, title, html, url;
+          for (var i = post.photos.length - 1; i >= 0; i--) {
+            post.body +=
+              '<img src="' + post.photos[i].original_size.url + '">\n';
+          }
 
-    switch (post.type) {
+          if (post.caption) {
+            post.body += post.caption;
+          }
 
-      case "link":
-        post.body = '<a href="' + post.url + '">' + post.url + "</a>\n\n";
-        post.body += post.description;
-        break;
+          break;
 
-      case "photo":
-        post.body = '';
-
-
-        for (var i = post.photos.length - 1; i >= 0; i--) {
-          post.body += '<img src="' + post.photos[i].original_size.url + '">\n';
-        }
-
-        if (post.caption) {
+        case "video":
+          post.body = post.player[post.player.length - 1].embed_code;
+          post.format = "html";
           post.body += post.caption;
-        }
+          break;
 
-        break;
+        case "audio":
+          post.body = post.embed;
+          post.format = "html";
+          post.title = post.track_name || post.summary;
+          break;
 
-      case "video":
-        post.body =  post.player[post.player.length - 1].embed_code;
-        post.format = 'html';
-        post.body += post.caption;
-        break;
+        case "quote":
+          post.body =
+            "<blockquote>" + post.text + "</blockquote>\n" + post.source;
+          post.format = "html";
+          post.body += post.caption;
 
-      case "audio":
-        post.body =  post.embed;
-        post.format = 'html';
-        post.title = post.track_name || post.summary;
-        break;
+          break;
+      }
 
-      case "quote":
-        post.body =  '<blockquote>' + post.text + '</blockquote>\n' + post.source;
-        post.format = 'html';
-        post.body += post.caption;
+      content = post.body;
 
-        break;
-    }
+      if (!content) {
+        content = "";
+        console.log(post);
+      }
 
-    content = post.body;
+      title = post.title || post.source_title || post.id.toString();
 
-    if (!content) {
-      content = '';
-      console.log(post);
-    }
+      if (!title) {
+        console.log(post.photos);
+        throw "";
+      }
 
-    title = post.title || post.source_title || post.id.toString();
+      html = post.html;
+      url = post.url;
 
-    if (!title) {
-      console.log(post.photos);
-      throw '';
-    }
+      created = updated = dateStamp = post.timestamp * 1000;
+      draft = page = false;
+      metadata = {};
+      tags = post.tags;
+      path_without_extension = join(
+        output_directory,
+        determine_path(title, page, draft, dateStamp)
+      );
 
-    html = post.html;
-    url = post.url;
-    
-    created = updated = dateStamp = post.timestamp * 1000;
-    draft = page = false;
-    metadata = {};
-    tags = post.tags;
-    path_without_extension = join(output_directory, determine_path(title, page, draft, dateStamp));
-
-    post = {
-
+      post = {
         draft: false,
         page: false,
 
         // We don't know any of these properties
         // as far as I can tell.
-        name: '',
-        permalink: '',
-        summary: '',
+        name: "",
+        permalink: "",
+        summary: "",
         path: path_without_extension,
 
         title: title,
-        
+
         dateStamp: dateStamp,
         created: created,
         updated: updated,
         tags: tags,
         metadata: metadata,
-        
+
         // Clean up the contents of the <content>
         // tag. Evernote has quite a lot of cruft.
         // Then convert into Markdown!
         html: content
       };
 
-    download_images(post, function(err, post){
+      download_images(post, function(err, post) {
+        if (err) throw err;
 
-      if (err) throw err;
+        to_markdown(post, function(err, post) {
+          if (err) throw err;
 
-      post.content = to_markdown(post.html);
-      post = insert_metadata(post);
+          insert_metadata(post, function(err, post) {
+            if (err) throw err;
 
-      // Add the new post to the list of posts!
-      
+            // Add the new post to the list of posts!
+            // console.log(content);
 
-      
-      // console.log(content);
+            console.log("...", post.path);
+            fs.outputFile(post.path, post.content, function(err) {
+              if (err) return callback(err);
 
-      console.log('...', post.path);
-      fs.outputFile(post.path, post.content, function(err){
-        
-        if (err) return callback(err);
-
-        next();
+              next();
+            });
+          });
+        });
       });
-    });
-  }, function(){
-
-    callback();
-  });
+    },
+    function() {
+      callback();
+    }
+  );
 }
 
 if (require.main === module) {
-
   var source_file = process.argv[2];
   var output_directory = process.argv[3];
 
-  if (!source_file) throw new Error('Please pass source file JSON as first argument');
-  if (!output_directory) throw new Error('Please pass output directory to write blog to as second argument');
+  if (!source_file)
+    throw new Error("Please pass source file JSON as first argument");
+  if (!output_directory)
+    throw new Error(
+      "Please pass output directory to write blog to as second argument"
+    );
 
   var blog = fs.readJsonSync(source_file);
 
-  blog.posts = blog.posts.slice(0,1000);
-  
+  blog.posts = blog.posts.slice(0, 1000);
+
   // blog.posts = blog.posts.filter(function(post){
   //   return post.type !== 'photo'
   // });
 
-  blog.posts = blog.posts.map(function(post){
+  blog.posts = blog.posts.map(function(post) {
     delete post.reblog;
     delete post.can_reply;
     delete post.date;
@@ -168,11 +173,9 @@ if (require.main === module) {
     return post;
   });
 
-
   fs.emptyDirSync(output_directory);
 
-  main(blog, output_directory, function(err){
-
+  main(blog, output_directory, function(err) {
     if (err) throw err;
 
     process.exit();

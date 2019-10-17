@@ -112,7 +112,6 @@ input#search:focus {
 ::-webkit-input-placeholder {color: #ccc;}
 
 a.footnote-ref {margin-left: 0;margin-right: 0;text-decoration: none;}
-a.footnote-ref sup {font-size: inherit;vertical-align: baseline;line-height: inherit;}
 
 /* CODE */
 
