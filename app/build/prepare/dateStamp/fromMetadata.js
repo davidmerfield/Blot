@@ -5,7 +5,7 @@ var formatList = {
   "YYYY/M/D": formats("YMD")
 };
 
-function parseDate(dateString, userFormat) {
+function fromMetadata(dateString, userFormat) {
   if (userFormat === undefined || formatList[userFormat] === undefined) {
     console.log(
       userFormat + " userformat has not been passed. Please do this!"
@@ -88,4 +88,4 @@ function formats(dateFormat) {
   return list;
 }
 
-module.exports = parseDate;
+module.exports = fromMetadata;

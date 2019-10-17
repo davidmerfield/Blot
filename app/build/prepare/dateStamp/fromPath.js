@@ -1,6 +1,6 @@
 var moment = require("moment");
 
-function dateFromFileName(path) {
+function fromPath (path) {
   var created, parsed, fileName, tokens;
   var year, month, day;
   var hour, minute, second;
@@ -155,7 +155,7 @@ function pad(number) {
   function check(str, date, fileName) {
     // console.log();
     // console.log(str)
-    var res = dateFromFileName(str);
+    var res = fromPath(str);
 
     try {
       if (date === false) {
@@ -232,4 +232,4 @@ function pad(number) {
   check("2013-01-31-100-322-1-4.jpg", 1359590400000, "100-322-1-4.jpg");
 })();
 
-module.exports = dateFromFileName;
+module.exports = fromPath;

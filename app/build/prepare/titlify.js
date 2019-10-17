@@ -1,9 +1,9 @@
 var basename = require("path").basename;
-var dateFromFileName = require("./dateFromFileName");
+var fromPath = require("./dateStamp/fromPath");
 
 function titlify(path) {
   var name, nameWithoutExtension, title;
-  var hasDate = dateFromFileName(path);
+  var hasDate = fromPath(path);
 
   // Otherwise basename doesn't work right?
   if (path[0] !== "/") path = "/" + path;
