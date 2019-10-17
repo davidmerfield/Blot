@@ -10,7 +10,13 @@ var supportedByAllFormats = {
   "2018-12-17T17:29:00Z": ["2018-12-17 17:29"],
   "2018-03-29T00:00:00Z": ["March 29, 2018"],
   "2015-02-10T07:26:00Z": ["February 10th, 2015 07:26"],
-  "2019-01-18T00:00:00Z": ["18 january, 2019"] // lowercase month name
+  "2019-01-18T00:00:00Z": ["18 january, 2019"], // lowercase month name
+  "2018-04-18T00:00:00Z": ["Apr 18, 2018"],
+  "2019-04-16T14:50:00Z": ["2019-04-16 02:50 PM"], // AM/PM
+  "2018-06-24T14:59:27Z": ["June 24th 2018, 2:59:27 pm"], // am/pm
+  "2015-01-04T05:08:00Z": ["January 4th, 2015 05:08"],
+  "2015-02-04T21:14:18Z": ["Wed Feb  4 21:14:18 EST 2015"], // timezone ignored
+  "2012-05-30T14:45:44Z": ["Wed May 30 2012 14:45:44 GMT+0000 (UTC)"], // timezone ignored
 };
 
 var supportedBySpecficFormat = {
