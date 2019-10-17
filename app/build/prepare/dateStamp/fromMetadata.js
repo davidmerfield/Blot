@@ -42,7 +42,7 @@ function fromMetadata(dateString, userFormat) {
   var created, strict, lazy, withZone;
 
   try {
-    withZone = moment.parseZone(dateString);
+    withZone = moment.parseZone(dateString, userFormats, true);
   } catch (e) {}
 
   try {
