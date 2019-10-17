@@ -1,6 +1,6 @@
 var moment = require("moment");
 
-function fromPath (path) {
+function fromPath(path) {
   var created, parsed, fileName, tokens;
   var year, month, day;
   var hour, minute, second;
