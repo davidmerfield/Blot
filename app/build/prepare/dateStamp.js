@@ -36,7 +36,8 @@ module.exports = function(blog, path, metadata) {
   ensure(dateFormat, "string").and(timeZone, "string");
 
   // The user specified a date stamp
-  // directly. Try to turn it into an integer
+  // directly. Try to turn it into an integer.
+  // TODO: check if anyone uses this? probably remove
   if (dateStamp !== undefined) dateStamp = validate(parseInt(dateStamp));
 
   debug("Blog:", blog.id, "dateStamp #2", dateStamp);
