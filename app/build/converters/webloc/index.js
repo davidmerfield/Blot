@@ -3,7 +3,7 @@ var fs = require("fs");
 var bplist = require("./bplist");
 var helper = require("helper");
 var ensure = helper.ensure;
-var titlify = helper.titlify;
+var titlify = require('../../prepare/titlify');
 var LocalPath = helper.localPath;
 var extname = require("path").extname;
 

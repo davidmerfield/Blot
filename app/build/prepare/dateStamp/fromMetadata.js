@@ -1,14 +1,11 @@
-var moment = require("moment"),
-  ensure = require("./ensure"),
-  formatList = {
-    "D/M/YYYY": formats("DMY"),
-    "M/D/YYYY": formats("MDY"),
-    "YYYY/M/D": formats("YMD")
-  };
+var moment = require("moment");
+var formatList = {
+  "D/M/YYYY": formats("DMY"),
+  "M/D/YYYY": formats("MDY"),
+  "YYYY/M/D": formats("YMD")
+};
 
-function parseDate(dateString, userFormat) {
-  ensure(dateString, "string");
-
+function fromMetadata(dateString, userFormat) {
   if (userFormat === undefined || formatList[userFormat] === undefined) {
     console.log(
       userFormat + " userformat has not been passed. Please do this!"
@@ -91,4 +88,4 @@ function formats(dateFormat) {
   return list;
 }
 
-module.exports = parseDate;
+module.exports = fromMetadata;
