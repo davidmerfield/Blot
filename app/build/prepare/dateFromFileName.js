@@ -1,12 +1,9 @@
-var moment = require("moment"),
-  ensure = require("./ensure");
+var moment = require("moment");
 
 function dateFromFileName(path) {
   var created, parsed, fileName, tokens;
   var year, month, day;
   var hour, minute, second;
-
-  ensure(path, "string");
 
   path = path.trim();
 

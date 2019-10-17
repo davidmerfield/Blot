@@ -1,5 +1,5 @@
 var moment = require("moment");
-var parseDate = require("helper").parseDate;
+var parseDate = require('../parseDate');
 
 // Blot parses dates according to the 'dateFormat' of the blog.
 // This allows Blot to determine what 5.1.2019 means: either

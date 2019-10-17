@@ -2,8 +2,8 @@ var helper = require("helper");
 var ensure = helper.ensure;
 var debug = require("debug")("blot:build:dateStamp");
 
-var dateFromFileName = helper.dateFromFileName;
-var parseDate = helper.parseDate;
+var dateFromFileName = require("./dateFromFileName");
+var parseDate = require("./parseDate");
 var type = helper.type;
 
 var moment = require("moment");

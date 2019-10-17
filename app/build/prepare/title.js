@@ -1,6 +1,6 @@
 var helper = require("helper");
 var firstSentence = helper.firstSentence;
-var titlify = helper.titlify;
+var titlify = require('../../prepare/titlify');
 
 function tidy(str) {
   return str
