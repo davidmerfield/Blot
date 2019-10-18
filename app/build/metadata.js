@@ -2,7 +2,7 @@ var debug = require("debug")("blot:build:metadata");
 var helper = require("helper");
 var ensure = helper.ensure;
 
-var alphaNumericRegEx = /^([a-zA-Z0-9 ]+)$/;
+var alphaNumericRegEx = /^([a-zA-Z0-9\-_ ]+)$/;
 
 function Metadata(html) {
   ensure(html, "string");

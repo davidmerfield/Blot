@@ -64,11 +64,19 @@ describe("metadata parser", function() {
   });
 
   it("allows a maximum of one space in the metadata key", function() {
-    expect(Metadata(["Author last name: Jason"].join("\n")).metadata).toEqual({});
+    expect(Metadata(["And he called: Jason"].join("\n")).metadata).toEqual({});
+  });
+
+  it("allows dashes in the metadata key", function() {
+    expect(Metadata(["Is-Social: Yes"].join("\n")).metadata).toEqual({'Is-Social': 'Yes'});
+  });
+
+  it("allows underscores in the metadata key", function() {
+    expect(Metadata(["Is_Social: Yes"].join("\n")).metadata).toEqual({'Is_Social': 'Yes'});
   });
 
   it("disallows punctuation in the metadata key", function() {
-    expect(Metadata(["Au-thor: Jason"].join("\n")).metadata).toEqual({});
+    expect(Metadata(["Lo! Said: Jason"].join("\n")).metadata).toEqual({});
   });
 
   it("handles pure metadata", function() {
