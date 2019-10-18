@@ -8,7 +8,7 @@
     align-items: center;">
 
         {{#unless user}}
-        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}} Blot</a>
         {{/unless}}
         {{#if user}}
         <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
@@ -17,7 +17,7 @@
 
       </section>
 
-      <section class="links">
+      <section class="links" style="font-weight:500;color:#000">
         <label for="toggle">Menu</label>
         {{#unless user}}
         <a href="/sign-up">Sign up</a>

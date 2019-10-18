@@ -46,7 +46,8 @@ Posts
 </code></pre></background> -->
 
 <br><Br>
-<a class="video " href="/videos/publishing-with-blot.mp4" title="Play video">
+<style type="text/css">a.video {background: #fdd27f}</style>
+<a class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
 
     
 <pre class="folder" title="Your blog"><code>Drafts
@@ -83,7 +84,7 @@ Posts
 
 <div class="">
 <p>Blot comes with seven <a href="/templates">templates</a>. They make it easy to start a blog, portfolio or link blog. You can also <a href="/developers">develop your own template</a> from scratch. Here's some the people who use Blot to host their website:</p>
-<br><br>
+<br>
 </div>
 
 <style type="text/css">
@@ -91,16 +92,15 @@ a.featured {
   position: relative;
   flex-basis: 100%;
   min-width: 200px;
-  padding: 0 1.4em;
-/*  font-size: 14px;
-*/  color: inherit;
-  display: flex;
-  flex-wrap:wrap;
-/*  text-align: center;
-*/  margin-bottom: 2.8em;
+  color: inherit;
   box-sizing: border-box;
+  margin: 0 1em 0 -0.1525em;
+  padding: 1em 1.4em 1em 3.6em;
+  border-bottom: 1px solid #eee;
+  
 }
 
+a.featured:last-child {border-bottom: none;}
 @media screen and (max-width: 800px) {
   a.featured {flex-basis:100%}
 }
@@ -139,49 +139,23 @@ a.featured:hover .a {
   margin-right: 0.5em;
 }
 
-.feat-window {
-  margin: 0 1em 0 -0.1525em;
-  color: #005eb8;
-  position: relative;
-  flex-grow:1;
-  flex-basis:35%;
-  min-width:200px;
-  max-width: 300px;
-  border:1px solid #005eb8;border-radius:3px;display:block;text-align:center;margin-bottom:0.7em
-}
-
+  
 .feat-arrow {background: red;width: 2em;height: 2em;border-radius: 2em;line-height:2em;text-align:center;position: absolute;
 top: -0.7em;right: -0.7em;color: white;border:3px solid white;opacity: 0}
 
-a.featured:hover .feat-arrow {opacity: 1}
-
-a.featured:hover .feat-dot, 
-a.featured:hover .feat-window, 
-a.featured:hover .feat-toolbar,
-a.featured:hover .a {
-  color:red;border-color: red
-}
+.featured:hover .a {background: #eee;outline: 4px solid #eee }
 
 
 </style>
-<div style="display:flex;flex-direction:row;flex-wrap:wrap;margin:0 -1.4em">
+<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
-  <a class="featured col-25" target="_blank" rel="noopener" href="{{{link}}}">
+  <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
     
- <span style="flex-basis:40%;flex-grow:1;padding-right:8%;padding-left:2.7em">
-   <img style="width:22px;height:22px;position:absolute;top:3px;left:1.5em" src="{{{favicon}}}"> 
- <span class="a">{{name}}</span> {{bio}}.<small style="margin-top:1em;margin-bottom:2em;color:#989694;display:block;font-size:14px;">{{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</small></span>
-</span>
-<span class="feat-window">
-      <span class="feat-arrow">↗</span>
-      <span class="feat-toolbar">
-        <span class="feat-dot"></span>
-        <span class="feat-dot"></span>
-        <span class="feat-dot"></span>
-      </span>
-      <br><span class="-a" style="font-size:14px;display:block;padding:1em 0 0;">{{host}}</span>
-      <br>      <br>
- </span>
+
+        <img style="border-radius:50%;width:32px;height:32px;position:absolute;top:1em;left:0em" src="{{{favicon}}}"> 
+
+       <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span>
+
 </a>
   {{/featured}}
 </div>

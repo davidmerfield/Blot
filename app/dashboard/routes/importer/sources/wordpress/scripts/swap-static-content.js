@@ -58,9 +58,9 @@ function fix_text_file(path) {
   }
 
   var folderWithAssets = require("path").dirname(pathWithAssets);
-  
+
   var post = fs.readFileSync(path, "utf-8");
-  var $ = require("cheerio").load(require('marked')(post));
+  var $ = require("cheerio").load(require("marked")(post));
   var urls = [];
 
   $("[src], [href]").each(function(url, host, parsed, pathToImage, exists) {
@@ -68,16 +68,19 @@ function fix_text_file(path) {
     parsed = require("url").parse(url);
     host = parsed.host;
     pathToImage = parsed.path;
-    exists = !!pathToImage && pathToImage !== '/' && fs.existsSync(static_directory + pathToImage);
+    exists =
+      !!pathToImage &&
+      pathToImage !== "/" &&
+      fs.existsSync(static_directory + pathToImage);
 
     if (hosts.indexOf(host) === -1) {
       // console.log(host, hosts, '--------');
       if (exists) {
-        console.log('Skipping host', host, 'although path exists', pathToImage);
+        console.log("Skipping host", host, "although path exists", pathToImage);
       }
 
       return;
-    } 
+    }
 
     // console.log("-------");
     // console.log("URL:", url);
@@ -85,7 +88,7 @@ function fix_text_file(path) {
     // console.log("Exists?", exists);
 
     if (!exists) {
-      console.log('ENOENT', host, pathToImage);
+      console.log("ENOENT", host, pathToImage);
       return;
     }
 
@@ -111,7 +114,6 @@ function fix_text_file(path) {
   });
 
   if (urls.length) {
-      
     total_urls = total_urls + urls.length;
 
     // console.log("Path with assets", pathWithAssets);
@@ -126,4 +128,4 @@ function fix_text_file(path) {
   }
 }
 
-console.log('Replaced', total_urls, 'urls');
+console.log("Replaced", total_urls, "urls");

@@ -15,7 +15,7 @@ describe("template", function() {
 
   it("returns an error for a non-existent view", function(done) {
     var test = this;
-    getView(test.template.id, '', function(err, savedView) {
+    getView(test.template.id, "", function(err, savedView) {
       expect(err instanceof Error).toBe(true);
       expect(savedView).toBeFalsy();
       done();
@@ -24,7 +24,7 @@ describe("template", function() {
 
   it("returns an error for a non-existent template", function(done) {
     var test = this;
-    getView('', test.view.name, function(err, savedView) {
+    getView("", test.view.name, function(err, savedView) {
       expect(err instanceof Error).toBe(true);
       expect(savedView).toBeFalsy();
       done();

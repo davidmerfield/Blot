@@ -2,8 +2,8 @@ var helper = require("helper");
 var ensure = helper.ensure;
 var debug = require("debug")("blot:build:dateStamp");
 
-var dateFromFileName = helper.dateFromFileName;
-var parseDate = helper.parseDate;
+var fromPath = require("./fromPath");
+var fromMetadata = require("./fromMetadata");
 var type = helper.type;
 
 var moment = require("moment");
@@ -36,7 +36,8 @@ module.exports = function(blog, path, metadata) {
   ensure(dateFormat, "string").and(timeZone, "string");
 
   // The user specified a date stamp
-  // directly. Try to turn it into an integer
+  // directly. Try to turn it into an integer.
+  // TODO: check if anyone uses this? probably remove
   if (dateStamp !== undefined) dateStamp = validate(parseInt(dateStamp));
 
   debug("Blog:", blog.id, "dateStamp #2", dateStamp);
@@ -48,7 +49,7 @@ module.exports = function(blog, path, metadata) {
   // field in the entry's metadata,
   // try and parse a timestamp from it.
   if (date && dateStamp === undefined)
-    dateStamp = validate(parseDate(date, dateFormat));
+    dateStamp = validate(fromMetadata(date, dateFormat));
 
   debug("Blog:", blog.id, "dateStamp #3", dateStamp);
 
@@ -56,7 +57,7 @@ module.exports = function(blog, path, metadata) {
   // date in the entry's metadata. Try
   // and extract one from the file's path
   if (dateStamp === undefined) {
-    dateStamp = validate(dateFromFileName(path).created);
+    dateStamp = validate(fromPath(path).created);
   }
 
   debug("Blog:", blog.id, "dateStamp #4", dateStamp);

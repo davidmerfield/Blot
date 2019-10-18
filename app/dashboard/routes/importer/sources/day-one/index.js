@@ -26,7 +26,6 @@ function main(sourceFiles, outputDirectory, callback) {
     function(sourceFile, next) {
       var json = fs.readJsonSync(sourceFile);
 
-
       parse(json, outputDirectory, next);
     },
     callback

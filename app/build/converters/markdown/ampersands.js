@@ -1,6 +1,6 @@
 // Why do we need to think about ampersands? Well, because ampersands (&) are invalid HTML unless
-// escaped as &amp;. Markdown converts transform an unescaped ampersand in text into an escaped 
-// ampersand. Pandoc, however, gets upset about unescaped ampersands in HTML snippets inside 
+// escaped as &amp;. Markdown converts transform an unescaped ampersand in text into an escaped
+// ampersand. Pandoc, however, gets upset about unescaped ampersands in HTML snippets inside
 // Markdown files. For example:
 
 // <a href="/?foo=bar&baz=bat">a</a> is returned as a literal string instead of HTML while:

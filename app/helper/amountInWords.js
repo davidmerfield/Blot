@@ -94,9 +94,8 @@ function appendScale(chunk, exp) {
 }
 
 module.exports = function(num) {
+  if (num === 0) return "zero";
 
-  if (num === 0) return 'zero';
-  
   return chunk(num)
     .map(inEnglish)
     .map(appendScale)

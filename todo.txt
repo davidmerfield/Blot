@@ -1,6 +1,7 @@
-Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
+Write script to increase size of Blot's hard drive
+- Increase size of Blot's hard drive
 
-Write fall newsletter to send out on September 23
+Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
 
 Make sure cache volume is remounted after hard reboot
 - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
@@ -14,6 +15,8 @@ Make sure cache volume is remounted after hard reboot
 
 ---
 
+Work on online writing tool which connects to Dropbox and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRMwRlXWkJQpsjGrHxFmFzDw)
+
 Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
 Fix issue with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
@@ -21,7 +24,7 @@ Fix issue with nested Markdown and tell [Martin](https://mail.google.com/mail/u/
 
 Tweak script to import posts from Hugo for [Jack](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTWfXSnTFpgXXshxhLGBMWQW)
 
-Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT)
+Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 - Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
 
 Record new demo video
@@ -33,7 +36,15 @@ Record new demo video
 
 Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR)
 
+Show error messages on overdue subscription payment form
+
+Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT)
+
+Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk)
+
 Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
+
+Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs) about any new templates.
 
 Translate [Roberto's theme](http://roberto.micro.blog/archive/) to Blot and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnfMLBBJDNdDRPmfLLwcQkdH)
 
@@ -51,6 +62,8 @@ Finish script to identify long-expired users with blogs to safely delete and fre
   - wipe all keys
   
 Ignore files inside 'assets' inside .textbundle directories to improve support for textbundles and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzDLvlTkKNmfZgnXpzzLZjWN).
+
+Consider translating [2019](https://themes.gohugo.io/twentynineteen-hugo/) to Blot and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHqTkZhqhrFllhNGrbzwXqzg)
 
 Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
 
@@ -109,8 +122,6 @@ Fix post encoding bugs
 - Determine cause of Markdown converter failure for `Dropbox/Apps/Strange encoding bug`
 - Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
 - Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
-
-Investigate log-in issue. Does this only happen when I reboot the server? There's no reason sessions should expire any sooner than say after a week of inactivity. Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWSvRzhnFmhdbhpLftctHBVCQ)
 
 Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSPdnRhXcXGjVxkvbkbzlg) when it's possible to switch from annual to monthly billing
 
@@ -303,6 +314,8 @@ Replace some of the assert() tests which run every time the server starts with J
 
 Generate list of external API dependencies and follow changes for each
 
+Add search page to archive template and tell [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRPFhmWPrZXbFZvhwWMWzfTl)
+
 Finish re-write of template system
 - Local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
@@ -316,6 +329,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
   - Tell [Myron](https://twitter.com/rodriguesmyron) on Twitter when it is possible to rename the folder created for a template in local editing.
 - Support template views inside a subfolder inside template folder, e.g. {{> partials/footer}} and then tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfGHXPKxmntzZRfsDFHpq)
 - Add [titlecase](https://daringfireball.net/2008/05/title_case) helper function? 
+- Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
 - Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
 - Move to uuid based template IDs instead of slug
 - Move to data directory for templates
@@ -330,6 +344,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
+- Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm)
 
 Subscription refactor
 - Add support for subscriptions via PayPal
@@ -504,7 +519,7 @@ is happening before doing this.
 
 Add support for native PDF embeds in posts, just put a link to a PDF or a path, e.g. /_assets/file.pdf --> would become a nice embed.
 
-Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com)
+Add support for native MP3 embeds in posts, just put a link to an MP3 or a path, e.g. /_assets/file.mp3 --> would become a nice embed then tell [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWLlqqwbksXcScNdhcTjhjfq) and [Nash](http://twitter.com/nashp) and [Andy](https://mail.google.com/mail/u/0/#inbox/LXphbRLrghxkrJmtbtfXwZHrBHqGzzjDqLZVmfRCzrg) and [Charlie](mailto:hi@charlliegleason.com) and [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRQPphRrjCrWXPLzgHhxkzMN)
 
 Fix bug with footnote links in a teaser from #frag to {{permalink}}#frag
 
@@ -512,7 +527,7 @@ File converters / codecs
 - Video posts (.mp4)
 - OPML files and tell [John](https://mail.google.com/mail/u/1/#inbox/1659bac084c3e404)
 - Audio posts (.mp3 for now?) and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqVldHMCFpTWDmfrRHfwpg)
-- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113) and [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW)
+- Multi-file posts from inside one folder? 'Folder>' Tell [Kevin](https://mail.google.com/mail/u/0/#inbox/1669705dbd65a2e2), [Nash and Roberto](https://twitter.com/rmateu/status/1053665946592858113) and [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) and [Ariel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRXJqFphKVfJGFQHdlMvjDWW)
 - Multi-file posts with the same name but different extension (image.txt and image.jpg)
 - Markdown
   Write a pandoc compatible markdown converter in javascript
@@ -520,7 +535,7 @@ File converters / codecs
 
 Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
-Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and Roy's friend Tim.
+Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim.
 
 Write new clients to sync blog folders
 - OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and

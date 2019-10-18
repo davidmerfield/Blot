@@ -1,7 +1,6 @@
 var cheerio = require("cheerio");
 
 module.exports = function(metadata, html) {
-    
   var candidates = [];
 
   var $ = cheerio.load(html, { decodeEntities: false });
@@ -14,7 +13,7 @@ module.exports = function(metadata, html) {
   }
 
   $("img").each(function() {
-    candidates.push($(this).attr('src'));
+    candidates.push($(this).attr("src"));
   });
 
   return candidates;

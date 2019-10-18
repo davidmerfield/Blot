@@ -3,7 +3,7 @@ var previewPath = drafts.previewPath;
 var Blog = require("blog");
 
 module.exports = function(blogID, path, callback) {
-  callback = callback || function(){};
+  callback = callback || function() {};
 
   var clients = require("clients");
 

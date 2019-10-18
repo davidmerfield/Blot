@@ -47,7 +47,6 @@ module.exports = function readFromFolder(blogID, dir, callback) {
                   // Should this really be handled by setView? It looks like
                   // setView already calls getView...
                   getView(id, name, function(err, view) {
-
                     // getView returns an error if the view does not exist
                     // We want to be able to create new views using local editing
                     // we so ignore this error, and create the view object as needed

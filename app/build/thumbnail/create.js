@@ -27,15 +27,8 @@ function create(blogID, path, done) {
 
       for (var i in thumbnails) {
         thumbnails[i].path = outputDirectory + "/" + thumbnails[i].name;
-        thumbnails[i].url = thumbnails[i].path;
-
-        // Only put the image through the CDN if the blog
-        // ID uses the new format instead of the old integers
-        // once all the blogs use the new format, remove this check
-        if (blogID.indexOf("blog_") === 0) {
-          thumbnails[i].url =
-            config.cdn.origin + "/" + blogID + thumbnails[i].url;
-        }
+        thumbnails[i].url =
+          config.cdn.origin + "/" + blogID + thumbnails[i].path;
       }
 
       if (err) return done(err);

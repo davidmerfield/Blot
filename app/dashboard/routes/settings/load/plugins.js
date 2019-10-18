@@ -1,18 +1,16 @@
-var Mustache = require('mustache');
-var _ = require('lodash');
-var pluginList = require('../../../../build/plugins').list;
-var helper = require('helper');
+var Mustache = require("mustache");
+var _ = require("lodash");
+var pluginList = require("../../../../build/plugins").list;
+var helper = require("helper");
 var capitalise = helper.capitalise;
 var deCamelize = helper.deCamelize;
 
-module.exports = function (req, res, next) {
-
+module.exports = function(req, res, next) {
   var blog = req.blog;
 
   var plugins = _.cloneDeep(pluginList);
 
   for (var i in plugins) {
-
     // should not be able to disable this plugin...
     // MUST BE CLONED >.>
     if (!plugins[i].optional) {
@@ -20,8 +18,8 @@ module.exports = function (req, res, next) {
       continue;
     }
 
-    if (!blog.plugins[i]){
-      console.log('Plugin not found: ' + i);
+    if (!blog.plugins[i]) {
+      console.log("Plugin not found: " + i);
       continue;
     }
 
@@ -32,28 +30,29 @@ module.exports = function (req, res, next) {
       plugins[i].formHTML = Mustache.render(formHTML, options);
 
     if (blog.plugins[i] && blog.plugins[i].enabled)
-      plugins[i].checked = 'checked';
+      plugins[i].checked = "checked";
   }
 
   var categories = {};
 
   var change = {
-    External: 'Services'
+    External: "Services"
   };
 
-  plugins = helper.arrayify(plugins, function(plugin){
+  plugins = helper.arrayify(plugins, function(plugin) {
+    var name = capitalise(deCamelize(plugin.category || "general"));
+    var slug = name
+      .split(" ")
+      .join("-")
+      .toLowerCase();
 
-    var name = capitalise(deCamelize(plugin.category || 'general'));
-    var slug = name.split(' ').join('-').toLowerCase();
-
-    if (change[name])
-      name = change[name];
+    if (change[name]) name = change[name];
 
     categories[name] = categories[name] || {
       name: name,
       plugins: [],
       slug: slug,
-      url: '/plugins/' + slug
+      url: "/plugins/" + slug
     };
 
     if (categories[name].plugins.length % 3 === 0) {

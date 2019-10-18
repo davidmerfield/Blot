@@ -1,34 +1,31 @@
-var path = require('path');
-var logDir = path.resolve(__dirname + '../../../logs');
-var config = require('../../config');
-var type = require('./type');
+var path = require("path");
+var logDir = path.resolve(__dirname + "../../../logs");
+var config = require("../../config");
+var type = require("./type");
 
-var fs = require('fs');
+var fs = require("fs");
 var logToConsole;
 
 // Do nothing in production
-if (config.environment !== 'development')
-  logToConsole = function(){};
-else
-  logToConsole = console.log;
+if (config.environment !== "development") logToConsole = function() {};
+else logToConsole = console.log;
 
-function log (config) {
-
+function log(config) {
   config = config || {};
-  config.file = config.file || 'all';
-  config.prefix = config.prefix || '';
+  config.file = config.file || "all";
+  config.prefix = config.prefix || "";
 
-  function writeLine (info) {
-
-    if (type(info, 'array')) {
-      for (var i in info)
-        writeLine(info[i]);
+  function writeLine(info) {
+    if (type(info, "array")) {
+      for (var i in info) writeLine(info[i]);
       return this;
     }
 
-    var line = config.prefix + ': ' + info;
+    var line = config.prefix + ": " + info;
 
-    fs.appendFile(logDir + '/' + config.file + '.log', line + '\n', function (err) {
+    fs.appendFile(logDir + "/" + config.file + ".log", line + "\n", function(
+      err
+    ) {
       if (err) throw err;
     });
 
@@ -37,9 +34,8 @@ function log (config) {
     return this;
   }
 
-  writeLine.set = function (newConfig) {
-    for (var i in newConfig)
-      config[i] = newConfig[i];
+  writeLine.set = function(newConfig) {
+    for (var i in newConfig) config[i] = newConfig[i];
     return this;
   };
 
@@ -47,7 +43,6 @@ function log (config) {
     config.prefix = prefix;
     return this;
   };
-
 
   return writeLine;
 }

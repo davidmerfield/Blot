@@ -42,7 +42,8 @@ describe("absoluteURLs", function() {
   it("leaves fully qualified links and images as-is", function(done) {
     var result;
     var locals = {};
-    var html = '<a href="http://example.com/foo"><img src="http://example.com/bar.jpg"></a>';
+    var html =
+      '<a href="http://example.com/foo"><img src="http://example.com/bar.jpg"></a>';
     var template = "{{#absoluteURLs}}" + html + "{{/absoluteURLs}}";
 
     absoluteURLs(this.request, function(err, lambda) {

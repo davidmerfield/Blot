@@ -1,18 +1,19 @@
 {{> head}}
 
+<style type="text/css">.logo:hover {text-decoration: underline;}.logo {font-weight: 500;color:#000;margin:20px 0;align-items:center;display: flex}</style>
 <body>
   <div style="display:flex;padding: 0 2rem">
     <div style="flex-basis:18.2rem;flex-shrink:1">
-      <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
+      <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}} Blot</a>
       <hr style="border:none;margin:0;border-bottom:1px solid #eceff1;">
     </div>
 
     {{#if selected.log-in}}
-    <p style="white-space:nowrap;margin:20px 0;color:#aaa"><span style="color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
+    <p style="white-space:nowrap;margin:20px 0;color:#aaa"><span style="font-weight:500;color:black">Log in</span><span class="arrow">&rarr;</span>Dashboard</p>
     {{/if}}
 
     {{#if selected.sign-up}}
-    <p style="white-space:nowrap;margin:20px 0;color:#aaa"><span style="color:black">Sign up</span><span class="arrow">&rarr;</span>Create blog</p>
+    <p style="white-space:nowrap;margin:20px 0;color:#aaa"><span style="font-weight:500;color:black">Sign up</span><span class="arrow">&rarr;</span>Create blog</p>
     {{/if}}
   </div>
 

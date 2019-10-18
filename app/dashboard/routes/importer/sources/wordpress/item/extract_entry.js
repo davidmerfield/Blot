@@ -34,7 +34,7 @@ module.exports = function(item, output_directory) {
     if (item.category) {
       entry.tags = item.category.map(function(category) {
         return category._;
-      });      
+      });
     }
 
     callback(null, entry);

@@ -1,3 +1,3 @@
-module.exports = function (req, callback) {
+module.exports = function(req, callback) {
   return callback(null, req.blog.scriptURL);
-}
+};

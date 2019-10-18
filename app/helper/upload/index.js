@@ -1,28 +1,27 @@
-var config = require('config');
-var fs = require('fs');
-var mime = require('mime');
-var blogFolder = require('./blogFolder');
-var joinpath = require('path').join;
-var zlib = require('zlib');
-var extname = require('path').extname;
-var ensure = require('../ensure');
-var nameFrom = require('../nameFrom');
-var extend = require('../extend');
-var type = require('../type');
-
+var config = require("config");
+var fs = require("fs");
+var mime = require("mime");
+var blogFolder = require("./blogFolder");
+var joinpath = require("path").join;
+var zlib = require("zlib");
+var extname = require("path").extname;
+var ensure = require("../ensure");
+var nameFrom = require("../nameFrom");
+var extend = require("../extend");
+var type = require("../type");
 
 var blogBucket = config.s3.buckets.blogs;
 
 // Don't pollute or overwrite production files
-var root = require('./root');
-var BAD_PARAM = 'Please a path or url to upload';
+var root = require("./root");
+var BAD_PARAM = "Please a path or url to upload";
 
-var shouldGZIP = ['.css', '.js'];
+var shouldGZIP = [".css", ".js"];
 
-var forGZIP = {ContentEncoding: 'gzip', Vary: 'Accept-Encoding'};
-var MAX_EXPIRY = 'public, max-age=31536000';
+var forGZIP = { ContentEncoding: "gzip", Vary: "Accept-Encoding" };
+var MAX_EXPIRY = "public, max-age=31536000";
 
-var AWS = require('aws-sdk');
+var AWS = require("aws-sdk");
 
 var CDN_BUCKET = config.cdn.bucket;
 var CDN_HOST = config.cdn.host;
@@ -33,33 +32,32 @@ AWS.config.update({
   secretAccessKey: config.aws.secret
 });
 
-function upload (path, options, callback) {
-
-  if (type(options,'function') && !callback) {
+function upload(path, options, callback) {
+  if (type(options, "function") && !callback) {
     callback = options;
     options = {};
   }
 
-  ensure(path, 'string')
-    .and(options, 'object')
-    .and(callback, 'function');
+  ensure(path, "string")
+    .and(options, "object")
+    .and(callback, "function");
 
   path = path.trim();
 
   if (!path) return callback(new Error(BAD_PARAM));
 
-  var folder = '';
-  var prefix = '';
+  var folder = "";
+  var prefix = "";
 
   if (options.blogID) {
     prefix = blogFolder(options.blogID);
   }
 
   if (options.folder) {
-    folder = joinpath(options.folder, Date.now() + '');
+    folder = joinpath(options.folder, Date.now() + "");
   }
 
-  var remote = '';
+  var remote = "";
 
   if (options.remote) {
     remote = joinpath(root, prefix, options.remote);
@@ -68,7 +66,7 @@ function upload (path, options, callback) {
   }
 
   // the key used at AWS should not have a leading slash...
-  if (remote[0] === '/') {
+  if (remote[0] === "/") {
     remote = remote.slice(1);
   }
 
@@ -93,37 +91,34 @@ function upload (path, options, callback) {
     gzip = zlib.createGzip();
     body = body.pipe(gzip);
     extend(params).and(forGZIP);
-    console.log('GZIPPING!');
+    console.log("GZIPPING!");
   }
 
   // If I want to add a progress bar, you can listen to
   // s3Client.on('httpUploadProgress', function(){})
-  var s3Client = new AWS.S3({params: params});
+  var s3Client = new AWS.S3({ params: params });
 
-  s3Client.upload({Body: body}).send(function(err){
-
+  s3Client.upload({ Body: body }).send(function(err) {
     if (err) return callback(err);
 
     callback(null, finalURL(params.Bucket, remote));
   });
 }
 
-function oneYearFromNow () {
+function oneYearFromNow() {
   var expire = new Date();
-      expire.setYear(expire.getFullYear() + 1);
-      expire = Math.round(expire/1000);
+  expire.setYear(expire.getFullYear() + 1);
+  expire = Math.round(expire / 1000);
   return expire;
 }
 
-function finalURL (bucket, path) {
+function finalURL(bucket, path) {
+  if (bucket === CDN_BUCKET) return "//" + CDN_HOST + "/" + path;
 
-  if (bucket === CDN_BUCKET)
-    return '//' + CDN_HOST + '/' + path;
-
-  return bucket + '/' + path;
+  return bucket + "/" + path;
 }
 
-function canGZIP (path) {
+function canGZIP(path) {
   return shouldGZIP.indexOf(extname(path).toLowerCase()) > -1;
 }
 

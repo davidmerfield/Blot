@@ -1,6 +1,6 @@
 # Brochure site
 
-I found myself much more productive working on the content of the website seperately from it's design. That is, by disabling the CSS file before making any changes to the site itself, I found myself less distracted by the infinite design tweaks that could be made to a given page.
+I found myself much more productive working on the content of the website separately from it's design. That is, by disabling the CSS file before making any changes to the site itself, I found myself less distracted by the infinite design tweaks that could be made to a given page.
 
 Structure of the site
 ---------------------

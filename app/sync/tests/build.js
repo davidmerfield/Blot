@@ -14,7 +14,6 @@ describe("build", function() {
     this.checkEntry = global.test.CheckEntry(this.blog.id);
   });
 
-
   it("hides date with timestamp from title if its in the file name", function(testDone) {
     var path = "/2018-10-02-02-35 Hello.png";
     var content = this.fake.file();
@@ -35,7 +34,6 @@ describe("build", function() {
       });
     });
   });
-
 
   it("hides date from title if its in the file name", function(testDone) {
     var path = "/2018/06-04 Hello.jpg";

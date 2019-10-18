@@ -1,5 +1,5 @@
-var config = require("config");
-var root = require("helper").rootDir;
+var config = require("../index");
+var root = require("../../app/helper").rootDir;
 var fs = require("fs-extra");
 var redis = require("redis").createClient();
 

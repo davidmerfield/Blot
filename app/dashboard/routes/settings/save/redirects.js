@@ -2,10 +2,9 @@ var helper = require("helper");
 var Redirects = require("../../../../models/redirects");
 var formJSON = helper.formJSON;
 var arrayify = helper.arrayify;
-var Url = require('url');
+var Url = require("url");
 
 module.exports = function(req, res, next) {
-
   if (!req.body.has_redirects) return next();
 
   var mappings = {};
@@ -29,30 +28,25 @@ module.exports = function(req, res, next) {
   Redirects.set(req.blog.id, mappings, next);
 };
 
-
-function urlNormalizer (url) {
-
-  if (!url) return '';
+function urlNormalizer(url) {
+  if (!url) return "";
 
   try {
     url = Url.parse(url).pathname;
   } catch (e) {
-    return '';
+    return "";
   }
 
-  if (url.slice(0, 1) !== '/')
-    url = '/' + url;
+  if (url.slice(0, 1) !== "/") url = "/" + url;
 
-  if (url.slice(-1) === '/' && url.length > 1)
-    url = url.slice(0, -1);
+  if (url.slice(-1) === "/" && url.length > 1) url = url.slice(0, -1);
 
-  url = url.split('//').join('/');
+  url = url.split("//").join("/");
 
   return url.toLowerCase();
 }
 
 function normalize(str) {
-
   if (str[0] !== "\\" && str[0] !== "/") {
     try {
       str = urlNormalizer(str);
