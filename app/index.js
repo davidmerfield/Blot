@@ -27,10 +27,10 @@ Blot.use(helmet.frameguard("allow-from", config.host));
 Blot.use(function(req, res, next){
   var init = Date.now();
 
-  console.log('[' + clfdate(new Date()) +']', req.headers['x-request-id'], req.protocol + '://' + req.host + req.originalUrl);
+  console.log('[' + clfdate(new Date()) +']', req.headers['x-request-id'], 'REQ', req.protocol + '://' + req.hostname + req.originalUrl, req.method);
 
   res.on('finish', function(){
-    console.log('[' + clfdate(new Date())+']', req.headers['x-request-id'], res.statusCode, Date.now() - init + 'ms', req.protocol + '://' + req.host + req.originalUrl);
+    console.log('[' + clfdate(new Date())+']', req.headers['x-request-id'], 'RES', req.protocol + '://' + req.hostname + req.originalUrl, res.statusCode, Date.now() - init + 'ms');
   });
 
   next();
