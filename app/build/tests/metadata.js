@@ -68,11 +68,11 @@ describe("metadata parser", function() {
   });
 
   it("allows dashes in the metadata key", function() {
-    expect(Metadata(["Is-Social: Yes"].join("\n")).metadata).toEqual({'Is-Social': 'Yes'});
+    expect(Metadata(["Is-Social: Yes"].join("\n")).metadata).toEqual({'is-social': 'Yes'});
   });
 
   it("allows underscores in the metadata key", function() {
-    expect(Metadata(["Is_Social: Yes"].join("\n")).metadata).toEqual({'Is_Social': 'Yes'});
+    expect(Metadata(["Is_Social: Yes"].join("\n")).metadata).toEqual({'is_social': 'Yes'});
   });
 
   it("disallows punctuation in the metadata key", function() {
