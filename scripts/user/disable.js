@@ -48,8 +48,10 @@ function main(user, callback) {
     },
     function(err, blogs) {
       blogs.forEach(function(blog) {
-        if (!blog)
+        if (!blog) {
           message.push(colors.red("Warning no blog with ID " + user.blogs));
+          return;
+        }
         message.push(
           "Blog " +
             colors.yellow(blog.title) +
