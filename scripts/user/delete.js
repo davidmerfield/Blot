@@ -40,7 +40,6 @@ function main(user, callback) {
     },
     function(err, blogs) {
       if (err) return callback(err);
-      yesno.options.yes = [user.email];
       var message = [
         "Do you want to delete account " + colors.red(user.email) + "?"
       ];
@@ -82,9 +81,7 @@ function main(user, callback) {
         message.push("- No blogs to delete");
       }
 
-      message.push("Please re-enter the account's email address to confirm:");
-
-      yesno.ask(message.join("\n"), false, function(yes) {
+      yesno.ask(message.join("\n"), true, function(yes) {
         if (!yes) {
           console.log("\nDid not delete " + user.email);
           return callback();
