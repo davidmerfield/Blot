@@ -32,13 +32,14 @@ if (!process.argv[2]) {
   });
 }
 
-function main(user) {
+function main(user, callback) {
   async.map(
     user.blogs,
     function(blogID, next) {
       Blog.get({ id: blogID }, next);
     },
     function(err, blogs) {
+      if (err) return callback(err);
       yesno.options.yes = [user.email];
       var message = [
         "Do you want to delete account " + colors.red(user.email) + "?"
@@ -86,7 +87,7 @@ function main(user) {
       yesno.ask(message.join("\n"), false, function(yes) {
         if (!yes) {
           console.log("\nDid not delete " + user.email);
-          return process.exit();
+          return callback();
         }
 
         var req = { user: user, blogs: blogs };
@@ -101,6 +102,7 @@ function main(user) {
           req,
           res,
           function(err, results) {
+            if (err) return callback(err);
             console.log();
 
             if (results[0].error) {
@@ -132,7 +134,9 @@ function main(user) {
                 return !!i.error;
               }).length
             ) {
-              throw new Error("Unhandled error in results " + results);
+              return callback(
+                new Error("Unhandled error in results " + results)
+              );
             }
 
             callback();
