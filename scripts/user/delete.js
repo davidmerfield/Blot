@@ -70,7 +70,7 @@ function main(user, callback) {
               colors.dim(blog.id) +
               " updated " +
               colors.underline(moment(blog.cacheID).fromNow()) +
-              " - https://" +
+              " - http://" +
               blog.handle +
               "." +
               config.host +
