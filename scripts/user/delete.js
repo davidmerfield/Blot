@@ -1,23 +1,54 @@
+var config = require("config");
 var Delete = require("../../app/dashboard/routes/account/delete");
-var get = require("../get/blog");
+var get = require("../get/user");
 var yesno = require("yesno");
 var colors = require("colors");
 var async = require("async");
-var Blog = require('blog');
+var Blog = require("blog");
+var each = require("../each/user");
+var moment = require("moment");
 
-get(process.argv[2], function(err, user, blog) {
-  if (err) throw err;
+if (!process.argv[2]) {
+  console.log("Searching for disabled users to delete");
+  each(
+    function(user, next) {
+      if (!user.isDisabled) return next();
 
+      main(user, next);
+    },
+    function(err) {
+      if (err) throw err;
+      console.log("Search complete!");
+      process.exit();
+    }
+  );
+} else {
+  get(process.argv[2], function(err, user) {
+    if (err) throw err;
+    main(user, function(err) {
+      if (err) throw err;
+      process.exit();
+    });
+  });
+}
+
+function main(user) {
   async.map(
     user.blogs,
     function(blogID, next) {
-      Blog.get({id: blogID}, next);
+      Blog.get({ id: blogID }, next);
     },
     function(err, blogs) {
       yesno.options.yes = [user.email];
       var message = [
         "Do you want to delete account " + colors.red(user.email) + "?"
       ];
+
+      if (user.isDisabled) {
+        message.push("- " + colors.green("User is disabled"));
+      } else {
+        message.push("- " + colors.red("User is not disabled"));
+      }
 
       if (user.subscription) {
         message.push(
@@ -33,7 +64,17 @@ get(process.argv[2], function(err, user, blog) {
         blogs.forEach(function(blog) {
           message.push(
             "- Will delete blog " +
-              [colors.red(blog.handle), "(id " + blog.id + ")"].join(" ")
+              colors.red(blog.title) +
+              " " +
+              colors.dim(blog.id) +
+              " updated " +
+              colors.underline(moment(blog.cacheID).fromNow()) +
+              " - https://" +
+              blog.handle +
+              "." +
+              config.host +
+              " " +
+              blog.domain
           );
         });
       } else {
@@ -100,4 +141,4 @@ get(process.argv[2], function(err, user, blog) {
       });
     }
   );
-});
+}

@@ -11,24 +11,33 @@ var moment = require("moment");
 var colors = require("colors/safe");
 
 function main(user, callback) {
-  var message = [''];
+  var message = [""];
 
   if (user.subscription && user.subscription.current_period_end) {
+    var ed =
+      user.subscription.current_period_end * 1000 > Date.now() ? "s " : "ed ";
     message.push(
       "User " +
-        colors.yellow(user.email) + ' ' + colors.dim(user.uid) +
+        colors.yellow(user.email) +
+        " " +
+        colors.dim(user.uid) +
         " has an " +
         user.subscription.status +
         " " +
         user.subscription.plan.interval +
-        "ly subscription which ended " +
+        "ly subscription which end" +
+        ed +
         colors.underline(
           moment(user.subscription.current_period_end * 1000).fromNow()
         )
     );
   } else {
     message.push(
-      "User " + colors.yellow(user.email) + ' ' + colors.dim(user.uid) + " does not have a subscription"
+      "User " +
+        colors.yellow(user.email) +
+        " " +
+        colors.dim(user.uid) +
+        " does not have a subscription"
     );
   }
 
@@ -91,7 +100,7 @@ if (process.argv[2]) {
     });
   });
 } else {
-  console.log("Finding users to disable");
+  console.log("Searching for users to disable");
   each(
     function(user, next) {
       if (user.isDisabled) return next();
@@ -153,7 +162,8 @@ if (process.argv[2]) {
     },
     function(err) {
       if (err) throw err;
-      console.log("Checked all users");
+      console.log("Search complete!");
+      process.exit();
     }
   );
 }
