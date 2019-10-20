@@ -135,7 +135,7 @@ function main(user) {
               throw new Error("Unhandled error in results " + results);
             }
 
-            process.exit();
+            callback();
           }
         );
       });
