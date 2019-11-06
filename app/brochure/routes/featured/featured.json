@@ -224,6 +224,22 @@
     "favicon": "/images/featured/www.querlin.com.jpg"
   },
   {
+    "link": "https://vaughntan.org",
+    "host": "vaughntan.org",
+    "name": "Vaughn Tan",
+    "firstName": "Vaughn",
+    "bio": " is an organizational sociologist at University College London’s School of Management",
+    "favicon": "/images/featured/vaughntan.org.png"
+  },
+  {
+    "link": "https://blog.pixelswithin.com",
+    "host": "blog.pixelswithin.com",
+    "name": "Diana Lopez",
+    "firstName": "Diana",
+    "bio": " is a designer and developer based in Southern California",
+    "favicon": "/images/featured/blog.pixelswithin.com.jpg"
+  },
+  {
     "link": "https://eli.li",
     "host": "eli.li",
     "name": "Eli Mellen",
@@ -246,6 +262,14 @@
     "firstName": "Jan",
     "bio": " analyzes the juice industry",
     "favicon": "/images/featured/juicenews.com.jpg"
+  },
+  {
+    "link": "https://www.elisamirkil.com",
+    "host": "www.elisamirkil.com",
+    "name": "Elisa Mirkil",
+    "firstName": "Elisa",
+    "bio": " is a designer based in New York",
+    "favicon": "/images/featured/www.elisamirkil.com.png"
   },
   {
     "link": "https://paul.af",
