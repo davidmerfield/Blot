@@ -1,6 +1,8 @@
 Write script to increase size of Blot's hard drive
 - Increase size of Blot's hard drive
 
+Write script for Nash which prepends date metadata to trimmed markdown and text files if they don't already have post metadata. 
+
 Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
 
 Make sure cache volume is remounted after hard reboot
@@ -434,8 +436,6 @@ Allow logged in users to see public homepage. Perhaps use dashboard.blot.im for 
 - Add a slack.com style dropdown on the public homepage for logged in users which takes them to the dashboard for their sites.
 
 When the user's blog does not have a client, client.write and client.remove need to remove the files from the source folder. Create some kind of local client which we fall back and use when none is configured?
-
-Add tool to services page which would ensure that all posts in the folder had a date as part of their filename or metadata. Tell [Nash](https://twitter.com/nashp/status/1082391337956188161)
 
 Work out how to host podcasts on Blot and tell [Adrian](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLrCjsVpbQmLZmGvkrPbqWhZC)
 
