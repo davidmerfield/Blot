@@ -23,7 +23,7 @@ module.exports = function extend(blog) {
     for (var i in blog.menu) {
       // External links have a timestamp
       // as their ID, pages have their entry ID
-      if (blog.menu[i].id.length < 10) {
+      if (blog.menu[i].id[0] === '/') {
         blog.menu[i].isPage = true;
       }
     }
