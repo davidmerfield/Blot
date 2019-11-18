@@ -21,6 +21,8 @@ Work on online writing tool which connects to Dropbox and tell [Amit](https://ma
 
 Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
+Fix rendering of guide to TeX and tell [Miguel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmmzsNfKtxnSNLvdQzPRjbzh)
+
 Fix issue with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
 - ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
 
@@ -621,6 +623,8 @@ Thumbnail generator
 - Try to crop out ruined borders. E.g. when making a square crop of a rectangular image with a border, crop into the image as well to remove the border-on-three-sides effect
 - Extract color palette too for the image
 - Offer imgix style API for embedding thumbnails
+
+Consider supporting org-mode and tell [Rashawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmlsGQmkBnXdxJDrSvBllHJJ)
 
 Consider supporting Open Graph
 - Tell [Luke](https://mail.google.com/mail/u/1/#inbox/163993b0f8499ab3)
