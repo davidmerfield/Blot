@@ -1,7 +1,7 @@
 var fs = require("fs-extra");
 var helper = require("helper");
 var localPath = helper.localPath;
-
+var clfdate = helper.clfdate;
 var drop = require("./drop");
 var set = require("./set");
 var mkdir = require("./mkdir");
@@ -21,7 +21,7 @@ module.exports = function(blog) {
     function done(err) {
       // we never let this error escape out
       if (err) {
-        console.error("Blog", blog.id, "Caught error updating", path, err);
+        console.error(clfdate(), blog.id, path, err);
       }
       callback(null, { error: err || null });
     }

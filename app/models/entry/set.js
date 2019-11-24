@@ -1,7 +1,7 @@
 var helper = require("helper");
 var ensure = helper.ensure;
 var doEach = helper.doEach;
-
+var clfdate = helper.clfdate;
 var model = require("./model");
 var redis = require("client");
 
@@ -108,9 +108,9 @@ module.exports = function set(blogID, path, updates, callback) {
 
         doEach(queue, function() {
           if (entry.deleted) {
-            console.log("Blog:", blogID, "Entry:", path, "deleted");
+            console.log(clfdate(), blogID, path, "deleted");
           } else {
-            console.log("Blog:", blogID, "Entry:", path, "updated");
+            console.log(clfdate(), blogID, path, "updated");
           }
           callback(null);
         });
