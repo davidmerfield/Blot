@@ -34,9 +34,8 @@ Blot.use(function(req, res, next) {
     console.log(
       clfdate(),
       req.headers["x-request-id"],
-      "REQ",
+      req.method,
       req.protocol + "://" + req.hostname + req.originalUrl,
-      req.method
     );
   } catch (e) {
     console.error("Error: Failed to construct canonical log line:", e);
@@ -47,10 +46,9 @@ Blot.use(function(req, res, next) {
       console.log(
         clfdate(),
         req.headers["x-request-id"],
-        "RES",
-        req.protocol + "://" + req.hostname + req.originalUrl,
         res.statusCode,
-        Date.now() - init + "ms"
+        ((Date.now() - init)/1000).toFixed(3),
+        req.protocol + "://" + req.hostname + req.originalUrl
       );
     } catch (e) {
       console.error("Error: Failed to construct canonical log line:", e);
