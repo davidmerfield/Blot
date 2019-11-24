@@ -2,7 +2,7 @@ var config = require("config");
 var Express = require("express");
 var helmet = require("helmet");
 var vhost = require("vhost");
-
+var clfdate = require("helper").clfdate;
 var blog = require("./blog");
 var brochure = require("./brochure");
 var dashboard = require("./dashboard");
@@ -24,55 +24,38 @@ Blot.set("trust proxy", "loopback");
 // Prevent <iframes> embedding pages served by Blot
 Blot.use(helmet.frameguard("allow-from", config.host));
 
-Blot.use(function(req, res, next){
+Blot.use(function(req, res, next) {
   var init = Date.now();
 
-  console.log('[' + clfdate(new Date()) +']', req.headers['x-request-id'], 'REQ', req.protocol + '://' + req.hostname + req.originalUrl, req.method);
+  try {
+    console.log(
+      "[" + clfdate(new Date()) + "]",
+      req.headers["x-request-id"],
+      "REQ",
+      req.protocol + "://" + req.hostname + req.originalUrl,
+      req.method
+    );
+  } catch (e) {
+    console.error("Error: Failed to construct canonical log line:", e);
+  }
 
-  res.on('finish', function(){
-    console.log('[' + clfdate(new Date())+']', req.headers['x-request-id'], 'RES', req.protocol + '://' + req.hostname + req.originalUrl, res.statusCode, Date.now() - init + 'ms');
+  res.on("finish", function() {
+    try {
+      console.log(
+        "[" + clfdate(new Date()) + "]",
+        req.headers["x-request-id"],
+        "RES",
+        req.protocol + "://" + req.hostname + req.originalUrl,
+        res.statusCode,
+        Date.now() - init + "ms"
+      );
+    } catch (e) {
+      console.error("Error: Failed to construct canonical log line:", e);
+    }
   });
 
   next();
 });
-
-var CLF_MONTH = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-];
-
-function pad2 (num) {
-  var str = String(num)
-
-  return (str.length === 1 ? '0' : '') + str
-}
-
-function rpad3 (num) {
-  var str = String(num)
-
-  if (str.length === 2)
-  return str + '0';
-
-  if (str.length === 1)
-  return str + '00';
-
-  return str;
-}
-
-function clfdate (dateTime) {
-  var date = dateTime.getUTCDate()
-  var hour = dateTime.getUTCHours()
-  var mins = dateTime.getUTCMinutes()
-  var secs = dateTime.getUTCSeconds()
-  var year = dateTime.getUTCFullYear()
-  var msecs = dateTime.getUTCMilliseconds();
-
-  var month = CLF_MONTH[dateTime.getUTCMonth()]
-
-  return pad2(date) + '/' + month + '/' + year +
-    ':' + pad2(hour) + ':' + pad2(mins) + ':' + pad2(secs) + '.' + rpad3(msecs)
-    ' +0000'
-}
 
 // Blot is composed of four sub applications.
 
