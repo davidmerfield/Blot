@@ -8,27 +8,31 @@ var backup = require("./backup");
 var dailyUpdate = require("./scheduler/daily");
 var helper = require("helper");
 var email = helper.email;
+var clfdate = helper.clfdate;
 
 module.exports = function() {
   // Bash the cache for scheduled posts
   cacheScheduler(function(stat) {
-    console.log(stat);
+    console.log(clfdate(), stat);
   });
 
   // Warn users about impending subscriptions
   User.getAllIds(function(err, uids) {
     async.each(uids, User.scheduleSubscriptionEmail, function(err) {
       if (err) {
-        console.error("Error scheduling subscription emails:", err);
+        console.error(clfdate(), "Error scheduling subscription emails:", err);
       } else {
-        console.log("Scheduled emails for renewals and expiries!");
+        console.log(clfdate(), "Scheduled emails for renewals and expiries!");
       }
     });
   });
 
-  console.log("Scheduled daily check of storage disk usage for 6am!");
+  console.log(
+    clfdate(),
+    "Scheduled daily check of storage disk usage for 6am!"
+  );
   schedule({ hour: 10, minute: 0 }, function() {
-    console.log("Scheduler: Checking available disk space");
+    console.log(clfdate(), "Scheduler: Checking available disk space");
 
     require("child_process").exec("df -h", function(err, stdout) {
       if (err) throw err;
@@ -42,6 +46,7 @@ module.exports = function() {
 
       if (parseInt(usage) < 90) {
         console.log(
+          clfdate(),
           "Scheduler: Disk usage check passed! Usage:",
           usage,
           "Space available:",
@@ -51,6 +56,7 @@ module.exports = function() {
       }
 
       console.log(
+        clfdate(),
         "Scheduler: Disk usage check failed! Usage:",
         usage,
         "Space available:",
@@ -67,20 +73,20 @@ module.exports = function() {
     });
   });
 
-  console.log("Scheduled daily backups for 3am!");
+  console.log(clfdate(), "Scheduled daily backups for 3am!");
   schedule({ hour: 11, minute: 0 }, function() {
     // Start the backup daemon
-    console.log("Backup: It is 1am, time to start!");
+    console.log(clfdate(), "Backup: It is 1am, time to start!");
     backup.now();
   });
 
   // At some point I should check this doesnt consume too
   // much memory
-  console.log("Scheduled daily update email for 6:05am!");
+  console.log(clfdate(), "Scheduled daily update email for 6:05am!");
   schedule({ hour: 10, minute: 5 }, function() {
-    console.log("Generating daily update email...");
+    console.log(clfdate(), "Generating daily update email...");
     dailyUpdate(function() {
-      console.log("Daily update email update was sent.");
+      console.log(clfdate(), "Daily update email update was sent.");
     });
   });
 };
