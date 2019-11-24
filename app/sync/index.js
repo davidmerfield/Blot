@@ -3,7 +3,10 @@ var Redlock = require("redlock");
 var buildFromFolder = require("template").buildFromFolder;
 var Blog = require("blog");
 var Update = require("./update");
-var localPath = require("helper").localPath;
+var helper = require("helper");
+var localPath = helper.localPath;
+var clfdate = helper.clfdate;
+var uuid = require("uuid/v4");
 var async = require("async");
 var renames = require("./renames");
 var exitHook = require("async-exit-hook");
@@ -89,11 +92,11 @@ function sync(blogID, options, callback) {
       // We acquired a lock on the resource!
       // This function is to be called when we are finished
       // with the lock on the user's folder.
-      now = new Date();
-      console.log("Blog:", blogID, "Sync:", now, "Started");
+      syncID = "sync_" + uuid().slice(0, 7);
+      console.log(clfdate(), blogID, syncID, "Started");
 
       callback(null, folder, function(syncError, callback) {
-        console.log("Blog:", blogID, "Sync:", now, "Released");
+        console.log(clfdate(), blogID, syncID, "Released");
 
         if (typeof syncError === "function")
           throw new Error("Pass an error or null as first argument to done");
@@ -123,7 +126,7 @@ function sync(blogID, options, callback) {
               Blog.set(blogID, { cacheID: Date.now() }, function(err) {
                 if (err) return callback(err);
 
-                console.log("Blog:", blogID, "Sync:", now, "Finished");
+                console.log(clfdate(), blogID, syncID, "Finished");
                 callback(syncError);
               });
             });

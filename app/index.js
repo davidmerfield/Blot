@@ -29,7 +29,7 @@ Blot.use(function(req, res, next) {
 
   try {
     console.log(
-      "[" + clfdate(new Date()) + "]",
+      clfdate(),
       req.headers["x-request-id"],
       "REQ",
       req.protocol + "://" + req.hostname + req.originalUrl,
@@ -42,7 +42,7 @@ Blot.use(function(req, res, next) {
   res.on("finish", function() {
     try {
       console.log(
-        "[" + clfdate(new Date()) + "]",
+        clfdate(),
         req.headers["x-request-id"],
         "RES",
         req.protocol + "://" + req.hostname + req.originalUrl,

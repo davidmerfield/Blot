@@ -3,6 +3,8 @@ var uuid = require("uuid/v4");
 var exitHook = require("async-exit-hook");
 var child_process = require("child_process");
 var debug = require("debug")("blot:build");
+var helper = require("helper");
+var clfdate = helper.clfdate;
 var workers = [];
 var jobs = {};
 
@@ -123,6 +125,6 @@ module.exports = function(blog, path, options, callback) {
   };
 
   debug("Sending job to worker", jobs[id]);
-  console.log("Blog:", blog.id, "building", path);
+  console.log(clfdate(), blog.id, path, "building");
   worker.send({ blog: blog, path: path, id: id, options: options });
 };

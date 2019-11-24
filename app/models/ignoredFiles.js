@@ -1,6 +1,7 @@
 module.exports = (function() {
   var redis = require("client"),
     helper = require("helper"),
+    clfdate = helper.clfdate,
     normalize = helper.pathNormalizer,
     ensure = helper.ensure,
     REASONS = {
@@ -29,10 +30,7 @@ module.exports = (function() {
     redis.hset(ignoredFilesKey(blogID), path, reason, function(err) {
       if (err) throw err;
 
-      console.log(
-        "Blog: " + blogID + ": Ignored " + path,
-        "because it is " + reason
-      );
+      console.log(clfdate(), blogID, path, "ignored for", reason);
       callback();
     });
   }

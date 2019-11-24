@@ -29,7 +29,10 @@ function rpad3(num) {
   return str;
 }
 
-module.exports = function clfdate(dateTime) {
+module.exports = function clfdate() {
+
+  dateTime = new Date();
+
   var date = dateTime.getUTCDate();
   var hour = dateTime.getUTCHours();
   var mins = dateTime.getUTCMinutes();
@@ -39,7 +42,7 @@ module.exports = function clfdate(dateTime) {
 
   var month = CLF_MONTH[dateTime.getUTCMonth()];
 
-  return (
+  return ("[" +
     pad2(date) +
     "/" +
     month +
@@ -53,6 +56,6 @@ module.exports = function clfdate(dateTime) {
     pad2(secs) +
     "." +
     rpad3(msecs) +
-    " +0000"
+    " +0000]" 
   );
 };
