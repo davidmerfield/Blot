@@ -1,15 +1,13 @@
-module.exports = function route(server) {
-  var Entry = require("entry");
-  var Entries = require("entries");
-  var drafts = require("../sync/update/drafts");
-  var redis = require("redis");
+var Entry = require("entry");
+var Entries = require("entries");
+var drafts = require("../sync/update/drafts");
+var client = require("client");
 
+module.exports = function route(server) {
   server.get(drafts.streamRoute, function(req, res, next) {
     var blogID = req.blog.id;
-    var client = redis.createClient();
     var path = drafts.getPath(req.url, drafts.streamRoute);
-
-    req.socket.setTimeout(Number.MAX_VALUE);
+    var channel = "blog:" + blogID + ":draft:" + path;
 
     res.writeHead(200, {
       // This header tells NGINX to NOT
@@ -25,8 +23,6 @@ module.exports = function route(server) {
 
     res.write("\n");
 
-    var channel = "blog:" + blogID + ":draft:" + path;
-
     client.subscribe(channel);
 
     client.on("message", function(_channel) {
@@ -39,14 +35,8 @@ module.exports = function route(server) {
       });
     });
 
-    // In case we encounter an error...print it out to the console
-    client.on("error", function(err) {
-      console.log("Redis Error: " + err);
-    });
-
     req.on("close", function() {
-      client.unsubscribe();
-      client.quit();
+      client.unsubscribe(channel);
     });
   });
 
