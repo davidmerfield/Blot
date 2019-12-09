@@ -102,6 +102,8 @@ Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmt
 
 Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 
+Add copy button to code snippets in <pre> tags and tell [Atif](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBVcrtzqmXGBtpLTBBjrQf)
+
 Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5WQ0/)
 
 New template lambdas to consider:
@@ -139,7 +141,7 @@ Fix post encoding bugs
 - Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
 - Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
 
-Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSPdnRhXcXGjVxkvbkbzlg), [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwRWhQKFtSMxxHrRgnNhxcQZ), [Franklin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGsbCcKqwblmRQvSNMLpwHQh) and [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlfrFjWCtTCnNPjXSrDWHNfk)when it's possible to switch from annual to monthly billing
+Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSPdnRhXcXGjVxkvbkbzlg), [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwRWhQKFtSMxxHrRgnNhxcQZ), [Franklin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGsbCcKqwblmRQvSNMLpwHQh) and [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlfrFjWCtTCnNPjXSrDWHNfk) and [Dominik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ) when it's possible to switch from annual to monthly billing
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
@@ -149,7 +151,7 @@ Fix bug with image minification which produces larger file than source file and 
 
 Fix Git client bugs
 - Fix bug with case-sensitivity when transfering from Git to Dropbox and tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166fe957b167f5e5) and [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbMGXzRQBBplHKnFLWMbhhS)
-- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG)
+- Fix bug which occurs when you change your username while using the Git client (caused by the broken repo url) and tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) and [Andre](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMMxJXpbTZLvGzVmZlFPNfk) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnkxhvtmPpdMMkRPjzpktrxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGthpSTxskRFFVjtrGnhnSvh)
 - Work out how to pipe custom error messages down
 - Pipe custom message when you change a blog's handle (breaking repo url)
 - Tell [Koen](https://mail.google.com/mail/u/0/#inbox/1670f516115ef9bd) about the broken repo URL fix
@@ -256,6 +258,10 @@ Restructure application folder
   - Move db directory from /db to /data/db
   - Move logs directory from /logs to /data/logs
   - Remove /tmp directory and instead use os.tmpDir
+
+Switch to streaming JSON parser. There are npm modules that offer asynchronous JSON APIs. See for example:
+- JSONStream, which has stream APIs.
+- Big-Friendly JSON, which has stream APIs as well as asynchronous versions of the standard JSON APIs using the partitioning-on-the-Event-Loop paradigm outlined below.
 
 Fix Transformer bugs
 - Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
