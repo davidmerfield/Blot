@@ -22,7 +22,9 @@ module.exports = function(server) {
       // want an infinite redirect loop we continue
       if (redirect === req.url) return next();
 
-      res.redirect(redirect);
+      // By default, res.redirect returns a 302 status
+      // code (temporary) rather than 301 (permanent)
+      res.redirect(301, redirect);
     });
   });
 
