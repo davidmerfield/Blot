@@ -6,6 +6,7 @@ var yesno = require('yesno');
 var localPath = require('helper').localPath;
 var path = require('path');
 var SUPPORTED_EXTENSIONS = ['.txt', '.md'];
+var FORMAT = 'M/D/YY';
 require("moment-timezone");
 get(process.argv[2], function(err, user, blog) {
   console.log('')
@@ -25,7 +26,7 @@ get(process.argv[2], function(err, user, blog) {
       dateMetadata = 'Date: ' + moment
         .utc(entry.dateStamp)
         .tz(blog.timeZone)
-        .format('MMMM D, Y');
+        .format(FORMAT);
       console.log('hasMetadata', hasMetadata);
       if (hasMetadata) {
         contents = dateMetadata + '\n' + ltrim(contents);
@@ -35,7 +36,7 @@ get(process.argv[2], function(err, user, blog) {
       console.log('--------------------------');
       console.log(contents);
       console.log('--------------------------');
-      yesno.ask('Write? (y/n)', false, function(ok) {
+      yesno.ask('Write? (y/n)', true, function(ok) {
         if (!ok) return next();
         console.log(entry.path, 'writing');
         client.write(blog.id, entry.path, contents, next);
