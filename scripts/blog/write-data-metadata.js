@@ -14,6 +14,7 @@ get(process.argv[2], function(err, user, blog) {
     blog.id,
     function(entry, next) {
       var contents, hasMetadata, dateMetadata;
+      if (entry.deleted || entry.page) return next();
       if (entry.metadata.date) return next();
       if (SUPPORTED_EXTENSIONS.indexOf(path.extname(entry.path).toLowerCase()) === -1) {
         console.log(entry.path, 'Cannot add metadata to unsupported file type')
