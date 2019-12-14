@@ -16,7 +16,7 @@ get(process.argv[2], function(err, user, blog) {
     function(entry, next) {
       var contents, hasMetadata, dateMetadata;
       if (entry.metadata.date) return next();
-      if (SUPPORTED_EXTENSIONS.indexOf(path.extname(entry.path)) === -1) {
+      if (SUPPORTED_EXTENSIONS.indexOf(path.extname(entry.path).toLowerCase()) === -1) {
         console.log(entry.path, 'Cannot add metadata to unsupported file type')
         return next();
       }
@@ -27,7 +27,6 @@ get(process.argv[2], function(err, user, blog) {
         .utc(entry.dateStamp)
         .tz(blog.timeZone)
         .format(FORMAT);
-      console.log('hasMetadata', hasMetadata);
       if (hasMetadata) {
         contents = dateMetadata + '\n' + ltrim(contents);
       } else {
