@@ -1,4 +1,8 @@
+Delete cache:* keys from redis
+
 Write up lambda script which stops and starts instances when there's an issue with them
+
+Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
 Write script to increase size of Blot's hard drive
 - Increase size of Blot's hard drive
@@ -168,6 +172,7 @@ Markdown bugs
 - Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
 --- 
+
 
 Performance improvements
 - Streamline and cache loading of data on dashboard
@@ -495,7 +500,7 @@ Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389
 Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
 
 
-Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3) and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
+Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)  and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
 
 Templates to translate:
 - [Anders Norén](https://www.andersnoren.se/teman/)
@@ -734,3 +739,5 @@ Internationalize i8n and tell Christian about [Portuguese](https://mail.google.c
 Add embedabble support for giphy URLs and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfJvghFlmRDQCtMDrlpDwWxM)
 
 Consider adding educational pricing and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) with my decision.
+
+Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for users
