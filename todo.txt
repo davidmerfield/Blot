@@ -1,29 +1,10 @@
-Delete cache:* keys from redis
-
-Write up lambda script which stops and starts instances when there's an issue with them
-
-Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
-
-Write script to increase size of Blot's hard drive
-- Increase size of Blot's hard drive
+Write script for Nash which prepends date metadata to trimmed markdown and text files if they don't already have post metadata. 
 
 Shibel template migration
 
-Write script for Nash which prepends date metadata to trimmed markdown and text files if they don't already have post metadata. 
+Write up guide to lambda script which stops and starts instances when there's an issue with them
 
 Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
-
-Make sure cache volume is remounted after hard reboot
-- https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot
-- https://www.reddit.com/r/aws/comments/8chnbh/i3_instances_initializing_nvme_instance_store/
-- https://gist.github.com/andreas-wilm/3460a788d6548370a136e63b5b91281e
-- remove lines from fstab
-- https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Stop_Start.html
-- use userdata to run the script? https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
-- can this be resilient enough to run ok if the mounting fails?
-- test that iptables rules persist too
-
-Consider adding a {{titleLink}} property to each entry, which extracts a link from the {{titleTag}} for use in RSS feeds, etc. and tell [Guy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTplWfqwxrlPtkQsbjddSfl)
 
 ---
 
@@ -48,6 +29,9 @@ Record new demo video
 
 ---
 
+Write script to increase size of Blot's hard drive
+- Increase size of Blot's hard drive
+
 Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR)
 
 Show error messages on overdue subscription payment form
@@ -57,6 +41,10 @@ Add dark mode support to default themes using [Jeff's code](https://mail.google.
 Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk)
 
 Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
+
+Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
+
+Consider adding a {{titleLink}} property to each entry, which extracts a link from the {{titleTag}} for use in RSS feeds, etc. and tell [Guy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTplWfqwxrlPtkQsbjddSfl)
 
 Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs) about any new templates.
 
@@ -498,7 +486,6 @@ Set up [Dependabot](https://dependabot.com/) to automate dependency upgrade PRs
 Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389c18) about DataValet blocking
 
 Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
-
 
 Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)  and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12)
 
