@@ -2,7 +2,6 @@ var Entries = require("entries");
 var fs = require('fs-extra');
 var get = require("../get/blog");
 var moment = require('moment');
-var yesno = require('yesno');
 var localPath = require('helper').localPath;
 var path = require('path');
 var SUPPORTED_EXTENSIONS = ['.txt', '.md'];
@@ -22,12 +21,11 @@ get(process.argv[2], function(err, user, blog) {
       }
       console.log(entry.path, 'reading');
       try {
-      contents = fs.readFileSync(localPath(blog.id, entry.path), 'utf8');
+        contents = fs.readFileSync(localPath(blog.id, entry.path), 'utf8');
       } catch (e) {
         console.log(e);
         return next();
       }
-
       hasMetadata = Object.keys(entry.metadata).length > 0;
       dateMetadata = 'Date: ' + moment
         .utc(entry.dateStamp)
@@ -38,14 +36,8 @@ get(process.argv[2], function(err, user, blog) {
       } else {
         contents = dateMetadata + '\n\n' + ltrim(contents);
       }
-      console.log('--------------------------');
-      console.log(contents);
-      console.log('--------------------------');
-      yesno.ask('Write? (y/n)', true, function(ok) {
-        if (!ok) return next();
-        console.log(entry.path, 'writing');
-        client.write(blog.id, entry.path, contents, next);
-      });
+      console.log(entry.path, 'writing');
+      client.write(blog.id, entry.path, contents, next);
     },
     function() {
       console.log("Done!");
