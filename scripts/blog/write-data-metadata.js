@@ -21,7 +21,13 @@ get(process.argv[2], function(err, user, blog) {
         return next();
       }
       console.log(entry.path, 'reading');
+      try {
       contents = fs.readFileSync(localPath(blog.id, entry.path), 'utf8');
+      } catch (e) {
+        console.log(e);
+        return next();
+      }
+
       hasMetadata = Object.keys(entry.metadata).length > 0;
       dateMetadata = 'Date: ' + moment
         .utc(entry.dateStamp)
