@@ -1,10 +1,6 @@
 Resolve intermittent downtime
 - increase available memory?
 
----
-
-Fix bug with case-sensitivity when transfering from Git to Dropbox and tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166fe957b167f5e5) and [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgVbMGXzRQBBplHKnFLWMbhhS) and [William](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmqTxdhSXDFcvbrrZPqdlZsz)
-
 Shibel template migration
 
 Work on wall with Amit
