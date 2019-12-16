@@ -62,28 +62,25 @@ function ensureLowerCase (directory, name, callback){
 
   if (name === name.toLowerCase()) return callback(null, name);
 
-  if (directory !== directory.toLowerCase()) return callback(new Error('Directory must be lowercase'));
-
   currentPath = join(directory, name);
-
-  parsedPath = Path.parse(currentPath.toLowerCase());
+  parsedPath = Path.parse(currentPath);
 
   names = [
     name.toLowerCase(),
-    parsedPath.name + ' (conflict)' + parsedPath.ext,
+    parsedPath.name.toLowerCase() + ' (conflict)' + parsedPath.ext.toLowerCase(),
   ];
 
   for (var i=1;i<100;i++) {
-    names.push(parsedPath.name + ' (conflict ' + i + ')' + parsedPath.ext);
+    names.push(parsedPath.name.toLowerCase() + ' (conflict ' + i + ')' + parsedPath.ext.toLowerCase());
   }
 
-  async.eachSeries(names, function(paths, next){
+  async.eachSeries(names, function(name, next){
     fs.move(currentPath, join(directory, name), function(err){
       if (err) return next();
       callback(null, name);
     });
   }, function(){
-    callback(new Error("Ran out of candidates to lowercase path"));
+    callback(new Error("Ran out of candidates to lowercase path: " + currentPath));
   });
 }
 
