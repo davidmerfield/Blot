@@ -8,14 +8,12 @@ var SUPPORTED_EXTENSIONS = ['.txt', '.md'];
 var FORMAT = 'M/D/YY';
 require("moment-timezone");
 get(process.argv[2], function(err, user, blog) {
-  console.log('')
   var client = require("../../app/clients")[blog.client];
   Entries.each(
     blog.id,
     function(entry, next) {
       var contents, hasMetadata, dateMetadata;
-      if (entry.deleted || entry.page) return next();
-      if (entry.metadata.date) return next();
+      if (entry.deleted || entry.page || entry.metadata.date) return next();
       if (SUPPORTED_EXTENSIONS.indexOf(path.extname(entry.path).toLowerCase()) === -1) {
         console.log(entry.path, 'Cannot add metadata to unsupported file type')
         return next();
