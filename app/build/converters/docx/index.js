@@ -172,7 +172,8 @@ function read(blog, path, options, callback) {
             html = metadataString + html;
           }
 
-          return callback(null, html, stat);
+          callback(null, html, stat);          
+          fs.remove(outPath, function(err){});
         });
       });
     });
