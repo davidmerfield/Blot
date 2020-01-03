@@ -8,6 +8,7 @@ module.exports = function determinePath(req, res, next) {
 
   if (dir === "/") res.locals.folder.root = true;
 
+  dir = decodeURIComponent(dir);
   req.dir = dir;
   res.locals.folder.redirect = req.path;
 
