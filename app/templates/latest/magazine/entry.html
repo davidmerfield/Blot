@@ -10,7 +10,7 @@
       <div class="w-20 bl pt5 nt5 fr pl3 lh-copy  b--black-10">
  
     {{^page}}
-	{{#date}}<a href="{{url}}" class="db black-30 f5 pr4 no-underline"><span  date-from-now="{{dateStamp}}">{{#formatDate}}MMM D, YYYY{{/formatDate}}</span></a>{{/date}}
+	{{#date}}<a href="{{{url}}}" class="db black-30 f5 pr4 no-underline"><span  date-from-now="{{dateStamp}}">{{#formatDate}}MMM D, YYYY{{/formatDate}}</span></a>{{/date}}
     <span class="db black-50 f5">{{#tags}}<a href="/tagged/{{slug}}" class="no-underline">{{tag}}</a>{{^last}}, {{/last}}{{/tags}}</span>
 {{/page}}
     
@@ -54,7 +54,7 @@
   {{#previous.thumbnail.medium}}
   <span class="db" style="outline: 1px solid rgba(0,0,0,.12);
     outline-offset: -1px;max-height:14rem;overflow:hidden">
-    <img style="width:100%" src="{{url}}">
+    <img style="width:100%" src="{{{url}}}">
    </span>
   </span>
   {{/previous.thumbnail.medium}}
@@ -74,7 +74,7 @@
   {{#next.thumbnail.medium}}
   <span class="db" style="outline: 1px solid rgba(0,0,0,.12);
     outline-offset: -1px;max-height:14rem;overflow:hidden">
-    <img style="width:100%" src="{{url}}">
+    <img style="width:100%" src="{{{url}}}">
    </span>
   </span>
   {{/next.thumbnail.medium}}

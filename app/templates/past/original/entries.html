@@ -8,7 +8,7 @@
         <h4>Recent entries</h4>
         <section class="recentEntries">
           {{#recentEntries}}
-            <a href="{{url}}">{{title}}</a>
+            <a href="{{{url}}}">{{title}}</a>
           {{/recentEntries}}
           <span class="clear"></span>
         </section>
@@ -16,7 +16,7 @@
       <section class="main">
         {{#entries}}
           <section class="entry">
-            {{#date}}<a class="h4" href="{{url}}">{{date}}</a>{{/date}}
+            {{#date}}<a class="h4" href="{{{url}}}">{{date}}</a>{{/date}}
             {{#tags}} <a class="h4" href="/tagged/{{slug}}">{{name}}</a>{{/tags}}
             {{{html}}}
           </section>
