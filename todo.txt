@@ -1,3 +1,5 @@
+Shibel template migration
+
 Resolve intermittent downtime
 - increase available memory?
 - Begin using memory monitor
@@ -6,15 +8,11 @@ Write Winter newsletter
 
 ---
 
-Shibel template migration
+Fix duplicate entries in entries list for [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrttWJPkmqbTDGdSLHNMnzpMT)
 
 Work on online writing tool which connects to Dropbox and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRMwRlXWkJQpsjGrHxFmFzDw)
 
 Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
-
----
-
-Fix duplicate entries in entries list for [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrttWJPkmqbTDGdSLHNMnzpMT)
 
 Allow paths to static files with a trailing slash to work and tell [Sean](https://mail.google.
 com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
