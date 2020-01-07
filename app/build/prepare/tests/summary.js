@@ -41,10 +41,10 @@ describe("summary", function() {
   it("handles html entities in the title", function() {
     expect(
       this.summary({
-        html: "<p>Supercharge Your Workflow with&nbsp;Sync.com</p><p>Foo</p>",
-        title: "Supercharge Your Workflow with Sync.com"
+        html: "<p>Ad&nbsp;Fontes</p><p>Lucili</p>",
+        title: "Ad Fontes"
       })
-    ).toEqual("Foo");
+    ).toEqual("Lucili");
   });
 
   it("does not contain the text of the title", function() {
