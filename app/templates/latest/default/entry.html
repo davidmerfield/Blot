@@ -8,7 +8,7 @@
         <div class="entry">
         {{#entry}}
           {{#date}}
-          <a class="small date left margin" href="{{url}}">{{date}}</a>
+          <a class="small date left margin" href="{{{url}}}">{{date}}</a>
           {{/date}}
 
           {{{html}}}
@@ -32,7 +32,7 @@
           {{/adjacent}}
 
           {{#previous}}
-          <a class="halfWidth left previousEntry" href="{{url}}">
+          <a class="halfWidth left previousEntry" href="{{{url}}}">
             <h5>Previous post</h5>
             <span class="title">{{title}}</span>
             <span class="summary">{{summary}}</span>
@@ -40,7 +40,7 @@
           {{/previous}}
 
           {{#next}}
-          <a class="left halfWidth nextEntry" href="{{url}}">
+          <a class="left halfWidth nextEntry" href="{{{url}}}">
             <h5>Next post</h5>
             <span class="title">{{title}}</span>
             <span class="summary">{{summary}}</span>
