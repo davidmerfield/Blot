@@ -1,14 +1,8 @@
-Finish change to summary generator
-
 Resolve intermittent downtime
 - increase available memory?
 - Begin using memory monitor
 
 Write Winter newsletter
-
-Resolve cause of redirect caching bug and tell [Omar](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCbLTMPSGQgwqBvTTCrDGkgKh). Is this just browsers storing the 301 response (permanently moved)?
-
-Respond to Pratik on [MB](https://micro.blog/pratik/7541770)
 
 ---
 
