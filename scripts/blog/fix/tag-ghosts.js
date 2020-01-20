@@ -25,7 +25,7 @@ function main(blog, callback) {
           function(entryID, next) {
             Entry.get(blog.id, entryID, function(entry) {
               if (entry.id === entryID) return next();
-              console.log(list, "MISMATCH", entryID, entry.id);
+              console.log("MISMATCH", entryID, entry.id);
               Entry.set(blog.id, entry.id, entry, next);
             });
           },
