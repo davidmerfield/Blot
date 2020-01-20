@@ -1,3 +1,7 @@
+Create DMARC record for Blot
+- https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail
+- https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
+
 Shibel template migration
 
 Resolve intermittent downtime
@@ -717,7 +721,7 @@ Look into how Jekyll does data files and possibly support
 
 Add .lhs support and tell Roy
 
-Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW)
+Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFfdcKKqDbXrzQFPrwxmKdNt)
 
 Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
 
@@ -734,3 +738,6 @@ Add embedabble support for giphy URLs and tell [Nash](https://mail.google.com/ma
 Consider adding educational pricing and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) with my decision.
 
 Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for users
+
+Establish bug bounty program
+- Contact Husnain for his [DMARC report](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtDMGTLScbpCkBFLBdmrcHpk)
