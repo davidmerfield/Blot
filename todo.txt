@@ -12,6 +12,8 @@ Write Winter newsletter
 
 Shibel template migration
 
+Fix script to import wordpress posts and follow up with [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtMPcJhlmcdNvWwtWvgzWJvZ)
+
 Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
 
 Work on online writing tool which connects to Dropbox and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRMwRlXWkJQpsjGrHxFmFzDw)
