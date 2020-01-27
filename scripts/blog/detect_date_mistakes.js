@@ -26,7 +26,8 @@ get(process.argv[2], function(err, user, blog) {
 				);
 
 				if (!candidates.length) {
-					return console.log("No candidates found for".dim, deletedEntry.id);
+					console.log("No candidates found for".dim, deletedEntry.id);
+					return next();
 				}
 
 				console.log(
