@@ -57,6 +57,8 @@ Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe
 
 Consider adding a {{titleLink}} property to each entry, which extracts a link from the {{titleTag}} for use in RSS feeds, etc. and tell [Guy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTplWfqwxrlPtkQsbjddSfl)
 
+Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
+
 Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs) about any new templates.
 
 Translate [Roberto's theme](http://roberto.micro.blog/archive/) to Blot and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnfMLBBJDNdDRPmfLLwcQkdH)
