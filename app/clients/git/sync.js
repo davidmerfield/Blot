@@ -89,7 +89,6 @@ module.exports = function sync(blogID, callback) {
                 function(err, res) {
                   if (err) return done(new Error(err), callback);
 
-                  var modified = [];
 
                   // If you push an empty commit then res
                   // will be null, or perhaps a commit and
@@ -99,20 +98,11 @@ module.exports = function sync(blogID, callback) {
                     return done(null, callback);
                   }
 
-                  res.split("\n").forEach(function(line) {
-                    // A = added, M = modified, D = deleted
-                    // Blot only needs to know about changes...
-                    if (
-                      ["A", "M", "D"].indexOf(line[0]) > -1
-                    ) {
-                      // The end of the line contains a null byte
-                      // The start of the line is either A M or D
-                      // and then a null byte.
-                      modified.push(line.slice(2, -1));
-                    } else {
-                      debug("Nothing found for line:", line);
-                    }
-                  });
+                  // The output for diff with -z and the other flags looks like:
+                  // A^@Hello copy.txt^@A^@Hello.txt^@A^@[アーカイブ]/Hello.txt^@
+                  // So we split on null bytes (^@) and then filter the A/M/Ds
+                  // which indicated whether the path was added, modified
+                  var modified = res.split('\u0000').filter((x, i) => i % 2)
 
                   debug("Passing modifications to Blot:", modified);
 
