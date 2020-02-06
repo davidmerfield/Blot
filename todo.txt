@@ -10,6 +10,8 @@ Write Winter newsletter
 
 ---
 
+Remove git folder when switching to Dropbox client and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwPCNcJrLDqprtcKWXFTn)
+
 Shibel template migration
 
 Fix script to import wordpress posts and follow up with [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtMPcJhlmcdNvWwtWvgzWJvZ)
@@ -47,7 +49,7 @@ Add support for YAML-style custom metadata. Consider using something like Strict
 
 Show error messages on overdue subscription payment form
 
-Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT)
+Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT) and tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd)
 
 Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk)
 
@@ -346,7 +348,7 @@ Finish re-write of template system
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
 - Add way to iterate over public and private pages to allow sitemap to work properly and tell [Rodrigo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFffNqTnCTjHrNSrrLBtnnGW)
 - Fix bug with template editor which resets content of a view. Follow up with [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhgJQTTQZvpsxJDBgnNQpJnJ) who has extensive steps to reproduce, and John
-- Allow the name/slug of a template to change and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwzPxFLvSpLcjjRbCkVVbg) and [Brad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCkmWNjfwTqvrTgJLCSpDcDfk) when the name of a locally-edited template in your blog's folder updates
+- Allow the name/slug of a template to change and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwzPxFLvSpLcjjRbCkVVbg) and [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqldQjWRSnwmcMbcpRMHMxL) and [Brad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCkmWNjfwTqvrTgJLCSpDcDfk) when the name of a locally-edited template in your blog's folder updates
 - Add way to query list of posts using SQL? Something like [jsql](https://archive.codeplex.com/?p=jsql)
 com/mail/u/0/#inbox/1588e3df7489b554) 
   - [Don't write my own DSL, use SQL](https://news.ycombinator.com/item?id=17890760) Something like this in front matter? recent_posts: SELECT POSTS WHERE ...
@@ -499,7 +501,11 @@ Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389
 
 Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
 
-Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)  and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh)
+Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)  and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh) and [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR) and [Nuno](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDmKWgcNKgMKBNDXxWqGvqrP) and [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf)
+
+Review pCloud as a potential client and tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf)
+
+Review Dropmark as a potential client and tell [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR)
 
 Templates to translate:
 - [Anders Norén](https://www.andersnoren.se/teman/)
