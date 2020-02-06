@@ -79,12 +79,16 @@ module.exports = function sync(blogID, callback) {
                   "diff",
                   "--name-status",
                   "--no-renames",
+                  // The 'z' flag will output paths 
+                  // in UTF-8 format, instead of octal
+                  // Without this flag, files with foreign 
+                  // characters are not synced to Blot.
+                  "-z",
                   headBeforePull + ".." + headAfterPull
                 ],
                 function(err, res) {
                   if (err) return done(new Error(err), callback);
 
-                  var modified = [];
 
                   // If you push an empty commit then res
                   // will be null, or perhaps a commit and
@@ -94,18 +98,11 @@ module.exports = function sync(blogID, callback) {
                     return done(null, callback);
                   }
 
-                  res.split("\n").forEach(function(line) {
-                    // A = added, M = modified, D = deleted
-                    // Blot only needs to know about changes...
-                    if (
-                      ["A", "M", "D"].indexOf(line[0]) > -1 &&
-                      line[1] === "\t"
-                    ) {
-                      modified.push(line.slice(2));
-                    } else {
-                      debug("Nothing found for line:", line);
-                    }
-                  });
+                  // The output for diff with -z and the other flags looks like:
+                  // A^@Hello copy.txt^@A^@Hello.txt^@A^@[アーカイブ]/Hello.txt^@
+                  // So we split on null bytes (^@) and then filter the A/M/Ds
+                  // which indicated whether the path was added, modified
+                  var modified = res.split('\u0000').filter((x, i) => i % 2)
 
                   debug("Passing modifications to Blot:", modified);
 
