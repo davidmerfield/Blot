@@ -79,6 +79,11 @@ module.exports = function sync(blogID, callback) {
                   "diff",
                   "--name-status",
                   "--no-renames",
+                  // The 'z' flag will output paths 
+                  // in UTF-8 format, instead of octal
+                  // Without this flag, files with foreign 
+                  // characters are not synced to Blot.
+                  "-z",
                   headBeforePull + ".." + headAfterPull
                 ],
                 function(err, res) {
@@ -98,10 +103,12 @@ module.exports = function sync(blogID, callback) {
                     // A = added, M = modified, D = deleted
                     // Blot only needs to know about changes...
                     if (
-                      ["A", "M", "D"].indexOf(line[0]) > -1 &&
-                      line[1] === "\t"
+                      ["A", "M", "D"].indexOf(line[0]) > -1
                     ) {
-                      modified.push(line.slice(2));
+                      // The end of the line contains a null byte
+                      // The start of the line is either A M or D
+                      // and then a null byte.
+                      modified.push(line.slice(2, -1));
                     } else {
                       debug("Nothing found for line:", line);
                     }
