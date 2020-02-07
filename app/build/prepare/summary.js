@@ -16,13 +16,15 @@ function normalize (str) {
 function summary($, title) {
   var summary;
 
+debug($.html());
+  
   // We ignore the text content of
   // these tags for the summary
   // we only care about the content
   // of parapgraph tags for summaries
   // but these could sneak in
   $(
-    "pre, code, .katex, script, object, iframe, style, h1, h2, h3, h4, h5, h6"
+    "pre, code, .katex, script, object, iframe, style, h1, h2, h3, h4, h5, h6, img + .caption"
   ).remove();
 
   // add a space before the end of
@@ -60,6 +62,8 @@ function summary($, title) {
     summary = summary.slice(1) || "";
 
   summary = summary.trim();
+
+  debug(summary);
 
   return summary;
 }
