@@ -1,0 +1,11 @@
+[Unit]
+Description=blot node server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart={{node.bin}} {{node.main}}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

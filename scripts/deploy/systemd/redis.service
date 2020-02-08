@@ -1,0 +1,16 @@
+# Copied from:
+# https://gist.github.com/sshymko/898aee7d0ec0e3d2a8a41f0956756530
+
+[Unit]
+Description=Redis
+After=network.target
+
+[Service]
+Type=notify
+ExecStart={{redis.server}} --supervised systemd --daemonize no
+ExecStop={{redis.cli}} -p 6379 shutdown
+ExecReload=/bin/kill -USR2 $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
