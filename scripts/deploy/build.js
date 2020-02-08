@@ -9,8 +9,8 @@ const view = {
 	blot_repo: "https://github.com/davidmerfield/Blot",
 	user: "blot", // unix user
 	hosts: [{ host: "blot.im" }, { host: "blot.development" }],
-	fallback_certificate: "/etc/blot/auto-ssl-fallback.crt",
-	fallback_certificate_key: "/etc/blot/auto-ssl-fallback.key",
+	fallback_certificate: "/etc/ssl/auto-ssl-fallback.crt",
+	fallback_certificate_key: "/etc/ssl/auto-ssl-fallback.key",
 	log_file: "/var/www/blot/logs/nginx.log",
 	cache_directory: "/cache",
 	node: { host: "127.0.0.1", port: 8080 },

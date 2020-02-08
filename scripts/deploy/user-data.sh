@@ -61,6 +61,13 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 10.16.3
 node -e "console.log('Running Node.js ' + process.version)"
 
+# Generate SSL fallback cert for NGINX
+mkdir /etc/ssl
+openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
+	-subj '/CN=sni-support-required-for-valid-ssl' \
+	-keyout {{fallback_certificate_key}} \
+	-out {{fallback_certificate}}
+
 # Install Blot
 git clone $BLOT_REPO
 cd Blot
