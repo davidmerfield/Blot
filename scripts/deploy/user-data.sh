@@ -36,7 +36,7 @@ make install
 cd ../
 
 # Todo install this package:
-# luarocks install lua-resty-auto-ssl
+/usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl
 mkdir /etc/resty-auto-ssl
 
 # Install Redis
