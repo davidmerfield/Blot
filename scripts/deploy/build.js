@@ -17,7 +17,8 @@ const view = {
 	number_of_cpus: 4,
 	nginx: {
 		pid: "/var/run/nginx.pid",
-		bin: "/usr/local/openresty/nginx/sbin/nginx"
+		bin: "/usr/local/openresty/nginx/sbin/nginx",
+		config: "/usr/local/openresty/nginx/conf/nginx.conf"
 	},
 	redis: {
 		host: "127.0.0.1",
