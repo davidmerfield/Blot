@@ -7,6 +7,17 @@ set -e
 # Name of the unix user responsible for Blot server
 USER={{user}}
 BLOT_REPO={{blot_repo}}
+NVM_URL=https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh
+LUAROCKS_URL=http://luarocks.org/releases/luarocks-2.0.13.tar.gz
+REDIS_URL=http://download.redis.io/redis-stable.tar.gz
+PANDOC_URL=https://github.com/jgm/pandoc/releases/download/2.9.1.1/pandoc-2.9.1.1-linux-amd64.tar.gz
+
+mkdir -p $(dirname {{environment_file}})
+cat > {{environment_file}} <<EOL
+{{#env}}
+{{key}}={{value}}
+{{/env}}
+EOL
 
 # Updates installed packages
 # yum with 'y' flag means answer 'yes' to all questions
@@ -22,7 +33,7 @@ id -u $USER &>/dev/null || useradd -m $USER
 # gcc and tcl are required to run the tests
 # todo: re-enable next line to run tests (tests are slow in developing this script)
 yum install -y gcc tcl
-wget http://download.redis.io/redis-stable.tar.gz
+wget $REDIS_URL
 tar xvzf redis-stable.tar.gz
 cd redis-stable
 make
@@ -33,7 +44,7 @@ yum-config-manager --add-repo https://openresty.org/package/amazon/openresty.rep
 yum install -y openresty
 
 # Install Luarocks (required by auto-ssl)
-wget http://luarocks.org/releases/luarocks-2.0.13.tar.gz
+wget $LUAROCKS_URL
 tar -xzvf luarocks-2.0.13.tar.gz
 cd luarocks-2.0.13/
 ./configure --prefix=/usr/local/openresty/luajit \
@@ -56,7 +67,7 @@ cp src/redis-cli {{redis.cli}}
 cd ../
 
 # Install node
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+curl -o- $NVM_URL | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 nvm install {{node.version}}
@@ -71,7 +82,7 @@ openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
 
 # Install Pandoc
 mkdir pandoc
-wget https://github.com/jgm/pandoc/releases/download/2.9.1.1/pandoc-2.9.1.1-linux-amd64.tar.gz
+wget $PANDOC_URL
 tar xvzf pandoc-2.9.1.1-linux-amd64.tar.gz --strip-components 1 -C pandoc
 cp pandoc/bin/pandoc /usr/bin
 
@@ -79,48 +90,6 @@ cp pandoc/bin/pandoc /usr/bin
 git clone $BLOT_REPO {{directory}}
 cd Blot
 npm ci
-
-
-mkdir -p $(dirname {{environment_file}})
-cat > {{environment_file}} <<EOL
-BLOT_PRODUCTION=true
-BLOT_CACHE=true
-BLOT_MAINTENANCE=false
-BLOT_DEBUG=false
-BLOT_HOST={{host}}
-BLOT_IP={{ip}}
-BLOT_DIRECTORY={{directory}}
-BLOT_CACHE_DIRECTORY={{cache_directory}}
-BLOT_PROTOCOL=https
-BLOT_ENVIRONMENT=production
-BLOT_USER={{user}}
-BLOT_NODE_VERSION={{node.version}}
-BLOT_PANDOC_PATH=/usr/bin/pandoc
-BLOT_START={{directory}}/scripts/production/start_blot.sh
-BLOT_MAIN={{directory}}/app
-BLOT_LOG={{directory}}/logs/app.log
-BLOT_ADMIN_UID=
-BLOT_ADMIN_EMAIL=
-BLOT_SESSION_SECRET=
-BLOT_BACKUP_SECRET=
-BLOT_STRIPE_KEY=
-BLOT_STRIPE_SECRET=
-BLOT_DROPBOX_APP_KEY=
-BLOT_DROPBOX_APP_SECRET=
-BLOT_DROPBOX_FULL_KEY=
-BLOT_DROPBOX_FULL_SECRET=
-BLOT_DROPBOX_TEST_ACCOUNT_ID=
-BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN=
-BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN=
-BLOT_YOUTUBE_SECRET=
-BLOT_AWS_KEY=
-BLOT_AWS_SECRET=
-BLOT_MAILGUN_KEY=
-BLOT_TWITTER_CONSUMER_KEY=
-BLOT_TWITTER_CONSUMER_SECRET=
-BLOT_TWITTER_ACCESS_TOKEN_KEY=
-BLOT_TWITTER_ACCESS_TOKEN_SECRET=
-EOL
 
 node scripts/deploy/build
 

@@ -1,4 +1,7 @@
 const mustache = require("mustache");
+
+// Disable mustache's default escaping
+// otherwise slashes are encoded
 mustache.escape = function(text) {
 	return text;
 };
