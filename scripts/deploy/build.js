@@ -5,28 +5,33 @@ mustache.escape = function(text) {
 
 const fs = require("fs-extra");
 
+const env = Object.keys(process.env)
+	.filter(key => key.indexOf("BLOT_") > -1)
+	.map(key => ({ key, value: process.env[key] }));
+
 const view = {
-	directory: "/Blot",
+	env,
+	directory: process.env.BLOT_DIRECTORY,
 	blot_repo: "https://github.com/davidmerfield/Blot",
-	user: "blot", // unix user
-	host: "blot.im",
+	user: process.env.BLOT_USER, // unix user
+	host: process.env.BLOT_HOST,
 	environment_file: "/etc/blot/environment",
 	fallback_certificate: "/etc/ssl/auto-ssl-fallback.crt",
 	fallback_certificate_key: "/etc/ssl/auto-ssl-fallback.key",
 	log_file: "/var/www/blot/logs/nginx.log",
-	cache_directory: "/cache",
+	cache_directory: process.env.BLOT_CACHE_DIRECTORY,
 	node: {
 		host: "127.0.0.1",
-		bin: "/.nvm/versions/node/v10.16.3/bin/node",
+		bin: `/.nvm/versions/node/v${process.env.BLOT_NODE_VERSION}/bin/node`,
 		main: "/Blot/app/index.js",
-		version: "10.16.3",
+		log: "/etc/blot/app.log",
+		version: process.env.BLOT_NODE_VERSION,
 		port: 8080
 	},
 	number_of_cpus: 4,
 	nginx: {
 		pid: "/var/run/nginx.pid",
 		bin: "/usr/local/openresty/nginx/sbin/nginx",
-		log: "/etc/blot/app.log",
 		config: "/usr/local/openresty/nginx/conf/nginx.conf"
 	},
 	redis: {
