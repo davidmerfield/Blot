@@ -1,0 +1,13 @@
+High level strategy:
+
+- automate provisioning of new instances
+  run this when making changes to redis config, nginx config, instance size
+  	1. launch new instance
+  	2. sync db and blog folder data
+  	3. associate elastic IP
+
+- automate deployment of new application code
+  run this for new commits
+  	1. will upload code to production
+  	2. will replace existing node processes with new ones
+  	3. will provide easy way to rollback to previous version
