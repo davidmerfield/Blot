@@ -6,18 +6,27 @@ mustache.escape = function(text) {
 const fs = require("fs-extra");
 
 const view = {
+	directory: "/Blot",
 	blot_repo: "https://github.com/davidmerfield/Blot",
 	user: "blot", // unix user
-	hosts: [{ host: "blot.im" }, { host: "blot.development" }],
+	host: "blot.im",
+	environment_file: "/etc/blot/environment",
 	fallback_certificate: "/etc/ssl/auto-ssl-fallback.crt",
 	fallback_certificate_key: "/etc/ssl/auto-ssl-fallback.key",
 	log_file: "/var/www/blot/logs/nginx.log",
 	cache_directory: "/cache",
-	node: { host: "127.0.0.1", port: 8080 },
+	node: {
+		host: "127.0.0.1",
+		bin: "/.nvm/versions/node/v10.16.3/bin/node",
+		main: "/Blot/app/index.js",
+		version: "10.16.3",
+		port: 8080
+	},
 	number_of_cpus: 4,
 	nginx: {
 		pid: "/var/run/nginx.pid",
 		bin: "/usr/local/openresty/nginx/sbin/nginx",
+		log: "/etc/blot/app.log",
 		config: "/usr/local/openresty/nginx/conf/nginx.conf"
 	},
 	redis: {
@@ -60,10 +69,16 @@ fs.writeFileSync(
 	mustache.render(redis_service_template, view)
 );
 
-const user_data_template = fs.readFileSync(
-	__dirname + "/user-data.sh",
+const blot_service_template = fs.readFileSync(
+	__dirname + "/systemd/blot.service",
 	"utf8"
 );
+fs.writeFileSync(
+	__dirname + "/out/blot.service",
+	mustache.render(blot_service_template, view)
+);
+
+const user_data_template = fs.readFileSync(__dirname + "/user-data.sh", "utf8");
 fs.writeFileSync(
 	__dirname + "/out/user-data.sh",
 	mustache.render(user_data_template, view)

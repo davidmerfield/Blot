@@ -3,7 +3,7 @@
 
 [Unit]
 Description=full-fledged web platform
-After=network.target
+After=network.target redis.service
 
 [Service]
 Type=forking
