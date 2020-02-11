@@ -15,34 +15,14 @@ var InstanceType = process.env.AWS_INSTANCE_TYPE;
 const SecurityGroupIds = [process.env.AWS_SECURITY_GROUP_ID];
 const KeyName = process.env.AWS_KEY_NAME;
 const SubnetId = process.env.AWS_SUBNET_ID;
+
+// Generate latest version of user-data script
+require('./build')
+
 const UserData = require("fs").readFileSync(
 	__dirname + "/out/user-data.sh",
 	"base64"
 );
-
-// You need
-// ec2.describeKeyPairs({}, function(err, { KeyPairs }) {
-// 	const KeyName = KeyPairs.filter(({ KeyName }) => {
-// 		console.log(KeyName, keyPairName);
-// 		return KeyName === keyPairName;
-// 	}).KeyName;
-
-// 	console.log(KeyName);
-// });
-
-// ec2.describeSecurityGroups({}, function(err, { SecurityGroups }) {
-// 	const SecurityGroupId = SecurityGroups.filter(({ GroupName }) => {
-// 		console.log(GroupName, securityGroupName);
-// 		return GroupName === securityGroupName;
-// 	})[0].GroupId;
-
-// 	console.log(SecurityGroupId);
-// });
-
-// ec2.describeSubnets(params, function(err, data) {
-//    if (err) console.log(err, err.stack); // an error occurred
-//    else     console.log(data);           // successful response
-//  });
 
 var params = {
 	ImageId,

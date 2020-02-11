@@ -92,8 +92,16 @@ cp pandoc/bin/pandoc /usr/bin
 git clone $BLOT_REPO {{directory}}
 cd Blot
 npm ci
-
 node scripts/deploy/build
+
+# We use rsync to transfer the database dump and blog folder from the other instance
+# yum -y install rsync
+
+# copy redis dump from other instance
+# rysnc -i $PATH_TO_PREVIOUS_PEM ec2-user@:$PREVIOUS_IP:/var/www/blot/db/dump.rdb $DUMP
+
+# copy blogs folder from other instance
+# rysync -i $PATH_TO_PREVIOUS_PEM ec2-user@:$PREVIOUS_IP:/var/www/blot/db/dump.rdb $DUMP
 
 # Run redis as blot user
 cp scripts/deploy/out/redis.service /etc/systemd/system/redis.service

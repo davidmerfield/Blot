@@ -1,3 +1,17 @@
+Interface:
+
+node scripts/deploy
+	
+	configure a staging domain
+	configure a production domain
+
+	would you like to deploy to staging or production ()
+
+	
+
+  - will launch fresh interface
+
+
 High level strategy:
 
 - automate provisioning of new instances
