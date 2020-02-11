@@ -17,7 +17,7 @@ const KeyName = process.env.AWS_KEY_NAME;
 const SubnetId = process.env.AWS_SUBNET_ID;
 
 // Generate latest version of user-data script
-require('./build')
+require("./build");
 
 const UserData = require("fs").readFileSync(
 	__dirname + "/out/user-data.sh",
@@ -40,7 +40,7 @@ ec2.runInstances(params, function(err, data) {
 	// an error occurred
 	else console.log(data); // successful response
 	const InstanceId = data.Instances[0].InstanceId;
-	console.log('Waiting until instance is running', InstanceId);
+	console.log("Waiting until instance is running", InstanceId);
 	ec2.waitFor("instanceRunning", { InstanceIds: [InstanceId] }, function(
 		err,
 		data
@@ -50,6 +50,9 @@ ec2.runInstances(params, function(err, data) {
 		else console.log(data); // successful response
 		const instance = data.Reservations[0].Instances[0];
 
-		console.log('Instance running, connect with:');
-		console.log(`ssh -o "StrictHostKeyChecking no" -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} LocalCommand="tail -f /var/log/cloud-init-output.log"`);
+		console.log("Instance running, connect with:");
+		console.log(
+			`ssh -o "StrictHostKeyChecking no" -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} LocalCommand="tail -f /var/log/cloud-init-output.log"`
+		);
+	});
 });
