@@ -24,6 +24,18 @@ const UserData = require("fs").readFileSync(
 	"base64"
 );
 
+const TagSpecifications = [
+	{
+		ResourceType: "instance",
+		Tags: [
+			{
+				Key: "deployed",
+				Value: "true"
+			}
+		]
+	}
+];
+
 var params = {
 	ImageId,
 	InstanceType,
@@ -32,7 +44,8 @@ var params = {
 	MinCount: 1,
 	SecurityGroupIds,
 	SubnetId,
-	UserData
+	UserData,
+	TagSpecifications
 };
 
 ec2.runInstances(params, function(err, data) {
