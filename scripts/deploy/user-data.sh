@@ -3,6 +3,7 @@ set -x
 set -e
 
 # This script assumes we start from a running, bare Amazon Linux instance
+# When built it contains secrets!
 
 # Name of the unix user responsible for Blot server
 USER={{user}}
@@ -11,6 +12,7 @@ NVM_URL=https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh
 LUAROCKS_URL=http://luarocks.org/releases/luarocks-2.0.13.tar.gz
 REDIS_URL=http://download.redis.io/redis-stable.tar.gz
 PANDOC_URL=https://github.com/jgm/pandoc/releases/download/2.9.1.1/pandoc-2.9.1.1-linux-amd64.tar.gz
+OPENRESTY_URL=https://openresty.org/package/amazon/openresty.repo
 
 mkdir -p $(dirname {{environment_file}})
 cat > {{environment_file}} <<EOL
@@ -40,7 +42,7 @@ make
 
 # Install NGINX/Openresty
 yum install -y yum-utils
-yum-config-manager --add-repo https://openresty.org/package/amazon/openresty.repo
+yum-config-manager --add-repo $OPENRESTY_URL
 yum install -y openresty
 
 # Install Luarocks (required by auto-ssl)

@@ -1,20 +1,17 @@
-var colors = require("colors/safe");
-
-var AWS = require("aws-sdk");
-var accessKeyId = process.env.AWS_DEPLOYMENT_ACCESS_KEY_ID;
-var secretAccessKey = process.env.AWS_DEPLOYMENT_SECRET_ACCESS_KEY;
+const colors = require("colors/safe");
+const AWS = require("aws-sdk");
 
 AWS.config.update({
-	accessKeyId,
-	secretAccessKey
+	accessKeyId: process.env.AWS_DEPLOYMENT_ACCESS_KEY_ID,
+	secretAccessKey: process.env.AWS_DEPLOYMENT_SECRET_ACCESS_KEY
 });
 
-var ec2 = new AWS.EC2({ region: process.env.AWS_REGION });
-
-var instances = [];
+const ec2 = new AWS.EC2({ region: process.env.AWS_REGION });
 
 ec2.describeInstances({}, function(err, data) {
 	if (err) throw err;
+
+	let instances = [];
 
 	data.Reservations.forEach(function(res) {
 		instances = instances.concat(res.Instances);

@@ -1,11 +1,4 @@
 const mustache = require("mustache");
-
-// Disable mustache's default escaping
-// otherwise slashes are encoded
-mustache.escape = function(text) {
-	return text;
-};
-
 const fs = require("fs-extra");
 
 const env = Object.keys(process.env)
@@ -46,48 +39,25 @@ const view = {
 	}
 };
 
-const template = fs.readFileSync(__dirname + "/nginx/server.conf", "utf8");
 let partials = {};
+
 fs.readdirSync(__dirname + "/nginx").forEach(name => {
 	partials[name] = fs.readFileSync(__dirname + "/nginx/" + name, "utf8");
 });
 
-fs.ensureDirSync(__dirname + "/out");
+render(__dirname + "/nginx/server.conf", __dirname + "/out/nginx.conf");
+render(__dirname + "/systemd/nginx.service", __dirname + "/out/nginx.service");
+render(__dirname + "/systemd/redis.service", __dirname + "/out/redis.service");
+render(__dirname + "/systemd/blot.service", __dirname + "/out/blot.service");
+render(__dirname + "/user-data.sh", __dirname + "/out/user-data.sh");
 
-fs.writeFileSync(
-	__dirname + "/out/nginx.conf",
-	mustache.render(template, view, partials)
-);
+function render(input, out) {
+	// Disable mustache's default escaping
+	mustache.escape = function(text) {
+		return text;
+	};
 
-const nginx_service_template = fs.readFileSync(
-	__dirname + "/systemd/nginx.service",
-	"utf8"
-);
-fs.writeFileSync(
-	__dirname + "/out/nginx.service",
-	mustache.render(nginx_service_template, view)
-);
-
-const redis_service_template = fs.readFileSync(
-	__dirname + "/systemd/redis.service",
-	"utf8"
-);
-fs.writeFileSync(
-	__dirname + "/out/redis.service",
-	mustache.render(redis_service_template, view)
-);
-
-const blot_service_template = fs.readFileSync(
-	__dirname + "/systemd/blot.service",
-	"utf8"
-);
-fs.writeFileSync(
-	__dirname + "/out/blot.service",
-	mustache.render(blot_service_template, view)
-);
-
-const user_data_template = fs.readFileSync(__dirname + "/user-data.sh", "utf8");
-fs.writeFileSync(
-	__dirname + "/out/user-data.sh",
-	mustache.render(user_data_template, view)
-);
+	const template = fs.readFileSync(input, "utf8");
+	fs.ensureDirSync(__dirname + "/out");
+	fs.writeFileSync(out, mustache.render(template, view, partials));
+}
