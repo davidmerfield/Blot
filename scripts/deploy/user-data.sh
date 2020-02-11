@@ -21,6 +21,8 @@ cat > {{environment_file}} <<EOL
 {{/env}}
 EOL
 
+. {{environment_file}}
+
 # Updates installed packages
 # yum with 'y' flag means answer 'yes' to all questions
 yum -y update

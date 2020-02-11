@@ -51,8 +51,5 @@ ec2.runInstances(params, function(err, data) {
 		const instance = data.Reservations[0].Instances[0];
 
 		console.log('Instance running, connect with:');
-		console.log(`ssh -o "StrictHostKeyChecking no" -i blot-deployment.pem ec2-user@${instance.PublicIpAddress}`);
-		console.log('Once connected, check on init script:');
-		console.log('tail -f /var/log/cloud-init-output.log')
-	});
+		console.log(`ssh -o "StrictHostKeyChecking no" -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} LocalCommand="tail -f /var/log/cloud-init-output.log"`);
 });
