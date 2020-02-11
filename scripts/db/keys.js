@@ -1,7 +1,23 @@
 var client = require("redis").createClient();
 var colors = require("colors/safe");
 
-module.exports = function redisKeys(pattern, fn, callback) {
+if (require.main === module) {
+	let keys = []
+	redisKeys(
+		process.argv[2],
+		function(_keys, next) {
+			keys = keys.concat(_keys);
+			next();
+		},
+		function() {
+			console.log()
+			console.log(keys);
+			process.exit();
+		}
+	);
+}
+
+function redisKeys(pattern, fn, callback) {
 	var complete;
 	var cursor = "0";
 	client.dbsize(function(err, total) {
@@ -31,10 +47,12 @@ module.exports = function redisKeys(pattern, fn, callback) {
 			});
 		});
 	});
-};
+}
 
 function pad(x, len, str) {
 	x = x.toString();
 	while (x.length < len) x = (str || "0") + x;
 	return x;
 }
+
+module.exports = redisKeys;
