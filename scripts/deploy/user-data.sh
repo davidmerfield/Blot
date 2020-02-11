@@ -121,8 +121,8 @@ systemctl start nginx.service
 cp scripts/deploy/out/blot.service /etc/systemd/system/blot.service
 
 # Whitelist domains for ssl certificate issuance
-echo "SET {{host}} true" | {{redis.cli}}
-echo "SET www.{{host}} true" | {{redis.cli}}
+echo "SET domain:{{host}} true" | {{redis.cli}}
+echo "SET domain:www.{{host}} true" | {{redis.cli}}
 
 mkdir -p {{directory}}/blogs
 mkdir -p {{directory}}/tmp

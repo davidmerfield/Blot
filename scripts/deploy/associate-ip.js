@@ -26,7 +26,7 @@ ec2.describeInstances({}, function(err, data) {
 
 		// Find instances created by the deploy script
 		// (we add these tags in launch-instance.js)
-		.filter(({ Tags }) => {
+		.filter(({ Tags }) => { 
 			return Tags.filter(tag => tag.Key === "deployed" && tag.Value === "true")
 				.length;
 		})
@@ -40,7 +40,8 @@ ec2.describeInstances({}, function(err, data) {
 
 	var params = {
 		AllocationId,
-		InstanceId
+		InstanceId,
+		AllowReassociation: true
 	};
 
 	ec2.associateAddress(params, function(err, data) {

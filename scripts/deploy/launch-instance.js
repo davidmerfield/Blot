@@ -31,7 +31,12 @@ const TagSpecifications = [
 			{
 				Key: "deployed",
 				Value: "true"
+			},
+			{
+				Key: "Name",
+				Value: "new-Blot"
 			}
+
 		]
 	}
 ];
