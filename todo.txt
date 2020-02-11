@@ -8,6 +8,8 @@ Resolve intermittent downtime
 
 Write Winter newsletter
 
+Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+
 ---
 
 Remove git folder when switching to Dropbox client and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwPCNcJrLDqprtcKWXFTn)
