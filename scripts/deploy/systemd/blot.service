@@ -3,10 +3,15 @@ Description=blot node server
 After=network.target nginx.service
 
 [Service]
-Type=simple
-EnvironmentFile={{environment_file}}
-ExecStart={{node.bin}} {{node.main}} >> {{node.log}} 2>&1
-Restart=on-failure
+{{#env}}
+Environment={{key}}={{value}}
+{{/env}}
+Environment=NODE_ENV=production
+ExecStart={{node.bin}} {{node.main}}
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=node-sample
 
 [Install]
 WantedBy=multi-user.target
