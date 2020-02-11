@@ -52,7 +52,7 @@ ec2.runInstances(params, function(err, data) {
 
 		console.log("Instance running, connect with:");
 		console.log(
-			`ssh -o "StrictHostKeyChecking no" -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} LocalCommand="tail -f /var/log/cloud-init-output.log"`
+			`ssh -o 'StrictHostKeyChecking no' -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} -t 'tail -f /var/log/cloud-init-output.log'`
 		);
 	});
 });

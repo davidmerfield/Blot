@@ -17,7 +17,7 @@ OPENRESTY_URL=https://openresty.org/package/amazon/openresty.repo
 mkdir -p $(dirname {{environment_file}})
 cat > {{environment_file}} <<EOL
 {{#env}}
-{{key}}={{value}}
+export {{key}}={{value}}
 {{/env}}
 EOL
 
