@@ -39,6 +39,12 @@ module.exports = {
     plan: "monthly_3"
   },
 
+  paypal: {
+    client_id: process.env.BLOT_PAYPAL_CLIENT_ID,
+    secret: process.env.BLOT_PAYPAL_SECRET,
+    plan: process.env.BLOT_PAYPAL_PLAN_ID
+  },
+
   pandoc_path: process.env.BLOT_PANDOC_PATH,
 
   cdn: {

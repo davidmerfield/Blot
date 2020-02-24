@@ -68,6 +68,8 @@ paymentForm.get(function(req, res) {
   res.locals.title = "Sign up";
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
+  res.locals.paypal_client_id = config.paypal.client_id;
+  res.locals.paypal_plan = config.paypal.plan;
   res.locals.stripe_key = config.stripe.key;
   res.render("sign-up");
 });

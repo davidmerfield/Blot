@@ -6,6 +6,21 @@
   <p class="error"><mark>Enable JavaScript to purchase an account.</mark> Payments are processed by Stripe without touching Blot's servers. This requires JavaScript.</p>
 </noscript>
 
+<style type="text/css">
+.tabs a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  color: #777;
+  border: 1px solid #aaa;
+  padding: 6px 12px;
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  display: inline-block;
+}
+
+.tabs {border-bottom: 1px solid #eee}
+</style>
 <form method="POST" style="width:330px">
 
   <p>
@@ -13,8 +28,45 @@
     <input type="text" class="email" name="email" autofocus />
   </p>
 
+  <p class="tabs">
+    <a href="#tab-card">Credit or debit card</a>
+    <a href="#tab-paypal">PayPal</a>
+  </p>
 
-  <p >
+
+  <div id="tab-paypal" style="display:none">
+  <script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}&vault=true">
+  </script>
+
+  <div id="paypal-button-container"></div>
+
+  <script>
+    paypal.Buttons({
+
+  createSubscription: function(data, actions) {
+
+    return actions.subscription.create({
+
+      'plan_id': '{{paypal_plan}}'
+
+    });
+
+  },
+
+
+  onApprove: function(data, actions) {
+
+    alert('You have successfully created subscription ' + data.subscriptionID);
+
+  }
+
+
+}).render('#paypal-button-container');
+
+ </script>
+</div>
+<div id="tab-card">
+  <p>
     <label for="number">Card number
       <em>Blot does not store your card details. Stripe processes your payment.</em>
     </label>
@@ -23,30 +75,31 @@
 
   <flex>
 
-  <p>
-    <label for="month">Expiration date</label>
-    <flex>
-    <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
-    <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
-    </flex>
-  </p>
+    <p>
+      <label for="month">Expiration date</label>
+      <flex>
+        <input name="exp-month" maxlength="2" placeholder="MM" type="text" data-stripe="exp-month" />
+        <input name="exp-year" maxlength="4" placeholder="YYYY" type="text" size="4" data-stripe="exp-year" />
+      </flex>
+    </p>
 
-  <p >
-    <label for="cvc">CVC
-      <em>The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.</em>
-    </label>
-    <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
-  </p>
+    <p>
+      <label for="cvc">CVC
+        <em>The CVC is the 3- or 4-digit code on your card, separate from the 16-digit number.</em>
+      </label>
+      <input type="text" size="4" data-stripe="cvc" id="cvc" name="cvc" />
+    </p>
   </flex>
-    <div style="flex-grow:1;margin-right:2em">
-  <p style="margin-bottom:0">
-    <label>Amount due today</label>
-  </p>
+</div>
+  <div style="flex-grow:1;margin-right:2em">
+    <p style="margin-bottom:0">
+      <label>Amount due today</label>
+    </p>
     <hr style="margin:2px 0;border:none;border-top:1px solid rgba(0, 0, 0, .25)">
     <p style="margin-top:4px">$3</p>
   </div>
   <input type="submit" value="Submit payment" />
-</flex>
+  </flex>
   <input type="hidden" class="stripeToken" name="stripeToken" />
 </form>
 
@@ -96,4 +149,5 @@ $('form').submit(function(event) {
   // Prevent the form from submitting with the default action
   return false;
 });
+
 </script>
