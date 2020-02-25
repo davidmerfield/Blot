@@ -103,8 +103,8 @@ module.exports = function(blogID, blog, callback) {
       // to bust the cache, e.g. in ./flushCache
       if (changes.template || changes.plugins || changes.cacheID) {
         latest.cacheID = Date.now();
-        latest.cssURL = "/style.css?" + latest.cacheID;
-        latest.scriptURL = "/script.js?" + latest.cacheID;
+        latest.cssURL = `/style.css?cache=${latest.cacheID}&amp;extension=.css`;
+        latest.scriptURL = `/script.js?cache=${latest.cacheID}&amp;extension=.js`;
         changes.cacheID = true;
         changes.cssURL = true;
         changes.scriptURL = true;

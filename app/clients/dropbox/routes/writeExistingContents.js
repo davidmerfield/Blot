@@ -5,6 +5,7 @@ var sync = require("sync");
 var upload = require("../util/upload");
 var join = require("path").join;
 var Metadata = require("metadata");
+var Path = require('path');
 
 module.exports = function(req, res, next) {
   var walk, walked, queue, localFolder, dropboxFolder, token;
@@ -46,6 +47,43 @@ module.exports = function(req, res, next) {
   });
 };
 
+// Takes a file or folder whose name is not fully
+// lowercase and to make it lowercase. For example:
+//
+//      /foo/BaR.jpg --> /foo/bar.jpg
+//
+// This function is more complicated because we don't
+// want to clobber /foo/bar/baz.jpg if it already exists
+// so we run down a list of options. Returns the
+// name of the lowercased file.
+function ensureLowerCase (directory, name, callback){
+  
+  var currentPath, parsedPath, names;
+
+  if (name === name.toLowerCase()) return callback(null, name);
+
+  currentPath = join(directory, name);
+  parsedPath = Path.parse(currentPath);
+
+  names = [
+    name.toLowerCase(),
+    parsedPath.name.toLowerCase() + ' (conflict)' + parsedPath.ext.toLowerCase(),
+  ];
+
+  for (var i=1;i<100;i++) {
+    names.push(parsedPath.name.toLowerCase() + ' (conflict ' + i + ')' + parsedPath.ext.toLowerCase());
+  }
+
+  async.eachSeries(names, function(name, next){
+    fs.move(currentPath, join(directory, name), function(err){
+      if (err) return next();
+      callback(null, name);
+    });
+  }, function(){
+    callback(new Error("Ran out of candidates to lowercase path: " + currentPath));
+  });
+}
+
 function walker(blogID, localFolder, dropboxFolder, queue) {
   return function walk(path, callback) {
     debug("iterating", path);
@@ -53,31 +91,39 @@ function walker(blogID, localFolder, dropboxFolder, queue) {
     fs.readdir(localFolder + path, function(err, contents) {
       async.eachSeries(
         contents,
-        function(name, next) {
+        function handleItem (name, next) {
           debug(". ", join(localFolder, path, name));
 
-          fs.stat(join(localFolder, path, name), function(err, stat) {
+          // We lowercase the local path to the file because
+          // when the Dropbox client syncs, it writes lowercase
+          // files only. Without this step, you end up with duplicated
+          // files and folders, one case-preserved, one lowercase
+          ensureLowerCase(join(localFolder, path), name, function(err, name){
             if (err) return next(err);
 
-            if (stat.isDirectory()) {
-              return walk(join(path, name), next);
-            }
+            fs.stat(join(localFolder, path, name), function(err, stat) {
+              if (err) return next(err);
 
-            // PRESERVE CASE ISING CALLS TO BLOT"S METADATA MODEL
-            Metadata.get(blogID, join(path, name), function(
-              err,
-              casePreservedName
-            ) {
-              queue.push({
-                source: join(localFolder, path, name),
-                destination: join(
-                  dropboxFolder,
-                  path,
-                  casePreservedName || name
-                )
+              if (stat.isDirectory()) {
+                return walk(join(path, name), next);
+              }
+
+              // Fetches case-preserved name of the file
+              Metadata.get(blogID, join(path, name), function(
+                err,
+                casePreservedName
+              ) {
+                queue.push({
+                  source: join(localFolder, path, name),
+                  destination: join(
+                    dropboxFolder,
+                    path,
+                    casePreservedName || name
+                  )
+                });
+
+                next();
               });
-
-              next();
             });
           });
         },
