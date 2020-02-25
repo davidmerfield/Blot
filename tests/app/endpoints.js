@@ -1,6 +1,6 @@
 describe("Blot endpoints", function() {
   var request = require("request");
-  var START_MESSAGE = "Blot is listening on port";
+  var START_MESSAGE = "app listening on port";
   var server;
   var has_err = false;
 

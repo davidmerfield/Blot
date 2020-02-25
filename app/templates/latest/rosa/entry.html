@@ -13,7 +13,7 @@
       </div>
 
       <div class="light">{{#date}}
-        <a href="{{url}}" title="Permalink for {{title}}">{{date}}</a>
+        <a href="{{{url}}}" title="Permalink for {{title}}">{{date}}</a>
         {{/date}}{{#tags}}
         · <a title="Everything tagged {{name}}" href="/tagged/{{slug}}">{{name}}</a>
       {{/tags}}</div>
@@ -25,11 +25,11 @@
       <p class="entry">
 
       {{#previous}}
-      <span class="light adjacent">Previous:</span><a href="{{url}}" title="{{title}}">{{title}}</a><br />
+      <span class="light adjacent">Previous:</span><a href="{{{url}}}" title="{{title}}">{{title}}</a><br />
       {{/previous}}
 
       {{#next}}
-      <span class="light adjacent">Next:</span><a href="{{url}}" title="{{title}}">{{title}}</a>
+      <span class="light adjacent">Next:</span><a href="{{{url}}}" title="{{title}}">{{title}}</a>
       {{/next}}
 
       </p>

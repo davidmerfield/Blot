@@ -38,6 +38,15 @@ describe("summary", function() {
     ).toEqual("Hello");
   });
 
+  it("handles html entities in the title", function() {
+    expect(
+      this.summary({
+        html: "<p>Ad&nbsp;Fontes</p><p>Lucili</p>",
+        title: "Ad Fontes"
+      })
+    ).toEqual("Lucili");
+  });
+
   it("does not contain the text of the title", function() {
     expect(
       this.summary({

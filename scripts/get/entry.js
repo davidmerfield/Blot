@@ -17,7 +17,7 @@ module.exports = function get(url, callback) {
   
       Entry.get(blog.id, url.path, function(entryFromPath){
 
-        if (!entryFromPermalink && !entryFromPath) return callback(new Error("No entry"));
+        if (!entryFromPermalink && !entryFromPath) return callback(new Error("No entry"), user, blog);
 
         callback(err, user, blog, entryFromPermalink || entryFromPath);
       });

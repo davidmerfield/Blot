@@ -16,14 +16,10 @@ Blog.get({ handle: process.argv[2] }, function(err, blogFromHandle) {
         function(ok) {
           if (!ok) throw new Error("Not ok!");
 
-          // We need to enable the blog to disconnect the client
-          // since we need to acquire a sync lock...
-          Blog.set(blog.id, { isDisabled: false }, function(err) {
-            Blog.remove(blog.id, function(err) {
-              if (err) throw err;
-              console.log("Deleted", blog.id, blog.handle);
-              process.exit();
-            });
+          Blog.remove(blog.id, function(err) {
+            if (err) throw err;
+            console.log("Deleted", blog.id, blog.handle);
+            process.exit();
           });
         }
       );

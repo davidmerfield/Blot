@@ -1,11 +1,8 @@
 if (require.main === module) {
-  main(function(err, subscribers) {
+  main(function(err, res) {
     if (err) throw err;
 
-    console.log(subscribers.join(" "));
-
-    console.log();
-    console.log(subscribers.length + " subscribed to the newsletter");
+    console.log(res.newsletter_subscribers + " subscribed to the newsletter");
     process.exit();
   });
 }
