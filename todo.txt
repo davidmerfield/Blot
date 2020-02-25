@@ -675,8 +675,6 @@ Add a file dependency / dependents list to each entry then use this to rebuild d
 
 Add support for comments via webmentions like Disqus and tell Amit and [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLKckzjnQRsszbdLwvnGb)
 
-Investigate [commento](https://commento.io/) as an alternative to Disqus
-
 Automate setting up application environment using /etc/profile.d:
 
   sudo echo "export BLOT_CACHE=true" > /etc/profile.d/blot.sh
