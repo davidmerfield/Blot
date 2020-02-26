@@ -1,6 +1,6 @@
 body {
   font: 14px / 1.7 Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, monospace;
-  color: {{bodycopy-color}};
+  color: {{body_text_color}};
   background: {{background_color}};
   padding: 3em 4em 5em;
   word-wrap: break-word; /* for long words & urls */
