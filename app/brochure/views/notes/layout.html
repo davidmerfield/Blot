@@ -189,6 +189,18 @@ h2+.guides li:first-child a {
     </ul>
 
     <content>
+      
+      <ul class="guides">
+        {{#toc}}
+        {{name}}
+        <ul>
+          {{#items}}
+          <li><a href="{{slug}}">{{name}}</a>
+          {{/items}}
+        </ul>
+        {{/toc}}
+</ul>
+
       {{{body}}}
     </content>
   </main>
