@@ -4,15 +4,16 @@
   strong {font-weight: 600}
   .bold-no-underline {font-weight: 600;text-decoration: none;color: inherit;}
   .bold-no-underline:hover {text-decoration: underline;}
+  .bold-no-underline:active {color: #333}
   .index {flex-basis: 25%;list-style-type: none;padding: 0}
   .index a {color: inherit;}
   .index a:hover {text-decoration: underline;}
 </style>
 <br>
 <div class="wrapper" style="display:flex;margin: 2rem auto">
-  <div style="flex-basis:50%">
+  <div style="flex-basis:50%;font-size: 20px">
 
-        <p><a class="bold-no-underline" title="Blot" href="/" >Blot</a> is a blogging platform with no interface. It turns a folder into a blog</p>
+        <p><a class="bold-no-underline" title="Blot" href="/" >Blot</a> is a blogging platform with no interface. It turns a folder into a blog.</p>
 
 <p>Why a blogging platform with no interface? So you can write with your favorite text-editor.</p>
 <p style="margin:28px 0 0px"><a style="border-bottom: 1px solid blue;color:blue" href="/videos/publishing-with-blot.mp4">Watch the film</a></p>
@@ -51,7 +52,7 @@
 
     <ul class="index">
       <li><a href="/about"><strong>About</strong></a></li>
-      <li><a href="/news">News</a></li>
+      <li><a href="/news">News <span style="border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
       <li><a href="/source">Source code</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>
@@ -65,8 +66,8 @@
 
 </div>
 </div>
-
-<div style="display:flex;flex-direction:row;flex-wrap:wrap;align-items: center;justify-content: center;">
+<div class="wrapper">
+<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
   <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
     
@@ -78,16 +79,18 @@
 </a>
   {{/featured}}
 </div>
+</div>
 <style type="text/css">
 a.featured {
   position: relative;
-  flex-basis: 25%;
+  flex-basis: 30%;
   min-width: 200px;
+  flex-grow: 1;
   color: inherit;
   background: #fff;
   box-sizing: border-box;
   margin: 0 1em 1em -0.1525em;
-  padding: 1em 1.4em 1em 3.6em;
+  padding: 1em 1.4em 1em 3.2em;
   border: 1px solid #eee;
   border-radius: 3px
   
