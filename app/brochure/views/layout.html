@@ -2,13 +2,14 @@
 
 <body>
 
+  <div class="wrapper">
   <header>
-    <row style="display:flex;align-items:center;">
+    <row  style="display:flex;align-items:center;">
       <section style="display: flex;
     align-items: center;">
 
         {{#unless user}}
-        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}} Blot</a>
+        <a class="logo {{selected.index}}" title="Blot" href="/" >Blot</a>
         {{/unless}}
         {{#if user}}
         <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
@@ -31,10 +32,13 @@
       </section>
     </row>
 
-    <hr style="margin:0">
   </header>
+</div>
+    <hr style="margin:0; border: none;
+    border-bottom: 1px solid #eee;">
 
-  <main style="padding-top:0">
+  <div class="wrapper">
+  <main style="padding-top:0" >
 
     <input type="checkbox" name="toggle" id="toggle">
 
@@ -79,7 +83,7 @@
       {{{body}}}
     </content>
   </main>
-
+</div>  
   {{> footer}}
 </body>
 
