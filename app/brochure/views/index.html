@@ -46,13 +46,13 @@
       <li><a href="/templates/default">Diary</a></li>
       <li><a href="/templates/default">Essay</a></li>
       <li><a href="/templates/default">Portfolio</a></li>
-      <li><a href="/templates/default">Magazine</a></li>
+      <li><a href="/templates/default">Journal</a></li>
       <li><a href="/templates/default">Picture</a></li>
     </ul>
 
     <ul class="index">
       <li><a href="/about"><strong>About</strong></a></li>
-      <li><a href="/news">News <span style="border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
+      <li><a href="/news">News <span style="display:none;border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
       <li><a href="/source">Source code</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>
@@ -61,12 +61,13 @@
 
 <div class="wrapper" style="margin:2rem auto;display: flex">
   <div style="flex-basis:50%">
-<p>You can use Blot to create a micro blog, photography portfolio, scrapbook and much more. Here's a few of the people who host their website with Blot:</p>
+<p>You can use Blot to publish a blog, photography portfolio, scrapbook and much more. Here's a few of the people who host their website with Blot:</p>
 <br>
 
 </div>
 </div>
 <div class="wrapper">
+  <div style="margin:0 -1em">
 <div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
   <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
@@ -80,6 +81,7 @@
   {{/featured}}
 </div>
 </div>
+</div>
 <style type="text/css">
 a.featured {
   position: relative;
@@ -89,11 +91,10 @@ a.featured {
   color: inherit;
   background: #fff;
   box-sizing: border-box;
-  margin: 0 1em 1em -0.1525em;
+  margin: 0 0.5em 1em 0.5em;
   padding: 1em 1.4em 1em 3.2em;
-  border: 1px solid #eee;
-  border-radius: 3px
-  
+  border-radius: 4px;
+    box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;  
 }
 
 @media screen and (max-width: 800px) {
