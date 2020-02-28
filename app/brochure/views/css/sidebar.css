@@ -12,8 +12,8 @@ ul.sidebar {
   min-height: 100vh;
   list-style: none;
   width: 10rem;
-
-  padding: 0;
+/*  border-right: 1px solid #eee;
+*/  padding: 0;
   box-sizing: border-box;
   max-width: none;
   flex-shrink: 0;
@@ -98,7 +98,7 @@ label[for="toggle"] {
   display: block;
   position: absolute;
   top: 50%;
-  left: 0.75em;
+  left: -1.25em;
   width: 7px;
   height: 7px;
   margin: -4px -5px 0 0;
@@ -110,21 +110,6 @@ label[for="toggle"] {
   content: "";
 }
 
-.sidebar .index>a:first-child:hover {
-  background: transparent;
-}
-
-.sidebar .index>a:first-child:before {
-  background: url('/images/logo-new.svg');
-  transform: none;
-  background-size: 1em;
-  width: 1em;
-  top: 0.5em;
-  opacity: 0.3;
-  left: 6px;
-  height: 1em;
-  background-repeat: no-repeat;
-}
 
 .sidebar input {
   display: none;
@@ -171,7 +156,7 @@ ul.sidebar ul {
 
 .sidebar li ul {
   list-style: none;
-  padding-left: 1em;
+  padding-left: 0;
   padding-bottom: 1em;
 }
 

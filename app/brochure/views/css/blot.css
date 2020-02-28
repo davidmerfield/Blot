@@ -9,6 +9,8 @@ body {
   background: #fffefc;
 }
 
+strong {font-weight: 600}
+
 .wrapper {
   max-width: 48rem;
   margin: 0 auto
@@ -76,7 +78,7 @@ content p a,
 content li a,
 content table a,
 content details a {
-  color: #005eb8;
+  color: blue;
   text-decoration: underline;
 }
 

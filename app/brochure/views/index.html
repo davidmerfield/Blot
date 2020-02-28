@@ -11,7 +11,7 @@
 </style>
 <br>
 <div class="wrapper" style="display:flex;margin: 2rem auto">
-  <div style="flex-basis:50%;font-size: 20px">
+  <div style="flex-basis:50%;font-size: 21px">
 
         <p><a class="bold-no-underline" title="Blot" href="/" >Blot</a> is a blogging platform with no interface. It turns a folder into a blog.</p>
 
@@ -26,8 +26,9 @@
         <a class="bold-no-underline" style="margin-right: 2rem" href="/sign-up">Sign up</a>
         <a class="bold-no-underline" href="/log-in">Log in</a>
      </p>
-
-      </div>
+     <img src="https://media.urbit.org/site/posts/updates/~2020.02.06-update.jpg" style="width:120px;height:90px;margin:6.5rem 8.5rem 0 0">
+<!--      <img src="/images/Untitled-1.jpg" width="120" style="margin:4rem 8rem 0 0">
+ -->      </div>
 
   </div>
 <hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
@@ -53,8 +54,9 @@
     <ul class="index">
       <li><a href="/about"><strong>About</strong></a></li>
       <li><a href="/news">News <span style="display:none;border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
-      <li><a href="/source">Source code</a></li>
-      <li><a href="/contact">Contact</a></li>
+<!--       <li><a href="/source">Source code</a></li>
+ -->      <li><a href="/contact">Contact</a></li>
+      <br>
     </ul>
 </div>
 <hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
@@ -67,13 +69,13 @@
 </div>
 </div>
 <div class="wrapper">
-  <div style="margin:0 -1em">
+  <div style="margin:0 -2em">
 <div style="display:flex;flex-direction:row;flex-wrap:wrap;">
   {{#featured}}
   <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
     
 
-        <img style="width:24px;height:24px;position:absolute;top:1em;left:1em" src="{{{favicon}}}"> 
+        <img style="width:20px;height:20px;position:absolute;top:1.1em;left:1.1em" src="{{{favicon}}}"> 
 
        <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span>
 
@@ -89,13 +91,15 @@ a.featured {
   min-width: 200px;
   flex-grow: 1;
   color: inherit;
+  font-size: 15px;
   background: #fff;
   box-sizing: border-box;
-  margin: 0 0.5em 1em 0.5em;
+  margin: 0 0.725em 1.425em 0.725em;
   padding: 1em 1.4em 1em 3.2em;
   border-radius: 4px;
-    box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;  
-}
+  border:1px solid #eee;
+/*    box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;  
+*/}
 
 @media screen and (max-width: 800px) {
   a.featured {flex-basis:100%}
@@ -188,3 +192,58 @@ document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(fu
 });
 
 </script>
+
+<br><Br><br>
+<hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
+<div class="wrapper" style="display:flex;margin: 2rem auto;font-size: 15px">
+<ul class="index">
+      <li><a href="/publishing"><strong>How to use Blot</strong></a></li>
+      <li><a href="/publishing/pages">Pages</a></li>
+      <li><a href="/publishing/public-files">Public files</a></li>
+      <li><a href="/publishing/metadata">Metadata</a></li>
+      <li><a href="/publishing/clients">Clients</a></li>
+      <li><a href="/publishing/guides">Guides</a></li>
+    </ul>
+
+    <ul class="index">
+      <li><a href="/templates"><strong>Templates</strong></a></li>
+      <li><a href="/templates/default">Diary</a></li>
+      <li><a href="/templates/default">Essay</a></li>
+      <li><a href="/templates/default">Portfolio</a></li>
+      <li><a href="/templates/default">Journal</a></li>
+      <li><a href="/templates/default">Picture</a></li>
+    </ul>
+
+    <ul class="index">
+      <li><a href="/about"><strong>About</strong></a></li>
+      <li><a href="/news">News <span style="display:none;border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
+      <li><a href="/source">Source code</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+
+    <ul class="index">
+      <li><a href="/about"><strong>Developers</strong></a></li>
+      <li><a href="/news">News <span style="display:none;border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
+      <li><a href="/source">Source code</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+</div>
+<div class="wrapper" style="display:flex;margin: 2rem auto;font-size: 15px">
+  <a href="/terms">Terms of use</a>
+  <span class="spacer"></span>
+  <a href="/privacy">Privacy policy</a>
+  <span class="spacer"></span>
+  <a href="/terms">Source code</a>
+  <span class="spacer"></span>
+  <a href="/contact">Contact</a>
+  <div>
+  <a href="/sign-up">Sign up</a>
+  <span class="spacer"></span>
+  <a href="/log-in">Log in</a>
+  </div>
+</div>
+<hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
+<div class="wrapper" style="display:flex;margin: 2rem auto;font-size: 15px">
+  <p><span style="color:green">&bull;</span> All servers are online.</span></p>
+</div>
+<script src="/js/instant.page.js" type="module"></script>
