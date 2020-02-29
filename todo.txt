@@ -1,3 +1,5 @@
+Help Bernardo with [Dark mode](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWxRwJXgnfgVQqfcQwGjlMpq)
+
 Create DMARC record for Blot
 - https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail
 - https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
