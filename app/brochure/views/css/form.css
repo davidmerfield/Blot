@@ -14,7 +14,7 @@ input[type="text"],
 input[type="password"]  {border-radius: 0}
 
 input[type="submit"] {
-  background: #0040ff;
+  background: #0079fc;
   border-radius: 4px;
   padding: 0.75em 1em;
   color: white;
