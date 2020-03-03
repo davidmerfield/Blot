@@ -114,8 +114,6 @@ Work out how to detect stray build processes. There were a bunch of zombies cons
 
 ---
 
-Increase price to $4 per month for new customers. This will not affect existing customers in any way.
-
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
