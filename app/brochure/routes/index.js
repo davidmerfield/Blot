@@ -171,6 +171,7 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
 });
 
 brochure.get("/", require("./featured"), function(req, res) {
+  res.locals.layout ="partials/index-layout"
   res.locals.title = "Blot – A blogging platform with no interface";
   res.render("index");
 });

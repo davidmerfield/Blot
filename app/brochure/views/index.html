@@ -1,55 +1,60 @@
 
 
-
 <style type="text/css">
-.p {text-decoration: none;}
-.p:hover {text-decoration: underline;background: none;box-shadow: none;}
-.t {
-  width: 0;
-height: 0;
-position: absolute;
-top: 5px;
-left: 9px;
-border-style: solid;
-border-width: 4.5px 0 4.5px 8px;
-border-color: transparent transparent transparent #005eb8;display: inline-block;
-}
-
-.box {
-  width:1.5em;height:1.15em;float:left;border:1px solid;display:inline-block;position:relative;border-radius:2px;margin-right:0.65em;
-  position: relative;top: 1px;
-}
-
-.p:hover .box {background: #005eb8}
-.p:hover .t {
-  border-color: transparent transparent transparent #fff;
-}
-
-.p:focus .box {background: #444}
-
+  strong {font-weight: 600}
+  .bold-no-underline {font-weight: 600;text-decoration: none;color: inherit;}
+  .bold-no-underline:hover {text-decoration: underline;}
+  .bold-no-underline:active {color: #333}
+  .index {flex-basis: 25%;list-style-type: none;padding: 0}
+  .index a {color: inherit;}
+  .index a:hover {text-decoration: underline;}
 </style>
+<br>
+<div class="wrapper" style="display:flex;margin: 2rem auto">
+  <div style="flex-basis:50%;font-size: 21px">
 
-<h1>A blogging platform with no interface</h1>
-<p>Why a blogging platform with no interface? So you can blog with your favorite tools. Blot turns a folder into a blog. Drag-and-drop ﬁles inside to publish. Images, text files, Word Documents, Markdown and more become blog posts automatically.</p>
-<p style="margin:28px 0 0px"><a class="p" href="/videos/publishing-with-blot.mp4"><span class="box"><span class="t"></span></span>Watch the film</a></p>
-<!-- 
+        <p><a class="bold-no-underline" title="Blot" href="/" >Blot</a> is a blogging platform with no interface. It turns a folder into a blog.</p>
 
-<br><br>
-<background class="yellow"><pre class="folder" title="Your blog"><code>Drafts
-Pages
-  About.txt
-  Contact.docx  
-  Home.txt
-  Secret.txt
-Posts
+<p>Why a blogging platform with no interface? So you can <span style="">write with your favorite text-editor</span>.</p>
+<p style="margin:28px 0 0px"><a style="border-bottom: 1px solid #0079fc;color:#0079fc" href="/videos/publishing-with-blot.mp4">Watch the video</a>
 
-</code></pre></background> -->
+<hr style="
+    /* height: 4px; */
+    /* display: block; */
+    width: 100%;
+    /* border: 3px solid red; */
+    background: none;
+    border: none;
+    margin: 0 0 12px;
+">
 
-<br><Br>
-<style type="text/css">a.video {background: #fdd27f}</style>
-<a class="video" href="/videos/publishing-with-blot.mp4" title="Play video">
+<a href="/sign-up" style="border-bottom: 1px solid #34c84a;color: #34c84a;padding-top: 6px;/* display: inline-block; */">Create a blog</a>
+<!-- <br><br>
+<span style="font-size: 16px">
+Already using Blot? <a href="/" style="font-weight: 600;color: inherit;text-decoration: none;">Log in</a></span>
+ -->
+</p>
+  <br>
+  <br>
+  <br>
+      </div>
+      <div style="flex-basis: 50%;text-align: right;">
+        <p>
+        <a class="bold-no-underline" style="margin-right: 2rem" href="/sign-up">Sign up</a>
+        <a class="bold-no-underline" href="/log-in">Log in</a>
+     </p>
+<!--      <img src="https://media.urbit.org/site/posts/updates/~2020.02.06-update.jpg" style="width:120px;height:90px;margin:6.5rem 8.5rem 0 0">
+ -->     
+ <style type="text/css">.window {margin: 0}.window {}</style>
+<a style="    width: 245px;
+    height: 178px;
+    display: inline-block;
+    margin: 6.5rem 2.5rem 0 0;
+    background: #000;
+    /*background: blue;*/
+    background-size: cover;" href="/videos/publishing-with-blot.mp4">
 
-    
+ <div style="transform: scale(0.55);text-align: left;position: relative;top:-11px">  
 <pre class="folder" title="Your blog"><code>Drafts
 Pages
 Posts
@@ -57,61 +62,102 @@ Posts
   Bannana.jpg
   Cherry.docx
 
+</code></pre></div>
 
-</code></pre></a> 
-<br><Br>
-
-<!-- 
-<background style="background:transparent">
-  <pre class="folder" title="Your blog"><code>Drafts
-Pages
-Posts
-  Apple.md
-  Bannana.jpg
-  Cherry.docx
-
-
-</code></pre></background> -->
-
-<!-- 
-<Div style="width:300px;float:right;margin:0 0 0 100px">
+<!--  <img style="width:80px;height:auto;" src="https://d2w9rnfcy7mm78.cloudfront.net/1300659/original_55070ed8359a3e977031c05ac1e5281c.jpg?1506727314?bc=1">
+ --><!--      <img src="/images/Untitled-1.jpg" width="120" style="margin:4rem 8rem 0 0">
+ -->      </a>
 </div>
-<div style="clear:both"></div> --><!-- 
-<br><br>
 
+  </div>  
 
-</flex> -->
+<hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
+  <style type="text/css">.y {display: block;margin-bottom: 0}</style>
 
-<div class="">
-<p>Blot comes with seven <a href="/templates">templates</a>. They make it easy to start a blog, portfolio or link blog. You can also <a href="/developers">develop your own template</a> from scratch. Here's some the people who use Blot to host their website:</p>
+<div class="wrapper" style="display:flex;margin: 1.45rem auto">
+<ul class="index">
+      <li><a href="/publishing"><strong class="y">How to use Blot</strong></a></li>
+      <li><a href="/publishing/pages">Pages</a></li>
+      <li><a href="/publishing/public-files">Public files</a></li>
+      <li><a href="/publishing/metadata">Metadata</a></li>
+      <li><a href="/publishing/clients">Clients</a></li>
+      <li><a href="/publishing/guides">Guides</a></li>
+    </ul>
+
+    <ul class="index">
+      <li><a href="/templates"><strong class="y">Templates</strong></a></li>
+      <li><a href="/templates/default">Diary</a></li>
+      <li><a href="/templates/default">Essay</a></li>
+      <li><a href="/templates/default">Portfolio</a></li>
+      <li><a href="/templates/default">Journal</a></li>
+      <li><a href="/templates/default">Picture</a></li>
+    </ul>
+
+    <ul class="index">
+      <li><a href="/about"><strong class="y">About</strong></a></li>
+      <li><a href="/news">News <span style="display:none;border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
+<!--       <li><a href="/source">Source code</a></li>
+
+ -->     <li><a href="/developers">Developers</a></li> <li><a href="/contact">Contact</a></li>
+      <br>
+    </ul>
+</div>
+
+<hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
+  <br><br>
+
+<div class="wrapper" style="margin:2rem auto;display: flex">
+  <div style="flex-basis:50%">
+<p style="padding-right: 1.4em">Images, text ﬁles, Word Documents, Markdown and more become blog posts automatically. Here's a few of the people who host their website with Blot:</p>
 <br>
-</div>
 
+</div>
+</div>
+<div class="wrapper">
+  <div style="margin:0 0">
+<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
+  {{#featured}}
+  <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
+    
+
+        <img style="width:16px;height:16px;" src="{{{favicon}}}"> 
+
+       <span class="a">{{name}}</span><!--  {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template. --></span>
+
+</a>
+  {{/featured}}
+</div>
+</div>
+</div>
 <style type="text/css">
 a.featured {
   position: relative;
-  flex-basis: 100%;
-  min-width: 200px;
+  flex-basis: 25%;
+  flex-grow: 1;
   color: inherit;
+  line-height: 1.8;
+  background: #fff;
   box-sizing: border-box;
-  margin: 0 1em 0 -0.1525em;
-  padding: 1em 1.4em 1em 3.6em;
-  border-bottom: 1px solid #eee;
-  
-}
+  margin: 0
+/*  padding: 1em 1.4em 1em 3.2em;
+*//*  border-radius: 4px;
+  border:1px solid #eee;
+/*    box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;  
+*/}
 
-a.featured:last-child {border-bottom: none;}
 @media screen and (max-width: 800px) {
   a.featured {flex-basis:100%}
 }
 
 a.featured:hover {
-  background: #eee
+  background: #eee;
+  text-decoration: none;
 }
 
 a.featured .a {
-  color: #005eb8;
-  text-decoration: underline;
+  text-decoration: none;
+  color: blue;
+  border-bottom: 1px solid;
 }
 
 a.featured img {
@@ -119,11 +165,65 @@ a.featured img {
   margin-right: 4px;
 }
 
+a[href*="tillman"] .a {color: #0077f0}
+a[href*="medero"] .a {color: #828282}
+a[href*="tyler.vc"] .a {color: #5f8293}
+a[href*="skincarried"] .a {color: #c68256}
+a[href*="chrbutler"] .a {color: #e5486c}
+a[href*="letterspace"] .a {color: #111}
+a[href*="chrbutler"] .a {color: #e5486c}
+a[href*="eli.li"] .a {color: #b97c29}
+a[href*="rile.yt"] .a {color: #af8f8a}
+a[href*="keeting"] .a {color: #d42633}
+a[href*="utkin"] .a {color: #666666}
+a[href*="beeler"] .a {color: #ba7b6f}
+a[href*="white.nyc"] .a {color: #9e826d}
+a[href*="shashwati"] .a {color: #c37728}
+a[href*="inextenso"] .a {color: #39292d}
+a[href*="enzel"] .a {color: #3e7090}
+a[href*="pixelswi"] .a {color: #c56d64}
+a[href*="withbb"] .a {color: #797979}
+a[href*="mirkil"] .a {color: #025cb3}
+a[href*="crossing"] .a {color: #55423c}
+a[href*="aurynn"] .a {color: #a05781}
+a[href*="pavlus"] .a {color: #715048}
+a[href*="jacoby"] .a {color: #111}
+a[href*="jmab"] .a {color: #333}
+a[href*="hjelle"] .a {color: #50423e}
+a[href*="tomwhite"] .a {color: #8a9144}
+a[href*="benlog"] .a {color: #576c50}
+a[href*="gawande"] .a {color: #75302f}
+a[href*="iiiii"] .a {color: #65646a}
+a[href*="andrewj"] .a {color: #c16256}
+a[href*="failure"] .a {color: #5fbade}
+a[href*="battles"] .a {color: #727272}
+a[href*="vaughn"] .a {color: #696e66}
+a[href*="gibson"] .a {color: #5a362b}
+a[href*="seanmc"] .a {color: #535353}
+a[href*="bitdepth"] .a {color: #a24645}
+a[href*="soulofthe"] .a {color: #585858}
+a[href*="inthemargin"] .a {color: #4b4b4b}
+a[href*="juicenews"] .a {color: #98503f}
+a[href*="rachelp"] .a {color: #702225}
+a[href*="mrfris"] .a {color: #486156}
+a[href*="rebecca"] .a {color: #1b6cb5}
+a[href*="bishop"] .a {color: #87878a}
+a[href*="thingelstad"] .a {color: #ad8d65}
+a[href*="matthams"] .a {color: #a0614a}
+a[href*="kiefer"] .a {color: #516f82}
+a[href*="querlin"] .a {color: #757196}
+a[href*="paul.af"] .a {color: #d08573}
+a[href*="ishsh"] .a {color: #4c919c}
+a[href*="discombob"] .a {color: #dba14e}
+a[href*="keywords"] .a {color: #5479bf}
+a[href*="marius"] .a {color: #054429}
+a[href*="rafag"] .a {color: #484848}
+
+
+
+
 a.featured:hover {background: none}
 
-a.featured:hover .a {
-  text-decoration: underline;
-}
 
 .feat-toolbar {
   border-bottom:  1px solid #005eb8;
@@ -147,65 +247,21 @@ top: -0.7em;right: -0.7em;color: white;border:3px solid white;opacity: 0}
 
 
 </style>
-<div style="display:flex;flex-direction:row;flex-wrap:wrap;">
-  {{#featured}}
-  <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
-    
-
-        <img style="border-radius:50%;width:32px;height:32px;position:absolute;top:1em;left:0em" src="{{{favicon}}}"> 
-
-       <span class="a">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a <span class="-a"href="/developers">custom</span>{{else}} the <span class="-a" href="/templates/{{template.slug}}">{{template.label}}</span>{{/if}} template.</span>
-
-</a>
-  {{/featured}}
-</div>
-<!-- 
-
-<h2>Importing posts</h2>
-<p>Blot comes with scripts to turn your site on <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/tumblr">Tumblr</a>, <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/wordpress">Wordpress</a>, <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/jekyll">Jekyll</a> or <a href="https://github.com/davidmerfield/Blot/tree/master/app/dashboard/routes/importer/sources/squarespace">Squarespace</a> into a folder of files which are friendly to Blot. These scripts preserve your URLs to prevent broken links if you decide to switch to Blot. Please <a href="/contact">contact me</a> and I will run them for you.</p>
 
 
 
-<h2>Typography</h2>
-
-<p>Blot comes with a number of features to refine the typography of your blog. This includes true hanging punctuation and common typographic substitutions with <a href="https://github.com/davidmerfield/typeset">Typeset</a>. Blot also renders mathematics in <a class="bn" href="/publishing/guides">\(\TeX\)</a>and provides syntax highlighting for code.</p>
-<ul>
-<li>Real hang­ing punc­tu­a­tion</li>
-<li>Soft hy­phen in­ser­tion</li>
-<li>Optical mar­gin align­ment</li>
-<li>Small caps de­tec­tion</li>
-<li>Punctuation sub­sti­tu­tion</li>
-</ul>
-
-
-<h2>Analytics</h2>
-<p>Blot makes it easy to set up Google Analytics, Heap and Clicky.</p>
-
-<h2>Comments</h2>
-<p>Blot makes it easy to set up Disqus.</p>
-
-<h2>Videos</h2>
-<p>Blot converts URLs to YouTube and Vimeo into videos. You can embed a YouTube video like this:</p>
-
-<p><code>https://www.youtube.com/watch?v=cmaNByqIeeQ</code></p>
-
-<p>You can paste the HTML for a video player directly into the post if you prefer.</p>
- -->
-
-
-<overlay class="">
+<overlay class="" style="background:#000">
   <header style="max-width:64rem;margin:0 auto 3em;width: 100%;">
     <row style="display:flex;align-items:center;">
       <section style="display: flex;
     align-items: center;">
 
-        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
         
 
       </section>
 
       <section class="links">
-          <a href="/" class="close">Close</a>
+          <a href="/" class="close" style="margin-top: 1rem">Close</a>
       </section>
     </row>
 
@@ -236,3 +292,63 @@ document.querySelectorAll('[href="/videos/publishing-with-blot.mp4"').forEach(fu
 });
 
 </script>
+
+<br><Br><br>
+<hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
+<div class="wrapper" style="display:flex;margin: 2rem auto;font-size: 15px">
+<ul class="index">
+      <li><a href="/publishing"><strong>How to use Blot</strong></a></li>
+      <li><a href="/publishing/pages">Pages</a></li>
+      <li><a href="/publishing/public-files">Public files</a></li>
+      <li><a href="/publishing/metadata">Metadata</a></li>
+      <li><a href="/publishing/clients">Clients</a></li>
+      <li><a href="/publishing/guides">Guides</a></li>
+    </ul>
+
+    <ul class="index">
+      <li><a href="/templates"><strong>Templates</strong></a></li>
+      <li><a href="/templates/default">Diary</a></li>
+      <li><a href="/templates/default">Essay</a></li>
+      <li><a href="/templates/default">Portfolio</a></li>
+      <li><a href="/templates/default">Journal</a></li>
+      <li><a href="/templates/default">Picture</a></li>
+    </ul>
+
+    <ul class="index">
+      <li><a href="/about"><strong>About</strong></a></li>
+      <li><a href="/news">News <span style="display:none;border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
+      <li><a href="/source">Source code</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+
+    <ul class="index">
+      <li><a href="/about"><strong>Developers</strong></a></li>
+      <li><a href="/news">News <span style="display:none;border-radius: 1em;background:gold;padding:1px 5px;font-size: 12px">3 hours ago</span></a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+</div>
+
+<style type="text/css">.sm a {color: #666;margin-right: 1rem;padding-bottom: 0.75rem;display: inline-block;}</style>
+<div class="wrapper" style="font-size: 15px">
+  <div style="display:flex;font-size: 14px">
+    <div style="display: flex;justify-content: all;flex-grow: 1">
+      <div class="sm">
+  <a href="/terms">Terms of use</a>
+  <span class="spacer"></span>
+  <a href="/privacy">Privacy policy</a>
+  <span class="spacer"></span>
+  <a href="/terms">Source code</a>
+  <span class="spacer"></span>
+  <a href="/contact">Contact</a>
+</div>
+</div>
+  <div style="flex-basis: 25%">
+  <a href="/sign-up"><strong>Sign up</strong></a>
+  <span class="spacer"></span>
+  <a href="/log-in"><strong>Log in</strong></a>
+  </div>
+</div>
+  <hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
+  <p style="text-align: right;font-size: 10px"><span style="color:green">&bull;</span> ALL SERVICES ONLINE</span></p>
+</div>
+<script src="/js/instant.page.js" type="module"></script>
