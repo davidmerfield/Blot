@@ -7,7 +7,7 @@
   .bold-no-underline:active {color: #333}
 </style>
 <br>
-<div class="wrapper" style="display:flex;margin: 2rem auto">
+<div class="wrapper" style="display:flex;margin: 2rem auto 0">
   <div style="flex-basis:50%;font-size: 21px">
 
         <p><a class="bold-no-underline" title="Blot" href="/" >Blot</a> is a blogging platform with no interface. It turns a folder into a blog.</p>
@@ -26,6 +26,16 @@
 ">
 
 <a href="/sign-up" style="border-bottom: 1px solid #34c84a;color: #34c84a;padding-top: 6px;/* display: inline-block; */">Create a blog</a>
+<style type="text/css">
+.butt:after {
+    position: absolute;
+    top: 50%;
+    margin-top: -12px;
+    right: 10px;
+    float: right;
+    content: "\203A";
+}
+.butt.bold-no-underline {position:relative;padding: 4px 1.65rem 4px 12px;display:inline-block;white-space: nowrap;border: 1px solid #eee;border-radius:4px}</style>
 <!-- <br><br>
 <span style="font-size: 16px">
 Already using Blot? <a href="/" style="font-weight: 600;color: inherit;text-decoration: none;">Log in</a></span>
@@ -37,8 +47,8 @@ Already using Blot? <a href="/" style="font-weight: 600;color: inherit;text-deco
       </div>
       <div style="flex-basis: 50%;text-align: right;">
         <p>
-        <a class="bold-no-underline" style="margin-right: 2rem" href="/sign-up">Sign up</a>
-        <a class="bold-no-underline" href="/log-in">Log in</a>
+        <a class="butt bold-no-underline" style="margin-right: 1.45rem" href="/sign-up">Sign up</a>
+        <a class="butt bold-no-underline" href="/log-in">Log in</a>
      </p>
 <!--      <img src="https://media.urbit.org/site/posts/updates/~2020.02.06-update.jpg" style="width:120px;height:90px;margin:6.5rem 8.5rem 0 0">
  -->     
@@ -46,7 +56,7 @@ Already using Blot? <a href="/" style="font-weight: 600;color: inherit;text-deco
 <a style="    width: 245px;
     height: 178px;
     display: inline-block;
-    margin: 6.5rem 2.5rem 0 0;
+    margin: 6rem 2.5rem 0 0;
     background: #000;
     /*background: blue;*/
     background-size: cover;" href="/videos/publishing-with-blot.mp4">
@@ -68,10 +78,10 @@ Posts
 
   </div>  
 
-<hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
-  <style type="text/css">.y {display: block;margin-bottom: 0}</style>
+<!-- <hr style="margin:0; border: none;border-bottom: 1px solid #eee;">
+ -->  <style type="text/css">.y {display: block;margin-bottom: 0;border-bottom: 1px solid #eee;margin-right: 2rem}</style>
 
-<div class="wrapper" style="display:flex;margin: 1.45rem auto">
+<div class="wrapper" style="display:flex;margin: 0 auto 1.45rem auto;line-height: 1.7">
 <ul class="index">
       <li><a href="/publishing"><strong class="y">How to use Blot</strong></a></li>
       <li><a href="/publishing/pages">Pages</a></li>
