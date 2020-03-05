@@ -184,7 +184,7 @@ mark#success {
   background: #cceacc;
   color: green;
   outline: #cceacc solid 9px;
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
   display: block;
 }
 
@@ -196,5 +196,6 @@ mark#success {
   color: #a54846;
   display: block;
   background: #feeded;
-  outline: 10px solid #feeded
+  outline: 10px solid #feeded;
+  margin-bottom: 2rem
 }
