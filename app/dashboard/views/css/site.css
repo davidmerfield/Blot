@@ -1758,13 +1758,8 @@ html {
 }
 
 
-form.account {}
+form.account {border: 1px solid #eee;border-radius: 3px}
 
-form.account>p:first-of-type,
-form.account>label:first-of-type,
-form.account>.buttons {
-  margin-top: 41px
-}
 
 form.account>.buttons {
   width: 100%
@@ -2298,8 +2293,12 @@ a.content-line .file {
 }
 
 .photo-holder.plus {
-  background: rgba(0, 0, 0, 0.05);
-  line-height: 0.9
+  border: 1px solid;
+  width: 19px;
+  margin: 5px 18px 0 2px;
+  height: 19px;
+  border-radius: 2px;
+  line-height: 0.98
 }
 
 

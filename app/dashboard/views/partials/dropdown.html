@@ -1,5 +1,5 @@
 
-<div class="dropdown" style="border-top:1px solid #eee">
+<div class="dropdown" >
     
   
   
@@ -12,7 +12,9 @@
     <form action="/account/switch-blog" method="POST" > 
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;">
+      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;   margin-bottom: 16px; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
+    background: #fff;
+    border-radius: 4px;">
         <span class="photo-holder">
           {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
           {{^avatar}}<span class="file" style="width:24px;height:24px;opacity:0.4"></span>{{/avatar}}
@@ -28,8 +30,7 @@
     {{/blogs}}
     
     <div class="clear"></div>
-    <br>
-    <a href="/account/create-blog" style="border:1px dashed #e4e3e3;border-radius:3px;color:#365899;padding-right:40px;"><span class="photo-holder plus" style="text-align:center">+</span>Create new blog</a>
+    <a href="/account/create-blog" style="border:1px solid #eee;border-radius:4px;color:#365899;padding-right:40px;"><span class="photo-holder plus" style="text-align:center">+</span>Create new blog</a>
 
     <div class="clear"></div>
 
