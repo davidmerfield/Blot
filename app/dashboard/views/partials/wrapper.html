@@ -4,7 +4,7 @@
 <div style="clear:both"></div>
 <div style="display:flex;    align-items: center;padding: 0 2rem;">
 
-  <div class="wrapper">
+  <div class="wrapper" style="margin:0 0 0 10vw">
 
     <style type="text/css">
     .sidebar {
@@ -28,10 +28,10 @@
               {{#breadcrumbs}}
               <li class="breadcrumbs__list-item">
                 {{^last}}
-                <a class="breadcrumbs__link" href="{{{url}}}">{{label}}</a>
+                <a class="breadcrumbs__link" href="{{{url}}}"><strong>{{label}}</strong></a>
                 {{/last}}
                 {{#last}}
-                {{label}}
+                <strong>{{label}}</strong>
                 {{/last}}
               </li>
               {{/breadcrumbs}}
@@ -120,6 +120,7 @@
     </a>
         {{/message.error}}
 
+        <br>
         {{> yield}}
       </div>
     </div>
