@@ -1778,7 +1778,7 @@ form.account>.buttons {
 
 .line {
   display: flex;
-  padding: 8px 20px;
+  padding: 10px 20px;
 }
 
 a.line:hover,
@@ -2285,16 +2285,16 @@ a.content-line .file {
 }
 
 .photo-holder {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   display: inline-block;
-  margin: 0 16px 0 0
+  margin: 5px 16px 0 0
 }
 
 .photo-holder img {
   vertical-align: text-bottom;
-  max-width: 16px;
-  max-height: 16px;
+  max-width: 24px;
+  max-height: 24px;
 }
 
 .photo-holder.plus {

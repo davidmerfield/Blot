@@ -4,7 +4,7 @@ var logout = require("./util/logout");
 var type = require("helper").type;
 
 Account.use(function(req, res, next) {
-  res.locals.breadcrumbs.add("Your account", "account");
+  res.locals.breadcrumbs.add("Your account", "/");
   res.locals.account = true;
   next();
 });
@@ -28,6 +28,17 @@ Account.use("/:section", function(req, res, next) {
   res.locals.breadcrumbs.add(uppercaseName, req.params.section);
   next();
 });
+
+Account.route("/subscription").get(function(req, res) {
+  res.render("account/subscription", {
+    title: "Your account",
+    monthly:
+      req.user.subscription &&
+      req.user.subscription.plan &&
+      req.user.subscription.plan.interval === "month"
+  });
+});
+
 
 Account.use("/password", require("./password"));
 Account.use("/export", require("./export"));

@@ -1,1 +1,40 @@
 {{> dropdown}}
+
+<br><br>
+
+<div class="line" style="">
+	<span class="label" style="font-size:16px;color:#111;padding-right:0"
+		>Your account
+	</span>
+</div>
+<a class="line" href="/account/email">
+	<span class="label">Email</span>
+	<span class="center">{{user.email}}</span>
+</a>
+
+{{#user.hasPassword}}
+<a class="line" href="/account/password/change">
+	<span class="label">Password</span>
+	<span class="center"><span class="link">Change your password</span></span>
+</a>
+{{/user.hasPassword}} {{^user.hasPassword}}
+<a class="line" href="/account/password/set">
+	<span class="label">Password</span>
+	<span class="center"><span class="link">Set your password</span></span>
+</a>
+{{/user.hasPassword}}
+
+<a class="line" href="/account/subscription">
+	<span class="label">Subscription</span>
+
+	<span class="center"><span class="link">Manage your subscription</span></span>
+</a>
+
+<form action="/account/log-out" method="post">
+	<button
+		type="submit"
+		style="background:none;font-size:14px;border:none;line-height:41px;padding:0 20px;margin:0;color:rgb(153, 153, 153);"
+	>
+		Log out &thinsp;&rarr;
+	</button>
+</form>

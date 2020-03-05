@@ -1,24 +1,22 @@
 Think about appeninding file extension to make requests with query strings cacheable
 - think about emptying cache directory, LRU
 
-Create DMARC record for Blot
-- https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail
-- https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
-
 Resolve intermittent downtime
 - increase available memory?
 - Begin using memory monitor
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
 
-Write Winter newsletter
-
-Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+Write Spring newsletter
 
 ---
 
 Generate a list of titles which you could use to generate a table of contents and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNNMjbjsSKltGRLDsqXfbMhN)
 
 Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
+
+Create DMARC record for Blot
+- https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail
+- https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
 
 Make date-format settings template specific and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) "I forked the Archive template but did *not* install it. And yet, changing settings like "Hide the publish date for your posts" affected the currently installed template.""
 
@@ -116,6 +114,8 @@ Work out how to detect stray build processes. There were a bunch of zombies cons
 - Work out how to kill them safely
 
 ---
+
+Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
 
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
