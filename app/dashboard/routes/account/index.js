@@ -25,7 +25,7 @@ Account.use("/:section", function(req, res, next) {
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
   uppercaseName = uppercaseName.split("-").join(" ");
 
-  res.locals.breadcrumbs.add(uppercaseName, req.params.section);
+  res.locals.breadcrumbs.add(uppercaseName, '/account/' + req.params.section);
   next();
 });
 
@@ -35,7 +35,7 @@ Account.use("/:section/:subsection", function(req, res, next) {
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
   uppercaseName = uppercaseName.split("-").join(" ");
 
-  res.locals.breadcrumbs.add(uppercaseName, req.params.subsection);
+  res.locals.breadcrumbs.add(uppercaseName, '/account/' + req.params.section + '/' + req.params.subsection);
   next();
 });
 

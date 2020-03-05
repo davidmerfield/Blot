@@ -4,7 +4,7 @@
 <div style="clear:both"></div>
 <div style="display:flex;    align-items: center;padding: 0 2rem;">
 
-  <div class="wrapper" style="margin:0 0 0 10vw">
+  <div class="wrapper" style="margin:0 auto;width: 54rem">
 
     <style type="text/css">
     .sidebar {
@@ -18,7 +18,7 @@
 
     </style>
 
-    <div style="flex-basis:50%;min-width:600px;display:flex;flex-direction:column;margin:0 auto">
+    <div style="flex-basis:50%;min-width:600px;display:flex;flex-direction:column;">
 
       <div style="flex-grow:1;max-width: 600px">
         <div>
@@ -102,11 +102,12 @@
           text-decoration: underline;
         }
 
+        .foot a {margin-right: 1rem;color: rgb(153, 153, 153);text-decoration: none;}
         </style>
 
         {{#message}}
         {{^error}}
-        <a href="" class="mess success" style="margin-bottom:19px">
+        <a href="" class="mess success" style="margin-bottom:0rem">
      <span class="link">Dismiss</span>
      {{text}}
     </a>
@@ -114,7 +115,7 @@
         {{/message}}
 
         {{#message.error}}
-        <a href="" class="mess error" style="margin-bottom:19px">
+        <a href="" class="mess error" style="margin-bottom:0rem">
      <span class="link">Dismiss</span>
      {{message.text}}
     </a>
@@ -123,17 +124,13 @@
         <br>
         {{> yield}}
       </div>
-    </div>
 
-  </div>
+      <form class="foot" action="/account/log-out" method="post" style="border-top:1px solid #eee;padding:11px 20px;font-size: 14px;color: #666">
 
-</div>
-
-<div class="clear"></div>
 <a href="/publishing">How to use Blot</a>
+<a href="/about">About</a>
+<a href="/terms">Legal</a>
 <a href="/contact">Contact</a>
-
-<form action="/account/log-out" method="post">
   <button
     type="submit"
     style="background:none;font-size:14px;border:none;line-height:41px;padding:0 20px;margin:0;color:rgb(153, 153, 153);"
@@ -141,6 +138,15 @@
     Log out &thinsp;&rarr;
   </button>
 </form>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="clear"></div>
+
+
 
 {{#links_for_footer}}
 {{{html}}}

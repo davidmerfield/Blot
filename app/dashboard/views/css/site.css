@@ -370,8 +370,9 @@ form .fullRow label {
 
 form label {
   margin: 0;
+  font-size: 14px;
   position: relative;
-  color: #111;
+  color: #222;
   margin-bottom: 4px;
   padding-top: 1rem;
   padding-bottom: .25rem;
@@ -403,20 +404,20 @@ form input[type="text"],
 form input[type="number"],
 form input[type="password"],
 textarea {
-  padding: 0 0.66em;
-  width: 100%;
-  line-height: 2.5;
-  margin-bottom: 0;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-top-color: rgba(0, 0, 0, 0.25);
-  border-bottom-color: rgba(0, 0, 0, 0.15);
-  box-sizing: border-box;
-  background: #fdfdfd;
-  box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, 0.075);
-  -webkit-transition: all 0.07s ease-out 0;
-  -moz-transition: all 0.07s ease-out 0;
-  -o-transition: all 0.07s ease-out 0;
-  transition: all 0.07s ease-out 0;
+padding: 4px 3px;
+    margin: 2px 0;
+    font-size: 17px;
+    padding: 10px;
+    font-family: inherit;
+    z-index: 1;
+    position: relative;
+    border: 1px solid #cccbca;
+    border-top-color: rgba(0,0,0,.25);
+    border-bottom-color: rgba(0,0,0,.15);
+    box-sizing: border-box;
+    background: 0 0;
+    box-shadow: inset 0 1px 2px 0 rgba(0,0,0,.075);
+    transition: border-color ease-in-out .1s,box-shadow ease-in-out .1s,-webkit-box-shadow ease-in-out .1s;
 }
 
 textarea {
@@ -1667,7 +1668,6 @@ html {
 
 .buttons {
   display: flex;
-  width: 90%;
   margin-top: 2.5rem
 }
 
@@ -1697,16 +1697,19 @@ html {
   flex-grow: 0.6666;
   margin-right: 2em;
   box-sizing: border-box;
-  background: #2f2e2d;
-  color: #fffefc;
+    background: #365899;
+    border-radius: 4px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .buttons :first-child:hover {
-  background: #111
 }
 
 .buttons :first-child:active {
-  background: #000
 }
 
 .buttons .red {
@@ -1758,7 +1761,7 @@ html {
 }
 
 
-form.account {border: 1px solid #eee;border-radius: 3px}
+form.account {border: 1px solid #eee;border-radius: 3px;background: #fff}
 
 
 form.account>.buttons {
@@ -2283,7 +2286,7 @@ a.content-line .file {
   width: 24px;
   height: 24px;
   display: inline-block;
-  margin: 5px 16px 0 0
+  margin: 5px 16px 0 0;color: #a5a5a5
 }
 
 .photo-holder img {
