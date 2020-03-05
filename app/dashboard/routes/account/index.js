@@ -29,16 +29,15 @@ Account.use("/:section", function(req, res, next) {
   next();
 });
 
-Account.route("/subscription").get(function(req, res) {
-  res.render("account/subscription", {
-    title: "Your account",
-    monthly:
-      req.user.subscription &&
-      req.user.subscription.plan &&
-      req.user.subscription.plan.interval === "month"
-  });
-});
+Account.use("/:section/:subsection", function(req, res, next) {
+  var uppercaseName = req.params.subsection;
 
+  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+  uppercaseName = uppercaseName.split("-").join(" ");
+
+  res.locals.breadcrumbs.add(uppercaseName, req.params.subsection);
+  next();
+});
 
 Account.use("/password", require("./password"));
 Account.use("/export", require("./export"));

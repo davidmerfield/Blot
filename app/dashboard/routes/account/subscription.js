@@ -6,14 +6,23 @@ var User = require("user");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper").email;
 
+Subscription.route("/").get(function(req, res) {
+  res.render("account/subscription", {
+    title: "Your account",
+    monthly:
+      req.user.subscription &&
+      req.user.subscription.plan &&
+      req.user.subscription.plan.interval === "month"
+  });
+});
+
 Subscription.route("/cancel")
 
   .all(requireSubscription)
 
   .get(function(req, res) {
     res.render("account/cancel", {
-      title: "Cancel your subscription",
-      breadcrumb: "Cancel subscription"
+      title: "Cancel your subscription"
     });
   })
 

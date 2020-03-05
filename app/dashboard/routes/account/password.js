@@ -3,7 +3,7 @@ var Password = new Express.Router();
 var User = require("user");
 var checkPassword = require("./util/checkPassword");
 
-Password.route("/change")
+Password.route("/")
 
   .all(requireExisting)
 
