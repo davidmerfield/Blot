@@ -59,7 +59,7 @@ div {
   position: relative;
 }
 
-.header {padding: 1.45rem;display: flex}
+.header {padding: 1.45rem;margin:1.4rem;display: flex;position: sticky;top:0;background: #fff;z-index: 100}
 .main {max-width: 60%;min-width: 600px}
 .container {max-width: 1000px}
 .entry {margin: 72px 0 120px}
@@ -308,8 +308,8 @@ iframe {width: 100%;}
   background-image: none;
 }
 
-#logo img {position: absolute;width: 48px;top: 0px;left: -62px;}
 
+#logo img {max-width: 48px;max-height: 48px;margin-right: 1rem}
 #logo:hover {color: #555}
 #logo img:hover {opacity: 0.8}
 
