@@ -3,17 +3,8 @@
 
   <p style="padding:0em 2em 0 0;margin:0 0 20px;line-height:1.5">
     {{#user.isFreeForLife}} You can use Blot <b>for free</b> for as long as Blot
-    exists.
-
-    <a
-      class="link"
-      style="display:flex;flex-grow:1;padding:11px 0;background:none;margin-bottom:-11px"
-      href="/account/subscription/create"
-      >Create a subscription</a
-    >
-
-    {{/user.isFreeForLife}} {{#user.cancel_at_period_end}} Your subscription has
-    been cancelled and you won’t be charged again. On
+    exists. {{/user.isFreeForLife}} {{#user.cancel_at_period_end}} Your
+    subscription has been cancelled and you won’t be charged again. On
     <b>{{user.pretty.expiry}}</b> your account will close and your
     blog{{user.s}} will shut down. {{/user.cancel_at_period_end}}
     {{#user.isSubscribed}} {{#user.subscription.quantity}} Your next bill on
@@ -26,15 +17,19 @@
   </p>
 
   <div style="margin:0 -20px;border-top:1px solid #eee">
-
-  {{#user.cancel_at_period_end}}
-  <a class="line" href="/account/subscription/restart"
-    ><span class="label">Restart</span
-    ><span class="center"
-      ><span class="link">Restart your subscription</span></span
-    ></a
-  >
-  {{/user.cancel_at_period_end}} {{#user.isSubscribed}}
+    {{#user.isFreeForLife}}
+    <a class="line" href="/account/subscription/create"
+      ><span class="label">Create</span
+      ><span class="center"><span class="link">Create a subscription</span></span></a
+    >
+    {{/user.isFreeForLife}} {{#user.cancel_at_period_end}}
+    <a class="line" href="/account/subscription/restart"
+      ><span class="label">Restart</span
+      ><span class="center"
+        ><span class="link">Restart your subscription</span></span
+      ></a
+    >
+    {{/user.cancel_at_period_end}} {{#user.isSubscribed}}
 
     <div class="line">
       <span class="label">Your blogs</span>
