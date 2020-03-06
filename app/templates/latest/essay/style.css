@@ -1,5 +1,5 @@
 body {
-  font: 14px / 1.7 Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, monospace;
+  font: 14px / 1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   color: {{body_text_color}};
   background: {{background_color}};
   padding: 3em 4em 5em;
