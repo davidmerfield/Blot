@@ -1,7 +1,7 @@
 <form class="account" method="post">
   <input type="hidden" name="_csrf" value="{{csrftoken}}" />
 
-  <p style="padding:0em 2em 0 0;margin:0;line-height:1.5">
+  <p style="padding:0em 2em 0 0;margin:0 0 20px;line-height:1.5">
     {{#user.isFreeForLife}} You can use Blot <b>for free</b> for as long as Blot
     exists.
 
@@ -25,18 +25,18 @@
     {{/user.subscription.quantity}} {{/user.isSubscribed}}
   </p>
 
+  <div style="margin:0 -20px;border-top:1px solid #eee">
+
   {{#user.cancel_at_period_end}}
-  <a
-    class="link"
-    style="display:flex;flex-grow:1;padding:11px 0;background:none;margin-bottom:-11px"
-    href="/account/subscription/restart"
-    >Restart your subscription</a
+  <a class="line" href="/account/subscription/restart"
+    ><span class="label">Restart</span
+    ><span class="center"
+      ><span class="link">Restart your subscription</span></span
+    ></a
   >
   {{/user.cancel_at_period_end}} {{#user.isSubscribed}}
 
-  <br>
-  <div style="margin:0 -20px">
-    <div class="line" style="border-top:1px solid #eee">
+    <div class="line">
       <span class="label">Your blogs</span>
       <div class="center" style="position:relative;top:-6px">
         {{#blogs}}
@@ -45,7 +45,8 @@
           style="display:flex;border:none;align-items:center;padding:0;border-bottom:1px solid rgba(0,0,0,0.05)"
           class="line"
         >
-          <span style="display:flex;flex-grow:1;align-items:center;padding:11px 0;"
+          <span
+            style="display:flex;flex-grow:1;align-items:center;padding:11px 0;"
             ><span class="photo-holder" style="margin-top:0">
               {{#avatar}}<img
                 style="vertical-align: top;"
@@ -67,50 +68,41 @@
         </div>
 
         {{/blogs}}
-      </div>
-
-</div>
-      <!-- <a
-        class="link"
-        style="display:block;padding:11px 0;background:none;margin-bottom:-11px"
-        href="/account/create-blog"
-        >Create new blog</a
-      > -->
-      <div class="clear"></div>
-
-      <a class="line" href="/account/payment-method"
-        ><span class="label">Payment</span
-        ><span class="center"
-          ><span class="link">Change payment method</span></span
-        ></a
-      >
-
-
-
-      <a class="line" href="/account/subscription/cancel"
-        ><span class="label">Cancel</span
-        ><span class="center"
-          ><span class="link">Cancel subscription</span></span
-        ></a>
-
-      {{/user.isSubscribed}}
-      <a class="line" href="/account/delete">
-        <span class="label">Delete</span>
-        <span class="center"
-          ><span class="link">Permanently delete your account</span></span
+        <a
+          class="line"
+          style="display:block;padding:11px 0;background:none;border-bottom: none;margin-bottom: -11px"
+          href="/account/create-blog"
+          ><span class="link">Create new blog</span></a
         >
-      </a>
-      <br />
-      <div class="buttons" style="margin: 11px 20px">
-        <a href="/">Back to your account</a>
       </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <a class="line" href="/account/subscription/payment-method"
+      ><span class="label">Payment</span
+      ><span class="center"
+        ><span class="link">Change payment method</span></span
+      ></a
+    >
+
+    <a class="line" href="/account/subscription/cancel"
+      ><span class="label">Cancel</span
+      ><span class="center"
+        ><span class="link">Cancel subscription</span></span
+      ></a
+    >
+
+    {{/user.isSubscribed}}
+    <a class="line" href="/account/subscription/delete">
+      <span class="label">Delete</span>
+      <span class="center"
+        ><span class="link">Permanently delete your account</span></span
+      >
+    </a>
+    <br />
+    <div class="buttons" style="margin: 11px 20px">
+      <a href="/">Back to your account</a>
     </div>
   </div>
 </form>
-<!-- 
-      <a class="line" href="/account/export">
-        <span class="label">Export</span>
-        <span class="center"
-          ><span class="link">Download the data stored about you</span></span
-        > </a
- -->

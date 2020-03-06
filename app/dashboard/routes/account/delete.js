@@ -42,7 +42,7 @@ Delete.route("/blog/:handle")
     calculateSubscriptionChange,
     decreaseSubscription,
     function(req, res) {
-      res.message("/account", "Deleted " + req.blogToDelete.title);
+      res.message("/account/subscription", "Deleted " + req.blogToDelete.title);
     }
   );
 

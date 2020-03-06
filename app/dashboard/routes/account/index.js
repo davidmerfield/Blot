@@ -42,12 +42,12 @@ Account.use("/:section/:subsection", function(req, res, next) {
 Account.use("/password", require("./password"));
 Account.use("/export", require("./export"));
 Account.use("/email", require("./email"));
-Account.use("/delete", require("./delete"));
-Account.use("/subscription", require("./subscription"));
 Account.use("/switch-blog", require("./switch-blog"));
 Account.use("/create-blog", require("./create-blog"));
+Account.use("/subscription", require("./subscription"));
 Account.use("/pay-subscription", require("./pay-subscription"));
-Account.use("/payment-method", require("./payment-method"));
+Account.use("/subscription/delete", require("./delete"));
+Account.use("/subscription/payment-method", require("./payment-method"));
 
 Account.route("/log-out")
 
