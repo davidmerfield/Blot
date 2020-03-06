@@ -1,16 +1,16 @@
 <div class="header">
     <a id="logo" href="/">
-      {{#avatar}}
+      <!-- {{#avatar}}
       <img class="avatar {{#roundAvatar}}rounded{{/roundAvatar}}" src="{{avatar}}" alt="{{title}}"/>
-      {{/avatar}}
-      {{title}}
+      {{/avatar}} -->
+      <strong>{{title}}</strong>
     </a>
     <div class="tags">
       {{#popular_tags}}
       <a href="/tagged/{{slug}}" title="{{tag}}">{{tag}}</a>
       {{/popular_tags}}
     </div>
-    <div class="nav">
+    <div class="nav" style="flex-grow:1">
       {{#menu}}
       <a href="{{{url}}}" title="{{label}}">{{label}}</a>
       {{/menu}}

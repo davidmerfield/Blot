@@ -299,13 +299,8 @@ iframe {width: 100%;}
 
 
 #logo {
-  font-weight: bold;
-  display:block;
-  font-size: 15px;
   color: #222;
-  position: relative;
-  text-shadow: none;
-  background-image: none;
+
 }
 
 
@@ -317,20 +312,25 @@ iframe {width: 100%;}
 #logo img:active {margin-top: 1px}
 
 /* Nav links are underlined which affects their optical lineheight */
-.nav {line-height: 20px;padding-bottom: 4px;margin: 0}
-.nav a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: #000;opacity: 0.4}
+.header a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: #000;}
 .header a:hover {text-decoration: underline;}
+.header .tags a {opacity: 1.0}
+.header .nav a {opacity: 0.4}
+
+.header .tags {margin:0 2rem}
 
 .nav a[href="/feed.rss"],
 .nav a[href="/search"] {
   float: right;
   color: #000;
+  text-indent: -1000px;
+  overflow: hidden;
   font-weight: 500;
   font-size: 13px;
   padding-left: 1.25em;
   background: url('data:image/svg+xml;base64,PHN2ZyBpZD0iaWNvbi1icm9hZGNhc3QiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTIwIDEyMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Y2lyY2xlIGN4PSIxOC4zODUiIGN5PSIxMDEuNjE1IiByPSIxOC4zODUiLz4NCjxnPg0KCTxwYXRoIGQ9Ik0tMS4wMzEsNjFjMzIuNTMzLDAsNTksMjYuNDY4LDU5LDU5cy0yNi40NjcsNTktNTksNTlzLTU5LTI2LjQ2OC01OS01OVMtMzMuNTY0LDYxLTEuMDMxLDYxIE0tMS4wMzEsMzgNCgkJYy00NS4yODgsMC04MiwzNi43MTMtODIsODJzMzYuNzEyLDgyLDgyLDgyczgyLTM2LjcxMyw4Mi04MlM0NC4yNTcsMzgtMS4wMzEsMzhMLTEuMDMxLDM4eiIvPg0KPC9nPg0KPGc+DQoJPHBhdGggZD0iTTAuMTU0LDIzLjA0MWM1My4zNDksMCw5Ni43NSw0My40MDIsOTYuNzUsOTYuNzVzLTQzLjQwMiw5Ni43NS05Ni43NSw5Ni43NWMtNTMuMzQ4LDAtOTYuNzUtNDMuNDAyLTk2Ljc1LTk2Ljc1DQoJCVMtNTMuMTk0LDIzLjA0MSwwLjE1NCwyMy4wNDEgTTAuMTU0LDAuMDQxYy02Ni4xMzYsMC0xMTkuNzUsNTMuNjE1LTExOS43NSwxMTkuNzVzNTMuNjE0LDExOS43NSwxMTkuNzUsMTE5Ljc1DQoJCWM2Ni4xMzUsMCwxMTkuNzUtNTMuNjE1LDExOS43NS0xMTkuNzVTNjYuMjg5LDAuMDQxLDAuMTU0LDAuMDQxTDAuMTU0LDAuMDQxeiIvPg0KPC9nPg0KPC9zdmc+') no-repeat left center / 100%;
   background-size: 0.88em;
-  opacity: 0.4;
+  opacity: 1.0;
   margin-left: 1em
 }
 
