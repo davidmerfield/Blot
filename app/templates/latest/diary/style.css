@@ -22,7 +22,7 @@
 .push-A {margin-right: 0.04em}
 
 body {
-  font: 17px / 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 17px / 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   text-rendering: optimizeLegibility;
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "liga";
@@ -35,7 +35,7 @@ body {
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
 .small,
-.caption {font-size: 13px;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;color: #999;font-weight: 500;}
+.caption {font-size: 13px;color: #999;font-weight: 500;}
 
 .caption {
   line-height: 18px;
@@ -59,7 +59,7 @@ div {
   position: relative;
 }
 
-.header {margin-top: 48px;margin-bottom: 72px}
+.header {padding: 1.45rem;display: flex}
 .main {max-width: 60%;min-width: 600px}
 .container {max-width: 1000px}
 .entry {margin: 72px 0 120px}
@@ -78,7 +78,7 @@ div {
 .margin img,
 .column img {margin-top: 6px}
 
-.margin p {font-style: italic;font-family: Georgia;font-size: 0.9em;margin-top: 0}
+.margin p {font-style: italic;font-size: 0.9em;margin-top: 0}
 .margin h1, .margin h2, .margin h3 {margin-top:0}
 
 .left.margin {
@@ -130,7 +130,6 @@ div {
 /* TEXT */
 
 p, li {
-  font-family: Georgia, serif;
   position: relative;
   margin: 24px 0;
 }
@@ -150,7 +149,7 @@ li .small-caps {
   font-family: "Georgia Pro SC";
 }*/
 
-big {color: #000;font-size: 32px;font-family: Georgia;line-height: 48px;display: block;}
+big {color: #000;font-size: 32px;line-height: 48px;display: block;}
 
 /* LINKS */
 
@@ -318,8 +317,9 @@ iframe {width: 100%;}
 #logo img:active {margin-top: 1px}
 
 /* Nav links are underlined which affects their optical lineheight */
-.nav {line-height: 20px;padding-bottom: 4px}
-.nav a {margin-right: 6px;font-size: 14px;background: none;text-shadow: none;}
+.nav {line-height: 20px;padding-bottom: 4px;margin: 0}
+.nav a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: #000;opacity: 0.4}
+.header a:hover {text-decoration: underline;}
 
 .nav a[href="/feed.rss"],
 .nav a[href="/search"] {
@@ -351,7 +351,6 @@ input#search {
   box-sizing: border-box;
   margin: .33em .66em 2em -1em;
   border: 1px solid #A1ADB6;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 input#search:focus {
@@ -425,7 +424,6 @@ input#search:focus {
 .nextEntry .title {
   display: block;
   font-size: 1.156em;
-  font-family: sans-serif;
   line-height: 20px;
   margin-bottom: 3px
 }

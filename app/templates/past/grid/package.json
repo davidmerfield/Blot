@@ -3,7 +3,7 @@
   "locals": {
     "page_size": 96
   },
-  "isPublic": true,
+  "isPublic": false,
   "views": {
     "archives.html": {
       "url": "/archives",

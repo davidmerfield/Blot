@@ -1,28 +1,18 @@
 {
-  "name": "Archive",
+  "name": "Essay",
   "locals": {
-    "page_size": 24
+    "page_size": 36,
+    "background_color": "#ffffff",
+    "body_text_color": "#000000",
+    "body_text_link_color": "blue"
   },
   "isPublic": true,
   "views": {
-    "public": {
-      "partials": {
-        "title": "Index of {{{path}}}",
-        "description": "All the files and folders inside {{{path}}}"
-      }
-    },
     "archives.html": {
       "url": "/archives",
       "partials": {
         "title": "Archives - {{{title}}}",
         "description": "All the entries posted on {{{title}}}"
-      }
-    },
-    "tags.html": {
-      "url": "/tags",
-      "partials": {
-        "title": "Tags - {{{title}}}",
-        "description": "All the tags on on {{{title}}}"
       }
     },
     "tagged.html": {
@@ -47,6 +37,12 @@
       "partials": {
         "title": "{{{entry.title}}} - {{{title}}}",
         "description": "{{{entry.summary}}}"
+      }
+    },
+    "public.html": {
+      "partials": {
+        "title": "Index of {{{path}}}",
+        "description": "All the files and folders inside {{{path}}}"
       }
     },
     "search.html": {

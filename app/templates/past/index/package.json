@@ -1,21 +1,10 @@
 {
-  "name": "Portfolio",
+  "name": "Index",
   "locals": {
-    "page_size": 20,
-    "background_color": "rgba(255,255,255,1)",
-    "navigation_link_color": "rgba(0, 0, 0, .4)",
-    "text_color": "rgba(0, 0, 0, 0.75)",
-    "text_link_color": "darkblue",
-    "text_link_vistied_color": "purple"
+    "page_size": 20
   },
-  "isPublic": true,
+  "isPublic": false,
   "views": {
-    "search": {
-      "partials": {
-        "title": "Search - {{{title}}}",
-        "description": "Search all the entries posted on {{{title}}}"
-      }
-    },
     "archives.html": {
       "url": "/archives",
       "partials": {
@@ -51,6 +40,12 @@
       "partials": {
         "title": "Index of {{{path}}}",
         "description": "All the files and folders inside {{{path}}}"
+      }
+    },
+    "search.html": {
+      "partials": {
+        "title": "Search - {{{title}}}",
+        "description": "Search all the entries posted on {{{title}}}"
       }
     }
   }

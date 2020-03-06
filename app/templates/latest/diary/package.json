@@ -1,7 +1,7 @@
 {
-  "name": "Index",
+  "name": "Diary",
   "locals": {
-    "page_size": 20
+    "page_size": 6
   },
   "isPublic": true,
   "views": {
