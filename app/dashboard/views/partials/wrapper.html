@@ -1,48 +1,17 @@
 {{> head}}
 
 <br>
-<div style="clear:both"></div>
-<div style="display:flex;    align-items: center;padding: 0 2rem;">
+<style type="text/css">
+.sidebar {
+  list-style-type: none;
+  margin-right: 4em
+}
 
-  <div class="wrapper" style="margin:0 auto;width: 54rem">
+.sidebar a {
+  color: rgb(158, 154, 152)
+}
 
-    <style type="text/css">
-    .sidebar {
-      list-style-type: none;
-      margin-right: 4em
-    }
-
-    .sidebar a {
-      color: rgb(158, 154, 152)
-    }
-
-    </style>
-
-    <div style="flex-basis:50%;min-width:600px;display:flex;flex-direction:column;">
-
-      <div style="flex-grow:1;max-width: 600px">
-        <div>
-
-          <div class="breadcrumbs" style="flex-grow:1;padding-left: 0">
-            <ol class="breadcrumbs__list">
-              {{#breadcrumbs}}
-              <li class="breadcrumbs__list-item">
-                {{^last}}
-                <a class="breadcrumbs__link" href="{{{url}}}"><strong>{{label}}</strong></a>
-                {{/last}}
-                {{#last}}
-                <strong>{{label}}</strong>
-                {{/last}}
-              </li>
-              {{/breadcrumbs}}
-              <br>
-            </ol>
-          </div>
-
-        </div>
-
-        <style type="text/css">
-        .breadcrumbs {
+.breadcrumbs {
           font-weight: 400;
           color: #0b0c0c;
           padding: 16px 20px
@@ -103,8 +72,39 @@
         }
 
         .foot a {margin-right: 1rem;color: rgb(153, 153, 153);text-decoration: none;}
-        </style>
+       
 
+</style>
+<div style="clear:both"></div>
+<div style="display:flex;    align-items: center;padding: 0 2rem;">
+
+  <div class="wrapper" style="margin:0 auto;width: 54rem;display:flex;flex-direction:column;">
+
+    <div>
+
+      <div class="breadcrumbs" style="flex-grow:1;padding-left: 0">
+        <ol class="breadcrumbs__list">
+          {{#breadcrumbs}}
+          <li class="breadcrumbs__list-item">
+            {{^last}}
+            <a class="breadcrumbs__link" href="{{{url}}}"><strong>{{label}}</strong></a>
+            {{/last}}
+            {{#last}}
+            <strong>{{label}}</strong>
+            {{/last}}
+          </li>
+          {{/breadcrumbs}}
+          <br>
+        </ol>
+      </div>
+
+    </div>
+
+
+    <div style="max-width:600px;flex-grow: 1;display: flex;flex-direction: column;">
+
+      <div style="flex-grow: 1">
+      
         {{#message}}
         {{^error}}
         <a href="" class="mess success" style="margin-bottom:0rem">
