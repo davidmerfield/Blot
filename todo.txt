@@ -1,5 +1,69 @@
 Think about appeninding file extension to make requests with query strings cacheable
-- think about emptying cache directory, LRU
+- think about emptying cache directory, LRU. But how do we handle .css?query=x?
+- nginx will have to look up a series of extensions -> $requestURI, $requestURI.html, $requestURI.xml, $requestURI.css, $requestURI.js
+
+Add persona/cargo style customization buttons
+- Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
+- Serve previews of templates from a domain with HTTPS
+- Add iframe of site in edit page of template editor
+- Work out how to make live modifications quickly to a CSS file for preview purposes
+- Fonts:
+		Abel
+		Alegreya
+		Alte Haas Grotesk
+		Authentic Sans
+		Avara
+		Averia Serif Libre
+		Bagnard
+		Chivo
+		Cormorant
+		Crimson Text 
+		Darker Grotesque
+		DINosaur
+		DM Sans
+		Eb Garamond 
+		Fjalla One
+		Fondamento
+		Golos Text
+		Halibut Serif 
+		Happy Times at the IKOB
+		iA Writer Quattro
+		Infini GF 
+		Inter 
+		Interstate
+		JetBrains Mono
+		Junicode
+		Karla
+		Le Murmure
+		Libertinus
+		Messapia
+		Michroma
+		Mister Pixel
+		Montserrat
+		Neuton
+		Nunito
+		Optician Sans
+		Ortica
+		Oswald
+		Pilowlava
+		Pinyon Script
+		Plex
+		Quicksand
+		Roboto
+		Routed Gothic
+		Rubik
+		Space Grotesk/Mono
+		Spectral
+		Syne
+		Terminal Grotesque
+		TeX Gyre
+		Typewriter Condensed
+		UnifrakturMaguntia
+		VCR OSD Mono
+		Vollkorn
+		Work Sans
+		Wremena
+		Young Serif
 
 Resolve intermittent downtime
 - increase available memory?
@@ -374,11 +438,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Move to uuid based template IDs instead of slug
 - Move to data directory for templates
   - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
-- Add persona/cargo style customization buttons
-  - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
-  - Serve previews of templates from a domain with HTTPS
-  - Add iframe of site in edit page of template editor
-  - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Re-do url redirector to use route-parser and properly support regular expressions
 - Add support for paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM) and [Nikhil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRFcMTRcgMJdcCkxSNChXq)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
