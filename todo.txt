@@ -75,6 +75,8 @@ Write Spring newsletter
 
 ---
 
+Fix bug with file list on dashboard in Safari and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGHzLwclHfnvjZrvfsvTQdGf)
+
 Generate a list of titles which you could use to generate a table of contents and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNNMjbjsSKltGRLDsqXfbMhN)
 
 Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
