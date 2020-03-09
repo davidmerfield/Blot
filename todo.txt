@@ -5,6 +5,7 @@ Think about appeninding file extension to make requests with query strings cache
 Add persona/cargo style customization buttons
 - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Serve previews of templates from a domain with HTTPS
+  - query string? custom header? cookie? wildcard cert?
 - Add iframe of site in edit page of template editor
 - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Fonts:
@@ -117,6 +118,9 @@ Record new demo video
 - Finish video script in brochure/readme.txt
 - Work out how a photographer might use Blot, does lightroom work well?
 - Tidy up fontarchive.org
+- Find a neat public domain song to play 
+   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
+   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
 
 Write script to increase size of Blot's hard drive
 - Increase size of Blot's hard drive
@@ -128,8 +132,6 @@ Show error messages on overdue subscription payment form
 Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT) and tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd)
 
 Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqhHZnPjfgRqFhpdNGZVKn)
-
-Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
 
 Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
@@ -559,8 +561,6 @@ Add support for Microformats in the default templates. Tell Amit and [Jamie](htt
 Add JSONFeed to default templates. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
 
 Add support for Micropub in Blot's API. Tell Amit.
-
-Add support for HTTPS on preview subdomains
 
 Add an EXPIRY to the log entries for a blog's 404 log
 
