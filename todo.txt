@@ -1,9 +1,8 @@
 Check that wildcard cert succeeds after 2020-04-10 11:12:00
 
 Add persona/cargo style customization buttons
-- Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Add iframe of site in edit page of template editor
-- Work out how to make live modifications quickly to a CSS file for preview purposes
+- Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Fonts:
 		Abel
 		Alegreya
@@ -61,6 +60,7 @@ Add persona/cargo style customization buttons
 		Work Sans
 		Wremena
 		Young Serif
+- Work out how to make live modifications quickly to a CSS file for preview purposes
 
 Think about appeninding file extension to make requests with query strings cacheable
 - think about emptying cache directory, LRU. But how do we handle .css?query=x?
