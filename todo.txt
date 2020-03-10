@@ -1,3 +1,5 @@
+Check that wildcard cert succeeds after 2020-04-10 11:12:00
+
 Add persona/cargo style customization buttons
 - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Serve previews of templates from a domain with HTTPS
@@ -500,7 +502,8 @@ Create a mock version of these websites and send an email showing the folder str
   - [Khoi Vinh](https://www.subtraction.com/)
   - [Jarrett Fuller](https://jarrettfuller.com/)
   - [Dan Cederholm](http://simplebits.com)
-  
+  - [Hank Beyer](https://hankbeyer.com/)
+
 - Type:
   - [Just van Rossum](http://dailydrawbot.tumblr.com/)
   - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
