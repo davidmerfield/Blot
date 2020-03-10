@@ -1,16 +1,27 @@
 <form method="post">
-	<label>{{label}}</label>
-	<input
-		class="name"
-		type="hidden"
-		value="{{key}}"
-	/>
-	<input
-		class="value"
-		name="locals.{{key}}"
-		type="hidden"
-		value="{{value}}"
-	/>
+	<label for="locals.{{key}}">{{label}}</label>
+	<input class="name" type="hidden" value="{{key}}" />
+
+	<select id="locals.{{key}}" name="locals.{{key}}">
+		<optgroup label="Sans-serif">
+			<option value="'helvetica neue', helvetica, sans-serif">Helvetica</option>
+			<option value="'avenir next', avenir, sans-serif">Avenir</option>
+			<option value="-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif">System Sans</option>
+		</optgroup>
+		<optgroup label="Serif">
+			<option value="athelas,georgia,serif">Athelas</option>
+			<option value="georgia,serif">Georgia</option>
+			<option value="times,serif">Times</option>
+			<option value="'Bodoni MT', serif">Bodoni</option>
+			<option value="'Calisto MT', serif">Calisto</option>
+			<option value="garamond, serif">Garamond</option>
+			<option value="baskerville,serif">Baskerville</option>
+		</optgroup>
+		<optgroup label="Monospaced">
+			<option value="Consolas, monaco, monospace">Code</option>
+			<option value="'Courier Next', courier, monospace">Courier</option>
+		</optgroup>
+	</select>
 
 	<input type="submit" />
 </form>
