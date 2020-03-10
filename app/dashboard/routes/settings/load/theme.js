@@ -1,6 +1,6 @@
 var helper = require("helper");
 var arrayify = helper.arrayify;
-var previewHost = "http://preview";
+var previewHost = "https://preview-of";
 var ignored = ["blank", "monotone", "mono", "original", "serif"];
 var config = require("config");
 var Template = require("template");
@@ -32,16 +32,16 @@ module.exports = function(req, res, next) {
       )
         return false;
 
-      var mySubDomain = template.isMine ? "my." : "";
+      var mySubDomain = template.isMine ? "my-" : "";
 
       template.editURL = "/template/" + template.slug;
 
       template.previewURL =
         previewHost +
-        "." +
+        "-" +
         mySubDomain +
         template.slug +
-        "." +
+        "-on-" +
         blog.handle +
         "." +
         config.host;
