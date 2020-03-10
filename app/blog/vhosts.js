@@ -125,10 +125,17 @@ function isSubdomain(host) {
 function extractHandle(host) {
   if (!isSubdomain(host, config.host)) return false;
 
-  return host
+  let handle = host
     .slice(0, -config.host.length - 1)
     .split(".")
     .pop();
+
+  // Follows the new convention for preview subdomains, e.g.
+  // preview-of-$template-on-$handle.$host e.g.
+  // preview-of-diary-on-news.blot.im
+  if (handle.indexOf("-") > -1) handle = handle.split("-").pop();
+
+  return handle;
 }
 
 function extractPreviewTemplate(host, blogID) {
@@ -137,6 +144,30 @@ function extractPreviewTemplate(host, blogID) {
   var subdomains = host.slice(0, -config.host.length - 1).split(".");
   var handle = subdomains.pop();
   var prefix = subdomains.shift();
+
+  // Follows the new convention for preview subdomains, e.g.
+  // preview-of-$template-on-$handle.$host e.g.
+  // preview-of-diary-on-news.blot.im
+  if (handle.indexOf("-") > -1 && handle.indexOf("preview-of-") === 0) {
+    let owner;
+    let templateName;
+
+    if (handle.indexOf("preview-of-my-") === 0) {
+      owner = blogID;
+      templateName = handle
+        .slice("preview-of-my-".length)
+        .split("-on-")
+        .shift();
+    } else {
+      templateName = handle
+        .slice("preview-of-".length)
+        .split("-on-")
+        .shift();
+      owner = "SITE";
+    }
+
+    return `${owner}:${templateName}`;
+  }
 
   if (!subdomains || !subdomains.length || prefix !== "preview") return false;
 
