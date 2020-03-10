@@ -246,6 +246,10 @@ dashboard.use(function(req, res, next) {
 
 require("./routes/editor")(dashboard);
 
+// Use this before modifying the render function
+// since it doesn't use the layout for the rest of the dashboard
+dashboard.use("/template-editor", require("./routes/template-editor"));
+
 // Special function which wraps render
 // so there is a default layout and a partial
 // inserted into it
