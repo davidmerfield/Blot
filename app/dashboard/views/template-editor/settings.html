@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<style type="text/css">
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="display:flex;min-height:100vh;">
+			<div
+				style="flex-basis: 20rem;display: flex;flex-direction: column;background: #eee"
+			>
+				<div style="flex-grow: 1">
+					<div>
+						<a href="/settings/theme">Close</a>
+					</div>
+					<div style="display: flex">
+						<a
+							style="flex-basis: 50%;text-decoration: none;color: inherit;"
+							href="{{{base}}}/settings"
+							>Settings</a
+						>
+						<a style="flex-basis: 50%" href="{{{base}}}/source-code"
+							>Source code</a
+						>
+					</div>
+					<h1>{{template.name}}</h1>
+					<hr />
+					<h2>Color scheme</h2>
+					{{#colors}} {{> input-color}} {{/colors}}
+					<hr />
+					<h2>Type</h2>
+					{{#fonts}} {{> input-font}} {{/fonts}}
+					<hr />
+					<h2>Layout</h2>
+					{{#layout}} {{/layout}}
+					<hr />
+				</div>
+				<form method="post" action="{{{base}}}/delete">
+					<input type="submit" name="" value="Delete template" />
+				</form>
+			</div>
+
+			<iframe
+				style="border:none;border-left:5px solid #ccc;flex-grow:1;flex-basis:50%"
+				src="{{{preview}}}"
+			></iframe>
+		</div>
+	</body>
+</html>
