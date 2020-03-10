@@ -2,8 +2,6 @@ Check that wildcard cert succeeds after 2020-04-10 11:12:00
 
 Add persona/cargo style customization buttons
 - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
-- Serve previews of templates from a domain with HTTPS
-  - query string? custom header? cookie? wildcard cert?
 - Add iframe of site in edit page of template editor
 - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Fonts:
