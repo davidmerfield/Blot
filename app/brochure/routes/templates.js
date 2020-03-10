@@ -3,15 +3,14 @@ var templates = new Express.Router();
 var sharp = require("sharp");
 var fs = require("fs-extra");
 var viewDirectory = fs.realpathSync(__dirname + "/../views/templates");
+var config = require('config');
 
 var folders = {
-  archive: "ferox",
-  console: "bjorn",
-  default: "bjorn",
+  scrapbook: "ferox",
+  essay: "bjorn",
+  diary: "bjorn",
   magazine: "magazine",
-  photos: "bjorn",
-  portfolio: "bjorn",
-  rosa: "bjorn"
+  picture: "bjorn",
 };
 
 templates.use(function(req, res, next) {
@@ -37,11 +36,11 @@ templates.use(function(req, res, next) {
 templates.get("/:template", function(req, res, next) {
   res.locals.folder = folders[req.params.template];
   res.locals.preview =
-    "http://preview." +
+    config.protocol + "preview-of-" +
     req.params.template +
-    "." +
+    "-on-" +
     res.locals.folder +
-    ".blot.im";
+    "." + config.host;
 
   next();
 });
