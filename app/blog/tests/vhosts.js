@@ -70,7 +70,8 @@ describe("blog server vhosts", function() {
     };
 
     ctx.res = {
-      set: function() {}
+      set: function() {},
+      removeHeader: function()
     };
   });
 });
