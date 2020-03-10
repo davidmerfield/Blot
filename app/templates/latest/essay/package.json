@@ -4,7 +4,8 @@
     "page_size": 36,
     "background_color": "#ffffff",
     "body_text_color": "#000000",
-    "body_text_link_color": "blue"
+    "body_text_link_color": "blue",
+    "body_text_font": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, \"Apple Color Emoji\", Arial, sans-serif, \"Segoe UI Emoji\", \"Segoe UI Symbol\""
   },
   "isPublic": true,
   "views": {
