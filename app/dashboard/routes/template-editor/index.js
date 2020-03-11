@@ -43,6 +43,11 @@ TemplateEditor.route("/:templateSlug/settings")
 		res.render("template-editor/settings");
 	});
 
+TemplateEditor.route("/:templateSlug/source-code")
+	.get(function(req, res) {
+		res.render("template-editor/source-code");
+	});
+
 TemplateEditor.use("/:templateSlug/delete", require("./deleteTemplate"));
 
 module.exports = TemplateEditor;

@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<style type="text/css">
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="display:flex;min-height:100vh;">
+			<div
+				style="flex-basis: 20rem;display: flex;flex-direction: column;background: #eee"
+			>
+				<div style="flex-grow: 1">
+					<div>
+						<a href="/settings/theme">Close</a>
+					</div>
+					<div style="display: flex">
+						<a style="flex-basis: 50%"			
+							href="{{{base}}}/settings"
+							>Settings</a
+						>
+						<a 				style="flex-basis: 50%;text-decoration: none;color: inherit;"
+ href="{{{base}}}/source-code"
+							>Source code</a
+						>
+					</div>
+  {{^is_title}}
+  <a class="file {{active}}" href="{{{url}}}">
+      <img src="/images/file-empty.svg" width="14"> {{name}}
+    </a>
+  {{/is_title}}
+				<form method="post" action="{{{base}}}/delete">
+					<input type="submit" name="" value="Delete template" />
+				</form>
+			</div>
+
+			
+		</div>
+	</body>
+</html>
