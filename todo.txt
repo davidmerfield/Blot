@@ -1,8 +1,8 @@
-Shibel template migration
+Finish Shibel's template migration
 
 Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
 
-Write Spring newsletter to send for Thursday, March 19
+Finish Spring newsletter to send for Thursday, March 19
 
 Check that wildcard cert succeeds after 2020-04-10 11:12:00
 
