@@ -158,6 +158,9 @@ Finish template translation offers:
 - Translate [this theme](https://github.com/huangyz0918/moving) to Blot and tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZlmGfwNKCPLPMbkRHJSjNs)
 - Translate [Ana's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTgjDcQwDdcmTkgjjKTdQhQV) designs to Blot
 - Translate [2019](https://themes.gohugo.io/twentynineteen-hugo/) to Blot and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHqTkZhqhrFllhNGrbzwXqzg)
+- [Anders Norén](https://www.andersnoren.se/teman/)
+- [Radek Kozieł](https://github.com/panr)
+- Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
 
 ---
 
@@ -543,8 +546,6 @@ Add support for IPv6 and tell [Raul](https://mail.google.com/mail/u/0/#inbox/167
 
 Client.write does not propogate sync errors... to demonstrate this, revoke dropbox token then try to enable local editing.
 
-Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
-
 Re-enable image minifier and fix the bugs it creates
 
 Can we keep the pandoc child_process running and pipe stuff in and out for speed? Measure before after to ensure this helps
@@ -583,10 +584,6 @@ Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#in
 Review pCloud as a potential client and tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf)
 
 Review Dropmark as a potential client and tell [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR)
-
-Templates to translate:
-- [Anders Norén](https://www.andersnoren.se/teman/)
-- [Radek Kozieł](https://github.com/panr)
 
 - How do we share info, like a link on a menu, or a header image across templates? Could there be a shared info repository that templates could access?
 - add support for dynamic partials to make collections possible, e.g. {{> /:tag.html}} ?
