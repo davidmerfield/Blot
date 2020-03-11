@@ -192,3 +192,14 @@ a.action-button+a.action-button {
   position: relative;
   display: block;
 }
+
+.with-arrow {position: relative;}
+.with-arrow:after {
+    position: absolute;
+    top: 50%;
+    margin-top: -12px;
+    right: 10px;
+    opacity: 0.3;
+    float: right;
+    content: "→";
+}
