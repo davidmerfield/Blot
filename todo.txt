@@ -512,7 +512,8 @@ Create a mock version of these websites and send an email showing the folder str
   - [Just van Rossum](http://dailydrawbot.tumblr.com/)
   - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
   - [Tobias Rechsteiner](http://www.tobiasrechsteiner.ch/) knows about Blot
-
+  - [Nick Sherman](https://nicksherman.com/)
+  
 - Writers:
   - [Warren Ellis](http://warrenellis.ltd/) via [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHZrcrTqrjtJVqVrhZKLXNw) knows about Blot
   - [Maciej Ceglowski](https://idlewords.com/about.htm)
