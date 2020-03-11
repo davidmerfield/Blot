@@ -39,10 +39,27 @@ brochure.use(require("./tools/dates"));
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
 
+let updated;
+function loadLast(req, res, next) {
+  if (updated) {
+    res.locals.updated = updated;
+    return next();
+  }
+
+  require("child_process").exec("git log -1 --format=%cd", function(
+    err,
+    stdout
+  ) {
+    res.locals.updated = require('moment')(stdout).fromNow();
+    next();
+  });
+}
+
+brochure.use(loadLast);
+
 brochure.use(function(req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
-
   var url = req.originalUrl;
 
   // Trim trailing slash from the URL before working out which
@@ -172,7 +189,9 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
   next();
 });
 
+
 brochure.get("/", require("./featured"), function(req, res) {
+  res.locals.layout = "partials/index-layout";
   res.locals.title = "Blot – A blogging platform with no interface";
   res.render("index");
 });

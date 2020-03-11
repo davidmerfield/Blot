@@ -60,7 +60,7 @@ module.exports = function(req, res, next) {
     return Math.round(Math.random() * 2) - 1;
   });
 
-  res.locals.featured = res.locals.featured.slice(0, 16);
+  res.locals.featured = res.locals.featured.slice(0, 36);
 
   next();
 };

@@ -259,12 +259,12 @@ dashboard.use(function(req, res, next) {
 dashboard.use("/account", require("./routes/account"));
 
 dashboard.use(function(req, res, next) {
-  res.locals.breadcrumbs.add("Your blogs", "/");
+  res.locals.breadcrumbs.add("Your account", "/");
   next();
 });
 
 dashboard.get("/", function(req, res, next) {
-  res.locals.title = "Your blogs";
+  res.locals.title = "Your account";
   res.render("index");
 });
 

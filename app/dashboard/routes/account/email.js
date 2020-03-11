@@ -22,7 +22,7 @@ Email.route("/")
       }
 
       if (changes.length) {
-        res.message("/account", "Saved your new email address");
+        res.message("/account/email", "Saved your new email address");
       } else {
         res.redirect(req.baseUrl + req.path);
       }

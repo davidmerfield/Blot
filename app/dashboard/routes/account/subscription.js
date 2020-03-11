@@ -6,20 +6,29 @@ var User = require("user");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper").email;
 
+Subscription.route("/").get(function(req, res) {
+  res.render("account/subscription", {
+    title: "Your account",
+    monthly:
+      req.user.subscription &&
+      req.user.subscription.plan &&
+      req.user.subscription.plan.interval === "month"
+  });
+});
+
 Subscription.route("/cancel")
 
   .all(requireSubscription)
 
   .get(function(req, res) {
     res.render("account/cancel", {
-      title: "Cancel your subscription",
-      breadcrumb: "Cancel subscription"
+      title: "Cancel your subscription"
     });
   })
 
   .post(cancelStripeSubscription, function(req, res) {
     email.CANCELLED(req.user.uid);
-    res.message("/account", "Your subscription has been cancelled");
+    res.message("/account/subscription", "Your subscription has been cancelled");
   });
 
 Subscription.route("/create")
@@ -41,7 +50,7 @@ Subscription.route("/create")
 
   .post(createStripeSubscription, function(req, res) {
     email.CREATED_BLOG(req.user.uid);
-    res.message("/account", "You created a subscription");
+    res.message("/account/subscription", "You created a subscription");
   });
 
 Subscription.route("/restart")
@@ -59,7 +68,7 @@ Subscription.route("/restart")
 
   .post(restartStripeSubscription, function(req, res) {
     email.RESTART(req.user.uid);
-    res.message("/account", "Restarted your subscription");
+    res.message("/account/subscription", "Restarted your subscription");
   });
 
 Subscription.route("/restart/pay")
@@ -76,7 +85,7 @@ Subscription.route("/restart/pay")
 
   .post(recreateStripeSubscription, function(req, res) {
     email.RESTART(req.user.uid);
-    res.message("/account", "Restarted your subscription");
+    res.message("/account/subscription", "Restarted your subscription");
   });
 
 function requireCancelledSubscription(req, res, next) {
@@ -85,7 +94,7 @@ function requireCancelledSubscription(req, res, next) {
   if (!req.user.isSubscribed) {
     next();
   } else {
-    res.redirect("/account");
+    res.redirect("/account/subscription");
   }
 }
 
@@ -95,7 +104,7 @@ function requireLackOfSubscription(req, res, next) {
   if (!req.user.subscription || !req.user.subscription.customer) {
     next();
   } else {
-    res.redirect("/account");
+    res.redirect("/account/subscription");
   }
 }
 
@@ -107,7 +116,7 @@ function requireSubscription(req, res, next) {
   } else if (req.user.subscription && req.user.subscription.customer) {
     res.redirect("/account/restart");
   } else {
-    res.redirect("/account");
+    res.redirect("/account/subscription");
   }
 }
 

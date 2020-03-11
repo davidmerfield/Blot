@@ -1,21 +1,89 @@
-Create DMARC record for Blot
-- https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail
-- https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
+Check that wildcard cert succeeds after 2020-04-10 11:12:00
+
+Add persona/cargo style customization buttons
+- Add iframe of site in edit page of template editor
+- Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
+- Fonts:
+		Abel
+		Alegreya
+		Alte Haas Grotesk
+		Authentic Sans
+		Avara
+		Averia Serif Libre
+		Bagnard
+		Chivo
+		Cormorant
+		Crimson Text 
+		Darker Grotesque
+		DINosaur
+		DM Sans
+		Eb Garamond 
+		Fjalla One
+		Fondamento
+		Golos Text
+		Halibut Serif 
+		Happy Times at the IKOB
+		iA Writer Quattro
+		Infini GF 
+		Inter 
+		Interstate
+		JetBrains Mono
+		Junicode
+		Karla
+		Le Murmure
+		Libertinus
+		Messapia
+		Michroma
+		Mister Pixel
+		Montserrat
+		Neuton
+		Nunito
+		Optician Sans
+		Ortica
+		Oswald
+		Pilowlava
+		Pinyon Script
+		Plex
+		Quicksand
+		Roboto
+		Routed Gothic
+		Rubik
+		Space Grotesk/Mono
+		Spectral
+		Syne
+		Terminal Grotesque
+		TeX Gyre
+		Typewriter Condensed
+		UnifrakturMaguntia
+		VCR OSD Mono
+		Vollkorn
+		Work Sans
+		Wremena
+		Young Serif
+- Work out how to make live modifications quickly to a CSS file for preview purposes
+
+Think about appeninding file extension to make requests with query strings cacheable
+- think about emptying cache directory, LRU. But how do we handle .css?query=x?
+- nginx will have to look up a series of extensions -> $requestURI, $requestURI.html, $requestURI.xml, $requestURI.css, $requestURI.js
 
 Resolve intermittent downtime
 - increase available memory?
 - Begin using memory monitor
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
 
-Write Winter newsletter
-
-Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+Write Spring newsletter
 
 ---
+
+Fix bug with file list on dashboard in Safari and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGHzLwclHfnvjZrvfsvTQdGf)
 
 Generate a list of titles which you could use to generate a table of contents and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNNMjbjsSKltGRLDsqXfbMhN)
 
 Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
+
+Create DMARC record for Blot
+- https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail
+- https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
 
 Make date-format settings template specific and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) "I forked the Archive template but did *not* install it. And yet, changing settings like "Hide the publish date for your posts" affected the currently installed template.""
 
@@ -52,6 +120,9 @@ Record new demo video
 - Finish video script in brochure/readme.txt
 - Work out how a photographer might use Blot, does lightroom work well?
 - Tidy up fontarchive.org
+- Find a neat public domain song to play 
+   - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
+   - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
 
 Write script to increase size of Blot's hard drive
 - Increase size of Blot's hard drive
@@ -63,8 +134,6 @@ Show error messages on overdue subscription payment form
 Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT) and tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd)
 
 Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqhHZnPjfgRqFhpdNGZVKn)
-
-Set up template previews on HTTPS (query string? custom header? cookie? wildcard cert?)
 
 Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
@@ -114,7 +183,7 @@ Work out how to detect stray build processes. There were a bunch of zombies cons
 
 ---
 
-Increase price to $4 per month for new customers. This will not affect existing customers in any way.
+Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
 
 Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
@@ -373,11 +442,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Move to uuid based template IDs instead of slug
 - Move to data directory for templates
   - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
-- Add persona/cargo style customization buttons
-  - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
-  - Serve previews of templates from a domain with HTTPS
-  - Add iframe of site in edit page of template editor
-  - Work out how to make live modifications quickly to a CSS file for preview purposes
 - Re-do url redirector to use route-parser and properly support regular expressions
 - Add support for paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM) and [Nikhil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRFcMTRcgMJdcCkxSNChXq)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
@@ -436,7 +500,8 @@ Create a mock version of these websites and send an email showing the folder str
   - [Khoi Vinh](https://www.subtraction.com/)
   - [Jarrett Fuller](https://jarrettfuller.com/)
   - [Dan Cederholm](http://simplebits.com)
-  
+  - [Hank Beyer](https://hankbeyer.com/)
+
 - Type:
   - [Just van Rossum](http://dailydrawbot.tumblr.com/)
   - [Stan Nelson](http://www.atelierpressandletterfoundry.com/contact)
@@ -500,8 +565,6 @@ Add JSONFeed to default templates. Tell [Jamie](https://mail.google.com/mail/u/0
 
 Add support for Micropub in Blot's API. Tell Amit.
 
-Add support for HTTPS on preview subdomains
-
 Add an EXPIRY to the log entries for a blog's 404 log
 
 Reconsider default slug length or add new short slug property and tell [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTjxhZStzKhchtwjXbWxDbdfh)
@@ -512,7 +575,7 @@ Follow up with [Christian](https://mail.google.com/mail/u/1/#inbox/164811d17f389
 
 Work out why Pandoc cannot handle 'linked' images (instead of conventionally embedded images). For instructiosn on reproducing bug, see [SG's email](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhcqMVrZbNlKTcVmxVHwRmJC) and follow up when resolved.
 
-Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)  and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh) and [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR) and [Nuno](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDmKWgcNKgMKBNDXxWqGvqrP) and [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf)
+Self-hosting documentation then tell [Jake](https://mail.google.com/mail/u/1/#inbox/1659d67326849fb3)  and [Mohammed](https://twitter.com/mnafees_me/status/1051121206030753794?s=12) and [BP](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCQVldJqdJZjktfKxNfgCdkTh) and [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR) and [Nuno](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDmKWgcNKgMKBNDXxWqGvqrP) and [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf) and [Jarod](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWlwWMfqnWBqxBtznDJVqxfr)
 
 Review pCloud as a potential client and tell [Omaid](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjqhCxHhJqbGlGNZsfkWWQf)
 
@@ -577,13 +640,13 @@ File converters / codecs
 
 Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
-Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ)
+Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ) and [Khaled](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGBFrctdVXhksCvqXXVPfDWR)
 
 Write new clients to sync blog folders
 - OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and
 - [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
 - [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW)
-- [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph)
+- [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
 - Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm)
 - If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD)
 
@@ -764,3 +827,7 @@ Simple server-side analytics and tell [Tom](https://mail.google.com/mail/u/0/#in
 Simple commenting system and tell [Precious](https://mail.google.com/mail/u/0/#inbox/QgrcJHrtwLwTldzhrTKHMtnhwVqMXVzCTqv)
 
 Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNRnfqdSCvqvTgGZTSSTvGjv)
+
+Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
+
+Consider adding [[Wikilinks]] and tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqWvGDjVMMzBHhXNPTvhJJ)

@@ -11,9 +11,9 @@ ul.sidebar {
   margin: 0;
   min-height: 100vh;
   list-style: none;
-  width: 16rem;
-
-  padding: 0;
+  width: 10rem;
+/*  border-right: 1px solid #eee;
+*/  padding: 0;
   box-sizing: border-box;
   max-width: none;
   flex-shrink: 0;
@@ -72,7 +72,8 @@ label[for="toggle"] {
   cursor: pointer !important;
   color: #a09d9c;
   line-height: 1.3;
-  padding: 0.15em 2rem;
+  font-size: 15px;
+  padding: 0.15em 0;
   text-decoration: none;
   word-wrap: break-word;
   background-color: transparent;
@@ -97,7 +98,7 @@ label[for="toggle"] {
   display: block;
   position: absolute;
   top: 50%;
-  left: 0.75em;
+  left: -1.25em;
   width: 7px;
   height: 7px;
   margin: -4px -5px 0 0;
@@ -109,21 +110,6 @@ label[for="toggle"] {
   content: "";
 }
 
-.sidebar .index>a:first-child:hover {
-  background: transparent;
-}
-
-.sidebar .index>a:first-child:before {
-  background: url('/images/logo-new.svg');
-  transform: none;
-  background-size: 1em;
-  width: 1em;
-  top: 0.5em;
-  opacity: 0.3;
-  left: 6px;
-  height: 1em;
-  background-repeat: no-repeat;
-}
 
 .sidebar input {
   display: none;
@@ -170,7 +156,7 @@ ul.sidebar ul {
 
 .sidebar li ul {
   list-style: none;
-  padding-left: 1em;
+  padding-left: 0;
   padding-bottom: 1em;
 }
 

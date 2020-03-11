@@ -1,11 +1,17 @@
 {{#folder}}
 
-  <div style="display:flex;flex-direction:column;border:1px solid rgba(0,0,0,0.05);border-radius:3px">
-{{#root}}<p style="background: #f6f4f0;
-    margin: 0;
-    padding: 6px 20px;
-    color: #a49a98;
-    border-bottom: 1px solid rgba(0,0,0,0.05);">Folder</p>{{/root}}
+  <div style="display:flex;flex-direction:column; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
+    background: #fff;
+    border-radius: 4px;">
+{{#root}}<a class="line" href="/settings/client/{{client.name}}">
+<span class="label">Folder</span>
+{{^blog.client}}
+      <span class="link">Set up a client</span>
+    {{/blog.client}}
+    {{#blog.client}}
+    <span class="center">{{client.display_name}}</span>
+    {{/blog.client}}
+    </a>{{/root}}
 
 <div class="folder-box" style="flex-grow:1;flex-basis:25vh;    display: flex;
     justify-content: center;">

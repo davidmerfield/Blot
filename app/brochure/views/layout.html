@@ -2,13 +2,14 @@
 
 <body>
 
-  <header>
-    <row style="display:flex;align-items:center;">
+  <style type="text/css">.wrapper {max-width: 54rem}</style>
+  <div class="wrapper">
+    <row  style="margin:0 0 ;display:flex;align-items:center;">
       <section style="display: flex;
     align-items: center;">
 
         {{#unless user}}
-        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}} Blot</a>
+        <a style="font-weight: 600;color: inherit;" class=" {{selected.index}}" title="Blot" href="/" >Blot</a>
         {{/unless}}
         {{#if user}}
         <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
@@ -17,7 +18,7 @@
 
       </section>
 
-      <section class="links" style="font-weight:500;color:#000">
+      <section class="links" style="font-weight:600;color:#000">
         <label for="toggle">Menu</label>
         {{#unless user}}
         <a href="/sign-up">Sign up</a>
@@ -31,10 +32,12 @@
       </section>
     </row>
 
-    <hr style="margin:0">
-  </header>
+</div>
+<!--     <hr style="margin:0; border: none;
+    border-bottom: 1px solid #eee;"> -->
 
-  <main style="padding-top:0">
+  <div class="wrapper">
+  <main  >
 
     <input type="checkbox" name="toggle" id="toggle">
 
@@ -45,8 +48,6 @@
       <li>
         <a class="{{selected.publishingIndex}}" href="{{{base}}}/publishing">How to use Blot</a>
       </li>
-      <li><a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</li>
-
       <li>
         <a class="{{selected.pages}}" href="{{{base}}}/publishing/pages">Pages</a>
       </li>
@@ -65,22 +66,44 @@
 
       <br>
       <hr>
+      <br>
+<li>
+        <a class="{{selected.templatesIndex}}" href="{{{base}}}/templates">Templates</a>
+      </li>
+      <li>
+        <a class="{{selected.essay}}" href="{{{base}}}/templates/essay">Essay</a>
+      </li>
+      <li>
+        <a class="{{selected.diary}}" href="{{{base}}}/templates/diary">Diary</a>
+      </li>
+      <li>
+        <a class="{{selected.picture}}" href="{{{base}}}/templates/picture">Picture</a>
+      </li>
+      <li>
+        <a class="{{selected.magazine}}" href="{{{base}}}/templates/magazine">Magazine</a>
+      </li>
+      <li>
+        <a class="{{selected.scrapbook}}" href="{{{base}}}/templates/scrapbook">Scrapbook</a>
+      </li>
 
       <br>
-      <div style="font-size:14px">
-        <li><a class="{{selected.contact}}" href="/contact">Contact</a></li>
+
+      <hr>
+      <br>
+
+              <li><a class="{{selected.about}}" href="/about">About</li>
         <li><a class="{{selected.news}}" href="/news">News</a></li>
         <li><a class="{{selected.about}}" href="/about">About</li>
         <li><a class="{{selected.notes}}" href="/notes">Notes</li>
         <li><a class="{{selected.developers}}" href="/developers">Developers</a></li>
-      </div>
+        <li><a class="{{selected.contact}}" href="/contact">Contact</a></li>
     </ul>
 
     <content>
       {{{body}}}
     </content>
   </main>
-
+</div>  
   {{> footer}}
 </body>
 
