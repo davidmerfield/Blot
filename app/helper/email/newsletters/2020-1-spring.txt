@@ -1,0 +1,29 @@
+Spring newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- Added option to embed comments from Commento.
+
+**Changes**
+- Increased the price for new subscribers to $4 per month.
+- All preview subdomains are now served over HTTPS. Previously they were served over HTTP.
+- Image caption text is now no longer included in the summary generated for each blog post.
+- Switched the default format of the URLs to your blog's CSS and JS files. This means they're easier to cache
+- Your redirects are now returned with an HTTP status of 301 instead of 302.
+
+**Bugs fixed**
+- Fixed bug in the appearance of one of the default date formats.
+- Fixed issue with foreign characters in files names on the git client.
+- Fixed a series of bugs which occured when you switched from the Dropbox client to the git client.
+- Fixed a bug which prevented pages from being included in your blog's sitemap
+
+**Mistakes**
+- 
+
+**Plans for this season**
+- Do a better job of marketing Blot. I plan to release a new demo video and release the notes I've taken
+
+If you have any questions at all about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
