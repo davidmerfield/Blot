@@ -16,7 +16,7 @@ module.exports = function onThisPage(req, res, next) {
 			const innerHTML = $(el).html();
 			$(el).html(`<a href="#${id}">${innerHTML}</a>`);
 		});
-		
+
 		send.call(this, $.html());
 	};
 
@@ -25,7 +25,7 @@ module.exports = function onThisPage(req, res, next) {
 		const $ = cheerio.load(html, { decodeEntities: false });
 		const headers = [];
 
-		$("h2").each(function(i, el) {
+		$("h1,h2,h3").each(function(i, el) {
 			const text = $(el).text();
 			const id = $(el).attr("id") || makeSlug(text);
 			headers.push({ text: text, id: id });

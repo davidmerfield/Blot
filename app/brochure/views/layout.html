@@ -24,6 +24,11 @@
     float: right;
     content: "\203A";
 }
+
+.on-this-page li a {
+  text-indent: -12px;
+margin-left: 12px
+}
 .underline-on-hover:hover {text-decoration: underline;}
 </style>
 <div style="background:#f6f6f6">
@@ -124,8 +129,9 @@
       {{{body}}}
     </content>
     {{#if headers.length}}
-    <ul>  
-      <li><strong>On this page</strong></li>
+    <ul class="sidebar col-25 on-this-page">
+      <br><br>
+      <li><strong style="font-size: 12px;text-transform: uppercase;">On this page</strong></li>
       {{#headers}}
       <li><a href="#{{id}}">{{text}}</a></li>
       {{/headers}}
