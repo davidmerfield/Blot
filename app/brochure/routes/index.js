@@ -1,4 +1,3 @@
-var fs = require("fs-extra");
 var Express = require("express");
 var brochure = new Express.Router();
 var finder = require("finder");
@@ -39,6 +38,9 @@ brochure.use(require("./tools/dates"));
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
 
+// Generate a table of contents for each page
+brochure.use(require("./tools/on-this-page"));
+
 let updated;
 function loadLast(req, res, next) {
   if (updated) {
@@ -50,7 +52,7 @@ function loadLast(req, res, next) {
     err,
     stdout
   ) {
-    res.locals.updated = require('moment')(stdout).fromNow();
+    res.locals.updated = require("moment")(stdout).fromNow();
     next();
   });
 }
@@ -69,7 +71,7 @@ brochure.use(function(req, res, next) {
 
   var slugs = url.split("/");
 
-  slugs.forEach(function(slug, i) {
+  slugs.forEach(function(slug) {
     res.locals.selected[slug] = "selected";
   });
 
@@ -81,45 +83,7 @@ brochure.use(function(req, res, next) {
   next();
 });
 
-var matter = require("gray-matter");
-
-function loadContributors(req, res, next) {
-  fs.readFile(__dirname + "/../views/acknowledgements.yaml", "utf-8", function(
-    err,
-    contents
-  ) {
-    if (err) return next(err);
-
-    var dependencies = matter("---\n" + contents + "\n---").data;
-    var contributors = [];
-
-    dependencies.forEach(function(dependency) {
-      contributors = contributors.concat(dependency.contributors);
-    });
-
-    dependencies[dependencies.length - 1].last = true;
-    contributors[contributors.length - 1].last = true;
-
-    res.locals.dependencies = dependencies;
-    res.locals.contributors = uniqueBy("name", contributors);
-
-    next();
-  });
-}
-
-function uniqueBy(property, list) {
-  var seen = {};
-
-  list = list.filter(function(item) {
-    if (seen[item[property]]) return false;
-    seen[item[property]] = true;
-    return true;
-  });
-
-  return list;
-}
-
-brochure.get("/about", loadContributors, function(req, res) {
+brochure.get("/about", function(req, res) {
   res.locals.title = "About";
   res.render("about");
 });
@@ -186,7 +150,6 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
   res.locals.breadcrumbs.add(title, subsubsection);
   next();
 });
-
 
 brochure.get("/", require("./featured"), function(req, res) {
   res.locals.layout = "partials/index-layout";

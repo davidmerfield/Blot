@@ -26,7 +26,7 @@ main {
 }
 
 body {
-  color: rgb(4, 4, 2);
+  color: #000;
   line-height: 1.45;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
     "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
@@ -104,8 +104,8 @@ content details a:hover {
 }
 
 h1 {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 27px;
+  font-weight: 700;
   margin: 36px 0 16px;
   /*    border-bottom: 1px solid #eceff1;
 */
@@ -119,6 +119,8 @@ h2 {
   padding: 0.5rem 0 0.3375em;
   font-weight: 600;
 }
+
+h1 a, h2 a, h3 a {color: inherit;text-decoration: none;}
 
 h2+p {
   margin-top: 0;
@@ -149,7 +151,7 @@ container {
 
 content {
   flex-grow: 1;
-  padding: 0 0 0 4.2rem;
+  padding: 0 4.2rem;
 }
 
 .sidebar+content {
@@ -265,8 +267,9 @@ th:last-child {
 
 background {
   display: flex;
-  margin: 2rem 0;
+  margin: 3rem 0;
   background: #000;
+  /*border:1px solid #000;*/
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
@@ -284,6 +287,11 @@ background.text+h3 {
   margin-top: 4em;
 }
 /*
+background.green {
+  background: #35cb4b42;
+}
+
+
 background.red {
   background: #fc615d38;
 }
@@ -291,11 +299,11 @@ background.red {
 background.yellow {
   background: #fdbd416b;
 }
+*/
+/*
 
 /*#faba40*/
-/*background.green {
-  background: #35cb4b42;
-}
+/*
 */
 /*#35cb4b*/
 
