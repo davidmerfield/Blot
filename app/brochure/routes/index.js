@@ -38,6 +38,9 @@ brochure.use(require("./tools/dates"));
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
 
+// Generate a table of contents for each page
+brochure.use(require("./tools/on-this-page"));
+
 let updated;
 function loadLast(req, res, next) {
   if (updated) {
