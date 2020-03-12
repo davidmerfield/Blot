@@ -123,6 +123,14 @@
     <content>
       {{{body}}}
     </content>
+    {{#if headers.length}}
+    <ul>  
+      <li><strong>On this page</strong></li>
+      {{#headers}}
+      <li><a href="#{{id}}">{{text}}</a></li>
+      {{/headers}}
+    </ul>
+    {{/if}}
   </main>
 </div>  
   {{> footer}}

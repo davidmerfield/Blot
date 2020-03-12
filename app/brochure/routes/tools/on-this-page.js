@@ -13,7 +13,10 @@ module.exports = function onThisPage(req, res, next) {
 			const text = $(el).text();
 			const id = $(el).attr("id") || makeSlug(text);
 			$(el).attr("id", id || makeSlug(text));
+			const innerHTML = $(el).html();
+			$(el).html(`<a href="#${id}">${innerHTML}</a>`);
 		});
+		
 		send.call(this, $.html());
 	};
 
