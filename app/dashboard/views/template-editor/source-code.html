@@ -1,43 +1,190 @@
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="/scripts/codemirror/codemirror.css?{{cacheID}}">
+		<link rel="stylesheet" type="text/css" href="/scripts/codemirror/theme.css?{{cacheID}}">
+		<link rel="stylesheet" type="text/css" href="/css/editor.css?{{cacheID}}">
 		<style type="text/css">
 			html,
 			body {
 				margin: 0;
 				padding: 0;
 			}
-		</style>
+
+
+
+.CodeMirror {
+  flex-grow: 1;
+    min-height: calc(100vh - 2.875rem);
+  font-family: monospace;
+}
+
+.CodeMirror-gutters {
+  background-color: #fbf8f6;
+}
+
+.CodeMirror-linenumber {
+  color: rgb(158, 154, 152)
+}
+
+.file-list {padding: 1rem 0}
+
+.file-list .selected {background: rgba(255,255,255,0.5);color: #000}
+.file-list a {
+	font-size: 14px;
+	padding: 0 1rem;
+	display: block;
+	color: #777;
+	text-decoration: none;
+}
+    </style>
 	</head>
 	<body>
-		<div style="display:flex;min-height:100vh;">
+		<div style="display:flex;min-height:100vh;width: 100%">
 			<div
-				style="flex-basis: 20rem;display: flex;flex-direction: column;background: #eee"
+				style="flex-basis: 20rem;flex-shrink:0;display: flex;flex-direction: column;background: #eee"
 			>
 				<div style="flex-grow: 1">
-					<div>
-						<a href="/settings/theme">Close</a>
+										{{> chrome}}
+
+					<div class="file-list">
+						{{#views}}
+						<a class="{{selected}}" href="{{{base}}}/source-code/{{name}}/edit">{{name}}</a>
+						{{/views}}
+						<form method="post" action="{{{base}}}/source-code/create">
+					<input type="submit" name="" value="Create new view" />
+				</form>
 					</div>
-					<div style="display: flex">
-						<a style="flex-basis: 50%"			
-							href="{{{base}}}/settings"
-							>Settings</a
-						>
-						<a 				style="flex-basis: 50%;text-decoration: none;color: inherit;"
- href="{{{base}}}/source-code"
-							>Source code</a
-						>
-					</div>
-  {{^is_title}}
-  <a class="file {{active}}" href="{{{url}}}">
-      <img src="/images/file-empty.svg" width="14"> {{name}}
-    </a>
-  {{/is_title}}
+
 				<form method="post" action="{{{base}}}/delete">
 					<input type="submit" name="" value="Delete template" />
 				</form>
 			</div>
 
 			
+		</div>
+		<div style="flex-grow: 1">
+			<div style="display:flex;background: #222;padding: 0.5rem 1rem">
+								{{view.name}}
+
+				<a href=".." class="box-button">Settings</a>
+				<a href=".." class="box-button">Preview</a>
+			</div>
+			<div style="background: rgba(0, 0, 0, 0.1);padding: 0.5rem 1rem">
+			</div>
+
+			{{#view}}
+
+
+  <div id="editor"></div>
+
+  <textarea id="source" style="display:none" data-mode="{{editorMode}}" name="content">{{content}}</textarea>
+
+
+<script src="/scripts/jquery.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/codemirror.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/active-line.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-css.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-simple.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-multiplex.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-handlebars.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-htmlmixed.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-javascript.js?{{cacheID}}"></script>
+<script src="/scripts/codemirror/mode-xml.js?{{cacheID}}"></script>
+
+<script type="text/javascript">
+
+  $('#source').hide();
+
+  // Editor  
+  var editor = CodeMirror.fromTextArea(document.getElementById("source"), {
+    mode: {name: 'handlebars', base: $('#source').attr('data-mode')},
+    lineNumbers: true,
+    styleActiveLine: true,
+    theme: "default"
+  });
+
+
+  $('.deleteVar').click(function(){
+    $('#save').removeClass('disabled')
+  });
+
+  editor.on('keyup', function(){
+   
+    $('#save')
+      .removeClass('disabled')
+      .val('Save');
+
+  })
+  
+  $(".form").submit(function() {
+
+    $.ajax({
+       type: "POST",
+       url: $('.form').attr('action'),
+       data: $(".form").serialize(),
+       error: function(res) {
+
+        var message = $(res.responseText).find('.error').text();
+
+        $('#save')
+          .removeClass('working')
+          .removeClass('disabled')
+          .val('Save');
+
+        $('.error')
+          .text(message).fadeIn();
+
+
+       },
+
+       success: function(data, status, res, body) {
+
+        console.log('SUCCESS!');
+
+        $('#save')
+          .addClass('disabled')
+          .removeClass('working')
+          .val('Saved!');
+
+        $('.success')
+          .text('Changes saved successfully!').fadeIn();
+
+        $('.error')
+          .hide()
+
+        setTimeout(function(){
+
+          $('.success')
+            .fadeOut();
+
+        }, 3000);
+
+       }
+    });
+
+    return false; // avoid to execute the actual submit of the form.
+  });
+
+  $('#save').click(function(e){
+
+    if ($(this).hasClass('disabled')){
+      e.preventDefault()
+      return false;
+    }
+
+    $(this)
+      .addClass('working')
+      .addClass('disabled')
+      .val('Saving');
+
+    $('#source').val(editor.getValue());
+    $('.form').submit();
+
+    return false;
+  });
+
+</script>
+{{/view}}
 		</div>
 	</body>
 </html>

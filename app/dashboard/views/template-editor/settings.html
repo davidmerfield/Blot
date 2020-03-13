@@ -1,44 +1,32 @@
 <html>
 	<head>
-		<style type="text/css">
-			html,
-			body {
-				margin: 0;
-				padding: 0;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="/css/editor.css?{{cacheID}}">
 	</head>
 	<body>
 		<div style="display:flex;min-height:100vh;">
 			<div
-				style="flex-basis: 20rem;display: flex;flex-direction: column;background: #eee"
+				style="flex-basis: 20rem;display: flex;flex-direction: column;background: #f2f2f2"
 			>
 				<div style="flex-grow: 1">
-					<div>
-						<a href="/settings/theme">Close</a>
-					</div>
-					<div style="display: flex">
-						<a
-							style="flex-basis: 50%;text-decoration: none;color: inherit;"
-							href="{{{base}}}/settings"
-							>Settings</a
-						>
-						<a style="flex-basis: 50%" href="{{{base}}}/source-code"
-							>Source code</a
-						>
-					</div>
-					<h1>{{template.name}}</h1>
-					<hr />
+					
+					{{> chrome}}
+
+					<div class="inputs">
+					<div style="margin:1rem;background: #fff">
 					<h2>Color scheme</h2>
 					{{#colors}} {{> input-color}} {{/colors}}
-					<hr />
+				</div>
+
+					<div style="margin:1rem;background: #fff">
 					<h2>Type</h2>
 					{{#fonts}} {{> input-font}} {{/fonts}}
-					<hr />
+				</div>
+
 					<h2>Layout</h2>
 					{{#layout}} {{/layout}}
 					<hr />
 					<h2>Date and time</h2>
+				</div>
 				</div>
 				<form method="post" action="{{{base}}}/delete">
 					<input type="submit" name="" value="Delete template" />

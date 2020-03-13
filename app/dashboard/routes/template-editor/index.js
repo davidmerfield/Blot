@@ -8,10 +8,13 @@ var Template = require("template");
 TemplateEditor.use(function(req, res, next) {
 	res.locals.partials["input-color"] = "template-editor/input-color";
 	res.locals.partials["input-font"] = "template-editor/input-font";
+	res.locals.partials["chrome"] = "template-editor/chrome";
 	next();
 });
 
 TemplateEditor.post(bodyParser);
+
+TemplateEditor.param("viewSlug", require("./load/template-view"));
 
 TemplateEditor.param("templateSlug", require("./load/template"));
 
@@ -20,6 +23,14 @@ TemplateEditor.param("templateSlug", function(req, res, next) {
 	res.locals.preview = `https://preview-of-my-${req.template.slug}-on-${req.blog.handle}.${config.host}`;
 	next();
 });
+
+TemplateEditor.use("/:templateSlug/:section", function(req, res, next) {
+	res.locals.selected = {};
+	res.locals.selected[req.params.section] = "selected";
+	next();
+});
+
+
 
 TemplateEditor.route("/:templateSlug/settings")
 	.all(require("./load/font-inputs"))
@@ -44,6 +55,13 @@ TemplateEditor.route("/:templateSlug/settings")
 	});
 
 TemplateEditor.route("/:templateSlug/source-code")
+	.all(require("./load/template-views"))
+	.get(function(req, res) {
+		res.render("template-editor/source-code");
+	});
+
+TemplateEditor.route("/:templateSlug/source-code/:viewSlug/edit/")
+	.all(require("./load/template-views"))
 	.get(function(req, res) {
 		res.render("template-editor/source-code");
 	});
