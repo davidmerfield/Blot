@@ -4,8 +4,6 @@ Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDH
 
 Finish Spring newsletter to send for Thursday, March 19
 
-Check that wildcard cert succeeds after 2020-04-10 11:12:00
-
 ---
 
 Add persona/cargo style customization buttons
@@ -92,11 +90,11 @@ Record new demo video
 
 ---
 
+Check that wildcard cert succeeds after 2020-04-10 11:12:00
+
 Think about appeninding file extension to make requests with query strings cacheable
 - think about emptying cache directory, LRU. But how do we handle .css?query=x?
 - nginx will have to look up a series of extensions -> $requestURI, $requestURI.html, $requestURI.xml, $requestURI.css, $requestURI.js
-
----
 
 NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory
 - Is this a permissions issue? 
