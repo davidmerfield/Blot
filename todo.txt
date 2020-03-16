@@ -92,6 +92,8 @@ Record new demo video
 
 Check that wildcard cert succeeds after 2020-04-10 11:12:00
 
+Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
+
 Think about appeninding file extension to make requests with query strings cacheable
 - think about emptying cache directory, LRU. But how do we handle .css?query=x?
 - nginx will have to look up a series of extensions -> $requestURI, $requestURI.html, $requestURI.xml, $requestURI.css, $requestURI.js
