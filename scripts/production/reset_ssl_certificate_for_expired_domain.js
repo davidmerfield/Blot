@@ -7,6 +7,9 @@ const exec = require("child_process").exec;
 const nginx = "/usr/local/openresty/bin/openresty";
 const yesno = require("yesno");
 
+// This doesn't work because of a cluster of permissions
+// related issues but it should show you what needs to happen
+
 if (!(process.getuid && process.getuid() === 0))
 	throw new Error("This script must be run as root");
 
