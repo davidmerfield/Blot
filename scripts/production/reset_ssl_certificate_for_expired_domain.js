@@ -10,7 +10,9 @@ const yesno = require("yesno");
 if (!(process.getuid && process.getuid() === 0))
 	throw new Error("This script must be run as root");
 
-get(process.argv[2], function(err, user, { domain }) {
+get(process.argv[2], function(err, user, blog) {
+	const domain = blog.domain;
+
 	if (!domain) throw new Error("blog does not have a domain");
 
 	const secureURL = `https://${domain}`;
