@@ -38,4 +38,17 @@ describe("encodeXML", function() {
       done();
     });
   });
+
+  it("removes script tags", function(done) {
+    var result;
+    var locals = {};
+    var html = "<script>alert('foo');</script><p>Hey</p>";
+    var template = "{{#encodeXML}}" + html + "{{/encodeXML}}";
+
+    encodeXML(this.request, function(err, lambda) {
+      result = mustache.render(template, { encodeXML: lambda });
+      expect(result).toEqual("<p>Hey</p>");
+      done();
+    });
+  });
 });
