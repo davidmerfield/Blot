@@ -4,6 +4,7 @@
 // more portable. It should help produce valid feeds.
 
 var absoluteURLs = require("./absoluteURLs").absoluteURLs;
+var cheerio = require("cheerio");
 
 // Removes everything forbidden by XML 1.0 specifications,
 // plus the unicode replacement character U+FFFD
@@ -16,15 +17,18 @@ module.exports = function(req, callback) {
   return callback(null, function() {
     return function(text, render) {
       var xml;
+      var $;
 
       text = render(text);
 
       try {
-        xml = absoluteURLs(req.protocol + "://" + req.get("host"), text);
+        $ = cheerio.load(text);
+        $ = absoluteURLs(req.protocol + "://" + req.get("host"), $);
+        $("script").remove();
+        xml = $.html();
         xml = removeXMLInvalidChars(xml);
       } catch (e) {
         console.log(e);
-        // do nothing if we can't
       }
 
       return xml || text;
