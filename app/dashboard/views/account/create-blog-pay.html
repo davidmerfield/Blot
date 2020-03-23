@@ -2,8 +2,10 @@
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
   <div style="max-width:440px">
-      <p>A blog costs <span style="color: #111;
-    background: #fff0a8;">{{price}} per {{interval}}</span>. You can host as many as you like. {{^monthly}}If you create another today, you will be charged {{now}} to cover its cost until your next bill on <b>{{user.pretty.expiry}}</b>.{{/monthly}}{{#monthly}}If you create another today, your next bill on <b>{{user.pretty.expiry}}</b> will increase by {{price}}.{{/monthly}}</p>
+      <p>Each blog costs <span style="color: #111;
+    background: #fff0a8;">{{price}} per {{interval}}</span>. Each blog is independent:
+  you could use Dropbox with one and Git with another. Your blogs can use the
+  same Dropbox account, or different accounts. {{^monthly}}If you create another today, you will be charged {{now}} to cover its cost until your next bill on <b>{{user.pretty.expiry}}</b>.{{/monthly}}{{#monthly}}If you create another blog, your next bill on <b>{{user.pretty.expiry}}</b> will increase by {{price}}.{{/monthly}}</p>
     <div  style="max-width:20rem;margin-top:2.5rem">
       {{^monthly}}
       <hr style="margin:0 0 1rem">
