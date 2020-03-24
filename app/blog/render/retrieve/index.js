@@ -22,6 +22,7 @@ var dictionary = {
   isActive: require("./isActive"),
   latestEntry: require("./latestEntry"),
   page: require("./page"),
+  paginate: require("./paginate"),
   plugin_css: require("./plugin_css"),
   plugin_js: require("./plugin_js"),
   popular_tags: require("./popular_tags"),
