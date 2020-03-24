@@ -78,9 +78,25 @@ describe("template", function() {
   // In future this should return an error to the callback, lol
   it("won't set a view with a name that is not a string", function() {
     var test = this;
-
     expect(function() {
       setView(test.template.id, { name: null }, function() {});
     }).toThrow();
+  });
+
+  it("will save a view with routes", function(done) {
+    var test = this;
+    var view = {
+      name: test.fake.random.word(),
+      routes: ["/a", "/b"]
+    };
+
+    setView(test.template.id, view, function(err) {
+      if (err) return done.fail(err);
+      getView(test.template.id, view.name, function(err, savedView) {
+        if (err) return done.fail(err);
+        expect(savedView.routes).toEqual(view.routes);
+        done();
+      });
+    });
   });
 });

@@ -36,6 +36,7 @@ module.exports = function setView(templateID, updates, callback) {
   var templateKey = key.metadata(templateID);
   var allViews = key.allViews(templateID);
   var viewKey = key.view(templateID, name);
+  var routesKey = key.routes(templateID);
 
   client.exists(templateKey, function(err, stat) {
     if (err) return callback(err);
@@ -60,7 +61,7 @@ module.exports = function setView(templateID, updates, callback) {
           client.set(key.url(templateID, updates.url), name);
         }
 
-        for (var i in updates) view[i] = updates[i];
+        for (let i in updates) view[i] = updates[i];
 
         view.locals = view.locals || {};
         view.retrieve = view.retrieve || {};
@@ -74,7 +75,7 @@ module.exports = function setView(templateID, updates, callback) {
         if (type(view.partials, "array")) {
           var _partials = {};
 
-          for (var i = 0; i < view.partials.length; i++)
+          for (let i = 0; i < view.partials.length; i++)
             _partials[view.partials[i]] = null;
 
           view.partials = _partials;
@@ -83,6 +84,20 @@ module.exports = function setView(templateID, updates, callback) {
         extend(view.partials).and(parseResult.partials);
 
         view.retrieve = parseResult.retrieve || [];
+
+        view.routes = view.routes || [];
+
+        if (view.routes.length) {
+          let routes = {};
+
+          view.routes.forEach(route => {
+            routes[route] = view.name;
+          });
+
+          client.hmset(routesKey, routes, function(err) {
+            if (err) console.log(err);
+          });
+        }
 
         view = serialize(view, viewModel);
 
