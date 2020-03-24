@@ -1,8 +1,9 @@
 <form method="post">
-	<label for="locals.{{key}}">{{label}}</label>
+	<label for="locals.{{key}}" style="padding:5px 16px">{{label}}</label><br>
+
 	<input class="name" type="hidden" value="{{key}}" />
 
-	<select id="locals.{{key}}" name="locals.{{key}}">
+	<select id="locals.{{key}}" name="locals.{{key}}" style="width:100%;margin: 5px 16px;">
 		<optgroup label="Sans-serif">
 			<option value="'helvetica neue', helvetica, sans-serif">Helvetica</option>
 			<option value="'avenir next', avenir, sans-serif">Avenir</option>
@@ -23,5 +24,4 @@
 		</optgroup>
 	</select>
 
-	<input type="submit" />
 </form>

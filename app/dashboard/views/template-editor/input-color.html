@@ -1,5 +1,4 @@
-<form method="post">
-	<label>{{label}}</label>
+<form method="post" id="{{key}}">
 	<input
 		class="name"
 		placeholder="e.g. background"
@@ -13,16 +12,16 @@
 		type="hidden"
 		value="{{value}}"
 	/>
-	<div class="color-picker"></div>
+	<div class="color-picker-{{key}}" style="cursor: pointer;display: flex;align-items: center;">
+		<span style="margin:5px 16px;flex-grow: 1">{{label}}</span>
+		<span style="margin:5px 16px;width:1rem;height:1rem;background:{{value}};display: block;"></span>
+	</div>
 	<div class="clear"></div>
-
-	<input type="submit" />
 </form>
-<link
-	rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.css"
-/>
-<script src="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/pickr/themes/monolith.min.css">
+<script type="text/javascript" src="/scripts/pickr/es5.min.js"></script>
+
 <style type="text/css">
 	.pickr {
 		z-index: auto;
@@ -33,33 +32,51 @@
 </style>
 <script>
 	// Simple example, see optional options for more configuration.
-	var pickr{{name}} = Pickr.create({
-	    el: '.color-picker',
-	 onSave: function onSave(hsva, instance) {
-	      document.querySelector('input[name="locals.{{key}}"]').value = hsva.toRGBA().toString();
-	    },
-	    default: '{{value}}',
+	const pickr{{key}} = Pickr.create({
+    el: '.color-picker-{{key}}',
+    theme: 'monolith', // or 'monolith', or 'nano'
+    default: '{{value}}',
+    useAsButton: true,
+    position: 'top-start',
+    components: {
 
-	    components: {
+        // Main components
+        preview: true,
+        opacity: true,
+        hue: true,
 
-	        // Main components
-	        preview: true,
-	        opacity: true,
-	        hue: true,
+        // Input / output Options
+        interaction: {
+            // hex: true,
+            // rgba: true,
+            // hsla: true,
+            // hsva: true,
+            // cmyk: true,
+            input: true,
+            // clear: true,
+            save: true
+        }
+    }
+});
 
-
-
-	        // Input / output Options
-	        interaction: {
-	            hex: true,
-	            rgba: true,
-	            hsla: true,
-	            hsva: true,
-	            cmyk: true,
-	            input: true,
-	            clear: true,
-	            save: true
-	        }
-	    }
-	});
+	pickr{{key}}.on('init', instance => {
+    console.log('init', instance);
+}).on('hide', instance => {
+    console.log('hide', instance);
+}).on('show', (color, instance) => {
+    console.log('show', color, instance);
+}).on('save', (color, instance) => {
+		document.querySelector('input[name="locals.{{key}}"]').value = color.toHEXA().toString();
+    document.querySelector('form[id="{{key}}"]').submit();
+}).on('clear', instance => {
+    console.log('clear', instance);
+}).on('change', (color, instance) => {
+    console.log('change', color, instance);
+}).on('changestop', instance => {
+    console.log('changestop', instance);
+}).on('cancel', instance => {
+    console.log('cancel', instance);
+}).on('swatchselect', (color, instance) => {
+    console.log('swatchselect', color, instance);
+});
 </script>
