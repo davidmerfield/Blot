@@ -52,8 +52,11 @@ function loadLast(req, res, next) {
   const exec = require("child_process").exec;
   const moment = require("moment");
 
-  exec("git log -1 --format=%cd", function(err, stdout) {
-    if (err) console.log("updated err", err);
+  exec("git log -1 --format=%cd", function(err, stdout, stderr) {
+    if (err) {
+      console.log("updated err", err, stderr);
+      return next();
+    }
     console.log("updated stdout", stdout);
     const date = new Date(stdout.trim());
     console.log("updated date", date);
