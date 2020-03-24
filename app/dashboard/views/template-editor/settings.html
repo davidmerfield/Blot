@@ -20,6 +20,8 @@
 					<div style="margin:1rem;background: #fff">
 					<h2>Type</h2>
 					{{#fonts}} {{> input-font}} {{/fonts}}
+					{{#ranges}} {{> input-range}} {{/ranges}}
+
 				</div>
 
 					<h2>Layout</h2>
@@ -29,7 +31,7 @@
 				</div>
 				</div>
 				<form method="post" action="{{{base}}}/delete">
-					<input type="submit" name="" value="Delete template" />
+					<button style="display: block;background: none;color: #aaa;border:none;"type="submit" name="">Delete template</button>
 				</form>
 			</div>
 

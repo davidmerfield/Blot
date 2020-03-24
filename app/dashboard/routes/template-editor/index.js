@@ -8,6 +8,7 @@ var Template = require("template");
 TemplateEditor.use(function(req, res, next) {
 	res.locals.partials["input-color"] = "template-editor/input-color";
 	res.locals.partials["input-font"] = "template-editor/input-font";
+	res.locals.partials["input-range"] = "template-editor/input-range";
 	res.locals.partials["chrome"] = "template-editor/chrome";
 	next();
 });
@@ -35,6 +36,7 @@ TemplateEditor.use("/:templateSlug/:section", function(req, res, next) {
 TemplateEditor.route("/:templateSlug/settings")
 	.all(require("./load/font-inputs"))
 	.all(require("./load/color-inputs"))
+	.all(require("./load/range-inputs"))
 	.post(bodyParser, function(req, res, next) {
 		let updatedLocals = helper.formJSON(req.body, Template.metadataModel)
 			.locals;
