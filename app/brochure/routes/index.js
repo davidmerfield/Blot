@@ -52,7 +52,7 @@ function loadLast(req, res, next) {
     err,
     stdout
   ) {
-    res.locals.updated = require("moment")(stdout).fromNow();
+    res.locals.updated = require("moment")(new Date(stdout.trim())).fromNow();
     next();
   });
 }
