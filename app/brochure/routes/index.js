@@ -54,7 +54,9 @@ function loadLast(req, res, next) {
 
   exec("git log -1 --format=%cd", function(err, stdout, stderr) {
     if (err) {
-      console.log("updated err", err, stderr);
+      console.log("updated err err:", err,);
+      console.log("updated err stdout:", stdout);
+      console.log("updated err stderr:", stderr);
       return next();
     }
     console.log("updated stdout", stdout);
