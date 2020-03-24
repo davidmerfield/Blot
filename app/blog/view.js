@@ -11,7 +11,14 @@ module.exports = function(server) {
 
       if (viewName) return response.renderView(viewName, next);
 
-      return next();
+      Template.getViewByRoute(templateID, url, function(err, viewName, params) {
+        if (err) return next(err);
+
+        if (params) request.params = params;
+        if (viewName) return response.renderView(viewName, next);
+
+        return next();
+      });
     });
   });
 };
