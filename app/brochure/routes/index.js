@@ -42,17 +42,22 @@ brochure.use(require("./tools/typeset"));
 brochure.use(require("./tools/on-this-page"));
 
 let updated;
+
 function loadLast(req, res, next) {
   if (updated) {
     res.locals.updated = updated;
     return next();
   }
 
-  require("child_process").exec("git log -1 --format=%cd", function(
-    err,
-    stdout
-  ) {
-    res.locals.updated = require("moment")(new Date(stdout.trim())).fromNow();
+  const exec = require("child_process").exec;
+  const moment = require("moment");
+
+  exec("git log -1 --format=%cd", function(err, stdout) {
+    if (err) console.log("updated err", err);
+    console.log("updated stdout", stdout);
+    const date = new Date(stdout.trim());
+    console.log("updated date", date);
+    res.locals.updated = moment(date).fromNow();
     next();
   });
 }
