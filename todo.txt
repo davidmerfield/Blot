@@ -5,7 +5,6 @@ Fix invalid date on homepage and tell [Matt](https://mail.google.com/mail/u/0/#i
 ---
 
 Add persona/cargo style customization buttons
-- Add iframe of site in edit page of template editor
 - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Fonts:
 		Abel
