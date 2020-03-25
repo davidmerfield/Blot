@@ -52,17 +52,16 @@ function loadLast(req, res, next) {
   const exec = require("child_process").exec;
   const moment = require("moment");
 
-  exec("git log -1 --format=%cd", { cwd: require('helper').rootDir }, function(err, stdout, stderr) {
+  exec("git log -1 --format=%cd", { cwd: require("helper").rootDir }, function(
+    err,
+    stdout
+  ) {
     if (err) {
-      console.log("updated err err:", err,);
-      console.log("updated err stdout:", stdout);
-      console.log("updated err stderr:", stderr);
       return next();
     }
-    console.log("updated stdout", stdout);
     const date = new Date(stdout.trim());
-    console.log("updated date", date);
-    res.locals.updated = moment(date).fromNow();
+    updated = moment(date).fromNow();
+    res.locals.updated = updated;
     next();
   });
 }
