@@ -18,6 +18,7 @@ const request = require("request");
 function main(url, options, callback) {
   let checked = {};
   let results = {};
+  let failures = {};
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
@@ -29,9 +30,22 @@ function main(url, options, callback) {
     callback(null, results);
   });
 
+  function addFailure(base, url, statusCode) {
+    const basePath = require("url").parse(base).pathname;
+    const pathname = require("url").parse(url).pathname;
+    failures[pathname] = statusCode;
+    results[basePath] = results[basePath] || [];
+    results[basePath].push([require("url").parse(url).pathname, statusCode]);
+  }
+
   // add some items to the queue
   function checkPage(base, url, callback) {
     const pathname = require("url").parse(url).pathname;
+
+    if (failures[pathname]) {
+      addFailure(base, url, failures[pathname]);
+      return callback();
+    }
 
     if (checked[pathname]) return callback();
 
@@ -55,12 +69,7 @@ function main(url, options, callback) {
       // We use 400 sometimes on the dashboard
       if (res.statusCode !== 200 && res.statusCode !== 400) {
         console.log("ERROR!", res.statusCode, url);
-        const basePath = require("url").parse(base).pathname;
-        results[basePath] = results[basePath] || [];
-        results[basePath].push([
-          require("url").parse(url).pathname,
-          res.statusCode
-        ]);
+        addFailure(base, url, res.statusCode);
       }
 
       if (
