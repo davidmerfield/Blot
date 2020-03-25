@@ -151,6 +151,7 @@ Finish template translation offers:
 - [Anders Norén](https://www.andersnoren.se/teman/)
 - [Radek Kozieł](https://github.com/panr)
 - Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
+- Port [Isola Wordpress theme](https://wordpress.org/themes/isola/) and tell [Wil](https://mail.google.com/mail/u/0/#sent/FMfcgxwHMPqwdPZgKhZNTvwDBMFnTLCS)
 
 ---
 
