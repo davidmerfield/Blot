@@ -32,7 +32,17 @@ function main(url, options, callback) {
 
   // add some items to the queue
   function checkPage(base, url, callback) {
-    var uri = { url: url, headers: options.headers || {} };
+    const URL = require("url");
+    const parsedURL = URL.parse(url);
+    const extension = require("path").extname(parsedURL.pathname);
+    const uri = { url: url, headers: options.headers || {} };
+
+    if (extension) {
+      console.log("skipping", url);
+      return callback();
+    }
+
+    console.log("requesting", url);
 
     request(uri, function(err, res, body) {
       if (err) return callback(err);
@@ -69,8 +79,7 @@ function main(url, options, callback) {
     $("[href],[src]").each(function() {
       var url = $(this).attr("href") || $(this).attr("src");
 
-      if (!url)
-        return;
+      if (!url) return;
 
       url = require("url").resolve(base, url);
 
@@ -80,12 +89,15 @@ function main(url, options, callback) {
       URLs.push(url);
     });
 
-    async.each(
+    async.eachSeries(
       URLs,
       function(url, next) {
-        if (checked[url]) return next();
 
-        checked[url] = true;
+        const identifier = require("url").parse(url).pathname;
+
+        if (checked[identifier]) return next();
+
+        checked[identifier] = true;
 
         checkPage(base, url, next);
       },
