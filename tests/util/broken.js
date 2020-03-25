@@ -11,14 +11,13 @@
 //   base: the page on which the broken link was found
 //   status: the HTTP status code returned for the broken link
 // }]
-
-var async = require("async");
-var cheerio = require("cheerio");
-var request = require("request");
+const async = require("async");
+const cheerio = require("cheerio");
+const request = require("request");
 
 function main(url, options, callback) {
-  var checked = {};
-  var results = {};
+  let checked = {};
+  let results = {};
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
@@ -48,7 +47,7 @@ function main(url, options, callback) {
       if (err) return callback(err);
 
       if (res.statusCode == 404) {
-        var basePath = require("url").parse(base).pathname;
+        const basePath = require("url").parse(base).pathname;
         results[basePath] = results[basePath] || [];
         results[basePath].push({
           url: require("url").parse(url).pathname
@@ -67,8 +66,8 @@ function main(url, options, callback) {
   }
 
   function parseURLs(base, body, callback) {
-    var URLs = [];
-    var $;
+    let URLs = [];
+    let $;
 
     try {
       $ = cheerio.load(body);
@@ -77,7 +76,7 @@ function main(url, options, callback) {
     }
 
     $("[href],[src]").each(function() {
-      var url = $(this).attr("href") || $(this).attr("src");
+      let url = $(this).attr("href") || $(this).attr("src");
 
       if (!url) return;
 
@@ -92,12 +91,11 @@ function main(url, options, callback) {
     async.eachSeries(
       URLs,
       function(url, next) {
+        const pathname = require("url").parse(url).pathname;
 
-        const identifier = require("url").parse(url).pathname;
+        if (checked[pathname]) return next();
 
-        if (checked[identifier]) return next();
-
-        checked[identifier] = true;
+        checked[pathname] = true;
 
         checkPage(base, url, next);
       },
