@@ -31,6 +31,12 @@ function main(url, options, callback) {
 
   // add some items to the queue
   function checkPage(base, url, callback) {
+    const pathname = require("url").parse(url).pathname;
+
+    if (checked[pathname]) return callback();
+
+    checked[pathname] = true;
+
     const URL = require("url");
     const parsedURL = URL.parse(url);
     const extension = require("path").extname(parsedURL.pathname);
@@ -46,12 +52,15 @@ function main(url, options, callback) {
     request(uri, function(err, res, body) {
       if (err) return callback(err);
 
-      if (res.statusCode == 404) {
+      // We use 400 sometimes on the dashboard
+      if (res.statusCode !== 200 && res.statusCode !== 400) {
+        console.log("ERROR!", res.statusCode, url);
         const basePath = require("url").parse(base).pathname;
         results[basePath] = results[basePath] || [];
-        results[basePath].push({
-          url: require("url").parse(url).pathname
-        });
+        results[basePath].push([
+          require("url").parse(url).pathname,
+          res.statusCode
+        ]);
       }
 
       if (
@@ -91,12 +100,6 @@ function main(url, options, callback) {
     async.eachSeries(
       URLs,
       function(url, next) {
-        const pathname = require("url").parse(url).pathname;
-
-        if (checked[pathname]) return next();
-
-        checked[pathname] = true;
-
         checkPage(base, url, next);
       },
       callback
