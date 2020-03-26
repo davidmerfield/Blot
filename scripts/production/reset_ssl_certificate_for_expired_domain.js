@@ -1,6 +1,6 @@
 const request = require("request");
 const fs = require("fs-extra");
-const CERT_DIR = "/etc/resty-auto-ssl/letsencrypt/cert";
+const CERT_DIR = "/etc/resty-auto-ssl/letsencrypt/certs";
 const get = require("../get/blog");
 const client = require("client");
 const exec = require("child_process").exec;
