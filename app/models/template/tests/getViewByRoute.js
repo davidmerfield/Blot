@@ -4,20 +4,100 @@ describe("template", function() {
 	var setView = require("../index").setView;
 	var getViewByRoute = require("../index").getViewByRoute;
 
-	it("gets a view by a route", function(done) {
+	it("gets a view from a URL", function(done) {
 		var test = this;
 		var view = {
 			name: test.fake.random.word(),
-			routes: ["/apple/:foo"]
+			routes: ["/page/:page"]
 		};
 
 		setView(test.template.id, view, function(err) {
 			if (err) return done.fail(err);
-			getViewByRoute(test.template.id, '/apple/bar', function(err, viewName, params) {
+			getViewByRoute(test.template.id, "/page/1", function(
+				err,
+				viewName,
+				params
+			) {
 				if (err) return done.fail(err);
 				expect(viewName).toEqual(view.name);
-				expect(params).toEqual({foo: 'bar'});
+				expect(params).toEqual({ page: "1" });
 				done();
+			});
+		});
+	});
+
+	it("gets a view from a URL with a query string", function(done) {
+		var test = this;
+		var view = {
+			name: test.fake.random.word(),
+			routes: ["/apple"]
+		};
+
+		setView(test.template.id, view, function(err) {
+			if (err) return done.fail(err);
+			getViewByRoute(test.template.id, "/apple?foo=bar", function(
+				err,
+				viewName
+			) {
+				if (err) return done.fail(err);
+				expect(viewName).toEqual(view.name);
+				done();
+			});
+		});
+	});
+
+	it("gets a view from a URL with a trailing slash", function(done) {
+		var test = this;
+		var view = {
+			name: test.fake.random.word(),
+			routes: ["/apple"]
+		};
+
+		setView(test.template.id, view, function(err) {
+			if (err) return done.fail(err);
+			getViewByRoute(test.template.id, "/apple/", function(err, viewName) {
+				if (err) return done.fail(err);
+				expect(viewName).toEqual(view.name);
+				done();
+			});
+		});
+	});
+
+	it("gets a view whose route contains a trailing slash from a URL without", function(done) {
+		var test = this;
+		var view = {
+			name: test.fake.random.word(),
+			routes: ["/apple/"]
+		};
+
+		setView(test.template.id, view, function(err) {
+			if (err) return done.fail(err);
+			getViewByRoute(test.template.id, "/apple", function(err, viewName) {
+				if (err) return done.fail(err);
+				expect(viewName).toEqual(view.name);
+				done();
+			});
+		});
+	});
+
+	it("gets a view by multiple routes", function(done) {
+		var test = this;
+		var view = {
+			name: test.fake.random.word(),
+			routes: ["/page/:page", "/"]
+		};
+
+		setView(test.template.id, view, function(err) {
+			if (err) return done.fail(err);
+			getViewByRoute(test.template.id, "/", function(err, viewName) {
+				if (err) return done.fail(err);
+				expect(viewName).toEqual(view.name);
+
+				getViewByRoute(test.template.id, "/page/2", function(err, viewName) {
+					if (err) return done.fail(err);
+					expect(viewName).toEqual(view.name);
+					done();
+				});
 			});
 		});
 	});
