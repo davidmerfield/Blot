@@ -30,6 +30,7 @@ var supportedByAllFormats = {
   "2015-02-04T21:14:18Z": ["Wed Feb  4 21:14:18 EST 2015"], // timezone ignored
   "2012-05-30T14:45:44Z": ["Wed May 30 2012 14:45:44 GMT+0000 (UTC)"], // timezone ignored
   "2011-07-12T21:00:36Z": ["2011-07-12T21:00:36Z", "2011-07-12T21:00:36.443Z"], // RFC 3339
+  "2011-07-13T04:00:36Z": ["2011-07-12T21:00:36-07:00Z"] // Another RFC 3339 variant
 };
 
 // The following date strings can only be parsed from blogs

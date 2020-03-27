@@ -78,9 +78,6 @@ function formats(dateFormat) {
   // Initialize the list with the RFC339 Format
   var list = [];
 
-  list.push("YYYY-MM-DDTHH:mm:ssZ")
-  list.push("YYYY-MM-DDTHH:mm:ss.SSSZ")
-
   for (var a in M) for (var b in D) for (var c in Y) append(M[a], D[b], Y[c]);
 
   function append(m, d, y) {
@@ -93,6 +90,10 @@ function formats(dateFormat) {
 
     list.push(arr.join("-"));
   }
+
+  list.push("YYYY-MM-DD[T]HH:mm:ssZ")
+  list.push("YYYY-MM-DD[T]HH:mm:ss.SSSZ")
+  list.push("YYYY-MM-DD[T]HH:mm:ssZ[Z]")
 
   return list;
 }
