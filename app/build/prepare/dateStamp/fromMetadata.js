@@ -13,7 +13,6 @@ function fromMetadata(dateString, userFormat) {
   let created;
   let strict;
   let strictNormalized;
-  let lazy;
   let lazyNormalized;
 
   const normalizedDateString = dateString
@@ -44,12 +43,6 @@ function fromMetadata(dateString, userFormat) {
   } catch (e) {}
 
   try {
-    let lazyDate = dateString;
-    if (lazyDate.indexOf("UTC") === -1) lazyDate += " UTC";
-    lazy = moment.utc(Date.parse(lazyDate));
-  } catch (e) {}
-
-  try {
     let lazyDate = normalizedDateString;
     if (lazyDate.indexOf("UTC") === -1) lazyDate += " UTC";
     lazyNormalized = moment.utc(Date.parse(lazyDate));
@@ -59,8 +52,6 @@ function fromMetadata(dateString, userFormat) {
     created = strict.valueOf();
   } else if (strictNormalized && strictNormalized.isValid()) {
     created = strictNormalized.valueOf();
-  } else if (lazy && lazy.isValid()) {
-    created = lazy.valueOf();
   } else if (lazyNormalized && lazyNormalized.isValid()) {
     created = lazyNormalized.valueOf();
   } else {
@@ -75,7 +66,6 @@ function formats(dateFormat) {
   var D = ["D", "DD"];
   var Y = ["YY", "YYYY"];
 
-  // Initialize the list with the RFC339 Format
   var list = [];
 
   for (var a in M) for (var b in D) for (var c in Y) append(M[a], D[b], Y[c]);
@@ -91,9 +81,10 @@ function formats(dateFormat) {
     list.push(arr.join("-"));
   }
 
-  list.push("YYYY-MM-DD[T]HH:mm:ssZ")
-  list.push("YYYY-MM-DD[T]HH:mm:ss.SSSZ")
-  list.push("YYYY-MM-DD[T]HH:mm:ssZ[Z]")
+  // Add variants of the RFC339 Format
+  list.push("YYYY-MM-DD[T]HH:mm:ssZ");
+  list.push("YYYY-MM-DD[T]HH:mm:ss.SSSZ");
+  list.push("YYYY-MM-DD[T]HH:mm:ssZ[Z]");
 
   return list;
 }
