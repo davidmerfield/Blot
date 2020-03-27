@@ -84,6 +84,7 @@ function formats(dateFormat) {
   // Add variants of the RFC339 Format
   list.push("YYYY-MM-DD[T]HH:mm:ssZ");
   list.push("YYYY-MM-DD[T]HH:mm:ss.SSSZ");
+  list.push("YYYY-MM-DD[T]HH:mm:ss.SSS");
   list.push("YYYY-MM-DD[T]HH:mm:ssZ[Z]");
 
   return list;
