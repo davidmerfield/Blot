@@ -12,7 +12,9 @@ function fromMetadata(dateString, userFormat) {
 
   let created;
   let strict;
+  let strictNormalized;
   let lazy;
+  let lazyNormalized;
 
   const normalizedDateString = dateString
     .split(".")
@@ -34,19 +36,33 @@ function fromMetadata(dateString, userFormat) {
     .trim();
 
   try {
-    strict = moment.utc(normalizedDateString, userFormats, true);
+    strictNormalized = moment.utc(normalizedDateString, userFormats, true);
   } catch (e) {}
 
   try {
-    var lazyDate = normalizedDateString;
+    strict = moment.utc(dateString, userFormats, true);
+  } catch (e) {}
+
+  try {
+    let lazyDate = dateString;
     if (lazyDate.indexOf("UTC") === -1) lazyDate += " UTC";
     lazy = moment.utc(Date.parse(lazyDate));
   } catch (e) {}
 
+  try {
+    let lazyDate = normalizedDateString;
+    if (lazyDate.indexOf("UTC") === -1) lazyDate += " UTC";
+    lazyNormalized = moment.utc(Date.parse(lazyDate));
+  } catch (e) {}
+
   if (strict && strict.isValid()) {
     created = strict.valueOf();
+  } else if (strictNormalized && strictNormalized.isValid()) {
+    created = strictNormalized.valueOf();
   } else if (lazy && lazy.isValid()) {
     created = lazy.valueOf();
+  } else if (lazyNormalized && lazyNormalized.isValid()) {
+    created = lazyNormalized.valueOf();
   } else {
     created = false;
   }
@@ -59,7 +75,11 @@ function formats(dateFormat) {
   var D = ["D", "DD"];
   var Y = ["YY", "YYYY"];
 
+  // Initialize the list with the RFC339 Format
   var list = [];
+
+  list.push("YYYY-MM-DDTHH:mm:ssZ")
+  list.push("YYYY-MM-DDTHH:mm:ss.SSSZ")
 
   for (var a in M) for (var b in D) for (var c in Y) append(M[a], D[b], Y[c]);
 

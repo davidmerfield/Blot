@@ -28,7 +28,8 @@ var supportedByAllFormats = {
   "2018-06-24T14:59:27Z": ["June 24th 2018, 2:59:27 pm"], // am/pm
   "2015-01-04T05:08:00Z": ["January 4th, 2015 05:08"],
   "2015-02-04T21:14:18Z": ["Wed Feb  4 21:14:18 EST 2015"], // timezone ignored
-  "2012-05-30T14:45:44Z": ["Wed May 30 2012 14:45:44 GMT+0000 (UTC)"] // timezone ignored
+  "2012-05-30T14:45:44Z": ["Wed May 30 2012 14:45:44 GMT+0000 (UTC)"], // timezone ignored
+  "2011-07-12T21:00:36Z": ["2011-07-12T21:00:36Z", "2011-07-12T21:00:36.443Z"], // RFC 3339
 };
 
 // The following date strings can only be parsed from blogs
