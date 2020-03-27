@@ -438,6 +438,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
 - Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
 - Move to uuid based template IDs instead of slug
+- Add way to list directory contents and tell [Diego](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJtkqxhLVWXqdxNVchgGQzp)
 - Move to data directory for templates
   - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Re-do url redirector to use route-parser and properly support regular expressions
