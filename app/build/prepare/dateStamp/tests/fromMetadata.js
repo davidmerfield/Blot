@@ -1,5 +1,5 @@
 var moment = require("moment");
-var fromMetadata = require('../fromMetadata');
+var fromMetadata = require("../fromMetadata");
 
 // Blot parses dates according to the 'dateFormat' of the blog.
 // This allows Blot to determine what 5.1.2019 means: either
@@ -55,6 +55,10 @@ describe("date metadata", function() {
             result
           );
         });
+      });
+
+      it('parses "' + metadata + '" without passing a format', function() {
+        expect(moment.utc(fromMetadata(metadata)).format()).toEqual(result);
       });
     });
   });

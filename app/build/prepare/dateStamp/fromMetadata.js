@@ -6,21 +6,15 @@ var formatList = {
 };
 
 function fromMetadata(dateString, userFormat) {
-  if (userFormat === undefined || formatList[userFormat] === undefined) {
-    console.log(
-      userFormat + " userformat has not been passed. Please do this!"
-    );
-    userFormat = "M/D/YYYY";
-  }
-
-  var userFormats = formatList[userFormat];
-
-  dateString = dateString.trim();
+  const userFormats = formatList[userFormat] || formatList["M/D/YYYY"];
 
   if (!dateString) return false;
 
-  // Strip cruft from date
-  dateString = dateString
+  let created;
+  let strict;
+  let lazy;
+
+  const normalizedDateString = dateString
     .split(".")
     .join("-")
     .split("/")
@@ -39,14 +33,12 @@ function fromMetadata(dateString, userFormat) {
     .join("-")
     .trim();
 
-  var created, strict, lazy;
-
   try {
-    strict = moment.utc(dateString, userFormats, true);
+    strict = moment.utc(normalizedDateString, userFormats, true);
   } catch (e) {}
 
   try {
-    var lazyDate = dateString;
+    var lazyDate = normalizedDateString;
     if (lazyDate.indexOf("UTC") === -1) lazyDate += " UTC";
     lazy = moment.utc(Date.parse(lazyDate));
   } catch (e) {}
@@ -59,9 +51,6 @@ function fromMetadata(dateString, userFormat) {
     created = false;
   }
 
-  // console.log(created);
-  // console.log(moment(created).format('YYYY-MM-DD hh:mm'));
-  // console.log('-------------');
   return created;
 }
 
