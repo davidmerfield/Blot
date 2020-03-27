@@ -6,21 +6,16 @@ var formatList = {
 };
 
 function fromMetadata(dateString, userFormat) {
-  if (userFormat === undefined || formatList[userFormat] === undefined) {
-    console.log(
-      userFormat + " userformat has not been passed. Please do this!"
-    );
-    userFormat = "M/D/YYYY";
-  }
-
-  var userFormats = formatList[userFormat];
-
-  dateString = dateString.trim();
+  const userFormats = formatList[userFormat] || formatList["M/D/YYYY"];
 
   if (!dateString) return false;
 
-  // Strip cruft from date
-  dateString = dateString
+  let created;
+  let strict;
+  let strictNormalized;
+  let lazyNormalized;
+
+  const normalizedDateString = dateString
     .split(".")
     .join("-")
     .split("/")
@@ -39,29 +34,30 @@ function fromMetadata(dateString, userFormat) {
     .join("-")
     .trim();
 
-  var created, strict, lazy;
+  try {
+    strictNormalized = moment.utc(normalizedDateString, userFormats, true);
+  } catch (e) {}
 
   try {
     strict = moment.utc(dateString, userFormats, true);
   } catch (e) {}
 
   try {
-    var lazyDate = dateString;
+    let lazyDate = normalizedDateString;
     if (lazyDate.indexOf("UTC") === -1) lazyDate += " UTC";
-    lazy = moment.utc(Date.parse(lazyDate));
+    lazyNormalized = moment.utc(Date.parse(lazyDate));
   } catch (e) {}
 
   if (strict && strict.isValid()) {
     created = strict.valueOf();
-  } else if (lazy && lazy.isValid()) {
-    created = lazy.valueOf();
+  } else if (strictNormalized && strictNormalized.isValid()) {
+    created = strictNormalized.valueOf();
+  } else if (lazyNormalized && lazyNormalized.isValid()) {
+    created = lazyNormalized.valueOf();
   } else {
     created = false;
   }
 
-  // console.log(created);
-  // console.log(moment(created).format('YYYY-MM-DD hh:mm'));
-  // console.log('-------------');
   return created;
 }
 
@@ -84,6 +80,12 @@ function formats(dateFormat) {
 
     list.push(arr.join("-"));
   }
+
+  // Add variants of the RFC339 Format
+  list.push("YYYY-MM-DD[T]HH:mm:ssZ");
+  list.push("YYYY-MM-DD[T]HH:mm:ss.SSSZ");
+  list.push("YYYY-MM-DD[T]HH:mm:ss.SSS");
+  list.push("YYYY-MM-DD[T]HH:mm:ssZ[Z]");
 
   return list;
 }
