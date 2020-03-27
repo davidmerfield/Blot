@@ -39,11 +39,7 @@ function fromMetadata(dateString, userFormat) {
     .join("-")
     .trim();
 
-  var created, strict, lazy, withZone;
-
-  try {
-    withZone = moment.parseZone(dateString, userFormats, true);
-  } catch (e) {}
+  var created, strict, lazy;
 
   try {
     strict = moment.utc(dateString, userFormats, true);
@@ -57,8 +53,6 @@ function fromMetadata(dateString, userFormat) {
 
   if (strict && strict.isValid()) {
     created = strict.valueOf();
-  } else if (withZone && withZone.isValid()) {
-    created = withZone.valueOf();
   } else if (lazy && lazy.isValid()) {
     created = lazy.valueOf();
   } else {
