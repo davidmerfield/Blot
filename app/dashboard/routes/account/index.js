@@ -4,7 +4,7 @@ var logout = require("./util/logout");
 var type = require("helper").type;
 
 Account.use(function(req, res, next) {
-  res.locals.breadcrumbs.add("Your account", "account");
+  res.locals.breadcrumbs.add("Your account", "/");
   res.locals.account = true;
   next();
 });
@@ -25,19 +25,29 @@ Account.use("/:section", function(req, res, next) {
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
   uppercaseName = uppercaseName.split("-").join(" ");
 
-  res.locals.breadcrumbs.add(uppercaseName, req.params.section);
+  res.locals.breadcrumbs.add(uppercaseName, '/account/' + req.params.section);
+  next();
+});
+
+Account.use("/:section/:subsection", function(req, res, next) {
+  var uppercaseName = req.params.subsection;
+
+  uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
+  uppercaseName = uppercaseName.split("-").join(" ");
+
+  res.locals.breadcrumbs.add(uppercaseName, '/account/' + req.params.section + '/' + req.params.subsection);
   next();
 });
 
 Account.use("/password", require("./password"));
 Account.use("/export", require("./export"));
 Account.use("/email", require("./email"));
-Account.use("/delete", require("./delete"));
-Account.use("/subscription", require("./subscription"));
 Account.use("/switch-blog", require("./switch-blog"));
 Account.use("/create-blog", require("./create-blog"));
+Account.use("/subscription", require("./subscription"));
 Account.use("/pay-subscription", require("./pay-subscription"));
-Account.use("/payment-method", require("./payment-method"));
+Account.use("/subscription/delete", require("./delete"));
+Account.use("/subscription/payment-method", require("./payment-method"));
 
 Account.route("/log-out")
 

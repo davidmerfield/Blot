@@ -1,8 +1,8 @@
 
-<div class="dropdown">
+<div class="dropdown" >
     
   
-  
+    <style type="text/css">a:hover .on-hover {text-decoration: underline;}</style>
   {{! The opener link floats to the right so we need a clearfix}}
   <div class="clear"></div>
   <style type="text/css">.menu button:hover .title {text-decoration: underline;}</style>
@@ -12,12 +12,14 @@
     <form action="/account/switch-blog" method="POST" > 
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;border-radius:3px;border:1px solid #eee;margin-bottom:11px">
+      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;   margin-bottom: 16px; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
+    background: #fff;
+    border-radius: 4px;">
         <span class="photo-holder">
           {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
-          {{^avatar}}<span class="file" style="width:16px;height:16px;opacity:0.4"></span>{{/avatar}}
+          {{^avatar}}<span class="file" style="width:24px;height:24px;opacity:0.4"></span>{{/avatar}}
         </span>  
-        <span style="color:#365899;font-weight:400">
+        <span style="color:#365899;font-weight:400;line-height: 1.4;">
           <span class="title">{{pretty.label}}</span><br>
           {{! Why include the hostname underneath the blog's title? Increased click area}}
           <span style="color:rgb(158, 154, 152);font-weight:400">{{pretty.url}}</span>
@@ -28,8 +30,7 @@
     {{/blogs}}
     
     <div class="clear"></div>
-
-    <a href="/account/create-blog" style="border:1px dashed #e4e3e3;border-radius:3px;color:#365899;padding-right:40px;"><span class="photo-holder plus" style="text-align:center">+</span>Create new blog</a>
+    <a href="/account/create-blog" style="border:1px solid rgba(0, 0, 0, 0.05);border-radius:4px;color:#365899;padding-right:40px;"><span class="photo-holder plus" style="text-align:center">+</span><span class="on-hover">Create new blog</span></a>
 
     <div class="clear"></div>
 

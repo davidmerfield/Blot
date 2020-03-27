@@ -1,7 +1,6 @@
 module.exports = function(server) {
   var helper = require("helper");
   var type = helper.type;
-  var log = require("./log");
   var Redirects = require("../models/redirects");
   var store404 = require("../models/404").set;
   var config = require("config");
@@ -23,12 +22,13 @@ module.exports = function(server) {
       // want an infinite redirect loop we continue
       if (redirect === req.url) return next();
 
-      res.redirect(redirect);
+      // By default, res.redirect returns a 302 status
+      // code (temporary) rather than 301 (permanent)
+      res.redirect(301, redirect);
     });
   });
 
   // 404s
-  server.use(log.four04);
   server.use(function(req, res, next) {
     res.addLocals({
       error: {
@@ -46,7 +46,6 @@ module.exports = function(server) {
   });
 
   // Errors
-  server.use(log.error);
   server.use(function(err, req, res, next) {
     // This reponse was partially finished
     // end it now and get over it...

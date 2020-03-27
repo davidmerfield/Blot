@@ -3,6 +3,7 @@ var client = require("client");
 var config = require("config");
 var fs = require("fs-extra");
 var get = require("./get");
+var set = require("./set");
 var key = require("./key");
 var BackupDomain = require("./util/backupDomain");
 var flushCache = require("./flushCache");
@@ -14,20 +15,26 @@ function remove(blogID, callback) {
   get({ id: blogID }, function(err, blog) {
     if (err || !blog) return callback(err || new Error("No blog"));
 
-    flushCache(blogID, function(err) {
+    // We need to enable the blog to disconnect the client
+    // since we need to acquire a sync lock...
+    set(blog.id, { isDisabled: false }, function(err) {
       if (err) return callback(err);
 
-      // The order of these tasks is important right now.
-      // For example, if you wipe the blog's folder before disconnecting
-      // the client, you might run into an error. It would be nice to
-      // be able to run them in parallel though
-      var tasks = [disconnectClient, updateUser, wipeFolders, deleteKeys].map(
-        function(task) {
-          return task.bind(null, blog);
-        }
-      );
+      flushCache(blogID, function(err) {
+        if (err) return callback(err);
 
-      async.series(tasks, callback);
+        // The order of these tasks is important right now.
+        // For example, if you wipe the blog's folder before disconnecting
+        // the client, you might run into an error. It would be nice to
+        // be able to run them in parallel though
+        var tasks = [disconnectClient, updateUser, wipeFolders, deleteKeys].map(
+          function(task) {
+            return task.bind(null, blog);
+          }
+        );
+
+        async.series(tasks, callback);
+      });
     });
   });
 }

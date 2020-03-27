@@ -4,14 +4,27 @@ var puncs = "?.!:,".split("");
 var MAX_LENGTH = 150;
 var he = require("he");
 
+// since the summary is often used
+// {{}} which is encoded by mustache
+// we have to decode it in advance
+// because the HTML has already been
+// decoded by pandoc...!
+function normalize (str) {
+  return he.decode(str).replace(/\s/g, " ").trim()
+}
+
 function summary($, title) {
+  var summary;
+
+debug($.html());
+  
   // We ignore the text content of
   // these tags for the summary
   // we only care about the content
   // of parapgraph tags for summaries
   // but these could sneak in
   $(
-    "pre, code, .katex, script, object, iframe, style, h1, h2, h3, h4, h5, h6"
+    "pre, code, .katex, script, object, iframe, style, h1, h2, h3, h4, h5, h6, img + .caption"
   ).remove();
 
   // add a space before the end of
@@ -20,13 +33,11 @@ function summary($, title) {
     $(this).append(" ");
   });
 
-  debug("title:", title);
-
-  var summary = $(":root").text();
+  title = normalize(title)
+  summary = normalize($(":root").text())
 
   if (summary.length > MAX_LENGTH) {
     summary = summary.slice(0, MAX_LENGTH);
-
     summary = summary.trim();
 
     // and go to last whole word
@@ -52,12 +63,7 @@ function summary($, title) {
 
   summary = summary.trim();
 
-  // since the summary is often used
-  // {{}} which is encoded by mustache
-  // we have to decode it in advance
-  // because the HTML has already been
-  // decoded by pandoc...!
-  summary = he.decode(summary);
+  debug(summary);
 
   return summary;
 }

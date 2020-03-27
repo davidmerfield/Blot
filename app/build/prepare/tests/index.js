@@ -29,7 +29,7 @@ describe("prepare", function() {
     prepare(entry);
 
     expect(entry.title).toEqual("");
-    expect(entry.summary).toEqual("Hey there.");
+    expect(entry.summary).toEqual("Hey there");
   });
 
   it("will not remove non-h1 title tags from the body", function() {

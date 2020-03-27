@@ -1,13 +1,12 @@
 var moment = require("moment");
 var helper = require("helper");
 var lineReader = helper.lineReader;
-var numberWithCommas = helper.prettyNumber;
 
 function main(callback) {
   var hits = 0;
   var responseTimes = [];
   lineReader
-    .eachLine(helper.rootDir + "/logs/nginx.log", function(line, last) {
+    .eachLine(helper.rootDir + "/logs/nginx.log", function(line) {
       // Last line of file is often empty
       if (!line) return true;
 
@@ -29,14 +28,13 @@ function main(callback) {
       if (!date.isValid()) return true;
 
       var components = line.slice(line.indexOf("]") + 2).split(" ");
-      var status = parseInt(components[0]);
-      var responseTime = parseFloat(components[1]);
-      var serverName = components[2];
-      var uri = components.slice(3).join(" ");
+      var responseTime = parseFloat(components[2]);
 
       if (date.isAfter(moment().subtract(1, "day"))) {
-        hits++;
-        responseTimes.push(responseTime);
+        if (!isNaN(responseTime)) {
+          hits++;
+          responseTimes.push(responseTime);
+        }
         return true;
       } else {
         // older than a day

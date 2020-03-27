@@ -1,5 +1,12 @@
 # Templates to create
 
+
+Diary
+Essay
+Picture
+Magazine
+Scrapbook
+
 Template selection
 - archive - optimized for an archive of photos, links, quotes
   index shows big grid of posts
@@ -305,11 +312,11 @@ remaining_entries:
 {{#pagination}}
 
   {{#next}}
-    <a href="{{url}}">Next page</a>
+    <a href="{{{url}}}">Next page</a>
   {{/next}}
 
   {{#previous}}
-    <a href="{{url}}">Previous page</a>
+    <a href="{{{url}}}">Previous page</a>
   {{/previous}}
 
 {{/pagination}}

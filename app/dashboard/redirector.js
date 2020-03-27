@@ -15,7 +15,7 @@ var FORMATTING = "/formatting";
 var PRIVACY = "/privacy";
 var MAINTENANCE = "/maintenance";
 var ACCOUNT = "/account";
-var DELETE_ACCOUNT = "/account/delete";
+var DELETE_ACCOUNT = "/account/subscription/delete";
 var PAY_SUBSCRIPTION = "/account/pay-subscription";
 var LOGOUT = "/account/log-out";
 

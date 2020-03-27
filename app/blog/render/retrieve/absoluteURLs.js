@@ -20,11 +20,8 @@ Use it like this:
 var cheerio = require("cheerio");
 var debug = require("debug")("blot:render:absoluteURLs");
 
-function absoluteURLs(base, html) {
-  var $;
-
+function absoluteURLs(base, $) {
   try {
-    $ = cheerio.load(html);
     $("[href], [src]").each(function() {
       var href = $(this).attr("href");
       var src = $(this).attr("src");
@@ -40,12 +37,11 @@ function absoluteURLs(base, html) {
         $(this).attr("src", base + src);
       }
     });
-    html = $.html();
   } catch (e) {
     debug(e);
   }
 
-  return html;
+  return $;
 }
 
 module.exports = function(req, callback) {
@@ -54,7 +50,11 @@ module.exports = function(req, callback) {
       var base = req.protocol + "://" + req.get("host");
 
       text = render(text);
-      text = absoluteURLs(base, text);
+
+      var $ = cheerio.load(text);
+
+      text = absoluteURLs(base, $);
+      text = $.html();
 
       return text;
     };

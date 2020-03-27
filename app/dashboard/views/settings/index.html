@@ -24,7 +24,7 @@
     </span>
 
     {{#blog.title}}
-        <span class="right">Change</span>
+        <span class="right" style="display: none">Change</span>
     {{/blog.title}}
     
   </a>
@@ -32,7 +32,7 @@
     <a class="line" href="/settings/domain">
     <span class="label">Domain</span>
     <span class="center">{{blog.pretty.url}}</span>
-    <span class="right">Change</span>
+    <span class="right" style="display: none">Change</span>
   </a>
 
 <a class="line" href="/settings/theme">
@@ -40,7 +40,7 @@
     <span class="center">{{#template.name}}
         {{template.name}}
         {{/template.name}}        {{^template.name}}<i>You are not using a template</i>{{/template.name}}</span>
-            <span class="right">Change</span>
+            <span class="right" style="display: none">Change</span>
 
   </a>
  <a class="line" href="/settings/photo">
@@ -57,14 +57,14 @@
 
         <img style="max-width:48px;max-height:48px;vertical-align: baseline; display: inline;" src="{{blog.avatar}}" class="{{#blog.roundAvatar}}rounded{{/blog.roundAvatar}}" />
 </span>
-            <span class="right">Change</span>    
+            <span class="right" style="display: none">Change</span>    
       {{/blog.avatar}}
 
     </section>
   </a>
 
 <a class="line" href="/settings/links" style="">
-    <span class="label">Menu links</span>
+    <span class="label">Links</span>
     <span class="center" style="overflow:hidden;position:relative;left:-2px">
       <div style="height:1.5em;width:1000px;">
       {{#blog.menu}}<span class="tablet">{{label}}</span>{{/blog.menu}}
@@ -74,14 +74,14 @@
   <div class="tablet-cover"></div>
       
     </span>
-    <span class="right" style="padding-left:0">Change</span>
+    <span class="right" style="padding-left:0;display: none;">Change</span>
   </a>
 
  
 
 
 
-  <a class="line" href="/settings/services">
+  <a class="line" href="/settings/services" style="border-bottom: none;">
     <span class="label">Services</span>
     <span class="link">Import, export and typography
 </span>
@@ -126,22 +126,7 @@
 
   
 
-<!-- <div style="font-size:14px;opacity:0.3;padding:40px 20px 10px">
-      13GB used
-      <div style="float:right">Last sync: 12 minutes ago
-    </div>
-    </div> -->
 
-<a class="line" href="/settings/client/{{name}}" >
-    <span class="label">Client</span>
-    {{^blog.client}}
-      <span class="link">Set up a client</span>
-    {{/blog.client}}
-    {{#blog.client}}
-    <span class="center">{{client.display_name}}</span>
-    <span class="right">Change</span>
-    {{/blog.client}}
-  </a>
 </form>
 </div>
 

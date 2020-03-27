@@ -38,4 +38,23 @@ describe("write", function() {
       });
     });
   });
+
+  it("writes a file with foreign characters", function(done) {
+    var repoDirectory = this.repoDirectory;
+    var git = Git(repoDirectory).silent(true);
+    var path = "/こんにちは世界.txt";
+    var content = "こんにちは世界!";
+    var blogID = this.blog.id;
+
+    write(blogID, path, content, function(err) {
+      if (err) return done.fail(err);
+
+      git.pull(function(err) {
+        if (err) return done.fail(err);
+
+        expect(fs.readFileSync(repoDirectory + path, "utf-8")).toEqual(content);
+        done();
+      });
+    });
+  });
 });

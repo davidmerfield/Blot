@@ -1,6 +1,6 @@
 var helper = require("helper");
 var arrayify = helper.arrayify;
-var previewHost = "http://preview";
+var previewHost = "https://preview-of";
 var config = require("config");
 var Template = require("template");
 
@@ -21,9 +21,9 @@ module.exports = function(req, res, next) {
 
       template.previewURL =
         previewHost +
-        "." +
+        "-" +
         template.slug +
-        "." +
+        "-on-" +
         req.blog.handle +
         "." +
         config.host;
