@@ -1,3 +1,5 @@
+# https://github.com/tlvince/talks/blob/c8f6d3ecd25f3fdd7c0db61fb498857a9fc4809a/.travis.yml
+
 language: node_js
 cache: 
   directories:
@@ -19,4 +21,4 @@ rvm:
 env:
   global:
     - PANDOC="$HOME/.pandoc"
-    - PANDOC_DEB="https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
+    - PANDOC_DEB="https://github.com/jgm/pandoc/releases/download/2.2.3.2/pandoc-2.2.3.2-1-amd64.deb"
