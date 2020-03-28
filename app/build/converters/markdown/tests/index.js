@@ -48,7 +48,7 @@ describe("markdown converter", function() {
 
   // These are disabled because Travis uses an old version of Pandoc
   // I need to update Travis' pandoc.
-  xit("does not obfuscate an email address", from("/email-addresses.txt"));
-  xit("parses metadata", from("/metadata.txt"));
-  xit("autolinks bare uris", from("/bare-uri.txt"));
+  it("does not obfuscate an email address", from("/email-addresses.txt"));
+  it("parses metadata", from("/metadata.txt"));
+  it("autolinks bare uris", from("/bare-uri.txt"));
 });
