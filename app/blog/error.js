@@ -1,7 +1,6 @@
 module.exports = function(server) {
   var helper = require("helper");
   var type = helper.type;
-  var log = require("./log");
   var Redirects = require("../models/redirects");
   var store404 = require("../models/404").set;
   var config = require("config");
@@ -23,12 +22,13 @@ module.exports = function(server) {
       // want an infinite redirect loop we continue
       if (redirect === req.url) return next();
 
-      res.redirect(redirect);
+      // By default, res.redirect returns a 302 status
+      // code (temporary) rather than 301 (permanent)
+      res.redirect(301, redirect);
     });
   });
 
   // 404s
-  server.use(log.four04);
   server.use(function(req, res, next) {
     res.addLocals({
       error: {
@@ -39,14 +39,13 @@ module.exports = function(server) {
     });
 
     res.status(404);
-    res.renderView("error", next);
+    res.renderView("error.html", next);
 
     // We expose these to the user
     store404(req.blog.id, req.url);
   });
 
   // Errors
-  server.use(log.error);
   server.use(function(err, req, res, next) {
     // This reponse was partially finished
     // end it now and get over it...
@@ -56,10 +55,10 @@ module.exports = function(server) {
     // to attempt to restart Blot's node Blot. If you remove
     // this, change monit.rc too. This middleware must come
     // before the blog middleware, since there is no blog with
-    // the host 'localhost' and hence returns a 404, bad!    
+    // the host 'localhost' and hence returns a 404, bad!
     if (err.code === "ENOENT" && req.hostname === "localhost") {
       return next();
-    } 
+    }
 
     // Blog does not exist...
     if (err.code === "ENOENT") {
@@ -80,7 +79,7 @@ module.exports = function(server) {
       }
     });
 
-    res.renderView("error", next, function(err, output) {
+    res.renderView("error.html", next, function(err, output) {
       if (err) return next(err);
 
       res.status(status || 500);

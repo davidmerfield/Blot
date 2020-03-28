@@ -1,29 +1,30 @@
-var forEach = require('./forEach').parallel;
-var ensure = require('./ensure');
+var forEach = require("./forEach").parallel;
+var ensure = require("./ensure");
 
-function doEach (queue, callback) {
+function doEach(queue, callback) {
+  ensure(queue, ["function"]).and(callback, "function");
 
-  ensure(queue, ['function'])
-    .and(callback, 'function');
+  forEach(
+    queue,
+    function(method, next) {
+      method(next);
+    },
+    callback
+  );
+}
 
-  forEach(queue, function(method, next){
-    method(next);
-  }, callback);
-
-};
-
-function foo (cb) {
-  console.log('FOO INVOKED');
+function foo(cb) {
+  console.log("FOO INVOKED");
   cb();
 }
 
-function bar (cb) {
-  console.log('BAR INVOKED');
+function bar(cb) {
+  console.log("BAR INVOKED");
   cb();
 }
 
-function baz (cb) {
-  console.log('BAZ INVOKED');
+function baz(cb) {
+  console.log("BAZ INVOKED");
   cb();
 }
 

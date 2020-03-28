@@ -11,10 +11,10 @@
         <script>document.getElementById("grid").className += 'hidden'</script>
         {{#entries}}
         <div class="entry" class="hideme">
-          <a class="fullLink" href="{{url}}"></a>
+          <a class="fullLink" href="{{{url}}}"></a>
 
           {{#thumbnail.medium}}
-          <img src="{{url}}" width="{{width}}" height="{{height}}" />
+          <img src="{{{url}}}" width="{{width}}" height="{{height}}" />
           {{/thumbnail.medium}}
 
           {{^thumbnail.medium}}

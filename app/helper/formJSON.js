@@ -1,6 +1,6 @@
-var ensure = require('./ensure');
-var type = require('./type');
-var arrayify = require('./arrayify');
+var ensure = require("./ensure");
+var type = require("./type");
+var arrayify = require("./arrayify");
 
 // if (fields.menu) {
 
@@ -23,41 +23,36 @@ var arrayify = require('./arrayify');
 //   }
 // }
 
-
 // how to implement some rudimentary type coercion?
 // would be nice to coerce strings -> numbs
 // and strings -> bools
 
-function formJSON (fields, model) {
-
+function formJSON(fields, model) {
   // console.log(fields);
   // console.log(model);
 
   if (model === undefined) model = {};
 
-  ensure(fields, 'object')
-    .and(model, 'object');
+  ensure(fields, "object").and(model, "object");
 
   var obj = {};
 
   for (var i in fields) {
-
     // Sometimes there are multiple values
     // for one field. Collapse them to one.
-    if (type(fields[i]) === 'array') {
+    if (type(fields[i]) === "array") {
       fields[i] = fields[i].pop();
-      console.log('FormJSON: Multiple inputs with same name', i, fields[i]);
+      console.log("FormJSON: Multiple inputs with same name", i, fields[i]);
     }
 
-    var terms = i.split('.'),
-        totalTerms = terms.length,
-        val = fields[i];
+    var terms = i.split("."),
+      totalTerms = terms.length,
+      val = fields[i];
 
     var parent = obj,
-        modelDef = model;
+      modelDef = model;
 
-    for (var j = 0; j < terms.length;j++) {
-
+    for (var j = 0; j < terms.length; j++) {
       var key = terms[j];
 
       // Recurse down the model tree too
@@ -72,39 +67,37 @@ function formJSON (fields, model) {
 
       // At the leaf node
       // final term in list of terms
-      if ((j + 1) === totalTerms) {
-
+      if (j + 1 === totalTerms) {
         // At lowest level of type definition
         // and the types do not match
-        if (type(modelDef) === 'string' && type(val) !== modelDef) {
-
+        if (type(modelDef) === "string" && type(val) !== modelDef) {
           try {
+            if (modelDef === "string") val += "";
 
-            if (modelDef === 'string') val += '';
+            if (modelDef === "number") val = parseFloat(val);
 
-            if (modelDef === 'number') val = parseFloat(val);
-
-            if (modelDef === 'boolean') {
-
-              if (val === 'off') {
+            if (modelDef === "boolean") {
+              if (val === "off") {
                 val = false;
-              } else if (val === 'on') {
+              } else if (val === "on") {
                 val = true;
               } else {
                 val = parseBool(val);
               }
             }
 
-            if (modelDef === 'object' ||
-                modelDef === 'array') val = JSON.parse(val);
-
+            if (modelDef === "object" || modelDef === "array")
+              val = JSON.parse(val);
           } catch (e) {
-            console.log('Could not coerce val to desired ' + modelDef + ' it is currently: ');
+            console.log(
+              "Could not coerce val to desired " +
+                modelDef +
+                " it is currently: "
+            );
             console.log(val);
-            console.log()
-            console.log(e)
+            console.log();
+            console.log(e);
           }
-
         }
 
         parent[key] = val;
@@ -115,15 +108,11 @@ function formJSON (fields, model) {
   }
 
   function catchArrays(obj, model) {
-
     for (var i in obj) {
-
       // console.log(i);
 
-      if (type(model[i])  === 'array') {
-
-        obj[i] = arrayify(obj[i], function(item){
-
+      if (type(model[i]) === "array") {
+        obj[i] = arrayify(obj[i], function(item) {
           // arrayidy adds cruft like the name property
           // make sure we remove anything thats not in the
           // model definition for this item
@@ -140,8 +129,7 @@ function formJSON (fields, model) {
         });
       }
 
-      if (type(model[i]) === 'object') {
-
+      if (type(model[i]) === "object") {
         // console.log(obj[i]);
         // console.log(model[i]);
 
@@ -157,32 +145,39 @@ function formJSON (fields, model) {
   return obj;
 }
 
-function parseBool (string){
-  switch(string.trim().toLowerCase()){
-    case "true": case "yes": case "1": return true;
-    case "false": case "no": case "0": case null: return false;
-    default: return Boolean(string);
+function parseBool(string) {
+  switch (string.trim().toLowerCase()) {
+    case "true":
+    case "yes":
+    case "1":
+      return true;
+    case "false":
+    case "no":
+    case "0":
+    case null:
+      return false;
+    default:
+      return Boolean(string);
   }
 }
 
-function unitTests () {
-
-  var assert = require('assert');
+function unitTests() {
+  var assert = require("assert");
 
   var field1 = {
-    'foo.baz': 1,
-    'foo.bar': 2,
-    'foo.bat.cat': 3,
-    'foo.bat.bar': 4
+    "foo.baz": 1,
+    "foo.bar": 2,
+    "foo.bat.cat": 3,
+    "foo.bat.bar": 4
   };
 
   var model1 = {
     foo: {
-      baz: 'number',
-      bar: 'number',
+      baz: "number",
+      bar: "number",
       bat: {
-        cat: 'number',
-        bar: 'string'
+        cat: "number",
+        bar: "string"
       }
     }
   };
@@ -193,7 +188,7 @@ function unitTests () {
       bar: 2,
       bat: {
         cat: 3,
-        bar: '4'
+        bar: "4"
       }
     }
   };
@@ -201,57 +196,53 @@ function unitTests () {
   // assert.deepEqual(formJSON(field1, model1), result1);
 
   var field2 = {
-    'foo.bar.1.title': 'Hello',
-    'foo.bar.1.url': 'Bye',
-    'foo.bar.1.id': '1',
-    'foo.bar.2.title': 'OK',
-    'foo.bar.2.url': 'GO',
-    'foo.bar.2.id': '2',
+    "foo.bar.1.title": "Hello",
+    "foo.bar.1.url": "Bye",
+    "foo.bar.1.id": "1",
+    "foo.bar.2.title": "OK",
+    "foo.bar.2.url": "GO",
+    "foo.bar.2.id": "2"
   };
 
   var model2 = {
     foo: {
-      bar: [
-        {id: 'string', title: 'string', url: 'string'}
-      ]
+      bar: [{ id: "string", title: "string", url: "string" }]
     }
   };
 
   var expected2 = {
     foo: {
       bar: [
-        {title: 'Hello', url: 'Bye', id: '1'},
-        {title: 'OK', url: 'GO', id: '2'},
+        { title: "Hello", url: "Bye", id: "1" },
+        { title: "OK", url: "GO", id: "2" }
       ]
     }
   };
 
   var resulted = {
-    "foo":{
-      "bar":[
+    foo: {
+      bar: [
         {
-          "title":"Hello",
-          "url":"Bye",
-          "id":"1"
+          title: "Hello",
+          url: "Bye",
+          id: "1"
         },
         {
-          "title":"OK",
-          "url":"GO",
-          "id":"2"
+          title: "OK",
+          url: "GO",
+          id: "2"
         }
       ]
     }
   };
 
-
-    var result2 = formJSON(field2, model2);
+  var result2 = formJSON(field2, model2);
 
   // console.log(JSON.stringify(result2));
 
   // assert.deepEqual(resulted, expected2);
 
   assert.deepEqual(result2, expected2);
-
-};
+}
 
 module.exports = formJSON;

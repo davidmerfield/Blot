@@ -1,7 +1,7 @@
 var Express = require("express");
 var Delete = new Express.Router();
 var User = require("user");
-
+var Email = require("helper").email;
 var checkPassword = require("./util/checkPassword");
 var logout = require("./util/logout");
 var async = require("async");
@@ -22,8 +22,8 @@ Delete.route("/blog/:handle")
   .all(loadBlogToDelete, calculateSubscriptionChange)
 
   .get(function(req, res) {
-    res.locals.title = "Delete " + req.blogToDelete.title;
-    res.locals.breadcrumb = "Delete  " + req.blogToDelete.title;
+    res.locals.title = "Delete " + req.blogToDelete.pretty.label;
+    res.locals.breadcrumb = "Delete  " + req.blogToDelete.pretty.label;
     res.render("account/delete-blog", { host: process.env.BLOT_HOST });
   })
 
@@ -42,7 +42,7 @@ Delete.route("/blog/:handle")
     calculateSubscriptionChange,
     decreaseSubscription,
     function(req, res) {
-      res.message("/account", "Deleted " + req.blogToDelete.title);
+      res.message("/account/subscription", "Deleted " + req.blogToDelete.title);
     }
   );
 
@@ -56,7 +56,7 @@ function loadBlogToDelete(req, res, next) {
       return next(new Error("There is no blog to delete"));
     }
 
-    req.blogToDelete = blog;
+    req.blogToDelete = Blog.extend(blog);
     res.locals.blogToDelete = blog;
 
     next();
@@ -107,12 +107,16 @@ Delete.route("/")
     deleteBlogs,
     deleteSubscription,
     deleteUser,
+    emailUser,
     logout,
     function(req, res) {
       res.redirect("/account/deleted");
     }
   );
 
+function emailUser(req, res, next) {
+  Email.DELETED("", req.user, next);
+}
 function deleteBlogs(req, res, next) {
   async.each(req.user.blogs, Blog.remove, next);
 }
@@ -138,6 +142,8 @@ function decreaseSubscription(req, res, next) {
 
       User.set(req.user.uid, { subscription: subscription }, function(err) {
         if (err) return next(err);
+
+        Email.SUBSCRIPTION_DECREASE(req.user.uid);
 
         next();
       });

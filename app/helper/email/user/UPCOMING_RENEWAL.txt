@@ -5,5 +5,3 @@ Your [Blot subscription]({{{site}}}) will renew in 7 days.
 If your payment information has changed in the last year, please [update your billing information]({{{site}}}/log-in?then=/account/payment-method). If you want to close your account, please [cancel your subscription]({{{site}}}/log-in?then=/account/subscription/cancel).
 
 Please reply directly to this email if you have any questions.
-
-Sincerely, David

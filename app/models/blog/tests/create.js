@@ -7,7 +7,7 @@ describe("Blog.create", function() {
   global.test.user();
 
   // Clean up a blog created during tests
-  afterEach(function (done) {
+  afterEach(function(done) {
     if (this.blog) {
       remove(this.blog.id, done);
     } else {

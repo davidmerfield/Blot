@@ -38,6 +38,15 @@ describe("summary", function() {
     ).toEqual("Hello");
   });
 
+  it("handles html entities in the title", function() {
+    expect(
+      this.summary({
+        html: "<p>Ad&nbsp;Fontes</p><p>Lucili</p>",
+        title: "Ad Fontes"
+      })
+    ).toEqual("Lucili");
+  });
+
   it("does not contain the text of the title", function() {
     expect(
       this.summary({
@@ -48,7 +57,7 @@ describe("summary", function() {
   });
 
   // Not sure if I like this behaviour
-  it("has spaces between seperate paragraphs", function() {
+  it("has spaces between separate paragraphs", function() {
     expect(
       this.summary({
         html: "<p>Hello</p><p>World</p>",
@@ -60,7 +69,8 @@ describe("summary", function() {
   it("will not contain or truncate long words", function() {
     expect(
       this.summary({
-        html: "<p>Hello there helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.</p>"
+        html:
+          "<p>Hello there helloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.</p>"
       })
     ).toEqual("Hello there");
   });
@@ -72,5 +82,4 @@ describe("summary", function() {
       })
     ).toEqual("Hello & & foo there");
   });
-
 });

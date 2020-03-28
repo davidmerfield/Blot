@@ -38,10 +38,39 @@ brochure.use(require("./tools/dates"));
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
 
+// Generate a table of contents for each page
+brochure.use(require("./tools/on-this-page"));
+
+let updated;
+
+function loadLast(req, res, next) {
+  if (updated) {
+    res.locals.updated = updated;
+    return next();
+  }
+
+  const exec = require("child_process").exec;
+  const moment = require("moment");
+
+  exec("git log -1 --format=%cd", { cwd: require("helper").rootDir }, function(
+    err,
+    stdout
+  ) {
+    if (err) {
+      return next();
+    }
+    const date = new Date(stdout.trim());
+    updated = moment(date).fromNow();
+    res.locals.updated = updated;
+    next();
+  });
+}
+
+brochure.use(loadLast);
+
 brochure.use(function(req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
-
   var url = req.originalUrl;
 
   // Trim trailing slash from the URL before working out which
@@ -51,7 +80,7 @@ brochure.use(function(req, res, next) {
 
   var slugs = url.split("/");
 
-  slugs.forEach(function(slug, i) {
+  slugs.forEach(function(slug) {
     res.locals.selected[slug] = "selected";
   });
 
@@ -64,12 +93,12 @@ brochure.use(function(req, res, next) {
 });
 
 brochure.get("/about", function(req, res) {
-  res.locals.title = "Blot – About";
+  res.locals.title = "About";
   res.render("about");
 });
 
 brochure.get("/support", function(req, res) {
-  res.locals.title = "Blot – Support";
+  res.locals.title = "Support";
   res.render("support");
 });
 
@@ -102,7 +131,7 @@ brochure.get("/sitemap.xml", require("./sitemap"));
 
 brochure.use("/developers", require("./developers"));
 
-// brochure.use("/templates", require("./templates"));
+brochure.use("/templates", require("./templates"));
 
 brochure.use("/news", require("./news"));
 
@@ -132,11 +161,12 @@ brochure.param("subsubsection", function(req, res, next, subsubsection) {
 });
 
 brochure.get("/", require("./featured"), function(req, res) {
+  res.locals.layout = "partials/index-layout";
   res.locals.title = "Blot – A blogging platform with no interface";
   res.render("index");
 });
 
-brochure.use("/publishing/domain", function(req, res, next) {
+brochure.use("/publishing/guides/domain", function(req, res, next) {
   res.locals.ip = config.ip;
   return next();
 });
@@ -149,7 +179,7 @@ brochure.get("/:section", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
 
   res.render(req.params.section);
 });
@@ -165,7 +195,7 @@ brochure.get("/:section/:subsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
   res.render(req.params.section + "/" + req.params.subsection);
 });
 
@@ -180,7 +210,7 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
     return next();
   }
 
-  res.locals.title = "Blot – " + res.locals.sectionTitle;
+  res.locals.title = res.locals.sectionTitle + " - Blot";
   res.render(
     req.params.section +
       "/" +
@@ -188,6 +218,11 @@ brochure.get("/:section/:subsection/:subsubsection", function(req, res, next) {
       "/" +
       req.params.subsubsection
   );
+});
+
+brochure.use(function(err, req, res, next) {
+  if (err.code === "MODULE_NOT_FOUND") return next();
+  next(err);
 });
 
 brochure.use(function(err, req, res, next) {

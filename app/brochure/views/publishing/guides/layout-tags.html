@@ -1,0 +1,73 @@
+<h1>Layout</h1>
+<p class="back-link"><a href="/publishing/guides">View all guides</a></p>
+<p>I wrote a Markdown extension which provides tags that define basic layout. Your <a href="/developers">blog&apos;s template</a> ultimately defines the layout. Most templates include <a href="/css/layout.css">layout.css</a> which provides these features.</p>
+
+<pre class="text"><code>{&lt;&lt;} This line sits in the left margin of the page
+
+You can including multiple lines inside the same layout tag by indenting them.
+
+</code></pre>
+<br><br>
+<table style="table-layout:auto;max-width:637px"> 
+<thead>
+<tr>
+<th>The tag&#x2026;</th>
+<th>should make its contents...</th>
+<th>by applying this CSS class&#x2026;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{&lt;&lt;}</code></td>
+<td>extend into the left margin</td>
+<td><code>wide left</code></td>
+</tr>
+<tr>
+<td><code>{&gt;&gt;}</code></td>
+<td>extend into the right margin</td>
+<td><code>wide right</code></td>
+</tr>
+<tr>
+<td><code>{&lt;&gt;}</code></td>
+<td>extend into both margins</td>
+<td><code>wide</code></td>
+</tr>
+<tr>
+<td><code>{&gt;}</code></td>
+<td>float right inside the page</td>
+<td><code>right inside</code></td>
+</tr>
+<tr>
+<td><code>{&lt;}</code></td>
+<td>float left inside the page</td>
+<td><code>left inside</code></td>
+</tr>
+<tr>
+<td><code>{|&lt;}</code></td>
+<td>hang in the right margin</td>
+<td><code>right margin</code></td>
+</tr>
+<tr>
+<td><code>{&gt;|}</code></td>
+<td>hang in the left margin</td>
+<td><code>left margin</code></td>
+</tr>
+<tr>
+<td><code>{||}</code></td>
+<td>sit inside a 1/2 width column</td>
+<td><code>two column</code></td>
+</tr>
+<tr>
+<td><code>{|||}</code></td>
+<td>sit inside a 1/3 width column</td>
+<td><code>three column</code></td>
+</tr>
+<tr>
+<td><code>{||||}</code></td>
+<td>sit inside a 1/4 width column</td>
+<td><code>four column</code></td>
+</tr>
+</tbody>
+</table>
+
+

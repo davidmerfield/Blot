@@ -1,0 +1,15 @@
+Instead of using redis as a cache, write the output for 200 responses to disk
+
+in www / domain / $path
+
+add push domain to cache:blogID
+
+on cache clear, rm /www/domain/$path, del cache:blogID
+
+server {
+    server_name (?<domain>.+);
+    try_files root /var/www/$domain;
+}
+
+
+

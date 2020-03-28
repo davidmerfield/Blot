@@ -1,47 +1,44 @@
-var helper = require('helper');
+var helper = require("helper");
 var ensure = helper.ensure;
 var type = helper.type;
 
-var redis = require('client');
-var entryKey = require('./key').entry;
+var redis = require("client");
+var entryKey = require("./key").entry;
 
-var Entry = require('./instance');
+var Entry = require("./instance");
 
-module.exports = function (blogID, entryIDs, callback) {
-
-  ensure(blogID, 'string')
-    .and(callback, 'function');
+module.exports = function(blogID, entryIDs, callback) {
+  ensure(blogID, "string").and(callback, "function");
 
   var single = false;
 
   // Empty list of entry IDs, leave now!
-  if (type(entryIDs, 'array') && !entryIDs.length) {
+  if (type(entryIDs, "array") && !entryIDs.length) {
     return callback([]);
   }
 
   // We're only getting one entry now...
-  if (type(entryIDs, 'string')) {
+  if (type(entryIDs, "string")) {
     single = true;
     entryIDs = [entryIDs];
   }
 
-  entryIDs = entryIDs.map(function(entryID){
+  entryIDs = entryIDs.map(function(entryID) {
     return entryKey(blogID, entryID);
   });
 
-  ensure(entryIDs, 'array');
+  ensure(entryIDs, "array");
 
-  redis.mget(entryIDs, function(err, entries){
-
+  redis.mget(entryIDs, function(err, entries) {
     if (err) throw err;
 
     entries = entries || [];
 
-    entries = entries.filter(function(entry){
+    entries = entries.filter(function(entry) {
       return entry;
     });
 
-    entries = entries.map(function(entry){
+    entries = entries.map(function(entry) {
       return new Entry(JSON.parse(entry)); // return value
     });
 
@@ -49,8 +46,7 @@ module.exports = function (blogID, entryIDs, callback) {
       entries = entries[0];
     }
 
-    if (single && !entries)
-      return callback();
+    if (single && !entries) return callback();
 
     return callback(entries);
   });

@@ -20,7 +20,7 @@ module.exports = function(item, output_directory) {
 
     entry.html = item["content:encoded"][0];
 
-    entry.title = item.title[0];
+    entry.title = item.title[0].trim();
 
     entry.dateStamp = entry.created = entry.updated = moment(
       item.pubDate[0]
@@ -34,7 +34,7 @@ module.exports = function(item, output_directory) {
     if (item.category) {
       entry.tags = item.category.map(function(category) {
         return category._;
-      });      
+      });
     }
 
     callback(null, entry);

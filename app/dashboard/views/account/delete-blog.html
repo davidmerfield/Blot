@@ -4,7 +4,7 @@
 
   {{#blogToDelete}}
 
-  <p>If you <b>delete {{title}}{{^title}}{{pretty.url}}{{/title}}</b>, Blot will permanently remove its themes, settings and Blot's copy of its folder. This cannot be undone. <!-- Consider <a href="/account/export">exporting this data</a>. --> 
+  <p>If you <b>delete {{blogToDelete.pretty.label}}</b>, Blot will permanently remove its themes, settings and Blot's copy of its folder. This cannot be undone. <!-- Consider <a href="/account/export">exporting this data</a>. --> 
 
 
   </p>
@@ -18,7 +18,7 @@
 
   <div class="buttons">
     <button type="submit" class="red" onclick="this.form.submit();this.disabled=true">Delete {{title}}</button>
-    <a href="/account">Do not delete</a>
+    <a href="/account/subscription">Do not delete</a>
   </div>
 
   {{/blogToDelete}}

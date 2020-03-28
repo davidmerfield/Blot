@@ -1,6 +1,8 @@
 var Entries = require("entries");
 var async = require("async");
 var Entry = require("entry");
+var helper = require("helper");
+var clfdate = helper.clfdate;
 
 module.exports = function(blogID, update, callback) {
   var RENAME_PERIOD = 1000 * 60; // 1 minute
@@ -76,13 +78,12 @@ module.exports = function(blogID, update, callback) {
           }
 
           console.log(
-            "Blog:",
+            clfdate(),
             blogID,
-            "Entry rename detected:",
-            "\n (deleted)",
+            createdEntry.path,
+            "(created) <==",
             deletedEntry.path,
-            "\n (created)",
-            createdEntry.path
+            "(deleted)"
           );
 
           Entry.set(blogID, createdEntry.path, updates, next);

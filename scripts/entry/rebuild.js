@@ -14,7 +14,7 @@ console.log("Getting info from:", process.argv[2]);
 var path;
 
 get(process.argv[2], function(err, user, blog, entry) {
-  if (err) throw err;
+  if (err && err.message !== 'No entry') throw err;
 
   if (entry) {
     path = entry.path;

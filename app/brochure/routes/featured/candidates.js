@@ -36,7 +36,6 @@ var featured = require("./featured").map(function(site) {
 
 function main(callback) {
   Blog.getAllIDs(function(err, ids) {
-
     async.map(
       ids,
       function(id, next) {

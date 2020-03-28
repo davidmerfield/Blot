@@ -5,12 +5,12 @@ describe("markdown converter", function() {
 
   global.test.blog();
 
-  // require('child_process').exec('pandoc -v', function(err, res){
-  //   if (err) throw err;
-  //   console.log('-----------');
-  //   console.log('PANDOC VERSION:', res);
-  //   console.log('-----------');
-  // });
+  require('child_process').exec('pandoc -v', function(err, res){
+    if (err) throw err;
+    console.log('-----------');
+    console.log('PANDOC VERSION:', res);
+    console.log('-----------');
+  });
 
   function from(path) {
     return function(callback) {
@@ -38,7 +38,7 @@ describe("markdown converter", function() {
     };
   }
 
-  fit("handles bib files", function(done) {
+  it("handles bib files", function(done) {
     fs.copySync(__dirname + "/bib", this.blogDirectory);
 
     markdown.read(this.blog, "/post.txt", {}, function(err, html, stat) {
@@ -49,14 +49,14 @@ describe("markdown converter", function() {
     });
   });
 
+  it("handles amerpsands in code blocks", from("/ampersand-in-code.txt"));
+  it("handles amerpsands in image srcs", from("/ampersand-in-image.txt"));
+  it("handles amerpsands in text", from("/ampersand-in-text.txt"));
   it("handles return characters", from("/return-character.txt"));
   it("converts basic markdown", from("/basic-post.txt"));
   it("converts a list", from("/list.txt"));
   it("handles pre-formatted indentation", from("/pre-formatted-indents.txt"));
-
-  // These are disabled because Travis uses an old version of Pandoc
-  // I need to update Travis' pandoc.
-  xit("does not obfuscate an email address", from("/email-addresses.txt"));
-  xit("parses metadata", from("/metadata.txt"));
-  xit("autolinks bare uris", from("/bare-uri.txt"));
+  it("does not obfuscate an email address", from("/email-addresses.txt"));
+  it("parses metadata", from("/metadata.txt"));
+  it("autolinks bare uris", from("/bare-uri.txt"));
 });

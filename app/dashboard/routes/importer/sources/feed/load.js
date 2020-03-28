@@ -1,18 +1,15 @@
-var cheerio = require('cheerio');
-var request = require('request');
+var cheerio = require("cheerio");
+var request = require("request");
 
-module.exports = function load (feed_url, callback) {
+module.exports = function load(feed_url, callback) {
+  if (!callback) throw new Error("Please pass a callback");
 
-  if (!callback) throw new Error('Please pass a callback');
-  
-  if (!feed_url) return callback(new Error('Please pass a URL to an RSS feed'));
+  if (!feed_url) return callback(new Error("Please pass a URL to an RSS feed"));
 
-  request(feed_url, function(err, res, body){
-
+  request(feed_url, function(err, res, body) {
     if (err) return callback(err);
 
     var $ = cheerio.load(body, {
-
       // This prevent cheerio from replacing characters
       // it really ought to preserve.
       decodeEntities: false,
@@ -27,6 +24,5 @@ module.exports = function load (feed_url, callback) {
     });
 
     callback(null, $);
-
   });
 };

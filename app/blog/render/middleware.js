@@ -10,8 +10,8 @@ var helper = require("helper");
 var ensure = helper.ensure;
 var extend = helper.extend;
 var callOnce = helper.callOnce;
-
-var CACHE = require("config").cache;
+var config = require("config");
+var CACHE = config.cache;
 
 // The http headers
 var CONTENT_TYPE = "Content-Type";
@@ -95,9 +95,25 @@ module.exports = function(req, res, _next) {
               return callback(null, output);
             }
 
-            if (CACHE && (viewType === STYLE || viewType === JS)) {
+            // Only cache JavaScript and CSS if the request is not to a preview
+            // subdomain and Blot's caching is turned on.
+            if (
+              CACHE &&
+              !req.preview &&
+              (viewType === STYLE || viewType === JS)
+            ) {
               res.header(CACHE_CONTROL, cacheDuration);
             }
+
+            // Replace protocol of CDN links for requests served over HTTP
+            if (
+              viewType.indexOf("text/") > -1 &&
+              req.protocol === "http" &&
+              output.indexOf(config.cdn.origin) > -1
+            )
+              output = output
+                .split(config.cdn.origin)
+                .join(config.cdn.origin.split("https://").join("http://"));
 
             // I believe this minification
             // bullshit locks up the server while it's

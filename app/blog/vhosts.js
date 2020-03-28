@@ -52,12 +52,24 @@ module.exports = function(req, res, next) {
     // Redirect old handle
     if (identifier.handle && blog.handle !== identifier.handle)
       redirect =
-        req.protocol + "://" + blog.handle + "." + config.host + req.originalUrl;
+        req.protocol +
+        "://" +
+        blog.handle +
+        "." +
+        config.host +
+        req.originalUrl;
 
     // Redirect Blot subdomain to custom domain we use
     // 302 temporary since the domain might break in future
-    if (identifier.handle && blog.domain && blog.redirectSubdomain)
-      return res.status(302).redirect(req.protocol + "://" + blog.domain + req.originalUrl);
+    if (
+      identifier.handle &&
+      blog.domain &&
+      blog.redirectSubdomain &&
+      !previewTemplate
+    )
+      return res
+        .status(302)
+        .redirect(req.protocol + "://" + blog.domain + req.originalUrl);
 
     // Redirect HTTP to HTTPS. Preview subdomains are not currently
     // available over HTTPS but when they are, remove this.
@@ -113,10 +125,17 @@ function isSubdomain(host) {
 function extractHandle(host) {
   if (!isSubdomain(host, config.host)) return false;
 
-  return host
+  let handle = host
     .slice(0, -config.host.length - 1)
     .split(".")
     .pop();
+
+  // Follows the new convention for preview subdomains, e.g.
+  // preview-of-$template-on-$handle.$host e.g.
+  // preview-of-diary-on-news.blot.im
+  if (handle.indexOf("-") > -1) handle = handle.split("-").pop();
+
+  return handle;
 }
 
 function extractPreviewTemplate(host, blogID) {
@@ -125,6 +144,30 @@ function extractPreviewTemplate(host, blogID) {
   var subdomains = host.slice(0, -config.host.length - 1).split(".");
   var handle = subdomains.pop();
   var prefix = subdomains.shift();
+
+  // Follows the new convention for preview subdomains, e.g.
+  // preview-of-$template-on-$handle.$host e.g.
+  // preview-of-diary-on-news.blot.im
+  if (handle.indexOf("-") > -1 && handle.indexOf("preview-of-") === 0) {
+    let owner;
+    let templateName;
+
+    if (handle.indexOf("preview-of-my-") === 0) {
+      owner = blogID;
+      templateName = handle
+        .slice("preview-of-my-".length)
+        .split("-on-")
+        .shift();
+    } else {
+      templateName = handle
+        .slice("preview-of-".length)
+        .split("-on-")
+        .shift();
+      owner = "SITE";
+    }
+
+    return `${owner}:${templateName}`;
+  }
 
   if (!subdomains || !subdomains.length || prefix !== "preview") return false;
 

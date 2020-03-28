@@ -14,6 +14,8 @@ blockquote.twitter-tweet {
   display: block;
   width: 500px;
   padding: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   margin: 1em 0;
   border-radius: 5px;
   border: 1px solid #E1E8ED;
@@ -27,5 +29,4 @@ blockquote.twitter-tweet p {
   color: rgb(41, 47, 51);
   font: inherit;
   margin: 36px 0 12px;
-  font-size: 18px;
 }

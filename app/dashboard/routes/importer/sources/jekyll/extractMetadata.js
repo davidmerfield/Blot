@@ -33,7 +33,6 @@ module.exports = function(result, callback) {
     function(value, key, next) {
       if (key === "tags") {
         if (Array.isArray(value)) {
-
           value = value
             .filter(function(tag) {
               if (["blog-post"].indexOf(tag.toLowerCase()) > -1) return false;
@@ -46,15 +45,14 @@ module.exports = function(result, callback) {
               if (tag[0].toLowerCase() === tag[0]) {
                 if (["iphone"].indexOf(tag.toLowerCase) === -1) {
                   tag[0] = tag[0].toUpperCase();
-                  console.log('Warning uppercased tag', tag);
+                  console.log("Warning uppercased tag", tag);
                 }
               }
 
               return tag;
             });
 
-          if (value.length) 
-            metadata.Tags = value.join(", ");
+          if (value.length) metadata.Tags = value.join(", ");
         } else {
           console.log("Unexpected type for Tags", typeof value, value);
         }

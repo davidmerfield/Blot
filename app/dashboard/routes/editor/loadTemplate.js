@@ -26,7 +26,7 @@ module.exports = function(req, res, next) {
     Template.getMetadata(templateID, function(err, template) {
       if (
         template.localEditing &&
-        req.path !== "/template/" + req.params.template + "/local-editing"
+        req.path.slice(-"/local-editing".length) !== "/local-editing"
       ) {
         return res.redirect(
           "/template/" + req.params.template + "/local-editing"
@@ -108,12 +108,13 @@ module.exports = function(req, res, next) {
       req.template = template;
 
       template.baseUrl = "/template/" + encodeURIComponent(template.slug);
-      template.preview = [
-        "http://preview.my",
-        template.slug,
-        req.blog.handle,
-        config.host
-      ].join(".");
+      template.preview =
+        "https://preview-of-my-" +
+        template.slug +
+        "-on-" +
+        req.blog.handle +
+        "." +
+        config.host;
 
       res.locals.template = template;
       res.locals.partials.head = "partials/head";

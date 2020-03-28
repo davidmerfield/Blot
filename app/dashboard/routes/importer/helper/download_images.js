@@ -75,17 +75,15 @@ module.exports = function download_images(post, callback) {
           });
       },
       function() {
-      
-      // Download PDFS or download images might have already moved the output
-      // path for this file into its own folder, so check.
-      if (changes && post.path.slice(-'/post.txt'.length) !== '/post.txt') {
-        post.path = post.path + "/post.txt";
-      }
+        // Download PDFS or download images might have already moved the output
+        // path for this file into its own folder, so check.
+        if (changes && post.path.slice(-"/post.txt".length) !== "/post.txt") {
+          post.path = post.path + "/post.txt";
+        }
 
-      if (!changes && post.path.slice(-'.txt'.length) !== '.txt') {
-        post.path = post.path + ".txt";
-      }
-      
+        if (!changes && post.path.slice(-".txt".length) !== ".txt") {
+          post.path = post.path + ".txt";
+        }
 
         post.html = $.html();
 

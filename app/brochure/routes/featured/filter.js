@@ -39,11 +39,14 @@ function verify(domain, callback) {
 
     if (!blog) return callback(new Error("No blog with domain " + domain));
 
+    if (!blog.template) {
+      return callback(new Error("No template for blog"));
+    }
+
     Template.getMetadata(blog.template, function(err, template) {
       if (err) return callback(err);
 
       if (!template) {
-        console.log("no template", blog);
         return callback(new Error("No template:" + blog.template));
       }
 

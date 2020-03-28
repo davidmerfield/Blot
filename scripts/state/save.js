@@ -31,6 +31,10 @@ if (require.main === module) {
 function main(label, description, callback) {
   var directory = __dirname + "/data/" + (label || Date.now().toString());
 
+  // Copy old description if no new one provided
+  if (!description && fs.existsSync(directory + "/description.txt"))
+    description = fs.readFileSync(directory + "/description.txt");
+
   askToOverwrite(directory, function(err) {
     if (err) return callback(err);
 

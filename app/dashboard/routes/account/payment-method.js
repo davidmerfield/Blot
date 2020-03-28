@@ -13,7 +13,7 @@ PaymentMethod.route("/")
   .all(function(req, res, next) {
     // User does not have a payment method on file, so redirect them
     if (!req.user || !req.user.subscription || !req.user.subscription.plan)
-      return res.redirect("/account");
+      return res.redirect("/account/subscription");
 
     return next();
   })
@@ -111,7 +111,7 @@ PaymentMethod.route("/")
 
       email.UPDATE_BILLING(req.user.uid);
       res.message(
-        "/account",
+        "/account/subscription",
         "Your payment information was updated successfully!"
       );
     });

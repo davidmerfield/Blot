@@ -4,7 +4,7 @@ var parseCSS = require("css");
 var CleanCSS = require("clean-css");
 var minimize = new CleanCSS();
 
-module.exports = function (req, res, next) {
+module.exports = function(req, res, next) {
   var send = res.send;
 
   res.send = function(string) {
@@ -57,10 +57,13 @@ module.exports = function (req, res, next) {
           // we need to skip font-face here...
           if (selector.indexOf("@font-face") > -1) return true;
 
+          // we need to skip font-face here...
+          if (selector.indexOf("placeholder") > -1) return true;
+
           // I use some complex selectors to style these elements
           // which do not match although they should when I run
-          // the document query below. 
-          if (selector.indexOf('details') > - 1) return true;
+          // the document query below.
+          if (selector.indexOf("details") > -1) return true;
 
           selector = selector
             .split(":focus")

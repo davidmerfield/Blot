@@ -25,6 +25,18 @@ describe("metadata parser", function() {
     });
   });
 
+  it("parses metadata with non-standard return character newlines", function() {
+    expect(
+      Metadata(
+        ["Page:yes", "Permalink:", "Date: 12/10/12", "", "# Hi"].join("\r")
+      ).metadata
+    ).toEqual({
+      permalink: "",
+      page: "yes",
+      date: "12/10/12"
+    });
+  });
+
   it("handles colons", function() {
     expect(
       Metadata(
@@ -49,6 +61,22 @@ describe("metadata parser", function() {
     expect(Metadata(["Author name: Jason"].join("\n")).metadata).toEqual({
       "author name": "Jason"
     });
+  });
+
+  it("allows a maximum of one space in the metadata key", function() {
+    expect(Metadata(["And he called: Jason"].join("\n")).metadata).toEqual({});
+  });
+
+  it("allows dashes in the metadata key", function() {
+    expect(Metadata(["Is-Social: Yes"].join("\n")).metadata).toEqual({'is-social': 'Yes'});
+  });
+
+  it("allows underscores in the metadata key", function() {
+    expect(Metadata(["Is_Social: Yes"].join("\n")).metadata).toEqual({'is_social': 'Yes'});
+  });
+
+  it("disallows punctuation in the metadata key", function() {
+    expect(Metadata(["Lo! Said: Jason"].join("\n")).metadata).toEqual({});
   });
 
   it("handles pure metadata", function() {
