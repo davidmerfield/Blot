@@ -1,3 +1,5 @@
+# How to get version of Pandoc building:
+# https://bl.ocks.org/tlvince/e723a147366f00c9ca6641f412fd4bb3
 # https://github.com/tlvince/talks/blob/c8f6d3ecd25f3fdd7c0db61fb498857a9fc4809a/.travis.yml
 
 language: node_js
@@ -20,5 +22,6 @@ rvm:
   - 1.9.3
 env:
   global:
+    - PANDOC_VERSION="2.2.3.2"
     - PANDOC="$HOME/.pandoc"
-    - PANDOC_DEB="https://github.com/jgm/pandoc/releases/download/2.2.3.2/pandoc-2.2.3.2-1-amd64.deb"
+    - PANDOC_DEB="https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb"
