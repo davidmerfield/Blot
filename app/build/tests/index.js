@@ -83,6 +83,26 @@ describe("build", function() {
     });
   });
 
+  it("will not include caption text in summaries", function(done) {
+      var path = "/Hello world.txt";
+      var contents = "# Hello\n\n![Image caption](file.jpg)\n\nWorld";
+
+      fs.outputFileSync(this.blogDirectory + path, contents);
+
+      let blog = {...this.blog};
+      blog.plugins.imageCaption.enabled = true;
+
+      build(blog, path, {}, function(err, entry) {
+        if (err) return done.fail(err);
+
+        // verify a thumbnail was generated from the image
+        expect(entry.summary).toEqual("World");
+
+        done();
+      });
+    });
+
+
   it("will not cache image an image using the static query string", function(done) {
     var path = "/Hello world.txt";
     var contents = "<img src='" + this.origin + "/public.jpg?static=1'>";

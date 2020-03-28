@@ -11,13 +11,13 @@ var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var parse = require("body-parser").urlencoded({ extended: false });
 var User = require("user");
-
+var Email = require("helper").email;
 var signup = Express.Router();
 
 signup.use(function(req, res, next) {
   if (req.user) return res.redirect("/");
 
-  res.header('Cache-Control', 'no-cache');
+  res.header("Cache-Control", "no-cache");
   res.locals.layout = "partials/layout-form";
 
   return next();
@@ -69,7 +69,6 @@ paymentForm.get(function(req, res) {
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
   res.locals.stripe_key = config.stripe.key;
-  res.locals.price = "$" + config.stripe.plan.slice(-2);
   res.render("sign-up");
 });
 
@@ -166,7 +165,7 @@ passwordForm.post(parse, function(req, res, next) {
       delete req.session.subscription;
 
       req.session.uid = user.uid;
-
+      Email.CREATED_BLOG(user.uid);
       res.redirect("/account/create-blog");
     });
   });

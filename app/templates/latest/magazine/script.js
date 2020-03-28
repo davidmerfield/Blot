@@ -137,13 +137,11 @@ var dates = document.querySelectorAll('[date-from-now]');
   
 dates.forEach(function(el){
   var dateStamp = parseInt(el.getAttribute('date-from-now'));
-  console.log(dateStamp);
   if (isNaN(dateStamp))
     return console.log('No date parsed');
   if (Date.now() - dateStamp > 1000*60*60*24*30*3)
   	return console.log('Date too old');
   var new_str = relativeDate(new Date(dateStamp));
-	console.log(new_str);
   el.innerHTML = new_str;
 });
 
@@ -151,19 +149,13 @@ $(function() {
   init();
 });
   
-console.log('HERE');
-
 function init () {
-
-console.log('HERE TOO');
 
   // Smooth scroll
   var scroll = new SmoothScroll('a[href*="#"]');
 
   var images = $('.entry img').filter(function(el){
       
-    console.log($(this).parents('a').length);
-
     if ($(this).parents('a').length) {
       return false;
     }
@@ -175,10 +167,8 @@ console.log('HERE TOO');
     return false;
   }).toArray();
 
-  console.log('Images', images);
-
-  // Medium zoom
-  mediumZoom(images);
+  // // Medium zoom
+  // mediumZoom(images);
 }
 
                                       

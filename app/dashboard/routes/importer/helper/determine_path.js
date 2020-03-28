@@ -6,7 +6,7 @@ module.exports = function(title, page, draft, dateStamp, slug) {
   var relative_path_without_extension;
   var name;
 
-  slug = slugify(title || slug || dateStamp.toString() || 'untitled');
+  slug = slugify(title || slug || dateStamp.toString() || "untitled");
   name = name || slug;
 
   name = name.split("/").join("-");

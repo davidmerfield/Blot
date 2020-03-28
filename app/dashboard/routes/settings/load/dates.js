@@ -16,11 +16,10 @@ var displays = [
   "MMMM D, Y [at] h:mma",
   "D MMMM Y",
   "Y-MM-DD",
-  "Y-MM-DD hh:mm"
+  "Y-MM-DD HH:mm"
 ];
 
 module.exports = function(req, res, next) {
-
   var displayFormats = [];
   var dateFormats = [];
 
@@ -31,7 +30,6 @@ module.exports = function(req, res, next) {
       date: alias[format]
     });
   });
-
 
   displays.forEach(function(display) {
     var now = moment

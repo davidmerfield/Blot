@@ -29,7 +29,7 @@ module.exports = function(server) {
 
       // Don't cache search results until we
       response.set("Cache-Control", "no-cache");
-      response.renderView("search", next);
+      response.renderView("search.html", next);
     }
   });
 };

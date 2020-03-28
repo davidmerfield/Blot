@@ -1,0 +1,5 @@
+# Case sensitivity
+
+I want to do as little to the case of file paths as possible. Preserve what dropbox tells me.
+
+However, I need to be able to retrieve public files in a case insensitive manner.

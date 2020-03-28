@@ -28,11 +28,11 @@ var DECLARATION = {
   dateFormat: ["string", true, true],
 
   // Flags
-  forceSSL:     ['boolean', true,   false],
-  isDisabled:   ['boolean', true,   false],
-  new_dashboard: ['boolean', true,  false],
-  new_markdown_renderer: ['boolean', true,  false],
-  redirectSubdomain: ['boolean', true,   false]
+  forceSSL: ["boolean", true, false],
+  isDisabled: ["boolean", true, false],
+  new_dashboard: ["boolean", true, false],
+  new_markdown_renderer: ["boolean", true, false],
+  redirectSubdomain: ["boolean", true, false]
 };
 
 var MODEL = { TYPE: {}, PUBLIC: [], WRITEABLE: [] };

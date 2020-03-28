@@ -19,7 +19,6 @@ var get = Template.getView;
 var set = Template.setView;
 var drop = Template.dropView;
 
-var parseName = require("./parseName");
 var formJSON = helper.formJSON;
 var capitalise = helper.capitalise;
 var model = Template.viewModel;
@@ -38,14 +37,11 @@ module.exports = function(server) {
       res.render("template");
     })
 
-    .post(parseBody, parseName, function(req, res, next) {
+    .post(parseBody, function(req, res, next) {
       var view = formJSON(req.body, model);
 
       if (!view.url) {
         view.url = "/" + view.name;
-        if (view.type && view.type !== "text/html") {
-          view.url += "." + mime.extension(view.type);
-        }
       }
 
       Template.setView(req.template.id, view, function(err) {
@@ -71,10 +67,7 @@ module.exports = function(server) {
 
       res.render("template", {
         active: { editor: true },
-        title:
-          capitalise(res.locals.view.name + "." + res.locals.view.extension) +
-          " - " +
-          req.template.name
+        title: capitalise(res.locals.view.name) + " - " + req.template.name
       });
     })
 
@@ -94,15 +87,12 @@ module.exports = function(server) {
 
       res.render("template", {
         active: { settings: true },
-        title:
-          capitalise(req.view.name + "." + req.view.extension) +
-          " - Settings - " +
-          req.template.name
+        title: capitalise(req.view.name) + " - Settings - " + req.template.name
       });
     })
 
     // Handle deletions...
-    .post(parseBody, parseName)
+    .post(parseBody)
 
     .post(function(req, res, next) {
       if (!req.body.delete) return next();
@@ -147,11 +137,7 @@ function saveView(req, res, next) {
     Blog.set(req.blog.id, changes, function(err) {
       if (err) return next(err);
 
-      Blog.flushCache(req.blog.id, function(err) {
-        if (err) return next(err);
-
-        res.message(req.path, "Saved changes!");
-      });
+      res.message(req.path, "Saved changes!");
     });
   });
 }
@@ -182,7 +168,7 @@ function renameView(req, res, next) {
           .split("/view/" + req.params.view + "/")
           .join("/view/" + view.name + "/");
 
-        Blog.flushCache(req.blog.id, function(err) {
+        Blog.set(req.blog.id, { cacheID: Date.now() }, function(err) {
           if (err) return next(err);
 
           res.message(redirect, "Saved changes!");
@@ -223,7 +209,6 @@ function loadView(req, res, next) {
       "/view/" +
       encodeURIComponent(view.name);
 
-    view.extension = mime.extension(view.type || "");
     view.editorMode = editorMode(view);
 
     req.view = view;
@@ -232,16 +217,18 @@ function loadView(req, res, next) {
   });
 }
 
+var extname = require("path").extname;
+
 // Determine the mode for the
 // text editor based on the file extension
 function editorMode(view) {
   var mode = "xml";
 
-  if (view.extension === "js") mode = "javascript";
+  if (extname(view.name) === ".js") mode = "javascript";
 
-  if (view.extension === "css") mode = "css";
+  if (extname(view.name) === ".css") mode = "css";
 
-  if (view.extension === "txt") mode = "text";
+  if (extname(view.name) === ".txt") mode = "text";
 
   return mode;
 }

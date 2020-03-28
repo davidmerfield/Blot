@@ -1,4 +1,4 @@
-require('../only_locally');
+require("../only_locally");
 
 var fs = require("fs-extra");
 var exec = require("child_process").exec;
@@ -17,7 +17,8 @@ if (!ROOT) throw new Error("Please set environment variable BLOT_DIRECTORY");
 function main(label, callback) {
   var directory = __dirname + "/data/" + label;
 
-  if (!fs.existsSync(directory)) return callback(new Error('No state ' + label));
+  if (!fs.existsSync(directory))
+    return callback(new Error("No state " + label));
 
   loadDB(directory, function(err) {
     if (err) return callback(err);

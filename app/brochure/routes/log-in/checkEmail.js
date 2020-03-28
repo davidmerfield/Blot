@@ -1,10 +1,12 @@
 var User = require("user");
-var LogInError = require('./logInError');
+var LogInError = require("./logInError");
 
 module.exports = function checkEmail(req, res, next) {
   var email = req.body && req.body.email;
 
   if (!email) return next(new LogInError("NOEMAIL"));
+
+  res.locals.email = email;
 
   User.getByEmail(email, function(err, user) {
     if (err) return next(err);
@@ -13,8 +15,15 @@ module.exports = function checkEmail(req, res, next) {
     // match a user in our database.
     if (!user) return next(new LogInError("BADEMAIL"));
 
-    req.user = user;
+    // You used to be able to disable your account
+    // but this is no longer possible. Once all
+    // users with isDisabled:true are removed you
+    // can delete this check safely.
+    if (user.isDisabled) return res.redirect("/account/disabled");
+
     res.locals.email = user.email;
+    res.locals.validemail = true;
+    req.user = user;
     res.locals.then = req.query.then;
 
     next();

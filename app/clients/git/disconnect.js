@@ -5,7 +5,7 @@ var Blog = require("blog");
 var Git = require("simple-git");
 var debug = require("debug")("clients:git:disconnect");
 var database = require("./database");
-var dataDir = require('./dataDir');
+var dataDir = require("./dataDir");
 
 // Called when the user disconnects the client
 // This may occur when the
@@ -15,7 +15,7 @@ module.exports = function disconnect(blogID, callback) {
 
   // Throws an error if directory does not exist
   try {
-    liveRepo = Git(liveRepoDirectory).silent(true);    
+    liveRepo = Git(liveRepoDirectory).silent(true);
   } catch (err) {
     return callback(err);
   }

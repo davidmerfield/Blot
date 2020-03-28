@@ -1,24 +1,21 @@
-var getById = require('./getById');
-var ensure = require('helper').ensure;
-var client = require('client');
-var key = require('./key');
+var getById = require("./getById");
+var ensure = require("helper").ensure;
+var client = require("client");
+var key = require("./key");
 
-module.exports = function remove (uid, callback) {
-
-  ensure(uid, 'string')
-    .and(callback, 'function');
+module.exports = function remove(uid, callback) {
+  ensure(uid, "string").and(callback, "function");
 
   var multi = client.multi();
 
-  getById(uid, function(err, user){
-
+  getById(uid, function(err, user) {
     if (err) throw err;
 
     var keys = [
       key.user(uid),
       key.email(user.email),
-      'sync:lease:' + uid,
-      'sync:again:' + uid,
+      "sync:lease:" + uid,
+      "sync:again:" + uid
     ];
 
     if (user.subscription.customer) {

@@ -22,7 +22,6 @@ function resolveCaseInsensitivePathToFile(cwd, path, callback) {
   var name = dirs.shift();
 
   fs.readdir(cwd, function guess(err, contents) {
-    
     if (err) return callback(err);
     var exactMatch;
 
@@ -37,7 +36,7 @@ function resolveCaseInsensitivePathToFile(cwd, path, callback) {
 
     if (!exactMatch && !contents.length) {
       err = new Error("No path matches: " + path);
-      err.code = 'ENOENT';
+      err.code = "ENOENT";
       return callback(err);
     }
 

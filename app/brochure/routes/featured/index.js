@@ -8,52 +8,59 @@
 var schedule = require("node-schedule").scheduleJob;
 var filter = require("./filter");
 var config = require("config");
-
+var clfdate = require("helper").clfdate;
 var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 
 var featured = require("./featured.json");
 
 // Check the list of featured sites a few seconds after the server starts
-// We wait a somewhat arbritary 5 seconds since Blot often fails to serve 
-// the site immediately and then the filter thinks the domain has moved 
+// We wait a somewhat arbritary 5 seconds since Blot often fails to serve
+// the site immediately and then the filter thinks the domain has moved
 // elsewhere. I need to add zero-downtime deploy. Once I do, remove delay.
 setTimeout(check, 1000 * 5);
 
-console.log("Featured sites: scheduled check each midnight!");
+console.log(clfdate(), "Featured sites: scheduled check each midnight!");
 schedule({ hour: 8, minute: 0 }, check);
 
 function check() {
   if (config.environment === "development") {
-    console.log("Featured sites: not checking in development environment");
+    console.log(clfdate(), "Featured sites: not checking in development environment");
     return;
   }
 
-  console.log("Featured sites: checking which sites point to Blot");
+  console.log(clfdate(), "Featured sites: checking which sites point to Blot");
   filter(featured, function(err, filtered, missing) {
     if (err) return console.log(err);
 
     featured = filtered;
 
     missing.forEach(function(site) {
-      console.log("Featured sites:", site.host, "no longer points to Blot");
+      console.log(clfdate(), "Featured sites:", site.host, "no longer points to Blot");
     });
 
     cache.flush(config.host, function(err) {
       if (err) console.log(err);
 
-      console.log("Featured sites: check completed!");
+      console.log(clfdate(), "Featured sites: check completed!");
     });
   });
 }
 
 module.exports = function(req, res, next) {
-
   // Strip the 'www' from the host property for aesthetics
-  res.locals.featured = featured.map(function(site){
+  res.locals.featured = featured.slice().map(function(site) {
     site.host = site.host.split("www.").join("");
+    site.template = site.template || {};
+    site.template.label = site.template.label || "Default";
     return site;
   });
+
+  res.locals.featured.sort(function(a, b) {
+    return Math.round(Math.random() * 2) - 1;
+  });
+
+  res.locals.featured = res.locals.featured.slice(0, 36);
 
   next();
 };

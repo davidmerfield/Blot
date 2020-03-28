@@ -1,0 +1,18 @@
+
+strategies for building public folders
+
+expose Public.add(blogID, path)
+       Public.drop(blogID, path)
+       Public.get(blogID, path)
+
+// There needs to be some distinction between files and directories
+
+// For files...
+require('request').get(url).pipe(res);  // res being Express response
+
+// For a folder...
+renderView('public', folder)
+
+route will match /public/:path*
+
+1. I'll need to add public html to all templates under extras

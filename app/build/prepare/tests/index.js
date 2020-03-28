@@ -29,7 +29,7 @@ describe("prepare", function() {
     prepare(entry);
 
     expect(entry.title).toEqual("");
-    expect(entry.summary).toEqual("Hey there.");
+    expect(entry.summary).toEqual("Hey there");
   });
 
   it("will not remove non-h1 title tags from the body", function() {
@@ -45,6 +45,17 @@ describe("prepare", function() {
     expect(entry.title).toEqual("Foo");
     expect(entry.body).toEqual(entry.html);
     expect(entry.body).toEqual("<p>Bar bat.</p><h3>How</h3><p>Now</p>");
+  });
+
+  it("will generate a title from an ampersand", function() {
+    var entry = this.entry;
+
+    entry.html = "<p>&amp;</p>";
+
+    prepare(entry);
+
+    expect(entry.title).toEqual("&");
+    expect(entry.body).toEqual(entry.html);
   });
 
   it("generates an empty title when given an empty file", function() {

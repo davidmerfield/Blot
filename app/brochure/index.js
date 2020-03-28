@@ -4,6 +4,7 @@ var brochure = new Express();
 var hbs = require("hbs");
 var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
+var warmCache = require("./warmCache");
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
@@ -21,6 +22,13 @@ if (config.cache === false) {
   // Empty any existing responses
   cache.flush(config.host, function(err) {
     if (err) console.warn(err);
+    setTimeout(function() {
+      console.log("Warming cache...");
+      warmCache(config.protocol + config.host, function(err) {
+        if (err) console.warn(err);
+        console.log("Warmed cache");
+      });
+    }, 10 * 1000);
   });
 }
 
@@ -36,7 +44,9 @@ brochure.locals.title = "Blot – A blogging platform with no interface.";
 brochure.locals.description =
   "Turns a folder into a blog automatically. Use your favorite text-editor to write. Text and Markdown files, Word Documents, images, bookmarks and HTML in your folder become blog posts.";
 
-brochure.locals.price = "$" + config.stripe.plan.slice(-2);
+brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
+brochure.locals.interval =
+  config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
 
 brochure.use(function(req, res, next) {
   if (

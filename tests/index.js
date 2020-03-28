@@ -11,6 +11,8 @@ var config = {
     "tests/**/*.js",
     "app/**/tests/*.js",
     "app/**/tests.js",
+    "scripts/**/tests.js",
+    "scripts/**/tests/*.js",
     "!**/node_modules/**" // excludes tests inside node_modules directories
   ],
   helpers: [],

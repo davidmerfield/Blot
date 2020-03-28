@@ -15,7 +15,6 @@ settings.use(function(req, res, next) {
 });
 
 settings.use(function(req, res, next) {
-  res.locals.breadcrumbs.add(req.blog.title || req.blog.pretty.url, "/settings");
   res.locals.setup = !!req.query.setup;
 
   next();
@@ -48,11 +47,11 @@ settings
     load.permalinkFormats,
     debug("permalinks loaded"),
     function(req, res) {
-      res.render("settings", { title: "Dashboard" });
+      res.render("settings", { title: req.blog.pretty.label });
     }
   );
 
-settings.get("/settings/urls", function(req, res, next) {
+settings.get("/settings/services/permalinks", function(req, res, next) {
   res.locals.edit = !!req.query.edit;
   next();
 });
@@ -69,18 +68,23 @@ settings.use(
   }
 );
 
-settings.get("/settings/profile/menu", load.menu);
-settings.get("/settings/date", load.timezones, load.dates);
-settings.get("/settings/services", load.plugins);
-settings.get("/settings/urls", load.permalinkFormats);
+settings.get("/settings/links", load.menu);
+settings.get(
+  "/settings/services",
+  load.plugins,
+  load.permalinkFormats,
+  load.dates
+);
+settings.get("/settings/services/date", load.timezones, load.dates);
+settings.get("/settings/services/permalinks", load.permalinkFormats);
 
-settings.use("/settings/urls/*", function(req, res, next) {
-  res.locals.breadcrumbs.add("URLs", "urls");
+settings.use("/settings/services/*", function(req, res, next) {
+  res.locals.breadcrumbs.add("Services", "services");
   next();
 });
 
 settings
-  .route("/settings/urls/404s")
+  .route("/settings/services/404s")
   .get(load.fourOhFour, function(req, res) {
     res.locals.breadcrumbs.add("404 log", "404s");
     res.render("settings/404s", { title: "404s" });
@@ -90,7 +94,10 @@ settings
     require("./save/404")
   );
 
-settings.get("/settings/urls/redirects", load.redirects, function(req, res) {
+settings.get("/settings/services/redirects", load.redirects, function(
+  req,
+  res
+) {
   res.locals.breadcrumbs.add("Redirects", "redirects");
   res.locals.partials.subpage = "settings/redirects";
   res.render("settings/subpage", { title: "Redirects" });
@@ -128,7 +135,6 @@ settings
     res.render("theme/past", { title: "Past templates" });
   });
 
-
 settings.get("/settings/:section/:view", function(req, res) {
   var uppercaseName = req.params.view;
 
@@ -139,13 +145,10 @@ settings.get("/settings/:section/:view", function(req, res) {
   res.render("settings/subpage", { host: process.env.BLOT_HOST });
 });
 
-
 settings.get("/settings/:view", function(req, res) {
   var uppercaseName = req.params.view;
 
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
-
-  if (uppercaseName === "Urls") uppercaseName = "URLs";
 
   if (uppercaseName !== "Profile") {
     res.locals.breadcrumbs.add(uppercaseName, req.params.view);

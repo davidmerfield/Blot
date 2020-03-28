@@ -12,7 +12,7 @@
     @import url("/css/editor.css?{{cacheID}}");
     </style>
 
-
+    
     {{> sidebar}}
 
     <form method="POST" style="flex-grow:1" class="form" action='?_csrf={{csrftoken}}'>
@@ -29,7 +29,7 @@
 
       
 
-          <a class="tab {{active.editor}}" href="{{{baseUrl}}}/editor">{{name}}.{{extension}}</a>
+          <a class="tab {{active.editor}}" href="{{{baseUrl}}}/editor">{{name}}</a>
           <a class="tab {{active.settings}}" href="{{{baseUrl}}}/settings" >
 
             {{^active.settings}}<span class="link">{{/active.settings}}

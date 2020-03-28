@@ -30,7 +30,7 @@ module.exports = function(callback) {
       return callback();
     }
 
-    async.each(
+    async.eachSeries(
       ids,
       function(id, next) {
         Blog.get({ id: id }, function(err, blog) {
@@ -41,7 +41,7 @@ module.exports = function(callback) {
 
             setupFolder(blog, function(err, folder) {
               console.log();
-              console.log(colors.yellow(blog.title), "-", colors.dim(blog.id));
+              console.log(colors.yellow(blog.title || blog.handle), "-", colors.dim(blog.id));
               console.log("Dashboard:", url);
               console.log("Blog:", "http://" + blog.handle + "." + config.host);
               if (folder) console.log("Folder:", folder);
@@ -104,6 +104,7 @@ function setupGit(blog, callback) {
 }
 
 function setupLocal(blog, callback) {
+
   var folder = TMP_DIRECTORY + "/local-" + Date.now() + "-" + blog.handle;
 
   fs.emptyDirSync(TMP_DIRECTORY);
@@ -111,6 +112,7 @@ function setupLocal(blog, callback) {
   fs.ensureDirSync(folder);
 
   clients.local.setup(blog.id, folder, function(err) {
+    
     if (err) return callback(err);
     callback(null, folder);
   });

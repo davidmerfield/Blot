@@ -1,7 +1,7 @@
 // will randomize all the dates associated with each blog post
 // useful for testing template designs
 
-var get = require("../blog/get");
+var get = require("../get/blog");
 var moment = require("moment");
 var Entries = require("../../app/models/entries");
 var Entry = require("../../app/models/entry");
@@ -20,7 +20,7 @@ console.log("Randomizing dates for all entries without date metadata...");
 console.log("Start date: " + limit.format());
 console.log("End date: " + end.format());
 
-get(identifier, function(user, blog) {
+get(identifier, function(err, user, blog) {
   Entries.each(
     blog.id,
     function(entry, next) {

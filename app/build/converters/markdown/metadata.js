@@ -1,16 +1,15 @@
-var extractMetadata = require('../../metadata');
+var extractMetadata = require("../../metadata");
 
-module.exports = function (text) {
-
+module.exports = function(text) {
   var parsed = extractMetadata(text);
 
-  var metadata = '<!--';
+  var metadata = "<!--";
 
   for (var i in parsed.metadata)
-    metadata += '\n' + i + ': ' + parsed.metadata[i];
+    metadata += "\n" + i + ": " + parsed.metadata[i];
 
-  if (metadata !== '<!--') {
-    metadata += '\n-->\n';
+  if (metadata !== "<!--") {
+    metadata += "\n-->\n";
     text = metadata + parsed.html;
   }
 

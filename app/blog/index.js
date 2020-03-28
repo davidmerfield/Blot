@@ -14,7 +14,6 @@ var blog = express();
 blog
   .disable("x-powered-by")
   .use(compression())
-  .use('/static', require('./static'))
   .use(require("./vhosts"))
   .use(require("./add")());
 

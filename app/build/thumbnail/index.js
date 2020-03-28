@@ -24,27 +24,27 @@ module.exports = function(blog, path, metadata, html, callback) {
   store = new Transformer(blog.id, STORE_PREFIX);
   create = Create.bind(this, blog.id);
 
-  async.eachSeries(candidates, function(candidate, next){
+  async.eachSeries(
+    candidates,
+    function(candidate, next) {
+      store.lookup(candidate, create, function(err, thumbnails) {
+        // We don't care if a candidate produces an error
+        // we just keep going on down the list...
+        if (err) {
+          debug(err);
+        }
 
-    store.lookup(candidate, create, function(err, thumbnails) {
+        debug(blog.id, candidate, err, thumbnails);
 
-      // We don't care if a candidate produces an error
-      // we just keep going on down the list...
-      if (err) {
-        debug(err);
-      }
+        // Little bit hacky to pass thumbnails
+        // as first argument. This stops async
+        next(thumbnails);
+      });
+    },
+    function(thumbnails) {
+      debug(blog.id, "final thumbnails", thumbnails);
 
-      debug(blog.id, candidate, err, thumbnails);
-
-      // Little bit hacky to pass thumbnails
-      // as first argument. This stops async
-      next(thumbnails);
-    });
-
-  }, function(thumbnails){
-
-    debug(blog.id, "final thumbnails", thumbnails);
-
-    callback(null, thumbnails);
-  });
+      callback(null, thumbnails);
+    }
+  );
 };

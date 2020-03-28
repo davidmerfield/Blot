@@ -98,7 +98,7 @@ module.exports = function route(server) {
           entry: entry
         });
 
-        response.renderView("entry", next, function(err, output) {
+        response.renderView("entry.html", next, function(err, output) {
           drafts.injectScript(output, filePath, callback);
         });
       });

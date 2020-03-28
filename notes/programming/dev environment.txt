@@ -1,0 +1,14 @@
+# Dev environment
+
+I then followed this guide for getting *.development working (it's hosted on Blot!)
+
+http://asciithoughts.com/posts/2014/02/23/setting-up-a-wildcard-dns-domain-on-mac-os-x/
+
+I followed this guide to get a local self-signed SSL certificate for blot.development :https://certsimple.com/blog/localhost-ssl-fix
+
+Then create symlinks to cert.pem and key.pem 
+
+ln -s source target
+
+Ensure dhparams exists...
+

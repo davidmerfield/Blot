@@ -15,14 +15,38 @@ var resolveCaseInsensitivePathToFile = require("./resolveCaseInsensitivePathToFi
 // TODO:
 // Fix bug with transformer to handle ESOCKETIMEDOUT error...
 
+// Maps https://blotcdn.com/blog_xyz/_image_cache/abc.jpg to
+// /_image_cache/abc.jpg to enable us to look up the file quickly
+// on disk without making an HTTP request
+function resolveCDNPath(src) {
+  if (src.indexOf(config.cdn.origin) !== 0) return src;
+
+  try {
+    // First we remove the protocol and CDN host
+    src = src.slice(config.cdn.origin.length);
+
+    // Now we remove the blog ID from the path on the CDN
+    src = src
+      .split("/")
+      .slice(2)
+      .join("/");
+    return src;
+  } catch (e) {
+    return src;
+  }
+}
+
 function Transformer(blogID, name) {
   ensure(blogID, "string").and(name, "string");
 
   var keys = Keys(blogID, name);
 
   function lookup(src, transform, callback) {
+    src = resolveCDNPath(src);
+
     var url = isURL(src);
     var path = src;
+    var decodedURI;
     var fullLocalPath;
     var tasks = [];
 
@@ -40,6 +64,15 @@ function Transformer(blogID, name) {
 
     if (path.indexOf("data:") === 0) {
       return callback(new Error("Transformer: source is unsupported protocol"));
+    }
+
+    // We try and look up the URI-decoded version of a path
+    // to map "/Hello%20world.txt" to "/Hello word.txt".
+    try {
+      decodedURI = decodeURI(path);
+    } catch (e) {
+      // Can throw an error for a malformed path
+      decodedURI = null;
     }
 
     // Images pulled from Word Documents are stored in the static folder
@@ -70,16 +103,17 @@ function Transformer(blogID, name) {
     });
 
     // Finally we attempt to resolve the URI-decoded path case-insensitively
-    tasks.push(function(next) {
-      resolveCaseInsensitivePathToFile(
-        localPath(blogID, "/"),
-        decodeURI(path),
-        function(err, fullLocalPath) {
-          if (err) return next(err);
-          fromPath(fullLocalPath, transform, next);
-        }
-      );
-    });
+    if (decodedURI)
+      tasks.push(function(next) {
+        resolveCaseInsensitivePathToFile(
+          localPath(blogID, "/"),
+          decodedURI,
+          function(err, fullLocalPath) {
+            if (err) return next(err);
+            fromPath(fullLocalPath, transform, next);
+          }
+        );
+      });
 
     // Will work down the list of paths. If one of the paths
     // works then it'll stop and return the result!

@@ -1,15 +1,14 @@
-var delimiter = '$$';
-var katex = require('katex');
+var delimiter = "$$";
+var katex = require("katex");
 
 // eventually replace this and use pandoc instead.
 
-module.exports = function (text) {
-
+module.exports = function(text) {
   if (!text) return text;
 
   var tokens = text.split(delimiter);
   var totalTokens = tokens.length;
-  var remainder = '';
+  var remainder = "";
 
   // If there are fewer than three items
   // then there is no Katex in the HTML string
@@ -23,17 +22,15 @@ module.exports = function (text) {
 
   // To each of the tokens which contain
   // a tex string, render its contents
-  for (var i = 0; i < totalTokens;i++)
-    if (i % 2 === 1 && totalTokens >= i + 1)
-      tokens[i] = renderTex(tokens[i]);
+  for (var i = 0; i < totalTokens; i++)
+    if (i % 2 === 1 && totalTokens >= i + 1) tokens[i] = renderTex(tokens[i]);
 
-  text = tokens.join('') + remainder;
+  text = tokens.join("") + remainder;
 
   return text;
 };
 
-function renderTex (str) {
-
+function renderTex(str) {
   // Cache the original string
   // in case of rendering error
   var _str = str;
@@ -44,8 +41,8 @@ function renderTex (str) {
 
   // If the Katex is on its own line, render it
   // in the larger 'display style'.
-  if (str.replace(' ', '').charAt(0) == '\n') {
-    str = '\\displaystyle {' + str + '}';
+  if (str.replace(" ", "").charAt(0) == "\n") {
+    str = "\\displaystyle {" + str + "}";
   }
 
   // If there is a rendering error,

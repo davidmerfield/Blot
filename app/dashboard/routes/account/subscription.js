@@ -6,20 +6,51 @@ var User = require("user");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper").email;
 
+Subscription.route("/").get(function(req, res) {
+  res.render("account/subscription", {
+    title: "Your account",
+    monthly:
+      req.user.subscription &&
+      req.user.subscription.plan &&
+      req.user.subscription.plan.interval === "month"
+  });
+});
+
 Subscription.route("/cancel")
 
   .all(requireSubscription)
 
   .get(function(req, res) {
     res.render("account/cancel", {
-      title: "Cancel your subscription",
-      breadcrumb: "Cancel subscription"
+      title: "Cancel your subscription"
     });
   })
 
   .post(cancelStripeSubscription, function(req, res) {
     email.CANCELLED(req.user.uid);
-    res.message("/account", "Your subscription has been cancelled");
+    res.message("/account/subscription", "Your subscription has been cancelled");
+  });
+
+Subscription.route("/create")
+
+  .all(requireLackOfSubscription)
+
+  .get(function(req, res) {
+    res.locals.price =
+      "$" +
+      parseInt(config.stripe.plan.split("_").pop()) * req.user.blogs.length;
+    res.locals.interval =
+      config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
+    res.locals.stripe_key = config.stripe.key;
+    res.render("account/create-subscription", {
+      title: "Create subscription",
+      breadcrumb: "Create subscription"
+    });
+  })
+
+  .post(createStripeSubscription, function(req, res) {
+    email.CREATED_BLOG(req.user.uid);
+    res.message("/account/subscription", "You created a subscription");
   });
 
 Subscription.route("/restart")
@@ -37,7 +68,7 @@ Subscription.route("/restart")
 
   .post(restartStripeSubscription, function(req, res) {
     email.RESTART(req.user.uid);
-    res.message("/account", "Restarted your subscription");
+    res.message("/account/subscription", "Restarted your subscription");
   });
 
 Subscription.route("/restart/pay")
@@ -54,7 +85,7 @@ Subscription.route("/restart/pay")
 
   .post(recreateStripeSubscription, function(req, res) {
     email.RESTART(req.user.uid);
-    res.message("/account", "Restarted your subscription");
+    res.message("/account/subscription", "Restarted your subscription");
   });
 
 function requireCancelledSubscription(req, res, next) {
@@ -63,7 +94,17 @@ function requireCancelledSubscription(req, res, next) {
   if (!req.user.isSubscribed) {
     next();
   } else {
-    res.redirect("/account");
+    res.redirect("/account/subscription");
+  }
+}
+
+function requireLackOfSubscription(req, res, next) {
+  // Make sure the user does not have a subscription
+  // otherwise they might create multiple
+  if (!req.user.subscription || !req.user.subscription.customer) {
+    next();
+  } else {
+    res.redirect("/account/subscription");
   }
 }
 
@@ -75,7 +116,7 @@ function requireSubscription(req, res, next) {
   } else if (req.user.subscription && req.user.subscription.customer) {
     res.redirect("/account/restart");
   } else {
-    res.redirect("/account");
+    res.redirect("/account/subscription");
   }
 }
 
@@ -120,6 +161,27 @@ function recreateStripeSubscription(req, res, next) {
           User.set(req.user.uid, { subscription: subscription }, next);
         }
       );
+    }
+  );
+}
+
+// If I created a blog for the customer manually they will
+// not have a stripe subscription. In order to create new
+// blogs they will need one.
+function createStripeSubscription(req, res, next) {
+  console.log("body", req.body);
+  stripe.customers.create(
+    {
+      card: req.body.stripeToken,
+      email: req.user.email,
+      plan: config.stripe.plan,
+      quantity: req.user.blogs.length,
+      description: "Blot subscription"
+    },
+    function(err, customer) {
+      if (err) return next(err);
+
+      User.set(req.user.uid, { subscription: customer.subscription }, next);
     }
   );
 }

@@ -1,3 +1,3 @@
-A user blog has been closed because they didn't pay
+An account has been closed after for late payments
 
-{{name}} with UID {{uid}} and handle {{handle}} has had their account closed for late payments. They were notified and asked to reconnect and pay up.
+{{email}} used to pay {{pretty.price}} per {{subscription.plan.interval}} for {{pretty.amount}} blog{{pretty.s}}

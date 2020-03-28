@@ -19,6 +19,11 @@ module.exports = function(uid, callback) {
     if (!user || !user.subscription || !user.subscription.current_period_end)
       return callback();
 
+    // This user has monthly billing – we don't send them a warning email since
+    // 12 warning emails + 12 receipt emails per year is a little much.
+    if (user.subscription.plan && user.subscription.plan.interval === "month")
+      return callback();
+
     // Stripe uses a seconds timestamp vs. JavaScript's ms
     notificationDate = new Date(user.subscription.current_period_end * 1000);
 
@@ -37,7 +42,6 @@ module.exports = function(uid, callback) {
     }
 
     schedule(notificationDate, function() {
-
       // We fetch the latest state of the user's subscription
       // from the database in case the user's subscription
       // has changed since the time the server started.
@@ -67,7 +71,11 @@ module.exports = function(uid, callback) {
           return email.UPCOMING_RENEWAL(uid);
         }
 
-        console.error(user.uid, user.email, "Not sure how to notify this user about their renewal!");
+        console.error(
+          user.uid,
+          user.email,
+          "Not sure how to notify this user about their renewal!"
+        );
       });
     });
 

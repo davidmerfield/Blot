@@ -39,7 +39,7 @@ module.exports = function create(owner, name, metadata, callback) {
   metadata.locals = metadata.locals || {};
   metadata.description = metadata.description || "";
   metadata.thumb = metadata.thumb || "";
-  metadata.localEditing = false;
+  metadata.localEditing = metadata.localEditing === true;
 
   ensure(metadata, metadataModel);
 

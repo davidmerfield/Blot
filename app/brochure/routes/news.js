@@ -11,17 +11,15 @@ var config = require("config");
 var client = require("client");
 
 news.get("/", loadDone, loadToDo, function(req, res) {
-  res.locals.title = "Blot - News";
+  res.locals.title = "News - Blot";
   res.render("news");
 });
 
 news.get("/archive", function(req, res) {
-  res.locals.title = "Blot - News";
   res.render("news/archive");
 });
 
 news.get("/archive/:letter", function(req, res) {
-  res.locals.title = "Blot - News";
   res.render("news/archive");
 });
 
@@ -37,6 +35,7 @@ news.get("/sign-up", function(req, res) {
     delete req.session.newsletter_email;
   }
 
+  res.locals.title = "Newsletter - Blot";
   res.render("news/sign-up");
 });
 
@@ -46,6 +45,7 @@ news.get("/cancel", function(req, res) {
     delete req.session.newsletter_email;
   }
 
+  res.locals.title = "Newsletter - Blot";
   res.render("news/cancel");
 });
 
@@ -244,7 +244,6 @@ function loadDone(req, res, next) {
             .indexOf("commit") > -1
         )
           return;
-
 
         // Ignores commits to todo file since there are so many of them
         if (

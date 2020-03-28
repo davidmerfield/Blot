@@ -1,160 +1,136 @@
-var eachBlog = require('../each/blog');
-var Entries = require('../../app/models/entries');
-var moment = require('moment');
+// I want to be able to get info about:
 
-var totalBlogs = 0;
-var activeBlogs = 0;
-var disabledBlogs = 0;
-var MAU = 0;
+// Entry:
+// - URL to entry, see its source file
 
-var subscribers = 0;
-var cancelledSubscribers = 0;
-var freeloaders = 0;
+// Blog:
+// - URL to blog, see its owner, URL and access the dashboard
+// - blog ID, see its owner, URL and access the dashboard
 
-var totalEntries = 0;
+// User:
+// - user ID, see its blogs, subscription info
+// - email, see its blogs, subscription info
 
-var TAX_RATE = 0.4;
-var goal = 1000000;
+var User = require("user");
+var getEntry = require("../get/entry");
+var getBlog = require("../get/blog");
+var config = require("config");
+var colors = require("colors/safe");
+var access = require("../access");
+var identifier = process.argv[2];
+var moment = require("moment");
 
-var monthlyCosts = {AWS: 110.00};
-var annualCosts = {domain: 29.00};
-var leaderboard = [];
+if (!identifier) throw "Please pass an identifier for a user, blog or entry.";
 
-eachBlog(function (user, blog, next) {
+function callback(err) {
+  if (err) throw err;
+  console.log("Done!");
+  process.exit();
+}
 
-  // console.log();
-  // console.log(blog.handle);
-  // console.log(blog.dateFormat);
+// Parse a URL to an entry
+getEntry(identifier, function(err, user, blog, entry) {
+  if (entry) {
+    return showEntry(entry, blog, user, callback);
+  }
 
-  if (user.subscription) {
-
-    if (user.subscription.cancel_at_period_end) {
-      console.log(blog.handle, 'will quit at the end of the billing period.');
-      cancelledSubscribers++;
-    } else if (user.subscription.status && user.subscription.status !== 'active') {
-      console.log(blog.handle, 'has an inactive subscription');
-      cancelledSubscribers++;
-    } else if (user.subscription.status === 'active') {
-
-      // user.blogs.length
-
-      subscribers ++;
-
-    } else {
-      freeloaders++;
+  // Parse a URL to a blog
+  getBlog(identifier, function(err, user, blog) {
+    if (blog) {
+      return showBlog(blog, user, callback);
     }
-  }
 
-  totalBlogs++;
-
-  if (blog.isDisabled || user.isDisabled) {
-    disabledBlogs++;
-    return next();
-  } else {
-    activeBlogs++;
-  }
-
-  // if (blog.domain) {
-  //   console.log(blog.domain);
-  // } else {
-  //   console.log(blog.handle + '.blot.im');
-  // }
-
-  Entries.getTotal(blog.id, function(err, entries){
-    totalEntries += entries;
-    leaderboard.push({handle: blog.handle, total: entries});
-
-    Entries.lastUpdate(blog.id, function(err, stamp){
-
-      var lastMonth = Date.now() - 1000*60*60*24*30;
-
-      if (moment.utc(stamp).valueOf() > lastMonth) {
-        MAU++;
+    User.getById(identifier, function(err, user) {
+      if (user) {
+        return showUser(user, callback);
       }
 
-      next();
+      User.getByEmail(identifier, function(err, user) {
+        if (user) {
+          return showUser(user, callback);
+        }
+
+        callback(
+          new Error(
+            'Could not find a matching entry, blog or user for "' +
+              identifier +
+              '"'
+          )
+        );
+      });
     });
   });
+});
 
-}, function(){
+function showEntry(entry, blog, user, callback) {
+  var origin =
+    "http" +
+    (config.environment === "development" ? "" : "s") +
+    "://" +
+    blog.handle +
+    "." +
+    config.host;
 
-  leaderboard = leaderboard.sort(function(a, b){
-    return b.total - a.total;
-  });
+  console.log();
+  console.log(colors.dim("Found entry " + entry.id));
+  console.log("- URL:", colors.green(origin + entry.url));
+  console.log("- Source:", colors.yellow(origin + entry.path));
+  console.log("- Full:", origin + entry.url + "?json=true");
 
-  var none = 0;
-  var barely = 0;
-  var ok = 0;
-  var great = 0;
-  var awesome = 0;
+  showBlog(blog, user, callback);
+}
 
-  for (var i in leaderboard) {
+function showBlog(blog, user, callback) {
+  var origin =
+    "http" +
+    (config.environment === "development" ? "" : "s") +
+    "://" +
+    blog.handle +
+    "." +
+    config.host;
+  console.log();
+  console.log(colors.dim("Found " + blog.id));
+  console.log("Site:", colors.green(origin));
+  showUser(user, callback);
+}
 
-    var total = leaderboard[i].total;
+function showUser(user, callback) {
+  var subscriptionMessage;
 
-    console.log(leaderboard[i].handle, total);
+  console.log();
+  console.log(colors.dim("Found " + user.uid));
+  console.log("Email: " + user.email);
 
-    if (total === 1) none++;
-    if (total <= 5) barely++;
-    if (total <= 10) ok++;
-    if (total > 50) great++;
-    if (total > 100) awesome++;
-
+  if (user.subscription && user.subscription.plan) {
+    subscriptionMessage =
+      user.subscription.quantity +
+      " x " +
+      require("helper").prettyPrice(user.subscription.plan.amount) +
+      "/" +
+      user.subscription.plan.interval;
   }
 
-  console.log('________________________');
-  console.log(Math.round(none/totalBlogs * 100) + '% of blogs have not published anything');
-  console.log(Math.round(barely/totalBlogs * 100) + '% of blogs have published 5 or less');
-  console.log(Math.round(ok/totalBlogs * 100) + '% of blogs have published 10 or less');
+  // console.log(user.subscription);
+  if (user.subscription.status) {
+    var end = moment
+      .utc(user.subscription.current_period_end * 1000)
+      .format("LL");
 
-  console.log('________________________');
-  console.log(Math.round(great/totalBlogs * 100) + '% of blogs have published more than 50');
-  console.log(Math.round(awesome/totalBlogs * 100) + '% of blogs have published more than 100');
+    if (user.subscription.status !== "active") {
+      subscriptionMessage = colors.red(subscriptionMessage + ", end " + end);
+    } else {
+      subscriptionMessage = subscriptionMessage + ", renewing " + end;
+    }
+  } else {
+    subscriptionMessage = "no subscription";
+  }
 
-  console.log('________________________');
-  console.log('TOTAL: ' + totalBlogs);
-  console.log('ACTIVE: ' + activeBlogs);
-  console.log('MONTHLY ACTIVE: ' + MAU);
-  console.log('DISABLED: ' + disabledBlogs);
+  console.log("Subscription: " + subscriptionMessage);
+  console.log("Blogs: " + user.blogs);
+  access(user.uid, function(err, url) {
+    console.log("Dashboard:", colors.yellow(url));
+    console.log();
+    callback();
+  });
 
-  console.log('subscribers: ' + subscribers);
-  console.log('cancelled: ' + cancelledSubscribers);
-  console.log('freeloaders: ' + freeloaders);
-
-  var costs = 0;
-
-  for (var i in annualCosts)
-    costs += annualCosts[i];
-
-  for (var x in monthlyCosts)
-    costs += (monthlyCosts[x] * 12);
-
-  var income = (subscribers * (20 - 0.88)).toFixed(2);
-  var monthlyIncome = (income/12).toFixed(2);
-
-  console.log('Total entries published:     ' + totalEntries);
-  console.log('________________________');
-  console.log('Revenue:     $' + income + ' / y');
-  console.log('             $' + monthlyIncome + ' / m');
-
-
-  console.log('________________________');
-  console.log('Costs:     $' + costs.toFixed(2) + ' / y');
-  console.log('             $' + (costs/12).toFixed(2) + ' / m');
-
-  var EBITDA = (income - costs).toFixed(2);
-
-  console.log('________________________');
-  console.log('Income:     $' + EBITDA + ' / y');
-  console.log('             $' + (EBITDA/12).toFixed(2) + ' / m');
-
-  var profit = ((income - costs)* (1 - TAX_RATE)).toFixed(2);
-
-  console.log('________________________');
-  console.log('Profit:      $' + profit + ' / y');
-  console.log('              $' + (profit/12).toFixed(2) + ' / m');
-  console.log('________________________');
-  console.log('Goal:              ' + (profit/goal * 100).toFixed(2) + '%');
-
-
-});
+}

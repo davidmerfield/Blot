@@ -4,37 +4,41 @@
 small pre {padding-left: 2.4em;color: #aaa}
 </style>
 
-<p>Templates are written in <A href="https://mustache.github.io/mustache.5.html">Mustache</a>. A typical Mustache template:</p>
+<p>Templates are written in <A href="https://mustache.github.io/mustache.5.html">Mustache</a>. Templates can be used for HTML, CSS, JavaScript, RSS feeds - anything. They works by expanding tags using values provided in a object. For example, the template:</p>
 
-<small><pre><code>Hello \{{name}}
-You have just won \{{value}} dollars!
-\{{#in_ca}}
-Well, \{{taxed_value}} dollars, after taxes.
-\{{/in_ca}}
+
+<small><pre><code>Welcome to \{{name}}'s blog
+
+Recent posts:
+\{{#posts}}
+- \{{title}}
+\{{/posts}}
 </code></pre></small>
 
-<p>Given the following object:</p>
+<p>When rendered with the following object:</p>
 
 <small><pre><code>{
   "name": "Chris",
-  "value": 10000,
-  "taxed_value": 10000 - (10000 * 0.4),
-  "in_ca": true
+  "posts": [
+    { title: "Apple" },
+    { title: "Orange" }
+  ]
 }
 </code></pre></small>
 
-<p>Will produce the following:</p>
 
-<small><pre><code>Hello Chris
-You have just won 10000 dollars!
-Well, 6000.0 dollars, after taxes.
+<p>Will produce the following result:</p>
+
+<small><pre><code>Welcome to Chris's blog
+
+Recent posts:
+- Apple
+- Orange
 </code></pre></small>
 
-<p>You can retrieve the object used to render any template on Blot by appending the query string <em>?debug=true</em> to any URL rendered on Blot</p>
+<p>You can retrieve the object used to render your site's template if you append the query string <em>?debug=true</em> to any page on your site.</p>
 
-<p>Templates can be used for HTML, CSS, JavaScript, source code -
-anything. It works by expanding tags using values
-provided in a hash or object.</p>
+<p></p>
 
 <p>We call it "logic-less" because there are no if statements, else
 clauses, or for loops. Instead there are only tags. Some tags are
@@ -61,11 +65,9 @@ unescaped HTML, use the triple mustache: <code>\{{{name}}}</code>.</p>
 <p>You can also use <code>&amp;</code> to unescape a variable: <code>\{{&amp; name}}</code>. This may be
 useful when changing delimiters (see "Set Delimiter" below).</p>
 
-<p>By default a variable "miss" returns an empty string. This can usually
-be configured in your Mustache library. The Ruby version of Mustache
-supports raising an exception in this situation, for instance.</p>
+<p>A variable "miss" returns an empty string.</p>
 
-<p>The template:</p>
+<p>For example, the template:</p>
 
 <small><pre><code>* \{{name}}
 * \{{age}}
@@ -121,8 +123,8 @@ list, the HTML between the pound and slash will not be displayed.</p>
 
 <p>Output:</p>
 
-<pre><code>Shown.
-</code></pre>
+<small><pre><code>Shown.
+</code></pre></small>
 
 <p><strong>Non-Empty Lists</strong></p>
 

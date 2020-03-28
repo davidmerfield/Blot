@@ -44,7 +44,6 @@ function addSlashes(path) {
     })
     .join("/");
   return path;
-      
 }
 
 function coinFlip() {

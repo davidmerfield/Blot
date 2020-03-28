@@ -1,0 +1,11 @@
+Improving the templating code
+
+Right now blot fetches a load of information, depending on each route, and uses that to fill a template.
+
+My goal at the moment is to change the code so Blot only fetches information from the database used by the template itself. 
+
+Thankfully mustache exposes 
+
+I will need to remove current metadata about the partial (isPartial) 
+
+When I fetch the partials, I need to check if they themselves have partials, if so, then refetch.
