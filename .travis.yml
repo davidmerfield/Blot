@@ -1,27 +1,22 @@
 language: node_js
+cache: 
+  directories:
+    - node_modules
+    - "$PANDOC"  
 services:
   - redis-server
 node_js:
   - "10.16.3"
 before_script:
-  - uname -a 
-  - cat /etc/lsb-release
-  - sudo apt-get install cabal-install
-  - cabal update
-  - cabal install pandoc
-  - export PATH=~/.cabal/bin:$PATH
-  - export BLOT_PANDOC_PATH=$(which pandoc)
   - node config/blot/setup
 before_install:
+  - mkdir -p "$PANDOC"
+  - if [[ ! -f "$PANDOC/pandoc.deb" ]]; then curl -L "$PANDOC_DEB" > "$PANDOC/pandoc.deb" && dpkg -x "$PANDOC/pandoc.deb" "$PANDOC"; fi
+  - export PATH="$PANDOC/usr/bin:$PATH"
   - export BLOT_PANDOC_PATH=$(which pandoc)
 rvm:
   - 1.9.3
-cache: npm
 env:
-  - CXX=g++-4.8
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
+  global:
+    - PANDOC="$HOME/.pandoc"
+    - PANDOC_DEB="https://github.com/jgm/pandoc/releases/download/1.19.2.1/pandoc-1.19.2.1-1-amd64.deb"
