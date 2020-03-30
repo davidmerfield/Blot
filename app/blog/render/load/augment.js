@@ -16,6 +16,7 @@ module.exports = function(req, res) {
     entry.formatDate = FormatDate(entry.dateStamp, req.blog.timeZone);
     entry.formatUpdated = FormatDate(entry.updated, req.blog.timeZone);
     entry.formatCreated = FormatDate(entry.created, req.blog.timeZone);
+    
     entry.absoluteURL =
       req.blog.locals.blogURL +
       entry.url
