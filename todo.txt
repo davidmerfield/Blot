@@ -1,5 +1,7 @@
 Port [Isola Wordpress theme](https://wordpress.org/themes/isola/) and tell [Wil](https://mail.google.com/mail/u/0/#sent/FMfcgxwHMPqwdPZgKhZNTvwDBMFnTLCS)
 
+Fix [issue with dates reported by Amit](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNnkJZkxRjdWLDHPcfmpMKwbKsHNL). The post has a `date` frontmatter in this format "2020-03-29T19:29:00+0530". However, the RSS (and even index) reads it as "2020-03-29T13:59:00+05:30" The same format was working absolutely fine till now. Issue looks to be with "formatDate" function being used.
+
 Add persona/cargo style customization buttons
 - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Fonts:
