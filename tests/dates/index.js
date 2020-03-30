@@ -5,35 +5,56 @@ describe("date integration tests", function() {
 	const Blog = require("../../app/models/blog");
 	const Template = require("../../app/models/template");
 	const request = require("request");
+	const Express = require("express");
+	const config = require("../../config");
+
+	const resultFormat = "ddd, DD MMM YYYY HH:mm:ss ZZ";
 
 	global.test.blog();
-	const blogHandle = "foo";
+	beforeEach(createTemplate);
 
-	global.test.server(createTestServer);
+	const tests = [
+		{
+			timeZone: "UTC",
+			dateMetadata: "1/2/2012",
+			result: "Mon, 02 Jan 2012 00:00:00 +0000"
+		},
+		{
+			timeZone: "Asia/Calcutta",
+			dateMetadata: "2020-03-29T19:29:00+0530",
+			result: "Sun, 29 Mar 2020 19:29:00 +0530"
+		},
+		{
+			timeZone: "Asia/Calcutta",
+			dateMetadata: "2020/03/29 19:29",
+			result: "Sun, 29 Mar 2020 19:29:00 +0530"
+		}
+	];
 
-	it("date to match when in feed", function(done) {
-		const test = this;
-		const dateInput = "10/09/2018";
-		const dateOutput = "October 9, 2018";
-
-		createEntryWithDate(test, dateInput, function(err) {
-			if (err) return done.fail(err);
-			checkDateOnBlog(test, function(err, date) {
+	tests.forEach(({ timeZone, dateMetadata, result }) => {
+		it(`renders ${dateMetadata} in ${timeZone} timezone`, function(done) {
+			const test = this;
+			Blog.set(test.blog.id, { timeZone }, function(err) {
 				if (err) return done.fail(err);
-				expect(date).toEqual(dateOutput);
-				done();
+				createEntryWithDate(test, dateMetadata, function(err) {
+					if (err) return done.fail(err);
+					checkDateOnBlog(test, function(err, date) {
+						if (err) return done.fail(err);
+						expect(date).toEqual(result);
+						done();
+					});
+				});
 			});
 		});
 	});
 
-	beforeEach(function(done) {
+	function createTemplate(done) {
 		const test = this;
 		const templateName = "example";
 
 		const view = {
 			name: "entries.html",
-			url: "",
-			content: "{{#allEntries}}{{date}}{{/allEntries}}"
+			content: `{{#allEntries}}{{#formatDate}}${resultFormat}{{/formatDate}}{{/allEntries}}`
 		};
 
 		Template.create(test.blog.id, templateName, {}, function(err) {
@@ -42,12 +63,11 @@ describe("date integration tests", function() {
 				let templateId = templates.filter(
 					({ name }) => name === templateName
 				)[0].id;
-
 				Template.setView(templateId, view, function(err) {
 					if (err) return done(err);
 					Blog.set(
 						test.blog.id,
-						{ handle: blogHandle, forceSSL: false, template: templateId },
+						{ forceSSL: false, template: templateId },
 						function(err) {
 							if (err) return done(err);
 							done();
@@ -56,7 +76,7 @@ describe("date integration tests", function() {
 				});
 			});
 		});
-	});
+	}
 
 	function createEntryWithDate(test, date, callback) {
 		const path = "/test.txt";
@@ -78,19 +98,26 @@ describe("date integration tests", function() {
 		});
 	}
 
-	function createTestServer(server) {
-		const host = blogHandle + ".blot.development";
-
+	// Create a webserver for testing remote files
+	beforeEach(function(done) {
+		let server;
+		const test = this;
+		server = Express();
 		server.use(function(req, res, next) {
 			const _get = req.get;
 			req.get = function(arg) {
 				if (arg === "host") {
-					return host;
+					return `${test.blog.handle}.${config.host}`;
 				} else return _get(arg);
 			};
 			next();
 		});
-
 		server.use(blogServer);
-	}
+		test.origin = "http://localhost:" + 8919;
+		test.server = server.listen(8919, done);
+	});
+
+	afterEach(function(done) {
+		this.server.close(done);
+	});
 });
