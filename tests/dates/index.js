@@ -21,11 +21,6 @@ describe("date integration tests", function() {
 		},
 		{
 			timeZone: "Asia/Calcutta",
-			dateMetadata: "2020-03-29T19:29:00+0530",
-			result: "Sun, 29 Mar 2020 19:29:00 +0530"
-		},
-		{
-			timeZone: "Asia/Calcutta",
 			dateMetadata: "2020/03/29 19:29",
 			result: "Sun, 29 Mar 2020 19:29:00 +0530"
 		}
