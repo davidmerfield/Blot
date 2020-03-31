@@ -54,14 +54,14 @@ describe("date metadata", function() {
     supportedByAllFormats[result].forEach(function(metadata) {
       Object.keys(supportedBySpecficFormat).forEach(function(format) {
         it('parses "' + metadata + '" using date format ' + format, function() {
-          expect(moment.utc(fromMetadata(metadata, format)).format()).toEqual(
+          expect(moment.utc(fromMetadata(metadata, format).created).format()).toEqual(
             result
           );
         });
       });
 
       it('parses "' + metadata + '" without passing a format', function() {
-        expect(moment.utc(fromMetadata(metadata)).format()).toEqual(result);
+        expect(moment.utc(fromMetadata(metadata).created).format()).toEqual(result);
       });
     });
   });
@@ -72,7 +72,7 @@ describe("date metadata", function() {
     Object.keys(supportedBySpecficFormat[format]).forEach(function(result) {
       supportedBySpecficFormat[format][result].forEach(function(metadata) {
         it('parses "' + metadata + '" using date format ' + format, function() {
-          expect(moment.utc(fromMetadata(metadata, format)).format()).toEqual(
+          expect(moment.utc(fromMetadata(metadata, format).created).format()).toEqual(
             result
           );
         });
