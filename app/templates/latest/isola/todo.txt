@@ -7,3 +7,7 @@ thumbnail style:
 
 Related on entry page
  Blot doesn't offer this feature
+
+hid the menu link
+
+changed credits in footer to subtitle
