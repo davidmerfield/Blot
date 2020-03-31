@@ -33,10 +33,15 @@ module.exports = function(blog, path, metadata) {
   // date in the entry's metadata. Try
   // and extract one from the file's path
   dateStamp = validate(fromPath(path, timeZone).created);
-  dateStamp = adjustByBlogTimezone(timeZone, dateStamp);
 
-  // Either undefined or a valid dateStamp
-  return dateStamp;
+  if (dateStamp !== undefined) {
+    dateStamp = adjustByBlogTimezone(timeZone, dateStamp);
+    return dateStamp;
+  }
+
+  // It is important we return undefined since we fall back
+  // to the file's created date if that's the case
+  return undefined;
 };
 
 function validate(stamp) {
