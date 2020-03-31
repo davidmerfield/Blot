@@ -39,6 +39,27 @@ function fromMetadata(dateString, userFormat) {
   } catch (e) {}
 
   try {
+    let rfcNormalized = moment.utc(
+      dateString,
+      [
+        "YYYY-MM-DD[T]HH:mm:ssZ",
+        "YYYY-MM-DD[T]HH:mm:ss.SSSZ",
+        "YYYY-MM-DD[T]HH:mm:ss.SSS",
+        "YYYY-MM-DD[T]HH:mm:ssZ[Z]"
+      ],
+      true
+    );
+
+    if (rfcNormalized.isValid()) {
+      return { created: rfcNormalized.valueOf(), adjusted: true };
+    }
+  } catch (e) {}
+
+  try {
+    strictNormalized = moment.utc(normalizedDateString, userFormats, true);
+  } catch (e) {}
+
+  try {
     strict = moment.utc(dateString, userFormats, true);
   } catch (e) {}
 
@@ -58,7 +79,7 @@ function fromMetadata(dateString, userFormat) {
     created = false;
   }
 
-  return created;
+  return { created, adjusted: false };
 }
 
 function formats(dateFormat) {
@@ -80,12 +101,6 @@ function formats(dateFormat) {
 
     list.push(arr.join("-"));
   }
-
-  // Add variants of the RFC339 Format
-  list.push("YYYY-MM-DD[T]HH:mm:ssZ");
-  list.push("YYYY-MM-DD[T]HH:mm:ss.SSSZ");
-  list.push("YYYY-MM-DD[T]HH:mm:ss.SSS");
-  list.push("YYYY-MM-DD[T]HH:mm:ssZ[Z]");
 
   return list;
 }
