@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-US">
+{{> head}}
+<body class="home blog">
+<div id="page" class="hfeed site">
+	{{> header}}	
+	<div id="content" class="site-content">
+		<div id="primary" class="content-area">
+			<main id="main" class="site-main" role="main">
+				{{#entries}}						
+				{{> article}}
+				{{/entries}}
+				<nav class="navigation paging-navigation" role="navigation">
+					<h1 class="screen-reader-text">Posts navigation</h1>
+					<div class="nav-links">
+						<div class="nav-previous"><a href="https://inhab.it/page/2/" ><span class="meta-nav">&larr;</span> Older posts</a></div>
+						</div><!-- .nav-links -->
+					</nav><!-- .navigation -->	
+			</main><!-- #main -->
+		</div><!-- #primary -->
+	</div><!-- #content -->
+	{{> footer}}
+</body>
+</html>
