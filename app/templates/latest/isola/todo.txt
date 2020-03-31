@@ -1,4 +1,5 @@
 redirect /tag/x -> /tagged/x
+redirect /s=? to /search&q=?
 
 thumbnail style:
 	<figure class="entry-thumbnail">
@@ -11,3 +12,8 @@ Related on entry page
 hid the menu link
 
 changed credits in footer to subtitle
+
+search results will not be identical
+
+removed pingback support
+removed comments feed
