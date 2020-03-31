@@ -13,9 +13,18 @@
 				<nav class="navigation paging-navigation" role="navigation">
 					<h1 class="screen-reader-text">Posts navigation</h1>
 					<div class="nav-links">
+						{{#pagination}}
+						{{#previous}}
 						<div class="nav-previous">
-							<a href="https://inhab.it/page/2/" ><span class="meta-nav">&larr;</span> Older posts</a>
+							<a href="/page/{{previous}}"><span class="meta-nav">&larr;</span> Older posts</a>
 						</div>
+						{{/previous}}
+						{{#next}}
+						<div class="nav-next">
+							<a href="/page/{{next}}">Newer posts <span class="meta-nav">&larr;</span> </a>
+						</div>
+						{{/next}}
+						{{/pagination}}
 					</div><!-- .nav-links -->
 				</nav><!-- .navigation -->	
 			</main><!-- #main -->
