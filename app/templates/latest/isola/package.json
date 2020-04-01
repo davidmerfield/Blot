@@ -2,6 +2,7 @@
   "name": "Isola",
   "isPublic": true,
   "locals": {
+    "lang": "en-US",
     "page_size": 10,
     "author": "Wil",
     "subtitle": "lived in places"

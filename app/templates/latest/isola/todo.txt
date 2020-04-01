@@ -14,6 +14,8 @@ hid the menu link
 changed credits in footer to subtitle
 
 search results will not be identical
+search results do not scroll infinitely
 
 removed pingback support
 removed comments feed
+

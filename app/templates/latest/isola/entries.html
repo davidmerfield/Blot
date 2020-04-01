@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="{{lang}}">
 {{> head}}
 <body class="home blog">
 <div id="page" class="hfeed site">
@@ -14,16 +14,16 @@
 					<h1 class="screen-reader-text">Posts navigation</h1>
 					<div class="nav-links">
 						{{#pagination}}
-						{{#previous}}
-						<div class="nav-previous">
-							<a href="/page/{{previous}}"><span class="meta-nav">&larr;</span> Older posts</a>
-						</div>
-						{{/previous}}
 						{{#next}}
-						<div class="nav-next">
-							<a href="/page/{{next}}">Newer posts <span class="meta-nav">&larr;</span> </a>
+						<div class="nav-previous">
+							<a href="/page/{{next}}"><span class="meta-nav">&larr;</span> Older posts</a>
 						</div>
 						{{/next}}
+						{{#previous}}
+						<div class="nav-next">
+							<a href="/page/{{previous}}">Newer posts <span class="meta-nav">&rarr;</span> </a>
+						</div>
+						{{/previous}}
 						{{/pagination}}
 					</div><!-- .nav-links -->
 				</nav><!-- .navigation -->	
