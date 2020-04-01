@@ -1,3 +1,9 @@
+-- Infinite scroll on homepage
+-- Tweak for Related on entry page
+
+Explain Blot doesn't offer related entry feature yet
+
+redirect /category/x -> /tag/x
 redirect /tag/x -> /tagged/x
 redirect /s=? to /search&q=?
 
@@ -6,10 +12,7 @@ thumbnail style:
 			<a href="https://inhab.it/places-i-slept-2019/"><img width="1200" height="675" src="https://inhab.it/wordpress/wp-content/uploads/2019/12/IMG_3720-2-1200x675.jpeg" class="attachment-isola-featured size-isola-featured wp-post-image" alt="" srcset="https://inhab.it/wordpress/wp-content/uploads/2019/12/IMG_3720-2-1200x675.jpeg 1200w, https://inhab.it/wordpress/wp-content/uploads/2019/12/IMG_3720-2-300x169.jpeg 300w, https://inhab.it/wordpress/wp-content/uploads/2019/12/IMG_3720-2-1024x576.jpeg 1024w, https://inhab.it/wordpress/wp-content/uploads/2019/12/IMG_3720-2-768x432.jpeg 768w, https://inhab.it/wordpress/wp-content/uploads/2019/12/IMG_3720-2-1536x864.jpeg 1536w, https://inhab.it/wordpress/wp-content/uploads/2019/12/IMG_3720-2-2048x1152.jpeg 2048w" sizes="(max-width: 1200px) 100vw, 1200px" /></a>
 		</figure>
 
-Related on entry page
- Blot doesn't offer this feature
-
-hid the menu link
+hid the menu link for weddings
 
 changed credits in footer to subtitle
 

@@ -12,7 +12,7 @@
 						{{#entry}}
 						<article
 							id="post-{{entry.index}}"
-							class="post-{{entry.index}} post type-post status-publish format-standard hentry category-hope tag-china tag-city-life tag-coronavirus tag-cov19 tag-fear tag-global tag-hong-kong tag-life tag-life-abroad tag-shared"
+							class="post-{{entry.index}} post type-post status-publish format-standard hentry {{#tags}}tag-{{slug}} {{/tags}}"
 						>
 							<header class="entry-header">
 								<h1 class="entry-title">{{title}}</h1>
