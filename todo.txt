@@ -1,5 +1,3 @@
-Port [Isola Wordpress theme](https://wordpress.org/themes/isola/) and tell [Wil](https://mail.google.com/mail/u/0/#sent/FMfcgxwHMPqwdPZgKhZNTvwDBMFnTLCS)
-
 Add persona/cargo style customization buttons
 - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Fonts:
