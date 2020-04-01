@@ -54,7 +54,7 @@ function writeToFolder(blogID, templateID, callback) {
 }
 
 function writePackage(blogID, client, dir, metadata, views, callback) {
-  var Package = generatePackage(blogID, dir, metadata, views);
+  var Package = generatePackage(blogID, metadata, views);
   client.write(blogID, dir + "/package.json", Package, callback);
 }
 
