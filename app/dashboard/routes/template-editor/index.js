@@ -7,14 +7,15 @@ const formJSON = helper.formJSON;
 const Template = require("template");
 
 TemplateEditor.use(function(req, res, next) {
-	res.locals.partials["color"] = "template-editor/inputs/color";
-	res.locals.partials["font"] = "template-editor/inputs/font";
-	res.locals.partials["range"] = "template-editor/inputs/range";
+	res.locals.partials.color = "template-editor/inputs/color";
+	res.locals.partials.font = "template-editor/inputs/font";
+	res.locals.partials.range = "template-editor/inputs/range";
 	next();
 });
 
 TemplateEditor.post(bodyParser);
 
+TemplateEditor.param("viewSlug", require("./load/template-views"));
 TemplateEditor.param("viewSlug", require("./load/template-view"));
 TemplateEditor.param("templateSlug", require("./load/template"));
 
@@ -49,9 +50,8 @@ TemplateEditor.route("/:templateSlug/settings")
 		});
 	})
 	.get(function(req, res) {
-		res.locals.partials["yield"] = "template-editor/template-settings";
-		res.locals.partials["sidebar"] =
-			"template-editor/template-settings-sidebar";
+		res.locals.partials.yield = "template-editor/template-settings";
+		res.locals.partials.sidebar = "template-editor/template-settings-sidebar";
 		res.render("template-editor/layout");
 	});
 
@@ -64,18 +64,19 @@ TemplateEditor.route("/:templateSlug/source-code")
 			);
 		}
 
-		res.locals.partials["yield"] = "template-editor/source-code";
-		res.locals.partials["sidebar"] = "template-editor/source-code-sidebar";
+		res.locals.partials.yield = "template-editor/source-code";
+		res.locals.partials.sidebar = "template-editor/source-code-sidebar";
 		res.render("template-editor/layout");
 	});
 
-TemplateEditor.route("/:templateSlug/source-code/:viewSlug/edit/")
-	.all(require("./load/template-views"))
-	.get(function(req, res) {
-		res.locals.partials["yield"] = "template-editor/source-code";
-		res.locals.partials["sidebar"] = "template-editor/source-code-sidebar";
-		res.render("template-editor/layout");
-	});
+TemplateEditor.route("/:templateSlug/source-code/:viewSlug/edit/").get(function(
+	req,
+	res
+) {
+	res.locals.partials.yield = "template-editor/source-code";
+	res.locals.partials.sidebar = "template-editor/source-code-sidebar";
+	res.render("template-editor/layout");
+});
 
 TemplateEditor.use("/:templateSlug/delete", require("./deleteTemplate"));
 
