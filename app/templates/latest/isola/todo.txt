@@ -1,7 +1,4 @@
-- [ ] Infinite scroll on homepage
-- [ ] Fix thumbnails in related entry section
 - [ ] Thumbnail wide image style on homepage
-- [ ] Remove inhab.it from template
 
 Explain Blot doesn't offer related entry feature yet
 
