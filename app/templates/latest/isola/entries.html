@@ -28,6 +28,26 @@
 					</div><!-- .nav-links -->
 				</nav><!-- .navigation -->	
 			</main><!-- #main -->
+			<script type="text/javascript">
+				var init = {{pagination.next}};
+
+				jQuery('main nav').remove();
+
+jQuery(window).on("scroll", function() {
+	var scrollHeight = jQuery(document).height();
+	var scrollPosition = jQuery(window).height() + jQuery(window).scrollTop();
+	if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+	    load();
+	}
+});
+
+				function load () {
+					jQuery.get( "/page/"+ init, function( data ) {
+					  jQuery('main').append(jQuery(data).find('main'));
+					  init++;
+					});
+				}
+</script>
 		</div><!-- #primary -->
 	</div><!-- #content -->
 	{{> footer}}

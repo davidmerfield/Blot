@@ -1,6 +1,7 @@
 - [ ] Infinite scroll on homepage
+- [ ] Fix thumbnails in related entry section
 - [ ] Thumbnail wide image style on homepage
-- [ ] Why is thumbnail not there for posts in related entry section?
+- [ ] Remove inhab.it from template
 
 Explain Blot doesn't offer related entry feature yet
 
