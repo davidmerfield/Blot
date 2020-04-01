@@ -1,0 +1,10 @@
+<div class="file-list">
+	{{#views}}
+	<a class="{{selected}}" href="{{{base}}}/source-code/{{name}}/edit"
+		>{{name}}</a
+	>
+	{{/views}}
+	<form method="post" action="{{{base}}}/source-code/create">
+		<input type="submit" name="" value="Create new view" />
+	</form>
+</div>

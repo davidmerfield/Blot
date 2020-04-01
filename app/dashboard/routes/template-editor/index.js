@@ -1,22 +1,21 @@
-var Express = require("express");
-var TemplateEditor = new Express.Router();
-var config = require("config");
-var bodyParser = require("body-parser").urlencoded({ extended: false });
-var helper = require("helper");
-var Template = require("template");
+const Express = require("express");
+const TemplateEditor = new Express.Router();
+const config = require("config");
+const bodyParser = require("body-parser").urlencoded({ extended: false });
+const helper = require("helper");
+const formJSON = helper.formJSON;
+const Template = require("template");
 
 TemplateEditor.use(function(req, res, next) {
-	res.locals.partials["input-color"] = "template-editor/input-color";
-	res.locals.partials["input-font"] = "template-editor/input-font";
-	res.locals.partials["input-range"] = "template-editor/input-range";
-	res.locals.partials["chrome"] = "template-editor/chrome";
+	res.locals.partials["color"] = "template-editor/inputs/color";
+	res.locals.partials["font"] = "template-editor/inputs/font";
+	res.locals.partials["range"] = "template-editor/inputs/range";
 	next();
 });
 
 TemplateEditor.post(bodyParser);
 
 TemplateEditor.param("viewSlug", require("./load/template-view"));
-
 TemplateEditor.param("templateSlug", require("./load/template"));
 
 TemplateEditor.param("templateSlug", function(req, res, next) {
@@ -31,15 +30,12 @@ TemplateEditor.use("/:templateSlug/:section", function(req, res, next) {
 	next();
 });
 
-
-
 TemplateEditor.route("/:templateSlug/settings")
 	.all(require("./load/font-inputs"))
 	.all(require("./load/color-inputs"))
 	.all(require("./load/range-inputs"))
 	.post(bodyParser, function(req, res, next) {
-		let updatedLocals = helper.formJSON(req.body, Template.metadataModel)
-			.locals;
+		let updatedLocals = formJSON(req.body, Template.metadataModel).locals;
 
 		let locals = req.template.locals;
 
@@ -53,19 +49,32 @@ TemplateEditor.route("/:templateSlug/settings")
 		});
 	})
 	.get(function(req, res) {
-		res.render("template-editor/settings");
+		res.locals.partials["yield"] = "template-editor/template-settings";
+		res.locals.partials["sidebar"] =
+			"template-editor/template-settings-sidebar";
+		res.render("template-editor/layout");
 	});
 
 TemplateEditor.route("/:templateSlug/source-code")
 	.all(require("./load/template-views"))
 	.get(function(req, res) {
-		res.render("template-editor/source-code");
+		if (res.locals.views[0] && res.locals.views[0].name) {
+			return res.redirect(
+				res.locals.base + "/source-code/" + res.locals.views[0].name + "/edit"
+			);
+		}
+
+		res.locals.partials["yield"] = "template-editor/source-code";
+		res.locals.partials["sidebar"] = "template-editor/source-code-sidebar";
+		res.render("template-editor/layout");
 	});
 
 TemplateEditor.route("/:templateSlug/source-code/:viewSlug/edit/")
 	.all(require("./load/template-views"))
 	.get(function(req, res) {
-		res.render("template-editor/source-code");
+		res.locals.partials["yield"] = "template-editor/source-code";
+		res.locals.partials["sidebar"] = "template-editor/source-code-sidebar";
+		res.render("template-editor/layout");
 	});
 
 TemplateEditor.use("/:templateSlug/delete", require("./deleteTemplate"));
