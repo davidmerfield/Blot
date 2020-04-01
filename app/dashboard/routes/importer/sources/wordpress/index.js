@@ -56,6 +56,7 @@ function main(sourceFile, outputDirectory, options, callback) {
       // console.log(result.rss.channel);
 
       if (options.filter) {
+        console.log('filter by:', options.filter)
         result.rss.channel[0].item = result.rss.channel[0].item.filter(function(
           item
         ) {
@@ -69,7 +70,7 @@ function main(sourceFile, outputDirectory, options, callback) {
         result.rss.channel[0].item,
         function(item, index, done) {
           log(colors.dim(++index + "/" + totalItems), item.title[0].trim());
-          injectAttachedThumbnail(item);
+          injectAttachedThumbnail(item, result.rss.channel[0].item);
           Item(item, outputDirectory, done);
         },
         callback
@@ -83,17 +84,25 @@ function main(sourceFile, outputDirectory, options, callback) {
 function injectAttachedThumbnail(item, channel) {
   try {
     let thumbnail_id = item["wp:postmeta"].filter(
-      el => el["wp:meta_key"] && el["wp:meta_key"][0] === "_thumbnail_id"
+      (el) => el["wp:meta_key"] && el["wp:meta_key"][0] === "_thumbnail_id"
     )[0]["wp:meta_value"][0];
 
     let thumbnail = channel.filter(
-      el => el["wp:post_id"][0] === thumbnail_id
+      (el) => {
+        console.log(el);
+        return el["wp:post_id"][0] === thumbnail_id;
+      }
     )[0];
-
+    
     let thumbnail_url = thumbnail.guid[0]._;
     let thumbnail_title = thumbnail.title[0] || thumbnail["content:encoded"][0];
 
-    let new_html = `<p><img src="${thumbnail_url}" alt="${thumbnail_title}"></p>`;
+    let new_html = `<img src="${thumbnail_url}" alt="${thumbnail_title}">`;
+
+    if (item["content:encoded"][0].indexOf("<p>") > -1) {
+      new_html = "<p>" + new_html + "</p>";
+    }
+
     item["content:encoded"][0] = new_html + item["content:encoded"][0];
   } catch (e) {
     // do nothing if you can't find a thumbnail

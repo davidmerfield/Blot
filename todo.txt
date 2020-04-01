@@ -1,5 +1,3 @@
-Port [Isola Wordpress theme](https://wordpress.org/themes/isola/) and tell [Wil](https://mail.google.com/mail/u/0/#sent/FMfcgxwHMPqwdPZgKhZNTvwDBMFnTLCS)
-
 Add persona/cargo style customization buttons
 - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Fonts:
@@ -59,17 +57,11 @@ Add persona/cargo style customization buttons
 		Work Sans
 		Wremena
 		Young Serif
-- Work out how to make live but saveable modifications for preview purposes
-- Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 
 Resolve intermittent downtime
 - increase available memory?
 - Begin using memory monitor
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
-
-Work on online writing tool which connects to Dropbox and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRMwRlXWkJQpsjGrHxFmFzDw)
-
-Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
 
 Record new demo video
 - Finish video script in brochure/readme.txt
@@ -85,6 +77,12 @@ Check that wildcard cert succeeds after 2020-04-10 11:12:00
 
 Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
+Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+
+Work on online writing tool which connects to Dropbox and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRMwRlXWkJQpsjGrHxFmFzDw)
+
+Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
+
 Think about appeninding file extension to make requests with query strings cacheable
 - think about emptying cache directory, LRU. But how do we handle .css?query=x?
 - nginx will have to look up a series of extensions -> $requestURI, $requestURI.html, $requestURI.xml, $requestURI.css, $requestURI.js
@@ -95,6 +93,8 @@ NGINX doesn't appear to be following the symlinks created by node.js to serve th
 
 Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server.
 - Work out how to kill them safely
+
+Work out how to make live but saveable modifications for preview purposes on the template editor
 
 Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 
@@ -438,6 +438,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
 - Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
 - Move to uuid based template IDs instead of slug
+- Add way to list directory contents and tell [Diego](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJtkqxhLVWXqdxNVchgGQzp)
 - Move to data directory for templates
   - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Re-do url redirector to use route-parser and properly support regular expressions
@@ -481,6 +482,34 @@ Move to Linode?
 
 Increase price to $5 per month for new customers. This will not affect existing customers in any way.
 
+---
+
+Goal of this PR is to consolidate all application state inside a single directory, which could be backed up.
+
+ Merge PR #199 moving symlinks into cache folder
+ Move static directory into /data
+ Move blogs directory into /data
+ Move git client data directory into /data
+ Move DB into data folder
+To deploy:
+
+bg save redis
+switch redis to readonly
+switch blot to maintenance mode
+shut down monit
+shut down blot
+shut down redis
+move existing blog and static directories
+move existing dump file
+restart redis
+restart blot
+restart monit
+ Adds a command to restore database from backup.
+ Adds a scheduled task to flush old backups
+ Adds offsite (i.e. non AWS backups)
+ Rotates log files
+ Use S3 cli sync command to synchronize data directory?
+ 
 ---
 
 Create an API for Blot
