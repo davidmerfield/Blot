@@ -21,8 +21,31 @@
 
 							<div class="entry-content">
 								{{{body}}}
-								<div id="jp-relatedposts" class="jp-relatedposts">
+								<div
+									id="jp-relatedposts"
+									class="jp-relatedposts"
+									style="display: block;"
+								>
 									<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+									<div
+										class="jp-relatedposts-items jp-relatedposts-items-visual jp-relatedposts-grid "
+									>
+										{{#recentEntries}} {{> related}} {{/recentEntries}}
+									</div>
+									<script type="text/javascript">
+										var related = document.querySelector(
+											".jp-relatedposts-items"
+										);
+										for (var i = related.children.length; i >= 0; i--) {
+											related.appendChild(
+												related.children[(Math.random() * i) | 0]
+											);
+										}
+
+										while (related.children.length > 3) {
+											related.removeChild(related.lastChild);
+										}
+									</script>
 								</div>
 							</div>
 							<!-- .entry-content -->
@@ -59,28 +82,22 @@
 							<div class="nav-links">
 								{{#previous}}
 								<div class="nav-previous">
-									<a
-										href="{{{url}}}"
-										rel="prev"
+									<a href="{{{url}}}" rel="prev"
 										><span class="meta-nav">&larr;</span> {{title}}</a
 									>
 								</div>
-								{{/previous}}
-								{{#next}}
+								{{/previous}} {{#next}}
 								<div class="nav-next">
-									<a
-										href="{{{url}}}"
-										rel="next"
-										>{{title}} <span class="meta-nav">&rarr;</span> </a
-									>
+									<a href="{{{url}}}" rel="next"
+										>{{title}} <span class="meta-nav">&rarr;</span>
+									</a>
 								</div>
 								{{/next}}
 							</div>
 							<!-- .nav-links -->
 						</nav>
 						<!-- .navigation -->
-												{{/entry}}
-
+						{{/entry}}
 					</main>
 					<!-- #main -->
 				</div>
@@ -95,7 +112,5 @@
 			<!-- #colophon -->
 		</div>
 		<!-- #page -->
-
-		
 	</body>
 </html>

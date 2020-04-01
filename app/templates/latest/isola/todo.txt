@@ -1,5 +1,6 @@
--- Infinite scroll on homepage
--- Tweak for Related on entry page
+- [ ] Infinite scroll on homepage
+- [ ] Thumbnail wide image style on homepage
+- [ ] Why is thumbnail not there for posts in related entry section?
 
 Explain Blot doesn't offer related entry feature yet
 
