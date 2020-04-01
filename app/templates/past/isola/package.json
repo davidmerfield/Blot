@@ -1,6 +1,6 @@
 {
   "name": "Isola",
-  "isPublic": true,
+  "isPublic": false,
   "locals": {
     "lang": "en-US",
     "page_size": 10,
