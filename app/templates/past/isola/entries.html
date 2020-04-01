@@ -43,6 +43,7 @@ jQuery(window).on("scroll", function() {
 
 				function load () {
 					jQuery.get( "/page/"+ init, function( data ) {
+						jQuery(data).find('main nav').remove();
 					  jQuery('main').append(jQuery(data).find('main'));
 					  init++;
 					});
