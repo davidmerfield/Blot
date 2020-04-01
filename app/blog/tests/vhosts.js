@@ -66,12 +66,12 @@ describe("blog server vhosts", function() {
         return ctx.url.hostname;
       },
       url: ctx.url.pathname,
-      protocol: ctx.url.protocol
+      protocol: ctx.url.protocol,
     };
 
     ctx.res = {
       set: function() {},
-      removeHeader: function()
+      removeHeader: function() {},
     };
   });
 });
