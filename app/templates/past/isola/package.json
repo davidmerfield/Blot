@@ -4,8 +4,8 @@
   "locals": {
     "lang": "en-US",
     "page_size": 10,
-    "author": "Wil",
-    "subtitle": "lived in places"
+    "author": "",
+    "subtitle": ""
   },
   "views": {
     "archives.html": {
