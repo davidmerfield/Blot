@@ -2,7 +2,7 @@ var setMetadata = require("./setMetadata");
 var type = require("helper").type;
 
 module.exports = {
-	generate: function(blogID, dir, metadata, views) {
+	generate: function(blogID, metadata, views) {
 		var Package = {};
 
 		if (metadata.name) {
@@ -26,7 +26,12 @@ module.exports = {
 			}
 
 			if (view.partials && objectWithProperties(view.partials)) {
-				metadataToAddToPackage.partials = view.partials;
+				// Don't output 'title': null in every view's partial
+				for (let partial in view.partials)
+					if (view.partials[partial] === null) delete view.partials[partial];
+
+				if (Object.keys(view.partials).length)
+					metadataToAddToPackage.partials = view.partials;
 			}
 
 			if (!objectWithProperties(metadataToAddToPackage)) continue;
