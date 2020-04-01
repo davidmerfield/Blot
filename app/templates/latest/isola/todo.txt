@@ -21,3 +21,7 @@ search results do not scroll infinitely
 removed pingback support
 removed comments feed
 
+
+\n# (.*)\n\n\!\[(.*)\]\((.*)\)\n
+
+Thumbnail: $3\nThumbnail caption: $2\n\n# $1\n
