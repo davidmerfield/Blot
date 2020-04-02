@@ -5,6 +5,7 @@ const bodyParser = require("body-parser").urlencoded({ extended: false });
 const helper = require("helper");
 const formJSON = helper.formJSON;
 const Template = require("template");
+const Blog = require("blog");
 
 TemplateEditor.use(function(req, res, next) {
 	res.locals.partials.color = "template-editor/inputs/color";
@@ -12,8 +13,6 @@ TemplateEditor.use(function(req, res, next) {
 	res.locals.partials.range = "template-editor/inputs/range";
 	next();
 });
-
-TemplateEditor.post(bodyParser);
 
 TemplateEditor.param("viewSlug", require("./load/template-views"));
 TemplateEditor.param("viewSlug", require("./load/template-view"));
@@ -64,7 +63,7 @@ TemplateEditor.route("/:templateSlug/source-code")
 			);
 		}
 
-		res.locals.partials.yield = "template-editor/source-code";
+		res.locals.partials.yield = "template-editor/source-code-edit";
 		res.locals.partials.sidebar = "template-editor/source-code-sidebar";
 		res.render("template-editor/layout");
 	});
@@ -73,11 +72,59 @@ TemplateEditor.route("/:templateSlug/source-code/:viewSlug/edit/").get(function(
 	req,
 	res
 ) {
-	res.locals.partials.yield = "template-editor/source-code";
+	res.locals.partials.yield = "template-editor/source-code-edit";
 	res.locals.partials.sidebar = "template-editor/source-code-sidebar";
 	res.render("template-editor/layout");
 });
 
+TemplateEditor.route("/:templateSlug/source-code/:viewSlug/preview/").get(
+	function(req, res) {
+		res.locals.partials.yield = "template-editor/source-code-preview";
+		res.locals.partials.sidebar = "template-editor/source-code-sidebar";
+		res.render("template-editor/layout");
+	}
+);
+
+TemplateEditor.route("/:templateSlug/source-code/:viewSlug/delete").post(
+	bodyParser,
+	function(req, res, next) {
+		Template.dropView(req.template.id, req.view.name, function(err) {
+			if (err) return next(err);
+			res.redirect(res.locals.base + "/source-code");
+		});
+	}
+);
+
+TemplateEditor.route("/:templateSlug/source-code/:viewSlug/save").post(
+	bodyParser,
+	function(req, res, next) {
+		var view = formJSON(req.body, Template.viewModel);
+
+		view.name = req.view.name;
+
+		Template.setView(req.template.id, view, function(err) {
+			if (err) return next(err);
+
+			var now = Date.now();
+			var changes = {
+				cacheID: now,
+				cssURL: "/style.css?" + now,
+				scriptURL: "/script.js?" + now,
+			};
+
+			Blog.set(req.blog.id, changes, function(err) {
+				if (err) return next(err);
+				res.send("Saved changes!");
+			});
+		});
+	}
+);
+
 TemplateEditor.use("/:templateSlug/delete", require("./deleteTemplate"));
+
+TemplateEditor.use(function(err, req, res, next) {
+	console.log(err);
+	return next(err);
+});
 
 module.exports = TemplateEditor;

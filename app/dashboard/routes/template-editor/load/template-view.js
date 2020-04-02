@@ -18,7 +18,7 @@ module.exports = function(req, res, next) {
 		if (err || !view) return next(new Error("No view"));
 
 		view.editorMode = editorMode(view.name);
-		res.locals.view = view;
+		req.view = res.locals.view = view;
 
 		next();
 	});

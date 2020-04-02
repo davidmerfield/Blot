@@ -5,31 +5,47 @@
   .CodeMirror-gutters {
     background: #f2f2f2;
   }
+
+  .button {
+    background: #eee;
+    flex-grow: 1;
+    border-radius: 2px;
+    border: none;
+  }
 </style>
 <div style="flex-grow: 1;">
   <div
-    style="display:flex;align-items: center;background: #ccc;padding: 0.25rem 1rem;border-bottom: 1px solid #aaa"
+    style="display:flex;align-items: center;background: #ccc;padding: 0.25rem 1rem;    box-shadow: inset 0 -1px 0 #bbb;"
   >
     <strong style="flex-grow:1;flex-basis:33%;">{{view.name}}</strong>
 
-    <form class="save" action="{{{base}}}/source-code/{{name}}/save">
-      <input type="hidden" name="contents" value="{{content}}" />
+    <form
+      style="flex-basis: 33%;flex-grow:1;display: flex"
+      class="save"
+      action="{{{base}}}/source-code/{{view.name}}/save"
+    >
+      <input type="hidden" name="content" value="{{content}}" />
       <button
         id="save"
         class="button disabled small"
         type="submit"
         value="Save"
+        disabled
       >
         Save
       </button>
     </form>
 
-    <form action="{{{base}}}/source-code/{{name}}/delete">
+    <span class="message">
+      <span class="error"></span>
+    </span>
+
+    <form action="{{{base}}}/source-code/{{view.name}}/delete" method="post">
       <button class="button disabled small" type="submit">Delete</button>
     </form>
 
     <a
-      href=".."
+      href="{{{base}}}/source-code/{{view.name}}/preview"
       class="box-button"
       style="flex-grow:1;flex-basis:33%;padding:0.25rem 1rem"
       >Preview</a
@@ -72,21 +88,18 @@
       theme: "default",
     });
 
-    $(".deleteVar").click(function() {
-      $("#save").removeClass("disabled");
-    });
-
     editor.on("keyup", function() {
       $("#save")
         .removeClass("disabled")
+        .prop("disabled", false)
         .val("Save");
     });
 
-    $(".form").submit(function() {
+    $(".save").submit(function() {
       $.ajax({
         type: "POST",
-        url: $(".form").attr("action"),
-        data: $(".form").serialize(),
+        url: $(".save").attr("action"),
+        data: $(".save").serialize(),
         error: function(res) {
           var message = $(res.responseText)
             .find(".error")
@@ -95,6 +108,7 @@
           $("#save")
             .removeClass("working")
             .removeClass("disabled")
+            .prop("disabled", false)
             .val("Save");
 
           $(".error")
@@ -103,10 +117,9 @@
         },
 
         success: function(data, status, res, body) {
-          console.log("SUCCESS!");
-
           $("#save")
             .addClass("disabled")
+            .prop("disabled", true)
             .removeClass("working")
             .val("Saved!");
 
@@ -136,8 +149,8 @@
         .addClass("disabled")
         .val("Saving");
 
-      $("#source").val(editor.getValue());
-      $("form.save").submit();
+      $('input[name="content"]').val(editor.getValue());
+      $(".save").submit();
 
       return false;
     });
