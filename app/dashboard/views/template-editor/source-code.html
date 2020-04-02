@@ -1,14 +1,39 @@
 <style type="text/css">
-  .CodeMirror-lines {padding: 0}
-.CodeMirror-gutters {background: #f2f2f2}
-
+  .CodeMirror-lines {
+    padding: 0;
+  }
+  .CodeMirror-gutters {
+    background: #f2f2f2;
+  }
 </style>
 <div style="flex-grow: 1;">
-  <div style="display:flex;align-items: center;background: #ccc;padding: 0.25rem 1rem;border-bottom: 1px solid #aaa">
+  <div
+    style="display:flex;align-items: center;background: #ccc;padding: 0.25rem 1rem;border-bottom: 1px solid #aaa"
+  >
     <strong style="flex-grow:1;flex-basis:33%;">{{view.name}}</strong>
 
-    <button id="save"  class="button disabled small" type="submit" value="Save">Save</button>
-    <a href=".." class="box-button" style="flex-grow:1;flex-basis:33%;padding:0.25rem 1rem">Preview</a>
+    <form class="save" action="{{{base}}}/source-code/{{name}}/save">
+      <input type="hidden" name="contents" value="{{content}}" />
+      <button
+        id="save"
+        class="button disabled small"
+        type="submit"
+        value="Save"
+      >
+        Save
+      </button>
+    </form>
+
+    <form action="{{{base}}}/source-code/{{name}}/delete">
+      <button class="button disabled small" type="submit">Delete</button>
+    </form>
+
+    <a
+      href=".."
+      class="box-button"
+      style="flex-grow:1;flex-basis:33%;padding:0.25rem 1rem"
+      >Preview</a
+    >
   </div>
   <div style="background: rgba(0, 0, 0, 0.1);padding: 0 1rem"></div>
 
@@ -112,7 +137,7 @@
         .val("Saving");
 
       $("#source").val(editor.getValue());
-      $(".form").submit();
+      $("form.save").submit();
 
       return false;
     });
