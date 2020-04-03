@@ -1,9 +1,17 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="/css/editor.css?{{cacheID}}" />
-		<link rel="stylesheet" type="text/css" href="/scripts/codemirror/codemirror.css?{{cacheID}}">
-		<link rel="stylesheet" type="text/css" href="/scripts/codemirror/theme.css?{{cacheID}}">
-		<link rel="stylesheet" type="text/css" href="/css/editor.css?{{cacheID}}">
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/scripts/codemirror/codemirror.css?{{cacheID}}"
+		/>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/scripts/codemirror/theme.css?{{cacheID}}"
+		/>
+		<link rel="stylesheet" type="text/css" href="/css/editor.css?{{cacheID}}" />
 		<style type="text/css">
 			html,
 			body {
@@ -11,33 +19,36 @@
 				padding: 0;
 			}
 
+			.CodeMirror {
+				flex-grow: 1;
+				min-height: calc(100vh - 2.875rem);
+				font-family: monospace;
+			}
 
+			.CodeMirror-gutters {
+				background-color: #fbf8f6;
+			}
 
-.CodeMirror {
-  flex-grow: 1;
-    min-height: calc(100vh - 2.875rem);
-  font-family: monospace;
-}
+			.CodeMirror-linenumber {
+				color: rgb(158, 154, 152);
+			}
 
-.CodeMirror-gutters {
-  background-color: #fbf8f6;
-}
+			.file-list {
+				padding: 1rem 0;
+			}
 
-.CodeMirror-linenumber {
-  color: rgb(158, 154, 152)
-}
-
-.file-list {padding: 1rem 0}
-
-.file-list .selected {background: rgba(255,255,255,0.5);color: #000}
-.file-list a {
-	font-size: 14px;
-	padding: 0 1rem;
-	display: block;
-	color: #777;
-	text-decoration: none;
-}
-    </style>		
+			.file-list .selected {
+				background: rgba(255, 255, 255, 0.5);
+				color: #000;
+			}
+			.file-list a {
+				font-size: 14px;
+				padding: 0 1rem;
+				display: block;
+				color: #777;
+				text-decoration: none;
+			}
+		</style>
 		<style type="text/css">
 			h1,
 			h2,
@@ -67,22 +78,23 @@
 				color: #000;
 				background: transparent;
 			}
+			.smallLink {font-size: 11px;color: #555}
 		</style>
 	</head>
 	<body>
 		<div style="display:flex;min-height:100vh;">
 			<div
-				style="flex-basis: 20rem;flex-shrink:0;display: flex;flex-direction: column;background: #f2f2f2;border-right:5px solid #ccc;"
+				style="width: 20rem;flex-shrink:0;display: flex;flex-direction: column;background: #f2f2f2;border-right:5px solid #ccc;"
 			>
 				<div style="flex-grow: 1">
-					<div style="display: flex;align-items: baseline;">
+					<div style="display: flex;align-items: baseline;overflow: hidden;">
 						<a
 							class="box-button"
 							style="background: #3d3d3d;color: #ccc"
 							href="/settings/theme"
 							>✕</a
 						>
-						<h1 style="background: #222;color: #fff;flex-grow: 1;">
+						<h1 style="background: #222;color: #fff;white-space: nowrap;flex-grow: 1">
 							{{template.name}}
 						</h1>
 					</div>
@@ -102,31 +114,14 @@
 					</div>
 
 					{{> sidebar}}
-
 				</div>
-				<form method="post" action="{{{base}}}/delete">
-					<button
-						style="display: block;background: none;color: #aaa;border:none;"
-						type="submit"
-						name=""
-					>
-						Delete template
-					</button>
-				</form>
-				<form method="post" action="{{{base}}}/rename">
-					<button
-						style="display: block;background: none;color: #aaa;border:none;"
-						type="submit"
-						name=""
-					>
-						Rename template
-					</button>
-				</form>
-					<a href="/">Contact support</a>
-					<a href="/">Developer documentation</a>
+				<hr />
+				<hr />
+				<a href="/contact">Contact support</a>
+				<a href="/developers">Developer documentation</a>
 			</div>
 
-{{> yield}}
+			{{> yield}}
 		</div>
 	</body>
 </html>

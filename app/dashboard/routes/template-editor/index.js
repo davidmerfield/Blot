@@ -53,7 +53,34 @@ TemplateEditor.route("/:templateSlug/settings")
 		res.render("template-editor/layout");
 	});
 
-TemplateEditor.use("/:templateSlug/delete", require("./deleteTemplate"));
+TemplateEditor.route("/:templateSlug/rename")
+	.get(function(req, res) {
+		res.locals.partials.yield = "template-editor/template-settings";
+		res.locals.partials.sidebar = "template-editor/rename";
+		res.render("template-editor/layout");
+	})
+	.post(bodyParser, function(req, res, next) {
+		console.log(req.template.id, req.body.name);
+		Template.setMetadata(req.template.id, { name: req.body.name }, function(
+			err
+		) {
+			if (err) return next(err);
+			res.message(res.locals.base + "/settings", "Renamed template!");
+		});
+	});
+
+TemplateEditor.route("/:templateSlug/delete")
+	.get(function(req, res, next) {
+		res.locals.partials.yield = "template-editor/template-settings";
+		res.locals.partials.sidebar = "template-editor/delete";
+		res.render("template-editor/layout");
+	})
+	.post(function(req, res, next) {
+		Template.drop(req.blog.id, req.template.name, function(err) {
+			if (err) return next(err);
+			res.message("/settings/theme", "Deleted template!");
+		});
+	});
 
 TemplateEditor.use(function(err, req, res, next) {
 	console.log(err);
