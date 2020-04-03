@@ -82,7 +82,7 @@
 							href="/settings/theme"
 							>✕</a
 						>
-						<h1 style="background: #222;color: #fff;flex-grow: 1">
+						<h1 style="background: #222;color: #fff;flex-grow: 1;">
 							{{template.name}}
 						</h1>
 					</div>
@@ -111,6 +111,15 @@
 						name=""
 					>
 						Delete template
+					</button>
+				</form>
+				<form method="post" action="{{{base}}}/rename">
+					<button
+						style="display: block;background: none;color: #aaa;border:none;"
+						type="submit"
+						name=""
+					>
+						Rename template
 					</button>
 				</form>
 					<a href="/">Contact support</a>
