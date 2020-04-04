@@ -1,3 +1,7 @@
+Add dark mode and footnotes to [Jimmy's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZSBbZBZHkkBwrhdGmXwlfFB)
+
+Tweak paragraph styling on [Jon's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZTKKStzhzttLLwzzGhgKTMN)
+
 Add persona/cargo style customization buttons
 - Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
 - Fonts:
