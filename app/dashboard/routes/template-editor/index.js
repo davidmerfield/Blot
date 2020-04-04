@@ -6,20 +6,18 @@ const helper = require("helper");
 const formJSON = helper.formJSON;
 const Template = require("template");
 
-TemplateEditor.use(function(req, res, next) {
-	res.locals.partials.color = "template-editor/inputs/color";
-	res.locals.partials.font = "template-editor/inputs/font";
-	res.locals.partials.range = "template-editor/inputs/range";
-	next();
-});
-
 TemplateEditor.param("viewSlug", require("./load/template-views"));
 TemplateEditor.param("viewSlug", require("./load/template-view"));
 TemplateEditor.param("templateSlug", require("./load/template"));
-
 TemplateEditor.param("templateSlug", function(req, res, next) {
 	res.locals.base = `${req.protocol}://${req.hostname}${req.baseUrl}/${req.params.templateSlug}`;
 	res.locals.preview = `https://preview-of-my-${req.template.slug}-on-${req.blog.handle}.${config.host}`;
+	next();
+});
+
+TemplateEditor.use("/:templateSlug", function(req, res, next) {
+	if (req.template.localEditing && req.path !== "/local-editing")
+		return res.redirect(res.locals.base + "/local-editing");
 	next();
 });
 
