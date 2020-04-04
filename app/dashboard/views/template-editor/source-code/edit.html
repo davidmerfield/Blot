@@ -63,9 +63,7 @@
         url: $(".save").attr("action"),
         data: $(".save").serialize(),
         error: function(res) {
-          var message = $(res.responseText)
-            .find(".error")
-            .text();
+
 
           $("#save")
             .removeClass("working")
@@ -74,7 +72,7 @@
             .val("Save");
 
           $(".error")
-            .text(message)
+            .text(res.responseText)
             .fadeIn();
         },
 

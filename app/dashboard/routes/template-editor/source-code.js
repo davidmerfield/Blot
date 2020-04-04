@@ -52,7 +52,9 @@ SourceCode.route("/:viewSlug/edit")
 		view.name = req.view.name;
 
 		Template.setView(req.template.id, view, function(err) {
-			if (err) return next(err);
+			if (err) {
+				return res.status(400).send(err.message);
+			}
 
 			var now = Date.now();
 			var changes = {

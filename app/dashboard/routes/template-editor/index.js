@@ -53,6 +53,32 @@ TemplateEditor.route("/:templateSlug/settings")
 		res.render("template-editor/layout");
 	});
 
+TemplateEditor.route("/:templateSlug/local-editing")
+	.get(function(req, res) {
+		res.locals.partials.yield = "template-editor/template-settings";
+		res.locals.partials.sidebar = "template-editor/local-editing";
+		res.locals.enabled = req.template.localEditing;
+		res.render("template-editor/layout");
+	})
+	.post(bodyParser, function(req, res, next) {
+		const localEditing = !req.template.localEditing;
+
+		Template.setMetadata(req.template.id, { localEditing }, function(err) {
+			if (err) return next(err);
+
+			if (localEditing) {
+				Template.writeToFolder(req.blog.id, req.template.id, function(err) {
+					// could we do something with this error? Could we wait to render the page?
+				});
+			}
+
+			res.message(
+				res.locals.base + "/local-editing",
+				"You can now edit the template locally!"
+			);
+		});
+	});
+
 TemplateEditor.route("/:templateSlug/rename")
 	.get(function(req, res) {
 		res.locals.partials.yield = "template-editor/template-settings";
