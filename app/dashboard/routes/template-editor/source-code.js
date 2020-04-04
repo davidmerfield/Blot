@@ -88,7 +88,7 @@ SourceCode.route("/:viewSlug/rename")
 		extend(view).and(req.view);
 
 		var newName = view.name;
-		var oldName = req.params.view;
+		var oldName = req.params.viewSlug;
 
 		Template.getView(req.template.id, newName, function(err, existingView) {
 			if (existingView && !err)
