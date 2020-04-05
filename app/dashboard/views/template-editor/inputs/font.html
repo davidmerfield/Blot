@@ -1,4 +1,4 @@
-<form method="post">
+<form method="post" id="form{{key}}">
 	<label for="locals.{{key}}" style="padding:5px 16px">{{label}}</label><br>
 
 	<input class="name" type="hidden" value="{{key}}" />
@@ -25,3 +25,15 @@
 	</select>
 	
 </form>
+
+<script type="text/javascript">
+		
+	const input{{key}} = document.getElementById('locals.{{key}}');
+	const form{{key}} = document.getElementById('form{{key}}');
+
+	input{{key}}.addEventListener('change', (event) => {
+  	form{{key}}.submit();
+	});
+
+	
+</script>

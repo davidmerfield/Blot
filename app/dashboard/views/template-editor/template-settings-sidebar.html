@@ -9,55 +9,49 @@
 		{{#fonts}} {{> font}} {{/fonts}} {{#ranges}} {{> range}} {{/ranges}}
 	</div>
 
-	<h2>Layout</h2>
-	{{#layout}} {{/layout}}
-	<hr />
-	<h2>Date and time</h2>
-	<form
-		id="dateSettings"
-		method="post"
-		action="/settings"
-		enctype="multipart/form-data"
-	>
-		<input type="hidden" name="redirect" value="{{{base}}}/settings" />
-		<label>
-			How should the date appear on your blog?<br />
-			<select id="dateDisplay" name="dateDisplay">
-				{{#displayFormats}}
-				<option value="{{value}}" {{selected}}>{{date}}</option>
-				{{/displayFormats}}
-			</select>
-		</label>
+	<div style="margin:1rem;background: #fff">
+		<h2>Date and time</h2>
+		<form
+			id="dateSettings"
+			method="post"
+			action="/settings"
+			enctype="multipart/form-data"
+		>
+			<input type="hidden" name="redirect" value="{{{base}}}/settings" />
 
-		<hr>
-		
-		<label>
-			<input type="hidden" value="off" name="hideDates" />
-			<input id="hideDates" type="checkbox" name="hideDates"
-			{{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide the publish date for
-			your posts
-		</label>
+			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
+				<input type="hidden" value="off" name="hideDates" />
+				<input id="hideDates" type="checkbox" name="hideDates"
+				{{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide dates
+			</label>
+			<label style="padding:0 1rem">
+				Date format<br />
+				<select style="margin: 0 1rem" id="dateDisplay" name="dateDisplay">
+					{{#displayFormats}}
+					<option value="{{value}}" {{selected}}>{{date}}</option>
+					{{/displayFormats}}
+				</select>
+			</label>
+			<hr />
+			<script type="text/javascript">
+				const dateSettings = document.getElementById("dateSettings");
+				const dateDisplay = document.getElementById("dateDisplay");
+				const hideDates = document.getElementById("hideDates");
 
-		<script type="text/javascript">
-			const dateSettings = document.getElementById("dateSettings");
-			const dateDisplay = document.getElementById("dateDisplay");
-			const hideDates = document.getElementById("hideDates");
+				hideDates.addEventListener("change", () => {
+					dateSettings.submit();
+				});
 
-			hideDates.addEventListener("change", () => {
-				dateSettings.submit();
-			});
-
-			dateDisplay.addEventListener("change", () => {
-				dateSettings.submit();
-			});
-		</script>
-	</form>
+				dateDisplay.addEventListener("change", () => {
+					dateSettings.submit();
+				});
+			</script>
+		</form>
+	</div>
 </div>
-
 <div style="margin:1rem;background: #fff">
 	<a href="{{{base}}}/local-editing">Edit template locally</a>
 	<hr />
-
 	<a href="{{{base}}}/rename">Rename template</a>
 	<hr />
 	<a href="{{{base}}}/delete">Delete template</a>

@@ -3,8 +3,14 @@ module.exports = function(req, res, next) {
 	res.locals.fonts = Object.keys(req.template.locals)
 		.filter(key => key.indexOf("_font") > -1)
 		.map(key => {
-			return { key, value: req.template.locals[key], label: key };
+			return { key, value: req.template.locals[key], label: desnake(key) };
 		});
 
 	return next();
 };
+
+function desnake(str) {
+	str = str.split("_").join(" ");
+	str = str[0].toUpperCase() + str.slice(1);
+	return str;
+}

@@ -6,7 +6,6 @@ module.exports = function(req, res, next) {
   Template.getAllViews(req.template.id, function(err, views, template) {
     if (err || !views || !template) return next(new Error("No template"));
 
-    console.log('HERE');
     res.locals.getAllViews = { views, template };
 
     views = arrayify(views);

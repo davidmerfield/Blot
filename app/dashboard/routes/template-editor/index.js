@@ -49,7 +49,6 @@ TemplateEditor.route("/:templateSlug/settings")
 	.get(function(req, res) {
 		res.locals.partials.yield = "template-editor/template-settings";
 		res.locals.partials.sidebar = "template-editor/template-settings-sidebar";
-		console.log(res.locals);
 		res.render("template-editor/layout");
 	});
 
@@ -86,7 +85,6 @@ TemplateEditor.route("/:templateSlug/rename")
 		res.render("template-editor/layout");
 	})
 	.post(bodyParser, function(req, res, next) {
-		console.log(req.template.id, req.body.name);
 		Template.setMetadata(req.template.id, { name: req.body.name }, function(
 			err
 		) {
