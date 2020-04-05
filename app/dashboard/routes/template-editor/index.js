@@ -34,20 +34,35 @@ TemplateEditor.route("/:templateSlug/settings")
 	.all(require("./load/color-inputs"))
 	.all(require("./load/range-inputs"))
 	.all(require("../settings/load/dates"))
-	.post(bodyParser, function(req, res, next) {
-		let updatedLocals = formJSON(req.body, Template.metadataModel).locals;
+	.post(
+		bodyParser,
+		function(req, res, next) {
+			let body = formJSON(req.body, Template.metadataModel);
+			let newLocals = body.locals;
+			let newPartials = body.partials;
+			let locals = req.template.locals;
+			let partials = req.template.partials;
 
-		let locals = req.template.locals;
+			for (let key in newLocals) locals[key] = newLocals[key];
+			for (let key in newPartials) partials[key] = newPartials[key];
 
-		for (let key in updatedLocals) locals[key] = updatedLocals[key];
-
-		Template.update(req.blog.id, req.params.templateSlug, { locals }, function(
-			err
-		) {
-			if (err) return next(err);
-			res.message(req.baseUrl + "/" + req.url, "Success!");
-		});
-	})
+			req.locals = locals;
+			req.partials = partials;
+			next();
+		},
+		require('./save/fonts'),
+		function(req, res, next) {
+			Template.update(
+				req.blog.id,
+				req.params.templateSlug,
+				{ locals: req.body },
+				function(err) {
+					if (err) return next(err);
+					res.message(req.baseUrl + "/" + req.url, "Success!");
+				}
+			);
+		}
+	)
 	.get(function(req, res) {
 		res.locals.partials.yield = "template-editor/preview";
 		res.locals.partials.sidebar = "template-editor/settings-sidebar";
