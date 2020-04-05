@@ -47,14 +47,14 @@ TemplateEditor.route("/:templateSlug/settings")
 		});
 	})
 	.get(function(req, res) {
-		res.locals.partials.yield = "template-editor/template-settings";
-		res.locals.partials.sidebar = "template-editor/template-settings-sidebar";
+		res.locals.partials.yield = "template-editor/preview";
+		res.locals.partials.sidebar = "template-editor/settings-sidebar";
 		res.render("template-editor/layout");
 	});
 
 TemplateEditor.route("/:templateSlug/local-editing")
 	.get(function(req, res) {
-		res.locals.partials.yield = "template-editor/template-settings";
+		res.locals.partials.yield = "template-editor/preview";
 		res.locals.partials.sidebar = "template-editor/local-editing";
 		res.locals.enabled = req.template.localEditing;
 		res.render("template-editor/layout");
@@ -66,8 +66,11 @@ TemplateEditor.route("/:templateSlug/local-editing")
 			if (err) return next(err);
 
 			if (localEditing) {
-				Template.writeToFolder(req.blog.id, req.template.id, function(err) {
+				Template.writeToFolder(req.blog.id, req.template.id, function() {
 					// could we do something with this error? Could we wait to render the page?
+					// it would be useful to have a progress bar here to prevent
+					// busted folder state
+					// we should also do something with the error
 				});
 			}
 
@@ -80,7 +83,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
 
 TemplateEditor.route("/:templateSlug/rename")
 	.get(function(req, res) {
-		res.locals.partials.yield = "template-editor/template-settings";
+		res.locals.partials.yield = "template-editor/preview";
 		res.locals.partials.sidebar = "template-editor/rename";
 		res.render("template-editor/layout");
 	})
@@ -95,7 +98,7 @@ TemplateEditor.route("/:templateSlug/rename")
 
 TemplateEditor.route("/:templateSlug/delete")
 	.get(function(req, res, next) {
-		res.locals.partials.yield = "template-editor/template-settings";
+		res.locals.partials.yield = "template-editor/preview";
 		res.locals.partials.sidebar = "template-editor/delete";
 		res.render("template-editor/layout");
 	})
