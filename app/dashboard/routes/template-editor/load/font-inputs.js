@@ -1,4 +1,5 @@
 module.exports = function(req, res, next) {
+	res.locals.partials.font = 'template-editor/inputs/font';
 	res.locals.fonts = Object.keys(req.template.locals)
 		.filter(key => key.indexOf("_font") > -1)
 		.map(key => {

@@ -29,9 +29,9 @@ TemplateEditor.use("/:templateSlug/:section", function(req, res, next) {
 
 TemplateEditor.route("/:templateSlug/settings")
 	.all(require("./load/font-inputs"))
-	.all(require("../settings/load/dates"))
 	.all(require("./load/color-inputs"))
 	.all(require("./load/range-inputs"))
+	.all(require("../settings/load/dates"))
 	.post(bodyParser, function(req, res, next) {
 		let updatedLocals = formJSON(req.body, Template.metadataModel).locals;
 
@@ -49,6 +49,7 @@ TemplateEditor.route("/:templateSlug/settings")
 	.get(function(req, res) {
 		res.locals.partials.yield = "template-editor/template-settings";
 		res.locals.partials.sidebar = "template-editor/template-settings-sidebar";
+		console.log(res.locals);
 		res.render("template-editor/layout");
 	});
 

@@ -1,4 +1,5 @@
 module.exports = function(req, res, next) {
+	res.locals.partials.color = 'template-editor/inputs/color';
 	res.locals.colors = Object.keys(req.template.locals)
 		.filter(key => key.indexOf("_color") > -1)
 		.map(key => {

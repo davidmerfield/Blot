@@ -1,4 +1,5 @@
 module.exports = function(req, res, next) {
+	res.locals.partials.range = 'template-editor/inputs/range';
 	res.locals.ranges = Object.keys(req.template.locals)
 		.filter(key => key.indexOf("_size") > -1)
 		.map(key => {
