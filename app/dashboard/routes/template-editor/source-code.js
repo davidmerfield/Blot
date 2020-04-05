@@ -43,6 +43,7 @@ SourceCode.param("viewSlug", require("./load/template-view"));
 
 SourceCode.route("/:viewSlug/edit")
 	.get(function(req, res) {
+		res.locals.title = `${req.view.name} - ${req.template.name}`;
 		res.locals.partials.yield = "template-editor/source-code/edit";
 		res.render("template-editor/layout");
 	})
@@ -70,14 +71,10 @@ SourceCode.route("/:viewSlug/edit")
 		});
 	});
 
-SourceCode.route("/:viewSlug/preview").get(function(req, res) {
-	res.locals.partials.yield = "template-editor/source-code/preview";
-	res.render("template-editor/layout");
-});
-
 SourceCode.route("/:viewSlug/rename")
 	.get(function(req, res) {
 		res.locals.partials.yield = "template-editor/source-code/rename";
+		res.locals.title = `Rename - ${req.view.name} - ${req.template.name}`;
 		res.render("template-editor/layout");
 	})
 	.post(bodyParser, function(req, res, next) {
@@ -116,6 +113,7 @@ SourceCode.route("/:viewSlug/rename")
 SourceCode.route("/:viewSlug/delete")
 	.get(function(req, res) {
 		res.locals.partials.yield = "template-editor/source-code/delete";
+		res.locals.title = `Delete - ${req.view.name} - ${req.template.name}`;
 		res.render("template-editor/layout");
 	})
 	.post(bodyParser, function(req, res, next) {

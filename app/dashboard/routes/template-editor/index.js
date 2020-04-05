@@ -18,6 +18,8 @@ TemplateEditor.param("templateSlug", function(req, res, next) {
 TemplateEditor.use("/:templateSlug", function(req, res, next) {
 	if (req.template.localEditing && req.path !== "/local-editing")
 		return res.redirect(res.locals.base + "/local-editing");
+
+	res.locals.title = req.template.name;
 	next();
 });
 
@@ -57,6 +59,7 @@ TemplateEditor.route("/:templateSlug/local-editing")
 		res.locals.partials.yield = "template-editor/preview";
 		res.locals.partials.sidebar = "template-editor/local-editing";
 		res.locals.enabled = req.template.localEditing;
+		res.locals.title = `Local editing - ${req.template.name}`;
 		res.render("template-editor/layout");
 	})
 	.post(bodyParser, function(req, res, next) {
@@ -85,6 +88,7 @@ TemplateEditor.route("/:templateSlug/rename")
 	.get(function(req, res) {
 		res.locals.partials.yield = "template-editor/preview";
 		res.locals.partials.sidebar = "template-editor/rename";
+		res.locals.title = `Rename - ${req.template.name}`;
 		res.render("template-editor/layout");
 	})
 	.post(bodyParser, function(req, res, next) {
@@ -100,6 +104,7 @@ TemplateEditor.route("/:templateSlug/delete")
 	.get(function(req, res, next) {
 		res.locals.partials.yield = "template-editor/preview";
 		res.locals.partials.sidebar = "template-editor/delete";
+		res.locals.title = `Delete - ${req.template.name}`;
 		res.render("template-editor/layout");
 	})
 	.post(function(req, res, next) {
