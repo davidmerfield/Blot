@@ -47,15 +47,19 @@ TemplateEditor.route("/:templateSlug/settings")
 			for (let key in newPartials) partials[key] = newPartials[key];
 
 			req.locals = locals;
-			req.partials = partials;
+			req.partials = partials || {};
+
+			console.log(req.locals);
+			console.log(req.partials);
+			
 			next();
 		},
-		require('./save/fonts'),
+		require("./save/fonts"), 
 		function(req, res, next) {
 			Template.update(
 				req.blog.id,
 				req.params.templateSlug,
-				{ locals: req.body },
+				{ locals: req.locals, partials: req.partials },
 				function(err) {
 					if (err) return next(err);
 					res.message(req.baseUrl + "/" + req.url, "Success!");
