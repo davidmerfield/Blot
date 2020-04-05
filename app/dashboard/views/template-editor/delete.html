@@ -1,4 +1,31 @@
+<style type="text/css">
+	button.red,
+	.grey {
+		border: none;
+		color: white;
+		padding: 1rem;
+	}
+
+	button.red {
+		flex-grow: 1;
+		background: red;
+				margin-right: 2rem
+	}
+
+	.grey {
+		flex-grow: 0.5;
+		background: #ccc;
+		color: #fff;
+	}
+</style>
 <form action="{{{base}}}/delete" method="post">
-	<button class="button disabled small" type="submit">Delete</button>
-	<a href="{{{base}}}/settings">Cancel</a>
+	<h1>Delete template</h1>
+	<p>
+		Are you sure you want to delete <strong>{{template.name}}</strong>? This
+		cannot be undone.
+	</p>
+	<div style="display: flex;margin: 0 1rem">
+		<button class="red" type="submit">Delete</button>
+		<a class="grey" href="{{{base}}}/settings">Cancel</a>
+	</div>
 </form>

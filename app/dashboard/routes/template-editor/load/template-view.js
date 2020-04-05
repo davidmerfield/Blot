@@ -5,7 +5,7 @@ module.exports = function(req, res, next) {
 	if (req.params.viewSlug === "package.json") {
 		const { views, template } = res.locals.getAllViews;
 
-		res.locals.view = {
+		req.view = res.locals.view = {
 			content: Template.package.generate(req.blog.id, template, views),
 			name: "package.json",
 			editorMode: editorMode("package.json"),
