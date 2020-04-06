@@ -165,8 +165,7 @@ a {
 }
 
 a:hover {
-  color: #468CC7;
-  background-image: linear-gradient({{background_color}}, {{background_color}}), linear-gradient({{background_color}}, {{background_color}}), linear-gradient(#5599D2, #5599D2);
+  opacity: 0.75
 }
 
 a::selection {
@@ -351,13 +350,13 @@ input#search {
   width: 103.5%;
   box-sizing: border-box;
   margin: .33em .66em 2em -1em;
-  border: 1px solid #A1ADB6;
+  border: 1px solid {{text_color}};
 }
 
 input#search:focus {
   outline: none;
-  box-shadow: 0 0 5px rgba(100, 169, 226, 0.51);
-  border: 1px solid #A1ADB6;
+  box-shadow: 0 0 5px {{link_color}};
+  border: 1px solid {{link_color}};
 }
 
 ::-webkit-input-placeholder {
