@@ -1,0 +1,57 @@
+<div class="inputs">
+	<!--
+	<div style="margin:1rem;background: #fff">
+		<h2>Color scheme</h2>
+		{{#colors}} {{> color}} {{/colors}}
+	</div>
+
+	<div style="margin:1rem;background: #fff">
+		<h2>Type</h2>
+		{{#fonts}} {{> font}} {{/fonts}} {{#ranges}} {{> range}} {{/ranges}}
+	</div>
+-->
+	<div style="margin:1rem;background: #fff">
+		<h2>Date and time</h2>
+		<form
+			id="dateSettings"
+			method="post"
+			action="/settings"
+			enctype="multipart/form-data"
+		>
+			<input type="hidden" name="redirect" value="{{{base}}}/settings" />
+
+			<label style="padding:5px 1rem;border-bottom: 1px solid #eee;display: block;">
+				<input type="hidden" value="off" name="hideDates" />
+				<input id="hideDates" type="checkbox" name="hideDates"
+				{{#blog.hideDates}}checked{{/blog.hideDates}}/> Hide dates
+			</label>
+			<label style="padding:0 1rem">
+				Date format<br />
+				<select style="margin: 0 1rem" id="dateDisplay" name="dateDisplay">
+					{{#displayFormats}}
+					<option value="{{value}}" {{selected}}>{{date}}</option>
+					{{/displayFormats}}
+				</select>
+			</label>
+			<hr />
+			<script type="text/javascript">
+				const dateSettings = document.getElementById("dateSettings");
+				const dateDisplay = document.getElementById("dateDisplay");
+				const hideDates = document.getElementById("hideDates");
+
+				hideDates.addEventListener("change", () => {
+					dateSettings.submit();
+				});
+
+				dateDisplay.addEventListener("change", () => {
+					dateSettings.submit();
+				});
+			</script>
+		</form>
+	</div>
+</div>
+<div style="margin:1rem;background: #fff">
+	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/local-editing">Edit template locally</a>
+	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/rename">Rename template</a>
+	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/delete">Delete template</a>
+</div>

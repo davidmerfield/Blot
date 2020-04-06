@@ -1,0 +1,33 @@
+<form id="locals.{{key}}.form" method="post">
+	<label for="locals.{{key}}" style="padding:5px 16px">{{label}}</label><br />
+
+	<input
+	 style="margin:5px 16px"
+		type="range"
+		id="locals.{{key}}"
+		name="locals.{{key}}"
+		value="{{value}}"
+		min="{{min}}"
+		max="{{max}}"
+	/>
+
+	<span id="locals.{{key}}.display"></span>
+</form>
+<script type="text/javascript">
+		
+	const input{{name}} = document.getElementById('locals.{{key}}');
+	const result{{name}} = document.getElementById('locals.{{key}}.display');
+	const form{{name}} = document.getElementById('locals.{{key}}.form');
+
+	result.innerHTML = input.value;
+
+	input{{name}}.addEventListener('change', (event) => {
+  	result{{name}}.textContent = event.target.value;
+  	form{{name}}.submit();
+	});
+
+	input{{name}}.addEventListener('input', (event) => {
+  	result{{name}}.textContent = event.target.value;
+	});
+	
+</script>
