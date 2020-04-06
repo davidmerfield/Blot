@@ -73,7 +73,7 @@ div {
   width: 29.3333%;
 }
 
-.margin blockquote {margin: 3px 0;color:{{text_color}};padding: 3px 6px;font-size: 14px;line-height:18px;border: 1px solid rgba(0,0,0,0.1);border-left:4px solid rgba(0,0,0,0.2);background: rgba(0,0,0,0.05);}
+.margin blockquote {margin: 3px 0;padding: 3px 6px;font-size: 14px;line-height:18px;border: 1px solid rgba(0,0,0,0.1);border-left:4px solid rgba(0,0,0,0.2);background: rgba(0,0,0,0.05);}
 .margin blockquote p {margin: 0}
 
 .margin img,
@@ -141,7 +141,8 @@ h2, h3, h4, h5, h6 {font-size: 17px;font-weight: bold;line-height: 24px;margin: 
 
 blockquote {
   padding: 0 0 0 12px;
-  color: #777
+  color: {{text_color}};
+  opacity: 0.666;
 }
 
 /*
@@ -396,7 +397,7 @@ input#search:focus {
 .pagination {
   text-align: center;
   margin: 72px 0 144px;
-  font-size: 14px;color: #999
+  font-size: 14px;color: {{text_color}};opacity:0.5
 }
 
 .pagination a {margin: 0 1em;background: none}
@@ -417,8 +418,8 @@ input#search:focus {
 
 .previousEntry {margin: 1em 2% 6em 0;}
 
-.adjacent a h5 {margin-bottom: 3px;color: #000}
-.adjacent a .summary {color: #6B6B6B;font-size: 13px;line-height: 17px;}
+.adjacent a h5 {margin-bottom: 3px;color: {{text_color}}}
+.adjacent a .summary {color: {{text_color}};font-size: 13px;line-height: 17px;opacity:0.6}
 
 .previousEntry .title,
 .nextEntry .title {
