@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'abelregular';
+    src: url('abel-regular-webfont.eot');
+    src: url('abel-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('abel-regular-webfont.woff2') format('woff2'),
+         url('abel-regular-webfont.woff') format('woff'),
+         url('abel-regular-webfont.ttf') format('truetype'),
+         url('abel-regular-webfont.svg#abelregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
