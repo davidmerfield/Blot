@@ -129,7 +129,7 @@ TemplateEditor.route("/:templateSlug/delete")
 	.post(function(req, res, next) {
 		Template.drop(req.blog.id, req.template.name, function(err) {
 			if (err) return next(err);
-			res.message("/settings/theme", "Deleted template!");
+			res.message("/settings/template", "Deleted template!");
 		});
 	});
 
