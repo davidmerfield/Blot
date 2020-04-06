@@ -62,7 +62,7 @@ TemplateEditor.route("/:templateSlug/settings")
 				{ locals: req.locals, partials: req.partials },
 				function(err) {
 					if (err) return next(err);
-					res.message(req.baseUrl + "/" + req.url, "Success!");
+					res.message(req.baseUrl + req.url, "Success!");
 				}
 			);
 		}
