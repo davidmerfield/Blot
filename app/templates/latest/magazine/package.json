@@ -1,9 +1,10 @@
 {
   "name": "Magazine",
   "locals": {
-    "accent_color": "90,90,90",
-    "background_color": "white",
-    "sidebar_color": "white",
+    "accent_color": "rgb(90,90,90)",
+    "background_color": "#fff",
+    "sidebar_color": "#fff",
+    "text_color": "#000",
     "page_size": 20
   },
   "isPublic": true,

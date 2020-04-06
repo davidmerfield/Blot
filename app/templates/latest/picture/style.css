@@ -1,7 +1,8 @@
 /* Colors */
 
 hr {
-  background-color: #e7e7e5;
+  background-color: {{text_color}};
+  opacity: 0.1;
 }
 
 .zoom-overlay, html, body {
@@ -11,7 +12,7 @@ hr {
 
 .archives a,
 .entry .body a {
-  color: darkblue
+  color: {{link_color}}
 }
 
 .entry .body a:visited,
@@ -40,6 +41,7 @@ body{
 }
 
 .index a {
+  color: {{link_color}};
   padding: {{spacing}}rem;
 }
 
