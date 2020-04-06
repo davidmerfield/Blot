@@ -1,7 +1,10 @@
 {
   "name": "Diary",
   "locals": {
-    "page_size": 6
+    "page_size": 6,
+    "text_color": "#232323",
+    "background_color": "#fff",
+    "link_color": "#004984"
   },
   "isPublic": true,
   "views": {

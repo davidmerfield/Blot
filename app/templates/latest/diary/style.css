@@ -28,14 +28,15 @@ body {
   font-feature-settings: "liga";
   -moz-osx-font-smoothing: grayscale;
   -moz-font-feature-settings: “liga” on;
-  color: #232323;
+  color: {{text_color}};
   word-wrap: break-word;
+  background: {{background_color}};
 }
 
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
 .small,
-.caption {font-size: 13px;color: #999;font-weight: 500;}
+.caption {font-size: 13px;color: {{text_color}};font-weight: 500;opacity:0.5}
 
 .caption {
   line-height: 18px;
@@ -59,7 +60,7 @@ div {
   position: relative;
 }
 
-.header {padding: 1.45rem;margin:1.4rem;display: flex;position: sticky;top:0;background: #fff;z-index: 100}
+.header {padding: 1.45rem;margin:1.4rem;display: flex;position: sticky;top:0;background: {{background_color}};z-index: 100}
 .main {max-width: 60%;min-width: 600px}
 .container {max-width: 1000px}
 .entry {margin: 72px 0 120px}
@@ -72,7 +73,7 @@ div {
   width: 29.3333%;
 }
 
-.margin blockquote {margin: 3px 0;color:#232323;padding: 3px 6px;font-size: 14px;line-height:18px;border: 1px solid rgba(0,0,0,0.1);border-left:4px solid rgba(0,0,0,0.2);background: rgba(0,0,0,0.05);}
+.margin blockquote {margin: 3px 0;color:{{text_color}};padding: 3px 6px;font-size: 14px;line-height:18px;border: 1px solid rgba(0,0,0,0.1);border-left:4px solid rgba(0,0,0,0.2);background: rgba(0,0,0,0.05);}
 .margin blockquote p {margin: 0}
 
 .margin img,
@@ -154,10 +155,10 @@ big {color: #000;font-size: 32px;line-height: 48px;display: block;}
 /* LINKS */
 
 a {
-  color: #004984; /* 02569B */
+  color: {{link_color}}; /* 02569B */
   text-decoration: none;
-  text-shadow: .03em 0 #fff, -.03em 0 #fff, 0 .03em #fff, 0 -.03em #fff, .06em 0 #fff, -.06em 0 #fff, .09em 0 #fff, -.09em 0 #fff, .12em 0 #fff, -.12em 0 #fff, 0 0.03em #fff, 0 -.03em #fff, 0 .06em #fff, 0 -.06em #fff, 0 .08em #fff, 0 -.08em #fff;
-  background-image: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff), linear-gradient(#004984, #004984);
+  text-shadow: .03em 0 {{background_color}}, -.03em 0 {{background_color}}, 0 .03em {{background_color}}, 0 -.03em {{background_color}}, .06em 0 {{background_color}}, -.06em 0 {{background_color}}, .09em 0 {{background_color}}, -.09em 0 {{background_color}}, .12em 0 {{background_color}}, -.12em 0 {{background_color}}, 0 0.03em {{background_color}}, 0 -.03em {{background_color}}, 0 .06em {{background_color}}, 0 -.06em {{background_color}}, 0 .08em {{background_color}}, 0 -.08em {{background_color}};
+  background-image: linear-gradient({{background_color}}, {{background_color}}), linear-gradient({{background_color}}, {{background_color}}), linear-gradient({{link_color}}, {{link_color}});
   background-size: 0 0,0 0,0.07em 0.07em;
   background-repeat: no-repeat, no-repeat, repeat-x;
   background-position: 0% 90%, 100% 90%, 0% 95%;
@@ -165,7 +166,7 @@ a {
 
 a:hover {
   color: #468CC7;
-  background-image: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff), linear-gradient(#5599D2, #5599D2);
+  background-image: linear-gradient({{background_color}}, {{background_color}}), linear-gradient({{background_color}}, {{background_color}}), linear-gradient(#5599D2, #5599D2);
 }
 
 a::selection {
@@ -299,7 +300,7 @@ iframe {width: 100%;}
 
 
 #logo {
-  color: #222;
+  color: {{text_color}};
 
 }
 
@@ -312,7 +313,7 @@ iframe {width: 100%;}
 #logo img:active {margin-top: 1px}
 
 /* Nav links are underlined which affects their optical lineheight */
-.header a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: #000;}
+.header a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: {{text_color}};}
 .header a:hover {text-decoration: underline;}
 .header .tags a {opacity: 1.0}
 .header .nav a {opacity: 0.4}
@@ -322,7 +323,7 @@ iframe {width: 100%;}
 .nav a[href="/feed.rss"],
 .nav a[href="/search"] {
   float: right;
-  color: #000;
+  color: {{text_color}};
   text-indent: -1000px;
   overflow: hidden;
   font-weight: 500;
