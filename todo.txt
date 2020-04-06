@@ -2,65 +2,7 @@ Add dark mode and footnotes to [Jimmy's blog](https://mail.google.com/mail/u/0/#
 
 Tweak paragraph styling on [Jon's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZTKKStzhzttLLwzzGhgKTMN)
 
-Add persona/cargo style customization buttons
-- Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
-- Fonts:
-		Abel
-		Alegreya
-		Alte Haas Grotesk
-		Authentic Sans
-		Avara
-		Averia Serif Libre
-		Bagnard
-		Chivo
-		Cormorant
-		Crimson Text 
-		Darker Grotesque
-		DINosaur
-		DM Sans
-		Eb Garamond 
-		Fjalla One
-		Fondamento
-		Golos Text
-		Halibut Serif 
-		Happy Times at the IKOB
-		iA Writer Quattro
-		Infini GF 
-		Inter 
-		Interstate
-		JetBrains Mono
-		Junicode
-		Karla
-		Le Murmure
-		Libertinus
-		Messapia
-		Michroma
-		Mister Pixel
-		Montserrat
-		Neuton
-		Nunito
-		Optician Sans
-		Ortica
-		Oswald
-		Pilowlava
-		Pinyon Script
-		Plex
-		Quicksand
-		Roboto
-		Routed Gothic
-		Rubik
-		Space Grotesk/Mono
-		Spectral
-		Syne
-		Terminal Grotesque
-		TeX Gyre
-		Typewriter Condensed
-		UnifrakturMaguntia
-		VCR OSD Mono
-		Vollkorn
-		Work Sans
-		Wremena
-		Young Serif
+Add persona/cargo style customization buttons tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL) once font picker is ready.
 
 Resolve intermittent downtime
 - increase available memory?
@@ -861,3 +803,5 @@ Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
 
 Consider adding [[Wikilinks]] and tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqWvGDjVMMzBHhXNPTvhJJ)
+
+Consider establishing community of Blot users and tell [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)
