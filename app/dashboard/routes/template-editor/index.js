@@ -127,7 +127,7 @@ TemplateEditor.route("/:templateSlug/delete")
 		res.render("template-editor/layout");
 	})
 	.post(function(req, res, next) {
-		Template.drop(req.blog.id, req.template.name, function(err) {
+		Template.drop(req.blog.id, req.template.slug, function(err) {
 			if (err) return next(err);
 			res.message("/settings/template", "Deleted template!");
 		});
