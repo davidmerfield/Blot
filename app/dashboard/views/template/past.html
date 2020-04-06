@@ -72,7 +72,7 @@
 <div class="subpage">
   <p style="margin:11px 20px">This page contains templates that are no longer maintained. Some are old, some are unfinished, some are experimental. Some are translations of popular templates on other platforms. </p>
 
-  <input type="hidden" name="redirect" value="/theme">
+  <input type="hidden" name="redirect" value="/settings/template">
 
   {{^blog.template}}
   <div class="lisne" style="border-bottom:none">
@@ -119,8 +119,8 @@
 
     <a href="{{previewURL}}" class="preview-button" target="_blank" ><span class="square">Preview</span></a>
 
-    <form method='post' action="/settings/theme/new">
-      <input type="hidden" name="redirect" value="/settings/theme">
+    <form method='post' action="/settings/template/new">
+      <input type="hidden" name="redirect" value="/settings/template">
       <input type="hidden" name="name" value="Copy of {{name}}" />
       <input type="hidden" name="cloneFrom" value="{{id}}" />
       <button type="submit" style="color:#365899;padding:11px 20px;display:block;text-align:left;width:100%">Fork</button>

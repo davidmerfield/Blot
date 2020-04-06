@@ -202,13 +202,13 @@ dashboard.use("/_avatars/:avatar", function(req, res, next) {
 
 dashboard.post(
   [
-    "/settings/theme*",
+    "/settings/template*",
     "/path",
     "/folder*",
     "/settings/client*",
     "/flags",
     "/404s",
-    "/account*"
+    "/account*",
   ],
   bodyParser.urlencoded({ extended: false })
 );
@@ -243,8 +243,6 @@ dashboard.use(function(req, res, next) {
 });
 
 // dashboard.use('/documentation', require("../site/documentation"));
-
-require("./routes/editor")(dashboard);
 
 // Use this before modifying the render function
 // since it doesn't use the layout for the rest of the dashboard
