@@ -20,17 +20,18 @@ hr {
 
 
 .navigation a {
-  color: rgba(0, 0, 0, .1)
+  color: {{text_color}};
 }
 
 .index a .text:hover,
 .dim .navigation,
 .edge a {
-  color: rgba(0, 0, 0, 0.4);
+  color: {{text_color}};
+  opacity: 0.4;
 }
 
 .entry .body {
-  color: rgba(0, 0, 0, 0.75)
+  color: {{text_color}};
 }
 
 /* Proportions */
@@ -139,7 +140,7 @@ body {
 }
 
 .index a .text {
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid {{text_color}};
   display: block;
   text-align: center;
   display: flex;
