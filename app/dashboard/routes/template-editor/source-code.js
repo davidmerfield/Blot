@@ -1,6 +1,5 @@
 const helper = require("helper");
 const bodyParser = require("body-parser").urlencoded({ extended: false });
-const Blog = require("blog");
 const Express = require("express");
 const SourceCode = new Express.Router();
 const Template = require("template");
@@ -47,7 +46,7 @@ SourceCode.route("/:viewSlug/edit")
 		res.locals.partials.yield = "template-editor/source-code/edit";
 		res.render("template-editor/layout");
 	})
-	.post(bodyParser, function(req, res, next) {
+	.post(bodyParser, function(req, res) {
 		var view = formJSON(req.body, Template.viewModel);
 
 		view.name = req.view.name;
@@ -57,17 +56,7 @@ SourceCode.route("/:viewSlug/edit")
 				return res.status(400).send(err.message);
 			}
 
-			var now = Date.now();
-			var changes = {
-				cacheID: now,
-				cssURL: "/style.css?" + now,
-				scriptURL: "/script.js?" + now,
-			};
-
-			Blog.set(req.blog.id, changes, function(err) {
-				if (err) return next(err);
-				res.send("Saved changes!");
-			});
+			res.send("Saved changes!");
 		});
 	});
 
@@ -97,14 +86,10 @@ SourceCode.route("/:viewSlug/rename")
 				Template.dropView(req.template.id, oldName, function(err) {
 					if (err) return next(err);
 
-					Blog.set(req.blog.id, { cacheID: Date.now() }, function(err) {
-						if (err) return next(err);
-
-						res.message(
-							res.locals.base + "/source-code/" + newName + "/edit",
-							"Saved changes!"
-						);
-					});
+					res.message(
+						res.locals.base + "/source-code/" + newName + "/edit",
+						"Saved changes!"
+					);
 				});
 			});
 		});

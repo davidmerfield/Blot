@@ -6,7 +6,6 @@ var basename = require("path").basename;
 var colors = require("colors/safe");
 
 var fs = require("fs-extra");
-var mime = require("mime");
 var async = require("async");
 var Blog = require("blog");
 
@@ -67,7 +66,7 @@ function build(directory, callback) {
     colors.dim(directory)
   );
 
-  var templatePackage, isPublic, method;
+  var templatePackage, isPublic;
   var name, template, description, id;
 
   try {
@@ -89,7 +88,7 @@ function build(directory, callback) {
   template = {
     isPublic: isPublic,
     description: description,
-    locals: templatePackage.locals
+    locals: templatePackage.locals,
   };
 
   Template.drop(TEMPLATES_OWNER, basename(directory), function(err) {
@@ -137,7 +136,7 @@ function buildViews(directory, id, views, callback) {
       var view = {
         name: viewName,
         content: viewContent,
-        url: '/' + viewName
+        url: "/" + viewName,
       };
 
       if (views && views[view.name]) {
@@ -254,7 +253,7 @@ function emptyCacheForBlogsUsing(templateID, callback) {
             colors.dim("flushed for"),
             blog.handle + colors.dim(" (" + blog.id + ")")
           );
-          Blog.set(blog.id, { cacheID: Date.now() }, next);
+          next();
         });
       },
       callback
