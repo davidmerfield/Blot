@@ -73,7 +73,7 @@ div {
   width: 29.3333%;
 }
 
-.margin blockquote {margin: 3px 0;padding: 3px 6px;font-size: 14px;line-height:18px;border: 1px solid rgba(0,0,0,0.1);border-left:4px solid rgba(0,0,0,0.2);background: rgba(0,0,0,0.05);}
+.margin blockquote {margin: 3px 0;padding: 3px 6px;font-size: 14px;line-height:18px;}
 .margin blockquote p {margin: 0}
 
 .margin img,
@@ -151,7 +151,7 @@ li .small-caps {
   font-family: "Georgia Pro SC";
 }*/
 
-big {color: #000;font-size: 32px;line-height: 48px;display: block;}
+big {color: {{text_color}};font-size: 32px;line-height: 48px;display: block;}
 
 /* LINKS */
 
@@ -197,7 +197,7 @@ a.tag {
 
 /* RULE */
 
-hr {width: 100%;margin: 24px auto -1px;border: none;border-bottom: 3px double #efefef; padding-bottom: 1.4em;text-shadow: none;box-shadow: none;}
+hr {width: 100%;opacity:0.1;margin: 24px auto -1px;border: none;border-bottom: 3px double {{text_color}}; padding-bottom: 1.4em;text-shadow: none;box-shadow: none;}
 
 /* CODE */
 
@@ -216,6 +216,7 @@ p code {
   margin-left: -2px;
   display: inline-block;
 }
+
 /*
 p code:before,
 p code:after {
@@ -244,8 +245,8 @@ table {
   line-height: 24px;
 }
 
-tr {box-sizing: border-box;border-top: 1px solid #ccc;padding: 0}
-th, td {box-sizing: border-box;border: 1px solid #ddd;padding: 5px 12px 6px}
+tr {box-sizing: border-box;border-top: 1px solid {{text_color}};padding: 0}
+th, td {box-sizing: border-box;border: 1px solid {{text_color}};padding: 5px 12px 6px}
 
 /* LISTS */
 
@@ -306,8 +307,7 @@ iframe {width: 100%;}
 
 
 #logo img {max-width: 48px;max-height: 48px;margin-right: 1rem}
-#logo:hover {color: #555}
-#logo img:hover {opacity: 0.8}
+#logo:hover {opacity: 0.8}
 
 #logo img.rounded {width: 52px;border-radius: 50%;top: -2px;left: -64px}
 #logo img:active {margin-top: 1px}
@@ -411,7 +411,7 @@ input#search:focus {
   line-height: 1.33em;
   width: 48%;
   margin: 1em 0 6em 2%;
-  color: #000;
+  color: {{text_color}};
   display: block;
   float: left;
 }
