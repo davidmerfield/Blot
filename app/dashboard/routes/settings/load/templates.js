@@ -8,7 +8,7 @@ var Template = require("template");
 module.exports = function(req, res, next) {
   var blog = req.blog,
     blogID = blog.id,
-    currentTemplate = blog.template,
+    currentTemplate = blog.template;
 
   Template.getTemplateList(blogID, function(err, templates) {
     var yourTemplates = [];
@@ -31,7 +31,7 @@ module.exports = function(req, res, next) {
 
       var mySubDomain = template.isMine ? "my-" : "";
 
-      template.editURL = "/template-editor/" + template.slug + '/settings';
+      template.editURL = "/template-editor/" + template.slug + "/settings";
 
       template.previewURL =
         previewHost +
