@@ -3,12 +3,13 @@ describe("template", function() {
 
   var setView = require("../index").setView;
   var getView = require("../index").getView;
+  var Blog = require("blog");
 
   it("sets a view", function(done) {
     var test = this;
     var view = {
       name: test.fake.random.word() + ".txt",
-      content: test.fake.random.word()
+      content: test.fake.random.word(),
     };
 
     setView(test.template.id, view, function(err) {
@@ -26,7 +27,7 @@ describe("template", function() {
     var test = this;
     var view = {
       name: test.fake.random.word(),
-      content: test.fake.random.word()
+      content: test.fake.random.word(),
     };
 
     setView(test.template.id, view, function(err) {
@@ -56,7 +57,7 @@ describe("template", function() {
     var test = this;
     var view = {
       name: test.fake.random.word(),
-      content: "{{#x}}" // without the closing {{/x}} mustache will err.
+      content: "{{#x}}", // without the closing {{/x}} mustache will err.
     };
 
     setView(test.template.id, view, function(err) {
@@ -82,5 +83,20 @@ describe("template", function() {
     expect(function() {
       setView(test.template.id, { name: null }, function() {});
     }).toThrow();
+  });
+
+  it("updates the cache ID of the blog which owns a template after setting a view", function(done) {
+    var test = this;
+    var initialCacheID = test.blog.cacheID;
+    var view = { name: test.fake.random.word() };
+
+    setView(test.template.id, view, function(err) {
+      if (err) return done.fail(err);
+      Blog.get({ id: test.template.owner }, function(err, blog) {
+        if (err) return done.fail(err);
+        expect(blog.cacheID).not.toEqual(initialCacheID);
+        done();
+      });
+    });
   });
 });

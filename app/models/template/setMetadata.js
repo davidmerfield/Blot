@@ -4,6 +4,7 @@ var getMetadata = require("./getMetadata");
 var serialize = require("./util/serialize");
 var metadataModel = require("./metadataModel");
 var ensure = require("helper").ensure;
+var Blog = require("blog");
 
 module.exports = function setMetadata(id, updates, callback) {
   try {
@@ -33,12 +34,14 @@ module.exports = function setMetadata(id, updates, callback) {
     }
 
     client.sadd(key.blogTemplates(metadata.owner), id, function(err) {
-      if (err) throw err;
+      if (err) return callback(err);
 
       client.hmset(key.metadata(id), metadata, function(err) {
-        if (err) throw err;
+        if (err) return callback(err);
 
-        return callback(err, changes);
+        Blog.set(metadata.owner, { cacheID: Date.now() }, function(err) {
+          callback(err, changes);
+        });
       });
     });
   });

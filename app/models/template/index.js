@@ -20,7 +20,6 @@ module.exports = {
   makeID: require("./util/makeID"),
   isOwner: require("./isOwner"),
   siteOwner: siteOwner,
-  defaultTemplate: require("./util/makeID")(siteOwner, "diary"),
 
   buildFromFolder: require("./buildFromFolder"),
   readFromFolder: require("./readFromFolder"),

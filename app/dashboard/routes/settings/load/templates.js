@@ -8,8 +8,7 @@ var Template = require("template");
 module.exports = function(req, res, next) {
   var blog = req.blog,
     blogID = blog.id,
-    currentTemplate = blog.template,
-    defaultTemplate = Template.defaultTemplate;
+    currentTemplate = blog.template;
 
   Template.getTemplateList(blogID, function(err, templates) {
     var yourTemplates = [];
@@ -22,8 +21,6 @@ module.exports = function(req, res, next) {
 
       if (template.owner === blog.id) template.isMine = true;
 
-      if (template.id === defaultTemplate) template.isDefault = true;
-
       if (template.id === currentTemplate) template.checked = "checked";
 
       if (
@@ -34,7 +31,7 @@ module.exports = function(req, res, next) {
 
       var mySubDomain = template.isMine ? "my-" : "";
 
-      template.editURL = "/template-editor/" + template.slug + '/settings';
+      template.editURL = "/template-editor/" + template.slug + "/settings";
 
       template.previewURL =
         previewHost +

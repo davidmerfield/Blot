@@ -4,6 +4,7 @@ describe("template", function() {
   var drop = require("../index").drop;
   var getTemplateList = require("../index").getTemplateList;
   var client = require("client");
+  var Blog = require("blog");
 
   it("drops a template", function(done) {
     drop(this.blog.id, this.template.name, done);
@@ -37,11 +38,24 @@ describe("template", function() {
     });
   });
 
+  it("updates the cache ID of the blog which owns a template after dropping", function(done) {
+    var test = this;
+    var initialCacheID = test.blog.cacheID;
+    drop(test.blog.id, test.template.name, function(err) {
+      if (err) return done.fail(err);
+      Blog.get({ id: test.template.owner }, function(err, blog) {
+        if (err) return done.fail(err);
+        expect(blog.cacheID).not.toEqual(initialCacheID);
+        done();
+      });
+    });
+  });
+
   // There is a bug with the drop function at the moment
   // It does a truthy check against an empty object in the
   // if (err || !allViews)  where all views is {}
   // Fix this in future and enable the spec.
-  xit("drop returns an error when the template does not exist", function(done) {
+  it("drop returns an error when the template does not exist", function(done) {
     var test = this;
     drop(test.blog.id, test.fake.random.word(), function(err) {
       expect(err instanceof Error).toBe(true);
