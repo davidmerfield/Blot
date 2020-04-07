@@ -3,7 +3,7 @@
   "locals": {
     "page_size": 24,
     "background_color": "#fff",
-    "text_color": "#000"
+    "text_color": "rgb(88,88,88)"
   },
   "isPublic": true,
   "views": {
