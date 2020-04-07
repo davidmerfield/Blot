@@ -535,6 +535,7 @@ Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function?
 Add support for Dropbox Paper .paper files and tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvMswZZXKvLfBRBVqfzksw)
 
 Make improvements to template editor color picker:
+- Think about customizable svg icon colors?
 - Expose array of rgb values for selected color so we could adjust opacity of color in template, for borders, light text etc: `{{#text_color}} color: rgba({{r}}, {{g}, {{b}}, 0.5); {{/text_color}}`
 - Random color button
 - Recommended presets for color scheme as a whole
