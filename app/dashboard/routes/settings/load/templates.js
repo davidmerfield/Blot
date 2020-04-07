@@ -9,7 +9,6 @@ module.exports = function(req, res, next) {
   var blog = req.blog,
     blogID = blog.id,
     currentTemplate = blog.template,
-    defaultTemplate = Template.defaultTemplate;
 
   Template.getTemplateList(blogID, function(err, templates) {
     var yourTemplates = [];
@@ -21,8 +20,6 @@ module.exports = function(req, res, next) {
       template.nameLower = template.name.toLowerCase();
 
       if (template.owner === blog.id) template.isMine = true;
-
-      if (template.id === defaultTemplate) template.isDefault = true;
 
       if (template.id === currentTemplate) template.checked = "checked";
 
