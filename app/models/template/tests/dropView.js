@@ -5,8 +5,8 @@ describe("template", function() {
   var getAllViews = require("../index").getAllViews;
   var client = require("client");
 
-  it("drops a view", function(done) {
-    dropView(this.blog.id, this.view.name, done);
+  it("dropView removes a view", function(done) {
+    dropView(this.template.id, this.view.name, done);
   });
 
   it("dropView removes a view from the list of views", function(done) {
@@ -25,7 +25,7 @@ describe("template", function() {
     });
   });
 
-  it("drop removes the key for the view", function(done) {
+  it("dropView removes the key for the view", function(done) {
     var test = this;
     var searchPattern = "template:" + test.template.id + ":view:*";
 
@@ -50,9 +50,9 @@ describe("template", function() {
   // so it might be worth writing a check against this in future...
 
   // This is not yet implemented
-  xit("drop returns an error when the template does not exist", function(done) {
+  it("dropView returns an error when the template does not exist", function(done) {
     var test = this;
-    dropView(test.template.id, test.view.name, function(err) {
+    dropView(test.fake.random.word(), test.view.name, function(err) {
       expect(err instanceof Error).toBe(true);
       expect(err.code).toEqual("ENOENT");
       done();
