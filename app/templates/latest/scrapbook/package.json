@@ -1,7 +1,9 @@
 {
   "name": "Scrapbook",
   "locals": {
-    "page_size": 24
+    "page_size": 24,
+    "background_color": "#fff",
+    "text_color": "rgb(88,88,88)"
   },
   "isPublic": true,
   "views": {

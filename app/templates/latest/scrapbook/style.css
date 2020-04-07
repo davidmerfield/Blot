@@ -13,7 +13,9 @@ body {
   line-height: 1.3;
   font-size: 16px;
   margin: 0;
-  padding: 0
+  padding: 0;
+  color: {{text_color}};
+  background: {{background_color}}
 }
 
 .header {
@@ -37,7 +39,8 @@ body {
 hr {
   border: none;
   margin: 0;
-  border-top: 1px solid #eceff1
+  border-top: 1px solid {{text_color}};
+  opacity: 0.2
 }
 
 a.light {
@@ -321,7 +324,6 @@ form input:focus,
 .pagination hr {
   border: none;
   margin: 0;
-  border-top: 1px solid #f2f2f2
 }
 
 .pagination .button {
@@ -360,7 +362,7 @@ form input:focus,
 .entry {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  color: rgb(88, 88, 88);
+  color: {{text_color}};
 }
 
 .entry a {
@@ -389,7 +391,8 @@ form input:focus,
 }
 
 .entry hr {
-  background-color: #e7e7e5;
+  background-color: {{text_color}};
+  opacity: 0.1;
   border: none;
   height: 2px;
   margin: 3em 0;
@@ -483,11 +486,12 @@ form input:focus,
   font-size: 14px;
   position: relative;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.05);
+  color: {{text_color}};
+  opacity: 0.1;
 }
 
 .paginator a[href] {
-  color: rgba(0, 0, 0, 0.25);
+  opacity: 0.25;
 }
 
 .paginator a:before {
@@ -537,7 +541,8 @@ form input:focus,
 .archives a.item {
   display: flex;
   align-items: center;
-  color: rgba(0, 0, 0, .4);
+  color: {{text_color}};
+  opacity: 0.4;
   text-decoration: none;
 }
 
