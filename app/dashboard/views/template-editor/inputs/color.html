@@ -14,7 +14,11 @@
 	/>
 	<div class="color-picker-{{key}}" style="cursor: pointer;display: flex;align-items: center;">
 		<span style="margin:5px 16px;flex-grow: 1">{{label}}</span>
-		<span style="outline: 1px solid rgba(0,0,0,0.2);outline-offset:-1px;margin:0 16px;width:1.25rem;height:1.25rem;background:{{value}};display: block;"></span>
+        <span class="pcr-color-preview">
+              <span class="pcr-current-color"></span>
+            </span>
+
+		<span id="prev-{{key}}" style="outline: 1px solid rgba(0,0,0,0.2);outline-offset:-1px;margin:0 16px;width:2rem;height:1.25rem;background:{{value}};display: block;"></span>
 	</div>
 	<div class="clear"></div>
 </form>
@@ -44,11 +48,12 @@
 .pcr-app {      transition: none;
   box-shadow: 0 1.5em 1.5em 0 rgba(0,0,0,.1), 0 1em 1em 0 rgba(0,0,0,.03);border-radius: 0}
     .pcr-app[data-theme=monolith] {
-    width: 16.4rem;
-    margin-top: -8px;
+    width: 16rem;
+    padding: 1em;
+    margin-top: -15px;
 }
 
-.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview {height: 1.25rem}
+.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview {display: none;}
 
 .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-palette .pcr-palette, .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-chooser .pcr-slider, .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-opacity .pcr-slider, .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview .pcr-current-color  {
     border-radius: 0;
@@ -64,8 +69,6 @@
     background: #4285f4;
     flex-grow: 1;
 }
-
-.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview .pcr-current-color {width: 100%}
 
 .pcr-app .pcr-swatches, .pcr-app[data-theme=monolith] .pcr-selection .pcr-color-preview .pcr-last-color {display: none;}
 </style>
@@ -100,22 +103,25 @@
 
 	pickr{{key}}.on('init', instance => {
     console.log('init', instance);
-}).on('hide', instance => {
-    console.log('hide', instance);
-}).on('show', (color, instance) => {
-    console.log('show', color, instance);
 }).on('save', (color, instance) => {
 		document.querySelector('input[name="locals.{{key}}"]').value = color.toHEXA().toString();
     document.querySelector('form[id="{{key}}"]').submit();
-}).on('clear', instance => {
-    console.log('clear', instance);
 }).on('change', (color, instance) => {
-    console.log('change', color, instance);
-}).on('changestop', instance => {
-    console.log('changestop', instance);
-}).on('cancel', instance => {
-    console.log('cancel', instance);
-}).on('swatchselect', (color, instance) => {
-    console.log('swatchselect', color, instance);
-});
+    document.getElementById('prev-{{key}}').style.background = color.toHEXA();
+})
+// .on('hide', instance => {
+//     console.log('hide', instance);
+// }).on('show', (color, instance) => {
+//     console.log('show', color, instance);
+// })
+// .on('clear', instance => {
+//     console.log('clear', instance);
+// })
+// .on('changestop', instance => {
+//     console.log('changestop', instance);
+// }).on('cancel', instance => {
+//     console.log('cancel', instance);
+// }).on('swatchselect', (color, instance) => {
+//     console.log('swatchselect', color, instance);
+// });
 </script>
