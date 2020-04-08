@@ -2,11 +2,13 @@ Add dark mode and footnotes to [Jimmy's blog](https://mail.google.com/mail/u/0/#
 
 Tweak paragraph styling on [Jon's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZTKKStzhzttLLwzzGhgKTMN)
 
-Add persona/cargo style customization buttons tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL) once font picker is ready.
+---
+
+Tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL) once font picker is ready.
 
 Resolve intermittent downtime
-- increase available memory?
-- Begin using memory monitor
+- Increase available memory?
+- Add memory monitor
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
 
 Record new demo video
@@ -19,7 +21,7 @@ Record new demo video
 
 ---
 
-Check that wildcard cert succeeds after 2020-04-10 11:12:00
+Check that wildcard cert succeeds after 2020-04-12
 
 Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
