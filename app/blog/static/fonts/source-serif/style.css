@@ -1,0 +1,157 @@
+
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: italic;
+  font-weight: 900;
+  src: url('/fonts/source-serif/black-italic.eot'); 
+  src: url('/fonts/source-serif/black-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/black-italic.woff2') format('woff2'),
+       url('/fonts/source-serif/black-italic.woff') format('woff'),
+       url('/fonts/source-serif/black-italic.ttf') format('truetype'),
+       url('/fonts/source-serif/black-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/fonts/source-serif/black.eot'); 
+  src: url('/fonts/source-serif/black.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/black.woff2') format('woff2'),
+       url('/fonts/source-serif/black.woff') format('woff'),
+       url('/fonts/source-serif/black.ttf') format('truetype'),
+       url('/fonts/source-serif/black.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: italic;
+  font-weight: 600;
+  src: url('/fonts/source-serif/bold-italic.eot'); 
+  src: url('/fonts/source-serif/bold-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/bold-italic.woff2') format('woff2'),
+       url('/fonts/source-serif/bold-italic.woff') format('woff'),
+       url('/fonts/source-serif/bold-italic.ttf') format('truetype'),
+       url('/fonts/source-serif/bold-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/source-serif/bold.eot'); 
+  src: url('/fonts/source-serif/bold.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/bold.woff2') format('woff2'),
+       url('/fonts/source-serif/bold.woff') format('woff'),
+       url('/fonts/source-serif/bold.ttf') format('truetype'),
+       url('/fonts/source-serif/bold.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: italic;
+  font-weight: 200;
+  src: url('/fonts/source-serif/extra-light-italic.eot'); 
+  src: url('/fonts/source-serif/extra-light-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/extra-light-italic.woff2') format('woff2'),
+       url('/fonts/source-serif/extra-light-italic.woff') format('woff'),
+       url('/fonts/source-serif/extra-light-italic.ttf') format('truetype'),
+       url('/fonts/source-serif/extra-light-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 200;
+  src: url('/fonts/source-serif/extra-light.eot'); 
+  src: url('/fonts/source-serif/extra-light.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/extra-light.woff2') format('woff2'),
+       url('/fonts/source-serif/extra-light.woff') format('woff'),
+       url('/fonts/source-serif/extra-light.ttf') format('truetype'),
+       url('/fonts/source-serif/extra-light.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: italic;
+  font-weight: undefined;
+  src: url('/fonts/source-serif/italic.eot'); 
+  src: url('/fonts/source-serif/italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/italic.woff2') format('woff2'),
+       url('/fonts/source-serif/italic.woff') format('woff'),
+       url('/fonts/source-serif/italic.ttf') format('truetype'),
+       url('/fonts/source-serif/italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: italic;
+  font-weight: 300;
+  src: url('/fonts/source-serif/light-italic.eot'); 
+  src: url('/fonts/source-serif/light-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/light-italic.woff2') format('woff2'),
+       url('/fonts/source-serif/light-italic.woff') format('woff'),
+       url('/fonts/source-serif/light-italic.ttf') format('truetype'),
+       url('/fonts/source-serif/light-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/source-serif/light.eot'); 
+  src: url('/fonts/source-serif/light.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/light.woff2') format('woff2'),
+       url('/fonts/source-serif/light.woff') format('woff'),
+       url('/fonts/source-serif/light.ttf') format('truetype'),
+       url('/fonts/source-serif/light.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/source-serif/regular.eot'); 
+  src: url('/fonts/source-serif/regular.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/regular.woff2') format('woff2'),
+       url('/fonts/source-serif/regular.woff') format('woff'),
+       url('/fonts/source-serif/regular.ttf') format('truetype'),
+       url('/fonts/source-serif/regular.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: italic;
+  font-weight: 600;
+  src: url('/fonts/source-serif/semi-bold-italic.eot'); 
+  src: url('/fonts/source-serif/semi-bold-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/semi-bold-italic.woff2') format('woff2'),
+       url('/fonts/source-serif/semi-bold-italic.woff') format('woff'),
+       url('/fonts/source-serif/semi-bold-italic.ttf') format('truetype'),
+       url('/fonts/source-serif/semi-bold-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Serif';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/source-serif/semi-bold.eot'); 
+  src: url('/fonts/source-serif/semi-bold.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/source-serif/semi-bold.woff2') format('woff2'),
+       url('/fonts/source-serif/semi-bold.woff') format('woff'),
+       url('/fonts/source-serif/semi-bold.ttf') format('truetype'),
+       url('/fonts/source-serif/semi-bold.otf') format('opentype');
+}
+		

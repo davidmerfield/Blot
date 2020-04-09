@@ -9,9 +9,9 @@ const fonts = fs
 			fs.existsSync(`${__dirname}/${i}/style.css`)
 		);
 	})
-	.map((fontID) => {
-		const package = fs.readJsonSync(`${__dirname}/${fontID}/package.json`);
-		const styles = fs.readFileSync(`${__dirname}/${fontID}/style.css`, "utf8");
+	.map((id) => {
+		const package = fs.readJsonSync(`${__dirname}/${id}/package.json`);
+		const styles = fs.readFileSync(`${__dirname}/${id}/style.css`, "utf8");
 
 		const name = package.name;
 		const stack = package.stack || name;
@@ -19,6 +19,7 @@ const fonts = fs
 
 		return {
 			name,
+			id,
 			stack,
 			line_height,
 			styles,
