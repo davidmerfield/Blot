@@ -1,39 +1,22 @@
 <form method="post" id="form{{key}}">
-	<label for="locals.{{key}}" style="padding:5px 16px">{{label}}</label><br>
+	<label for="locals.{{key}}" style="padding:5px 16px">{{label}}</label><br />
 
 	<input class="name" type="hidden" value="{{key}}" />
 
 	<select id="locals.{{key}}" name="locals.{{key}}" style="margin: 5px 16px;">
-		<optgroup label="Sans-serif">
-			<option value="'helvetica neue', helvetica, sans-serif">Helvetica</option>
-			<option value="'avenir next', avenir, sans-serif">Avenir</option>
-			<option value="-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif">System Sans</option>
-		</optgroup>
-		<optgroup label="Serif">
-			<option>Wremena</option>
-			<option value="georgia,serif">Georgia</option>
-			<option value="times,serif">Times</option>
-			<option value="'Bodoni MT', serif">Bodoni</option>
-			<option value="'Calisto MT', serif">Calisto</option>
-			<option value="garamond, serif">Garamond</option>
-			<option value="baskerville,serif">Baskerville</option>
-		</optgroup>
-		<optgroup label="Monospaced">
-			<option value="Consolas, monaco, monospace">Code</option>
-			<option value="'Courier Next', courier, monospace">Courier</option>
-		</optgroup>
+		<option value="---">---</option>
+		{{#options}}
+		<option {{selected}} value="{{{id}}}">{{{name}}}</option>
+		{{/options}}
 	</select>
-	
 </form>
 
 <script type="text/javascript">
-		
+
 	const input{{key}} = document.getElementById('locals.{{key}}');
 	const form{{key}} = document.getElementById('form{{key}}');
 
 	input{{key}}.addEventListener('change', (event) => {
-  	form{{key}}.submit();
+	 	form{{key}}.submit();
 	});
-
-	
 </script>
