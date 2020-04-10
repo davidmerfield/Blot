@@ -32,7 +32,7 @@ TemplateEditor.use("/:templateSlug/:section", function(req, res, next) {
 TemplateEditor.route("/:templateSlug/settings")
 	.all(require("./load/font-inputs"))
 	.all(require("./load/color-inputs"))
-	.all(require("./load/range-inputs"))
+	.all(require("./load/layout-inputs"))
 	.all(require("../settings/load/dates"))
 	.post(
 		bodyParser,

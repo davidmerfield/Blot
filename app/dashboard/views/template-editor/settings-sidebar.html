@@ -10,9 +10,11 @@
 	<!--
 	<div style="margin:1rem;background: #fff">
 		<h2>Type</h2>
-		{{#fonts}} {{> font}} {{/fonts}} {{#ranges}} {{> range}} {{/ranges}}
+		{{#fonts}} {{> font}} {{/fonts}}
 	</div>
 -->
+
+
 	<div style="margin:1rem;background: #fff">
 		<h2>Date and time</h2>
 		<form
@@ -52,6 +54,19 @@
 			</script>
 		</form>
 	</div>
+
+	{{#layouts.length}}
+	<div style="margin:1rem;background: #fff">
+		<h2>Layout</h2>
+		{{#layouts}}
+
+		{{#isRange}}
+		{{> range}} 
+		{{/isRange}}
+
+		{{/layouts}}
+	</div>
+{{/layouts.length}}
 </div>
 <div style="margin:1rem;background: #fff">
 	<a style="text-decoration:none;border-bottom:1px solid #eee;display: block;padding: 5px 20px;color:#666;font-size: 14px" href="{{{base}}}/local-editing">Edit template locally</a>
