@@ -7,7 +7,7 @@ Tweak paragraph styling on [Jon's blog](https://mail.google.com/mail/u/0/#inbox/
 Tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL) once font picker is ready.
 
 Resolve intermittent downtime
-- Increase available memory?
+- Increase available memory
 - Add memory monitor
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
 
@@ -45,6 +45,8 @@ Finish template translation offers:
 - Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 ---
+
+Fix bug with slashes in tags and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTzJxBPcQPnGsQsPSsvh)
 
 Think about appeninding file extension to make requests with query strings cacheable
 - think about emptying cache directory, LRU. But how do we handle .css?query=x?
@@ -110,12 +112,66 @@ Rebuild all the thumbnails and cached images for every blog
 
 Parse Word Document subtitles as h2 and tell [Matt](https://mail.google.com/mail/u/0/#sent/FMfcgxwDrlfrjDMsDlkLHNsnbtmXQtDw)
 
-
 ---
 
-
-
----
+Add more fonts to font picker:
+- [ ] Abel
+- [ ] Alegreya
+- [ ] Alte Haas Grotesk
+- [ ] Authentic Sans
+- [ ] Avara
+- [ ] Averia Serif Libre
+- [ ] Bagnard
+- [ ] Chivo
+- [ ] Cormorant
+- [ ] Computer Modern (entire family)
+- [ ] Crimson Text 
+- [ ] Darker Grotesque
+- [ ] DINosaur
+- [ ] DM Sans
+- [ ] Eb Garamond 
+- [ ] Fjalla One
+- [ ] Fondamento
+- [ ] Golos Text
+- [ ] Halibut Serif 
+- [ ] Happy Times at the IKOB
+- [ ] iA Writer Quattro
+- [ ] Infini GF 
+- [ ] Inter 
+- [ ] Interstate
+- [ ] JetBrains Mono
+- [ ] Junicode
+- [ ] Karla
+- [ ] Le Murmure
+- [ ] Libertinus
+- [ ] Messapia
+- [ ] Michroma
+- [ ] Mister Pixel
+- [ ] Montserrat
+- [ ] Neuton
+- [ ] Nunito
+- [ ] Optician Sans
+- [ ] Ortica
+- [ ] Oswald
+- [ ] Pilowlava
+- [ ] Pinyon Script
+- [ ] Plex
+- [ ] Quicksand
+- [ ] Roboto
+- [ ] Routed Gothic
+- [ ] Rubik
+- [ ] Space Grotesk/Mono
+- [ ] Spectral
+- [ ] Syne
+- [ ] Terminal Grotesque
+- [ ] TeX Gyre
+- [ ] Typewriter Condensed
+- [ ] UnifrakturMaguntia
+- [ ] VCR OSD Mono
+- [ ] Vollkorn
+- [ ] Work Sans
+- [ ] Wremena
+- [ ] Young Serif
 
 Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzMDKzrMwWqQTvWdnlrMJF)
 
@@ -315,6 +371,8 @@ Add notification emails for monit events
 Research state of static site generators
 - https://www.11ty.io/docs/
 - https://www.staticgen.com/
+
+Investigate support for xattr to read image metadata on Blot? Or source for dragged images? https://github.com/LinusU/fs-xattr
 
 Improvements to brochure
 - Write new view renderer for express which would allow middleware like render_tex and would save templates to disk pre- mustache render but post minifyHTML.
