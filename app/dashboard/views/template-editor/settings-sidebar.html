@@ -8,12 +8,10 @@
 	{{/colors.length}}
 
 	{{#fonts.length}}
-	<div style="margin:1rem;background: #fff">
-		<h2>Type</h2>
-		{{#fonts}} {{> font}} {{/fonts}} {{#ranges}} {{> range}} {{/ranges}}
-	</div>
+		{{#fonts}} {{> font}} {{/fonts}} 
 	{{/fonts.length}}
 
+{{#ranges}} {{> range}} {{/ranges}}
 	<div style="margin:1rem;background: #fff">
 		<h2>Date and time</h2>
 		<form

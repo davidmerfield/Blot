@@ -18,6 +18,8 @@ module.exports = function(req, res, next) {
 						id: option.id,
 					};
 				}),
+				font_size: req.template.locals[key].font_size || 16,
+				line_height: req.template.locals[key].line_height || 1.4,
 				value: req.template.locals[key],
 				label: desnake(key),
 			};

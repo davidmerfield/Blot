@@ -5,13 +5,11 @@ module.exports = function(req, res, next) {
 
 	for (let key in req.locals) {
 		if (key.indexOf("_font") === -1) continue;
+		let match = FONTS.slice().filter(({ id }) => req.locals[key].id === id)[0];
 
-		let fontName = req.locals[key];
-		let match = FONTS.slice().filter(({ id }) => fontName === id)[0];
-
-		if (match) {
-			req.locals[key] = match;
-		} 
+		if (match)
+			for (let prop in match)
+				req.locals[key][prop] = req.locals[key][prop] || match[prop];
 	}
 
 	console.log(req.locals);

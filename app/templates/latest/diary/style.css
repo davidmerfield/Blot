@@ -26,7 +26,11 @@
 .push-A {margin-right: 0.04em}
 
 body {
-  font: 17px / 24px {{{body_font.stack}}};
+  {{#body_font}}
+  font-family: {{{stack}}};
+  font-size: {{{font_size}}}px;
+  line-height: {{{line_height}}};
+  {{/body_font}}
   text-rendering: optimizeLegibility;
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "liga";
