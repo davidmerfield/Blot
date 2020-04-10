@@ -57,26 +57,35 @@ function generateStyle(directory) {
 		let extension = extname(file);
 		let nameWithoutExtension = file.slice(0, -extension.length);
 
-		console.log('file', file);
-		console.log('nameWithoutExtension', nameWithoutExtension)
+		console.log("file", file);
+		console.log("nameWithoutExtension", nameWithoutExtension);
 		if (family[nameWithoutExtension]) {
 			family[nameWithoutExtension].extensions.push(extname(file));
 			return;
 		}
 
 		let style =
-			nameWithoutExtension.indexOf("italic") > -1 ? "italic" : "normal";
+			nameWithoutExtension.indexOf("italic") > -1 ||
+			nameWithoutExtension.indexOf("oblique") > -1
+				? "italic"
+				: "normal";
 
 		let weight;
 
 		let nameWithoutExtensionAndStyle = nameWithoutExtension
 			.split("italic")
 			.join("")
+			.split("oblique")
+			.join("")
 			.split("-")
 			.join("")
 			.trim();
 
-		if (nameWithoutExtension === "italic" && !nameWithoutExtensionAndStyle) {
+		if (
+			(nameWithoutExtension === "italic" ||
+				nameWithoutExtension === "oblique") &&
+			!nameWithoutExtensionAndStyle
+		) {
 			nameWithoutExtensionAndStyle = "regular";
 		}
 
@@ -89,6 +98,9 @@ function generateStyle(directory) {
 				break;
 			case "light":
 				weight = 300;
+				break;
+			case "roman":
+				weight = 400;
 				break;
 			case "regular":
 				weight = 400;
@@ -115,7 +127,11 @@ function generateStyle(directory) {
 				weight = 900;
 				break;
 			default:
-				console.error("Unknown weight:", nameWithoutExtensionAndStyle, nameWithoutExtension);
+				console.error(
+					"Unknown weight:",
+					nameWithoutExtensionAndStyle,
+					nameWithoutExtension
+				);
 				break;
 		}
 

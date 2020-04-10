@@ -1,0 +1,45 @@
+
+
+@font-face {
+  font-family: 'Junicode Condensed';
+  font-style: italic;
+  font-weight: 600;
+  src: url('/fonts/junicode-condensed/bold-italic.eot'); 
+  src: url('/fonts/junicode-condensed/bold-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/junicode-condensed/bold-italic.woff') format('woff'),
+       url('/fonts/junicode-condensed/bold-italic.ttf') format('truetype');
+}
+		
+
+@font-face {
+  font-family: 'Junicode Condensed';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/junicode-condensed/bold.eot'); 
+  src: url('/fonts/junicode-condensed/bold.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/junicode-condensed/bold.woff') format('woff'),
+       url('/fonts/junicode-condensed/bold.ttf') format('truetype');
+}
+		
+
+@font-face {
+  font-family: 'Junicode Condensed';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/fonts/junicode-condensed/italic.eot'); 
+  src: url('/fonts/junicode-condensed/italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/junicode-condensed/italic.woff') format('woff'),
+       url('/fonts/junicode-condensed/italic.ttf') format('truetype');
+}
+		
+
+@font-face {
+  font-family: 'Junicode Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/junicode-condensed/regular.eot'); 
+  src: url('/fonts/junicode-condensed/regular.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/junicode-condensed/regular.woff') format('woff'),
+       url('/fonts/junicode-condensed/regular.ttf') format('truetype');
+}
+		
