@@ -2,7 +2,19 @@ const fs = require("fs-extra");
 const directory = __dirname + "/" + process.argv[2];
 const basename = require("path").basename;
 const extname = require("path").extname;
+const colors = require("colors");
 const EXTENSIONS = [".eot", ".woff2", ".woff", ".ttf", ".otf"];
+const relative = require("path").relative;
+
+const SYSTEM_FONTS = [
+	"verdana",
+	"arial",
+	"helvetica",
+	"system-sans",
+	"system-mono",
+	"system-serif",
+];
+
 const FORMATS = {
 	".ttf": "truetype",
 	".otf": "opentype",
@@ -10,9 +22,22 @@ const FORMATS = {
 	".woff2": "woff2",
 };
 
-if (!process.argv[2]) return printCandidates();
+const WEIGHTS = {
+	thin: 200,
+	extralight: 200,
+	light: 300,
+	roman: 400,
+	regular: 400,
+	book: 400,
+	text: 400,
+	medium: 500,
+	semibold: 500,
+	bold: 600,
+	heavy: 700,
+	black: 900,
+};
 
-console.log("Directory:", directory);
+if (!process.argv[2]) return printCandidates();
 
 generatePackage(directory);
 
@@ -39,7 +64,6 @@ function generatePackage(directory) {
 
 	if (!package.line_height) package.line_height = 1.4;
 
-	console.log("Wrote:", packagePath);
 	fs.outputJsonSync(packagePath, package, { spaces: 2 });
 }
 
@@ -53,12 +77,10 @@ function generateStyle(directory) {
 
 	let family = {};
 
-	const weightsAndStyles = fontFiles.forEach((file) => {
+	fontFiles.forEach((file) => {
 		let extension = extname(file);
 		let nameWithoutExtension = file.slice(0, -extension.length);
 
-		console.log("file", file);
-		console.log("nameWithoutExtension", nameWithoutExtension);
 		if (family[nameWithoutExtension]) {
 			family[nameWithoutExtension].extensions.push(extname(file));
 			return;
@@ -88,51 +110,19 @@ function generateStyle(directory) {
 		) {
 			nameWithoutExtensionAndStyle = "regular";
 		}
-
-		switch (nameWithoutExtensionAndStyle) {
-			case "thin":
-				weight = 200;
-				break;
-			case "extralight":
-				weight = 200;
-				break;
-			case "light":
-				weight = 300;
-				break;
-			case "roman":
-				weight = 400;
-				break;
-			case "regular":
-				weight = 400;
-				break;
-			case "book":
-				weight = 400;
-				break;
-			case "text":
-				weight = 400;
-				break;
-			case "medium":
-				weight = 500;
-				break;
-			case "semibold":
-				weight = 600;
-				break;
-			case "bold":
-				weight = 600;
-				break;
-			case "heavy":
-				weight = 700;
-				break;
-			case "black":
-				weight = 900;
-				break;
-			default:
-				console.error(
-					"Unknown weight:",
-					nameWithoutExtensionAndStyle,
-					nameWithoutExtension
-				);
-				break;
+		if (
+			parseInt(nameWithoutExtensionAndStyle).toString() ===
+			nameWithoutExtensionAndStyle
+		) {
+			weight = parseInt(nameWithoutExtensionAndStyle);
+		} else if (WEIGHTS[nameWithoutExtensionAndStyle]) {
+			weight = WEIGHTS[nameWithoutExtensionAndStyle];
+		} else {
+			console.error("");
+			console.error(
+				colors.red("Unable to parse weight:", nameWithoutExtensionAndStyle)
+			);
+			console.error(relative(process.cwd(), directory + "/" + file));
 		}
 
 		family[nameWithoutExtension] = {
@@ -181,18 +171,51 @@ function generateStyle(directory) {
 		result += template;
 	}
 
-	console.log("Wrote:", stylePath);
+	console.log();
+	console.log(package.name);
+	for (let w = 100; w <= 900; w += 100) {
+		let hasWRegular =
+			Object.keys(family).filter((name) => {
+				return family[name].weight === w && family[name].style === "normal";
+			}).length > 0;
+		let hasWItalic =
+			Object.keys(family).filter((name) => {
+				return family[name].weight === w && family[name].style === "italic";
+			}).length > 0;
+		console.log(
+			`${
+				hasWRegular || hasWItalic
+					? colors.green(w.toString())
+					: colors.dim(w.toString())
+			} ${hasWRegular ? colors.green("regular") : colors.dim("regular")} ${
+				hasWItalic ? colors.green("italic") : colors.dim("italic")
+			}`
+		);
+	}
+	console.log();
+	console.log(colors.dim("folder: ", relative(process.cwd(), directory)));
+	console.log(
+		colors.dim("package:", relative(process.cwd(), directory + "/package.json"))
+	);
+	console.log(
+		colors.dim("styles: ", relative(process.cwd(), directory + "/style.css"))
+	);
 	fs.outputFileSync(stylePath, result);
 }
 
 function printCandidates() {
 	let directories = fs
 		.readdirSync(__dirname)
+
+		// Ignore dot folders and folders whose name
+		// starts with a dash
+		.filter((i) => i[0] && i[0] !== "." && i[0] !== "-")
 		.filter((i) => fs.statSync(`${__dirname}/${i}`).isDirectory())
 		.filter((i) => {
 			return (
 				!fs.existsSync(`${__dirname}/${i}/package.json`) ||
-				!fs.existsSync(`${__dirname}/${i}/style.css`)
+				(!fs.existsSync(`${__dirname}/${i}/style.css`) &&
+					SYSTEM_FONTS.indexOf(i) === -1)
 			);
 		});
 

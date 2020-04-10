@@ -1,0 +1,177 @@
+
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: italic;
+  font-weight: 600;
+  src: url('/fonts/plex-mono/bold-italic.eot'); 
+  src: url('/fonts/plex-mono/bold-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/bold-italic.woff2') format('woff2'),
+       url('/fonts/plex-mono/bold-italic.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/plex-mono/bold.eot'); 
+  src: url('/fonts/plex-mono/bold.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/bold.woff2') format('woff2'),
+       url('/fonts/plex-mono/bold.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: italic;
+  font-weight: 200;
+  src: url('/fonts/plex-mono/extra-light-italic.eot'); 
+  src: url('/fonts/plex-mono/extra-light-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/extra-light-italic.woff2') format('woff2'),
+       url('/fonts/plex-mono/extra-light-italic.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-weight: 200;
+  src: url('/fonts/plex-mono/extra-light.eot'); 
+  src: url('/fonts/plex-mono/extra-light.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/extra-light.woff2') format('woff2'),
+       url('/fonts/plex-mono/extra-light.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/fonts/plex-mono/italic.eot'); 
+  src: url('/fonts/plex-mono/italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/italic.woff2') format('woff2'),
+       url('/fonts/plex-mono/italic.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: italic;
+  font-weight: 300;
+  src: url('/fonts/plex-mono/light-italic.eot'); 
+  src: url('/fonts/plex-mono/light-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/light-italic.woff2') format('woff2'),
+       url('/fonts/plex-mono/light-italic.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/plex-mono/light.eot'); 
+  src: url('/fonts/plex-mono/light.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/light.woff2') format('woff2'),
+       url('/fonts/plex-mono/light.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: italic;
+  font-weight: 500;
+  src: url('/fonts/plex-mono/medium-italic.eot'); 
+  src: url('/fonts/plex-mono/medium-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/medium-italic.woff2') format('woff2'),
+       url('/fonts/plex-mono/medium-italic.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/plex-mono/medium.eot'); 
+  src: url('/fonts/plex-mono/medium.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/medium.woff2') format('woff2'),
+       url('/fonts/plex-mono/medium.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/plex-mono/regular.eot'); 
+  src: url('/fonts/plex-mono/regular.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/regular.woff2') format('woff2'),
+       url('/fonts/plex-mono/regular.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: italic;
+  font-weight: 500;
+  src: url('/fonts/plex-mono/semi-bold-italic.eot'); 
+  src: url('/fonts/plex-mono/semi-bold-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/semi-bold-italic.woff2') format('woff2'),
+       url('/fonts/plex-mono/semi-bold-italic.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/plex-mono/semi-bold.eot'); 
+  src: url('/fonts/plex-mono/semi-bold.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/semi-bold.woff2') format('woff2'),
+       url('/fonts/plex-mono/semi-bold.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/fonts/plex-mono/text-italic.eot'); 
+  src: url('/fonts/plex-mono/text-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/text-italic.woff2') format('woff2'),
+       url('/fonts/plex-mono/text-italic.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/plex-mono/text.eot'); 
+  src: url('/fonts/plex-mono/text.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/text.woff2') format('woff2'),
+       url('/fonts/plex-mono/text.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: italic;
+  font-weight: 200;
+  src: url('/fonts/plex-mono/thin-italic.eot'); 
+  src: url('/fonts/plex-mono/thin-italic.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/thin-italic.woff2') format('woff2'),
+       url('/fonts/plex-mono/thin-italic.woff') format('woff');
+}
+		
+
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-weight: 200;
+  src: url('/fonts/plex-mono/thin.eot'); 
+  src: url('/fonts/plex-mono/thin.eot?#iefix') format('embedded-opentype'), 
+       url('/fonts/plex-mono/thin.woff2') format('woff2'),
+       url('/fonts/plex-mono/thin.woff') format('woff');
+}
+		

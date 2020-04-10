@@ -103,7 +103,7 @@
 @font-face {
   font-family: 'Cooper Hewitt';
   font-style: italic;
-  font-weight: 600;
+  font-weight: 500;
   src: url('/fonts/cooper-hewitt/semibold-italic.eot'); 
   src: url('/fonts/cooper-hewitt/semibold-italic.eot?#iefix') format('embedded-opentype'), 
        url('/fonts/cooper-hewitt/semibold-italic.woff') format('woff');
@@ -113,7 +113,7 @@
 @font-face {
   font-family: 'Cooper Hewitt';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   src: url('/fonts/cooper-hewitt/semibold.eot'); 
   src: url('/fonts/cooper-hewitt/semibold.eot?#iefix') format('embedded-opentype'), 
        url('/fonts/cooper-hewitt/semibold.woff') format('woff');

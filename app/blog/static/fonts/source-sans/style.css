@@ -1,0 +1,133 @@
+
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: italic;
+  font-weight: 900;
+  src: url('/fonts/source-sans/black-italic.woff2') format('woff2'),
+       url('/fonts/source-sans/black-italic.woff') format('woff'),
+       url('/fonts/source-sans/black-italic.ttf') format('truetype'),
+       url('/fonts/source-sans/black-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/fonts/source-sans/black.woff2') format('woff2'),
+       url('/fonts/source-sans/black.woff') format('woff'),
+       url('/fonts/source-sans/black.ttf') format('truetype'),
+       url('/fonts/source-sans/black.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: url('/fonts/source-sans/bold-italic.woff2') format('woff2'),
+       url('/fonts/source-sans/bold-italic.woff') format('woff'),
+       url('/fonts/source-sans/bold-italic.ttf') format('truetype'),
+       url('/fonts/source-sans/bold-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/source-sans/bold.woff2') format('woff2'),
+       url('/fonts/source-sans/bold.woff') format('woff'),
+       url('/fonts/source-sans/bold.ttf') format('truetype'),
+       url('/fonts/source-sans/bold.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: italic;
+  font-weight: 200;
+  src: url('/fonts/source-sans/extra-light-italic.woff2') format('woff2'),
+       url('/fonts/source-sans/extra-light-italic.woff') format('woff'),
+       url('/fonts/source-sans/extra-light-italic.ttf') format('truetype'),
+       url('/fonts/source-sans/extra-light-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: normal;
+  font-weight: 200;
+  src: url('/fonts/source-sans/extra-light.woff2') format('woff2'),
+       url('/fonts/source-sans/extra-light.woff') format('woff'),
+       url('/fonts/source-sans/extra-light.ttf') format('truetype'),
+       url('/fonts/source-sans/extra-light.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/fonts/source-sans/italic.woff2') format('woff2'),
+       url('/fonts/source-sans/italic.woff') format('woff'),
+       url('/fonts/source-sans/italic.ttf') format('truetype'),
+       url('/fonts/source-sans/italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: url('/fonts/source-sans/light-italic.woff2') format('woff2'),
+       url('/fonts/source-sans/light-italic.woff') format('woff'),
+       url('/fonts/source-sans/light-italic.ttf') format('truetype'),
+       url('/fonts/source-sans/light-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/source-sans/light.woff2') format('woff2'),
+       url('/fonts/source-sans/light.woff') format('woff'),
+       url('/fonts/source-sans/light.ttf') format('truetype'),
+       url('/fonts/source-sans/light.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/source-sans/regular.woff2') format('woff2'),
+       url('/fonts/source-sans/regular.woff') format('woff'),
+       url('/fonts/source-sans/regular.ttf') format('truetype'),
+       url('/fonts/source-sans/regular.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: url('/fonts/source-sans/semi-bold-italic.woff2') format('woff2'),
+       url('/fonts/source-sans/semi-bold-italic.woff') format('woff'),
+       url('/fonts/source-sans/semi-bold-italic.ttf') format('truetype'),
+       url('/fonts/source-sans/semi-bold-italic.otf') format('opentype');
+}
+		
+
+@font-face {
+  font-family: 'Source Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/source-sans/semi-bold.woff2') format('woff2'),
+       url('/fonts/source-sans/semi-bold.woff') format('woff'),
+       url('/fonts/source-sans/semi-bold.ttf') format('truetype'),
+       url('/fonts/source-sans/semi-bold.otf') format('opentype');
+}
+		
