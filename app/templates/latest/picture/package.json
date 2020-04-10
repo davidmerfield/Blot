@@ -7,7 +7,11 @@
     "text_color": "rgba(0, 0, 0, 0.85)",
     "link_color": "#00008B",
     "font_size": 16,
-    "body_font": {},
+    "body_font": {
+      "name": "System sans-serif",
+      "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
+      "line_height": 1.4
+    },
     "line_height": 1.4,
     "spacing": 3
   },

@@ -1,3 +1,7 @@
+{{{coding_font.styles}}}
+
+{{{body_font.styles}}}
+
 /* This template tag is replaced by CSS when this file is rendered */
 {{{appCSS}}}
 
@@ -21,6 +25,10 @@
 
 .bg-background {background:{{background_color}}}
 .bg-sidebar {background:{{background_color}}}
+
+html,body {
+  font-family: {{{body_font.stack}}}
+}
 
 body {padding:0 2rem;max-width:66rem;
     width: 100%;
@@ -80,7 +88,7 @@ tr {border-bottom: 1px solid #eee}
   .entry b, .entry strong {font-weight: 600}
   
   code {
-      font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+      font-family: {{{coding_font.stack}}};
 padding: .2rem .4rem;
 margin: 0;
 font-size: 85%;

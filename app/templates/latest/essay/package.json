@@ -5,7 +5,11 @@
     "background_color": "#ffffff",
     "text_color": "#000000",
     "link_color": "blue",
-    "body_font": {}
+    "body_font": {
+      "name": "System sans-serif",
+      "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
+      "line_height": 1.4
+    }
   },
   "isPublic": true,
   "views": {
