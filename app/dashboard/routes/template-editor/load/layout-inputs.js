@@ -1,5 +1,9 @@
-const LABEL_MAP = {
-	page_size: "Number of posts per page",
+const MAP = {
+	page_size: {
+		label: "Number of posts per page",
+		min: 1,
+		max: 60,
+	},
 };
 
 module.exports = function(req, res, next) {
@@ -11,9 +15,9 @@ module.exports = function(req, res, next) {
 				key,
 				value: req.template.locals[key],
 				isRange: key === "page_size",
-				label: LABEL_MAP[key] || desnake(key),
-				max: 100,
-				min: 0,
+				label: (MAP[key] && MAP[key].label) || desnake(key),
+				max: (MAP[key] && MAP[key].max) || 60,
+				min: (MAP[key] && MAP[key].min) || 1,
 			};
 		});
 
