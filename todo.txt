@@ -130,6 +130,7 @@ Add more fonts to font picker:
 - [ ] DINosaur
 - [ ] DM Sans
 - [ ] Eb Garamond 
+- [ ] Faune
 - [ ] Fjalla One
 - [ ] Fondamento
 - [ ] Golos Text
