@@ -1,0 +1,1 @@
+See app/blog/static/fonts/README
