@@ -1,12 +1,4 @@
-Check SSL certificate renewal on May 11th
-
 Finish [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) translation on Monday. Use essay template as base style. Make sure page_size, colors are editable
-
-Add dark mode and footnotes to [Jimmy's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZSBbZBZHkkBwrhdGmXwlfFB)
-
-Tweak paragraph styling on [Jon's blog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZTKKStzhzttLLwzzGhgKTMN)
-
----
 
 Tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL) once font picker is ready.
 
@@ -16,6 +8,8 @@ Resolve intermittent downtime
 - Increase available memory
 - Add memory monitor
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
+
+Check wildcard SSL certificate renewal on May 11th
 
 Record new demo video
 - Finish video script in brochure/readme.txt
