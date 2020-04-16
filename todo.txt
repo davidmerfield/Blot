@@ -120,6 +120,7 @@ Add more fonts to font picker:
 - [ ] Avara
 - [ ] Averia Serif Libre
 - [ ] Bagnard
+- [ ] ANRT Baskervville
 - [ ] Chivo
 - [ ] Cormorant
 - [ ] Computer Modern (entire family)
@@ -129,16 +130,19 @@ Add more fonts to font picker:
 - [ ] DM Sans
 - [ ] Eb Garamond
 - [ ] ET Book 
+- [ ] Euler AMS
 - [ ] Faune
 - [ ] Fjalla One
 - [ ] Fondamento
 - [ ] Golos Text
 - [ ] Halibut Serif 
 - [ ] Happy Times at the IKOB
+- [ ] Helmet Neue
 - [ ] iA Writer Quattro
 - [ ] Infini GF 
 - [ ] Inter 
 - [ ] Interstate
+- [ ] Inria fonts
 - [ ] JetBrains Mono
 - [ ] Junicode
 - [ ] Karla
@@ -160,6 +164,8 @@ Add more fonts to font picker:
 - [ ] Plex
 - [ ] Quicksand
 - [ ] Roboto
+- [ ] Rosario
+- [ ] Recursive
 - [ ] Routed Gothic
 - [ ] Rubik
 - [ ] Space Grotesk/Mono
