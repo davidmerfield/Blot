@@ -47,7 +47,7 @@ module.exports = {
     origin:
       process.env.BLOT_ENVIRONMENT === "production"
         ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
-        : process.env.BLOT_PROTOCOL + "://" + process.env.BLOT_HOST + "/cdn"
+        : "https://" + process.env.BLOT_HOST + "/cdn"
   },
 
   session: {
