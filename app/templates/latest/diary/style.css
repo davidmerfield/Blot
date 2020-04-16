@@ -1,5 +1,9 @@
 {{{appCSS}}}
 
+{{{body_font.styles}}}
+
+{{{coding_font.styles}}}
+
 /* Small caps */
 .small-caps {}
 
@@ -22,7 +26,11 @@
 .push-A {margin-right: 0.04em}
 
 body {
-  font: 17px / 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  {{#body_font}}
+  font-family: {{{stack}}};
+  font-size: {{{font_size}}}px;
+  line-height: {{{line_height}}};
+  {{/body_font}}
   text-rendering: optimizeLegibility;
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "liga";
@@ -202,7 +210,7 @@ hr {width: 100%;opacity:0.1;margin: 24px auto -1px;border: none;border-bottom: 3
 /* CODE */
 
 code {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: {{{coding_font.stack}}};
   margin: 0;
   font-size: 85%;
   background: rgba(0,0,0,.03);

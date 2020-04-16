@@ -4,7 +4,13 @@
     "page_size": 6,
     "text_color": "#232323",
     "background_color": "#fff",
-    "link_color": "#004984"
+    "link_color": "#004984",
+    "body_font": {
+      "name": "System sans-serif",
+      "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
+      "line_height": 1.4,
+      "font_size": 16
+    }
   },
   "isPublic": true,
   "views": {

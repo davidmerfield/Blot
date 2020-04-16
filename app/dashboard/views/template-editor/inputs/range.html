@@ -15,19 +15,19 @@
 </form>
 <script type="text/javascript">
 		
-	const input{{name}} = document.getElementById('locals.{{key}}');
-	const result{{name}} = document.getElementById('locals.{{key}}.display');
-	const form{{name}} = document.getElementById('locals.{{key}}.form');
+	const input{{key}} = document.getElementById('locals.{{key}}');
+	const result{{key}} = document.getElementById('locals.{{key}}.display');
+	const form{{key}} = document.getElementById('locals.{{key}}.form');
 
-	result.innerHTML = input.value;
+	result{{key}}.innerHTML = input{{key}}.value;
 
-	input{{name}}.addEventListener('change', (event) => {
-  	result{{name}}.textContent = event.target.value;
-  	form{{name}}.submit();
+	input{{key}}.addEventListener('change', (event) => {
+  	result{{key}}.textContent = event.target.value;
+  	form{{key}}.submit();
 	});
 
-	input{{name}}.addEventListener('input', (event) => {
-  	result{{name}}.textContent = event.target.value;
+	input{{key}}.addEventListener('input', (event) => {
+  	result{{key}}.textContent = event.target.value;
 	});
 	
 </script>

@@ -7,13 +7,9 @@
 	</div>
 	{{/colors.length}}
 
-	<!--
-	<div style="margin:1rem;background: #fff">
-		<h2>Type</h2>
-		{{#fonts}} {{> font}} {{/fonts}}
-	</div>
--->
-
+	{{#fonts.length}}
+		{{#fonts}} {{> font}} {{/fonts}} 
+	{{/fonts.length}}
 
 	<div style="margin:1rem;background: #fff">
 		<h2>Date and time</h2>
