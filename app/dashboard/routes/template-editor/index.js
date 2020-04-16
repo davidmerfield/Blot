@@ -37,9 +37,7 @@ TemplateEditor.route("/:templateSlug/settings")
 	.post(
 		bodyParser,
 		function(req, res, next) {
-			console.log(req.body);
 			let body = formJSON(req.body, Template.metadataModel);
-			console.log(body);
 			let newLocals = body.locals;
 			let newPartials = body.partials;
 			let locals = req.template.locals;

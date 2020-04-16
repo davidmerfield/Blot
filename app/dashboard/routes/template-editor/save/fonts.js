@@ -3,7 +3,6 @@ const Mustache = require("mustache");
 const config = require("config");
 
 module.exports = function(req, res, next) {
-	console.log(req.locals);
 
 	for (let key in req.locals) {
 		if (key.indexOf("_font") === -1) continue;
@@ -19,8 +18,6 @@ module.exports = function(req, res, next) {
 			for (let prop in match)
 				req.locals[key][prop] = req.locals[key][prop] || match[prop];
 	}
-
-	console.log(req.locals);
 
 	next();
 };
