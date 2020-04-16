@@ -8,8 +8,7 @@ var isOwner = require("./isOwner");
 var setView = require("./setView");
 var MAX_SIZE = 2.5 * 1000 * 1000; // 2.5mb
 var PACKAGE = "package.json";
-var type = require("helper").type;
-var setMetadata = require("./setMetadata");
+var savePackage = require("./package").save;
 
 module.exports = function readFromFolder(blogID, dir, callback) {
   var id = makeID(blogID, basename(dir));
@@ -79,29 +78,9 @@ module.exports = function readFromFolder(blogID, dir, callback) {
 };
 
 function loadPackage(id, dir, callback) {
-  var changes = {};
-  var views = {};
-
-  fs.readJson(dir + "/package.json", function(err, metadata) {
-    if (err) return callback(null, views);
-
-    if (!metadata) return callback(null, views);
-
-    if (metadata.name) {
-      changes.name = metadata.name;
-    }
-
-    if (metadata.locals && type(metadata.locals, "object")) {
-      changes.locals = metadata.locals;
-    }
-
-    if (metadata.views && type(metadata.views, "object")) {
-      views = metadata.views;
-    }
-
-    setMetadata(id, changes, function(err) {
-      callback(null, views);
-    });
+  fs.readJson(dir + "/" + PACKAGE, function(err, metadata) {
+    if (err) return callback(null, {});
+    savePackage(id, metadata, callback);
   });
 }
 

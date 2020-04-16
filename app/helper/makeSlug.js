@@ -3,6 +3,7 @@ var MAX_LENGTH = 100;
 
 // This must always return a string but it can be empty
 function makeSlug(string) {
+
   var words,
     components,
     trimmed = "";
@@ -31,12 +32,13 @@ function makeSlug(string) {
 
     .replace(/\%/g, "-percent")
     .replace(/&amp;/g, "and")
+    .replace(/&nbsp;/g, " ")
     .replace(/→/g, "to")
     .replace(/←/g, "from")
     .replace(/\./g, "-")
     .replace(
-      /[\“\”\‘\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
-      ""
+      /[\«\»\“\”\‘\’\`\~\!\@\#\$\%\^\&\*\(\)\+\=\\\|\]\}\{\[\'\"\;\:\?\>\.\<\,]/g,
+      "-"
     )
     .replace(/[^[:alnum:]0-9_-\s]/g, "") // remove invalid chars
     .replace(/\s+/g, "-") // collapse whitespace and replace by -
@@ -62,6 +64,8 @@ function makeSlug(string) {
   while (slug.length > 1 && (slug.slice(-1) === "/" || slug.slice(-1) === "-"))
     slug = slug.slice(0, -1);
 
+  if (slug === '-') slug = '';
+
   slug = encodeURI(slug);
 
   slug = slug || "";
@@ -73,7 +77,7 @@ var Is = require("./is");
 var is = Is(makeSlug);
 
 is("!@#$^*()=+[]{}\\|;:'\",?><", "");
-is("foo!@#$^*()=+[]{}\\|;:'\",?><bar", "foobar");
+is("foo!@#$^*()=+[]{}\\|;:'\",?><bar", "foo-bar");
 
 is("", "");
 is("/", "/");
@@ -119,7 +123,9 @@ is("'xsb' command line error.", "xsb-command-line-error");
 is("Foo & bar", "foo-bar");
 is("Foo &amp; bar", "foo-and-bar");
 is("China ← NYC → China", "china-from-nyc-to-china");
-is("Chin+a()[] ← NY!C → China", "china-from-nyc-to-china");
+is("China+()[] ← NYC! → China", "china-from-nyc-to-china");
 is("No more cd ../../", "no-more-cd");
+
+is("«&nbsp;French Tech Communauté&nbsp;»&nbsp;: quelle opportunité pour l’État&nbsp;?", "french-tech-communaut%C3%A9-quelle-opportunit%C3%A9-pour-l-%C3%A9tat")
 
 module.exports = makeSlug;

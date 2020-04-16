@@ -1,79 +1,47 @@
-var helper = require("helper");
-var ensure = helper.ensure;
-var debug = require("debug")("blot:build:dateStamp");
+const helper = require("helper");
+const debug = require("debug")("blot:build:dateStamp");
 
-var fromPath = require("./fromPath");
-var fromMetadata = require("./fromMetadata");
-var type = helper.type;
+const fromPath = require("./fromPath");
+const fromMetadata = require("./fromMetadata");
+const type = helper.type;
 
-var moment = require("moment");
+const moment = require("moment");
 require("moment-timezone");
 
 module.exports = function(blog, path, metadata) {
-  ensure(blog, "object")
-    .and(path, "string")
-    .and(metadata, "object");
+  const { id, dateFormat, timeZone } = blog;
+  let dateStamp;
 
-  debug(
-    "Blog:",
-    blog.id,
-    "dateFormat:",
-    dateFormat,
-    "timeZone",
-    timeZone,
-    path
-  );
-
-  // Now we deal with a custom date!
-  var dateFormat = blog.dateFormat;
-  var timeZone = blog.timeZone;
-
-  var date = metadata.date || "";
-  var dateStamp = metadata.dateStamp || undefined;
-
-  debug("Blog:", blog.id, "dateStamp #1", dateStamp);
-
-  ensure(dateFormat, "string").and(timeZone, "string");
-
-  // The user specified a date stamp
-  // directly. Try to turn it into an integer.
-  // TODO: check if anyone uses this? probably remove
-  if (dateStamp !== undefined) dateStamp = validate(parseInt(dateStamp));
-
-  debug("Blog:", blog.id, "dateStamp #2", dateStamp);
-
-  // Return early since we have a date stamp
-  if (dateStamp) return dateStamp;
+  debug("Blog:", id, "dateFormat:", dateFormat, "timeZone", timeZone, path);
 
   // If the user specified a date
   // field in the entry's metadata,
   // try and parse a timestamp from it.
-  if (date && dateStamp === undefined)
-    dateStamp = validate(fromMetadata(date, dateFormat));
+  if (metadata.date) {
+    let parsedFromMetadata = fromMetadata(metadata.date, dateFormat, timeZone);
+    dateStamp = validate(parsedFromMetadata.created);
+    if (dateStamp && parsedFromMetadata.adjusted) {
+      return dateStamp;
+    } else if (dateStamp) {
+      return adjustByBlogTimezone(timeZone, dateStamp);
+    }
+  }
 
-  debug("Blog:", blog.id, "dateStamp #3", dateStamp);
+  if (dateStamp !== undefined) return dateStamp;
 
   // The user didn't specify a valid
   // date in the entry's metadata. Try
   // and extract one from the file's path
-  if (dateStamp === undefined) {
-    dateStamp = validate(fromPath(path).created);
+  dateStamp = validate(fromPath(path, timeZone).created);
+
+  if (dateStamp !== undefined) {
+    dateStamp = adjustByBlogTimezone(timeZone, dateStamp);
+    return dateStamp;
   }
 
-  debug("Blog:", blog.id, "dateStamp #4", dateStamp);
-
-  // If there is a date string specified as
-  // part of this post's metadata, try to parse
-  // a timestamp from this. We need to relativize
-  // this to the user's timezone because 'Jan 1st 2012'
-  // in the file of post means different timestamps
-  //  in different time zones.
-  if (dateStamp !== undefined)
-    dateStamp = validate(adjust(timeZone, dateStamp));
-
-  debug("Blog:", blog.id, "dateStamp #5", dateStamp);
-
-  return dateStamp;
+  // It is important we return undefined since we fall back
+  // to the file's created date if that's the case
+  return undefined;
 };
 
 function validate(stamp) {
@@ -83,9 +51,7 @@ function validate(stamp) {
   return undefined;
 }
 
-function adjust(timeZone, stamp) {
-  ensure(timeZone, "string").and(stamp, "number");
-
+function adjustByBlogTimezone(timeZone, stamp) {
   var zone = moment.tz.zone(timeZone);
   var offset = zone.offset(stamp);
 
