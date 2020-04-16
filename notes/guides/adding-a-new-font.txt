@@ -25,3 +25,14 @@ goudy-old-style/package.json
 
 7. Commit and push
 
+
+
+Good sources for new webfonts
+-----------------------------
+
+Font Squirrel
+https://fontlibrary.org/en
+https://www.are.na/laurel-schwulst/open-source-web-fonts
+
+Use Modify:
+https://github.com/raphaelbastide/usemodify/issues/1
