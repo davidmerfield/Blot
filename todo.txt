@@ -127,7 +127,8 @@ Add more fonts to font picker:
 - [ ] Darker Grotesque
 - [ ] DINosaur
 - [ ] DM Sans
-- [ ] Eb Garamond 
+- [ ] Eb Garamond
+- [ ] ET Book 
 - [ ] Faune
 - [ ] Fjalla One
 - [ ] Fondamento
@@ -142,7 +143,9 @@ Add more fonts to font picker:
 - [ ] Junicode
 - [ ] Karla
 - [ ] Le Murmure
+- [ ] Lincoln Mitre
 - [ ] Libertinus
+- [ ] Lunchtype
 - [ ] Messapia
 - [ ] Michroma
 - [ ] Mister Pixel
@@ -166,6 +169,7 @@ Add more fonts to font picker:
 - [ ] TeX Gyre
 - [ ] Typewriter Condensed
 - [ ] UnifrakturMaguntia
+- [ ] Violet Sans
 - [ ] VCR OSD Mono
 - [ ] Vollkorn
 - [ ] Work Sans
