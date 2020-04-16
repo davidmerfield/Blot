@@ -11,6 +11,10 @@ Resolve intermittent downtime
 
 Check wildcard SSL certificate renewal on May 11th
 
+Add support for paying with PayPal
+- Refactor subscription model as needed
+- Consider using Braintree?
+
 Record new demo video
 - Finish video script in brochure/readme.txt
 - Work out how a photographer might use Blot, does lightroom work well?
@@ -471,7 +475,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 Make sure [color schemes have enough contrast](https://stripe.com/blog/accessible-color-systems)
 
 Subscription refactor
-- Add support for subscriptions via PayPal
 - Different payment methods per blog
 - Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
 
@@ -723,9 +726,7 @@ Buy the .com
 
 Incorporate
 
-Add support for other payment methods
-- Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
-- Paypal
+Add support for paying with Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
 
 Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
