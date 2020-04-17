@@ -1,86 +1,17 @@
-Finish Shibel's template migration
+Finish [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) translation on Monday. Use essay template as base style. Make sure page_size, colors are editable
 
-Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template and follow up on Monday
-
-Finish Spring newsletter to send for Thursday, March 19
-
-Check that wildcard cert succeeds after 2020-04-10 11:12:00
-
----
-
-Add persona/cargo style customization buttons
-- Add iframe of site in edit page of template editor
-- Add font picker and tell [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxzrvfpBwVdxGlbrBPgKjSnL)
-- Fonts:
-		Abel
-		Alegreya
-		Alte Haas Grotesk
-		Authentic Sans
-		Avara
-		Averia Serif Libre
-		Bagnard
-		Chivo
-		Cormorant
-		Crimson Text 
-		Darker Grotesque
-		DINosaur
-		DM Sans
-		Eb Garamond 
-		Fjalla One
-		Fondamento
-		Golos Text
-		Halibut Serif 
-		Happy Times at the IKOB
-		iA Writer Quattro
-		Infini GF 
-		Inter 
-		Interstate
-		JetBrains Mono
-		Junicode
-		Karla
-		Le Murmure
-		Libertinus
-		Messapia
-		Michroma
-		Mister Pixel
-		Montserrat
-		Neuton
-		Nunito
-		Optician Sans
-		Ortica
-		Oswald
-		Pilowlava
-		Pinyon Script
-		Plex
-		Quicksand
-		Roboto
-		Routed Gothic
-		Rubik
-		Space Grotesk/Mono
-		Spectral
-		Syne
-		Terminal Grotesque
-		TeX Gyre
-		Typewriter Condensed
-		UnifrakturMaguntia
-		VCR OSD Mono
-		Vollkorn
-		Work Sans
-		Wremena
-		Young Serif
-- Work out how to make live but saveable modifications for preview purposes
+Add switch from annual to monthly billing and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSPdnRhXcXGjVxkvbkbzlg), [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwRWhQKFtSMxxHrRgnNhxcQZ), [Franklin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGsbCcKqwblmRQvSNMLpwHQh) and [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlfrFjWCtTCnNPjXSrDWHNfk) and [Abdul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCbBHfgTRfbpNVFvxGVghvbCM) and [Dominik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ) and [Medhavi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjwVDsMPBKkPdWMCPHPmcTMN)
 
 Resolve intermittent downtime
-- increase available memory?
-- Begin using memory monitor
+- Increase available memory
+- Add memory monitor
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
 
-Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
-- Create folder with public domain material, ideally would be about a unified subject yet contain images, code snippets, mathematics, essays, quotes and links
+Check wildcard SSL certificate renewal on May 11th
 
-Work on online writing tool which connects to Dropbox and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRMwRlXWkJQpsjGrHxFmFzDw)
-
-Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
+Add support for paying with PayPal
+- Refactor subscription model as needed
+- Consider using Braintree?
 
 Record new demo video
 - Finish video script in brochure/readme.txt
@@ -92,22 +23,42 @@ Record new demo video
 
 ---
 
+Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people.
+
+Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+
+Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server.
+- Work out how to kill them safely
+
+Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
+
+Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+
+Finish template translation offers:
+- Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template 
+- Translate [Roberto's theme](http://roberto.micro.blog/archive/) to Blot and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnfMLBBJDNdDRPmfLLwcQkdH)
+- Translate [this theme](https://github.com/huangyz0918/moving) to Blot and tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZlmGfwNKCPLPMbkRHJSjNs)
+- Translate [Ana's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTgjDcQwDdcmTkgjjKTdQhQV) designs to Blot
+- Translate [2019](https://themes.gohugo.io/twentynineteen-hugo/) to Blot and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHqTkZhqhrFllhNGrbzwXqzg)
+- [Anders Norén](https://www.andersnoren.se/teman/)
+- [Radek Kozieł](https://github.com/panr)
+- Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
+- Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5WQ0/)
+- Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
+
+---
+
+Fix bug with slashes in tags and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTzJxBPcQPnGsQsPSsvh)
+
 Think about appeninding file extension to make requests with query strings cacheable
 - think about emptying cache directory, LRU. But how do we handle .css?query=x?
 - nginx will have to look up a series of extensions -> $requestURI, $requestURI.html, $requestURI.xml, $requestURI.css, $requestURI.js
-
----
 
 NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory
 - Is this a permissions issue? 
 - Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
 
-Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server.
-- Work out how to kill them safely
-
-Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
-
-Fix bug with file list on dashboard in Safari and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGHzLwclHfnvjZrvfsvTQdGf)
+Work out how to make live but saveable modifications for preview purposes on the template editor
 
 Generate a list of titles which you could use to generate a table of contents and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNNMjbjsSKltGRLDsqXfbMhN)
 
@@ -125,16 +76,13 @@ Fix bug with script to import wordpress posts and follow up with [Simon](https:/
 
 Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqhHZnPjfgRqFhpdNGZVKn)
 
-Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR)
+Fix missing error messages on overdue subscription payment form
 
-Show error messages on overdue subscription payment form
+Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 
-Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT) and tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd)
+Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 
-Allow paths to static files with a trailing slash to work and tell [Sean](https://mail.google.
-com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
-
-Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+Fix bug with file list on dashboard in Safari and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGHzLwclHfnvjZrvfsvTQdGf)
 
 Fix bug with guide to TeX and tell [Miguel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmmzsNfKtxnSNLvdQzPRjbzh)
 
@@ -143,24 +91,9 @@ Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/
 
 Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
-Consider adding a {{titleLink}} property to each entry, which extracts a link from the {{titleTag}} for use in RSS feeds, etc. and tell [Guy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTplWfqwxrlPtkQsbjddSfl)
-
 Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
 
 Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs) about any new templates.
-
-Deploy strict metadata change and tell [Tamara](https://mail.google.com/mail/u/0/#inbox/FFNDWMZzQhcKmlNQjvXQvrqjDrSxWLrQ)
-
----
-
-Finish template translation offers:
-- Translate [Roberto's theme](http://roberto.micro.blog/archive/) to Blot and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnfMLBBJDNdDRPmfLLwcQkdH)
-- Translate [this theme](https://github.com/huangyz0918/moving) to Blot and tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZlmGfwNKCPLPMbkRHJSjNs)
-- Translate [Ana's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTgjDcQwDdcmTkgjjKTdQhQV) designs to Blot
-- Translate [2019](https://themes.gohugo.io/twentynineteen-hugo/) to Blot and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHqTkZhqhrFllhNGrbzwXqzg)
-- [Anders Norén](https://www.andersnoren.se/teman/)
-- [Radek Kozieł](https://github.com/panr)
-- Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
 
 ---
 
@@ -173,11 +106,6 @@ Finish script to identify long-expired users with blogs to safely delete and fre
   
 Ignore files inside 'assets' inside .textbundle directories to improve support for textbundles and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzDLvlTkKNmfZgnXpzzLZjWN).
 
-
-Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
-
-Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
-
 Rebuild all the thumbnails and cached images for every blog
 - Weird things happened to the ferox blog – it was not attached to its user owner... Can we reproduce bug locally with production dump?
 - The stores contain old urls, e.g. "/_image_cache/..." even though we have updated new entries
@@ -186,35 +114,123 @@ Rebuild all the thumbnails and cached images for every blog
 
 Parse Word Document subtitles as h2 and tell [Matt](https://mail.google.com/mail/u/0/#sent/FMfcgxwDrlfrjDMsDlkLHNsnbtmXQtDw)
 
-
 ---
 
-Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+Add more fonts to font picker:
+- [ ] Abel
+- [ ] Alegreya
+- [ ] Alte Haas Grotesk
+- [ ] Authentic Sans
+- [ ] Avara
+- [ ] Averia Serif Libre
+- [ ] Bagnard
+- [ ] ANRT Baskervville
+- [ ] Chivo
+- [ ] Cormorant
+- [ ] Computer Modern (entire family)
+- [ ] Crimson Text 
+- [ ] Darker Grotesque
+- [ ] DINosaur
+- [ ] DM Sans
+- [ ] Eb Garamond
+- [ ] ET Book 
+- [ ] Euler AMS
+- [ ] Faune
+- [ ] Fjalla One
+- [ ] Fondamento
+- [ ] Golos Text
+- [ ] Halibut Serif 
+- [ ] Happy Times at the IKOB
+- [ ] Helmet Neue
+- [ ] iA Writer Quattro
+- [ ] Infini GF 
+- [ ] Inter 
+- [ ] Interstate
+- [ ] Inria fonts
+- [ ] JetBrains Mono
+- [ ] Junicode
+- [ ] Karla
+- [ ] Le Murmure
+- [ ] Lincoln Mitre
+- [ ] Libertinus
+- [ ] Lunchtype
+- [ ] Messapia
+- [ ] Michroma
+- [ ] Mister Pixel
+- [ ] Montserrat
+- [ ] Neuton
+- [ ] Nunito
+- [ ] Optician Sans
+- [ ] Ortica
+- [ ] Oswald
+- [ ] Pilowlava
+- [ ] Pinyon Script
+- [ ] Plex
+- [ ] Quicksand
+- [ ] Roboto
+- [ ] Rosario
+- [ ] Recursive
+- [ ] Routed Gothic
+- [ ] Rubik
+- [ ] Space Grotesk/Mono
+- [ ] Spectral
+- [ ] Syne
+- [ ] Terminal Grotesque
+- [ ] TeX Gyre
+- [ ] Typewriter Condensed
+- [ ] UnifrakturMaguntia
+- [ ] Violet Sans
+- [ ] VCR OSD Mono
+- [ ] Vollkorn
+- [ ] Work Sans
+- [ ] Wremena
+- [ ] Young Serif
 
-Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
+Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzMDKzrMwWqQTvWdnlrMJF) and [Brett](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjvLPvkwHWhDTsVwlChZcBKl)
 
-Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
+Add supoprt for paths to static files with a trailing slash to work and tell [Sean](https://mail.google.
+com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
 
 Add copy button to code snippets in <pre> tags and tell [Atif](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBVcrtzqmXGBtpLTBBjrQf)
 
-Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5WQ0/)
+Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
 
-New template lambdas to consider:
+Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
+
+Add a crop of a livestream of the sky above me to the contact page. Possibly sourced from [something like this](https://www.earthcam.com/usa/newyork/worldtradecenter/?cam=hyatthd). Just like this: https://sistercitynyc.com/
+
+Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
+
+Consider adding a {{titleLink}} property to each entry, which extracts a link from the {{titleTag}} for use in RSS feeds, etc. and tell [Guy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTplWfqwxrlPtkQsbjddSfl)
+
+Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT) and tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd)
+
+Add new template lambdas
 - Whitespace trimming and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 - Number formatting (e.g. add commas to int.) and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
 Add way to filter archives page by year or month and tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
+Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
+
+Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggDZGZhRJkhQhGdMjkQqNXfm)
+
+Add broken link check for all email templates for logged in and logged out users
+
+---
+
 Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH) and [Michael](https://mail.google.com/mail/u/0/#sent/QgrcJHsTkKSHVKgTvQJXTffdLDdbGZPbFxl)
 
 Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%20825%20printer%20font%20-%20a%20work%20in%20progress.markdown) draft and speed up its build time
-
-Tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrttWJFgmtWWqnnxzCmmfDQbc) once it's possible to create stand-alone HTML pages whcih don't become blog posts.
 
 Fix bug with rename detector which caused old permalinks not to redirect to their latest version and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSMBfbsZQQSGSjtghSHKKVzm)
 - To reproduce, create file 'hello.txt' with title and permalink 'foo'
 - Then rename file to 'world.txt', and edit title to 'bar' at the same time
 - we expect /foo to redirect to /bar, but it doesn't perhaps due to the rename?
+
+
+Tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrttWJFgmtWWqnnxzCmmfDQbc) once it's possible to create stand-alone HTML pages whcih don't become blog posts.
+
 
 Catch 404s in Google search results and set up redirects
 
@@ -222,7 +238,6 @@ Follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnr
 
 Fix bug with image zoomer on mobile devices and tell [Alessandro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwptjLtLGMjWxdkQNnNfTk)
 
-Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggDZGZhRJkhQhGdMjkQqNXfm)
 
 Adjust length of slug to use as few words as possible until collision and tell [Chet](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmtwFVcGnqXNNxPNqdbzlWhL)
 
@@ -234,7 +249,6 @@ Fix post encoding bugs
 - Fix encoding bug with greek URLs then tell [Rodericus](https://mail.google.com/mail/u/0/#search/rodericus/15bb13fafc1c34e5) know
 - Fix bug with template tags in blog post and tell [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgCJQhBZwgzQVLkKHnwPKVkFC)
 
-Tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSPdnRhXcXGjVxkvbkbzlg), [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwRWhQKFtSMxxHrRgnNhxcQZ), [Franklin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGsbCcKqwblmRQvSNMLpwHQh) and [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlfrFjWCtTCnNPjXSrDWHNfk) and [Abdul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCbBHfgTRfbpNVFvxGVghvbCM) and [Dominik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ) when it's possible to switch from annual to monthly billing
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
 
@@ -369,6 +383,8 @@ Research state of static site generators
 - https://www.11ty.io/docs/
 - https://www.staticgen.com/
 
+Investigate support for xattr to read image metadata on Blot? Or source for dragged images? https://github.com/LinusU/fs-xattr
+
 Improvements to brochure
 - Write new view renderer for express which would allow middleware like render_tex and would save templates to disk pre- mustache render but post minifyHTML.
 - Add integration tests for brochure site to test sign up flow
@@ -392,7 +408,7 @@ Improvements to brochure
 - JavaScript minifier
 - Custom video player on index page
 - Add types and examples to items on reference page
-- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20) and [Martin's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGKbxLLmfcBDBScrrVBKh)  [guide to citations](https://tinparkblog.blot.im/p2b-sh-pushtoblot)
+- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
  - And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 - Make formatting guide searchable
 - Make reference page searchable
@@ -446,6 +462,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
 - Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
 - Move to uuid based template IDs instead of slug
+- Add way to list directory contents and tell [Diego](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJtkqxhLVWXqdxNVchgGQzp)
 - Move to data directory for templates
   - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Re-do url redirector to use route-parser and properly support regular expressions
@@ -458,7 +475,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 Make sure [color schemes have enough contrast](https://stripe.com/blog/accessible-color-systems)
 
 Subscription refactor
-- Add support for subscriptions via PayPal
 - Different payment methods per blog
 - Seperate blog subscriptions behind the scenes to avoid the crazy calculations. Think of them like domains, you wouldn't do what Blot is doing for those...
 
@@ -489,6 +505,34 @@ Move to Linode?
 
 Increase price to $5 per month for new customers. This will not affect existing customers in any way.
 
+---
+
+Goal of this PR is to consolidate all application state inside a single directory, which could be backed up.
+
+ Merge PR #199 moving symlinks into cache folder
+ Move static directory into /data
+ Move blogs directory into /data
+ Move git client data directory into /data
+ Move DB into data folder
+To deploy:
+
+bg save redis
+switch redis to readonly
+switch blot to maintenance mode
+shut down monit
+shut down blot
+shut down redis
+move existing blog and static directories
+move existing dump file
+restart redis
+restart blot
+restart monit
+ Adds a command to restore database from backup.
+ Adds a scheduled task to flush old backups
+ Adds offsite (i.e. non AWS backups)
+ Rotates log files
+ Use S3 cli sync command to synchronize data directory?
+ 
 ---
 
 Create an API for Blot
@@ -563,6 +607,16 @@ Prune package.json
 Cluster the main process. How will I verify that there is not statefullness somewhere in the server? I also want the main 'server' running on different threads to the CPU intensive stuff like image processing. Will this fix the bug with additional child processes if main process runs out of memory? Something wasn't being killed during the Nash WAV bug of August, 2018. There were duplicate node rebuild processes running.
 
 Fix bugs with RSS feeds validation. Perhaps extend absoluteURLs helper function? Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBqKpcLTtxTzcfvMCVckLMJJ)
+
+Add support for Dropbox Paper .paper files and tell [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvMswZZXKvLfBRBVqfzksw)
+
+Make improvements to template editor color picker:
+- Think about customizable svg icon colors?
+- Expose array of rgb values for selected color so we could adjust opacity of color in template, for borders, light text etc: `{{#text_color}} color: rgba({{r}}, {{g}, {{b}}, 0.5); {{/text_color}}`
+- Random color button
+- Recommended presets for color scheme as a whole
+- Swatches
+   - used on other templates
 
 Add support for Microformats in the default templates. Tell Amit and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
 
@@ -644,11 +698,12 @@ Expose exif data on Photo posts? See if you can add comments to image metadata a
 Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ) and [Khaled](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGBFrctdVXhksCvqXXVPfDWR)
 
 Write new clients to sync blog folders
-- OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and
+- [Box] then tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzCcPkNppMpSbBzNRKFSNs)
+- OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvNGJxTXXcnsmXDqdkNnNq)
 - [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
 - [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW)
 - [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
-- Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm)
+- Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjkzLLMQHXgtlqwLGxfqfMhS)
 - If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD)
 
 Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
@@ -671,9 +726,7 @@ Buy the .com
 
 Incorporate
 
-Add support for other payment methods
-- Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
-- Paypal
+Add support for paying with Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
 
 Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
@@ -832,3 +885,5 @@ Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
 
 Consider adding [[Wikilinks]] and tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqWvGDjVMMzBHhXNPTvhJJ)
+
+Consider establishing community of Blot users and tell [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)

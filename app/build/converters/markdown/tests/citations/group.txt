@@ -1,0 +1,3 @@
+bibliography: bibliography.bib
+
+A citation group [see @item1 p. 34-35; also @item3 chap. 3].

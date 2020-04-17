@@ -83,6 +83,10 @@ module.exports = function(req, res, next) {
     // If the request came from a preview domain
     // e.g preview.original.david.blot.im
     if (previewTemplate) {
+
+      // Necessary to allow the template editor to embed the page
+      res.removeHeader('X-Frame-Options');
+
       req.preview = true;
       res.set("Cache-Control", "no-cache");
 

@@ -34,7 +34,6 @@ header row {padding:0 2rem}
 
 .links {
   text-align: right;
-  flex-grow: 1;
   padding: 0 0.7em;
 }
 
@@ -123,7 +122,6 @@ content {
 }
 
 
-.links a,
 .sidebar a,
 .links label {
   /*  margin: 0 0.7em;
@@ -134,7 +132,6 @@ content {
   text-decoration: none;
 }
 
-.links a {line-height: 43px;color:#000;}
 
 
 .links a:focus,

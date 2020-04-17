@@ -11,14 +11,14 @@
 //   base: the page on which the broken link was found
 //   status: the HTTP status code returned for the broken link
 // }]
-
-var async = require("async");
-var cheerio = require("cheerio");
-var request = require("request");
+const async = require("async");
+const cheerio = require("cheerio");
+const request = require("request");
 
 function main(url, options, callback) {
-  var checked = {};
-  var results = {};
+  let checked = {};
+  let results = {};
+  let failures = {};
 
   if (callback === undefined && typeof options === "function") {
     callback = options;
@@ -30,19 +30,46 @@ function main(url, options, callback) {
     callback(null, results);
   });
 
+  function addFailure(base, url, statusCode) {
+    const basePath = require("url").parse(base).pathname;
+    const pathname = require("url").parse(url).pathname;
+    failures[pathname] = statusCode;
+    results[basePath] = results[basePath] || [];
+    results[basePath].push([require("url").parse(url).pathname, statusCode]);
+  }
+
   // add some items to the queue
   function checkPage(base, url, callback) {
-    var uri = { url: url, headers: options.headers || {} };
+    const pathname = require("url").parse(url).pathname;
+
+    if (failures[pathname]) {
+      addFailure(base, url, failures[pathname]);
+      return callback();
+    }
+
+    if (checked[pathname]) return callback();
+
+    checked[pathname] = true;
+
+    const URL = require("url");
+    const parsedURL = URL.parse(url);
+    const extension = require("path").extname(parsedURL.pathname);
+    const uri = { url: url, headers: options.headers || {} };
+
+    if (extension) {
+      console.log("skipping", url);
+      return callback();
+    }
+
+    console.log("requesting", url);
 
     request(uri, function(err, res, body) {
       if (err) return callback(err);
 
-      if (res.statusCode == 404) {
-        var basePath = require("url").parse(base).pathname;
-        results[basePath] = results[basePath] || [];
-        results[basePath].push({
-          url: require("url").parse(url).pathname
-        });
+      // We use 400 sometimes on the dashboard
+      if (res.statusCode !== 200 && res.statusCode !== 400) {
+        console.log("ERROR!", res.statusCode, url);
+        addFailure(base, url, res.statusCode);
       }
 
       if (
@@ -57,8 +84,8 @@ function main(url, options, callback) {
   }
 
   function parseURLs(base, body, callback) {
-    var URLs = [];
-    var $;
+    let URLs = [];
+    let $;
 
     try {
       $ = cheerio.load(body);
@@ -67,10 +94,9 @@ function main(url, options, callback) {
     }
 
     $("[href],[src]").each(function() {
-      var url = $(this).attr("href") || $(this).attr("src");
+      let url = $(this).attr("href") || $(this).attr("src");
 
-      if (!url)
-        return;
+      if (!url) return;
 
       url = require("url").resolve(base, url);
 
@@ -80,13 +106,9 @@ function main(url, options, callback) {
       URLs.push(url);
     });
 
-    async.each(
+    async.eachSeries(
       URLs,
       function(url, next) {
-        if (checked[url]) return next();
-
-        checked[url] = true;
-
         checkPage(base, url, next);
       },
       callback

@@ -1,19 +1,27 @@
+# How to get version of Pandoc building:
+# https://bl.ocks.org/tlvince/e723a147366f00c9ca6641f412fd4bb3
+# https://github.com/tlvince/talks/blob/c8f6d3ecd25f3fdd7c0db61fb498857a9fc4809a/.travis.yml
+
 language: node_js
+cache: 
+  directories:
+    - node_modules
+    - "$PANDOC"  
 services:
   - redis-server
 node_js:
   - "10.16.3"
-before_install:
-  - export BLOT_PANDOC_PATH=$(which pandoc)
 before_script:
   - node config/blot/setup
-cache: npm
+before_install:
+  - mkdir -p "$PANDOC"
+  - if [[ ! -f "$PANDOC/pandoc.deb" ]]; then curl -L "$PANDOC_DEB" > "$PANDOC/pandoc.deb" && dpkg -x "$PANDOC/pandoc.deb" "$PANDOC"; fi
+  - export PATH="$PANDOC/usr/bin:$PATH"
+  - export BLOT_PANDOC_PATH=$(which pandoc)
+rvm:
+  - 1.9.3
 env:
-  - CXX=g++-4.8
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - pandoc
-      - g++-4.8    
+  global:
+    - PANDOC_VERSION="2.2.3.2"
+    - PANDOC="$HOME/.pandoc"
+    - PANDOC_DEB="https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb"

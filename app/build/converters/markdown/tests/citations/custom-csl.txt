@@ -1,0 +1,4 @@
+Bibliography: bibliography.bib
+CSL: style.csl
+
+@item1

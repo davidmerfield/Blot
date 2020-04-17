@@ -1,0 +1,119 @@
+<style type="text/css">
+  .CodeMirror-lines {
+    padding: 0;
+  }
+  .CodeMirror-gutters {
+    background: #f2f2f2;
+  }
+
+  .button {
+    background: #eee;
+    flex-grow: 1;
+    border-radius: 2px;
+    border: none;
+  }
+</style>
+<div style="flex-grow: 1;">
+  {{> header}}
+  <div style="background: rgba(0, 0, 0, 0.1);padding: 0 1rem"></div>
+
+  {{#view}}
+
+  <div id="editor"></div>
+
+  <textarea
+    id="source"
+    style="display:none"
+    data-mode="{{editorMode}}"
+    name="content"
+  >{{content}}</textarea>
+
+  <script src="/scripts/jquery.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/codemirror.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/active-line.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/mode-css.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/mode-simple.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/mode-multiplex.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/mode-handlebars.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/mode-htmlmixed.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/mode-javascript.js?{{cacheID}}"></script>
+  <script src="/scripts/codemirror/mode-xml.js?{{cacheID}}"></script>
+
+  <script type="text/javascript">
+    $("#source").hide();
+
+    // Editor
+    var editor = CodeMirror.fromTextArea(document.getElementById("source"), {
+      mode: { name: "handlebars", base: $("#source").attr("data-mode") },
+      lineNumbers: true,
+      styleActiveLine: true,
+      theme: "default",
+    });
+
+    editor.on("keyup", function() {
+      $("#save")
+        .removeClass("disabled")
+        .prop("disabled", false)
+        .val("Save");
+    });
+
+    $(".save").submit(function() {
+      $.ajax({
+        type: "POST",
+        url: $(".save").attr("action"),
+        data: $(".save").serialize(),
+        error: function(res) {
+
+
+          $("#save")
+            .removeClass("working")
+            .removeClass("disabled")
+            .prop("disabled", false)
+            .val("Save");
+
+          $(".error")
+            .text(res.responseText)
+            .fadeIn();
+        },
+
+        success: function(data, status, res, body) {
+          $("#save")
+            .addClass("disabled")
+            .prop("disabled", true)
+            .removeClass("working")
+            .val("Saved!");
+
+          $(".success")
+            .text("Changes saved successfully!")
+            .fadeIn();
+
+          $(".error").hide();
+
+          setTimeout(function() {
+            $(".success").fadeOut();
+          }, 3000);
+        },
+      });
+
+      return false; // avoid to execute the actual submit of the form.
+    });
+
+    $("#save").click(function(e) {
+      if ($(this).hasClass("disabled")) {
+        e.preventDefault();
+        return false;
+      }
+
+      $(this)
+        .addClass("working")
+        .addClass("disabled")
+        .val("Saving");
+
+      $('input[name="content"]').val(editor.getValue());
+      $(".save").submit();
+
+      return false;
+    });
+  </script>
+  {{/view}}
+</div>
