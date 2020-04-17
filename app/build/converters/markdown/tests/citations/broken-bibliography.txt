@@ -1,0 +1,3 @@
+Bibliography: does-not-exist.bib
+
+@item1

@@ -1,0 +1,4 @@
+Bibliography: bibliography.bib
+CSL: does-not-exist.csl
+
+@item1
