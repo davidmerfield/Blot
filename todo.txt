@@ -408,7 +408,7 @@ Improvements to brochure
 - JavaScript minifier
 - Custom video player on index page
 - Add types and examples to items on reference page
-- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20) and [Martin's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGKbxLLmfcBDBScrrVBKh)  [guide to citations](https://tinparkblog.blot.im/p2b-sh-pushtoblot)
+- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
  - And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 - Make formatting guide searchable
 - Make reference page searchable
