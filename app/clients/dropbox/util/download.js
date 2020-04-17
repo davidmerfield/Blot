@@ -11,6 +11,8 @@ var retry = require("./retry");
 function download(token, source, destination, callback) {
   var tmpLocation = join(tmpDir, uuid());
 
+  debug(source, destination)
+  
   var ws, down, metadata;
 
   try {
