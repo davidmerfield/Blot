@@ -8,6 +8,11 @@ module.exports = function waitForErrorTimeout(err) {
   // These crazy nested errors are returned by Dropbox
   var delay = err.error && err.error.error && err.error.error.retry_after;
 
+  debug(err);
+  
+  debug('a headers retry-after', err.headers && err.headers['retry-after']);
+  debug('b headers retry-after', err.error && err.error.headers && err.error.headers['retry-after']);
+
   // It would be nice to use async.retry's features but there
   // is no support for a custom dynamic interval between retries,
   // so we have to use this for now.
