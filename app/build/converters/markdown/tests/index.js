@@ -5,11 +5,11 @@ describe("markdown converter", function() {
 
   global.test.blog();
 
-  require('child_process').exec('pandoc -v', function(err, res){
+  require("child_process").exec("pandoc -v", function(err, res) {
     if (err) throw err;
-    console.log('-----------');
-    console.log('PANDOC VERSION:', res);
-    console.log('-----------');
+    console.log("-----------");
+    console.log("PANDOC VERSION:", res);
+    console.log("-----------");
   });
 
   function from(path) {
@@ -37,17 +37,6 @@ describe("markdown converter", function() {
       });
     };
   }
-
-  it("handles bib files", function(done) {
-    fs.copySync(__dirname + "/bib", this.blogDirectory);
-
-    markdown.read(this.blog, "/post.txt", {}, function(err, html, stat) {
-      if (err) return done.fail(err);
-
-      console.log(html);
-      done();
-    });
-  });
 
   it("handles amerpsands in code blocks", from("/ampersand-in-code.txt"));
   it("handles amerpsands in image srcs", from("/ampersand-in-image.txt"));

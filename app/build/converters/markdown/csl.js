@@ -1,12 +1,17 @@
-var extractMetadata = require("../../metadata");
-var localPath = require("helper").localPath;
+const extractMetadata = require("../../metadata");
+const localPath = require("helper").localPath;
+const fs = require("fs-extra");
 
 module.exports = function(blog, text) {
-  var pathToBib = extractMetadata(text).metadata.csl;
+	if (!text) return;
 
-  if (!text || !pathToBib) return;
+	const pathToCSL = extractMetadata(text).metadata.csl;
 
-console.log(require('fs').readFileSync(localPath(blog.id, pathToBib)));
-  
-  return localPath(blog.id, pathToBib);
+	if (!pathToCSL) return;
+
+	const fullPath = localPath(blog.id, pathToCSL);
+
+	if (!fs.existsSync(fullPath)) return;
+
+	return fullPath;
 };

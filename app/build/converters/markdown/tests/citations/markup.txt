@@ -1,0 +1,3 @@
+Bibliography: bibliography.bib
+
+With some markup [*see* @item1 p. **32**].

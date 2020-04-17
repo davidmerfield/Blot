@@ -18,9 +18,6 @@ module.exports = function(blog, text, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
-    // This feature fucks with [@twitter]() links
-    // perhaps make it an option in future?
-    "-citations" +
     // Fucks up with using horizontal rules
     // without blank lines between them.
     "-simple_tables" +
@@ -37,6 +34,11 @@ module.exports = function(blog, text, callback) {
     "+lists_without_preceding_blankline" +
     "-blank_before_header" +
     "-blank_before_blockquote";
+
+  // This feature fucks with [@twitter]() links
+  // perhaps make it an option in future?
+  if (!(bib(blog, text) || csl(blog, text)))
+    extensions += "-citations";
 
   var args = [
     "-f",
@@ -56,7 +58,7 @@ module.exports = function(blog, text, callback) {
     "--no-highlight",
 
     // such a dumb default feature... sorry john!
-    "--email-obfuscation=none"
+    "--email-obfuscation=none",
   ];
 
   if (bib(blog, text)) {
@@ -74,8 +76,6 @@ module.exports = function(blog, text, callback) {
     args.push("pandoc-citeproc");
   }
 
-  console.log(args);
-  
   var pandoc = spawn(pandoc_path, args);
 
   var result = "";
