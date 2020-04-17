@@ -11,7 +11,7 @@ Please don’t hesitate to contact me with any questions: support@blot.im
 Overview
 --------
 
-Here is an illustration of Blot's current structure:
+Here is an illustration of Blot's structure:
 
 
                     +-----------------------+      +-----------------------+
