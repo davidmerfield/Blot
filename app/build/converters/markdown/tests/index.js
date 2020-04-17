@@ -5,12 +5,12 @@ describe("markdown converter", function() {
 
   global.test.blog();
 
-  require("child_process").exec("pandoc -v", function(err, res) {
-    if (err) throw err;
-    console.log("-----------");
-    console.log("PANDOC VERSION:", res);
-    console.log("-----------");
-  });
+  // require('child_process').exec('pandoc -v', function(err, res){
+  //   if (err) throw err;
+  //   console.log('-----------');
+  //   console.log('PANDOC VERSION:', res);
+  //   console.log('-----------');
+  // });
 
   function from(path) {
     return function(callback) {
@@ -45,6 +45,9 @@ describe("markdown converter", function() {
   it("converts basic markdown", from("/basic-post.txt"));
   it("converts a list", from("/list.txt"));
   it("handles pre-formatted indentation", from("/pre-formatted-indents.txt"));
+
+  // These are disabled because Travis uses an old version of Pandoc
+  // I need to update Travis' pandoc.
   it("does not obfuscate an email address", from("/email-addresses.txt"));
   it("parses metadata", from("/metadata.txt"));
   it("autolinks bare uris", from("/bare-uri.txt"));
