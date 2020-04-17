@@ -9,9 +9,12 @@ module.exports = function waitForErrorTimeout(err) {
   var delay = err.error && err.error.error && err.error.error.retry_after;
 
   debug(err);
-  
-  debug('a headers retry-after', err.headers && err.headers['retry-after']);
-  debug('b headers retry-after', err.error && err.error.headers && err.error.headers['retry-after']);
+
+  if (!delay) {
+    delay = err.headers && err.headers['retry-after'] && parseInt(err.headers['retry-after']);
+  }
+
+  debug('delay', delay);
 
   // It would be nice to use async.retry's features but there
   // is no support for a custom dynamic interval between retries,
