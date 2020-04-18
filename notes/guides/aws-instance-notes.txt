@@ -1,3 +1,5 @@
+# Instance notes
+
 https://www.ec2instances.info/?min_memory=20&min_vcpus=4&region=us-west-2&cost_duration=annually&reserved_term=yrTerm1Standard.allUpfront&selected=r5ad.xlarge,z1d.xlarge,m5ad.2xlarge
 
 r5ad.xlarge for 1356/year or 113/month

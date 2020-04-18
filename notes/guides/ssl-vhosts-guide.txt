@@ -1,3 +1,5 @@
+# SSL vhosts
+
 - Goal is to create a system for 10,000 sites, each of which is accessible on a blot subdomain and on their own custom domain.
 - Letsencrypt seems to be the way to go.
 - Test that redis-nginx-luaresty-letsencrypt combo on my personal sites.

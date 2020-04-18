@@ -1,5 +1,4 @@
-CDN
----
+# CDN
 
 So I've worked out one of the reasons why CDNs are important: bandwidth delay product. 
 

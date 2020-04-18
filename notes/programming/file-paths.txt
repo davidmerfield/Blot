@@ -1,3 +1,5 @@
+# File paths
+
 we really have three paths for a file on blot.
 
 1. the 'blot path'

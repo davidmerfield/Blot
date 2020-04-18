@@ -1,3 +1,5 @@
+# Wildcard SSL
+
 It's been harder than I'd like to admit to get HTTPS/SSL working on preview subdomains. Why do we want preview subdomains? Well, I would like to offer customers the ability to preview different templates on their site. Right now, this is possible using the following subdomain format:
 
 preview.$template.$handle.blot.im

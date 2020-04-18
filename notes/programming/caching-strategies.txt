@@ -1,3 +1,5 @@
+# Caching strategies
+
 Instead of using redis as a cache, write the output for 200 responses to disk
 
 in www / domain / $path

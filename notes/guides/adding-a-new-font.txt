@@ -1,5 +1,4 @@
-How to add a new web font
--------------------------
+# How to add a new web font
 
 Let's say we want to add the font 'Goudy Old Style' to Blot.
 

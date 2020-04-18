@@ -1,3 +1,5 @@
+# Demo video
+
 Hello, I'm going to show you how to publish with Blot. I've just signed up for Blot and connected this folder in my Dropbox to Blot. 
 
 Here's a text file containing my blog post. To publish it, drag-and-drop it inside my folder. Once Dropbox syncs the folder, Blot transforms the text file into a blog post and publishes it. Here's my blog, there's that post.

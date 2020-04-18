@@ -1,3 +1,5 @@
+# Video
+
 Make a simple app which interacts with the Blot folder somehow to demonstrate that its easy to make tools for publishing with Blot.
 
 -----------

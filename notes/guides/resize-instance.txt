@@ -1,3 +1,5 @@
+# Resize AWS instance
+
 AWS now seems to allow the in-place resize of volumes attached to its modern instances (which Blot uses). I have been following the guide to [resizing a volume on AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modify-volume.html?icmpid=docs_ec2_console)
 
 I also read the page on the [limitations to modifying volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/limitations.html) and none seem to apply to my case. One thing to be aware of is the delay between subsequent modifications.

@@ -1,3 +1,5 @@
+# Mounting ephemeral storage on EC2
+
 When you stop and then start an ec2 instance, its underlying hardware might change. This means the mounting you might have done for the ephemeral disk won't work. Here's the process for re-mounting this ephemeral disk.
 
 to determine if the disk is mounted:

@@ -1,3 +1,5 @@
+# SSL certificate in development
+
 You need to generate a self-signed certificate and key pair then tell your system to trust it. I then load the key.pem and cert.pem files into the webserver.
 
 Since Chrome 58, you need to declare a Subject Alternative Name. I don't really understand what that is or why it is neccessary but it is.

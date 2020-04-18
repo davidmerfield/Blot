@@ -1,5 +1,4 @@
-Slow images
------------
+# Slow images
 
 I stopped using a CDN (AWS Cloudfront in front of an S3 bucket) recently, instead opting to use Blot's server and attached SSD harddrive to serve all the static files for each site. The purpose of this was to reduce the build latency for new posts and the number of moving parts in Blot's infrastructure. I'd also like to learn more about serving static files effectively at scale.
 
