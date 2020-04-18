@@ -1,4 +1,4 @@
-Improving the templating code
+# Improving the templating code
 
 Right now blot fetches a load of information, depending on each route, and uses that to fill a template.
 
@@ -215,6 +215,7 @@ remaining_entries:
 
 {{/entries}}
 
+```
 {{#pagination}}
 
   {{#next}}
@@ -228,3 +229,4 @@ remaining_entries:
 {{/pagination}}
 
 {{> footer}}
+```
