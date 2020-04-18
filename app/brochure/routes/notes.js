@@ -22,7 +22,7 @@ const extractName = (filePath) => {
   } else if (dashTitle && dashTitle[1]) {
     return dashTitle[1];
   } else {
-    return filePath.split("/").pop();
+    return withoutExtension(filePath.split("/").pop());
   }
 };
 
@@ -77,10 +77,7 @@ notes.param("section", function(req, res, next) {
 
 notes.param("article", function(req, res, next) {
   res.locals.selected[req.params.article] = "selected";
-  res.locals.breadcrumbs.push({
-    slug: "/notes/" + req.params.section + "/" + req.params.article,
-    name: req.params.article[0].toUpperCase() + req.params.article.slice(1),
-  });
+
   next();
 });
 
@@ -113,6 +110,18 @@ notes.get("/:section", function(req, res, next) {
 });
 
 notes.get("/:section/:article", function(req, res, next) {
+  res.locals.breadcrumbs.push({
+    slug: "/notes/" + req.params.section + "/" + req.params.article,
+    name: extractName(
+      NOTES_DIRECTORY +
+        "/" +
+        req.params.section +
+        "/" +
+        req.params.article +
+        ".txt"
+    ),
+  });
+
   res.locals.body = marked(
     fs.readFileSync(
       NOTES_DIRECTORY +

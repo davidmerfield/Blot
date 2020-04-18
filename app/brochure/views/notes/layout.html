@@ -39,61 +39,15 @@ margin-left: 12px
   margin: 0
 }
 
-p+.guides {
-  margin-top: 2em
-}
-
-h1+.guides {
-  margin-top: -14px
-}
-
-h2+.guides {
-  margin-top: -6px;
-}
-
-h2+.guides li:first-child a {
-  border-top: none;
-}
-
-.guides li {
-  margin: 0;
-  padding: 0
-}
-
-.guides li a:hover,
-.guides li a:active,
-.guides li a:focus {
-  text-decoration: none;
-  background: none;
-  box-shadow: none;
-}
-
-.guides li a {
-  padding: 9px 0;
-  padding-left: 28px;
-  border-top: 1px solid #eceff1;
-  color: inherit;
-  text-decoration: none;
-  position: relative;
-  display: block;
-}
-
-.guides li .a {
-  color: #005eb8;
-  text-decoration: underline;
-  display: block;
-}
-
 .bc a {    display: inline-block;
     position: relative;
-    margin-bottom: 5px;
     margin-left: 10px;
     padding-left: 15.655px;
     float: left;
   }
 
   .bc a:first-child {margin-left: 0;padding-left: 0}
-  
+
 .bc a:not(:first-child):before {
     content: "";
     display: block;
@@ -178,8 +132,7 @@ h2+.guides li:first-child a {
 
 
         <hr>
-                <li class="with-arrow"><a class="{{selected.index}}" href="/">Home</a></li>
-                <li class="with-arrow"><a class="{{selected.publishing}}" href="/publishing">How to use Blot</a></li>
+                <li class="with-arrow"><a class="{{selected.contact}}" href="/contact">Contact</a></li>
                 <li class="with-arrow"><a class="{{selected.about}}" href="/about">About</a></li>
 
     </ul>
@@ -191,23 +144,27 @@ h2+.guides li:first-child a {
       {{{body}}}
 
     {{#showToc}}
-      <ul class="guides">
+      <ul class="guides" style="display: flex;flex-wrap: wrap;margin:-1rem">
         {{#toc}}
-        {{name}}
-        <ul>
+        <li style="flex-basis: 50%;padding:1rem;box-sizing: border-box;">
+<a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>        <ul style="padding-left: 0">
           {{#items}}
-          <li><a href="{{slug}}">{{name}}</a>
+          <li style="list-style-type: none;"><a href="{{slug}}">{{name}}</a>
           {{/items}}
         </ul>
+      </li>
         {{/toc}}
       </ul>
       {{/showToc}}
-
-       <ul>
+      <style type="text/css">a.no-outline:hover {box-shadow: none;border:none;background: #f9f9f9}</style>
+          {{#if subsections}}
+          <br>
+       <ul style="list-style-type: none;margin:0;padding: 0">
           {{#subsections}}
-          <li><a href="{{slug}}">{{name}}</a>
+          <li><a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>
           {{/subsections}}
         </ul>
+        {{/if}}
     </content>
   </main>
 
