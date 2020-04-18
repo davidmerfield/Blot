@@ -31,6 +31,20 @@ Subscription.route("/cancel")
     res.message("/account/subscription", "Your subscription has been cancelled");
   });
 
+Subscription.route("/switch-interval")
+
+  .all(requireSubscription)
+
+  .get(function(req, res) {
+    res.render("account/switch-interval", {
+      title: "Switch your subscription interval"
+    });
+  })
+
+  .post( function(req, res) {
+    res.message("/account/subscription", "Your subscription has been switched");
+  });
+
 Subscription.route("/create")
 
   .all(requireLackOfSubscription)
