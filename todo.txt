@@ -1,17 +1,11 @@
 Finish [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) translation on Monday. Use essay template as base style. Make sure page_size, colors are editable
 
-Add switch from annual to monthly billing and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSPdnRhXcXGjVxkvbkbzlg), [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwRWhQKFtSMxxHrRgnNhxcQZ), [Franklin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGsbCcKqwblmRQvSNMLpwHQh) and [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlfrFjWCtTCnNPjXSrDWHNfk) and [Abdul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCbBHfgTRfbpNVFvxGVghvbCM) and [Dominik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ) and [Medhavi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjwVDsMPBKkPdWMCPHPmcTMN)
-
 Resolve intermittent downtime
 - Increase available memory
 - Add memory monitor
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
 
 Check wildcard SSL certificate renewal on May 11th
-
-Add support for paying with PayPal
-- Refactor subscription model as needed
-- Consider using Braintree?
 
 Record new demo video
 - Finish video script in brochure/readme.txt
