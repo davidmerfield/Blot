@@ -5,8 +5,9 @@ const fs = require("fs-extra");
 const NOTES_DIRECTORY = require("helper").rootDir + "/notes";
 const path = require("path");
 
+// Used to extract title text from Markdown title tags in note source files
 const HASH_TITLE_REGEX = /\# (.*)/;
-const DASH_TITLE_REGEX = /(.*)\n-+\n/;
+const DASH_TITLE_REGEX = /(.*)\n[=-]+\n/;
 
 const removeIgnorableItems = (name) =>
   name[0] !== "." && name[0] !== "_" && name !== "README";
@@ -31,6 +32,7 @@ notes.use(function(req, res, next) {
   res.locals.base = "/notes";
   res.locals.layout = "";
   res.locals.selected = {};
+  res.locals.breadcrumbs = [];
   next();
 });
 
@@ -65,18 +67,33 @@ notes.param("section", function(req, res, next) {
     section.isSelected = req.params.section === section.id ? "selected" : false;
     return section;
   });
+  res.locals.breadcrumbs.push({
+    slug: "/notes/" + req.params.section,
+    name: req.params.section[0].toUpperCase() + req.params.section.slice(1),
+  });
   res.locals.section = "/notes/" + req.params.section;
   next();
 });
 
 notes.param("article", function(req, res, next) {
   res.locals.selected[req.params.article] = "selected";
+  res.locals.breadcrumbs.push({
+    slug: "/notes/" + req.params.section + "/" + req.params.article,
+    name: req.params.article[0].toUpperCase() + req.params.article.slice(1),
+  });
   next();
 });
 
 notes.get("/", function(req, res, next) {
   res.locals.title = "Notes - Blot";
-  res.locals.toc = TOC;
+  res.locals.showToc = true;
+  res.locals.toc = TOC.map((section) => {
+    section.isSelected = false;
+    return section;
+  });
+  res.locals.body = marked(
+    fs.readFileSync(NOTES_DIRECTORY + "/README", "utf-8")
+  );
   next();
 });
 
@@ -87,6 +104,11 @@ notes.get("/:section", function(req, res, next) {
       "utf-8"
     )
   );
+
+  res.locals.subsections = TOC.filter(
+    (section) => section.id === req.params.section
+  )[0].items;
+
   next();
 });
 

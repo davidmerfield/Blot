@@ -84,19 +84,49 @@ h2+.guides li:first-child a {
   display: block;
 }
 
+.bc a {    display: inline-block;
+    position: relative;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    padding-left: 15.655px;
+    float: left;
+  }
 
-
+  .bc a:first-child {margin-left: 0;padding-left: 0}
+  
+.bc a:not(:first-child):before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -3.31px;
+    width: 7px;
+    height: 7px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #626a6e;
+}
 </style>
 
 <div style="background:#f6f6f6">
   <div class="wrapper">
     <row  style="padding:2rem 0 1rem;display:flex;align-items:center;">
       <section style="display: flex;
-    align-items: center;width: 15rem">
+    align-items: center;">
 
         {{#unless user}}
-        <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/" >Blot</a> <span style="margin:0 8px;opacity: 0.25">/</span>         <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/notes" >Notes</a>
-
+        <div style="display: flex" class="bc">
+          <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/" >Blot</a>
+          <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/notes" >Notes</a>
+          {{#breadcrumbs}}
+          <a class="underline-on-hover" style="font-weight: 600;color:#000" href="{{{slug}}}">{{name}}</a>
+          {{/breadcrumbs}}
+      </div>
         {{/unless}}
         {{#if user}}
         <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
@@ -132,16 +162,17 @@ h2+.guides li:first-child a {
     <ul class="sidebar col-25">
       <br><Br>
       {{#toc}}
-      <li class="has-list {{isSelected}}">
-        <input type="checkbox" name="{{id}}" id="{{id}}" {{#isSelected}} checked{{/isSelected}}> <a href="{{{slug}}}">{{name}}<label for="{{id}}"></label>
+<!--       <li class="has-list {{isSelected}}">
+ -->      <li class=" {{isSelected}}">
+       <!--  <input type="checkbox" name="{{id}}" id="{{id}}" {{#isSelected}} checked{{/isSelected}}> --> <a href="{{{slug}}}">{{name}}<label for="{{id}}"></label>
         </a>
-        <ul>
+        <!-- <ul>
           {{#items}}
           <li class="{{isSelected}}">
             <a href="{{{slug}}}">{{name}}</a>
           </li>
           {{/items}}
-        </ul>
+        </ul> -->
       </li>
       {{/toc}}
 
@@ -155,7 +186,11 @@ h2+.guides li:first-child a {
 
     <content>
       
-      {{^body}}
+  
+
+      {{{body}}}
+
+    {{#showToc}}
       <ul class="guides">
         {{#toc}}
         {{name}}
@@ -166,9 +201,13 @@ h2+.guides li:first-child a {
         </ul>
         {{/toc}}
       </ul>
-      {{/body}}
+      {{/showToc}}
 
-      {{{body}}}
+       <ul>
+          {{#subsections}}
+          <li><a href="{{slug}}">{{name}}</a>
+          {{/subsections}}
+        </ul>
     </content>
   </main>
 
