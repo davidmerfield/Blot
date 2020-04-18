@@ -165,7 +165,7 @@ no template info stored in db
 
 everything stored on disk?
 
----
+==-
 
 
 template = read(...) ;
@@ -178,12 +178,12 @@ mustache.parse(template);
 
 mustache.render(template, view);
 
----
+==-
 
 store full list of locals and paths to partials against each template path?
 
 
----
+==-
 first_entry:
   source: posts
   length: 1
@@ -199,13 +199,13 @@ remaining_entries:
     - first_entry
     - next_entries
   length: 10
----
+==-
 
 {{#first}}
 
 {{/posts}}
 
---------------------------
+==========================
 
 {{> header}}
 

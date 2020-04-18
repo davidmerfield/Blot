@@ -8,7 +8,7 @@ This means that serving large files closer to your readers means dramatically in
 
 
 Goals
------
+====-
 
 Don't want to be uploading files offsite in order for the CDN to access them due to the additional latency. The CDN should fetch uncached files directly from Blot's server.
 
@@ -18,7 +18,7 @@ It would be ideal if we could put a CDN between the user's custom domain and Blo
 
 
 Cloudfront + blotcdn.com
-------------------------
+========================
 
 Cloudfront now offers 'Origin Groups' which mean it can first attempt an S3 bucket, then pass the request to some other server (which in my case will be an EC2 instance).
 
@@ -42,13 +42,13 @@ I then replaced the origin path for the behaviour with '/static' to make it easy
 
 
 Issues with Cloufront
----------------------
+====================-
 
 Order of origins was important. For some reason, Cloudfront would not cache responses from Blot when the S3 origin was the highest priority origin in the 'Origin group'. I re-ordered the origins, put EC2 first and then Cloudfront began returning cache-hits for images from Blot.
 
 
 Questions
----------
+========-
 
 - Think about folder structure to make serving static files easier
   - Get nginx serving all static files from scratch
@@ -70,11 +70,11 @@ Questions
 
 Permanent URLs which never change for thumbnails, cached images, avatars, template assets and a particular version of a file. I want to be able to generate these permanent URLs synchronously like:
 
-{{#asset}}/style.css{{/asset}} ---> cdn.com/{blogID}/{cacheID}/templates/foo/style.css
+{{#asset}}/style.css{{/asset}} ==-> cdn.com/{blogID}/{cacheID}/templates/foo/style.css
 
 
 Custom domains and the CDN
---------------------------
+==========================
 
 So here's how I know I can get cloudfront between the custom doman and Blot working:
 

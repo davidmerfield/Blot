@@ -3,7 +3,7 @@
 I did this:
 
 git fetch origin
-git reset --hard origin/master
+git reset ==hard origin/master
 
 Don't do this.
 

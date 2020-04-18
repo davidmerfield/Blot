@@ -1,6 +1,6 @@
 # Move DB checklist
 
--- preparation
+== preparation
 
 0. reset logfiles
 1. backup data
@@ -12,11 +12,11 @@
 7. reload new upstart configuration
 8. bgsave redis
 
--- brief downtime
+== brief downtime
 
 1. stop and start nginx with new config
 
--- downtime
+== downtime
 
 2. stop blot
 3. stop redis
@@ -27,7 +27,7 @@ cp /var/www/blot/dump.rdb /var/www/blot/db/dump.rdb
 5. start redis
 6. start blot
 
---- commands
+==- commands
 
 
 mkdir /var/www/blot/config
@@ -56,7 +56,7 @@ sudo start redis
 sudo start blot
 
 
-------- my fuck ups
+======- my fuck ups
 
 forgot to create flags.json
 forgot to move dhparams to config/secrets

@@ -1,7 +1,6 @@
-# Production environment setup
 
 Set up
-------
+======
 
 Blot depends on a file like environment.sh located at the path "/etc/blot/environment.sh". You must copy the template in this directory there and fill it out. The [upstart job](./upstart/blot.conf) for Blot depends on this.
 
@@ -12,7 +11,7 @@ chmod +x scripts/production/start_blot.sh
 ```
 
 AWS
----
+==-
 
 At the moment I have moved Blot to an I3 instance which has 16GB of RAM, a 500GB SSD hardrive for temporary data.
 
@@ -22,7 +21,7 @@ I think it might be a good idea to use it as a cache. I should also move my EBS 
 
 The I3 instance offers volatile storage.
 
----
+==-
 
 3/3/2018 I have since set up the instance store as a cache.
 
@@ -42,7 +41,7 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disk-performance.html
 
 
 Production machine configuration (Linux)
-----------------------------------------
+========================================
 
 I made these changes to the AWS instance when I created it. I believe they were in the redis guide for getting good performance out of ec2 instances. But I'm not 100% sure...
 
@@ -52,7 +51,7 @@ dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
 
 
 Upstart
--------
+======-
 
 Before we install our upstart scripts, we'll need to comment out ```Defaults    requiretty``` in /etc/sudoers. This allows me to run an upstart script as another user without a tty. Ideally, we'd use upstart's setuid feature, but the version of upstart that ships with amazon linux is too old and does not have that feature. To fix this, open /etc/sudoers and comment out requiretty by adding a '#' at the start of its line.
 
@@ -72,7 +71,7 @@ If you'd like more information about the scripts, check the conf files. I've add
 
 
 Monit
------
+====-
 
 Add a line to /etc/hosts file to allow monit to request localhost.
 

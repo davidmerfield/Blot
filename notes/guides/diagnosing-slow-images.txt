@@ -44,13 +44,13 @@ I installed iftop to visualize bandwidth
 
 I thought it might be something to do with proxy buffering but since NGINX was serving the image (and not node) the proxying was not the culprit
 
----
+==-
 
 Content download for http://portfolio.blot.im/_image_cache/a4f12fbe-fceb-42be-8903-f742e3c3c10b.jpg is about 424.657534247 KB/s
 
 What gives? Imgur is giving me 2989.071038251KB/s for a js file.
 
----
+==-
 
 Finally I discovered that AWS offers a service called 'enhanced networking'. It was installed but not activated on my instance:
 
@@ -64,7 +64,7 @@ The guide to determining whether it is enabled is here:
 
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html#enable-enhanced-networking-ena-AL
 
----
+==-
 
 I installed the aws cli and created a new user 'aws-cli' to manage the instances
 
@@ -72,7 +72,7 @@ I configured it for oregon (us-west-2)
 
 modinfo needed to be run as root
 
----
+==-
 
 Will enhanced networking help? What are the downsides? Why isn't it enabled by default?
 

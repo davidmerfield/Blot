@@ -16,7 +16,7 @@ restart blot:
 
 sudo stop blot && sudo start blot
 
----
+==-
 
 Use this guide to automate this process on downtime?
 
