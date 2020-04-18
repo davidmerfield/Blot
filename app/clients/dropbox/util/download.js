@@ -5,11 +5,14 @@ var tmpDir = require("helper").tempDir();
 var join = require("path").join;
 var uuid = require("uuid/v4");
 var retry = require("./retry");
+var waitForErrorTimeout = require("./waitForErrorTimeout");
 
 // This is used by sync.js to retrieve files efficiently
 // from Dropbox after notification of a change through a webhook
 function download(token, source, destination, callback) {
   var tmpLocation = join(tmpDir, uuid());
+
+  debug(source, destination);
 
   var ws, down, metadata;
 
@@ -36,7 +39,7 @@ function download(token, source, destination, callback) {
 
       chunkSize: 1000 * 1024,
 
-      autorename: false
+      autorename: false,
     })
     .on("progress", function(res) {
       debug("progress", res);
@@ -45,7 +48,14 @@ function download(token, source, destination, callback) {
       debug("metadata", res);
       metadata = res;
     })
-    .on("error", callback)
+    .on("error", function(err) {
+      // Since this entire function is wrapped in retry behaviour
+      // we just need to wait for the retry delay before surfacing
+      // the error. Note that waitForErrorTimeout only ever throws
+      // so we shouldn't need ... .then(callback)
+      waitForErrorTimeout(err)
+        .catch(callback);
+    })
     .pipe(ws);
 }
 
