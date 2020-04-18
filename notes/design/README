@@ -1,3 +1,4 @@
-# Design
+Design
+------
 
-First, a note of self-congratulation: this is a dangerous section for a service like Blot to have. Running a service like Blot involves making decisions that are intensely political. I do try to read deeply and think deeply about everything I do with Blot, and I hope you will be charitable.
+Here are my design decisions
