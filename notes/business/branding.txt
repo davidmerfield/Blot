@@ -1,10 +1,12 @@
-# Branding
+Branding
+========
 
 A few design references:
 
 
 
-## Domains
+Domains
+-------
 
 blot.com
 
