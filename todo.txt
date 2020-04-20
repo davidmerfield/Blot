@@ -191,6 +191,8 @@ Add copy button to code snippets in <pre> tags and tell [Atif](https://mail.goog
 
 Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
 
+Add support for Ulysses image syntax and tell [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsRmxKrQzmjmcxnBTqQKHvzj)
+
 Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
 
 Add a crop of a livestream of the sky above me to the contact page. Possibly sourced from [something like this](https://www.earthcam.com/usa/newyork/worldtradecenter/?cam=hyatthd). Just like this: https://sistercitynyc.com/
