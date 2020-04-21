@@ -1,5 +1,3 @@
-Finish [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) translation on Monday. Use essay template as base style. Make sure page_size, colors are editable
-
 Investigate SVG thumbnail support and tell [Harshal](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMPhsfPGtfQQqPTnBFWHMTbKg)
 
 Resolve intermittent downtime
