@@ -91,9 +91,7 @@ function build(directory, callback) {
     locals: templatePackage.locals,
   };
 
-  Template.drop(TEMPLATES_OWNER, basename(directory), function(err) {
-    if (err) return callback(err);
-
+  Template.drop(TEMPLATES_OWNER, basename(directory), function() {
     Template.create(TEMPLATES_OWNER, name, template, function(err) {
       if (err) return callback(err);
 
