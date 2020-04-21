@@ -5,6 +5,7 @@ const SourceCode = new Express.Router();
 const Template = require("template");
 const formJSON = helper.formJSON;
 const extend = helper.extend;
+const async = require("async");
 
 SourceCode.use(require("./load/template-views"));
 
@@ -37,9 +38,19 @@ SourceCode.route("/create")
 			return next(new Error("You cannot name a view package.json"));
 		}
 
-		Template.setView(req.template.id, { name }, function(err) {
-			if (err) return next(err);
-			res.redirect(res.locals.base + "/source-code/" + name + "/edit");
+		Template.getView(req.template.id, name, function(err, view) {
+			// We recieve an error when the view doesn't exist
+			// so don't exit in case of error here.
+			view = view || {};
+
+			Template.setView(
+				req.template.id,
+				{ name, url: view.url || "/" + name, content: view.content || "" },
+				function(err) {
+					if (err) return next(err);
+					res.redirect(res.locals.base + "/source-code/" + name + "/edit");
+				}
+			);
 		});
 	});
 
@@ -51,20 +62,38 @@ SourceCode.route("/:viewSlug/edit")
 		res.locals.partials.yield = "template-editor/source-code/edit";
 		res.render("template-editor/layout");
 	})
-	.post(bodyParser, function(req, res) {
+	.post(bodyParser, function(req, res, next) {
 		var view = formJSON(req.body, Template.viewModel);
 
 		view.name = req.view.name;
-		
+
 		if (req.params.viewSlug === "package.json") {
-			Template.package.save(
-				req.template.id,
-				JSON.parse(view.content),
-				function(err) {
-					if (err) return next(err);
-					res.send("Saved changes!");
-				}
-			);
+			Template.package.save(req.template.id, JSON.parse(view.content), function(
+				err,
+				views
+			) {
+				async.eachSeries(
+					Object.keys(views),
+					function(name, next) {
+						Template.getView(req.template.id, name, function(err, view) {
+							// getView returns an error if the view does not exist
+							// We want to be able to create new views using local editing
+							// we so ignore this error, and create the view object as needed
+							view = view || {};
+							view.name = view.name || name;
+							for (var i in views[name]) view[i] = views[name][i];
+
+							view.url = view.url || "/" + view.name;
+
+							Template.setView(req.template.id, view, next);
+						});
+					},
+					function(err) {
+						if (err) return next(err);
+						res.send("Saved changes!");
+					}
+				);
+			});
 		} else {
 			Template.setView(req.template.id, view, function(err) {
 				if (err) return next(err);
@@ -118,7 +147,7 @@ SourceCode.route("/:viewSlug/rename")
 	});
 
 SourceCode.route("/:viewSlug/delete")
-	.get(function(req, res, next) {
+	.get(function(req, res) {
 		res.locals.partials.yield = "template-editor/source-code/delete";
 		res.locals.title = `Delete - ${req.view.name} - ${req.template.name}`;
 		res.render("template-editor/layout");
