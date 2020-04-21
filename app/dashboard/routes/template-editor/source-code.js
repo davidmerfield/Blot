@@ -32,6 +32,11 @@ SourceCode.route("/create")
 	})
 	.post(bodyParser, function(req, res, next) {
 		const name = req.body.name;
+
+		if (req.params.viewSlug === "package.json") {
+			return next(new Error("You cannot name a view package.json"));
+		}
+
 		Template.setView(req.template.id, { name }, function(err) {
 			if (err) return next(err);
 			res.redirect(res.locals.base + "/source-code/" + name + "/edit");
@@ -50,23 +55,40 @@ SourceCode.route("/:viewSlug/edit")
 		var view = formJSON(req.body, Template.viewModel);
 
 		view.name = req.view.name;
+		
+		if (req.params.viewSlug === "package.json") {
+			Template.package.save(
+				req.template.id,
+				JSON.parse(view.content),
+				function(err) {
+					if (err) return next(err);
+					res.send("Saved changes!");
+				}
+			);
+		} else {
+			Template.setView(req.template.id, view, function(err) {
+				if (err) return next(err);
 
-		Template.setView(req.template.id, view, function(err) {
-			if (err) {
-				return res.status(400).send(err.message);
-			}
-
-			res.send("Saved changes!");
-		});
+				res.send("Saved changes!");
+			});
+		}
 	});
 
 SourceCode.route("/:viewSlug/rename")
-	.get(function(req, res) {
+	.get(function(req, res, next) {
+		if (req.params.viewSlug === "package.json") {
+			return next(new Error("You cannot rename package.json"));
+		}
+
 		res.locals.partials.yield = "template-editor/source-code/rename";
 		res.locals.title = `Rename - ${req.view.name} - ${req.template.name}`;
 		res.render("template-editor/layout");
 	})
 	.post(bodyParser, function(req, res, next) {
+		if (req.params.viewSlug === "package.json") {
+			return next(new Error("You cannot rename package.json"));
+		}
+
 		var view = formJSON(req.body, Template.viewModel);
 
 		view.locals = view.locals || {};
@@ -96,7 +118,7 @@ SourceCode.route("/:viewSlug/rename")
 	});
 
 SourceCode.route("/:viewSlug/delete")
-	.get(function(req, res) {
+	.get(function(req, res, next) {
 		res.locals.partials.yield = "template-editor/source-code/delete";
 		res.locals.title = `Delete - ${req.view.name} - ${req.template.name}`;
 		res.render("template-editor/layout");

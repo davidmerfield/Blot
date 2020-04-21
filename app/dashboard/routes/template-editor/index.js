@@ -51,10 +51,10 @@ TemplateEditor.route("/:templateSlug/settings")
 
 			console.log(req.locals);
 			console.log(req.partials);
-			
+
 			next();
 		},
-		require("./save/fonts"), 
+		require("./save/fonts"),
 		function(req, res, next) {
 			Template.update(
 				req.blog.id,
@@ -133,11 +133,10 @@ TemplateEditor.route("/:templateSlug/delete")
 		});
 	});
 
-TemplateEditor.use(function(err, req, res, next) {
-	console.log(err);
-	return next(err);
-});
-
 TemplateEditor.use("/:templateSlug/source-code", require("./source-code"));
+
+TemplateEditor.use(function(err, req, res, next) {
+	res.status(400).send('Error: ' + err.message || "Error");
+});
 
 module.exports = TemplateEditor;
