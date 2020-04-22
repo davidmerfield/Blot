@@ -26,7 +26,7 @@ var thumbnails = {
   small: { size: 160 },
   medium: { size: 640 },
   large: { size: 1060 },
-  square: { size: 160, crop: true }
+  square: { size: 160, crop: true },
 };
 
 function main(path, outputDirectory, callback) {
@@ -49,7 +49,11 @@ function main(path, outputDirectory, callback) {
       // I couldn't work out how to handle filenames like ex?yz.jpg
       // Should I store the name URL-encoded (e.g. ex%3Fyz.jpg)...
       // Now I just use the guuid + size + file extension.
-      var fileName = (name + extname(path)).toLowerCase();
+      var extension = extname(path).toLowerCase();
+
+      if (extension === ".svg") extension = ".png";
+
+      var fileName = name.toLowerCase() + extension;
       var to = outputDirectory + "/" + fileName;
 
       transform(input, to, options, function(err, width, height) {
@@ -58,7 +62,7 @@ function main(path, outputDirectory, callback) {
         result[name] = {
           width: width,
           height: height,
-          name: fileName
+          name: fileName,
         };
 
         next();
@@ -81,7 +85,7 @@ function transform(input, to, options, callback) {
     transform.resize(size, size, {
       withoutEnlargement: true,
       fit: "cover",
-      position: sharp.strategy.entropy
+      position: sharp.strategy.entropy,
     });
   } else {
     transform.resize(size, size, { withoutEnlargement: true, fit: "inside" });
