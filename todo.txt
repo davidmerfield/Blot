@@ -9,6 +9,10 @@ Resolve intermittent downtime
 
 Check wildcard SSL certificate renewal on May 11th
 
+Improve developer guide and tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
+
+---
+
 Record new demo video
 - Finish video script in brochure/readme.txt
 - Work out how a photographer might use Blot, does lightroom work well?
@@ -16,8 +20,6 @@ Record new demo video
 - Find a neat public domain song to play 
    - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
    - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
-
----
 
 Add a template with random layouts, or a random layout option to existing templates?s
 - seedable / repeatable randomness based on the names of files?
@@ -448,6 +450,8 @@ Replace some of the assert() tests which run every time the server starts with J
 Generate list of external API dependencies and follow changes for each
 
 Add search page to archive template and tell [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRPFhmWPrZXbFZvhwWMWzfTl)
+
+Add simple minimal version of Blot that could be npm installed, then tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw) who is frustrated editing templates locally with the git client
 
 Finish re-write of template system
 - Local editing
