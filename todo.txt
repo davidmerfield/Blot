@@ -1,7 +1,5 @@
 Add fergus to homepage: https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL
 
-Investigate SVG thumbnail support and tell [Harshal](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMPhsfPGtfQQqPTnBFWHMTbKg)
-
 Resolve intermittent downtime
 - Increase available memory
 - Add memory monitor
@@ -777,7 +775,7 @@ Improvements to Dropbox client
 user changes the username for one of their multiple blogs?
 
 Thumbnail generator
-- Generate thumbnails for GIFs / SVG thum
+- Generate thumbnails for GIFs
 - Prioritize faces in crop
 - Try to crop out ruined borders. E.g. when making a square crop of a rectangular image with a border, crop into the image as well to remove the border-on-three-sides effect
 - Extract color palette too for the image
