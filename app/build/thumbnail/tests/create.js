@@ -14,7 +14,7 @@ describe("create", function() {
     var path = __dirname + "/images/portrait.jpg";
     var ratio, thumbnail, thumbnailPath;
 
-    require("sharp")(path).metadata(function(err, metadata) {
+    require("sharp")(path, {density: 2400}).metadata(function(err, metadata) {
       if (err) return done.fail(err);
       ratio = Math.floor(metadata.width / metadata.height);
 
