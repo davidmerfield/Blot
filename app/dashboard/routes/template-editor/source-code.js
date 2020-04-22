@@ -1,5 +1,5 @@
 const helper = require("helper");
-const bodyParser = require("body-parser").urlencoded({ extended: false });
+const bodyParser = require("body-parser").urlencoded({ extended: false, limit: '1mb' });
 const Express = require("express");
 const SourceCode = new Express.Router();
 const Template = require("template");
