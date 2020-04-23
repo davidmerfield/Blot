@@ -1,15 +1,20 @@
-Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL) and [Theo](https://mail.google.com/mail/u/0/#inbox/KtbxLwghkVhBpRhqBQnFfzTNzpBdmBkjZg) to homepage: 
-
 Resolve intermittent downtime
-- Increase available memory
 - Add memory monitor
+- Increase available memory
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
+- Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 
 Check wildcard SSL certificate renewal on May 11th
 
+---
+
+Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL) and [Theo](https://mail.google.com/mail/u/0/#inbox/KtbxLwghkVhBpRhqBQnFfzTNzpBdmBkjZg) to homepage: 
+
 Improve developer guide and tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
 
----
+Add layout options to template editor for native templates
+
+Improve source code for native templates
 
 Record new demo video
 - Finish video script in brochure/readme.txt
@@ -26,9 +31,6 @@ Add a template with random layouts, or a random layout option to existing templa
 Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people.
 
 Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
-
-Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server.
-- Work out how to kill them safely
 
 Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
@@ -155,6 +157,7 @@ Add more fonts to font picker:
 - [ ] Le Murmure
 - [ ] Lincoln Mitre
 - [ ] Libertinus
+- [ ] Literata
 - [ ] Lunchtype
 - [ ] Messapia
 - [ ] Michroma
