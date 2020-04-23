@@ -73,7 +73,6 @@ margin-left: 12px
       <section style="display: flex;
     align-items: center;">
 
-        {{#unless user}}
         <div style="display: flex" class="bc">
           <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/" >Blot</a>
           <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/notes" >Notes</a>
@@ -81,11 +80,7 @@ margin-left: 12px
           <a class="underline-on-hover" style="font-weight: 600;color:#000" href="{{{slug}}}">{{name}}</a>
           {{/breadcrumbs}}
       </div>
-        {{/unless}}
-        {{#if user}}
-        <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
 
-        {{/if}}
 
       </section>
 
@@ -97,8 +92,8 @@ margin-left: 12px
         {{/unless}}
         {{#if user}}
         <a class="buttt" href="/">Your account</a>
-        <a class="buttt" href="/publishing">How to use Blot</a>
-        <a class="buttt" href="/contact">Contact</a>
+<!--         <a class="buttt" href="/publishing">How to use Blot</a>
+ -->        <a class="buttt" href="/contact">Contact</a>
         {{/if}}
       </section>
     </row>
@@ -113,29 +108,7 @@ margin-left: 12px
 
     <input type="checkbox" name="toggle" id="toggle">
 
-    <ul class="sidebar col-25">
-      <br><Br>
-      {{#toc}}
-<!--       <li class="has-list {{isSelected}}">
- -->      <li class=" {{isSelected}}">
-       <!--  <input type="checkbox" name="{{id}}" id="{{id}}" {{#isSelected}} checked{{/isSelected}}> --> <a href="{{{slug}}}">{{name}}<label for="{{id}}"></label>
-        </a>
-        <!-- <ul>
-          {{#items}}
-          <li class="{{isSelected}}">
-            <a href="{{{slug}}}">{{name}}</a>
-          </li>
-          {{/items}}
-        </ul> -->
-      </li>
-      {{/toc}}
 
-
-        <hr>
-                <li class="with-arrow"><a class="{{selected.contact}}" href="/contact">Contact</a></li>
-                <li class="with-arrow"><a class="{{selected.about}}" href="/about">About</a></li>
-
-    </ul>
 
     <content>
       

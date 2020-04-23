@@ -1,5 +1,0 @@
-# Pricing
-
-How to price a SAAS product.
-
-I don't like those tables, with three or four choices, a feature list to compare against. Blot has one option, one price.

@@ -1,0 +1,73 @@
+# Test material for templates
+
+This directory contains test material to develop templates with. 
+
+You will eventually be able to build these folders into blogs using 
+the script:
+
+```
+node scripts/build/folders
+```
+
+How to store links in the menu? How to encode an avatar?
+This will be useful food for thought when we allow people
+to edit their blog's settings from the folder, e.g.
+a .blot directory containing config...
+
+
+## Future test material 
+
+Gardening in Color
+May the beauty captured in these historical magic lantern slides inspire you with
+https://www.flickr.com/photos/library_of_congress/albums/72157629495236312
+Just need to trim the borders
+
+Flowers on black
+https://www.flickr.com/photos/alberta_archives/albums/72157643076560675
+
+Urban J Kinnet
+Geologist at Berkeley
+https://www.flickr.com/photos/105662205@N04/albums/72157670885525146/page1
+
+Bird head drawings
+https://www.flickr.com/photos/smithsonian/albums/72157651885659630/page2
+
+James Jowers black and white street photography
+https://www.flickr.com/photos/george_eastman_house/albums/72157608512488080
+
+Vancouver neon in black and white
+https://www.flickr.com/photos/99915476@N04/albums/72157636305761336
+
+
+
+## Places to find test material
+
+: ephemera: https://ticketsplz.tumblr.com/ 
+		  ben@shelfheroes.com 
+		  https://twitter.com/tkts_plz
+		  https://www.instagram.com/ticketsplz/
+		  curator of public domain
+		  https://nos.twnsnd.co/page/8
+			https://en.wikinews.org/wiki/Fernando_Torres_signs_contract_extension_with_Atl%C3%A9tico_Madrid?dpl_id=2793772
+			https://projects.propublica.org/graphics/d4d-hospital-lookup
+			https://www.propublica.org/archive/P60/
+			https://www.good.is/features?page=5
+			https://commons.wikimedia.org/wiki/Category:Botanical_illustrations
+			https://commons.wikimedia.org/wiki/Category:Familiar_wild_flowers_figured_and_described
+			http://threedscans.com/
+			https://commons.wikimedia.org/wiki/Commons:Featured_pictures/Astronomyhttps://commons.wikimedia.org/wiki/Category:Minerals_on_black_background
+			https://commons.wikimedia.org/wiki/Category:Extinct_plant_diagrams
+			https://commons.wikimedia.org/wiki/The_North_American_Sylva
+			https://commons.wikimedia.org/wiki/Category:Beta_vulgaris_-_botanical_illustrations
+			https://commons.wikimedia.org/wiki/Category:Daucus_carota_-_botanical_illustrations
+			https://commons.wikimedia.org/wiki/Category:The_Fruits_of_America
+			https://commons.wikimedia.org/wiki/Category:USDA_Pomological_Watercolors
+			https://commons.wikimedia.org/w/index.php?title=Category:USDA_Pomological_Watercolors&filefrom=Pomological+Watercolor+POM00000999.jpg%0APomological+Watercolor+POM00000999.jpg
+			https://www.flickr.com/photos/nasacommons
+			https://en.wikipedia.org/wiki/Wikipedia:Featured_pictures
+			https://en.wikipedia.org/wiki/Wikipedia:Featured_pictures/People/Artists_and_writers
+			https://en.wikipedia.org/wiki/Wikipedia:Featured_pictures/People/Military
+			https://upload.wikimedia.org/wikipedia/commons/2/24/Brian_Shul_in_the_cockpit_of_the_SR-71_Blackbird.jpg
+			https://commons.wikimedia.org/wiki/Commons:European_Science_Photo_Competition_2015/Image_categories
+			https://en.wikipedia.org/wiki/Wikipedia:Wikiproject:Estonian_Science_Photo_Competition
+
