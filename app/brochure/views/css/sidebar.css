@@ -39,7 +39,7 @@ ul.sidebar a:focus {
 
 ul.sidebar>* {}
 
-.sidebar a.selected {
+.sidebar a.selected, .sidebar .selected:not(.has-list) > a {
   color: black !important
 }
 

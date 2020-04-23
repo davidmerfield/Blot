@@ -10,7 +10,7 @@ module.exports = function(blogID, callback) {
 
   var templateDirs = [
     blogDir + "/" + blogID + "/templates",
-    blogDir + "/" + blogID + "/Templates"
+    blogDir + "/" + blogID + "/Templates",
   ];
 
   async.eachSeries(
@@ -40,16 +40,6 @@ module.exports = function(blogID, callback) {
         );
       });
     },
-    function(err) {
-      var cacheID = Date.now();
-      require("blog").set(
-        blogID,
-        {
-          cssURL: "/style.css?" + cacheID,
-          scriptURL: "/script.js?" + cacheID
-        },
-        callback
-      );
-    }
+    callback
   );
 };

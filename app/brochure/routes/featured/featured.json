@@ -360,12 +360,12 @@
     "favicon": "/images/featured/www.enzel.io.jpg"
   },
   {
-    "link": "https://blog.amitgawande.com",
-    "host": "blog.amitgawande.com",
+    "link": "https://www.amitgawande.com",
+    "host": "www.amitgawande.com",
     "name": "Amit Gawande",
     "firstName": "Amit",
     "bio": " is software developer based in Pune, India",
-    "favicon": "/images/featured/blog.amitgawande.com.jpg"
+    "favicon": "/images/featured/www.amitgawande.com.jpg"
   },
   {
     "link": "https://www.crossingthethreshold.net",
@@ -414,5 +414,69 @@
     "firstName": "Thomas",
     "bio": " is a biologist at the University of Sydney",
     "favicon": "/images/featured/blog.tomwhite.io.jpg"
+  },
+  {
+    "link": "https://www.zinzy.website",
+    "host": "www.zinzy.website",
+    "name": "Zinzy Nev Geene",
+    "firstName": "Zinzy",
+    "bio": " is a designer based in Amsterdam",
+    "favicon": "/images/featured/www.zinzy.website.jpg"
+  },
+  {
+    "link": "https://inhab.it",
+    "host": "inhab.it",
+    "name": "Wil Turner",
+    "firstName": "Wil",
+    "bio": " is a writer based in San Francisco",
+    "favicon": "/images/featured/inhab.it.jpg"
+  },
+  {
+    "link": "https://millicent-thomas.com",
+    "host": "millicent-thomas.com",
+    "name": "Millicent Thomas",
+    "firstName": "Millicent",
+    "bio": " is a journalist and programmer from Manchester",
+    "favicon": "/images/featured/millicent-thomas.com.jpg"
+  },
+  {
+    "link": "https://www.skellis.net",
+    "host": "www.skellis.net",
+    "name": "Simon Ellis",
+    "firstName": "Simon",
+    "bio": " is an artist from New Zealand",
+    "favicon": "/images/featured/www.skellis.net.png"
+  },
+  {
+    "link": "https://jeremysarber.com",
+    "host": "jeremysarber.com",
+    "name": "Jeremy Sarber",
+    "firstName": "Jeremy",
+    "bio": " is a pastor and funeral home chaplain in Nappanee",
+    "favicon": "/images/featured/jeremysarber.com.jpg"
+  },
+  {
+    "link": "https://ianamurray.work",
+    "host": "ianamurray.work",
+    "name": "Iana Murray",
+    "firstName": "Iana",
+    "bio": " is a journalist based in Stirling, Scotland",
+    "favicon": "/images/featured/ianamurray.work.jpg"
+  },
+  {
+    "link": "https://diegosegura.me",
+    "host": "diegosegura.me",
+    "name": "Diego Segura",
+    "firstName": "Diego",
+    "bio": " is a designer based in New York City",
+    "favicon": "/images/featured/diegosegura.me.jpg"
+  },
+  {
+    "link": "https://www.dustinsenos.com",
+    "host": "www.dustinsenos.com",
+    "name": "Dustin Senos",
+    "firstName": "Dustin",
+    "bio": " is a designer and engineer",
+    "favicon": "/images/featured/www.dustinsenos.com.jpg"
   }
 ]

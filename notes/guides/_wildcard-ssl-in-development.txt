@@ -1,0 +1,57 @@
+# Wildcard SSL development
+
+I followed this guide:
+
+https://oliverlundquist.com/2018/02/26/setup-ssl-and-https-in-your-local-environment.html
+
+First generate the certificate:
+
+openssl req \
+    -newkey rsa:2048 \
+    -x509 \
+    -nodes \
+    -keyout ~/Desktop/blot.development.key \
+    -new \
+    -out ~/Desktop/blot.development.crt \
+    -reqexts SAN \
+    -extensions SAN \
+    -config <(cat /System/Library/OpenSSL/openssl.cnf \
+        <(printf '
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+x509_extensions = v3_req
+distinguished_name = dn
+
+[dn]
+C = JP
+ST = Tokyo
+L = Tokyo
+O = MyDomain Inc.
+OU = Technology Group
+emailAddress = example@example.com
+CN = blot.development
+
+[v3_req]
+subjectAltName = @alt_names
+
+[SAN]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = *.blot.development
+DNS.2 = blot.development
+')) \
+    -sha256 \
+    -days 3650
+
+Trust the new certificate:
+
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/Desktop/blot.development.crt
+
+Update the development nginx server:
+
+ssl_certificate  /etc/blot/blot.development.crt;
+ssl_certificate_key /etc/blot/blot.development.key;
+

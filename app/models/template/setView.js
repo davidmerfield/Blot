@@ -8,6 +8,8 @@ var extend = helper.extend;
 var viewModel = require("./viewModel");
 var getView = require("./getView");
 var serialize = require("./util/serialize");
+var getMetadata = require("./getMetadata");
+var Blog = require("blog");
 
 module.exports = function setView(templateID, updates, callback) {
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
@@ -33,15 +35,14 @@ module.exports = function setView(templateID, updates, callback) {
     }
   }
 
-  var templateKey = key.metadata(templateID);
   var allViews = key.allViews(templateID);
   var viewKey = key.view(templateID, name);
   var routesKey = key.routes(templateID);
 
-  client.exists(templateKey, function(err, stat) {
+  getMetadata(templateID, function(err, metadata) {
     if (err) return callback(err);
 
-    if (!stat)
+    if (!metadata)
       return callback(new Error("There is no template called " + templateID));
 
     client.sadd(allViews, name, function(err) {
@@ -102,9 +103,11 @@ module.exports = function setView(templateID, updates, callback) {
         view = serialize(view, viewModel);
 
         client.hmset(viewKey, view, function(err) {
-          if (err) throw err;
+          if (err) return callback(err);
 
-          callback();
+          Blog.set(metadata.owner, { cacheID: Date.now() }, function(err) {
+            callback(err);
+          });
         });
       });
     });

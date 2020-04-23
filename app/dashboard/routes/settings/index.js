@@ -1,12 +1,8 @@
-var errorHandler = require("./errorHandler");
 var express = require("express");
 var settings = express.Router();
 var load = require("./load");
 var save = require("./save");
 var debug = require("../../debug");
-
-var Template = require("template");
-var Blog = require("blog");
 var load = require("./load");
 
 settings.use(function(req, res, next) {
@@ -105,34 +101,34 @@ settings.get("/settings/services/redirects", load.redirects, function(
 
 // Load the list of templates for this user
 
-settings.use("/settings/theme", load.theme, function(req, res, next) {
-  res.locals.breadcrumbs.add("Template", "theme");
+settings.use("/settings/template", load.templates, function(req, res, next) {
+  res.locals.breadcrumbs.add("Template", "template");
   next();
 });
 
 settings.use("/settings/client", require("./client"));
 
 settings
-  .route("/settings/theme")
+  .route("/settings/template")
   .get(function(req, res) {
-    res.render("theme", { title: "Template" });
+    res.render("template", { title: "Template" });
   })
-  .post(require("./save/theme"));
+  .post(require("./save/template"));
 
 settings
-  .route("/settings/theme/new")
+  .route("/settings/template/new")
   .get(function(req, res) {
     res.locals.breadcrumbs.add("New", "new");
-    res.render("theme/new", { title: "New template" });
+    res.render("template/new", { title: "New template" });
   })
-  .post(require("./save/newTheme"));
+  .post(require("./save/newTemplate"));
 
 settings
-  .route("/settings/theme/past")
+  .route("/settings/template/past")
   .all(load.pastTemplates)
   .get(function(req, res) {
     res.locals.breadcrumbs.add("Past", "past");
-    res.render("theme/past", { title: "Past templates" });
+    res.render("template/past", { title: "Past templates" });
   });
 
 settings.get("/settings/:section/:view", function(req, res) {

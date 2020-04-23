@@ -21,12 +21,12 @@ module.exports = {
   makeID: require("./util/makeID"),
   isOwner: require("./isOwner"),
   siteOwner: siteOwner,
-  defaultTemplate: require("./util/makeID")(siteOwner, "diary"),
 
   buildFromFolder: require("./buildFromFolder"),
   readFromFolder: require("./readFromFolder"),
   writeToFolder: require("./writeToFolder"),
 
+  package: require('./package'),
   viewModel: require("./viewModel"),
   metadataModel: require("./metadataModel")
 };
