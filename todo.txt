@@ -335,8 +335,6 @@ Create a status page and uptime monitor and tell [Amit](https://mail.google.com/
 
 Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
 
-Generate thumbnails for gifs and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBlghrTTLFFsKRqDvxkNNRJB)
-
 Add way to auto-refresh page during template development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
 
 Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
@@ -775,7 +773,6 @@ Improvements to Dropbox client
 user changes the username for one of their multiple blogs?
 
 Thumbnail generator
-- Generate thumbnails for GIFs
 - Prioritize faces in crop
 - Try to crop out ruined borders. E.g. when making a square crop of a rectangular image with a border, crop into the image as well to remove the border-on-three-sides effect
 - Extract color palette too for the image
