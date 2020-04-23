@@ -1,4 +1,4 @@
-Add fergus to homepage: https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL
+Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL) and [Theo](https://mail.google.com/mail/u/0/#inbox/KtbxLwghkVhBpRhqBQnFfzTNzpBdmBkjZg) to homepage: 
 
 Resolve intermittent downtime
 - Increase available memory
