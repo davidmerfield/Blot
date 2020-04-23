@@ -1,17 +1,22 @@
-Finish [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) translation on Monday. Use essay template as base style. Make sure page_size, colors are editable
-
-Add switch from annual to monthly billing and tell [Marcus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSPdnRhXcXGjVxkvbkbzlg), [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwRWhQKFtSMxxHrRgnNhxcQZ), [Franklin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGsbCcKqwblmRQvSNMLpwHQh) and [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlfrFjWCtTCnNPjXSrDWHNfk) and [Abdul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCbBHfgTRfbpNVFvxGVghvbCM) and [Dominik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ) and [Medhavi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjwVDsMPBKkPdWMCPHPmcTMN)
-
 Resolve intermittent downtime
-- Increase available memory
 - Add memory monitor
+- Increase available memory
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
+- Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 
 Check wildcard SSL certificate renewal on May 11th
 
-Add support for paying with PayPal
-- Refactor subscription model as needed
-- Consider using Braintree?
+---
+
+Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL) and [Theo](https://mail.google.com/mail/u/0/#inbox/KtbxLwghkVhBpRhqBQnFfzTNzpBdmBkjZg) to homepage: 
+
+Improve developer guide and tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
+
+Add layout options to template editor for native templates
+
+Improve source code for native templates
+
+Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
 
 Record new demo video
 - Finish video script in brochure/readme.txt
@@ -21,14 +26,13 @@ Record new demo video
    - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
    - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
 
----
+Add a template with random layouts, or a random layout option to existing templates?s
+- seedable / repeatable randomness based on the names of files?
+- complete randomness
 
 Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people.
 
 Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
-
-Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server.
-- Work out how to kill them safely
 
 Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
@@ -114,6 +118,8 @@ Rebuild all the thumbnails and cached images for every blog
 
 Parse Word Document subtitles as h2 and tell [Matt](https://mail.google.com/mail/u/0/#sent/FMfcgxwDrlfrjDMsDlkLHNsnbtmXQtDw)
 
+Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
+
 ---
 
 Add more fonts to font picker:
@@ -153,6 +159,7 @@ Add more fonts to font picker:
 - [ ] Le Murmure
 - [ ] Lincoln Mitre
 - [ ] Libertinus
+- [ ] Literata
 - [ ] Lunchtype
 - [ ] Messapia
 - [ ] Michroma
@@ -194,6 +201,8 @@ com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
 Add copy button to code snippets in <pre> tags and tell [Atif](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBVcrtzqmXGBtpLTBBjrQf)
 
 Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
+
+Add support for Ulysses image syntax and tell [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsRmxKrQzmjmcxnBTqQKHvzj)
 
 Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
 
@@ -331,8 +340,6 @@ Create a status page and uptime monitor and tell [Amit](https://mail.google.com/
 
 Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
 
-Generate thumbnails for gifs and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzMBlghrTTLFFsKRqDvxkNNRJB)
-
 Add way to auto-refresh page during template development on preview subdomains. Tell [Ryan](https://mail.google.com/mail/u/1/#inbox/FMfcgxwBVDHXWxBGqwNlmsmgZjbnHXvg)
 
 Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
@@ -445,6 +452,8 @@ Generate list of external API dependencies and follow changes for each
 
 Add search page to archive template and tell [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRPFhmWPrZXbFZvhwWMWzfTl)
 
+Add simple minimal version of Blot that could be npm installed, then tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw) who is frustrated editing templates locally with the git client
+
 Finish re-write of template system
 - Local editing
   - Fix bug with title and partials in local editing then tell [Luke](https://mail.google.com/mail/u/1/#inbox/164afa87ede57db7) and [Frank](https://mail.google.com/mail/u/1/#inbox/164ae2e3789b8d4c)
@@ -466,7 +475,8 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Move to data directory for templates
   - Serve the template directory as a static folder, allowing things like favicon.png and humans.txt to not become blog posts. Follow up with [Jamie](https://mail.google.com/mail/u/0/#all/FMfcgxwBVMpMKkNJwJtvbQVFvbmHqHpl)
 - Re-do url redirector to use route-parser and properly support regular expressions
-- Add support for paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM) and [Nikhil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRFcMTRcgMJdcCkxSNChXq)
+- Add support for paginated list of entries on other pages and tell [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLhlvZxhQwWfJmKhnXgkPnmJC) and [Eli](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDJhGpffNsZDjCszcstGVsGh) and [Sven](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJhhfPCqLCXWxtnJsxNfWKdM) and [Nikhil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRFcMTRcgMJdcCkxSNChXq) and [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsQczfjJBHpBSlxTmgxXMQKr)
+- Add dynamic querying of entry list and tell [Naoki](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjtCWmHCBZWsVPTCftbQCZTn)
 - Fix bug with filtering paginated list of entries and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgrQJWNPHHvdxnMtWCGJkZdM) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzrFNFzLzbWrssWzbrSvtpTm) and [Logan](https://twitter.com/LoganGreer)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
@@ -768,7 +778,6 @@ Improvements to Dropbox client
 user changes the username for one of their multiple blogs?
 
 Thumbnail generator
-- Generate thumbnails for GIFs / SVG thum
 - Prioritize faces in crop
 - Try to crop out ruined borders. E.g. when making a square crop of a rectangular image with a border, crop into the image as well to remove the border-on-three-sides effect
 - Extract color palette too for the image
