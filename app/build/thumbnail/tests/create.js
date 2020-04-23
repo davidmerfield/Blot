@@ -14,6 +14,11 @@ describe("create", function() {
     var path = __dirname + "/images/portrait.jpg";
     var ratio, thumbnail, thumbnailPath;
 
+    // {density: 2400} is only for svg images, but it doesn't
+    // currently cause any trouble if we pass this for all formats
+    // the number itself could be tuned based on the size of the source
+    // image but I'd need to do more research about the meaning:
+    // https://github.com/lovell/sharp/issues/1421#issuecomment-514446234
     require("sharp")(path, {density: 2400}).metadata(function(err, metadata) {
       if (err) return done.fail(err);
       ratio = Math.floor(metadata.width / metadata.height);
