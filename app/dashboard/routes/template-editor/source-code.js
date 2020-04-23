@@ -1,10 +1,11 @@
 const helper = require("helper");
-const bodyParser = require("body-parser").urlencoded({ extended: false });
+const bodyParser = require("body-parser").urlencoded({ extended: false, limit: '1mb' });
 const Express = require("express");
 const SourceCode = new Express.Router();
 const Template = require("template");
 const formJSON = helper.formJSON;
 const extend = helper.extend;
+const async = require("async");
 
 SourceCode.use(require("./load/template-views"));
 
@@ -32,9 +33,24 @@ SourceCode.route("/create")
 	})
 	.post(bodyParser, function(req, res, next) {
 		const name = req.body.name;
-		Template.setView(req.template.id, { name }, function(err) {
-			if (err) return next(err);
-			res.redirect(res.locals.base + "/source-code/" + name + "/edit");
+
+		if (req.params.viewSlug === "package.json") {
+			return next(new Error("You cannot name a view package.json"));
+		}
+
+		Template.getView(req.template.id, name, function(err, view) {
+			// We recieve an error when the view doesn't exist
+			// so don't exit in case of error here.
+			view = view || {};
+
+			Template.setView(
+				req.template.id,
+				{ name, url: view.url || "/" + name, content: view.content || "" },
+				function(err) {
+					if (err) return next(err);
+					res.redirect(res.locals.base + "/source-code/" + name + "/edit");
+				}
+			);
 		});
 	});
 
@@ -46,27 +62,62 @@ SourceCode.route("/:viewSlug/edit")
 		res.locals.partials.yield = "template-editor/source-code/edit";
 		res.render("template-editor/layout");
 	})
-	.post(bodyParser, function(req, res) {
+	.post(bodyParser, function(req, res, next) {
 		var view = formJSON(req.body, Template.viewModel);
 
 		view.name = req.view.name;
 
-		Template.setView(req.template.id, view, function(err) {
-			if (err) {
-				return res.status(400).send(err.message);
-			}
+		if (req.params.viewSlug === "package.json") {
+			Template.package.save(req.template.id, JSON.parse(view.content), function(
+				err,
+				views
+			) {
+				async.eachSeries(
+					Object.keys(views),
+					function(name, next) {
+						Template.getView(req.template.id, name, function(err, view) {
+							// getView returns an error if the view does not exist
+							// We want to be able to create new views using local editing
+							// we so ignore this error, and create the view object as needed
+							view = view || {};
+							view.name = view.name || name;
+							for (var i in views[name]) view[i] = views[name][i];
 
-			res.send("Saved changes!");
-		});
+							view.url = view.url || "/" + view.name;
+
+							Template.setView(req.template.id, view, next);
+						});
+					},
+					function(err) {
+						if (err) return next(err);
+						res.send("Saved changes!");
+					}
+				);
+			});
+		} else {
+			Template.setView(req.template.id, view, function(err) {
+				if (err) return next(err);
+
+				res.send("Saved changes!");
+			});
+		}
 	});
 
 SourceCode.route("/:viewSlug/rename")
-	.get(function(req, res) {
+	.get(function(req, res, next) {
+		if (req.params.viewSlug === "package.json") {
+			return next(new Error("You cannot rename package.json"));
+		}
+
 		res.locals.partials.yield = "template-editor/source-code/rename";
 		res.locals.title = `Rename - ${req.view.name} - ${req.template.name}`;
 		res.render("template-editor/layout");
 	})
 	.post(bodyParser, function(req, res, next) {
+		if (req.params.viewSlug === "package.json") {
+			return next(new Error("You cannot rename package.json"));
+		}
+
 		var view = formJSON(req.body, Template.viewModel);
 
 		view.locals = view.locals || {};
