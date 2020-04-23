@@ -16,6 +16,8 @@ Add layout options to template editor for native templates
 
 Improve source code for native templates
 
+Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
+
 Record new demo video
 - Finish video script in brochure/readme.txt
 - Work out how a photographer might use Blot, does lightroom work well?
