@@ -1,0 +1,59 @@
+# Wildcard SSL on development machine
+
+First make sure that requests to blot.development go to localhost. You can't just use the hosts file since it doesn't support wildcard entries. I followed this guide so user subdomains work as expected:
+
+https://passingcuriosity.com/2013/dnsmasq-dev-osx/
+
+It involved installing Dnsmasq using homebrew, then configuring it to resolve all requests to .development to localhost. Then I had to tell OSX's DNS resolver to pass requests to .development to Dnsmasq. Phew!
+
+## Install notes:
+
+### Dnsmasq
+
+When doing `brew install dnsmasq`, the `brew link dnsmasq` was unable to
+complete due to /usr/local/sbin not being writable. Running `brew doctor`
+revealed that /usr/local/sbin does not exist and gave the following commands to
+run:
+
+```
+sudo mkdir -p /usr/local/sbin
+sudo chown -R $(whoami) /usr/local/sbin
+```
+
+which allowed `brew link dnsmasq` to work.
+
+Then, edited the config file at /usr/local/etc/dnsmasq.conf to add the line:
+
+```
+address=/development/127.0.0.1
+```
+
+The command to start dnsmasq: `sudo brew services start dnsmasq`
+
+Per the article, restarting should be like:
+
+```
+sudo launchctl stop homebrew.mxcl.dnsmasq
+sudo launchctl start homebrew.mxcl.dnsmasq
+```
+
+Then, used `dig` to test: `dig blot.development @127.0.0.1`
+
+### macOS
+
+Directory didn't exist, needed to be made: `sudo mkdir -p /etc/resolver`
+
+Add file:
+
+```
+sudo tee /etc/resolver/development >/dev/null <<EOF
+nameserver 127.0.0.1
+EOF
+```
+
+Check DNS still works:
+
+```
+ping -c 1 google.com
+ping -c 1 blot.development
+```
