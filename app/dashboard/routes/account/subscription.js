@@ -12,7 +12,7 @@ Subscription.route("/").get(function(req, res) {
     monthly:
       req.user.subscription &&
       req.user.subscription.plan &&
-      req.user.subscription.plan.interval === "month"
+      req.user.subscription.plan.interval === "month",
   });
 });
 
@@ -22,13 +22,16 @@ Subscription.route("/cancel")
 
   .get(function(req, res) {
     res.render("account/cancel", {
-      title: "Cancel your subscription"
+      title: "Cancel your subscription",
     });
   })
 
   .post(cancelStripeSubscription, function(req, res) {
     email.CANCELLED(req.user.uid);
-    res.message("/account/subscription", "Your subscription has been cancelled");
+    res.message(
+      "/account/subscription",
+      "Your subscription has been cancelled"
+    );
   });
 
 Subscription.route("/switch-interval")
@@ -37,12 +40,51 @@ Subscription.route("/switch-interval")
 
   .get(function(req, res) {
     res.render("account/switch-interval", {
-      title: "Switch your subscription interval"
+      title: "Switch your subscription interval",
     });
   })
 
-  .post( function(req, res) {
-    res.message("/account/subscription", "Your subscription has been switched");
+  .post(retrieveSubscription, function(req, res, next) {
+    console.log(
+      "here!!!!",
+      "customer",
+      req.user.subscription.customer,
+      "subscription",
+      req.user.subscription.id
+    );
+                // id: req.user.subscription.items.data[0].id,
+
+    stripe.customers.updateSubscription(
+      req.user.subscription.customer,
+      req.user.subscription.id,
+      {
+        cancel_at_period_end: false,
+        proration_behavior: "create_prorations",
+        plan: "yearly_30"
+        // items: [
+        //   {
+        //     ,
+        //   },
+        // ],
+      },
+      function(err, subscription) {
+        console.log(err);
+        if (err) {
+          return next(err);
+        }
+
+        if (!subscription) {
+          return next(new Error("No subscription"));
+        }
+
+        User.set(req.user.uid, { subscription: subscription }, function() {
+          res.message(
+            "/account/subscription",
+            "Your subscription has been switched"
+          );
+        });
+      }
+    );
   });
 
 Subscription.route("/create")
@@ -58,7 +100,7 @@ Subscription.route("/create")
     res.locals.stripe_key = config.stripe.key;
     res.render("account/create-subscription", {
       title: "Create subscription",
-      breadcrumb: "Create subscription"
+      breadcrumb: "Create subscription",
     });
   })
 
@@ -76,7 +118,7 @@ Subscription.route("/restart")
   .get(function(req, res) {
     res.render("account/restart", {
       title: "Restart your subscription",
-      breadcrumb: "Restart"
+      breadcrumb: "Restart",
     });
   })
 
@@ -93,7 +135,7 @@ Subscription.route("/restart/pay")
     res.render("account/restart-pay", {
       title: "Restart your subscription",
       stripe_key: config.stripe.key,
-      breadcrumb: "Restart"
+      breadcrumb: "Restart",
     });
   })
 
@@ -156,7 +198,7 @@ function recreateStripeSubscription(req, res, next) {
   stripe.customers.update(
     req.user.subscription.customer,
     {
-      card: req.body.stripeToken
+      card: req.body.stripeToken,
     },
     function(err) {
       if (err) return next(err);
@@ -165,7 +207,7 @@ function recreateStripeSubscription(req, res, next) {
         req.user.subscription.customer,
         {
           plan: req.user.subscription.plan.id,
-          quantity: req.user.subscription.quantity || 1
+          quantity: req.user.subscription.quantity || 1,
         },
         function(err, subscription) {
           if (err || !subscription) {
@@ -190,7 +232,7 @@ function createStripeSubscription(req, res, next) {
       email: req.user.email,
       plan: config.stripe.plan,
       quantity: req.user.blogs.length,
-      description: "Blot subscription"
+      description: "Blot subscription",
     },
     function(err, customer) {
       if (err) return next(err);
