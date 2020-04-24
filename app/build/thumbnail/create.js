@@ -2,10 +2,11 @@ var helper = require("helper");
 var fs = require("fs-extra");
 var uuid = require("uuid");
 var callOnce = helper.callOnce;
-var transform = require("./transform");
+var Transform = require("./transform");
+var TransformGIF = require("./transform-gif");
 var join = require("path").join;
 var config = require("config");
-
+var extname = require("path").extname;
 var TIMEOUT = 10 * 1000; // 10s
 
 function create(blogID, path, done) {
@@ -18,9 +19,12 @@ function create(blogID, path, done) {
   var root = join(config.blog_static_files_dir, blogID);
   var outputDirectory = "/" + join("_thumbnails", uuid());
   var fullPathToOutputDirectory = join(root, outputDirectory);
+  var extension = extname(path).toLowerCase();
 
   fs.ensureDir(fullPathToOutputDirectory, function(err) {
     if (err) return done(err);
+
+    var transform = extension === ".gif" ? TransformGIF : Transform;
 
     transform(path, fullPathToOutputDirectory, function(err, thumbnails) {
       if (err) return done(err);
