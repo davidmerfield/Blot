@@ -7,9 +7,9 @@ var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper").email;
 
 const PLAN_MAP = {
-  "yearly_30": "monthly_3",
-  "monthly_3": "yearly_30",
-  "yearly_20": "monthly_2",
+  yearly_30: "monthly_3",
+  monthly_3: "yearly_30",
+  yearly_20: "monthly_2",
 };
 
 Subscription.route("/").get(function(req, res) {
@@ -46,13 +46,21 @@ Subscription.route("/switch-interval")
 
   .all(retrieveSubscription)
 
-  .get(function(req, res) {
-    res.render("account/switch-interval", {
-      title: "Switch your subscription interval",
-      monthly:
-      req.user.subscription &&
-      req.user.subscription.plan &&
-      req.user.subscription.plan.interval === "month",
+  .get(function(req, res, next) {
+    stripe.customers.retrieve(req.user.subscription.customer, function(
+      err,
+      customer
+    ) {
+      if (err) return next(err);
+      console.log(customer);
+
+      res.render("account/switch-interval", {
+        title: "Switch your subscription interval",
+        monthly:
+          req.user.subscription &&
+          req.user.subscription.plan &&
+          req.user.subscription.plan.interval === "month",
+      });
     });
   })
 
@@ -76,8 +84,8 @@ Subscription.route("/switch-interval")
         plan: PLAN_MAP[req.user.subscription.plan.id],
       },
       function(err, subscription) {
-        console.log(err);
-        
+        console.log(err, subscription);
+
         if (err) {
           return next(err);
         }
