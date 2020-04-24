@@ -5,7 +5,7 @@
   <p>If you <b>switch your subscription</b>, your account will renew on {{user.pretty.expiry}} when your current billing period ends</span>.</p>
 
   <div class="buttons">
-    <button type="submit" onclick="this.form.submit();this.disabled=true">Switch to annual billing</button>
+    <button type="submit" onclick="this.form.submit();this.disabled=true">Switch to {{#monthly}}annual{{/monthly}} {{^monthly}}monthly{{/monthly}} billing</button>
     <a href="/account/subscription">Do not cancel</a>
   </div>
   <br>

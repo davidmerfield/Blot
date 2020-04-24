@@ -6,6 +6,12 @@ var User = require("user");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper").email;
 
+const PLAN_MAP = {
+  "yearly_30": "monthly_3",
+  "monthly_3": "yearly_30",
+  "yearly_20": "monthly_2",
+};
+
 Subscription.route("/").get(function(req, res) {
   res.render("account/subscription", {
     title: "Your account",
@@ -38,13 +44,19 @@ Subscription.route("/switch-interval")
 
   .all(requireSubscription)
 
+  .all(retrieveSubscription)
+
   .get(function(req, res) {
     res.render("account/switch-interval", {
       title: "Switch your subscription interval",
+      monthly:
+      req.user.subscription &&
+      req.user.subscription.plan &&
+      req.user.subscription.plan.interval === "month",
     });
   })
 
-  .post(retrieveSubscription, function(req, res, next) {
+  .post(function(req, res, next) {
     console.log(
       "here!!!!",
       "customer",
@@ -52,7 +64,8 @@ Subscription.route("/switch-interval")
       "subscription",
       req.user.subscription.id
     );
-                // id: req.user.subscription.items.data[0].id,
+
+    console.log(req.user.subscription);
 
     stripe.customers.updateSubscription(
       req.user.subscription.customer,
@@ -60,15 +73,11 @@ Subscription.route("/switch-interval")
       {
         cancel_at_period_end: false,
         proration_behavior: "create_prorations",
-        plan: "yearly_30"
-        // items: [
-        //   {
-        //     ,
-        //   },
-        // ],
+        plan: PLAN_MAP[req.user.subscription.plan.id],
       },
       function(err, subscription) {
         console.log(err);
+        
         if (err) {
           return next(err);
         }
