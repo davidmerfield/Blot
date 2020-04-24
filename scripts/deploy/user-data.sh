@@ -137,3 +137,8 @@ systemctl start blot.service
 yum install logrotate
 
 # Monit
+
+# gifsicle build tools
+# https://rmoff.net/2017/03/11/install-qemu-on-aws-ec2-amazon-linux/
+# resolves /bin/sh: autoreconf: command not found
+sudo yum install -y autoconf autogen intltool libtool
