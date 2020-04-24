@@ -32,6 +32,7 @@
     "express-disk-cache": "^1.0.4",
     "express-session": "^1.16.2",
     "fs-extra": "^8.0.1",
+    "gifsicle": "^5.0.0",
     "hbs": "^4.1.1",
     "he": "^1.1.0",
     "helmet": "^3.21.2",

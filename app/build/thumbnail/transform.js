@@ -22,12 +22,7 @@ var sharp = require("sharp");
 // or that still needs to be fixed. I should investigate.
 sharp.cache(false);
 
-var thumbnails = {
-  small: { size: 160 },
-  medium: { size: 640 },
-  large: { size: 1060 },
-  square: { size: 160, crop: true },
-};
+var thumbnails = require('./config').THUMBNAILS;
 
 function main(path, outputDirectory, callback) {
   var read, input, result;
