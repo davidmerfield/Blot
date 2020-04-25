@@ -2,7 +2,15 @@
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
 
-  <p>If you <b>switch your subscription</b>, your account will renew on {{user.pretty.expiry}} when your current billing period ends</span>.</p>
+  <p>At the moment you are billed once a {{#monthly}}month{{/monthly}}{{^monthly}}year{{/monthly}}.</p>
+
+{{#monthly}}
+  <p>If you <b>switch to annual billing</b>, you will be charged {{proration}} and your next bill will be due in a year's time.</p>
+{{/monthly}}
+
+{{^monthly}}
+  <p>If you <b>switch to monthly billing</b>, your account will be credited {{credit}}. This credit will apply automatically to your future bills. Your next will be due in a month's time.</p>
+{{/monthly}}
 
   <div class="buttons">
     <button type="submit" onclick="this.form.submit();this.disabled=true">Switch to {{#monthly}}annual{{/monthly}} {{^monthly}}monthly{{/monthly}} billing</button>

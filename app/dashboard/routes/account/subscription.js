@@ -5,6 +5,7 @@ var config = require("config");
 var User = require("user");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper").email;
+var helper = require("helper");
 
 const PLAN_MAP = {
   yearly_30: "monthly_3",
@@ -46,21 +47,40 @@ Subscription.route("/switch-interval")
 
   .all(retrieveSubscription)
 
-  .get(function(req, res, next) {
-    stripe.customers.retrieve(req.user.subscription.customer, function(
-      err,
-      customer
-    ) {
-      if (err) return next(err);
-      console.log(customer);
+  .get(function(req, res) {
+    let monthly =
+      req.user.subscription &&
+      req.user.subscription.plan &&
+      req.user.subscription.plan.interval === "month";
 
-      res.render("account/switch-interval", {
-        title: "Switch your subscription interval",
-        monthly:
-          req.user.subscription &&
-          req.user.subscription.plan &&
-          req.user.subscription.plan.interval === "month",
-      });
+    console.log(req.user.subscription);
+
+    let proration;
+    let credit;
+    let now = Date.now() / 1000;
+    let percentage =
+      (req.user.subscription.current_period_end - now) /
+      (req.user.subscription.current_period_end -
+        req.user.subscription.current_period_start);
+
+    if (monthly) {
+      proration = helper.prettyPrice(
+        percentage *
+          parseInt(
+            PLAN_MAP[req.user.subscription.plan.id].split("_").pop() * 100
+          )
+      );
+    } else {
+      credit = helper.prettyPrice(
+        percentage * req.user.subscription.plan.amount
+      );
+    }
+
+    res.render("account/switch-interval", {
+      title: "Switch your subscription interval",
+      proration: proration,
+      credit: credit,
+      monthly: monthly,
     });
   })
 
