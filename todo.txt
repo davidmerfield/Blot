@@ -896,3 +896,5 @@ Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/
 Consider adding [[Wikilinks]] and tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqWvGDjVMMzBHhXNPTvhJJ)
 
 Consider establishing community of Blot users and tell [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)
+
+Offer a DNS server with cloudflare like UX to avoid issues connecting the domain

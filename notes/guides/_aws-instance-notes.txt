@@ -62,4 +62,3 @@ sudo iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent 
 This ensures the IP tables rules persist across restart:
 
 sudo service iptables save
-
