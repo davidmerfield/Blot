@@ -22,7 +22,8 @@ module.exports = function create(email, passwordHash, subscription, callback) {
     lastSession: "",
     email: email,
     subscription: subscription,
-    passwordHash: passwordHash
+    payment_method: { stripe: { subscription: subscription, customer: {} } },
+    passwordHash: passwordHash,
   };
 
   validate({ uid: uid }, user, function(err, user) {

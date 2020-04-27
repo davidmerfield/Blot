@@ -19,6 +19,4 @@ var MODEL = {
 // payment_method.braintree.customer
 // payment_method.braintree.subscription
 
-
-
 module.exports = MODEL;
