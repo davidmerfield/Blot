@@ -23,7 +23,7 @@ module.exports = function onThisPage(req, res, next) {
 	res.render = function(view, locals, partials) {
 		const html = loadView(req.app.get("views"), view);
 
-		if (!html) throw new Error("Failed to lookup view");
+		if (!html) return next();
 
 		const $ = cheerio.load(html, { decodeEntities: false });
 		const headers = [];
