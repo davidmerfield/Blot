@@ -108,8 +108,6 @@ brochure.use("/how/guides/domain", function(req, res, next) {
 });
 
 brochure.use(function(req, res) {
-  console.log("rendering req.path", req.path);
-  console.log("rendering req.url", req.url);
   res.render(trimLeadingAndTrailingSlash(req.path));
 });
 
