@@ -12,7 +12,7 @@ var TITLES = {
 };
 
 var REDIRECTS = {
-  "/help/tags": "/publishing/metadata",
+  "/help/tags": "/how/metadata",
 };
 
 // Minifies HTML
@@ -47,7 +47,7 @@ brochure.use(function(req, res, next) {
 
   // Trim trailing slash from the URL before working out which
   // slugs to set as selected. This ensures that the following url
-  // https://blot.im/publishing/ will set {{publishingIndex}} as selected
+  // https://blot.im/how/ will set {{publishingIndex}} as selected
   if (url.length > 1 && url.slice(-1) === "/") url = url.slice(0, -1);
 
   var slugs = url.split("/");
@@ -61,13 +61,10 @@ brochure.use(function(req, res, next) {
   // Handle index page of site.
   if (req.originalUrl === "/") res.locals.selected.index = "selected";
 
-  next();
-});
-
-brochure.use(function(req, res, next) {
-  let slug = req.url.split("/").pop() || "Blot";
+  let slug = slugs.pop() || "Blot";
   let title = TITLES[slug] || capitalize(slug);
   res.locals.title = title;
+
   next();
 });
 
@@ -105,40 +102,37 @@ brochure.get("/", require("./featured"), function(req, res) {
   });
 });
 
-brochure.use("/publishing/guides/domain", function(req, res, next) {
+brochure.use("/how/guides/domain", function(req, res, next) {
   res.locals.ip = config.ip;
   next();
 });
 
-brochure.get("/:section", function(req, res) {
-  res.render(req.params.section);
+brochure.use(function(req, res) {
+  console.log("rendering req.path", req.path);
+  console.log("rendering req.url", req.url);
+  res.render(trimLeadingAndTrailingSlash(req.path));
 });
 
-brochure.get("/:section/:subsection", function(req, res) {
-  res.render(req.params.section + "/" + req.params.subsection);
-});
-
-brochure.get("/:section/:subsection/:subsubsection", function(req, res) {
-  res.render(
-    req.params.section +
-      "/" +
-      req.params.subsection +
-      "/" +
-      req.params.subsubsection
-  );
+brochure.use(function(err, req, res, next) {
+  if (err && err.message && err.message.indexOf("Failed to lookup view") === 0)
+    return next();
+  next(err);
 });
 
 brochure.use(function(err, req, res, next) {
   if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
-
-  if (err && err.message && err.message.indexOf("Failed to lookup view") === 0)
-    return next();
-
-  next();
+  next(err);
 });
 
 function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1);
+}
+
+function trimLeadingAndTrailingSlash(str) {
+  if (!str) return str;
+  if (str[0] === "/") str = str.slice(1);
+  if (str[str.length - 1] === "/") str = str.slice(0, -1);
+  return str;
 }
 
 module.exports = brochure;
