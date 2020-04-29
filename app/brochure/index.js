@@ -61,14 +61,16 @@ brochure.use(function(req, res, next) {
   next();
 });
 
+// Without 'index: false' this will server the index.html files inside the
+// views folder in lieu of using the render definied in ./routes below.
+// Without 'redirect: false' this will redirect URLs to existent directories
+// adding an undesirable trailing slash.
+brochure.use(
+  Express.static(__dirname + "/views", { index: false, redirect: false })
+);
+
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
-
-brochure.use(
-  Express.static(__dirname + "/views", {
-    // maxAge: 86400000
-  })
-);
 
 // Redirect user to dashboard for these links
 brochure.use(["/account", "/settings"], function(req, res, next) {
