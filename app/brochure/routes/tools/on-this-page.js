@@ -22,6 +22,9 @@ module.exports = function onThisPage(req, res, next) {
 
 	res.render = function(view, locals, partials) {
 		const html = loadView(req.app.get("views"), view);
+
+		if (!html) throw new Error("Failed to lookup view");
+
 		const $ = cheerio.load(html, { decodeEntities: false });
 		const headers = [];
 
@@ -43,7 +46,7 @@ function loadView(directory, identifier) {
 	const candidates = [
 		identifier,
 		identifier + ".html",
-		identifier + "/index.html"
+		identifier + "/index.html",
 	];
 
 	let html;
