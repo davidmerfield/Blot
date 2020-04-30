@@ -1,5 +1,17 @@
 var Express = require("express");
 var developers = new Express.Router();
+const resolve = require("path").resolve;
+
+require("./tools/build-search-index")(
+  "developers",
+  resolve(__dirname + "/../views/developers"),
+  function(err) {
+    if (err) throw err;
+    console.log("built search index for developer guide");
+  }
+);
+
+developers.get("/search", function(req, res) {});
 
 developers.use(function(req, res, next) {
   res.locals.base = "/developers";

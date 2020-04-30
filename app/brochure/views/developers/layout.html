@@ -2,104 +2,144 @@
 
 <body class="dark">
 
-<style type="text/css">
-header hr {border-color: #222}
-html {background: #111}
+  <style type="text/css">
+
+    .wrapper {max-width: 54rem}
+     
+     p {margin: 2em 0}
+
+.buttt {position: relative;
+    padding: 4px 1.65rem 4px 12px;
+    display: inline-block;
+    white-space: nowrap;
+    border: 1px solid #e0e0e0;
+    color: #000;
+    border-radius: 4px;font-weight: 600;
+    text-decoration: none;
+    color: inherit;}
+
+    .buttt:hover {text-decoration: underline;}
+
+    .buttt:after {
+    position: absolute;
+    top: 50%;
+    margin-top: -12px;
+    right: 10px;
+    float: right;
+    content: "\203A";
+}
+
+.on-this-page li a {
+  text-indent: -12px;
+margin-left: 12px
+}
+.underline-on-hover:hover {text-decoration: underline;}
+
+.guides {
+  list-style-type: none;
+  padding: 0;
+  margin: 0
+}
+
+.bc a {    display: inline-block;
+    position: relative;
+    margin-left: 10px;
+    padding-left: 15.655px;
+    float: left;
+  }
+
+  .bc a:first-child {margin-left: 0;padding-left: 0}
+
+.bc a:not(:first-child):before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -3.31px;
+    width: 7px;
+    height: 7px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #626a6e;
+}
 </style>
-  <header>
-    <row style="display:flex;align-items:center;">
+
+<div style="background:#0a0a0a">
+  <div class="wrapper">
+    <row  style="padding:2rem 0 1rem;display:flex;align-items:center;">
       <section style="display: flex;
     align-items: center;">
 
-        {{#unless user}}
-        <a class="logo {{selected.index}}" title="Blot" href="/" >{{> logo}}</a>
-        <span style="color:#444;margin:0 0.75em">/</span>
-        <a title="Developers" href="/developers" >Developers</a>
-        
-        {{/unless}}
-        {{#if user}}
-        <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
+        <div style="display: flex" class="bc">
+          <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#bbb" title="Blot" href="/" >Blot</a>
+          <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#bbb" title="Blot" href="/developers" >Developers</a>
+          {{#breadcrumbs}}
+          <a class="underline-on-hover" style="font-weight: 600;color:#bbb" href="{{{slug}}}">{{name}}</a>
+          {{/breadcrumbs}}
+      </div>
 
-        {{/if}}
 
       </section>
 
-      <section class="links">
+      <section class="links" style="flex-grow:1;font-weight:600;color:#bbb">
         <label for="toggle">Menu</label>
         {{#unless user}}
-        <a href="/sign-up">Sign up</a>
-        <a href="/log-in">Log in</a>
+        <a class="buttt" href="/sign-up">Sign up</a>
+        <a class="buttt" href="/log-in">Log in</a>
         {{/unless}}
         {{#if user}}
-        <a href="/">Your account</a>
-        <a href="/how">How to use Blot</a>
-        <a href="/contact">Contact</a>
+        <a class="buttt" href="/">Your account</a>
+<!--         <a class="buttt" href="/how">How to use Blot</a>
+ -->        <a class="buttt" href="/contact">Contact</a>
         {{/if}}
       </section>
     </row>
 
-    <hr style="margin:0">
-  </header>
+</div>
+</div>
+<!--     <hr style="margin:0; border: none;
+    border-bottom: 1px solid #eee;"> -->
 
-  <main style="padding-top:0">
+  <div class="wrapper">
+  <main  >
 
     <input type="checkbox" name="toggle" id="toggle">
 
-    <ul class="sidebar col-25">
-      <br><Br>
-      <li><a href="/developers/how-blot-works">How Blot works</a></li>
-      <li><a href="/developers/rendering-templates">Rendering templates</a></li>
-      <li class="has-list {{selected.reference}}">
-        <input type="checkbox" name="reference" id="reference" {{#selected.reference}} checked{{/selected.reference}}> <a href="/developers/reference">Reference<label for="reference"></label>
-        </a>
-        <ul>
-          <li class="{{selected.blog}}">
-            <a href="/developers/reference/blog">Blog</a>
-          </li>
-          <li class="{{selected.entry}}">
-            <a href="/developers/reference/lists">Lists</a>
-          </li>
-          <li class="{{selected.entry}}">
-            <a href="/developers/reference/entry">Entry</a>
-          </li>
-          <li class="{{selected.helper-functions}}">
-            <a href="/developers/reference/helper-functions">Helper functions</a>
-          </li>
-          <li class="{{selected.tags}}">
-            <a href="/developers/reference/tags">Tags</a>
-          </li>
-          <li class="{{selected.date-tokens}}">
-            <a href="/developers/reference/date-tokens">Date tokens</a>
-          </li>
-        </ul>
-      </li>
-      <li class="has-list {{selected.guides}}">
-        <input type="checkbox" name="guides" id="guides" {{#selected.guides}} checked{{/selected.guides}}> <a href="/developers/guides">Guides<label for="guides"></label></a>
-        <ul>
-          <li class="{{selected.json-feed}}">
-            <a href="/developers/guides/json-feed">JSON feed</a>
-          </li>
-          <li class="{{selected.group-posts-by-dates}}">
-            <a href="/developers/guides/group-posts-by-dates">Group posts by date</a>
-          </li>
-          <li class="{{selected.posts-tagged}}">
-            <a href="/developers/guides/posts-tagged">A page with posts with a tag</a>
-          </li>
-        </ul>
-      </li><!-- 
-<br>
-      <hr>
 
-      <br>
-      <div style="font-size:14px">
-        <li><a class="{{selected.contact}}" href="/developers/support">Contact</a></li>
-        <li><a class="{{selected.news}}" href="/news">News</a></li>
-      <li><a class="{{selected.news}}" href="https://github.com/davidmerfield/blot">Source code</a></li>
-      </div> -->
-    </ul>
 
     <content>
+      
+  
+
       {{{body}}}
+
+    {{#showToc}}
+      <ul class="guides" style="display: flex;flex-wrap: wrap;margin:-1rem">
+        {{#toc}}
+        <li style="flex-basis: 50%;padding:1rem;box-sizing: border-box;">
+<a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>        <ul style="padding-left: 0">
+          {{#items}}
+          <li style="list-style-type: none;"><a href="{{slug}}">{{name}}</a>
+          {{/items}}
+        </ul>
+      </li>
+        {{/toc}}
+      </ul>
+      {{/showToc}}
+      <style type="text/css">a.no-outline:hover {box-shadow: none;border:none;background: #f9f9f9}</style>
+          {{#if subsections}}
+          <br>
+       <ul style="list-style-type: none;margin:0;padding: 0">
+          {{#subsections}}
+          <li><a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>
+          {{/subsections}}
+        </ul>
+        {{/if}}
     </content>
   </main>
 
