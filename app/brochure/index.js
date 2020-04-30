@@ -13,6 +13,9 @@ var REDIRECTS = {
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
+
+// Renders dates dynamically in the documentation.
+// Can be used like so: {{{date 'MM/YYYY'}}}
 hbs.registerHelper("date", function(text) {
   try {
     text = text.trim();
