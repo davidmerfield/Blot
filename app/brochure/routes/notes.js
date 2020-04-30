@@ -82,7 +82,6 @@ notes.param("article", function(req, res, next) {
 });
 
 notes.get("/", function(req, res, next) {
-  res.locals.title = "Notes - Blot";
   res.locals.showToc = true;
   res.locals.toc = TOC.map((section) => {
     section.isSelected = false;
