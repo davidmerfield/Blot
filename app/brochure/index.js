@@ -5,6 +5,7 @@ var hbs = require("hbs");
 var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var warmCache = require("./warmCache");
+var moment = require("moment");
 
 var REDIRECTS = {
   "/help/tags": "/how/metadata",
@@ -12,6 +13,17 @@ var REDIRECTS = {
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
+hbs.registerHelper("date", function(text) {
+  try {
+    text = text.trim();
+    text = moment.utc(Date.now()).format(text);
+  } catch (e) {
+    text = "";
+  }
+
+  return text;
+});
+
 brochure.set("views", __dirname + "/views");
 brochure.set("view engine", "html");
 brochure.engine("html", hbs.__express);
