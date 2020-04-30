@@ -86,6 +86,9 @@ margin-left: 12px
 
       </section>
 
+      <form action="/developers/search" method="get">
+        <input type="text" style="border:1px solid #444;padding:0.4rem 1rem;border-radius: 10rem;font-size: 16px;min-width: 300px;color: white;margin: 0 2rem" name="q" placeholder="Search the developer guide">
+      </form>
       <section class="links" style="flex-grow:1;font-weight:600;color:#bbb">
         <label for="toggle">Menu</label>
         {{#unless user}}

@@ -1,6 +1,8 @@
 var Express = require("express");
 var developers = new Express.Router();
 const resolve = require("path").resolve;
+const reds = require("reds");
+var transliterate = require("transliteration");
 
 require("./tools/build-search-index")(
   "developers",
@@ -11,7 +13,14 @@ require("./tools/build-search-index")(
   }
 );
 
-developers.get("/search", function(req, res) {});
+developers.get("/search", function(req, res, next) {
+  var search = reds.createSearch("site:search:developers");
+  var query = transliterate(req.query.q);
+  search.query(query).end(function(err, ids) {
+    if (err) return next(err);
+    res.json({results: ids});
+  });
+});
 
 developers.use(function(req, res, next) {
   res.locals.base = "/developers";
