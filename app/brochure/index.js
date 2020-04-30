@@ -6,6 +6,10 @@ var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var warmCache = require("./warmCache");
 
+var REDIRECTS = {
+  "/help/tags": "/how/metadata",
+};
+
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
 brochure.set("views", __dirname + "/views");
@@ -72,8 +76,12 @@ brochure.use(
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
 
+brochure.use("/publishing", function(req, res) {
+  res.redirect(req.originalUrl.split("/publishing").join("/how"));
+});
+
 // Redirect user to dashboard for these links
-brochure.use(["/account", "/settings"], function(req, res, next) {
+brochure.use(["/account", "/settings"], function(req, res) {
   return res.redirect("/log-in?then=" + req.originalUrl);
 });
 

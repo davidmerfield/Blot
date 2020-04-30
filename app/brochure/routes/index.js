@@ -9,10 +9,7 @@ var TITLES = {
   "public-files": "Public files",
   terms: "Terms of use",
   privacy: "Privacy policy",
-};
-
-var REDIRECTS = {
-  "/help/tags": "/how/metadata",
+  domain: "Use your domain",
 };
 
 // Minifies HTML
@@ -114,11 +111,7 @@ brochure.use(function(req, res) {
 brochure.use(function(err, req, res, next) {
   if (err && err.message && err.message.indexOf("Failed to lookup view") === 0)
     return next();
-  next(err);
-});
 
-brochure.use(function(err, req, res, next) {
-  if (REDIRECTS[req.url]) return res.redirect(REDIRECTS[req.url]);
   next(err);
 });
 
