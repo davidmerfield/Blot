@@ -2,7 +2,7 @@
 
 <p>Each blog post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line.</p>
 
-  <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+  <pre class="text with-chrome" title="Post.txt"><code>Date: {{{date 'MMMM Do, YYYY'}}}
 Permalink: /metadata
 
 You must leave a space after the colon between the metadata property (e.g. Date) and its value. Metadata must be separated from the rest of the post by at least one blank line. 
@@ -13,12 +13,12 @@ You must leave a space after the colon between the metadata property (e.g. Date)
 <h2 id="dates">Dates</h2>
 
 <p>A blog post’s publish date is the same as the file’s creation date by default. You can specify a different date in the file’s <a href="#dates-path">path</a> or in its <em>metadata</em>:</p>
-  <pre class="text with-chrome" title="Post.txt"><code>Date: {{#date}}MMMM Do, YYYY{{/date}}
+  <pre class="text with-chrome" title="Post.txt"><code>Date: {{{date 'MMMM Do, YYYY'}}}
 
 Blot supports a variety of date formats. These all produce a post with the same date:
 
-{{#date}}MM/DD/YYYY{{/date}}   {{#date}}MMMM D, YYYY{{/date}}
-{{#date}}M.D.YYYY{{/date}}     {{#date}}YYYY-MM-DD 00:00{{/date}}
+{{{date 'MM/DD/YYYY'}}}   {{{date 'MMMM D, YYYY'}}}
+{{{date 'M.D.YYYY'}}}     {{{date 'YYYY-MM-DD 00:00'}}}
 
 You can use underscores, dashes, slashes and dots to separate the numbers in the date.
 </code></pre>
@@ -33,21 +33,21 @@ You can use underscores, dashes, slashes and dots to separate the numbers in the
   <tbody>
     <tr>
       <td>
-        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}MM{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}DD{{/date}}<span class="light">›</span></code><code class="file md">Post.txt</a></code>
+        <code class="folder">{{{date 'YYYY'}}}<span class="light">›</span></code><code class="folder">{{{date 'MM'}}}<span class="light">›</span></code><code class="folder">{{{date 'DD'}}}<span class="light">›</span></code><code class="file md">Post.txt</a></code>
       </td>
     </tr>
     <tr>
       <td>
-        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="folder">{{#date}}MM{{/date}}<span class="light">›</span></code><code class="file md">{{#date}}DD-[Post.txt]{{/date}}</code>
+        <code class="folder">{{{date 'YYYY'}}}<span class="light">›</span></code><code class="folder">{{{date 'MM'}}}<span class="light">›</span></code><code class="file md">{{{date 'DD-[Post.txt]'}}}</code>
       </td>
     </tr>
     <tr>
       <td>
-        <code class="folder">{{#date}}YYYY{{/date}}<span class="light">›</span></code><code class="file md">{{#date}}MM-DD-[Post.txt]{{/date}}</code>
+        <code class="folder">{{{date 'YYYY'}}}<span class="light">›</span></code><code class="file md">{{{date 'MM-DD-[Post.txt]'}}}</code>
       </td>
     </tr>
     <tr>
-      <td><code class="file md">{{#date}}YYYY-MM-DD-00-00[-Post.txt]{{/date}}</a></code></td>
+      <td><code class="file md">{{{date 'YYYY-MM-DD-00-00[-Post.txt]'}}}</a></code></td>
     </tr>
 
   </tbody>
@@ -162,7 +162,7 @@ Tags are case-insensitive and may contain whitespace. Blot picks the case you us
 
 <div style="max-width:39em;margin:3em 0 4em">
   <pre class="code html" title="Post.html"><code><!--
-Date: {{#date}}MMMM Do, YYYY{{/date}}
+Date: {{{date 'MMMM Do, YYYY'}}}
 Permalink: /metadata
 -->
 

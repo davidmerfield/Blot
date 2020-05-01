@@ -24,9 +24,6 @@ brochure.use(finder.middleware);
 // Renders TeX
 brochure.use(tex);
 
-// Renders dates dynamically
-brochure.use(require("./tools/dates"));
-
 // Fixes basic typographic errors
 // See typeset.js for more information
 brochure.use(require("./tools/typeset"));
