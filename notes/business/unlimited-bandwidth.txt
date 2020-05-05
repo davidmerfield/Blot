@@ -1,5 +1,5 @@
-Bandwidth and storage limits
-============================
+Unlimited bandwidth
+===================
 
 A number of popular blogging services offer unlimited bandwidth and storage. Why doesn't Blot? Mostly because bandwidth and storage have a cost. I end up paying a few cents per gigabyte per month for data storage and a similar cost for bandwidth. 
 
