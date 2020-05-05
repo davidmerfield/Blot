@@ -3,30 +3,17 @@ var notes = new Express.Router();
 var marked = require("marked");
 const fs = require("fs-extra");
 const NOTES_DIRECTORY = require("helper").rootDir + "/notes";
-const path = require("path");
+let buildTOC = require("./tools/toc");
 
-// Used to extract title text from Markdown title tags in note source files
-const HASH_TITLE_REGEX = /\# (.*)/;
-const DASH_TITLE_REGEX = /(.*)\n[=-]+\n/;
+let TOC = buildTOC(NOTES_DIRECTORY);
 
-const removeIgnorableItems = (name) =>
-  name[0] !== "." && name[0] !== "_" && name !== "README";
+const config = require("config");
 
-const extractName = (filePath) => {
-  const contents = fs.readFileSync(filePath, "utf-8");
-  const hashTitle = HASH_TITLE_REGEX.exec(contents);
-  const dashTitle = DASH_TITLE_REGEX.exec(contents);
-
-  if (hashTitle && hashTitle[1]) {
-    return hashTitle[1];
-  } else if (dashTitle && dashTitle[1]) {
-    return dashTitle[1];
-  } else {
-    return withoutExtension(filePath.split("/").pop());
-  }
-};
-
-const withoutExtension = (name) => path.parse("/" + name).name;
+if (config.environment === "development")
+  fs.watch(NOTES_DIRECTORY, { recursive: true }, function() {
+    console.log("Rebuilt TOC");
+    TOC = buildTOC(NOTES_DIRECTORY);
+  });
 
 notes.use(function(req, res, next) {
   res.locals.base = "/notes";
@@ -35,31 +22,6 @@ notes.use(function(req, res, next) {
   res.locals.breadcrumbs = [];
   next();
 });
-
-const TOC = fs
-  .readdirSync(NOTES_DIRECTORY)
-  .filter(removeIgnorableItems)
-  .map((section) => {
-    return {
-      name: section[0].toUpperCase() + section.slice(1),
-      id: section,
-      items: fs
-        .readdirSync(NOTES_DIRECTORY + "/" + section)
-        .filter(removeIgnorableItems)
-        .map((article) => {
-          return {
-            name: extractName(NOTES_DIRECTORY + "/" + section + "/" + article),
-            id: article,
-            slug:
-              "/notes/" +
-              withoutExtension(section) +
-              "/" +
-              withoutExtension(article),
-          };
-        }),
-      slug: "/notes/" + path.parse("/" + section).name,
-    };
-  });
 
 notes.param("section", function(req, res, next) {
   res.locals.selected[req.params.section] = "selected";
@@ -109,19 +71,23 @@ notes.get("/:section", function(req, res, next) {
 });
 
 notes.get("/:section/:article", function(req, res, next) {
-  res.locals.breadcrumbs.push({
-    slug: "/notes/" + req.params.section + "/" + req.params.article,
-    name: extractName(
-      NOTES_DIRECTORY +
-        "/" +
-        req.params.section +
-        "/" +
-        req.params.article +
-        ".txt"
-    ),
-  });
+  res.locals.breadcrumbs.push(
+    TOC.filter((section) => section.id === req.params.section)
+      .map((section) =>
+        section.items
+          .filter((item) => item.id === req.params.article)
+          .map((item) => {
+            return {
+              name: item.name,
+              slug: item.slug,
+            };
+          })
+          .pop()
+      )
+      .pop()
+  );
 
-  res.locals.body = marked(
+  res.locals.body = `<p style="margin-bottom:0"><a href="/">${req.params.section.toUpperCase()}</a></h2>` + marked(
     fs.readFileSync(
       NOTES_DIRECTORY +
         "/" +
