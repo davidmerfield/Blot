@@ -42,11 +42,12 @@ module.exports = function(server) {
       // any of the template views but will do that in future.
       if (normalize(entry.url) !== normalize(url) && url === "/") return next();
 
-      Entries.adjacentTo(blog.id, entry.id, function(nextEntry, previousEntry) {
+      Entries.adjacentTo(blog.id, entry.id, function(nextEntry, previousEntry, index) {
         entry.next = nextEntry;
         entry.previous = previousEntry;
         entry.adjacent = !!(nextEntry || previousEntry);
-
+        entry.index = index;
+        
         // Ensure the user is always viewing
         // the entry at its latest and greatest URL
         // 301 passes link juice for SEO?
