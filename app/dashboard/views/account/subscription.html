@@ -7,13 +7,21 @@
     subscription has been cancelled and you won’t be charged again. On
     <b>{{user.pretty.expiry}}</b> your account will close and your
     blog{{user.s}} will shut down. {{/user.cancel_at_period_end}}
-    {{#user.isSubscribed}} {{#user.subscription.quantity}} Your next bill on
+    {{#user.isSubscribed}} 
+
+    {{#user.subscription.quantity}} Your next bill on
     <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>.
     {{^monthly}}You will recieve an email reminder one week before.{{/monthly}}
     {{/user.subscription.quantity}} {{^user.subscription.quantity}} Your next
     billing period begins on <b>{{user.pretty.expiry}}</b> but you will not be
     charged anything because you do not host any blogs on Blot.
-    {{/user.subscription.quantity}} {{/user.isSubscribed}}
+    {{/user.subscription.quantity}} 
+
+    {{#balance}}
+    Your account has a balance of {{balance}} which will be automatically applied to future invoices.
+    {{/balance}}
+
+    {{/user.isSubscribed}}
   </p>
 
   <div style="margin:0 -20px;border-top:1px solid #eee">

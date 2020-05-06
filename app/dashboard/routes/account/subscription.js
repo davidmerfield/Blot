@@ -1,8 +1,8 @@
 var Express = require("express");
 var Subscription = new Express.Router();
 var User = require("user");
-var config = require("config");
 var User = require("user");
+var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper").email;
 var helper = require("helper");
@@ -11,6 +11,8 @@ const PLAN_MAP = {
   yearly_30: "monthly_3",
   monthly_3: "yearly_30",
   yearly_20: "monthly_2",
+  monthly_4: "yearly_40",
+  yearly_40: "monthly_4",
 };
 
 Subscription.route("/").get(function(req, res) {
@@ -65,15 +67,17 @@ Subscription.route("/switch-interval")
 
     if (monthly) {
       proration = helper.prettyPrice(
-        percentage *
-          parseInt(
-            PLAN_MAP[req.user.subscription.plan.id].split("_").pop() * 100
-          )
+        parseInt(
+          PLAN_MAP[req.user.subscription.plan.id].split("_").pop() * 100
+        ) -
+          percentage * req.user.subscription.plan.amount
       );
     } else {
-      credit = helper.prettyPrice(
-        percentage * req.user.subscription.plan.amount
-      );
+      credit =
+        helper.prettyPrice(percentage * req.user.subscription.plan.amount -
+        parseInt(
+          PLAN_MAP[req.user.subscription.plan.id].split("_").pop() * 100
+        ));
     }
 
     res.render("account/switch-interval", {
