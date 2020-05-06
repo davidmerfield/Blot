@@ -125,7 +125,7 @@ module.exports = (function() {
                 : undefined;
           }
 
-          return callback(next, previous);
+          return callback(next, previous, ++rank);
         });
       });
     });
