@@ -20,7 +20,12 @@ Account.use(function(req, res, next) {
     customer
   ) {
     if (err) return next(err);
-    res.locals.balance = helper.prettyPrice(customer.balance);
+
+    res.locals.balance = {
+      credit: Math.sign(customer.balance),
+      amount: helper.prettyPrice(Math.abs(customer.balance)),
+    };
+    
     next();
   });
 });

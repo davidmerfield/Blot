@@ -18,7 +18,12 @@
     {{/user.subscription.quantity}} 
 
     {{#balance}}
-    Your account has a balance of {{balance}} which will be automatically applied to future invoices.
+    {{#credit}}
+    Your account has a balance of {{amount}} which will be automatically applied to future invoices.
+    {{/credit}}
+    {{^credit}}
+    Your account has an outstanding balance of {{amount}} which will be automatically added to future invoices.
+    {{/credit}}
     {{/balance}}
 
     {{/user.isSubscribed}}
@@ -92,7 +97,7 @@
     <a class="line" href="/account/subscription/switch-interval"
       ><span class="label">Switch</span
       ><span class="center"
-        ><span class="link">Switch to {{#monthly}}annual{{/monthly}}{{#annual}}monthly{{/annual}} billing</span></span
+        ><span class="link">Switch to {{#monthly}}annual{{/monthly}}{{^monthly}}monthly{{/monthly}} billing</span></span
       ></a
     >
 
