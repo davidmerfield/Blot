@@ -12,6 +12,8 @@ Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVm
 
 Improve developer guide and tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
 
+Replace existing magazine template with proper CSS version
+
 Add layout options to template editor for native templates
 
 Improve source code for native templates
