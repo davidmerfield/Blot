@@ -34,6 +34,7 @@ var dictionary = {
   "sort:date": require("./sort:date"),
   "sort:path": require("./sort:path"),
   tagged: require("./tagged"),
+  total_posts: require("./total_posts"),
   updated: require("./updated")
 };
 
