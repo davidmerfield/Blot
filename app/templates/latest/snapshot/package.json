@@ -1,0 +1,58 @@
+{
+  "name": "Snapshot",
+  "isPublic": true,
+  "locals": {
+    "page_size": 36,
+    "background_color": "#ffffff",
+    "text_color": "#111111",
+    "link_color": "#00008B",
+    "font_size": 16,
+    "body_font": {
+      "name": "System sans-serif",
+      "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
+      "line_height": 1.4,
+      "font_size": 16
+    },
+    "line_height": 1.4,
+    "spacing": 3
+  },
+  "views": {
+    "tagged.html": {
+      "partials": {
+        "title": "{{{tag}}} - {{{title}}}",
+        "description": "All the posts tagged {{{tag}}}"
+      }
+    },
+    "error.html": {
+      "partials": {
+        "title": "Error - {{{title}}}",
+        "description": "Error on {{{title}}}"
+      }
+    },
+    "search.html": {
+      "partials": {
+        "title": "Search - {{{title}}}",
+        "description": "Search all the entries posted on {{{title}}}"
+      }
+    },
+    "archives.html": {
+      "url": "/archives",
+      "partials": {
+        "title": "Archives - {{{title}}}",
+        "description": "All the entries posted on {{{title}}}"
+      }
+    },
+    "entries.html": {
+      "partials": {
+        "title": "{{{title}}}",
+        "description": "The latest entries posted on {{{title}}}"
+      }
+    },
+    "entry.html": {
+      "partials": {
+        "title": "{{{entry.title}}} - {{{title}}}",
+        "description": "{{{entry.summary}}}"
+      }
+    }
+  }
+}

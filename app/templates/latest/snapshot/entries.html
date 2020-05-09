@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{{> title}}</title>
+		<meta name="description" content="{{> description}}" />
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title="RSS Feed for {{title}}"
+			href="{{{blogURL}}}{{{feedURL}}}"
+		/>
+		{{#avatar}}
+		<link rel="icon" href="{{{avatar}}}" type="image/x-icon" />
+		{{/avatar}}
+		<link rel="stylesheet" href="/plugin.css" />
+		<link rel="stylesheet" href="{{{cssURL}}}" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+	<body>
+		<header>
+			<section class="avatar">
+				<img src="{{{avatar}}}" />
+			</section>
+			<section class="bio">
+				<h1>{{title}}</h1>
+				<p>NYC {{#menu}} —
+			<a href="{{{url}}}" class="{{active}}">{{label}}</a>
+			{{/menu}}</p>
+			<a href="/feed.rss">Subscribe</a>
+			</section>
+		</header>
+		<nav>
+			{{#menu}}
+			<a href="{{{url}}}" class="{{active}}">{{label}}</a>
+			{{/menu}}
+		</nav>
+		<main>
+			{{#entries}}
+			<a
+				href="{{{url}}}"
+				class="post {{#thumbnail.large}}zoomable{{/thumbnail.large}} {{^thumbnail.large}}no-thumbnail{{/thumbnail.large}}"
+			>
+				<span class="thumbnail">
+					<span class="container">
+						{{#thumbnail.large}}
+						<img
+							src="{{{url}}}"
+							class="fadeMe"
+							onload="this.className+=' fadeIn';"
+						/>
+						<noscript>
+							<img src="{{{url}}}" />
+						</noscript>
+						{{/thumbnail.large}} {{^thumbnail.large}}
+						<span style="width:100%">
+							<span
+								style="display:block;margin:0.65em 1.3rem;box-sizing:border-box;overflow:hidden;color:rgba(0,0,0,.5);
+  font-size:24px"
+							>
+								{{title}}
+							</span>
+							<span style="font-size:13px;display:block;"
+								>Added <span date-from-now="{{dateStamp}}">{{date}}</span></span
+							>
+						</span>
+						{{/thumbnail.large}}
+					</span>
+				</span>
+			</a>
+			{{/entries}}
+		</main>
+	</body>
+</html>

@@ -1,0 +1,210 @@
+html,
+body {
+	text-rendering: optimizeLegibility;
+	font-variant-ligatures: common-ligatures;
+	font-feature-settings: "liga";
+	-moz-osx-font-smoothing: grayscale;
+	-moz-font-feature-settings: “liga” on;
+	word-wrap: break-word;
+	margin: 0;
+}
+
+nav,
+main,
+header {
+	max-width: 935px;
+	margin: 0 auto;
+	display: flex;
+}
+
+nav {
+	justify-content: center;
+	position: relative;
+}
+
+nav:before {
+	content: " ";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 0;
+	border-top: 1px solid #ddd;
+}
+
+nav a {
+	display: flex;
+	padding: 10px 0;
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 1px;
+	font-weight: 600;
+	text-decoration: none;
+	color: rgb(142, 142, 142);
+	margin: 0 20px;
+	z-index: 1;
+	border-top: 1px solid transparent;
+}
+
+nav a.active {
+	border-top-color: rgb(38, 38, 38);
+	color: rgb(38, 38, 38);
+}
+
+header {
+	margin: 30px auto 44px;
+}
+
+header img {
+	max-width: 150px;
+	max-height: 150px;
+	border-radius: 150px;
+}
+
+header .avatar {
+	flex-grow: 1;
+	display: flex;
+	margin-right: 30px;
+	flex-basis: 0;
+	justify-content: center;
+}
+
+header .bio {
+	flex-grow: 2;
+	flex-basis: 30px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+header .bio > * {margin: 10px 0}
+
+header h1 {
+	font-weight: 300;
+	font-size: 28px
+}
+
+main {
+	flex-wrap: wrap;
+	padding: 0;
+	max-width: 965px;
+}
+
+main a {
+	position: relative;
+	padding: 15px;
+	width: 33.333333%;
+	box-sizing: border-box;
+	text-decoration: none;
+	text-align: center;
+}
+
+main a .thumbnail .container {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	position: absolute;
+	display: flex;
+	align-items: center;
+}
+
+@media screen and (max-width: 1200px) {
+	main a {
+		width: 33.3333%;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	main a {
+		width: 50%;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	main a {
+		width: 100%;
+	}
+
+	main a:hover .thumbnail:after {
+		border: none !important;
+	}
+
+	main {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+main a .date {
+	visibility: hidden;
+	display: block;
+}
+
+main a .thumbnail {
+	box-sizing: border-box;
+	width: 100%;
+	height: 0;
+	padding-bottom: 100%;
+	display: block;
+	overflow: hidden;
+	position: relative;
+	margin-bottom: 1.3rem;
+}
+
+main a .thumbnail:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border: 1px solid transparent;
+}
+
+main a:hover {
+	opacity: 0.9;
+}
+
+main a:active,
+.opac:active {
+	opacity: 0.7;
+}
+
+main a img {
+	max-width: 100%;
+	max-height: 100%;
+	height: auto;
+	margin: 0 auto;
+}
+
+main a.no-thumbnail .thumbnail:after {
+	border-color: rgba(0, 0, 0, 0.15);
+	border-width: 2px;
+}
+
+main a.no-thumbnail:hover .thumbnail:after {
+	border-color: rgba(0, 0, 0, 0.4);
+}
+
+main a.no-thumbnail .thumbnail {
+	color: rgba(0, 0, 0, 0.4);
+	text-align: center;
+}
+
+main a.no-thumbnail .date {
+	display: block;
+}
+
+.fadeMe {
+	visibility: hidden;
+	opacity: 0;
+	will-change: opacity;
+	transition: opacity 0.3s, visibility 0.3s;
+}
+
+.fadeIn {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 0.3s, visibility 0.3s;
+}
