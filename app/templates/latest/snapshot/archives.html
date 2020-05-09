@@ -3,13 +3,15 @@
 	{{> head}}
 	<body>
 		{{> header}}
-		<main>
+		<archives>
 			{{#archives}}
+			<h2>{{year}}</h2>
 			{{#months}}
+			<h3>{{month}}</h3>
 			{{#entries}}
 			<a
 				href="{{{url}}}"
-		
+			
 			>
 				<span class="thumbnail">
 					<span class="container">
@@ -23,12 +25,15 @@
 							<img src="{{{url}}}" />
 						</noscript>
 						{{/thumbnail.small}} 
+						{{title}}
+						{{date}}
 					</span>
 				</span>
 			</a>
+			<br>
 			{{/entries}}
 			{{/months}}
 			{{/archives}}
-		</main>
+		</archives>
 	</body>
 </html>
