@@ -1,40 +1,8 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>{{> title}}</title>
-		<meta name="description" content="{{> description}}" />
-		<link
-			rel="alternate"
-			type="application/rss+xml"
-			title="RSS Feed for {{title}}"
-			href="{{{blogURL}}}{{{feedURL}}}"
-		/>
-		{{#avatar}}
-		<link rel="icon" href="{{{avatar}}}" type="image/x-icon" />
-		{{/avatar}}
-		<link rel="stylesheet" href="/plugin.css" />
-		<link rel="stylesheet" href="{{{cssURL}}}" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-	</head>
+	{{> head}}
 	<body>
-		<header>
-			<section class="avatar">
-				<img src="{{{avatar}}}" />
-			</section>
-			<section class="bio">
-				<h1>{{title}}</h1>
-				<p>NYC {{#menu}} —
-			<a href="{{{url}}}" class="{{active}}">{{label}}</a>
-			{{/menu}}</p>
-			<a href="/feed.rss">Subscribe</a>
-			</section>
-		</header>
-		<nav>
-			{{#menu}}
-			<a href="{{{url}}}" class="{{active}}">{{label}}</a>
-			{{/menu}}
-		</nav>
+		{{> header}}
 		<main>
 			{{#entries}}
 			<a

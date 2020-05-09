@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	{{> head}}
+	<body>
+		{{> header}}
+		<main>
+			{{#archives}}
+			{{#months}}
+			{{#entries}}
+			<a
+				href="{{{url}}}"
+		
+			>
+				<span class="thumbnail">
+					<span class="container">
+						{{#thumbnail.small}}
+						<img
+							src="{{{url}}}"
+							class="fadeMe"
+							onload="this.className+=' fadeIn';"
+						/>
+						<noscript>
+							<img src="{{{url}}}" />
+						</noscript>
+						{{/thumbnail.small}} 
+					</span>
+				</span>
+			</a>
+			{{/entries}}
+			{{/months}}
+			{{/archives}}
+		</main>
+	</body>
+</html>

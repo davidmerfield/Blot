@@ -1,0 +1,24 @@
+<header>
+	<section class="avatar">
+		<img src="{{{avatar}}}" />
+	</section>
+	<section class="bio">
+		<h1>{{title}}</h1>
+		<p>
+			NYC {{#menu}}<span data-href="{{{url}}}">
+				— <a href="{{{url}}}" class="{{active}}">{{label}}</a></span
+			>
+			{{/menu}}
+		</p>
+		<p>
+			<a style="margin-right: 40px;" class="button" href="/feed.rss"
+				>Subscribe</a>
+			<b>{{total_posts}}</b> posts
+		</p>
+	</section>
+</header>
+<nav>
+	{{#menu}}
+	<a href="{{{url}}}" class="{{active}}">{{label}}</a>
+	{{/menu}}
+</nav>

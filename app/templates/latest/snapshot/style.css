@@ -32,6 +32,8 @@ nav:before {
 	border-top: 1px solid #ddd;
 }
 
+nav a:not([href^="/"]), nav a[href="/feed.rss"]  {display: none;}
+
 nav a {
 	display: flex;
 	padding: 10px 0;
@@ -77,7 +79,25 @@ header .bio {
 	flex-direction: column;
 }
 
+header .bio a {
+	color: rgb(0, 55, 107);
+	text-decoration: none;
+}
+
+header a.button {
+	border-radius: 4px;
+	color: #fff;
+	font-size: 14px;
+	background: rgb(0, 149, 246);
+	display: inline-block;
+	padding: 5px 9px;
+	text-decoration: none;
+	font-weight: 600
+}
+
 header .bio > * {margin: 10px 0}
+
+header .bio [data-href^="/"] {display: none;}
 
 header h1 {
 	font-weight: 300;
