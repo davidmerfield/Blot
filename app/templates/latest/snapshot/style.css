@@ -20,12 +20,15 @@ header {
 nav {
 	justify-content: center;
 	position: relative;
+	position: sticky;
+	top: 0;
+	z-index: 1;
 }
 
 nav:before {
 	content: " ";
 	position: absolute;
-	top: 0;
+	bottom: 0;
 	left: 0;
 	right: 0;
 	z-index: 0;
@@ -45,11 +48,11 @@ nav a {
 	color: rgb(142, 142, 142);
 	margin: 0 20px;
 	z-index: 1;
-	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
 }
 
 nav a.active {
-	border-top-color: rgb(38, 38, 38);
+	border-bottom-color: rgb(38, 38, 38);
 	color: rgb(38, 38, 38);
 }
 

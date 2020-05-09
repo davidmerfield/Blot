@@ -7,3 +7,7 @@ html, body {
   color: {{text_color}};
   background: {{background_color}};
 }
+
+nav {
+		background: {{background_color}};
+}
