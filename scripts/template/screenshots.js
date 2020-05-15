@@ -1,6 +1,5 @@
 const helper = require("helper");
 const screenshot = helper.screenshot;
-const hash = helper.hash;
 const async = require("async");
 const config = require("config");
 const VIEW_DIRECTORY = helper.rootDir + "/app/brochure/views/templates";
@@ -9,23 +8,23 @@ async.eachOfSeries(
 	{
 		diary: {
 			handle: "bjorn",
-			pages: ["/"],
+			pages: ["/", "/search?q=fishing"],
 		},
 		essay: {
 			handle: "interviews",
-			pages: ["/"],
+			pages: ["/", "/ingrid-newkirk"],
 		},
 		magazine: {
 			handle: "interviews",
-			pages: ["/"],
+			pages: ["/", "/archives"],
 		},
 		picture: {
-			handle: "ferox",
-			pages: ["/"],
+			handle: "bjorn",
+			pages: ["/", "/archives"],
 		},
 		scrapbook: {
 			handle: "ferox",
-			pages: ["/"],
+			pages: ["/", "/iems-l13-3"],
 		},
 	},
 	function({ handle, pages }, template, next) {
@@ -33,7 +32,7 @@ async.eachOfSeries(
 		async.eachSeries(
 			pages,
 			function(page, next) {
-				const url = baseURL + pages;
+				const url = baseURL + page;
 				const path = `${VIEW_DIRECTORY}/${template}/${handle}-${pages.indexOf(
 					page
 				)}.png`;
