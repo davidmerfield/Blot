@@ -83,7 +83,7 @@ describe("build", function() {
     });
   });
 
-  fit("will not use as image to become a thumbnail if it is too small", function(done) {
+  it("will not use as image to become a thumbnail if it is too small", function(done) {
     var path = "/Hello world.txt";
     var contents = "![Best Image Ever](test.jpg)";
     var pathToImage = "/test.jpg";
