@@ -165,7 +165,6 @@ main.has-sidebar {
 ul.templates {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   padding: 0;
   margin: 2em -0.5em;
 }
@@ -176,10 +175,9 @@ ul.templates small {
 
 ul.templates li {
   list-style-type: none;
-  min-width: 200px;
-  width: 25%;
+  width: 33%;
+  padding: 1rem;
   box-sizing: border-box;
-  padding: 1.5rem 0.5rem 0;
 }
 
 ul.templates li a {
