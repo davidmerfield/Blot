@@ -1,5 +1,7 @@
 # Update the version of Node
 
+The most important step is to make sure you run Blot's test suite against the new version of node to catch any obvious breaking changes.
+
 First, work out the version of node you'd like to use. I do this by visiting [the official website](https://nodejs.org/en/) and selecting the LTS (long term support) version recommended for most users.
 
 The rest of the guide assumes this version happens to be ```12.16.3```.
@@ -55,4 +57,13 @@ Restart the production server:
 
 ```
 sudo stop blot && sudo start blot
+```
+
+Here's the production checklist for the PR:
+
+```
+- [ ] Edit BLOT_NODE_VERSION to 12.16.3 in `/etc/blot/environment.sh`
+- [ ] nvm install 12.16.3
+- [ ] npm ci
+- [ ] sudo stop blot && sudo start blot
 ```
