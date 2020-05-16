@@ -20,7 +20,7 @@ export BLOT_ENVIRONMENT=production
 export BLOT_USER=
 
 # Use latest stable version which passes tests
-export BLOT_NODE_VERSION=10.16.3
+export BLOT_NODE_VERSION=12.16.3
 
 # result of which pandoc
 export BLOT_PANDOC_PATH=
