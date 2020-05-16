@@ -453,27 +453,11 @@ overlay {
   height: 0;
   position: relative;
   overflow: hidden;
-  margin: 3em -1.7em 1em
 }
 
-.screenshot a {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0
-}
+.screenshot img {max-width: 100%;height: auto;outline: 1px solid rgba(0,0,0,0.05);outline-offset: -1px}
 
-.screenshot a img {
-  width: 100%
-}
-
-
-.screenshot a:hover {
-  background: none;
-  box-shadow: none;
-  outline: none;
-}
+a.screenshot:hover {outline: none;}
 
 figure {
   margin: 4em 0
