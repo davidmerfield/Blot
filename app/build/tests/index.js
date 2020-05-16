@@ -83,6 +83,23 @@ describe("build", function() {
     });
   });
 
+  fit("will not use as image to become a thumbnail if it is too small", function(done) {
+    var path = "/Hello world.txt";
+    var contents = "![Best Image Ever](test.jpg)";
+    var pathToImage = "/test.jpg";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    fs.copySync(__dirname + "/too-small.jpg", this.blogDirectory + pathToImage);
+
+    build(this.blog, path, {}, function(err, entry) {
+      if (err) return done.fail(err);
+
+      // verify no thumbnail was generated from the image
+      expect(entry.thumbnail).toEqual({});
+      done();
+    });
+  });
+
   it("will not include caption text in summaries", function(done) {
     var path = "/Hello world.txt";
     var contents = "# Hello\n\n![Image caption](file.jpg)\n\nWorld";
