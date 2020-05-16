@@ -8,6 +8,7 @@ var join = require("path").join;
 var config = require("config");
 var extname = require("path").extname;
 var TIMEOUT = 10 * 1000; // 10s
+var validate = require("./validate");
 
 function create(blogID, path, done) {
   done = callOnce(done);
@@ -21,25 +22,29 @@ function create(blogID, path, done) {
   var fullPathToOutputDirectory = join(root, outputDirectory);
   var extension = extname(path).toLowerCase();
 
-  fs.ensureDir(fullPathToOutputDirectory, function(err) {
+  validate(path, function(err) {
     if (err) return done(err);
 
-    var transform = extension === ".gif" ? TransformGIF : Transform;
-
-    transform(path, fullPathToOutputDirectory, function(err, thumbnails) {
+    fs.ensureDir(fullPathToOutputDirectory, function(err) {
       if (err) return done(err);
 
-      for (var i in thumbnails) {
-        thumbnails[i].path = outputDirectory + "/" + thumbnails[i].name;
-        thumbnails[i].url =
-          config.cdn.origin + "/" + blogID + thumbnails[i].path;
-      }
+      var transform = extension === ".gif" ? TransformGIF : Transform;
 
-      if (err) return done(err);
+      transform(path, fullPathToOutputDirectory, function(err, thumbnails) {
+        if (err) return done(err);
 
-      clearTimeout(timeout);
+        for (var i in thumbnails) {
+          thumbnails[i].path = outputDirectory + "/" + thumbnails[i].name;
+          thumbnails[i].url =
+            config.cdn.origin + "/" + blogID + thumbnails[i].path;
+        }
 
-      done(null, thumbnails);
+        if (err) return done(err);
+
+        clearTimeout(timeout);
+
+        done(null, thumbnails);
+      });
     });
   });
 }
