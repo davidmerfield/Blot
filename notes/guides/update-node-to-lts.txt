@@ -1,0 +1,58 @@
+# Update the version of Node
+
+First, work out the version of node you'd like to use. I do this by visiting [the official website](https://nodejs.org/en/) and selecting the LTS (long term support) version recommended for most users.
+
+The rest of the guide assumes this version happens to be ```12.16.3```.
+
+## In development
+
+First we need to make two changes to the codebase. Update the node version in .travis.yml:
+
+```
+node_js:
+  - "12.16.3"
+```
+
+And edit ```BLOT_NODE_VERSION``` in ```config/environment.sh```. Commit and push to a new branch, wait for tests to run on continuous integration server.
+
+To get the new version of node locally, install the version of node you'd like to use:
+
+```
+nvm install 12.16.3
+```
+
+Reinstall the node modules against the new version:
+
+```
+npm ci
+```
+
+Then edit ```/etc/blot/environment.sh``` and re-source those environment variables in any open sessions. Use the new version as the default for other projects too:
+
+```
+nvm alias default 12.16.3
+```
+
+## In production
+
+```
+edit BLOT_NODE_VERSION in /etc/blot/environment.sh
+```
+
+To get the new version of node locally, install the version of node you'd like to use:
+
+```
+nvm install 12.16.3
+```
+
+Reinstall the node modules against the new version:
+
+```
+npm ci
+```
+
+Restart the production server:
+
+```
+sudo stop blot && sudo start blot
+```
