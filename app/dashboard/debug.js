@@ -1,7 +1,8 @@
 var Debug = require("debug");
+var config = require("config");
 
 // Export a version of this function which does nothing in production
-if (process.env.BLOT_ENVIRONMENT !== "development") {
+if (config.environment !== "development") {
   module.exports = function() {
     return function(req, res, next) {
       req.debug = function() {};
