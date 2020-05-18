@@ -38,7 +38,7 @@ dashboard.set("views", VIEW_DIRECTORY);
 dashboard.engine("html", hogan);
 
 // For when we want to cache templates
-if (process.env.BLOT_ENVIRONMENT !== "development") {
+if (config.environment !== "development") {
   dashboard.enable("view cache");
 }
 

@@ -75,6 +75,8 @@ brochure.get(["/terms", "/privacy"], function(req, res, next) {
   next();
 });
 
+brochure.use('/fonts', require('./fonts'));
+
 brochure.get("/sitemap.xml", require("./sitemap"));
 
 brochure.use("/developers", require("./developers"));

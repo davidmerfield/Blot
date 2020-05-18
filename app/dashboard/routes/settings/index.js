@@ -124,11 +124,11 @@ settings
   .post(require("./save/newTemplate"));
 
 settings
-  .route("/settings/template/past")
+  .route("/settings/template/archived")
   .all(load.pastTemplates)
   .get(function(req, res) {
-    res.locals.breadcrumbs.add("Past", "past");
-    res.render("template/past", { title: "Past templates" });
+    res.locals.breadcrumbs.add("Archived templates", "archived");
+    res.render("template/archived", { title: "Archived templates" });
   });
 
 settings.get("/settings/:section/:view", function(req, res) {
