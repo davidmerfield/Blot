@@ -415,7 +415,7 @@ hr {
 }
 
 .entry img {
-  max-height: calc(100vh - 3rem);
+  max-height: calc(100vh - 6.375rem);
   max-width: 100%;
   width: auto;
   height: auto;
