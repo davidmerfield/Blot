@@ -7,11 +7,25 @@
   </div>
   <div class="align-left tabular-numerals shift-margin">
     {{#pagination}} Page {{current}} / {{total}} {{/pagination}}
-    {{^pagination}} {{^entry.page}} {{allEntries.length}} posts {{/entry.page}} {{/pagination}}
+    {{^pagination}} 
+
+    {{#entry}}
+      {{^page}}Post {{entry.index}} / {{total_posts}} {{/page}}
+    {{/entry}}
+
+    {{^entry}}
+     {{total_posts}} posts
+    {{/entry}}
+
+    {{/pagination}}
   </div>
   <div class="align-right">
+<!--     <a href="/" onclick="return lastIndexPage()" >Close &nbsp;</a>
+ -->
     {{#entry}}
-    <a href="/" onclick="return lastIndexPage()" >Close &nbsp;</a>
+    <a class="previous" {{#entry.previous}}href="{{{url}}}"{{/entry.previous}}>Previous</a>
+    &nbsp;&nbsp;
+    <a class="next" {{#entry.next}}href="{{{url}}}"{{/entry.next}}>Next</a>
     {{/entry}}
     {{^entry}}
     <a class="previous" {{#pagination.previous}}href="/page/{{pagination.previous}}"{{/pagination.previous}}>Previous</a>

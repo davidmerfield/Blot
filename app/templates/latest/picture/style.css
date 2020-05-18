@@ -192,11 +192,16 @@ body {
 .archives a:hover {opacity: 0.5}
 
 .navigation {
-  margin: 1.5rem;
+  padding: 1.5rem 1.5rem 0.7rem;
+  margin-bottom: 0.75rem;
   font-size: 25px;
   font-size: 14px;
   display: flex;
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: {{background_color}};
 }
 
 .navigation .next {position:relative;padding-right: 1.3em}
