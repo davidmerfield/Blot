@@ -56,9 +56,14 @@ module.exports = function setView(templateID, updates, callback) {
 
         view = view || {};
 
-        if (updates.url && updates.url !== view.url) {
-          client.del(key.url(templateID, view.url));
+        if (updates.url) {
+          updates.url = helper.urlNormalizer(updates.url || "");
+
           client.set(key.url(templateID, updates.url), name);
+
+          if (updates.url !== view.url) {
+            client.del(key.url(templateID, view.url));
+          }
         }
 
         for (var i in updates) view[i] = updates[i];
@@ -66,8 +71,6 @@ module.exports = function setView(templateID, updates, callback) {
         view.locals = view.locals || {};
         view.retrieve = view.retrieve || {};
         view.partials = view.partials || {};
-
-        view.url = helper.urlNormalizer(view.url || "");
 
         var parseResult = helper.parseTemplate(view.content);
 
