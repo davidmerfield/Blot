@@ -68,37 +68,30 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 - Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm)
+- Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
+- Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
 Improvements to brochure
 - Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL) and [Theo](https://mail.google.com/mail/u/0/#inbox/KtbxLwghkVhBpRhqBQnFfzTNzpBdmBkjZg) to homepage: 
 - Fix bug with guide to TeX and tell [Miguel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmmzsNfKtxnSNLvdQzPRjbzh)
 - Catch 404s in Google search results and set up redirects
-- Write new view renderer for express which would allow middleware like render_tex and would save templates to disk pre- mustache render but post minifyHTML.
 - Add integration tests for brochure site to test sign up flow
-- Create credits page listing the names of the people involved in all the open source software used by Blot
-- Add latest news item from footer
-- Clean up error messages in logs for public site
 - Personalize the documentation for logged in users
-- Add script to fetch 404s with interface to set up redirects 
 - Tooltips for lock and CVC on sign up page
--  Loading state for submit button on sign up page
--  Unify dashboard header style post-payment
+- Loading state for submit button on sign up page
+- Unify dashboard header style post-payment
 - Navigation collapse on mobile devices
 - Fix formatting guide
 - Prune unused font-face declarations from CSS passed to dashboard
 - Use blotcdn for video and other static files
 - Logo spacing from Chrome tab
-- Fix <title> tags across site
+- Sprite for images associated with featured sites
 - Favicon with white background for folder
-- HTML minifier
-- CSS compressor
-- JavaScript minifier
 - Custom video player on index page
 - Add types and examples to items on reference page
 - Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
  - And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 - Make formatting guide searchable
-- Make reference page searchable
 - Generate high quality optimized favicons from new logo
 - Extract SVG of logo which can be used to produce hover effects, and on black
 - Write build scripts which can be run to produce results checked into git
@@ -106,7 +99,6 @@ Improvements to brochure
    - inline css in katex.css?
    - base 64 encode and inline small images on homepage
    - Optimize all images in image directory
-- Ask for critiques
 
 Improvements developer guide
 - Tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
@@ -129,6 +121,9 @@ Improvements to entry builder
 - Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH) and [Michael](https://mail.google.com/mail/u/0/#sent/QgrcJHsTkKSHVKgTvQJXTffdLDdbGZPbFxl)
 - Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
 - If entries share publish date, sort them by blot creation date
+- Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
+- Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly.
+- Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
 Improvements to git client
 - Remove git folder when switching to Dropbox client and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwPCNcJrLDqprtcKWXFTn)
@@ -248,7 +243,9 @@ Add more fonts to font picker:
 
 Add support for YAML-style custom metadata. Consider using something like StrictYAML or [Graymatter](https://github.com/jonschlinkert/gray-matter). Tell [Shibel](https://mail.google. com/mail/u/1/#inbox/164a96aa0fbd4f32) and [Casey](https://twitter.com/ckolderup/status/1050882922591309824?s=12) and [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxvwzvMhPfhPCwsfVBLvsxFckCpm) and [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR) and [Kyle](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzMDKzrMwWqQTvWdnlrMJF) and [Brett](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjvLPvkwHWhDTsVwlChZcBKl)
 
-Add supoprt for paths to static files with a trailing slash to work and tell [Sean](https://mail.google.
+Add support for paying with Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
+
+Add support for paths to static files with a trailing slash to work and tell [Sean](https://mail.google.
 com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
 
 Add copy button to code snippets in <pre> tags and tell [Atif](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBVcrtzqmXGBtpLTBBjrQf)
@@ -256,10 +253,6 @@ Add copy button to code snippets in <pre> tags and tell [Atif](https://mail.goog
 Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
 
 Add support for Ulysses image syntax and tell [Konstantin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsRmxKrQzmjmcxnBTqQKHvzj)
-
-Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
-
-Add a template lambda which allows the formatting of the last-updated date for a site, then tell [Chad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmTsrnBLkSXfNXKDtXdNFjfk)
 
 Consider adding a {{titleLink}} property to each entry, which extracts a link from the {{titleTag}} for use in RSS feeds, etc. and tell [Guy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwTplWfqwxrlPtkQsbjddSfl)
 
@@ -313,11 +306,6 @@ Fix Git client bugs
 
 Date parser bugs
 - Fix bug parsing ISO8601 date format and tell [Thomas](https://mail.google.com/mail/u/1/#inbox/1625012def221a8f)
-
-Markdown bugs
-- Fix [issue with teaser generator](https://github.com/davidmerfield/Blot/issues/15) that locks up a build process, sometimes for 10+ seconds.
-- Fix bug with blockquotes and tell [Kerim](https://mail.google.com/mail/u/1/#inbox/165b813e36c5ad67). Multiple ">" symbols on the blank paragraphs between other quoted text are not formatting properly.
-- Fix bug with indented code in pre tags and tell [Michael](https://mail.google.com/mail/u/0/#inbox/166704e2c0187e5c)
 
 --- 
 
@@ -721,20 +709,18 @@ Add soundcloud embeds then tell [Jonas](https://mail.google.com/mail/u/1/#inbox/
 
 ---
 
+Increase price to $6 per month for new customers. This will not affect existing customers in any way.
+
 Buy the .com
 - Remember to bump LetsEncrypt rate limits if needed
 - Remember to transfer Dropbox webhooks to new domain on the Dropbox developers console
 
 Incorporate
 
-Add support for paying with Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a)
-
 Support embedding an image in a post by copy-pasting the Dropbox share link
 - Let [Logan](https://twitter.com/blot__/status/962762284782243842) know
 
 ---
-
-Increase price to $6 per month for new customers. This will not affect existing customers in any way.
 
 Thumbnail generator
 - Prioritize faces in crop
@@ -752,8 +738,7 @@ Search engine
 
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
-NGINX
-- Install nginx fail2ban & http2
+NGINX Install nginx fail2ban & http2
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
