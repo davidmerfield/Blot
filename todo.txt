@@ -8,17 +8,39 @@ Investigate faield wildcard SSL certificate renewal
 
 ---
 
-Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL) and [Theo](https://mail.google.com/mail/u/0/#inbox/KtbxLwghkVhBpRhqBQnFfzTNzpBdmBkjZg) to homepage: 
+Improvements to server infrastructure
+- Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+- Create DMARC record for Blot https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
+- NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory. Is this a permissions issue? Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
 
-Improve developer guide and tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
+Improvements to blog server
+- Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
-Replace existing magazine template with proper CSS version
+Improvements to templates
+- Replace existing magazine template with proper CSS version
+- Improve source code for native templates
+- Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
+- Add a template with random layouts, or a random layout option to existing templates? seedable / repeatable randomness based on the names of files? complete randomness?
+- Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
+- Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
+- Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
+- Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
 
-Add layout options to template editor for native templates
+Improvements to template editor
+- Add layout options to template editor for native templates
+- Work out how to make live but saveable modifications for preview purposes on the template editor
+- Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
 
-Improve source code for native templates
+Improvements to template engine
+- Make date-format settings template specific and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) "I forked the Archive template but did *not* install it. And yet, changing settings like "Hide the publish date for your posts" affected the currently installed template.""
 
-Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
+Improvements to brochure
+- Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL) and [Theo](https://mail.google.com/mail/u/0/#inbox/KtbxLwghkVhBpRhqBQnFfzTNzpBdmBkjZg) to homepage: 
+- Fix bug with guide to TeX and tell [Miguel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmmzsNfKtxnSNLvdQzPRjbzh)
+
+Improvements developer guide
+- Tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
 
 Record new demo video
 - Finish video script in brochure/readme.txt
@@ -28,18 +50,22 @@ Record new demo video
    - https://archive.org/details/Grab_Bag-12446/03_-_Trust.mp3
    - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
 
-Add a template with random layouts, or a random layout option to existing templates?s
-- seedable / repeatable randomness based on the names of files?
-- complete randomness
+Improvements to entry builder
+- Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people. If this breaks [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) create new first_sentence property of entry to use on the template.
+- Fix bug with slashes in tags and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTzJxBPcQPnGsQsPSsvh)
+- Generate a list of titles which you could use to generate a table of contents and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNNMjbjsSKltGRLDsqXfbMhN)
+- Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqhHZnPjfgRqFhpdNGZVKn)
+- Parse Word Document subtitles as h2 and tell [Matt](https://mail.google.com/mail/u/0/#sent/FMfcgxwDrlfrjDMsDlkLHNsnbtmXQtDw)
+- Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
-Adjust title metadata extractor to fallback to file name rather than first sentence of file if the post does not contain a title tag. The current behaviour has suprised a number of people. 
-- If this breaks [John's template](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) create new first_sentence property of entry to use on the template.
+Improvements to git client
+- Remove git folder when switching to Dropbox client and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwPCNcJrLDqprtcKWXFTn)
 
-Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
+Improvements to dashboard
+- Fix bug with file list on dashboard in Safari and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGHzLwclHfnvjZrvfsvTQdGf)
+- Fix missing error messages on overdue subscription payment form
 
-Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
-
-Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+---
 
 Finish template translation offers:
 - Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template 
@@ -55,54 +81,14 @@ Finish template translation offers:
 
 ---
 
-Fix bug with slashes in tags and tell [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTzJxBPcQPnGsQsPSsvh)
-
 Think about appeninding file extension to make requests with query strings cacheable
 - think about emptying cache directory, LRU. But how do we handle .css?query=x?
 - nginx will have to look up a series of extensions -> $requestURI, $requestURI.html, $requestURI.xml, $requestURI.css, $requestURI.js
 
-NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory
-- Is this a permissions issue? 
-- Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
-
-Work out how to make live but saveable modifications for preview purposes on the template editor
-
-Generate a list of titles which you could use to generate a table of contents and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNNMjbjsSKltGRLDsqXfbMhN)
-
-Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
-
-Create DMARC record for Blot
-- https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail
-- https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
-
-Make date-format settings template specific and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) "I forked the Archive template but did *not* install it. And yet, changing settings like "Hide the publish date for your posts" affected the currently installed template.""
-
-Remove git folder when switching to Dropbox client and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwPCNcJrLDqprtcKWXFTn)
-
 Fix bug with script to import wordpress posts and follow up with [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtMPcJhlmcdNvWwtWvgzWJvZ)
-
-Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqhHZnPjfgRqFhpdNGZVKn)
-
-Fix missing error messages on overdue subscription payment form
-
-Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
-
-Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
-
-Fix bug with file list on dashboard in Safari and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGHzLwclHfnvjZrvfsvTQdGf)
-
-Fix bug with guide to TeX and tell [Miguel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmmzsNfKtxnSNLvdQzPRjbzh)
 
 Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
 - ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
-
-Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
-
-Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
-
-Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs) about any new templates.
-
----
 
 Finish script to identify long-expired users with blogs to safely delete and free up space. 
 - Sort by date expired
@@ -118,10 +104,6 @@ Rebuild all the thumbnails and cached images for every blog
 - The stores contain old urls, e.g. "/_image_cache/..." even though we have updated new entries
 - This might break something? What if the cached images are no longer available?
 - I'm worried there are old references to blotcdn in the thumbnail data stores too, my purge-cdn script did not account for that...
-
-Parse Word Document subtitles as h2 and tell [Matt](https://mail.google.com/mail/u/0/#sent/FMfcgxwDrlfrjDMsDlkLHNsnbtmXQtDw)
-
-Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
 
 ---
 
