@@ -12,7 +12,6 @@ settings.use(function(req, res, next) {
 
 settings.use(function(req, res, next) {
   res.locals.setup = !!req.query.setup;
-
   next();
 });
 
@@ -45,32 +44,25 @@ settings
     }
   );
 
-settings.get("/settings/services/permalinks", function(req, res, next) {
-  res.locals.edit = !!req.query.edit;
-  next();
-});
-
-settings.use(
-  "/settings/profile",
-  load.menu,
-  load.timezones,
-  load.dates,
-  function(req, res, next) {
-    res.locals.breadcrumbs.add("Profile", "profile");
-    res.locals.setup_title = true;
-    next();
-  }
-);
-
 settings.get("/settings/links", load.menu);
+
 settings.get(
   "/settings/services",
   load.plugins,
   load.permalinkFormats,
   load.dates
 );
+
 settings.get("/settings/services/date", load.timezones, load.dates);
-settings.get("/settings/services/permalinks", load.permalinkFormats);
+
+settings.get("/settings/services/permalinks", load.permalinkFormats, function(
+  req,
+  res,
+  next
+) {
+  res.locals.edit = !!req.query.edit;
+  next();
+});
 
 settings.use("/settings/services/*", function(req, res, next) {
   res.locals.breadcrumbs.add("Services", "services");
