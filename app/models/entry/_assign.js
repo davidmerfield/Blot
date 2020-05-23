@@ -1,7 +1,7 @@
 var Blog = require("../blog");
 var helper = require("helper");
 var ensure = helper.ensure;
-var debug = require("debug")("entry:assign");
+var debug = require("debug")("blot:entry:assign");
 var redis = require("client");
 
 var model = require("./model");

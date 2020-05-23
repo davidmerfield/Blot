@@ -9,7 +9,7 @@ var repos = pushover(dataDir, { autoCreate: true });
 var Express = require("express");
 var dashboard = Express.Router();
 var site = Express.Router();
-var debug = require("debug")("clients:git:routes");
+var debug = require("debug")("blot:clients:git:routes");
 
 dashboard.get("/", function(req, res, next) {
   if (req.query.setup)

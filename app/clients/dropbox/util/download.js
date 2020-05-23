@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:download");
+var debug = require("debug")("blot:clients:dropbox:download");
 var dropboxStream = require("dropbox-stream");
 var fs = require("fs-extra");
 var tmpDir = require("helper").tempDir();

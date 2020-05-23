@@ -1,7 +1,7 @@
 var resolve = require("./resolve");
 var cheerio = require("cheerio");
 var is_url = require("./is_url");
-var debug = require("debug")("build:dependencies");
+var debug = require("debug")("blot:build:dependencies");
 var is_path = require("./is_path");
 
 // The purpose of this module is to take the HTML for

@@ -10,7 +10,7 @@ var uuid = require("uuid/v4");
 var async = require("async");
 var renames = require("./renames");
 var exitHook = require("async-exit-hook");
-var debug = require("debug")("blog:sync");
+var debug = require("debug")("blot:blog:sync");
 
 // By default, we give a sync process up to
 // 10 minutes to compete before we allow other

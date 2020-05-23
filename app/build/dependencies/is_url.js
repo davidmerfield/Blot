@@ -1,5 +1,5 @@
 var Url = require("url");
-var debug = require("debug")("build:dependencies:is_url");
+var debug = require("debug")("blot:build:dependencies:is_url");
 
 function is_url(string) {
   var url;

@@ -18,7 +18,7 @@ if (config.environment !== "development") {
 }
 
 function prefix(req) {
-  return "dashboard:" + req.originalUrl;
+  return "blot:dashboard:" + req.originalUrl;
 }
 
 module.exports = function(message) {

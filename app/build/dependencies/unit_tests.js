@@ -2,7 +2,7 @@ var assert = require("assert");
 var is_url = require("./is_url");
 var resolve = require("./resolve");
 var depedencies = require("./index");
-var debug = require("debug")("build:dependencies:unit_tests");
+var debug = require("debug")("blot:build:dependencies:unit_tests");
 
 // tests for is_url
 

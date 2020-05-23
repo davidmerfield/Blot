@@ -1,5 +1,5 @@
 var Git = require("simple-git");
-var debug = require("debug")("clients:git:checkGitRepoExists");
+var debug = require("debug")("blot:clients:git:checkGitRepoExists");
 var fs = require("fs-extra");
 
 module.exports = function(blogDirectory, callback) {
