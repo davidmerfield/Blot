@@ -15,9 +15,18 @@ var helper = require("helper");
 var dashboard = express();
 
 // Send static files
-dashboard.use("/css", express.static(VIEW_DIRECTORY + "/css"));
-dashboard.use("/images", express.static(VIEW_DIRECTORY + "/images"));
-dashboard.use("/scripts", express.static(VIEW_DIRECTORY + "/scripts"));
+dashboard.use(
+  "/css",
+  express.static(VIEW_DIRECTORY + "/css", { maxAge: 86400000 })
+);
+dashboard.use(
+  "/images",
+  express.static(VIEW_DIRECTORY + "/images", { maxAge: 86400000 })
+);
+dashboard.use(
+  "/scripts",
+  express.static(VIEW_DIRECTORY + "/scripts", { maxAge: 86400000 })
+);
 
 // Log response time in development mode
 dashboard.use(debug.init);
@@ -279,7 +288,7 @@ dashboard.use(function(req, res, next) {
 });
 
 // Load the files and folders inside a blog's folder
-dashboard.use(["/", "/settings/folder"], require("./routes/folder"));
+dashboard.use("/settings/folder", require("./routes/folder"));
 
 dashboard.use("/settings/folder", function(req, res, next) {
   res.render("folder", { selected: { folder: "selected" } });

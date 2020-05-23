@@ -32,16 +32,14 @@ settings
     save.finish
   )
   .get(
+    debug("loading folder"),
+    require("../folder"),
     load.template,
     debug("template loaded"),
     load.menu,
     debug("menu loaded"),
     load.client,
     debug("client loaded"),
-    load.dates,
-    debug("dates loaded"),
-    load.permalinkFormats,
-    debug("permalinks loaded"),
     function(req, res) {
       res.render("settings", { title: req.blog.pretty.label });
     }
