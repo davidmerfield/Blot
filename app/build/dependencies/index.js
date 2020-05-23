@@ -100,5 +100,3 @@ function dependencies(path, html, metadata) {
 }
 
 module.exports = dependencies;
-
-require("./unit_tests");
