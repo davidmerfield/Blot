@@ -18,6 +18,7 @@ settings.use(function(req, res, next) {
 settings
   .route("/settings")
   .post(
+    debug("parsing form"),
     save.parse,
     debug("parsed form"),
     save.redirects,

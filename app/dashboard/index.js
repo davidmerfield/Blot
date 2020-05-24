@@ -63,13 +63,14 @@ dashboard.use("/clients", require("./routes/clients"));
 dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
-dashboard.use(debug("fetching user and blog info and checking redirects"));
+dashboard.use(debug("loading session information"));
 dashboard.use(require("./session"));
 dashboard.use(function(req, res, next) {
   if (req.session && req.session.uid) return next();
 
   return next(new Error("NOUSER"));
 });
+dashboard.use(debug("loaded session information"));
 
 dashboard.use(require("./message"));
 
@@ -77,6 +78,8 @@ dashboard.use(require("./message"));
 // for each GET request, and validates this token
 // for each POST request, using csurf.
 dashboard.use(require("./csrf"));
+
+dashboard.use(debug("loading user"));
 
 // Load properties as needed
 // these should not be invoked for requests to static files
@@ -107,6 +110,9 @@ dashboard.use(function(req, res, next) {
     next();
   });
 });
+
+dashboard.use(debug("loaded user"));
+dashboard.use(debug("loading blogs"));
 
 dashboard.use(function(req, res, next) {
   if (!req.session || !req.user || !req.user.blogs.length) return next();
@@ -173,12 +179,16 @@ dashboard.use(function(req, res, next) {
   );
 });
 
+dashboard.use(debug("loaded blogs"));
+
+dashboard.use(debug("checking redirects"));
+
 // Performs some basic checks about the
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
 dashboard.use(require("./redirector"));
 
-dashboard.use(debug("done fetching"));
+dashboard.use(debug("checked redirects"));
 
 // Send user's avatar
 dashboard.use("/_avatars/:avatar", function(req, res, next) {
