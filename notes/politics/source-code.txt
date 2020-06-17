@@ -1,9 +1,10 @@
 Open source
 ===========
 
-Blot caters to a largely technical audience, and I'm asking that audience to invest a good deal of their time and some of their money in a piece of software. A large fraction of that audience is sceptical of closed-source, proprietary software. So it makes business sense for me to make Blot's source code available freely under the most permissive license possible. I also quite like the spectacle of working in public. I suspect it's reassuring to potential customers to see my frantic git commits on the news page, for them to know that Blot is very much _alive_.
+Blot caters to a largely technical audience, and I'm asking that audience to invest a good deal of their time and some of their money in a piece of software. A large fraction of that audience is sceptical of closed-source, proprietary software. So it makes business sense for me to make [Blot's source code](https://github.com/davidmerfield/Blot) available freely under the most permissive license possible. I also quite like the spectacle of working in public. I suspect it's reassuring to potential customers to see my frantic [git commits on the news page](https://blot.im/news), for them to know that Blot is very much _alive_.
 
 Open-source vs. free software
 -----------------------------
 
-On a more abstract level, I like the ideals of the free software movement. I like Richard Stallman, for what it's worth. I think the 'free software' term is confusing, especially since I charge money to host Blot, and although I'm aware of the politics of the term 'open source', so I decide to side-step both terms and simply say _Blot's source-code dedicated to the public domain_. 
+On a more abstract level, I like the ideals of the free software movement. I like Richard Stallman, for what it's worth. I think the 'free software' term is confusing, especially since I charge money to host Blot, and although I'm aware of the politics of the term 'open source', so I decide to side-step both terms and simply say _Blot's source code is dedicated to the public domain_. 
+
