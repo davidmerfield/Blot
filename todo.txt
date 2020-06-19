@@ -1,3 +1,9 @@
+Send summer newsletter
+
+Finish [Reilly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHbZlZbbVpgdNgTKJSdtMM)'s custom script
+
+---
+
 Fix bug with encoded apostrophe's in file names for thumbnail generator: /image_library/_didn&#39;tmakethecut.jpg doesn't work.
 
 Fix issue with pandoc citations in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS)
@@ -66,6 +72,8 @@ Improvements to server infrastructure
 
 Improvements to blog server
 - Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
+
+Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
 
 Improvements to templates
 - Replace existing magazine template with proper CSS version
