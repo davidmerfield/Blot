@@ -1,65 +1,56 @@
-var renderView = require("./render/middleware");
-var express = require("express");
+var Express = require("express");
 var config = require("config");
-var compression = require("compression");
+
+var debug = require("./tools/debug");
 var cache = require("express-disk-cache")(config.cache_directory);
-var Template = require("template");
 
 // This serves the content
 // of users' blogs
-var blog = express();
+var blog = Express();
 
-// Custom domain & subdomain middleware
-// also handles the mapping of preview domains
-blog
-  .disable("x-powered-by")
-  .use(compression())
-  .use(require("./vhosts"))
-  .use(require("./add")());
+// Allows use to trace the path of the request
+// through our application code
+blog.use(debug.init);
+
+// Removes a header added by default by Express
+blog.disable("x-powered-by");
+
+// Load in the rendering engine
+blog.use(require("./render/middleware"));
+
+// Utility to add locals and partials
+blog.use(require("./tools/add")({}));
+
+// Loads template specific metadata
+blog.use(debug("loading blog"));
+blog.use(require("./tools/loadBlog"));
+blog.use(debug("loaded blog"));
+
+blog.use(debug("checking preview subdomain"));
+blog.use(require("./tools/checkPreviewSubdomain"));
+blog.use(debug("checked preview subdomain"));
+
+blog.use(debug("checking redirector"));
+blog.use(require("./tools/redirector"));
+blog.use(debug("checked redirector"));
+
+// Loads template specific metadata
+blog.use(debug("loading template"));
+blog.use(require("./tools/loadTemplate"));
+blog.use(debug("loaded template"));
 
 if (config.cache) blog.use(cache);
 
-// Only time uncached responses
-// if (config.flags.time_response)
-//  blog.use(middleware.responseTime);
-
-// Load in the rendering engine
-blog.use(renderView);
-
-blog.use(function(req, res, next) {
-  // We care about template metadata for template
-  // locals. Stuff like page-size is set here.
-  // Also global colors etc...
-
-  if (!req.blog.template) return next();
-
-  Template.getMetadata(req.blog.template, function(err, metadata) {
-    if (err || !metadata) {
-      var error = new Error("This template does not exist.");
-      error.code = "NO_TEMPLATE";
-
-      return next(error);
-    }
-
-    req.template = {
-      locals: metadata.locals,
-      id: req.blog.template
-    };
-
-    return next();
-  });
-});
-
 // The order of these routes is important
-require("./draft")(blog);
-require("./tagged")(blog);
-require("./search")(blog);
-require("./robots")(blog);
-require("./view")(blog);
-require("./entry")(blog);
-require("./entries")(blog);
-blog.use(require("./assets"));
-require("./public")(blog);
-require("./error")(blog);
+require("./routes/draft")(blog);
+require("./routes/tagged")(blog);
+require("./routes/search")(blog);
+require("./routes/robots")(blog);
+require("./routes/view")(blog);
+require("./routes/entry")(blog);
+require("./routes/entries")(blog);
+blog.use(require("./routes/assets"));
+require("./routes/public")(blog);
+require("./routes/error")(blog);
 
 module.exports = blog;

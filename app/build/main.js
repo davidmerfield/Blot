@@ -1,4 +1,4 @@
-var debug = require("debug")("blot:build");
+var debug = require("debug")("blot:build:main");
 var Metadata = require("metadata");
 var basename = require("path").basename;
 var isDraft = require("../sync/update/drafts").isDraft;
@@ -9,10 +9,6 @@ var DateStamp = require("./prepare/dateStamp");
 var moment = require("moment");
 var converters = require("./converters");
 var exitHook = require("async-exit-hook");
-
-// setTimeout(function(){
-//   throw new Error('EXCEPTION!');
-// }, Math.random() * 20 * 1000);
 
 exitHook(function() {
   debug("Shutting down worker:", process.pid);

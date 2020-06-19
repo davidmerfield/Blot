@@ -9,13 +9,11 @@ module.exports = function init(DEFAULT) {
 
     function addLocals(locals) {
       extend(locals).and(_.cloneDeep(res.locals || {}));
-
       res.locals = locals;
     }
 
     function addPartials(partials) {
       extend(partials).and(_.cloneDeep(res.locals.partials || {}));
-
       res.locals.partials = partials;
     }
 

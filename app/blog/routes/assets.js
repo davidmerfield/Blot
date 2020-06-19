@@ -69,7 +69,7 @@ module.exports = function(req, res, next) {
 
   candidates = candidates.map(function(candidate) {
     return function(next) {
-      debug("Attempting", candidate);
+      debug("Attempting", candidate.options.root);
       res.sendFile(candidate.path, candidate.options, next);
     };
   });

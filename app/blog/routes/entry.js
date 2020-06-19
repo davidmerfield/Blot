@@ -1,7 +1,7 @@
 module.exports = function(server) {
   var Entry = require("entry"),
     normalize = require("helper").urlNormalizer,
-    plugins = require("../build/plugins");
+    plugins = require("../../build/plugins");
 
   var Entries = require("entries");
 

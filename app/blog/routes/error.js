@@ -1,8 +1,8 @@
 module.exports = function(server) {
   var helper = require("helper");
   var type = helper.type;
-  var Redirects = require("../models/redirects");
-  var store404 = require("../models/404").set;
+  var Redirects = require("../../models/redirects");
+  var store404 = require("../../models/404").set;
   var config = require("config");
   var CONTACT =
     ' Please <a href="https://' +
@@ -90,7 +90,6 @@ module.exports = function(server) {
   // There was an issue with renderView
   server.use(function(err, req, res, next) {
     if (res.headersSent) return res.end();
-
     res.status(500);
     res.send("Your blog's template failed to render properly." + CONTACT);
   });
