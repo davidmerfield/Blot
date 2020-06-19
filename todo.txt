@@ -55,6 +55,8 @@ Investigate failed wildcard SSL certificate renewal
 Disable access to s3 blogs bucket
 - Wait 30 days then delete s3 blogs bucket
 
+Add backlinks list to template engine. Bi-directional links (aka backlinks) - it would be great to have a service/plugin that could be enabled to show a list of the posts/pages that link to the current post/page - see the ['links to this note'](https://notes.andymatuschak.org/z6bci25mVUBNFdVWSrQNKr6u7AZ1jFzfTVbMF) then tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG)
+
 ---
 
 Improvements to server infrastructure
