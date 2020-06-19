@@ -78,7 +78,7 @@ background-color: {{background_color}};cursor:pointer}
 tr {border-bottom: 1px solid #eee}
   thead tr {border-color: #444}
   td, th {padding-right: 2rem;padding-left:2rem} 
-  td:first-child, th:first-child,  {padding-left:0}
+  td:first-child, th:first-child  {padding-left:0}
   td:last-child, th:last-child {padding-right:0}
   
   th, td {padding-top:0.5rem;padding-bottom:0.5rem}
