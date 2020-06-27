@@ -68,14 +68,6 @@ dashboard.use(debug("loading session information"));
 dashboard.use(require("./session"));
 dashboard.use(function(req, res, next) {
   if (req.session && req.session.uid) {
-    console.log(
-      clfdate(),
-      req.headers["x-request-id"],
-      req.protocol + "://" + req.hostname + req.originalUrl,
-      "[AUTHENTICATED]",
-      "cookies=" + req.headers.cookie,
-      JSON.stringify(req.session)
-    );
     return next();
   }
 
