@@ -73,6 +73,7 @@ dashboard.use(function(req, res, next) {
       req.headers["x-request-id"],
       req.protocol + "://" + req.hostname + req.originalUrl,
       "[AUTHENTICATED]",
+      "cookies=" + req.headers.cookie,
       JSON.stringify(req.session)
     );
     return next();

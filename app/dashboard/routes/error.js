@@ -7,6 +7,7 @@ module.exports = function(err, req, res, next) {
 			req.headers["x-request-id"],
 			req.protocol + "://" + req.hostname + req.originalUrl,
 			"[NOUSER]",
+      "cookies=" + req.headers.cookie,
 			JSON.stringify(req.session)
 		);
 		return next();
