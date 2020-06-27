@@ -1,5 +1,7 @@
 Send summer newsletter
 
+Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFbBQNXXTCbRLgFKxqbXzBKm) once session impersistence issue is fixed
+
 ---
 
 Finish [Reilly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHbZlZbbVpgdNgTKJSdtMM)'s custom script
