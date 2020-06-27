@@ -1,9 +1,20 @@
-module.exports = function(err, req, res, next) {
-  if (err.message === "NOUSER") return next();
+var clfdate = require("helper").clfdate;
 
-  console.log(err);
-  console.log(err.trace);
-  console.log(err.stack);
-  res.status(500);
-  res.send(":( Error");
+module.exports = function(err, req, res, next) {
+	if (err.message === "NOUSER") {
+		console.log(
+			clfdate(),
+			req.headers["x-request-id"],
+			req.protocol + "://" + req.hostname + req.originalUrl,
+			"[NOUSER]",
+			JSON.stringify(req.session)
+		);
+		return next();
+	}
+
+	console.log(err);
+	console.log(err.trace);
+	console.log(err.stack);
+	res.status(500);
+	res.send(":( Error");
 };

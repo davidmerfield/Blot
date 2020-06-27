@@ -8,6 +8,7 @@ var async = require("async");
 var VIEW_DIRECTORY = __dirname + "/views";
 var config = require("config");
 var helper = require("helper");
+var clfdate = require("helper").clfdate;
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -66,7 +67,16 @@ dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 dashboard.use(debug("loading session information"));
 dashboard.use(require("./session"));
 dashboard.use(function(req, res, next) {
-  if (req.session && req.session.uid) return next();
+  if (req.session && req.session.uid) {
+    console.log(
+      clfdate(),
+      req.headers["x-request-id"],
+      req.protocol + "://" + req.hostname + req.originalUrl,
+      "[AUTHENTICATED]",
+      JSON.stringify(req.session)
+    );
+    return next();
+  }
 
   return next(new Error("NOUSER"));
 });
@@ -231,11 +241,6 @@ dashboard.post(
   ],
   bodyParser.urlencoded({ extended: false })
 );
-
-dashboard.post("/theme", function(req, res, next) {
-  console.log("HERE");
-  next();
-});
 
 // Account page does not need to know about the state of the folder
 // for a particular blog
