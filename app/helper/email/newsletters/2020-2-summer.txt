@@ -1,0 +1,36 @@
+Summer newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- Added the [Isola template](https://preview-of-isola-on-magazine.blot.im/) to the archived templates page. This template was originally designed for Wordpress.
+- Released a new version of the template editor with a point-and-click font-picker and color-picker for the latest templates. To take advantage of this, fork one of the existing default templates then press 'Edit'.
+- Blot now generates thumbnails from SVGs and GIFs. This means that templates which use thumbnails on their index pages, like the magazine and scrapbook templates, now work better for sites which use SVGs or GIFs.
+- Blot supports [citations and external bibliography](https://blot.im/how/guides/citations)
+- You can now specify your blog post's publish date using the [RFC3339 date format](https://tools.ietf.org/html/rfc3339), which looks something like *2020-04-12T23:20:50.52Z*.
+- Added new [template functions to format the updated date and created date](https://github.com/davidmerfield/Blot/pull/279) of a particular blog post to the date format of your choosing. 
+
+**Changes**
+- I now strip any script tags inside the output of your blog's RSS feed to better conform to the spec.
+- French quotes « like so » and non-breaking spaces are now removed from URL slugs
+- Updated the version of the node runtime and the various dependencies to patch any security leaks.
+- Small images no longer become thumbnails.
+- Entries now contain an index property
+- Updated the public site and dashboard as is tradition. I also added a section to the site with some of [the notes](https://blot.im/notes) I've made as I work on Blot.
+
+**Bugs fixed**
+- Deleting template views also clears the URL from the view
+
+**Mistakes**
+
+The major mistake I made was not planning for the deprecation of an API used by the certificate authority which providers SSL certificates for Blot. As we speak new domains might take a little while to generate.
+
+We only had a single downtime incident this season, for a brief period under ten minutes on April 8th. I'm pretty happy with that!  Hopefully the next season we won't have a single period. 
+
+**Plans for this season**
+
+Release more of my notes.
+
+If you have any questions at all about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
