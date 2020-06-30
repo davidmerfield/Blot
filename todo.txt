@@ -1,5 +1,7 @@
 Send summer newsletter
 
+Think about how to handle failed validation limit for LE SSL certs. Prune domains we detect as moved?
+
 Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFbBQNXXTCbRLgFKxqbXzBKm) once session impersistence issue is fixed
 
 ---
