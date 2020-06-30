@@ -10,7 +10,7 @@ var join = require("path").join;
 module.exports = function(blogID, path) {
 	ensure(blogID, "string").and(path, "string");
 
-	if (!path) return "";
+	if (!path) path = "/";
 
 	const root = join(blogDir, blogID);
 
