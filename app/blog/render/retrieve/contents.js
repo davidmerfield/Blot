@@ -1,7 +1,6 @@
+const fs = require("fs-extra");
 const helper = require("helper");
 const localPath = helper.localPath;
-const fs = require("fs-extra");
-const join = require("path").join;
 
 module.exports = function(req, callback) {
 	let path = "/";
@@ -11,10 +10,11 @@ module.exports = function(req, callback) {
 	}
 
 	fs.readdir(localPath(req.blog.id, path), function(err, contents) {
-		if (err) return callback(null, { error: err });
+		// We should pass this error back to the template in future
+		if (err) return callback(null, []);
 
 		contents = contents.map((name) => {
-			return { path: join(path, name), name: name };
+			return { name: name };
 		});
 
 		callback(null, contents);
