@@ -1,6 +1,6 @@
 Send summer newsletter
 
-Finish [Reilly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHbZlZbbVpgdNgTKJSdtMM)'s custom script
+---
 
 Fix thumbnail bug with [Richard's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgdkSBMCgSwTCMPkqTcZMnfq)
 
