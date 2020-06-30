@@ -1,39 +1,10 @@
 Send summer newsletter
 
-Tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFbBQNXXTCbRLgFKxqbXzBKm) once session impersistence issue is fixed
-
----
-
 Finish [Reilly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHbZlZbbVpgdNgTKJSdtMM)'s custom script
-
-Fix issue with template subdomains that are too long and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWXWLwxgVHvDdBKrpbPjdlZsv)
-
-Research open-source paywalls and follow up with [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNghCWPVcKsXJbvNLpSmxSkTn)
-
-Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
-
-Fix bug with encoded apostrophe's in file names for thumbnail generator: /image_library/_didn&#39;tmakethecut.jpg doesn't work.
-
-Add custom metadata to turn off/on comments on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
-
-Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
-
-Fix issue with pandoc citations in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS)
-
-Fix expired certificate bug for [Jeffrey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgdkSMXRSWGVHzzSXtBzdPdD)
-
-Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
-
-Tweak magazine template timestamps for [Marshall](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgbPggMXrwDzwFgpqdqpZlzh)
-
-Review [John's icloud drive tip](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgbQcSKnBNsjKzHsXcGmxPlh)
-
-Prevent long-overdue users from accessing the service, then tell [Matvey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgWvzTkMVZXFrSpjGfcCrWJG)
 
 Fix thumbnail bug with [Richard's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgdkSBMCgSwTCMPkqTcZMnfq)
 
-Fix duplicated entry in tag page for Marco:
-https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
+Fix expired certificate bug for [Jeffrey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgdkSMXRSWGVHzzSXtBzdPdD)
 
 Respond to John:
 https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWFxZFtGhFvVmHgxQcBwphJM
@@ -50,7 +21,32 @@ https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWWnQDzNHKNPPcdMzlwQb
 Respond to Tim:
 https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWFzLhjRjKFmLWTLVldqhqrQ
 
-Investigate issue with broken bib link breaking drafts and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS)
+Fix issue with pandoc citations in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS)
+
+---
+
+Fix issue with template subdomains that are too long and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWXWLwxgVHvDdBKrpbPjdlZsv)
+
+Research open-source paywalls and follow up with [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNghCWPVcKsXJbvNLpSmxSkTn)
+
+Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
+
+Fix bug with encoded apostrophe's in file names for thumbnail generator: /image_library/_didn&#39;tmakethecut.jpg doesn't work.
+
+Add custom metadata to turn off/on comments on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
+
+Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
+
+Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
+
+Tweak magazine template timestamps for [Marshall](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgbPggMXrwDzwFgpqdqpZlzh)
+
+Review [John's icloud drive tip](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgbQcSKnBNsjKzHsXcGmxPlh)
+
+Prevent long-overdue users from accessing the service, then tell [Matvey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgWvzTkMVZXFrSpjGfcCrWJG)
+
+Fix duplicated entry in tag page for Marco:
+https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
 
 ---
 
