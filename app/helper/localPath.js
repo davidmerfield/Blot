@@ -1,6 +1,7 @@
 var blogDir = require("./blogDir");
 var ensure = require("./ensure");
 var resolve = require("path").resolve;
+var join = require("path").joim;
 
 // This takes a blog ID and a file
 // path and returns the path to the file
@@ -9,7 +10,7 @@ var resolve = require("path").resolve;
 module.exports = function(blogID, path) {
 	ensure(blogID, "string").and(path, "string");
 
-	const root = resolve(blogDir, blogID);
+	const root = join(blogDir, blogID);
 
 	if (!path) return "";
 
@@ -23,7 +24,7 @@ module.exports = function(blogID, path) {
 	// Add leading slash
 	if (path[0] !== "/") path = "/" + path;
 
-	path = resolve(blogDir, blogID, path);
+	path = resolve(join(blogDir, blogID), path);
 
 	// Ensure the resulting path is inside the blog folder!
 	if (path.indexOf(root) !== 0) path = root;
