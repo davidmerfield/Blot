@@ -11,8 +11,6 @@ module.exports = (function() {
     .forEach(function(name) {
       if (name[0] === ".") return;
 
-      if (name === "tests") return;
-
       if (name === "index.js") return;
 
       if (name.slice(-3) === ".js") {
