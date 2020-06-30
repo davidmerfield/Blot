@@ -1,9 +1,9 @@
 const helper = require("helper");
 const localPath = helper.localPath;
 const fs = require("fs-extra");
+const join = require("path").join;
 
 module.exports = function(req, callback) {
-	const lengthOfRoot = localPath(req.blog.id, "/").length;
 	let path = "/";
 
 	if (req.query.path) {
@@ -11,10 +11,10 @@ module.exports = function(req, callback) {
 	}
 
 	fs.readdir(localPath(req.blog.id, path), function(err, contents) {
-		if (err) return callback(err);
+		if (err) return callback(null, { error: err });
 
 		contents = contents.map((name) => {
-			return { path: name.slice(lengthOfRoot) };
+			return { path: join(path, name), name: name };
 		});
 
 		callback(null, contents);
