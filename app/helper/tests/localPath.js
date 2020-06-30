@@ -8,6 +8,10 @@ describe("localPath", function(){
 		expect(localPath(BLOG_ID, "/foo")).toEqual(`${BLOG_DIR}/${BLOG_ID}/foo`);
 	});
 
+	it("resolves root of blog folder with trailing slash", function(){
+		expect(localPath(BLOG_ID, "/")).toEqual(`${BLOG_DIR}/${BLOG_ID}/`);
+	});
+
 	it("resolves a local path without leading slash", function(){
 		expect(localPath(BLOG_ID, "foo")).toEqual(`${BLOG_DIR}/${BLOG_ID}/foo`);
 	});
