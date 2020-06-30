@@ -16,15 +16,14 @@ module.exports = function(blogID, path) {
 
 	path = path.trim();
 	path = path.split("//").join("/");
-
-	path = resolve(root, path);
-	path = join(root, path);
-
 	// Remove trailing slash
 	if (path.slice(-1) === "/") path = path.slice(0, -1);
 
 	// Add leading slash
 	if (path[0] !== "/") path = "/" + path;
+
+	path = resolve(root, path);
+	path = join(root, path);
 
 	return path;
 };
