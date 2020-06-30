@@ -1,17 +1,22 @@
-var Entry = require("entry");
-var reds = require("reds");
-var transliterate = require("transliteration");
+const helper = require("helper");
+const localPath = helper.localPath;
+const fs = require("fs-extra");
 
 module.exports = function(req, callback) {
-  var blogID = req.blog.id;
+	const lengthOfRoot = localPath(req.blog.id, "/").length;
+	let path = "/";
 
-  // We couldn't find a search query
-  if (!req.query.path) {
-    path = '/';
-  }
+	if (req.query.path) {
+		path = req.query.path;
+	}
 
-  fs.readdir(localPath(req.blog.id, path), function(err, contents){
+	fs.readdir(localPath(req.blog.id, path), function(err, contents) {
+		if (err) return callback(err);
+
+		contents = contents.map((name) => {
+			return { path: name.slice(lengthOfRoot) };
+		});
 
 		callback(null, contents);
-  })
+	});
 };
