@@ -62,15 +62,15 @@ module.exports = function(req, res, next) {
         "Content-Type": getContentType(candidate.path),
       };
 
-      if (!options.maxAge && (!req.query.cache && !req.query.extension)) {
-        headers["Cache-Control"] = "no-cache";
-      }
-
       var options = {
         root: candidate.options.root,
         maxAge: candidate.options.maxAge || 0,
         headers: headers,
       };
+
+      if (!options.maxAge && (!req.query.cache && !req.query.extension)) {
+        headers["Cache-Control"] = "no-cache";
+      }
 
       if (req.query.cache && req.query.extension) {
         options.maxAge = LARGEST_POSSIBLE_MAXAGE;
