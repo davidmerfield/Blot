@@ -478,5 +478,13 @@
     "firstName": "Dustin",
     "bio": " is a designer and engineer",
     "favicon": "/images/featured/www.dustinsenos.com.jpg"
+  },
+  {
+    "link": "https://theocasciani.page",
+    "host": "theocasciani.page",
+    "name": "Théo Casciani",
+    "firstName": "Théo",
+    "bio": " is a writer living in Marseille",
+    "favicon": "/images/featured/theocasciani.page.png"
   }
 ]
