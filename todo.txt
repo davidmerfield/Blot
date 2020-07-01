@@ -25,6 +25,8 @@ Fix issue with pandoc citations in production and tell [Adam](https://mail.googl
 
 ---
 
+Generate proper favicons from uploaded avatars (to prevent streched favicons when non-square avatars are uploaded)
+
 Fix issue with template subdomains that are too long and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWXWLwxgVHvDdBKrpbPjdlZsv)
 
 Research open-source paywalls and follow up with [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNghCWPVcKsXJbvNLpSmxSkTn)
