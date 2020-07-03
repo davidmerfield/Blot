@@ -12,7 +12,11 @@ module.exports = function(list) {
   // Decide before documenting this. Beware
   // if you use this in your theme before then.
   list = list.map(function(el, i) {
-    el.index = i + 1;
+    if (el.index === undefined)
+      el.index = i + 1;
+    else
+      el.i = i + 1;
+
     return el;
   });
 
