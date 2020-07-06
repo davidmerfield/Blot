@@ -1,10 +1,10 @@
 <span class="row">
-	<span class="small tag" style="flex-grow:1"
+	<span class="lighter" style="flex-grow:1"
 		>{{#tags}} {{name}} {{/tags}} {{^tags.length}} Posts {{/tags.length}}
 	</span>
-	<span class="small tag">Read more</span>
+	<span class="lighter">Read more</span>
 </span>
-<span class="row" style="margin-top: 12px">
+<span class="row" style="margin: 12px 0">
 	<span class="thumb">
 		{{#thumbnail.square}}
 		<img src="{{{url}}}" />
@@ -15,4 +15,4 @@
 		{{{summary}}}
 	</span>
 </span>
-<span class="small date" href="{{{url}}}">{{date}}</span>
+<span class="lighter" href="{{{url}}}">{{date}}</span>

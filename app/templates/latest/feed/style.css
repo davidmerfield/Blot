@@ -53,6 +53,7 @@ body {
   display: flex;
   flex-direction:column;
 }
+.lighter {opacity: 0.4}
 
 .row {display: flex}
 .thumb {    border-radius: 1em;
@@ -64,6 +65,7 @@ body {
     flex-grow: 0;
     flex-shrink: 0;
     height: 64px;}
+    .thumb.large {height: auto;flex-basis: 100%;border-radius: 0}
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
 
 .small,

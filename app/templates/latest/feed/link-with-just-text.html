@@ -1,16 +1,15 @@
 <span class="row">
-	<span class="lighter" style="flex-grow:1"
+	<span class=" lighter" style="flex-grow:1"
 		>{{#tags}} {{name}} {{/tags}} {{^tags.length}} Posts {{/tags.length}}
 	</span>
 	<span class="lighter">Show more</span>
 </span>
 <span class="row" style="margin: 12px 0">
-	<span class="thumb large">
-		{{#thumbnail.large}}
-		<img src="{{{url}}}" />
-		{{/thumbnail.large}}
+	<span><strong>{{{title}}}</strong><br>
+
+		{{{summary}}}
 	</span>
+</span>
 
 </span>
-<strong>{{title}}</strong>
 <span class="lighter" href="{{{url}}}">{{date}}</span>

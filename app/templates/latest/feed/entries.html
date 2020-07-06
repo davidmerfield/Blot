@@ -10,9 +10,13 @@
     {{> link-with-thumbnail-and-summary}}
     {{/summary}}
     {{^summary}}
-        {{> link-with-just-thumbnail}}
+    {{> link-with-just-thumbnail}}
     {{/summary}}
     {{/thumbnail.large.url}}
+    {{^thumbnail.large.url}}
+    {{> link-with-just-text}}
+    {{/thumbnail.large.url}}
+
       </a>
       {{/entries}} {{#pagination}}
       <div class="pagination">
