@@ -1,25 +1,8 @@
 Fix thumbnail bug with [Richard's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgdkSBMCgSwTCMPkqTcZMnfq)
 
-Fix expired certificate bug for [Jeffrey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgdkSMXRSWGVHzzSXtBzdPdD)
-
-Respond to John:
-https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWFxZFtGhFvVmHgxQcBwphJM
-
-Respond to Mashall:
-https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNVvvDRgVpCQLZKwGTqXMbGzq
-
-Respond to Maike:
-https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWDpDjNSgVpHTJsQtckvZwXx
-
-Import Gabriel's posts:
-https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWWnQDzNHKNPPcdMzlwQb
-
-Respond to Tim:
-https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWFzLhjRjKFmLWTLVldqhqrQ
+---
 
 Fix issue with pandoc citations in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS)
-
----
 
 Fix bug with {{index}} value of entries inside {{#entries}} ... {{/entries}} and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
 
