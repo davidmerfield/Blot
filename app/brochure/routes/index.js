@@ -5,7 +5,7 @@ var tex = require("./tools/tex");
 var config = require("config");
 
 var TITLES = {
-  publishing: "How to use Blot",
+  how: "How to use Blot",
   "public-files": "Public files",
   terms: "Terms of use",
   privacy: "Privacy policy",
