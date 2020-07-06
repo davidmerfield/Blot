@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    <div class="index">
+      {{#entries}}
+      <a href="{{{url}}}" class="index-link">
+    {{#thumbnail.large.url}}
+    {{#summary}}
+    {{> link-with-thumbnail-and-summary}}
+    {{/summary}}
+    {{^summary}}
+        {{> link-with-just-thumbnail}}
+    {{/summary}}
+    {{/thumbnail.large.url}}
+      </a>
+      {{/entries}} {{#pagination}}
+      <div class="pagination">
+        {{#previous}}
+        <a href="/page/{{previous}}">&larr; Newer</a>
+        {{/previous}} Page {{current}} of {{total}} {{#next}}
+        <a href="/page/{{next}}">Older &rarr;</a>
+        {{/next}}
+      </div>
+      {{/pagination}} {{> footer}}
+    </div>
+  </body>
+</html>
