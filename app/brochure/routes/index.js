@@ -93,7 +93,7 @@ brochure.use("/log-in", require("./log-in"));
 
 brochure.get("/", require("./featured"), function(req, res) {
   res.render("index", {
-    title: "Blot – a blogging platform with no interface",
+    title: "Blot",
     layout: "partials/index-layout",
   });
 });
