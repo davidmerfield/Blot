@@ -1,6 +1,6 @@
 var fs = require("fs-extra");
 var async = require("async");
-var debug = require("debug")("clients:dropbox:writeExistingContents");
+var debug = require("debug")("blot:clients:dropbox:writeExistingContents");
 var sync = require("sync");
 var upload = require("../util/upload");
 var join = require("path").join;

@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:upload");
+var debug = require("debug")("blot:clients:dropbox:upload");
 var dropboxStream = require("dropbox-stream");
 var fs = require("fs-extra");
 var retry = require("./retry");

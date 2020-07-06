@@ -8,6 +8,7 @@ var async = require("async");
 var VIEW_DIRECTORY = __dirname + "/views";
 var config = require("config");
 var helper = require("helper");
+var clfdate = require("helper").clfdate;
 
 // This is the express application used by a
 // customer to control the settings and view
@@ -15,9 +16,18 @@ var helper = require("helper");
 var dashboard = express();
 
 // Send static files
-dashboard.use("/css", express.static(VIEW_DIRECTORY + "/css"));
-dashboard.use("/images", express.static(VIEW_DIRECTORY + "/images"));
-dashboard.use("/scripts", express.static(VIEW_DIRECTORY + "/scripts"));
+dashboard.use(
+  "/css",
+  express.static(VIEW_DIRECTORY + "/css", { maxAge: 86400000 })
+);
+dashboard.use(
+  "/images",
+  express.static(VIEW_DIRECTORY + "/images", { maxAge: 86400000 })
+);
+dashboard.use(
+  "/scripts",
+  express.static(VIEW_DIRECTORY + "/scripts", { maxAge: 86400000 })
+);
 
 // Log response time in development mode
 dashboard.use(debug.init);
@@ -38,7 +48,7 @@ dashboard.set("views", VIEW_DIRECTORY);
 dashboard.engine("html", hogan);
 
 // For when we want to cache templates
-if (process.env.BLOT_ENVIRONMENT !== "development") {
+if (config.environment !== "development") {
   dashboard.enable("view cache");
 }
 
@@ -54,13 +64,16 @@ dashboard.use("/clients", require("./routes/clients"));
 dashboard.use("/stripe-webhook", require("./routes/stripe_webhook"));
 
 /// EVERYTHING AFTER THIS NEEDS TO BE AUTHENTICATED
-dashboard.use(debug("fetching user and blog info and checking redirects"));
+dashboard.use(debug("loading session information"));
 dashboard.use(require("./session"));
 dashboard.use(function(req, res, next) {
-  if (req.session && req.session.uid) return next();
+  if (req.session && req.session.uid) {
+    return next();
+  }
 
   return next(new Error("NOUSER"));
 });
+dashboard.use(debug("loaded session information"));
 
 dashboard.use(require("./message"));
 
@@ -68,6 +81,8 @@ dashboard.use(require("./message"));
 // for each GET request, and validates this token
 // for each POST request, using csurf.
 dashboard.use(require("./csrf"));
+
+dashboard.use(debug("loading user"));
 
 // Load properties as needed
 // these should not be invoked for requests to static files
@@ -98,6 +113,9 @@ dashboard.use(function(req, res, next) {
     next();
   });
 });
+
+dashboard.use(debug("loaded user"));
+dashboard.use(debug("loading blogs"));
 
 dashboard.use(function(req, res, next) {
   if (!req.session || !req.user || !req.user.blogs.length) return next();
@@ -164,12 +182,16 @@ dashboard.use(function(req, res, next) {
   );
 });
 
+dashboard.use(debug("loaded blogs"));
+
+dashboard.use(debug("checking redirects"));
+
 // Performs some basic checks about the
 // state of the user's blog, user's subscription
 // and shuttles the user around as needed
 dashboard.use(require("./redirector"));
 
-dashboard.use(debug("done fetching"));
+dashboard.use(debug("checked redirects"));
 
 // Send user's avatar
 dashboard.use("/_avatars/:avatar", function(req, res, next) {
@@ -212,11 +234,6 @@ dashboard.post(
   ],
   bodyParser.urlencoded({ extended: false })
 );
-
-dashboard.post("/theme", function(req, res, next) {
-  console.log("HERE");
-  next();
-});
 
 // Account page does not need to know about the state of the folder
 // for a particular blog
@@ -279,7 +296,7 @@ dashboard.use(function(req, res, next) {
 });
 
 // Load the files and folders inside a blog's folder
-dashboard.use(["/", "/settings/folder"], require("./routes/folder"));
+dashboard.use("/settings/folder", require("./routes/folder"));
 
 dashboard.use("/settings/folder", function(req, res, next) {
   res.render("folder", { selected: { folder: "selected" } });

@@ -23,15 +23,17 @@
     <title><![CDATA[ {{{title}}} ]]></title>
     <link>{{{absoluteURL}}}</link>
     <pubDate>{{#formatDate}}ddd, DD MMM YYYY HH:mm:ss ZZ{{/formatDate}}</pubDate>
-    <dc:creator><![CDATA[ {{{title}}} ]]></dc:creator>
+    <wp:post_date>{{#formatDate}}YYYY-MM-DD HH:mm:ss{{/formatDate}}</wp:post_date>
+    <dc:creator><![CDATA[ {{{blog.title}}}]]></dc:creator>
     <guid isPermaLink="true">{{{absoluteURL}}}</guid>
     <description></description>    
     <content:encoded><![CDATA[ {{#encodeXML}} {{{body}}} {{/encodeXML}} ]]></content:encoded>
-  <wp:post_name><![CDATA[{{{slug}}}]]></wp:post_name>
+    <wp:post_name><![CDATA[{{name}}]]></wp:post_name>
     <wp:post_type><![CDATA[post]]></wp:post_type>
-  <wp:status><![CDATA[publish]]></wp:status>
+    <wp:status><![CDATA[publish]]></wp:status>
     {{#tags}}
-    <category domain="category" nicename="{{slug}}"><![CDATA[{{tag}}]]></category>
+    <category domain="category" nicename="{{tag}}"><![CDATA[{{tag}}]]></category>
+    <category domain="post_tag" nicename="{{tag}}"><![CDATA[{{tag}}]]></category>
     {{/tags}}
   </item>
   {{/allEntries}}

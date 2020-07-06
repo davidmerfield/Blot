@@ -1,6 +1,6 @@
 var async = require("async");
 var Sync = require("sync");
-var debug = require("debug")("clients:git:sync");
+var debug = require("debug")("blot:clients:git:sync");
 var Git = require("simple-git");
 var checkGitRepoExists = require("./checkGitRepoExists");
 

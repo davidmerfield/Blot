@@ -22,14 +22,14 @@ module.exports = function(req, res, next) {
     // Static directory /static/$id
     {
       root: config.blog_static_files_dir + "/" + req.blog.id,
-      maxAge: LARGEST_POSSIBLE_MAXAGE
+      maxAge: LARGEST_POSSIBLE_MAXAGE,
     },
 
     // Global static directory
     {
       root: __dirname + "/static",
-      maxAge: LARGEST_POSSIBLE_MAXAGE
-    }
+      maxAge: LARGEST_POSSIBLE_MAXAGE,
+    },
   ];
 
   // decodeURIComponent maps something like
@@ -43,26 +43,14 @@ module.exports = function(req, res, next) {
     decodeURIComponent(req.path).toLowerCase(),
 
     // Finally the path plus an index file
-    withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html"
+    withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html",
   ];
 
   roots.forEach(function(options) {
     paths.forEach(function(path) {
-      var headers = {
-        "Content-Type": getContentType(path)
-      };
-
-      if (!options.maxAge) {
-        headers["Cache-Control"] = "no-cache";
-      }
-
       candidates.push({
-        options: {
-          root: options.root,
-          maxAge: options.maxAge || 0,
-          headers: headers
-        },
-        path: path
+        options: options,
+        path: path,
       });
     });
   });
@@ -70,7 +58,25 @@ module.exports = function(req, res, next) {
   candidates = candidates.map(function(candidate) {
     return function(next) {
       debug("Attempting", candidate);
-      res.sendFile(candidate.path, candidate.options, next);
+      var headers = {
+        "Content-Type": getContentType(candidate.path),
+      };
+
+      var options = {
+        root: candidate.options.root,
+        maxAge: candidate.options.maxAge || 0,
+        headers: headers,
+      };
+
+      if (!options.maxAge && (!req.query.cache && !req.query.extension)) {
+        headers["Cache-Control"] = "no-cache";
+      }
+
+      if (req.query.cache && req.query.extension) {
+        options.maxAge = LARGEST_POSSIBLE_MAXAGE;
+      }
+
+      res.sendFile(candidate.path, options, next);
     };
   });
 

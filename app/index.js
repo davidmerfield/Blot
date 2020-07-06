@@ -100,6 +100,7 @@ Blot.listen(config.port, function() {
   // so if you change its text, ensure you update the
   // START_MESSAGE variable in tests/app/endpoints.js
   console.log(clfdate(), "app listening on port", config.port);
+  console.log(clfdate(), "app running in environment:", config.environment);
 });
 
 // Schedule backups, subscription renewal emails
