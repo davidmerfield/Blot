@@ -48,7 +48,7 @@ paymentForm.get(function(req, res, next) {
   User.checkAccessToken(req.query.already_paid, function(err, email) {
     if (err || !email) {
       err = new Error(
-        "The link you just used is not valid, please ask David to send you another one."
+        "The link you just used is not valid, please ask for another one."
       );
       return next(err);
     }
@@ -89,7 +89,7 @@ paymentForm.post(parse, function(req, res, next) {
     card: card,
     email: email,
     plan: config.stripe.plan,
-    description: "Blot subscription"
+    description: "Blot subscription",
   };
 
   User.getByEmail(email, function(err, existingUser) {
@@ -160,6 +160,17 @@ passwordForm.post(parse, function(req, res, next) {
 
     User.create(email, passwordHash, subscription, function(err, user) {
       if (err) return next(err);
+
+      // The user has changed their email since signing up
+      if (req.session.email !== user.email) {
+        stripe.customers.update(
+          subscription.customer,
+          { email: user.email },
+          function() {
+            // noop
+          }
+        );
+      }
 
       delete req.session.email;
       delete req.session.subscription;
