@@ -54,6 +54,8 @@ Improvements to server infrastructure
 Improvements to blog server
 - Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
+Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx)
+
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
 
 Improvements to templates
