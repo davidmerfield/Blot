@@ -1,13 +1,9 @@
 Research open-source paywalls and follow up with [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNghCWPVcKsXJbvNLpSmxSkTn)
 
---- 
-
-Fix thumbnail bug with [Richard's site](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgdkSBMCgSwTCMPkqTcZMnfq)
+Update version of pandoc in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS) and [Gregory](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrfLxngJHnKkhJFGCgFPdB)
 
 Fix duplicated entry in tag page for Marco:
 https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
-
-Fix issue with pandoc citations in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS) and [Gregory](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrfLxngJHnKkhJFGCgFPdB)
 
 Fix bug with {{index}} value of entries inside {{#entries}} ... {{/entries}} and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
 
