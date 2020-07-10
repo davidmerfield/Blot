@@ -162,12 +162,14 @@ passwordForm.post(parse, function(req, res, next) {
       if (err) return next(err);
 
       // The user has changed their email since signing up
+      // TODO: add logging
       if (req.session.email !== user.email) {
         stripe.customers.update(
           subscription.customer,
           { email: user.email },
           function() {
-            // noop
+            // TODO: handle this error but it's not
+            // all that important
           }
         );
       }
