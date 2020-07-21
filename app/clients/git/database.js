@@ -1,6 +1,6 @@
 var database = {};
 var client = require("client");
-var debug = require("debug")("clients:git:database");
+var debug = require("debug")("blot:clients:git:database");
 
 // I picked v4 from 5 possible versions
 // because it said random next to its name?

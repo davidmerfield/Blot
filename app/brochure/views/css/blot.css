@@ -165,7 +165,6 @@ main.has-sidebar {
 ul.templates {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   padding: 0;
   margin: 2em -0.5em;
 }
@@ -176,10 +175,9 @@ ul.templates small {
 
 ul.templates li {
   list-style-type: none;
-  min-width: 200px;
-  width: 25%;
+  width: 33%;
+  padding: 1rem;
   box-sizing: border-box;
-  padding: 1.5rem 0.5rem 0;
 }
 
 ul.templates li a {
@@ -455,27 +453,11 @@ overlay {
   height: 0;
   position: relative;
   overflow: hidden;
-  margin: 3em -1.7em 1em
 }
 
-.screenshot a {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0
-}
+.screenshot img {max-width: 100%;height: auto;outline: 1px solid rgba(0,0,0,0.05);outline-offset: -1px}
 
-.screenshot a img {
-  width: 100%
-}
-
-
-.screenshot a:hover {
-  background: none;
-  box-shadow: none;
-  outline: none;
-}
+a.screenshot:hover {outline: none;}
 
 figure {
   margin: 4em 0

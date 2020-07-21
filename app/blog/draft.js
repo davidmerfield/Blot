@@ -84,8 +84,9 @@ module.exports = function route(server) {
       // THE LINE TO SHOW OR NOT TO SHOW?
       // PERHAPS PASS {drafts: show}? or something?
 
-      Entries.adjacentTo(blogID, entry.id, function(nextEntry, previousEntry) {
+      Entries.adjacentTo(blogID, entry.id, function(nextEntry, previousEntry, index) {
         entry.next = nextEntry;
+        entry.index = index;
         entry.previous = previousEntry;
         entry.adjacent = !!(nextEntry || previousEntry);
 

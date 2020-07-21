@@ -3,7 +3,6 @@ var Template = require("template");
 var helper = require("helper");
 var extend = helper.extend;
 var basename = require("path").basename;
-var colors = require("colors/safe");
 
 var fs = require("fs-extra");
 var async = require("async");
@@ -48,8 +47,8 @@ function buildAll(directory, callback) {
     results.forEach(function(result, i) {
       if (result.error) {
         console.log();
-        console.error(colors.red("Error building: " + dirs[i]));
-        console.error(colors.dim(result.error.stack));
+        console.error("Error building: " + dirs[i]);
+        console.error(result.error.stack);
         console.log();
       }
     });
@@ -60,11 +59,7 @@ function buildAll(directory, callback) {
 
 // Path to a directory containing template files
 function build(directory, callback) {
-  console.log(
-    colors.dim(".."),
-    require("path").basename(directory),
-    colors.dim(directory)
-  );
+  console.log("..", require("path").basename(directory), directory);
 
   var templatePackage, isPublic;
   var name, template, description, id;
@@ -73,10 +68,7 @@ function build(directory, callback) {
     templatePackage = fs.readJsonSync(directory + "/package.json");
   } catch (e) {
     templatePackage = {};
-    console.warn(
-      colors.dim("     "),
-      colors.red("Warning: ENOENT " + colors.dim(directory + "/package.json"))
-    );
+    console.warn("     ", "Warning: ENOENT " + directory + "/package.json");
     // package.json is optional
   }
 
@@ -246,10 +238,10 @@ function emptyCacheForBlogsUsing(templateID, callback) {
             return next();
 
           console.log(
-            colors.dim("   .."),
-            colors.dim(templateID),
-            colors.dim("flushed for"),
-            blog.handle + colors.dim(" (" + blog.id + ")")
+            "   ..",
+            templateID,
+            "flushed for",
+            blog.handle + " (" + blog.id + ")"
           );
           next();
         });

@@ -125,16 +125,16 @@ module.exports = (function() {
                 : undefined;
           }
 
-          return callback(next, previous);
+          return callback(next, previous, ++rank);
         });
       });
     });
   }
 
   function getTotal(blogID, callback) {
-    var allKey = listKey(blogID, "all");
+    var entriesKey = listKey(blogID, "entries");
 
-    redis.zcard(allKey, callback);
+    redis.zcard(entriesKey, callback);
   }
 
   function getAllIDs(blogID, callback) {

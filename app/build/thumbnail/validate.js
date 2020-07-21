@@ -3,6 +3,7 @@ var config = require("./config");
 var FORMATS = config.FORMATS;
 var MIN_WIDTH = config.MIN_WIDTH;
 var MIN_HEIGHT = config.MIN_HEIGHT;
+var debug = require("debug")("blot:entry:build:thumbnail:validate");
 
 // Sharp seems to cache files based on their
 // path and not the contents of the file at
@@ -16,28 +17,38 @@ var MIN_HEIGHT = config.MIN_HEIGHT;
 sharp.cache(false);
 
 module.exports = function(path, callback) {
-  var image = sharp(path);
+  var format, width, height;
 
-  image.metadata(function(err, info) {
+  debug(path);
+  sharp(path).metadata(function(err, info) {
     if (err) return callback(err);
 
-    if (!info) return callback(new Error("Could not read file info"));
+    if (!info) {
+      err = new Error("Could not read file info");
+      return callback(err);
+    }
 
-    var format = info.format.toLowerCase();
-    var width = info.width;
-    var height = info.height;
+    debug(path, info);
+    format = info.format.toLowerCase();
+    width = info.width;
+    height = info.height;
 
-    if (FORMATS.indexOf(format) === -1)
-      return callback(
-        new Error("Image (" + format + ") is not a supported format")
-      );
+    if (FORMATS.indexOf(format) === -1) {
+      err = new Error("Image (" + format + ") is not a supported format");
+      return callback(err);
+    }
 
-    if (width < MIN_WIDTH)
-      return callback(new Error("Image (" + width + "px wide) is too small"));
+    if (width < MIN_WIDTH) {
+      err = new Error("Image (" + width + "px wide) is too small");
+      return callback(err);
+    }
 
-    if (height < MIN_HEIGHT)
-      return callback(new Error("Image (" + height + "px tall) is too small"));
+    if (height < MIN_HEIGHT) {
+      err = new Error("Image (" + height + "px tall) is too small");
+      return callback(err);
+    }
 
+    debug(path, "is valid");
     callback();
   });
 };

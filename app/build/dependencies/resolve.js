@@ -1,6 +1,6 @@
 var dirname = require("path").dirname;
 var resolve_path = require("path").resolve;
-var debug = require("debug")("build:dependencies:resolve");
+var debug = require("debug")("blot:build:dependencies:resolve");
 
 function resolve(path, value) {
   if (!path || !value) return value;

@@ -6,11 +6,11 @@
 {{/entries.length}}{{/pagination.previous}}
 
 {{#pagination.previous}}
-<div class="mt5 ">
+<div class="mt5 cf">
   {{#pagination}}
   <a {{^next}}style="visibility:hidden"{{/next}} class="fr ml4 black-50 no-underline" href="/page/{{next}}">Next  →</a>
   <a {{^previous}}style="visibility:hidden"{{/previous}} class="fr black-50 no-underline" href="/page/{{previous}}">←  Previous</a>
-  <p class=" fw5 ">Page {{current}} of {{total}}</p>
+  <p class="mv0 fw5 fl">Page {{current}} of {{total}}</p>
   {{/pagination}}
 </div>
 {{/pagination.previous}}

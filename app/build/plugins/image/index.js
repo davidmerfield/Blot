@@ -1,5 +1,5 @@
 var Transformer = require("helper").transformer;
-var debug = require("debug")("entry:build:plugins:image");
+var debug = require("debug")("blot:entry:build:plugins:image");
 var eachEl = require("../eachEl");
 var optimize = require("./optimize");
 var url = require("url");

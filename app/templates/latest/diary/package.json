@@ -8,8 +8,8 @@
     "body_font": {
       "name": "System sans-serif",
       "stack": "-apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif",
-      "line_height": 1.4,
-      "font_size": 16
+      "line_height": 1.45,
+      "font_size": 18
     }
   },
   "isPublic": true,

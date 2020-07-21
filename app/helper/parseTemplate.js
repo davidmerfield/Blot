@@ -53,7 +53,7 @@ function parseTemplate(template) {
 
       // Is a variable, '#' starts iterative blocks
       // '&' starts unescaped blocks
-      if (token[0] === "name" || token[0] === "#" || token[0] === "&") {
+      if (token[0] === "name" || token[0] === "#" || token[0] === "^" || token[0] === "&") {
         var variable = token[1];
 
         if (retrieveThese.indexOf(variable) > -1) retrieve[variable] = true;

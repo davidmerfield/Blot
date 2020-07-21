@@ -10,7 +10,7 @@ cache:
 services:
   - redis-server
 node_js:
-  - "10.16.3"
+  - "12.16.3"
 before_script:
   - node config/blot/setup
 before_install:
