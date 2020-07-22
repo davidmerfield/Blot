@@ -2,7 +2,9 @@
 
 <body>
 
-  <style type="text/css">.wrapper {max-width: 54rem}
+  <style type="text/css">.wrapper {max-width: 60rem}
+
+content > p:first-of-type {font-size: 18px}
 
 .buttt {position: relative;
     padding: 4px 1.65rem 4px 12px;
@@ -31,14 +33,15 @@ margin-left: 12px
 }
 .underline-on-hover:hover {text-decoration: underline;}
 </style>
-<div style="background:#f6f6f6">
+<div >
   <div class="wrapper">
-    <row  style="padding:2rem 0 1rem;display:flex;align-items:center;">
+    <row  style="padding:1rem 0 1rem;display:flex;align-items:center;margin-bottom: 1rem">
       <section style="display: flex;
     align-items: center;width: 15rem">
 
         {{#unless user}}
         <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/" >Blot</a>
+
         {{/unless}}
         {{#if user}}
         <a href="/" style="color:#aaa">&larr; &nbsp; Back to your blogs</a>
@@ -72,9 +75,7 @@ margin-left: 12px
 
     <input type="checkbox" name="toggle" id="toggle">
 
-    <ul class="sidebar col-25">
-
-      <br><br>
+    <ul class="sidebar col-25" style="border-top: 1px solid #eee;padding-top: 1rem">
 
       <li>
         <a class="{{selected.howIndex}}" href="{{{base}}}/how">How to use Blot</a>
@@ -127,9 +128,28 @@ margin-left: 12px
 
     </ul>
 
-    <content>
+    <content style="border-top: 1px solid #eee;padding-left: 0;margin-left: 4rem">
       {{{body}}}
     </content>
+    <ul class="sidebar col-25" style="border-top: 1px solid #eee">
+
+      <p style="margin:0"><small>On this page:</small></p>
+      <li>
+        <a class="" href="{{{base}}}/how">How to use Blot</a>
+      </li>
+           <li>
+        <a class="" href="{{{base}}}/how">Files which become blog posts</a>
+      </li>
+
+           <li>
+        <a class="" href="{{{base}}}/how">Prevent a ﬁle becoming a blog post</a>
+      </li>
+
+           <li>
+        <a class="" href="{{{base}}}/how">Drafts</a>
+      </li>
+
+    </ul>
   </main>
 </div>  
   {{> footer}}
