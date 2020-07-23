@@ -320,6 +320,16 @@ module.exports = (function() {
 
         if (!pagination.next && !pagination.previous) pagination = false;
 
+        // The first entry published should have an index of 1
+        // The fifth entry published should have an index of 5
+        // The most recently published entry should have an index
+        // equal to the number of total entries published.
+        let index = totalEntries - start;
+        entries.forEach(function(entry){
+          entry.index = index;
+          index--;
+        });
+
         return callback(entries, pagination);
       });
     });
