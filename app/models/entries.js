@@ -346,7 +346,22 @@ module.exports = (function() {
 
   function getRecent(blogID, callback) {
     getRange(blogID, 0, 30, { skinny: true }, function(entries) {
-      callback(entries);
+      redis.zcard(listKey(blogID, "entries"), function(error, totalEntries) {
+        // We need to add error handling
+        if (error) return callback([]);
+        
+        // The first entry published should have an index of 1
+        // The fifth entry published should have an index of 5
+        // The most recently published entry should have an index
+        // equal to the number of total entries published.
+        let index = totalEntries;
+        entries.forEach(function(entry){
+          entry.index = index;
+          index--;
+        });
+
+        callback(entries);
+      });
     });
   }
 
