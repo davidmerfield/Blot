@@ -65,7 +65,7 @@ ec2.runInstances(params, function(err, data) {
 	) {
 		if (err) console.log(err, err.stack);
 		// an error occurred
-		else console.log(data); // successful response
+		// else console.log(data); // successful response
 		const instance = data.Reservations[0].Instances[0];
 
 		console.log("Instance running");
