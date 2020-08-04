@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=notify
-ExecStart=/usr/bin/redis-server {{redis.config}} --supervised systemd --daemonize no
+ExecStart=/usr/bin/redis-server {{redis.config}}
 ExecStop=/usr/bin/redis-cli -p 6379 shutdown
 ExecReload=/bin/kill -USR2 $MAINPID
 Restart=always
