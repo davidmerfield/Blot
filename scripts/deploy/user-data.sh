@@ -103,6 +103,7 @@ node scripts/deploy/build
 
 # Run redis as blot user
 mkdir -p {{directory}}/db
+mkdir -p {{directory}}/logs
 cp scripts/deploy/out/redis.service /etc/systemd/system/redis.service
 systemctl enable redis.service
 systemctl start redis.service
