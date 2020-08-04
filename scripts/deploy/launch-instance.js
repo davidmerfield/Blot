@@ -72,5 +72,7 @@ ec2.runInstances(params, function(err, data) {
 		console.log(
 			`ssh -o 'StrictHostKeyChecking no' -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} -t 'tail -f /var/log/cloud-init-output.log'`
 		);
+
+		require('./associate-ip');
 	});
 });
