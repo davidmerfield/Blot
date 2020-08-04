@@ -3,10 +3,10 @@ Description=Redis persistent key-value storage
 After=network.target
 
 [Service]
-Type=notify
+Type=forking
+PIDFile=/var/run/redis.pid
 ExecStart=/usr/bin/redis-server {{redis.config}}
 ExecStop=/usr/bin/redis-cli -p 6379 shutdown
-ExecReload=/bin/kill -USR2 $MAINPID
 Restart=always
 
 [Install]
