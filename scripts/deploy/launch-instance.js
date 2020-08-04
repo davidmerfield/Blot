@@ -56,7 +56,7 @@ var params = {
 ec2.runInstances(params, function(err, data) {
 	if (err) console.log(err, err.stack);
 	// an error occurred
-	else console.log(data); // successful response
+	// else console.log(data); // successful response
 	const InstanceId = data.Instances[0].InstanceId;
 	console.log("Waiting until instance is running", InstanceId);
 	ec2.waitFor("instanceRunning", { InstanceIds: [InstanceId] }, function(
@@ -68,9 +68,9 @@ ec2.runInstances(params, function(err, data) {
 		else console.log(data); // successful response
 		const instance = data.Reservations[0].Instances[0];
 
-		console.log("Instance running, connect with:");
+		console.log("Instance running");
 		console.log(
-			`ssh -o 'StrictHostKeyChecking no' -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} -t 'tail -f /var/log/cloud-init-output.log'`
+			// `ssh -o 'StrictHostKeyChecking no' -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} -t 'tail -f /var/log/cloud-init-output.log'`
 		);
 
 		require('./associate-ip');

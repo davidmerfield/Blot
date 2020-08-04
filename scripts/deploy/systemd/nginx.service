@@ -3,14 +3,15 @@
 
 [Unit]
 Description=full-fledged web platform
-After=network.target redis.service
+After=syslog.target network-online.target remote-fs.target nss-lookup.target redis.service
+Wants=network-online.target
 
 [Service]
 Type=forking
 PIDFile={{nginx.pid}}
-ExecStartPre={{nginx.bin}} -t -c {{nginx.config}} -q -g  'daemon on; master_process on;'
-ExecStart={{nginx.bin}} -g 'daemon on; master_process on;'
-ExecReload={{nginx.bin}} -g 'daemon on; master_process on;' -s reload -c {{nginx.config}} 
+ExecStartPre={{nginx.bin}} -t -c {{nginx.config}} -q -g 'daemon on; master_process on;'
+ExecStart={{nginx.bin}} -c {{nginx.config}} -g 'daemon on; master_process on;'
+ExecReload={{nginx.bin}} -c {{nginx.config}} -g 'daemon on; master_process on;' -s reload
 ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile {{nginx.pid}}
 TimeoutStopSec=5
 KillMode=mixed
