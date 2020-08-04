@@ -2,15 +2,14 @@ Work on Phil's custom template and follow up tomorrow
 
 Research open-source paywalls and follow up with [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNghCWPVcKsXJbvNLpSmxSkTn)
 
----
+Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
-Investigate TeX escaping issues and tell Roy
+---
 
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
 
 Update version of pandoc in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS) and [Gregory](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrfLxngJHnKkhJFGCgFPdB) and [Nick](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrXKFSzMBWgfljFxDSLkKlbf)
 
-Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb)
 
 Fix image zooming bug in picture template and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrTqFRpZCKgvtvmnhhrNmnnM)
 
