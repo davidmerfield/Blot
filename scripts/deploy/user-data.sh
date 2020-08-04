@@ -109,7 +109,6 @@ systemctl enable redis.service
 systemctl start redis.service
 
 # Run nginx as blot user
-cp scripts/deploy/out/nginx.conf {{nginx.config}}
 cp scripts/deploy/out/nginx.service /etc/systemd/system/nginx.service
 mkdir -p $(dirname {{log_file}})
 systemctl enable nginx.service
