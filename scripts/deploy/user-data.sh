@@ -90,6 +90,11 @@ wget $PANDOC_URL
 tar xvzf pandoc-2.9.1.1-linux-amd64.tar.gz --strip-components 1 -C pandoc
 cp pandoc/bin/pandoc /usr/bin
 
+# gifsicle build tools
+# https://rmoff.net/2017/03/11/install-qemu-on-aws-ec2-amazon-linux/
+# resolves /bin/sh: autoreconf: command not found
+sudo yum install -y autoconf autogen intltool libtool
+
 # Install Blot
 git clone $BLOT_REPO {{directory}}
 cd Blot
@@ -137,8 +142,3 @@ systemctl start blot.service
 yum install logrotate
 
 # Monit
-
-# gifsicle build tools
-# https://rmoff.net/2017/03/11/install-qemu-on-aws-ec2-amazon-linux/
-# resolves /bin/sh: autoreconf: command not found
-sudo yum install -y autoconf autogen intltool libtool

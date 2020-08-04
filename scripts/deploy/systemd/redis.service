@@ -7,6 +7,10 @@ After=network.target
 
 [Service]
 Type=notify
+# Increases the file descriptions available to this process
+LimitNOFILE=65536
+TimeoutStartSec=30
+TimeoutStopSec=30
 ExecStart={{redis.server}} --supervised systemd --daemonize no
 ExecStop={{redis.cli}} -p 6379 shutdown
 ExecReload=/bin/kill -USR2 $MAINPID
