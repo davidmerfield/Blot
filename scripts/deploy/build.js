@@ -19,8 +19,8 @@ const view = {
 	node: {
 		host: "127.0.0.1",
 		bin: `/.nvm/versions/node/v${process.env.BLOT_NODE_VERSION}/bin/node`,
-		main: "/Blot/app/index.js",
-		log: "/etc/blot/app.log",
+		main: process.env.BLOT_DIRECTORY + "/app/index.js",
+		log: process.env.BLOT_DIRECTORY + "/logs/app.log",
 		version: process.env.BLOT_NODE_VERSION,
 		port: 8080
 	},

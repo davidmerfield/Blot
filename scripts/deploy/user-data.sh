@@ -89,8 +89,6 @@ make
 cp src/redis-server {{redis.server}}
 cp src/redis-cli {{redis.cli}}
 cd ../
-mkdir -p {{directory}}/db
-mkdir -p {{directory}}/logs
 sysctl vm.overcommit_memory=1
 bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
 dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
@@ -167,7 +165,6 @@ mkdir -p {{directory}}/static
 echo "SET domain:{{host}} true" | {{redis.cli}}
 echo "SET domain:www.{{host}} true" | {{redis.cli}}
 
-
 # Generate systemd service configuration files
 node scripts/deploy/build
 
@@ -178,7 +175,6 @@ systemctl start redis.service
 
 # Start NGINX service
 cp scripts/deploy/out/nginx.service /etc/systemd/system/nginx.service
-mkdir -p $(dirname {{log_file}})
 systemctl enable nginx.service
 systemctl start nginx.service
 
