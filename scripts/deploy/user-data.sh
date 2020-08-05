@@ -35,9 +35,9 @@ EOL
 
 # Mount ephemeral disk to cache
 lsblk
-mkfs -t xfs /dev/nvme0n1
-mount /dev/nvme0n1 {{cache_directory}}
-chown -R blot:blot {{cache_directory}}
+# mkfs -t xfs /dev/nvme1n1
+# mkdir {{cache_directory}}
+# mount /dev/nvme1n1 {{cache_directory}}
 
 # Updates installed packages
 # The 'y' flag means answer 'yes' to all questions
@@ -111,6 +111,9 @@ cp scripts/deploy/out/nginx.service /etc/systemd/system/nginx.service
 mkdir -p $(dirname {{log_file}})
 systemctl enable nginx.service
 systemctl start nginx.service
+
+# We might need to allow read permissions to NGINX user
+chown -R blot:blot {{cache_directory}}
 
 
 ## Blot
