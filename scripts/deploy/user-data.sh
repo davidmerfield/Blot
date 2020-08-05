@@ -12,10 +12,13 @@ set -e
 
 # Name of the unix user responsible for Blot server
 USER={{user}}
+
 # URL to the git repository we will clone when we 
 # get the application code, for example:
 # https://github.com/davidmerfield/Blot
 BLOT_REPO={{blot_repo}}
+
+# todo: Check whatever is stored at these URLs
 NVM_URL=https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh
 LUAROCKS_URL=http://luarocks.org/releases/luarocks-2.0.13.tar.gz
 REDIS_URL=http://download.redis.io/redis-stable.tar.gz
@@ -23,7 +26,8 @@ PANDOC_URL=https://github.com/jgm/pandoc/releases/download/2.9.1.1/pandoc-2.9.1.
 OPENRESTY_URL=https://openresty.org/package/amazon/openresty.repo
 
 # Store environment variables required to 
-# run the application
+# run the application. We use them in this
+# script and in other processes
 mkdir -p $(dirname {{environment_file}})
 cat > {{environment_file}} <<EOL
 {{#env}}
@@ -31,6 +35,7 @@ export {{key}}={{value}}
 {{/env}}
 EOL
 
+# Source those environment variables in this script
 . {{environment_file}}
 
 # Mount ephemeral disk to cache
@@ -46,6 +51,10 @@ do
   fi
 done
 
+# Once we work out which disk is the ephemeral disk
+# we create a file system on it and mount it to 
+# the directory used by the application and NGINX
+# to store cached rendered web pages
 mkfs -t xfs $EPHEMERAL_DISK
 mkdir {{cache_directory}}
 mount $EPHEMERAL_DISK {{cache_directory}}
@@ -66,7 +75,8 @@ yum -y install fail2ban
 systemctl enable fail2ban
 systemctl start fail2ban
 
-# Install Redis
+## Redis installation
+##########################################################
 # gcc and tcl are required to run the tests
 # todo: re-enable next line to run tests (tests are slow in developing this script)
 yum install -y gcc tcl
@@ -84,11 +94,9 @@ mkdir -p {{directory}}/logs
 sysctl vm.overcommit_memory=1
 bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
 dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
-cp scripts/deploy/out/redis.service /etc/systemd/system/redis.service
-systemctl enable redis.service
-systemctl start redis.service
 
-# NGINX/Openresty
+## NGINX installation
+##########################################################
 yum-config-manager --add-repo $OPENRESTY_URL
 yum install -y yum-utils openresty
 
@@ -115,17 +123,9 @@ openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
 /usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl
 mkdir /etc/resty-auto-ssl
 
-# Install NGINX service and start it
-cp scripts/deploy/out/nginx.service /etc/systemd/system/nginx.service
-mkdir -p $(dirname {{log_file}})
-systemctl enable nginx.service
-systemctl start nginx.service
-
-# We might need to allow read permissions to NGINX user
-chown -R blot:blot {{cache_directory}}
 
 
-## Blot
+## Blot installation
 ##########################################################
 
 # Create a user for Blot
@@ -156,12 +156,6 @@ yum -y install git ntp
 git clone $BLOT_REPO {{directory}}
 cd Blot
 npm ci
-node scripts/deploy/build
-cp scripts/deploy/out/blot.service /etc/systemd/system/blot.service
-
-# Whitelist domains for ssl certificate issuance
-echo "SET domain:{{host}} true" | {{redis.cli}}
-echo "SET domain:www.{{host}} true" | {{redis.cli}}
 
 mkdir -p {{directory}}/blogs
 mkdir -p {{directory}}/tmp
@@ -169,8 +163,34 @@ mkdir -p {{directory}}/logs
 mkdir -p {{directory}}/db
 mkdir -p {{directory}}/static
 
+# Whitelist domains for ssl certificate issuance
+echo "SET domain:{{host}} true" | {{redis.cli}}
+echo "SET domain:www.{{host}} true" | {{redis.cli}}
+
+
+# Generate systemd service configuration files
+node scripts/deploy/build
+
+# Start Redis service
+cp scripts/deploy/out/redis.service /etc/systemd/system/redis.service
+systemctl enable redis.service
+systemctl start redis.service
+
+# Start NGINX service
+cp scripts/deploy/out/nginx.service /etc/systemd/system/nginx.service
+mkdir -p $(dirname {{log_file}})
+systemctl enable nginx.service
+systemctl start nginx.service
+
+# Start Blot service
+cp scripts/deploy/out/blot.service /etc/systemd/system/blot.service
 systemctl enable blot.service
 systemctl start blot.service
+
+echo "Server set up successfully"
+
+# We might need to allow read permissions to NGINX user
+# chown -R blot:blot {{cache_directory}}
 
 # We use rsync to transfer the database dump and blog folder from the other instance
 # yum -y install rsync
@@ -184,7 +204,3 @@ systemctl start blot.service
 
 # Logrotate
 # yum install logrotate
-
-
-
-
