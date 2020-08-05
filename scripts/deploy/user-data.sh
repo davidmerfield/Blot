@@ -34,13 +34,14 @@ EOL
 . {{environment_file}}
 
 # Mount ephemeral disk to cache
-NAMES=( $(lsblk -l -o TYPE,NAME | grep '^disk' | sed 's/disk //') )
+DISKS=( $(lsblk -l -o TYPE,NAME | grep '^disk' | sed 's/disk //') )
 
-for var in "${NAMES[@]}"
+# Try and work out which disk is available for mounting
+for disk in "${DISKS[@]}"
 do
-  PARTITIONS=$(lsblk /dev/${var} -l -o TYPE | grep '^part' | wc -l)
+  PARTITIONS=$(lsblk /dev/${disk} -l -o TYPE | grep '^part' | wc -l)
   if [[ $PARTITIONS -eq 0 ]]; then
-    EPHEMERAL_DISK=/dev/${var}
+    EPHEMERAL_DISK=/dev/${disk}
     break;
   fi
 done
@@ -53,13 +54,17 @@ mount $EPHEMERAL_DISK {{cache_directory}}
 # The 'y' flag means answer 'yes' to all questions
 yum -y update
 
-# Adds firewall rules on port 22 to prevent ssh brute force
-iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent ==set
-iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent  ==update ==seconds 60 ==hitcount 4 -j DROP
-service iptables save
-
-# Logrotate
-yum install logrotate
+# Install and start fail2ban
+# The 'y' flag means answer 'yes' to all questions
+# https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-centos-7
+# While Fail2ban is not available in the official CentOS package repository,
+# it is packaged for the EPEL project. EPEL, standing for Extra Packages
+# for Enterprise Linux, can be installed with a release package that is 
+# available from CentOS:
+yum -y install epel-release
+yum -y install fail2ban
+systemctl enable fail2ban
+systemctl start fail2ban
 
 # Install Redis
 # gcc and tcl are required to run the tests
@@ -168,18 +173,18 @@ systemctl enable blot.service
 systemctl start blot.service
 
 # We use rsync to transfer the database dump and blog folder from the other instance
-yum -y install rsync
-
-
-# Install and start fail2ban
-# The 'y' flag means answer 'yes' to all questions
-
-# Monit
-
+# yum -y install rsync
 # copy redis dump from other instance
 # rysnc -i $PATH_TO_PREVIOUS_PEM ec2-user@:$PREVIOUS_IP:/var/www/blot/db/dump.rdb $DUMP
 
 # copy blogs folder from other instance
 # rysync -i $PATH_TO_PREVIOUS_PEM ec2-user@:$PREVIOUS_IP:/var/www/blot/db/dump.rdb $DUMP
+
+# Monit
+
+# Logrotate
+# yum install logrotate
+
+
 
 
