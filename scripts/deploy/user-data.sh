@@ -92,6 +92,8 @@ cd ../
 sysctl vm.overcommit_memory=1
 bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
 dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
+rm -rf ./redis-stable
+rm redis-stable.tar.gz
 
 ## NGINX installation
 ##########################################################
@@ -109,6 +111,8 @@ cd luarocks-2.0.13/
 make
 make install
 cd ../
+rm luarocks-2.0.13.tar.gz
+rm -rf ./luarocks-2.0.13
 
 # Generate SSL fallback cert for NGINX
 mkdir -p $(dirname {{fallback_certificate_key}})
@@ -134,6 +138,8 @@ mkdir pandoc
 wget $PANDOC_URL
 tar xvzf pandoc-2.9.1.1-linux-amd64.tar.gz --strip-components 1 -C pandoc
 cp pandoc/bin/pandoc /usr/bin
+rm pandoc-2.9.1.1-linux-amd64.tar.gz
+rm -rf ./pandoc
 
 # Install node
 curl -o- $NVM_URL | bash
@@ -151,8 +157,9 @@ sudo yum install -y autoconf autogen intltool libtool
 # Install git and ntp
 # What is ntp required for?
 yum -y install git ntp
-git clone $BLOT_REPO {{directory}}
-cd Blot
+# We use a shallow clone to reduce required disk space
+git clone --depth 1 -b master --single-branch $BLOT_REPO {{directory}}
+cd {{directory}}
 npm ci
 
 mkdir -p {{directory}}/blogs

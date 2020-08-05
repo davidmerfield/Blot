@@ -8,7 +8,7 @@ const env = Object.keys(process.env)
 const view = {
 	env,
 	directory: process.env.BLOT_DIRECTORY,
-	blot_repo: "https://github.com/davidmerfield/Blot",
+	blot_repo: "https://github.com/davidmerfield/blot",
 	user: process.env.BLOT_USER, // unix user
 	host: process.env.BLOT_HOST,
 	environment_file: "/etc/blot/environment",
