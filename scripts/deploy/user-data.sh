@@ -53,11 +53,6 @@ mount $EPHEMERAL_DISK {{cache_directory}}
 # The 'y' flag means answer 'yes' to all questions
 yum -y update
 
-# Install and start fail2ban
-# The 'y' flag means answer 'yes' to all questions
-yum -y install fail2ban
-service start fail2ban
-
 # Adds firewall rules on port 22 to prevent ssh brute force
 iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent ==set
 iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent  ==update ==seconds 60 ==hitcount 4 -j DROP
@@ -172,11 +167,14 @@ mkdir -p {{directory}}/static
 systemctl enable blot.service
 systemctl start blot.service
 
-
-# Monit
-
 # We use rsync to transfer the database dump and blog folder from the other instance
 yum -y install rsync
+
+
+# Install and start fail2ban
+# The 'y' flag means answer 'yes' to all questions
+
+# Monit
 
 # copy redis dump from other instance
 # rysnc -i $PATH_TO_PREVIOUS_PEM ec2-user@:$PREVIOUS_IP:/var/www/blot/db/dump.rdb $DUMP
