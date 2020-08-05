@@ -61,7 +61,7 @@ yum -y update
 # it is packaged for the EPEL project. EPEL, standing for Extra Packages
 # for Enterprise Linux, can be installed with a release package that is 
 # available from CentOS:
-yum -y install epel-release
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum -y install fail2ban
 systemctl enable fail2ban
 systemctl start fail2ban
