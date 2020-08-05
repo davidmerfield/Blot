@@ -34,10 +34,20 @@ EOL
 . {{environment_file}}
 
 # Mount ephemeral disk to cache
-lsblk
-# mkfs -t xfs /dev/nvme1n1
-# mkdir {{cache_directory}}
-# mount /dev/nvme1n1 {{cache_directory}}
+NAMES=( $(lsblk -l -o TYPE,NAME | grep '^disk' | sed 's/disk //') )
+
+for var in "${NAMES[@]}"
+do
+  PARTITIONS=$(lsblk /dev/${var} -l -o TYPE | grep '^part' | wc -l)
+  if [[ $PARTITIONS -eq 0 ]]; then
+    EPHEMERAL_DISK=/dev/${var}
+    break;
+  fi
+done
+
+mkfs -t xfs $EPHEMERAL_DISK
+mkdir {{cache_directory}}
+mount $EPHEMERAL_DISK {{cache_directory}}
 
 # Updates installed packages
 # The 'y' flag means answer 'yes' to all questions
@@ -52,7 +62,6 @@ service start fail2ban
 iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent ==set
 iptables -I INPUT -p tcp ==dport 22 -i eth0 -m state ==state NEW -m recent  ==update ==seconds 60 ==hitcount 4 -j DROP
 service iptables save
-
 
 # Logrotate
 yum install logrotate
