@@ -1,33 +1,45 @@
 #!/bin/sh
 
-# This script assumes we start from a running, 
-# bare Amazon Linux instance. When built this
-# contains secrets and should not be shared!
+# WARNING: contains secrets when it's rendered!
+# This script assumes we start from a running, bare Amazon Linux 2 instance
 
-# Print all commands in this script as they are executed
+# TODO: remove the output log for this script after it succeeds
+# TODO: what happens to this script itself after it runs
+# TODO: ensure the instance works after it's 'restarted'
+# TODO: ensure the instance works when it's stopped then started
+
+# Prints all commands in this script as they are executed
+# TODO: remove this once the script works
 set -x
 
-# Stop execution of the script if we encounter an error
+# Stops execution of the script if we encounter an error
 set -e
 
 # Name of the unix user responsible for Blot server
+# TODO: create users for redis, nginx and Blot (main process, worker process)
 USER={{user}}
 
-# URL to the git repository we will clone when we 
-# get the application code, for example:
+# URL to the git repository we will clone to get the application code, for example:
 # https://github.com/davidmerfield/Blot
 BLOT_REPO={{blot_repo}}
 
-# todo: Check whatever is stored at these URLs
+# TODO: verify whatever we fetch from these URLs
 NVM_URL=https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh
-LUAROCKS_URL=http://luarocks.org/releases/luarocks-2.0.13.tar.gz
-REDIS_URL=http://download.redis.io/redis-stable.tar.gz
 PANDOC_URL=https://github.com/jgm/pandoc/releases/download/2.9.1.1/pandoc-2.9.1.1-linux-amd64.tar.gz
 OPENRESTY_URL=https://openresty.org/package/amazon/openresty.repo
+EPEL_URL=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# TODO: check if we can fetch these over HTTPS
+LUAROCKS_URL=http://luarocks.org/releases/luarocks-2.0.13.tar.gz
+REDIS_URL=http://download.redis.io/redis-stable.tar.gz
 
-# Store environment variables required to 
-# run the application. We use them in this
-# script and in other processes
+# Updates existing installed packages. The 'y' flag means
+# answer 'yes' to all questions yum would otherwise ask
+yum -y update
+
+# Environment
+##########################################################
+# Write environment variables required to run the application.
+# We use them in this script and in other processes
 mkdir -p $(dirname {{environment_file}})
 cat > {{environment_file}} <<EOL
 {{#env}}
@@ -39,9 +51,13 @@ EOL
 . {{environment_file}}
 
 # Mount ephemeral disk to cache
+##########################################################
+
+# First we try and work out which disk is available for mounting
 DISKS=( $(lsblk -l -o TYPE,NAME | grep '^disk' | sed 's/disk //') )
 
-# Try and work out which disk is available for mounting
+# The heuristic we use is whether or not the disk has partitions
+# I'm not sure if this is correct or not but it seems to work.
 for disk in "${DISKS[@]}"
 do
   PARTITIONS=$(lsblk /dev/${disk} -l -o TYPE | grep '^part' | wc -l)
@@ -52,25 +68,18 @@ do
 done
 
 # Once we work out which disk is the ephemeral disk
-# we create a file system on it and mount it to 
-# the directory used by the application and NGINX
+# we create a file system on it and mount it to the cache 
+# directory, which is used by the application and NGINX
 # to store cached rendered web pages
 mkfs -t xfs $EPHEMERAL_DISK
 mkdir {{cache_directory}}
 mount $EPHEMERAL_DISK {{cache_directory}}
 
-# Updates installed packages
-# The 'y' flag means answer 'yes' to all questions
-yum -y update
-
 # Install and start fail2ban
-# The 'y' flag means answer 'yes' to all questions
 # https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-centos-7
-# While Fail2ban is not available in the official CentOS package repository,
-# it is packaged for the EPEL project. EPEL, standing for Extra Packages
-# for Enterprise Linux, can be installed with a release package that is 
-# available from CentOS:
-yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# While Fail2ban is not available in the default package repository,
+# it is packaged for the EPEL project. 
+yum -y install $EPEL_URL
 yum -y install fail2ban
 systemctl enable fail2ban
 systemctl start fail2ban
@@ -78,22 +87,27 @@ systemctl start fail2ban
 ## Redis installation
 ##########################################################
 # gcc and tcl are required to run the tests
-# todo: re-enable next line to run tests (tests are slow in developing this script)
 yum install -y gcc tcl
-wget $REDIS_URL
-tar xvzf redis-stable.tar.gz
-cd redis-stable
+wget $REDIS_URL -O redis.tar.gz
+mkdir redis
+tar xvzf redis.tar.gz -C redis
+cd redis
 make
-# todo: re-enable next line to run tests (tests are slow in developing this script)
+# TODO: re-enable next line to run tests (tests are slow)
 # make test
 cp src/redis-server {{redis.server}}
 cp src/redis-cli {{redis.cli}}
 cd ../
+rm -rf ./redis
+rm redis-stable.tar.gz
+
+# The following are recommendations for improving the performance
+# of Redis on an AWS instance.
+# TODO: fully research each line and document it. Ensure each change
+# is persisted across reboot and hard stop/start
 sysctl vm.overcommit_memory=1
 bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
 dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
-rm -rf ./redis-stable
-rm redis-stable.tar.gz
 
 ## NGINX installation
 ##########################################################
@@ -101,9 +115,10 @@ yum-config-manager --add-repo $OPENRESTY_URL
 yum install -y yum-utils openresty
 
 # Install Luarocks (required by auto-ssl)
-wget $LUAROCKS_URL
-tar -xzvf luarocks-2.0.13.tar.gz
-cd luarocks-2.0.13/
+wget $LUAROCKS_URL -O luarocks.tar.gz
+mkdir luarocks
+tar xzvf luarocks.tar.gz -C luarocks
+cd luarocks
 ./configure --prefix=/usr/local/openresty/luajit \
     --with-lua=/usr/local/openresty/luajit/ \
     --lua-suffix=jit \
@@ -111,8 +126,8 @@ cd luarocks-2.0.13/
 make
 make install
 cd ../
-rm luarocks-2.0.13.tar.gz
-rm -rf ./luarocks-2.0.13
+rm luarocks.tar.gz
+rm -rf ./luarocks
 
 # Generate SSL fallback cert for NGINX
 mkdir -p $(dirname {{fallback_certificate_key}})
@@ -121,7 +136,6 @@ openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
 	-keyout {{fallback_certificate_key}} \
 	-out {{fallback_certificate}}
 
-# Todo install this package:
 /usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl
 mkdir /etc/resty-auto-ssl
 
@@ -135,10 +149,10 @@ id -u $USER &>/dev/null || useradd -m $USER
 
 # Install Pandoc
 mkdir pandoc
-wget $PANDOC_URL
-tar xvzf pandoc-2.9.1.1-linux-amd64.tar.gz --strip-components 1 -C pandoc
+wget $PANDOC_URL -O pandoc.tar.gz
+tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
 cp pandoc/bin/pandoc /usr/bin
-rm pandoc-2.9.1.1-linux-amd64.tar.gz
+rm pandoc.tar.gz
 rm -rf ./pandoc
 
 # Install node
@@ -148,20 +162,24 @@ export NVM_DIR="$HOME/.nvm"
 nvm install {{node.version}}
 node -e "console.log('Running Node.js ' + process.version)"
 
-# gifsicle build tools
-# https://rmoff.net/2017/03/11/install-qemu-on-aws-ec2-amazon-linux/
-# resolves /bin/sh: autoreconf: command not found
-sudo yum install -y autoconf autogen intltool libtool
-
 # Install Blot
 # Install git and ntp
 # What is ntp required for?
 yum -y install git ntp
+
+# Blot's application uses gifsicle, which requires these build tools
+# https://rmoff.net/2017/03/11/install-qemu-on-aws-ec2-amazon-linux/
+# resolves /bin/sh: autoreconf: command not found
+yum -y install autoconf autogen intltool libtool
+
 # We use a shallow clone to reduce required disk space
 git clone --depth 1 -b master --single-branch $BLOT_REPO {{directory}}
 cd {{directory}}
 npm ci
 
+# Most of these are required by the Blot application process
+# logs and db are required by Redis
+# logs is required by NGINX
 mkdir -p {{directory}}/blogs
 mkdir -p {{directory}}/tmp
 mkdir -p {{directory}}/logs
