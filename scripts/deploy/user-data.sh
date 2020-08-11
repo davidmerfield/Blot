@@ -90,16 +90,17 @@ systemctl start fail2ban
 yum install -y gcc tcl
 wget $REDIS_URL -O redis.tar.gz
 mkdir redis
-tar xvzf redis.tar.gz -C redis
-cd redis
-make
+# We use tar with --strip-components 1 to 
+# remove the 'top level' directory after 
+# tarring, which has the version number in it
+tar -xvzf redis.tar.gz -C redis --strip-components 1
+make --directory redis
 # TODO: re-enable next line to run tests (tests are slow)
 # make test
-cp src/redis-server {{redis.server}}
-cp src/redis-cli {{redis.cli}}
-cd ../
-rm -rf ./redis
-rm redis-stable.tar.gz
+cp redis/src/redis-server {{redis.server}}
+cp redis/src/redis-cli {{redis.cli}}
+rm -rf redis
+rm redis.tar.gz
 
 # The following are recommendations for improving the performance
 # of Redis on an AWS instance.
@@ -117,7 +118,10 @@ yum install -y yum-utils openresty
 # Install Luarocks (required by auto-ssl)
 wget $LUAROCKS_URL -O luarocks.tar.gz
 mkdir luarocks
-tar xzvf luarocks.tar.gz -C luarocks
+# We use tar with --strip-components 1 to 
+# remove the 'top level' directory after 
+# tarring, which has the version number in it
+tar -xzvf luarocks.tar.gz -C luarocks --strip-components 1
 cd luarocks
 ./configure --prefix=/usr/local/openresty/luajit \
     --with-lua=/usr/local/openresty/luajit/ \
@@ -150,7 +154,7 @@ id -u $USER &>/dev/null || useradd -m $USER
 # Install Pandoc
 mkdir pandoc
 wget $PANDOC_URL -O pandoc.tar.gz
-tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
+tar -xvzf pandoc.tar.gz --strip-components 1 -C pandoc
 cp pandoc/bin/pandoc /usr/bin
 rm pandoc.tar.gz
 rm -rf ./pandoc
