@@ -89,7 +89,7 @@ function injectAttachedThumbnail(item, channel) {
 
     let thumbnail = channel.filter(
       (el) => {
-        console.log(el);
+        // console.log(el);
         return el["wp:post_id"][0] === thumbnail_id;
       }
     )[0];
