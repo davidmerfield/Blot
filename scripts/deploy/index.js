@@ -29,6 +29,8 @@ const UserData = require("fs").readFileSync(
 // Including them in your block device mapping has no effect.
 const BlockDeviceMappings = [
 	{
+		// I believe this device name makes this 
+		// EBS volume the root volume for the server
 		DeviceName: "/dev/xvda",
 		Ebs: {
 			VolumeType: "gp2",
@@ -104,8 +106,8 @@ ec2.runInstances(params, function (err, data) {
 		// console
 		// 	.log();
 
-			// `ssh -o 'StrictHostKeyChecking no' -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} -t 'tail -f /var/log/cloud-init-output.log'`
-			
+		// `ssh -o 'StrictHostKeyChecking no' -i blot-deployment.pem ec2-user@${instance.PublicIpAddress} -t 'tail -f /var/log/cloud-init-output.log'`
+
 		require("./associate-ip");
 	});
 });
