@@ -1,0 +1,5 @@
+# Sign up page
+
+Designing the sign up page for Blot.
+
+The goal of the sign-up form is to get new customers onto Blot. 

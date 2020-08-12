@@ -1,11 +1,21 @@
 Pricing
 =======
 
-In the end, I decided the price Blot at whatever price I would feel comfortable paying for it personally. When I started Blot, that happened to be $1 a month. I felt embarrassed about charging even that, then. Now Blot costs $4 a month and I feel like that's a fair price. I'm providing web hosting, after all. And personal support.
+I set the price of Blot at whatever I would be comfortable paying myself. When I started Blot, it cost $1 a month. I've improved Blot since then and now Blot costs $4 a month. I feel that's still a fair price since I provide web hosting and personal support.
 
-I'm sure I could get away with charging more but I won't. I'm interested in having Blot in more hands, even if it means generating less revenue.
+I'm sure I could get away with charging more but I won't. However, I'm interested in having Blot in the hands of more people, even if it means generating less revenue. 
+
 
 Why doesn't Blot have pricing tiers?
 ------------------------------------
 
-I don't like those tables, with three or four choices, a feature list to compare against. Blot has one option, one price. I want a world with less choice. I recognize that decision means I'm giving up revenue.
+In general, I feel like there's an overwhelming amount of choice in the world. Some of this choice is good and warranted but I feel annoyed when I have to dig through a variety of offerings that have been clearly. I recognize this means I'm giving up revenue.
+
+Also, I don't like the look of those tables, with three or four choices, a feature list to compare against. Blot has one option, one price, one fewer decision to make.
+
+
+
+Why not use a price ending in .99?
+----------------------------------
+
+Why is the price $4 rather than $3.99 a month? I don't like the look of prices that end in .99. It always struck me as a cheap trick. The number is messier too. Why use five glyphs if we can get away with two? I know it works, but I know that it's working on me.
