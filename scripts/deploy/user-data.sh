@@ -28,6 +28,8 @@ NVM_URL=https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh
 PANDOC_URL=https://github.com/jgm/pandoc/releases/download/2.9.1.1/pandoc-2.9.1.1-linux-amd64.tar.gz
 OPENRESTY_URL=https://openresty.org/package/amazon/openresty.repo
 EPEL_URL=https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+ACME_NGINX_URL=https://github.com/kshcherban/acme-nginx/releases/download/v0.2.0/acme-nginx
+
 # TODO: check if we can fetch these over HTTPS
 LUAROCKS_URL=http://luarocks.org/releases/luarocks-2.0.13.tar.gz
 REDIS_URL=http://download.redis.io/redis-stable.tar.gz
@@ -101,6 +103,9 @@ cp redis/src/redis-server {{redis.server}}
 cp redis/src/redis-cli {{redis.cli}}
 rm -rf redis
 rm redis.tar.gz
+sudo adduser --system --group --no-create-home redis
+sudo chown redis:redis {{directory}}/db
+sudo chmod 770 {{directory}}/db
 
 # The following are recommendations for improving the performance
 # of Redis on an AWS instance.
@@ -212,7 +217,17 @@ cp scripts/deploy/out/blot.service /etc/systemd/system/blot.service
 systemctl enable blot.service
 systemctl start blot.service
 
+# Fetch script to generate the wildcard certificate
+export AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
+
+wget ACME_NGINX_URL 
+chmod +x acme-nginx
+./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
+
 echo "Server set up successfully"
+
+
 
 # We might need to allow read permissions to NGINX user
 # chown -R blot:blot {{cache_directory}}

@@ -3,6 +3,8 @@ Description=Redis persistent key-value storage
 After=network.target
 
 [Service]
+User=redis
+Group=redis
 Type=forking
 PIDFile=/var/run/redis.pid
 ExecStart=/usr/bin/redis-server {{redis.config}}
