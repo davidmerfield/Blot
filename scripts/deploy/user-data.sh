@@ -238,15 +238,8 @@ cp scripts/deploy/out/blot.service /etc/systemd/system/blot.service
 systemctl enable blot.service
 systemctl start blot.service
 
-echo "Server set up successfully"
-
-
-
-# We might need to allow read permissions to NGINX user
-# chown -R blot:blot {{cache_directory}}
-
 # We use rsync to transfer the database dump and blog folder from the other instance
-# yum -y install rsync
+yum -y install rsync
 # copy redis dump from other instance
 # rysnc -i $PATH_TO_PREVIOUS_PEM ec2-user@:$PREVIOUS_IP:/var/www/blot/db/dump.rdb $DUMP
 
@@ -257,3 +250,5 @@ echo "Server set up successfully"
 
 # Logrotate
 # yum install logrotate
+
+echo "Server set up successfully"
