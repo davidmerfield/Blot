@@ -103,9 +103,7 @@ cp redis/src/redis-server {{redis.server}}
 cp redis/src/redis-cli {{redis.cli}}
 rm -rf redis
 rm redis.tar.gz
-sudo adduser --system --group --no-create-home redis
-sudo chown redis:redis {{directory}}/db
-sudo chmod 770 {{directory}}/db
+
 
 # The following are recommendations for improving the performance
 # of Redis on an AWS instance.
@@ -194,6 +192,20 @@ mkdir -p {{directory}}/tmp
 mkdir -p {{directory}}/logs
 mkdir -p {{directory}}/db
 mkdir -p {{directory}}/static
+
+# Make the users required to run all the scripts
+# sudo adduser --system --no-create-home redis
+# sudo chown blot:redis {{directory}}/db
+# sudo chmod 770 {{directory}}/db
+
+# sudo adduser --system --no-create-home nginx
+# sudo chown blot:nginx {{cache_directory}}
+# sudo chmod 770 {{cache_directory}}
+
+# sudo adduser --system --no-create-home nginx
+# sudo chown blot:node {{cache_directory}}
+# sudo chmod 770 {{cache_directory}}
+
 
 # Whitelist domains for ssl certificate issuance
 echo "SET domain:{{host}} true" | {{redis.cli}}
