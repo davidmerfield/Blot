@@ -146,6 +146,15 @@ openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
 /usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl
 mkdir /etc/resty-auto-ssl
 
+# Fetch script to generate the wildcard certificate
+export AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
+
+wget ACME_NGINX_URL 
+chmod +x acme-nginx
+./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
+
+
 
 
 ## Blot installation
@@ -228,14 +237,6 @@ systemctl start nginx.service
 cp scripts/deploy/out/blot.service /etc/systemd/system/blot.service
 systemctl enable blot.service
 systemctl start blot.service
-
-# Fetch script to generate the wildcard certificate
-export AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
-export AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
-
-wget ACME_NGINX_URL 
-chmod +x acme-nginx
-./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
 
 echo "Server set up successfully"
 
