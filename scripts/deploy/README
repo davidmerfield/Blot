@@ -1,3 +1,21 @@
+How to use:
+
+1. With a clean environment, source the variables here:
+
+. ~/Documents/2020/AWS/deployment.env
+. ~/Documents/2020/AWS/staging.env
+
+2. Run the script:
+
+node scripts/deploy/launch-instance.js
+
+Once you've finished, terminate the newly created instances:
+
+node scripts/deploy/reset.js
+
+---
+
+
 Interface:
 
 node scripts/deploy
