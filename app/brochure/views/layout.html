@@ -35,7 +35,7 @@ margin-left: 12px
 </style>
 <div >
   <div class="wrapper">
-    <row  style="padding:1rem 0 1rem;display:flex;align-items:center;margin-bottom: 1rem">
+    <row  style="padding:1rem 0 1rem;display:flex;align-items:center;margin: 0.5rem 0">
       <section style="display: flex;
     align-items: center;width: 15rem">
 
@@ -81,7 +81,18 @@ margin-left: 12px
         <a class="{{selected.how}}" href="{{{base}}}/how">How to use Blot</a>
       </li>
       
+      <ul>
+         <li>
+        <a class="{{selected.pages}}" href="{{{base}}}/how/pages">Pages</a>
+      </li>
 
+           <li>
+        <a class="{{selected.metadata}}" href="{{{base}}}/how/metadata">Metadata</a>
+      </li>
+
+           <li>
+        <a class="{{selected.public-files}}" href="{{{base}}}/how/public-files">Public files</a>
+      </li></ul>
 
 <li>
         <a class="{{selected.templates}}" href="{{{base}}}/templates">Templates</a>
@@ -121,7 +132,11 @@ margin-left: 12px
     </content>
     <ul class="sidebar col-25" style="border-top: 1px solid #eee">
 
-<p style="margin:0"><small>In this section:</small></p>
+<style type="text/css">
+  
+  .tt {margin-top:1rem;display:block;font-size: 12px;text-transform: uppercase;font-weight: 600;letter-spacing: 0.01em}
+</style><!-- 
+<p style="margin:0"><small class="tt">In this section</small></p>
 {{#if selected.how}}
       <li>
         <a class="{{selected.howIndex}}" href="{{{base}}}/how">How to use Blot</a>
@@ -171,8 +186,8 @@ margin-left: 12px
         <a class="" href="{{{base}}}/clients/git">Git</a>
       </li>
       {{/if}}    
-      <hr>  
-      <p style="margin:0"><small>On this page:</small></p>
+      <hr>  --> 
+      <p style="margin:0"><small class="tt">On this page</small></p>
       {{#headers}}
       <li>
         <a style="padding-left: 1.5em;
