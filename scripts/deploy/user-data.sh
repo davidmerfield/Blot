@@ -104,7 +104,6 @@ cp redis/src/redis-cli {{redis.cli}}
 rm -rf redis
 rm redis.tar.gz
 
-
 # The following are recommendations for improving the performance
 # of Redis on an AWS instance.
 # TODO: fully research each line and document it. Ensure each change
@@ -112,6 +111,7 @@ rm redis.tar.gz
 sysctl vm.overcommit_memory=1
 bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
 dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
+
 
 ## NGINX installation
 ##########################################################
@@ -136,23 +136,26 @@ cd ../
 rm luarocks.tar.gz
 rm -rf ./luarocks
 
-# Generate SSL fallback cert for NGINX
-mkdir -p $(dirname {{fallback_certificate_key}})
-openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
-	-subj '/CN=sni-support-required-for-valid-ssl' \
-	-keyout {{fallback_certificate_key}} \
-	-out {{fallback_certificate}}
-
 /usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl
 mkdir /etc/resty-auto-ssl
 
+# Generate SSL fallback cert for NGINX
 # Fetch script to generate the wildcard certificate
+mkdir -p $(dirname {{fallback_certificate_key}})
 export AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
 
 wget ACME_NGINX_URL 
 chmod +x acme-nginx
 ./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
+
+mv /etc/ssl/private/letsencrypt-account.key {{fallback_certificate_key}}
+mv /etc/ssl/private/letsencrypt-domain.pem {{fallback_certificate}}
+
+cat > /etc/cron.d/renew-cert <<EOL
+# Renews SSL certificate for blot.im
+12 11 10 * * root timeout -k 600 -s 9 3600 AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY /acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
+EOL
 
 
 
