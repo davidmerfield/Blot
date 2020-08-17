@@ -145,7 +145,7 @@ mkdir -p $(dirname {{fallback_certificate_key}})
 export AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
 
-wget ACME_NGINX_URL 
+wget $ACME_NGINX_URL 
 chmod +x acme-nginx
 ./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
 
