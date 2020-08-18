@@ -142,20 +142,22 @@ mkdir /etc/resty-auto-ssl
 # Generate SSL fallback cert for NGINX
 # Fetch script to generate the wildcard certificate
 mkdir -p $(dirname {{fallback_certificate_key}})
-export AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
-export AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
+AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
 
 wget $ACME_NGINX_URL 
 chmod +x acme-nginx
-./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
 
-mv /etc/ssl/private/letsencrypt-account.key {{fallback_certificate_key}}
-mv /etc/ssl/private/letsencrypt-domain.pem {{fallback_certificate}}
+# TODO: enable this to generate the wildcard ssl certificate
+# ./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
 
-cat > /etc/cron.d/renew-cert <<EOL
-# Renews SSL certificate for blot.im
-12 11 10 * * root timeout -k 600 -s 9 3600 AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY /acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
-EOL
+# mv /etc/ssl/private/letsencrypt-account.key {{fallback_certificate_key}}
+# mv /etc/ssl/private/letsencrypt-domain.pem {{fallback_certificate}}
+
+# cat > /etc/cron.d/renew-cert <<EOL
+# # Renews SSL certificate for blot.im
+# 12 11 10 * * root timeout -k 600 -s 9 3600 AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY /acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
+# EOL
 
 
 
@@ -202,21 +204,37 @@ npm ci
 mkdir -p {{directory}}/blogs
 mkdir -p {{directory}}/tmp
 mkdir -p {{directory}}/logs
-mkdir -p {{directory}}/db
 mkdir -p {{directory}}/static
 
 # Make the users required to run all the scripts
-# sudo adduser --system --no-create-home redis
-# sudo chown blot:redis {{directory}}/db
-# sudo chmod 770 {{directory}}/db
+adduser --system --no-create-home redis
 
-# sudo adduser --system --no-create-home nginx
-# sudo chown blot:nginx {{cache_directory}}
-# sudo chmod 770 {{cache_directory}}
+# 701 is just execute, as far as I know
+chown redis:redis {{redis.server}}
+chmod 701 {{redis.server}}
 
-# sudo adduser --system --no-create-home nginx
-# sudo chown blot:node {{cache_directory}}
-# sudo chmod 770 {{cache_directory}}
+chown redis:redis {{redis.cli}}
+chmod 701 {{redis.cli}}
+
+# Per ./systemd/redis.service, the pidfile for the
+# redis daemon is written to /var/run/redis/redis.pid
+REDIS_PID_DIRECTORY=$(dirname {{redis.pid}})
+mkdir $REDIS_PID_DIRECTORY
+chown redis:redis $REDIS_PID_DIRECTORY
+chmod -R 770 $REDIS_PID_DIRECTORY
+
+mkdir {{directory}}/db
+chown redis:redis {{directory}}/db
+chmod -R 770 {{directory}}/db
+
+
+adduser --system --no-create-home nginx
+chown nginx:nginx {{cache_directory}}
+chmod 770 {{cache_directory}}
+
+adduser --system --no-create-home blot
+chown blot:blot {{cache_directory}}
+chmod 770 {{cache_directory}}
 
 
 # Whitelist domains for ssl certificate issuance
