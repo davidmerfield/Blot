@@ -208,13 +208,13 @@ adduser --system --no-create-home redis
 adduser --system --no-create-home nginx
 adduser --system --no-create-home blot
 
-groupadd log_directory
-usermod -a -G log_directory redis
-usermod -a -G log_directory blot
-usermod -a -G log_directory nginx
+groupadd blot_directory
+usermod -a -G blot_directory redis
+usermod -a -G blot_directory blot
+usermod -a -G blot_directory nginx
 
-sudo chgrp -R log_directory {{directory}}/logs
-sudo chmod -R 770 {{directory}}/logs
+sudo chgrp -R log_directory {{directory}}
+sudo chmod -R 770 {{directory}}
 
 groupadd cache_directory
 usermod -a -G cache_directory blot
@@ -222,16 +222,6 @@ usermod -a -G cache_directory nginx
 
 sudo chgrp -R cache_directory {{cache_directory}}
 sudo chmod -R 770 {{cache_directory}}
-
-NGINX_PID_DIRECTORY=$(dirname {{nginx.pid}})
-chown nginx:nginx $NGINX_PID_DIRECTORY
-chmod 770 $NGINX_PID_DIRECTORY
-
-chown nginx:nginx {{nginx.bin}}
-chmod 701 {{nginx.bin}}
-
-chown nginx:nginx {{nginx.config}}
-chmod 770 {{nginx.config}}
 
 # 701 is just execute, as far as I know
 chown redis:redis {{redis.server}}
@@ -250,11 +240,6 @@ chmod -R 770 $REDIS_PID_DIRECTORY
 mkdir {{directory}}/db
 chown redis:redis {{directory}}/db
 chmod -R 770 {{directory}}/db
-
-
-
-
-
 
 # Whitelist domains for ssl certificate issuance
 echo "SET domain:{{host}} true" | {{redis.cli}}
