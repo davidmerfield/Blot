@@ -165,9 +165,6 @@ chmod +x acme-nginx
 ## Blot installation
 ##########################################################
 
-# Create a user for Blot
-id -u $USER &>/dev/null || useradd -m $USER
-
 # Install Pandoc
 mkdir pandoc
 wget $PANDOC_URL -O pandoc.tar.gz
@@ -208,6 +205,33 @@ mkdir -p {{directory}}/static
 
 # Make the users required to run all the scripts
 adduser --system --no-create-home redis
+adduser --system --no-create-home nginx
+adduser --system --no-create-home blot
+
+groupadd log_directory
+usermod -a -G log_directory redis
+usermod -a -G log_directory blot
+usermod -a -G log_directory nginx
+
+sudo chgrp -R log_directory {{directory}}/logs
+sudo chmod -R 770 {{directory}}/logs
+
+groupadd cache_directory
+usermod -a -G cache_directory blot
+usermod -a -G cache_directory nginx
+
+sudo chgrp -R cache_directory {{cache_directory}}
+sudo chmod -R 770 {{cache_directory}}
+
+NGINX_PID_DIRECTORY=$(dirname {{nginx.pid}})
+chown nginx:nginx $NGINX_PID_DIRECTORY
+chmod 770 $NGINX_PID_DIRECTORY
+
+chown nginx:nginx {{nginx.bin}}
+chmod 701 {{nginx.bin}}
+
+chown nginx:nginx {{nginx.config}}
+chmod 770 {{nginx.config}}
 
 # 701 is just execute, as far as I know
 chown redis:redis {{redis.server}}
@@ -228,13 +252,8 @@ chown redis:redis {{directory}}/db
 chmod -R 770 {{directory}}/db
 
 
-adduser --system --no-create-home nginx
-chown nginx:nginx {{cache_directory}}
-chmod 770 {{cache_directory}}
 
-adduser --system --no-create-home blot
-chown blot:blot {{cache_directory}}
-chmod 770 {{cache_directory}}
+
 
 
 # Whitelist domains for ssl certificate issuance
