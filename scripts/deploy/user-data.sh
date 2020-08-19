@@ -161,7 +161,12 @@ chmod +x acme-nginx
 # 12 11 10 * * root timeout -k 600 -s 9 3600 AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY /acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
 # EOL
 
-
+# TODO: remove the following
+mkdir -p $(dirname {{fallback_certificate_key}})
+openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
+  -subj '/CN=sni-support-required-for-valid-ssl' \
+  -keyout {{fallback_certificate_key}} \
+  -out {{fallback_certificate}}
 
 
 ## Blot installation
@@ -251,6 +256,12 @@ node scripts/deploy/build
 cp scripts/deploy/out/redis.service /etc/systemd/system/redis.service
 systemctl enable redis.service
 systemctl start redis.service
+
+# Run the Blot tests
+npm test
+
+# Reset DB after running tests
+echo "flushall" | /usr/bin/redis-cli
 
 # Whitelist domains for ssl certificate issuance
 # which must happen once redis is running
