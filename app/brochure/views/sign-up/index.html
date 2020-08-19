@@ -45,7 +45,7 @@
     <hr style="margin:2px 0;border:none;border-top:1px solid rgba(0, 0, 0, .25)">
     <p style="margin-top:4px">{{price}}</p>
   </div>
-  <input type="submit" value="Submit payment" />
+  <input type="submit" value="Submit payment" onclick="this.classList.add('working')"/>
 </flex>
   <input type="hidden" class="stripeToken" name="stripeToken" />
 </form>
