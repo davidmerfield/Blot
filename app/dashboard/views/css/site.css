@@ -404,8 +404,7 @@ form input[type="text"],
 form input[type="number"],
 form input[type="password"],
 textarea {
-padding: 4px 3px;
-    margin: 2px 0;
+margin: 2px 0;
     font-size: 17px;
     padding: 10px;
     font-family: inherit;
@@ -1668,7 +1667,8 @@ html {
 
 .buttons {
   display: flex;
-  margin-top: 2.5rem
+  margin-top: 2.5rem;
+  line-height: 39px;
 }
 
 .buttons>* {
@@ -1676,10 +1676,10 @@ html {
   border: none;
   border-radius: 4px;
   background: grey;
+      font-size: 14px;
+    font-weight: 500;
   padding: 0 20px;
   position: relative;
-  line-height: 41px;
-  letter-spacing: 0.01em;
   display: flex;
   box-sizing: border-box;
 }
@@ -1697,14 +1697,13 @@ html {
   flex-grow: 0.6666;
   margin-right: 2em;
   box-sizing: border-box;
-    background: #365899;
     border-radius: 4px;
     color: #fff;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-}
+background-color: #0079fc;
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, #0079fc 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+  }
 
 .buttons :first-child:hover {
 }
@@ -1724,7 +1723,20 @@ html {
   background: #c70000
 }
 
-.buttons :first-child:disabled {
+
+.buttons :last-child {
+  flex-grow: 0.3333;
+
+      border-radius: 4px;
+    text-decoration: none;
+    color: #666;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+}
+
+
+
+.buttons :disabled, .buttons .disabled {
   background: #f0f0f0;
   color: #bbb
 }
@@ -1741,7 +1753,7 @@ html {
 }
 
 
-.buttons :first-child:disabled:after {
+.buttons :disabled:after, .buttons .disabled:after {
   content: "";
   animation: pulse 0.2s cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
   width: 0.5rem;
@@ -1753,13 +1765,6 @@ html {
   right: 2em;
   top: 17px;
 }
-
-.buttons :last-child {
-  flex-grow: 0.3333;
-  color: #777;
-  background: #e6e6e6
-}
-
 
 form.account {border: 1px solid #eee;border-radius: 3px;background: #fff}
 
@@ -1785,7 +1790,7 @@ div.line a.link:hover,
 .dropdown .menu button:hover,
 .dropdown .menu a:hover,
 .line form button:hover {
-  background: rgba(0,0,0,0.02)
+  background: #f7fafc
 }
 
 a.line:active,
@@ -2337,7 +2342,7 @@ a.content-line .file {
 }
 
 .subpage {
-  background:#fff;border:1px solid #eee;border-radius:3px
+  background:#fff;border:1px solid #ddd;border-radius:4px
 }
 
 form a {color: #365899}
