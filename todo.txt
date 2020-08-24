@@ -1,3 +1,5 @@
+Rebuilt magazine template did not force reload of CSS for site
+
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
 
 Work on Phil's custom template and follow up tomorrow
@@ -323,6 +325,8 @@ Fix bug with rename detector which caused old permalinks not to redirect to thei
 - we expect /foo to redirect to /bar, but it doesn't
 
 Tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrttWJFgmtWWqnnxzCmmfDQbc) once it's possible to create stand-alone HTML pages whcih don't become blog posts.
+
+Make it possible to search entire page on web template editor and tell [Precious](https://mail.google.com/mail/u/0/#inbox/QgrcJHrtwLwTldzhrTKHMtnhwVqMXVzCTqv). At the moment, only the text on the viewport is searchable.
 
 Follow up with [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpcJbSnrrjHZGqtgschtWwXs) about how to ignore arbritrary paths and keep clean URLS (no underscores). Sitewide .blotignore file?
 
