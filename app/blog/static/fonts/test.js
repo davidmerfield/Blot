@@ -30,6 +30,7 @@ express()
 				{
 					...fonts.filter((font) => font.id === req.params.font)[0],
 					fonts: fonts,
+					documents: documents,
 				}
 			)
 		);
@@ -46,10 +47,10 @@ express()
 	})
 	.get("/:font", function (req, res) {
 		res.send(
-			mustache.render(
-				fs.readFileSync(__dirname + "/test-font.html", "utf-8"),
-				fonts.filter((font) => font.id === req.params.font)[0]
-			)
+			mustache.render(fs.readFileSync(__dirname + "/test-font.html", "utf-8"), {
+				...fonts.filter((font) => font.id === req.params.font)[0],
+				document: documents[0].contents,
+			})
 		);
 	})
 	.post(
