@@ -46,63 +46,83 @@
 				background: #aaa;
 			}
 
-			label {display: block;}
+			label {
+				display: block;
+			}
 		</style>
 	</head>
 	<body>
-
-		<a href="#!" onclick="opener.location ='/'">Home</a>
-		<br>
+		<label
+			>Font:
+			<select name="font">
+				{{#fonts}}
+				<option value="{{id}}">{{name}}</option>
+				{{/fonts}}
+			</select>
+		</label>
+		<label
+			>Document:
+			<select name="document">
+				{{#documents}}
+				<option value="{{id}}">{{name}}</option>
+				{{/documents}}
+			</select>
+		</label>
 		<h1>{{name}}</h1>
-			<form method="post">
-				<label
-					>Line height: <span id="line_height_display">{{line_height}}</span>
-					<input
-						type="range"
-						name="line_height"
-						min="0.5"
-						max="3"
-						step="0.005"
-						value="{{line_height}}"
-					/>
-					
-				</label>
-				<label
-					>Line width:  <span id="line_width_display">{{line_width}}em</span>
-					<input
-						type="range"
-						name="line_width"
-						min="10"
-						max="50"
-						step="0.1"
-						value="{{line_width}}"
-					/>
-					
-				</label>
-				<label
-					>Font size: 					<span id="font_size_display">{{font_size}}em</span>
+		<form method="post" onsubmit="submitFormAjax(event);return false;">
+			<label
+				>Line height: <span id="line_height_display">{{line_height}}</span>
+				<input
+					type="range"
+					name="line_height"
+					min="0.5"
+					max="3"
+					step="0.005"
+					value="{{line_height}}"
+				/>
+			</label>
+			<label
+				>Line width: <span id="line_width_display">{{line_width}}em</span>
+				<input
+					type="range"
+					name="line_width"
+					min="10"
+					max="50"
+					step="0.1"
+					value="{{line_width}}"
+				/>
+			</label>
+			<label
+				>Font size: <span id="font_size_display">{{font_size}}em</span>
 
-					<input
-						type="range"
-						name="font_size"
-						min="0.7"
-						max="2"
-						step="0.005"
-						value="1"
-					/>
-				</label>
-				<label
-					>Alias:
-					<input type="checkbox" name="al" />
-				</label>
-			</form>
+				<input
+					type="range"
+					name="font_size"
+					min="0.7"
+					max="2"
+					step="0.005"
+					value="1"
+				/>
+			</label>
+			<label
+				>Alias:
+				<input type="checkbox" name="al" />
+			</label>
+		</form>
 
 		<script type="text/javascript">
 			let article = opener.document.querySelector("body");
 
+
+			document.querySelector("select[name='font']").addEventListener("input", (event) => {
+					opener.location = '/' + event.target.value;
+				});
+
+			document.querySelector("select[name='font'] option[value='{{id}}']").setAttribute('selected','selected')
+
 			document.querySelectorAll("input").forEach((el) => {
 				el.addEventListener("change", (event) => {
-					document.querySelector("form").submit();
+					submitFormAjax();
 				});
 			});
 
@@ -129,6 +149,25 @@
 					document.getElementById("font_size_display").innerHTML =
 						event.target.value + "rem";
 				});
+
+			function submitFormAjax(e) {
+				if (e) e.preventDefault();
+
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", window.location.pathname, true);
+
+				//Send the proper header information along with the request
+				xhr.setRequestHeader(
+					"Content-Type",
+					"application/x-www-form-urlencoded"
+				);
+
+				xhr.send(
+					new URLSearchParams(
+						new FormData(document.querySelector("form"))
+					).toString()
+				);
+			}
 		</script>
 	</body>
 </html>

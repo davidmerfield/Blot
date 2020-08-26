@@ -11,12 +11,26 @@ let fonts = require("./index").map((font) => {
 	return font;
 });
 
+let documents = fs
+	.readdirSync(__dirname)
+	.filter((i) => i.indexOf("test-document-") === 0)
+	.map((i) => {
+		return {
+			contents: fs.readFileSync(__dirname + "/" + i, "utf-8"),
+			name: i.slice("test-document-".length, -".html".length),
+			id: i,
+		};
+	});
+
 express()
 	.get("/:font/controls", function (req, res) {
 		res.send(
 			mustache.render(
 				fs.readFileSync(__dirname + "/test-controls.html", "utf-8"),
-				fonts.filter((font) => font.id === req.params.font)[0]
+				{
+					...fonts.filter((font) => font.id === req.params.font)[0],
+					fonts: fonts,
+				}
 			)
 		);
 	})
