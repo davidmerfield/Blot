@@ -89,67 +89,7 @@ function generatePackage(directory) {
 function generateStyle(directory) {
 	const stylePath = directory + "/style.css";
 	const package = fs.readJsonSync(directory + "/package.json");
-
-	const fontFiles = fs
-		.readdirSync(directory)
-		.filter((i) => EXTENSIONS.indexOf(extname(i)) > -1);
-
-	let family = {};
-
-	fontFiles.forEach((file) => {
-		let extension = extname(file);
-		let nameWithoutExtension = file.slice(0, -extension.length);
-
-		if (family[nameWithoutExtension]) {
-			family[nameWithoutExtension].extensions.push(extname(file));
-			return;
-		}
-
-		let style =
-			nameWithoutExtension.indexOf("italic") > -1 ||
-			nameWithoutExtension.indexOf("oblique") > -1
-				? "italic"
-				: "normal";
-
-		let weight;
-
-		let nameWithoutExtensionAndStyle = nameWithoutExtension
-			.split("italic")
-			.join("")
-			.split("oblique")
-			.join("")
-			.split("-")
-			.join("")
-			.trim();
-
-		if (
-			(nameWithoutExtension === "italic" ||
-				nameWithoutExtension === "oblique") &&
-			!nameWithoutExtensionAndStyle
-		) {
-			nameWithoutExtensionAndStyle = "regular";
-		}
-		if (
-			parseInt(nameWithoutExtensionAndStyle).toString() ===
-			nameWithoutExtensionAndStyle
-		) {
-			weight = parseInt(nameWithoutExtensionAndStyle);
-		} else if (WEIGHTS[nameWithoutExtensionAndStyle]) {
-			weight = WEIGHTS[nameWithoutExtensionAndStyle];
-		} else {
-			console.error("");
-			console.error(
-				colors.red("Unable to parse weight:", nameWithoutExtensionAndStyle)
-			);
-			console.error(relative(process.cwd(), directory + "/" + file));
-		}
-
-		family[nameWithoutExtension] = {
-			style,
-			weight,
-			extensions: [extname(file)],
-		};
-	});
+	const family = parseFamily(directory);
 
 	let result = "";
 	let typeset = "";
@@ -171,6 +111,7 @@ function generateStyle(directory) {
 		})
 		.forEach((file) => {
 			let name = package.name;
+			let fontVariant = family[file].fontVariant;
 			let style = family[file].style;
 			let weight = family[file].weight;
 			let extensions = family[file].extensions;
@@ -178,6 +119,8 @@ function generateStyle(directory) {
 			let src;
 
 			let contentHashes = {};
+
+			if (fontVariant !== 'normal') return;
 
 			if (style === "normal" && weight === 400) {
 				typeset = generateTypeset(
@@ -216,6 +159,7 @@ function generateStyle(directory) {
 @font-face {
   font-family: '${name}';
   font-style: ${style};
+  font-variant: ${fontVariant};
   font-weight: ${weight};
   ${src}
 }`;
@@ -282,7 +226,7 @@ function generateTypeset(path) {
 .pull-double,.pull-single,.push-double,.push-single{display:inline-block}
 `;
 
-/*
+	/*
 .pull-T,.pull-V,.pull-W,.pull-Y{margin-left:-.07em}
 .push-T,.push-V,.push-W,.push-Y{margin-right:.07em}
 .pull-C,.pull-O,.pull-c,.pull-o{margin-left:-.04em}
@@ -326,6 +270,77 @@ function printCandidates() {
 				)
 			)
 		);
+}
+
+function parseFamily(directory) {
+	const fontFiles = fs
+		.readdirSync(directory)
+		.filter((i) => EXTENSIONS.indexOf(extname(i)) > -1);
+
+	let family = {};
+
+	fontFiles.forEach((file) => {
+		let extension = extname(file);
+		let nameWithoutExtension = file.slice(0, -extension.length);
+
+		if (family[nameWithoutExtension]) {
+			family[nameWithoutExtension].extensions.push(extname(file));
+			return;
+		}
+
+		let style =
+			nameWithoutExtension.indexOf("italic") > -1 ||
+			nameWithoutExtension.indexOf("oblique") > -1
+				? "italic"
+				: "normal";
+
+		let fontVariant =
+			nameWithoutExtension.indexOf("small-caps") > -1 ? "small-caps" : "normal";
+
+		let weight;
+
+		let nameWithoutExtensionAndStyle = nameWithoutExtension
+			.split("small-caps")
+			.join("")
+			.split("italic")
+			.join("")
+			.split("oblique")
+			.join("")
+			.split("-")
+			.join("")
+			.trim();
+
+		if (
+			(nameWithoutExtension === "italic" ||
+				nameWithoutExtension === "oblique") &&
+			!nameWithoutExtensionAndStyle
+		) {
+			nameWithoutExtensionAndStyle = "regular";
+		}
+		if (
+			parseInt(nameWithoutExtensionAndStyle).toString() ===
+			nameWithoutExtensionAndStyle
+		) {
+			weight = parseInt(nameWithoutExtensionAndStyle);
+		} else if (WEIGHTS[nameWithoutExtensionAndStyle]) {
+			weight = WEIGHTS[nameWithoutExtensionAndStyle];
+		} else {
+			console.error("");
+			console.error(
+				colors.red("Unable to parse weight:", nameWithoutExtensionAndStyle)
+			);
+			console.error(relative(process.cwd(), directory + "/" + file));
+		}
+
+		family[nameWithoutExtension] = {
+			style,
+			weight,
+			fontVariant,
+			extensions: [extname(file)],
+		};
+	});
+
+	return family;
 }
 
 process.exit();
