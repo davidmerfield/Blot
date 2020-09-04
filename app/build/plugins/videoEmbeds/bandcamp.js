@@ -56,7 +56,7 @@ module.exports = function (href, callback) {
     width = Number(meta["og:video:width"]);
     html = meta["og:video"];
 
-    if (height == NaN || width == NaN) {
+    if (!html || height == NaN || width == NaN) {
       return callback(new Error(FAIL));
     }
 
