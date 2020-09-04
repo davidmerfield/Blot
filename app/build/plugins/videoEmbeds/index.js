@@ -3,6 +3,10 @@ var eachEl = require("../eachEl");
 var punycode = require("punycode");
 
 var Players = {
+  bandcamp: {
+    module: require("./bandcamp"),
+    regex: /.bandcamp.com$/m,
+  },
   youtube: {
     module: require("./youtube"),
     regex: /((^|^m.)youtube.com$)|(^youtu.be$)/m,
