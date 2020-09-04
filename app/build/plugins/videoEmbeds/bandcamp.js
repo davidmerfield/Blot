@@ -15,7 +15,7 @@ function template(url, width, height, ratio) {
     '" height="' +
     height +
     '" src="' +
-    url +
+    encodeURI(url) + // encodeURI should prevent a passed URI from escaping / causing an XSS
     '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>'
   );
 }
