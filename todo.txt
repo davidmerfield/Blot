@@ -681,6 +681,9 @@ Review pCloud as a potential client and tell [Omaid](https://mail.google.com/mai
 
 Review Dropmark as a potential client and tell [Rado](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDjrKSQVTXqvgFRGrhMSFvrR)
 
+Add option to sort posts by filename alphabetically and tell [Steve](https://mail.google.com/mail/u/
+0/#inbox/FMfcgxwJXpTLwnKwSRTFKRqXKNgQkFDv)
+
 - How do we share info, like a link on a menu, or a header image across templates? Could there be a shared info repository that templates could access?
 - add support for dynamic partials to make collections possible, e.g. {{> /:tag.html}} ?
 - Add neat interface to customize blog level variables?
