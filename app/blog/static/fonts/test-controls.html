@@ -64,7 +64,7 @@
 			>Document:
 			<select name="document">
 				{{#documents}}
-				<option value="{{id}}">{{name}}</option>
+				<option value="{{name}}">{{name}}</option>
 				{{/documents}}
 			</select>
 		</label>
@@ -112,12 +112,18 @@
 		<script type="text/javascript">
 			let article = opener.document.querySelector("body");
 
+			document.querySelector("select[name='document']").addEventListener("input", (event) => {
+					opener.location = '/{{id}}/' + event.target.value;
+				});
+			
+			document.querySelector("select[name='document'] option[value='{{document.name}}']").setAttribute('selected','selected')
 
 			document.querySelector("select[name='font']").addEventListener("input", (event) => {
 					opener.location = '/' + event.target.value;
 				});
 
 			document.querySelector("select[name='font'] option[value='{{id}}']").setAttribute('selected','selected')
+
 
 			document.querySelectorAll("input").forEach((el) => {
 				el.addEventListener("change", (event) => {

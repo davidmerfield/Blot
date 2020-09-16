@@ -25,6 +25,13 @@ let documents = fs
 
 express()
 	.use(renderer)
+	.param("document", function(req, res, next, documentParam){
+		res.locals = {
+			...res.locals,
+			document: documents.filter((document) => document.name === documentParam)[0],
+		}
+		next();
+	})
 	.param("font", function (req, res, next, fontParam) {
 		res.locals = {
 			...res.locals,
@@ -32,18 +39,19 @@ express()
 		};
 		next();
 	})
-	.get("/:font", function (req, res) {
-		res.render("test-font", {
-			document: documents[0].contents,
-		});
+	.get("/:font", function(req, res){
+		res.redirect(`/${req.params.font}/${documents[0].name}`)
 	})
-	.get("/:font/controls", function (req, res) {
+	.get("/:font/:document", function(req, res){
+		res.render("test-font");
+	})
+	.get("/:font/:document/controls", function (req, res) {
 		res.render("test-controls", {
 			fonts: fonts,
 			documents: documents,
 		});
 	})
-	.post("/:font/controls", parseBody, function (req, res) {
+	.post("/:font/:document/controls", parseBody, function (req, res) {
 		writePackage(req.params.font, req.body);
 		res.redirect(req.url);
 	})
