@@ -30,7 +30,6 @@ express()
 			...res.locals,
 			...fonts.filter((font) => font.id === fontParam)[0],
 		};
-		console.log("Invoked!", res.locals);
 		next();
 	})
 	.get("/:font", function (req, res) {
