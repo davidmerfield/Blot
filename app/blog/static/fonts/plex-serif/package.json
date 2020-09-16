@@ -1,5 +1,7 @@
 {
   "name": "Plex Serif",
   "stack": "'Plex Serif'",
-  "line_height": 1.4
+  "line_height": "1.47",
+  "line_width": "36.7",
+  "font_size": "1"
 }

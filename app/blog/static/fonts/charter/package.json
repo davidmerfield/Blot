@@ -2,5 +2,7 @@
   "name": "Charter",
   "stack": "Charter, Georgia, serif",
   "line-height": 1.5,
-  "line_height": 1.4
+  "line_height": "1.515",
+  "line_width": "38",
+  "font_size": "1"
 }

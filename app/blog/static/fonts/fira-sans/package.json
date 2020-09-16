@@ -1,5 +1,7 @@
 {
   "name": "Fira Sans",
   "stack": "'Fira Sans'",
-  "line_height": 1.4
+  "line_height": "1.64",
+  "line_width": "40.4",
+  "font_size": "1"
 }

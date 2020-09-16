@@ -1,5 +1,11 @@
 {
   "name": "Cooper Hewitt",
   "stack": "Cooper Hewitt",
-  "line_height": 1.4
+  "line_height": "1.53",
+  "line_width": "34.8",
+  "font_size": "1",
+  "------WebKitFormBoundaryCD7xwrVM15AHjQLG\r\nContent-Disposition: form-data; name": "\"line_height\"\r\n\r\n1.6\r\n------WebKitFormBoundaryCD7xwrVM15AHjQLG\r\nContent-Disposition: form-data; name=\"line_width\"\r\n\r\n21.3\r\n------WebKitFormBoundaryCD7xwrVM15AHjQLG\r\nContent-Disposition: form-data; name=\"font_size\"\r\n\r\n1\r\n------WebKitFormBoundaryCD7xwrVM15AHjQLG--\r\n",
+  "------WebKitFormBoundaryc4ERRELGN4AWTrny\r\nContent-Disposition: form-data; name": "\"line_height\"\r\n\r\n1.32\r\n------WebKitFormBoundaryc4ERRELGN4AWTrny\r\nContent-Disposition: form-data; name=\"line_width\"\r\n\r\n21.3\r\n------WebKitFormBoundaryc4ERRELGN4AWTrny\r\nContent-Disposition: form-data; name=\"font_size\"\r\n\r\n1\r\n------WebKitFormBoundaryc4ERRELGN4AWTrny--\r\n",
+  "------WebKitFormBoundaryBDQA8WmpKOAAwpSk\r\nContent-Disposition: form-data; name": "\"line_height\"\r\n\r\n0.875\r\n------WebKitFormBoundaryBDQA8WmpKOAAwpSk\r\nContent-Disposition: form-data; name=\"line_width\"\r\n\r\n21.3\r\n------WebKitFormBoundaryBDQA8WmpKOAAwpSk\r\nContent-Disposition: form-data; name=\"font_size\"\r\n\r\n1\r\n------WebKitFormBoundaryBDQA8WmpKOAAwpSk--\r\n",
+  "------WebKitFormBoundaryumVWV8yHq10zeHJE\r\nContent-Disposition: form-data; name": "\"line_height\"\r\n\r\n1.075\r\n------WebKitFormBoundaryumVWV8yHq10zeHJE\r\nContent-Disposition: form-data; name=\"line_width\"\r\n\r\n21.3\r\n------WebKitFormBoundaryumVWV8yHq10zeHJE\r\nContent-Disposition: form-data; name=\"font_size\"\r\n\r\n1\r\n------WebKitFormBoundaryumVWV8yHq10zeHJE--\r\n"
 }

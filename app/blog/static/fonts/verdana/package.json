@@ -1,6 +1,8 @@
 {
-	"name": "Verdana",
-	"stack": "Verdana,Geneva,sans-serif",
-	"system": true,
-	"line_height": 1.4
+  "name": "Verdana",
+  "stack": "Verdana,Geneva,sans-serif",
+  "system": true,
+  "line_height": "1.425",
+  "line_width": "41.1",
+  "font_size": "1"
 }

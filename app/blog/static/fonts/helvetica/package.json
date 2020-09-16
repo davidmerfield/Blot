@@ -1,5 +1,7 @@
 {
   "name": "Helvetica",
   "stack": "Helvetica,Helvetica Neue,Arial,sans-serif",
-  "line_height": 1.4
+  "line_height": "1.47",
+  "line_width": "37.6",
+  "font_size": "1"
 }
