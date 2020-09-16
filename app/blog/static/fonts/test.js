@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const express = require("express");
 const mustache = require("mustache");
-
+const typeset = require('typeset');
 let fonts = require("./index").map((font) => {
 	// The URL of the CDN which serves the font needs to
 	// be replaced with an empty string. We serve fonts
@@ -17,7 +17,7 @@ let documents = fs
 	.filter((i) => i.indexOf("test-document-") === 0)
 	.map((i) => {
 		return {
-			contents: fs.readFileSync(__dirname + "/" + i, "utf-8"),
+			contents: typeset(fs.readFileSync(__dirname + "/" + i, "utf-8")),
 			name: i.slice("test-document-".length, -".html".length),
 			id: i,
 		};
