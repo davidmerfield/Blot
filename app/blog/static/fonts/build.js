@@ -106,10 +106,9 @@ function generateStyle(directory) {
 			let weight = family[file].weight;
 			let extensions = family[file].extensions;
 
-			if (fontVariant !== "normal") name += fontVariant;
-			const src = generateSRC(extensions, name, directory, file);
+			const src = generateSRC(extensions, directory, file);
 
-			return generateFontFace(name, style, weight, src);
+			return generateFontFace(name, style, weight, fontVariant, src);
 		})
 		.join("\n");
 
@@ -122,7 +121,10 @@ function generateStyle(directory) {
 		"/" +
 		RegularFontName +
 		family[RegularFontName].extensions.filter((ext) => ext !== ".eot")[0];
+
 	let typeset = generateTypeset(pathToRegularFont, name);
+
+	result += typeset;
 
 	console.log();
 	console.log(package.name);
@@ -293,7 +295,7 @@ function parseFamily(directory) {
 	return family;
 }
 
-function generateSRC(extensions, name, directory, file) {
+function generateSRC(extensions, directory, file) {
 	const base = "/fonts/" + basename(directory);
 	let contentHashes = {};
 	let src;
@@ -324,9 +326,9 @@ function generateSRC(extensions, name, directory, file) {
 	return src;
 }
 
-function generateFontFace(name, style, weight, src) {
+function generateFontFace(name, style, weight, fontVariant, src) {
 	return `@font-face {
-  font-family: '${name}';
+  font-family: '${fontVariant !== "normal" ? name + fontVariant : name}';
   font-style: ${style};
   font-weight: ${weight};
   ${src}
