@@ -119,7 +119,7 @@
 			document.querySelector("select[name='document'] option[value='{{document.name}}']").setAttribute('selected','selected')
 
 			document.querySelector("select[name='font']").addEventListener("input", (event) => {
-					opener.location = '/' + event.target.value;
+					opener.location = '/' + event.target.value + '/{{document.name}}';
 				});
 
 			document.querySelector("select[name='font'] option[value='{{id}}']").setAttribute('selected','selected')

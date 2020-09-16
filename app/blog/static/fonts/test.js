@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const express = require("express");
 const mustache = require("mustache");
-const typeset = require('typeset');
+const typeset = require("typeset");
 let fonts = require("./index").map((font) => {
 	// The URL of the CDN which serves the font needs to
 	// be replaced with an empty string. We serve fonts
@@ -12,24 +12,27 @@ let fonts = require("./index").map((font) => {
 	return font;
 });
 
-let documents = fs
-	.readdirSync(__dirname)
-	.filter((i) => i.indexOf("test-document-") === 0)
-	.map((i) => {
-		return {
-			contents: typeset(fs.readFileSync(__dirname + "/" + i, "utf-8")),
-			name: i.slice("test-document-".length, -".html".length),
-			id: i,
-		};
-	});
-
 express()
 	.use(renderer)
-	.param("document", function(req, res, next, documentParam){
+	.param("document", function (req, res, next, documentParam) {
+		let documents = fs
+			.readdirSync(__dirname)
+			.filter((i) => i.indexOf("test-document-") === 0)
+			.map((i) => {
+				return {
+					contents: typeset(fs.readFileSync(__dirname + "/" + i, "utf-8")),
+					name: i.slice("test-document-".length, -".html".length),
+					id: i,
+				};
+			});
+
 		res.locals = {
 			...res.locals,
-			document: documents.filter((document) => document.name === documentParam)[0],
-		}
+			documents,
+			document: documents.filter(
+				(document) => document.name === documentParam
+			)[0],
+		};
 		next();
 	})
 	.param("font", function (req, res, next, fontParam) {
@@ -39,16 +42,15 @@ express()
 		};
 		next();
 	})
-	.get("/:font", function(req, res){
-		res.redirect(`/${req.params.font}/${documents[0].name}`)
+	.get("/:font", function (req, res) {
+		res.redirect(`/${req.params.font}/${res.locals.documents[0].name}`);
 	})
-	.get("/:font/:document", function(req, res){
+	.get("/:font/:document", function (req, res) {
 		res.render("test-font");
 	})
 	.get("/:font/:document/controls", function (req, res) {
 		res.render("test-controls", {
 			fonts: fonts,
-			documents: documents,
 		});
 	})
 	.post("/:font/:document/controls", parseBody, function (req, res) {
