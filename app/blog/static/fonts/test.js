@@ -97,7 +97,12 @@ function writePackage(fontID, newPackage) {
 	let packagePath = __dirname + "/" + fontID + "/package.json";
 	let package = fs.readJSONSync(packagePath);
 
-	for (let field in newPackage) package[field] = newPackage[field];
+	for (let field in newPackage) {
+		if (["font_size", "line_height", "line_width"].indexOf(field) > -1)
+			newPackage[field] = parseFloat(newPackage[field]);
+
+		package[field] = newPackage[field];
+	}
 
 	fs.outputJSONSync(packagePath, package, {
 		spaces: 2,

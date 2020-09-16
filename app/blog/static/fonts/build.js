@@ -37,7 +37,8 @@ const FORMATS = {
 // Used to map source web font file names
 // to their corresponding css weights, e.g.
 // bold-italic.eot -> font-weight: 600 when
-// we generate the @font-face styles
+// we generate the @font-face styles. n.b.
+// IBM PLEX has 'text' as 450 weight.
 const WEIGHTS = {
 	thin: 100,
 	extralight: 200,
@@ -45,7 +46,7 @@ const WEIGHTS = {
 	roman: 400,
 	regular: 400,
 	book: 400,
-	text: 450 /* IBM PLEX has 'text' as 450 weight */,
+	text: 450,
 	medium: 500,
 	semibold: 500,
 	bold: 600,
@@ -53,129 +54,86 @@ const WEIGHTS = {
 	black: 900,
 };
 
-if (!process.argv[2]) {
-	printCandidates();
-	process.exit();
-}
-
-generatePackage(directory);
-
-generateStyle(directory);
-
+// Creates a placeholder package.json for
+// the given webfont directory if none exists
 function generatePackage(directory) {
-	const packagePath = directory + "/package.json";
+	let package = {};
 
-	if (!fs.existsSync(packagePath))
-		fs.outputJsonSync(packagePath, {}, { spaces: 2 });
-
-	let package = fs.readJsonSync(packagePath);
+	try {
+		package = fs.readJsonSync(directory + "/package.json");
+	} catch (e) {
+		// package might not yet exist
+	}
 
 	// Will map cooper-hewitt -> Cooper Hewitt
-	if (!package.name)
-		package.name = basename(directory)
+	package.name =
+		package.name ||
+		basename(directory)
 			.split("-")
 			.join(" ")
 			.split(" ")
 			.map((w) => w[0].toUpperCase() + w.slice(1))
 			.join(" ");
 
-	if (!package.stack) package.stack = `'${package.name}'`;
+	package.stack = package.stack || `'${package.name}'`;
+	package.line_height = package.line_height || 1.4;
+	package.line_width = package.line_width || 38;
+	package.font_size = package.font_size || 1;
 
-	if (!package.line_height) package.line_height = 1.4;
-
-	fs.outputJsonSync(packagePath, package, { spaces: 2 });
+	fs.outputJsonSync(directory + "/package.json", package, { spaces: 2 });
 }
 
+// This generates the style.css file that will
+// load all the web font files for each weight
+// and style. Typeset.css rules are also generated
+// based on the metrics of the webfont files.
 function generateStyle(directory) {
 	const stylePath = directory + "/style.css";
 	const package = fs.readJsonSync(directory + "/package.json");
 	const family = parseFamily(directory);
+	const name = package.name;
 
-	let result = "";
-	let typeset = "";
-
-	Object.keys(family)
+	let result = Object.keys(family)
 
 		// We order the file names by weight such that the resulting CSS
 		// Within weights, we show normal first (i.e. non-italic)
-		.sort((a, b) => {
-			if (family[a].weight > family[b].weight) return 1;
-			if (family[a].weight < family[b].weight) return -1;
+		.sort(byWeight(family))
 
-			if (family[a].style === "normal" && family[b].style !== "normal")
-				return -1;
-			if (family[a].style !== "normal" && family[b].style === "normal")
-				return 1;
-
-			return 0;
-		})
-		.forEach((file) => {
-			let name = package.name;
+		// For each file name we generate the fontface rule
+		.map((file) => {
 			let fontVariant = family[file].fontVariant;
 			let style = family[file].style;
 			let weight = family[file].weight;
 			let extensions = family[file].extensions;
-			const base = "/fonts/" + basename(directory);
-			let src;
 
-			let contentHashes = {};
+			if (fontVariant !== "normal") name += fontVariant;
+			const src = generateSRC(extensions, name, directory, file);
 
-			if (fontVariant !== 'normal') return;
+			return generateFontFace(name, style, weight, src);
+		})
+		.join("\n");
 
-			if (style === "normal" && weight === 400) {
-				typeset = generateTypeset(
-					`${__dirname}/${basename(directory)}/${file}${
-						extensions.filter((ext) => ext !== ".eot")[0]
-					}`
-				);
-			}
+	let RegularFontName = Object.keys(family).filter((name) => {
+		return family[name].weight === 400 && family[name].style === "normal";
+	})[0];
 
-			extensions.forEach((extension) => {
-				contentHashes[extension] = hash(
-					fs.readFileSync(directory + "/" + file + extension)
-				).slice(0, 6);
-			});
-
-			const extensionList = `${EXTENSIONS.filter(
-				(EXTENSION) =>
-					EXTENSION !== ".eot" && extensions.indexOf(EXTENSION) > -1
-			)
-				.map(
-					(extension) =>
-						`url('{{{config.cdn.origin}}}${base}/${file}${extension}?version=${contentHashes[extension]}&extension=${extension}') format('${FORMATS[extension]}')`
-				)
-				.join(",\n       ")}`;
-
-			if (extensions.indexOf(".eot") > -1) {
-				src = `src: url('{{{config.cdn.origin}}}${base}/${file}.eot?version=${contentHashes[".eot"]}&extension=.eot'); 
-  src: url('{{{config.cdn.origin}}}${base}/${file}.eot?version=${contentHashes[".eot"]}&extension=.eot#iefix') format('embedded-opentype'), 
-       ${extensionList};`;
-			} else {
-				src = `src: ${extensionList};`;
-			}
-
-			const template = `
-
-@font-face {
-  font-family: '${name}';
-  font-style: ${style};
-  font-variant: ${fontVariant};
-  font-weight: ${weight};
-  ${src}
-}`;
-
-			result += template;
-		});
-
-	result = [
-		"/* Do not edit this directly, it was generated by a script. */",
-		result,
-		typeset,
-	].join("\n");
+	let pathToRegularFont =
+		directory +
+		"/" +
+		RegularFontName +
+		family[RegularFontName].extensions.filter((ext) => ext !== ".eot")[0];
+	let typeset = generateTypeset(pathToRegularFont, name);
 
 	console.log();
 	console.log(package.name);
+
 	for (let w = 100; w <= 900; w += 100) {
+		let hasSmallCaps =
+			Object.keys(family).filter((name) => {
+				return (
+					family[name].weight === w && family[name].fontVariant === "small-caps"
+				);
+			}).length > 0;
 		let hasWRegular =
 			Object.keys(family).filter((name) => {
 				return family[name].weight === w && family[name].style === "normal";
@@ -191,7 +149,7 @@ function generateStyle(directory) {
 					: colors.dim(w.toString())
 			} ${hasWRegular ? colors.green("regular") : colors.dim("regular")} ${
 				hasWItalic ? colors.green("italic") : colors.dim("italic")
-			}`
+			} ${hasSmallCaps ? colors.green("small-caps") : colors.dim("small-caps")}`
 		);
 	}
 	console.log();
@@ -205,9 +163,7 @@ function generateStyle(directory) {
 	fs.outputFileSync(stylePath, result);
 }
 
-function generateTypeset(path) {
-	console.log("generating typeset", path);
-	// open a font synchronously
+function generateTypeset(path, name, hasSmallCaps) {
 	const font = fontkit.openSync(path);
 
 	const double_quote_width =
@@ -218,22 +174,16 @@ function generateTypeset(path) {
 		font.getGlyph(font.glyphsForString("'")[0].id).advanceWidth /
 		font.unitsPerEm;
 
-	const typeset = `
+	let typeset = `
 .pull-double {margin-left:-${double_quote_width}em}
 .push-double{margin-right:${double_quote_width}em}
 .pull-single{margin-left:-${single_quote_width}em}
 .push-single{margin-right:${single_quote_width}em}
-.pull-double,.pull-single,.push-double,.push-single{display:inline-block}
-`;
+.pull-double,.pull-single,.push-double,.push-single{display:inline-block}`;
 
-	/*
-.pull-T,.pull-V,.pull-W,.pull-Y{margin-left:-.07em}
-.push-T,.push-V,.push-W,.push-Y{margin-right:.07em}
-.pull-C,.pull-O,.pull-c,.pull-o{margin-left:-.04em}
-.push-C,.push-O,.push-c,.push-o{margin-right:.04em}
-.pull-A{margin-left:-.03em}
-.push-A{margin-right:.03em}
-*/
+	if (hasSmallCaps) {
+		typeset += `.small-caps {font-family: ${name}small-caps;text-transform:lowercase}`;
+	}
 
 	return typeset;
 }
@@ -343,4 +293,63 @@ function parseFamily(directory) {
 	return family;
 }
 
+function generateSRC(extensions, name, directory, file) {
+	const base = "/fonts/" + basename(directory);
+	let contentHashes = {};
+	let src;
+
+	extensions.forEach((extension) => {
+		contentHashes[extension] = hash(
+			fs.readFileSync(directory + "/" + file + extension)
+		).slice(0, 6);
+	});
+
+	const extensionList = `${EXTENSIONS.filter(
+		(EXTENSION) => EXTENSION !== ".eot" && extensions.indexOf(EXTENSION) > -1
+	)
+		.map(
+			(extension) =>
+				`url('{{{config.cdn.origin}}}${base}/${file}${extension}?version=${contentHashes[extension]}&extension=${extension}') format('${FORMATS[extension]}')`
+		)
+		.join(",\n       ")}`;
+
+	if (extensions.indexOf(".eot") > -1) {
+		src = `src: url('{{{config.cdn.origin}}}${base}/${file}.eot?version=${contentHashes[".eot"]}&extension=.eot'); 
+  src: url('{{{config.cdn.origin}}}${base}/${file}.eot?version=${contentHashes[".eot"]}&extension=.eot#iefix') format('embedded-opentype'), 
+       ${extensionList};`;
+	} else {
+		src = `src: ${extensionList};`;
+	}
+
+	return src;
+}
+
+function generateFontFace(name, style, weight, src) {
+	return `@font-face {
+  font-family: '${name}';
+  font-style: ${style};
+  font-weight: ${weight};
+  ${src}
+}`;
+}
+
+function byWeight(family) {
+	return function (a, b) {
+		if (family[a].weight > family[b].weight) return 1;
+		if (family[a].weight < family[b].weight) return -1;
+
+		if (family[a].style === "normal" && family[b].style !== "normal") return -1;
+		if (family[a].style !== "normal" && family[b].style === "normal") return 1;
+
+		return 0;
+	};
+}
+
+if (!process.argv[2]) {
+	printCandidates();
+	process.exit();
+}
+
+generatePackage(directory);
+generateStyle(directory);
 process.exit();

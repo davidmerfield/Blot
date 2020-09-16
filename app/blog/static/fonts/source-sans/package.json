@@ -1,7 +1,7 @@
 {
   "name": "Source Sans",
   "stack": "'Source Sans'",
-  "line_height": "1.56",
-  "line_width": "35",
-  "font_size": "1"
+  "line_height": 1.525,
+  "line_width": 35,
+  "font_size": 1
 }
