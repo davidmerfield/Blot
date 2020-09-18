@@ -24,7 +24,6 @@ module.exports = function (req, callback) {
 
 		// Remove dotfiles and folders
 		contents = contents.filter((item) => item[0] !== ".");
-
 		contents = alphanum(contents, { property: "name" });
 
 		async.mapLimit(
@@ -32,7 +31,6 @@ module.exports = function (req, callback) {
 			5,
 			function (name, next) {
 				let fullPathToItem = Path.join(path, name);
-
 				async.parallel(
 					[
 						function (done) {
@@ -64,7 +62,6 @@ module.exports = function (req, callback) {
 				);
 			},
 			function (err, contents) {
-				// console.log(err, contents)
 				if (err) return callback(null, []);
 				callback(null, {
 					contents,
