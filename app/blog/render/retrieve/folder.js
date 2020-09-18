@@ -1,9 +1,10 @@
 const fs = require("fs-extra");
-const helper = require("helper");
-const localPath = helper.localPath;
 const async = require("async");
 const Entry = require("entry");
 const Path = require("path");
+const helper = require("helper");
+const localPath = helper.localPath;
+const alphanum = helper.alphanum;
 
 module.exports = function (req, callback) {
 	let path = "/";
@@ -14,12 +15,17 @@ module.exports = function (req, callback) {
 	}
 
 	if (path !== "/") {
-		parent = Path.basename(Path.dirname(path));
+		parent = Path.dirname(path);
 	}
 
 	fs.readdir(localPath(req.blog.id, path), function (err, contents) {
 		// We should pass this error back to the template in future
 		if (err) return callback(null, []);
+
+		// Remove dotfiles and folders
+		contents = contents.filter((item) => item[0] !== ".");
+
+		contents = alphanum(contents, { property: "name" });
 
 		async.mapLimit(
 			contents,
@@ -49,6 +55,7 @@ module.exports = function (req, callback) {
 						next(null, {
 							name: name,
 							path: fullPathToItem,
+							pathURI: encodeURIComponent(fullPathToItem),
 							isDirectory: results[0].stat.isDirectory(),
 							isFile: results[0].stat.isFile(),
 							entry: results[1].entry,
@@ -59,7 +66,11 @@ module.exports = function (req, callback) {
 			function (err, contents) {
 				// console.log(err, contents)
 				if (err) return callback(null, []);
-				callback(null, { contents, parent });
+				callback(null, {
+					contents,
+					parent,
+					parentURI: encodeURIComponent(parent),
+				});
 			}
 		);
 	});
