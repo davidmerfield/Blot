@@ -15,7 +15,7 @@ var dictionary = {
   asset: require("./asset"),
   avatar_url: require("./avatar_url"),
   css_url: require("./css_url"),
-  contents: require("./contents"),
+  folder: require("./folder"),
   encodeJSON: require("./encodeJSON"),
   encodeURIComponent: require("./encodeURIComponent"),
   encodeXML: require("./encodeXML"),
