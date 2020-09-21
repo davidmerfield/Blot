@@ -14,7 +14,6 @@
 .breadcrumbs {
           font-weight: 400;
           color: #0b0c0c;
-          padding: 16px 20px
         }
 
         .breadcrumbs__list {
@@ -31,28 +30,27 @@
         .breadcrumbs__list-item {
           display: inline-block;
           position: relative;
-          margin-bottom: 5px;
           margin-left: 13px;
           padding-left: 18.655px;
           float: left;
         }
 
         .breadcrumbs__list-item:before {
-          content: "";
-          display: block;
-          position: absolute;
-          top: 0;
-          bottom: 0px;
-          left: -3.31px;
-          width: 7px;
-          height: 7px;
-          margin: auto 0;
-          -webkit-transform: rotate(45deg);
-          -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
-          border: solid;
-          border-width: 1px 1px 0 0;
-          border-color: #a8aaab;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0px;
+    left: -3.31px;
+    width: 6px;
+    height: 6px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #5b6879;
         }
 
         .breadcrumbs__list-item:first-child:before {
@@ -80,9 +78,10 @@
 
   <div class="wrapper" style="margin:0 auto;width: 54rem;display:flex;flex-direction:column;">
 
-    <div>
-
-      <div class="breadcrumbs" style="flex-grow:1;padding-left: 0">
+    <div style="display: flex;padding-bottom: 0.5rem;">
+      <div style="display: flex;flex-basis: 600px;          padding: 16px 0 16px 20px
+">
+      <div class="breadcrumbs" style="flex-grow:1;padding-left: 0;margin-top: 3px">
         <ol class="breadcrumbs__list">
           {{#breadcrumbs}}
           <li class="breadcrumbs__list-item">
@@ -94,10 +93,15 @@
             {{/last}}
           </li>
           {{/breadcrumbs}}
+          
           <br>
         </ol>
       </div>
-
+{{#selected.settings}}
+      <a href="{{{blog.url}}}" target="_blank" style="border-radius:4px;padding:4px 8px;line-height:20px;font-size:14px;font-weight:500;text-decoration:none;color:#666;background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+}">Visit ↗</a>
+{{/selected.settings}}      </div>
     </div>
 
 
@@ -121,11 +125,10 @@
     </a>
         {{/message.error}}
 
-        <br>
         {{> yield}}
       </div>
 
-      <form class="foot" action="/account/log-out" method="post" style="border-top:1px solid #eee;padding:11px 20px;font-size: 14px;color: #666">
+      <form class="foot" action="/account/log-out" method="post" style="border:none;background:none;border-top:1px solid #eee;padding:11px 20px;font-size: 14px;color: #666">
 
 <div style="display: flex">
 <div style="flex-grow: 1">

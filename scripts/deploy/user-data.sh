@@ -104,7 +104,6 @@ cp redis/src/redis-cli {{redis.cli}}
 rm -rf redis
 rm redis.tar.gz
 
-
 # The following are recommendations for improving the performance
 # of Redis on an AWS instance.
 # TODO: fully research each line and document it. Ensure each change
@@ -112,6 +111,7 @@ rm redis.tar.gz
 sysctl vm.overcommit_memory=1
 bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
 dd if=/dev/zero of=/swapfile1 bs=1024 count=4194304
+
 
 ## NGINX installation
 ##########################################################
@@ -126,42 +126,51 @@ mkdir luarocks
 # tarring, which has the version number in it
 tar -xzvf luarocks.tar.gz -C luarocks --strip-components 1
 cd luarocks
+
 ./configure --prefix=/usr/local/openresty/luajit \
     --with-lua=/usr/local/openresty/luajit/ \
     --lua-suffix=jit \
     --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1
+
 make
 make install
 cd ../
 rm luarocks.tar.gz
 rm -rf ./luarocks
 
-# Generate SSL fallback cert for NGINX
-mkdir -p $(dirname {{fallback_certificate_key}})
-openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
-	-subj '/CN=sni-support-required-for-valid-ssl' \
-	-keyout {{fallback_certificate_key}} \
-	-out {{fallback_certificate}}
-
 /usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl
 mkdir /etc/resty-auto-ssl
 
+# Generate SSL fallback cert for NGINX
 # Fetch script to generate the wildcard certificate
-export AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
-export AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
+mkdir -p $(dirname {{fallback_certificate_key}})
+AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY
 
-wget ACME_NGINX_URL 
+wget $ACME_NGINX_URL 
 chmod +x acme-nginx
-./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
 
+# TODO: enable this to generate the wildcard ssl certificate
+# ./acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}"
 
+# mv /etc/ssl/private/letsencrypt-account.key {{fallback_certificate_key}}
+# mv /etc/ssl/private/letsencrypt-domain.pem {{fallback_certificate}}
+
+# cat > /etc/cron.d/renew-cert <<EOL
+# # Renews SSL certificate for blot.im
+# 12 11 10 * * root timeout -k 600 -s 9 3600 AWS_ACCESS_KEY_ID=$BLOT_WILDCARD_SSL_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$BLOT_WILDCARD_SSL_AWS_SECRET_ACCESS_KEY /acme-nginx --no-reload-nginx --dns-provider route53 -d "*.{{host}}" -d "{{host}}" >> /var/log/letsencrypt.log 2>&1 || echo "Failed to renew certificate"
+# EOL
+
+# TODO: remove the following
+mkdir -p $(dirname {{fallback_certificate_key}})
+openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 \
+  -subj '/CN=sni-support-required-for-valid-ssl' \
+  -keyout {{fallback_certificate_key}} \
+  -out {{fallback_certificate}}
 
 
 ## Blot installation
 ##########################################################
-
-# Create a user for Blot
-id -u $USER &>/dev/null || useradd -m $USER
 
 # Install Pandoc
 mkdir pandoc
@@ -199,26 +208,46 @@ npm ci
 mkdir -p {{directory}}/blogs
 mkdir -p {{directory}}/tmp
 mkdir -p {{directory}}/logs
-mkdir -p {{directory}}/db
 mkdir -p {{directory}}/static
 
 # Make the users required to run all the scripts
-# sudo adduser --system --no-create-home redis
-# sudo chown blot:redis {{directory}}/db
-# sudo chmod 770 {{directory}}/db
+adduser --system --no-create-home redis
+adduser --system --no-create-home nginx
+adduser --system --no-create-home blot
 
-# sudo adduser --system --no-create-home nginx
-# sudo chown blot:nginx {{cache_directory}}
-# sudo chmod 770 {{cache_directory}}
+groupadd blot_directory
+usermod -a -G blot_directory redis
+usermod -a -G blot_directory blot
+usermod -a -G blot_directory nginx
 
-# sudo adduser --system --no-create-home nginx
-# sudo chown blot:node {{cache_directory}}
-# sudo chmod 770 {{cache_directory}}
+sudo chgrp -R blot_directory {{directory}}
+sudo chmod -R 770 {{directory}}
 
+groupadd cache_directory
+usermod -a -G cache_directory blot
+usermod -a -G cache_directory nginx
 
-# Whitelist domains for ssl certificate issuance
-echo "SET domain:{{host}} true" | {{redis.cli}}
-echo "SET domain:www.{{host}} true" | {{redis.cli}}
+sudo chgrp -R cache_directory {{cache_directory}}
+sudo chmod -R 770 {{cache_directory}}
+
+# 701 is just execute, as far as I know
+chown redis:redis {{redis.server}}
+chmod 701 {{redis.server}}
+chown redis:redis {{redis.cli}}
+chmod 701 {{redis.cli}}
+chown blot:blot {{node.bin}}
+chmod 701 {{node.bin}}
+
+# Per ./systemd/redis.service, the pidfile for the
+# redis daemon is written to /var/run/redis/redis.pid
+REDIS_PID_DIRECTORY=$(dirname {{redis.pid}})
+mkdir $REDIS_PID_DIRECTORY
+chown redis:redis $REDIS_PID_DIRECTORY
+chmod -R 770 $REDIS_PID_DIRECTORY
+
+mkdir {{directory}}/db
+chown redis:redis {{directory}}/db
+chmod -R 770 {{directory}}/db
 
 # Generate systemd service configuration files
 node scripts/deploy/build
@@ -227,6 +256,17 @@ node scripts/deploy/build
 cp scripts/deploy/out/redis.service /etc/systemd/system/redis.service
 systemctl enable redis.service
 systemctl start redis.service
+
+# Run the Blot tests
+npm test
+
+# Reset DB after running tests
+echo "flushall" | /usr/bin/redis-cli
+
+# Whitelist domains for ssl certificate issuance
+# which must happen once redis is running
+echo "SET domain:{{host}} true" | {{redis.cli}}
+echo "SET domain:www.{{host}} true" | {{redis.cli}}
 
 # Start NGINX service
 cp scripts/deploy/out/nginx.service /etc/systemd/system/nginx.service
@@ -238,7 +278,11 @@ cp scripts/deploy/out/blot.service /etc/systemd/system/blot.service
 systemctl enable blot.service
 systemctl start blot.service
 
+
 # We use rsync to transfer the database dump and blog folder from the other instance
+# TODO
+# MAKE SURE YOU CREATE AN INSTANCE IN THE SAME AVAILABILITY ZONE
+# TO PREVENT UNEEDED DATA TRANSFER CHARGES 
 yum -y install rsync
 # copy redis dump from other instance
 # rysnc -i $PATH_TO_PREVIOUS_PEM ec2-user@:$PREVIOUS_IP:/var/www/blot/db/dump.rdb $DUMP

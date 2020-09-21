@@ -31,6 +31,7 @@ const view = {
 		config: process.env.BLOT_DIRECTORY + "/scripts/deploy/out/nginx.conf"
 	},
 	redis: {
+		pid: "/var/run/redis/redis.pid",
 		host: "127.0.0.1",
 		port: 6379,
 		maxmemory: 9700000000,

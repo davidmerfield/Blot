@@ -98,10 +98,8 @@ font-weight: 400;}
   
   pre, code {font-size:.92rem}
   
-  pre {border-top: 1px solid #e4e4e4;
-border-bottom: 1px solid #e4e4e4;
-background-color: {{background_color}};
-  margin:3rem 0}
+  pre {
+  margin:2rem 0}
   
   body {
     -webkit-font-smoothing:antialiased;
