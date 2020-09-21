@@ -2,43 +2,38 @@ const fs = require("fs-extra");
 const express = require("express");
 const mustache = require("mustache");
 const typeset = require("typeset");
+
 let fonts = require("./index").map((font) => {
 	// The URL of the CDN which serves the font needs to
 	// be replaced with an empty string. We serve fonts
-	// manually on this test page.
+	// manually on this test page, no CDN required
 	font.styles = mustache.render(font.styles || "", {
 		config: { cdn: { origin: "" } },
 	});
+
 	return font;
 });
 
 express()
 	.use(renderer)
-	.param("document", function (req, res, next, documentParam) {
-		let documents = fs
-			.readdirSync(__dirname)
-			.filter((i) => i.indexOf("test-document-") === 0)
-			.map((i) => {
-				return {
-					contents: typeset(fs.readFileSync(__dirname + "/" + i, "utf-8")),
-					name: i.slice("test-document-".length, -".html".length),
-					id: i,
-				};
-			});
-
-		res.locals = {
-			...res.locals,
-			documents,
-			document: documents.filter(
-				(document) => document.name === documentParam
-			)[0],
-		};
+	.use(function (req, res, next) {
+		res.locals.fonts = fonts;
+		res.locals.documents = readDocuments();
 		next();
 	})
 	.param("font", function (req, res, next, fontParam) {
 		res.locals = {
 			...res.locals,
 			...fonts.filter((font) => font.id === fontParam)[0],
+		};
+		next();
+	})
+	.param("document", function (req, res, next, documentParam) {
+		res.locals = {
+			...res.locals,
+			document: res.locals.documents.filter(
+				(document) => document.name === documentParam
+			)[0],
 		};
 		next();
 	})
@@ -91,6 +86,19 @@ function renderer(req, res, next) {
 		);
 	};
 	next();
+}
+
+function readDocuments() {
+	return fs
+		.readdirSync(__dirname)
+		.filter((i) => i.indexOf("test-document-") === 0)
+		.map((i) => {
+			return {
+				contents: typeset(fs.readFileSync(__dirname + "/" + i, "utf-8")),
+				name: i.slice("test-document-".length, -".html".length),
+				id: i,
+			};
+		});
 }
 
 function writePackage(fontID, newPackage) {
