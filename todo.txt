@@ -1,10 +1,14 @@
-Research open-source paywalls and follow up with [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNghCWPVcKsXJbvNLpSmxSkTn)
+Rebuilt magazine template did not force reload of CSS for site
+
+Issue with indentation on text-editor for template editor
+
+---
+
+Write Autumn newsletter and deliver on Tuesday
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
-
-Rebuilt magazine template did not force reload of CSS for site
 
 Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
@@ -40,7 +44,7 @@ Investigate failed wildcard SSL certificate renewal
 Disable access to s3 blogs bucket
 - Wait 30 days then delete s3 blogs bucket
 
-Add wikilinks and tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Emily](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRTXMVPkcJXHfrSnlswxvf) and [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVDbpNCmTGsSGSQKdCbCjpDq)
+Add wikilinks and tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Emily](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRTXMVPkcJXHfrSnlswxvf) and [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVDbpNCmTGsSGSQKdCbCjpDq) and [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXxpdhXPBXSjnQfkndvRRSLjx)
 
 ---
 
