@@ -1,8 +1,8 @@
 {
   "name": "Arial",
   "stack": "Arial,Helvetica Neue,Helvetica,sans-serif",
-  "line_height": "1.645",
-  "line_width": "37.9",
-  "font_size": "1",
+  "line_height": 1.615,
+  "line_width": 38,
+  "font_size": 1,
   "al": "on"
 }

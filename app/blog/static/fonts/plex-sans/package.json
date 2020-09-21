@@ -1,8 +1,8 @@
 {
   "name": "Plex Sans",
   "stack": "'Plex Sans'",
-  "line_height": "1.735",
-  "line_width": "38.8",
-  "font_size": "1.08",
+  "line_height": 1.6,
+  "line_width": 39,
+  "font_size": 1,
   "al": "on"
 }
