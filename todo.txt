@@ -1,7 +1,5 @@
 Rebuilt magazine template did not force reload of CSS for site
 
-Issue with indentation on text-editor for template editor
-
 ---
 
 Write Autumn newsletter and deliver on Tuesday
