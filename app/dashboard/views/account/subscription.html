@@ -10,21 +10,17 @@
     {{#user.isSubscribed}} 
 
     {{#user.subscription.quantity}} Your next bill on
-    <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>.
-    {{^monthly}}You will recieve an email reminder one week before.{{/monthly}}
-    {{/user.subscription.quantity}} {{^user.subscription.quantity}} Your next
-    billing period begins on <b>{{user.pretty.expiry}}</b> but you will not be
-    charged anything because you do not host any blogs on Blot.
-    {{/user.subscription.quantity}} 
-
+    <b>{{user.pretty.expiry}}</b> will be for <b>{{user.pretty.price}}</b>. 
     {{#balance}}
     {{#credit}}
-    Your account has a balance of {{amount}} which will be automatically applied to future invoices.
+    Your account has a credit of {{amount}} which will automatically reduce this bill.
     {{/credit}}
     {{^credit}}
-    Your account has an outstanding balance of {{amount}} which will be automatically added to future invoices.
+    Your account also owes {{amount}}, which will be automatically added to this next bill.
     {{/credit}}
     {{/balance}}
+    {{^monthly}}You will recieve an email reminder one week before.{{/monthly}}
+    {{/user.subscription.quantity}} 
 
     {{/user.isSubscribed}}
   </p>
@@ -94,8 +90,8 @@
       ></a
     >
 
-    <a class="line" href="/account/subscription/switch-interval"
-      ><span class="label">Switch</span
+    <a class="line" href="/account/subscription/billing-interval"
+      ><span class="label">Billing interval</span
       ><span class="center"
         ><span class="link">Switch to {{#monthly}}annual{{/monthly}}{{^monthly}}monthly{{/monthly}} billing</span></span
       ></a

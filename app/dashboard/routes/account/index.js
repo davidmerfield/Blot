@@ -21,10 +21,20 @@ Account.use(function(req, res, next) {
   ) {
     if (err) return next(err);
 
-    res.locals.balance = {
-      credit: Math.sign(customer.balance),
-      amount: helper.prettyPrice(Math.abs(customer.balance)),
-    };
+    console.log(customer);
+
+    if (customer.balance !== 0 && Math.sign(customer.balance) === -1) {
+      res.locals.balance = {
+        credit: true,
+        amount: helper.prettyPrice(Math.abs(customer.balance))        
+      }
+    
+    } else if (customer.balance !== 0 && Math.sign(customer.balance) === 1) {
+      res.locals.balance = {
+        debit: true,
+        amount: helper.prettyPrice(Math.abs(customer.balance))        
+      }
+    }
     
     next();
   });
