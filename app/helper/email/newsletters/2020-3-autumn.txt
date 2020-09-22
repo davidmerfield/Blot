@@ -3,21 +3,19 @@ Autumn newsletter
 *You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
 
 **New features**
-https://github.com/davidmerfield/Blot/pulls?q=is%3Apr+merged%3A%3E2020-06-20+
-
-- Added a new template feature to list the contents of your folder, and entries from a specific subfolder.
-- Added an index property to each entry.
-- Added a way to cache files sourced directly from your blog folder.
+- Added [Typeset](https://github.com/davidmerfield/Typeset) metrics to all of the fonts available on the template editor.
+- Added an option on the dashboard to [switch from monthly to annual billing](https://blot.im/account/subscription/billing-interval), or vice versa.
+- Added a number of template engine features, including a way to cache files sourced directly from your blog folder. You can also now list the contents of your folder, and entries from a specific subfolder based on a given path.
 
 **Changes**
 - Updated the various dependencies of the application server, as is tradition.
 - Updated the [public site and dashboard](http://blot.im/), as is tradition. 
-- Improved the appearance of code blocks on the Magazine template
+- Improved the appearance of code blocks on the [Magazine template](https://blot.im/templates/magazine).
 
 **Bugs fixed**
-- When you change your email address after submitting your first payment, just before you create your account, your receipts are now sent to the new email address rather than the old one.
-- Fixed a potential security vulnerability with an internal function used to determine the local path on the server
-- Fixed inconsistent indentation in the text-editor for the web template editor.
+- Fixed inconsistent indentation when you edit your template's source code on the web template editor.
+- When you change your email address after submitting your first payment, just before you create your account, your receipts are now sent to the new email address.
+- Fixed a security vulnerability with some of the code Blot uses to determine the path to a file in your folder on its server. As far as I can tell, this vulnerability was not exploited.
 
 **Mistakes**
 
@@ -25,7 +23,7 @@ There were four downtime incidents this season, the first on June 28th for aroun
 
 **Plans for this season**
 
-I didn't make as much progress as I would have liked with Blot. I was away on a couple of trips into the woods and studying Latin and Greek have taken up more of my time than I would like.
+I want to continue to improve Blot’s infrastructure to handle the increasing number of new customers. I will work on improving the templates available. The [list of bugs](https://blot.im/news) I have to fix has grown longer. 
 
 If you have any questions at all about any of this, please don’t hesitate to reply directly to this email.
 
