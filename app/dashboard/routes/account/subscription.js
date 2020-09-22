@@ -43,7 +43,9 @@ Subscription.route("/billing-interval")
 
   .all(retrieveSubscription)
 
-  .get(function (req, res, next) {
+  .all(determineNewPlan)
+
+  .get(function (req, res) {
     let credit;
     let proration;
     let now = Date.now() / 1000;
@@ -51,12 +53,12 @@ Subscription.route("/billing-interval")
       req.user.subscription &&
       req.user.subscription.plan &&
       req.user.subscription.plan.interval === "month";
-    let new_plan_id = PLAN_MAP[req.user.subscription.plan.id];
 
-    if (!new_plan_id) return next(new Error("You cannot switch your plan"));
-
-    let new_plan_amount_integer = parseInt(new_plan_id.split("_").pop()) * 100;
-    let new_amount = helper.prettyPrice(new_plan_amount_integer * req.user.subscription.quantity);
+    let new_plan_amount_integer =
+      parseInt(req.new_plan_id.split("_").pop()) * 100;
+    let new_amount = helper.prettyPrice(
+      new_plan_amount_integer * req.user.subscription.quantity
+    );
     let percentage =
       (req.user.subscription.current_period_end - now) /
       (req.user.subscription.current_period_end -
@@ -64,11 +66,17 @@ Subscription.route("/billing-interval")
 
     if (monthly) {
       proration = helper.prettyPrice(
-        new_plan_amount_integer - percentage * req.user.subscription.plan.amount * req.user.subscription.quantity
+        new_plan_amount_integer * req.user.subscription.quantity -
+          percentage *
+            req.user.subscription.plan.amount *
+            req.user.subscription.quantity
       );
     } else {
       credit = helper.prettyPrice(
-        percentage * req.user.subscription.plan.amount * req.user.subscription.quantity - (new_plan_amount_integer * req.user.subscription.quantity)
+        percentage *
+          req.user.subscription.plan.amount *
+          req.user.subscription.quantity -
+          new_plan_amount_integer * req.user.subscription.quantity
       );
     }
 
@@ -86,9 +94,10 @@ Subscription.route("/billing-interval")
       req.user.subscription.customer,
       req.user.subscription.id,
       {
+        quantity: req.user.subscription.quantity,
         cancel_at_period_end: false,
         proration_behavior: "create_prorations",
-        plan: PLAN_MAP[req.user.subscription.plan.id],
+        plan: req.new_plan_id,
       },
       function (err, subscription) {
         if (err) {
@@ -104,7 +113,6 @@ Subscription.route("/billing-interval")
             return next(err);
           }
 
-          console.log('sending email')
           email.BILLING_INTERVAL(req.user.uid);
           res.message(
             "/account/subscription",
@@ -172,6 +180,16 @@ Subscription.route("/restart/pay")
     email.RESTART(req.user.uid);
     res.message("/account/subscription", "Restarted your subscription");
   });
+
+function determineNewPlan(req, res, next) {
+  let new_plan_id = PLAN_MAP[req.user.subscription.plan.id];
+
+  if (!new_plan_id) return next(new Error("You cannot switch your plan"));
+
+  req.new_plan_id = new_plan_id;
+
+  return next();
+}
 
 function requireCancelledSubscription(req, res, next) {
   // Make sure the user has a subscription
