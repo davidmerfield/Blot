@@ -5,7 +5,7 @@ var tex = require("./tools/tex");
 var config = require("config");
 
 var TITLES = {
-  publishing: "How to use Blot",
+  how: "How to use Blot",
   "public-files": "Public files",
   terms: "Terms of use",
   privacy: "Privacy policy",
@@ -74,6 +74,8 @@ brochure.get(["/terms", "/privacy"], function(req, res, next) {
   res.locals.layout = "/partials/layout-focussed.html";
   next();
 });
+
+brochure.use('/fonts', require('./fonts'));
 
 brochure.get("/sitemap.xml", require("./sitemap"));
 

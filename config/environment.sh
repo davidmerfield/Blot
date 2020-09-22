@@ -1,7 +1,7 @@
 # Copy this file to /etc/blot/environment.sh and fill it in
 
 # Flags
-export BLOT_PRODUCTION=true
+export NODE_ENV=production
 export BLOT_CACHE=true
 export BLOT_MAINTENANCE=false
 export BLOT_DEBUG=false
@@ -14,13 +14,12 @@ export BLOT_CACHE_DIRECTORY=
 
 # Remove these eventually
 export BLOT_PROTOCOL=https
-export BLOT_ENVIRONMENT=production
 
 # Name of linux user who runs the blot server
 export BLOT_USER=
 
 # Use latest stable version which passes tests
-export BLOT_NODE_VERSION=10.16.3
+export BLOT_NODE_VERSION=12.16.3
 
 # result of which pandoc
 export BLOT_PANDOC_PATH=

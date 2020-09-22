@@ -41,13 +41,7 @@ Account.use(function(req, res, next) {
 });
 
 Account.route("/").get(function(req, res) {
-  res.render("account/index", {
-    title: "Your account",
-    monthly:
-      req.user.subscription &&
-      req.user.subscription.plan &&
-      req.user.subscription.plan.interval === "month",
-  });
+  res.redirect("/");
 });
 
 Account.use("/:section", function(req, res, next) {

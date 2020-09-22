@@ -1,7 +1,7 @@
 var createClient = require("./util/createClient");
 var database = require("./database");
 var Blog = require("blog");
-var debug = require("debug")("clients:dropbox");
+var debug = require("debug")("blot:clients:dropbox");
 var Sync = require("sync");
 
 // Dont write tests for this or you'll need to regenerate

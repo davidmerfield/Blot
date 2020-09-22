@@ -1,13 +1,14 @@
 
 
 {{^contents.length}}
-  <small style="text-align:center;display:block;align-self:center;color:rgb(158, 154, 152)">
+  <small style="display: flex;height: 25vh;
+    color: rgb(158, 154, 152);justify-content: center;">
 
   {{#root}}
-  Your blog’s folder is empty.
+  <span style="align-self: center;">Your blog’s folder is empty.</span>
   {{/root}}
   {{^root}}
-  This folder is empty.
+  <span style="align-self: center;">This folder is empty.</span>
   {{/root}}
 
 </small>
@@ -41,7 +42,5 @@
     </a>
 
   {{/contents}}
-  <div class="clear"></div>
-
-</div>
+  <div class="clear"></div></div>
   {{/contents.length}}

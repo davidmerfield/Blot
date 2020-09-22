@@ -3,17 +3,21 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({
 	accessKeyId: process.env.AWS_DEPLOYMENT_ACCESS_KEY_ID,
-	secretAccessKey: process.env.AWS_DEPLOYMENT_SECRET_ACCESS_KEY
+	secretAccessKey: process.env.AWS_DEPLOYMENT_SECRET_ACCESS_KEY,
 });
 
 const ec2 = new AWS.EC2({ region: process.env.AWS_REGION });
 
-ec2.describeInstances({}, function(err, data) {
+console.log("Before reset:");
+require("./describe-instances")(function(){
+
+	
+ec2.describeInstances({}, function (err, data) {
 	if (err) throw err;
 
 	let instances = [];
 
-	data.Reservations.forEach(function(res) {
+	data.Reservations.forEach(function (res) {
 		instances = instances.concat(res.Instances);
 	});
 
@@ -22,8 +26,9 @@ ec2.describeInstances({}, function(err, data) {
 		// Find instances created by the deploy script
 		// (we add these tags in launch-instance.js)
 		.filter(({ Tags }) => {
-			return Tags.filter(tag => tag.Key === "deployed" && tag.Value === "true")
-				.length;
+			return Tags.filter(
+				(tag) => tag.Key === "deployed" && tag.Value === "true"
+			).length;
 		})
 
 		// Find instances that are not terminated
@@ -31,12 +36,18 @@ ec2.describeInstances({}, function(err, data) {
 			return Name !== "terminated";
 		})
 
-		.map(instance => instance.InstanceId);
+		.map((instance) => instance.InstanceId);
 
 	if (!InstanceIds.length) return;
 
-	ec2.terminateInstances({ InstanceIds }, function(err, data) {
+	ec2.terminateInstances({ InstanceIds }, function (err, data) {
 		if (err) throw err;
-		console.log(data);
+		// console.log(data);
+		console.log("After reset:");
+		require("./describe-instances")(function () {
+			console.log("Reset instances!");
+		});
 	});
 });
+});
+

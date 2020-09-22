@@ -3,6 +3,7 @@ var renderFolder = require("./renderFolder");
 var breadcrumbs = require("./breadcrumbs");
 var determinePath = require("./determinePath");
 var router = require("express").Router();
+var debug = require("../../debug");
 
 router
   .use(function(req, res, next) {
@@ -13,9 +14,13 @@ router
     res.locals.partials.folder = "folder/wrapper";
     next();
   })
+  .use(debug("determining path"))
   .use(determinePath)
+  .use(debug("determining breadcrumbs"))
   .use(breadcrumbs)
+  .use(debug("renderFolder"))
   .use(renderFolder)
+  .use(debug("renderFile"))
   .use(renderFile)
   .use(function(err, req, res, next) {
     console.log(err);

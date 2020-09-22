@@ -125,16 +125,16 @@ module.exports = (function() {
                 : undefined;
           }
 
-          return callback(next, previous);
+          return callback(next, previous, ++rank);
         });
       });
     });
   }
 
   function getTotal(blogID, callback) {
-    var allKey = listKey(blogID, "all");
+    var entriesKey = listKey(blogID, "entries");
 
-    redis.zcard(allKey, callback);
+    redis.zcard(entriesKey, callback);
   }
 
   function getAllIDs(blogID, callback) {
@@ -320,6 +320,16 @@ module.exports = (function() {
 
         if (!pagination.next && !pagination.previous) pagination = false;
 
+        // The first entry published should have an index of 1
+        // The fifth entry published should have an index of 5
+        // The most recently published entry should have an index
+        // equal to the number of total entries published.
+        let index = totalEntries - start;
+        entries.forEach(function(entry){
+          entry.index = index;
+          index--;
+        });
+
         return callback(entries, pagination);
       });
     });
@@ -336,7 +346,22 @@ module.exports = (function() {
 
   function getRecent(blogID, callback) {
     getRange(blogID, 0, 30, { skinny: true }, function(entries) {
-      callback(entries);
+      redis.zcard(listKey(blogID, "entries"), function(error, totalEntries) {
+        // We need to add error handling
+        if (error) return callback([]);
+        
+        // The first entry published should have an index of 1
+        // The fifth entry published should have an index of 5
+        // The most recently published entry should have an index
+        // equal to the number of total entries published.
+        let index = totalEntries;
+        entries.forEach(function(entry){
+          entry.index = index;
+          index--;
+        });
+
+        callback(entries);
+      });
     });
   }
 

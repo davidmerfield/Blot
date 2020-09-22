@@ -2,7 +2,7 @@ var fs = require("fs-extra");
 var helper = require("helper");
 var localPath = helper.localPath;
 var Git = require("simple-git");
-var debug = require("debug")("clients:git:remove");
+var debug = require("debug")("blot:clients:git:remove");
 var checkGitRepoExists = require("./checkGitRepoExists");
 
 // This should probably copy the file to a

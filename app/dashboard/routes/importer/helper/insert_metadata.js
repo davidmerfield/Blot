@@ -5,7 +5,8 @@ module.exports = function insert_metadata(post, callback) {
   var content = post.content;
 
   // Since we encode the post's date in the file's path, no need to do datestamp here?
-  // if (post.dateStamp) lines.push('Date: ' + moment(post.dateStamp).format('MMMM Do, YYYY hh:mm'));
+  // MMMM Do, YYYY hh:mm
+  // if (post.dateStamp) lines.push('Date: ' + moment(post.dateStamp).format('YYYY-MM-DD'));
 
   if (post.tags && post.tags.length)
     lines.push("Tags: " + post.tags.join(", "));

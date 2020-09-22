@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:database");
+var debug = require("debug")("blot:clients:dropbox:database");
 var helper = require("helper");
 var redis = require("client");
 var Blog = require("blog");

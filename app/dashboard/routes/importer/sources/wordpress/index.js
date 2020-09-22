@@ -89,7 +89,7 @@ function injectAttachedThumbnail(item, channel) {
 
     let thumbnail = channel.filter(
       (el) => {
-        console.log(el);
+        // console.log(el);
         return el["wp:post_id"][0] === thumbnail_id;
       }
     )[0];
@@ -97,6 +97,9 @@ function injectAttachedThumbnail(item, channel) {
     let thumbnail_url = thumbnail.guid[0]._;
     let thumbnail_title = thumbnail.title[0] || thumbnail["content:encoded"][0];
 
+    if (item["content:encoded"][0].indexOf(thumbnail_url) > -1) 
+      return;
+    
     let new_html = `<img src="${thumbnail_url}" alt="${thumbnail_title}">`;
 
     if (item["content:encoded"][0].indexOf("<p>") > -1) {

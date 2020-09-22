@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:delta");
+var debug = require("debug")("blot:clients:dropbox:delta");
 var createClient = require("./util/createClient");
 var retry = require("./util/retry");
 var waitForErrorTimeout = require("./util/waitForErrorTimeout");

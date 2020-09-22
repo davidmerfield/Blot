@@ -77,9 +77,9 @@ background-color: {{background_color}};cursor:pointer}
   th {text-align:left}
 tr {border-bottom: 1px solid #eee}
   thead tr {border-color: #444}
-  td {padding-right: 2rem;padding-left:2rem} 
-  td:first-child {padding-left:0}
-  td:last-child {padding-right:0}
+  td, th {padding-right: 2rem;padding-left:2rem} 
+  td:first-child, th:first-child  {padding-left:0}
+  td:last-child, th:last-child {padding-right:0}
   
   th, td {padding-top:0.5rem;padding-bottom:0.5rem}
   
@@ -98,10 +98,8 @@ font-weight: 400;}
   
   pre, code {font-size:.92rem}
   
-  pre {border-top: 1px solid #e4e4e4;
-border-bottom: 1px solid #e4e4e4;
-background-color: {{background_color}};
-  margin:3rem 0}
+  pre {
+  margin:2rem 0}
   
   body {
     -webkit-font-smoothing:antialiased;

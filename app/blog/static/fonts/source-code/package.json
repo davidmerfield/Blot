@@ -1,5 +1,7 @@
 {
   "name": "Source Code",
   "stack": "'Source Code'",
-  "line_height": 1.4
+  "line_height": 1.405,
+  "line_width": 38,
+  "font_size": 1
 }

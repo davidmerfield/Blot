@@ -1,5 +1,6 @@
 module.exports = {
-  environment: process.env.BLOT_ENVIRONMENT,
+  // codebase expects either 'production' or 'development'
+  environment: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   host: process.env.BLOT_HOST,
   protocol: process.env.BLOT_PROTOCOL + "://",
 

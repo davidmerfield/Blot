@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:waitForErrorTimeout");
+var debug = require("debug")("blot:clients:dropbox:waitForErrorTimeout");
 
 // Check if the error returned from Dropbox has a delay
 // before we should retry the request. Search for 'retry_after'
