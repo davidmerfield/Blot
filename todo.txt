@@ -1,12 +1,8 @@
+Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
+
 Bug: try to create a blog with a one or two letter name
 
 Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
-
-Write Autumn newsletter and deliver on Tuesday
-
-Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
-
-Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
 
 Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
@@ -20,6 +16,8 @@ Fix image zooming bug in picture template and tell [Cameron](https://mail.google
 
 Fix duplicated entry in tag page for Marco:
 https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
+
+Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
 
 Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
