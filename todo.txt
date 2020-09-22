@@ -1,3 +1,5 @@
+Bug: try to create a blog with a one or two letter name
+
 Write Autumn newsletter and deliver on Tuesday
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
