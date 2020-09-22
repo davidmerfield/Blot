@@ -43,7 +43,7 @@ Subscription.route("/billing-interval")
 
   .all(retrieveSubscription)
 
-  .get(function (req, res) {
+  .get(function (req, res, next) {
     let credit;
     let proration;
     let now = Date.now() / 1000;
@@ -52,8 +52,11 @@ Subscription.route("/billing-interval")
       req.user.subscription.plan &&
       req.user.subscription.plan.interval === "month";
     let new_plan_id = PLAN_MAP[req.user.subscription.plan.id];
+
+    if (!new_plan_id) return next(new Error("You cannot switch your plan"));
+
     let new_plan_amount_integer = parseInt(new_plan_id.split("_").pop()) * 100;
-    let new_amount = helper.prettyPrice(new_plan_amount_integer);
+    let new_amount = helper.prettyPrice(new_plan_amount_integer * req.user.subscription.quantity);
     let percentage =
       (req.user.subscription.current_period_end - now) /
       (req.user.subscription.current_period_end -
@@ -61,11 +64,11 @@ Subscription.route("/billing-interval")
 
     if (monthly) {
       proration = helper.prettyPrice(
-        new_plan_amount_integer - percentage * req.user.subscription.plan.amount
+        new_plan_amount_integer - percentage * req.user.subscription.plan.amount * req.user.subscription.quantity
       );
     } else {
       credit = helper.prettyPrice(
-        percentage * req.user.subscription.plan.amount - new_plan_amount_integer
+        percentage * req.user.subscription.plan.amount * req.user.subscription.quantity - (new_plan_amount_integer * req.user.subscription.quantity)
       );
     }
 
@@ -96,7 +99,13 @@ Subscription.route("/billing-interval")
           return next(new Error("No subscription"));
         }
 
-        User.set(req.user.uid, { subscription: subscription }, function () {
+        User.set(req.user.uid, { subscription: subscription }, function (err) {
+          if (err) {
+            return next(err);
+          }
+
+          console.log('sending email')
+          email.BILLING_INTERVAL(req.user.uid);
           res.message(
             "/account/subscription",
             "You are now billed once a " +
@@ -245,7 +254,6 @@ function recreateStripeSubscription(req, res, next) {
 // not have a stripe subscription. In order to create new
 // blogs they will need one.
 function createStripeSubscription(req, res, next) {
-  console.log("body", req.body);
   stripe.customers.create(
     {
       card: req.body.stripeToken,

@@ -7,10 +7,9 @@
   <p>At the moment you are billed once a month. If you <b>switch to annual billing</b>:
 <ul>
   <li>You will pay <b>{{new_amount}} per year</b> instead of {{user.pretty.price}} per month.</li>
-  <li>You will have <b>{{proration}} charged to your account</b>. {{#balance.credit}}Your account has a credit of {{balance.amount}} which will be applied toward this charge.{{/balance.credit}}
-</li>
-    <li>Your next bill for {{new_amount}} will be due in one year's time.</li>
-  </ul>
+  <li>Your account will be <b>charged {{proration}}</b> today. {{#balance.credit}}Your account has a credit of {{balance.amount}} which will be applied toward this charge.{{/balance.credit}}</li>
+  <li>Your next bill will be due in one year's time.</li>  
+</ul>
 
  </p> 
 {{/monthly}}
@@ -20,7 +19,7 @@
   <ul>
   <li>You will pay <b>{{new_amount}} per month</b> instead of {{user.pretty.price}} per year.</li>
   <li>You will have <b>{{credit}} credited</b> to your account. This credit will apply automatically to your future monthly bills.</li>
-  <li>Your next bill for {{new_amount}} will be due in one month's time.</li>
+  <li>Your next bill will be due in one month's time.</li>
 </ul>
 </p>
 

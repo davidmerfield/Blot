@@ -21,8 +21,6 @@ Account.use(function(req, res, next) {
   ) {
     if (err) return next(err);
 
-    console.log(customer);
-
     if (customer.balance !== 0 && Math.sign(customer.balance) === -1) {
       res.locals.balance = {
         credit: true,
@@ -92,10 +90,9 @@ Account.route("/log-out")
   });
 
 Account.use(function(err, req, res, next) {
-  // console.log('here', req.method, req.header('referrer'), req.originalUrl, typeof err, err instanceof Error, err.message);
 
   if (req.method === "GET") {
-    console.log(err.stack, err.trace);
+    console.log(err, err.trace)
     res.status(500);
     res.render("error", { error: err });
   } else if (req.method === "POST") {
