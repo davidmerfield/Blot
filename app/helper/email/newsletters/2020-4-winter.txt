@@ -10,6 +10,7 @@ Winter newsletter
 
 **Bugs fixed**
 - Fixed bug when you try and create a blog with a short title 
+- Fixed bug with [external citation files](https://blot.im/how/guides/citations) after hard coding a link to the needed pandoc filter.
 
 **Mistakes**
 

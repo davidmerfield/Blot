@@ -1,12 +1,33 @@
-Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
-
-Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
+Fix issue with template subdomains that are too long and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWXWLwxgVHvDdBKrpbPjdlZsv)
 
 ---
 
-Update version of pandoc in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS) and [Gregory](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrfLxngJHnKkhJFGCgFPdB) and [Nick](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrXKFSzMBWgfljFxDSLkKlbf)
+Add wikilinks and tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Emily](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRTXMVPkcJXHfrSnlswxvf) and [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVDbpNCmTGsSGSQKdCbCjpDq) and [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXxpdhXPBXSjnQfkndvRRSLjx)
 
-Fix image zooming bug in picture template and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrTqFRpZCKgvtvmnhhrNmnnM)
+Add backlinks list to template engine. Bi-directional links (aka backlinks) - it would be great to have a service/plugin that could be enabled to show a list of the posts/pages that link to the current post/page - see the ['links to this note'](https://notes.andymatuschak.org/z6bci25mVUBNFdVWSrQNKr6u7AZ1jFzfTVbMF) then tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG)
+
+---
+
+Improvements to templates
+- Replace existing magazine template with proper CSS version
+- Improve source code for native templates
+- Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
+- Add a template with random layouts, or a random layout option to existing templates? seedable / repeatable randomness based on the names of files? complete randomness?
+- Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
+- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
+- Add search page to archive template and tell [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRPFhmWPrZXbFZvhwWMWzfTl)
+- Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
+- Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
+- Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
+- Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT) and tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd) and [Marshall](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNglcqbHDVwPGqxqFxLvNcFlV)
+- Fix image zooming bug in picture template and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrTqFRpZCKgvtvmnhhrNmnnM)
+- Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
+
+---
+
+Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
+
+Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
 Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
 
@@ -14,8 +35,6 @@ Fix duplicated entry in tag page for Marco:
 https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
 
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
-
-Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
 Fix bug with {{index}} value of entries inside {{#entries}} ... {{/entries}} and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
 
@@ -38,11 +57,7 @@ Investigate failed wildcard SSL certificate renewal
 Disable access to s3 blogs bucket
 - Wait 30 days then delete s3 blogs bucket
 
-Add wikilinks and tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Emily](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRTXMVPkcJXHfrSnlswxvf) and [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVDbpNCmTGsSGSQKdCbCjpDq) and [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXxpdhXPBXSjnQfkndvRRSLjx)
-
 ---
-
-Fix issue with template subdomains that are too long and tell [Will](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWXWLwxgVHvDdBKrpbPjdlZsv)
 
 Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
 
@@ -58,7 +73,6 @@ Prevent long-overdue users from accessing the service, then tell [Matvey](https:
 
 Generate proper favicons from uploaded avatars (to prevent streched favicons when non-square avatars are uploaded)
 
-Add backlinks list to template engine. Bi-directional links (aka backlinks) - it would be great to have a service/plugin that could be enabled to show a list of the posts/pages that link to the current post/page - see the ['links to this note'](https://notes.andymatuschak.org/z6bci25mVUBNFdVWSrQNKr6u7AZ1jFzfTVbMF) then tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG)
 
 Improvements to server infrastructure
 - Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
@@ -69,18 +83,6 @@ Improvements to blog server
 - Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
-
-Improvements to templates
-- Replace existing magazine template with proper CSS version
-- Improve source code for native templates
-- Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
-- Add a template with random layouts, or a random layout option to existing templates? seedable / repeatable randomness based on the names of files? complete randomness?
-- Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
-- Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
-- Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
-- Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
-- Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
-- Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT) and tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd) and [Marshall](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNglcqbHDVwPGqxqFxLvNcFlV)
 
 Improvements to template editor
 - Add layout options to template editor for native templates
@@ -505,8 +507,6 @@ Replace some of the assert() tests which run every time the server starts with J
 
 Generate list of external API dependencies and follow changes for each
 
-Add search page to archive template and tell [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRPFhmWPrZXbFZvhwWMWzfTl)
-
 Add simple minimal version of Blot that could be npm installed, then tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw) who is frustrated editing templates locally with the git client
 
 Make sure [color schemes have enough contrast](https://stripe.com/blog/accessible-color-systems)
@@ -655,9 +655,6 @@ Make improvements to template editor color picker:
 - Swatches
    - used on other templates
 
-Add support for Microformats in the default templates. Tell Amit and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
-
-Add JSONFeed to default templates. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
 
 Add support for Micropub in Blot's API. Tell Amit.
 
@@ -745,7 +742,6 @@ Write new clients to sync blog folders
 - [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
 - [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) and [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCspWMdnbCdzfHGwBrSKPBSC)
 - [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
-- Google Drive then tell [Cecil](https://twitter.com/Blot__/status/988162892594860032?s=20), [Jonathan](https://twitter.com/chin_jon/status/1032392398473650176) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpWgGLjJqthFzlxDnWvlXvbh) and [Saptarshi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZmFvCblDdDhMQVzDTRDzML) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Josh](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Kevin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpgkhDvTPVKvsqmQdLNTCQjz) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJnSjSLPhVFlsJvzctSwXQKj) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjkzLLMQHXgtlqwLGxfqfMhS) and [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx)
 - If it ever becomes possible to create an iCloud client for Blot, tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNnhCDNsffJSjnQHnxdSfh) and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfSZgQqjNWLWVHZjwXQrS) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNTrdmqJwwzCPLrhcQRNWW) and [Dave](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfLmTVjNGcXZVRWdlrLzp) and [Shawn](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfRRjzkzpvQjPTCQtqpDx) and [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwC1hJjqgsvKxxVgFdbXvxNTHTsz) and [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSJkptkQxlqTjsDCtdTgMWXv) and [Wilt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcgKzMGXdrHMVhrjsjJnnBzk) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfMPDQnSTBSsWXdtfkVdJzdD) and [Arlo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRLJddkZSdrMVxrNkTZLKn)
 
 Allow Blot to fallback to client.read if the file does not exist on the blot server. Say the harddrive is wiped, we still would like to serve blog files
@@ -846,6 +842,10 @@ Consider adding embedabble support for giphy URLs and tell [Nash](https://mail.g
 
 Consider adding educational pricing and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm) with my decision.
 
+Consider adding support for Microformats in the default templates
+
+Consider adding JSONFeed to default templates. Tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg)
+
 Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for users
 
 Consider establishing bug bounty program
@@ -872,3 +872,4 @@ Consider adding support for [PubSubHubbub](https://en.wikipedia.org/wiki/WebSub)
 Consider atompub support for Marsedit and tell Chet
 
 Consider incorporating typographic features from [Textile](http://redcloth.org/textile/phrase-modifiers/)? 
+
