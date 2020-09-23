@@ -172,6 +172,10 @@ function handleFromTitle(title) {
 
   handle = title.toLowerCase().replace(/\W/g, "");
 
+  if (handle.length < 4) {
+    handle += randomChars(4 - handle.length);
+  }
+  
   return handle;
 }
 
