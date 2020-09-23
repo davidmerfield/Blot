@@ -1,0 +1,22 @@
+Winter newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+
+**Changes**
+- Updated the [dashboard](http://blot.im/), as is tradition. 
+- Updated various dependencies on the application server, as is tradition.
+
+**Bugs fixed**
+- Fixed bug when you try and create a blog with a short title 
+
+**Mistakes**
+
+
+**Plans for this season**
+
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

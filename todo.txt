@@ -1,18 +1,14 @@
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
-Bug: try to create a blog with a one or two letter name
-
-Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
-
 Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
 ---
 
-Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
-
 Update version of pandoc in production and tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgfsLTtZJgxQckgmTBBXhlCS) and [Gregory](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrfLxngJHnKkhJFGCgFPdB) and [Nick](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrXKFSzMBWgfljFxDSLkKlbf)
 
 Fix image zooming bug in picture template and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrTqFRpZCKgvtvmnhhrNmnnM)
+
+Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
 
 Fix duplicated entry in tag page for Marco:
 https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
@@ -24,6 +20,8 @@ Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mai
 Fix bug with {{index}} value of entries inside {{#entries}} ... {{/entries}} and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
 
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
+
+Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
 
 ---
 
