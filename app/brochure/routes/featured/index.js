@@ -56,11 +56,12 @@ module.exports = function(req, res, next) {
     return site;
   });
 
+  // randomize
   res.locals.featured.sort(function(a, b) {
     return Math.round(Math.random() * 2) - 1;
   });
 
-  res.locals.featured = res.locals.featured.slice(0, 32);
+  res.locals.featured = res.locals.featured.slice(0, 36);
 
   next();
 };
