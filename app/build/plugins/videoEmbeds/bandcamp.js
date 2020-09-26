@@ -1,4 +1,5 @@
-var metafetch = require("metafetch");
+var request = require("request");
+var cheerio = require("cheerio");
 var url = require("url");
 
 // we prepend a zero-width char because of a weird fucking
@@ -48,14 +49,13 @@ module.exports = function (href, callback) {
 
   var height, width, ratio;
 
-  metafetch.fetch(href, function (error, data) {
-    if (error || !data) return callback(new Error(FAIL));
-
-    var meta = data.meta;
-    height = Number(meta["og:video:height"]);
-    width = Number(meta["og:video:width"]);
-    html = meta["og:video"];
-
+  request(href, function (error, response, body) {
+    if (error) return callback(error);
+    var $ = cheerio.load(body);
+    width = Number($('meta[property="og:video:width"]').attr("content"));
+    height = Number($('meta[property="og:video:height"]').attr("content"));
+    html = $('meta[property="og:video"]').attr("content");
+    console.log(width, height, html);
     if (!html || height == NaN || width == NaN) {
       return callback(new Error(FAIL));
     }
