@@ -120,6 +120,12 @@ node scripts/access.js <username>
 
 Use the 'local client' when you set up your blog, since you haven't set up Dropbox credentials either.
 
+Enable all built-in templates:
+
+```sh
+node app/templates/index.js
+```
+
 
 ## Useful scripts
 
