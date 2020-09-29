@@ -30,7 +30,7 @@ module.exports = function (href, callback) {
   try {
     path = url.parse(href).pathname;
   } catch (e) {
-    return next();
+    return callback(new Error(FAIL));
   }
 
   // Trim trailing slash if applicable
@@ -47,15 +47,21 @@ module.exports = function (href, callback) {
     return callback(new Error(FAIL));
   }
 
-  var height, width, ratio;
-
   request(href, function (error, response, body) {
     if (error) return callback(error);
-    var $ = cheerio.load(body);
-    width = Number($('meta[property="og:video:width"]').attr("content"));
-    height = Number($('meta[property="og:video:height"]').attr("content"));
-    html = $('meta[property="og:video"]').attr("content");
-    if (!html || height == NaN || width == NaN) {
+
+    var $, height, width, ratio, html;
+
+    try {
+      $ = cheerio.load(body);
+      width = Number($('meta[property="og:video:width"]').attr("content"));
+      height = Number($('meta[property="og:video:height"]').attr("content"));
+      html = $('meta[property="og:video"]').attr("content");
+    } catch (error) {
+      return callback(new Error(FAIL));
+    }
+
+    if (!html || isNaN(height) || isNaN(width)) {
       return callback(new Error(FAIL));
     }
 
