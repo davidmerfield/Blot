@@ -29,7 +29,7 @@ body {
   color: #000;
   line-height: 1.45;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 400;
   font-style: normal;
@@ -108,7 +108,7 @@ h1 {
   font-weight: 700;
   margin: 36px 0 16px;
   /*    border-bottom: 1px solid #eceff1;
-*/
+  */
   padding: 0 0 0.25em;
 }
 
@@ -342,7 +342,6 @@ a.video {
 }
 
 @media screen and (max-width: 800px) {
-
   a.video,
   background {
     margin-left: -2rem;
@@ -395,7 +394,7 @@ background .window {
   color: inherit;
   text-decoration: none;
   box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
-    rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  rgba(15, 15, 15, 0.1) 0px 2px 4px;
   background: white;
 }
 
@@ -403,7 +402,7 @@ background .window {
   text-decoration: none;
   background: #f6f6f6;
   box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
-    rgba(15, 15, 15, 0.1) 0px 2px 4px;
+  rgba(15, 15, 15, 0.1) 0px 2px 4px;
 }
 
 .clients li a:hover strong {
