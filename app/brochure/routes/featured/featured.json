@@ -558,5 +558,13 @@
     "firstName": "Neale",
     "bio": " is a librarian based in Los Angeles",
     "favicon": "/images/featured/tellyou.today.jpg"
+  },
+  {
+    "link": "https://lara.onl",
+    "host": "lara.onl",
+    "name": "Lara Dominguez is an artist and photographer",
+    "firstName": "Lara",
+    "bio": "",
+    "favicon": "/images/featured/lara.onl.jpg"
   }
 ]
