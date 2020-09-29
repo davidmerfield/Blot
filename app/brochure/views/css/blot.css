@@ -228,6 +228,24 @@ table {
   overflow-x: auto;
 }
 
+div.tex table {
+  table-layout: auto;
+  margin-bottom: 1.5em;
+}
+
+div.tex p {
+  margin-bottom: 3em;
+}
+
+div.tex table.reference td:nth-child(odd),
+div.tex table.symbol td {
+  font-family: KaTeX_Main, KaTeX_AMS;
+}
+
+div.tex table td.not-symbol {
+  font-family: inherit !important;
+}
+
 th,
 td {
   padding: 8px 0;
