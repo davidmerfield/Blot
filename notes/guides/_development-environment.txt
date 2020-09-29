@@ -29,6 +29,7 @@ Export [environment variables](/config/environment.sh) needed by Blot:
 
 ```sh
 export BLOT_HOST=blot.development
+export BLOT_DIRECTORY=~/Projects/Blot
 export BLOT_CACHE_DIRECTORY=~/Projects/Blot/data/cache
 export BLOT_SESSION_SECRET=abc
 export BLOT_MAILGUN_KEY=blah
@@ -118,6 +119,12 @@ node scripts/access.js <username>
 ```
 
 Use the 'local client' when you set up your blog, since you haven't set up Dropbox credentials either.
+
+Enable all built-in templates:
+
+```sh
+node app/templates/index.js
+```
 
 
 ## Useful scripts
