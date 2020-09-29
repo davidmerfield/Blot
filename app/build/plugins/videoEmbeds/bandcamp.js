@@ -55,7 +55,6 @@ module.exports = function (href, callback) {
     width = Number($('meta[property="og:video:width"]').attr("content"));
     height = Number($('meta[property="og:video:height"]').attr("content"));
     html = $('meta[property="og:video"]').attr("content");
-    console.log(width, height, html);
     if (!html || height == NaN || width == NaN) {
       return callback(new Error(FAIL));
     }
