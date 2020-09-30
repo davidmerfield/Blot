@@ -2,9 +2,9 @@ Fix issue with template subdomains that are too long and tell [Will](https://mai
 
 ---
 
-Add wikilinks and tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Emily](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRTXMVPkcJXHfrSnlswxvf) and [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVDbpNCmTGsSGSQKdCbCjpDq) and [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXxpdhXPBXSjnQfkndvRRSLjx)
+Add wikilinks and tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Emily](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRTXMVPkcJXHfrSnlswxvf) and [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVDbpNCmTGsSGSQKdCbCjpDq) and [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXxpdhXPBXSjnQfkndvRRSLjx) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJZJRpJMjHmbdqHLgQRrdrmrQf) and [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqWvGDjVMMzBHhXNPTvhJJ)
 
-Add backlinks list to template engine. Bi-directional links (aka backlinks) - it would be great to have a service/plugin that could be enabled to show a list of the posts/pages that link to the current post/page - see the ['links to this note'](https://notes.andymatuschak.org/z6bci25mVUBNFdVWSrQNKr6u7AZ1jFzfTVbMF) then tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG)
+Add backlinks list to template engine. Bi-directional links (aka backlinks) - it would be great to have a service/plugin that could be enabled to show a list of the posts/pages that link to the current post/page - see the ['links to this note'](https://notes.andymatuschak.org/z6bci25mVUBNFdVWSrQNKr6u7AZ1jFzfTVbMF) then tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJZJRpJMjHmbdqHLgQRrdrmrQf)
 
 ---
 
@@ -26,6 +26,8 @@ Improvements to templates
 ---
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
+
+Document all the link -> embed features, e.g. youtube, vimeo, bandcamp
 
 Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
@@ -858,8 +860,6 @@ Consider adding simple commenting system and tell [Precious](https://mail.google
 Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNRnfqdSCvqvTgGZTSSTvGjv)
 
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
-
-Consider adding [[Wikilinks]] and tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqWvGDjVMMzBHhXNPTvhJJ)
 
 Consider establishing community of Blot users and tell [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)
 
