@@ -56,6 +56,7 @@ module.exports = function(req, res, next) {
     return site;
   });
 
+  // randomize
   res.locals.featured.sort(function(a, b) {
     return Math.round(Math.random() * 2) - 1;
   });

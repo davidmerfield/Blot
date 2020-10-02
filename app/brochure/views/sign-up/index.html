@@ -45,7 +45,7 @@
     <hr style="margin:2px 0;border:none;border-top:1px solid rgba(0, 0, 0, .25)">
     <p style="margin-top:4px">{{price}}</p>
   </div>
-  <input type="submit" value="Submit payment" />
+  <input type="submit" value="Submit payment" onclick="this.classList.add('working')"/>
 </flex>
   <input type="hidden" class="stripeToken" name="stripeToken" />
 </form>
@@ -71,7 +71,9 @@ $('form').submit(function(event) {
       .text('Please enter your email address.')
       .show();
     $('[type="submit"]')
+      .removeClass('working')
       .prop('disabled', false)
+    $('[name="email"]').focus()      
     return false;
   } else {
     $('[name="email"]').val(email)
@@ -82,6 +84,7 @@ $('form').submit(function(event) {
         .text(response.error.message)
         .show();
       $('[type="submit"]')
+        .removeClass('working')
         .prop('disabled', false);
     } else {
       var token = response.id;
