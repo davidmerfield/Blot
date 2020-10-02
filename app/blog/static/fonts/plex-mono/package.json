@@ -1,5 +1,7 @@
 {
   "name": "Plex Mono",
   "stack": "'Plex Mono'",
-  "line_height": 1.4
+  "line_height": 1.625,
+  "line_width": 39,
+  "font_size": 1
 }

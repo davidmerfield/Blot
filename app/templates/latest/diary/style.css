@@ -1,29 +1,14 @@
+/* Inserts the styles required by various options
+on the services page of the dashboard */
 {{{appCSS}}}
 
+/* Will be replaced with the @font-face rules required
+to load which font is selected as the main body font */
 {{{body_font.styles}}}
 
+/* Will be replaced with the @font-face rules required
+to load which font is selected as the main body font */
 {{{coding_font.styles}}}
-
-/* Small caps */
-.small-caps {}
-
-/* Double quote (") marks */
-.pull-double{margin-left:-.45em}
-.push-double{margin-right:.45em}
-
-/* Single quote (') marks */
-.pull-single{margin-left:-.20em}
-.push-single{margin-right:.20em}
-
-/* Optical margin alignment for particular letters */
-.pull-T, .pull-V, .pull-W, .pull-Y {margin-left: -0.1em}
-.push-T, .push-V, .push-W, .push-Y {margin-right: 0.1em}
-
-.pull-O, .pull-C, .pull-o, .pull-c {margin-left: -0.06em}
-.push-O, .push-C, .push-o, .push-c {margin-right: 0.06em}
-
-.pull-A {margin-left: -0.04em}
-.push-A {margin-right: 0.04em}
 
 body {
   {{#body_font}}
@@ -32,13 +17,10 @@ body {
   line-height: {{{line_height}}};
   {{/body_font}}
   text-rendering: optimizeLegibility;
-  font-variant-ligatures: common-ligatures;
-  font-feature-settings: "liga";
-  -moz-osx-font-smoothing: grayscale;
-  -moz-font-feature-settings: “liga” on;
   color: {{text_color}};
-  word-wrap: break-word;
   background: {{background_color}};
+  word-wrap: break-word;
+  margin: 10px 15px;
 }
 
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
@@ -326,7 +308,13 @@ iframe {width: 100%;}
 .header .tags a {opacity: 1.0}
 .header .nav a {opacity: 0.4}
 
-.header .nav {flex-shrink: 0}
+.header .nav {
+  display: flex;
+  flex-grow: 1;
+  align-content: baseline;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
 .header .tags {margin:0 2rem;flex-grow: 1}
 
 .nav a[href="/feed.rss"],
@@ -465,7 +453,13 @@ input#search:focus {
 }
 
 @media screen and (max-width: 730px) {
-  .nav, #logo {margin-left: 60px}
+  .header {
+    padding-left: 0; 
+    padding-right: 0; 
+    max-width: 600px;
+    min-width: 0;
+    margin: auto;
+  }
   ul, li {margin-left: 24px}
   ul ul, ol ul, ol ol, ul ol {margin-left: 0}
   .nav .right {clear: both;float: none;margin-top: 3px}
@@ -474,7 +468,13 @@ input#search:focus {
 
 @media screen and (max-width: 400px) {
   .entry .twitter-tweet {margin-left: 0!important}
-  .header {margin: 9px auto -12px}
+  .header {
+    margin: 9px auto -12px;
+    display: flex;
+    flex-direction: column;
+    padding: 0.25em 0 1em;
+  }
+  .header #logo, .header .tags, .header .nav {margin: 0 0 0.5em 0;}
 }
 
 {{#plugins.codeHighlighting.enabled}}
