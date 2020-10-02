@@ -46,6 +46,7 @@
     var editor = CodeMirror.fromTextArea(document.getElementById("source"), {
       mode: { name: "handlebars", base: $("#source").attr("data-mode") },
       lineNumbers: true,
+      smartIndent: false,
       styleActiveLine: true,
       theme: "default",
     });
