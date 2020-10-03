@@ -1,4 +1,5 @@
 var moment = require("moment");
+var helper = require("helper");
 
 module.exports = function insert_metadata(post, callback) {
   var lines = [];
@@ -17,7 +18,7 @@ module.exports = function insert_metadata(post, callback) {
 
   if (post.metadata)
     for (var key in post.metadata)
-      lines.push(capitalize(key) + ": " + post.metadata[key]);
+      lines.push(helper.capitalize(key) + ": " + post.metadata[key]);
 
   if (post.title) {
     lines.push(""); // leave a blank line between metadata and title
@@ -28,7 +29,3 @@ module.exports = function insert_metadata(post, callback) {
 
   callback(null, post);
 };
-
-function capitalize(str) {
-  return str[0].toUpperCase() + str.slice(1);
-}
