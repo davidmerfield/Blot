@@ -73,7 +73,7 @@ function build(directory, callback) {
   }
 
   id = TEMPLATES_OWNER + ":" + basename(directory);
-  name = templatePackage.name || helper.capitalise(basename(directory));
+  name = templatePackage.name || helper.capitalize(basename(directory));
   description = templatePackage.description || "";
   isPublic = templatePackage.isPublic !== false;
 

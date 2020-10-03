@@ -3,6 +3,7 @@ var brochure = new Express.Router();
 var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
+var capitalize = require('../../../app/helper/capitalize');
 
 var TITLES = {
   how: "How to use Blot",
@@ -113,10 +114,6 @@ brochure.use(function(err, req, res, next) {
 
   next(err);
 });
-
-function capitalize(str) {
-  return str[0].toUpperCase() + str.slice(1);
-}
 
 function trimLeadingAndTrailingSlash(str) {
   if (!str) return str;
