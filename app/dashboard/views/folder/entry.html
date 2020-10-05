@@ -29,9 +29,15 @@
   <td>{{#draft}}Yes{{/draft}}{{^draft}}No{{/draft}}</td>
 </tr>
 
-<tr class="break">
+<tr >
   <td>Page:</td>
   <td>{{#page}}Yes {{/page}}{{^page}}No{{/page}}</td>
 </tr>
+
+<tr class="break"> 
+  <td>Tags:</td>
+  <td>{{#tags}} {{tag}}{{^last}},{{/last}} {{/tags}}</td>
+</tr>
+
 
 {{/entry}}
