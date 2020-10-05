@@ -10,26 +10,30 @@ const formJSON = helper.formJSON;
 const extend = helper.extend;
 const async = require("async");
 
-SourceCode.use(require("./load/template-views"));
-
 SourceCode.use(function (req, res, next) {
 	res.locals.partials.sidebar = "template-editor/source-code/sidebar";
 	res.locals.partials.header = "template-editor/source-code/header";
 	next();
 });
 
-SourceCode.route("/").get(function (req, res) {
-	if (res.locals.views[0] && res.locals.views[0].name) {
-		return res.redirect(
-			res.locals.base + "/source-code/" + res.locals.views[0].name + "/edit"
-		);
-	}
+SourceCode.param("viewSlug", require("./load/template-views"));
+SourceCode.param("viewSlug", require("./load/template-view"));
 
-	res.locals.partials.yield = "template-editor/source-code/edit";
-	res.render("template-editor/layout");
-});
+SourceCode.route("/")
+	.get(require("./load/template-views"))
+	.get(function (req, res) {
+		if (res.locals.views[0] && res.locals.views[0].name) {
+			return res.redirect(
+				res.locals.base + "/source-code/" + res.locals.views[0].name + "/edit"
+			);
+		}
+
+		res.locals.partials.yield = "template-editor/source-code/edit";
+		res.render("template-editor/layout");
+	});
 
 SourceCode.route("/create")
+   .get(require("./load/template-views"))
 	.get(function (req, res) {
 		res.locals.partials.yield = "template-editor/source-code/create";
 		res.render("template-editor/layout");
@@ -65,8 +69,6 @@ SourceCode.route("/create")
 			});
 		});
 	});
-
-SourceCode.param("viewSlug", require("./load/template-view"));
 
 SourceCode.route("/:viewSlug/edit")
 	.get(function (req, res) {
