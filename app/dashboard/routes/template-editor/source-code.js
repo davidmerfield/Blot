@@ -16,8 +16,8 @@ SourceCode.use(function (req, res, next) {
 	next();
 });
 
-SourceCode.param("viewSlug", require("./load/template-view"));
 SourceCode.param("viewSlug", require("./load/template-views"));
+SourceCode.param("viewSlug", require("./load/template-view"));
 
 SourceCode.route("/")
 	.get(require("./load/template-views"))
@@ -33,6 +33,7 @@ SourceCode.route("/")
 	});
 
 SourceCode.route("/create")
+   .get(require("./load/template-views"))
 	.get(function (req, res) {
 		res.locals.partials.yield = "template-editor/source-code/create";
 		res.render("template-editor/layout");
