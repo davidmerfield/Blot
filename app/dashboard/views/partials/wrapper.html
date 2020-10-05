@@ -11,6 +11,7 @@
   color: rgb(158, 154, 152)
 }
 
+.no-underline {text-decoration: none;}
 .breadcrumbs {
           font-weight: 400;
           color: #0b0c0c;
@@ -65,7 +66,8 @@
 
         }
 
-        .breadcrumbs__link:hover {
+        .breadcrumbs__link:hover,
+        .no-underline:hover {
           text-decoration: underline;
         }
 
@@ -76,7 +78,7 @@
 <div style="clear:both"></div>
 <div style="display:flex;    align-items: center;padding: 0 2rem;">
 
-  <div class="wrapper" style="margin:0 auto;width: 54rem;display:flex;flex-direction:column;">
+  <div class="wrapper" style="margin:0 auto;width: 600px;display:flex;flex-direction:column;">
 
     <div style="display: flex;padding-bottom: 0.5rem;">
       <div style="display: flex;flex-basis: 600px;          padding: 16px 0 16px 20px
@@ -98,9 +100,8 @@
         </ol>
       </div>
 {{#selected.settings}}
-      <a href="{{{blog.url}}}" target="_blank" style="border-radius:4px;padding:4px 8px;line-height:20px;font-size:14px;font-weight:500;text-decoration:none;color:#666;background-color: rgb(255, 255, 255);
-    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
-}">Visit ↗</a>
+<span style="border-left: 1px solid #eee;height: 28px;display: inline-block;margin:0 1rem"></span>
+      <a href="{{{blog.url}}}" target="_blank" class="no-underline" style="border-radius:4px;padding:4px 8px;line-height:20px;font-weight:600;color:#365899;">Visit &rarr;</a>
 {{/selected.settings}}      </div>
     </div>
 
