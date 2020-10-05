@@ -1,14 +1,14 @@
 <div
-	style="display:flex;align-items: center;background: #ccc;padding: 0.25rem 1rem;    box-shadow: inset 0 -1px 0 #bbb;"
+	style="display:flex;align-items: center;background: #f8f8f8;height:2rem;padding: 0.25rem 1rem;"
 >
-	<div style="flex-grow:1;flex-basis:33%;">
+	<div style="flex-grow:1;flex-basis:50%;">
 		<strong style="">{{view.name}}</strong>
 		<a class="smallLink" href="{{{base}}}/source-code/{{view.name}}/rename">Rename</a>
 		<a class="smallLink" href="{{{base}}}/source-code/{{view.name}}/delete">Delete</a>
 	</div>
 	
 	<form
-		style="flex-basis: 33%;margin:0 1rem;flex-grow:1;display: flex"
+		style="flex-basis: 50%;margin:0 0 0 1rem;height:1.5rem;flex-grow:1;display: flex"
 		class="save"
 		action="{{{base}}}/source-code/{{view.name}}/edit"
 	>

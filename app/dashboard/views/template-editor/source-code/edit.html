@@ -3,14 +3,32 @@
     padding: 0;
   }
   .CodeMirror-gutters {
-    background: #f2f2f2;
+    background: #f8f8f8;
   }
 
   .button {
-    background: #eee;
+        border-radius: 2px;
+    padding: 4px 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #555;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
     flex-grow: 1;
-    border-radius: 2px;
     border: none;
+    cursor: pointer;
+
+  }
+
+  .button.disabled {
+    background-color: transparent;
+    color: #888;
+        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px -1px, ;
+
+  }
+  .CodeMirror-sizer {
+    border-top: 1px solid #ccc;
   }
 </style>
 <div style="flex-grow: 1;max-width: calc(100vw - 20rem);">
