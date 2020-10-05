@@ -8,7 +8,7 @@
 	</div>
 	
 	<form
-		style="flex-basis: 50%;margin:0 0 0 1rem;height:1.5rem;flex-grow:1;display: flex"
+		style="flex-basis: 50%;margin:0 0 0 1rem;height:1.6666rem;flex-grow:1;display: flex"
 		class="save"
 		action="{{{base}}}/source-code/{{view.name}}/edit"
 	>
@@ -19,15 +19,11 @@
 			type="submit"
 			value="Save"
 			disabled
-		>
-			Save
+		>Save changes
 		</button>
 	</form>
 
-	<span class="message">
-		<span class="error"></span>
-		<span class="success"></span>
-	</span>
+
 	<!-- 
 	<a
 		href="{{{base}}}/source-code/{{view.name}}/preview"
@@ -35,4 +31,7 @@
 		style="flex-grow:1;flex-basis:33%;padding:0.25rem 1rem"
 		>Preview</a
 	> -->
+</div>
+
+<div class="error" style="display: none;">
 </div>
