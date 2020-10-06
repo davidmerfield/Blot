@@ -115,7 +115,7 @@ h1 {
   padding: 0 0 0.25em;
 }
 
-h1:first-child {margin-top: 0}
+h1:first-child {margin-top: 0;display: none;}
 
 h2 {
   font-size: 17px;

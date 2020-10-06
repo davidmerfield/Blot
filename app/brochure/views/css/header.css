@@ -246,10 +246,21 @@ header .logo:focus {
 }
 
 .breadcrumbs__list-item:before {
-  content: "/";
+  content: "";
+  display: block;
   position: absolute;
-  left: 0;
-  color: #5b6879;
+  top: 0;
+  bottom: 0px;
+  left: -2.31px;
+  width: 4px;
+  height: 4px;
+  margin: auto 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border: solid;
+  border-width: 1px 1px 0 0;
+  border-color: #5b6879;
 }
 
 .breadcrumbs__list-item:first-child:before {
