@@ -11,47 +11,54 @@ var SUCCESS = "Created your template succesfully!";
 var MAX_DEDUPLICATION_ATTEMPTS = 999;
 
 module.exports = function (req, res, next) {
-  var cloneFrom = req.body.cloneFrom;
-  var name = req.body.name;
-  var deduplicatingCounter = 1;
+  var template, slug, name;
   var deduplicatedName, deduplicatedSlug;
+  var deduplicatingCounter = 1;
 
-  if (!name) {
+  if (!req.body.name) {
     return next(new Error(NO_NAME));
   }
 
-  if (!cloneFrom) {
+  if (!req.body.cloneFrom) {
     return next(new Error(NO_CLONE));
   }
 
-  // let's say the name is 'Copy of Forst 2'
-  // deduplicatingCounter -> 2
-  // name -> Copy of Forst
-  if (parseInt(name.split(" ").pop()).toString() === name.split(" ").pop()) {
-    deduplicatingCounter = parseInt(name.split(" ").pop());
-    name = name.split(" ").slice(0, -1).join(" ");
+  name = req.body.name.trim();
+
+  // If this template's name was the result of existing 
+  // deduplication, e.g. 'Copy of Axe 3' continue the 
+  // deduplication using name 'Copy of Axe' and 
+  // deduplicatingCounter of 3.
+  if (name.indexOf(" ") > -1) {
+    let lastWord = name.split(" ").pop();
+    let lastNumber = parseInt(lastWord);
+    let nameWithoutLastWord = name.slice(0, -lastWord.length).trim();
+
+    if (!isNaN(lastNumber) && lastWord === lastNumber.toString()) {
+      deduplicatingCounter = lastNumber;
+      name = nameWithoutLastWord;
+    }
   }
 
-  var slug = makeSlug(name.slice(0, 30));
+  slug = makeSlug(name.slice(0, 30));
 
-
-  var template = {
+  template = {
     isPublic: false,
     name: name,
     slug: slug,
-    cloneFrom: cloneFrom,
+    cloneFrom: req.body.cloneFrom,
   };
 
   Template.create(req.blog.id, name, template, function then(error) {
+    // If template name was 'example', deduplicated name
+    // will be first 'example 2' then 'example 3' etc...
+    // We preserve the original name to ensure that we
+    // don't produce 'example 2 3' or 'example 2 3 4'...
     if (
       error &&
       error.code === "EEXISTS" &&
       deduplicatingCounter < MAX_DEDUPLICATION_ATTEMPTS
     ) {
-      // If template name was 'example', deduplicated name
-      // will be first 'example 2' then 'example 3' etc...
-      // We preserve the original name to ensure that we
-      // don't produce 'example 2 3' or 'example 2 3 4'...
       deduplicatingCounter++;
       deduplicatedName = name + " " + deduplicatingCounter;
       deduplicatedSlug = slug + "-" + deduplicatingCounter;
