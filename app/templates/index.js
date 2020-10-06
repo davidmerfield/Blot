@@ -237,13 +237,17 @@ function emptyCacheForBlogsUsing(templateID, callback) {
           if (err || !blog || !blog.template || blog.template !== templateID)
             return next();
 
-          console.log(
-            "   ..",
-            templateID,
-            "flushed for",
-            blog.handle + " (" + blog.id + ")"
-          );
-          next();
+          Blog.set(blogID, { cacheID: Date.now() }, function (err) {
+            if (err) return next(err);
+
+            console.log(
+              "..",
+              templateID,
+              "flushed for",
+              blog.handle + " (" + blog.id + ")"
+            );
+            next();
+          });
         });
       },
       callback
