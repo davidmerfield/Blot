@@ -240,27 +240,19 @@ header .logo:focus {
 .breadcrumbs__list-item {
   display: inline-block;
   position: relative;
-  margin-left: 11px;
-  padding-left: 16.655px;
+  margin-left: 6px;
+  padding-left: 20px;
   float: left;
 }
 
 .breadcrumbs__list-item:before {
-  content: "";
+  content: "→";
   display: block;
   position: absolute;
   top: 0;
   bottom: 0px;
-  left: -2.31px;
-  width: 4px;
-  height: 4px;
-  margin: auto 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  border: solid;
-  border-width: 1px 1px 0 0;
-  border-color: #5b6879;
+  left: 0;
+  color: #989694;
 }
 
 .breadcrumbs__list-item:first-child:before {
