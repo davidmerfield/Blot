@@ -1,7 +1,9 @@
-header row {padding:0 2rem}
+header row {
+  padding: 0 2rem;
+}
 
 .grid {
-  padding: 0.7em
+  padding: 0.7em;
 }
 
 .col-25,
@@ -13,11 +15,11 @@ header row {padding:0 2rem}
 }
 
 .ml-25 {
-  margin-left: 25%
+  margin-left: 25%;
 }
 
 .col-33 {
-  width: 33.3333333%
+  width: 33.3333333%;
 }
 
 .col-25 {
@@ -25,11 +27,11 @@ header row {padding:0 2rem}
 }
 
 .col-50 {
-  width: 50%
+  width: 50%;
 }
 
 .col-75 {
-  width: 75%
+  width: 75%;
 }
 
 .links {
@@ -38,14 +40,7 @@ header row {padding:0 2rem}
 }
 
 .links a {
-  margin-left: 1.4em
-}
-
-
-@media screen and (min-width: 800px) {
-  label[for="toggle"] {
-    display: none;
-  }
+  margin-left: 1.4em;
 }
 
 .mobile {
@@ -56,16 +51,15 @@ header row {padding:0 2rem}
   display: none;
 }
 
-
+@media screen and (min-width: 800px) {
+  label[for="toggle"] {
+    display: none;
+  }
+}
 
 @media screen and (max-width: 800px) {
-
   main.has-sidebar {
     display: block !important;
-  }
-
-  content {
-    padding: 0 2rem;
   }
 
   ul.sidebar {
@@ -88,39 +82,53 @@ header row {padding:0 2rem}
     flex-grow: 1;
   }
 
-  .nav>* {
+  .nav > * {
     width: 33.333%;
     padding-left: 0.7em;
     box-sizing: border-box;
   }
 
-  .nav>*:first-child {
-    padding-left: 0
+  .nav > *:first-child {
+    padding-left: 0;
   }
 
-  input[name="toggle"]+ul {
+  input[name="toggle"] + ul {
     display: none;
   }
 
+  header content {
+    display: none;
+  }
+  .links a {
+    display: none;
+  }
   .collapse {
     display: none;
   }
 
-  input[name="toggle"]:checked+.sidebar {
+  input[name="toggle"]:checked + .sidebar {
     display: block;
   }
-
 }
 
 @media screen and (max-width: 600px) {
-content {
+  content {
     padding: 0 1rem;
   }
-  a.video, background {margin-right: -1rem;margin-left: -1rem}
-  header row {padding-left: 1rem;padding-right: 1rem}
-  .sidebar a {padding-left:1rem;padding-right: 1rem}
+  a.video,
+  background {
+    margin-right: -1rem;
+    margin-left: -1rem;
+  }
+  header row {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .sidebar a {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
-
 
 .sidebar a,
 .links label {
@@ -131,8 +139,6 @@ content {
   box-sizing: border-box;
   text-decoration: none;
 }
-
-
 
 .links a:focus,
 .sidebar a:focus,
@@ -146,7 +152,6 @@ header label:focus {
 */
 }
 
-
 header a:hover,
 .sidebar a:hover,
 header label:hover {
@@ -157,7 +162,6 @@ header label:hover {
 */
   text-decoration: underline;
 }
-
 
 .links a:active,
 .links label:active {
@@ -178,13 +182,13 @@ header a.selected {
 header hr,
 .sidebar hr {
   border: none;
-  border-bottom: 1px solid #eceff1
+  border-bottom: 1px solid #eceff1;
 }
 
 .dark .links,
 .dark .sidebar hr,
 .dark footer {
-  border-color: #333
+  border-color: #333;
 }
 
 .logo svg {
@@ -201,15 +205,76 @@ header hr,
   stroke: #666;
 }
 
-
 .header-button {
   background-color: #0070c9;
   box-shadow: 0 0 0 4px #0070c9;
   padding: 0 0.5em;
   color: white;
   margin-left: 1em;
-  text-decoration: none
+  text-decoration: none;
 }
 
 header .logo,
-header .logo:focus {display:flex;align-items:center;margin:20px 0;font-weight: 500;color:#000;}
+header .logo:focus {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  font-weight: 500;
+  color: #000;
+}
+
+.breadcrumbs {
+}
+
+.breadcrumbs__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.breadcrumbs__list-item:first-child {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.breadcrumbs__list-item {
+  display: inline-block;
+  position: relative;
+  margin-left: 11px;
+  padding-left: 16.655px;
+  float: left;
+}
+
+.breadcrumbs__list-item:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  left: -2.31px;
+  width: 4px;
+  height: 4px;
+  margin: auto 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border: solid;
+  border-width: 1px 1px 0 0;
+  border-color: #5b6879;
+}
+
+.breadcrumbs__list-item:first-child:before {
+  content: none;
+  display: none;
+}
+
+.breadcrumbs__link:link,
+.breadcrumbs__link:visited {
+  color: #365899;
+  text-decoration: none;
+}
+
+.breadcrumbs__link:hover,
+.no-underline:hover {
+  text-decoration: underline;
+}

@@ -10,7 +10,6 @@ var TITLES = {
 
 developers.use(function(req, res, next) {
   res.locals.base = "/developers";
-  res.locals.layout = "developers/layout";
   res.locals.selected = {};
   
   var url = req.originalUrl;

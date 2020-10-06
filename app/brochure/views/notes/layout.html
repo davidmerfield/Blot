@@ -1,6 +1,4 @@
-{{> head}}
 
-<body>
 
   <style type="text/css">
 
@@ -69,51 +67,6 @@ margin-left: 12px
 }
 </style>
 
-<div style="background:#f6f6f6">
-  <div class="wrapper">
-    <row  style="padding:2rem 0 1rem;display:flex;align-items:center;">
-      <section style="display: flex;
-    align-items: center;">
-
-        <div style="display: flex" class="bc">
-          <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/" >Blot</a>
-          <a class="underline-on-hover {{selected.index}}" style="font-weight: 600;color:#000" title="Blot" href="/notes" >Notes</a>
-          {{#breadcrumbs}}
-          <a class="underline-on-hover" style="font-weight: 600;color:#000" href="{{{slug}}}">{{name}}</a>
-          {{/breadcrumbs}}
-      </div>
-
-
-      </section>
-
-      <section class="links" style="flex-grow:1;font-weight:600;color:#000">
-        <label for="toggle">Menu</label>
-        {{#unless user}}
-        <a class="buttt" href="/sign-up">Sign up</a>
-        <a class="buttt" href="/log-in">Log in</a>
-        {{/unless}}
-        {{#if user}}
-        <a class="buttt" href="/">Your account</a>
-<!--         <a class="buttt" href="/how">How to use Blot</a>
- -->        <a class="buttt" href="/contact">Contact</a>
-        {{/if}}
-      </section>
-    </row>
-
-</div>
-</div>
-<!--     <hr style="margin:0; border: none;
-    border-bottom: 1px solid #eee;"> -->
-
-  <div class="wrapper">
-  <main  >
-
-    <input type="checkbox" name="toggle" id="toggle">
-
-
-
-    <content>
-      
   
 
       {{{body}}}
@@ -142,8 +95,3 @@ margin-left: 12px
         {{/if}}
     </content>
   </main>
-
-  {{> footer}}
-</body>
-
-</html>

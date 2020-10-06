@@ -17,9 +17,7 @@ if (config.environment === "development")
 
 notes.use(function(req, res, next) {
   res.locals.base = "/notes";
-  res.locals.layout = "";
   res.locals.selected = {};
-  res.locals.breadcrumbs = [];
   next();
 });
 
@@ -29,10 +27,7 @@ notes.param("section", function(req, res, next) {
     section.isSelected = req.params.section === section.id ? "selected" : false;
     return section;
   });
-  res.locals.breadcrumbs.push({
-    slug: "/notes/" + req.params.section,
-    name: req.params.section[0].toUpperCase() + req.params.section.slice(1),
-  });
+
   res.locals.section = "/notes/" + req.params.section;
   next();
 });

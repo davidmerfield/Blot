@@ -11,11 +11,14 @@ body {
 
 strong {font-weight: 600}
 
-.wrapper {
-  max-width: 49rem;
-  margin: 0 auto
+header {display: flex;justify-content: baseline}
+nav {width: 285px;flex-shrink: 0}
+content {
+  flex-grow: 1;
 }
 
+
+.container {padding: 36px;}
 .dark main {
   background: #111;
 }
@@ -112,6 +115,8 @@ h1 {
   padding: 0 0 0.25em;
 }
 
+h1:first-child {margin-top: 0}
+
 h2 {
   font-size: 17px;
   margin: 2.8rem 0 0.35rem;
@@ -149,10 +154,6 @@ container {
   margin: 0 auto;
 }
 
-content {
-  flex-grow: 1;
-  padding: 0 4.2rem;
-}
 
 .sidebar+content {
   margin-left: 0;
