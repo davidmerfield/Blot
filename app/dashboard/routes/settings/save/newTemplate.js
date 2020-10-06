@@ -1,4 +1,5 @@
 var Template = require("template");
+var makeSlug = require("helper").makeSlug;
 
 var NO_NAME = "Please choose a name for your new template.";
 var NO_CLONE = "Please choose a template to clone.";
@@ -9,11 +10,11 @@ var SUCCESS = "Created your template succesfully!";
 // and showing an error to the user?
 var MAX_DEDUPLICATION_ATTEMPTS = 999;
 
-module.exports = function(req, res, next) {
-  var name = req.body.name;
+module.exports = function (req, res, next) {
   var cloneFrom = req.body.cloneFrom;
+  var name = req.body.name;
   var deduplicatingCounter = 1;
-  var deduplicatedName;
+  var deduplicatedName, deduplicatedSlug;
 
   if (!name) {
     return next(new Error(NO_NAME));
@@ -23,10 +24,22 @@ module.exports = function(req, res, next) {
     return next(new Error(NO_CLONE));
   }
 
+  // let's say the name is 'Copy of Forst 2'
+  // deduplicatingCounter -> 2
+  // name -> Copy of Forst
+  if (parseInt(name.split(" ").pop()).toString() === name.split(" ").pop()) {
+    deduplicatingCounter = parseInt(name.split(" ").pop());
+    name = name.split(" ").slice(0, -1).join(" ");
+  }
+
+  var slug = makeSlug(name.slice(0, 30));
+
+
   var template = {
     isPublic: false,
     name: name,
-    cloneFrom: cloneFrom
+    slug: slug,
+    cloneFrom: cloneFrom,
   };
 
   Template.create(req.blog.id, name, template, function then(error) {
@@ -41,7 +54,9 @@ module.exports = function(req, res, next) {
       // don't produce 'example 2 3' or 'example 2 3 4'...
       deduplicatingCounter++;
       deduplicatedName = name + " " + deduplicatingCounter;
+      deduplicatedSlug = slug + "-" + deduplicatingCounter;
       template.name = deduplicatedName;
+      template.slug = deduplicatedSlug;
       return Template.create(req.blog.id, deduplicatedName, template, then);
     }
 

@@ -140,9 +140,9 @@ flex-basis: 50%;">{{name}}</span>
     <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Install{{#checked}}ed{{/checked}}</span></button>
   </form>
 
-  <form method='post'  style="display:inline" action="/settings/template/new">
+  <form method='post' style="display:inline" action="/settings/template/new">
     <input type="hidden" name="redirect" value="/settings/template">
-    <input type="hidden" name="name" value="Copy of {{name}}" />
+    <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
     <input type="hidden" name="cloneFrom" value="{{id}}" />
     <button type="submit"><span class="square">Fork</span></button>
   </form>
