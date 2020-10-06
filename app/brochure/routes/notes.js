@@ -17,7 +17,6 @@ if (config.environment === "development")
 
 notes.use(function(req, res, next) {
   res.locals.base = "/notes";
-  res.locals.selected = {};
   next();
 });
 
