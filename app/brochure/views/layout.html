@@ -3,7 +3,7 @@
   <header>
       <nav>
         <div class="container">
-        <a class="underline-on-hover {{selected.index}}" title="Blot" href="/" >Blot</a>
+        <a style="color: #000;font-weight: 600" class="underline-on-hover {{selected.index}}" title="Blot" href="/" >Blot</a>
       </div>
       </nav>
       <content>
@@ -13,10 +13,10 @@
           {{#breadcrumbs}}
           <li class="breadcrumbs__list-item">
             {{#unless last}}
-            <a class="breadcrumbs__link" href="{{{url}}}">{{label}}</a>
+            <a class="breadcrumbs__link" style="color: #989694" href="{{{url}}}">{{label}}</a>
             {{/unless}}
             {{#if last}}
-            {{label}}
+            <span style="color: #989694">{{label}}</span>
             {{/if}}
           </li>
           {{/breadcrumbs}}
@@ -30,8 +30,8 @@
         <div class="container">
         <label for="toggle">Menu</label>
         {{#unless user}}
-        <a href="/sign-up">Sign up</a>
-        <a href="/log-in">Log in</a>
+        <a style="color: #000;font-weight: 600" class="underline-on-hover" href="/sign-up">Sign up</a>
+        <a style="color: #000;font-weight: 600" class="underline-on-hover" href="/log-in">Log in</a>
         {{/unless}}
         {{#if user}}
         <a href="/">Your account</a>
