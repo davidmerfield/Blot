@@ -4,7 +4,7 @@ var doEach = helper.doEach;
 var clfdate = helper.clfdate;
 var model = require("./model");
 var redis = require("client");
-
+var async = require("async");
 var guid = helper.guid;
 
 var get = require("./get");
@@ -13,6 +13,7 @@ var setUrl = require("./_setUrl");
 
 // Queue items
 var rebuildDependencyGraph = require("./_rebuildDependencyGraph");
+var backlinksToUpdate = require("./_backlinksToUpdate");
 var updateSearchIndex = require("./_updateSearchIndex");
 var updateTagList = require("../tags").set;
 var addToSchedule = require("./_addToSchedule");
@@ -33,9 +34,13 @@ module.exports = function set(blogID, path, updates, callback) {
   var queue;
 
   // Get the entry stored against this ID
-  get(blogID, path, function(entry) {
+  get(blogID, path, function (entry) {
     // Create an empty object if new entry
     entry = entry || {};
+
+    var previous_internalLinks = entry.internalLinks
+      ? entry.internalLinks.slice()
+      : [];
 
     var previous_dependencies = entry.dependencies
       ? entry.dependencies.slice()
@@ -45,6 +50,9 @@ module.exports = function set(blogID, path, updates, callback) {
     for (var i in updates) entry[i] = updates[i];
 
     if (entry.guid === undefined) entry.guid = "entry_" + guid();
+
+    // This is for new entries
+    if (entry.backlinks === undefined) entry.backlinks = [];
 
     // This is for new entries
     if (entry.created === undefined) entry.created = Date.now();
@@ -73,7 +81,7 @@ module.exports = function set(blogID, path, updates, callback) {
       entry.menu = entry.page = entry.draft = entry.scheduled = false;
     }
 
-    setUrl(blogID, entry, function(err, url) {
+    setUrl(blogID, entry, function (err, url) {
       // Should be pretty serious (i.e. issue with DB)
       if (err) return callback(err);
 
@@ -86,7 +94,7 @@ module.exports = function set(blogID, path, updates, callback) {
       ensure(entry, model, true);
 
       // Store the entry
-      redis.set(entryKey, JSON.stringify(entry), function(err) {
+      redis.set(entryKey, JSON.stringify(entry), function (err) {
         if (err) return callback(err);
 
         queue = [
@@ -98,7 +106,7 @@ module.exports = function set(blogID, path, updates, callback) {
             blogID,
             entry,
             previous_dependencies
-          )
+          ),
         ];
 
         if (entry.scheduled)
@@ -106,13 +114,26 @@ module.exports = function set(blogID, path, updates, callback) {
 
         if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        doEach(queue, function() {
+        doEach(queue, function () {
           if (entry.deleted) {
             console.log(clfdate(), blogID, path, "deleted");
           } else {
             console.log(clfdate(), blogID, path, "updated");
           }
-          callback(null);
+
+          backlinksToUpdate(blogID, entry, previous_internalLinks, function (
+            err,
+            changes
+          ) {
+            if (err) return callback(err);
+            async.eachOf(
+              changes,
+              function (backlinks, path, next) {
+                set(blogID, path, { backlinks }, next);
+              },
+              callback
+            );
+          });
         });
       });
     });

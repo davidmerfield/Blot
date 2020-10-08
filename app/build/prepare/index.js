@@ -15,6 +15,7 @@ var makeSlug = helper.makeSlug;
 var ensure = helper.ensure;
 var Model = require("entry").model;
 
+var internalLinks = require("./internalLinks");
 var isHidden = require("./isHidden");
 var Summary = require("./summary");
 var Teaser = require("./teaser");
@@ -28,7 +29,7 @@ var overwrite = [
   "body",
   "summary",
   "teaser",
-  "teaserBody"
+  "teaserBody",
 ];
 
 function canOverwrite(key) {
@@ -55,7 +56,7 @@ function Prepare(entry) {
   debug(entry.path, "Generating cheerio");
   var $ = cheerio.load(entry.html, {
     decodeEntities: false,
-    withDomLvl1: false // this may cause issues?
+    withDomLvl1: false, // this may cause issues?
   });
   debug(entry.path, "Generated  cheerio");
 
@@ -94,6 +95,10 @@ function Prepare(entry) {
   entry.summary = Summary($, title || "");
   debug(entry.path, "Generated  summary");
 
+  debug(entry.path, "Generating internal links");
+  entry.internalLinks = internalLinks($);
+  debug(entry.path, "Generated internal links");
+  
   debug(entry.path, "Generating teasers");
   entry.teaser = Teaser(entry.html) || entry.html;
   entry.teaserBody = Teaser(entry.body) || entry.body;
@@ -111,7 +116,7 @@ function Prepare(entry) {
 
   tags = Tags(entry.path, tags);
   tags = _(tags)
-    .map(function(tag) {
+    .map(function (tag) {
       return tag.trim();
     })
     .compact(tags)
@@ -158,6 +163,10 @@ function Prepare(entry) {
   entry.permalink =
     entry.metadata.permalink || entry.metadata.slug || entry.metadata.url || "";
   entry.permalink = normalize(entry.permalink);
+
+  debug(entry.path, "Generated  permalink");
+
+
 
   debug(entry.path, "Generated  permalink");
 

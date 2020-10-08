@@ -17,6 +17,8 @@ module.exports = {
   size: "number",
   tags: "array",
   dependencies: "array",
+  backlinks: "array",
+  internalLinks: "array",
   menu: "boolean",
   page: "boolean",
   deleted: "boolean",
