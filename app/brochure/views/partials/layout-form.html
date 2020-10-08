@@ -11,22 +11,13 @@
           {{> breadcrumbs}}
       </div>
       </content>
-      <section class="links">
-        <div class="container">
-        <label for="toggle">Menu</label>
-        {{#unless user}}
-        <a style="color: #000;font-weight: 600" class="underline-on-hover" href="/sign-up">Sign up</a>
-        <a style="color: #000;font-weight: 600" class="underline-on-hover" href="/log-in">Log in</a>
-        {{/unless}}
-        {{#if user}}
-        <a href="/">Your account</a>
-        <a href="/contact">Contact</a>
-        {{/if}}
-      </div>
-      </section>
+      
   </header>
   <main>
-    {{> sidebar}}
+    <nav>
+      <div class="container">
+      </div>
+    </nav>
     <content><div class="container">{{{body}}}</div></content>
   </main>
   {{> footer}}
