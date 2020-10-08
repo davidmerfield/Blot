@@ -1,0 +1,16 @@
+<div class="breadcrumbs">
+  <ol class="breadcrumbs__list">
+    {{#breadcrumbs}}
+    <li class="breadcrumbs__list-item">
+      {{#unless last}}
+      <a class="breadcrumbs__link" style="color: #989694;" href="{{{url}}}"
+        >{{label}}</a
+      >
+      {{/unless}} {{#if last}}
+      <span style="color: #989694;">{{label}}</span>
+      {{/if}}
+    </li>
+    {{/breadcrumbs}}
+    <br />
+  </ol>
+</div>

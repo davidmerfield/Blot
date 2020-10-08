@@ -9,6 +9,8 @@ main.form content {
   padding: 0
 }
 
+
+
 input[type="submit"],
 input[type="text"],
 input[type="password"]  {border-radius: 0}

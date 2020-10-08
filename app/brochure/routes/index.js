@@ -79,17 +79,12 @@ brochure.use(function (req, res, next) {
 });
 
 brochure.use("/account", function (req, res, next) {
-  res.locals.layout = "/partials/layout-focussed.html";
   // we don't want search engines indexing these pages
   // since they're /logged-out, /disabled and
   res.set("X-Robots-Tag", "noindex");
   next();
 });
 
-brochure.get(["/terms", "/privacy"], function (req, res, next) {
-  res.locals.layout = "/partials/layout-focussed.html";
-  next();
-});
 
 brochure.use("/fonts", require("./fonts"));
 

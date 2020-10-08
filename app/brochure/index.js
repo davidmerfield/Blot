@@ -55,7 +55,7 @@ if (config.cache === false) {
 // page. Look into the source, but basically {{{body}}} in
 // partials/layout is replaced with the view passed to
 // res.render(). You can modify this in the route if needed.
-brochure.locals.layout = "layout";
+brochure.locals.layout = "/partials/layout";
 brochure.locals.cacheID = Date.now();
 
 // Default page title and <meta> description
@@ -125,7 +125,6 @@ brochure.use(function(err, req, res, next) {
   }
 
   res.status(err.status || 500);
-  res.locals.layout = "/partials/layout-focussed.html";
   res.render("error");
 });
 
