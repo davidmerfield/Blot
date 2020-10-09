@@ -131,16 +131,6 @@ label[for="toggle"] {
 }
 
 
-ul.sidebar ul {
-  display: none;
-
-}
-
-.sidebar input:checked~ul {
-  display: block;
-}
-
-
 
 .dark .sidebar,
 .dark .sidebar a,
@@ -156,8 +146,7 @@ ul.sidebar ul {
 
 .sidebar li ul {
   list-style: none;
-  padding-left: 0;
-  padding-bottom: 1em;
+  padding-left: 0.6rem;
 }
 
 
