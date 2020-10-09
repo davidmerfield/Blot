@@ -1,6 +1,6 @@
 // https://fileinfo.com/filetypes/common
 
-var debug = require("debug")("dashboard:folder:kind");
+var debug = require("debug")("blot:dashboard:folder:kind");
 var extname = require("path").extname;
 
 var KIND = {

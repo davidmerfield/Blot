@@ -1,6 +1,6 @@
 var join = require("path").join;
 var database = require("./database");
-var debug = require("debug")("clients:dropbox:write");
+var debug = require("debug")("blot:clients:dropbox:write");
 var createClient = require("./util/createClient");
 var fs = require("fs-extra");
 var localPath = require("helper").localPath;

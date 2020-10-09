@@ -12,7 +12,7 @@ module.exports = function(list) {
   // Decide before documenting this. Beware
   // if you use this in your theme before then.
   list = list.map(function(el, i) {
-    el.index = i + 1;
+    el.position = i + 1;
     return el;
   });
 

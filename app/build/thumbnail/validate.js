@@ -3,7 +3,7 @@ var config = require("./config");
 var FORMATS = config.FORMATS;
 var MIN_WIDTH = config.MIN_WIDTH;
 var MIN_HEIGHT = config.MIN_HEIGHT;
-var debug = require("debug")("entry:build:thumbnail:validate");
+var debug = require("debug")("blot:entry:build:thumbnail:validate");
 
 // Sharp seems to cache files based on their
 // path and not the contents of the file at

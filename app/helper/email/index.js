@@ -30,6 +30,7 @@ var FROM = config.mailgun.from;
 var MESSAGES = [
   "ALREADY_CANCELLED",
   "BAD_REQUEST",
+  "BILLING_INTERVAL",
   "CANCELLED",
   "CLOSED",
   "CREATED_BLOG",

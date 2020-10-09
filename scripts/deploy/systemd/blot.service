@@ -7,6 +7,8 @@ After=network.target nginx.service
 Environment={{key}}={{value}}
 {{/env}}
 Environment=NODE_ENV=production
+User=blot
+Group=blot
 ExecStart={{node.bin}} {{node.main}}
 Restart=always
 StandardOutput=syslog

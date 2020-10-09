@@ -9,7 +9,7 @@ var config = require("config");
 var extname = require("path").extname;
 var TIMEOUT = 10 * 1000; // 10s
 var validate = require("./validate");
-var debug = require("debug")("entry:build:thumbnail:create");
+var debug = require("debug")("blot:entry:build:thumbnail:create");
 
 function create(blogID, path, done) {
   done = callOnce(done);

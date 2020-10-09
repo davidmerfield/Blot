@@ -3,13 +3,18 @@ var eachEl = require("../eachEl");
 var punycode = require("punycode");
 
 var Players = {
-  "youtube.com": require("./youtube"),
-  "m.youtube.com": require("./youtube"),
-  "youtu.be": require("./youtube"),
-  "www.youtube.com": require("./youtube"),
-
-  "vimeo.com": require("./vimeo"),
-  "www.vimeo.com": require("./vimeo")
+  bandcamp: {
+    module: require("./bandcamp"),
+    regex: /.bandcamp.com$/m,
+  },
+  youtube: {
+    module: require("./youtube"),
+    regex: /((^|^m.)youtube.com$)|(^youtu.be$)/m,
+  },
+  vimeo: {
+    module: require("./vimeo"),
+    regex: /(^|^www.)vimeo.com$/m,
+  },
 };
 
 function render($, callback) {
@@ -36,16 +41,26 @@ function render($, callback) {
         return next();
       }
 
+      if (!hostname) return next();
+
       // See if we have a method for
       // retrieving a video from this host
-      if (!Players[hostname]) return next();
+      var module;
+
+      Object.values(Players).forEach((site) => {
+        var test = hostname.match(site.regex);
+        if (test != null && test.length > 0) {
+          module = site.module;
+        }
+      });
+
+      if (!module) return next();
 
       // fetchPlayer is a method unique to each
       // video streaming site which takes the URL
       // and returns HTML for player if valid video
-      Players[hostname](href, function(err, template) {
+      module(href, function (err, template) {
         if (err || !template) return next();
-
         insertPlayer(el, template, href, next);
       });
     },

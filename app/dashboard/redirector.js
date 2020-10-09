@@ -63,8 +63,8 @@ module.exports = function(req, res, next) {
   // so add it. It probably should be though.
   // We need the auth route to make the switch
   // dropbox feature work for accounts without blogs.
-  if (!req.blog && pathIsNot([ACCOUNT, AUTH])) {
-    return res.redirect(ACCOUNT);
+  if (!req.blog && pathIsNot([ACCOUNT, AUTH, INDEX])) {
+    return res.redirect(INDEX);
   }
 
   // Don't expose any features which modify the database

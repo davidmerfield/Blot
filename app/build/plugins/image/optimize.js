@@ -8,7 +8,7 @@ var resize = require("./resize");
 var extname = require("path").extname;
 var uuid = require("uuid/v4");
 var join = require("path").join;
-var debug = require("debug")("entry:build:plugins:image");
+var debug = require("debug")("blot:entry:build:plugins:image");
 
 // Only cache images with the following file extensions
 // We only resize and optimize JPG and PNG.

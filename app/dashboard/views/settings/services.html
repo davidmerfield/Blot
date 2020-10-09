@@ -1,4 +1,4 @@
-<div style="margin:-11px -20px">
+<div style="margin:-11px -26px">
   <input type="hidden" name="redirect" value="/settings/services">
 
 <a class="line" href="/settings/services/date">
@@ -11,7 +11,7 @@
 
 
 <a class="line" href="/settings/services/permalinks">
-    <span class="label">Permalinks</span>
+    <span class="label">URL format</span>
     <span class="center">
             {{#permalinkFormats}}
             {{#checked}}{{example}}{{/checked}}{{/permalinkFormats}}
@@ -19,12 +19,6 @@
     <span class="right link">Change</span>
   </a>
 
-
-      <a class="line" href="/account/export">
-        <span class="label">Export</span>
-        <span class="center"
-          ><span class="link">Download the data stored about you</span></span
-        > </a>
 
   <a class="line" href="/settings/services/redirects">
             <span class="label">Redirects</span>
@@ -134,6 +128,12 @@ padding-bottom: 6px;
 </div>
 {{/categories.Images}}
 
+
+      <a class="line" href="/account/export">
+        <span class="label">Export</span>
+        <span class="center"
+          ><span class="link">Download the data stored about you</span></span
+        > </a>
 <br class="clear">
 <br class="clear">
 

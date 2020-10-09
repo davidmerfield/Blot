@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:delta");
+var debug = require("debug")("blot:clients:dropbox:delta");
 var createClient = require("./util/createClient");
 var retry = require("./util/retry");
 var waitForErrorTimeout = require("./util/waitForErrorTimeout");
@@ -98,6 +98,8 @@ module.exports = function delta(token, folderID) {
           cursor = "";
           return get(cursor, callback);
         }
+
+        console.log('DELTAERROR:', err);
 
         // Determine the error message to pass back
         // to sync. We might show this to the user.

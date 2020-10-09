@@ -1,10 +1,23 @@
 var Express = require("express");
 var developers = new Express.Router();
+var titleFromSlug = require('../../../app/helper/titleFromSlug');
+
+var TITLES = {
+  "json-feed": "JSON feed",
+  "posts-tagged": "Posts by tag",
+};
+
 
 developers.use(function(req, res, next) {
   res.locals.base = "/developers";
   res.locals.layout = "developers/layout";
   res.locals.selected = {};
+  
+  var url = req.originalUrl;
+  let slug = url.split("/").pop();
+  let title = TITLES[slug] || titleFromSlug(slug);
+  res.locals.title = title;
+
   next();
 });
 

@@ -4,7 +4,7 @@ var async = require("async");
 var Create = require("./create");
 var Transformer = helper.transformer;
 var STORE_PREFIX = "thumbnails";
-var debug = require("debug")("entry:build:thumbnail");
+var debug = require("debug")("blot:entry:build:thumbnail");
 
 module.exports = function(blog, path, metadata, html, callback) {
   var store, candidates, create;

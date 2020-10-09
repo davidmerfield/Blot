@@ -63,6 +63,15 @@
 }
 </style>
 <div class="subpage">
+
+
+<div style="padding:11px 20px">
+<h1 style="font-size: 22px;font-weight: 700">Template</h1>
+<h2 style="font-size: 14px">Your site can use any of the following templates. You can also develop your own template from scratch.</h2>
+<hr>
+</div>
+
+
 <input type="hidden" name="redirect" value="/settings/template">
 
 {{^blog.template}}
@@ -131,9 +140,9 @@ flex-basis: 50%;">{{name}}</span>
     <button {{#checked}} disabled{{/checked}} type="submit"><span class="square">Install{{#checked}}ed{{/checked}}</span></button>
   </form>
 
-  <form method='post'  style="display:inline" action="/settings/template/new">
+  <form method='post' style="display:inline" action="/settings/template/new">
     <input type="hidden" name="redirect" value="/settings/template">
-    <input type="hidden" name="name" value="Copy of {{name}}" />
+    <input type="hidden" name="name" value="{{^isMine}}Copy of {{/isMine}}{{name}}" />
     <input type="hidden" name="cloneFrom" value="{{id}}" />
     <button type="submit"><span class="square">Fork</span></button>
   </form>

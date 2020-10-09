@@ -478,5 +478,93 @@
     "firstName": "Dustin",
     "bio": " is a designer and engineer",
     "favicon": "/images/featured/www.dustinsenos.com.jpg"
+  },
+  {
+    "link": "https://theocasciani.page",
+    "host": "theocasciani.page",
+    "name": "Théo Casciani",
+    "firstName": "Théo",
+    "bio": " is a writer living in Marseille",
+    "favicon": "/images/featured/theocasciani.page.png"
+  },
+  {
+    "link": "https://diklein.com",
+    "host": "diklein.com",
+    "name": "David Klein",
+    "firstName": "David",
+    "bio": " is a designer based in San Francisco",
+    "favicon": "/images/featured/diklein.com.jpg"
+  },
+  {
+    "link": "https://rosiecampbell.me",
+    "host": "rosiecampbell.me",
+    "name": "Rosie Campbell",
+    "firstName": "Rosie",
+    "bio": " is an artificial intelligence researcher",
+    "favicon": "/images/featured/rosiecampbell.me.jpg"
+  },
+  {
+    "link": "https://www.emilycass.org",
+    "host": "www.emilycass.org",
+    "name": "Emily Cass",
+    "firstName": "Emily",
+    "bio": " is an architect from Southern California",
+    "favicon": "/images/featured/www.emilycass.org.jpg"
+  },
+  {
+    "link": "https://abigailswallow.me",
+    "host": "abigailswallow.me",
+    "name": "Abigail Swallow",
+    "firstName": "Abigail",
+    "bio": " is a student of social policy and design",
+    "favicon": "/images/featured/abigailswallow.me.jpg"
+  },
+  {
+    "link": "https://jessytuddenham.com",
+    "host": "jessytuddenham.com",
+    "name": "Jessy Tuddenham",
+    "firstName": "Jessy",
+    "bio": " is a dancer and writer from Utah",
+    "favicon": "/images/featured/jessytuddenham.com.jpg"
+  },
+  {
+    "link": "https://bnjmnmddn.com",
+    "host": "bnjmnmddn.com",
+    "name": "Benjamin Madden",
+    "firstName": "Benjamin",
+    "bio": " is a convenor and tutor at the University of Adelaide",
+    "favicon": "/images/featured/bnjmnmddn.com.jpg"
+  },
+  {
+    "link": "https://www.jsoliday.com",
+    "host": "www.jsoliday.com",
+    "name": "J. Soliday",
+    "firstName": "J.",
+    "bio": " is an electronic musician",
+    "favicon": "/images/featured/www.jsoliday.com.jpg"
+  },
+  {
+    "link": "https://blog.minnowpark.com",
+    "host": "blog.minnowpark.com",
+    "name": "Minnow Park",
+    "firstName": "Minnow",
+    "bio": " is a photographer and writer based in New York",
+    "favicon": "/images/featured/blog.minnowpark.com.jpg"
+  },
+  {
+    "link": "https://tellyou.today",
+    "host": "tellyou.today",
+    "name": "Neale Stokes",
+    "firstName": "Neale",
+    "bio": " is a librarian based in Los Angeles",
+    "favicon": "/images/featured/tellyou.today.jpg"
+  },
+  {
+    "link": "https://lara.onl",
+    "host": "lara.onl",
+    "name": "Lara Dominguez",
+    "firstName": "Lara",
+    "bio": " is an artist and photographer",
+    "favicon": "/images/featured/lara.onl.jpg"
   }
 ]

@@ -47,5 +47,16 @@ ec2.describeInstances({}, function(err, data) {
 	ec2.associateAddress(params, function(err, data) {
 		if (err) console.log(err, err.stack);
 		else console.log(data);
+
+ec2.describeAddresses({AllocationIds: [AllocationId]}, function(err, data) {
+  if (err) console.log(err, err.stack); // an error occurred
+  // console.log(data);
+  console.log('Associated public IP to new instance');
+  console.log(
+			`ssh -o 'StrictHostKeyChecking no' -i blot-deployment.pem ec2-user@${data.Addresses[0].PublicIp} -t 'tail -f /var/log/cloud-init-output.log'`
+		);
+});
+
+
 	});
 });
