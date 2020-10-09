@@ -41,6 +41,8 @@ function render($, callback) {
         return next();
       }
 
+      if (!hostname) return next();
+
       // See if we have a method for
       // retrieving a video from this host
       var module;
