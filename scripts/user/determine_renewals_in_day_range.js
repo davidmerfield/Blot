@@ -4,6 +4,7 @@ var yesno = require("yesno");
 // expired to send an email notification to the customer.
 var DAYS_WARNING = 8;
 var OLD_DAYS_WARNING = process.argv[2] || 7;
+var email = require('helper').email;
 
 eachUser(function (user, next) {
 	// This user does not have a subscription through Stripe
