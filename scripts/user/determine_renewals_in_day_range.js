@@ -1,5 +1,5 @@
 var eachUser = require("../each/user");
-
+var yesno = require("yesno");
 // The number of days before a subscription is renewed or
 // expired to send an email notification to the customer.
 var DAYS_WARNING = 8;
@@ -34,9 +34,17 @@ eachUser(function (user, next) {
 			console.log(
 				"Bingo!",
 				user.email,
-				"still needs to be notified even",
-				notificationDate
+				"still needs to be notified. new notification date:",
+				notificationDate,
+				"old notification date:",
+				oldNotificationDate
 			);
+
+			return yesno.ask("Send notification email? (y/n)", false, function (ok) {
+				if (!ok) return next();
+				email.UPCOMING_EXPIRY(user.uid);
+				next();
+			});
 		}
 	}
 
