@@ -17,7 +17,11 @@
   <wp:wxr_version>1.2</wp:wxr_version>
   <wp:base_site_url>{{{blogURL}}}</wp:base_site_url>
   <wp:base_blog_url>{{{blogURL}}}</wp:base_blog_url>
-
+  <wp:author>
+    <wp:author_id>1</wp:author_id>
+    <wp:author_login><![CDATA[{{{handle}}}]]></wp:author_login>
+    <wp:author_display_name><![CDATA[{{{title}}}]]></wp:author_display_name>
+  </wp:author>
   {{#allEntries}}
   <item> 
     <title><![CDATA[ {{{title}}} ]]></title>

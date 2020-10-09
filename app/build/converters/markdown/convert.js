@@ -73,7 +73,7 @@ module.exports = function(blog, text, callback) {
 
   if (bib(blog, text) || csl(blog, text)) {
     args.push("--filter");
-    args.push("pandoc-citeproc");
+    args.push(pandoc_path + "-citeproc");
   }
 
   var pandoc = spawn(pandoc_path, args);

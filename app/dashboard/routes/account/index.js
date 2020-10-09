@@ -1,12 +1,41 @@
+var config = require("config");
+var stripe = require("stripe")(config.stripe.secret);
 var Express = require("express");
 var Account = new Express.Router();
 var logout = require("./util/logout");
-var type = require("helper").type;
+const helper = require("helper");
+var type = helper.type;
 
 Account.use(function(req, res, next) {
   res.locals.breadcrumbs.add("Your account", "/");
   res.locals.account = true;
   next();
+});
+
+Account.use(function(req, res, next) {
+  if (!req.user.subscription || !req.user.subscription.customer) return next();
+
+  stripe.customers.retrieve(req.user.subscription.customer, function(
+    err,
+    customer
+  ) {
+    if (err) return next(err);
+
+    if (customer.balance !== 0 && Math.sign(customer.balance) === -1) {
+      res.locals.balance = {
+        credit: true,
+        amount: helper.prettyPrice(Math.abs(customer.balance))        
+      }
+    
+    } else if (customer.balance !== 0 && Math.sign(customer.balance) === 1) {
+      res.locals.balance = {
+        debit: true,
+        amount: helper.prettyPrice(Math.abs(customer.balance))        
+      }
+    }
+    
+    next();
+  });
 });
 
 Account.route("/").get(function(req, res) {
@@ -19,7 +48,7 @@ Account.use("/:section", function(req, res, next) {
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
   uppercaseName = uppercaseName.split("-").join(" ");
 
-  res.locals.breadcrumbs.add(uppercaseName, '/account/' + req.params.section);
+  res.locals.breadcrumbs.add(uppercaseName, "/account/" + req.params.section);
   next();
 });
 
@@ -29,7 +58,10 @@ Account.use("/:section/:subsection", function(req, res, next) {
   uppercaseName = uppercaseName[0].toUpperCase() + uppercaseName.slice(1);
   uppercaseName = uppercaseName.split("-").join(" ");
 
-  res.locals.breadcrumbs.add(uppercaseName, '/account/' + req.params.section + '/' + req.params.subsection);
+  res.locals.breadcrumbs.add(
+    uppercaseName,
+    "/account/" + req.params.section + "/" + req.params.subsection
+  );
   next();
 });
 
@@ -47,7 +79,7 @@ Account.route("/log-out")
 
   .get(function(req, res) {
     res.render("account/log-out", {
-      title: "Log out"
+      title: "Log out",
     });
   })
 
@@ -58,10 +90,9 @@ Account.route("/log-out")
   });
 
 Account.use(function(err, req, res, next) {
-  // console.log('here', req.method, req.header('referrer'), req.originalUrl, typeof err, err instanceof Error, err.message);
 
   if (req.method === "GET") {
-    console.log(err.stack, err.trace);
+    console.log(err, err.trace)
     res.status(500);
     res.render("error", { error: err });
   } else if (req.method === "POST") {

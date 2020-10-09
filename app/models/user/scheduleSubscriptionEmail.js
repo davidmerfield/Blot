@@ -5,7 +5,7 @@ var schedule = require("node-schedule").scheduleJob;
 
 // The number of days before a subscription is renewed or
 // expired to send an email notification to the customer.
-var DAYS_WARNING = 7;
+var DAYS_WARNING = 8;
 
 module.exports = function(uid, callback) {
   var notificationDate;

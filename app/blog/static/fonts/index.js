@@ -12,7 +12,9 @@ const fonts = fs
 		const package = fs.readJsonSync(`${__dirname}/${id}/package.json`);
 		const name = package.name;
 		const stack = package.stack || name;
-		const line_height = package.line_height;
+		const line_height = package.line_height || 1.4;
+		const line_width = package.line_width || 38; 
+		const font_size = package.font_size || 1;
 
 		let styles = "";
 
@@ -25,6 +27,8 @@ const fonts = fs
 			id,
 			stack,
 			line_height,
+			line_width,
+			font_size,
 			styles,
 		};
 	});

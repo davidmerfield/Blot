@@ -86,8 +86,8 @@ notes.get("/:section/:article", function(req, res, next) {
       )
       .pop()
   );
-
-  res.locals.body = `<p style="margin-bottom:0"><a href="/">${req.params.section.toUpperCase()}</a></h2>` + marked(
+// `<p style="margin-bottom:0"><a href="/">${req.params.section.toUpperCase()}</a></h2>`
+  res.locals.body = marked(
     fs.readFileSync(
       NOTES_DIRECTORY +
         "/" +
