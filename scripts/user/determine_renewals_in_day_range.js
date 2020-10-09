@@ -3,9 +3,18 @@ var eachUser = require("../each/user");
 // The number of days before a subscription is renewed or
 // expired to send an email notification to the customer.
 var DAYS_WARNING = 8;
-var OLD_DAYS_WARNING = process.argv[2];
+var OLD_DAYS_WARNING = process.argv[2] || 7;
 
 eachUser(function (user, next) {
+	// This user does not have a subscription through Stripe
+	if (!user || !user.subscription || !user.subscription.current_period_end)
+		return next();
+
+	// This user has monthly billing – we don't send them a warning email since
+	// 12 warning emails + 12 receipt emails per year is a little much.
+	if (user.subscription.plan && user.subscription.plan.interval === "month")
+		return next();
+
 	// Stripe uses a seconds timestamp vs. JavaScript's ms
 	var notificationDate = new Date(user.subscription.current_period_end * 1000);
 	var oldNotificationDate = new Date(
@@ -16,13 +25,6 @@ eachUser(function (user, next) {
 	// Right now we tell them a week in advance of a renewal or expiry
 	notificationDate.setDate(notificationDate.getDate() - DAYS_WARNING);
 	oldNotificationDate.setDate(oldNotificationDate.getDate() - OLD_DAYS_WARNING);
-
-	// console.log(
-	// 	user.uid,
-	// 	user.email,
-	// 	"needs to be notified on",
-	// 	notificationDate
-	// );
 
 	// When the server starts, we schedule a notification email for every user
 	// If they should have been notified in the past, we stop now since we
