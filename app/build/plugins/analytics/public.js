@@ -48,3 +48,15 @@ m.parentNode.insertBefore(o,m)
 fathom('set', 'siteId', '{{plugins.analytics.options.trackingID}}');
 fathom('trackPageview');
 {{/plugins.analytics.options.provider.Fathom}}
+{{#plugins.analytics.options.provider.Plausible}}
+(function () {
+    var pa = document.createElement('script');
+    pa.type = 'text/javascript';
+    pa.async = true;
+    pa.defer = true;
+    pa.setAttribute("data-domain", window.location.hostname);
+    pa.src = 'https://plausible.io/js/plausible.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(pa, s);
+})(); 
+{{/plugins.analytics.options.provider.Plausible}}
