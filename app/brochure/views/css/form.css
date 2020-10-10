@@ -202,3 +202,7 @@ mark#success {
   outline: 10px solid #feeded;
   margin-bottom: 2rem
 }
+
+.form-container {
+  border:1px solid #eee;border-radius:4px;padding:2rem; display: inline-block;max-width:360px;
+}
