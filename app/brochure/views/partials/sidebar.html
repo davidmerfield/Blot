@@ -1,5 +1,5 @@
 <nav>
-      <div class="container">
+  <div class="container">
     <input type="checkbox" name="toggle" id="toggle">
     <ul class="sidebar col-25">
       <li>
@@ -34,9 +34,11 @@
       <li><a class="{{selected.developers}}" href="/developers">Developers</a></li>
       <li><a class="{{selected.notes}}" href="/notes">Notes</a></li>
       <li><a class="{{selected.contact}}" href="/contact">Contact</a></li>
+      {{#unless user}}
       <br>
       <li><a class="{{selected.sign-up}}" href="/sign-up">Sign up</a></li>
       <li><a class="{{selected.log-in}}" href="/log-in">Log in</a></li>
+      {{/unless}}
     </ul>
   </div>
-  </nav>
+</nav>
