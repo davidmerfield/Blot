@@ -3,7 +3,7 @@
   <header>
       <nav>
         <div class="container">
-        <a style="color: #000;font-weight: 600" class="underline-on-hover {{selected.index}}" title="Blot" href="/" >Blot</a>
+        <a style="color: #000;font-weight: 600" class="{{selected.index}}" title="Blot" href="/" >Blot</a>
       </div>
       </nav>
       <content>
@@ -15,8 +15,8 @@
         <div class="container">
         <label for="toggle">Menu</label>
         {{#unless user}}
-        <a style="color: #000;font-weight: 600" class="underline-on-hover" href="/sign-up">Sign up</a>
-        <a style="color: #000;font-weight: 600" class="underline-on-hover" href="/log-in">Log in</a>
+        <a href="/sign-up">Sign up</a>
+        <a href="/log-in">Log in</a>
         {{/unless}}
         {{#if user}}
         <a href="/">Your account</a>
