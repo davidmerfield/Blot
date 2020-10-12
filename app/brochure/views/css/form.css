@@ -117,8 +117,8 @@ input[type="password"]:focus,
 textarea:focus {
   outline: none !important;
   z-index: 2;
-  border: 1px solid #0079fc;
-  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .075), 0 0 10px #0079fc61;;
+  border: 1px solid rgb(0,122,255);
+  box-shadow: inset 0 0 1px rgb(0,122,255);
 }
 
 
@@ -203,6 +203,12 @@ mark#success {
   margin-bottom: 2rem
 }
 
+.breadcrumbs__list-item a:hover {box-shadow:none;text-decoration:none;background: none;border: none;}
+
 .form-container {
-  border:1px solid #eee;border-radius:4px;padding:2rem; display: inline-block;max-width:360px;
-}
+  display: inline-block;max-width:360px;
+}  
+
+form div:focus-within > label, form p:focus-within > label {
+    color: rgb(0,122,255)
+  }
