@@ -6,6 +6,14 @@
     <div class="container">
       <div class="main">
         <h1>Archives</h1>
+        <div class="tags">
+      
+      <h2>Tags</h2>
+      {{#popular_tags}}
+      <a href="/tagged/{{slug}}" {{#active}}style="font-weight:600"{{/active}} title="{{tag}}">{{tag}}</a>
+      {{/popular_tags}}
+
+      <h2>Entries</h2>
         <div>
           {{#allEntries}}
           <a href="{{{url}}}">{{title}}</a>&nbsp;<span class="small">{{date}}</span>

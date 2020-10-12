@@ -20,7 +20,8 @@ body {
   color: {{text_color}};
   background: {{background_color}};
   word-wrap: break-word;
-  margin: 10px 15px;
+  margin: 0;
+  padding: 0;
 }
 
 .clear {width: 100%;clear: both;float: none;display: block;height: 0}
@@ -50,7 +51,7 @@ div {
   position: relative;
 }
 
-.header {padding: 1.45rem;margin:1.4rem;display: flex;align-items:baseline;position: sticky;top:0;background: {{background_color}};z-index: 100}
+.header {padding: 2.85rem;display: flex;align-items:baseline;position: sticky;top:0;background: {{background_color}};z-index: 100;font-size:18px}
 .main {max-width: 60%;min-width: 720px}
 .container {max-width: 1000px}
 .entry {margin: 72px 0 120px}
@@ -125,7 +126,7 @@ p, li {
   margin: 24px 0;
 }
 
-h1 {font-size: 25px;line-height: 36px;font-weight: bold;margin-bottom: 24px}
+h1 {font-size: 36px;line-height: 1.1em;font-weight: 400;margin-bottom: 80px}
 
 h2, h3, h4, h5, h6 {font-size: 17px;font-weight: bold;line-height: 24px;margin: 48px 0 24px}
 
@@ -292,7 +293,6 @@ iframe {width: 100%;}
 
 #logo {
   color: {{text_color}};
-
 }
 
 
@@ -303,7 +303,7 @@ iframe {width: 100%;}
 #logo img:active {margin-top: 1px}
 
 /* Nav links are underlined which affects their optical lineheight */
-.header a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: {{text_color}};}
+.header a {margin-right: 1rem;background: none;text-shadow: none;color: {{text_color}};}
 .header a:hover {text-decoration: underline;}
 .header .tags a {opacity: 1.0}
 .header .nav a {opacity: 0.4}
