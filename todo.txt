@@ -1,9 +1,3 @@
-Add wikilinks and tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Emily](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrZRTXMVPkcJXHfrSnlswxvf) and [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVDbpNCmTGsSGSQKdCbCjpDq) and [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXxpdhXPBXSjnQfkndvRRSLjx) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJZJRpJMjHmbdqHLgQRrdrmrQf) and [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqWvGDjVMMzBHhXNPTvhJJ)
-
-Add backlinks list to template engine. Bi-directional links (aka backlinks) - it would be great to have a service/plugin that could be enabled to show a list of the posts/pages that link to the current post/page - see the ['links to this note'](https://notes.andymatuschak.org/z6bci25mVUBNFdVWSrQNKr6u7AZ1jFzfTVbMF) then tell [Rosie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqJDmMcwjDCkqqmljcLSHWxG) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJZJRpJMjHmbdqHLgQRrdrmrQf)
-
----
-
 Improvements to templates
 - Replace existing magazine template with proper CSS version
 - Improve source code for native templates
@@ -71,7 +65,6 @@ Prevent long-overdue users from accessing the service, then tell [Matvey](https:
 
 Generate proper favicons from uploaded avatars (to prevent streched favicons when non-square avatars are uploaded)
 
-
 Improvements to server infrastructure
 - Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
 - Create DMARC record for Blot https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
@@ -119,8 +112,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
 
 Improvements to brochure
-- Add [Fergus](https://mail.google.com/mail/u/0/#inbox/KtbxLwGvcVGkhHQVcGlPnxSqNVmqhdCczL) and [Theo](https://mail.google.com/mail/u/0/#inbox/KtbxLwghkVhBpRhqBQnFfzTNzpBdmBkjZg) to homepage: 
-- Fix bug with guide to TeX and tell [Miguel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBmmzsNfKtxnSNLvdQzPRjbzh)
 - Catch 404s in Google search results and set up redirects
 - Add integration tests for brochure site to test sign up flow
 - Personalize the documentation for logged in users
@@ -128,13 +119,10 @@ Improvements to brochure
 - Loading state for submit button on sign up page
 - Unify dashboard header style post-payment
 - Navigation collapse on mobile devices
-- Fix formatting guide
 - Prune unused font-face declarations from CSS passed to dashboard
 - Use blotcdn for video and other static files
 - Logo spacing from Chrome tab
 - Sprite for images associated with featured sites
-- Favicon with white background for folder
-- Custom video player on index page
 - Add types and examples to items on reference page
 - Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
  - And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
@@ -147,7 +135,7 @@ Improvements to brochure
    - base 64 encode and inline small images on homepage
    - Optimize all images in image directory
 
-Improvements developer guide
+Improvements to developer guide
 - Tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
 
 Record new demo video
@@ -182,16 +170,15 @@ Improvements to dashboard
 ---
 
 Finish template translation offers:
+- [Anders Norén](https://www.andersnoren.se/teman/)
+- [Radek Kozieł](https://github.com/panr)
+- Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
 - Work on [Tim](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)'s template 
 - Translate [Roberto's theme](http://roberto.micro.blog/archive/) to Blot and tell [Roberto](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnfMLBBJDNdDRPmfLLwcQkdH)
 - Translate [this theme](https://github.com/huangyz0918/moving) to Blot and tell [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJZlmGfwNKCPLPMbkRHJSjNs)
 - Translate [Ana's](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqTgjDcQwDdcmTkgjjKTdQhQV) designs to Blot
 - Translate [2019](https://themes.gohugo.io/twentynineteen-hugo/) to Blot and tell [Gabriel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHqTkZhqhrFllhNGrbzwXqzg)
-- [Anders Norén](https://www.andersnoren.se/teman/)
-- [Radek Kozieł](https://github.com/panr)
-- Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
 - Translate [Paul's template into Blot](https://blot-im.slack.com/messages/DJ39G5WQ0/)
-- Work more on [Tim's template](https://mail.google.com/mail/u/0/#inbox/QgrcJHsNmtgTlZpGFBGxzhPSDHVNczfwqXL)
 
 ---
 
@@ -358,7 +345,6 @@ Date parser bugs
 
 --- 
 
-
 Performance improvements
 - Streamline and cache loading of data on dashboard
 - Ensure node.js server has one process per CPU
@@ -432,6 +418,7 @@ Improvements to Git client
 - Rate limit authentication route?
 
 Improvements to Dropbox client
+- Migrate [App permissions before September 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.

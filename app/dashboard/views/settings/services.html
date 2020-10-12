@@ -143,13 +143,13 @@ $('.plugin > label input[type=checkbox]').click(function() {
   $(this).parent().parent().parent().toggleClass('checked')
 });
 // Simple Analytics doesn't require a tracking ID
-if ($('#selectAnalytics').val() !== 'None' && $('#selectAnalytics').val() !== 'SimpleAnalytics') {
+if ($('#selectAnalytics').val() !== 'None' && ['SimpleAnalytics', 'Plausible'].indexOf($('#selectAnalytics').val()) === -1) {
   $('#trackingIdInput').show();
 } else {
   $('#trackingIdInput').hide();
 }
 $('#selectAnalytics').change(function() {
-  if ($(this).val() !== 'None' && $(this).val() !== 'SimpleAnalytics') {
+  if ($(this).val() !== 'None' && ['SimpleAnalytics', 'Plausible'].indexOf($(this).val()) === -1) {
     $('#trackingIdInput').show();
   } else {
     $('#trackingIdInput').hide();
