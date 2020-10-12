@@ -23,8 +23,7 @@ Investigate potentially TeX-related escaping issues and tell [Anthony](https://m
 
 Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
 
-Fix duplicated entry in tag page for Marco:
-https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
+Fix duplicated entry in tag page for [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC) the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
 
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
 
@@ -527,34 +526,6 @@ Move to Linode?
 
 Increase price to $5 per month for new customers. This will not affect existing customers in any way.
 
----
-
-Goal of this PR is to consolidate all application state inside a single directory, which could be backed up.
-
- Merge PR #199 moving symlinks into cache folder
- Move static directory into /data
- Move blogs directory into /data
- Move git client data directory into /data
- Move DB into data folder
-To deploy:
-
-bg save redis
-switch redis to readonly
-switch blot to maintenance mode
-shut down monit
-shut down blot
-shut down redis
-move existing blog and static directories
-move existing dump file
-restart redis
-restart blot
-restart monit
- Adds a command to restore database from backup.
- Adds a scheduled task to flush old backups
- Adds offsite (i.e. non AWS backups)
- Rotates log files
- Use S3 cli sync command to synchronize data directory?
- 
 ---
 
 Create an API for Blot
