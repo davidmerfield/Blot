@@ -40,14 +40,15 @@ function build(callback) {
         sites,
         function(site, next) {
           var words = site.split(" ");
-          var link = "https://" + words[0];
+          var color = words[0];
+          var link = "https://" + words[1];
           var name = words
-            .slice(1)
+            .slice(2)
             .join(" ")
             .split(",")[0];
           var firstName = name.split(" ")[0];
           var bio = words
-            .slice(1)
+            .slice(2)
             .join(" ")
             .split(",")
             .slice(1)
@@ -62,6 +63,7 @@ function build(callback) {
           output.push({
             link: link,
             host: host,
+            color: color,
             name: name,
             firstName: firstName,
             bio: bio,

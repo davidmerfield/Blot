@@ -11,10 +11,17 @@ body {
 
 strong {font-weight: 600}
 
-.wrapper {
-  max-width: 49rem;
-  margin: 0 auto
+header {display: flex;}
+nav {width: 285px;flex-shrink: 0}
+content {
+  flex-grow: 1;
 }
+
+content p:first-of-type {margin-top: 0}
+
+
+.container {padding: 36px;}
+main .container {padding-top: 9px}
 
 .dark main {
   background: #111;
@@ -105,12 +112,14 @@ content details a:hover {
 
 h1 {
   font-size: 27px;
-  font-weight: 700;
+  font-weight: 600;
   margin: 36px 0 16px;
   /*    border-bottom: 1px solid #eceff1;
   */
   padding: 0 0 0.25em;
 }
+
+h1:first-child {margin-top: 0;line-height: 1}
 
 h2 {
   font-size: 17px;
@@ -149,10 +158,6 @@ container {
   margin: 0 auto;
 }
 
-content {
-  flex-grow: 1;
-  padding: 0 4.2rem;
-}
 
 .sidebar+content {
   margin-left: 0;

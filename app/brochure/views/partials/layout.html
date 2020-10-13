@@ -1,12 +1,34 @@
 {{> head}}
-
-{{> header}}
-
+<body>
+  <header>
+      <nav>
+        <div class="container">
+        <a style="color: #000;font-weight: 600" class="{{selected.index}}" title="Blot" href="/" >Blot</a>
+      </div>
+      </nav>
+      <content>
+        <div class="container">
+          {{> breadcrumbs}}
+      </div>
+      </content>
+      <section class="links">
+        <div class="container">
+        <label for="toggle">Menu</label>
+        {{#unless user}}
+        <a href="/sign-up">Sign up</a>
+        <a href="/log-in">Log in</a>
+        {{/unless}}
+        {{#if user}}
+        <a href="/">Your account</a>
+        <a href="/contact">Contact</a>
+        {{/if}}
+      </div>
+      </section>
+  </header>
   <main>
-    {{{body}}}
+    {{> sidebar}}
+    <content><div class="container">{{{body}}}</div></content>
   </main>
-
   {{> footer}}
 </body>
-
 </html>

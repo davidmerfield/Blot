@@ -68,6 +68,8 @@ module.exports = function(req, res, next) {
           if (selector.indexOf("details") > -1) return true;
 
           selector = selector
+            .split(":focus-within")
+            .join("")
             .split(":focus")
             .join("")
             .split(":before")

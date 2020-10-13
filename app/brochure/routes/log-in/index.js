@@ -19,6 +19,8 @@ form.use(function(req, res, next) {
     return res.redirect(then);
   }
 
+  res.locals.breadcrumbs = [{label: 'Log in'}, {label: 'Your account'}];
+
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
   res.locals.layout = "partials/layout-form";
