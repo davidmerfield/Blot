@@ -88,6 +88,8 @@ brochure.use("/account", function (req, res, next) {
 
 brochure.use("/fonts", require("./fonts"));
 
+brochure.use("/featured", require("./featured"));
+
 brochure.get("/sitemap.xml", require("./sitemap"));
 
 brochure.use("/developers", require("./developers"));

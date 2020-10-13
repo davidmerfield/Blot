@@ -1,0 +1,10 @@
+<h1>Featured sites</h1>
+<p>Here is a small selection of some of the sites currently made with and hosted by Blot</p>
+
+ {{#featured}}
+      <a class="featured" target="_blank" rel="noopener" href="{{{link}}}">
+        <img style="width:16px;height:16px;" src="{{{favicon}}}" />
+
+        <span class="a">{{name}}</span>
+      </a>
+      {{/featured}}
