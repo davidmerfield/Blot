@@ -11,7 +11,7 @@ body {
 
 strong {font-weight: 600}
 
-header {display: flex;justify-content: baseline}
+header {display: flex;}
 nav {width: 285px;flex-shrink: 0}
 content {
   flex-grow: 1;
