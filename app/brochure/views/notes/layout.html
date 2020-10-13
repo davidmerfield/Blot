@@ -1,12 +1,10 @@
+<style type="text/css">
 
+  .wrapper {max-width: 54rem}
 
-  <style type="text/css">
+  p {margin: 2em 0}
 
-    .wrapper {max-width: 54rem}
-     
-     p {margin: 2em 0}
-
-.buttt {position: relative;
+  .buttt {position: relative;
     padding: 4px 1.65rem 4px 12px;
     display: inline-block;
     white-space: nowrap;
@@ -16,30 +14,30 @@
     text-decoration: none;
     color: inherit;}
 
-    .buttt:hover {text-decoration: underline;}
+  .buttt:hover {text-decoration: underline;}
 
-    .buttt:after {
+  .buttt:after {
     position: absolute;
     top: 50%;
     margin-top: -12px;
     right: 10px;
     float: right;
     content: "\203A";
-}
+  }
 
-.on-this-page li a {
-  text-indent: -12px;
-margin-left: 12px
-}
-.underline-on-hover:hover {text-decoration: underline;}
+  .on-this-page li a {
+    text-indent: -12px;
+    margin-left: 12px
+  }
+  .underline-on-hover:hover {text-decoration: underline;}
 
-.guides {
-  list-style-type: none;
-  padding: 0;
-  margin: 0
-}
+  .guides {
+    list-style-type: none;
+    padding: 0;
+    margin: 0
+  }
 
-.bc a {    display: inline-block;
+  .bc a {    display: inline-block;
     position: relative;
     margin-left: 10px;
     padding-left: 15.655px;
@@ -48,7 +46,7 @@ margin-left: 12px
 
   .bc a:first-child {margin-left: 0;padding-left: 0}
 
-.bc a:not(:first-child):before {
+  .bc a:not(:first-child):before {
     content: "";
     display: block;
     position: absolute;
@@ -64,34 +62,34 @@ margin-left: 12px
     border: solid;
     border-width: 1px 1px 0 0;
     border-color: #626a6e;
-}
+  }
+
+  a.no-outline:hover {box-shadow: none;border:none;background: #f9f9f9}
 </style>
 
-  
+{{{body}}}
 
-      {{{body}}}
-
-    {{#showToc}}
-      <ul class="guides" style="display: flex;flex-wrap: wrap;margin:-1rem">
-        {{#toc}}
-        <li style="flex-basis: 50%;padding:1rem;box-sizing: border-box;">
-<a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>        <ul style="padding-left: 0">
-          {{#items}}
-          <li style="list-style-type: none;"><a href="{{slug}}">{{name}}</a>
-          {{/items}}
-        </ul>
-      </li>
-        {{/toc}}
+{{#showToc}}
+<ul class="guides" style="display: flex;flex-wrap: wrap;margin:-1rem">
+  {{#toc}}
+  <li style="flex-basis: 50%;padding:1rem;box-sizing: border-box;">
+    <a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>        <ul style="padding-left: 0">
+      {{#items}}
+      <li style="list-style-type: none;"><a href="{{slug}}">{{name}}</a>
+        {{/items}}
       </ul>
-      {{/showToc}}
-      <style type="text/css">a.no-outline:hover {box-shadow: none;border:none;background: #f9f9f9}</style>
-          {{#if subsections}}
-          <br>
-       <ul style="list-style-type: none;margin:0;padding: 0">
-          {{#subsections}}
-          <li><a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>
-          {{/subsections}}
-        </ul>
-        {{/if}}
-    </content>
-  </main>
+    </li>
+    {{/toc}}
+  </ul>
+  {{/showToc}}
+  
+  {{#if subsections}}
+  <br>
+  <ul style="list-style-type: none;margin:0;padding: 0">
+    {{#subsections}}
+    <li><a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>
+      {{/subsections}}
+    </ul>
+    {{/if}}
+  </content>
+</main>
