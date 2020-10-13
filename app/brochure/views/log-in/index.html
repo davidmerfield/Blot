@@ -1,29 +1,27 @@
 <style type="text/css">
-input[type="submit"].link {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: none;
-  padding: 0;
-  display: inline;
-  border-radius: 0;
-  margin: 0;
-  text-decoration: underline;
-  transition-property: color, border-color;
-  transition-duration: .1s;
-  transition-timing-function: ease-out;
-}
+  input[type="submit"].link {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    display: inline;
+    border-radius: 0;
+    margin: 0;
+    text-decoration: underline;
+    transition-property: color, border-color;
+    transition-duration: .1s;
+    transition-timing-function: ease-out;
+  }
 
-
-input[type="submit"].link:active {
-  margin: 0;
-  padding: 0
-}
-
-
+  input[type="submit"].link:active {
+    margin: 0;
+    padding: 0
+  }
 </style>
 
-<form method="POST" style="margin:0;padding:0">
+<div class="form-container">
+<form method="POST" style="margin:0;padding:0;">
 
   <input type="hidden" name="email" value="{{email}}" />
 
@@ -47,7 +45,7 @@ input[type="submit"].link:active {
   <p class="error">That was not your password.</p>
   {{/BADPASSWORD}}
 
-  <p {{^error}}style="width:120%"{{/error}}>{{^error}}Welcome back!{{/error}} You can <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/contact" style="color: inherit;text-decoration: underline;">contact me</a> if you’re having trouble logging in.</p>
+  <p>{{^error}}Welcome back!{{/error}} You can <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/contact" style="color: inherit;text-decoration: underline;">contact me</a> if you’re having trouble logging in.</p>
 </form>
 
 <form method="POST">
@@ -61,3 +59,4 @@ input[type="submit"].link:active {
   </p>
   <input type="submit" value="Log in" />
 </form>
+</div>

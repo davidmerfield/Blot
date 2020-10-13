@@ -5,7 +5,6 @@ Improvements to templates
 - Add a template with random layouts, or a random layout option to existing templates? seedable / repeatable randomness based on the names of files? complete randomness?
 - Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
-- Add search page to archive template and tell [Daniel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRPFhmWPrZXbFZvhwWMWzfTl)
 - Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
@@ -23,8 +22,7 @@ Investigate potentially TeX-related escaping issues and tell [Anthony](https://m
 
 Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
 
-Fix duplicated entry in tag page for Marco:
-https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
+Fix duplicated entry in tag page for [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC) the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
 
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
 
@@ -418,6 +416,7 @@ Improvements to Git client
 - Rate limit authentication route?
 
 Improvements to Dropbox client
+- Migrate [App permissions before September 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.
@@ -526,34 +525,6 @@ Move to Linode?
 
 Increase price to $5 per month for new customers. This will not affect existing customers in any way.
 
----
-
-Goal of this PR is to consolidate all application state inside a single directory, which could be backed up.
-
- Merge PR #199 moving symlinks into cache folder
- Move static directory into /data
- Move blogs directory into /data
- Move git client data directory into /data
- Move DB into data folder
-To deploy:
-
-bg save redis
-switch redis to readonly
-switch blot to maintenance mode
-shut down monit
-shut down blot
-shut down redis
-move existing blog and static directories
-move existing dump file
-restart redis
-restart blot
-restart monit
- Adds a command to restore database from backup.
- Adds a scheduled task to flush old backups
- Adds offsite (i.e. non AWS backups)
- Rotates log files
- Use S3 cli sync command to synchronize data directory?
- 
 ---
 
 Create an API for Blot

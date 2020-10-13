@@ -3,18 +3,36 @@ var brochure = new Express.Router();
 var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
-var capitalize = require('../../../app/helper/capitalize');
+var titleFromSlug = require("../../../app/helper/titleFromSlug");
 
 var TITLES = {
   how: "How to use Blot",
-  "public-files": "Public files",
   terms: "Terms of use",
   privacy: "Privacy policy",
   domain: "Use your domain",
+  featured: "Featured sites",
+  "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
+  "json-feed": "JSON feed",
+  "posts-tagged": "A page with posts with a particular tag"
 };
 
 // Minifies HTML
 brochure.use(require("./tools/minify-html"));
+
+brochure.use(function (req, res, next) {
+  if (req.url === '/') return next();
+
+  res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
+    if (!slug) return { label: "Home", url: "/" };
+    return {
+      label: TITLES[slug] || titleFromSlug(slug),
+      url: arr.slice(0, i + 1).join("/"),
+      last: i === (arr.length - 1)
+    };
+  });
+
+  next();
+});
 
 // Inlines all CSS properties
 brochure.use(require("./tools/inline-css"));
@@ -35,7 +53,7 @@ brochure.use(require("./tools/on-this-page"));
 // Retrieves the timestamp of the last commit
 brochure.use(require("./tools/last-updated"));
 
-brochure.use(function(req, res, next) {
+brochure.use(function (req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
   var url = req.originalUrl;
@@ -47,7 +65,7 @@ brochure.use(function(req, res, next) {
 
   var slugs = url.split("/");
 
-  slugs.forEach(function(slug) {
+  slugs.forEach(function (slug) {
     res.locals.selected[slug] = "selected";
   });
 
@@ -57,26 +75,23 @@ brochure.use(function(req, res, next) {
   if (req.originalUrl === "/") res.locals.selected.index = "selected";
 
   let slug = slugs.pop() || "Blot";
-  let title = TITLES[slug] || capitalize(slug);
+  let title = TITLES[slug] || titleFromSlug(slug);
   res.locals.title = title;
 
   next();
 });
 
-brochure.use("/account", function(req, res, next) {
-  res.locals.layout = "/partials/layout-focussed.html";
+brochure.use("/account", function (req, res, next) {
   // we don't want search engines indexing these pages
   // since they're /logged-out, /disabled and
   res.set("X-Robots-Tag", "noindex");
   next();
 });
 
-brochure.get(["/terms", "/privacy"], function(req, res, next) {
-  res.locals.layout = "/partials/layout-focussed.html";
-  next();
-});
 
-brochure.use('/fonts', require('./fonts'));
+brochure.use("/fonts", require("./fonts"));
+
+brochure.use("/featured", require("./featured"));
 
 brochure.get("/sitemap.xml", require("./sitemap"));
 
@@ -92,23 +107,16 @@ brochure.use("/sign-up", require("./sign-up"));
 
 brochure.use("/log-in", require("./log-in"));
 
-brochure.get("/", require("./featured"), function(req, res) {
-  res.render("index", {
-    title: "Blot – a blogging platform with no interface",
-    layout: "partials/index-layout",
-  });
-});
-
-brochure.use("/how/guides/domain", function(req, res, next) {
+brochure.use("/how/guides/domain", function (req, res, next) {
   res.locals.ip = config.ip;
   next();
 });
 
-brochure.use(function(req, res) {
+brochure.use(function (req, res) {
   res.render(trimLeadingAndTrailingSlash(req.path));
 });
 
-brochure.use(function(err, req, res, next) {
+brochure.use(function (err, req, res, next) {
   if (err && err.message && err.message.indexOf("Failed to lookup view") === 0)
     return next();
 

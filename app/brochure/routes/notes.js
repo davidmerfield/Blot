@@ -17,9 +17,6 @@ if (config.environment === "development")
 
 notes.use(function(req, res, next) {
   res.locals.base = "/notes";
-  res.locals.layout = "";
-  res.locals.selected = {};
-  res.locals.breadcrumbs = [];
   next();
 });
 
@@ -29,10 +26,7 @@ notes.param("section", function(req, res, next) {
     section.isSelected = req.params.section === section.id ? "selected" : false;
     return section;
   });
-  res.locals.breadcrumbs.push({
-    slug: "/notes/" + req.params.section,
-    name: req.params.section[0].toUpperCase() + req.params.section.slice(1),
-  });
+
   res.locals.section = "/notes/" + req.params.section;
   next();
 });
@@ -71,21 +65,6 @@ notes.get("/:section", function(req, res, next) {
 });
 
 notes.get("/:section/:article", function(req, res, next) {
-  res.locals.breadcrumbs.push(
-    TOC.filter((section) => section.id === req.params.section)
-      .map((section) =>
-        section.items
-          .filter((item) => item.id === req.params.article)
-          .map((item) => {
-            return {
-              name: item.name,
-              slug: item.slug,
-            };
-          })
-          .pop()
-      )
-      .pop()
-  );
 // `<p style="margin-bottom:0"><a href="/">${req.params.section.toUpperCase()}</a></h2>`
   res.locals.body = marked(
     fs.readFileSync(

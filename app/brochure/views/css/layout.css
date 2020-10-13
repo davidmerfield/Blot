@@ -4,7 +4,7 @@ L A Y O U T . C S S
 ^^^^^^^^^^^^^^^^^^^
 
 All this depends on having a relatively positioned
-container, e.g. body {postion: relative;} otherwise
+container, e.g. body {position: relative;} otherwise
 the absolutely positioned stuff is off the viewport.
 
 */
