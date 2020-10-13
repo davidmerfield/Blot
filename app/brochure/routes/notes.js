@@ -65,21 +65,6 @@ notes.get("/:section", function(req, res, next) {
 });
 
 notes.get("/:section/:article", function(req, res, next) {
-  res.locals.breadcrumbs.push(
-    TOC.filter((section) => section.id === req.params.section)
-      .map((section) =>
-        section.items
-          .filter((item) => item.id === req.params.article)
-          .map((item) => {
-            return {
-              name: item.name,
-              slug: item.slug,
-            };
-          })
-          .pop()
-      )
-      .pop()
-  );
 // `<p style="margin-bottom:0"><a href="/">${req.params.section.toUpperCase()}</a></h2>`
   res.locals.body = marked(
     fs.readFileSync(
