@@ -3,14 +3,17 @@ var brochure = new Express.Router();
 var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
-var capitalize = require("../../../app/helper/capitalize");
+var titleFromSlug = require("../../../app/helper/titleFromSlug");
 
 var TITLES = {
   how: "How to use Blot",
-  "public-files": "Public files",
   terms: "Terms of use",
   privacy: "Privacy policy",
   domain: "Use your domain",
+  featured: "Featured sites",
+  "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
+  "json-feed": "JSON feed",
+  "posts-tagged": "A page with posts with a particular tag"
 };
 
 // Minifies HTML
@@ -22,7 +25,7 @@ brochure.use(function (req, res, next) {
   res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
     if (!slug) return { label: "Home", url: "/" };
     return {
-      label: TITLES[slug] || capitalize(slug),
+      label: TITLES[slug] || titleFromSlug(slug),
       url: arr.slice(0, i + 1).join("/"),
       last: i === (arr.length - 1)
     };
@@ -72,7 +75,7 @@ brochure.use(function (req, res, next) {
   if (req.originalUrl === "/") res.locals.selected.index = "selected";
 
   let slug = slugs.pop() || "Blot";
-  let title = TITLES[slug] || capitalize(slug);
+  let title = TITLES[slug] || titleFromSlug(slug);
   res.locals.title = title;
 
   next();
