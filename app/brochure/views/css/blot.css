@@ -17,7 +17,7 @@ content {
   flex-grow: 1;
 }
 
-content p:first-of-type {margin-top: 0}
+content > p:first-of-type {margin-top: 0}
 
 
 .container {padding: 36px;}
@@ -445,6 +445,7 @@ background .window {
 
 .clients svg {
   width: 24px;
+  height: 24px;
   float: left;
   margin-right: 1em;
   margin-top: 0.2em;

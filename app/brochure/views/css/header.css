@@ -238,24 +238,30 @@ header .logo:focus {
   padding-left: 0;
 }
 
-.breadcrumbs__list-item {
-  display: inline-block;
-  position: relative;
-  margin-left: 6px;
-  padding-left: 20px;
-  float: left;
-}
-
-.breadcrumbs__list-item:before {
-  content: "→";
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0px;
-  left: 0;
-  color: #989694;
-}
-
+   .breadcrumbs__list-item {
+          display: inline-block;
+          position: relative;
+          margin-left: 13px;
+          padding-left: 18.655px;
+          float: left;
+        }
+  .breadcrumbs__list-item:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0px;
+    left: -3.31px;
+    width: 6px;
+    height: 6px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #929292;
+        }
 .breadcrumbs__list-item:first-child:before {
   content: none;
   display: none;
