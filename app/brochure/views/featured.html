@@ -1,12 +1,23 @@
 <h1>Featured sites</h1>
-<p>Here is a small selection of some of the sites currently made with and hosted by Blot</p>
+<p>Below is a small selection of some of the sites currently made with and hosted by Blot.</p>
 
+<style type="text/css">
+	.clients img {
+    width: 24px;
+    height: 24px;
+    float: left;
+    margin-right: 1em;
+    margin-top: .2em;
+    margin-left: .2em;
+    margin-bottom: 2em;
+}
+.clients li {margin: 0;padding: 0.7rem}
+</style>
+<ul class="clients" style="max-width: none">
 {{#featured}}
-<p >
-	<a  style="color:inherit;text-decoration: none;" target="_blank" rel="noopener" href="{{{link}}}"><img style="width:16px;height:16px;vertical-align: middle;" src="{{{favicon}}}" />
-  
-  <span style="border-bottom: 1px solid {{color}};color:{{color}}">{{name}}</span></a>
-   {{bio}}. {{firstName}} uses the <a style="text-decoration:none;border-bottom: 1px solid {{color}};color:{{color}}" {{#template}}href="/templates{{#slug}}/{{slug}}{{/slug}}">{{label}}</a>{{/template}} template.
-</a>
-<br>
-{{/featured}}
+  <li><a target="_blank" rel="noopener" href="{{{link}}}">
+		<img src="{{{favicon}}}" />  	
+  	<span class="a" style="color:{{color}}">{{name}}</span> {{bio}}. {{firstName}} uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the {{template.label}} template{{/unless}}.</li>
+{{/featured}}  
+</ul>
+
