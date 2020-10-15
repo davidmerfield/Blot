@@ -60,7 +60,8 @@ module.exports = function (req, res, next) {
   res.locals.featured = featured.slice().map(function (site) {
     site.host = site.host.split("www.").join("");
     site.template = site.template || {};
-    site.template.label = site.template.label || "Default";
+    site.template.label = site.template.label || "Diary";
+    site.template.slug = site.template.slug || "diary";
     return site;
   });
 
