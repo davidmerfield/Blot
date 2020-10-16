@@ -28,12 +28,13 @@ ul.sidebar {
 
 /*ul.sidebar:hover a {color: black}*/
 ul.sidebar a:hover {
-  text-decoration: underline;
+  color: #606060;
+  text-decoration: none;
 }
 
 ul.sidebar a:active,
 ul.sidebar a:focus {
-  opacity: 0.7;
+  color: #000;
   text-decoration: none;
 }
 

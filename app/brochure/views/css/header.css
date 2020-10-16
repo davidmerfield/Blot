@@ -113,9 +113,6 @@ header row {
 }
 
 @media screen and (max-width: 600px) {
-  content {
-    padding: 0 1rem;
-  }
   a.video,
   background {
     margin-right: -1rem;
@@ -237,6 +234,8 @@ header .logo:focus {
   margin-left: 0;
   padding-left: 0;
 }
+  
+  .breadcrumbs__link {text-decoration: none;}
 
    .breadcrumbs__list-item {
           display: inline-block;
@@ -244,7 +243,9 @@ header .logo:focus {
           margin-left: 13px;
           padding-left: 18.655px;
           float: left;
+          color: grey
         }
+
   .breadcrumbs__list-item:before {
     content: "";
     display: block;
@@ -267,13 +268,14 @@ header .logo:focus {
   display: none;
 }
 
-.breadcrumbs__link:link,
-.breadcrumbs__link:visited {
-  color: #365899;
-  text-decoration: none;
-}
+
 
 .breadcrumbs__link:hover,
 .no-underline:hover {
-  text-decoration: underline;
+  color: #606060;
+}
+
+.breadcrumbs__link:active,
+.breadcrumbs__link:focus {
+  color: #000
 }
