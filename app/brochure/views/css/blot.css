@@ -515,3 +515,24 @@ ul.side-links {
   padding: 0 0 1.5em 1.5em;
   margin: 0 0 0 2em;
 }
+
+/* Paragraph tag containing form error messages */ 
+.error {
+  color: #a54846;
+  display: block;
+  background: #feeded;
+  outline: 10px solid #feeded;
+  margin-bottom: 2rem;
+}
+
+.form-container {
+  display: inline-block;
+  max-width: 360px;
+}
+
+form div:focus-within > label,
+form p:focus-within > label {
+  color: rgb(0, 122, 255);
+}
+
+
