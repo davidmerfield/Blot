@@ -1,3 +1,12 @@
+/* Paragraph tag containing form error messages */ 
+.error {
+  color: #a54846;
+  display: block;
+  background: #feeded;
+  outline: 10px solid #feeded;
+  margin-bottom: 2rem;
+}
+
 .form-container {
   display: inline-block;
   max-width: 360px;
@@ -7,7 +16,6 @@ form div:focus-within > label,
 form p:focus-within > label {
   color: rgb(0, 122, 255);
 }
-
 
 
 input[type="submit"],
@@ -153,24 +161,5 @@ input:focus:-ms-input-placeholder {
 input:focus:-moz-placeholder {
   /* Firefox 18- */
   color: #c5c4c4;
-}
-
-.error:empty {
-  display: none;
-}
-
-.error {
-  color: #a54846;
-  display: block;
-  background: #feeded;
-  outline: 10px solid #feeded;
-  margin-bottom: 2rem;
-}
-
-.breadcrumbs__list-item a:hover {
-  box-shadow: none;
-  text-decoration: none;
-  background: none;
-  border: none;
 }
 

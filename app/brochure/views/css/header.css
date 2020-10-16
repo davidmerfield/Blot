@@ -242,6 +242,16 @@ header .logo:focus {
   border-width: 1px 1px 0 0;
   border-color: #929292;
 }
+
+
+.breadcrumbs__list-item a:hover {
+  box-shadow: none;
+  text-decoration: none;
+  background: none;
+  border: none;
+}
+
+
 .breadcrumbs__list-item:first-child:before {
   content: none;
   display: none;
