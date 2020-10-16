@@ -63,11 +63,15 @@ header row {
     display: block !important;
   }
 
+    ul.sidebar {min-height: auto}
+
+
+  .breadcrumbs {display: none;}
   main nav .container {padding-top: 0;padding-bottom: 0}
 
   ul.sidebar {
     position: initial;
-    margin-top: 1.4em;
+    margin-bottom: 1.4em;
     width: 100%;
     display: none;
   }
@@ -118,14 +122,7 @@ header row {
     margin-right: -1rem;
     margin-left: -1rem;
   }
-  header row {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  .sidebar a {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+  
 }
 
 .sidebar a,
