@@ -176,9 +176,7 @@ container {
   margin-left: 0;
 }
 
-main.has-sidebar {
-  display: flex;
-}
+
 
 ul.templates {
   display: flex;

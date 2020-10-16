@@ -6,34 +6,6 @@ header row {
   padding: 0.7em;
 }
 
-.col-25,
-.col-75,
-.col-33,
-.col-50 {
-  padding: 0 0.7em;
-  box-sizing: border-box;
-}
-
-.ml-25 {
-  margin-left: 25%;
-}
-
-.col-33 {
-  width: 33.3333333%;
-}
-
-.col-25 {
-  width: 25%;
-}
-
-.col-50 {
-  width: 50%;
-}
-
-.col-75 {
-  width: 75%;
-}
-
 .links {
   text-align: right;
   padding: 0 0.7em;
@@ -43,10 +15,6 @@ header row {
   margin-left: 1.4em;
   color: #000;
   font-weight: 600;
-}
-
-.mobile {
-  display: none;
 }
 
 .index .sidebar {
@@ -60,10 +28,6 @@ header row {
 }
 
 @media screen and (max-width: 800px) {
-  main.has-sidebar {
-    display: block !important;
-  }
-
   ul.sidebar {
     min-height: auto;
   }
@@ -85,10 +49,6 @@ header row {
 
   main {
     flex-wrap: wrap;
-  }
-
-  .mobile {
-    display: block;
   }
 
   .nav {
@@ -197,4 +157,3 @@ header .logo:focus {
   font-weight: 500;
   color: #000;
 }
-
