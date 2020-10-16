@@ -2,31 +2,24 @@
   display: block;
 }
 
-.sidebar hr {margin: 1.2rem 0}
-/**
- * 1. good progressive enhancement: https://caniuse.com/#search=sticky
- * 2. to match the `main` padding
- * 3. since it's a flex child, this sets `height` to `auto` to be scrolled against: https://stackoverflow.com/questions/44446671
- */
+.sidebar hr {
+  margin: 1.2rem 0;
+}
+
 ul.sidebar {
   margin: 0;
   min-height: 100vh;
   list-style: none;
   width: 10rem;
-/*  border-right: 1px solid #eee;
-*/  padding: 0;
+  padding: 0;
   box-sizing: border-box;
   max-width: none;
   flex-shrink: 0;
   position: sticky;
-  /* [1] */
   top: 0;
-  /* [2] */
   align-self: flex-start;
-  /* [3] */
 }
 
-/*ul.sidebar:hover a {color: black}*/
 ul.sidebar a:hover {
   color: #606060;
   text-decoration: none;
@@ -38,12 +31,13 @@ ul.sidebar a:focus {
   text-decoration: none;
 }
 
-ul.sidebar>* {}
-
-.sidebar a.selected, .sidebar .selected:not(.has-list) > a {
-  color: black !important
+ul.sidebar > * {
 }
 
+.sidebar a.selected,
+.sidebar .selected:not(.has-list) > a {
+  color: black !important;
+}
 
 input[name="toggle"] {
   display: none;
@@ -62,11 +56,7 @@ label[for="toggle"] {
   -ms-user-select: none;
   /* Internet Explorer/Edge */
   user-select: none;
-  /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-
 }
-
 
 .sidebar a {
   display: block;
@@ -80,7 +70,6 @@ label[for="toggle"] {
   background-color: transparent;
 }
 
-
 .sidebar img {
   max-width: 36px;
   float: left;
@@ -90,12 +79,7 @@ label[for="toggle"] {
   margin: 0.2em 0.75em 0.2em -1.5em;
 }
 
-/*.sidebar .has-img li {line-height: 1.8}
-*/
-
-
-
-.sidebar .has-list>a:before {
+.sidebar .has-list > a:before {
   display: block;
   position: absolute;
   top: 50%;
@@ -111,34 +95,22 @@ label[for="toggle"] {
   content: "";
 }
 
-
 .sidebar input {
   display: none;
 }
 
-.sidebar label {
-  /*  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  cursor: pointer;
-*/
-}
 
-.sidebar :checked~a:before {
+.sidebar :checked ~ a:before {
   margin-top: -6px;
   transform: rotate(135deg);
 }
-
-
 
 .dark .sidebar,
 .dark .sidebar a,
 .dark header a,
 .dark footer a {
   border-color: #222;
-  color: #839496
+  color: #839496;
 }
 
 .sidebar li ul li:last-child {
@@ -150,13 +122,9 @@ label[for="toggle"] {
   padding-left: 0.6rem;
 }
 
-
 .sidebar li ul li {
   position: relative;
 }
-
-
-
 
 .buttons {
   display: flex;
@@ -166,7 +134,7 @@ label[for="toggle"] {
   border-color: #222;
   color: #222;
   text-decoration: none;
-  z-index: 1
+  z-index: 1;
 }
 
 a.action-button:hover:after {
@@ -174,7 +142,7 @@ a.action-button:hover:after {
   color: #222;
 }
 
-a.action-button+a.action-button {
+a.action-button + a.action-button {
   margin-right: 0;
 }
 
@@ -183,13 +151,15 @@ a.action-button+a.action-button {
   display: block;
 }
 
-.with-arrow {position: relative;}
+.with-arrow {
+  position: relative;
+}
 .with-arrow:after {
-    position: absolute;
-    top: 50%;
-    margin-top: -12px;
-    right: 10px;
-    opacity: 0.3;
-    float: right;
-    content: "→";
+  position: absolute;
+  top: 50%;
+  margin-top: -12px;
+  right: 10px;
+  opacity: 0.3;
+  float: right;
+  content: "→";
 }

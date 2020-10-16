@@ -1,7 +1,3 @@
-/* So I focus */
-/*main {display: none!important;}
-*/
-
 html,
 body {
   padding: 0;
@@ -9,17 +5,27 @@ body {
   background: #fffefc;
 }
 
-strong {font-weight: 600}
+strong {
+  font-weight: 600;
+}
 
-header {display: flex;}
-nav {width: 285px;flex-shrink: 0}
+header {
+  display: flex;
+}
+nav {
+  width: 285px;
+  flex-shrink: 0;
+}
 content {
   flex-grow: 1;
 }
 
-
-.container {padding: 36px;}
-main .container {padding-top: 9px}
+.container {
+  padding: 36px;
+}
+main .container {
+  padding-top: 9px;
+}
 
 .dark main {
   background: #111;
@@ -34,7 +40,7 @@ body {
   color: #000;
   line-height: 1.45;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-  "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 400;
   font-style: normal;
@@ -77,7 +83,9 @@ mark {
   background-color: #fff0a8;
 }
 
-content > p:first-child {margin-top: 46px}
+content > p:first-child {
+  margin-top: 46px;
+}
 
 content p a,
 content li a,
@@ -117,7 +125,10 @@ h1 {
   padding: 0 0 0.25em;
 }
 
-h1:first-child {margin-top: 0;line-height: 1}
+h1:first-child {
+  margin-top: 0;
+  line-height: 1;
+}
 
 h2 {
   font-size: 17px;
@@ -127,9 +138,14 @@ h2 {
   font-weight: 600;
 }
 
-h1 a, h2 a, h3 a {color: inherit;text-decoration: none;}
+h1 a,
+h2 a,
+h3 a {
+  color: inherit;
+  text-decoration: none;
+}
 
-h2+p {
+h2 + p {
   margin-top: 0;
 }
 
@@ -156,8 +172,7 @@ container {
   margin: 0 auto;
 }
 
-
-.sidebar+content {
+.sidebar + content {
   margin-left: 0;
 }
 
@@ -192,13 +207,12 @@ ul.templates li a {
 ul.templates li a:hover {
   box-shadow: none;
   outline: none;
-  background: none
+  background: none;
 }
 
 ul.templates li a:hover strong {
   background-color: #eee;
   box-shadow: 0 0 0 4px #eee;
-
 }
 
 ul.templates li strong {
@@ -294,15 +308,15 @@ background {
   justify-content: center;
 }
 
-background+h2,
-background+h3,
-.window+h2,
-.window+h3 {
+background + h2,
+background + h3,
+.window + h2,
+.window + h3 {
   margin-top: 3em;
 }
 
-background.text+h2,
-background.text+h3 {
+background.text + h2,
+background.text + h3 {
   margin-top: 4em;
 }
 /*
@@ -415,7 +429,7 @@ background .window {
   color: inherit;
   text-decoration: none;
   box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
-  rgba(15, 15, 15, 0.1) 0px 2px 4px;
+    rgba(15, 15, 15, 0.1) 0px 2px 4px;
   background: white;
 }
 
@@ -423,7 +437,7 @@ background .window {
   text-decoration: none;
   background: #f6f6f6;
   box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px,
-  rgba(15, 15, 15, 0.1) 0px 2px 4px;
+    rgba(15, 15, 15, 0.1) 0px 2px 4px;
 }
 
 .clients li a:hover strong {
@@ -468,7 +482,6 @@ overlay {
   background: #fffefc;
 }
 
-
 .screenshot {
   width: 100%;
   height: 0;
@@ -476,16 +489,23 @@ overlay {
   overflow: hidden;
 }
 
-.screenshot img {max-width: 100%;height: auto;outline: 1px solid rgba(0,0,0,0.05);outline-offset: -1px}
+.screenshot img {
+  max-width: 100%;
+  height: auto;
+  outline: 1px solid rgba(0, 0, 0, 0.05);
+  outline-offset: -1px;
+}
 
-a.screenshot:hover {outline: none;}
+a.screenshot:hover {
+  outline: none;
+}
 
 figure {
-  margin: 4em 0
+  margin: 4em 0;
 }
 
 figcaption {
-  font-size: 12px
+  font-size: 12px;
 }
 
 ul.side-links {
@@ -493,5 +513,5 @@ ul.side-links {
   float: right;
   border-left: 1px solid #eee;
   padding: 0 0 1.5em 1.5em;
-  margin: 0 0 0 2em
+  margin: 0 0 0 2em;
 }
