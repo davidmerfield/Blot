@@ -63,6 +63,8 @@ header row {
     display: block !important;
   }
 
+  main nav .container {padding-top: 0;padding-bottom: 0}
+
   ul.sidebar {
     position: initial;
     margin-top: 1.4em;
@@ -97,9 +99,7 @@ header row {
     display: none;
   }
 
-  header content {
-    display: none;
-  }
+
   .links a {
     display: none;
   }
