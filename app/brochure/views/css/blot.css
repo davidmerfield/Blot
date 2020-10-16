@@ -17,8 +17,6 @@ content {
   flex-grow: 1;
 }
 
-content > p:first-of-type {margin-top: 0}
-
 
 .container {padding: 36px;}
 main .container {padding-top: 9px}
