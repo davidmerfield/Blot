@@ -57,6 +57,9 @@ function main(url, options, callback) {
 
     $("[href],[src]").each(function() {
       var url = $(this).attr("href") || $(this).attr("src");
+
+      if (!url) return;
+      
       url = require("url").resolve(base, url);
 
       if (require("url").parse(url).host !== require("url").parse(base).host)

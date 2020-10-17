@@ -25,7 +25,7 @@
 #5fbade www.failuretolerated.com Sean McCoy, is a game designer from Dallas, Texas
 #486156 mrfris.by Stuart Frisby, is the Director of Design at Booking.com
 #757196 www.querlin.com Querlin Ricci, is a designer based in Atlanta
-#696e66 vaughntan.org Vaughn Tan, is an organizational sociologist at University College London’s School of Management
+#696e66 vaughntan.org Vaughn Tan, is a sociologist at University College London’s School of Management
 #c56d64 blog.pixelswithin.com Diana Lopez, is a designer and developer based in Southern California
 #b97c29 eli.li Eli Mellen, is a web developer based in Portland, Maine
 #af8f8a rile.yt Riley Tomasek, is a software engineer based in New York City
