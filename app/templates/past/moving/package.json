@@ -1,5 +1,6 @@
 {
   "name": "Moving",
+  "isPublic": false,
   "locals": {
     "page_size": 36,
     "background_color": "#fdfdfd",
