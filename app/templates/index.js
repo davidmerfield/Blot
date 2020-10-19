@@ -19,10 +19,10 @@ if (require.main === module) {
 }
 
 function main(options, callback) {
-  buildAll(TEMPLATES_DIRECTORY, function (err) {
+  buildAll(TEMPLATES_DIRECTORY, options, function (err) {
     if (err) return callback(err);
 
-    buildAll(PAST_TEMPLATES_DIRECTORY, function (err) {
+    buildAll(PAST_TEMPLATES_DIRECTORY, options, function (err) {
       if (err) return callback(err);
 
       checkForExtinctTemplates(TEMPLATES_DIRECTORY, function (err) {
@@ -40,16 +40,20 @@ function main(options, callback) {
 }
 
 // Builds any templates inside the directory
-function buildAll(directory, callback) {
+function buildAll(directory, options, callback) {
   var dirs = templateDirectories(directory);
 
   async.map(dirs, async.reflect(build), function (err, results) {
     results.forEach(function (result, i) {
       if (result.error) {
-        console.log();
-        console.error("Error building: " + dirs[i]);
-        console.error(result.error.stack);
-        console.log();
+        if (!options.watch) {
+          return callback(result.error);
+        } else {
+          console.log();
+          console.error("Error building: " + dirs[i]);
+          console.error(result.error.stack);
+          console.log();
+        }
       }
     });
 
@@ -139,7 +143,7 @@ function buildViews(directory, id, views, callback) {
         if (err) {
           view.content = err.toString();
           Template.setView(id, view, function () {});
-          console.log("Error in view:", path);
+          err.message += ' in ' + path;
           return next(err);
         }
 
