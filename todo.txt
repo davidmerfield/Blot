@@ -822,7 +822,7 @@ Consider adding a crop of a livestream of the sky above me to the contact page. 
 
 Consider adding support for [PubSubHubbub](https://en.wikipedia.org/wiki/WebSub) support and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJdDWZmclLFChDsbWBQlWsfk)
 
-Consider atompub support for Marsedit and tell Chet
+Consider atompub support for Marsedit and tell Chet and [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjBGqSqTdQqtRCwdKplFvgBCP)
 
 Consider incorporating typographic features from [Textile](http://redcloth.org/textile/phrase-modifiers/)? 
 
