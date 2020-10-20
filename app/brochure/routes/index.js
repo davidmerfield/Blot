@@ -10,7 +10,6 @@ var TITLES = {
   terms: "Terms of use",
   privacy: "Privacy policy",
   domain: "Use your domain",
-  featured: "Featured sites",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "json-feed": "JSON feed",
   "posts-tagged": "A page with posts with a particular tag"
@@ -91,7 +90,7 @@ brochure.use("/account", function (req, res, next) {
 
 brochure.use("/fonts", require("./fonts"));
 
-brochure.use("/featured", require("./featured"));
+brochure.use("/examples", require("./featured"));
 
 brochure.get("/sitemap.xml", require("./sitemap"));
 
