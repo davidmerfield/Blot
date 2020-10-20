@@ -1,0 +1,29 @@
+{{> header}}
+
+<div>
+  <div class="posts">
+    {{#entries}}
+    {{#thumbnail.large.url}}
+    <a class="post photo" href="{{{url}}}" style="
+      max-width:{{thumbnail.large.width}};
+      max-height:{{thumbnail.large.height}};
+      width:calc({{thumbnail.large.width}}px*{{thumbnail_size}}/{{thumbnail.large.height}});
+      flex-grow:calc({{thumbnail.large.width}}*{{thumbnail_size}}/{{thumbnail.large.height}})">
+      <i style="padding-bottom:{{thumbnail.large.ratio}}"></i>
+      <img src="{{{thumbnail.large.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
+      <noscript>  
+      <img src="{{{thumbnail.large.url}}}">
+      </noscript>
+    </a>
+    {{/thumbnail.large.url}}
+    {{^thumbnail.large.url}}
+    <a class="post text" href="{{{url}}}" style="flex-grow:250">
+      <span class="title">{{title}}</span>
+      <span class="date">{{date}}</span>
+    </a>
+    {{/thumbnail.large.url}}
+    {{/entries}}
+  </div>
+  
+</div>
+{{> footer}}
