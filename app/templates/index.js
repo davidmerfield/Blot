@@ -1,3 +1,4 @@
+var config = require("config");
 var Template = require("template");
 var helper = require("helper");
 var extend = helper.extend;
@@ -94,9 +95,42 @@ function build(directory, callback) {
       buildViews(directory, id, templatePackage.views, function (err) {
         if (err) return callback(err);
 
-        emptyCacheForBlogsUsing(id, callback);
+        emptyCacheForBlogsUsing(id, function (err) {
+          if (err) return callback(err);
+
+          if (!isPublic || config.environment !== "development")
+            return callback();
+
+          mirror(id, callback);
+        });
       });
     });
+  });
+}
+
+function mirror(id, callback) {
+  Blog.getAllIDs(function (err, ids) {
+    if (err) return callback(err);
+    async.eachSeries(
+      ids,
+      function (blogID, next) {
+        Template.drop(
+          blogID,
+          "mirror-of-" + id.slice(id.indexOf(":") + 1),
+          function (err) {
+            var template = {
+              isPublic: false,
+              cloneFrom: id,
+              name: "Mirror of " + id.slice(id.indexOf(":") + 1),
+              slug: "mirror-of-" + id.slice(id.indexOf(":") + 1),
+            };
+
+            Template.create(blogID, template.name, template, next);
+          }
+        );
+      },
+      callback
+    );
   });
 }
 
@@ -143,7 +177,7 @@ function buildViews(directory, id, views, callback) {
         if (err) {
           view.content = err.toString();
           Template.setView(id, view, function () {});
-          err.message += ' in ' + path;
+          err.message += " in " + path;
           return next(err);
         }
 
