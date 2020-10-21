@@ -415,3 +415,40 @@ blockquote {
 
 
 
+
+
+body{
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Droid Sans",
+    "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+.mouse-cursor-gradient-tracking {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.mouse-cursor-gradient-tracking[href]:hover {
+  opacity:0.8
+}
+.mouse-cursor-gradient-tracking span {
+  position: relative;
+}
+
+.mouse-cursor-gradient-tracking:after {
+  --size: 0;
+  content: '';
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle closest-side, rgba(255,255,255,0.2), transparent);
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease;
+}
+
+.mouse-cursor-gradient-tracking:hover:after {
+  --size: 70px;
+}

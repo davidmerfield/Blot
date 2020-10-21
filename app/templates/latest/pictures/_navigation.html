@@ -4,30 +4,30 @@
 
   <div class="navigation">
 
-    <a href="/" class="index light">{{title}}</a>
+    <a href="/" class="index mouse-cursor-gradient-tracking light">{{title}}</a>
 
     <div class="collapse">
 
       <span class="spacer"></span>
       
       {{#menu}}
-      <a href="{{{url}}}" class="menu light {{active}}">{{label}}</a>
+      <a href="{{{url}}}" class="menu mouse-cursor-gradient-tracking light {{active}}">{{label}}</a>
       {{/menu}}
 
       <span class="expander"></span>
 
       {{#pagination}}
       <span class="page_marker">Page {{current}} of {{total}}</span>
-  		<a class="menu light" {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr;&puncsp; Previous</a>
-  		<a class="menu light" {{#next}}href="/page/{{next}}"{{/next}}>Next &puncsp;&rarr;</a>
+  		<a class="menu mouse-cursor-gradient-tracking light" {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr;&puncsp; Previous</a>
+  		<a class="menu mouse-cursor-gradient-tracking light" {{#next}}href="/page/{{next}}"{{/next}}>Next &puncsp;&rarr;</a>
       {{/pagination}}
 
       {{#entry}}
       {{^page}}
-      <a class="menu light" {{#next}}href="{{{url}}}"{{/next}}>&larr;&puncsp; Previous</a>
-  		<a class="menu light" {{#previous}}href="{{{url}}}"{{/previous}}>Next &puncsp;&rarr;</a>
+      <a class="menu mouse-cursor-gradient-tracking light" {{#next}}href="{{{url}}}"{{/next}}>&larr;&puncsp; Previous</a>
+  		<a class="menu mouse-cursor-gradient-tracking light" {{#previous}}href="{{{url}}}"{{/previous}}>Next &puncsp;&rarr;</a>
       <span class="spacer" style="margin:0 0 0 1.3rem"></span>
-      <a class="menu light" href="/?">Close &puncsp;✕</a>
+      <a class="menu mouse-cursor-gradient-tracking light" href="/?">Close &puncsp;✕</a>
       {{/page}}
       {{/entry}}
     </div>
