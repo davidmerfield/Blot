@@ -30,7 +30,7 @@ function randomNumber () {
   	<span style="
     max-width:calc({{width}}px/2);
     max-height:calc({{height}}px/2);
-    width:calc({{width}}px*100/{{height}});">
+    width:calc({{width}}px*100/{{height}});transition: transform 1s">
     <img src="{{{url}}}" class="pre-loaded" onload="this.className+=' loaded';this.parentNode.style.transform='scale(' + randomNumber() + ')'" />
     <noscript>  
     <img src="{{{url}}}">
@@ -70,3 +70,48 @@ function randomNumber () {
 
 </style>
 
+<script>
+	var randomPosts = document.querySelectorAll('a.random-post');
+
+	randomPosts.forEach(node => node.onclick = zoom(node));
+
+	function zoom (ogNode) {
+
+		return function(event){
+			event.preventDefault();		
+			randomPosts.forEach(function(node){
+				if (node === ogNode) {
+					node.style.filter = 'blur(1px)';
+					var tar = node.children[0];
+
+					// tar.style.transformOrigin = '0 0';
+
+					var container = document.querySelector('random-posts');
+
+					var viewportOffset = tar.getBoundingClientRect();
+		
+					var windowWidth = window.innerWidth;
+					var windowHeight = window.innerHeight;
+
+						console.log('top offset of node', viewportOffset.top);
+						console.log('left offset of node', viewportOffset.left);
+
+					// these are relative to the viewport, i.e. the window
+					var translateX = windowWidth / 2 - viewportOffset.left  ;
+					var translateY = windowHeight / 2 - viewportOffset.top ;
+
+						
+					var scaleX = window.innerWidth / tar.offsetWidth;
+					var scaleY = window.innerHeight / tar.offsetHeight;
+					var scale = Math.min(scaleX, scaleY);
+					var translate = 'scale(1) translate(' + translateX + 'px,' + translateY + 'px)';
+					// var transform = 'scale(' + scale + ')';
+					tar.style.transform = translate;
+					return;
+				}
+				node.style.opacity = 0
+			});
+		  return false;
+		};
+	}
+</script>

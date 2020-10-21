@@ -32,9 +32,6 @@ body,
   color: {{text_link_visited_color}}
 }
 
-
-
-
 .post.text .title {
   color: {{text_color}};
 }
@@ -42,9 +39,6 @@ body,
 .post.text:hover {
   border-color: {{text_color}}
 }
-
-
-
 
 html,
 body {
@@ -95,8 +89,7 @@ label[for="toggle"] {
   -ms-user-select: none;
   /* Internet Explorer/Edge */
   user-select: none;
-  /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
+
 
 }
 
@@ -112,6 +105,7 @@ label[for="toggle"] {
 
 .navigation-container {
   flex-shrink: 0;
+  box-sizing: border-box;
   padding: {{spacing_size}}px;
   {{#sticky_navigation}}
   position:sticky;
@@ -125,6 +119,11 @@ label[for="toggle"] {
 
 .navigation {
   display: flex;
+}
+
+.collapse{
+  flex-grow: 1;display: flex;
+
 }
 
 .navigation a {
@@ -144,7 +143,8 @@ label[for="toggle"] {
 .page_marker{
       font-feature-settings: 'tnum';
     -webkit-font-feature-settings: 'tnum';
-    -moz-font-feature-settings: 'tnum';opacity: 0.3
+    -moz-font-feature-settings: 'tnum';opacity: 0.3;
+    margin-left: 1.3rem;
 }
 
  .spacer {
@@ -198,43 +198,6 @@ label[for="toggle"] {
 .menu[href="/search"] {
   display: none !important;
 }
-
-
-@media screen and (min-width: 800px) {
-  label[for="toggle"] {
-    display: none;
-  }
-}
-
-
-@media screen and (max-width: 800px) {
-
-  .navigation {
-    max-width: 100%;
-    flex-grow: 1;
-  }
-
-  body {
-    flex-direction: column;
-  }
-
-  .navigation-container {
-    width: 100%;
-    display: flex
-  }
-
-  input[name="toggle"]+.navigation>*:not(.index) {
-    display: none;
-  }
-
-  input[name="toggle"]:checked+.navigation>*:not(.index) {
-    display: block;
-  }
-
-}
-
-
-
 
 
 .pre-loaded {
@@ -405,4 +368,50 @@ blockquote {
   width: auto;
   height: auto;
 }
+
+
+
+
+/* When screen is wider than 800px */
+@media screen and (min-width: 800px) {
+  label[for="toggle"] {
+    display: none;
+  }
+}
+
+/* When screen is narrower than 800px */
+@media screen and (max-width: 800px) {
+
+  body {
+    flex-direction: column;
+  }
+
+  .navigation {
+    flex-wrap: wrap;
+    flex-grow: 1
+  }
+
+  .navigation .collapse a {margin-left: 0}
+  .collapse {
+    width: 100%;
+  }
+
+  .navigation .spacer {display: none;}
+
+  .navigation-container {
+    width: 100%;
+    display: flex
+  }
+
+  input[name="toggle"] + .navigation .collapse {
+    display: none;
+  }
+
+  input[name="toggle"]:checked + .navigation .collapse {
+    display: block;
+  }
+}
+
+
+
 
