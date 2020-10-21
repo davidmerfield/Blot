@@ -2,7 +2,7 @@
   "name": "Pictures",
   "isPublic": true,
   "locals": {
-    "page_size": 20,
+    "page_size": 50,
     "sticky_navigation": true,
     "spacing_size": 10,
     "spacing_size_range": [1,30],

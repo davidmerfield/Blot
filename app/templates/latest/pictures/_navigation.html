@@ -6,36 +6,30 @@
 
     <a href="/" class="index light">{{title}}</a>
 
-    <span class="spacer" style="margin:0 0 0 1.3rem"></span>
+    <span class="spacer"></span>
     
     {{#menu}}
     <a href="{{{url}}}" class="menu light {{active}}">{{label}}</a>
     {{/menu}}
 
-    <span style="flex-grow: 1"></span>
+    <span class="expander"></span>
 
   {{#pagination}}
 
-    <a class="menu light" href="{{{url}}}" class="menu light {{active}}" style="    font-feature-settings: 'tnum';
-    -webkit-font-feature-settings: 'tnum';
-    -moz-font-feature-settings: 'tnum';">Page {{current}} of {{total}}</a>
+    <span class="page_marker">Page {{current}} of {{total}}</span>
 		<a class="menu light" {{#previous}}href="/page/{{previous}}"{{/previous}}>&larr;&puncsp; Previous</a>
 		<a class="menu light" {{#next}}href="/page/{{next}}"{{/next}}>Next &puncsp;&rarr;</a>
 
 {{/pagination}}
 
   {{#entry}}
-
-    <a class="menu light" href="{{{url}}}" class="menu light {{active}}" style="    font-feature-settings: 'tnum';
-    -webkit-font-feature-settings: 'tnum';
-    -moz-font-feature-settings: 'tnum';">{{index}} of {{total_posts}}</a>
-		<a class="menu light" {{#previous}}href="{{{url}}}"{{/previous}}>&larr;&puncsp; Previous</a>
-		<a class="menu light" {{#next}}href="{{{url}}}"{{/next}}>Next &puncsp;&rarr;</a>
-
-{{/entry}}
-
-
-
+  {{^page}}
+    <a class="menu light" {{#next}}href="{{{url}}}"{{/next}}>&larr;&puncsp; Previous</a>
+		<a class="menu light" {{#previous}}href="{{{url}}}"{{/previous}}>Next &puncsp;&rarr;</a>
+    <span class="spacer" style="margin:0 0 0 1.3rem"></span>
+    <a class="menu light" href="/?">Close &puncsp;✕</a>
+  {{/page}}
+  {{/entry}}
   </div>
 
   <label for="toggle">—<br>—<br>—</label>

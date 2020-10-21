@@ -1,0 +1,72 @@
+<script type="text/javascript">
+	function xmur3(str) {
+    for(var i = 0, h = 1779033703 ^ str.length; i < str.length; i++)
+        h = Math.imul(h ^ str.charCodeAt(i), 3432918353),
+        h = h << 13 | h >>> 19;
+    return function() {
+        h = Math.imul(h ^ h >>> 16, 2246822507);
+        h = Math.imul(h ^ h >>> 13, 3266489909);
+        return (h ^= h >>> 16) >>> 0;
+    }
+}
+
+var seededRandom = xmur3('{{pagination.current}}-{{updated}}');
+
+function randomNumber () {
+	var val = seededRandom();
+	var min = 0;
+	var max = 4294967294;
+	var normalized = (val - min) / (max - min);
+	var result = 0.6 + (normalized * 0.4);
+ 	return result.toFixed(4); 
+}
+
+</script>
+<div class="random-posts">
+  {{#entries}}
+  {{#thumbnail.small.url}}
+  <a class="random-post photo" href="{{{url}}}" style="">
+  	{{#thumbnail.medium}}
+  	<span style="
+    max-width:calc({{width}}px/2);
+    max-height:calc({{height}}px/2);
+    width:calc({{width}}px*100/{{height}});">
+    <img src="{{{url}}}" class="pre-loaded" onload="this.className+=' loaded';this.parentNode.style.transform='scale(' + randomNumber() + ')'" />
+    <noscript>  
+    <img src="{{{url}}}">
+    </noscript>
+  	{{/thumbnail.medium}}    
+  </span>
+  </a>
+  {{/thumbnail.small.url}}
+  {{^thumbnail.small.url}}
+  <a class="random-post text" href="{{{url}}}" style="flex-grow:250">
+    <span class="title">{{title}}</span>
+    <span class="date">{{date}}</span>
+  </a>
+  {{/thumbnail.small.url}}
+  {{/entries}}
+</div>
+<style type="text/css">
+.random-post {
+	display: flex;
+	padding: {{spacing_size}}px;
+	margin: {{spacing_size}}px;
+	justify-content: center;
+	flex-direction: column
+}
+
+.random-post img {width:100%;height: auto;}
+
+.random-posts {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}	
+
+.random-post:hover {
+	transform: scale(1.05)!important
+}
+
+
+</style>

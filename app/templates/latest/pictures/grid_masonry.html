@@ -1,0 +1,98 @@
+<style type="text/css">
+	.posts {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 {{spacing_size}}px {{spacing_size}}px;
+  margin-top: -{{spacing_size}}px
+}
+
+.post {
+  margin: {{spacing_size}}px;
+  position: relative;
+}
+
+.post.photo {
+  cursor: zoom-in;
+}
+
+.post.text {
+  border: 2px solid rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-decoration: none;
+  padding: 3.9rem 2.6rem;
+}
+
+
+.post.text .title {
+  font-size: 22px;
+  max-width: 15em;
+  text-align: center;
+  margin: {{spacing_size}}px 0 0.15rem;
+}
+
+.post.text .date {
+  font-size: 14px;
+}
+
+/* When navigation is collapsed into toggle */
+@media screen and (max-width: 800px) {
+
+
+  .post {
+    margin: 1rem {{spacing_size}}px;
+  }
+}
+
+/*.posts::after {
+  content: '';
+  flex-grow: 999999999;
+}*/
+
+
+.post:hover {
+  opacity: 0.93
+}
+
+.post:active {
+  opacity: 0.87
+}
+
+.post i {
+  display: block;
+}
+
+.post img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  vertical-align: bottom;
+}
+
+</style>
+<div class="posts">
+  {{#entries}}
+  {{#thumbnail.large.url}}
+  <a class="post photo" href="{{{url}}}" style="
+    max-width:{{thumbnail.large.width}};
+    max-height:{{thumbnail.large.height}};
+    width:calc({{thumbnail.large.width}}px*{{thumbnail_size}}/{{thumbnail.large.height}});
+    flex-grow:calc({{thumbnail.large.width}}*{{thumbnail_size}}/{{thumbnail.large.height}})">
+    <i style="padding-bottom:{{thumbnail.large.ratio}}"></i>
+    <img src="{{{thumbnail.large.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
+    <noscript>  
+    <img src="{{{thumbnail.large.url}}}">
+    </noscript>
+  </a>
+  {{/thumbnail.large.url}}
+  {{^thumbnail.large.url}}
+  <a class="post text" href="{{{url}}}" style="flex-grow:250">
+    <span class="title">{{title}}</span>
+    <span class="date">{{date}}</span>
+  </a>
+  {{/thumbnail.large.url}}
+  {{/entries}}
+</div>
