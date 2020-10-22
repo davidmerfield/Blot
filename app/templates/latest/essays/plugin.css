@@ -1,0 +1,172 @@
+{{{appCSS}}}
+
+/* FOOTNOTES */
+.footnote-ref {
+  font-size: 12px;
+  line-height: 0.5em;
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+}
+
+/* MATHS */
+.katex {font-size: 1.2em}
+
+/* IMAGE CAPTION */
+.caption {display: block;}
+
+/* TWITTER PLUGIN */
+blockquote.twitter-tweet {padding: 2em;}
+blockquote.twitter-tweet p {margin: 0}
+
+/* SUBSTITUTION */
+.pull-double, .pull-single{margin-left:-.6em}
+.push-double, .push-single{margin-right:.6em}
+
+/* IMAGE SIZE */
+img {max-width: 100%;height: auto;}
+
+/* CODE HIGHLIGHTING */
+
+pre {
+  padding: 0.7em 1em;
+  background: {{light_background}};
+  margin: 0 -1em;
+}
+
+pre, code {font: inherit;}
+/*
+
+Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmail.com>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #002b36;
+  color: #839496;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #586e75;
+}
+
+/* Solarized Green */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+  color: #859900;
+}
+
+/* Solarized Cyan */
+.hljs-number,
+.hljs-string,
+.hljs-meta .hljs-meta-string,
+.hljs-literal,
+.hljs-doctag,
+.hljs-regexp {
+  color: #2aa198;
+}
+
+/* Solarized Blue */
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #268bd2;
+}
+
+/* Solarized Yellow */
+.hljs-attribute,
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-class .hljs-title,
+.hljs-type {
+  color: #b58900;
+}
+
+/* Solarized Orange */
+.hljs-symbol,
+.hljs-bullet,
+.hljs-subst,
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-link {
+  color: #cb4b16;
+}
+
+/* Solarized Red */
+.hljs-built_in,
+.hljs-deletion {
+  color: #dc322f;
+}
+
+.hljs-formula {
+  background: #073642;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+/* LAYOUT */
+
+.container {position: relative;}
+
+.margin {
+  padding:0  0 0 40px;
+    box-sizing: border-box;
+      max-width: 21rem!important;
+  float: right;
+  font-size:0.777em;
+}
+
+.margin p {margin: 0}
+
+.left.margin {
+}
+
+.right.margin {
+  right: -29.3333%;
+  padding-left: 30px;
+}
+
+.wide {
+  max-width: none!important;
+  overflow: auto; /* collapses internal margins */
+}
+
+.wide.left, .wide.right {width: 129.3333333%;float: none;}
+.wide.left {margin: 0 0 0 -29.3333333%}
+.wide.right {margin: 0 -29.3333333% 0 0}
+
+.margin h1, .margin h2, .margin h3 {margin-top:0}
+
+.column {
+  box-sizing: border-box;
+  float: left;
+}
+
+.column.two {
+  width: 50%;
+  padding-right: 12px;
+}
+
+.column.three {
+  width: 33%;
+  padding-right: 24px;
+}
+
+.column.two + .column.two {
+  padding: 0 0 0 12px;
+}

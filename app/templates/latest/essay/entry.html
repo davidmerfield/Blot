@@ -1,25 +1,28 @@
-{{> header}}
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+    {{> header}}
+    <div class="container">
+      {{#entry}}
 
-<div class="container">
-  {{#entry}}
+        {{{titleTag}}}
 
-    {{{titleTag}}}
+        <p class="light">
+          {{date}}
 
-    <p class="light">
-      {{date}}
+          {{#tags.length}}
+            {{#tags}}
+            ☼ <a class="light" href="/tagged/{{slug}}">{{name}}</a>
+            {{/tags}}
+          {{/tags.length}}
+        </p>
 
-      {{#tags.length}}
-        {{#tags}}
-        ☼ <a class="light" href="/tagged/{{slug}}">{{name}}</a>
-        {{/tags}}
-      {{/tags.length}}
-    </p>
+        {{{body}}}
 
-    {{{body}}}
-
-    <Br />
-    {{> pluginHTML}}
-  {{/entry}}
-</div>
-
-{{> footer}}
+        <Br />
+        {{> pluginHTML}}
+      {{/entry}}
+    {{> footer}}
+  </body>
+</html>
