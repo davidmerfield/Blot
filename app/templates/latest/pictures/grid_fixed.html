@@ -1,0 +1,60 @@
+<div class="fixed-posts">
+  {{#entries}}
+  {{#thumbnail.small.url}}
+  <a class="fixed-post photo" href="{{{url}}}" id="post-{{index}}" >
+  	{{#thumbnail.medium}}
+    <i></i>
+    <span>
+    <img src="{{{url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
+    <noscript>  
+    <img src="{{{url}}}">
+    </noscript>
+  </span>
+  	{{/thumbnail.medium}}    
+  </a>
+  {{/thumbnail.small.url}}
+  {{^thumbnail.small.url}}
+  <a class="fixed-post text" href="{{{url}}}" style="flex-grow:250">
+    <span class="title">{{title}}</span>
+    <span class="date">{{date}}</span>
+  </a>
+  {{/thumbnail.small.url}}
+  {{/entries}}
+</div>
+<style type="text/css">
+.fixed-post {
+	display: flex;
+	padding: {{spacing_size}}px;
+	margin: {{spacing_size}}px;
+	justify-content: center;
+	flex-direction: column;
+	cursor: zoom-in;
+	flex-basis: 100px;
+	flex-grow: 1;
+	position: relative;
+}
+
+.fixed-post i {
+	    padding-bottom: 100%;
+    height: 0;
+    width: 100%;
+}
+.fixed-post span {position: absolute;top: {{spacing_size}}px;left: {{spacing_size}}px;right: {{spacing_size}}px;bottom: {{spacing_size}}px;    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;}
+.fixed-post img {  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  margin: 0 auto}
+
+.fixed-posts {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}	
+
+
+
+</style>
+
