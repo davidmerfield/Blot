@@ -1,3 +1,5 @@
+Tags: Programming
+
 # Examples are the best documentation
 
 When I'm searching for docs, 95% of the time a single example would suffice. Yet, 95% of the time I can't find one in any official source.
