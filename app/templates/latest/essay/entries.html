@@ -1,37 +1,33 @@
-<!DOCTYPE html>
-<html>
-  {{> head}}
-  <body>
-    {{> header}}
-    <div class="container index">
+{{> header}}
 
-      {{#entries}}
-      <p>
-        <span class="light margin left">{{date}}</span>
-        <a href="{{{url}}}">{{title}}</a>
-      </p>
-      {{/entries}}
+<div class="container index">
 
-      <br /><Br />
+  {{#entries}}
+  <p>
+    <span class="light margin left">{{date}}</span>
+    <a href="{{{url}}}">{{title}}</a>
+  </p>
+  {{/entries}}
 
-      {{#pagination}}
-      <p>
+  <br /><Br />
 
-        {{#previous}}
-        <span class="margin left">
-          <a href="/page/{{previous}}">&larr; Newer posts</a>
-        </span>
-        {{/previous}}
+  {{#pagination}}
+  <p>
 
-        <span class="light" style="margin-right:30px">page {{current}} of {{total}}</span>
+    {{#previous}}
+    <span class="margin left">
+      <a href="/page/{{previous}}">&larr; Newer posts</a>
+    </span>
+    {{/previous}}
 
-        {{#next}}
-        <a href="/page/{{next}}">Older posts &rarr;</a>
-        {{/next}}
+    <span class="light" style="margin-right:30px">page {{current}} of {{total}}</span>
 
-      </p>
-      {{/pagination}}
-    </div>
-    {{> footer}}
-  </body>
-</html>
+    {{#next}}
+    <a href="/page/{{next}}">Older posts &rarr;</a>
+    {{/next}}
+
+  </p>
+  {{/pagination}}
+</div>
+
+{{> footer}}

@@ -1,6 +1,10 @@
-<a href="/" title="" class="logo">{{title}}</a>&nbsp;&nbsp;
-<div class="nav">
-  {{#menu}}
-  <a href="{{{url}}}" title="{{label}}">{{label}}</a>
-  {{/menu}}
-</div>
+<!DOCTYPE html>
+<html>
+  {{> head}}
+  <body>
+  	<a href="/" title="" class="logo">{{title}}</a>&nbsp;&nbsp;
+		<div class="nav">
+		  {{#menu}}
+		  <a href="{{{url}}}" title="{{label}}">{{label}}</a>
+		  {{/menu}}
+		</div>
