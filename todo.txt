@@ -14,8 +14,6 @@ Improvements to templates
 
 ---
 
-Document all the link -> embed features, e.g. youtube, vimeo, bandcamp
-
 Fix bug with {{index}} value of entries inside {{#entries}} ... {{/entries}} and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
