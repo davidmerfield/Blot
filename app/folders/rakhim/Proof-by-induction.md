@@ -1,3 +1,5 @@
+Tags: Logic
+
 # Proof by Induction
 
 One of the most powerful techniques is proof by induction. 

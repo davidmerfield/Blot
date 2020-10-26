@@ -1,0 +1,39 @@
+<h1>Embedding</h1>
+<p class="back-link"><a href="/how/guides">View all guides</a></p>
+
+<p>Links to certain sites are automatically transformed into embedded versions. You can disable this in <a href="/settings/services">settings</a>. At the moment, the following services are supported:
+
+<ul>
+  <li>Twitter</li>
+  <li>Youtube</li>
+  <li>Vimeo</li>
+  <li>Bandcamp</li>
+</ul>
+</p>
+
+<pre class="text with-chrome" title="Post.txt"><code><b># Embedding</b>
+
+A link like this: 
+
+https://youtu.be/jNQXAC9IVRw
+
+Will be converted to HTML like this:
+
+&lt;iframe src=&quot;https://www.youtube-nocookie.com/embed/jNQXAC9IVRw?rel=0&amp;amp;wmode=transparent&amp;amp;rel=0&amp;amp;autohide=1&amp;amp;showinfo=0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+</code>
+    </pre>
+
+<p>Note that you can always put any third party embed code as raw HTML directly into Markdown files.</p>
+
+<h2>Twitter</h2>
+<p>Links to tweets are rendered via Twitter's own <a href="https://publish.twitter.com/">widget generator</a>. Links to lists, profiles, hashtags and other pages are not embedded automatically.</p>
+
+<h2>Youtube</h2>
+<p>Links to Youtube videos are rendered via a privacy-enhanced URL. Youtube will not authenticate your visitors while they are staying on your blog. As a consequence, certain personalized features such as watch later, share, and save to playlist will not be available to them on the embedded videos. The viewed video will also not appear in user's Youtube history.</p>
+
+<h2>Vimeo</h2>
+<p>Links to Vimeo videos are rendered via the standard Vimeo embedded player.</p>
+
+<h2>Bandcamp</h2>
+<p>Links to Bandcamp tracks and albums are rendered via the standard Bandcamp embedded player. Audio does not auto-play.</p>

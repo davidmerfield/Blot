@@ -9,7 +9,7 @@ var Players = {
   },
   youtube: {
     module: require("./youtube"),
-    regex: /((^|^m.)youtube.com$)|(^youtu.be$)/m,
+    regex: /((^|^m.|^www.)youtube.com$)|(^youtu.be$)/m,
   },
   vimeo: {
     module: require("./vimeo"),
@@ -108,5 +108,5 @@ module.exports = {
   render: render,
   category: "external",
   title: "Videos",
-  description: "Embed videos from video URLs"
+  description: "Embed videos from video/audio URLs"
 };
