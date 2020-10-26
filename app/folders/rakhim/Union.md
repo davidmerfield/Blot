@@ -1,3 +1,5 @@
+Tags: Math
+
 # Union
 
 Sets on their own are somewhat boring, frozen things. Interesting results can be observed when we consider interactions between sets. At the same time, these interactions can be viewed as frozen things themselves, not actions or processes. This happens often in math: the same idea can be viewed as either an action or a thing. Even functions, seemingly actionable, moving notions, can (and will) be defined as mere static constructs. It's interesting to ponder about these things, draw analogies to physics and time. Regardless, let's quickly discuss three main sorts of interactions. Chances are they are already very familiar to you, especially if you've done any SQL.

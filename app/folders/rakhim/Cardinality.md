@@ -1,5 +1,6 @@
-# Cardinality
+Tags: Math
 
+# Cardinality
 
 Before we start to talk about sizes and products, let's first introduce a new notion: **sequence**. A sequence is simply a series of elements. Unlike sets, sequences have order and may contain duplicate values. Sequences are denoted with round brackets. For example, a sequence of prime numbers in ascending order is:
 
