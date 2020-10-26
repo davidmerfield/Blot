@@ -14,8 +14,6 @@ Improvements to templates
 
 ---
 
-Fix bug with {{index}} value of entries inside {{#entries}} ... {{/entries}} and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
-
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
 Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
@@ -27,8 +25,6 @@ Fix duplicated entry in tag page for [Marco](https://mail.google.com/mail/u/0/#i
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
 
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
-
-Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
 
 ---
 
@@ -70,6 +66,8 @@ Improvements to blog server
 - Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
+
+Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
 
 Improvements to template editor
 - Add layout options to template editor for native templates
