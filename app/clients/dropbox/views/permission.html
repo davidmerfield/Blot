@@ -1,7 +1,9 @@
 {{#account}}
 
+<form method='post' class="account" style="padding-top:0;margin-top:0">
 
-<div class="line" style="border-bottom: none">
+<div class="line" style="border-bottom: none;flex-direction: column;">
+<h1 style="font-size: 22px;font-weight: 700">Permission</h1>
 {{^full_access}}
     <p>You have granted <b>App folder</b> access to Blot for <b>{{blog.title}}</b>. This means Blot can only access a single folder in your Dropbox. If you grant <b>full folder access</b> to Blot, you will be freed of two restrictions that Dropbox places on App folders:</p>
   <ul>
@@ -22,7 +24,6 @@
 {{/full_access}}
 </div>
 
-<form method='post' class="account" style="padding-top:0;margin-top:0">
 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <div class="buttons">

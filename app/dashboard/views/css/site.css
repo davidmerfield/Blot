@@ -1825,8 +1825,8 @@ div.line a.link:hover {
   display: inline-block;
   flex-basis: 25%;
   font-size: 14px;
+  box-sizing: border-box;
   flex-shrink: 0;
-
 }
 
 .center,
