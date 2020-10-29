@@ -3,8 +3,8 @@ var to = process.argv[3];
 
 var get = require('../get/user');
 
-var User = require('../app/models/user');
-var Subscription = require('../app/models/subscription');
+var User = require("../../app/models/user");
+var Subscription = require('../../app/models/subscription');
 
 console.log(from);
 console.log(to);
