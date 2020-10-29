@@ -4,7 +4,6 @@ var to = process.argv[3];
 var get = require('../get/user');
 
 var User = require("../../app/models/user");
-var Subscription = require('../../app/models/subscription');
 
 console.log(from);
 console.log(to);
@@ -29,7 +28,6 @@ get(from, function(oldUser){
     console.log('Subscription for ', from);
     console.log(oldSubscription);
 
-
     User.set(newUser.uid, newSubscription, function(err){
 
       if (err) throw err;
@@ -37,13 +35,8 @@ get(from, function(oldUser){
       User.set(oldUser.uid, oldSubscription, function(err){
 
         if (err) throw err;
-
-        Subscription.bind(customerID, newUser.uid, function(err){
-
-          if (err) throw err;
-
-          process.exit();
-        });
+  
+        process.exit();
       });
     });
   });
