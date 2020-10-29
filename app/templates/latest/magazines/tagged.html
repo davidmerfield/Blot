@@ -1,0 +1,25 @@
+{{> header}}
+
+
+
+  <h1>{{tag}}</h1>
+<!--   <a class="fr pt4 black-50 no-underline mb4" href="/tags">See all →</a>
+ -->
+<div class="entry-container">
+{{#entries}}
+<div class="entry-medium">
+  <a href="{{{url}}}">
+  {{#thumbnail.medium}}
+  <div class="thumbnail">
+  <img src="{{url}}">
+  </div>
+  {{/thumbnail.medium}}
+  <h2>{{title}}</h2>
+  </a>
+  <p>{{#tags}}<a class="tag" href="/tagged/{{slug}}">{{tag}}</a> {{/tags}} {{summary}}</p>
+</div>
+{{/entries}}
+</div>
+
+
+{{> footer}}

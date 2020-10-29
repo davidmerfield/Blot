@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+	<body>
+		{{! The user has a choice of location for the header/menu links on their site}}
+		{{#navigation_position}}
+			{{#top}} {{> navigation_top}} {{/top}}
+		{{/navigation_position}}

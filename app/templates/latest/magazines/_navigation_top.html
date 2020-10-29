@@ -1,0 +1,16 @@
+<header>
+	<a href="/" class="index cursor-tracking">{{title}}</a>
+	<div class="tags">
+	{{#popular_tags}}
+	<a href="/tagged/{{slug}}" class="cursor-tracking" title="{{slug}}">{{name}}</a>
+	{{/popular_tags}}
+	</div>
+	<span class="spacer"></span>
+	<div class="menu">
+	{{#menu}}
+	<a href="{{{url}}}" class="cursor-tracking link"  title="{{label}}">{{label}}</a>
+	{{/menu}}
+	<a href="/feed.rss">{{> rss.svg}}</a>
+	<a href="/search">{{> search.svg}}</a>
+	</div>
+</header>

@@ -1,0 +1,143 @@
+{{{body_font.styles}}}
+
+body {
+  {{#body_font}}
+  font-size: {{font_size}};
+  line-height: {{line_height}};
+  font-family: {{{stack}}};
+  {{/body_font}}
+  color: {{text_color}};
+  background: {{background_color}};
+  padding: 3em 4em 5em;
+  word-wrap: break-word; /* for long words & urls */
+  margin: 0;
+  padding: 0
+}
+
+header {
+  display: flex;
+  background: {{background_color}};
+  padding: {{spacing_size}}px;
+  font-size: 0.875em;
+}
+
+header a {
+  padding: {{spacing_size}}px;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s;
+}
+
+header a:hover {opacity: 0.7}
+header a:active {opacity: 0.4}
+
+/* Don't collapse the logo link */
+header .index {
+  flex-shrink: 0;
+  margin-right: 3rem;
+  flex-grow: 1;
+}
+
+header .menu {flex-shrink: 0;display: flex;    max-height: 1.4em;padding: {{spacing_size}}px 0;}
+
+header .menu svg {width:1rem;fill: {{text_color}};}
+
+header .menu a.link[href="/"],
+header .menu a.link[href="/feed.rss"],
+header .menu a.link[href="/search"] {display: none;}
+
+header .tags {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: {{body_font.line_height}}em;
+  overflow: hidden;
+  padding: {{spacing_size}}px 0;
+  justify-content: flex-end;
+}
+
+/* Fix the extra padding added to .tags */
+header .tags a,
+header .menu a {margin-top: -{{spacing_size}}px}
+
+.spacer {opacity:0.3;margin:{{spacing_size}}px;width: 1px;background: {{text_color}};display: block}
+
+.entry-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: {{spacing_size}}px;
+  justify-content: center;
+}
+
+.entry-medium {max-width: 300px;margin:{{spacing_size}}px 0;padding: {{spacing_size}}px;box-sizing:border-box;transition:opacity 0.1s}
+.entry-medium:hover {opacity: 0.75}
+.entry-medium:active {opacity: 0.2}
+.entry-medium h2 {font-weight: 400;font-size: 20px;margin: 0 0 {{spacing_size}}px;text-align:left}
+.entry-medium .thumbnail img {max-width: 100%}
+.entry-medium a {text-decoration: none;color: inherit;}
+.entry-medium a.tag {text-transform: uppercase;text-decoration:none;color:inherit;font-size: 0.8em;font-family: {{{body_font.stack}}}}
+.entry-medium p {
+  margin: 0;
+  {{#text_font}}
+  font-family: {{{stack}}};
+  {{/text_font}}
+}
+
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+
+.entry > p {
+  max-width: 35em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.entry img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+
+a.tag-list {
+      transition: color 100ms ease-in-out,background-color 100ms ease-in-out;
+    border: 1px solid #232323;
+    color: inherit;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 13px;
+    margin-right: 6px;
+    padding: 4px 8px 5px;
+    text-decoration: none !important;
+}
+/* Cursor tracking styles */
+
+
+.cursor-tracking {
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.cursor-tracking:after {
+  --size: 0;
+  content: '';
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle closest-side, {{background_color}}, transparent);
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease;
+  opacity: 0.2;
+}
+
+.cursor-tracking:hover:after {
+  --size: 70px;
+} 
+
