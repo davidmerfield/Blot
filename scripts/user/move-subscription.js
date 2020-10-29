@@ -1,7 +1,7 @@
 var from = process.argv[2];
 var to = process.argv[3];
 
-var get = require('./blog/get');
+var get = require('../get/user');
 
 var User = require('../app/models/user');
 var Subscription = require('../app/models/subscription');
