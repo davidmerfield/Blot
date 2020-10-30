@@ -49,7 +49,7 @@ for (var i = 0; i < totalRules; i++){
 
 
 
-let btn = document.querySelector('.mouse-cursor-gradient-tracking');
+let btn = document.querySelector('.cursor-tracking');
 btn.onmousemove = function(e) {
   let rect = e.target.getBoundingClientRect();
   let x = e.clientX - rect.left;

@@ -2,14 +2,63 @@
 
 <style type="text/css">
   
+   
+    table {
+      width: 100%; 
+      height: 100%;
+      display: block;
+    }
+
+    table tbody, table thead { display: block; }
+
+    table thead {
+      text-align: center;
+      width: calc(100% - 15px);
+      height: 28px;
+      line-height: 26px;
+      padding-right: 15px;
+    }
+
+
+    tr {
+      display: block;
+      width: 100%;
+      height: 30px;
+      margin: 0;
+      margin-top: 1px;
+      margin-bottom: 1px;
+      box-sizing: border-box;
+    }
+
+    th, td {
+      width: calc(20% - 10px);
+      display: inline-block;
+      text-align: left;
+    }
+
+    td.thumbnail {width: 2rem}
+    td.title {width: 50%}
+
+    .vrow p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+      color: #666;
+    }
+
+td.thumbnail img {
+  max-width: 2rem;max-height: 2rem;width:auto;height: auto;
+}
+
 input[type=radio] {display: none;}
 .filter {list-style-type: none;padding: 0;display: flex;}
 .filter label {cursor: pointer;padding:{{spacing_size}}px;margin:{{spacing_size}}px;background:#eee}
 </style>
-<div style="padding: {{spacing_size}}px;margin: {{spacing_size}}px;">
 
-  <form action="/search" method="get">
-    <input type="text" placeholder="search" name="q" style="border-radius: 9px;border:2px solid #eee;font-size:18px;padding:12px;min-width: 300px">
+
+<div style="padding: {{spacing_size}}px;margin: {{spacing_size}}px;">  <form action="/search" method="get">
+    <input type="text" autofocus placeholder="Search" name="q" style="border-radius: 9px;border:2px solid #eee;font-size:18px;padding:12px;min-width: 300px">
   </form>
 
   <br>
@@ -55,24 +104,84 @@ input[type=radio] {display: none;}
   {{/archives}}
   </ul>
 
-  {{#archives}}
-  {{#months}}
-  {{#entries}}
-  <a href="{{{url}}}" data-tags="{{#tags}} {{slug}} {{/tags}}" data-year="{{#formatDate}}YYYY{{/formatDate}}" style="display: flex;width: 100%;text-decoration: none;color: inherit;">
-    <span class="thumbnail">    <img style="max-width: 2rem;max-height: 2rem;width:auto;height: auto;" src="{{{thumbnail.small.url}}}" class="pre-loaded" onload="this.className+=' loaded';" />
-    <noscript>  
-    <img src="{{{url}}}">
-    </noscript>
-</span>
-    <span class="title">{{title}}</span>
+
+  <table >
+    <thead></thead>
+    <tbody id="hyperlist" class="container"></tbody>
+  </table>
+<!-- 
+<tr>
+    <td style="width:2rem"></td>
+<td>
+      <span class="title">{{title}}</span>
+</td>
+
+<td>
     <span class="date">{{date}}</span>
-    <span class="tags">{{#tags}}{{tag}} {{/tags}}</span>
-
-</span>
+  </td>
+    <td><span class="tags">{{#tags}}{{tag}} {{/tags}}</span></td>
+<td>
+  <a href="{{{url}}}" data-tags="{{#tags}} {{slug}} {{/tags}}" data-year="{{#formatDate}}YYYY{{/formatDate}}" style="display: flex;width: 100%;text-decoration: none;color: inherit;">.
   </a>
-  {{/entries}}
-  {{/months}}
-  {{/archives}}
-</div>
+</td>
 
+ -->  
+<script type="text/javascript" src="/hyperlist.js"></script>
+<script type="text/javascript" >
+  var articles = [
+    {{#archives}}
+    {{#months}}
+    {{#entries}}
+    { 
+      "title": "{{title}}",
+      "tags": [ {{#tags}}{"tag": "{{tag}}", "slug": "{{slug}}"}, {{/tags}}],
+      "thumbnail": "{{{thumbnail.small.url}}}",
+      "date": "{{date}}"
+    },
+    {{/entries}}
+    {{/months}}
+    {{/archives}}
+  ];
+
+const container = document.getElementById('hyperlist');
+
+// Pass the container element and configuration to the HyperList constructor.
+// You can optionally use the create method if you prefer to avoid `new`.
+const list = HyperList.create(container, {
+  // All items must be the exact same height currently. Although since there is
+  // a generate method, in the future this should be configurable.
+  itemHeight: 30,
+
+    height: window.innerHeight - 28,
+
+  // Specify the total amount of items to render the virtual height.
+  total: articles.length,
+
+  // Wire up the data to the index. The index is then mapped to a Y position
+  // in the container.
+  generate(index) {
+        console.log('here first', index)
+
+    const el = document.createElement('tr');
+    el.innerHTML = `
+      <td class="thumbnail">
+          <img src="${articles[index].thumbnail}" class="pre-loaded" onload="this.className+=' loaded';" />
+          <noscript>  
+          <img src="${articles[index].thumbnail}">
+          </noscript>
+      </td>
+      <td class="title">${articles[index].title}</td>
+      <td>${articles[index].date}</td>
+      <td>${articles[index].tags}</td>
+    `;
+
+    console.log('here second', index)
+    return el;
+  },
+});
+
+
+
+
+</script>
 {{> footer}}

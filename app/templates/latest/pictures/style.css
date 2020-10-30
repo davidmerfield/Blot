@@ -422,21 +422,21 @@ body{
     "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
-.mouse-cursor-gradient-tracking {
+.cursor-tracking {
   position: relative;
   display: inline-block;
   overflow: hidden;
   transition: opacity 0.2s ease;
 }
 
-.mouse-cursor-gradient-tracking[href]:hover {
+.cursor-tracking[href]:hover {
   opacity:0.8
 }
-.mouse-cursor-gradient-tracking span {
+.cursor-tracking span {
   position: relative;
 }
 
-.mouse-cursor-gradient-tracking:after {
+.cursor-tracking:after {
   --size: 0;
   content: '';
   position: absolute;
@@ -449,6 +449,6 @@ body{
   transition: width 0.2s ease, height 0.2s ease;
 }
 
-.mouse-cursor-gradient-tracking:hover:after {
+.cursor-tracking:hover:after {
   --size: 70px;
 }
