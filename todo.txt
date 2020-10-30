@@ -47,8 +47,6 @@ Disable access to s3 blogs bucket
 
 Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
 
-Fix bug with encoded apostrophe's in file names for thumbnail generator: /image_library/_didn&#39;tmakethecut.jpg doesn't work.
-
 Add custom metadata to turn off/on comments on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
 
 Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
