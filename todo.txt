@@ -1,10 +1,12 @@
 Improvements to templates
 - Replace existing magazine template with proper CSS version
-- Improve source code for native templates
-- Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
-- Add a template with random layouts, or a random layout option to existing templates? seedable / repeatable randomness based on the names of files? complete randomness?
-- Finish Feed template then tell [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e) and [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) and [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
+- Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
+- Tell these people about new templates, and to subscribe to newsletter:
+  - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
+  - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
+  - [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChmLnfMTdtNkpLxHTlPJNHlCT) 
+  - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 - Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
@@ -13,8 +15,6 @@ Improvements to templates
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
 ---
-
-Fix bug with {{index}} value of entries inside {{#entries}} ... {{/entries}} and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
@@ -27,8 +27,6 @@ Fix duplicated entry in tag page for [Marco](https://mail.google.com/mail/u/0/#i
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
 
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
-
-Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
 
 ---
 
@@ -49,8 +47,6 @@ Disable access to s3 blogs bucket
 
 Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
 
-Fix bug with encoded apostrophe's in file names for thumbnail generator: /image_library/_didn&#39;tmakethecut.jpg doesn't work.
-
 Add custom metadata to turn off/on comments on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
 
 Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
@@ -70,6 +66,8 @@ Improvements to blog server
 - Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
 
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
+
+Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
 
 Improvements to template editor
 - Add layout options to template editor for native templates
@@ -686,7 +684,7 @@ File converters / codecs
 
 Expose exif data on Photo posts? See if you can add comments to image metadata and tell [Riley](https://mail.google.com/mail/u/1/#sent/164756616df069dd), also tell [Mike](https://mail.google.com/mail/u/1/#inbox/16423ebe7b027d48)
 
-Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ) and [Khaled](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGBFrctdVXhksCvqXXVPfDWR) and [Noel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNMdwcwMqfVjmJPHKBMxzQChR) and [Franz](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMfwXfsWswWjvrpVKrPqpDt)
+Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/1/#inbox/164edd9d46596ec7), [this person](https://mail.google.com/mail/u/0/#inbox/155f01452a3f7231), [this person](https://mail.google.com/mail/u/1/#inbox/1645b6e48dc13281), [Modomiro](https://twitter.com/modomiro/status/1053345173743329281) and [Julian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWqGMHszwgxZRxNTNXRTlX) and [Raph](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgzFTCKQXQmQqdNMdjMfDFkMW) and [Tara](https://mail.google.com/mail/u/0/#sent/FMfcgxwChJlBCNMWSFhSctjMkBcKdpsq) and [Phil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSHbCCgQqZqqKQftJbwHRkss) and [Florian](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlSVCrQSVMBlFwQcNcGfZLzn) and Roy's friend Tim and [Kaleb](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNWPljXXlwQVtswFCCLGFCQV) and [Lotus](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNQfSzPBHtqRCQqCDjMTZLCQ) and [Khaled](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGBFrctdVXhksCvqXXVPfDWR) and [Noel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNMdwcwMqfVjmJPHKBMxzQChR) and [Franz](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMfwXfsWswWjvrpVKrPqpDt) and [Justin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjBRFjtljCQvlhsfXsSxrCKdJ)
 - Should we just go all the way and support htaccess? Add URL rewrite feature, e.g. rewrite /randomColor to /public/randomColor?
 
 Write new clients to sync blog folders
