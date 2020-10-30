@@ -59,7 +59,7 @@ describe("build", function() {
   });
 
   it("generates a blog post from an image with quotes in its filename", function(done) {
-    var pathToImage = '/Hello "john" World.jpg';
+    var pathToImage = '/Hell"o\'W "orld.jpg';
 
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
 
