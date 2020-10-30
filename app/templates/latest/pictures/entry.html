@@ -2,9 +2,14 @@
 
 <div class="entry">
   {{#entry}}
-  {{{html}}}
+  
+  	{{{html}}}
 
-  {{> pluginHTML}}
+    {{^page}}
+			<!-- We only show the comments plugin if this is a
+			regular post rather than a page -->
+	  	{{> pluginHTML}}
+	  {{/page}}
 
   {{/entry}}
 </div>
