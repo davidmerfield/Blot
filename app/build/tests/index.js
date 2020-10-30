@@ -60,8 +60,8 @@ describe("build", function() {
 
   it("handles images with accents and spaces in their filename", function(done) {
     var path = "/blog/Hello world.txt";
-    var contents = "![Best Image Ever](óå g.jpg)";
-    var pathToImage = "/blog/óå g.jpg";
+    var contents = "![Best Image Ever](óå g's\"s.jpg)";
+    var pathToImage = "/blog/óå g's\"s.jpg";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
