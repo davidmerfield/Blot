@@ -1,4 +1,3 @@
-  
 <div style="margin:20px 0 6px;padding-bottom:8px;">
   <label style="display:inline-block">Links</label>
   <a id="add" href="#!" style="float:right;text-decoration:none"><span class="link">Add a new link</span></a>
@@ -54,19 +53,13 @@
     onUpdate: function (){
 
       $('.sortable').find('section').each(function(){
-
         var index = $(this).index();
-
         $(this).find('input').each(function(){
-
           var name = $(this).attr('name');
           var newName = name.slice(0, name.indexOf('.') + 1) + index + name.slice(name.lastIndexOf('.'));
-
           $(this).attr('name', newName);
-
           console.log(name + ' > ' + newName);
         });
-
         console.log('');
       });
     }
