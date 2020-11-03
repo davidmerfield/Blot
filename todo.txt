@@ -802,7 +802,7 @@ Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for user
 Consider establishing bug bounty program
 - Contact Husnain for his [DMARC report](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtDMGTLScbpCkBFLBdmrcHpk)
 
-Consider adding simple server-side analytics and tell [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNMCtRwGccFxfVKcwlcqfMpg) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
+Consider adding simple server-side analytics and tell [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNMCtRwGccFxfVKcwlcqfMpg) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) and [Romain](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjKngCZjbxTNvLQLRMLfzwHxG)
 
 Consider adding simple commenting system and tell [Precious](https://mail.google.com/mail/u/0/#inbox/QgrcJHrtwLwTldzhrTKHMtnhwVqMXVzCTqv)
 
