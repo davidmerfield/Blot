@@ -1,10 +1,17 @@
-# Template design
+# Templates for blogging platforms
 
-I struggled initially with theme design because I was trying to design a themes for all blogs and all material. I think the major things which complicate designs. Some sites have many posts (thousands) and are updated frequently. Some sites have few posts (ten) and are updated infrequently. The quantity of posts has a big effect on the design of the archive page in particular.
+I find the process of designing templates especially difficult. I was trying to design a themes for all blogs and all material. I think the major things which complicate designs. Some sites have many posts (thousands) and are updated frequently. Some sites have few posts (ten) and are updated infrequently. The quantity of posts has a big effect on the design of the archive page in particular.
 
 Some sites post mostly text, some mostly images, some a mix. This affects the design of the index page. For example, should you show a stream of posts in full on the index page? Or just a list of links to view the full post? Or perhaps a truncated preview of the post?
 
 I would like to produce a few grid based themes for sites which post mostly photos. Some of cargo's grid ideas are worth exploring.
+
+# How do popular blogging templates disrespect content?
+
+1. Don't crop thumbnails
+2. Don't truncate titles
+3. Don't truncate subtitles
+4. Don't distract from the text
 
 # Fitting the form to the content
 
@@ -14,14 +21,12 @@ Is cropping thumbnails justifiable? In my mind it seems like this might fall int
 
 # Plagiarism 
 
-I've also been struggling with lifting things wholesale from a particular spot. I have been looking at Techcrunch.com far too regularly when making the design for the upcoming magazine theme, for example. This is bad.
+I've also been struggling with lifting things wholesale from a particular spot. I have been looking at Techcrunch.com far too regularly when making the design for the upcoming magazine theme, for example. This is bad. I'm not obsessed with producing original work, I'm probably happier than most to lift things from a variety of sources.
 
-# Templates
+# Sites well designed
 
 [New York Times](http://nytimes.com) - Their type treatment of Georgia was ripped and used to design the default theme.
 
 [Subtraction](http://subtraction.com) - The original Blot template was massively influenced by Khoi Vinh's blog.
 
 [Cargo Collective](https://cargocollective.com/) - I think they do some really interesting, thoughtful work. Stolen from their selection of themes to help make Blot's.
-
-
