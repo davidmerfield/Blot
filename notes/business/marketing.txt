@@ -1,3 +1,5 @@
-## Marketing
+# Marketing
 
 To do date I have not dedicated any effort to marketing Blot. I announced the service on a forum for programmers and those initial customers spread the product by word-of-mouth. I built it and they came. 
+
+However, I do think that marketing is important and I plan to direct more resources to it in future. For now at least, Blot's growth is sufficient.

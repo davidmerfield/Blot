@@ -1,4 +1,6 @@
 Notes
 =====
 
-Over the years I have kept notes on the decisions I made as I worked on Blot. You should consider all of the following unfinished. 
+I have tried to keep track of the reasoning behind various decisions I have made as I work on Blot. None of these decisions is fixed eternally, and I've changed my mind about various things. But it's easy to forget as time passes why something is so.
+
+Whenever I have been mulling a decision about something difficult, I'm perfectly happy to accept a gut feeling as sufficient. If something doesn't feel right, I'm happy to hold off on it. Anyway, with that out of the way, here are my notes on the project:
