@@ -1,0 +1,19 @@
+
+
+<style type="text/css">
+	
+	body {display: flex;justify-content: center;}
+
+</style>
+<div>
+    <div style="margin-bottom: 3rem;font-size: 14px">
+  <a href="/"><img src="{{avatar}}" style="float:left;margin-right:0.5rem;vertical-align:bottom;border-radius:10rem;max-width: 2rem;max-height: 2rem;width: auto;height: auto;"> 
+  {{title}}<br> </a><span style="opacity: 0.3"> Most recently</span></div>
+
+
+ <div style="font-weight: 500;font-size: 13px">
+    {{#menu}}
+    <a href="{{url}}">{{label}}</a><br>
+    {{/menu}}
+  </div>
+</div>

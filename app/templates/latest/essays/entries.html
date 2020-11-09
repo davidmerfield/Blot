@@ -1,35 +1,16 @@
 {{> header}}
-<!-- 
-<div class="navigation">
-      <a href="/" title="" class="logo">{{title}}</a>
-      <span class="expander"></span>
-      <div class="collapse">
-      {{#menu}}
-      <a href="{{{url}}}" title="{{label}}">{{label}}</a>
-      {{/menu}}
-      </div>
-    </div> -->
-
-<div class="container index" style="max-width: 500px">
 
 
-  <div style="float:right;text-align: right;text-transform: uppercase;font-weight: 500;font-size: 13px">
-    {{#menu}}
-    <a href="{{url}}">{{label}}</a><br>
-    {{/menu}}
-  </div>
-
-
-    <div style="margin-bottom: 3rem;font-size: 14px">
-  <a href="/"><img src="{{avatar}}" style="float:left;margin-right:0.5rem;vertical-align:bottom;border-radius:10rem;max-width: 2rem;max-height: 2rem;width: auto;height: auto;"> 
-  {{title}}<br> </a><span style="opacity: 0.3"> Most recently</div>
-
+<div class="container index" style="max-width: 60rem">
 
   {{#entries}}
-  <a href="{{{url}}}" style="display: flex">
-    <span class="light" style="flex-basis: 30%;flex-grow:0;flex-shrink: 0;opacity: 0.3">{{date}}</span>
-    <span class="title" style="flex-basis: 70%;flex-grow:0;flex-shrink: 0">{{title}}</span>
+  <p style="border-bottom: 2px solid #f0f0f0;margin:0;padding:0.5rem 0">
+  <a href="{{{url}}}" style="display: block;">
+    <span class="title" style="display: block"><b style="font-weight: 600">{{title}}</b></span>
+    <span class="light" style="opacity: 0.3"><small>{{date}} {{#tags.length}}In {{/tags.length}} {{#tags}}{{tag}}{{/tags}}</small></span>
+    
   </a>
+</p>
   {{/entries}}
 
 
@@ -50,6 +31,7 @@
 
   </p>
   {{/pagination}}
+  <p><a href="/archives">View the archives</a> →</p>
 </div>
 
 {{> footer}}
