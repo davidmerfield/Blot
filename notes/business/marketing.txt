@@ -1,5 +1,19 @@
 # Marketing
 
-To do date I have not dedicated any effort to marketing Blot. I announced the service on a forum for programmers and those initial customers spread the product by word-of-mouth. I built it and they came. 
+To do date I have not dedicated any effort to marketing Blot. I announced the service on a forum for programmers and those initial customers spread the product by word-of-mouth. I built it and they came. However, I do think that marketing is important and I plan to direct more resources to it in future. For now at least, Blot's growth is sufficient.
 
-However, I do think that marketing is important and I plan to direct more resources to it in future. For now at least, Blot's growth is sufficient.
+## Advertising
+
+I do not plan to buy advertising for Blot. There are obviously relatively benign forms of advertising, like the bulletin board you at your local grocer. However, I think the world would look better without advertising. Less ugly, quieter, calmer. So I choose not to purchase advertising.  
+
+## Social Media
+
+I do not have any accounts on any of the social media websites for Blot. The only presence on an external site is the source code for Blot.
+
+## Discounts and promotions
+
+I do not plan to offer any discounts on Blot. I know that it probably makes business sense for me to run sales and offer promotions. Offering a temporary discount seem unfair to my existing customers who have already paid full price. The price on the website is the lowest price it will ever be, and everybody who uses Blot pays it.
+
+## Trial accounts
+
+I also do not give out accounts for free to anyone. 
