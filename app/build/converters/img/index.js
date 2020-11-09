@@ -28,7 +28,7 @@ function read(blog, path, options, callback) {
 
     var contents =
       '<img src="' +
-      path +
+      encodeURI(path) +
       '" title="' +
       title +
       '" alt="' +

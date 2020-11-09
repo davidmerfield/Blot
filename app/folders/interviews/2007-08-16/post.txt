@@ -1,34 +1,23 @@
-Date: August 16, 2007
-Title: Robert Cailliau
-Tags: Engineer
+Tags: Engineers
 
-![](_Robert_Cailliau_OnDesk2.jpg)
+# Robert Cailliau
 
-Robert Cailliau in 1995.  
-Image: [CERN](http://www.cern.ch).
+{<>} ![Robert Cailliau in 1995. Image: CERN](_Robert_Cailliau_OnDesk2.jpg)
 
-The name [Robert Cailliau](https://en.wikipedia.org/wiki/Robert_Cailliau "w:Robert Cailliau") may not ring a bell to the general public, but his invention is the reason why you are reading this: Dr. Cailliau together with his colleague [Sir Tim Berners-Lee](https://en.wikipedia.org/wiki/Tim_Berners-Lee "w:Tim Berners-Lee") invented the [World Wide Web](https://en.wikipedia.org/wiki/World_Wide_Web "w:World Wide Web"), making the [internet](/wiki/Internet "Internet") accessible so it could grow from an academic tool to a mass communication medium. Last January Dr. Cailliau retired from [CERN](https://en.wikipedia.org/wiki/CERN "w:CERN"), the European particle physics lab where the WWW emerged.
+The name [Robert Cailliau](https://en.wikipedia.org/wiki/Robert_Cailliau "w:Robert Cailliau") may not ring a bell to the general public, but his invention is the reason why you are reading this: Dr. Cailliau together with his colleague [Sir Tim Berners-Lee](https://en.wikipedia.org/wiki/Tim_Berners-Lee "w:Tim Berners-Lee") invented the [World Wide Web](https://en.wikipedia.org/wiki/World_Wide_Web "w:World Wide Web"), making the internet accessible so it could grow from an academic tool to a mass communication medium. Last January Dr. Cailliau retired from [CERN](https://en.wikipedia.org/wiki/CERN "w:CERN"), the European particle physics lab where the WWW emerged.
 
 Wikinews offered the engineer a virtual beer from his native country [Belgium](/wiki/Belgium "Belgium"), and conducted an e-mail interview with him (which started about three weeks ago) about the history and the future of the web and his life and work.
 
-**Wikinews**: At the start of this interview, we would like to offer you a fresh pint on a terrace, but since this is an e-mail interview, we will limit ourselves to a virtual beer, which you can enjoy [here](https://en.wikipedia.org/wiki/nl:Afbeelding:Stella_Artois.JPG "w:nl:Afbeelding:Stella Artois.JPG").
+**At the start of this interview, we would like to offer you a fresh pint on a terrace, but since this is an e-mail interview, we will limit ourselves to a virtual beer, which you can enjoy [here](https://en.wikipedia.org/wiki/nl:Afbeelding:Stella_Artois.JPG "w:nl:Afbeelding:Stella Artois.JPG").**
 
-**Robert Cailliau**: Yes, I myself once (at the 2nd international WWW Conference, [Chicago](/wiki/Chicago "Chicago")) said that there is no such thing as a virtual beer: people will still want to sit together. Anyway, here we go.
-
-Contents
---------
-
-*   [1 History of the WWW](#History_of_the_WWW)
-*   [2 Future of the WWW](#Future_of_the_WWW)
-*   [3 Final question](#Final_question)
-*   [4 External links](#External_links)
+Yes, I myself once (at the 2nd international WWW Conference, [Chicago](/wiki/Chicago "Chicago")) said that there is no such thing as a virtual beer: people will still want to sit together. Anyway, here we go.
 
 History of the WWW
 ------------------
 
-**Wikinews**: Why did the WWW emerge at a particle physics lab such as CERN? What need did it serve the scientific community at its origin? Was the making of the WWW a case of the right time and the right place/circumstances for someone with the right IT knowledge?
+**Wikinews: Why did the WWW emerge at a particle physics lab such as CERN? What need did it serve the scientific community at its origin? Was the making of the WWW a case of the right time and the right place/circumstances for someone with the right IT knowledge?**
 
-**Robert Cailliau**: There were quite a number of hypertext systems around: the Microcosm, Hyper-G, [Gopher](https://en.wikipedia.org/wiki/Gopher_(protocol) "w:Gopher (protocol)"), even Xanadu. Everyone was experimenting. There were even two independent attempts inside CERN (Tim's and mine)! CERN is an infrastructure used by physicists from all kinds of universities who after their experiments at CERN go back to their institutes. A single experiment brings together many physicists from universities scattered over the globe. Obviously they stay in contact: they have been users of networks and computers for a long time.
+Robert Cailliau: There were quite a number of hypertext systems around: the Microcosm, Hyper-G, Gopher, even Xanadu. Everyone was experimenting. There were even two independent attempts inside CERN (Tim's and mine)! CERN is an infrastructure used by physicists from all kinds of universities who after their experiments at CERN go back to their institutes. A single experiment brings together many physicists from universities scattered over the globe. Obviously they stay in contact: they have been users of networks and computers for a long time.
 
 It's therefore not so surprising that we looked for a system that would allow such a group to consult documents without having to know where the author was or which of the different computers, operating systems, usernames or passwords was needed. There was a need for an automated library.
 
@@ -36,9 +25,9 @@ The two attempts at CERN were personal initiatives. When I learned that Tim want
 
 It was partially the result of the right people in the right place, partially chance, but partially driven by a real need. And everything happened under the benevolent eyes of Mike Sendall, Tim's boss.
 
-**Wikinews**: In the beginning, what challenges did you face inside and outside CERN in the development of this cutting-edge technology?
+**In the beginning, what challenges did you face inside and outside CERN in the development of this cutting-edge technology?**
 
-**Robert Cailliau**: A lot of incomprehension, later also some jealousy. And at the start it was difficult to convince the managers that it would grow into a useful tool.
+A lot of incomprehension, later also some jealousy. And at the start it was difficult to convince the managers that it would grow into a useful tool.
 
 There were a number of factors against us. First, the period of home-grown IT solutions was over. The trend was to buy off-the-shelf software.
 
@@ -50,20 +39,13 @@ Outside CERN there was a desert of hopelessly confused networking. Universities 
 
 I remember a funny exchange between a person from [Deutsche Telekom](https://en.wikipedia.org/wiki/Deutsche_Telekom "w:Deutsche Telekom") and a group of academics at a conference: they complained about the costs and the slow links. The telecom person replied: "What do you want? We give you the best [X-25](https://en.wikipedia.org/wiki/X.25 "w:X.25") lines and then you run [TCP/IP](https://en.wikipedia.org/wiki/Internet_protocol_suite "w:Internet protocol suite") on top of that!" But we had no choice: TCP/IP was the only protocol usable with all universities of the world.
 
-[![Cquote1.svg](//upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cquote1.svg/10px-Cquote1.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
 
-**Sir, I hope you do not expect that France Telecom will support the internet ?**
-
-[![Cquote2.svg](//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cquote2.svg/10px-Cquote2.svg.png)](/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Wikinews interviews World Wide Web co-inventor Robert Cailliau")
-
-—a representative of [France Telecom](https://en.wikipedia.org/wiki/France_Telecom "w:France Telecom") to Robert Cailliau
 
 At another occasion I asked a representative of [France Telecom](https://en.wikipedia.org/wiki/France_Telecom "w:France Telecom") for his e-mail address. He gave me an X-400 address and I asked for an internet address. He raised his eyebrows and said: "Monsieur, vous ne pensez quand-même pas que France Telecom va soutenir l'internet?" ("Sir, I hope you do not expect that France Telecom will support the internet?"). And all that happened when the web was already a success, though indeed only in the academic world. [File:Premier serveur Web.jpeg](/w/index.php?title=Special:Upload&wpDestFile=Premier_serveur_Web.jpeg "File:Premier serveur Web.jpeg")
 
 [![](//upload.wikimedia.org/wikipedia/commons/thumb/c/c8/ImageNA.svg/300px-ImageNA.svg.png)](/wiki/File:ImageNA.svg)
 
 The first web server.  
-_(Image [missing](/wiki/Template:Missing_image/message "Template:Missing image/message") from commons: [image](/w/index.php?title=File:Premier_serveur_Web.jpeg&action=edit&redlink=1 "File:Premier serveur Web.jpeg (page does not exist)"); [log](https://commons.wikimedia.org/wiki/Special:Log?page=Image%3APremier+serveur+Web.jpeg))_
 
 **Wikinews**: Early browsers were web editors at the same time right? What browser do you use today? Does it have tabbed browsing? How does it compare to the early browsers you've worked with?
 
@@ -381,54 +363,3 @@ Do I spend a lot of time on the net? Well, "being on the net" is not an occupati
 I devote time to a number of private projects that have been waiting for a long time and to the problems of education in scientific literacy.
 
 R.
-
-[![Wikinews](//upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Exclusive.png/100px-Exclusive.png)](/wiki/File:Exclusive.png "Wikinews")
-
-This [exclusive interview](/wiki/Wikinews:Interview_highlights "Wikinews:Interview highlights") features [first-hand journalism](/wiki/Wikinews:Original_reporting "Wikinews:Original reporting") by a [Wikinews reporter](/wiki/Wikinews:Wikinewsies "Wikinews:Wikinewsies"). See the **[collaboration page](/wiki/Talk:Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Talk:Wikinews interviews World Wide Web co-inventor Robert Cailliau")** for more details.
-
-  
-
-Have an opinion on this story? [Share it!](/wiki/Comments:Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Comments:Wikinews interviews World Wide Web co-inventor Robert Cailliau")
-
-External links
---------------
-
-*   [Robert Cailliau's website](http://robert.cailliau.free.fr/)
-
-[![This article is a featured article.](//upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Current_Events_Barnstar.png/30px-Current_Events_Barnstar.png)](/wiki/Wikinews:Featured_articles "This article is a featured article.")
-
-[![Wikinews](//upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Current_Events_Barnstar.png/100px-Current_Events_Barnstar.png)](/wiki/File:Current_Events_Barnstar.png "Wikinews")
-
-This article is a **featured article**. It is considered one of the _best works_ of the Wikinews community. See [Wikinews:Featured articles](/wiki/Wikinews:Featured_articles "Wikinews:Featured articles") for more information.
-
-  
-
-[![Bookmark-new.svg](//upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Bookmark-new.svg/25px-Bookmark-new.svg.png)](http://en.wikinews.org/wiki/Wikinews:Social_bookmarks)
-
-**Share this:**  [![E-mail this story](//upload.wikimedia.org/wikipedia/commons/5/5c/Email.png)](mailto:?subject=Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau%20–%20Wikinews&body=Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau:%0Ahttps://en.wikinews.org/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau%0A%0AFrom%20Wikinews,%20the%20free%20news%20source%20you%20can%20write! "E-mail this story") [![Share on Facebook](//upload.wikimedia.org/wikinews/en/5/55/Facebook.png)](http://www.facebook.com/sharer.php?u=https://en.wikinews.org/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau&t=Wikinews+interviews+World+Wide+Web+co-inventor+Robert+Cailliau+-+Wikinews "Share on Facebook") [![Share on reddit.com](//upload.wikimedia.org/wikinews/en/1/10/Reddit.png)](http://reddit.com/submit?url=https://en.wikinews.org/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau&title=Wikinews+interviews+World+Wide+Web+co-inventor+Robert+Cailliau+-+Wikinews "Share on reddit.com") [![Share on LinkedIn.com](//upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Linkedin.svg/16px-Linkedin.svg.png)](http://www.linkedin.com/shareArticle?mini=true&url=https://en.wikinews.org/wiki/Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau&title=Wikinews+interviews+World+Wide+Web+co-inventor+Robert+Cailliau+-+Wikinews "Share on LinkedIn.com") [![Share on twitter.com](//upload.wikimedia.org/wikinews/en/f/f7/Twitter.png)](http://twitter.com/?status=Look%20what%20I%20found%20on%20Wikinews%3A%20http%3A%2F%2Fenwn.net%2F%2B74961 "Share on twitter.com")
-
-  
-
-[![Padlock-silver-medium.svg](//upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Padlock-silver-medium.svg/40px-Padlock-silver-medium.svg.png)](/wiki/File:Padlock-silver-medium.svg)
-
-**This page is [archived](/wiki/Wikinews:Archive_conventions "Wikinews:Archive conventions"), and is no longer publicly editable.**
-
-Articles presented on Wikinews reflect the specific time at which they were written and published, and do not attempt to encompass events or knowledge which occur or become known after their publication.
-
-Got a correction? Add the template {{[editprotected](/wiki/Template:Editprotected "Template:Editprotected")}} to the [talk page](/wiki/Talk:Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Talk:Wikinews interviews World Wide Web co-inventor Robert Cailliau") along with your corrections, and it will be [brought to the attention of](/wiki/Wikinews:Admin_action_alerts#Edits_to_protected_pages "Wikinews:Admin action alerts") the [administrators](/wiki/Wikinews:Administrators "Wikinews:Administrators").
-
-Please note that due to our [archival policy](/wiki/Wikinews:ARCHIVE "Wikinews:ARCHIVE"), we will not alter or update the content of articles that are archived, but will only accept requests to make grammatical and formatting corrections.
-
-Note that some listed sources or external links may no longer be available online due to age.
-
-[![Padlock-silver-medium.svg](//upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Padlock-silver-medium.svg/40px-Padlock-silver-medium.svg.png)](/wiki/File:Padlock-silver-medium.svg)
-
-**This page is [archived](/wiki/Wikinews:Archive_conventions "Wikinews:Archive conventions"), and is no longer publicly editable.**
-
-Articles presented on Wikinews reflect the specific time at which they were written and published, and do not attempt to encompass events or knowledge which occur or become known after their publication.
-
-Got a correction? Add the template {{[editprotected](/wiki/Template:Editprotected "Template:Editprotected")}} to the [talk page](/wiki/Talk:Wikinews_interviews_World_Wide_Web_co-inventor_Robert_Cailliau "Talk:Wikinews interviews World Wide Web co-inventor Robert Cailliau") along with your corrections, and it will be [brought to the attention of](/wiki/Wikinews:Admin_action_alerts#Edits_to_protected_pages "Wikinews:Admin action alerts") the [administrators](/wiki/Wikinews:Administrators "Wikinews:Administrators").
-
-Please note that due to our [archival policy](/wiki/Wikinews:ARCHIVE "Wikinews:ARCHIVE"), we will not alter or update the content of articles that are archived, but will only accept requests to make grammatical and formatting corrections.
-
-Note that some listed sources or external links may no longer be available online due to age.
