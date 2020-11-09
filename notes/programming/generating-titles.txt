@@ -1,4 +1,4 @@
-# Generating titles
+# Generating titles 
 
 One of Blot's principles is flexibility. I want to be able to publishing a tiny snippet of text to my blog without Blot complaining. Blot will work around me in the background to generate appropriate metadata (such as publish date or permalink) if none is specified. 
 

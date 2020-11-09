@@ -6,5 +6,5 @@ Blot caters to a largely technical audience, and I'm asking that audience to inv
 Open-source vs. free software
 -----------------------------
 
-On a more abstract level, I like the ideals of the free software movement. I like Richard Stallman, for what it's worth. I think the 'free software' term is confusing, especially since I charge money to host Blot, and although I'm aware of the politics of the term 'open source', so I decide to side-step both terms and simply say _Blot's source code is dedicated to the public domain_. 
+On a more abstract level, I like the ideals of the free software movement. I like Richard Stallman, for what it's worth. However, I think Stallman's idea of 'free software' term is confusing, especially since I charge money to host Blot. I'm also aware of the politics of the term 'open source', so I decide to side-step both and simply say _Blot's source code is dedicated to the public domain_. 
 
