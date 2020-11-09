@@ -1,0 +1,13 @@
+# Revenue model
+
+I will sell the service to the people who want to host their blog on Blot. I will not generate income in any other way. 
+
+## How did you decide the price?
+
+The cost of the service is slightly higher than the average amount I spend on the infrastructure needed to host your blog, returning a profit with which I pay for the labor of the people who work on Blot. I set the price of Blot at whatever I would be comfortable paying myself. When I started Blot, it cost $1 a month. I've improved Blot since then and now Blot costs $4 a month. I feel that's still a fair price since I provide web hosting and personal support. I'm sure I could get away with charging more but I won't. However, I'm interested in having Blot in the hands of more people, even if it means generating less revenue. 
+
+
+
+## Investment
+
+I do not plan to raise investment in Blot. Since I opened Blot to the public, it has been profitable and it remains profitable. I'm sure it makes business sense to raise money: I'd be able to bring on other full-time employees to accelerate the development of the service. 
