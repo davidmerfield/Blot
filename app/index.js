@@ -10,7 +10,7 @@ var dashboard = require("./dashboard");
 var cdn = require("./cdn");
 var scheduler = require("./scheduler");
 var clfdate = require("helper").clfdate;
-
+var hash = require('helper').hash;
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
@@ -29,12 +29,14 @@ Blot.use(helmet.frameguard("allow-from", config.host));
 
 Blot.use(function(req, res, next) {
   var init = Date.now();
+  var iphash = hash(req.ip);
 
   try {
     console.log(
       clfdate(),
       req.headers["x-request-id"],
       req.method,
+      'IPHASH:'+ iphash,
       req.protocol + "://" + req.hostname + req.originalUrl,
     );
   } catch (e) {
@@ -47,6 +49,7 @@ Blot.use(function(req, res, next) {
         clfdate(),
         req.headers["x-request-id"],
         res.statusCode,
+        'IPHASH:'+ iphash,
         ((Date.now() - init)/1000).toFixed(3),
         req.protocol + "://" + req.hostname + req.originalUrl
       );
