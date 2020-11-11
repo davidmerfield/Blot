@@ -77,6 +77,7 @@ dashboard.use(debug("loaded session information"));
 
 dashboard.use(require("./message"));
 
+
 // Appends a one-time CSRF-checking token
 // for each GET request, and validates this token
 // for each POST request, using csurf.
@@ -137,6 +138,7 @@ dashboard.use(function(req, res, next) {
 
         if (req.session.blogID === blog.id) {
           blog.isCurrent = true;
+          blog.updated = require('moment')(blog.cacheID).fromNow();
           activeBlog = blog;
         }
 
@@ -264,6 +266,9 @@ dashboard.use(function(req, res, next) {
 // Use this before modifying the render function
 // since it doesn't use the layout for the rest of the dashboard
 dashboard.use("/template-editor", require("./routes/template-editor"));
+
+// Will deliver the sync status of the blog as SSEs
+dashboard.use('/status', require("./routes/status"));
 
 // Special function which wraps render
 // so there is a default layout and a partial

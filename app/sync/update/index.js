@@ -5,6 +5,7 @@ var clfdate = helper.clfdate;
 var drop = require("./drop");
 var set = require("./set");
 var mkdir = require("./mkdir");
+var client = require('client');
 
 module.exports = function(blog) {
   function update(path, options, callback) {
@@ -13,6 +14,8 @@ module.exports = function(blog) {
       options = {};
     }
 
+    client.publish('sync:status:' + blog.id, 'Syncing ' + path);
+    
     // Blot likes leading slashes, the git client
     // for instance does not have them but we
     // are not so strict above these things...
