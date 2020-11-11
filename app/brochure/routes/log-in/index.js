@@ -10,16 +10,33 @@ var parse = BodyParser.urlencoded({ extended: false });
 
 var form = new Express.Router();
 
+form.use(function (req, res, next) {
+  console.log(
+   'after rl: ',  req.protocol + "://" + req.hostname + req.originalUrl,
+    "IPHASH:" + require("helper").hash(req.ip)
+  );
+  next();
+});
+
 form.use(require("./rateLimit"));
 
-form.use(function(req, res, next) {
+
+form.use(function (req, res, next) {
+  console.log(
+    'before rl: ', req.protocol + "://" + req.hostname + req.originalUrl,
+    "IPHASH:" + require("helper").hash(req.ip)
+  );
+  next();
+});
+
+form.use(function (req, res, next) {
   // Send logged-in users to the dashboard
   if (req.session && req.session.uid && !req.query.token) {
     var then = req.query.then || (req.body && req.body.then) || "/";
     return res.redirect(then);
   }
 
-  res.locals.breadcrumbs = [{label: 'Log in'}, {label: 'Your account'}];
+  res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
 
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
@@ -31,25 +48,25 @@ form.use(function(req, res, next) {
 form
   .route("/reset")
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("log-in/reset");
   })
 
   .post(parse, checkEmail, checkReset, errorHandler)
 
-  .post(function(err, req, res, next) {
+  .post(function (err, req, res, next) {
     res.render("log-in/reset");
   });
 
 form
   .route("/")
-  .get(checkToken, function(req, res) {
+  .get(checkToken, function (req, res) {
     res.render("log-in");
   })
 
   .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
 
-  .post(function(err, req, res, next) {
+  .post(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)
       return res.redirect("/log-in/reset");
 
