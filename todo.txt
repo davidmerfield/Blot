@@ -1,5 +1,3 @@
-Improve the automatic title generated for screenshots with default MacOs filename from 'at 14:40pm'
-
 Improvements to templates
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
 - Tell these people about new templates, and to subscribe to newsletter:
@@ -15,6 +13,8 @@ Improvements to templates
 ---
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
+
+Improve the automatic title generated for screenshots with default MacOs filename from 'at 14:40pm'
 
 Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
