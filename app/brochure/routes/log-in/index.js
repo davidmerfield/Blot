@@ -10,7 +10,7 @@ var parse = BodyParser.urlencoded({ extended: false });
 
 var form = new Express.Router();
 
-// form.use(require("./rateLimit"));
+form.use(require("./rateLimit"));
 
 form.use(function(req, res, next) {
   // Send logged-in users to the dashboard
