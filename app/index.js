@@ -29,14 +29,12 @@ Blot.use(helmet.frameguard("allow-from", config.host));
 
 Blot.use(function(req, res, next) {
   var init = Date.now();
-  var iphash = hash(req.ip);
 
   try {
     console.log(
       clfdate(),
       req.headers["x-request-id"],
       req.method,
-      'IPHASH:'+ iphash,
       req.protocol + "://" + req.hostname + req.originalUrl,
     );
   } catch (e) {
@@ -49,7 +47,6 @@ Blot.use(function(req, res, next) {
         clfdate(),
         req.headers["x-request-id"],
         res.statusCode,
-        'IPHASH:'+ iphash,
         ((Date.now() - init)/1000).toFixed(3),
         req.protocol + "://" + req.hostname + req.originalUrl
       );

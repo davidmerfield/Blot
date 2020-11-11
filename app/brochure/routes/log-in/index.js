@@ -10,24 +10,7 @@ var parse = BodyParser.urlencoded({ extended: false });
 
 var form = new Express.Router();
 
-form.use(function (req, res, next) {
-  console.log(
-   'after rl: ',  req.protocol + "://" + req.hostname + req.originalUrl,
-    "IPHASH:" + require("helper").hash(req.ip)
-  );
-  next();
-});
-
 form.use(require("./rateLimit"));
-
-
-form.use(function (req, res, next) {
-  console.log(
-    'before rl: ', req.protocol + "://" + req.hostname + req.originalUrl,
-    "IPHASH:" + require("helper").hash(req.ip)
-  );
-  next();
-});
 
 form.use(function (req, res, next) {
   // Send logged-in users to the dashboard
