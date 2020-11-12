@@ -24,9 +24,24 @@
 {{/file}}
 
 </div>
+<div class="line" style="border-bottom: none;border-top: 1px solid #f0f0f0">
+<span class="label" style="font-size:12px;flex-basis: 50%" id="status">Synced {{blog.updated}}</span>
 </div>
-<br><br>
+</div>
 {{/folder}}
 
+<script type="text/javascript">
+	
+	var evtSource = new EventSource("/status");
+
+		console.log('registered event source for /status');
+
+	evtSource.onmessage = function(event) {
+		console.log(event);
+		document.getElementById('status').innerHTML = event.data
+	}
+
+
+</script>
 
 
