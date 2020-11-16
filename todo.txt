@@ -3,6 +3,7 @@ Finish new brochure version
 ---
 
 Improvements to templates
+- Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
 - Tell these people about new templates, and to subscribe to newsletter:
   - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
