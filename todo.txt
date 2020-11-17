@@ -1,7 +1,3 @@
-Finish new brochure version
-
----
-
 Add list of redirects associated with blog to export file.
 
 Improvements to templates
