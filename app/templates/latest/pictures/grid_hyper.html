@@ -1,0 +1,39 @@
+<style type="text/css">
+  
+   body {overflow: hidden;}
+
+
+    .vrow p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+      color: #666;
+    }
+
+td.thumbnail img {
+  max-width: 2rem;max-height: 2rem;width:auto;height: auto;
+}
+
+#hyperlist {position: absolute;top: 28px;left: 0;right: 0}
+#hyperlist .vrow {display: flex;justify-content: space-between;width: 100%;}
+#hyperlist a {
+	cursor: zoom-in;
+	padding: {{spacing_size}}px;
+	width: {{thumbnail_size}}px;
+	height: {{thumbnail_size}}px;
+}
+#hyperlist a img {
+	max-width: {{thumbnail_size}}px;
+	max-height: {{thumbnail_size}}px;
+	display: block;
+	margin: 0 auto;
+}
+</style>
+
+<div id="hyperlist" class="container"></div>
+	
+<script type="text/javascript" src="{{#asset}}/hyperlist.js{{/asset}}" async defer></script>
+<script type="text/javascript" src="{{#asset}}/grid_hyper_js.js{{/asset}}" async defer></script>
+
+{{> footer}}
