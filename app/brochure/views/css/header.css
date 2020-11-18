@@ -140,20 +140,3 @@ header hr,
   stroke: #666;
 }
 
-.header-button {
-  background-color: #0070c9;
-  box-shadow: 0 0 0 4px #0070c9;
-  padding: 0 0.5em;
-  color: white;
-  margin-left: 1em;
-  text-decoration: none;
-}
-
-header .logo,
-header .logo:focus {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-  font-weight: 500;
-  color: #000;
-}

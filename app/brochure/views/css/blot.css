@@ -27,9 +27,7 @@ main .container {
   padding-top: 9px;
 }
 
-.dark main {
-  background: #111;
-}
+
 
 main {
   background: #fffefc;
@@ -47,25 +45,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body.dark {
-  background: #111;
-  color: #b5c2c3;
-}
-
-.dark p,
-.dark content a,
-.dark ol,
-.dark ul {
-  color: #b5c2c3;
-}
-
-.dark content a {
-  border-bottom-color: #444;
-}
-
-.dark content a:hover {
-  border-bottom-color: #b5c2c3;
-}
 
 small {
   font-size: 15px;
@@ -120,8 +99,6 @@ h1 {
   font-size: 27px;
   font-weight: 600;
   margin: 36px 0 16px;
-  /*    border-bottom: 1px solid #eceff1;
-  */
   padding: 0 0 0.25em;
 }
 
@@ -167,8 +144,7 @@ main {
   display: flex;
 }
 
-main,
-container {
+main {
   margin: 0 auto;
 }
 
@@ -317,49 +293,12 @@ background.text + h2,
 background.text + h3 {
   margin-top: 4em;
 }
-/*
-background.green {
-  background: #35cb4b42;
-}
-
-
-background.red {
-  background: #fc615d38;
-}
-
-background.yellow {
-  background: #fdbd416b;
-}
-*/
-/*
-
-/*#faba40*/
-/*
-*/
-/*#35cb4b*/
 
 background .text {
   max-width: 600px;
   margin: 0 auto;
 }
 
-/* Big link on homepage containing folder to play demo video */
-a.video {
-  margin: 0;
-  height: 0;
-  background: #f4f2f4;
-  padding-bottom: 30%;
-  min-height: 48px;
-  margin: 0 0 24px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 288px;
-  padding-bottom: 0;
-  height: calc(100vh - 23em);
-}
 
 @media screen and (max-width: 800px) {
   .text pre {
@@ -382,7 +321,6 @@ a.video {
   }
 }
 
-a.video .window,
 background .window {
   flex-grow: 1;
   max-width: 320px;
@@ -532,5 +470,3 @@ form div:focus-within > label,
 form p:focus-within > label {
   color: rgb(0, 122, 255);
 }
-
-

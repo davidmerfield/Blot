@@ -2,9 +2,6 @@
   display: block;
 }
 
-.sidebar hr {
-  margin: 1.2rem 0;
-}
 
 ul.sidebar {
   margin: 0;
@@ -105,13 +102,6 @@ label[for="toggle"] {
   transform: rotate(135deg);
 }
 
-.dark .sidebar,
-.dark .sidebar a,
-.dark header a,
-.dark footer a {
-  border-color: #222;
-  color: #839496;
-}
 
 .sidebar li ul li:last-child {
   border-bottom: none;
@@ -126,40 +116,3 @@ label[for="toggle"] {
   position: relative;
 }
 
-.buttons {
-  display: flex;
-}
-
-.sidebar a.action-button:hover {
-  border-color: #222;
-  color: #222;
-  text-decoration: none;
-  z-index: 1;
-}
-
-a.action-button:hover:after {
-  border-color: #222;
-  color: #222;
-}
-
-a.action-button + a.action-button {
-  margin-right: 0;
-}
-
-.sidebar a.in {
-  position: relative;
-  display: block;
-}
-
-.with-arrow {
-  position: relative;
-}
-.with-arrow:after {
-  position: absolute;
-  top: 50%;
-  margin-top: -12px;
-  right: 10px;
-  opacity: 0.3;
-  float: right;
-  content: "→";
-}
