@@ -63,8 +63,13 @@ const CSS = CSS_FILES.map((filename) =>
 const PARSED_CSS = CSS.map((css) => parseCSS.parse(css));
 
 PARSED_CSS.forEach(function (obj, i) {
-	obj.stylesheet.rules = obj.stylesheet.rules.filter(function (rule) {
-		if (rule.type !== "rule") return true;
+
+	obj.stylesheet.rules.forEach(function sortRules (rule) {
+
+		// Recurse into the rules inside @media {} query blocks
+		if (rule.type === 'media') return rule.rules.forEach(sortRules);
+
+		if (rule.type !== "rule") return;
 
 		rule.selectors = rule.selectors.filter(function (selector) {
 			if (shouldSkip(selector)) return;
