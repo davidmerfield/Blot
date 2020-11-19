@@ -2,6 +2,7 @@ const colors = require("colors/safe");
 const cheerio = require("cheerio");
 const fs = require("fs-extra");
 const parseCSS = require("css");
+const crawl = require("./crawl");
 
 const shouldSkip = (selector) => {
 	let shouldSkip = false;
@@ -25,24 +26,6 @@ const normalizeSelector = (selector) => {
 	return selector;
 };
 
-function walk (dir) {
-	let res = '';
-	const items = fs.readdirSync(dir);
-	items.forEach(function(item){
-		const stat = fs.statSync(dir + '/' + item);
-		if (stat.isDirectory()) res += walk(dir + '/' + item);
-		if (item.endsWith('.html')) res += fs.readFileSync(dir + '/' + item, 'utf-8');
-	})
-
-	return res;
-}
-
-const HTML = walk(__dirname + "/../../app/brochure/views")
-
-console.log(HTML);
-
-const $ = cheerio.load(HTML);
-
 const CSS_DIR = require("path").resolve(
 	"/",
 	__dirname + "/../../app/brochure/views/css"
@@ -62,22 +45,34 @@ const CSS = CSS_FILES.map((filename) =>
 
 const PARSED_CSS = CSS.map((css) => parseCSS.parse(css));
 
-PARSED_CSS.forEach(function (obj, i) {
-	obj.stylesheet.rules = obj.stylesheet.rules.filter(function (rule) {
-		if (rule.type !== "rule") return true;
+console.log('Crawling HTML on site...');
 
-		rule.selectors = rule.selectors.filter(function (selector) {
-			if (shouldSkip(selector)) return;
+crawl(function (err, HTML) {
+	const $ = cheerio.load(HTML);
 
-			if ($(normalizeSelector(selector)).length > 0) return;
+	PARSED_CSS.forEach(function (obj, i) {
+		obj.stylesheet.rules.forEach(function sortRules(rule) {
+			// Recurse into the rules inside @media {} query blocks
+			if (rule.type === "media") return rule.rules.forEach(sortRules);
 
-			console.log();
-			console.log(colors.red(selector), colors.dim('normalized=' + normalizeSelector(selector)));
-			console.log(
-				colors.dim(
-					CSS_DIR + "/" + CSS_FILES[i] + ":" + rule.position.start.line
-				)
-			);
+			if (rule.type !== "rule") return;
+
+			rule.selectors = rule.selectors.filter(function (selector) {
+				if (shouldSkip(selector)) return;
+
+				if ($(normalizeSelector(selector)).length > 0) return;
+
+				console.log();
+				console.log(
+					colors.red(selector),
+					colors.dim("normalized=" + normalizeSelector(selector))
+				);
+				console.log(
+					colors.dim(
+						CSS_DIR + "/" + CSS_FILES[i] + ":" + rule.position.start.line
+					)
+				);
+			});
 		});
 	});
 });

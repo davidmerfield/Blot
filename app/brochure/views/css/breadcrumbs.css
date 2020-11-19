@@ -58,8 +58,7 @@
   display: none;
 }
 
-.breadcrumbs__link:hover,
-.no-underline:hover {
+.breadcrumbs__link:hover {
   color: #606060;
 }
 
