@@ -62,10 +62,6 @@ mark {
   background-color: #fff0a8;
 }
 
-content > p:first-child {
-  margin-top: 46px;
-}
-
 content p a,
 content li a,
 content table a,
@@ -147,11 +143,6 @@ main {
 main {
   margin: 0 auto;
 }
-
-.sidebar + content {
-  margin-left: 0;
-}
-
 
 
 ul.templates {
@@ -283,16 +274,10 @@ background {
 }
 
 background + h2,
-background + h3,
-.window + h2,
-.window + h3 {
+.window + h2 {
   margin-top: 3em;
 }
 
-background.text + h2,
-background.text + h3 {
-  margin-top: 4em;
-}
 
 background .text {
   max-width: 600px;
@@ -314,7 +299,6 @@ background .text {
 }
 
 @media screen and (max-width: 800px) {
-  a.video,
   background {
     margin-left: -2rem;
     margin-right: -2rem;
@@ -328,15 +312,6 @@ background .window {
   margin: 2.8rem 1.4rem;
 }
 
-.action-link {
-  color: #aaa;
-  text-decoration: none;
-  display: inline-block;
-  border: 2px solid;
-  border-radius: 0.125em;
-  padding: 0.5em 1em;
-  margin: 0 1em;
-}
 
 .clients {
   margin: 2em -0.7em;
@@ -385,11 +360,6 @@ background .window {
   text-decoration: underline;
 }
 
-.dark .clients li a {
-  box-shadow: rgb(0, 0, 0) 0px 0px 0px 1px, rgb(0, 0, 0) 0px 2px 4px;
-  background: #171616;
-  border: none;
-}
 
 .clients svg {
   width: 24px;
