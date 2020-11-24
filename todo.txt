@@ -1,3 +1,6 @@
+Tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd) and [Marshall](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNglcqbHDVwPGqxqFxLvNcFlV) that I will not be adding dark mode support, direct them to [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT)
+
+
 Improvements to templates
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
@@ -8,7 +11,6 @@ Improvements to templates
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 - Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
-- Tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd) and [Marshall](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNglcqbHDVwPGqxqFxLvNcFlV) that I will not be adding dark mode support, direct them to [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
 ---
