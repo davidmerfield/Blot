@@ -37,7 +37,7 @@
     "hbs": "^4.1.1",
     "he": "^1.1.0",
     "helmet": "^3.21.2",
-    "highlight.js": "^9.15.6",
+    "highlight.js": "^10.1.2",
     "hogan-express": "^0.5.2",
     "html-minifier": "^4.0.0",
     "http-auth": "^3.2.3",
