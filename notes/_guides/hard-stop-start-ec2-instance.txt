@@ -1,0 +1,24 @@
+How to stop and start an EC2 instance
+=====================================
+
+Somtimes an EC2 instance becomes unresponsive. The instance doesn't respond to requests over HTTP, ssh connections or even system reboots. This is a problem since we can't  want to get the server responsive again when it's down.
+
+What's the solution?
+-------------------
+Instead of a system level reboot – I manually stop and then manually start the instance. 
+
+How to automate this?
+-------------------
+Cloudwatch offers an action to reboot an instance when an alarm is going. However, it does not seem to offer a way to stop-then-start an instance when an alarm is going.
+
+So, I ended up delivering a message to SNS when a cloudwatch alarm is going off. I then subscribe to this message queue from a lambda function which itself stops an instance, then starts it again.
+
+CloudWatch (ec2 instance monitoring) -> SNS (simple notification service) -> Lambda (serverless function invocation)
+
+Improvements
+-------------------
+- Increase granularity of Cloudwatch checks but add ways to prevent an infinite loop
+- if the server responds 200 OK to the web request then exit the script
+- wait for the server to respond 200 OK before exiting lambda script?
+- don't run the function more than once in paralell
+- wait for at least x minutes before re-running the function?

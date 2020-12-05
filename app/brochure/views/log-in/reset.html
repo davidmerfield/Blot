@@ -19,7 +19,7 @@ input[type="submit"].link:hover {
 }
 
 </style>
-
+<div class="form-container">
 {{^sent}}
 {{#BADEMAIL}}
 <p class="error">That email address does not match a Blot account.</p>
@@ -30,7 +30,7 @@ input[type="submit"].link:hover {
 {{/NOEMAIL}}
 
 <p>{{^error}}Please enter your email address to reset your password.{{/error}}
- Don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+ Don't hesitate to <a href="/contact" style="color: inherit;text-decoration: underline;">contact me</a> if you have any questions.</p>
 
 <form method="POST">
 
@@ -46,3 +46,4 @@ input[type="submit"].link:hover {
 {{#sent}}
 <p>A link to {{#if hasPassword}}re{{/if}}set your password was sent to <b>{{email}}</b>. Don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
 {{/sent}}
+</div>

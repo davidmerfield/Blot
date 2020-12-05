@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:remove");
+var debug = require("debug")("blot:clients:dropbox:remove");
 var createClient = require("./util/createClient");
 var database = require("./database");
 var join = require("path").join;

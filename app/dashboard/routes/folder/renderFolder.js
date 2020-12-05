@@ -4,7 +4,7 @@ var join = require("path").join;
 var async = require("async");
 var blog_folder_dir = require("config").blog_folder_dir;
 var stat = require("./stat");
-var alphanum = require("./alphanum");
+var alphanum = require("helper").alphanum;
 
 module.exports = function(req, res, next) {
   var dir = req.dir;

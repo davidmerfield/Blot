@@ -1,0 +1,20 @@
+<h1>Examples</h1>
+<p>Below is a small selection of some of the people who made and host their site with Blot.</p>
+
+<style type="text/css">
+	.clients img {
+    width: 24px;
+    height: 24px;
+position: absolute;top: 13.2px;left: 15.2px}
+
+.clients li {margin: 0;padding: 0.7rem}
+.clients li a {position: relative;padding-left: 3.3rem;box-sizing: border-box;}
+</style>
+<ul class="clients" style="max-width: none">
+{{#featured}}
+  <li><a target="_blank" rel="noopener" href="{{{link}}}" style="border-radius: 4px 4px 0 0">
+		<img src="{{{favicon}}}" />  	
+  	<span class="a" style="color:{{color}}">{{name}}</span> {{bio}}.</a><a style="font-size:12px;border-radius: 0 0 4px 4px;color: #807d7a" href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}">{{firstName}} uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the <span class="a" style="color: inherit;">{{template.label}}</span>{{/unless}} template.</a></li>
+{{/featured}}  
+</ul>
+

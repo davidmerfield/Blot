@@ -10,7 +10,7 @@ var dashboard = require("./dashboard");
 var cdn = require("./cdn");
 var scheduler = require("./scheduler");
 var clfdate = require("helper").clfdate;
-
+var hash = require('helper').hash;
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
@@ -100,6 +100,7 @@ Blot.listen(config.port, function() {
   // so if you change its text, ensure you update the
   // START_MESSAGE variable in tests/app/endpoints.js
   console.log(clfdate(), "app listening on port", config.port);
+  console.log(clfdate(), "app running in environment:", config.environment);
 });
 
 // Schedule backups, subscription renewal emails

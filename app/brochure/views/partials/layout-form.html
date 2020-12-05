@@ -1,35 +1,25 @@
 {{> head}}
-
-<style type="text/css">.x {text-decoration: none;} .x:hover{text-decoration: underline}</style>
 <body>
-  <br>
-  <div class="wrapper" style="margin: 2rem auto">
-  <div style="display:flex;">
-    <div style="flex-basis:25%">
-      <p>
-      <a style="font-weight: 600;color:inherit;" class="x" title="Blot" href="/" >Blot</a>
-    </p>
-</div>
-
-   
-
-
-  <div style="flex-basis: 55%;border:1px solid #eee;border-radius: 4px;padding: 0 0 1rem 0">
- {{#if selected.log-in}}
-    <p style="white-space:nowrap;margin:.725rem 2rem;color:#aaa"><span style="font-weight:600;color:black">Log in</span><span class="arrow">&rarr;</span>Your account</p>
-    {{/if}}
-
-    {{#if selected.sign-up}}
-    <p style="white-space:nowrap;margin:.725rem 2rem;color:#aaa"><span style="font-weight:600;color:black">Sign up</span><span class="arrow">&rarr;</span>Create a blog</p>
-    {{/if}}
-
-<hr style="margin:0;border:none;border-bottom:1px solid #eee">
-<br>
-    <div class="form" style="padding: 0 2rem">
-      {{{body}}}
-    </div>
-  </div>
-</div>
+  <header>
+      <nav>
+        <div class="container">
+        <a style="color: #000;font-weight: 600" class="underline-on-hover {{selected.index}}" title="Blot" href="/" >Blot</a>
+      </div>
+      </nav>
+      <content>
+        <div class="container">
+          {{> breadcrumbs}}
+      </div>
+      </content>
+      
+  </header>
+  <main>
+    <nav>
+      <div class="container">
+      </div>
+    </nav>
+    <content><div class="container">{{{body}}}</div></content>
+  </main>
+  {{> footer}}
 </body>
-
 </html>

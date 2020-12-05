@@ -172,6 +172,10 @@ function handleFromTitle(title) {
 
   handle = title.toLowerCase().replace(/\W/g, "");
 
+  if (handle.length < 4) {
+    handle += randomChars(4 - handle.length);
+  }
+
   return handle;
 }
 
@@ -179,7 +183,7 @@ function saveBlog(req, res, next) {
   var title, handle;
 
   if (req.body.no_title) {
-    title = "Untitled blog";
+    title = "Untitled";
     handle = "untitled" + randomChars(5);
   } else if (!req.body.title) {
     return next(new Error("Please enter a title"));

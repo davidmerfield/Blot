@@ -1,26 +1,20 @@
 var moment = require("moment");
-var Brute = require("express-brute");
-var RedisStore = require("express-brute-redis");
+var rateLimit = require("express-rate-limit");
+var RedisStore = require("rate-limit-redis");
 var client = require("client");
 
-var store = new RedisStore({
-  client: client,
-  prefix: "brute:"
+var limiter = rateLimit({
+  store: new RedisStore({
+    prefix: "rate-limit:log-in:",
+    client: client    
+  }),
+  windowMs: 60000, // one minute window
+  max: 60, // 1 attempt per second
+  onLimitReached
 });
 
-var limiter = new Brute(store, {
-  freeRetries: 1500, // max # of access to log in pages per day
-  failCallback: onLimit
-});
-
-function onLimit(req, res, next, until) {
-  res
-    .status(429)
-    .send(
-      "Log in rate limit hit. Please wait " +
-        moment(until).toNow(true) +
-        " before retrying."
-    );
+function onLimitReached(req, res, options) {
+  res.status(429).send("Log in rate limit hit. Please wait before retrying.");
 }
 
-module.exports = limiter.prevent;
+module.exports = limiter;

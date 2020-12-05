@@ -30,6 +30,48 @@ describe("thumbnail", function() {
     });
   });
 
+  it("creates thumbnails from svg images", function(done) {
+    var thumbnail = require("../index");
+    var metadata = {};
+    var imagePath = "/chart.svg";
+    var html = '<img src="' + imagePath + '">';
+    var path = "/post.txt";
+
+    fs.copyFileSync(
+      __dirname + "/images/" + imagePath,
+      localPath(this.blog.id, imagePath)
+    );
+
+    thumbnail(this.blog, path, metadata, html, function(err, result) {
+      expect(err).toBe(null);
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.small).toEqual(jasmine.any(Object));
+
+      done();
+    });
+  });
+
+    it("creates thumbnails from gif images", function(done) {
+    var thumbnail = require("../index");
+    var metadata = {};
+    var imagePath = "/cube.gif";
+    var html = '<img src="' + imagePath + '">';
+    var path = "/post.txt";
+
+    fs.copyFileSync(
+      __dirname + "/images/" + imagePath,
+      localPath(this.blog.id, imagePath)
+    );
+
+    thumbnail(this.blog, path, metadata, html, function(err, result) {
+      expect(err).toBe(null);
+      expect(result).toEqual(jasmine.any(Object));
+      expect(result.small).toEqual(jasmine.any(Object));
+
+      done();
+    });
+  });
+
   it("does not create thumbnails if there are none", function(done) {
     var thumbnail = require("../index");
     var metadata = {};

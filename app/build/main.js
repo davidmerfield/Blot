@@ -1,4 +1,4 @@
-var debug = require("debug")("blot:build:main");
+var debug = require("debug")("blot:build");
 var Metadata = require("metadata");
 var basename = require("path").basename;
 var isDraft = require("../sync/update/drafts").isDraft;

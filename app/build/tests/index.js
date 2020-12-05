@@ -58,6 +58,28 @@ describe("build", function() {
     });
   });
 
+  it("generates a blog post from an image with quotes in its filename", function(done) {
+    var pathToImage = '/Hell"o\'W "orld.jpg';
+
+    fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
+
+    build(this.blog, pathToImage, {}, function(err, entry) {
+      if (err) return done.fail(err);
+
+      // verify the image was cached
+      expect(entry.html).toContain("/_image_cache/");
+
+      // verify a thumbnail was generated from the image
+      expect(entry.thumbnail.small).toEqual(
+        jasmine.objectContaining({
+          name: "small.jpg"
+        })
+      );
+
+      done();
+    });
+  });
+
   it("handles images with accents and spaces in their filename", function(done) {
     var path = "/blog/Hello world.txt";
     var contents = "![Best Image Ever](óå g.jpg)";
@@ -83,25 +105,53 @@ describe("build", function() {
     });
   });
 
-  it("will not include caption text in summaries", function(done) {
-      var path = "/Hello world.txt";
-      var contents = "# Hello\n\n![Image caption](file.jpg)\n\nWorld";
+  it("will not use as image to become a thumbnail if it is too small", function(done) {
+    var path = "/Hello world.txt";
+    var contents = "![Best Image Ever](test.jpg)";
+    var pathToImage = "/test.jpg";
 
-      fs.outputFileSync(this.blogDirectory + path, contents);
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    fs.copySync(__dirname + "/too-small.jpg", this.blogDirectory + pathToImage);
 
-      let blog = {...this.blog};
-      blog.plugins.imageCaption.enabled = true;
+    build(this.blog, path, {}, function(err, entry) {
+      if (err) return done.fail(err);
 
-      build(blog, path, {}, function(err, entry) {
-        if (err) return done.fail(err);
-
-        // verify a thumbnail was generated from the image
-        expect(entry.summary).toEqual("World");
-
-        done();
-      });
+      // verify no thumbnail was generated from the image
+      expect(entry.thumbnail).toEqual({});
+      done();
     });
+  });
 
+  it("will not include caption text in summaries", function(done) {
+    var path = "/Hello world.txt";
+    var contents = "# Hello\n\n![Image caption](file.jpg)\n\nWorld";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    let blog = this.blog;
+    blog.plugins.imageCaption.enabled = true;
+
+    build(blog, path, {}, function(err, entry) {
+      if (err) return done.fail(err);
+
+      // verify a thumbnail was generated from the image
+      expect(entry.summary).toEqual("World");
+
+      done();
+    });
+  });
+
+  it("will not generate a publish dateStamp for files without a date in their metadata or path", function(done) {
+    var path = "/No-date-in-this-path.txt";
+    var contents = "No date in this file";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+    build(this.blog, path, {}, function(err, entry) {
+      if (err) return done.fail(err);
+      expect(entry.dateStamp).toEqual(undefined);
+      done();
+    });
+  });
 
   it("will not cache image an image using the static query string", function(done) {
     var path = "/Hello world.txt";

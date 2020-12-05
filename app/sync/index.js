@@ -10,7 +10,7 @@ var uuid = require("uuid/v4");
 var async = require("async");
 var renames = require("./renames");
 var exitHook = require("async-exit-hook");
-var debug = require("debug")("blog:sync");
+var debug = require("debug")("blot:blog:sync");
 
 // By default, we give a sync process up to
 // 10 minutes to compete before we allow other
@@ -94,10 +94,12 @@ function sync(blogID, options, callback) {
       // with the lock on the user's folder.
       syncID = "sync_" + uuid().slice(0, 7);
       console.log(clfdate(), blogID, syncID, "Started");
+      client.publish('sync:status:'+blogID, 'Sync started');
 
       callback(null, folder, function(syncError, callback) {
         console.log(clfdate(), blogID, syncID, "Released");
-
+        client.publish('sync:status:'+blogID, 'Sync complete');
+      
         if (typeof syncError === "function")
           throw new Error("Pass an error or null as first argument to done");
 

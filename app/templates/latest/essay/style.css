@@ -1,8 +1,10 @@
+{{{body_font.styles}}}
+
 body {
   font-size: 14px;
   line-height: 1.7;
-  font-family: {{{body_text_font}}};
-  color: {{body_text_color}};
+  font-family: {{{body_font.stack}}};
+  color: {{text_color}};
   background: {{background_color}};
   padding: 3em 4em 5em;
   word-wrap: break-word; /* for long words & urls */
@@ -18,18 +20,18 @@ h1, h2, h3, h4, h5, h6 {font-size: inherit;}
 
 h2, h3 {margin-top: 2em}
 
-h1 {font-family: Helvetica;font-size: 21px;line-height: 1.4}
+h1 {font-size: 21px;line-height: 1.4}
 
-a {color: {{body_text_link_color}};text-decoration: none;}
+a {color: {{link_color}};text-decoration: none;}
 
-a:hover {background: {{body_text_link_color}};color: white}
+a:hover {background: {{link_color}};color: white}
 
 .logo {float: left;}
 
 .nav {float: right;}
 .nav a {margin: 0 0 0 2em}
 
-.small, .light {color: {{body_text_color}}}
+.small, .light {color: {{text_color}}}
 
 .small {font-size: 12px}
 
@@ -37,13 +39,13 @@ hr {
   width: 200px;
   margin: 1.5em auto;
   border: none;
-  border-top: 1px solid {{body_text_color}};
+  border-top: 1px solid {{text_color}};
   display: block;
 }
 
-.caption, blockquote {color: {{body_text_color}}}
+.caption, blockquote {color: {{text_color}}}
 
-blockquote {font-style: italic;margin:0;padding: 0 0 0 1em;border-left: 1px solid {{body_text_color}}}
+blockquote {font-style: italic;margin:0;padding: 0 0 0 1em;border-left: 1px solid {{text_color}}}
 
 table {
   word-break: normal;
@@ -55,8 +57,8 @@ table {
   line-height: 24px;
 }
 
-tr {box-sizing: border-box;border-top: 1px solid {{body_text_color}};padding: 0}
-th, td {box-sizing: border-box;border: 1px solid {{body_text_color}};padding: 5px 12px 6px}
+tr {box-sizing: border-box;border-top: 1px solid {{text_color}};padding: 0}
+th, td {box-sizing: border-box;border: 1px solid {{text_color}};padding: 5px 12px 6px}
 
 /* Date spacing for entry */
 h1 + .light {margin-top: -0.75em;margin-bottom: 1.5em}
@@ -64,10 +66,9 @@ h1 + .light {margin-top: -0.75em;margin-bottom: 1.5em}
 input[type="text"],
 input[type="submit"] {
   font:inherit;
-  font-family: Helvetica;
   font-size:20px;padding: 3px 6px;
   margin: 1em 0;
-  border: 1px solid {{body_text_color}};
+  border: 1px solid {{text_color}};
 }
 
 input[type="text"] {
@@ -79,9 +80,9 @@ input[type="text"] {
 
 input[type="submit"] {
   padding: 3px 12px;
-  color: {{body_text_link_color}};
+  color: {{link_color}};
   background: none;
-  border: 1px solid {{body_text_link_color}};
+  border: 1px solid {{link_color}};
   cursor: pointer;
 }
 
@@ -125,5 +126,5 @@ input[type="submit"] {
   input[type="text"] {min-width: 200px;}
 
   .nav {float: none;display: block;margin: 0;width: 100%}
-  .nav a {margin: 0 1em 0 0;color:{{body_text_color}};}
+  .nav a {margin: 0 1em 0 0;color:{{text_color}};}
 }

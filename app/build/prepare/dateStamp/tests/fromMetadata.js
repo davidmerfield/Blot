@@ -16,7 +16,7 @@ var supportedByAllFormats = {
   "2019-01-01T00:00:00Z": ["2019", "2019-01-01", "2019 01 01"],
   "2017-02-14T00:00:00Z": ["2017-02-14", "2017/02/14"],
   "2018-01-15T00:00:00Z": ["January 15th, 2018", "JANUARY 15th 2018"],
-  "2017-05-15T00:00:00Z": ['"2017-05-15"'], // surrounded by quote marks
+  "2017-05-15T00:00:00Z": ['"2017-05-15"', '\'2017-05-15\''], // surrounded by quote marks
   "2019-04-03T12:33:15Z": ["2019-04-03 12:33:15"],
   "2018-12-17T17:29:00Z": ["2018-12-17 17:29"],
   "2019-11-15T14:45:00Z": ["11/15/2019 14:45"],
@@ -54,14 +54,14 @@ describe("date metadata", function() {
     supportedByAllFormats[result].forEach(function(metadata) {
       Object.keys(supportedBySpecficFormat).forEach(function(format) {
         it('parses "' + metadata + '" using date format ' + format, function() {
-          expect(moment.utc(fromMetadata(metadata, format)).format()).toEqual(
+          expect(moment.utc(fromMetadata(metadata, format).created).format()).toEqual(
             result
           );
         });
       });
 
       it('parses "' + metadata + '" without passing a format', function() {
-        expect(moment.utc(fromMetadata(metadata)).format()).toEqual(result);
+        expect(moment.utc(fromMetadata(metadata).created).format()).toEqual(result);
       });
     });
   });
@@ -72,7 +72,7 @@ describe("date metadata", function() {
     Object.keys(supportedBySpecficFormat[format]).forEach(function(result) {
       supportedBySpecficFormat[format][result].forEach(function(metadata) {
         it('parses "' + metadata + '" using date format ' + format, function() {
-          expect(moment.utc(fromMetadata(metadata, format)).format()).toEqual(
+          expect(moment.utc(fromMetadata(metadata, format).created).format()).toEqual(
             result
           );
         });

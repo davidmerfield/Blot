@@ -10,8 +10,10 @@ var uuid = require("uuid/v4");
 var config = require("config");
 var client = require("client");
 
+var listKey = "newsletter:list";
+var TTL = 60 * 60 * 24; // 1 day in seconds
+
 news.get("/", loadDone, loadToDo, function(req, res) {
-  res.locals.title = "News - Blot";
   res.render("news");
 });
 
@@ -35,7 +37,6 @@ news.get("/sign-up", function(req, res) {
     delete req.session.newsletter_email;
   }
 
-  res.locals.title = "Newsletter - Blot";
   res.render("news/sign-up");
 });
 
@@ -45,12 +46,8 @@ news.get("/cancel", function(req, res) {
     delete req.session.newsletter_email;
   }
 
-  res.locals.title = "Newsletter - Blot";
   res.render("news/cancel");
 });
-
-var listKey = "newsletter:list";
-var TTL = 60 * 60 * 24; // 1 day in seconds
 
 function confirmationKey(guid) {
   return "newsletter:confirm:" + guid;
@@ -138,7 +135,7 @@ news.get("/confirm/:guid", function(req, res, next) {
 
       var locals = {
         email: email,
-        cancel: "https://" + config.host + "/news/cancel"
+        cancel: "https://" + config.host + "/news/cancel",
       };
 
       helper.email.NEWSLETTER_SUBSCRIPTION_CONFIRMED(null, locals, function(
@@ -281,7 +278,7 @@ function loadDone(req, res, next) {
               item.indexOf("Author")
             )
             .trim(),
-          message: message
+          message: message,
         });
       }
     });

@@ -1,0 +1,19 @@
+# Customer service
+
+When I began to take customers on for Blot, it was the first real time in my life that I'd dealt with customers. As a child, I had a paper round.
+
+I must say that customer-facing jobs have a terrifying reputation. But my own experience of Blot is that almost without exception, every single support request, bug report, customer query, has been conducted with politness and good-grace.
+
+## Tracking customer requests
+
+I use a text-file to track all of my 
+## Incorporating customer feedback
+
+Blot has a good number of enthusiastic customers willing to correspond with me about their ideas for the service.
+
+## Lazy habits
+
+Here are a few habits that I have noticed I slip into out of laziness, and about which I must be vigilant to suppress:
+- **Ask the customer to provide information that I could find myself**
+  I often find myself asking the customer information that I could look up (*what's the URL to your site? which blog post are you having that issue with?*). 
+- **

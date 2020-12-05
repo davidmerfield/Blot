@@ -41,6 +41,9 @@ if (config.maintenance) {
 // For users who paid by PayPal I have a tool to skip the Stripe
 // form using an access token I generate myself
 paymentForm.get(function(req, res, next) {
+
+  res.locals.breadcrumbs = [{label: 'Sign up'}, {label: 'Create blog'}];
+
   // Just a regular old request, carry on.
   if (!req.query.already_paid) return next();
 
@@ -48,7 +51,7 @@ paymentForm.get(function(req, res, next) {
   User.checkAccessToken(req.query.already_paid, function(err, email) {
     if (err || !email) {
       err = new Error(
-        "The link you just used is not valid, please ask David to send you another one."
+        "The link you just used is not valid, please ask for another one."
       );
       return next(err);
     }
@@ -89,7 +92,7 @@ paymentForm.post(parse, function(req, res, next) {
     card: card,
     email: email,
     plan: config.stripe.plan,
-    description: "Blot subscription"
+    description: "Blot subscription",
   };
 
   User.getByEmail(email, function(err, existingUser) {
@@ -131,6 +134,8 @@ passwordForm.all(function(req, res, next) {
   if (!req.session || !req.session.email || !req.session.subscription)
     return res.redirect(req.baseUrl + paymentForm.path);
 
+  res.locals.breadcrumbs = [{label: 'Sign up'}, {label: 'Create blog'}];
+
   next();
 });
 
@@ -160,6 +165,19 @@ passwordForm.post(parse, function(req, res, next) {
 
     User.create(email, passwordHash, subscription, function(err, user) {
       if (err) return next(err);
+
+      // The user has changed their email since signing up
+      // TODO: add logging
+      if (req.session.email !== user.email) {
+        stripe.customers.update(
+          subscription.customer,
+          { email: user.email },
+          function() {
+            // TODO: handle this error but it's not
+            // all that important
+          }
+        );
+      }
 
       delete req.session.email;
       delete req.session.subscription;

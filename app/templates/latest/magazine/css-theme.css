@@ -1,3 +1,7 @@
+{{{coding_font.styles}}}
+
+{{{body_font.styles}}}
+
 /* This template tag is replaced by CSS when this file is rendered */
 {{{appCSS}}}
 
@@ -20,7 +24,11 @@
   height: 100%;}
 
 .bg-background {background:{{background_color}}}
-.bg-sidebar {background:{{sidebar_color}}}
+.bg-sidebar {background:{{background_color}}}
+
+html,body {
+  font-family: {{{body_font.stack}}}
+}
 
 body {padding:0 2rem;max-width:66rem;
     width: 100%;
@@ -42,7 +50,7 @@ body {padding:0 2rem;max-width:66rem;
   
   input {
       color: #555;
-background-color: #fff;
+background-color: {{background_color}};
 background-image: none;
 border: 1px solid #ccc;
 border-radius: 4px;
@@ -58,7 +66,7 @@ border-bottom-right-radius: 0;}
   border-left:none;
       border-top-left-radius: 0;
 border-bottom-left-radius: 0;color: #333;
-background-color: #fff;cursor:pointer}
+background-color: {{background_color}};cursor:pointer}
   
   input:focus {outline:none}
   
@@ -69,9 +77,9 @@ background-color: #fff;cursor:pointer}
   th {text-align:left}
 tr {border-bottom: 1px solid #eee}
   thead tr {border-color: #444}
-  td {padding-right: 2rem;padding-left:2rem} 
-  td:first-child {padding-left:0}
-  td:last-child {padding-right:0}
+  td, th {padding-right: 2rem;padding-left:2rem} 
+  td:first-child, th:first-child  {padding-left:0}
+  td:last-child, th:last-child {padding-right:0}
   
   th, td {padding-top:0.5rem;padding-bottom:0.5rem}
   
@@ -80,7 +88,7 @@ tr {border-bottom: 1px solid #eee}
   .entry b, .entry strong {font-weight: 600}
   
   code {
-      font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+      font-family: {{{coding_font.stack}}};
 padding: .2rem .4rem;
 margin: 0;
 font-size: 85%;
@@ -90,10 +98,8 @@ font-weight: 400;}
   
   pre, code {font-size:.92rem}
   
-  pre {border-top: 1px solid #e4e4e4;
-border-bottom: 1px solid #e4e4e4;
-background-color: #fff;
-  margin:3rem 0}
+  pre {
+  margin:2rem 0}
   
   body {
     -webkit-font-smoothing:antialiased;
@@ -107,8 +113,8 @@ background-color: #fff;
   transition: color, border-color .2s linear;
   text-decoration:none
   }
-  a:not(.no-underline) {border-bottom:1px solid rgba({{accent_color}}, 0.25)}
-      a:not(.no-underline):hover {border-color:rgba({{accent_color}}, 1)}
+  a:not(.no-underline) {border-bottom:1px solid rgba(90,90,90,0.25)}
+  a:not(.no-underline):hover {border-color: rgba(90,90,90,1)}
 
 a:hover {color:rgba({{accent_color}}, 1)}
   
@@ -134,10 +140,10 @@ border: none;}
   right:0;
   z-index:1;
   bottom:0;
-  background: -webkit-gradient(linear,left top, right top,from(rgba(255,255,255,0)),to(#fff));
-  background: -webkit-linear-gradient(left,rgba(255,255,255,0),#fff);
-  background: -o-linear-gradient(left,rgba(255,255,255,0),#fff);
-  background: linear-gradient(to right,rgba(255,255,255,0),#fff);
+  background: -webkit-gradient(linear,left top, right top,from(rgba(255,255,255,0)),to({{background_color}}));
+  background: -webkit-linear-gradient(left,rgba(255,255,255,0),{{background_color}});
+  background: -o-linear-gradient(left,rgba(255,255,255,0),{{background_color}});
+  background: linear-gradient(to right,rgba(255,255,255,0),{{background_color}});
 }
 
   

@@ -1,4 +1,4 @@
-var debug = require("debug")("clients:dropbox:sync");
+var debug = require("debug")("blot:clients:dropbox:sync");
 var Download = require("./util/download");
 var Database = require("./database");
 var join = require("path").join;

@@ -8,16 +8,16 @@ var pandoc_path = config.pandoc_path;
 var debug = require("debug")("blot:converters:markdown");
 var ampersands = require("./ampersands");
 
+var bib = require("./bib");
+var csl = require("./csl");
+
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-module.exports = function(text, callback) {
+module.exports = function(blog, text, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
-    // This feature fucks with [@twitter]() links
-    // perhaps make it an option in future?
-    "-citations" +
     // Fucks up with using horizontal rules
     // without blank lines between them.
     "-simple_tables" +
@@ -35,7 +35,12 @@ module.exports = function(text, callback) {
     "-blank_before_header" +
     "-blank_before_blockquote";
 
-  var pandoc = spawn(pandoc_path, [
+  // This feature fucks with [@twitter]() links
+  // perhaps make it an option in future?
+  if (!(bib(blog, text) || csl(blog, text)))
+    extensions += "-citations";
+
+  var args = [
     "-f",
     "markdown" + extensions,
 
@@ -53,8 +58,25 @@ module.exports = function(text, callback) {
     "--no-highlight",
 
     // such a dumb default feature... sorry john!
-    "--email-obfuscation=none"
-  ]);
+    "--email-obfuscation=none",
+  ];
+
+  if (bib(blog, text)) {
+    args.push("-M");
+    args.push("bibliography=" + bib(blog, text));
+  }
+
+  if (csl(blog, text)) {
+    args.push("-M");
+    args.push("csl=" + csl(blog, text));
+  }
+
+  if (bib(blog, text) || csl(blog, text)) {
+    args.push("--filter");
+    args.push(pandoc_path + "-citeproc");
+  }
+
+  var pandoc = spawn(pandoc_path, args);
 
   var result = "";
   var error = "";

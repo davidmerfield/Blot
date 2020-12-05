@@ -11,10 +11,10 @@
   color: rgb(158, 154, 152)
 }
 
+.no-underline {text-decoration: none;}
 .breadcrumbs {
           font-weight: 400;
           color: #0b0c0c;
-          padding: 16px 20px
         }
 
         .breadcrumbs__list {
@@ -31,28 +31,27 @@
         .breadcrumbs__list-item {
           display: inline-block;
           position: relative;
-          margin-bottom: 5px;
           margin-left: 13px;
           padding-left: 18.655px;
           float: left;
         }
 
         .breadcrumbs__list-item:before {
-          content: "";
-          display: block;
-          position: absolute;
-          top: 0;
-          bottom: 0px;
-          left: -3.31px;
-          width: 7px;
-          height: 7px;
-          margin: auto 0;
-          -webkit-transform: rotate(45deg);
-          -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
-          border: solid;
-          border-width: 1px 1px 0 0;
-          border-color: #a8aaab;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0px;
+    left: -3.31px;
+    width: 6px;
+    height: 6px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #5b6879;
         }
 
         .breadcrumbs__list-item:first-child:before {
@@ -67,7 +66,8 @@
 
         }
 
-        .breadcrumbs__link:hover {
+        .breadcrumbs__link:hover,
+        .no-underline:hover {
           text-decoration: underline;
         }
 
@@ -78,11 +78,12 @@
 <div style="clear:both"></div>
 <div style="display:flex;    align-items: center;padding: 0 2rem;">
 
-  <div class="wrapper" style="margin:0 auto;width: 54rem;display:flex;flex-direction:column;">
+  <div class="wrapper" style="margin:0 auto;width: 600px;display:flex;flex-direction:column;">
 
-    <div>
-
-      <div class="breadcrumbs" style="flex-grow:1;padding-left: 0">
+    <div style="display: flex;padding-bottom: 0.5rem;">
+      <div style="display: flex;flex-basis: 600px;          padding: 16px 0 16px 20px
+">
+      <div class="breadcrumbs" style="flex-grow:1;flex-shrink:0;padding-left: 0;margin-top: 3px">
         <ol class="breadcrumbs__list">
           {{#breadcrumbs}}
           <li class="breadcrumbs__list-item">
@@ -94,10 +95,14 @@
             {{/last}}
           </li>
           {{/breadcrumbs}}
+          
           <br>
         </ol>
       </div>
-
+{{#selected.settings}}
+<span style="border-left: 1px solid #eee;height: 28px;display: inline-block;margin:0 1rem"></span>
+      <a href="{{{blog.url}}}" target="_blank" class="no-underline" style="border-radius:4px;padding:4px 8px;line-height:20px;font-weight:600;flex-shrink:0;color:#365899;">Visit &rarr;</a>
+{{/selected.settings}}      </div>
     </div>
 
 
@@ -121,22 +126,20 @@
     </a>
         {{/message.error}}
 
-        <br>
         {{> yield}}
       </div>
 
-      <form class="foot" action="/account/log-out" method="post" style="border-top:1px solid #eee;padding:11px 20px;font-size: 14px;color: #666">
+      <form class="foot" action="/account/log-out" method="post" style="border:none;background:none;padding:11px 20px;font-size: 12px;color: #666">
 
 <div style="display: flex">
 <div style="flex-grow: 1">
-<a href="/publishing">How to use Blot</a>
-<a href="/about">About</a>
-<a href="/terms">Legal</a>
+<a href="/how">How to use Blot</a>
+<a href="/support">Support</a>
 <a href="/contact">Contact</a>
 </div>
   <button
     type="submit"
-    style="background:none;font-size:14px;border:none;padding:0 0;margin:0;color:rgb(153, 153, 153);"
+    style="background:none;font-size:12px;border:none;padding:0 0;margin:0;color:rgb(153, 153, 153);"
   >
     Log out &thinsp;&rarr;
   </button></div>

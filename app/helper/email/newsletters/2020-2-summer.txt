@@ -1,0 +1,33 @@
+Summer newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- Released a new version of the template editor with a point-and-click font-chooser and color-picker. To use these, fork one of the [latest templates](https://blot.im/settings/template) then press *Edit*.
+- Added the [Isola template](https://preview-of-isola-on-bjorn.blot.im/) to the [archived templates](https://blot.im/settings/template/archived) page. 
+- You can now use [citations and external bibliographies](https://blot.im/how/guides/citations) in your [Markdown](https://blot.im/how/guides/markdown) blog posts.
+- Blot now generates thumbnails from GIF and SVG images. This improves those templates which use thumbnails on their index page, like the [Magazine](https://blot.im/templates/magazine) and [Scrapbook](https://blot.im/templates/scrapbook) templates.
+- You can now specify your blog post’s publish date using the [RFC3339 date format](https://tools.ietf.org/html/rfc3339), which looks something like *2020-04-12T23:20:50.52Z*.
+- Added new template functions to [format the updated date and created date](https://github.com/davidmerfield/Blot/pull/279) of a particular blog post.
+
+**Changes**
+- Script tags are now removed from the output of your blog’s RSS feed. This will better conform your feed to the [RSS specification](https://validator.w3.org/feed/docs/rss2.html).
+- « French quotes » and non-breaking spaces are now removed from your posts’ permalinks.
+- Images smaller than 64 pixels in width or height no longer become thumbnails. This prevents blurry thumbnails appearing on your blog.
+- Updated the various dependencies of the application server, as is tradition.
+- Updated the [public site and dashboard](http://blot.im/), as is tradition. I also added a section to the public site with some of [the notes](https://blot.im/notes) I’ve made as I work on Blot. I plan to release more of my notes in future.
+
+**Bugs fixed**
+- Deleted template views used to leave behind their route. This meant that Blot’s server would incorrectly direct requests matching the route toward the deleted view, triggering an error. Now when a  you delete a view, its corresponding route is also deleted.
+
+**Mistakes**
+
+There were two downtime incidents this season, one period under ten minutes on April 8th, another under forty minutes on June 28th. Both incidents occurred when Blot’s application server ran out of memory. Most sites on Blot continued to work throughout the outage, since they were built and cached. I’m working on continuing to expand the memory available to the application server this season. Sorry about this.
+
+**Plans for this season**
+
+I have a [long list of bugs](https://blot.im/news) to squash. I would like to continue to improve the point-and-click options on the template editor. I’d like to offer some point-and-click layout options for the [latest templates](https://blot.im/templates). As usual, I want to improve Blot’s infrastructure to handle the increased number of people hosting their site on the service. I’m working to make sure that when I write the Autumn newsletter, I won’t have any downtime incidents to report.
+
+If you have any questions at all about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David

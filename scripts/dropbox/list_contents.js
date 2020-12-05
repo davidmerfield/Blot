@@ -19,6 +19,8 @@ get(process.argv[2], function(err, user, blog) {
 
     var client = createClient(account.access_token);
 
+    console.log('Listing path at "' + path + '"');
+
     client
       .filesListFolder({
         path: path

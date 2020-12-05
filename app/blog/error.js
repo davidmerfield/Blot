@@ -4,10 +4,7 @@ module.exports = function(server) {
   var Redirects = require("../models/redirects");
   var store404 = require("../models/404").set;
   var config = require("config");
-  var CONTACT =
-    ' Please <a href="https://' +
-    config.host +
-    "/contact\">contact me</a> if you cannot fix this. I'll be able to help you.";
+  var VIEW_DIR = require('path').resolve(__dirname + '/../brochure/views');
 
   // Redirects
   server.use(function(req, res, next) {
@@ -63,7 +60,13 @@ module.exports = function(server) {
     // Blog does not exist...
     if (err.code === "ENOENT") {
       res.status(404);
-      res.send("There is no blog at this address." + CONTACT);
+
+      if (req.hostname.endsWith(config.host)){
+        res.sendFile(VIEW_DIR + '/error-no-blog.html');        
+      } else {
+        res.sendFile(VIEW_DIR + '/error-almost-connected.html');
+      }
+
       return;
     }
 
@@ -92,6 +95,6 @@ module.exports = function(server) {
     if (res.headersSent) return res.end();
 
     res.status(500);
-    res.send("Your blog's template failed to render properly." + CONTACT);
+    res.sendFile(VIEW_DIR + '/error-bad-render.html');
   });
 };

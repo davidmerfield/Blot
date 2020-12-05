@@ -2,7 +2,7 @@ var Mustache = require("mustache");
 var _ = require("lodash");
 var pluginList = require("../../../../build/plugins").list;
 var helper = require("helper");
-var capitalise = helper.capitalise;
+var capitalize = helper.capitalize;
 var deCamelize = helper.deCamelize;
 
 module.exports = function(req, res, next) {
@@ -40,7 +40,7 @@ module.exports = function(req, res, next) {
   };
 
   plugins = helper.arrayify(plugins, function(plugin) {
-    var name = capitalise(deCamelize(plugin.category || "general"));
+    var name = capitalize(deCamelize(plugin.category || "general"));
     var slug = name
       .split(" ")
       .join("-")

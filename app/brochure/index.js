@@ -5,9 +5,32 @@ var hbs = require("hbs");
 var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var warmCache = require("./warmCache");
+var moment = require("moment");
+
+var REDIRECTS = {
+  "/help/tags": "/how/metadata",
+};
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
+
+// Renders dates dynamically in the documentation.
+// Can be used like so: {{{date 'MM/YYYY'}}}
+hbs.registerHelper("date", function(text) {
+  try {
+    text = text.trim();
+    text = moment.utc(Date.now()).format(text);
+  } catch (e) {
+    text = "";
+  }
+
+  return text;
+});
+
+// Neccessary to repeat to set the correct IP for the
+// rate-limiter, because this app sits behind nginx
+brochure.set("trust proxy", "loopback");
+
 brochure.set("views", __dirname + "/views");
 brochure.set("view engine", "html");
 brochure.engine("html", hbs.__express);
@@ -36,7 +59,7 @@ if (config.cache === false) {
 // page. Look into the source, but basically {{{body}}} in
 // partials/layout is replaced with the view passed to
 // res.render(). You can modify this in the route if needed.
-brochure.locals.layout = "layout";
+brochure.locals.layout = "/partials/layout";
 brochure.locals.cacheID = Date.now();
 
 // Default page title and <meta> description
@@ -61,17 +84,23 @@ brochure.use(function(req, res, next) {
   next();
 });
 
+// Without 'index: false' this will server the index.html files inside the
+// views folder in lieu of using the render definied in ./routes below.
+// Without 'redirect: false' this will redirect URLs to existent directories
+// adding an undesirable trailing slash.
+brochure.use(
+  Express.static(__dirname + "/views", { index: false, redirect: false })
+);
+
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
 
-brochure.use(
-  Express.static(__dirname + "/views", {
-    // maxAge: 86400000
-  })
-);
+brochure.use("/publishing", function(req, res) {
+  res.redirect(req.originalUrl.split("/publishing").join("/how"));
+});
 
 // Redirect user to dashboard for these links
-brochure.use(["/account", "/settings"], function(req, res, next) {
+brochure.use(["/account", "/settings"], function(req, res) {
   return res.redirect("/log-in?then=" + req.originalUrl);
 });
 
@@ -100,7 +129,6 @@ brochure.use(function(err, req, res, next) {
   }
 
   res.status(err.status || 500);
-  res.locals.layout = "/partials/layout-focussed.html";
   res.render("error");
 });
 

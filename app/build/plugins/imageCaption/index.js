@@ -6,16 +6,15 @@ function render($, callback) {
 
     var ignore;
 
-    if ($(this).hasClass("emoji")) return false;
+    if ($(this).hasClass("emoji")) return;
 
     // Ignore images inside paragraphs.
     $(this)
-      .parents("p")
-      .first()
+      .parent()
       .contents()
       .each(function() {
         // Other captions are fine.
-        if ($(this).is(".caption, img")) return false;
+        if ($(this).is(".caption, img")) return;
 
         if (
           $(this)
@@ -26,7 +25,7 @@ function render($, callback) {
         }
       });
 
-    if (ignore) return false;
+    if (ignore) return;
 
     // This should probably replaced with figure
     // or at least caption should be a block level

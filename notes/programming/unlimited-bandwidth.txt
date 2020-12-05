@@ -1,0 +1,12 @@
+Unlimited bandwidth
+===================
+
+A number of popular blogging services offer unlimited bandwidth and storage. Why doesn't Blot? Mostly because bandwidth and storage have a cost. I end up paying a few cents per gigabyte per month for data storage and a similar cost for bandwidth. 
+
+Blot is comfortably profitable based on the bandwidth and storage costs of the typical customer. If Blot had a customer base in the millions, across which to spread these costs, I might feel comfortable offering unlimited data. But that's not the case at the moment.
+
+All in all, I don't want the typical customer to think about bandwidth and storage. I've been running Blot for a few years now, and although some sites do indeed use orders of magnitude more resources than average, none has used resources to such an extent that I've felt the need to ask them to move to their own server.
+
+What do I want to avoid? Somebody taking advantage of 'unlimited storage' to archive petabytes of data. Somebody running a commercial operation on the back of this 'unlimited storage'. Someone who views Blot's storage and bandwidth policy as an opportunity to profit. I want to provide a useful blogging tool. The bandwidth and storage available shouldn't be a perk.
+
+So if you're planning to run your own website on Blot you don't have to worry about the bandwidth and storage limits.

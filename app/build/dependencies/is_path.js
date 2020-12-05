@@ -1,4 +1,4 @@
-var debug = require("debug")("build:dependencies:is_path");
+var debug = require("debug")("blot:build:dependencies:is_path");
 
 // There don't seem to be many rules for paths...
 

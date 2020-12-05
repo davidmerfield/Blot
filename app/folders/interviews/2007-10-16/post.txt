@@ -1,5 +1,6 @@
-Title: Sharin Foo
-Tags: Musician
+Tags: Musicians
+
+# Sharin Foo
 
 **Tuesday, October 16, 2007**
 

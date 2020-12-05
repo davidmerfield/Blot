@@ -15,6 +15,7 @@ var dictionary = {
   asset: require("./asset"),
   avatar_url: require("./avatar_url"),
   css_url: require("./css_url"),
+  folder: require("./folder"),
   encodeJSON: require("./encodeJSON"),
   encodeURIComponent: require("./encodeURIComponent"),
   encodeXML: require("./encodeXML"),
@@ -34,6 +35,7 @@ var dictionary = {
   "sort:date": require("./sort:date"),
   "sort:path": require("./sort:path"),
   tagged: require("./tagged"),
+  total_posts: require("./total_posts"),
   updated: require("./updated")
 };
 

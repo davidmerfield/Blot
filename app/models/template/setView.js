@@ -8,6 +8,8 @@ var extend = helper.extend;
 var viewModel = require("./viewModel");
 var getView = require("./getView");
 var serialize = require("./util/serialize");
+var getMetadata = require("./getMetadata");
+var Blog = require("blog");
 
 module.exports = function setView(templateID, updates, callback) {
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
@@ -33,14 +35,13 @@ module.exports = function setView(templateID, updates, callback) {
     }
   }
 
-  var templateKey = key.metadata(templateID);
   var allViews = key.allViews(templateID);
   var viewKey = key.view(templateID, name);
 
-  client.exists(templateKey, function(err, stat) {
+  getMetadata(templateID, function(err, metadata) {
     if (err) return callback(err);
 
-    if (!stat)
+    if (!metadata)
       return callback(new Error("There is no template called " + templateID));
 
     client.sadd(allViews, name, function(err) {
@@ -55,9 +56,14 @@ module.exports = function setView(templateID, updates, callback) {
 
         view = view || {};
 
-        if (updates.url && updates.url !== view.url) {
-          client.del(key.url(templateID, view.url));
+        if (updates.url) {
+          updates.url = helper.urlNormalizer(updates.url || "");
+
           client.set(key.url(templateID, updates.url), name);
+
+          if (updates.url !== view.url) {
+            client.del(key.url(templateID, view.url));
+          }
         }
 
         for (var i in updates) view[i] = updates[i];
@@ -65,8 +71,6 @@ module.exports = function setView(templateID, updates, callback) {
         view.locals = view.locals || {};
         view.retrieve = view.retrieve || {};
         view.partials = view.partials || {};
-
-        view.url = helper.urlNormalizer(view.url || "");
 
         var parseResult = helper.parseTemplate(view.content);
 
@@ -87,9 +91,11 @@ module.exports = function setView(templateID, updates, callback) {
         view = serialize(view, viewModel);
 
         client.hmset(viewKey, view, function(err) {
-          if (err) throw err;
+          if (err) return callback(err);
 
-          callback();
+          Blog.set(metadata.owner, { cacheID: Date.now() }, function(err) {
+            callback(err);
+          });
         });
       });
     });

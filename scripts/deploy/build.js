@@ -8,19 +8,19 @@ const env = Object.keys(process.env)
 const view = {
 	env,
 	directory: process.env.BLOT_DIRECTORY,
-	blot_repo: "https://github.com/davidmerfield/Blot",
+	blot_repo: "https://github.com/davidmerfield/blot",
 	user: process.env.BLOT_USER, // unix user
 	host: process.env.BLOT_HOST,
 	environment_file: "/etc/blot/environment",
 	fallback_certificate: "/etc/ssl/auto-ssl-fallback.crt",
 	fallback_certificate_key: "/etc/ssl/auto-ssl-fallback.key",
-	log_file: "/var/www/blot/logs/nginx.log",
+	log_file: process.env.BLOT_DIRECTORY + "/logs/nginx.log",
 	cache_directory: process.env.BLOT_CACHE_DIRECTORY,
 	node: {
 		host: "127.0.0.1",
 		bin: `/.nvm/versions/node/v${process.env.BLOT_NODE_VERSION}/bin/node`,
-		main: "/Blot/app/index.js",
-		log: "/etc/blot/app.log",
+		main: process.env.BLOT_DIRECTORY + "/app/index.js",
+		log: process.env.BLOT_DIRECTORY + "/logs/app.log",
 		version: process.env.BLOT_NODE_VERSION,
 		port: 8080
 	},
@@ -28,13 +28,16 @@ const view = {
 	nginx: {
 		pid: "/var/run/nginx.pid",
 		bin: "/usr/local/openresty/nginx/sbin/nginx",
-		config: "/usr/local/openresty/nginx/conf/nginx.conf"
+		config: process.env.BLOT_DIRECTORY + "/scripts/deploy/out/nginx.conf"
 	},
 	redis: {
+		pid: "/var/run/redis/redis.pid",
 		host: "127.0.0.1",
 		port: 6379,
+		maxmemory: 10670000000,
 		prefix: "ssl",
 		server: "/usr/bin/redis-server",
+		config: process.env.BLOT_DIRECTORY + "/scripts/deploy/out/redis.conf",
 		cli: "/usr/bin/redis-cli"
 	}
 };
@@ -46,6 +49,7 @@ fs.readdirSync(__dirname + "/nginx").forEach(name => {
 });
 
 render(__dirname + "/nginx/server.conf", __dirname + "/out/nginx.conf");
+render(__dirname + "/redis/redis.conf", __dirname + "/out/redis.conf");
 render(__dirname + "/systemd/nginx.service", __dirname + "/out/nginx.service");
 render(__dirname + "/systemd/redis.service", __dirname + "/out/redis.service");
 render(__dirname + "/systemd/blot.service", __dirname + "/out/blot.service");
