@@ -27,10 +27,10 @@ module.exports = function(server) {
     Entry.getByUrl(blog.id, url, function(entry) {
       if (!entry || entry.deleted || entry.draft) return next();
 
-      // If comments are enabled in settings, they are shown on all entries and pages
+      // If comments are enabled in settings, they are shown on all blog posts and pages
       // Disable comments in cases:
-      // 1. Entry metadata DOES have  'Comments: No'
-      // 2. Page metadata DOES'T have 'Comments: Yes'
+      // 1. Blog post metadata DOES have  'Comments: No'
+      // 2. Page metadata DOES NOT have   'Comments: Yes'
       if ((entry.metadata.comments === 'No') || 
           (entry.metadata.comments !== 'Yes' && entry.page)) {
         delete blog.plugins.commento;
