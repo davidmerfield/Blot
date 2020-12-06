@@ -18,7 +18,7 @@ Get the code by cloning the git repository (700mb, sorry!):
 git clone https://github.com/davidmerfield/Blot
 ```
 
-Install the depencies once you're into the repo's root directory:
+Install the dependencies once you're into the repo's root directory:
 
 ```sh
 cd Blot
@@ -95,7 +95,7 @@ https://blot.development
 You'll need to build the templates from their source files if you want to look at blogs. Eventually this should be done automatically, as part of setup.sh.
 
 ```sh
-node scripts/build/templates
+node app/templates/
 ```
 
 ## Creating a test blog and account 
