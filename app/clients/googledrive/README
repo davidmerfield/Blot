@@ -1,0 +1,15 @@
+Console for managing API permissions:
+
+https://console.developers.google.com/apis/credentials/oauthclient/32772360147-pnntpgr8pjnlem4m6s1perkju3ghce3b.apps.googleusercontent.com?project=quickstart-1585441405190
+
+Link to remove connection during testing:
+
+https://myaccount.google.com/permissions?pli=1
+
+Test server:
+
+http://localhost:8822/clients/googledrive/authenticate
+
+Documentation:
+
+https://github.com/googleapis/google-api-nodejs-client#authentication-and-authorization
