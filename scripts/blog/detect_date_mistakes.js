@@ -18,6 +18,8 @@ get(process.argv[2], function(err, user, blog) {
 					"\nLooking up candidates for deleted entry".dim,
 					deletedEntry.id
 				);
+				console.log(('Dated: ' + new Date(deletedEntry.dateStamp)).dim)
+
 				const candidates = published.filter(
 					publishedEntry =>
 						publishedEntry.title === deletedEntry.title &&
@@ -26,13 +28,12 @@ get(process.argv[2], function(err, user, blog) {
 				);
 
 				if (!candidates.length) {
-					console.log("No candidates found for".dim, deletedEntry.id);
+					console.log("No candidates found.");
 					return next();
 				}
 
 				console.log(
-					`Found ${candidates.length} candidates for`.dim,
-					deletedEntry.id
+					`Found ${candidates.length} live entry candidates:`
 				);
 
 				async.eachSeries(
@@ -50,7 +51,7 @@ ${candidate.id}
 								candidate.summary === deletedEntry.summary ? "green" : "red"
 							]
 						}
-
+ ${".  date:".dim} ${new Date(candidate.dateStamp)}
  use this? (y/n)`;
 
 						yesno.ask(message, false, function(ok) {
