@@ -27,6 +27,16 @@ module.exports = function(server) {
     Entry.getByUrl(blog.id, url, function(entry) {
       if (!entry || entry.deleted || entry.draft) return next();
 
+      // If comments are enabled in settings, they are shown on all blog posts and pages
+      // Disable comments in cases:
+      // 1. Blog post metadata DOES have  'Comments: No'
+      // 2. Page metadata DOES NOT have   'Comments: Yes'
+      if ((entry.metadata.comments === 'No') || 
+          (entry.metadata.comments !== 'Yes' && entry.page)) {
+        delete blog.plugins.commento;
+        delete blog.plugins.disqus;
+      }
+
       // Redirect this entry to the file from which it was generated
       // I use this when debugging user blogs.
       if (entry.path && request.query && request.query.source)
@@ -62,10 +72,10 @@ module.exports = function(server) {
         }
 
         plugins.load("entryHTML", blog.plugins, function(err, pluginHTML) {
-          // Dont show plugin HTML on a page or a draft.
+          // Dont show plugin HTML on a draft.
           // Don't show plugin HTML on a preview subdomain.
           // This is to prevent Disqus getting stuck on one URL.
-          if (entry.page || entry.draft || request.preview) {
+          if (entry.draft || request.preview) {
             pluginHTML = "";
           }
 
