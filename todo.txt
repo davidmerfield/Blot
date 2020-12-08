@@ -58,6 +58,11 @@ Add support for posts generated from Excel files, would generate a table. Use [t
 
 Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
 
+Improvements to status page:
+- customize the design of this page a little (could we self-host on a different service, e.g. linode, a page which makes an API call to updown?)
+- embed a brief status history in the brochure site somewhere
+- link to this status page in the 502 bad gateway error page
+
 Improvements to template editor
 - Add layout options to template editor for native templates
 - Work out how to make live but saveable modifications for preview purposes on the template editor
@@ -373,8 +378,6 @@ Improve 404 log page on Dashboard
 - Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 - Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 - Add filtering by date to 404 log and [tell this person](https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca)
-
-Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB). I like [this style](https://status.sunsed.com/) (just a JSON response)
 
 Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
 
