@@ -1,3 +1,12 @@
+Todo:
+- move development server from blot.development to blot.dev so that google will allow the redirect URL
+
+Questions
+- is there an overhead to creating the oauth2 client each time? can we safely reuse it?
+- is it possible to restrict Blot's access to a single folder in the google drive?
+  - it doesn't seem like it is
+
+
 Console for managing API permissions:
 
 https://console.developers.google.com/apis/credentials/oauthclient/32772360147-pnntpgr8pjnlem4m6s1perkju3ghce3b.apps.googleusercontent.com?project=quickstart-1585441405190
