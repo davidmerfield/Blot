@@ -4,6 +4,7 @@ const Entries = require("entries");
 const colors = require("colors");
 const yesno = require("yesno");
 const async = require("async");
+const moment = require('moment');
 
 get(process.argv[2], function(err, user, blog) {
 	if (err) throw err;
@@ -15,9 +16,10 @@ get(process.argv[2], function(err, user, blog) {
 			deleted,
 			(deletedEntry, next) => {
 				console.log(
-					"\nLooking up candidates for deleted entry".dim,
+					"\nChecking deleted entry".dim,
 					deletedEntry.id
 				);
+
 				const candidates = published.filter(
 					publishedEntry =>
 						publishedEntry.title === deletedEntry.title &&
@@ -26,20 +28,20 @@ get(process.argv[2], function(err, user, blog) {
 				);
 
 				if (!candidates.length) {
-					console.log("No candidates found for".dim, deletedEntry.id);
+					console.log("No candidates found.".dim);
 					return next();
 				}
 
+				console.log(('Date: ' + moment(deletedEntry.dateStamp).format('MMMM Do YYYY, h:mm:ss a')).dim)
+
 				console.log(
-					`Found ${candidates.length} candidates for`.dim,
-					deletedEntry.id
+					`Found ${candidates.length} that are live on the site:`
 				);
 
 				async.eachSeries(
 					candidates,
 					(candidate, nextCandidate) => {
-						const message = `
-${candidate.id}
+						const message = `         ${candidate.id}
  ${"  title:".dim} ${
 							candidate.title[
 								candidate.title === deletedEntry.title ? "green" : "red"
@@ -50,8 +52,8 @@ ${candidate.id}
 								candidate.summary === deletedEntry.summary ? "green" : "red"
 							]
 						}
-
- use this? (y/n)`;
+ ${"   date:".dim} ${moment(candidate.dateStamp).format('MMMM Do YYYY, h:mm:ss a')}
+ use the deleted entry's dateStamp and created date for this entry? (y/n)`;
 
 						yesno.ask(message, false, function(ok) {
 							if (!ok) {
