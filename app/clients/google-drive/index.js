@@ -7,3 +7,8 @@ module.exports = {
   site_routes: require("./routes/site"),
   dashboard_routes: require("./routes/dashboard"),
 };
+
+// Redirect the OAUTH callback URL to blot's server
+if (require('config').environment === 'development') {
+  require('./util/redirect-server');
+}

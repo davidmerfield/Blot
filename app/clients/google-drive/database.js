@@ -1,7 +1,8 @@
-
 const client = require("client");
+const INVALID_ACCOUNT_STRING =
+	"Google Drive client: Error decoding JSON for account of blog ";
 
-const database = {
+module.exports = {
 	accountKey: function (blogID) {
 		return "blog:" + blogID + ":googledrive:account";
 	},
@@ -14,7 +15,7 @@ const database = {
 			}
 
 			if (!account) {
-				return callback(new Error(NO_ACCOUNT_ERROR + blogID));
+				return callback(null, null);
 			}
 
 			try {
@@ -25,6 +26,10 @@ const database = {
 
 			callback(null, account);
 		});
+	},
+	dropAccount: function (blogID, callback) {
+		const key = this.accountKey(blogID);
+		client.del(key, callback);
 	},
 	setAccount: function (blogID, changes, callback) {
 		const key = this.accountKey(blogID);
@@ -43,11 +48,3 @@ const database = {
 		});
 	},
 };
-
-database.setAccount("123", { foo: "bar" }, function (err) {
-	if (err) throw err;
-	database.getAccount("123", function (err, account) {
-		if (err) throw err;
-		console.log("got account", account);
-	});
-});

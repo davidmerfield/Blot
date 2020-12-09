@@ -6,7 +6,7 @@ var ensure = require("helper").ensure;
 var clients = {
   dropbox: require("./dropbox"),
   git: require("./git"),
-  google-drive: require("./google-drive")
+  "google-drive": require("./google-drive"),
 };
 
 // Demo local client

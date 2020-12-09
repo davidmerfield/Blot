@@ -22,3 +22,4 @@ http://localhost:8822/clients/googledrive/authenticate
 Documentation:
 
 https://github.com/googleapis/google-api-nodejs-client#authentication-and-authorization
+https://developers.google.com/drive/api/v3/quickstart/nodejs
