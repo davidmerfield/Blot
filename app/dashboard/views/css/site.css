@@ -23,7 +23,6 @@ html {
   text-rendering: optimizeLegibility;
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "liga";
-  background: #fffefc
 }
 
 a {
@@ -1851,11 +1850,11 @@ div.center {}
 }
 
 .tablet {
-  border-radius: 4em;
+  border-radius: 6px;
   padding: 0 9px;
   line-height: 1.45;
   border: 1px solid;
-  margin: 0 0.6em 0 0;
+  margin: 0 3px 0 0;
   display: inline-block;
   font-size: 15px;
 }

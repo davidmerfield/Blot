@@ -12,9 +12,8 @@
     <form action="/account/switch-blog" method="POST" > 
       <input type="hidden" name="_csrf" value="{{csrftoken}}">
       <input type="hidden" name="to" value="{{id}}"> 
-      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;   margin-bottom: 16px; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
-    background: #fff;
-    border-radius: 4px;">
+      <button type="submit" style="display:flex;line-height:inherit;padding:11px 30px 11px 20px;color:#111;font-weight:500;   margin-bottom: 11px; /*box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;*/ border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;">
         <span class="photo-holder">
           {{#avatar}}<img src="{{avatar}}?handle={{handle}}">{{/avatar}}
           {{^avatar}}<span class="file" style="width:24px;height:24px;opacity:0.4"></span>{{/avatar}}
@@ -30,7 +29,7 @@
     {{/blogs}}
     
     <div class="clear"></div>
-    <a href="/account/create-blog" style="border:1px solid rgba(0, 0, 0, 0.05);border-radius:4px;color:#365899;padding-right:40px;"><span class="photo-holder plus" style="text-align:center;text-indent: 1px">+</span><span class="on-hover">Create new blog</span></a>
+    <a href="/account/create-blog" style="border:1px dashed rgba(0, 0, 0, 0.1);border-radius:4px;color:#365899;padding-right:40px;line-height: 42px"><span class="photo-holder plus" style="text-align:center;text-indent: 1px">+</span><span class="on-hover">Create blog</span></a>
 
     <div class="clear"></div>
 
