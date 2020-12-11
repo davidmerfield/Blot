@@ -1,4 +1,4 @@
-<form method="post"> 
+<form method="post" class="account"> 
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
   <div style="max-width:440px">
@@ -18,5 +18,5 @@
     <button type="submit" onclick="this.form.submit();this.disabled=true">{{#monthly}}Create blog{{/monthly}}{{^monthly}}Submit payment{{/monthly}}</button>
     <a href="/">Cancel</a>
   </div>
-</div>
+</div></div>
 </form>

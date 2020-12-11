@@ -1715,6 +1715,7 @@ background-color: #0079fc;
 
 .buttons .red {
   background: red;
+  box-shadow: none;
 }
 
 .buttons .red:hover {
@@ -1768,7 +1769,6 @@ background-color: #0079fc;
   top: 17px;
 }
 
-form.account {border: 1px solid #eee;border-radius: 3px;background: #fff}
 
 
 form.account>.buttons {
@@ -1906,7 +1906,8 @@ a:hover .tablet-cover {
 
 form.account,
 .inset {
-  padding: 20px
+  padding: 11px 20px;
+  border-top: 1px solid rgba(0,0,0,0.05)
 }
 
 

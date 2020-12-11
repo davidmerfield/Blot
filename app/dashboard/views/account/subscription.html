@@ -1,7 +1,7 @@
 <form class="account" method="post">
   <input type="hidden" name="_csrf" value="{{csrftoken}}" />
 
-  <p style="padding:0em 2em 0 0;margin:0 0 20px;line-height:1.5">
+  <p style="padding:0em 2em 0 0;margin:11px 0 20px;line-height:1.5">
     {{#user.isFreeForLife}} You can use Blot <b>for free</b> for as long as Blot
     exists. {{/user.isFreeForLife}} {{#user.cancel_at_period_end}} Your
     subscription has been cancelled and you won’t be charged again. On
@@ -72,12 +72,12 @@
         </div>
 
         {{/blogs}}
-        <a
+        <!-- <a
           class="line"
           style="display:block;padding:11px 0;background:none;border-bottom: none;margin-bottom: -11px"
           href="/account/create-blog"
           ><span class="link">Create new blog</span></a
-        >
+        > -->
       </div>
     </div>
 
@@ -105,15 +105,11 @@
     >
 
     {{/user.isSubscribed}}
-    <a class="line" href="/account/subscription/delete">
+    <a class="line" href="/account/subscription/delete" style="border-bottom: none">
       <span class="label">Delete</span>
       <span class="center"
         ><span class="link">Permanently delete your account</span></span
       >
     </a>
-    <br />
-    <div class="buttons" style="margin: 11px 20px">
-      <a href="/">Back to your account</a>
-    </div>
   </div>
 </form>

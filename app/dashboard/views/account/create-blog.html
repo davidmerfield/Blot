@@ -1,9 +1,9 @@
-<form method="post"> 
+<form method="POST" class="account">
   <input type="hidden" name="_csrf" value="{{csrftoken}}">
   <input type="hidden" name="timeZone" value="">  
-  <p style="margin:0 0 2rem;max-width:475px">Please choose a title for your blog. Note that you can always edit this later on your blog’s settings page.</p>
+  <p style="margin:11px 0 11px;">Please choose a title for your new blog. You can change this later on your blog’s settings page.</p>
 
-    <div style="max-width:22rem">
+    <div >
 <label for="title">Title</label>
 <input type="hidden" name="redirect" value="/settings/profile">
 <input type="text" autofocus name="title" value="{{blog.title}}">

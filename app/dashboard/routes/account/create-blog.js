@@ -14,11 +14,18 @@ var Email = helper.email;
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
 
+CreateBlog.use(function (req, res, next) {
+  res.locals.breadcrumbs.forEach(function (link) {
+    if (link.label === "Your account") link.label = "Your blogs";
+  });
+  next();
+});
+
 CreateBlog.route("/pay")
 
   .all(validateSubscription)
 
-  .all(function(req, res, next) {
+  .all(function (req, res, next) {
     // Only allow users who have blogs for all they've paid
     // to see the pay page!
     if (req.user.subscription.quantity <= req.user.blogs.length) {
@@ -30,13 +37,11 @@ CreateBlog.route("/pay")
 
   .all(calculateFee)
 
-  .get(function(req, res) {
-    res.locals.partials.yield = "account/create-blog-pay";
-
-    res.render("partials/wrapper-setup", {
+  .get(function (req, res) {
+    res.render("account/create-blog-pay", {
       title: "Create a blog",
       not_paid: true,
-      breadcrumb: "Create a blog"
+      breadcrumb: "Create a blog",
     });
   })
 
@@ -44,7 +49,7 @@ CreateBlog.route("/pay")
 
   .post(updateSubscription)
 
-  .post(function(req, res) {
+  .post(function (req, res) {
     res.message(req.baseUrl, "Your payment was received, thank you.");
   });
 
@@ -52,7 +57,7 @@ CreateBlog.route("/")
 
   .all(validateSubscription)
 
-  .all(function(req, res, next) {
+  .all(function (req, res, next) {
     if (
       req.user.subscription &&
       req.user.subscription.quantity !== null &&
@@ -65,23 +70,22 @@ CreateBlog.route("/")
     res.redirect(req.baseUrl + "/pay");
   })
 
-  .get(function(req, res) {
-    res.locals.partials.yield = "account/create-blog";
+  .get(function (req, res) {
     res.locals.blog = {};
-    res.render("partials/wrapper-setup", {
+    res.render("account/create-blog", {
       title: "Create a blog",
       first_blog: req.user.blogs.length === 0,
-      breadcrumb: "Create a blog"
+      breadcrumb: "Create a blog",
     });
   })
 
   .post(saveBlog)
 
-  .post(function(req, res) {
+  .post(function (req, res) {
     res.message("/settings/client?setup=true", "Saved your title");
   })
 
-  .post(function(err, req, res, next) {
+  .post(function (err, req, res, next) {
     res.message(req.baseUrl + req.path, err);
   });
 
@@ -195,7 +199,7 @@ function saveBlog(req, res, next) {
   var newBlog = {
     title: title,
     handle: handle,
-    timeZone: req.body.timeZone
+    timeZone: req.body.timeZone,
   };
 
   Blog.create(req.user.uid, newBlog, function onCreate(err, blog) {
@@ -217,7 +221,7 @@ function saveBlog(req, res, next) {
     }
 
     // Begin SSL cert fetching process
-    request(Blog.extend(blog).url, function() {});
+    request(Blog.extend(blog).url, function () {});
 
     // Switch to the new blog
     req.session.blogID = blog.id;
@@ -245,14 +249,14 @@ function updateSubscription(req, res, next) {
     req.user.subscription.id,
     {
       quantity: req.user.blogs.length + 1,
-      prorate: false
+      prorate: false,
     },
-    function(err, subscription) {
+    function (err, subscription) {
       if (err) return next(err);
 
       if (!subscription) return next(new Error(ERR));
 
-      User.set(req.user.uid, { subscription: subscription }, function(err) {
+      User.set(req.user.uid, { subscription: subscription }, function (err) {
         if (err) return next(err);
 
         Email.CREATED_BLOG(req.user.uid);
@@ -281,9 +285,9 @@ function chargeForRemaining(req, res, next) {
       amount: req.amount_due_now,
       currency: "usd",
       customer: req.user.subscription.customer,
-      description: "Charge for the remaining billing period"
+      description: "Charge for the remaining billing period",
     },
-    function(err, charge) {
+    function (err, charge) {
       if (err) return next(err);
 
       if (!charge) return next(new Error(BAD_CHARGE));
