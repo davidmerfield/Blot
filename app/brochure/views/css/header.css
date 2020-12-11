@@ -17,9 +17,7 @@ header row {
   font-weight: 600;
 }
 
-.index .sidebar {
-  display: none;
-}
+
 
 @media screen and (min-width: 800px) {
   label[for="toggle"] {
@@ -51,21 +49,6 @@ header row {
     flex-wrap: wrap;
   }
 
-  .nav {
-    display: flex;
-    flex-grow: 1;
-  }
-
-  .nav > * {
-    width: 33.333%;
-    padding-left: 0.7em;
-    box-sizing: border-box;
-  }
-
-  .nav > *:first-child {
-    padding-left: 0;
-  }
-
   input[name="toggle"] + ul {
     display: none;
   }
@@ -73,17 +56,11 @@ header row {
   .links a {
     display: none;
   }
-  .collapse {
-    display: none;
-  }
 
-  input[name="toggle"]:checked + .sidebar {
-    display: block;
-  }
+
 }
 
 @media screen and (max-width: 600px) {
-  a.video,
   background {
     margin-right: -1rem;
     margin-left: -1rem;
@@ -112,48 +89,4 @@ header label:hover {
 .links a:active,
 .links label:active {
   color: #bbb;
-}
-
-header hr,
-.sidebar hr {
-  border: none;
-  border-bottom: 1px solid #eceff1;
-}
-
-.dark .links,
-.dark .sidebar hr,
-.dark footer {
-  border-color: #333;
-}
-
-.logo svg {
-  width: 26px;
-  margin: 0 10px 0 0;
-  fill: #000;
-  stroke: #000;
-  vertical-align: text-bottom;
-}
-
-.dark header a svg,
-.dark footer a svg {
-  fill: #666;
-  stroke: #666;
-}
-
-.header-button {
-  background-color: #0070c9;
-  box-shadow: 0 0 0 4px #0070c9;
-  padding: 0 0.5em;
-  color: white;
-  margin-left: 1em;
-  text-decoration: none;
-}
-
-header .logo,
-header .logo:focus {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-  font-weight: 500;
-  color: #000;
 }

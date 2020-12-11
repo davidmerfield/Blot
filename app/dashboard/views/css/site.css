@@ -1549,10 +1549,9 @@ span.file {
 .removeLink {
   color: #888;
   text-align: center;
-  line-height: 2.4;
-  padding: 0 6px;
+ padding: 0 6px;
+  margin:2px 0;
   display: inline-block;
-  min-width: 60px;
   /*    background: #f1edea;
     box-shadow: inset 0px -1px 2px 0px rgba(0, 0, 0, 0.075);
 */
@@ -1564,11 +1563,15 @@ span.file {
 .handle {
   cursor: ns-resize;
   border-radius: 4px 0 0 4px;
-  min-width: 30px;
+  min-width: 36px;
+  line-height: 2.9;  
+  z-index: 1;
 }
 
 .removeLink {
   line-height: 35px;
+  font-size: 11px;
+  line-height: 3.7;
   border-radius: 0 4px 4px 0;
 }
 
@@ -1857,6 +1860,7 @@ div.center {}
   font-size: 15px;
 }
 
+.tablet:empty {display: none;}
 .tablet-cover {
   position: absolute;
   right: 0;
@@ -1984,14 +1988,11 @@ form.account,
   border-color: rgb(152, 152, 152)
 }
 
-.removeLink,
-.handle {
-  border-radius: 0
-}
 
 .lab[type="text"] {
   border-radius: 0;
-  margin-left: -1px
+  margin-left: -1px;
+  z-index: 0
 }
 
 .val[type="text"] {

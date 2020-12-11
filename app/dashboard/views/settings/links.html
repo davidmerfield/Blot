@@ -1,9 +1,9 @@
-  
-<div style="margin:20px 0 6px;padding-bottom:8px;">
-  <label style="display:inline-block">Links</label>
-  <a id="add" href="#!" style="float:right;text-decoration:none"><span class="link">Add a new link</span></a>
-  <div class="clear"></div>
-</div>
+<h1 style="font-size: 22px;font-weight: 700">Links</h1>
+<h2 style="font-size: 14px">The following links appear on your site. You can add new links to external sites. <a href="/how/pages">Pages</a> in your folder are added to these links automatically.</h2>
+<hr>
+
+
+
 
 <!-- Neccessary to produce an empty menu -->
 <input type="hidden" name="hasMenu" value="true">
@@ -54,19 +54,13 @@
     onUpdate: function (){
 
       $('.sortable').find('section').each(function(){
-
         var index = $(this).index();
-
         $(this).find('input').each(function(){
-
           var name = $(this).attr('name');
           var newName = name.slice(0, name.indexOf('.') + 1) + index + name.slice(name.lastIndexOf('.'));
-
           $(this).attr('name', newName);
-
           console.log(name + ' > ' + newName);
         });
-
         console.log('');
       });
     }
@@ -118,3 +112,9 @@
   });
 </script>
 {{/footer}}
+
+<a id="add" href="#!"style="padding: 11px 20px;display:block;border:1px solid rgba(0, 0, 0, 0.05);border-radius:4px;color:#365899;padding-right:40px;"><span class="photo-holder plus" style="text-align:center;text-indent: 1px">+</span><span class="on-hover">Add new link</span></a>
+
+
+
+

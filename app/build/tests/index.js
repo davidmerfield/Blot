@@ -58,6 +58,28 @@ describe("build", function() {
     });
   });
 
+  it("generates a blog post from an image with quotes in its filename", function(done) {
+    var pathToImage = '/Hell"o\'W "orld.jpg';
+
+    fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
+
+    build(this.blog, pathToImage, {}, function(err, entry) {
+      if (err) return done.fail(err);
+
+      // verify the image was cached
+      expect(entry.html).toContain("/_image_cache/");
+
+      // verify a thumbnail was generated from the image
+      expect(entry.thumbnail.small).toEqual(
+        jasmine.objectContaining({
+          name: "small.jpg"
+        })
+      );
+
+      done();
+    });
+  });
+
   it("handles images with accents and spaces in their filename", function(done) {
     var path = "/blog/Hello world.txt";
     var contents = "![Best Image Ever](óå g.jpg)";

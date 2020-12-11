@@ -95,8 +95,7 @@ input[name="exp-year"] {
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus,
-textarea:focus {
+input[type="password"]:focus {
   outline: none !important;
   z-index: 2;
   border: 1px solid rgb(0, 122, 255);

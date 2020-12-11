@@ -1,8 +1,0 @@
-{
-  "port": 9999,
-  "services": {
-    "cdn": "https://blotcdn.com/health/check.txt",
-    "site": "https://blot.im",
-    "blog": "http://health.blot.im"
-  }
-}

@@ -1,9 +1,9 @@
 <h1>Metadata</h1>
 
-<p>Each blog post’s permalink, title and publish date is generated automatically. You can override some or all of this metadata on the file’s first line.</p>
+<p>The link, title and publish date of each blog post are generated automatically. You can override some or all of this metadata on the file’s first line.</p>
 
   <pre class="text with-chrome" title="Post.txt"><code>Date: {{{date 'MMMM Do, YYYY'}}}
-Permalink: /metadata
+Link: metadata
 
 You must leave a space after the colon between the metadata property (e.g. Date) and its value. Metadata must be separated from the rest of the post by at least one blank line. 
 
@@ -115,10 +115,14 @@ Tags are case-insensitive and may contain whitespace. Blot picks the case you us
       </td>
     </tr>
     <tr>
-      <td>Permalink</td>
-      <td>Defaults to a URL-friendly version of the post’s title. Specify a different permalink in the file’s metadata, or adjust the <a href="/how/guides/urls">default permalink format</a>.
-        <!-- <br><a class="next small db bt b--black-10" style="margin-bottom:0" href="/how/dates">Read more about permalinks</a>
- -->
+      <td>Link</td>
+      <td>Defaults to a URL-friendly version of the post’s title. Specify a different link in the file’s metadata, or adjust the <a href="/how/guides/urls">default link format</a>.
+       
+      </td>
+    </tr>
+    <tr>
+      <td>Comments</td>
+      <td>Determines whether comments are enabled on the blog post or the page. Can be ’Yes’ or ’No’. Defaults to ’Yes’ for blog posts and ’No’ for pages. Has no effect if comments are disabled in the blog settings.
       </td>
     </tr>
     <tr>
@@ -163,7 +167,7 @@ Tags are case-insensitive and may contain whitespace. Blot picks the case you us
 <div style="max-width:39em;margin:3em 0 4em">
   <pre class="code html" title="Post.html"><code><!--
 Date: {{{date 'MMMM Do, YYYY'}}}
-Permalink: /metadata
+Link: /metadata
 -->
 
 The comment containing metadata in an HTML file

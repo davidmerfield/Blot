@@ -27,6 +27,10 @@ hbs.registerHelper("date", function(text) {
   return text;
 });
 
+// Neccessary to repeat to set the correct IP for the
+// rate-limiter, because this app sits behind nginx
+brochure.set("trust proxy", "loopback");
+
 brochure.set("views", __dirname + "/views");
 brochure.set("view engine", "html");
 brochure.engine("html", hbs.__express);

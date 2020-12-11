@@ -1,7 +1,6 @@
 Improvements to templates
-- Replace existing magazine template with proper CSS version
+- Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
-- Add [photoswipe](https://github.com/min30327/photoswipe-simplify) to templates and possibly [lazyload](https://github.com/verlok/lazyload)
 - Tell these people about new templates, and to subscribe to newsletter:
   - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
   - [John](https://mail.google.com/mail/u/1/#all/1618ca0420779742)
@@ -9,10 +8,20 @@ Improvements to templates
   - [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRRZTKntrWKJvfDXrRFTzljs)
 - Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
-- Make grid template responsive and tell [Thiago](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDgWhGNSbxQlHsWsHTJDLNNq)
-- Add dark mode support to default themes using [Jeff's code](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrlRLNpHhSTMRfkMbKfbvKGrT) and tell [Jimmy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDDqlwKfhdLDPMgRXMbzwfxvd) and [Marshall](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNglcqbHDVwPGqxqFxLvNcFlV)
-- Fix image zooming bug in picture template and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrTqFRpZCKgvtvmnhhrNmnnM)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
+
+---
+
+Resolve intermittent downtime
+- Add memory monitor
+- Increase available memory
+- Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
+- Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
+
+Investigate failed wildcard SSL certificate renewal
+
+Disable access to s3 blogs bucket
+- Wait 30 days then delete s3 blogs bucket
 
 ---
 
@@ -28,34 +37,17 @@ Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/
 
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
 
----
-
-Re-send receipt when the customer changes their email after initial payment, pre-account creation.
-
-Resolve intermittent downtime
-- Add memory monitor
-- Increase available memory
-- Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
-- Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
-
-Investigate failed wildcard SSL certificate renewal
-
-Disable access to s3 blogs bucket
-- Wait 30 days then delete s3 blogs bucket
-
----
-
 Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqBKcPSQQHZtCFpKHrPDFkDq)
-
-Fix bug with encoded apostrophe's in file names for thumbnail generator: /image_library/_didn&#39;tmakethecut.jpg doesn't work.
-
-Add custom metadata to turn off/on comments on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
 
 Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
 
 Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
 
 Prevent long-overdue users from accessing the service, then tell [Matvey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgWvzTkMVZXFrSpjGfcCrWJG)
+
+Add support for arbritary template folder location – any subfolder could be a template folder if it contains a valid template.json file. Tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjfBwnDxMFMGgHtfFFkBvTQbV)
+
+Add point-and-click support for [Cloudflare analytics](https://blog.cloudflare.com/privacy-first-web-analytics/) and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjnbqnBFkxwcMVFvKvwGBjsGZ)
 
 Generate proper favicons from uploaded avatars (to prevent streched favicons when non-square avatars are uploaded)
 
@@ -64,12 +56,16 @@ Improvements to server infrastructure
 - Create DMARC record for Blot https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dmarc.html
 - NGINX doesn't appear to be following the symlinks created by node.js to serve the contents of each blog's folder and the contents of each blog's static directory. Is this a permissions issue? Is now finally the time to set up users with appropriate permissions for blot, nginx, build etc...
 
-Improvements to blog server
-- Disable analytics plugin on drafts and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGKJzqmdQLWRNzJJmPbFCCxG)
+Improve the automatic title generated for screenshots with default MacOs filename from 'at 14:40pm'
 
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
 
 Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
+
+Improvements to status page:
+- customize the design of this page a little (could we self-host on a different service, e.g. linode, a page which makes an API call to updown?)
+- embed a brief status history in the brochure site somewhere
+- link to this status page in the 502 bad gateway error page
 
 Improvements to template editor
 - Add layout options to template editor for native templates
@@ -105,8 +101,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 - Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm)
-- Add image partial template which would render inside each entry to provide ways to access exif, etc. then tell [Stuart](https://twitter.com/stuartfrisby/status/1134447737750114304) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgxwbBltTWcCwfGklFZsKXLbc)
-
 Improvements to brochure
 - Catch 404s in Google search results and set up redirects
 - Add integration tests for brochure site to test sign up flow
@@ -130,6 +124,9 @@ Improvements to brochure
    - inline css in katex.css?
    - base 64 encode and inline small images on homepage
    - Optimize all images in image directory
+
+Re-send receipt when the customer changes their email after initial payment, pre-account creation.
+- Once stripe allows programmatic receipt delivery
 
 Improvements to developer guide
 - Tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
@@ -385,8 +382,6 @@ Improve 404 log page on Dashboard
 - Add button to clear 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 - Add frequency indicator for each route 404 log and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDLzTVpVZHfgwRgcmtGXFHXx)
 - Add filtering by date to 404 log and [tell this person](https://mail.google.com/mail/u/0/#inbox/1566e52d170f29ca)
-
-Create a status page and uptime monitor and tell [Amit](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTkBxqxfhmDdbXTTlfxvPVvSB). I like [this style](https://status.sunsed.com/) (just a JSON response)
 
 Add hasBreakpoint property to entry to allow greater control over display of {{{teaser}}} and tell [Pratik](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBTsfMTHqWMQFmprMcjNpdBQzp)
 
@@ -691,7 +686,7 @@ Add password protection for blogs then tell [Ed](https://mail.google.com/mail/u/
 
 Write new clients to sync blog folders
 - [Box] then tell [Eric](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZRzCcPkNppMpSbBzNRKFSNs)
-- OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvNGJxTXXcnsmXDqdkNnNq) and [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx)
+- OneDrive then tell [Shantesh](https://mail.google.com/mail/u/0/#inbox/166df93b38231ec9), [Nathan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVgvsdfSnqBppQrXLTVjZBBzp), [ekskog](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVDBmdRXFWTFLqxKgxVkdWnWL) and [John](https://twitter.com/seismonerd/status/1096862510404128768) and [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChcrhfQNXvkFkdtKntXlhjNfm) and [Josh if OneDrive for Business is supported](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVqWwRgxrwLRzrNscfJtllhXz) and [Naveen](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMZJvNGJxTXXcnsmXDqdkNnNq) and [Emad](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCtzTpZsgXXjWsrTGsTTZLjx) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjnVGxPWrFPKJRqtlnbkHfwXt)
 - [Syncthing](https://www.npmjs.com/package/node-syncthing) and tell [Jason](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpVWzZTVxccmWLmnPBmDFjvV)
 - [SFTP](https://www.npmjs.com/package/ftpd) and tell [Calvin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChclvkfHMWfnqGdWkQnzMdklW) and [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCspWMdnbCdzfHGwBrSKPBSC)
 - [NextCloud](https://nextcloud.com/) and tell [Andrew](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJgWDpnsGBCXsCwkxRZnXMph) and [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMGDWmSXxbJkvjZbtvdQtNNGZ)
@@ -804,7 +799,7 @@ Consider using [sshfs](https://github.com/libfuse/sshfs) for server and for user
 Consider establishing bug bounty program
 - Contact Husnain for his [DMARC report](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtDMGTLScbpCkBFLBdmrcHpk)
 
-Consider adding simple server-side analytics and tell [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNMCtRwGccFxfVKcwlcqfMpg) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX)
+Consider adding simple server-side analytics and tell [Tom](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNMCtRwGccFxfVKcwlcqfMpg) and [John](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMjqlPTxhSXLNBDCmqXLQHdvX) and [Romain](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjKngCZjbxTNvLQLRMLfzwHxG)
 
 Consider adding simple commenting system and tell [Precious](https://mail.google.com/mail/u/0/#inbox/QgrcJHrtwLwTldzhrTKHMtnhwVqMXVzCTqv)
 

@@ -2,10 +2,6 @@
   display: block;
 }
 
-.sidebar hr {
-  margin: 1.2rem 0;
-}
-
 ul.sidebar {
   margin: 0;
   min-height: 100vh;
@@ -34,8 +30,7 @@ ul.sidebar a:focus {
 ul.sidebar > * {
 }
 
-.sidebar a.selected,
-.sidebar .selected:not(.has-list) > a {
+.sidebar a.selected {
   color: black !important;
 }
 
@@ -70,49 +65,6 @@ label[for="toggle"] {
   background-color: transparent;
 }
 
-.sidebar img {
-  max-width: 36px;
-  float: left;
-  display: none;
-  margin-left: -1.5em;
-  margin-right: 0.75em;
-  margin: 0.2em 0.75em 0.2em -1.5em;
-}
-
-.sidebar .has-list > a:before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: -1.25em;
-  width: 7px;
-  height: 7px;
-  margin: -4px -5px 0 0;
-  border-top: solid 1px #a9a6a3;
-  border-right: solid 1px #a9a6a3;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  content: "";
-}
-
-.sidebar input {
-  display: none;
-}
-
-
-.sidebar :checked ~ a:before {
-  margin-top: -6px;
-  transform: rotate(135deg);
-}
-
-.dark .sidebar,
-.dark .sidebar a,
-.dark header a,
-.dark footer a {
-  border-color: #222;
-  color: #839496;
-}
-
 .sidebar li ul li:last-child {
   border-bottom: none;
 }
@@ -124,42 +76,4 @@ label[for="toggle"] {
 
 .sidebar li ul li {
   position: relative;
-}
-
-.buttons {
-  display: flex;
-}
-
-.sidebar a.action-button:hover {
-  border-color: #222;
-  color: #222;
-  text-decoration: none;
-  z-index: 1;
-}
-
-a.action-button:hover:after {
-  border-color: #222;
-  color: #222;
-}
-
-a.action-button + a.action-button {
-  margin-right: 0;
-}
-
-.sidebar a.in {
-  position: relative;
-  display: block;
-}
-
-.with-arrow {
-  position: relative;
-}
-.with-arrow:after {
-  position: absolute;
-  top: 50%;
-  margin-top: -12px;
-  right: 10px;
-  opacity: 0.3;
-  float: right;
-  content: "→";
 }

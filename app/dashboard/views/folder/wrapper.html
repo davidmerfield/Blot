@@ -1,6 +1,6 @@
 {{#folder}}
 
-  <div style="display:flex;flex-direction:column; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
+  <div style="overflow:hidden;display:flex;flex-direction:column; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
     background: #fff;
     border-radius: 4px;">
 {{#root}}<a class="line" href="/settings/client/{{client.name}}">
@@ -24,9 +24,73 @@
 {{/file}}
 
 </div>
+<div class="line" style="border-bottom: none;border-top: 1px solid #f0f0f0;margin-top: -1px">
+<span class="label" style="font-size:12px;flex-basis: 50%" id="status">Synced {{blog.updated}}</span>
 </div>
-<br><br>
+</div>
 {{/folder}}
 
+<script type="text/javascript">
+		
+	// Will 'live reload' the contents of the folder 
+	// on the screen as syncs take place. In future 
+	// we should send the new folder contents down with
+	// the sync status server-sent-events, right now
+	// we hackily refetch the whole page contents and
+	// extract the folder from that response, injecting
+	// it into the page as-is.
+	var evtSource = new EventSource("/status");
+
+	// I should use a proper async queue to accomplish
+	// this but for now these flags seem to work.
+	var checkAgain = false;
+	var currentlyLoading = false;
+
+	evtSource.onmessage = function(event) {
+		
+		document.getElementById('status').innerHTML = event.data
+
+		// Fetch the latest folder state if we're not
+		// already fetching it.
+		if (currentlyLoading) {
+			checkAgain = true;
+			return;
+		}
+
+		currentlyLoading = true;
+
+		loadFolder(function onLoad(){
+
+			if (checkAgain === true) {
+				checkAgain = false;
+				return loadFolder(onLoad);
+			}
+
+			currentlyLoading = false;
+		});
+	}
+
+	function loadFolder (callback) {
+	 
+	  var xhr = new XMLHttpRequest();
+
+	  xhr.onreadystatechange = function (e) { 
+	    if (xhr.readyState == 4 && xhr.status == 200) {
+				var parser = new DOMParser();
+				var xml = parser.parseFromString(xhr.responseText, "text/html");
+				var currentState = document.querySelector('.folder-box').innerHTML;
+				var newState = xml.querySelector('.folder-box').innerHTML;
+				if (newState === currentState) return callback();
+				document.querySelector('.folder-box').innerHTML = newState;
+	      callback();
+	    }
+	  }
+
+	  xhr.open("GET", window.location, true);
+	  xhr.setRequestHeader('Content-type', 'text/html');
+	  xhr.send();
+	}
+
+</script>
 
 
