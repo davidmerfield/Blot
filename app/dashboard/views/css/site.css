@@ -346,6 +346,11 @@ form label.halfWidth {
   width: 45%;
 }
 
+form div:focus-within > label,
+form p:focus-within > label {
+  color: rgb(0, 122, 255);
+}
+
 form .fullRow section {
   position: relative;
   display: flex;
@@ -669,6 +674,7 @@ p.lock:before {
   background: #d5d5d5 url("/images/spinner_grey.gif?{{cacheID}}") center right no-repeat;
   background-size: 1.33em;
   padding-right: 2em;
+  box-shadow: none;
   border-right: 1em solid transparent;
 }
 
@@ -1741,7 +1747,8 @@ background-color: #0079fc;
 
 .buttons :disabled, .buttons .disabled {
   background: #f0f0f0;
-  color: #bbb
+  color: #bbb;
+  box-shadow: none;
 }
 
 

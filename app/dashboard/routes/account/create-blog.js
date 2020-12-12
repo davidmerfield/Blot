@@ -38,10 +38,12 @@ CreateBlog.route("/pay")
   .all(calculateFee)
 
   .get(function (req, res) {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].last = true;
     res.render("account/create-blog-pay", {
       title: "Create a blog",
       not_paid: true,
-      breadcrumb: "Create a blog",
+      breadcrumb: "Create blog",
     });
   })
 
@@ -50,7 +52,7 @@ CreateBlog.route("/pay")
   .post(updateSubscription)
 
   .post(function (req, res) {
-    res.message(req.baseUrl, "Your payment was received, thank you.");
+    res.redirect(req.baseUrl);
   });
 
 CreateBlog.route("/")
