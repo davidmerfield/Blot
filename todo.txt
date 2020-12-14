@@ -18,8 +18,6 @@ Resolve intermittent downtime
 - Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 
-Investigate failed wildcard SSL certificate renewal
-
 Disable access to s3 blogs bucket
 - Wait 30 days then delete s3 blogs bucket
 
