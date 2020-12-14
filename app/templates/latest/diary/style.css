@@ -50,7 +50,7 @@ div {
   position: relative;
 }
 
-.header {padding: 1.45rem;margin:1.4rem;display: flex;align-items:baseline;position: sticky;top:0;background: {{background_color}};z-index: 100}
+div.header {padding: 1.45rem;margin:1.4rem;display: flex;align-items:baseline;position: sticky;top:0;background: {{background_color}};z-index: 100}
 .main {max-width: 60%;min-width: 720px}
 .container {max-width: 1000px}
 .entry {margin: 72px 0 120px}
@@ -303,19 +303,19 @@ iframe {width: 100%;}
 #logo img:active {margin-top: 1px}
 
 /* Nav links are underlined which affects their optical lineheight */
-.header a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: {{text_color}};}
-.header a:hover {text-decoration: underline;}
-.header .tags a {opacity: 1.0}
-.header .nav a {opacity: 0.4}
+div.header a {margin-right: 1rem;font-size: 15px;background: none;text-shadow: none;color: {{text_color}};}
+div.header a:hover {text-decoration: underline;}
+div.header .tags a {opacity: 1.0}
+div.header .nav a {opacity: 0.4}
 
-.header .nav {
+div.header .nav {
   display: flex;
   flex-grow: 1;
   align-content: baseline;
   justify-content: flex-end;
   flex-shrink: 0;
 }
-.header .tags {margin:0 2rem;flex-grow: 1}
+div.header .tags {margin:0 2rem;flex-grow: 1}
 
 .nav a[href="/feed.rss"],
 .nav a[href="/search"] {
@@ -453,7 +453,7 @@ input#search:focus {
 }
 
 @media screen and (max-width: 730px) {
-  .header {
+  div.header {
     padding-left: 0; 
     padding-right: 0; 
     max-width: 600px;
@@ -468,13 +468,13 @@ input#search:focus {
 
 @media screen and (max-width: 400px) {
   .entry .twitter-tweet {margin-left: 0!important}
-  .header {
+  div.header {
     margin: 9px auto -12px;
     display: flex;
     flex-direction: column;
     padding: 0.25em 0 1em;
   }
-  .header #logo, .header .tags, .header .nav {margin: 0 0 0.5em 0;}
+  div.header #logo, div.header .tags, div.header .nav {margin: 0 0 0.5em 0;}
 }
 
 {{#plugins.codeHighlighting.enabled}}
