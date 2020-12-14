@@ -2295,16 +2295,16 @@ a.content-line .file {
 }
 
 .photo-holder {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: inline-block;
   margin: 5px 16px 0 0;color: #a5a5a5
 }
 
 .photo-holder img {
   vertical-align: text-bottom;
-  max-width: 24px;
-  max-height: 24px;
+  max-width: 30px;
+  max-height: 30px;
 }
 
 .photo-holder.plus {
