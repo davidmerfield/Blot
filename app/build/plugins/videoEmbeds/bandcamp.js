@@ -7,10 +7,10 @@ var url = require("url");
 // the video player will not show. This causes issues with
 // inline elements displaying (adds extra space) solution needed
 // that doesn't disrupt page layout...
-function template(url, width, height, ratio) {
+function template(url, width, height) {
   return (
     '<div style="width:0;height:0"> </div><div class="videoContainer bandcamp" style="padding-bottom: ' +
-    ratio +
+    height +
     '%"><iframe width="' +
     width +
     '" height="' +
@@ -50,7 +50,7 @@ module.exports = function (href, callback) {
   request(href, function (error, response, body) {
     if (error) return callback(error);
 
-    var $, height, width, ratio, html;
+    var $, height, width, html;
 
     try {
       $ = cheerio.load(body);
@@ -65,8 +65,6 @@ module.exports = function (href, callback) {
       return callback(new Error(FAIL));
     }
 
-    ratio = (height / width) * 100;
-
-    return callback(null, template(html, width, height, ratio));
+    return callback(null, template(html, width, height));
   });
 };
