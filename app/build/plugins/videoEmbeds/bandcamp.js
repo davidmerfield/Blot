@@ -11,7 +11,7 @@ function template(url, width, height) {
   return (
     '<div style="width:0;height:0"> </div><div class="videoContainer bandcamp" style="padding-bottom: ' +
     height +
-    '%"><iframe width="' +
+    'px"><iframe width="' +
     width +
     '" height="' +
     height +
