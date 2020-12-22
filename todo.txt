@@ -21,6 +21,8 @@ Resolve intermittent downtime
 Disable access to s3 blogs bucket
 - Wait 30 days then delete s3 blogs bucket
 
+Remove any stray snapshots
+
 ---
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
