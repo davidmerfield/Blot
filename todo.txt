@@ -1,5 +1,7 @@
 Finish hexo import for [Foster](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLNbsjBJdFnjnZZTLmlGGnkdJ)
 
+Send out newsletter
+
 Improvements to templates
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
