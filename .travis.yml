@@ -22,6 +22,6 @@ rvm:
   - 1.9.3
 env:
   global:
-    - PANDOC_VERSION="2.2.3.2"
+    - PANDOC_VERSION="2.11.3.2"
     - PANDOC="$HOME/.pandoc"
     - PANDOC_DEB="https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb"
