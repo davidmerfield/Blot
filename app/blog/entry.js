@@ -87,6 +87,11 @@ module.exports = function(server) {
             entry: entry
           });
 
+          // Asks search engines not to index hidden pages
+          if (entry.page && entry.menu === false) {
+            response.set("X-Robots-Tag", "noindex");
+          }
+
           response.renderView("entry.html", next);
         });
       });
