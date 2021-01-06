@@ -3,20 +3,32 @@ Winter newsletter
 *You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please don’t hesitate to reply directly to this email if you have any thoughts or questions.*
 
 **New features**
+- Added a [status page](https://status.blot.im/) to keep track of historical uptime and report on any downtime.
+- Added a live status of the progress of a sync to the folder section of your dashboard.
+- Added the Moving template to the archived templates page, courtest of [Rakhim](https://github.com/freetonik)
+- Added [Plausible](https://plausible.io/) analytics to the services page of the dashboard.
 
 **Changes**
+- A number of improvements to the documentation courtesy of Rakhim. 
 - Updated the [dashboard](http://blot.im/), as is tradition. 
 - Updated various dependencies on the application server, as is tradition.
+- Added support for the new Google Analytics tracking code format
+- Disabled analytics for draft posts
 
 **Bugs fixed**
 - Fixed bug when you try and create a blog with a short title 
 - Fixed bug with [external citation files](https://blot.im/how/guides/citations) after hard coding a link to the needed pandoc filter.
+- Added redirects and tag information to the export file for your blog.
+- Fixed a bug with the rate limiter for the log-in form page
+- Fixed a bug with images whose name contained an apostrophe, e.g. john's_son.jpg. Previously these files could not become blog posts, and thumbnails could not be generated from them.
+- Fixed bug migrating a folder on Dropbox for a blog whose title contained a slash, e.g. On/Off.
 
 **Mistakes**
 
 
 **Plans for this season**
 
+I'm proud to say that [Rakhim](https://github.com/freetonik)  began working part-time with me on Blot over the last few months. Rakhim's contributions have been excellent so far and I'm looking forward to working with him in the new year.
 
 If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
 
