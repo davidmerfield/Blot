@@ -1,0 +1,17 @@
+# Update the version of pandoc used by Blot
+
+1. Download [the latest mac build](https://github.com/jgm/pandoc/releases) of pandoc move the executable to the location of $BLOT_PANDOC_PATH. Something approximating:
+
+$ cp ~/Dowloads/pandoc/bin/pandoc /usr/local/bin/pandoc
+
+2. Run the build tests locally:
+
+$ npm test app/build
+
+3. Update the version of pandoc used by travis by editing PANDOC_VERSION in env > global of .travis.yml. Make sure the CI tests pass in a new PR for this change.
+
+4. 
+
+
+
+
