@@ -14,4 +14,7 @@ Archive tempate:   The first website I run on Blot contains
 Custom template: My personal homepage
 Feed template: Blot's developer blog
 
+To show off static file hosting, use the first ever website! Is it this one?
+
+http://info.cern.ch/hypertext/WWW/
 
