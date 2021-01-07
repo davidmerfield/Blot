@@ -1,5 +1,3 @@
-Finish hexo import for [Foster](https://mail.google.com/mail/u/0/#inbox/FMfcgxvzLNbsjBJdFnjnZZTLmlGGnkdJ)
-
 Send out newsletter
 
 Improvements to templates
@@ -26,6 +24,8 @@ Disable access to s3 blogs bucket
 - Wait 30 days then delete s3 blogs bucket
 
 Remove any stray snapshots
+
+Add Q and A question section to site where users could post and tell [Taylan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHkkKQrhrRPRnNNtzNGqtCQW)
 
 ---
 
@@ -351,8 +351,6 @@ Performance improvements
 - Ensure node.js server has one process per CPU
 - Ensure nginx is handling all static file delivery
 - Detect CPU intensive functions in node.js process
-
-Add Q and A section to site where users could post
 
 Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnMVwTcHPjfg) about gitwatch and other newsletter suggestions
 
