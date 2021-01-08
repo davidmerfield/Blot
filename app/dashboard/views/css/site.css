@@ -23,7 +23,6 @@ html {
   text-rendering: optimizeLegibility;
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "liga";
-  background: #fffefc
 }
 
 a {
@@ -345,6 +344,11 @@ form .fullRow {
 
 form label.halfWidth {
   width: 45%;
+}
+
+form div:focus-within > label,
+form p:focus-within > label {
+  color: rgb(0, 122, 255);
 }
 
 form .fullRow section {
@@ -670,6 +674,7 @@ p.lock:before {
   background: #d5d5d5 url("/images/spinner_grey.gif?{{cacheID}}") center right no-repeat;
   background-size: 1.33em;
   padding-right: 2em;
+  box-shadow: none;
   border-right: 1em solid transparent;
 }
 
@@ -1716,6 +1721,7 @@ background-color: #0079fc;
 
 .buttons .red {
   background: red;
+  box-shadow: none;
 }
 
 .buttons .red:hover {
@@ -1741,7 +1747,8 @@ background-color: #0079fc;
 
 .buttons :disabled, .buttons .disabled {
   background: #f0f0f0;
-  color: #bbb
+  color: #bbb;
+  box-shadow: none;
 }
 
 
@@ -1769,7 +1776,6 @@ background-color: #0079fc;
   top: 17px;
 }
 
-form.account {border: 1px solid #eee;border-radius: 3px;background: #fff}
 
 
 form.account>.buttons {
@@ -1851,11 +1857,11 @@ div.center {}
 }
 
 .tablet {
-  border-radius: 4em;
+  border-radius: 6px;
   padding: 0 9px;
   line-height: 1.45;
   border: 1px solid;
-  margin: 0 0.6em 0 0;
+  margin: 0 3px 0 0;
   display: inline-block;
   font-size: 15px;
 }
@@ -1907,7 +1913,8 @@ a:hover .tablet-cover {
 
 form.account,
 .inset {
-  padding: 20px
+  padding: 11px 20px;
+  border-top: 1px solid rgba(0,0,0,0.05)
 }
 
 
@@ -2288,16 +2295,16 @@ a.content-line .file {
 }
 
 .photo-holder {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: inline-block;
   margin: 5px 16px 0 0;color: #a5a5a5
 }
 
 .photo-holder img {
   vertical-align: text-bottom;
-  max-width: 24px;
-  max-height: 24px;
+  max-width: 30px;
+  max-height: 30px;
 }
 
 .photo-holder.plus {

@@ -2,11 +2,11 @@
 
   <div style="overflow:hidden;display:flex;flex-direction:column; box-shadow: rgba(15,15,15,.1) 0 0 0 1px, rgba(15,15,15,.1) 0 2px 4px;
     background: #fff;
-    border-radius: 4px;">
+    border-radius: 6px;">
 {{#root}}<a class="line" href="/settings/client/{{client.name}}">
 <span class="label">Folder</span>
 {{^blog.client}}
-      <span class="link">Set up a client</span>
+      <span class="link">Set up a client to sync your folder</span>
     {{/blog.client}}
     {{#blog.client}}
     <span class="center">{{client.display_name}}</span>

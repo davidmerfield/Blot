@@ -22,18 +22,6 @@ module.exports = function(req, res, next) {
       return _render.call(this, wrapper, locals, callback);
     }
 
-    if (
-      view.indexOf("create-blog") > -1 ||
-      view.indexOf("wrapper-setup") > -1
-    ) {
-      res.locals.partials = res.locals.partials || {};
-      res.locals.partials.head = __dirname + "/views/partials/head";
-      res.locals.partials.dropdown = __dirname + "/views/partials/dropdown";
-      res.locals.partials.footer = __dirname + "/views/partials/footer";
-
-      return _render.call(this, view, locals, callback);
-    }
-
     if (req.query.setup)
       wrapper = __dirname + "/views/partials/wrapper-setup.html";
     else {

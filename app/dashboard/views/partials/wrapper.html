@@ -100,8 +100,28 @@
         </ol>
       </div>
 {{#selected.settings}}
-<span style="border-left: 1px solid #eee;height: 28px;display: inline-block;margin:0 1rem"></span>
-      <a href="{{{blog.url}}}" target="_blank" class="no-underline" style="border-radius:4px;padding:4px 8px;line-height:20px;font-weight:600;flex-shrink:0;color:#365899;">Visit &rarr;</a>
+<style type="text/css">
+  .s {border-radius: 6px;padding: 4px 30px 4px 11px}
+  .s.no-underline:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0px;
+    right: 14.31px;
+    width: 6px;
+    height: 6px;
+    margin: auto 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border: solid;
+    border-width: 1px 1px 0 0;
+    border-color: #365899;
+}
+  }
+</style>
+      <a href="{{{blog.url}}}" target="_blank" class="s no-underline" style="line-height:20px;font-weight:600;flex-shrink:0;color:#365899;border: 1px solid rgba(0,0,0,0.1)">Visit</a>
 {{/selected.settings}}      </div>
     </div>
 
@@ -129,7 +149,7 @@
         {{> yield}}
       </div>
 
-      <form class="foot" action="/account/log-out" method="post" style="border:none;background:none;padding:11px 20px;font-size: 12px;color: #666">
+      <form class="foot" action="/account/log-out" method="post" style="border:none;background:none;padding:11px 20px;font-size: 14px;color: #666">
 
 <div style="display: flex">
 <div style="flex-grow: 1">
@@ -139,7 +159,7 @@
 </div>
   <button
     type="submit"
-    style="background:none;font-size:12px;border:none;padding:0 0;margin:0;color:rgb(153, 153, 153);"
+    style="background:none;font-size:14px;border:none;padding:0 0;margin:0;color:rgb(153, 153, 153);"
   >
     Log out &thinsp;&rarr;
   </button></div>

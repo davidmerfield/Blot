@@ -8,7 +8,7 @@ var load = require("./load");
 
 // So the breadcrumbs look like: Settings > Client
 client_routes.use(function(req, res, next) {
-  res.locals.breadcrumbs.add("Client", "client");
+  res.locals.breadcrumbs.add("Folder", "client");
   next();
 });
 

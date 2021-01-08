@@ -1,7 +1,7 @@
 <form class="account" method="post">
   <input type="hidden" name="_csrf" value="{{csrftoken}}" />
 
-  <p style="padding:0em 2em 0 0;margin:0 0 20px;line-height:1.5">
+  <p style="padding:0em 2em 0 0;margin:11px 0 20px;line-height:1.5">
     {{#user.isFreeForLife}} You can use Blot <b>for free</b> for as long as Blot
     exists. {{/user.isFreeForLife}} {{#user.cancel_at_period_end}} Your
     subscription has been cancelled and you won’t be charged again. On
@@ -40,17 +40,20 @@
     >
     {{/user.cancel_at_period_end}} {{#user.isSubscribed}}
 
-    <div class="line">
+    <div class="line" style="padding-bottom: 0">
       <span class="label">Your blogs</span>
-      <div class="center" style="position:relative;top:-6px">
+      <style type="text/css">
+        .line.blog{border-bottom:1px solid rgba(0,0,0,0.05)}
+      .line.blog:last-of-type {border-bottom:none}</style>
+      <div class="center">
         {{#blogs}}
 
         <div
-          style="display:flex;border:none;align-items:center;padding:0;border-bottom:1px solid rgba(0,0,0,0.05)"
-          class="line"
+          style="display:flex;padding:0 0 11px;"
+          class="line blog"
         >
           <span
-            style="display:flex;flex-grow:1;align-items:center;padding:11px 0;"
+            style="display:flex;flex-grow:1;align-items:center;"
             ><span class="photo-holder" style="margin-top:0">
               {{#avatar}}<img
                 style="vertical-align: top;"
@@ -72,12 +75,12 @@
         </div>
 
         {{/blogs}}
-        <a
+        <!-- <a
           class="line"
           style="display:block;padding:11px 0;background:none;border-bottom: none;margin-bottom: -11px"
           href="/account/create-blog"
           ><span class="link">Create new blog</span></a
-        >
+        > -->
       </div>
     </div>
 
@@ -100,20 +103,16 @@
     <a class="line" href="/account/subscription/cancel"
       ><span class="label">Cancel</span
       ><span class="center"
-        ><span class="link">Cancel subscription</span></span
+        ><span class="link">Cancel your subscription</span></span
       ></a
     >
 
     {{/user.isSubscribed}}
-    <a class="line" href="/account/subscription/delete">
+    <a class="line" href="/account/subscription/delete" style="border-bottom: none">
       <span class="label">Delete</span>
       <span class="center"
-        ><span class="link">Permanently delete your account</span></span
+        ><span class="link">Delete your account</span></span
       >
     </a>
-    <br />
-    <div class="buttons" style="margin: 11px 20px">
-      <a href="/">Back to your account</a>
-    </div>
   </div>
 </form>

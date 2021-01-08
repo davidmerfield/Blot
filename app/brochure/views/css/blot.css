@@ -431,6 +431,8 @@ ul.side-links {
   margin-bottom: 2rem;
 }
 
+.error:empty {display: none;}
+
 .form-container {
   display: inline-block;
   max-width: 360px;
