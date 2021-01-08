@@ -71,7 +71,7 @@ settings.use("/settings/services/*", function(req, res, next) {
 });
 
 settings
-  .route("/settings/services/404s")
+  .route("/settings/urls/404s")
   .get(load.fourOhFour, function(req, res) {
     res.locals.breadcrumbs.add("404 log", "404s");
     res.render("settings/404s", { title: "404s" });
