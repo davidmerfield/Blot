@@ -1,5 +1,6 @@
 var helper = require("helper");
 var ensure = helper.ensure;
+var punycode = helper.punycode;
 var url = require("url");
 
 var INVALID = "Please enter a valid hostname";
@@ -21,6 +22,10 @@ module.exports = function(blogID, domain, callback) {
 
     // http://google.com -> google.com
     if (domain.indexOf("://") > -1) domain = url.parse(domain).hostname;
+
+    // mañana.com -> xn--maana-pta.com
+    domain = punycode.toASCII(domain);
+
   } catch (e) {
     return callback(INVALID);
   }
