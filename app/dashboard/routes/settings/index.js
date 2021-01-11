@@ -71,7 +71,7 @@ settings.use("/settings/services/*", function(req, res, next) {
 });
 
 settings
-  .route("/settings/urls/404s")
+  .route("/settings/services/404s")
   .get(load.fourOhFour, function(req, res) {
     res.locals.breadcrumbs.add("404 log", "404s");
     res.render("settings/404s", { title: "404s" });
@@ -87,6 +87,7 @@ settings.get("/settings/services/redirects", load.redirects, function(
 ) {
   res.locals.breadcrumbs.add("Redirects", "redirects");
   res.locals.partials.subpage = "settings/redirects";
+  res.locals.edit = !!req.query.edit;
   res.render("settings/subpage", { title: "Redirects" });
 });
 

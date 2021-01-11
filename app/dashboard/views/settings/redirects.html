@@ -5,7 +5,7 @@
   Use redirects to fix broken links to your site. You can use Regular Expressions to match multiple URLs in a single rule.
 </p>
 
-<a href="/settings/urls/404s" style="color:rgb(109, 109, 109);line-height:40px;text-decoration:none;display:block;border-top:1px solid rgba(0,0,0,.05)">
+<a href="/settings/services/404s" style="color:#365899;line-height:40px;display:block;border-top:1px solid rgba(0,0,0,.05)">
   View your 404 log <span style="float:right">&rarr;</span>
 </a>
 
@@ -13,14 +13,13 @@
   <input name='forceSSL' type='hidden' value='off'>
   <input name='forceSSL' type="checkbox" {{#blog.forceSSL}} checked{{/blog.forceSSL}}/> Redirect HTTP traffic to HTTPS </label> <label>
   <input name='redirectSubdomain' type='hidden' value='off'>
-  <input name='redirectSubdomain' type="checkbox" {{#blog.redirectSubdomain}} checked{{/blog.redirectSubdomain}}/> Redirect subdomain to custom domain </label> 
+  <input name='redirectSubdomain' type="checkbox" {{#blog.redirectSubdomain}} checked{{/blog.redirectSubdomain}}/> Redirect subdomain on Blot to your custom domain </label> 
   {{#warning}}
   <p>Please note that redirect rules are evaluated last so if you have an existing post or file in your folder which matches a redirect, it will be returned.</p>
   {{/warning}}
 
   <br>
-  <label>Redirect rules</label>
-  <span style="float:right; margin-bottom: 1em;">   
+    <span style="float:right; margin-bottom: 1em;z-index: 1;position: relative;">   
     {{^edit}}
     <a href="#!" id="addRedirect">Add redirect rule</a> &bull; <a href="?edit=true">Bulk edit</a>
     {{/edit}}
@@ -29,16 +28,14 @@
     <a href="?edit=">Cancel</a>
     {{/edit}}
   </span>
+  <label style="z-index: 0;position: relative;">Redirect rules</label>
+
 
   <hr>
   
   <section id="stage">
     {{#edit}}
-    <textarea name="redirects" style="line-height:1.333;font-size:16px;margin-bottom:1.5em;padding:0.1em;font-family:monospace">
-      {{#redirects}}
-      {{from}} {{to}}
-      {{/redirects}}
-    </textarea>
+<textarea name="redirects" style="line-height:1.333;font-size:16px;margin-bottom:1.5em;padding:0.1em;font-family:monospace;width:100%;min-height: 200px">{{#redirects}}{{from}} {{to}}&#10;{{/redirects}}</textarea>
     {{/edit}}
 
     {{^edit}}
