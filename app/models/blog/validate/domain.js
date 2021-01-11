@@ -1,7 +1,6 @@
 var helper = require("helper");
 var ensure = helper.ensure;
 var url = require("url");
-var HOST = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/;
 
 var INVALID = "Please enter a valid hostname";
 var IN_USE = "That domain was already in use.";
@@ -23,10 +22,6 @@ module.exports = function(blogID, domain, callback) {
     // http://google.com -> google.com
     if (domain.indexOf("://") > -1) domain = url.parse(domain).hostname;
   } catch (e) {
-    return callback(INVALID);
-  }
-
-  if (!HOST.test(domain)) {
     return callback(INVALID);
   }
 
