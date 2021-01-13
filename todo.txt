@@ -53,8 +53,6 @@ Prevent long-overdue users from accessing the service, then tell [Matvey](https:
 
 Add support for arbritary template folder location – any subfolder could be a template folder if it contains a valid template.json file. Tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjfBwnDxMFMGgHtfFFkBvTQbV)
 
-Add point-and-click support for [Cloudflare analytics](https://blog.cloudflare.com/privacy-first-web-analytics/) and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjnbqnBFkxwcMVFvKvwGBjsGZ)
-
 Generate proper favicons from uploaded avatars (to prevent streched favicons when non-square avatars are uploaded)
 
 Improvements to server infrastructure
