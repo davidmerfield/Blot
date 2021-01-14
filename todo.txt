@@ -1,3 +1,5 @@
+Merge new brochure
+
 Improvements to templates
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
@@ -23,7 +25,7 @@ Disable access to s3 blogs bucket
 
 Remove any stray snapshots
 
-Add Q and A question section to site where users could post and tell [Taylan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHkkKQrhrRPRnNNtzNGqtCQW)
+Add Q and A question section to site where users could post and tell [Taylan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHkkKQrhrRPRnNNtzNGqtCQW) and [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)
 
 ---
 
@@ -810,8 +812,6 @@ Consider adding simple commenting system and tell [Precious](https://mail.google
 Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNRnfqdSCvqvTgGZTSSTvGjv)
 
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
-
-Consider establishing community of Blot users and tell [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)
 
 Consider offering a DNS server with cloudflare like UX to avoid issues connecting the domain
 
