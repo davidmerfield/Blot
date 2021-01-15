@@ -36,14 +36,17 @@ jobs:
       uses: supercharge/redis-github-action@1.2.0
       with:
         redis-version: ${{ matrix.redis-version }}      
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    
     - uses: r-lib/actions/setup-pandoc@v1
       with:
         pandoc-version: '2.16.3' 
+    
     - run: export BLOT_PANDOC_PATH=$(which pandoc)
-    - run: node config/blot/setup
     - run: npm ci
+    - run: node config/blot/setup
     - run: npm test
