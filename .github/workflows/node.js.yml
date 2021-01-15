@@ -24,5 +24,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+      env:
+        PANDOC_VERSION: 2.11.3.2
+        PANDOC: $HOME/.pandoc
+        PANDOC_DEB: https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
+    - run: mkdir -p "$PANDOC"
+    - run: if [[ ! -f "$PANDOC/pandoc.deb" ]]; then curl -L "$PANDOC_DEB" > "$PANDOC/pandoc.deb" && dpkg -x "$PANDOC/pandoc.deb" "$PANDOC"; fi
+    - run: export PATH="$PANDOC/usr/bin:$PATH"
+    - run: export BLOT_PANDOC_PATH=$(which pandoc)
+    - run: node config/blot/setup
     - run: npm ci
     - run: npm test
