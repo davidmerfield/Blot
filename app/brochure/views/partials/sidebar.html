@@ -1,45 +1,74 @@
 <nav>
-  <div class="container">
-    <input type="checkbox" name="toggle" id="toggle">
-    <ul class="sidebar">
-      <li>
-        <a class="{{selected.howIndex}}" href="/how">How to use</a>
-        {{#if selected.how}}
-        <ul>
-          <li><a class="{{selected.pages}}" href="/how/pages">Pages</a></li>
-          <li><a class="{{selected.metadata}}" href="/how/metadata">Metadata</a></li>
-          <li><a class="{{selected.public-files}}" href="/how/public-files">Public files</a></li>
-          <li><a class="{{selected.clients}}" href="/how/clients">Clients</a></li>
-          <li><a class="{{selected.guides}}" href="/how/guides">Guides</a></li>
-        </ul>
-        {{/if}}
-      </li>
-      <li>
-        <a class="{{selected.templatesIndex}}" href="/templates">Templates</a>
-        {{#if selected.templates}}
-        <ul>
-          <li><a class="{{selected.diary}}" href="/templates/diary">Diary</a></li>
-          <li><a class="{{selected.essay}}" href="/templates/essay">Essay</a></li>
-          <li><a class="{{selected.picture}}" href="/templates/picture">Picture</a></li>
-          <li><a class="{{selected.magazine}}" href="/templates/magazine">Magazine</a></li>
-          <li><a class="{{selected.scrapbook}}" href="/templates/scrapbook">Scrapbook</a></li>
-        </ul>
-        {{/if}}
-      </li>
-      <li><a class="{{selected.examples}}" href="/examples">Examples</a></li>
-      <li><a class="{{selected.pricing}}" href="/pricing">Pricing</a></li>
-      <li><a class="{{selected.support}}" href="/support">Support</a></li>
-      <br>
-      <li><a class="{{selected.news}}" href="/news">News</a></li>
-      <li><a class="{{selected.about}}" href="/about">About</a></li>
-      <li><a class="{{selected.developers}}" href="/developers">Developers</a></li>
-      <li><a class="{{selected.notes}}" href="/notes">Notes</a></li>
-      <li><a class="{{selected.contact}}" href="/contact">Contact</a></li>
-      {{#unless user}}
-      <br>
-      <li><a class="{{selected.sign-up}}" href="/sign-up">Sign up</a></li>
-      <li><a class="{{selected.log-in}}" href="/log-in">Log in</a></li>
-      {{/unless}}
-    </ul>
-  </div>
+  <input type="checkbox" name="toggle" id="toggle">
+  <ul class="sidebar">
+    <li style="margin-top: -3px"><a href="/log-in">Log in<span style="float: right;">→</span></a></li>
+    <li><a href="/sign-up" style="border-bottom: none;margin-bottom: 24px">Sign up<span style="float: right;">→</span></a></li>
+    <li>
+      <a class="{{selected.howIndex}}" data-open="{{selected.how}}" href="/how">How to use Blot</a>
+      <ul>
+        <li><a class="{{selected.pages}}" href="/how/pages">Pages</a></li>
+        <li><a class="{{selected.metadata}}" href="/how/metadata">Metadata</a></li>
+        <li><a class="{{selected.clientsIndex}}" data-open="{{selected.clients}}"  href="/how/clients">Clients</a>
+          <ul>
+            <li><a class="{{selected.dropbox}}" href="/how/clients/dropbox">Dropbox</a></li>
+            <li><a class="{{selected.git}}" href="/how/clients/git">Git</a></li>
+          </ul>
+        </li>                  
+        <li><a class="{{selected.guidesIndex}}" data-open="{{selected.guides}}" href="/how/guides">Guides</a>
+          <ul>
+            <li><a class="{{selected.markdown}}" href="/how/guides/markdown">Markdown</a></li>
+            <li><a class="{{selected.layout-tags}}" href="/how/guides/layout-tags">Layout</a></li>
+            <li><a class="{{selected.tex}}" href="/how/guides/tex">\(\TeX\)</a></li>
+            <li><a class="{{selected.embedding}}" href="/how/guides/embedding">Embedding</a></li>
+            <li><a class="{{selected.citations}}" href="/how/guides/citations">Citations</a></li>
+          </ul>
+        </li>
+        <li><a class="{{selected.configureIndex}}" data-open="{{selected.configure}}" href="/how/configure">Configuring</a>
+          <ul>
+            <li><a class="{{selected.domain}}" href="/how/configure/domain">Domain</a></li>
+            <li><a class="{{selected.analytics}}" href="/how/configure/analytics">Analytics</a></li>
+            <li><a class="{{selected.comments}}" href="/how/configure/comments">Comments</a></li>
+            <li><a class="{{selected.redirects}}" href="/how/configure/redirects">Redirects</a></li>
+            <li><a class="{{selected.urls}}" href="/how/configure/urls">URL format</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a class="{{selected.templatesIndex}}" data-open="{{selected.templates}}" href="/templates">Templates</a>
+      <ul>
+        <li><a class="{{selected.diary}}" href="/templates/diary">Diary</a></li>
+        <li><a class="{{selected.essay}}" href="/templates/essay">Essay</a></li>
+        <li><a class="{{selected.portfolio}}" href="/templates/picture">Picture</a></li>
+        <li><a class="{{selected.magazine}}" href="/templates/magazine">Magazine</a></li>
+        <li><a class="{{selected.scrapbook}}" href="/templates/scrapbook">Scrapbook</a></li>
+      </ul>
+    </li>
+    <li><a class="{{selected.aboutIndex}}" data-open="{{selected.about}}" href="/about">About</a>
+      <ul>
+        <li><a class="{{selected.who}}" href="/about/who">Who uses Blot?</a></li>
+        <li><a class="{{selected.news}}" href="/about/news">News</a></li>
+        <li><a class="{{selected.source-code}}" href="/about/source-code">Source code</a></li>      
+        <li><a class="{{selected.status}}" href="/about/status">Status</a></li>      
+        <li><a class="{{selected.contact}}" href="/about/contact">Contact</a></li>
+      </ul>
+    </li>
+    <li><a class="{{selected.developersIndex}}" data-open="{{selected.developers}}" href="/developers">Developers</a>
+      <ul>
+       <li><a class="{{selected.guides}}"  href="/developers/guides">Guides</a></li>
+       <li><a class="{{selected.reference}}"  href="/developers/reference">Reference</a></li>
+       <li><a class="{{selected.how-blot-works}}"  href="/developers/how-blot-works">How Blot works</a></li>
+       <li><a class="{{selected.rendering-templates}}"  href="/developers/rendering-templates">Rendering templates</a></li>
+      </ul>
+    </li>       
+    <li><a class="{{selected.notesIndex}}" href="/notes" data-open="{{selected.notes}}">Notes</a>
+      <ul>
+       <li><a class="{{selected.business}}"  href="/notes/business">Business</a></li>
+       <li><a class="{{selected.design}}" href="/notes/design">Design</a></li>
+       <li><a class="{{selected.politics}}" href="/notes/politics">Politics</a></li>
+       <li><a class="{{selected.programming}}" href="/notes/programming">Programming</a></li>
+      </ul>
+    </li>    
+    <li><a class="{{selected.support}}" style="border-bottom: none;" href="/support">Support</a></li>
+  </ul>
 </nav>

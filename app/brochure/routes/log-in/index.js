@@ -19,8 +19,6 @@ form.use(function (req, res, next) {
     return res.redirect(then);
   }
 
-  res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
-
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
   res.locals.layout = "partials/layout-form";
@@ -31,6 +29,11 @@ form.use(function (req, res, next) {
 form
   .route("/reset")
 
+  .all(function(req, res, next){
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+    next()
+  })
+  
   .get(function (req, res) {
     res.render("log-in/reset");
   })

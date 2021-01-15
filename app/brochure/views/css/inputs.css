@@ -7,6 +7,7 @@ input[type="password"] {
 input[type="submit"] {
   background: #0079fc;
   border-radius: 4px;
+  -webkit-appearance: none; 
   padding: 0.75em 1em;
   color: white;
   margin: 1em 0;

@@ -1,34 +1,16 @@
 {{> head}}
 <body>
-  <header>
-      <nav>
-        <div class="container">
-        <a style="color: #000;font-weight: 600" class="{{selected.index}}" title="Blot" href="/" >Blot</a>
-      </div>
-      </nav>
-      <content>
-        <div class="container">
-          {{> breadcrumbs}}
-      </div>
-      </content>
-      <section class="links">
-        <div class="container">
-        <label for="toggle">Menu</label>
-        {{#unless user}}
-        <a href="/sign-up">Sign up</a>
-        <a href="/log-in">Log in</a>
-        {{/unless}}
-        {{#if user}}
-        <a href="/">Your account</a>
-        <a href="/contact">Contact</a>
-        {{/if}}
-      </div>
-      </section>
-  </header>
-  <main>
-    {{> sidebar}}
-    <content><div class="container">{{{body}}}</div></content>
-  </main>
+  <div class="grid">
+    <div style="grid-column-start: 3;grid-column-end: 8;margin-top: 4em">
+      {{> breadcrumbs}}
+      <div class="bod">
+      {{{body}}}
+    </div>
+    </div>
+    <div style="grid-column-start:8;grid-column-end: 11;padding-top: 4em;">
+      {{> sidebar}}
+    </div>
+  </div>
   {{> footer}}
 </body>
 </html>

@@ -14,15 +14,7 @@ var listKey = "newsletter:list";
 var TTL = 60 * 60 * 24; // 1 day in seconds
 
 news.get("/", loadDone, loadToDo, function(req, res) {
-  res.render("news");
-});
-
-news.get("/archive", function(req, res) {
-  res.render("news/archive");
-});
-
-news.get("/archive/:letter", function(req, res) {
-  res.render("news/archive");
+  res.render("about/news");
 });
 
 // The rest of these pages should not be cached
@@ -37,7 +29,7 @@ news.get("/sign-up", function(req, res) {
     delete req.session.newsletter_email;
   }
 
-  res.render("news/sign-up");
+  res.render("about/news/sign-up");
 });
 
 news.get("/cancel", function(req, res) {
@@ -46,7 +38,7 @@ news.get("/cancel", function(req, res) {
     delete req.session.newsletter_email;
   }
 
-  res.render("news/cancel");
+  res.render("about/news/cancel");
 });
 
 function confirmationKey(guid) {
@@ -58,11 +50,11 @@ function cancellationKey(guid) {
 }
 
 function confirmationLink(guid) {
-  return "https://" + config.host + "/news/confirm/" + guid;
+  return "https://" + config.host + "/about/news/confirm/" + guid;
 }
 
 function cancellationLink(guid) {
-  return "https://" + config.host + "/news/cancel/" + guid;
+  return "https://" + config.host + "/about/news/cancel/" + guid;
 }
 
 news.post("/cancel", parse, function(req, res, next) {
@@ -91,7 +83,7 @@ news.post("/cancel", parse, function(req, res, next) {
         if (err) return next(err);
 
         req.session.newsletter_email = email;
-        res.redirect("/news/cancel");
+        res.redirect("/about/news/cancel");
       });
     });
   });
@@ -117,7 +109,7 @@ news.get("/cancel/:guid", function(req, res, next) {
           if (err) return next(err);
 
           res.locals.email = email;
-          res.render("news/cancelled");
+          res.render("about/news/cancelled");
         });
       });
     });
@@ -146,7 +138,7 @@ news.get("/confirm/:guid", function(req, res, next) {
         client.del(confirmationKey(guid), function(err) {
           if (err) return next(err);
           res.locals.email = email;
-          res.render("news/confirmed");
+          res.render("about/news/confirmed");
         });
       });
     });
@@ -176,7 +168,7 @@ news.post("/sign-up", parse, function(req, res, next) {
       if (err) return next(err);
 
       req.session.newsletter_email = email;
-      res.redirect("/news/sign-up");
+      res.redirect("/about/news/sign-up");
     });
   });
 });

@@ -1,6 +1,9 @@
 
 .breadcrumbs {
-}
+  margin-bottom: 58px;
+  /*font-size: 18px;*/
+    /*border-bottom: 1px solid #eceff1;*/
+    padding: 0 0 .3375em;}
 
 .breadcrumbs__list {
   margin: 0;
@@ -13,8 +16,14 @@
   padding-left: 0;
 }
 
+.breadcrumbs__list-item:last-of-type {
+  color: #000;
+  font-weight: 600;
+}
+
 .breadcrumbs__link {
   text-decoration: none;
+  color: inherit;
 }
 
 .breadcrumbs__list-item {

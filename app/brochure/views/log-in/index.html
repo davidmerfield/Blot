@@ -20,12 +20,9 @@
   }
 </style>
 
-<div class="form-container">
-<form method="POST" style="margin:0;padding:0;">
 
-  <input type="hidden" name="email" value="{{email}}" />
 
-  {{#BADTOKEN}}
+{{#BADTOKEN}}
   <p class="error">This link has expired or had already been clicked.</p>
   {{/BADTOKEN}}
 
@@ -45,11 +42,17 @@
   <p class="error">That was not your password.</p>
   {{/BADPASSWORD}}
 
-  <p>{{^error}}Welcome back!{{/error}} You can <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/contact" style="color: inherit;text-decoration: underline;">contact me</a> if you’re having trouble logging in.</p>
-</form>
 
 <form method="POST">
-  <p>
+
+  <input type="hidden" name="email" value="{{email}}" />
+
+  <p style="margin-top: 0;margin-bottom: 24px">Welcome back! Please <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/support" style="color:inherit;">contact support</a> if you cannot log in.</p>
+</form>
+
+
+<form method="POST">
+  <p style="margin-top: 0">
     <label for="email">Your email address</label>
     <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
   </p>
@@ -57,6 +60,7 @@
     <label for="password">Password</label>
     <input name="password" type="password" {{#if validemail}} autofocus{{/if}} />
   </p>
-  <input type="submit" value="Log in" />
+  <input type="submit" value="Log in" style="margin-bottom: 8px" />
 </form>
-</div>
+
+

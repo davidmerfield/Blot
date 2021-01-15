@@ -1,5 +1,9 @@
 # Aesthetic
 
+> The same youthful freshness and lighthearted grace that animate his dances and his games enliven the Cretan's work in the arts. He has not left us, aside from his architecture, any accomplishments of massive grandeur or exalted style; like the Japanese of samurai days he delights rather in the refinement of the lesser and more intimate arts, the adornment of objects daily used, the patient perfecting of little things. As in every aristocratic civilization, he accepts conventions in the form and subject of his work, avoids extravagant novelties, and learns to be free even within the limitations of reserve and taste. He excels in pottery, gem cutting, bezel carving, and reliefs, for here his microscopic skill finds every stimulus and opportunity. He is at home in the working of silver and gold, sets all the precious stones, and makes a rich diversity of jewels. Upon the seals that he cuts to serve as official signatures, commercial labels, or business forms, he engraves in delicate detail so much of the life and scenery of Crete that from them alone we might picture his civilization. He hammers bronze into basins, ewers, daggers, and swords ornamented with floral and animal designs, and inlaid with gold and silver, ivory and rare stones. At Gournia he has left us, despite the thieves of thirty centuries, a silver cup of finished artistry; and here and there he has molded for us rhytons, or drinking horns, rising out of human or animal heads that to this day seem to hold the breath of life. 
+
+- From The Life of Greece: The Story of Civilization by Will Durant
+
 ## What I'm against
 
 There is a distinct SAAS-aesthetic. I don't like it and I don't want Blot to be associated with it. This aesthetic is infantile – it uses emojis and animated GIFs. It worships Steve Jobs and Walt Disney. It is obsessed with growth.

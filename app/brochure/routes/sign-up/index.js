@@ -42,8 +42,6 @@ if (config.maintenance) {
 // form using an access token I generate myself
 paymentForm.get(function(req, res, next) {
 
-  res.locals.breadcrumbs = [{label: 'Sign up'}, {label: 'Create blog'}];
-
   // Just a regular old request, carry on.
   if (!req.query.already_paid) return next();
 
@@ -134,7 +132,7 @@ passwordForm.all(function(req, res, next) {
   if (!req.session || !req.session.email || !req.session.subscription)
     return res.redirect(req.baseUrl + paymentForm.path);
 
-  res.locals.breadcrumbs = [{label: 'Sign up'}, {label: 'Create blog'}];
+  res.locals.breadcrumbs = [{label: 'Blot'}, {label: 'Sign up'}];
 
   next();
 });

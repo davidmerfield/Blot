@@ -9,9 +9,11 @@ var TITLES = {
   how: "How to use Blot",
   terms: "Terms of use",
   privacy: "Privacy policy",
-  domain: "Use your domain",
+  configure: "Configuring",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
+  who: "Who uses Blot?",
   "json-feed": "JSON feed",
+  "how-blot-works": "How Blot works",
   "posts-tagged": "A page with posts with a particular tag"
 };
 
@@ -22,7 +24,7 @@ brochure.use(function (req, res, next) {
   if (req.url === '/') return next();
 
   res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
-    if (!slug) return { label: "Home", url: "/" };
+    if (!slug) return { label: "Blot", url: "/" };
     return {
       label: TITLES[slug] || titleFromSlug(slug),
       url: arr.slice(0, i + 1).join("/"),
@@ -87,10 +89,14 @@ brochure.use("/account", function (req, res, next) {
   next();
 });
 
+brochure.get("/about/who", require("./featured"));
+
+brochure.get("/", function (req, res, next) {
+  res.locals.layout = 'partials/layout-index'
+  next();
+});
 
 brochure.use("/fonts", require("./fonts"));
-
-brochure.use("/examples", require("./featured"));
 
 brochure.get("/sitemap.xml", require("./sitemap"));
 
@@ -100,7 +106,7 @@ brochure.use("/notes", require("./notes"));
 
 brochure.use("/templates", require("./templates"));
 
-brochure.use("/news", require("./news"));
+brochure.use("/about/news", require("./news"));
 
 brochure.use("/sign-up", require("./sign-up"));
 
