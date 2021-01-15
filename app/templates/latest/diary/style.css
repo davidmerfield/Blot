@@ -248,6 +248,7 @@ ul, ol {
 }
 
 ul {list-style: circle;}
+ul.task-list { list-style-type: none; }
 
 ul ul, ol ul, ol ol, ul ol {margin-left: 1.33em;margin-bottom: 0}
 
