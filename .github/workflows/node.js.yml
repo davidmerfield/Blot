@@ -18,23 +18,25 @@ jobs:
       matrix:
         node-version: [10.x]
 
+    env:
+      BLOT_CACHE: false
+      BLOT_DIRECTORY: /
+      BLOT_DEBUG: false
+      BLOT_MAINTENANCE: false
+      BLOT_PRODUCTION: true
+      BLOT_PROTOCOL: https
+      BLOT_ENVIRONMENT: production
+      BLOT_HOST: blot.development
+      PANDOC_VERSION: 2.11.3.2
+      PANDOC: $HOME/.pandoc
+      PANDOC_DEB: https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
+
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-      env:
-        BLOT_CACHE: false
-        BLOT_DEBUG: false
-        BLOT_MAINTENANCE: false
-        BLOT_PRODUCTION: true
-        BLOT_PROTOCOL: https
-        BLOT_ENVIRONMENT: production
-        BLOT_HOST: blot.development
-        PANDOC_VERSION: 2.11.3.2
-        PANDOC: $HOME/.pandoc
-        PANDOC_DEB: https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
     - run: mkdir -p "$PANDOC"
     - run: if [[ ! -f "$PANDOC/pandoc.deb" ]]; then curl -L "$PANDOC_DEB" > "$PANDOC/pandoc.deb" && dpkg -x "$PANDOC/pandoc.deb" "$PANDOC"; fi
     - run: export PATH="$PANDOC/usr/bin:$PATH"
