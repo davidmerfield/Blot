@@ -1,0 +1,67 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.16.3]
+        pandoc-version: [2.11.3.2]
+        redis-version: [4]
+    environment: Tests
+    env:
+      BLOT_CACHE: false
+      BLOT_DIRECTORY: /home/runner/work/Blot/Blot
+      BLOT_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/cache
+      BLOT_DEBUG: false
+      BLOT_MAINTENANCE: false
+      BLOT_PRODUCTION: true
+      BLOT_PROTOCOL: https
+      BLOT_ENVIRONMENT: production
+      BLOT_HOST: blot.development
+      BLOT_ADMIN_EMAIL: ${{ secrets.BLOT_ADMIN_EMAIL }}
+      BLOT_DROPBOX_APP_SECRET: ${{ secrets.BLOT_DROPBOX_APP_SECRET }}
+      BLOT_DROPBOX_FULL_SECRET: ${{ secrets.BLOT_DROPBOX_FULL_SECRET }}
+      BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN }}
+      BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN }}
+      BLOT_DROPBOX_TEST_ACCOUNT_ID: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_ID }}
+      BLOT_MAILGUN_KEY: ${{ secrets.BLOT_MAILGUN_KEY }}
+      BLOT_SESSION_SECRET: ${{ secrets.BLOT_SESSION_SECRET }}
+      BLOT_TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_KEY }}
+      BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
+      BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
+      BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Set up Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Set up Redis
+      uses: supercharge/redis-github-action@1.2.0
+      with:
+        redis-version: ${{ matrix.redis-version }}      
+    
+    - name: Set up Pandoc
+      uses: r-lib/actions/setup-pandoc@v1
+      with:
+        pandoc-version: ${{ matrix.pandoc-version }}    
+
+    - name: Set up Blot
+      run: |
+        echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+        git config --global user.email "admin@example.com"
+        git config --global user.name "Admin"
+        npm ci
+        node config/blot/setup
+    
+    - name: Run tests
+      run: npm test
