@@ -1,7 +1,5 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+name: Tests
 
-name: Node.js CI
 
 on:
   push:
@@ -11,14 +9,12 @@ on:
 
 jobs:
   build:
-
+    environment: Tests
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [10.x]
         redis-version: [4]
-
     env:
       BLOT_CACHE: false
       BLOT_DIRECTORY: /
