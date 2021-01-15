@@ -1,5 +1,3 @@
-Migrate from Travis to Github Actions
-
 Merge new brochure
 
 Disable access to s3 blogs bucket
