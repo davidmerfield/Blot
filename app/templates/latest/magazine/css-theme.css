@@ -47,7 +47,8 @@ body {padding:0 2rem;max-width:66rem;
   
   #top_button {opacity:0;transition: opacity 0.2s ease-in;}
   #top_button.show {opacity:1}
-  
+
+  ul.task-list { list-style-type: none; }
   input {
       color: #555;
 background-color: {{background_color}};

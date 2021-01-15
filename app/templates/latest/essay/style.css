@@ -43,6 +43,8 @@ hr {
   display: block;
 }
 
+ul.task-list { list-style-type: none; }
+
 .caption, blockquote {color: {{text_color}}}
 
 blockquote {font-style: italic;margin:0;padding: 0 0 0 1em;border-left: 1px solid {{text_color}}}
