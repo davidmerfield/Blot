@@ -25,6 +25,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
       env:
+        BLOT_CACHE: false
+        BLOT_DEBUG: false
+        BLOT_MAINTENANCE: false
+        BLOT_PRODUCTION: true
+        BLOT_PROTOCOL: https
+        BLOT_ENVIRONMENT: production
+        BLOT_HOST: blot.development
         PANDOC_VERSION: 2.11.3.2
         PANDOC: $HOME/.pandoc
         PANDOC_DEB: https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
