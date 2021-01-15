@@ -37,6 +37,7 @@ jobs:
       BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
       BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
       BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
+
     steps:
     - uses: actions/checkout@v2
       
@@ -65,5 +66,7 @@ jobs:
         git config --global user.name "Admin"
         node config/blot/setup
     
+    # Everything up til here (excluding actions/checkout) should be cached until
+    # configuration changes
     - name: Run tests
       run: npm test
