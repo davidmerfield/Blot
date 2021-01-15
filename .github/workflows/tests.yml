@@ -55,12 +55,14 @@ jobs:
       with:
         pandoc-version: ${{ matrix.pandoc-version }}    
 
+    - name: Install node modules with caching
+      uses: bahmutov/npm-install@v1
+
     - name: Set up Blot
       run: |
         echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
         git config --global user.email "admin@example.com"
         git config --global user.name "Admin"
-        npm ci
         node config/blot/setup
     
     - name: Run tests
