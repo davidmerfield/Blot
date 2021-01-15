@@ -28,9 +28,6 @@ jobs:
       BLOT_PROTOCOL: https
       BLOT_ENVIRONMENT: production
       BLOT_HOST: blot.development
-      PANDOC_VERSION: 2.11.3.2
-      PANDOC: $HOME/.pandoc
-      PANDOC_DEB: https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
 
     steps:
     - uses: actions/checkout@v2
@@ -43,9 +40,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: mkdir -p "$PANDOC"
-    - run: if [[ ! -f "$PANDOC/pandoc.deb" ]]; then curl -L "$PANDOC_DEB" > "$PANDOC/pandoc.deb" && dpkg -x "$PANDOC/pandoc.deb" "$PANDOC"; fi
-    - run: export PATH="$PANDOC/usr/bin:$PATH"
+    - uses: r-lib/actions/setup-pandoc@v1
+      with:
+        pandoc-version: '2.16.3' 
     - run: export BLOT_PANDOC_PATH=$(which pandoc)
     - run: node config/blot/setup
     - run: npm ci
