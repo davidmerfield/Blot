@@ -17,6 +17,7 @@ jobs:
     strategy:
       matrix:
         node-version: [10.x]
+        redis-version: [4]
 
     env:
       BLOT_CACHE: false
@@ -33,6 +34,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.2.0
+      with:
+        redis-version: ${{ matrix.redis-version }}      
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
