@@ -1,20 +1,20 @@
 name: Tests
 
-
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
+    
 jobs:
   test:
-    environment: Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.16.3]
+        pandoc-version: [2.11.3.2]
         redis-version: [4]
+    environment: Tests
     env:
       BLOT_CACHE: false
       BLOT_DIRECTORY: /home/runner/work/Blot/Blot
@@ -37,7 +37,6 @@ jobs:
       BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
       BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
       BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
-
     steps:
     - uses: actions/checkout@v2
       
@@ -54,7 +53,7 @@ jobs:
     - name: Set up Pandoc
       uses: r-lib/actions/setup-pandoc@v1
       with:
-        pandoc-version: '2.11.3.2' 
+        pandoc-version: ${{ matrix.pandoc-version }}    
 
     - name: Set up Blot
       run: |
