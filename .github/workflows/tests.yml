@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
     environment: Tests
     runs-on: ubuntu-latest
     strategy:
@@ -41,21 +41,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-    - name: Start Redis
+    - name: Set up Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Set up Redis
       uses: supercharge/redis-github-action@1.2.0
       with:
         redis-version: ${{ matrix.redis-version }}      
     
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    
-    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Set up Pandoc
+      uses: r-lib/actions/setup-pandoc@v1
       with:
         pandoc-version: '2.11.3.2' 
+
+    - name: Set up Blot
+      run: |
+        echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+        npm ci
+        node config/blot/setup
     
-    - run: export BLOT_PANDOC_PATH=$(which pandoc)
-    - run: npm ci
-    - run: node config/blot/setup
-    - run: npm test
+    - name: Run tests
+      run: npm test
