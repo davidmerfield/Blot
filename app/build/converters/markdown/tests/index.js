@@ -44,7 +44,7 @@ describe("markdown converter", function() {
   it("handles return characters", from("/return-character.txt"));
   it("converts basic markdown", from("/basic-post.txt"));
   it("converts a list", from("/list.txt"));
-  fit("converts a list with tasks", from("/list-with-tasks.txt"));
+  it("converts a list with tasks", from("/list-with-tasks.txt"));
   it("handles pre-formatted indentation", from("/pre-formatted-indents.txt"));
 
   // These are disabled because Travis uses an old version of Pandoc
