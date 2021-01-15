@@ -41,7 +41,7 @@ jobs:
       BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
       BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
 
-steps:
+    steps:
     - uses: actions/checkout@v2
       
     - name: Start Redis
