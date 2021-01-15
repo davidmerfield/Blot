@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
     environment: Tests
     runs-on: ubuntu-latest
     strategy:
@@ -59,6 +59,8 @@ jobs:
     - name: Set up Blot
       run: |
         echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+        git config --global user.email "admin@example.com"
+        git config --global user.name "Admin"
         npm ci
         node config/blot/setup
     
