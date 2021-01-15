@@ -297,8 +297,6 @@ Add way to filter archives page by year or month and tell [Chad](https://mail.go
 
 Add a cool bookmarklet which [drafts a post a la this demo](https://www.youtube.com/watch?v=cu5uXXulnNk)
 
-Add support for checkboxes and tell [Matt](https://mail.google.com/mail/u/1/#inbox/16409435477f6206) and [Shridhar](https://twitter.com/shridhargupta/status/1053769475063857152) and [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCggDZGZhRJkhQhGdMjkQqNXfm) and [Fabrice](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwQNMCXkSWzvnTNzqjGKcNGW)
-
 Add broken link check for all email templates for logged in and logged out users
 
 Fix bug in [Alex's](https://nichrome.blot.im/draft/view/blog/posts/[draft]atari%20825%20printer%20font%20-%20a%20work%20in%20progress.markdown) draft and speed up its build time
@@ -781,8 +779,6 @@ Menu needs concurrency or atomic operations (so we can build posts in parallel)
 Look into how Jekyll does data files and possibly support
 
 Think about responsive images and optimizing at request time and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzxxNhtSdxgPSWHZMPkktsvW) and [Jan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDsFfdcKKqDbXrzQFPrwxmKdNt)
-
-Add support for github style checkboxes and tell [Christian](https://twitter.com/der__k?cn=bWVzc2FnZQ%3D%3D&refsrc=email)
 
 ---
 
