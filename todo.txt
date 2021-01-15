@@ -17,6 +17,10 @@ Improvements to templates
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
+Experiment with GitHub actions setup
+- Try to reduce test times by potentially building a container with node/redis/pandoc and re-using it in tests
+- Look into potentially useful actions for code quality / linting / automtatic dependency updates
+
 ---
 
 Resolve intermittent downtime
