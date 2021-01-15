@@ -17,7 +17,8 @@ jobs:
         redis-version: [4]
     env:
       BLOT_CACHE: false
-      BLOT_DIRECTORY: /
+      BLOT_DIRECTORY: /home/runner/work/Blot/Blot
+      BLOT_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/cache
       BLOT_DEBUG: false
       BLOT_MAINTENANCE: false
       BLOT_PRODUCTION: true
