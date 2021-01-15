@@ -20,6 +20,7 @@ Improvements to templates
 Experiment with GitHub actions setup
 - Try to reduce test times by potentially building a container with node/redis/pandoc and re-using it in tests
 - Look into potentially useful actions for code quality / linting / automtatic dependency updates
+  - [super-linter](https://github.com/github/super-linter#how-it-works)?
 
 ---
 
