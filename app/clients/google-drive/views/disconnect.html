@@ -1,0 +1,18 @@
+{{#account}}
+
+
+<div class="line" style="border-bottom: none">
+<p>If you <b>disconnect from Google Drive</b>, Blot will revoke its access to the Google Drive folder for <b>{{blog.title}}</b>. Once you disconnect from Google Drive, you can switch to another client seamlessly. The files in your folder on Blot will be copied across.</p>
+</div>
+
+<form method='post' class="account" style="padding-top:0;margin-top:0">
+
+  <input type="hidden" name="_csrf" value="{{csrftoken}}">
+  <div class="buttons">
+    <input class="button" type="submit" value="Disconnect from Google Drive" />
+    <a href="{{{base}}}">Cancel</a>
+  </div>
+</form>
+
+{{/account}}
+

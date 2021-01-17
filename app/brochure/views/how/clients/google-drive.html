@@ -1,71 +1,7 @@
-<h1>Git</h1>
-
-<style type="text/css">
-small code {font-size:14px;background: black;color: rgb(0,255,0);display: block;max-width: 43em;padding:1em;}
-</style>
-
-<p><svg style="width:64px;float:right;margin-left:2em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114.01 114.01">
-
- <path fill="#f05133" d="M111.78,51.977,62.035,2.2381c-2.8622-2.8648-7.5082-2.8648-10.374,0l-10.329,10.33,13.102,13.102c3.0459-1.0284,6.5371-0.33888,8.9639,2.0884,2.4394,2.4424,3.124,5.9634,2.0698,9.0195l12.628,12.628c3.0551-1.0528,6.58-0.37262,9.0195,2.0712,3.4106,3.4096,3.4106,8.9345,0,12.345-3.4111,3.4116-8.936,3.4116-12.349,0-2.5645-2.5665-3.1988-6.3345-1.8999-9.4942l-11.777-11.777-0.001,30.991c0.8315,0.41162,1.6162,0.961,2.3091,1.6509,3.4096,3.4092,3.4096,8.9331,0,12.348-3.4106,3.4091-8.938,3.4091-12.345,0-3.4101-3.4146-3.4101-8.9385,0-12.348,0.84275-0.84125,1.8179-1.478,2.8584-1.9048v-31.279c-1.041-0.425-2.015-1.057-2.859-1.905-2.583-2.581-3.2051-6.372-1.8804-9.5439l-12.916-12.918-34.106,34.105c-2.8657,2.867-2.8657,7.513,0,10.378l49.742,49.739c2.8638,2.8648,7.5082,2.8648,10.376,0l49.512-49.504c2.8648-2.8662,2.8648-7.5136,0-10.379"/>
-</svg>You can synchronize your blog's folder to Blot with <a href="https://git-scm.com/">Git</a>, a version-control system for tracking changes in computer files and coordinating work on those files among multiple people. You can switch your blog seamlessly to another client at any point.</p>
-
-<h2>Setting up Git</h2>
-
-<p>When you configure your blog with the git client on the dashboard, Blot will provide a repository URL to clone, along with a username and password.</p>
-
-<small><pre><code>git clone https://blot.im/url-to-your-repository.git</code></pre></small>
-
-<p>Your blog is generated from the master branch of your repository. To update your blog, commit your changes and push.</p>
-
-<h2>Using your phone or tablet</h2>
-
-<p>There are a handful of Git clients for phones and tablets. I've heard from a number of customers who use <a href="https://workingcopyapp.com/">Working Copy</a>.</p>
-
-<h2>Using an existing Git repository</h2>
-
-<p>You can use an existing Git repostory. Set its remote URL to Blot's repository endpoint:</p>
-
-<small><pre><code>git remote set-url origin https://blot.im/url-to-yours.git</code></pre></small>
-
-<p>The next time you push, you will need to use the force flag:</p>
-
-<small><pre><code>git push --force</code></pre></small>
-
-
-<h2>Sharing your folder on GitHub</h2>
-
-<p>Git supports multiple remote URLs. This means you can use the same repository on Blot and GitHub. If you have an existing repository on GitHub, you can add Blot's endpoint:</p>
-
-<small><pre><code>git remote set-url --add --push origin https://blot.im/your-repo.git</code></pre></small>
-
-<p>Or if you have an existing repository on Blot, you can add GitHub's endpoint:</p>
-
-<small><pre><code>git remote set-url --add --push origin https://github.com/your-repo.git</code></pre></small>
-
-<p>The next time you push, you will need to use the force flag to ensure the changes go through on both Blot and GitHub:</p>
-
-<small><pre><code>git push --force</code></pre></small>
-
-
-<h2>Switching client</h2>
-
-<p>You can switch seamlessly from Git to another client at any point:</p>
-
-<p><ul class="clients"><li><a href="/how/clients/dropbox">
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 75.1 63.8"  xml:space="preserve">
-
-<path fill="#0061FF" class="st0" d="M37.6,12L18.8,24l18.8,12L18.8,48L0,35.9l18.8-12L0,12L18.8,0L37.6,12z M18.7,51.8l18.8-12l18.8,12l-18.8,12
-  L18.7,51.8z M37.6,35.9l18.8-12L37.6,12L56.3,0l18.8,12L56.3,24l18.8,12L56.3,48L37.6,35.9z"/>
-</svg>
-
-<strong>Dropbox</strong><br>A file hosting service with wide support</a></li>
-<li><a href="/how/clients/google-drive">
-
-<?xml version="1.0" encoding="UTF-8" ?>
+<h1>Google Drive</h1>
+<p><?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="512pt" height="512pt" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<svg style="width:64px;float:right;margin-left:2em" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
 <g>
 <path fill="#0ba25e" opacity="1.00" d=" M 167.11 35.10 L 167.55 35.09 L 167.59 35.58 L 167.03 35.60 L 167.11 35.10 Z" />
 <path fill="#0ba25e" opacity="1.00" d=" M 165.40 38.38 C 165.79 37.82 166.55 36.70 166.94 36.14 L 167.64 36.03 C 168.16 42.37 170.02 48.48 171.42 54.65 C 177.44 81.46 183.52 108.25 189.85 134.98 C 194.00 153.31 198.63 171.55 202.43 189.95 C 205.73 201.34 207.50 213.09 210.69 224.50 C 212.75 235.14 215.98 245.52 217.71 256.22 C 217.01 257.39 216.31 258.57 215.60 259.74 C 215.43 260.01 215.07 260.57 214.90 260.85 L 214.64 261.30 C 214.60 261.38 214.51 261.55 214.46 261.63 C 214.07 262.35 213.29 263.78 212.90 264.49 C 212.83 264.62 212.68 264.88 212.60 265.01 L 211.89 266.27 C 211.80 266.42 211.63 266.71 211.55 266.86 L 210.72 268.31 C 210.68 268.39 210.59 268.55 210.54 268.63 L 209.51 270.43 C 209.42 270.58 209.24 270.90 209.15 271.06 C 209.05 271.23 208.85 271.56 208.75 271.73 L 207.74 273.47 C 207.66 273.60 207.50 273.88 207.42 274.01 L 206.80 275.06 C 206.70 275.24 206.48 275.61 206.38 275.79 C 205.98 276.48 205.19 277.86 204.79 278.56 C 204.72 278.68 204.57 278.93 204.50 279.06 L 203.87 280.11 C 203.77 280.30 203.55 280.66 203.44 280.85 C 203.07 281.50 202.31 282.79 201.94 283.44 C 201.85 283.59 201.68 283.90 201.59 284.05 L 200.84 285.40 C 200.77 285.52 200.63 285.77 200.56 285.89 L 199.79 287.24 C 199.71 287.38 199.55 287.66 199.47 287.80 C 199.07 288.46 198.29 289.79 197.90 290.46 C 197.81 290.61 197.63 290.92 197.54 291.08 L 196.83 292.36 C 196.76 292.48 196.63 292.71 196.57 292.83 L 195.75 294.25 C 195.68 294.38 195.53 294.63 195.46 294.75 C 195.04 295.47 194.21 296.90 193.79 297.62 C 193.72 297.75 193.56 298.01 193.48 298.14 L 192.88 299.13 C 192.78 299.31 192.57 299.66 192.47 299.84 C 192.09 300.50 191.34 301.81 190.96 302.47 C 190.90 302.58 190.76 302.82 190.70 302.93 L 189.88 304.39 C 189.82 304.50 189.70 304.71 189.64 304.82 L 188.80 306.29 C 188.73 306.40 188.59 306.64 188.52 306.75 C 188.13 307.41 187.34 308.71 186.95 309.37 C 186.84 309.54 186.64 309.90 186.53 310.08 L 185.94 311.18 C 185.86 311.32 185.71 311.60 185.64 311.73 L 184.61 313.51 C 184.53 313.66 184.35 313.96 184.27 314.11 C 184.18 314.25 184.02 314.54 183.94 314.68 C 182.25 317.53 180.72 320.47 178.85 323.21 C 168.20 340.58 158.40 358.49 148.09 376.07 C 131.35 405.04 114.63 434.01 97.89 462.98 C 95.38 467.49 92.52 471.81 90.36 476.52 C 90.25 476.68 90.03 477.00 89.92 477.16 C 85.91 471.38 82.81 465.00 79.14 459.00 C 62.40 430.01 45.65 401.03 28.92 372.03 C 19.62 355.72 9.93 339.61 0.88 323.15 C 36.72 261.30 72.40 199.34 108.17 137.45 C 108.20 137.39 108.27 137.28 108.30 137.22 L 109.28 135.54 C 109.32 135.47 109.40 135.33 109.45 135.26 L 110.44 133.57 C 110.53 133.42 110.71 133.10 110.81 132.95 C 110.91 132.77 111.11 132.42 111.21 132.24 L 112.20 130.48 C 112.27 130.36 112.41 130.12 112.48 130.00 L 113.22 128.82 C 113.35 128.63 113.61 128.24 113.74 128.04 C 114.10 127.50 114.83 126.41 115.20 125.87 C 115.24 125.69 115.31 125.34 115.35 125.17 L 116.22 123.50 C 116.26 123.43 116.34 123.29 116.38 123.22 L 117.38 121.54 C 117.48 121.38 117.68 121.04 117.78 120.87 C 117.89 120.68 118.11 120.29 118.23 120.09 L 119.07 118.62 C 119.16 118.46 119.34 118.15 119.43 118.00 L 120.13 116.77 C 120.21 116.64 120.37 116.36 120.45 116.22 C 120.84 115.55 121.62 114.21 122.02 113.54 C 122.10 113.40 122.26 113.12 122.34 112.98 L 123.07 111.65 C 123.13 111.55 123.25 111.33 123.31 111.23 L 124.27 109.55 C 124.39 109.35 124.64 108.94 124.77 108.74 L 125.42 107.76 C 125.56 107.56 125.83 107.17 125.97 106.98 C 126.09 106.78 126.34 106.38 126.47 106.18 L 127.01 105.14 C 127.19 104.75 127.56 103.97 127.74 103.58 L 128.29 102.81 C 128.39 102.67 128.58 102.40 128.68 102.26 C 129.05 101.95 129.80 101.31 130.17 100.99 L 130.10 99.82 C 130.16 99.68 130.30 99.40 130.37 99.26 L 131.22 97.57 C 131.29 97.45 131.43 97.20 131.50 97.08 L 132.25 95.86 C 132.39 95.66 132.66 95.26 132.80 95.06 C 133.14 94.50 133.83 93.40 134.17 92.85 C 134.27 92.65 134.45 92.26 134.55 92.06 L 135.08 90.91 C 135.24 90.61 135.58 90.00 135.75 89.69 L 136.41 88.75 C 136.55 88.56 136.83 88.18 136.97 87.99 C 137.09 87.79 137.34 87.39 137.46 87.19 L 137.95 86.16 C 138.06 85.93 138.29 85.46 138.40 85.23 L 139.26 83.57 C 139.39 83.37 139.64 82.95 139.76 82.74 L 140.42 81.76 C 140.56 81.56 140.84 81.18 140.98 80.98 C 141.11 80.78 141.36 80.37 141.48 80.17 L 141.99 79.13 C 142.14 78.84 142.43 78.27 142.57 77.98 L 143.25 76.86 C 143.37 76.67 143.61 76.29 143.74 76.10 C 144.10 75.54 144.83 74.42 145.20 73.87 C 145.24 73.70 145.33 73.36 145.37 73.19 L 146.24 71.53 C 146.27 71.46 146.35 71.33 146.39 71.26 L 147.39 69.55 C 147.49 69.38 147.68 69.05 147.78 68.88 C 147.88 68.72 148.07 68.38 148.17 68.22 L 149.17 66.47 C 149.21 66.40 149.29 66.26 149.33 66.18 L 150.27 64.55 C 150.32 64.48 150.41 64.33 150.45 64.25 L 151.46 62.55 C 151.55 62.39 151.73 62.09 151.82 61.93 C 151.92 61.76 152.12 61.41 152.22 61.23 L 153.18 59.54 C 153.24 59.43 153.36 59.22 153.42 59.12 L 154.23 57.81 C 154.36 57.62 154.62 57.23 154.74 57.04 C 155.11 56.49 155.83 55.39 156.20 54.84 C 156.23 54.67 156.31 54.33 156.35 54.16 L 157.20 52.53 C 157.27 52.41 157.42 52.16 157.49 52.03 L 158.25 50.84 C 158.39 50.65 158.65 50.26 158.79 50.06 C 159.14 49.50 159.84 48.39 160.19 47.83 C 160.24 47.67 160.33 47.35 160.38 47.19 L 161.26 45.54 C 161.30 45.46 161.38 45.32 161.42 45.24 L 162.44 43.52 C 162.52 43.37 162.70 43.07 162.79 42.92 C 162.88 42.75 163.06 42.43 163.15 42.27 L 164.15 40.49 C 164.20 40.42 164.28 40.27 164.32 40.20 L 165.27 38.59 C 165.30 38.54 165.37 38.43 165.40 38.38 Z" />
@@ -255,9 +191,44 @@ small code {font-size:14px;background: black;color: rgb(0,255,0);display: block;
 <path fill="#286ee6" opacity="1.00" d=" M 150.03 422.03 C 150.15 421.93 150.40 421.72 150.53 421.61 C 150.40 421.72 150.15 421.93 150.03 422.03 Z" />
 <path fill="#286ee6" opacity="1.00" d=" M 149.52 422.45 C 149.65 422.35 149.90 422.14 150.03 422.03 C 149.90 422.14 149.65 422.35 149.52 422.45 Z" />
 </g>
+</svg>You can synchronize your blog's folder to Blot with <a href="https://www.google.com/intl/en_in/drive/">Google Drive</a>, a file hosting service available on most platforms. You can switch your blog seamlessly to another client at any point.</p>
+
+<h2>Can Blot access all the files in my Google Drive?</h2>
+
+<p>
+  Yes, unfortunately due to the design of Google Drive, Blot cannot restrict its access to a single folder.
+</p>
+
+<h2>Using your phone or tablet</h2>
+
+<p>There are a number of text-editing apps for phones and tablets which integrate beautifully with Google Drive.</p>
+
+<h2>Multiple blogs</h2>
+
+<p>
+	You can create more than one blog using Google Drive. When you add a second blog, Blot creates a second folder for the new blog. 
+</p>
+
+<h2>Switching client</h2>
+
+<p>You can switch seamlessly from Google Drive to another client at any point:</p>
+
+<p><ul class="clients">
+<li><a href="/how/clients/dropbox">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 75.1 63.8"  xml:space="preserve">
+
+<path fill="#0061FF" class="st0" d="M37.6,12L18.8,24l18.8,12L18.8,48L0,35.9l18.8-12L0,12L18.8,0L37.6,12z M18.7,51.8l18.8-12l18.8,12l-18.8,12
+  L18.7,51.8z M37.6,35.9l18.8-12L37.6,12L56.3,0l18.8,12L56.3,24l18.8,12L56.3,48L37.6,35.9z"/>
 </svg>
 
+<strong>Dropbox</strong><br>A file hosting service with wide support</a></li>
+	<li><a href="/how/clients/git">
+    <?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114.01 114.01">
 
-<strong>Google Drive</strong><br>A file storage and synchronization service</a></li>
-
+ <path fill="#f05133" d="M111.78,51.977,62.035,2.2381c-2.8622-2.8648-7.5082-2.8648-10.374,0l-10.329,10.33,13.102,13.102c3.0459-1.0284,6.5371-0.33888,8.9639,2.0884,2.4394,2.4424,3.124,5.9634,2.0698,9.0195l12.628,12.628c3.0551-1.0528,6.58-0.37262,9.0195,2.0712,3.4106,3.4096,3.4106,8.9345,0,12.345-3.4111,3.4116-8.936,3.4116-12.349,0-2.5645-2.5665-3.1988-6.3345-1.8999-9.4942l-11.777-11.777-0.001,30.991c0.8315,0.41162,1.6162,0.961,2.3091,1.6509,3.4096,3.4092,3.4096,8.9331,0,12.348-3.4106,3.4091-8.938,3.4091-12.345,0-3.4101-3.4146-3.4101-8.9385,0-12.348,0.84275-0.84125,1.8179-1.478,2.8584-1.9048v-31.279c-1.041-0.425-2.015-1.057-2.859-1.905-2.583-2.581-3.2051-6.372-1.8804-9.5439l-12.916-12.918-34.106,34.105c-2.8657,2.867-2.8657,7.513,0,10.378l49.742,49.739c2.8638,2.8648,7.5082,2.8648,10.376,0l49.512-49.504c2.8648-2.8662,2.8648-7.5136,0-10.379"/>
+</svg>
+    <strong>Git</strong><br>An open source distributed version control system </a></li>
 </ul></p>

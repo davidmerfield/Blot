@@ -323,11 +323,10 @@ background .window {
 
 .clients li {
   display: inline-block;
-  flex-basis: 33%;
+  flex-basis: 50%;
   box-sizing: border-box;
-  margin: 0.7em;
+  padding: 0.7em;
   min-width: 256px;
-  flex-grow: 1;
 }
 
 .clients li a {
