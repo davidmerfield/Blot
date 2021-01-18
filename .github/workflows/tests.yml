@@ -75,6 +75,8 @@ jobs:
     - name: Set up Blot
       run: |
         echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+        git config --global user.email "admin@example.com"
+        git config --global user.name "Admin"
         node config/blot/setup
     
     # Everything up til here (excluding actions/checkout) should be cached until
