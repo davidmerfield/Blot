@@ -57,20 +57,8 @@ jobs:
       with:
         pandoc-version: ${{ matrix.pandoc-version }}    
 
-    - name: Cache node modules
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
-
-    - name: Install Dependencies
-      run: npm install
+    - name: Install node modules with caching
+      uses: bahmutov/npm-install@v1
 
     - name: Set up Blot
       run: |
