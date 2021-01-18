@@ -48,6 +48,8 @@ jobs:
         git sparse-checkout init --cone
         git sparse-checkout add "!app/folders" "/*"
         git checkout
+        ls
+        pwd
       
     - name: Set up Node
       uses: actions/setup-node@v2
