@@ -47,9 +47,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Set up Redis
-      uses: supercharge/redis-github-action@1.2.0
+      uses: shogo82148/actions-setup-redis@v1
       with:
-        redis-version: ${{ matrix.redis-version }}      
+        redis-version: ${{ matrix.redis-version }}
     
     - name: Set up Pandoc
       uses: r-lib/actions/setup-pandoc@v1
