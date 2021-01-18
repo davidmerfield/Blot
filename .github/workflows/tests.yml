@@ -39,8 +39,25 @@ jobs:
       BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
 
     steps:
-    - uses: actions/checkout@v2
-      
+
+    - name: Sparse checkout
+      shell: bash
+      run: |
+        REPO="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        BRANCH="${GITHUB_REF/#refs\/heads\//}"
+        echo "Syncing repository: $GITHUB_REPOSITORY"
+        echo "Working directory is '$(pwd)' GITHUB_WORKSPACE=$GITHUB_WORKSPACE BRANCH=$BRANCH"
+        git version
+        git config --global user.email "admin@example.com"
+        git config --global user.name "Admin"
+        git init $GITHUB_WORKSPACE
+        git remote add origin https://github.com/$GITHUB_REPOSITORY
+        git config --local gc.auto 0
+        git config core.sparseCheckout true
+        echo "/*\n!/app/folders" >> .git/info/sparse-checkout
+        git -c protocol.version=2 fetch --no-tags --prune --progress --depth=10 origin +${GITHUB_SHA}:refs/remotes/origin/${BRANCH}
+        git checkout --progress --force -B $BRANCH refs/remotes/origin/$BRANCH
+
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
@@ -62,8 +79,6 @@ jobs:
     - name: Set up Blot
       run: |
         echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
-        git config --global user.email "admin@example.com"
-        git config --global user.name "Admin"
         node config/blot/setup
     
     # Everything up til here (excluding actions/checkout) should be cached until
