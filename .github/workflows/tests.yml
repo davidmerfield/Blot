@@ -39,17 +39,8 @@ jobs:
       BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
 
     steps:
-    - name: Partial Clone
-      run: |
-        REPO="https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git"
-        git config --global user.email "admin@example.com"
-        git config --global user.name "Admin"
-        git clone --filter=blob:none --no-checkout --depth 1 --sparse $REPO .
-        git sparse-checkout init
-        git sparse-checkout add "!app/folders" "app/*" "config/*" "notes/*" "scripts/*" "tests/*"
-        git checkout
-        ls
-        pwd
+    - name: Checkout code  
+      uses: actions/checkout@v2
       
     - name: Set up Node
       uses: actions/setup-node@v2
@@ -66,9 +57,21 @@ jobs:
       with:
         pandoc-version: ${{ matrix.pandoc-version }}    
 
-    - name: Install node modules with caching
-      uses: bahmutov/npm-install@v1
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
+    - name: Install Dependencies
+      run: npm install
+      
     - name: Set up Blot
       run: |
         echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
