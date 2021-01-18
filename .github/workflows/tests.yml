@@ -44,8 +44,8 @@ jobs:
         REPO="https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git"
         git config --global user.email "admin@example.com"
         git config --global user.name "Admin"
-        git clone --filter=blob:none --no-checkout --depth 1  --sparse $REPO .
-        git sparse-checkout init --cone
+        git clone --filter=blob:none --no-checkout --depth 1 --sparse $REPO .
+        git sparse-checkout init
         git sparse-checkout add "!app/folders" "app/*" "config/*" "notes/*" "scripts/*" "tests/*"
         git checkout
         ls
