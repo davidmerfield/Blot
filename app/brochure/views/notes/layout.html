@@ -73,9 +73,9 @@
 <ul class="guides" style="display: flex;flex-wrap: wrap;margin:-1rem">
   {{#toc}}
   <li style="flex-basis: 50%;padding:1rem;box-sizing: border-box;">
-    <a class="no-outline" style="display: block;border-bottom: 2px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>        <ul style="padding-left: 0">
+    <a class="no-outline" style="display: block;border:none;border-bottom: 1px solid #f8f8f8;padding: 0.75rem 0;text-decoration: none;" href="{{slug}}"><span style="text-decoration: underline;font-weight: 600">{{name}}</span> →<br><span style="text-decoration: none;"></span></a>        <ul style="padding-left: 0">
       {{#items}}
-      <li style="list-style-type: none;"><a href="{{slug}}">{{name}}</a>
+      <li style="list-style-type: none;border:none"><a href="{{slug}}">{{name}}</a>
         {{/items}}
       </ul>
     </li>
