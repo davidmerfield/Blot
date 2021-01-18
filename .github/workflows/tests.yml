@@ -71,7 +71,7 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
-      
+
     - name: Set up Blot
       run: |
         echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
@@ -79,7 +79,6 @@ jobs:
         git config --global user.name "Admin"
         node config/blot/setup
     
-    # Everything up til here (excluding actions/checkout) should be cached until
-    # configuration changes
+    # Everything up til here (excluding actions/checkout) could be cached
     - name: Run tests
       run: npm test
