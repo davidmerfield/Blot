@@ -39,7 +39,7 @@
       <ul>
         <li><a class="{{selected.diary}}" href="/templates/diary">Diary</a></li>
         <li><a class="{{selected.essay}}" href="/templates/essay">Essay</a></li>
-        <li><a class="{{selected.portfolio}}" href="/templates/picture">Picture</a></li>
+        <li><a class="{{selected.picture}}" href="/templates/picture">Picture</a></li>
         <li><a class="{{selected.magazine}}" href="/templates/magazine">Magazine</a></li>
         <li><a class="{{selected.scrapbook}}" href="/templates/scrapbook">Scrapbook</a></li>
       </ul>
@@ -55,10 +55,23 @@
     </li>
     <li><a class="{{selected.developersIndex}}" data-open="{{selected.developers}}" href="/developers">Developers</a>
       <ul>
-       <li><a class="{{selected.guides}}"  href="/developers/guides">Guides</a></li>
-       <li><a class="{{selected.reference}}"  href="/developers/reference">Reference</a></li>
-       <li><a class="{{selected.how-blot-works}}"  href="/developers/how-blot-works">How Blot works</a></li>
+       <li><a class="{{selected.how-blot-works}}" href="/developers/how-blot-works">How Blot works</a></li>
        <li><a class="{{selected.rendering-templates}}"  href="/developers/rendering-templates">Rendering templates</a></li>
+       <li><a class="{{selected.guidesIndex}}" data-open="{{selected.guides}}" href="/developers/guides">Guides</a>
+       <ul>
+        <li><a class="{{selected.json-feed}}" href="/developers/guides/json-feed">JSON feed</a></li>
+        <li><a class="{{selected.group-posts-by-date}}" href="/developers/guides/group-posts-by-date">Group posts by date</a></li>
+        <li><a class="{{selected.posts-tagged}}" href="/developers/guides/posts-tagged">All posts with a tag</a></li>
+      </ul></li>
+       <li><a class="{{selected.referenceIndex}}" data-open="{{selected.reference}}"  href="/developers/reference">Reference</a>
+       <ul>
+        <li><a class="{{selected.blog}}" href="/developers/reference/blog">Blog</a></li>
+        <li><a class="{{selected.entry}}" href="/developers/reference/entry">Entry</a></li>
+        <li><a class="{{selected.lists}}" href="/developers/reference/lists">Lists</a></li>
+        <li><a class="{{selected.helper-functions}}" href="/developers/reference/helper-functions">Helper functions</a></li>
+        <li><a class="{{selected.date-tokens}}" href="/developers/reference/date-tokens">Date tokens</a></li>
+      </ul>
+             </li>
       </ul>
     </li>       
     <li><a class="{{selected.notesIndex}}" href="/notes" data-open="{{selected.notes}}">Notes</a>
@@ -72,3 +85,28 @@
     <li><a class="{{selected.support}}" style="border-bottom: none;" href="/support">Support</a></li>
   </ul>
 </nav>
+
+<script type="text/javascript">
+var sidebarLinks = document.querySelectorAll('.sidebar a');
+
+sidebarLinks.forEach(function(targetNode){
+  var ignore = [
+    targetNode, 
+    targetNode.parentNode.parentNode.previousSibling, 
+    targetNode.parentNode.parentNode.parentNode.parentNode.previousSibling];
+  
+  targetNode.addEventListener('click', function (e) {
+    sidebarLinks.forEach(function(node){
+      if (ignore.indexOf(node) > -1) return;
+      node.setAttribute('data-open', '');
+    });
+  });
+
+  targetNode.addEventListener('mousedown', function (e) {
+    sidebarLinks.forEach(function(node){
+      node.classList.remove('selected');
+    });
+  });
+});
+
+</script>

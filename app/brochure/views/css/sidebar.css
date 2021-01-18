@@ -26,7 +26,9 @@ nav {padding-left: 2rem}
 .sidebar a:hover{
 }
 
-.sidebar a.selected {
+.sidebar a.selected,
+.sidebar a:active,
+.sidebar a:focus {
   color: #000;
   font-weight: 600
 }
@@ -45,42 +47,40 @@ input[name="toggle"] {
   color: #000;
   box-sizing: border-box;
   text-decoration: none;
+  transition: color 0.1s ease-out;
+}
+
+
+.sidebar a:hover {
+  color: grey;
 }
 
 .sidebar a:active,
-.sidebar a:focus {
+.sidebar a:focus,
+.sidebar a.selected:hover {
   color: #000;
-  text-decoration: none;
 }
 
-
-.sidebar a:focus {
-  color: #bbb;
-}
-
-.sidebar a:hover {
-  text-decoration: underline;
-}
 
 
 .sidebar li ul {
   padding: 0;
   margin: 0;
-  display: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  box-sizing: border-box;
 }
 
 .sidebar > li > ul {
-  /*border-bottom:1px solid rgba(0,0,0,0.05);*/
-      padding-left: 1rem;
-
+  padding-left: 1rem;
 }
 
 .sidebar > li >  a {
   padding-left: 0;
   color: #000;
-
-      border-bottom: 1px solid rgba(0,0,0,.05);
-    padding-top: 3px;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+  padding-top: 3px;
     padding-bottom: 3px;
 
 }
@@ -98,29 +98,39 @@ input[name="toggle"] {
 }
 
 
-/*.sidebar li a[data-open]:before {
-  content: "⌃";
-  transform: rotate(180deg);
-  position: absolute;
-  top: -1px;
-  right: 0;
-}*/
-
-.sidebar li a[data-open="selected"]:before {
-  top: 5px;
-  transform: rotate(0);
-}
-.sidebar [data-open="selected"] + ul {
-  display: block;
-  margin: 3px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+.sidebar a + ul li:last-child {
+  margin-bottom: 3px;
   padding-bottom: 6px;
+}
+
+
+.sidebar a + ul li:first-child {
+  margin-top: 3px;
   padding-top: 6px;
 }
 
-.sidebar [data-open="selected"] + ul ul {
+.sidebar a + ul ul li:last-child {
+  margin-bottom: 0
+}
+
+.sidebar a + ul li:last-child ul li:last-child {
+  padding-bottom: 0
+}
+
+.sidebar a + ul ul li:first-child {
   border-top: 1px solid rgba(0,0,0,0.05);
 }
+
+.sidebar [data-open="selected"] + ul,
+.sidebar a:active + ul,
+.sidebar a:focus + ul
+ {
+  max-height: 300px;
+  transition: max-height 0.2s ease-out;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  margin-bottom: 3px;
+}
+
 
 .sidebar [data-open="selected"] + ul li:last-child ul {
   border-bottom: none;
@@ -128,8 +138,4 @@ input[name="toggle"] {
 
 .sidebar li ul li {
   position: relative;
-}
-
-.sidebar li ul li:last-child {
-  border-bottom: none;
 }
