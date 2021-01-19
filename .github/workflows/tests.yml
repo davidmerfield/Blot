@@ -57,8 +57,15 @@ jobs:
       with:
         pandoc-version: ${{ matrix.pandoc-version }}    
 
-    - name: Install node modules with caching
-      uses: bahmutov/npm-install@v1
+    - uses: actions/cache@v2
+      id: cache-node-dependencies
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles')}}
+  
+    - name: Install Dependencies
+      if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
+      run: npm ci
 
     - name: Set up Blot
       run: |
