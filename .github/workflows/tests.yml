@@ -39,7 +39,8 @@ jobs:
       BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code  
+      uses: actions/checkout@v2
       
     - name: Set up Node
       uses: actions/setup-node@v2
@@ -47,9 +48,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Set up Redis
-      uses: supercharge/redis-github-action@1.2.0
+      uses: shogo82148/actions-setup-redis@v1
       with:
-        redis-version: ${{ matrix.redis-version }}      
+        redis-version: ${{ matrix.redis-version }}
     
     - name: Set up Pandoc
       uses: r-lib/actions/setup-pandoc@v1
@@ -66,7 +67,6 @@ jobs:
         git config --global user.name "Admin"
         node config/blot/setup
     
-    # Everything up til here (excluding actions/checkout) should be cached until
-    # configuration changes
+    # Everything up til here (excluding actions/checkout) could be cached
     - name: Run tests
       run: npm test
