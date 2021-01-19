@@ -60,9 +60,10 @@ jobs:
         tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
         echo "./pandoc/bin/pandoc --version"
         ./pandoc/bin/pandoc --version
-        echo "$(pwd)/pandoc/bin --version"
-        $(pwd)/pandoc/bin --version
-        echo "BLOT_PANDOC_PATH=$(pwd)/pandoc/bin" >> $GITHUB_ENV
+        echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
+
+    - name: Test pandoc
+      run: pandoc --version
 
     - name: Set up Node
       uses: actions/setup-node@v2
