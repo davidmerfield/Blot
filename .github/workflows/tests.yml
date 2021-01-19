@@ -54,9 +54,8 @@ jobs:
         ./pandoc/bin/pandoc --version
         echo "$(pwd)/pandoc/bin"        
         echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
-        echo "pandoc --version"        
         pandoc --version
-
+              
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
