@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # If you ever add more node version you need
+        # to replace current caching node_modules 
+        # with caching of ~/.npm
         node-version: [12.16.3]
         pandoc-version: [2.11.3.2]
         redis-version: [4]
@@ -41,7 +44,15 @@ jobs:
     steps:
     - name: Checkout code  
       uses: actions/checkout@v2
-      
+
+    - name: Set up Pandoc
+      if: steps.pandoc.outputs.cache-hit != 'true'
+      run: |
+        wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
+        mkdir pandoc
+        tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
+        echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
+
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
@@ -51,14 +62,17 @@ jobs:
       uses: shogo82148/actions-setup-redis@v1
       with:
         redis-version: ${{ matrix.redis-version }}
-    
-    - name: Set up Pandoc
-      uses: r-lib/actions/setup-pandoc@v1
-      with:
-        pandoc-version: ${{ matrix.pandoc-version }}    
 
-    - name: Install node modules with caching
-      uses: bahmutov/npm-install@v1
+    - name: Load dependencies
+      uses: actions/cache@v2
+      id: cache-node-dependencies
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles')}}
+  
+    - name: Install Dependencies
+      if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
+      run: npm ci
 
     - name: Set up Blot
       run: |
@@ -67,6 +81,5 @@ jobs:
         git config --global user.name "Admin"
         node config/blot/setup
     
-    # Everything up til here (excluding actions/checkout) could be cached
     - name: Run tests
       run: npm test
