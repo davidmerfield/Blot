@@ -1,12 +1,3 @@
-Experiment with GitHub actions setup
-- Try to reduce test times by potentially building a container with node/redis/pandoc and re-using it in tests
-  - https://stackoverflow.com/questions/55110729/how-do-i-cache-steps-in-github-actions
-  - https://stackoverflow.com/questions/57498605/github-actions-share-workspace-artifacts-between-jobs
-- Look into potentially useful actions for code quality / linting / automtatic dependency updates
-  - [super-linter](https://github.com/github/super-linter#how-it-works)?
-
----
-
 Improvements to templates
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
@@ -63,6 +54,10 @@ Prevent long-overdue users from accessing the service, then tell [Matvey](https:
 Add support for arbritary template folder location – any subfolder could be a template folder if it contains a valid template.json file. Tell [Bernardo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjfBwnDxMFMGgHtfFFkBvTQbV)
 
 Generate proper favicons from uploaded avatars (to prevent streched favicons when non-square avatars are uploaded)
+
+Experiment with GitHub actions setup
+- Look into potentially useful actions for code quality / linting / automtatic dependency updates
+  - [super-linter](https://github.com/github/super-linter#how-it-works)?
 
 Improvements to server infrastructure
 - Work out way to recover from expired cert in the cache. To reproduce, consider a member who signed up, connected example.com, then moved the domain to another service. The attempt to renew the cert for example.com will fail. When the user re-registers with Blot, for some reason open-resty-auto-ssl will serve an old certificate. I followed these steps to [reset](https://github.com/GUI/lua-resty-auto-ssl/issues/42) but we should automate this
