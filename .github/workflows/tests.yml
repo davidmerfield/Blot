@@ -37,31 +37,36 @@ jobs:
       BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
       BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
       BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
+
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code  
+      uses: actions/checkout@v2
       
     - name: Set up Node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Set up Redis
-      uses: supercharge/redis-github-action@1.2.0
+      uses: shogo82148/actions-setup-redis@v1
       with:
-        redis-version: ${{ matrix.redis-version }}      
+        redis-version: ${{ matrix.redis-version }}
     
     - name: Set up Pandoc
       uses: r-lib/actions/setup-pandoc@v1
       with:
         pandoc-version: ${{ matrix.pandoc-version }}    
 
+    - name: Install node modules with caching
+      uses: bahmutov/npm-install@v1
+
     - name: Set up Blot
       run: |
         echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
         git config --global user.email "admin@example.com"
         git config --global user.name "Admin"
-        npm ci
         node config/blot/setup
     
+    # Everything up til here (excluding actions/checkout) could be cached
     - name: Run tests
       run: npm test
