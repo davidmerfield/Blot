@@ -52,9 +52,7 @@ jobs:
         tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
         echo "./pandoc/bin/pandoc --version"
         ./pandoc/bin/pandoc --version
-        echo "$(pwd)/pandoc/bin"        
-        echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
-        pandoc --version
+        echo "BLOT_PANDOC_PATH=$(pwd)/pandoc/bin" >> $GITHUB_ENV
               
     - name: Set up Node
       uses: actions/setup-node@v2
@@ -78,7 +76,6 @@ jobs:
 
     - name: Set up Blot
       run: |
-        echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
         git config --global user.email "admin@example.com"
         git config --global user.name "Admin"
         node config/blot/setup
