@@ -50,8 +50,7 @@ jobs:
         wget https://github.com/jgm/pandoc/releases/download/${{ matrix.pandoc-version }}/pandoc-${{ matrix.pandoc-version }}-linux-amd64.tar.gz -O pandoc.tar.gz
         mkdir pandoc
         tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
-        pwd
-        echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
+        echo "/home/runner/work/Blot/Blot/pandoc/bin" >> $GITHUB_PATH
         which pandoc
       
     - name: Set up Node
