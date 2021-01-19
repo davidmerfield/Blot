@@ -77,6 +77,5 @@ jobs:
         git config --global user.name "Admin"
         node config/blot/setup
     
-    # Everything up til here (excluding actions/checkout) could be cached
     - name: Run tests
       run: npm test
