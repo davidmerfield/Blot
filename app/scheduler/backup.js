@@ -18,7 +18,7 @@ if (require.main === module) {
 }
 
 function backUP(extraString) {
-  saveDBToDisk(function() {
+  saveDBToDisk(function () {
     var ds = Moment.utc().format("YYYY-MM-DD-HH-mm-ss");
 
     var clone_name = ds;
@@ -29,39 +29,41 @@ function backUP(extraString) {
 
     var encrypted_clone_path = joinpath(tmp, clone_name);
 
-    encrypt(DB_PATH, encrypted_clone_path, function(err) {
+    encrypt(DB_PATH, encrypted_clone_path, function (err) {
       if (err) throw err;
 
-      var options = {
-        bucket: config.backup.bucket,
-        remote: clone_name
-      };
+      upload(
+        encrypted_clone_path,
+        {
+          bucket: config.backup.bucket,
+          remote: clone_name,
+        },
+        function (err) {
+          if (err) {
+            console.log("Backup error :(");
+            console.log(err);
+          }
 
-      upload(encrypted_clone_path, options, function(err) {
-        if (err) {
-          console.log("Backup error :(");
-          console.log(err);
+          if (!err) {
+            console.log("Backup complete!");
+          }
+
+          fs.remove(encrypted_clone_path);
         }
-
-        if (!err) {
-          console.log("Backup complete!");
-        }
-
-        fs.remove(encrypted_clone_path);
-      });
+      );
     });
   });
 }
 
 function saveDBToDisk(callback) {
-  redis.lastsave(function(err, last_save_time) {
+  redis.lastsave(function (err, last_save_time) {
     console.log("Backup: Saving database to disk at " + last_save_time);
 
-    redis.bgsave(function(err, stat) {
+    redis.bgsave(function (err, stat) {
       console.log("Backup: " + stat);
 
       (function checkLast() {
-        redis.lastsave(function(err, latest_save_time) {
+        redis.lastsave(function (err, latest_save_time) {
           if (latest_save_time !== last_save_time) {
             console.log("Backup: DB saved to disk in background");
             return callback();
@@ -75,5 +77,5 @@ function saveDBToDisk(callback) {
 }
 
 module.exports = {
-  now: backUP
+  now: backUP,
 };
