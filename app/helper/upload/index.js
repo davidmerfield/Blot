@@ -8,9 +8,6 @@ var extname = require("path").extname;
 var ensure = require("../ensure");
 var nameFrom = require("../nameFrom");
 var extend = require("../extend");
-var type = require("../type");
-
-var blogBucket = config.s3.buckets.blogs;
 
 // Don't pollute or overwrite production files
 var root = require("./root");
@@ -23,28 +20,20 @@ var MAX_EXPIRY = "public, max-age=31536000";
 
 var AWS = require("aws-sdk");
 
-var CDN_BUCKET = config.cdn.bucket;
-var CDN_HOST = config.cdn.host;
-
 // Load in my credentials...
 AWS.config.update({
   accessKeyId: config.aws.key,
-  secretAccessKey: config.aws.secret
+  secretAccessKey: config.aws.secret,
 });
 
 function upload(path, options, callback) {
-  if (type(options, "function") && !callback) {
-    callback = options;
-    options = {};
-  }
-
-  ensure(path, "string")
-    .and(options, "object")
-    .and(callback, "function");
+  ensure(path, "string").and(options, "object").and(callback, "function");
 
   path = path.trim();
 
   if (!path) return callback(new Error(BAD_PARAM));
+
+  if (!options.bucket) return callback(new Error("Please pass an s3 BUCKET"));
 
   var folder = "";
   var prefix = "";
@@ -73,11 +62,11 @@ function upload(path, options, callback) {
   var body = fs.createReadStream(path);
 
   var params = {
-    Bucket: options.bucket || blogBucket,
+    Bucket: options.bucket,
     Key: remote,
     CacheControl: MAX_EXPIRY,
     Expires: oneYearFromNow(),
-    ContentType: mime.lookup(path)
+    ContentType: mime.lookup(path),
   };
 
   // Cloudfront's automatic compression
@@ -98,10 +87,10 @@ function upload(path, options, callback) {
   // s3Client.on('httpUploadProgress', function(){})
   var s3Client = new AWS.S3({ params: params });
 
-  s3Client.upload({ Body: body }).send(function(err) {
+  s3Client.upload({ Body: body }).send(function (err) {
     if (err) return callback(err);
 
-    callback(null, finalURL(params.Bucket, remote));
+    callback(null, options.bucket + "/" + path);
   });
 }
 
@@ -110,12 +99,6 @@ function oneYearFromNow() {
   expire.setYear(expire.getFullYear() + 1);
   expire = Math.round(expire / 1000);
   return expire;
-}
-
-function finalURL(bucket, path) {
-  if (bucket === CDN_BUCKET) return "//" + CDN_HOST + "/" + path;
-
-  return bucket + "/" + path;
 }
 
 function canGZIP(path) {
