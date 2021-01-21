@@ -1,3 +1,7 @@
+Write script to safely delete backups on a rolling basis
+
+Write script to identify and safely delete long overdue users
+
 Improvements to templates
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
@@ -10,8 +14,6 @@ Improvements to templates
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
-Remove any stray snapshots
-
 ---
 
 Server changes
@@ -21,6 +23,7 @@ Server changes
 - Try and cache 404s in some efficient way
 - Create plan for AWS account suspension
   - backup blogs folder + db somewhere offsite at least once per week
+- Experiment with different EBS types, perhaps try to rely on ephemeral disk more?
 
 Add Q and A question section to site where users could post and tell [Taylan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHkkKQrhrRPRnNNtzNGqtCQW) and [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)
 
