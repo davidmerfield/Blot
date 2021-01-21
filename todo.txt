@@ -1,3 +1,12 @@
+Fork main server by number of CPUs
+
+Add queue for entry building and other sync processes
+
+Check in on blot-daily-backups bucket
+- Empty and delete blot-backups bucket after successful download and restore from blot-daily-backups
+
+Write script to identify and safely delete long overdue users
+
 Improvements to templates
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
@@ -10,18 +19,14 @@ Improvements to templates
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
 
-Disable access to s3 blogs bucket
-- Wait 30 days then delete s3 blogs bucket
-
-Remove any stray snapshots
-
 ---
 
-Resolve intermittent downtime
+Server changes
+- Write useful benchmark tool for Blot
 - Add memory monitor
-- Increase available memory
-- Invesigate source of possible downtime (memory issues?) and follow up with [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWrgsHhFnLCjZvcxLVFftGCV)
+- Migrate to lower-cost r6gd.xlarge instance, which is not possible using the AWS console due to some difference in architecture (intel vs. amazon chip?). 
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
+- Experiment with different EBS types, perhaps try to rely on ephemeral disk more?
 
 Add Q and A question section to site where users could post and tell [Taylan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHkkKQrhrRPRnNNtzNGqtCQW) and [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)
 
@@ -37,6 +42,9 @@ Adjust the chargeForRemaining function in create-blog such that the balance is a
 
 Fix duplicated entry in tag page for [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC) the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
 
+Add a 'page link format' option to the dashboard – the link format now only applies to entries. Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkbjLjgTZLQqMFFMzBBpzMZTg)
+- Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
+
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
 
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
@@ -48,6 +56,8 @@ Fix bug with particular emoji and tell [John](https://mail.google.com/mail/u/0/#
 Fix case-sensitivity issue for relative (and absolute?) paths to files in folder in production and tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHHtTmhpstcFdMfRRpzbnNw)
 
 Add custom metadata to turn off/on search indexing on specific post or page and tell [Hani](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNqCSdngxBKHqctWBTgmFBbkB)
+
+Test cloudflare analytics integration from scratch and resolve issue with diklein.com
 
 Prevent long-overdue users from accessing the service, then tell [Matvey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNgWvzTkMVZXFrSpjGfcCrWJG)
 
@@ -68,6 +78,11 @@ Improve the automatic title generated for screenshots with default MacOs filenam
 
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
 
+Improvements to backup system
+- Add hourly local redis rdb dumps to /cache
+- Test maintenance mode
+- Add script to roll back into hourly local db dumps and remote backups
+
 Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
 
 Add status page information to news page:
@@ -79,6 +94,10 @@ Improvements to template editor
 - Add layout options to template editor for native templates
 - Work out how to make live but saveable modifications for preview purposes on the template editor
 - Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
+
+Work out how to cache 404s at the NGINX level
+- I tried extending express-disk-cache to store images inside /https/blot.im/missing/foo-bar.html but I can't set a 404 status code for the specific tryfiles directive which could match that file.
+- The application server ends up spending a lot of time serving 404s
 
 Improvements to template engine
 - Make date-format settings template specific and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) "I forked the Archive template but did *not* install it. And yet, changing settings like "Hide the publish date for your posts" affected the currently installed template.""
@@ -153,7 +172,6 @@ Improvements to entry builder
 - Generate a list of titles which you could use to generate a table of contents and tell [Zach](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNNMjbjsSKltGRLDsqXfbMhN)
 - Use time draft was moved into blog folder for entry created/publish date, rather than the time the draft file itself was created. Tell [Kerim](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrHtwmLGkWLvLfklMwRRqDpTk) and [Shibel](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWsqhHZnPjfgRqFhpdNGZVKn)
 - Parse Word Document subtitles as h2 and tell [Matt](https://mail.google.com/mail/u/0/#sent/FMfcgxwDrlfrjDMsDlkLHNsnbtmXQtDw)
-- Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 - Fix bug with case sensitivity for tag folders. Need to recursively check all directories for proper case when extracting tags then tell [Thomas](https://mail.google.com/mail/u/0/#inbox/15700b686c2b9fae) and [Steve](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBWKQvVMhBCRMxdZWZHszcPjnH) and [Michael](https://mail.google.com/mail/u/0/#sent/QgrcJHsTkKSHVKgTvQJXTffdLDdbGZPbFxl)
 - Add way to filter entries by post type (e.g. photo) and tell [Justin](https://twitter.com/juter/status/1079767534231011330).
 - If entries share publish date, sort them by blot creation date
@@ -354,9 +372,16 @@ Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnM
 
 Improve scheduler
 - Adds a command to restore database from backup.
-- Adds a scheduled task to flush old backups using app/scheduler/backup/remove.js in branch 'scheduler' which was ported from the old remove method of the upload module
-- Adds offsite (i.e. non AWS backups)
 - Rotates log files
+
+Remove dependence on AWS
+- Adds offsite (i.e. non AWS backups) backups
+- Write out plan to move off AWS
+  - DNS
+  - EC2
+  - S3 for backups
+  - Cloudfront for CDN
+  - backup blogs folder + db somewhere offsite at least once per week
 
 Metadata parser
 - Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
@@ -503,12 +528,6 @@ Add nice import step under 'Services' and as part of sign up
 - Map excerpt metadata to summary for Jekyll converter importer
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
 - Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
-
-Improvements to backup system
-- Add hourly local redis rdb dumps
-- Add script to roll back into hourly local db dumps and remote backups
-- Delete backups older than a month from s3 automatically
-- Archive logfiles with backups and wipe on a rolling basis
 
 Create script to export Blot sites to common formats like Wordpress and let Roberto know
 

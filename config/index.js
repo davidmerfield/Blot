@@ -58,8 +58,6 @@ module.exports = {
   pandoc_path: process.env.BLOT_PANDOC_PATH,
 
   cdn: {
-    bucket: "blot-blogs",
-    host: "blotcdn.com",
     origin:
       process.env.BLOT_ENVIRONMENT === "production"
         ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
@@ -85,16 +83,8 @@ module.exports = {
     from: "David Merfield <david@blot.im>",
   },
 
-  s3: {
-    buckets: {
-      dump: "blot-dump",
-      blogs: "blot-blogs",
-      backups: "blot-backups",
-    },
-  },
-
   backup: {
-    bucket: "blot-backups",
+    bucket: "blot-daily-backups",
     password: process.env.BLOT_BACKUP_SECRET,
   },
 

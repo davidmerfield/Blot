@@ -34,7 +34,7 @@ const view = {
 		pid: "/var/run/redis/redis.pid",
 		host: "127.0.0.1",
 		port: 6379,
-		maxmemory: 10670000000,
+		maxmemory: 18000000000,
 		prefix: "ssl",
 		server: "/usr/bin/redis-server",
 		config: process.env.BLOT_DIRECTORY + "/scripts/deploy/out/redis.conf",
