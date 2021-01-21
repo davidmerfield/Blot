@@ -12,69 +12,65 @@ var joinpath = require("path").join;
 
 // called from command line
 if (require.main === module) {
-  var extraTag = process.argv[2];
-  backUP(extraTag);
+  backup(function (err) {
+    if (err) throw err;
+    process.exit();
+  });
 }
 
-function backUP(extraString) {
-  saveDBToDisk(function () {
-    var ds = Moment.utc().format("YYYY-MM-DD-HH-mm-ss");
+function backup(callback) {
+  saveDBToDisk(function (err) {
+    if (err) return callback(err);
 
-    var clone_name = ds;
+    var datestring = Moment.utc().format("YYYY-MM-DD-HH-mm-ss");
+    var suffix = "-encrypted-dump.rdb";
+    var filename = datestring + suffix;
+    var encrypted_clone_path = joinpath(tmp, filename);
+    var options = {
+      bucket: config.backup.bucket,
+      remote: filename,
+    };
 
-    if (extraString) clone_name += "-" + extraString;
-
-    clone_name += "-encrypted-dump.rdb";
-
-    var encrypted_clone_path = joinpath(tmp, clone_name);
-
+    console.log("Backup: Encrypting database dump");
     encrypt(DB_PATH, encrypted_clone_path, function (err) {
-      if (err) throw err;
+      if (err) return callback(err);
 
-      upload(
-        encrypted_clone_path,
-        {
-          bucket: config.backup.bucket,
-          remote: clone_name,
-        },
-        function (err) {
-          if (err) {
-            console.log("Backup error :(");
-            console.log(err);
-          }
+      console.log("Backup: Uploading encrypted copy of dump");
+      upload(encrypted_clone_path, options, function (err) {
+        if (err) return callback(err);
 
-          if (!err) {
-            console.log("Backup complete!", clone_name);
-          }
+        console.log("Backup: Removing local encrypted copy of dump");
+        fs.remove(encrypted_clone_path, function (err) {
+          if (err) return callback(err);
 
-          fs.remove(encrypted_clone_path);
-        }
-      );
+          console.log("Backup: Complete");
+          callback();
+        });
+      });
     });
   });
 }
 
 function saveDBToDisk(callback) {
   redis.lastsave(function (err, last_save_time) {
+    if (err) return callback(err);
     console.log("Backup: Saving database to disk at " + last_save_time);
+    redis.bgsave(function (err) {
+      if (err) return callback(err);
+      console.log("Backup: Asked redis to save database to disk in background");
 
-    redis.bgsave(function (err, stat) {
-      console.log("Backup: " + stat);
+      redis.lastsave(function onCheck(err, latest_save_time) {
+        if (err) return callback(err);
 
-      (function checkLast() {
-        redis.lastsave(function (err, latest_save_time) {
-          if (latest_save_time !== last_save_time) {
-            console.log("Backup: DB saved to disk in background");
-            return callback();
-          }
+        if (latest_save_time === last_save_time) {
+          return redis.lastsave(onCheck);
+        }
 
-          checkLast();
-        });
-      })();
+        console.log("Backup: DB saved to disk");
+        callback();
+      });
     });
   });
 }
 
-module.exports = {
-  now: backUP,
-};
+module.exports = backup;
