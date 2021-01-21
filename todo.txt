@@ -2,6 +2,8 @@ Write script to safely delete backups on a rolling basis
 
 Write script to identify and safely delete long overdue users
 
+Work out how to cache 404s at the NGINX level
+
 Improvements to templates
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
