@@ -16,7 +16,7 @@ function upload(path, options, callback) {
     .and(options.remote, "string")
     .and(callback, "function");
 
-  var root = config.environment === "development" ? "" : "_dev/";
+  var root = config.environment === "development" ? "_dev/" : '';
   var remote = joinpath(root, options.remote);
   var body = fs.createReadStream(path);
 
