@@ -1,3 +1,35 @@
+Add questions section to site:
+- Spec: (user = logged in user)
+    - User can create topic
+    - Any user can reply to topic. Topics can have more than one reply
+    - There are no usernames or other personal info, not even pseudonyms
+    - Topics and replies are publicly available, sorted by date
+    - Three main views:
+       - Index (all questions)
+       - Question (single page showing a question and replies)
+       - New Question (form to submit a new question)
+- Technicalities:
+    - Single DB table for topics and replies. Rows:
+      - id
+      - body (text)
+      - date
+      - author
+      - is_topic (boolean): true if this item started a topic, false if this item is a reply to a topic
+    - Single DB table for one-to-many (topic-to-replies) relations. Rows:
+      - id
+      - topic_id (references table 1)
+      - reply_id (references table 1)
+    - No table for users until de-anonymization is required. At that time, table is created and populated with users gathered from existing topics and replies.
+    - No ORM, only plain SQL, so there is only one new dependency introduced (postgres driver for node).
+- Features to add for second and subsequent releases:
+    - email notifications (There's an existing system in place for sending emails, which we could easily add to for the various notifications)
+    - question tagging
+    - topic/reply editing/deletion
+    - upvoting for topics and upvote-based ranking on the topic index
+    - usernames / identities associated with topics / replies
+    - question search
+    - 'run code snippet' feature / similar to trinkets.io
+
 Fork main server by number of CPUs
 
 Add queue for entry building and other sync processes
