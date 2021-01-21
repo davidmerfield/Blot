@@ -85,14 +85,6 @@ module.exports = {
     from: "David Merfield <david@blot.im>",
   },
 
-  s3: {
-    buckets: {
-      dump: "blot-dump",
-      blogs: "blot-blogs",
-      backups: "blot-backups",
-    },
-  },
-
   backup: {
     bucket: "blot-backups",
     password: process.env.BLOT_BACKUP_SECRET,
