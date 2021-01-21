@@ -1,6 +1,11 @@
-Write script to identify and safely delete long overdue users
+Fork main server by number of CPUs
 
-Work out how to cache 404s at the NGINX level
+Add queue for entry building and other sync processes
+
+Check in on blot-daily-backups bucket
+- Empty and delete blot-backups bucket after successful download and restore from blot-daily-backups
+
+Write script to identify and safely delete long overdue users
 
 Improvements to templates
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
@@ -89,6 +94,10 @@ Improvements to template editor
 - Add layout options to template editor for native templates
 - Work out how to make live but saveable modifications for preview purposes on the template editor
 - Add [background patterns](https://bansal.io/pattern-css#checks) to template editor tools, tell [Ish](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsVFZBwLtkGslXZXkcxmKdvf)
+
+Work out how to cache 404s at the NGINX level
+- I tried extending express-disk-cache to store images inside /https/blot.im/missing/foo-bar.html but I can't set a 404 status code for the specific tryfiles directive which could match that file.
+- The application server ends up spending a lot of time serving 404s
 
 Improvements to template engine
 - Make date-format settings template specific and tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) "I forked the Archive template but did *not* install it. And yet, changing settings like "Hide the publish date for your posts" affected the currently installed template.""
