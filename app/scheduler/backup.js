@@ -13,7 +13,6 @@ var joinpath = require("path").join;
 // called from command line
 if (require.main === module) {
   var extraTag = process.argv[2];
-
   backUP(extraTag);
 }
 
@@ -45,7 +44,7 @@ function backUP(extraString) {
           }
 
           if (!err) {
-            console.log("Backup complete!");
+            console.log("Backup complete!", clone_name);
           }
 
           fs.remove(encrypted_clone_path);
