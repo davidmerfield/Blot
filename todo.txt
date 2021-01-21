@@ -1,5 +1,3 @@
-Write script to safely delete backups on a rolling basis
-
 Write script to identify and safely delete long overdue users
 
 Work out how to cache 404s at the NGINX level
@@ -19,12 +17,10 @@ Improvements to templates
 ---
 
 Server changes
+- Write useful benchmark tool for Blot
 - Add memory monitor
 - Migrate to lower-cost r6gd.xlarge instance, which is not possible using the AWS console due to some difference in architecture (intel vs. amazon chip?). 
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
-- Try and cache 404s in some efficient way
-- Create plan for AWS account suspension
-  - backup blogs folder + db somewhere offsite at least once per week
 - Experiment with different EBS types, perhaps try to rely on ephemeral disk more?
 
 Add Q and A question section to site where users could post and tell [Taylan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHkkKQrhrRPRnNNtzNGqtCQW) and [Adil](https://mail.google.com/mail/u/0/#inbox/QgrcJHsTfRRbxdszSvlzvFQCMxgLcRvXcvG)
@@ -76,6 +72,11 @@ Improvements to server infrastructure
 Improve the automatic title generated for screenshots with default MacOs filename from 'at 14:40pm'
 
 Add support for posts generated from Excel files, would generate a table. Use [this library](https://github.com/joshboyan/excel-to-html-table)?
+
+Improvements to backup system
+- Add hourly local redis rdb dumps to /cache
+- Test maintenance mode
+- Add script to roll back into hourly local db dumps and remote backups
 
 Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
 
@@ -362,9 +363,16 @@ Reply to [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChSCwMxNdtdvMHnM
 
 Improve scheduler
 - Adds a command to restore database from backup.
-- Adds a scheduled task to flush old backups using app/scheduler/backup/remove.js in branch 'scheduler' which was ported from the old remove method of the upload module
-- Adds offsite (i.e. non AWS backups)
 - Rotates log files
+
+Remove dependence on AWS
+- Adds offsite (i.e. non AWS backups) backups
+- Write out plan to move off AWS
+  - DNS
+  - EC2
+  - S3 for backups
+  - Cloudfront for CDN
+  - backup blogs folder + db somewhere offsite at least once per week
 
 Metadata parser
 - Make custom metadata more strict, follow up with Chris](https://mail.google.com/mail/u/0/#inbox/FMfcgxwCgpdRvrccbzfckkZRtPXHzqjs)
@@ -511,12 +519,6 @@ Add nice import step under 'Services' and as part of sign up
 - Map excerpt metadata to summary for Jekyll converter importer
 - Look into how Hexo has written imports for [blogger](https://github.com/hexojs/hexo-migrator-blogger), [joomla](https://github.com/welksonramos/hexo-migrator-joomla), [rss](https://github.com/hexojs/hexo-migrator-rss), [wordpress](https://github.com/hexojs/hexo-migrator-wordpress).
 - Add importer for Twitter and sell [Sawyer](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVMhRNdQhfDwlXsqqFNgmKfTk)
-
-Improvements to backup system
-- Add hourly local redis rdb dumps
-- Add script to roll back into hourly local db dumps and remote backups
-- Delete backups older than a month from s3 automatically
-- Archive logfiles with backups and wipe on a rolling basis
 
 Create script to export Blot sites to common formats like Wordpress and let Roberto know
 
