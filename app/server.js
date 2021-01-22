@@ -31,7 +31,7 @@ Blot.use(function (req, res, next) {
 	try {
 		console.log(
 			clfdate(),
-			'REQ=' +req.headers["x-request-id"].slice(0,6),
+			req.headers["x-request-id"] && 'REQ=' +req.headers["x-request-id"].slice(0,6),
 			'PID=' +process.pid,
 			req.protocol + "://" + req.hostname + req.originalUrl,
 			req.method
@@ -44,7 +44,7 @@ Blot.use(function (req, res, next) {
 		try {
 			console.log(
 				clfdate(),
-				'REQ=' +req.headers["x-request-id"].slice(0,6),
+				req.headers["x-request-id"] && 'REQ=' +req.headers["x-request-id"].slice(0,6),
 				'PID=' +process.pid,
 				req.protocol + "://" + req.hostname + req.originalUrl,
 				res.statusCode,
