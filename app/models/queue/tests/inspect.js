@@ -1,18 +1,14 @@
 describe("Queue.inspect", function () {
-	global.test.blog();
+	require("./setup")();
 
-	afterEach(function (done) {
-		require("../reset")(done);
-	});
-
-	var addTask = require("../addTask");
+	var add = require("../add");
 	var inspect = require("../inspect");
 
 	it("inspects the queue", function (done) {
 		var test = this;
 		var task = { path: "foo" };
 
-		addTask(test.blog.id, task, function (err) {
+		add(test.blog.id, task, function (err) {
 			expect(err).toBe(null);
 			inspect(function (err, res) {
 				expect(err).toBe(null);

@@ -4,10 +4,11 @@ var client = require("client");
 // Implements a fair queue for entry building
 
 module.exports = function add(blogID, tasks, callback) {
-	
+	callback = callback || function () {};
+
 	if (!Array.isArray(tasks)) {
 		tasks = [tasks];
-	} 
+	}
 
 	tasks = tasks.map(JSON.stringify);
 

@@ -1,5 +1,5 @@
 module.exports = {
-	addTask: require("./addTask"),
-	getTask: require("./getTask"),
+	add: require("./add"),
+	process: require("./process"),
 	reset: require('./reset')
 };
