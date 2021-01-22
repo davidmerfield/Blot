@@ -189,6 +189,7 @@ Re-send receipt when the customer changes their email after initial payment, pre
 
 Improvements to developer guide
 - Tell [Pedro](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHMsSvqTVCjSSjJKVrGKmgRbjw)
+- Add a simple 'Beginners guide' to HTML and CSS, which would rely on Blot's functionality as a static file server.
 
 Record new demo video
 - Finish video script in brochure/readme.txt
