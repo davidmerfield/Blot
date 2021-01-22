@@ -1,14 +1,13 @@
 module.exports = {
-
 	all: "queue:all",
 
 	// circular queue of blog IDs
 	blogs: "queue:blogs",
 
-	// list of blog_id:path pairs for active builds
+	// list of blog_id:task string pairs for active builds
 	processing: "queue:proessing",
 
-	// list of blog_id:path pairs for successful builds
+	// list of blog_id:task string pairs for successful builds
 	completed: "queue:completed",
 
 	channel: "queue:channel",
@@ -19,7 +18,7 @@ module.exports = {
 	},
 
 	// added to blog queue and processing queue
-	change: function (blogID, path) {
-		return blogID + ":" + path;
-	},	
+	change: function (blogID, task) {
+		return blogID + ":" + task;
+	},
 };

@@ -10,7 +10,7 @@ describe("Queue.inspect", function () {
 
 	it("inspects the queue", function (done) {
 		var test = this;
-		var task = "foo";
+		var task = { path: "foo" };
 
 		addTask(test.blog.id, task, function (err) {
 			expect(err).toBe(null);

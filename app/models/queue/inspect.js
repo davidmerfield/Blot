@@ -25,9 +25,9 @@ module.exports = function (callback) {
 			res.slice(2).forEach(function (queue) {
 				queue.forEach(function (task) {
 					var blogID = task.slice(0, task.indexOf(":"));
-					var path = task.slice(task.indexOf(":") + 1);
+					var task = JSON.parse(task.slice(task.indexOf(":") + 1));
 					response.queues[blogID] = response.queues[blogID] || [];
-					response.queues[blogID].push(path);
+					response.queues[blogID].push(task);
 					response.total_tasks++;
 				});
 			});

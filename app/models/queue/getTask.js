@@ -14,13 +14,14 @@ module.exports = function (callback) {
 				});
 			}
 
-			var path = key.slice(key.indexOf(":") + 1);
+			var task = JSON.parse(key.slice(key.indexOf(":") + 1));
 
-			callback(null, blogID, path, function (err, callback) {
-				var multi = client.multi();
-				multi.lrem(keys.processing, -1, key);
-				multi.lpush(keys.completed, key);
-				multi.exec(callback);
+			callback(null, blogID, task, function (err, callback) {
+				client
+					.multi()
+					.lrem(keys.processing, -1, key)
+					.lpush(keys.completed, key)
+					.exec(callback);
 			});
 		});
 	});
