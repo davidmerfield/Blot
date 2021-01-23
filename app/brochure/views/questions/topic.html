@@ -1,0 +1,18 @@
+<h1>{{topic.title}}</h1>
+<p>{{topic.body}}</p>
+
+<h1>Replies</h1>
+
+{{#topics}}
+<p>
+  {{body}}
+</p>
+{{/topics}}
+
+<form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form">
+  <div>
+    <label for="body">Body:</label>
+    <textarea type="text" name="body" id="body" />
+  </div>
+  <button>Add a reply!</button>
+</form>
