@@ -8,13 +8,18 @@ var dailyUpdate = require("./daily");
 var helper = require("helper");
 var email = helper.email;
 var clfdate = require("helper").clfdate;
-
+var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
 
 module.exports = function () {
   // Bash the cache for scheduled posts
   cacheScheduler(function (stat) {
     console.log(clfdate(), stat);
+  });
+
+  // Warm the cache for the brochure site
+  warmCache(function(err){
+
   });
 
   // Warn users about impending subscriptions
