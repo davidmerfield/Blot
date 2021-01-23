@@ -1,4 +1,3 @@
-var numCPUs = require("os").cpus().length;
 var uuid = require("uuid/v4");
 var exitHook = require("async-exit-hook");
 var child_process = require("child_process");
@@ -7,25 +6,26 @@ var helper = require("helper");
 var clfdate = helper.clfdate;
 var workers = [];
 var jobs = {};
+var numberOfWorkers = 1;
 
 debug("Master", process.pid, "is running");
 
-exitHook(function() {
+exitHook(function () {
   debug("Shutting down master:", process.pid);
-  workers.forEach(function(item) {
+  workers.forEach(function (item) {
     item.worker.kill();
   });
 });
 
-exitHook.uncaughtExceptionHandler(function(err) {
+exitHook.uncaughtExceptionHandler(function (err) {
   console.error(err);
-  workers.forEach(function(item) {
+  workers.forEach(function (item) {
     item.worker.kill();
   });
 });
 
 function messageHandler(id) {
-  return function(message) {
+  return function (message) {
     debug("Handling message", id);
     var err = null;
 
@@ -53,7 +53,7 @@ function messageHandler(id) {
 // remove dead worker from list of workers
 function removeWorker(id) {
   debug("Removing worker", id);
-  workers = workers.filter(function(item) {
+  workers = workers.filter(function (item) {
     return item.id !== id;
   });
 }
@@ -69,7 +69,7 @@ function removeWorker(id) {
 // and 'error' events, it is important to guard against
 // accidentally invoking handler functions multiple times.
 function errorHandler(id) {
-  return function(err) {
+  return function (err) {
     debug("Handling error", err);
     // removeWorker can be safely called multiple times
     removeWorker(id);
@@ -77,7 +77,7 @@ function errorHandler(id) {
 }
 
 function closeHandler(id) {
-  return function(code, signal) {
+  return function (code, signal) {
     removeWorker(id);
 
     // SIGINT, SIGTERM, etc.
@@ -97,7 +97,7 @@ function closeHandler(id) {
 }
 
 // Fork workers.
-for (var i = 0; i < numCPUs; i++) {
+for (var i = 0; i < numberOfWorkers; i++) {
   workers.push(new worker());
 }
 
@@ -111,7 +111,7 @@ function worker() {
   return { worker: wrkr, id: id };
 }
 
-module.exports = function(blog, path, options, callback) {
+module.exports = function (blog, path, options, callback) {
   // Pick a worker at random from the pool
   var worker = workers[Math.floor(Math.random() * workers.length)].worker;
   var id = uuid();
@@ -121,7 +121,7 @@ module.exports = function(blog, path, options, callback) {
     id: id,
     path: path,
     options: options,
-    callback: callback
+    callback: callback,
   };
 
   debug("Sending job to worker", jobs[id]);

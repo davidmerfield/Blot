@@ -157,6 +157,11 @@ function Apply(token, blogFolder) {
         // Since we don't care, we suppress it.
         if (err && err.code === "ENOTDIR") return callback();
 
+        // We should probably handle this somehow. Without this
+        // we end up being unable to sync blogs with a single
+        // file that has a long name
+        if (err && err.code === "ENAMETOOLONG") return callback();
+
         callback(err);
       });
     }
