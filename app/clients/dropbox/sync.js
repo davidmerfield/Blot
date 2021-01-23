@@ -157,6 +157,9 @@ function Apply(token, blogFolder) {
         // Since we don't care, we suppress it.
         if (err && err.code === "ENOTDIR") return callback();
 
+        // We should probably handle this somehow
+        if (err && err.code === "ENAMETOOLONG") return callback();
+
         callback(err);
       });
     }
