@@ -1,31 +1,27 @@
 describe("Queue.process", function () {
 	require("./setup")();
 
-	var add = require("../add");
-	var process = require("../process");
 	var async = require("async");
 
 	it("processes a task", function (done) {
-		var test = this;
 		var task = { path: "foo" };
 
-		process(function (blogID, savedTask, callback) {
-			expect(blogID).toBe(test.blog.id);
+		this.queue.process(function (blogID, savedTask, callback) {
+			expect(blogID).toBe("blogID");
 			expect(savedTask).toEqual(task);
 			callback();
 			done();
 		});
 
-		add(test.blog.id, task);
+		this.queue.add("blogID", task);
 	});
 
 	it("gets multiple tasks in order", function (done) {
-		var test = this;
 		var tasks = [{ path: "foo" }, { path: "bar" }];
 		var isFirstRun = true;
 
-		process(function (blogID, savedTask, callback) {
-			expect(blogID).toBe(test.blog.id);
+		this.queue.process(function (blogID, savedTask, callback) {
+			expect(blogID).toBe("blogID");
 
 			if (isFirstRun) {
 				expect(savedTask).toEqual(tasks[0]);
@@ -38,19 +34,18 @@ describe("Queue.process", function () {
 			}
 		});
 
-		add(test.blog.id, tasks);
+		this.queue.add("blogID", tasks);
 	});
 
 	it("gets multiple tasks in fair order", function (done) {
-		var test = this;
 		var firstTasks = [{ path: "foo" }, { path: "bar" }];
 		var secondTasks = [{ path: "baz" }];
 		var completed = [];
 
-		add(test.blog.id, firstTasks);
-		add("secondblogID", secondTasks);
+		this.queue.add("first_blogID", firstTasks);
+		this.queue.add("second_blogID", secondTasks);
 
-		process(function (blogID, task, callback) {
+		this.queue.process(function (blogID, task, callback) {
 			setTimeout(function () {
 				completed.push(task);
 				callback();
@@ -67,7 +62,7 @@ describe("Queue.process", function () {
 		});
 	});
 
-	it("processes thousands of tasks for thousands of blogs in correct order", function (done) {
+	xit("processes thousands of tasks for thousands of blogs in correct order", function (done) {
 		var blogs = [];
 		var result = {};
 		for (var i = 0; i < 2000; i++) {
@@ -98,9 +93,7 @@ describe("Queue.process", function () {
 	});
 
 	it("does not error if no task exists", function (done) {
-		var test = this;
-
-		process(function (blogID, task, callback) {
+		this.queue.process(function (blogID, task, callback) {
 			callback();
 		});
 		done();

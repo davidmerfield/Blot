@@ -1,13 +1,12 @@
 module.exports = function () {
-	global.test.blog();
-
-	// Resets the processor function for the queue
+	// Resets the database for any tasks stored
 	beforeEach(function () {
-		require("../process")();
+		this.queue = require("../index")(
+			require("helper").hash(Date.now().toString()).slice(0, 10)
+		);
 	});
 
-	// Resets the database for any tasks stored
-	afterEach(function (done) {
-		require("../reset")(done);
+	afterEach(function () {
+		this.queue.reset();
 	});
 };

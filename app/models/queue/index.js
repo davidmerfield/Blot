@@ -1,5 +1,7 @@
-module.exports = {
-	add: require("./add"),
-	process: require("./process"),
-	reset: require("./reset"),
+module.exports = function (prefix) {
+	return {
+		add: require("./add")(prefix),
+		process: require("./process")(prefix),
+		reset: require("./reset")(prefix),
+	};
 };
