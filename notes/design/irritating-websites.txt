@@ -1,6 +1,6 @@
 # Irritating websites
 
-Each day I do battle with a number of websites, often designed by huge teams of competent people who have sadly produced websites that upset me, even slightly. All of these irritants directly affected the [design of the templates](/notes/design/templates) for Blot.
+I am often annoyed when I browse the internet. This annoyance is a powerful motivation to improve Blot. Here are a few things that upset me:
 
 ## When the layout changes as the page loads
 
@@ -22,4 +22,4 @@ I dislike when the page takes a long time to load.
 
 ## When there is advertising
 
-It is ugly and cheapening.
+It is ugly.
