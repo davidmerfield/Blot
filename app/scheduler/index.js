@@ -8,14 +8,18 @@ var dailyUpdate = require("./daily");
 var helper = require("helper");
 var email = helper.email;
 var clfdate = require("helper").clfdate;
-
+var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
+var checkFeatuedSites = require("../brochure/routes/featured/check");
 
 module.exports = function () {
   // Bash the cache for scheduled posts
   cacheScheduler(function (stat) {
     console.log(clfdate(), stat);
   });
+
+  // Warm the cache for the brochure site
+  warmCache(function (err) {});
 
   // Warn users about impending subscriptions
   User.getAllIds(function (err, uids) {
@@ -80,6 +84,18 @@ module.exports = function () {
         console.log(clfdate(), "Backup: Error:" + err);
       } else {
         console.log(clfdate(), "Backup: Successfully backed up");
+      }
+    });
+  });
+
+  console.log(clfdate(), "Scheduled daily check of featured sites");
+  schedule({ hour: 8, minute: 0 }, function () {
+    console.log(clfdate(), "Checking featured sites");
+    checkFeatuedSites(function (err) {
+      if (err) {
+        console.log(clfdate(), "Error: Checking featured sites".err);
+      } else {
+        console.log(clfdate(), "Checked featured sites");
       }
     });
   });
