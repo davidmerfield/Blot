@@ -62,12 +62,18 @@ describe("Queue.process", function () {
 		});
 	});
 
-	xit("processes thousands of tasks for thousands of blogs in correct order", function (done) {
+	it("processes tasks for many blogs in fair order", function (done) {
+		var test = this;
 		var blogs = [];
-		var result = {};
-		for (var i = 0; i < 2000; i++) {
+		var totalBlogs = 25;
+		var totalTasks = 5;
+		var expectedOrder = [];
+		var checked = 0;
+		var order = [];
+
+		for (let i = 0; i < totalBlogs; i++) {
 			let tasks = [];
-			for (var i = 0; i < 2000; i++) {
+			for (let x = 0; x < totalTasks; x++) {
 				tasks.push({
 					path: global.test.fake.path(),
 				});
@@ -75,19 +81,26 @@ describe("Queue.process", function () {
 			blogs.push(tasks);
 		}
 
-		process(function (blogID, task, callback) {
-			result[blogID] = result[blogID] || 0;
-			result[blogID]++;
-			callback();
-		});
+		for (let y = 0; y < totalTasks; y++)
+			for (let z = 0; z < totalBlogs; z++)
+				expectedOrder.push(z + ":" + blogs[z][y].path);
 
-		async.eachSeries(
+		async.eachOfSeries(
 			blogs,
-			function (tasks, next) {
-				add(i, tasks, next);
+			function (tasks, index, next) {
+				test.queue.add(index, tasks, next);
 			},
 			function () {
-				done();
+				test.queue.process(function (blogID, task, callback) {
+					order.push(blogID + ":" + task.path);
+					checked++;
+					callback();
+
+					if (checked === blogs.length * blogs[0].length) {
+						expect(order).toEqual(expectedOrder);
+						return done();
+					}
+				});
 			}
 		);
 	});

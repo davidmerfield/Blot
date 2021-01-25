@@ -1,4 +1,7 @@
 module.exports = function () {
+	
+	global.test.blog();
+
 	// Resets the database for any tasks stored
 	beforeEach(function () {
 		this.queue = require("../index")(

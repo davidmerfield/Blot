@@ -1,3 +1,4 @@
+var debug = require("debug")("blot:models:queue");
 var client = require("client");
 
 module.exports = function (prefix) {
@@ -19,6 +20,8 @@ module.exports = function (prefix) {
 				new TypeError("Queue: tasks added must be a valid object")
 			);
 		}
+
+		debug("Adding", tasks.length, "tasks to queue");
 
 		client
 			.multi()
