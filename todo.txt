@@ -1,3 +1,6 @@
+Add CSRF to brochure
+- Then update [PR](https://github.com/davidmerfield/Blot/pull/397)
+
 Add questions section to site:
 - Spec: (user = logged in user)
     - User can create topic
