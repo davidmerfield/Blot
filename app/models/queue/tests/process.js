@@ -3,14 +3,16 @@ describe("Queue.process", function () {
 
 	var add = require("../add");
 	var process = require("../process");
+	var async = require("async");
 
 	it("processes a task", function (done) {
 		var test = this;
 		var task = { path: "foo" };
 
-		process(function (blogID, savedTask) {
+		process(function (blogID, savedTask, callback) {
 			expect(blogID).toBe(test.blog.id);
 			expect(savedTask).toEqual(task);
+			callback();
 			done();
 		});
 
@@ -31,6 +33,7 @@ describe("Queue.process", function () {
 				callback();
 			} else {
 				expect(savedTask).toEqual(tasks[1]);
+				callback();
 				done();
 			}
 		});
@@ -64,10 +67,42 @@ describe("Queue.process", function () {
 		});
 	});
 
+	it("processes thousands of tasks for thousands of blogs in correct order", function (done) {
+		var blogs = [];
+		var result = {};
+		for (var i = 0; i < 2000; i++) {
+			let tasks = [];
+			for (var i = 0; i < 2000; i++) {
+				tasks.push({
+					path: global.test.fake.path(),
+				});
+			}
+			blogs.push(tasks);
+		}
+
+		process(function (blogID, task, callback) {
+			result[blogID] = result[blogID] || 0;
+			result[blogID]++;
+			callback();
+		});
+
+		async.eachSeries(
+			blogs,
+			function (tasks, next) {
+				add(i, tasks, next);
+			},
+			function () {
+				done();
+			}
+		);
+	});
+
 	it("does not error if no task exists", function (done) {
 		var test = this;
 
-		process(function (blogID, task, callback) {});
+		process(function (blogID, task, callback) {
+			callback();
+		});
 		done();
 	});
 });
