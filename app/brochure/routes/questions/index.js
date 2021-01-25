@@ -1,10 +1,10 @@
 var Express = require("express");
 var Questions = new Express.Router();
-// var helper = require("helper");
-// var QaDB = helper.qaDB;
+var hbs = require("hbs");
+var moment = require("moment");
 
-var Pool = require('pg').Pool;
 // Configure connection to Postgres
+var Pool = require('pg').Pool;
 const pool = new Pool({
     user: 'rakhim',
     host: 'localhost',
@@ -12,6 +12,18 @@ const pool = new Pool({
     password: 'password',
     port: 5432,
 })
+
+// Renders datetime in desired format
+// Can be used like so: {{{formatDaytime D}}} where D is timestamp (e.g. from a DB)
+hbs.registerHelper("formatDaytime", function(timestamp) {
+    try {
+        timestamp = moment.utc(timestamp).startOf("minute").fromNow();
+    } catch (e) {
+        timestamp = "";
+    }
+
+    return timestamp;
+});
 
 Questions.use(Express.urlencoded({
     extended: true
@@ -23,7 +35,7 @@ Questions.use(function(req, res, next) {
 });
 
 Questions.get("/", function(req, res) {
-    pool.query('SELECT * FROM items WHERE is_topic = true ORDER BY id ASC', (error, topics) => {
+    pool.query('SELECT * FROM items WHERE is_topic = true ORDER BY created_at DESC', (error, topics) => {
         if (error) {throw error}
         res.render("questions", { title: "Blot — QA", topics: topics.rows });
     })
