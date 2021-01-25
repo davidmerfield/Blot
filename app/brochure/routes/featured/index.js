@@ -9,8 +9,8 @@ var featured = [];
 try {
   featured = require("./featured-checked.json");
 } catch (e) {
-  console.warn("Warning: Please check the list of featured sites:");
-  console.warn("node app/brochure/routes/featured/check");
+  console.log("Warning: Please check the list of featured sites:");
+  console.log("node app/brochure/routes/featured/check");
 }
 
 module.exports = function (req, res, next) {
