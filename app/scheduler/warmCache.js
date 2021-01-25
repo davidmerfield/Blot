@@ -12,11 +12,39 @@
 //   status: the HTTP status code returned for the broken link
 // }]
 
+var config = require("config");
+var Cache = require("express-disk-cache");
+var cache = new Cache(config.cache_directory);
 var async = require("async");
 var cheerio = require("cheerio");
 var request = require("request");
 
-function main(url, options, callback) {
+function main() {
+  // Empty any existing responses
+  cache.flush(config.host, function (err) {
+    if (err) console.warn(err);
+    setTimeout(function () {
+      console.log(
+        require("helper").clfdate(),
+        "Warming cache for brochure site"
+      );
+      warmCache(config.protocol + config.host, function (err) {
+        if (err)
+          console.warn(
+            require("helper").clfdate(),
+            "Warming cache error:",
+            err.message
+          );
+        console.log(
+          require("helper").clfdate(),
+          "Warmed cache for brochure site"
+        );
+      });
+    }, 10 * 1000);
+  });
+}
+
+function warmCache(url, options, callback) {
   var checked = {};
   var results = {};
 
@@ -25,7 +53,7 @@ function main(url, options, callback) {
     options = {};
   }
 
-  checkPage(null, url, function(err) {
+  checkPage(null, url, function (err) {
     if (err) return callback(err);
     callback(null, results);
   });
@@ -34,7 +62,7 @@ function main(url, options, callback) {
   function checkPage(base, url, callback) {
     var uri = { url: url, headers: options.headers || {} };
 
-    request(uri, function(err, res, body) {
+    request(uri, function (err, res, body) {
       if (err) return callback(err);
 
       if (res.headers["content-type"].indexOf("text/html") === -1) {
@@ -55,11 +83,11 @@ function main(url, options, callback) {
       return callback(e);
     }
 
-    $("[href],[src]").each(function() {
+    $("[href],[src]").each(function () {
       var url = $(this).attr("href") || $(this).attr("src");
 
       if (!url) return;
-      
+
       url = require("url").resolve(base, url);
 
       if (require("url").parse(url).host !== require("url").parse(base).host)
@@ -70,7 +98,7 @@ function main(url, options, callback) {
 
     async.eachSeries(
       URLs,
-      function(url, next) {
+      function (url, next) {
         if (checked[url]) return next();
 
         checked[url] = true;

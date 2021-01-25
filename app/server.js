@@ -1,5 +1,3 @@
-console.log(require("helper").clfdate(), "app starting");
-
 var config = require("config");
 var Express = require("express");
 var helmet = require("helmet");
