@@ -34,36 +34,60 @@ Questions.use(function(req, res, next) {
     next();
 });
 
+// Handle topic listing
+// Topics are sorted by datetime of last reply, then by topic creation date
 Questions.get("/", function(req, res) {
-    pool.query('SELECT * FROM items WHERE is_topic = true ORDER BY created_at DESC', (error, topics) => {
-        if (error) {throw error}
-        res.render("questions", { title: "Blot — QA", topics: topics.rows });
-    })
+    pool
+        .query(`SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count
+                FROM items i
+                LEFT JOIN items r ON r.parent_id = i.id
+                    LEFT JOIN (
+                        SELECT parent_id, MAX(created_at) last_reply_created_at 
+                        FROM items GROUP BY parent_id
+                        ) r2 
+                    ON r2.parent_id = i.id
+                WHERE i.is_topic = true 
+                GROUP BY i.id, last_reply_created_at
+                ORDER BY last_reply_created_at, i.created_at DESC NULLS LAST`)
+        .then(topics => res.render("questions", { title: "Blot — QA", topics: topics.rows }))
+        .catch(err => {
+            throw err;
+        })
 });
 
 Questions.get("/new", function (req, res) {
     res.render("questions/new");
 });
 
+// Handle new topic
 Questions.post('/new', function(req, res) {
     var author = req.user.uid;
     var title = req.body.title;
     var body = req.body.body;
-    pool.query('INSERT INTO items(id, author, title, body, is_topic) VALUES(DEFAULT, $1, $2, $3, true) RETURNING *', [author, title, body], (error, topic) => {
-        if (error) {throw error}
-        var newTopic = topic.rows[0];
-        res.redirect("/questions/" + newTopic.id);
-    })
+    if (title.trim().length === 0 || body.trim().length === 0) res.redirect("/questions/new");
+    else {
+        pool.query('INSERT INTO items(id, author, title, body, is_topic) VALUES(DEFAULT, $1, $2, $3, true) RETURNING *', [author, title, body], (error, topic) => {
+            if (error) {throw error}
+            var newTopic = topic.rows[0];
+            res.redirect("/questions/" + newTopic.id);
+        })
+    }
 });
 
+// Handle new reply to topic
 Questions.post('/:id/new', function(req, res) {
     const id = parseInt(req.params.id)
     const author = req.user.uid;
     const body = req.body.body;
-    pool.query('INSERT INTO items(id, author, body, parent_id) VALUES(DEFAULT, $1, $2, $3) RETURNING *', [author, body, id], (error, item) => {
-        if (error) {throw error}
-        res.redirect("/questions/" + id);
-    })
+    if (body.trim().length === 0) res.redirect("/questions/" + id);
+    else {
+        pool
+            .query('INSERT INTO items(id, author, body, parent_id) VALUES(DEFAULT, $1, $2, $3) RETURNING *', [author, body, id])
+            .then(item => res.redirect("/questions/" + id))
+            .catch(err => {
+                throw err;
+            })
+    }
 });
 
 

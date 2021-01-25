@@ -10,38 +10,58 @@
       text-decoration: none;
       box-shadow: rgb(15 15 15 / 10%) 0 0 0 1px, rgb(15 15 15 / 10%) 0 2px 4px;
       background: #fff;
+      text-align: center;
+      min-width: 9em;
   }
   a.newquestion:hover {
       text-decoration: none;
       background: #f6f6f6;
       box-shadow: rgb(15 15 15 / 10%) 0 0 0 1px, rgb(15 15 15 / 10%) 0 2px 4px;
   }
-  div.qaheader {
+  div.qa-header {
       max-width: 637px;
       display: flex;
       justify-content: space-between;
       justify-content: space-between;
       align-items: baseline;
   }
+  div.question-header {
+      display: flex;
+      justify-content: space-between;
+  }
+  div.question-header span.created_at {
+      font-size: 12px;
+      color: #807d7a;
+  }
+  ul.questions {
+      margin: 0;
+      list-style-type: none;
+  }
+  ul.questions li {
+      margin: .7em 0;
+  }
 </style>
 
-<div class="qaheader">
+<div class="qa-header">
   <div>
     <h1>Questions</h1>
-    <p>Questions and answers about Blot for users of Blot.</p>
   </div>
   <a class="newquestion" href="/questions/new">
     <strong>Ask new question</strong>
   </a>
 </div>
 
-<ul class="clients">
+<p>Questions and answers about Blot, templating, customization and more. Questions are sorted by the freshness of replies.</p>
+
+<ul class="clients questions">
 {{#topics}}
   <li style="flex-basis: 100%">
     <a href="/questions/{{id}}">
-      <strong>{{title}}</strong>
-      <br>
-      {{formatDaytime created_at}}
+      <div class="question-header">
+        <strong>{{title}}</strong>
+        <span class="created_at">({{formatDaytime created_at}})</span>
+      </div>
+      {{reply_count}} replies
     </a>
   </li>
 {{/topics}}
