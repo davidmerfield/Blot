@@ -153,7 +153,7 @@ passwordForm.get(csrf, function(req, res) {
   res.render("sign-up/password");
 });
 
-passwordForm.post(parse, function(req, res, next) {
+passwordForm.post(parse, csrf, function(req, res, next) {
   var subscription = req.session.subscription;
   var email = req.body.email;
   var password = req.body.password;
