@@ -13,6 +13,7 @@ var parse = require("body-parser").urlencoded({ extended: false });
 var User = require("user");
 var Email = require("helper").email;
 var signup = Express.Router();
+var csrf = require("csurf")();
 
 signup.use(function(req, res, next) {
   if (req.user) return res.redirect("/");
@@ -64,7 +65,7 @@ paymentForm.get(function(req, res, next) {
   });
 });
 
-paymentForm.get(function(req, res) {
+paymentForm.get(csrf, function(req, res) {
   if (req.session && req.session.email && req.session.subscription)
     return res.redirect(req.baseUrl + passwordForm.path);
 
@@ -72,10 +73,11 @@ paymentForm.get(function(req, res) {
   res.locals.menu = { "sign-up": "selected" };
   res.locals.error = req.query.error;
   res.locals.stripe_key = config.stripe.key;
+  res.locals.csrf = req.csrfToken();
   res.render("sign-up");
 });
 
-paymentForm.post(parse, function(req, res, next) {
+paymentForm.post(parse, csrf, function(req, res, next) {
   // Card is a stripe token generated on the client
   var card = req.body && req.body.stripeToken;
   var email = req.body && req.body.email;
@@ -139,7 +141,7 @@ passwordForm.all(function(req, res, next) {
   next();
 });
 
-passwordForm.get(function(req, res) {
+passwordForm.get(csrf, function(req, res) {
   res.locals.title = "Sign up";
   res.locals.email = req.session.email;
   res.locals.subscription = !!req.session.subscription;
@@ -147,7 +149,7 @@ passwordForm.get(function(req, res) {
   res.locals.errormessage = req.query.error;
   res.locals.change_email = req.query.change_email;
   res.locals.already_paid = req.session.already_paid;
-
+  res.locals.csrf = req.csrfToken();
   res.render("sign-up/password");
 });
 

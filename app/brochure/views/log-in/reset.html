@@ -34,6 +34,8 @@ input[type="submit"].link:hover {
 
 <form method="POST">
 
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
+
   <p>
     <label for="email">Your email address</label>
     <input name="email" value="{{email}}" type="text" autofocus />
