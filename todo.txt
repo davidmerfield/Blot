@@ -866,6 +866,8 @@ Consider supporting SASS and tell [Max](https://mail.google.com/mail/u/0/#inbox/
 
 Consider supporting Micro pub and tell [Jamie](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVzptjbWjjqlhBQtgJsRstVSD)
 
+Consider offering newsletter service and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkbrQKXjDGTFNmtHVwJXThsWR)
+
 Consider offering a DNS server with cloudflare like UX to avoid issues connecting the domain
 
 Consider adding a crop of a livestream of the sky above me to the contact page. Possibly sourced from [something like this](https://www.earthcam.com/usa/newyork/worldtradecenter/?cam=hyatthd). Just like this: https://sistercitynyc.com/
