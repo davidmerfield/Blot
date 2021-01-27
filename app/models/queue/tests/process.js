@@ -3,6 +3,21 @@ describe("Queue", function () {
 
 	var async = require("async");
 
+	it("processes the same task twice", function (done) {
+		let task = { path: "foo" };
+		let tasks = [task, task];
+		let called = 0;
+
+		this.queue.add("blogID", tasks);
+
+		this.queue.process(function (blogID, _task, callback) {
+			called++;
+			callback();
+			expect(task).toEqual(_task);
+			if (called === tasks.length) done();
+		});
+	});
+
 	it("gets multiple tasks in order", function (done) {
 		var tasks = [{ path: "foo" }, { path: "bar" }];
 		var isFirstRun = true;

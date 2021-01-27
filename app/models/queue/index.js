@@ -3,11 +3,13 @@ const client = require("client");
 const async = require("async");
 const redis = require("redis");
 
-const NEW_TASK_MESSAGE = "new";
+const MESSAGES = {
+	NEW_TASK: "new",
+	BAD_TASK: "Tasks must be valid object",
+};
 
 module.exports = function Queue(prefix = "") {
-	this.prefix = prefix;
-
+	// These keys are used to persist the queue with Redis
 	const keys = {
 		// A list of blogs with outstanding tasks
 		blogs: `queue:${prefix}blogs`,
@@ -28,21 +30,20 @@ module.exports = function Queue(prefix = "") {
 		all: `queue:${prefix}all`,
 	};
 
+	// Method to enqueue a next task
+	// You can either pass a single task object or an array of tasks
 	this.add = (blogID, tasks, callback = function () {}) => {
 		let serializedTasks;
 
-		// You can either pass a single task object or an array of tasks
-		if (!Array.isArray(tasks)) {
-			tasks = [tasks];
-		}
-
 		try {
-			// Now we attempt to serialize the tasks to store in Redis
+			if (!Array.isArray(tasks)) {
+				tasks = [tasks];
+			}
 			serializedTasks = tasks.map(
 				(task) => blogID + ":" + JSON.stringify(task)
 			);
 		} catch (e) {
-			return callback(new TypeError("Queue: tasks must be valid object"));
+			return callback(new TypeError(MESSAGES.BAD_TASK));
 		}
 
 		client
@@ -51,7 +52,7 @@ module.exports = function Queue(prefix = "") {
 			// of all blogs with tasks outstanding.
 			.lpush(keys.blogs, blogID)
 			// Tell all subscribed clients there is a new task
-			.publish(keys.channel, NEW_TASK_MESSAGE)
+			.publish(keys.channel, MESSAGES.NEW_TASK)
 			// Add the tasks to the list of tasks associated with the blog
 			.lpush(keys.blog(blogID), serializedTasks)
 			// Add the task list for the blog to the list of keys associated
@@ -133,89 +134,116 @@ module.exports = function Queue(prefix = "") {
 
 	this.internalClient.on("message", (channel, message) => {
 		if (channel !== keys.channel) return;
-		if (message !== NEW_TASK_MESSAGE) return;
+		if (message !== MESSAGES.NEW_TASK) return;
 		if (this.internalQueue) this.internalQueue.push({});
 	});
 
-	this.reprocess = (callback = function () {}) => {
-		client.lrange(keys.processing, 0, -1, (err, serializedTasks) => {
-			if (err) return callback(err);
+	// We create a seperate client for this process because
+	// watch operations only work for the actions of other clients
+	let reprocessingClient = redis.createClient();
 
-			if (!serializedTasks.length) {
-				return client.publish(keys.channel, NEW_TASK_MESSAGE, callback);
+	this.reprocess = (callback = function () {}) => {
+		reprocessingClient.watch(keys.processing, (err) => {
+			if (err) return callback(err);
+			reprocessingClient.lrange(
+				keys.processing,
+				0,
+				-1,
+				(err, serializedTasks) => {
+					if (err) return callback(err);
+
+					if (!serializedTasks.length) {
+						return reprocessingClient
+							.multi()
+							.publish(keys.channel, MESSAGES.NEW_TASK)
+							.exec(callback);
+					}
+
+					let multi = reprocessingClient.multi();
+					let blogs = {};
+
+					serializedTasks.forEach((serializedTask) => {
+						let blogID = deserializeTask(serializedTask)[0];
+
+						blogs[blogID] = true;
+
+						multi
+							.lpush(keys.blog(blogID), serializedTask)
+							.lrem(keys.processing, -1, serializedTask);
+					});
+
+					Object.keys(blogs).forEach((blogID) => {
+						multi.lpush(keys.blogs, blogID).sadd(keys.all, keys.blog(blogID));
+					});
+
+					multi.exec((err) => {
+						if (err) return callback(err);
+						this.reprocess(callback);
+					});
+				}
+			);
+		});
+	};
+
+	// We create a seperate client for this process because
+	// watch operations only work for the actions of other clients
+	let drainClient = redis.createClient();
+
+	this.drainBlog = (blogID, callback = function () {}) => {
+		drainClient.watch(keys.blog(blogID), (err) => {
+			if (err) {
+				return callback(err);
 			}
 
-			let multi = client.multi();
-			let blogs = {};
+			drainClient
+				.multi()
+				.del(keys.blog(blogID))
+				.lrem(keys.blogs, -1, blogID)
+				.srem(keys.all, keys.blog(blogID))
+				.exec(function (err, res) {
+					if (err) return callback(err);
+					console.log("DRAINED BLOG WITH", res);
+					callback();
+				});
+		});
+	};
 
-			serializedTasks.forEach((serializedTask) => {
-				let blogID = deserializeTask(serializedTask)[0];
+	this.tryToGetTask = (callback) => {
+		client.RPOPLPUSH(keys.blogs, keys.blogs, (err, blogID) => {
+			if (!blogID) {
+				return callback();
+			}
 
-				blogs[blogID] = true;
-
-				multi
-					.lpush(keys.blog(blogID), serializedTask)
-					.lrem(keys.processing, -1, serializedTask);
-			});
-			
-			Object.keys(blogs).forEach((blogID) => {
-				multi.lpush(keys.blogs, blogID).sadd(keys.all, keys.blog(blogID));
-			});
-
-			multi.exec((err) => {
-				if (err) return callback(err);
-				this.reprocess(callback);
-			});
+			client.RPOPLPUSH(
+				keys.blog(blogID),
+				keys.processing,
+				(err, serializedTask) => {
+					if (serializedTask) {
+						callback(null, serializedTask);
+					} else {
+						this.drainBlog(blogID, callback);
+					}
+				}
+			);
 		});
 	};
 
 	this.process = (processor) => {
-		// create a queue object with concurrency 1
-		this.internalQueue = async.queue(function attempt(task, done) {
-			let label = require("helper").hash(processor.toString()).slice(0, 6);
+		this.internalQueue = async.queue((internalTask, done) => {
+			this.tryToGetTask((err, serializedTask) => {
+				if (!serializedTask) return done();
 
-			debug("processor:", label, "handling task");
-			client.RPOPLPUSH(keys.blogs, keys.blogs, function (err, blogID) {
-				if (!blogID) {
-					debug("processor:", label, "there are no blogs to process");
-					return done();
-				}
+				let blogID = deserializeTask(serializedTask)[0];
+				let task = deserializeTask(serializedTask)[1];
 
-				client.RPOPLPUSH(keys.blog(blogID), keys.processing, function (
-					err,
-					key
-				) {
-					if (!key) {
-						// todo: use redis watch to ensure we only remove this once
-						// all tasks are complete
-						// we need to check if the blog queue is empty
-						// and if so remove it from the list of blogs
-						// to process
-						return client.lrem(keys.blogs, -1, blogID, function (err) {
-							// emit flushed queue
-							done();
-						});
-					}
+				processor(blogID, task, (errProcessingTask) => {
+					this.internalQueue.push({});
 
-					processor(blogID, deserializeTask(key)[1], function (err) {
-						// task completed with error
-
-						if (err) {
-							// task completed with success
-							debug("processor:", label, "re-attempting check for tasks");
-							attempt(null, done);
-						} else {
-							debug("processor:", label, "task completed successfully");
-							client
-								.multi()
-								.lrem(keys.processing, -1, key)
-								.lpush(keys.completed, key)
-								.exec(function (err) {
-									debug("processor:", label, "re-attempting check for tasks");
-									attempt(null, done);
-								});
-						}
-					});
+					client
+						.multi()
+						.lrem(keys.processing, -1, serializedTask)
+						.lpush(keys.completed, serializedTask)
+						.exec(done);
 				});
 			});
 		});

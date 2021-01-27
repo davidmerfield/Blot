@@ -5,15 +5,14 @@ module.exports = function () {
 	const child_process = require("child_process");
 
 	beforeEach(function () {
-		this.queue = new Queue(
-			require("helper").hash(Date.now().toString()).slice(0, 10)
-		);
+		this.queueID = require("helper").hash(Date.now().toString()).slice(0, 10);
+		this.queue = new Queue(this.queueID);
 
 		this.workers = [];
 
 		this.createWorkers = (count, module) => {
 			for (var i = 1; i <= count; i++) {
-				let worker = child_process.fork(module, [this.queue.prefix], {
+				let worker = child_process.fork(module, [this.queueID], {
 					silent: true,
 				});
 				worker.on("exit", (code) => {
