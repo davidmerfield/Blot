@@ -57,6 +57,7 @@ function Candidates(blog, entry) {
   if (
     !entry.metadata.permalink &&
     !entry.metadata.slug &&
+    !entry.metadata.link &&
     !entry.metadata.url &&
     !entry.page
   ) {
