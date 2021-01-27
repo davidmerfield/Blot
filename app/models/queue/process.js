@@ -1,8 +1,7 @@
+var debug = require("debug")("blot:models:queue");
 var client = require("client");
 var async = require("async");
-var debug = require("debug")("blot:models:queue");
 var redis = require("redis");
-var hash = require("helper").hash;
 
 var otherClient = redis.createClient();
 
@@ -11,7 +10,7 @@ module.exports = function (prefix) {
 	var keys = require("./keys")(prefix);
 
 	function taskHandler(processor) {
-		var label = hash(processor.toString()).slice(0, 6);
+		var label = require("helper").hash(processor.toString()).slice(0, 6);
 
 		debug("initing processor:", label);
 
@@ -28,7 +27,9 @@ module.exports = function (prefix) {
 					key
 				) {
 					if (!key) {
-						
+							
+						// todo: use redis watch to ensure we only remove this once
+						// all tasks are complete
 						debug(
 							"processor:",
 							label,
@@ -82,6 +83,7 @@ module.exports = function (prefix) {
 
 	otherClient.subscribe(keys.channel);
 
+	// filter this by message / channel queue prefix
 	otherClient.on("message", function () {
 		debug("invoked! adding task to internalQueue");
 		if (internalQueue) internalQueue.push({ name: "foo" });

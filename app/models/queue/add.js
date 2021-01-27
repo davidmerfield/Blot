@@ -13,8 +13,7 @@ module.exports = function (prefix) {
 		}
 
 		try {
-			tasks = tasks.map(JSON.stringify);
-			tasks = tasks.map((task) => keys.change(blogID, task));
+			tasks = tasks.map((task) => keys.task(blogID, task));
 		} catch (e) {
 			return callback(
 				new TypeError("Queue: tasks added must be a valid object")

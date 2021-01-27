@@ -1,3 +1,4 @@
+var debug = require("debug")("blot:models:queue");
 var client = require("client");
 
 module.exports = function (prefix) {
