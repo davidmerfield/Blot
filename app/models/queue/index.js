@@ -103,7 +103,12 @@ module.exports = function Queue(prefix = "") {
 		});
 	};
 
-	this.reset = (callback) => {
+	this.destroy = (callback = function () {}) => {
+		if (this.internalClient) {
+			this.internalClient.unsubscribe(keys.channel);
+			this.internalClient.quit();
+		}
+
 		client.smembers(keys.all, function (err, queueKeys) {
 			if (err) return callback(err);
 			client.del(
@@ -121,16 +126,8 @@ module.exports = function Queue(prefix = "") {
 	};
 
 	this.internalClient = redis.createClient();
-	this.internalClient.subscribe(keys.channel);
 
-	this.destroy = (callback) => {
-		callback = callback || function () {};
-		if (this.internalClient) {
-			this.internalClient.unsubscribe(keys.channel);
-			this.internalClient.quit();
-		}
-		this.reset(callback);
-	};
+	this.internalClient.subscribe(keys.channel);
 
 	this.internalClient.on("message", (channel, message) => {
 		if (channel !== keys.channel) return;
@@ -157,13 +154,6 @@ module.exports = function Queue(prefix = "") {
 					if (!key) {
 						// todo: use redis watch to ensure we only remove this once
 						// all tasks are complete
-						debug(
-							"processor:",
-							label,
-							"there are no tasks for the blog " +
-								blogID +
-								" to process, calling done"
-						);
 						// we need to check if the blog queue is empty
 						// and if so remove it from the list of blogs
 						// to process
@@ -173,17 +163,10 @@ module.exports = function Queue(prefix = "") {
 						});
 					}
 
-					debug(
-						"processor:",
-						label,
-						"handing off to task to processing function"
-					);
-
 					processor(blogID, deserializeTask(key)[1], function (err) {
 						// task completed with error
 
 						if (err) {
-							debug("processor:", label, "task completed with error");
 							// task completed with success
 							debug("processor:", label, "re-attempting check for tasks");
 							attempt(null, done);
