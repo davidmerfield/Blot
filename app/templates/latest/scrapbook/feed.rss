@@ -9,7 +9,7 @@
   <item> 
     <title><![CDATA[ {{{title}}} ]]></title>
     <link>{{{absoluteURL}}}</link>
-    <!-- Use {{guid}} in future to prevent new RSS-post notifications when permalink for post changes -->
+    <!-- Use the following in future to prevent new RSS-post notifications when the permalink for a post changes: <guid isPermaLink="false">{{guid}}</guid> -->
     <guid>{{{absoluteURL}}}</guid>
     {{! RSS feeds need a RFC 822 date}}
     <pubDate>{{#formatDate}}ddd, DD MMM YYYY HH:mm:ss ZZ{{/formatDate}}</pubDate>
