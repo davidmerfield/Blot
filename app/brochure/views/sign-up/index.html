@@ -52,6 +52,7 @@
   </div>
   <input type="submit" value="Submit payment" onclick="this.classList.add('working')"/>
 
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
   <input type="hidden" class="stripeToken" name="stripeToken" />
 </form>
 

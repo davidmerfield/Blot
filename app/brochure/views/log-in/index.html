@@ -24,6 +24,7 @@
 <form method="POST" style="margin:0;padding:0;">
 
   <input type="hidden" name="email" value="{{email}}" />
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
 
   {{#BADTOKEN}}
   <p class="error">This link has expired or had already been clicked.</p>
@@ -49,6 +50,8 @@
 </form>
 
 <form method="POST">
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
+
   <p>
     <label for="email">Your email address</label>
     <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
