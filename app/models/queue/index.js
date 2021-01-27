@@ -197,10 +197,19 @@ module.exports = function Queue(prefix) {
 		});
 	};
 
-	var internalQueue;
 	var otherClient = redis.createClient();
 
 	otherClient.subscribe(keys.channel);
+
+	this.destroy = function (callback) {
+		callback = callback || function(){};
+		this.reset(function (err) {
+			if (err) return callback(err);
+			otherClient.quit(callback);
+		});
+	};
+
+	var internalQueue;
 
 	// filter this by message / channel queue prefix
 	otherClient.on("message", function () {
