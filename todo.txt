@@ -1,5 +1,5 @@
-Add CSRF to brochure
-- Then update [PR](https://github.com/davidmerfield/Blot/pull/397)
+Solve problem of long-build time followed by delete even causing vestigial posts
+- check file still exists after building? make it cheap to rebuild posts?
 
 Add questions section to site:
 - Spec: (user = logged in user)
