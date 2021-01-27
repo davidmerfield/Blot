@@ -6,6 +6,8 @@ const redis = require("redis");
 const NEW_TASK_MESSAGE = "new";
 
 module.exports = function Queue(prefix = "") {
+	this.prefix = prefix;
+
 	const keys = {
 		// A list of blogs with outstanding tasks
 		blogs: `queue:${prefix}blogs`,
@@ -87,7 +89,7 @@ module.exports = function Queue(prefix = "") {
 					total_tasks: 0,
 				};
 
-				res.slice(2).forEach(function (queue) {
+				res.slice(3).forEach(function (queue) {
 					queue.forEach(function (task) {
 						task = deserializeTask(task);
 						let blogID = task[0];
@@ -105,8 +107,8 @@ module.exports = function Queue(prefix = "") {
 
 	this.destroy = (callback = function () {}) => {
 		if (this.internalClient) {
-			this.internalClient.unsubscribe(keys.channel);
 			this.internalClient.quit();
+			delete this.internalClient;
 		}
 
 		client.smembers(keys.all, function (err, queueKeys) {
@@ -134,6 +136,38 @@ module.exports = function Queue(prefix = "") {
 		if (message !== NEW_TASK_MESSAGE) return;
 		if (this.internalQueue) this.internalQueue.push({});
 	});
+
+	this.reprocess = (callback = function () {}) => {
+		client.lrange(keys.processing, 0, -1, (err, serializedTasks) => {
+			if (err) return callback(err);
+
+			if (!serializedTasks.length) {
+				return client.publish(keys.channel, NEW_TASK_MESSAGE, callback);
+			}
+
+			let multi = client.multi();
+			let blogs = {};
+
+			serializedTasks.forEach((serializedTask) => {
+				let blogID = deserializeTask(serializedTask)[0];
+
+				blogs[blogID] = true;
+
+				multi
+					.lpush(keys.blog(blogID), serializedTask)
+					.lrem(keys.processing, -1, serializedTask);
+			});
+			
+			Object.keys(blogs).forEach((blogID) => {
+				multi.lpush(keys.blogs, blogID).sadd(keys.all, keys.blog(blogID));
+			});
+
+			multi.exec((err) => {
+				if (err) return callback(err);
+				this.reprocess(callback);
+			});
+		});
+	};
 
 	this.process = (processor) => {
 		// create a queue object with concurrency 1
