@@ -18,4 +18,22 @@
     <button class="whitebutton" id="post-question-button">Post question</button>
   </form>
 </div>
+
+<script>
+  var buttonEl = document.getElementById('post-question-button');
+  var titleEl = document.getElementById('title');
+  var bodyEl = document.getElementById('body');
+
+  function updateQuestionButtonState() {
+    if (titleEl.value.trim() === '' || bodyEl.value.trim() === '') {
+      buttonEl.setAttribute('disabled', '');
+    } else {
+      buttonEl.removeAttribute('disabled');
+    }
+  }
+
+  updateQuestionButtonState();
+  titleEl.addEventListener('keyup', updateQuestionButtonState);
+  bodyEl.addEventListener('keyup', updateQuestionButtonState);
+</script>
 {{/if}}

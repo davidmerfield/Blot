@@ -31,9 +31,25 @@
     <textarea type="text" name="body" id="body" placeholder="Your reply..."></textarea>
   </div>
   <div class="qa-form-actionarea">
-    <button class="whitebutton">Add reply</button>
+    <button id="post-reply-button" class="whitebutton">Add reply</button>
     <span class="secondary-text">Markdown allowed</span>
   </div>
 </form>
 </div>
+
+<script>
+  var buttonEl = document.getElementById('post-reply-button');
+  var bodyEl = document.getElementById('body');
+
+  function updateQuestionButtonState() {
+    if (bodyEl.value.trim() === '') {
+      buttonEl.setAttribute('disabled', '');
+    } else {
+      buttonEl.removeAttribute('disabled');
+    }
+  }
+
+  updateQuestionButtonState();
+  bodyEl.addEventListener('keyup', updateQuestionButtonState);
+</script>
 {{/if}}
