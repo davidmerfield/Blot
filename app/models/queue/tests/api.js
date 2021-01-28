@@ -54,7 +54,9 @@ describe("Queue API", function () {
 				expect(res.completed).toEqual([]);
 				expect(res.processing).toEqual([]);
 				expect(res.blogs).toEqual([test.blog.id]);
-				expect(res.queues[test.blog.id]).toEqual([task]);
+				expect(res.queues).toEqual([
+					[test.blog.id + ":" + JSON.stringify(task)],
+				]);
 				done();
 			});
 		});

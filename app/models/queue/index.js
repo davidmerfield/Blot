@@ -5,26 +5,6 @@ const client = require("client");
 // Number of tasks to store on completed task log
 const COMPLETED_TASK_LENGTH = 1000;
 
-const MESSAGES = {
-	NEW_TASK: "New task added to queue",
-	BAD_TASK: "Tasks must be valid object",
-};
-
-// Takes a blog identifier (String) and a task (Object):
-// 'blog_123' and {path: '/hello.txt'} 
-// Returns a string we can use as a Redis key
-// 'blog_123:"{"path":"/hello.txt"}"'
-const serializeTask = (blogID) => (task) => blogID + ":" + JSON.stringify(task);
-
-// Takes a Redis key created with serializeTask:
-// 'blog_123:"{"path":"/hello.txt"}"'
-// Returns a blog ID (string) and a task (Object):
-// 'blog_123' and {path: '/hello.txt'} 
-const deserializeTask = (taskString) => [
-	taskString.slice(0, taskString.indexOf(":")),
-	JSON.parse(taskString.slice(taskString.indexOf(":") + 1)),
-];
-
 module.exports = function Queue(prefix = "") {
 	// These keys are used with Redis to persist the queue
 	const keys = {
@@ -34,10 +14,10 @@ module.exports = function Queue(prefix = "") {
 		// A list of tasks specific to a blog
 		blog: (blogID) => `queue:${prefix}blog:${blogID}`,
 
-		// A list of blog:task pairs for all active builds.
+		// A list of blog:task pairs for all active tasks.
 		processing: `queue:${prefix}proessing`,
 
-		// A list of blog:task pairs for all completed builds.
+		// A list of blog:task pairs for all completed tasks.
 		completed: `queue:${prefix}completed`,
 
 		// A set of all keys created by this queue for easy cleanup
@@ -52,9 +32,15 @@ module.exports = function Queue(prefix = "") {
 		if (!Array.isArray(tasks)) tasks = [tasks];
 
 		try {
-			serializedTasks = tasks.map(serializeTask(blogID));
+			// Takes a blog identifier (String) and a task (Object):
+			// 'blog_123' and {path: '/hello.txt'}
+			// Returns a string we can use as a Redis key
+			// 'blog_123:"{"path":"/hello.txt"}"'
+			serializedTasks = tasks.map(
+				(task) => blogID + ":" + JSON.stringify(task)
+			);
 		} catch (e) {
-			return callback(new TypeError(MESSAGES.BAD_TASK));
+			return callback(new TypeError("Invalid task"));
 		}
 
 		client
@@ -93,20 +79,8 @@ module.exports = function Queue(prefix = "") {
 					blogs: res[0],
 					processing: res[1],
 					completed: res[2],
-					queues: {},
-					total_tasks: 0,
+					queues: res.slice(3),
 				};
-
-				res.slice(3).forEach(function (queue) {
-					queue.forEach(function (task) {
-						task = deserializeTask(task);
-						let blogID = task[0];
-						task = task[1];
-						response.queues[blogID] = response.queues[blogID] || [];
-						response.queues[blogID].push(task);
-						response.total_tasks++;
-					});
-				});
 
 				callback(err, response);
 			});
@@ -152,7 +126,7 @@ module.exports = function Queue(prefix = "") {
 					let blogs = {};
 
 					serializedTasks.forEach((serializedTask) => {
-						let blogID = deserializeTask(serializedTask)[0];
+						let blogID = serializedTask.slice(0, serializedTask.indexOf(":"));
 
 						blogs[blogID] = true;
 
@@ -230,8 +204,14 @@ module.exports = function Queue(prefix = "") {
 				keys.processing,
 				(err, serializedTask) => {
 					if (serializedTask) {
-						let blogID = deserializeTask(serializedTask)[0];
-						let task = deserializeTask(serializedTask)[1];
+						// Takes a Redis key created during serializedTasks:
+						// 'blog_123:"{"path":"/hello.txt"}"'
+						// Returns a blog ID (string) and a task (Object):
+						// 'blog_123' and {path: '/hello.txt'}
+						let task = JSON.parse(
+							serializedTask.slice(serializedTask.indexOf(":") + 1)
+						);
+
 						processor(blogID, task, (errProcessingTask) => {
 							processingClient
 								.multi()
