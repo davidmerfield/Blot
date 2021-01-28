@@ -2,16 +2,24 @@ const debug = require("debug")("blot:models:queue");
 const redis = require("redis");
 const client = require("client");
 
+// Number of tasks to store on completed task log
+const COMPLETED_TASK_LENGTH = 1000;
+
 const MESSAGES = {
 	NEW_TASK: "New task added to queue",
 	BAD_TASK: "Tasks must be valid object",
 };
 
-// Number of tasks to store on completed task log
-const COMPLETED_TASK_LENGTH = 1000;
-
+// Takes a blog identifier (String) and a task (Object):
+// 'blog_123' and {path: '/hello.txt'} 
+// Returns a string we can use as a Redis key
+// 'blog_123:"{"path":"/hello.txt"}"'
 const serializeTask = (blogID) => (task) => blogID + ":" + JSON.stringify(task);
 
+// Takes a Redis key created with serializeTask:
+// 'blog_123:"{"path":"/hello.txt"}"'
+// Returns a blog ID (string) and a task (Object):
+// 'blog_123' and {path: '/hello.txt'} 
 const deserializeTask = (taskString) => [
 	taskString.slice(0, taskString.indexOf(":")),
 	JSON.parse(taskString.slice(taskString.indexOf(":") + 1)),

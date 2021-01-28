@@ -149,7 +149,7 @@ describe("Queue", function () {
 		done();
 	});
 
-	fit("stores only the last thousand tasks on completed list", function (done) {
+	it("stores only the last thousand tasks on completed list", function (done) {
 		let completed_tasks = [];
 		let tasks = [];
 		for (let i = 1; i <= 1200; i++) tasks.push({ id: i });
