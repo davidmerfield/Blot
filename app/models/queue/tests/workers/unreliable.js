@@ -1,4 +1,6 @@
 const queueID = process.argv[2];
+const shouldDie = parseInt(process.argv[3]);
+
 const Queue = require("../../index");
 const queue = new Queue(queueID);
 
@@ -7,9 +9,9 @@ queue.process(function (blogID, task, callback) {
 		task
 	)}`;
 
-	console.log(label, "Started");
-	
-	if (Math.round(Math.random())) {
+	console.log(label, "Started shouldDie=" + shouldDie);
+
+	if (shouldDie) {
 		throw new Error(label + " Unexpected error in test worker process!");
 	} else {
 		console.log(label, "Completed");
