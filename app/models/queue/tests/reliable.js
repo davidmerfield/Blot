@@ -127,7 +127,7 @@ describe("Queue", function () {
 		}, 15);
 	});
 
-	fit("distributes tasks across unreliable task runners", function (done) {
+	it("distributes tasks across unreliable task runners", function (done) {
 		this.createWorkers(3, __dirname + "/workers/unreliable.js");
 
 		let tasks = [{ path: "foo" }, { path: "bar" }, { path: "baz" }];

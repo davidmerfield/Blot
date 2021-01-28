@@ -220,17 +220,19 @@ module.exports = function Queue(prefix = "") {
 	};
 
 	this.checkIfBlogIsDrained = (blogID, callback = function () {}) => {
-
 		drainClient.watch(keys.blog(blogID), (err) => {
-			if (err) {
-				return callback(err);
-			}
+			if (err) return callback(err);
+
+			drainClient.llen(keys.blog(blogID), (err, length) => {
+				if (err) return callback(err);
+
+				// There are still items on the queue
+				if (length !== 0) return drainClient.unwatch(callback);
+
 			drainClient
 				.multi()
-				// For unknown reasons, enabling these causes tasks 
-				// to get lost when adding lots of them repeatedly
-				// .del(keys.blog(blogID))
-				// .srem(keys.all, keys.blog(blogID))
+				.del(keys.blog(blogID))
+				.srem(keys.all, keys.blog(blogID))
 				.lrem(keys.blogs, -1, blogID)
 				.exec((err, res) => {
 					if (err) return callback(err);
@@ -242,6 +244,7 @@ module.exports = function Queue(prefix = "") {
 
 					callback();
 				});
+			});
 		});
 	};
 
