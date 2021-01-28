@@ -1,5 +1,4 @@
 const debug = require("debug")("blot:models:queue");
-const redis = require("redis");
 const client = require("client");
 
 // Number of tasks to store on completed task log
@@ -63,17 +62,18 @@ module.exports = function Queue(prefix = "") {
 		client.smembers(keys.all, function (err, queueKeys) {
 			if (err) return callback(err);
 
-			let multi = client.multi();
+			// We use batch since we're not writing anything
+			let batch = client.batch();
 
-			multi.lrange(keys.blogs, 0, -1);
-			multi.lrange(keys.processing, 0, -1);
-			multi.lrange(keys.completed, 0, -1);
+			batch.lrange(keys.blogs, 0, -1);
+			batch.lrange(keys.processing, 0, -1);
+			batch.lrange(keys.completed, 0, -1);
 
 			queueKeys.forEach(function (queueKey) {
-				multi.lrange(queueKey, 0, -1);
+				batch.lrange(queueKey, 0, -1);
 			});
 
-			multi.exec(function (err, res) {
+			batch.exec(function (err, res) {
 				if (err) return callback(err);
 				let response = {
 					blogs: res[0],
@@ -110,7 +110,7 @@ module.exports = function Queue(prefix = "") {
 	// - Can other reprocessing functions clobber this?
 	// - Can we eventually only reprocess tasks for the dead worker?
 	// - Can we add a timeout for tasks?
-	let reprocessingClient = redis.createClient();
+	let reprocessingClient = client.duplicate();
 
 	this.reprocess = (callback = function () {}) => {
 		reprocessingClient.watch(keys.processing, (err) => {
@@ -158,7 +158,7 @@ module.exports = function Queue(prefix = "") {
 
 	// We create a seperate client for this process because
 	// watch operations only work for the actions of other clients
-	let drainClient = redis.createClient();
+	let drainClient = client.duplicate();
 
 	this.drain = (onDrain) => {
 		this.onDrain = onDrain;
@@ -193,7 +193,7 @@ module.exports = function Queue(prefix = "") {
 		});
 	};
 
-	const processingClient = redis.createClient();
+	const processingClient = client.duplicate();
 
 	// Public method which accepts as only argument an asynchronous
 	// function that will do work on a given task. It will wait
