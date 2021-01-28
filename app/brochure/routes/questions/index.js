@@ -3,15 +3,16 @@ const Questions = new Express.Router();
 const hbs = require("hbs");
 const moment = require("moment");
 const csrf = require("csurf")();
+var config = require("config");
 
 // Configure connection to Postgres
 const Pool = require('pg').Pool;
 const pool = new Pool({
-  user: 'rakhim',
-  host: 'localhost',
-  database: 'blot_qa',
-  password: 'password',
-  port: 5432,
+  user: config.postgres.user,
+  host: config.postgres.host,
+  database: config.postgres.database,
+  password: config.postgres.password,
+  port: config.postgres.port
 })
 
 // Renders datetime in desired format
