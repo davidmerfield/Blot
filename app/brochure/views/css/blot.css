@@ -497,7 +497,12 @@ ul.qa-questions li {
   margin: .7em 0;
 }
 .qa-questions li a:hover strong { text-decoration: none; }
-
+.qa-question-container {
+  margin-bottom: 2em;
+}
+.qa-question-container p:first-child {
+  margin: 0;
+}
 .qa-form ::placeholder,
 .qa-form :focus::placeholder {
   color: #a09d9c;
@@ -523,4 +528,9 @@ ul.qa-questions li {
   resize: vertical;
   min-height: 100px;
   height: 100px;
+}
+.qa-form .qa-form-actionarea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

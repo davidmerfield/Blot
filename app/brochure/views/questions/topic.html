@@ -1,5 +1,5 @@
 <h1>{{topic.title}}</h1>
-<p>{{topic.body}}
+<p>{{{topic.body}}}
   <br>
   <span class="secondary-text smaller">{{formatDaytime topic.created_at}}</span>
 </p>
@@ -7,18 +7,19 @@
 {{#if topics}}
 <h2>Replies</h2>
 {{#topics}}
-<div>
-  <p style="margin-bottom: 2em">
-    {{body}}
-    <br>
+<div class="qa-question-container">
+    {{{body}}}
     <span class="secondary-text smaller">{{formatDaytime created_at}}</span>
-  </p>
 </div>
 {{/topics}}
 {{/if}}
 
 {{#unless topics}}
 <h2>No replies yet</h2>
+{{/unless}}
+
+{{#unless user}}
+<p>Please, <a href="/log-in">log in</a> to add a reply.</p>
 {{/unless}}
 
 {{#if user}}
@@ -29,7 +30,10 @@
   <div>
     <textarea type="text" name="body" id="body" placeholder="Your reply..."></textarea>
   </div>
-  <button class="whitebutton">Add reply</button>
+  <div class="qa-form-actionarea">
+    <button class="whitebutton">Add reply</button>
+    <span class="secondary-text">Markdown allowed</span>
+  </div>
 </form>
 </div>
 {{/if}}

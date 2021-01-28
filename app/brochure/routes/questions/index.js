@@ -3,7 +3,8 @@ const Questions = new Express.Router();
 const hbs = require("hbs");
 const moment = require("moment");
 const csrf = require("csurf")();
-var config = require("config");
+const config = require("config");
+const marked = require("marked");
 
 // Configure connection to Postgres
 const Pool = require('pg').Pool;
@@ -107,8 +108,10 @@ Questions
       if (error) {throw error}
       pool.query('SELECT * FROM items WHERE parent_id = $1 AND is_topic = false', [id], (error, replies) => {
         if (error) {throw error}
-        const topic = topics.rows[0];
+        let topic = topics.rows[0];
+        topic.body = marked(topic.body)
         res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+        replies.rows.forEach((el, index) => replies.rows[index].body = marked(el.body))
         res.render("questions/topic", {title: topic.title, topics: replies.rows, topic: topic});
       })
     })
