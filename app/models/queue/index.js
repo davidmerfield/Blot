@@ -145,7 +145,9 @@ module.exports = function Queue(prefix = "") {
 						if (res === null) {
 							this.reprocess(callback);
 						} else {
-							this.process(this.processor);
+							// If we call 'reprocess' in a master process
+							// it might not have registered its own processor function
+							if (this.processor) this.process(this.processor);
 							callback();
 						}
 					});

@@ -11,10 +11,12 @@ queue.process(function (blogID, task, callback) {
 
 	console.log(label, "Started shouldDie=" + shouldDie);
 
-	if (shouldDie) {
-		throw new Error(label + " Unexpected error in test worker process!");
-	} else {
-		console.log(label, "Completed");
-		callback();
-	}
+	setTimeout(() => {
+		if (shouldDie) {
+			throw new Error(label + " Unexpected error in test worker process!");
+		} else {
+			console.log(label, "Completed");
+			callback();
+		}
+	}, 100);
 });
