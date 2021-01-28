@@ -61,30 +61,36 @@ describe("Queue", function () {
 		let task = { path: "foo" };
 		let blogID = "blogID";
 		let processor_called = 0;
+
 		let processor = () => {
+			console.log("processor invoked");
 			processor_called++;
+
+			if (processor_called === 1) {
+				this.queue.inspect((err, res) => {
+					console.log(res);
+					expect(res.completed).toEqual([]);
+					expect(res.processing).toEqual([blogID + ":" + JSON.stringify(task)]);
+					console.log("reprocessing tasks");
+					this.queue.reprocess();
+				});
+			} else if (processor_called === 2) {
+				this.queue.inspect((err, res) => {
+					console.log(res);
+					expect(res.completed).toEqual([]);
+					expect(res.processing).toEqual([blogID + ":" + JSON.stringify(task)]);
+					done();
+				});
+			} else {
+				done.fail();
+			}
 		};
 
-		// do nothing
+		console.log("registering processor");
 		this.queue.process(processor);
 
-		this.queue.add(blogID, task, (err) => {
-			this.queue.inspect((err, res) => {
-				expect(processor_called).toEqual(1);
-				expect(res.completed).toEqual([]);
-				expect(res.processing).toEqual([blogID + ":" + JSON.stringify(task)]);
-				this.queue.reprocess((err) => {
-					this.queue.inspect((err, res) => {
-						expect(processor_called).toEqual(2);
-						expect(res.completed).toEqual([]);
-						expect(res.processing).toEqual([
-							blogID + ":" + JSON.stringify(task),
-						]);
-						done();
-					});
-				});
-			});
-		});
+		console.log("adding task ");
+		this.queue.add(blogID, task);
 	});
 
 	it("calling reprocess multiple times works", function (done) {

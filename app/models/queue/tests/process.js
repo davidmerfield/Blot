@@ -2,7 +2,6 @@ describe("Queue", function () {
 	require("./setup")();
 
 	var async = require("async");
-	var colors = require("colors/safe");
 
 	it("lets you hammer the queue with new tasks", function (done) {
 		var blogID = "blogID";
@@ -42,8 +41,10 @@ describe("Queue", function () {
 		let tasks = [task, task];
 		let called = 0;
 
+		console.log("calling add", tasks);
 		this.queue.add("blogID", tasks);
 
+		console.log("calling process", tasks);
 		this.queue.process(function (blogID, _task, callback) {
 			called++;
 			callback();
@@ -146,5 +147,31 @@ describe("Queue", function () {
 			callback();
 		});
 		done();
+	});
+
+	it("processes one task at a time", function (done) {
+		let flag = false;
+		let completed_tasks = [];
+		let tasks = [];
+
+		for (let i = 1; i <= 30; i++) tasks.push({ id: i });
+
+		this.queue.process((blogID, task, done) => {
+			expect(flag).toEqual(false);
+			flag = true;
+			setTimeout(() => {
+				expect(flag).toEqual(true);
+				flag = false;
+				completed_tasks.push(task);
+				done();
+			}, Math.random() * 100);
+		});
+
+		this.queue.drain((blogID) => {
+			expect(completed_tasks).toEqual(tasks);
+			done();
+		});
+
+		this.queue.add("blog", tasks);
 	});
 });

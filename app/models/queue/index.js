@@ -1,6 +1,5 @@
 const debug = require("debug")("blot:models:queue");
 const client = require("client");
-const async = require("async");
 const redis = require("redis");
 
 const MESSAGES = {
@@ -30,9 +29,6 @@ module.exports = function Queue(prefix = "") {
 		// A list of blog:task pairs for all completed builds.
 		completed: `queue:${prefix}completed`,
 
-		// A channel on which 'new task' and 'queue drained' events are emitted
-		channel: `queue:${prefix}channel`,
-
 		// A set of all keys created by this queue for easy cleanup
 		all: `queue:${prefix}all`,
 	};
@@ -60,8 +56,6 @@ module.exports = function Queue(prefix = "") {
 			// Store that there exists a list of tasks for this blog.
 			// This allows us to quickly reset the queue.
 			.sadd(keys.all, keys.blog(blogID))
-			// Tell any other processes watching this queue there is a new task
-			.publish(keys.channel, MESSAGES.NEW_TASK)
 			.exec(callback);
 	};
 
@@ -108,24 +102,9 @@ module.exports = function Queue(prefix = "") {
 		});
 	};
 
-	this.internalClient = redis.createClient();
-
-	this.internalClient.subscribe(keys.channel);
-
-	this.internalClient.on("message", (channel, message) => {
-		if (channel !== keys.channel) return;
-		if (message !== MESSAGES.NEW_TASK) return;
-		if (this.internalQueue) this.internalQueue.push({});
-	});
-
 	// Public: used to wipe all information about a queue
 	// from the database. Should be called after tests.
 	this.destroy = (callback = function () {}) => {
-		if (this.internalClient) {
-			this.internalClient.quit();
-			delete this.internalClient;
-		}
-
 		client.smembers(keys.all, function (err, queueKeys) {
 			if (err) return callback(err);
 			client.del(
@@ -133,7 +112,6 @@ module.exports = function Queue(prefix = "") {
 					keys.blogs,
 					keys.processing,
 					keys.completed,
-					keys.channel,
 					keys.all,
 					...queueKeys,
 				],
@@ -165,10 +143,6 @@ module.exports = function Queue(prefix = "") {
 				(err, serializedTasks) => {
 					if (err) return callback(err);
 
-					if (!serializedTasks.length) {
-						return reprocessingClient.unwatch(callback);
-					}
-
 					let multi = reprocessingClient.multi();
 					let blogs = {};
 
@@ -192,15 +166,7 @@ module.exports = function Queue(prefix = "") {
 						if (res === null) {
 							this.reprocess(callback);
 						} else {
-							// Add a new task to the internal queue
-							if (this.internalQueue) {
-								this.internalQueue.push({});
-							}
-							// Go to the next tick of the internal queue
-							if (this.done) {
-								this.done();
-							}
-
+							this.process(this.processor);
 							callback();
 						}
 					});
@@ -246,44 +212,37 @@ module.exports = function Queue(prefix = "") {
 		});
 	};
 
+	const processingClient = redis.createClient();
+
+	// Public method which accepts as only argument an asynchronous
+	// function that will do work on a given task. It will wait
+	// until there is a blog with a task to work on.
 	this.process = (processor) => {
-		this.internalQueue = async.queue((internalTask, done) => {
-			client.RPOPLPUSH(keys.blogs, keys.blogs, (err, blogID) => {
-				if (!blogID) return done();
-
-				client.RPOPLPUSH(
-					keys.blog(blogID),
-					keys.processing,
-					(err, serializedTask) => {
-						if (serializedTask) {
-							let blogID = deserializeTask(serializedTask)[0];
-							let task = deserializeTask(serializedTask)[1];
-
-							// Allows us to tick over to the next task manually
-							// from the reprocessing function if the processor
-							// times out or gets stuck.
-							this.done = done;
-
-							processor(blogID, task, (errProcessingTask) => {
-								client
-									.multi()
-									.lrem(keys.processing, -1, serializedTask)
-									.lpush(keys.completed, serializedTask)
-									.exec((err) => {
-										this.internalQueue.push({});
-										delete this.done;
-										done();
-									});
-							});
-						} else {
-							this.checkIfBlogIsDrained(blogID, done);
-						}
+		this.processor = processor;
+		processingClient.BRPOPLPUSH(keys.blogs, keys.blogs, 0, (err, blogID) => {
+			processingClient.RPOPLPUSH(
+				keys.blog(blogID),
+				keys.processing,
+				(err, serializedTask) => {
+					if (serializedTask) {
+						let blogID = deserializeTask(serializedTask)[0];
+						let task = deserializeTask(serializedTask)[1];
+						processor(blogID, task, (errProcessingTask) => {
+							processingClient
+								.multi()
+								.lrem(keys.processing, -1, serializedTask)
+								.lpush(keys.completed, serializedTask)
+								.exec((err) => {
+									this.process(processor);
+								});
+						});
+					} else {
+						this.checkIfBlogIsDrained(blogID, (err) => {
+							this.process(processor);
+						});
 					}
-				);
-			});
+				}
+			);
 		});
-
-		// Begin internal queue tick
-		this.internalQueue.push({});
 	};
 };
