@@ -80,6 +80,10 @@ export BLOT_POSTGRES_DB=<YOUR_POSTGRES_DATABASE>
 export BLOT_POSTGRES_PASSWORD=<YOUR_POSTGRES_PASSWORD>
 ```
 
+Create the DB and the table by running 2 scripts: `scripts/db/create-postgres-db.js` and `scripts/db/create-postgres-table.js`.
+
+## Running nginx
+
 Follow the [guide to generating the SSL certs](ssl-certificate-in-development.txt) needed by nginx in the development environment. Start nginx:
 
 ```sh
