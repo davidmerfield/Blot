@@ -10,15 +10,12 @@ Add questions section to site:
        - New Question (form to submit a new question)
 - Technicalities:
     - Single DB table for topics and replies. Rows:
-      - id
+      - id (automatic, indexed)
       - body (text)
-      - date
-      - author
-      - is_topic (boolean): true if this item started a topic, false if this item is a reply to a topic
-    - Single DB table for one-to-many (topic-to-replies) relations. Rows:
-      - id
-      - topic_id (references table 1)
-      - reply_id (references table 1)
+      - title (text, optional)
+      - author (text, user's uid)
+      - date (timestamp)
+      - is_topic (boolean): true if this item started a topic, false if this item is a reply to a topic. Title must be present for topic.
     - No table for users until de-anonymization is required. At that time, table is created and populated with users gathered from existing topics and replies.
     - No ORM, only plain SQL, so there is only one new dependency introduced (postgres driver for node).
 - Features to add for second and subsequent releases:

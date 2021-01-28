@@ -21,7 +21,9 @@ pool
               parent_id integer REFERENCES items(id) ON DELETE CASCADE,
               title text,
               created_at timestamp without time zone DEFAULT now(),
-              CONSTRAINT items_check CHECK (NOT is_topic OR title IS NOT NULL)
+              CONSTRAINT topic_title_mandatory CHECK (NOT (is_topic AND title IS NULL)),
+              CONSTRAINT no_parent_id_in_topic CHECK (NOT (is_topic AND parent_id IS NOT NULL)),
+              CONSTRAINT no_title_in_non_topic CHECK (NOT (title IS NOT NULL AND NOT is_topic))
           )
   `)
   .then(res => {
