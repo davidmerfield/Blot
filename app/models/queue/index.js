@@ -8,6 +8,13 @@ const MESSAGES = {
 	BAD_TASK: "Tasks must be valid object",
 };
 
+const serializeTask = (blogID) => (task) => blogID + ":" + JSON.stringify(task);
+
+const deserializeTask = (taskString) => [
+	taskString.slice(0, taskString.indexOf(":")),
+	JSON.parse(taskString.slice(taskString.indexOf(":") + 1)),
+];
+
 module.exports = function Queue(prefix = "") {
 	// These keys are used with Redis to persist the queue
 	const keys = {
@@ -30,42 +37,33 @@ module.exports = function Queue(prefix = "") {
 		all: `queue:${prefix}all`,
 	};
 
-	// Used to enqueue a next task. You can either pass a single task
-	// object or an array of task objects.
+	// Used to enqueue a next task.
 	this.add = (blogID, tasks, callback = function () {}) => {
 		let serializedTasks;
 
+		// Tasks can be a single object or a list of objects
+		if (!Array.isArray(tasks)) tasks = [tasks];
+
 		try {
-			if (!Array.isArray(tasks)) {
-				tasks = [tasks];
-			}
-			serializedTasks = tasks.map(
-				(task) => blogID + ":" + JSON.stringify(task)
-			);
+			serializedTasks = tasks.map(serializeTask(blogID));
 		} catch (e) {
 			return callback(new TypeError(MESSAGES.BAD_TASK));
 		}
 
 		client
 			.multi()
-			// Add the blog associated with these new tasks to the list
-			// of all blogs with tasks outstanding.
+			// Add the blog which owns the tasks to the list of all blogs
+			// with tasks. BlogID may be on the list multiple times.
 			.lpush(keys.blogs, blogID)
 			// Add the tasks to the list of tasks associated with the blog
 			.lpush(keys.blog(blogID), serializedTasks)
-			// Tell all subscribed clients there is a new task. We assume
-			// that multiple processes will interact with the same queue
-			.publish(keys.channel, MESSAGES.NEW_TASK)
-			// Add the task list for the blog to the list of keys associated
-			// with the queue. This allows us to quickly reset the queue.
+			// Store that there exists a list of tasks for this blog.
+			// This allows us to quickly reset the queue.
 			.sadd(keys.all, keys.blog(blogID))
+			// Tell any other processes watching this queue there is a new task
+			.publish(keys.channel, MESSAGES.NEW_TASK)
 			.exec(callback);
 	};
-
-	const deserializeTask = (taskString) => [
-		taskString.slice(0, taskString.indexOf(":")),
-		JSON.parse(taskString.slice(taskString.indexOf(":") + 1)),
-	];
 
 	// Used to see the state of the queue. Returns information
 	// about blogs with queued tasks, a list of active (i.e. processing)
@@ -229,21 +227,21 @@ module.exports = function Queue(prefix = "") {
 				// There are still items on the queue
 				if (length !== 0) return drainClient.unwatch(callback);
 
-			drainClient
-				.multi()
-				.del(keys.blog(blogID))
-				.srem(keys.all, keys.blog(blogID))
-				.lrem(keys.blogs, -1, blogID)
-				.exec((err, res) => {
-					if (err) return callback(err);
+				drainClient
+					.multi()
+					.del(keys.blog(blogID))
+					.srem(keys.all, keys.blog(blogID))
+					.lrem(keys.blogs, -1, blogID)
+					.exec((err, res) => {
+						if (err) return callback(err);
 
-					// If watch causes the multi to fail we get res===null
-					if (res && this.onDrain) {
-						this.onDrain(blogID);
-					}
+						// If watch causes the multi to fail we get res===null
+						if (res && this.onDrain) {
+							this.onDrain(blogID);
+						}
 
-					callback();
-				});
+						callback();
+					});
 			});
 		});
 	};

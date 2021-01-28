@@ -2,7 +2,7 @@ describe("Queue", function () {
 	require("./setup")();
 
 	var async = require("async");
-	var colors = require('colors/safe');
+	var colors = require("colors/safe");
 
 	it("lets you hammer the queue with new tasks", function (done) {
 		var blogID = "blogID";
@@ -13,41 +13,26 @@ describe("Queue", function () {
 
 		this.queue.process(function (blogID, task, callback) {
 			tasks_completed.push(task.id);
-			console.log(
-				"task=" + task.id,
-				"done_adding=" + done_adding,
-				"tasks_completed.length=" + tasks_completed.length,
-				"tasks_added.length=" + tasks_added.length
-			);
+			callback();
 
 			if (done_adding && tasks_completed.length == tasks_added.length) {
 				expect(tasks_completed.sort()).toEqual(tasks_added.sort());
 				done();
 			}
-
-			console.log(colors.dim("processed task id=" + task.id));
-			callback();
 		});
 
 		const addTask = () => {
 			let new_task_id = id++;
-			console.log(colors.dim("   adding task id=" + new_task_id));
 			tasks_added.push(new_task_id);
-			this.queue.add(blogID, { id: new_task_id }, (err) => {
-				// if (err)
-				// 	console.log(
-				// 		colors.red("error adding task id=" + new_task_id + " error=" + err)
-				// 	);
-				console.log(colors.dim("    added task id=" + new_task_id));
-			});
+			this.queue.add(blogID, { id: new_task_id });
 		};
 
-		const hammerAdd = setInterval(addTask, 15);
+		const adder = setInterval(addTask, 15);
 
 		// Stop adding tasks after 3s
 		setTimeout(() => {
 			done_adding = true;
-			clearInterval(hammerAdd);
+			clearInterval(adder);
 			addTask();
 		}, 1000 * 2);
 	});
