@@ -63,6 +63,7 @@
 <br>
 <div style="max-width: 637px;">
 <form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form">
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
   <div>
     <textarea type="text" name="body" id="body"></textarea>
   </div>

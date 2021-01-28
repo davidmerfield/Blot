@@ -40,6 +40,7 @@
 
 <div style="max-width: 637px;">
 <form method="POST" action="/questions/new" id="new-question-form">
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
   <div>
     <input type="text" name="title" id="title"></input>
   </div>
