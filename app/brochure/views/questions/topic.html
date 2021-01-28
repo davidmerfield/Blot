@@ -1,73 +1,35 @@
-<style>
-    input, textarea {
-        width: 100%;
-    }
-    textarea {
-        margin: 2px 0;
-        font-size: 17px;
-        padding: 10px;
-        font-family: inherit;
-        z-index: 1;
-        position: relative;
-        border: 1px solid #cccbca;
-        border-top-color: rgba(0,0,0,.25);
-        border-bottom-color: rgba(0,0,0,.15);
-        box-sizing: border-box;
-        background: 0 0;
-        box-shadow: inset 0 1px 2px 0 rgb(0 0 0 / 8%);
-        transition: border-color ease-in-out .1s,box-shadow ease-in-out .1s,-webkit-box-shadow ease-in-out .1s;
-        resize: vertical;
-        min-height: 100px;
-        height: 100px;
-    }
-    button {
-        cursor: pointer;
-        user-select: none;
-        padding: 10px 12px 10px;
-        border-radius: 3px;
-        margin-bottom: 1.4 em;
-        display: block;
-        color: inherit;
-        text-decoration: none;
-        box-shadow: rgb(15 15 15 / 10%) 0 0 0 1px, rgb(15 15 15 / 10%) 0 2px 4px;
-        background: #fff;
-        border: none;
-        font-weight: bold;
-        font-size: medium;
-    }
-</style>
-
 <h1>{{topic.title}}</h1>
-<p>{{topic.body}}</p>
-<small>{{formatDaytime topic.created_at}}</small>
+<p>{{topic.body}}
+  <br>
+  <span class="secondary-text smaller">{{formatDaytime topic.created_at}}</span>
+</p>
 
 {{#if topics}}
 <h2>Replies</h2>
 {{#topics}}
 <div>
-  <p>
+  <p style="margin-bottom: 2em">
     {{body}}
     <br>
-    <small>{{formatDaytime created_at}}</small>
+    <span class="secondary-text smaller">{{formatDaytime created_at}}</span>
   </p>
 </div>
 {{/topics}}
 {{/if}}
 
 {{#unless topics}}
-
 <h2>No replies yet</h2>
 {{/unless}}
 
 {{#if user}}
 <br>
 <div style="max-width: 637px;">
-<form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form">
+<form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form" class="qa-form">
   <input type="hidden" name="_csrf" value="{{csrf}}" />
   <div>
-    <textarea type="text" name="body" id="body"></textarea>
+    <textarea type="text" name="body" id="body" placeholder="Your reply..."></textarea>
   </div>
-  <button>Add a reply!</button>
+  <button class="whitebutton">Add reply</button>
 </form>
 </div>
 {{/if}}

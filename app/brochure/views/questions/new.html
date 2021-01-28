@@ -1,53 +1,15 @@
-<style>
-  input, textarea {
-      width: 100%;
-  }
-  textarea {
-      margin: 2px 0;
-      font-size: 17px;
-      padding: 10px;
-      font-family: inherit;
-      z-index: 1;
-      position: relative;
-      border: 1px solid #cccbca;
-      border-top-color: rgba(0,0,0,.25);
-      border-bottom-color: rgba(0,0,0,.15);
-      box-sizing: border-box;
-      background: 0 0;
-      box-shadow: inset 0 1px 2px 0 rgb(0 0 0 / 8%);
-      transition: border-color ease-in-out .1s,box-shadow ease-in-out .1s,-webkit-box-shadow ease-in-out .1s;
-      resize: vertical;
-      min-height: 100px;
-  }
-  button {
-      cursor: pointer;
-      user-select: none;
-      padding: 10px 12px 10px;
-      border-radius: 3px;
-      margin-bottom: 1.4 em;
-      display: block;
-      color: inherit;
-      text-decoration: none;
-      box-shadow: rgb(15 15 15 / 10%) 0 0 0 1px, rgb(15 15 15 / 10%) 0 2px 4px;
-      background: #fff;
-      border: none;
-      font-weight: bold;
-      font-size: medium;
-  }
-</style>
-
 <h1>New question</h1>
 
 <div style="max-width: 637px;">
-<form method="POST" action="/questions/new" id="new-question-form">
+<form method="POST" action="/questions/new" id="new-question-form" class="qa-form">
   <input type="hidden" name="_csrf" value="{{csrf}}" />
   <div>
-    <input type="text" name="title" id="title"></input>
+    <input type="text" name="title" id="title" placeholder="Title..."></input>
   </div>
   <div>
-    <textarea type="text" name="body" id="body"></textarea>
+    <textarea type="text" name="body" id="body" placeholder="Question..."></textarea>
   </div>
-  <button id="post-question-button">Post question</button>
+  <button class="whitebutton" id="post-question-button">Post question</button>
 </form>
 
 </div>
