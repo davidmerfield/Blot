@@ -22,13 +22,25 @@ describe("Queue API", function () {
 		this.queue.add("blogID", task);
 	});
 
-
 	it("reprocesses currently processing tasks on queue", function (done) {
 		this.queue.reprocess(done);
 	});
 
 	it("destroys the queue", function (done) {
 		this.queue.destroy(done);
+	});
+
+	it("calls drain when the queue for a blog is empty", function (done) {
+		this.queue.drain(function (blogID) {
+			expect(blogID).toEqual("blogID");
+			done();
+		});
+
+		this.queue.process(function (blogID, task, done) {
+			done();
+		});
+
+		this.queue.add("blogID", {});
 	});
 
 	it("inspects the queue", function (done) {

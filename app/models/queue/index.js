@@ -4,12 +4,12 @@ const async = require("async");
 const redis = require("redis");
 
 const MESSAGES = {
-	NEW_TASK: "new",
+	NEW_TASK: "New task added to queue",
 	BAD_TASK: "Tasks must be valid object",
 };
 
 module.exports = function Queue(prefix = "") {
-	// These keys are used to persist the queue with Redis
+	// These keys are used with Redis to persist the queue
 	const keys = {
 		// A list of blogs with outstanding tasks
 		blogs: `queue:${prefix}blogs`,
@@ -30,8 +30,8 @@ module.exports = function Queue(prefix = "") {
 		all: `queue:${prefix}all`,
 	};
 
-	// Method to enqueue a next task
-	// You can either pass a single task object or an array of tasks
+	// Used to enqueue a next task. You can either pass a single task
+	// object or an array of task objects.
 	this.add = (blogID, tasks, callback = function () {}) => {
 		let serializedTasks;
 
@@ -51,10 +51,11 @@ module.exports = function Queue(prefix = "") {
 			// Add the blog associated with these new tasks to the list
 			// of all blogs with tasks outstanding.
 			.lpush(keys.blogs, blogID)
-			// Tell all subscribed clients there is a new task
-			.publish(keys.channel, MESSAGES.NEW_TASK)
 			// Add the tasks to the list of tasks associated with the blog
 			.lpush(keys.blog(blogID), serializedTasks)
+			// Tell all subscribed clients there is a new task. We assume
+			// that multiple processes will interact with the same queue
+			.publish(keys.channel, MESSAGES.NEW_TASK)
 			// Add the task list for the blog to the list of keys associated
 			// with the queue. This allows us to quickly reset the queue.
 			.sadd(keys.all, keys.blog(blogID))
@@ -66,6 +67,9 @@ module.exports = function Queue(prefix = "") {
 		JSON.parse(taskString.slice(taskString.indexOf(":") + 1)),
 	];
 
+	// Used to see the state of the queue. Returns information
+	// about blogs with queued tasks, a list of active (i.e. processing)
+	// tasks and recently completed tasks
 	this.inspect = (callback) => {
 		client.smembers(keys.all, function (err, queueKeys) {
 			if (err) return callback(err);
@@ -106,6 +110,18 @@ module.exports = function Queue(prefix = "") {
 		});
 	};
 
+	this.internalClient = redis.createClient();
+
+	this.internalClient.subscribe(keys.channel);
+
+	this.internalClient.on("message", (channel, message) => {
+		if (channel !== keys.channel) return;
+		if (message !== MESSAGES.NEW_TASK) return;
+		if (this.internalQueue) this.internalQueue.push({});
+	});
+
+	// Public: used to wipe all information about a queue
+	// from the database. Should be called after tests.
 	this.destroy = (callback = function () {}) => {
 		if (this.internalClient) {
 			this.internalClient.quit();
@@ -128,18 +144,17 @@ module.exports = function Queue(prefix = "") {
 		});
 	};
 
-	this.internalClient = redis.createClient();
-
-	this.internalClient.subscribe(keys.channel);
-
-	this.internalClient.on("message", (channel, message) => {
-		if (channel !== keys.channel) return;
-		if (message !== MESSAGES.NEW_TASK) return;
-		if (this.internalQueue) this.internalQueue.push({});
-	});
+	// Public: used to reattempt the processing function on any task
+	// in the processing queue.
 
 	// We create a seperate client for this process because
 	// watch operations only work for the actions of other clients
+
+	// Questions to answer:
+	// - Do we possibly need a new reprocessing client per function?
+	// - Can other reprocessing functions clobber this?
+	// - Can we eventually only reprocess tasks for the dead worker?
+	// - Can we add a timeout for tasks?
 	let reprocessingClient = redis.createClient();
 
 	this.reprocess = (callback = function () {}) => {
@@ -153,10 +168,7 @@ module.exports = function Queue(prefix = "") {
 					if (err) return callback(err);
 
 					if (!serializedTasks.length) {
-						return reprocessingClient
-							.multi()
-							.publish(keys.channel, MESSAGES.NEW_TASK)
-							.exec(callback);
+						return reprocessingClient.unwatch(callback);
 					}
 
 					let multi = reprocessingClient.multi();
@@ -176,9 +188,23 @@ module.exports = function Queue(prefix = "") {
 						multi.lpush(keys.blogs, blogID).sadd(keys.all, keys.blog(blogID));
 					});
 
-					multi.exec((err) => {
+					multi.exec((err, res) => {
 						if (err) return callback(err);
-						this.reprocess(callback);
+
+						if (res === null) {
+							this.reprocess(callback);
+						} else {
+							// Add a new task to the internal queue
+							if (this.internalQueue) {
+								this.internalQueue.push({});
+							}
+							// Go to the next tick of the internal queue
+							if (this.done) {
+								this.done();
+							}
+
+							callback();
+						}
 					});
 				}
 			);
@@ -189,66 +215,74 @@ module.exports = function Queue(prefix = "") {
 	// watch operations only work for the actions of other clients
 	let drainClient = redis.createClient();
 
-	this.drainBlog = (blogID, callback = function () {}) => {
+	this.drain = (onDrain) => {
+		this.onDrain = onDrain;
+	};
+
+	this.checkIfBlogIsDrained = (blogID, callback = function () {}) => {
+
 		drainClient.watch(keys.blog(blogID), (err) => {
 			if (err) {
 				return callback(err);
 			}
-
 			drainClient
 				.multi()
-				.del(keys.blog(blogID))
+				// For unknown reasons, enabling these causes tasks 
+				// to get lost when adding lots of them repeatedly
+				// .del(keys.blog(blogID))
+				// .srem(keys.all, keys.blog(blogID))
 				.lrem(keys.blogs, -1, blogID)
-				.srem(keys.all, keys.blog(blogID))
-				.exec(function (err, res) {
+				.exec((err, res) => {
 					if (err) return callback(err);
-					console.log("DRAINED BLOG WITH", res);
+
+					// If watch causes the multi to fail we get res===null
+					if (res && this.onDrain) {
+						this.onDrain(blogID);
+					}
+
 					callback();
 				});
 		});
 	};
 
-	this.tryToGetTask = (callback) => {
-		client.RPOPLPUSH(keys.blogs, keys.blogs, (err, blogID) => {
-			if (!blogID) {
-				return callback();
-			}
-
-			client.RPOPLPUSH(
-				keys.blog(blogID),
-				keys.processing,
-				(err, serializedTask) => {
-					if (serializedTask) {
-						callback(null, serializedTask);
-					} else {
-						this.drainBlog(blogID, callback);
-					}
-				}
-			);
-		});
-	};
-
 	this.process = (processor) => {
 		this.internalQueue = async.queue((internalTask, done) => {
-			this.tryToGetTask((err, serializedTask) => {
-				if (!serializedTask) return done();
+			client.RPOPLPUSH(keys.blogs, keys.blogs, (err, blogID) => {
+				if (!blogID) return done();
 
-				let blogID = deserializeTask(serializedTask)[0];
-				let task = deserializeTask(serializedTask)[1];
+				client.RPOPLPUSH(
+					keys.blog(blogID),
+					keys.processing,
+					(err, serializedTask) => {
+						if (serializedTask) {
+							let blogID = deserializeTask(serializedTask)[0];
+							let task = deserializeTask(serializedTask)[1];
 
-				processor(blogID, task, (errProcessingTask) => {
-					this.internalQueue.push({});
+							// Allows us to tick over to the next task manually
+							// from the reprocessing function if the processor
+							// times out or gets stuck.
+							this.done = done;
 
-					client
-						.multi()
-						.lrem(keys.processing, -1, serializedTask)
-						.lpush(keys.completed, serializedTask)
-						.exec(done);
-				});
+							processor(blogID, task, (errProcessingTask) => {
+								client
+									.multi()
+									.lrem(keys.processing, -1, serializedTask)
+									.lpush(keys.completed, serializedTask)
+									.exec((err) => {
+										this.internalQueue.push({});
+										delete this.done;
+										done();
+									});
+							});
+						} else {
+							this.checkIfBlogIsDrained(blogID, done);
+						}
+					}
+				);
 			});
 		});
 
-		debug("adding initial task to internalQueue");
+		// Begin internal queue tick
 		this.internalQueue.push({});
 	};
 };

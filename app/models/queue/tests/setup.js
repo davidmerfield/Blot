@@ -18,7 +18,6 @@ module.exports = function () {
 				worker.on("exit", (code) => {
 					if (code === 1) {
 						this.queue.reprocess((err) => {
-							console.log("reprocessed all tasks");
 							this.createWorkers(1, module);
 						});
 					}
