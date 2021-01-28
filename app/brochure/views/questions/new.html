@@ -1,15 +1,21 @@
 <h1>New question</h1>
 
-<div style="max-width: 637px;">
-<form method="POST" action="/questions/new" id="new-question-form" class="qa-form">
-  <input type="hidden" name="_csrf" value="{{csrf}}" />
-  <div>
-    <input type="text" name="title" id="title" placeholder="Title..."></input>
-  </div>
-  <div>
-    <textarea type="text" name="body" id="body" placeholder="Question..."></textarea>
-  </div>
-  <button class="whitebutton" id="post-question-button">Post question</button>
-</form>
+{{#unless user}}
+<p>Please, <a href="/log-in">log in</a> to ask a new question.</p>
+{{/unless}}
 
+
+{{#if user}}
+<div style="max-width: 637px;">
+  <form method="POST" action="/questions/new" id="new-question-form" class="qa-form">
+    <input type="hidden" name="_csrf" value="{{csrf}}" />
+    <div>
+      <input type="text" name="title" id="title" placeholder="Title..."></input>
+    </div>
+    <div>
+      <textarea type="text" name="body" id="body" placeholder="Question..."></textarea>
+    </div>
+    <button class="whitebutton" id="post-question-button">Post question</button>
+  </form>
 </div>
+{{/if}}
