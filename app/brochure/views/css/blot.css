@@ -478,14 +478,14 @@ button.whitebutton:hover {
 }
 
 /* Questions (Q&A) */
-div.qa-section-header {
+.qa-section-header {
   max-width: 637px;
   display: flex;
   justify-content: space-between;
   justify-content: space-between;
   align-items: baseline;
 }
-div.qa-question-header {
+.qa-question-header {
   display: flex;
   justify-content: space-between;
 }
@@ -496,6 +496,7 @@ ul.qa-questions {
 ul.qa-questions li {
   margin: .7em 0;
 }
+.qa-questions li a:hover strong { text-decoration: none; }
 
 .qa-form ::placeholder,
 .qa-form :focus::placeholder {
