@@ -1,11 +1,14 @@
 const debug = require("debug")("blot:models:queue");
-const client = require("client");
 const redis = require("redis");
+const client = require("client");
 
 const MESSAGES = {
 	NEW_TASK: "New task added to queue",
 	BAD_TASK: "Tasks must be valid object",
 };
+
+// Number of tasks to store on completed task log
+const COMPLETED_TASK_LENGTH = 1000;
 
 const serializeTask = (blogID) => (task) => blogID + ":" + JSON.stringify(task);
 
@@ -108,13 +111,7 @@ module.exports = function Queue(prefix = "") {
 		client.smembers(keys.all, function (err, queueKeys) {
 			if (err) return callback(err);
 			client.del(
-				[
-					keys.blogs,
-					keys.processing,
-					keys.completed,
-					keys.all,
-					...queueKeys,
-				],
+				[keys.blogs, keys.processing, keys.completed, keys.all, ...queueKeys],
 				callback
 			);
 		});
@@ -232,6 +229,7 @@ module.exports = function Queue(prefix = "") {
 								.multi()
 								.lrem(keys.processing, -1, serializedTask)
 								.lpush(keys.completed, serializedTask)
+								.ltrim(keys.completed, 0, COMPLETED_TASK_LENGTH - 1)
 								.exec((err) => {
 									this.process(processor);
 								});

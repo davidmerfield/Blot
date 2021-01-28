@@ -149,6 +149,34 @@ describe("Queue", function () {
 		done();
 	});
 
+	fit("stores only the last thousand tasks on completed list", function (done) {
+		let completed_tasks = [];
+		let tasks = [];
+		for (let i = 1; i <= 1200; i++) tasks.push({ id: i });
+
+		let lastThousandTasks = tasks.slice().reverse().slice(0, 1000);
+
+		this.queue.process((blogID, task, done) => {
+			setTimeout(() => {
+				completed_tasks.push(task);
+				done();
+			}, 1);
+		});
+
+		this.queue.drain((blogID) => {
+			expect(completed_tasks).toEqual(tasks);
+			this.queue.inspect((err, res) => {
+				let completedTasks = res.completed
+					.map((str) => str.slice(str.indexOf(":") + 1))
+					.map(JSON.parse);
+				expect(completedTasks).toEqual(lastThousandTasks);
+				done();
+			});
+		});
+
+		this.queue.add("blog", tasks);
+	});
+
 	it("processes one task at a time", function (done) {
 		let flag = false;
 		let completed_tasks = [];
