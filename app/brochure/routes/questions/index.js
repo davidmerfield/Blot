@@ -104,17 +104,25 @@ Questions
   .get(csrf, function(req, res) {
     res.locals.csrf = req.csrfToken();
     const id = parseInt(req.params.id)
-    pool.query('SELECT * FROM items WHERE id = $1 AND is_topic = true', [id], (error, topics) => {
-      if (error) {throw error}
-      pool.query('SELECT * FROM items WHERE parent_id = $1 AND is_topic = false', [id], (error, replies) => {
-        if (error) {throw error}
-        let topic = topics.rows[0];
-        topic.body = marked(topic.body)
-        res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
-        replies.rows.forEach((el, index) => replies.rows[index].body = marked(el.body))
-        res.render("questions/topic", {title: topic.title, topics: replies.rows, topic: topic});
+    pool
+      .query('SELECT * FROM items WHERE id = $1 AND is_topic = true', [id])
+      .then(topics => {
+        pool
+          .query('SELECT * FROM items WHERE parent_id = $1 AND is_topic = false', [id])
+          .then(replies => {
+            let topic = topics.rows[0];
+            topic.body = marked(topic.body)
+            res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+            replies.rows.forEach((el, index) => replies.rows[index].body = marked(el.body))
+            res.render("questions/topic", {title: topic.title, topics: replies.rows, topic: topic});
+          })
+          .catch(err => {
+            throw err;
+          })
       })
-    })
+      .catch(err => {
+        throw err;
+      })
   });
 
 module.exports = Questions;

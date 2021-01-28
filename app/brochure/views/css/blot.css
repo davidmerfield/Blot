@@ -500,8 +500,11 @@ ul.qa-questions li {
 .qa-question-container {
   margin-bottom: 2em;
 }
-.qa-question-container p:first-child {
-  margin: 0;
+.qa-item-container {
+  margin-bottom: 2em;
+}
+.qa-item-container :nth-last-child(2) {
+  margin-bottom: 0.15em;
 }
 .qa-form ::placeholder,
 .qa-form :focus::placeholder {

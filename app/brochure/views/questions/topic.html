@@ -1,13 +1,13 @@
 <h1>{{topic.title}}</h1>
-<p>{{{topic.body}}}
-  <br>
+<div class="qa-item-container">
+  {{{topic.body}}}
   <span class="secondary-text smaller">{{formatDaytime topic.created_at}}</span>
-</p>
+</div>
 
 {{#if topics}}
 <h2>Replies</h2>
 {{#topics}}
-<div class="qa-question-container">
+<div class="qa-item-container">
     {{{body}}}
     <span class="secondary-text smaller">{{formatDaytime created_at}}</span>
 </div>
