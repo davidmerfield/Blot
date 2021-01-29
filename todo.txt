@@ -68,6 +68,8 @@ Add Q and A question section to site where users could post and tell [Taylan](ht
 ---
 
 Redirect URLs with trailing slash when possible (i.e. not directory browsing) to [fix possible duplicate content penalties](https://moz.com/community/q/duplicate-content-with-a-trailing-slash) and tell [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkHhPFPKFBzQjQQHwlrRWwbKq)
+- Add rel=canonical to all the default templates, or fix the issue that Blot serves the same thing to URLs with a trailing slash, and without
+
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
