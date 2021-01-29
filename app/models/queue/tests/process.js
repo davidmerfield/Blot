@@ -41,10 +41,8 @@ describe("Queue", function () {
 		let tasks = [task, task];
 		let called = 0;
 
-		console.log("calling add", tasks);
 		this.queue.add("blogID", tasks);
 
-		console.log("calling process", tasks);
 		this.queue.process(function (blogID, _task, callback) {
 			called++;
 			callback();
@@ -166,10 +164,7 @@ describe("Queue", function () {
 		this.queue.drain((blogID) => {
 			expect(completed_tasks).toEqual(tasks);
 			this.queue.inspect((err, res) => {
-				let completedTasks = res.completed
-					.map((str) => str.slice(str.indexOf(":") + 1))
-					.map(JSON.parse);
-				expect(completedTasks).toEqual(lastThousandTasks);
+				expect(res.blog.ended).toEqual(lastThousandTasks);
 				done();
 			});
 		});

@@ -50,13 +50,12 @@ describe("Queue API", function () {
 		test.queue.add(test.blog.id, task, function (err) {
 			expect(err).toBe(null);
 			test.queue.inspect(function (err, res) {
-				expect(err).toBe(null);
-				expect(res.completed).toEqual([]);
-				expect(res.processing).toEqual([]);
-				expect(res.blogs).toEqual([test.blog.id]);
-				expect(res.queues).toEqual([
-					[test.blog.id + ":" + JSON.stringify(task)],
-				]);
+				expect(err).toEqual(null);
+				expect(res[test.blog.id]).toEqual({
+					active: [],
+					ended: [],
+					queued: [task],
+				});
 				done();
 			});
 		});

@@ -10,14 +10,17 @@ module.exports = function Queue(prefix = "") {
 		// A list of blogs with outstanding tasks
 		blogs: `queue:${prefix}blogs`,
 
-		// A list of tasks specific to a blog
-		blog: (blogID) => `queue:${prefix}blog:${blogID}`,
+		// A list of tasks that are awaiting processing
+		queued: (blogID) => `queue:${prefix}blog:${blogID}:queued`,
 
-		// A list of blog:task pairs for all active tasks.
-		processing: `queue:${prefix}proessing`,
+		// A list of tasks that are being processed
+		active: (blogID) => `queue:${prefix}blog:${blogID}:active`,
 
-		// A list of blog:task pairs for all completed tasks.
-		completed: `queue:${prefix}completed`,
+		// A list of tasks that are done
+		ended: (blogID) => `queue:${prefix}blog:${blogID}:ended`,
+
+		// Used for cross-process communication about this queue
+		channel: `queue:${prefix}channel`,
 
 		// A set of all keys created by this queue for easy cleanup
 		all: `queue:${prefix}all`,
@@ -31,13 +34,8 @@ module.exports = function Queue(prefix = "") {
 		if (!Array.isArray(tasks)) tasks = [tasks];
 
 		try {
-			// Takes a blog identifier (String) and a task (Object):
-			// 'blog_123' and {path: '/hello.txt'}
 			// Returns a string we can use as a Redis key
-			// 'blog_123:"{"path":"/hello.txt"}"'
-			serializedTasks = tasks.map(
-				(task) => blogID + ":" + JSON.stringify(task)
-			);
+			serializedTasks = tasks.map((task) => JSON.stringify(task));
 		} catch (e) {
 			return callback(new TypeError("Invalid task"));
 		}
@@ -48,10 +46,15 @@ module.exports = function Queue(prefix = "") {
 			// with tasks. BlogID may be on the list multiple times.
 			.lpush(keys.blogs, blogID)
 			// Add the tasks to the list of tasks associated with the blog
-			.lpush(keys.blog(blogID), serializedTasks)
+			.lpush(keys.queued(blogID), serializedTasks)
 			// Store that there exists a list of tasks for this blog.
 			// This allows us to quickly reset the queue.
-			.sadd(keys.all, keys.blog(blogID))
+			.sadd(
+				keys.all,
+				keys.queued(blogID),
+				keys.active(blogID),
+				keys.ended(blogID)
+			)
 			.exec(callback);
 	};
 
@@ -66,21 +69,23 @@ module.exports = function Queue(prefix = "") {
 			let batch = client.batch();
 
 			batch.lrange(keys.blogs, 0, -1);
-			batch.lrange(keys.processing, 0, -1);
-			batch.lrange(keys.completed, 0, -1);
 
 			queueKeys.forEach(function (queueKey) {
 				batch.lrange(queueKey, 0, -1);
 			});
 
-			batch.exec(function (err, res) {
+			batch.exec(function (err, [blogs, ...queues]) {
 				if (err) return callback(err);
-				let response = {
-					blogs: res[0],
-					processing: res[1],
-					completed: res[2],
-					queues: res.slice(3),
-				};
+
+				let response = { blogs };
+
+				queues.forEach((queue, i) => {
+					let key = queueKeys[i].split(":");
+					let category = key.pop();
+					let blogID = key.pop();
+					response[blogID] = response[blogID] || {};
+					response[blogID][category] = queue.map(JSON.parse);
+				});
 
 				callback(err, response);
 			});
@@ -92,10 +97,7 @@ module.exports = function Queue(prefix = "") {
 	this.destroy = (callback = function () {}) => {
 		client.smembers(keys.all, function (err, queueKeys) {
 			if (err) return callback(err);
-			client.del(
-				[keys.blogs, keys.processing, keys.completed, keys.all, ...queueKeys],
-				callback
-			);
+			client.del([keys.blogs, keys.channel, keys.all, ...queueKeys], callback);
 		});
 	};
 
@@ -113,35 +115,46 @@ module.exports = function Queue(prefix = "") {
 	let reprocessingClient = client.duplicate();
 
 	this.reprocess = (callback = function () {}) => {
-		reprocessingClient.watch(keys.processing, (err) => {
+		reprocessingClient.lrange(keys.blogs, 0, -1, (err, blogIDs) => {
 			if (err) return callback(err);
-			reprocessingClient.lrange(
-				keys.processing,
-				0,
-				-1,
-				(err, serializedTasks) => {
+
+			if (!blogIDs.length) return callback();
+
+			// Make the list of blogIDs unique this is neccessary
+			// because for each task added, the blogID is added to the
+			// list of blogs. If we can enforce uniqueness on the list
+			// of blogs then we don't need this step.
+			blogIDs = Array.from(new Set(blogIDs));
+
+			let activeQueues = blogIDs.map((blogID) => keys.active(blogID));
+
+			reprocessingClient.watch(activeQueues, (err) => {
+				if (err) return callback(err);
+
+				let batch = client.batch();
+
+				blogIDs.forEach((blogID) => {
+					batch.lrange(keys.active(blogID), 0, -1);
+				});
+
+				batch.exec((err, res) => {
 					if (err) return callback(err);
 
 					let multi = reprocessingClient.multi();
-					let blogs = {};
 
-					serializedTasks.forEach((serializedTask) => {
-						let blogID = serializedTask.slice(0, serializedTask.indexOf(":"));
-
-						blogs[blogID] = true;
-
-						multi
-							.lpush(keys.blog(blogID), serializedTask)
-							.lrem(keys.processing, -1, serializedTask);
-					});
-
-					Object.keys(blogs).forEach((blogID) => {
-						multi.lpush(keys.blogs, blogID).sadd(keys.all, keys.blog(blogID));
+					res.forEach((serializedTasks, i) => {
+						let blogID = blogIDs[i];
+						serializedTasks.forEach((serializedTask) => {
+							multi
+								.lpush(keys.queued(blogID), serializedTask)
+								.lrem(keys.active(blogID), -1, serializedTask);
+						});
 					});
 
 					multi.exec((err, res) => {
 						if (err) return callback(err);
 
+						// Something change, re-attempt to reprocess each blog
 						if (res === null) {
 							this.reprocess(callback);
 						} else {
@@ -151,8 +164,8 @@ module.exports = function Queue(prefix = "") {
 							callback();
 						}
 					});
-				}
-			);
+				});
+			});
 		});
 	};
 
@@ -161,35 +174,35 @@ module.exports = function Queue(prefix = "") {
 	let drainClient = client.duplicate();
 
 	this.drain = (onDrain) => {
-		this.onDrain = onDrain;
+		let drainSubscriber = client.duplicate();
+		drainSubscriber.subscribe(keys.channel);
+		drainSubscriber.on("message", function (channel, blogID) {
+			if (channel !== keys.channel) return;
+			onDrain(blogID);
+		});
 	};
 
+	// We want to
 	this.checkIfBlogIsDrained = (blogID, callback = function () {}) => {
-		drainClient.watch(keys.blog(blogID), (err) => {
+		drainClient.watch(keys.queued(blogID), keys.active(blogID), (err) => {
 			if (err) return callback(err);
 
-			drainClient.llen(keys.blog(blogID), (err, length) => {
-				if (err) return callback(err);
+			drainClient
+				.batch()
+				.llen(keys.queued(blogID))
+				.llen(keys.active(blogID))
+				.exec((err, [totalQueuedTasks, totalActiveTasks]) => {
+					if (err) return callback(err);
 
-				// There are still items on the queue
-				if (length !== 0) return drainClient.unwatch(callback);
+					if (totalQueuedTasks !== 0 || totalActiveTasks !== 0)
+						return drainClient.unwatch(callback);
 
-				drainClient
-					.multi()
-					.del(keys.blog(blogID))
-					.srem(keys.all, keys.blog(blogID))
-					.lrem(keys.blogs, -1, blogID)
-					.exec((err, res) => {
-						if (err) return callback(err);
-
-						// If watch causes the multi to fail we get res===null
-						if (res && this.onDrain) {
-							this.onDrain(blogID);
-						}
-
-						callback();
-					});
-			});
+					drainClient
+						.multi()
+						.lrem(keys.blogs, -1, blogID)
+						.publish(keys.channel, blogID)
+						.exec(callback);
+				});
 		});
 	};
 
@@ -202,33 +215,26 @@ module.exports = function Queue(prefix = "") {
 		this.processor = processor;
 		processingClient.brpoplpush(keys.blogs, keys.blogs, 0, (err, blogID) => {
 			processingClient.rpoplpush(
-				keys.blog(blogID),
-				keys.processing,
+				keys.queued(blogID),
+				keys.active(blogID),
 				(err, serializedTask) => {
-					if (serializedTask) {
-						// Takes a Redis key created during serializedTasks:
-						// 'blog_123:"{"path":"/hello.txt"}"'
-						// Returns a blog ID (string) and a task (Object):
-						// 'blog_123' and {path: '/hello.txt'}
-						let task = JSON.parse(
-							serializedTask.slice(serializedTask.indexOf(":") + 1)
-						);
+					if (!serializedTask) return this.process(processor);
 
-						processor(blogID, task, (errProcessingTask) => {
-							processingClient
-								.multi()
-								.lrem(keys.processing, -1, serializedTask)
-								.lpush(keys.completed, serializedTask)
-								.ltrim(keys.completed, 0, COMPLETED_TASK_LENGTH - 1)
-								.exec((err) => {
+					let task = JSON.parse(serializedTask);
+
+					processor(blogID, task, (err) => {
+						processingClient
+							.multi()
+							.lrem(keys.active(blogID), -1, serializedTask)
+							.lpush(keys.ended(blogID), serializedTask)
+							.ltrim(keys.ended(blogID), 0, COMPLETED_TASK_LENGTH - 1)
+							.exec((err) => {
+								if (err) debug(err);
+								this.checkIfBlogIsDrained(blogID, (err) => {
 									this.process(processor);
 								});
-						});
-					} else {
-						this.checkIfBlogIsDrained(blogID, (err) => {
-							this.process(processor);
-						});
-					}
+							});
+					});
 				}
 			);
 		});
