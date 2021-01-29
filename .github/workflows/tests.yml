@@ -63,6 +63,11 @@ jobs:
       with:
         redis-version: ${{ matrix.redis-version }}
 
+    - name: Set up Postgres
+      uses: harmon758/postgresql-action@v1
+      with:
+        postgresql version: '12'  # See https://hub.docker.com/_/postgres for available versions
+
     - name: Load dependencies
       uses: actions/cache@v2
       id: cache-node-dependencies
@@ -80,6 +85,8 @@ jobs:
         git config --global user.email "admin@example.com"
         git config --global user.name "Admin"
         node config/blot/setup
+        node scripts/db/create-postgres-db
+        node scripts/db/create-postgres-table
     
     - name: Run tests
       run: npm test
