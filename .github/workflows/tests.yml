@@ -27,41 +27,13 @@ jobs:
 
     strategy:
       matrix:
-        # If you ever add more node version you need
-        # to replace current caching node_modules 
-        # with caching of ~/.npm
+        # If you ever add more node versions you need to replace current caching node_modules with caching of ~/.npm
         node-version: [12.16.3]
         pandoc-version: [2.11.3.2]
         redis-version: [4]
-    environment: Tests
-    env:
-      BLOT_CACHE: false
-      BLOT_DIRECTORY: /home/runner/work/Blot/Blot
-      BLOT_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/cache
-      BLOT_DEBUG: false
-      BLOT_MAINTENANCE: false
-      BLOT_PRODUCTION: true
-      BLOT_PROTOCOL: https
-      BLOT_ENVIRONMENT: production
-      BLOT_HOST: blot.development
-      BLOT_ADMIN_EMAIL: ${{ secrets.BLOT_ADMIN_EMAIL }}
-      BLOT_DROPBOX_APP_SECRET: ${{ secrets.BLOT_DROPBOX_APP_SECRET }}
-      BLOT_DROPBOX_FULL_SECRET: ${{ secrets.BLOT_DROPBOX_FULL_SECRET }}
-      BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN }}
-      BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN }}
-      BLOT_DROPBOX_TEST_ACCOUNT_ID: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_ID }}
-      BLOT_MAILGUN_KEY: ${{ secrets.BLOT_MAILGUN_KEY }}
-      BLOT_SESSION_SECRET: ${{ secrets.BLOT_SESSION_SECRET }}
-      BLOT_TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_KEY }}
-      BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
-      BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
-      BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
-      BLOT_POSTGRES_USER: postgres      
-      BLOT_POSTGRES_PASSWORD: postgres      
-      BLOT_POSTGRES_DB: postgres      
-      BLOT_POSTGRES_HOST: localhost      
-      BLOT_POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
 
+    environment: Tests
+    
     steps:
     - name: Checkout code  
       uses: actions/checkout@v2
@@ -95,7 +67,7 @@ jobs:
       if: steps.cache-node-dependencies.outputs.cache-hit != 'true'
       run: npm ci
 
-    - name: Set up Blot
+    - name: Run tests
       run: |
         echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
         git config --global user.email "admin@example.com"
@@ -103,6 +75,31 @@ jobs:
         node config/blot/setup
         node scripts/db/create-postgres-db
         node scripts/db/create-postgres-table
-    
-    - name: Run tests
-      run: npm test
+        npm test
+      env:
+        BLOT_CACHE: false
+        BLOT_DIRECTORY: /home/runner/work/Blot/Blot
+        BLOT_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/cache
+        BLOT_DEBUG: false
+        BLOT_MAINTENANCE: false
+        BLOT_PRODUCTION: true
+        BLOT_PROTOCOL: https
+        BLOT_ENVIRONMENT: production
+        BLOT_HOST: blot.development
+        BLOT_ADMIN_EMAIL: ${{ secrets.BLOT_ADMIN_EMAIL }}
+        BLOT_DROPBOX_APP_SECRET: ${{ secrets.BLOT_DROPBOX_APP_SECRET }}
+        BLOT_DROPBOX_FULL_SECRET: ${{ secrets.BLOT_DROPBOX_FULL_SECRET }}
+        BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN }}
+        BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_FULL_TOKEN }}
+        BLOT_DROPBOX_TEST_ACCOUNT_ID: ${{ secrets.BLOT_DROPBOX_TEST_ACCOUNT_ID }}
+        BLOT_MAILGUN_KEY: ${{ secrets.BLOT_MAILGUN_KEY }}
+        BLOT_SESSION_SECRET: ${{ secrets.BLOT_SESSION_SECRET }}
+        BLOT_TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_KEY }}
+        BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
+        BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
+        BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
+        BLOT_POSTGRES_USER: postgres      
+        BLOT_POSTGRES_PASSWORD: postgres      
+        BLOT_POSTGRES_DB: postgres      
+        BLOT_POSTGRES_HOST: localhost      
+        BLOT_POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
