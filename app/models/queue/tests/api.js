@@ -43,6 +43,25 @@ describe("Queue API", function () {
 		this.queue.add("blogID", {});
 	});
 
+	it("calls drain for multiple blogs", function (done) {
+		let blogIDs = ["a", "b", "c"];
+		let task = { path: "/Hello.txt" };
+
+		this.queue.drain(function (blogID) {
+			expect(blogIDs.indexOf(blogID) > -1);
+			blogIDs = blogIDs.filter((_blogID) => blogID !== _blogID);
+			// Fail the test if we get any more calls
+			// to drain in the next 500 milliseconds
+			if (!blogIDs.length) setTimeout(done, 500);
+		});
+
+		this.queue.process(function (blogID, task, done) {
+			done();
+		});
+
+		blogIDs.forEach((blogID) => this.queue.add(blogID, task));
+	});
+
 	it("inspects the queue", function (done) {
 		var test = this;
 		var task = { path: "foo" };
