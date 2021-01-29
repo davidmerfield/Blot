@@ -73,7 +73,6 @@ jobs:
         git config --global user.email "admin@example.com"
         git config --global user.name "Admin"
         node config/blot/setup
-        node scripts/db/create-postgres-db
         node scripts/db/create-postgres-table
         npm test
       env:
