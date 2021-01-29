@@ -112,8 +112,6 @@ describe("Queue", function () {
 	});
 
 	it("distributes tasks across reliable task runners", function (done) {
-		this.createWorkers(3, __dirname + "/workers/reliable.js");
-
 		let tasks = [
 			{ path: "foo" },
 			{ path: "bar" },
@@ -122,30 +120,45 @@ describe("Queue", function () {
 			{ path: "tat" },
 		];
 
+		this.createWorkers({ count: 3, module: "./workers/reliable.js" });
+
 		this.queue.add("blogID", tasks);
 
-		const check = setInterval(() => {
+		this.queue.drain((blogID) => {
 			this.queue.inspect(function (err, res) {
 				if (res.completed.length !== tasks.length) return;
-				clearInterval(check);
 				done();
 			});
-		}, 15);
+		});
 	});
 
-	it("distributes tasks across unreliable task runners", function (done) {
-		this.createWorkers(3, __dirname + "/workers/unreliable.js");
-
+	it("distributes tasks across unreliable workers", function (done) {
 		let tasks = [{ path: "foo" }, { path: "bar" }, { path: "baz" }];
+
+		this.createWorkers({
+			count: 3,
+			module: "./workers/unreliable.js",
+			onRestart: () => {
+				console.log("reprocessing queue");
+				this.queue.reprocess();
+			},
+		});
 
 		this.queue.add("blogID", tasks);
 
-		const check = setInterval(() => {
+		setTimeout(()=>{
+			console.log('inspecting queue');
 			this.queue.inspect(function (err, res) {
-				if (res.completed.length !== tasks.length) return;
-				clearInterval(check);
+				console.log(res);
+			})
+		}, 4000);
+
+		this.queue.drain((blogID) => {
+			console.log('drain called', blogID);
+			this.queue.inspect(function (err, res) {
+				expect(res.completed.length).toEqual(tasks.length);
 				done();
 			});
-		}, 15);
+		});
 	});
 });

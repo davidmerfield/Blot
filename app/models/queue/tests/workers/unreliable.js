@@ -1,22 +1,28 @@
 const queueID = process.argv[2];
-const shouldDie = parseInt(process.argv[3]);
-
+const seed = process.argv[3];
+const seedrandom = require("seedrandom")(seed, { global: true });
 const Queue = require("../../index");
 const queue = new Queue(queueID);
 
 queue.process(function (blogID, task, callback) {
-	const label = `Worker=${process.pid} Queue=${queueID} Task=${JSON.stringify(
+
+	let WillDie = Math.round(Math.random()) === 0;
+
+	const label = `WillDie=${WillDie} Worker=${process.pid} Queue=${queueID} Task=${JSON.stringify(
 		task
 	)}`;
 
-	console.log(label, "Started shouldDie=" + shouldDie);
+	console.log(label);
 
 	setTimeout(() => {
-		if (shouldDie) {
+		if (WillDie) {
 			throw new Error(label + " Unexpected error in test worker process!");
 		} else {
-			console.log(label, "Completed");
 			callback();
 		}
 	}, 100);
 });
+
+// I couldn't get process.send working so this
+// tells the parent process the worker is online.
+console.log("ready");
