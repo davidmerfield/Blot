@@ -200,8 +200,8 @@ module.exports = function Queue(prefix = "") {
 	// until there is a blog with a task to work on.
 	this.process = (processor) => {
 		this.processor = processor;
-		processingClient.BRPOPLPUSH(keys.blogs, keys.blogs, 0, (err, blogID) => {
-			processingClient.RPOPLPUSH(
+		processingClient.brpoplpush(keys.blogs, keys.blogs, 0, (err, blogID) => {
+			processingClient.rpoplpush(
 				keys.blog(blogID),
 				keys.processing,
 				(err, serializedTask) => {
