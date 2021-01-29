@@ -46,6 +46,9 @@ jobs:
         tar xvzf pandoc.tar.gz --strip-components 1 -C pandoc
         echo "$(pwd)/pandoc/bin" >> $GITHUB_PATH
 
+    - name: Source pandoc
+      run: echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
+
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
@@ -68,13 +71,6 @@ jobs:
       run: npm ci
 
     - name: Run tests
-      run: |
-        echo "BLOT_PANDOC_PATH=$(which pandoc)" >> $GITHUB_ENV
-        git config --global user.email "admin@example.com"
-        git config --global user.name "Admin"
-        node config/blot/setup
-        node scripts/db/create-postgres-table
-        npm test
       env:
         BLOT_CACHE: false
         BLOT_DIRECTORY: /home/runner/work/Blot/Blot
@@ -102,3 +98,9 @@ jobs:
         BLOT_POSTGRES_DB: postgres      
         BLOT_POSTGRES_HOST: localhost      
         BLOT_POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+      run: |
+        git config --global user.email "admin@example.com"
+        git config --global user.name "Admin"
+        node config/blot/setup
+        node scripts/db/create-postgres-table
+        npm test
