@@ -9,6 +9,20 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12.3
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+        # will assign a random free host port
+        - 5432/tcp
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+
     strategy:
       matrix:
         # If you ever add more node version you need
@@ -40,6 +54,12 @@ jobs:
       BLOT_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.BLOT_TWITTER_ACCESS_TOKEN_SECRET }}
       BLOT_TWITTER_CONSUMER_KEY: ${{ secrets.BLOT_TWITTER_CONSUMER_KEY }}
       BLOT_TWITTER_CONSUMER_SECRET: ${{ secrets.BLOT_TWITTER_CONSUMER_SECRET }}
+      
+      BLOT_POSTGRES_USER: postgres      
+      BLOT_POSTGRES_PASSWORD: postgres      
+      BLOT_POSTGRES_DB: postgres      
+      BLOT_POSTGRES_HOST: localhost      
+      BLOT_POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
 
     steps:
     - name: Checkout code  
@@ -62,11 +82,6 @@ jobs:
       uses: shogo82148/actions-setup-redis@v1
       with:
         redis-version: ${{ matrix.redis-version }}
-
-    - name: Set up Postgres
-      uses: harmon758/postgresql-action@v1
-      with:
-        postgresql version: '12'  # See https://hub.docker.com/_/postgres for available versions
 
     - name: Load dependencies
       uses: actions/cache@v2
