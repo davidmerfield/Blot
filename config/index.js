@@ -23,7 +23,7 @@ module.exports = {
     host: process.env.BLOT_POSTGRES_HOST,
     database: process.env.BLOT_POSTGRES_DB,
     password: process.env.BLOT_POSTGRES_PASSWORD,
-    port: 5432,
+    port: process.env.BLOT_POSTGRES_PORT,
   },
 
   admin: {
