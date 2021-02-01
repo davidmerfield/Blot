@@ -151,7 +151,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add support for 'creating' a template inside '/Templates/'
   - Tell [Myron](https://twitter.com/rodriguesmyron) and [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrvCRNqvVclgfcHmhpJKChMhV) and [Jussi](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtQrKrPTxkKlfBMctjWQdbCM) on Twitter when it is possible to rename the folder created for a template in local editing.
 - Support template views inside a subfolder inside template folder, e.g. {{> partials/footer}} and then tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJfNfGHXPKxmntzZRfsDFHpq)
-- Add [titlecase](https://daringfireball.net/2008/05/title_case) helper function? 
 - Add support for the setting of custom headers (e.g. to enable CORS) and tell [Roy](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDrRShkTjNqPxcnPjFcGthZgbh)
 - Add support for listing files in arbritary folders (e.g. use a custom folder as a 'public' folder) and tell [Nash](https://twitter.com/nashp/status/1111655667817947137)
 - Move to uuid based template IDs instead of slug
