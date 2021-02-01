@@ -31,11 +31,7 @@
 
 {{/entry}}
 
-{{#recent_entries}}{{/recent_entries}}
-
-{{#entry}}
-
-{{^page}}  
+{{^entry.page}}  
 
 <div class="bt b--black-10 mv4"></div>
 
@@ -46,7 +42,8 @@
 <div class="w-50 fl pr4">
 
 <span class="db f6 bt b--black-10 black-50 pv3">Up next</span>
-  
+
+{{#entry}}  
 {{#previous}}
 <a href="{{{url}}}" class="db pb3 lh-title  dim no-underline">
 <span class="db">
@@ -86,7 +83,7 @@
   {{/next.thumbnail.medium}}  
 </a>
 {{/next}}
-
+{{/entry}}
 </div>
   
   
@@ -106,8 +103,7 @@
   </a>
 {{/recent_entries}}
 </div>
-{{/page}}
-{{/entry}}
+{{/entry.page}}
 
 
 <div class="cf"></div>
