@@ -4,6 +4,7 @@ var createClient = require("../../app/clients/dropbox/util/createClient");
 var get = require("../get/blog");
 var helper = require("helper");
 var fs = require("fs-extra");
+var colors = require('colors/safe');
 
 async function main(blog, client, outputDir) {
 	console.log(`Downloading ${blog.handle} to ${outputDir}`);
@@ -17,7 +18,7 @@ async function main(blog, client, outputDir) {
 		include_deleted: false,
 		include_mounted_folders: false,
 		include_non_downloadable_files: false,
-		limit: 10,
+		limit: 100,
 	});
 
 	let entries = res.entries;
@@ -25,9 +26,10 @@ async function main(blog, client, outputDir) {
 	while (res.has_more) {
 		res = await client.filesListFolderContinue({ cursor: res.cursor });
 		entries = entries.concat(res.entries);
+		console.log(`Fetched ${entries.length} entries so far`);		
 	}
 
-	console.log(`Fetched ${entries.length} entries`);
+	console.log(`Fetched ${entries.length} entries in total`);
 
 	entries = entries.filter((entry) => entry[".tag"] === "file");
 
@@ -44,13 +46,13 @@ async function main(blog, client, outputDir) {
 		}
 	}
 
-	console.log(`Found ${files.length} files`);
+	console.log(`Found ${files.length} files to download`);
 
 	for (let i = 0; i < files.length; i++) {
 		let file = files[i];
 		let from = file.path_lower;
 		let to = outputDir + file.path_display;
-		console.log(`Downloading ${from} to: ${to}`);
+		console.log(`${i + 1}/${files.length} ${file.size} bytes ${colors.dim(outputDir)}${file.path_display}`);
 		fs.outputFileSync(
 			to,
 			(await client.filesDownload({
@@ -60,7 +62,6 @@ async function main(blog, client, outputDir) {
 	}
 
 	console.log(`Downloaded ${files.length} files`);
-
 }
 
 get(process.argv[2], function (err, user, blog) {
