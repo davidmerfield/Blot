@@ -16,6 +16,7 @@ function prerender(html, callback, options) {
 
 module.exports = {
   prerender: prerender,
+  isDefault: false,
   category: "Typography",
   title: "Titlecase",
   description: "Use Title Case for All Post Headings"
