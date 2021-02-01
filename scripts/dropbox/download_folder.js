@@ -17,7 +17,7 @@ async function main(blog, client, outputDir) {
 		include_deleted: false,
 		include_mounted_folders: false,
 		include_non_downloadable_files: false,
-		limit: 10,
+		limit: 100,
 	});
 
 	let entries = res.entries;
@@ -25,9 +25,10 @@ async function main(blog, client, outputDir) {
 	while (res.has_more) {
 		res = await client.filesListFolderContinue({ cursor: res.cursor });
 		entries = entries.concat(res.entries);
+		console.log(`Fetched ${entries.length} entries so far`);		
 	}
 
-	console.log(`Fetched ${entries.length} entries`);
+	console.log(`Fetched ${entries.length} entries in total`);
 
 	entries = entries.filter((entry) => entry[".tag"] === "file");
 
