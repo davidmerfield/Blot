@@ -1,23 +1,20 @@
 const helper = require("helper");
 const titlecase = helper.titlecase;
-const cheerio = require("cheerio");
 
-function prerender(html, callback, options) {
-  const $ = cheerio.load(html);
-
+function render($, callback) {
   try {
-    $('h1, h2, h3, h4, h5, h6').each(function(i, el) {
-      $(this).text(titlecase($(this).text()))
-    })
+    $("h1, h2, h3, h4, h5, h6").each(function (i, el) {
+      $(this).text(titlecase($(this).text()));
+    });
   } catch (e) {}
 
-  return callback(null, $.html());
+  return callback();
 }
 
 module.exports = {
-  prerender: prerender,
+  render: render,
   isDefault: false,
   category: "Typography",
   title: "Titlecase",
-  description: "Use Title Case for All Post Headings"
+  description: "Use Title Case for All Post Headings",
 };
