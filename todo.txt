@@ -79,6 +79,10 @@ Adjust the chargeForRemaining function in create-blog such that the balance is a
 
 Fix duplicated entry in tag page for [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC) the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
 
+When a post contains multiple identical links to images that timeout/404, the thumbnail generator should only make 1 attempt to fetch them. Right now we have a post that is filled with identical broken image links (in this case to a spacer.gif) can suck up the build process for hours. 
+
+Add a timeout of 15 seconds for building posts.
+
 Add a 'page link format' option to the dashboard – the link format now only applies to entries. Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkbjLjgTZLQqMFFMzBBpzMZTg)
 - Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
@@ -168,6 +172,7 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 Improvements to brochure
 - Catch 404s in Google search results and set up redirects
 - Add integration tests for brochure site to test sign up flow
+- Add way to nest tags / hierarchy for tags and tell [Uzoamaka](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsJwTqFWjRgHLhPXJgBtnGwJJ)
 - Personalize the documentation for logged in users
 - Tooltips for lock and CVC on sign up page
 - Loading state for submit button on sign up page
