@@ -4,6 +4,7 @@ var createClient = require("../../app/clients/dropbox/util/createClient");
 var get = require("../get/blog");
 var helper = require("helper");
 var fs = require("fs-extra");
+var colors = require('colors/safe');
 
 async function main(blog, client, outputDir) {
 	console.log(`Downloading ${blog.handle} to ${outputDir}`);
@@ -45,13 +46,13 @@ async function main(blog, client, outputDir) {
 		}
 	}
 
-	console.log(`Found ${files.length} files`);
+	console.log(`Found ${files.length} files to download`);
 
 	for (let i = 0; i < files.length; i++) {
 		let file = files[i];
 		let from = file.path_lower;
 		let to = outputDir + file.path_display;
-		console.log(`Downloading ${from} to: ${to}`);
+		console.log(`${i + 1}/${files.length} ${file.size} bytes ${colors.dim(outputDir)}${file.path_display}`);
 		fs.outputFileSync(
 			to,
 			(await client.filesDownload({
@@ -61,7 +62,6 @@ async function main(blog, client, outputDir) {
 	}
 
 	console.log(`Downloaded ${files.length} files`);
-
 }
 
 get(process.argv[2], function (err, user, blog) {
