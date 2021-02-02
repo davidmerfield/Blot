@@ -823,7 +823,6 @@ Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything
 Enable hyphenation again then tell rodericus
 
 Improvements to Markdown parser:
-- Add support for fancy_lists and tell [Regan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwChJmJbkbscVcdRfvLBPQMPwhQ)
 - Add option to enable hard line breaks in Markdown parser?
 
 Move all unit tests which run on server start (the helper folder is littered with these, CMD+F for 'require('assert') into CI tests.
