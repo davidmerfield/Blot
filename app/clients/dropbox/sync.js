@@ -1,6 +1,6 @@
 var debug = require("debug")("blot:clients:dropbox:sync");
 var Download = require("./util/download");
-var ContentHasher = require("./util/content-hasher");
+var hashFile = require("helper").hashFile;
 var Database = require("./database");
 var join = require("path").join;
 var Delta = require("./delta");
@@ -178,12 +178,15 @@ function Apply(token, blogFolder) {
     // Dropbox folder might not be the root of the blog.
     function download(item, callback) {
       debug("Downloading", item.relative_path);
-      ContentHasher(join(blogFolder, item.relative_path), function (
+      hashFile(join(blogFolder, item.relative_path), function (
         err,
         content_hash
       ) {
         if (item.content_hash && item.content_hash === content_hash) {
-          debug(item.relative_path, "Existing file on disk matches, no need to re-download");
+          debug(
+            item.relative_path,
+            "Existing file on disk matches, no need to re-download"
+          );
           return callback();
         }
 
