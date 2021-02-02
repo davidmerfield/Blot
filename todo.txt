@@ -79,7 +79,13 @@ Adjust the chargeForRemaining function in create-blog such that the balance is a
 
 Fix duplicated entry in tag page for [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNWHJWdRRMdDWCKbXWJQmdvkC) the example is [here](https://timeline.marconoris.com/search?q=Yo+no+voy+a+morir.+Porque+%C3%A9l+que+lo+va+a+decir+no+ser%C3%A1+el+%C3%BAltimo+que+lo+diga.+)
 
-When a post contains multiple identical links to images that timeout/404, the thumbnail generator should only make 1 attempt to fetch them. Right now we have a post that is filled with identical broken image links (in this case to a spacer.gif) can suck up the build process for hours. 
+Rewrite transformer
+- Speak HTTP properly, respect backoffs, use/send eTags
+- Share information across blogs?
+- Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
+- Adjust interface to accept a number of directories. Make it 'unaware' of blog IDs?
+- Add method which accepts a path or URL and flushes what is stored for it, update the rebuild entry script
+- Cache errors. When a post contains multiple identical links to images that timeout/404, the thumbnail generator should only make 1 attempt to fetch them. Right now we have a post that is filled with identical broken image links (in this case to a spacer.gif) can suck up the build process for hours. 
 
 Add a timeout of 15 seconds for building posts.
 
@@ -521,11 +527,6 @@ Restructure application folder
 Switch to streaming JSON parser. There are npm modules that offer asynchronous JSON APIs. See for example:
 - JSONStream, which has stream APIs.
 - Big-Friendly JSON, which has stream APIs as well as asynchronous versions of the standard JSON APIs using the partitioning-on-the-Event-Loop paradigm outlined below.
-
-Improve transformer
-- Improve transformer so it checks a file's MTIME against a stored value before rehashing the file?
-- Adjust interface to accept a number of directories. Make it 'unaware' of blog IDs?
-- Add method which accepts a path or URL and flushes what is stored for it, update the rebuild entry script
 
 Add notification emails for monit events
 - Include secure one-time link to reboot the AWS instance?
