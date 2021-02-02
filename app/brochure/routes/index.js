@@ -3,7 +3,7 @@ var brochure = new Express.Router();
 var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
-var titleFromSlug = require("../../../app/helper/titleFromSlug");
+var titleFromSlug = require("app/helper/titleFromSlug");
 
 var TITLES = {
   how: "How to use Blot",

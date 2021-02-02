@@ -30,6 +30,7 @@ Export [environment variables](/config/environment.sh) needed by Blot:
 ```sh
 export BLOT_HOST=blot.development
 export BLOT_DIRECTORY=~/Projects/Blot
+export NODE_PATH=$(cd $BLOT_DIRECTORY; pwd)
 export BLOT_CACHE_DIRECTORY=~/Projects/Blot/data/cache
 export BLOT_SESSION_SECRET=abc
 export BLOT_MAILGUN_KEY=blah
