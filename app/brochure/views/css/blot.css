@@ -446,3 +446,91 @@ form p:focus-within > label {
 a.bordered-button {
   border:1px solid #000;padding:0.5rem;text-decoration: none;margin-top: 18px;display: inline-block;
 }
+
+a.whitebutton,
+button.whitebutton {
+  cursor: pointer;
+  padding: 10px 12px 10px;
+  border-radius: 3px;
+  text-decoration: none;
+  box-shadow: rgb(15 15 15 / 10%) 0 0 0 1px, rgb(15 15 15 / 10%) 0 2px 4px;
+  background: #fff;
+  text-align: center;
+  border: none;
+  font-weight: bold;
+}
+a.whitebutton { color: inherit; }
+a.whitebutton:hover,
+button.whitebutton:hover:enabled {
+  text-decoration: none;
+  background: #f6f6f6;
+  box-shadow: rgb(15 15 15 / 10%) 0 0 0 1px, rgb(15 15 15 / 10%) 0 2px 4px;
+}
+.secondary-text {
+  color: #989694;
+}
+
+.smaller {
+  font-size: 14px;
+}
+
+/* Questions (Q&A) */
+.qa-section-header {
+  max-width: 637px;
+  display: flex;
+  justify-content: space-between;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.qa-question-header {
+  display: flex;
+  justify-content: space-between;
+}
+ul.qa-questions {
+  margin: 0;
+  list-style-type: none;
+}
+ul.qa-questions li {
+  margin: .7em 0;
+}
+.qa-questions li a:hover strong { text-decoration: none; }
+.qa-question-container {
+  margin-bottom: 2em;
+}
+.qa-item-container {
+  margin-bottom: 2em;
+}
+.qa-item-container :nth-last-child(2) {
+  margin-bottom: 0.15em;
+}
+.qa-form ::placeholder,
+.qa-form :focus::placeholder {
+  color: #a09d9c;
+}
+.qa-form input,
+.qa-form textarea {
+  width: 100%;
+}
+.qa-form textarea {
+  margin: 2px 0;
+  font-size: 17px;
+  padding: 10px;
+  font-family: inherit;
+  z-index: 1;
+  position: relative;
+  border: 1px solid #cccbca;
+  border-top-color: rgba(0,0,0,.25);
+  border-bottom-color: rgba(0,0,0,.15);
+  box-sizing: border-box;
+  background: 0 0;
+  box-shadow: inset 0 1px 2px 0 rgb(0 0 0 / 8%);
+  transition: border-color ease-in-out .1s,box-shadow ease-in-out .1s,-webkit-box-shadow ease-in-out .1s;
+  resize: vertical;
+  min-height: 100px;
+  height: 100px;
+}
+.qa-form .qa-form-actionarea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

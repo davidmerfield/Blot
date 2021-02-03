@@ -1,0 +1,24 @@
+<div class="qa-section-header">
+  <div>
+    <h1>Questions</h1>
+  </div>
+  <a class="whitebutton" href="/questions/new">
+    <strong>Ask new question</strong>
+  </a>
+</div>
+
+<p>Questions and answers about Blot, templating, customization and more. Questions are sorted by the freshness of replies.</p>
+
+<ul class="clients qa-questions">
+{{#topics}}
+  <li style="flex-basis: 100%">
+    <a href="/questions/{{id}}">
+      <div class="qa-question-header">
+        <strong>{{title}}</strong>
+        <span class="secondary-text smaller">({{formatDaytime created_at}})</span>
+      </div>
+      <span class="secondary-text smaller">{{reply_count}} replies</span>
+    </a>
+  </li>
+{{/topics}}
+</ul>

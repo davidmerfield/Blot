@@ -18,6 +18,14 @@ module.exports = {
 
   redis: { port: 6379 },
 
+  postgres: {
+    user: process.env.BLOT_POSTGRES_USER,
+    host: process.env.BLOT_POSTGRES_HOST,
+    database: process.env.BLOT_POSTGRES_DB,
+    password: process.env.BLOT_POSTGRES_PASSWORD,
+    port: process.env.BLOT_POSTGRES_PORT,
+  },
+
   admin: {
     uid: process.env.BLOT_ADMIN_UID,
     email: process.env.BLOT_ADMIN_EMAIL,
