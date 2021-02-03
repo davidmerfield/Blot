@@ -16,6 +16,12 @@ export BLOT_CACHE_DIRECTORY=
 # Remove these eventually
 export BLOT_PROTOCOL=https
 
+# Postgres configuration
+export BLOT_POSTGRES_USER=postgres
+export BLOT_POSTGRES_HOST=localhost
+export BLOT_POSTGRES_DB=blot
+export BLOT_POSTGRES_PASSWORD=
+
 # Name of linux user who runs the blot server
 export BLOT_USER=
 
