@@ -41,7 +41,6 @@ Redirect URLs with trailing slash when possible (i.e. not directory browsing) to
 - Add rel=canonical to all the default templates, or fix the issue that Blot serves the same thing to URLs with a trailing slash, and without. 
 - If we do add rel=canonical, make sure to consider the situation where someone mounts a page to the index of their site, e.g. /page/1 and / will now be different.
 
-
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
 Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
