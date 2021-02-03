@@ -1,5 +1,5 @@
 const fs = require("fs-extra");
-const markdown = require("../../index");
+const markdown = require("build/converters/markdown/index");
 
 describe("citations", function() {
 	global.test.blog();

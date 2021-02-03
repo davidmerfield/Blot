@@ -1,4 +1,4 @@
-var database = require("../database");
+var database = require("clients/dropbox/database");
 var async = require("async");
 
 module.exports = function(req, res, next) {

@@ -1,4 +1,4 @@
-var helper = require("../../app/helper");
+var helper = require("helper");
 var config = require("../../config");
 var upload = helper.upload;
 var fs = require("fs");

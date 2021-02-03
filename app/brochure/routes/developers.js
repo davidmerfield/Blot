@@ -1,6 +1,6 @@
 var Express = require("express");
 var developers = new Express.Router();
-var titleFromSlug = require('../../../app/helper/titleFromSlug');
+var titleFromSlug = require('helper/titleFromSlug');
 
 var TITLES = {
   "json-feed": "JSON feed",

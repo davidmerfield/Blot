@@ -1,6 +1,6 @@
 var fs = require("fs-extra");
 var join = require("path").join;
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 
 var determine_path = helper.determine_path;
 var download_images = helper.download_images;

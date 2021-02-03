@@ -1,6 +1,6 @@
 var eachBlog = require('./each/blog');
 
-var helper = require('../app/helper');
+var helper = require('helper');
 var forEach = helper.forEach;
 var localPath = helper.localPath;
 var ensure = helper.ensure;

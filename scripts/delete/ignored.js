@@ -1,5 +1,5 @@
 var eachBlog = require('../each/blog');
-var Ignored = require('../../app/models/ignoredFiles');
+var Ignored = require('models/ignoredFiles');
 
 eachBlog(function (user, blog, nextBlog) {
 

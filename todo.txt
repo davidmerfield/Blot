@@ -811,8 +811,6 @@ Add support for comments via webmentions like Disqus and tell Amit and [Luke](ht
 
 Migrate code from require('mime') to require('mime-types') since it doesn't use a global default type. Remove the mime node module.
 
-Migrate code from require('../../../') to shortcuts in node_modules
-
 Use \<select\> optgroup on timezone select dropdown to subdivide zones by current time, and steal the presentation format used by basecamp.
 
 Move to [pretty IDs](https://jsfiddle.net/sg1z5had/) for everything

@@ -1,6 +1,6 @@
 describe("blog", function() {
 
-  var Blog = require('../../app/models/blog');
+  var Blog = require('models/blog');
   
   global.test.blog();
 

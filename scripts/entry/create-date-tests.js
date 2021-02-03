@@ -1,6 +1,6 @@
 var eachEntry = require("../each/entry");
 var parseDate = require("helper").parseDate;
-var dateStamp = require("../../app/build/prepare/dateStamp");
+var dateStamp = require("build/prepare/dateStamp");
 var moment = require("moment");
 var fs = require('fs-extra');
 var supportedMetadataFormats = {};

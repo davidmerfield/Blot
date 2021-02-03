@@ -24,7 +24,7 @@ describe("Blot configuration", function() {
   );
 
   it("can connect to redis", function(done) {
-    require("../../app/models/client").ping(function(err) {
+    require("models/client").ping(function(err) {
       expect(err).toBe(null);
       done();
     });

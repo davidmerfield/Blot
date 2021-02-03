@@ -1,4 +1,4 @@
-var fourOhFour = require("../../../../models/404");
+var fourOhFour = require("models/404");
 var List = fourOhFour.list;
 
 module.exports = function(req, res, next) {

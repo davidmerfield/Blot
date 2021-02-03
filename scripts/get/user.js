@@ -1,4 +1,4 @@
-var User = require("../../app/models/user");
+var User = require("models/user");
 var fromBlog = require("./blog");
 
 // Takes a URL or handle and fetches the blog and user

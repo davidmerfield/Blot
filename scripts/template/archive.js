@@ -1,6 +1,6 @@
 var eachBlog = require("../each/blog");
-var Template = require("../../app/models/template");
-var Blog = require("../../app/models/blog");
+var Template = require("models/template");
+var Blog = require("models/blog");
 var fs = require("fs-extra");
 var templateDir = require("path").resolve(__dirname + "/../../app/templates");
 

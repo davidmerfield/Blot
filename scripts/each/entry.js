@@ -1,6 +1,6 @@
-var helper = require('../../app/helper');
+var helper = require('helper');
 var ensure = helper.ensure;
-var Entries = require('../../app/models/entries');
+var Entries = require('models/entries');
 var eachBlog = require('./blog');
 
 module.exports = function (doThis, allDone, options) {

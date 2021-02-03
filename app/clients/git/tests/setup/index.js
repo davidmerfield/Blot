@@ -1,8 +1,8 @@
 module.exports = function setup(options) {
   options = options || {};
 
-  var dataDir = require("../../dataDir");
-  var disconnect = require("../../disconnect");
+  var dataDir = require("clients/git/dataDir");
+  var disconnect = require("clients/git/disconnect");
   var fs = require("fs-extra");
   var Express = require("express");
 
@@ -12,7 +12,7 @@ module.exports = function setup(options) {
     start: function attempt(done) {
       var port = 10000 + Math.round(Math.random() * 10000);
       this.server = Express()
-        .use("/clients/git", require("../../routes").site)
+        .use("/clients/git", require("clients/git/routes").site)
         .listen(port, function(err) {
           if (err && err.code === "EADDRINUSE") return attempt(done);
           if (err && err.code === "EACCESS") return attempt(done);

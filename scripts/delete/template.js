@@ -1,4 +1,4 @@
-var Template = require('../../app/models/template');
+var Template = require('models/template');
 
 var handle = process.argv[2];
 var templateID = process.argv[3];

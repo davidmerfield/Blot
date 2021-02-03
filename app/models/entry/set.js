@@ -14,7 +14,7 @@ var setUrl = require("./_setUrl");
 // Queue items
 var rebuildDependencyGraph = require("./_rebuildDependencyGraph");
 var updateSearchIndex = require("./_updateSearchIndex");
-var updateTagList = require("../tags").set;
+var updateTagList = require("models/tags").set;
 var addToSchedule = require("./_addToSchedule");
 var notifyDrafts = require("./_notifyDrafts");
 var assignToLists = require("./_assign");

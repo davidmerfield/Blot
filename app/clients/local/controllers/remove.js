@@ -1,5 +1,5 @@
 var fs = require("fs-extra");
-var Folder = require("../models/folder");
+var Folder = require("clients/local/models/folder");
 var join = require("path").join;
 var debug = require("debug")("blot:clients:local:remove");
 

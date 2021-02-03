@@ -1,5 +1,5 @@
 var get = require("../get/blog");
-var Template = require("../../app/models/template");
+var Template = require("models/template");
 
 if (require.main === module) {
   get(process.argv[2], function(err, user, blog) {

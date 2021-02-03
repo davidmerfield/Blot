@@ -1,5 +1,5 @@
-var DropboxDatabase = require("../../app/clients/dropbox/database");
-var createClient = require("../../app/clients/dropbox/util/createClient");
+var DropboxDatabase = require("clients/dropbox/database");
+var createClient = require("clients/dropbox/util/createClient");
 var get = require("../get/blog");
 
 get(process.argv[2], function(err, user, blog) {

@@ -1,6 +1,6 @@
-var Entry = require("../../app/models/entry");
+var Entry = require("models/entry");
 var get = require("../get/entry");
-var helper = require("../../app/helper");
+var helper = require("helper");
 var guid = helper.guid;
 
 get(process.argv[2], function(err, user, blog, entry) {
