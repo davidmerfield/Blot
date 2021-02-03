@@ -3,8 +3,8 @@
 
 var get = require("../get/blog");
 var moment = require("moment");
-var Entries = require("../../app/models/entries");
-var Entry = require("../../app/models/entry");
+var Entries = require("models/entries");
+var Entry = require("models/entry");
 
 var identifier = process.argv[2];
 var limit = process.argv[3];

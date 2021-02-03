@@ -1,4 +1,4 @@
-const FONTS = require("../../../../blog/static/fonts");
+const FONTS = require("blog/static/fonts");
 const Mustache = require("mustache");
 const config = require("config");
 

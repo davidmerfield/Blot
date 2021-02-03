@@ -1,8 +1,8 @@
-var helper = require('../../app/helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 var type = helper.type;
 
-var isHidden = require('../../app/models/entry/build/prepare/isHidden');
+var isHidden = require('models/entry/build/prepare/isHidden');
 
 module.exports = function(blog, entry, callback) {
 

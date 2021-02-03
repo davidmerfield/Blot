@@ -1,4 +1,4 @@
-var Entries = require("../../app/models/entries");
+var Entries = require("models/entries");
 var get = require("../blog/get");
 var handle = process.argv[2];
 var query = process.argv[3];

@@ -1,6 +1,6 @@
 var get = require("../get/entry");
-var sync = require("../../app/sync");
-var Entry = require("../../app/models/entry");
+var sync = require("sync");
+var Entry = require("models/entry");
 
 if (!process.argv[2]) {
   console.log(

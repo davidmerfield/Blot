@@ -13,7 +13,7 @@ get(process.argv[2], function (err, user, blog) {
 });
 
 function main(blog, from, to, callback) {
-	var clients = require("../../app/clients");
+	var clients = require("clients");
 	var client = clients[blog.client];
 
 	from = path.resolve(process.cwd(), from);

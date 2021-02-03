@@ -2,7 +2,7 @@ var express = require("express");
 var settings = express.Router();
 var load = require("./load");
 var save = require("./save");
-var debug = require("../../debug");
+var debug = require("dashboard/debug");
 var load = require("./load");
 
 settings.use(function(req, res, next) {

@@ -2,7 +2,7 @@ var cheerio = require("cheerio");
 var request = require("request");
 var fs = require("fs-extra");
 var extract_article = require("./extract_article");
-var for_each = require("../../helper").for_each;
+var for_each = require("dashboard/routes/importer/helper").for_each;
 
 if (require.main === module) {
   var output_file = process.argv[2];

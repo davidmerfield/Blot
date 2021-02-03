@@ -10,6 +10,7 @@ export BLOT_DEBUG=false
 export BLOT_HOST=
 export BLOT_IP=
 export BLOT_DIRECTORY=
+export NODE_PATH=$(cd $BLOT_DIRECTORY/app; pwd)  # same as BLOT_DIRECTORY/app, but must be absolute
 export BLOT_CACHE_DIRECTORY=
 
 # Remove these eventually

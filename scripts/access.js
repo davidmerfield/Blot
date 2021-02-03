@@ -1,5 +1,5 @@
-var Blog = require("../app/models/blog");
-var User = require("../app/models/user");
+var Blog = require("models/blog");
+var User = require("models/user");
 var format = require("url").format;
 var config = require("../config");
 var get = require("./get/blog");

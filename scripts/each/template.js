@@ -1,5 +1,5 @@
 var eachBlog = require("./blog");
-var Template = require("../../app/models/template");
+var Template = require("models/template");
 var async = require("async");
 var config = require("../../config");
 

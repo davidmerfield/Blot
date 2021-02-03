@@ -1,5 +1,5 @@
 var get = require('../blog/get');
-var helper = require('../../app/helper');
+var helper = require('helper');
 var blogDir = helper.blogDir;
 var removeFile = helper.removeFile;
 var fs = require('fs');

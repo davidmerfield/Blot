@@ -1,5 +1,5 @@
 var config = require("config");
-var Delete = require("../../app/dashboard/routes/account/delete");
+var Delete = require("dashboard/routes/account/delete");
 var get = require("../get/user");
 var yesno = require("yesno");
 var colors = require("colors");

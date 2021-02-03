@@ -1,4 +1,4 @@
-const extractMetadata = require("../../metadata");
+const extractMetadata = require("build/metadata");
 const localPath = require("helper").localPath;
 const fs = require("fs-extra");
 

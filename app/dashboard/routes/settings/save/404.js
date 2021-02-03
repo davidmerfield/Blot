@@ -1,4 +1,4 @@
-var fourOhFour = require("../../../../models/404");
+var fourOhFour = require("models/404");
 
 module.exports = function(req, res, next) {
   var blog = req.blog;

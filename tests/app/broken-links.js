@@ -1,6 +1,6 @@
 describe("Blot broken links", function() {
-  var brochure = require("../../app/brochure");
-  var dashboard = require("../../app/dashboard");
+  var brochure = require("brochure");
+  var dashboard = require("dashboard");
   var broken = require("../util/broken");
 
   global.test.blog();

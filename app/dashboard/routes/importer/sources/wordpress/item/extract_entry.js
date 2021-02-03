@@ -1,7 +1,7 @@
 var url = require("url");
 var moment = require("moment");
 var join = require("path").join;
-var helper = require("../../../helper");
+var helper = require("dashboard/routes/importer/helper");
 var determine_path = helper.determine_path;
 var tidy = require("./tidy");
 

@@ -1,6 +1,6 @@
 var colors = require("colors/safe");
 var get = require("../../get/blog");
-var sync = require("../../../app/sync");
+var sync = require("sync/index");
 var walk = require("./walk");
 var async = require("async");
 

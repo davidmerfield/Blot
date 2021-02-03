@@ -1,4 +1,4 @@
-var sync = require("../../app/clients/dropbox/sync");
+var sync = require("clients/dropbox/sync");
 var get = require("../get/blog");
 var each = require("../each/blog");
 var async = require("async");

@@ -1,5 +1,5 @@
 var uuid = require("uuid/v4");
-var retry = require("../../util/retry");
+var retry = require("clients/dropbox/util/retry");
 module.exports = function(options) {
   return function createFolder(callback) {
     var client = this.client;

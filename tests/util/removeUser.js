@@ -1,6 +1,6 @@
 module.exports = function(done){
 
-    var User = require('../../app/models/user');
+    var User = require('models/user');
     var uid = this.user.uid;
     
 

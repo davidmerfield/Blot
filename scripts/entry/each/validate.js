@@ -1,10 +1,10 @@
-var Entry = require('../../app/models/entry');
+var Entry = require('models/entry');
 var eachEntry = require('../each/entry');
 
 var _ = require('lodash');
 var assert = require('assert');
 
-var helper = require('../../app/helper');
+var helper = require('helper');
 var type = helper.type;
 var fakeEntry = require('./fakeEntry');
 

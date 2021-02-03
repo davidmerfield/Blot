@@ -1,5 +1,5 @@
 var get = require("../get/blog");
-var Template = require("../../app/models/template");
+var Template = require("models/template");
 
 // will create a copy of templateID for the blog passed as first argument
 // username templateID [templateName]

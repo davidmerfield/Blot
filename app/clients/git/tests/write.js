@@ -5,7 +5,7 @@ describe("write", function() {
   // cleans everything up when each test has finished.
   require("./setup")();
 
-  var write = require("../write");
+  var write = require("clients/git/write");
   var Git = require("simple-git");
   var fs = require("fs-extra");
   var localPath = require("helper").localPath;
