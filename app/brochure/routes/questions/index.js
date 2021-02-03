@@ -127,7 +127,7 @@ Questions.route("/:id").get(csrf, function (req, res) {
         .then((replies) => {
           let topic = topics.rows[0];
           topic.body = marked(topic.body);
-          res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+          res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label = topic.title;
           replies.rows.forEach(
             (el, index) => (replies.rows[index].body = marked(el.body))
           );
