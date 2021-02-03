@@ -1,5 +1,5 @@
-var retry = require("../../util/retry");
-var createClient = require("../../util/createClient");
+var retry = require("clients/dropbox/util/retry");
+var createClient = require("clients/dropbox/util/createClient");
 
 function remove(done) {
   var client = createClient(process.env.BLOT_DROPBOX_TEST_ACCOUNT_APP_TOKEN);

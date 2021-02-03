@@ -4,7 +4,7 @@ var readability = require("node-readability");
 var moment = require("moment");
 var fs = require("fs-extra");
 
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 
 var each_el = helper.each_el;
 var Extract = helper.extract;

@@ -1,5 +1,5 @@
-var User = require("../../app/models/user");
-var Blog = require("../../app/models/blog");
+var User = require("models/user");
+var Blog = require("models/blog");
 var parseUrl = require("url").parse;
 
 // Takes a URL or handle and fetches the blog and user

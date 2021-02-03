@@ -2,8 +2,8 @@ var get = require('../blog/get');
 var helper = require('helper');
 var forEach = helper.forEach;
 var redis = require('redis').createClient();
-var User = require('../../app/models/user');
-var Blog = require('../../app/models/blog');
+var User = require('models/user');
+var Blog = require('models/blog');
 
 // Use this via the command line
 if (require.main === module) {

@@ -1,6 +1,6 @@
 var eachTemplate = require('./template');
-var Template = require('../../app/models/template');
-var helper = require('../../app/helper');
+var Template = require('models/template');
+var helper = require('helper');
 var async = require('async');
 
 module.exports = function (doThis, callback) {

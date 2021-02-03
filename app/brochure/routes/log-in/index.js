@@ -7,6 +7,7 @@ var checkEmail = require("./checkEmail");
 var checkPassword = require("./checkPassword");
 var errorHandler = require("./errorHandler");
 var parse = BodyParser.urlencoded({ extended: false });
+var csrf = require("csurf")();
 
 var form = new Express.Router();
 
@@ -19,11 +20,10 @@ form.use(function (req, res, next) {
     return res.redirect(then);
   }
 
-  res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
-
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
   res.locals.layout = "partials/layout-form";
+  res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
 
   return next();
 });
@@ -31,28 +31,33 @@ form.use(function (req, res, next) {
 form
   .route("/reset")
 
-  .get(function (req, res) {
+  .get(csrf, function (req, res) {
+    res.locals.csrf = req.csrfToken();
     res.render("log-in/reset");
   })
 
-  .post(parse, checkEmail, checkReset, errorHandler)
+  .post(parse, csrf, checkEmail, checkReset, errorHandler)
 
   .post(function (err, req, res, next) {
+    res.locals.csrf = req.csrfToken();
     res.render("log-in/reset");
   });
 
 form
   .route("/")
-  .get(checkToken, function (req, res) {
+
+  .get(checkToken, csrf, function (req, res) {
+    res.locals.csrf = req.csrfToken();
     res.render("log-in");
   })
 
-  .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
+  .post(parse, csrf, checkEmail, checkReset, checkPassword, errorHandler)
 
   .post(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)
       return res.redirect("/log-in/reset");
 
+    res.locals.csrf = req.csrfToken();
     res.render("log-in");
   });
 

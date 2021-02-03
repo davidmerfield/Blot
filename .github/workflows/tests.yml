@@ -74,6 +74,7 @@ jobs:
       env:
         BLOT_CACHE: false
         BLOT_DIRECTORY: /home/runner/work/Blot/Blot
+        NODE_PATH: /home/runner/work/Blot/Blot/app
         BLOT_CACHE_DIRECTORY: /home/runner/work/Blot/Blot/cache
         BLOT_DEBUG: false
         BLOT_MAINTENANCE: false

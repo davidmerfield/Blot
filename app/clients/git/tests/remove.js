@@ -5,8 +5,8 @@ describe("git client remove", function() {
   // cleans everything up when each test has finished.
   require("./setup")();
 
-  var remove = require("../remove");
-  var write = require("../write");
+  var remove = require("clients/git/remove");
+  var write = require("clients/git/write");
   var Git = require("simple-git");
   var fs = require("fs-extra");
   var localPath = require("helper").localPath;

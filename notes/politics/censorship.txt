@@ -1,20 +1,25 @@
 # Censorship
 
-Blot has been running for a while now and there is plenty published on it that I dislike, material that will cause real harm. However, on balance, I believe the harm is preferable than the harm of a censorship regime needed to prevent it.
+Blot has been running for a while now and there is plenty published on it that I dislike. I have the means to remove this material but I won't, partly because of my laziness but mostly because I think any system of censorship would cause more harm that the material that is censored. 
 
-This is one reason why I avoided depending on advertisers to fund Blot. The large businesses that tend to buy advertising are risky patrons. They always impose a regime of censorship in their own bland interests which tend to push down on all that is against the grain. I'm motivated to provide a platform for the radical and avant-garde even if it means tolerating profanity.
+This is one reason why I avoided depending on advertisers to fund Blot. The large businesses that tend to buy advertising are risky patrons. They always impose a regime of censorship in their own bland interests which tend to push down on all that is against the grain. I'm motivated to provide a platform for the radical and avant-garde even if it means tolerating stuff that upsets *the market*.
 
-## But what if a country threatens to block Blot?
+## So you accept that free speech causes harm?
 
-At some point in future, I suspect Blot will be blocked in one country or another. Perhaps some government official will ask me to block or remove some content from the site. Plenty of tech companies with idealistic mission statements seem to get hung up on this sort of thing – I think it's understandable, when you have employees whose livelihoods depend on the continued growth of their employer. But I don't plan on ever making money in the sorts of markets in which this is likely to happen, so it won't matter much to me if they choose to seal themselves off from Blot.
+Yes, I think that being serious about the principle of free speech means accepting that real harm can result. My belief is that the harm resulting from censorship is greater than the harm resulting from free speech.
 
+## Blot's a private organization, why care about free speech?
 
-## But Blot's a private company, why care about free speech?
+Because I think the principle of free speech is a good principle. The framers of the American constitution liked the principle of free speech enough to write the first amendment. Even though the first amendment doesn't apply to Blot, I can still appreciate the principle of free speech.
 
-Because I think the principle of free speech is a good principle. I don't want to live in a society in which a variety of though is constrained into dull concensus.
+## Will you allow extremists to host websites on Blot? 
 
-## But what about extremists?
+The answer is yes, as long as they follow the law. For as long as it is legal in the United States to be extreme and to express oneself *extremely*, it will be possible to do so on Blot.
 
-The toughest question to answer then is this: will you allow the extremist groups to host websites on Blot? Yes. As long as it is perfectly legal in these United States to express oneself as a member of a such a group, it will be possible to do so on Blot.
+## What if a foreign government threatens to block you?
 
-And for what it's worth, [Blot's source-code is dedicated to the public domain](/notes/politics/open-source). You can host it on your own server if you like.
+At some point in future, I suspect Blot will be blocked in one country or another. Perhaps some government official will ask me to block or remove some content from the site. Plenty of tech companies with idealistic mission statements are unable to resist this – I think it's understandable, when you have employees whose livelihoods depend on continued growth in those markets. But I don't plan on ever making money in the sorts of places in which this is likely to happen, so it won't matter much to me if they choose to seal themselves off from Blot.
+
+## What if I still disagree with you?
+
+I do think that reasonable people can disagree about the principle of free speech. We've been arguing this principle for thousands of years and the debate will go on. Blot's [source-code](/notes/politics/open-source) is dedicated to the public domain. You can host it on your own server if you like.

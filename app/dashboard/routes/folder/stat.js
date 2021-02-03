@@ -8,7 +8,7 @@ var moment = require("moment");
 require("moment-timezone");
 
 var Entry = require("entry");
-var IgnoredFiles = require("../../../models/ignoredFiles");
+var IgnoredFiles = require("models/ignoredFiles");
 var extname = require("path").extname;
 var Metadata = require("metadata");
 var REASONS = {

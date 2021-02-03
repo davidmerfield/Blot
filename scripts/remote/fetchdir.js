@@ -1,4 +1,4 @@
-var helper = require("../../app/helper");
+var helper = require("helper");
 var fs = require("fs-extra");
 var localRoot = helper.rootDir;
 var remoteRoot = require("./root");

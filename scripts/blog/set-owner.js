@@ -1,5 +1,5 @@
 var get = require("../get/blog");
-var Blog = require("../../app/models/blog");
+var Blog = require("models/blog");
 var User = require("user");
 
 console.log("Switching blog", process.argv[2], "to user", process.argv[3]);

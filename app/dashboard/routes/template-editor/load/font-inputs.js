@@ -1,4 +1,4 @@
-const FONTS = require("../../../../blog/static/fonts");
+const FONTS = require("blog/static/fonts");
 
 module.exports = function(req, res, next) {
 	res.locals.partials.font = "template-editor/inputs/font";

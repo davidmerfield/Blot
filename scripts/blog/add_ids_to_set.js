@@ -1,6 +1,6 @@
-var client = require("../../app/models/client");
+var client = require("models/client");
 var redisKeys = require("helper").redisKeys;
-var Blog = require("../../app/models/blog");
+var Blog = require("models/blog");
 var async = require("async");
 
 if (Blog.key.ids !== "blogs")

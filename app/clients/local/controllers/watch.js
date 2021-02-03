@@ -1,6 +1,6 @@
 var fs = require("fs-extra");
 var Sync = require("sync");
-var Folder = require("../models/folder");
+var Folder = require("clients/local/models/folder");
 var async = require("async");
 var debug = require("debug")("blot:clients:local:watch");
 var localPath = require("helper").localPath;

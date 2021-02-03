@@ -1,5 +1,5 @@
-var Tags = require("../../../app/models/tags");
-var Entry = require("../../../app/models/entry");
+var Tags = require("models/tags");
+var Entry = require("models/entry");
 var async = require("async");
 var get = require("../../get/blog");
 var client = require("client");

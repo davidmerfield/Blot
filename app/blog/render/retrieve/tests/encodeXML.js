@@ -1,5 +1,5 @@
 describe("encodeXML", function() {
-  var encodeXML = require("../encodeXML");
+  var encodeXML = require("blog/render/retrieve/encodeXML");
   var mustache = require("mustache");
 
   global.test.blog();

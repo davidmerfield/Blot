@@ -1,7 +1,7 @@
-var create = require("../../index").create;
-var getTemplateList = require("../../index").getTemplateList;
-var setupLocalClient = require("../../../../clients/local/controllers/setup");
-var setView = require("../../index").setView;
+var create = require("models/template/index").create;
+var getTemplateList = require("models/template/index").getTemplateList;
+var setupLocalClient = require("clients/local/controllers/setup");
+var setView = require("models/template/index").setView;
 var helper = require("helper");
 var Blog = require("blog");
 

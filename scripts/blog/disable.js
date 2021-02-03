@@ -1,5 +1,5 @@
 var get = require("../get/blog");
-var Blog = require("../../app/models/blog");
+var Blog = require("models/blog");
 
 get(process.argv[2], function(err, user, blog) {
   if (err) throw err;

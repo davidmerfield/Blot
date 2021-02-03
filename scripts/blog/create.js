@@ -2,7 +2,7 @@ var colors = require("colors/safe");
 var yesno = require("yesno");
 var Blog = require("blog");
 var User = require("user");
-var validate = require("../../app/models/blog/validate/handle");
+var validate = require("models/blog/validate/handle");
 var access = require('../access');
 
 if (require.main === module) {

@@ -1,4 +1,4 @@
-var helper = require('../../app/helper');
+var helper = require('helper');
 var ensure = helper.ensure;
 
 var _ = require('lodash');

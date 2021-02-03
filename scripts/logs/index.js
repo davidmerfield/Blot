@@ -9,7 +9,7 @@ var remoteLogDir = "/var/www/blot/logs";
 
 var options = require("minimist")(process.argv.slice(2));
 
-var forEach = require("../../app/helper").forEach;
+var forEach = require("helper").forEach;
 
 if (!options.a) log.names = ["app.log"];
 

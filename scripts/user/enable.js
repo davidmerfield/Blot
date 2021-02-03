@@ -1,6 +1,6 @@
-var User = require('../../app/models/user');
-var Blog = require('../../app/models/blog');
-var forEach = require('../../app/helper').forEach;
+var User = require('models/user');
+var Blog = require('models/blog');
+var forEach = require('helper').forEach;
 
 var handle = process.argv[2];
 

@@ -1,5 +1,5 @@
 var fs = require("fs-extra");
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 var for_each = helper.for_each;
 var download_images = helper.download_images;
 var to_markdown = require("./to_markdown");

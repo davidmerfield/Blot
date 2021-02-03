@@ -4,19 +4,14 @@ var brochure = new Express();
 var hbs = require("hbs");
 var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
-var warmCache = require("./warmCache");
 var moment = require("moment");
-
-var REDIRECTS = {
-  "/help/tags": "/how/metadata",
-};
 
 // Configure the template engine for the brochure site
 hbs.registerPartials(__dirname + "/views/partials");
 
 // Renders dates dynamically in the documentation.
 // Can be used like so: {{{date 'MM/YYYY'}}}
-hbs.registerHelper("date", function(text) {
+hbs.registerHelper("date", function (text) {
   try {
     text = text.trim();
     text = moment.utc(Date.now()).format(text);
@@ -41,18 +36,6 @@ if (config.cache === false) {
 } else {
   // This will store responses to disk for NGINX to serve
   brochure.use(cache);
-
-  // Empty any existing responses
-  cache.flush(config.host, function(err) {
-    if (err) console.warn(err);
-    setTimeout(function() {
-      console.log("Warming cache...");
-      warmCache(config.protocol + config.host, function(err) {
-        if (err) console.warn(err);
-        console.log("Warmed cache");
-      });
-    }, 10 * 1000);
-  });
 }
 
 // This is the layout that HBS uses by default to render a
@@ -71,7 +54,7 @@ brochure.locals.price = "$" + config.stripe.plan.split("_").pop();
 brochure.locals.interval =
   config.stripe.plan.indexOf("monthly") === 0 ? "month" : "year";
 
-brochure.use(function(req, res, next) {
+brochure.use(function (req, res, next) {
   if (
     req.user &&
     req.user.subscription &&
@@ -95,17 +78,17 @@ brochure.use(
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
 
-brochure.use("/publishing", function(req, res) {
+brochure.use("/publishing", function (req, res) {
   res.redirect(req.originalUrl.split("/publishing").join("/how"));
 });
 
 // Redirect user to dashboard for these links
-brochure.use(["/account", "/settings"], function(req, res) {
+brochure.use(["/account", "/settings"], function (req, res) {
   return res.redirect("/log-in?then=" + req.originalUrl);
 });
 
 // Missing page
-brochure.use(function(req, res, next) {
+brochure.use(function (req, res, next) {
   // Pass on requests to static files down to app/blog
   // Express application.
   if (req.path.indexOf("/static") === 0) return next();
@@ -116,7 +99,7 @@ brochure.use(function(req, res, next) {
 });
 
 // Some kind of other error
-brochure.use(function(err, req, res, next) {
+brochure.use(function (err, req, res, next) {
   if (err.status === 404) {
     res.locals.code = { missing: true };
   } else {

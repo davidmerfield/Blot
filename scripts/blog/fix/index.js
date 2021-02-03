@@ -1,6 +1,6 @@
 var colors = require("colors/safe");
 var get = require("../../get/blog");
-var Blog = require("../../../app/models/blog");
+var Blog = require("models/blog");
 var entryGhosts = require("./entry-ghosts");
 var listGhosts = require("./list-ghosts");
 var menuGhosts = require("./menu-ghosts");

@@ -1,5 +1,5 @@
-var Entry = require("../../../app/models/entry");
-var client = require("../../../app/models/client");
+var Entry = require("models/entry");
+var client = require("models/client");
 var async = require("async");
 var host = require("../../../config").host;
 
