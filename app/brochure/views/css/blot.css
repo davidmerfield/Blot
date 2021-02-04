@@ -500,6 +500,10 @@ ul.qa-questions li {
 .qa-item-container {
   margin-bottom: 2em;
 }
+.qa-item-container pre {
+  max-width: 637px;
+  overflow-x: auto;
+}
 .qa-item-container :nth-last-child(2) {
   margin-bottom: 0.15em;
 }
