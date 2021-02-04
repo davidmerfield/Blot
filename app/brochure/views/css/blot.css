@@ -501,8 +501,8 @@ ul.qa-questions li {
   margin-bottom: 2em;
 }
 .qa-item-container pre {
-  max-width: 637px;
-  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 .qa-item-container :nth-last-child(2) {
   margin-bottom: 0.15em;
