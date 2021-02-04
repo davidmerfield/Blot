@@ -1,7 +1,9 @@
 <h1>{{topic.title}}</h1>
 <div class="qa-item-container">
   {{{topic.body}}}
-  <span class="secondary-text smaller">{{formatDaytime topic.created_at}}</span>
+  <a href="/questions/{{topic.id}}">
+    <span class="secondary-text smaller">{{formatDaytime topic.created_at}}</span>
+  </a>
 </div>
 
 {{#if topics}}
