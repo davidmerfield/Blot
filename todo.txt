@@ -19,6 +19,8 @@ Write script to identify and safely delete long overdue users
 
 ---
 
+Extend the Markdown converted to add support for Ulysses highlighting and iAWriter highlighting syntax, using the [example files provided by Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb). Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb)
+
 Server changes
 - Write useful benchmark tool for Blot
 - Add memory monitor
