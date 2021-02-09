@@ -7,7 +7,7 @@ describe("git client sync", function() {
 
   var fs = require("fs-extra");
   var async = require("async");
-  var sync = require("../sync");
+  var sync = require("clients/git/sync");
   var basename = require("path").basename;
   var dirname = require("path").dirname;
 

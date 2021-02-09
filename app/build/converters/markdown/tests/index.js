@@ -44,6 +44,9 @@ describe("markdown converter", function() {
   it("handles return characters", from("/return-character.txt"));
   it("converts basic markdown", from("/basic-post.txt"));
   it("converts a list", from("/list.txt"));
+  it("converts a list with non-nigit characters", from("/list-with-non-digits.txt"));
+  it("converts a list with capital non-nigit characters", from("/list-with-capital-non-digits.txt"));
+  it("converts a list with custom numbers", from("/list-with-custom-numbers.txt"));
   it("converts a list with tasks", from("/list-with-tasks.txt"));
   it("handles pre-formatted indentation", from("/pre-formatted-indents.txt"));
 

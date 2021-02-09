@@ -3,7 +3,7 @@ var renderFolder = require("./renderFolder");
 var breadcrumbs = require("./breadcrumbs");
 var determinePath = require("./determinePath");
 var router = require("express").Router();
-var debug = require("../../debug");
+var debug = require("dashboard/debug");
 
 router
   .use(function(req, res, next) {

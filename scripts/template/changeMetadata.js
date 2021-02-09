@@ -1,5 +1,5 @@
 var eachTemplate = require('../each/template');
-var Template = require('../../app/models/template');
+var Template = require('models/template');
 
 eachTemplate(function(user, blog, template, next){
 

@@ -8,7 +8,7 @@ var SUPPORTED_EXTENSIONS = ['.txt', '.md'];
 var FORMAT = 'M/D/YY';
 require("moment-timezone");
 get(process.argv[2], function(err, user, blog) {
-  var client = require("../../app/clients")[blog.client];
+  var client = require("clients")[blog.client];
   Entries.each(
     blog.id,
     function(entry, next) {

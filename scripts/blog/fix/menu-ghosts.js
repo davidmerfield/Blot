@@ -1,5 +1,5 @@
-var Entry = require("../../../app/models/entry");
-var Blog = require("../../../app/models/blog");
+var Entry = require("models/entry");
+var Blog = require("models/blog");
 var async = require("async");
 var yesno = require("yesno");
 var host = require("../../../config").host;

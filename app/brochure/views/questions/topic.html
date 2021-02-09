@@ -1,0 +1,57 @@
+<h1>{{topic.title}}</h1>
+<div class="qa-item-container">
+  {{{topic.body}}}
+  <a href="/questions/{{topic.id}}">
+    <span class="secondary-text smaller">{{formatDaytime topic.created_at}}</span>
+  </a>
+</div>
+
+{{#if topics}}
+<h2>Replies</h2>
+{{#topics}}
+<div class="qa-item-container">
+    {{{body}}}
+    <span class="secondary-text smaller">{{formatDaytime created_at}}</span>
+</div>
+{{/topics}}
+{{/if}}
+
+{{#unless topics}}
+<h2>No replies yet</h2>
+{{/unless}}
+
+{{#unless user}}
+<p>Please, <a href="/log-in">log in</a> to add a reply.</p>
+{{/unless}}
+
+{{#if user}}
+<br>
+<div style="max-width: 637px;">
+<form method="POST" action="/questions/{{topic.id}}/new" id="new-reply-form" class="qa-form">
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
+  <div>
+    <textarea type="text" name="body" id="body" placeholder="Your reply..."></textarea>
+  </div>
+  <div class="qa-form-actionarea">
+    <button id="post-reply-button" class="whitebutton">Add reply</button>
+    <span class="secondary-text">Markdown allowed</span>
+  </div>
+</form>
+</div>
+
+<script>
+  var buttonEl = document.getElementById('post-reply-button');
+  var bodyEl = document.getElementById('body');
+
+  function updateQuestionButtonState() {
+    if (bodyEl.value.trim() === '') {
+      buttonEl.setAttribute('disabled', '');
+    } else {
+      buttonEl.removeAttribute('disabled');
+    }
+  }
+
+  updateQuestionButtonState();
+  bodyEl.addEventListener('keyup', updateQuestionButtonState);
+</script>
+{{/if}}

@@ -1,7 +1,7 @@
 
 var redis = require('redis').createClient(),
     _ = require('lodash'),
-    Blog = require('../../app/models/blog');
+    Blog = require('models/blog');
 
 var handle = process.argv[2];
 

@@ -8,8 +8,8 @@ var handle = process.argv[2];
 var filePath = process.argv[3],
     p = require('path'),
     downloadsDir = p.resolve(__dirname + '/../tmp/downloads'),
-    User = require('../app/models/user'),
-    Blog = require('../app/models/blog');
+    User = require('models/user'),
+    Blog = require('models/blog');
 
 var fs = require('fs');
 

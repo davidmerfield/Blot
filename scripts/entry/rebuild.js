@@ -1,5 +1,5 @@
 var get = require("../get/entry");
-var sync = require("../../app/sync");
+var sync = require("sync");
 var wipeCaches = require("./wipe-image-and-thumbnail-cache");
 
 if (!process.argv[2]) {

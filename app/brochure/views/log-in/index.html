@@ -22,6 +22,7 @@
 
 
 
+
 {{#BADTOKEN}}
   <p class="error">This link has expired or had already been clicked.</p>
   {{/BADTOKEN}}
@@ -46,13 +47,16 @@
 <form method="POST">
 
   <input type="hidden" name="email" value="{{email}}" />
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
 
   <p style="margin-top: 0;margin-bottom: 24px">Welcome back! Please <input type="submit" class="link" name="reset" value="reset your password"> or <a href="/support" style="color:inherit;">contact support</a> if you cannot log in.</p>
 </form>
 
 
 <form method="POST">
-  <p style="margin-top: 0">
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
+
+  <p>
     <label for="email">Your email address</label>
     <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
   </p>

@@ -1,9 +1,9 @@
 describe("date integration tests", function() {
-	const sync = require("../../app/sync");
-	const blogServer = require("../../app/blog");
+	const sync = require("sync");
+	const blogServer = require("blog");
 	const fs = require("fs-extra");
-	const Blog = require("../../app/models/blog");
-	const Template = require("../../app/models/template");
+	const Blog = require("models/blog");
+	const Template = require("models/template");
 	const request = require("request");
 	const Express = require("express");
 	const config = require("../../config");

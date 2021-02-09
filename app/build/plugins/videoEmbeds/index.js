@@ -1,5 +1,5 @@
 var url = require("url");
-var eachEl = require("../eachEl");
+var eachEl = require("build/plugins/eachEl");
 var punycode = require("punycode");
 
 var Players = {

@@ -74,7 +74,7 @@ describe("asset middleware", function() {
         next();
       });
 
-      ctx.server.use(require("../assets"));
+      ctx.server.use(require("blog/assets"));
 
       try {
         ctx.server = ctx.server.listen(port);

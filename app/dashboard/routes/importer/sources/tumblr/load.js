@@ -4,7 +4,7 @@ var API_KEY = process.env.BLOT_TUMBLR_KEY;
 var URL_TEMPLATE =
   "http://api.tumblr.com/v2/blog/{{url}}/{{resource}}?api_key={{API_KEY}}";
 var request = require("request");
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 var for_each = helper.for_each;
 var parse = require("url").parse;
 

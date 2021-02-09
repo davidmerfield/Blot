@@ -1,5 +1,5 @@
 var redis = require('redis').createClient();
-var forEach = require('../../app/helper/forEach');
+var forEach = require('helper/forEach');
 
 var SCHEMES = [
   'blog:*:sync:queue',

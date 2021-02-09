@@ -5,6 +5,7 @@
 // with the following relevant properties:
 // { "link": "http://example.com", "host": "example.com" }
 
+var config = require("config");
 var request = require("request");
 var Blog = require("blog");
 var Template = require("template");
@@ -37,6 +38,10 @@ function filter(sites, callback) {
 }
 
 function verify(domain, callback) {
+  if (config.environment === "development") {
+    return callback(null, { id: "SITE:diary" });
+  }
+
   Blog.get({ domain: domain }, function (err, blog) {
     if (err) return callback(err);
 

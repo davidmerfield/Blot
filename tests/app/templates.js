@@ -1,6 +1,6 @@
 describe("Blot broken links", function() {
-  var buildTemplates = require("../../app/templates");
-  var dashboard = require("../../app/dashboard");
+  var buildTemplates = require("templates");
+  var dashboard = require("dashboard");
   var broken = require("../util/broken");
 
   it(

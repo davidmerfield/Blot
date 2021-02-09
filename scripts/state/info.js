@@ -11,9 +11,9 @@ var colors = require("colors/safe");
 var exec = require("child_process").exec;
 
 var access = require("../access");
-var getFolder = require("../../app/clients/dropbox/database").get;
-var getToken = require("../../app/clients/git/database").getToken;
-var clients = require("../../app/clients");
+var getFolder = require("clients/dropbox/database").get;
+var getToken = require("clients/git/database").getToken;
+var clients = require("clients");
 
 var ROOT = process.env.BLOT_DIRECTORY;
 var BLOG_FOLDERS_DIRECTORY = ROOT + "/blogs";

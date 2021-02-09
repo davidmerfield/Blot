@@ -53,6 +53,7 @@
     <p style="margin-top:4px">{{price}}</p>
   </div>
   <input type="submit" value="Sign up" onclick="this.classList.add('working')"/>
+  <input type="hidden" name="_csrf" value="{{csrf}}" />
   <input type="hidden" class="stripeToken" name="stripeToken" />
 </form>
 

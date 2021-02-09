@@ -1,7 +1,7 @@
 var fs = require("fs-extra");
 var join = require("path").join;
 var cheerio = require("cheerio");
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 
 var insert_video_embeds = helper.insert_video_embeds;
 var determine_path = helper.determine_path;

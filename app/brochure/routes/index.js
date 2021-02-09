@@ -3,7 +3,7 @@ var brochure = new Express.Router();
 var finder = require("finder");
 var tex = require("./tools/tex");
 var config = require("config");
-var titleFromSlug = require("../../../app/helper/titleFromSlug");
+var titleFromSlug = require("helper/titleFromSlug");
 
 var TITLES = {
   how: "How to use Blot",
@@ -111,6 +111,8 @@ brochure.use("/about/news", require("./news"));
 brochure.use("/sign-up", require("./sign-up"));
 
 brochure.use("/log-in", require("./log-in"));
+
+brochure.use("/questions", require("./questions"));
 
 brochure.use("/how/guides/domain", function (req, res, next) {
   res.locals.ip = config.ip;
