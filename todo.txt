@@ -28,14 +28,18 @@ Server changes
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 - Experiment with different EBS types, perhaps try to rely on ephemeral disk more?
 
-Improve questions section of site:
-  - email notifications (There's an existing system in place for sending emails, which we could easily add to for the various notifications)
-  - question tagging
-  - topic/reply editing/deletion
+Improve questions section of site, in approximate order of importance:
+  - email notifications (There's an existing system in place for sending emails in app/helper/email)
+  - topic/reply editing/deletion moderation
+  - show date next to question in index in format: 'asked Feb 12 '21 at 19:07'
+  - add pagination to index in following format: 
+    [1] 2 3 4 5 ... 945 Next                163,073 questions 
+  - question tagging, including a list of all tags, and popular tags
   - upvoting for topics and upvote-based ranking on the topic index
-  - usernames / identities associated with topics / replies
-  - question search
+  - show vote count and answer count next to each question on index
+  - add a filter for topic index to show questions by: 'Newest', 'Active', 'Unanswered', 'Votes'
   - 'run code snippet' feature / similar to trinkets.io
+  - question search
 
 ---
 
