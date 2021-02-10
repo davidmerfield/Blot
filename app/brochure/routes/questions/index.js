@@ -20,7 +20,7 @@ const pool = new Pool({
 // Can be used like so: {{{formatDaytime D}}} where D is timestamp (e.g. from a DB)
 hbs.registerHelper("formatDaytime", function (timestamp) {
   try {
-    timestamp = moment.utc(timestamp).startOf("minute").fromNow();
+    timestamp = moment.utc(timestamp).format("MMM Do [']YY [at] H:mm");
   } catch (e) {
     timestamp = "";
   }
