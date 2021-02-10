@@ -31,7 +31,6 @@ Server changes
 Improve questions section of site, in approximate order of importance:
   - email notifications (There's an existing system in place for sending emails in app/helper/email)
   - topic/reply editing/deletion moderation
-  - show date next to question in index in format: 'asked Feb 12 '21 at 19:07'
   - add pagination to index in following format: 
     [1] 2 3 4 5 ... 945 Next                163,073 questions 
   - question tagging, including a list of all tags, and popular tags
