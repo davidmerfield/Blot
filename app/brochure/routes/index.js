@@ -12,29 +12,31 @@ var TITLES = {
   domain: "Use your domain",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   "json-feed": "JSON feed",
-  "posts-tagged": "A page with posts with a particular tag"
+  "posts-tagged": "A page with posts with a particular tag",
 };
 
-// Minifies HTML
-brochure.use(require("./tools/minify-html"));
+if (config.cache) {
+  // Minifies HTML
+  brochure.use(require("./tools/minify-html"));
+
+  // Inlines all CSS properties
+  brochure.use(require("./tools/inline-css"));
+}
 
 brochure.use(function (req, res, next) {
-  if (req.url === '/') return next();
+  if (req.url === "/") return next();
 
   res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
     if (!slug) return { label: "Home", url: "/" };
     return {
       label: TITLES[slug] || titleFromSlug(slug),
       url: arr.slice(0, i + 1).join("/"),
-      last: i === (arr.length - 1)
+      last: i === arr.length - 1,
     };
   });
 
   next();
 });
-
-// Inlines all CSS properties
-brochure.use(require("./tools/inline-css"));
 
 // Renders the folders and text editors
 brochure.use(finder.middleware);
@@ -86,7 +88,6 @@ brochure.use("/account", function (req, res, next) {
   res.set("X-Robots-Tag", "noindex");
   next();
 });
-
 
 brochure.use("/fonts", require("./fonts"));
 

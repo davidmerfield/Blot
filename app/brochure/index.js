@@ -5,9 +5,24 @@ var hbs = require("hbs");
 var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var moment = require("moment");
+var fs = require("fs-extra");
 
-// Configure the template engine for the brochure site
-hbs.registerPartials(__dirname + "/views/partials");
+const VIEW_DIRECTORY = __dirname + "/views";
+const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
+
+const loadPartial = (partial) => {
+  let name = partial.slice(0, partial.indexOf("."));
+  let value = fs.readFileSync(PARTIAL_DIRECTORY + "/" + partial, "utf-8");
+  hbs.registerPartial(name, value);
+};
+
+fs.readdirSync(PARTIAL_DIRECTORY).forEach(loadPartial);
+
+if (!config.cache) {
+  fs.watch(PARTIAL_DIRECTORY, { recursive: true }, (type, partial) =>
+    loadPartial(partial)
+  );
+}
 
 // Renders dates dynamically in the documentation.
 // Can be used like so: {{{date 'MM/YYYY'}}}
@@ -26,7 +41,7 @@ hbs.registerHelper("date", function (text) {
 // rate-limiter, because this app sits behind nginx
 brochure.set("trust proxy", "loopback");
 
-brochure.set("views", __dirname + "/views");
+brochure.set("views", VIEW_DIRECTORY);
 brochure.set("view engine", "html");
 brochure.engine("html", hbs.__express);
 
@@ -71,9 +86,7 @@ brochure.use(function (req, res, next) {
 // views folder in lieu of using the render definied in ./routes below.
 // Without 'redirect: false' this will redirect URLs to existent directories
 // adding an undesirable trailing slash.
-brochure.use(
-  Express.static(__dirname + "/views", { index: false, redirect: false })
-);
+brochure.use(Express.static(VIEW_DIRECTORY, { index: false, redirect: false }));
 
 // Now we actually load the routes for the brochure website.
 brochure.use(require("./routes"));
