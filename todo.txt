@@ -64,6 +64,8 @@ Rewrite transformer
 
 Add a timeout of 15 seconds for building posts.
 
+Add a template setting for LICENSE which would create a footer item saying 'Copyright {{DATE}} under {{LICENSE}}' and tell [Romain](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSbpdFCZgrwdXJRxqglhnRpp)
+
 Add a 'page link format' option to the dashboard – the link format now only applies to entries. Tell [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKkbjLjgTZLQqMFFMzBBpzMZTg)
 - Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
