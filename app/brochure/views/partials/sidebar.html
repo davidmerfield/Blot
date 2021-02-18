@@ -138,6 +138,7 @@
       <li><a class="{{selected.support}}" href="/support">Support</a></li>
    </ul>
    {{#if headers.length}}
+   {{#if show-on-this-page}}
    <section class="on-this-page">
       On this page
       <ul>
@@ -148,6 +149,7 @@
          {{/headers}}
       </ul>
    </section>
+   {{/if}}
    {{/if}}
 </nav>
 <script type="text/javascript">

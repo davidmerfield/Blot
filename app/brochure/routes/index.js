@@ -25,6 +25,11 @@ if (config.cache) {
   brochure.use(require("./tools/inline-css"));
 }
 
+brochure.get(['/how/guides/*'], function(req, res, next){
+  res.locals['show-on-this-page'] = true;
+  next();
+});
+
 brochure.use(function (req, res, next) {
   res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
     if (!slug) return { label: "Blot", first: true, url: "/" };
