@@ -26,6 +26,23 @@ input[name="toggle"] {
   display: block;
 }
 
+.sidebar  a:before {
+  content: "";
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  margin-top: -4px;
+  border:1px solid rgba(0,0,0,0.2);
+  width: 2px;
+  height: 2px;
+  border-radius: 100%;
+}
+.sidebar a.selected:before,
+.sidebar a:focus:before,
+.sidebar a:active:before {
+  background: rgba(0,0,0,0.2);
+}
 .sidebar {
   margin: 0;
   list-style: none;
@@ -85,11 +102,14 @@ nav a.selected:hover {
 }
 .sidebar ul ul {display: none;}
 .sidebar > li > ul {
-  padding-left: 1rem;
+  /*padding-left: 1rem;*/
 }
 
+.sidebar a {
+    padding-left: 16px;
+
+}
 .sidebar > li >  a {
-  padding-left: 16px;
 /*  background: rgba(0,0,0,0.02);
 */  border-bottom: 1px solid rgba(0,0,0,.05);
   padding-top: 6px;
@@ -101,9 +121,7 @@ nav a.selected:hover {
   border-bottom: none;
 }
 
-.sidebar > li > ul > li> a {
-  padding-left: 0;
-}
+
 
 .sidebar > li > ul > li > ul > li > a {
   padding-left: 1rem;
