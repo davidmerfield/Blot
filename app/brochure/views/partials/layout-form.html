@@ -1,14 +1,13 @@
 {{> head}}
 <body>
-      <div style="max-width:435px;margin: 0 auto">
-        <br><br>
-      <!--   <center>
- <p style="margin:0;color:grey;padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Create a blog</strong>Sign up</p>
-</center> -->
-        <!-- <center><a href="/"><img src="/logo.svg" width="28"></a></center> -->
-  <br><br>
+      <div style="max-width:435px;margin: 0 auto;display: flex;flex-direction: column;justify-content: center;min-height: 100vh">
 
-<div class="form-container" style="padding-top: 16px">
+<div class="form-container" style="padding-top: 16px;color:;position: relative;">
+	<a href="/" style="position: absolute;top: 0;right: 0;padding: 1rem">
+        	      <svg id="hider" style="width: 0.75rem; height: 0.75rem;">
+         <line x1="0" y1="0" x2="100%" y2="100%" stroke="#888"></line>
+         <line x1="0" y1="100%" x2="100%" y2="0%" stroke="#888"></line>
+      </svg></a>
         {{{body}}}
         </div>
       </div>
