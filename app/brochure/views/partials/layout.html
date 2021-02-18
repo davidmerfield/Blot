@@ -1,34 +1,35 @@
 {{> head}}
 <body>
-  <header>
-      <nav>
-        <div class="container">
-        <a style="color: #000;font-weight: 600" class="{{selected.index}}" title="Blot" href="/" >Blot</a>
-      </div>
-      </nav>
-      <content>
-        <div class="container">
-          {{> breadcrumbs}}
-      </div>
-      </content>
-      <section class="links">
-        <div class="container">
-        <label for="toggle">Menu</label>
-        {{#unless user}}
-        <a href="/sign-up">Sign up</a>
-        <a href="/log-in">Log in</a>
-        {{/unless}}
-        {{#if user}}
-        <a href="/">Your account</a>
-        <a href="/contact">Contact</a>
-        {{/if}}
-      </div>
-      </section>
-  </header>
-  <main>
-    {{> sidebar}}
-    <content><div class="container">{{{body}}}</div></content>
-  </main>
-  {{> footer}}
+ <style type="text/css">
+	.doc-wrapper{min-height: 100vh}
+	.doc-left {grid-column-start: 9;grid-column-end: 11;margin-top: 0rem;padding-top: 3rem}
+	.doc-right {grid-column-start: 3;grid-column-end: 9;margin-top: 3rem;padding-right: 4rem}
+
+	.sidebar {border:1px solid rgba(0,0,0,0.1);border-radius: 6px}
+	
+	@media screen and (max-width: 800px) {
+		.doc-left {padding: 0;grid-column-start: 1;grid-column-end: 12;grid-row: 1}
+			.doc-right {grid-row:2;grid-column-start: 1;grid-column-end: 12;margin-top: 1.5rem;padding: 1rem 1.5rem}
+			.grid {padding: 0 0}
+		.sidebar {border:none;margin-top: 3rem}
+
+	}
+
+</style>
+<div class="doc-wrapper">    
+  <div class="grid">
+    <div class="doc-right">
+			{{> breadcrumbs}}
+      <div style="clear: both;">
+      {{{body}}}
+    	</div>
+  	</div>   
+  	<div class="doc-left">
+			{{> sidebar}}
+		</div>
+
+  </div>
+</div>
+{{> footer}}
 </body>
 </html>

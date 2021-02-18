@@ -7,13 +7,16 @@ input[type="password"] {
 input[type="submit"] {
   background: #0079fc;
   border-radius: 4px;
+  -webkit-appearance: none; 
   padding: 0.75em 1em;
   color: white;
   margin: 1em 0;
+  width: 100%;
   border: none;
   cursor: pointer;
+  font: inherit;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 input[type="submit"]:focus {
@@ -57,6 +60,7 @@ input[type="password"] {
   margin: 2px 0;
   font-size: 17px;
   padding: 10px;
+  border-radius: 3px;
   font-family: inherit;
   z-index: 1;
   position: relative;

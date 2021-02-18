@@ -31,6 +31,11 @@ form.use(function (req, res, next) {
 form
   .route("/reset")
 
+  .all(function(req, res, next){
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+    next()
+  })
+  
   .get(csrf, function (req, res) {
     res.locals.csrf = req.csrfToken();
     res.render("log-in/reset");

@@ -57,6 +57,8 @@ module.exports = function(req, res, next) {
           // we need to skip font-face here...
           if (selector.indexOf("@font-face") > -1) return true;
 
+          if (selector.indexOf("@import") > -1) return true;
+
           // we need to skip font-face here...
           if (selector.indexOf("working") > -1) return true;
           

@@ -1,25 +1,16 @@
 {{> head}}
 <body>
-  <header>
-      <nav>
-        <div class="container">
-        <a style="color: #000;font-weight: 600" class="underline-on-hover {{selected.index}}" title="Blot" href="/" >Blot</a>
+      <div style="max-width:435px;margin: 0 auto">
+        <br><br>
+      <!--   <center>
+ <p style="margin:0;color:grey;padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Create a blog</strong>Sign up</p>
+</center> -->
+        <!-- <center><a href="/"><img src="/logo.svg" width="28"></a></center> -->
+  <br><br>
+
+<div class="form-container" style="padding-top: 16px">
+        {{{body}}}
+        </div>
       </div>
-      </nav>
-      <content>
-        <div class="container">
-          {{> breadcrumbs}}
-      </div>
-      </content>
-      
-  </header>
-  <main>
-    <nav>
-      <div class="container">
-      </div>
-    </nav>
-    <content><div class="container">{{{body}}}</div></content>
-  </main>
-  {{> footer}}
 </body>
 </html>

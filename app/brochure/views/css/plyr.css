@@ -17,6 +17,7 @@ overlay.show {
 
 overlay {
   display: flex;
+  background: #e3ad7b;
   flex-direction: column;
 }
 
@@ -40,50 +41,15 @@ overlay {
 }
 
 overlay .close {
-  height: 1.4em;
-  margin-bottom: 3em;
-  margin-right: -1.2em;
-  width: fit-content;
-  position: relative;
-  border-radius: 0;
-  text-align: center;
-  padding: 4px 2.2em 4px 0;
-  text-align: center;
-  -webkit-font-smoothing: antialiased;
-  color: #a09d9c;
+  font-size: 48px;  
+  line-height: 1;
+  text-align: right;
+  font-weight: 100;
+  padding:8px 16px 8px;
+  color: white
 }
 
-overlay .close:before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 22px;
-  width: 7px;
-  height: 7px;
-  margin: -3px 0 0 -10px;
-  border-top: solid 1px #95908b;
-  border-right: solid 1px #95908b;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  content: "";
-}
-
-overlay .close:after {
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  width: 7px;
-  height: 7px;
-  margin: -3px 0 0 -10px;
-  border-top: solid 1px #95908b;
-  border-right: solid 1px #95908b;
-  -webkit-transform: rotate(225deg);
-  -ms-transform: rotate(225deg);
-  transform: rotate(225deg);
-  content: "";
-}
+overlay .close:hover {text-decoration: none;}
 
 @keyframes plyr-progress {
   to {
@@ -117,10 +83,7 @@ overlay .close:after {
   -moz-osx-font-smoothing: auto;
   -webkit-font-smoothing: subpixel-antialiased;
   direction: ltr;
-  font-family: Avenir, "Avenir Next", "Helvetica Neue", "Segoe UI", Helvetica,
-    Arial, sans-serif;
   font-variant-numeric: tabular-nums;
-  font-weight: 500;
   line-height: 1.7;
   max-width: 100%;
   min-width: 200px;
@@ -227,7 +190,7 @@ overlay .close:after {
 }
 
 .plyr:not(.plyr--hide-controls) .plyr__controls:not(:empty) ~ .plyr__captions {
-  transform: translateY(-40px);
+  opacity: 1
 }
 
 .plyr__control {
@@ -279,7 +242,7 @@ a.plyr__control::before {
 .plyr--audio .plyr__control.plyr__tab-focus,
 .plyr--audio .plyr__control:hover,
 .plyr--audio .plyr__control[aria-expanded="true"] {
-  background: #1aafff;
+  background: #0079fc;
   color: #fff;
 }
 
@@ -290,7 +253,7 @@ a.plyr__control::before {
 .plyr--video .plyr__control.plyr__tab-focus,
 .plyr--video .plyr__control:hover,
 .plyr--video .plyr__control[aria-expanded="true"] {
-  background: #1aafff;
+  background: #0079fc;
   color: #fff;
 }
 
@@ -316,7 +279,7 @@ a.plyr__control::before {
 
 .plyr__control--overlaid:focus,
 .plyr__control--overlaid:hover {
-  background: #1aafff;
+  background: #0079fc;
 }
 
 .plyr--playing .plyr__control--overlaid {
@@ -382,16 +345,9 @@ a.plyr__control::before {
 }
 
 .plyr--video .plyr__controls {
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
-  border-bottom-left-radius: inherit;
-  border-bottom-right-radius: inherit;
-  bottom: 0;
   color: #fff;
-  left: 0;
   padding: 20px 5px 5px;
-  position: absolute;
-  right: 0;
-  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out,;
   z-index: 3;
 }
 
@@ -617,7 +573,7 @@ a.plyr__control::before {
 
 .plyr__menu__container
   .plyr__control[role="menuitemradio"][aria-checked="true"]::before {
-  background: #1aafff;
+  background: #0079fc;
 }
 
 .plyr__menu__container
@@ -647,7 +603,7 @@ a.plyr__control::before {
   background: 0 0;
   border: 0;
   border-radius: 28px;
-  color: #1aafff;
+  color: #0079fc;
   display: block;
   height: 20px;
   margin: 0;
@@ -972,8 +928,12 @@ a.plyr__control::before {
 }
 
 .plyr--video {
-  background: #000;
+  background: #e3ad7b;
   overflow: hidden;
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  flex-direction: column-reverse;
 }
 
 .plyr--video.plyr--menu-open {
@@ -981,11 +941,13 @@ a.plyr__control::before {
 }
 
 .plyr__video-wrapper {
-  background: #000;
+  background: #e3ad7b;
   border-radius: inherit;
   overflow: hidden;
   position: relative;
   z-index: 0;
+  flex-grow: 1;
+  display: flex;  
 }
 
 .plyr__progress {
@@ -1116,7 +1078,7 @@ a.plyr__control::before {
 }
 
 .plyr:-webkit-full-screen {
-  background: #000;
+  background: #e3ad7b;
   border-radius: 0 !important;
   height: 100%;
   margin: 0;
@@ -1124,7 +1086,7 @@ a.plyr__control::before {
 }
 
 .plyr:-moz-full-screen {
-  background: #000;
+  background: #e3ad7b;
   border-radius: 0 !important;
   height: 100%;
   margin: 0;
@@ -1132,7 +1094,7 @@ a.plyr__control::before {
 }
 
 .plyr:-ms-fullscreen {
-  background: #000;
+  background: #e3ad7b;
   border-radius: 0 !important;
   height: 100%;
   margin: 0;
@@ -1140,7 +1102,7 @@ a.plyr__control::before {
 }
 
 .plyr:fullscreen {
-  background: #000;
+  background: #e3ad7b;
   border-radius: 0 !important;
   height: 100%;
   margin: 0;
@@ -1290,7 +1252,7 @@ a.plyr__control::before {
 }
 
 .plyr:-webkit-full-screen {
-  background: #000;
+  background: #e3ad7b;
   border-radius: 0 !important;
   height: 100%;
   margin: 0;
@@ -1335,7 +1297,7 @@ a.plyr__control::before {
 }
 
 .plyr:-moz-full-screen {
-  background: #000;
+  background: #e3ad7b;
   border-radius: 0 !important;
   height: 100%;
   margin: 0;

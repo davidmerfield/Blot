@@ -42,7 +42,6 @@ const CSS_DIR = require("path").resolve(
 const CSS_FILES = [
 	"blot.css",
 	"breadcrumbs.css",
-	"header.css",
 	"inputs.css",
 	"sidebar.css",
 ];

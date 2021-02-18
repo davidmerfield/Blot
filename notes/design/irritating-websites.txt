@@ -5,7 +5,7 @@ I am often annoyed when I browse the internet. This annoyance is a powerful moti
 ## When the layout changes as the page loads
 
 I dislike when the layout of the page shifts around as it loads, especially when the page takes a long time to load. It upsets me when I try to click on a link, only for the page layout to shift under your finger as an image off the screen finally makes its way down the pipes. Common remedies to your website's shifting layout: 
-- specify the width and height of images in your site's HTML markup, meaning the browser has to adjust the layout of the page as it determines the dimensions of the loaded image. The solution is to work out the width and height of images on the server, and deliver the HTML to the browser with this information. You can use a different strategy for [responsive images](/notes/programming/responsive-images) to achieve the same result: as the image loads, the layout remains the same.
+- specify the width and height of images in your site's HTML markup, meaning the browser has to adjust the layout of the page as it determines the dimensions of the loaded image. The solution is to work out the width and height of images on the server, and deliver the HTML to the browser with this information. You can use a different strategy for [responsive images](/about/notes/programming/responsive-images) to achieve the same result: as the image loads, the layout remains the same.
 - block out the space required by content loaded after your page has been rendered. You can almost always determine in advance the aspect ratio of advertising inserts or embedded media.
 
 ## When the text is hard to read

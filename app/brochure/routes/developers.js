@@ -9,7 +9,7 @@ var TITLES = {
 
 
 developers.use(function(req, res, next) {
-  res.locals.base = "/developers";
+  res.locals.base = "/templates/developers";
   
   var url = req.originalUrl;
   let slug = url.split("/").pop();
@@ -31,15 +31,15 @@ developers.param("subsection", function(req, res, next) {
 
 developers.get("/", function(req, res) {
   res.locals.title = "Developers - Blot";
-  res.render("developers");
+  res.render("templates/developers");
 });
 
 developers.get("/:section", function(req, res) {
-  res.render("developers/" + req.params.section);
+  res.render("templates/developers/" + req.params.section);
 });
 
 developers.get("/:section/:subsection", function(req, res) {
-  res.render("developers/" + req.params.section + "/" + req.params.subsection);
+  res.render("templates/developers/" + req.params.section + "/" + req.params.subsection);
 });
 
 module.exports = developers;
