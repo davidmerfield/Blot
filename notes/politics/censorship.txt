@@ -22,4 +22,4 @@ At some point in future, I suspect Blot will be blocked in one country or anothe
 
 ## What if I still disagree with you?
 
-I do think that reasonable people can disagree about the principle of free speech. We've been arguing this principle for thousands of years and the debate will go on. Blot's [source-code](/notes/politics/open-source) is dedicated to the public domain. You can host it on your own server if you like.
+I do think that reasonable people can disagree about the principle of free speech. We've been arguing this principle for thousands of years and the debate will go on. Blot's [source-code](/about/notes/politics/open-source) is dedicated to the public domain. You can host it on your own server if you like.

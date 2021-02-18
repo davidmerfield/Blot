@@ -57,9 +57,13 @@ Questions.get("/", function (req, res) {
                 GROUP BY i.id, last_reply_created_at
                 ORDER BY last_reply_created_at, i.created_at DESC NULLS LAST`
     )
-    .then((topics) =>
-      res.render("questions", { title: "Blot — Questions", topics: topics.rows })
-    )
+    .then((topics) => {
+      topics = topics.rows.map((topic) => {
+        topic.singular = topic.reply_count == 1;
+        return topic;
+      });
+      res.render("questions", { title: "Blot — Questions", topics: topics });
+    })
     .catch((err) => {
       throw err;
     });
@@ -127,7 +131,8 @@ Questions.route("/:id").get(csrf, function (req, res) {
         .then((replies) => {
           let topic = topics.rows[0];
           topic.body = marked(topic.body);
-          res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label = topic.title;
+          res.locals.breadcrumbs[res.locals.breadcrumbs.length - 1].label =
+            topic.title;
           replies.rows.forEach(
             (el, index) => (replies.rows[index].body = marked(el.body))
           );

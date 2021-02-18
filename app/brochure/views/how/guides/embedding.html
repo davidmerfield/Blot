@@ -1,5 +1,4 @@
 <h1>Embedding</h1>
-<p class="back-link"><a href="/how/guides">View all guides</a></p>
 
 <p>Links to certain sites are automatically transformed into embedded versions. You can disable this in <a href="/settings/services">settings</a>. At the moment, the following services are supported:
 
@@ -37,3 +36,16 @@ Will be converted to HTML like this:
 
 <h2>Bandcamp</h2>
 <p>Links to Bandcamp tracks and albums are rendered via the standard Bandcamp embedded player. Audio does not auto-play.</p>
+
+<h2>Embed an image in a post</h2>
+
+<p>An image in your blog’s folder becomes its own blog post by default. However, you can <a href="#prevent">prevent a ﬁle becoming a blog post</a> if you start its name starts with an un­der­score. Then you can use <a href="/how/guides">Markdown</a> to embed the image in a text file:</p>
+
+<pre class="text with-chrome" title="Post.txt"><code>Here’s how to embed an image in your folder. Note the image’s name starts with an underscore to prevent it becoming its own blog post:
+
+![Image title](/path/to/the/_image.jpg)
+
+Absolute paths are resolved with your blog’s folder as root. Relative paths are resolved from the location of this file. You can also embed an image that’s already on the internet:
+
+![Image title](https://url.of/the/image.jpg)
+</code></pre>

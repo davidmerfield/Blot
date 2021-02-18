@@ -16,7 +16,7 @@ if (config.environment === "development")
   });
 
 notes.use(function(req, res, next) {
-  res.locals.base = "/notes";
+  res.locals.base = "/about/notes";
   next();
 });
 
@@ -27,7 +27,7 @@ notes.param("section", function(req, res, next) {
     return section;
   });
 
-  res.locals.section = "/notes/" + req.params.section;
+  res.locals.section = "/about/notes/" + req.params.section;
   next();
 });
 
@@ -81,6 +81,6 @@ notes.get("/:section/:article", function(req, res, next) {
 });
 
 notes.get(["/", "/:section/:article", "/:section"], function(req, res) {
-  res.render("notes/layout");
+  res.render("about/notes/layout");
 });
 module.exports = notes;

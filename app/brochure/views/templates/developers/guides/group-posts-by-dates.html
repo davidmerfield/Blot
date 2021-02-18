@@ -1,0 +1,16 @@
+<h1>Group posts by date</h1>
+
+<p>Add the following snippet to your template's script.js file. This assumes that all of your date elements have the class 'date'. Feel free to adjust the value of <code>dateSelector</code> as needed.</p>
+
+<pre class="code javascript">
+// CSS selector which will match all the HTML elements containing a date
+var dateSelector = '.date';
+var dates = Array.from(document.querySelectorAll(dateSelector));
+
+// Iterate over all the dates, hiding each date identical to its immediate predeccessor
+dates.reduce(function(previousDate, el){
+  if (previousDate && previousDate === el.innerHTML)
+    el.style.display='none';
+  return el.innerHTML;
+}, '');
+</pre>

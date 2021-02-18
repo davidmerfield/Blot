@@ -1,12 +1,8 @@
-<div class="breadcrumbs">
-  <ol class="breadcrumbs__list">
-    {{#breadcrumbs}}
-    <li class="breadcrumbs__list-item">
-      <a class="breadcrumbs__link" href="{{{url}}}"
-        >{{label}}</a
-      >
-    </li>
-    {{/breadcrumbs}}
-    <br />
-  </ol>
+<!-- <div style="width:100%;clear: both;overflow-x: scroll;"> -->
+<div class="breadcrumbs breadcrumbs__list" style="overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+font-size:14px;flex-grow: 1;border: 1px solid rgba(0,0,0,0.05);border-left: none;border-right: none;border-top:none;border-bottom:none;padding: 0 0 0 0">
+
+  {{#breadcrumbs}}{{#first}}<a class="breadcrumbs__link" href="{{{url}}}">Home</a>{{/first}}{{^first}}<a class="breadcrumbs__link" href="{{{url}}}">{{label}}</a>{{/first}}{{/breadcrumbs}}
 </div>

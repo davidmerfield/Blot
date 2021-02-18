@@ -6,11 +6,13 @@ var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
 
 var TITLES = {
-  how: "How to use Blot",
+  how: "How it works",
   terms: "Terms of use",
   privacy: "Privacy policy",
-  domain: "Use your domain",
+  configure: "Configuring",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
+  who: "Who uses Blot?",
+  developers: "Developer guide",
   "json-feed": "JSON feed",
   "posts-tagged": "A page with posts with a particular tag",
 };
@@ -23,11 +25,14 @@ if (config.cache) {
   brochure.use(require("./tools/inline-css"));
 }
 
-brochure.use(function (req, res, next) {
-  if (req.url === "/") return next();
+brochure.get(['/how/guides/*'], function(req, res, next){
+  res.locals['show-on-this-page'] = true;
+  next();
+});
 
+brochure.use(function (req, res, next) {
   res.locals.breadcrumbs = req.url.split("/").map(function (slug, i, arr) {
-    if (!slug) return { label: "Home", url: "/" };
+    if (!slug) return { label: "Blot", first: true, url: "/" };
     return {
       label: TITLES[slug] || titleFromSlug(slug),
       url: arr.slice(0, i + 1).join("/"),
@@ -35,6 +40,14 @@ brochure.use(function (req, res, next) {
     };
   });
 
+  if (req.url === "/") {
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, 1);
+    res.locals.breadcrumbs[0].last = true;
+  }
+
+  if (res.locals.breadcrumbs.length < 3) res.locals.hidebreadcrumbs = true;
+
+  console.log(res.locals.breadcrumbs)
   next();
 });
 
@@ -89,19 +102,23 @@ brochure.use("/account", function (req, res, next) {
   next();
 });
 
-brochure.use("/fonts", require("./fonts"));
+brochure.get("/", require("./featured"));
 
-brochure.use("/examples", require("./featured"));
+brochure.get("/", function (req, res, next) {
+  res.locals.layout = 'partials/layout-index'
+  next();
+});
+brochure.use("/fonts", require("./fonts"));
 
 brochure.get("/sitemap.xml", require("./sitemap"));
 
-brochure.use("/developers", require("./developers"));
+brochure.use("/templates/developers", require("./developers"));
 
-brochure.use("/notes", require("./notes"));
+brochure.use("/about/notes", require("./notes"));
 
 brochure.use("/templates", require("./templates"));
 
-brochure.use("/news", require("./news"));
+brochure.use("/about/news", require("./news"));
 
 brochure.use("/sign-up", require("./sign-up"));
 

@@ -1,0 +1,127 @@
+{{> head}}
+<body>
+	<style type="text/css">
+		.home-wrapper{display: flex;justify-content: center;flex-direction: column;min-height: 75vh}
+		.home-left {grid-column-start: 4;grid-column-end: 8;margin-top: 2rem}
+		.home-right {grid-column-start: 8;grid-column-end: 11;margin-top: 2rem}
+
+@media screen and (max-width: 800px) {
+  .home-left, .home-right {grid-column-start: 1;grid-column-end: 12;}
+  .home-left {grid-row: 2;}
+  .home-right {grid-row: 1;padding: 1.5rem}
+  .grid {padding: 0}
+}
+
+		.sidebar {border-right: none;}
+		.sidebar li a {padding-left: 0}
+		.sidebar ul, .sidebar:first-of-type {display: none;}
+  </style>
+  <div class="home-wrapper">
+	  <div class="grid">
+	    <div class="home-left">
+	      <div class="bod">
+	      {{{body}}}
+	    </div>
+	  </div>
+    <div class="home-right">
+    	 
+  
+      <p>Blot is a blogging platform with no interface. It turns a folder into a website. Blot gives you access to tools – blog with your favorite text-editor.</p>
+<p><a class="textli" href="/videos/publishing-with-blot.mp4" style="color: #0070e8">Watch the video<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 15.4 15.4" style="enable-background:new 0 0 15.4 15.4;" xml:space="preserve">
+<style type="text/css">
+  .st1{fill:#0070e8;}
+</style>
+<path class="st1" d="M7.7,15.4C3.4,15.4,0,11.9,0,7.7C0,3.4,3.4,0,7.7,0s7.7,3.4,7.7,7.7C15.4,11.9,11.9,15.4,7.7,15.4z M7.7,1.2
+  c-3.5,0-6.4,2.9-6.4,6.4s2.9,6.4,6.4,6.4c3.6,0,6.4-2.9,6.4-6.4S11.2,1.2,7.7,1.2z"/>
+<path class="st1" d="M6.2,10.7l4.2-2.4c0.2-0.1,0.2-0.3,0.2-0.4s-0.1-0.3-0.2-0.4L6.2,5C6,4.9,5.8,4.9,5.7,5
+  C5.5,5.1,5.4,5.3,5.4,5.5v4.8c0,0.2,0.1,0.3,0.2,0.4c0.1,0,0.2,0.1,0.2,0.1S6.1,10.8,6.2,10.7z"/>
+</svg></a>
+  </p><br>
+
+    		{{> sidebar}}
+
+        <style type="text/css">
+  .who li {position: relative;}
+  .who li .contents {display: flex}
+  .who li .text {padding-top: 2px}
+  .who li .img {width: 50px;height: 50px}
+  .who li > a {position: absolute;top: 0;left: 0;right: 0;bottom: 0}
+</style>
+
+
+    	</div>
+    </div>
+</div>
+<div>
+  <center>
+  <h2 style="border-bottom: none">Who uses Blot?</h2>
+  </center>
+
+<ul class="who" style="display: flex;flex-wrap: wrap;justify-content: center;">
+{{#featured}}
+  <li style="flex-basis: 240px;flex-grow: 1;flex-shrink: 1;max-width: 400px;min-width: 80px">
+    <span class="contents"> 
+      <span class="img">
+    <a target="_blank" rel="noopener" href="{{{link}}}">
+        <img style="border: 2px solid {{color}};border-radius: 100px" src="{{{favicon}}}" /></a>
+      </span>
+      <span class="text">
+        <a target="_blank" rel="noopener" href="{{{link}}}"><span class="a" style="color:{{color}};">{{name}}</span></a> {{bio}}.</a> {{firstName}} uses {{#if template.custom}}a custom{{/if}}{{#unless template.custom}}the <a href="{{#if template.custom}}/templates{{/if}}{{#unless template.custom}}/templates/{{template.slug}}{{/unless}}"><span class="a" style="color:{{color}};">{{template.label}}</span></a>{{/unless}} template</a>.
+      </span>
+    </span>
+  </li>
+{{/featured}}  
+</ul>
+</div>
+<!-- Randomizes links to member sites and limit total sites to 20 -->
+<script type="text/javascript">
+var ul = document.querySelector('ul.who');
+var MAX_FEATURED = 24;
+
+for (var i = ul.children.length; i >= 0; i--) {
+  ul.appendChild(ul.children[Math.random() * i | 0]);
+}
+
+for (var x = ul.children.length - 1; x >= MAX_FEATURED; x--) {
+  ul.children[x].remove();
+}
+</script>
+<overlay>
+
+  <a href="/" class="close">×</a>
+
+  <video id="player" playsinline controls>
+    <source src="/videos/publishing-with-blot.mp4" type="video/mp4" />
+  </video>
+</overlay>
+
+
+<link
+  rel="stylesheet"
+  data-skip-inline="true"
+  href="/css/plyr.css?cache={{cacheID}}&extension=.css"
+/>
+<script src="/js/plyr.js"></script>
+<script type="text/javascript">
+  var player = new Plyr("#player", {
+    duration: 579,
+    controls: ['play-large', 'play', 'progress', 'duration', 'current-time', 'mute', 'volume', 'fullscreen']
+  });
+  document
+    .querySelectorAll('[href="/videos/publishing-with-blot.mp4"')
+    .forEach(function(el) {
+      el.onclick = function(e) {
+        document.querySelector("overlay").className += "show";
+        document.querySelector("video#player ").play();
+        window.scrollTo(0, 0);
+        e.preventDefault();
+        return false;
+      };
+    });
+</script>
+</div>
+  {{> footer}}
+</body>
+</html>
+
