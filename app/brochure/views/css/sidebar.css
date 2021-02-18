@@ -34,7 +34,6 @@ input[name="toggle"] {
   box-sizing: border-box;
   max-width: none;
   flex-shrink: 0;
-  position: sticky;
   top: 0;
   /*margin-top: 74px;*/
   align-self: flex-start;
@@ -174,4 +173,48 @@ nav a.selected:hover {
   border: solid;
   border-width: 1px 1px 0 0;
   border-color: rgba(0,0,0,0.6);
+}
+
+
+.on-this-page ul {
+  list-style: none;
+  padding: 0;
+}
+
+.on-this-page ul a {
+  color: #888;
+  text-decoration: none;
+}
+
+.on-this-page ul li.selected a {
+/*  font-weight: bold;
+*/}
+
+
+.on-this-page ul li {
+  padding-left: 1rem;
+  position: relative;
+  margin-bottom: 3px;
+  border-left: 1px solid rgba(0,0,0,0.05);
+}
+
+.on-this-page ul li:before {
+  content: " ";
+  font-size: 0.333em;
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  position: absolute;
+  top: 5px;
+  left: -4px;
+}
+
+.on-this-page ul li.selected:before {
+  background: #000
+}
+.on-this-page {
+  position: sticky;
+  top: 2rem
 }
