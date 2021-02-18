@@ -604,14 +604,10 @@ ul.who {
 
 ul.who li {
   clear: both;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 12px 36px 12px 0;
+  /*border-top: 1px solid rgba(0, 0, 0, 0.05);*/
+  padding: 24px 36px 24px 36px;
 }
 
-ul.who li:first-child {
-  padding-top: 0;
-  border-top: none;
-}
 
 ul.who li:after {
 

@@ -102,7 +102,7 @@ brochure.use("/account", function (req, res, next) {
   next();
 });
 
-brochure.get("/who", require("./featured"));
+brochure.get("/", require("./featured"));
 
 brochure.get("/", function (req, res, next) {
   res.locals.layout = 'partials/layout-index'
