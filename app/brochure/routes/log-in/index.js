@@ -51,18 +51,15 @@ form
 form
   .route("/")
 
-  .get(checkToken, csrf, function (req, res) {
-    res.locals.csrf = req.csrfToken();
+  .get(checkToken, function (req, res) {
     res.render("log-in");
   })
 
-  .post(parse, csrf, checkEmail, checkReset, checkPassword, errorHandler)
+  .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
 
   .post(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)
       return res.redirect("/log-in/reset");
-
-    res.locals.csrf = req.csrfToken();
     res.render("log-in");
   });
 
