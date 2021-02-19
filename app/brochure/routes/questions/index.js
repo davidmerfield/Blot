@@ -98,6 +98,10 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
         }
       }
 
+      if (req.params.page) {
+        res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -2);
+      }
+
       res.render("questions", {
         title: "Blot — Questions",
         topics: topics.rows,
