@@ -221,8 +221,8 @@ const bannedWordsRegEx = new RegExp(bannedWords.join("|"), "i");
 // Adjust the tense of verbs in commit message
 const commitMessageMap = {
   Adds: "Added",
-  Cleans: "Cleans",
-  Changes: "Changes",
+  Cleans: "Cleaned",
+  Changes: "Changed",
   Fixes: "Fixed",
   Finishes: "Finished",
   Improves: "Improved",
@@ -234,11 +234,11 @@ const commitMessageMap = {
 
 const commitMessageMapRegEx = new RegExp(
   Object.keys(commitMessageMap).join("|"),
-  "gi"
+  "g"
 );
 
 function loadDone(req, res, next) {
-  exec("git log -400", { cwd: helper.rootDir }, function (err, output) {
+  exec("git log -300", { cwd: helper.rootDir }, function (err, output) {
     if (err) return next(err);
 
     output = output.split("\n\n");

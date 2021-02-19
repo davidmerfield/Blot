@@ -217,7 +217,7 @@ Improvements to dashboard
 
 ---
 
-Finish template translation offers:
+Finish template translation offers
 - [Anders Norén](https://www.andersnoren.se/teman/)
 - [Radek Kozieł](https://github.com/panr)
 - Port [Jane hugo theme](https://github.com/xianmin/hugo-theme-jane) to Blot and tell Jack and Josh on micro.blog
@@ -516,7 +516,7 @@ Research state of static site generators
 - https://www.11ty.io/docs/
 - https://www.staticgen.com/
 
-Investigate support for xattr to read image metadata on Blot? Or source for dragged images? https://github.com/LinusU/fs-xattr
+Investigate [support for xattr](https://github.com/LinusU/fs-xattr) to read image metadata on Blot? Or source for dragged images? 
 
 Set NODE_ENV [environment variable to production](https://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 

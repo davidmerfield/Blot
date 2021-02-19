@@ -47,7 +47,6 @@ brochure.use(function (req, res, next) {
 
   if (res.locals.breadcrumbs.length < 3) res.locals.hidebreadcrumbs = true;
 
-  console.log(res.locals.breadcrumbs)
   next();
 });
 

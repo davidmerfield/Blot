@@ -11,7 +11,6 @@ const config = require("config");
 
 if (config.environment === "development")
   fs.watch(NOTES_DIRECTORY, { recursive: true }, function() {
-    console.log("Rebuilt TOC");
     TOC = buildTOC(NOTES_DIRECTORY);
   });
 
