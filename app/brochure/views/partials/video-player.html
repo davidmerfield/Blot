@@ -30,4 +30,14 @@
         return false;
       };
     });
+
+      document
+    .querySelectorAll('a.close').forEach(function(el) {
+      el.onclick = function(e) {
+        document.querySelector("overlay").className = "";
+        document.querySelector("video#player ").pause();
+        e.preventDefault();
+        return false;
+      };
+    });
 </script>
