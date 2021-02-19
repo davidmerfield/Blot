@@ -66,7 +66,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
                     ON r2.parent_id = i.id
                 WHERE i.is_topic = true 
                 GROUP BY i.id, last_reply_created_at
-                ORDER BY last_reply_created_at, i.created_at DESC NULLS LAST
+                ORDER BY i.created_at DESC
                 LIMIT ${TOPICS_PER_PAGE}
                 OFFSET ${offset}`
     )
