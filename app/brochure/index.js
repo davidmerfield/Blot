@@ -86,6 +86,15 @@ brochure.use(function (req, res, next) {
 // views folder in lieu of using the render definied in ./routes below.
 // Without 'redirect: false' this will redirect URLs to existent directories
 // adding an undesirable trailing slash.
+brochure.use(
+  "/fonts",
+  Express.static(VIEW_DIRECTORY + '/fonts', {
+    index: false,
+    redirect: false,
+    maxAge: 86400000,
+  })
+);
+
 brochure.use(Express.static(VIEW_DIRECTORY, { index: false, redirect: false }));
 
 // Now we actually load the routes for the brochure website.
