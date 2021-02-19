@@ -210,6 +210,33 @@ function loadToDo(req, res, next) {
   });
 }
 
+// Ignores merge commits since they're not useful to readers
+// Ignores commits mentioning 'commit' since they're not useful to readers
+// Ignores commits to yml test file since there are so many of them
+// Ignores commits to todo file since there are so many of them
+// Ignores commits with links since they're ugly
+const bannedWords = ["merge", "typo", "commit", ".yml", "todo", "://"];
+const bannedWordsRegEx = new RegExp(bannedWords.join("|"), "i");
+
+// Adjust the tense of verbs in commit message
+const commitMessageMap = {
+  Adds: "Added",
+  Cleans: "Cleans",
+  Changes: "Changes",
+  Fixes: "Fixed",
+  Finishes: "Finished",
+  Improves: "Improved",
+  Modifies: "Modified",
+  Removes: "Removed",
+  Tweaks: "Tweaked",
+  Updates: "Updated"
+};
+
+const commitMessageMapRegEx = new RegExp(
+  Object.keys(commitMessageMap).join("|"),
+  "gi"
+);
+
 function loadDone(req, res, next) {
   exec("git log -400", { cwd: helper.rootDir }, function (err, output) {
     if (err) return next(err);
@@ -224,39 +251,17 @@ function loadDone(req, res, next) {
 
         message = message[0].toUpperCase() + message.slice(1);
 
-        message = message
-          .split("Removes")
-          .join("Removed")
-          .split("Improves")
-          .join("Improved")
-                    .split("Adds")
-          .join("Added")
-          .split("Tweaks")
-          .join("Tweaked")
-          .split("Updates")
-          .join("Updated")
-          .split("Fixes")
-          .join("Fixed");
-
-        // Ignores merge commits since they're not useful to readers
-        if (message.split(" ").join("").toLowerCase().indexOf("merge") > -1)
+        if (bannedWordsRegEx.test(message)) 
           return;
+      
+        message = message.replace(commitMessageMapRegEx, function (matched) {
+          return commitMessageMap[matched];
+        });
 
-        // Ignores commits mentioning 'commit' since they're not useful to readers
-        if (message.split(" ").join("").toLowerCase().indexOf("commit") > -1)
-          return;
-
-        // Ignores commits to yml test file since there are so many of them
-        if (message.split(" ").join("").toLowerCase().indexOf(".yml") > -1)
-          return;
-
-        // Ignores commits to todo file since there are so many of them
-        if (message.split(" ").join("").toLowerCase().indexOf("todo") > -1)
-          return;
-
-        // Ignores commits with links since they're ugly
-        if (message.split(" ").join("").toLowerCase().indexOf("://") > -1)
-          return;
+        // Before: Add removal of old backups (#393)
+        // After:  Add removal of old backups
+        if (message.indexOf('(#') > -1)
+          message = message.slice(0, message.indexOf('(#'));
 
         commits.push({
           author: item
@@ -274,7 +279,7 @@ function loadDone(req, res, next) {
               item.indexOf("Author")
             )
             .trim(),
-          message: message,
+          message: message.trim(),
         });
       }
     });
@@ -292,8 +297,6 @@ function loadDone(req, res, next) {
       else commit.time = "on " + commit.time;
 
       let currentday = days[days.length - 1];
-
-      console.log("currentday is", currentday);
 
       if (currentday && currentday[0] && currentday[0].time === commit.time) {
         currentday.push(commit);

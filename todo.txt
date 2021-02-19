@@ -328,10 +328,9 @@ Add support for YAML-style custom metadata. Consider using something like Strict
 
 Add support for paying with Bitcoin and tell [Chaz](https://mail.google.com/mail/u/1/#sent/165b726aa900158a) and [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsSWMtCTdmrbscFCFLggctmxH)
 
-Add support for paths to static files with a trailing slash to work and tell [Sean](https://mail.google.
-com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
+Add support for paths to static files with a trailing slash then tell [Sean](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGBwbZsfsWKHCGcbzXXSPhQWXx)
 
-Add copy button to code snippets in <pre> tags and tell [Atif](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBVcrtzqmXGBtpLTBBjrQf)
+Add copy button to code snippets in \<pre\> tags and tell [Atif](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBVcrtzqmXGBtpLTBBjrQf)
 
 Add support for Ulysses .ulz file format and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmfFfLfBdcrrZBDxXPTtTj)
 
