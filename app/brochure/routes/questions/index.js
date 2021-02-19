@@ -62,17 +62,14 @@ function renderTopicIndex(req, res, page = 1) {
                 OFFSET ${offset}`
     )
     .then((topics) => {
-        if (topics.rows.length === 0) {
-          res.status(404);
-          res.render(404);
-        }
-
+      // Paginator object for the view
+      let paginator = {};
+      if (topics.rows.length > 0) {
         // Data for pagination
         let pages_count = Math.ceil(topics.rows[0].topics_count / TOPICS_PER_PAGE); // total pages
         let next_page = false;
         if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
-        // Paginator object for the view
-        let paginator = {};
+
         if (pages_count > 1) {  // create paginator only if there are more than 1 pages
           paginator = {
             pages: new Array(),    // array of pages [{page: 1, current: true}, {...}, ... ]
@@ -85,16 +82,21 @@ function renderTopicIndex(req, res, page = 1) {
             } else paginator.pages.push({page: i, current: false})
           }
         }
+
         res.render("questions", {
           title: "Blot — Questions",
           topics: topics.rows,
           paginator: paginator
         });
+      } else {
+        res.status(404);
+        res.render(404);
       }
-    )
-    .catch((err) => {
-      throw err;
-    });
+    }
+  )
+  .catch((err) => {
+    throw err;
+  });
 }
 
 // Handle topic listing
