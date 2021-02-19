@@ -1,20 +1,22 @@
 <h1>Questions</h1>
 
-<a class="whitebutton" style="float: right;margin-left: 2rem" href="/questions/new">
-  <strong>Ask question</strong>
-</a>
+<a class="whitebutton right" href="/questions/new"><strong>Ask question</strong></a>
+
 <p>Ask questions and get answers about Blot. Popular topics include templates, features and recommended apps.</p>
 
 {{#topics}}
-  <hr style="border:none;border-bottom: 1px solid rgba(0,0,0,0.05)">
-  <h2 style="margin:0;border:none">
-    <a href="/questions/{{id}}">{{title}}</a>
-  </h2>
-  <div style="height: 1.5rem;overflow: hidden;">
-    {{{body}}}
-  </div>
-  <span class="secondary-text smaller">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
-  <span class="secondary-text smaller" style="float: right;">asked {{formatDaytime created_at}}</span>
+<div class="qa-question-link">
+<h2>
+  <a href="/questions/{{id}}">{{title}}</a>
+</h2>
+<div class="question-preview">
+  {{{body}}}
+</div>
+<a href="/questions/{{id}}">
+<span class="secondary-text smaller" style="float: right;">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
+<span class="secondary-text smaller" >asked {{formatDaytime created_at}}</span>
+</a>
+</div>
 {{/topics}}
 
 {{#paginator}}

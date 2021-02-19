@@ -692,6 +692,11 @@ button.whitebutton {
   border: none;
   font-weight: bold;
 }
+a.whitebutton.right {
+    float: right;
+  margin-left: 2rem
+
+}
 a.whitebutton { color: inherit; }
 a.whitebutton:hover,
 button.whitebutton:hover:enabled {
@@ -715,10 +720,31 @@ button.whitebutton:hover:enabled {
   justify-content: space-between;
   align-items: baseline;
 }
+
+.qa-question-link {
+  clear: both;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.qa-question-link h2 {
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: #0070e8
+}
+.qa-question-link h2 a {display: block;}
 .qa-question-header {
   display: flex;
   justify-content: space-between;
 }
+
+.question-preview {
+  height: 1.5rem;overflow: hidden; white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 ul.qa-questions {
   margin: 0;
   list-style-type: none;
@@ -732,6 +758,10 @@ ul.qa-questions li {
 }
 .qa-item-container {
   margin-bottom: 2em;
+}
+.reply-container {
+  padding-left: 2rem;
+  border-top: 1px solid rgba(0,0,0,0.05)
 }
 .qa-item-container pre {
   white-space: pre-wrap;
@@ -772,7 +802,9 @@ ul.qa-questions li {
   justify-content: space-between;
 }
 .paginator {
-  margin-top: 3em;
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
   line-height: 2.1em;
 }
 .paginator .pagenum {
