@@ -43,8 +43,17 @@ Questions.use(function (req, res, next) {
   next();
 });
 
-function renderTopicIndex(req, res, page = 1) {
+// Handle topic listing
+// Topics are sorted by datetime of last reply, then by topic creation date
+Questions.get(["/", "/page/:page"], function (req, res, next) {
+  const page = req.params.page ? parseInt(req.params.page) : 1;
+  
+  if (!Number.isInteger(page)) {
+    return next();
+  }
+
   const offset = (page - 1) * TOPICS_PER_PAGE;
+  
   pool
     .query(
       `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(*) OVER() AS topics_count
@@ -62,58 +71,40 @@ function renderTopicIndex(req, res, page = 1) {
                 OFFSET ${offset}`
     )
     .then((topics) => {
+      if (topics.rows.length === 0) return next();
+
       // Paginator object for the view
       let paginator = {};
-      if (topics.rows.length > 0) {
-        // Data for pagination
-        let pages_count = Math.ceil(topics.rows[0].topics_count / TOPICS_PER_PAGE); // total pages
-        let next_page = false;
-        if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
 
-        if (pages_count > 1) {  // create paginator only if there are more than 1 pages
-          paginator = {
-            pages: new Array(),    // array of pages [{page: 1, current: true}, {...}, ... ]
-            next_page: next_page,  // next page int
-            topics_count: topics.rows[0].topics_count // total number of topics
-          }
-          for (let i = 1; i <= pages_count; i++) { // filling pages array
-            if (i === page) {
-              paginator.pages.push({page: i, current: true})
-            } else paginator.pages.push({page: i, current: false})
-          }
+      // Data for pagination
+      let pages_count = Math.ceil(
+        topics.rows[0].topics_count / TOPICS_PER_PAGE
+      ); // total pages
+      let next_page = false;
+      if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
+
+      if (pages_count > 1) {
+        // create paginator only if there are more than 1 pages
+        paginator = {
+          pages: new Array(), // array of pages [{page: 1, current: true}, {...}, ... ]
+          next_page: next_page, // next page int
+          topics_count: topics.rows[0].topics_count, // total number of topics
+        };
+        for (let i = 1; i <= pages_count; i++) {
+          // filling pages array
+          if (i === page) {
+            paginator.pages.push({ page: i, current: true });
+          } else paginator.pages.push({ page: i, current: false });
         }
-
-        res.render("questions", {
-          title: "Blot — Questions",
-          topics: topics.rows,
-          paginator: paginator
-        });
-      } else {
-        res.status(404);
-        res.render(404);
       }
-    }
-  )
-  .catch((err) => {
-    throw err;
-  });
-}
 
-// Handle topic listing
-// Topics are sorted by datetime of last reply, then by topic creation date
-Questions.get("/", function (req, res) {
-  renderTopicIndex(req, res)
-});
-
-// Handle topic listing page
-Questions.get("/page/:page([0-9]+)?", function (req, res) {
-  const page = parseInt(req.params.page);
-  if (!Number.isInteger(page)) {
-    res.status(404);
-    res.render(404);
-  } else {
-    renderTopicIndex(req, res, page)
-  }
+      res.render("questions", {
+        title: "Blot — Questions",
+        topics: topics.rows,
+        paginator: paginator,
+      });
+    })
+    .catch(next);
 });
 
 // Handle topic viewing and creation
