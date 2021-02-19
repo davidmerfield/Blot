@@ -23,20 +23,62 @@
 
 ol {
   list-style-type: none;
-  width: 300px
 }
 
 ol {
-  padding: 0;
+  padding: 0.5rem;
+  margin-top: 2.8rem;
 }
 
 ol li {
-  margin-bottom: 1em
+  margin-bottom: 1em;
+    position: relative;
+
 }
 
+ol ol {
+  margin: 1rem 0 2.8rem;
+  padding: 0;
+  border-left: 1px solid rgba(0,0,0,0.05);
+}
+
+ol ol li:last-child:before,
+ol ol li:first-child:before {
+  content: "";
+  width: 1px;
+  position: absolute;
+  left: -1px;
+  background: white
+}
+
+
+ol ol li:first-child:before {
+  top: 0;
+  height: 7px;
+}
+
+ol ol li:last-child:before {
+  top: 6px;
+  bottom: 0;
+}
+
+
+ol ol li:after {
+  content: "";
+  width: 6px;
+  position: absolute;
+  top: 5px;
+  left: -4px;
+  height: 6px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 100%;
+  font-size: 0.5em;
+
+}
 ol li a {
-  position: relative;
   display: block;
+  padding-left: 1rem;
   border: none;
   color: inherit;
   text-decoration: none;
@@ -99,7 +141,7 @@ details summary {
 }
 
 details[open] summary::before {
-    transform: rotate(-180deg);
+    transform: rotate(180deg);
   }
 
 details > summary::-webkit-details-marker {
@@ -112,10 +154,10 @@ details summary:before {
     position: absolute;
     top: 12px;
     margin-top: -4px;
-    right: 12px;
-    width: 12px;
-    height: 8px;
-    transform: rotate(-90deg);
+    left: 0;
+    width: 10px;
+    height: 6px;
+    transform: rotate(90deg);
     transition: transform .2s ease-out;
     transform-origin: 50% center;
     background-size: cover;
@@ -126,7 +168,7 @@ details summary:before {
 
 <p>You can receive a newsletter at the start of each season summarizing what we are working on and what we have planned. Please <a href="/support">contact support</a> if you have any questions. The full extent of our planned tasks and recent work is detailed below.</p>
 <br>
-<div class="form-container" style="max-width: 480px">
+<div style="max-width: 360px">
 <form action="/about/news/sign-up" method="POST">
   <p style="margin: 0">
   <label for="email" >Your email address</label>
@@ -137,23 +179,56 @@ details summary:before {
 </div>
 
 <flex>
+
+  <style type="text/css">
+    .todo hr {display: none;}
+    .todo > * {
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .todo li {position: relative;padding-left: 1.5rem}
+    .todo ul, .todo ol {list-style: none;padding: 0;margin: 0}
+    .todo summary + ul {margin-top: 1rem}
+    
+    .todo > p:before,
+    .todo li:before {
+        content: "";
+  width: 6px;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  border-radius: 100%;
+  height: 6px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.3);
+  font-size: 0.5em;
+    }
+  </style>
   
-  <section style="width:50%;padding-right: 32px">
-    <h2 style="margin-bottom:1.5em">To do</h2>
+  <section style="width:66.6666%;flex-grow:1;padding-right: 4rem;box-sizing: border-box;">
+    <h2 style="border-bottom: 0;margin-bottom: 0;padding-bottom: 0">To do</h2>
+    <div class="todo">
     {{{todo}}}
+  </div>
   </section>
 
-  <section style="font-size:14px;flex-basis:25%;box-sizing:border-box">
-    <h2 style="margin-bottom:1.5em">Done (<a href="https://github.com/davidmerfield/Blot/commits/master.atom"><small>RSS</small></a>)</h2>
-    <ol style="max-width:200px">
+  <section style="flex-basis:33.33333%;box-sizing:border-box">
+    <ol >
+      {{#days}}
+      <li><strong>Done {{day}}</strong>
+      <ol>
       {{#commits}}
       <li>
-        <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">✓⃝
+        <a href="https://github.com/davidmerfield/Blot/commit/{{hash}}">
       {{message}}
-      <br><small>{{date}}</small>
       </a>
       </li>
       {{/commits}}
+    </ol></li>
+      {{/days}}
     </ol>
+        <h2 style="margin-bottom:1.5em">Done (<a href="https://github.com/davidmerfield/Blot/commits/master.atom"><small>RSS</small></a>)</h2>
+
   </section>
 </flex>

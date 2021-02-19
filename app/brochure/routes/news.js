@@ -13,7 +13,7 @@ var client = require("client");
 var listKey = "newsletter:list";
 var TTL = 60 * 60 * 24; // 1 day in seconds
 
-news.get("/", loadDone, loadToDo, function(req, res) {
+news.get("/", loadDone, loadToDo, function (req, res) {
   res.render("about/news");
 });
 
@@ -121,7 +121,6 @@ news.get("/cancel/:guid", function (req, res, next) {
           }
         );
       }
-
     });
   });
 });
@@ -212,7 +211,7 @@ function loadToDo(req, res, next) {
 }
 
 function loadDone(req, res, next) {
-  exec("git log -100", { cwd: helper.rootDir }, function (err, output) {
+  exec("git log -400", { cwd: helper.rootDir }, function (err, output) {
     if (err) return next(err);
 
     output = output.split("\n\n");
@@ -225,12 +224,30 @@ function loadDone(req, res, next) {
 
         message = message[0].toUpperCase() + message.slice(1);
 
+        message = message
+          .split("Removes")
+          .join("Removed")
+          .split("Improves")
+          .join("Improved")
+                    .split("Adds")
+          .join("Added")
+          .split("Tweaks")
+          .join("Tweaked")
+          .split("Updates")
+          .join("Updated")
+          .split("Fixes")
+          .join("Fixed");
+
         // Ignores merge commits since they're not useful to readers
         if (message.split(" ").join("").toLowerCase().indexOf("merge") > -1)
           return;
 
         // Ignores commits mentioning 'commit' since they're not useful to readers
         if (message.split(" ").join("").toLowerCase().indexOf("commit") > -1)
+          return;
+
+        // Ignores commits to yml test file since there are so many of them
+        if (message.split(" ").join("").toLowerCase().indexOf(".yml") > -1)
           return;
 
         // Ignores commits to todo file since there are so many of them
@@ -248,9 +265,9 @@ function loadDone(req, res, next) {
               item.indexOf("<")
             )
             .trim(),
-          date: moment(
-            new Date(item.slice(item.indexOf("Date:") + "Date:".length).trim())
-          ).fromNow(),
+          date: new Date(
+            item.slice(item.indexOf("Date:") + "Date:".length).trim()
+          ),
           hash: item
             .slice(
               item.indexOf("commit ") + "commit ".length,
@@ -262,7 +279,33 @@ function loadDone(req, res, next) {
       }
     });
 
-    res.locals.commits = commits;
+    const dateFormat = "MMM D, YYYY";
+    const today = moment().format(dateFormat);
+    const yesterday = moment().subtract(1, "days").format(dateFormat);
+    let days = [];
+
+    commits.forEach((commit) => {
+      commit.time = moment(commit.date).format(dateFormat);
+
+      if (commit.time === today) commit.time = "today";
+      else if (commit.time === yesterday) commit.time = "yesterday";
+      else commit.time = "on " + commit.time;
+
+      let currentday = days[days.length - 1];
+
+      console.log("currentday is", currentday);
+
+      if (currentday && currentday[0] && currentday[0].time === commit.time) {
+        currentday.push(commit);
+      } else {
+        days.push([commit]);
+      }
+    });
+
+    res.locals.days = days.map((commits) => {
+      return { day: commits[0].time, commits };
+    });
+
     next();
   });
 }

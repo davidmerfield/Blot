@@ -16,7 +16,9 @@ body {
 }
 
 p a,
-li a {
+li a,
+details a,
+td a {
   color: #0070e8;
   text-decoration: underline;
 }
