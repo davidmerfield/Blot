@@ -16,6 +16,9 @@ const pool = new Pool({
   port: config.postgres.port,
 });
 
+// QA Forum View Configuration
+const TOPICS_PER_PAGE = 20;
+
 // Renders datetime in desired format
 // Can be used like so: {{{formatDaytime D}}} where D is timestamp (e.g. from a DB)
 hbs.registerHelper("formatDaytime", function (timestamp) {
@@ -40,12 +43,11 @@ Questions.use(function (req, res, next) {
   next();
 });
 
-// Handle topic listing
-// Topics are sorted by datetime of last reply, then by topic creation date
-Questions.get("/", function (req, res) {
+function renderTopicIndex(req, res, page = 1) {
+  const offset = (page - 1) * TOPICS_PER_PAGE;
   pool
     .query(
-      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count
+      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(*) OVER() AS topics_count
                 FROM items i
                 LEFT JOIN items r ON r.parent_id = i.id
                     LEFT JOIN (
@@ -55,18 +57,61 @@ Questions.get("/", function (req, res) {
                     ON r2.parent_id = i.id
                 WHERE i.is_topic = true 
                 GROUP BY i.id, last_reply_created_at
-                ORDER BY last_reply_created_at, i.created_at DESC NULLS LAST`
+                ORDER BY last_reply_created_at, i.created_at DESC NULLS LAST
+                LIMIT ${TOPICS_PER_PAGE}
+                OFFSET ${offset}`
     )
     .then((topics) => {
-      topics = topics.rows.map((topic) => {
-        topic.singular = topic.reply_count == 1;
-        return topic;
-      });
-      res.render("questions", { title: "Blot — Questions", topics: topics });
-    })
+        if (topics.rows.length === 0) {
+          res.status(404);
+          res.render(404);
+        }
+
+        // Data for pagination
+        let pages_count = Math.ceil(topics.rows[0].topics_count / TOPICS_PER_PAGE); // total pages
+        let next_page = false;
+        if (page < pages_count) next_page = page + 1; // next page value only if current page is not last
+        // Paginator object for the view
+        let paginator = {};
+        if (pages_count > 1) {  // create paginator only if there are more than 1 pages
+          paginator = {
+            pages: new Array(),    // array of pages [{page: 1, current: true}, {...}, ... ]
+            next_page: next_page,  // next page int
+            topics_count: topics.rows[0].topics_count // total number of topics
+          }
+          for (let i = 1; i <= pages_count; i++) { // filling pages array
+            if (i === page) {
+              paginator.pages.push({page: i, current: true})
+            } else paginator.pages.push({page: i, current: false})
+          }
+        }
+        res.render("questions", {
+          title: "Blot — Questions",
+          topics: topics.rows,
+          paginator: paginator
+        });
+      }
+    )
     .catch((err) => {
       throw err;
     });
+}
+
+// Handle topic listing
+// Topics are sorted by datetime of last reply, then by topic creation date
+Questions.get("/", function (req, res) {
+  renderTopicIndex(req, res)
+});
+
+// Handle topic listing page
+Questions.get("/page/:page([0-9]+)?", function (req, res) {
+  const page = parseInt(req.params.page);
+  if (!Number.isInteger(page)) {
+    res.status(404);
+    res.render(404);
+  } else {
+    renderTopicIndex(req, res, page)
+  }
 });
 
 // Handle topic viewing and creation

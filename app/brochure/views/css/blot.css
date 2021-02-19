@@ -771,6 +771,33 @@ ul.qa-questions li {
   align-items: center;
   justify-content: space-between;
 }
+.paginator {
+  margin-top: 3em;
+  line-height: 2.1em;
+}
+.paginator .pagenum {
+  font-weight: normal;
+  padding: 10px 15px 10px;
+}
+.paginator .current {
+  padding: 10px 15px 10px;
+  font-weight: bold;
+  padding: 10px 12px 10px;
+  border-radius: 3px;
+  text-decoration: none;
+  box-shadow: rgb(15 15 15 / 10%) 0 0 0 1px, rgb(15 15 15 / 0%) 0 2px 4px;
+  background: #fffefc;
+  text-align: center;
+  border: none;
+  font-weight: 700;
+}
+.paginator .next {
+  margin: 0 0.5em;
+  color: inherit;
+}
+.paginator .total {
+  margin: 0 1em;
+}
 
   a.biglink {border:1px solid rgba(0,0,0,0.1);background: rgba(255,255,255,0.2);border-radius: 6px;padding: 8px 16px;display: block;text-decoration: none;color: inherit;}
   a.biglink:hover {text-decoration: none!important;color: black!important}
