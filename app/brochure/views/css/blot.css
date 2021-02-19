@@ -406,7 +406,7 @@ background {
   display: flex;
   margin: 2rem 0 4rem;
   border-radius: 6px;
-  background: #c8e0fe;
+  background: #ffc280;
   overflow: hidden;
   /*border:1px solid #000;*/
   box-sizing: border-box;
@@ -775,3 +775,24 @@ ul.qa-questions li {
   a.biglink {border:1px solid rgba(0,0,0,0.1);background: rgba(255,255,255,0.2);border-radius: 6px;padding: 8px 16px;display: block;text-decoration: none;color: inherit;}
   a.biglink:hover {text-decoration: none!important;color: black!important}
   a.biglink strong {display: block;}
+
+  
+.textli {text-decoration:none}.textli:hover {text-decoration: underline}
+
+  .textli svg {width: 1rem;vertical-align: baseline;position: relative;top: 2px;left: 7px}
+  a.biglink {border:1px solid rgba(0,0,0,0.1);background: rgba(255,255,255,0.2);border-radius: 6px;padding: 8px 16px;display: block;text-decoration: none;}
+  a.biglink:hover {text-decoration: none!important;color: black!important}
+
+  .box-on-how {display: block;padding: 8px 16px;border-radius: 6px;border: 1px solid transparent;color: inherit;text-decoration: none;margin: 0 -16px}
+  .box-on-how:hover {border-color: rgba(0,0,0,0.05);}
+
+  .box-on-how strong {display: block;border-bottom: 1px solid rgba(0,0,0,0.05);}
+  .grow-on-hover {transform: scale(1.0);transition: transform 0.1s;will-change: transform;}
+  .grow-on-hover:hover {transform: scale(1.01)}
+  .grow-on-hover.big:hover {transform: scale(1.05)}
+
+
+  .tabs {display: flex}
+  .tabs a {flex-basis: 50%;color: inherit;padding: 16px 24px;border-radius: 6px 0 0 0;border: 1px solid rgba(0,0,0,0.1);border-bottom: none;color: grey}
+  .tabs a:last-child {background:rgba(0,0,0,0.025);border-left: none;border-radius: 0 6px 0 0;border-bottom: 1px solid rgba(0,0,0,0.1)}
+  .tabs strong {display: block;color: #000}
