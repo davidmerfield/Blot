@@ -19,6 +19,14 @@ input[type="submit"].link:hover {
 }
 
 </style>
+
+
+
+
+
+  <p style="margin:0;color:grey;background:rgba(0,0,0,0.02);border-bottom: 1px solid rgba(0,0,0,0.05);padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Reset your password</strong>Forgot password</p>
+
+
 {{^sent}}
 {{#BADEMAIL}}
 <p class="error">That email address does not match a Blot account.</p>
@@ -28,7 +36,7 @@ input[type="submit"].link:hover {
 <p class="error">Please enter your email address to reset your password.</p>
 {{/NOEMAIL}}
 
-<p style="margin-top: 0;margin-bottom: 24px">{{^error}}Please enter your email address to reset your password. If you cannot remember the email address for your account please contact support.{{/error}}</p>
+<p style="margin-top: 24px;margin-bottom: 24px">{{^error}}If you cannot remember the email address for your account please <a href="/support">contact support</a>.{{/error}}</p>
 
 <form method="POST">
 
@@ -40,7 +48,7 @@ input[type="submit"].link:hover {
   </p>
 
   <input type="submit" name="reset"  value="Reset your password" />
-  <a href="/log-in" style="background: #e0e0e0;
+  <a href="/" style="background: #e0e0e0;
     border-radius: 4px;
     -webkit-appearance: none;
     padding: 0.75em 1em;

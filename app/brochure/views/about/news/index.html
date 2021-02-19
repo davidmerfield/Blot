@@ -2,23 +2,7 @@
 
 <style type="text/css">
 
-input[type="submit"] {
-    background: #333;
-    padding: 0.75em 1em;
-    color: white;
-    border: none;
-    border-bottom: 2px solid #000;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    margin: 2px 0
-  }
 
-  input[type="submit"]:focus {
-    border: none;
-    position: relative;
-    top: 2px
-  }
 
   label {
     font-size: 14px;
@@ -34,38 +18,7 @@ input[type="submit"] {
     border:none;
     border-bottom:  1px solid rgba(0,0,0,0.1)
   }
-  input[name="email"],
-  input[name="password"] {
-    width: 100%;
-    display: block;
-  }
-
-  input[name="number"] {
-    width: 100%;
-    display: block;
-  }
-
-  input[name="cvc"] {
-    display: block;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    padding: 4px 3px;
-    margin: 2px 0;
-    font-size: 17px;
-    padding: 10px;
-    font-family: inherit;
-    z-index: 1;
-    position: relative;
-    border: 1px solid #cccbca;
-    border-top-color: rgba(0, 0, 0, .25);
-    border-bottom-color: rgba(0, 0, 0, .15);
-    box-sizing: border-box;
-    background: 0 0;
-    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, .075);
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-  }
+ 
 
 
 ol {
@@ -170,16 +123,18 @@ details summary:before {
     background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="612" height="612"><path d="M604.501 440.509L325.398 134.956c-5.331-5.357-12.423-7.627-19.386-7.27-6.989-.357-14.056 1.913-19.387 7.27L7.499 440.509c-9.999 10.024-9.999 26.298 0 36.323s26.223 10.024 36.222 0l262.293-287.164L568.28 476.832c9.999 10.024 26.222 10.024 36.221 0 9.999-10.023 9.999-26.298 0-36.323z"/></svg>');
 }
 </style>
-<p>This page explains what I'm working on and what I have planned. You can subscribe below to receive a newsletter <!-- of new features, templates, fixed bugs and future plans --> at the start of each season. <!-- See <a href="/news/archive">past newsletters</a> for a sense of what I send out. --> Please <a href="/support">contact support</a> if you have any questions.</p>
 
-<form action="/about/news/sign-up" method="POST" style="border: 1px solid rgba(0,0,0,0.1);border-top:none;border-left: none;border-right: none;padding: 16px 0">
-  <label for="email" style="margin: 0;padding:0">Your email address</label>
-  <div style="display:flex">
-  <input type="text" required id="email" name="email">
-  <input type="submit" style="margin-left:1.5em" value="Subscribe to the newsletter">
-</div>
-</form>
+<p>You can receive a newsletter at the start of each season summarizing what we are working on and what we have planned. Please <a href="/support">contact support</a> if you have any questions. The full extent of our planned tasks and recent work is detailed below.</p>
 <br>
+<div class="form-container" style="max-width: 480px">
+<form action="/about/news/sign-up" method="POST">
+  <p style="margin: 0">
+  <label for="email" >Your email address</label>
+  <input type="text" required id="email" name="email">
+</p>
+  <input type="submit" value="Subscribe to the newsletter">
+</form>
+</div>
 
 <flex>
   

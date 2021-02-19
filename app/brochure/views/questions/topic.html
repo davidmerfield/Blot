@@ -1,13 +1,16 @@
-<h1>{{topic.title}}</h1>
+<h1 >{{topic.title}}</h1>
+
 <div class="qa-item-container">
   {{{topic.body}}}
-  <a href="/questions/{{topic.id}}">
-    <span class="secondary-text smaller">{{formatDaytime topic.created_at}}</span>
-  </a>
+  <p class="secondary-text smaller">{{topics.length}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}
+
+      <span  style="float: right;">Asked {{formatDaytime topic.created_at}}</span>
+</p>
 </div>
 
+
+<div class="reply-container">
 {{#if topics}}
-<h2>Replies</h2>
 {{#topics}}
 <div class="qa-item-container">
     {{{body}}}
@@ -55,3 +58,4 @@
   bodyEl.addEventListener('keyup', updateQuestionButtonState);
 </script>
 {{/if}}
+</div>

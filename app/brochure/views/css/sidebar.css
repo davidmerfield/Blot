@@ -95,6 +95,7 @@ nav a.selected:hover {
 .sidebar li ul {
   padding: 0;
   margin: 0;
+  font-size: 14px;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
@@ -236,3 +237,4 @@ nav a.selected:hover {
   position: sticky;
   top: 2rem
 }
+

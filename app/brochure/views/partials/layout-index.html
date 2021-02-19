@@ -1,9 +1,9 @@
 {{> head}}
 <body>
 	<style type="text/css">
-		.home-wrapper{display: flex;justify-content: center;flex-direction: column;min-height: 75vh}
-		.home-left {grid-column-start: 4;grid-column-end: 8;margin-top: 2rem}
-		.home-right {grid-column-start: 8;grid-column-end: 11;margin-top: 2rem}
+		.home-wrapper{display: flex;justify-content: center;flex-direction: column;min-height: 80vh}
+		.home-left {grid-column-start: 3;grid-column-end: 7;margin-top: 2rem}
+		.home-right {grid-column-start: 7;grid-column-end: 11;margin-top: 2rem;}
 
 @media screen and (max-width: 800px) {
   .home-left, .home-right {grid-column-start: 1;grid-column-end: 12;}
@@ -24,7 +24,7 @@
 	    </div>
 	  </div>
     <div class="home-right">
-    	 
+    	 <div style="max-width: 336px">
   
       <p>Blot is a blogging platform with no interface. It turns a folder into a website. Blot gives you access to tools – blog with your favorite text-editor.</p>
 <p><a class="textli" href="/videos/publishing-with-blot.mp4" style="color: #0070e8">Watch the video<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -39,8 +39,9 @@
 </svg></a>
   </p><br>
 
+  <div style="max-width: 240px" >
     		{{> sidebar}}
-
+</div>
         <style type="text/css">
   .who li {position: relative;}
   .who li .contents {display: flex}
@@ -49,7 +50,7 @@
   .who li > a {position: absolute;top: 0;left: 0;right: 0;bottom: 0}
 </style>
 
-
+  </div>
     	</div>
     </div>
 </div>
@@ -87,41 +88,10 @@ for (var x = ul.children.length - 1; x >= MAX_FEATURED; x--) {
   ul.children[x].remove();
 }
 </script>
-<overlay>
 
-  <a href="/" class="close">×</a>
-
-  <video id="player" playsinline controls>
-    <source src="/videos/publishing-with-blot.mp4" type="video/mp4" />
-  </video>
-</overlay>
-
-
-<link
-  rel="stylesheet"
-  data-skip-inline="true"
-  href="/css/plyr.css?cache={{cacheID}}&extension=.css"
-/>
-<script src="/js/plyr.js"></script>
-<script type="text/javascript">
-  var player = new Plyr("#player", {
-    duration: 579,
-    controls: ['play-large', 'play', 'progress', 'duration', 'current-time', 'mute', 'volume', 'fullscreen']
-  });
-  document
-    .querySelectorAll('[href="/videos/publishing-with-blot.mp4"')
-    .forEach(function(el) {
-      el.onclick = function(e) {
-        document.querySelector("overlay").className += "show";
-        document.querySelector("video#player ").play();
-        window.scrollTo(0, 0);
-        e.preventDefault();
-        return false;
-      };
-    });
-</script>
 </div>
-  {{> footer}}
+{{> video-player}}
+{{> footer}}
 </body>
 </html>
 

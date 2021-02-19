@@ -405,8 +405,8 @@ th:last-child {
 background {
   display: flex;
   margin: 2rem 0 4rem;
-  border-radius: 6px;
-  background: #c8e0fe;
+  border-radius: 12px;
+  background: #b4e6fc;
   overflow: hidden;
   /*border:1px solid #000;*/
   box-sizing: border-box;
@@ -414,6 +414,9 @@ background {
   justify-content: center;
 }
 
+background.video {
+  background: #ffc280;
+}
 background.green {
   background: #ace8b4;
 }
@@ -692,6 +695,11 @@ button.whitebutton {
   border: none;
   font-weight: bold;
 }
+a.whitebutton.right {
+    float: right;
+  margin-left: 2rem
+
+}
 a.whitebutton { color: inherit; }
 a.whitebutton:hover,
 button.whitebutton:hover:enabled {
@@ -715,10 +723,31 @@ button.whitebutton:hover:enabled {
   justify-content: space-between;
   align-items: baseline;
 }
+
+.qa-question-link {
+  clear: both;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.qa-question-link h2 {
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: #0070e8
+}
+.qa-question-link h2 a {display: block;}
 .qa-question-header {
   display: flex;
   justify-content: space-between;
 }
+
+.question-preview {
+  height: 1.5rem;overflow: hidden; white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 ul.qa-questions {
   margin: 0;
   list-style-type: none;
@@ -732,6 +761,10 @@ ul.qa-questions li {
 }
 .qa-item-container {
   margin-bottom: 2em;
+}
+.reply-container {
+  padding-left: 2rem;
+  border-top: 1px solid rgba(0,0,0,0.05)
 }
 .qa-item-container pre {
   white-space: pre-wrap;
@@ -802,3 +835,24 @@ ul.qa-questions li {
   a.biglink {border:1px solid rgba(0,0,0,0.1);background: rgba(255,255,255,0.2);border-radius: 6px;padding: 8px 16px;display: block;text-decoration: none;color: inherit;}
   a.biglink:hover {text-decoration: none!important;color: black!important}
   a.biglink strong {display: block;}
+
+  
+.textli {text-decoration:none}.textli:hover {text-decoration: underline}
+
+  .textli svg {width: 1rem;vertical-align: baseline;position: relative;top: 2px;left: 7px}
+  a.biglink {border:1px solid rgba(0,0,0,0.1);background: rgba(255,255,255,0.2);border-radius: 6px;padding: 8px 16px;display: block;text-decoration: none;}
+  a.biglink:hover {text-decoration: none!important;color: black!important}
+
+  .box-on-how {display: block;padding: 8px 16px;border-radius: 6px;border: 1px solid transparent;color: inherit;text-decoration: none;margin: 0 -16px}
+  .box-on-how:hover {border-color: rgba(0,0,0,0.05);}
+
+  .box-on-how strong {display: block;border-bottom: 1px solid rgba(0,0,0,0.05);}
+  .grow-on-hover {transform: scale(1.0);transition: transform 0.1s;will-change: transform;}
+  .grow-on-hover:hover {transform: scale(1.01)}
+  .grow-on-hover.big:hover {transform: scale(1.05)}
+
+
+  .tabs {display: flex}
+  .tabs a {flex-basis: 50%;color: inherit;padding: 16px 24px;border-radius: 6px 0 0 0;border: 1px solid rgba(0,0,0,0.1);border-bottom: none;color: grey}
+  .tabs a:last-child {background:rgba(0,0,0,0.025);border-left: none;border-radius: 0 6px 0 0;border-bottom: 1px solid rgba(0,0,0,0.1)}
+  .tabs strong {display: block;color: #000}

@@ -54,11 +54,9 @@
   color: #606060;
 }
 
-.breadcrumbs__link:active,
-.breadcrumbs__link:focus {
-/*  color: #000;
-  font-weight: 600
-*/}
+.breadcrumbs__link:active{
+  opacity: 0.5;
+}
 
 .breadcrumbs__link:active ~ .breadcrumbs__link,
 .breadcrumbs__link:focus ~ .breadcrumbs__link {
