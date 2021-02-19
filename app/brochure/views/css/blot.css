@@ -406,7 +406,7 @@ background {
   display: flex;
   margin: 2rem 0 4rem;
   border-radius: 6px;
-  background: #ffc280;
+  background: #b4e6fc;
   overflow: hidden;
   /*border:1px solid #000;*/
   box-sizing: border-box;
@@ -414,6 +414,9 @@ background {
   justify-content: center;
 }
 
+background.video {
+  background: #ffc280;
+}
 background.green {
   background: #ace8b4;
 }
