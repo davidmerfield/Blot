@@ -1,16 +1,13 @@
-<h1 >{{topic.title}}</h1>
-
+<h1>{{topic.title}}</h1>
 <div class="qa-item-container">
   {{{topic.body}}}
-  <p class="secondary-text smaller">{{topics.length}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}
-
-      <span  style="float: right;">Asked {{formatDaytime topic.created_at}}</span>
-</p>
+  <a href="/questions/{{topic.id}}">
+    <span class="secondary-text smaller">{{formatDaytime topic.created_at}}</span>
+  </a>
 </div>
 
-
-<div class="reply-container">
 {{#if topics}}
+<h2>Replies</h2>
 {{#topics}}
 <div class="qa-item-container">
     {{{body}}}
@@ -42,7 +39,6 @@
 </form>
 </div>
 
-</div>
 <script>
   var buttonEl = document.getElementById('post-reply-button');
   var bodyEl = document.getElementById('body');
