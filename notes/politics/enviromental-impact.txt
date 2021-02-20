@@ -1,0 +1,4 @@
+# Environmental impact
+
+Blot is currently run from [a carbon-neutral data center in Oregon](https://www.aboutamazon.eu/innovation/amazon-wind-and-solar-farms). In the long-term I would like to run my own data center with an off-grid source of energy, mostly to ensure Blot's independence but partly to reduce the negative effects of Blot on its local environment. 
+
