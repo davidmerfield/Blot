@@ -26,7 +26,7 @@
   display: inline-block;
   position: relative;
   margin-left: 0.5rem;
-  color: rgb(105, 115, 134);
+  color: var(--light-text-color); /*rgb(105, 115, 134)*/
 }
 
 .breadcrumbs__link:before {

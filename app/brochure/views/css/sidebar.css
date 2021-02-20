@@ -54,7 +54,7 @@ input[name="toggle"] {
   top: 0;
   /*margin-top: 74px;*/
   align-self: flex-start;
-  color: #989694;  
+  color: var(--light-text-color);  
 }
 
 
@@ -145,7 +145,7 @@ nav a.selected:hover {
 }
 
 .sidebar a + ul ul li:first-child {
-  border-top: 1px solid rgba(0,0,0,0.05);
+  border-top: 1px solid var(--light-border-color);
 }
 
 .sidebar [data-open="selected"] + ul,
@@ -155,7 +155,7 @@ nav a.selected:hover {
     max-height: 300px;
     transition: max-height 0.2s ease-out;
     border-top: 1px solid white;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid var(--light-border-color);
     margin-top: -1px;
     position: relative;
 }
@@ -172,8 +172,8 @@ nav a.selected:hover {
 
 .logbut {display: flex;justify-content: flex-start;}
 .logbut a {color: grey}
-    /*.logbut a {color:grey;text-align:center;border-radius:6px;border: 1px solid rgba(0,0,0,0.05);position: relative;padding:6px 12px;margin: 0 0.5rem;}*/
-    .logbut a:first-child {padding-right:1rem;border-right: 1px solid rgba(0,0,0,0.05)}
+    /*.logbut a {color:grey;text-align:center;border-radius:6px;border: 1px solid var(--light-border-color);position: relative;padding:6px 12px;margin: 0 0.5rem;}*/
+    .logbut a:first-child {padding-right:1rem;border-right: 1px solid var(--light-border-color)}
     .logbut a:last-child {padding-left: 1rem}
     
     .logbut a:after {
@@ -214,7 +214,7 @@ nav a.selected:hover {
   padding-left: 1rem;
   position: relative;
   margin-bottom: 3px;
-  border-left: 1px solid rgba(0,0,0,0.05);
+  border-left: 1px solid var(--light-border-color);
 }
 
 .on-this-page ul li:before {

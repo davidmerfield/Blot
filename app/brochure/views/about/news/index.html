@@ -39,7 +39,7 @@ ol li {
 ol ol {
   margin: 1rem 0 2.8rem;
   padding: 0;
-  border-left: 1px solid rgba(0,0,0,0.05);
+  border-left: 1px solid var(--light-border-color);
 }
 
 ol ol li:last-child:before,
@@ -58,18 +58,23 @@ ol ol li:first-child:before {
 }
 
 ol ol li:last-child:before {
-  top: 6px;
+  top: 8px;
   bottom: 0;
 }
 
+ol ol li:first-child:last-child:before {
+  top: 0;
+  bottom: 0;
+  height: auto;
+}
 
 ol ol li:after {
   content: "";
-  width: 6px;
+  width: 5px;
   position: absolute;
-  top: 5px;
+  top: 8px;
   left: -4px;
-  height: 6px;
+  height: 5px;
   background: #fff;
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 100%;
@@ -96,7 +101,7 @@ ol li a:hover {
 ol li a:active,
 ol li a:focus {background: none;box-shadow: none;}
 
-ol li a:hover small {text-decoration: underline;color: #005eb8}
+ol li a:hover small {text-decoration: underline;color: var(--accent-color)}
 ol li small {
   color: #989694;
   font-size: 14px
@@ -181,9 +186,9 @@ details summary:before {
 <flex>
 
   <style type="text/css">
-    .todo hr {border:none;border-bottom: 1px solid rgba(0,0,0,0.05);margin: 2rem 0;padding: 0  }
+    .todo hr {border:none;border-bottom: 1px solid var(--light-border-color);margin: 2rem 0;padding: 0  }
     .todo > * {
-      padding-left: 1.5rem;
+      padding-left: 1rem;
       position: relative;
     }
 
@@ -206,7 +211,7 @@ details summary:before {
     }
   </style>
   
-  <section style="width:66.6666%;flex-grow:1;padding-right: 4rem;box-sizing: border-box;">
+  <section style="width:66.6666%;flex-grow:1;padding-right: 3rem;box-sizing: border-box;">
     <h2 style="border-bottom: 0;margin-bottom: 0;padding-bottom: 0">To do</h2>
     <div class="todo">
     {{{todo}}}
