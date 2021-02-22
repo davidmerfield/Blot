@@ -157,6 +157,50 @@ Questions.route("/:id/new").post(csrf, function (req, res, next) {
   }
 });
 
+Questions.route("/:id/edit")
+  .get(csrf, function (req, res, next) {
+    const id = parseInt(req.params.id);
+    pool
+      .query("SELECT * FROM items WHERE id = $1", [id])
+      .then((topics) => {
+        res.locals.breadcrumbs[res.locals.breadcrumbs.length - 2].label =
+          topics.rows[0].title || "Answer";
+        res.render("questions/edit", {
+          topic: topics.rows[0],
+          csrf: req.csrfToken(),
+        });
+      })
+      .catch(next);
+  })
+  .post(csrf, function (req, res, next) {
+    const id = parseInt(req.params.id);
+    const title = req.body.title || "";
+    const body = req.body.body;
+    let query;
+    let queryParameters;
+
+    // For updating questions
+    if (title) {
+      query = `UPDATE items SET title=$1, body=$2 WHERE id = $3 RETURNING *`;
+      queryParameters = [title, body, id];
+      // For updating answers
+    } else {
+      query = `UPDATE items SET body=$1 WHERE id = $2 RETURNING *`;
+      queryParameters = [body, id];
+    }
+
+    pool
+      .query(query, queryParameters)
+      .then((result) => {
+        let topic = result.rows[0];
+        let redirect = "/questions/" + topic.id;
+        if (topic.parent_id !== null)
+          redirect = "/questions/" + topic.parent_id;
+        res.redirect(redirect);
+      })
+      .catch(next);
+  });
+
 Questions.route("/:id").get(csrf, function (req, res) {
   res.locals.csrf = req.csrfToken();
   const id = parseInt(req.params.id);
