@@ -561,9 +561,9 @@
     "link": "https://thejollyteapot.com",
     "host": "thejollyteapot.com",
     "color": "#393939",
-    "name": "Nicolas is a blogger living in Strasbourg",
+    "name": "Nicolas Magand",
     "firstName": "Nicolas",
-    "bio": " France",
+    "bio": " is a blogger living in Strasbourg, France",
     "favicon": "/images/featured/thejollyteapot.com.jpg"
   },
   {
@@ -619,5 +619,14 @@
     "firstName": "Ben",
     "bio": " is a poet based in Ohio",
     "favicon": "/images/featured/poetry.bencallahan.com.jpg"
+  },
+  {
+    "link": "https://www.maxkeith.co",
+    "host": "www.maxkeith.co",
+    "color": "#6b98d2",
+    "name": "Max Keith",
+    "firstName": "Max",
+    "bio": " is a trail runner from Chile",
+    "favicon": "/images/featured/www.maxkeith.co.png"
   }
 ]

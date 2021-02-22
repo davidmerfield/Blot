@@ -60,10 +60,11 @@
 #2c2818 lara.onl Lara Dominguez, is an artist and photographer
 #73090b milkypekoe.art Trinh Bui, is a designer and artist
 #8f5160 xn--gntherwegs-9db.com Günther, is a young Weimaraner who loves carrots
-#393939 thejollyteapot.com Nicolas is a blogger living in Strasbourg, France
+#393939 thejollyteapot.com Nicolas Magand, is a blogger living in Strasbourg, France
 #fb5b1f timeline.marconoris.com Marco Noris, is an artist from Bergamo, Italy
 #000000 fergus.directory Fergus Egan, is a student of architecture from Australia
 #2e3d5c blog.scren.dk Sören Möller, teaches biostatistics at the University of Southern Denmark
 #435338 brainsister.com Jessica Doyle, is a city planning researcher
 #b69a51 nngorok.com Nick Ngorok, is an engineering manager living in the Bay Area
 #152c3b poetry.bencallahan.com Ben Callahan, is a poet based in Ohio
+#6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
