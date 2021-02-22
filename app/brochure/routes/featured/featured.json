@@ -556,5 +556,32 @@
     "firstName": "Trinh",
     "bio": " is a designer and artist",
     "favicon": "/images/featured/milkypekoe.art.jpg"
+  },
+  {
+    "link": "https://xn--gntherwegs-9db.com",
+    "host": "xn--gntherwegs-9db.com",
+    "color": "#8f5160",
+    "name": "Günther",
+    "firstName": "Günther",
+    "bio": " is a young Weimaraner who loves carrots",
+    "favicon": "/images/featured/xn--gntherwegs-9db.com.jpg"
+  },
+  {
+    "link": "https://thejollyteapot.com",
+    "host": "thejollyteapot.com",
+    "color": "#393939",
+    "name": "Nicolas is a blogger living in Strasbourg",
+    "firstName": "Nicolas",
+    "bio": " France",
+    "favicon": "/images/featured/thejollyteapot.com.jpg"
+  },
+  {
+    "link": "https://timeline.marconoris.com",
+    "host": "timeline.marconoris.com",
+    "color": "#fb5b1f",
+    "name": "Marco Noris",
+    "firstName": "Marco",
+    "bio": " is an artist from Bergamo, Italy",
+    "favicon": "/images/featured/timeline.marconoris.com.jpg"
   }
 ]

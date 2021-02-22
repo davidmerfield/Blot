@@ -31,6 +31,7 @@ function build(callback) {
   fs.readFile(__dirname + "/sites.txt", "utf-8", function (err, sites) {
     if (err) return callback(err);
 
+    sites = sites.trim();
     fs.readdirSync(avatars).forEach((file) => {
       let host = file.slice(0, file.lastIndexOf("."));
       if (sites.indexOf(host) > -1) return;
