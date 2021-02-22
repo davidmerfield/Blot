@@ -20,7 +20,7 @@ if (require.main === module) {
       console.log(
         "https://" + site.host,
         colors.dim("last published", moment(site.lastPublishedPost).fromNow()),
-        site.email
+        `mailto:${site.email}?subject=Link%20to%20you%20on%20Blot's%20homepage%3F&body=Hello%2C%0A%0AI%20was%20wondering%20if%20I%20could%20add%20a%20link%20to%20your%20site%20to%20Blot's%20homepage%3F%20Absolutely%20no%20pressure%20if%20you'd%20rather%20not%2C%20I%20completely%20understand!%0A%0AEither%20way%2C%20please%20let%20me%20know%20if%20you%20have%20any%20questions%2C%20thoughts%2C%20feedback%20etc.%20Thanks%20for%20giving%20Blot%20a%20go.%0A%0ASincerely%2C%20David`
       );
     });
 
