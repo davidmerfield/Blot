@@ -16,9 +16,9 @@ var faviconDirectory = viewDirectory + faviconPath;
 var result = __dirname + "/featured.json";
 
 if (require.main === module) {
-  build(function(err, sites) {
+  build(function (err, sites) {
     if (err) throw err;
-    fs.outputJson(result, sites, { spaces: 2 }, function(err) {
+    fs.outputJson(result, sites, { spaces: 2 }, function (err) {
       if (err) throw err;
       process.exit();
     });
@@ -28,31 +28,31 @@ if (require.main === module) {
 function build(callback) {
   var output = [];
 
-  generateAvatars(avatars, faviconDirectory, function(err, favicons) {
+  fs.readFile(__dirname + "/sites.txt", "utf-8", function (err, sites) {
     if (err) return callback(err);
 
-    fs.readFile(__dirname + "/sites.txt", "utf-8", function(err, sites) {
+    fs.readdirSync(avatars).forEach((file) => {
+      let host = file.slice(0, file.lastIndexOf("."));
+      if (sites.indexOf(host) > -1) return;
+      throw new Error(
+        `Delete file ${avatars}/${file} there is no corresponding entry in ${__dirname}/sites.txt`
+      );
+    });
+
+    generateAvatars(avatars, faviconDirectory, function (err, favicons) {
       if (err) return callback(err);
 
       sites = sites.split("\n");
 
       async.each(
         sites,
-        function(site, next) {
+        function (site, next) {
           var words = site.split(" ");
           var color = words[0];
           var link = "https://" + words[1];
-          var name = words
-            .slice(2)
-            .join(" ")
-            .split(",")[0];
+          var name = words.slice(2).join(" ").split(",")[0];
           var firstName = name.split(" ")[0];
-          var bio = words
-            .slice(2)
-            .join(" ")
-            .split(",")
-            .slice(1)
-            .join(",");
+          var bio = words.slice(2).join(" ").split(",").slice(1).join(",");
           var host = Url.parse(link).host;
 
           if (!favicons[host])
@@ -67,12 +67,12 @@ function build(callback) {
             name: name,
             firstName: firstName,
             bio: bio,
-            favicon: faviconPath + "/" + favicons[host]
+            favicon: faviconPath + "/" + favicons[host],
           });
 
           next();
         },
-        function(err) {
+        function (err) {
           if (err) return callback(err);
 
           callback(null, output);
@@ -89,17 +89,17 @@ function generateAvatars(source, destination, callback) {
 
   var favicons = {};
 
-  fs.readdir(source, function(err, files) {
+  fs.readdir(source, function (err, files) {
     if (err) return callback(err);
 
-    files.forEach(function(file) {
+    files.forEach(function (file) {
       var host = file.slice(0, file.lastIndexOf("."));
 
       if (host)
         favicons[host] = {
           input: source + "/" + file,
           output: destination + "/" + file,
-          name: file
+          name: file,
         };
     });
 
@@ -113,9 +113,9 @@ function createFavicon(favicon, host, callback) {
       width: 96,
       height: 96,
       fit: sharp.fit.cover,
-      position: sharp.strategy.entropy
+      position: sharp.strategy.entropy,
     })
-    .toFile(favicon.output, function(err) {
+    .toFile(favicon.output, function (err) {
       callback(err, favicon.name);
     });
 }

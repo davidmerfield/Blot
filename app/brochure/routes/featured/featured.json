@@ -9,15 +9,6 @@
     "favicon": "/images/featured/zacharykeeting.com.png"
   },
   {
-    "link": "https://www.dmatthams.co.uk",
-    "host": "www.dmatthams.co.uk",
-    "color": "#a0614a",
-    "name": "David Matthams",
-    "firstName": "David",
-    "bio": " is a designer from the UK",
-    "favicon": "/images/featured/www.dmatthams.co.uk.png"
-  },
-  {
     "link": "https://www.souloftheimage.com",
     "host": "www.souloftheimage.com",
     "color": "#585858",
@@ -42,16 +33,7 @@
     "name": "Tillman Jex",
     "firstName": "Tillman",
     "bio": " is a composer based in Berlin",
-    "favicon": "/images/featured/www.tillmanjex.info.png"
-  },
-  {
-    "link": "https://www.withbb.com",
-    "host": "www.withbb.com",
-    "color": "#797979",
-    "name": "Bibi Zhang",
-    "firstName": "Bibi",
-    "bio": " is a designer from Beijing",
-    "favicon": "/images/featured/www.withbb.com.jpg"
+    "favicon": "/images/featured/www.tillmanjex.info.jpg"
   },
   {
     "link": "https://blog.andrewjanjigian.com",
@@ -126,15 +108,6 @@
     "favicon": "/images/featured/discombobulated.co.nz.jpg"
   },
   {
-    "link": "https://www.matthewbattles.org",
-    "host": "www.matthewbattles.org",
-    "color": "#727272",
-    "name": "Matthew Battles",
-    "firstName": "Matthew",
-    "bio": " directs metaLAB at Harvard",
-    "favicon": "/images/featured/www.matthewbattles.org.jpg"
-  },
-  {
     "link": "https://www.rebeccatron.com",
     "host": "www.rebeccatron.com",
     "color": "#1b6cb5",
@@ -151,15 +124,6 @@
     "firstName": "Aurynn",
     "bio": " is a writer and engineer from New Zealand",
     "favicon": "/images/featured/blog.aurynn.com.jpg"
-  },
-  {
-    "link": "https://www.kristianhjelle.com",
-    "host": "www.kristianhjelle.com",
-    "color": "#50423e",
-    "name": "Kristian Hjelle",
-    "firstName": "Kristian",
-    "bio": " is a designer and partner at Bakken & Bæck",
-    "favicon": "/images/featured/www.kristianhjelle.com.jpg"
   },
   {
     "link": "https://www.alexgibson.nyc",
@@ -212,7 +176,7 @@
     "color": "#516f82",
     "name": "Kiefer Sutherland",
     "firstName": "Kiefer",
-    "bio": " is a freelance designer and art director",
+    "bio": " is a designer and art director",
     "favicon": "/images/featured/kiefer.design.jpg"
   },
   {
@@ -225,13 +189,13 @@
     "favicon": "/images/featured/www.failuretolerated.com.jpg"
   },
   {
-    "link": "https://mrfris.by",
-    "host": "mrfris.by",
+    "link": "https://mrfrisby.com",
+    "host": "mrfrisby.com",
     "color": "#486156",
     "name": "Stuart Frisby",
     "firstName": "Stuart",
-    "bio": " is the Director of Design at Booking.com",
-    "favicon": "/images/featured/mrfris.by.jpg"
+    "bio": " is the Director of Design at Deliveroo",
+    "favicon": "/images/featured/mrfrisby.com.jpg"
   },
   {
     "link": "https://www.querlin.com",
@@ -342,15 +306,6 @@
     "favicon": "/images/featured/mariusmasalar.me.jpg"
   },
   {
-    "link": "https://www.thingelstad.com",
-    "host": "www.thingelstad.com",
-    "color": "#ad8d65",
-    "name": "Jamie Thingelstad",
-    "firstName": "Jamie",
-    "bio": " is CTO at SPS Commerce in Minneapolis",
-    "favicon": "/images/featured/www.thingelstad.com.jpg"
-  },
-  {
     "link": "https://www.ishshah.me",
     "host": "www.ishshah.me",
     "color": "#4c919c",
@@ -387,15 +342,6 @@
     "favicon": "/images/featured/benlog.net.jpg"
   },
   {
-    "link": "https://www.enzel.io",
-    "host": "www.enzel.io",
-    "color": "#3e7090",
-    "name": "David Enzel",
-    "firstName": "David",
-    "bio": " is a lawyer based in Washington D.C.",
-    "favicon": "/images/featured/www.enzel.io.jpg"
-  },
-  {
     "link": "https://www.crossingthethreshold.net",
     "host": "www.crossingthethreshold.net",
     "color": "#55423c",
@@ -412,24 +358,6 @@
     "firstName": "Sameer",
     "bio": " writes letters and takes long walks in Ontario, Canada",
     "favicon": "/images/featured/www.inthemargins.ca.jpg"
-  },
-  {
-    "link": "https://www.jmablog.com",
-    "host": "www.jmablog.com",
-    "color": "#333333",
-    "name": "James Adams",
-    "firstName": "James",
-    "bio": " is a sports therapist based in London",
-    "favicon": "/images/featured/www.jmablog.com.jpg"
-  },
-  {
-    "link": "https://www.seanmcdevitt.com",
-    "host": "www.seanmcdevitt.com",
-    "color": "#535353",
-    "name": "Sean McDevitt",
-    "firstName": "Sean",
-    "bio": " is a writer from Illinois",
-    "favicon": "/images/featured/www.seanmcdevitt.com.jpg"
   },
   {
     "link": "https://afc.letterspace.org",
@@ -491,7 +419,7 @@
     "color": "#747b96",
     "name": "Jeremy Sarber",
     "firstName": "Jeremy",
-    "bio": " is a pastor and funeral home chaplain in Nappanee",
+    "bio": " is a funeral home chaplain in Nappanee",
     "favicon": "/images/featured/jeremysarber.com.jpg"
   },
   {
@@ -581,7 +509,7 @@
     "color": "#b97371",
     "name": "Benjamin Madden",
     "firstName": "Benjamin",
-    "bio": " is a convenor and tutor at the University of Adelaide",
+    "bio": " teaches at the University of Adelaide",
     "favicon": "/images/featured/bnjmnmddn.com.jpg"
   },
   {
@@ -619,5 +547,14 @@
     "firstName": "Lara",
     "bio": " is an artist and photographer",
     "favicon": "/images/featured/lara.onl.jpg"
+  },
+  {
+    "link": "https://milkypekoe.art",
+    "host": "milkypekoe.art",
+    "color": "#73090b",
+    "name": "Trinh Bui",
+    "firstName": "Trinh",
+    "bio": " is a designer and artist",
+    "favicon": "/images/featured/milkypekoe.art.jpg"
   }
 ]
