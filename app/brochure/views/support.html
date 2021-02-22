@@ -1,9 +1,9 @@
 <h1>Support</h1>
 
-<p>Please email <a href="mailto:support@blot.im">support@blot.im</a> directly. Don't hesitate to ask if you have any questions – we provide prompt and personal support. If you have a question about a particular site or post, please include a link where possible.</p>
+<p>Please contact <a href="mailto:support@blot.im">support@blot.im</a>. We provide prompt and personal support. If you have a question about a particular site, please include a link where possible.</p>
 
-<p><a class="bordered-button" style="border-color: inherit;border-radius: 6px" id="text_element" href="mailto:support@blot.im">support@blot.im</a><button class="bordered-button" onclick="copyToClipboard('text_element')">
-    Copy to clipboard
+<p><a class="bordered-button" style="border:1px solid;padding: 0.5rem 1rem;display: inline-block;border-radius: 4px 0 0 4px;" id="text_element" href="mailto:support@blot.im">support@blot.im</a><button id="copier" style="border:1px solid var(--light-accent-color);cursor:pointer;background:var(--light-accent-color);color:white;font:inherit;padding:0.5rem 1rem;border-radius: 0 4px 4px 0" onclick="copyToClipboard('text_element')">
+    Copy
 </button></p>
 
 <script type="text/javascript">
@@ -26,7 +26,7 @@
 
   // Remove the input from the body
   document.body.removeChild(aux);
-
-}
+  document.querySelector('#copier').innerHTML = 'Copied'
+  }
 
 </script>

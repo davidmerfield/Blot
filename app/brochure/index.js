@@ -88,7 +88,7 @@ brochure.use(function (req, res, next) {
 // adding an undesirable trailing slash.
 brochure.use(
   "/fonts",
-  Express.static(VIEW_DIRECTORY + '/fonts', {
+  Express.static(VIEW_DIRECTORY + "/fonts", {
     index: false,
     redirect: false,
     maxAge: 86400000,
@@ -106,7 +106,16 @@ brochure.use("/publishing", function (req, res) {
 
 // Redirect user to dashboard for these links
 brochure.use(["/account", "/settings"], function (req, res) {
-  return res.redirect("/log-in?then=" + req.originalUrl);
+  let from;
+
+  try {
+    let referrer = require("url").parse(req.get("Referrer"));
+    if (referrer.host === config.host) from = referrer.path;
+  } catch (e) {}
+
+  return res.redirect(
+    "/log-in?then=" + req.originalUrl + (from ? "&from=" + from : "")
+  );
 });
 
 // Missing page
