@@ -229,7 +229,7 @@ const commitMessageMap = {
   Modifies: "Modified",
   Removes: "Removed",
   Tweaks: "Tweaked",
-  Updates: "Updated"
+  Updates: "Updated",
 };
 
 const commitMessageMapRegEx = new RegExp(
@@ -244,6 +244,7 @@ function loadDone(req, res, next) {
     output = output.split("\n\n");
 
     var commits = [];
+    var messageMap = {};
 
     output.forEach(function (item, i) {
       if (i % 2 === 0) {
@@ -251,17 +252,20 @@ function loadDone(req, res, next) {
 
         message = message[0].toUpperCase() + message.slice(1);
 
-        if (bannedWordsRegEx.test(message)) 
-          return;
-      
+        if (bannedWordsRegEx.test(message)) return;
+
         message = message.replace(commitMessageMapRegEx, function (matched) {
           return commitMessageMap[matched];
         });
 
         // Before: Add removal of old backups (#393)
         // After:  Add removal of old backups
-        if (message.indexOf('(#') > -1)
-          message = message.slice(0, message.indexOf('(#'));
+        if (message.indexOf("(#") > -1)
+          message = message.slice(0, message.indexOf("(#"));
+
+        // Prevent duplicate messages appearing on news page
+        if (messageMap[message]) return;
+        else messageMap[message] = true;
 
         commits.push({
           author: item
