@@ -47,13 +47,13 @@ Questions.use(function (req, res, next) {
 // Topics are sorted by datetime of last reply, then by topic creation date
 Questions.get(["/", "/page/:page"], function (req, res, next) {
   const page = req.params.page ? parseInt(req.params.page) : 1;
-  
+
   if (!Number.isInteger(page)) {
     return next();
   }
 
   const offset = (page - 1) * TOPICS_PER_PAGE;
-  
+
   pool
     .query(
       `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(*) OVER() AS topics_count
@@ -86,7 +86,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       if (pages_count > 1) {
         // create paginator only if there are more than 1 pages
         paginator = {
-          pages: new Array(), // array of pages [{page: 1, current: true}, {...}, ... ]
+          pages: [], // array of pages [{page: 1, current: true}, {...}, ... ]
           next_page: next_page, // next page int
           topics_count: topics.rows[0].topics_count, // total number of topics
         };
@@ -141,7 +141,7 @@ Questions.route("/new")
   });
 
 // Handle new reply to topic
-Questions.route("/:id/new").post(csrf, function (req, res) {
+Questions.route("/:id/new").post(csrf, function (req, res, next) {
   const id = parseInt(req.params.id);
   const author = req.user.uid;
   const body = req.body.body;
@@ -152,10 +152,8 @@ Questions.route("/:id/new").post(csrf, function (req, res) {
         "INSERT INTO items(id, author, body, parent_id) VALUES(DEFAULT, $1, $2, $3) RETURNING *",
         [author, body, id]
       )
-      .then((item) => res.redirect("/questions/" + id))
-      .catch((err) => {
-        throw err;
-      });
+      .then(() => res.redirect("/questions/" + id))
+      .catch(next);
   }
 });
 
