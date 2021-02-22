@@ -10,6 +10,7 @@ var TITLES = {
   terms: "Terms of use",
   privacy: "Privacy policy",
   configure: "Configuring",
+  ask: "Ask question",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
   who: "Who uses Blot?",
   developers: "Developer guide",

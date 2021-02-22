@@ -112,10 +112,10 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 });
 
 // Handle topic viewing and creation
-Questions.route("/new")
+Questions.route("/ask")
   .get(csrf, function (req, res) {
     res.locals.csrf = req.csrfToken();
-    res.render("questions/new");
+    res.render("questions/ask");
   })
   .post(csrf, function (req, res) {
     const author = req.user.uid;
@@ -124,7 +124,7 @@ Questions.route("/new")
     // Disallow empty title or body.
     // TODO: show error message, do not lose form data
     if (title.trim().length === 0 || body.trim().length === 0)
-      res.redirect("/questions/new");
+      res.redirect("/questions/ask");
     else {
       pool.query(
         "INSERT INTO items(id, author, title, body, is_topic) VALUES(DEFAULT, $1, $2, $3, true) RETURNING *",
