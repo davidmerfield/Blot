@@ -574,5 +574,50 @@
     "firstName": "Marco",
     "bio": " is an artist from Bergamo, Italy",
     "favicon": "/images/featured/timeline.marconoris.com.jpg"
+  },
+  {
+    "link": "https://fergus.directory",
+    "host": "fergus.directory",
+    "color": "#000000",
+    "name": "Fergus Egan",
+    "firstName": "Fergus",
+    "bio": " is a student of architecture from Australia",
+    "favicon": "/images/featured/fergus.directory.png"
+  },
+  {
+    "link": "https://blog.scren.dk",
+    "host": "blog.scren.dk",
+    "color": "#2e3d5c",
+    "name": "Sören Möller",
+    "firstName": "Sören",
+    "bio": " teaches biostatistics at the University of Southern Denmark",
+    "favicon": "/images/featured/blog.scren.dk.jpg"
+  },
+  {
+    "link": "https://brainsister.com",
+    "host": "brainsister.com",
+    "color": "#435338",
+    "name": "Jessica Doyle",
+    "firstName": "Jessica",
+    "bio": " is a city planning researcher",
+    "favicon": "/images/featured/brainsister.com.jpg"
+  },
+  {
+    "link": "https://nngorok.com",
+    "host": "nngorok.com",
+    "color": "#b69a51",
+    "name": "Nick Ngorok",
+    "firstName": "Nick",
+    "bio": " is an engineering manager living in the Bay Area",
+    "favicon": "/images/featured/nngorok.com.jpg"
+  },
+  {
+    "link": "https://poetry.bencallahan.com",
+    "host": "poetry.bencallahan.com",
+    "color": "#152c3b",
+    "name": "Ben Callahan",
+    "firstName": "Ben",
+    "bio": " is a poet based in Ohio",
+    "favicon": "/images/featured/poetry.bencallahan.com.jpg"
   }
 ]
