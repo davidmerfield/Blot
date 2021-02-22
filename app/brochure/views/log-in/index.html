@@ -1,4 +1,9 @@
-  <p style="margin:0;color:grey;background:rgba(0,0,0,0.02);border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Log in</strong>Manage your blogs</p>
+  <p style="margin:0;color:grey;background:rgba(0,0,0,0.02);border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Log in</strong>
+    {{^then}}Manage your blogs{{/then}}
+    {{#if then}}
+      {{#if then_description}}To access <em>{{then_description}}</em> on your dashboard{{/if}}
+      {{#unless then_description}}To access your dashboard{{/unless}}
+    {{/if}}</p>
 
 <style type="text/css">
   input[type="submit"].link {

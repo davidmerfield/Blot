@@ -13,6 +13,12 @@ var form = new Express.Router();
 
 form.use(require("./rateLimit"));
 
+// Used to give context to the user when not logged in.
+// E.g. please log in to access the Services page
+var DASHBOARD_PAGE_DESCRIPTION = {
+  '/settings/services': 'Services',
+};
+
 form.use(function (req, res, next) {
   // Send logged-in users to the dashboard
   if (req.session && req.session.uid && !req.query.token) {
@@ -23,6 +29,8 @@ form.use(function (req, res, next) {
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
   res.locals.layout = "partials/layout-form";
+  res.locals.then = req.query.then;
+  res.locals.then_description = DASHBOARD_PAGE_DESCRIPTION[req.query.then];
   res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
 
   return next();
