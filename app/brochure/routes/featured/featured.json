@@ -29,7 +29,7 @@
   {
     "link": "https://www.tillmanjex.info",
     "host": "www.tillmanjex.info",
-    "color": "#0077f0",
+    "color": "#111111",
     "name": "Tillman Jex",
     "firstName": "Tillman",
     "bio": " is a composer based in Berlin",
@@ -88,15 +88,6 @@
     "firstName": "Andrew",
     "bio": " is an artist and writer living in San Francisco",
     "favicon": "/images/featured/www.andrew-bishop.com.jpg"
-  },
-  {
-    "link": "https://bitdepth.org",
-    "host": "bitdepth.org",
-    "color": "#a24645",
-    "name": "Chris Campbell",
-    "firstName": "Chris",
-    "bio": " is a filmmaker based in Nova Scotia",
-    "favicon": "/images/featured/bitdepth.org.jpg"
   },
   {
     "link": "https://discombobulated.co.nz",

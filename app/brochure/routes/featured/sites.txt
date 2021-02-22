@@ -1,14 +1,13 @@
 #d42633 zacharykeeting.com Zachary Keeting, is an artist based in New Haven, Connecticut
 #585858 www.souloftheimage.com Kimberly Evans, is a photographer and writer from Los Angeles
 #c68256 www.skincarriedaway.com Tiffany Cecilia, writes about skincare from San Francisco
-#0077f0 www.tillmanjex.info Tillman Jex, is a composer based in Berlin
+#111111 www.tillmanjex.info Tillman Jex, is a composer based in Berlin
 #c16256 blog.andrewjanjigian.com Andrew Janjigian, is a photographer at Cook’s Illustrated
 #666666 hannautkin.com Hanna Utkin, is a filmmaker and producer from New York City
 #5479bf keywords.oxus.net Kerim Friedman, teaches anthropology in Taiwan
 #ba7b6f com.johnbeeler.com John Beeler, is the label director at Asthmatic Kitty Records
 #39292d www.inextenso.dev Nicola Zanon, is a web developer from Berlin
 #87878a www.andrew-bishop.com Andrew Bishop, is an artist and writer living in San Francisco
-#a24645 bitdepth.org Chris Campbell, is a filmmaker based in Nova Scotia
 #dba14e discombobulated.co.nz Jessica Nickelsen, is a writer from New Zealand
 #1b6cb5 www.rebeccatron.com Rebecca Kukshtel, is an engineer based in New York City
 #a05781 blog.aurynn.com Aurynn Shaw, is a writer and engineer from New Zealand
