@@ -1,5 +1,4 @@
 For Monday:
-- Ressurect Default theme from demo video and add it to archived tempaltes page and follow up with [JF](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCrTzkMDhgxRGfdgWdmsLSJ)
 - Fix citations and follow up with [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQPSzQtKbhpHpJgbNlgCQZ)
 - Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
 - Fix breadcrumbs scrollbars on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq)
