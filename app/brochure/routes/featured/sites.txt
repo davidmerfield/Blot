@@ -60,4 +60,5 @@
 #4c3722 tellyou.today Neale Stokes, is a librarian based in Los Angeles
 #2c2818 lara.onl Lara Dominguez, is an artist and photographer
 #73090b milkypekoe.art Trinh Bui, is a designer and artist
-#8f5160 güntherwegs.com Günther, is a young Weimaraner who loves carrots
+#8f5160 xn--gntherwegs-9db.com Günther, is a young Weimaraner who loves carrots
+#393939 thejollyteapot.com Nicolas is a blogger living in Strasbourg, France
