@@ -18,3 +18,26 @@
 </a>
 </div>
 {{/topics}}
+
+
+{{#paginator}}
+<div class="paginator">
+  {{#pages}}
+    {{^current}}
+      <a class="whitebutton pagenum secondary-text" href="/questions/page/{{page}}">{{page}}</a>
+    {{/current}}
+
+    {{#current}}
+      <a class="pagenum current">{{page}}</a>
+    {{/current}}
+  {{/pages}}
+
+  {{#next_page}}
+    <a class="next" href="/questions/page/{{.}}">Next</a>
+  {{/next_page}}
+
+  {{#topics_count}}
+    <span class="total">{{.}}&nbsp;questions</span>
+  {{/topics_count}}
+</div>
+{{/paginator}}
