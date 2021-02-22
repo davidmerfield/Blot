@@ -1,3 +1,9 @@
+For Monday:
+- Ressurect Default theme from demo video and add it to archived tempaltes page and follow up with [JF](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCrTzkMDhgxRGfdgWdmsLSJ)
+- Fix citations and follow up with [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQPSzQtKbhpHpJgbNlgCQZ)
+- Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
+- Fix breadcrumbs scrollbars on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq)
+
 Add queue for entry building and other sync processes
 
 Improvements to templates
@@ -36,7 +42,8 @@ Server changes
 Improve questions section of site, in approximate order of importance:
   - add pagination to index in following format: 
     [1] 2 3 4 5 ... 945 Next                163,073 questions 
-  - add 'Improve this question' and 'Improve this answer' buttons (open to all authenticated users) which would edit the question / answer text. Version history of the question and answer would need to be stored.
+  - add 'Improve this question' and 'Improve this answer' buttons (open to all authenticated users) which would edit the question / answer text. 
+  - store version history of the question and answer edits
   - question tagging, including a list of all tags, and popular tags
   - give the 'ask' and 'answer' textarea inputs the full functionality of the GitHub issue/PR comment inputs (i.e. code snippets / preview / copy/paste screenshots from clipboard)
   - email notifications (There's an existing system in place for sending emails in app/helper/email)  
