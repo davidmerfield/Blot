@@ -1,6 +1,7 @@
 html {
   --background-color: white;
   --text-color: black;
+  --medium-text-color: #444;
   --light-text-color: #767676;
   --accent-color: #0070e8; /* used for links */
   --light-accent-color: #0079fc; /* used for button background */
