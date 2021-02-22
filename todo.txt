@@ -40,8 +40,6 @@ Server changes
 - Experiment with different EBS types, perhaps try to rely on ephemeral disk more?
 
 Improve questions section of site, in approximate order of importance:
-  - add pagination to index in following format: 
-    [1] 2 3 4 5 ... 945 Next                163,073 questions 
   - add 'Improve this question' and 'Improve this answer' buttons (open to all authenticated users) which would edit the question / answer text. 
   - store version history of the question and answer edits
   - question tagging, including a list of all tags, and popular tags
