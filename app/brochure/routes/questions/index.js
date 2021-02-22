@@ -76,6 +76,11 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
       // Paginator object for the view
       let paginator = {};
 
+      // We preview one line of the topic body on the question index page
+      topics.rows.forEach(function(topic){
+        topic.body = marked(topic.body);
+      });
+
       // Data for pagination
       let pages_count = Math.ceil(
         topics.rows[0].topics_count / TOPICS_PER_PAGE

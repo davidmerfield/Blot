@@ -762,6 +762,7 @@ button.whitebutton:hover:enabled {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.question-preview > :first-child {margin: 0;padding: 0}
 
 ul.qa-questions {
   margin: 0;

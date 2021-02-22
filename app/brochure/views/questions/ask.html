@@ -7,7 +7,7 @@
 
 {{#if user}}
 <div style="max-width: 637px;">
-  <form method="POST" action="/questions/new" id="new-question-form" class="qa-form">
+  <form method="POST" action="/questions/ask" id="new-question-form" class="qa-form">
     <input type="hidden" name="_csrf" value="{{csrf}}" />
     <div>
       <input type="text" name="title" id="title" placeholder="Title..."></input>
