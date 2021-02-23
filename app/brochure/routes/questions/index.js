@@ -56,7 +56,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 
   pool
     .query(
-      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(*) OVER() AS topics_count
+      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(r.parent_id) > 0 AS has_replies, COUNT(*) OVER() AS topics_count
                 FROM items i
                 LEFT JOIN items r ON r.parent_id = i.id
                     LEFT JOIN (
@@ -66,7 +66,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
                     ON r2.parent_id = i.id
                 WHERE i.is_topic = true 
                 GROUP BY i.id, last_reply_created_at
-                ORDER BY i.created_at DESC
+                ORDER BY has_replies, i.created_at DESC
                 LIMIT ${TOPICS_PER_PAGE}
                 OFFSET ${offset}`
     )
