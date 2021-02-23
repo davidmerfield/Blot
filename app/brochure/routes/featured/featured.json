@@ -590,7 +590,7 @@
     "color": "#2e3d5c",
     "name": "Sören Möller",
     "firstName": "Sören",
-    "bio": " teaches biostatistics at the University of Southern Denmark",
+    "bio": " is a professor of biostatistics from Denmark",
     "favicon": "/images/featured/blog.scren.dk.jpg"
   },
   {
@@ -637,5 +637,14 @@
     "firstName": "Aaron",
     "bio": " is a podcaster and designer",
     "favicon": "/images/featured/www.aarondowd.com.jpg"
+  },
+  {
+    "link": "https://www.thoughtsbyora.com",
+    "host": "www.thoughtsbyora.com",
+    "color": "#cd9350",
+    "name": "Uzoamaka Adaora Anyanwu",
+    "firstName": "Uzoamaka",
+    "bio": " is a writer living in Amsterdam",
+    "favicon": "/images/featured/www.thoughtsbyora.com.jpg"
   }
 ]

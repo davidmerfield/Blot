@@ -63,9 +63,10 @@
 #393939 thejollyteapot.com Nicolas Magand, is a blogger living in Strasbourg, France
 #fb5b1f timeline.marconoris.com Marco Noris, is an artist from Bergamo, Italy
 #000000 fergus.directory Fergus Egan, is a student of architecture from Australia
-#2e3d5c blog.scren.dk Sören Möller, teaches biostatistics at the University of Southern Denmark
+#2e3d5c blog.scren.dk Sören Möller, is a professor of biostatistics from Denmark
 #435338 brainsister.com Jessica Doyle, is a city planning researcher
 #b69a51 nngorok.com Nick Ngorok, is an engineering manager based in the Bay Area
 #152c3b poetry.bencallahan.com Ben Callahan, is a poet based in Ohio
 #6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
 #e62a04 www.aarondowd.com Aaron Dowd, is a podcaster and designer
+#cd9350 www.thoughtsbyora.com Uzoamaka Adaora Anyanwu, is a writer living in Amsterdam
