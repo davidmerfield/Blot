@@ -3,7 +3,7 @@
 #c68256 www.skincarriedaway.com Tiffany Cecilia, writes about skincare from San Francisco
 #111111 www.tillmanjex.info Tillman Jex, is a composer based in Berlin
 #c16256 blog.andrewjanjigian.com Andrew Janjigian, is a photographer at Cook’s Illustrated
-#666666 hannautkin.com Hanna Utkin, is a filmmaker and producer from New York City
+#303555 hannautkin.com Hanna Utkin, is a filmmaker and producer from New York City
 #5479bf keywords.oxus.net Kerim Friedman, teaches anthropology in Taiwan
 #ba7b6f com.johnbeeler.com John Beeler, is the label director at Asthmatic Kitty Records
 #39292d www.inextenso.dev Nicola Zanon, is a web developer from Berlin
