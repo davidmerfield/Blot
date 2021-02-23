@@ -3,6 +3,8 @@
 
 Add queue for entry building and other sync processes
 
+Prevent ampersands in <script> tags in markdown files getting encoded into &amp; (by pandoc?) breaking foo && bar, etc. then tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdGKjddXZSXQNDRjCxWdrGCP)
+
 Improvements to templates
 - Fix bug setting font-size on magazine template and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQXjkgJRdPGnkXXTmQJFst)
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
