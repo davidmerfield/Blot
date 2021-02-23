@@ -56,7 +56,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 
   pool
     .query(
-      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(*) OVER() AS topics_count
+      `SELECT i.*, last_reply_created_at, COUNT(r.parent_id) AS reply_count, COUNT(r.parent_id) > 0 AS has_replies, COUNT(*) OVER() AS topics_count
                 FROM items i
                 LEFT JOIN items r ON r.parent_id = i.id
                     LEFT JOIN (
@@ -66,7 +66,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
                     ON r2.parent_id = i.id
                 WHERE i.is_topic = true 
                 GROUP BY i.id, last_reply_created_at
-                ORDER BY i.created_at DESC
+                ORDER BY has_replies, i.created_at DESC
                 LIMIT ${TOPICS_PER_PAGE}
                 OFFSET ${offset}`
     )
@@ -161,6 +161,50 @@ Questions.route("/:id/new").post(csrf, function (req, res, next) {
       .catch(next);
   }
 });
+
+Questions.route("/:id/edit")
+  .get(csrf, function (req, res, next) {
+    const id = parseInt(req.params.id);
+    pool
+      .query("SELECT * FROM items WHERE id = $1", [id])
+      .then((topics) => {
+        res.locals.breadcrumbs[res.locals.breadcrumbs.length - 2].label =
+          topics.rows[0].title || "Answer";
+        res.render("questions/edit", {
+          topic: topics.rows[0],
+          csrf: req.csrfToken(),
+        });
+      })
+      .catch(next);
+  })
+  .post(csrf, function (req, res, next) {
+    const id = parseInt(req.params.id);
+    const title = req.body.title || "";
+    const body = req.body.body;
+    let query;
+    let queryParameters;
+
+    // For updating questions
+    if (title) {
+      query = `UPDATE items SET title=$1, body=$2 WHERE id = $3 RETURNING *`;
+      queryParameters = [title, body, id];
+      // For updating answers
+    } else {
+      query = `UPDATE items SET body=$1 WHERE id = $2 RETURNING *`;
+      queryParameters = [body, id];
+    }
+
+    pool
+      .query(query, queryParameters)
+      .then((result) => {
+        let topic = result.rows[0];
+        let redirect = "/questions/" + topic.id;
+        if (topic.parent_id !== null)
+          redirect = "/questions/" + topic.parent_id;
+        res.redirect(redirect);
+      })
+      .catch(next);
+  });
 
 Questions.route("/:id").get(csrf, function (req, res) {
   res.locals.csrf = req.csrfToken();
