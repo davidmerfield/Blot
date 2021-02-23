@@ -11,7 +11,7 @@ var yesno = require("yesno");
 var client = require("client");
 var colors = require("colors");
 var moment = require("moment");
-
+var config = require("config");
 var ROOT = helper.rootDir;
 
 var ACTIVE_DATABASE_DUMP = ROOT + "/db/dump.rdb";
@@ -21,7 +21,7 @@ var GIT_CLIENTS_DATA = ROOT + "/app/clients/git/data";
 var STATIC_FILES_DIRECTORY = ROOT + "/static";
 
 if (require.main === module) {
-  main(process.argv[2], process.argv[3], function(err) {
+  main(process.argv[2], process.argv[3], function (err) {
     if (err) throw err;
     console.log("Done!");
     process.exit();
@@ -35,12 +35,12 @@ function main(label, description, callback) {
   if (!description && fs.existsSync(directory + "/description.txt"))
     description = fs.readFileSync(directory + "/description.txt");
 
-  askToOverwrite(directory, function(err) {
+  askToOverwrite(directory, function (err) {
     if (err) return callback(err);
 
     async.parallel(
       [
-        function(done) {
+        function (done) {
           fs.emptyDirSync(directory);
 
           fs.ensureDirSync(DATA_DIRECTORY);
@@ -60,9 +60,9 @@ function main(label, description, callback) {
 
           done();
         },
-        function(done) {
+        function (done) {
           saveDB(directory, done);
-        }
+        },
       ],
       callback
     );
@@ -91,7 +91,7 @@ function askToOverwrite(directory, callback) {
     "\n\nEnter label to continue:";
 
   yesno.options.yes = [label];
-  yesno.ask(message, false, function(ok) {
+  yesno.ask(message, false, function (ok) {
     if (ok) {
       callback();
     } else {
@@ -101,11 +101,21 @@ function askToOverwrite(directory, callback) {
 }
 
 function saveDB(directory, callback) {
-  client.save(function(err, stat) {
+  client.save(function (err, stat) {
     if (err || !stat) throw err || "No stat";
 
     fs.copySync(ACTIVE_DATABASE_DUMP, directory + "/dump.rdb");
     callback();
+   // require("child_process").exec(
+    //   `pg_dump ${config.postgres.database} > ${directory}/postgres.sql`,
+    //   function (err, stdout, stderr) {
+    //     if (err) throw err;
+    //     console.log(stderr);
+    //     console.log(stdout);
+    //     callback();
+    //   }
+    // );
+ 
   });
 }
 
