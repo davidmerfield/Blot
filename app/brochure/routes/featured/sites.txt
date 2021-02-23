@@ -18,9 +18,9 @@
 #65646a iiiiiiiii.in Ishtaarth Dalmia, writes about internet culture from Bengaluru
 #516f82 kiefer.design Kiefer Sutherland, is a designer and art director
 #2e576b www.failuretolerated.com Sean McCoy, is a game designer from Dallas, Texas
-#486156 mrfrisby.com Stuart Frisby, is the Director of Design at Deliveroo
+#ab4548 mrfrisby.com Stuart Frisby, is a director of design based in London
 #757196 www.querlin.com Querlin Ricci, is a designer based in Atlanta
-#696e66 vaughntan.org Vaughn Tan, is a sociologist at University College London’s School of Management
+#696e66 vaughntan.org Vaughn Tan, is a professor based in London
 #c56d64 blog.pixelswithin.com Diana Lopez, is a designer and developer based in Southern California
 #b97c29 eli.li Eli Mellen, is a web developer based in Portland, Maine
 #af8f8a rile.yt Riley Tomasek, is a software engineer based in New York City
@@ -65,6 +65,7 @@
 #000000 fergus.directory Fergus Egan, is a student of architecture from Australia
 #2e3d5c blog.scren.dk Sören Möller, teaches biostatistics at the University of Southern Denmark
 #435338 brainsister.com Jessica Doyle, is a city planning researcher
-#b69a51 nngorok.com Nick Ngorok, is an engineering manager living in the Bay Area
+#b69a51 nngorok.com Nick Ngorok, is an engineering manager based in the Bay Area
 #152c3b poetry.bencallahan.com Ben Callahan, is a poet based in Ohio
 #6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
+#e62a04 www.aarondowd.com Aaron Dowd, is a podcaster and designer

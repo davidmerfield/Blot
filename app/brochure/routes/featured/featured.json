@@ -182,10 +182,10 @@
   {
     "link": "https://mrfrisby.com",
     "host": "mrfrisby.com",
-    "color": "#486156",
+    "color": "#ab4548",
     "name": "Stuart Frisby",
     "firstName": "Stuart",
-    "bio": " is the Director of Design at Deliveroo",
+    "bio": " is a director of design based in London",
     "favicon": "/images/featured/mrfrisby.com.jpg"
   },
   {
@@ -203,7 +203,7 @@
     "color": "#696e66",
     "name": "Vaughn Tan",
     "firstName": "Vaughn",
-    "bio": " is a sociologist at University College London’s School of Management",
+    "bio": " is a professor based in London",
     "favicon": "/images/featured/vaughntan.org.jpg"
   },
   {
@@ -608,7 +608,7 @@
     "color": "#b69a51",
     "name": "Nick Ngorok",
     "firstName": "Nick",
-    "bio": " is an engineering manager living in the Bay Area",
+    "bio": " is an engineering manager based in the Bay Area",
     "favicon": "/images/featured/nngorok.com.jpg"
   },
   {
@@ -628,5 +628,14 @@
     "firstName": "Max",
     "bio": " is a trail runner from Chile",
     "favicon": "/images/featured/www.maxkeith.co.png"
+  },
+  {
+    "link": "https://www.aarondowd.com",
+    "host": "www.aarondowd.com",
+    "color": "#e62a04",
+    "name": "Aaron Dowd",
+    "firstName": "Aaron",
+    "bio": " is a podcaster and designer",
+    "favicon": "/images/featured/www.aarondowd.com.jpg"
   }
 ]
