@@ -68,6 +68,9 @@ input[name="toggle"] {
 
 .sidebar a:active {opacity: 0.5}
 
+nav {
+  display: initial;
+}
 
 nav a {
   display: block;
@@ -172,13 +175,12 @@ nav a.selected:hover {
 
 .logbut {display: flex;justify-content: flex-start;}
 .logbut a {color: grey}
-    /*.logbut a {color:grey;text-align:center;border-radius:6px;border: 1px solid var(--light-border-color);position: relative;padding:6px 12px;margin: 0 0.5rem;}*/
-    .logbut a:first-child {padding-right:1rem;border-right: 1px solid var(--light-border-color)}
-    .logbut a:last-child {padding-left: 1rem}
-    
-    .logbut a:after {
+  /*.logbut a {color:grey;text-align:center;border-radius:6px;border: 1px solid var(--light-border-color);position: relative;padding:6px 12px;margin: 0 0.5rem;}*/
+  .logbut a:first-child {padding-right:1rem;border-right: 1px solid var(--light-border-color)}
+  .logbut a:last-child {padding-left: 1rem}
+  .logbut a:after {
   content: "";
-      display: none;
+  display: none;
   position: absolute;
   top: 0;
   bottom: 2px;
@@ -235,6 +237,7 @@ nav a.selected:hover {
 }
 .on-this-page {
   position: sticky;
-  top: 2rem
+  top: 2rem;
+  margin-top: 2em;
 }
 
