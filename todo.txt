@@ -1,13 +1,12 @@
-For Monday:
 - Fix citations and follow up with [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQPSzQtKbhpHpJgbNlgCQZ)
 - Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
-- Fix breadcrumbs scrollbars on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq)
 
 Add queue for entry building and other sync processes
 
 Improvements to templates
 - Fix bug setting font-size on magazine template and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQXjkgJRdPGnkXXTmQJFst)
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
+- Fix bug with close button in magazine template and tell [Samuel](https://mail.google.com/mail/u/0/#inbox/QgrcJHsbdwQwrChCLHkpqpxfdPbsLXWFsSv)
 - Respond to Michael's [thoughtful emails](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDWqXmTLfljkKdGlfFMhMdkTm) about the template system
 - Tell these people about new templates, and to subscribe to newsletter:
   - [Chris](https://mail.google.com/mail/u/0/#inbox/14fc82f57cb2408e)
@@ -17,6 +16,22 @@ Improvements to templates
 - Fix bug with 'Previous' page link in Magazine theme and tell [Alex](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGDNPVtfJDLpjZVqjTThxdFvkC)
 - Fix column formatting for layout.css on default template and tell [Ryan](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqThrjQzFppTFftfNFtNdMCpp)
 - Fix Diary template mobile issues and contact [Jonas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWjCrwrXTkDqnNtkMbzLlvQjx) and [Brandon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWrgCvbdMxMfrGNJkzPsPkJNz)
+
+Improvements to brochure
+- Sprite for images associated with featured sites
+- Use blotcdn for video and other static files
+- Catch 404s in Google search results and set up redirects
+- Add integration tests for brochure site to test sign up flow
+- Loading state for submit button on sign up page
+- Unify dashboard header style post-payment
+- Generate high quality optimized favicons from new logo
+- Extract SVG of logo which can be used to produce hover effects, and on black
+- Write build scripts which can be run to produce results checked into git
+   - inline css in blot.css
+   - inline css in katex.css?
+   - base 64 encode and inline small images on homepage
+   - Optimize all images in image directory
+- Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
 
 Check in on blot-daily-backups bucket
 - Empty and delete blot-backups bucket after successful download and restore from blot-daily-backups
@@ -69,6 +84,8 @@ Redirect URLs with trailing slash when possible (i.e. not directory browsing) to
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
 
+Add way to nest tags / hierarchy for tags and tell [Uzoamaka](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsJwTqFWjRgHLhPXJgBtnGwJJ)
+
 Investigate potentially TeX-related escaping issues and tell [Anthony](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJWhzZspbBhTCPBGjvnslgrZlb) and Roy
 
 Adjust the chargeForRemaining function in create-blog such that the balance is added or deducted from the proration charge.
@@ -91,6 +108,13 @@ Add a 'page link format' option to the dashboard – the link format now only ap
 - Tweak {{slug-without-diacritics}} in permalink format such that "ö" becomes "oe" instead of "o" and tell [Domink](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCGxBpTdztRkpPpScxTxdVMJJ)
 
 Fix bug with date metadata on [Vincent](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXVMdhvCJPXwVVSKRTFHQTQzn)'s blog and follow up. I suspect it's to do with the ordering of date tokens.
+
+Improvements to brochure
+- Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
+- Personalize the documentation for logged in users
+- Tooltips for lock and CVC on sign up page
+- Prune unused font-face declarations from CSS passed to dashboard
+
 
 Add queues and progress bars to entry building, client-switching and follow up with [Jacopo](https://mail.google.com/mail/u/0/#inbox/FMfcgxwHNCrgCFZKKzdvTFVvWHCpQChM)
 
@@ -172,30 +196,6 @@ com/mail/u/0/#inbox/1588e3df7489b554)
 - Add a popular entry list
 - Add a related entry list and tell [Thomas](https://mail.google.com/mail/u/0/#inbox/156dbe97153fab61) know
 - Add way to list files at a path and tell [Matt](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLMrTjjpjftkSwddPJkTm)
-Improvements to brochure
-- Catch 404s in Google search results and set up redirects
-- Add integration tests for brochure site to test sign up flow
-- Add way to nest tags / hierarchy for tags and tell [Uzoamaka](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsJwTqFWjRgHLhPXJgBtnGwJJ)
-- Personalize the documentation for logged in users
-- Tooltips for lock and CVC on sign up page
-- Loading state for submit button on sign up page
-- Unify dashboard header style post-payment
-- Navigation collapse on mobile devices
-- Prune unused font-face declarations from CSS passed to dashboard
-- Use blotcdn for video and other static files
-- Logo spacing from Chrome tab
-- Sprite for images associated with featured sites
-- Add types and examples to items on reference page
-- Add a resource page to the documentation with guides like [Chad's](https://twitter.com/chad_g_moore/status/975104556001583104?s=20)
- - And useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
-- Make formatting guide searchable
-- Generate high quality optimized favicons from new logo
-- Extract SVG of logo which can be used to produce hover effects, and on black
-- Write build scripts which can be run to produce results checked into git
-   - inline css in blot.css
-   - inline css in katex.css?
-   - base 64 encode and inline small images on homepage
-   - Optimize all images in image directory
 
 Re-send receipt when the customer changes their email after initial payment, pre-account creation.
 - Once stripe allows programmatic receipt delivery
