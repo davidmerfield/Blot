@@ -173,7 +173,7 @@
   {
     "link": "https://www.failuretolerated.com",
     "host": "www.failuretolerated.com",
-    "color": "#5fbade",
+    "color": "#2e576b",
     "name": "Sean McCoy",
     "firstName": "Sean",
     "bio": " is a game designer from Dallas, Texas",
@@ -204,7 +204,7 @@
     "name": "Vaughn Tan",
     "firstName": "Vaughn",
     "bio": " is a sociologist at University College London’s School of Management",
-    "favicon": "/images/featured/vaughntan.org.png"
+    "favicon": "/images/featured/vaughntan.org.jpg"
   },
   {
     "link": "https://blog.pixelswithin.com",
@@ -308,11 +308,11 @@
   {
     "link": "https://www.chrbutler.com",
     "host": "www.chrbutler.com",
-    "color": "#e5486c",
+    "color": "#2f565d",
     "name": "Chris Butler",
     "firstName": "Chris",
     "bio": " is a designer based in Chapel Hill",
-    "favicon": "/images/featured/www.chrbutler.com.png"
+    "favicon": "/images/featured/www.chrbutler.com.jpg"
   },
   {
     "link": "https://tyler.vc",
