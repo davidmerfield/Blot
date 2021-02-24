@@ -9,7 +9,7 @@ var config = {
   spec_dir: "",
   spec_files: [
     "tests/**/*.js",
-    "app/**/tests/*.js",
+    "app/**/tests/**/*.js",
     "app/**/tests.js",
     "scripts/**/tests.js",
     "scripts/**/tests/*.js",
