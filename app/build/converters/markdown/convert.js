@@ -6,7 +6,6 @@ var time = helper.time;
 var config = require("config");
 var pandoc_path = config.pandoc_path;
 var debug = require("debug")("blot:converters:markdown");
-var ampersands = require("./ampersands");
 
 var bib = require("./bib");
 var csl = require("./csl");
@@ -107,25 +106,9 @@ module.exports = function(blog, text, callback) {
     result = safely(footnotes, result);
     time.end("footnotes");
 
-    debug("Pre-de-double-escape amerpsands");
-    time("de-double-escape-ampersands");
-    result = safely(ampersands.deDoubleEscape, result);
-    time.end("de-double-escape-ampersands");
-
     debug("Final:", result);
     callback(null, result);
   });
-
-  // This is to 'fix' and issue that pandoc has with
-  // unescaped ampersands in HTML tag attributes.
-  // Previously it would treat <a href="/?foo=bar&baz=bat">a</a>
-  // as a string, because of the amerpsands.
-  // This is an issue that's open in Pandoc's repo
-  // https://github.com/jgm/pandoc/issues/2410
-  debug("Pre-ampersands-escape", text);
-  time("escape-ampersands");
-  text = safely(ampersands.escape, text);
-  time.end("escape-ampersands");
 
   // Pandoc is very strict and treats indents inside
   // HTML blocks as code blocks. This is correct but
