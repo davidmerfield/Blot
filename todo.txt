@@ -1,6 +1,3 @@
-- Fix citations and follow up with [Mike](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQPSzQtKbhpHpJgbNlgCQZ)
-- Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
-
 Add queue for entry building and other sync processes
 
 Prevent ampersands in <script> tags in markdown files getting encoded into &amp; (by pandoc?) breaking foo && bar, etc. then tell [Adam](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdGKjddXZSXQNDRjCxWdrGCP)
@@ -46,7 +43,9 @@ Make it possible to set the slug-part of a URL for a post and tell [George](http
 
 Extend the Markdown converted to add support for Ulysses highlighting and iAWriter highlighting syntax, using the [example files provided by Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb). Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb)
 
+
 Improvements to metadata extractor:
+- Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
 - Fix bug with "Menu: " metadata – that empty value example will cause a post to become a page.
 - Fix summary generator such that a subtitle is used for summary text (i.e. an h2 directly following an h1) We still want to prevent the scenario in which a later h2 becomes the summary, though. Notify [Jessica and rebuild Jessica's site](https://mail.google.com/mail/u/0/#inbox/KtbxLwghhxtxrtdGHFqBRMcDGkGWtxvSdq)
 
