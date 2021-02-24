@@ -5,9 +5,13 @@
 // about sites featured on the homepage, like template used...
 
 var sharp = require("sharp");
+var Spritesmith = require("spritesmith");
 var fs = require("fs-extra");
 var async = require("async");
 var Url = require("url");
+var imagemin = require("imagemin");
+var pngquant = require("imagemin-pngquant");
+var dirname = require("path").dirname;
 
 var avatars = __dirname + "/avatars";
 var viewDirectory = __dirname + "/../../views";
@@ -68,7 +72,7 @@ function build(callback) {
             name: name,
             firstName: firstName,
             bio: bio,
-            favicon: faviconPath + "/" + favicons[host],
+            favicon: favicons[host],
           });
 
           next();
@@ -104,7 +108,43 @@ function generateAvatars(source, destination, callback) {
         };
     });
 
-    async.mapValues(favicons, createFavicon, callback);
+    async.mapValues(favicons, createFavicon, function (err, favicons) {
+      let src = fs
+        .readdirSync(destination)
+        .filter((i) => i.endsWith(".jpg") || i.endsWith(".png"))
+        .map((i) => destination + "/" + i);
+
+      Spritesmith.run({ src }, function (err, sprite) {
+        if (err) throw err;
+
+        fs.outputFileSync(destination + ".png", sprite.image);
+
+        imagemin([destination + ".png"], dirname(destination + ".png"), {
+          plugins: [pngquant({ quality: '65', speed: 1, floyd: 1 })],
+        }).then(function () {
+          Object.keys(sprite.coordinates).forEach((path) => {
+            let name = path.split("/").pop();
+            let nameWithoutExtension = name.slice(0, name.lastIndexOf("."));
+            let coordinates = sprite.coordinates[path];
+
+            // Retina
+            coordinates.background_width = sprite.properties.width / 2;
+            coordinates.width = coordinates.width / 2;
+            coordinates.height = coordinates.height / 2;
+            coordinates.x = coordinates.x / 2;
+            coordinates.y = coordinates.y / 2;
+
+            favicons[nameWithoutExtension] = {
+              name,
+              classname: nameWithoutExtension.split(".").join("-"),
+              coordinates,
+            };
+          });
+
+          callback(null, favicons);
+        });
+      });
+    });
   });
 }
 
