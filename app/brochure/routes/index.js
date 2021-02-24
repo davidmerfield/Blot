@@ -65,9 +65,6 @@ brochure.use(require("./tools/typeset"));
 // Generate a table of contents for each page
 brochure.use(require("./tools/on-this-page"));
 
-// Retrieves the timestamp of the last commit
-brochure.use(require("./tools/last-updated"));
-
 brochure.use(function (req, res, next) {
   res.locals.base = "";
   res.locals.selected = {};
