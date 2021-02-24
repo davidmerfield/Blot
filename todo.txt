@@ -30,17 +30,17 @@ Improvements to brochure
    - Optimize all images in image directory
 - Finish breadcrumbs scroll on mobile (make sure scrollbars are invisible) on Firefox Windows and tell [Paul](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdCsHgtKMWhSbwxslbzxZpsq) and Rakhim
 
-Check in on blot-daily-backups bucket
-- Empty and delete blot-backups bucket after successful download and restore from blot-daily-backups
-
-Write script to identify and safely delete long overdue users
-
 ---
 
 Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23)
 
 Extend the Markdown converted to add support for Ulysses highlighting and iAWriter highlighting syntax, using the [example files provided by Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb). Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb)
 
+Improve server-side scheduled tasks:
+- Write task to identify and delete long overdue users
+- Write task to rotate log files (remember permissions issues)
+- Understand why some backups don't appear and others are not deleted
+- Back up postgres database
 
 Improvements to metadata extractor:
 - Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
