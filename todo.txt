@@ -27,9 +27,8 @@ Record new demo video
 
 Improve brochure
 - Use blotcdn for video and other static files
-- Catch 404s in Google search results and set up redirects
-- Add integration tests for brochure site to test sign up flow
 - Finish mobile design
+- Add integration tests for brochure site to test sign up flow
 
 ---
 
