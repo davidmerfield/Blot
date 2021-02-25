@@ -26,13 +26,13 @@ Record new demo video
    - https://archive.org/details/Winter_Sunshine_EP-8201/Evgeny_Grinko_-_01_-_Winter_Sunshine.mp3
 
 Improve brochure
-- Use blotcdn for video and other static files
 - Finish mobile design
-- Add integration tests for brochure site to test sign up flow
 
 ---
 
 Fix bug with tokens inside blog posts and follow up with [Karoly](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfkFdhXCgBCTwGfBCzPhqwJF)
+
+Resolve [issue](https://blot.im/questions/33) with Pandoc and footnotes and aria and role attributes. Can this be fixed simply by updating pandoc or do we need to prune these attributes ourselves?
 
 Improve server-side scheduled tasks:
 - Write task to identify and delete long overdue users
@@ -107,6 +107,8 @@ Improve brochure
    - inline css in katex.css?
    - base 64 encode and inline small images on homepage
    - Optimize all images in image directory
+   - compute content hashes then Use blotcdn for video and other large static files
+- Add integration tests for brochure site to test sign up flow
 - Add guide to useful text editors like [this one recommended by Andrew](https://itunes.apple.com/us/app/write-best-note-taking-app/id848311469)
 - Personalize the documentation for logged in users
 - Tooltips for lock and CVC on sign up page
