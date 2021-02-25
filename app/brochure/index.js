@@ -6,6 +6,7 @@ var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var moment = require("moment");
 var fs = require("fs-extra");
+const redirector = require('./redirector');
 
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
@@ -117,6 +118,9 @@ brochure.use(["/account", "/settings"], function (req, res) {
     "/log-in?then=" + req.originalUrl + (from ? "&from=" + from : "")
   );
 });
+
+// Will redirect old broken links
+brochure.use(redirector);
 
 // Missing page
 brochure.use(function (req, res, next) {
