@@ -12,6 +12,7 @@ const internal = {
   "/how/drafts": "/how",
   "/how/configuring": "/how/configure",
   "/how/formatting": "/how/guides",
+  "/configuring": "/how/configure"
 };
 
 const external = {
