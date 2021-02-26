@@ -12,7 +12,7 @@ module.exports = {
   blog_static_files_dir: process.env.BLOT_DIRECTORY + "/static",
   blog_folder_dir: process.env.BLOT_DIRECTORY + "/blogs",
   cache_directory: process.env.BLOT_CACHE_DIRECTORY,
-  
+
   ip: process.env.BLOT_IP || "127.0.0.1",
 
   port: 8080,

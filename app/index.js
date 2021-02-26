@@ -1,30 +1,32 @@
+const async = require("async");
+const fs = require("fs-extra");
 const config = require("config");
 const cluster = require("cluster");
-const numCPUs = require("os").cpus().length;
 const clfdate = require("helper").clfdate;
-const async = require("async");
+
 if (cluster.isMaster) {
-  // Launch scheduled tasks
-  require("./scheduler")();
+  const NUMBER_OF_CORES = require("os").cpus().length;
+  const scheduler = require("./scheduler");
 
   console.log(
     clfdate(),
-    `Master process running pid=${process.pid} environment=${config.environment} cache=${config.cache}`
+    `Starting pid=${process.pid} environment=${config.environment} cache=${config.cache}`
   );
 
   // Write the master process PID so we can signal it
-  require("fs").writeFileSync(config.pidfile, process.pid, "utf-8");
+  fs.writeFileSync(config.pidfile, process.pid, "utf-8");
+
+  // Launch scheduler for background tasks, like backups, emails
+  scheduler();
 
   // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
+  for (let i = 0; i < NUMBER_OF_CORES; i++) {
     cluster.fork();
   }
 
-  cluster.on("exit", (worker, code, signal) => {
-    console.log(clfdate(), "worker is dead");
-    if (worker.exitedAfterDisconnect === true) {
-      // we only want to reboot if the worker died by error
-    } else {
+  cluster.on("exit", (worker) => {
+    if (worker.exitedAfterDisconnect === false) {
+      console.log(clfdate(), "Worker died unexpectedly, starting a new one");
       cluster.fork();
     }
   });
@@ -33,24 +35,24 @@ if (cluster.isMaster) {
   // signal the master process that it's time to reboot the servers
   process.on("SIGUSR2", function () {
     let workerIDs = Object.keys(cluster.workers);
+    let totalWorkers = workerIDs.length;
 
     console.log(
       clfdate(),
-      `Master process recieved signal to replace ${workerIDs.length} workers`
+      `Recieved signal to replace ${totalWorkers} workers`
     );
 
     async.eachSeries(
       workerIDs,
       function (workerID, next) {
         let worker;
+        let workerIndex = workerIDs.indexOf(workerID) + 1;
         let replacementWorker;
         let timeout;
 
         console.log(
           clfdate(),
-          `Replacing worker ${workerIDs.indexOf(workerID) + 1}/${
-            workerIDs.length
-          }`
+          `Replacing worker ${workerIndex}/${totalWorkers}`
         );
 
         worker = cluster.workers[workerID];
@@ -70,16 +72,14 @@ if (cluster.isMaster) {
         replacementWorker.on("listening", function () {
           console.log(
             clfdate(),
-            `Replaced worker ${workerIDs.indexOf(workerID) + 1}/${
-              workerIDs.length
-            }`
+            `Replaced worker ${workerIndex}/${totalWorkers}`
           );
           workerID++;
           next();
         });
       },
-      function (err) {
-        console.log(clfdate(), `Master process replaced all workers`);
+      function () {
+        console.log(clfdate(), `Replaced all workers`);
       }
     );
   });
