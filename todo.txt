@@ -1,3 +1,9 @@
+template engine plan
+- create data/blogs/blogID/templates directory
+- show error message on preview-of subdomain
+- only allow valid templates to get stored in data/blogs/blogID/templates, used for live site?
+  - maybe we only store in redis valid templates, live site pulls
+  
 Add queue for entry building and other sync processes
 
 Improve templates
