@@ -3,6 +3,7 @@ module.exports = {
   environment: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   host: process.env.BLOT_HOST,
   protocol: process.env.BLOT_PROTOCOL + "://",
+  pidfile: process.env.BLOT_DIRECTORY + '/data/process.pid',
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
@@ -11,7 +12,7 @@ module.exports = {
   blog_static_files_dir: process.env.BLOT_DIRECTORY + "/static",
   blog_folder_dir: process.env.BLOT_DIRECTORY + "/blogs",
   cache_directory: process.env.BLOT_CACHE_DIRECTORY,
-
+  
   ip: process.env.BLOT_IP || "127.0.0.1",
 
   port: 8080,
