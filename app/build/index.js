@@ -1,124 +1,131 @@
-var debug = require("debug")("blot:build");
-var Metadata = require("metadata");
-var basename = require("path").basename;
-var isDraft = require("../sync/update/drafts").isDraft;
-var Build = require("./single");
-var Prepare = require("./prepare");
-var Thumbnail = require("./thumbnail");
-var DateStamp = require("./prepare/dateStamp");
-var moment = require("moment");
-var converters = require("./converters");
+var uuid = require("uuid/v4");
 var exitHook = require("async-exit-hook");
+var child_process = require("child_process");
+var debug = require("debug")("blot:build");
+var helper = require("helper");
+var clfdate = helper.clfdate;
+var workers = [];
+var jobs = {};
+var numberOfWorkers = 1;
 
-// setTimeout(function(){
-//   throw new Error('EXCEPTION!');
-// }, Math.random() * 20 * 1000);
+debug("Master", process.pid, "is running");
 
-exitHook(function() {
-  debug("Shutting down worker:", process.pid);
+exitHook(function () {
+  debug("Shutting down master:", process.pid);
+  workers.forEach(function (item) {
+    item.worker.kill();
+  });
 });
 
-debug("Worker", process.pid, "started");
-
-// This file cannot become a blog post because it is not
-// a type that Blot can process properly.
-function isWrongType(path) {
-  var isWrong = true;
-
-  converters.forEach(function(converter) {
-    if (converter.is(path)) isWrong = false;
+exitHook.uncaughtExceptionHandler(function (err) {
+  console.error(err);
+  workers.forEach(function (item) {
+    item.worker.kill();
   });
+});
 
-  return isWrong;
-}
+function messageHandler(id) {
+  return function (message) {
+    debug("Handling message", id);
+    var err = null;
 
-process.on("message", function(message) {
-  build(message.blog, message.path, message.options, function(err, entry) {
-    if (err) {
+    // Ressurrect error from string. You can remove
+    // this when we can pass something with type Error
+    // between child processes in future.
+    if (message.err) {
       try {
-        err = JSON.stringify(err, Object.getOwnPropertyNames(err));
-      } catch (e) {}
+        message.err = JSON.parse(message.err);
+        err = new Error(message.err.message);
+        err.stack = message.err.stack;
+      } catch (e) {
+        err = e;
+      }
     }
-    debug(message.id, "Sending back", err, entry);
-    process.send({ err: err, entry: entry, id: message.id });
-  });
-});
 
-function build(blog, path, options, callback) {
-  debug("Build:", process.pid, "processing", path);
+    if (!jobs[message.id] || !jobs[message.id].callback) {
+      return console.warn("No job with id", id, message);
+    }
 
-  if (isWrongType(path)) {
-    var err = new Error("Path is wrong type to convert");
-    err.code = "WRONGTYPE";
-    return callback(err);
-  }
+    jobs[message.id].callback(err, message.entry);
+  };
+}
 
-  Metadata.get(blog.id, path, function(err, name) {
-    if (err) return callback(err);
-
-    if (name) options.name = name;
-
-    debug("Blog:", blog.id, path, " checking if draft");
-    isDraft(blog.id, path, function(err, is_draft) {
-      if (err) return callback(err);
-
-      debug("Blog:", blog.id, path, " attempting to build html");
-      Build(blog, path, options, function(
-        err,
-        html,
-        metadata,
-        stat,
-        dependencies
-      ) {
-        if (err) return callback(err);
-
-        debug("Blog:", blog.id, path, " extracting thumbnail");
-        Thumbnail(blog, path, metadata, html, function(err, thumbnail) {
-          // Could be lots of reasons (404?)
-          if (err || !thumbnail) thumbnail = {};
-
-          var entry;
-
-          // Given the properties above
-          // that we've extracted from the
-          // local file, compute stuff like
-          // the teaser, isDraft etc..
-
-          try {
-            entry = {
-              html: html,
-              name: options.name || basename(path),
-              path: path,
-              id: path,
-              thumbnail: thumbnail,
-              draft: is_draft,
-              metadata: metadata,
-              size: stat.size,
-              dependencies: dependencies,
-              dateStamp: DateStamp(blog, path, metadata),
-              updated: moment.utc(stat.mtime).valueOf()
-            };
-
-            if (entry.dateStamp === undefined) delete entry.dateStamp;
-
-            debug(
-              "Blog:",
-              blog.id,
-              path,
-              " preparing additional properties for",
-              entry.name
-            );
-            entry = Prepare(entry);
-            debug("Blog:", blog.id, path, " additional properties computed.");
-          } catch (e) {
-            return callback(e);
-          }
-
-          callback(null, entry);
-        });
-      });
-    });
+// remove dead worker from list of workers
+function removeWorker(id) {
+  debug("Removing worker", id);
+  workers = workers.filter(function (item) {
+    return item.id !== id;
   });
 }
 
-module.exports = build;
+// From the docs:
+// https://nodejs.org/api/child_process.html#child_process_event_error
+// The 'error' event is emitted whenever:
+// The process could not be spawned, or
+// The process could not be killed, or
+// Sending a message to the child process failed.
+// The 'exit' event may or may not fire after an
+// error has occurred. When listening to both the 'exit'
+// and 'error' events, it is important to guard against
+// accidentally invoking handler functions multiple times.
+function errorHandler(id) {
+  return function (err) {
+    debug("Handling error", err);
+    // removeWorker can be safely called multiple times
+    removeWorker(id);
+  };
+}
+
+function closeHandler(id) {
+  return function (code, signal) {
+    removeWorker(id);
+
+    // SIGINT, SIGTERM, etc.
+    if (signal) {
+      debug("worker was killed by signal: ", signal);
+
+      // typically means the process threw and error and had to stop.
+    } else if (code !== 0) {
+      debug("worker exited with error code:", code);
+      workers.push(new worker());
+      // 0 Means the process exitted successfully.
+      // Any other code
+    } else {
+      debug("worker exitted success!");
+    }
+  };
+}
+
+// Fork workers.
+for (var i = 0; i < numberOfWorkers; i++) {
+  console.log(`forking new build worker in ${process.pid}`)
+  workers.push(new worker());
+}
+
+function worker() {
+  var wrkr = child_process.fork(__dirname + "/main");
+  var id = uuid();
+  debug("creating worker", id);
+  wrkr.on("error", errorHandler(id));
+  wrkr.on("message", messageHandler(id));
+  wrkr.on("close", closeHandler(id));
+  return { worker: wrkr, id: id };
+}
+
+module.exports = function (blog, path, options, callback) {
+  // Pick a worker at random from the pool
+  var worker = workers[Math.floor(Math.random() * workers.length)].worker;
+  var id = uuid();
+
+  jobs[id] = {
+    blog: blog,
+    id: id,
+    path: path,
+    options: options,
+    callback: callback,
+  };
+
+  debug("Sending job to worker", jobs[id]);
+  console.log(clfdate(), blog.id, path, "building");
+  worker.send({ blog: blog, path: path, id: id, options: options });
+};
