@@ -5,9 +5,8 @@ var ensure = helper.ensure;
 var Entry = require("./entry");
 var DateStamp = require("../build/prepare/dateStamp");
 var Blog = require("./blog");
-var build = require("../build");
 
-module.exports = (function() {
+module.exports = (function () {
   var lists = [
     "all",
     "created",
@@ -15,16 +14,16 @@ module.exports = (function() {
     "drafts",
     "scheduled",
     "pages",
-    "deleted"
+    "deleted",
   ];
 
   function resave(blogID, callback) {
-    Blog.get({ id: blogID }, function(err, blog) {
+    Blog.get({ id: blogID }, function (err, blog) {
       if (err || !blog) return callback(err || new Error("no blog"));
 
       each(
         blogID,
-        function(entry, nextEntry) {
+        function (entry, nextEntry) {
           var dateStamp = DateStamp(blog, entry.path, entry.metadata);
           var changes = {};
 
@@ -40,64 +39,11 @@ module.exports = (function() {
     });
   }
 
-  function rebuild(blogID, callback) {
-    Blog.get({ id: blogID }, function(err, blog) {
-      if (err || !blog) return callback(err || new Error("no blog"));
-
-      var identifier = blog.handle + "'s blog";
-      var label = "Rebuilt " + identifier + " in";
-
-      console.time(label);
-
-      each(
-        blog.id,
-        function(entry, next) {
-          ensure(blog, "object")
-            .and(entry, "object")
-            .and(next, "function");
-
-          if (!entry) {
-            console.warn("No entry exists with path", entry.path);
-            return next();
-          }
-
-          // Otherwise this would
-          // make the entry visible...
-          if (entry.deleted) return next();
-
-          var path = entry.path;
-
-          console.log("Rebuilding " + identifier + " (" + blogID + ")", path);
-          build(blog, path, {}, function(err, entry) {
-            if (err && err.code === "ENOENT") {
-              console.warn("No local file exists for entry", path);
-              return next();
-            }
-
-            // don't know
-            if (err) {
-              console.log("-----> REBUILD ERROR");
-              console.log(err);
-              if (err.stack) console.log(err.stack);
-              if (err.trace) console.log(err.trace);
-              return next();
-            }
-
-            Entry.set(blog.id, entry.path, entry, next);
-          });
-        },
-        callback
-      );
-    });
-  }
-
   function adjacentTo(blogID, entryID, callback) {
-    ensure(blogID, "string")
-      .and(entryID, "string")
-      .and(callback, "function");
+    ensure(blogID, "string").and(entryID, "string").and(callback, "function");
 
     // Get the index of the entry in the list of entries
-    redis.zrank(listKey(blogID, "entries"), entryID, function(error, rank) {
+    redis.zrank(listKey(blogID, "entries"), entryID, function (error, rank) {
       if (error) throw error;
 
       // If the entry has no rank its not got siblings
@@ -106,13 +52,13 @@ module.exports = (function() {
 
       var lowerBound = rank > 0 ? rank - 1 : 0;
 
-      redis.zrange(listKey(blogID, "entries"), lowerBound, rank + 1, function(
+      redis.zrange(listKey(blogID, "entries"), lowerBound, rank + 1, function (
         error,
         entryIDs
       ) {
         if (error) throw error;
 
-        Entry.get(blogID, entryIDs, function(entries) {
+        Entry.get(blogID, entryIDs, function (entries) {
           // {skinny: true},
 
           var next, previous;
@@ -149,9 +95,7 @@ module.exports = (function() {
       options = {};
     }
 
-    ensure(blogID, "string")
-      .and(options, "object")
-      .and(callback, "function");
+    ensure(blogID, "string").and(options, "object").and(callback, "function");
 
     // By default retrieve skinnier
     // entry info when getting every entry
@@ -183,7 +127,7 @@ module.exports = (function() {
     }
 
     function onComplete(listName) {
-      return function(listOfEntries) {
+      return function (listOfEntries) {
         totalToFetch--;
 
         response[listName] = listOfEntries;
@@ -211,7 +155,7 @@ module.exports = (function() {
       end = options.first - 1;
     }
 
-    redis.zrevrange(list, start, end, function(err, ids) {
+    redis.zrevrange(list, start, end, function (err, ids) {
       if (err) throw err;
 
       return callback(null, ids);
@@ -219,17 +163,15 @@ module.exports = (function() {
   }
 
   function each(blogID, dothis, callback) {
-    ensure(blogID, "string")
-      .and(dothis, "function")
-      .and(callback, "function");
+    ensure(blogID, "string").and(dothis, "function").and(callback, "function");
 
-    redis.zrevrange(listKey(blogID, "all"), 0, -1, function(error, ids) {
+    redis.zrevrange(listKey(blogID, "all"), 0, -1, function (error, ids) {
       if (error) throw error;
 
-      Entry.get(blogID, ids, function(entries) {
+      Entry.get(blogID, ids, function (entries) {
         async.eachSeries(
           entries,
-          function(entry, next) {
+          function (entry, next) {
             dothis(entry, next);
           },
           callback
@@ -239,32 +181,28 @@ module.exports = (function() {
   }
 
   function getCreated(blogID, after, callback) {
-    ensure(blogID, "string")
-      .and(after, "number")
-      .and(callback, "function");
+    ensure(blogID, "string").and(after, "number").and(callback, "function");
 
     var key = listKey(blogID, "created");
 
-    redis.ZRANGEBYSCORE(key, after, Date.now(), function(err, ids) {
+    redis.ZRANGEBYSCORE(key, after, Date.now(), function (err, ids) {
       if (err) return callback(err);
 
-      Entry.get(blogID, ids, function(entries) {
+      Entry.get(blogID, ids, function (entries) {
         callback(null, entries || []);
       });
     });
   }
 
   function getDeleted(blogID, after, callback) {
-    ensure(blogID, "string")
-      .and(after, "number")
-      .and(callback, "function");
+    ensure(blogID, "string").and(after, "number").and(callback, "function");
 
     var key = listKey(blogID, "deleted");
 
-    redis.ZRANGEBYSCORE(key, after, Date.now(), function(err, ids) {
+    redis.ZRANGEBYSCORE(key, after, Date.now(), function (err, ids) {
       if (err) return callback(err);
 
-      Entry.get(blogID, ids, function(entries) {
+      Entry.get(blogID, ids, function (entries) {
         callback(null, entries || []);
       });
     });
@@ -280,13 +218,13 @@ module.exports = (function() {
     var listName = options.list || "entries";
     var key = listKey(blogID, listName);
 
-    redis.zrevrange(key, start, end, function(error, entryIDs) {
+    redis.zrevrange(key, start, end, function (error, entryIDs) {
       if (error) throw error;
 
       if (!options.full && !options.skinny) return callback(entryIDs);
 
       // options,
-      Entry.get(blogID, entryIDs, function(entries) {
+      Entry.get(blogID, entryIDs, function (entries) {
         return callback(entries);
       });
     });
@@ -303,8 +241,8 @@ module.exports = (function() {
     var start = pageNo * pageSize,
       end = start + (pageSize - 1);
 
-    getRange(blogID, start, end, { full: true }, function(entries) {
-      redis.zcard(listKey(blogID, "entries"), function(error, totalEntries) {
+    getRange(blogID, start, end, { full: true }, function (entries) {
+      redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
         if (error) throw error;
 
         var pagination = {};
@@ -325,7 +263,7 @@ module.exports = (function() {
         // The most recently published entry should have an index
         // equal to the number of total entries published.
         let index = totalEntries - start;
-        entries.forEach(function(entry){
+        entries.forEach(function (entry) {
           entry.index = index;
           index--;
         });
@@ -336,7 +274,7 @@ module.exports = (function() {
   }
 
   function lastUpdate(blogID, callback) {
-    getRange(blogID, 0, 1, { skinny: true }, function(entries) {
+    getRange(blogID, 0, 1, { skinny: true }, function (entries) {
       if (entries && entries.length)
         return callback(null, entries[0].dateStamp);
 
@@ -345,17 +283,17 @@ module.exports = (function() {
   }
 
   function getRecent(blogID, callback) {
-    getRange(blogID, 0, 30, { skinny: true }, function(entries) {
-      redis.zcard(listKey(blogID, "entries"), function(error, totalEntries) {
+    getRange(blogID, 0, 30, { skinny: true }, function (entries) {
+      redis.zcard(listKey(blogID, "entries"), function (error, totalEntries) {
         // We need to add error handling
         if (error) return callback([]);
-        
+
         // The first entry published should have an index of 1
         // The fifth entry published should have an index of 5
         // The most recently published entry should have an index
         // equal to the number of total entries published.
         let index = totalEntries;
-        entries.forEach(function(entry){
+        entries.forEach(function (entry) {
           entry.index = index;
           index--;
         });
@@ -376,7 +314,6 @@ module.exports = (function() {
 
   return {
     get: get,
-    rebuild: rebuild,
     resave: resave,
     each: each,
     adjacentTo: adjacentTo,
@@ -388,6 +325,6 @@ module.exports = (function() {
     getRecent: getRecent,
     lastUpdate: lastUpdate,
     getCreated: getCreated,
-    getDeleted: getDeleted
+    getDeleted: getDeleted,
   };
 })();

@@ -9,7 +9,8 @@ var isPreview = require("./drafts").isPreview;
 var async = require("async");
 var WRONG_TYPE = "WRONG_TYPE";
 var PUBLIC_FILE = "PUBLIC_FILE";
-var isHidden = require("../../build/prepare/isHidden");
+var isHidden = require("build/prepare/isHidden");
+var build = require("build");
 
 function isPublic(path) {
   return (
@@ -28,7 +29,6 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-var build = require("../../build");
 
 module.exports = function(blog, path, options, callback) {
   var queue;
