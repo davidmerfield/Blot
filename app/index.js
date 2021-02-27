@@ -6,6 +6,8 @@ const clfdate = require("helper").clfdate;
 
 if (cluster.isMaster) {
   const NUMBER_OF_CORES = require("os").cpus().length;
+  const NUMBER_OF_WORKERS =
+    NUMBER_OF_CORES > 4 ? Math.round(NUMBER_OF_CORES / 2) : 2;
   const scheduler = require("./scheduler");
 
   console.log(
@@ -20,7 +22,7 @@ if (cluster.isMaster) {
   scheduler();
 
   // Fork workers.
-  for (let i = 0; i < NUMBER_OF_CORES; i++) {
+  for (let i = 0; i < NUMBER_OF_WORKERS; i++) {
     cluster.fork();
   }
 
