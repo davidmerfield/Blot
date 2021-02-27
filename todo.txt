@@ -60,6 +60,7 @@ Server changes
 - Experiment with different EBS types, perhaps try to use ephemeral disk more since lower latency?
 
 Improve questions section of site, in approximate order of importance:
+  - ensure that editings a reply does not affect the sort order of replies. right now, if you edit a reply, it will become the last reply to a topic, regardless of its creation date.
   - add 'Improve this question' and 'Improve this answer' buttons (open to all authenticated users) which would edit the question / answer text. 
   - store version history of the question and answer edits
   - question tagging, including a list of all tags, and popular tags
