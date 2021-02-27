@@ -866,6 +866,7 @@ ul.qa-questions li {
   .grow-on-hover {transform: scale(1.0);transition: transform 0.1s;will-change: transform;}
   .grow-on-hover:hover {transform: scale(1.01)}
   .grow-on-hover.big:hover {transform: scale(1.05)}
+  .grow-on-hover.huge:hover {transform: scale(1.15)}
 
 
   .tabs {display: flex}
