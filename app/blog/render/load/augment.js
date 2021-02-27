@@ -70,6 +70,7 @@ module.exports = function(req, res) {
     entry.tags = tags;
     entry.tagged = tagged;
 
+    console.log('HERE',!hideDate && !entry.menu && !entry.page)
     // We don't want to compute the entry's date
     // string if the user explicitly told use to
     // hide the dates. We also want to hide the
