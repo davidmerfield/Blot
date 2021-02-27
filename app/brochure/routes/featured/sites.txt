@@ -70,4 +70,5 @@
 #6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
 #e62a04 www.aarondowd.com Aaron Dowd, is a podcaster and designer
 #cd9350 www.thoughtsbyora.com Uzoamaka Adaora Anyanwu, is a writer living in Amsterdam
-#000000 spittingdog.net, Dave Haysom, is a translator of Chinese literature
+#000000 spittingdog.net Dave Haysom, is a translator of Chinese literature
+#9e4b3d nomathontheweekend.co Liana J. Taylor, is an accountant from Philadelphia
