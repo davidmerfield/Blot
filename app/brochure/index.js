@@ -6,7 +6,7 @@ var Cache = require("express-disk-cache");
 var cache = new Cache(config.cache_directory);
 var moment = require("moment");
 var fs = require("fs-extra");
-const redirector = require('./redirector');
+const redirector = require("./redirector");
 
 const VIEW_DIRECTORY = __dirname + "/views";
 const PARTIAL_DIRECTORY = VIEW_DIRECTORY + "/partials";
@@ -128,18 +128,13 @@ brochure.use(function (req, res, next) {
   // Express application.
   if (req.path.indexOf("/static") === 0) return next();
 
-  var err = new Error("404: " + req.originalUrl);
-  err.status = 404;
-  next(err);
+  res.status(404);
+  res.sendFile(VIEW_DIRECTORY + "/error-404.html");
 });
 
 // Some kind of other error
 brochure.use(function (err, req, res, next) {
-  if (err.status === 404) {
-    res.locals.code = { missing: true };
-  } else {
-    res.locals.code = { error: true };
-  }
+  res.locals.code = { error: true };
 
   if (config.environment === "development") {
     console.error(err);
