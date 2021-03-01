@@ -2,7 +2,7 @@ describe("create", function() {
   global.test.blog();
   global.test.tmp();
 
-  var create = require("../create");
+  var create = require("build/thumbnail/create");
   var config = require("config");
   var fs = require("fs-extra");
 

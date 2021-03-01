@@ -1,6 +1,6 @@
 describe("user", function() {
 
-  var User = require('../../app/models/user');
+  var User = require('models/user');
 
   it("creates and deletes a user", function(done){
   

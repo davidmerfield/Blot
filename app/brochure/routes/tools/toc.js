@@ -42,13 +42,13 @@ const buildTOC = (NOTES_DIRECTORY) =>
               ),
               id: withoutExtension(article),
               slug:
-                "/notes/" +
+                "/about/notes/" +
                 withoutExtension(section) +
                 "/" +
                 withoutExtension(article),
             };
           }),
-        slug: "/notes/" + path.parse("/" + section).name,
+        slug: "/about/notes/" + path.parse("/" + section).name,
       };
     });
 

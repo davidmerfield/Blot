@@ -1,81 +1,20 @@
-<p style="margin-top: 0">
-  Blot is a blogging platform with no interface. Why a blogging platform with no interface? So you can write with your favorite text-editor. 
-</p>
-<p>
-  It turns a folder into a blog. Images, text ﬁles, Word Documents, Markdown and more become blog posts
-automatically.
-</p>
-<a
-  style="border-bottom: 1px solid #0079fc;color:#0079fc"
-  href="/videos/publishing-with-blot.mp4">
-  Watch the video
-</a>
-<span style="display: block;height: 10px">&nbsp;</span>
-<a
-  href="/sign-up"
-  style="border-bottom: 1px solid #34c84a;color: #34c84a;padding-top: 6px;">
-  Create a blog
-</a>
-<br>
-<a
-  style="width: 245px; display: inline-block; margin: 0 2.5rem 0 0;" 
-  href="/videos/publishing-with-blot.mp4">
-  <br>
-  <div style="width:245px;height:178px;background:#000;">
-    <div style="transform:scale(0.55);text-align:left;position:relative;top:-11px">
-      <pre class="folder" title="Your blog"><code>Drafts
-Pages
-Posts
-  Apple.md 
-  Bannana.jpg
-  Cherry.docx
+<div class="tabs">
+  <a href=""><strong>Log in</strong>Manage your blogs</a>
+  <a href="/sign-up"><strong>Create a blog</strong>Sign up</a>
+</div>
 
-</code></pre>
-    </div>
-  </div>
-  <span style="text-align:left;font-size:14px;color: #666;display: block;padding-top: 10px">
-    Watch the video to see how you can turn this folder into a blog</span>
-</a>
-    
-<overlay style="background:#000">
-  <header style="max-width:64rem;margin:0 auto 3em;width: 100%;">
-    <row style="display:flex;align-items:center;">
-      <section
-        style="display: flex;
-    align-items: center;"
-      ></section>
-
-      <section class="links">
-        <a href="/" class="close" style="margin-top: 1rem">Close</a>
-      </section>
-    </row>
-  </header>
-
-  <div class="videoWrapper">
-    <div class="container">
-      <video id="player" playsinline controls>
-        <source src="/videos/publishing-with-blot.mp4" type="video/mp4" />
-      </video>
-    </div>
-  </div>
-</overlay>
-<link
-  rel="stylesheet"
-  data-skip-inline="true"
-  href="/css/plyr.css?cache={{cacheID}}&extension=.css"
-/>
-<script src="/js/plyr.js"></script>
-<script type="text/javascript">
-  var player = new Plyr("#player");
-  document
-    .querySelectorAll('[href="/videos/publishing-with-blot.mp4"')
-    .forEach(function(el) {
-      el.onclick = function(e) {
-        document.querySelector("overlay").className += "show";
-        document.querySelector("video").play();
-        window.scrollTo(0, 0);
-        e.preventDefault();
-        return false;
-      };
-    });
-</script>
+<div class="form-container" style="border-radius: 0 0 6px 6px;border-top: none;padding-top: 16px">
+  <form method="POST" action="/log-in">
+    <input type="hidden" name="_csrf" value="{{csrf}}" />
+    <p style="margin-top:0">
+      <label for="email">Your email address</label>
+      <input name="email" type="text" value="{{email}}" {{#unless validemail}} autofocus{{/unless}} />
+    </p>
+    <p>
+      <label for="password">Password</label>
+      <input name="password" type="password" {{#if validemail}} autofocus{{/if}} />
+    </p>
+    <input type="submit" value="Log in" style="margin-bottom: 8px" />
+    <center><p style="margin-bottom: 0"><a style="font-size:14px;" href="/log-in/reset">Forgot password?</a></p></center>
+  </form>
+</div>

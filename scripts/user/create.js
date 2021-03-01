@@ -1,4 +1,4 @@
-var User = require("../../app/models/user");
+var User = require("models/user");
 var format = require("url").format;
 var config = require("config");
 

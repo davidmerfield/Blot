@@ -1,4 +1,4 @@
-var Folder = require("../models/folder");
+var Folder = require("clients/local/models/folder");
 var Blog = require("blog");
 var debug = require("debug")("blot:clients:local:disconnect");
 

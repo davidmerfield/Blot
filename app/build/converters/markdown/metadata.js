@@ -1,4 +1,4 @@
-var extractMetadata = require("../../metadata");
+var extractMetadata = require("build/metadata");
 
 module.exports = function(text) {
   var parsed = extractMetadata(text);

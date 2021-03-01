@@ -1,12 +1,12 @@
-var ensure = require("../../ensure");
+var ensure = require("helper/ensure");
 
 var request = require("request");
 var fs = require("fs");
 var writeStream = fs.createWriteStream;
-var UID = require("../../makeUid");
-var callOnce = require("../../callOnce");
-var tempDir = require("../../tempDir")();
-var nameFrom = require("../../nameFrom");
+var UID = require("helper/makeUid");
+var callOnce = require("helper/callOnce");
+var tempDir = require("helper/tempDir")();
+var nameFrom = require("helper/nameFrom");
 var tidy = require("./tidy");
 var invalid = require("./invalid");
 

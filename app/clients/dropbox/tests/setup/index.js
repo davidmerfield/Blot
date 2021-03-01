@@ -1,10 +1,10 @@
 module.exports = function setup(options) {
   options = options || {};
-  var database = require("../../database");
+  var database = require("clients/dropbox/database");
   var Blog = require("blog");
   var server = require("./server");
   var createFolder = require("./createFolder");
-  var createClient = require("../../util/createClient");
+  var createClient = require("clients/dropbox/util/createClient");
 
   // Increase timeout
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;

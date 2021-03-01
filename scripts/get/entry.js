@@ -1,4 +1,4 @@
-var Entry = require("../../app/models/entry");
+var Entry = require("models/entry");
 var blog = require("./blog");
 var parseUrl = require("url").parse;
 

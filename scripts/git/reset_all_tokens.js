@@ -1,5 +1,5 @@
 var each = require("../each/blog");
-var gitDatabase = require("../../app/clients/git/database");
+var gitDatabase = require("clients/git/database");
 var yesno = require("yesno");
 
 yesno.ask("Do you want to reset the git token for all blogs? (y/n)", false, function(

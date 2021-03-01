@@ -1,4 +1,4 @@
-var buildFromFolder = require("../../../app/models/template").buildFromFolder;
+var buildFromFolder = require("models/template").buildFromFolder;
 var get = require("../../get/blog");
 
 // This will request a sync lease, then rebuild the blog's templates, then release the lease

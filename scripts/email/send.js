@@ -1,4 +1,4 @@
-var helper = require("../../app/helper");
+var helper = require("helper");
 var send = helper.email.send;
 var yesno = require("yesno");
 var async = require("async");

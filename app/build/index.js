@@ -2,8 +2,7 @@ var uuid = require("uuid/v4");
 var exitHook = require("async-exit-hook");
 var child_process = require("child_process");
 var debug = require("debug")("blot:build");
-var helper = require("helper");
-var clfdate = helper.clfdate;
+var clfdate = require("helper").clfdate;
 var workers = [];
 var jobs = {};
 var numberOfWorkers = 1;
@@ -98,6 +97,7 @@ function closeHandler(id) {
 
 // Fork workers.
 for (var i = 0; i < numberOfWorkers; i++) {
+  console.log(clfdate(), `Worker pid=${process.pid} launching build process`);
   workers.push(new worker());
 }
 

@@ -1,8 +1,8 @@
 describe("template", function() {
   require("./setup")();
 
-  var create = require("../index").create;
-  var getTemplateList = require("../index").getTemplateList;
+  var create = require("models/template/index").create;
+  var getTemplateList = require("models/template/index").getTemplateList;
   var async = require("async");
 
   it("creates a template", function(done) {

@@ -14,15 +14,7 @@ var listKey = "newsletter:list";
 var TTL = 60 * 60 * 24; // 1 day in seconds
 
 news.get("/", loadDone, loadToDo, function (req, res) {
-  res.render("news");
-});
-
-news.get("/archive", function (req, res) {
-  res.render("news/archive");
-});
-
-news.get("/archive/:letter", function (req, res) {
-  res.render("news/archive");
+  res.render("about/news");
 });
 
 // The rest of these pages should not be cached
@@ -39,7 +31,7 @@ news.get("/sign-up", function (req, res) {
     return res.redirect(req.baseUrl);
   }
 
-  res.render("news/sign-up");
+  res.render("about/news/sign-up");
 });
 
 news.get("/cancel", function (req, res) {
@@ -48,7 +40,7 @@ news.get("/cancel", function (req, res) {
     delete req.session.newsletter_email;
   }
 
-  res.render("news/cancel");
+  res.render("about/news/cancel");
 });
 
 function confirmationKey(guid) {
@@ -60,11 +52,11 @@ function cancellationKey(guid) {
 }
 
 function confirmationLink(guid) {
-  return "https://" + config.host + "/news/confirm/" + guid;
+  return "https://" + config.host + "/about/news/confirm/" + guid;
 }
 
 function cancellationLink(guid) {
-  return "https://" + config.host + "/news/cancel/" + guid;
+  return "https://" + config.host + "/about/news/cancel/" + guid;
 }
 
 // Removes guid from visible breadcrumbs
@@ -99,7 +91,7 @@ news.post("/cancel", parse, function (req, res, next) {
         if (err) return next(err);
 
         req.session.newsletter_email = email;
-        res.redirect("/news/cancel");
+        res.redirect("/about/news/cancel");
       });
     });
   });
@@ -118,7 +110,7 @@ news.get("/cancel/:guid", function (req, res, next) {
 
       res.locals.title = "Cancelled";
       res.locals.email = email;
-      res.render("news/cancelled");
+      res.render("about/news/cancelled");
 
       if (removed) {
         helper.email.NEWSLETTER_CANCELLATION_CONFIRMED(
@@ -149,7 +141,7 @@ news.get("/confirm/:guid", function (req, res, next) {
 
       res.locals.title = "Confirmed";
       res.locals.email = email;
-      res.render("news/confirmed");
+      res.render("about/news/confirmed");
 
       // The first time the user clicks the confirmation
       // link we send out a confirmation email, subsequent
@@ -190,7 +182,7 @@ news.post("/sign-up", parse, function (req, res, next) {
       if (err) return next(err);
 
       req.session.newsletter_email = email;
-      res.redirect("/news/sign-up");
+      res.redirect("/about/news/sign-up");
     });
   });
 });
@@ -218,13 +210,41 @@ function loadToDo(req, res, next) {
   });
 }
 
+// Ignores merge commits since they're not useful to readers
+// Ignores commits mentioning 'commit' since they're not useful to readers
+// Ignores commits to yml test file since there are so many of them
+// Ignores commits to todo file since there are so many of them
+// Ignores commits with links since they're ugly
+const bannedWords = ["merge", "typo", "commit", ".yml", "todo", "://"];
+const bannedWordsRegEx = new RegExp(bannedWords.join("|"), "i");
+
+// Adjust the tense of verbs in commit message
+const commitMessageMap = {
+  Adds: "Added",
+  Cleans: "Cleaned",
+  Changes: "Changed",
+  Fixes: "Fixed",
+  Finishes: "Finished",
+  Improves: "Improved",
+  Modifies: "Modified",
+  Removes: "Removed",
+  Tweaks: "Tweaked",
+  Updates: "Updated",
+};
+
+const commitMessageMapRegEx = new RegExp(
+  Object.keys(commitMessageMap).join("|"),
+  "g"
+);
+
 function loadDone(req, res, next) {
-  exec("git log -100", { cwd: helper.rootDir }, function (err, output) {
+  exec("git log -300", { cwd: helper.rootDir }, function (err, output) {
     if (err) return next(err);
 
     output = output.split("\n\n");
 
     var commits = [];
+    var messageMap = {};
 
     output.forEach(function (item, i) {
       if (i % 2 === 0) {
@@ -232,21 +252,20 @@ function loadDone(req, res, next) {
 
         message = message[0].toUpperCase() + message.slice(1);
 
-        // Ignores merge commits since they're not useful to readers
-        if (message.split(" ").join("").toLowerCase().indexOf("merge") > -1)
-          return;
+        if (bannedWordsRegEx.test(message)) return;
 
-        // Ignores commits mentioning 'commit' since they're not useful to readers
-        if (message.split(" ").join("").toLowerCase().indexOf("commit") > -1)
-          return;
+        message = message.replace(commitMessageMapRegEx, function (matched) {
+          return commitMessageMap[matched];
+        });
 
-        // Ignores commits to todo file since there are so many of them
-        if (message.split(" ").join("").toLowerCase().indexOf("todo") > -1)
-          return;
+        // Before: Add removal of old backups (#393)
+        // After:  Add removal of old backups
+        if (message.indexOf("(#") > -1)
+          message = message.slice(0, message.indexOf("(#"));
 
-        // Ignores commits with links since they're ugly
-        if (message.split(" ").join("").toLowerCase().indexOf("://") > -1)
-          return;
+        // Prevent duplicate messages appearing on news page
+        if (messageMap[message]) return;
+        else messageMap[message] = true;
 
         commits.push({
           author: item
@@ -255,21 +274,45 @@ function loadDone(req, res, next) {
               item.indexOf("<")
             )
             .trim(),
-          date: moment(
-            new Date(item.slice(item.indexOf("Date:") + "Date:".length).trim())
-          ).fromNow(),
+          date: new Date(
+            item.slice(item.indexOf("Date:") + "Date:".length).trim()
+          ),
           hash: item
             .slice(
               item.indexOf("commit ") + "commit ".length,
               item.indexOf("Author")
             )
             .trim(),
-          message: message,
+          message: message.trim(),
         });
       }
     });
 
-    res.locals.commits = commits;
+    const dateFormat = "MMM D, YYYY";
+    const today = moment().format(dateFormat);
+    const yesterday = moment().subtract(1, "days").format(dateFormat);
+    let days = [];
+
+    commits.forEach((commit) => {
+      commit.time = moment(commit.date).format(dateFormat);
+
+      if (commit.time === today) commit.time = "today";
+      else if (commit.time === yesterday) commit.time = "yesterday";
+      else commit.time = "on " + commit.time;
+
+      let currentday = days[days.length - 1];
+
+      if (currentday && currentday[0] && currentday[0].time === commit.time) {
+        currentday.push(commit);
+      } else {
+        days.push([commit]);
+      }
+    });
+
+    res.locals.days = days.map((commits) => {
+      return { day: commits[0].time, commits };
+    });
+
     next();
   });
 }

@@ -1,5 +1,5 @@
 var config = require("../index");
-var root = require("../../app/helper").rootDir;
+var root = require("helper").rootDir;
 var fs = require("fs-extra");
 var redis = require("redis").createClient();
 
@@ -27,6 +27,7 @@ redis.mset(
 // Create empty directories if they don't exist
 fs.ensureDirSync(root + "/blogs");
 fs.ensureDirSync(root + "/tmp");
+fs.ensureDirSync(root + "/data");
 fs.ensureDirSync(root + "/logs");
 fs.ensureDirSync(root + "/db");
 fs.ensureDirSync(root + "/static");

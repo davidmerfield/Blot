@@ -7,7 +7,7 @@ input[type="submit"].link {
   padding: 0;
   display: inline;
   margin: 0;
-  color: #005eb8;
+  color: var(--accent-color);
   text-decoration: underline;
   transition-property: color, border-color;
   transition-duration: .1s;
@@ -19,7 +19,14 @@ input[type="submit"].link:hover {
 }
 
 </style>
-<div class="form-container">
+
+
+
+
+
+  <p style="margin:0;color:grey;background:rgba(0,0,0,0.02);border-bottom: 1px solid var(--light-border-color);padding-bottom: 16px;margin:-17px -25px 0;padding: 16px 24px;border-radius: 6px 6px 0 0"><strong style="display: block;color: #000;">Reset your password</strong>Forgot password</p>
+
+
 {{^sent}}
 {{#BADEMAIL}}
 <p class="error">That email address does not match a Blot account.</p>
@@ -29,8 +36,7 @@ input[type="submit"].link:hover {
 <p class="error">Please enter your email address to reset your password.</p>
 {{/NOEMAIL}}
 
-<p>{{^error}}Please enter your email address to reset your password.{{/error}}
- Don't hesitate to <a href="/contact" style="color: inherit;text-decoration: underline;">contact me</a> if you have any questions.</p>
+<p style="margin-top: 24px;margin-bottom: 24px">{{^error}}If you cannot remember the email address for your account please <a href="/support">contact support</a>.{{/error}}</p>
 
 <form method="POST">
 
@@ -42,10 +48,24 @@ input[type="submit"].link:hover {
   </p>
 
   <input type="submit" name="reset"  value="Reset your password" />
+  <a href="/" style="background: #e0e0e0;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    padding: 0.75em 1em;
+    color: black;
+    margin: 0 0 1em 0;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;">Cancel</a>
 </form>
 {{/sent}}
 
 {{#sent}}
-<p>A link to {{#if hasPassword}}re{{/if}}set your password was sent to <b>{{email}}</b>. Don't hesitate to <a href="/contact">contact me</a> if you have any questions.</p>
+<p>A link to {{#if hasPassword}}re{{/if}}set your password was sent to <b>{{email}}</b>. Don't hesitate to <a href="/support">contact support</a> if you have any questions.</p>
 {{/sent}}
-</div>

@@ -1,4 +1,4 @@
-var eachEl = require("../../helper").each_el;
+var eachEl = require("dashboard/routes/importer/helper").each_el;
 var cheerio = require("cheerio");
 var fs = require("fs-extra");
 

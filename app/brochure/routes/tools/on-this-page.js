@@ -9,7 +9,7 @@ module.exports = function onThisPage(req, res, next) {
 	res.send = function(string) {
 		const html = string instanceof Buffer ? string.toString() : string;
 		const $ = cheerio.load(html, { decodeEntities: false });
-		$("h1,h2,h3").each((i, el) => {
+		$("h2,h3").each((i, el) => {
 			const text = $(el).text();
 			const id = $(el).attr("id") || makeSlug(text);
 			$(el).attr("id", id || makeSlug(text));
@@ -28,7 +28,7 @@ module.exports = function onThisPage(req, res, next) {
 		const $ = cheerio.load(html, { decodeEntities: false });
 		const headers = [];
 
-		$("h1,h2,h3").each(function(i, el) {
+		$("h2,h3").each(function(i, el) {
 			const text = $(el).text();
 			const id = $(el).attr("id") || makeSlug(text);
 			headers.push({ text: text, id: id });

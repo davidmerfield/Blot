@@ -1,7 +1,7 @@
 var fs = require("fs-extra");
 var join = require("path").join;
 var moment = require("moment");
-var helper = require("../../helper");
+var helper = require("dashboard/routes/importer/helper");
 
 var forEach = helper.for_each;
 var Extract = helper.extract;

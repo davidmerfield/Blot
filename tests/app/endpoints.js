@@ -1,13 +1,10 @@
 describe("Blot endpoints", function () {
   var request = require("request");
-  var START_MESSAGE = "listening on port";
+  var START_MESSAGE = "listening";
   var server;
   var has_err = false;
 
   beforeAll(function (done) {
-    var called_flag = 0;
-    const numCPUs = require("os").cpus().length;
-
     server = require("child_process").fork(__dirname + "/../../app", {
       silent: true,
     });
@@ -26,19 +23,13 @@ describe("Blot endpoints", function () {
       // there might be more than one message with listening in
 
       if (data.toString("utf8").indexOf(START_MESSAGE) > -1) {
-        called_flag++;
-        if (called_flag === numCPUs) {
-          done();
-        }
+        done();
       }
     });
   }, 50 * 1000);
 
   afterAll(function (done) {
-    server.on("close", function (code) {
-      // 128 + 15
-      // https://github.com/sindresorhus/exit-hook/commit/b6c274f6dc7617b8c800d612ac343ecc0cdef867
-      expect(code).toEqual(143);
+    server.on("close", function () {
       expect(has_err).toEqual(false);
       done();
     });

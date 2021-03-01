@@ -286,7 +286,7 @@ h3.f6 {line-height:1.25;}
   #open-nav, #open-nav-container {display:block}
   .nav {display:none} 
   .nav-is-open #close-nav {display:block;right:1rem}
-  .nav-is-open .nav {display:block;z-index:1;left:0}
+  .nav-is-open .nav {display:block;z-index:668;left:0}
 }
 
 @media (max-width:500px) {

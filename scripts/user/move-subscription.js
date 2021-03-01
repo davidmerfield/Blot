@@ -3,7 +3,7 @@ var to = process.argv[3];
 
 var get = require("../get/user");
 
-var User = require("../../app/models/user");
+var User = require("models/user");
 
 console.log(from);
 console.log(to);

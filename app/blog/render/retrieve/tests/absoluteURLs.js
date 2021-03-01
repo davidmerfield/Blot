@@ -1,5 +1,5 @@
 describe("absoluteURLs", function() {
-  var absoluteURLs = require("../absoluteURLs");
+  var absoluteURLs = require("blog/render/retrieve/absoluteURLs");
   var mustache = require("mustache");
 
   global.test.blog();

@@ -1,4 +1,4 @@
-var Blog = require("../blog");
+var Blog = require("blog");
 var helper = require("helper");
 var ensure = helper.ensure;
 var debug = require("debug")("blot:entry:assign");

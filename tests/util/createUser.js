@@ -1,4 +1,4 @@
-var User = require("../../app/models/user");
+var User = require("models/user");
 var randomString = require("./randomString");
 
 module.exports = function(done) {

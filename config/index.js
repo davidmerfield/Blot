@@ -3,6 +3,7 @@ module.exports = {
   environment: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   host: process.env.BLOT_HOST,
   protocol: process.env.BLOT_PROTOCOL + "://",
+  pidfile: process.env.BLOT_DIRECTORY + '/data/process.pid',
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
@@ -17,6 +18,14 @@ module.exports = {
   port: 8080,
 
   redis: { port: 6379 },
+
+  postgres: {
+    user: process.env.BLOT_POSTGRES_USER,
+    host: process.env.BLOT_POSTGRES_HOST,
+    database: process.env.BLOT_POSTGRES_DB,
+    password: process.env.BLOT_POSTGRES_PASSWORD,
+    port: process.env.BLOT_POSTGRES_PORT,
+  },
 
   admin: {
     uid: process.env.BLOT_ADMIN_UID,

@@ -13,6 +13,16 @@ var form = new Express.Router();
 
 form.use(require("./rateLimit"));
 
+// Used to give context to the user when not logged in.
+// E.g. please log in to access the Services page
+var DASHBOARD_PAGE_DESCRIPTION = {
+  '/settings/services': 'access services',
+  '/settings/urls/redirects': 'set up redirects',
+  '/settings/services/404s': 'view 404s',
+  '/settings/services/permalinks': 'set the link format',
+  '/settings/links': 'edit the links'
+};
+
 form.use(function (req, res, next) {
   // Send logged-in users to the dashboard
   if (req.session && req.session.uid && !req.query.token) {
@@ -23,6 +33,9 @@ form.use(function (req, res, next) {
   res.header("Cache-Control", "no-cache");
   res.locals.title = "Log in";
   res.locals.layout = "partials/layout-form";
+  res.locals.from = req.query.from;
+  res.locals.then = req.query.then;
+  res.locals.then_description = DASHBOARD_PAGE_DESCRIPTION[req.query.then];
   res.locals.breadcrumbs = [{ label: "Log in" }, { label: "Your account" }];
 
   return next();
@@ -31,6 +44,11 @@ form.use(function (req, res, next) {
 form
   .route("/reset")
 
+  .all(function(req, res, next){
+    res.locals.breadcrumbs = res.locals.breadcrumbs.slice(0, -1);
+    next()
+  })
+  
   .get(csrf, function (req, res) {
     res.locals.csrf = req.csrfToken();
     res.render("log-in/reset");
@@ -46,18 +64,15 @@ form
 form
   .route("/")
 
-  .get(checkToken, csrf, function (req, res) {
-    res.locals.csrf = req.csrfToken();
+  .get(checkToken, function (req, res) {
     res.render("log-in");
   })
 
-  .post(parse, csrf, checkEmail, checkReset, checkPassword, errorHandler)
+  .post(parse, checkEmail, checkReset, checkPassword, errorHandler)
 
   .post(function (err, req, res, next) {
     if (req.body && req.body.reset !== undefined)
       return res.redirect("/log-in/reset");
-
-    res.locals.csrf = req.csrfToken();
     res.render("log-in");
   });
 

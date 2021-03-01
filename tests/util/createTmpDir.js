@@ -1,4 +1,4 @@
-var helper = require('../../app/helper');
+var helper = require('helper');
 var fs = require('fs-extra');
 
 module.exports = function (done) {

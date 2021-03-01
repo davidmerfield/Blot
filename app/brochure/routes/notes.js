@@ -11,12 +11,11 @@ const config = require("config");
 
 if (config.environment === "development")
   fs.watch(NOTES_DIRECTORY, { recursive: true }, function() {
-    console.log("Rebuilt TOC");
     TOC = buildTOC(NOTES_DIRECTORY);
   });
 
 notes.use(function(req, res, next) {
-  res.locals.base = "/notes";
+  res.locals.base = "/about/notes";
   next();
 });
 
@@ -27,7 +26,7 @@ notes.param("section", function(req, res, next) {
     return section;
   });
 
-  res.locals.section = "/notes/" + req.params.section;
+  res.locals.section = "/about/notes/" + req.params.section;
   next();
 });
 
@@ -81,6 +80,6 @@ notes.get("/:section/:article", function(req, res, next) {
 });
 
 notes.get(["/", "/:section/:article", "/:section"], function(req, res) {
-  res.render("notes/layout");
+  res.render("about/notes/layout");
 });
 module.exports = notes;

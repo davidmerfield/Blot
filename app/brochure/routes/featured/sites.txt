@@ -1,31 +1,26 @@
 #d42633 zacharykeeting.com Zachary Keeting, is an artist based in New Haven, Connecticut
-#a0614a www.dmatthams.co.uk David Matthams, is a designer from the UK
 #585858 www.souloftheimage.com Kimberly Evans, is a photographer and writer from Los Angeles
 #c68256 www.skincarriedaway.com Tiffany Cecilia, writes about skincare from San Francisco
-#0077f0 www.tillmanjex.info Tillman Jex, is a composer based in Berlin
-#797979 www.withbb.com Bibi Zhang, is a designer from Beijing
+#111111 www.tillmanjex.info Tillman Jex, is a composer based in Berlin
 #c16256 blog.andrewjanjigian.com Andrew Janjigian, is a photographer at Cook’s Illustrated
-#666666 hannautkin.com Hanna Utkin, is a filmmaker and producer from New York City
+#303555 hannautkin.com Hanna Utkin, is a filmmaker and producer from New York City
 #5479bf keywords.oxus.net Kerim Friedman, teaches anthropology in Taiwan
 #ba7b6f com.johnbeeler.com John Beeler, is the label director at Asthmatic Kitty Records
 #39292d www.inextenso.dev Nicola Zanon, is a web developer from Berlin
 #87878a www.andrew-bishop.com Andrew Bishop, is an artist and writer living in San Francisco
-#a24645 bitdepth.org Chris Campbell, is a filmmaker based in Nova Scotia
 #dba14e discombobulated.co.nz Jessica Nickelsen, is a writer from New Zealand
-#727272 www.matthewbattles.org Matthew Battles, directs metaLAB at Harvard
 #1b6cb5 www.rebeccatron.com Rebecca Kukshtel, is an engineer based in New York City
 #a05781 blog.aurynn.com Aurynn Shaw, is a writer and engineer from New Zealand
-#50423e www.kristianhjelle.com Kristian Hjelle, is a designer and partner at Bakken & Bæck
 #5a362b www.alexgibson.nyc Alexander Gibson, is an artist from New York City
 #111111 www.jacobyyoung.com/about Jacoby Young, works at Kapālama Elementary School in Hawaii
 #715048 john.pavlusoffice.com John Pavlus, is a writer and filmmaker based in Portland, Oregon
 #702225 photos.rachelpietraszek.com Rachel Pietraszek, is a lawyer based in Toronto
 #65646a iiiiiiiii.in Ishtaarth Dalmia, writes about internet culture from Bengaluru
-#516f82 kiefer.design Kiefer Sutherland, is a freelance designer and art director
-#5fbade www.failuretolerated.com Sean McCoy, is a game designer from Dallas, Texas
-#486156 mrfris.by Stuart Frisby, is the Director of Design at Booking.com
+#516f82 kiefer.design Kiefer Sutherland, is a designer and art director
+#2e576b www.failuretolerated.com Sean McCoy, is a game designer from Dallas, Texas
+#ab4548 mrfrisby.com Stuart Frisby, is a director of design based in London
 #757196 www.querlin.com Querlin Ricci, is a designer based in Atlanta
-#696e66 vaughntan.org Vaughn Tan, is a sociologist at University College London’s School of Management
+#696e66 vaughntan.org Vaughn Tan, is a professor based in London
 #c56d64 blog.pixelswithin.com Diana Lopez, is a designer and developer based in Southern California
 #b97c29 eli.li Eli Mellen, is a web developer based in Portland, Maine
 #af8f8a rile.yt Riley Tomasek, is a software engineer based in New York City
@@ -36,23 +31,19 @@
 #c37728 shashwati.com Shashwati Talukdar, is an independent filmmaker
 #828282 shawn.medero.net Shawn Medero, is a software engineer based in Claremont
 #054429 mariusmasalar.me Marius Masalar, is a photographer and journalist based in Toronto
-#ad8d65 www.thingelstad.com Jamie Thingelstad, is CTO at SPS Commerce in Minneapolis
 #4c919c www.ishshah.me Ish Shah, is an engineer based in San Francisco
-#e5486c www.chrbutler.com Chris Butler, is a designer based in Chapel Hill
+#2f565d www.chrbutler.com Chris Butler, is a designer based in Chapel Hill
 #5f8293 tyler.vc Tyler Menezes, is a programmer based in Seattle
 #576c50 benlog.net Ben Greenberg, is an investigative reporter based in Boston
-#3e7090 www.enzel.io David Enzel, is a lawyer based in Washington D.C.
 #55423c www.crossingthethreshold.net David Johnson, is a life coach in Maui, Hawaii
 #4b4b4b www.inthemargins.ca Sameer Vasta, writes letters and takes long walks in Ontario, Canada
-#333333 www.jmablog.com James Adams, is a sports therapist based in London
-#535353 www.seanmcdevitt.com Sean McDevitt, is a writer from Illinois
 #111111 afc.letterspace.org Robert van Vliet, is a writer in Minneapolis
 #8a9144 blog.tomwhite.io Thomas White, is a biologist at the University of Sydney
 #4b5e53 www.zinzy.website Zinzy Nev Geene, is a designer based in Amsterdam
 #5d5d55 inhab.it Wil Turner, is a writer based in San Francisco
 #1d1e23 millicent-thomas.com Millicent Thomas, is a journalist and programmer from Manchester
 #55504a www.skellis.net Simon Ellis, is an artist from New Zealand
-#747b96 jeremysarber.com Jeremy Sarber, is a pastor and funeral home chaplain in Nappanee
+#747b96 jeremysarber.com Jeremy Sarber, is a funeral home chaplain in Nappanee
 #da6d8d ianamurray.work Iana Murray, is a journalist based in Stirling, Scotland
 #d1a15d diegosegura.me Diego Segura, is a designer based in New York City
 #475162 www.dustinsenos.com Dustin Senos, is a designer and engineer
@@ -62,8 +53,23 @@
 #c65b2d www.emilycass.org Emily Cass, is an architect from Southern California
 #c0887f abigailswallow.me Abigail Swallow, is a student of social policy and design
 #7d6a89 jessytuddenham.com Jessy Tuddenham, is a dancer and writer from Utah
-#b97371 bnjmnmddn.com Benjamin Madden, is a convenor and tutor at the University of Adelaide
+#b97371 bnjmnmddn.com Benjamin Madden, teaches at the University of Adelaide
 #1d2c32 www.jsoliday.com J. Soliday, is an electronic musician
 #566014 www.minnowlikethefish.com Minnow Park, is a business coach and writer based in New York
 #4c3722 tellyou.today Neale Stokes, is a librarian based in Los Angeles
 #2c2818 lara.onl Lara Dominguez, is an artist and photographer
+#73090b milkypekoe.art Trinh Bui, is a designer and artist
+#8f5160 xn--gntherwegs-9db.com Günther, is a young Weimaraner who loves carrots
+#393939 thejollyteapot.com Nicolas Magand, is a blogger living in Strasbourg, France
+#fb5b1f timeline.marconoris.com Marco Noris, is an artist living in Barcelona, Spain
+#000000 fergus.directory Fergus Egan, is a student of architecture from Australia
+#2e3d5c blog.scren.dk Sören Möller, is a professor of biostatistics from Denmark
+#435338 brainsister.com Jessica Doyle, is a writer, music critic, and city planning researcher
+#b69a51 nngorok.com Nick Ngorok, is an engineering manager based in the Bay Area
+#152c3b poetry.bencallahan.com Ben Callahan, is a poet based in Ohio
+#6b98d2 www.maxkeith.co Max Keith, is a trail runner from Chile
+#e62a04 www.aarondowd.com Aaron Dowd, is a podcaster and designer
+#cd9350 www.thoughtsbyora.com Uzoamaka Adaora Anyanwu, is a writer living in Amsterdam
+#000000 spittingdog.net Dave Haysom, is a translator of Chinese literature
+#9e4b3d nomathontheweekend.co Liana J. Taylor, is an accountant from Philadelphia
+#3267c3 www.praveenjayasuriya.com Praveen Jayasuriya, is engineer based in Australia

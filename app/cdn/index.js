@@ -40,11 +40,19 @@ cdn
       maxAge: "31536000",
       lastModified: false,
       etag: false,
-      setHeaders: function(res) {
+      setHeaders: function (res) {
         res.setHeader("Access-Control-Allow-Origin", "*");
       },
     })
-  );
+  )
+
+  .use("/cdn", function (req, res) {
+    res.status(404).send("404: Not found");
+  })
+
+  .use("/cdn", function (err, req, res, next) {
+    res.status(400).send("400: Bad request");
+  })
 
 // It might be nice to add a route which can render CSS and JS
 // on a particular template

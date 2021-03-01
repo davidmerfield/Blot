@@ -1,4 +1,4 @@
-var tmpDir = require('../../app/helper').tempDir();
+var tmpDir = require('helper').tempDir();
 var exec =  require('child_process').exec;
 
 var DELETE_OLD = "find " + tmpDir + " -mindepth 1 -ctime +1 -delete";
