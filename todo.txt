@@ -1,7 +1,3 @@
-Run date-injection scripts for [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdLwjdghqNqFXcRCznmFtSNx)
-
-Fix bug with comments on pages on all templates (including magazine template) and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdLwPtpbxtbGWMCZChGNsTsv)
-
 Template engine plan
 - create data/blogs/blogID/templates directory
 - show error message on preview-of subdomain
