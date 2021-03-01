@@ -2,7 +2,7 @@ const queueID = process.argv[2];
 const seed = process.argv[3];
 const seedrandom = require("seedrandom")(seed, { global: true });
 const Queue = require("../../index");
-const queue = new Queue(queueID);
+const queue = new Queue({prefix: queueID});
 
 queue.process(function (blogID, task, callback) {
 

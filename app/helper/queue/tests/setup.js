@@ -7,7 +7,7 @@ module.exports = function () {
 
 	beforeEach(function () {
 		this.queueID = hash(Date.now().toString()).slice(0, 10);
-		this.queue = new Queue(this.queueID);
+		this.queue = new Queue({ prefix: this.queueID });
 		this.workers = [];
 		this.sortTasks = (_a, _b) => {
 			let a = JSON.stringify(_a);
@@ -38,8 +38,8 @@ module.exports = function () {
 
 				worker.stdout.on("data", (data) => {
 					data = data.toString().trim();
+					// console.log("Worker message:", data);
 					if (data !== "ready") {
-						// console.log("Worker message:", data);
 						return;
 					}
 					if (options.isRestart && options.onRestart) {

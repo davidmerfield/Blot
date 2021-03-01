@@ -1,14 +1,17 @@
-const debug = require("debug")("blot:models:queue");
+const debug = require("debug")("blot:helper:queue");
 const client = require("client");
 
 // Number of tasks to store on completed task log
 const COMPLETED_TASK_LENGTH = 1000;
 
-module.exports = function Queue(prefix = "") {
+module.exports = function Queue({ prefix = "", parallel = false }) {
 	// These keys are used with Redis to persist the queue
 	const keys = {
 		// A list of blogs with outstanding tasks
 		blogs: `queue:${prefix}blogs`,
+
+		// A list of blogs with tasks being processes
+		blogsProcessing: `queue:${prefix}blogsProcessing`,
 
 		// A list of tasks that are awaiting processing
 		queued: (blogID) => `queue:${prefix}blog:${blogID}:queued`,
@@ -26,6 +29,8 @@ module.exports = function Queue(prefix = "") {
 		all: `queue:${prefix}all`,
 	};
 
+	let addClient = client.duplicate();
+
 	// Used to enqueue a next task.
 	this.add = (blogID, tasks, callback = function () {}) => {
 		let serializedTasks;
@@ -40,22 +45,43 @@ module.exports = function Queue(prefix = "") {
 			return callback(new TypeError("Invalid task"));
 		}
 
-		client
-			.multi()
-			// Add the blog which owns the tasks to the list of all blogs
-			// with tasks. BlogID may be on the list multiple times.
-			.lpush(keys.blogs, blogID)
-			// Add the tasks to the list of tasks associated with the blog
-			.lpush(keys.queued(blogID), serializedTasks)
-			// Store that there exists a list of tasks for this blog.
-			// This allows us to quickly reset the queue.
-			.sadd(
-				keys.all,
-				keys.queued(blogID),
-				keys.active(blogID),
-				keys.ended(blogID)
-			)
-			.exec(callback);
+		addClient.watch(keys.blogs, (err) => {
+			if (err) return callback(err);
+			addClient.lrange(keys.blogs, 0, -1, (err, blogs) => {
+				if (err) return callback(err);
+				let multi = addClient.multi();
+
+				multi
+					// Add the tasks to the list of tasks associated with the blog
+					.lpush(keys.queued(blogID), serializedTasks);
+
+				if (blogs.indexOf(blogID) === -1) {
+					// Add the blog which owns the tasks to the list of all blogs
+					// with tasks. BlogID may be on the list multiple times.
+					multi
+						.lpush(keys.blogs, blogID)
+						// Store that there exists a list of tasks for this blog.
+						// This allows us to quickly reset the queue.
+						.sadd(
+							keys.all,
+							keys.queued(blogID),
+							keys.active(blogID),
+							keys.ended(blogID)
+						);
+				}
+
+				multi.exec((err, res) => {
+					if (err) return callback(err);
+
+					// Something changed, re-attempt to reprocess each blog
+					if (res === null) {
+						this.add(blogID, tasks, callback);
+					} else {
+						callback(null);
+					}
+				});
+			});
+		});
 	};
 
 	// Used to see the state of the queue. Returns information
@@ -115,58 +141,66 @@ module.exports = function Queue(prefix = "") {
 	let reprocessingClient = client.duplicate();
 
 	this.reprocess = (callback = function () {}) => {
-		reprocessingClient.lrange(keys.blogs, 0, -1, (err, blogIDs) => {
-			if (err) return callback(err);
-
-			if (!blogIDs.length) return callback();
-
-			// Make the list of blogIDs unique this is neccessary
-			// because for each task added, the blogID is added to the
-			// list of blogs. If we can enforce uniqueness on the list
-			// of blogs then we don't need this step.
-			blogIDs = Array.from(new Set(blogIDs));
-
-			let activeQueues = blogIDs.map((blogID) => keys.active(blogID));
-
-			reprocessingClient.watch(activeQueues, (err) => {
+		reprocessingClient.lrange(
+			parallel ? keys.blogs : keys.blogsProcessing,
+			0,
+			-1,
+			(err, blogIDs) => {
 				if (err) return callback(err);
 
-				let batch = client.batch();
+				if (!blogIDs.length) return callback();
 
-				blogIDs.forEach((blogID) => {
-					batch.lrange(keys.active(blogID), 0, -1);
-				});
+				// Make the list of blogIDs unique this is neccessary
+				// because for each task added, the blogID is added to the
+				// list of blogs. If we can enforce uniqueness on the list
+				// of blogs then we don't need this step.
+				blogIDs = Array.from(new Set(blogIDs));
 
-				batch.exec((err, res) => {
+				let activeQueues = blogIDs.map((blogID) => keys.active(blogID));
+
+				reprocessingClient.watch(activeQueues, (err) => {
 					if (err) return callback(err);
 
-					let multi = reprocessingClient.multi();
+					let batch = client.batch();
 
-					res.forEach((serializedTasks, i) => {
-						let blogID = blogIDs[i];
-						serializedTasks.forEach((serializedTask) => {
-							multi
-								.lpush(keys.queued(blogID), serializedTask)
-								.lrem(keys.active(blogID), -1, serializedTask);
-						});
+					blogIDs.forEach((blogID) => {
+						batch.lrange(keys.active(blogID), 0, -1);
 					});
 
-					multi.exec((err, res) => {
+					batch.exec((err, res) => {
 						if (err) return callback(err);
 
-						// Something change, re-attempt to reprocess each blog
-						if (res === null) {
-							this.reprocess(callback);
-						} else {
-							// If we call 'reprocess' in a master process
-							// it might not have registered its own processor function
-							if (this.processor) this.process(this.processor);
-							callback();
-						}
+						let multi = reprocessingClient.multi();
+
+						if (!parallel)
+							blogIDs.forEach((blogID) => multi.lpush(keys.blogs, blogID));
+
+						res.forEach((serializedTasks, i) => {
+							let blogID = blogIDs[i];
+							serializedTasks.forEach((serializedTask) => {
+								multi
+									.lpush(keys.queued(blogID), serializedTask)
+									.lrem(keys.active(blogID), -1, serializedTask);
+							});
+						});
+
+						multi.exec((err, res) => {
+							if (err) return callback(err);
+
+							// Something change, re-attempt to reprocess each blog
+							if (res === null) {
+								this.reprocess(callback);
+							} else {
+								// If we call 'reprocess' in a master process
+								// it might not have registered its own processor function
+								if (this.processor) this.process(this.processor);
+								callback();
+							}
+						});
 					});
 				});
-			});
-		});
+			}
+		);
 	};
 
 	// We create a seperate client for this process because
@@ -213,30 +247,36 @@ module.exports = function Queue(prefix = "") {
 	// until there is a blog with a task to work on.
 	this.process = (processor) => {
 		this.processor = processor;
-		processingClient.brpoplpush(keys.blogs, keys.blogs, 0, (err, blogID) => {
-			processingClient.rpoplpush(
-				keys.queued(blogID),
-				keys.active(blogID),
-				(err, serializedTask) => {
-					if (!serializedTask) return this.process(processor);
+		processingClient.brpoplpush(
+			keys.blogs,
+			parallel ? keys.blogs : keys.blogsProcessing,
+			0,
+			(err, blogID) => {
+				processingClient.rpoplpush(
+					keys.queued(blogID),
+					keys.active(blogID),
+					(err, serializedTask) => {
+						if (!serializedTask) return this.process(processor);
 
-					let task = JSON.parse(serializedTask);
+						let task = JSON.parse(serializedTask);
 
-					processor(blogID, task, (err) => {
-						processingClient
-							.multi()
-							.lrem(keys.active(blogID), -1, serializedTask)
-							.lpush(keys.ended(blogID), serializedTask)
-							.ltrim(keys.ended(blogID), 0, COMPLETED_TASK_LENGTH - 1)
-							.exec((err) => {
-								if (err) debug(err);
-								this.checkIfBlogIsDrained(blogID, (err) => {
-									this.process(processor);
+						processor(blogID, task, (err) => {
+							processingClient
+								.multi()
+								.lrem(keys.active(blogID), -1, serializedTask)
+								.lpush(keys.ended(blogID), serializedTask)
+								.lpush(keys.blogs, blogID)
+								.ltrim(keys.ended(blogID), 0, COMPLETED_TASK_LENGTH - 1)
+								.exec((err) => {
+									if (err) debug(err);
+									this.checkIfBlogIsDrained(blogID, (err) => {
+										this.process(processor);
+									});
 								});
-							});
-					});
-				}
-			);
-		});
+						});
+					}
+				);
+			}
+		);
 	};
 };
