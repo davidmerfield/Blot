@@ -134,13 +134,39 @@ describe("Queue", function () {
 		this.queue.drain((blogID) => {
 			expect(blogID).toEqual(this.blog.id);
 			this.queue.inspect((err, res) => {
-				expect(res[this.blog.id].ended.sort(this.sortTasks)).toEqual(
-					tasks.sort(this.sortTasks)
-				);
 				expect(res[this.blog.id].active).toEqual([]);
 				expect(res[this.blog.id].queued).toEqual([]);
 				expect(res.sources).toEqual([]);
 				done();
+			});
+		});
+	});
+
+	it("preserves processing order per-blog when using multiple workers", function (done) {
+		this.createWorkers({
+			count: 5,
+			module: "./workers/variable-speed.js",
+		});
+
+		let tasks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+		this.queue.add("a", tasks);
+		this.queue.add("b", tasks);
+		this.queue.add("c", tasks);
+
+		let checked = [];
+		this.queue.drain((blogID) => {
+			this.queue.inspect((err, res) => {
+				expect(res[blogID].ended.reverse()).toEqual(tasks);
+				expect(res[blogID].active).toEqual([]);
+				expect(res[blogID].queued).toEqual([]);
+				expect(res.sources).toEqual([]);
+				checked.push(blogID);
+
+				if (checked.length === 3) {
+					expect(checked).toContain("a");
+					return done();
+				}
 			});
 		});
 	});
@@ -161,9 +187,7 @@ describe("Queue", function () {
 		this.queue.drain((blogID) => {
 			expect(blogID).toEqual(this.blog.id);
 			this.queue.inspect((err, res) => {
-				expect(res[this.blog.id].ended.sort(this.sortTasks)).toEqual(
-					tasks.sort(this.sortTasks)
-				);
+				expect(res[this.blog.id].ended.reverse()).toEqual(tasks);
 				expect(res[this.blog.id].active).toEqual([]);
 				expect(res[this.blog.id].queued).toEqual([]);
 				expect(res.sources).toEqual([]);
