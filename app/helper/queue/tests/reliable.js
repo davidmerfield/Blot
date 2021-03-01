@@ -139,7 +139,7 @@ describe("Queue", function () {
 				);
 				expect(res[this.blog.id].active).toEqual([]);
 				expect(res[this.blog.id].queued).toEqual([]);
-				expect(res.blogs).toEqual([]);
+				expect(res.sources).toEqual([]);
 				done();
 			});
 		});
@@ -166,7 +166,7 @@ describe("Queue", function () {
 				);
 				expect(res[this.blog.id].active).toEqual([]);
 				expect(res[this.blog.id].queued).toEqual([]);
-				expect(res.blogs).toEqual([]);
+				expect(res.sources).toEqual([]);
 				done();
 			});
 		});
