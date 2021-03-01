@@ -29,8 +29,6 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 		all: `queue:${prefix}all`,
 	};
 
-	let addClient = client.duplicate();
-
 	// Used to enqueue a next task.
 	this.add = (sourceID, tasks, callback = function () {}) => {
 		let serializedTasks;
@@ -45,11 +43,11 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 			return callback(new TypeError("Invalid task"));
 		}
 
-		addClient.watch(keys.queuedSources, (err) => {
+		client.watch(keys.queuedSources, (err) => {
 			if (err) return callback(err);
-			addClient.lrange(keys.queuedSources, 0, -1, (err, sources) => {
+			client.lrange(keys.queuedSources, 0, -1, (err, sources) => {
 				if (err) return callback(err);
-				let multi = addClient.multi();
+				let multi = client.multi();
 
 				multi
 					// Add the tasks to the list of tasks associated with the source
@@ -141,10 +139,9 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 	// - Can other reprocessing functions clobber this?
 	// - Can we eventually only reprocess tasks for the dead worker?
 	// - Can we add a timeout for tasks?
-	let reprocessingClient = client.duplicate();
 
 	this.reprocess = (callback = function () {}) => {
-		reprocessingClient.lrange(
+		client.lrange(
 			parallel ? keys.queuedSources : keys.activeSources,
 			0,
 			-1,
@@ -161,7 +158,7 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 
 				let activeQueues = sourceIDs.map((sourceID) => keys.active(sourceID));
 
-				reprocessingClient.watch(activeQueues, (err) => {
+				client.watch(activeQueues, (err) => {
 					if (err) return callback(err);
 
 					let batch = client.batch();
@@ -173,7 +170,7 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 					batch.exec((err, res) => {
 						if (err) return callback(err);
 
-						let multi = reprocessingClient.multi();
+						let multi = client.multi();
 
 						if (!parallel)
 							sourceIDs.forEach((sourceID) =>
@@ -208,10 +205,6 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 		);
 	};
 
-	// We create a seperate client for this process because
-	// watch operations only work for the actions of other clients
-	let drainClient = client.duplicate();
-
 	this.drain = (onDrain) => {
 		let drainSubscriber = client.duplicate();
 		drainSubscriber.subscribe(keys.channel);
@@ -223,10 +216,10 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 
 	// We want to
 	this.checkIfSourceIsDrained = (sourceID, callback = function () {}) => {
-		drainClient.watch(keys.queued(sourceID), keys.active(sourceID), (err) => {
+		client.watch(keys.queued(sourceID), keys.active(sourceID), (err) => {
 			if (err) return callback(err);
 
-			drainClient
+			client
 				.batch()
 				.llen(keys.queued(sourceID))
 				.llen(keys.active(sourceID))
@@ -234,9 +227,9 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 					if (err) return callback(err);
 
 					if (totalQueuedTasks !== 0 || totalActiveTasks !== 0)
-						return drainClient.unwatch(callback);
+						return client.unwatch(callback);
 
-					drainClient
+					client
 						.multi()
 						.lrem(keys.queuedSources, -1, sourceID)
 						.publish(keys.channel, sourceID)
@@ -244,7 +237,7 @@ module.exports = function Queue({ prefix = "", parallel = false }) {
 				});
 		});
 	};
-
+	
 	const processingClient = client.duplicate();
 
 	// Public method which accepts as only argument an asynchronous
