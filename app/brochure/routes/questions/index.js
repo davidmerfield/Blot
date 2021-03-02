@@ -54,14 +54,18 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 
   const offset = (page - 1) * TOPICS_PER_PAGE;
 
-  const search_query = req.query.search;
-  let search_arr = ['%']
-
+  // Search data
+  const search_query = req.query.search; // raw query from form
+  let search_arr = ['%']                 // array for Postgres; initial value is needed for empty search query case
   if (search_query) {
-    search_arr = search_query.split(' ')
+    search_arr = search_query.split(' ') // populate with words from query
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length-1].label = "Questions about " + search_query.split(/[ ,]+/).join(', ')
+  } else {
+    res.locals.breadcrumbs[res.locals.breadcrumbs.length-1].label = "Questions"
   }
-  search_arr = search_arr.map(el => '%' + el + '%')
-  const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'")
+
+  search_arr = search_arr.map(el => '%' + el + '%') // add '%' prefix and postfix for Postgres pattern matching
+  const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'") // stringify and replace double quotes with single quotes for Postgres
 
   pool
     .query(
