@@ -54,7 +54,7 @@ describe("Queue", function () {
 			done_adding = true;
 			clearInterval(hammerAdd);
 			addTask();
-		}, 1000 * 3);
+		}, 1000 * 2.5);
 	});
 
 	it("lets you reprocess active tasks if needed", function (done) {
@@ -92,22 +92,26 @@ describe("Queue", function () {
 
 	it("calling reprocess multiple times works", function (done) {
 		let task = { path: "foo" };
-		let processor = () => {};
+		let called = 0;
+		let processor = () => {
+			called++;
+			if (called === 3) {
+				this.queue.inspect((err, res) => {
+					expect(res[this.blog.id]).toEqual({
+						active: [task],
+						ended: [],
+						queued: [],
+					});
+					done();
+				});
+			}
+		};
 
 		this.queue.process(processor);
 
 		this.queue.add(this.blog.id, task, (err) => {
 			this.queue.reprocess((err) => {
-				this.queue.reprocess((err) => {
-					this.queue.inspect((err, res) => {
-						expect(res[this.blog.id]).toEqual({
-							active: [task],
-							ended: [],
-							queued: [],
-						});
-						done();
-					});
-				});
+				this.queue.reprocess((err) => {});
 			});
 		});
 	});
@@ -172,7 +176,7 @@ describe("Queue", function () {
 	});
 
 	it("distributes tasks across unreliable workers", function (done) {
-		let tasks = [{ path: "foo" }, { path: "bar" }, { path: "baz" }];
+		let tasks = [1, 2, 3];
 
 		this.createWorkers({
 			count: 3,
@@ -187,7 +191,7 @@ describe("Queue", function () {
 		this.queue.drain((blogID) => {
 			expect(blogID).toEqual(this.blog.id);
 			this.queue.inspect((err, res) => {
-				expect(res[this.blog.id].ended.reverse()).toEqual(tasks);
+				expect(res[this.blog.id].ended.sort()).toEqual(tasks.sort());
 				expect(res[this.blog.id].active).toEqual([]);
 				expect(res[this.blog.id].queued).toEqual([]);
 				expect(res.sources).toEqual([]);
