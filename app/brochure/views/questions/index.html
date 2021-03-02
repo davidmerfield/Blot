@@ -5,25 +5,25 @@
 <p>A place for people to ask and answer questions about Blot. Questions and answers are public and anonymous.</p>
 
 <form action="/questions">
-  <label for="gsearch">Search:</label>
-  <input type="search" id="search" name="search">
+  <input style="width: 100%" type="search" id="search" name="search" value="{{search_query}}" placeholder="Search...">
 </form>
 
-{{#topics}}
-<div class="qa-question-link">
-<h2>
-  <a href="/questions/{{id}}">{{title}}</a>
-</h2>
-<div class="question-preview">
-  {{{body}}}
+<div class="topics">
+  {{#topics}}
+  <div class="qa-question-link">
+  <h2>
+    <a href="/questions/{{id}}">{{title}}</a>
+  </h2>
+  <div class="question-preview">
+    {{{body}}}
+  </div>
+  <a href="/questions/{{id}}">
+  <span class="secondary-text smaller" style="float: right;">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
+  <span class="secondary-text smaller" >asked {{formatDaytime created_at}}</span>
+  </a>
+  </div>
+  {{/topics}}
 </div>
-<a href="/questions/{{id}}">
-<span class="secondary-text smaller" style="float: right;">{{reply_count}} {{#singular}}reply{{/singular}}{{^singular}}replies{{/singular}}</span>
-<span class="secondary-text smaller" >asked {{formatDaytime created_at}}</span>
-</a>
-</div>
-{{/topics}}
-
 
 {{#paginator}}
 <div class="paginator">

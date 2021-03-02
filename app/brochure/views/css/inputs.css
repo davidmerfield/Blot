@@ -55,6 +55,7 @@ input[name="cvc"] {
 }
 
 input[type="text"],
+input[type="search"],
 input[type="password"] {
   padding: 4px 3px;
   margin: 2px 0;

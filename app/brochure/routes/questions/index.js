@@ -54,11 +54,14 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
 
   const offset = (page - 1) * TOPICS_PER_PAGE;
 
-  let search_query = req.query.search;
+  const search_query = req.query.search;
+  let search_arr = ['%']
+
   if (search_query) {
-    search_query = search_query.replace(/\s+/g, '%').toLowerCase();
-  } else search_query = '';
-  search_query = "%" + search_query + "%"
+    search_arr = search_query.split(' ')
+  }
+  search_arr = search_arr.map(el => '%' + el + '%')
+  const search_arr_str = JSON.stringify(search_arr).replace(/"/g, "'")
 
   pool
     .query(
@@ -70,7 +73,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
                         FROM items GROUP BY parent_id
                         ) r2 
                     ON r2.parent_id = i.id
-                WHERE i.is_topic = true AND i.body ILIKE '${search_query}'
+                WHERE i.is_topic = true AND (i.body ILIKE any (array[${search_arr_str}]) OR i.title ILIKE any (array[${search_arr_str}]))
                 GROUP BY i.id, last_reply_created_at
                 ORDER BY has_replies, i.created_at DESC
                 LIMIT ${TOPICS_PER_PAGE}
@@ -117,6 +120,7 @@ Questions.get(["/", "/page/:page"], function (req, res, next) {
         title: "Blot — Questions",
         topics: topics.rows,
         paginator: paginator,
+        search_query: search_query,
       });
     })
     .catch(next);
