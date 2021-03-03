@@ -745,6 +745,10 @@ button.whitebutton:hover:enabled {
   border-top: 1px solid var(--light-border-color);
 }
 
+.qa-question-link:first-child {
+  border-top: none;
+}
+
 .qa-question-link h2 {
   margin: 0;
   padding: 0;
