@@ -2,7 +2,7 @@ describe("Blot endpoints", function () {
   var request = require("request");
   var START_MESSAGE = "listening";
   var server;
-  var has_err = false;
+  var stderr = '';
 
   beforeAll(function (done) {
     server = require("child_process").fork(__dirname + "/../../app", {
@@ -11,17 +11,13 @@ describe("Blot endpoints", function () {
 
     // App should not emit anything on standard error
     server.stderr.on("data", function (data) {
-      has_err = true;
-      console.log("CONFIGURATION error:", data.toString("utf8"));
-      server.kill();
-      done(new Error("Server failed to start: " + data.toString("utf8")));
+      stderr += data.toString("utf8") + '\n';
     });
 
     // Listen for listening message
     server.stdout.on("data", function (data) {
       // This is a bit of a flimsy check to see if the server is running
       // there might be more than one message with listening in
-
       if (data.toString("utf8").indexOf(START_MESSAGE) > -1) {
         done();
       }
@@ -30,7 +26,7 @@ describe("Blot endpoints", function () {
 
   afterAll(function (done) {
     server.on("close", function () {
-      expect(has_err).toEqual(false);
+      expect(stderr).toEqual('');
       done();
     });
 

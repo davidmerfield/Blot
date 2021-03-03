@@ -61,7 +61,6 @@ Server changes
 
 Improve questions section of site, in approximate order of importance:
   - ensure that editings a reply does not affect the sort order of replies. right now, if you edit a reply, it will become the last reply to a topic, regardless of its creation date.
-  - add 'Improve this question' and 'Improve this answer' buttons (open to all authenticated users) which would edit the question / answer text. 
   - store version history of the question and answer edits
   - question tagging, including a list of all tags, and popular tags
   - give the 'ask' and 'answer' textarea inputs the full functionality of the GitHub issue/PR comment inputs (i.e. code snippets / preview / copy/paste screenshots from clipboard)
@@ -70,7 +69,6 @@ Improve questions section of site, in approximate order of importance:
   - show vote count and answer count next to each question on index
   - add a filter for topic index to show questions by: 'Newest', 'Active', 'Unanswered', 'Votes'
   - 'run code snippet' feature / similar to trinkets.io
-  - question search
 
 ---
 
