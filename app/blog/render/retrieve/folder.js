@@ -57,7 +57,7 @@ module.exports = function (req, callback) {
 							isDirectory: results[0].stat.isDirectory(),
 							isFile: results[0].stat.isFile(),
 							entry: results[1].entry,
-							updated: stat.mtime
+							updated: results[0].stat.mtime,
 						});
 					}
 				);
