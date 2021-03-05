@@ -46,6 +46,8 @@ Improve server-side scheduled tasks:
 - Understand why some backups don't appear and others are not deleted
 - Back up postgres database
 
+Fetch dimensions of images even if optimize and cache is disable, so that image zoom can work. Tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
+
 Improvements to metadata extractor:
 - Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23)
 - Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
@@ -58,6 +60,8 @@ Server changes
 - Migrate to lower-cost r6gd.xlarge instance, which is not possible using the AWS console due to some difference in architecture (intel vs. amazon chip?). 
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 - Experiment with different EBS types, perhaps try to use ephemeral disk more since lower latency?
+
+Reduce image compression settings and tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
 
 Improve questions section of site, in approximate order of importance:
   - ensure that editings a reply does not affect the sort order of replies. right now, if you edit a reply, it will become the last reply to a topic, regardless of its creation date.
