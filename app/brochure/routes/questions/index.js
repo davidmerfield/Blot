@@ -227,7 +227,7 @@ Questions.route("/:id").get(csrf, function (req, res) {
     .then((topics) => {
       pool
         .query(
-          "SELECT * FROM items WHERE parent_id = $1 AND is_topic = false",
+          "SELECT * FROM items WHERE parent_id = $1 AND is_topic = false ORDER BY created_at ASC",
           [id]
         )
         .then((replies) => {
