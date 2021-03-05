@@ -60,7 +60,6 @@ Server changes
 - Experiment with different EBS types, perhaps try to use ephemeral disk more since lower latency?
 
 Improve questions section of site, in approximate order of importance:
-  - ensure that editings a reply does not affect the sort order of replies. right now, if you edit a reply, it will become the last reply to a topic, regardless of its creation date.
   - store version history of the question and answer edits
   - question tagging, including a list of all tags, and popular tags
   - give the 'ask' and 'answer' textarea inputs the full functionality of the GitHub issue/PR comment inputs (i.e. code snippets / preview / copy/paste screenshots from clipboard)
