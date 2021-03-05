@@ -247,7 +247,7 @@ module.exports = function Queue({ prefix = "" }) {
 
 					// Something changed, re-attempt to add these tasks
 					if (res === null) {
-						this.checkIfSourceIsDrained(sourceID, callback);
+						checkIfSourceIsDrained(sourceID, callback);
 					} else {
 						callback(null);
 					}
@@ -255,7 +255,7 @@ module.exports = function Queue({ prefix = "" }) {
 			});
 		});
 	};
-	
+
 	this.process = (processor) => {
 		this.processor = processor;
 		waitForTask((err, sourceID, serializedTask) => {
