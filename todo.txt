@@ -809,6 +809,8 @@ Add support for entry property with escaped double quotes, tell [Jay](https://ma
 
 NGINX Install nginx fail2ban & http2
 
+NGINX limit client request size to 1mb, only have large limit on git push endpoint.
+
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 
 Add support for comments via webmentions like Disqus and tell Amit and [Luke](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqxRmLKckzjnQRsszbdLwvnGb)
