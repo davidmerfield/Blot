@@ -1,3 +1,5 @@
+Simplfy local dev setup for David and write guide
+
 Template engine plan
 - create data/blogs/blogID/templates directory
 - show error message on preview-of subdomain
