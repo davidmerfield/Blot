@@ -70,6 +70,7 @@ div.header {padding: 1.45rem;margin:1.4rem;display: flex;align-items:baseline;po
 .column img {margin-top: 6px}
 
 .margin p {font-style: italic;font-size: 0.9em;margin-top: 0}
+.column p {margin-top: 0}
 .margin h1, .margin h2, .margin h3 {margin-top:0}
 
 .left.margin {
@@ -105,14 +106,20 @@ div.header {padding: 1.45rem;margin:1.4rem;display: flex;align-items:baseline;po
   padding-right: 12px;
 }
 
-.column.three {
-  width: 33%;
-  padding-right: 24px;
-}
 
 .column.two + .column.two {
   padding: 0 0 0 12px;
 }
+
+.column.three {width: 33.333333%;padding: 0 16px 0 0;}
+.column.three + .column.three {padding: 0 8px}
+.column.three + .column.three + .column.three {padding: 0 0 0 16px}
+
+.column.four {width: 25%;padding-right: 18px;}
+.column.four + .column.four {padding: 0 12px 0 6px;}
+.column.four + .column.four + .column.four {padding: 0 6px 0 12px;}
+.column.four + .column.four + .column.four + .column.four {padding: 0 0 0 18px;}
+
 
 .column h1,
 .column h2,
