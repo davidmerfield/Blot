@@ -7,6 +7,10 @@ module.exports = {
     return "template:" + name + ":view:" + viewName;
   },
 
+  routes: function routes(name) {
+    return "template:" + name + ":routes";
+  },
+
   url: function url(templateID, url) {
     return "template:" + templateID + ":url:" + url;
   },
