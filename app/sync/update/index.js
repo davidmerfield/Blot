@@ -8,7 +8,7 @@ var set = require("./set");
 var mkdir = require("./mkdir");
 var client = require("client");
 
-module.exports = function (blog) {
+module.exports = function (blog, log) {
   return function update(path, options, callback) {
     if (callback === undefined && typeof options === "function") {
       callback = options;
@@ -37,11 +37,35 @@ module.exports = function (blog) {
 
       fs.stat(localPath(blog.id, path), function (err, stat) {
         if (err && err.code === "ENOENT") {
-          drop(blog.id, path, options, done);
+          log(path, "Dropping from database");
+          drop(blog.id, path, options, function (err) {
+            if (err) {
+              log(path, "Error dropping from database", err);
+            } else {
+              log(path, "Dropping from database succeeded");
+            }
+            done(err);
+          });
         } else if (stat && stat.isDirectory()) {
-          mkdir(blog.id, path, options, done);
+          log(path, "Adding folder to database");
+          mkdir(blog.id, path, options, function (err) {
+            if (err) {
+              log(path, "Error adding folder", err);
+            } else {
+              log(path, "Adding folder to database succeeded");
+            }
+            done(err);
+          });
         } else {
-          set(blog, path, options, done);
+          log(path, "Saving file in database");
+          set(blog, path, options, function (err) {
+            if (err) {
+              log(path, "Error saving file in database", err);
+            } else {
+              log(path, "Saving file in database succeeded");
+            }
+            done(err);
+          });
         }
       });
     });
