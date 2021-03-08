@@ -26,10 +26,9 @@ status.get("/", function (req, res) {
   client.subscribe("sync:status:" + blogID);
 
   client.on("message", function (channel, message) {
-    console.log('message recieved', message, channel);
     res.write("\n");
     res.write("data: " + message + "\n\n");
-    res.flush();
+    res.flushHeaders();
   });
 
   // In case we encounter an error...print it out to the console

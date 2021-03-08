@@ -29,8 +29,6 @@ module.exports = (function() {
 
     redis.hset(ignoredFilesKey(blogID), path, reason, function(err) {
       if (err) throw err;
-
-      console.log(clfdate(), blogID, path, "ignored for", reason);
       callback();
     });
   }
@@ -44,8 +42,6 @@ module.exports = (function() {
 
     redis.hdel(ignoredFilesKey(blogID), path, function(err, stat) {
       if (err) throw err;
-
-      if (stat) console.log("Blog: " + blogID + ": Un-ignored " + path);
 
       callback();
     });
