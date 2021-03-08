@@ -100,7 +100,7 @@ module.exports = function main(blog, callback) {
             async.eachSeries(
               result.entries,
               function (item, next) {
-                debug("Updating on Blot:");
+                debug("Updating on Blot:", item.relative_path);
 
                 // The items's relative path is computed by delta, based on the
                 // current path to the blog's folder in the user's Dropbox.
