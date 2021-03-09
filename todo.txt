@@ -1,4 +1,4 @@
-Simplfy local dev setup for David and write guide
+Simplify local dev setup for David and write guide
 
 Template engine plan
 - create data/blogs/blogID/templates directory
