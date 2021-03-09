@@ -28,7 +28,7 @@ status.get("/", function (req, res) {
   client.on("message", function (channel, message) {
     res.write("\n");
     res.write("data: " + message + "\n\n");
-    res.flushHeaders();
+    res.flush();
   });
 
   // In case we encounter an error...print it out to the console
