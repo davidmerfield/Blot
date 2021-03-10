@@ -15,25 +15,22 @@ describe("drafts work", function () {
 		const path = "/drafts/entry.txt";
 		const firstContents = guid();
 		const secondContents = guid();
-		let data;
 
 		this.writeDraft(path, firstContents, (err) => {
 			if (err) return done.fail(err);
-			return setInterval(function () {
-				if (data) {
-					expect(data).toContain(secondContents);
-					done();
-				}
-			}, 100);
-			
+
 			request(this.origin + "/draft/stream" + path, { strictSSL: false })
 				.on("response", () => {
 					this.writeDraft(path, secondContents, (err) => {
 						if (err) return done.fail(err);
 					});
 				})
-				.on("data", (_data) => {
-					data = _data.toString().trim();
+				.on("data", (data) => {
+					data = data.toString().trim();
+					if (!data) return;
+					expect(data).toContain(secondContents);
+					console.log("calling done... HERE!");
+					done();
 				});
 		});
 	});
@@ -94,6 +91,7 @@ describe("drafts work", function () {
 	});
 
 	afterEach(function (done) {
-		this.server.close(done);
+		this.server.close();
+		done();
 	});
 });
