@@ -1,4 +1,6 @@
 describe("drafts work", function () {
+	const Template = require("models/template");
+	const Blog = require("models/blog");
 	const sync = require("sync");
 	const blogServer = require("blog");
 	const fs = require("fs-extra");
@@ -13,23 +15,51 @@ describe("drafts work", function () {
 		const path = "/drafts/entry.txt";
 		const firstContents = guid();
 		const secondContents = guid();
+		let data;
 
 		this.writeDraft(path, firstContents, (err) => {
 			if (err) return done.fail(err);
-
-			request(this.origin + "/draft/stream" + path, { strictSSL: false }).on(
-				"data",
-				(data) => {
-					data = data.toString().trim();
-					if (data) {
-						expect(data).toContain(secondContents);
-						done();
-					}
+			return setInterval(function () {
+				if (data) {
+					expect(data).toContain(secondContents);
+					done();
 				}
-			);
+			}, 100);
+			
+			request(this.origin + "/draft/stream" + path, { strictSSL: false })
+				.on("response", () => {
+					this.writeDraft(path, secondContents, (err) => {
+						if (err) return done.fail(err);
+					});
+				})
+				.on("data", (_data) => {
+					data = _data.toString().trim();
+				});
+		});
+	});
 
-			this.writeDraft(path, secondContents, (err) => {
-				if (err) return done.fail(err);
+	beforeEach(function (done) {
+		const templateName = "example";
+
+		const view = {
+			name: "entry.html",
+			content: `<html><head></head><body>{{{entry.html}}}</body></html>`,
+		};
+
+		Template.create(this.blog.id, templateName, {}, (err) => {
+			if (err) return done(err);
+			Template.getTemplateList(this.blog.id, (err, templates) => {
+				let templateId = templates.filter(
+					({ name }) => name === templateName
+				)[0].id;
+				Template.setView(templateId, view, (err) => {
+					if (err) return done(err);
+					Blog.set(
+						this.blog.id,
+						{ forceSSL: false, template: templateId },
+						done
+					);
+				});
 			});
 		});
 	});
@@ -37,20 +67,19 @@ describe("drafts work", function () {
 	// Create a webserver for testing remote files
 	beforeEach(function (done) {
 		let server;
-		const test = this;
 		server = Express();
-		server.use(function (req, res, next) {
+		server.use((req, res, next) => {
 			const _get = req.get;
-			req.get = function (arg) {
+			req.get = (arg) => {
 				if (arg === "host") {
-					return `${test.blog.handle}.${config.host}`;
+					return `${this.blog.handle}.${config.host}`;
 				} else return _get(arg);
 			};
 			next();
 		});
 		server.use(blogServer);
-		test.origin = "http://localhost:" + 8919;
-		test.server = server.listen(8919, done);
+		this.origin = "http://localhost:" + 8919;
+		this.server = server.listen(8919, done);
 
 		this.writeDraft = (path, contents, callback) => {
 			sync(this.blog.id, (err, folder, done) => {
