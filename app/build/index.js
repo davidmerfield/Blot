@@ -36,6 +36,7 @@ function messageHandler(id) {
         message.err = JSON.parse(message.err);
         err = new Error(message.err.message);
         err.stack = message.err.stack;
+        if (message.err.code) err.code = message.err.code;
       } catch (e) {
         err = e;
       }
@@ -125,6 +126,5 @@ module.exports = function (blog, path, options, callback) {
   };
 
   debug("Sending job to worker", jobs[id]);
-  console.log(clfdate(), blog.id, path, "building");
   worker.send({ blog: blog, path: path, id: id, options: options });
 };

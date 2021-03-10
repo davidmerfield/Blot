@@ -1,3 +1,5 @@
+Simplify local dev setup for David and write guide
+
 Template engine plan
 - create data/blogs/blogID/templates directory
 - show error message on preview-of subdomain
@@ -46,6 +48,8 @@ Improve server-side scheduled tasks:
 - Understand why some backups don't appear and others are not deleted
 - Back up postgres database
 
+Fetch dimensions of images even if optimize and cache is disable, so that image zoom can work. Tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
+
 Improvements to metadata extractor:
 - Make it possible to set the slug-part of a URL for a post and tell [George](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsdBjKHPdsRXJBGSbxpQQCbCN) and follow up for [post in Questions](https://blot.im/questions/23)
 - Improve date parser to use time from file creation date if it's within the same day as the date specified in metadata and follow up with [Nicolas](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsShbhKRcvhWJlKRPHPctMnWM)
@@ -59,8 +63,9 @@ Server changes
 - Work out how to detect stray build processes. There were a bunch of zombies consuming memory on Blot's server. Work out how to kill them safely
 - Experiment with different EBS types, perhaps try to use ephemeral disk more since lower latency?
 
+Reduce image compression settings and tell [Joshua](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhMtGvPcwxlSHSSTFVpJVbd)
+
 Improve questions section of site, in approximate order of importance:
-  - ensure that editings a reply does not affect the sort order of replies. right now, if you edit a reply, it will become the last reply to a topic, regardless of its creation date.
   - store version history of the question and answer edits
   - question tagging, including a list of all tags, and popular tags
   - give the 'ask' and 'answer' textarea inputs the full functionality of the GitHub issue/PR comment inputs (i.e. code snippets / preview / copy/paste screenshots from clipboard)
@@ -259,7 +264,7 @@ Think about appeninding file extension to make requests with query strings cache
 Fix bug with script to import wordpress posts and follow up with [Simon](https://mail.google.com/mail/u/0/#inbox/FMfcgxwGCtMPcJhlmcdNvWwtWvgzWJvZ)
 
 Improve the markdown converter:
-- Add plugin option to enable hard line breaks in Markdown parser?
+- Add plugin option to enable hard line breaks in Markdown parser? Tell [Wil](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsmhNWSxQsvMkWPRdQsxQxSvh)
 - Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
   - ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
 - Extend the Markdown converted to add support for Ulysses highlighting and iAWriter highlighting syntax, using the [example files provided by Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb). Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb)
@@ -803,6 +808,8 @@ Search engine
 Add support for entry property with escaped double quotes, tell [Jay](https://mail.google.com/mail/u/0/#inbox/15e396dbd8350972)
 
 NGINX Install nginx fail2ban & http2
+
+NGINX limit client request size to 1mb, only have large limit on git push endpoint.
 
 Add a file dependency / dependents list to each entry then use this to rebuild dependent entries when, for example, a public image is updated.
 

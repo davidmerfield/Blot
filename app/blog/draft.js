@@ -3,13 +3,17 @@ module.exports = function route(server) {
   var Entries = require("entries");
   var drafts = require("sync/update/drafts");
   var redis = require("redis");
+  
+  // (node:73631) TimeoutOverflowWarning: 1.7976931348623157e+308 does not fit into a 32-bit signed integer.
+  // Timer duration was truncated to 2147483647.
+  const MAX_TIMEOUT = 2147483647;
 
   server.get(drafts.streamRoute, function(req, res, next) {
     var blogID = req.blog.id;
     var client = redis.createClient();
     var path = drafts.getPath(req.url, drafts.streamRoute);
 
-    req.socket.setTimeout(Number.MAX_VALUE);
+    req.socket.setTimeout(MAX_TIMEOUT);
 
     res.writeHead(200, {
       // This header tells NGINX to NOT

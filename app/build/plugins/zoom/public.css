@@ -11,7 +11,7 @@ The CSS below adds a special cursor.
 
 p, div, section {position: relative;overflow: visible;} /* Ensure the code works for nested images */
 .image {overflow: visible!important} /* Overwrite previously superfluous code */
-.left, .right {position: relative;z-index: 667}
+/*.left, .right, .column {position: relative;z-index: 667}*/
 .wide {overflow: visible!important}
 
 .zoom-overlay-open .left,

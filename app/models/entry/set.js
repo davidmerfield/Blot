@@ -107,11 +107,11 @@ module.exports = function set(blogID, path, updates, callback) {
         if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
         doEach(queue, function() {
-          if (entry.deleted) {
-            console.log(clfdate(), blogID, path, "deleted");
-          } else {
-            console.log(clfdate(), blogID, path, "updated");
-          }
+          // if (entry.deleted) {
+          //   console.log(clfdate(), blogID, path, "deleted");
+          // } else {
+          //   console.log(clfdate(), blogID, path, "updated");
+          // }
           callback(null);
         });
       });
