@@ -4,6 +4,7 @@ var Blog = require("models/blog");
 var Entries = require("models/entries");
 var Entry = require("models/entry");
 var _ = require("lodash");
+var basename = require("path").basename;
 
 var dictionary = {
   permalink: "Saved changes to your URL format",
@@ -55,7 +56,14 @@ module.exports = function (req, res, next) {
           // Otherwise this would make the entry visible...
           if (entry.deleted) return next();
 
-          build(blog, entry.path, {}, function (err, entry) {
+          let options = {};
+
+          if (entry.pathDisplay) {
+            options.pathDisplay = entry.pathDisplay;
+            options.name = basename(entry.pathDisplay);
+          }
+
+          build(blog, entry.path, options, function (err, entry) {
             if (err && err.code === "ENOENT") {
               console.warn("No local file exists for entry", entry.path);
               return next();
@@ -73,7 +81,7 @@ module.exports = function (req, res, next) {
             Entry.set(blog.id, entry.path, entry, next);
           });
         },
-        function(){
+        function () {
           console.log("Rebuilt blog");
         }
       );
