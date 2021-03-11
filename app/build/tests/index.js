@@ -55,14 +55,14 @@ describe("build", function () {
     });
   });
 
-  it("extracts tags with case from an optional display_path", function (done) {
+  it("extracts tags with case from an optional path with case", function (done) {
     const path = "/[foo]/bar.txt";
-    const display_path = "/[Foo]/bar.txt";
+    const pathDisplay = "/[Foo]/bar.txt";
     const contents = "Hello";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, { display_path }, (err, entry) => {
+    build(this.blog, path, { pathDisplay }, (err, entry) => {
       if (err) return done.fail(err);
       expect(entry.tags).toEqual(["Foo"]);
       done();

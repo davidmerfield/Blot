@@ -108,11 +108,12 @@ module.exports = function main(blog, callback) {
                 // is case-insensitive but the file system for Blot's server is not.
                 // We therefore pass the name of the file, which has its case preserved
                 // to update, so things like automatic title generation based on the
-                // file can be computed nicely.
+                // file can be computed nicely, along with the display path, which also
+                // has case-preserved, for things like extracting tags from tag folders.
                 folder.log(item.relative_path, "Updating path");
                 folder.update(
                   item.relative_path,
-                  { name: item.name, path_display: item.path_display },
+                  { name: item.name, pathDisplay: item.path_display },
                   next
                 );
               },

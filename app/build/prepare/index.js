@@ -109,7 +109,7 @@ function Prepare(entry, options = {}) {
 
   if (entry.metadata.tags) tags = entry.metadata.tags.split(",");
 
-  tags = Tags(options.display_path || entry.path, tags);
+  tags = Tags(options.pathDisplay || entry.path, tags);
   tags = _(tags)
     .map(function (tag) {
       return tag.trim();
