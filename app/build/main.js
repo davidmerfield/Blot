@@ -109,7 +109,7 @@ function build(blog, path, options, callback) {
               " preparing additional properties for",
               entry.name
             );
-            entry = Prepare(entry);
+            entry = Prepare(entry, options);
             debug("Blog:", blog.id, path, " additional properties computed.");
           } catch (e) {
             return callback(e);

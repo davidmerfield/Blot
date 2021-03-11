@@ -1,23 +1,23 @@
-describe("build", function() {
+describe("build", function () {
   var build = require("../index");
   var fs = require("fs-extra");
 
   global.test.blog();
 
   // Only serve a test image when query contains valid user and password
-  global.test.server(function(server) {
-    server.get("/small.jpg", function(req, res) {
+  global.test.server(function (server) {
+    server.get("/small.jpg", function (req, res) {
       if (req.query && req.query.user === "x" && req.query.pass === "y")
         res.sendFile(__dirname + "/small.jpg");
       else res.sendStatus(400);
     });
 
-    server.get("/public.jpg", function(req, res) {
+    server.get("/public.jpg", function (req, res) {
       res.sendFile(__dirname + "/small.jpg");
     });
   });
 
-  it("handles image URLs with query strings", function(done) {
+  it("handles image URLs with query strings", function (done) {
     // The test server defined above will only respond with an image if
     // the query string is preserved. I was running into an ampersand
     // encoding issue where the & was replaced with &amp;
@@ -26,7 +26,7 @@ describe("build", function() {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, {}, function(err, entry) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was cached
@@ -35,21 +35,48 @@ describe("build", function() {
       // verify a thumbnail was generated from the image
       expect(entry.thumbnail.small).toEqual(
         jasmine.objectContaining({
-          name: "small.jpg"
+          name: "small.jpg",
         })
       );
       done();
     });
   });
 
-  it("resolves relative paths inside files", function(done) {
+  it("extracts tags from a file path", function (done) {
+    const path = "/[foo]/[bar]/[baz].txt";
+    const contents = "Hello";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, {}, (err, entry) => {
+      if (err) return done.fail(err);
+      expect(entry.tags).toEqual(["foo", "bar", "baz"]);
+      done();
+    });
+  });
+
+  it("extracts tags with case from an optional path with case", function (done) {
+    const path = "/[foo]/bar.txt";
+    const pathDisplay = "/[Foo]/bar.txt";
+    const contents = "Hello";
+
+    fs.outputFileSync(this.blogDirectory + path, contents);
+
+    build(this.blog, path, { pathDisplay }, (err, entry) => {
+      if (err) return done.fail(err);
+      expect(entry.tags).toEqual(["Foo"]);
+      done();
+    });
+  });
+
+  it("resolves relative paths inside files", function (done) {
     var path = "/blog/foo.txt";
     var contents = "![Image](_foo.jpg)";
     var absolutePathToImage = "/blog/_foo.jpg";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, {}, function(err, entry) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // It won't be cached since the image doesn't exist
@@ -58,12 +85,12 @@ describe("build", function() {
     });
   });
 
-  it("generates a blog post from an image with quotes in its filename", function(done) {
+  it("generates a blog post from an image with quotes in its filename", function (done) {
     var pathToImage = '/Hell"o\'W "orld.jpg';
 
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
 
-    build(this.blog, pathToImage, {}, function(err, entry) {
+    build(this.blog, pathToImage, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was cached
@@ -72,7 +99,7 @@ describe("build", function() {
       // verify a thumbnail was generated from the image
       expect(entry.thumbnail.small).toEqual(
         jasmine.objectContaining({
-          name: "small.jpg"
+          name: "small.jpg",
         })
       );
 
@@ -80,7 +107,7 @@ describe("build", function() {
     });
   });
 
-  it("handles images with accents and spaces in their filename", function(done) {
+  it("handles images with accents and spaces in their filename", function (done) {
     var path = "/blog/Hello world.txt";
     var contents = "![Best Image Ever](óå g.jpg)";
     var pathToImage = "/blog/óå g.jpg";
@@ -88,7 +115,7 @@ describe("build", function() {
     fs.outputFileSync(this.blogDirectory + path, contents);
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
 
-    build(this.blog, path, {}, function(err, entry) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was cached
@@ -97,7 +124,7 @@ describe("build", function() {
       // verify a thumbnail was generated from the image
       expect(entry.thumbnail.small).toEqual(
         jasmine.objectContaining({
-          name: "small.jpg"
+          name: "small.jpg",
         })
       );
 
@@ -105,7 +132,7 @@ describe("build", function() {
     });
   });
 
-  it("will not use as image to become a thumbnail if it is too small", function(done) {
+  it("will not use as image to become a thumbnail if it is too small", function (done) {
     var path = "/Hello world.txt";
     var contents = "![Best Image Ever](test.jpg)";
     var pathToImage = "/test.jpg";
@@ -113,7 +140,7 @@ describe("build", function() {
     fs.outputFileSync(this.blogDirectory + path, contents);
     fs.copySync(__dirname + "/too-small.jpg", this.blogDirectory + pathToImage);
 
-    build(this.blog, path, {}, function(err, entry) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify no thumbnail was generated from the image
@@ -122,7 +149,7 @@ describe("build", function() {
     });
   });
 
-  it("will not include caption text in summaries", function(done) {
+  it("will not include caption text in summaries", function (done) {
     var path = "/Hello world.txt";
     var contents = "# Hello\n\n![Image caption](file.jpg)\n\nWorld";
 
@@ -131,7 +158,7 @@ describe("build", function() {
     let blog = this.blog;
     blog.plugins.imageCaption.enabled = true;
 
-    build(blog, path, {}, function(err, entry) {
+    build(blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify a thumbnail was generated from the image
@@ -141,19 +168,19 @@ describe("build", function() {
     });
   });
 
-  it("will not generate a publish dateStamp for files without a date in their metadata or path", function(done) {
+  it("will not generate a publish dateStamp for files without a date in their metadata or path", function (done) {
     var path = "/No-date-in-this-path.txt";
     var contents = "No date in this file";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
-    build(this.blog, path, {}, function(err, entry) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
       expect(entry.dateStamp).toEqual(undefined);
       done();
     });
   });
 
-  it("will not cache image an image using the static query string", function(done) {
+  it("will not cache image an image using the static query string", function (done) {
     var path = "/Hello world.txt";
     var contents = "<img src='" + this.origin + "/public.jpg?static=1'>";
 
@@ -162,7 +189,7 @@ describe("build", function() {
     // creates <embed>'s instead of <img> for certain URLs
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, {}, function(err, entry) {
+    build(this.blog, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was not cached
@@ -171,7 +198,7 @@ describe("build", function() {
       // verify a thumbnail was still generated from the image
       expect(entry.thumbnail.small).toEqual(
         jasmine.objectContaining({
-          name: "small.jpg"
+          name: "small.jpg",
         })
       );
 
