@@ -110,7 +110,11 @@ module.exports = function main(blog, callback) {
                 // to update, so things like automatic title generation based on the
                 // file can be computed nicely.
                 folder.log(item.relative_path, "Updating path");
-                folder.update(item.relative_path, { name: item.name }, next);
+                folder.update(
+                  item.relative_path,
+                  { name: item.name, path_display: item.path_display },
+                  next
+                );
               },
               function () {
                 // If Dropbox says there are more changes
