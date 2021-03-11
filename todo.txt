@@ -1,13 +1,14 @@
 Simplify local dev setup for David and write guide
 
+Finish fair queue
+- Implement queue for entry building and other sync processes
+
 Template engine plan
 - create data/blogs/blogID/templates directory
 - show error message on preview-of subdomain
 - only allow valid templates to get stored in data/blogs/blogID/templates, used for live site?
   - maybe we only store in redis valid templates, live site pulls
   
-Add queue for entry building and other sync processes
-
 Improve templates
 - Fix bug setting font-size on magazine template and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLscxQXjkgJRdPGnkXXTmQJFst)
 - Fix bug in image zoom and tell [Cameron](https://mail.google.com/mail/u/0/#inbox/FMfcgxwKjTQrZJpVXVVGTWsrNJZSCsNr)
