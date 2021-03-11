@@ -1,8 +1,5 @@
-var Entries = require("entries");
-var Entry = require("entry");
 var User = require("user");
 var async = require("async");
-var Blog = require("blog");
 var backup = require("./backup");
 var dailyUpdate = require("./daily");
 var helper = require("helper");
@@ -11,15 +8,19 @@ var clfdate = require("helper").clfdate;
 var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
 var checkFeatuedSites = require("../brochure/routes/featured/check");
+var publishScheduledEntries = require("./publish-scheduled-entries");
 
 module.exports = function () {
   // Bash the cache for scheduled posts
-  cacheScheduler(function (stat) {
-    console.log(clfdate(), stat);
+  publishScheduledEntries(function (err) {
+    if (err) throw err;
+    console.log(clfdate(), "Scheduled entries for future publication");
   });
 
   // Warm the cache for the brochure site
-  warmCache(function (err) {});
+  warmCache(function (err) {
+    if (err) throw err;
+  });
 
   // Warn users about impending subscriptions
   User.getAllIds(function (err, uids) {
@@ -109,33 +110,3 @@ module.exports = function () {
     });
   });
 };
-
-function cacheScheduler(callback) {
-  var totalScheduled = 0;
-
-  Blog.getAllIDs(function (err, blogIDs) {
-    async.each(
-      blogIDs,
-      function (blogID, nextBlog) {
-        Entries.get(blogID, { lists: ["scheduled"] }, function (err, list) {
-          async.each(
-            list.scheduled,
-            function (futureEntry, nextEntry) {
-              totalScheduled++;
-
-              // Saving empty updates will call the entry scheduler
-              // and ensure the entry is rebuilt again in future
-              Entry.set(blogID, futureEntry.path, {}, nextEntry);
-            },
-            function () {
-              nextBlog();
-            }
-          );
-        });
-      },
-      function () {
-        callback("Scheduled " + totalScheduled + " posts to clear the cache.");
-      }
-    );
-  });
-}
