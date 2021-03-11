@@ -1,12 +1,20 @@
 const debug = require("debug")("blot:helper:queue");
 const client = require("client");
-const lpushnx = require("./lpushnx");
+const lpushIfNotPresent = require("./lpush-if-not-present");
 
-// Number of tasks to store on completed task log
-const COMPLETED_TASK_LENGTH = 1000;
+// Every queue is:
+// - Reliable, the master process or worker processes can fail
+// - Distributed, multiple workers processes and multiple masters
+// - Fair, tasks are processes round-robin across all sources
+
+// Terminology:
+// - Tasks are jobs, each with a unique source
+// - Sources: i.e. users or blogs that  of tasks
+// - Queue: lists of sources with tasks
 
 module.exports = function Queue({ prefix = "" }) {
-	// These keys are used with Redis to persist the queue
+	// We persist in Redis and take advantage of Redis' features
+	// to guarantee certain properties of this queue.
 	const keys = {
 		// A list of sources with outstanding tasks
 		queuedSources: `queue:${prefix}sources`,
@@ -14,21 +22,27 @@ module.exports = function Queue({ prefix = "" }) {
 		// A list of sources with tasks being processes
 		activeSources: `queue:${prefix}sourcesProcessing`,
 
-		// A list of tasks that are awaiting processing
+		// A list of process ids (pids) for workers on this queue
+		processors: `queue:${prefix}processors`,
+
+		// A list of tasks for a particular source that await processing
 		queued: (sourceID) => `queue:${prefix}source:${sourceID}:queued`,
 
-		// A list of tasks that are being processed
+		// A list of tasks for a particular source that are being processed
 		active: (sourceID) => `queue:${prefix}source:${sourceID}:active`,
 
-		// A list of tasks that are done
+		// A list of tasks  for a particular source that are done
 		ended: (sourceID) => `queue:${prefix}source:${sourceID}:ended`,
 
-		// Used for cross-process communication about this queue
+		// Used for inter-process communication about this queue
 		channel: `queue:${prefix}channel`,
 
 		// A set of all keys created by this queue for easy cleanup
 		all: `queue:${prefix}all`,
 	};
+
+	// Number of tasks to store on completed task log
+	const MAX_TASK_HISTORY = 1000;
 
 	// Used to enqueue a task.
 	this.add = (sourceID, tasks, callback = function () {}) => {
@@ -48,19 +62,19 @@ module.exports = function Queue({ prefix = "" }) {
 		client
 			.multi()
 			.lpush(keys.queued(sourceID), serializedTasks)
-			.sadd(
-				keys.all,
-				keys.queued(sourceID),
-				keys.active(sourceID),
-				keys.ended(sourceID)
-			)
+			.sadd(keys.all, keys.queued(sourceID), keys.ended(sourceID))
 			.exec((err) => {
 				if (err) return callback(err);
 				// Add the source which owns the tasks to the list of all sources
 				// with tasks. sourceID may be on the list multiple times.
-				lpushnx(keys.queuedSources, keys.activeSources, sourceID, (err) => {
-					callback(null);
-				});
+				lpushIfNotPresent(
+					keys.queuedSources,
+					keys.activeSources,
+					sourceID,
+					(err) => {
+						callback(null);
+					}
+				);
 			});
 	};
 
@@ -84,13 +98,13 @@ module.exports = function Queue({ prefix = "" }) {
 
 				let response = { sources };
 
-				queues.forEach((queue, i) => {
-					let key = queueKeys[i].split(":");
-					let category = key.pop();
-					let sourceID = key.pop();
-					response[sourceID] = response[sourceID] || {};
-					response[sourceID][category] = queue.map(JSON.parse);
-				});
+				// queues.forEach((queue, i) => {
+				// 	let key = queueKeys[i].split(":");
+				// 	let category = key.pop();
+				// 	let sourceID = key.pop();
+				// 	response[sourceID] = response[sourceID] || {};
+				// 	response[sourceID][category] = queue.map(JSON.parse);
+				// });
 
 				callback(err, response);
 			});
@@ -127,8 +141,11 @@ module.exports = function Queue({ prefix = "" }) {
 			.watch(keys.queuedSources, keys.activeSources)
 			.lrange(keys.queuedSources, 0, -1)
 			.lrange(keys.activeSources, 0, -1)
-			.exec((err, [res, queuedSources, activeSources]) => {
+			.lrange(keys.processors, 0, -1)
+			.exec((err, [res, queuedSources, activeSources, processors]) => {
 				if (err) return callback(err);
+
+				console.log("processors", processors);
 
 				let sourceIDs = queuedSources.concat(activeSources);
 
@@ -140,15 +157,15 @@ module.exports = function Queue({ prefix = "" }) {
 				// of sources then we don't need this step.
 				sourceIDs = Array.from(new Set(sourceIDs));
 
-				let activeQueues = sourceIDs.map((sourceID) => keys.active(sourceID));
+				let activeQueues = processors.map((pid) => keys.active(pid));
 
 				client.watch(activeQueues, (err) => {
 					if (err) return callback(err);
 
 					let batch = client.batch();
 
-					sourceIDs.forEach((sourceID) => {
-						batch.lrange(keys.active(sourceID), 0, -1);
+					processors.forEach((pid) => {
+						batch.lrange(keys.active(pid), 0, -1);
 					});
 
 					batch.exec((err, res) => {
@@ -213,7 +230,7 @@ module.exports = function Queue({ prefix = "" }) {
 			(err, sourceID) => {
 				client.rpoplpush(
 					keys.queued(sourceID),
-					keys.active(sourceID),
+					keys.active(process.pid),
 					(err, serializedTask) => {
 						callback(err, sourceID, serializedTask);
 					}
@@ -258,21 +275,27 @@ module.exports = function Queue({ prefix = "" }) {
 
 	this.process = (processor) => {
 		this.processor = processor;
-		waitForTask((err, sourceID, serializedTask) => {
-			processor(sourceID, JSON.parse(serializedTask), (err) => {
-				client
-					.multi()
-					.lrem(keys.activeSources, -1, sourceID)
-					.lrem(keys.active(sourceID), -1, serializedTask)
-					.lpush(keys.ended(sourceID), serializedTask)
-					.ltrim(keys.ended(sourceID), 0, COMPLETED_TASK_LENGTH - 1)
-					.exec((err) => {
-						if (err) debug(err);
-						checkIfSourceIsDrained(sourceID, (err) => {
-							this.process(processor);
-						});
+		client
+			.multi()
+			.sadd(keys.all, keys.active(process.pid))
+			.sadd(keys.processors, process.pid)
+			.exec((err) => {
+				waitForTask((err, sourceID, serializedTask) => {
+					processor(sourceID, JSON.parse(serializedTask), (err) => {
+						client
+							.multi()
+							.lrem(keys.activeSources, -1, sourceID)
+							.lrem(keys.active(process.pid), -1, serializedTask)
+							.lpush(keys.ended(sourceID), serializedTask)
+							.ltrim(keys.ended(sourceID), 0, MAX_TASK_HISTORY - 1)
+							.exec((err) => {
+								if (err) debug(err);
+								checkIfSourceIsDrained(sourceID, (err) => {
+									this.process(processor);
+								});
+							});
 					});
+				});
 			});
-		});
 	};
 };
