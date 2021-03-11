@@ -14,6 +14,7 @@ module.exports = {
   slug: "string",
   name: "string",
   path: "string",
+  pathDisplay: "string", // path with case-preserved, for clients in which everything is lowercased
   size: "number",
   tags: "array",
   dependencies: "array",

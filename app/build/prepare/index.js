@@ -40,7 +40,7 @@ function canOverwrite(key) {
 // url: 'string', // this is handled by set
 // scheduled: scheduled, // this is handled by set
 
-function Prepare(entry, options = {}) {
+function Prepare(entry) {
   ensure(entry, "object")
     .and(entry.path, "string")
     .and(entry.size, "number")
@@ -109,7 +109,7 @@ function Prepare(entry, options = {}) {
 
   if (entry.metadata.tags) tags = entry.metadata.tags.split(",");
 
-  tags = Tags(options.pathDisplay || entry.path, tags);
+  tags = Tags(entry.pathDisplay || entry.path, tags);
   tags = _(tags)
     .map(function (tag) {
       return tag.trim();
