@@ -6,6 +6,7 @@ const lpushIfNotPresent = require("./lpush-if-not-present");
 // - Reliable, the master process or worker processes can fail
 // - Distributed, multiple workers processes and multiple masters
 // - Fair, tasks are processes round-robin across all sources
+// - Series, only one task at a time is processed per source
 
 // Terminology:
 // - Tasks are jobs, each with a unique source
@@ -25,13 +26,17 @@ module.exports = function Queue({ prefix = "" }) {
 		// A list of process ids (pids) for workers on this queue
 		processors: `queue:${prefix}processors`,
 
+		processing: (pid) => `queue:${prefix}processing:${pid}`,
+
+		// A list of tasks for a particular process that are being processed
+		// will only ever contain one task, but we use a list to take
+		// advantage of the brpoplpush feature of redis
+		active: (sourceID) => `queue:${prefix}source:${sourceID}:active`,
+
 		// A list of tasks for a particular source that await processing
 		queued: (sourceID) => `queue:${prefix}source:${sourceID}:queued`,
 
-		// A list of tasks for a particular source that are being processed
-		active: (sourceID) => `queue:${prefix}source:${sourceID}:active`,
-
-		// A list of tasks  for a particular source that are done
+		// A list of tasks for a particular source that are done
 		ended: (sourceID) => `queue:${prefix}source:${sourceID}:ended`,
 
 		// Used for inter-process communication about this queue
@@ -48,7 +53,8 @@ module.exports = function Queue({ prefix = "" }) {
 	this.add = (sourceID, tasks, callback = function () {}) => {
 		let serializedTasks;
 
-		// Tasks can be a single object or a list of objects
+		// Task must be JSON-ifiable. What if we want to enque
+		// a single task that is an array? This is a footgun...
 		if (!Array.isArray(tasks)) tasks = [tasks];
 
 		try {
@@ -58,66 +64,88 @@ module.exports = function Queue({ prefix = "" }) {
 			return callback(new TypeError("Invalid task"));
 		}
 
-		// Add the tasks to the list of tasks associated with the source
-		client
-			.multi()
+		let multi = client.multi();
+
+		multi
+			// Add the tasks to the list of tasks associated with the source
 			.lpush(keys.queued(sourceID), serializedTasks)
-			.sadd(keys.all, keys.queued(sourceID), keys.ended(sourceID))
-			.exec((err) => {
-				if (err) return callback(err);
-				// Add the source which owns the tasks to the list of all sources
-				// with tasks. sourceID may be on the list multiple times.
-				lpushIfNotPresent(
-					keys.queuedSources,
-					keys.activeSources,
-					sourceID,
-					(err) => {
-						callback(null);
-					}
-				);
-			});
+			// Add the keys for the list of tasks associated with the source
+			// to the list of all keys associated with this queue so they can
+			// be easily cleaned up in future.
+			.sadd(
+				keys.all,
+				keys.queued(sourceID),
+				keys.active(sourceID),
+				keys.ended(sourceID)
+			);
+
+		multi.exec((err) => {
+			if (err) return callback(err);
+
+			// Add the source which owns the newly added tasks to the list
+			// of all sources with queued or active tasks.
+			lpushIfNotPresent(
+				keys.queuedSources,
+				keys.activeSources,
+				sourceID,
+				(err) => {
+					callback(null);
+				}
+			);
+		});
 	};
 
 	// Used to see the state of the queue. Returns information
 	// about sources with queued tasks, a list of active (i.e. processing)
 	// tasks and recently completed tasks
 	this.inspect = (callback) => {
-		client.smembers(keys.all, (err, queueKeys) => {
-			if (err) return callback(err);
-
-			let batch = client.batch();
-
-			batch.lrange(keys.queuedSources, 0, -1);
-
-			queueKeys.forEach((queueKey) => {
-				batch.lrange(queueKey, 0, -1);
-			});
-
-			batch.exec((err, [sources, ...queues]) => {
+		client
+			.batch()
+			.smembers(keys.all)
+			.smembers(keys.processors)
+			.exec((err, [queueKeys, processors]) => {
 				if (err) return callback(err);
 
-				let response = { sources };
+				let batch = client.batch();
 
-				// queues.forEach((queue, i) => {
-				// 	let key = queueKeys[i].split(":");
-				// 	let category = key.pop();
-				// 	let sourceID = key.pop();
-				// 	response[sourceID] = response[sourceID] || {};
-				// 	response[sourceID][category] = queue.map(JSON.parse);
-				// });
+				batch.lrange(keys.queuedSources, 0, -1);
 
-				callback(err, response);
+				queueKeys.forEach((queueKey) => {
+					batch.lrange(queueKey, 0, -1);
+				});
+
+				batch.exec((err, [sources, ...queues]) => {
+					if (err) return callback(err);
+
+					let response = { sources, processors };
+
+					queues.forEach((queue, i) => {
+						let key = queueKeys[i].split(":");
+						let category = key.pop();
+						let sourceID = key.pop();
+						response[sourceID] = response[sourceID] || {};
+						response[sourceID][category] = queue.map(JSON.parse);
+					});
+
+					callback(err, response);
+				});
 			});
-		});
 	};
 
-	// Public: used to wipe all information about a queue
+	// Used to wipe all information about a queue
 	// from the database. Should be called after tests.
 	this.destroy = (callback = function () {}) => {
 		client.smembers(keys.all, function (err, queueKeys) {
 			if (err) return callback(err);
 			client.del(
-				[keys.queuedSources, keys.channel, keys.all, ...queueKeys],
+				[
+					keys.queuedSources,
+					keys.activeSources,
+					keys.processors,
+					keys.channel,
+					keys.all,
+					...queueKeys,
+				],
 				callback
 			);
 		});
@@ -141,31 +169,22 @@ module.exports = function Queue({ prefix = "" }) {
 			.watch(keys.queuedSources, keys.activeSources)
 			.lrange(keys.queuedSources, 0, -1)
 			.lrange(keys.activeSources, 0, -1)
-			.lrange(keys.processors, 0, -1)
-			.exec((err, [res, queuedSources, activeSources, processors]) => {
+			.exec((err, [res, queuedSources, activeSources]) => {
 				if (err) return callback(err);
-
-				console.log("processors", processors);
 
 				let sourceIDs = queuedSources.concat(activeSources);
 
 				if (!sourceIDs.length) return callback();
 
-				// Make the list of sourceIDs unique this is neccessary
-				// because for each task added, the sourceID is added to the
-				// list of sources. If we can enforce uniqueness on the list
-				// of sources then we don't need this step.
-				sourceIDs = Array.from(new Set(sourceIDs));
-
-				let activeQueues = processors.map((pid) => keys.active(pid));
+				let activeQueues = sourceIDs.map((sourceID) => keys.active(sourceID));
 
 				client.watch(activeQueues, (err) => {
 					if (err) return callback(err);
 
 					let batch = client.batch();
 
-					processors.forEach((pid) => {
-						batch.lrange(keys.active(pid), 0, -1);
+					sourceIDs.forEach((sourceID) => {
+						batch.lrange(keys.active(sourceID), 0, -1);
 					});
 
 					batch.exec((err, res) => {
@@ -173,12 +192,13 @@ module.exports = function Queue({ prefix = "" }) {
 
 						let multi = client.multi();
 
+						// Move all active source IDs onto list of sources with queued jobs
 						sourceIDs.forEach((sourceID) => {
-							if (queuedSources.indexOf(sourceID) === -1)
-								multi.lpush(keys.queuedSources, sourceID);
+							if (activeSources.indexOf(sourceID) === -1) return;
 
-							if (activeSources.indexOf(sourceID) > -1)
-								multi.lrem(keys.activeSources, -1, sourceID);
+							multi
+								.lpush(keys.queuedSources, sourceID)
+								.lrem(keys.activeSources, -1, sourceID);
 						});
 
 						res.forEach((serializedTasks, i) => {
@@ -228,13 +248,17 @@ module.exports = function Queue({ prefix = "" }) {
 			keys.activeSources,
 			0, // timeout for the blocking rpop lpush set to infinity!
 			(err, sourceID) => {
-				client.rpoplpush(
-					keys.queued(sourceID),
-					keys.active(process.pid),
-					(err, serializedTask) => {
-						callback(err, sourceID, serializedTask);
-					}
-				);
+				client.set(keys.processing(process.pid), sourceID, function (err) {
+					if (err) return callback(err);
+					client.rpoplpush(
+						keys.queued(sourceID),
+						keys.active(sourceID),
+						function (err, serializedTask) {
+							if (err) return callback(err);
+							callback(null, sourceID, serializedTask);
+						}
+					);
+				});
 			}
 		);
 	};
@@ -253,10 +277,13 @@ module.exports = function Queue({ prefix = "" }) {
 				// There are no more tasks for this source, drain is go!
 				if (totalQueuedTasks === 0) {
 					multi
+						.lrem(keys.activeSources, -1, sourceID)
 						.lrem(keys.queuedSources, -1, sourceID)
 						.publish(keys.channel, sourceID);
 				} else {
-					multi.lpush(keys.queuedSources, sourceID);
+					multi
+						.lrem(keys.activeSources, -1, sourceID)
+						.lpush(keys.queuedSources, sourceID);
 				}
 
 				multi.exec((err, res) => {
@@ -284,8 +311,7 @@ module.exports = function Queue({ prefix = "" }) {
 					processor(sourceID, JSON.parse(serializedTask), (err) => {
 						client
 							.multi()
-							.lrem(keys.activeSources, -1, sourceID)
-							.lrem(keys.active(process.pid), -1, serializedTask)
+							.lrem(keys.active(sourceID), -1, serializedTask)
 							.lpush(keys.ended(sourceID), serializedTask)
 							.ltrim(keys.ended(sourceID), 0, MAX_TASK_HISTORY - 1)
 							.exec((err) => {
