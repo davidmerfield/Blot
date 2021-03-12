@@ -90,6 +90,7 @@ function build(blog, path, options, callback) {
               html: html,
               name: options.name || basename(path),
               path: path,
+              pathDisplay: options.pathDisplay || path,
               id: path,
               thumbnail: thumbnail,
               draft: is_draft,
