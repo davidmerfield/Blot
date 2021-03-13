@@ -1,25 +1,26 @@
 const debug = require("debug")("blot:helper:queue");
 const client = require("client");
 
+// Terminology
+// Sources: i.e. users or blogs which generate tasks
+// Tasks are jobs, each with a unique source
+
 // Every queue is:
 // - Processed in series, one task at a time is processed per source
 // - Fair, tasks are processed in round-robin across all sources
 // - Reliable, processes can fail without dropping a task
 // - Distributed, multiple processes can work on or add to the queue
-
 module.exports = function Queue({ prefix = "" }) {
 	// We persist in Redis and take advantage of Redis' features
 	// to guarantee certain properties of this queue.
 	const keys = {
-		// Sources: i.e. users or blogs which generate tasks
 		sources: {
-			// A list of sources with outstanding tasks
+			// type List // sources with outstanding tasks
 			queued: `queue:${prefix}sources:queued`,
-			// A list of sources with tasks being processed
+			// type List // sources with tasks being processed
 			active: `queue:${prefix}sources:active`,
 		},
 
-		// Tasks are jobs, each with a unique source
 		tasks: {
 			// A list of tasks for a particular source that are being processed
 			active: (sourceID) => `queue:${prefix}source:${sourceID}:active`,
@@ -131,20 +132,25 @@ module.exports = function Queue({ prefix = "" }) {
 	// Used to wipe all information about a queue
 	// from the database. Should be called after tests.
 	this.destroy = (callback = function () {}) => {
-		client.smembers(keys.all, function (err, queueKeys) {
-			if (err) return callback(err);
-			client.del(
-				[
-					keys.sources.queued,
-					keys.sources.active,
-					keys.processors,
-					keys.channel,
-					keys.all,
-					...queueKeys,
-				],
-				callback
-			);
-		});
+		client
+			.batch()
+			.smembers(keys.all)
+			.smembers(keys.processors)
+			.exec((err, [queueKeys, processors]) => {
+				if (err) return callback(err);
+				client.del(
+					[
+						keys.sources.queued,
+						keys.sources.active,
+						keys.processors,
+						keys.channel,
+						keys.all,
+						...processors.map(keys.processing),
+						...queueKeys,
+					],
+					callback
+				);
+			});
 	};
 
 	// Public: used to reattempt the processing function on any task
@@ -214,7 +220,7 @@ module.exports = function Queue({ prefix = "" }) {
 								// Is this problematic? What if the process recovers?
 								// If we call 'reset' in a master process
 								// it might not have registered its own processor function
-								if (this.processor) this.process(this.processor);
+								if (this.processor) this.process();
 
 								callback();
 							}
@@ -229,9 +235,9 @@ module.exports = function Queue({ prefix = "" }) {
 			keys.processing(pid),
 			keys.sources.queued,
 			keys.sources.active,
-			function (err) {
+			(err) => {
 				if (err) return callback(err);
-				client.get(keys.processing(pid), function (err, sourceID) {
+				client.get(keys.processing(pid), (err, sourceID) => {
 					if (err) return callback(err);
 
 					let multi = client
@@ -254,6 +260,11 @@ module.exports = function Queue({ prefix = "" }) {
 						if (res === null) {
 							this.reprocess(pid, callback);
 						} else {
+							// Is this problematic? What if the process recovers?
+							// If we call 'reset' in a master process
+							// it might not have registered its own processor function
+							if (this.processor) this.process();
+
 							callback(null);
 						}
 					});
@@ -263,12 +274,13 @@ module.exports = function Queue({ prefix = "" }) {
 	};
 
 	this.drain = (onDrain) => {
-		const drainSubscriber = client.duplicate();
-		drainSubscriber.subscribe(keys.channel);
-		drainSubscriber.on("message", function (channel, sourceID) {
-			if (channel !== keys.channel) return;
-			onDrain(sourceID);
-		});
+		client
+			.duplicate()
+			.on("message", (channel, sourceID) => {
+				if (channel !== keys.channel) return;
+				onDrain(sourceID);
+			})
+			.subscribe(keys.channel);
 	};
 
 	// Public method which accepts as only argument an asynchronous
@@ -282,12 +294,12 @@ module.exports = function Queue({ prefix = "" }) {
 			keys.sources.active,
 			0, // timeout for the blocking rpop lpush set to infinity!
 			(err, sourceID) => {
-				client.set(keys.processing(process.pid), sourceID, function (err) {
+				client.set(keys.processing(process.pid), sourceID, (err) => {
 					if (err) return callback(err);
 					client.rpoplpush(
 						keys.tasks.queued(sourceID),
 						keys.tasks.active(sourceID),
-						function (err, serializedTask) {
+						(err, serializedTask) => {
 							if (err) return callback(err);
 							callback(null, sourceID, serializedTask);
 						}
@@ -335,14 +347,13 @@ module.exports = function Queue({ prefix = "" }) {
 	};
 
 	this.process = (processor) => {
-		this.processor = processor;
+		if (processor) this.processor = processor;
 		client
 			.multi()
-			.sadd(keys.all, keys.tasks.active(process.pid))
 			.sadd(keys.processors, process.pid)
 			.exec((err) => {
 				waitForTask((err, sourceID, serializedTask) => {
-					processor(sourceID, JSON.parse(serializedTask), (err) => {
+					this.processor(sourceID, JSON.parse(serializedTask), (err) => {
 						client
 							.multi()
 							.lrem(keys.tasks.active(sourceID), -1, serializedTask)
@@ -351,7 +362,7 @@ module.exports = function Queue({ prefix = "" }) {
 							.exec((err) => {
 								if (err) debug(err);
 								checkIfSourceIsDrained(sourceID, (err) => {
-									this.process(processor);
+									this.process();
 								});
 							});
 					});
@@ -387,13 +398,13 @@ function lpushIfNotPresent(firstList, secondList, item, callback) {
 	if (SHA) {
 		client.evalsha(SHA, 2, firstList, secondList, item, callback);
 	} else {
-		client.script("load", SCRIPT, function (err, sha) {
+		client.script("load", SCRIPT, (err, sha) => {
 			SHA = sha;
 			client.evalsha(SHA, 2, firstList, secondList, item, callback);
 		});
 	}
 }
 
-client.script("load", SCRIPT, function (err, sha) {
+client.script("load", SCRIPT, (err, sha) => {
 	SHA = sha;
 });

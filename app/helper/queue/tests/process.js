@@ -3,6 +3,26 @@ describe("Queue", function () {
 
 	var async = require("async");
 
+	// process multiple queues at once
+
+	it("exposes a process method", function (done) {
+		this.queue.process(()=>{});
+		done();
+	});
+
+	it("processes a task", function (done) {
+		var task = { path: "foo" };
+
+		this.queue.process(function (blogID, savedTask, callback) {
+			expect(blogID).toBe("blogID");
+			expect(savedTask).toEqual(task);
+			callback();
+			done();
+		});
+
+		this.queue.add("blogID", task);
+	});
+
 	it("lets you hammer the queue with new tasks", function (done) {
 		var blogID = "blogID";
 		var id = 0;
