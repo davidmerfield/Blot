@@ -1,43 +1,40 @@
 const debug = require("debug")("blot:helper:queue");
 const client = require("client");
-const lpushIfNotPresent = require("./lpush-if-not-present");
 
 // Every queue is:
-// - Reliable, the master process or worker processes can fail
-// - Distributed, multiple workers processes and multiple masters
-// - Fair, tasks are processes round-robin across all sources
-// - Series, only one task at a time is processed per source
-
-// Terminology:
-// - Tasks are jobs, each with a unique source
-// - Sources: i.e. users or blogs that  of tasks
-// - Queue: lists of sources with tasks
+// - Processed in series, one task at a time is processed per source
+// - Fair, tasks are processed in round-robin across all sources
+// - Reliable, processes can fail without dropping a task
+// - Distributed, multiple processes can work on or add to the queue
 
 module.exports = function Queue({ prefix = "" }) {
 	// We persist in Redis and take advantage of Redis' features
 	// to guarantee certain properties of this queue.
 	const keys = {
-		// A list of sources with outstanding tasks
-		queuedSources: `queue:${prefix}sources`,
+		// Sources: i.e. users or blogs which generate tasks
+		sources: {
+			// A list of sources with outstanding tasks
+			queued: `queue:${prefix}sources:queued`,
+			// A list of sources with tasks being processed
+			active: `queue:${prefix}sources:active`,
+		},
 
-		// A list of sources with tasks being processes
-		activeSources: `queue:${prefix}sourcesProcessing`,
+		// Tasks are jobs, each with a unique source
+		tasks: {
+			// A list of tasks for a particular source that are being processed
+			active: (sourceID) => `queue:${prefix}source:${sourceID}:active`,
+			// A list of tasks for a particular source that await processing
+			queued: (sourceID) => `queue:${prefix}source:${sourceID}:queued`,
+			// A list of tasks for a particular source that are done
+			ended: (sourceID) => `queue:${prefix}source:${sourceID}:ended`,
+		},
 
-		// A list of process ids (pids) for workers on this queue
+		// A set of process ids (pids) for workers on this queue
 		processors: `queue:${prefix}processors`,
 
+		// Stores the source ID against the process ID so we can
+		// reprocess any tasks for a dead process
 		processing: (pid) => `queue:${prefix}processing:${pid}`,
-
-		// A list of tasks for a particular process that are being processed
-		// will only ever contain one task, but we use a list to take
-		// advantage of the brpoplpush feature of redis
-		active: (sourceID) => `queue:${prefix}source:${sourceID}:active`,
-
-		// A list of tasks for a particular source that await processing
-		queued: (sourceID) => `queue:${prefix}source:${sourceID}:queued`,
-
-		// A list of tasks for a particular source that are done
-		ended: (sourceID) => `queue:${prefix}source:${sourceID}:ended`,
 
 		// Used for inter-process communication about this queue
 		channel: `queue:${prefix}channel`,
@@ -68,15 +65,15 @@ module.exports = function Queue({ prefix = "" }) {
 
 		multi
 			// Add the tasks to the list of tasks associated with the source
-			.lpush(keys.queued(sourceID), serializedTasks)
+			.lpush(keys.tasks.queued(sourceID), serializedTasks)
 			// Add the keys for the list of tasks associated with the source
 			// to the list of all keys associated with this queue so they can
 			// be easily cleaned up in future.
 			.sadd(
 				keys.all,
-				keys.queued(sourceID),
-				keys.active(sourceID),
-				keys.ended(sourceID)
+				keys.tasks.queued(sourceID),
+				keys.tasks.active(sourceID),
+				keys.tasks.ended(sourceID)
 			);
 
 		multi.exec((err) => {
@@ -85,8 +82,8 @@ module.exports = function Queue({ prefix = "" }) {
 			// Add the source which owns the newly added tasks to the list
 			// of all sources with queued or active tasks.
 			lpushIfNotPresent(
-				keys.queuedSources,
-				keys.activeSources,
+				keys.sources.queued,
+				keys.sources.active,
 				sourceID,
 				(err) => {
 					callback(null);
@@ -96,8 +93,7 @@ module.exports = function Queue({ prefix = "" }) {
 	};
 
 	// Used to see the state of the queue. Returns information
-	// about sources with queued tasks, a list of active (i.e. processing)
-	// tasks and recently completed tasks
+	// about sources with queued, active and completed tasks.
 	this.inspect = (callback) => {
 		client
 			.batch()
@@ -108,7 +104,7 @@ module.exports = function Queue({ prefix = "" }) {
 
 				let batch = client.batch();
 
-				batch.lrange(keys.queuedSources, 0, -1);
+				batch.lrange(keys.sources.queued, 0, -1);
 
 				queueKeys.forEach((queueKey) => {
 					batch.lrange(queueKey, 0, -1);
@@ -139,8 +135,8 @@ module.exports = function Queue({ prefix = "" }) {
 			if (err) return callback(err);
 			client.del(
 				[
-					keys.queuedSources,
-					keys.activeSources,
+					keys.sources.queued,
+					keys.sources.active,
 					keys.processors,
 					keys.channel,
 					keys.all,
@@ -154,21 +150,17 @@ module.exports = function Queue({ prefix = "" }) {
 	// Public: used to reattempt the processing function on any task
 	// in the processing queue.
 
-	// We create a seperate client for this process because
-	// watch operations only work for the actions of other clients
-
 	// Questions to answer:
 	// - Do we possibly need a new reprocessing client per function?
 	// - Can other reprocessing functions clobber this?
 	// - Can we eventually only reprocess tasks for the dead worker?
 	// - Can we add a timeout for tasks?
-
-	this.reprocess = (callback = function () {}) => {
+	this.reset = (callback = function () {}) => {
 		client
 			.batch()
-			.watch(keys.queuedSources, keys.activeSources)
-			.lrange(keys.queuedSources, 0, -1)
-			.lrange(keys.activeSources, 0, -1)
+			.watch(keys.sources.queued, keys.sources.active)
+			.lrange(keys.sources.queued, 0, -1)
+			.lrange(keys.sources.active, 0, -1)
 			.exec((err, [res, queuedSources, activeSources]) => {
 				if (err) return callback(err);
 
@@ -176,7 +168,9 @@ module.exports = function Queue({ prefix = "" }) {
 
 				if (!sourceIDs.length) return callback();
 
-				let activeQueues = sourceIDs.map((sourceID) => keys.active(sourceID));
+				let activeQueues = sourceIDs.map((sourceID) =>
+					keys.tasks.active(sourceID)
+				);
 
 				client.watch(activeQueues, (err) => {
 					if (err) return callback(err);
@@ -184,7 +178,7 @@ module.exports = function Queue({ prefix = "" }) {
 					let batch = client.batch();
 
 					sourceIDs.forEach((sourceID) => {
-						batch.lrange(keys.active(sourceID), 0, -1);
+						batch.lrange(keys.tasks.active(sourceID), 0, -1);
 					});
 
 					batch.exec((err, res) => {
@@ -192,34 +186,37 @@ module.exports = function Queue({ prefix = "" }) {
 
 						let multi = client.multi();
 
-						// Move all active source IDs onto list of sources with queued jobs
-						sourceIDs.forEach((sourceID) => {
-							if (activeSources.indexOf(sourceID) === -1) return;
-
-							multi
-								.lpush(keys.queuedSources, sourceID)
-								.lrem(keys.activeSources, -1, sourceID);
-						});
-
+						// Move all active tasks back onto queued task list
 						res.forEach((serializedTasks, i) => {
 							let sourceID = sourceIDs[i];
 							serializedTasks.forEach((serializedTask) => {
 								multi
-									.lpush(keys.queued(sourceID), serializedTask)
-									.lrem(keys.active(sourceID), -1, serializedTask);
+									.lpush(keys.tasks.queued(sourceID), serializedTask)
+									.lrem(keys.tasks.active(sourceID), -1, serializedTask);
 							});
+						});
+
+						// Move all active source IDs onto list of sources with queued jobs
+						sourceIDs.forEach((sourceID) => {
+							if (activeSources.indexOf(sourceID) === -1) return;
+							multi
+								.lpush(keys.sources.queued, sourceID)
+								.lrem(keys.sources.active, -1, sourceID);
 						});
 
 						multi.exec((err, res) => {
 							if (err) return callback(err);
 
-							// Something change, re-attempt to reprocess each source
+							// Something changed, re-attempt to reprocess each source
 							if (res === null) {
-								this.reprocess(callback);
+								this.reset(callback);
 							} else {
-								// If we call 'reprocess' in a master process
+
+								// Is this problematic? What if the process recovers?
+								// If we call 'reset' in a master process
 								// it might not have registered its own processor function
 								if (this.processor) this.process(this.processor);
+
 								callback();
 							}
 						});
@@ -244,15 +241,15 @@ module.exports = function Queue({ prefix = "" }) {
 
 	const waitForTask = (callback) => {
 		waitingClient.brpoplpush(
-			keys.queuedSources,
-			keys.activeSources,
+			keys.sources.queued,
+			keys.sources.active,
 			0, // timeout for the blocking rpop lpush set to infinity!
 			(err, sourceID) => {
 				client.set(keys.processing(process.pid), sourceID, function (err) {
 					if (err) return callback(err);
 					client.rpoplpush(
-						keys.queued(sourceID),
-						keys.active(sourceID),
+						keys.tasks.queued(sourceID),
+						keys.tasks.active(sourceID),
 						function (err, serializedTask) {
 							if (err) return callback(err);
 							callback(null, sourceID, serializedTask);
@@ -266,10 +263,10 @@ module.exports = function Queue({ prefix = "" }) {
 	// There are no other functions processing tasks for this source
 	// However, it is possible to add tasks to this source's queue.
 	const checkIfSourceIsDrained = (sourceID, callback = function () {}) => {
-		client.watch(keys.queued(sourceID), (err) => {
+		client.watch(keys.tasks.queued(sourceID), (err) => {
 			if (err) return callback(err);
 
-			client.llen(keys.queued(sourceID), (err, totalQueuedTasks) => {
+			client.llen(keys.tasks.queued(sourceID), (err, totalQueuedTasks) => {
 				if (err) return callback(err);
 
 				let multi = client.multi();
@@ -277,13 +274,13 @@ module.exports = function Queue({ prefix = "" }) {
 				// There are no more tasks for this source, drain is go!
 				if (totalQueuedTasks === 0) {
 					multi
-						.lrem(keys.activeSources, -1, sourceID)
-						.lrem(keys.queuedSources, -1, sourceID)
+						.lrem(keys.sources.active, -1, sourceID)
+						.lrem(keys.sources.queued, -1, sourceID)
 						.publish(keys.channel, sourceID);
 				} else {
 					multi
-						.lrem(keys.activeSources, -1, sourceID)
-						.lpush(keys.queuedSources, sourceID);
+						.lrem(keys.sources.active, -1, sourceID)
+						.lpush(keys.sources.queued, sourceID);
 				}
 
 				multi.exec((err, res) => {
@@ -304,16 +301,16 @@ module.exports = function Queue({ prefix = "" }) {
 		this.processor = processor;
 		client
 			.multi()
-			.sadd(keys.all, keys.active(process.pid))
+			.sadd(keys.all, keys.tasks.active(process.pid))
 			.sadd(keys.processors, process.pid)
 			.exec((err) => {
 				waitForTask((err, sourceID, serializedTask) => {
 					processor(sourceID, JSON.parse(serializedTask), (err) => {
 						client
 							.multi()
-							.lrem(keys.active(sourceID), -1, serializedTask)
-							.lpush(keys.ended(sourceID), serializedTask)
-							.ltrim(keys.ended(sourceID), 0, MAX_TASK_HISTORY - 1)
+							.lrem(keys.tasks.active(sourceID), -1, serializedTask)
+							.lpush(keys.tasks.ended(sourceID), serializedTask)
+							.ltrim(keys.tasks.ended(sourceID), 0, MAX_TASK_HISTORY - 1)
 							.exec((err) => {
 								if (err) debug(err);
 								checkIfSourceIsDrained(sourceID, (err) => {
@@ -325,3 +322,41 @@ module.exports = function Queue({ prefix = "" }) {
 			});
 	};
 };
+
+// We use a LUA script to guarantee atomicity
+// We can't use WATCH because it doesn't account for
+// activities of the same client, which we must deal with
+const SCRIPT = `
+	local exists = false; 
+
+	for _, value in pairs(redis.call("LRANGE",KEYS[1], 0, -1)) do
+	  if (value == ARGV[1]) then exists = true; break; end
+	end;
+
+	if (exists) then return 0 end;
+
+	for _, value in pairs(redis.call("LRANGE",KEYS[2], 0, -1)) do
+	  if (value == ARGV[1]) then exists = true; break; end
+ 	end;
+
+	if (exists) then return 0 end;
+
+	redis.call("LPUSH", KEYS[1], ARGV[1]);
+	return 1`;
+
+let SHA;
+
+function lpushIfNotPresent(firstList, secondList, item, callback) {
+	if (SHA) {
+		client.evalsha(SHA, 2, firstList, secondList, item, callback);
+	} else {
+		client.script("load", SCRIPT, function (err, sha) {
+			SHA = sha;
+			client.evalsha(SHA, 2, firstList, secondList, item, callback);
+		});
+	}
+}
+
+client.script("load", SCRIPT, function (err, sha) {
+	SHA = sha;
+});

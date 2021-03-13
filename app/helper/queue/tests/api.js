@@ -9,6 +9,13 @@ describe("Queue API", function () {
 		this.queue.add(this.blog.id, [{ path: "foo" }, { path: "bar" }], done);
 	});
 
+	// inspect non existent queue
+
+
+	// multiple queues at once
+
+	// destory removes all keys
+	
 	it("processes a task", function (done) {
 		var task = { path: "foo" };
 
@@ -23,7 +30,7 @@ describe("Queue API", function () {
 	});
 
 	it("reprocesses currently processing tasks on queue", function (done) {
-		this.queue.reprocess(done);
+		this.queue.reset(done);
 	});
 
 	it("destroys the queue", function (done) {

@@ -46,7 +46,7 @@ describe("Queue", function () {
 
 		// Reprocess all tasks after 2s
 		setTimeout(() => {
-			this.queue.reprocess();
+			this.queue.reset();
 		}, 1000 * 2);
 
 		// Stop adding tasks after 3s
@@ -73,7 +73,7 @@ describe("Queue", function () {
 						ended: [],
 						queued: [],
 					});
-					this.queue.reprocess();
+					this.queue.reset();
 				});
 			} else if (processor_called === 2) {
 				this.queue.inspect((err, res) => {
@@ -110,8 +110,8 @@ describe("Queue", function () {
 		this.queue.process(processor);
 
 		this.queue.add(this.blog.id, task, (err) => {
-			this.queue.reprocess((err) => {
-				this.queue.reprocess((err) => {});
+			this.queue.reset((err) => {
+				this.queue.reset((err) => {});
 			});
 		});
 	});
@@ -182,7 +182,7 @@ describe("Queue", function () {
 			count: 3,
 			module: "./workers/unreliable.js",
 			onRestart: () => {
-				this.queue.reprocess();
+				this.queue.reset();
 			},
 		});
 
