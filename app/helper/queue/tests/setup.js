@@ -44,7 +44,7 @@ module.exports = function () {
 					}
 					if (options.isRestart && options.onRestart) {
 						// console.log("Restarted failed worker");
-						options.onRestart();
+						options.onRestart({pid: options.deadWorkerPid});
 					}
 				});
 
@@ -53,6 +53,7 @@ module.exports = function () {
 						// console.log("Worker failed unexpectedly");
 						options.count = 1;
 						options.isRestart = true;
+						options.deadWorkerPid = worker.pid;
 						this.createWorkers(options);
 					}
 				});

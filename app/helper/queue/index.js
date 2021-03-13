@@ -211,7 +211,6 @@ module.exports = function Queue({ prefix = "" }) {
 							if (res === null) {
 								this.reset(callback);
 							} else {
-
 								// Is this problematic? What if the process recovers?
 								// If we call 'reset' in a master process
 								// it might not have registered its own processor function
@@ -223,6 +222,44 @@ module.exports = function Queue({ prefix = "" }) {
 					});
 				});
 			});
+	};
+
+	this.reprocess = (pid, callback = function () {}) => {
+		client.watch(
+			keys.processing(pid),
+			keys.sources.queued,
+			keys.sources.active,
+			function (err) {
+				if (err) return callback(err);
+				client.get(keys.processing(pid), function (err, sourceID) {
+					if (err) return callback(err);
+
+					let multi = client
+						.multi()
+						.del(keys.processing(pid))
+						.srem(keys.processors, pid);
+
+					if (sourceID) {
+						multi
+							.lpush(keys.sources.queued, sourceID)
+							.lrem(keys.sources.active, -1, sourceID)
+							.rpoplpush(
+								keys.tasks.active(sourceID),
+								keys.tasks.queued(sourceID)
+							);
+					}
+
+					multi.exec((err, res) => {
+						if (err) return callback(err);
+						if (res === null) {
+							this.reprocess(pid, callback);
+						} else {
+							callback(null);
+						}
+					});
+				});
+			}
+		);
 	};
 
 	this.drain = (onDrain) => {

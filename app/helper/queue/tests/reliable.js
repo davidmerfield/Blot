@@ -199,4 +199,29 @@ describe("Queue", function () {
 			});
 		});
 	});
+
+	it("distributes tasks across unreliable workers using reprocess", function (done) {
+		let tasks = [1, 2, 3, 4, 5, 6, 7, 8];
+
+		this.createWorkers({
+			count: 3,
+			module: "./workers/unreliable.js",
+			onRestart: ({pid}) => {
+				this.queue.reprocess(pid);
+			},
+		});
+
+		this.queue.add(this.blog.id, tasks);
+
+		this.queue.drain((blogID) => {
+			expect(blogID).toEqual(this.blog.id);
+			this.queue.inspect((err, res) => {
+				expect(res[this.blog.id].ended.sort()).toEqual(tasks.sort());
+				expect(res[this.blog.id].active).toEqual([]);
+				expect(res[this.blog.id].queued).toEqual([]);
+				expect(res.sources).toEqual([]);
+				done();
+			});
+		});
+	});
 });
