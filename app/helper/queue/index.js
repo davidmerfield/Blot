@@ -16,37 +16,37 @@ module.exports = function Queue({ prefix = "" }) {
 	const keys = {
 		sources: {
 			// type List // sources with outstanding tasks
-			queued: `queue:${prefix}sources:queued`,
+			queued: `queue:${prefix}:sources:queued`,
 			// type List // sources with tasks being processed
-			active: `queue:${prefix}sources:active`,
+			active: `queue:${prefix}:sources:active`,
 		},
 
 		tasks: {
 			// A list of tasks for a particular source that are being processed
-			active: (sourceID) => `queue:${prefix}source:${sourceID}:active`,
+			active: (sourceID) => `queue:${prefix}:source:${sourceID}:active`,
 			// A list of tasks for a particular source that await processing
-			queued: (sourceID) => `queue:${prefix}source:${sourceID}:queued`,
+			queued: (sourceID) => `queue:${prefix}:source:${sourceID}:queued`,
 			// A list of tasks for a particular source that are done
-			ended: (sourceID) => `queue:${prefix}source:${sourceID}:ended`,
+			ended: (sourceID) => `queue:${prefix}:source:${sourceID}:ended`,
 		},
 
 		processor: {
 			// Stores a number, which is incremeneted each heartbeat
-			heartbeat: (pid) => `queue:${prefix}processor:heartbeat:${pid}`,
+			heartbeat: (pid) => `queue:${prefix}:processor:heartbeat:${pid}`,
 
 			// Stores the source ID against the process ID so we can
 			// reprocess any tasks for a dead process
-			source: (pid) => `queue:${prefix}processing:${pid}`,
+			source: (pid) => `queue:${prefix}:processing:${pid}`,
 
 			// A set of process ids (pids) for workers on this queue
-			all: `queue:${prefix}processors`,
+			all: `queue:${prefix}:processors`,
 		},
 
 		// Used for inter-process communication about this queue
-		channel: `queue:${prefix}channel`,
+		channel: `queue:${prefix}:channel`,
 
 		// A set of all keys created by this queue for easy cleanup
-		all: `queue:${prefix}all`,
+		all: `queue:${prefix}:all`,
 	};
 
 	// Number of tasks to store on completed task log
