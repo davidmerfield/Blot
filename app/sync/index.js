@@ -90,7 +90,7 @@ function sync(blogID, options, callback) {
 
       folder = {
         path: localPath(blogID, "/"),
-        update: new Update(blog, log),
+        update: new Update(blogID, syncID),
         log,
       };
 

@@ -29,8 +29,7 @@ function isTemplate(path) {
   return normalize(path).indexOf("/templates/") === 0;
 }
 
-
-module.exports = function(blog, path, options, callback) {
+module.exports = function (blogID, path, options, callback) {
   var queue;
 
   if (callback === undefined && typeof options === "function") {
@@ -42,17 +41,17 @@ module.exports = function(blog, path, options, callback) {
   if (path[0] !== "/") path = "/" + path;
 
   queue = {
-    is_preview: isPreview.bind(this, blog.id, path),
-    dependents: rebuildDependents.bind(this, blog.id, path)
+    is_preview: isPreview.bind(this, blogID, path),
+    dependents: rebuildDependents.bind(this, blogID, path),
   };
 
   // Store the case-preserved name against the
   // path to this file
   if (options.name) {
-    queue.metadata = Metadata.add.bind(this, blog.id, path, options.name);
+    queue.metadata = Metadata.add.bind(this, blogID, path, options.name);
   }
 
-  async.parallel(queue, function(err, result) {
+  async.parallel(queue, function (err, result) {
     if (err) return callback(err);
 
     // This is a preview file, don't create an entry
@@ -66,20 +65,20 @@ module.exports = function(blog, path, options, callback) {
     // with an underscore, or it's inside a folder
     // whose name begins with an underscore. It should
     // therefore not be a blog post.
-    if (isPublic(path)) return Ignore(blog.id, path, PUBLIC_FILE, callback);
+    if (isPublic(path)) return Ignore(blogID, path, PUBLIC_FILE, callback);
 
-    build(blog, path, options, function(err, entry) {
+    build(blogID, path, options, function (err, entry) {
       if (err && err.code === "WRONGTYPE")
-        return Ignore(blog.id, path, WRONG_TYPE, callback);
+        return Ignore(blogID, path, WRONG_TYPE, callback);
 
       if (err) return callback(err);
 
       // This file is a draft, write a preview file
       // to the users Dropbox and continue down
       // We look up the remote path later in this module...
-      if (entry.draft && !isHidden(entry.path)) Preview.write(blog.id, path);
+      if (entry.draft && !isHidden(entry.path)) Preview.write(blogID, path);
 
-      Entry.set(blog.id, entry.path, entry, callback);
+      Entry.set(blogID, entry.path, entry, callback);
     });
   });
 };

@@ -9,10 +9,14 @@ function pad(len) {
 
 // Check if an entry with the passed properties exists in DB
 module.exports = function CheckEntry(blogID) {
-  return function(entry, callback) {
-    require("models/entry").get(blogID, entry.path, function(result) {
+  return function check(entry, callback, callcount = 0) {
+    require("models/entry").get(blogID, entry.path, function (result) {
       if (!result) {
-        return callback(new Error("No entry exists with path: " + entry.path));
+        if (callcount < 50) {
+          return setTimeout(() => check(entry, callback, callcount + 1), 100);
+        } else {
+          return callback(new Error("No entry " + entry.path));
+        }
       }
 
       var message = ["checking entry " + entry.path];
