@@ -32,14 +32,14 @@ module.exports = function Queue({ prefix = "" }) {
 
 		processor: {
 			// Stores a number, which is incremeneted each heartbeat
-			heartbeat: (pid) => `queue:${prefix}:processor:heartbeat:${pid}`,
+			heartbeat: (pid) => `queue:${prefix}:processor:${pid}:heartbeat`,
 
 			// Stores the source ID against the process ID so we can
 			// reprocess any tasks for a dead process
-			source: (pid) => `queue:${prefix}:processing:${pid}`,
+			source: (pid) => `queue:${prefix}:processor:${pid}:source`,
 
 			// A set of process ids (pids) for workers on this queue
-			all: `queue:${prefix}:processors`,
+			all: `queue:${prefix}:processor:all`,
 		},
 
 		// Used for inter-process communication about this queue
