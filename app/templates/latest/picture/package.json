@@ -17,22 +17,10 @@
     "spacing": 3
   },
   "views": {
-    "tagged": {
+    "tagged.html": {
       "partials": {
-        "title": "Entries tagged {{{tag}}} from {{{title}}}",
+        "title": "{{{tag}}} - {{{title}}}",
         "description": "All of the entries posted on {{{title}}} tagged {{{tag}}}"
-      }
-    },
-    "error": {
-      "partials": {
-        "title": "{{{error.title}}} - {{{title}}}",
-        "description": "Error on {{{title}}}"
-      }
-    },
-    "search": {
-      "partials": {
-        "title": "Search - {{{title}}}",
-        "description": "Search all the entries posted on {{{title}}}"
       }
     },
     "archives.html": {
