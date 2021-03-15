@@ -67,7 +67,7 @@ module.exports = function (blogID, path, options, callback) {
     // therefore not be a blog post.
     if (isPublic(path)) return Ignore(blogID, path, PUBLIC_FILE, callback);
 
-    build(blogID, path, options, function (err, entry) {
+    build(blog.id, path, options, function(err, entry) {
       if (err && err.code === "WRONGTYPE")
         return Ignore(blogID, path, WRONG_TYPE, callback);
 

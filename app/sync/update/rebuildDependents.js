@@ -35,7 +35,7 @@ module.exports = function (blogID, path, callback) {
               options.name = basename(entry.pathDisplay);
             }
 
-            build(blog, dependent_path, options, function (
+            build(blog.id, dependent_path, options, function (
               err,
               updated_dependent
             ) {
