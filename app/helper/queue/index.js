@@ -2,7 +2,7 @@ const debug = require("debug")("blot:helper:queue");
 const client = require("client");
 
 // Terminology
-// Sources: i.e. users or blogs which generate tasks
+// Sources generate tasks, they are effectively users/blogs/tenants
 // Tasks are jobs, each with a unique source
 
 // Every queue is:
@@ -30,12 +30,17 @@ module.exports = function Queue({ prefix = "" }) {
 			ended: (sourceID) => `queue:${prefix}source:${sourceID}:ended`,
 		},
 
-		// A set of process ids (pids) for workers on this queue
-		processors: `queue:${prefix}processors`,
+		processor: {
+			// Stores a number, which is incremeneted each heartbeat
+			heartbeat: (pid) => `queue:${prefix}processor:heartbeat:${pid}`,
 
-		// Stores the source ID against the process ID so we can
-		// reprocess any tasks for a dead process
-		processing: (pid) => `queue:${prefix}processing:${pid}`,
+			// Stores the source ID against the process ID so we can
+			// reprocess any tasks for a dead process
+			source: (pid) => `queue:${prefix}processing:${pid}`,
+
+			// A set of process ids (pids) for workers on this queue
+			all: `queue:${prefix}processors`,
+		},
 
 		// Used for inter-process communication about this queue
 		channel: `queue:${prefix}channel`,
@@ -99,7 +104,7 @@ module.exports = function Queue({ prefix = "" }) {
 		client
 			.batch()
 			.smembers(keys.all)
-			.smembers(keys.processors)
+			.smembers(keys.processor.all)
 			.exec((err, [queueKeys, processors]) => {
 				if (err) return callback(err);
 
@@ -135,17 +140,18 @@ module.exports = function Queue({ prefix = "" }) {
 		client
 			.batch()
 			.smembers(keys.all)
-			.smembers(keys.processors)
+			.smembers(keys.processor.all)
 			.exec((err, [queueKeys, processors]) => {
 				if (err) return callback(err);
 				client.del(
 					[
 						keys.sources.queued,
 						keys.sources.active,
-						keys.processors,
+						keys.processor.all,
 						keys.channel,
 						keys.all,
-						...processors.map(keys.processing),
+						...processors.map(keys.processor.source),
+						...processors.map(keys.processor.heartbeat),
 						...queueKeys,
 					],
 					callback
@@ -153,97 +159,31 @@ module.exports = function Queue({ prefix = "" }) {
 			});
 	};
 
-	// Public: used to reattempt the processing function on any task
-	// in the processing queue.
-
-	// Questions to answer:
-	// - Do we possibly need a new reprocessing client per function?
-	// - Can other reprocessing functions clobber this?
-	// - Can we eventually only reprocess tasks for the dead worker?
-	// - Can we add a timeout for tasks?
-	this.reset = (callback = function () {}) => {
+	this.drain = (onDrain) => {
 		client
-			.batch()
-			.watch(keys.sources.queued, keys.sources.active)
-			.lrange(keys.sources.queued, 0, -1)
-			.lrange(keys.sources.active, 0, -1)
-			.exec((err, [res, queuedSources, activeSources]) => {
-				if (err) return callback(err);
-
-				let sourceIDs = queuedSources.concat(activeSources);
-
-				if (!sourceIDs.length) return callback();
-
-				let activeQueues = sourceIDs.map((sourceID) =>
-					keys.tasks.active(sourceID)
-				);
-
-				client.watch(activeQueues, (err) => {
-					if (err) return callback(err);
-
-					let batch = client.batch();
-
-					sourceIDs.forEach((sourceID) => {
-						batch.lrange(keys.tasks.active(sourceID), 0, -1);
-					});
-
-					batch.exec((err, res) => {
-						if (err) return callback(err);
-
-						let multi = client.multi();
-
-						// Move all active tasks back onto queued task list
-						res.forEach((serializedTasks, i) => {
-							let sourceID = sourceIDs[i];
-							serializedTasks.forEach((serializedTask) => {
-								multi
-									.lpush(keys.tasks.queued(sourceID), serializedTask)
-									.lrem(keys.tasks.active(sourceID), -1, serializedTask);
-							});
-						});
-
-						// Move all active source IDs onto list of sources with queued jobs
-						sourceIDs.forEach((sourceID) => {
-							if (activeSources.indexOf(sourceID) === -1) return;
-							multi
-								.lpush(keys.sources.queued, sourceID)
-								.lrem(keys.sources.active, -1, sourceID);
-						});
-
-						multi.exec((err, res) => {
-							if (err) return callback(err);
-
-							// Something changed, re-attempt to reprocess each source
-							if (res === null) {
-								this.reset(callback);
-							} else {
-								// Is this problematic? What if the process recovers?
-								// If we call 'reset' in a master process
-								// it might not have registered its own processor function
-								if (this.processor) this.process();
-
-								callback();
-							}
-						});
-					});
-				});
-			});
+			.duplicate()
+			.on("message", (channel, sourceID) => {
+				if (channel !== keys.channel) return;
+				onDrain(sourceID);
+			})
+			.subscribe(keys.channel);
 	};
 
-	this.reprocess = (pid, callback = function () {}) => {
+	const reprocess = (pid, callback = function () {}) => {
 		client.watch(
-			keys.processing(pid),
+			keys.processor.source(pid),
 			keys.sources.queued,
 			keys.sources.active,
 			(err) => {
 				if (err) return callback(err);
-				client.get(keys.processing(pid), (err, sourceID) => {
+				client.get(keys.processor.source(pid), (err, sourceID) => {
 					if (err) return callback(err);
 
 					let multi = client
 						.multi()
-						.del(keys.processing(pid))
-						.srem(keys.processors, pid);
+						.del(keys.processor.source(pid))
+						.del(keys.processor.heartbeat(pid))
+						.srem(keys.processor.all, pid);
 
 					if (sourceID) {
 						multi
@@ -258,13 +198,8 @@ module.exports = function Queue({ prefix = "" }) {
 					multi.exec((err, res) => {
 						if (err) return callback(err);
 						if (res === null) {
-							this.reprocess(pid, callback);
+							reprocess(pid, callback);
 						} else {
-							// Is this problematic? What if the process recovers?
-							// If we call 'reset' in a master process
-							// it might not have registered its own processor function
-							if (this.processor) this.process();
-
 							callback(null);
 						}
 					});
@@ -273,19 +208,6 @@ module.exports = function Queue({ prefix = "" }) {
 		);
 	};
 
-	this.drain = (onDrain) => {
-		client
-			.duplicate()
-			.on("message", (channel, sourceID) => {
-				if (channel !== keys.channel) return;
-				onDrain(sourceID);
-			})
-			.subscribe(keys.channel);
-	};
-
-	// Public method which accepts as only argument an asynchronous
-	// function that will do work on a given task. It will wait
-	// until there is a source with a task to work on.
 	const waitingClient = client.duplicate();
 
 	const waitForTask = (callback) => {
@@ -294,7 +216,7 @@ module.exports = function Queue({ prefix = "" }) {
 			keys.sources.active,
 			0, // timeout for the blocking rpop lpush set to infinity!
 			(err, sourceID) => {
-				client.set(keys.processing(process.pid), sourceID, (err) => {
+				client.set(keys.processor.source(process.pid), sourceID, (err) => {
 					if (err) return callback(err);
 					client.rpoplpush(
 						keys.tasks.queued(sourceID),
@@ -346,14 +268,41 @@ module.exports = function Queue({ prefix = "" }) {
 		});
 	};
 
+	let lastHeartbeats = {};
+
+	setInterval(() => {
+		client.smembers(keys.processor.all, (err, processors) => {
+			if (err) throw err;
+
+			if (processors.length === 0) return;
+
+			let heartbeatKeys = processors.map((pid) =>
+				keys.processor.heartbeat(pid)
+			);
+
+			client.mget(heartbeatKeys, (err, heartbeats) => {
+				if (err) throw err;
+				heartbeats.forEach((heartbeat, index) => {
+					let pid = processors[index];
+					if (lastHeartbeats[pid] === heartbeat) return reprocess(pid);
+					lastHeartbeats[pid] = heartbeat;
+				});
+			});
+		});
+	}, 1000);
+
 	this.process = (processor) => {
-		if (processor) this.processor = processor;
+		// Emit a heartbeat to verify that this process is healthy
+		setInterval(() => {
+			client.incr(keys.processor.heartbeat(process.pid));
+		}, 330);
+
 		client
 			.multi()
-			.sadd(keys.processors, process.pid)
+			.sadd(keys.processor.all, process.pid)
 			.exec((err) => {
 				waitForTask((err, sourceID, serializedTask) => {
-					this.processor(sourceID, JSON.parse(serializedTask), (err) => {
+					processor(sourceID, JSON.parse(serializedTask), (err) => {
 						client
 							.multi()
 							.lrem(keys.tasks.active(sourceID), -1, serializedTask)
@@ -362,7 +311,7 @@ module.exports = function Queue({ prefix = "" }) {
 							.exec((err) => {
 								if (err) debug(err);
 								checkIfSourceIsDrained(sourceID, (err) => {
-									this.process();
+									this.process(processor);
 								});
 							});
 					});

@@ -7,20 +7,13 @@ describe("Queue.destroy", function () {
 
 	it("removes all keys associated with the queue", function (done) {
 		this.queue.add(this.blog.id, [1, 2, 3, 4]);
-		
-		let reset_flag;
-		let reprocess_flag;
-		
+
 		this.queue.process((blogID, task, done) => {
-			if (task === 2 && !reset_flag) {
-				reset_flag = true;
-				this.queue.reset();
-			} else if (task === 3 && !reprocess_flag) {
-				reprocess_flag = true;
-				this.queue.reprocess(process.pid);
-			} else {
-				done();
-			}
+			setTimeout(()=>{
+			done();
+
+			}, 100);
+			
 		});
 
 		this.queue.drain(() => {
