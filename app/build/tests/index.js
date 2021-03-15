@@ -26,7 +26,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, {}, function (err, entry) {
+    build(this.blog.id, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was cached
@@ -48,7 +48,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, {}, (err, entry) => {
+    build(this.blog.id, path, {}, (err, entry) => {
       if (err) return done.fail(err);
       expect(entry.tags).toEqual(["foo", "bar", "baz"]);
       done();
@@ -62,7 +62,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, { pathDisplay }, (err, entry) => {
+    build(this.blog.id, path, { pathDisplay }, (err, entry) => {
       if (err) return done.fail(err);
       expect(entry.tags).toEqual(["Foo"]);
       done();
@@ -76,7 +76,7 @@ describe("build", function () {
 
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, {}, function (err, entry) {
+    build(this.blog.id, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // It won't be cached since the image doesn't exist
@@ -90,7 +90,7 @@ describe("build", function () {
 
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
 
-    build(this.blog, pathToImage, {}, function (err, entry) {
+    build(this.blog.id, pathToImage, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was cached
@@ -115,7 +115,7 @@ describe("build", function () {
     fs.outputFileSync(this.blogDirectory + path, contents);
     fs.copySync(__dirname + "/small.jpg", this.blogDirectory + pathToImage);
 
-    build(this.blog, path, {}, function (err, entry) {
+    build(this.blog.id, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was cached
@@ -140,7 +140,7 @@ describe("build", function () {
     fs.outputFileSync(this.blogDirectory + path, contents);
     fs.copySync(__dirname + "/too-small.jpg", this.blogDirectory + pathToImage);
 
-    build(this.blog, path, {}, function (err, entry) {
+    build(this.blog.id, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify no thumbnail was generated from the image
@@ -158,7 +158,7 @@ describe("build", function () {
     let blog = this.blog;
     blog.plugins.imageCaption.enabled = true;
 
-    build(blog, path, {}, function (err, entry) {
+    build(blog.id, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify a thumbnail was generated from the image
@@ -173,7 +173,7 @@ describe("build", function () {
     var contents = "No date in this file";
 
     fs.outputFileSync(this.blogDirectory + path, contents);
-    build(this.blog, path, {}, function (err, entry) {
+    build(this.blog.id, path, {}, function (err, entry) {
       if (err) return done.fail(err);
       expect(entry.dateStamp).toEqual(undefined);
       done();
@@ -189,7 +189,7 @@ describe("build", function () {
     // creates <embed>'s instead of <img> for certain URLs
     fs.outputFileSync(this.blogDirectory + path, contents);
 
-    build(this.blog, path, {}, function (err, entry) {
+    build(this.blog.id, path, {}, function (err, entry) {
       if (err) return done.fail(err);
 
       // verify the image was not cached

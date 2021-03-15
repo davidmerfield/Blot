@@ -12,7 +12,7 @@ describe("build", function() {
 
     this.blog.plugins.titlecase = {enabled: true, options: {}};
 
-    build(this.blog, path, {}, function(err, entry) {
+    build(this.blog.id, path, {}, function(err, entry) {
       if (err) return done.fail(err);
       expect(entry.html).toEqual('<h1 id="title-goes-here">Title Goes Here</h1>')
       done();

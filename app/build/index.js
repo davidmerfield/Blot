@@ -112,19 +112,19 @@ function worker() {
   return { worker: wrkr, id: id };
 }
 
-module.exports = function (blog, path, options, callback) {
+module.exports = function (blogID, path, options, callback) {
   // Pick a worker at random from the pool
   var worker = workers[Math.floor(Math.random() * workers.length)].worker;
   var id = uuid();
 
   jobs[id] = {
-    blog: blog,
-    id: id,
-    path: path,
-    options: options,
-    callback: callback,
+    blogID,
+    id,
+    path,
+    options,
+    callback,
   };
 
   debug("Sending job to worker", jobs[id]);
-  worker.send({ blog: blog, path: path, id: id, options: options });
+  worker.send({ blogID, path, id, options });
 };
