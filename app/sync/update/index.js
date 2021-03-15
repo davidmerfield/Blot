@@ -32,7 +32,7 @@ queue.process(function (blogID, { path, options }, callback) {
   // are not so strict above these things...
   if (path[0] !== "/") path = "/" + path;
 
-  var log = function () {
+  const log = function () {
     console.log.apply(null, [
       clfdate(),
       blogID.slice(0, 12),
@@ -40,17 +40,28 @@ queue.process(function (blogID, { path, options }, callback) {
       ...arguments,
     ]);
   };
-  
+
+  log(path, "Beginning to update what we know");
+
   hashFile(path, function (err, hashBefore) {
     function done(err) {
       // we never let this error escape out
       if (err) {
-        console.error(clfdate(), blogID, path, err);
+        log(path, "Finished updating with error:", err);
+        return callback();
       }
 
       hashFile(path, function (err, hashAfter) {
-        if (hashBefore === hashAfter) callback(null, { error: err || null });
-        else queue.add(blogID, { path, options }, callback);
+        if (hashBefore === hashAfter) {
+          log(path, "Finished updating successfully");
+          callback();
+        } else {
+          log(
+            path,
+            "Finished updating successfully but file has since changed, re-sync it"
+          );
+          queue.add(blogID, { path, options }, callback);
+        }
       });
     }
 
