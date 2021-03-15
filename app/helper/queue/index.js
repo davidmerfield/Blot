@@ -268,34 +268,48 @@ module.exports = function Queue({ prefix = "" }) {
 		});
 	};
 
-	let lastHeartbeats = {};
+	const HEARTBEAT_INTERVAL = 300;
 
-	setInterval(() => {
+	// Emit a heartbeat so others can verify this process is healthy
+	const heartbeat = () => {
+		client.incr(keys.processor.heartbeat(process.pid), (err) => {
+			setTimeout(heartbeat, HEARTBEAT_INTERVAL);
+		});
+	};
+
+	const HEARTBEAT_CHECK_INTERAL = HEARTBEAT_INTERVAL * 4;
+
+	const monintorHeartbeats = (previousState = {}) => {
+		let state = {};
+		const done = () => {
+			setTimeout(() => monintorHeartbeats(state), HEARTBEAT_CHECK_INTERAL);
+		};
+
 		client.smembers(keys.processor.all, (err, processors) => {
 			if (err) throw err;
 
-			if (processors.length === 0) return;
+			let heartbeatKeys = processors
+				.filter((pid) => pid !== process.pid)
+				.map(keys.processor.heartbeat);
 
-			let heartbeatKeys = processors.map((pid) =>
-				keys.processor.heartbeat(pid)
-			);
+			if (heartbeatKeys.length === 0) return done();
 
 			client.mget(heartbeatKeys, (err, heartbeats) => {
 				if (err) throw err;
 				heartbeats.forEach((heartbeat, index) => {
 					let pid = processors[index];
-					if (lastHeartbeats[pid] === heartbeat) return reprocess(pid);
-					lastHeartbeats[pid] = heartbeat;
+					if (previousState[pid] === heartbeat) return reprocess(pid);
+					state[pid] = heartbeat;
 				});
+				done();
 			});
 		});
-	}, 1000);
+	};
+
+	monintorHeartbeats();
 
 	this.process = (processor) => {
-		// Emit a heartbeat to verify that this process is healthy
-		setInterval(() => {
-			client.incr(keys.processor.heartbeat(process.pid));
-		}, 330);
+		heartbeat();
 
 		client
 			.multi()

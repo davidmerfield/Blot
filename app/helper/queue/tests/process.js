@@ -190,7 +190,7 @@ describe("Queue", function () {
 		});
 
 		this.queue.add("blog", tasks);
-	});
+	}, 6000);
 
 	it("processes one task at a time", function (done) {
 		let flag = false;
@@ -216,122 +216,6 @@ describe("Queue", function () {
 		});
 
 		this.queue.add("blog", tasks);
-	});
-
-	var colors = require("colors/safe");
-
-	xit("lets you hammer the queue with new tasks while reprocessing tasks and nothing gets droppped", function (done) {
-		var blogID = this.blog.id;
-		var id = 0;
-		var tasks_added = [];
-		var tasks_completed = [];
-		var hang_task = false;
-		var hanged_task_id;
-		var done_adding = false;
-
-		this.queue.process(function (blogID, task, callback) {
-			if (hang_task) {
-				hanged_task_id = task.id;
-				hang_task = false;
-			} else {
-				tasks_completed.push(task.id);
-
-				if (
-					done_adding &&
-					hanged_task_id &&
-					tasks_completed.length == tasks_added.length
-				) {
-					expect(tasks_completed.sort()).toEqual(tasks_added.sort());
-					done();
-				}
-
-				callback();
-			}
-		});
-
-		const addTask = () => {
-			let new_task_id = id++;
-			tasks_added.push(new_task_id);
-			this.queue.add(blogID, { id: new_task_id });
-		};
-
-		const hammerAdd = setInterval(addTask, 15);
-
-		// Make one task 'hang' after 1s
-		setTimeout(() => {
-			hang_task = true;
-		}, 1000 * 1);
-
-		// Reprocess all tasks after 2s
-		setTimeout(() => {
-			this.queue.reset();
-		}, 1000 * 2);
-
-		// Stop adding tasks after 3s
-		setTimeout(() => {
-			done_adding = true;
-			clearInterval(hammerAdd);
-			addTask();
-		}, 1000 * 2.5);
-	});
-
-	xit("lets you reprocess active tasks if needed", function (done) {
-		let task = { path: "foo" };
-		let processor_called = 0;
-
-		this.queue.add(this.blog.id, task);
-
-		this.queue.process(() => {
-			processor_called++;
-
-			if (processor_called === 1) {
-				this.queue.inspect((err, res) => {
-					expect(res[this.blog.id]).toEqual({
-						active: [task],
-						ended: [],
-						queued: [],
-					});
-					this.queue.reset();
-				});
-			} else if (processor_called === 2) {
-				this.queue.inspect((err, res) => {
-					expect(res[this.blog.id]).toEqual({
-						active: [task],
-						ended: [],
-						queued: [],
-					});
-					done();
-				});
-			} else {
-				done.fail();
-			}
-		});
-	});
-
-	xit("calling reprocess multiple times works", function (done) {
-		let task = { path: "foo" };
-		let called = 0;
-		let processor = () => {
-			called++;
-			if (called === 3) {
-				this.queue.inspect((err, res) => {
-					expect(res[this.blog.id]).toEqual({
-						active: [task],
-						ended: [],
-						queued: [],
-					});
-					done();
-				});
-			}
-		};
-
-		this.queue.process(processor);
-
-		this.queue.add(this.blog.id, task, (err) => {
-			this.queue.reset((err) => {
-				this.queue.reset((err) => {});
-			});
-		});
 	});
 
 	it("distributes tasks across reliable task runners", function (done) {
