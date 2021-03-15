@@ -28,7 +28,7 @@ var overwrite = [
   "body",
   "summary",
   "teaser",
-  "teaserBody"
+  "teaserBody",
 ];
 
 function canOverwrite(key) {
@@ -55,7 +55,7 @@ function Prepare(entry) {
   debug(entry.path, "Generating cheerio");
   var $ = cheerio.load(entry.html, {
     decodeEntities: false,
-    withDomLvl1: false // this may cause issues?
+    withDomLvl1: false, // this may cause issues?
   });
   debug(entry.path, "Generated  cheerio");
 
@@ -109,9 +109,9 @@ function Prepare(entry) {
 
   if (entry.metadata.tags) tags = entry.metadata.tags.split(",");
 
-  tags = Tags(entry.path, tags);
+  tags = Tags(entry.pathDisplay || entry.path, tags);
   tags = _(tags)
-    .map(function(tag) {
+    .map(function (tag) {
       return tag.trim();
     })
     .compact(tags)
@@ -156,8 +156,11 @@ function Prepare(entry) {
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
   entry.permalink =
-    entry.metadata.permalink || entry.metadata.slug ||
-    entry.metadata.link || entry.metadata.url || "";
+    entry.metadata.permalink ||
+    entry.metadata.slug ||
+    entry.metadata.link ||
+    entry.metadata.url ||
+    "";
   entry.permalink = normalize(entry.permalink);
 
   debug(entry.path, "Generated  permalink");

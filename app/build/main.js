@@ -90,6 +90,7 @@ function build(blog, path, options, callback) {
               html: html,
               name: options.name || basename(path),
               path: path,
+              pathDisplay: options.pathDisplay || path,
               id: path,
               thumbnail: thumbnail,
               draft: is_draft,
@@ -109,7 +110,7 @@ function build(blog, path, options, callback) {
               " preparing additional properties for",
               entry.name
             );
-            entry = Prepare(entry);
+            entry = Prepare(entry, options);
             debug("Blog:", blog.id, path, " additional properties computed.");
           } catch (e) {
             return callback(e);
