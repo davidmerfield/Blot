@@ -1,5 +1,3 @@
-Add way to set up redirect to external URL and tell [Anita](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswFxwhgJcqfbfJjFnMBbspTg) and [questioner](https://blot.im/questions/59)
-
 Simplify local dev setup for David and write guide
 
 Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
