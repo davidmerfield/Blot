@@ -269,6 +269,8 @@ Improve the markdown converter:
 - Fix bug with nested Markdown and tell [Martin](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqnhgBjBSKzvtclvqcFcMptMR):
   - ![This is a picture of me testing **Sonikebana**, a nine channel sound piece for mobile loudspeakers that respond when moved. Photo (and artwork) by [Anna Chapman Parker](http://www.annachapman.co.uk)](http://example.com/images/_landingImage_01.jpg)
 - Extend the Markdown converted to add support for Ulysses highlighting and iAWriter highlighting syntax, using the [example files provided by Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb). Tell [Marco](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLsKFQGTxDTnxNddZQxjsLZJGb)
+- Fix bug which injects <p> tags into the following: <div class="img-gallery"><img src="_Floralia.png" title="Floralia"><img src="_Flower.png" title="Flower"><img src="_Mechanical.png" title="Mechanical"><img src="_Curv.png" title="Curv"><img src="_Curvus.png" title="Curvus"><img src="_Futuristic.png" title="Futuristic">
+</div> and tell [Vanessa](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswJQjKhnLpNZzfPhJZpVtcph)
 
 Finish script to identify long-expired users with blogs to safely delete and free up space. 
 - Sort by date expired
