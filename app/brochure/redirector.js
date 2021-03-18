@@ -31,13 +31,17 @@ Object.keys(internal).forEach((from) => {
   redirector.use(from, function (req, res) {
     let to = internal[from];
     let redirect = req.originalUrl.replace(from, to);
-    res.redirect(redirect);
+    // By default, res.redirect returns a 302 status
+    // code (temporary) rather than 301 (permanent)
+    res.redirect(301, redirect);
   });
 });
 
 Object.keys(external).forEach((from) => {
   redirector.use(from, function (req, res) {
-    res.redirect(external[from]);
+    // By default, res.redirect returns a 302 status
+    // code (temporary) rather than 301 (permanent)
+    res.redirect(301, external[from]);
   });
 });
 
