@@ -9,15 +9,18 @@ const internal = {
   "/updates": "/about/news",
   "/source": "/about/source-code",
   "/metadata": "/how/metadata",
-  "/how/drafts": "/how",
   "/404s": "/how/configure/redirects",
   "/howto": "/how",
+  "/how/templates": "/templates",
+  "/how/dates": "/how/metadata",
+  "/developers/documentation": "/templates/developers",
   "/how/publishing-with-blot": "/how",
-  "/formatting": "/how/guides",
   "/how/configuring": "/how/configure",
-  "/redirects": "/how/configure/redirects",
   "/how/formatting": "/how/guides",
-  "/configuring": "/how/configure"
+  "/how/drafts": "/how",
+  "/formatting": "/how/guides",
+  "/redirects": "/how/configure/redirects",
+  "/configuring": "/how/configure",
 };
 
 const external = {
