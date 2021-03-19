@@ -1,0 +1,25 @@
+Spring newsletter
+
+*You received this email because you subscribed to [Blot’s newsletter](https://blot.im/news). You can [unsubscribe](https://blot.im/news/cancel) if you like. Please reply directly to this email if you have any thoughts or questions.*
+
+**New features**
+- We released [Questions](https://blot.im/questions), which is a . Rakhim is responsible for the release of this feature.
+- Domains containing punycode, e.g. [güntherwegs.com](https://xn--gntherwegs-9db.com/) are now supported by Blot. 
+- Added [Cloudflare web analytics](https://www.cloudflare.com/web-analytics/) to the selection of analytics services on your dashboard.
+- Added an option to automatically format all titles using Title Case to your [services page](https://blot.im/settings/services).
+- You can now set up redirects to external URLs. 
+
+**Changes**
+- Improved the reliability of the server – new code can now be deployed without dropping a single request to your blogs. 
+- 
+
+**Bugs fixed**
+- Fixed a bug which 
+
+**Mistakes**
+
+**Plans for this season**
+
+If you have any thoughts or questions about any of this, please don’t hesitate to reply directly to this email.
+
+Sincerely, David
