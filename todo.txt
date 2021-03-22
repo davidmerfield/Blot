@@ -1,3 +1,5 @@
+Write substack import script and follow up with [Lee](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPBhFTXCMGdqGRjcWBngvCP)
+
 Simplify local dev setup for David and write guide
 
 Run sites and templates through [lighthouse](https://web.dev/measure/) and [observatory](https://observatory.mozilla.org/)
