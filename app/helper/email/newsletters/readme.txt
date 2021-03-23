@@ -11,7 +11,6 @@ You can use a database-state I generated to make things easier:
 node scripts/state pre-newsletter && node scripts/email/newsletter $(ls app/helper/email/newsletters | tail -n 2 | head -n 1)
 
 Discuss the following and no more:
-
 - New features
 - Fixed bugs
 - Downtime
