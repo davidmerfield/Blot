@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# NOW IT SEEMS EC2-user can own the nginx log file?
+# What is going on? I ran ./scripts/production/nginx_ as ec2-user
+# and it worked and it seemed like the logfile is now owned by ec2-user?
+
+# ------------------
+
 # Why rotate log files?
 # Otherwise we run out of disk space fairly quickly.
 
