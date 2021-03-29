@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Used to detect broken links into Blot which might be worth
+# setting up redirects for. To set up a redirect add rules
+# to app/brochure/redirector.js
+
 set -e
 
 if [[ -z "$BLOT_DIRECTORY" ]]; then
