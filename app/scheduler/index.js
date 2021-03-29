@@ -9,8 +9,26 @@ var warmCache = require("./warmCache");
 var schedule = require("node-schedule").scheduleJob;
 var checkFeatuedSites = require("../brochure/routes/featured/check");
 var publishScheduledEntries = require("./publish-scheduled-entries");
+const os = require("os");
 
 module.exports = function () {
+  // Every minute
+  schedule("* * * * *", function () {
+    let loadavg = os.loadavg()[0];
+    let totalCPUs = os.cpus().length;
+    let totalmem = os.totalmem();
+    let freemem = os.freemem();
+
+    let pretty = (num) => (100 * num).toFixed(3) + "%";
+
+    console.log(
+      clfdate(),
+      "[STATS]",
+      "cpuuse=" + pretty(loadavg / totalCPUs),
+      "memuse=" + pretty((totalmem - freemem) / totalmem)
+    );
+  });
+
   // Bash the cache for scheduled posts
   publishScheduledEntries(function (err) {
     if (err) throw err;
