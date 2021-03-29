@@ -17,10 +17,12 @@
 # To install to script to run once per day at midnight as root:
 # $ sudo crontab -e
 # 0 0 * * * /var/www/blot/scripts/log-rotate.sh
+# 0 1 * * * find /tmp -mtime +1 -delete
 
 # To install to script to run once per day at midnight as ec2-user:
 # sudo crontab -u ec2-user -e
 # 0 0 * * * /var/www/blot/scripts/log-rotate.sh
+# 0 1 * * * find /tmp -mtime +1 -delete
 
 # Exit this script upon error
 set -e
@@ -48,4 +50,4 @@ done
 NOW=$(date +%s)
 SEVEN_DAYS_AGO=$((NOW - 8 * 24 * 60 * 60))
 DATESTRING=$(date --date @$SEVEN_DAYS_AGO +%Y-%m-%d 2>/dev/null || date -r $SEVEN_DAYS_AGO +%Y-%m-%d 2>/dev/null)
-mv $LOG_DIRECTORY/archive-$DATESTRING-$USER $BLOT_DIRECTORY/tmp 2>/dev/null || true
+mv $LOG_DIRECTORY/archive-$DATESTRING-$USER /tmp 2>/dev/null || true

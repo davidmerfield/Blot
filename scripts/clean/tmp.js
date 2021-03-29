@@ -13,6 +13,8 @@ if (require.main === module)
     process.exit();
   });
 
+// find /tmp -mtime +1 -delete
+
 function main(callback) {
   console.log("Cleaning tmp directory...");
   exec("du -sh " + tmp, function(err, stdout) {
