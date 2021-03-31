@@ -1,5 +1,5 @@
 var helper = require("helper");
-var amountInWords = helper.amountInWords;
+var amountInWords = require("helper/amountInWords");
 
 module.exports = function extend(user) {
   // True if the user has set a password, false otherwise
