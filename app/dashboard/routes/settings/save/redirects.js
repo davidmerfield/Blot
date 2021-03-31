@@ -1,7 +1,7 @@
 var helper = require("helper");
 var Redirects = require("models/redirects");
 var formJSON = helper.formJSON;
-var arrayify = helper.arrayify;
+var arrayify = require("helper/arrayify");
 
 const normalize = (redirect) => {
   redirect = redirect.trim();

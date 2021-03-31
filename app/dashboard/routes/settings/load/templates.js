@@ -1,5 +1,5 @@
 var helper = require("helper");
-var arrayify = helper.arrayify;
+var arrayify = require("helper/arrayify");
 var previewHost = "https://preview-of";
 var ignored = ["blank", "monotone", "mono", "original", "serif"];
 var config = require("config");
