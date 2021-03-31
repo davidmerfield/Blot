@@ -3,6 +3,7 @@ var news = new Express.Router();
 var moment = require("moment");
 var exec = require("child_process").exec;
 var fs = require("fs-extra");
+var Email = require("helper/email");
 var marked = require("marked");
 var helper = require("helper");
 var parse = require("body-parser").urlencoded({ extended: false });
@@ -85,9 +86,7 @@ news.post("/cancel", parse, function (req, res, next) {
     client.setex(cancellationKey(guid), TTL, email, function (err) {
       if (err) return next(err);
 
-      helper.email.NEWSLETTER_CANCELLATION_CONFIRMATION(null, locals, function (
-        err
-      ) {
+      Email.NEWSLETTER_CANCELLATION_CONFIRMATION(null, locals, function (err) {
         if (err) return next(err);
 
         req.session.newsletter_email = email;
@@ -113,13 +112,9 @@ news.get("/cancel/:guid", function (req, res, next) {
       res.render("about/news/cancelled");
 
       if (removed) {
-        helper.email.NEWSLETTER_CANCELLATION_CONFIRMED(
-          null,
-          locals,
-          function () {
-            // Email confirmation sent
-          }
-        );
+        Email.NEWSLETTER_CANCELLATION_CONFIRMED(null, locals, function () {
+          // Email confirmation sent
+        });
       }
     });
   });
@@ -147,13 +142,9 @@ news.get("/confirm/:guid", function (req, res, next) {
       // link we send out a confirmation email, subsequent
       // clicks they just see the confirmation page.
       if (added) {
-        helper.email.NEWSLETTER_SUBSCRIPTION_CONFIRMED(
-          null,
-          locals,
-          function () {
-            // Email confirmation sent
-          }
-        );
+        Email.NEWSLETTER_SUBSCRIPTION_CONFIRMED(null, locals, function () {
+          // Email confirmation sent
+        });
       }
     });
   });
@@ -176,7 +167,7 @@ news.post("/sign-up", parse, function (req, res, next) {
   client.setex(confirmationKey(guid), TTL, email, function (err) {
     if (err) return next(err);
 
-    helper.email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (
+    Email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (
       err
     ) {
       if (err) return next(err);

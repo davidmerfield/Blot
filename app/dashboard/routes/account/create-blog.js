@@ -10,7 +10,7 @@ var request = require("request");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var User = require("user");
-var Email = helper.email;
+var Email = require("helper/email");
 var BAD_CHARGE = "Could not charge your card.";
 var ERR = "Could not change your subscription.";
 

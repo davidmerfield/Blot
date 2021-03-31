@@ -99,7 +99,7 @@ Errors from Dropbox
 // is actually an instance of an error.
 var helper = require("helper");
 var ensure = helper.ensure;
-var email = helper.email;
+var email = require("helper/email");
 
 module.exports = function(uid, log, options) {
   ensure(uid, "string")

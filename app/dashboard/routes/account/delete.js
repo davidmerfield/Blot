@@ -1,7 +1,7 @@
 var Express = require("express");
 var Delete = new Express.Router();
 var User = require("user");
-var Email = require("helper").email;
+var Email = require("helper/email");
 var checkPassword = require("./util/checkPassword");
 var logout = require("./util/logout");
 var async = require("async");

@@ -1,5 +1,5 @@
 var getById = require("./getById");
-var email = require("helper").email;
+var email = require("helper/email");
 var debug = require("debug")("blot:user:scheduleSubscriptionEmail");
 var schedule = require("node-schedule").scheduleJob;
 

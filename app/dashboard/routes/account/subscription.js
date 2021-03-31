@@ -4,7 +4,7 @@ var User = require("user");
 var User = require("user");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
-var email = require("helper").email;
+var email = require("helper/email");
 var helper = require("helper");
 
 const PLAN_MAP = config.stripe.plan_map;

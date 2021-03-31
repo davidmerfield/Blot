@@ -1,5 +1,5 @@
 var helper = require("helper");
-var Email = helper.email;
+var Email = require("helper/email");
 var async = require("async");
 
 function main(callback) {

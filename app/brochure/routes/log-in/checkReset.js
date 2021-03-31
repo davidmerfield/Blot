@@ -1,6 +1,6 @@
 var helper = require("helper");
 var User = require("user");
-var Email = helper.email;
+var Email = require("helper/email");
 var format = require("url").format;
 var NOTOKEN = "Could not generate a token";
 var config = require("config");
