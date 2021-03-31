@@ -1,6 +1,6 @@
 var helper = require("helper");
 var ensure = helper.ensure;
-var blogDir = helper.blogDir;
+var localPath = require("helper/localPath");
 var fs = require("fs-extra");
 var readFromFolder = require("./readFromFolder");
 var async = require("async");
@@ -9,8 +9,8 @@ module.exports = function(blogID, callback) {
   ensure(blogID, "string").and(callback, "function");
 
   var templateDirs = [
-    blogDir + "/" + blogID + "/templates",
-    blogDir + "/" + blogID + "/Templates",
+    localPath(blogID, "/templates"),
+    localPath(blogID, "/Templates"),
   ];
 
   async.eachSeries(
