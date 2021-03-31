@@ -13,7 +13,6 @@ const FONTS = require("blog/static/fonts").map((font) => {
 });
 
 fonts.get("/", function(req, res) {
-	console.log(FONTS);
 	res.locals.fonts = FONTS;
 	res.render("fonts");
 });

@@ -119,12 +119,6 @@ paymentForm.post(parse, csrf, function(req, res, next) {
       req.session.email = email;
       req.session.subscription = customer.subscription;
 
-      console.log(
-        "Customer: " +
-          customer.subscription.customer +
-          " charged successfuly for " +
-          email
-      );
       res.redirect(req.baseUrl + passwordForm.path);
     });
   });
