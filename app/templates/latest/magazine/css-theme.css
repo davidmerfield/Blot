@@ -148,6 +148,15 @@ hr {
 
 .nav {overflow:hidden;}
 .nav a.no-wrap {width:1000%;text-decoration:none;}
+
+/* 
+
+   TODO enable once we support color manipulation functions 
+   We get an ugly gradient in safari when we don't use a fully 
+   transparent version of the {{background_color}}. See this:
+
+   https://css-tricks.com/thing-know-gradients-transparent-black/
+
 .nav:after {
   width:2rem;
   position:absolute;
@@ -162,6 +171,7 @@ hr {
   background: linear-gradient(to right,transparent,{{background_color}});
 }
 
+*/
   
 .no-border-5 a:nth-child(n+5) .bb {display:none}
 .no-border-4 a:nth-child(n+4) .bb {display:none}
