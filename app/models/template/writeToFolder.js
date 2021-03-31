@@ -1,6 +1,6 @@
 var joinpath = require("path").join;
 var async = require("async");
-var callOnce = require("helper").callOnce;
+var callOnce = require("helper/callOnce");
 var isOwner = require("./isOwner");
 var getAllViews = require("./getAllViews");
 var localPath = require("helper").localPath;
