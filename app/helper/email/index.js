@@ -1,18 +1,17 @@
-var config = require("config");
 var fs = require("fs-extra");
+var async = require("async");
+var config = require("config");
 var ensure = require("../ensure");
 var extend = require("../extend");
 var tempDir = require("../tempDir")();
 var assert = require("assert");
-var logg = require("../logg");
-var log = new logg("Email");
 var Mustache = require("mustache");
 var marked = require("marked");
 
 var Mailgun = require("mailgun-js");
 var mailgun = new Mailgun({
   apiKey: config.mailgun.key,
-  domain: config.mailgun.domain
+  domain: config.mailgun.domain,
 });
 
 var adminDir = __dirname + "/admin/";
@@ -57,59 +56,59 @@ var MESSAGES = [
   "UPCOMING_RENEWAL",
   "UPCOMING_EXPIRY",
   "UPDATE_BILLING",
-  "WARNING_LOW_DISK_SPACE"
+  "WARNING_LOW_DISK_SPACE",
 ];
 
-var NO_MESSAGE = "No messages found for";
-var NO_ADDRESS = "No email passed, or uid passed for";
-
 var globals = {
-  site: "https://" + config.host
+  site: "https://" + config.host,
 };
 
 var EMAIL_MODEL = {
   to: "string",
   from: "string",
   subject: "string",
-  html: "string"
+  html: "string",
 };
+
+function loadUser(uid, callback) {
+  if (!uid) return callback(null, {});
+
+  const User = require("models/user");
+
+  User.getById(uid, function (err, user) {
+    if (err || !user) {
+      return callback(err || new Error("No user with uid " + uid));
+    }
+
+    user = User.extend(user);
+
+    callback(null, user);
+  });
+}
 
 function init(method) {
   ensure(method, "string");
+  return function build(uid = "", locals = {}, callback = function () {}) {
+    loadUser(uid, function (err, user) {
+      if (err) return callback(err);
 
-  var adminMessage = adminDir + method + ".txt";
-  var userMessage = userDir + method + ".txt";
+      extend(locals).and(globals).and(user);
 
-  var emailAdmin = fs.existsSync(adminMessage);
-  var emailUser = fs.existsSync(userMessage);
+      const adminMessage = adminDir + method + ".txt";
+      const userMessage = userDir + method + ".txt";
 
-  return function build(uid, locals, callback) {
-    uid = uid || "";
-    locals = locals || {};
-    callback = callback || function() {};
+      let emails = [];
 
-    if (!uid) return then();
+      if (fs.existsSync(adminMessage)) {
+        emails.push(send.bind(this, locals, adminMessage, ADMIN));
+      }
 
-    require("user").getById(uid, function(err, user) {
-      if (err || !user) return log(err || "No user with uid " + uid);
+      if (fs.existsSync(userMessage)) {
+        emails.push(send.bind(this, locals, userMessage, locals.email));
+      }
 
-      extend(locals)
-        .and(globals)
-        .and(require("user").extend(user));
-
-      then();
+      async.parallel(emails, callback);
     });
-
-    function then() {
-      if (emailAdmin) send(locals, adminMessage, ADMIN, callback);
-
-      if (emailUser && locals.email)
-        send(locals, userMessage, locals.email, callback);
-
-      if (emailUser && !locals.email) log(NO_ADDRESS, method);
-
-      if (!emailAdmin && !emailUser) log(NO_MESSAGE, method);
-    }
   };
 }
 
@@ -119,7 +118,7 @@ function send(locals, messageFile, to, callback) {
     .and(to, "string")
     .and(callback, "function");
 
-  fs.readFile(messageFile, "utf-8", function(err, text) {
+  fs.readFile(messageFile, "utf-8", function (err, text) {
     if (err) throw err;
 
     var lines = text.split("\n");
@@ -132,7 +131,7 @@ function send(locals, messageFile, to, callback) {
       html: html,
       subject: subject,
       from: locals.from || FROM,
-      to: to
+      to: to,
     };
 
     ensure(email, EMAIL_MODEL);
@@ -145,13 +144,18 @@ function send(locals, messageFile, to, callback) {
       return callback();
     }
 
-    mailgun.messages().send(email, function(err, body) {
+    mailgun.messages().send(email, function (err, body) {
       if (err) {
         console.log("Error: Mailgun failed to send transactional email:", err);
-        return log(err);
+        return callback(err);
       }
 
-      log("Sent to", email.to, '"' + email.subject + '"', "(" + body.id + ")");
+      console.log(
+        "Sent to",
+        email.to,
+        '"' + email.subject + '"',
+        "(" + body.id + ")"
+      );
       callback();
     });
   });
