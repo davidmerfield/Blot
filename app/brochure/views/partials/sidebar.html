@@ -159,7 +159,6 @@
        targetNode.parentNode.parentNode.previousElementSibling,
        targetNode.parentNode.parentNode.parentNode.parentNode.previousElementSibling]; 
      
-     console.log(targetNode, ignore);
      targetNode.addEventListener('click', function (e) {
        sidebarLinks.forEach(function(node){
          if (ignore.indexOf(node) > -1) return;
