@@ -856,7 +856,10 @@ Consider allowing users to buy domains on Blot through [DNS simple](https://deve
 
 Consider distributing static built blogs on [dat](https://github.com/datproject/dat-node) or something similar
 
-Consider adding internationalization i8n and tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971) and [Simon about French](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWSgnQswHnPkNBGvnGnPjGbZ)
+Add internationalization (i8n) and translation into other languages:
+- [Yannick](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGrNqMwKBqGRFQNZQdLXQTdG) has offered to act as French translator
+- Tell Christian about [Portuguese](https://mail.google.com/mail/u/1/#inbox/1646ff9a7cbf6971) 
+- Tell [Simon about French](https://mail.google.com/mail/u/0/#inbox/FMfcgxwBVWSgnQswHnPkNBGvnGnPjGbZ)
 
 Consider adding embedabble support for giphy URLs and tell [Nash](https://mail.google.com/mail/u/0/#inbox/FMfcgxwDqfJvghFlmRDQCtMDrlpDwWxM)
 
