@@ -7,7 +7,7 @@ var ensure = require("helper/ensure");
 var callOnce = require("helper/callOnce");
 var extend = require("helper/extend");
 var deCamelize = require("helper/deCamelize");
-var time = helper.time;
+var time = require("helper/time");
 var async = require("async");
 
 // Wait 10 minutes to go to next plugin
