@@ -2,7 +2,7 @@ var Entries = require("entries");
 var async = require("async");
 var Entry = require("entry");
 var helper = require("helper");
-var clfdate = helper.clfdate;
+var clfdate = require("helper/clfdate");
 
 module.exports = function (blogID, callback) {
   var RENAME_PERIOD = 1000 * 30; // 30 seconds

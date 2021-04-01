@@ -8,7 +8,7 @@ var async = require("async");
 var VIEW_DIRECTORY = __dirname + "/views";
 var config = require("config");
 var helper = require("helper");
-var clfdate = require("helper").clfdate;
+var clfdate = require("helper/clfdate");
 
 // This is the express application used by a
 // customer to control the settings and view

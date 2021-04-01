@@ -9,7 +9,7 @@ var DateStamp = require("./prepare/dateStamp");
 var moment = require("moment");
 var converters = require("./converters");
 var exitHook = require("async-exit-hook");
-var clfdate = require("helper").clfdate;
+var clfdate = require("helper/clfdate");
 
 // setTimeout(function(){
 //   throw new Error('EXCEPTION!');

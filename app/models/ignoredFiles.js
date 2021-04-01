@@ -1,7 +1,7 @@
 module.exports = (function() {
   var redis = require("client"),
     helper = require("helper"),
-    clfdate = helper.clfdate,
+    clfdate = require("helper/clfdate"),
     normalize = helper.pathNormalizer,
     ensure = helper.ensure,
     REASONS = {

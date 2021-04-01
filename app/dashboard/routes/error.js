@@ -1,4 +1,4 @@
-var clfdate = require("helper").clfdate;
+var clfdate = require("helper/clfdate");
 
 module.exports = function(err, req, res, next) {
 	if (err.message === "NOUSER") {
