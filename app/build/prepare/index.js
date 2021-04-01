@@ -9,7 +9,7 @@ var decode = require("he").decode;
 
 var normalize = helper.urlNormalizer;
 var pathNormalizer = require("helper/pathNormalizer");
-var type = helper.type;
+var type = require("helper/type");
 
 var makeSlug = require("helper/makeSlug");
 var ensure = require("helper/ensure");

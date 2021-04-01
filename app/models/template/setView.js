@@ -1,6 +1,6 @@
 var Mustache = require("mustache");
 var helper = require("helper");
-var type = helper.type;
+var type = require("helper/type");
 var client = require("client");
 var key = require("./key");
 var ensure = require("helper/ensure");

@@ -1,6 +1,6 @@
 module.exports = function(server) {
   var helper = require("helper");
-  var type = helper.type;
+  var type = require("helper/type");
   var Redirects = require("models/redirects");
   var store404 = require("models/404").set;
   var config = require("config");

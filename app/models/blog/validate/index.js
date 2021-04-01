@@ -1,7 +1,7 @@
 var _ = require("lodash");
 var MODEL = require("../scheme").TYPE;
 var helper = require("helper");
-var type = helper.type;
+var type = require("helper/type");
 var ensure = require("helper/ensure");
 var validator = {
   domain: require("./domain"),

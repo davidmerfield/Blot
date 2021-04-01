@@ -1,6 +1,6 @@
 var render = require("./main");
 var helper = require("helper");
-var type = helper.type;
+var type = require("helper/type");
 var TAG = "{{";
 var ensure = require("helper/ensure");
 

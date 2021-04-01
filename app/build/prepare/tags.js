@@ -1,5 +1,5 @@
 var helper = require("helper");
-var type = helper.type;
+var type = require("helper/type");
 var ensure = require("helper/ensure");
 var _ = require("lodash");
 

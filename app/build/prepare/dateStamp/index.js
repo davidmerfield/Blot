@@ -3,7 +3,7 @@ const debug = require("debug")("blot:build:dateStamp");
 
 const fromPath = require("./fromPath");
 const fromMetadata = require("./fromMetadata");
-const type = helper.type;
+const type = require("helper/type");
 
 const moment = require("moment");
 require("moment-timezone");

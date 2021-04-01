@@ -1,5 +1,5 @@
 var config = require("config");
-var type = require("helper").type;
+var type = require("helper/type");
 
 var INDEX = "/";
 var AUTH = "/auth";
