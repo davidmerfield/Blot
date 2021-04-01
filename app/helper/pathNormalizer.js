@@ -1,5 +1,5 @@
 var ensure = require("./ensure");
-var Is = require("./is");
+var Is = require("./_is");
 
 function pathNormalizer(path) {
   ensure(path, "string");
