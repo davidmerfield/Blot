@@ -10,7 +10,7 @@ var extend = require("helper/extend");
 var join = require("path").join;
 var config = require("config");
 var pandoc_path = config.pandoc_path;
-var hash = helper.hash;
+var hash = require("helper/hash");
 
 function is(path) {
   return [".docx"].indexOf(extname(path).toLowerCase()) > -1;

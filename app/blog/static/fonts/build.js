@@ -4,7 +4,7 @@ const basename = require("path").basename;
 const extname = require("path").extname;
 const colors = require("colors");
 const relative = require("path").relative;
-const hash = require("helper").hash;
+const hash = require("helper/hash");
 const fontkit = require("fontkit");
 
 // Used to filter source font files and ordered
