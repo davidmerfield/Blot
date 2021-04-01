@@ -7,7 +7,7 @@ var basename = require("path").basename;
 // is(1,2,4); // will raise exception
 
 function Is(doThis) {
-  return function() {
+  return function () {
     var args = Array.prototype.slice.call(arguments);
     var expected = args.slice(-1)[0];
     var inputs = args.slice(0, -1);

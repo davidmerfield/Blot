@@ -31,13 +31,13 @@ function err(variable, expected) {
       "is of type",
       '"' + type(variable) + '"',
       "and should be type",
-      '"' + expected + '"'
+      '"' + expected + '"',
     ].join(" ")
   );
 }
 
 function checkArray(list, expected, strictly, recursive) {
-  list.forEach(function(variable) {
+  list.forEach(function (variable) {
     ensure(variable, expected, strictly, recursive);
   });
 }

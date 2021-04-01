@@ -10,7 +10,7 @@ var CLF_MONTH = [
   "Sep",
   "Oct",
   "Nov",
-  "Dec"
+  "Dec",
 ];
 
 function pad2(num) {

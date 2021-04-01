@@ -33,5 +33,5 @@ function date(str) {
 
 module.exports = {
   date: date,
-  expire: expire
+  expire: expire,
 };

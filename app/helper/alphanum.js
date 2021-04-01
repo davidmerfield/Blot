@@ -39,7 +39,7 @@ function isSign(code) {
   return code === minus || code === plus;
 }
 
-var compare = function(opts, a, b) {
+var compare = function (opts, a, b) {
   var checkSign = opts.sign;
   var ia = 0;
   var ib = 0;
@@ -211,7 +211,7 @@ function mediator(a, b) {
   return compare(this, a.converted, b.converted);
 }
 
-module.exports = function(array, opts) {
+module.exports = function (array, opts) {
   if (!Array.isArray(array) || array.length < 2) {
     return array;
   }
@@ -231,7 +231,7 @@ module.exports = function(array, opts) {
     }
     result[i] = {
       value: array[i],
-      converted: insensitive ? value.toLowerCase() : value
+      converted: insensitive ? value.toLowerCase() : value,
     };
   }
 
