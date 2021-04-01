@@ -1,7 +1,7 @@
 var debug = require("debug")("blot:build:prepare");
 var _ = require("lodash");
 var helper = require("helper");
-var falsy = helper.falsy;
+var falsy = require("helper/falsy");
 var time = helper.time;
 var cheerio = require("cheerio");
 
