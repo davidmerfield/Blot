@@ -1,6 +1,7 @@
 var config = require("config");
 var Template = require("template");
 var helper = require("helper");
+var capitalize = require("helper/capitalize");
 var extend = helper.extend;
 var basename = require("path").basename;
 
@@ -78,7 +79,7 @@ function build(directory, callback) {
   }
 
   id = TEMPLATES_OWNER + ":" + basename(directory);
-  name = templatePackage.name || helper.capitalize(basename(directory));
+  name = templatePackage.name || capitalize(basename(directory));
   description = templatePackage.description || "";
   isPublic = templatePackage.isPublic !== false;
 
