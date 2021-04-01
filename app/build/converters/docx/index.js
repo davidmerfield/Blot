@@ -2,6 +2,7 @@ var fs = require("fs-extra");
 var helper = require("helper");
 var ensure = require("helper/ensure");
 var LocalPath = require("helper/localPath");
+var makeUid = require("helper/makeUid");
 var extname = require("path").extname;
 var exec = require("child_process").exec;
 var cheerio = require("cheerio");
@@ -17,7 +18,7 @@ function is(path) {
 }
 
 function TempDir() {
-  return helper.tempDir() + helper.makeUid(20);
+  return helper.tempDir() + makeUid(20);
 }
 
 function read(blog, path, options, callback) {
