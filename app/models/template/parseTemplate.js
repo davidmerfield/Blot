@@ -1,6 +1,6 @@
 var _ = require("lodash");
 var mustache = require("mustache");
-var type = require("./type");
+var type = require("helper/type");
 
 // My goal is to look at a template
 // retrieve a list of variables and partials inside the template
