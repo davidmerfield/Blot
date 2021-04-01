@@ -1,4 +1,4 @@
-var Transformer = require("helper").transformer;
+var Transformer = require("helper/transformer");
 var debug = require("debug")("blot:entry:build:plugins:image");
 var eachEl = require("../eachEl");
 var optimize = require("./optimize");

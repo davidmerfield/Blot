@@ -3,7 +3,6 @@ var Redlock = require("redlock");
 var buildFromFolder = require("template").buildFromFolder;
 var Blog = require("blog");
 var Update = require("./update");
-var helper = require("helper");
 var localPath = require("helper/localPath");
 var clfdate = require("helper/clfdate");
 var uuid = require("uuid/v4");

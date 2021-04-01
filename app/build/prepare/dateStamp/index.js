@@ -1,4 +1,3 @@
-const helper = require("helper");
 const debug = require("debug")("blot:build:dateStamp");
 
 const fromPath = require("./fromPath");

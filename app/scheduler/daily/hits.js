@@ -1,6 +1,7 @@
 var moment = require("moment");
 var lineReader = require("helper/lineReader");
 const rootDir = require("helper/rootDir");
+const prettyNumber = require("helper/prettyNumber");
 
 function main(callback) {
   var hits = 0;
@@ -61,7 +62,7 @@ function main(callback) {
         ninety_ninth_percentile_response_time: prettyTime(
           responseTimes[Math.floor(responseTimes.length * 0.99)]
         ),
-        total_requests_served: require("helper").prettyNumber(hits),
+        total_requests_served: prettyNumber(hits),
       });
     });
 }

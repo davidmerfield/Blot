@@ -2,7 +2,6 @@ var create = require("models/template/index").create;
 var getTemplateList = require("models/template/index").getTemplateList;
 var setupLocalClient = require("clients/local/controllers/setup");
 var setView = require("models/template/index").setView;
-var helper = require("helper");
 var Blog = require("blog");
 
 module.exports = function setup(options) {

@@ -1,4 +1,3 @@
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var localPath = require("helper/localPath");
 var fs = require("fs-extra");

@@ -1,4 +1,3 @@
-var helper = require("helper");
 var callOnce = require("helper/callOnce");
 var extname = require("path").extname;
 var async = require("async");

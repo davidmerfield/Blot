@@ -1,4 +1,3 @@
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var Augment = require("./augment");
 var eachEntry = require("./eachEntry");

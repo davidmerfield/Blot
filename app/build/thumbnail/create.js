@@ -1,4 +1,3 @@
-var helper = require("helper");
 var fs = require("fs-extra");
 var uuid = require("uuid");
 var callOnce = require("helper/callOnce");

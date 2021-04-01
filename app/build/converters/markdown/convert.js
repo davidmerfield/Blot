@@ -1,7 +1,6 @@
 var spawn = require("child_process").spawn;
 var indentation = require("./indentation");
 var footnotes = require("./footnotes");
-var helper = require("helper");
 var time = require("helper/time");
 var config = require("config");
 var pandoc_path = config.pandoc_path;

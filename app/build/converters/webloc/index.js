@@ -1,7 +1,6 @@
 var debug = require("debug")("blot:build");
 var fs = require("fs");
 var bplist = require("./bplist");
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var titlify = require('build/prepare/titlify');
 var LocalPath = require("helper/localPath");

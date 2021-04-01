@@ -1,6 +1,5 @@
 var config = require("config");
 var Template = require("template");
-var helper = require("helper");
 var capitalize = require("helper/capitalize");
 var extend = require("helper/extend");
 var basename = require("path").basename;

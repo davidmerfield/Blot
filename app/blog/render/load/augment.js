@@ -1,4 +1,3 @@
-var helper = require("helper");
 var normalize = require("models/tags").normalize;
 var type = require("helper/type");
 

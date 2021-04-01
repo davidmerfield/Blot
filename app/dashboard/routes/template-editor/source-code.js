@@ -1,4 +1,3 @@
-const helper = require("helper");
 const bodyParser = require("body-parser").urlencoded({
 	extended: false,
 	limit: "1mb",

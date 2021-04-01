@@ -1,4 +1,3 @@
-var helper = require("helper");
 var async = require("async");
 var ensure = require("helper/ensure");
 var model = require("./model");

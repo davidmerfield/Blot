@@ -1,5 +1,4 @@
 var fs = require("fs");
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var LocalPath = require("helper/localPath");
 var time = require("helper/time");

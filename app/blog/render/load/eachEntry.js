@@ -4,7 +4,6 @@
 // this also needs to do entry.next
 // entry.previous
 var debug = require("debug")("blot:render:load:entry");
-var helper = require("helper");
 var type = require("helper/type");
 var Entry = require("models/entry/instance");
 var list = require("./list");

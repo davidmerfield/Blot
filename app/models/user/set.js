@@ -1,4 +1,3 @@
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var validate = require("./validate");
 var client = require("client");

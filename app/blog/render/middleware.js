@@ -6,7 +6,6 @@ var renderLocals = require("./locals");
 var finalRender = require("./main");
 var retrieve = require("./retrieve");
 
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var extend = require("helper/extend");
 var callOnce = require("helper/callOnce");

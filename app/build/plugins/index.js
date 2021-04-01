@@ -1,5 +1,4 @@
 var config = require("config");
-var helper = require("helper");
 var marked = require("marked");
 var cheerio = require("cheerio");
 var fs = require("fs");

@@ -1,4 +1,3 @@
-var helper = require("helper");
 var normalize = require("helper/pathNormalizer");
 var rebuildDependents = require("./rebuildDependents");
 var Ignore = require("./ignore");

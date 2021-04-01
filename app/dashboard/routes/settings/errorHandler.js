@@ -1,4 +1,3 @@
-var helper = require("helper");
 var type = require("helper/type");
 
 module.exports = function(err, req, res, next) {

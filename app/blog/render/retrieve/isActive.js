@@ -1,4 +1,3 @@
-var helper = require("helper");
 var normalize = require("helper/urlNormalizer");
 
 module.exports = function(req, callback) {

@@ -2,7 +2,6 @@ var User = require("user");
 var async = require("async");
 var backup = require("./backup");
 var dailyUpdate = require("./daily");
-var helper = require("helper");
 var email = require("helper/email");
 var clfdate = require("helper/clfdate");
 var warmCache = require("./warmCache");

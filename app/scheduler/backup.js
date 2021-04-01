@@ -2,7 +2,6 @@ var fs = require("fs-extra");
 var config = require("config");
 var Moment = require("moment");
 var redis = require("redis").createClient();
-var helper = require("helper");
 var tmp = require("helper/tempDir")();
 var ensure = require("helper/ensure");
 var encrypt = require("helper/encrypter").encrypt;

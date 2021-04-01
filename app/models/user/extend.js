@@ -1,4 +1,3 @@
-var helper = require("helper");
 var amountInWords = require("helper/amountInWords");
 var prettyDate = require("helper/prettyDate");
 var prettyPrice = require("helper/prettyPrice");

@@ -1,6 +1,5 @@
 var debug = require("debug")("blot:entry:build:plugins:images");
 var sharp = require("sharp");
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var tempDir = require("helper/tempDir")();
 var fs = require("fs-extra");

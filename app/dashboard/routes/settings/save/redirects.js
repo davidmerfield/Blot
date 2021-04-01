@@ -1,4 +1,3 @@
-var helper = require("helper");
 var Redirects = require("models/redirects");
 var formJSON = require("helper/formJSON");
 var arrayify = require("helper/arrayify");

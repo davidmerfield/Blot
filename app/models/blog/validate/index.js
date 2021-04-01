@@ -1,6 +1,5 @@
 var _ = require("lodash");
 var MODEL = require("../scheme").TYPE;
-var helper = require("helper");
 var type = require("helper/type");
 var ensure = require("helper/ensure");
 var validator = {

@@ -2,7 +2,6 @@ const Express = require("express");
 const TemplateEditor = new Express.Router();
 const config = require("config");
 const bodyParser = require("body-parser").urlencoded({ extended: false });
-const helper = require("helper");
 const formJSON = require("helper/formJSON");
 const Template = require("template");
 

@@ -1,6 +1,5 @@
 var key = require("./key");
 var _ = require("lodash");
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var TYPE = require("./scheme").TYPE;
 var validate = require("./validate");

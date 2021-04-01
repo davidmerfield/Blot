@@ -1,6 +1,5 @@
 var scheduler = require("node-schedule");
 var scheduled = {};
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var model = require("./model");
 

@@ -1,4 +1,3 @@
-var helper = require("helper");
 var User = require("user");
 var Email = require("helper/email");
 var format = require("url").format;

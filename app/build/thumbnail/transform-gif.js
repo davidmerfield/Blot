@@ -1,5 +1,4 @@
 const { execFile } = require("child_process");
-const helper = require("helper");
 const callOnce = require("helper/callOnce");
 const extname = require("path").extname;
 const async = require("async");

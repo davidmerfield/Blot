@@ -1,5 +1,4 @@
 var fs = require("fs-extra");
-var helper = require("helper");
 var localPath = require("helper/localPath");
 var Blog = require("blog");
 var Git = require("simple-git");

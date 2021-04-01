@@ -1,4 +1,3 @@
-var helper = require("helper");
 var pathNormalize = require("helper/pathNormalizer");
 
 module.exports = {

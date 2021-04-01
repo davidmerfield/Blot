@@ -1,7 +1,6 @@
 var Mustache = require("mustache");
 var _ = require("lodash");
 var pluginList = require("build/plugins").list;
-var helper = require("helper");
 var arrayify = require("helper/arrayify");
 var capitalize = require("helper/capitalize");
 var deCamelize = require("helper/deCamelize");

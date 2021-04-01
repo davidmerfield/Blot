@@ -1,8 +1,8 @@
 var Mustache = require("mustache");
-var helper = require("helper");
 var type = require("helper/type");
 var client = require("client");
 var key = require("./key");
+var urlNormalizer = require("helper/urlNormalizer");
 var ensure = require("helper/ensure");
 var extend = require("helper/extend");
 var viewModel = require("./viewModel");
@@ -58,7 +58,7 @@ module.exports = function setView(templateID, updates, callback) {
         view = view || {};
 
         if (updates.url) {
-          updates.url = helper.urlNormalizer(updates.url || "");
+          updates.url = urlNormalizer(updates.url || "");
 
           client.set(key.url(templateID, updates.url), name);
 

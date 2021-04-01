@@ -1,5 +1,4 @@
 var client = require("client");
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var key = require("./key");
 var getAllIDs = require("./getAllIDs");

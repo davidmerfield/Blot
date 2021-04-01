@@ -1,4 +1,3 @@
-var helper = require("helper");
 var Email = require("helper/email");
 var async = require("async");
 
