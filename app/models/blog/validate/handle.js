@@ -1,5 +1,4 @@
-var helper = require("helper");
-var nsv = helper.nsv;
+var nsv = require("helper/nsv");
 var ensure = require("helper/ensure");
 
 var NO_HANDLE = "Please enter a username.";
