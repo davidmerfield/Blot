@@ -1,7 +1,8 @@
 const moment = require("moment");
 const helper = require("helper");
 const lineReader = require("helper/lineReader");
-const LOG = helper.rootDir + "/logs/nginx.log";
+const rootDir = require("helper/rootDir");
+const LOG = rootDir + "/logs/nginx.log";
 
 function main(callback) {
 	var hits = 0;

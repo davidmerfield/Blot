@@ -5,11 +5,11 @@ var exec = require("child_process").exec;
 var fs = require("fs-extra");
 var Email = require("helper/email");
 var marked = require("marked");
-var helper = require("helper");
 var parse = require("body-parser").urlencoded({ extended: false });
 var uuid = require("uuid/v4");
 var config = require("config");
 var client = require("client");
+var rootDir = require("helper/rootDir");
 
 var listKey = "newsletter:list";
 var TTL = 60 * 60 * 24; // 1 day in seconds
@@ -167,9 +167,7 @@ news.post("/sign-up", parse, function (req, res, next) {
   client.setex(confirmationKey(guid), TTL, email, function (err) {
     if (err) return next(err);
 
-    Email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (
-      err
-    ) {
+    Email.NEWSLETTER_SUBSCRIPTION_CONFIRMATION(null, locals, function (err) {
       if (err) return next(err);
 
       req.session.newsletter_email = email;
@@ -229,7 +227,7 @@ const commitMessageMapRegEx = new RegExp(
 );
 
 function loadDone(req, res, next) {
-  exec("git log -300", { cwd: helper.rootDir }, function (err, output) {
+  exec("git log -300", { cwd: rootDir }, function (err, output) {
     if (err) return next(err);
 
     output = output.split("\n\n");

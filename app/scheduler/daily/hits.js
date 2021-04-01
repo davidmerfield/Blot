@@ -1,12 +1,12 @@
 var moment = require("moment");
-var helper = require("helper");
 var lineReader = require("helper/lineReader");
+const rootDir = require("helper/rootDir");
 
 function main(callback) {
   var hits = 0;
   var responseTimes = [];
   lineReader
-    .eachLine(helper.rootDir + "/logs/nginx.log", function(line) {
+    .eachLine(rootDir + "/logs/nginx.log", function (line) {
       // Last line of file is often empty
       if (!line) return true;
 
@@ -41,13 +41,13 @@ function main(callback) {
         return false;
       }
     })
-    .then(function() {
+    .then(function () {
       var averageResponseTime;
       var sum = 0;
 
       responseTimes.sort();
 
-      responseTimes.forEach(function(responseTime) {
+      responseTimes.forEach(function (responseTime) {
         sum += responseTime;
       });
 
@@ -61,7 +61,7 @@ function main(callback) {
         ninety_ninth_percentile_response_time: prettyTime(
           responseTimes[Math.floor(responseTimes.length * 0.99)]
         ),
-        total_requests_served: require("helper").prettyNumber(hits)
+        total_requests_served: require("helper").prettyNumber(hits),
       });
     });
 }
