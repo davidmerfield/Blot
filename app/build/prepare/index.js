@@ -8,7 +8,7 @@ var cheerio = require("cheerio");
 var decode = require("he").decode;
 
 var normalize = helper.urlNormalizer;
-var pathNormalizer = helper.pathNormalizer;
+var pathNormalizer = require("helper/pathNormalizer");
 var type = helper.type;
 
 var makeSlug = require("helper/makeSlug");

@@ -2,7 +2,7 @@ module.exports = (function() {
   var redis = require("client"),
     helper = require("helper"),
     clfdate = require("helper/clfdate"),
-    normalize = helper.pathNormalizer,
+    normalize = require("helper/pathNormalizer"),
     ensure = require("helper/ensure"),
     REASONS = {
       TOO_LARGE: {
