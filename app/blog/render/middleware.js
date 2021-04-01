@@ -8,7 +8,7 @@ var retrieve = require("./retrieve");
 
 var helper = require("helper");
 var ensure = require("helper/ensure");
-var extend = helper.extend;
+var extend = require("helper/extend");
 var callOnce = require("helper/callOnce");
 var config = require("config");
 var CACHE = config.cache;

@@ -7,7 +7,7 @@ const Express = require("express");
 const SourceCode = new Express.Router();
 const Template = require("template");
 const formJSON = helper.formJSON;
-const extend = helper.extend;
+const extend = require("helper/extend");
 const async = require("async");
 
 SourceCode.use(function (req, res, next) {

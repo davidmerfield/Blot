@@ -1,6 +1,6 @@
 var helper = require("helper");
 var ensure = require("helper/ensure");
-var extend = helper.extend;
+var extend = require("helper/extend");
 var defaults = require("./defaults");
 var client = require("client");
 var key = require("./key");

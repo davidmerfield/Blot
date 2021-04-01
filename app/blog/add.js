@@ -1,5 +1,5 @@
 var helper = require("helper");
-var extend = helper.extend;
+var extend = require("helper/extend");
 var _ = require("lodash");
 
 module.exports = function init(DEFAULT) {
