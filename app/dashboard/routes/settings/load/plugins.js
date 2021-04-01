@@ -4,7 +4,7 @@ var pluginList = require("build/plugins").list;
 var helper = require("helper");
 var arrayify = require("helper/arrayify");
 var capitalize = require("helper/capitalize");
-var deCamelize = helper.deCamelize;
+var deCamelize = require("helper/deCamelize");
 
 module.exports = function(req, res, next) {
   var blog = req.blog;
