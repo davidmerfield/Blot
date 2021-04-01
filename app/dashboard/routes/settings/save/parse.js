@@ -1,5 +1,5 @@
 var helper = require("helper");
-var tempDir = helper.tempDir();
+var tempDir = require("helper/tempDir")();
 var multiparty = require("multiparty");
 var MAX_SIZE = 4 * 1024 * 1024;
 var FORM_OPTIONS = {

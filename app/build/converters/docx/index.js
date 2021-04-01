@@ -1,5 +1,4 @@
 var fs = require("fs-extra");
-var helper = require("helper");
 var ensure = require("helper/ensure");
 var LocalPath = require("helper/localPath");
 var makeUid = require("helper/makeUid");
@@ -12,13 +11,14 @@ var join = require("path").join;
 var config = require("config");
 var pandoc_path = config.pandoc_path;
 var hash = require("helper/hash");
+var tempDir = require("helper/tempDir");
 
 function is(path) {
   return [".docx"].indexOf(extname(path).toLowerCase()) > -1;
 }
 
 function TempDir() {
-  return helper.tempDir() + makeUid(20);
+  return tempDir() + makeUid(20);
 }
 
 function read(blog, path, options, callback) {
