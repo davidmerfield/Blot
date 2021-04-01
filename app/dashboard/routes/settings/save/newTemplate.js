@@ -1,5 +1,5 @@
 var Template = require("template");
-var makeSlug = require("helper").makeSlug;
+var makeSlug = require("helper/makeSlug");
 
 var NO_NAME = "Please choose a name for your new template.";
 var NO_CLONE = "Please choose a template to clone.";

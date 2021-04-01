@@ -11,7 +11,7 @@ var normalize = helper.urlNormalizer;
 var pathNormalizer = helper.pathNormalizer;
 var type = helper.type;
 
-var makeSlug = helper.makeSlug;
+var makeSlug = require("helper/makeSlug");
 var ensure = require("helper/ensure");
 var Model = require("entry").model;
 

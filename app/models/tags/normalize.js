@@ -3,4 +3,4 @@
 
 var helper = require("helper");
 
-module.exports = helper.makeSlug;
+module.exports = require("helper/makeSlug");

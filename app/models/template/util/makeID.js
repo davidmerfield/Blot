@@ -1,5 +1,5 @@
-var helper = require("helper");
+var makeSlug = require("helper/makeSlug");
 
 module.exports = function makeID(owner, name) {
-  return owner + ":" + helper.makeSlug(name);
+	return owner + ":" + makeSlug(name);
 };
