@@ -6,7 +6,7 @@ const bodyParser = require("body-parser").urlencoded({
 const Express = require("express");
 const SourceCode = new Express.Router();
 const Template = require("template");
-const formJSON = helper.formJSON;
+const formJSON = require("helper/formJSON");
 const extend = require("helper/extend");
 const async = require("async");
 
