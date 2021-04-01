@@ -7,7 +7,7 @@ var cheerio = require("cheerio");
 
 var decode = require("he").decode;
 
-var normalize = helper.urlNormalizer;
+var normalize = require("helper/urlNormalizer");
 var pathNormalizer = require("helper/pathNormalizer");
 var type = require("helper/type");
 

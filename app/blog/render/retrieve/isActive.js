@@ -1,5 +1,5 @@
 var helper = require("helper");
-var normalize = helper.urlNormalizer;
+var normalize = require("helper/urlNormalizer");
 
 module.exports = function(req, callback) {
   return callback(null, function() {
