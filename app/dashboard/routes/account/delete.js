@@ -7,7 +7,7 @@ var logout = require("./util/logout");
 var async = require("async");
 
 var Blog = require("blog");
-var pretty = require("helper").prettyPrice;
+var pretty = require("helper/prettyPrice");
 
 var User = require("user");
 var config = require("config");

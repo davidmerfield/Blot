@@ -5,7 +5,7 @@ var User = require("user");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var email = require("helper/email");
-var helper = require("helper");
+var prettyPrice = require("helper/prettyPrice");
 
 const PLAN_MAP = config.stripe.plan_map;
 
@@ -56,7 +56,7 @@ Subscription.route("/billing-interval")
 
     let new_plan_amount_integer =
       parseInt(req.new_plan_id.split("_").pop()) * 100;
-    let new_amount = helper.prettyPrice(
+    let new_amount = prettyPrice(
       new_plan_amount_integer * req.user.subscription.quantity
     );
     let percentage =
@@ -65,14 +65,14 @@ Subscription.route("/billing-interval")
         req.user.subscription.current_period_start);
 
     if (monthly) {
-      proration = helper.prettyPrice(
+      proration = prettyPrice(
         new_plan_amount_integer * req.user.subscription.quantity -
           percentage *
             req.user.subscription.plan.amount *
             req.user.subscription.quantity
       );
     } else {
-      credit = helper.prettyPrice(
+      credit = prettyPrice(
         percentage *
           req.user.subscription.plan.amount *
           req.user.subscription.quantity -
