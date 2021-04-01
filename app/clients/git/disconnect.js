@@ -1,6 +1,6 @@
 var fs = require("fs-extra");
 var helper = require("helper");
-var localPath = helper.localPath;
+var localPath = require("helper/localPath");
 var Blog = require("blog");
 var Git = require("simple-git");
 var debug = require("debug")("blot:clients:git:disconnect");

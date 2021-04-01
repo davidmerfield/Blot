@@ -3,7 +3,7 @@ var Sync = require("sync");
 var Folder = require("clients/local/models/folder");
 var async = require("async");
 var debug = require("debug")("blot:clients:local:watch");
-var localPath = require("helper").localPath;
+var localPath = require("helper/localPath");
 var walk = require("./util/walk");
 
 // This method watches the source folder for subsequent

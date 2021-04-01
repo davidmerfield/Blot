@@ -1,6 +1,6 @@
 var stat = require("fs").stat;
 var helper = require("helper");
-var localPath = helper.localPath;
+var localPath = require("helper/localPath");
 var basename = require("path").basename;
 var dirname = require("path").dirname;
 var joinpath = require("path").join;

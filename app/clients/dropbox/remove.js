@@ -3,7 +3,7 @@ var createClient = require("./util/createClient");
 var database = require("./database");
 var join = require("path").join;
 var fs = require("fs-extra");
-var localPath = require("helper").localPath;
+var localPath = require("helper/localPath");
 var retry = require("./util/retry");
 var waitForErrorTimeout = require("./util/waitForErrorTimeout");
 

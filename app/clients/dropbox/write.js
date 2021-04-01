@@ -3,7 +3,7 @@ var database = require("./database");
 var debug = require("debug")("blot:clients:dropbox:write");
 var createClient = require("./util/createClient");
 var fs = require("fs-extra");
-var localPath = require("helper").localPath;
+var localPath = require("helper/localPath");
 var retry = require("./util/retry");
 
 // Write should only ever be called inside the function returned

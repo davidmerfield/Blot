@@ -3,7 +3,7 @@ const async = require("async");
 const Entry = require("entry");
 const Path = require("path");
 const helper = require("helper");
-const localPath = helper.localPath;
+const localPath = require("helper/localPath");
 const alphanum = require("helper/alphanum");
 
 module.exports = function (req, callback) {

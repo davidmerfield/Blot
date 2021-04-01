@@ -1,6 +1,6 @@
 var fs = require("fs-extra");
 var helper = require("helper");
-var localPath = helper.localPath;
+var localPath = require("helper/localPath");
 var clfdate = require("helper/clfdate");
 var hashFile = require("helper/hashFile");
 var drop = require("./drop");

@@ -8,7 +8,7 @@ describe("write", function() {
   var write = require("clients/git/write");
   var Git = require("simple-git");
   var fs = require("fs-extra");
-  var localPath = require("helper").localPath;
+  var localPath = require("helper/localPath");
 
   it("should return an error if there is no git repo in blog folder", function(done) {
     fs.removeSync(localPath(this.blog.id, ".git"));

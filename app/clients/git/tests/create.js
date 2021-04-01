@@ -11,7 +11,7 @@ describe("git client create", function() {
   var create = require("clients/git/create");
   var disconnect = require("clients/git/disconnect");
   var Git = require("simple-git");
-  var localPath = require("helper").localPath;
+  var localPath = require("helper/localPath");
   var setClientToGit = require("./setup/setClientToGit");
 
   // this prevents an existing bare repo from being clobbered

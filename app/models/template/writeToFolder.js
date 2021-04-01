@@ -3,7 +3,7 @@ var async = require("async");
 var callOnce = require("helper/callOnce");
 var isOwner = require("./isOwner");
 var getAllViews = require("./getAllViews");
-var localPath = require("helper").localPath;
+var localPath = require("helper/localPath");
 var fs = require("fs-extra");
 var generatePackage = require("./package").generate;
 

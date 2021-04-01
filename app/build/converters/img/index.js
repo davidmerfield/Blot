@@ -3,7 +3,7 @@ var extname = require("path").extname;
 var helper = require("helper");
 var titlify = require('build/prepare/titlify');
 var ensure = require("helper/ensure");
-var LocalPath = helper.localPath;
+var LocalPath = require("helper/localPath");
 
 function is(path) {
   return (

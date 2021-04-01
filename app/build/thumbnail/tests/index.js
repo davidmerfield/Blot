@@ -6,7 +6,7 @@ describe("thumbnail", function() {
   global.test.blog();
   global.test.tmp();
 
-  var localPath = require("helper").localPath;
+  var localPath = require("helper/localPath");
   var fs = require("fs-extra");
 
   it("creates thumbnails", function(done) {
