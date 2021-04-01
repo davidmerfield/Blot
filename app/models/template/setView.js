@@ -10,6 +10,7 @@ var getView = require("./getView");
 var serialize = require("./util/serialize");
 var getMetadata = require("./getMetadata");
 var Blog = require("blog");
+var parseTemplate = require('./parseTemplate');
 
 module.exports = function setView(templateID, updates, callback) {
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
@@ -72,7 +73,7 @@ module.exports = function setView(templateID, updates, callback) {
         view.retrieve = view.retrieve || {};
         view.partials = view.partials || {};
 
-        var parseResult = helper.parseTemplate(view.content);
+        var parseResult = parseTemplate(view.content);
 
         // TO DO REMOVE THIS
         if (type(view.partials, "array")) {
