@@ -1,5 +1,5 @@
 var get = require('../get/blog');
-var localPath = require('helper').localPath;
+var localPath = require('helper/localPath');
 var yesno = require('yesno');
 var async = require('async');
 var fs = require('fs-extra');

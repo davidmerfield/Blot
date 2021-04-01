@@ -1,4 +1,4 @@
-var redisSearch = require("helper").redisSearch;
+var redisSearch = require("helper/redisSearch");
 var colors = require("colors/safe");
 
 if (require.main === module) {

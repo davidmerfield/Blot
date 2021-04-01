@@ -1,5 +1,5 @@
 var eachEntry = require("../each/entry");
-var parseDate = require("helper").parseDate;
+var parseDate = require("helper/parseDate");
 var dateStamp = require("build/prepare/dateStamp");
 var moment = require("moment");
 var fs = require('fs-extra');

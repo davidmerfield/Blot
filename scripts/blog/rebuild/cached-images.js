@@ -1,5 +1,5 @@
 var colors = require("colors/safe");
-var Transformer = require("helper").transformer;
+var Transformer = require("helper/transformer");
 var get = require("../../get/blog");
 var config = require("config");
 var fs = require("fs-extra");

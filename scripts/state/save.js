@@ -6,13 +6,12 @@ require("../only_locally");
 
 var fs = require("fs-extra");
 var async = require("async");
-var helper = require("helper");
 var yesno = require("yesno");
 var client = require("client");
 var colors = require("colors");
 var moment = require("moment");
 var config = require("config");
-var ROOT = helper.rootDir;
+var ROOT = require("helper/rootDir");
 
 var ACTIVE_DATABASE_DUMP = ROOT + "/db/dump.rdb";
 var DATA_DIRECTORY = ROOT + "/data";

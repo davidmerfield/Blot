@@ -1,5 +1,4 @@
-var helper = require("helper");
-var send = helper.email.send;
+var send = require("helper/email").send;
 var yesno = require("yesno");
 var async = require("async");
 var fs = require("fs-extra");

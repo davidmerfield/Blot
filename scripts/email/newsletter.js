@@ -1,5 +1,4 @@
-var helper = require("helper");
-var send = helper.email.send;
+var helper = require("helper/email").send;
 var letter = process.argv[2];
 var fs = require("fs");
 var client = require("models/client");
@@ -11,7 +10,7 @@ if (!letter) {
     function(letter) {
       console.log("node scripts/email/newsletter", letter);
     }
-  );
+  );  
   process.exit();
 }
 
