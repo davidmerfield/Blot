@@ -1,6 +1,6 @@
 var Blog = require("models/blog");
 var randomString = require("./randomString");
-var localPath = require('helper').localPath;
+var localPath = require("helper/localPath");
 
 module.exports = function(done) {
   var context = this;

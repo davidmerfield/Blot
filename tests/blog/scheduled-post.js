@@ -9,7 +9,7 @@ xdescribe("scheduled posts", function () {
 	const request = require("request");
 	const Express = require("express");
 	const config = require("../../config");
-	const guid = require("helper").guid;
+	const guid = require("helper/guid");
 	const moment = require("moment");
 	const MINUTE = 60 * 1000;
 
