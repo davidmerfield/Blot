@@ -1,5 +1,4 @@
-var helper = require("helper");
-var pathNormalize = helper.pathNormalizer;
+var pathNormalize = require("helper/pathNormalizer");
 
 module.exports = {
   url: function(blogID, url) {

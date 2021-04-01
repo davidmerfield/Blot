@@ -8,9 +8,8 @@ var render = Mustache.render;
 var injectionPath = __dirname + "/preview/injection.html";
 var draftContainer = __dirname + "/preview/wrapper.html";
 
-var helper = require("helper");
-var ensure = helper.ensure;
-var local_path = helper.localPath;
+var ensure = require("helper/ensure");
+var local_path = require("helper/localPath");
 
 var routePrefix = "/draft";
 var viewPrefix = "/view";

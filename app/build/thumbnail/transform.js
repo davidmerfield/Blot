@@ -1,5 +1,4 @@
-var helper = require("helper");
-var callOnce = helper.callOnce;
+var callOnce = require("helper/callOnce");
 var extname = require("path").extname;
 var async = require("async");
 var fs = require("fs-extra");

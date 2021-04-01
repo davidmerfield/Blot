@@ -1,6 +1,6 @@
 var _ = require("lodash");
 var mustache = require("mustache");
-var type = require("./type");
+var type = require("helper/type");
 
 // My goal is to look at a template
 // retrieve a list of variables and partials inside the template
@@ -9,7 +9,7 @@ var type = require("./type");
 // and store the relevant method and arguments
 // neccessary to retrieve those at run time...
 
-var modules = require("fs").readdirSync(__dirname + "/../blog/render/retrieve");
+var modules = require("fs").readdirSync(__dirname + "/../../blog/render/retrieve");
 
 // Build a list of locals which blot will fetch
 // returns a list like this:

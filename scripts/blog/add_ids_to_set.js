@@ -1,5 +1,5 @@
 var client = require("models/client");
-var redisKeys = require("helper").redisKeys;
+var redisKeys = require("helper/redisKeys");
 var Blog = require("models/blog");
 var async = require("async");
 

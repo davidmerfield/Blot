@@ -1,5 +1,4 @@
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var reds = require("reds");
 var searchKey = require("./key").search;
 var transliterate = require("transliteration");

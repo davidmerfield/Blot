@@ -1,8 +1,7 @@
 var fs = require("fs");
-var helper = require("helper");
-var ensure = helper.ensure;
-var LocalPath = helper.localPath;
-var time = helper.time;
+var ensure = require("helper/ensure");
+var LocalPath = require("helper/localPath");
+var time = require("helper/time");
 var extname = require("path").extname;
 
 var layout = require("./layout");

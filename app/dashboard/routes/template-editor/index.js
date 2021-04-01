@@ -2,8 +2,7 @@ const Express = require("express");
 const TemplateEditor = new Express.Router();
 const config = require("config");
 const bodyParser = require("body-parser").urlencoded({ extended: false });
-const helper = require("helper");
-const formJSON = helper.formJSON;
+const formJSON = require("helper/formJSON");
 const Template = require("template");
 
 TemplateEditor.param("viewSlug", require("./load/template-views"));

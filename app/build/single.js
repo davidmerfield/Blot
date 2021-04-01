@@ -1,9 +1,8 @@
 var debug = require("debug")("blot:build:single");
 var Metadata = require("./metadata");
 var Dependencies = require("./dependencies");
-var helper = require("helper");
 var Plugins = require("./plugins").convert;
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var async = require("async");
 var converters = require("./converters");
 

@@ -1,6 +1,5 @@
 var Metadata = require("metadata");
-var helper = require("helper");
-var normalize = helper.pathNormalizer;
+var normalize = require("helper/pathNormalizer");
 var fs = require("fs-extra");
 var blog_folder_dir = require("config").blog_folder_dir;
 var join = require("path").join;

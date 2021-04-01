@@ -67,9 +67,8 @@ var MOMENT_TOKENS = [
   "X",
   "x"
 ];
-var helper = require("helper");
-var normalize = helper.urlNormalizer;
-var makeSlug = helper.makeSlug;
+var normalize = require("helper/urlNormalizer");
+var makeSlug = require("helper/makeSlug");
 var allow = [
   "slug",
   "name",

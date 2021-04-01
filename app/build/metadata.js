@@ -1,6 +1,5 @@
 var debug = require("debug")("blot:build:metadata");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 
 var alphaNumericRegEx = /^([a-zA-Z0-9\-_ ]+)$/;
 

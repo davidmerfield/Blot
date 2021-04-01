@@ -1,5 +1,4 @@
-const helper = require("helper");
-const titlecase = helper.titlecase;
+const titlecase = require("helper/titlecase");
 
 function render($, callback) {
   try {

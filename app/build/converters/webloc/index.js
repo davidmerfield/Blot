@@ -1,10 +1,9 @@
 var debug = require("debug")("blot:build");
 var fs = require("fs");
 var bplist = require("./bplist");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var titlify = require('build/prepare/titlify');
-var LocalPath = helper.localPath;
+var LocalPath = require("helper/localPath");
 var extname = require("path").extname;
 
 var INVALID = "Invalid webloc file";

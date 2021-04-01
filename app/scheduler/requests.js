@@ -1,7 +1,8 @@
 const moment = require("moment");
-const helper = require("helper");
-const lineReader = helper.lineReader;
-const LOG = helper.rootDir + "/logs/nginx.log";
+const lineReader = require("helper/lineReader");
+const prettyNumber = require("helper/prettyNumber");
+const rootDir = require("helper/rootDir");
+const LOG = rootDir + "/logs/nginx.log";
 
 function main(callback) {
 	var hits = 0;
@@ -49,7 +50,7 @@ function main(callback) {
 
 		callback(null, {
 			average_response_time: prettyTime(averageResponseTime),
-			total_requests_served: require("helper").prettyNumber(hits),
+			total_requests_served: prettyNumber(hits),
 			requests_per_second: hits/60
 		});
 	});

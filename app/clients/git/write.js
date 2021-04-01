@@ -1,6 +1,5 @@
 var fs = require("fs-extra");
-var helper = require("helper");
-var localPath = helper.localPath;
+var localPath = require("helper/localPath");
 var Git = require("simple-git");
 var debug = require("debug")("blot:clients:git:write");
 var checkGitRepoExists = require("./checkGitRepoExists");

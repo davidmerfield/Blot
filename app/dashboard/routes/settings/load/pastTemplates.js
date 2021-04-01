@@ -1,5 +1,4 @@
-var helper = require("helper");
-var arrayify = helper.arrayify;
+var arrayify = require("helper/arrayify");
 var previewHost = "https://preview-of";
 var config = require("config");
 var Template = require("template");

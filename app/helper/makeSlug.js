@@ -73,7 +73,7 @@ function makeSlug(string) {
   return slug;
 }
 
-var Is = require("./is");
+var Is = require("./_is");
 var is = Is(makeSlug);
 
 is("!@#$^*()=+[]{}\\|;:'\",?><", "");

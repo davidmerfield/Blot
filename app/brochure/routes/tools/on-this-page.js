@@ -1,5 +1,5 @@
 const cheerio = require("cheerio");
-const makeSlug = require("helper").makeSlug;
+const makeSlug = require("helper/makeSlug");
 const fs = require("fs-extra");
 
 module.exports = function onThisPage(req, res, next) {

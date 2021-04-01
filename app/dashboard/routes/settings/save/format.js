@@ -1,7 +1,6 @@
 var Blog = require("blog");
-var helper = require("helper");
-var formJSON = helper.formJSON;
-var extend = helper.extend;
+var formJSON = require("helper/formJSON");
+var extend = require("helper/extend");
 
 module.exports = function(req, res, next) {
   try {

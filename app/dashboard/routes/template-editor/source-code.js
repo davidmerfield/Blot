@@ -1,4 +1,3 @@
-const helper = require("helper");
 const bodyParser = require("body-parser").urlencoded({
 	extended: false,
 	limit: "1mb",
@@ -6,8 +5,8 @@ const bodyParser = require("body-parser").urlencoded({
 const Express = require("express");
 const SourceCode = new Express.Router();
 const Template = require("template");
-const formJSON = helper.formJSON;
-const extend = helper.extend;
+const formJSON = require("helper/formJSON");
+const extend = require("helper/extend");
 const async = require("async");
 
 SourceCode.use(function (req, res, next) {

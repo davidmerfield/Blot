@@ -1,6 +1,5 @@
-var helper = require("helper");
 var async = require("async");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 
 var addIgnore = require("ignored").add;
 var dropEntry = require("entry").drop;

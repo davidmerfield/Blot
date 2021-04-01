@@ -1,7 +1,6 @@
 var scheduler = require("node-schedule");
 var scheduled = {};
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var model = require("./model");
 
 module.exports = function(blogID, entry, callback) {

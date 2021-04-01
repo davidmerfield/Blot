@@ -1,5 +1,5 @@
 var setMetadata = require("./setMetadata");
-var type = require("helper").type;
+var type = require("helper/type");
 
 module.exports = {
 	generate: function(blogID, metadata, views) {

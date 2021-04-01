@@ -2,7 +2,7 @@ var DropboxDatabase = require("clients/dropbox/database");
 var ContentHasher = require("clients/dropbox/util/content-hasher");
 var createClient = require("clients/dropbox/util/createClient");
 var get = require("../get/blog");
-var helper = require("helper");
+var tempDir = require("helper/tempDir")();
 var fs = require("fs-extra");
 var colors = require("colors/safe");
 
@@ -88,7 +88,7 @@ get(process.argv[2], function (err, user, blog) {
 
 		var client = createClient(account.access_token);
 		var outputDir = require("path").join(
-			helper.tempDir(),
+			tempDir,
 			"download_folder_" + process.argv[2]
 		);
 

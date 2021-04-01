@@ -1,4 +1,4 @@
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 var getByEmail = require("../getByEmail");
 
 module.exports = function(user, email, callback) {

@@ -1,6 +1,5 @@
 var Entries = require("entries");
-var helper = require("helper");
-var arrayify = helper.arrayify;
+var arrayify = require("helper/arrayify");
 var moment = require("moment");
 require("moment-timezone");
 

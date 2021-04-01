@@ -6,7 +6,7 @@ var blog = require("./blog");
 var brochure = require("./brochure");
 var dashboard = require("./dashboard");
 var cdn = require("./cdn");
-var clfdate = require("helper").clfdate;
+var clfdate = require("helper/clfdate");
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to

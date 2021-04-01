@@ -2,9 +2,8 @@ const fs = require("fs-extra");
 const async = require("async");
 const Entry = require("entry");
 const Path = require("path");
-const helper = require("helper");
-const localPath = helper.localPath;
-const alphanum = helper.alphanum;
+const localPath = require("helper/localPath");
+const alphanum = require("helper/alphanum");
 
 module.exports = function (req, callback) {
 	let path = "/";

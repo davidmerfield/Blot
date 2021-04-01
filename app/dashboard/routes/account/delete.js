@@ -1,13 +1,13 @@
 var Express = require("express");
 var Delete = new Express.Router();
 var User = require("user");
-var Email = require("helper").email;
+var Email = require("helper/email");
 var checkPassword = require("./util/checkPassword");
 var logout = require("./util/logout");
 var async = require("async");
 
 var Blog = require("blog");
-var pretty = require("helper").prettyPrice;
+var pretty = require("helper/prettyPrice");
 
 var User = require("user");
 var config = require("config");

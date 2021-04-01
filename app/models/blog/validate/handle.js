@@ -1,6 +1,5 @@
-var helper = require("helper");
-var nsv = helper.nsv;
-var ensure = helper.ensure;
+var nsv = require("helper/nsv");
+var ensure = require("helper/ensure");
 
 var NO_HANDLE = "Please enter a username.";
 var BAD_CHARS = "Please use only letters and numbers for your username.";

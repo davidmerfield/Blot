@@ -11,7 +11,7 @@ var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
 var parse = require("body-parser").urlencoded({ extended: false });
 var User = require("user");
-var Email = require("helper").email;
+var Email = require("helper/email");
 var signup = Express.Router();
 var csrf = require("csurf")();
 

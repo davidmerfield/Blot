@@ -1,4 +1,4 @@
-var blogDir = require("./blogDir");
+var blogDir = require("./_blogDir");
 var ensure = require("./ensure");
 var resolve = require("path").resolve;
 var join = require("path").join;

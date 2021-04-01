@@ -2,7 +2,7 @@ var async = require("async");
 var fs = require("fs-extra");
 var Git = require("simple-git");
 var database = require("./database");
-var localPath = require("helper").localPath;
+var localPath = require("helper/localPath");
 var dataDir = require("./dataDir");
 
 // What should create do?

@@ -1,6 +1,5 @@
 var Template = require("template");
-var helper = require("helper");
-var arrayify = helper.arrayify;
+var arrayify = require("helper/arrayify");
 
 module.exports = function(req, res, next) {
   Template.getAllViews(req.template.id, function(err, views, template) {

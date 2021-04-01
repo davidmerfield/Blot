@@ -1,6 +1,6 @@
 var debug = require("debug")("blot:clients:dropbox:sync");
 var Download = require("./util/download");
-var hashFile = require("helper").hashFile;
+var hashFile = require("helper/hashFile");
 var Database = require("./database");
 var join = require("path").join;
 var Delta = require("./delta");

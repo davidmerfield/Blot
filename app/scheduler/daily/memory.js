@@ -1,6 +1,6 @@
 var exec = require("child_process").exec;
 var config = require("config");
-var prettySize = require("helper").prettySize;
+var prettySize = require("helper/prettySize");
 
 function main(callback) {
   if (config.environment !== "production") return callback();

@@ -1,15 +1,16 @@
 var Mustache = require("mustache");
-var helper = require("helper");
-var type = helper.type;
+var type = require("helper/type");
 var client = require("client");
 var key = require("./key");
-var ensure = helper.ensure;
-var extend = helper.extend;
+var urlNormalizer = require("helper/urlNormalizer");
+var ensure = require("helper/ensure");
+var extend = require("helper/extend");
 var viewModel = require("./viewModel");
 var getView = require("./getView");
 var serialize = require("./util/serialize");
 var getMetadata = require("./getMetadata");
 var Blog = require("blog");
+var parseTemplate = require('./parseTemplate');
 
 module.exports = function setView(templateID, updates, callback) {
   if (updates.partials !== undefined && type(updates.partials) !== "object") {
@@ -57,7 +58,7 @@ module.exports = function setView(templateID, updates, callback) {
         view = view || {};
 
         if (updates.url) {
-          updates.url = helper.urlNormalizer(updates.url || "");
+          updates.url = urlNormalizer(updates.url || "");
 
           client.set(key.url(templateID, updates.url), name);
 
@@ -72,7 +73,7 @@ module.exports = function setView(templateID, updates, callback) {
         view.retrieve = view.retrieve || {};
         view.partials = view.partials || {};
 
-        var parseResult = helper.parseTemplate(view.content);
+        var parseResult = parseTemplate(view.content);
 
         // TO DO REMOVE THIS
         if (type(view.partials, "array")) {

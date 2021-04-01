@@ -1,9 +1,9 @@
 var Mustache = require("mustache");
 var _ = require("lodash");
 var pluginList = require("build/plugins").list;
-var helper = require("helper");
-var capitalize = helper.capitalize;
-var deCamelize = helper.deCamelize;
+var arrayify = require("helper/arrayify");
+var capitalize = require("helper/capitalize");
+var deCamelize = require("helper/deCamelize");
 
 module.exports = function(req, res, next) {
   var blog = req.blog;
@@ -39,7 +39,7 @@ module.exports = function(req, res, next) {
     External: "Services"
   };
 
-  plugins = helper.arrayify(plugins, function(plugin) {
+  plugins = arrayify(plugins, function(plugin) {
     var name = capitalize(deCamelize(plugin.category || "general"));
     var slug = name
       .split(" ")
@@ -62,7 +62,7 @@ module.exports = function(req, res, next) {
     categories[name].plugins.push(plugin);
   });
 
-  // categories = helper.arrayify(categories);
+  // categories = arrayify(categories);
 
   // var _categories = categories.slice();
   //     categories = [];

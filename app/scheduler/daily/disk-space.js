@@ -1,5 +1,5 @@
 var exec = require("child_process").exec;
-var prettySize = require("helper").prettySize;
+var prettySize = require("helper/prettySize");
 
 function main(callback) {
   exec("df -k", function(err, stdout) {

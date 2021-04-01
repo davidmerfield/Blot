@@ -3,7 +3,7 @@ module.exports = function () {
 
 	const Queue = require("../index");
 	const child_process = require("child_process");
-	const hash = require("helper").hash;
+	const hash = require("helper/hash");
 
 	beforeEach(function () {
 		this.queueID = hash(Date.now().toString()).slice(0, 10);

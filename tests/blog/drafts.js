@@ -7,7 +7,7 @@ describe("drafts work", function () {
 	const request = require("request");
 	const Express = require("express");
 	const config = require("../../config");
-	const guid = require("helper").guid;
+	const guid = require("helper/guid");
 
 	global.test.blog();
 

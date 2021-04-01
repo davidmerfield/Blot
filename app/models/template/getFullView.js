@@ -1,6 +1,6 @@
 var getView = require("./getView");
-var ensure = require("helper").ensure;
-var extend = require("helper").extend;
+var ensure = require("helper/ensure");
+var extend = require("helper/extend");
 var getPartials = require("./getPartials");
 var mime = require("mime-types");
 

@@ -2,7 +2,7 @@ describe("Blog.remove", function() {
   var create = require("../create");
   var remove = require("../remove");
   var getAllIDs = require("../getAllIDs");
-  var redisSearch = require("helper").redisSearch;
+  var redisSearch = require("helper/redisSearch");
 
   // Create a test user and blog before each spec
   global.test.user();

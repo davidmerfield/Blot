@@ -2,7 +2,6 @@ var writeToFolder = require("modules/template").writeToFolder;
 var _ = require("lodash");
 var eachView = require("../each/view");
 var Template = require("models/template");
-var helper = require("helper");
 var async = require("async");
 var shouldWrite = {};
 

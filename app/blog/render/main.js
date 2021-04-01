@@ -1,6 +1,5 @@
 var Mustache = require("mustache");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 
 var ERROR = require("./error");
 var OVERFLOW = "Maximum call stack size exceeded";

@@ -1,6 +1,5 @@
 var client = require("client");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var Key = require("./key");
 
 var MAX_404s = 500;

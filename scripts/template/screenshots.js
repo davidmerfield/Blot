@@ -1,8 +1,8 @@
-const helper = require("helper");
-const screenshot = helper.screenshot;
+const screenshot = require("helper/screenshot");
 const async = require("async");
 const config = require("config");
-const VIEW_DIRECTORY = helper.rootDir + "/app/brochure/views/templates";
+const VIEW_DIRECTORY =
+	require("helper/rootDir") + "/app/brochure/views/templates";
 
 const SCREENSHOTS = {
 	diary: {
@@ -29,15 +29,13 @@ const SCREENSHOTS = {
 
 async.eachOfSeries(
 	SCREENSHOTS,
-	function({ handle, pages }, template, next) {
+	function ({ handle, pages }, template, next) {
 		const baseURL = `https://preview-of-${template}-on-${handle}.${config.host}`;
 		async.eachSeries(
 			pages,
-			function(page, next) {
+			function (page, next) {
 				const url = baseURL + page;
-				const path = `${VIEW_DIRECTORY}/${template}/${pages.indexOf(
-					page
-				)}.png`;
+				const path = `${VIEW_DIRECTORY}/${template}/${pages.indexOf(page)}.png`;
 				console.log(url);
 				console.log(path);
 				screenshot(url, path, next);
@@ -45,7 +43,7 @@ async.eachOfSeries(
 			next
 		);
 	},
-	function(err) {
+	function (err) {
 		if (err) throw err;
 		console.log("Done!");
 		process.exit();

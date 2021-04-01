@@ -1,6 +1,6 @@
 var _ = require("lodash");
 var TYPE = require("./scheme").TYPE;
-var type = require("helper").type;
+var type = require("helper/type");
 
 function serialize(sourceObj) {
   // We don't want to modify the

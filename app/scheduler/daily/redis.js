@@ -1,6 +1,6 @@
 var client = require("client");
 var config = require("config");
-var prettySize = require("helper").prettySize;
+var prettySize = require("helper/prettySize");
 
 function main(callback) {
   client.info(function(err, usage) {
