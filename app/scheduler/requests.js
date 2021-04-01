@@ -1,6 +1,6 @@
 const moment = require("moment");
 const helper = require("helper");
-const lineReader = helper.lineReader;
+const lineReader = require("helper/lineReader");
 const LOG = helper.rootDir + "/logs/nginx.log";
 
 function main(callback) {

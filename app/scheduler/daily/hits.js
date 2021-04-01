@@ -1,6 +1,6 @@
 var moment = require("moment");
 var helper = require("helper");
-var lineReader = helper.lineReader;
+var lineReader = require("helper/lineReader");
 
 function main(callback) {
   var hits = 0;
