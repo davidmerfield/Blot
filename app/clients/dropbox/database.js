@@ -3,7 +3,7 @@ var helper = require("helper");
 var redis = require("client");
 var Blog = require("blog");
 var async = require("async");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var Model;
 
 function get(blogID, callback) {

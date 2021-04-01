@@ -2,7 +2,7 @@ var fs = require("fs");
 var extname = require("path").extname;
 var helper = require("helper");
 var titlify = require('build/prepare/titlify');
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var LocalPath = helper.localPath;
 
 function is(path) {

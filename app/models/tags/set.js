@@ -2,7 +2,7 @@ var client = require("client");
 var key = require("./key");
 var _ = require("lodash");
 var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var normalize = require("./normalize");
 var model = require("../entry/model");
 

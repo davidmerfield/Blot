@@ -1,5 +1,5 @@
 var clone = require("./clone");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 var helper = require("helper");
 var makeID = require("./util/makeID");
 var client = require("client");

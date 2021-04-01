@@ -7,7 +7,7 @@ var finalRender = require("./main");
 var retrieve = require("./retrieve");
 
 var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var extend = helper.extend;
 var callOnce = require("helper/callOnce");
 var config = require("config");

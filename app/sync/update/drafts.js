@@ -9,7 +9,7 @@ var injectionPath = __dirname + "/preview/injection.html";
 var draftContainer = __dirname + "/preview/wrapper.html";
 
 var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var local_path = helper.localPath;
 
 var routePrefix = "/draft";

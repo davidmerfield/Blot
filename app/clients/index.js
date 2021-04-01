@@ -1,6 +1,6 @@
 var client;
 var config = require("config");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 
 // Register new clients here
 var clients = {

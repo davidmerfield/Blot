@@ -1,6 +1,6 @@
 var helper = require("helper");
 var type = helper.type;
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var _ = require("lodash");
 
 // This is used to turn a file path into

@@ -1,6 +1,6 @@
 var client = require("client");
 var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var key = require("./key");
 
 // this is a private method which assumes the

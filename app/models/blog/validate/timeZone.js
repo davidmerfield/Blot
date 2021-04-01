@@ -1,5 +1,5 @@
 var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 
 var moment = require("moment");
 require("moment-timezone");

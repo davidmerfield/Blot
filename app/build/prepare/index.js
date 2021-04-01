@@ -12,7 +12,7 @@ var pathNormalizer = helper.pathNormalizer;
 var type = helper.type;
 
 var makeSlug = helper.makeSlug;
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var Model = require("entry").model;
 
 var isHidden = require("./isHidden");

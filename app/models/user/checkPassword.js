@@ -1,6 +1,6 @@
 var bcrypt = require("bcryptjs");
 var getById = require("./getById");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 
 module.exports = function(uid, password, callback) {
   ensure(uid, "string")

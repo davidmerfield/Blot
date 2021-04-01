@@ -1,6 +1,6 @@
 var getView = require("./getView");
 var async = require("async");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 
 module.exports = function getPartials(blogID, templateID, partials, callback) {
   try {

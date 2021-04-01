@@ -3,7 +3,7 @@ module.exports = (function() {
     helper = require("helper"),
     clfdate = require("helper/clfdate"),
     normalize = helper.pathNormalizer,
-    ensure = helper.ensure,
+    ensure = require("helper/ensure"),
     REASONS = {
       TOO_LARGE: {
         message: "too large",

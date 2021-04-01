@@ -1,4 +1,4 @@
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 var setView = require("./setView");
 
 module.exports = function setMultipleViews(name, views, callback) {

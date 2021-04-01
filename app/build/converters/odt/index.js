@@ -1,6 +1,6 @@
 var fs = require("fs-extra");
 var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var LocalPath = helper.localPath;
 var extname = require("path").extname;
 var exec = require("child_process").exec;

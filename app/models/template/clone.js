@@ -1,4 +1,4 @@
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 var extend = require("helper").extend;
 var getAllViews = require("./getAllViews");
 var setMultipleViews = require("./setMultipleViews");
