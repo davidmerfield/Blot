@@ -4,7 +4,7 @@ var ensure = require("helper/ensure");
 var model = require("./model");
 var redis = require("client");
 
-var guid = helper.guid;
+var guid = require("helper/guid");
 
 var get = require("./get");
 var key = require("./key");
