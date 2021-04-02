@@ -19,18 +19,8 @@ function pad2(num) {
   return (str.length === 1 ? "0" : "") + str;
 }
 
-function rpad3(num) {
-  var str = String(num);
-
-  if (str.length === 2) return str + "0";
-
-  if (str.length === 1) return str + "00";
-
-  return str;
-}
-
 module.exports = function clfdate() {
-  dateTime = new Date();
+  var dateTime = new Date();
 
   var date = dateTime.getDate();
   var hour = dateTime.getHours();
