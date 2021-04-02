@@ -49,6 +49,7 @@ describe("Queue.add", function () {
     };
 
     async.each(blogs, addTasks, (err) => {
+      if (err) return done.fail(err);
       this.queue.inspect((err, res) => {
         blogs.forEach((blogID) => {
           expect(res[blogID].queued.reverse()).toEqual(tasks);
