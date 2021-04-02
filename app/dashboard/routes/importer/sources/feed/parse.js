@@ -14,21 +14,17 @@ var download_images = helper.download_images;
 var insert_metadata = helper.insert_metadata;
 var to_markdown = helper.to_markdown;
 
-module.exports = function($, output_directory, callback) {
+module.exports = function ($, output_directory, callback) {
   var blog = {
-    title: $("title")
-      .first()
-      .text(),
-    host: $("link")
-      .first()
-      .text(),
-    posts: []
+    title: $("title").first().text(),
+    host: $("link").first().text(),
+    posts: [],
   };
 
   each_el(
     $,
     "item",
-    function(el, next) {
+    function (el, next) {
       var extract, created, updated, path_without_extension, content;
       var title, dateStamp, tags, draft, page, post;
 
@@ -41,7 +37,7 @@ module.exports = function($, output_directory, callback) {
         determine_path(title, page, draft, dateStamp)
       );
 
-      readability(extract("link"), function(err, article) {
+      readability(extract("link"), function (err, article) {
         // third arg: meta
 
         if (err) return callback(err);
@@ -72,16 +68,16 @@ module.exports = function($, output_directory, callback) {
           // Clean up the contents of the <content>
           // tag. Evernote has quite a lot of cruft.
           // Then convert into Markdown!
-          html: content
+          html: content,
         };
 
-        download_images(post, function(err, post) {
+        download_images(post, function (err, post) {
           if (err) throw err;
 
           post.content = to_markdown(post.html);
           post = insert_metadata(post);
 
-          fs.outputFile(post.path, post.content, function(err) {
+          fs.outputFile(post.path, post.content, function (err) {
             if (err) return callback(err);
 
             next();
@@ -89,7 +85,7 @@ module.exports = function($, output_directory, callback) {
         });
       });
     },
-    function() {
+    function () {
       callback(null, blog);
     }
   );

@@ -25,9 +25,9 @@ module.exports = function (req, res, next) {
 
   name = req.body.name.trim();
 
-  // If this template's name was the result of existing 
-  // deduplication, e.g. 'Copy of Axe 3' continue the 
-  // deduplication using name 'Copy of Axe' and 
+  // If this template's name was the result of existing
+  // deduplication, e.g. 'Copy of Axe 3' continue the
+  // deduplication using name 'Copy of Axe' and
   // deduplicatingCounter of 3.
   if (name.indexOf(" ") > -1) {
     let lastWord = name.split(" ").pop();

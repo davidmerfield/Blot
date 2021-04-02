@@ -14,7 +14,7 @@ function main(output_directory, posts, callback) {
 
   for_each(
     posts,
-    function(post, next) {
+    function (post, next) {
       // We'll only use image posts for now, would be nice to remove this in future...
       if (!post.image) return next();
 
@@ -67,10 +67,10 @@ function main(output_directory, posts, callback) {
         // Clean up the contents of the <content>
         // tag. Evernote has quite a lot of cruft.
         // Then convert into Markdown!
-        content: content
+        content: content,
       };
 
-      download_images(post, function(err, post) {
+      download_images(post, function (err, post) {
         if (err) throw err;
 
         post.content = to_markdown(post.html);
@@ -78,14 +78,14 @@ function main(output_directory, posts, callback) {
 
         console.log(++done + "/" + posts.length, "...", post.path);
 
-        write(post, function(err) {
+        write(post, function (err) {
           if (err) return callback(err);
 
           next();
         });
       });
     },
-    function() {
+    function () {
       callback(null);
     }
   );
@@ -102,10 +102,10 @@ if (require.main === module) {
 
   var posts = fs.readJsonSync(input_file);
 
-  fs.emptyDir(output_directory, function(err) {
+  fs.emptyDir(output_directory, function (err) {
     if (err) throw err;
 
-    main(output_directory, posts, function(err) {
+    main(output_directory, posts, function (err) {
       if (err) throw err;
 
       console.log("Complete!");

@@ -13,5 +13,5 @@ module.exports = {
   resolve_url: require("./resolve_url"),
   slugify: require("./slugify"),
   to_markdown: require("./to_markdown"),
-  write: require("./write")
+  write: require("./write"),
 };

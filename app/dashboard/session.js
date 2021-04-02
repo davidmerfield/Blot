@@ -12,12 +12,12 @@ var sessionOptions = {
   proxy: true,
   cookie: {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 90 // 90 days in ms
+    maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days in ms
   },
   store: new Store({
     client: redis,
-    port: config.redis.port
-  })
+    port: config.redis.port,
+  }),
 };
 
 module.exports = session(sessionOptions);

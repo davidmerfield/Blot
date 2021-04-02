@@ -10,7 +10,7 @@ var join = require("path").join;
 function main(blog, output_directory, callback) {
   for_each(
     blog.posts,
-    function(post, next) {
+    function (post, next) {
       var created, updated, path_without_extension;
       var dateStamp, tags, draft, page, path, metadata;
       var content, title, html, url;
@@ -104,23 +104,23 @@ function main(blog, output_directory, callback) {
         // Clean up the contents of the <content>
         // tag. Evernote has quite a lot of cruft.
         // Then convert into Markdown!
-        html: content
+        html: content,
       };
 
-      download_images(post, function(err, post) {
+      download_images(post, function (err, post) {
         if (err) throw err;
 
-        to_markdown(post, function(err, post) {
+        to_markdown(post, function (err, post) {
           if (err) throw err;
 
-          insert_metadata(post, function(err, post) {
+          insert_metadata(post, function (err, post) {
             if (err) throw err;
 
             // Add the new post to the list of posts!
             // console.log(content);
 
             console.log("...", post.path);
-            fs.outputFile(post.path, post.content, function(err) {
+            fs.outputFile(post.path, post.content, function (err) {
               if (err) return callback(err);
 
               next();
@@ -129,7 +129,7 @@ function main(blog, output_directory, callback) {
         });
       });
     },
-    function() {
+    function () {
       callback();
     }
   );
@@ -154,7 +154,7 @@ if (require.main === module) {
   //   return post.type !== 'photo'
   // });
 
-  blog.posts = blog.posts.map(function(post) {
+  blog.posts = blog.posts.map(function (post) {
     delete post.reblog;
     delete post.can_reply;
     delete post.date;
@@ -175,7 +175,7 @@ if (require.main === module) {
 
   fs.emptyDirSync(output_directory);
 
-  main(blog, output_directory, function(err) {
+  main(blog, output_directory, function (err) {
     if (err) throw err;
 
     process.exit();

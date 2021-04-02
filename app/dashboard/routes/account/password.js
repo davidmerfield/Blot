@@ -7,10 +7,10 @@ Password.route("/")
 
   .all(requireExisting)
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("account/change-password", {
       breadcrumb: "Password",
-      title: "Change your password"
+      title: "Change your password",
     });
   })
 
@@ -20,9 +20,9 @@ Password.route("/set")
 
   .all(requireTokenOrLackOfPassword)
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("account/set-password", {
-      title: "Set your password"
+      title: "Set your password",
     });
   })
 
@@ -58,12 +58,12 @@ function requireTokenOrLackOfPassword(req, res, next) {
 }
 
 function save(req, res, next) {
-  User.hashPassword(req.body.newPasswordA, function(err, passwordHash) {
+  User.hashPassword(req.body.newPasswordA, function (err, passwordHash) {
     if (err) return next(err);
 
     if (!passwordHash) return next(new Error("Could not hash password"));
 
-    User.set(req.user.uid, { passwordHash: passwordHash }, function(err) {
+    User.set(req.user.uid, { passwordHash: passwordHash }, function (err) {
       if (err) return next(err);
       res.message("/account/password", "Saved your new password");
     });
@@ -89,7 +89,7 @@ function verifyToken(req, res, next) {
 
   delete req.session.passwordSetToken;
 
-  User.checkAccessToken(token, function(err, tokenUid) {
+  User.checkAccessToken(token, function (err, tokenUid) {
     if (err) return next(err);
 
     if (tokenUid !== req.user.uid) {

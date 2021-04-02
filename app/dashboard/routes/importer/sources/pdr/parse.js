@@ -27,7 +27,7 @@ function main(output_directory, blog, callback) {
 
   for_each(
     blog.posts,
-    function(post, next) {
+    function (post, next) {
       // console.log(post.title, post.url);
 
       var created, updated, path_without_extension, author;
@@ -39,10 +39,7 @@ function main(output_directory, blog, callback) {
       html = post.html;
       url = post.url;
 
-      var date_string = url
-        .split("/")
-        .slice(3, 6)
-        .join("/");
+      var date_string = url.split("/").slice(3, 6).join("/");
 
       created = updated = dateStamp = new Date(date_string).valueOf();
       draft = page = false;
@@ -92,10 +89,10 @@ function main(output_directory, blog, callback) {
         // Clean up the contents of the <content>
         // tag. Evernote has quite a lot of cruft.
         // Then convert into Markdown!
-        content: content
+        content: content,
       };
 
-      download_images(post, function(err, post) {
+      download_images(post, function (err, post) {
         if (err) throw err;
 
         $ = cheerio.load(post.html, { decodeEntities: false });
@@ -108,14 +105,14 @@ function main(output_directory, blog, callback) {
         post = insert_metadata(post);
 
         console.log(++done + "/" + blog.posts.length, "...", post.path);
-        fs.outputFile(post.path, post.content, function(err) {
+        fs.outputFile(post.path, post.content, function (err) {
           if (err) return callback(err);
 
           next();
         });
       });
     },
-    function() {
+    function () {
       callback(null, blog);
     }
   );
@@ -137,19 +134,14 @@ if (require.main === module) {
   // blog.posts = blog.posts.slice(0, 100);
 
   if (filter)
-    blog.posts = blog.posts.filter(function(post) {
-      return (
-        post.url
-          .trim()
-          .toLowerCase()
-          .indexOf(filter) > -1
-      );
+    blog.posts = blog.posts.filter(function (post) {
+      return post.url.trim().toLowerCase().indexOf(filter) > -1;
     });
 
-  fs.emptyDir(output_directory, function(err) {
+  fs.emptyDir(output_directory, function (err) {
     if (err) throw err;
 
-    main(output_directory, blog, function(err) {
+    main(output_directory, blog, function (err) {
       if (err) throw err;
 
       console.log("Complete!");

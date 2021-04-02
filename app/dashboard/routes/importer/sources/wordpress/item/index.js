@@ -4,7 +4,7 @@ var extract_entry = require("./extract_entry");
 var convert_to_markdown = require("./convert_to_markdown");
 var tidy = require("./tidy");
 
-module.exports = function(item, output_directory, callback) {
+module.exports = function (item, output_directory, callback) {
   // Filter out items which should not become posts or pages
   if (
     item["wp:post_type"][0] === "nav_menu_item" ||
@@ -22,9 +22,9 @@ module.exports = function(item, output_directory, callback) {
       helper.download_images,
       convert_to_markdown,
       helper.insert_metadata,
-      helper.write
+      helper.write,
     ],
-    function(err, result) {
+    function (err, result) {
       if (err) console.error(err);
       callback(null);
     }

@@ -2,7 +2,7 @@ var slugify = require("./slugify");
 var join = require("path").join;
 var moment = require("moment");
 
-module.exports = function(title, page, draft, dateStamp, slug) {
+module.exports = function (title, page, draft, dateStamp, slug) {
   var relative_path_without_extension;
   var name;
 

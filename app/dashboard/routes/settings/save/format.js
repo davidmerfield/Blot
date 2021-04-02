@@ -2,7 +2,7 @@ var Blog = require("blog");
 var formJSON = require("helper/formJSON");
 var extend = require("helper/extend");
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   try {
     req.updates = formJSON(req.body, Blog.scheme.TYPE);
   } catch (e) {

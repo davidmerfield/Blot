@@ -1,6 +1,6 @@
 var extname = require("path").extname;
 
-module.exports = function(result, callback) {
+module.exports = function (result, callback) {
   // ->
   var nameWithoutExtensionAndDate = result.name
     .split("-")

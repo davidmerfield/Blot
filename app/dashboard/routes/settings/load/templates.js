@@ -4,18 +4,18 @@ var ignored = ["blank", "monotone", "mono", "original", "serif"];
 var config = require("config");
 var Template = require("template");
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var blog = req.blog,
     blogID = blog.id,
     currentTemplate = blog.template;
 
-  Template.getTemplateList(blogID, function(err, templates) {
+  Template.getTemplateList(blogID, function (err, templates) {
     var yourTemplates = [];
     var blotTemplates = [];
 
     // Turn the dictionary of templates returned
     // from the DB into a list that Mustache can render
-    templates = arrayify(templates, function(template) {
+    templates = arrayify(templates, function (template) {
       template.nameLower = template.name.toLowerCase();
 
       if (template.owner === blog.id) template.isMine = true;
@@ -49,7 +49,7 @@ module.exports = function(req, res, next) {
 
     // Sort templates alphabetically,
     // with my templates above site tmeplates
-    templates.sort(function(a, b) {
+    templates.sort(function (a, b) {
       if (a.isMine && !b.isMine) return -1;
 
       if (b.isMine && !a.isMine) return 1;
