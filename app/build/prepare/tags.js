@@ -12,9 +12,7 @@ function extractTags(filePath, initial) {
   var opener = "[";
   var closer = "]";
 
-  ensure(filePath, "string")
-    .and(opener, "string")
-    .and(closer, "string");
+  ensure(filePath, "string").and(opener, "string").and(closer, "string");
 
   var tags = initial || [];
 

@@ -1,6 +1,6 @@
 module.exports = {
-	description: "Embed Commento comments",
-	category: "external",
-	isDefault: false,
-	options: {}
+  description: "Embed Commento comments",
+  category: "external",
+  isDefault: false,
+  options: {},
 };

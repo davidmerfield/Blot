@@ -2,11 +2,11 @@ var Tags = require("tags");
 var Entry = require("entry");
 var async = require("async");
 
-module.exports = function(req, callback) {
-  Tags.list(req.blog.id, function(err, tags) {
+module.exports = function (req, callback) {
+  Tags.list(req.blog.id, function (err, tags) {
     // In future, we might want to expose
     // other options for this sorting...
-    tags = tags.sort(function(a, b) {
+    tags = tags.sort(function (a, b) {
       var nameA = a.name.toLowerCase();
       var nameB = b.name.toLowerCase();
 
@@ -19,18 +19,18 @@ module.exports = function(req, callback) {
 
     async.eachSeries(
       tags,
-      function(tag, next) {
+      function (tag, next) {
         // so we can do {{tag}} since I like it.
         tag.tag = tag.name;
         tag.total = tag.entries.length;
 
-        Entry.get(req.blog.id, tag.entries, function(entries) {
+        Entry.get(req.blog.id, tag.entries, function (entries) {
           tag.entries = entries;
 
           next();
         });
       },
-      function() {
+      function () {
         callback(null, tags);
       }
     );

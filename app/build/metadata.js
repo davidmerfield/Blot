@@ -70,10 +70,7 @@ function Metadata(html) {
     }
 
     // The key is lowercased and trimmed
-    key = line
-      .slice(0, firstColon)
-      .trim()
-      .toLowerCase();
+    key = line.slice(0, firstColon).trim().toLowerCase();
 
     // The key contains non-alphanumeric characters, so reject it
     if (alphaNumericRegEx.test(key) === false) break;
@@ -131,7 +128,7 @@ function Metadata(html) {
 
   return {
     html: html,
-    metadata: metadata
+    metadata: metadata,
   };
 }
 

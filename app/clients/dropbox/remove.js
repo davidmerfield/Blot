@@ -17,7 +17,7 @@ function remove(blogID, path, callback) {
 
   debug("Blog:", blogID, "Removing", path);
 
-  database.get(blogID, function(err, account) {
+  database.get(blogID, function (err, account) {
     client = createClient(account.access_token);
     pathOnDropbox = join(account.folder || "/", path);
 
@@ -28,14 +28,14 @@ function remove(blogID, path, callback) {
 
     client
       .filesDelete({
-        path: pathOnDropbox
+        path: pathOnDropbox,
       })
 
       // Respect any delay Dropbox would like before
       // potentially retry and requests
       .catch(waitForErrorTimeout)
 
-      .catch(function(err) {
+      .catch(function (err) {
         // This means that error is something other
         // than the file not existing. HTTP 409 means
         // 'CONFLICT' but typically this means that
@@ -45,13 +45,13 @@ function remove(blogID, path, callback) {
         // The file did not exist, no big deal
         return Promise.resolve();
       })
-      .then(function() {
+      .then(function () {
         return fs.remove(pathOnBlot);
       })
-      .then(function() {
+      .then(function () {
         callback(null);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         callback(err);
       });
   });

@@ -51,7 +51,7 @@ function fromPath(path) {
       pad(day),
       pad(hour),
       pad(minute),
-      pad(second)
+      pad(second),
     ].join("-");
 
     parsed = moment.utc(composed, ["YYYY-MM-DD-HH-mm-ss"]);
@@ -82,7 +82,7 @@ function fromPath(path) {
   return (
     created !== undefined && {
       created: created.valueOf(),
-      fileName: fileName
+      fileName: fileName,
     }
   );
 }

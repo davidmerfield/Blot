@@ -7,7 +7,7 @@ console.log("running tests");
 function is(html, expected) {
   var $ = cheerio.load(html, { decodeEntities: false });
 
-  var callback = function(output) {
+  var callback = function (output) {
     try {
       assert.deepEqual(output, expected);
     } catch (e) {

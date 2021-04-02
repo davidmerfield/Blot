@@ -6,17 +6,15 @@ var ensure = require("helper/ensure");
 var async = require("async");
 var converters = require("./converters");
 
-module.exports = function(blog, path, options, callback) {
-  ensure(blog, "object")
-    .and(path, "string")
-    .and(callback, "function");
+module.exports = function (blog, path, options, callback) {
+  ensure(blog, "object").and(path, "string").and(callback, "function");
 
   async.each(
     converters,
-    function(converter, next) {
+    function (converter, next) {
       if (!converter.is(path)) return next();
 
-      converter.read(blog, path, options, function(err, html, stat) {
+      converter.read(blog, path, options, function (err, html, stat) {
         if (err) {
           debug("Blog:", blog.id, path, "conversion error", err);
           return callback(err);
@@ -55,7 +53,7 @@ module.exports = function(blog, path, options, callback) {
 
         // We pass the contents to the plugins for
         // this blog. The resulting HTML is now ready.
-        Plugins(blog, path, html, function(err, html) {
+        Plugins(blog, path, html, function (err, html) {
           debug("Blog:", blog.id, path, "finished plugins");
 
           if (err) return callback(err);
@@ -66,7 +64,7 @@ module.exports = function(blog, path, options, callback) {
         });
       });
     },
-    function(err) {
+    function (err) {
       callback(err || cannotConvert(path));
     }
   );

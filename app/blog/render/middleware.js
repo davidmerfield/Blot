@@ -24,7 +24,7 @@ var cacheDuration = "public, max-age=31536000";
 var JS = "application/javascript";
 var STYLE = "text/css";
 
-module.exports = function(req, res, _next) {
+module.exports = function (req, res, _next) {
   res.renderView = render;
 
   return _next();
@@ -42,7 +42,7 @@ module.exports = function(req, res, _next) {
 
     if (callback) callback = callOnce(callback);
 
-    Template.getFullView(blogID, templateID, name, function(err, response) {
+    Template.getFullView(blogID, templateID, name, function (err, response) {
       if (err || !response) return next(ERROR.NO_VIEW());
 
       var viewLocals = response[0];
@@ -58,17 +58,17 @@ module.exports = function(req, res, _next) {
 
       extend(res.locals.partials).and(viewPartials);
 
-      retrieve(req, missingLocals, function(err, foundLocals) {
+      retrieve(req, missingLocals, function (err, foundLocals) {
         extend(res.locals).and(foundLocals);
 
         // LOAD ANY LOCALS OR PARTIALS
         // WHICH ARE REFERENCED IN LOCALS
-        loadView(req, res, function(err, req, res) {
+        loadView(req, res, function (err, req, res) {
           if (err) return next(ERROR.BAD_LOCALS());
 
           // VIEW IS ALMOST FINISHED
           // ALL PARTRIAL
-          renderLocals(req, res, function(err, req, res) {
+          renderLocals(req, res, function (err, req, res) {
             if (err) return next(ERROR.BAD_LOCALS());
 
             var output;

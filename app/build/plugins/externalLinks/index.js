@@ -14,13 +14,13 @@ function render($, callback, options) {
     ignore = [
       Url.parse(options.domain).host,
       Url.parse(options.baseURL).host,
-      options.domain
+      options.domain,
     ];
   } catch (e) {
     return callback();
   }
 
-  $("a").each(function() {
+  $("a").each(function () {
     try {
       var href = $(this).attr("href");
       var host = Url.parse(href).host;
@@ -36,5 +36,5 @@ module.exports = {
   render: render,
   isDefault: false,
   category: "external",
-  description: "Make external links open in a new tab"
+  description: "Make external links open in a new tab",
 };

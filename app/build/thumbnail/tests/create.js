@@ -1,4 +1,4 @@
-describe("create", function() {
+describe("create", function () {
   global.test.blog();
   global.test.tmp();
 
@@ -9,7 +9,7 @@ describe("create", function() {
   // metadata should be at top of queue
   // then the images in the html if there are any
   // in the order they appear in the post
-  it("creates thumbnails", function(done) {
+  it("creates thumbnails", function (done) {
     var test = this;
     var path = __dirname + "/images/portrait.jpg";
     var ratio, thumbnail, thumbnailPath;
@@ -19,11 +19,14 @@ describe("create", function() {
     // the number itself could be tuned based on the size of the source
     // image but I'd need to do more research about the meaning:
     // https://github.com/lovell/sharp/issues/1421#issuecomment-514446234
-    require("sharp")(path, {density: 2400}).metadata(function(err, metadata) {
+    require("sharp")(path, { density: 2400 }).metadata(function (
+      err,
+      metadata
+    ) {
       if (err) return done.fail(err);
       ratio = Math.floor(metadata.width / metadata.height);
 
-      create(test.blog.id, path, function(err, thumbnails) {
+      create(test.blog.id, path, function (err, thumbnails) {
         if (err) return done.fail(err);
         expect(thumbnails).toEqual(jasmine.any(Object));
 

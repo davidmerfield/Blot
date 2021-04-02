@@ -65,7 +65,7 @@ var MOMENT_TOKENS = [
   "Z",
   "ZZ",
   "X",
-  "x"
+  "x",
 ];
 var normalize = require("helper/urlNormalizer");
 var makeSlug = require("helper/makeSlug");
@@ -80,7 +80,7 @@ var allow = [
   "dateStamp",
   "created",
   "updated",
-  "metadata"
+  "metadata",
 ];
 
 // modified from here: https://gist.github.com/mathewbyrne/1280286
@@ -100,7 +100,7 @@ function removeDiacritics(str) {
   return str;
 }
 
-module.exports = function(timeZone, format, entry) {
+module.exports = function (timeZone, format, entry) {
   // Add the permalink automatically if the metadata
   // declared a page with no permalink set. We can't
   // do this earlier, since we don't know the slug then
@@ -111,7 +111,7 @@ module.exports = function(timeZone, format, entry) {
 
   try {
     // this is so inefficient
-    MOMENT_TOKENS.forEach(function(token) {
+    MOMENT_TOKENS.forEach(function (token) {
       view[token] = moment
         .utc(entry.dateStamp || entry.updated)
         .tz(timeZone)

@@ -5,7 +5,7 @@ var ensure = require("helper/ensure");
 // Register new clients here
 var clients = {
   dropbox: require("./dropbox"),
-  git: require("./git")
+  git: require("./git"),
 };
 
 // Demo local client

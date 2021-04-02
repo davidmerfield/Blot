@@ -4,7 +4,7 @@ var ensure = require("helper/ensure");
 var addIgnore = require("ignored").add;
 var dropEntry = require("entry").drop;
 
-module.exports = function(blogID, path, reason, callback) {
+module.exports = function (blogID, path, reason, callback) {
   ensure(blogID, "string")
     .and(path, "string")
     .and(reason, "string")
@@ -14,12 +14,12 @@ module.exports = function(blogID, path, reason, callback) {
   // and from the folder on the server.
   var queue = [
     addIgnore.bind(this, blogID, path, reason),
-    dropEntry.bind(this, blogID, path)
+    dropEntry.bind(this, blogID, path),
   ];
 
   async.eachSeries(
     queue,
-    function(method, next) {
+    function (method, next) {
       method(next);
     },
     callback

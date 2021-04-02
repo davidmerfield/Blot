@@ -10,7 +10,7 @@ var list = require("./list");
 
 // THIS FUNCTION LOOKS FOR ENTRIES IN A VIEW"S LOCAL NEED
 
-module.exports = function(locals, doThis) {
+module.exports = function (locals, doThis) {
   function modify(entry) {
     doThis(entry);
 

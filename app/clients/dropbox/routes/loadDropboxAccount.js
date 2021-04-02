@@ -3,7 +3,7 @@ var join = require("path").join;
 var moment = require("moment");
 
 module.exports = function loadDropboxAccount(req, res, next) {
-  Database.get(req.blog.id, function(err, account) {
+  Database.get(req.blog.id, function (err, account) {
     if (err) return next(err);
 
     if (!account) return next();
@@ -31,7 +31,7 @@ module.exports = function loadDropboxAccount(req, res, next) {
       folder = join("Dropbox", "Apps", "Blot", res.locals.account.folder);
     }
 
-    dropboxBreadcrumbs = folder.split("/").map(function(name) {
+    dropboxBreadcrumbs = folder.split("/").map(function (name) {
       return { name: name };
     });
 

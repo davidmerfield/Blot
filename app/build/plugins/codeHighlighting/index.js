@@ -1,10 +1,7 @@
 function render($, callback) {
-  $("pre code").each(function() {
+  $("pre code").each(function () {
     try {
-      var lang = $(this)
-        .parent()
-        .attr("class")
-        .split(" ")[0];
+      var lang = $(this).parent().attr("class").split(" ")[0];
 
       if (!lang) return;
 
@@ -12,25 +9,13 @@ function render($, callback) {
 
       var highlighted = highlight(code, lang);
 
-      $(this)
-        .html(highlighted)
-        .addClass("hljs")
-        .addClass(lang);
+      $(this).html(highlighted).addClass("hljs").addClass(lang);
 
-      $(this)
-        .parent()
-        .removeClass(lang);
+      $(this).parent().removeClass(lang);
 
       // hmmm...
-      if (
-        !$(this)
-          .parent()
-          .attr("class")
-          .trim()
-      )
-        $(this)
-          .parent()
-          .attr("class", null);
+      if (!$(this).parent().attr("class").trim())
+        $(this).parent().attr("class", null);
     } catch (e) {}
   });
 
@@ -53,5 +38,5 @@ module.exports = {
   category: "Typography",
   title: "Code",
   render: render,
-  description: "Add syntax highlighting to code"
+  description: "Add syntax highlighting to code",
 };

@@ -13,7 +13,7 @@ var debug = require("debug")("blot:entry:build:thumbnail:create");
 function create(blogID, path, done) {
   done = callOnce(done);
 
-  var timeout = setTimeout(function() {
+  var timeout = setTimeout(function () {
     done(new Error("Timeout"));
   }, TIMEOUT);
 
@@ -22,18 +22,18 @@ function create(blogID, path, done) {
   var fullPathToOutputDirectory = join(root, outputDirectory);
   var extension = extname(path).toLowerCase();
 
-  validate(path, function(err) {
+  validate(path, function (err) {
     if (err) {
       debug(blogID, "Invalid thumbnail candidate", path, err);
       return done(err);
     }
 
-    fs.ensureDir(fullPathToOutputDirectory, function(err) {
+    fs.ensureDir(fullPathToOutputDirectory, function (err) {
       if (err) return done(err);
 
       var transform = extension === ".gif" ? TransformGIF : Transform;
 
-      transform(path, fullPathToOutputDirectory, function(err, thumbnails) {
+      transform(path, fullPathToOutputDirectory, function (err, thumbnails) {
         if (err) return done(err);
 
         for (var i in thumbnails) {

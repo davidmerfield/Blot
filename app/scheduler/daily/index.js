@@ -16,15 +16,15 @@ function main(callback) {
       require("./entries"),
       require("./newsletter-subscribers"),
       require("./payments"),
-      require("./renewals")
+      require("./renewals"),
     ],
-    function(fn, next) {
-      fn(function(err, res) {
+    function (fn, next) {
+      fn(function (err, res) {
         for (var i in res) view[i] = res[i];
         next();
       });
     },
-    function(err) {
+    function (err) {
       console.log(view);
       Email.DAILY_UPDATE("", view, callback);
     }

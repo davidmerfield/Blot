@@ -12,7 +12,7 @@ function render($, callback, options) {
   eachEl(
     $,
     "img",
-    function(el, next) {
+    function (el, next) {
       var src = $(el).attr("src");
       var width, height, parsedSrc;
 
@@ -32,7 +32,7 @@ function render($, callback, options) {
       }
 
       // Pass in the `pathname` component of the image src (no URL params or hash)
-      cache.lookup(src, optimize(blogID), function(err, info) {
+      cache.lookup(src, optimize(blogID), function (err, info) {
         if (err) {
           debug(src, "Optimize failed with Error:", err);
           return next();
@@ -60,15 +60,13 @@ function render($, callback, options) {
           width /= 2;
         }
 
-        $(el)
-          .attr("width", width)
-          .attr("height", height);
+        $(el).attr("width", width).attr("height", height);
 
         debug(src, "complete!");
         next();
       });
     },
-    function() {
+    function () {
       debug("Invoking callback now!");
       callback();
     }
@@ -83,5 +81,5 @@ module.exports = {
   render: render,
   category: "images",
   title: "Cache",
-  description: "Cache and optimize images"
+  description: "Cache and optimize images",
 };

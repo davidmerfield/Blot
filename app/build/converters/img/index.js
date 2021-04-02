@@ -1,6 +1,6 @@
 var fs = require("fs");
 var extname = require("path").extname;
-var titlify = require('build/prepare/titlify');
+var titlify = require("build/prepare/titlify");
 var ensure = require("helper/ensure");
 var LocalPath = require("helper/localPath");
 
@@ -18,7 +18,7 @@ function read(blog, path, options, callback) {
 
   var localPath = LocalPath(blog.id, path);
 
-  fs.stat(localPath, function(err, stat) {
+  fs.stat(localPath, function (err, stat) {
     if (err) return callback(err);
 
     var title = titlify(path);
