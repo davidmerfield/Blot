@@ -10,9 +10,27 @@
   "prettier": {
     "printWidth": 80,
     "tabWidth": 2,
+    "useTabs": false,
     "singleQuote": false,
     "bracketSpacing": true,
     "quoteProps": "consistent"
+  },
+  "jshintConfig": {
+    "browser": false,
+    "node": true,
+    "esversion": 8,
+    "laxbreak": true,
+    "globals": {
+      "describe": true,
+      "beforeEach": true,
+      "expect": true,
+      "jasmine": true,
+      "afterEach": true,
+      "it": true
+    },
+    "strict": false,
+    "undef": true,
+    "unused": true
   },
   "scripts": {
     "test": "node tests",
