@@ -1,0 +1,26 @@
+name: Format code
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Run code formatting tool
+        uses: creyD/prettier_action@v3.1
+        with:
+          prettier_version: 2.0.5
+          prettier_options: --write 'app/**/*.js' '!app/*/views' '!app/templates' '!app/build/plugins/*/public.js' 'scripts/**/*.js' '!scripts/state' 'config/**/*.js' 'tests/**/*.js'
+          commit_message: ""
+          only_changed: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
