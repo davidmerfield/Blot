@@ -2,13 +2,22 @@ name: Format code
 
 on:
   pull_request:
-    branches: [master]
-
+  push:
+    branches:
+    - master
+    
 jobs:
   prettier:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Create branch
+        uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: 'format-code'
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -20,7 +29,9 @@ jobs:
         with:
           prettier_version: 2.0.5
           prettier_options: --write **/*.js !app/*/views !app/templates !app/build/plugins/*/public.js !scripts/state
-          commit_message: Format code
-          only_changed: true
+          commit_message: Auto-formatted code
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
