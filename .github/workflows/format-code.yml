@@ -20,7 +20,7 @@ jobs:
         with:
           prettier_version: 2.0.5
           prettier_options: --write **/*.js !app/*/views !app/templates !app/build/plugins/*/public.js !scripts/state
-          commit_message: "Format code"
+          commit_message: Format code
           only_changed: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
