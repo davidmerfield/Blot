@@ -5,19 +5,12 @@ on:
   push:
     branches:
     - master
-    
+
 jobs:
   prettier:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create branch
-        uses: peterjgrainger/action-create-branch@v2.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          branch: 'format-code'
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -25,7 +18,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run code formatting tool
-        uses: creyD/prettier_action@v3.1
+        uses: davidmerfield/prettier_action
         with:
           prettier_version: 2.0.5
           prettier_options: --write **/*.js !app/*/views !app/templates !app/build/plugins/*/public.js !scripts/state
