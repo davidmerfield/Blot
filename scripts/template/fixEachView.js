@@ -21,12 +21,12 @@ var shouldWrite = {};
 
 function main(doThis, callback) {
   eachView(
-    function(user, blog, template, view, next) {
+    function (user, blog, template, view, next) {
       if (!view || !view.content) return next();
 
       var _view = _.cloneDeep(view);
 
-      doThis(view, function(err) {
+      doThis(view, function (err) {
         if (err) return next(err);
 
         if (_.isEqual(_view, view)) return next();
@@ -36,15 +36,14 @@ function main(doThis, callback) {
         Template.setView(template.id, view, next);
       });
     },
-    function() {
+    function () {
       console.log();
       console.log("Checking to see if any templates need to be written...");
       async.eachOfSeries(
         shouldWrite,
-        function(blogID, templateID, next) {
+        function (blogID, templateID, next) {
           console.log("Writing", templateID);
-          writeToFolder(blogID, templateID, function(err){
-
+          writeToFolder(blogID, templateID, function (err) {
             if (err) console.log(err);
 
             next();

@@ -1,9 +1,10 @@
 module.exports = {
   // codebase expects either 'production' or 'development'
-  environment: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  environment:
+    process.env.NODE_ENV === "production" ? "production" : "development",
   host: process.env.BLOT_HOST,
   protocol: process.env.BLOT_PROTOCOL + "://",
-  pidfile: process.env.BLOT_DIRECTORY + '/data/process.pid',
+  pidfile: process.env.BLOT_DIRECTORY + "/data/process.pid",
 
   maintenance: process.env.BLOT_MAINTENANCE === "true",
   cache: process.env.BLOT_CACHE === "true",
@@ -47,11 +48,11 @@ module.exports = {
     key: process.env.BLOT_STRIPE_KEY,
     secret: process.env.BLOT_STRIPE_SECRET,
     // Ensure that each monthly plan has a corresponding
-    // annual plan, and vice versa, and that these IDs 
-    // correspond to plans on Stripe in both live and 
+    // annual plan, and vice versa, and that these IDs
+    // correspond to plans on Stripe in both live and
     // test modes when you change Blot's price.
     plan: "monthly_4",
-    
+
     plan_map: {
       yearly_30: "monthly_3",
       monthly_3: "yearly_30",

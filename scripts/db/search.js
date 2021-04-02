@@ -6,9 +6,9 @@ if (require.main === module) {
 
   if (!searchTerm) throw new Error("Please pass search query as first arg");
 
-  redisSearch(searchTerm, function(err, res) {
+  redisSearch(searchTerm, function (err, res) {
     if (err) throw err;
-    res.map(function(item) {
+    res.map(function (item) {
       var val = item.value;
       var key = item.key;
       var res = colors.dim(item.type) + " " + key;

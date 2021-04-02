@@ -30,7 +30,7 @@ function main(label, callback) {
     fs.emptyDirSync(DATA_DIRECTORY);
     fs.ensureDirSync(directory + "/data");
     fs.copySync(directory + "/data", DATA_DIRECTORY);
-    
+
     // Why stdio: inherit?
     // https://github.com/shelljs/shelljs/issues/770#issuecomment-329357465
     cp.execSync("pg_ctl start -D " + DATA_DIRECTORY + "/db/postgres", {

@@ -26,7 +26,7 @@ function main(user, callback) {
   stripe.customers.retrieveSubscription(
     user.subscription.customer,
     user.subscription.id,
-    function(err, subscription) {
+    function (err, subscription) {
       if (
         err &&
         err.code === "resource_missing" &&
@@ -62,7 +62,7 @@ function main(user, callback) {
       if (err || !subscription)
         return callback(err || new Error("No subscription"));
 
-      User.set(user.uid, { subscription: subscription }, function(err) {
+      User.set(user.uid, { subscription: subscription }, function (err) {
         if (err) return callback(err);
 
         console.log(
@@ -88,7 +88,7 @@ function done(err) {
 
 if (require.main === module) {
   if (process.argv[2]) {
-    User.getByEmail(process.argv[2], function(err, user) {
+    User.getByEmail(process.argv[2], function (err, user) {
       if (err || !user) throw err || new Error("No user");
       main(user, done);
     });
@@ -96,7 +96,7 @@ if (require.main === module) {
     yesno.ask(
       "Fetch latest subscription information from Stripe for all users? (y/N)",
       false,
-      function(ok) {
+      function (ok) {
         if (!ok) return process.exit();
         each(main, done);
       }

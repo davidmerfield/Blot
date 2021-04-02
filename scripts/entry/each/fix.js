@@ -1,9 +1,9 @@
 var ensure = require("helper/ensure");
 
 module.exports = function (blog, entry, callback) {
-	var changes = [];
+  var changes = [];
 
-	ensure(blog, "object").and(entry, "object").and(callback, "function");
+  ensure(blog, "object").and(entry, "object").and(callback, "function");
 
-	return callback(entry, changes);
+  return callback(entry, changes);
 };
