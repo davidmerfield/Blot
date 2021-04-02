@@ -3,7 +3,7 @@ var minify = require("html-minifier").minify;
 module.exports = function render_tex(req, res, next) {
   var send = res.send;
 
-  res.send = function(string) {
+  res.send = function (string) {
     var html = string instanceof Buffer ? string.toString() : string;
     var options = {
       // Omit attribute values from boolean attributes
@@ -41,7 +41,7 @@ module.exports = function render_tex(req, res, next) {
       // Sort style classes by frequency
       // won't impact the plain-text size of the output
       // should improve compression ratio of gzip
-      sortClassName: true
+      sortClassName: true,
     };
 
     try {

@@ -6,15 +6,15 @@ var config = require("config");
 var titleFromSlug = require("helper/titleFromSlug");
 
 var TITLES = {
-  how: "How it works",
-  terms: "Terms of use",
-  privacy: "Privacy policy",
-  configure: "Configure your site",
-  ask: "Ask question",
-  urls: "Link format",
+  "how": "How it works",
+  "terms": "Terms of use",
+  "privacy": "Privacy policy",
+  "configure": "Configure your site",
+  "ask": "Ask question",
+  "urls": "Link format",
   "hard-stop-start-ec2-instance": "How to stop and start an EC2 instance",
-  who: "Who uses Blot?",
-  developers: "Developer guide",
+  "who": "Who uses Blot?",
+  "developers": "Developer guide",
   "json-feed": "JSON feed",
   "posts-tagged": "A page with posts with a particular tag",
 };
@@ -27,8 +27,8 @@ if (config.cache) {
   brochure.use(require("./tools/inline-css"));
 }
 
-brochure.get(['/how/guides/*'], function(req, res, next){
-  res.locals['show-on-this-page'] = true;
+brochure.get(["/how/guides/*"], function (req, res, next) {
+  res.locals["show-on-this-page"] = true;
   next();
 });
 
@@ -103,7 +103,7 @@ brochure.use("/account", function (req, res, next) {
 brochure.get("/", require("./featured"));
 
 brochure.get("/", function (req, res, next) {
-  res.locals.layout = 'partials/layout-index'
+  res.locals.layout = "partials/layout-index";
   next();
 });
 brochure.use("/fonts", require("./fonts"));
