@@ -19,7 +19,7 @@ jobs:
         uses: creyD/prettier_action@v3.1
         with:
           prettier_version: 2.0.5
-          prettier_options: --write 'app/**/*.js' '!app/*/views' '!app/templates' '!app/build/plugins/*/public.js' 'scripts/**/*.js' '!scripts/state' 'config/**/*.js' 'tests/**/*.js'
+          prettier_options: --write '**/*.js' '!app/*/views' '!app/templates' '!app/build/plugins/*/public.js' '!scripts/state'
           commit_message: ""
           only_changed: true
         env:
