@@ -50,5 +50,5 @@ module.exports = {
   notRegex: notRegex,
   map: map,
   is: is,
-  matches: matches
+  matches: matches,
 };

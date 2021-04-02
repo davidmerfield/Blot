@@ -21,5 +21,5 @@ module.exports = {
 
   blogTemplates: function blogTemplates(blogID) {
     return "template:owned_by:" + blogID;
-  }
+  },
 };

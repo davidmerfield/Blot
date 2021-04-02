@@ -13,7 +13,7 @@ var get = require("./get");
 
 // This empties the cache for a blog by emptying the cache
 // for its Blot subdomain and its custom domain, if one is set
-module.exports = function(blogID, former, callback) {
+module.exports = function (blogID, former, callback) {
   // You can optionally pass the former state of the blog
   // to ensure that the cache directories for old domains
   // and blot subdomains are flushed too. It's not required.
@@ -25,7 +25,7 @@ module.exports = function(blogID, former, callback) {
   var blogHosts = [];
   var affectedHosts = [];
 
-  get({ id: blogID }, function(err, blog) {
+  get({ id: blogID }, function (err, blog) {
     if (err) return callback(err);
 
     if (blog.domain) {
@@ -52,7 +52,7 @@ module.exports = function(blogID, former, callback) {
 
     // We make sure to empty cache directories when deleting a blog
     debug("Emptying cache directories for:", affectedHosts);
-    async.each(affectedHosts, flush, function(err) {
+    async.each(affectedHosts, flush, function (err) {
       if (err) return callback(err);
 
       // The purpose of this module is to set up a number of symlinks between the blogs
@@ -71,16 +71,16 @@ function symlink(blogID, host, callback) {
   var dirs = [HOSTS + "/" + host, blogFolder, staticFolder];
   var links = [
     { from: blogFolder, to: HOSTS + "/" + host + "/folder" },
-    { from: staticFolder, to: HOSTS + "/" + host + "/static" }
+    { from: staticFolder, to: HOSTS + "/" + host + "/static" },
   ];
 
-  async.each(dirs, fs.ensureDir, function(err) {
+  async.each(dirs, fs.ensureDir, function (err) {
     if (err) return callback(err);
 
     async.each(
       links,
-      function(link, next) {
-        fs.symlink(link.from, link.to, function(err) {
+      function (link, next) {
+        fs.symlink(link.from, link.to, function (err) {
           if (err && err.code !== "EEXIST") return next(err);
 
           next();
