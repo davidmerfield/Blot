@@ -1,3 +1,10 @@
+Add action  to lint code with jshint and eslint
+  - any other static code analysis tools?
+
+Add sass option to raw CSS
+
+Fix bug with close button on Magazine template and tell [Jens](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
+
 Write substack import script and follow up with [Lee](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPBhFTXCMGdqGRjcWBngvCP)
 
 Simplify local dev setup for David and write guide
