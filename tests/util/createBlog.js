@@ -2,10 +2,10 @@ var Blog = require("models/blog");
 var randomString = require("./randomString");
 var localPath = require("helper/localPath");
 
-module.exports = function(done) {
+module.exports = function (done) {
   var context = this;
 
-  Blog.create(context.user.uid, { handle: randomString(16) }, function(
+  Blog.create(context.user.uid, { handle: randomString(16) }, function (
     err,
     blog
   ) {
@@ -17,7 +17,7 @@ module.exports = function(done) {
 
     if (context.blogDirectory.slice(-1) === "/")
       context.blogDirectory = context.blogDirectory.slice(0, -1);
-          
+
     context.blog = blog;
 
     done(err);

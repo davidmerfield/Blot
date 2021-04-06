@@ -2,7 +2,7 @@ var config = require("config");
 var https = require("https");
 
 // Dropbox makes this way harder than it needs to be
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var key, secret, url, redirect_uri, request, response;
 
   // Does this happen if the user denies permission?
@@ -31,24 +31,24 @@ module.exports = function(req, res, next) {
     hostname: "api.dropboxapi.com",
     headers: {
       Authorization:
-        "Basic " + new Buffer(key + ":" + secret).toString("base64")
+        "Basic " + new Buffer(key + ":" + secret).toString("base64"),
     },
     method: "POST",
     path:
       "/oauth2/token?code=" +
       req.query.code +
       "&grant_type=authorization_code&redirect_uri=" +
-      redirect_uri
+      redirect_uri,
   };
 
-  request = https.request(url, function(data) {
+  request = https.request(url, function (data) {
     response = "";
 
-    data.on("data", function(chunk) {
+    data.on("data", function (chunk) {
       response += chunk;
     });
 
-    data.on("end", function() {
+    data.on("end", function () {
       try {
         response = JSON.parse(response);
       } catch (err) {

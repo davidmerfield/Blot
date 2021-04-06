@@ -8,5 +8,5 @@ module.exports = {
   description: "string",
   localEditing: "boolean",
   thumb: "string",
-  locals: "object"
+  locals: "object",
 };

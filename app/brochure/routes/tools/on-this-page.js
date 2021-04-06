@@ -3,60 +3,60 @@ const makeSlug = require("helper/makeSlug");
 const fs = require("fs-extra");
 
 module.exports = function onThisPage(req, res, next) {
-	const render = res.render;
-	const send = res.send;
+  const render = res.render;
+  const send = res.send;
 
-	res.send = function(string) {
-		const html = string instanceof Buffer ? string.toString() : string;
-		const $ = cheerio.load(html, { decodeEntities: false });
-		$("h2,h3").each((i, el) => {
-			const text = $(el).text();
-			const id = $(el).attr("id") || makeSlug(text);
-			$(el).attr("id", id || makeSlug(text));
-			const innerHTML = $(el).html();
-			$(el).html(`<a href="#${id}">${innerHTML}</a>`);
-		});
+  res.send = function (string) {
+    const html = string instanceof Buffer ? string.toString() : string;
+    const $ = cheerio.load(html, { decodeEntities: false });
+    $("h2,h3").each((i, el) => {
+      const text = $(el).text();
+      const id = $(el).attr("id") || makeSlug(text);
+      $(el).attr("id", id || makeSlug(text));
+      const innerHTML = $(el).html();
+      $(el).html(`<a href="#${id}">${innerHTML}</a>`);
+    });
 
-		send.call(this, $.html());
-	};
+    send.call(this, $.html());
+  };
 
-	res.render = function(view, locals, partials) {
-		const html = loadView(req.app.get("views"), view);
+  res.render = function (view, locals, partials) {
+    const html = loadView(req.app.get("views"), view);
 
-		if (!html) return next();
+    if (!html) return next();
 
-		const $ = cheerio.load(html, { decodeEntities: false });
-		const headers = [];
+    const $ = cheerio.load(html, { decodeEntities: false });
+    const headers = [];
 
-		$("h2,h3").each(function(i, el) {
-			const text = $(el).text();
-			const id = $(el).attr("id") || makeSlug(text);
-			headers.push({ text: text, id: id });
-		});
+    $("h2,h3").each(function (i, el) {
+      const text = $(el).text();
+      const id = $(el).attr("id") || makeSlug(text);
+      headers.push({ text: text, id: id });
+    });
 
-		res.locals.headers = headers;
+    res.locals.headers = headers;
 
-		render.call(this, view, locals, partials);
-	};
+    render.call(this, view, locals, partials);
+  };
 
-	next();
+  next();
 };
 
 function loadView(directory, identifier) {
-	const candidates = [
-		identifier,
-		identifier + ".html",
-		identifier + "/index.html",
-	];
+  const candidates = [
+    identifier,
+    identifier + ".html",
+    identifier + "/index.html",
+  ];
 
-	let html;
+  let html;
 
-	while (candidates.length && !html) {
-		let candidate = candidates.pop();
-		try {
-			html = fs.readFileSync(directory + "/" + candidate, "utf8");
-		} catch (e) {}
-	}
+  while (candidates.length && !html) {
+    let candidate = candidates.pop();
+    try {
+      html = fs.readFileSync(directory + "/" + candidate, "utf8");
+    } catch (e) {}
+  }
 
-	return html;
+  return html;
 }

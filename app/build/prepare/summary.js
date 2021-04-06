@@ -9,15 +9,15 @@ var he = require("he");
 // we have to decode it in advance
 // because the HTML has already been
 // decoded by pandoc...!
-function normalize (str) {
-  return he.decode(str).replace(/\s/g, " ").trim()
+function normalize(str) {
+  return he.decode(str).replace(/\s/g, " ").trim();
 }
 
 function summary($, title) {
   var summary;
 
-debug($.html());
-  
+  debug($.html());
+
   // We ignore the text content of
   // these tags for the summary
   // we only care about the content
@@ -29,12 +29,12 @@ debug($.html());
 
   // add a space before the end of
   // each node so newlines look ok
-  $("p, blockquote").each(function() {
+  $("p, blockquote").each(function () {
     $(this).append(" ");
   });
 
-  title = normalize(title)
-  summary = normalize($(":root").text())
+  title = normalize(title);
+  summary = normalize($(":root").text());
 
   if (summary.length > MAX_LENGTH) {
     summary = summary.slice(0, MAX_LENGTH);

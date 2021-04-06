@@ -20,17 +20,17 @@ function Changes(latest, former) {
   return changes;
 }
 
-module.exports = function(blogID, blog, callback) {
+module.exports = function (blogID, blog, callback) {
   ensure(blogID, "string").and(callback, "function");
 
   var multi = client.multi();
   var formerBackupDomain, changes, backupDomain;
   var changesList = [];
 
-  validate(blogID, blog, function(errors, latest) {
+  validate(blogID, blog, function (errors, latest) {
     if (errors) return callback(errors);
 
-    get({ id: blogID }, function(err, former) {
+    get({ id: blogID }, function (err, former) {
       former = former || {};
 
       if (err) return callback(err);
@@ -122,12 +122,12 @@ module.exports = function(blogID, blog, callback) {
 
       multi.hmset(key.info(blogID), serial(latest));
 
-      multi.exec(function(err) {
+      multi.exec(function (err) {
         // We didn't manage to apply any changes
         // to this blog, so empty the list of changes
         if (err) return callback(err, []);
 
-        flushCache(blogID, former, function(err) {
+        flushCache(blogID, former, function (err) {
           callback(err, changesList);
         });
       });

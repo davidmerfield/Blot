@@ -1,7 +1,7 @@
-(function() {
+(function () {
   "use strict";
   var fs = require("fs");
-  var noop = function() {};
+  var noop = function () {};
 
   function LineReader(filename, separator, encoding, chunkSize) {
     this.size = fs.statSync(filename).size;
@@ -15,7 +15,7 @@
     this.savedBuffer = "";
   }
 
-  LineReader.prototype.searchBuffer = function() {
+  LineReader.prototype.searchBuffer = function () {
     if (this.buffer === null) {
       return false;
     }
@@ -46,7 +46,7 @@
     }
   };
 
-  LineReader.prototype.readLine = function(cb) {
+  LineReader.prototype.readLine = function (cb) {
     var _this = this;
     var chunkSize = 0;
     var line = _this.searchBuffer();
@@ -56,20 +56,20 @@
       var stream = fs.createReadStream(this.filename, {
         start: Math.max(this.pointer, 0),
         end: Math.max(this.pointer + this.chunkSize, 0),
-        encoding: this.encoding
+        encoding: this.encoding,
       });
 
-      stream.on("error", function(err) {
+      stream.on("error", function (err) {
         throw err;
       });
-      stream.on("end", function() {
+      stream.on("end", function () {
         if (_this.buffer === null) {
           cb(null, true);
         } else {
           _this.readLine(cb);
         }
       });
-      stream.on("data", function(data) {
+      stream.on("data", function (data) {
         if (_this.buffer === null) {
           _this.buffer = "";
         }
@@ -91,7 +91,7 @@
         }
         return;
       }
-      reader.readLine(function(line, last) {
+      reader.readLine(function (line, last) {
         if (line !== null && cb(line, last, last ? noop : readLine) !== false) {
           if (!last) {
             if (!asyncCb) {
@@ -109,9 +109,9 @@
     }
 
     return {
-      then: function(cb) {
+      then: function (cb) {
         finalFn = cb;
-      }
+      },
     };
   }
 

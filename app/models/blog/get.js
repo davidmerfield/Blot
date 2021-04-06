@@ -25,7 +25,7 @@ module.exports = function get(by, callback) {
 
     if (!blogID) return callback(null);
 
-    client.hgetall(key.info(blogID), function(err, blog) {
+    client.hgetall(key.info(blogID), function (err, blog) {
       if (err) return callback(err);
 
       if (!blog) return callback(null);

@@ -19,12 +19,21 @@ describe("markdown converter", function () {
           let expected;
 
           try {
-            html = html.replace(/"#?footnote-[A-Z\d]{1,6}"/gm, '"#footnote-ID_REMOVED"');
+            html = html.replace(
+              /"#?footnote-[A-Z\d]{1,6}"/gm,
+              '"#footnote-ID_REMOVED"'
+            );
             html = html.replace(/"#?ref-[A-Z\d]{1,6}"/gm, '"#ref-ID_REMOVED"');
 
             expected = fs.readFileSync(__dirname + path + ".html", "utf8");
-            expected = expected.replace(/"#?footnote-[A-Z\d]{1,6}"/gm, '"#footnote-ID_REMOVED"');
-            expected = expected.replace(/"#?ref-[A-Z\d]{1,6}"/gm, '"#ref-ID_REMOVED"');
+            expected = expected.replace(
+              /"#?footnote-[A-Z\d]{1,6}"/gm,
+              '"#footnote-ID_REMOVED"'
+            );
+            expected = expected.replace(
+              /"#?ref-[A-Z\d]{1,6}"/gm,
+              '"#ref-ID_REMOVED"'
+            );
           } catch (e) {
             console.log(e);
             fs.outputFileSync(__dirname + path + ".expected.html", html);

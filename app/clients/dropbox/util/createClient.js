@@ -5,9 +5,9 @@
 var fetch = require("isomorphic-fetch");
 var Dropbox = require("dropbox").Dropbox;
 
-module.exports = function(token) {
+module.exports = function (token) {
   return new Dropbox({
     accessToken: token,
-    fetch: fetch
+    fetch: fetch,
   });
 };

@@ -3,7 +3,6 @@ var MAX_LENGTH = 100;
 
 // This must always return a string but it can be empty
 function makeSlug(string) {
-
   var words,
     components,
     trimmed = "";
@@ -64,7 +63,7 @@ function makeSlug(string) {
   while (slug.length > 1 && (slug.slice(-1) === "/" || slug.slice(-1) === "-"))
     slug = slug.slice(0, -1);
 
-  if (slug === '-') slug = '';
+  if (slug === "-") slug = "";
 
   slug = encodeURI(slug);
 
@@ -126,6 +125,9 @@ is("China ← NYC → China", "china-from-nyc-to-china");
 is("China+()[] ← NYC! → China", "china-from-nyc-to-china");
 is("No more cd ../../", "no-more-cd");
 
-is("«&nbsp;French Tech Communauté&nbsp;»&nbsp;: quelle opportunité pour l’État&nbsp;?", "french-tech-communaut%C3%A9-quelle-opportunit%C3%A9-pour-l-%C3%A9tat")
+is(
+  "«&nbsp;French Tech Communauté&nbsp;»&nbsp;: quelle opportunité pour l’État&nbsp;?",
+  "french-tech-communaut%C3%A9-quelle-opportunit%C3%A9-pour-l-%C3%A9tat"
+);
 
 module.exports = makeSlug;

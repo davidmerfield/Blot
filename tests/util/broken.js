@@ -25,7 +25,7 @@ function main(url, options, callback) {
     options = {};
   }
 
-  checkPage(null, url, function(err) {
+  checkPage(null, url, function (err) {
     if (err) return callback(err);
     callback(null, results);
   });
@@ -63,7 +63,7 @@ function main(url, options, callback) {
 
     console.log("requesting", url);
 
-    request(uri, function(err, res, body) {
+    request(uri, function (err, res, body) {
       if (err) return callback(err);
 
       // We use 400 sometimes on the dashboard
@@ -93,7 +93,7 @@ function main(url, options, callback) {
       return callback(e);
     }
 
-    $("[href],[src]").each(function() {
+    $("[href],[src]").each(function () {
       let url = $(this).attr("href") || $(this).attr("src");
 
       if (!url) return;
@@ -108,7 +108,7 @@ function main(url, options, callback) {
 
     async.eachSeries(
       URLs,
-      function(url, next) {
+      function (url, next) {
         checkPage(base, url, next);
       },
       callback

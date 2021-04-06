@@ -10,5 +10,5 @@ module.exports = {
   redirects: require("./redirects"),
   timezones: require("./timezones"),
   plugins: require("./plugins"),
-  permalinkFormats: require("./permalinkFormats")
+  permalinkFormats: require("./permalinkFormats"),
 };

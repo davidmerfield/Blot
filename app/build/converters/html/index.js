@@ -15,12 +15,13 @@ function read(blog, path, options, callback) {
 
   var localPath = LocalPath(blog.id, path);
 
-  fs.stat(localPath, function(err, stat) {
+  fs.stat(localPath, function (err, stat) {
     if (err) return callback(err);
     // Don't try and turn HTML files larger than 5mb into posts
-    if (stat && stat.size > 5 * 1000 * 1000) return callback(new Error('HTML File too big'));
+    if (stat && stat.size > 5 * 1000 * 1000)
+      return callback(new Error("HTML File too big"));
 
-    fs.readFile(localPath, "utf-8", function(err, contents) {
+    fs.readFile(localPath, "utf-8", function (err, contents) {
       if (err) return callback(err);
 
       return callback(null, contents, stat);

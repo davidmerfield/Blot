@@ -24,36 +24,38 @@ Blot.set("trust proxy", "loopback");
 Blot.use(helmet.frameguard("allow-from", config.host));
 
 Blot.use(function (req, res, next) {
-	var init = Date.now();
+  var init = Date.now();
 
-	try {
-		console.log(
-			clfdate(),
-			req.headers["x-request-id"] && 'REQ=' +req.headers["x-request-id"].slice(0,6),
-			'PID=' +process.pid,
-			req.protocol + "://" + req.hostname + req.originalUrl,
-			req.method
-		);
-	} catch (e) {
-		console.error("Error: Failed to construct canonical log line:", e);
-	}
+  try {
+    console.log(
+      clfdate(),
+      req.headers["x-request-id"] &&
+        "REQ=" + req.headers["x-request-id"].slice(0, 6),
+      "PID=" + process.pid,
+      req.protocol + "://" + req.hostname + req.originalUrl,
+      req.method
+    );
+  } catch (e) {
+    console.error("Error: Failed to construct canonical log line:", e);
+  }
 
-	res.on("finish", function () {
-		try {
-			console.log(
-				clfdate(),
-				req.headers["x-request-id"] && 'REQ=' +req.headers["x-request-id"].slice(0,6),
-				'PID=' +process.pid,
-				req.protocol + "://" + req.hostname + req.originalUrl,
-				res.statusCode,
-				((Date.now() - init) / 1000).toFixed(3)
-			);
-		} catch (e) {
-			console.error("Error: Failed to construct canonical log line:", e);
-		}
-	});
+  res.on("finish", function () {
+    try {
+      console.log(
+        clfdate(),
+        req.headers["x-request-id"] &&
+          "REQ=" + req.headers["x-request-id"].slice(0, 6),
+        "PID=" + process.pid,
+        req.protocol + "://" + req.hostname + req.originalUrl,
+        res.statusCode,
+        ((Date.now() - init) / 1000).toFixed(3)
+      );
+    } catch (e) {
+      console.error("Error: Failed to construct canonical log line:", e);
+    }
+  });
 
-	next();
+  next();
 });
 
 // Blot is composed of four sub applications.
@@ -89,7 +91,7 @@ Blot.use(blog);
 // localhost/health to see if it should attempt to restart Blot.
 // If you remove this, change monit.rc too.
 Blot.use("/health", function (req, res) {
-	res.send("OK");
+  res.send("OK");
 });
 
 module.exports = Blot;

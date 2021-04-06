@@ -10,12 +10,10 @@ var BANNED_NAMES = nsv(__dirname + "/banned.txt");
 
 var ONLY_ALPA_NUM = /^[a-zA-Z0-9]+$/;
 
-module.exports = function(blogID, handle, callback) {
+module.exports = function (blogID, handle, callback) {
   var get = require("../get");
 
-  ensure(blogID, "string")
-    .and(handle, "string")
-    .and(callback, "function");
+  ensure(blogID, "string").and(handle, "string").and(callback, "function");
 
   handle = handle.toLowerCase().trim();
 
@@ -27,7 +25,7 @@ module.exports = function(blogID, handle, callback) {
 
   if (handle.length < 3) return callback(new Error(TOO_SHORT));
 
-  get({ handle: handle }, function(err, blog) {
+  get({ handle: handle }, function (err, blog) {
     // Sometimes we want to check if
     // a handle is in use before creating
     // a new blog. If so, we don't know

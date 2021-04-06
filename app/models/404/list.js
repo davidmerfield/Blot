@@ -3,7 +3,7 @@ var ensure = require("helper/ensure");
 var key = require("./key");
 var moment = require("moment");
 
-module.exports = function(blogID, callback) {
+module.exports = function (blogID, callback) {
   ensure(blogID, "string").and(callback, "function");
 
   var everythingKey = key.everything(blogID);
@@ -11,12 +11,12 @@ module.exports = function(blogID, callback) {
 
   ensure(everythingKey, "string").and(ignoreKey, "string");
 
-  client.SMEMBERS(ignoreKey, function(err, ignoreThese) {
+  client.SMEMBERS(ignoreKey, function (err, ignoreThese) {
     if (err) throw err;
 
     ensure(ignoreThese, "array");
 
-    client.ZREVRANGE(everythingKey, 0, -1, "WITHSCORES", function(
+    client.ZREVRANGE(everythingKey, 0, -1, "WITHSCORES", function (
       err,
       response
     ) {
@@ -35,7 +35,7 @@ module.exports = function(blogID, callback) {
 
         var item = {
           url: url,
-          time: moment.utc(timeStamp).fromNow()
+          time: moment.utc(timeStamp).fromNow(),
         };
 
         if (ignoreThese.indexOf(url) > -1) {

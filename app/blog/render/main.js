@@ -7,9 +7,7 @@ var OVERFLOW = "Maximum call stack size exceeded";
 // This function basically wraps mustache
 // and gives me some nice error messages...
 module.exports = function render(content, locals, partials) {
-  ensure(content, "string")
-    .and(locals, "object")
-    .and(partials, "object");
+  ensure(content, "string").and(locals, "object").and(partials, "object");
 
   var output;
 

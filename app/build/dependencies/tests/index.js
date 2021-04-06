@@ -1,10 +1,10 @@
-describe("dependencies", function() {
+describe("dependencies", function () {
   var depedencies = require("../index");
 
   // tests for depedencies
 
   function should_get_dependencies(input) {
-    it("gets dependencies from " + input.path, function() {
+    it("gets dependencies from " + input.path, function () {
       var result = depedencies(input.path, input.html, input.metadata);
       expect(result).toEqual(input.result);
     });

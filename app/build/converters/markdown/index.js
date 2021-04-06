@@ -26,14 +26,14 @@ function read(blog, path, options, callback) {
 
   time("stat");
 
-  fs.stat(localPath, function(err, stat) {
+  fs.stat(localPath, function (err, stat) {
     time.end("stat");
 
     if (err) return callback(err);
 
     time("readFile");
 
-    fs.readFile(localPath, "utf-8", function(err, text) {
+    fs.readFile(localPath, "utf-8", function (err, text) {
       time.end("readFile");
 
       if (err) return callback(err);
@@ -56,7 +56,7 @@ function read(blog, path, options, callback) {
         time.end("katex");
       }
 
-      convert(blog, text, function(err, html) {
+      convert(blog, text, function (err, html) {
         if (err) return callback(err);
 
         callback(null, html, stat);

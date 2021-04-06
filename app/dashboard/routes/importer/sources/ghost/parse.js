@@ -13,10 +13,10 @@ var determine_path = helper.determine_path;
 var insert_metadata = helper.insert_metadata;
 var to_markdown = helper.to_markdown;
 
-module.exports = function(blog, output_directory, callback) {
+module.exports = function (blog, output_directory, callback) {
   forEach(
     blog.posts,
-    function(post, next) {
+    function (post, next) {
       var created, updated, metadata, path;
       var title, dateStamp, tags, draft, page, html;
 
@@ -74,10 +74,10 @@ module.exports = function(blog, output_directory, callback) {
         updated: updated,
         tags: tags,
         metadata: metadata,
-        html: html
+        html: html,
       };
 
-      download_images(post, function(err, post) {
+      download_images(post, function (err, post) {
         if (err) return callback(err);
 
         // Clean up the contents of the <content>;
@@ -87,7 +87,7 @@ module.exports = function(blog, output_directory, callback) {
 
         post = insert_metadata(post);
 
-        fs.outputFile(post.path, post.content, function(err) {
+        fs.outputFile(post.path, post.content, function (err) {
           if (err) return callback(err);
 
           next();

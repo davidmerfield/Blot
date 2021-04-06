@@ -19,10 +19,10 @@ module.exports = function create(blog, callback) {
 
   var queue = [
     fs.mkdir.bind(this, bareRepoDirectory),
-    database.createToken.bind(this, blog.owner)
+    database.createToken.bind(this, blog.owner),
   ];
 
-  async.parallel(queue, function(err) {
+  async.parallel(queue, function (err) {
     if (err) return callback(err);
 
     // Throws an error if the directory does not exist
@@ -35,25 +35,25 @@ module.exports = function create(blog, callback) {
 
     // Simple git returns stderr as a string
     // so we produce a new error from it...
-    liveRepo.init(function(err) {
+    liveRepo.init(function (err) {
       if (err) return callback(new Error(err));
 
-      liveRepo.addRemote("origin", bareRepoDirectory, function(err) {
+      liveRepo.addRemote("origin", bareRepoDirectory, function (err) {
         if (err) return callback(new Error(err));
 
         // Create bare repository in git data directory
         // which will serve as source of truth for repo.
-        bareRepo.init(true, function(err) {
+        bareRepo.init(true, function (err) {
           if (err) return callback(new Error(err));
 
-          liveRepo.add(".", function(err) {
+          liveRepo.add(".", function (err) {
             liveRepo.commit(
               "Initial commit",
               { "--allow-empty": true },
-              function(err) {
+              function (err) {
                 if (err) return callback(new Error(err));
 
-                liveRepo.push(["-u", "origin", "master"], function(err) {
+                liveRepo.push(["-u", "origin", "master"], function (err) {
                   if (err) return callback(new Error(err));
 
                   callback(null);

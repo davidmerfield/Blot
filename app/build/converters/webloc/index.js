@@ -2,7 +2,7 @@ var debug = require("debug")("blot:build");
 var fs = require("fs");
 var bplist = require("./bplist");
 var ensure = require("helper/ensure");
-var titlify = require('build/prepare/titlify');
+var titlify = require("build/prepare/titlify");
 var LocalPath = require("helper/localPath");
 var extname = require("path").extname;
 
@@ -18,16 +18,16 @@ function is(path) {
 function extract(localPath, callback) {
   // First we attempt to parse the file as if it
   // were XML. This is the format used by Chrome and Firefox
-  extractFromXML(localPath, function(err, url) {
+  extractFromXML(localPath, function (err, url) {
     if (url) return callback(null, url);
 
     // If this fails, we then try to parse the file
     // as if it were a Binary Plist file which is
     // the format used by Safari.
-    extractFromBPlist(localPath, function(err, url) {
+    extractFromBPlist(localPath, function (err, url) {
       if (url) return callback(null, url);
 
-      extractFromURL(localPath, function(err, url) {
+      extractFromURL(localPath, function (err, url) {
         if (url) return callback(null, url);
 
         return callback(new Error(INVALID));
@@ -39,7 +39,7 @@ function extract(localPath, callback) {
 function extractFromURL(localPath, callback) {
   var url;
 
-  fs.readFile(localPath, "utf-8", function(err, contents) {
+  fs.readFile(localPath, "utf-8", function (err, contents) {
     if (err) return callback(err);
 
     if (
@@ -62,7 +62,7 @@ function extractFromXML(localPath, callback) {
   var url;
   var reg = /<string>(.*)<\/string>/g;
 
-  fs.readFile(localPath, "utf-8", function(err, contents) {
+  fs.readFile(localPath, "utf-8", function (err, contents) {
     if (err) return callback(err);
 
     try {
@@ -78,7 +78,7 @@ function extractFromXML(localPath, callback) {
 function extractFromBPlist(localPath, callback) {
   var url;
 
-  bplist.parseFile(localPath, function(err, obj) {
+  bplist.parseFile(localPath, function (err, obj) {
     if (err) return callback(err);
 
     try {
@@ -100,10 +100,10 @@ function read(blog, path, options, callback) {
   var localPath = LocalPath(blog.id, path);
   var contents;
 
-  fs.stat(localPath, function(err, stat) {
+  fs.stat(localPath, function (err, stat) {
     if (err) return callback(err);
 
-    extract(localPath, function(err, url) {
+    extract(localPath, function (err, url) {
       if (err) return callback(err);
 
       if (!url) return callback(new Error(INVALID));

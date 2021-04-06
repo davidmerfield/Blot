@@ -8,17 +8,17 @@ var fs = require("fs-extra");
 var generatePackage = require("./package").generate;
 
 function writeToFolder(blogID, templateID, callback) {
-  isOwner(blogID, templateID, function(err, owner) {
+  isOwner(blogID, templateID, function (err, owner) {
     if (err) return callback(err);
 
     if (!owner) return callback(badPermission(blogID, templateID));
 
-    getAllViews(templateID, function(err, views, metadata) {
+    getAllViews(templateID, function (err, views, metadata) {
       if (err) return callback(err);
 
       if (!views || !metadata) return callback(noTemplate(blogID, templateID));
 
-      makeClient(blogID, function(err, client) {
+      makeClient(blogID, function (err, client) {
         if (err) {
           return callback(err);
         }
@@ -27,19 +27,19 @@ function writeToFolder(blogID, templateID, callback) {
 
         // Reset the folder before writing. This fixes a bug in which
         // there were two views with the same name, but different extension.
-        client.remove(blogID, dir, function(err) {
+        client.remove(blogID, dir, function (err) {
           if (err) {
             return callback(err);
           }
 
-          writePackage(blogID, client, dir, metadata, views, function(err) {
+          writePackage(blogID, client, dir, metadata, views, function (err) {
             if (err) {
               return callback(err);
             }
 
             async.eachOfSeries(
               views,
-              function(view, name, next) {
+              function (view, name, next) {
                 if (!view.name || !view.content) return next();
 
                 write(blogID, client, dir, view, next);
@@ -59,17 +59,17 @@ function writePackage(blogID, client, dir, metadata, views, callback) {
 }
 
 function makeClient(blogID, callback) {
-  require("blog").get({ id: blogID }, function(err, blog) {
+  require("blog").get({ id: blogID }, function (err, blog) {
     var client = require("clients")[blog.client];
 
     // we create a fake client to write the template files directly
     // to the blog's folder if the user has not configured a client
     if (!blog.client || !client) {
       return callback(null, {
-        remove: function(blogID, path, callback) {
+        remove: function (blogID, path, callback) {
           fs.remove(localPath(blogID, path), callback);
         },
-        write: function(blogID, path, content, callback) {
+        write: function (blogID, path, content, callback) {
           fs.outputFile(localPath(blogID, path), content, callback);
         },
       });

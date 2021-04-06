@@ -5,7 +5,7 @@ var key = require("./key");
 module.exports = function getById(uid, callback) {
   ensure(uid, "string").and(callback, "function");
 
-  client.get(key.user(uid), function(err, user) {
+  client.get(key.user(uid), function (err, user) {
     if (err) return callback(err);
 
     if (!user) return callback(null, null);

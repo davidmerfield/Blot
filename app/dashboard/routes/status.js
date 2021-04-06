@@ -17,7 +17,7 @@ status.get("/", function (req, res) {
     "X-Accel-Buffering": "no",
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
-    Connection: "keep-alive",
+    "Connection": "keep-alive",
   });
 
   res.write("\n");

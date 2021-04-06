@@ -134,6 +134,8 @@ brochure.use(function (req, res, next) {
 
 // Some kind of other error
 brochure.use(function (err, req, res, next) {
+  // Prevent a linter warning for 'next' above
+  // jshint unused:false
   res.locals.code = { error: true };
 
   if (config.environment === "development") {

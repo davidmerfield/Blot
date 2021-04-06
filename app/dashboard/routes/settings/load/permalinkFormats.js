@@ -3,20 +3,20 @@ var moment = require("moment");
 var FORMATS = [
   ["Title", "{{slug}}"],
   ["Date and title", "{{YYYY}}/{{MM}}/{{D}}/{{slug}}"],
-  ["Custom", ""]
+  ["Custom", ""],
 ];
 
-var SAMPLE = function() {
+var SAMPLE = function () {
   return {
     slug: "title-of-post",
     id: 342,
     name: "file-name-of-post.txt",
     path: "/posts/file-name-of-post.txt",
-    metadata: {}
+    metadata: {},
   };
 };
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var sample, formats;
 
   req.debug("Permalink formats: creating sample post");
@@ -28,7 +28,7 @@ module.exports = function(req, res, next) {
 
   req.debug("Permalink formats: creating list");
 
-  formats = formats.map(function(arr) {
+  formats = formats.map(function (arr) {
     var checked = "";
     var example;
 
@@ -50,7 +50,7 @@ module.exports = function(req, res, next) {
       value: arr[1],
       checked: checked,
       custom: arr[0] === "Custom" ? "custom" : "",
-      example: example
+      example: example,
     };
   });
 

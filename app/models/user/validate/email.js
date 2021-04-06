@@ -1,16 +1,11 @@
 var ensure = require("helper/ensure");
 var getByEmail = require("../getByEmail");
 
-module.exports = function(user, email, callback) {
-  ensure(user, "object")
-    .and(email, "string")
-    .and(callback, "function");
+module.exports = function (user, email, callback) {
+  ensure(user, "object").and(email, "string").and(callback, "function");
 
   // Normalize the email, case sensitivity confuses users
-  email = email
-    .trim()
-    .toLowerCase()
-    .replace(" ", "");
+  email = email.trim().toLowerCase().replace(" ", "");
 
   if (!email) return callback(new Error("Please enter an email"));
 
@@ -19,7 +14,7 @@ module.exports = function(user, email, callback) {
   if (!emailRegex.test(email))
     return callback(new Error("Please enter a valid email"));
 
-  getByEmail(email, function(err, otheruser) {
+  getByEmail(email, function (err, otheruser) {
     if (err) return callback(err);
 
     if (otheruser && otheruser.uid !== user.uid) {

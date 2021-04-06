@@ -15,7 +15,7 @@ module.exports = function download_pdfs(post, callback) {
 
   var reg = /\[pdf-embedder(.*)\]/gm;
 
-  post.html = post.html.replace(reg, function(str, x) {
+  post.html = post.html.replace(reg, function (str, x) {
     if (x.indexOf("url=")) x = x.split("url=").join("href=");
 
     return "\n\n<a" + x + ">PDF</a>\n\n";
@@ -29,7 +29,7 @@ module.exports = function download_pdfs(post, callback) {
   each_el(
     $,
     "a",
-    function(el, next) {
+    function (el, next) {
       var href = $(el).attr("href");
       var name;
 
@@ -44,8 +44,8 @@ module.exports = function download_pdfs(post, callback) {
       if (require("path").extname(href) !== ".pdf") return next();
 
       download(href)
-        .then(function(data) {
-          fs.outputFile(post.path + "/" + name, data, function(err) {
+        .then(function (data) {
+          fs.outputFile(post.path + "/" + name, data, function (err) {
             if (err) return next();
 
             if ($(el).text() === href) {
@@ -59,12 +59,12 @@ module.exports = function download_pdfs(post, callback) {
             next();
           });
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log("PDF error:", href, err.name, err.statusCode);
           return next();
         });
     },
-    function() {
+    function () {
       // Download PDFS or download images might have already moved the output
       // path for this file into its own folder, so check.
       if (changes && post.path.slice(-"/post.txt".length) !== "/post.txt") {

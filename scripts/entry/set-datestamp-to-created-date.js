@@ -9,9 +9,9 @@ if (!process.argv[2]) {
   process.exit();
 }
 
-get(process.argv[2], function(err, user, blog, entry) {
+get(process.argv[2], function (err, user, blog, entry) {
   if (err) throw err;
-  sync(blog.id, function(err, folder, done) {
+  sync(blog.id, function (err, folder, done) {
     if (err) throw err;
 
     console.log(
@@ -21,9 +21,11 @@ get(process.argv[2], function(err, user, blog, entry) {
       entry.created
     );
 
-    Entry.set(blog.id, entry.path, { dateStamp: entry.created }, function(err) {
+    Entry.set(blog.id, entry.path, { dateStamp: entry.created }, function (
+      err
+    ) {
       if (err) throw err;
-      done(null, function(err) {
+      done(null, function (err) {
         if (err) throw err;
         console.log("Rebuilt:", process.argv[2]);
         process.exit();

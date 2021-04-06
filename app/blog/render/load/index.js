@@ -12,10 +12,8 @@ var eachEntry = require("./eachEntry");
 
 // then returning req and res
 
-module.exports = function(req, res, callback) {
-  ensure(req, "object")
-    .and(res, "object")
-    .and(callback, "function");
+module.exports = function (req, res, callback) {
+  ensure(req, "object").and(res, "object").and(callback, "function");
 
   var locals = res.locals;
 

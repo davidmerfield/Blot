@@ -22,7 +22,7 @@ function apiURL(id) {
 
 var FAIL = "Could not retrieve video properties";
 
-module.exports = function(href, callback) {
+module.exports = function (href, callback) {
   var id, height, width, ratio, el;
 
   try {
@@ -42,10 +42,10 @@ module.exports = function(href, callback) {
   var options = {
     url: apiURL(id),
     json: true,
-    maxRedirects: 5
+    maxRedirects: 5,
   };
 
-  request(options, function(error, response, body) {
+  request(options, function (error, response, body) {
     if (error || !body) return callback(new Error(FAIL));
 
     el = body[0];

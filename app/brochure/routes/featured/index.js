@@ -14,7 +14,6 @@ try {
 }
 
 module.exports = function (req, res, next) {
-
   // Strip the 'www' from the host property for aesthetics
   res.locals.featured = featured.slice();
 

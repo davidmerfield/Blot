@@ -6,13 +6,11 @@ var key = require("./key");
 var getById = require("./getById");
 
 module.exports = function save(uid, updates, callback) {
-  ensure(uid, "string")
-    .and(updates, "object")
-    .and(callback, "function");
+  ensure(uid, "string").and(updates, "object").and(callback, "function");
 
   var multi, userString, former;
 
-  getById(uid, function(err, user) {
+  getById(uid, function (err, user) {
     if (err) return callback(err);
 
     if (!user) return callback(new Error("No user"));
@@ -21,7 +19,7 @@ module.exports = function save(uid, updates, callback) {
     // compare any changes further down
     former = JSON.parse(JSON.stringify(user));
 
-    validate(user, updates, function(err, user, changes) {
+    validate(user, updates, function (err, user, changes) {
       if (err) return callback(err);
 
       try {
@@ -42,7 +40,7 @@ module.exports = function save(uid, updates, callback) {
       // email pointing to the User's ID.
       if (former.email && former.email !== user.email) {
         multi.del(key.email(former.email));
-        updateBillingEmail(user, function(err) {
+        updateBillingEmail(user, function (err) {
           console.log("Error updating email for customer on Stripe:", err);
         });
       }
@@ -53,7 +51,7 @@ module.exports = function save(uid, updates, callback) {
       if (user.subscription && user.subscription.customer)
         multi.set(key.customer(user.subscription.customer), uid);
 
-      multi.exec(function(err) {
+      multi.exec(function (err) {
         if (err) return callback(err);
 
         callback(null, changes);

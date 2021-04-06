@@ -39,7 +39,7 @@ var cheerio = require("cheerio");
 var streamRoute = routePrefix + streamPrefix + "/*";
 var viewRoute = routePrefix + viewPrefix + "/*";
 
-module.exports = (function() {
+module.exports = (function () {
   function viewURL(handle, filePath) {
     return (
       "http://" + handle + "." + config.host + viewRoute.slice(0, -2) + filePath
@@ -59,10 +59,10 @@ module.exports = (function() {
   function injectScript(html, filePath, callback) {
     var $ = cheerio.load(html, { decodeEntities: false });
 
-    fs.readFile(injectionPath, "utf-8", function(err, scriptTag) {
+    fs.readFile(injectionPath, "utf-8", function (err, scriptTag) {
       scriptTag = Mustache.render(scriptTag, {
         streamURL:
-          streamRoute.slice(0, -1) + encodeURIComponent(filePath.slice(1))
+          streamRoute.slice(0, -1) + encodeURIComponent(filePath.slice(1)),
       });
 
       $("head").append(scriptTag);
@@ -72,21 +72,16 @@ module.exports = (function() {
   }
 
   function previewFile(handle, path, callback) {
-    ensure(handle, "string")
-      .and(path, "string")
-      .and(callback, "function");
+    ensure(handle, "string").and(path, "string").and(callback, "function");
 
-    fs.readFile(draftContainer, "utf-8", function(err, contents) {
+    fs.readFile(draftContainer, "utf-8", function (err, contents) {
       if (err || !contents) return callback(err || "No contents");
 
       var draftURL = viewURL(handle, path);
 
       var view = {
         draftURL: draftURL,
-        title: basename(path)
-          .split("[draft]")
-          .join("")
-          .trim()
+        title: basename(path).split("[draft]").join("").trim(),
       };
 
       try {
@@ -131,7 +126,7 @@ module.exports = (function() {
       return callback(err, is_draft);
     }
 
-    isPreview(blog_id, path, function(err, is_preview) {
+    isPreview(blog_id, path, function (err, is_preview) {
       if (err) return callback(err);
 
       // if the file is inside a draft directory but not itself
@@ -174,7 +169,7 @@ module.exports = (function() {
       return callback(err, is_preview);
     }
 
-    fs.readFile(local_path(blog_id, path), "utf-8", function(err, contents) {
+    fs.readFile(local_path(blog_id, path), "utf-8", function (err, contents) {
       if (err) return callback(err);
 
       if (contents.indexOf(PREVIEW_META_TAG) > -1) {
@@ -196,6 +191,6 @@ module.exports = (function() {
     previewFile: previewFile,
     previewPath: previewPath,
     streamRoute: streamRoute,
-    viewRoute: viewRoute
+    viewRoute: viewRoute,
   };
 })();

@@ -21,19 +21,19 @@ module.exports = function disconnect(blogID, callback) {
 
   // TODO, this shit should be handled at the next layer up
   // we shouldn't worry about setting blog.client to ""
-  Blog.get({ id: blogID }, function(err, blog) {
+  Blog.get({ id: blogID }, function (err, blog) {
     if (err || !blog) {
       return callback(err || new Error("No blog"));
     }
 
-    Blog.set(blogID, { client: "" }, function(err) {
+    Blog.set(blogID, { client: "" }, function (err) {
       if (err) return callback(err);
 
-      database.flush(blog.owner, function(err) {
+      database.flush(blog.owner, function (err) {
         if (err) return callback(err);
 
         // Remove the bare git repo in /repos
-        fs.remove(dataDir + "/" + blog.handle + ".git", function(err) {
+        fs.remove(dataDir + "/" + blog.handle + ".git", function (err) {
           if (err) return callback(err);
 
           // Remove the .git directory in the user's blog folder?
@@ -48,7 +48,7 @@ module.exports = function disconnect(blogID, callback) {
           // not be the case if disconnect is called before create.
           // if so, we need to finish early, only invoke this if liveRepo
           // is a repo... otherwise it propagates up to blot repo!
-          fs.stat(liveRepoDirectory + "/.git", function(err) {
+          fs.stat(liveRepoDirectory + "/.git", function (err) {
             if (err && err.code === "ENOENT") {
               debug("No git directory? Had the client been initialized?");
               return callback(null);
@@ -56,7 +56,7 @@ module.exports = function disconnect(blogID, callback) {
 
             if (err) return callback(err);
 
-            liveRepo.removeRemote("origin", function(err) {
+            liveRepo.removeRemote("origin", function (err) {
               if (err && err.indexOf("No such remote: origin" > -1)) err = null;
 
               if (err) return callback(new Error(err));

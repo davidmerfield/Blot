@@ -5,8 +5,8 @@ var helper = require("dashboard/routes/importer/helper");
 var determine_path = helper.determine_path;
 var tidy = require("./tidy");
 
-module.exports = function(item, output_directory) {
-  return function(callback) {
+module.exports = function (item, output_directory) {
+  return function (callback) {
     var entry = {};
 
     entry.draft =
@@ -32,7 +32,7 @@ module.exports = function(item, output_directory) {
     );
 
     if (item.category) {
-      entry.tags = item.category.map(function(category) {
+      entry.tags = item.category.map(function (category) {
         return category._;
       });
     }

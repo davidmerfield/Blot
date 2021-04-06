@@ -1,7 +1,7 @@
 var normalize = require("helper/urlNormalizer");
 
-module.exports = function(req, callback) {
-  return callback(null, function() {
+module.exports = function (req, callback) {
+  return callback(null, function () {
     try {
       var url = normalize(req.url) || "/";
       var link = this.url;

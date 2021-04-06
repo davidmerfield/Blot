@@ -10,10 +10,10 @@ var config = require("config");
 
 // Start listening for all blogs with this client
 if (config.environment === "development") {
-  Folder.list(function(err, blogIDs) {
+  Folder.list(function (err, blogIDs) {
     if (err) console.error(err);
-    blogIDs.forEach(function(blogID) {
-      Folder.get(blogID, function(err, folder) {
+    blogIDs.forEach(function (blogID) {
+      Folder.get(blogID, function (err, folder) {
         if (err) console.error(err);
         if (!folder) return;
 
@@ -21,7 +21,7 @@ if (config.environment === "development") {
 
         watch(blogID, folder);
 
-        synchronize(blogID, folder, function(err) {
+        synchronize(blogID, folder, function (err) {
           if (err) console.error(err);
         });
       });
@@ -31,13 +31,13 @@ if (config.environment === "development") {
 
 function setup(blogID, folder, callback) {
   debug("Setting up local client in", folder);
-  fs.ensureDir(folder, function(err) {
+  fs.ensureDir(folder, function (err) {
     if (err) return callback(err);
     debug("Storing folder for", blogID, "in database");
-    Folder.set(blogID, folder, function(err) {
+    Folder.set(blogID, folder, function (err) {
       if (err) return callback(err);
       debug("Synchronizing source folder with Blot");
-      synchronize(blogID, folder, function(err) {
+      synchronize(blogID, folder, function (err) {
         if (err) return callback(err);
 
         if (config.environment === "development") {
@@ -68,15 +68,15 @@ function synchronize(blogID, sourceFolder, callback) {
   // We don't want to make any changes to the folder in
   // a way which might conflict with other processes
   // so we acquire a lock on the blog's folder on Blot.
-  Sync(blogID, {}, function(err, folder, done) {
+  Sync(blogID, {}, function (err, folder, done) {
     if (err) return callback(err);
 
     try {
-      walk(sourceFolder).forEach(function(path) {
+      walk(sourceFolder).forEach(function (path) {
         sourceFolderTree[path.slice(sourceFolder.length)] = hash(path);
       });
 
-      walk(folder.path).forEach(function(path) {
+      walk(folder.path).forEach(function (path) {
         blotFolderTree[path.slice(folder.path.length)] = hash(path);
       });
     } catch (e) {
@@ -103,7 +103,7 @@ function synchronize(blogID, sourceFolder, callback) {
 
     // We tell Blot to update what it has stored in its database
     // about the files or folders at the paths we modified.
-    async.each(updatedPaths, folder.update, function(err) {
+    async.each(updatedPaths, folder.update, function (err) {
       done(err, callback);
     });
   });

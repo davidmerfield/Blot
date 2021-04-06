@@ -5,7 +5,7 @@ var debug = require("debug")("blot:blog:assets");
 
 var LARGEST_POSSIBLE_MAXAGE = 86400000;
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var paths,
     roots,
     candidates = [];
@@ -46,8 +46,8 @@ module.exports = function(req, res, next) {
     withoutTrailingSlash(decodeURIComponent(req.path)) + "/index.html",
   ];
 
-  roots.forEach(function(options) {
-    paths.forEach(function(path) {
+  roots.forEach(function (options) {
+    paths.forEach(function (path) {
       candidates.push({
         options: options,
         path: path,
@@ -55,8 +55,8 @@ module.exports = function(req, res, next) {
     });
   });
 
-  candidates = candidates.map(function(candidate) {
-    return function(next) {
+  candidates = candidates.map(function (candidate) {
+    return function (next) {
       debug("Attempting", candidate);
       var headers = {
         "Content-Type": getContentType(candidate.path),
@@ -68,7 +68,7 @@ module.exports = function(req, res, next) {
         headers: headers,
       };
 
-      if (!options.maxAge && (!req.query.cache && !req.query.extension)) {
+      if (!options.maxAge && !req.query.cache && !req.query.extension) {
         headers["Cache-Control"] = "no-cache";
       }
 
@@ -80,7 +80,7 @@ module.exports = function(req, res, next) {
     };
   });
 
-  async.tryEach(candidates, function(err) {
+  async.tryEach(candidates, function (err) {
     // Is this still neccessary?
     if (res.headersSent) return;
 

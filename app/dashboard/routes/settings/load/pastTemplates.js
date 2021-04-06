@@ -3,9 +3,9 @@ var previewHost = "https://preview-of";
 var config = require("config");
 var Template = require("template");
 
-module.exports = function(req, res, next) {
-  Template.getTemplateList("SITE", function(err, templates) {
-    templates = templates.filter(function(template) {
+module.exports = function (req, res, next) {
+  Template.getTemplateList("SITE", function (err, templates) {
+    templates = templates.filter(function (template) {
       return (
         !template.isMine && !template.isPublic && template.owner === "SITE"
       );
@@ -13,7 +13,7 @@ module.exports = function(req, res, next) {
 
     // Turn the dictionary of templates returned
     // from the DB into a list that Mustache can render
-    templates = arrayify(templates, function(template) {
+    templates = arrayify(templates, function (template) {
       template.nameLower = template.name.toLowerCase();
 
       template.editURL = "/template/" + template.slug;
@@ -30,7 +30,7 @@ module.exports = function(req, res, next) {
 
     // Sort templates alphabetically,
     // with my templates above site tmeplates
-    templates.sort(function(a, b) {
+    templates.sort(function (a, b) {
       var aName = a.name.trim().toLowerCase();
 
       var bName = b.name.trim().toLowerCase();

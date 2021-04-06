@@ -20,10 +20,10 @@ module.exports = function write(blogID, path, contents, callback) {
   if (blogDirectory.slice(-1) === "/")
     blogDirectory = blogDirectory.slice(0, -1);
 
-  checkGitRepoExists(blogDirectory, function(err) {
+  checkGitRepoExists(blogDirectory, function (err) {
     if (err) return callback(err);
 
-    fs.outputFile(localPath(blogID, path), contents, function(err) {
+    fs.outputFile(localPath(blogID, path), contents, function (err) {
       if (err) return callback(err);
 
       // Throws an error if directory does not exist
@@ -37,15 +37,15 @@ module.exports = function write(blogID, path, contents, callback) {
       if (path[0] === "/") path = path.slice(1);
 
       // Could we queue these commands for better performance?
-      git.add(path, function(err) {
+      git.add(path, function (err) {
         // simple-git returns errors as strings
         if (err) return callback(new Error(err));
 
-        git.commit("Updated " + path, function(err) {
+        git.commit("Updated " + path, function (err) {
           if (err) return callback(new Error(err));
 
           // We push changes made to the bare repository
-          git.push(function(err) {
+          git.push(function (err) {
             if (err) return callback(new Error(err));
 
             debug("Blog:", blogID, "Wrote", path);

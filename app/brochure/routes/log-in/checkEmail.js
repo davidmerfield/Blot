@@ -8,7 +8,7 @@ module.exports = function checkEmail(req, res, next) {
 
   res.locals.email = email;
 
-  User.getByEmail(email, function(err, user) {
+  User.getByEmail(email, function (err, user) {
     if (err) return next(err);
 
     // The supplied email address does not

@@ -11,15 +11,15 @@ var ensure = require("helper/ensure");
 module.exports = function getTemplateList(blogID, callback) {
   ensure(blogID, "string").and(callback, "function");
 
-  client.smembers(key.publicTemplates(), function(err, publicTemplates) {
-    client.smembers(key.blogTemplates(blogID), function(err, blogTemplates) {
+  client.smembers(key.publicTemplates(), function (err, publicTemplates) {
+    client.smembers(key.blogTemplates(blogID), function (err, blogTemplates) {
       var templateIDs = publicTemplates.concat(blogTemplates);
       var response = [];
 
       async.eachSeries(
         templateIDs,
-        function(id, next) {
-          getMetadata(id, function(err, info) {
+        function (id, next) {
+          getMetadata(id, function (err, info) {
             if (err) return next();
 
             if (info) response.push(info);
@@ -27,7 +27,7 @@ module.exports = function getTemplateList(blogID, callback) {
             next();
           });
         },
-        function() {
+        function () {
           callback(err, response);
         }
       );

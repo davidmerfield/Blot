@@ -19,10 +19,10 @@ module.exports = function remove(blogID, path, callback) {
   if (blogDirectory.slice(-1) === "/")
     blogDirectory = blogDirectory.slice(0, -1);
 
-  checkGitRepoExists(blogDirectory, function(err) {
+  checkGitRepoExists(blogDirectory, function (err) {
     if (err) return callback(err);
 
-    fs.remove(localPath(blogID, path), function(err) {
+    fs.remove(localPath(blogID, path), function (err) {
       if (err) return callback(err);
 
       // Throws an error if directory does not exist
@@ -36,7 +36,7 @@ module.exports = function remove(blogID, path, callback) {
       if (path[0] === "/") path = path.slice(1);
 
       // Could we queue these commands for better performance?
-      git.add(path, function(err) {
+      git.add(path, function (err) {
         // If this path was not tracked by git, no worries.
         // simple-git returns errors as strings, with a trailing
         // newline so we trim this and check against this template
@@ -52,11 +52,11 @@ module.exports = function remove(blogID, path, callback) {
         // simple-git returns errors as strings
         if (err) return callback(new Error(err));
 
-        git.commit("Removed " + path, function(err) {
+        git.commit("Removed " + path, function (err) {
           if (err) return callback(new Error(err));
 
           // We push changes made to the bare repository
-          git.push(function(err) {
+          git.push(function (err) {
             if (err) return callback(new Error(err));
 
             debug("Blog:", blogID, "Successfully removed", path);

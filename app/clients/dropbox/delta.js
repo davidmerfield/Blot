@@ -28,7 +28,7 @@ module.exports = function delta(token, folderID) {
         client.filesListFolder({
           path: folderID,
           include_deleted: true,
-          recursive: true
+          recursive: true,
         })
       );
     }
@@ -44,7 +44,7 @@ module.exports = function delta(token, folderID) {
     }
 
     Promise.all(requests)
-      .then(function(results) {
+      .then(function (results) {
         result = results[0];
 
         if (results[1]) {
@@ -57,20 +57,20 @@ module.exports = function delta(token, folderID) {
         // path of each change inside the blog folder.
         if (result.path_display) {
           result.entries = result.entries
-            .filter(function(entry) {
+            .filter(function (entry) {
               return (
                 entry.path_lower.indexOf(result.path_lower) === 0 &&
                 entry.path_lower !== result.path_lower
               );
             })
-            .map(function(entry) {
+            .map(function (entry) {
               entry.relative_path = entry.path_lower.slice(
                 result.path_lower.length
               );
               return entry;
             });
         } else {
-          result.entries = result.entries.map(function(entry) {
+          result.entries = result.entries.map(function (entry) {
             entry.relative_path = entry.path_lower;
             return entry;
           });
@@ -83,7 +83,7 @@ module.exports = function delta(token, folderID) {
       // to wait a certain number of seconds before retrying
       .catch(waitForErrorTimeout)
 
-      .catch(function(err) {
+      .catch(function (err) {
         var message, error;
 
         // Professional programmers wrote this SDK
@@ -99,7 +99,7 @@ module.exports = function delta(token, folderID) {
           return get(cursor, callback);
         }
 
-        console.log('DELTAERROR:', err);
+        console.log("DELTAERROR:", err);
 
         // Determine the error message to pass back
         // to sync. We might show this to the user.
