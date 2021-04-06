@@ -28,3 +28,9 @@ jobs:
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
+        with:
+          branch: format-code
+          delete-branch: true
+          title: Automated code formatting
+          body: Runs prettier on master branch. 
+"
