@@ -1,7 +1,6 @@
 name: Format code
 
 on:
-  pull_request:
   push:
     branches:
     - master
@@ -17,6 +16,9 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
+      # My fork of this action does not automatically
+      # commit the changes, meaning we can create a pull
+      # request with them as needed
       - name: Run code formatting tool
         uses: davidmerfield/prettier_action@3.4
         with:
@@ -32,4 +34,4 @@ jobs:
           branch: format-code
           delete-branch: true
           title: Automated code formatting
-          body: Runs prettier on master branch.
+          body: Result of running [prettier](https://prettier.io/) on master branch. Configure this in [`github/workflows/format-code.yml`](/davidmerfield/Blot/blob/master/.github/workflows/format-code.yml).
