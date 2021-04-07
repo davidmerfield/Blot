@@ -1,3 +1,7 @@
+Add support for .tiff images
+
+Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
+
 Fix bug with *my background.docx* and follow up with [Nick](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQMgkTZGxqVpVhJfFDZRmfsq)
 
 Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
