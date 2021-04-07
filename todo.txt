@@ -1,13 +1,27 @@
-Add action  to lint code with jshint and eslint
-  - any other static code analysis tools?
+Fix bug with *my background.docx* and follow up with [Nick](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQMgkTZGxqVpVhJfFDZRmfsq)
 
-Add sass option to raw CSS
+Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
+- Respond to Paul [about dev env](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBgbwmnZZKPbvxXzSjRvjr)
 
-Fix bug with close button on Magazine template and tell [Jens](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
+Respond to question on tocbot and follow up with [Sergey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGtgtTRtvlDgjFQqXzhhZgbb)
+
+Finish accounts for March
+
+---
 
 Write substack import script and follow up with [Lee](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPBhFTXCMGdqGRjcWBngvCP)
 
-Simplify local dev setup for David and write guide
+Write write.as import script and follow up with [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQLVmChKwVlgTFqxpTKqrbCQ)
+
+---
+
+Add action to lint code with jshint and eslint
+  - any other static code analysis tools?
+
+Use postcss to compile template CSS
+  - Use [color function](https://mono.software/2017/08/08/supercharge-your-colors/) to improve UX of borders/highlights
+
+Fix bug with close button on Magazine template and tell [Jens](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
 
 Template engine plan
 - create data/blogs/blogID/templates directory
