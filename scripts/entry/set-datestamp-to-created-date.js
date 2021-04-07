@@ -1,5 +1,4 @@
 var get = require("../get/entry");
-var sync = require("sync");
 var Entry = require("models/entry");
 
 if (!process.argv[2]) {
@@ -11,25 +10,17 @@ if (!process.argv[2]) {
 
 get(process.argv[2], function (err, user, blog, entry) {
   if (err) throw err;
-  sync(blog.id, function (err, folder, done) {
+
+  console.log(
+    "Changing entry dateStamp from",
+    entry.dateStamp,
+    "to",
+    entry.created
+  );
+
+  Entry.set(blog.id, entry.path, { dateStamp: entry.created }, function (err) {
     if (err) throw err;
-
-    console.log(
-      "Changing entry dateStamp from",
-      entry.dateStamp,
-      "to",
-      entry.created
-    );
-
-    Entry.set(blog.id, entry.path, { dateStamp: entry.created }, function (
-      err
-    ) {
-      if (err) throw err;
-      done(null, function (err) {
-        if (err) throw err;
-        console.log("Rebuilt:", process.argv[2]);
-        process.exit();
-      });
-    });
+    console.log("Rebuilt:", process.argv[2]);
+    process.exit();
   });
 });
