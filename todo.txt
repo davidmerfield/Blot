@@ -1,6 +1,3 @@
-Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
-- Respond to Paul [about dev env](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGhBgbwmnZZKPbvxXzSjRvjr)
-
 Respond to question on tocbot and follow up with [Sergey](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGtgtTRtvlDgjFQqXzhhZgbb)
 
 Finish accounts for March
@@ -8,6 +5,8 @@ Finish accounts for March
 Write substack import script and follow up with [Lee](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPBhFTXCMGdqGRjcWBngvCP)
 
 Write write.as import script and follow up with [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQLVmChKwVlgTFqxpTKqrbCQ)
+
+Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
 
 ---
 
@@ -192,7 +191,7 @@ Improvements to backup system
 - Test maintenance mode
 - Add script to roll back into hourly local db dumps and remote backups
 
-Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
+Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB) and [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQPwXwJrwgMzjfvDtcwFZzFC)
 
 Add status page information to news page:
 - customize the design of this page a little (could we self-host on a different service, e.g. linode, a page which makes an API call to updown?)
