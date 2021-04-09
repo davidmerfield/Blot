@@ -2,29 +2,39 @@ var slugify = require("./slugify");
 var join = require("path").join;
 var moment = require("moment");
 
-module.exports = function (title, page, draft, dateStamp, slug) {
-  var relative_path_without_extension;
-  var name;
-
-  slug = slugify(title || slug || dateStamp.toString() || "untitled");
-  name = name || slug;
-
-  name = name.split("/").join("-");
-
-  if (page) {
-    relative_path_without_extension = join("Pages", name);
-  } else if (draft) {
-    relative_path_without_extension = join("Drafts", name);
-  } else {
-    relative_path_without_extension = join(
-      moment(dateStamp).format("YYYY"),
-      moment(dateStamp).format("MM") +
-        "-" +
-        moment(dateStamp).format("DD") +
-        "-" +
-        name
+module.exports = function (output_directory) {
+  return function (entry, callback) {
+    var relative_path_without_extension;
+    var slug = slugify(
+      entry.slug ||
+        entry.title ||
+        (entry.dateStamp && entry.dateStamp.toString()) ||
+        "untitled"
     );
-  }
 
-  return relative_path_without_extension;
+    var name = slug || entry.name;
+
+    name = name.split("/").join("-");
+
+    if (entry.page) {
+      relative_path_without_extension = join("Pages", name);
+    } else if (entry.draft) {
+      relative_path_without_extension = join("Drafts", name);
+    } else if (entry.dateStamp) {
+      relative_path_without_extension = join(
+        moment(entry.dateStamp).format("YYYY"),
+        moment(entry.dateStamp).format("MM") +
+          "-" +
+          moment(entry.dateStamp).format("DD") +
+          "-" +
+          name
+      );
+    } else {
+      relative_path_without_extension = join("Undated", name);
+    }
+
+    entry.path = join(output_directory, relative_path_without_extension);
+
+    return callback(null, entry);
+  };
 };

@@ -1,5 +1,4 @@
 var fs = require("fs-extra");
-var join = require("path").join;
 var cheerio = require("cheerio");
 var helper = require("dashboard/routes/importer/helper");
 
@@ -10,7 +9,6 @@ var insert_metadata = helper.insert_metadata;
 var to_markdown = helper.to_markdown;
 var for_each = helper.for_each;
 
-var extract_author = require("./extract_author");
 var extract_tags = require("./extract_tags");
 var extract_summary = require("./extract_summary");
 var find_thumbnail = require("./find_thumbnail");
@@ -30,7 +28,7 @@ function main(output_directory, blog, callback) {
     function (post, next) {
       // console.log(post.title, post.url);
 
-      var created, updated, path_without_extension, author;
+      var created, updated;
       var dateStamp, tags, draft, page, metadata, summary;
       var $, content, title, html, url;
 
@@ -45,10 +43,6 @@ function main(output_directory, blog, callback) {
       draft = page = false;
       metadata = {};
       tags = extract_tags(html);
-      path_without_extension = join(
-        output_directory,
-        determine_path(title, page, draft, dateStamp)
-      );
 
       content = insert_video_embeds(content);
 
@@ -76,7 +70,6 @@ function main(output_directory, blog, callback) {
         name: "",
         permalink: "",
         summary: summary,
-        path: path_without_extension,
         html: content,
         title: title,
 
@@ -91,6 +84,8 @@ function main(output_directory, blog, callback) {
         // Then convert into Markdown!
         content: content,
       };
+
+      post = determine_path(post);
 
       download_images(post, function (err, post) {
         if (err) throw err;

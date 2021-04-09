@@ -1,5 +1,3 @@
-var join = require("path").join;
-
 var readability = require("node-readability");
 var moment = require("moment");
 var fs = require("fs-extra");
@@ -25,17 +23,13 @@ module.exports = function ($, output_directory, callback) {
     $,
     "item",
     function (el, next) {
-      var extract, created, updated, path_without_extension, content;
+      var extract, created, updated, content;
       var title, dateStamp, tags, draft, page, post;
 
       extract = Extract($, el);
       title = extract("title");
       tags = extract("category");
       created = updated = dateStamp = moment(extract("pubDate")).valueOf();
-      path_without_extension = join(
-        output_directory,
-        determine_path(title, page, draft, dateStamp)
-      );
 
       readability(extract("link"), function (err, article) {
         // third arg: meta
@@ -47,15 +41,14 @@ module.exports = function ($, output_directory, callback) {
         content = insert_video_embeds(content);
 
         post = {
-          draft: false,
-          page: false,
+          draft,
+          page,
 
           // We don't know any of these properties
           // as far as I can tell.
           name: "",
           permalink: "",
           summary: "",
-          path: path_without_extension,
 
           title: title,
 
@@ -70,6 +63,8 @@ module.exports = function ($, output_directory, callback) {
           // Then convert into Markdown!
           html: content,
         };
+
+        post = determine_path(post);
 
         download_images(post, function (err, post) {
           if (err) throw err;

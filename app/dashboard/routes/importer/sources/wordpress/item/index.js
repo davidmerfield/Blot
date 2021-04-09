@@ -16,8 +16,9 @@ module.exports = function (item, output_directory, callback) {
 
   async.waterfall(
     [
-      extract_entry(item, output_directory),
+      extract_entry(item),
       tidy,
+      helper.determine_path(output_directory),
       helper.download_pdfs,
       helper.download_images,
       convert_to_markdown,

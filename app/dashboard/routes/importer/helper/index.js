@@ -1,4 +1,5 @@
 module.exports = {
+  convert_to_markdown: require("./convert_to_markdown"),
   determine_path: require("./determine_path"),
   download_pdfs: require("./download_pdfs"),
   download_images: require("./download_images"),
@@ -9,6 +10,7 @@ module.exports = {
   insert_video_embeds: require("./insert_video_embeds"),
   output_file: require("./output_file"),
   prepare_directory: require("./prepare_directory"),
+  process: require("./process"),
   replace_embeds: require("./replace_embeds"),
   resolve_url: require("./resolve_url"),
   slugify: require("./slugify"),

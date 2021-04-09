@@ -1,5 +1,4 @@
 var fs = require("fs-extra");
-var join = require("path").join;
 var moment = require("moment");
 var helper = require("dashboard/routes/importer/helper");
 
@@ -70,11 +69,6 @@ module.exports = function ($, output_directory, callback) {
 
         html = extract_html(extract("content"), files);
 
-        path_without_extension = join(
-          output_directory,
-          determine_path(title, page, draft, dateStamp)
-        );
-
         replace_images(html, files, path_without_extension, function (
           err,
           html,
@@ -100,7 +94,6 @@ module.exports = function ($, output_directory, callback) {
             name: "",
             permalink: "",
             summary: "",
-            path: path,
 
             title: extract("title"),
 
@@ -115,6 +108,8 @@ module.exports = function ($, output_directory, callback) {
             // Then convert into Markdown!
             content: to_markdown(html),
           };
+
+          post = determine_path(post);
 
           post = insert_metadata(post);
 

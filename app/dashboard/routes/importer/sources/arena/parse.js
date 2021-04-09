@@ -40,10 +40,6 @@ function main(output_directory, posts, callback) {
       url = post.url;
       created = updated = dateStamp = new Date(post.created_at).valueOf();
       draft = page = false;
-      path_without_extension = join(
-        output_directory,
-        determine_path(title, page, draft, dateStamp)
-      );
 
       post = {
         draft: false,
@@ -70,6 +66,8 @@ function main(output_directory, posts, callback) {
         content: content,
       };
 
+      post = determine_path(post);
+
       download_images(post, function (err, post) {
         if (err) throw err;
 
@@ -78,7 +76,7 @@ function main(output_directory, posts, callback) {
 
         console.log(++done + "/" + posts.length, "...", post.path);
 
-        write(post, function (err) {
+        write(output_directory)(post, function (err) {
           if (err) return callback(err);
 
           next();

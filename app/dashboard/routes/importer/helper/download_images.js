@@ -4,6 +4,7 @@ var parse = require("url").parse;
 var download = require("download");
 var each_el = require("./each_el");
 var fs = require("fs-extra");
+var sharp = require("sharp");
 
 // Consider using this algorithm to determine best part of alt tag or caption to use
 // as the file's name:
@@ -52,15 +53,25 @@ module.exports = function download_images(post, callback) {
 
         download(src)
           .then(function (data) {
-            fs.outputFile(post.path + "/" + name, data, function (err) {
-              changes = true;
+            sharp(data).metadata(function (err, metadata) {
+              if (
+                metadata &&
+                metadata.format &&
+                name.toLowerCase().indexOf("." + metadata.format) === -1
+              ) {
+                name += "." + metadata.format;
+              }
 
-              $(el).attr("src", name);
+              fs.outputFile(post.path + "/" + name, data, function (err) {
+                changes = true;
 
-              if ($(el).parent().attr("href") === src)
-                $(el).parent().attr("href", name);
+                $(el).attr("src", name);
 
-              next();
+                if ($(el).parent().attr("href") === src)
+                  $(el).parent().attr("href", name);
+
+                next();
+              });
             });
           })
           .catch(function (err) {
@@ -69,16 +80,6 @@ module.exports = function download_images(post, callback) {
           });
       },
       function () {
-        // Download PDFS or download images might have already moved the output
-        // path for this file into its own folder, so check.
-        if (changes && post.path.slice(-"/post.txt".length) !== "/post.txt") {
-          post.path = post.path + "/post.txt";
-        }
-
-        if (!changes && post.path.slice(-".txt".length) !== ".txt") {
-          post.path = post.path + ".txt";
-        }
-
         post.html = $.html();
 
         callback(null, post);

@@ -5,14 +5,13 @@ var download_images = helper.download_images;
 var to_markdown = require("./to_markdown");
 var determine_path = helper.determine_path;
 var insert_metadata = helper.insert_metadata;
-var join = require("path").join;
 
 function main(blog, output_directory, callback) {
   for_each(
     blog.posts,
     function (post, next) {
       var created, updated, path_without_extension;
-      var dateStamp, tags, draft, page, path, metadata;
+      var dateStamp, tags, draft, page, metadata;
       var content, title, html, url;
 
       switch (post.type) {
@@ -77,10 +76,6 @@ function main(blog, output_directory, callback) {
       draft = page = false;
       metadata = {};
       tags = post.tags;
-      path_without_extension = join(
-        output_directory,
-        determine_path(title, page, draft, dateStamp)
-      );
 
       post = {
         draft: false,
@@ -106,6 +101,8 @@ function main(blog, output_directory, callback) {
         // Then convert into Markdown!
         html: content,
       };
+
+      post = determine_path(post);
 
       download_images(post, function (err, post) {
         if (err) throw err;
