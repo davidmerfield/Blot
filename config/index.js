@@ -69,7 +69,7 @@ module.exports = {
 
   cdn: {
     origin:
-      process.env.BLOT_ENVIRONMENT === "production"
+      process.env.NODE_ENV === "production"
         ? process.env.BLOT_PROTOCOL + "://blotcdn.com"
         : "https://" + process.env.BLOT_HOST + "/cdn",
   },
