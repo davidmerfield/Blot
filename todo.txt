@@ -1,7 +1,5 @@
 Finish NGINX tweaks
 
-Check in on log rotation
-
 Fix calculation of requests served (based on logfile rotation)
 
 ---
