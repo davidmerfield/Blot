@@ -1,7 +1,3 @@
-Write write.as import script and follow up with [Michael](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQLVmChKwVlgTFqxpTKqrbCQ)
-
----
-
 Finish NGINX tweaks
 
 Check in on log rotation
