@@ -4,6 +4,6 @@ module.exports = {
   category: "external",
   options: {
     provider: { None: "selected" },
-    trackingID: ""
-  }
+    trackingID: "",
+  },
 };

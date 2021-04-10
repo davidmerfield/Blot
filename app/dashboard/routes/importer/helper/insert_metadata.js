@@ -1,5 +1,5 @@
-var moment = require("moment");
-var helper = require("helper");
+var capitalize = require("helper/capitalize");
+const moment = require("moment");
 
 module.exports = function insert_metadata(post, callback) {
   var lines = [];
@@ -7,7 +7,8 @@ module.exports = function insert_metadata(post, callback) {
 
   // Since we encode the post's date in the file's path, no need to do datestamp here?
   // MMMM Do, YYYY hh:mm
-  // if (post.dateStamp) lines.push('Date: ' + moment(post.dateStamp).format('YYYY-MM-DD'));
+  if (post.dateStamp)
+    lines.push("Date: " + moment(post.dateStamp).format("YYYY-MM-DD"));
 
   if (post.tags && post.tags.length)
     lines.push("Tags: " + post.tags.join(", "));
@@ -18,7 +19,7 @@ module.exports = function insert_metadata(post, callback) {
 
   if (post.metadata)
     for (var key in post.metadata)
-      lines.push(helper.capitalize(key) + ": " + post.metadata[key]);
+      lines.push(capitalize(key) + ": " + post.metadata[key]);
 
   if (post.title) {
     lines.push(""); // leave a blank line between metadata and title

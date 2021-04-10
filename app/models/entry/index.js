@@ -5,5 +5,5 @@ module.exports = {
   instance: require("./instance"),
   key: require("./key"),
   model: require("./model"),
-  set: require("./set")
+  set: require("./set"),
 };

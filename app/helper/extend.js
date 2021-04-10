@@ -9,7 +9,7 @@ function extend(a) {
       softMerge(a, b);
 
       return extend(a);
-    }
+    },
   };
 }
 
@@ -38,8 +38,8 @@ function softMerge(a, b) {
       count: {
         shit: "piss",
         fuck: "that",
-        hey: { there: { delilah: { woooooo: 1 } } }
-      }
+        hey: { there: { delilah: { woooooo: 1 } } },
+      },
     },
     b1 = {
       name: "Shit",
@@ -49,8 +49,8 @@ function softMerge(a, b) {
         fuck: "FDHJFGDHJGFJHDF",
         then: "who",
         man: { who: "fuck" },
-        hey: { there: { delilah: { SNOOOOO: "abc" } } }
-      }
+        hey: { there: { delilah: { SNOOOOO: "abc" } } },
+      },
     },
     r1 = {
       name: "Foo",
@@ -61,8 +61,8 @@ function softMerge(a, b) {
         fuck: "that",
         then: "who",
         man: { who: "fuck" },
-        hey: { there: { delilah: { woooooo: 1, SNOOOOO: "abc" } } }
-      }
+        hey: { there: { delilah: { woooooo: 1, SNOOOOO: "abc" } } },
+      },
     };
 
   softMerge(a1, b1);
@@ -75,7 +75,7 @@ function softMerge(a, b) {
     description:
       "The default template. Designed to work well with text, image and video posts. Set in Georgia & Helvetica.",
     thumb:
-      "https://d1u95qvrdsh2gl.cloudfront.net/avatars/1425441405690_u054WwMUSeU8f9PmbymEhtDQ.png"
+      "https://d1u95qvrdsh2gl.cloudfront.net/avatars/1425441405690_u054WwMUSeU8f9PmbymEhtDQ.png",
   };
 
   var b2 = {
@@ -84,8 +84,8 @@ function softMerge(a, b) {
       archives: { url: "/archives", locals: [Object] },
       sitemap: { url: "/sitemap.xml" },
       feed: { url: "/feed.rss", type: "application/xml" },
-      robots: { url: "/robots.txt" }
-    }
+      robots: { url: "/robots.txt" },
+    },
   };
 
   var r2 = {
@@ -99,8 +99,8 @@ function softMerge(a, b) {
       archives: { url: "/archives", locals: [Object] },
       sitemap: { url: "/sitemap.xml" },
       feed: { url: "/feed.rss", type: "application/xml" },
-      robots: { url: "/robots.txt" }
-    }
+      robots: { url: "/robots.txt" },
+    },
   };
 
   extend(a2).and(b2);

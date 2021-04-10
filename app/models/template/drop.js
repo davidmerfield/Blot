@@ -1,5 +1,5 @@
 var getAllViews = require("./getAllViews");
-var ensure = require("helper").ensure;
+var ensure = require("helper/ensure");
 var client = require("client");
 var key = require("./key");
 var makeID = require("./util/makeID");
@@ -8,17 +8,15 @@ var Blog = require("blog");
 module.exports = function drop(owner, templateName, callback) {
   var templateID = makeID(owner, templateName);
 
-  ensure(owner, "string")
-    .and(templateID, "string")
-    .and(callback, "function");
+  ensure(owner, "string").and(templateID, "string").and(callback, "function");
 
-  getAllViews(templateID, function(err, views, metadata) {
+  getAllViews(templateID, function (err, views, metadata) {
     if (err) return callback(err);
 
-    client.srem(key.blogTemplates(owner), templateID, function(err) {
+    client.srem(key.blogTemplates(owner), templateID, function (err) {
       if (err) return callback(err);
 
-      client.srem(key.publicTemplates(), templateID, function(err) {
+      client.srem(key.publicTemplates(), templateID, function (err) {
         if (err) return callback(err);
 
         client.del(key.metadata(templateID));
@@ -33,7 +31,7 @@ module.exports = function drop(owner, templateName, callback) {
           client.del(key.view(templateID, views[i].name));
         }
 
-        Blog.set(metadata.owner, { cacheID: Date.now() }, function(err) {
+        Blog.set(metadata.owner, { cacheID: Date.now() }, function (err) {
           callback(err, "Deleted " + templateID);
         });
       });

@@ -1,29 +1,28 @@
 var Blog = require("blog");
 var fs = require("fs-extra");
-var helper = require("helper");
-var BLOGS_DIRECTORY = helper.rootDir + "/blogs";
-var tmp = helper.tempDir();
+var BLOGS_DIRECTORY = require("helper/rootDir") + "/blogs";
+var tmp = require("helper/tempDir")();
 var async = require("async");
 var yesno = require("yesno");
 var colors = require("colors/safe");
 
 if (require.main === module)
-  main(function(err) {
+  main(function (err) {
     if (err) throw err;
     process.exit();
   });
 
 function main(callback) {
-  Blog.getAllIDs(function(err, ids) {
+  Blog.getAllIDs(function (err, ids) {
     if (err) return callback(err);
-    fs.readdir(BLOGS_DIRECTORY, function(err, items) {
+    fs.readdir(BLOGS_DIRECTORY, function (err, items) {
       if (err) return callback(err);
 
-      var missingFolders = ids.filter(function(id) {
+      var missingFolders = ids.filter(function (id) {
         return items.indexOf(id) === -1;
       });
 
-      var strayFolders = items.filter(function(item) {
+      var strayFolders = items.filter(function (item) {
         return ids.indexOf(item) === -1;
       });
 
@@ -31,7 +30,7 @@ function main(callback) {
       console.log("Stray items:", strayFolders.length);
       async.eachSeries(
         strayFolders,
-        function(strayFolderName, next) {
+        function (strayFolderName, next) {
           var from = BLOGS_DIRECTORY + "/" + strayFolderName;
           var to = tmp + strayFolderName;
           yesno.ask(
@@ -40,7 +39,7 @@ function main(callback) {
               "?" +
               colors.dim("\nFrom: " + from + "\n. To: " + to),
             true,
-            function(ok) {
+            function (ok) {
               if (!ok) return next();
               fs.move(from, to, next);
             }

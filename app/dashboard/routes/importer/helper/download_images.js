@@ -4,6 +4,7 @@ var parse = require("url").parse;
 var download = require("download");
 var each_el = require("./each_el");
 var fs = require("fs-extra");
+var sharp = require("sharp");
 
 // Consider using this algorithm to determine best part of alt tag or caption to use
 // as the file's name:
@@ -19,8 +20,8 @@ function download_thumbnail(post, path, callback) {
   var name = nameFrom(thumbnail);
 
   download(thumbnail)
-    .then(function(data) {
-      fs.outputFile(path + "/" + name, data, function(err) {
+    .then(function (data) {
+      fs.outputFile(path + "/" + name, data, function (err) {
         callback(err, name);
       });
     })
@@ -31,7 +32,7 @@ module.exports = function download_images(post, callback) {
   var changes = false;
   var $ = cheerio.load(post.html, { decodeEntities: false });
 
-  download_thumbnail(post, post.path, function(err, thumbnail) {
+  download_thumbnail(post, post.path, function (err, thumbnail) {
     if (!err && thumbnail) {
       changes = true;
       post.metadata.thumbnail = thumbnail;
@@ -40,7 +41,7 @@ module.exports = function download_images(post, callback) {
     each_el(
       $,
       "img",
-      function(el, next) {
+      function (el, next) {
         var src = $(el).attr("src");
 
         if (!src || src.indexOf("data:") === 0) return next();
@@ -51,40 +52,34 @@ module.exports = function download_images(post, callback) {
         if (!require("url").parse(src).hostname) return next();
 
         download(src)
-          .then(function(data) {
-            fs.outputFile(post.path + "/" + name, data, function(err) {
-              changes = true;
-
-              $(el).attr("src", name);
-
+          .then(function (data) {
+            sharp(data).metadata(function (err, metadata) {
               if (
-                $(el)
-                  .parent()
-                  .attr("href") === src
-              )
-                $(el)
-                  .parent()
-                  .attr("href", name);
+                metadata &&
+                metadata.format &&
+                name.toLowerCase().indexOf("." + metadata.format) === -1
+              ) {
+                name += "." + metadata.format;
+              }
 
-              next();
+              fs.outputFile(post.path + "/" + name, data, function (err) {
+                changes = true;
+
+                $(el).attr("src", name);
+
+                if ($(el).parent().attr("href") === src)
+                  $(el).parent().attr("href", name);
+
+                next();
+              });
             });
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log("Image error:", src, err.name, err.statusCode);
             return next();
           });
       },
-      function() {
-        // Download PDFS or download images might have already moved the output
-        // path for this file into its own folder, so check.
-        if (changes && post.path.slice(-"/post.txt".length) !== "/post.txt") {
-          post.path = post.path + "/post.txt";
-        }
-
-        if (!changes && post.path.slice(-".txt".length) !== ".txt") {
-          post.path = post.path + ".txt";
-        }
-
+      function () {
         post.html = $.html();
 
         callback(null, post);

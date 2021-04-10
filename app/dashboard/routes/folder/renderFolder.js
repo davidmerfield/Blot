@@ -4,16 +4,16 @@ var join = require("path").join;
 var async = require("async");
 var blog_folder_dir = require("config").blog_folder_dir;
 var stat = require("./stat");
-var alphanum = require("helper").alphanum;
+var alphanum = require("helper/alphanum");
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var dir = req.dir;
   var localPath = join(blog_folder_dir, req.blog.id, dir);
   var files = [];
   var folders = [];
 
   function load(path, callback) {
-    stat(req.blog, path, function(err, stat) {
+    stat(req.blog, path, function (err, stat) {
       if (err) {
         return callback();
       }
@@ -34,7 +34,7 @@ module.exports = function(req, res, next) {
     }
 
     if (err && err.code === "ENOENT" && dir === "/") {
-      return fs.ensureDir(join(blog_folder_dir, req.blog.id), function(err) {
+      return fs.ensureDir(join(blog_folder_dir, req.blog.id), function (err) {
         if (err) return next(err);
         fs.readdir(localPath, render);
       });
@@ -56,7 +56,7 @@ module.exports = function(req, res, next) {
       return next(err);
     }
 
-    contents = contents.filter(function(name) {
+    contents = contents.filter(function (name) {
       // hide dotfiles
       return (
         name[0] !== "." &&
@@ -65,13 +65,13 @@ module.exports = function(req, res, next) {
       );
     });
 
-    contents = contents.map(function(name) {
+    contents = contents.map(function (name) {
       return join(dir, name);
     });
 
     if (contents.length) contents[contents.length - 1].last = true;
 
-    async.eachLimit(contents, 10, load, function() {
+    async.eachLimit(contents, 10, load, function () {
       folders = alphanum(folders, { property: "name" });
       files = alphanum(files, { property: "name" });
 

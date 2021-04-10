@@ -8,26 +8,27 @@ var domain = process.argv[2];
 var output = __dirname + "/data";
 async.eachSeries(
   entries,
-  function(entry, next) {
+  function (entry, next) {
     var $ = cheerio.load(entry.html);
     var urls = [];
     var outputFolder = output + "/" + entry.title;
-    $("[src]").each(function() {
+    $("[src]").each(function () {
       var url = $(this).attr("src");
       if (url[0] === "/") url = domain + url;
       urls.push({
         url: url,
         node: this,
-        name: "_" + require("path").basename(require("url").parse(url).pathname)
+        name:
+          "_" + require("path").basename(require("url").parse(url).pathname),
       });
     });
     async.eachSeries(
       urls,
-      function(item, next) {
+      function (item, next) {
         var path = outputFolder + "/" + item.name;
         fs.ensureFileSync(path);
         fs.removeSync(path);
-        download(item.url, path, function(err) {
+        download(item.url, path, function (err) {
           if (err) {
             console.log("Error downloading", item.url, err);
             return next();
@@ -36,7 +37,7 @@ async.eachSeries(
           next();
         });
       },
-      function(err) {
+      function (err) {
         if (err) return next(err);
         entry.html = $.html();
         entry.content = turndown.turndown(entry.html).trim();
@@ -53,7 +54,7 @@ async.eachSeries(
       }
     );
   },
-  function(err) {
+  function (err) {
     if (err) throw err;
     console.log("Done!");
     process.exit();

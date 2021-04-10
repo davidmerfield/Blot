@@ -1,7 +1,7 @@
 var Blog = require("blog");
 var config = require("config");
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var identifier, handle, redirect, previewTemplate, err;
   var host = req.get("host");
 
@@ -34,7 +34,7 @@ module.exports = function(req, res, next) {
     identifier = { domain: host };
   }
 
-  Blog.get(identifier, function(err, blog) {
+  Blog.get(identifier, function (err, blog) {
     if (err) return next(err);
 
     if (!blog || blog.isDisabled || blog.isUnpaid) {
@@ -83,9 +83,8 @@ module.exports = function(req, res, next) {
     // If the request came from a preview domain
     // e.g preview.original.david.blot.im
     if (previewTemplate) {
-
       // Necessary to allow the template editor to embed the page
-      res.removeHeader('X-Frame-Options');
+      res.removeHeader("X-Frame-Options");
 
       req.preview = true;
       res.set("Cache-Control", "no-cache");
@@ -163,10 +162,7 @@ function extractPreviewTemplate(host, blogID) {
         .split("-on-")
         .shift();
     } else {
-      templateName = handle
-        .slice("preview-of-".length)
-        .split("-on-")
-        .shift();
+      templateName = handle.slice("preview-of-".length).split("-on-").shift();
       owner = "SITE";
     }
 

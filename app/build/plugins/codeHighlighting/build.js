@@ -9,12 +9,10 @@ function css() {
   }
 
   function closeCSS(id) {
-    return openCSS(id)
-      .split("{{#")
-      .join("{{/");
+    return openCSS(id).split("{{#").join("{{/");
   }
 
-  themes.forEach(function(file) {
+  themes.forEach(function (file) {
     if (file.indexOf(".") === 0) return;
 
     var id = file.slice(0, file.lastIndexOf("."));
@@ -44,16 +42,12 @@ function html() {
     );
   }
 
-  themes.forEach(function(file) {
+  themes.forEach(function (file) {
     if (file.indexOf(".") === 0) return;
 
     var id = file.slice(0, file.lastIndexOf("."));
 
-    var name = id
-      .split("_")
-      .join(" ")
-      .split("-")
-      .join(" ");
+    var name = id.split("_").join(" ").split("-").join(" ");
 
     name = name.slice(0, 1).toUpperCase() + name.slice(1);
 

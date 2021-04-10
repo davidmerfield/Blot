@@ -154,12 +154,25 @@ function tests() {
 
   var model = {
     a: [{ b: "string", c: "number" }],
-    d: { g: { h: { i: [{ j: "string", k: "number" }] } } }
+    d: { g: { h: { i: [{ j: "string", k: "number" }] } } },
   };
 
   var test = {
-    a: [{ b: "x", c: 1 }, { b: "y", c: 2 }, { b: "z", c: 3 }],
-    d: { g: { h: { i: [{ j: "", k: 0 }, { j: "", k: 2 }] } } }
+    a: [
+      { b: "x", c: 1 },
+      { b: "y", c: 2 },
+      { b: "z", c: 3 },
+    ],
+    d: {
+      g: {
+        h: {
+          i: [
+            { j: "", k: 0 },
+            { j: "", k: 2 },
+          ],
+        },
+      },
+    },
   };
 
   assert(ensure(test, model));
@@ -168,7 +181,7 @@ function tests() {
 
   var test2 = { a: { b: { c: 1 } } };
 
-  assert.throws(function() {
+  assert.throws(function () {
     ensure(test2, model2);
   }, Error);
 
@@ -178,13 +191,21 @@ function tests() {
     a: [
       {
         b: 1,
-        d: [{ e: "1", f: 2 }, { e: "2", f: 3 }, { e: "3", f: 4 }]
+        d: [
+          { e: "1", f: 2 },
+          { e: "2", f: 3 },
+          { e: "3", f: 4 },
+        ],
       },
       {
         b: 2,
-        d: [{ e: "3", f: 5 }, { e: "4", f: 6 }, { e: "5", f: 7 }]
-      }
-    ]
+        d: [
+          { e: "3", f: 5 },
+          { e: "4", f: 6 },
+          { e: "5", f: 7 },
+        ],
+      },
+    ],
   };
 
   assert(ensure(test3, model3));
@@ -193,7 +214,7 @@ function tests() {
 
   var test4 = { a: "defghi", b: 12345555, c: "       " };
 
-  assert.throws(function() {
+  assert.throws(function () {
     ensure(test4, model4);
   }, Error);
 }

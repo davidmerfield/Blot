@@ -1,7 +1,6 @@
-var helper = require("helper");
-var type = helper.type;
+var type = require("helper/type");
 
-module.exports = function(err, req, res, next) {
+module.exports = function (err, req, res, next) {
   if (!req.body) {
     return next(err);
   }

@@ -1,10 +1,9 @@
-var helper = require("helper");
-var ensure = helper.ensure;
-var doEach = helper.doEach;
+var async = require("async");
+var ensure = require("helper/ensure");
 var model = require("./model");
 var redis = require("client");
 
-var guid = helper.guid;
+var guid = require("helper/guid");
 
 var get = require("./get");
 var key = require("./key");
@@ -106,14 +105,7 @@ module.exports = function set(blogID, path, updates, callback) {
 
         if (entry.draft) queue.push(notifyDrafts.bind(this, blogID, entry));
 
-        doEach(queue, function () {
-          // if (entry.deleted) {
-          //   console.log(clfdate(), blogID, path, "deleted");
-          // } else {
-          //   console.log(clfdate(), blogID, path, "updated");
-          // }
-          callback(null);
-        });
+        async.parallel(queue, callback);
       });
     });
   });

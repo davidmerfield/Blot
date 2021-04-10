@@ -1,8 +1,7 @@
 var client = require("client");
 var key = require("./key");
 var _ = require("lodash");
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 var normalize = require("./normalize");
 var model = require("../entry/model");
 
@@ -24,15 +23,13 @@ var model = require("../entry/model");
 // SMEMBERS the normalized tag
 // lookup original tag against normalized tag
 
-module.exports = function(blogID, entry, callback) {
-  ensure(blogID, "string")
-    .and(entry, model)
-    .and(callback, "function");
+module.exports = function (blogID, entry, callback) {
+  ensure(blogID, "string").and(entry, model).and(callback, "function");
 
   // Clone the list of tags
   var prettyTags = entry.tags.slice();
 
-  prettyTags = prettyTags.filter(function(tag) {
+  prettyTags = prettyTags.filter(function (tag) {
     return tag && tag.trim && tag.trim().length;
   });
 
@@ -51,7 +48,7 @@ module.exports = function(blogID, entry, callback) {
 
   // First we retrieve a list of all the tags used
   // across the user's blog
-  client.SMEMBERS(existingKey, function(err, existing) {
+  client.SMEMBERS(existingKey, function (err, existing) {
     if (err) throw err;
 
     // Then we compute a list of tags which the entry
@@ -63,7 +60,7 @@ module.exports = function(blogID, entry, callback) {
 
     var multi = client.multi();
 
-    tags.forEach(function(tag, i) {
+    tags.forEach(function (tag, i) {
       names.push(key.name(blogID, tag));
       names.push(prettyTags[i]);
     });
@@ -72,7 +69,7 @@ module.exports = function(blogID, entry, callback) {
     // entry is NOT on, make sure that is so. This is
     // neccessary when the user updates an entry and
     // removes a previously existing tag
-    removed.forEach(function(tag) {
+    removed.forEach(function (tag) {
       multi.srem(key.tag(blogID, tag), entry.id);
       multi.srem(existingKey, tag);
     });
@@ -80,7 +77,7 @@ module.exports = function(blogID, entry, callback) {
     // For each of the entry's current tags
     // store the entry's id against the tag's key
     // Redis will autocreate a key of the right type
-    added.forEach(function(tag) {
+    added.forEach(function (tag) {
       multi.sadd(key.tag(blogID, tag), entry.id);
     });
 
@@ -92,7 +89,7 @@ module.exports = function(blogID, entry, callback) {
       multi.sadd(existingKey, tags);
     }
 
-    multi.exec(function(err) {
+    multi.exec(function (err) {
       if (err) throw err;
 
       callback();
@@ -107,7 +104,7 @@ function shouldHide(entry) {
     entry.deleted ||
     entry.draft ||
     entry.scheduled ||
-    entry.path.split("/").filter(function(i) {
+    entry.path.split("/").filter(function (i) {
       return i[0] === "_";
     }).length
   );

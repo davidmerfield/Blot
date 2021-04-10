@@ -1,4 +1,4 @@
-describe("transformer ", function() {
+describe("transformer ", function () {
   // Creates test environment
   require("./setup")({});
 
@@ -6,17 +6,17 @@ describe("transformer ", function() {
   var fs = require("fs-extra");
   var async = require("async");
 
-  it("resolves case insensitive paths to a file", function(done) {
+  it("resolves case insensitive paths to a file", function (done) {
     var cwd = this.blogDirectory;
 
     async.timesSeries(
       100,
-      function(i, next) {
+      function (i, next) {
         var truePath = global.test.fake.path(Date.now().toString() + ".txt");
         var randomizedPath = addSlashes(randomizeCase(truePath));
         fs.outputFileSync(cwd + truePath, "");
 
-        resolveCaseInsensitivePathToFile(cwd, randomizedPath, function(
+        resolveCaseInsensitivePathToFile(cwd, randomizedPath, function (
           err,
           resolvedPath
         ) {
@@ -35,7 +35,7 @@ describe("transformer ", function() {
 function addSlashes(path) {
   path = path
     .split("/")
-    .map(function(str) {
+    .map(function (str) {
       if (coinFlip()) str = str + "/";
 
       if (coinFlip()) str = "/" + str;
@@ -53,7 +53,7 @@ function coinFlip() {
 function randomizeCase(str) {
   return str
     .split("/")
-    .map(function(s) {
+    .map(function (s) {
       for (var i = 0; i < s.length; i++) {
         if (Math.random() > 0.5) {
           s = s.split(s[i]).join(s[i].toLowerCase());

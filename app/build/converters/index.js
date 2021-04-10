@@ -4,5 +4,5 @@ module.exports = [
   require("./img"),
   require("./markdown"),
   require("./odt"),
-  require("./webloc")
+  require("./webloc"),
 ];

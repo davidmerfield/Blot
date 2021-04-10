@@ -6,7 +6,7 @@ var goodURLs = [
   "http://twitter.com/davidmerfieId/status/500323409218117633",
   "https://twitter.com/davidmerfieId/status/500323409218117633/",
   "https://twitter.com/davidmerfieId/status/500323409218117633?foo=bar",
-  "https://twitter.com/davidmerfieId/STATUS/500323409218117633?foo=bar"
+  "https://twitter.com/davidmerfieId/STATUS/500323409218117633?foo=bar",
 ];
 
 var badURLs = [
@@ -16,20 +16,20 @@ var badURLs = [
   "https://twitter.com/davidmerfieId/status",
   "https://twitter.com/davidmerfieId/ST/500323409218117633",
   "",
-  "ABC"
+  "ABC",
 ];
 
 for (var i in goodURLs) goodURLs[i] = linkify(goodURLs[i]);
 for (var j in badURLs) badURLs[j] = linkify(badURLs[j]);
 
-goodURLs.forEach(function(html) {
-  plugins(html, ["twitter"], function(newHTML) {
+goodURLs.forEach(function (html) {
+  plugins(html, ["twitter"], function (newHTML) {
     assert(newHTML !== html);
   });
 });
 
-badURLs.forEach(function(html) {
-  plugins(html, ["twitter"], function(newHTML) {
+badURLs.forEach(function (html) {
+  plugins(html, ["twitter"], function (newHTML) {
     assert(newHTML === html);
   });
 });

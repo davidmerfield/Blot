@@ -1,11 +1,11 @@
 var Mustache = require("mustache");
 var _ = require("lodash");
 var pluginList = require("build/plugins").list;
-var helper = require("helper");
-var capitalize = helper.capitalize;
-var deCamelize = helper.deCamelize;
+var arrayify = require("helper/arrayify");
+var capitalize = require("helper/capitalize");
+var deCamelize = require("helper/deCamelize");
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var blog = req.blog;
 
   var plugins = _.cloneDeep(pluginList);
@@ -36,15 +36,12 @@ module.exports = function(req, res, next) {
   var categories = {};
 
   var change = {
-    External: "Services"
+    External: "Services",
   };
 
-  plugins = helper.arrayify(plugins, function(plugin) {
+  plugins = arrayify(plugins, function (plugin) {
     var name = capitalize(deCamelize(plugin.category || "general"));
-    var slug = name
-      .split(" ")
-      .join("-")
-      .toLowerCase();
+    var slug = name.split(" ").join("-").toLowerCase();
 
     if (change[name]) name = change[name];
 
@@ -52,7 +49,7 @@ module.exports = function(req, res, next) {
       name: name,
       plugins: [],
       slug: slug,
-      url: "/plugins/" + slug
+      url: "/plugins/" + slug,
     };
 
     if (categories[name].plugins.length % 3 === 0) {
@@ -62,7 +59,7 @@ module.exports = function(req, res, next) {
     categories[name].plugins.push(plugin);
   });
 
-  // categories = helper.arrayify(categories);
+  // categories = arrayify(categories);
 
   // var _categories = categories.slice();
   //     categories = [];

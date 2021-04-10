@@ -1,5 +1,4 @@
 var fs = require("fs-extra");
-var join = require("path").join;
 var moment = require("moment");
 var helper = require("dashboard/routes/importer/helper");
 
@@ -13,11 +12,11 @@ var determine_path = helper.determine_path;
 var insert_metadata = helper.insert_metadata;
 var to_markdown = helper.to_markdown;
 
-module.exports = function(blog, output_directory, callback) {
+module.exports = function (blog, output_directory, callback) {
   forEach(
     blog.posts,
-    function(post, next) {
-      var created, updated, metadata, path;
+    function (post, next) {
+      var created, updated, metadata;
       var title, dateStamp, tags, draft, page, html;
 
       title = post.title;
@@ -50,10 +49,6 @@ module.exports = function(blog, output_directory, callback) {
       }
 
       html = resolve_url("http://www.kingigilbert.com/", html);
-      path = join(
-        output_directory,
-        determine_path(title, page, draft, dateStamp)
-      );
 
       // Add the new post to the list of posts!
       post = {
@@ -65,7 +60,6 @@ module.exports = function(blog, output_directory, callback) {
         name: "",
         permalink: "",
         summary: "",
-        path: path,
 
         title: title,
 
@@ -74,10 +68,12 @@ module.exports = function(blog, output_directory, callback) {
         updated: updated,
         tags: tags,
         metadata: metadata,
-        html: html
+        html: html,
       };
 
-      download_images(post, function(err, post) {
+      post = determine_path(post);
+
+      download_images(post, function (err, post) {
         if (err) return callback(err);
 
         // Clean up the contents of the <content>;
@@ -87,7 +83,7 @@ module.exports = function(blog, output_directory, callback) {
 
         post = insert_metadata(post);
 
-        fs.outputFile(post.path, post.content, function(err) {
+        fs.outputFile(post.path, post.content, function (err) {
           if (err) return callback(err);
 
           next();

@@ -2,7 +2,7 @@ const async = require("async");
 const fs = require("fs-extra");
 const config = require("config");
 const cluster = require("cluster");
-const clfdate = require("helper").clfdate;
+const clfdate = require("helper/clfdate");
 
 if (cluster.isMaster) {
   const NUMBER_OF_CORES = require("os").cpus().length;

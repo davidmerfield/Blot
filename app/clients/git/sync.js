@@ -115,7 +115,7 @@ module.exports = function sync(blogID, callback) {
                   folder.log(`Found ${modified.length} changes to git repo`);
 
                   modified.forEach(function (path) {
-                    folder.log('/' + path, "changed");
+                    folder.log("/" + path, "changed");
                   });
 
                   // Tell Blot something has changed at these paths!

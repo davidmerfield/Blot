@@ -8,10 +8,10 @@ var tags = buildTags("{}", {
   "|<": "right margin",
   "||": "two column",
   "|||": "three column",
-  "||||": "four column"
+  "||||": "four column",
 });
 
-var start = function(tag) {
+var start = function (tag) {
   return '<div class="' + tags[tag] + '">\n';
 };
 
@@ -88,11 +88,7 @@ function layout(text) {
 }
 
 function escape(str) {
-  return str
-    .split("<")
-    .join("&lt;")
-    .split(">")
-    .join("&gt;");
+  return str.split("<").join("&lt;").split(">").join("&gt;");
 }
 
 function hasTag(line) {

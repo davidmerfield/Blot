@@ -21,10 +21,10 @@ function main(source_url, callback) {
 
   source_url = tidy_source_url(source_url);
 
-  get_info(source_url, function(err, info) {
+  get_info(source_url, function (err, info) {
     if (err) return callback(err);
 
-    get_posts(source_url, info.total_posts, function(err, posts) {
+    get_posts(source_url, info.total_posts, function (err, posts) {
       if (err) return callback(err);
 
       blog.title = info.title;
@@ -47,17 +47,17 @@ function get_posts(source_url, total_posts, callback) {
         offset: offset,
         limit: 20,
         API_KEY: API_KEY,
-        resource: "posts"
+        resource: "posts",
       }).s
     );
   }
 
   for_each(
     urls,
-    function(url, next) {
+    function (url, next) {
       console.log(posts.length);
 
-      request(url, function(err, res, body) {
+      request(url, function (err, res, body) {
         if (err) return callback(err);
 
         body = JSON.parse(body);
@@ -68,7 +68,7 @@ function get_posts(source_url, total_posts, callback) {
         next();
       });
     },
-    function() {
+    function () {
       console.log("Done!");
       callback(null, posts);
     }
@@ -79,10 +79,10 @@ function get_info(source_url, callback) {
   var url = string(URL_TEMPLATE).template({
     url: source_url,
     API_KEY: API_KEY,
-    resource: "info"
+    resource: "info",
   }).s;
 
-  request(url, function(err, res, body) {
+  request(url, function (err, res, body) {
     if (err) return callback(err);
 
     body = JSON.parse(body);
@@ -100,10 +100,10 @@ if (require.main === module) {
   if (!output_file)
     throw new Error("Please pass filename to write blog to as second argument");
 
-  main(source_url, function(err, blog) {
+  main(source_url, function (err, blog) {
     if (err) throw err;
 
-    fs.outputJson(output_file, blog, { spaces: 2 }, function(err) {
+    fs.outputJson(output_file, blog, { spaces: 2 }, function (err) {
       if (err) throw err;
 
       process.exit();

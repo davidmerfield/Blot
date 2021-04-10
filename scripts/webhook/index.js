@@ -30,18 +30,18 @@ if (options.c) {
   var interval = parseFloat(options.c) || 5;
 
   console.log("Calling webhook every " + interval + " seconds...");
-  webhook(function(err) {
+  webhook(function (err) {
     if (err) throw err;
   });
-  setInterval(function() {
-    webhook(function(err) {
+  setInterval(function () {
+    webhook(function (err) {
       if (err) throw err;
     });
   }, interval * 1000);
 } else if (options.s) {
   swarm();
 } else {
-  webhook(function(err) {
+  webhook(function (err) {
     if (err) throw err;
     process.exit();
   });
@@ -49,7 +49,7 @@ if (options.c) {
 
 function webhook(callback) {
   console.log("Calling webhook...");
-  exec(command, function(err, stdout) {
+  exec(command, function (err, stdout) {
     if (err) return callback(err);
     console.log(stdout.trim());
     callback(null);
@@ -61,7 +61,7 @@ function swarm() {
   console.log("Herd of", count, "webhooks");
 
   while (count > 0) {
-    webhook(function(err) {
+    webhook(function (err) {
       if (err) throw err;
     });
     count--;

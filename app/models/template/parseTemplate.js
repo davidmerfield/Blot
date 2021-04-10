@@ -1,6 +1,6 @@
 var _ = require("lodash");
 var mustache = require("mustache");
-var type = require("./type");
+var type = require("helper/type");
 
 // My goal is to look at a template
 // retrieve a list of variables and partials inside the template
@@ -9,15 +9,17 @@ var type = require("./type");
 // and store the relevant method and arguments
 // neccessary to retrieve those at run time...
 
-var modules = require("fs").readdirSync(__dirname + "/../blog/render/retrieve");
+var modules = require("fs").readdirSync(
+  __dirname + "/../../blog/render/retrieve"
+);
 
 // Build a list of locals which blot will fetch
 // returns a list like this:
 // ['allEntries', 'recentEntries', 'allTags', 'archives', 'updated', 'appCSS', 'appJS', 'public']
-var retrieveThese = _.filter(modules, function(name) {
+var retrieveThese = _.filter(modules, function (name) {
   return name.charAt(0) !== "." && name !== "index.js";
 })
-  .map(function(name) {
+  .map(function (name) {
     return name.slice(0, name.lastIndexOf("."));
   })
   .sort();
@@ -53,7 +55,12 @@ function parseTemplate(template) {
 
       // Is a variable, '#' starts iterative blocks
       // '&' starts unescaped blocks
-      if (token[0] === "name" || token[0] === "#" || token[0] === "^" || token[0] === "&") {
+      if (
+        token[0] === "name" ||
+        token[0] === "#" ||
+        token[0] === "^" ||
+        token[0] === "&"
+      ) {
         var variable = token[1];
 
         if (retrieveThese.indexOf(variable) > -1) retrieve[variable] = true;

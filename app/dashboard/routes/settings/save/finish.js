@@ -63,7 +63,7 @@ module.exports = function (req, res, next) {
             options.name = basename(entry.pathDisplay);
           }
 
-          build(blog, entry.path, options, function (err, entry) {
+          build(blog, entry.path, options, function (err, updatedEntry) {
             if (err && err.code === "ENOENT") {
               console.warn("No local file exists for entry", entry.path);
               return next();
@@ -78,7 +78,7 @@ module.exports = function (req, res, next) {
               return next();
             }
 
-            Entry.set(blog.id, entry.path, entry, next);
+            Entry.set(blog.id, updatedEntry.path, updatedEntry, next);
           });
         },
         function () {

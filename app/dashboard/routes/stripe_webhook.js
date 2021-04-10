@@ -2,7 +2,7 @@ var parser = require("body-parser");
 var Express = require("express");
 var config = require("config");
 var stripe = require("stripe")(config.stripe.secret);
-var email = require("helper").email;
+var email = require("helper/email");
 var User = require("user");
 
 var webhooks = Express.Router();
@@ -22,7 +22,7 @@ var NO_USER = "No user retrieved from the database";
 //   state from Stripe.
 // - There are probably other things I'm missing....
 
-webhooks.post("/", parser.json(), function(req, res) {
+webhooks.post("/", parser.json(), function (req, res) {
   // Down for maintenance, Stripe should
   // back off and try again later.
   if (config.maintenance) return res.sendStatus(503);
@@ -32,20 +32,20 @@ webhooks.post("/", parser.json(), function(req, res) {
 
   // A customer's subscription was changed, save changed info
   if (event.type === UPDATED_SUBSCRIPTION)
-    update_subscription(event_data.customer, event_data.id, function() {});
+    update_subscription(event_data.customer, event_data.id, function () {});
 
   return res.sendStatus(200);
 });
 
 function update_subscription(customer_id, subscription_id, callback) {
-  stripe.customers.retrieveSubscription(customer_id, subscription_id, function(
+  stripe.customers.retrieveSubscription(customer_id, subscription_id, function (
     err,
     subscription
   ) {
     if (err || !subscription)
       return callback(err || new Error(NO_SUBSCRIPTION));
 
-    User.getByCustomerId(customer_id, function(err, user) {
+    User.getByCustomerId(customer_id, function (err, user) {
       if (err || !user) return callback(err || new Error(NO_USER));
 
       if (subscription.status === "canceled" && user.isDisabled)

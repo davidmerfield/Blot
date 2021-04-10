@@ -1,6 +1,24 @@
-Write substack import script and follow up with [Lee](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLswPBhFTXCMGdqGRjcWBngvCP)
+Finish NGINX tweaks
 
-Simplify local dev setup for David and write guide
+Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
+
+Add support for .tiff images
+
+Improvements to Dropbox client
+- Migrate [App permissions before September 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
+  - https://developers.dropbox.com/oauth-guide
+  - https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions
+  - https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens
+  
+Fix bug with a once-scheduled post, based on the file's path or previous date metadata. The post remains scheduled even if the date is removed, and even if it is then rebuilt.
+
+Add action to lint code with jshint and eslint
+  - any other static code analysis tools?
+
+Use postcss to compile template CSS
+  - Use [color function](https://mono.software/2017/08/08/supercharge-your-colors/) to improve UX of borders/highlights
+
+Fix bug with close button on Magazine template and tell [Jens](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtGthWZhlVsJfMwfCcCZQspdG)
 
 Template engine plan
 - create data/blogs/blogID/templates directory
@@ -171,7 +189,7 @@ Improvements to backup system
 - Test maintenance mode
 - Add script to roll back into hourly local db dumps and remote backups
 
-Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB)
+Use [blurhash](https://github.com/woltapp/blurhash) to generate placeholders when lazy loading images and tell [David](https://mail.google.com/mail/u/0/#inbox/FMfcgxwJXfqzZvHgrtSxzLBCwcvTsFFB) and [Marius](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQPwXwJrwgMzjfvDtcwFZzFC)
 
 Add status page information to news page:
 - customize the design of this page a little (could we self-host on a different service, e.g. linode, a page which makes an API call to updown?)
@@ -496,8 +514,7 @@ Improvements to Git client
   - I want them to be able to keep using their old one *until* someone else claims it, then I want 401 unauthorized, please reauthenticate with new username... but the remote path will be wrong?
 - Rate limit authentication route?
 
-Improvements to Dropbox client
-- Migrate [App permissions before September 2021](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
+Dropbox client
 - Add integration test with a dropbox Webhook call. I want to not push some code which would prevent syncing user folders.
 - Does client.remove support the removal of folders? If not, make it so and add a test
 - Add a step to authentication flow which says: 'there is already a folder called 'Your blog title' in your Dropbox, would you like to use that?' then overwrite the files inside. This prevents the proliferation of confusing 'Your blog title (1)' when you re-authenticate.

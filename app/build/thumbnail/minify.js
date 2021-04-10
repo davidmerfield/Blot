@@ -13,13 +13,13 @@ function main(dir, callback) {
     plugins: [
       pngquant({ quality: 85, speed: 1 }),
       mozjpeg({ quality: 85 }),
-      jpegrecompress()
-    ]
+      jpegrecompress(),
+    ],
   })
-    .then(function() {
+    .then(function () {
       callback();
     })
-    .catch(function(err) {
+    .catch(function (err) {
       if (err) console.log(err);
 
       callback();
