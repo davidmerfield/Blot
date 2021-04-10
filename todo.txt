@@ -1,9 +1,5 @@
 Finish NGINX tweaks
 
-Fix calculation of requests served (based on logfile rotation)
-
----
-
 Simplify local dev setup for [David and write guide](https://mail.google.com/mail/u/0/#inbox/FMfcgxwLtQNnggzjkfrPmTMwVqlHKDWL)
 
 Add support for .tiff images
