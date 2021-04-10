@@ -23,9 +23,12 @@ const posts = fs
     post.slug = filename.slice(0, filename.indexOf("_"));
     post.id = filename.slice(filename.indexOf("_") + 1);
     post.permalink = "/" + post.slug;
+
+  
+
     post.dateStamp = post.created = post.updated = fs
       .statSync(input_directory + "/" + filename)
-      .ctime.valueOf();
+      .mtime.valueOf();
     post.draft = post.page = false;
 
     return post;
