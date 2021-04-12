@@ -20,22 +20,24 @@ console.log("Randomizing dates for all entries without date metadata...");
 console.log("Start date: " + limit.format());
 console.log("End date: " + end.format());
 
-get(identifier, function(err, user, blog) {
+get(identifier, function (err, user, blog) {
   Entries.each(
     blog.id,
-    function(entry, next) {
+    function (entry, next) {
       if (entry.deleted || entry.draft || entry.scheduled || entry.page)
         return next();
 
       // if (entry.metadata.date) return next();
 
-      var newDateStamp = limit.valueOf() + Math.floor(Math.random() * (end.valueOf() - limit.valueOf()));
+      var newDateStamp =
+        limit.valueOf() +
+        Math.floor(Math.random() * (end.valueOf() - limit.valueOf()));
 
       // console.log(newDateStamp, moment(newDateStamp).format(), entry.path);
 
-      Entry.set(blog.id, entry.path, {dateStamp: newDateStamp}, next);      
+      Entry.set(blog.id, entry.path, { dateStamp: newDateStamp }, next);
     },
-    function(err) {
+    function (err) {
       if (err) throw err;
 
       console.log("Complete!");

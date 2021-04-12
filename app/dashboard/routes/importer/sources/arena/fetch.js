@@ -22,10 +22,10 @@ if (require.main === module) {
   if (!url) throw "No url";
   if (!output_file) throw "No output_file";
 
-  main(slug, function(err, posts) {
+  main(slug, function (err, posts) {
     if (err) throw err;
 
-    fs.outputJson(output_file, posts, { spaces: 2 }, function() {
+    fs.outputJson(output_file, posts, { spaces: 2 }, function () {
       console.log("Done!");
       process.exit();
     });

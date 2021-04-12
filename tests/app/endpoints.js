@@ -2,7 +2,7 @@ describe("Blot endpoints", function () {
   var request = require("request");
   var START_MESSAGE = "listening";
   var server;
-  var stderr = '';
+  var stderr = "";
 
   beforeAll(function (done) {
     server = require("child_process").fork(__dirname + "/../../app", {
@@ -11,7 +11,7 @@ describe("Blot endpoints", function () {
 
     // App should not emit anything on standard error
     server.stderr.on("data", function (data) {
-      stderr += data.toString("utf8") + '\n';
+      stderr += data.toString("utf8") + "\n";
     });
 
     // Listen for listening message

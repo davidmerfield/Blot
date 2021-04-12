@@ -4,19 +4,19 @@ var User = require("user");
 
 Email.route("/")
 
-  .get(function(req, res) {
+  .get(function (req, res) {
     res.render("account/email", {
       title: "Change your email",
-      breadcrumb: "Email"
+      breadcrumb: "Email",
     });
   })
 
-  .post(function(req, res, next) {
+  .post(function (req, res, next) {
     if (!req.body.email) {
       return next(new Error("Please specify an email address"));
     }
 
-    User.set(req.user.uid, { email: req.body.email }, function(err, changes) {
+    User.set(req.user.uid, { email: req.body.email }, function (err, changes) {
       if (err) {
         return next(err);
       }

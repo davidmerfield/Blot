@@ -1,12 +1,12 @@
 var Blog = require("blog");
 var Template = require("template");
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var templateID = req.body.template;
   var blogID = req.blog.id;
 
   if (templateID === "")
-    return Blog.set(blogID, { template: "" }, function(err) {
+    return Blog.set(blogID, { template: "" }, function (err) {
       res.message("/settings/template", "Disabled your template");
     });
 
@@ -16,10 +16,10 @@ module.exports = function(req, res, next) {
 
   var updates = { template: templateID };
 
-  Template.getMetadata(templateID, function(err, template) {
+  Template.getMetadata(templateID, function (err, template) {
     if (err || !template) return next(err || new Error("No template"));
 
-    Blog.set(blogID, updates, function(errors, changed) {
+    Blog.set(blogID, updates, function (errors, changed) {
       if (errors && errors.template) {
         res.message(req.path, new Error(errors.template));
       } else if (changed.indexOf("template") > -1) {

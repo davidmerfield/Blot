@@ -4,15 +4,15 @@ var parseCSS = require("css");
 var CleanCSS = require("clean-css");
 var minimize = new CleanCSS();
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var send = res.send;
 
-  res.send = function(string) {
+  res.send = function (string) {
     var html = string instanceof Buffer ? string.toString() : string;
     var css = "";
     var $ = cheerio.load(html, { decodeEntities: false });
 
-    $('link[rel="stylesheet"]').each(function() {
+    $('link[rel="stylesheet"]').each(function () {
       if ($(this).attr("data-skip-inline")) {
         return;
       }
@@ -33,7 +33,7 @@ module.exports = function(req, res, next) {
       $(this).replaceWith('<style type="text/css">' + css + "</style>");
     });
 
-    $('style[type="text/css"]').each(function() {
+    $('style[type="text/css"]').each(function () {
       if ($(this).attr("data-skip-inline")) {
         $(this).removeAttr("data-skip-inline");
         return;
@@ -50,10 +50,10 @@ module.exports = function(req, res, next) {
     try {
       var obj = parseCSS.parse(css);
 
-      obj.stylesheet.rules = obj.stylesheet.rules.filter(function(rule) {
+      obj.stylesheet.rules = obj.stylesheet.rules.filter(function (rule) {
         if (rule.type !== "rule") return true;
 
-        rule.selectors = rule.selectors.filter(function(selector) {
+        rule.selectors = rule.selectors.filter(function (selector) {
           // we need to skip font-face here...
           if (selector.indexOf("@font-face") > -1) return true;
 
@@ -61,7 +61,7 @@ module.exports = function(req, res, next) {
 
           // we need to skip font-face here...
           if (selector.indexOf("working") > -1) return true;
-          
+
           if (selector.indexOf("placeholder") > -1) return true;
 
           // I use some complex selectors to style these elements

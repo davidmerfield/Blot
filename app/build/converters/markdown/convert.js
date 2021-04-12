@@ -1,8 +1,7 @@
 var spawn = require("child_process").spawn;
 var indentation = require("./indentation");
 var footnotes = require("./footnotes");
-var helper = require("helper");
-var time = helper.time;
+var time = require("helper/time");
 var config = require("config");
 var pandoc_path = config.pandoc_path;
 var debug = require("debug")("blot:converters:markdown");
@@ -13,7 +12,7 @@ var csl = require("./csl");
 // insert a <br /> for each carriage return
 // '+hard_line_breaks' +
 
-module.exports = function(blog, text, callback) {
+module.exports = function (blog, text, callback) {
   var extensions =
     // replace url strings with a tags
     "+autolink_bare_uris" +
@@ -36,8 +35,7 @@ module.exports = function(blog, text, callback) {
 
   // This feature fucks with [@twitter]() links
   // perhaps make it an option in future?
-  if (!(bib(blog, text) || csl(blog, text)))
-    extensions += "-citations";
+  if (!(bib(blog, text) || csl(blog, text))) extensions += "-citations";
 
   var args = [
     "-f",
@@ -79,15 +77,15 @@ module.exports = function(blog, text, callback) {
   var result = "";
   var error = "";
 
-  pandoc.stdout.on("data", function(data) {
+  pandoc.stdout.on("data", function (data) {
     result += data;
   });
 
-  pandoc.stderr.on("data", function(data) {
+  pandoc.stderr.on("data", function (data) {
     error += data;
   });
 
-  pandoc.on("close", function(code) {
+  pandoc.on("close", function (code) {
     time.end("pandoc");
 
     var err = null;

@@ -6,7 +6,7 @@ var blog = require("./blog");
 var brochure = require("./brochure");
 var dashboard = require("./dashboard");
 var cdn = require("./cdn");
-var clfdate = require("helper").clfdate;
+var clfdate = require("helper/clfdate");
 
 // Welcome to Blot. This is the Express application which listens on port 8080.
 // NGINX listens on port 80 in front of Express app and proxies requests to
@@ -24,7 +24,7 @@ Blot.set("trust proxy", "loopback");
 Blot.use(helmet.frameguard("allow-from", config.host));
 
 Blot.use(function (req, res, next) {
-	var init = Date.now();
+  var init = Date.now();
 
 	try {
 		console.log(
@@ -53,7 +53,7 @@ Blot.use(function (req, res, next) {
 		}
 	});
 
-	next();
+  next();
 });
 
 // Blot is composed of four sub applications.
@@ -89,7 +89,7 @@ Blot.use(blog);
 // localhost/health to see if it should attempt to restart Blot.
 // If you remove this, change monit.rc too.
 Blot.use("/health", function (req, res) {
-	res.send("OK");
+  res.send("OK");
 });
 
 module.exports = Blot;

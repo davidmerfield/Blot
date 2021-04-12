@@ -27,7 +27,7 @@ function strip(name) {
   return name;
 }
 
-var is = require("./is")(withoutExtension);
+var is = require("./_is")(withoutExtension);
 
 is("", "");
 is("bar.txt", "bar");

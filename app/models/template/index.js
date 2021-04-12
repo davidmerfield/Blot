@@ -25,7 +25,7 @@ module.exports = {
   readFromFolder: require("./readFromFolder"),
   writeToFolder: require("./writeToFolder"),
 
-  package: require('./package'),
+  package: require("./package"),
   viewModel: require("./viewModel"),
-  metadataModel: require("./metadataModel")
+  metadataModel: require("./metadataModel"),
 };

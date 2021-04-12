@@ -1,8 +1,8 @@
 var fs = require("fs-extra");
 var cheerio = require("cheerio");
 
-module.exports = function(path_to_source_file, callback) {
-  fs.readFile(path_to_source_file, "utf-8", function(err, source_xml) {
+module.exports = function (path_to_source_file, callback) {
+  fs.readFile(path_to_source_file, "utf-8", function (err, source_xml) {
     if (err) return callback(err);
 
     var $ = cheerio.load(source_xml, {
@@ -16,7 +16,7 @@ module.exports = function(path_to_source_file, callback) {
       // 2. It allows us to read the contents of the <note> tags
       //    without manually removing the CDATA tags. So be
       //    careful if you remove this.
-      xmlMode: true
+      xmlMode: true,
     });
 
     callback(null, $);

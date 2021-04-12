@@ -1,13 +1,12 @@
-var helper = require("helper");
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 
 module.exports = {
-  everything: function(blogID) {
+  everything: function (blogID) {
     ensure(blogID, "string");
     return "blog:" + blogID + ":404:everything";
   },
-  ignore: function(blogID) {
+  ignore: function (blogID) {
     ensure(blogID, "string");
     return "blog:" + blogID + ":404:ignore";
-  }
+  },
 };

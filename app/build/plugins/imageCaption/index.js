@@ -1,5 +1,5 @@
 function render($, callback) {
-  $("img").each(function() {
+  $("img").each(function () {
     var altText = $(this).attr("alt");
 
     if (!altText) return;
@@ -12,15 +12,11 @@ function render($, callback) {
     $(this)
       .parent()
       .contents()
-      .each(function() {
+      .each(function () {
         // Other captions are fine.
         if ($(this).is(".caption, img")) return;
 
-        if (
-          $(this)
-            .text()
-            .trim().length
-        ) {
+        if ($(this).text().trim().length) {
           ignore = true;
         }
       });
@@ -31,11 +27,7 @@ function render($, callback) {
     // or at least caption should be a block level
     // element. This wraps awkwardly with small images
 
-    if (
-      $(this)
-        .parent()
-        .hasClass("image")
-    ) {
+    if ($(this).parent().hasClass("image")) {
       $(this)
         .parent()
         .after('<span class="caption">' + altText + "</span>");
@@ -52,5 +44,5 @@ module.exports = {
   category: "images",
   isDefault: false,
   title: "Caption",
-  description: "Create a caption from the image’s alt text"
+  description: "Create a caption from the image’s alt text",
 };

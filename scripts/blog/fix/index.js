@@ -34,7 +34,16 @@ function main(blog, callback) {
           if (err) return callback(err);
           Blog.set(blog.id, { cacheID: Date.now() }, function (err) {
             if (err) return callback(err);
-            console.log("Blog", blog.id, "(" + "http://" + blog.handle + "." + require('config').host + ") Flushed cache");
+            console.log(
+              "Blog",
+              blog.id,
+              "(" +
+                "http://" +
+                blog.handle +
+                "." +
+                require("config").host +
+                ") Flushed cache"
+            );
             callback(null);
           });
         });

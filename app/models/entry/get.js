@@ -1,13 +1,12 @@
-var helper = require("helper");
-var ensure = helper.ensure;
-var type = helper.type;
+var ensure = require("helper/ensure");
+var type = require("helper/type");
 
 var redis = require("client");
 var entryKey = require("./key").entry;
 
 var Entry = require("./instance");
 
-module.exports = function(blogID, entryIDs, callback) {
+module.exports = function (blogID, entryIDs, callback) {
   ensure(blogID, "string").and(callback, "function");
 
   var single = false;
@@ -23,22 +22,22 @@ module.exports = function(blogID, entryIDs, callback) {
     entryIDs = [entryIDs];
   }
 
-  entryIDs = entryIDs.map(function(entryID) {
+  entryIDs = entryIDs.map(function (entryID) {
     return entryKey(blogID, entryID);
   });
 
   ensure(entryIDs, "array");
 
-  redis.mget(entryIDs, function(err, entries) {
+  redis.mget(entryIDs, function (err, entries) {
     if (err) throw err;
 
     entries = entries || [];
 
-    entries = entries.filter(function(entry) {
+    entries = entries.filter(function (entry) {
       return entry;
     });
 
-    entries = entries.map(function(entry) {
+    entries = entries.map(function (entry) {
       return new Entry(JSON.parse(entry)); // return value
     });
 

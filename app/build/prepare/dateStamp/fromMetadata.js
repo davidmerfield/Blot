@@ -2,7 +2,7 @@ var moment = require("moment");
 var formatList = {
   "D/M/YYYY": formats("DMY"),
   "M/D/YYYY": formats("MDY"),
-  "YYYY/M/D": formats("YMD")
+  "YYYY/M/D": formats("YMD"),
 };
 
 function fromMetadata(dateString, userFormat) {
@@ -45,7 +45,7 @@ function fromMetadata(dateString, userFormat) {
         "YYYY-MM-DD[T]HH:mm:ssZ",
         "YYYY-MM-DD[T]HH:mm:ss.SSSZ",
         "YYYY-MM-DD[T]HH:mm:ss.SSS",
-        "YYYY-MM-DD[T]HH:mm:ssZ[Z]"
+        "YYYY-MM-DD[T]HH:mm:ssZ[Z]",
       ],
       true
     );

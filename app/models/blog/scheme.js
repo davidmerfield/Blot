@@ -32,7 +32,7 @@ var DECLARATION = {
   isDisabled: ["boolean", true, false],
   new_dashboard: ["boolean", true, false],
   new_markdown_renderer: ["boolean", true, false],
-  redirectSubdomain: ["boolean", true, false]
+  redirectSubdomain: ["boolean", true, false],
 };
 
 var MODEL = { TYPE: {}, PUBLIC: [], WRITEABLE: [] };

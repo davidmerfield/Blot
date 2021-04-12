@@ -1,5 +1,5 @@
 var config = require("config");
-var type = require("helper").type;
+var type = require("helper/type");
 
 var INDEX = "/";
 var AUTH = "/auth";
@@ -27,10 +27,10 @@ var STATIC = [
   TERMS,
   PRIVACY,
   UPDATES,
-  DEVELOPERS
+  DEVELOPERS,
 ];
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   var user = req.user;
 
   // Allows requests to static files...
@@ -44,7 +44,7 @@ module.exports = function(req, res, next) {
     var paths = path;
     var match = false;
 
-    paths.forEach(function(path) {
+    paths.forEach(function (path) {
       if (req.originalUrl.indexOf(path) === 0) match = true;
     });
 

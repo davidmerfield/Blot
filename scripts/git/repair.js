@@ -1,20 +1,21 @@
 var each = require("../each/blog");
 var fs = require("fs-extra");
-var helper = require("helper");
+var localPath = require("helper/localPath");
+var rootDir = require("helper/rootDir");
 var Git = require("simple-git");
-var GIT_DATA_DIRECTORY = helper.rootDir + "/app/clients/git/data";
+var tempDir = require("helper/tempDir")();
+var GIT_DATA_DIRECTORY = rootDir + "/app/clients/git/data";
 var uuid = require("uuid/v4");
 
 each(
-  function(user, blog, next) {
+  function (user, blog, next) {
     if (blog.client !== "git") return next();
 
-    var stat, git;
-    var blogFolder = helper.localPath(blog.id, "/");
-    var pathToGitRepo = helper.localPath(blog.id, ".git");
+    var blogFolder = localPath(blog.id, "/");
+    var pathToGitRepo = localPath(blog.id, ".git");
     var bareRepoDirectory = GIT_DATA_DIRECTORY + "/" + blog.handle + ".git";
-    var tmpClonedFolder = helper.tempDir() + uuid();
-    var tmpBlogFolder = helper.tempDir() + uuid();
+    var tmpClonedFolder = tempDir + uuid();
+    var tmpBlogFolder = tempDir + uuid();
 
     if (fs.existsSync(pathToGitRepo)) return next();
 
@@ -26,7 +27,7 @@ each(
     if (!fs.existsSync(blogFolder))
       return next(new Error("No blog folder " + blogFolder));
 
-    Git().clone(bareRepoDirectory, tmpClonedFolder, function(err) {
+    Git().clone(bareRepoDirectory, tmpClonedFolder, function (err) {
       if (err) return next(err);
 
       console.log(blogFolder, ">", tmpBlogFolder);
@@ -41,7 +42,7 @@ each(
       next();
     });
   },
-  function() {
+  function () {
     console.log("Done!");
     process.exit();
   }

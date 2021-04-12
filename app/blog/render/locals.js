@@ -1,8 +1,7 @@
 var render = require("./main");
-var helper = require("helper");
-var type = helper.type;
+var type = require("helper/type");
 var TAG = "{{";
-var ensure = helper.ensure;
+var ensure = require("helper/ensure");
 
 // Recursively render all the locals in
 // the view. This is to ensure that variables

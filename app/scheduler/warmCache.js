@@ -18,27 +18,17 @@ var cache = new Cache(config.cache_directory);
 var async = require("async");
 var cheerio = require("cheerio");
 var request = require("request");
+var clfdate = require("helper/clfdate");
 
 function main() {
   // Empty any existing responses
   cache.flush(config.host, function (err) {
     if (err) console.warn(err);
     setTimeout(function () {
-      console.log(
-        require("helper").clfdate(),
-        "Warming cache for brochure site"
-      );
+      console.log(clfdate(), "Warming cache for brochure site");
       warmCache(config.protocol + config.host, function (err) {
-        if (err)
-          console.warn(
-            require("helper").clfdate(),
-            "Warming cache error:",
-            err.message
-          );
-        console.log(
-          require("helper").clfdate(),
-          "Warmed cache for brochure site"
-        );
+        if (err) console.warn(clfdate(), "Warming cache error:", err.message);
+        console.log(clfdate(), "Warmed cache for brochure site");
       });
     }, 10 * 1000);
   });

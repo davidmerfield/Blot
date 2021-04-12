@@ -1,7 +1,7 @@
 module.exports = function replaceEmbeds(html, callback) {
   var $ = cheerio.load(html, { decodeEntities: false });
 
-  $("iframe").each(function() {
+  $("iframe").each(function () {
     var src = $(this).attr("src");
     var vid = "";
 

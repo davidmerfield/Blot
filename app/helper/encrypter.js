@@ -7,17 +7,15 @@ var ensure = require("./ensure"),
   password = config.backup.password;
 
 function encrypt(input, output, callback) {
-  ensure(input, "string")
-    .and(output, "string")
-    .and(callback, "function");
+  ensure(input, "string").and(output, "string").and(callback, "function");
 
   if (input === output) return callback("Input must be different to output");
 
-  fs.exists(input, function(inputExists) {
+  fs.exists(input, function (inputExists) {
     if (!inputExists)
       return callback(new Error("Input does not exist: " + input));
 
-    fs.exists(output, function(outputExists) {
+    fs.exists(output, function (outputExists) {
       if (outputExists)
         return callback(new Error("Output has a file already: " + output));
 
@@ -34,25 +32,21 @@ function encrypt(input, output, callback) {
       w.on("finish", callback);
 
       // start pipe
-      r.pipe(zip)
-        .pipe(encrypt)
-        .pipe(w);
+      r.pipe(zip).pipe(encrypt).pipe(w);
     });
   });
 }
 
 function decrypt(input, output, callback) {
-  ensure(input, "string")
-    .and(output, "string")
-    .and(callback, "function");
+  ensure(input, "string").and(output, "string").and(callback, "function");
 
   if (input === output) return callback("Input must be different to output");
 
-  fs.exists(input, function(inputExists) {
+  fs.exists(input, function (inputExists) {
     if (!inputExists)
       return callback(new Error("Input does not exist: " + input));
 
-    fs.exists(output, function(outputExists) {
+    fs.exists(output, function (outputExists) {
       if (outputExists)
         return callback(new Error("Output has a file already: " + output));
 
@@ -68,9 +62,7 @@ function decrypt(input, output, callback) {
       // Callback on compelte
       w.on("finish", callback);
 
-      r.pipe(decrypt)
-        .pipe(unzip)
-        .pipe(w);
+      r.pipe(decrypt).pipe(unzip).pipe(w);
     });
   });
 }

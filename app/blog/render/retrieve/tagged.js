@@ -1,17 +1,17 @@
 var Entry = require("entry");
 var Tags = require("tags");
 
-module.exports = function(req, callback) {
+module.exports = function (req, callback) {
   var blog = req.blog;
   var blogID = blog.id;
 
   var tagSlug = req.query.name || "";
 
-  Tags.get(blogID, tagSlug, function(err, entryIDs) {
+  Tags.get(blogID, tagSlug, function (err, entryIDs) {
     // {skinny: true},
 
-    Entry.get(blogID, entryIDs, function(entries) {
-      entries.sort(function(a, b) {
+    Entry.get(blogID, entryIDs, function (entries) {
+      entries.sort(function (a, b) {
         return b.dateStamp - a.dateStamp;
       });
 
@@ -26,7 +26,7 @@ module.exports = function(req, callback) {
 
       return callback(null, {
         tag: tagName,
-        entries: entries
+        entries: entries,
       });
     });
   });

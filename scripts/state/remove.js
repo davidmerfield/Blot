@@ -17,15 +17,19 @@ function main(label, callback) {
     message +=
       " - " + colors.green(moment(fs.statSync(directory).mtime).fromNow());
 
-    yesno.ask("Are you sure you want to remove " + message + "? (y/n)", false, function(ok) {
-      if (ok) {
-        console.log("Removing", directory);
-        fs.removeSync(directory);
-        callback();
-      } else {
-        callback(new Error("Not ok"));
+    yesno.ask(
+      "Are you sure you want to remove " + message + "? (y/n)",
+      false,
+      function (ok) {
+        if (ok) {
+          console.log("Removing", directory);
+          fs.removeSync(directory);
+          callback();
+        } else {
+          callback(new Error("Not ok"));
+        }
       }
-    });
+    );
   } catch (e) {
     if (e && e.code === "ENOENT")
       callback(new Error("No state called " + label));
@@ -35,7 +39,7 @@ function main(label, callback) {
 }
 
 if (require.main === module) {
-  main(process.argv[2], function(err) {
+  main(process.argv[2], function (err) {
     if (err) throw err;
     process.exit();
   });
