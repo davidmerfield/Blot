@@ -26,34 +26,32 @@ Blot.use(helmet.frameguard("allow-from", config.host));
 Blot.use(function (req, res, next) {
   var init = Date.now();
 
-  try {
-    console.log(
-      clfdate(),
-      req.headers["x-request-id"] &&
-        "REQ=" + req.headers["x-request-id"].slice(0, 6),
-      "PID=" + process.pid,
-      req.protocol + "://" + req.hostname + req.originalUrl,
-      req.method
-    );
-  } catch (e) {
-    console.error("Error: Failed to construct canonical log line:", e);
-  }
+	try {
+		console.log(
+			clfdate(),
+			req.headers["x-request-id"] && req.headers["x-request-id"],
+			"PID=" + process.pid,
+			req.protocol + "://" + req.hostname + req.originalUrl,
+			req.method
+		);
+	} catch (e) {
+		console.error("Error: Failed to construct canonical log line:", e);
+	}
 
-  res.on("finish", function () {
-    try {
-      console.log(
-        clfdate(),
-        req.headers["x-request-id"] &&
-          "REQ=" + req.headers["x-request-id"].slice(0, 6),
-        "PID=" + process.pid,
-        req.protocol + "://" + req.hostname + req.originalUrl,
-        res.statusCode,
-        ((Date.now() - init) / 1000).toFixed(3)
-      );
-    } catch (e) {
-      console.error("Error: Failed to construct canonical log line:", e);
-    }
-  });
+	res.on("finish", function () {
+		try {
+			console.log(
+				clfdate(),
+				req.headers["x-request-id"] && req.headers["x-request-id"],
+				res.statusCode,
+				((Date.now() - init) / 1000).toFixed(3),
+				"PID=" + process.pid,
+				req.protocol + "://" + req.hostname + req.originalUrl
+			);
+		} catch (e) {
+			console.error("Error: Failed to construct canonical log line:", e);
+		}
+	});
 
   next();
 });
